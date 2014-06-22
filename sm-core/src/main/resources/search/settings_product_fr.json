@@ -1,0 +1,11 @@
+        {"index": {
+            "analysis": {
+                "analyzer": {
+                    "custom_analyzer": {
+                        "type": "snowball",
+                        "language": "English"
+                    }
+                }
+            }
+        }
+        }
