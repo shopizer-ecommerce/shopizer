@@ -1,0 +1,114 @@
+<HTML><HEAD>
+	<SCRIPT>var isomorphicDir="../../isomorphic/";</SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Core.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Foundation.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Containers.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Grids.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Forms.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_DataBinding.js></SCRIPT>
+	<SCRIPT SRC=../../isomorphic/skins/SmartClient/load_skin.js></SCRIPT>
+</HEAD><BODY BGCOLOR='papayawhip' MARGINHEIGHT=0 MARGINWIDTH=0 LEFTMARGIN=0 TOPMARGIN=0>
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=5 BORDER=0><TR><TD CLASS=pageHeader BGCOLOR=WHITE>
+
+	Custom scrollbars example
+
+</TD><TD CLASS=pageHeader ALIGN=RIGHT BGCOLOR=WHITE>
+
+	Isomorphic SmartClient
+
+</TD></TR></TABLE><TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0 BORDER=0><TR>
+<TD BGCOLOR=336666><IMG SRC=images/blank.gif WIDTH=1 HEIGHT=4></TD></TR></TABLE>
+
+
+<!--------------------------
+  Example code starts here
+---------------------------->
+
+<SCRIPT>
+
+// set the scrollbar's skinImgDir to point to our custom scrollbar images
+Scrollbar.setSkinImgDir("[APP]images/MacScrollbars/");
+ScrollThumb.setSkinImgDir("[APP]images/MacScrollbars/");
+
+// this skin uses the thumb down state
+Scrollbar.setProperties({
+    allowThumbDownState:true
+});
+
+Canvas.create({
+    ID:"scrolledWidget",
+    left:150,
+    top:225,
+    width:100,
+    height:100,
+    contents:Canvas.imgHTML("yinyang.gif", 200, 200),
+    overflow:"hidden"
+});
+
+
+var scrollbarWidth = 32;
+
+
+Scrollbar.create({
+    ID:"hscrollbar",
+    left:16,
+    top:41,
+    width:400,
+    vertical:false,
+    btnSize:scrollbarWidth,
+    showCorner:true,
+    imageType:"stretch",
+    scrollTarget:scrolledWidget,
+    autoEnable:false
+});
+
+
+Scrollbar.create({
+    ID:"vscrollbar",
+    left:hscrollbar.left + hscrollbar.width - scrollbarWidth,
+    top:hscrollbar.top + scrollbarWidth - 2,
+    height:400,
+    btnSize:scrollbarWidth,
+    imageType:"stretch",
+    scrollTarget:scrolledWidget,
+    autoEnable:false
+});
+
+
+Button.create({
+    left:60,
+    top:395,
+    width:130,
+    click:"hscrollbar.enable();vscrollbar.enable()",
+    title:"Enable scrollbars"
+});
+
+
+Button.create({
+    left:200,
+    top:395,
+    width:130,
+    click:"hscrollbar.disable();vscrollbar.disable()",
+    title:"Disable scrollbars"
+});
+
+Button.create({
+    left:60,
+    top:435,
+    width:130,
+    click:"scrolledWidget.scrollTo(50)",
+    title:"Scroll horizontal to 50"
+});
+
+Button.create({
+    left:200,
+    top:435,
+    width:130,
+    click:"scrolledWidget.scrollTo(null,50)",
+    title:"Scroll vertical to 50"
+});
+
+
+</SCRIPT>
+</BODY>
+</HTML>

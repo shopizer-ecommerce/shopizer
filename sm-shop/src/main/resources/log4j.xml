@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<!-- # The five logging levels used by Log are (in order):
+#
+#   1. DEBUG (the least serious)
+#   2. INFO
+#   3. WARN
+#   4. ERROR
+#   5. FATAL (the most serious)
+ -->
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+<appender name="CORE" class="org.apache.log4j.rolling.RollingFileAppender">
+		<!-- The active file to log to -->
+	<param name="File" value="/sm-core.log" />
+	<param name="MaxFileSize" value="10000KB"/>
+	<param name="Append" value="true" />
+	<param name="Encoding" value="UTF-8" />
+	<param name="Threshold" value="debug" />
+	<layout class="org.apache.log4j.PatternLayout">
+		<!-- The log message pattern -->
+		<param name="ConversionPattern" value="%d{dd MMM yyyy HH:mm:ss} [%5p] (%F:%L) [%M] - %m%n" />
+	</layout>
+</appender>
+       
+<logger name="com.salesmanager.core" additivity="false">
+		<level value="debug"/>
+		<appender-ref ref="CORE" />
+</logger>
+
+<appender name="WEB" class="org.apache.log4j.rolling.RollingFileAppender">
+		<param name="File" value="/sm-shop.log" />
+		<param name="Append" value="true" />
+		<param name="Encoding" value="UTF-8" />
+		<param name="Threshold" value="debug" />
+
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{dd MMM yyyy HH:mm:ss} [%5p] (%F:%L) [%M] - %m%n" />
+		</layout>
+</appender>
+       
+<logger name="com.salesmanager.web" additivity="false">
+		<level value="debug"/>
+		<appender-ref ref="WEB" />
+</logger>
+
+<!--<appender name="WEB_FRONT" class="org.apache.log4j.rolling.RollingFileAppender">
+		<param name="File" value="/sm-shop-front.log" />
+		<param name="Append" value="true" />
+		<param name="Encoding" value="UTF-8" />
+
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{dd MMM yyyy HH:mm:ss} [%5p] (%F:%L) [%M] - %m%n" />
+		</layout>
+</appender>
+       
+<logger name="com.salesmanager.web.shop" additivity="false">
+		<level value="debug"/>
+		<appender-ref ref="WEB_FRONT" />
+</logger>
+
+-->
+
+<!--<appender name="WEB_ADMIN" class="org.apache.log4j.rolling.RollingFileAppender">
+		<param name="File" value="/sm-shop-admin.log" />
+		<param name="Append" value="true" />
+		<param name="Encoding" value="UTF-8" />
+
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{dd MMM yyyy HH:mm:ss} [%5p] (%F:%L) [%M] - %m%n" />
+		</layout>
+</appender>
+       
+<logger name="com.salesmanager.web.admin" additivity="false">
+		<level value="debug"/>
+		<appender-ref ref="WEB_ADMIN" />
+</logger>
+
+-->
+
+<appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+	<param name="Target" value="System.out"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%p %c: %m%n"/>
+		</layout>
+</appender>
+
+<root>
+		<priority value="debug" />
+		<appender-ref ref="CONSOLE" />
+</root>
+       
+</log4j:configuration>
