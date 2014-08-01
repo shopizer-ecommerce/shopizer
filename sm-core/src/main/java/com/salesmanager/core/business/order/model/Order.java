@@ -36,7 +36,7 @@ import com.salesmanager.core.business.order.model.orderstatus.OrderStatus;
 import com.salesmanager.core.business.order.model.orderstatus.OrderStatusHistory;
 import com.salesmanager.core.business.order.model.payment.CreditCard;
 import com.salesmanager.core.business.payments.model.PaymentType;
-import com.salesmanager.core.business.promotions.model.Vouchers;
+import com.salesmanager.core.business.promotions.model.Voucher;
 import com.salesmanager.core.business.reference.currency.model.Currency;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.utils.CloneUtils;
@@ -148,9 +148,9 @@ public class Order extends SalesManagerEntity<Long, Order> {
 	@OrderBy(clause = "ORDER_STATUS_HISTORY_ID asc")
 	private Set<OrderStatusHistory> orderHistory = new LinkedHashSet<OrderStatusHistory>();
 	
-	@ManyToOne(targetEntity = Vouchers.class)
+	@ManyToOne(targetEntity = Voucher.class)
 	@JoinColumn(name = "VOUCHER_ID")
-	private Vouchers vouchers; 
+	private Voucher vouchers; 
 	
 	public Order() {
 	}
@@ -367,11 +367,11 @@ public class Order extends SalesManagerEntity<Long, Order> {
 		this.locale = locale;
 	}
 
-	public Vouchers getVouchers() {
+	public Voucher getVouchers() {
 		return vouchers;
 	}
 
-	public void setVouchers(Vouchers vouchers) {
+	public void setVouchers(Voucher vouchers) {
 		this.vouchers = vouchers;
 	}
 

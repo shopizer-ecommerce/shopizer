@@ -19,7 +19,7 @@ import javax.persistence.Entity;
  */
 @Entity
 @DiscriminatorValue("SERIAL_VOUCHERS")
-public class SerialVouchers extends Vouchers {
+public class SerialVouchers extends Voucher {
 
 	private static final long serialVersionUID = 1L;
 	

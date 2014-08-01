@@ -29,7 +29,7 @@ import com.salesmanager.core.business.common.model.audit.AuditSection;
 import com.salesmanager.core.business.common.model.audit.Auditable;
 import com.salesmanager.core.business.generic.model.SalesManagerEntity;
 import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.promotions.model.Vouchers;
+import com.salesmanager.core.business.promotions.model.Voucher;
 import com.salesmanager.core.constants.SchemaConstant;
 
 /**
@@ -90,9 +90,9 @@ public class ShoppingCart extends SalesManagerEntity<Long, ShoppingCart> impleme
 		this.auditSection = audit;
 	}
 	
-	@ManyToOne(targetEntity = Vouchers.class)
+	@ManyToOne(targetEntity = Voucher.class)
 	@JoinColumn(name = "VOUCHER_ID")
-	private Vouchers vouchers; 
+	private Voucher vouchers; 
 	
 	
 	@Override
@@ -150,11 +150,11 @@ public class ShoppingCart extends SalesManagerEntity<Long, ShoppingCart> impleme
 		return merchantStore;
 	}
 
-	public Vouchers getVouchers() {
+	public Voucher getVouchers() {
 		return vouchers;
 	}
 
-	public void setVouchers(Vouchers vouchers) {
+	public void setVouchers(Voucher vouchers) {
 		this.vouchers = vouchers;
 	}
 
