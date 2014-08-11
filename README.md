@@ -20,7 +20,7 @@ To get the code:
 Clone the repository:
 ```$ git clone git://github.com/shopizer-ecommerce/shopizer.git```
 
-If this is your first time using Github, review http://help.github.com to learn the basics.
+If this is your first time using Github, review http://help.github.com or https://guides.github.com/activities/contributing-to-open-source/ to learn the basics.
 
 To run the application:
 -------------------	
