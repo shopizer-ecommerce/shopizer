@@ -47,6 +47,6 @@ Acces the admin section at: ```http://localhost:8080/sm-shop/admin```
 
 The instructions above will let you run the application with default settings and configurations.
 Please read the instructions on how to connect to MySQL, configure an email server and configure other subsystems
-The documentation is available here [Shopizer Documentation] (www.shopizer.com/documentation.html)
+The documentation is available here [Shopizer Documentation] (http://www.shopizer.com/documentation.html)
 
 You can also go through [Wiki] (https://github.com/shopizer-ecommerce/shopizer/wiki) pages
