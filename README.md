@@ -43,7 +43,7 @@ Shopizer provide Web and mobile e-commerce application, tools and APIs for build
 [website]: http://www.shopizer.com
 
 [setup]:https://github.com/shopizer-ecommerce/shopizer/wiki/Setup
-[contributing]:/README.md
+[contributing]:https://github.com/shopizer-ecommerce/shopizer/wiki/Contribution
 [doc]:/README.md
 [techdocs-image]: http://umeshawasthi.github.io/shopizer-documentation/images/document.png
 [setup-image]: http://umeshawasthi.github.io/shopizer-documentation/images/setup.png
