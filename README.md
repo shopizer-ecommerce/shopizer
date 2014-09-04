@@ -34,7 +34,7 @@ Shopizer provide Web and mobile e-commerce application, tools and APIs for build
 
 | **Technical Docs (Coming soon)**        | **[Setup Guide] [setup]**     | **[Contributing] [contributing]**           |
 |-----------------------------------------|-------------------------------|---------------------------------------------|
-| ![i4] [techdocs-image]                  | [![i5] [setup-image]] [setup]     | ![i6] [contributing-image]                |
+| [![i4] [techdocs-image]] [techdoc]                | [![i5] [setup-image]] [setup]     [| ![i6] [contributing-image]] [contributing]              |
 
 
 [agility-image]: http://umeshawasthi.github.io/shopizer-documentation/images/agility.PNG
@@ -43,7 +43,8 @@ Shopizer provide Web and mobile e-commerce application, tools and APIs for build
 [website]: http://www.shopizer.com
 
 [setup]:https://github.com/shopizer-ecommerce/shopizer/wiki/Setup
-
+[contributing]: ""
+[techdoc]: ""
 
 [techdocs-image]: http://umeshawasthi.github.io/shopizer-documentation/images/document.png
 [setup-image]: http://umeshawasthi.github.io/shopizer-documentation/images/setup.png
