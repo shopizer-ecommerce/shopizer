@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<infinispan xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+	xsi:schemaLocation="urn:infinispan:config:5.1 http://www.infinispan.org/schemas/infinispan-config-5.1.xsd"
+
+	xmlns="urn:infinispan:config:5.1">
+
+	<global>
+	
+		 <globalJmxStatistics enabled="false" jmxDomain="infinispan"/>
+	
+	</global>
+
+	<default />
+
+	<namedCache name="StoreRepository">
+		<invocationBatching enabled="true"/>
+		<!-- disable jmx in prod -->
+		<jmxStatistics enabled="false"/>
+		<loaders passivation="false" shared="false" preload="false">		
+<!-- 		<loader class="org.infinispan.loaders.jdbc.mixed.JdbcMixedCacheStore"
+                fetchPersistentState="false" ignoreModifications="false"
+                purgeOnStartup="false">
+                <properties>
+                    <property name="tableNamePrefixForStrings" value="ISPN_MIXED_STR_TABLE" />
+                    <property name="tableNamePrefixForBinary" value="ISPN_MIXED_BINARY_TABLE" />
+                    <property name="idColumnNameForStrings" value="ID_COLUMN" />
+                    <property name="idColumnNameForBinary" value="ID_COLUMN" />
+                    <property name="dataColumnNameForStrings" value="DATA_COLUMN" />
+                    <property name="dataColumnNameForBinary" value="DATA_COLUMN" />
+                    <property name="timestampColumnNameForStrings" value="TIMESTAMP_COLUMN" />
+                    <property name="timestampColumnNameForBinary" value="TIMESTAMP_COLUMN" />
+                    <property name="timestampColumnTypeForStrings" value="BIGINT" />
+                    <property name="timestampColumnTypeForBinary" value="BIGINT" />
+                    <property name="connectionFactoryClass"
+                        value="org.infinispan.loaders.jdbc.connectionfactory.PooledConnectionFactory" />
+                    <property name="connectionUrl"
+                        value="jdbc:mysql://localhost:3306/salesmanager_cms" />
+                    <property name="userName" value="username" />
+                    <property name="password" value="password" />
+                    <property name="driverClass" value="com.mysql.jdbc.Driver" />
+                    <property name="idColumnTypeForStrings" value="VARCHAR(255)" />
+                    <property name="idColumnTypeForBinary" value="VARCHAR(255)" />
+                    <property name="dataColumnTypeForStrings" value="LONGBLOB" />
+                    <property name="dataColumnTypeForBinary" value="LONGBLOB" />
+                    <property name="dropTableOnExitForStrings" value="false" />
+                    <property name="dropTableOnExitForBinary" value="false" />
+                    <property name="createTableOnStartForStrings" value="true" />
+                    <property name="createTableOnStartForBinary" value="true" />
+                    <property name="createTableOnStartForStrings" value="true" />
+                    <property name="createTableOnStartForBinary" value="true" />
+                </properties>
+          </loader> -->
+
+
+			  
+			  <loader class="org.infinispan.loaders.file.FileCacheStore" fetchPersistentState="false"
+	               ignoreModifications="false" purgeOnStartup="false">
+	               <properties>
+	                 <property name="location" value="./infinispan/store"/>
+	               </properties>
+	          </loader>
+	          
+		
+			</loaders>
+		
+		    <eviction maxEntries="10" strategy="LRU"/>
+
+		<transaction
+			transactionManagerLookupClass="org.infinispan.transaction.lookup.DummyTransactionManagerLookup"
+			transactionMode="TRANSACTIONAL" lockingMode="OPTIMISTIC" />
+
+	</namedCache>
+	
+	<namedCache name="FilesRepository">
+		 <invocationBatching enabled="true"/>
+		 <!-- disable jmx in prod -->
+		 <jmxStatistics enabled="true"/>
+	     <loaders passivation="false" shared="false" preload="false">
+	          <loader class="org.infinispan.loaders.file.FileCacheStore" fetchPersistentState="false"
+	               ignoreModifications="false" purgeOnStartup="false">
+	            <properties>
+	                 <property name="location" value="./infinispan/files"/>
+	               </properties>
+	          </loader>
+	     </loaders>
+	     
+	     <transaction
+
+			transactionManagerLookupClass="org.infinispan.transaction.lookup.DummyTransactionManagerLookup"
+			transactionMode="TRANSACTIONAL" lockingMode="OPTIMISTIC" />
+	     
+	</namedCache>
+	
+	
+
+</infinispan>
+

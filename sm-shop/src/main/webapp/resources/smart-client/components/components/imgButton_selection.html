@@ -1,0 +1,173 @@
+<HTML><HEAD>
+	<SCRIPT>var isomorphicDir="../../isomorphic/";</SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Core.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Foundation.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Containers.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Grids.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Forms.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_DataBinding.js></SCRIPT>
+	<SCRIPT SRC=../../isomorphic/skins/SmartClient/load_skin.js></SCRIPT>
+</HEAD><BODY BGCOLOR='papayawhip' MARGINHEIGHT=0 MARGINWIDTH=0 LEFTMARGIN=0 TOPMARGIN=0>
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=5 BORDER=0><TR><TD CLASS=pageHeader BGCOLOR=WHITE>
+
+	ImgButton selection example
+
+</TD><TD CLASS=pageHeader ALIGN=RIGHT BGCOLOR=WHITE>
+
+	Isomorphic SmartClient SDK
+
+</TD></TR></TABLE><TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0 BORDER=0><TR>
+<TD BGCOLOR=336666><IMG SRC=images/blank.gif WIDTH=1 HEIGHT=4></TD></TR></TABLE>
+
+
+<!--------------------------
+  Example code starts here
+---------------------------->
+
+<SCRIPT>
+
+Label.create({
+    ID:"results",
+    height:20,
+    width:200,
+    top:350,
+    left:35
+})
+function showClicked(name) {
+    results.setContents(name + ' clicked');
+}
+
+// Labels
+Label.create({
+	left:20,
+	top:50,
+	width:300,
+	height:20,
+	align:"Canvas.RIGHT",
+	contents:"Buttons (Normal/Disabled):"
+});
+
+Label.create({
+	left:20,
+	top:150,
+	width:400,
+	height:20,
+	align:"Canvas.RIGHT",
+	contents:"Checkboxes (Selected/Unselected/Selected and Disabled):"
+});
+
+Label.create({
+	left:20,
+	top:250,
+	width:300,
+	height:20,
+	align:"Canvas.RIGHT",
+	contents:"Radio Buttons:"
+});
+
+// Buttons
+ImgButton.create({
+    ID:"b1",
+    left:20,
+    top:80,
+    width:33,
+    height:33,
+    src:"[APPIMG]imgButton/button.gif",
+    click:"showClicked(this.getID())"
+});
+
+
+ImgButton.create({
+    ID:"b2",
+    left:140,
+    top:80,
+    width:33,
+    height:33,
+    src:"[APPIMG]imgButton/button.gif",
+    click:"showClicked(this.getID())",
+    disabled:true
+});
+
+
+ImgButton.create({
+    ID:"cb1",
+    left:20,
+    top:180,
+    width:33,
+    height:33,
+    src:"[APPIMG]imgButton/button.gif",
+    click:"showClicked(this.getID())",
+    selected:true,
+    actionType:"checkbox"
+});
+
+
+ImgButton.create({
+    ID:"cb2",
+    left:140,
+    top:180,
+    width:33,
+    height:33,
+    src:"[APPIMG]imgButton/button.gif",
+    click:"showClicked(this.getID())",
+    actionType:"checkbox"
+});
+
+
+ImgButton.create({
+    ID:"cb3",
+    left:260,
+    top:180,
+    width:33,
+    height:33,
+    src:"[APPIMG]imgButton/button.gif",
+    click:"showClicked(this.getID())",
+    disabled:true,
+    selected:true,
+    actionType:"checkbox"
+});
+
+
+ImgButton.create({
+    ID:"rb1",
+    left:20,
+    top:280,
+    width:33,
+    height:33,
+    src:"[APPIMG]imgButton/button.gif",
+    click:"if (selectedImgButton != this) {selectedImgButton.deselect(); selectedImgButton=this}; showClicked(this.getID())",
+    selected:true,
+    actionType:"radio"
+});
+
+
+ImgButton.create({
+    ID:"rb2",
+    left:140,
+    top:280,
+    width:33,
+    height:33,
+    src:"[APPIMG]imgButton/button.gif",
+    click:"if (selectedImgButton != this) {selectedImgButton.deselect(); selectedImgButton=this}; showClicked(this.getID())",
+    actionType:"radio"
+});
+
+
+ImgButton.create({
+    ID:"rb3",
+    left:260,
+    top:280,
+    width:33,
+    height:33,
+    src:"[APPIMG]imgButton/button.gif",
+    click:"if (selectedImgButton != this) {selectedImgButton.deselect(); selectedImgButton=this}; showClicked(this.getID())",
+    actionType:"radio"
+});
+
+
+var selectedImgButton = rb1;
+
+</SCRIPT>
+
+</BODY>
+</HTML>

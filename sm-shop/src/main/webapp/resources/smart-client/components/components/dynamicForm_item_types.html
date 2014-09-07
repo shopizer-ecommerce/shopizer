@@ -1,0 +1,79 @@
+<HTML><HEAD>
+	<SCRIPT>var isomorphicDir="../../isomorphic/";</SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Core.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Foundation.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Containers.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Grids.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Forms.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_DataBinding.js></SCRIPT>
+	<SCRIPT SRC=../../isomorphic/skins/SmartClient/load_skin.js></SCRIPT>
+</HEAD><BODY BGCOLOR='papayawhip' MARGINHEIGHT=0 MARGINWIDTH=0 LEFTMARGIN=0 TOPMARGIN=0>
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=5 BORDER=0><TR><TD CLASS=pageHeader BGCOLOR=WHITE>
+
+	Form item types example
+
+</TD><TD CLASS=pageHeader ALIGN=RIGHT BGCOLOR=WHITE>
+
+	Isomorphic SmartClient
+
+</TD></TR></TABLE><TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0 BORDER=0><TR>
+<TD BGCOLOR=336666><IMG SRC=images/blank.gif WIDTH=1 HEIGHT=4></TD></TR></TABLE>
+
+
+<!--------------------------
+  Example code starts here
+---------------------------->
+
+<SCRIPT>
+
+//----- options for select, selectOther, radioGroup items -----
+var abcdArray = ["a", "b", "c", "d"],
+    abcdList = {a:"option a", b:"option b", c:"option c", d:"option d"},
+
+
+    formItems = [
+    
+    //----- display items -----\\
+    {name:"item1", type:"header", defaultValue:"header value"},
+    {name:"item2", type:"blurb", defaultValue:"blurb value"},
+    {type:"rowSpacer"},
+    {name:"item3", title:"staticText", type:"staticText", defaultValue:"staticText value"},
+    
+    //----- data items -----\\
+    {name:"item4", title:"text", type:"text", defaultValue:"text value"},
+    {name:"item5", title:"password", type:"password", defaultValue:"password value"},
+    {name:"item6", title:"upload", type:"upload"},
+    {name:"item7", title:"textArea", type:"textArea", defaultValue:"textArea value"},
+    {name:"item8", title:"checkbox", type:"checkbox", defaultValue:true},
+    {name:"item9", title:"radioGroup", type:"radioGroup", valueMap:abcdList, defaultValue:"a"},
+    {name:"item10", title:"select", type:"select", valueMap:abcdList, defaultValue:"b"},
+    {name:"item11", title:"select multiple", type:"select", multiple:true, height:60, valueMap:abcdList, defaultValue:"c"},
+    {name:"item12", title:"selectOther", type:"selectOther", valueMap:abcdList, defaultValue:"d"},
+    
+    {name:"item13", title:"date", type:"date", defaultValue:"10/11/2001"},
+    {name:"item14", title:"time", type:"time", defaultValue:"4:20pm"},
+    {name:"item15", type:"hidden", defaultValue:"hidden value"},
+    
+    //----- button items -----\\
+    {title:"button", type:"button"},
+    {title:"submit", type:"submit"},
+    {title:"reset", type:"reset"},
+    {type:"toolbar", buttons:[
+    {title:"toolbar 1", click:"alert(1)"},
+    {title:"toolbar 2", click:"alert(2)"},
+    {title:"toolbar 3", click:"alert(3)"}]}
+    
+    ];
+
+DynamicForm.create({
+    ID:"itemsForm",
+    left:20,
+    top:40,
+    width:400,
+    items:formItems,
+    canSubmit:true  // Required for the submit button to be operative
+});
+
+</SCRIPT>
+</BODY>
+</HTML>

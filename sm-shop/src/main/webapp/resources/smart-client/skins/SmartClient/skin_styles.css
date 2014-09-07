@@ -1,0 +1,1872 @@
+/*============================================================
+	"SmartClient" theme CSS styles
+	Copyright 2001 and beyond, Isomorphic Software
+
+	:: Contents ::
+	
+	1) General
+			default text
+			default border
+			drop indicator
+            hover canvas
+	2) Buttons
+			Button
+			ImgButton
+			StretchImgButton
+	3) Menu
+			MenuButton
+	4) Window
+			Dialog
+    5) Layout
+			drop line
+			drag placeholder
+			splitbar (resizebar)
+	6) TabSet
+			tab titles
+	7) SectionStack
+			image SectionHeaders
+			CSS SectionHeaders
+	8) Forms
+			general
+			headerItem
+			text items
+			selectItem
+			checkbox & radioButton
+			ColorChooser
+			DateChooser
+	9) Slider & Rangebar		
+	10) DetailViewer
+	11) ListGrid
+			parts
+			headers
+			cells
+    12) ToolStrip
+    12a) ToolStripGroup and IconButton
+    13) TileGrid
+	------------
+	internal/unused styles
+============================================================*/
+
+/*
+
+*/
+
+
+
+/*============================================================
+	1) General
+============================================================*/
+
+/* default text */
+.normal {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px;
+}
+
+.defaultBorder {
+    border:1px solid #606060;
+}
+
+/* drag outline */
+.dragOutline {
+    border:1px dashed #6600FF;
+}
+
+/* drop indicator */
+.dropBorder {
+    background-color:#808080;
+}
+
+
+/* hover canvas  */
+.canvasHover,
+.gridHover,
+.formHover {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; color:black;
+    background-color:#FFFFD0; border:1px solid #808080; padding:5px;
+}
+
+/* group label */
+.groupLabel {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px;
+    padding-left:5px; padding-right:5px;
+}
+/*============================================================
+    2) Button
+		button.baseStyle
+		buttonStrip.baseStyle
+		buttonTable.baseButtonStyle
+		listBar.labelStyle
+		listGrid.headerBaseStyle (not in this skin)
+============================================================*/
+.button,
+.buttonOver,
+.buttonDown,
+.buttonDisabled,
+.buttonSelected,
+.buttonSelectedDown,
+.buttonSelectedOver,
+.buttonSelectedDisabled {
+    padding:2px;
+    font-family:Tahoma,Verdana, Bitstream Vera Sans, sans-serif; font-size:10px; font-weight:bold;
+    background-color:#CCCCCC;
+    border-left:1px solid white; border-top:1px solid white;
+    border-right:1px solid #808080; border-bottom:1px solid #808080;
+    filter:"progid:dximagetransform.microsoft.gradient(gradientType=0, startColorStr=#AAAAAA, endColorStr=#EEEEEE)";
+}
+
+.buttonOver,
+.buttonSelectedOver {
+    border-left:1px solid #808080; border-top:1px solid #808080;
+    border-right:1px solid white; border-bottom:1px solid white;
+    filter:"progid:dximagetransform.microsoft.gradient(gradientType=0, startColorStr=#EEEEEE, endColorStr=#AAAAAA)";
+}
+.buttonDown {
+    background-color:#AAAAAA;  
+    border-left:1px solid #666666; border-top:1px solid #666666;
+    border-right:1px solid white; border-bottom:1px solid white;
+    filter:"progid:dximagetransform.microsoft.gradient(gradientType=0, startColorStr=#CCCCCC, endColorStr=#888888)";
+}
+.buttonDisabled {
+    color:#666666;
+    background-color:#CCCCCC; 
+    border-left:1px solid #CCCCCC; border-top:1px solid #CCCCCC;	
+    border-right:1px solid #CCCCCC; border-bottom:1px solid #CCCCCC;
+    filter:"progid:dximagetransform.microsoft.gradient(gradientType=0, startColorStr=#888888, endColorStr=#CCCCCC)";
+}
+.buttonSelected,
+.buttonSelectedDown,
+.buttonSelectedDisabled {
+    color:white; 
+    background-color:#3E74B3; 
+    border-left:1px solid #00008B; border-top:1px solid #00008B;
+    border-right:1px solid #F0F8FF; border-bottom:1px solid #F0F8FF;
+    filter:"progid:dximagetransform.microsoft.gradient(gradientType=0, startColorStr=#1C4190, endColorStr=#5F97D5)";
+}
+.buttonSelectedOver {
+    color:orange;
+    background-color:#3E74B3; 
+    filter:"progid:dximagetransform.microsoft.gradient(gradientType=0, startColorStr=#5F97D5, endColorStr=#1C4190)";
+}
+.buttonSelectedDisabled {
+    color:#666666;
+    filter:"progid:dximagetransform.microsoft.gradient(gradientType=0, startColorStr=#CCCCCC, endColorStr=#888888)";
+}
+
+
+/* ImgButton */
+.imgButton,
+.imgButtonOver,
+.imgButtonSelected,
+.imgButtonSelectedDisabled,
+.imgButtonSelectedOver,
+.imgButtonDown,
+.imgButtonSelectedDown,
+.imgButtonDisabled {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:10px;
+}
+.imgButtonDisabled {
+    color:#666666;
+}
+
+/* StretchImgButton */
+.stretchImgButton,
+.stretchImgButtonSelected,
+.stretchImgButtonSelectedOver,
+.stretchImgButtonOver,
+.stretchImgButtonDown,
+.stretchImgButtonSelectedDown,
+.stretchImgButtonSelectedDisabled,
+.stretchImgButtonDisabled {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:10px;
+}
+.stretchImgButtonOver {
+    font-weight:bold;
+}
+.stretchImgButtonSelectedDisabled,
+.stretchImgButtonDisabled {
+    color:#666666;
+}
+
+
+
+/*============================================================
+    3) Menus 
+============================================================ 
+  */
+
+.menuTable {
+    border-top:2px outset white; border-bottom:2px outset white; 
+    border-left:2px outset white; border-right:2px outset white;
+}
+.menu,
+.menuSelected,
+.menuOver,
+.menuSelectedOver,
+.menuDisabled,
+.treeMenuSelected,
+.treeMenuSelectedOver {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; 
+    background-color:transparent;
+    padding-top:2px; padding-bottom:2px;
+}
+.menu,
+.menuSelected {
+    padding-top:3px; padding-bottom:3px;
+}
+.menuOver,
+.menuSelectedOver {
+    color:white; background-color:#3E74B3; 
+    border-top:1px solid #5E94D3; border-bottom:1px solid #1E5493;
+}
+.treeMenuSelected {
+    color:black; background-color:#A9B2CA; 
+	border-top:1px solid #A9B2CA; border-bottom:1px solid #A9B2CA;
+}
+.treeMenuSelectedOver {
+    color:white; background-color:#0A246A;
+    border-top:1px solid #0A246A; border-bottom:1px solid #0A246A;
+}
+.menuDisabled {
+    color:#999999;
+    border-top:1px transparent; border-bottom:1px transparent;    
+}
+
+/* menu header buttons */
+.menuButton,
+.menuButtonOver,
+.menuButtonDown,
+.menuButtonDisabled,
+.menuButtonSelected,
+.menuButtonSelectedDown,
+.menuButtonSelectedOver,
+.menuButtonSelectedDisabled {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; background-color:#CCCCCC;
+    border-left:1px solid white; border-top:1px solid white;
+    border-right:1px solid #808080; border-bottom:1px solid #808080;
+    padding-left:4px; padding-right:4px;            
+    filter:"progid:dximagetransform.microsoft.gradient(gradientType=0, startColorStr=#CCCCCC, endColorStr=#888888)";
+}
+.menuButton {
+    filter:"progid:dximagetransform.microsoft.gradient(gradientType=0, startColorStr=#AAAAAA, endColorStr=#EEEEEE)";						
+}
+.menuButtonOver {
+    border-left:1px solid #808080; border-top:1px solid #808080;
+    border-right:1px solid white; border-bottom:1px solid white;
+    filter:"progid:dximagetransform.microsoft.gradient(gradientType=0, startColorStr=#EEEEEE, endColorStr=#AAAAAA)";
+}
+.menuButtonDown {
+    background-color:#AAAAAA;  
+    border-left:1px solid #666666; border-top:1px solid #666666;
+    border-right:1px solid white; border-bottom:1px solid white;
+}
+.menuButtonDisabled	{
+    color:#666666; 
+    border-left:1px solid #CCCCCC; border-top:1px solid #CCCCCC;	
+    border-right:1px solid #CCCCCC; border-bottom:1px solid #CCCCCC;
+}
+.menuButtonSelected,
+.menuButtonSelectedDown,
+.menuButtonSelectedOver,
+.menuButtonSelectedDisabled {
+    font-size:11px; color:white; font-weight:bold; 
+    background-color:#3E74B3; 
+    border-left:1px solid #00008B; border-top:1px solid #00008B;
+    border-right:1px solid #F0F8FF; border-bottom:1px solid #F0F8FF;
+}
+.menuButtonSelectedOver	{
+    color:orange;
+    border-left:1px solid #808080; border-top:1px solid #808080;
+    border-right:1px solid white; border-bottom:1px solid white;
+}
+.menuButtonSelectedDisabled {
+    font-size:11px; color:#666666;
+}
+
+
+
+/*============================================================
+    4) Window
+		window.styleName - windowBackground
+		window.bodyStyle - windowBody
+		window.headerStyle - windowHeader
+		window.hiliteHeaderStyle - windowHeaderHilite
+		window.headerLabelDefaults.styleName - windowHeaderText
+		window.statusBarDefaults.styleName - windowStatusBar
+
+	Dialog
+		dialog.styleName - dialogBackground
+		dialog.bodyStyle - dialogBody
+		dialog.headerStyle - dialogHeader
+		dialog.hiliteHeaderStyle - dialogHeaderHilite
+		dialog.headerLabelDefaults.styleName - dialogHeaderText
+============================================================*/
+
+.windowBackground,
+.dialogBackground {}
+
+.windowBody,
+.dialogBody {
+	border-top:2px solid #444967;
+}
+.promptBody {
+}
+
+.windowHeader,
+.dialogHeader {
+    filter:"progid:dximagetransform.microsoft.gradient(gradientType=1, startColorStr=#444967, endColorStr=#B0B8CA)";
+}
+
+.windowHeaderHilite,
+.dialogHeaderHilite {
+    filter:"progid:dximagetransform.microsoft.gradient(gradientType=1, startColorStr=#8289A6, endColorStr=#D0D8EA)";
+}
+
+.windowHeaderText,
+.dialogHeaderText {
+    font-family:Tahoma,Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; color:#FFFFFF;
+    font-weight:bold;
+    padding-left:2px; padding-right:2px;
+}
+.windowStatusBar {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; color:black;
+    border-top: 1px solid #999999; border-left: 1px solid #999999;
+    border-right: 1px solid #FFFFFF; border-bottom: 1px solid #FFFFFF;
+}
+.dialogHeaderText {
+    color:#EEEEEE;
+}
+.modalMask {
+    background-color:black;
+}
+
+/*============================================================
+    5) Layout
+============================================================*/
+
+.layoutDropLine {
+    background-color:#3366FF;
+
+}
+.layoutPlaceHolder {
+    border:1px solid black;
+}
+.splitbar {
+	
+}
+.splitbarDown {
+	border:1px solid black;
+}
+
+/*============================================================
+    6) TabSet and tab titles
+============================================================*/
+
+.tabSetContainer {
+    background-color: #D6D6D6;
+    border-left:1px solid white; border-top:1px solid white;
+    border-right:1px solid #636363; border-bottom:1px solid #636363;
+}
+.tab,
+.tabOver,
+.tabSelected,
+.tabSelectedOver,
+.tabDown,
+.tabSelectedDown,
+.tabSelectedDisabled,
+.tabDisabled {
+    font-family:Bitstream Vera Sans,Helvetica,Verdana,sans-serif; font-size:11px;
+}
+
+.tabTitle,
+.tabTitleDown,
+.tabTitleOver,
+.tabTitleDisabled,
+.tabTitleSelected,
+.tabTitleSelectedDown,
+.tabTitleSelectedOver,
+.tabTitleSelectedDisabled,
+.vtabTitle,
+.vtabTitleDown,
+.vtabTitleOver,
+.vtabTitleDisabled,
+.vtabTitleSelected,
+.vtabTitleSelectedDown,
+.vtabTitleSelectedOver,
+.vtabTitleSelectedDisabled {
+    font-family:Tahoma,Verdana, Bitstream Vera Sans, sans-serif; font-size:10px; 
+    font-weight:bold;
+}
+.tabTitle,
+.tabTitleDown,
+.tabTitleOver,
+.tabTitleDisabled {
+    padding-top:2px;
+}
+.tabTitleSelected,
+.tabTitleSelectedDown,
+.tabTitleSelectedOver,
+.tabTitleSelectedDisabled {
+    padding-bottom:2px;
+}
+.vtabTitle,
+.vtabTitleDown,
+.vtabTitleOver,
+.vtabTitleDisabled {
+    padding-left:2px;
+}
+.vtabTitleSelected,
+.vtabTitleSelectedDown,
+.vtabTitleSelectedOver,
+.vtabTitleSelectedDisabled {
+    padding-right:2px;
+}
+.tabTitleOver,
+.tabTitleSelectedOver,
+.vtabTitleOver,
+.vtabTitleSelectedOver {
+    color:#006000;
+}
+.tabTitleDisabled,
+.tabTitleSelectedDisabled,
+.vtabTitleDisabled,
+.vtabTitleSelectedDisabled {
+    color:#666666;
+}
+
+
+/*============================================================
+    7) SectionStack
+============================================================*/
+
+/* SectionStack headers - image based */
+.imgSectionHeaderclosed,
+.imgSectionHeaderopened,
+.imgSectionHeaderDisabledclosed,
+.imgSectionHeaderDisabledopened {
+}
+.imgSectionHeaderTitleclosed,
+.imgSectionHeaderTitleopened,
+.imgSectionHeaderTitleDisabledclosed,
+.imgSectionHeaderTitleDisabledopened {
+    font-family:Tahoma,Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; font-weight:bold;
+    color:white;
+}
+.imgSectionHeaderTitleDisabledclosed,
+.imgSectionHeaderTitleDisabledopened {
+	color:#c8c8c8;
+}
+/* 
+
+*/
+.sectionHeaderTitleopened, 
+.sectionHeaderTitleclosed {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; color:white;
+}
+.sectionHeaderTitleDisabledopened, 
+.sectionHeaderTitleDisabledclosed {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; color:#808080;
+}
+/* SectionStack headers - css based */
+.sectionHeaderopened, 
+.sectionHeaderclosed {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; color:white; background-color:#6682A0;
+    border-left:1px solid #FFFFFF; border-top:1px solid #FFFFFF;
+    border-right:1px solid #264260; border-bottom:1px solid #264260;
+    padding:3px;
+    filter:"progid:dximagetransform.microsoft.gradient(gradientType=0, startColorStr=#557189, endColorStr=#7793B1)";
+}
+
+
+
+/*============================================================
+    8) Forms
+============================================================*/
+
+/* general form styles */
+.formRow {}
+.formCell,
+.formCellFocused,
+.formCellDisabled {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px;
+}
+.formTitle,
+.formTitleFocused,
+.formTitleDisabled,
+.formCellError,
+.formTitleError,
+.formHint,
+.headerItem,
+.headerItemDisabled,
+.headerItemError,
+.staticTextItem,
+.staticTextItemDisabled,
+.staticTextItemError,
+.textItem,
+.textItemFocused,
+.textItemDisabled,
+.textItemError,
+.textItemHint,
+.selectItemControl,
+.selectItemControlError,
+.selectItemControlFocused,
+.selectItemText,
+.selectItemTextError,
+.selectItemTextDisabled,
+.selectItemTextFocused,
+.selectItemTextHint,
+.comboBoxItemPendingText,
+.pickListCell,
+.pickListCellSelected,
+.pickListCellDisabled,
+.labelAnchor,
+.labelAnchorDisabled,
+.labelAnchorError,
+.labelAnchorFocused {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px;
+}
+.formCellError,
+.formTitleError { 
+    font-weight:bold; color:#204268; 
+    background-color:#CFD9F2
+}
+.formHint {
+    color:#666666; padding:3px;
+}
+
+/* headerItem */
+.headerItem,
+.headerItemDisabled,
+.headerItemError {
+    font-size:14px; font-weight:bold; color:#3E74B3;
+}	
+
+/* text items */
+.textItem,
+.textItemFocused,
+.textItemDisabled,
+.textItemError,
+.textItemHint { 
+    background-color:#FFFFFF;
+    padding:2px; border:1px solid #808080;
+}
+.textItemHint {
+    color:#666666;
+}
+
+.comboBoxItemPendingText {
+    color:#0066CC;
+}
+/* selectItem */
+
+.selectItemControl,
+.selectItemControlError,
+.selectItemControlFocused {
+    background-color:white; border:1px solid #808080;
+}
+
+.selectItemControlDisabled {
+    background-color:white; border:1px solid #A0A0A0;
+}
+
+.selectItemText,
+.selectItemTextError,
+.selectItemTextHint {
+    margin:2px;
+}
+
+.selectItemTextDisabled {
+    color:#ACA899; margin:2px;
+}
+
+.selectItemTextFocused {
+    background-color:#316AC5; color:white; margin:2px;
+}
+
+.selectItemTextHint {
+    color:#666666;
+}
+
+.selectItemPickerIcon,
+.selectItemPickerIconFocused,
+.selectItemPickerIconDisabled,
+.selectItemPickerIconError {
+    padding:0px;
+}
+
+.pickListMenuBody {
+    border:1px solid #808080;
+}
+
+.pickListCell {
+    color:black; background-color:#FFFFFF;
+}
+.pickListCellSelected {
+    color:white; background-color:#316AC5;
+}
+.pickListCellDisabled {
+    color:#666666; background-color:#FFFFFF;
+}
+
+/* checkbox and radioButton */
+.labelAnchor,
+.labelAnchorDisabled,
+.labelAnchorError,
+.labelAnchorFocused  { 
+    color:black; text-decoration:none;
+}
+
+/* ColorChooser */
+.colorChooserCell,
+.colorChooserCellOver {
+    background-color:#EFEFEF;
+    border-left:1px solid #EFEFEF; border-top:1px solid #EFEFEF;
+    border-right:1px solid #EFEFEF; border-bottom:1px solid #EFEFEF;
+}
+.colorChooserCellOver {
+    border-left:1px solid black; border-top:1px solid black;
+    border-right:1px solid black; border-bottom:1px solid black;
+}
+
+/* FilterBuilder */
+.bracketBorders {
+    border-left: 1px solid #808080;
+    border-top: 1px solid #808080;
+    border-bottom: 1px solid #808080;    
+}
+
+/* DateChooser */
+.dateChooserButton,
+.dateChooserButtonOver,
+.dateChooserButtonDown,
+.dateChooserButtonDisabled,
+.dateChooserButtonSelected,
+.dateChooserButtonSelectedDown,
+.dateChooserButtonSelectedOver,
+.dateChooserButtonSelectedDisabled {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:10px; background-color:#3E74B3;
+    border-left:1px solid #00008B; border-top:1px solid #00008B;
+    border-right:1px solid #F0F8FF; border-bottom:1px solid #F0F8FF;
+}
+.dateChooserButton {
+    background-color:#CCCCCC;
+    border-left:1px solid #DDDDDD; border-top:1px solid #DDDDDD;
+    border-right:1px solid #BBBBBB; border-bottom:1px solid #BBBBBB;
+}
+.dateChooserButtonOver {
+    background-color:#DDDDDD; color:#006400; 
+    border-left:1px solid white; border-top:1px solid white;
+    border-right:1px solid #666666; border-bottom:1px solid #666666;
+}
+.dateChooserButtonDown {
+    background-color:#AAAAAA;  
+    border-left:1px solid #666666; border-top:1px solid #666666;
+    border-right:1px solid white; border-bottom:1px solid white;
+}
+.dateChooserButtonDisabled {
+    color:#666666;
+    background-color:#CCCCCC; 
+    border-left:1px solid #CCCCCC; border-top:1px solid #CCCCCC;	
+    border-right:1px solid #CCCCCC; border-bottom:1px solid #CCCCCC;
+}
+.dateChooserButtonSelected,
+.dateChooserButtonSelectedDown,
+.dateChooserButtonSelectedOver {
+    color:white; font-weight:bold; 
+}
+.dateChooserButtonSelectedDisabled {
+    color:#666666;
+}
+
+
+						
+/*============================================================
+	9) Slider & Rangebar
+============================================================*/
+
+/* slider and rangebar labels */
+.sliderTitle,
+.sliderRange,
+.sliderValue,
+.rangebarTitle,
+.rangebarRange,
+.rangebarValue {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:10px;
+}
+.sliderTitle,
+.rangebarTitle {
+    font-weight:bold;
+}
+.sliderRange,
+.rangebarRange {
+    color:gray;
+}
+
+
+/*============================================================
+	10) DetailViewer
+============================================================*/
+.detailBlock {
+    border-left:1px solid gray;
+    border-top:1px solid gray;
+}
+
+.detail,
+.detailLabel,
+.detailHeader {
+    border-right:1px solid gray;
+    border-bottom:1px solid gray;
+}
+
+.detail,
+.detailLabel,
+.detailHeader {
+    font-family:Bitstream Vera Sans, sans-serif; font-size:11px; background-color:white;
+}
+
+.detailLabel {
+    font-weight:bold;
+    background-color:#EEEEEE;
+    text-align:right;
+}
+
+.detailHeader {
+    font-size:14px; font-weight:bold;
+    background-color:#BBDAFA;
+}
+
+
+
+/*============================================================
+	11) ListGrid
+============================================================*/
+
+/*============================================================
+	ListGrid parts
+		styleName - listGrid
+		headerBarStyle - headerBar
+		bodyStyleName - gridBody
+============================================================*/
+
+.listGrid {
+    border:1px solid #808080;
+}
+.headerBar {}
+.gridBody {
+    border-top:1px solid #808080;
+}
+.loadingDataMessage,
+.offlineMessage,
+.emptyMessage {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; padding:10px;
+}
+.gridDragTracker {
+	font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px;
+    background-color:white;
+    padding:1px;
+    border:1px dotted blue;
+}
+.dragLine {
+    background-color:#404040;
+}
+.listTable {}
+/* for filterEditor */
+.recordEditorCell {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; color:black; background-color:#d0d0d0;
+}
+
+
+
+/*============================================================
+	ListGrid headers
+		listGrid.headerBaseStyle - headerButton (in skin)
+		listGrid.headerDefaults.titleStyle - headerTitle (in skin)
+		listGrid.sorterDefaults.titleStyle - headerTitle (in skin)
+
+============================================================*/
+
+/* ListGrid column header buttons */
+.headerButton,
+.headerButtonSelected,
+.headerButtonDisabled,
+.headerButtonSelectedDisabled {
+    background-color:#FFFFFF;
+    border-right:1px solid #606060;
+}
+.headerButtonOver,
+.headerButtonDown,
+.headerButtonSelectedOver,
+.headerButtonSelectedDown {
+    background-color:#E0FFE0;
+    border-right:1px solid #606060;
+}
+
+/* ListGrid column header titles */
+.headerTitle,
+.headerTitleOver,
+.headerTitleDown,
+.headerTitleSelected,
+.headerTitleSelectedOver,
+.headerTitleSelectedDown,
+.headerTitleDisabled,
+.headerTitleSelectedDisabled {
+    font-family:Tahoma,Verdana, Bitstream Vera Sans, sans-serif; font-size:10px; font-weight:bold;
+}
+.headerTitleDown,
+.headerTitleSelected,
+.headerTitleSelectedOver,
+.headerTitleSelectedDown,
+.headerTitleSelectedDisabled {
+    padding-left:1px; padding-top:2px;
+}
+.headerTitleDisabled,
+.headerTitleSelectedDisabled {
+    color:#666666;
+}
+
+
+/*============================================================
+	ListGrid cells
+		listGrid.baseStyle
+============================================================*/
+
+/*------------------------------------------------------------
+		listGrid.baseStyle
+------------------------------------------------------------*/
+.cell,
+.cellDark,
+.cellOver,
+.cellOverDark,
+.cellSelected,
+.cellSelectedDark,
+.cellSelectedOver,
+.cellSelectedOverDark,
+.cellDisabled,
+.cellDisabledDark,
+.groupSummaryCell,
+.groupSummaryCellDisabled,
+.gridSummaryCell,
+.gridSummaryCellDisabled,
+.recordSummaryCell,
+.recordSummaryCellDark,
+.recordSummaryCellOver,
+.recordSummaryCellOverDark,
+.recordSummaryCellSelected,
+.recordSummaryCellSelectedDark,
+.recordSummaryCellSelectedOver,
+.recordSummaryCellSelectedOverDark,
+.recordSummaryCellDisabled,
+.recordSummaryCellDisabledDark,
+.specialCol,
+.specialColOver,
+.specialColSelected,
+.specialColSelectedOver,
+.specialColDisabled,
+.groupNode {
+	font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; text-overflow:ellipsis;
+	color:black;
+	border-bottom:1px solid #ffffff; border-top:1px solid #ffffff;
+	background-color:#ffffff;
+}
+
+.specialCol {
+	border-bottom:1px solid #f0f0e8; border-top:1px solid #f0f0e8;
+	background-color:#f0f0f0;
+}
+
+.cellDark,
+.groupSummaryCell,
+.gridSummaryCell {
+	border-bottom:1px solid #f0f0e8; border-top:1px solid #f0f0e8;
+	background-color:#f0f0f0;
+}
+.recordSummaryCell,
+.recordSummaryCellDark {
+    border-bottom:1px solid #c9c9e8; border-top:1px solid #c9c9e8;
+	background-color:#c9c9c9;
+}
+.cellOver,
+.cellOverDark,
+.specialColOver,
+.recordSummaryCellOver,
+.recordSummaryCellOverDark {
+	border-bottom:1px solid #c0c0c0; border-top:1px solid #c0c0c0;
+	background-color:#ffffc0;
+}
+.cellSelected,
+.cellSelectedDark,
+.specialColSelected,
+.recordSummaryCellSelected,
+.recordSummaryCellSelectedDark {
+	border-bottom:1px solid #b8d0ff; border-top:1px solid #b8d0ff;
+	background-color:#b8d0ff;
+}
+.cellSelectedOver,
+.cellSelectedOverDark,
+.specialColSelectedOver,
+.recordSummaryCellSelectedOver,
+.recordSummaryCellSelectedOverDark {
+	border-bottom:1px solid #a0a0a0; border-top:1px solid #a0a0a0;
+	background-color:#e0ebff;
+}
+.cellDisabled,
+.cellDisabledDark,
+.specialDisabled,
+.groupSummaryCellDisabled,
+.gridSummaryCellDisabled,
+.recordSummaryCellDisabled,
+.recordSummaryCellDisabledDark {
+	color:#808080;
+}
+.cellDisabledDark,
+.groupSummaryCellDisabled,
+.gridSummaryCellDisabled,
+.recordSummaryCellDisabled,
+.recordSummaryCellDisabledDark {
+	border-bottom:1px solid #f0f0e8; border-top:1px solid #f0f0e8;
+	background-color:#f0f0e8;
+}
+.recordSummaryCell,
+.recordSummaryCellDark,
+.recordSummaryCellOver,
+.recordSummaryCellOverDark,
+.recordSummaryCellSelected,
+.recordSummaryCellSelectedDark,
+.recordSummaryCellSelectedOver,
+.recordSummaryCellSelectedOverDark,
+.recordSummaryCellDisabled,
+.recordSummaryCellDisabledDark {
+    font-style:italic;
+}
+.groupSummaryCell,
+.groupSummaryCellDisabled,
+.gridSummaryCell,
+.gridSummaryCellDisabled {
+    font-weight:bold;
+    border-top: 1px solid #548EE0;
+}
+
+.gridSummaryCell {
+    border-top-width:0px;
+    border-bottom-width:0px;
+}
+
+.summaryRowBody {
+    background-color:#f0f0f0;
+}
+
+/* for grouping */
+.groupNode {
+    font-weight:bold;
+    border-bottom: 2px solid #548EE0; 
+}
+
+/* Field builders (Formula/Summary) */
+.sampleOutput {
+    border: 2px solid #D9D9D9;
+    padding: 3px; 
+}
+
+/* Multi-sort - sort-index appearing next to sort-arrows in field headers */
+.sortNumeral {
+    font-size:7px
+}
+
+/*============================================================
+	12) ToolStrip
+============================================================*/
+.toolStrip {
+    background-color:#CCCCCC;
+}
+
+/*============================================================
+   12a) ToolStripGroup and IconButton
+==============================================================*/
+.toolStripGroup,
+.toolStripGroupOver,
+.toolStripGroupSelected,
+.toolStripGroupSelectedDisabled,
+.toolStripGroupSelectedOver,
+.toolStripGroupDown,
+.toolStripGroupSelectedDown,
+.toolStripGroupDisabled {
+    background: #C7C7C7;
+    border: 1px solid #A7ABB4;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -khtml-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+.toolStripGroupTitle,
+.toolStripGroupTitleOver,
+.toolStripGroupTitleSelected,
+.toolStripGroupTitleSelectedDisabled,
+.toolStripGroupTitleSelectedOver,
+.toolStripGroupTitleDown,
+.toolStripGroupTitleSelectedDown,
+.toolStripGroupTitleDisabled {
+    background-color: #B0B0B0;
+    border: 0;
+    color: #333333;
+    font-family: Arial, Verdana, Bitstream Vera Sans, sans-serif; 
+    font-size: 11px; 
+    font-weight: bold;
+    padding: 3px;
+}
+
+.iconButton,
+.iconButtonOver,
+.iconButtonFocused,
+.iconButtonFocusedOver,
+.iconButtonDown,
+.iconButtonFocusedDown,
+.iconButtonSelected,
+.iconButtonSelectedFocused,
+.iconButtonSelectedDown,
+.iconButtonSelectedFocusedDown,
+.iconButtonSelectedOver,
+.iconButtonSelectedFocusedOver,
+.iconButtonDisabled,
+.iconButtonSelectedDisabled {
+    background: #CCCCCC;
+    border-bottom: 1px solid #808080;
+    border-left: 1px solid #FFFFFF;
+    border-right: 1px solid #808080;
+    border-top: 1px solid #FFFFFF;
+	color: #333333;
+    font-family: Arial, Verdana, Bitstream Vera Sans, sans-serif; 
+    font-size:11px;
+    padding: 4px;
+}
+
+.iconButtonOver,
+.iconButtonSelectedOver,
+.iconButtonFocusedOver,
+.iconButtonSelectedFocusedOver {
+    background-color: #AAAAAA;
+    border-bottom: 1px solid #808080;
+    border-left: 1px solid #FFFFFF;
+    border-right: 1px solid #808080;
+    border-top: 1px solid #FFFFFF;
+    color: #333333;;
+}
+
+.iconButtonSelected,
+.iconButtonSelectedFocused,
+.iconButtonSelectedDown,
+.iconButtonSelectedFocusedDown,
+.iconButtonSelectedOver,
+.iconButtonSelectedFocusedOver {
+    background-color: pink;
+}
+
+.iconButtonDisabled {
+    color: #AAAAAA;
+}
+
+/*============================================================
+   13) TileGrid
+==============================================================*/
+
+.tileGrid {
+    border:1px solid #808080;
+   
+}
+.tileValue,
+.tileValueDown,
+.tileValueSelected,
+.tileValueOver,
+.tileValueSelectedOver,
+.tileValueSelectedDown {
+    font-size: 8pt; 
+    text-overflow:ellipsis;   
+}
+
+.tileValueSelected {
+    color: #004AE0
+}
+
+.tileValueSelectedOver {
+    color: #4D8CFF
+}
+
+.simpleTile, 
+.simpleTileOver,
+.simpleTileSelected,
+.simpleTileSelectedOver {
+    padding:3px    
+}
+.simpleTile {
+    border:1px solid transparent;
+}
+.simpleTileOver {
+      background-color:#ffffc0;
+      border:1px solid #EFF200;
+}
+
+.simpleTileSelected {
+      background-color:#b8d0ff;
+      border:1px solid #6598FF;
+}
+
+.simpleTileSelectedOver {
+      background-color:#e0ebff;
+      border:1px solid #A9C7FF;
+}
+
+/*============================================================
+    Unused? Review & Remove
+============================================================*/
+.selectedText {
+    background-color:darkblue; color:white;
+}
+.disabled {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; color:#CCCCCC;
+}
+.pageHeader {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:12px; font-weight:bold; color:darkblue
+}
+.printPageHeader {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:14px; font-weight:bold; color:darkblue
+}
+.printCell {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:10px;
+}
+
+.cssdialogHeader,
+.cssdialogHeaderHilite {
+    border-left: 1px solid #FFFF52; border-top: 1px solid #FFFF52;
+    border-right: 1px solid #AD7B00; border-bottom: 1px solid #AD7B00;
+    filter:"progid:dximagetransform.microsoft.gradient(gradientType=1, startColorStr=#FFCE00, endColorStr=#FFF790)";
+}
+.cssdialogHeaderHilite {
+    filter:"progid:dximagetransform.microsoft.gradient(gradientType=1, startColorStr=#FFE67F, endColorStr=#FFFBC6)";
+}
+.dialogStatusBar {
+    border-top: 1px solid #999999; border-left: 1px solid #999999;
+    border-right: 1px solid #FFFFFF; border-bottom: 1px solid #FFFFFF;
+}
+.dialogStatusBarText {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; color:black; font-weight:bold;
+}
+
+
+
+
+
+
+/*IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+
+	Styles below this comment are not used by default in this skin
+
+IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII*/
+
+
+
+/*============================================================
+    TabSet CSS tabs
+		tabSet.simpleTabBaseStyle
+============================================================*/
+/* styles for simple css-styled tabs*/
+/* left */
+.tabButtonLeft {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; background-color:#CCCCCC;
+    border-left:1px solid white; border-top:1px solid white; border-bottom:1px solid #808080;
+}
+.tabButtonLeftOver,
+.tabButtonLeftSelected,
+.tabButtonLeftSelectedOver {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; background-color:#D6D6D6; 
+    border-left:1px solid white; border-top:1px solid white; border-bottom:1px solid #808080;
+}
+.tabButtonLeftDown,
+.tabButtonLeftSelectedDown {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; background-color: #D6D6D6; 
+    border-left:1px solid #808080; border-top:1px solid #808080; border-bottom:1px solid white;
+}
+.tabButtonLeftSelectedDisabled,
+.tabButtonLeftDisabled {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; color:#666666;
+    background-color:#CCCCCC; 
+    border-left:1px solid #CCCCCC; border-top:1px solid #CCCCCC; border-bottom:1px solid #CCCCCC;
+}
+/* right */                        
+.tabButtonRight {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; background-color:#CCCCCC;
+    border-top:1px solid white; border-bottom:1px solid #808080; border-right:1px solid #808080;
+}
+.tabButtonRightOver,
+.tabButtonRightSelected,
+.tabButtonRightSelectedOver {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; background-color:#D6D6D6; 
+    border-top:1px solid white; border-bottom:1px solid #808080; border-right:1px solid #808080;
+}
+.tabButtonRightDown,
+.tabButtonRightSelectedDown {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; background-color: #D6D6D6; 
+    border-top:1px solid #808080; border-bottom:1px solid white; border-right:1px solid white;
+}
+
+.tabButtonRightSelectedDisabled,
+.tabButtonRightDisabled {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; color:#666666;
+    background-color:#CCCCCC; 
+    border-top:1px solid #CCCCCC; border-bottom:1px solid #CCCCCC; border-right:1px solid #CCCCCC;
+}
+
+/* top */                        
+.tabButtonTop {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; background-color:#CCCCCC;
+    border-left:1px solid white; border-top:1px solid white; border-right:1px solid #808080;
+}
+.tabButtonTopOver,
+.tabButtonTopSelected,
+.tabButtonTopSelectedOver {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; background-color:#D6D6D6; 
+    border-left:1px solid white; border-top:1px solid white; border-right:1px solid #808080;
+}
+.tabButtonTopDown,
+.tabButtonTopSelectedDown {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; background-color: #D6D6D6; 
+    border-left:1px solid #808080; border-top:1px solid #808080; border-right:1px solid white;
+}
+.tabButtonTopSelectedDisabled,
+.tabButtonTopDisabled {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; color:#666666; 
+    background-color:#CCCCCC; 
+    border-left:1px solid #CCCCCC; border-top:1px solid #CCCCCC; border-right:1px solid #CCCCCC;
+}
+
+/* bottom */                        
+.tabButtonBottom {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; background-color:#CCCCCC;
+    border-left:1px solid white; border-bottom:1px solid #808080; border-right:1px solid #808080;
+}
+.tabButtonBottomOver,
+.tabButtonBottomSelected,
+.tabButtonBottomSelectedOver {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; background-color:#D6D6D6; 
+    border-left:1px solid white; border-bottom:1px solid #808080; border-right:1px solid #808080;
+}
+.tabButtonBottomDown,
+.tabButtonBottomSelectedDown {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; background-color: #D6D6D6; 
+    border-left:1px solid #808080; border-bottom:1px solid white; border-right:1px solid white;
+}
+.tabButtonBottomSelectedDisabled,
+.tabButtonBottomDisabled {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; color:#666666;
+    background-color:#CCCCCC; 
+    border-left:1px solid #CCCCCC; border-bottom:1px solid #CCCCCC; border-right:1px solid #CCCCCC;
+}
+						
+
+
+
+
+/*IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+
+	Styles below this comment are used by optional modules only
+
+IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII*/
+
+
+
+/*============================================================
+	CubeGrid - Analytics Module only
+		cubeGrid.baseStyle - cubeCell
+		headerGrid.baseStyle - rowHeader
+		reportHeaderBar.button.baseStyle - rowHeader
+		reportHeaderBar.button.baseStyle - innerHeader/colHeader
+		reportHeaderBar.button.baseStyle - rowHeaderLabel
+		reportHeaderBar.button.baseStyle - colHeaderLabel
+============================================================*/
+.cubeGridBody {}
+.cubeCell,
+.cubeCellDark,
+.cubeCellDisabled,
+.cubeCellOver,
+.cubeCellSelected,
+.cubeCellSelectedOver {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; color:black; text-overflow:ellipsis;
+    background-color:#FFFFFF;
+    border-top:1px solid white; border-bottom:1px solid #AAAAAA; 
+    border-left:1px solid white; border-right:1px solid #AAAAAA;
+}
+
+.cubeCellDark {
+    background-color:#EEEEEE;
+    border-top:1px solid #EEEEEE; 
+    border-left:1px solid #EEEEEE;
+}
+
+.cubeCellDisabled {
+    border-top:1px solid #FFFFFF; border-bottom:1px solid #FFFFFF; 
+    border-left:1px solid #FFFFFF; border-right:1px solid #FFFFFF;
+}
+
+/* partial styles */ 
+.cubeCellOver,
+.cubeCellSelectedOver {
+    background-color:#B8D1EE;
+    border-top:1px solid #B8D1EE; 
+    border-left:1px solid #B8D1EE;
+}
+
+.cubeCellSelected {
+    background-color:#FFE781;
+    border-top:1px solid #FFE781; 
+    border-left:1px solid #FFE781;
+}
+
+/* row headers */
+.rowHeader {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; color:white;
+    background-color:#6682A0;
+    border-left:1px solid #FFFFFF; border-top:1px solid #FFFFFF;
+    border-right:1px solid #264260; border-bottom:1px solid #264260;
+    background-image:url("images/CubeGrid/rowHeader.gif");
+}
+.rowHeaderOver {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; color:white;
+    background-color:#6682A0;
+    border-left:1px solid #264260; border-top:1px solid #264260;
+    border-right:1px solid #FFFFFF; border-bottom:1px solid #FFFFFF;
+    background-image:url("images/CubeGrid/rowHeaderOver.gif");
+}
+.rowHeaderDown {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; color:white;
+    background-color:#6682A0;
+    border-left:1px solid #264260; border-top:1px solid #264260;
+    border-right:1px solid #FFFFFF; border-bottom:1px solid #FFFFFF;
+    background-image:url("images/CubeGrid/rowHeaderOver.gif");
+}
+.rowHeaderDisabled {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; color:#808080;
+    background-color:#6682A0;
+    border-left:1px solid #808080; border-top:1px solid #808080;
+    border-right:1px solid #808080; border-bottom:1px solid #808080;
+}
+.rowHeaderSelected,
+.rowHeaderSelectedDown {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; color:white;
+    background-color:#3E74B3;
+    border-left:1px solid #00008B; border-top:1px solid #00008B;
+    border-right:1px solid #F0F8FF; border-bottom:1px solid #F0F8FF;
+    background-image:url("images/CubeGrid/rowHeaderSelected.gif");
+    
+}
+.rowHeaderSelectedOver {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; color:white;
+    background-color:#3E74B3;
+    border-top:1px solid white; border-bottom:1px solid white; 
+    border-left:1px solid white; border-right:1px solid white;
+    background-image:url("images/CubeGrid/rowHeaderSelectedOver.gif");
+}						
+.rowHeaderSelectedDisabled {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; color:#808080;
+    background-color:#3E74B3;
+    border-left:1px solid #808080; border-top:1px solid #808080;
+    border-right:1px solid #808080; border-bottom:1px solid #808080;
+}
+
+/* row label */
+.rowHeaderLabel {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; font-weight:bold; color:white;
+    background-color:#204B7A;
+    border-left:1px solid #FFFFFF; border-top:1px solid #FFFFFF;
+    border-right:1px solid #000B3A; border-bottom:1px solid #000B3A;
+    background-image:url("images/CubeGrid/rowHeaderLabel.gif");
+}
+.rowHeaderLabelOver {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; font-weight:bold; color:white;
+    background-color:#204B7A;
+    border-left:1px solid #000B3A; border-top:1px solid #000B3A;
+    border-right:1px solid #FFFFFF; border-bottom:1px solid #FFFFFF;
+    background-image:url("images/CubeGrid/rowHeaderLabel.gif");
+}
+.rowHeaderLabelDown {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; font-weight:bold; color:white;
+    background-color:#204B7A;
+    border-left:1px solid #000B3A; border-top:1px solid #000B3A;
+    border-right:1px solid #FFFFFF; border-bottom:1px solid #FFFFFF;
+    background-image:url("images/CubeGrid/rowHeaderLabelDown.gif");
+}
+.rowHeaderLabelDisabled {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; font-weight:bold; color:#808080;
+    background-color:#7D7D7D;
+    border-left:1px solid #808080; border-top:1px solid #808080;
+    border-right:1px solid #808080; border-bottom:1px solid #808080;
+}
+.rowHeaderLabelSelected,
+.rowHeaderLabelSelectedDown {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; font-weight:bold; color:white;
+    background-color:#3E74B3;
+    border-left:1px solid black; border-top:1px solid black;
+    border-right:1px solid #555555; border-bottom:1px solid #555555;
+    background-image:url("images/CubeGrid/rowHeaderDown.gif");
+}
+.rowHeaderLabelSelectedOver {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; font-weight:bold; color:white;
+    background-color:#3E74B3;
+    border-top:1px solid white; border-bottom:1px solid white; 
+    border-left:1px solid white; border-right:1px solid white;
+    background-image:url("images/CubeGrid/rowHeaderDown.gif");
+}						
+.rowHeaderLabelSelectedDisabled	{
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; font-weight:bold; color:#808080;
+    background-color:#7D7D7D;
+    border-left:1px solid #808080; border-top:1px solid #808080;
+    border-right:1px solid #808080; border-bottom:1px solid #808080;
+}
+		
+/* column headers */
+.colHeader {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; color:white;
+    background-color:#6682A0;
+    border-left:1px solid #FFFFFF; border-top:1px solid #FFFFFF;
+    border-right:1px solid #264260; border-bottom:1px solid #264260;
+    background-image:url("images/CubeGrid/colHeader.gif");
+}
+.colHeaderOver {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; color:white;
+    background-color:#6682A0;
+    border-left:1px solid #264260; border-top:1px solid #264260;
+    border-right:1px solid #FFFFFF; border-bottom:1px solid #FFFFFF;
+    background-image:url("images/CubeGrid/colHeaderOver.gif");
+}
+.colHeaderDown {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; color:white;
+    background-color:#6682A0;
+    border-left:1px solid #264260; border-top:1px solid #264260;
+    border-right:1px solid #FFFFFF; border-bottom:1px solid #FFFFFF;
+    background-image:url("images/CubeGrid/colHeader.gif");
+}
+.colHeaderDisabled {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; color:#808080;
+    background-color:#6682A0;
+    border-left:1px solid #808080; border-top:1px solid #808080;
+    border-right:1px solid #808080; border-bottom:1px solid #808080;
+}
+.colHeaderSelected,
+.colHeaderSelectedDown {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; font-weight:bold; color:white;
+    background-color:#3E74B3;
+    border-left:1px solid #00008B; border-top:1px solid #00008B;
+    border-right:1px solid #F0F8FF; border-bottom:1px solid #F0F8FF;
+    background-image:url("images/CubeGrid/colHeaderSelected.gif");
+}
+.colHeaderSelectedOver {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; font-weight:bold; color:white;
+    background-color:#3E74B3;
+    border-top:1px solid white; border-bottom:1px solid white; 
+    border-left:1px solid white; border-right:1px solid white;
+    background-image:url("images/CubeGrid/colHeaderSelectedOver.gif");
+}						
+.colHeaderSelectedDisabled {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; font-weight:bold; color:#808080;
+    background-color:#3E74B3;
+    border-left:1px solid #808080; border-top:1px solid #808080;
+    border-right:1px solid #808080; border-bottom:1px solid #808080;
+}
+
+/* column label */
+.colHeaderLabel {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; font-weight:bold; color:white;
+    background-color:#204B7A;
+    border-left:1px solid #FFFFFF; border-top:1px solid #FFFFFF;
+    border-right:1px solid #555555; border-bottom:1px solid #555555;
+    background-image:url("images/CubeGrid/colHeaderLabel.gif");
+}
+.colHeaderLabelOver,
+.colHeaderLabelDown {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; font-weight:bold; color:white;
+    background-color:#204B7A;
+    border-left:1px solid #000B3A; border-top:1px solid #000B3A;
+    border-right:1px solid #555555; border-bottom:1px solid #555555;
+    background-image:url("images/CubeGrid/colHeaderLabelDown.gif");
+}
+.colHeaderLabelDisabled {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; font-weight:bold; color:#808080;
+    background-color:#7D7D7D;
+    border-left:1px solid #808080; border-top:1px solid #808080;
+    border-right:1px solid #808080; border-bottom:1px solid #808080;
+}
+.colHeaderLabelSelected,
+.colHeaderLabelSelectedDown {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; font-weight:bold; color:white;
+    background-color:#3E74B3;
+    border-left:1px solid black; border-top:1px solid black;
+    border-right:1px solid #555555; border-bottom:1px solid #555555;
+    background-image:url("images/CubeGrid/colHeaderLabelDown.gif");
+}
+.colHeaderLabelSelectedOver {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; font-weight:bold; color:white;
+    background-color:#3E74B3;
+    border-top:1px solid white; border-bottom:1px solid white; 
+    border-right:1px solid #555555; border-bottom:1px solid #555555;
+    background-image:url("images/CubeGrid/colHeaderDown.gif");
+}						
+.colHeaderLabelSelectedDisabled {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; font-weight:bold; color:#808080;
+    background-color:#7D7D7D;
+    border-left:1px solid #808080; border-top:1px solid #808080;
+    border-right:1px solid #808080; border-bottom:1px solid #808080;
+}
+
+/* inner header */
+.innerHeader {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; color:black;
+    background-color:#CCCCCC;
+    border-left:1px solid white; border-top:1px solid white;
+    border-right:1px solid #808080; border-bottom:1px solid #808080;
+    background-image:url("images/CubeGrid/innerHeader.gif");
+}
+.innerHeaderOver {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; color:black;
+    background-color:#CCCCCC;
+    border-left:1px solid #808080; border-top:1px solid #808080;
+    border-right:1px solid white; border-bottom:1px solid white;
+    background-image:url("images/CubeGrid/innerHeader.gif");
+}
+.innerHeaderDown {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; color:black;
+    background-color:#CCCCCC;
+    border-left:1px solid #808080; border-top:1px solid #808080;
+    border-right:1px solid white; border-bottom:1px solid white;
+    background-image:url("images/CubeGrid/innerHeader.gif");
+}
+.innerHeaderDisabled {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; color:#808080;
+    background-color:#CCCCCC;
+    border-left:1px solid #808080; border-top:1px solid #808080;
+    border-right:1px solid #808080; border-bottom:1px solid #808080;
+}
+.innerHeaderSelected,
+.innerHeaderSelectedDown {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; font-weight:bold; color:white;
+    background-color:#3E74B3;
+    border-left:1px solid #00008B; border-top:1px solid #00008B;
+    border-right:1px solid #F0F8FF; border-bottom:1px solid #F0F8FF;
+    background-image:url("images/CubeGrid/innerHeaderSelected.gif");
+}
+.innerHeaderSelectedOver {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; font-weight:bold; color:white;
+    background-color:#3E74B3;
+    border-top:1px solid white; border-bottom:1px solid white; 
+    border-left:1px solid white; border-right:1px solid white;
+    background-image:url("images/CubeGrid/innerHeaderSelectedOver.gif");
+}						
+.innerHeaderSelectedDisabled {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px; color:#808080;
+    background-color:#CCCCCC;
+    border-left:1px solid #808080; border-top:1px solid #808080;
+    border-right:1px solid #808080; border-bottom:1px solid #808080;
+}
+
+
+
+/*============================================================
+	BarChart
+	internal, charting/visualization module only
+		styleName - chart
+		barStyle - chartBar
+		others are currently fixed
+============================================================*/
+
+.chart { 
+    background-color:#CCCCCC;
+}
+.chartTitle {
+    color:black;
+    font-family: Tahoma,sans-serif;
+    font-size:14px;
+    font-weight: bold;
+    text-align:center
+}
+.chartAxisTitle {
+    color:green;
+    font-family: Tahoma,sans-serif;
+    font-weight: bold;
+    font-size:12px;
+}
+.chartValueTitle {
+    color:black;
+    font-family: Tahoma,sans-serif;
+    font-size:10px;
+}
+.chartTotal {
+    color:black;
+    font-family:Bitstream Vera Sans, sans-serif; 
+    font-size:12px;
+    background-color:linen;
+}
+.chartBody {
+    border-left:1px solid black;
+    border-top:1px dashed blue;
+    border-right:1px solid black;
+    background-color:#DDDDDD
+}   
+.chartBar1 {
+    background-color:red;
+    filter:"progid:dximagetransform.microsoft.gradient(gradientType=1, startColorStr=#990000, endColorStr=#FF0000)";
+}
+.chartBar2 {
+    background-color:blue;
+    filter:"progid:dximagetransform.microsoft.gradient(gradientType=1, startColorStr=#000099, endColorStr=#0000FF)";
+}
+.chartBar3 {
+    background-color:green;
+    filter:"progid:dximagetransform.microsoft.gradient(gradientType=1, startColorStr=#009900, endColorStr=#00FF00)";
+}
+
+/*============================================================
+	Printing
+        printHeader - general print style for header elements including:
+        - ListGrid header cells
+        - SectionStack headers
+============================================================*/
+.printHeader {
+    font-family:Bitstream Vera Sans,Helvetica,Verdana,sans-serif; font-size:11px;   
+    border:1px solid black;
+    font-weight:bold;
+}
+
+/*============================================================
+	Calendar
+    
+============================================================*/
+.calendar,
+.calendarDisabled,
+.calendarWorkday,
+.calendarDark {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px;
+    color:black;
+    border-bottom:1px solid #a0a0a0; border-right:1px solid #a0a0a0;
+    background-color:#ffffff;
+}
+
+.calendarDisabled {
+    background-color:gainsboro;    
+}
+
+.calendarWorkday {
+    background-color:#ffffcc; 
+}
+
+.calendarOver,
+.calendarOverDark {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px;
+    color:black;
+    border-bottom:1px solid #a0a0a0; border-right:1px solid #a0a0a0;
+    background-color:#c0ffc0;
+}
+.calendarCellSelected {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px;
+    color:black;
+    border-bottom:1px solid #a0a0a0; border-right:1px solid #a0a0a0;
+    background-color:#CCCCCC; 
+}
+.labelColumn {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px;
+    color:black;
+    border-bottom:1px solid #a0a0a0; border-right:1px solid #a0a0a0;
+    background-color:gainsboro;
+}
+/* ----month---- */
+/* calMonthDayHeader and Body */
+
+.calMonthDayHeader,
+.calMonthDayHeaderDark {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px;
+    color:black;
+    border-bottom:1px solid #a0a0a0; border-right:1px solid #a0a0a0;
+    background-color: gainsboro;
+}
+
+.calMonthDayHeaderOver,
+.calMonthDayHeaderOverDark {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px;
+    color:black;
+    border-bottom:1px solid #a0a0a0; border-right:1px solid #a0a0a0;
+    background-color: #c0ffc0;
+}
+.calMonthDayBody,
+.calMonthDayBodyDark {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px;
+    color:black;
+    border-bottom:1px solid #a0a0a0; border-right:1px solid #a0a0a0;
+    background-color:#ffffff;
+}
+.calMonthDayBodyOver,
+.calMonthDayBodyOverDark {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px;
+    color:black;
+    border-bottom:1px solid #a0a0a0; border-right:1px solid #a0a0a0;
+    background-color:#c0ffc0;
+}
+
+.calMonthDayBodyDisabled,
+.calMonthDayBodyDisabledOver {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px;
+    color:black;
+    border-bottom:1px solid #a0a0a0; border-right:1px solid #a0a0a0;
+    background-color:#E6E6E6;
+}
+/* calMonthOtherDayHeader and Body */
+
+.calMonthOtherDayHeader,
+.calMonthOtherDayHeaderDark {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px;
+    color:#444444;
+    border-bottom:1px solid #a0a0a0; border-right:1px solid #a0a0a0;
+    background-color: #aaaaaa;
+}
+.calMonthOtherDayHeaderOver,
+.calMonthOtherDayHeaderOverDark {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px;
+    color:#444444;
+    border-bottom:1px solid #a0a0a0; border-right:1px solid #a0a0a0;
+    background-color: #c0ffc0;
+}
+.calMonthOtherDayBody,
+.calMonthOtherDayBodyDark, 
+.calMonthOtherDayBodyDisabled, 
+.calMonthOtherDayBodyDisabledOver{
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px;
+    color:black;
+    border-bottom:1px solid #a0a0a0; border-right:1px solid #a0a0a0;
+    background-color:#E6E6E6;
+}
+.calMonthOtherDayBodyOver,
+.calMonthOtherDayBodyOverDark {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px;
+    color:black;
+    border-bottom:1px solid #a0a0a0; border-right:1px solid #a0a0a0;
+    background-color:#c0ffc0;
+}
+/* calMonthOtherDayBlank */
+
+.calMonthOtherDayBlank,
+.calMonthOtherDayBlankDark, 
+.calMonthOtherDayBlankOver,
+.calMonthOtherDayBlankOverDark {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; font-size:11px;
+    color:#444444;
+    border-bottom:1px solid #a0a0a0; border-right:1px solid #a0a0a0;
+    background-color: #E6E6E6;
+}
+
+/* calMonthEventLink */
+
+a.calMonthEventLink:link {color:blue; text-decoration:none}
+a.calMonthEventLink:visited {color:blue; text-decoration:none}
+a.calMonthEventLink:hover {color:blue; text-decoration:underline}
+a.calMonthEventLink:active {color:blue; text-decoration:none}
+
+/* ----event window---- */
+
+.eventWindow {
+    font-size:9px;
+    background-color:#649ED8;
+   border: 1px solid #004D99;
+   
+}
+
+.eventWindowHeader {
+    font-size:9px; color: white;
+    background-color:#004D99;
+  
+}
+
+.eventWindowBody {
+    font-size: 9px;
+    background-color: #649ED8;
+    padding: 3px;
+    
+}
+
+.eventWindowResizer{
+    border-top:1px solid white;
+    border-bottom: 1px solid white;
+}
+
+/*============================================================
+	PropertySheet
+	internal, used by Visual SmartClient tools
+        propertySheet.autoChildDefaults.cellStyle - propSheetValue
+        propertySheet.autoChildDefaults.titleStyle - propSheetTitle
+        propertySheet.TextItemDefaults.textBoxStyle - propSheetField
+        propertySheet.SelectItemDefaults.controlStyle - propSheetSelectControl
+        propertySheet.ColorItemDefaults.textBoxStyle - propSheetField
+        propertySheet.HeaderItemDefaults.textBoxStyle - propSheetHeading
+        propertySheet.SectionHeaderItemDefaults.cellStyle - propSheetSectionItemCell
+============================================================*/
+
+.propSheetValue,
+.propSheetValueFocused,
+.propSheetDisabled {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif;
+    font-size:11px;
+    border-bottom:1px solid #AAAAAA;
+    border-right:1px solid #AAAAAA;
+    padding:0px;
+    margin:0px;
+}
+.propSheetTitle,
+.propSheetTitleFocused,
+.propSheetTitleDisabled {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif;
+    font-size:11px;
+    border-bottom:1px solid #AAAAAA;
+    border-right:1px solid #AAAAAA;
+    background-color:#DDDDDD;
+    padding-left:4px;
+    padding-right:4px;
+}
+.propSheetTitleError,
+.propSheetValueError {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif; 
+    font-size:11px; color:#204268; 
+    background-color:#CFD9F2
+}
+.propSheetField,
+.propSheetFieldDisabled {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif;
+    font-size:11px;
+    background-color:#FFFFFF;
+    border:0px;
+    padding:0px;
+    padding-left:4px;
+    padding-right:4px;
+    margin-top:3px;
+}
+.propSheetHeading,
+.propSheetHeadingDisabled {
+    font-family:Verdana,Bitstream Vera Sans,sans-serif;
+    font-size:11px;
+    font-weight:bold;
+    color:black;
+    background-color:#CCCCCC;
+    padding:4px;
+    border-bottom:1px solid #AAAAAA;
+}
+.propSheetSelectControl,
+.propSheetSelectControlFocused,
+.propSheetSelectControlDisabled {
+    padding-left:3px;
+    padding-right:3px;
+}
+
+.propSheetSectionItemCell,
+.propSheetSectionItemDisabled {
+}
+
