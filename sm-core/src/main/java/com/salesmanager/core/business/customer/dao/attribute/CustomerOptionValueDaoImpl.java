@@ -35,7 +35,8 @@ public class CustomerOptionValueDaoImpl extends SalesManagerEntityDaoImpl<Long, 
 			.and(qCustomerOptionValueDescription.language.id.eq(language.getId())))
 			.orderBy(qCustomerOptionValue.sortOrder.asc());
 		
-		return query.listDistinct(qCustomerOptionValue);
+		return query.distinct().list(qCustomerOptionValue);
+				//listDistinct(qCustomerOptionValue);
 
 		
 	}

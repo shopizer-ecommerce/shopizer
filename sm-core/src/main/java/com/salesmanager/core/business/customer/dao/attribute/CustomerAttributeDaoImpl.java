@@ -86,7 +86,8 @@ public class CustomerAttributeDaoImpl extends SalesManagerEntityDaoImpl<Long, Cu
 
 		System.out.println("done");
 		
-		return query.listDistinct(qCustomerAttribute);
+		return query.distinct().list(qCustomerAttribute);
+				//listDistinct(qCustomerAttribute);
 	}
 	
 	@Override

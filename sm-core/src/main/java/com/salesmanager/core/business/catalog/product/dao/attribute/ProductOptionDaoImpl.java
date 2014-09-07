@@ -33,7 +33,8 @@ public class ProductOptionDaoImpl extends SalesManagerEntityDaoImpl<Long, Produc
 			.and(qDescription.language.id.eq(language.getId())))
 			.orderBy(qProductOption.id.asc());
 		
-		return query.listDistinct(qProductOption);
+		return query.distinct().list(qProductOption);
+				//listDistinct(qProductOption);
 		
 	}
 	

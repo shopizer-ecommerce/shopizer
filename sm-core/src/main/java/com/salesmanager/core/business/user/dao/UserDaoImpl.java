@@ -69,7 +69,8 @@ public class UserDaoImpl extends SalesManagerEntityDaoImpl<Long, User> implement
 			.leftJoin(qUser.defaultLanguage).fetch()
 			.orderBy(qUser.id.asc());
 		
-		return query.listDistinct(qUser);
+		return query.distinct().list(qUser);
+				//listDistinct(qUser);
 	}
 	
 	@Override
@@ -84,7 +85,8 @@ public class UserDaoImpl extends SalesManagerEntityDaoImpl<Long, User> implement
 			.orderBy(qUser.id.asc())
 			.where(qUser.merchantStore.id.eq(store.getId()));
 		
-		return query.listDistinct(qUser);
+		return query.distinct().list(qUser);
+				//listDistinct(qUser);
 	}
 
 }

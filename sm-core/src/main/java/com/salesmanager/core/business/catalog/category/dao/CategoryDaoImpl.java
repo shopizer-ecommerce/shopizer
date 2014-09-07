@@ -195,7 +195,8 @@ public class CategoryDaoImpl extends SalesManagerEntityDaoImpl<Long, Category> i
 			.and(qCategory.merchantStore.id.eq(store.getId())))
 			.orderBy(qCategory.sortOrder.asc(), qCategory.lineage.asc(), qCategory.lineage.asc(), qCategory.depth.asc(), qDescription.language.id.desc());
 		
-		return query.listDistinct(qCategory);
+		return query.distinct().list(qCategory);
+				//.listDistinct(qCategory);
 	}
 	
 	@Override
@@ -212,7 +213,8 @@ public class CategoryDaoImpl extends SalesManagerEntityDaoImpl<Long, Category> i
 			.and(qCategory.merchantStore.code.eq(merchantStoreCode)))
 			.orderBy(qCategory.sortOrder.asc(),qCategory.lineage.asc(), qCategory.lineage.asc(), qCategory.depth.asc(), qDescription.language.id.desc());
 		
-		return query.listDistinct(qCategory);
+		return query.distinct().list(qCategory);
+				//.listDistinct(qCategory);
 	}
 	
 	@Override
@@ -229,7 +231,8 @@ public class CategoryDaoImpl extends SalesManagerEntityDaoImpl<Long, Category> i
 			.and(qCategory.merchantStore.id.eq(store.getId())))
 			.orderBy(qCategory.sortOrder.asc(), qCategory.lineage.asc(), qCategory.lineage.asc(), qCategory.depth.asc(), qDescription.language.id.desc());
 		
-		return query.listDistinct(qCategory);
+		return query.distinct().list(qCategory);
+				//.listDistinct(qCategory);
 	}
 	
 	@Override
@@ -247,7 +250,8 @@ public class CategoryDaoImpl extends SalesManagerEntityDaoImpl<Long, Category> i
 			.and(qDescription.language.id.eq(language.getId())))
 			.orderBy(qCategory.sortOrder.asc(), qCategory.lineage.asc(), qCategory.lineage.asc(), qCategory.depth.asc(), qDescription.language.id.desc());
 		
-		return query.listDistinct(qCategory);
+		return query.distinct().list(qCategory);
+				//.listDistinct(qCategory);
 	}
 	
 	@Override
@@ -266,7 +270,8 @@ public class CategoryDaoImpl extends SalesManagerEntityDaoImpl<Long, Category> i
 			.and(qCategory.merchantStore.id.eq(category.getMerchantStore().getId())))
 			.orderBy(qCategory.lineage.asc(), qCategory.lineage.asc(), qCategory.depth.asc(), qDescription.language.id.desc());
 		
-		return query.listDistinct(qCategory);
+		return query.distinct().list(qCategory);
+				//listDistinct(qCategory);
 		
 	}
 	
@@ -320,7 +325,8 @@ public class CategoryDaoImpl extends SalesManagerEntityDaoImpl<Long, Category> i
 			.where(qCategory.merchantStore.id.eq(store.getId()))
 			.orderBy(qCategory.sortOrder.asc(),qCategory.id.asc());
 		
-		return query.listDistinct(qCategory);
+		return query.distinct().list(qCategory);
+				//listDistinct(qCategory);
 	}
 	
 	@Override
@@ -365,6 +371,7 @@ public class CategoryDaoImpl extends SalesManagerEntityDaoImpl<Long, Category> i
 			.and(qDescription.language.id.eq(language.getId())))
 			.orderBy(qCategory.sortOrder.asc(),qCategory.id.asc());
 		
-		return query.listDistinct(qCategory);
+		return query.distinct().list(qCategory);
+				//listDistinct(qCategory);
 	}
 }

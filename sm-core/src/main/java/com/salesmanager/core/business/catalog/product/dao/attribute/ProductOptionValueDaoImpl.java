@@ -35,7 +35,8 @@ public class ProductOptionValueDaoImpl extends SalesManagerEntityDaoImpl<Long, P
 			
 			
 		
-		return query.listDistinct(qProductOption);
+		return query.distinct().list(qProductOption);
+				//listDistinct(qProductOption);
 		
 	}
 	
@@ -57,7 +58,8 @@ public class ProductOptionValueDaoImpl extends SalesManagerEntityDaoImpl<Long, P
 			
 			
 		
-		return query.listDistinct(qProductOption);
+		return query.distinct().list(qProductOption);
+				//listDistinct(qProductOption);
 		
 	}
 	

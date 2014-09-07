@@ -1,18 +1,14 @@
 package com.salesmanager.core.business.user.dao;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Query;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import com.mysema.query.jpa.JPQLQuery;
 import com.mysema.query.jpa.impl.JPAQuery;
-import com.salesmanager.core.business.catalog.product.model.Product;
-import com.salesmanager.core.business.catalog.product.model.ProductList;
 import com.salesmanager.core.business.generic.dao.SalesManagerEntityDaoImpl;
 import com.salesmanager.core.business.user.model.Permission;
 import com.salesmanager.core.business.user.model.PermissionCriteria;
@@ -31,7 +27,8 @@ public class PermissionDaoImpl extends SalesManagerEntityDaoImpl<Integer, Permis
 		query.from(qPermission)
 			.orderBy(qPermission.id.asc());
 		
-		return query.listDistinct(qPermission);
+		return query.distinct().list(qPermission);
+				//listDistinct(qPermission);
 		}
 
 	@Override

@@ -16,6 +16,7 @@ import com.salesmanager.core.business.generic.dao.SalesManagerEntityDaoImpl;
 import com.salesmanager.core.business.generic.exception.ServiceException;
 import com.salesmanager.core.business.merchant.model.MerchantStore;
 import com.salesmanager.core.business.reference.language.model.Language;
+import com.salesmanager.core.business.shoppingcart.model.ShoppingCart;
 
 @Repository("contentDao")
 public class ContentDaoImpl extends SalesManagerEntityDaoImpl<Long, Content> implements ContentDao {
@@ -214,6 +215,8 @@ public class ContentDaoImpl extends SalesManagerEntityDaoImpl<Long, Content> imp
 		QContent qContent = QContent.content;
 		QContentDescription qContentDescription = QContentDescription.contentDescription;
 		
+		System.out.println("In");
+		
 		
 		JPQLQuery query = new JPAQuery (getEntityManager());
 		
@@ -225,9 +228,13 @@ public class ContentDaoImpl extends SalesManagerEntityDaoImpl<Long, Content> imp
 			.and(qContent.code.eq(code)))
 			);
 		
-		Content content = query.singleResult(qContent);
-		
-		return content;
+
+		List<Content> results = query.list(qContent);
+        if (results.isEmpty()) return null;
+        
+        else if (results.size() >= 1) return results.get(0);
+        return null;
+
 	}
 	
 	@Override
@@ -256,6 +263,18 @@ public class ContentDaoImpl extends SalesManagerEntityDaoImpl<Long, Content> imp
 		if(content!=null) {
 				return content.getDescription();
 		}
+		
+		List<Content> results = query.list(qContent);
+        if (results.isEmpty()) {
+        	return null;
+        } else if (results.size() >= 1) {
+        		content = results.get(0);
+        }
+        
+		if(content!=null) {
+			return content.getDescription();
+		}
+        
 		
 		return null;
 		

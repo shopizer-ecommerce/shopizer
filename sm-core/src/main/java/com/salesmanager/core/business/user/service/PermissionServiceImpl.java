@@ -1,7 +1,5 @@
 package com.salesmanager.core.business.user.service;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -9,9 +7,6 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.salesmanager.core.business.catalog.category.model.Category;
-import com.salesmanager.core.business.catalog.product.model.Product;
-import com.salesmanager.core.business.catalog.product.model.image.ProductImage;
 import com.salesmanager.core.business.generic.exception.ServiceException;
 import com.salesmanager.core.business.generic.service.SalesManagerEntityServiceImpl;
 import com.salesmanager.core.business.merchant.service.MerchantStoreService;
@@ -93,8 +88,7 @@ public class PermissionServiceImpl extends
 	
 		permission.getGroups().remove(group);
 		
-		
-//		this.delete(permission);
+
 	}
 
 	@Override

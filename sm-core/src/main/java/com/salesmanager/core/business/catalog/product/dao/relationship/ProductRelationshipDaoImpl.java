@@ -30,6 +30,7 @@ public class ProductRelationshipDaoImpl extends SalesManagerEntityDaoImpl<Long, 
 		qs.append("left join fetch rp.descriptions rpd ");
 
 		qs.append("where pr.code=:code ");
+		qs.append("and pr.store.id=:storeId ");
 		qs.append("and p.id=:id ");
 		qs.append("and rpd.language.id=:langId");
 
@@ -40,6 +41,7 @@ public class ProductRelationshipDaoImpl extends SalesManagerEntityDaoImpl<Long, 
 
     	q.setParameter("code", type);
     	q.setParameter("id", product.getId());
+    	qs.append("and pr.store.id=:storeId ");
     	q.setParameter("langId", language.getId());
 
 
@@ -74,6 +76,7 @@ public class ProductRelationshipDaoImpl extends SalesManagerEntityDaoImpl<Long, 
 		qs.append("left join fetch pap.descriptions papd ");
 
 		qs.append("where pr.code=:code ");
+		qs.append("and pr.store.id=:storeId ");
 		qs.append("and rpd.language.id=:langId");
 
 
@@ -83,6 +86,7 @@ public class ProductRelationshipDaoImpl extends SalesManagerEntityDaoImpl<Long, 
 
     	q.setParameter("code", type);
     	q.setParameter("langId", language.getId());
+    	q.setParameter("storeId", store.getId());
 
 
     	
@@ -117,6 +121,7 @@ public class ProductRelationshipDaoImpl extends SalesManagerEntityDaoImpl<Long, 
 		qs.append("left join fetch rp.type type ");
 
 		qs.append("where pr.code=:code ");
+		qs.append("and pr.store.id=:storeId ");
 
 
 
@@ -125,6 +130,7 @@ public class ProductRelationshipDaoImpl extends SalesManagerEntityDaoImpl<Long, 
 		Query q = super.getEntityManager().createQuery(hql);
 
     	q.setParameter("code", group);
+    	q.setParameter("storeId", store.getId());
 
 
 
@@ -185,7 +191,8 @@ public class ProductRelationshipDaoImpl extends SalesManagerEntityDaoImpl<Long, 
 		qs.append("join fetch pr.relatedProduct rp ");
 		qs.append("left join fetch rp.descriptions rpd ");
 
-		qs.append("where pr.code=:code");
+		qs.append("where pr.code=:code ");
+		qs.append("and pr.store.id=:storeId ");
 
 
 
@@ -194,6 +201,7 @@ public class ProductRelationshipDaoImpl extends SalesManagerEntityDaoImpl<Long, 
 		Query q = super.getEntityManager().createQuery(hql);
 
     	q.setParameter("code", type);
+    	q.setParameter("storeId", store.getId());
 
 
     	@SuppressWarnings("unchecked")

@@ -71,7 +71,8 @@ public class GroupDaoImpl extends SalesManagerEntityDaoImpl<Integer, Group> impl
 			.where(qGroup.groupType.eq(groupType))
 			.orderBy(qGroup.id.asc());
 		
-		return query.listDistinct(qGroup);
+		return query.distinct().list(qGroup);
+				//listDistinct(qGroup);
 	}
 
 }
