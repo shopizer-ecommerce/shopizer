@@ -15,12 +15,12 @@ response.setDateHeader ("Expires", -1);
 <%@page pageEncoding="UTF-8"%>
 
 								<c:set var="billing" value="${pageContext.request.contextPath}/shop/customer/billing.html"/>
-								<ul>
-									<li><a href="<c:url value="/shop/customer/dashboard.html"/>"><s:message code="label.customer.myaccount" text="My account"/></a></li>
+								<ul class="nav nav-list">
+									<li><a href="<c:url value="/shop/customer/dashboard.html"/>"><i class="fa fa-angle-right"></i> <s:message code="label.customer.myaccount" text="My account"/></a></li>
 									<li>
 									   <a href="${billing}">
-									   		<s:message code="label.customer.billingshipping" text="Billing & shipping information"/>
+									   		<i class="fa fa-angle-right"></i> <s:message code="label.customer.billingshipping" text="Billing & shipping information"/>
 									    </a>
 									 </li>
-									 <li><a href="<c:url value="/shop/customer/password.html"/>"><s:message code="menu.change-password" text="Change password"/></a></li>
+									 <li><a href="<c:url value="/shop/customer/password.html"/>"><i class="fa fa-angle-right"></i> <s:message code="menu.change-password" text="Change password"/></a></li>
 								</ul>

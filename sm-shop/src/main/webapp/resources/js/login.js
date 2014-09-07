@@ -1,18 +1,38 @@
     $(function() {
     	    	
     	$("#signinDrop").click(function(e){
+    		log('Signin drop down');
     		$("#loginError").hide();
     		e.preventDefault();
     	});
+    	
+        $('.dropdown-menu').click(function(e) {
+        	log('Drop down menu clicked');
+        	e.preventDefault();
+        	e.stopPropagation();
+        });
+        
+        $('#registerLink').click(function(e) {
+        	e.preventDefault();
+        	e.stopPropagation();
+        });
+        
+        $("#login-button").click(function(e) {
+        	log('Login');
+        	login();
+        });
 
-        $("#login").submit(function(e) {
-        	e.preventDefault();//do not submit form
-        	
+    });
+    
+    function login() {
+        //$("#login").submit(function(e) {
+        	//e.preventDefault();//do not submit form
+        	log('Signin');
         	$("#loginError").hide();
         	
-        	var userName = $(this).find('#userName').val();
-        	var password = $(this).find('#password').val();
-        	var storeCode = $(this).find('#storeCode').val();
+        	var userName = $('#signin_userName').val();
+        	var password = $('#signin_password').val();
+        	var storeCode = $('#signin_storeCode').val();
         	if(userName=='' || password=='') {
         		 $("#loginError").html(getLoginErrorLabel());
         		 $("#loginError").show();
@@ -20,6 +40,8 @@
         	}
         	
         	$('#signinPane').showLoading();
+        	
+        	log('Username ' + userName + ' password ' + password + ' storeCode ' + storeCode);
 
             $.ajax({
                  type: "POST",
@@ -30,7 +52,7 @@
               	 dataType:'json',
                  'success': function(response) {
                     $('#signinPane').hideLoading();
-					//console.log(response);
+					log(response);
                     if (response.response.status==0) {//success
                 	   //SHOPPING_CART
                 	   console.log(response.response.SHOPPING_CART);
@@ -50,5 +72,5 @@
                 }
             });
             return false;
-        });
-    });
+        //});
+        }

@@ -263,7 +263,33 @@
 
 </tag>
 
+<tag>
+ 		 <!-- Decides if the link anlalyzed has to be handled as the active link -->
+         <name>activeLink</name>
+         <tag-class>com.salesmanager.web.tags.ActiveLinkTag</tag-class>
+         <body-content>scriptless</body-content>
+         
+         <attribute>
+                 <name>linkCode</name>
+                 <required>true</required>
+                 <rtexprvalue>true</rtexprvalue>
+                 <type>java.lang.String</type>
+         </attribute>
+         <attribute>
+                 <name>activeReturnCode</name>
+                 <required>false</required>
+                 <rtexprvalue>false</rtexprvalue>
+                 <type>java.lang.String</type>
+         </attribute>
+         <attribute>
+                 <name>inactiveReturnCode</name>
+                 <required>false</required>
+                 <rtexprvalue>false</rtexprvalue>
+                 <type>java.lang.String</type>
+         </attribute>
+         
 
+</tag>
 
 
 

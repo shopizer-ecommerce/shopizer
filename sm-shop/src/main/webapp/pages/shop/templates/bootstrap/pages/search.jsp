@@ -28,6 +28,10 @@ response.setDateHeader ("Expires", -1);
 
  });
  
+ 
+	<jsp:include page="/pages/shop/templates/bootstrap/sections/shop-listing.jsp" />
+	 
+ 
  	function search() {
  		var url = '<%=request.getContextPath()%>/services/public/search/<c:out value="${requestScope.MERCHANT_STORE.code}"/>/<c:out value="${requestScope.LANGUAGE.code}"/>/' + START_COUNT_PRODUCTS + '/' + MAX_PRODUCTS + '/term.html';
 	 	searchProducts(url,'#productsContainer','<c:out value="${q}"/>',null);
@@ -80,7 +84,6 @@ response.setDateHeader ("Expires", -1);
         <div class="span3">
           <div class="sidebar-nav">
             <ul id="categoriesFacets" class="nav nav-list">
-              <!--<li class="nav-header"></li>-->
             </ul>
           </div>
         </div><!--/span-->

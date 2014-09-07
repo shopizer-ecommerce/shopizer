@@ -14,9 +14,17 @@ response.setDateHeader ("Expires", -1);
 
 <%@page contentType="text/html"%>
 <%@page pageEncoding="UTF-8"%>
-
-									
-									
+								
+										<sec:authorize access="!hasRole('AUTH_CUSTOMER') and fullyAuthenticated">
+											<!-- no dual login -->
+											<div id="signin" class="">
+											<ul class="list-unstyled">
+												<li>
+													<s:message code="label.security.loggedinas" text="You are logged in as"/> [<sec:authentication property="principal.username"/>]. <s:message code="label.security.nologinacces.store" text="We can't display store logon box"/>
+												</li>
+											</ul>
+											</div>
+										</sec:authorize>
 										<sec:authorize access="hasRole('AUTH_CUSTOMER') and fullyAuthenticated">
 								  			<a href="<c:url value="/shop/customer/review.html"/>?productId=${product.id}"/><button id="reviewButton" type="submit" class="btn btn-default"><s:message code="label.product.reviews.write" text="Write a review" /></button></a>
 								  		</sec:authorize>

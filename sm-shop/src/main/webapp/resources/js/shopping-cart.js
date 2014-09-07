@@ -10,7 +10,7 @@
 	
 	function initMiniCart() {
 		var cartCode = getCartCode();
-		//console.log('Cart code ' + cartCode);
+		log('Cart code ' + cartCode);
 		if(cartCode!=null) {
 			displayMiniCartSummary(cartCode);
 		}
@@ -35,6 +35,7 @@
 	    });
 		
     	$("#open-cart").click(function(e) {
+    		log('Open cart');
     		displayMiniCart();
     	});
 		
@@ -225,11 +226,8 @@ function updateCart(cartDiv) {
 
 function displayMiniCart(){
 	var cartCode = getCartCode();
-
-	if(cartCode==null) {
-		emptyCartLabel();
-		return;
-	}
+	
+	log('Display cart content');
 	
 	
 	

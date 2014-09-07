@@ -27,11 +27,10 @@ function addShippingAddress(formId){
 <%@page contentType="text/html"%>
 <%@page pageEncoding="UTF-8"%>
 <c:url var="editAddress" value="/shop/customer/editAddress.html"/>
-<div id="main-content" class="container clearfix">
-	<div class="row-fluid">
-		<div class="span12">
-			
-			  <div class="span8">
+<div id="main-content" class="container clearfix row-fluid">
+		<div class="span12 common-row">
+
+			  <div class="span8 col-md-8 no-padding">
 				<div class="box">
 					<span class="box-title">
 						<p class="p-title">
@@ -129,13 +128,11 @@ function addShippingAddress(formId){
 
 			 </div>
 			 </div>
-			 <div class="span4">
+			 <div class="span4 col-md-4">
 			 	<jsp:include page="/pages/shop/common/customer/customerProfileMenu.jsp" />
 			 	<jsp:include page="/pages/shop/common/customer/customerOrdersMenu.jsp" />
 			 </div>
 			</div>
 		</div>
-	</div>
-	<!-- close row-fluid-->
-</div>
+
 <!--close .container "main-content" -->

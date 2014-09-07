@@ -1,6 +1,8 @@
 package com.salesmanager.web.populator.order;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
@@ -11,12 +13,15 @@ import com.salesmanager.core.business.catalog.product.model.image.ProductImage;
 import com.salesmanager.core.business.catalog.product.service.PricingService;
 import com.salesmanager.core.business.catalog.product.service.ProductService;
 import com.salesmanager.core.business.generic.exception.ConversionException;
+import com.salesmanager.core.business.generic.exception.ServiceException;
 import com.salesmanager.core.business.merchant.model.MerchantStore;
 import com.salesmanager.core.business.order.model.orderproduct.OrderProduct;
+import com.salesmanager.core.business.order.model.orderproduct.OrderProductAttribute;
 import com.salesmanager.core.business.reference.language.model.Language;
 import com.salesmanager.core.utils.AbstractDataPopulator;
 import com.salesmanager.web.entity.catalog.product.ReadableProduct;
 import com.salesmanager.web.entity.order.ReadableOrderProduct;
+import com.salesmanager.web.entity.order.ReadableOrderProductAttribute;
 import com.salesmanager.web.populator.catalog.ReadableProductPopulator;
 
 public class ReadableOrderProductPopulator extends
@@ -55,8 +60,25 @@ public class ReadableOrderProductPopulator extends
 			throw new ConversionException("Cannot format price",e);
 		}
 		
+		if(source.getOrderAttributes()!=null) {
+			List<ReadableOrderProductAttribute> attributes = new ArrayList<ReadableOrderProductAttribute>();
+			for(OrderProductAttribute attr : source.getOrderAttributes()) {
+				ReadableOrderProductAttribute readableAttribute = new ReadableOrderProductAttribute();
+				try {
+					String price = pricingService.getDisplayAmount(attr.getProductAttributePrice(), store);
+					readableAttribute.setAttributePrice(price);
+				} catch (ServiceException e) {
+					throw new ConversionException("Cannot format price",e);
+				}
+				
+				readableAttribute.setAttributeName(attr.getProductAttributeName());
+				readableAttribute.setAttributeValue(attr.getProductAttributeValueName());
+				attributes.add(readableAttribute);
+			}
+			target.setAttributes(attributes);
+		}
 		
-		if(productService!=null && pricingService!=null) {
+
 			String productSku = source.getSku();
 			if(!StringUtils.isBlank(productSku)) {
 				Product product = productService.getByCode(productSku, language);
@@ -87,7 +109,7 @@ public class ReadableOrderProductPopulator extends
 					}
 				}
 			}
-		}
+		
 		
 		return target;
 	}

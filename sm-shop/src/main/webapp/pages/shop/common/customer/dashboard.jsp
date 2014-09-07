@@ -59,27 +59,27 @@ $(document).ready(function() {
 </script>
 
 
-	<div id="main-content" class="container clearfix">
-		<div class="row-fluid">
-			<div class="span12">
+	<div id="main-content" class="container clearfix row-fluid">
+
+			<div class="span-12 common-row">
 			
 			
 			<c:if test="${options!=null && fn:length(options)>0}">
-				<div class="row-fluid">
-					<div class="span12">
+				<!--<div class="row-fluid">-->
+					<!--<div class="span12 col-md-12 no-padding">-->
 						<div id="attributesSuccess" class="alert alert-success" style="<c:choose><c:when test="${success!=null}">display:block;</c:when><c:otherwise>display:none;</c:otherwise></c:choose>"><s:message code="message.success" text="Request successfull"/></div>   
 			            <div id="attributesError" class="alert alert-error" style="display:none;"><s:message code="message.error" text="An error occured"/></div>
 						<form action="#" id="attributes">
 						<div id="attributesBox" class="box">
 								<span class="box-title">
-									<p><font color="#FF8C00"><s:message code="label.customer.moredetails" text="More details"/></font></p>
+									<p class="p-title"><s:message code="label.customer.moredetails" text="More details"/></font></p>
 								</span
 						
 					
 							
 							
 							<c:forEach items="${options}" var="option" varStatus="status">
-								<div class="control-group"> 
+								<div class="control-group form-group"> 
 			                        <label><c:out value="${option.name}"/></label>
 			                        <div class="controls">	       							
 											<c:choose>
@@ -97,7 +97,7 @@ $(document).ready(function() {
 													</c:forEach>
 												</c:when>
 												<c:when test="${option.type=='Text'}">
-													<input class="textAttribute" type="text" id="<c:out value="${option.id}"/>-<c:out value="${option.availableValues[0].id}"/>" name="<c:out value="${option.id}"/>-<c:out value="${option.availableValues[0].id}"/>" class="input-large" value="<c:if test="${option.defaultValue!=null}">${option.defaultValue.name}</c:if>">
+													<input class="textAttribute form-control form-control-md" type="text" id="<c:out value="${option.id}"/>-<c:out value="${option.availableValues[0].id}"/>" name="<c:out value="${option.id}"/>-<c:out value="${option.availableValues[0].id}"/>" class="input-large" value="<c:if test="${option.defaultValue!=null}">${option.defaultValue.name}</c:if>">
 												</c:when> 
 												<c:when test="${option.type=='Checkbox'}">
 													<c:forEach items="${option.availableValues}" var="optionValue">
@@ -118,7 +118,7 @@ $(document).ready(function() {
 							
 							<div class="short-form-actions">
 		                 	  <div class="pull-left">
-		                 			<button type="submit" class="btn btn-success"><s:message code="button.label.save" text="Save"/></button>
+		                 			<button type="submit" class="btn btn-large"><s:message code="button.label.save" text="Save"/></button>
 		                 	  </div> 
 		           	  		 </div>
 		
@@ -128,8 +128,8 @@ $(document).ready(function() {
 						</div>
 						</div>
 						</form>
-					</div>
-				</div>
+					<!--</div>-->
+				<!--</div>-->
 				</c:if>
 
 		
@@ -159,9 +159,9 @@ $(document).ready(function() {
 							</div>
 	
 					   </div>
-					</div>
+				 </div>
 			</div>
-		</div>
+		<!--</div>-->
 		<!-- close row-fluid--> 
 	</div>
 	<!--close .container "main-content" -->

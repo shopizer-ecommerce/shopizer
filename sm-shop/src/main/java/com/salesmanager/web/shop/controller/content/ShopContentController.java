@@ -51,7 +51,7 @@ public class ShopContentController {
 		}
 		
 		//TODO breadcrumbs
-		
+		request.setAttribute(Constants.LINK_CODE, contentDescription.getSeUrl());
 		model.addAttribute("content",contentDescription);
 		
 		/** template **/

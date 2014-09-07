@@ -40,6 +40,9 @@ import com.salesmanager.web.utils.LabelUtils;
 public class LandingController {
 	
 	
+	private final static String LANDING_PAGE = "LANDING_PAGE";
+	
+	
 	@Autowired
 	private ContentService contentService;
 	
@@ -57,7 +60,7 @@ public class LandingController {
 	private MerchantStoreService merchantService;
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(LandingController.class);
-
+	private final static String HOME_LINK_CODE="HOME";
 	
 	@RequestMapping(value={Constants.SHOP_URI + "/home.html",Constants.SHOP_URI +"/", Constants.SHOP_URI}, method=RequestMethod.GET)
 	public String displayLanding(Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
@@ -66,8 +69,9 @@ public class LandingController {
 		
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
 
+		request.setAttribute(Constants.LINK_CODE, HOME_LINK_CODE);
 		
-		Content content = contentService.getByCode("LANDING_PAGE", store, language);
+		Content content = contentService.getByCode(LANDING_PAGE, store, language);
 		
 		/** Rebuild breadcrumb **/
 		BreadcrumbItem item = new BreadcrumbItem();

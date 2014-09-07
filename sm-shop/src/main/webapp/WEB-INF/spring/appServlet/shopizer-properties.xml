@@ -45,8 +45,10 @@
 	
 	
 	<!-- templates -->
+	<!-- Add new templates in the list, should point to pages/shop/templates and resources/templates -->
 	<util:list id="templates" value-type="java.lang.String">
 		<value>bootstrap</value>
+		<value>bootstrap3</value>
     </util:list>
     
     <bean id="initData" class="com.salesmanager.web.init.data.InitStoreData"/>

@@ -13,9 +13,11 @@
 
 
 
-<div id="main-content" class="row-fluid show-grid">
+<div id="main-content" class="row-fluid show-grid container">
 
-<h1><s:message code="label.cart.revieworder" text="Review your order" /></h1>
+<div class="span12 common-row">
+
+<h1 class="cart-title"><s:message code="label.cart.revieworder" text="Review your order" /></h1>
 <div id="store.error" class="alert alert-error" style="display:none;"><s:message code="message.error.shoppingcart.update" text="An error occurred while updating the shopping cart"/></div>
 <br/>
 <table id="mainCartTable" class="table table-bordered table-striped">
@@ -59,7 +61,7 @@
 						
 						</td>
 						<td>
-							<input type="text" class="input-small quantity" placeholder="<s:message code="label.quantity" text="Quantity"/>"
+							<input type="text" class="input-small quantity form-control" placeholder="<s:message code="label.quantity" text="Quantity"/>"
 							value="${shoppingCartItem.quantity}" name="quantity" id="${shoppingCartItem.id}" <c:if test="${shoppingCartItem.productVirtual==true}">readonly</c:if>>
 						</td>
 						<td style="border-left:none;"><button class="close"
@@ -107,6 +109,7 @@
 		</div>
 	</c:if>
 </c:if>
+</div>
 </div>
 <c:if test="${empty cart}">
 <!-- load cart with cookie -->

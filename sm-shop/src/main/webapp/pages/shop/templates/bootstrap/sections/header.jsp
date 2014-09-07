@@ -63,11 +63,11 @@ response.setDateHeader ("Expires", -1);
 							 </a>
 								<ul class="dropdown-menu">
 									<li>
-										<a href="<c:url value="/shop/customer/dashboard.html" />"><s:message code="label.customer.myaccount" text="My account"/></a>
+										<a onClick="javascript:location.href='<c:url value="/shop/customer/dashboard.html" />';" href="#"><i class="fa fa-user"></i><s:message code="label.customer.myaccount" text="My account"/></a>
 									</li>
 									<li class="divider"></li>
 									<li>
-										<a href="<c:url value="/shop/customer/j_spring_security_logout" />"><s:message code="button.label.logout" text="Logout"/></a>
+										<a onClick="javascript:location.href='<c:url value="/shop/customer/j_spring_security_logout" />';" href="#"><i class="fa fa-power-off"></i><s:message code="button.label.logout" text="Logout"/></a>
 									</li>
 								</ul>
 							</li>
@@ -96,20 +96,20 @@ response.setDateHeader ("Expires", -1);
 									<div class="control-group">
 	                        				<label><s:message code="label.username" text="Username" /></label>
 					                        <div class="controls">
-												<input id="userName" style="margin-bottom: 15px;" type="text" name="userName" size="30" />
+												<input id="signin_userName" style="margin-bottom: 15px;" type="text" name="userName" size="30" />
 											</div>
 									</div>
 									<div class="control-group">
 	                        				<label><s:message code="label.password" text="Password" /></label>
 					                        <div class="controls">
-												<input id="password" style="margin-bottom: 15px;" type="password" name="password" size="30" />
+												<input id="signin_password" style="margin-bottom: 15px;" type="password" name="password" size="30" />
 											</div>
 									</div>
-									<input id="storeCode" name="storeCode" type="hidden" value="<c:out value="${requestScope.MERCHANT_STORE.code}"/>"/>					 
+									<input id="signin_storeCode" name="storeCode" type="hidden" value="<c:out value="${requestScope.MERCHANT_STORE.code}"/>"/>					 
 									<button type="submit" style="width:100%" class="btn btn-large" id="login-button"><s:message code="button.label.login" text="Login" /></button>
 									
 								</form>
-								<a href="<c:url value="/shop/customer/registration.html" />" role="button" class="" data-toggle="modal"><s:message code="label.register.notyetregistered" text="Not yet registered ?" /></a>
+								<a onClick="javascript:location.href='<c:url value="/shop/customer/registration.html" />';" href="" role="button" class="" data-toggle="modal"><s:message code="label.register.notyetregistered" text="Not yet registered ?" /></a>
 							</div>
 					  </li>
 					</ul>

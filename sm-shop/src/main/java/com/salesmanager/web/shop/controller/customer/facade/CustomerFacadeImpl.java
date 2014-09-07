@@ -328,11 +328,16 @@ public class CustomerFacadeImpl implements CustomerFacade
 
 
             customerModel= populator.populate( customer, merchantStore, language );
+            //we are creating or resetting a customer
+            if(StringUtils.isBlank(customerModel.getPassword()) && !StringUtils.isBlank(customer.getClearPassword())) {
+            	customerModel.setPassword(customer.getClearPassword());
+            }
 			//set groups
             if(!StringUtils.isBlank(customerModel.getPassword()) && !StringUtils.isBlank(customerModel.getNick())) {
             	customerModel.setPassword(passwordEncoder.encodePassword(customer.getClearPassword(), null));
             	setCustomerModelDefaultProperties(customerModel, merchantStore);
             }
+            
 
           return customerModel;
 
@@ -410,12 +415,13 @@ public class CustomerFacadeImpl implements CustomerFacade
 					groupsId.add(group.getId());
 					
 				}
-
-		    	List<Permission> permissions = permissionService.getPermissions(groupsId);
-		    	for(Permission permission : permissions) {
-		    		GrantedAuthority auth = new GrantedAuthorityImpl(permission.getPermissionName());
-		    		authorities.add(auth);
-		    	}
+				if(groupsId!=null && groupsId.size()>0) {
+			    	List<Permission> permissions = permissionService.getPermissions(groupsId);
+			    	for(Permission permission : permissions) {
+			    		GrantedAuthority auth = new GrantedAuthorityImpl(permission.getPermissionName());
+			    		authorities.add(auth);
+			    	}
+				}
 			}
 
 			Authentication authenticationToken =

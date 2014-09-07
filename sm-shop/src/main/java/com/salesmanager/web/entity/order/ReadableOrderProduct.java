@@ -1,6 +1,7 @@
 package com.salesmanager.web.entity.order;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class ReadableOrderProduct extends OrderProductEntity implements
 		Serializable {
@@ -13,7 +14,7 @@ public class ReadableOrderProduct extends OrderProductEntity implements
 	private String price;
 	private String subTotal;
 	
-	
+	private List<ReadableOrderProductAttribute> attributes = null;
 	
 	private String sku;
 	private String image;
@@ -46,6 +47,12 @@ public class ReadableOrderProduct extends OrderProductEntity implements
 	}
 	public void setSubTotal(String subTotal) {
 		this.subTotal = subTotal;
+	}
+	public List<ReadableOrderProductAttribute> getAttributes() {
+		return attributes;
+	}
+	public void setAttributes(List<ReadableOrderProductAttribute> attributes) {
+		this.attributes = attributes;
 	}
 
 

@@ -24,13 +24,12 @@ response.setDateHeader ("Expires", -1);
 		<div id="cartShowLoading" class="loading-indicator" style="width:100%;display:none;"></div>
 		<div id="cartMessage" style="width:100%;display:none;"></div>
 		<div id="shoppingcart">
-			<table style="margin-bottom: 5px" class="table">
+			<table style="margin-bottom: 5px" class="table miniCartBox">
 				<tbody id="shoppingcartProducts"><!-- products place holder -->
 				</tbody>
 			</table>
 			<div id="total-box" class="total-box"></div><!-- totals place holder -->
-			<br />
-			<button class="btn btn-large" style="width: 100%" type="button" onclick="viewShoppingCartPage();"><s:message code="label.checkout" text="Checkout"/></button>
+			<button class="btn btn-large checkoutButton" style="width: 100%" type="button" onclick="viewShoppingCartPage();"><s:message code="label.checkout" text="Checkout"/></button>
 		</div>
 	</div>
 </div>

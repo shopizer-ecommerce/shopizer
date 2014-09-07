@@ -37,6 +37,10 @@ response.setDateHeader ("Expires", -1);
 	loadCategoryProducts();
 
  });
+ 
+ 
+	<jsp:include page="/pages/shop/templates/bootstrap/sections/shop-listing.jsp" />
+	 
 	  
 	function orderProducts(attribute) {
 		
@@ -119,7 +123,7 @@ response.setDateHeader ("Expires", -1);
  
 </script>
 
-    <jsp:include page="/pages/shop/templates/bootstrap/sections/breadcrumb.jsp" />
+       <jsp:include page="/pages/shop/templates/bootstrap/sections/breadcrumb.jsp" />
  
 	   <c:if test="${category.description.description!=null}">
 	   		<!-- category description -->
@@ -198,7 +202,7 @@ response.setDateHeader ("Expires", -1);
 		 </div>
         
         
-
+			<!-- just copy that block for havimg products displayed -->
           	<!-- products are loaded by ajax -->
         	<ul id="productsContainer" class="thumbnails product-list"></ul>
 			
@@ -206,7 +210,7 @@ response.setDateHeader ("Expires", -1);
 				<button class="btn btn-large" style="width:400px;" onClick="loadCategoryProducts();"><s:message code="label.product.moreitems" text="Display more items" />...</button>
 			</nav>
 			<span id="end_nav" style="display:none;"><s:message code="label.product.nomoreitems" text="No more items to be displayed" /></span>
-          
+          	<!-- end block -->
           
         </div><!--/span-->
         

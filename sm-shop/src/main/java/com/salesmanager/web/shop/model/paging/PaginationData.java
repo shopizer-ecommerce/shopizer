@@ -22,6 +22,7 @@ public class PaginationData implements Serializable
     private int offset ;
     private int totalCount;
     private int totalPages;
+    private int countByPage;
 
     
     public PaginationData(int pageSize,int currentPage) {
@@ -118,6 +119,21 @@ public class PaginationData implements Serializable
         Integer totalPages= Integer.valueOf((int) (Math.ceil(Integer.valueOf(totalCount).doubleValue() / pageSize)));
         return totalPages;
     }
+
+
+	public int getCountByPage() {
+		return countByPage;
+	}
+
+
+	public void setCountByPage(int countByPage) {
+		this.countByPage = countByPage;
+	}
+
+
+	public void setTotalPages(int totalPages) {
+		this.totalPages = totalPages;
+	}
 
    
     

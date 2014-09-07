@@ -1,3 +1,6 @@
+var trace = 1;
+
+
 function validateEmail($email) {
 	  var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
 	  if ( $email.length > 0 && emailReg.test($email)) {
@@ -9,6 +12,12 @@ function validateEmail($email) {
 
 function emptyString($value) {
 	return !$value || !/[^\s]+/.test($value);
+}
+
+function log(value) {
+	if(trace==1) {
+		console.log(value);
+	}
 }
 
 function loadProducts(url,divProductsContainer) {

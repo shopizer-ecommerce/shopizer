@@ -19,6 +19,7 @@ public class Constants {
 	public final static String SHOP = "shop";
 	public final static String REF = "ref";
 	public final static String REF_C = "c:";
+	public final static String REF_SPLITTER = ":";
 	
 	public final static String FILE_NOT_FOUND = "File not found";
 	
@@ -107,5 +108,7 @@ public class Constants {
 	
 	public static final String RECAPATCHA_PUBLIC_KEY="shopizer.recapatcha_public_key";
     public static final String RECAPATCHA_PRIVATE_KEY="shopizer.recapatcha_private_key";
+    
+    public final static String LINK_CODE = "LINK_CODE";
 
 }

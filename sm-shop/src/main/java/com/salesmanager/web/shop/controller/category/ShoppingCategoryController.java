@@ -1,5 +1,6 @@
 package com.salesmanager.web.shop.controller.category;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,6 +49,8 @@ import com.salesmanager.web.shop.model.filter.QueryFilterType;
 import com.salesmanager.web.utils.BreadcrumbsUtils;
 import com.salesmanager.web.utils.LabelUtils;
 import com.salesmanager.web.utils.PageBuilderUtils;
+
+import edu.emory.mathcs.backport.java.util.Collections;
 
 
 /**
@@ -133,6 +136,10 @@ public class ShoppingCategoryController {
 	private String displayCategory(final String friendlyUrl, final String ref, Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
 
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
+		
+		
+		
+		
 		//get category
 		Category category = categoryService.getBySeUrl(store, friendlyUrl);
 		
@@ -164,47 +171,6 @@ public class ShoppingCategoryController {
 		String lineage = new StringBuilder().append(category.getLineage()).append(category.getId()).append(Constants.CATEGORY_LINEAGE_DELIMITER).toString();
 
 		
-
-		
-		/**
-		String[] categoryPath = lineage.split(Constants.CATEGORY_LINEAGE_DELIMITER);
-		List<Long> ids = new ArrayList<Long>();
-		for(int i=0 ; i<categoryPath.length; i++) {
-			String sId = categoryPath[i];
-			if(!StringUtils.isBlank(sId)) {
-				ids.add(Long.parseLong(sId));
-			}
-		}
-
-		List<Category> categories = categoryService.listByIds(store, ids, language);
-		
-		*//** Rebuild breadcrumb **//*
-		BreadcrumbItem home = new BreadcrumbItem();
-		home.setItemType(BreadcrumbItemType.HOME);
-		home.setLabel(messages.getMessage(Constants.HOME_MENU_KEY, locale));
-		home.setUrl(FilePathUtils.buildStoreUri(store, request) + Constants.SHOP_URI);
-
-		Breadcrumb breadCrumb = new Breadcrumb();
-		breadCrumb.setLanguage(language);
-		
-		List<BreadcrumbItem> items = new ArrayList<BreadcrumbItem>();
-		items.add(home);
-		
-		//category path - use lineage
-		for(Category c : categories) {
-			BreadcrumbItem categoryBreadcrump = new BreadcrumbItem();
-			categoryBreadcrump.setItemType(BreadcrumbItemType.CATEGORY);
-			categoryBreadcrump.setLabel(c.getDescription().getName());
-			categoryBreadcrump.setUrl(FilePathUtils.buildCategoryUrl(store, request, c.getDescription().getSeUrl()));
-			items.add(categoryBreadcrump);
-		}
-
-		breadCrumb.setBreadCrumbs(items);
-		breadCrumb.setItemType(BreadcrumbItemType.CATEGORY);
-		request.getSession().setAttribute(Constants.BREADCRUMB, breadCrumb);
-		request.setAttribute(Constants.BREADCRUMB, breadCrumb);
-		*//** **//*
-*/		
 		
 		request.setAttribute(Constants.REQUEST_PAGE_INFORMATION, pageInformation);
 		
@@ -234,6 +200,7 @@ public class ShoppingCategoryController {
 		.append(subCategoriesCacheKey.toString())
 		.append(Constants.MISSED_CACHE_KEY);
 		
+		List<BigDecimal> prices = new ArrayList<BigDecimal>();
 		List<ReadableCategory> subCategories = null;
 		Map<Long,Long> countProductsByCategories = null;
 
@@ -263,9 +230,13 @@ public class ShoppingCategoryController {
 
 		//Parent category
 		ReadableCategory parentProxy  = null;
-		if(!StringUtils.isBlank(ref)) {
+		if(!StringUtils.isBlank(ref) && ref.contains("c")) {
 			try {
-				Long parentId = Long.parseLong(ref);
+				//get preceding id from the reference chain
+				String categoryChain = ref.substring(ref.indexOf(Constants.REF_SPLITTER)+1);
+				int categoryPosition = categoryChain.indexOf(String.valueOf(category.getId()));
+				String sCategoryId = categoryChain.substring(categoryPosition++,categoryPosition++);
+				Long parentId = Long.parseLong(sCategoryId);
 				Category parent = categoryService.getById(parentId);
 				parentProxy = populator.populate(parent, new ReadableCategory(), store, language);
 			} catch(Exception e) {
@@ -281,6 +252,10 @@ public class ShoppingCategoryController {
 		model.addAttribute("parent", parentProxy);
 		model.addAttribute("category", categoryProxy);
 		model.addAttribute("subCategories", subCategories);
+		
+		if(parentProxy!=null) {
+			request.setAttribute(Constants.LINK_CODE, parentProxy.getDescription().getFriendlyUrl());
+		}
 		
 		
 		/** template **/
@@ -396,6 +371,9 @@ public class ShoppingCategoryController {
 		List<Category> subCategories = categoryService.listByParent(category, language);
 		ReadableCategoryPopulator populator = new ReadableCategoryPopulator();
 		List<ReadableCategory> subCategoryProxies = new ArrayList<ReadableCategory>();
+		
+		
+		
 		for(Category sub : subCategories) {
 			ReadableCategory cProxy  = populator.populate(sub, new ReadableCategory(), store, language);
 			//com.salesmanager.web.entity.catalog.Category cProxy =  catalogUtils.buildProxyCategory(sub, store, locale);
@@ -627,7 +605,7 @@ public class ShoppingCategoryController {
 			 */
 			
 			MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
-			
+			List<BigDecimal> prices = new ArrayList<BigDecimal>();
 			
 			Map<String,Language> langs = languageService.getLanguagesMap();
 			
@@ -699,10 +677,24 @@ public class ShoppingCategoryController {
 				//create new proxy product
 				ReadableProduct  p = populator.populate(product, new ReadableProduct(), merchantStore, lang);
 				productList.getProducts().add(p);
+				prices.add(p.getPrice());
 				
 			}
 			
 			productList.setProductCount(products.getTotalCount());
+			
+			if(CollectionUtils.isNotEmpty(prices)) {
+				BigDecimal minPrice = (BigDecimal)Collections.min(prices);
+				BigDecimal maxPrice = (BigDecimal)Collections.max(prices);
+				
+				if(minPrice !=null && maxPrice !=null) {
+					productList.setMinPrice(minPrice);
+					productList.setMaxPrice(maxPrice);
+				}
+			}
+			
+			
+			
 			return productList;
 			
 		

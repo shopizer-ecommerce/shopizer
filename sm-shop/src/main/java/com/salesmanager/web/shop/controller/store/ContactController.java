@@ -55,11 +55,15 @@ public class ContactController extends AbstractController {
 	@Autowired
 	private EmailTemplatesUtils emailTemplatesUtils;
 	
+	private final static String CONTACT_LINK = "CONTACT";
+	
 	
 	@RequestMapping("/shop/store/contactus.html")
 	public String displayContact(Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
 		
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
+		
+		request.setAttribute(Constants.LINK_CODE, CONTACT_LINK);
 
 		Language language = (Language)request.getAttribute("LANGUAGE");
 		

@@ -136,45 +136,45 @@ function sendContact(){
 
 
 	<div id="main-content" class="container clearfix">
-	<h1><s:message code="label.customer.contactus" text="Contact us"/></h1>
-		<div class="row-fluid">
+	<h1 class="contact-title"><s:message code="label.customer.contactus" text="Contact us"/></h1>
+		<div id="mainContactUsRow" class="row-fluid common-row">
 			
-			<div class="span6">  
+			<div class="span6 col-md-7">  
 								
                                 <form:form action="#" method="POST" id="contactForm" class="form-horizontal" name="contactForm" commandName="contact">
                                     <div id="store.success" class="alert alert-success" style="display:none;"><s:message code="message.email.success" text="Your message has been sent"/></div>   
 	                				<div id="store.error" class="alert alert-error" style="display:none;"><s:message code="message.email.success" text="An error occurred while sending your message, pleas try again later"/></div>
                                     <form:errors id="contactForm" path="*" cssClass="alert alert-error" element="div" />
                                     <fieldset>
-                                    <div class="control-group">
+                                    <div class="control-group form-group">
                                         <label for="inputName" class="control-label"><s:message code="label.entity.name" text="Name"/></label>
                                         <div class="controls">
 										   <s:message code="NotEmpty.customer.name" text="Name is required" var="msgName"/>
-										   <form:input path="name" cssClass="required" id="name" title="${msgName}"/>
+										   <form:input path="name" cssClass="required form-control form-control-md" id="name" title="${msgName}"/>
 										   <form:errors path="name" cssClass="error" />
                                         </div>
                                     </div>
-                                    <div class="control-group">
+                                    <div class="control-group form-group">
                                         <label for="inputEmail" class="control-label"><s:message code="label.generic.email" text="Email address"/></label>
                                         <div class="controls">
-                                            <form:input path="email" cssClass="required" id="email"/>
+                                            <form:input path="email" cssClass="required form-control form-control-md" id="email"/>
                                             <form:errors path="email" cssClass="error" />
                                         </div>
                                     </div>
-                                    <div class="control-group">
+                                    <div class="control-group form-group">
                                         <label for="inputEmail" class="control-label"><s:message code="label.generic.subject" text="Subject"/></label>
                                         <div class="controls">
-                                            <form:input path="subject" cssClass="required" id="subject"/>
+                                            <form:input path="subject" cssClass="required form-control form-control-md" id="subject"/>
                                             <form:errors path="subject" cssClass="error" />
                                         </div>
                                     </div>
-                                    <div class="control-group">
+                                    <div class="control-group form-group">
                                         <label class="control-label" for="textarea"><s:message code="label.generic.comments" text="Comments"/></label>
                                         <div class="controls">
-                                            <form:textarea path="comment" cssClass="span8 required" rows="10" id="comment"/>
+                                            <form:textarea path="comment" cssClass="span8 required form-control form-control-md" rows="10" id="comment"/>
                                         </div>
                                     </div>
-									<div class="control-group">
+									<div class="control-group form-group">
 										<div class="controls">
 											<!--watch the white space in IOS!-->
 											<script type="text/javascript"
@@ -194,6 +194,7 @@ function sendContact(){
 													value="manual_challenge">
 											</noscript>
 										</div>
+									</div>
 
 									<div class="form-actions">
 										<input id="submitContact" type="button" value="<s:message code="label.generic.send" text="Send"/>" name="register" class="btn btn-large">
@@ -208,30 +209,27 @@ function sendContact(){
 
 
 <!-- BEGIN RIGHT-SIDE CONTACT FORM AREA -->
-              <div class="contact-info span4 offset1">
+              <div class="contact-info span4 offset1 col-md-4">
 									<!-- COMPANY ADDRESS -->   
 									<c:if test="${requestScope.CONFIGS['displayStoreAddress'] == true}">                                  
                                      <address>  
 									 	<div itemscope itemtype="http://schema.org/Organization"> 
-									 	<h2 itemprop="name"><c:out value="${requestScope.MERCHANT_STORE.storename}"/></h2><br/>  
-									 	<div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress"> 
-									 	<span itemprop="streetAddress"><c:out value="${requestScope.MERCHANT_STORE.storeaddress}"/> <c:out value="${requestScope.MERCHANT_STORE.storecity}"/></span><br/>
-									 	<span itemprop="addressLocality"><c:choose><c:when test="${not empty requestScope.MERCHANT_STORE.storestateprovince}"><c:out value="${requestScope.MERCHANT_STORE.storestateprovince}"/></c:when><c:otherwise><script>$.ajax({url: "<c:url value="/shop/reference/zoneName"/>",type: "GET",data: "zoneCode=${requestScope.MERCHANT_STORE.zone.code}",success: function(data){$('#storeZoneName').html(data)}})</script><span id="storeZoneName"><c:out value="${requestScope.MERCHANT_STORE.zone.code}"/></span></c:otherwise></c:choose>,
-									 	<span id="storeCountryName"><script>$.ajax({url: "<c:url value="/shop/reference/countryName"/>",type: "GET",data: "countryCode=${requestScope.MERCHANT_STORE.country.isoCode}",success: function(data){$('#storeCountryName').html(data)}})</script></span></span><br/>
-									 	<span itemprop="postalCode"><c:out value="${requestScope.MERCHANT_STORE.storepostalcode}"/></span><br/>
-									 	<abbr title="Phone"><s:message code="label.generic.phone" text="Phone" /></abbr>: <span itemprop="telephone"><c:out value="${requestScope.MERCHANT_STORE.storephone}"/></span>
-									 	</div>
+										 	<h2 itemprop="name"><c:out value="${requestScope.MERCHANT_STORE.storename}"/></h2><br/>  
+										 	<div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress"> 
+											 	<span itemprop="streetAddress"><c:out value="${requestScope.MERCHANT_STORE.storeaddress}"/> <c:out value="${requestScope.MERCHANT_STORE.storecity}"/></span><br/>
+											 	<span itemprop="addressLocality"><c:choose><c:when test="${not empty requestScope.MERCHANT_STORE.storestateprovince}"><c:out value="${requestScope.MERCHANT_STORE.storestateprovince}"/></c:when><c:otherwise><script>$.ajax({url: "<c:url value="/shop/reference/zoneName"/>",type: "GET",data: "zoneCode=${requestScope.MERCHANT_STORE.zone.code}",success: function(data){$('#storeZoneName').html(data)}})</script><span id="storeZoneName"><c:out value="${requestScope.MERCHANT_STORE.zone.code}"/></span></c:otherwise></c:choose>,
+											 	<span id="storeCountryName"><script>$.ajax({url: "<c:url value="/shop/reference/countryName"/>",type: "GET",data: "countryCode=${requestScope.MERCHANT_STORE.country.isoCode}",success: function(data){$('#storeCountryName').html(data)}})</script></span></span><br/>
+											 	<span itemprop="postalCode"><c:out value="${requestScope.MERCHANT_STORE.storepostalcode}"/></span><br/>
+											 	<abbr title="Phone"><s:message code="label.generic.phone" text="Phone" /></abbr>: <span itemprop="telephone"><c:out value="${requestScope.MERCHANT_STORE.storephone}"/></span>
+											 </div>
 									 	</div>
 									 </address>
 									 </c:if>
-									                                   
-                                    
 
-                                </div>
                      </div>
 <!-- END RIGHT-SIDE CONTACT FORM AREA -->
 <!-- CUSTOM CONTENT --> 
-			<div class="row-fluid">
+			<div class="row-fluid common-row">
                                     <c:if test="${content!=null}">
                                     	<br/>
                                         <p>
@@ -240,7 +238,7 @@ function sendContact(){
                                     	<br/>
                                     </c:if>
                                     <br/>
-									<div id="map_canvas" style="width:600px; height:300px"></div>
+									<div class="contactMapCanvas" id="map_canvas" style="width:600px; height:300px"></div>
 
 			</div>
 			

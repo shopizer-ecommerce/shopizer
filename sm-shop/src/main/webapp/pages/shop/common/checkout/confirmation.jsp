@@ -87,7 +87,7 @@ $(document).ready(function() {
 </c:if>
 
 
-	<div id="main-content" class="container clearfix">
+	<div id="main-content" class="container clearfix no-padding-left">
 		<h1><s:message code="label.checkout.confirmation" text="Order completed" /></h1>
 		<div class="row-fluid">
 			<div class="span12">  

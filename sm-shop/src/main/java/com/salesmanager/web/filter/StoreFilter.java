@@ -116,7 +116,8 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 			 * if url contains /services
 			 * exit from here !
 			 */
-			
+			System.out.println("****** " + request.getRequestURL().toString());
+			System.out.println("****** " + request.getRequestURI().toString());
 			if(request.getRequestURL().toString().toLowerCase().contains(SERVICES_URL_PATTERN)
 				|| request.getRequestURL().toString().toLowerCase().contains(REFERENCE_URL_PATTERN)	
 			) {
@@ -136,6 +137,9 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 				MerchantStore store = (MerchantStore)request.getSession().getAttribute(Constants.MERCHANT_STORE);
 	
 				String storeCode = request.getParameter(STORE_REQUEST_PARAMETER);
+				
+				//remove link set from controllers for declaring active - inactive links
+				request.removeAttribute(Constants.LINK_CODE);
 				
 				if(!StringUtils.isBlank(storeCode)) {
 					if(store!=null) {
@@ -659,13 +663,19 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 						.append("-")
 						.append(lang.getCode()).toString();
 						List<ContentDescription> contentList = null;
-						if(contents==null) {
+						if(contents==null || contents.size()==0) {
 							contents = new HashMap<String, List<ContentDescription>>();
 						}
 						if(!contents.containsKey(key)) {
 							contentList = new ArrayList<ContentDescription>();
 
 							contents.put(key, contentList);
+						} else {//get from key
+							contentList = contents.get(key);
+							if(contentList==null) {
+								LOGGER.error("Cannot find content key in cache " + key);
+								continue;
+							}
 						}
 						contentList.add(content);
 				}
@@ -700,13 +710,19 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 							.append("-")
 							.append(lang.getCode()).toString();
 							List<Content> contentList = null;
-							if(contents==null) {
+							if(contents==null || contents.size()==0) {
 								contents = new HashMap<String, List<Content>>();
 							}
 							if(!contents.containsKey(key)) {
 								contentList = new ArrayList<Content>();
 	
 								contents.put(key, contentList);
+							}else {//get from key
+								contentList = contents.get(key);
+								if(contentList==null) {
+									LOGGER.error("Cannot find content key in cache " + key);
+									continue;
+								}
 							}
 							contentList.add(content);
 						}
@@ -739,7 +755,7 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 							.append(lang.getCode()).toString();
 							
 							List<Category> cacheCategories = null;
-							if(objects==null) {
+							if(objects==null || objects.size()==0) {
 								objects = new HashMap<String, List<Category>>();
 							}
 							if(!objects.containsKey(key)) {
@@ -748,6 +764,10 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 								objects.put(key, cacheCategories);
 							} else {
 								cacheCategories = objects.get(key.toString());
+								if(cacheCategories==null) {
+									LOGGER.error("Cannot find categories key in cache " + key);
+									continue;
+								}
 							}
 							cacheCategories.add(category);
 						}

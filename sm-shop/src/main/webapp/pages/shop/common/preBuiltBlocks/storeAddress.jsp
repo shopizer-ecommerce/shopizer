@@ -7,7 +7,7 @@
 
 
 
- <address>  
+ <address> 
  	<div itemscope itemtype="http://schema.org/Organization"> 
  	<strong><span itemprop="name"><c:out value="${requestScope.MERCHANT_STORE.storename}"/></span></strong><br/>  
  	<div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress"> 

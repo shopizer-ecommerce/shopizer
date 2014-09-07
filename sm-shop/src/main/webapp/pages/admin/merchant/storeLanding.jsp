@@ -70,7 +70,6 @@
 		                  
 		                  
 		                  <!-- Content -->
-		                  
 		                 <div class="control-group">
                         	<label><s:message code="label.storefront.storetext" text="Page content"/> (<c:out value="${description.language.code}"/>)</label>
                         	<div class="controls">
@@ -78,7 +77,7 @@
 
                         
 		                        <textarea cols="30" id="descriptions[${counter.index}].homePageContent" class="ckeditor" name="descriptions[${counter.index}].homePageContent">
-		                        		<c:out value="${content.descriptions[counter.index].homePageContent}"/>
+		                        		<c:out value="${description.homePageContent}" escapeXml="true"/>
 		                        </textarea>
 
 

@@ -15,6 +15,6 @@ response.setDateHeader ("Expires", -1);
 <%@page pageEncoding="UTF-8"%>
 
 								<c:set var="orders" value="${pageContext.request.contextPath}/shop/customer/orders.html"/>
-								<ul>
-									<li> <a href="${orders}"><s:message code="label.order.recent" text="Recent orders"/></a></li>
+								<ul class="nav nav-list">
+									<li> <a href="${orders}"><i class="fa fa-angle-right"></i> <s:message code="label.order.recent" text="Recent orders"/></a></li>
 								</ul>

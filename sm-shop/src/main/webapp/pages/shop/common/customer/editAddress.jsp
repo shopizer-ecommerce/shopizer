@@ -71,10 +71,10 @@ function isFormValid() {
 </script>
 
 <c:url var="updateAddress" value="/shop/customer/updateAddress.html"/>
-<div id="main-content" class="container clearfix">
-	<div class="row-fluid">
-		<div class="span12">
-			<div class="span8">
+<div id="main-content" class="container clearfix row-fluid">
+		<div class="span12 common-row">
+
+			  <div class="span8 col-md-8 no-padding">
 
 				<div class="box">
 					<span class="box-title">
@@ -101,50 +101,50 @@ function isFormValid() {
 						<form:errors id="address.error" path="*" cssClass="alert alert-error" element="div" />
 						<form:hidden path="${billingAddress}"/>
 					
-				        <div class="control-group">
+				        <div class="control-group form-group">
 		                        <label><s:message code="label.customer.firstname" text="First Name"/></label>
 		                        <div class="controls">
 		                        		<s:message code="NotEmpty.customer.firstName" text="First name is required" var="msgFirstName"/>
-		                        		<form:input  cssClass="input-large required"  maxlength="64"  path="firstName" title="${msgFirstName}"/>
+		                        		<form:input  cssClass="input-large required form-control form-control-md"  maxlength="64"  path="firstName" title="${msgFirstName}"/>
 		                                <span class="help-inline"><form:errors path="firstName" cssClass="error" /></span>
 		                        </div>
 		                </div>
-		                <div class="control-group">
+		                <div class="control-group form-group">
 		                        <label><s:message code="label.customer.lastname" text="Last Name"/></label>
 		                        <div class="controls">
 		                                <s:message code="NotEmpty.customer.lastName" text="Last name is required" var="msgLastName"/>
-		                        		<form:input  cssClass="input-large required"  maxlength="64"  path="lastName" title="${msgLastName}"/>
+		                        		<form:input  cssClass="input-large required form-control form-control-md"  maxlength="64"  path="lastName" title="${msgLastName}"/>
 		                                <span class="help-inline"><form:errors path="lastName" cssClass="error" /></span>
 		                        </div>
 		                </div>
 
-					   <div class="control-group">
+					   <div class="control-group form-group">
 						<label><s:message code="label.customer.company" text="Company"/></label>
 						<div class="controls">
 		              		
-		              		<form:input  cssClass="input-large"  maxlength="100" path="company"/>	
+		              		<form:input  cssClass="input-large form-control form-control-md"  maxlength="100" path="company"/>	
 			            </div>
 			            </div>
 
-						<div class="control-group">
+						<div class="control-group form-group">
 			            	<label><s:message code="label.customer.streetaddress" text="Street Address"/></label>
 			            <div class="controls">
 			            	
 			            	<s:message code="NotEmpty.customer.address" text="Address is required" var="msgAddress"/>
-				 			<form:input  cssClass="input-large required"  maxlength="256"  path="address" title="${msgAddress}"/>		 				
+				 			<form:input  cssClass="input-large required form-control form-control-md"  maxlength="256"  path="address" title="${msgAddress}"/>		 				
 			            </div>
 			            </div>
 			            
-			            <div class="control-group">
+			            <div class="control-group form-group">
 			            	<label><s:message code="label.customer.city" text="City"/></label>
 			            <div class="controls">
 			            	
 			            	<s:message code="NotEmpty.customer.city" text="City is required" var="msgCity"/>
-				 			<form:input  cssClass="input-large required"  maxlength="100" path="city" title="${msgCity}"/>
+				 			<form:input  cssClass="input-large required form-control form-control-md"  maxlength="100" path="city" title="${msgCity}"/>
 			            </div>
 		            	</div>
 		            
- 	 		            <div class="control-group">
+ 	 		            <div class="control-group form-group">
 	                        <label><s:message code="label.customer.country" text="Country"/></label>
 	                        <div class="controls"> 				       							
 	       							<form:select cssClass="billing-country-list" path="country" id="customer_country">
@@ -154,30 +154,30 @@ function isFormValid() {
 	                        </div>  
 	                    </div> 
 	                 
-	                    <div class="control-group"> 
+	                    <div class="control-group form-group"> 
 	                        <label><s:message code="label.customer.zone" text="State / Province"/></label>
 	                        <div class="controls">		       							
 	       							<form:select cssClass="billing-zone-list" path="zone" id="customer_zones"/>
 	       							<s:message code="NotEmpty.customer.stateProvince" text="State / Province is required" var="msgStateProvince"/>
-                      				<form:input  class="input-large required" id="hidden_zones" maxlength="100"  name="stateProvince" path="stateProvince" title="${msgStateProvince}" />		       							
+                      				<form:input  class="input-large required form-control form-control-md" id="hidden_zones" maxlength="100"  name="stateProvince" path="stateProvince" title="${msgStateProvince}" />		       							
                                  	<span class="help-inline"><form:errors path="zone" cssClass="error" /></span>
 	                        </div>
 	                    </div>  
 	                  
-	                  <div class="control-group">
+	                  <div class="control-group form-group">
 	                  	<label><s:message code="label.generic.postalcode" text="Postal code"/></label> 
 	                    <div class="controls">
 			 				<s:message code="NotEmpty.customer.billing.postalCode" text="Postal code is required" var="msgPostalCode"/>
-			 				<form:input id="billingPostalCode" cssClass="input-large required customer-postalCode" maxlength="20"  path="postalCode" title="${msgPostalCode}"/>
+			 				<form:input id="billingPostalCode" cssClass="input-large required customer-postalCode form-control form-control-md" maxlength="20"  path="postalCode" title="${msgPostalCode}"/>
 			 				<span class="help-inline"><form:errors path="postalCode" cssClass="error" /></span>
 			            </div>	     
 		            </div>
 	                  
-	                   <div class="control-group">
+	                   <div class="control-group form-group">
 	                        <label><s:message code="label.customer.telephone" text="Phone"/></label>
 	                        <div class="controls">
 	                        			<s:message code="NotEmpty.customer.billing.phone" text="Phone number is required" var="msgPhone"/>
-	                                    <form:input cssClass="input-large required customer-phone"  maxlength="32" path="phone" title="${msgPhone}"/>
+	                                    <form:input cssClass="input-large required customer-phone form-control form-control-md"  maxlength="32" path="phone" title="${msgPhone}"/>
 	                                    <span class="help-inline"><form:errors path="phone" cssClass="error" /></span>
 	                        </div>
 	                  </div>
@@ -194,13 +194,9 @@ function isFormValid() {
 				</form:form>
 				</div>
 				</div>
-			 	<div class="span4">
+			 	<div class="span4 col-md-4">
 			 		<jsp:include page="/pages/shop/common/customer/customerProfileMenu.jsp" />
 			 		<jsp:include page="/pages/shop/common/customer/customerOrdersMenu.jsp" />
 			 	</div>
-				
 			</div>
 		</div>
-	</div>
-	<!-- close row-fluid-->
-</div>

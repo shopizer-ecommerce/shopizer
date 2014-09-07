@@ -72,6 +72,7 @@ public class StoreLandingController {
 						landingDescription.setKeywords(desc.getMetatagKeywords());
 						landingDescription.setTitle(desc.getName());//name is a not empty
 						landingDescription.setLanguage(desc.getLanguage());
+						break;
 					}
 				}
 			}

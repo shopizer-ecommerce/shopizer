@@ -1,4 +1,4 @@
-Shopizer 2.0
+Official Shopizer 2.0.0
 -------------------
 Java open source e-commerce software
 
@@ -27,7 +27,9 @@ $ mvn clean install
 
 copy sm-shop/target/sm-shop.war to tomcat or any other application server deployment dir
 
-edit catalina.bat for windows users or catalina.sh for linux / max users
+Increase heap space to 1024 m or at least 512 m
+
+If you are using Tomcat edit catalina.bat for windows users or catalina.sh for linux / max users
 
 export JAVA_OPTS="-Xms1024m -Xmx1024m -XX:MaxPermSize=256m" in Linux / Mac
 set JAVA_OPTS="-Xms1024m -Xmx1024m -XX:MaxPermSize=256m" in Windows

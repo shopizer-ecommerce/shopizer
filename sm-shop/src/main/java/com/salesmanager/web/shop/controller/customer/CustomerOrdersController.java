@@ -88,7 +88,7 @@ public class CustomerOrdersController extends AbstractController {
         
         model.addAttribute( "customerOrders", readable);
         if(readable!=null) {
-        	model.addAttribute( "paginationData", calculatePaginaionData(paginaionData,readable.getTotal()));
+        	model.addAttribute( "paginationData", calculatePaginaionData(paginaionData,Constants.MAX_ORDERS_PAGE, readable.getTotal()));
         } else {
         	model.addAttribute( "paginationData", null);
         }

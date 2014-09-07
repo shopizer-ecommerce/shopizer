@@ -35,7 +35,7 @@ response.setDateHeader ("Expires", -1);
 				<div class="span12">
 					<ul class="nav nav-tabs home" id="product-tab">
 						<c:if test="${requestScope.FEATURED_ITEM!=null}" ><li class="active"><a href="#tab1"><s:message code="menu.catalogue-featured" text="Featured items" /></a></li></c:if>
-						<c:if test="${requestScope.SPECIALS!=null}" ><li><a href="#tab2"><s:message code="label.product.specials" text="Specials" /></a></li></c:if>
+						<c:if test="${requestScope.SPECIALS!=null}" ><li<c:if test="${requestScope.FEATURED_ITEM==null}"> class="active"</c:if>><a href="#tab2"><s:message code="label.product.specials" text="Specials" /></a></li></c:if>
 					</ul>							 
 					<div class="tab-content">
 						<!-- one div by section -->
@@ -48,10 +48,11 @@ response.setDateHeader ("Expires", -1);
 										<c:set var="FEATURED" value="true" scope="request" />
 	                         			<jsp:include page="/pages/shop/templates/bootstrap/sections/productBox.jsp" />
 									</ul>
+									
 						</div>
 						</c:if>
 						<c:if test="${requestScope.SPECIALS!=null}" >
-						<div class="tab-pane" id="tab2">
+						<div class="tab-pane <c:if test="${requestScope.FEATURED_ITEM==null}">active</c:if>" id="tab2">
 									<ul class="thumbnails product-list">
 										<!-- Iterate over featuredItems -->
                          				<c:set var="ITEMS" value="${requestScope.SPECIALS}" scope="request" />

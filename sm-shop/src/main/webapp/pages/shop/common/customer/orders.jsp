@@ -18,13 +18,10 @@ response.setDateHeader ("Expires", -1);
 <c:set var="ordersAction" value="${pageContext.request.contextPath}/shop/customer/orders.html"/>
 <c:set var="customerOrder" value="${pageContext.request.contextPath}/shop/customer/order.html"/>
 
-	<div id="main-content" class="container clearfix">
-		<div class="row-fluid">
+<div id="main-content" class="container clearfix row-fluid">
+		<div class="span12 common-row">
 
-		<div class="span12">
-
-
-				<div class="span8">
+			  <div class="span8 col-md-8 no-padding">
 				
 			<div class="box">
 					<span class="box-title">
@@ -36,7 +33,7 @@ response.setDateHeader ("Expires", -1);
 							<c:if test="${not empty customerOrders.orders}">
 							
 								<s:message code="label.entitylist.paging"
-							       arguments="${(paginationData.offset)};${((paginationData.offset)-1)+(paginationData.pageSize)};${paginationData.totalCount}"
+							       arguments="${(paginationData.offset)};${paginationData.countByPage};${paginationData.totalCount}"
 							       htmlEscape="false"
 							       argumentSeparator=";" text=""/>
 							
@@ -65,7 +62,7 @@ response.setDateHeader ("Expires", -1);
 							<tr><!-- item -->
 								<td><a href="${customerOrder}?orderId=${order.id}">${order.id}</a></td>
 								<td><fmt:formatDate type="both" value="${order.datePurchased}" /></td>
-								<td><sm:monetary value="${order.total.value}" />&nbsp;<small>(${fn:length(order.products)} item(s))</small></td>
+								<td><sm:monetary value="${order.total.value}" />&nbsp;<small>(${fn:length(order.products)} <c:choose><c:when test="${fn:length(order.products)==1}"><s:message code="label.generic.item" text="item"/></c:when><c:otherwise><s:message code="label.generic.items" text="items"/></c:otherwise></c:choose>)</small></td>
 								<td>${order.orderStatus}</td>
 								
 							</tr>
@@ -99,13 +96,10 @@ response.setDateHeader ("Expires", -1);
 			   </div>	
 
 			 </div>
-			 <div class="span4">
+			 <div class="span4 col-md-4 no-padding">
 			 	<jsp:include page="/pages/shop/common/customer/customerProfileMenu.jsp" />
 			 	<jsp:include page="/pages/shop/common/customer/customerOrdersMenu.jsp" />
 			 </div>
-
-
-			</div>
 
 
 

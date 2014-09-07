@@ -3,21 +3,15 @@
  */
 package com.salesmanager.web.shop.controller;
 
-import java.util.Collections;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.jopendocument.util.ExceptionUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.salesmanager.core.business.generic.exception.ServiceException;
-import com.salesmanager.core.business.reference.country.model.Country;
 import com.salesmanager.core.business.reference.language.model.Language;
 import com.salesmanager.web.constants.Constants;
 import com.salesmanager.web.shop.model.paging.PaginationData;
@@ -86,8 +80,15 @@ public abstract class AbstractController {
         return paginaionData;
     }
     
-    protected PaginationData calculatePaginaionData( final PaginationData paginaionData, final int resultCount){
-        paginaionData.setTotalCount( resultCount );
-        return paginaionData;
+    protected PaginationData calculatePaginaionData( final PaginationData paginationData, final int pageSize, final int resultCount){
+        
+    	int currentPage = paginationData.getCurrentPage();
+
+
+    	int count = Math.min((currentPage * pageSize), resultCount);  
+    	paginationData.setCountByPage(count);
+
+    	paginationData.setTotalCount( resultCount );
+        return paginationData;
     }
 }

@@ -21,6 +21,7 @@ response.setDateHeader ("Expires", -1);
 <script type="text/javascript">
 
 function print() {
+	console.log('Print');
 	$('#printableOrder').printElement();
 	//https://github.com/jasonday/printThis
 }
@@ -70,7 +71,7 @@ function print() {
 
 							
 							<div class="col-md-4 col-sm-4 text-right pull-right">
-								<a onclick="print();" class="btn btn-large" href="#"><s:message code="label.generic.print" text="Print" /></a>
+								<input type="button" onclick="print();" value="<s:message code="label.generic.print" text="Print" />" name="Print" class="btn btn-large">
 							</div>
 
 						</div>
@@ -146,15 +147,25 @@ function print() {
 							<img width="60" src="<sm:shopProductImage imageName="${product.image}" sku="${product.sku}"/>"/>
 							</c:if>
 							</div>
+							
+							<span class="productName">
 							<c:choose>
 							<c:when test="${product.product!=null}">
-								<a class="productName" href="<c:url value="/shop/product/" /><c:out value="${product.product.description.friendlyUrl}"/>.html"><c:out value="${product.productName}"/></a>
+								<a href="<c:url value="/shop/product/" /><c:out value="${product.product.description.friendlyUrl}"/>.html"><c:out value="${product.productName}"/></a>
 							</c:when>
 							<c:otherwise>
-								<span class="productName"><c:out value="${product.productName}"/></span>
+								<c:out value="${product.productName}"/>
 							</c:otherwise>
 							</c:choose>
-							
+							<br/>
+								<c:if test="${product.attributes !=null}">
+									<ul>
+									<c:forEach items="${product.attributes}" var="attribute">
+										<li><c:out value="${attribute.attributeName}"/>:&nbsp;<c:out value="${attribute.attributeValue}"/></li>
+									</c:forEach>
+									</ul>
+								</c:if>
+							</span>
 							<div class="quantity"><c:out value="${product.orderedQuantity}"/></div>
 							<div class="totalPrice"><c:out value="${product.price}"/></div>
 							<div class="subTotal"><c:out value="${product.subTotal}"/></div>

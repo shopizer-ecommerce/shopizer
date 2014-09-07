@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,11 +75,13 @@ public class CustomerServicesImpl implements UserDetailsService{
 			}
 			
 	
-	    	List<Permission> permissions = permissionService.getPermissions(groupsId);
-	    	for(Permission permission : permissions) {
-	    		GrantedAuthority auth = new GrantedAuthorityImpl(permission.getPermissionName());
-	    		authorities.add(auth);
-	    	}
+			if(CollectionUtils.isNotEmpty(groupsId)) {
+		    	List<Permission> permissions = permissionService.getPermissions(groupsId);
+		    	for(Permission permission : permissions) {
+		    		GrantedAuthority auth = new GrantedAuthorityImpl(permission.getPermissionName());
+		    		authorities.add(auth);
+		    	}
+			}
 			
 
 			
