@@ -26,7 +26,7 @@ Shopizer provide Web and mobile e-commerce application, tools and APIs for build
 
 ## Why Shopizer
 
-* **Moble Ready** Responsive web and responsive emails, easy theming with frameworks such as bootstrap css and Zurb foundation.
+* **Mobile Ready** Responsive web and responsive emails, easy theming with frameworks such as bootstrap css and Zurb foundation.
 * **Commerce Engine** Lean and fast application that will help you build your online store effectively and efficiently. Built in shopping cart, inventory management and order flow that run standalone or can be integrated to an existing application. Java and RESTFul API. 
 * **Open source** The code is open source under LGPL licence and is built with reliable Java frameworks such as Spring and Hibernate  
 
