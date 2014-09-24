@@ -24,7 +24,6 @@ import javax.validation.constraints.NotNull;
 import com.salesmanager.core.business.catalog.product.model.Product;
 import com.salesmanager.core.business.catalog.product.model.price.ProductPrice;
 import com.salesmanager.core.business.generic.model.SalesManagerEntity;
-import com.salesmanager.core.constants.Constants;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.utils.CloneUtils;
 
@@ -54,7 +53,7 @@ public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailab
 	private Date productDateAvailable;
 	
 	@Column(name="REGION")
-	private String region = Constants.ALL_REGIONS;
+	private String region = SchemaConstant.ALL_REGIONS;
 	
 	@Column(name="REGION_VARIANT")
 	private String regionVariant;

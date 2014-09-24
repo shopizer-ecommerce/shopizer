@@ -214,9 +214,7 @@ public class ContentDaoImpl extends SalesManagerEntityDaoImpl<Long, Content> imp
 
 		QContent qContent = QContent.content;
 		QContentDescription qContentDescription = QContentDescription.contentDescription;
-		
-		System.out.println("In");
-		
+
 		
 		JPQLQuery query = new JPAQuery (getEntityManager());
 		
