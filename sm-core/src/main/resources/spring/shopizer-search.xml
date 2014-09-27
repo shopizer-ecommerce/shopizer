@@ -145,7 +145,6 @@
 		 -->
 	</bean>
 
-
 	<bean id="keywordindex_fr" class="com.shopizer.search.utils.CustomIndexConfiguration">
 		<property name="collectionName" value="keyword_fr_%store%"/>
 		<property name="createOnIndexName" value="product_fr"/>
@@ -163,8 +162,6 @@
 		</property>
 		-->
 	</bean>	
-	
-	
 	<!-- supported field types List, Integer, Double, Boolean, String -->
 	<bean id="field1" class="com.shopizer.search.utils.CustomIndexFieldConfiguration">
 		<property name="fieldName" value="tags"/>
@@ -180,5 +177,4 @@
 		<property name="fieldType" value="Double"/>
 	</bean>
 	-->
-
 </beans>
