@@ -15,7 +15,10 @@
 		<jdk.version>1.6</jdk.version>
 		
 		<sm-core-model.version>2.0.1-SNAPSHOT</sm-core-model.version>
+<<<<<<< HEAD
 		<sm-core-modules.version>2.0.1-SNAPSHOT</sm-core-modules.version>
+=======
+>>>>>>> FETCH_HEAD
 		<sm-search.version>0.0.3</sm-search.version>
 		
 		
@@ -59,6 +62,7 @@
 			<version>${sm-core-model.version}</version>
 		</dependency>
 		
+<<<<<<< HEAD
 		<!-- sm-core-modules -->
 		<dependency>
 			<groupId>com.shopizer</groupId>
@@ -66,6 +70,8 @@
 			<version>${sm-core-modules.version}</version>
 		</dependency>
 		
+=======
+>>>>>>> FETCH_HEAD
 	    <!-- sm-search -->		
 		<dependency>
 			<groupId>com.shopizer</groupId>

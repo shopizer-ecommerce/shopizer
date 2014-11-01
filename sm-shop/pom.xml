@@ -13,7 +13,10 @@
 		
 		<sm-core.version>2.0.1-SNAPSHOT</sm-core.version>
 		<sm-core-model.version>2.0.1-SNAPSHOT</sm-core-model.version>
+<<<<<<< HEAD
 		<sm-core-modules.version>2.0.1-SNAPSHOT</sm-core-modules.version>
+=======
+>>>>>>> FETCH_HEAD
 		<sm-search.version>0.0.3</sm-search.version>
 		
 		
@@ -42,6 +45,7 @@
 			<artifactId>sm-core-model</artifactId>
 			<version>${sm-core-model.version}</version>
 		</dependency>
+<<<<<<< HEAD
 		
 		<!-- sm-core-modules -->
 		<dependency>
@@ -49,6 +53,8 @@
 			<artifactId>sm-core-modules</artifactId>
 			<version>${sm-core-modules.version}</version>
 		</dependency>
+=======
+>>>>>>> FETCH_HEAD
 
 		<!-- sm-search -->
 		<dependency>
