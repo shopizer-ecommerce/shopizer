@@ -16,6 +16,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -49,6 +50,7 @@ import com.salesmanager.web.entity.shop.BreadcrumbItemType;
 import com.salesmanager.web.entity.shop.PageInformation;
 import com.salesmanager.web.utils.GeoLocationUtils;
 import com.salesmanager.web.utils.LabelUtils;
+import com.salesmanager.web.utils.LanguageUtils;
 
 
 
@@ -91,6 +93,9 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 	private LabelUtils messages;
 	
 	@Autowired
+	private LanguageUtils languageUtils;
+	
+	@Autowired
 	private CacheUtils cache;
 	
 	private final static String SERVICES_URL_PATTERN = "/services";
@@ -116,8 +121,8 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 			 * if url contains /services
 			 * exit from here !
 			 */
-			System.out.println("****** " + request.getRequestURL().toString());
-			System.out.println("****** " + request.getRequestURI().toString());
+			//System.out.println("****** " + request.getRequestURL().toString());
+			//System.out.println("****** " + request.getRequestURI().toString());
 			if(request.getRequestURL().toString().toLowerCase().contains(SERVICES_URL_PATTERN)
 				|| request.getRequestURL().toString().toLowerCase().contains(REFERENCE_URL_PATTERN)	
 			) {
@@ -222,22 +227,14 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 				
 				
 				/** language & locale **/
-				Language language = (Language) request.getSession().getAttribute(Constants.LANGUAGE);
-				if(language==null) {
-					
-					//TODO get the Locale from Spring API, is it simply request.getLocale()
-					//if so then based on the Locale language locale.getLanguage() get the appropriate Language
-					//object as represented below
-					
-					language = languageService.getByCode(Constants.DEFAULT_LANGUAGE);
-					request.getSession().setAttribute(Constants.LANGUAGE, language);
-					
-					//TODO store default language
-				}
+				Language language = languageUtils.getRequestLanguage(request);
+				
+
 
 				
 				request.setAttribute(Constants.LANGUAGE, language);
-				Locale locale = request.getLocale();
+				//Locale locale = request.getLocale();
+				Locale locale = LocaleContextHolder.getLocale();
 				
 				/** Breadcrumbs **/
 				setBreadcrumb(request,locale);

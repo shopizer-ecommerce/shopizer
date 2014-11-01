@@ -65,6 +65,12 @@
 		<beans:property name="maxUploadSize" value="10000000"/>
 	</beans:bean>
 	
+	
+	<beans:bean id="localeResolver"
+        class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+        <beans:property name="defaultLocale" value="en"></beans:property>
+    </beans:bean>
+	
 	<beans:bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
 		<beans:property name="basenames">
 			<beans:list>
@@ -74,17 +80,9 @@
   				<beans:value>bundles/payment</beans:value>    
   			</beans:list>
   		</beans:property>
+  		<!--<beans:property name="defaultEncoding" value="UTF-8"/>-->
   	</beans:bean>
-  	
-  	<!--
-  	<beans:bean id="appConfiguration" class="com.salesmanager.web.utils.AppConfiguration">
-		<beans:property name="properties">
-			<beans:props>
-				<beans:prop key="POPULATE_TEST_DATA">false</beans:prop>
-			</beans:props>
-		</beans:property>
-	</beans:bean>
-	-->
+
 	
 	<beans:bean id="messages" class="com.salesmanager.web.utils.LabelUtils">
 	</beans:bean>

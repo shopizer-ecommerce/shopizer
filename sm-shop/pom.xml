@@ -13,6 +13,7 @@
 		
 		<sm-core.version>2.0.1-SNAPSHOT</sm-core.version>
 		<sm-core-model.version>2.0.1-SNAPSHOT</sm-core-model.version>
+		<sm-core-modules.version>2.0.1-SNAPSHOT</sm-core-modules.version>
 		<sm-search.version>0.0.3</sm-search.version>
 		
 		
@@ -40,6 +41,13 @@
 			<groupId>com.shopizer</groupId>
 			<artifactId>sm-core-model</artifactId>
 			<version>${sm-core-model.version}</version>
+		</dependency>
+		
+		<!-- sm-core-modules -->
+		<dependency>
+			<groupId>com.shopizer</groupId>
+			<artifactId>sm-core-modules</artifactId>
+			<version>${sm-core-modules.version}</version>
 		</dependency>
 
 		<!-- sm-search -->

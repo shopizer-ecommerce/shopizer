@@ -77,6 +77,8 @@
 		<class>com.salesmanager.core.business.shoppingcart.model.ShoppingCartAttributeItem</class>
 		<class>com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem</class>
 		
+		<class>com.salesmanager.core.business.payments.model.Transaction</class>
+		
 		
 	</persistence-unit>
 </persistence>

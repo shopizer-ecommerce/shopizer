@@ -19,6 +19,12 @@ If this is your first time using Github, review http://help.github.com to learn 
 To run the application:
 -------------------	
 From the command line with Maven:
+$ cd sm-core-model
+$ mvn clean install
+
+$ cd sm-core-modules
+$ mvn clean install
+
 $ cd sm-core
 $ mvn clean install
 
