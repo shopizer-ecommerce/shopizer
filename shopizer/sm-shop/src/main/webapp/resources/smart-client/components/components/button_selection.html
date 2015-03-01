@@ -1,0 +1,137 @@
+<HTML><HEAD>
+	<SCRIPT>var isomorphicDir="../../isomorphic/";</SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Core.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Foundation.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Containers.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Grids.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Forms.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_DataBinding.js></SCRIPT>
+	<SCRIPT SRC=../../isomorphic/skins/SmartClient/load_skin.js></SCRIPT>
+</HEAD><BODY BGCOLOR='papayawhip' MARGINHEIGHT=0 MARGINWIDTH=0 LEFTMARGIN=0 TOPMARGIN=0>
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=5 BORDER=0><TR><TD CLASS=pageHeader BGCOLOR=WHITE>
+
+	Button selection example
+
+</TD><TD CLASS=pageHeader ALIGN=RIGHT BGCOLOR=WHITE>
+
+	Isomorphic SmartClient
+
+</TD></TR></TABLE><TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0 BORDER=0><TR>
+<TD BGCOLOR=336666><IMG SRC=images/blank.gif WIDTH=1 HEIGHT=4></TD></TR></TABLE>
+
+
+<!--------------------------
+  Example code starts here
+---------------------------->
+
+<SCRIPT>
+
+Label.create({
+    ID:"results",
+    height:20,
+    width:200,
+    top:300,
+    left:35
+})
+function showClicked(name) {
+    results.setContents(name + ' clicked');
+}
+
+
+Button.create({
+    ID:"b1",
+    left:20,
+    top:45,
+    height:50,
+    title:"Button",
+    click:"showClicked(this.title)"
+});
+
+
+Button.create({
+    ID:"b2",
+    left:140,
+    top:45,
+    height:50,
+    title:"Disabled",
+    click:"showClicked(this.title)",
+    disabled:true
+});
+
+
+Button.create({
+    ID:"cb1",
+    left:20,
+    top:125,
+    height:50,
+    title:"Checkbox 1",
+    click:"showClicked(this.title);",
+    selected:true,
+    actionType:"checkbox"
+});
+
+
+Button.create({
+    ID:"cb2",
+    left:140,
+    top:125,
+    height:50,
+    title:"Checkbox 2",
+    click:"showClicked(this.title)",
+    actionType:"checkbox"
+});
+
+
+Button.create({
+    ID:"cb3",
+    left:260,
+    top:125,
+    height:50,
+    title:"Selected & Disabled",
+    wrap:true,
+    click:"showClicked(this.title)",
+    disabled:true,
+    selected:true,
+    actionType:"checkbox"
+});
+
+
+Button.create({
+    ID:"rb1",
+    left:20,
+    top:205,
+    height:50,
+    title:"Radio 1",
+    click:"if (selectedButton != this) {selectedButton.deselect(); selectedButton=this}; showClicked(this.title)",
+    selected:true,
+    actionType:"radio"
+});
+
+
+Button.create({
+    ID:"rb2",
+    left:140,
+    top:205,
+    height:50,
+    title:"Radio 2",
+    click:"if (selectedButton != this) {selectedButton.deselect(); selectedButton=this}; showClicked(this.title)",
+    actionType:"radio"
+});
+
+
+Button.create({
+    ID:"rb3",
+    left:260,
+    top:205,
+    height:50,
+    title:"Radio 3",
+    click:"if (selectedButton != this) {selectedButton.deselect(); selectedButton=this}; showClicked(this.title)",
+    actionType:"radio"
+});
+
+
+var selectedButton = rb1;
+
+</SCRIPT>
+</BODY>
+</HTML>

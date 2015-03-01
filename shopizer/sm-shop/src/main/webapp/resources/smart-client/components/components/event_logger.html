@@ -1,0 +1,317 @@
+<HTML><HEAD>
+	<SCRIPT>var isomorphicDir="../../isomorphic/";</SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Core.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Foundation.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Containers.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Grids.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Forms.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_DataBinding.js></SCRIPT>
+	<SCRIPT SRC=../../isomorphic/skins/SmartClient/load_skin.js></SCRIPT>
+</HEAD><BODY BGCOLOR='papayawhip' MARGINHEIGHT=0 MARGINWIDTH=0 LEFTMARGIN=0 TOPMARGIN=0>
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=5 BORDER=0><TR><TD CLASS=pageHeader BGCOLOR=WHITE>
+
+	Event logging example
+
+</TD><TD CLASS=pageHeader ALIGN=RIGHT BGCOLOR=WHITE>
+
+	Isomorphic SmartClient
+
+</TD></TR></TABLE><TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0 BORDER=0><TR>
+<TD BGCOLOR=336666><IMG SRC=images/blank.gif WIDTH=1 HEIGHT=4></TD></TR></TABLE>
+
+
+<!--------------------------
+  Example code starts here
+---------------------------->
+
+<!-- HTML form containing event log fields and controls -->
+<DIV STYLE='padding:0px 0px 0px 20px' CLASS='normal'>
+<form action="" method="POST" name="f">
+<table><tr>
+<td CLASS="normal"><textarea name="eventlog" cols="25" rows="20"></textarea></td>
+<td valign=bottom CLASS="normal"><input type="Button" name="clearlog" value="Clear Log" onClick="clearEventLog()"> </td>
+<td valign=bottom CLASS="normal"><A HREF="javascript:void alert('click -> anchor')" ONMOUSEOVER='if (isc.Page.isLoaded()) logEvent("mouseover -> anchor");'>An anchor</A></td>
+</tr></table>
+<br><br>
+<input name="mousemovelog" size="40">&nbsp;&nbsp;Last mouseMove/dragMove event<br><br>
+<input name="mousestilldownlog" size="40">&nbsp;&nbsp;Last mouseStillDown event<br><br>
+<input type="Checkbox" name="logPageEvents">Log page events&nbsp;&nbsp;
+<input type="Checkbox" name="disableDragWidget" onclick="this.checked ? green.disable() : green.enable()">Disable green widget&nbsp;&nbsp;
+<input type="Checkbox" name="disableDropWidget" onclick="this.checked ? blue.disable() : blue.enable()">Disable blue widget<br><br>
+<input name="pageeventlog" size="40">&nbsp;&nbsp;Last page level mouse event
+</form>
+</DIV>
+
+<SCRIPT>
+
+// --------------------------------------------------
+//    drag & drop widgets with event handlers
+// --------------------------------------------------
+
+//    pink widget -- normal widget, no dragging properties
+Canvas.create({
+    ID:"pink",
+
+    // visual properties
+    left: 340,
+    top:50,
+    width:80,
+    height:80,
+    contents:"normal widget",
+    backgroundColor:"pink",
+
+    // event handlers
+    mouseDown:"logEvent('mouseDown -> pink')",
+    mouseStillDown:"mouseStillDownField.value='mouseStillDown -> pink ('+timeStamp()+')'",
+    mouseUp:"logEvent('mouseUp -> pink')",
+    click:"logEvent('click -> pink')",
+    doubleClick:"logEvent('doubleClick -> pink')",
+    mouseOver:"logEvent('mouseOver -> pink')",
+    mouseMove:"mouseMoveField.value='mouseMove -> pink '+this.getOffsetX()+','+this.getOffsetY()",
+    mouseOut:"logEvent('mouseOut -> pink')",
+    dragStart:"logEvent('dragStart -> pink')",
+    dragStop:"logEvent('dragStop -> pink')"
+});
+
+
+//    green widget: draggable with 'drag target' drag style
+Canvas.create({
+    ID:"green",
+    // visual properties
+    left: 440,
+    top:50,
+    width:80,
+    height:80,
+    contents:"drag me (canDrag)",
+    backgroundColor:"lightgreen",
+
+    // drag & drop properties
+    canDrag:true,
+    canDrop:true,
+    dragAppearance:"tracker",
+    setDragTracker:function(){EventHandler.setDragTracker(this.imgHTML('yinyang_icon.gif',20,20),20,20)},
+
+    // event handlers
+    mouseDown:"logEvent('mouseDown -> green')",
+    mouseStillDown:"mouseStillDownField.value='mouseStillDown -> green ('+timeStamp()+')'",
+    mouseUp:"logEvent('mouseUp -> green')",
+    click:"logEvent('click -> green')",
+    doubleClick:"logEvent('doubleClick -> green')",
+    mouseOver:"logEvent('mouseOver -> green')",
+    mouseMove:"mouseMoveField.value='mouseMove -> green '+this.getOffsetX()+','+this.getOffsetY()",
+    mouseOut:"logEvent('mouseOut -> green')",
+    dragStart:"logEvent('dragStart -> green')",
+    dragMove:"mouseMoveField.value='dragMove -> green '+this.getOffsetX()+','+this.getOffsetY()",
+    dragStop:"logEvent('dragStop -> green')"
+});
+
+
+
+
+//    blue widget: accepts drop of other widgets
+Canvas.create({
+    ID:"blue",
+    // visual properties
+    left: 340,
+    top:150,
+    width:80,
+    height:80,
+    contents:"drop on me (canAcceptDrop)",
+    backgroundColor:"skyblue",
+
+    // drag & drop properties
+    canAcceptDrop:true,
+
+    // event handlers
+    mouseDown:"logEvent('mouseDown -> blue')",
+    mouseStillDown:"mouseStillDownField.value='mouseStillDown -> blue ('+timeStamp()+')'",
+    mouseUp:"logEvent('mouseUp -> blue')",
+    click:"logEvent('click -> blue')",
+    doubleClick:"logEvent('doubleClick -> blue')",
+    mouseOver:"logEvent('mouseOver -> blue')",
+    mouseMove:"mouseMoveField.value='mouseMove -> blue '+this.getOffsetX()+','+this.getOffsetY()",
+    mouseOut:"logEvent('mouseOut -> blue')",
+    dropOver:"logEvent('dropOver -> blue')",
+    dropMove:"mouseMoveField.value='dropMove -> blue '+this.getOffsetX()+','+this.getOffsetY()",
+    dropOut:"logEvent('dropOut -> blue')",
+    drop:"logEvent('drop -> blue')"
+});
+
+
+//    yellow widget: can drag reposition, can drop
+Canvas.create({
+    ID:"yellow",
+    // visual properties
+    left: 540,
+    top:50,
+    width:80,
+    height:80,
+    contents:"drag reposition me (canDragReposition, canDrop)",
+    backgroundColor:"yellow",
+
+    // drag & drop properties
+    canDragReposition:true,
+    canDrop:true,
+    dragAppearance:"target",
+
+
+    // event handlers
+    mouseDown:"logEvent('mouseDown -> yellow')",
+    mouseStillDown:"mouseStillDownField.value='mouseStillDown -> yellow ('+timeStamp()+')'",
+    mouseUp:"logEvent('mouseUp -> yellow')",
+    click:"logEvent('click -> yellow')",
+    doubleClick:"logEvent('doubleClick -> yellow')",
+    mouseOver:"logEvent('mouseOver -> yellow')",
+    mouseMove:"mouseMoveField.value='mouseMove -> yellow '+this.getOffsetX()+','+this.getOffsetY()",
+    mouseOut:"logEvent('mouseOut -> yellow')",
+    dragRepositionStart:"logEvent('dragRepositionStart -> yellow');",
+    dragRepositionMove:"mouseMoveField.value='dragRepositionMove -> yellow '+this.getOffsetX()+','+this.getOffsetY()",
+    dragRepositionStop:"logEvent('dragRepositionStop -> yellow')"
+});
+
+
+//    purple widget: can resize and move, can't drop
+Canvas.create({
+    ID:"purple",
+    // visual properties
+    left: 540,
+    top:150,
+    width:150,
+    height:100,
+    contents:"resize and move me (canDragResize, canDragReposition)",
+    backgroundColor:"orchid",
+    overflow:"hidden",
+
+    // drag & drop properties
+    canDragResize:true,
+    canDragReposition:true,
+
+    // event handlers
+    mouseDown:"logEvent('mouseDown -> purple')",
+    mouseStillDown:"mouseStillDownField.value='mouseStillDown -> purple ('+timeStamp()+')'",
+    mouseUp:"logEvent('mouseUp -> purple')",
+    click:"logEvent('click -> purple')",
+    doubleClick:"logEvent('doubleClick -> purple')",
+    mouseOver:"logEvent('mouseOver -> purple')",
+    mouseMove:"mouseMoveField.value='mouseMove -> purple '+this.getOffsetX()+','+this.getOffsetY()",
+    mouseOut:"logEvent('mouseOut -> purple')",
+    dragResizeStart:"logEvent('dragResizeStart -> purple')",
+    dragResizeMove:"mouseMoveField.value='dragResizeMove -> purple '+this.getOffsetX()+','+this.getOffsetY()",
+    dragResizeStop:"logEvent('dragResizeStop -> purple')",
+    dragRepositionStart:"logEvent('dragRepositionStart -> purple')",
+    dragRepositionMove:"mouseMoveField.value='dragRepositionMove -> purple '+this.getOffsetX()+','+this.getOffsetY()",
+    dragRepositionStop:"logEvent('dragRepositionStop -> purple')"
+});
+
+
+
+//    button
+Button.create({
+    ID:"button",
+    // visual properties
+    left: 340,
+    top:250,
+    width:150,
+    title:"A Button",
+    overflow:"hidden",
+    showDown:true,
+
+    // drag & drop properties
+
+    // event handlers
+    mouseDown:"this.Super('mouseDown');logEvent('mouseDown -> button')",
+    mouseStillDown:"this.Super('mouseStillDown');mouseStillDownField.value='mouseStillDown -> button ('+timeStamp()+')'",
+    mouseUp:"this.Super('mouseUp');logEvent('mouseUp -> button')",
+    click:"this.Super('click');logEvent('click -> button')",
+    doubleClick:"this.Super('doubleClick');logEvent('doubleClick -> button')",
+    mouseOver:"this.Super('mouseOver');logEvent('mouseOver -> button')",
+    mouseMove:"this.Super('mouseMove');mouseMoveField.value='mouseMove -> button '+this.getOffsetX()+','+this.getOffsetY()",
+    mouseOut:"this.Super('mouseOut');logEvent('mouseOut -> button')"
+});
+
+
+// --------------------------------------------------
+//    global event handlers
+// --------------------------------------------------
+
+Page.setEvent("load", "initializeForm()");
+
+// set global handlers to log page events
+Page.setEvent("load", "logPageEvent('load')");
+Page.setEvent("unload", "if (pageEvents.checked) alert('unload')");
+Page.setEvent("resize", "logPageEvent('resize')");
+Page.setEvent("showContextMenu", "logPageEvent('showContextMenu')");
+
+// set global handlers to log mouse events
+Page.setEvent("mouseOver", "logPageEvent('mouseOver')");
+Page.setEvent("mouseMove", "if (pageEvents.checked) pageEventField.value = 'mouseMove -> Page '+EventHandler.getX()+','+EventHandler.getY()");
+Page.setEvent("mouseOut", "logPageEvent('mouseOut')");
+Page.setEvent("mouseDown", "logPageEvent('mouseDown')");
+Page.setEvent("mouseUp", "logPageEvent('mouseUp')");
+Page.setEvent("click", "logPageEvent('click')");
+Page.setEvent("doubleClick", "logPageEvent('doubleClick')");
+
+// set global handlers to log drag-and-drop events
+Page.setEvent("dragStart", "logPageEvent('dragStart')");
+Page.setEvent("dragOver", "logPageEvent('dragOver')");
+Page.setEvent("dragMove", "if (pageEvents.checked) pageEventField.value = 'dragMove -> Page '+EventHandler.getX()+','+EventHandler.getY()");
+Page.setEvent("dragOut", "logPageEvent('dragOut')");
+Page.setEvent("dragStop", "logPageEvent('dragStop')");
+
+// set global handlers to log drag-and-drop events
+Page.setEvent("dragRepositionStart", "logPageEvent('dragRepositionStart')");
+Page.setEvent("dragRepositionMove", "if (pageEvents.checked) pageEventField.value = 'dragRepositionMove -> Page '+EventHandler.getX()+','+EventHandler.getY()");
+Page.setEvent("dragRepositionStop", "logPageEvent('dragRepositionStop')");
+
+// set global handlers to log drag-and-drop events
+Page.setEvent("dragResizeStart", "logPageEvent('dragResizeStart')");
+Page.setEvent("dragResizeMove", "if (pageEvents.checked) pageEventField.value = 'dragResizeMove -> Page '+EventHandler.getX()+','+EventHandler.getY()");
+Page.setEvent("dragResizeStop", "logPageEvent('dragResizeStop')");
+
+// set global handlers to log drag-and-drop events
+Page.setEvent("dropOver", "logPageEvent('dropOver')");
+Page.setEvent("dropMove", "if (pageEvents.checked) pageEventField.value = 'dropMove -> Page '+EventHandler.getX()+','+EventHandler.getY()");
+Page.setEvent("dropOut", "logPageEvent('dropOut')");
+Page.setEvent("drop", "logPageEvent('drop')");
+
+
+// --------------------------------------------------
+//    scripts for working with the HTML form
+// --------------------------------------------------
+
+// shortcut references to form elements
+var eventLog = document.f.eventlog;
+var mouseMoveField = document.f.mousemovelog;
+var pageEventField = document.f.pageeventlog;
+var mouseStillDownField = document.f.mousestilldownlog;
+var pageEvents = document.f.logPageEvents;
+
+// add a new line to the event log
+function logEvent(msg) {
+    eventLog.value += msg+(Browser.isMac ? '\r' : '\n');
+}
+
+// log a page event if the logPageEvents checkbox is ticked
+function logPageEvent(msg) {
+    if (pageEvents.checked) logEvent(msg+" -> Page");
+}
+
+// clear the event log
+function clearEventLog() {
+    eventLog.value = "--- Event Log ---\n";
+    mouseMoveField.value = "";
+    mouseStillDownField.value = "";
+    pageEventField.value = "";
+}
+
+// initialize the form
+function initializeForm() {
+    clearEventLog();
+    pageEvents.checked = false;
+    document.f.disableDragWidget.checked = false;
+    document.f.disableDropWidget.checked = false;
+}
+
+</SCRIPT>
+</BODY>
+</HTML>

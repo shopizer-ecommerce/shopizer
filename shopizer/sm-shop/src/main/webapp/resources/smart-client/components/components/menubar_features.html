@@ -1,0 +1,136 @@
+<HTML><HEAD>
+	<SCRIPT>var isomorphicDir="../../isomorphic/";</SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Core.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Foundation.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Containers.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Grids.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Forms.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_DataBinding.js></SCRIPT>
+	<SCRIPT SRC=../../isomorphic/skins/SmartClient/load_skin.js></SCRIPT>
+</HEAD><BODY BGCOLOR='papayawhip' MARGINHEIGHT=0 MARGINWIDTH=0 LEFTMARGIN=0 TOPMARGIN=0>
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=5 BORDER=0><TR><TD CLASS=pageHeader BGCOLOR=WHITE>
+
+	Visual properties menubar example
+
+</TD><TD CLASS=pageHeader ALIGN=RIGHT BGCOLOR=WHITE>
+
+	Isomorphic SmartClient
+
+</TD></TR></TABLE><TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0 BORDER=0><TR>
+<TD BGCOLOR=336666><IMG SRC=images/blank.gif WIDTH=1 HEIGHT=4></TD></TR></TABLE>
+
+
+<!--------------------------
+  Example code starts here
+---------------------------->
+
+<SCRIPT>
+
+Img.create({
+    ID:"widget",
+    autoDraw:false,
+    left:200,
+    top:60,
+    width:100,
+    height:100,
+    src:"yinyang.gif"
+});
+
+Canvas.create({
+    ID:"boundingBox",
+    autoDraw:false,
+    height:260,
+    backgroundColor:"white",
+    children:[widget]
+});
+
+Menu.create({
+    ID:"imageMenu",
+    autoDraw:false,
+    cellHeight:18,
+    menuButtonWidth:60,
+    data:[
+    {title:"Visible",    keys:"V",
+    checkIf:"widget.isVisible()",
+    click:"widget.isVisible() ? widget.hide() : widget.show()"
+    },
+    {title:"Reset",
+    click:"widget.setRect(200,60,100,100); widget.show()",
+    icon:"yinyang_icon.gif",
+    iconWidth:20,
+    iconHeight:20,
+    keys:{keyName:"R", shiftKey:true},
+    keyTitle:"Shift-R"
+    }
+    ],
+    title:"Image"
+});
+
+Menu.create({
+    ID:"sizeMenu",
+    autoDraw:false,
+    cellHeight:18,
+    menuButtonWidth:60,
+    data: [
+    {title:"Small", checkIf:"widget.getWidth() == 50", 
+     click:"widget.resizeTo(50, 50);widget.moveTo(225, 100);", 
+     keys:"S", enableIf:"widget.isVisible()"},
+    {title:"Medium", checkIf:"widget.getWidth() == 100", 
+     click:"widget.resizeTo(100, 100);widget.moveTo(200, 80);", 
+     keys:"M", enableIf:"widget.isVisible()"},
+    {title:"Large", checkIf:"widget.getWidth() == 200", 
+     click:"widget.resizeTo(200, 200);widget.moveTo(150, 25);", 
+     keys:"L", enableIf:"widget.isVisible()"}
+    ],    
+    title:"Size"
+});
+
+Menu.create({
+    ID:"positionMenu",
+    autoDraw:false,
+    cellHeight:18,
+    menuButtonWidth:60,
+    data:[
+    {title:"Up", click:"moveUp()", keys:"U", enableIf:"widget.isVisible()"},
+    {title:"Right", click:"moveRight()", keys:"K", enableIf:"widget.isVisible()"},
+    {title:"Down", click:"moveDown()", keys:"J", enableIf:"widget.isVisible()"},
+    {title:"Left", click:"moveLeft()", keys:"H", enableIf:"widget.isVisible()"}
+    ],
+    title:"Position"
+});
+
+Menubar.create({
+    ID:"menuBar",
+    autoDraw:false,
+    backgroundColor:"#CCCCCC",
+    menus:[imageMenu, sizeMenu, positionMenu]
+});
+
+VStack.create({
+    top:75, left:50, width:500,
+    members:[menuBar, boundingBox]
+});
+
+function moveUp() {
+    if (widget.getTop() >= 20) 
+    widget.moveBy(0,-20);    
+}
+
+function moveRight() {
+    if (widget.getLeft() <= (480 - widget.getWidth())) 
+    widget.moveBy(20,0);
+}
+
+function moveDown() {
+    if (widget.getTop() <= (240 - widget.getHeight())) 
+    widget.moveBy(0,20);
+}
+
+function moveLeft() {
+    if (widget.getLeft() >= 20) 
+    widget.moveBy(-20,0);
+}
+
+</SCRIPT>
+</BODY>
+</HTML>

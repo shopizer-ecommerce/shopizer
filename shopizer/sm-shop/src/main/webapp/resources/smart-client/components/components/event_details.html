@@ -1,0 +1,105 @@
+<HTML><HEAD>
+	<SCRIPT>var isomorphicDir="../../isomorphic/";</SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Core.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Foundation.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Containers.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Grids.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Forms.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_DataBinding.js></SCRIPT>
+	<SCRIPT SRC=../../isomorphic/skins/SmartClient/load_skin.js></SCRIPT>
+</HEAD><BODY BGCOLOR='papayawhip' MARGINHEIGHT=0 MARGINWIDTH=0 LEFTMARGIN=0 TOPMARGIN=0>
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=5 BORDER=0><TR><TD CLASS=pageHeader BGCOLOR=WHITE>
+
+	Getting event details
+
+</TD><TD CLASS=pageHeader ALIGN=RIGHT BGCOLOR=WHITE>
+
+	Isomorphic SmartClient
+
+</TD></TR></TABLE><TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0 BORDER=0><TR>
+<TD BGCOLOR=336666><IMG SRC=images/blank.gif WIDTH=1 HEIGHT=4></TD></TR></TABLE>
+
+
+<!--------------------------
+  Example code starts here
+---------------------------->
+
+<SCRIPT>
+
+Canvas.create({
+    ID:"redWidget",
+    left:50,
+    top:75,
+    width:100,
+    height:100,
+    contents:"show mouseDown details",
+    backgroundColor:"red",
+    mouseDown:"showEventInfo('mouseDown', this)",
+    mouseOut:"clearEventInfo()"
+});
+
+Canvas.create({
+    ID:"blueWidget",
+    left:100,
+    top:125,
+    width:100,
+    height:100,
+    contents:"show mouseUp details",
+    backgroundColor:"blue",
+    mouseUp:"showEventInfo('mouseUp', this)",
+    // showContextMenu event triggered by right mouse button coming up.
+    // Note: We return false to prevent the native browser context menu from being displayed.
+    showContextMenu:"showEventInfo('showContextMenu', this); return false;",
+    mouseOut:"clearEventInfo()"
+});
+
+Canvas.create({
+    ID:"greenWidget",
+    left:150,
+    top:175,
+    width:100,
+    height:100,
+    contents:"show mouseMove details",
+    backgroundColor:"green",
+    mouseMove:"showEventInfo('mouseMove', this)",
+    mouseOut:"clearEventInfo()"
+});
+
+Label.create({
+    ID:"statusArea",
+    top:100,
+    left:300,
+    width:250,
+    height:125,
+    overflow:"hidden",
+    backgroundColor:"white",
+    border:"1px solid black",
+    valign:"top",
+    padding:3
+});
+
+
+function showEventInfo(eventName, obj) {
+    var result = "<b>" + eventName + ":</b><br>" + 
+                 "Global: " + EventHandler.getX() + "," + EventHandler.getY() + "<br>" +
+                 "Local: " + obj.getOffsetX() + "," + obj.getOffsetY() + "<br>"
+    ;
+    if (EventHandler.rightButtonDown()) result += "&nbsp;&nbsp;(Right Button)";
+    if (EventHandler.leftButtonDown()) result += "&nbsp;&nbsp;(Left Button)";
+    if (EventHandler.shiftKeyDown()) result += "&nbsp;&nbsp;(Shift)";
+    if (EventHandler.ctrlKeyDown()) result += "&nbsp;&nbsp;(Ctrl)";
+    if (EventHandler.altKeyDown()) result += "&nbsp;&nbsp;(Alt)";
+    result += "<br><br>";
+    if (redWidget.containsEvent()) result+= "&nbsp;&nbsp;<i>(red widget contains event)</i><br>";
+    if (blueWidget.containsEvent()) result+= "&nbsp;&nbsp;<i>(blue widget contains event)</i><br>";
+    if (greenWidget.containsEvent()) result+= "&nbsp;&nbsp;<i>(green widget contains event)</i><br>";
+    statusArea.setContents(result);
+}
+
+function clearEventInfo () {
+    statusArea.setContents("");
+}
+
+</SCRIPT>
+</BODY>
+</HTML>

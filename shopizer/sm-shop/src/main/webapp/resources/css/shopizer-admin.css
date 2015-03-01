@@ -1,0 +1,105 @@
+
+html {
+  		font-size: 100%;
+  		-webkit-text-size-adjust: 100%;
+  		-ms-text-size-adjust: 100%;
+}
+
+body {
+  		margin: 0;
+  		font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  		font-size: 13px;
+  		color: #333333;
+  		background-color: #ffffff;
+}
+
+
+
+.error { color: #ff0000; }
+
+.sm-iframe-component {
+
+
+   	 	width:100%;
+		height:620px;
+		overflow:hidden;
+		border:0;
+
+}
+
+
+
+.table tbody tr.subt:hover td, 
+.table tbody tr.subt:hover th { 
+		background-color: transparent; 
+}
+
+
+.modalOverlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    background-color: rgba(0,0,0,0.3); /* black semi-transparent */
+}
+
+/** Bootstrap overwrites **/
+	
+	
+.sm-ui-component label {
+ 		color: #333333;
+    	margin-bottom: 0;
+    	display: inline;
+}
+   
+.sm-ui-component IMG {
+
+   	 	max-width:none;
+
+}
+
+.sm-iframe-component {
+
+   	 	width:100%;
+		height:620px;
+		overflow:hidden;
+		border:0;
+
+}
+
+
+input.highlight, select.highlight, checkbox.highlight, textarea.highlight {
+            background-color: #FFC;
+}
+
+
+.box-title {
+    background-color: #F5F5F5;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px 4px 0px 0px;
+    color: #000000;
+    font-size: 12px;
+    font-weight: bold;
+    width:100%;
+    height: 30px;
+    position: absolute;
+    margin-left:-20px;
+    top: -1px;
+}
+
+
+.box-title p {
+    padding:8px;
+}
+
+
+.box {
+    background-color: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    padding: 39px 19px 14px;
+    position: relative;
+}
+
+
+

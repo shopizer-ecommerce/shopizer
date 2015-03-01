@@ -1,0 +1,103 @@
+<HTML><HEAD>
+	<SCRIPT>var isomorphicDir="../../isomorphic/";</SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Core.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Foundation.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Containers.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Grids.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Forms.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_DataBinding.js></SCRIPT>
+	<SCRIPT SRC=../../isomorphic/skins/SmartClient/load_skin.js></SCRIPT>
+</HEAD><BODY BGCOLOR='papayawhip' MARGINHEIGHT=0 MARGINWIDTH=0 LEFTMARGIN=0 TOPMARGIN=0>
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=5 BORDER=0><TR><TD CLASS=pageHeader BGCOLOR=WHITE>
+
+	Visual properties menu example
+
+</TD><TD CLASS=pageHeader ALIGN=RIGHT BGCOLOR=WHITE>
+
+	Isomorphic SmartClient
+
+</TD></TR></TABLE><TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0 BORDER=0><TR>
+<TD BGCOLOR=336666><IMG SRC=images/blank.gif WIDTH=1 HEIGHT=4></TD></TR></TABLE>
+
+
+<!--------------------------
+  Example code starts here
+---------------------------->
+
+<SCRIPT>
+
+Img.create({
+    ID:"widget",
+    left:300,
+    top:75,
+    width:100,
+    height:100,
+    src:"yinyang.gif"
+});
+
+Menu.create({
+    ID:"sizeMenu",
+    autoDraw:false,
+    data:[
+        {title:"Small", checkIf:"widget.width == 50", 
+         click:"widget.setWidth(50);widget.setHeight(50)", keys:"S"},
+        {title:"Medium", checkIf:"widget.width == 100", 
+         click:"widget.setWidth(100);widget.setHeight(100)", keys:"M"},
+        {title:"Large", checkIf:"widget.width == 200", 
+         click:"widget.setWidth(200);widget.setHeight(200)", keys:"L"}
+    ],
+    width:150
+});
+
+
+Menu.create({
+    ID:"moveMenu",
+    autoDraw:false,
+    width:150,
+    data:[
+        {title:"Up", click:"widget.moveBy(0,-20)", keys:"U"},
+        {title:"Right", click:"widget.moveBy(20,0)", keys:"K"},
+        {title:"Down", click:"widget.moveBy(0,20)", keys:"J"},
+        {title:"Left", click:"widget.moveBy(-20,0)", keys:"H"}
+    ]
+});
+
+
+Menu.create({
+    ID:"mainMenu",
+    width:150,
+    data:[
+        {title:"Visible",    keys:"V",
+            checkIf:"widget.isVisible()",
+            click:"widget.isVisible() ? widget.hide() : widget.show()"
+        },
+        {isSeparator:true},
+        {title:"Size", submenu:sizeMenu, enableIf:"widget.isVisible()"    },
+        {title:"Move", submenu:moveMenu,    enableIf:"widget.isVisible()"    },
+        {isSeparator:true},
+        {title:"Reset",
+            click:"widget.setRect(300,75,100,100); widget.show()",
+            icon:"yinyang_icon.gif",
+            iconWidth:20,
+            iconHeight:20,
+            keys:{keyName:"R", shiftKey:true},
+            keyTitle:"Shift-R"
+        }
+    ]
+});
+
+MenuButton.create({
+    ID:"mainMenuButton",
+    title:"Widget",
+    left:50,
+    top:75,
+    width:150,
+    menu:mainMenu
+});
+
+// Set the menu as a context menu for the widget.
+widget.contextMenu = mainMenu;
+
+</SCRIPT>
+</BODY>
+</HTML>

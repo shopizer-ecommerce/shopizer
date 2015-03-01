@@ -1,0 +1,63 @@
+<HTML><HEAD>
+	<SCRIPT>var isomorphicDir="../../isomorphic/";</SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Core.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Foundation.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Containers.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Grids.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Forms.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_DataBinding.js></SCRIPT>
+	<SCRIPT SRC=../../isomorphic/skins/SmartClient/load_skin.js></SCRIPT>
+</HEAD><BODY BGCOLOR='papayawhip' MARGINHEIGHT=0 MARGINWIDTH=0 LEFTMARGIN=0 TOPMARGIN=0>
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=5 BORDER=0><TR><TD CLASS=pageHeader BGCOLOR=WHITE>
+
+	Editable ListGrid example
+
+</TD><TD CLASS=pageHeader ALIGN=RIGHT BGCOLOR=WHITE>
+
+	Isomorphic SmartClient
+
+</TD></TR></TABLE><TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0 BORDER=0><TR>
+<TD BGCOLOR=336666><IMG SRC=images/blank.gif WIDTH=1 HEIGHT=4></TD></TR></TABLE>
+
+
+<!--------------------------
+  Example code starts here
+---------------------------->
+
+<SCRIPT>
+
+// Data to be displayed
+var animalData = [
+    {commonName:'Elephant (African)',scientificName:'Loxodonta africana',diet:'H',lifeSpan:' 40-60 years',information:'The African Elephant is the largest of all land animals and also has the biggest brain of any land animal. Both males and females have ivory tusks. Elephants are also wonderful swimmers. Man is the only real enemy of the elephant. Man threatens the elephant by killing it for its tusks and by destroying its habitat.',status:'Threatened'},
+    {enabled:false, commonName:'(disabled) Alligator (American)',scientificName:'Alligator mississippiensis',diet:'C',lifeSpan:'50 years',information:'In the 16th century, Spanish explorers in what is now Florida encountered a large formidable animal which they called "el largo" meaning "the lizard". The name "el largo" gradually became pronounced "alligator".',status:'Not Endangered'},
+    {commonName:'Anteater',scientificName:'Myrmecophaga tridactyla',diet:'C',lifeSpan:'25 years',information:'Anteaters can eat up to 35,000 ants daily. Tongue is around 2 feet long and is not sticky but rather covered with saliva. They have very strong sharp claws used for digging up anthills and termite mounds.',status:'Not Endangered'},
+    {commonName:'Camel (Arabian Dromedary)',scientificName:'Camelus dromedarius',diet:'H',lifeSpan:'20-50 years',information:'Can eat any vegetation including thorns. Has one hump for fat storage. Is well known as a beast of burden.',status:'Not Endangered'},
+    {commonName:'Bald Eagle',scientificName:'southern subspecies: Haliaeetus leucocephalus leuc',diet:'C',lifeSpan:'Up to 50 years',information:' Females lay one to three eggs. Visual acuity is 3-4 times greater than a human. Bald eagles build the largest nest of any North American bird. The largest nest found was 3.2 yds (2.9 m) in diameter and 6.7 yds (6.1 m) tall. Protection of the Bald Eagle is afforded by three federal laws: (1) the Endangered Species Act, (2) the Bald Eagle and Golden Eagle Protection Act, and (3) the Migratory Bird Treaty Act.',status:'Endangered'},
+    {commonName:'Black Spider Monkey',scientificName:'Ateles panicus',diet:'H',lifeSpan:'20 years',information:'They can perform remarkable feats with their tails.',status:'Not Endangered'},
+    {commonName:'Bottlenosed Dolphin',scientificName:'Tursiops truncatus',diet:'C',lifeSpan:'35 years',information:'The bottlenosed dolphin is classified as a toothed whale. They are excellent hunters. They use sound waves to "see" their environment and where they are going through a process known as echolocation.',status:'Dolphins are vulnerable to commercial fishing practices and ocean pollution.'}
+];
+
+var animalFields = [
+    {name:"commonName", title:"Animal"},
+    {name:"scientificName", title:"Sci. Name (not editable)", canEdit:false, width:150},
+    {name:"diet", title:"Diet", valueMap:{O:"Omnivore", C:"Carnivore", H:"Herbivore",I:"Insectivore",P:"Pescivore"}},
+    {name:"information", title:"Interesting Facts", editorType:"textArea"}
+];
+
+ListGrid.create({
+    ID:"animalList",
+    canEdit:true,
+    data:animalData,
+    fields:animalFields,
+    canReorderRecords:true,
+    left:50,
+    top:75,
+    width:500,
+    height:300,
+    alternateRecordStyles:true
+});
+
+
+</SCRIPT>
+</BODY>
+</HTML>

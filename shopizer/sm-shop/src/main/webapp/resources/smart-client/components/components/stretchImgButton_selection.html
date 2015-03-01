@@ -1,0 +1,169 @@
+<HTML><HEAD>
+	<SCRIPT>var isomorphicDir="../../isomorphic/";</SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Core.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Foundation.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Containers.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Grids.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Forms.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_DataBinding.js></SCRIPT>
+	<SCRIPT SRC=../../isomorphic/skins/SmartClient/load_skin.js></SCRIPT>
+</HEAD><BODY BGCOLOR='papayawhip' MARGINHEIGHT=0 MARGINWIDTH=0 LEFTMARGIN=0 TOPMARGIN=0>
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=5 BORDER=0><TR><TD CLASS=pageHeader BGCOLOR=WHITE>
+
+	StretchImgButton selection example
+
+</TD><TD CLASS=pageHeader ALIGN=RIGHT BGCOLOR=WHITE>
+
+	Isomorphic SmartClient SDK 
+
+</TD></TR></TABLE><TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0 BORDER=0><TR>
+<TD BGCOLOR=336666><IMG SRC=images/blank.gif WIDTH=1 HEIGHT=4></TD></TR></TABLE>
+
+
+<!--------------------------
+  Example code starts here
+---------------------------->
+
+<SCRIPT>
+
+Label.create({
+    ID:"results",
+    height:20,
+    width:200,
+    top:300,
+    left:35
+})
+function showClicked(name) {
+    results.setContents(name + ' clicked');
+}
+
+// Buttons
+StretchImgButton.create({
+    ID:"b1",
+    left:20,
+    top:80,
+    width:80,
+    height:33,
+    vertical:false,
+    capSize:16,
+    title:"Button",
+    src:"[APPIMG]stretchImgButton/button.gif",
+    click:"showClicked(this.title)"
+});
+
+
+StretchImgButton.create({
+    ID:"b2",
+    left:120,
+    top:80,
+    width:80,
+    height:33,
+    vertical:false,
+    capSize:16,
+    title:"Disabled",
+    src:"[APPIMG]stretchImgButton/button.gif",
+    click:"showClicked(this.title)",
+    disabled:true
+});
+
+
+StretchImgButton.create({
+    ID:"cb1",
+    left:20,
+    top:140,
+    width:100,
+    height:33,
+    vertical:false,
+    capSize:16,
+    title:"Checkbox 1",
+    src:"[APPIMG]stretchImgButton/button.gif",
+    click:"showClicked(this.title)",
+    selected:true,
+    actionType:"checkbox"
+});
+
+
+StretchImgButton.create({
+    ID:"cb2",
+    left:140,
+    top:140,
+    width:100,
+    height:33,
+    vertical:false,
+    capSize:16,
+    title:"Checkbox 2",
+    src:"[APPIMG]stretchImgButton/button.gif",
+    click:"showClicked(this.title)",
+    actionType:"checkbox"
+});
+
+
+StretchImgButton.create({
+    ID:"cb3",
+    left:260,
+    top:140,
+    width:150,
+    height:33,
+    vertical:false,
+    capSize:16,
+    title:"Selected & Disabled",
+    src:"[APPIMG]stretchImgButton/button.gif",
+    click:"showClicked(this.title)",
+    disabled:true,
+    selected:true,
+    actionType:"checkbox"
+});
+
+
+StretchImgButton.create({
+    ID:"rb1",
+    left:20,
+    top:200,
+    width:120,
+    height:33,
+    vertical:false,
+    capSize:16,
+    title:"Radio Button 1",
+    src:"[APPIMG]stretchImgButton/button.gif",
+    click:"if (selectedStretchImgButton != this) {selectedStretchImgButton.deselect(); selectedStretchImgButton=this}; showClicked(this.title)",
+    selected:true,
+    actionType:"radio"
+});
+
+
+StretchImgButton.create({
+    ID:"rb2",
+    left:160,
+    top:200,
+    width:120,
+    height:33,
+    vertical:false,
+    capSize:16,
+    title:"Radio Button 2",
+    src:"[APPIMG]stretchImgButton/button.gif",
+    click:"if (selectedStretchImgButton != this) {selectedStretchImgButton.deselect(); selectedStretchImgButton=this}; showClicked(this.title)",
+    actionType:"radio"
+});
+
+
+StretchImgButton.create({
+    ID:"rb3",
+    left:300,
+    top:200,
+    width:120,
+    height:33,
+    vertical:false,
+    capSize:16,
+    title:"Radio Button 3",
+    src:"[APPIMG]stretchImgButton/button.gif",
+    click:"if (selectedStretchImgButton != this) {selectedStretchImgButton.deselect(); selectedStretchImgButton=this}; showClicked(this.title)",
+    actionType:"radio"
+});
+
+
+var selectedStretchImgButton = rb1;
+
+</SCRIPT>
+
+</BODY>
+</HTML>
