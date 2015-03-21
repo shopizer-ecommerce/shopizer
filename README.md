@@ -42,6 +42,32 @@ If you are using Tomcat, edit catalina.bat for windows users or catalina.sh for 
 	in Linux / Mac
 	export JAVA_OPTS="-Xms1024m -Xmx1024m -XX:MaxPermSize=256m" 
 
+### Troubleshooting deployment errors in Tomcat
+
+While deploying the sm-shop.war file to tomcat, you may face 
+
+    HTTP Status 500 - org.apache.tomcat.util.http.fileupload.FileUploadBase$SizeLimitExceededException
+
+To solve this, go to your 
+#####\<TOMCAT_DIR>\webapps\manager\WEB-INF\web.xml
+
+Replace the default file size (52428800) with the required file size(eg:75790977) in the xml file.
+
+    <multipart-config>
+       <!-- 50MB max -->
+        <max-file-size>52428800</max-file-size>
+       <max-request-size>52428800</max-request-size>
+        <file-size-threshold>0</file-size-threshold>
+    </multipart-config>
+    
+Change the above xml tag to below
+
+    <multipart-config>
+       <!-- 50MB max -->
+        <max-file-size>75790977</max-file-size>
+       <max-request-size>75790977</max-request-size>
+        <file-size-threshold>0</file-size-threshold>
+    </multipart-config>
 
 ### Access the application:
 
