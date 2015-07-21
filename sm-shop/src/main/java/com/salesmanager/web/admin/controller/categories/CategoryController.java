@@ -1,6 +1,7 @@
 package com.salesmanager.web.admin.controller.categories;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -242,6 +243,7 @@ public class CategoryController {
 	@RequestMapping(value="/admin/categories/paging.html", method=RequestMethod.POST, produces="application/json")
 	public @ResponseBody String pageCategories(HttpServletRequest request, HttpServletResponse response) {
 		String categoryName = request.getParameter("name");
+		String categoryCode = request.getParameter("code");
 
 
 		AjaxResponse resp = new AjaxResponse();
@@ -261,6 +263,10 @@ public class CategoryController {
 				
 				categories = categoryService.getByName(store, categoryName, language);
 				
+			} else if(!StringUtils.isBlank(categoryCode)) {
+				
+				categoryService.listByCodes(store, new ArrayList<String>(Arrays.asList(categoryCode)), language);
+			
 			} else {
 				
 				categories = categoryService.listByStore(store, language);

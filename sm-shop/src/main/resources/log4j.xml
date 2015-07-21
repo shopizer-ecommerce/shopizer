@@ -12,7 +12,7 @@
 
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 
-<appender name="CORE" class="org.apache.log4j.rolling.RollingFileAppender">
+<appender name="CORE" class="org.apache.log4j.RollingFileAppender">
 		<!-- The active file to log to -->
 	<param name="File" value="/sm-core.log" />
 	<param name="MaxFileSize" value="10000KB"/>
@@ -30,7 +30,7 @@
 		<appender-ref ref="CORE" />
 </logger>
 
-<appender name="WEB" class="org.apache.log4j.rolling.RollingFileAppender">
+<appender name="WEB" class="org.apache.log4j.RollingFileAppender">
 		<param name="File" value="/sm-shop.log" />
 		<param name="Append" value="true" />
 		<param name="Encoding" value="UTF-8" />
@@ -46,39 +46,7 @@
 		<appender-ref ref="WEB" />
 </logger>
 
-<!--<appender name="WEB_FRONT" class="org.apache.log4j.rolling.RollingFileAppender">
-		<param name="File" value="/sm-shop-front.log" />
-		<param name="Append" value="true" />
-		<param name="Encoding" value="UTF-8" />
 
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%d{dd MMM yyyy HH:mm:ss} [%5p] (%F:%L) [%M] - %m%n" />
-		</layout>
-</appender>
-       
-<logger name="com.salesmanager.web.shop" additivity="false">
-		<level value="debug"/>
-		<appender-ref ref="WEB_FRONT" />
-</logger>
-
--->
-
-<!--<appender name="WEB_ADMIN" class="org.apache.log4j.rolling.RollingFileAppender">
-		<param name="File" value="/sm-shop-admin.log" />
-		<param name="Append" value="true" />
-		<param name="Encoding" value="UTF-8" />
-
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%d{dd MMM yyyy HH:mm:ss} [%5p] (%F:%L) [%M] - %m%n" />
-		</layout>
-</appender>
-       
-<logger name="com.salesmanager.web.admin" additivity="false">
-		<level value="debug"/>
-		<appender-ref ref="WEB_ADMIN" />
-</logger>
-
--->
 
 <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
 	<param name="Target" value="System.out"/>
@@ -90,6 +58,8 @@
 <root>
 		<priority value="debug" />
 		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="WEB" />
+		<appender-ref ref="CORE" />
 </root>
        
 </log4j:configuration>

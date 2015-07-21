@@ -285,6 +285,7 @@ public class OrderFacadeImpl implements OrderFacade {
 			modelOrder.setPaymentModuleCode(order.getPaymentModule());
 			modelOrder.setPaymentType(PaymentType.valueOf(order.getPaymentMethodType()));
 			modelOrder.setShippingModuleCode(order.getShippingModule());
+			modelOrder.setCustomerAgreement(order.isCustomerAgreed());
 			modelOrder.setLocale(LocaleUtils.getLocale(store));//set the store locale based on the country for order $ formatting
 	
 			List<ShoppingCartItem> shoppingCartItems = order.getShoppingCartItems();

@@ -53,6 +53,7 @@ import com.salesmanager.web.populator.catalog.PersistableProductPopulator;
 import com.salesmanager.web.populator.catalog.PersistableProductReviewPopulator;
 import com.salesmanager.web.populator.catalog.ReadableProductPopulator;
 import com.salesmanager.web.populator.manufacturer.PersistableManufacturerPopulator;
+import com.salesmanager.web.shop.controller.product.facade.ProductFacade;
 import com.salesmanager.web.shop.model.filter.QueryFilter;
 import com.salesmanager.web.shop.model.filter.QueryFilterType;
 
@@ -76,6 +77,9 @@ public class ShopProductRESTController {
 	
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	private ProductFacade productFacade;
 	
 	@Autowired
 	private ProductReviewService productReviewService;
@@ -104,7 +108,7 @@ public class ShopProductRESTController {
 	/**
 	 * Create new product for a given MerchantStore
 	 */
-	@RequestMapping( value="/private/product/{store}", method=RequestMethod.POST)
+	@RequestMapping( value="/private/{store}/product", method=RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
 	public PersistableProduct createProduct(@PathVariable final String store, @Valid @RequestBody PersistableProduct product, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -128,20 +132,8 @@ public class ShopProductRESTController {
 				response.sendError(503, "Merchant store is null for code " + store);
 				return null;
 			}
-
-			PersistableProductPopulator populator = new PersistableProductPopulator();
-			populator.setCategoryService(categoryService);
-			populator.setProductOptionService(productOptionService);
-			populator.setProductOptionValueService(productOptionValueService);
-			populator.setManufacturerService(manufacturerService);
-			populator.setTaxClassService(taxClassService);
-			populator.setLanguageService(languageService);
 			
-			
-			Product prod = new Product();
-			populator.populate(product, prod, merchantStore, merchantStore.getDefaultLanguage());
-			
-			productService.save(prod);
+			productFacade.saveProduct(merchantStore, product, merchantStore.getDefaultLanguage());
 			
 			return product;
 			
@@ -158,7 +150,7 @@ public class ShopProductRESTController {
 	}
 	
 
-	@RequestMapping( value="/private/product/{store}/{id}", method=RequestMethod.DELETE)
+	@RequestMapping( value="/private/{store}/product/{id}", method=RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteProduct(@PathVariable final String store, @PathVariable Long id, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Product product = productService.getById(id);
@@ -179,7 +171,7 @@ public class ShopProductRESTController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping( value="/private/manufacturer/{store}", method=RequestMethod.POST)
+	@RequestMapping( value="/private/{store}/manufacturer", method=RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
 	public PersistableManufacturer createManufacturer(@PathVariable final String store, @Valid @RequestBody PersistableManufacturer manufacturer, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -230,7 +222,7 @@ public class ShopProductRESTController {
 	}
 	
 	
-	@RequestMapping( value="/private/product/optionValue/{store}", method=RequestMethod.POST)
+	@RequestMapping( value="/private/{store}/product/optionValue", method=RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
 	public PersistableProductOptionValue createProductOptionValue(@PathVariable final String store, @Valid @RequestBody PersistableProductOptionValue optionValue, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -280,7 +272,7 @@ public class ShopProductRESTController {
 	}
 	
 	
-	@RequestMapping( value="/private/product/option/{store}", method=RequestMethod.POST)
+	@RequestMapping( value="/private/{store}/product/option", method=RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
 	public PersistableProductOption createProductOption(@PathVariable final String store, @Valid @RequestBody PersistableProductOption option, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -329,7 +321,7 @@ public class ShopProductRESTController {
 	}
 	
 	
-	@RequestMapping( value="/private/product/review/{store}", method=RequestMethod.POST)
+	@RequestMapping( value="/private/{store}/product/review", method=RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
 	public PersistableProductReview createProductReview(@PathVariable final String store, @Valid @RequestBody PersistableProductReview review, HttpServletRequest request, HttpServletResponse response) throws Exception {

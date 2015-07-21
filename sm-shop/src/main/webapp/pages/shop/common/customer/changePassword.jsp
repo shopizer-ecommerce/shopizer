@@ -79,10 +79,10 @@ function resetGlobalErrors() {
 </script>
 
 	<div id="main-content" class="container clearfix row-fluid">
-			<div class="span12 common-row">
+			<div class="span12 col-md-12 no-padding common-row">
 			
 			<div class="span8 col-md-8 no-padding">
-				<div class="box">
+				<div class="checkout-box">
 					<span class="box-title">
 						<p class="p-title">
 							<s:message code="label.generic.changepassword" text="Change password"/>
@@ -91,13 +91,13 @@ function resetGlobalErrors() {
 				<div id="store.success" class="alert alert-success" style="<c:choose><c:when test="${success!=null}">display:block;</c:when><c:otherwise>display:none;</c:otherwise></c:choose>"><s:message code="message.success" text="Request successfull"/></div>
 				<c:url var="changePassword" value="/shop/customer/changePassword.html"/>
 				<div id="formError"  class="alert alert-warning" style="display:none;"></div>
-				<form:form method="post" action="${changePassword}" id="changePasswordForm" class="form-horizontal" commandName="password">
+				<form:form method="post" action="${changePassword}" id="changePasswordForm" commandName="password">
 					   <form:errors path="*" cssClass="alert alert-error" element="div" />
 						<div class="control-group form-group">
 							<label class="required control-label" for="currentPassword"><s:message code="label.customer.currentpassword" text="Current password"/></label>
 							<div class="controls">
 							   <s:message code="currentpassword.not.empty" text="Current password is required " var="msgCurrentPassword"/>
-							   <form:password path="currentPassword" cssClass="span3 required form-control form-control-md" id="currentPassword" title="${msgCurrentPassword}"/>
+							   <form:password path="currentPassword" cssClass="span3 input-large required form-control form-control-md" id="currentPassword" title="${msgCurrentPassword}"/>
 							   <form:errors path="currentPassword" cssClass="error" />
 								
 							</div>

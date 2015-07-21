@@ -23,6 +23,7 @@ public class ManufacturerTestCase extends AbstractSalesManagerCoreTestCase {
 	
 
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Test
 	public void testCreateManufacturerService() throws ServiceException {
 		
@@ -48,6 +49,7 @@ public class ManufacturerTestCase extends AbstractSalesManagerCoreTestCase {
 		
 		Manufacturer manufacturer = new Manufacturer();
 		manufacturer.setMerchantStore(store);
+		manufacturer.setCode("testmanufacturer");
 		
 		ManufacturerDescription fd = new ManufacturerDescription();
 		fd.setLanguage(FRENCH);
@@ -69,7 +71,7 @@ public class ManufacturerTestCase extends AbstractSalesManagerCoreTestCase {
 		manufacturerService.create(manufacturer);
 		
 		manufacturerService.delete(manufacturer);
-		//merchantService.delete(store);
+
 		
 	}
 	

@@ -10,6 +10,15 @@
 	},
 	{
 		"module": "SHIPPING",
+		"code": "canadapost",
+		"version":"",
+		"regions": ["CA"],
+		"image":"canadapost.jpg",
+		"configuration":[{"env":"TEST","scheme":"https","host":"ct.soa-gw.canadapost.ca","port":"443","uri":"/rs/ship/price"},{"env":"PROD","scheme":"https","host":"soa-gw.canadapost.ca","port":"443","uri":"/rs/ship/price"}]
+
+	},
+	{
+		"module": "SHIPPING",
 		"code": "ups",
 		"version":"",
 		"regions": ["US","CA","FR","GB"],
@@ -22,6 +31,12 @@
 		"module": "SHIPPING",
 		"code": "weightBased",
 		"customModule":"true",
+		"version":"1.0",
+		"regions": ["*"]
+	},
+	{
+		"module": "SHIPPING",
+		"code": "customQuotesRules",
 		"version":"1.0",
 		"regions": ["*"]
 	},
@@ -53,6 +68,18 @@
 		"regions": ["US","CA","GB"],
 		"image":"beanstream.gif",
 		"configuration":[{"env":"TEST","scheme":"https","host":"www.beanstream.com","port":"443","uri":"/scripts/process_transaction.asp"},{"env":"PROD","scheme":"https","host":"www.beanstream.com","port":"443","uri":"/scripts/process_transaction.asp"}]
+
+	},
+	
+	
+	{
+		"module": "PAYMENT",
+		"code": "stripe",
+		"type":"stripe",
+		"version":"",
+		"regions": ["US","CA","GB","AU","FI","DK","IE","NO","SE"],
+		"image":"stripe.png",
+		"configuration":[{"env":"TEST","scheme":"https","host":"www.stripe.com","port":"443","uri":"/"},{"env":"PROD","scheme":"https","host":"www.stripe.com","port":"443","uri":"/"}]
 
 	}
 

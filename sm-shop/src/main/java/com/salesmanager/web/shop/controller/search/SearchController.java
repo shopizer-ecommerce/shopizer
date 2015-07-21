@@ -91,7 +91,7 @@ public class SearchController {
 	 */
 	@RequestMapping("/services/public/search/{store}/{language}/autocomplete.html")
 	@ResponseBody
-	public String autocomplete(@RequestParam("q") String query, @PathVariable String store, @PathVariable final String language, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String autocomplete(@RequestParam("q") String query, @PathVariable String store, @PathVariable final String language, Model model, HttpServletRequest request, HttpServletResponse response)  {
 	
 		
 		MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
@@ -102,8 +102,12 @@ public class SearchController {
 			}
 		}
 		
+		try {
+		
 		if(merchantStore== null) {
-			merchantStore = merchantStoreService.getByCode(store);
+			
+				merchantStore = merchantStoreService.getByCode(store);
+
 		}
 		
 		if(merchantStore==null) {
@@ -116,6 +120,12 @@ public class SearchController {
 		/** formatted toJSONString because of te specific field names required in the UI **/
 		SearchKeywords keywords = searchService.searchForKeywords(req.getCollectionName(), req.toJSONString(query), AUTOCOMPLETE_ENTRIES_COUNT);
 		return keywords.toJSONString();
+		
+		} catch (Exception e) {
+			LOGGER.error("Exception while autocomplete " + e);
+		}
+		
+		return null;
 		
 	}
 

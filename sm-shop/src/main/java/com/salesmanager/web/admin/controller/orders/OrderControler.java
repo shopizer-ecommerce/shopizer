@@ -170,6 +170,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 			order.setOrder( dbOrder );
 			order.setBilling( dbOrder.getBilling() );
 			order.setDelivery(dbOrder.getDelivery() );
+			
 
 			orderProducts = dbOrder.getOrderProducts();
 			orderTotal = dbOrder.getOrderTotal();
@@ -355,6 +356,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		
 		newOrder.setDelivery( entityOrder.getOrder().getDelivery() );
 		newOrder.setBilling( entityOrder.getOrder().getBilling() );
+		newOrder.setCustomerAgreement(entityOrder.getOrder().getCustomerAgreement());
 		
 		newOrder.getDelivery().setCountry(deliveryCountry );
 		newOrder.getBilling().setCountry(billingCountry );	

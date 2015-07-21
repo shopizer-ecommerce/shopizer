@@ -24,6 +24,17 @@ function getLanguageCode() {
    return "${requestScope.LANGUAGE.code}";
 }
 
+function supportsCustomerLogin() {
+	<c:choose>
+	<c:when test="${requestScope.CONFIGS['displayCustomerSection'] == true}">
+		return true;
+	</c:when>
+	<c:otherwise>
+	    return false;
+	</c:otherwise>
+	</c:choose>
+}
+
 function getItemLabel(quantity) {
 	var labelItem = '<s:message code="label.generic.item" text="item" />';
 	if (quantity > 1) {
@@ -36,14 +47,10 @@ function getLoginErrorLabel() {
 	return '<s:message code="message.username.password" text="Login Failed. Username or Password is incorrect."/>';
 }
 
-function emptyCartLabel(){
-	log('Display empty cart');
-	$("#cartMessage").html('<s:message code="cart.empty" text="Your Shopping cart is empty" />');
-	var labelItem = '<s:message code="label.generic.item" text="item" />';
-	$("#cartinfo").html('<span id="cartqty">(' + 0 + ' ' + labelItem + ')</span>&nbsp;<span id="cartprice"></span>');
-	$('#shoppingcart').hide();
-	$('#cartMessage').show();
+function getEmptyCartLabel() {
+	return '<s:message code="cart.empty" text="Your Shopping cart is empty" />';
 }
+
 
 function getInvalidEmailMessage() {
 	return '<s:message code="messages.invalid.email" text="Invalid email address"/>';

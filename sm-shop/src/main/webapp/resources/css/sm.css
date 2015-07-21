@@ -117,11 +117,16 @@
 }
 
 
-.box {
+.checkout-box {
     background-color: #FFF;
     border: 1px solid #DDDDDD;
     padding: 39px 19px 14px;
     position: relative;
+}
+
+#summary-table {
+    table-layout:fixed;
+    width:100%;
 }
 
 .error { color: #ff0000; }
@@ -246,6 +251,22 @@ form input.valid {
 
 .checkoutButton {
 	margin-top:5px;
+}
+
+#customerAgreementSection {
+    padding-top: 19px !important;
+}
+
+#customer-agreement-area {
+    display:none;
+    height:200px;
+    overflow:auto;
+    margin-bottom:1.5em;
+    padding:10px;
+    border:solid 1px #d7d7d7;
+    color:#505050;
+    background-color:#ffffff;
+    font-size:90%;
 }
 
 

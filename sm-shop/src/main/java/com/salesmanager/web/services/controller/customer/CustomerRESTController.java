@@ -3,7 +3,6 @@ package com.salesmanager.web.services.controller.customer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,10 +36,8 @@ import com.salesmanager.core.business.system.service.EmailService;
 import com.salesmanager.core.business.user.model.Group;
 import com.salesmanager.core.business.user.model.GroupType;
 import com.salesmanager.core.business.user.service.GroupService;
-import com.salesmanager.core.modules.email.Email;
 import com.salesmanager.web.admin.entity.userpassword.UserReset;
 import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.constants.EmailConstants;
 import com.salesmanager.web.entity.customer.PersistableCustomer;
 import com.salesmanager.web.entity.customer.ReadableCustomer;
 import com.salesmanager.web.entity.customer.attribute.PersistableCustomerOption;
@@ -51,8 +48,6 @@ import com.salesmanager.web.populator.customer.PersistableCustomerOptionValuePop
 import com.salesmanager.web.populator.customer.ReadableCustomerPopulator;
 import com.salesmanager.web.services.controller.category.ShoppingCategoryRESTController;
 import com.salesmanager.web.utils.EmailTemplatesUtils;
-import com.salesmanager.web.utils.EmailUtils;
-import com.salesmanager.web.utils.FilePathUtils;
 import com.salesmanager.web.utils.LabelUtils;
 import com.salesmanager.web.utils.LocaleUtils;
 

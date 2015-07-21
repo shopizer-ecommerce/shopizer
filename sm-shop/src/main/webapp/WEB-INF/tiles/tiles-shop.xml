@@ -190,7 +190,29 @@
   		<put-attribute name="footer" value="/pages/shop/templates/{1}/sections/footer.jsp" />
   	</definition>
   	
+  	<!-- access denied -->
+  	<definition name="accessDenied.*" template="/pages/shop/templates/{1}/catalogLayout.jsp">
+  		 <put-attribute name="header" value="/pages/shop/templates/{1}/sections/header.jsp" />
+  		<put-attribute name="navbar" value="/pages/shop/templates/{1}/sections/navbar.jsp" /> 
+  		<put-attribute name="body" value="/WEB-INF/views/error/access_denied.jsp" />
+  		<put-attribute name="footer" value="/pages/shop/templates/{1}/sections/footer.jsp" />
+  	</definition>
   	
+   	<definition name="accessDenied.*" template="/pages/shop/templates/{1}/catalogLayout.jsp">
+  		<put-attribute name="body" value="/WEB-INF/views/error/access_denied.jsp" />
+  	</definition> 
+  	
+  	<!-- generic error -->
+  	<definition name="error.*" template="/pages/shop/templates/{1}/catalogLayout.jsp">
+  		 <put-attribute name="header" value="/pages/shop/templates/{1}/sections/header.jsp" />
+  		<put-attribute name="navbar" value="/pages/shop/templates/{1}/sections/navbar.jsp" /> 
+  		<put-attribute name="body" value="/WEB-INF/views/error/generic_error.jsp" />
+  		<put-attribute name="footer" value="/pages/shop/templates/{1}/sections/footer.jsp" />
+  	</definition>
+  	
+   	<definition name="accessDenied.*" template="/pages/shop/templates/{1}/catalogLayout.jsp">
+  		<put-attribute name="body" value="/WEB-INF/views/error/generic_error.jsp" />
+  	</definition> 	
 
   	
 </tiles-definitions>

@@ -16,20 +16,18 @@ response.setDateHeader ("Expires", -1);
 <%@page contentType="text/html"%>
 <%@page pageEncoding="UTF-8"%>
 
-<script src="<c:url value="/resources/js/jquery.printElement.min.js" />"></script>
+<script src="<c:url value="/resources/js/jquery.print.js" />"></script>
 
 <script type="text/javascript">
 
 function print() {
-	console.log('Print');
-	$('#printableOrder').printElement();
-	//https://github.com/jasonday/printThis
+	$('#printableOrder').print();
 }
 
 </script>
 
 
-	<div id="main-content" class="container clearfix">
+	<div id="main-content" class="container clearfix row-fluid">
 		
 
 
@@ -198,5 +196,7 @@ function print() {
 
 
 
+		</div>
+	
 	</div>
 	<!--close .container "main-content" -->

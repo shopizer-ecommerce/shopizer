@@ -61,19 +61,18 @@ $(document).ready(function() {
 
 	<div id="main-content" class="container clearfix row-fluid">
 
-			<div class="span-12 common-row">
+			<div class="span-12 col-md-12 no-padding common-row">
 			
 			
 			<c:if test="${options!=null && fn:length(options)>0}">
-				<!--<div class="row-fluid">-->
-					<!--<div class="span12 col-md-12 no-padding">-->
+
 						<div id="attributesSuccess" class="alert alert-success" style="<c:choose><c:when test="${success!=null}">display:block;</c:when><c:otherwise>display:none;</c:otherwise></c:choose>"><s:message code="message.success" text="Request successfull"/></div>   
 			            <div id="attributesError" class="alert alert-error" style="display:none;"><s:message code="message.error" text="An error occured"/></div>
 						<form action="#" id="attributes">
-						<div id="attributesBox" class="box">
+						<div id="attributesBox" class="checkout-box">
 								<span class="box-title">
 									<p class="p-title"><s:message code="label.customer.moredetails" text="More details"/></font></p>
-								</span
+								</span>
 						
 					
 							
@@ -128,20 +127,25 @@ $(document).ready(function() {
 						</div>
 						</div>
 						</form>
-					<!--</div>-->
-				<!--</div>-->
 				</c:if>
 
 		
-		
+				 </br>
+				 <c:if test="${requestScope.CONTENT['DASHBOARD']!=null}">
+			     <div class="row-fluid">	
+			     	<div class="span-12 col-md-12 common-row">
+			     		<c:out value="${requestScope.CONTENT['DASHBOARD']}"/>
+			     	</div>
+			     </div>
+			     </c:if>
 		
 				 </br>
 			     <div class="row-fluid">
 			
 			
-					   <div class="span6">
+					   <div class="span6 col-md-6 no-padding-left">
 	
-							<div class="box">
+							<div class="checkout-box">
 								<span class="box-title">
 									<p class="p-title"><s:message code="label.customer.myaccount" text="My account"/></p>
 								</span>
@@ -150,8 +154,8 @@ $(document).ready(function() {
 	
 	
 					   </div>
-					   <div class="span6">
-							<div class="box">
+					   <div class="span6 col-md-6 no-padding-left">
+							<div class="checkout-box">
 								<span class="box-title">
 									<p class="p-title"><s:message code="label.order.pastorders" text="Past orders"/></p>
 								</span>
@@ -161,7 +165,6 @@ $(document).ready(function() {
 					   </div>
 				 </div>
 			</div>
-		<!--</div>-->
 		<!-- close row-fluid--> 
 	</div>
 	<!--close .container "main-content" -->

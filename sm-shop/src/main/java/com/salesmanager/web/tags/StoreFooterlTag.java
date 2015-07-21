@@ -22,7 +22,7 @@ public class StoreFooterlTag extends TagSupport {
 	private static final long serialVersionUID = 6319855234657139862L;
 	private static final Logger LOGGER = LoggerFactory.getLogger(StoreFooterlTag.class);
 
-	private final static String COPY = "©";
+	private final static String COPY = "\u00a9";
 
 
 	public int doStartTag() throws JspException {
@@ -33,7 +33,7 @@ public class StoreFooterlTag extends TagSupport {
 			HttpServletRequest request = (HttpServletRequest) pageContext
 					.getRequest();
 			
-			MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
+			MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
 
 			
 			StringBuilder y = new StringBuilder();

@@ -54,6 +54,14 @@
 	                        				</div>
 	                  				   </div>
 	                  				   
+	                  				   <div class="control-group">
+	                        				<label><s:message code="label.order.displayagreement" text="Display customer terms and policy agreement in order page" /></label>
+	                        				<div class="controls">
+	                        					<form:checkbox path="displayCustomerAgreement" /> 
+	                                   			<span class="help-inline"></span>
+	                        				</div>
+	                  				   </div>
+	                  				   
 	                  				   <c:forEach items="${store.languages}" var="language">
 	                  				   
 	                  				   <div class="control-group">

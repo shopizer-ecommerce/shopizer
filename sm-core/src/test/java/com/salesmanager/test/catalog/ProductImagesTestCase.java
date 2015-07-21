@@ -89,6 +89,7 @@ public class ProductImagesTestCase extends AbstractSalesManagerCoreTestCase {
 	     */
 	    Manufacturer packed = new Manufacturer();
 	    packed.setMerchantStore(store);
+	    packed.setCode("packt");
 
 	    ManufacturerDescription packedd = new ManufacturerDescription();
 	    packedd.setLanguage(en);

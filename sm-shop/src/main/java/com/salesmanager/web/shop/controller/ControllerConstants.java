@@ -63,6 +63,11 @@ public interface ControllerConstants
             final static String search="search";
         }
         
+        interface Error {
+        	final static String accessDenied = "accessDenied";
+        	final static String error = "error";
+        }
+        
 
         
     }

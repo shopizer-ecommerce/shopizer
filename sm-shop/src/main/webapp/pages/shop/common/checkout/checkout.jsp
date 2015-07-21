@@ -21,7 +21,7 @@ response.setDateHeader ("Expires", -1);
 <script type="text/html" id="subTotalsTemplate">
 		{{#subTotals}}
 			<tr class="subt"> 
-				<td colspan="3">{{title}}</td> 
+				<td colspan="2">{{title}}</td> 
 				<td><strong>{{total}}</strong></td> 
 			</tr>
 		{{/subTotals}}
@@ -46,7 +46,7 @@ response.setDateHeader ("Expires", -1);
 				&nbsp;(<s:message code="label.shipping.handlingfees" text="Handling fees" />&nbsp;{{handlingText}})
 			{{/showHandling}}			       				
 		</label> 
-		<div class="controls">
+		<div id="shippingOptions" class="controls">
 			{{#shippingOptions}}	
 				<label class="radio"> 
 					<input type="radio" name="selectedShippingOption.optionId" class="shippingOption" id="{{optionId}}" value="{{optionId}}" {{#checked}} checked="checked"{{/checked}}> 
@@ -72,9 +72,11 @@ function isFormValid() {
 	var firstErrorMessage = null;
 	$inputs.each(function() {
 		if($(this).hasClass('required')) {
-			var fieldValid = isFieldValid($(this));
+			var fieldValid = isCheckoutFieldValid($(this));
+			log($(this).attr('id') + ' Is valid ' + fieldValid);
 			if(!fieldValid) {
 				if(firstErrorMessage==null) {
+					log('Title ' + $(this).attr('title'));
 					if($(this).attr('title')) {
 						firstErrorMessage = $(this).attr('title');
 					}
@@ -106,7 +108,7 @@ function isFormValid() {
 		if(firstErrorMessage!=null) {
 			$(formErrorMessageId).addClass('alert-error alert-danger');
 			$(formErrorMessageId).removeClass('alert-success');
-			$(formErrorMessageId).html('<img src="<c:url value="/resources/img/icon_error.png"/>" width="40"/>&nbsp;<strong><font color="red">' + firstErrorMessage + '</font></strong>');
+			$(formErrorMessageId).html('<!--<img src="<c:url value="/resources/img/icon_error.png"/>" width="40"/>&nbsp;--><strong><font color="red">' + firstErrorMessage + '</font></strong>');
 			$(formErrorMessageId).show();
 		}
 		$('#submitOrder').addClass('btn-disabled');
@@ -114,7 +116,7 @@ function isFormValid() {
 	} else {
 		$(formErrorMessageId).removeClass('alert-error alert-danger');
 		$(formErrorMessageId).addClass('alert-success');
-		$(formErrorMessageId).html('<img src="<c:url value="/resources/img/icon_success.png"/>" width="40"/>&nbsp;<strong><s:message code="message.order.canprocess" text="The order can be completed"/></strong>');
+		$(formErrorMessageId).html('<!--<img src="<c:url value="/resources/img/icon_success.png"/>" width="40"/>&nbsp;--><strong><s:message code="message.order.canprocess" text="The order can be completed"/></strong>');
 		$(formErrorMessageId).show();
 		$('#submitOrder').removeClass('btn-disabled');
 		$('#submitOrder').prop('disabled', false);
@@ -126,7 +128,7 @@ function setPaymentModule(module) {
 	$('#paymentModule').val(module);	
 }
 
-function isFieldValid(field) {
+function isCheckoutFieldValid(field) {
 	var validateField = true;
 	var fieldId = field.prop('id');
 	var value = field.val();
@@ -136,6 +138,8 @@ function isFieldValid(field) {
 	if(!field.is(':visible')) {
 		validateField = false; //ignore invisible fields
 	}
+	
+
 	//shipping information
 	<c:if test="${shippingQuote!=null}">
 	if ($('#shipToBillingAdress').is(':checked')) {
@@ -159,9 +163,21 @@ function isFieldValid(field) {
 			}
 		}
 	</c:if>
+	
+
+	
 	if(!validateField) {
 		return true;
 	}
+	
+	if(field.attr('type')=='checkbox') {
+		if(field.is(":checked")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	if(!emptyString(value)) {
 		field.css('background-color', '#FFF');
 		return true;
@@ -218,7 +234,7 @@ function showErrorMessage(message) {
 	
 	$(formErrorMessageId).addClass('alert-error alert-danger');
 	$(formErrorMessageId).removeClass('alert-success');
-	$(formErrorMessageId).html('<img src="<c:url value="/resources/img/icon_error.png"/>" width="40"/>&nbsp;<strong><font color="red">' + message + '</font></strong>');
+	$(formErrorMessageId).html('<!--<img src="<c:url value="/resources/img/icon_error.png"/>" width="40"/>&nbsp;--><strong><font color="red">' + message + '</font></strong>');
 	$(formErrorMessageId).show();
 	
 }
@@ -261,15 +277,18 @@ function getZones(listDiv, textDiv, countryCode, defaultValue, callBackFunction)
 			var data = response.response.data;
 			//console.log(status);
 			if((status==0 || status ==9999) && data) {
-				
-				
+
 				//console.log(data);
 				if(data && data.length>0) {
+					$(listDiv).addClass('required');
 					$(listDiv).show();  
+					$(textDiv).removeClass('required');
 					$(textDiv).hide();
 					$(listDiv).addItems(listDiv, data, defaultValue);		
 				} else {
-					$(listDiv).hide();             
+					$(listDiv).removeClass('required');
+					$(listDiv).hide();  
+					$(textDiv).addClass('required');
 					$(textDiv).show();
 					if(defaultValue!=null || defaultValue !='') {
 						$(textDiv).val(defaultValue);
@@ -320,6 +339,8 @@ function setCountrySettings(prefix, countryCode) {
 
 
 function bindActions() {
+	
+
     $(".shippingOption").click(function() {
     	calculateTotal();
     });
@@ -341,10 +362,13 @@ function bindActions() {
 		resetErrorMessage();
 		setCountrySettings('billing',$('.billing-country-list').val());
 		setCountrySettings('delivery',$('.shipping-country-list').val());
+		//$('#submitOrder').disable();
 		$('#pageContainer').showLoading();
 		var paymentSelection = $('input[name=paymentMethodType]:checked', checkoutFormId).val();
 		if(paymentSelection.indexOf('PAYPAL')!=-1) {
 			initPayment(paymentSelection);
+		} else if(paymentSelection.indexOf('STRIPE')!=-1) {
+			initStripePayment();
 		} else {
 			//submit form
 			$('#pageContainer').hideLoading();
@@ -429,6 +453,7 @@ function initPayment(paymentSelection) {
 		  cache: false,
 		  dataType: 'json',
 		  success: function(response){
+			  	//$('#submitOrder').enable();
 			    $('#pageContainer').hideLoading();
 				var resp = response.response;
 				var status = resp.status;
@@ -521,6 +546,10 @@ function calculateTotal(){
 
 
 $(document).ready(function() {
+	
+    	$("#clickAgreement").click(function(){
+        	$("#customer-agreement-area").slideToggle("slow");
+    	});
 
 		<!-- 
 			//can use masked input for phone (USA - CANADA)
@@ -530,6 +559,10 @@ $(document).ready(function() {
 		bindActions();
 
 		$("input[type='text']").on("change keyup paste", function(){
+			isFormValid();
+		});
+		
+		$("input[type='checkbox']").on("change click", function(){
 			isFormValid();
 		});
 		
@@ -585,12 +618,6 @@ $(document).ready(function() {
 	    	shippingQuotes();		
 	    })
 	    
-	    
-	    
-
-	    
-
-	    
 	    $('input[name=paymentMethodType]', checkoutFormId).click(function() {
 	    	isFormValid();//change payment method
 	    });
@@ -627,7 +654,6 @@ $(document).ready(function() {
 		<div class="row-fluid common-row" id="checkout">
 				<div class="span12 col-md-12 no-padding">
 
-
 					<!-- If error messages -->
 					<div id="checkoutError"  class="<c:if test="${errorMessages!=null}">alert  alert-error alert-danger </c:if>">
 						<c:if test="${errorMessages!=null}">
@@ -642,7 +668,7 @@ $(document).ready(function() {
 					<div class="span8 col-md-8 no-padding-left">
 
 										<!-- Billing box -->
-										<div id="shippingBox" class="box">
+										<div id="shippingBox" class="checkout-box">
 											<span class="box-title">
 												<p class="p-title"><s:message code="label.customer.billinginformation" text="Billing information"/></p>
 											</span>
@@ -802,7 +828,7 @@ $(document).ready(function() {
 									<c:if test="${shippingQuote!=null}">
 									<br/>
 									<!-- Shipping box -->
-									<div id="deliveryBox" class="box">
+									<div id="deliveryBox" class="checkout-box">
 											<span class="box-title">
 												<p class="p-title"><s:message code="label.customer.shippinginformation" text="Shipping information"/></p>
 											</span>
@@ -915,9 +941,9 @@ $(document).ready(function() {
 									
 									<!-- Shipping box -->
 									<c:if test="${shippingQuote!=null}">
-									 <br/>
+									 <br/> 
 									<!-- Shipping -->
-									<div class="box">
+									<div class="checkout-box">
 										<span class="box-title">
 												<p class="p-title"><s:message code="label.shipping.fees" text="Shipping fees" /> </p>
 										</span>
@@ -932,7 +958,7 @@ $(document).ready(function() {
 								       					&nbsp;(<s:message code="label.shipping.handlingfees" text="Handling fees" />&nbsp;<sm:monetary value="${shippingQuote.handlingFees}"/>)
 								       				</c:if>
 							 					</label> 
-							 					<div class="controls"> 
+							 					<div id="shippingOptions" class="controls"> 
 							 						<c:forEach items="${shippingQuote.shippingOptions}" var="option" varStatus="status">
 														<label class="radio">
 															<input type="radio" name="selectedShippingOption.optionId" class="shippingOption" id="${option.optionId}" value="${option.optionId}" <c:if test="${order.selectedShippingOption!=null && order.selectedShippingOption.optionId==option.optionId}">checked="checked"</c:if>> 
@@ -949,10 +975,10 @@ $(document).ready(function() {
 								       			</c:when>
 								       			<c:otherwise>
 								       				<c:choose>
-								       				<c:when test="${shippingQuote.quoteError!=null}">
+								       				  <c:when test="${shippingQuote.shippingReturnCode=='ERROR'}">
 								       					<font color="red"><c:out value="${shippingQuote.quoteError}" /></font>
-								       				</c:when>
-								       				<c:otherwise>
+								       				  </c:when>
+								       				  <c:otherwise>
 								       					<c:choose>
 									       					<c:when test="${shippingQuote.shippingReturnCode=='NO_SHIPPING_MODULE_CONFIGURED'}">
 									       						<font color="red"><s:message code="message.noshipping.configured" text="No shipping method configured"/></font>
@@ -961,7 +987,7 @@ $(document).ready(function() {
 									       						<strong><s:message code="label.shipping.freeshipping" text="Free shipping!"/></strong>
 									       					</c:otherwise>
 								       					</c:choose>
-								       				</c:otherwise>
+								       				  </c:otherwise>
 								       				</c:choose>
 								       			</c:otherwise>								       	
 								       		</c:choose>
@@ -974,7 +1000,7 @@ $(document).ready(function() {
 									
 									<c:if test="${fn:length(paymentMethods)>0}">
 									<!-- payment box -->
-									<div class="box">
+									<div class="checkout-box">
 										<span class="box-title">
 											<p class="p-title"><s:message code="label.payment.module.title" text="Payment method" /></p>
 										</span>
@@ -983,7 +1009,7 @@ $(document).ready(function() {
 												    	<ul class="nav nav-tabs">
 												    		<c:forEach items="${paymentMethods}" var="paymentMethod">
 												    			<li class="<c:choose><c:when test="${order.paymentMethodType!=null && order.paymentMethodType==paymentMethod.paymentType}">active</c:when><c:otherwise><c:if test="${order.paymentMethodType==null && paymentMethod.defaultSelected==true}">active</c:if></c:otherwise></c:choose>">
-												    				<a href="#${paymentMethod.paymentType}" data-toggle="tab">
+												    				<a href="#${paymentMethod.paymentType}" data-toggle="tab" class="paymentTab">
 												    					<c:choose>
 												    						<c:when test="${paymentMethod.paymentType=='CREDITCARD' || paymentMethod.paymentType=='PAYPAL'}">
 												    							<c:if test="${paymentMethod.paymentType=='CREDITCARD'}">
@@ -1044,7 +1070,7 @@ $(document).ready(function() {
 					<div class="span4 col-md-4 no-padding">
 					
 										<!-- order summary box -->
-										<div class="box">
+										<div class="checkout-box">
 											<span id="summaryBox" class="box-title">
 												<p class="p-title"><s:message code="label.order.summary" text="Order summary" /></p>
 											</span>
@@ -1052,18 +1078,18 @@ $(document).ready(function() {
 											<table id="summary-table" class="table table-condensed table-hover">
 												<thead> 
 													<tr> 
-														<th width="55%"><s:message code="label.order.item" text="Item" /></th> 
-														<th width="15%"><s:message code="label.quantity" text="Quantity" /></th> 
-														<th width="15%"><s:message code="label.order.price" text="Price" /></th>
-														<th width="15%"><s:message code="label.order.total" text="Total" /></th>  
+														<th width="45%"><s:message code="label.order.item" text="Item" /></th> 
+														<!--<th width="15%"><s:message code="label.quantity" text="Quantity" /></th>--> 
+														<th width="20%"><s:message code="label.order.price" text="Price" /></th>
+														<th width="20%"><s:message code="label.order.total" text="Total" /></th>  
 													</tr> 
 												</thead> 
 									
 												<tbody id="summaryRows"> 
 													<c:forEach items="${cart.shoppingCartItems}" var="shoppingCartItem">
 													<tr class="item"> 
-														<td>
-															${shoppingCartItem.name}
+														<td width="45%">
+															${shoppingCartItem.quantity} x ${shoppingCartItem.name}
 															<c:if test="${fn:length(shoppingCartItem.shoppingCartAttributes)>0}">
 															<br/>
 																<ul>
@@ -1073,16 +1099,16 @@ $(document).ready(function() {
 																</ul>
 															</c:if>
 														</td> 
-														<td >${shoppingCartItem.quantity}</td> 
-														<td><strong>${shoppingCartItem.price}</strong></td> 
-														<td><strong>${shoppingCartItem.subTotal}</strong></td> 
+														<!--<td width="15%">${shoppingCartItem.quantity}</td>--> 
+														<td width="20%"><strong>${shoppingCartItem.price}</strong></td> 
+														<td width="20%"><strong>${shoppingCartItem.subTotal}</strong></td> 
 													</tr>
 													</c:forEach>
 													<!-- subtotals -->
 													<c:forEach items="${order.orderTotalSummary.totals}" var="total">
 													<c:if test="${total.orderTotalCode!='order.total.total'}">
 													<tr class="subt"> 
-														<td colspan="3"><s:message code="${total.orderTotalCode}" text="${total.orderTotalCode}"/></td> 
+														<td colspan="2"><s:message code="${total.orderTotalCode}" text="${total.orderTotalCode}"/></td> 
 														<td><strong><sm:monetary value="${total.value}" /></strong></td> 
 													</tr> 
 													</c:if>
@@ -1101,7 +1127,27 @@ $(document).ready(function() {
 											</div>					
 										</div>
 										<!--  end order summary box -->
-										<br/>
+										<c:if test="${requestScope.CONFIGS['displayCustomerAgreement']==true}">
+										<!-- customer agreement -->
+										<div class="checkout-box" id="customerAgreementSection" class="">
+											<label id="customerAgreement" class="checkbox"> 
+											<s:message code="NotEmpty.customer.agreement" text="Please make sure you agree with terms and conditions" var="msgAgreement"/>
+											<form:checkbox path="customerAgreed" id="customerAgreed" cssClass="required" title="${msgAgreement}"/>
+											<a href="javascript:return false;" id="clickAgreement"><s:message code="label.customer.order.agreement" text="I agree with the terms and conditions" /></a>
+											</label>
+											<div id="customer-agreement-area">
+														<c:choose>
+															<c:when test="${requestScope.CONTENT['agreement']!=null}">
+																<sm:pageContent contentCode="agreement"/>
+															</c:when>
+															<c:otherwise>
+																<s:message code="message.content.missing.agreement" text="Content with code 'agreement' does not exist" />
+															</c:otherwise>
+														</c:choose>
+											</div>
+										</div>
+										</c:if>
+										
 										<div id="formErrorMessage" class="alert">
 										</div>
 										<!-- Submit -->
@@ -1111,7 +1157,8 @@ $(document).ready(function() {
 												<c:if test="${errorMessages!=null}"> btn-disabled</c:if>" 
 												<c:if test="${errorMessages!=null}"> disabled="true"</c:if>
 												><s:message code="button.label.submitorder" text="Submit order"/></button>
-
+			
+												<!-- submit can be a post or a pre ajax query -->
 											</div>
 										</div> 
 			

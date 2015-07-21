@@ -463,10 +463,12 @@ public class ProductDaoImpl extends SalesManagerEntityDaoImpl<Long, Product> imp
 		if(!CollectionUtils.isEmpty(criteria.getProductIds())) {
 			countBuilderWhere.append(" and p.id in (:pId)");
 		}
+		
+		countBuilderSelect.append(" inner join p.descriptions pd");
+		countBuilderWhere.append(" and pd.language.id=:lang");
 
 		if(!StringUtils.isBlank(criteria.getProductName())) {
-			countBuilderSelect.append(" INNER JOIN p.descriptions pd");
-			countBuilderWhere.append(" and pd.language.id=:lang and lower(pd.name) like:nm");
+			countBuilderWhere.append(" and lower(pd.name) like:nm");
 		}
 		
 		
@@ -542,12 +544,12 @@ public class ProductDaoImpl extends SalesManagerEntityDaoImpl<Long, Product> imp
 				countQ.setParameter("val" + count + attributeCriteria.getAttributeCode(),"%" + attributeCriteria.getAttributeValue() + "%");
 				count ++;
 			}
-			countQ.setParameter("lang", language.getId());
 		}
+		
+		countQ.setParameter("lang", language.getId());
 		
 		if(!StringUtils.isBlank(criteria.getProductName())) {
 			countQ.setParameter("nm", new StringBuilder().append("%").append(criteria.getProductName().toLowerCase()).append("%").toString());
-			countQ.setParameter("lang", language.getId());
 		}
 		
 		if(!CollectionUtils.isEmpty(criteria.getProductIds())) {
@@ -892,7 +894,6 @@ public class ProductDaoImpl extends SalesManagerEntityDaoImpl<Long, Product> imp
 			//images
 			qs.append("left join fetch p.images images ");
 			//options
-			qs.append("left join fetch p.images images ");
 			qs.append("left join fetch p.attributes pattr ");
 			qs.append("left join fetch pattr.productOption po ");
 			qs.append("left join fetch po.descriptions pod ");

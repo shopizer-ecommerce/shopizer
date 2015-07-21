@@ -24,6 +24,7 @@ public class OrderEntity extends Order implements Serializable {
 	private CreditCard creditCard;
 	private Date datePurchased;
 	private String currency;
+	private boolean customerAgreed;
 	
 	public void setTotals(List<OrderTotal> totals) {
 		this.totals = totals;
@@ -79,6 +80,12 @@ public class OrderEntity extends Order implements Serializable {
 	}
 	public void setCurrency(String currency) {
 		this.currency = currency;
+	}
+	public boolean isCustomerAgreed() {
+		return customerAgreed;
+	}
+	public void setCustomerAgreed(boolean customerAgreed) {
+		this.customerAgreed = customerAgreed;
 	}
 
 

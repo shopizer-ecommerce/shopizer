@@ -8,7 +8,7 @@
 
                  
                  <div class="control-group">
-                        <label class="required"><s:message code="module,payment.paypal.clientId" text="Paypal client id"/></label>
+                        <label class="required"><s:message code="module.payment.paypal.clientId" text="Paypal client id"/></label>
 	                        <div class="controls">
 	                        		<form:input cssClass="input-xxlarge highlight" path="integrationKeys['client']" />
 	                        </div>
@@ -20,7 +20,7 @@
                   </div>
                   
                    <div class="control-group">
-                        <label class="required"><s:message code="module,payment.paypal.secret" text="PayPal Secret"/></label>
+                        <label class="required"><s:message code="module.payment.paypal.secret" text="PayPal Secret"/></label>
 	                        <div class="controls">
 									<form:input cssClass="input-xxlarge highlight" path="integrationKeys['secret']" />
 	                        </div>

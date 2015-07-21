@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -123,7 +124,7 @@ public class CustomerRegistrationController extends AbstractController {
     @RequestMapping( value = "/register.html", method = RequestMethod.POST )
     public String registerCustomer( @Valid
     @ModelAttribute("customer") SecuredShopPersistableCustomer customer, BindingResult bindingResult, Model model,
-                                    HttpServletRequest request, final Locale locale )
+                                    HttpServletRequest request, HttpServletResponse response, final Locale locale )
         throws Exception
     {
         MerchantStore merchantStore = (MerchantStore) request.getAttribute( Constants.MERCHANT_STORE );
@@ -230,6 +231,17 @@ public class CustomerRegistrationController extends AbstractController {
 	        //authenticate
 	        customerFacade.authenticate(c, userName, password);
 	        super.setSessionAttribute(Constants.CUSTOMER, c, request);
+	        
+	        StringBuilder cookieValue = new StringBuilder();
+            cookieValue.append(merchantStore.getCode()).append("_").append(c.getNick());
+	        
+            //set username in the cookie
+            Cookie cookie = new Cookie(Constants.COOKIE_NAME_USER, cookieValue.toString());
+            cookie.setMaxAge(60 * 24 * 3600);
+            cookie.setPath(Constants.SLASH);
+            response.addCookie(cookie);
+	        
+	        
 	        
 	        return "redirect:/shop/customer/dashboard.html";
         

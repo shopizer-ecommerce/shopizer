@@ -280,40 +280,6 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
 	}
 
 
-	//@Override
-	//public void addProduct(Category category, Product product) throws ServiceException {
-		//if (!category.getProducts().contains(product)) {
-		//	category.getProducts().add(product);
-		//	update(category);
-		//}
-	//}
-
-	//@Override
-	//public void removeProduct(Category category, Product product)
-			//throws ServiceException {
-		//if (category.getProducts().contains(product)) {
-		//	category.getProducts().remove(product);
-		//	update(category);
-		//}
-	//}
-
-	//@Override
-	//public void addProducts(Category category, List<Product> products)
-	//		throws ServiceException {
-		//if (!category.getProducts().contains(products)) {
-		//	category.getProducts().addAll(products);
-		//	update(category);
-		//}
-	//}
-
-	//@Override
-	//public void removeProducts(Category category, List<Product> products)
-		//	throws ServiceException {
-		//if (category.getProducts().contains(products)) {
-		//	category.getProducts().removeAll(products);
-		//	update(category);
-		//}
-	//}
 
 	@Override
 	public CategoryDescription getDescription(Category category, Language language) {

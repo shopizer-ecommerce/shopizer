@@ -540,6 +540,9 @@ function captureOrder(orderId){
 	            </div>  
 	
 
+	            <label><s:message code="label.customer.order.agreement.title" text="Terms and conditions"/>: <strong><c:out value="${order.order.customerAgreement}"/></strong></label>
+	
+				<br/><br/>
 	            <label><s:message code="label.order.paymentmode" text="Payment mode"/></label>
 	            <div class="controls">
 		 			 <strong><c:out value="${order.order.paymentType}"/> - <c:out value="${order.order.paymentModuleCode}"/></strong>

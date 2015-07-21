@@ -169,6 +169,7 @@ public class CatalogSalesManagerTestCase extends AbstractSalesManagerCoreTestCas
 
 	    Manufacturer oreilley = new Manufacturer();
 	    oreilley.setMerchantStore(store);
+	    oreilley.setCode("oreilley");
 
 	    ManufacturerDescription oreilleyd = new ManufacturerDescription();
 	    oreilleyd.setLanguage(en);
@@ -180,6 +181,7 @@ public class CatalogSalesManagerTestCase extends AbstractSalesManagerCoreTestCas
 
 	    Manufacturer packed = new Manufacturer();
 	    packed.setMerchantStore(store);
+	    packed.setCode("packed");
 
 	    ManufacturerDescription packedd = new ManufacturerDescription();
 	    packedd.setLanguage(en);
@@ -191,6 +193,7 @@ public class CatalogSalesManagerTestCase extends AbstractSalesManagerCoreTestCas
 
 	    Manufacturer novells = new Manufacturer();
 	    novells.setMerchantStore(store);
+	    novells.setCode("novells");
 
 	    ManufacturerDescription novellsd = new ManufacturerDescription();
 	    novellsd.setLanguage(en);
@@ -566,6 +569,7 @@ public class CatalogSalesManagerTestCase extends AbstractSalesManagerCoreTestCas
 	     */
 	    Manufacturer packed = new Manufacturer();
 	    packed.setMerchantStore(store);
+	    packed.setCode("packed");
 
 	    ManufacturerDescription packedd = new ManufacturerDescription();
 	    packedd.setLanguage(en);

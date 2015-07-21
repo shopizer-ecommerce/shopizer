@@ -30,8 +30,8 @@ import com.salesmanager.core.business.reference.language.service.LanguageService
 import com.salesmanager.web.constants.Constants;
 import com.salesmanager.web.entity.catalog.category.PersistableCategory;
 import com.salesmanager.web.entity.catalog.category.ReadableCategory;
-import com.salesmanager.web.populator.catalog.PersistableCategoryPopulator;
 import com.salesmanager.web.populator.catalog.ReadableCategoryPopulator;
+import com.salesmanager.web.shop.controller.category.facade.CategoryFacade;
 
 /**
  * Rest services for category management
@@ -53,6 +53,9 @@ public class ShoppingCategoryRESTController {
 	
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	private CategoryFacade categoryFacade;
 	
 
 	
@@ -167,17 +170,11 @@ public class ShoppingCategoryRESTController {
 				response.sendError(503, "Merchant store is null for code " + store);
 				return null;
 			}
-
-			PersistableCategoryPopulator populator = new PersistableCategoryPopulator();
-			populator.setCategoryService(categoryService);
-			populator.setLanguageService(languageService);
 			
-			Category dbCategory = populator.populate(category, new Category(), merchantStore, merchantStore.getDefaultLanguage());
+			categoryFacade.saveCategory(merchantStore, category);
 
-			dbCategory.setMerchantStore(merchantStore);
 			
-			categoryService.saveOrUpdate(dbCategory);
-			category.setId(dbCategory.getId());
+			category.setId(category.getId());
 
 			return category;
 		
@@ -191,7 +188,7 @@ public class ShoppingCategoryRESTController {
 		}
 	}
 	
-	
+
 	
 	/**
 	 * Deletes a category for a given MerchantStore

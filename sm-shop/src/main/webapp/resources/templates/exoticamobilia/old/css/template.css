@@ -1,0 +1,40 @@
+@font-face {
+    font-family: 'SalarymanRegular';
+    src: url('../fonts/SALARYMA-webfont.eot');
+    src: url('../fonts/SALARYMA-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/SALARYMA-webfont.woff') format('woff'),
+         url('../fonts/SALARYMA-webfont.ttf') format('truetype'),
+         url('../fonts/SALARYMA-webfont.svg#SalarymanRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+.logo > h1{
+	font: 24px "SalarymanRegular", Arial, sans-serif;
+	letter-spacing: 0;
+	padding:0;
+	margin-top:20px;
+	color:#a2a1a1;
+}
+
+.header-caption {
+	padding: 10px 0;
+	margin-left: 8px;
+}
+
+.caption .header-white {
+	color:#fff;
+	font-size:44px;
+
+}
+
+.shop-banner {
+	height: 120px;
+	width: 1140px;
+}
+
+.shop-banner-title {
+	margin-top:-10px;
+	width: 1140px;
+}

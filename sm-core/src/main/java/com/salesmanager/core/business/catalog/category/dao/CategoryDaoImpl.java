@@ -44,7 +44,7 @@ public class CategoryDaoImpl extends SalesManagerEntityDaoImpl<Long, Category> i
 		return categories;
 	}
 	
-
+	//TODO search by code %
 
 	@Override
 	public List<Category> listBySeUrl(MerchantStore store,String seUrl) {
@@ -181,6 +181,8 @@ public class CategoryDaoImpl extends SalesManagerEntityDaoImpl<Long, Category> i
 		return query.uniqueResult(qCategory);
 	}
 	
+	//TODO add language
+	
 	@Override
 	public List<Category> listByLineage(MerchantStore store, String lineage) {
 		QCategory qCategory = QCategory.category;
@@ -227,7 +229,7 @@ public class CategoryDaoImpl extends SalesManagerEntityDaoImpl<Long, Category> i
 		query.from(qCategory)
 			.leftJoin(qCategory.descriptions, qDescription).fetch()
 			.leftJoin(qCategory.merchantStore).fetch()
-			.where(qCategory.depth.eq(depth)
+			.where(qCategory.depth.between(0, depth)
 			.and(qCategory.merchantStore.id.eq(store.getId())))
 			.orderBy(qCategory.sortOrder.asc(), qCategory.lineage.asc(), qCategory.lineage.asc(), qCategory.depth.asc(), qDescription.language.id.desc());
 		
@@ -245,7 +247,7 @@ public class CategoryDaoImpl extends SalesManagerEntityDaoImpl<Long, Category> i
 		query.from(qCategory)
 			.leftJoin(qCategory.descriptions, qDescription).fetch()
 			.leftJoin(qCategory.merchantStore).fetch()
-			.where(qCategory.depth.eq(depth)
+			.where(qCategory.depth.between(0, depth)
 			.and(qCategory.merchantStore.id.eq(store.getId()))
 			.and(qDescription.language.id.eq(language.getId())))
 			.orderBy(qCategory.sortOrder.asc(), qCategory.lineage.asc(), qCategory.lineage.asc(), qCategory.depth.asc(), qDescription.language.id.desc());
@@ -374,4 +376,6 @@ public class CategoryDaoImpl extends SalesManagerEntityDaoImpl<Long, Category> i
 		return query.distinct().list(qCategory);
 				//listDistinct(qCategory);
 	}
+
+
 }

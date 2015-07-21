@@ -22,13 +22,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.lowagie.text.Document;
-import com.lowagie.text.PageSize;
-import com.lowagie.text.Rectangle;
-import com.lowagie.text.pdf.PdfContentByte;
-import com.lowagie.text.pdf.PdfDocument;
-import com.lowagie.text.pdf.PdfTemplate;
-import com.lowagie.text.pdf.PdfWriter;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfDocument;
+import com.itextpdf.text.pdf.PdfTemplate;
+import com.itextpdf.text.pdf.PdfWriter;
+
 import com.salesmanager.core.business.merchant.model.MerchantStore;
 import com.salesmanager.core.business.order.model.Order;
 import com.salesmanager.core.business.order.model.OrderTotal;
@@ -387,8 +388,8 @@ public class ODSInvoiceModule implements InvoiceModule {
 			 g2.dispose();
 
 			 // Add our spreadsheet in the middle of the page
-			 float offsetX = (pageSize.getWidth() - w) / 2;
-			 float offsetY = (pageSize.getHeight() - h) / 2;
+			 float offsetX = (float) ((pageSize.getWidth() - w) / 2);
+			 float offsetY = (float) ((pageSize.getHeight() - h) / 2);
 			 cb.addTemplate(tp, offsetX, offsetY);
 			 // Close the PDF document
 			 document.close();

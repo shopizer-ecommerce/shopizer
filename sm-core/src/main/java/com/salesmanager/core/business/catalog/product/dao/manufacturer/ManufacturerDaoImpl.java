@@ -55,6 +55,8 @@ public class ManufacturerDaoImpl extends SalesManagerEntityDaoImpl<Long, Manufac
 		List<Manufacturer> manufacturers = query.list(qManufacturer);
 		return manufacturers;
 	}
+	
+	//TODO get by code %
 
 	public Manufacturer getById(Long id) {
 		QManufacturer qManufacturer = QManufacturer.manufacturer;
@@ -110,6 +112,23 @@ public class ManufacturerDaoImpl extends SalesManagerEntityDaoImpl<Long, Manufac
 		
 		return query.getResultList();
 		
+	}
+
+	@Override
+	public Manufacturer getByCode(MerchantStore store, String code) {
+		QManufacturer qManufacturer = QManufacturer.manufacturer;
+		QManufacturerDescription qManufacturerDescription = QManufacturerDescription.manufacturerDescription;
+		
+		JPQLQuery query = new JPAQuery (getEntityManager());
+		
+		query.from(qManufacturer)
+			.leftJoin(qManufacturer.descriptions, qManufacturerDescription).fetch()
+			.leftJoin(qManufacturer.merchantStore).fetch()
+			.where(qManufacturer.merchantStore.id.eq(store.getId())
+					.and(qManufacturer.code.eq(code)));
+		
+
+		return query.uniqueResult(qManufacturer);
 	}
 
 

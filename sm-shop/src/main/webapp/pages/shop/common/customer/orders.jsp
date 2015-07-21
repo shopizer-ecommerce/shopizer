@@ -19,11 +19,11 @@ response.setDateHeader ("Expires", -1);
 <c:set var="customerOrder" value="${pageContext.request.contextPath}/shop/customer/order.html"/>
 
 <div id="main-content" class="container clearfix row-fluid">
-		<div class="span12 common-row">
+		<div class="span12 col-md-12 common-row">
 
 			  <div class="span8 col-md-8 no-padding">
 				
-			<div class="box">
+			<div class="checkout-box">
 					<span class="box-title">
 						<p class="p-title">
 							<s:message

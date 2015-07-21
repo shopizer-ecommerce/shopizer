@@ -1,4 +1,5 @@
 <%
+request.setCharacterEncoding("UTF-8");
 response.setCharacterEncoding("UTF-8");
 response.setHeader("Cache-Control","no-cache");
 response.setHeader("Pragma","no-cache");
@@ -12,10 +13,9 @@ response.setDateHeader ("Expires", -1);
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ page import="java.util.Calendar" %>
  
-<%@page contentType="text/html"%>
+<%@page contentType="text/html; charset=UTF-8"%>
 <%@page pageEncoding="UTF-8"%>
  
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
   
  <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
@@ -30,6 +30,7 @@ response.setDateHeader ("Expires", -1);
      <head>
      
      
+        	 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         	 	<meta charset="utf-8">
     			<title><s:message code="label.storeadministration" text="Store administration" /></title>
     			<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -61,16 +62,11 @@ response.setDateHeader ("Expires", -1);
   			<div class="span4"><a class="brand" href="#"><img src="<c:url value="/resources/img/shopizer_small.jpg" />"/></a></div>
 
   			<div class="span4 offset4">
-  			
-  			
-
-  			
-  			
-  			
-  			
 
 					<div class="btn-group pull-right">
 						<div class="nav-collapse">
+												
+						
 							<ul class="nav pull-right" style="z-index:500000;position:relative">
 								<li class="dropdown">
 									
@@ -82,7 +78,6 @@ response.setDateHeader ("Expires", -1);
 									
 									<ul class="dropdown-menu">
 										<li><a href="<c:url value="/admin/users/displayUser.html" />"><s:message code="label.my.profile" text="My profile" /></a></li>
-										<!--<li><a href="javascript:;">TODO //Language</a></li>-->
 										<li class="divider"></li>
 										<li>
 											<c:url value="/admin/j_spring_security_logout" var="logoutUrl"/>
@@ -91,8 +86,27 @@ response.setDateHeader ("Expires", -1);
 									</ul>
 									
 								</li>
-						</ul>
-			
+						   </ul>
+						   
+						   <c:if test="${fn:length(requestScope.ADMIN_STORE.languages)>1}">
+						   	<ul class="nav pull-right" style="z-index:500000;position:relative">
+								<li class="dropdown">
+									
+									<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+										<i class="icon-globe"></i> 
+											<s:message code="label.generic.language" text="Language"/>
+										<b class="caret"></b>
+									</a>
+									
+									<ul class="dropdown-menu">
+										<c:forEach items="${requestScope.ADMIN_STORE.languages}" var="lang">
+											<li><a href="<c:url value="/admin?locale=${lang.code}" />"><s:message code="${lang.code}" text="${lang.code}" /></a></li>
+										</c:forEach>
+									</ul>
+									
+								</li>
+						   </ul>
+						   </c:if>
 
 				
 				</div><!--/.nav-collapse -->	
@@ -321,6 +335,9 @@ response.setDateHeader ("Expires", -1);
 			});
 			$("#shipping-options-link").click(function() {
   				window.location='<c:url value="/admin/shipping/shippingOptions.html" />';
+			});
+			$("#shipping-origin-link").click(function() {
+  				window.location='<c:url value="/admin/shipping/origin/get.html" />';
 			});
 			$("#shipping-packages-link").click(function() {
   				window.location='<c:url value="/admin/shipping/shippingPackaging.html" />';

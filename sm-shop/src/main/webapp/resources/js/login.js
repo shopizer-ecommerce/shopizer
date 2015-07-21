@@ -7,9 +7,9 @@
     	});
     	
         $('.dropdown-menu').click(function(e) {
-        	log('Drop down menu clicked');
-        	e.preventDefault();
-        	e.stopPropagation();
+        	//log('Drop down menu clicked');
+        	//e.preventDefault();
+        	//e.stopPropagation();
         });
         
         $('#registerLink').click(function(e) {
@@ -18,7 +18,9 @@
         });
         
         $("#login-button").click(function(e) {
-        	log('Login');
+        	log('Calling login');
+        	e.preventDefault();
+        	e.stopPropagation();
         	login();
         });
 
@@ -27,7 +29,6 @@
     function login() {
         //$("#login").submit(function(e) {
         	//e.preventDefault();//do not submit form
-        	log('Signin');
         	$("#loginError").hide();
         	
         	var userName = $('#signin_userName').val();
@@ -39,9 +40,12 @@
         		 return;
         	}
         	
+        	log('Before showLoading');
+        	
+        	//Need to have the logon table id signinPane
         	$('#signinPane').showLoading();
         	
-        	log('Username ' + userName + ' password ' + password + ' storeCode ' + storeCode);
+        	//log('username ' + userName + ' password ' + password + ' storeCode ' + storeCode);
 
             $.ajax({
                  type: "POST",
@@ -55,15 +59,16 @@
 					log(response);
                     if (response.response.status==0) {//success
                 	   //SHOPPING_CART
-                	   console.log(response.response.SHOPPING_CART);
+                	   log(response.response.SHOPPING_CART);
                 	   if(response.response.SHOPPING_CART!=null && response.response.SHOPPING_CART != ""){
-       					  //console.log('saving cart ' + response.response.SHOPPING_CART);
+       					  log('saving cart ' + response.response.SHOPPING_CART);
                 		  /** save cart in cookie **/
        					  var cartCode = buildCartCode(response.response.SHOPPING_CART);
        					  $.cookie('cart',cartCode, { expires: 1024, path:'/' });
           			      
                 	   }
-                	   //console.log('href -> ' + $(location).attr('href'));
+                	   //redirect to the same url
+                	   log('Before redirection');
                 	   location.href=  $(location).attr('href');
                     } else {
                         $("#loginError").html(getLoginErrorLabel());

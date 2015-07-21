@@ -141,7 +141,7 @@ public class ManufacturerController {
 			
 			manufacturer.setManufacturer( dbManufacturer );
 		
-			
+			manufacturer.setCode(dbManufacturer.getCode());
 			manufacturer.setOrder( dbManufacturer.getOrder() );
 			
 		} else {	// Create mode
@@ -273,7 +273,7 @@ public class ManufacturerController {
 		newManufacturer.setDescriptions(descriptions );
 		newManufacturer.setOrder( manufacturer.getOrder() );
 		newManufacturer.setMerchantStore(store);
-
+		newManufacturer.setCode(manufacturer.getCode());
 
 
 //		if(manufacturer.getManufacturerImage()!=null && manufacturer.getManufacturerImage().getId() == null) {
@@ -341,6 +341,7 @@ public class ManufacturerController {
 			
 			List<Manufacturer> manufacturers = null;				
 			manufacturers = manufacturerService.listByStore(store, language);
+			
 				
 			for(Manufacturer manufacturer : manufacturers) {
 				
@@ -350,7 +351,8 @@ public class ManufacturerController {
 				
 				ManufacturerDescription description = manufacturer.getDescriptions().iterator().next();
 				
-				entry.put("attribute", description.getName());
+				entry.put("name", description.getName());
+				entry.put("code", manufacturer.getCode());
 				entry.put("order", manufacturer.getOrder());
 				resp.addDataEntry(entry);
 				
@@ -410,6 +412,74 @@ public class ManufacturerController {
 		return returnString;
 		
 	}
+	
+	
+	@PreAuthorize("hasRole('PRODUCTS')")
+	@RequestMapping(value="/admin/manufacturer/checkCode.html", method=RequestMethod.POST, produces="application/json")
+	public @ResponseBody String checkCode(HttpServletRequest request, HttpServletResponse response, Locale locale) {
+		String code = request.getParameter("code");
+		String id = request.getParameter("id");
+
+
+		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
+		
+		
+		AjaxResponse resp = new AjaxResponse();
+		
+		if(StringUtils.isBlank(code)) {
+			resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
+			return resp.toJSONString();
+		}
+
+		
+		try {
+			
+		Manufacturer manufacturer = manufacturerService.getByCode(store, code);
+		
+		if(manufacturer!=null && StringUtils.isBlank(id)) {
+			resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
+			return resp.toJSONString();
+		}
+		
+		
+		if(manufacturer!=null && !StringUtils.isBlank(id)) {
+			try {
+				Long lid = Long.parseLong(id);
+				
+				if(manufacturer.getCode().equals(code) && manufacturer.getId().longValue()==lid) {
+					resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
+					return resp.toJSONString();
+				}
+			} catch (Exception e) {
+				resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
+				return resp.toJSONString();
+			}
+
+		}
+		
+		
+		
+		
+
+	
+		
+			
+
+
+			resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
+
+		} catch (Exception e) {
+			LOGGER.error("Error while getting category", e);
+			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
+			resp.setErrorMessage(e);
+		}
+		
+		String returnString = resp.toJSONString();
+		
+		return returnString;
+	}
+	
+	
 	
 	private void setMenu(Model model, HttpServletRequest request) throws Exception {		
 		//display menu

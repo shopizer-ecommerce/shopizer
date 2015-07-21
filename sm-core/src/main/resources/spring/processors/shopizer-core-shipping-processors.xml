@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd">
+
+		<!-- Shipping pre-processors -->
+		<util:list id="shippingModulePreProcessors" value-type="com.salesmanager.core.modules.integration.shipping.model.ShippingQuotePreProcessModule">
+			<ref bean="shippingDistancePreProcessor"/>
+			<!-- From rules -->
+			<!--
+			<ref bean="shippingMethodDecisionProcess"/>
+			-->
+		</util:list>
+	
+	
+		<!-- shipping-distance-processor project -->
+		<bean id="shippingDistancePreProcessor"
+			class="com.shopizer.modules.shipping.distance.ShippingDistancePreProcessorImpl">
+			<property name="apiKey" value="AIzaSyCFqjgSH_6_ktwKLcVi-IRojLx2iRWlcig"/>
+		</bean>
+	
+</beans>

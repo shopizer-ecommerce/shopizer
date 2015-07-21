@@ -49,7 +49,7 @@ import com.salesmanager.web.entity.catalog.product.ReadableProductReview;
 import com.salesmanager.web.entity.shop.Breadcrumb;
 import com.salesmanager.web.entity.shop.PageInformation;
 import com.salesmanager.web.populator.catalog.ReadableProductPopulator;
-import com.salesmanager.web.populator.catalog.ReadableProductPricePopulator;
+import com.salesmanager.web.populator.catalog.ReadableFinalPricePopulator;
 import com.salesmanager.web.populator.catalog.ReadableProductReviewPopulator;
 import com.salesmanager.web.shop.controller.ControllerConstants;
 import com.salesmanager.web.shop.model.catalog.Attribute;
@@ -329,7 +329,7 @@ public class ShopProductController {
 		
 		@SuppressWarnings("unchecked")
 		List<Long> ids = new ArrayList<Long>(Arrays.asList(attributeIds));
-		List<ProductAttribute> attributes = productAttributeService.getByAttributeIds(store, ids);
+		List<ProductAttribute> attributes = productAttributeService.getByAttributeIds(store, ids);      
 		
 		for(ProductAttribute attribute : attributes) {
 			if(attribute.getProduct().getId().longValue()!=productId.longValue()) {
@@ -339,7 +339,7 @@ public class ShopProductController {
 		
 		FinalPrice price = pricingService.calculateProductPrice(product, attributes);
     	ReadableProductPrice readablePrice = new ReadableProductPrice();
-    	ReadableProductPricePopulator populator = new ReadableProductPricePopulator();
+    	ReadableFinalPricePopulator populator = new ReadableFinalPricePopulator();
     	populator.setPricingService(pricingService);
     	populator.populate(price, readablePrice, store, language);
     	return readablePrice;

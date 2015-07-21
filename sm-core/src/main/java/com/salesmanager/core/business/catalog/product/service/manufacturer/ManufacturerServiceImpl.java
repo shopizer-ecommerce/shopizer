@@ -95,4 +95,9 @@ public class ManufacturerServiceImpl extends
 
 		}
 	}
+
+	@Override
+	public Manufacturer getByCode(MerchantStore store, String code) {
+		return manufacturerDao.getByCode(store, code);
+	}
 }

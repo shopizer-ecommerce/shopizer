@@ -1,5 +1,9 @@
 package com.salesmanager.test.shop.controller.product.rest;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +22,15 @@ import org.springframework.security.crypto.codec.Base64;
 import org.springframework.web.client.RestTemplate;
 
 import com.salesmanager.core.business.catalog.product.model.attribute.ProductOptionType;
+import com.salesmanager.web.entity.catalog.category.Category;
+import com.salesmanager.web.entity.catalog.manufacturer.Manufacturer;
 import com.salesmanager.web.entity.catalog.manufacturer.ManufacturerDescription;
 import com.salesmanager.web.entity.catalog.manufacturer.PersistableManufacturer;
+import com.salesmanager.web.entity.catalog.product.PersistableImage;
+import com.salesmanager.web.entity.catalog.product.PersistableProduct;
+import com.salesmanager.web.entity.catalog.product.PersistableProductPrice;
 import com.salesmanager.web.entity.catalog.product.PersistableProductReview;
+import com.salesmanager.web.entity.catalog.product.ProductDescription;
 import com.salesmanager.web.entity.catalog.product.ReadableProduct;
 import com.salesmanager.web.entity.catalog.product.attribute.PersistableProductOption;
 import com.salesmanager.web.entity.catalog.product.attribute.PersistableProductOptionValue;
@@ -97,7 +107,7 @@ public class ProductManagementAPITest {
 		
 		HttpEntity<String> entity = new HttpEntity<String>(json, getHeader());
 
-		ResponseEntity response = restTemplate.postForEntity("http://localhost:8080/sm-shop/shop/services/private/manufacturer/DEFAULT", entity, PersistableManufacturer.class);
+		ResponseEntity response = restTemplate.postForEntity("http://localhost:8080/sm-shop/shop/services/private/DEFAULT/manufacturer", entity, PersistableManufacturer.class);
 
 		PersistableManufacturer manuf = (PersistableManufacturer) response.getBody();
 		System.out.println("New Manufacturer ID : " + manuf.getId());
@@ -146,7 +156,7 @@ public class ProductManagementAPITest {
 		
 		HttpEntity<String> entity = new HttpEntity<String>(json, getHeader());
 
-		ResponseEntity response = restTemplate.postForEntity("http://localhost:8080/sm-shop/shop/services/private/product/review/DEFAULT", entity, PersistableProductReview.class);
+		ResponseEntity response = restTemplate.postForEntity("http://localhost:8080/sm-shop/shop/services/private//DEFAULT/product/review", entity, PersistableProductReview.class);
 
 		PersistableProductReview rev = (PersistableProductReview) response.getBody();
 		System.out.println("New ProductReview ID : " + rev.getId());
@@ -204,7 +214,7 @@ public class ProductManagementAPITest {
 
 		HttpEntity<String> entity = new HttpEntity<String>(json, getHeader());
 
-		ResponseEntity response = restTemplate.postForEntity("http://localhost:8080/sm-shop/shop/services/private/product/optionValue/DEFAULT", entity, PersistableProductOptionValue.class);
+		ResponseEntity response = restTemplate.postForEntity("http://localhost:8080/sm-shop/shop/services/private/DEFAULT/product/optionValue", entity, PersistableProductOptionValue.class);
 
 		PersistableProductOptionValue opt = (PersistableProductOptionValue) response.getBody();
 		System.out.println("New optionValue ID : " + opt.getId());
@@ -262,7 +272,7 @@ public class ProductManagementAPITest {
 
 		HttpEntity<String> entity = new HttpEntity<String>(json, getHeader());
 
-		ResponseEntity response = restTemplate.postForEntity("http://localhost:8080/sm-shop/shop/services/private/product/option/DEFAULT", entity, PersistableProductOption.class);
+		ResponseEntity response = restTemplate.postForEntity("http://localhost:8080/sm-shop/shop/services/private/DEFAULT/product/option", entity, PersistableProductOption.class);
 
 		PersistableProductOption opt = (PersistableProductOption) response.getBody();
 		System.out.println("New option ID : " + opt.getId());
@@ -300,7 +310,125 @@ public class ProductManagementAPITest {
 	public void postProduct() throws Exception {
 		restTemplate = new RestTemplate();
 		
-		//TODO: Post Product
+
+		
+		String code = "abcdef";
+		
+
+		String categoryCode = "statue";
+		
+
+		
+		Category category = new Category();
+		category.setCode(categoryCode);
+		List<Category> categories = new ArrayList<Category>();
+		categories.add(category);
+
+		
+		String manufacturer = "temple";
+		Manufacturer collection = new Manufacturer();
+		collection.setCode(manufacturer);
+		
+		//core properties
+		PersistableProduct product = new PersistableProduct();
+		product.setSku(code);
+		product.setManufacturer(collection);
+		product.setCategories(categories);
+		
+		product.setSortOrder(0);//set iterator as sort order
+		product.setAvailable(true);//force availability
+		product.setProductVirtual(false);//force tangible good
+		product.setQuantityOrderMinimum(1);//force to 1 minimum when ordering
+		product.setProductShipeable(true);//all items are shipeable
+		
+		/** images **/
+		String image = "/Users/carlsamson/Documents/csti/mobilia-exotika/pictures-600-resize/buddha1.jpg";
+
+		File imgPath = new File(image);
+			
+		PersistableImage persistableImage = new PersistableImage();
+			
+			
+		persistableImage.setBytes(this.extractBytes(imgPath));
+		persistableImage.setImageName(imgPath.getName());
+
+		List<PersistableImage> images = new ArrayList<PersistableImage>();
+		images.add(persistableImage);
+			
+		product.setImages(images);
+
+
+
+		product.setProductHeight(new BigDecimal(20));
+		product.setProductLength(new BigDecimal(20));
+		product.setProductWeight(new BigDecimal(20));
+		product.setProductWidth(new BigDecimal(20));
+		product.setQuantity(5);
+		product.setQuantityOrderMaximum(2);
+
+
+		PersistableProductPrice productPrice = new PersistableProductPrice();
+		productPrice.setDefaultPrice(true);
+
+		productPrice.setOriginalPrice(new BigDecimal(250));
+		productPrice.setDiscountedPrice(new BigDecimal(125));
+		
+		List<PersistableProductPrice> productPriceList = new ArrayList<PersistableProductPrice>();
+		productPriceList.add(productPrice);
+		
+		product.setProductPrices(productPriceList);
+		
+		//product.setSortOrder(Integer.parseInt(record.get("position")));
+
+		List<ProductDescription> descriptions = new ArrayList<ProductDescription>();
+		
+		//add english description
+		ProductDescription description = new ProductDescription();
+		description.setLanguage("en");
+		description.setTitle("Buddha Head");
+		description.setName("Buddha Head");
+		description.setDescription("Buddha Head");
+		description.setFriendlyUrl("buddha-head");
+		
+		
+		//description.setHighlights(record.get("highlights_en"));
+		
+		descriptions.add(description);
+		
+		//add french description
+		description = new ProductDescription();
+		description.setLanguage("fr");
+		description.setTitle("Tête de Buddha");
+		description.setName("Tête de Buddha");
+		description.setDescription(description.getName());
+		description.setFriendlyUrl("tete-de-buddha");
+		//
+		
+		descriptions.add(description);
+		
+		product.setDescriptions(descriptions);
+		
+		
+		ObjectWriter writer = new ObjectMapper().writer().withDefaultPrettyPrinter();
+		String json = writer.writeValueAsString(product);
+		
+		System.out.println(json);
+		
+		
+		HttpEntity<String> entity = new HttpEntity<String>(json, getHeader());
+
+		//post to create category web service
+		ResponseEntity response = restTemplate.postForEntity("http://localhost:8080/sm-shop/services/private/DEFAULT/product", entity, PersistableProduct.class);
+
+		PersistableProduct prod = (PersistableProduct) response.getBody();
+		
+
+		
+		System.out.println("---------------------");
+
+		
+		
+		
 
 		
 	}
@@ -314,6 +442,21 @@ public class ProductManagementAPITest {
 		
 		restTemplate.exchange("http://localhost:8080/sm-shop/shop/services/rest/products/DEFAULT/en/"+testCategoryID+"/"+testProductID, HttpMethod.DELETE, httpEntity, ReadableProduct.class);
 		System.out.println("Product "+testProductID+" Deleted.");
+	}
+	
+	/** private helper methods **/
+	public byte[] extractBytes (File imgPath) throws Exception {
+ 
+        FileInputStream fis = new FileInputStream(imgPath);
+        
+        BufferedInputStream inputStream = new BufferedInputStream(fis);
+        byte[] fileBytes = new byte[(int) imgPath.length()];
+        inputStream.read(fileBytes);
+        inputStream.close();
+         
+        return fileBytes;
+
+		
 	}
 	
 }

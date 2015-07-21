@@ -10,7 +10,7 @@
 	
 	function initMiniCart() {
 		var cartCode = getCartCode();
-		log('Cart code ' + cartCode);
+		log('Check for cart code ' + cartCode);
 		if(cartCode!=null) {
 			displayMiniCartSummary(cartCode);
 		}
@@ -142,9 +142,8 @@
 			 dataType: 'json', 
 			 cache:false,
 			 error: function(e) { 
-				console.log('Error while adding to cart');
+				log('Error while adding to cart');
 				$('#pageContainer').hideLoading();
-				alert('failure'); 
 				 
 			 },
 			 success: function(cart) {
@@ -153,7 +152,7 @@
 			     
 			     if(cart.message!=null) { 
 			    	 //TODO error message
-			    	 console.log('Error while adding to cart ' + cart.message);
+			    	 log('Error while adding to cart ' + cart.message);
 			     }
 				 
 				 displayShoppigCartItems(cart,'#shoppingcartProducts');
@@ -248,7 +247,8 @@ function displayMiniCart(){
 			 
 		 },
 		 success: function(miniCart) {
-			 if($.isEmptyObject(miniCart)){
+			 //if($.isEmptyObject(miniCart)){
+			 if(miniCart.code=null) {
 				 emptyCartLabel();
 			 }
 			 else{
@@ -360,6 +360,15 @@ function displayTotals(cart) {
 	}
 
 
+}
+
+function emptyCartLabel(){
+	log('Display empty cart');
+	$("#cartMessage").html(getEmptyCartLabel());
+	var labelItem = getItemLabel(0);
+	$("#cartinfo").html('<span id="cartqty">(' + 0 + ' ' + labelItem + ')</span>&nbsp;<span id="cartprice"></span>');
+	$('#shoppingcart').hide();
+	$('#cartMessage').show();
 }
 
 

@@ -74,7 +74,7 @@ response.setDateHeader ("Expires", -1);
 			<ul>
 			<c:forEach items="${requestScope.TOP_CATEGORIES}" var="category">
 	    					<li>
-	    						<a href="<c:url value="/shop/category/${category.description.seUrl}.html"/><sm:breadcrumbParam categoryId="${category.id}"/>" class="current"> 
+	    						<a href="<c:url value="/shop/category/${category.description.friendlyUrl}.html"/><sm:breadcrumbParam categoryId="${category.id}"/>" class="current"> 
 	    							<span class="name">${category.description.name}</span>
 	    						</a>
 	    					</li> 
@@ -108,26 +108,6 @@ response.setDateHeader ("Expires", -1);
 
 		    <div class="col-md-3 col-sm-6">
 
-			<!--
-			<h4>Get the news</h4>
-
-			<p class="text-muted">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-
-			<form>
-			    <div class="input-group">
-
-				<input type="text" class="form-control">
-
-				<span class="input-group-btn">
-				    <button type="button" class="btn btn-default">Subscribe!</button>
-				</span>
-
-			    </div>
-			</form>
-			<hr>
-			-->
-
-			
 
 			
 			
@@ -153,7 +133,7 @@ response.setDateHeader ("Expires", -1);
 		<div id="footer" class="container">
 				<div class="container">
 				   <div class="row-fluid">
-					<div class="span12 text">&copy;&nbsp;<s:message code="label.generic.providedby" /> <a href="http://www.shopizer.com" class="footer-href" target="_blank">Shopizer</div>
+					 <div class="span12 text">&copy;&nbsp;<s:message code="label.generic.providedby" /> <a href="http://www.shopizer.com" class="footer-href" target="_blank">Shopizer</div>
 				   </div>
 				 </div>
 		    </div>

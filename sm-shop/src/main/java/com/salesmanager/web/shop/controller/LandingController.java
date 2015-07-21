@@ -128,8 +128,12 @@ public class LandingController {
 		
 		/** template **/
 		StringBuilder template = new StringBuilder().append("landing.").append(store.getStoreTemplate());
-
 		return template.toString();
+	}
+	
+	@RequestMapping(value={Constants.SHOP_URI + "/stub.html"}, method=RequestMethod.GET)
+	public String displayHomeStub(Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
+		return "index";
 	}
 	
 	@RequestMapping( value=Constants.SHOP_URI + "/{store}", method=RequestMethod.GET)

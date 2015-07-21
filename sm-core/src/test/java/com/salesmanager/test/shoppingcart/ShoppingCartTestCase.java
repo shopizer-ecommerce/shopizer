@@ -91,6 +91,7 @@ public class ShoppingCartTestCase extends AbstractSalesManagerCoreTestCase {
 	     */
 	    Manufacturer addidas = new Manufacturer();
 	    addidas.setMerchantStore(store);
+	    addidas.setCode("addidas");
 
 	    ManufacturerDescription addidasDesc = new ManufacturerDescription();
 	    addidasDesc.setLanguage(en);
@@ -296,6 +297,7 @@ public class ShoppingCartTestCase extends AbstractSalesManagerCoreTestCase {
 	     */
 	    Manufacturer addidas = new Manufacturer();
 	    addidas.setMerchantStore(store);
+	    addidas.setCode("addidas");
 
 	    ManufacturerDescription addidasDesc = new ManufacturerDescription();
 	    addidasDesc.setLanguage(en);

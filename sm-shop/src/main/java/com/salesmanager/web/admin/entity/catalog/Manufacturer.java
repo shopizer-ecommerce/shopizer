@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,7 +25,6 @@ public class Manufacturer implements Serializable {
 	 */
 
 	//provides wrapping to the main Manufacturer entity
-	@Valid
 	private com.salesmanager.core.business.catalog.product.model.manufacturer.Manufacturer manufacturer;
 	
 	@Valid
@@ -32,6 +32,16 @@ public class Manufacturer implements Serializable {
 	
 	private Integer order = new Integer(0);
 	private MultipartFile image = null;
+	@NotNull
+	private String code;
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
 	private ProductImage productImage = null;
 	
 	

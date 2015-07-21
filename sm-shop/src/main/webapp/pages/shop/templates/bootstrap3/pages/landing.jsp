@@ -15,108 +15,62 @@ response.setDateHeader ("Expires", -1);
 <%@page pageEncoding="UTF-8"%>
 
 
+ <div id="shop" class="">
+ 
+         <!-- BEGIN  TOP SLIDER -->
+        <div class="topslider">
+            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#carousel-example-generic" data-slide-to="0" class=""></li>
+                    <li data-target="#carousel-example-generic" data-slide-to="1" class=""></li>
+                    <li data-target="#carousel-example-generic" data-slide-to="2" class="active"></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="item animated fadeInUp">
+                        <img alt="First slide" src="<c:out value="/sm-shop/resources/templates/bootstrap3/img/slide_1.jpg"/>">
+                        <div class="caption">
+                            <div class=" slider-title animated fadeInDown delay1">GET YOUR DECORATION</div>
+                            <div class="hidden-xs delay2 slider-desc animated fadeIn">A slider for your home page</div>
+                            <div class="slider-button animated fadeInUp delay3">
+                                <a href="javascript:;">PURCHASE</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item  animated fadeInUp">
+                        <img alt="Second slide" src="<c:out value="/sm-shop/resources/templates/bootstrap3/img/slide_2.jpg"/>">
+                        <div class="caption">
+                            <div class=" slider-title animated fadeInDown delay1">GET YOUR DECORATION</div>
+                            <div class="hidden-xs delay2 slider-desc animated fadeIn">Edit landing.jsp to remove the slider code</div>
+                            <div class="slider-button animated fadeInUp delay3">
+                                <a href="javascript:;">PURCHASE</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- END SLIDER -->
+ </div>
  
  
-<div id="mainContent" class="container nopadding-left nopadding-right">
+ 
+ 
+ 
+ 
 
 			<c:if test="${page!=null}">
-			<div id="shop" class="row homeTextRow">
-          			    <span id="homeText"><c:out value="${page.description}" escapeXml="false"/></span>
-			</div>
+				<div id="shop" class="">
+	          			    <span id="homeText"><c:out value="${page.description}" escapeXml="false"/></span>
+				</div>
 			</c:if>
-			
-			
 
-			
-
-
-<!--
-    <div class="slider-content">
-      <ul id="pager2" class="container">
-      <span class="">•</span><span class="">•</span><span class="">•</span><span class="">•</span><span class="cycle-pager-active">•</span></ul>
-  
-      <span class="prevControl sliderControl"> <i class="fa fa-angle-left fa-3x "></i></span> <span class="nextControl sliderControl"> <i class="fa fa-angle-right fa-3x "></i></span>
-      <div style="overflow: hidden;" class="slider slider-v1" data-cycle-swipe="true" data-cycle-prev=".prevControl" data-cycle-next=".nextControl" data-cycle-loader="wait"><div style="visibility: hidden; position: static; top: 0px; left: 0px; z-index: 100; opacity: 1; display: block;" class="slider-item slider-item-img1 cycle-slide cycle-sentinel">
-          
-          <img style="visibility: hidden; margin-top: 0px;" src="<c:url value="/resources/templates/bootstrap3/" />slider0.jpg" class="img-responsive parallaximg sliderImg" alt="img"> </div>
-
-      <div style="visibility: hidden; position: absolute; top: 0px; left: 0px; z-index: 97; opacity: 1; display: block;" class="slider-item slider-item-img1 cycle-slide">
-          
-          <img style="margin-top: 0px;" src="home-apralax_files/slider0.jpg" class="img-responsive parallaximg sliderImg" alt="img"> </div><div style="visibility: hidden; position: absolute; top: 0px; left: 0px; z-index: 96; opacity: 1; display: block;" class="slider-item slider-item-img1 cycle-slide">
-          <div class="sliderInfo">
-            <div class="container">
-              <div class="col-lg-12 col-md-12 col-sm-12 sliderTextFull ">
-                <div class="inner text-center">
-                  <div class="topAnima animated">
-                    <h1 class="uppercase xlarge">FREE SHIPPING</h1>
-                    <h3 class="hidden-xs"> Free Standard Shipping on Orders Over $100 </h3>
-                  </div>
-                  <a class="btn btn-danger btn-lg bottomAnima animated opacity0">SHOP NOW ON TSHOP <span class="arrowUnicode">►</span></a> </div>
-              </div>
-            </div>
-          </div>
-          <img style="margin-top: 0px;" src="<c:url value="/resources/templates/bootstrap3/" />slider1.jpg" class="img-responsive parallaximg sliderImg" alt="img"> </div><div style="visibility: hidden; position: absolute; top: 0px; left: 0px; z-index: 95; opacity: 1; display: block;" class="slider-item slider-item-img2  cycle-slide">
-          <div class="sliderInfo">
-            <div class="container">
-              <div class="col-lg-12 col-md-12 col-sm-12 sliderTextFull  ">
-                <div class="inner dark maxwidth500 text-center animated topAnima">
-                  <div class=" ">
-                    <h1 class="uppercase xlarge"> CUSTOM HTML BLOCK</h1>
-                    <h3 class="hidden-xs">  Custom Slides to Your Slider  </h3>
-                    
-                  </div>
-                  <a class="btn btn-danger btn-lg">SHOP NOW ON TSHOP <span class="arrowUnicode">►</span></a> </div>
-              </div>
-            </div>
-          </div>
-          <img style="margin-top: 0px;" src="<c:url value="/resources/templates/bootstrap3/" />slider3.jpg" class="img-responsive parallaximg sliderImg" alt="img"> </div><div style="visibility: hidden; position: absolute; top: 0px; left: 0px; z-index: 94; opacity: 1; display: block;" class="slider-item slider-item-img3  cycle-slide">
-          <div class="sliderInfo">
-            <div class="container">
-              <div class="col-lg-5 col-md-4 col-sm-6 col-xs-8   pull-left sliderText white hidden-xs">
-                <div class="inner">
-                  <h1>TSHOP JEANS</h1>
-                  <h3 class="price "> Free Shipping on $100</h3>
-                  <p class="hidden-xs">Lorem ipsum dolor sit amet, 
-consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
- laoreet dolore magna aliquam erat volutpat. </p>
-                  <a href="http://demo.tanimdesign.net/template/tshop-v1.1/category.html" class="btn btn-primary">SHOP NOW <span class="arrowUnicode">►</span></a> </div>
-              </div>
-            </div>
-          </div>
-          <img style="margin-top: 0px;" src="<c:url value="/resources/templates/bootstrap3/" />slider4.jpg" class="img-responsive parallaximg sliderImg" alt="img"> </div><div style="visibility: visible; position: absolute; top: 0px; left: 0px; z-index: 99; opacity: 1; display: block;" class="slider-item slider-item-img3 cycle-slide cycle-slide-active">
-          <div class="sliderInfo">
-            <div class="container">
-              <div class="col-lg-5 col-md-6 col-sm-5 col-xs-5 pull-left sliderText blankstyle transformRight">
-                <div class="inner text-right"> <img src="home-apralax_files/color.png" class="img-responsive" alt="img"> </div>
-              </div>
-              <div class="col-lg-4 col-md-4 col-sm-5 col-xs-7   pull-left sliderText blankstyle color-white">
-                <div class="inner">
-                  <h1 class="uppercase topAnima animated ">10+ Amazing Color Theme</h1>
-                  <p class="bot tomAnima animated opacity0 hidden-xs"> Fully responsive bootstrap Ecommerce Template. Available in 10+ color schemes and easy to set. </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <img style="margin-top: 0px;" src="home-apralax_files/6.jpg" class="img-responsive parallaximg sliderImg" alt="img"> </div></div>
-
-    </div>
-    -->
-    <!--/.slider-content--> 
-
-			
-			
-			
-			
-			
-			
-			
-			
-			
 			
 			<br/>
 			<sm:shopProductGroup groupName="FEATURED_ITEM"/>
 			<sm:shopProductGroup groupName="SPECIALS"/>
 			
+			<div id="" class="container">
 			<c:if test="${requestScope.FEATURED_ITEM!=null || requestScope.SPECIALS!=null}" >
 			<div class="row">
 					<ul class="nav nav-tabs home" id="product-tab">
@@ -143,7 +97,7 @@ consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
 				</div>							
 			</div>
 			</c:if>
-			
+			</div>
 		
 		
 </div>

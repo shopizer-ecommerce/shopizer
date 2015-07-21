@@ -41,6 +41,7 @@ public class ProductRelationshipDaoImpl extends SalesManagerEntityDaoImpl<Long, 
 
     	q.setParameter("code", type);
     	q.setParameter("id", product.getId());
+    	q.setParameter("storeId", store.getId());
     	qs.append("and pr.store.id=:storeId ");
     	q.setParameter("langId", language.getId());
 

@@ -117,7 +117,7 @@ function isFormValid() {
 						<div class="control-group form-group">
 							<label class="required control-label" for="sex"><s:message code="label.generic.genre" text="Genre"/></label>
 							<div class="controls">
-							 <form:select path="gender">
+							 <form:select path="gender" class="form-control form-control-lg">
 							    <form:option value="M"><s:message code="label.generic.male" text="Male"/></form:option>
 							     <form:option value="F"><s:message code="label.generic.female" text="Female"/></form:option>
 							 </form:select>
@@ -128,7 +128,7 @@ function isFormValid() {
 						<div class="control-group form-group">
 							<label class="control-label required"><s:message code="label.generic.country" text="Country"/></label>
 							<div class="controls">
-							<form:select path="billing.country" id="registration_country">
+							<form:select path="billing.country" class="form-control form-control-lg" id="registration_country">
 							  <form:options items="${countryList}" itemValue="isoCode" itemLabel="name"/>
 							</form:select>
 							</div>
@@ -140,7 +140,7 @@ function isFormValid() {
 							<label class="control-label required"><s:message code="label.generic.stateprovince" text="State / Province"/></label>
 							<div class="controls">
 							<s:message code="NotEmpty.customer.billing.stateProvince" text="State / Province is required" var="msgStateProvince"/>
-							<form:select path="billing.zone" id="customer_zones" >
+							<form:select path="billing.zone" id="customer_zones" class="form-control form-control-lg">
 							</form:select>
 							<form:input path="billing.stateProvince" cssClass="span8 required form-control form-control-md" id="hidden_zones" title="${msgStateProvince}"/>
 							</div>

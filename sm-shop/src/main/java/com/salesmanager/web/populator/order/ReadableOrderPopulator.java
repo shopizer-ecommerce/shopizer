@@ -28,6 +28,10 @@ public class ReadableOrderPopulator extends
 		target.setOrderStatus(source.getStatus());
 		target.setCurrency(source.getCurrency().getCode());
 		target.setCurrencyModel(source.getCurrency());
+		if(source.getCustomerAgreement()!=null) {
+			target.setCustomerAgreed(source.getCustomerAgreement());
+		}
+		
 		com.salesmanager.web.entity.order.OrderTotal taxTotal = null;
 		com.salesmanager.web.entity.order.OrderTotal shippingTotal = null;
 		

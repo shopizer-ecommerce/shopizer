@@ -107,6 +107,7 @@ public class SearchByProductAttributeTestCase extends AbstractSalesManagerCoreTe
 
 	    Manufacturer novells = new Manufacturer();
 	    novells.setMerchantStore(store);
+	    novells.setCode("novells");
 
 	    ManufacturerDescription novellsd = new ManufacturerDescription();
 	    novellsd.setLanguage(en);
@@ -119,6 +120,7 @@ public class SearchByProductAttributeTestCase extends AbstractSalesManagerCoreTe
 	    
 	    Manufacturer manning = new Manufacturer();
 	    manning.setMerchantStore(store);
+	    manning.setCode("manning");
 
 	    ManufacturerDescription manningd = new ManufacturerDescription();
 	    manningd.setLanguage(en);
@@ -209,7 +211,6 @@ public class SearchByProductAttributeTestCase extends AbstractSalesManagerCoreTe
 	    description.setProduct(product);
 
 	    product.getDescriptions().add(description);
-
 	    product.getCategories().add(tech);
 
 	    productService.create(product);

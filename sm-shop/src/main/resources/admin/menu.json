@@ -191,9 +191,10 @@
 "order":5,
 "menus":[
 	{"menu":{"code":"shipping-configs","url":"","role":"SHIPPING","order":0}},
-	{"menu":{"code":"shipping-methods","url":"","role":"SHIPPING","order":0}},
-	{"menu":{"code":"shipping-options","url":"","role":"SHIPPING","order":0}},
-	{"menu":{"code":"shipping-packages","url":"","role":"SHIPPING","order":0}}
+	{"menu":{"code":"shipping-methods","url":"","role":"SHIPPING","order":2}},
+	{"menu":{"code":"shipping-origin","url":"","role":"SHIPPING","order":3}},
+	{"menu":{"code":"shipping-options","url":"","role":"SHIPPING","order":4}},
+	{"menu":{"code":"shipping-packages","url":"","role":"SHIPPING","order":6}}
 ]
 }},
 {

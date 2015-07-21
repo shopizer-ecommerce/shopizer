@@ -16,6 +16,7 @@ public class PersistableProduct extends ProductEntity implements Serializable {
 	private List<ProductDescription> descriptions;//always persist descriptions
 	private List<PersistableProductAttribute> attributes;//persist attribute and save reference
 	private List<PersistableImage> images;//persist images and save reference
+	private List<PersistableProductPrice> productPrices;//to be set when using discounts
 	private List<Category> categories;//save reference
 	private List<RelatedProduct> relatedProducts;//save reference
 	private Manufacturer manufacturer;
@@ -56,6 +57,12 @@ public class PersistableProduct extends ProductEntity implements Serializable {
 	}
 	public List<PersistableProductAttribute> getAttributes() {
 		return attributes;
+	}
+	public List<PersistableProductPrice> getProductPrices() {
+		return productPrices;
+	}
+	public void setProductPrices(List<PersistableProductPrice> productPrices) {
+		this.productPrices = productPrices;
 	}
 
 }

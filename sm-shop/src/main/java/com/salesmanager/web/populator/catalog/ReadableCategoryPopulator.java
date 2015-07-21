@@ -46,10 +46,19 @@ public class ReadableCategoryPopulator extends
 		
 		}
 		
+		if(source.getParent()!=null) {
+			com.salesmanager.web.entity.catalog.category.Category parent = new com.salesmanager.web.entity.catalog.category.Category();
+			parent.setCode(source.getParent().getCode());
+			parent.setId(source.getParent().getId());
+			target.setParent(parent);
+		}
+		
 		target.setCode(source.getCode());
 		target.setId(source.getId());
+		target.setDepth(source.getDepth());
+		target.setSortOrder(source.getSortOrder());
+		target.setVisible(source.isVisible());
 
-		
 		return target;
 		
 	}

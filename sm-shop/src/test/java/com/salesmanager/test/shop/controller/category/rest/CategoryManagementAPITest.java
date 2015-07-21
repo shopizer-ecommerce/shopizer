@@ -105,6 +105,175 @@ public class CategoryManagementAPITest {
 		System.out.println("New Category ID : " + cat.getId());
 	}
 	
+	
+	@Test
+	@Ignore
+	public void postComplexCategory() throws Exception {
+		restTemplate = new RestTemplate();
+		
+		
+		/** Dining room **/
+		PersistableCategory dining = new PersistableCategory();
+		dining.setCode("dining room");
+		dining.setSortOrder(0);
+		dining.setVisible(true);
+		
+
+		CategoryDescription endescription = new CategoryDescription();
+		endescription.setLanguage("en");
+		endescription.setName("Dining room");
+		endescription.setFriendlyUrl("dining-room");
+		endescription.setTitle("Dining room");
+			
+		
+		CategoryDescription frdescription = new CategoryDescription();
+		frdescription.setLanguage("fr");
+		frdescription.setName("Salle à manger");
+		frdescription.setFriendlyUrl("salle-a-manger");
+		frdescription.setTitle("Salle à manger");
+		
+		List<CategoryDescription> descriptions = new ArrayList<CategoryDescription>();
+		descriptions.add(endescription);
+		descriptions.add(frdescription);
+		
+		dining.setDescriptions(descriptions);
+		
+		
+		Category diningParent = new Category();
+		diningParent.setCode(dining.getCode());
+		
+		/** armoire **/
+		PersistableCategory armoire = new PersistableCategory();
+		armoire.setCode("armoire");
+		armoire.setSortOrder(1);
+		armoire.setVisible(true);
+		
+
+		
+		armoire.setParent(diningParent);
+
+		endescription = new CategoryDescription();
+		endescription.setLanguage("en");
+		endescription.setName("Armoires");
+		endescription.setFriendlyUrl("armoires");
+		endescription.setTitle("Armoires");
+		
+		frdescription = new CategoryDescription();
+		frdescription.setLanguage("fr");
+		frdescription.setName("Armoire");
+		frdescription.setFriendlyUrl("armoires");
+		frdescription.setTitle("Armoires");
+		
+		descriptions = new ArrayList<CategoryDescription>();
+		descriptions.add(endescription);
+		descriptions.add(frdescription);
+		
+		armoire.setDescriptions(descriptions);
+		dining.getChildren().add(armoire);
+		
+		
+		/** benches **/
+		PersistableCategory bench = new PersistableCategory();
+		bench.setCode("bench");
+		bench.setSortOrder(4);
+		bench.setVisible(true);
+		
+		
+		bench.setParent(diningParent);
+
+		endescription = new CategoryDescription();
+		endescription.setLanguage("en");
+		endescription.setName("Benches");
+		endescription.setFriendlyUrl("benches");
+		endescription.setTitle("Benches");
+		
+		frdescription = new CategoryDescription();
+		frdescription.setLanguage("fr");
+		frdescription.setName("Bancs");
+		frdescription.setFriendlyUrl("bancs");
+		frdescription.setTitle("Bancs");
+		
+		descriptions = new ArrayList<CategoryDescription>();
+		descriptions.add(endescription);
+		descriptions.add(frdescription);
+		
+		bench.setDescriptions(descriptions);
+		dining.getChildren().add(bench);
+		
+
+		
+		/** Living room **/
+		PersistableCategory living = new PersistableCategory();
+		living.setCode("livingroom");
+		living.setSortOrder(2);
+		living.setVisible(true);
+		
+
+		endescription = new CategoryDescription();
+		endescription.setLanguage("en");
+		endescription.setName("Living room");
+		endescription.setFriendlyUrl("living-room");
+		endescription.setTitle("Living room");
+			
+		
+		frdescription = new CategoryDescription();
+		frdescription.setLanguage("fr");
+		frdescription.setName("Salon");
+		frdescription.setFriendlyUrl("salon");
+		frdescription.setTitle("Salon");
+		
+		descriptions = new ArrayList<CategoryDescription>();
+		descriptions.add(endescription);
+		descriptions.add(frdescription);
+		
+		living.setDescriptions(descriptions);
+		
+		/** lounge **/
+		
+		PersistableCategory lounge = new PersistableCategory();
+		lounge.setCode("lounge");
+		lounge.setSortOrder(3);
+		lounge.setVisible(true);
+		
+		Category livingParent = (Category)living;
+		lounge.setParent(livingParent);
+
+		endescription = new CategoryDescription();
+		endescription.setLanguage("en");
+		endescription.setName("Lounge");
+		endescription.setFriendlyUrl("lounge");
+		endescription.setTitle("Lounge");
+		
+		frdescription = new CategoryDescription();
+		frdescription.setLanguage("fr");
+		frdescription.setName("Divan");
+		frdescription.setFriendlyUrl("divan");
+		frdescription.setTitle("Divan");
+		
+		descriptions = new ArrayList<CategoryDescription>();
+		descriptions.add(endescription);
+		descriptions.add(frdescription);
+		
+		lounge.setDescriptions(descriptions);
+		living.getChildren().add(lounge);
+		
+		
+		
+		ObjectWriter writer = new ObjectMapper().writer().withDefaultPrettyPrinter();
+		String json = writer.writeValueAsString(dining);
+		
+		System.out.println(json);
+		
+		
+		HttpEntity<String> entity = new HttpEntity<String>(json, getHeader());
+
+		ResponseEntity response = restTemplate.postForEntity("http://localhost:8080/sm-shop/services/private/DEFAULT/category", entity, PersistableCategory.class);
+
+		PersistableCategory cat = (PersistableCategory) response.getBody();
+		System.out.println("New Category ID : " + cat.getId());
+	}
+	
+	
 	@Test
 	@Ignore
 	public void deleteCategory() throws Exception {

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -710,7 +711,7 @@ public class ProductController {
 		newProduct.setSortOrder(dbProduct.getSortOrder());
 		newProduct.setTaxClass(dbProduct.getTaxClass());
 		newProduct.setType(dbProduct.getType());
-		newProduct.setSku(dbProduct.getSku());
+		newProduct.setSku(UUID.randomUUID().toString());
 		newProduct.setProductVirtual(dbProduct.isProductVirtual());
 		newProduct.setProductShipeable(dbProduct.isProductShipeable());
 		

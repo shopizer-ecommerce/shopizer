@@ -10,8 +10,6 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.elasticsearch.common.text.Text;
-import org.elasticsearch.search.highlight.HighlightField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +35,7 @@ import com.shopizer.search.services.SearchResponse;
 
 
 @Service("productSearchService")
-public class SearchServiceImpl implements SearchService {
+public class SearchServiceImpl implements com.salesmanager.core.business.search.service.SearchService {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(SearchServiceImpl.class);
 	
@@ -55,13 +53,12 @@ public class SearchServiceImpl implements SearchService {
 	@Autowired
 	private CoreConfiguration configuration;
 	
-	@Override
+
 	public void initService() {
 		searchService.initService();
 	}
 
 	@SuppressWarnings("rawtypes")
-	@Override
 	public void index(MerchantStore store, Product product)
 			throws ServiceException {
 		
@@ -152,7 +149,7 @@ public class SearchServiceImpl implements SearchService {
 		}
 	}
 
-	@Override
+
 	public void deleteIndex(MerchantStore store, Product product) throws ServiceException {
 		
 		if(configuration.getProperty(INDEX_PRODUCTS)==null || configuration.getProperty(INDEX_PRODUCTS).equals(Constants.FALSE)) {
@@ -174,7 +171,7 @@ public class SearchServiceImpl implements SearchService {
 	
 	}
 	
-	@Override
+
 	public SearchKeywords searchForKeywords(String collectionName, String jsonString, int entriesCount) throws ServiceException {
 		
 		/**
@@ -204,7 +201,7 @@ public class SearchServiceImpl implements SearchService {
 		
 	}
 	
-	@Override
+
 	public com.salesmanager.core.business.search.model.SearchResponse search(MerchantStore store, String languageCode, String jsonString, int entriesCount, int startIndex) throws ServiceException {
 		
 
@@ -215,7 +212,7 @@ public class SearchServiceImpl implements SearchService {
 			
 			
 			SearchRequest request = new SearchRequest();
-			request.setCollection(collectionName.toString());
+			request.addCollection(collectionName.toString());
 			request.setSize(entriesCount);
 			request.setStart(startIndex);
 			request.setJson(jsonString);
@@ -233,8 +230,9 @@ public class SearchServiceImpl implements SearchService {
 			for(SearchHit hit : hits) {
 				
 				SearchEntry entry = new SearchEntry();
-				
-				Map<String,Object> metaEntries = hit.getMetaEntries();
+
+				//Map<String,Object> metaEntries = hit.getMetaEntries();
+				Map<String,Object> metaEntries = hit.getItem();
 				IndexProduct indexProduct = new IndexProduct();
 				Map sourceEntries = (Map)metaEntries.get("source");
 				
@@ -249,7 +247,11 @@ public class SearchServiceImpl implements SearchService {
 				entry.setIndexProduct(indexProduct);
 				entries.add(entry);
 				
-				Map<String, HighlightField> fields = hit.getHighlightFields();
+				/**
+				 * no more support for highlighted
+				 */
+				
+/*				Map<String, HighlightField> fields = hit.getHighlightFields();
 				if(fields!=null) {
 					List<String> highlights = new ArrayList<String>();
 					for(HighlightField field : fields.values()) {
@@ -264,7 +266,7 @@ public class SearchServiceImpl implements SearchService {
 					
 					entry.setHighlights(highlights);
 				
-				}
+				}*/
 			}
 			
 			resp.setEntries(entries);

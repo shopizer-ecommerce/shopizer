@@ -24,6 +24,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -50,12 +51,15 @@ import com.salesmanager.web.constants.Constants;
 import com.salesmanager.web.entity.customer.Address;
 import com.salesmanager.web.entity.customer.CustomerEntity;
 import com.salesmanager.web.entity.customer.CustomerPassword;
+import com.salesmanager.web.entity.customer.ReadableCustomer;
+import com.salesmanager.web.populator.customer.ReadableCustomerPopulator;
 import com.salesmanager.web.shop.controller.AbstractController;
 import com.salesmanager.web.shop.controller.ControllerConstants;
 import com.salesmanager.web.shop.controller.customer.facade.CustomerFacade;
 import com.salesmanager.web.shop.controller.order.facade.OrderFacade;
 import com.salesmanager.web.utils.EmailTemplatesUtils;
 import com.salesmanager.web.utils.LabelUtils;
+import com.salesmanager.web.utils.LanguageUtils;
 import com.salesmanager.web.utils.LocaleUtils;
 //import com.salesmanager.web.shop.controller.data.CountryData;
 
@@ -69,7 +73,7 @@ import com.salesmanager.web.utils.LocaleUtils;
 public class CustomerAccountController extends AbstractController {
 	
 	private static final String CUSTOMER_ID_PARAMETER = "customer";
-    private static final String BILLING_SECTION="/shop/customer//billing.html";
+    private static final String BILLING_SECTION="/shop/customer/billing.html";
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(CustomerAccountController.class);
 	
@@ -90,6 +94,9 @@ public class CustomerAccountController extends AbstractController {
 	
     @Autowired
     private LanguageService languageService;
+    
+    @Autowired
+    private LanguageUtils languageUtils;
     
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -143,6 +150,52 @@ public class CustomerAccountController extends AbstractController {
 		
 	}
 	
+	
+	@RequestMapping(value="/accountSummary.html", method=RequestMethod.GET)
+	public @ResponseBody ReadableCustomer customerInformation(@RequestParam String userName, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	
+	
+		MerchantStore store = getSessionAttribute(Constants.MERCHANT_STORE, request);
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Customer customer = null;
+    	if(auth != null &&
+        		 request.isUserInRole("AUTH_CUSTOMER")) {
+    		customer = customerFacade.getCustomerByUserName(auth.getName(), store);
+
+        } else {
+        	response.sendError(401, "Customer not authenticated");
+			return null;
+        }
+    	
+    	if(StringUtils.isBlank(userName)) {
+        	response.sendError(403, "Customer name required");
+			return null;
+    	}
+    	
+    	if(customer==null) {
+        	response.sendError(401, "Customer not authenticated");
+			return null;
+    	}
+    	
+    	if(!customer.getNick().equals(userName)) {
+        	response.sendError(401, "Customer not authenticated");
+			return null;
+    	}
+    	
+    	
+    	ReadableCustomer readableCustomer = new ReadableCustomer();
+    	
+
+    	Language lang = languageUtils.getRequestLanguage(request, response);
+    	
+    	ReadableCustomerPopulator readableCustomerPopulator = new ReadableCustomerPopulator();
+    	readableCustomerPopulator.populate(customer, readableCustomer, store, lang);
+    	
+    	return readableCustomer;
+		
+	}
+		
 	@PreAuthorize("hasRole('AUTH_CUSTOMER')")
 	@RequestMapping(value="/account.html", method=RequestMethod.GET)
 	public String displayCustomerAccount(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {

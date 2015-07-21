@@ -76,6 +76,12 @@ import com.salesmanager.web.shop.controller.shoppingCart.facade.ShoppingCartFaca
 import com.salesmanager.web.utils.EmailTemplatesUtils;
 import com.salesmanager.web.utils.LabelUtils;
 
+
+/**
+ * Displays checkout form and deals with ajax user input
+ * @author carlsamson
+ *
+ */
 @Controller
 @RequestMapping(Constants.SHOP_URI+"/order")
 public class ShoppingOrderController extends AbstractController {

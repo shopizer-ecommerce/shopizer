@@ -36,6 +36,22 @@
     <url-pattern>/</url-pattern>
   </servlet-mapping>
   
+  
+  <!--Start UTF-8 Encoding needed.-->
+  <filter>
+        <filter-name>encodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>utf-8</param-value>
+        </init-param>
+  </filter>
+  <filter-mapping>
+        <filter-name>encodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <!-- End -->
+  
 
   <filter>
     <filter-name>springSecurityFilterChain</filter-name>
@@ -47,22 +63,6 @@
     <filter-name>springSecurityFilterChain</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
-
-<!--Start UTF-8 Encoding needed.-->
-      <filter>
-        <filter-name>encodingFilter</filter-name>
-        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
-        <init-param>
-            <param-name>encoding</param-name>
-            <param-value>utf-8</param-value>
-        </init-param>
-    </filter>
-    <filter-mapping>
-        <filter-name>encodingFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-<!-- End -->
-
   <welcome-file-list>
     <welcome-file></welcome-file>
   </welcome-file-list>

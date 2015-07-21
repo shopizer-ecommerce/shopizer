@@ -74,6 +74,7 @@ public class IndexProductTestCase extends AbstractSalesManagerCoreTestCase {
 	     */
 	    Manufacturer packed = new Manufacturer();
 	    packed.setMerchantStore(store);
+	    packed.setCode("packed");
 
 	    ManufacturerDescription packedd = new ManufacturerDescription();
 	    packedd.setLanguage(en);

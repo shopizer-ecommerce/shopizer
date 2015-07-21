@@ -31,7 +31,7 @@ function addShippingAddress(formId){
 		<div class="span12 common-row">
 
 			  <div class="span8 col-md-8 no-padding">
-				<div class="box">
+				<div class="checkout-box">
 					<span class="box-title">
 						<p class="p-title">
 							<s:message
@@ -77,7 +77,7 @@ function addShippingAddress(formId){
 					</c:if>
 				</div>
 				<br/>
-				<div class="box">
+				<div class="checkout-box">
 					<span class="box-title">
 						<p class="p-title">
 							<s:message

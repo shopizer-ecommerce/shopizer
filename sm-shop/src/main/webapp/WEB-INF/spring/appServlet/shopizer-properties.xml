@@ -11,15 +11,19 @@
    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd">
 
 	
-
+	<!-- 
+		image template bootstrap 350 x 376
+		image template bootstrap3 350 x 376
+		image template exotica 400 x 400
+	 -->
 
 
 	<util:properties id="shopizer-properties">
     			<prop key="MULTIPLE_PRICE_AVAILABILITY">false</prop>
     			<prop key="INDEX_PRODUCTS">true</prop>
 				<!-- Images -->
-				<prop key="PRODUCT_IMAGE_WIDTH_SIZE">350</prop>
-				<prop key="PRODUCT_IMAGE_HEIGHT_SIZE">375</prop>
+				<prop key="PRODUCT_IMAGE_WIDTH_SIZE">400</prop>
+				<prop key="PRODUCT_IMAGE_HEIGHT_SIZE">400</prop>
 				<prop key="CROP_UPLOADED_IMAGES">false</prop>
 				
 				<!-- upload image validations -->
@@ -49,6 +53,7 @@
 	<util:list id="templates" value-type="java.lang.String">
 		<value>bootstrap</value>
 		<value>bootstrap3</value>
+		<value>exoticamobilia</value>
     </util:list>
     
     <bean id="initData" class="com.salesmanager.web.init.data.InitStoreData"/>

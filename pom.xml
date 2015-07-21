@@ -1,0 +1,35 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.shopizer</groupId>
+  <artifactId>shopizer</artifactId>
+  <version>2.0.3-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>shopizer</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <java-version>1.7</java-version>
+    <jdk-version>1.7</jdk-version>
+    <!-- The version of this current module -->
+    <shopizer.version>2.0.3-SNAPSHOT</shopizer.version>
+	<sm-core.version>2.0.3-SNAPSHOT</sm-core.version>
+	<sm-core-model.version>2.0.3-SNAPSHOT</sm-core-model.version>
+	<sm-core-modules.version>2.0.3-SNAPSHOT</sm-core-modules.version>
+	<sm-search.version>0.0.5-SNAPSHOT</sm-search.version>
+	<sm-shop.version>2.0.3-SNAPSHOT</sm-shop.version>
+	
+	<shopizer-canadapost.version>0.0.1</shopizer-canadapost.version>	
+  </properties>
+
+
+  <modules>
+  	<module>sm-core</module>
+  	<module>sm-core-model</module>
+  	<module>sm-core-modules</module>
+  	<module>sm-shop</module>
+  </modules>
+</project>

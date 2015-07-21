@@ -1,0 +1,286 @@
+div.style-switcher {
+	background-color: #fff;
+	color: #262626;
+	width: 225px;
+	position: fixed;
+	top: 65px;
+	z-index: 1002;
+	left: -227px;
+}
+div.style-switcher .header {
+	padding: 10px 30px;
+	background: #f1f1f1;
+	z-index: 2;
+	position: relative;
+	border: 1px solid #ddd;
+	height: 45px;
+}
+div.style-switcher .body {
+	padding: 0 12px 10px;
+	top: 0px;
+	position: absolute;
+	opacity: 0;
+	background-color: #ffffff;
+	border: 1px solid #ddd;
+	border-top: none;
+	-webkit-transition: all 0.6s ease-in-out;
+	-moz-transition: all 0.6s ease-in-out;
+	-o-transition: all 0.6s ease-in-out;
+	-ms-transition: all 0.6s ease-in-out;
+	transition: all 0.6s ease-in-out;
+}
+div.style-switcher.opened .body {
+	top: 45px;
+	opacity: 1;
+}
+div.style-switcher .header h2 {
+	color: #343434;
+}
+div.style-switcher h2 {
+	margin: 0;
+	font-size: 20px;
+}
+div.style-switcher h3 {
+	margin: 15px 0 5px 0;
+	font-size: 18px;
+}
+div.style-switcher hr {
+	margin: 15px 0;
+}
+div.style-switcher hr + h3 {
+	margin-top: 0;
+}
+div.style-switcher a.trigger {
+	display: block;
+	height: 45px;
+	position: absolute;
+	right: -45px;
+	top: -1px;
+	background: #f1f1f1;
+	width: 45px;
+	font-size: 24px;
+	line-height: 44px;
+	color: #666666;
+	text-align: center;
+	text-decoration: none;
+	border: 1px solid #ddd;
+	border-left: none;
+}
+div.style-switcher.opened a.trigger {
+	right: -1px;
+}
+div.style-switcher ul {
+	list-style: none;
+	margin: 0;
+	padding: 5px 0 0 0;
+	font-size: 0;
+}
+div.style-switcher ul li {
+	width: 25px;
+	height: 25px;
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+	margin: 0 3px 3px 0;
+	-webkit-transition: all linear 0.3s;
+	-moz-transition: all linear 0.3s;
+	-o-transition: all linear 0.3s;
+	-ms-transition: all linear 0.3s;
+	transition: all linear 0.3s;
+	-webkit-border-radius: 100%;
+	-moz-border-radius: 100%;
+	border-radius: 100%;
+}
+div.style-switcher ul.layoutChange li {
+	width: 45%;
+	height: 30px;
+	margin-right: 5px;
+	color: #666666;
+	background-color: #f1f1f1;
+	border: 1px solid #f3f3f3;
+	-webkit-border-radius: 0; 
+	-moz-border-radius: 0; 
+	border-radius: 0;
+	font-size: 13px;
+	text-align: center;
+	padding-top: 5px;
+}
+div.style-switcher ul.layoutChange li i {
+	color: #cccccc;
+	font-size: 11px;
+}
+div.style-switcher ul.layoutChange li.selected {
+	border: 1px solid #aaaaaa;
+}
+div.style-switcher ul.layoutChange li.selected i {
+	color: #666666;
+}
+div.style-switcher ul.footerChange li {
+	width: 45%;
+	height: 30px;
+	margin-right: 5px;
+	-webkit-border-radius: 0; 
+	-moz-border-radius: 0; 
+	border-radius: 0;
+	font-size: 13px;
+	padding: 6px 14px 0;
+}
+div.style-switcher ul.footerChange li.dark {
+	color: #f1f1f1;
+	background-color: #262626;
+}
+div.style-switcher ul.footerChange li.light {
+	color: #333333;
+	background-color: #f7f7f7;
+}
+div.style-switcher ul.footerChange li i {
+	width: 20px;
+}
+
+div.style-switcher ul.footerChange li.selected i:before {
+	content: "\f046";
+}
+div.style-switcher ul.headerChange li {
+	width: 45%;
+	height: 30px;
+	margin-right: 5px;
+	-webkit-border-radius: 0; 
+	-moz-border-radius: 0; 
+	border-radius: 0;
+	font-size: 13px;
+	padding: 6px 14px 0;
+}
+div.style-switcher ul.headerChange li.dark {
+	color: #f1f1f1;
+	background-color: #262626;
+}
+div.style-switcher ul.headerChange li.light {
+	color: #333333;
+	background-color: #f7f7f7;
+}
+div.style-switcher ul.headerChange li i {
+	width: 20px;
+}
+
+div.style-switcher ul.headerChange li.selected i:before {
+	content: "\f046";
+}
+div.style-switcher ul.patternChange li {
+	border: 1px solid #f3f3f3;
+}
+div.style-switcher ul.styleChange li.selected:after,
+div.style-switcher ul.patternChange li.selected:after {
+	font-family: "FontAwesome";
+	content: "\f00c";
+	color: #fff;
+	top: 0;
+	position: absolute;
+	text-align: center;
+	line-height: 25px;
+	width: 100%;
+	font-size: 16px;
+}
+div.style-switcher ul.patternChange li.pattern-0.selected:after,
+div.style-switcher ul.patternChange li.pattern-1.selected:after,
+div.style-switcher ul.patternChange li.pattern-2.selected:after,
+div.style-switcher ul.patternChange li.pattern-3.selected:after,
+div.style-switcher ul.patternChange li.pattern-4.selected:after {
+	color: #333333;
+}
+div.style-switcher ul.patternChange li.selected:after {
+	color: #ffffff;
+}
+div.style-switcher ul.resetAll li {
+	-webkit-border-radius: 0px; 
+	-moz-border-radius: 0px; 
+	border-radius: 0px;
+	width: 50%;
+	height: 30px;
+	margin: 7px auto;
+	display: block;
+	padding: 6px 0;
+	min-width: 0;
+}
+div.style-switcher select {
+	width: 100%;
+	padding: 5px;
+	border: 1px solid #b2bfca;
+}
+div.style-switcher .blue {
+	background: #3d78d8;
+}
+div.style-switcher .blue:hover {
+	background: #2c5fb3;
+}
+div.style-switcher .green {
+	background: #0d8609;
+}
+div.style-switcher .green:hover {
+	background: #0d760a;
+}
+div.style-switcher .dark-gray {
+	background: #4e5b5e;
+}
+div.style-switcher .dark-gray:hover {
+	background: #394346;
+}
+div.style-switcher .dark-cyan {
+	background: #009798;
+}
+div.style-switcher .dark-cyan:hover {
+	background: #008686;
+}
+div.style-switcher .orange {
+	background: #ffa500;
+}
+div.style-switcher .orange:hover {
+	background: #e09200;
+}
+div.style-switcher .pink {
+	background: #db7093;
+}
+div.style-switcher .pink:hover {
+	background: #c86384;
+}
+div.style-switcher .purple {
+	background: #954db3;
+}
+div.style-switcher .purple:hover {
+	background: #7f3a9a;
+}
+div.style-switcher .red {
+	background: #e84c3d;
+}
+div.style-switcher .red:hover {
+	background: #cd3c2e;
+}
+div.style-switcher .brown {
+	background: #7a5230;
+}
+div.style-switcher .brown:hover {
+	background: #614126;
+}
+div.style-switcher .light-blue {
+	background: #38c7f4;
+}
+div.style-switcher .light-blue:hover {
+	background: #17b5e5;
+}
+div.style-switcher .light-green {
+	background: #599f06;
+}
+div.style-switcher .light-green:hover {
+	background: #4c8606;
+}
+div.style-switcher .yellow {
+	background: #d3b61c;
+}
+div.style-switcher .yellow:hover {
+	background: #b59a17;
+}
+div.style-switcher .dark-red {
+	background: #8e1e13;
+}
+div.style-switcher .dark-red:hover {
+	background: #6c160f;
+}

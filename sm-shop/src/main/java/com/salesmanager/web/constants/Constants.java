@@ -87,6 +87,7 @@ public class Constants {
 	public final static String REQUEST_CONFIGS = "CONFIGS";
 
 	public final static String KEY_FACEBOOK_PAGE_URL = "facebook_page_url";
+	public final static String KEY_PINTEREST_PAGE_URL = "pinterest";
 	public final static String KEY_GOOGLE_ANALYTICS_URL = "google_analytics_url";
 	public final static String KEY_GOOGLE_API_KEY = "google_api_key";
 	public final static String KEY_TWITTER_HANDLE = "twitter_handle";
@@ -110,5 +111,9 @@ public class Constants {
     public static final String RECAPATCHA_PRIVATE_KEY="shopizer.recapatcha_private_key";
     
     public final static String LINK_CODE = "LINK_CODE";
+    
+    public final static String COOKIE_NAME_USER = "user";
+    public final static String COOKIE_NAME_CART = "cart";
+    public final static String RESPONSE_KEY_USERNAME = "userName";
 
 }

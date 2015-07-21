@@ -34,6 +34,7 @@ import com.salesmanager.core.utils.CacheUtils;
 import com.salesmanager.core.utils.ajax.AjaxResponse;
 import com.salesmanager.web.constants.Constants;
 import com.salesmanager.web.utils.DateUtil;
+import com.salesmanager.web.utils.LanguageUtils;
 import com.salesmanager.web.utils.LocaleUtils;
 
 
@@ -58,6 +59,9 @@ public class ReferenceController {
 	
 	@Autowired
 	private CacheUtils cache;
+	
+	@Autowired
+	private LanguageUtils languageUtils;
 
 
 	
@@ -124,10 +128,10 @@ public class ReferenceController {
 	}
 	
 	@RequestMapping(value="/shop/reference/countryName")
-	public @ResponseBody String countryName(@RequestParam String countryCode, HttpServletRequest request) {
+	public @ResponseBody String countryName(@RequestParam String countryCode, HttpServletRequest request, HttpServletResponse response) {
 		
 		try {
-			Language language = LocaleUtils.getRequestLanguage(request);
+			Language language = languageUtils.getRequestLanguage(request, response);
 			if(language==null) {
 				return countryCode;
 			}
@@ -146,10 +150,10 @@ public class ReferenceController {
 	}
 	
 	@RequestMapping(value="/shop/reference/zoneName")
-	public @ResponseBody String zoneName(@RequestParam String zoneCode, HttpServletRequest request) {
+	public @ResponseBody String zoneName(@RequestParam String zoneCode, HttpServletRequest request, HttpServletResponse response) {
 		
 		try {
-			Language language = LocaleUtils.getRequestLanguage(request);
+			Language language = languageUtils.getRequestLanguage(request, response);
 			if(language==null) {
 				return zoneCode;
 			}

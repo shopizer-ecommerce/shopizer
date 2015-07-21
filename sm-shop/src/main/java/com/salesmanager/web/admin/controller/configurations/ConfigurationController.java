@@ -74,6 +74,15 @@ public class ConfigurationController {
 		}
 		configs.add(merchantGoogleAnalyticsConfiguration);
 		
+		MerchantConfiguration merchantPinterestConfiguration = merchantConfigurationService.getMerchantConfiguration(Constants.KEY_PINTEREST_PAGE_URL,store);
+		if(null == merchantPinterestConfiguration)
+		{
+			merchantPinterestConfiguration = new MerchantConfiguration();
+			merchantPinterestConfiguration.setKey(Constants.KEY_PINTEREST_PAGE_URL);
+			merchantPinterestConfiguration.setMerchantConfigurationType(MerchantConfigurationType.CONFIG);
+		}
+		configs.add(merchantPinterestConfiguration);
+		
 		/**
 		MerchantConfiguration merchantGoogleApiConfiguration = merchantConfigurationService.getMerchantConfiguration(Constants.KEY_GOOGLE_API_KEY,store);
 		if(null == merchantGoogleApiConfiguration)

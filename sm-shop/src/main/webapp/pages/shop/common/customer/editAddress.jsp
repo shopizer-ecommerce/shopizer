@@ -76,7 +76,7 @@ function isFormValid() {
 
 			  <div class="span8 col-md-8 no-padding">
 
-				<div class="box">
+				<div class="checkout-box">
 					<span class="box-title">
 						<p class="p-title">
 							
@@ -147,7 +147,7 @@ function isFormValid() {
  	 		            <div class="control-group form-group">
 	                        <label><s:message code="label.customer.country" text="Country"/></label>
 	                        <div class="controls"> 				       							
-	       							<form:select cssClass="billing-country-list" path="country" id="customer_country">
+	       							<form:select cssClass="billing-country-list form-control form-control-lg" path="country" id="customer_country">
 		  								<form:options items="${countries}" itemValue="isoCode" itemLabel="name"/>
 	       							</form:select>
                                  	<span class="help-inline"><form:errors path="country" cssClass="error" /></span>
@@ -157,7 +157,7 @@ function isFormValid() {
 	                    <div class="control-group form-group"> 
 	                        <label><s:message code="label.customer.zone" text="State / Province"/></label>
 	                        <div class="controls">		       							
-	       							<form:select cssClass="billing-zone-list" path="zone" id="customer_zones"/>
+	       							<form:select cssClass="billing-zone-list form-control form-control-lg" path="zone" id="customer_zones"/>
 	       							<s:message code="NotEmpty.customer.stateProvince" text="State / Province is required" var="msgStateProvince"/>
                       				<form:input  class="input-large required form-control form-control-md" id="hidden_zones" maxlength="100"  name="stateProvince" path="stateProvince" title="${msgStateProvince}" />		       							
                                  	<span class="help-inline"><form:errors path="zone" cssClass="error" /></span>

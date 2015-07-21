@@ -217,6 +217,10 @@
   		<put-attribute name="body" value="/pages/admin/shipping/shippingMethod.jsp" /> 
   	</definition>
   	
+  	<definition name="shipping-origin" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/shipping/shippingOrigin.jsp" /> 
+  	</definition>
+  	
   	<definition name="payment-methods" template="/layout/admin/layout.jsp">
   		<put-attribute name="body" value="/pages/admin/payment/paymentMethods.jsp" /> 
   	</definition>

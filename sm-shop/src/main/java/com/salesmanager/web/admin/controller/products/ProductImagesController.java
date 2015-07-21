@@ -174,7 +174,7 @@ public class ProductImagesController {
 			return ControllerConstants.Tiles.Product.productImages;
 		}
 		
-		if(product.getMerchantStore().getId()!=store.getId()) {
+		if(product.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
 			FieldError error = new FieldError("productImages","image",messages.getMessage("message.error", locale));
 			bindingResult.addError(error);
 		}
@@ -207,25 +207,6 @@ public class ProductImagesController {
             
         }
 		
-/*		ProductImage productImage = new ProductImage();
-		productImage.setProduct(product);
-        
-        
-        InputStream inputStream = productImages.getFile().get(0).getInputStream();
-        ImageContentFile cmsContentImage = new ImageContentFile();
-        cmsContentImage.setFileName( productImages.getFile().get(0).getOriginalFilename() );
-        cmsContentImage.setFile( inputStream );
-        cmsContentImage.setFileContentType(FileContentType.PRODUCT);
-        
-        productImage.setProductImage(productImages.getFile().get(0).getOriginalFilename() );
-        
-        
-		BufferedImage bufferedImage = ImageIO.read(inputStream);
-		cmsContentImage.setBufferedImage(bufferedImage);
-		
-		productImageService.addProductImage(product, productImage, cmsContentImage);*/
-        
-        
         
         //reload
         product = productService.getById(productImages.getProductId());

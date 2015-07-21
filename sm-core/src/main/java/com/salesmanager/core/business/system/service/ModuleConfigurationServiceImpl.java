@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 import org.slf4j.Logger;
@@ -12,11 +13,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.salesmanager.core.business.generic.exception.ServiceException;
 import com.salesmanager.core.business.generic.service.SalesManagerEntityServiceImpl;
 import com.salesmanager.core.business.system.dao.ModuleConfigurationDao;
 import com.salesmanager.core.business.system.model.IntegrationModule;
 import com.salesmanager.core.business.system.model.ModuleConfig;
 import com.salesmanager.core.utils.CacheUtils;
+import com.salesmanager.core.utils.reference.IntegrationModulesLoader;
 
 @Service("moduleConfigurationService")
 public class ModuleConfigurationServiceImpl extends
@@ -24,7 +27,10 @@ public class ModuleConfigurationServiceImpl extends
 		ModuleConfigurationService {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ModuleConfigurationServiceImpl.class);
-
+	
+	@Autowired
+	private IntegrationModulesLoader integrationModulesLoader;
+	
 
 	
 	private ModuleConfigurationDao integrationModuleDao;
@@ -131,6 +137,46 @@ public class ModuleConfigurationServiceImpl extends
 			LOGGER.error("getIntegrationModules()", e);
 		}
 		return modules;
+		
+		
+	}
+
+	@Override
+	public void createOrUpdateModule(String json) throws ServiceException {
+		
+		ObjectMapper mapper = new ObjectMapper();
+		
+		try {
+           
+
+            @SuppressWarnings("rawtypes")
+    		Map[] objects = mapper.readValue(json, Map[].class);
+            
+
+            //get the module to be loaded
+            for(int i = 0; i < objects.length; i++) {
+            	@SuppressWarnings("rawtypes")
+				Map o = objects[i];
+            	//get module object
+            	IntegrationModule module = integrationModulesLoader.loadModule(o);
+            	
+	            if(module!=null) {
+	            	IntegrationModule m = this.getByCode(module.getCode());
+	            	if(m!=null) {
+	            		this.delete(m);	 	
+	            	}
+	            	this.create(module);
+	            }
+
+            }
+            
+
+
+  		} catch (Exception e) {
+  			throw new ServiceException(e);
+  		} 
+		
+		
 		
 		
 	}
