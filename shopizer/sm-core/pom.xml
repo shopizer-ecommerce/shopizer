@@ -6,25 +6,22 @@
   <parent>
     <groupId>com.shopizer</groupId>
     <artifactId>shopizer</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>2.0.2-SNAPSHOT</version>
   </parent>
 
 	<artifactId>sm-core</artifactId>
-	<version>2.0.1-SNAPSHOT</version>
+	<!--<version>${sm-core.version}</version>-->
 	<packaging>jar</packaging>
 
 	<name>sm-core</name>
 	<url>http://www.shopizer.com</url>
 
 	<properties>
+	
+		 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jdk.version>1.6</jdk.version>
-		
-		<sm-core-model.version>2.0.1-SNAPSHOT</sm-core-model.version>
-		<sm-core-modules.version>2.0.1-SNAPSHOT</sm-core-modules.version>
-		<sm-search.version>0.0.3</sm-search.version>
-		
-		
+
 		<jackson-version>1.9.13</jackson-version>
 		<axis-version>1.4</axis-version>
 		<jaxws.api.version>2.1</jaxws.api.version>
@@ -37,6 +34,7 @@
 		<freemarker.version>2.3.19</freemarker.version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 		<hibernate.ehcache.version>3.5.1-Final</hibernate.ehcache.version>
+		<sm-core.drools.version>5.6.0.Final</sm-core.drools.version>
 		<sm-core.hibernate-entitymanager-version>4.1.2</sm-core.hibernate-entitymanager-version>
 		<sm-core.hibernate-jpamodelgen.version>1.1.1.Final</sm-core.hibernate-jpamodelgen.version>
 		<sm-core.aspectj.version>1.5.4</sm-core.aspectj.version>
@@ -52,11 +50,6 @@
 
 	<dependencies>
 	
-		<!--<dependency>
-    		<groupId>com.shopizer</groupId>
-    		<artifactId>com.shopizer.authorizenet</artifactId>
-    		<version>0.0.1-SNAPSHOT</version>
-		</dependency>-->
 		
 		<!-- sm-core-model -->
 		<dependency>
@@ -78,7 +71,13 @@
 			<artifactId>sm-search</artifactId>
 			<version>${sm-search.version}</version>
 		</dependency>
-
+		
+		<!-- canadapost -->
+		<dependency>
+			<groupId>com.shopizer</groupId>
+			<artifactId>shopizer-shipping-canadapost-module</artifactId>
+			<version>0.0.1</version>
+		</dependency>
 
 		<!-- Loggers -->
 		<dependency>
@@ -178,13 +177,6 @@
 		</dependency>
 
 		<!-- Spring -->
-		<!--
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-asm</artifactId>
-			<version>${sm-core.org.springframework-security.version}</version>
-		</dependency>
-		-->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aop</artifactId>
@@ -308,13 +300,13 @@
 			<version>1.4.0</version>
 		</dependency>
 		
-		<!--
+		<!-- Rules engine -->
 		<dependency>
-  			<groupId>org.jboss.cache</groupId>
-  			<artifactId>jbosscache-core</artifactId>
-  			<version>3.2.5.GA</version>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-spring</artifactId>
+			<version>${sm-core.drools.version}</version>
 		</dependency>
-		-->
+
 		
 		<dependency>
 			<groupId>commons-lang</groupId>
@@ -351,13 +343,6 @@
     		<version>5.1.6.FINAL</version>
   		</dependency>
 
-  		<!-- TO REMOVE -->
-  		<dependency>
-    		<groupId>org.infinispan</groupId>
-    		<artifactId>infinispan-cachestore-bdbje</artifactId>
-    		<version>5.1.4.FINAL</version>
-  		</dependency>
-
 		<dependency>      
 			<groupId>org.infinispan</groupId>      
 			<artifactId>infinispan-cachestore-jdbc</artifactId>      
@@ -389,10 +374,10 @@
 			<version>1.3b1</version>
 		</dependency>
 		
-	    <dependency>
-			<groupId>com.lowagie</groupId>
-			<artifactId>itext</artifactId>
-			<version>4.2.1</version>
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>itextpdf</artifactId>
+			<version>5.5.6</version>
 		</dependency>
 		
 		

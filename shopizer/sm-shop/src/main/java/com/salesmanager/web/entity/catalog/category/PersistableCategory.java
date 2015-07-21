@@ -1,6 +1,7 @@
 package com.salesmanager.web.entity.catalog.category;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PersistableCategory extends CategoryEntity implements Serializable {
@@ -11,6 +12,8 @@ public class PersistableCategory extends CategoryEntity implements Serializable 
 	private static final long serialVersionUID = 1L;
 	private List<CategoryDescription> descriptions;//always persist description
 	private Category parent;//saves a reference 
+	private List<PersistableCategory> children = new ArrayList<PersistableCategory>();
+	
 	public List<CategoryDescription> getDescriptions() {
 		return descriptions;
 	}
@@ -22,6 +25,12 @@ public class PersistableCategory extends CategoryEntity implements Serializable 
 	}
 	public Category getParent() {
 		return parent;
+	}
+	public List<PersistableCategory> getChildren() {
+		return children;
+	}
+	public void setChildren(List<PersistableCategory> children) {
+		this.children = children;
 	}
 
 }

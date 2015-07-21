@@ -14,6 +14,7 @@
 	<context:component-scan base-package="com.salesmanager.core.business" />
 	<context:component-scan base-package="com.salesmanager.core.utils" />
 	<context:component-scan base-package="com.salesmanager.core.modules" />
+	<context:component-scan base-package="com.shopizer.modules" /><!-- external modules -->
 
 	<!-- datasource -->
 	<import resource="classpath:/spring/datasource-c3p0.xml" />
@@ -23,6 +24,10 @@
 	<import resource="classpath:/spring/shopizer-core-config.xml" />
 	<!-- modules -->
 	<import resource="classpath:/spring/shopizer-core-modules.xml" />
+	<!-- shipping pre processors -->
+	<import resource="classpath:/spring/processors/shopizer-core-shipping-processors.xml" />
+	<!-- rules -->
+	<import resource="classpath:/spring/shopizer-core-rules.xml" />
 	<!-- search -->
 	<import resource="classpath:/spring/shopizer-search.xml" />
 

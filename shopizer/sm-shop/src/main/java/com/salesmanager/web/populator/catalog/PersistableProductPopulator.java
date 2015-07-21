@@ -71,7 +71,15 @@ public class PersistableProductPopulator extends
 			}
 
 			if(source.getManufacturer()!=null) {
-				Manufacturer manuf = manufacturerService.getById(source.getManufacturer().getId());
+				
+				Manufacturer manuf = null;
+				if(!StringUtils.isBlank(source.getManufacturer().getCode())) {
+					manuf = manufacturerService.getByCode(store, source.getManufacturer().getCode());
+				} else {
+					Validate.notNull(source.getManufacturer().getId(), "Requires to set manufacturer id");
+					manuf = manufacturerService.getById(source.getManufacturer().getId());
+				}
+				
 				if(manuf==null) {
 					throw new ConversionException("Invalid manufacturer id");
 				}
@@ -156,12 +164,27 @@ public class PersistableProductPopulator extends
 			if(source.getAttributes()!=null) {
 				for(com.salesmanager.web.entity.catalog.product.attribute.ProductAttributeEntity attr : source.getAttributes()) {
 					
-					ProductOption productOption = productOptionService.getById(attr.getOption().getId());
+					ProductOption productOption = null;
+							
+					if(!StringUtils.isBlank(attr.getOption().getCode())) {
+						productOption = productOptionService.getByCode(store, attr.getOption().getCode());
+					} else {
+						Validate.notNull(attr.getOption().getId(),"Product option id is null");
+						productOption = productOptionService.getById(attr.getOption().getId());
+					}
+
 					if(productOption==null) {
 						throw new ConversionException("Product option id " + attr.getOption().getId() + " does not exist");
 					}
 					
-					ProductOptionValue productOptionValue = productOptionValueService.getById(attr.getOptionValue().getId());
+					ProductOptionValue productOptionValue = null;
+					
+					if(!StringUtils.isBlank(attr.getOptionValue().getCode())) {
+						productOptionValue = productOptionValueService.getByCode(store, attr.getOptionValue().getCode());
+					} else {
+						productOptionValue = productOptionValueService.getById(attr.getOptionValue().getId());
+					}
+					
 					if(productOptionValue==null) {
 						throw new ConversionException("Product option value id " + attr.getOptionValue().getId() + " does not exist");
 					}
@@ -190,7 +213,15 @@ public class PersistableProductPopulator extends
 			//categories
 			if(!CollectionUtils.isEmpty(source.getCategories())) {
 				for(com.salesmanager.web.entity.catalog.category.Category categ : source.getCategories()) {
-					Category c = categoryService.getById(categ.getId());
+					
+					Category c = null;
+					if(!StringUtils.isBlank(categ.getCode())) {
+						c = categoryService.getByCode(store, categ.getCode());
+					} else {
+						Validate.notNull(categ.getId(), "Category id nust not be null");
+						c = categoryService.getById(categ.getId());
+					}
+					
 					if(c==null) {
 						throw new ConversionException("Category id " + categ.getId() + " does not exist");
 					}

@@ -7,10 +7,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -22,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.catalog.product.model.Product;
-import com.salesmanager.core.business.catalog.product.model.price.FinalPrice;
 import com.salesmanager.core.business.catalog.product.service.PricingService;
 import com.salesmanager.core.business.common.model.Delivery;
 import com.salesmanager.core.business.generic.exception.ServiceException;
@@ -35,6 +34,7 @@ import com.salesmanager.core.business.shipping.model.PackageDetails;
 import com.salesmanager.core.business.shipping.model.ShippingConfiguration;
 import com.salesmanager.core.business.shipping.model.ShippingOption;
 import com.salesmanager.core.business.shipping.model.ShippingOptionPriceType;
+import com.salesmanager.core.business.shipping.model.ShippingOrigin;
 import com.salesmanager.core.business.shipping.model.ShippingPackageType;
 import com.salesmanager.core.business.shipping.model.ShippingProduct;
 import com.salesmanager.core.business.shipping.model.ShippingQuote;
@@ -53,6 +53,7 @@ import com.salesmanager.core.constants.ShippingConstants;
 import com.salesmanager.core.modules.integration.IntegrationException;
 import com.salesmanager.core.modules.integration.shipping.model.Packaging;
 import com.salesmanager.core.modules.integration.shipping.model.ShippingQuoteModule;
+import com.salesmanager.core.modules.integration.shipping.model.ShippingQuotePreProcessModule;
 import com.salesmanager.core.modules.utils.Encryption;
 import com.salesmanager.core.utils.reference.ConfigurationModulesLoader;
 
@@ -91,8 +92,16 @@ public class ShippingServiceImpl implements ShippingService {
 	private MerchantLogService merchantLogService;
 	
 	@Autowired
+	private ShippingOriginService shippingOriginService;
+	
+	@Autowired
 	@Resource(name="shippingModules")
 	private Map<String,ShippingQuoteModule> shippingModules;
+	
+	//shipping pre-processors
+	@Autowired
+	@Resource(name="shippingModulePreProcessors")
+	private List<ShippingQuotePreProcessModule> shippingModulePreProcessors;
 	
 	@Override
 	public ShippingConfiguration getShippingConfiguration(MerchantStore store) throws ServiceException {
@@ -353,6 +362,13 @@ public class ShippingServiceImpl implements ShippingService {
 	@Override
 	public ShippingQuote getShippingQuote(MerchantStore store, Delivery delivery, List<ShippingProduct> products, Language language) throws ServiceException  {
 		
+		
+		Validate.notNull(store,"MerchantStore must not be null");
+		Validate.notNull(delivery,"Delivery must not be null");
+		Validate.notEmpty(products,"products must not be empty");
+		Validate.notNull(language,"Language must not be null");
+		
+		
 		ShippingQuote shippingQuote = new ShippingQuote();
 		ShippingQuoteModule shippingQuoteModule = null;
 		
@@ -361,6 +377,19 @@ public class ShippingServiceImpl implements ShippingService {
 			//get configuration
 			ShippingConfiguration shippingConfiguration = getShippingConfiguration(store);
 			ShippingType shippingType = ShippingType.INTERNATIONAL;
+			
+			/** get shipping origin **/
+			ShippingOrigin shippingOrigin = shippingOriginService.getByStore(store);
+			if(shippingOrigin == null || !shippingOrigin.isActive()) {
+				shippingOrigin = new ShippingOrigin();
+				shippingOrigin.setAddress(store.getStoreaddress());
+				shippingOrigin.setCity(store.getStorecity());
+				shippingOrigin.setCountry(store.getCountry());
+				shippingOrigin.setPostalCode(store.getStorepostalcode());
+				shippingOrigin.setState(store.getStorestateprovince());
+				shippingOrigin.setZone(store.getZone());
+			}
+			
 			
 			if(shippingConfiguration==null) {
 				shippingConfiguration = new ShippingConfiguration();
@@ -475,12 +504,25 @@ public class ShippingServiceImpl implements ShippingService {
 			
 
 			Locale locale = languageService.toLocale(language);
+			
+			//invoke pre processors
+			if(!CollectionUtils.isEmpty(shippingModulePreProcessors)) {
+				for(ShippingQuotePreProcessModule preProcessor : shippingModulePreProcessors) {
+					preProcessor.preProcessShippingQuotes(shippingQuote, packages, orderTotal, delivery, shippingOrigin, store, configuration, shippingModule, shippingConfiguration, shippingMethods, locale);
+					//TODO switch module if required
+					if(shippingQuote.getCurrentShippingModule()!=null && !shippingQuote.getCurrentShippingModule().getCode().equals(shippingModule.getCode())) {
+						shippingModule = shippingQuote.getCurrentShippingModule();
+						shippingQuoteModule = this.shippingModules.get(shippingModule.getCode());
+						configuration = modules.get(shippingModule.getCode());
+					}
+				}
+			}
 
 			//invoke module
 			List<ShippingOption> shippingOptions = null;
 					
 			try {
-				shippingOptions = shippingQuoteModule.getShippingQuotes(packages, orderTotal, delivery, store, configuration, shippingModule, shippingConfiguration, locale);
+				shippingOptions = shippingQuoteModule.getShippingQuotes(shippingQuote, packages, orderTotal, delivery, shippingOrigin, store, configuration, shippingModule, shippingConfiguration, locale);
 			} catch(Exception e) {
 				LOGGER.error("Error while calculating shipping", e);
 				merchantLogService.save(
@@ -688,9 +730,7 @@ public class ShippingServiceImpl implements ShippingService {
 		
 		BigDecimal total = new BigDecimal(0);
 		for(ShippingProduct shippingProduct : products) {
-			FinalPrice price = pricingService.calculateProductPrice(shippingProduct.getProduct());
-			
-			BigDecimal currentPrice = price.getFinalPrice();
+			BigDecimal currentPrice = shippingProduct.getFinalPrice().getFinalPrice();
 			currentPrice = currentPrice.multiply(new BigDecimal(shippingProduct.getQuantity()));
 			total = total.add(currentPrice);
 		}

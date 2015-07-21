@@ -15,6 +15,8 @@ import com.salesmanager.core.business.shipping.model.PackageDetails;
 import com.salesmanager.core.business.shipping.model.ShippingBasisType;
 import com.salesmanager.core.business.shipping.model.ShippingConfiguration;
 import com.salesmanager.core.business.shipping.model.ShippingOption;
+import com.salesmanager.core.business.shipping.model.ShippingOrigin;
+import com.salesmanager.core.business.shipping.model.ShippingQuote;
 import com.salesmanager.core.business.system.model.CustomIntegrationConfiguration;
 import com.salesmanager.core.business.system.model.IntegrationConfiguration;
 import com.salesmanager.core.business.system.model.IntegrationModule;
@@ -83,8 +85,9 @@ public class CustomWeightBasedShippingQuote implements ShippingQuoteModule {
 
 	@Override
 	public List<ShippingOption> getShippingQuotes(
+			ShippingQuote shippingQuote,
 			List<PackageDetails> packages, BigDecimal orderTotal,
-			Delivery delivery, MerchantStore store,
+			Delivery delivery, ShippingOrigin origin, MerchantStore store,
 			IntegrationConfiguration configuration, IntegrationModule module,
 			ShippingConfiguration shippingConfiguration, Locale locale)
 			throws IntegrationException {

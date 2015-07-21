@@ -378,6 +378,7 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 				}
 				ShippingProduct shippingProduct = new ShippingProduct(product);
 				shippingProduct.setQuantity(item.getQuantity());
+				shippingProduct.setFinalPrice(item.getFinalPrice());
 				shippingProducts.add(shippingProduct);
 			}
 		}

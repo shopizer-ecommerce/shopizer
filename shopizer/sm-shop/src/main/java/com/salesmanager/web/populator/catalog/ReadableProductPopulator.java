@@ -13,6 +13,7 @@ import com.salesmanager.core.business.catalog.product.model.description.ProductD
 import com.salesmanager.core.business.catalog.product.model.image.ProductImage;
 import com.salesmanager.core.business.catalog.product.model.manufacturer.ManufacturerDescription;
 import com.salesmanager.core.business.catalog.product.model.price.FinalPrice;
+import com.salesmanager.core.business.catalog.product.model.price.ProductPrice;
 import com.salesmanager.core.business.catalog.product.service.PricingService;
 import com.salesmanager.core.business.generic.exception.ConversionException;
 import com.salesmanager.core.business.merchant.model.MerchantStore;
@@ -88,6 +89,7 @@ public class ReadableProductPopulator extends
 				manufacturerEntity.setDescription(d);
 				manufacturerEntity.setId(manufacturer.getId());
 				manufacturerEntity.setOrder(source.getManufacturer().getOrder());
+				manufacturerEntity.setCode(source.getManufacturer().getCode());
 				target.setManufacturer(manufacturerEntity);
 			}
 			
@@ -136,6 +138,12 @@ public class ReadableProductPopulator extends
 					target.setQuantity(availability.getProductQuantity());
 					target.setQuantityOrderMaximum(availability.getProductQuantityOrderMax());
 					target.setQuantityOrderMinimum(availability.getProductQuantityOrderMin());
+					Set<ProductPrice> prices = availability.getPrices();
+					if(prices != null) {
+						for(ProductPrice productPrice : prices) {
+							
+						}
+					}
 				}
 			}
 			

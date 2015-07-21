@@ -3,26 +3,26 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 
-       <parent>
-    <groupId>com.shopizer</groupId>
-    <artifactId>shopizer</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-  </parent>
+    <parent>
+	    <groupId>com.shopizer</groupId>
+	    <artifactId>shopizer</artifactId>
+	    <version>2.0.2-SNAPSHOT</version>
+    </parent>
+    
+    
 	<groupId>com.salesmanager</groupId>
 	<artifactId>sm-shop</artifactId>
 	<name>sm-shop</name>
 	<packaging>war</packaging>
-	<version>2.0.1-SNAPSHOT</version>
+	
+	
 	<properties>
-		<java-version>1.6</java-version>
+	
+	
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<jdk.version>1.6</jdk.version>
+		
 		<jackson-version>1.9.13</jackson-version>
-		
-		<sm-core.version>2.0.1-SNAPSHOT</sm-core.version>
-		<sm-core-model.version>2.0.1-SNAPSHOT</sm-core-model.version>
-		<sm-core-modules.version>2.0.1-SNAPSHOT</sm-core-modules.version>
-		<sm-search.version>0.0.3</sm-search.version>
-		
-		
 		<fasterxml-version>2.2.3</fasterxml-version>
 		<org.springframework-version>3.1.0.RELEASE</org.springframework-version>
 		<org.springframework-security-version>3.1.4.RELEASE</org.springframework-security-version>
@@ -64,7 +64,12 @@
 			<version>${sm-search.version}</version>
 		</dependency>
 
-
+		<!-- canadapost -->
+		<dependency>
+			<groupId>com.shopizer</groupId>
+			<artifactId>shopizer-shipping-canadapost-module</artifactId>
+			<version>${shopizer-canadapost.version}</version>
+		</dependency>
 
 		<!-- Spring -->
 		<dependency>
@@ -331,9 +336,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.lowagie</groupId>
-			<artifactId>itext</artifactId>
-			<version>4.2.1</version>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>itextpdf</artifactId>
+			<version>5.5.6</version>
 		</dependency>
 
 		<dependency>

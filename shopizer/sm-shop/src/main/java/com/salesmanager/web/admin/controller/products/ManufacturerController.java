@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.salesmanager.core.business.catalog.category.model.Category;
 import com.salesmanager.core.business.catalog.product.model.manufacturer.Manufacturer;
 import com.salesmanager.core.business.catalog.product.model.manufacturer.ManufacturerDescription;
 import com.salesmanager.core.business.catalog.product.service.manufacturer.ManufacturerService;
@@ -410,6 +411,74 @@ public class ManufacturerController {
 		return returnString;
 		
 	}
+	
+	
+	@PreAuthorize("hasRole('PRODUCTS')")
+	@RequestMapping(value="/admin/manufacturer/checkCode.html", method=RequestMethod.POST, produces="application/json")
+	public @ResponseBody String checkCode(HttpServletRequest request, HttpServletResponse response, Locale locale) {
+		String code = request.getParameter("code");
+		String id = request.getParameter("id");
+
+
+		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
+		
+		
+		AjaxResponse resp = new AjaxResponse();
+		
+		if(StringUtils.isBlank(code)) {
+			resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
+			return resp.toJSONString();
+		}
+
+		
+		try {
+			
+		Manufacturer manufacturer = manufacturerService.getByCode(store, code);
+		
+		if(manufacturer!=null && StringUtils.isBlank(id)) {
+			resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
+			return resp.toJSONString();
+		}
+		
+		
+		if(manufacturer!=null && !StringUtils.isBlank(id)) {
+			try {
+				Long lid = Long.parseLong(id);
+				
+				if(manufacturer.getCode().equals(code) && manufacturer.getId().longValue()==lid) {
+					resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
+					return resp.toJSONString();
+				}
+			} catch (Exception e) {
+				resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
+				return resp.toJSONString();
+			}
+
+		}
+		
+		
+		
+		
+
+	
+		
+			
+
+
+			resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
+
+		} catch (Exception e) {
+			LOGGER.error("Error while getting category", e);
+			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
+			resp.setErrorMessage(e);
+		}
+		
+		String returnString = resp.toJSONString();
+		
+		return returnString;
+	}
+	
+	
 	
 	private void setMenu(Model model, HttpServletRequest request) throws Exception {		
 		//display menu

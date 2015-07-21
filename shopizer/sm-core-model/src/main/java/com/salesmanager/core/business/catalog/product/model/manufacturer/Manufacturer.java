@@ -17,16 +17,21 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
+import javax.persistence.UniqueConstraint;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 import com.salesmanager.core.business.common.model.audit.AuditListener;
 import com.salesmanager.core.business.common.model.audit.AuditSection;
 import com.salesmanager.core.business.common.model.audit.Auditable;
 import com.salesmanager.core.business.generic.model.SalesManagerEntity;
 import com.salesmanager.core.business.merchant.model.MerchantStore;
+import com.salesmanager.core.constants.SchemaConstant;
 
 @Entity
 @EntityListeners(value = AuditListener.class)
-@Table(name = "MANUFACTURER", schema="SALESMANAGER")
+@Table(name = "MANUFACTURER", schema=SchemaConstant.SALESMANAGER_SCHEMA, uniqueConstraints=
+@UniqueConstraint(columnNames = {"MERCHANT_ID", "CODE"}) )
 public class Manufacturer extends SalesManagerEntity<Long, Manufacturer> implements Auditable {
 	private static final long serialVersionUID = 80693964563570099L;
 	
@@ -51,6 +56,10 @@ public class Manufacturer extends SalesManagerEntity<Long, Manufacturer> impleme
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="MERCHANT_ID", nullable=false)
 	private MerchantStore merchantStore;
+	
+	@NotEmpty
+	@Column(name="CODE", length=100, nullable=false)
+	private String code;
 
 	public Manufacturer() {
 	}
@@ -107,6 +116,14 @@ public class Manufacturer extends SalesManagerEntity<Long, Manufacturer> impleme
 
 	public Integer getOrder() {
 		return order;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 

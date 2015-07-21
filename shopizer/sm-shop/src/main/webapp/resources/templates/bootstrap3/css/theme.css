@@ -399,7 +399,7 @@ a, a:hover, a:active,
 
 #miniCart {
 	padding-left:5px;
-	width:90px;
+	width:100px;
 }
 
 #minicartComponent {
@@ -571,6 +571,10 @@ a, a:hover, a:active,
 	.total-box-grand-total {
 		float:right;
 	}
+
+.mainProductColumn {
+	margin-bottom:20px;
+}
 
 /**Store bar **/
 #storeBar { 

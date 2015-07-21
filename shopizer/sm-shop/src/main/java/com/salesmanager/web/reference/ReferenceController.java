@@ -128,10 +128,10 @@ public class ReferenceController {
 	}
 	
 	@RequestMapping(value="/shop/reference/countryName")
-	public @ResponseBody String countryName(@RequestParam String countryCode, HttpServletRequest request) {
+	public @ResponseBody String countryName(@RequestParam String countryCode, HttpServletRequest request, HttpServletResponse response) {
 		
 		try {
-			Language language = languageUtils.getRequestLanguage(request);
+			Language language = languageUtils.getRequestLanguage(request, response);
 			if(language==null) {
 				return countryCode;
 			}
@@ -150,10 +150,10 @@ public class ReferenceController {
 	}
 	
 	@RequestMapping(value="/shop/reference/zoneName")
-	public @ResponseBody String zoneName(@RequestParam String zoneCode, HttpServletRequest request) {
+	public @ResponseBody String zoneName(@RequestParam String zoneCode, HttpServletRequest request, HttpServletResponse response) {
 		
 		try {
-			Language language = languageUtils.getRequestLanguage(request);
+			Language language = languageUtils.getRequestLanguage(request, response);
 			if(language==null) {
 				return zoneCode;
 			}

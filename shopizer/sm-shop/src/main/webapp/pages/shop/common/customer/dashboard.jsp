@@ -73,7 +73,7 @@ $(document).ready(function() {
 						<div id="attributesBox" class="box">
 								<span class="box-title">
 									<p class="p-title"><s:message code="label.customer.moredetails" text="More details"/></font></p>
-								</span
+								</span>
 						
 					
 							

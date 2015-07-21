@@ -2,15 +2,13 @@ package com.salesmanager.core.business.shipping.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import com.salesmanager.core.business.system.model.IntegrationModule;
 
 public class ShippingQuote implements Serializable {
-	
-	
-	
-	
-
-
 
 	/**
 	 * 
@@ -35,7 +33,12 @@ public class ShippingQuote implements Serializable {
 	
 	private ShippingOption selectedShippingOption = null;
 	
+	private IntegrationModule currentShippingModule;
+	
 	private String quoteError = null;
+	
+	/** additinal shipping information **/
+	private Map<String,Object> quoteInformations = new HashMap<String,Object>();
 	
 	
 	
@@ -92,6 +95,18 @@ public class ShippingQuote implements Serializable {
 	}
 	public void setQuoteError(String quoteError) {
 		this.quoteError = quoteError;
+	}
+	public Map<String,Object> getQuoteInformations() {
+		return quoteInformations;
+	}
+	public void setQuoteInformations(Map<String,Object> quoteInformations) {
+		this.quoteInformations = quoteInformations;
+	}
+	public IntegrationModule getCurrentShippingModule() {
+		return currentShippingModule;
+	}
+	public void setCurrentShippingModule(IntegrationModule currentShippingModule) {
+		this.currentShippingModule = currentShippingModule;
 	}
 	
 	

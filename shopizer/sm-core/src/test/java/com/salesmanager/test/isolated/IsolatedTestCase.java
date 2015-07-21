@@ -590,10 +590,11 @@ public class IsolatedTestCase
         // Add products
         // ProductType generalType = productTypeService.
 
-        final Manufacturer oreilley = new Manufacturer();
+        Manufacturer oreilley = new Manufacturer();
         oreilley.setMerchantStore( store );
+        oreilley.setCode("oreilley");
 
-        final ManufacturerDescription oreilleyd = new ManufacturerDescription();
+        ManufacturerDescription oreilleyd = new ManufacturerDescription();
         oreilleyd.setLanguage( en );
         oreilleyd.setName( "O\'reilley" );
         oreilleyd.setManufacturer( oreilley );
@@ -601,10 +602,11 @@ public class IsolatedTestCase
 
         manufacturerService.create( oreilley );
 
-        final Manufacturer packed = new Manufacturer();
+        Manufacturer packed = new Manufacturer();
         packed.setMerchantStore( store );
+        packed.setCode("packed");
 
-        final ManufacturerDescription packedd = new ManufacturerDescription();
+        ManufacturerDescription packedd = new ManufacturerDescription();
         packedd.setLanguage( en );
         packedd.setManufacturer( packed );
         packedd.setName( "Packed publishing" );
@@ -612,10 +614,11 @@ public class IsolatedTestCase
 
         manufacturerService.create( packed );
 
-        final Manufacturer novells = new Manufacturer();
+        Manufacturer novells = new Manufacturer();
         novells.setMerchantStore( store );
+        novells.setCode("novells");
 
-        final ManufacturerDescription novellsd = new ManufacturerDescription();
+        ManufacturerDescription novellsd = new ManufacturerDescription();
         novellsd.setLanguage( en );
         novellsd.setManufacturer( novells );
         novellsd.setName( "Novells publishing" );

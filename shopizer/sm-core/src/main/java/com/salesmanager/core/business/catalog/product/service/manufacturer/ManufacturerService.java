@@ -23,6 +23,8 @@ public interface ManufacturerService extends SalesManagerEntityService<Long, Man
 	int getCountManufAttachedProducts( Manufacturer manufacturer )  throws ServiceException;
 	
 	void delete(Manufacturer manufacturer) throws ServiceException;
+	
+	Manufacturer getByCode(MerchantStore store, String code);
 
 	/**
 	 * List manufacturers by products from a given list of categories

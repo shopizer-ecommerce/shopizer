@@ -17,6 +17,7 @@
     			<entry key="usps" value-ref="usps"/>
     			<entry key="ups" value-ref="ups"/>
     			<entry key="weightBased" value-ref="weightBased"/>
+    			<entry key="customQuotesRules" value-ref="customShippingPriceModule"/><!-- as defined in shopizer-core-rules -->
     </util:map>
     
     <!-- Payment integration modules -->
@@ -29,7 +30,7 @@
 
 	<!-- Shipping -->
 	<bean id="canadapost"
-		class="com.salesmanager.core.modules.integration.shipping.impl.CanadaPostShippingQuote"/>
+		class="com.shopizer.modules.shipping.canadapost.CanadaPostQuoteModule"/><!-- shopizer-shipping-canadapost-module -->
 	<bean id="usps"
 		class="com.salesmanager.core.modules.integration.shipping.impl.USPSShippingQuote"/>
 	<bean id="ups"

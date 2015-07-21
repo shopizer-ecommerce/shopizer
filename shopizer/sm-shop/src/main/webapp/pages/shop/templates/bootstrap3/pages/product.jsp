@@ -30,7 +30,7 @@ response.setDateHeader ("Expires", -1);
 					<h1>${product.description.name}</h1>
 				</header>
 
-                <div itemscope class="col-sm-12 col-md-12" itemtype="http://data-vocabulary.org/Product">
+                <div itemscope class="col-sm-12 col-md-12 mainProductColumn" itemtype="http://data-vocabulary.org/Product">
                     	<!-- Image column -->
 						<div id="img" class="col-sm-6 col-md-6 productMainImage">
 							<c:if test="${product.image!=null}">

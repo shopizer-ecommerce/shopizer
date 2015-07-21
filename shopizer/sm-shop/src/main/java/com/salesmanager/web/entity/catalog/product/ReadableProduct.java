@@ -22,8 +22,7 @@ public class ReadableProduct extends ProductEntity implements Serializable {
 	private ReadableManufacturer manufacturer;
 	private List<ReadableProductAttribute> attributes;
 	
-	
-	
+		
 	public ProductDescription getDescription() {
 		return description;
 	}

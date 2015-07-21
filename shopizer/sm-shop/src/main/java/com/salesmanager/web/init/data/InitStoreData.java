@@ -352,6 +352,7 @@ public class InitStoreData implements InitData {
 
 		    Manufacturer oreilley = new Manufacturer();
 		    oreilley.setMerchantStore(store);
+		    oreilley.setCode("oreilley");
 
 		    ManufacturerDescription oreilleyd = new ManufacturerDescription();
 		    oreilleyd.setLanguage(en);
@@ -364,6 +365,7 @@ public class InitStoreData implements InitData {
 		    
 		    Manufacturer sams = new Manufacturer();
 		    sams.setMerchantStore(store);
+		    sams.setCode("sams");
 
 		    ManufacturerDescription samsd = new ManufacturerDescription();
 		    samsd.setLanguage(en);
@@ -375,6 +377,7 @@ public class InitStoreData implements InitData {
 		    
 		    Manufacturer packt = new Manufacturer();
 		    packt.setMerchantStore(store);
+		    packt.setCode("packt");
 
 		    ManufacturerDescription packtd = new ManufacturerDescription();
 		    packtd.setLanguage(en);
@@ -386,6 +389,7 @@ public class InitStoreData implements InitData {
 
 		    Manufacturer manning = new Manufacturer();
 		    manning.setMerchantStore(store);
+		    manning.setCode("manning");
 
 		    ManufacturerDescription manningd = new ManufacturerDescription();
 		    manningd.setLanguage(en);
@@ -397,6 +401,7 @@ public class InitStoreData implements InitData {
 
 		    Manufacturer novells = new Manufacturer();
 		    novells.setMerchantStore(store);
+		    novells.setCode("novells");
 
 		    ManufacturerDescription novellsd = new ManufacturerDescription();
 		    novellsd.setLanguage(en);

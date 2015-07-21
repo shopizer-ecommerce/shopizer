@@ -22,8 +22,7 @@ public class StoreFooterlTag extends TagSupport {
 	private static final long serialVersionUID = 6319855234657139862L;
 	private static final Logger LOGGER = LoggerFactory.getLogger(StoreFooterlTag.class);
 
-	/** \u00a9 **/
-	private final static String COPY = "Â©";
+	private final static String COPY = "©";
 
 
 	public int doStartTag() throws JspException {

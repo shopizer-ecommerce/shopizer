@@ -46,10 +46,12 @@ public class ReadableCategoryPopulator extends
 		
 		}
 		
+		
 		target.setCode(source.getCode());
 		target.setId(source.getId());
-
+		target.setDepth(source.getDepth());
 		
+
 		return target;
 		
 	}

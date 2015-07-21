@@ -39,6 +39,7 @@ public class PersistableManufacturerPopulator extends AbstractDataPopulator<Pers
 		try {
 			
 			target.setMerchantStore(store);
+			target.setCode(source.getCode());
 			
 
 			if(!CollectionUtils.isEmpty(source.getDescriptions())) {

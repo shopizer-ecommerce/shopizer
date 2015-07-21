@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.StringUtils;
 
 import com.salesmanager.core.business.catalog.category.model.Category;
 import com.salesmanager.core.business.catalog.category.service.CategoryService;
@@ -66,8 +67,14 @@ public class PersistableCategoryPopulator extends
 			target.setDepth(0);
 
 		} else {
-			
-			Category parent = categoryService.getById(source.getParent().getId());
+			Category parent = null;
+			if(!StringUtils.isBlank(source.getParent().getCode())) {
+				 parent = categoryService.getByCode(store.getCode(), source.getParent().getCode());
+			} else if(source.getParent().getId()!=null) {
+				 parent = categoryService.getById(source.getParent().getId());
+			} else {
+				throw new ConversionException("Category parent needs at least an id or a code for reference");
+			}
 			if(parent.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
 				throw new ConversionException("Store id does not belong to specified parent id");
 			}
@@ -79,11 +86,20 @@ public class PersistableCategoryPopulator extends
 
 			target.setDepth(depth+1);
 			target.setLineage(new StringBuilder().append(lineage).append(parent.getId()).append("/").toString());
-			
-			
-			
+
 		}
 		
+		
+		if(!CollectionUtils.isEmpty(source.getChildren())) {
+			
+			for(PersistableCategory cat : source.getChildren()) {
+				
+				Category persistCategory = this.populate(cat, new Category(), store, language);
+				target.getCategories().add(persistCategory);
+				
+			}
+			
+		}
 
 		
 		if(!CollectionUtils.isEmpty(source.getDescriptions())) {

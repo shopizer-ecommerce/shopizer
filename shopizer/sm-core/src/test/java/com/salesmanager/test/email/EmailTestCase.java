@@ -4,11 +4,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
 import com.salesmanager.core.business.merchant.model.MerchantStore;
 import com.salesmanager.core.modules.email.Email;
 import com.salesmanager.test.core.AbstractSalesManagerCoreTestCase;
+import com.salesmanager.test.core.SalesManagerCoreTestExecutionListener;
 
+
+@ContextConfiguration(locations = {
+		"classpath:spring/test-spring-context.xml"
+})
+@RunWith(SpringJUnit4ClassRunner.class)
+@TestExecutionListeners({
+	DependencyInjectionTestExecutionListener.class,
+	SalesManagerCoreTestExecutionListener.class
+})
 public class EmailTestCase extends AbstractSalesManagerCoreTestCase {
 
 	@Test

@@ -105,8 +105,8 @@ $(document).ready(function() {
 									</li>
 		
 			                        <c:forEach items="${requestScope.TOP_CATEGORIES}" var="category">
-			    					<li class="<sm:activeLink linkCode="${category.description.seUrl}" activeReturnCode="active"/>">
-			    						<a class="dropdown-toggle" href="<c:url value="/shop/category/${category.description.seUrl}.html"/><sm:breadcrumbParam categoryId="${category.id}"/>" class="current"> 
+			    					<li class="<sm:activeLink linkCode="${category.description.friendlyUrl}" activeReturnCode="active"/>">
+			    						<a class="dropdown-toggle" href="<c:url value="/shop/category/${category.description.friendlyUrl}.html"/><sm:breadcrumbParam categoryId="${category.id}"/>" class="current"> 
 			    							<span class="name">${category.description.name}</span>
 			    						</a>
 			    					</li> 
@@ -120,4 +120,9 @@ $(document).ready(function() {
 					<!-- /NAVIGATION MENU -->
 				</div>
 			</div>
+
+			<form id="hiddenSearchForm" method="post" action="<c:url value="/shop/search/search.html"/>">
+				<input type="hidden" id="hiddenQuery" name="q">
+			</form>
+
 </section>

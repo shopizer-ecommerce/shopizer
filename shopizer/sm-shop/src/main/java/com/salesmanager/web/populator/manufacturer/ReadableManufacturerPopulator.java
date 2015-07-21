@@ -33,6 +33,7 @@ public class ReadableManufacturerPopulator extends AbstractDataPopulator<com.sal
 				
 				target.setOrder(source.getOrder());
 				target.setId(source.getId());
+				target.setCode(source.getCode());
 				
 				if (description != null) {
 					com.salesmanager.web.entity.catalog.manufacturer.ManufacturerDescription d = new com.salesmanager.web.entity.catalog.manufacturer.ManufacturerDescription();

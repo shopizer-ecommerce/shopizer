@@ -915,7 +915,7 @@ $(document).ready(function() {
 									
 									<!-- Shipping box -->
 									<c:if test="${shippingQuote!=null}">
-									 <br/>
+									 <br/> 
 									<!-- Shipping -->
 									<div class="box">
 										<span class="box-title">
@@ -949,10 +949,10 @@ $(document).ready(function() {
 								       			</c:when>
 								       			<c:otherwise>
 								       				<c:choose>
-								       				<c:when test="${shippingQuote.quoteError!=null}">
+								       				  <c:when test="${shippingQuote.shippingReturnCode=='ERROR'}">
 								       					<font color="red"><c:out value="${shippingQuote.quoteError}" /></font>
-								       				</c:when>
-								       				<c:otherwise>
+								       				  </c:when>
+								       				  <c:otherwise>
 								       					<c:choose>
 									       					<c:when test="${shippingQuote.shippingReturnCode=='NO_SHIPPING_MODULE_CONFIGURED'}">
 									       						<font color="red"><s:message code="message.noshipping.configured" text="No shipping method configured"/></font>
@@ -961,7 +961,7 @@ $(document).ready(function() {
 									       						<strong><s:message code="label.shipping.freeshipping" text="Free shipping!"/></strong>
 									       					</c:otherwise>
 								       					</c:choose>
-								       				</c:otherwise>
+								       				  </c:otherwise>
 								       				</c:choose>
 								       			</c:otherwise>								       	
 								       		</c:choose>

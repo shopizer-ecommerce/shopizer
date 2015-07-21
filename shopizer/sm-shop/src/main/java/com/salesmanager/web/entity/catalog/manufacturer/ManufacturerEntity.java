@@ -19,4 +19,5 @@ public class ManufacturerEntity extends Manufacturer implements Serializable {
 		return order;
 	}
 
+
 }

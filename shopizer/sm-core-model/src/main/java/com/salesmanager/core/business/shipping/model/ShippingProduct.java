@@ -1,6 +1,7 @@
 package com.salesmanager.core.business.shipping.model;
 
 import com.salesmanager.core.business.catalog.product.model.Product;
+import com.salesmanager.core.business.catalog.product.model.price.FinalPrice;
 
 public class ShippingProduct {
 	
@@ -11,6 +12,11 @@ public class ShippingProduct {
 	
 	private int quantity = 1;
 	private Product product;
+	
+	private FinalPrice finalPrice;
+	
+	
+	
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
@@ -22,6 +28,12 @@ public class ShippingProduct {
 	}
 	public Product getProduct() {
 		return product;
+	}
+	public FinalPrice getFinalPrice() {
+		return finalPrice;
+	}
+	public void setFinalPrice(FinalPrice finalPrice) {
+		this.finalPrice = finalPrice;
 	}
 
 }

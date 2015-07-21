@@ -56,6 +56,36 @@
 	}
 	
 	
+	
+	function validateCode() {
+		$('#checkCodeStatus').html('<img src="<c:url value="/resources/img/ajax-loader.gif" />');
+		$('#checkCodeStatus').show();
+		var code = $("#code").val();
+		var id = $("#id").val();
+		checkCode(code,id,'<c:url value="/admin/manufacturer/checkCode.html" />');
+	}
+	
+	function callBackCheckCode(msg,code) {
+		console.log(code);
+		if(code==0) {
+			$('.btn').removeClass('disabled');
+		}
+		if(code==9999) {
+
+			$('#checkCodeStatus').html('<font color="green"><s:message code="message.code.available" text="This code is available"/></font>');
+			$('#checkCodeStatus').show();
+			$('.btn').removeClass('disabled');
+		}
+		if(code==9998) {
+
+			$('#checkCodeStatus').html('<font color="red"><s:message code="message.code.exist" text="This code already exist"/></font>');
+			$('#checkCodeStatus').show();
+			$('.btn').addClass('disabled');
+		}
+		
+	}
+	
+	
 </script>
 
 <div class="tabbable">
@@ -99,6 +129,15 @@
 	                                  <span  class="help-inline"><form:errors path="descriptions[${counter.index}].name" cssClass="error" /></span>
 	                        </div>
 	                  	</div> 
+	                  	
+	                  	<div class="control-group">
+                            <label><s:message code="label.entity.code" text="Code"/></label>
+	                        <div class="controls">
+	                        		<form:input cssClass="input-large highlight" path="code" onblur="validateCode()"/>
+	                                <span class="help-inline"><div id="checkCodeStatus" style="display:none;"></div><form:errors path="code" cssClass="error" /></span>
+	                        </div>
+                 		</div>
+	                  	
 
 						<div class="control-group">
 	                        <label><s:message code="label.manufactureredit.manufacturertitle" text="Manufacturer Title"/> (<c:out value="${description.language.code}"/>)</label>

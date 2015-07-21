@@ -103,9 +103,21 @@ public class IntegrationConfiguration implements JSONAware {
 				StringBuilder optionDataEntries = new StringBuilder();
 				Set<String> keys = this.getIntegrationOptions().keySet();
 				int countOptions = 0;
+				int keySize = 0;
+				
+				for(String key : keys) {
+					List<String> values = this.getIntegrationOptions().get(key);
+					if(values!=null) {
+						keySize ++;
+					}
+				}
+				
 				for(String key : keys) {
 
 					List<String> values = this.getIntegrationOptions().get(key);
+					if(values==null) {
+						continue;
+					}
 					StringBuilder optionsEntries = new StringBuilder();
 					StringBuilder dataEntries = new StringBuilder();
 					
@@ -123,7 +135,7 @@ public class IntegrationConfiguration implements JSONAware {
 					
 					optionDataEntries.append("\"").append(key).append("\":").append(optionsEntries.toString());
 
-					if(countOptions<keys.size()-1) {
+					if(countOptions<keySize-1) {
 						optionDataEntries.append(",");
 					}
 					countOptions ++;
