@@ -12,7 +12,8 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    
+    <java-version>1.6</java-version>
+    <jdk-version>1.6</jdk-version>
     
      <shopizer.version>2.0.2-SNAPSHOT</shopizer.version>
 	   <sm-core.version>2.0.2-SNAPSHOT</sm-core.version>
