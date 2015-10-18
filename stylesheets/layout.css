@@ -23,7 +23,7 @@ header{float:left;width:100%;padding:0 0 20px;background:#f58f15;}
 .banner small{font:400 25px/30px 'Open Sans';color:#191919;margin:0 0 0 -23px;padding:0;display:block}
 .banner .button1{margin:38px 0 0 -21px;}
 .banner .button1.green{margin:38px 0 0 24px;}
-.navBlock{position:absolute;left:0;top:0;background: url(../images/nav-bar.png) repeat 0 0;width:100%;}
+.navBlock{position:absolute;left:0;top:0;background: url(http://www.shopizer.com/common/images/nav-bar.png) repeat 0 0;width:100%;}
 .navBlock .navbar{margin:0 0 0 -47px;border-radius:0;background:none;border:none;}
 .navBlock .navbar-nav  li{text-transform:uppercase;}
 .navBlock .navbar-nav > li > a{font:600 14px/60px 'Open Sans';padding:0 15px;color:#fff;}
