@@ -1,0 +1,240 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+   http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd
+   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+   http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.1.xsd
+   http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd">
+
+
+	<!-- Shipping integration modules -->
+	<util:map id="shippingModules" map-class="java.util.HashMap" key-type="java.lang.String" value-type="com.salesmanager.core.modules.integration.shipping.model.ShippingQuoteModule">
+    			<entry key="canadapost" value-ref="canadapost"/>
+    			<entry key="usps" value-ref="usps"/>
+    			<entry key="ups" value-ref="ups"/>
+    			<entry key="weightBased" value-ref="weightBased"/>
+    			<entry key="customQuotesRules" value-ref="customShippingPriceModule"/><!-- as defined in shopizer-core-rules -->
+    </util:map>
+    
+    <!-- Payment integration modules -->
+	<util:map id="paymentModules" map-class="java.util.HashMap" key-type="java.lang.String" value-type="com.salesmanager.core.modules.integration.payment.model.PaymentModule">
+    			<entry key="beanstream" value-ref="beanstream"/>
+    			<entry key="paypal-express-checkout" value-ref="paypal-ec"/>
+    			<entry key="moneyorder" value-ref="moneyorder"/>
+    </util:map>
+
+
+	<!-- Shipping -->
+	<bean id="canadapost"
+		class="com.shopizer.modules.shipping.canadapost.CanadaPostQuoteModule"/><!-- shopizer-shipping-canadapost-module -->
+	<bean id="usps"
+		class="com.salesmanager.core.modules.integration.shipping.impl.USPSShippingQuote"/>
+	<bean id="ups"
+		class="com.salesmanager.core.modules.integration.shipping.impl.UPSShippingQuote"/>
+	<bean id="weightBased"
+		class="com.salesmanager.core.modules.integration.shipping.impl.CustomWeightBasedShippingQuote"/>
+
+	<!-- Default packaging -->
+	<bean id="boxPackaging"
+		class="com.salesmanager.core.modules.integration.shipping.impl.DefaultPackagingImpl"/>
+	
+	<!-- Payment -->
+	<bean id="beanstream"
+		class="com.salesmanager.core.modules.integration.payment.impl.BeanStreamPayment"/>
+	<bean id="moneyorder"
+		class="com.salesmanager.core.modules.integration.payment.impl.MoneyOrderPayment"/>
+	<bean id="paypal-ec"
+		class="com.salesmanager.core.modules.integration.payment.impl.PayPalExpressCheckoutPayment"/>
+
+	<!--     -->
+	<!-- CMS -->
+	<!--     -->
+	
+	<!-- Product images manager-->
+	<bean id="productFileManager"
+		class="com.salesmanager.core.modules.cms.product.ProductFileManagerImpl">
+		<property name="uploadImage">
+				<ref bean="cmsProductImage" />
+		</property>
+		<property name="getImage">
+				<ref bean="cmsProductImage" />
+		</property>
+		<property name="removeImage">
+				<ref bean="cmsProductImage" />
+		</property>
+		<property name="configuration">
+				<ref bean="coreConfiguration" />
+		</property>
+	</bean>
+	
+	<!-- CMS implementation for product images-->
+	<bean id="cmsProductImage"
+				class="com.salesmanager.core.modules.cms.product.CmsImageFileManagerInfinispanImpl" factory-method="getInstance" >
+				<property name="cacheManager">
+						<ref bean="storeCacheManager" />
+				</property>
+				<property name="rootName" value="product-merchant"/>
+	</bean>
+	
+
+	
+	<!-- Content images manager (logo, other store artifacts)-->
+	<bean id="contentFileManager"
+		class="com.salesmanager.core.modules.cms.content.StaticContentFileManagerImpl">
+		<property name="uploadFile">
+				<ref bean="cmsStoreFile" />
+		</property>
+		<property name="getFile">
+				<ref bean="cmsStoreFile" />
+		</property>
+		<property name="removeFile">
+				<ref bean="cmsStoreFile" />
+		</property>
+	</bean>
+	
+
+	<bean id="cmsStoreFile"
+				class="com.salesmanager.core.modules.cms.content.CmsStaticContentFileManagerInfinispanImpl" factory-method="getInstance" >
+				<property name="cacheManager">
+						<ref bean="storeCacheManager" />
+				</property>
+				<property name="rootName" value="store-merchant"/>
+	</bean>
+	
+	
+
+	
+	<!-- Static content files manager (images, pdf...) -->
+	<bean id="staticContentFileManager"	class="com.salesmanager.core.modules.cms.content.StaticContentFileManagerImpl">
+		<property name="uploadFile">
+				<ref bean="cmsStaticFile" />
+		</property>
+		<property name="getFile">
+			<ref bean="cmsStaticFile" />
+		</property>
+		<property name="removeFile">
+			<ref bean="cmsStaticFile" />
+		</property>
+	</bean>
+	<!--  end of CMS implementation for static content data -->
+	
+	
+	<!-- CMS implementation for static content data -->
+	<bean id="cmsStaticFile" class="com.salesmanager.core.modules.cms.content.CmsStaticContentFileManagerInfinispanImpl" factory-method="getInstance">
+		<property name="cacheManager">
+			<ref bean="filesCacheManager" />
+		</property>
+		<property name="rootName" value="store-merchant"/>
+	</bean>
+	
+	
+	
+	
+	<!-- product downloads -->
+	<bean id="productDownloadsFileManager"	class="com.salesmanager.core.modules.cms.content.StaticContentFileManagerImpl">
+		<property name="uploadFile">
+				<ref bean="cmsProductFile" />
+		</property>
+		<property name="getFile">
+			<ref bean="cmsProductFile" />
+		</property>
+		<property name="removeFile">
+			<ref bean="cmsProductFile" />
+		</property>
+	</bean>
+	<!--  end of CMS implementation for static content data -->
+	
+	
+	<!-- CMS implementation for static content data -->
+	<bean id="cmsProductFile" class="com.salesmanager.core.modules.cms.content.CmsStaticContentFileManagerInfinispanImpl" factory-method="getInstance">
+		<property name="cacheManager">
+			<ref bean="storeCacheManager" />
+		</property>
+		<property name="rootName" value="product-file"/>
+	</bean>
+	
+	
+
+	
+	<!-- Store Cache Manager -->
+	<bean id="storeCacheManager"
+				class="com.salesmanager.core.modules.cms.impl.StoreCacheManagerImpl" factory-method="getInstance" >
+	</bean>
+	
+	<!-- Invoice -->
+	<bean id="invoiceModule"
+				class="com.salesmanager.core.modules.order.ODSInvoiceModule" >
+	</bean>
+
+	
+	<!-- 
+	 Cache manager to handle static content data which includes
+	 1. CSS Files
+	 2. JS Files
+	 2. Digital data
+	 -->
+	 
+	<bean id="filesCacheManager" 
+		class="com.salesmanager.core.modules.cms.impl.StaticContentCacheManagerImpl" factory-method="getInstance" >
+	</bean>
+	
+	<!-- Encryption -->
+	<bean id="encryption"
+		class="com.salesmanager.core.modules.utils.EncryptionImpl">
+		<property name="secretKey" ref="secretKey"/>
+	</bean>
+	
+	<!-- Geo Location -->
+	<bean id="geoLocation"
+		class="com.salesmanager.core.modules.utils.GeoLocationImpl">
+	</bean>
+	
+	<!-- Email -->
+	<bean id="freemarkerMailConfiguration" class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
+                 <!-- Uses HTML with templates and freemarker template engine -->
+                 <property name="templateLoaderPath" value="/templates/email"/>
+    </bean>
+
+
+	<bean id="mailSender"
+		class="org.springframework.mail.javamail.JavaMailSenderImpl">
+
+		<!-- configured in systems.properties -->
+		<property name="protocol" value="${mailSender.protocol}" />
+		<property name="host" value="${mailSender.host}" />
+		<property name="port" value="${mailSender.port}" />
+
+		<property name="username">
+			<value>${mailSender.username}</value>
+		</property>
+
+		<property name="password">
+			<value>${mailSender.password}</value>
+		</property>
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">${mailSender.mail.smtp.auth}</prop>
+				<prop key="mail.smtp.starttls.enable">${mail.smtp.starttls.enable}</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="htmlEmailSender" class="com.salesmanager.core.modules.email.HtmlEmailSenderImpl" >
+             <property name="mailSender" ref="mailSender"/>
+             <property name="freemarkerMailConfiguration" ref="freemarkerMailConfiguration"/>
+ 	</bean>
+ 
+	
+ 
+ 
+ 
+	
+ 
+
+	
+	
+</beans>

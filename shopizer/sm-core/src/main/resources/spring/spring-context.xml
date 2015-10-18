@@ -1,0 +1,125 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+   http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd
+   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+   http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.1.xsd
+   http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd">
+
+	<context:annotation-config />
+	<context:component-scan base-package="com.salesmanager.core.business" />
+	<context:component-scan base-package="com.salesmanager.core.utils" />
+	<context:component-scan base-package="com.salesmanager.core.modules" />
+	<context:component-scan base-package="com.shopizer.modules" /><!-- external modules -->
+
+	<!-- datasource -->
+	<import resource="classpath:/spring/datasource-c3p0.xml" />
+	<!-- cache -->
+	<import resource="classpath:/spring/shopizer-core-ehcache.xml" />
+	<!-- properties -->
+	<import resource="classpath:/spring/shopizer-core-config.xml" />
+	<!-- modules -->
+	<import resource="classpath:/spring/shopizer-core-modules.xml" />
+	<!-- shipping pre processors -->
+	<import resource="classpath:/spring/processors/shopizer-core-shipping-processors.xml" />
+	<!-- rules -->
+	<import resource="classpath:/spring/shopizer-core-rules.xml" />
+	<!-- search -->
+	<import resource="classpath:/spring/shopizer-search.xml" />
+
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="sm-unit" />
+		<property name="dataSource" ref="datasource" />
+		<property name="persistenceXmlLocation" value="classpath:META-INF/sm-persistence.xml" />
+		
+		<!--
+		<property name="namingStrategy">
+      		<bean class="org.hibernate.cfg.ImprovedNamingStrategy" />
+    	</property>
+    	-->
+		
+
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="showSql" value="true" />
+				<property name="generateDdl" value="false" />
+				<property name="databasePlatform" value="${hibernate.dialect}" />
+			</bean>
+		</property>
+		<property name="jpaProperties">
+			<util:map>
+				<entry key="hibernate.default_schema" value="${db.schema}" />
+				<entry key="hibernate.hbm2ddl.auto" value="${hibernate.hbm2ddl.auto}" />
+				<entry key="hibernate.show_sql" value="true" />
+				<entry key="hibernate.cache.provider_class" value="org.hibernate.cache.EhCacheProvider" />
+				<entry key="hibernate.cache.use_second_level_cache" value="true" />
+			</util:map>
+		</property>
+
+		<property name="loadTimeWeaver">
+			<bean class="org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver" />
+		</property>
+	</bean>
+
+	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+
+	
+	
+	<!-- MBeans statistics [disable in production] only one definition per web app-->
+<!-- 	<bean id="jmxExporter" class="org.springframework.jmx.export.MBeanExporter">
+	    <property name="beans">
+	        <map>
+	            <entry key="Hibernate:application=Statistics" value-ref="hibernateStatisticsBean"/>
+	        </map>
+	    </property>
+	</bean>
+
+	<bean id="hibernateStatisticsBean" class="org.hibernate.jmx.StatisticsService">
+	    <property name="statisticsEnabled" value="true"/>
+	    <property name="sessionFactory">
+	        <util:property-path path="entityManagerFactory.sessionFactory" />
+	    </property>
+	</bean> -->
+	
+
+	<!-- Définition de la gestion des transactions -->
+	<tx:annotation-driven />
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
+		p:entityManagerFactory-ref="entityManagerFactory">
+	</bean>
+
+ 	<aop:config>
+		<aop:pointcut id="txPointCutDef" expression="this(com.salesmanager.core.business.generic.service.TransactionalAspectAwareService)" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCutDef" />
+	</aop:config>
+
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="get*" read-only="true" />
+			<tx:method name="list*" read-only="true" />
+			<tx:method name="search*" read-only="true" />
+			<tx:method name="*" read-only="false" rollback-for="com.salesmanager.core.business.generic.exception.ServiceException" />
+		</tx:attributes>
+	</tx:advice> 
+
+	<!-- traduction des exceptions -->
+	<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+
+	<!-- persistence -->
+	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreUnresolvablePlaceholders" value="false"/>
+		<property name="locations">
+			<list>
+		    	<value>classpath:database.properties</value>
+				<value>classpath:email.properties</value>
+				<value>classpath:configs.properties</value>
+			</list>
+		</property>
+	</bean>
+</beans>

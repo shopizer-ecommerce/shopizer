@@ -1,0 +1,61 @@
+/** original -81BA10 new -FF6C00 **/
+
+#shop .productDescription .price,
+
+div.featured-box i.fa,
+.pagination>li>a, 
+.pagination>li>a:hover, 
+.pagination>li>a:active, 
+.pagination>li>a:focus, 
+.pagination>li>span,
+
+a, 
+h1 em, h2 em, h3 em, h4 em, h5 em, h6 em,
+#header a:hover,
+#footer a:hover,
+#header ul.nav li:hover>a,
+#header ul.nav li ul li:hover>a,
+#default .styleColor,
+#topCart .bottom a:hover,
+#topCart a.item:hover > p,
+#topOptions li a span.items.active,
+#topOptions li div.button span.items.active,
+#topOptions li button span.items.active {
+	color:#FF6C00;
+	font-style:normal;
+}
+
+	.topShopCart .on {
+		color:#FF6C00 !important;
+	}
+
+
+.featured-box-minimal i.fa,
+#slider-next:hover,
+#slider-prev:hover {
+	background-color:#FF6C00;
+}
+
+div.featured-box i.fa {
+	border:#FF6C00 1px solid !important;
+}
+
+div.toggle.active > label:before {
+	border-bottom-color: #FF6C00;
+}
+
+.item-box .item-hover .overlay {
+	background-color:rgba(142,205,17,0.6);
+}
+
+
+
+.pagination>.active>a, 
+.pagination>.active>span, 
+.pagination>.active>a:hover, 
+.pagination>.active>span:hover, 
+.pagination>.active>a:focus, 
+.pagination>.active>span:focus {
+	border:#7e8998 1px solid !important;
+	background-color:#7e8998;
+}

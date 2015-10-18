@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.1.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<annotation-driven>
+
+		<!-- Device object in controller method -->
+		<argument-resolvers>
+        	<beans:bean class="org.springframework.mobile.device.DeviceWebArgumentResolver" />
+    	</argument-resolvers>
+		
+		<message-converters >
+	        <beans:bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter">
+	            <beans:property name="supportedMediaTypes">
+	                <beans:list>
+	                    <beans:value>image/jpeg</beans:value>
+	                    <beans:value>image/gif</beans:value>
+	                    <beans:value>image/png</beans:value>
+	                </beans:list>
+	            </beans:property>
+	        </beans:bean>
+    	</message-converters>
+
+	</annotation-driven>
+
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources/ directory -->
+	<resources mapping="/resources/**" location="/resources/" />
+	
+	<beans:bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+ 		<beans:property name="viewClass">
+  			<beans:value>org.springframework.web.servlet.view.tiles2.TilesView</beans:value> 
+  		</beans:property>
+  	</beans:bean>
+
+
+	<beans:bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+ 			<beans:property name="definitions">
+ 				<beans:list>
+  					<beans:value>/WEB-INF/tiles/tiles-admin.xml</beans:value>
+  					<beans:value>/WEB-INF/tiles/tiles-shop.xml</beans:value>
+  				</beans:list>
+  			</beans:property>
+  	</beans:bean>
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+	
+
+	<!-- Only needed because we require fileupload in the org.springframework.samples.mvc.fileupload package -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="10000000"/>
+	</beans:bean>
+	
+	
+	<beans:bean id="localeResolver"
+        class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+        <beans:property name="defaultLocale" value="en"></beans:property>
+    </beans:bean>
+	
+	<beans:bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<beans:property name="basenames">
+			<beans:list>
+  				<beans:value>classpath:bundles/shopizer</beans:value>
+  				<beans:value>classpath:bundles/messages</beans:value>
+  				<beans:value>classpath:bundles/shipping</beans:value>
+  				<beans:value>classpath:bundles/payment</beans:value>    
+  			</beans:list>
+  		</beans:property>
+  		<beans:property name="defaultEncoding" value="UTF-8"/>
+  	</beans:bean>
+
+	
+	<beans:bean id="messages" class="com.salesmanager.web.utils.LabelUtils">
+	</beans:bean>
+
+
+	<beans:import resource="controllers.xml" />
+	
+</beans:beans>

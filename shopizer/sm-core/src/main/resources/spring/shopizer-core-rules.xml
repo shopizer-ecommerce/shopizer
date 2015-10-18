@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:drools="http://drools.org/schema/drools-spring"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+   http://drools.org/schema/drools-spring http://anonsvn.jboss.org/repos/labs/labs/jbossrules/trunk/drools-container/drools-spring/src/main/resources/org/drools/container/spring/drools-spring-1.0.0.xsd
+   http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd">
+
+	<!-- Decision table for the the selection of a shipping shipping method -->
+	<!-- from shopizer-shipping-decision-table-module -->
+    <drools:kbase id="shippingMethodDecisionBase">
+        <drools:resources>
+            <drools:resource type="DTABLE" source="classpath:rules/shipping-custom-rules.xls"/>
+        </drools:resources>
+    </drools:kbase>
+ 
+    <drools:ksession id="shippingMethodDecision" name="shippingMethodDecision" type="stateless" kbase="shippingMethodDecisionBase"/>
+ 
+  	<!-- concrete module for the above kbase -->
+  	<bean id="shippingMethodDecisionProcess" class="com.salesmanager.core.modules.integration.shipping.impl.ShippingDecisionPreProcessorImpl">
+		<property name="shippingMethodDecision" ref="shippingMethodDecision" />
+		<property name="kbase" ref="shippingMethodDecisionBase" />
+	</bean>
+	
+	<!-- Basic custom shipping rules -->
+	<drools:kbase id="shippingPriceDecisionBase">
+        <drools:resources>
+            <drools:resource type="DTABLE" source="classpath:rules/shipping-decision-rules.xls"/>
+        </drools:resources>
+    </drools:kbase>
+    
+    <drools:ksession id="shippingPriceRule" name="shippingPriceRule" type="stateless" kbase="shippingPriceDecisionBase"/>
+    
+    <!-- concrete module for the above kbase -->
+    <bean id="customShippingPriceModule" class="com.salesmanager.core.modules.integration.shipping.impl.CustomShippingQuoteRules">
+		<property name="shippingPriceRule" ref="shippingPriceRule" />
+		<property name="kbase" ref="shippingPriceDecisionBase" />
+	</bean>
+
+</beans>
