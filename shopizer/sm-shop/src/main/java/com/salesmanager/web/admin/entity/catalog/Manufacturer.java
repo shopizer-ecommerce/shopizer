@@ -33,8 +33,16 @@ public class Manufacturer implements Serializable {
 	private Integer order = new Integer(0);
 	private MultipartFile image = null;
 	private ProductImage productImage = null;
+	private String code = null;
 	
 	
+	public String getCode() {
+		return code;
+	}
+	
+	public void setCode(String code) {
+		this.code = code;
+	}
 	
 	public MultipartFile getImage() {
 		return image;
