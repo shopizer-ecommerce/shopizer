@@ -12,14 +12,15 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <java-version>1.7</java-version>
-    <jdk-version>1.7</jdk-version>
+    <java-version>1.8</java-version>
+    <jdk-version>1.8</jdk-version>
     <!-- The version of this current module -->
     <shopizer.version>2.0.3-SNAPSHOT</shopizer.version>
 	<sm-core.version>2.0.3-SNAPSHOT</sm-core.version>
 	<sm-core-model.version>2.0.3-SNAPSHOT</sm-core-model.version>
 	<sm-core-modules.version>2.0.3-SNAPSHOT</sm-core-modules.version>
-	<sm-search.version>0.0.5-SNAPSHOT</sm-search.version>
+	<sm-search.version>0.0.5</sm-search.version>
+    <sm-shipping-distance-processor.version>2.0.3</sm-shipping-distance-processor.version>
 	<sm-shop.version>2.0.3-SNAPSHOT</sm-shop.version>
 	
 	<shopizer-canadapost.version>0.0.1</shopizer-canadapost.version>	

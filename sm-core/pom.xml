@@ -41,7 +41,7 @@
 		<sm-core.aspectj.version>1.5.4</sm-core.aspectj.version>
 		<sm-core.mysql-connector-java>5.1.31</sm-core.mysql-connector-java>
 		<sm-core.junit.version>4.9</sm-core.junit.version>
-		<sm-core.org.springframework.version>3.1.0.RELEASE</sm-core.org.springframework.version>
+		<sm-core.org.springframework.version>3.2.16.RELEASE</sm-core.org.springframework.version>
 		<sm-core.c3p0.version>0.9.1.2</sm-core.c3p0.version>
 		<sm-core.querydsl.version>3.4.2</sm-core.querydsl.version>
 		<sm-core.jodatime.version>2.0</sm-core.jodatime.version>
@@ -78,7 +78,7 @@
  		<dependency>
 			<groupId>com.shopizer</groupId>
 			<artifactId>shopizer-shipping-distance-processor</artifactId>
-			<version>0.0.1</version>
+			<version>${sm-shipping-distance-processor.version}</version>
 		</dependency>
 		
 		<!-- canadapost -->
