@@ -20,7 +20,7 @@
 	<sm-core-model.version>2.0.3-SNAPSHOT</sm-core-model.version>
 	<sm-core-modules.version>2.0.3-SNAPSHOT</sm-core-modules.version>
 	<sm-search.version>0.0.5</sm-search.version>
-    <sm-shipping-distance-processor.version>2.0.3</sm-shipping-distance-processor.version>
+  <sm-shipping-distance-processor.version>2.0.3</sm-shipping-distance-processor.version>
 	<sm-shop.version>2.0.3-SNAPSHOT</sm-shop.version>
 	
 	<shopizer-canadapost.version>0.0.1</shopizer-canadapost.version>	

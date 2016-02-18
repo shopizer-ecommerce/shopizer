@@ -4,9 +4,9 @@
 	xmlns:drools="http://drools.org/schema/drools-spring"
 	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="
-   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
    http://drools.org/schema/drools-spring http://anonsvn.jboss.org/repos/labs/labs/jbossrules/trunk/drools-container/drools-spring/src/main/resources/org/drools/container/spring/drools-spring-1.0.0.xsd
-   http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd">
+   http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 
 	<!-- Decision table for the the selection of a shipping shipping method -->
 	<!-- from shopizer-shipping-decision-table-module -->
