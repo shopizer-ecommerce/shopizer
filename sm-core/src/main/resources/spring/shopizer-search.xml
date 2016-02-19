@@ -15,7 +15,7 @@
 	<bean id="serverConfiguration" class="com.shopizer.search.utils.ServerConfiguration">
 		<property name="clusterName" value="shopizer"/>
 		<!-- local (embedded version, will create new indexes in the working directory) or remote (requires existing server) -->
-		<property name="mode" value="local"/>
+		<property name="mode" value="remote"/>
 		<!-- http interface to ES server -->
 		<property name="clusterHost" value="http://localhost"/>
 		<property name="clusterPort" value="9200"/>
