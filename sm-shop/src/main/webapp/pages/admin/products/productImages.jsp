@@ -63,6 +63,7 @@
 				<!-- Listing grid include -->
 				<c:set value="/admin/products/images/page.html?productId=${product.id}" var="pagingUrl" scope="request" />
 				<c:set value="/admin/products/images/remove.html" var="removeUrl" scope="request" />
+				<c:set value="/admin/products/images/defaultImage.html" var="defaultImageUrl" scope="request" />
 				<c:set value="/admin/products/images/list.html?id=${product.id}" var="refreshUrl" scope="request" />
 				<c:set var="componentTitleKey" value="menu.catalogue-products-images" scope="request" />
 				<c:set var="canRemoveEntry" value="true" scope="request" />
