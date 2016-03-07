@@ -36,7 +36,7 @@
   <classpathentry kind="var" path="M2_REPO/net/sf/ehcache/ehcache/1.5.0/ehcache-1.5.0.jar" sourcepath="M2_REPO/net/sf/ehcache/ehcache/1.5.0/ehcache-1.5.0-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/backport-util-concurrent/backport-util-concurrent/3.1/backport-util-concurrent-3.1.jar" sourcepath="M2_REPO/backport-util-concurrent/backport-util-concurrent/3.1/backport-util-concurrent-3.1-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar" sourcepath="M2_REPO/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1.jar" sourcepath="M2_REPO/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/commons-collections/commons-collections/3.2.2/commons-collections-3.2.2.jar" sourcepath="M2_REPO/commons-collections/commons-collections/3.2.2/commons-collections-3.2.2-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/net/sf/jsr107cache/jsr107cache/1.0/jsr107cache-1.0.jar" sourcepath="M2_REPO/net/sf/jsr107cache/jsr107cache/1.0/jsr107cache-1.0-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/javassist/javassist/3.3/javassist-3.3.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/mysema/querydsl/querydsl-core/3.4.2/querydsl-core-3.4.2.jar" sourcepath="M2_REPO/com/mysema/querydsl/querydsl-core/3.4.2/querydsl-core-3.4.2-sources.jar"/>
@@ -78,7 +78,7 @@
   <classpathentry kind="var" path="M2_REPO/org/freemarker/freemarker/2.3.19/freemarker-2.3.19.jar" sourcepath="M2_REPO/org/freemarker/freemarker/2.3.19/freemarker-2.3.19-sources.jar"/>
   <classpathentry kind="src" path="/sm-core-modules"/>
   <classpathentry kind="var" path="M2_REPO/com/shopizer/sm-search/0.0.5-SNAPSHOT/sm-search-0.0.5-SNAPSHOT.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/apache/commons/commons-collections4/4.0/commons-collections4-4.0.jar" sourcepath="M2_REPO/org/apache/commons/commons-collections4/4.0/commons-collections4-4.0-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/commons/commons-collections4/4.1/commons-collections4-4.1.jar" sourcepath="M2_REPO/org/apache/commons/commons-collections4/4.1/commons-collections4-4.1-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/slf4j/jcl-over-slf4j/1.6.6/jcl-over-slf4j-1.6.6.jar" sourcepath="M2_REPO/org/slf4j/jcl-over-slf4j/1.6.6/jcl-over-slf4j-1.6.6-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/elasticsearch/elasticsearch/1.5.2/elasticsearch-1.5.2.jar" sourcepath="M2_REPO/org/elasticsearch/elasticsearch/1.5.2/elasticsearch-1.5.2-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/lucene/lucene-core/4.10.4/lucene-core-4.10.4.jar" sourcepath="M2_REPO/org/apache/lucene/lucene-core/4.10.4/lucene-core-4.10.4-sources.jar"/>
