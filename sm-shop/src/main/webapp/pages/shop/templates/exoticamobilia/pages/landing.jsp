@@ -25,13 +25,13 @@ response.setDateHeader ("Expires", -1);
       		<ul>
   	    	<li>
               <div class="slide-body" data-group="slide">
-	                <img src="<c:out value="/sm-shop/static/DEFAULT/IMAGE/table-blanche-2.jpg"/>" id="slide1">
+	                <img src="" id="slide1">
 
 			                	<div class="bannerTextTitle bannerTextColor" style="width:500px; top:30px; left:20px;float:left;">
 			                        <h2 class="bannerTextStyle helvetica-light bannerMarginBottom">
-			                        	Entrepot de meubles exotiques
+			                        	Furniture warehouse
 			                        </h2>
-			                        <p class="bannerTextParagraphStyle helvetica-light">Bois de rose, Acacia, Suar, Racine de teck, Mango, Recyclés, Métal et bien plus</p>
+			                        <p class="bannerTextParagraphStyle helvetica-light">Antic and exotic furnitures</p>
 			                        <a class="white bannerRedBtn helvetica-light" href="/living-room-collections/asana-collection/" title="Shop the Suar Collection">Shop the Suar Collection <i class="fa fa-play"></i></a>
 			                	</div>
 
