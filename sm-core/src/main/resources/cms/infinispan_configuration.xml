@@ -3,7 +3,7 @@
 <infinispan xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:infinispan:config:5.2 http://www.infinispan.org/schemas/infinispan-config-5.2.xsd" xmlns="urn:infinispan:config:5.3">
 
 	<global>
-	
+		
 		 <globalJmxStatistics enabled="false" jmxDomain="infinispan"/>
 	
 	</global>
@@ -55,6 +55,7 @@
 	               ignoreModifications="false" purgeOnStartup="false">
 	               <properties>
 	                 <property name="location" value="./infinispan/store"/>
+	                 <!-- <property name="location" value="${infinispan.cache.file.location}"/> -->
 	               </properties>
 	          </loader>
 	          	
@@ -77,6 +78,7 @@
 	               ignoreModifications="false" purgeOnStartup="false">
 	            <properties>
 	                 <property name="location" value="./infinispan/files"/>
+	                <!--  <property name="location" value="${infinispan.cache.file.location}"/> -->
 	               </properties>
 	          </loader>
 	     </loaders>
