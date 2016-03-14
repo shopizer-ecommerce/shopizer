@@ -3,7 +3,7 @@
 <infinispan xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:infinispan:config:5.2 http://www.infinispan.org/schemas/infinispan-config-5.2.xsd" xmlns="urn:infinispan:config:5.3">
 
 	<global>
-	
+		
 		 <globalJmxStatistics enabled="false" jmxDomain="infinispan"/>
 	
 	</global>
@@ -54,8 +54,8 @@
 			  <loader class="org.infinispan.loaders.file.FileCacheStore" fetchPersistentState="false"
 	               ignoreModifications="false" purgeOnStartup="false">
 	               <properties>
-	                 <!--<property name="location" value="./infinispan/store"/>-->
-	                 <property name="location" value="/Users/carlsamson/Documents/dev/cache_data/infinispan/store"/>
+	                 <property name="location" value="./infinispan/store"/>
+	                 <!-- <property name="location" value="${infinispan.cache.file.location}"/> -->
 	               </properties>
 	          </loader>
 	          	
@@ -77,8 +77,8 @@
 	          <loader class="org.infinispan.loaders.file.FileCacheStore" fetchPersistentState="false"
 	               ignoreModifications="false" purgeOnStartup="false">
 	            <properties>
-	                 <!--<property name="location" value="./infinispan/files"/>-->
-	                 <property name="location" value="/Users/carlsamson/Documents/dev/cache_data/infinispan/files"/>
+	                 <property name="location" value="./infinispan/files"/>
+	                <!--  <property name="location" value="${infinispan.cache.file.location}"/> -->
 	               </properties>
 	          </loader>
 	     </loaders>

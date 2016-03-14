@@ -9,11 +9,11 @@
 
 		<!-- Shipping pre-processors -->
 		<util:list id="shippingModulePreProcessors" value-type="com.salesmanager.core.modules.integration.shipping.model.ShippingQuotePreProcessModule">
-			<ref bean="shippingDistancePreProcessor"/>
+		<!-- 	<ref bean="shippingDistancePreProcessor"/> -->
 			<!-- From rules -->
-			<!--
+			
 			<ref bean="shippingMethodDecisionProcess"/>
-			-->
+			
 		</util:list>
 	
 	
