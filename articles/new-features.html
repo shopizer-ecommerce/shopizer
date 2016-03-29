@@ -79,7 +79,28 @@
 A text box that can be placed in a template that allows a user to opt-in for a newsletter. Tables and model objects are already created. Need to add a core service and sm-shop ui layer to support that functionality. Need a link to opt-out. Should be REST services to opt in and opt-out (must be private urls). Need a service to export opt-out users to a CSV only for the initial version
 </p>
  <p>
- To be described
+The Opt-in / Opt-out functionality allows the gathering of customer information in the context of an offer. Usually the system captures the customer
+email address in order for instance to send targetted offers to those customers.
+<br/>
+The Opt-in / Opt-out functionality requires the following changes to the current release:
+<ul>
+	<li>
+		New Optin model object. The class com.salesmanager.core.business.system.optin.model.Optin defines an offer for a specific store.
+		That object already exist in sm-core-model project
+	</li>
+	<li>
+		New CustomerOptin model object. The class com.salesmanager.core.business.system.optin.model.CustomerOptin defines a Customer that has opted-in to an offer for a specific store.
+		That object already exist in sm-core-model project
+	</li>
+	<li>
+		New CustomerOptinDao which is the repository object that control the hibernate persistence of the CustomerOptin model object.
+		That object already exist in sm-core-model project
+	</li>
+	<li>
+		New OptinDao which is the repository object that control the hibernate persistence of the Optin model object.
+		That object already exist in sm-core-model project
+	</li>
+</ul>
  </p>
 <br/>
 
