@@ -83,25 +83,43 @@ The Opt-in / Opt-out functionality allows the gathering of customer information 
 email address in order for instance to send targetted offers to those customers.
 <br/>
 The Opt-in / Opt-out functionality requires the following changes to the current release:
+ </p>
+<p class="well">
 <ul>
 	<li>
-		New Optin model object. The class com.salesmanager.core.business.system.optin.model.Optin defines an offer for a specific store.
+		-New Optin model object. The class com.salesmanager.core.business.system.optin.model.Optin defines an offer for a specific store.
 		That object already exist in sm-core-model project
 	</li>
 	<li>
-		New CustomerOptin model object. The class com.salesmanager.core.business.system.optin.model.CustomerOptin defines a Customer that has opted-in to an offer for a specific store.
+		-New CustomerOptin model object. The class com.salesmanager.core.business.system.optin.model.CustomerOptin defines a Customer that has opted-in to an offer for a specific store.
 		That object already exist in sm-core-model project
 	</li>
 	<li>
-		New CustomerOptinDao which is the repository object that control the hibernate persistence of the CustomerOptin model object.
+		-New CustomerOptinDao which is the repository object that control the hibernate persistence of the CustomerOptin model object.
 		That object already exist in sm-core-model project
 	</li>
 	<li>
-		New OptinDao which is the repository object that control the hibernate persistence of the Optin model object.
+		-New OptinDao which is the repository object that control the hibernate persistence of the Optin model object.
 		That object already exist in sm-core-model project
+	</li>
+	<li>
+		-New OptinService which is the service entry point to Optin repository
+		<b></b>Has to be created in sm-core under business.system.service</b>
+	</li>
+	<li>
+		-New CustomerOptinService which is the service entry point to CustomerOptin repository
+		<b></b>Has to be created in sm-core under business.system.service</b>
+	</li>
+	<li>
+		-New unit test for testing the creation and deletion of an Optin. New unit test for testing the creation and deletion of CustomerOptin
 	</li>
 </ul>
- </p>
+</p>
+<br/>
+<p>
+	
+</p>
+
 <br/>
 
 
