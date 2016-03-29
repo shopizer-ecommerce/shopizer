@@ -60,7 +60,8 @@
 
  </p>
  
- <h3 id="maven">Coupons and vouchers</h3>
+ <h3 id="maven">Coupons and vouchers</h3><hr/
+ 
  <br/> 
  <p>
  Yep, you know those coupons you can redeem in the shopping cart
@@ -73,7 +74,7 @@
  <br/>
 
 
-  <h3 id="maven">Newsletter opt-in & opt-out</h3>
+  <h3 id="maven">Newsletter opt-in & opt-out</h3><hr/>
 <br/>
 <p>
 A text box that can be placed in a template that allows a user to opt-in for a newsletter. Tables and model objects are already created. Need to add a core service and sm-shop ui layer to support that functionality. Need a link to opt-out. Should be REST services to opt in and opt-out (must be private urls). Need a service to export opt-out users to a CSV only for the initial version
@@ -107,7 +108,7 @@ The Opt-in / Opt-out functionality requires the following changes to the current
 		<br/>
 
 		-New CustomerOptinService which is the service entry point to CustomerOptin repository
-		<b><Has to be created in sm-core under business.system.service</b>
+		<b>Has to be created in sm-core under business.system.service</b>
 		<br/>
 
 		-New unit test for testing the creation and deletion of an Optin. New unit test for testing the creation and deletion of CustomerOptin
@@ -117,6 +118,107 @@ The Opt-in / Opt-out functionality requires the following changes to the current
 <br/>
 <p>
 <h3>Optin object</h3>	
+<br/>
+<pre>
+	<code>
+/**
+ * Optin defines optin campaigns for the system.
+ * @author carlsamson
+ *
+ */
+@Entity
+@EntityListeners(value = AuditListener.class)
+@Table(name = "OPTIN", schema= SchemaConstant.SALESMANAGER_SCHEMA,uniqueConstraints=
+@UniqueConstraint(columnNames = {"MERCHANT_ID", "CODE"}))
+public class Optin extends SalesManagerEntity<Long, Optin> implements Serializable {
+
+	
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@Column(name = "OPTIN_ID")
+	@TableGenerator(name = "TABLE_GEN", table = "SM_SEQUENCER", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "OPTIN_SEQ_NEXT_VAL")
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
+	private Long id;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column (name ="START_DATE")
+	private Date startDate;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column (name ="END_DATE")
+	private Date endDate;
+	
+	@ManyToOne(targetEntity = MerchantStore.class)
+	@JoinColumn(name="MERCHANT_ID")
+	private MerchantStore merchant;
+	
+	@Column(name="CODE", nullable=false)
+	private String code;
+	
+	@Column(name="DESCRIPTION")
+	private String description;
+
+
+	@Override
+	public Long getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(Long id) {
+		this.id = id;	
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+	public MerchantStore getMerchant() {
+		return merchant;
+	}
+
+	public void setMerchant(MerchantStore merchant) {
+		this.merchant = merchant;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+}
+
+	</code>
+	
+</pre>
 </p>
 
 <br/>
