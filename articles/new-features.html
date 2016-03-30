@@ -241,6 +241,140 @@ merchant : the MerhantStore owner of the campaign<br/>
 code : a unique administrator generated code for identifying the campaign<br/>
 description : describes the optin campaign<br/>
 </p>
+<br/>
+
+<p>
+<h3>CustomerOptin object</h3>	
+<br/>
+<pre>
+	<code>
+		
+		
+
+/**
+ * CustomerOptin defines the relationship between a customer and an optin campaign for the system.
+ * @author carlsamson
+ *
+ */
+@Entity
+@EntityListeners(value = AuditListener.class)
+@Table(name = "CUSTMER_OPTIN", schema= SchemaConstant.SALESMANAGER_SCHEMA,uniqueConstraints=
+@UniqueConstraint(columnNames = {"EMAIL", "OPTIN_ID"}))
+public class CustomerOptin extends SalesManagerEntity<Long, CustomerOptin> implements Serializable {
+
+	
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@Column(name = "CUSTOMER_OPTIN_ID")
+	@TableGenerator(name = "TABLE_GEN", table = "SM_SEQUENCER", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "CUST_OPT_SEQ_NEXT_VAL")
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
+	private Long id;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column (name ="OPTIN_DATE")
+	private Date optinDate;
+
+	
+	@ManyToOne(targetEntity = Optin.class)
+	@JoinColumn(name="OPTIN_ID")
+	private Optin optin;
+	
+	@Column(name="FIRST")
+	private String firstName;
+	
+	@Column(name="LAST")
+	private String lastName;
+	
+	@Column(name="EMAIL")
+	private String email;
+	
+	@Column(name="VALUE")
+	@Type(type = "org.hibernate.type.StringClobType")
+	private String value;
+
+	@Override
+	public Long getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(Long id) {
+		this.id = id;	
+	}
+
+	public Date getOptinDate() {
+		return optinDate;
+	}
+
+	public void setOptinDate(Date optinDate) {
+		this.optinDate = optinDate;
+	}
+
+	public Optin getOptin() {
+		return optin;
+	}
+
+	public void setOptin(Optin optin) {
+		this.optin = optin;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+}
+
+		
+		
+	</code>
+	
+</pre>
+</p>
+
+<br/>
+<p>
+id : auto generated identifier<br/>
+optinDate : date the customer opted in<br/>
+optin : relationship to the optin campaign<br/>
+firstName : first name of the customer<br/>
+lastName : last name of the customer<br/>
+email : email of the customer<br/>
+value : optional additional customer information captured for the campaign<br/>
+</p>
+<br/>
 
 <br/>
 <h2>&nbsp;</h2>
