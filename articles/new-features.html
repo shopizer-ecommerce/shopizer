@@ -112,7 +112,18 @@ The Opt-in / Opt-out functionality requires the following changes to the current
 		<br/>
 
 		-New unit test for testing the creation and deletion of an Optin. New unit test for testing the creation and deletion of CustomerOptin
-
+		</br>
+		
+		- New admin page to create Optin campaign
+		<br/>
+		
+		- REST service to manage customer Optin
+		</br>
+		
+		- REST service to manmage customer Optout
+		<br/>
+		
+		- REST service to export customer optin list based on parameters
 </ul>
 </p>
 <br/>
@@ -222,7 +233,14 @@ public class Optin extends SalesManagerEntity<Long, Optin> implements Serializab
 </p>
 
 <br/>
-
+<p>
+id : auto generated identifier
+startDate : date to activate the opt in campaign
+endDate : date to de activate optin campaign
+merchant : the MerhantStore owner of the campaign
+code : a unique administrator generated code for identifying the campaign
+description : describes the optin campaign
+</p>
 
 <br/>
 <h2>&nbsp;</h2>
