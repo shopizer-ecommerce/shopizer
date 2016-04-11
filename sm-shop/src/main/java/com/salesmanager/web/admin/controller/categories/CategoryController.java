@@ -42,6 +42,7 @@ public class CategoryController {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(CategoryController.class);
 	
+	//test
 	@Autowired
 	LanguageService languageService;
 	
