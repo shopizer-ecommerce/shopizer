@@ -9,13 +9,17 @@ import javax.servlet.jsp.tagext.TagSupport;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.servlet.tags.RequestContextAwareTag;
 
 import com.salesmanager.core.business.catalog.product.model.file.DigitalProduct;
 import com.salesmanager.core.business.merchant.model.MerchantStore;
 import com.salesmanager.web.constants.Constants;
 import com.salesmanager.web.utils.FilePathUtils;
 
-public class AdminProductDownloadUrlTag extends TagSupport {
+public class AdminProductDownloadUrlTag extends RequestContextAwareTag {
 	
 	
 	/**
@@ -26,6 +30,9 @@ public class AdminProductDownloadUrlTag extends TagSupport {
 	private static final Logger LOGGER = LoggerFactory.getLogger(AdminProductDownloadUrlTag.class);
 
 	private DigitalProduct digitalProduct;
+	
+	@Autowired
+	private FilePathUtils filePathUtils;
 
 
 
@@ -38,8 +45,14 @@ public class AdminProductDownloadUrlTag extends TagSupport {
 		this.digitalProduct = digitalProduct;
 	}
 
-	public int doStartTag() throws JspException {
+	public int doStartTagInternal() throws JspException {
 		try {
+			
+			if (filePathUtils==null) {
+	            WebApplicationContext wac = getRequestContext().getWebApplicationContext();
+	            AutowireCapableBeanFactory factory = wac.getAutowireCapableBeanFactory();
+	            factory.autowireBean(this);
+	        }
 
 
 			HttpServletRequest request = (HttpServletRequest) pageContext
@@ -71,7 +84,7 @@ public class AdminProductDownloadUrlTag extends TagSupport {
 			.append(request.getContextPath());
 			
 			filePath
-				.append(FilePathUtils.buildAdminDownloadProductFilePath(merchantStore, digitalProduct)).toString();
+				.append(filePathUtils.buildAdminDownloadProductFilePath(merchantStore, digitalProduct)).toString();
 
 			
 

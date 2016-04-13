@@ -119,7 +119,7 @@ function isFormValid() {
 		                </div>
 
 					   <div class="control-group form-group">
-						<label><s:message code="label.customer.company" text="Company"/></label>
+						<label><s:message code="label.customer.companyname" text="Company"/></label>
 						<div class="controls">
 		              		
 		              		<form:input  cssClass="input-large form-control form-control-md"  maxlength="100" path="company"/>	
@@ -130,7 +130,7 @@ function isFormValid() {
 			            	<label><s:message code="label.customer.streetaddress" text="Street Address"/></label>
 			            <div class="controls">
 			            	
-			            	<s:message code="NotEmpty.customer.address" text="Address is required" var="msgAddress"/>
+			            	<s:message code="NotEmpty.customer.address2" text="Address is required" var="msgAddress"/>
 				 			<form:input  cssClass="input-large required form-control form-control-md"  maxlength="256"  path="address" title="${msgAddress}"/>		 				
 			            </div>
 			            </div>

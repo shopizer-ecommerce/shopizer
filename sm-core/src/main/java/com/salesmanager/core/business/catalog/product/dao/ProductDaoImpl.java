@@ -645,6 +645,7 @@ public class ProductDaoImpl extends SalesManagerEntityDaoImpl<Long, Product> imp
 			qs.append(" and povd.language.id=:lang");
 
 		}
+		qs.append(" order by p.sortOrder asc");
 
 
     	String hql = qs.toString();
@@ -785,7 +786,8 @@ public class ProductDaoImpl extends SalesManagerEntityDaoImpl<Long, Product> imp
 				//qs.append("where pa.region in (:lid) ");
 				qs.append("where p.merchantStore.id=mId and categs.id in (:cid) and pa.region in (:lid) ");
 				//qs.append("and p.available=true and p.dateAvailable<=:dt and pd.language.id=:lang and manufd.language.id=:lang");
-				qs.append("and p.available=true and p.dateAvailable<=:dt and pd.language.id=:lang ");
+				qs.append("and p.available=true and p.dateAvailable<=:dt and pd.language.id=:lang");
+				qs.append(" order by p.sortOrder asc");
 
 
 		    	String hql = qs.toString();

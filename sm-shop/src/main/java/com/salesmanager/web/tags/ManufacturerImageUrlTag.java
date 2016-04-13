@@ -1,21 +1,23 @@
 package com.salesmanager.web.tags;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.TagSupport;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.servlet.tags.RequestContextAwareTag;
 
 import com.salesmanager.core.business.catalog.product.model.manufacturer.Manufacturer;
 import com.salesmanager.core.business.merchant.model.MerchantStore;
 import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.utils.ImageFilePathUtils;
+import com.salesmanager.web.utils.FilePathUtils;
+import com.salesmanager.web.utils.ImageFilePath;
 
-public class ManufacturerImageUrlTag extends TagSupport {
+public class ManufacturerImageUrlTag extends RequestContextAwareTag {
 	
 	
 	/**
@@ -29,10 +31,23 @@ public class ManufacturerImageUrlTag extends TagSupport {
 	private String imageName;
 	private String imageType;
 	private Manufacturer manufacturer;
+	
+	@Autowired
+	private FilePathUtils filePathUtils;
 
 
-	public int doStartTag() throws JspException {
+	@Autowired
+	@Qualifier("img")
+	private ImageFilePath imageUtils;
+
+	public int doStartTagInternal() throws JspException {
 		try {
+			
+			if (filePathUtils==null || imageUtils==null) {
+	            WebApplicationContext wac = getRequestContext().getWebApplicationContext();
+	            AutowireCapableBeanFactory factory = wac.getAutowireCapableBeanFactory();
+	            factory.autowireBean(this);
+	        }
 
 
 			HttpServletRequest request = (HttpServletRequest) pageContext
@@ -40,44 +55,11 @@ public class ManufacturerImageUrlTag extends TagSupport {
 			
 			MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 			
-			HttpSession session = request.getSession();
-
 			StringBuilder imagePath = new StringBuilder();
 			
-			//TODO domain from merchant, else from global config, else from property (localhost)
+			String baseUrl = filePathUtils.buildStoreUri(merchantStore, request);
+			imagePath.append(baseUrl);
 			
-			// example -> /static/1/PRODUCT/120/product1.jpg
-			
-			//@SuppressWarnings("unchecked")
-			//Map<String,String> configurations = (Map<String, String>)session.getAttribute("STORECONFIGURATION");
-			//String scheme = (String)configurations.get("scheme");
-			
-			//if(StringUtils.isBlank(scheme)) {
-			//	scheme = "http";
-			//}
-			
-			@SuppressWarnings("unchecked")
-			Map<String,String> configurations = (Map<String, String>)session.getAttribute(Constants.STORE_CONFIGURATION);
-			String scheme = Constants.HTTP_SCHEME;
-			if(configurations!=null) {
-				scheme = (String)configurations.get("scheme");
-			}
-			
-
-			
-			imagePath.append(scheme).append("://")
-			.append(merchantStore.getDomainName())
-			.append("/")
-			.append(request.getContextPath());
-			
-			//imagePath
-			
-			//.append(scheme).append("://").append(merchantStore.getDomainName())
-				//.append(Constants.STATIC_URI)
-				//.append("/").append(ImageFilePathUtils.buildManufacturerImageFilePath(merchantStore, manufacturer, this.getImageName())).toString();
-
-			
-
 			pageContext.getOut().print(imagePath.toString());
 
 

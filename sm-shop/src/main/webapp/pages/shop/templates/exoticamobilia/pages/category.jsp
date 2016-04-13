@@ -23,7 +23,7 @@ response.setDateHeader ("Expires", -1);
  <script type="text/html" id="productBoxTemplate">
 {{#products}}
 <div itemscope itemtype="http://schema.org/Enumeration" class="col-md-4 productItem" item-order="{{sortOrder}}" item-name="{{description.name}}" item-price="{{price}}" data-id="{{id}}" class="col-sm-4">
-<div data-effect-delay="0" data-animation-effect="fadeInUpSmall" class="box-style-1 white-bg object-non-visible animated object-visible fadeInUpSmall">
+<div class="box-style-4 white-bg object-non-visible animated object-visible">
  	{{#description.highlights}}  
     <div class="ribbon-wrapper-green">
    		<div class="ribbon-green">
@@ -31,26 +31,31 @@ response.setDateHeader ("Expires", -1);
    		</div>
    	</div>
     {{/description.highlights}}
-	{{#image}} 
-							                                
-	<div class="product-image"><img class="product-img" src="<c:url value="/"/>{{image.imageUrl}}"><a class="overlay" href="<c:url value="/shop/product/" />{{description.friendlyUrl}}.html<sm:breadcrumbParam/>"><img class="product-img" src="<c:url value="/"/>{{image.imageUrl}}"></a></div>
- 
-   {{/image}}
-    <div class="listing-item-body clearfix">
-	<div class="product-info">
-		<a href="<c:url value="/shop/product/" />{{description.name}}.html<sm:breadcrumbParam/>"><h3 itemprop="name" class="title product-name">{{description.name}}</h3></a>
-	</div>
-	<div data-effect-delay="0" data-animation-effect="fadeInUpSmall">
-		<h4>
+	<div class="product-image">
+    {{#image}}                              
+	<img class="product-img" src="<c:url value=""/>{{image.imageUrl}}"><a class="overlay" href="<c:url value="/shop/product/" />{{description.friendlyUrl}}.html<sm:breadcrumbParam/>"><img class="product-img" src="<c:url value="/"/>{{image.imageUrl}}"></a>
+    {{/image}}
+    </div>
+	<!--  *** Product Name & Price Starts *** -->
+	<div class="caption">
+	<div class="product-details">
+	<div class="clearfix">
+		<h3 class="product-heading product-name" itemprop="name">{{description.name}}</h3>
+		<h4 class="price">
 			{{#discounted}}<del>{{originalPrice}}</del>&nbsp;<span itemprop="price" class="specialPrice">{{finalPrice}}</span>{{/discounted}}
 			{{^discounted}}<span itemprop="price" class="specialPrice">{{finalPrice}}</span>{{/discounted}}
 		</h4>
+		<!-- Product Name & Price Ends -->
+		<!-- Product Buttons Starts -->
+		<div class="clearfix">
+			<a class="btn btn-default pull-left" href="<c:url value="/shop/product/" />{{description.friendlyUrl}}.html<sm:breadcrumbParam/>" class="details"><s:message code="button.label.view" text="Details" /></a>
+		<c:if test="${requestScope.CONFIGS['allowPurchaseItems'] == true}">
+		{{#canBePurchased}}<a class="btn btn-buy pull-right addToCart" href=" href="javascript:void(0);" class="addToCart"><s:message code="button.label.addToCart" text="Add to cart" /></a>{{/canBePurchased}}
+		</c:if>
+		</div>
 	</div>
-	<div class="product-actions">
-	<a href="<c:url value="/shop/product/" />{{description.friendlyUrl}}.html<sm:breadcrumbParam/>" class="details"><s:message code="button.label.view" text="Details" /></a> 
-		| <a productid="{{id}}" href="javascript:void(0);" class="addToCart"><s:message code="button.label.addToCart" text="Add to cart" /></a>
 	</div>
-    </div>
+	</div>
 </div>
 </div>
 {{/products}}
@@ -61,7 +66,7 @@ response.setDateHeader ("Expires", -1);
  <script>
  
  var START_COUNT_PRODUCTS = 0;
- var MAX_PRODUCTS = 12;
+ var MAX_PRODUCTS = 24;
  var filter = null;
  var filterValue = null;
 
@@ -320,10 +325,12 @@ response.setDateHeader ("Expires", -1);
              				</c:if>
 							<ul class="nav nav-list">
 							<c:forEach items="${subCategories}" var="subCategory">
+								<c:if test="${subCategory.visible}">
               					<li>
               					<a href="<c:url value="/shop/category/${subCategory.description.friendlyUrl}.html"/><sm:breadcrumbParam categoryId="${subCategory.id}"/>"><i class="fa fa-angle-right"></i> <c:out value="${subCategory.description.name}" />
               						<c:if test="${subCategory.productCount>0}">&nbsp;<span class="countItems">(<c:out value="${subCategory.productCount}" />)</span></c:if></a>
               					</li>
+              					</c:if>
               				</c:forEach>
 							</ul>
 							<br/>
@@ -348,4 +355,3 @@ response.setDateHeader ("Expires", -1);
 
 			</div>
 		</div>
-

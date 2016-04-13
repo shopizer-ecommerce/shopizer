@@ -80,7 +80,7 @@ public class ProductReviewController {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/products/reviews/paging.html", method=RequestMethod.POST, produces="application/json")
+	@RequestMapping(value="/admin/products/reviews/paging.html", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	public @ResponseBody String pageProductReviews(HttpServletRequest request, HttpServletResponse response) {
 
 		String sProductId = request.getParameter("productId");

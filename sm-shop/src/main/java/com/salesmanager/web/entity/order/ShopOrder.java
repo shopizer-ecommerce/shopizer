@@ -28,6 +28,8 @@ public class ShopOrder extends PersistableOrder implements Serializable {
 	private ShippingSummary shippingSummary;
 	private ShippingOption selectedShippingOption = null;//Default selected option
 	
+	private String defaultPaymentMethodCode = null;
+	
 	
 	private String paymentMethodType = null;//user selected payment type
 	private Map<String,String> payment;//user payment information
@@ -78,6 +80,12 @@ public class ShopOrder extends PersistableOrder implements Serializable {
 	}
 	public void setPayment(Map<String,String> payment) {
 		this.payment = payment;
+	}
+	public String getDefaultPaymentMethodCode() {
+		return defaultPaymentMethodCode;
+	}
+	public void setDefaultPaymentMethodCode(String defaultPaymentMethodCode) {
+		this.defaultPaymentMethodCode = defaultPaymentMethodCode;
 	}
 
 

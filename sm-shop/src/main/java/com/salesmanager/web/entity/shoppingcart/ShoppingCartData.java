@@ -25,6 +25,7 @@ public class ShoppingCartData extends ShopEntity implements Serializable {
 	
 	private List<OrderTotal> totals;//calculated from OrderTotalSummary
 	private List<ShoppingCartItem> shoppingCartItems;
+	private List<ShoppingCartItem> unavailables;
 	
 	
 	public String getMessage() {
@@ -68,6 +69,12 @@ public class ShoppingCartData extends ShopEntity implements Serializable {
 	}
 	public void setTotals(List<OrderTotal> totals) {
 		this.totals = totals;
+	}
+	public List<ShoppingCartItem> getUnavailables() {
+		return unavailables;
+	}
+	public void setUnavailables(List<ShoppingCartItem> unavailables) {
+		this.unavailables = unavailables;
 	}
 
 

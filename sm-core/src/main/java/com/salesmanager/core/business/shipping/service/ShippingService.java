@@ -10,6 +10,7 @@ import com.salesmanager.core.business.reference.country.model.Country;
 import com.salesmanager.core.business.reference.language.model.Language;
 import com.salesmanager.core.business.shipping.model.PackageDetails;
 import com.salesmanager.core.business.shipping.model.ShippingConfiguration;
+import com.salesmanager.core.business.shipping.model.ShippingMetaData;
 import com.salesmanager.core.business.shipping.model.ShippingOption;
 import com.salesmanager.core.business.shipping.model.ShippingProduct;
 import com.salesmanager.core.business.shipping.model.ShippingQuote;
@@ -192,7 +193,13 @@ public interface ShippingService {
 	 */
 	boolean requiresShipping(List<ShoppingCartItem> items, MerchantStore store) throws ServiceException;
 
-
+	/**
+	 * Returns shipping metadata and how shipping is configured for a given store
+	 * @param store
+	 * @return
+	 * @throws ServiceException
+	 */
+	ShippingMetaData getShippingMetaData(MerchantStore store) throws ServiceException;
 
 
 }

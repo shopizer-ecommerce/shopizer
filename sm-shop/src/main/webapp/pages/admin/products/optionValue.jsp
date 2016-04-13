@@ -110,7 +110,7 @@
 	                                    <input class="input-file" id="image" name="image" type="file">
 	                                </c:when>
 	                                <c:otherwise>
-	                                	<img src="<sm:contentImage imageName="${optionValue.productOptionValueImage}" imageType="PROPERTY"/>" width="80">
+	                                	<img src="<c:url value=""/><sm:contentImage imageName="${optionValue.productOptionValueImage}" imageType="PROPERTY"/>" width="80">
 	                                </c:otherwise>
                                 </c:choose>
                         </div>

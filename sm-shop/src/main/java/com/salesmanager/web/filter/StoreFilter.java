@@ -173,6 +173,11 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 					if(customer.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
 						request.getSession().removeAttribute(Constants.CUSTOMER);
 					}
+					if(!customer.isAnonymous()) {
+			        	if(!request.isUserInRole("AUTH_CUSTOMER")) {
+			        			request.removeAttribute(Constants.CUSTOMER);
+				        }
+					}
 					request.setAttribute(Constants.CUSTOMER, customer);
 				} 
 				
@@ -204,7 +209,8 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 							address.setCountry(geoAddress.getCountry());
 							address.setCity(geoAddress.getCity());
 							address.setZone(geoAddress.getZone());
-							address.setPostalCode(geoAddress.getPostalCode());
+							/** no postal code **/
+							//address.setPostalCode(geoAddress.getPostalCode());
 						}
 					} catch(Exception ce) {
 						LOGGER.error("Cannot get geo ip component ", ce);
@@ -218,7 +224,8 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 						} else {
 							address.setStateProvince(store.getStorestateprovince());
 						}
-						address.setPostalCode(store.getStorepostalcode());
+						/** no postal code **/
+						//address.setPostalCode(store.getStorepostalcode());
 					}
 					
 					anonymousCustomer = new AnonymousCustomer();

@@ -236,7 +236,7 @@ public class PayPalExpressCheckoutPayment implements PaymentModule {
 			paymentDetailsList.add(paymentDetails);
 			
 			StringBuilder RETURN_URL = new StringBuilder().append(
-					coreConfiguration.getProperty("ORDER_SCHEME", "http")).append("://")
+					coreConfiguration.getProperty("SHOP_SCHEME", "http")).append("://")
 					.append(store.getDomainName()).append("/")
 					.append(coreConfiguration.getProperty("CONTEXT_PATH", "sm-shop"));
 					

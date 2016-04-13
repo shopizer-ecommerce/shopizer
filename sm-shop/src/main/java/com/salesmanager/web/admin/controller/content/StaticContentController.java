@@ -46,6 +46,9 @@ public class StaticContentController {
 	@Autowired
 	private ContentService contentService;
 	
+	@Autowired
+	private FilePathUtils filePathUtils;
+	
 
 	@PreAuthorize("hasRole('CONTENT')")
 	@RequestMapping(value={"/admin/content/static/contentFiles.html","/admin/content/static/contentManagement.html"}, method=RequestMethod.GET)
@@ -65,7 +68,7 @@ public class StaticContentController {
 	 */
 	@SuppressWarnings({ "unchecked"})
 	@PreAuthorize("hasRole('CONTENT')")
-	@RequestMapping(value="/admin/content/static/page.html", method=RequestMethod.POST, produces="application/json")
+	@RequestMapping(value="/admin/content/static/page.html", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	public @ResponseBody String pageStaticContent(HttpServletRequest request, HttpServletResponse response) {
 		AjaxResponse resp = new AjaxResponse();
 
@@ -76,7 +79,7 @@ public class StaticContentController {
 			
 			List<String> fileNames = contentService.getContentFilesNames(store.getCode(), FileContentType.STATIC_FILE);
 			
-			Map<String,String> configurations = (Map<String, String>)request.getSession().getAttribute(Constants.STORE_CONFIGURATION);
+/*			Map<String,String> configurations = (Map<String, String>)request.getSession().getAttribute(Constants.STORE_CONFIGURATION);
 			String scheme = Constants.HTTP_SCHEME;
 			if(configurations!=null) {
 				scheme = (String)configurations.get("scheme");
@@ -87,7 +90,7 @@ public class StaticContentController {
 			storePath.append(scheme).append("://")
 			.append(store.getDomainName())
 			.append(request.getContextPath());
-			
+*/			
 
 			if(fileNames!=null) {
 
@@ -95,10 +98,11 @@ public class StaticContentController {
 					
 					String mimeType = URLConnection.getFileNameMap().getContentTypeFor(name);
 					
-					StringBuilder filePath = new StringBuilder();
+					//StringBuilder filePath = new StringBuilder();
 
-					filePath.append(storePath.toString()).append(FilePathUtils.buildStaticFilePath(store,name));
+					//filePath.append(storePath.toString()).append(filePathUtils.buildStaticFilePath(store,name));
 
+					String filePath = filePathUtils.buildStaticFileAbsolutePath(store, name);
 					
 					
 					@SuppressWarnings("rawtypes")

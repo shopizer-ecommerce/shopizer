@@ -22,9 +22,6 @@ response.setDateHeader ("Expires", -1);
 
 <script type="text/javascript">
 
-var RecaptchaOptions = {
-	    theme : 'clean'
-};
 
 $(document).ready(function() {
 	
@@ -187,23 +184,13 @@ function isFormValid() {
 						</div>						
 		
 						<div class="control-group form-group">
-							<div class="controls"><!--watch the white space in IOS!-->
-								<script type="text/javascript"
-    								 src="http://www.google.com/recaptcha/api/challenge?k=<c:out value="${recapatcha_public_key}"/>&hl=${requestScope.LANGUAGE.code}">
-  								</script>
-							<noscript>
-								<iframe
-									src="http://www.google.com/recaptcha/api/noscript?k=<c:out value="${recapatcha_public_key}"/>&hl=${requestScope.LANGUAGE.code}"
-									height="300" width="500" frameborder="0">
-								</iframe>
-								<br/>
-								<form:textarea path="recaptcha_challenge_field" class="form-control" readonly="3" cols="40"/>
-								<form:errors path="recaptcha_challenge_field" cssClass="error" />
-     							
-								<input type="hidden" name="recaptcha_response_field"
-									value="manual_challenge">
-							</noscript>
-						</div>
+										<div class="controls">
+											
+											<script src="https://www.google.com/recaptcha/api.js?hl=<c:out value="${requestScope.LANGUAGE.code}"/>" async defer></script>
+
+											<div class="g-recaptcha" data-sitekey="<c:out value="${recapatcha_public_key}"/>"></div>
+
+										</div>
 						</div>
 
 						<div class="form-actions">

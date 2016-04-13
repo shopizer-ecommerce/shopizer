@@ -334,14 +334,6 @@
 			<version>1.3b1</version>
 		</dependency>
 
-		<!--
-		<dependency>
-			<groupId>com.lowagie</groupId>
-			<artifactId>itext</artifactId>
-			<version>4.2.1</version>
-		</dependency>
-		-->
-		
 	    <dependency>
 			<groupId>com.itextpdf</groupId>
 			<artifactId>itextpdf</artifactId>

@@ -67,6 +67,8 @@ public class PersistableProductPopulator extends
 
 			target.setSku(source.getSku());
 			target.setAvailable(source.isAvailable());
+			target.setPreOrder(source.isPreOrder());
+			target.setRefSku(source.getRefSku());
 			
 			if(!StringUtils.isBlank(source.getDateAvailable())) {
 				target.setDateAvailable(DateUtil.getDate(source.getDateAvailable()));
@@ -130,6 +132,7 @@ public class PersistableProductPopulator extends
 			target.setProductLength(source.getProductLength());
 			target.setProductWeight(source.getProductWeight());
 			target.setProductWidth(source.getProductWidth());
+			target.setSortOrder(source.getSortOrder());
 			target.setProductVirtual(source.isProductVirtual());
 			target.setProductShipeable(source.isProductShipeable());
 			if(source.getRating() != null) {

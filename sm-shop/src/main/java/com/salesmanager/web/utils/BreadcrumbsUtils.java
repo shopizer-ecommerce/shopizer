@@ -31,6 +31,9 @@ public class BreadcrumbsUtils {
 	@Autowired
 	private CategoryService categoryService;
 	
+	@Autowired
+	private FilePathUtils filePathUtils;
+	
 	
 	public Breadcrumb buildCategoryBreadcrumb(ReadableCategory categoryClicked, MerchantStore store, Language language, String contextPath) throws Exception {
 		
@@ -38,7 +41,7 @@ public class BreadcrumbsUtils {
 		BreadcrumbItem home = new BreadcrumbItem();
 		home.setItemType(BreadcrumbItemType.HOME);
 		home.setLabel(messages.getMessage(Constants.HOME_MENU_KEY, LocaleUtils.getLocale(language)));
-		home.setUrl(FilePathUtils.buildStoreUri(store, contextPath) + Constants.SHOP_URI);
+		home.setUrl(filePathUtils.buildStoreUri(store, contextPath) + Constants.SHOP_URI);
 
 		Breadcrumb breadCrumb = new Breadcrumb();
 		breadCrumb.setLanguage(language);
@@ -65,7 +68,7 @@ public class BreadcrumbsUtils {
 				BreadcrumbItem categoryBreadcrump = new BreadcrumbItem();
 				categoryBreadcrump.setItemType(BreadcrumbItemType.CATEGORY);
 				categoryBreadcrump.setLabel(c.getDescription().getName());
-				categoryBreadcrump.setUrl(FilePathUtils.buildCategoryUrl(store, contextPath, c.getDescription().getSeUrl()));
+				categoryBreadcrump.setUrl(filePathUtils.buildCategoryUrl(store, contextPath, c.getDescription().getSeUrl()));
 				items.add(categoryBreadcrump);
 			}
 			
@@ -89,7 +92,7 @@ public class BreadcrumbsUtils {
 		BreadcrumbItem home = new BreadcrumbItem();
 		home.setItemType(BreadcrumbItemType.HOME);
 		home.setLabel(messages.getMessage(Constants.HOME_MENU_KEY, LocaleUtils.getLocale(language)));
-		home.setUrl(FilePathUtils.buildStoreUri(store, contextPath) + Constants.SHOP_URI);
+		home.setUrl(filePathUtils.buildStoreUri(store, contextPath) + Constants.SHOP_URI);
 
 		Breadcrumb breadCrumb = new Breadcrumb();
 		breadCrumb.setLanguage(language);
@@ -113,7 +116,7 @@ public class BreadcrumbsUtils {
 				BreadcrumbItem categoryBreadcrump = new BreadcrumbItem();
 				categoryBreadcrump.setItemType(BreadcrumbItemType.CATEGORY);
 				categoryBreadcrump.setLabel(c.getDescription().getName());
-				categoryBreadcrump.setUrl(FilePathUtils.buildCategoryUrl(store, contextPath, c.getDescription().getSeUrl()));
+				categoryBreadcrump.setUrl(filePathUtils.buildCategoryUrl(store, contextPath, c.getDescription().getSeUrl()));
 				items.add(categoryBreadcrump);
 			}
 			
@@ -124,7 +127,7 @@ public class BreadcrumbsUtils {
 		BreadcrumbItem productBreadcrump = new BreadcrumbItem();
 		productBreadcrump.setItemType(BreadcrumbItemType.PRODUCT);
 		productBreadcrump.setLabel(productClicked.getDescription().getName());
-		productBreadcrump.setUrl(FilePathUtils.buildProductUrl(store, contextPath, productClicked.getDescription().getFriendlyUrl()));
+		productBreadcrump.setUrl(filePathUtils.buildProductUrl(store, contextPath, productClicked.getDescription().getFriendlyUrl()));
 		items.add(productBreadcrump);
 		
 		

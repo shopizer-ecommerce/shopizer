@@ -15,7 +15,12 @@ response.setDateHeader ("Expires", -1);
 <%@page contentType="text/html"%>
 <%@page pageEncoding="UTF-8"%>
 
+<c:if test="${shippingMetaData.useDistanceModule==true}">
+<script src="https://maps.googleapis.com/maps/api/js?key=<sm:config configurationCode="shopizer.googlemaps_key" />"></script>
+</c:if>
+
 <script src="<c:url value="/resources/js/jquery.maskedinput.min.js" />"></script>
+
 
 <!-- subtotals template -->
 <script type="text/html" id="subTotalsTemplate">
@@ -50,7 +55,9 @@ response.setDateHeader ("Expires", -1);
 			{{#shippingOptions}}	
 				<label class="radio"> 
 					<input type="radio" name="selectedShippingOption.optionId" class="shippingOption" id="{{optionId}}" value="{{optionId}}" {{#checked}} checked="checked"{{/checked}}> 
-					{{optionName}} - {{optionPriceText}}
+					{{description}} - {{optionPriceText}}
+					<br/>
+					{{#note}}<small>{{note}}</small>{{/note}}
 				</label>
 			{{/shippingOptions}}						
 		</div>
@@ -63,6 +70,7 @@ response.setDateHeader ("Expires", -1);
 <!-- checkout form id -->
 var checkoutFormId = '#checkoutForm';
 var formErrorMessageId = '#formErrorMessage';
+var useDistanceWindow = <c:out value="${shippingMetaData.useDistanceModule}"/>;
 
 
 function isFormValid() {
@@ -73,10 +81,10 @@ function isFormValid() {
 	$inputs.each(function() {
 		if($(this).hasClass('required')) {
 			var fieldValid = isCheckoutFieldValid($(this));
-			log($(this).attr('id') + ' Is valid ' + fieldValid);
+			//log($(this).attr('id') + ' Is valid ' + fieldValid);
 			if(!fieldValid) {
 				if(firstErrorMessage==null) {
-					log('Title ' + $(this).attr('title'));
+					//log('Title ' + $(this).attr('title'));
 					if($(this).attr('title')) {
 						firstErrorMessage = $(this).attr('title');
 					}
@@ -121,11 +129,31 @@ function isFormValid() {
 		$('#submitOrder').removeClass('btn-disabled');
 		$('#submitOrder').prop('disabled', false);
 	}
+	
+	return valid;
 }
 
 function setPaymentModule(module) {
-	//console.log('Module - ' + module);
-	$('#paymentModule').val(module);	
+	console.log('Module - ' + module);
+	$('#paymentModule').val(module);
+	
+	
+	if(module.indexOf('paypal') >= 0) {
+		$('#paymentMethodType').val('PAYPAL');
+	}
+	else if(module.indexOf('stripe') >= 0) {
+		$('#paymentMethodType').val('CREDITCARD');
+	}		
+	else if(module.indexOf('beanstream') >= 0) {
+		$('#paymentMethodType').val('CREDITCARD');
+		
+	} else {
+		$('#paymentMethodType').val(module);
+	}
+	
+	//TODO set the TAB to the payment type
+	isFormValid();
+	
 }
 
 function isCheckoutFieldValid(field) {
@@ -152,7 +180,10 @@ function isCheckoutFieldValid(field) {
 	<c:if test="${fn:length(paymentMethods)>0}">
 		//if any payment option need validation insert here
 		//console.log($('input[name=paymentMethodType]:checked', checkoutFormId).val());
-		if($('input[name=paymentMethodType]:checked', checkoutFormId).val()=='CREDITCARD') {
+		//var paymentMethod = $('input[name=paymentMethodType]:checked', checkoutFormId).val();
+		var paymentType = $('input[name=paymentMethodType]').val();
+		console.log('Payment Method Type ' + paymentType);
+		if(paymentType=='CREDITCARD') {
 			if (fieldId.indexOf("creditcard") >= 0) {
 				if(fieldId!='creditcard_card_number') {
 					validateField = true;// but validate credit card fields when credit card is selected
@@ -187,6 +218,7 @@ function isCheckoutFieldValid(field) {
 	}
 }
 
+//populate provinces drop down list
 $.fn.addItems = function(div, data, defaultValue) {
 	//console.log('Populating div ' + div + ' defaultValue ' + defaultValue);
 	var selector = div + ' > option';
@@ -336,16 +368,54 @@ function setCountrySettings(prefix, countryCode) {
 	
 }
 
+function bindCalculateShipping() {
+	
+    $(".shippingOption").click(function() {
+    	calculateTotal();
+    });
+	
+}
+
 
 
 function bindActions() {
 	
-
-    $(".shippingOption").click(function() {
-    	calculateTotal();
+	bindCalculateShipping();
+	
+	$("input[type='text']").on("change keyup paste", function(){
+		isFormValid();
+	});
+	
+	$("input[type='checkbox']").on("change click", function(){
+		isFormValid();
+	});
+	
+   	$('input[name=paymentMethodType]', checkoutFormId).click(function() {
+    	isFormValid();//change payment method
     });
     
-    <!-- shipping / billing decision -->
+    $("#billingStateList").change(function() {
+    	shippingQuotes();	
+    })
+    
+    $("#shippingStateList").change(function() {
+    	shippingQuotes();		
+    })
+    
+    
+	$("input[id=billingPostalCode]").blur(function() {
+		if ($('#shipToBillingAdress').is(':checked')) {
+			shippingQuotes();
+		}
+	});
+	
+	$("input[id=deliveryPostalCode]").blur(function() {
+		if (!$('#shipToBillingAdress').is(':checked')) {
+			shippingQuotes();
+		}
+	});
+    
+    //shipping / billing decision checkbox
     $("#shipToBillingAdress").click(function() {
     	shippingQuotes();	
     	if ($('#shipToBillingAdress').is(':checked')) {
@@ -359,18 +429,49 @@ function bindActions() {
     
 	$("#submitOrder").click(function(e) {
 		e.preventDefault();//do not submit form
+		formValid = isFormValid();
 		resetErrorMessage();
 		setCountrySettings('billing',$('.billing-country-list').val());
 		setCountrySettings('delivery',$('.shipping-country-list').val());
 		//$('#submitOrder').disable();
+		
+		//confirm shipping
+		if(formValid) {
+				//validateConfirmShipping(response);
+				if($('#confirm_address')) {
+					//add confirm address section to shipping
+				}
+		}
+		
+		
 		$('#pageContainer').showLoading();
-		var paymentSelection = $('input[name=paymentMethodType]:checked', checkoutFormId).val();
-		if(paymentSelection.indexOf('PAYPAL')!=-1) {
-			initPayment(paymentSelection);
-		} else if(paymentSelection.indexOf('STRIPE')!=-1) {
+		//var paymentSelection = $('input[name=paymentMethodType]:checked', checkoutFormId).val();
+		var paymentSelection = $('#paymentModule').val();
+		console.log('Selection ' + paymentSelection);
+		if(paymentSelection.indexOf('paypal') >= 0) {
+			
+			//console.log('PP ');
+			$('#paymentMethodType').val('PAYPAL');
+			initPayment('PAYPAL');
+		}
+		else if(paymentSelection.indexOf('stripe') >= 0) {
+			//console.log('Stripe ');
+			$('#paymentMethodType').val('CREDITCARD');
 			initStripePayment();
-		} else {
+		}		
+		else if(paymentSelection.indexOf('beanstream') >= 0) {
+			//console.log('Beanstream ');
+			$('#paymentMethodType').val('CREDITCARD');
+		}
+		//if(paymentSelection.indexOf('PAYPAL')!=-1) {
+		//	initPayment(paymentSelection);
+		//} else if(paymentSelection.indexOf('CREDITCARD')!=-1 && $('input[name=paymentModule]', checkoutFormId).val()=='stripe') {
+		//	initStripePayment();
+		//} else {
+			
+		else {
 			//submit form
+			console.log('Checkout ');
 			$('#pageContainer').hideLoading();
 			$('#checkoutForm').submit();
 			
@@ -379,12 +480,18 @@ function bindActions() {
 }
 
 
-
+/** 
+ * Calculates a shipping quote based on customer address
+ */
 function shippingQuotes(){
+
 	resetErrorMessage();
 	$('#pageContainer').showLoading();
 	var data = $(checkoutFormId).serialize();
-	//console.log(data);
+	//log(data);
+	
+	formValid = false;
+
 	
 	$.ajax({
 	  type: 'POST',
@@ -396,11 +503,20 @@ function shippingQuotes(){
 		  
 		    $('#pageContainer').hideLoading();
 		  	if(response.errorMessage!=null && response.errorMessage!='') {
+
+		  		//log('Error message !!! ' + response.errorMessage);
 		  		showErrorMessage(response.errorMessage);
+		  		//reset shipping options
+		  		$('#shippingSection').html('');
+		  		$('#shippingSection').html(response.errorMessage);
+		  		
+		  		$('#confirm_address').remove();
+		  		$("#confirmShippingAddress").hide();
+		  		
 		  		return;
 		  	}
 
-			//console.log(response);
+			//log(response);
 			
 			$('#summary-table tr.subt').remove();
 			$('#totalRow').html('');
@@ -411,6 +527,7 @@ function shippingQuotes(){
 			var totalRendred = totalTemplate.render(response);
 			
 			if(response.shippingSummary!=null) {
+
 				//create extra fields
 				summary = response.shippingSummary;
 				for(var i = 0; i< summary.shippingOptions.length; i++) {
@@ -422,17 +539,25 @@ function shippingQuotes(){
 				if(summary.handling && summary.handling>0) {
 					summary.showHandling = true;
 				}
+
 				
 				//render summary
 				$('#shippingSection').html('');
 				var quotesRendered = quotesTemplate.render(response.shippingSummary);
 				//console.log(quotesRendered);
 				$('#shippingSection').html(quotesRendered);
-				bindActions();
+				bindCalculateShipping();
+				///bindActions();//TODO NO NO NO
+
 			} 
 			$('#summaryRows').append(subTotalsRendered);
 			$('#totalRow').html(totalRendred);
-			isFormValid();
+			formValid = isFormValid();
+			
+			//if(formValid && response.shippingSummary!=null) {
+				validateConfirmShipping(response);
+			//}
+			
 	  },
 	    error: function(xhr, textStatus, errorThrown) {
 	    	$('#pageContainer').hideLoading();
@@ -457,21 +582,21 @@ function initPayment(paymentSelection) {
 			    $('#pageContainer').hideLoading();
 				var resp = response.response;
 				var status = resp.status;
-				console.log(status);
+				//console.log(status);
 				if(status==0 || status ==9999) {
 					
 					var data = resp.url;
-					console.log(resp.url);
+					//console.log(resp.url);
 					location.href=resp.url;
 
 				} else if(status==-2) {//validation issues
 					
-					console.log(resp.validations);
+					//console.log(resp.validations);
 				    var globalMessage = '';
 					for(var i = 0; i< resp.validations.length; i++) {
 						var fieldName = resp.validations[i].field;
 						var message = resp.validations[i].message;
-						console.log(fieldName +  ' - ' + message);
+						//console.log(fieldName +  ' - ' + message);
 						//query for the field
 						var f = $(document.getElementById('error-'+fieldName));
 						if(f) {
@@ -485,7 +610,7 @@ function initPayment(paymentSelection) {
 					
 					
 				} else {
-					console.log('Wrong status ' + status);
+					//console.log('Wrong status ' + status);
 					showResponseErrorMessage('<s:message code="error.code.99" text="An error message occured while trying to process the payment (99)"/>');
 					
 				}
@@ -499,12 +624,127 @@ function initPayment(paymentSelection) {
 	
 }
 
+function buildMailAddress(address) {
+	
+	if(address==null) {
+		return null;
+	}
+	
+	var addr = '';
+	
+	//civic address
+	addr = address.address + '\r\n';
+	
+	
+	//municipality/town state/province postal code
+	addr = addr + address.zone + ' ' + address.postalCode + '\r\n';
+	
+	//country
+	addr = addr + address.country;
+	
+	return addr;
+}
 
+function validateConfirmShipping(shopOrder) {
+
+	postalCode = null;
+	shippingDistance = null;
+	shippingMethod = null;
+
+	if(shopOrder!=null) {
+	
+		if(shopOrder.shippingSummary.selectedShippingOption!=null) {
+			shippingMethod = shopOrder.shippingSummary.selectedShippingOption.shippingModuleCode;
+		}
+
+		//build address object
+
+		//displayConfirmShipping(shippingDistance,postalCode,shippingMethod);
+		var delivery = shopOrder.shippingSummary.delivery;
+		displayConfirmShipping(delivery,shippingMethod);
+	
+	}
+	
+}
+
+function displayConfirmShipping(delivery,shippingMethod) {
+
+	var $form = $('#checkoutForm');
+	$('#confirm_address').remove();
+	$("#confirmShippingAddress").hide();
+	var deliveryAddress = buildMailAddress(delivery);
+	//alert('Use distance: ' + useDistanceWindow + ' lat: ' + delivery.latitude + ' lon: ' + delivery.longitude + ' postal code: ' + delivery.postalCode + ' shipping method: ' + shippingMethod);
+	
+	/**
+	* quote =! storePickup
+	* postal code
+	* latitude
+	**/
+	
+	/**
+	* If distance is configured and has been set in the quote
+	* confirm the shipping address on a Map
+	**/
+	if(useDistanceWindow) {
+		/**
+		* Requires a shipping quote (response.shippingSummary)
+		* and no order form validation error
+		* then display the shipping confirmation window
+		**/
+		if(delivery!=null && delivery.latitude!=null && delivery.longitude && delivery.postalCode!=null && shippingMethod!=null) {
+			if(shippingMethod!='storePickUp') {
+
+
+				$("#confirmShippingAddress").show();
+				
+				var distanceField = '<input type="hidden" id="confirm_address" name="confirm_address" value="true" />';
+				$form.append(distanceField);
+				//longitude
+				//latitude
+				//google maps
+				var lat = Number(delivery.latitude);
+				var lon = Number(delivery.longitude);
+					
+				var myLatlng = new google.maps.LatLng(lat,lon);
+				var mapOptions = {
+				  zoom: 18,
+				  center: myLatlng
+				}
+				var map = new google.maps.Map(document.getElementById("confirmShippingAddress"), mapOptions);
+
+				var marker = new google.maps.Marker({
+				    position: myLatlng,
+				    title:deliveryAddress
+				});
+
+				// To add the marker to the map, call setMap();
+				marker.setMap(map);
+				
+				
+				
+				//var map;
+				//function initMap() {
+				//map = new google.maps.Map(document.getElementById('confirmShippingAddress'), {
+				//    center: {lat: lat, lng: lon},
+				//    zoom: 18
+				//});
+
+				$("#confirmShippingAddress").show();
+			}
+		}
+
+
+	}
+	
+}
+
+//when changing a shipping method
 function calculateTotal(){
 	resetErrorMessage();
 	$('#pageContainer').showLoading();
 	var data = $(checkoutFormId).serialize();
 	//console.log(data);
+	formValid = false;
 	
 	$.ajax({
 	  type: 'POST',
@@ -533,11 +773,12 @@ function calculateTotal(){
 			//console.log(rendered);
 			$('#summaryRows').append(subTotalsRendered);
 			$('#totalRow').html(totalRendred);
-			isFormValid();
+			formValid = isFormValid();
+			validateConfirmShipping(response);
 	  },
 	    error: function(xhr, textStatus, errorThrown) {
 	    	$('#pageContainer').hideLoading();
-	  		alert('error ' + errorThrown);
+	  		console.log('error ' + errorThrown);
 	  }
 
 	});
@@ -547,24 +788,32 @@ function calculateTotal(){
 
 $(document).ready(function() {
 	
-    	$("#clickAgreement").click(function(){
+		$("#confirmShippingAddress").hide();
+	
+        formValid = false;	
+	
+	    $("#clickAgreement").click(function(){
         	$("#customer-agreement-area").slideToggle("slow");
     	});
+
 
 		<!-- 
 			//can use masked input for phone (USA - CANADA)
 		-->
-		isFormValid();
+		formValid = isFormValid();
 		
-		bindActions();
+		setPaymentModule('${order.defaultPaymentMethodCode}')
 
-		$("input[type='text']").on("change keyup paste", function(){
-			isFormValid();
-		});
+		bindActions();
 		
-		$("input[type='checkbox']").on("change click", function(){
-			isFormValid();
-		});
+	
+		//$("input[type='text']").on("change keyup paste", function(){
+		//	isFormValid();
+		//});
+		
+		//$("input[type='checkbox']").on("change click", function(){
+		//	isFormValid();
+		//});
 		
 		<c:if test="${order.customer.billing.country!=null}">
 			$('.billing-country-list').val('${order.customer.billing.country}');
@@ -610,30 +859,37 @@ $(document).ready(function() {
 			setCountrySettings('delivery',$(this).val());
 	    })
 	    
-	    $("#billingStateList").change(function() {
-	    	shippingQuotes();	
-	    })
+	    if($('#billingPostalCode').val()!=null || $('#deliveryPostalCode').val()!=null) {
+	    	//console.log('billing or delivery set');
+	    	//shippingQuotes();//TODO issue NPE
+	    }
 	    
-	    $("#shippingStateList").change(function() {
-	    	shippingQuotes();		
-	    })
-	    
-	    $('input[name=paymentMethodType]', checkoutFormId).click(function() {
-	    	isFormValid();//change payment method
-	    });
-	    
-		$("input[id=billingPostalCode]").blur(function() {
-			shippingQuotes();
-		});
+
+		//do we have a shipping address pre populated with a postal code
+		//var deliveryPostalCode = null;
+		var address = null;
+		<c:if test="${deliveryAddress!=null}">
+		//deliveryPostalCode='<c:out value="${shippingQuote.deliveryAddress.postalCode}"/>';
+		address = {address:'<c:out value="${deliveryAddress.address}"/>',postalCode:'<c:out value="${deliveryAddress.postalCode}"/>',province:'<c:out value="${deliveryAddress.provinceName}"/>',country:'<c:out value="${deliveryAddress.countryName}"/>'};
+		</c:if>
+
+		<c:if test="${shippingQuote.deliveryAddress!=null}">
+		address.latitude='<c:out value="${shippingQuote.deliveryAddress.latitude}"/>';
+		address.longitude='<c:out value="${shippingQuote.deliveryAddress.longitude}"/>';
+		</c:if>
 		
-		$("input[id=shippingPostalCode]").blur(function() {
-			if (!$('#shipToBillingAdress').is(':checked')) {
-				shippingQuotes();
-			}
-		});
+		//selected quote is not pickup
+		var shippingMethod = null;
+		<c:if test="${shippingQuote.shippingModuleCode!=null}">
+		shippingMethod='<c:out value="${shippingQuote.shippingModuleCode}"/>';
+		</c:if>
 		
 
 		
+		//console.log(address);
+		displayConfirmShipping(address,shippingMethod);
+
+
 });
 
 
@@ -837,7 +1093,7 @@ $(document).ready(function() {
 											<div class="row-fluid common-row row">
 													<div class="span4 col-md-4">
 									  				   <div class="control-group form-group"> 
-														<label><s:message code="label.customer.shipping.firtsname" text="Shipping first name"/></label>
+														<label><s:message code="label.customer.shipping.firstname" text="Shipping first name"/></label>
 									    					<div class="controls"> 
 									    					<s:message code="NotEmpty.customer.shipping.firstName" text="Shipping first name should not be empty" var="msgShippingFirstName"/>
 									      					<form:input id="customer.delivery.name" cssClass="input-xxlarge required form-control form-control-lg" path="customer.delivery.firstName" title="${msgShippingFirstName}"/>
@@ -848,7 +1104,7 @@ $(document).ready(function() {
 
 											<div class="row-fluid common-row row">
 													<div class="span4 col-md-4">
-									  				   <div class="control-group"> 
+									  				   <div class="control-group form-group"> 
 														<label><s:message code="label.customer.shipping.lastname" text="Shipping last name"/></label>
 									    					<div class="controls"> 
 									    					<s:message code="NotEmpty.customer.shipping.lastName" text="Shipping last name should not be empty" var="msgShippingLastName"/>
@@ -861,7 +1117,7 @@ $(document).ready(function() {
 											<!-- company -->
 											<div class="row-fluid common-row row">
 												<div class="span4 col-md-4">
-									  				   <div class="control-group"> 
+									  				   <div class="control-group form-group"> 
 														<label><s:message code="label.customer.shipping.company" text="Shipping company"/></label>
 									    					<div class="controls"> 
 									      					<form:input id="customer.delivery.company" cssClass="input-large form-control form-control-lg" path="customer.delivery.company"/>
@@ -873,7 +1129,7 @@ $(document).ready(function() {
 											<!--  street address -->
 											<div class="row-fluid common-row row">
 												<div class="span8 col-md-8">
-										  			<div class="control-group"> 
+										  			<div class="control-group form-group"> 
 														<label><s:message code="label.customer.shipping.streetaddress" text="Shipping street address"/></label>
 										    				<div class="controls"> 
 										    					<s:message code="NotEmpty.customer.shipping.address" text="Shipping street address should not be empty" var="msgShippingAddress"/>
@@ -886,7 +1142,7 @@ $(document).ready(function() {
 											<!-- city - postal code -->
 											<div class="row-fluid common-row row">
 													<div class="span4 col-md-4">
-											  			<div class="control-group"> 
+											  			<div class="control-group form-group"> 
 															<label><s:message code="label.customer.shipping.city" text="Shipping city"/></label>
 											    				<div class="controls">
 											    					<s:message code="NotEmpty.customer.shipping.city" text="Shipping city should not be empty" var="msgShippingCity"/> 
@@ -898,7 +1154,7 @@ $(document).ready(function() {
 											  			<div class="control-group form-group"> 
 															<label><s:message code="label.customer.shipping.postalcode" text="Shipping postal code"/></label>
 											    				<div class="controls"> 
-											    				    <s:message code="NotEmpty.customer.shipping.postalcode" text="Shipping postal code should not be empty" var="msgShippingPostal"/>
+											    				    <s:message code="NotEmpty.customer.shipping.postalCode" text="Shipping postal code should not be empty" var="msgShippingPostal"/>
 											      					<form:input id="deliveryPostalCode" cssClass="input-large required delivery-postalCode form-control form-control-lg" path="customer.delivery.postalCode" title="${msgShippingPostal}"/>
 											    				</div> 
 											  			</div>
@@ -908,7 +1164,7 @@ $(document).ready(function() {
 										   <!-- state province -->
 										   <div class="row-fluid common-row row">
 										   			<div class="span8 col-md-8">
-										   			<div class="control-group form group"> 
+										   			<div class="control-group form-group"> 
 														<label><s:message code="label.customer.shipping.zone" text="Shipping state / province"/></label>
 											    		<div class="controls"> 
 												       			<form:select cssClass="zone-list form-control" id="deliveryStateList" path="customer.delivery.zone"/>
@@ -941,13 +1197,13 @@ $(document).ready(function() {
 									
 									<!-- Shipping box -->
 									<c:if test="${shippingQuote!=null}">
-									 <br/> 
+									 <!--<br/>--> 
 									<!-- Shipping -->
 									<div class="checkout-box">
 										<span class="box-title">
 												<p class="p-title"><s:message code="label.shipping.fees" text="Shipping fees" /> </p>
 										</span>
-								
+
 								        <c:choose>
 								        <c:when test="${fn:length(shippingQuote.shippingOptions)>0}">
 								        	<input type="hidden" name="shippingModule" value="${shippingQuote.shippingModuleCode}">
@@ -959,10 +1215,18 @@ $(document).ready(function() {
 								       				</c:if>
 							 					</label> 
 							 					<div id="shippingOptions" class="controls"> 
+							 						<c:if test="${shippingQuote.shippingReturnCode=='NO_POSTAL_CODE'}">
+							 								<strong>
+									       						<s:message code="label.shipping.nopostalcode" text="A shipping quote will be available after filling the postal code"/>
+									       					</strong>
+							 						</c:if>
 							 						<c:forEach items="${shippingQuote.shippingOptions}" var="option" varStatus="status">
 														<label class="radio">
-															<input type="radio" name="selectedShippingOption.optionId" class="shippingOption" id="${option.optionId}" value="${option.optionId}" <c:if test="${order.selectedShippingOption!=null && order.selectedShippingOption.optionId==option.optionId}">checked="checked"</c:if>> 
-															${option.optionName} - ${option.optionPriceText}
+															<input type="radio" name="selectedShippingOption.optionId" class="shippingOption" id="${option.optionId}" value="${option.optionId}" <c:if test="${shippingQuote.selectedShippingOption!=null && shippingQuote.selectedShippingOption.optionId==option.optionId}">checked="checked"</c:if>> 
+															<s:message code="module.shipping.${option.shippingModuleCode}" arguments="${requestScope.MERCHANT_STORE.storename}" text="${option.shippingModuleCode}"/> - ${option.optionPriceText}
+															<c:if test="${option.note!=null}">
+																<br/><small><c:out value="${option.note}"/></small>
+															</c:if>
 														</label> 
 													</c:forEach>
 												</div> 
@@ -984,7 +1248,18 @@ $(document).ready(function() {
 									       						<font color="red"><s:message code="message.noshipping.configured" text="No shipping method configured"/></font>
 									       					</c:when>
 									       					<c:otherwise>
-									       						<strong><s:message code="label.shipping.freeshipping" text="Free shipping!"/></strong>
+									       						<c:choose>
+									       							<c:when test="${shippingQuote.shippingReturnCode=='NO_POSTAL_CODE'}">
+									       								<div id="shippingSection" class="control-group"> 
+									       								<strong>
+									       									<s:message code="label.shipping.nopostalcode" text="A shipping quote will be available after filling the postal code"/>
+									       								</strong>
+									       								</div>
+									       							</c:when>
+									       							<c:otherwise>
+									       								<strong><s:message code="label.shipping.freeshipping" text="Free shipping!"/></strong>
+									       							</c:otherwise>
+									       						</c:choose>
 									       					</c:otherwise>
 								       					</c:choose>
 								       				  </c:otherwise>
@@ -996,7 +1271,18 @@ $(document).ready(function() {
 									</div>
 									<!-- end shipping box -->
 									</c:if>
+									<!-- Confirm address box box -->
+									<!-- Shipping -->
+									<div class="checkout-box" id="confirmShippingAddress" style="height:250px;">
+										<!--
+										<span class="box-title">
+												<p class="p-title"><s:message code="label.customer.confirmshippingaddress" text="Shipping address confirmation" /> </p>
+										</span>
+										-->
+									</div>
+									<!-- end confirm shipping box -->
 									<br/>
+														
 									
 									<c:if test="${fn:length(paymentMethods)>0}">
 									<!-- payment box -->
@@ -1006,16 +1292,18 @@ $(document).ready(function() {
 										</span>
 
 									    		<div class="tabbable"> 
-												    	<ul class="nav nav-tabs">
+												    	<ul class="nav nav-tabs nav-tabs-checkout">
 												    		<c:forEach items="${paymentMethods}" var="paymentMethod">
 												    			<li class="<c:choose><c:when test="${order.paymentMethodType!=null && order.paymentMethodType==paymentMethod.paymentType}">active</c:when><c:otherwise><c:if test="${order.paymentMethodType==null && paymentMethod.defaultSelected==true}">active</c:if></c:otherwise></c:choose>">
-												    				<a href="#${paymentMethod.paymentType}" data-toggle="tab" class="paymentTab">
+												    				<a href="#${paymentMethod.paymentType}" data-toggle="tab" class="paymentTab" onClick="setPaymentModule('${paymentMethod.paymentMethodCode}');">
 												    					<c:choose>
 												    						<c:when test="${paymentMethod.paymentType=='CREDITCARD' || paymentMethod.paymentType=='PAYPAL'}">
 												    							<c:if test="${paymentMethod.paymentType=='CREDITCARD'}">
-												    								<img src="<c:url value="/resources/img/payment/icons/visa-straight-64px.png"/>" width="40">
-												    								<img src="<c:url value="/resources/img/payment/icons/mastercard-straight-64px.png"/>" width="40">
-												    								<img src="<c:url value="/resources/img/payment/icons/american-express-straight-64px.png"/>" width="40">
+												    								<p id="cc-img-container">
+												    									<img src="<c:url value="/resources/img/payment/icons/visa-straight-64px.png"/>" width="40">
+												    									<img src="<c:url value="/resources/img/payment/icons/mastercard-straight-64px.png"/>" width="40">
+												    								    <img src="<c:url value="/resources/img/payment/icons/american-express-straight-64px.png"/>" width="40">
+												    								</p>
 												    							</c:if>
 												    							<c:if test="${paymentMethod.paymentType=='PAYPAL'}"><img src="<c:url value="/resources/img/payment/icons/paypal-straight-64px.png"/>" width="40"></c:if>
 												    						</c:when>
@@ -1033,7 +1321,7 @@ $(document).ready(function() {
 												        
 									    				<div class="tab-content">
 									    				<c:forEach items="${paymentMethods}" var="paymentMethod">
-													    		<div class="tab-pane <c:choose><c:when test="${order.paymentMethodType!=null && order.paymentMethodType==paymentMethod.paymentType}">active</c:when><c:otherwise><c:if test="${order.paymentMethodType==null && paymentMethod.defaultSelected==true}">active</c:if></c:otherwise></c:choose>" id="${paymentMethod.paymentType}">
+													    		<div class="payment-tab tab-pane <c:choose><c:when test="${order.paymentMethodType!=null && order.paymentMethodType==paymentMethod.paymentType}">active</c:when><c:otherwise><c:if test="${order.paymentMethodType==null && paymentMethod.defaultSelected==true}">active</c:if></c:otherwise></c:choose>" id="${paymentMethod.paymentType}">
 													    			<c:choose>
 													    				<c:when test="${order.paymentMethodType!=null && order.paymentMethodType==paymentMethod.paymentType}">
 													    						<c:set var="paymentModule" value="${order.paymentMethodType}" scope="request"/>
@@ -1046,22 +1334,28 @@ $(document).ready(function() {
 													    			</c:choose>
 													    			<c:set var="selectedPaymentMethod" value="${order.paymentMethodType}" scope="request"/>
 													    			<c:set var="paymentMethod" value="${paymentMethod}" scope="request"/>
-													    			<c:set var="pageName" value="${fn:toLowerCase(paymentMethod.paymentType)}" />
+													    			
+													    			<!-- exception for stripe which has it's own page -->
+													    			<c:choose>
+													    				<c:when test="${paymentMethod.paymentMethodCode=='stripe'}">
+													    					<c:set var="pageName" value="${fn:toLowerCase(paymentMethod.paymentMethodCode)}" />
+													    				</c:when>
+													    				<c:otherwise>
+													    					<c:set var="pageName" value="${fn:toLowerCase(paymentMethod.paymentType)}" />
+													    				</c:otherwise>
+													    			</c:choose>
 													    			<jsp:include page="/pages/shop/common/checkout/${pageName}.jsp" />
+													    			
 													    		</div>
 									    				</c:forEach>
-									    				
+									    				<input type="hidden" id="paymentMethodType" name="paymentMethodType" value="<c:if test="${order.paymentType!=null}"><c:out value="${order.paymentType}"/></c:if>"/>
 									    				<input type="hidden" id="paymentModule" name="paymentModule" value="<c:choose><c:when test="${order.paymentModule!=null}"><c:out value="${order.paymentModule}"/></c:when><c:otherwise><c:out value="${paymentModule}" /></c:otherwise></c:choose>"/>
 									    				</div>
 									 			</div>
 									</div>
+									<br/>
 									<!-- end payment box -->
-									</c:if>
-									
-									
-							
-									
-									
+									</c:if>			
 					</div>
 					<!-- end left column -->
 
@@ -1088,7 +1382,7 @@ $(document).ready(function() {
 												<tbody id="summaryRows"> 
 													<c:forEach items="${cart.shoppingCartItems}" var="shoppingCartItem">
 													<tr class="item"> 
-														<td width="45%">
+														<td width="40%">
 															${shoppingCartItem.quantity} x ${shoppingCartItem.name}
 															<c:if test="${fn:length(shoppingCartItem.shoppingCartAttributes)>0}">
 															<br/>
@@ -1153,7 +1447,7 @@ $(document).ready(function() {
 										<!-- Submit -->
 										<div class="form-actions">
 											<div class="pull-right"> 
-												<button id="submitOrder" type="submit" class="btn btn-large btn-success 
+												<button id="submitOrder" type="button" class="btn btn-large btn-success 
 												<c:if test="${errorMessages!=null}"> btn-disabled</c:if>" 
 												<c:if test="${errorMessages!=null}"> disabled="true"</c:if>
 												><s:message code="button.label.submitorder" text="Submit order"/></button>

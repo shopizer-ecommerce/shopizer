@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -97,11 +98,7 @@ public class ProductImageServiceImpl extends SalesManagerEntityServiceImpl<Long,
 			throw new ServiceException(e);
 		} finally {
 			try {
-				
-				//if(inputImage.getBufferedImage()!=null){
-				//	inputImage.getBufferedImage().flush();
-				//}
-				
+
 				if(inputImage.getFile()!=null) {
 					inputImage.getFile().close();
 				}
@@ -195,7 +192,9 @@ public class ProductImageServiceImpl extends SalesManagerEntityServiceImpl<Long,
 	@Override
 	public void removeProductImage(ProductImage productImage) throws ServiceException {
 
-		productFileManager.removeProductImage(productImage);
+		if(!StringUtils.isBlank(productImage.getProductImage())) {
+			productFileManager.removeProductImage(productImage);//managed internally
+		}
 		
 		ProductImage p = this.getById(productImage.getId());
 		

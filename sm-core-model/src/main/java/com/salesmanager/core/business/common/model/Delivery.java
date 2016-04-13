@@ -5,6 +5,7 @@ import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 import com.salesmanager.core.business.reference.country.model.Country;
 import com.salesmanager.core.business.reference.zone.model.Zone;
@@ -51,6 +52,13 @@ public class Delivery {
 	@JoinColumn(name="DELIVERY_ZONE_ID", nullable=true)
 	private Zone zone;
 	
+	@Transient
+	private String latitude = null;
+	
+
+
+	@Transient
+	private String longitude = null;
 
 
 	public String getCompany() {
@@ -134,4 +142,19 @@ public class Delivery {
 		this.firstName = firstName;
 	}
 	
+	public String getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
 }

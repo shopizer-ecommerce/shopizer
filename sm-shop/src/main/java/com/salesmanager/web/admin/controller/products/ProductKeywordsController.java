@@ -239,7 +239,7 @@ public class ProductKeywordsController {
 	
 	@SuppressWarnings("unchecked")
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/products/product/keywords/paging.html", method=RequestMethod.POST, produces="application/json")
+	@RequestMapping(value="/admin/products/product/keywords/paging.html", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	public @ResponseBody String pageKeywords(HttpServletRequest request, HttpServletResponse response) {
 		
 		String sProductId = request.getParameter("id");

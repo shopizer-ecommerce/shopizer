@@ -10,6 +10,7 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.configuration.ConversionException;
+import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +30,7 @@ import com.salesmanager.web.entity.order.OrderTotal;
 import com.salesmanager.web.entity.shoppingcart.ShoppingCartAttribute;
 import com.salesmanager.web.entity.shoppingcart.ShoppingCartData;
 import com.salesmanager.web.entity.shoppingcart.ShoppingCartItem;
-import com.salesmanager.web.utils.ImageFilePathUtils;
+import com.salesmanager.web.utils.ImageFilePath;
 
 
 /**
@@ -46,6 +47,19 @@ public class ShoppingCartDataPopulator extends AbstractDataPopulator<ShoppingCar
     private PricingService pricingService;
 
     private  ShoppingCartCalculationService shoppingCartCalculationService;
+    
+    private ImageFilePath imageUtils;
+
+			public ImageFilePath getimageUtils() {
+				return imageUtils;
+			}
+		
+		
+		
+		
+			public void setimageUtils(ImageFilePath imageUtils) {
+				this.imageUtils = imageUtils;
+			}
 
 
 
@@ -73,6 +87,7 @@ public class ShoppingCartDataPopulator extends AbstractDataPopulator<ShoppingCar
     public ShoppingCartData populate(final ShoppingCart shoppingCart,
                                      final ShoppingCartData cart, final MerchantStore store, final Language language) {
 
+    	//Validate.notNull(imageUtils, "Requires to set imageUtils");
     	int cartQuantity = 0;
         cart.setCode(shoppingCart.getShoppingCartCode());
         Set<com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem> items = shoppingCart.getLineItems();
@@ -100,8 +115,8 @@ public class ShoppingCartDataPopulator extends AbstractDataPopulator<ShoppingCar
                     shoppingCartItem.setProductPrice(item.getItemPrice());
                     shoppingCartItem.setSubTotal(pricingService.getDisplayAmount(item.getSubTotal(), store));
                     ProductImage image = item.getProduct().getProductImage();
-                    if(image!=null) {
-                        String imagePath = ImageFilePathUtils.buildProductImageFilePath(store, item.getProduct().getSku(), image.getProductImage());
+                    if(image!=null && imageUtils!=null) {
+                        String imagePath = imageUtils.buildProductimageUtils(store, item.getProduct().getSku(), image.getProductImage());
                         shoppingCartItem.setImage(imagePath);
                     }
                     Set<com.salesmanager.core.business.shoppingcart.model.ShoppingCartAttributeItem> attributes = item.getAttributes();

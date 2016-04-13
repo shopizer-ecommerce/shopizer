@@ -121,6 +121,9 @@ public class UPSShippingQuote implements ShippingQuoteModule {
 			throws IntegrationException {
 
 		
+		if(StringUtils.isBlank(delivery.getPostalCode())) {
+			return null;
+		}
 		
 		BigDecimal total = orderTotal;
 

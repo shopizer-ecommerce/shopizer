@@ -52,6 +52,7 @@ public interface ControllerConstants
             final String relatedItems="admin-products-related";
             final String digitalProduct="admin-products-digital";
             final String productImages="admin-products-images";
+            final String productImagesUrl="admin-products-images-url";
             final String productKeywords="admin-products-keywords";
             final String customGroups="admin-products-groups";
             final String customGroupsDetails="admin-products-groups-details";

@@ -7,6 +7,10 @@ import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.generic.service.SalesManagerEntityServiceImpl;
 import com.salesmanager.core.business.merchant.model.MerchantStore;
+import com.salesmanager.core.business.reference.country.model.Country;
+import com.salesmanager.core.business.reference.country.service.CountryService;
+import com.salesmanager.core.business.reference.zone.model.Zone;
+import com.salesmanager.core.business.reference.zone.service.ZoneService;
 import com.salesmanager.core.business.shipping.dao.ShippingOriginDAO;
 import com.salesmanager.core.business.shipping.model.ShippingOrigin;
 
@@ -16,6 +20,12 @@ public class ShippingOriginServiceImpl extends SalesManagerEntityServiceImpl<Lon
 	private static final Logger LOGGER = LoggerFactory.getLogger(ShippingOriginServiceImpl.class);
 	
 	private ShippingOriginDAO shippingOriginDAO;
+	
+	@Autowired
+	private CountryService countryService;
+	
+	@Autowired
+	private ZoneService zoneService;
 	
 
 	@Autowired
@@ -28,7 +38,8 @@ public class ShippingOriginServiceImpl extends SalesManagerEntityServiceImpl<Lon
 	@Override
 	public ShippingOrigin getByStore(MerchantStore store) {
 		// TODO Auto-generated method stub
-		return shippingOriginDAO.getByStore(store);
+		ShippingOrigin origin = shippingOriginDAO.getByStore(store);
+		return origin;
 	}
 	
 

@@ -23,14 +23,24 @@ import com.salesmanager.web.entity.catalog.product.ReadableProduct;
 import com.salesmanager.web.entity.order.ReadableOrderProduct;
 import com.salesmanager.web.entity.order.ReadableOrderProductAttribute;
 import com.salesmanager.web.populator.catalog.ReadableProductPopulator;
+import com.salesmanager.web.utils.ImageFilePath;
 
 public class ReadableOrderProductPopulator extends
 		AbstractDataPopulator<OrderProduct, ReadableOrderProduct> {
 	
 	private ProductService productService;
 	private PricingService pricingService;
+	private ImageFilePath imageUtils;
 
 
+
+	public ImageFilePath getimageUtils() {
+		return imageUtils;
+	}
+
+	public void setimageUtils(ImageFilePath imageUtils) {
+		this.imageUtils = imageUtils;
+	}
 
 	@Override
 	public ReadableOrderProduct populate(OrderProduct source,
@@ -39,6 +49,7 @@ public class ReadableOrderProductPopulator extends
 		
 		Validate.notNull(productService,"Requires ProductService");
 		Validate.notNull(pricingService,"Requires PricingService");
+		Validate.notNull(imageUtils,"Requires imageUtils");
 		target.setId(source.getId());
 		target.setOrderedQuantity(source.getProductQuantity());
 		try {
@@ -88,6 +99,7 @@ public class ReadableOrderProductPopulator extends
 					
 					ReadableProductPopulator populator = new ReadableProductPopulator();
 					populator.setPricingService(pricingService);
+					populator.setimageUtils(imageUtils);
 					
 					ReadableProduct productProxy = populator.populate(product, new ReadableProduct(), store, language);
 					target.setProduct(productProxy);

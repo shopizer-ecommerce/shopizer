@@ -1,21 +1,23 @@
 package com.salesmanager.web.tags;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.TagSupport;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.servlet.tags.RequestContextAwareTag;
 
 import com.salesmanager.core.business.catalog.product.model.Product;
 import com.salesmanager.core.business.merchant.model.MerchantStore;
 import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.utils.ImageFilePathUtils;
+import com.salesmanager.web.utils.FilePathUtils;
+import com.salesmanager.web.utils.ImageFilePath;
 
-public class ProductImageUrlTag extends TagSupport {
+public class ProductImageUrlTag extends RequestContextAwareTag {
 	
 	
 	/**
@@ -29,54 +31,39 @@ public class ProductImageUrlTag extends TagSupport {
 	private String imageName;
 	private String imageType;
 	private Product product;
+	
+	@Autowired
+	private FilePathUtils filePathUtils;
 
+	@Autowired
+	@Qualifier("img")
+	private ImageFilePath imageUtils;
 
-	public int doStartTag() throws JspException {
+	public int doStartTagInternal() throws JspException {
 		try {
 
+
+			if (filePathUtils==null || imageUtils==null) {
+	            WebApplicationContext wac = getRequestContext().getWebApplicationContext();
+	            AutowireCapableBeanFactory factory = wac.getAutowireCapableBeanFactory();
+	            factory.autowireBean(this);
+	        }
 
 			HttpServletRequest request = (HttpServletRequest) pageContext
 					.getRequest();
 			
 			MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
-			
-			HttpSession session = request.getSession();
 
 			StringBuilder imagePath = new StringBuilder();
 			
-			//TODO domain from merchant, else from global config, else from property (localhost)
-			
-			// example -> /static/1/PRODUCT/120/product1.jpg
-			
-			//@SuppressWarnings("unchecked")
-			//Map<String,String> configurations = (Map<String, String>)session.getAttribute("STORECONFIGURATION");
-			//String scheme = (String)configurations.get("scheme");
-			
-			//if(StringUtils.isBlank(scheme)) {
-			//	scheme = "http";
-			//}
-			
-			@SuppressWarnings("unchecked")
-			Map<String,String> configurations = (Map<String, String>)session.getAttribute(Constants.STORE_CONFIGURATION);
-			String scheme = Constants.HTTP_SCHEME;
-			if(configurations!=null) {
-				scheme = (String)configurations.get("scheme");
-			}
-			
-
-			
-			imagePath.append(scheme).append("://")
-			.append(merchantStore.getDomainName())
-			.append("/")
-			.append(request.getContextPath());
+			String baseUrl = filePathUtils.buildRelativeStoreUri(request, merchantStore);
+			imagePath.append(baseUrl);
 			
 			imagePath
-			
-			//.append(scheme).append("://").append(merchantStore.getDomainName())
-				//.append(Constants.STATIC_URI)
-				.append("/").append(ImageFilePathUtils.buildProductImageFilePath(merchantStore, product, this.getImageName())).toString();
 
-			
+				.append(imageUtils.buildProductimageUtils(merchantStore, product, this.getImageName())).toString();
+
+			System.out.println("Printing image " + imagePath.toString());
 
 			pageContext.getOut().print(imagePath.toString());
 

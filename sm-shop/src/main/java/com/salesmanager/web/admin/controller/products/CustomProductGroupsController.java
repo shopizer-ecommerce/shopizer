@@ -260,7 +260,7 @@ public class CustomProductGroupsController {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/products/group/details/paging.html", method=RequestMethod.POST, produces="application/json")
+	@RequestMapping(value="/admin/products/group/details/paging.html", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	public @ResponseBody String pageProducts(HttpServletRequest request, HttpServletResponse response) {
 		
 		String code = request.getParameter("code");

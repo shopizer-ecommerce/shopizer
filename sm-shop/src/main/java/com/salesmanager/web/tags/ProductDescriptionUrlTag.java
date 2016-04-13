@@ -1,21 +1,22 @@
 package com.salesmanager.web.tags;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.servlet.tags.RequestContextAwareTag;
 
 import com.salesmanager.core.business.catalog.product.model.description.ProductDescription;
 import com.salesmanager.core.business.merchant.model.MerchantStore;
 import com.salesmanager.web.constants.Constants;
+import com.salesmanager.web.utils.FilePathUtils;
 
-public class ProductDescriptionUrlTag extends TagSupport {
+public class ProductDescriptionUrlTag extends RequestContextAwareTag {
 	
 	
 	/**
@@ -28,37 +29,36 @@ public class ProductDescriptionUrlTag extends TagSupport {
 
 
 	private ProductDescription productDescription;
+	
+	@Autowired
+	private FilePathUtils filePathUtils;
 
 	/**
 	 * Created the product url for the store front
 	 */
-	public int doStartTag() throws JspException {
+	public int doStartTagInternal() throws JspException {
 		try {
 
-			//http://www.domainname.com:8080/shop/product/product-name.html
-			//or
-			//http://www.domainname.com:8080/shop/productid/sku.html
+			if (filePathUtils==null) {
+	            WebApplicationContext wac = getRequestContext().getWebApplicationContext();
+	            AutowireCapableBeanFactory factory = wac.getAutowireCapableBeanFactory();
+	            factory.autowireBean(this);
+	        }
+
 			HttpServletRequest request = (HttpServletRequest) pageContext
 					.getRequest();
 			
-			MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
-			
-			HttpSession session = request.getSession();
-
-			StringBuilder productPath = new StringBuilder();
-
-			@SuppressWarnings("unchecked")
-			Map<String,String> configurations = (Map<String, String>)session.getAttribute(Constants.STORE_CONFIGURATION);
-			String scheme = Constants.HTTP_SCHEME;
-			if(configurations!=null) {
-				scheme = (String)configurations.get("scheme");
+			MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
+			//*** IF USED FROM ADMIN THE STORE WILL BE NULL, THEN TRY TO USE ADMIN STORE
+			if(merchantStore==null) {
+				merchantStore = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 			}
 			
-
 			
-			productPath.append(scheme).append("://")
-			.append(merchantStore.getDomainName())
-			.append(request.getContextPath());
+			StringBuilder productPath = new StringBuilder();
+			
+			String baseUrl = filePathUtils.buildStoreUri(merchantStore, request);
+			productPath.append(baseUrl);
 			
 			if(!StringUtils.isBlank(this.getProductDescription().getSeUrl())) {
 				productPath.append(Constants.PRODUCT_URI).append("/");

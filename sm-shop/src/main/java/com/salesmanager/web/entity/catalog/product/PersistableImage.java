@@ -7,7 +7,14 @@ public class PersistableImage {
 
 	   private String contentType = null;
 	   
-	   private String imageName;
+	   private String imageName = null;
+	   
+	   /**
+	    * An external image url
+	    */
+	   private String imageUrl = null;
+	   
+	   private int imageType = 0;
 
 
 	public void setBytes(byte[] bytes) {
@@ -37,6 +44,26 @@ public class PersistableImage {
 
 	public String getImageName() {
 		return imageName;
+	}
+
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+
+	public int getImageType() {
+		return imageType;
+	}
+
+
+	public void setImageType(int imageType) {
+		this.imageType = imageType;
 	}
 
 }

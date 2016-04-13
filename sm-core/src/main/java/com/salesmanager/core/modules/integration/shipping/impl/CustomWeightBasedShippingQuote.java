@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -92,7 +93,9 @@ public class CustomWeightBasedShippingQuote implements ShippingQuoteModule {
 			ShippingConfiguration shippingConfiguration, Locale locale)
 			throws IntegrationException {
 
-		
+		if(StringUtils.isBlank(delivery.getPostalCode())) {
+			return null;
+		}
 		
 		//get configuration
 		CustomShippingQuotesConfiguration customConfiguration = (CustomShippingQuotesConfiguration)this.getCustomModuleConfiguration(store);

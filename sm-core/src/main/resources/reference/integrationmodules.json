@@ -41,6 +41,18 @@
 		"regions": ["*"]
 	},
 	{
+		"module": "SHIPPING",
+		"code": "priceByDistance",
+		"version":"1.0",
+		"regions": ["*"]
+	},
+	{
+		"module": "SHIPPING",
+		"code": "storePickUp",
+		"version":"1.0",
+		"regions": ["*"]
+	},
+	{
 		"module": "PAYMENT",
 		"code": "moneyorder",
 		"type":"moneyorder",
@@ -75,7 +87,7 @@
 	{
 		"module": "PAYMENT",
 		"code": "stripe",
-		"type":"stripe",
+		"type":"creditcard",
 		"version":"",
 		"regions": ["US","CA","GB","AU","FI","DK","IE","NO","SE"],
 		"image":"stripe.png",

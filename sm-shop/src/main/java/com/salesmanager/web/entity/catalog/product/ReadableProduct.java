@@ -21,6 +21,7 @@ public class ReadableProduct extends ProductEntity implements Serializable {
 	private List<ReadableImage> images;
 	private ReadableManufacturer manufacturer;
 	private List<ReadableProductAttribute> attributes;
+	private boolean canBePurchased = false;
 	
 		
 	public ProductDescription getDescription() {
@@ -71,6 +72,12 @@ public class ReadableProduct extends ProductEntity implements Serializable {
 	}
 	public ReadableManufacturer getManufacturer() {
 		return manufacturer;
+	}
+	public boolean isCanBePurchased() {
+		return canBePurchased;
+	}
+	public void setCanBePurchased(boolean canBePurchased) {
+		this.canBePurchased = canBePurchased;
 	}
 
 }

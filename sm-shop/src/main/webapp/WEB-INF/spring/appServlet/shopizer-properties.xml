@@ -33,13 +33,15 @@
 				<prop key="IMAGE_FORMATS">jpg|png|gif</prop>
 				
 				<prop key="POPULATE_TEST_DATA">false</prop>
-				
-				<prop key="ORDER_SCHEME">http</prop>
-				<prop key="CONTEXT_PATH">sm-shop</prop>
+				<prop key="SHOP_SCHEME">http</prop>
+				<!-- when removing the context path from the url put that value to blank (nothing) -->
+				<prop key="CONTEXT_PATH">/sm-shop</prop>
 				<prop key="URL_EXTENSION">.html</prop>
 				<!-- #https://www.google.com/recaptcha/admin/create -->
-				<prop key="shopizer.recapatcha_public_key">6Lc1Pe0SAAAAADQDlWbv3MYYj7lGEeCEanwC42bv</prop>
-				<prop key="shopizer.recapatcha_private_key">6Lc1Pe0SAAAAAFMolDugwnZN9Xe3CnapokqoQjhg</prop>
+				<!-- to be used with localhost
+				<prop key="shopizer.recapatcha_public_key">6LefQwsTAAAAAJWgJfNq_LgUwYunqct2x-EBr_CY</prop>
+				<prop key="shopizer.recapatcha_private_key">6LefQwsTAAAAAM667PyQxTLkSfQ4P0YYeN5DQDTc</prop>
+				<prop key="shopizer.recapatcha_url"><![CDATA[https://www.google.com/recaptcha/api/siteverify]]></prop>
 				<!-- express checkout url -->
 				<prop key="PAYPAL_EXPRESSCHECKOUT_SANDBOX"><![CDATA[https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=]]></prop>
 				<prop key="PAYPAL_EXPRESSCHECKOUT_PRODUCTION"><![CDATA[https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=]]></prop>

@@ -13,7 +13,6 @@ import com.salesmanager.core.business.catalog.product.model.description.ProductD
 import com.salesmanager.core.business.catalog.product.model.image.ProductImage;
 import com.salesmanager.core.business.catalog.product.model.manufacturer.ManufacturerDescription;
 import com.salesmanager.core.business.catalog.product.model.price.FinalPrice;
-import com.salesmanager.core.business.catalog.product.model.price.ProductPrice;
 import com.salesmanager.core.business.catalog.product.service.PricingService;
 import com.salesmanager.core.business.generic.exception.ConversionException;
 import com.salesmanager.core.business.merchant.model.MerchantStore;
@@ -23,12 +22,28 @@ import com.salesmanager.core.utils.AbstractDataPopulator;
 import com.salesmanager.web.entity.catalog.ReadableImage;
 import com.salesmanager.web.entity.catalog.manufacturer.ReadableManufacturer;
 import com.salesmanager.web.entity.catalog.product.ReadableProduct;
-import com.salesmanager.web.utils.ImageFilePathUtils;
+import com.salesmanager.web.utils.ImageFilePath;
 
 public class ReadableProductPopulator extends
 		AbstractDataPopulator<Product, ReadableProduct> {
 	
 	private PricingService pricingService;
+	
+	private ImageFilePath imageUtils;
+
+	public ImageFilePath getimageUtils() {
+		return imageUtils;
+	}
+
+
+
+
+	public void setimageUtils(ImageFilePath imageUtils) {
+		this.imageUtils = imageUtils;
+	}
+
+
+
 
 	public PricingService getPricingService() {
 		return pricingService;
@@ -49,6 +64,7 @@ public class ReadableProductPopulator extends
 			ReadableProduct target, MerchantStore store, Language language)
 			throws ConversionException {
 		Validate.notNull(pricingService, "Requires to set PricingService");
+		Validate.notNull(imageUtils, "Requires to set imageUtils");
 		
 		try {
 			
@@ -61,6 +77,9 @@ public class ReadableProductPopulator extends
 			target.setProductLength(source.getProductLength());
 			target.setProductWeight(source.getProductWeight());
 			target.setProductWidth(source.getProductWidth());
+			target.setPreOrder(source.isPreOrder());
+			target.setRefSku(source.getRefSku());
+			target.setSortOrder(source.getSortOrder());
 			
 			if(source.getProductReviewAvg()!=null) {
 				double avg = source.getProductReviewAvg().doubleValue();
@@ -102,7 +121,7 @@ public class ReadableProductPopulator extends
 			if(image!=null) {
 				ReadableImage rimg = new ReadableImage();
 				rimg.setImageName(image.getProductImage());
-				String imagePath = ImageFilePathUtils.buildProductImageFilePath(store, source.getSku(), image.getProductImage());
+				String imagePath = imageUtils.buildProductimageUtils(store, source.getSku(), image.getProductImage());
 				rimg.setImageUrl(imagePath);
 				rimg.setId(image.getId());
 				target.setImage(rimg);
@@ -114,9 +133,16 @@ public class ReadableProductPopulator extends
 					for(ProductImage img : images) {
 						ReadableImage prdImage = new ReadableImage();
 						prdImage.setImageName(img.getProductImage());
-						String imgPath = ImageFilePathUtils.buildProductImageFilePath(store, source.getSku(), img.getProductImage());
+						String imgPath = imageUtils.buildProductimageUtils(store, source.getSku(), img.getProductImage());
 						prdImage.setImageUrl(imgPath);
 						prdImage.setId(img.getId());
+						prdImage.setImageType(img.getImageType());
+						if(img.getProductImageUrl()!=null){
+							prdImage.setExternalUrl(img.getProductImageUrl());
+						}
+						if(img.getImageType()==1 && img.getProductImageUrl()!=null) {//video
+							prdImage.setVideoUrl(img.getProductImageUrl());
+						}
 						imageList.add(prdImage);
 					}
 					target
@@ -143,11 +169,8 @@ public class ReadableProductPopulator extends
 					target.setQuantity(availability.getProductQuantity());
 					target.setQuantityOrderMaximum(availability.getProductQuantityOrderMax());
 					target.setQuantityOrderMinimum(availability.getProductQuantityOrderMin());
-					Set<ProductPrice> prices = availability.getPrices();
-					if(prices != null) {
-						for(ProductPrice productPrice : prices) {
-							
-						}
+					if(availability.getProductQuantity().intValue() > 0 && target.isAvailable()) {
+							target.setCanBePurchased(true);
 					}
 				}
 			}

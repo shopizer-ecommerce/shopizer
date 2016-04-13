@@ -1,5 +1,7 @@
 package com.salesmanager.core.business.payments.model;
 
+import java.util.Map;
+
 import com.salesmanager.core.business.reference.currency.model.Currency;
 
 public class Payment {
@@ -8,6 +10,7 @@ public class Payment {
 	private TransactionType transactionType = TransactionType.AUTHORIZECAPTURE;
 	private String moduleName;
 	private Currency currency;
+	private Map<String,String> paymentMetaData = null;
 
 	public void setPaymentType(PaymentType paymentType) {
 		this.paymentType = paymentType;
@@ -39,6 +42,14 @@ public class Payment {
 
 	public void setCurrency(Currency currency) {
 		this.currency = currency;
+	}
+
+	public Map<String,String> getPaymentMetaData() {
+		return paymentMetaData;
+	}
+
+	public void setPaymentMetaData(Map<String,String> paymentMetaData) {
+		this.paymentMetaData = paymentMetaData;
 	}
 
 }

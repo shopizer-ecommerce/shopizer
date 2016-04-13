@@ -86,7 +86,7 @@ public class ShippingMethodDecisionTestCase {
 		allModules.add(ups);
 		allModules.add(inhouse);
 
-		shippingMethodDecisionProcess.preProcessShippingQuotes(quote, details, null, delivery, null, null, null, currentModule, null, allModules, Locale.CANADA);
+		shippingMethodDecisionProcess.prePostProcessShippingQuotes(quote, details, null, delivery, null, null, null, currentModule, null, allModules, Locale.CANADA);
 		
 		System.out.println("Done : " + quote.getCurrentShippingModule()!=null ? quote.getCurrentShippingModule().getCode() : currentModule.getCode());
 

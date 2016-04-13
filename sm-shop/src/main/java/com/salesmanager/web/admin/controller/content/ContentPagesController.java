@@ -183,7 +183,7 @@ public class ContentPagesController {
 	
 	@SuppressWarnings({ "unchecked"})
 	@PreAuthorize("hasRole('CONTENT')")
-	@RequestMapping(value="/admin/content/page.html", method=RequestMethod.POST, produces="application/json")
+	@RequestMapping(value="/admin/content/page.html", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	public @ResponseBody String pageStaticContent(@RequestParam("contentType") String contentType, HttpServletRequest request, HttpServletResponse response) {
 		AjaxResponse resp = new AjaxResponse();
 

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +35,7 @@ import com.salesmanager.web.entity.shop.BreadcrumbItem;
 import com.salesmanager.web.entity.shop.BreadcrumbItemType;
 import com.salesmanager.web.entity.shop.PageInformation;
 import com.salesmanager.web.populator.catalog.ReadableProductPopulator;
+import com.salesmanager.web.utils.ImageFilePath;
 import com.salesmanager.web.utils.LabelUtils;
 
 @Controller
@@ -58,6 +60,10 @@ public class LandingController {
 	
 	@Autowired
 	private MerchantStoreService merchantService;
+	
+	@Autowired
+	@Qualifier("img")
+	private ImageFilePath imageUtils;
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(LandingController.class);
 	private final static String HOME_LINK_CODE="HOME";
@@ -110,6 +116,7 @@ public class LandingController {
 		
 		ReadableProductPopulator populator = new ReadableProductPopulator();
 		populator.setPricingService(pricingService);
+		populator.setimageUtils(imageUtils);
 
 		
 		//featured items

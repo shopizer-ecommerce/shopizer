@@ -109,7 +109,10 @@ public class PaymentServiceImpl implements PaymentService {
 				paymentMethod.setPaymentMethodCode(config.getModuleCode());
 				paymentMethod.setModule(md);
 				paymentMethod.setInformations(config);
-				PaymentType type = PaymentType.COD;
+
+				PaymentType type = PaymentType.fromString(md.getType());
+				
+				/**
 				if(md.getType().equalsIgnoreCase(PaymentType.CREDITCARD.name())) {
 					type = PaymentType.CREDITCARD;
 				} else 	if(md.getType().equalsIgnoreCase(PaymentType.FREE.name())) {
@@ -118,7 +121,9 @@ public class PaymentServiceImpl implements PaymentService {
 					type = PaymentType.MONEYORDER;
 				} else 	if(md.getType().equalsIgnoreCase(PaymentType.PAYPAL.name())) {
 					type = PaymentType.PAYPAL;
-				}
+				} else 	if(md.getType().equalsIgnoreCase(PaymentType.STRIPE.name())) {
+					type = PaymentType.STRIPE;
+				}**/
 				paymentMethod.setPaymentType(type);
 				returnModules.add(paymentMethod);
 			}

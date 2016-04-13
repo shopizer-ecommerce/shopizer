@@ -6,7 +6,4 @@ import com.salesmanager.core.business.system.model.MerchantLog;
 public interface MerchantLogService extends
 		SalesManagerEntityService<Long, MerchantLog> {
 
-
-
-
 }

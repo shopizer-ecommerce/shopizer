@@ -6,6 +6,7 @@ import java.util.List;
 import com.salesmanager.core.business.reference.currency.model.Currency;
 import com.salesmanager.web.entity.customer.Address;
 import com.salesmanager.web.entity.customer.ReadableCustomer;
+import com.salesmanager.web.entity.customer.ReadableDelivery;
 
 public class ReadableOrder extends OrderEntity implements Serializable {
 
@@ -18,7 +19,7 @@ public class ReadableOrder extends OrderEntity implements Serializable {
 	private Currency currencyModel;
 	
 	private Address billing;
-	private Address delivery;
+	private ReadableDelivery delivery;
 	
 	
 	
@@ -71,7 +72,7 @@ public class ReadableOrder extends OrderEntity implements Serializable {
 	public Address getDelivery() {
 		return delivery;
 	}
-	public void setDelivery(Address delivery) {
+	public void setDelivery(ReadableDelivery delivery) {
 		this.delivery = delivery;
 	}
 

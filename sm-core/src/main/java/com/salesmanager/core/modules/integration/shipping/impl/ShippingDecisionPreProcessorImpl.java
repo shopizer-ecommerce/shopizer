@@ -23,7 +23,7 @@ import com.salesmanager.core.business.system.model.IntegrationConfiguration;
 import com.salesmanager.core.business.system.model.IntegrationModule;
 import com.salesmanager.core.modules.constants.Constants;
 import com.salesmanager.core.modules.integration.IntegrationException;
-import com.salesmanager.core.modules.integration.shipping.model.ShippingQuotePreProcessModule;
+import com.salesmanager.core.modules.integration.shipping.model.ShippingQuotePrePostProcessModule;
 
 import edu.emory.mathcs.backport.java.util.Collections;
 
@@ -32,16 +32,18 @@ import edu.emory.mathcs.backport.java.util.Collections;
  * @author carlsamson
  *
  */
-public class ShippingDecisionPreProcessorImpl implements ShippingQuotePreProcessModule {
+public class ShippingDecisionPreProcessorImpl implements ShippingQuotePrePostProcessModule {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ShippingDecisionPreProcessorImpl.class);
+	
+	private final static String MODULE_CODE = "shippingDecisionModule";
 	
 	private StatelessKnowledgeSession shippingMethodDecision;
 	
 	private KnowledgeBase kbase;
 	
 	@Override
-	public void preProcessShippingQuotes(ShippingQuote quote,
+	public void prePostProcessShippingQuotes(ShippingQuote quote,
 			List<PackageDetails> packages, BigDecimal orderTotal,
 			Delivery delivery, ShippingOrigin origin, MerchantStore store,
 			IntegrationConfiguration globalShippingConfiguration,
@@ -58,13 +60,13 @@ public class ShippingDecisionPreProcessorImpl implements ShippingQuotePreProcess
 		Validate.notNull(packages, "packages cannot be null");
 		Validate.notEmpty(packages, "packages cannot be empty");
 		
-		Long distance = null;
+		Double distance = null;
 		
 		if(quote!=null) {
 			//look if distance has been calculated
 			if(quote.getQuoteInformations()!=null) {
 				if(quote.getQuoteInformations().containsKey(Constants.DISTANCE_KEY)) {
-					distance = (Long)quote.getQuoteInformations().get(Constants.DISTANCE_KEY);
+					distance = (Double)quote.getQuoteInformations().get(Constants.DISTANCE_KEY);
 				}
 			}
 		}
@@ -96,7 +98,11 @@ public class ShippingDecisionPreProcessorImpl implements ShippingQuotePreProcess
 		
 		inputParameters.setWeight((long)weight.doubleValue());
 		inputParameters.setCountry(delivery.getCountry().getIsoCode());
-		inputParameters.setProvince(delivery.getZone().getCode());
+		if(delivery.getZone()!=null) {
+			inputParameters.setProvince(delivery.getZone().getCode());
+		} else {
+			inputParameters.setProvince(delivery.getState());
+		}
 		//inputParameters.setModuleName(currentModule.getCode());
 		
 		if(delivery.getZone().getCode()!=null) {
@@ -108,7 +114,9 @@ public class ShippingDecisionPreProcessorImpl implements ShippingQuotePreProcess
 		}
 		
 		if(distance!=null) {
-			inputParameters.setDistance(distance);
+			double ddistance = distance.doubleValue();
+			long ldistance = (long)ddistance;
+			inputParameters.setDistance(ldistance);
 		}
 		
 		if(volume!=null) {
@@ -147,6 +155,11 @@ public class ShippingDecisionPreProcessorImpl implements ShippingQuotePreProcess
 
 	public void setKbase(KnowledgeBase kbase) {
 		this.kbase = kbase;
+	}
+
+	@Override
+	public String getModuleCode() {
+		return MODULE_CODE;
 	}
 	
 

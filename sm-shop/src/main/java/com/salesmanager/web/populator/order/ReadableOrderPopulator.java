@@ -12,6 +12,7 @@ import com.salesmanager.core.business.order.model.OrderTotalType;
 import com.salesmanager.core.business.reference.language.model.Language;
 import com.salesmanager.core.utils.AbstractDataPopulator;
 import com.salesmanager.web.entity.customer.Address;
+import com.salesmanager.web.entity.customer.ReadableDelivery;
 import com.salesmanager.web.entity.order.ReadableOrder;
 
 public class ReadableOrderPopulator extends
@@ -30,6 +31,9 @@ public class ReadableOrderPopulator extends
 		target.setCurrencyModel(source.getCurrency());
 		if(source.getCustomerAgreement()!=null) {
 			target.setCustomerAgreed(source.getCustomerAgreement());
+		}
+		if(source.getConfirmedAddress()!=null) {
+			target.setConfirmedAddress(source.getConfirmedAddress());
 		}
 		
 		com.salesmanager.web.entity.order.OrderTotal taxTotal = null;
@@ -56,7 +60,7 @@ public class ReadableOrderPopulator extends
 		}
 		
 		if(source.getDelivery()!=null) {
-			Address address = new Address();
+			ReadableDelivery address = new ReadableDelivery();
 			address.setCity(source.getDelivery().getCity());
 			address.setAddress(source.getDelivery().getAddress())
 ;			address.setCompany(source.getDelivery().getCompany());

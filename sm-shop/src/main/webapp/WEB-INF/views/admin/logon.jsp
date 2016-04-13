@@ -105,13 +105,6 @@
 
 
 
-    <script SRC="<c:url value="/resources/smart-client/system/modules/ISC_Core.js" />"></script>
-    <script SRC="<c:url value="/resources/smart-client/system/modules/ISC_Foundation.js" />"></script>
-    <script SRC="<c:url value="/resources/smart-client/system/modules/ISC_Containers.js" />"></script>
-    <script SRC="<c:url value="/resources/smart-client/system/modules/ISC_Grids.js" />"></script>
-    <script SRC="<c:url value="/resources/smart-client/system/modules/ISC_DataBinding.js" />"></script>
-
-
 
 				<script language="javascript">
 				

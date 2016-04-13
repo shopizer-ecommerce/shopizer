@@ -17,6 +17,11 @@ import com.salesmanager.core.business.content.model.OutputContentFile;
 import com.salesmanager.core.business.content.service.ContentService;
 import com.salesmanager.core.business.generic.exception.ServiceException;
 
+/**
+ * When handling images and files from the application server
+ * @author c.samson
+ *
+ */
 @Controller
 public class ImagesController {
 	

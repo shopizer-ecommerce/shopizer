@@ -1,19 +1,22 @@
 package com.salesmanager.web.tags;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.TagSupport;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.servlet.tags.RequestContextAwareTag;
 
 import com.salesmanager.core.business.merchant.model.MerchantStore;
 import com.salesmanager.web.constants.Constants;
+import com.salesmanager.web.utils.FilePathUtils;
+import com.salesmanager.web.utils.ImageFilePath;
 
-public class ContentImageUrlTag extends TagSupport {
+public class ContentImageUrlTag extends RequestContextAwareTag {
 	
 	
 	/**
@@ -25,59 +28,43 @@ public class ContentImageUrlTag extends TagSupport {
 	private MerchantStore merchantStore;
 	private String imageName;
 	private String imageType;
+	
+	@Autowired
+	private FilePathUtils filePathUtils;
+	
+	@Autowired
+	@Qualifier("img")
+	private ImageFilePath imageUtils;
 
 
-	public int doStartTag() throws JspException {
+	public int doStartTagInternal() throws JspException {
 		try {
 
 
-
+			if (filePathUtils==null || imageUtils==null) {
+	            WebApplicationContext wac = getRequestContext().getWebApplicationContext();
+	            AutowireCapableBeanFactory factory = wac.getAutowireCapableBeanFactory();
+	            factory.autowireBean(this);
+	        }
+			
 			HttpServletRequest request = (HttpServletRequest) pageContext
 					.getRequest();
 			
 			MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
-			
-			
-			HttpSession session = request.getSession();
-
-			StringBuilder imagePath = new StringBuilder();
-			
-			//TODO domain from merchant, else from global config, else from property (localhost)
-			
-			//http://domain/static/merchantid/imageType/imageName
-			
-			//@SuppressWarnings("unchecked")
-			//Map<String,String> configurations = (Map<String, String>)session.getAttribute("STORECONFIGURATION");
-			//String scheme = (String)configurations.get("scheme");
-			
-			//if(StringUtils.isBlank(scheme)) {
-			//	scheme = "http";
-			//}
-			
-
-
-			@SuppressWarnings("unchecked")
-			Map<String,String> configurations = (Map<String, String>)session.getAttribute(Constants.STORE_CONFIGURATION);
-			String scheme = Constants.HTTP_SCHEME;
-			if(configurations!=null) {
-				scheme = (String)configurations.get("scheme");
+			if(this.getMerchantStore()!=null) {
+				merchantStore = this.getMerchantStore();
 			}
 			
+			//TODO TO BE REVISED
+			//StringBuilder imagePath = new StringBuilder();
+			//String baseUrl = filePathUtils.buildStoreUri(merchantStore, request);
+			//imagePath.append(baseUrl);	
+			
+			
+			String img = imageUtils.buildStaticimageUtils(merchantStore,this.getImageType(),this.getImageName());
+			//imagePath.append(img);
 
-			
-			imagePath.append(scheme).append("://")
-			.append(merchantStore.getDomainName())
-			.append(request.getContextPath());
-			
-			
-			
-			imagePath	//.append(scheme).append("://").append(merchantStore.getDomainName())\
-				.append(Constants.STATIC_URI).append("/")
-				.append(merchantStore.getCode()).append("/").append(this.getImageType())
-				.append("/").append(this.getImageName());
-			
-
-			pageContext.getOut().print(imagePath.toString());
+			pageContext.getOut().print(img);
 
 
 			
@@ -114,7 +101,6 @@ public class ContentImageUrlTag extends TagSupport {
 	public String getImageType() {
 		return imageType;
 	}
-
 
 
 

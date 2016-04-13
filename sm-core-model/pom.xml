@@ -10,6 +10,7 @@
 		<version>2.0.3-SNAPSHOT</version>
 	</parent>
 
+
 	<artifactId>sm-core-model</artifactId>
 	<packaging>jar</packaging>
 
@@ -59,7 +60,7 @@
 		<dependency>
 			<groupId>cglib</groupId>
 			<artifactId>cglib</artifactId>
-			<version>2.2</version>
+			<version>3.1</version>
 		</dependency>
 
 		<!-- Hibernate -->

@@ -83,7 +83,7 @@ public class RelatedItemsController {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/catalogue/related/paging.html", method=RequestMethod.POST, produces="application/json")
+	@RequestMapping(value="/admin/catalogue/related/paging.html", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	public @ResponseBody String pageRelatedItems(HttpServletRequest request, HttpServletResponse response) {
 		
 		String sProductId = request.getParameter("productId");

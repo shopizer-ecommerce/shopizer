@@ -23,15 +23,10 @@
   					<div class="tab-pane active" id="shipping-methods">
 
 
-								<div class="sm-ui-component">
-								<h3><s:message code="label.shipping.title" text="Shipping configuration" /></h3>	
-								<br/>
-								
-								
-								
-
-
-							
+							<div class="sm-ui-component">
+							<h3><s:message code="label.shipping.title" text="Shipping configuration" /></h3>	
+							<br/>
+	
 							<c:url var="saveShippingMethods" value="/admin/shipping/saveShippingMethods.html"/>
 							<form:form method="POST" commandName="configuration" action="${saveShippingMethods}">
 
@@ -62,7 +57,7 @@
 						      			  								<a href="<c:url value="/admin/shipping/${module.code}.html"/>"><s:message code="module.shipping.${module.code}" text="No label found - ${module.code}"/></a>
 						      			  							</c:when>
 						      			  							<c:otherwise>
-						      			  								<a href="<c:url value="/admin/shipping/shippingMethod.html?code="/><c:out value="${module.code}"/>"><s:message code="module.shipping.${module.code}" text="No label found - ${module.code}"/></a>
+						      			  								<a href="<c:url value="/admin/shipping/shippingMethod.html?code="/><c:out value="${module.code}"/>"><s:message code="module.shipping.${module.code}" arguments="${requestScope.ADMIN_STORE.storename}" text="No label found - ${module.code}"/></a> (<c:out value="${module.code}"/>)
 						      			  							</c:otherwise>
 						      			  						</c:choose>
 						      			  					</label>

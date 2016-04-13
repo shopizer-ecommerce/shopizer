@@ -19,47 +19,11 @@
 		<!-- disable jmx in prod -->
 		<jmxStatistics enabled="false"/>
 		<loaders passivation="false" shared="false" preload="false">		
-<!-- 		<loader class="org.infinispan.loaders.jdbc.mixed.JdbcMixedCacheStore"
-                fetchPersistentState="false" ignoreModifications="false"
-                purgeOnStartup="false">
-                <properties>
-                    <property name="tableNamePrefixForStrings" value="ISPN_MIXED_STR_TABLE" />
-                    <property name="tableNamePrefixForBinary" value="ISPN_MIXED_BINARY_TABLE" />
-                    <property name="idColumnNameForStrings" value="ID_COLUMN" />
-                    <property name="idColumnNameForBinary" value="ID_COLUMN" />
-                    <property name="dataColumnNameForStrings" value="DATA_COLUMN" />
-                    <property name="dataColumnNameForBinary" value="DATA_COLUMN" />
-                    <property name="timestampColumnNameForStrings" value="TIMESTAMP_COLUMN" />
-                    <property name="timestampColumnNameForBinary" value="TIMESTAMP_COLUMN" />
-                    <property name="timestampColumnTypeForStrings" value="BIGINT" />
-                    <property name="timestampColumnTypeForBinary" value="BIGINT" />
-                    <property name="connectionFactoryClass"
-                        value="org.infinispan.loaders.jdbc.connectionfactory.PooledConnectionFactory" />
-                    <property name="connectionUrl"
-                        value="jdbc:mysql://localhost:3306/salesmanager_cms" />
-                    <property name="userName" value="username" />
-                    <property name="password" value="password" />
-                    <property name="driverClass" value="com.mysql.jdbc.Driver" />
-                    <property name="idColumnTypeForStrings" value="VARCHAR(255)" />
-                    <property name="idColumnTypeForBinary" value="VARCHAR(255)" />
-                    <property name="dataColumnTypeForStrings" value="LONGBLOB" />
-                    <property name="dataColumnTypeForBinary" value="LONGBLOB" />
-                    <property name="dropTableOnExitForStrings" value="false" />
-                    <property name="dropTableOnExitForBinary" value="false" />
-                    <property name="createTableOnStartForStrings" value="true" />
-                    <property name="createTableOnStartForBinary" value="true" />
-                    <property name="createTableOnStartForStrings" value="true" />
-                    <property name="createTableOnStartForBinary" value="true" />
-                </properties>
-          </loader> -->
-
-
 			  
-			  <loader class="org.infinispan.loaders.file.FileCacheStore" fetchPersistentState="false"
+		       <loader class="org.infinispan.loaders.file.FileCacheStore" fetchPersistentState="false"
 	               ignoreModifications="false" purgeOnStartup="false">
 	               <properties>
-	                 <!--<property name="location" value="./infinispan/store"/>-->
-	                 <property name="location" value="/Users/carlsamson/Documents/dev/cache_data/infinispan/store"/>
+	                 <property name="location" value="./files/store"/>
 	               </properties>
 	          </loader>
 	          	
@@ -81,8 +45,7 @@
 	          <loader class="org.infinispan.loaders.file.FileCacheStore" fetchPersistentState="false"
 	               ignoreModifications="false" purgeOnStartup="false">
 	            <properties>
-	                 <!--<property name="location" value="./infinispan/files"/>-->
-	                 <property name="location" value="/Users/carlsamson/Documents/dev/cache_data/infinispan/files"/>
+	                 <property name="location" value="./files/repos"/>
 	               </properties>
 	          </loader>
 	     </loaders>

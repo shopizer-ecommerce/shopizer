@@ -15,6 +15,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,7 +35,7 @@ import com.salesmanager.web.admin.controller.ControllerConstants;
 import com.salesmanager.web.admin.entity.content.ContentFiles;
 import com.salesmanager.web.admin.entity.web.Menu;
 import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.utils.ImageFilePathUtils;
+import com.salesmanager.web.utils.ImageFilePath;
 
 /**
  * Manage static content type image
@@ -50,6 +51,10 @@ public class ContentImageController {
 	
 	@Autowired
 	private ContentService contentService;
+	
+	@Autowired
+	@Qualifier("img")
+	private ImageFilePath imageUtils;
 	
 	/**
 	 * Entry point for the file browser used from the javascript
@@ -108,7 +113,8 @@ public class ContentImageController {
 
 					@SuppressWarnings("rawtypes")
 					Map entry = new HashMap();
-					entry.put("picture", new StringBuilder().append(request.getContextPath()).append(ImageFilePathUtils.buildStaticImageFilePath(store, name)).toString());
+					entry.put("picture", new StringBuilder().append(request.getContextPath()).append(imageUtils.buildStaticimageUtils(store, name)).toString());
+					
 					entry.put("name", name);
 					entry.put("id", name);
 					resp.addDataEntry(entry);

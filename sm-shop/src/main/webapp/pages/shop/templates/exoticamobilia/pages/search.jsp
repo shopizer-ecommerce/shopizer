@@ -13,13 +13,55 @@ response.setDateHeader ("Expires", -1);
  
 <%@page contentType="text/html"%>
 <%@page pageEncoding="UTF-8"%>
+
+ <script type="text/html" id="productBoxTemplate">
+{{#products}}
+<div itemscope itemtype="http://schema.org/Enumeration" class="col-md-4 productItem" item-order="{{sortOrder}}" item-name="{{description.name}}" item-price="{{price}}" data-id="{{id}}" class="col-sm-4">
+<div class="box-style-4 white-bg object-non-visible animated object-visible">
+ 	{{#description.highlights}}  
+    <div class="ribbon-wrapper-green">
+   		<div class="ribbon-green">
+   			{{description.highlights}} 
+   		</div>
+   	</div>
+    {{/description.highlights}}
+	<div class="product-image">
+    {{#image}}                              
+	<img class="product-img" src="<c:url value=""/>{{image.imageUrl}}"><a class="overlay" href="<c:url value="/shop/product/" />{{description.friendlyUrl}}.html<sm:breadcrumbParam/>"><img class="product-img" src="<c:url value="/"/>{{image.imageUrl}}"></a>
+    {{/image}}
+    </div>
+	<!--  *** Product Name & Price Starts *** -->
+	<div class="caption">
+	<div class="product-details">
+	<div class="clearfix">
+		<h3 class="product-heading product-name" itemprop="name">{{description.name}}</h3>
+		<h4 class="price">
+			{{#discounted}}<del>{{originalPrice}}</del>&nbsp;<span itemprop="price" class="specialPrice">{{finalPrice}}</span>{{/discounted}}
+			{{^discounted}}<span itemprop="price" class="specialPrice">{{finalPrice}}</span>{{/discounted}}
+		</h4>
+		<!-- Product Name & Price Ends -->
+		<!-- Product Buttons Starts -->
+		<div class="clearfix">
+			<a class="btn btn-default pull-left" href="<c:url value="/shop/product/" />{{description.friendlyUrl}}.html<sm:breadcrumbParam/>" class="details"><s:message code="button.label.view" text="Details" /></a>
+		<c:if test="${requestScope.CONFIGS['allowPurchaseItems'] == true}">
+		{{#canBePurchased}}<a class="btn btn-buy pull-right addToCart" href=" href="javascript:void(0);" class="addToCart"><s:message code="button.label.addToCart" text="Add to cart" /></a>{{/canBePurchased}}
+		</c:if>
+		</div>
+	</div>
+	</div>
+	</div>
+</div>
+</div>
+{{/products}}
+</script>
+</script>
  
 
  
  <script>
  
  var START_COUNT_PRODUCTS = 0;
- var MAX_PRODUCTS = 3;
+ var MAX_PRODUCTS = 18;
  
 
  $(function(){
@@ -28,16 +70,28 @@ response.setDateHeader ("Expires", -1);
 
  });
  
- 
-	<jsp:include page="/pages/shop/templates/bootstrap3/sections/shop-listing.jsp" />
-	 
+
  
  	function search() {
+ 		//Invoke search service
+ 		$('#productsContainer').showLoading();
  		var url = '<%=request.getContextPath()%>/services/public/search/<c:out value="${requestScope.MERCHANT_STORE.code}"/>/<c:out value="${requestScope.LANGUAGE.code}"/>/' + START_COUNT_PRODUCTS + '/' + MAX_PRODUCTS + '/term.html';
 	 	searchProducts(url,'#productsContainer','<c:out value="${q}"/>',null);
  	}
+ 	
+ 	//inviked from callback below
+ 	function buildProductsList(productList) {
+ 		log('Products-> ' + productList.products.length);
+		var productsTemplate = Hogan.compile(document.getElementById("productBoxTemplate").innerHTML);
+		var productsRendred = productsTemplate.render(productList);
+		$('#productsContainer').append(productsRendred);
+		//$('#hiddenProductsContainer').append(productsRendred);//used for filtering products but no filter in search
+		initBindings();//add to cart etc...
+ 	}
  
-	function callBackSearchProducts(productList) {
+	//once the list of product is retrieved
+ 	function callBackSearchProducts(productList) {
+ 			buildProductsList(productList);
 			totalCount = productList.productCount;
 			START_COUNT_PRODUCTS = START_COUNT_PRODUCTS + MAX_PRODUCTS;
 			if(START_COUNT_PRODUCTS < totalCount) {
@@ -88,8 +142,8 @@ response.setDateHeader ("Expires", -1);
         			<div class="col-md-9">
 
 							<div class="row top-shop-option">
-								<div class="col-sm-6 col-md-6">
-									<div id="products-qty"></div>
+								<div class="col-sm-9 col-md-9">
+									<strong><div id="products-qty"></div></strong>
 								</div>
 							</div>
 

@@ -18,13 +18,70 @@
 <div class="span12 common-row">
 
 <h1 class="cart-title"><s:message code="label.cart.revieworder" text="Review your order" /></h1>
-<div id="store.error" class="alert alert-error" style="display:none;"><s:message code="message.error.shoppingcart.update" text="An error occurred while updating the shopping cart"/></div>
+<div id="store.error" class="alert alert-error alert-danger" style="display:none;"><s:message code="message.error.shoppingcart.update" text="An error occurred while updating the shopping cart"/></div>
+
+
+	     	<!-- Unavailables -->
+	        <c:if test="${fn:length(cart.unavailables) gt 0}">
+	        
+	        <div id="store.error" class="alert alert-error" style="display:block;"><s:message code="message.error.shoppingcart.unavailables" text="Some of the item in your shopping cart are as of today unavailable for purchase. Those items will be removed from your shopping cart when the order form is displayed. If you are interested in purchasing this item, please send use a message with the item number, we will get back to you as soon as possible with an update on the availability of the item."/></div>
+	        <table>
+	        <c:forEach items="${cart.unavailables}" var="unavailable" varStatus="itemStatus">
+	        	
+	        	<c:if test="${itemStatus.index eq 0}">
+					<thead>
+						<tr>
+							<th colspan="2" width="65%">&nbsp;</th>
+							<th colspan="1" width="35%">&nbsp;</th>
+						</tr>
+					</thead>
+					<tbody>
+				</c:if>
+	        	
+	        	
+	        	<tr>
+						<td width="20%">
+							<c:if test="${unavailable.image!=null}">
+								<img width="60" src="<c:url value="${unavailable.image}"/>">
+							</c:if>
+						</td>
+
+						<td style="border-left:none;">
+								<strong>${unavailable.name}</strong>
+								<c:if test="${fn:length(unavailable.shoppingCartAttributes)>0}">
+									<br/>
+									<ul>
+										<c:forEach items="${unavailable.shoppingCartAttributes}" var="option">
+										<li>${option.optionName} - ${option.optionValue}</li>
+										</c:forEach>
+									</ul>
+								</c:if>
+								<br/><s:message code="label.quantity" text="Quantity"/>: <c:out value="${unavailable.quantity}"/>
+								<br/><s:message code="label.generic.price" text="Price"/>: <c:out value="${unavailable.price}"/>
+								
+						
+						</td>
+						<td>
+							&nbsp;
+						</td>
+
+
+
+
+				</tr>
+	        </c:forEach>
+	        </table>
+	        <br/>
+			</c:if>
+
 <br/>
 <table id="mainCartTable" class="table table-bordered table-striped">
 
 	<c:if test="${not empty cart}">
 	   <c:choose>
 	     <c:when test="${not empty cart.shoppingCartItems}">
+	     
+
 
 			<c:forEach items="${cart.shoppingCartItems}" var="shoppingCartItem"
 				varStatus="itemStatus">

@@ -8,11 +8,11 @@
    http://drools.org/schema/drools-spring http://anonsvn.jboss.org/repos/labs/labs/jbossrules/trunk/drools-container/drools-spring/src/main/resources/org/drools/container/spring/drools-spring-1.0.0.xsd
    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd">
 
-	<!-- Decision table for the the selection of a shipping shipping method -->
+	<!-- Decision table for the the selection of a shipping method -->
 	<!-- from shopizer-shipping-decision-table-module -->
     <drools:kbase id="shippingMethodDecisionBase">
         <drools:resources>
-            <drools:resource type="DTABLE" source="classpath:rules/shipping-custom-rules.xls"/>
+            <drools:resource type="DTABLE" source="classpath:rules/shipping-decision-rules.xls"/>
         </drools:resources>
     </drools:kbase>
  
@@ -24,10 +24,11 @@
 		<property name="kbase" ref="shippingMethodDecisionBase" />
 	</bean>
 	
+	<!-- Custom shipping price based on drool rules -->
 	<!-- Basic custom shipping rules -->
 	<drools:kbase id="shippingPriceDecisionBase">
         <drools:resources>
-            <drools:resource type="DTABLE" source="classpath:rules/shipping-decision-rules.xls"/>
+            <drools:resource type="DTABLE" source="classpath:rules/shipping-custom-rules.xls"/>
         </drools:resources>
     </drools:kbase>
     

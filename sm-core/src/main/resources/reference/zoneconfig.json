@@ -1000,7 +1000,7 @@
 	},
 	{
 		"zoneCode": "CA",
-		"zoneName": "California",
+		"zoneName": "Californie",
 		"countryCode": "US"
 	},
 	{
@@ -1020,7 +1020,7 @@
 	},
 	{
 		"zoneCode": "DC",
-		"zoneName": "District of Columbia",
+		"zoneName": "District de Columbia",
 		"countryCode": "US"
 	},
 	{
@@ -1030,12 +1030,12 @@
 	},
 	{
 		"zoneCode": "FL",
-		"zoneName": "Florida",
+		"zoneName": "Floride",
 		"countryCode": "US"
 	},
 	{
 		"zoneCode": "GA",
-		"zoneName": "Georgia",
+		"zoneName": "Georgie",
 		"countryCode": "US"
 	},
 	{
@@ -1080,7 +1080,7 @@
 	},
 	{
 		"zoneCode": "LA",
-		"zoneName": "Louisiana",
+		"zoneName": "Louisiane",
 		"countryCode": "US"
 	},
 	{
@@ -1140,7 +1140,7 @@
 	},
 	{
 		"zoneCode": "NH",
-		"zoneName": "New Hampshire",
+		"zoneName": "Nouveau Hampshire",
 		"countryCode": "US"
 	},
 	{
@@ -1150,7 +1150,7 @@
 	},
 	{
 		"zoneCode": "NM",
-		"zoneName": "New Mexico",
+		"zoneName": "Nouveau Mexique",
 		"countryCode": "US"
 	},
 	{
@@ -1160,12 +1160,12 @@
 	},
 	{
 		"zoneCode": "NC",
-		"zoneName": "North Carolina",
+		"zoneName": "Caroline du Nord",
 		"countryCode": "US"
 	},
 	{
 		"zoneCode": "ND",
-		"zoneName": "North Dakota",
+		"zoneName": "Dakota du Nord",
 		"countryCode": "US"
 	},
 	{
@@ -1190,7 +1190,7 @@
 	},
 	{
 		"zoneCode": "PA",
-		"zoneName": "Pennsylvania",
+		"zoneName": "Pennsylvanie",
 		"countryCode": "US"
 	},
 	{
@@ -1205,12 +1205,12 @@
 	},
 	{
 		"zoneCode": "SC",
-		"zoneName": "South Carolina",
+		"zoneName": "Caroline du Sud",
 		"countryCode": "US"
 	},
 	{
 		"zoneCode": "SD",
-		"zoneName": "South Dakota",
+		"zoneName": "Dakota du Sud",
 		"countryCode": "US"
 	},
 	{
@@ -1240,7 +1240,7 @@
 	},
 	{
 		"zoneCode": "VA",
-		"zoneName": "Virginia",
+		"zoneName": "Virginie",
 		"countryCode": "US"
 	},
 	{
@@ -1270,7 +1270,7 @@
 	},
 	{
 		"zoneCode": "BC",
-		"zoneName": "British Columbia",
+		"zoneName": "Columbie Britanique",
 		"countryCode": "CA"
 	},
 	{
@@ -1280,22 +1280,22 @@
 	},
 	{
 		"zoneCode": "NF",
-		"zoneName": "Newfoundland - Labrador",
+		"zoneName": "Terre-Neuve - Labrador",
 		"countryCode": "CA"
 	},
 	{
 		"zoneCode": "NB",
-		"zoneName": "New Brunswick",
+		"zoneName": "Nouveau Brunswick",
 		"countryCode": "CA"
 	},
 	{
 		"zoneCode": "NS",
-		"zoneName": "Nova Scotia",
+		"zoneName": "Nouvelle Écosse",
 		"countryCode": "CA"
 	},
 	{
 		"zoneCode": "NT",
-		"zoneName": "Northwest Territories",
+		"zoneName": "Territores du Nord-Ouest",
 		"countryCode": "CA"
 	},
 	{
@@ -1310,12 +1310,12 @@
 	},
 	{
 		"zoneCode": "PE",
-		"zoneName": "Prince Edward Island",
+		"zoneName": "Île-du-Prince-Édouard",
 		"countryCode": "CA"
 	},
 	{
 		"zoneCode": "QC",
-		"zoneName": "Quebec",
+		"zoneName": "Québec",
 		"countryCode": "CA"
 	},
 	{
@@ -1325,7 +1325,7 @@
 	},
 	{
 		"zoneCode": "YT",
-		"zoneName": "Yukon Territory",
+		"zoneName": "Yukon",
 		"countryCode": "CA"
 	},
 	{

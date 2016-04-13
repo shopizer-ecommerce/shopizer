@@ -13,6 +13,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,6 +48,7 @@ import com.salesmanager.web.populator.catalog.ReadableCategoryPopulator;
 import com.salesmanager.web.populator.catalog.ReadableProductPopulator;
 import com.salesmanager.web.shop.controller.ControllerConstants;
 import com.salesmanager.web.shop.model.search.AutoCompleteRequest;
+import com.salesmanager.web.utils.ImageFilePath;
 
 @Controller
 public class SearchController {
@@ -68,6 +70,10 @@ public class SearchController {
 	
 	@Autowired
 	private PricingService pricingService;
+	
+	@Autowired
+	@Qualifier("img")
+	private ImageFilePath imageUtils;
 
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(SearchController.class);
@@ -89,7 +95,7 @@ public class SearchController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping("/services/public/search/{store}/{language}/autocomplete.html")
+	@RequestMapping(value="/services/public/search/{store}/{language}/autocomplete.html", produces="application/json;charset=UTF-8")
 	@ResponseBody
 	public String autocomplete(@RequestParam("q") String query, @PathVariable String store, @PathVariable final String language, Model model, HttpServletRequest request, HttpServletResponse response)  {
 	
@@ -199,6 +205,7 @@ public class SearchController {
 				
 				ReadableProductPopulator populator = new ReadableProductPopulator();
 				populator.setPricingService(pricingService);
+				populator.setimageUtils(imageUtils);
 				
 				for(Product product : productList.getProducts()) {
 					//create new proxy product

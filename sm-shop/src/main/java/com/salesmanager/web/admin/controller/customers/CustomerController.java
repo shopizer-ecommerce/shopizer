@@ -102,7 +102,10 @@ public class CustomerController {
 	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
-	EmailService emailService;
+	private EmailService emailService;
+	
+	@Autowired
+	private EmailUtils emailUtils;
 	
 	
 	/**
@@ -376,7 +379,7 @@ public class CustomerController {
 	 * @throws Exception
 	 */
 	@PreAuthorize("hasRole('CUSTOMER')")
-	@RequestMapping(value={"/admin/customers/attributes/save.html"}, method=RequestMethod.POST, produces="application/json")
+	@RequestMapping(value={"/admin/customers/attributes/save.html"}, method=RequestMethod.POST, produces="application/json;text/plain;charset=UTF-8")
 	public @ResponseBody String saveCustomerAttributes(HttpServletRequest request, Locale locale) throws Exception {
 		
 
@@ -528,7 +531,7 @@ public class CustomerController {
 	
 	
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value="/admin/customers/page.html", method=RequestMethod.POST, produces="application/json")
+	@RequestMapping(value="/admin/customers/page.html", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	public @ResponseBody
 	String pageCustomers(HttpServletRequest request,HttpServletResponse response) {
 
@@ -660,7 +663,7 @@ public class CustomerController {
 				String[] storeEmail = {store.getStoreEmailAddress()};
 				
 				
-				Map<String, String> templateTokens = EmailUtils.createEmailObjectsMap(request.getContextPath(), store, messages, customerLocale);
+				Map<String, String> templateTokens = emailUtils.createEmailObjectsMap(request.getContextPath(), store, messages, customerLocale);
 				templateTokens.put(EmailConstants.LABEL_HI, messages.getMessage("label.generic.hi", customerLocale));
 		        templateTokens.put(EmailConstants.EMAIL_CUSTOMER_FIRSTNAME, customer.getBilling().getFirstName());
 		        templateTokens.put(EmailConstants.EMAIL_CUSTOMER_LASTNAME, customer.getBilling().getLastName());

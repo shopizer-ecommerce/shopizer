@@ -2,17 +2,20 @@ package com.salesmanager.web.tags;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.TagSupport;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.servlet.tags.RequestContextAwareTag;
 
 import com.salesmanager.core.business.merchant.model.MerchantStore;
 import com.salesmanager.web.constants.Constants;
 import com.salesmanager.web.entity.order.ReadableOrderProductDownload;
 import com.salesmanager.web.utils.FilePathUtils;
 
-public class OrderProductDownloadUrlTag extends TagSupport {
+public class OrderProductDownloadUrlTag extends RequestContextAwareTag {
 	
 	
 	/**
@@ -26,12 +29,21 @@ public class OrderProductDownloadUrlTag extends TagSupport {
 	private ReadableOrderProductDownload productDownload;
 	
 	private Long orderId;
+	
+	@Autowired
+	private FilePathUtils filePathUtils;
 
 
 
 
-	public int doStartTag() throws JspException {
+	public int doStartTagInternal() throws JspException {
 		try {
+			
+			if (filePathUtils==null) {
+	            WebApplicationContext wac = getRequestContext().getWebApplicationContext();
+	            AutowireCapableBeanFactory factory = wac.getAutowireCapableBeanFactory();
+	            factory.autowireBean(this);
+	        }
 
 
 			HttpServletRequest request = (HttpServletRequest) pageContext
@@ -41,10 +53,10 @@ public class OrderProductDownloadUrlTag extends TagSupport {
 
 			StringBuilder filePath = new StringBuilder();
 			
-			filePath.append(FilePathUtils.buildStoreUri(merchantStore,request));
+			filePath.append(filePathUtils.buildStoreUri(merchantStore,request));
 			
 			filePath
-				.append(FilePathUtils.buildOrderDownloadProductFilePath(merchantStore, this.getProductDownload(), this.getOrderId())).toString();
+				.append(filePathUtils.buildOrderDownloadProductFilePath(merchantStore, this.getProductDownload(), this.getOrderId())).toString();
 
 			
 

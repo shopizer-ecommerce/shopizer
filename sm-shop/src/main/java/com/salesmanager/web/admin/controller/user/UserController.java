@@ -61,25 +61,31 @@ public class UserController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 	
 	@Autowired
-	LanguageService languageService;
+	private LanguageService languageService;
 	
 	@Autowired
-	UserService userService;
+	private UserService userService;
 
 	@Autowired
-	GroupService groupService;
+	private GroupService groupService;
 	
 	@Autowired
-	CountryService countryService;
+	private CountryService countryService;
 	
 	@Autowired
-	EmailService emailService;
+	private EmailService emailService;
 	
 	@Autowired
-	MerchantStoreService merchantStoreService;
+	private MerchantStoreService merchantStoreService;
 	
 	@Autowired
 	LabelUtils messages;
+	
+	@Autowired
+	private FilePathUtils filePathUtils;
+	
+	@Autowired
+	private EmailUtils emailUtils;
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -597,7 +603,7 @@ public class UserController {
 				String[] userNameArg = {userName};
 				
 				
-				Map<String, String> templateTokens = EmailUtils.createEmailObjectsMap(request.getContextPath(), store, messages, userLocale);
+				Map<String, String> templateTokens = emailUtils.createEmailObjectsMap(request.getContextPath(), store, messages, userLocale);
 				templateTokens.put(EmailConstants.EMAIL_NEW_USER_TEXT, messages.getMessage("email.greeting", userNameArg, userLocale));
 				templateTokens.put(EmailConstants.EMAIL_USER_FIRSTNAME, user.getFirstName());
 				templateTokens.put(EmailConstants.EMAIL_USER_LASTNAME, user.getLastName());
@@ -607,7 +613,7 @@ public class UserController {
 				templateTokens.put(EmailConstants.EMAIL_ADMIN_PASSWORD_LABEL, messages.getMessage("label.generic.password",userLocale));
 				templateTokens.put(EmailConstants.EMAIL_ADMIN_PASSWORD, decodedPassword);
 				templateTokens.put(EmailConstants.EMAIL_ADMIN_URL_LABEL, messages.getMessage("label.adminurl",userLocale));
-				templateTokens.put(EmailConstants.EMAIL_ADMIN_URL, FilePathUtils.buildAdminUri(store, request));
+				templateTokens.put(EmailConstants.EMAIL_ADMIN_URL, filePathUtils.buildAdminUri(store, request));
 	
 				
 				Email email = new Email();
@@ -815,7 +821,7 @@ public class UserController {
 					try {
 						String[] storeEmail = {store.getStoreEmailAddress()};						
 						
-						Map<String, String> templateTokens = EmailUtils.createEmailObjectsMap(request.getContextPath(), store, messages, userLocale);
+						Map<String, String> templateTokens = emailUtils.createEmailObjectsMap(request.getContextPath(), store, messages, userLocale);
 						templateTokens.put(EmailConstants.EMAIL_RESET_PASSWORD_TXT, messages.getMessage("email.user.resetpassword.text", userLocale));
 						templateTokens.put(EmailConstants.EMAIL_CONTACT_OWNER, messages.getMessage("email.contactowner", storeEmail, userLocale));
 						templateTokens.put(EmailConstants.EMAIL_PASSWORD_LABEL, messages.getMessage("label.generic.password",userLocale));

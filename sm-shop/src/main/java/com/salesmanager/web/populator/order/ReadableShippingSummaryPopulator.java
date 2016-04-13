@@ -8,6 +8,7 @@ import com.salesmanager.core.business.merchant.model.MerchantStore;
 import com.salesmanager.core.business.reference.language.model.Language;
 import com.salesmanager.core.business.shipping.model.ShippingSummary;
 import com.salesmanager.core.utils.AbstractDataPopulator;
+import com.salesmanager.web.entity.customer.ReadableDelivery;
 import com.salesmanager.web.entity.order.ReadableShippingSummary;
 
 public class ReadableShippingSummaryPopulator extends
@@ -32,6 +33,26 @@ public class ReadableShippingSummaryPopulator extends
 			target.setTaxOnShipping(source.isTaxOnShipping());
 			target.setHandlingText(pricingService.getDisplayAmount(source.getHandling(), store));
 			target.setShippingText(pricingService.getDisplayAmount(source.getShipping(), store));
+			
+			if(source.getDeliveryAddress()!=null) {
+			
+				ReadableDelivery deliveryAddress = new ReadableDelivery();
+				deliveryAddress.setAddress(source.getDeliveryAddress().getAddress());
+				deliveryAddress.setPostalCode(source.getDeliveryAddress().getPostalCode());
+				deliveryAddress.setCity(source.getDeliveryAddress().getCity());
+				if(source.getDeliveryAddress().getZone()!=null) {
+					deliveryAddress.setZone(source.getDeliveryAddress().getZone().getCode());
+				}
+				if(source.getDeliveryAddress().getCountry()!=null) {
+					deliveryAddress.setCountry(source.getDeliveryAddress().getCountry().getIsoCode());
+				}
+				deliveryAddress.setLatitude(source.getDeliveryAddress().getLatitude());
+				deliveryAddress.setLongitude(source.getDeliveryAddress().getLongitude());
+				deliveryAddress.setStateProvince(source.getDeliveryAddress().getState());
+				
+				target.setDelivery(deliveryAddress);
+			}
+
 			
 		} catch(Exception e) {
 			throw new ConversionException(e);

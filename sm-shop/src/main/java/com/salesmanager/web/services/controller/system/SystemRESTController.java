@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.salesmanager.core.business.system.service.ModuleConfigurationService;
+import com.salesmanager.core.utils.ajax.AjaxResponse;
 
 /**
  * Rest services for the system configuration
@@ -53,12 +55,16 @@ public class SystemRESTController {
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping( value="/private/system/module", method=RequestMethod.POST)
+	@RequestMapping( value="/private/system/module", method=RequestMethod.POST, consumes = "application/json")
 	@ResponseBody
-	public void createOrUpdateModule(@RequestBody final String json, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public AjaxResponse createOrUpdateModule(@RequestBody final String json, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
+		
+		AjaxResponse resp = new AjaxResponse();
 		
 		try {
+			
+			
 			
 			LOGGER.debug("Creating or updating an integration module : " + json);
 			
@@ -66,10 +72,84 @@ public class SystemRESTController {
 			
 			response.setStatus(200);
 			
+			resp.setStatus(200);
+			
 		} catch(Exception e) {
-			response.sendError(503, "Exception while creating or updating the modle " + e.getMessage());
+			resp.setStatus(500);
+			resp.setErrorMessage(e);
+			response.sendError(503, "Exception while creating or updating the module " + e.getMessage());
 		}
 
+		return resp;
+
+	}
+	
+	@RequestMapping( value="/private/system/optin", method=RequestMethod.POST)
+	@ResponseBody
+	public AjaxResponse createOptin(@RequestBody final String json, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		
+		AjaxResponse resp = new AjaxResponse();
+		
+		try {
+			LOGGER.debug("Creating an optin : " + json);
+			//moduleConfigurationService.createOrUpdateModule(json);
+			response.setStatus(200);
+			resp.setStatus(200);
+			
+		} catch(Exception e) {
+			resp.setStatus(500);
+			resp.setErrorMessage(e);
+			response.sendError(503, "Exception while creating optin " + e.getMessage());
+		}
+
+		return resp;
+
+	}
+	
+	@RequestMapping( value="/private/system/optin/{code}", method=RequestMethod.DELETE)
+	@ResponseBody
+	public AjaxResponse deleteOptin(@RequestBody final String code, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		
+		AjaxResponse resp = new AjaxResponse();
+		
+		try {
+			LOGGER.debug("Delete optin : " + code);
+			//moduleConfigurationService.createOrUpdateModule(json);
+			response.setStatus(200);
+			resp.setStatus(200);
+			
+		} catch(Exception e) {
+			resp.setStatus(500);
+			resp.setErrorMessage(e);
+			response.sendError(503, "Exception while deleting optin " + e.getMessage());
+		}
+
+		return resp;
+
+	}
+	
+	@RequestMapping( value="/private/system/optin/{code}/customer", method=RequestMethod.POST, consumes = "application/json")
+	@ResponseBody
+	public AjaxResponse createOptinCustomer(@RequestBody final String code, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		
+		AjaxResponse resp = new AjaxResponse();
+		
+		try {
+			LOGGER.debug("Adding a customer optin : " + code);
+			//moduleConfigurationService.createOrUpdateModule(json);
+			response.setStatus(200);
+			resp.setStatus(200);
+			
+		} catch(Exception e) {
+			resp.setStatus(500);
+			resp.setErrorMessage(e);
+			response.sendError(503, "Exception while creating uptin " + e.getMessage());
+		}
+
+		return resp;
 
 	}
 

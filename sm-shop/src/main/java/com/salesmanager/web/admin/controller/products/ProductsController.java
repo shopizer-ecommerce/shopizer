@@ -71,7 +71,7 @@ public class ProductsController {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/products/paging.html", method=RequestMethod.POST, produces="application/json")
+	@RequestMapping(value="/admin/products/paging.html", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	public @ResponseBody String pageProducts(HttpServletRequest request, HttpServletResponse response) {
 		
 		//TODO what if ROOT
@@ -201,7 +201,7 @@ public class ProductsController {
 	}
 	
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/products/remove.html", method=RequestMethod.POST, produces="application/json")
+	@RequestMapping(value="/admin/products/remove.html", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	public @ResponseBody String deleteProduct(HttpServletRequest request, HttpServletResponse response, Locale locale) {
 		String sid = request.getParameter("productId");
 

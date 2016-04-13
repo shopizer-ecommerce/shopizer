@@ -223,7 +223,7 @@ public class CustomerOptionsController {
 	
 	@SuppressWarnings("unchecked")
 	@PreAuthorize("hasRole('CUSTOMER')")
-	@RequestMapping(value="/admin/customers/options/paging.html", method=RequestMethod.POST, produces="application/json")
+	@RequestMapping(value="/admin/customers/options/paging.html", method=RequestMethod.POST, produces="application/json;text/plain;charset=UTF-8")
 	public @ResponseBody String pageOptions(HttpServletRequest request, HttpServletResponse response) {
 
 		AjaxResponse resp = new AjaxResponse();

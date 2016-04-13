@@ -136,9 +136,13 @@ public class ShoppingOrderConfirmationController extends AbstractController {
 		super.removeAttribute(Constants.ORDER_ID_TOKEN, request);
 		
 		
-        String[] orderMessageParams = {store.getStorename(), String.valueOf(order.getId())};
+        String[] orderMessageParams = {store.getStorename()};
         String orderMessage = messages.getMessage("label.checkout.text", orderMessageParams, locale);
 		model.addAttribute("ordermessage", orderMessage);
+		
+        String[] orderIdParams = {String.valueOf(order.getId())};
+        String orderMessageId = messages.getMessage("label.checkout.orderid", orderIdParams, locale);
+		model.addAttribute("ordermessageid", orderMessageId);
 		
         String[] orderEmailParams = {order.getCustomerEmailAddress()};
         String orderEmailMessage = messages.getMessage("label.checkout.email", orderEmailParams, locale);

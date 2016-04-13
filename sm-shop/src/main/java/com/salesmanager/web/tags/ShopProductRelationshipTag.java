@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.tags.RequestContextAwareTag;
@@ -22,6 +23,7 @@ import com.salesmanager.core.utils.CacheUtils;
 import com.salesmanager.web.constants.Constants;
 import com.salesmanager.web.entity.catalog.product.ReadableProduct;
 import com.salesmanager.web.populator.catalog.ReadableProductPopulator;
+import com.salesmanager.web.utils.ImageFilePath;
 
 public class ShopProductRelationshipTag extends RequestContextAwareTag  {
 	
@@ -43,6 +45,10 @@ public class ShopProductRelationshipTag extends RequestContextAwareTag  {
 	@Autowired
 	private CacheUtils cache;
 	
+	@Autowired
+	@Qualifier("img")
+	private ImageFilePath imageUtils;
+	
 	
 	private String groupName;
 
@@ -61,7 +67,7 @@ public class ShopProductRelationshipTag extends RequestContextAwareTag  {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected int doStartTagInternal() throws Exception {
-		if (productRelationshipService == null || pricingService==null) {
+		if (productRelationshipService == null || pricingService==null || imageUtils==null) {
 			LOGGER.debug("Autowiring ProductRelationshipService");
             WebApplicationContext wac = getRequestContext().getWebApplicationContext();
             AutowireCapableBeanFactory factory = wac.getAutowireCapableBeanFactory();
@@ -97,11 +103,7 @@ public class ShopProductRelationshipTag extends RequestContextAwareTag  {
 			//get from the cache
 			objects = (List<ReadableProduct>) cache.getFromCache(groupKey.toString());
 			Boolean missedContent = null;
-			//if(objects==null) {
-				//get from missed cache
-			//	missedContent = (Boolean)cache.getFromCache(groupKeyMissed.toString());
-			//}
-			
+
 			if(objects==null && missedContent==null) {
 				objects = getProducts(request);
 
@@ -138,6 +140,7 @@ public class ShopProductRelationshipTag extends RequestContextAwareTag  {
 		
 		ReadableProductPopulator populator = new ReadableProductPopulator();
 		populator.setPricingService(pricingService);
+		populator.setimageUtils(imageUtils);
 		
 		List<ReadableProduct> products = new ArrayList<ReadableProduct>();
 		for(ProductRelationship relationship : relationships) {
@@ -145,7 +148,6 @@ public class ShopProductRelationshipTag extends RequestContextAwareTag  {
 			Product product = relationship.getRelatedProduct();
 			
 			ReadableProduct proxyProduct = populator.populate(product, new ReadableProduct(), store, language);
-			//com.salesmanager.web.entity.catalog.Product proxyProduct = catalogUtils.buildProxyProduct(product, store, locale);
 			products.add(proxyProduct);
 
 		}

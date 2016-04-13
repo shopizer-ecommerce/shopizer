@@ -60,28 +60,35 @@ public class MerchantStoreController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(MerchantStoreController.class);
 	
 	@Autowired
-	MerchantStoreService merchantStoreService;
+	private MerchantStoreService merchantStoreService;
 	
 	@Autowired
-	CountryService countryService;
+	private CountryService countryService;
 	
 	@Autowired
-	ZoneService zoneService;
+	private ZoneService zoneService;
 	
 	@Autowired
-	LanguageService languageService;
+	private LanguageService languageService;
 	
 	@Autowired
-	CurrencyService currencyService;
+	private CurrencyService currencyService;
 	
 	@Autowired
-	UserService userService;
+	private UserService userService;
 	
 	@Autowired
-	LabelUtils messages;
+	private LabelUtils messages;
 	
 	@Autowired
-	EmailService emailService;
+	private EmailService emailService;
+	
+	@Autowired
+	private EmailUtils emailUtils;
+	
+	@Autowired
+	private FilePathUtils filePathUtils;
+	
 	
 	private final static String NEW_STORE_TMPL = "email_template_new_store.ftl";
 	
@@ -325,13 +332,13 @@ public class MerchantStoreController {
 			try {
 
 
-				Map<String, String> templateTokens = EmailUtils.createEmailObjectsMap(request.getContextPath(), store, messages, storeLocale);
+				Map<String, String> templateTokens = emailUtils.createEmailObjectsMap(request.getContextPath(), store, messages, storeLocale);
 				templateTokens.put(EmailConstants.EMAIL_NEW_STORE_TEXT, messages.getMessage("email.newstore.text", storeLocale));
 				templateTokens.put(EmailConstants.EMAIL_STORE_NAME, messages.getMessage("email.newstore.name",new String[]{store.getStorename()},storeLocale));
 				templateTokens.put(EmailConstants.EMAIL_ADMIN_STORE_INFO_LABEL, messages.getMessage("email.newstore.info",storeLocale));
 
 				templateTokens.put(EmailConstants.EMAIL_ADMIN_URL_LABEL, messages.getMessage("label.adminurl",storeLocale));
-				templateTokens.put(EmailConstants.EMAIL_ADMIN_URL, FilePathUtils.buildAdminUri(store, request));
+				templateTokens.put(EmailConstants.EMAIL_ADMIN_URL, filePathUtils.buildAdminUri(store, request));
 	
 				
 				Email email = new Email();

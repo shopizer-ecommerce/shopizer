@@ -3,6 +3,8 @@ package com.salesmanager.core.business.shipping.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import com.salesmanager.core.business.common.model.Delivery;
+
 /**
  * Contains shipping fees according to user selections
  * @author casams1
@@ -20,6 +22,10 @@ public class ShippingSummary implements Serializable {
 	private String shippingOption;
 	private boolean freeShipping;
 	private boolean taxOnShipping;
+	
+	private Delivery deliveryAddress;
+	
+	
 	public BigDecimal getShipping() {
 		return shipping;
 	}
@@ -55,6 +61,12 @@ public class ShippingSummary implements Serializable {
 	}
 	public void setTaxOnShipping(boolean taxOnShipping) {
 		this.taxOnShipping = taxOnShipping;
+	}
+	public Delivery getDeliveryAddress() {
+		return deliveryAddress;
+	}
+	public void setDeliveryAddress(Delivery deliveryAddress) {
+		this.deliveryAddress = deliveryAddress;
 	}
 
 }

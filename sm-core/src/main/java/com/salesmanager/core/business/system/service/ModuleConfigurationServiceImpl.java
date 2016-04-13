@@ -147,29 +147,20 @@ public class ModuleConfigurationServiceImpl extends
 		ObjectMapper mapper = new ObjectMapper();
 		
 		try {
-           
-
-            @SuppressWarnings("rawtypes")
-    		Map[] objects = mapper.readValue(json, Map[].class);
-            
-
-            //get the module to be loaded
-            for(int i = 0; i < objects.length; i++) {
-            	@SuppressWarnings("rawtypes")
-				Map o = objects[i];
-            	//get module object
-            	IntegrationModule module = integrationModulesLoader.loadModule(o);
-            	
-	            if(module!=null) {
-	            	IntegrationModule m = this.getByCode(module.getCode());
-	            	if(m!=null) {
-	            		this.delete(m);	 	
-	            	}
-	            	this.create(module);
-	            }
-
+			
+			
+			Map object = mapper.readValue(json, Map.class);
+			
+			IntegrationModule module = integrationModulesLoader.loadModule(object);
+			
+            if(module!=null) {
+            	IntegrationModule m = this.getByCode(module.getCode());
+            	if(m!=null) {
+            		this.delete(m);	 	
+            	}
+            	this.create(module);
             }
-            
+
 
 
   		} catch (Exception e) {

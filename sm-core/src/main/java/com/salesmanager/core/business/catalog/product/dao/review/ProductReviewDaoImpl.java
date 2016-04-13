@@ -146,6 +146,23 @@ public class ProductReviewDaoImpl extends SalesManagerEntityDaoImpl<Long, Produc
 		
 		return query.list(qEntity);
 		
+		/**
+		select productReview
+		from ProductReview productReview
+		  inner join fetch productReview.customer as customer
+		  inner join fetch customer.merchantStore
+		  left join fetch customer.defaultLanguage
+		  left join fetch customer.attributes as customerAttribute
+		  left join fetch customerAttribute.customerOption as customerOption
+		  left join fetch customerAttribute.customerOptionValue as customerOptionValue
+		  left join fetch customerOption.descriptions
+		  left join fetch customerOptionValue.descriptions
+		  inner join fetch productReview.product as product
+		  left join fetch product.merchantStore
+		  left join fetch productReview.descriptions as productReviewDescription
+		where product.id = ?1 and productReviewDescription.language.id = ?2
+		**/
+		
 		
 	}
 	

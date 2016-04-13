@@ -2,9 +2,13 @@ package com.salesmanager.web.entity.order;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.salesmanager.core.business.shipping.model.ShippingOption;
+import com.salesmanager.web.entity.customer.Address;
+import com.salesmanager.web.entity.customer.ReadableDelivery;
 
 public class ReadableShippingSummary implements Serializable {
 
@@ -20,10 +24,14 @@ public class ReadableShippingSummary implements Serializable {
 	private boolean taxOnShipping;
 	private String shippingText;
 	private String handlingText;
+	private ReadableDelivery delivery;
 	
 	
 	private ShippingOption selectedShippingOption = null;//Default selected option
 	private List<ShippingOption> shippingOptions = null;
+	
+	/** additional information that comes from the quote **/
+	private Map<String,String> quoteInformations = new HashMap<String,String>();
 	
 	
 	public BigDecimal getShipping() {
@@ -88,6 +96,18 @@ public class ReadableShippingSummary implements Serializable {
 	}
 	public void setSelectedShippingOption(ShippingOption selectedShippingOption) {
 		this.selectedShippingOption = selectedShippingOption;
+	}
+	public Map<String,String> getQuoteInformations() {
+		return quoteInformations;
+	}
+	public void setQuoteInformations(Map<String,String> quoteInformations) {
+		this.quoteInformations = quoteInformations;
+	}
+	public Address getDelivery() {
+		return delivery;
+	}
+	public void setDelivery(ReadableDelivery delivery) {
+		this.delivery = delivery;
 	}
 
 }

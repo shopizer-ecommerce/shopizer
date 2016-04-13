@@ -3,6 +3,7 @@ package com.salesmanager.web.constants;
 public class Constants {
 	
 	public final static String SLASH = "/";
+	public final static String BLANK = "";
 	public final static String EQUALS = "=";
 
     public final static String RESPONSE_STATUS = "STATUS";
@@ -89,9 +90,10 @@ public class Constants {
 	public final static String KEY_FACEBOOK_PAGE_URL = "facebook_page_url";
 	public final static String KEY_PINTEREST_PAGE_URL = "pinterest";
 	public final static String KEY_GOOGLE_ANALYTICS_URL = "google_analytics_url";
+	public final static String KEY_INSTAGRAM_URL = "instagram";
 	public final static String KEY_GOOGLE_API_KEY = "google_api_key";
 	public final static String KEY_TWITTER_HANDLE = "twitter_handle";
-
+	public final static String KEY_SESSION_ADDRESS = "readableDelivery";
 
 	public final static String CATEGORY_LINEAGE_DELIMITER = "/";
 	public final static int MAX_REVIEW_RATING_SCORE = 5;
@@ -106,10 +108,7 @@ public class Constants {
 	public final static String MONTHS_OF_YEAR_CACHE_KEY = "MONTHS_OF_YEAR_CACHE_KEY";
 	
 	public final static String INIT_TRANSACTION_KEY = "init_transaction";
-	
-	public static final String RECAPATCHA_PUBLIC_KEY="shopizer.recapatcha_public_key";
-    public static final String RECAPATCHA_PRIVATE_KEY="shopizer.recapatcha_private_key";
-    
+
     public final static String LINK_CODE = "LINK_CODE";
     
     public final static String COOKIE_NAME_USER = "user";

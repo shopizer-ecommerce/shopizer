@@ -13,11 +13,7 @@ public class ContactForm {
 	private String email;
 	@NotEmpty
 	private String comment;
-	
 
-	private String captchaResponseField;
-	private String captchaChallengeField;
-	
 	
 	public String getName() {
 		return name;
@@ -37,18 +33,7 @@ public class ContactForm {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-	public String getCaptchaResponseField() {
-		return captchaResponseField;
-	}
-	public void setCaptchaResponseField(String captchaResponseField) {
-		this.captchaResponseField = captchaResponseField;
-	}
-	public String getCaptchaChallengeField() {
-		return captchaChallengeField;
-	}
-	public void setCaptchaChallengeField(String captchaChallengeField) {
-		this.captchaChallengeField = captchaChallengeField;
-	}
+
 	public String getSubject() {
 		return subject;
 	}

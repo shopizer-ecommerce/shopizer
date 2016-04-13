@@ -269,8 +269,34 @@ form input.valid {
     font-size:90%;
 }
 
+.form-control-75 {
+	width:75% !important;
+}
 
+.form-control-50 {
+	width:50% !important;
+}
 
+.form-control-25 {
+	width:25% !important;
+}
 
+.stars img {
+	display: inline-block !important;
+}
 
+#cc-img-container {
+  display: table;
+  width: 90%;
+}
 
+#cc-img-container a {
+  display: table-cell;
+  text-align: center;
+  width: 16%;
+}
+
+#cc-img-container img {
+  width: 100%;
+  max-width: 40px;
+}

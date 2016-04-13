@@ -99,7 +99,7 @@ public class ProductAttributeController {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/products/attributes/page.html", method=RequestMethod.POST, produces="application/json")
+	@RequestMapping(value="/admin/products/attributes/page.html", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	public @ResponseBody String pageAttributes(HttpServletRequest request, HttpServletResponse response) {
 
 		//String attribute = request.getParameter("attribute");

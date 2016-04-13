@@ -75,6 +75,7 @@ public class CustomerPopulator extends
 			}
 
 			Map<String,Country> countries = countryService.getCountriesMap(language);
+			Map<String,Zone> zones = zoneService.getZones(language);
 			
 			target.setMerchantStore( store );
 
@@ -104,7 +105,8 @@ public class CustomerPopulator extends
 					if(zone==null) {
 						throw new ConversionException("Unsuported zone code " + sourceBilling.getZone());
 					}
-					billing.setZone(zone);
+					Zone zoneDescription = zones.get(zone.getCode());
+					billing.setZone(zoneDescription);
 				}
 				target.setBilling(billing);
 
@@ -150,7 +152,8 @@ public class CustomerPopulator extends
 					if(zone==null) {
 						throw new ConversionException("Unsuported zone code " + sourceShipping.getZone());
 					}
-					delivery.setZone(zone);
+					Zone zoneDescription = zones.get(zone.getCode());
+					delivery.setZone(zoneDescription);
 				}
 				target.setDelivery(delivery);
 			}

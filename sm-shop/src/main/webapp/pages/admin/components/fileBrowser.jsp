@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="/WEB-INF/shopizer-tags.tld" prefix="sm" %> 
 
 <%@ page session="false" %>
 
@@ -9,10 +10,12 @@
 <script src="<c:url value="/resources/js/ckeditor/ckeditor.js" />"></script>
 
 
+
 <script language="javascript">
+   var imgPrefix = '<sm:contentImage merchantStore="${requestScope.ADMIN_STORE}" imageName="" imageType="IMAGE"/>';
+
 	function selectImage(img) {//ckeditor function
-		//TODO URL, MERCHANT STORE
-		var image = '<c:url value="/static/${requestScope.ADMIN_STORE.code}/IMAGE/"/>' + img;
+		var image = '<c:url value=""/>' + imgPrefix + img;
 		window.opener.CKEDITOR.tools.callFunction(2, image);
 		window.close();
 	}

@@ -17,6 +17,7 @@ import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -41,6 +42,7 @@ import com.salesmanager.web.entity.shoppingcart.ShoppingCartAttribute;
 import com.salesmanager.web.entity.shoppingcart.ShoppingCartData;
 import com.salesmanager.web.entity.shoppingcart.ShoppingCartItem;
 import com.salesmanager.web.populator.shoppingCart.ShoppingCartDataPopulator;
+import com.salesmanager.web.utils.ImageFilePath;
 
 /**
  * @author Umesh Awasthi
@@ -72,6 +74,10 @@ public class ShoppingCartFacadeImpl
 
     @Autowired
     private ProductAttributeService productAttributeService;
+    
+	@Autowired
+	@Qualifier("img")
+	private ImageFilePath imageUtils;
 
     public void deleteShoppingCart(final Long id, final MerchantStore store) throws Exception {
     	ShoppingCart cart = shoppingCartService.getById(id, store);
@@ -151,6 +157,7 @@ public class ShoppingCartFacadeImpl
         ShoppingCartDataPopulator shoppingCartDataPopulator = new ShoppingCartDataPopulator();
         shoppingCartDataPopulator.setShoppingCartCalculationService( shoppingCartCalculationService );
         shoppingCartDataPopulator.setPricingService( pricingService );
+        shoppingCartDataPopulator.setimageUtils(imageUtils);
 
         return shoppingCartDataPopulator.populate( cartModel, store, language );
     }
@@ -300,10 +307,31 @@ public class ShoppingCartFacadeImpl
         ShoppingCartDataPopulator shoppingCartDataPopulator = new ShoppingCartDataPopulator();
         shoppingCartDataPopulator.setShoppingCartCalculationService( shoppingCartCalculationService );
         shoppingCartDataPopulator.setPricingService( pricingService );
+        shoppingCartDataPopulator.setimageUtils(imageUtils);
 
         Language language = (Language) getKeyValue( Constants.LANGUAGE );
         MerchantStore merchantStore = (MerchantStore) getKeyValue( Constants.MERCHANT_STORE );
-        return shoppingCartDataPopulator.populate( cart, merchantStore, language );
+        
+        ShoppingCartData shoppingCartData = shoppingCartDataPopulator.populate( cart, merchantStore, language );
+        
+/*        List<ShoppingCartItem> unavailables = new ArrayList<ShoppingCartItem>();
+        List<ShoppingCartItem> availables = new ArrayList<ShoppingCartItem>();
+        //Take out items no more available
+        List<ShoppingCartItem> items = shoppingCartData.getShoppingCartItems();
+        for(ShoppingCartItem item : items) {
+        	String code = item.getProductCode();
+        	Product p =productService.getByCode(code, language);
+        	if(!p.isAvailable()) {
+        		unavailables.add(item);
+        	} else {
+        		availables.add(item);
+        	}
+        	
+        }
+        shoppingCartData.setShoppingCartItems(availables);
+        shoppingCartData.setUnavailables(unavailables);*/
+        
+        return shoppingCartData;
 
     }
 
@@ -315,6 +343,7 @@ public class ShoppingCartFacadeImpl
         ShoppingCartDataPopulator shoppingCartDataPopulator = new ShoppingCartDataPopulator();
         shoppingCartDataPopulator.setShoppingCartCalculationService( shoppingCartCalculationService );
         shoppingCartDataPopulator.setPricingService( pricingService );
+        shoppingCartDataPopulator.setimageUtils(imageUtils);
         Language language = (Language) getKeyValue( Constants.LANGUAGE );
         MerchantStore merchantStore = (MerchantStore) getKeyValue( Constants.MERCHANT_STORE );
         return shoppingCartDataPopulator.populate( shoppingCartModel, merchantStore, language );
@@ -350,6 +379,7 @@ public class ShoppingCartFacadeImpl
                     ShoppingCartDataPopulator shoppingCartDataPopulator = new ShoppingCartDataPopulator();
                     shoppingCartDataPopulator.setShoppingCartCalculationService( shoppingCartCalculationService );
                     shoppingCartDataPopulator.setPricingService( pricingService );
+                    shoppingCartDataPopulator.setimageUtils(imageUtils);
                     return shoppingCartDataPopulator.populate( cartModel, store, language );
                 }
             }
@@ -393,6 +423,7 @@ public class ShoppingCartFacadeImpl
                 ShoppingCartDataPopulator shoppingCartDataPopulator = new ShoppingCartDataPopulator();
                 shoppingCartDataPopulator.setShoppingCartCalculationService( shoppingCartCalculationService );
                 shoppingCartDataPopulator.setPricingService( pricingService );
+                shoppingCartDataPopulator.setimageUtils(imageUtils);
                 return shoppingCartDataPopulator.populate( cartModel, store, language );
 
             }
@@ -451,6 +482,7 @@ public class ShoppingCartFacadeImpl
             ShoppingCartDataPopulator shoppingCartDataPopulator = new ShoppingCartDataPopulator();
             shoppingCartDataPopulator.setShoppingCartCalculationService( shoppingCartCalculationService );
             shoppingCartDataPopulator.setPricingService( pricingService );
+            shoppingCartDataPopulator.setimageUtils(imageUtils);
             return shoppingCartDataPopulator.populate( cartModel, store, language );
 
         }
@@ -507,6 +539,12 @@ public class ShoppingCartFacadeImpl
 	public ShoppingCart getShoppingCartModel(Customer customer,
 			MerchantStore store) throws Exception {
 		return shoppingCartService.getByCustomer(customer);
+	}
+
+	@Override
+	public void saveOrUpdateShoppingCart(ShoppingCart cart) throws Exception {
+		shoppingCartService.saveOrUpdate(cart);
+		
 	}
 
 

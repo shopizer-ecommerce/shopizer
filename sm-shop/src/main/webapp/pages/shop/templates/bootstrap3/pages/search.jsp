@@ -33,11 +33,13 @@ response.setDateHeader ("Expires", -1);
 	 
  
  	function search() {
+ 		$('#productsContainer').showLoading();
  		var url = '<%=request.getContextPath()%>/services/public/search/<c:out value="${requestScope.MERCHANT_STORE.code}"/>/<c:out value="${requestScope.LANGUAGE.code}"/>/' + START_COUNT_PRODUCTS + '/' + MAX_PRODUCTS + '/term.html';
 	 	searchProducts(url,'#productsContainer','<c:out value="${q}"/>',null);
  	}
  
 	function callBackSearchProducts(productList) {
+			buildProductsList(productList,'#productsContainer', null);//generic list function
 			totalCount = productList.productCount;
 			START_COUNT_PRODUCTS = START_COUNT_PRODUCTS + MAX_PRODUCTS;
 			if(START_COUNT_PRODUCTS < totalCount) {

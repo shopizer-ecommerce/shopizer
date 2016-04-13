@@ -32,9 +32,7 @@ import com.salesmanager.core.business.shipping.model.ShippingQuote;
 import com.salesmanager.core.business.system.model.CustomIntegrationConfiguration;
 import com.salesmanager.core.business.system.model.IntegrationConfiguration;
 import com.salesmanager.core.business.system.model.IntegrationModule;
-import com.salesmanager.core.business.system.model.MerchantLog;
 import com.salesmanager.core.business.system.model.ModuleConfig;
-import com.salesmanager.core.business.system.service.MerchantLogService;
 import com.salesmanager.core.constants.Constants;
 import com.salesmanager.core.constants.MeasureUnit;
 import com.salesmanager.core.modules.integration.IntegrationException;
@@ -127,6 +125,10 @@ public class USPSShippingQuote implements ShippingQuoteModule {
 	
 
 		if (packages == null) {
+			return null;
+		}
+		
+		if(StringUtils.isBlank(delivery.getPostalCode())) {
 			return null;
 		}
 		

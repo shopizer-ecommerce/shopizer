@@ -391,7 +391,7 @@ public class ProductController {
 			newProduct.setProductVirtual(product.getProduct().isProductVirtual());
 			newProduct.setProductShipeable(product.getProduct().isProductShipeable());
 			newProduct.setTaxClass(product.getProduct().getTaxClass());
-
+			newProduct.setSortOrder(product.getProduct().getSortOrder());
 
 			Set<ProductAvailability> avails = newProduct.getAvailabilities();
 			if(avails !=null && avails.size()>0) {
@@ -711,7 +711,7 @@ public class ProductController {
 		newProduct.setSortOrder(dbProduct.getSortOrder());
 		newProduct.setTaxClass(dbProduct.getTaxClass());
 		newProduct.setType(dbProduct.getType());
-		newProduct.setSku(UUID.randomUUID().toString());
+		newProduct.setSku(UUID.randomUUID().toString().replace("-",""));
 		newProduct.setProductVirtual(dbProduct.isProductVirtual());
 		newProduct.setProductShipeable(dbProduct.isProductShipeable());
 		
@@ -719,7 +719,8 @@ public class ProductController {
 		
 		Set<Category> categories = dbProduct.getCategories();
 		for(Category category : categories) {
-			newProduct.getCategories().add(category);
+			Category categoryCopy = categoryService.getById(category.getId());
+			newProduct.getCategories().add(categoryCopy);
 			productService.update(newProduct);
 		}
 		
@@ -825,7 +826,7 @@ public class ProductController {
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/product-categories/paging.html", method=RequestMethod.POST, produces="application/json")
+	@RequestMapping(value="/admin/product-categories/paging.html", method=RequestMethod.POST, produces="application/json;text/plain;charset=UTF-8")
 	public @ResponseBody String pageProductCategories(HttpServletRequest request, HttpServletResponse response) {
 
 		String sProductId = request.getParameter("productId");

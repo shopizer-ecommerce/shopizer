@@ -32,10 +32,15 @@ public class Address implements Serializable {
 	private String stateProvince;
 	private boolean billingAddress;
 	
+	private String latitude;
+	private String longitude;
+	
 	private String zone;//code
 	
 	@NotEmpty(message="{NotEmpty.customer.billing.country}")
 	private String country;//code
+	
+
 
 	public void setStateProvince(String stateProvince) {
 		this.stateProvince = stateProvince;
@@ -139,5 +144,20 @@ public class Address implements Serializable {
         this.bilstateOther = bilstateOther;
     }
 
-    
+	public String getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+
 }

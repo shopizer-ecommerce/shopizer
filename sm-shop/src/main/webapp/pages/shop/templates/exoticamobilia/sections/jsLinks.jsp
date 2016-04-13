@@ -11,31 +11,19 @@
 
     
     
-    <!--<script src="<c:url value="/resources/templates/exoticamobilia/js/jquery-1.11.1.min.js" />"></script>-->
     <script src="<c:url value="/resources/templates/exoticamobilia/js/bootstrap.js" />"></script>
     <script src="<c:url value="/resources/templates/exoticamobilia/js/iframe_api" />"></script>
     <script src="<c:url value="/resources/templates/exoticamobilia/js/jquery.magnific-popup.min.js" />"></script>
     <script src="<c:url value="/resources/templates/exoticamobilia/js/isotope.js" />"></script>
-    <!--
-    <script src="<c:url value="/resources/templates/exoticamobilia/js/jquery_002.js" />"></script>
-    <script src="<c:url value="/resources/templates/exoticamobilia/js/jquery_003.js" />"></script>
-    <script src="<c:url value="/resources/templates/exoticamobilia/js/jquery_004.js" />"></script>
-    <script src="<c:url value="/resources/templates/exoticamobilia/js/jquery_005.js" />"></script>
-    <script src="<c:url value="/resources/templates/exoticamobilia/js/jquery_006.js" />"></script>
-    <script src="<c:url value="/resources/templates/exoticamobilia/js/jquery_007.js" />"></script>
-    <script src="<c:url value="/resources/templates/exoticamobilia/js/jquery_008.js" />"></script>
-    -->
     <script src="<c:url value="/resources/templates/exoticamobilia/js/jquery.event.move.js" />"></script>
-    <!-- appear -->
-    <script src="<c:url value="/resources/templates/exoticamobilia/js/jquery.js" />"></script>
+    <script src="<c:url value="/resources/templates/exoticamobilia/js/jquery.appear.js" />"></script>
+    <script src="<c:url value="/resources/templates/exoticamobilia/js/responsive-slider.min.js" />"></script>
     
     
     
     <script src="<c:url value="/resources/templates/exoticamobilia/js/modernizr.js" />"></script>
     <script src="<c:url value="/resources/templates/exoticamobilia/js/owl.js" />"></script>
-    <!--
-    <script src="<c:url value="/resources/templates/exoticamobilia/js/responsive-slider.js" />"></script>
-    -->
+
     
     
     

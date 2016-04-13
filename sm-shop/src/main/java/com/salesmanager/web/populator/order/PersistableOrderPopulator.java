@@ -116,6 +116,7 @@ public class PersistableOrderPopulator extends
 			target.setPaymentType(source.getPaymentType());
 			target.setShippingModuleCode(source.getShippingModule());
 			target.setCustomerAgreement(source.isCustomerAgreed());
+			target.setConfirmedAddress(source.isConfirmedAddress());
 			if(source.getPreviousOrderStatus()!=null) {
 				List<OrderStatus> orderStatusList = source.getPreviousOrderStatus();
 				for(OrderStatus status : orderStatusList) {

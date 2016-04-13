@@ -16,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,14 +49,14 @@ import com.salesmanager.web.entity.catalog.product.ReadableProductPrice;
 import com.salesmanager.web.entity.catalog.product.ReadableProductReview;
 import com.salesmanager.web.entity.shop.Breadcrumb;
 import com.salesmanager.web.entity.shop.PageInformation;
-import com.salesmanager.web.populator.catalog.ReadableProductPopulator;
 import com.salesmanager.web.populator.catalog.ReadableFinalPricePopulator;
+import com.salesmanager.web.populator.catalog.ReadableProductPopulator;
 import com.salesmanager.web.populator.catalog.ReadableProductReviewPopulator;
 import com.salesmanager.web.shop.controller.ControllerConstants;
 import com.salesmanager.web.shop.model.catalog.Attribute;
 import com.salesmanager.web.shop.model.catalog.AttributeValue;
 import com.salesmanager.web.utils.BreadcrumbsUtils;
-import com.salesmanager.web.utils.ImageFilePathUtils;
+import com.salesmanager.web.utils.ImageFilePath;
 import com.salesmanager.web.utils.LabelUtils;
 import com.salesmanager.web.utils.PageBuilderUtils;
 
@@ -96,6 +97,10 @@ public class ShopProductController {
 	
 	@Autowired
 	private BreadcrumbsUtils breadcrumbsUtils;
+	
+	@Autowired
+	@Qualifier("img")
+	private ImageFilePath imageUtils;
 	
 	private static final Logger LOG = LoggerFactory.getLogger(ShopProductController.class);
 	
@@ -147,6 +152,7 @@ public class ShopProductController {
 		
 		ReadableProductPopulator populator = new ReadableProductPopulator();
 		populator.setPricingService(pricingService);
+		populator.setimageUtils(imageUtils);
 		
 		ReadableProduct productProxy = populator.populate(product, new ReadableProduct(), store, language);
 
@@ -255,7 +261,7 @@ public class ShopProductController {
 				}
 				
 				if(!StringUtils.isBlank(attribute.getProductOptionValue().getProductOptionValueImage())) {
-					attrValue.setImage(ImageFilePathUtils.buildProductPropertyImageFilePath(store, attribute.getProductOptionValue().getProductOptionValueImage()));
+					attrValue.setImage(imageUtils.buildProductPropertyimageUtils(store, attribute.getProductOptionValue().getProductOptionValueImage()));
 				}
 				
 				List<ProductOptionValueDescription> descriptions = optionValue.getDescriptionsSettoList();
@@ -383,6 +389,7 @@ public class ShopProductController {
 		
 		ReadableProductPopulator populator = new ReadableProductPopulator();
 		populator.setPricingService(pricingService);
+		populator.setimageUtils(imageUtils);
 		
 		List<ProductRelationship> relatedItems = productRelationshipService.getByType(store, product, ProductRelationshipType.RELATED_ITEM);
 		if(relatedItems!=null && relatedItems.size()>0) {

@@ -34,7 +34,7 @@ public class StaticContentFileManagerImpl extends StaticContentFileManager
     
     /**
      * Implementation for add static data files. This method will called respected add files method of underlying
-     * CMSStaticContentManager. For CMS Content files {@link CmsStaticContentFileManagerInfinispanImpl} will take care of adding
+     * CMSStaticContentManager. For CMS Content files {@link CmsStaticContentFileManagerImpl} will take care of adding
      * given content images with Infinispan cache.
      * 
      * @param merchantStoreCode merchant store.

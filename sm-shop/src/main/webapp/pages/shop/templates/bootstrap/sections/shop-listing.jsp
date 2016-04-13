@@ -26,7 +26,7 @@ function buildProductsList(productList, divProductsContainer) {
 			//productUrl = productUrl + '/ref=' + ref;
 			//}
 			if(productList.products[i].image!=null) {
-					    productHtml = productHtml + '<a href="' + productUrl + '"><img src="<c:url value="/"/>' + productList.products[i].image.imageUrl +'" itemprop="image"></a>';
+					    productHtml = productHtml + '<a href="' + productUrl + '"><img src="<c:url value=""/>' + productList.products[i].image.imageUrl +'" itemprop="image"></a>';
 			}
 			productHtml = productHtml + '<div class="bottom"><a href="' + productUrl + '" class="view"><s:message code="button.label.view" text="View" /></a> / <a productid="' + productList.products[i].id + '" href="#" class="addToCart"><s:message code="button.label.addToCart" text="Add to cart" /></a></div>';
 			productHtml = productHtml + '</div>'

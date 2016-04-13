@@ -157,6 +157,7 @@
 
 
 	<bean id="keywordindex_fr_defaultstore" class="com.shopizer.search.utils.CustomIndexConfiguration">
+		<property name="collectionName" value="keyword_fr_default"/>
 		<property name="indexName" value="keyword_fr"/>
 		<property name="createOnIndexName" value="product_fr"/>
 		<property name="mappingFileName" value="search/keyword_fr.json"/>

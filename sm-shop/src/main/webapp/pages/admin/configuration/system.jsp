@@ -77,6 +77,14 @@
 	                  				   
 	                  				   </c:forEach>
 	                  				   
+	                  				  <div class="control-group">
+	                        				<label><s:message code="label.store.allowPurchaseItems" text="Allow purchase items" /></label>
+	                        				<div class="controls">
+	                        					<form:checkbox path="allowPurchaseItems" /> 
+	                                   			<span class="help-inline"></span>
+	                        				</div>
+	                  				   </div>
+	                  				   
 	                  				   <div class="control-group">
 	                        				<label><s:message code="label.store.displayaddtocartfeatured" text="Allow add to cart on featured items" /></label>
 	                        				<div class="controls">

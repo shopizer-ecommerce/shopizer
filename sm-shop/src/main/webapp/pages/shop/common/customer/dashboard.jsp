@@ -60,15 +60,15 @@ $(document).ready(function() {
 
 
 	<div id="main-content" class="container clearfix row-fluid">
+			<div class="row-fluid">
 
-			<div class="span-12 col-md-12 no-padding common-row">
-			
-			
 			<c:if test="${options!=null && fn:length(options)>0}">
-
+						
+						<div class="span-12 col-md-12 no-padding-left">
 						<div id="attributesSuccess" class="alert alert-success" style="<c:choose><c:when test="${success!=null}">display:block;</c:when><c:otherwise>display:none;</c:otherwise></c:choose>"><s:message code="message.success" text="Request successfull"/></div>   
 			            <div id="attributesError" class="alert alert-error" style="display:none;"><s:message code="message.error" text="An error occured"/></div>
 						<form action="#" id="attributes">
+						
 						<div id="attributesBox" class="checkout-box">
 								<span class="box-title">
 									<p class="p-title"><s:message code="label.customer.moredetails" text="More details"/></font></p>
@@ -96,7 +96,7 @@ $(document).ready(function() {
 													</c:forEach>
 												</c:when>
 												<c:when test="${option.type=='Text'}">
-													<input class="textAttribute form-control form-control-md" type="text" id="<c:out value="${option.id}"/>-<c:out value="${option.availableValues[0].id}"/>" name="<c:out value="${option.id}"/>-<c:out value="${option.availableValues[0].id}"/>" class="input-large" value="<c:if test="${option.defaultValue!=null}">${option.defaultValue.name}</c:if>">
+													<input class="input-medium textAttribute form-control form-control-md form-control-50" type="text" id="<c:out value="${option.id}"/>-<c:out value="${option.availableValues[0].id}"/>" name="<c:out value="${option.id}"/>-<c:out value="${option.availableValues[0].id}"/>" class="input-large" value="<c:if test="${option.defaultValue!=null}">${option.defaultValue.name}</c:if>">
 												</c:when> 
 												<c:when test="${option.type=='Checkbox'}">
 													<c:forEach items="${option.availableValues}" var="optionValue">
@@ -110,15 +110,13 @@ $(document).ready(function() {
 		                                 	<span class="help-inline"></span>
 			                       
 			                    </div> 
-		
+								</div>
 							
 							</c:forEach>
 							<input id="customer" type="hidden" value="<c:out value="${requestScope.CUSTOMER.id}"/>" name="customer">
 							
-							<div class="short-form-actions">
-		                 	  <div class="pull-left">
-		                 			<button type="submit" class="btn btn-large"><s:message code="button.label.save" text="Save"/></button>
-		                 	  </div> 
+							<div class="form-actions">
+		                 			<button type="submit" class="btn btn-large"><s:message code="button.label.submit2" text="Submit"/></button>
 		           	  		 </div>
 		
 		
@@ -126,7 +124,10 @@ $(document).ready(function() {
 							
 						</div>
 						</div>
+						
 						</form>
+						</div>
+						
 				</c:if>
 
 		

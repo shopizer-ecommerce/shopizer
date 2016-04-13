@@ -23,10 +23,6 @@ response.setDateHeader ("Expires", -1);
 
 <script type="text/javascript">
 
-var RecaptchaOptions = {
-	    theme : 'clean'
-};
-
 
 $(document).ready(function() {
 	
@@ -176,23 +172,11 @@ function sendContact(){
                                     </div>
 									<div class="control-group form-group">
 										<div class="controls">
-											<!--watch the white space in IOS!-->
-											<script type="text/javascript"
-												src="http://www.google.com/recaptcha/api/challenge?k=<c:out value="${recapatcha_public_key}"/>&hl=${requestScope.LANGUAGE.code}">
-												
-											</script>
-											<noscript>
-												<iframe
-													src="http://www.google.com/recaptcha/api/noscript?k=<c:out value="${recapatcha_public_key}"/>&hl=${requestScope.LANGUAGE.code}"
-													height="300" width="500" frameborder="0"> </iframe>
-												<br />
-												<form:textarea path="captchaResponseField" readonly="3"
-													cols="40" />
-												<form:errors path="captchaResponseField" cssClass="error" />
-					
-												<input type="hidden" name="captchaChallengeField"
-													value="manual_challenge">
-											</noscript>
+											
+											<script src="https://www.google.com/recaptcha/api.js?hl=<c:out value="${requestScope.LANGUAGE.code}"/>" async defer></script>
+
+											<div class="g-recaptcha" data-sitekey="<c:out value="${recapatcha_public_key}"/>"></div>
+
 										</div>
 									</div>
 
@@ -214,7 +198,7 @@ function sendContact(){
 									<c:if test="${requestScope.CONFIGS['displayStoreAddress'] == true}">                                  
                                      <address>  
 									 	<div itemscope itemtype="http://schema.org/Organization"> 
-										 	<h2 itemprop="name"><c:out value="${requestScope.MERCHANT_STORE.storename}"/></h2><br/>  
+										 	<h2 itemprop="name"><c:out value="${requestScope.MERCHANT_STORE.storename}"/></h2> 
 										 	<div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress"> 
 											 	<span itemprop="streetAddress"><c:out value="${requestScope.MERCHANT_STORE.storeaddress}"/> <c:out value="${requestScope.MERCHANT_STORE.storecity}"/></span><br/>
 											 	<span itemprop="addressLocality"><c:choose><c:when test="${not empty requestScope.MERCHANT_STORE.storestateprovince}"><c:out value="${requestScope.MERCHANT_STORE.storestateprovince}"/></c:when><c:otherwise><script>$.ajax({url: "<c:url value="/shop/reference/zoneName"/>",type: "GET",data: "zoneCode=${requestScope.MERCHANT_STORE.zone.code}",success: function(data){$('#storeZoneName').html(data)}})</script><span id="storeZoneName"><c:out value="${requestScope.MERCHANT_STORE.zone.code}"/></span></c:otherwise></c:choose>,
@@ -275,4 +259,5 @@ if(address!=null) {
 </script>
 
 </c:if>
+ </div>
  </div>

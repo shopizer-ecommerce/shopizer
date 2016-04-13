@@ -85,6 +85,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 	EmailTemplatesUtils emailTemplatesUtils;
 	
 	
+	
 	@PreAuthorize("hasRole('ORDER')")
 	@RequestMapping(value="/admin/orders/captureOrder.html", method=RequestMethod.POST, produces="application/json")
 	public @ResponseBody String captureOrder(HttpServletRequest request, HttpServletResponse response, Locale locale) {
@@ -127,6 +128,10 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 
 			resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
 
+		} catch (IntegrationException e) {
+			LOGGER.error("Error while processing capture", e);
+			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
+			resp.setErrorString(messages.getMessage(e.getMessageCode(),locale));
 		} catch (Exception e) {
 			LOGGER.error("Error while getting category", e);
 			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
@@ -212,7 +217,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 		} catch (IntegrationException e) {
 			LOGGER.error("Error while processing refund", e);
 			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
-			resp.setErrorString(e.getMessageCode());
+			resp.setErrorString(messages.getMessage(e.getMessageCode(),locale));
 		} catch (Exception e) {
 			LOGGER.error("Error while processing refund", e);
 			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
@@ -225,7 +230,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 	}
 	
 	@PreAuthorize("hasRole('ORDER')")
-	@RequestMapping(value="/admin/orders/printInvoice.html", method=RequestMethod.GET, produces="application/json")
+	@RequestMapping(value="/admin/orders/printInvoice.html", method=RequestMethod.GET, produces="application/json;text/plain;charset=UTF-8")
 	public void printInvoice(HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
 		
 		String sId = request.getParameter("id");
@@ -411,7 +416,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 	
 
 	@PreAuthorize("hasRole('ORDER')")
-	@RequestMapping(value="/admin/orders/updateStatus.html", method=RequestMethod.GET, produces="application/json")
+	@RequestMapping(value="/admin/orders/updateStatus.html", method=RequestMethod.GET, produces="application/json;text/plain;charset=UTF-8")
 	public @ResponseBody String updateStatus(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String sId = request.getParameter("id");

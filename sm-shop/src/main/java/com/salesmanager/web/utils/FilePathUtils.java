@@ -3,20 +3,34 @@ package com.salesmanager.web.utils;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import com.salesmanager.core.business.catalog.product.model.file.DigitalProduct;
+import com.salesmanager.core.business.content.model.FileContentType;
 import com.salesmanager.core.business.merchant.model.MerchantStore;
+import com.salesmanager.core.utils.CoreConfiguration;
+import com.salesmanager.web.constants.ApplicationConstants;
 import com.salesmanager.web.constants.Constants;
 import com.salesmanager.web.entity.order.ReadableOrderProductDownload;
 
+@Component
 public class FilePathUtils {
 	
+	@Autowired
+	private CoreConfiguration coreConfiguration;
 	
-	private final static String CUSTOMER_ACCESS_LINK = Constants.SHOP_URI + "/customer/dashboard.html";
+	@Autowired
+	@Qualifier("img")
+	private ImageFilePath imageUtils;
+	
+	
 	private final static String DOWNLOADS = "/downloads/";
+	
+	private final static String DOUBLE_SLASH = "://";
 	
 	
 	/**
@@ -26,62 +40,122 @@ public class FilePathUtils {
 	 * @param imageName
 	 * @return
 	 */
-	public static String buildStaticFilePath(MerchantStore store, String imageName) {
+	public String buildStaticFilePath(MerchantStore store, String imageName) {
 		return new StringBuilder().append(Constants.FILES_URI).append(Constants.SLASH).append(store.getCode()).append(Constants.SLASH).append(imageName).toString();
 	}
 	
-	public static String buildAdminDownloadProductFilePath(MerchantStore store, DigitalProduct digitalProduct) {
+	public String buildAdminDownloadProductFilePath(MerchantStore store, DigitalProduct digitalProduct) {
 		return new StringBuilder().append(Constants.ADMIN_URI).append(Constants.FILES_URI).append(DOWNLOADS).append(store.getCode()).append(Constants.SLASH).append(digitalProduct.getProductFileName()).toString();
 	}
 	
-	public static String buildOrderDownloadProductFilePath(MerchantStore store, ReadableOrderProductDownload digitalProduct, Long orderId) {
+	public String buildOrderDownloadProductFilePath(MerchantStore store, ReadableOrderProductDownload digitalProduct, Long orderId) {
 		return new StringBuilder().append(Constants.SHOP_URI).append(Constants.ORDER_DOWNLOAD_URI).append(Constants.SLASH).append(orderId).append(Constants.SLASH).append(digitalProduct.getId()).append(Constants.URL_EXTENSION).toString();
 	}
 	
+	public String buildStaticFileAbsolutePath(MerchantStore store, String fileName) {
+		
+		String absolutePath = null;
+		
+		if(!StringUtils.isBlank(imageUtils.getBasePath()) &&
+			imageUtils.getBasePath().startsWith(Constants.HTTP_SCHEME)) {
+				StringBuilder filePath = new StringBuilder();
+				filePath.append(imageUtils.getBasePath()).append(Constants.FILES_URI).append(Constants.SLASH).append(store.getCode()).append(Constants.SLASH).append(FileContentType.STATIC_FILE).append(Constants.SLASH).append(fileName).toString();
+				absolutePath = filePath.toString();
+		} else {
+				
+			//Map<String,String> configurations = (Map<String, String>)request.getSession().getAttribute(Constants.STORE_CONFIGURATION);
+			String scheme = Constants.HTTP_SCHEME;
+			if(coreConfiguration!=null) {
+				scheme = (String)coreConfiguration.getProperty("SHOP_SCHEME");
+			}
+			
+			StringBuilder storePath = new StringBuilder();
+			storePath.append(scheme).append("://")
+
+			.append(store.getDomainName())
+			.append(coreConfiguration.getProperty("CONTEXT_PATH"));
+			
+
+			storePath.append(storePath.toString()).append(buildStaticFilePath(store,fileName));
+			absolutePath = storePath.toString();
+		
+		}
+		
+		return absolutePath;
+
+		
+	}
+	
 	/**
-	 * Builds http://<domain name>/<context path>
+	 * Builds http[s]://<domain name>/<context path>
 	 * @param store
 	 * @param request
 	 * @return
 	 */
-	public static String buildStoreUri(MerchantStore store, HttpServletRequest request) {
+	public String buildStoreUri(MerchantStore store, HttpServletRequest request) {
+		
+		return this.buildBaseUrl(request, store);
+	}
+	
+	public String buildStoreUri(MerchantStore store, String contextPath) {
+		
 		StringBuilder resourcePath = new StringBuilder();
-		HttpSession session= request.getSession();
-		@SuppressWarnings("unchecked")
-		Map<String,String> configurations = (Map<String, String>)session.getAttribute(Constants.STORE_CONFIGURATION);
-		String scheme = Constants.HTTP_SCHEME;
-		if(configurations!=null) {
-			scheme = (String)configurations.get("scheme");
+		
+		String path = contextPath;
+		if(Constants.SLASH.equals(path)) {
+			path = Constants.BLANK;
 		}
+		
+		String scheme = coreConfiguration.getProperty( ApplicationConstants.SHOP_SCHEME,"http" );
 		
 		String domainName = store.getDomainName();
 		if(StringUtils.isBlank(domainName)) {
 			domainName = Constants.DEFAULT_DOMAIN_NAME;
 		}
 		
-		resourcePath.append(scheme).append("://")
+		resourcePath.append(scheme).append(DOUBLE_SLASH)
 		.append(domainName)
-		.append(request.getContextPath());
+		.append(path);
 		
 		return resourcePath.toString();
 		
 	}
 	
-	public static String buildStoreUri(MerchantStore store, String contextPath) {
+	public String buildRelativeStoreUri(HttpServletRequest request, MerchantStore store) {
+		
 		StringBuilder resourcePath = new StringBuilder();
-		String scheme = Constants.HTTP_SCHEME;
+		
+		String path = request.getContextPath();
+		if(Constants.SLASH.equals(path)) {
+			path = Constants.BLANK;
+		}
+
+		resourcePath.append(path);
+		
+		return resourcePath.toString();
+		
+	}
+	
+	private String buildBaseUrl(HttpServletRequest request, MerchantStore store) {
+		StringBuilder resourcePath = new StringBuilder();
+		
+		String contextPath = request.getContextPath();
+		if(Constants.SLASH.equals(contextPath)) {
+			contextPath = Constants.BLANK;
+		}
+		
+		String scheme = coreConfiguration.getProperty( ApplicationConstants.SHOP_SCHEME,"http" );
 		
 		String domainName = store.getDomainName();
 		if(StringUtils.isBlank(domainName)) {
 			domainName = Constants.DEFAULT_DOMAIN_NAME;
 		}
 		
-		resourcePath.append(scheme).append("://")
+		resourcePath.append(scheme).append(DOUBLE_SLASH)
 		.append(domainName)
 		.append(contextPath);
 		
 		return resourcePath.toString();
-		
 	}
 	
 	
@@ -91,68 +165,24 @@ public class FilePathUtils {
 	 * @param request
 	 * @return
 	 */
-	public static String buildCustomerUri(MerchantStore store,  String contextPath) {
-/*		StringBuilder resourcePath = new StringBuilder();
-		//@SuppressWarnings("unchecked")
-		//Map<String,String> configurations = (Map<String, String>)session.getAttribute(Constants.STORE_CONFIGURATION);
-		String scheme = Constants.HTTP_SCHEME;
-		//if(configurations!=null) {
-		//	scheme = (String)configurations.get("scheme");
-		//}
-		
-		String domainName = store.getDomainName();
-		if(StringUtils.isBlank(domainName)) {
-			domainName = Constants.DEFAULT_DOMAIN_NAME;
-		}
-		
-		resourcePath.append(scheme).append("://")
-		.append(domainName)
-		.append(contextPath)
-		.append(CUSTOMER_ACCESS_LINK);
-		
-		return resourcePath.toString();*/
-		
-		StringBuilder resourcePath = new StringBuilder();
-		String scheme = Constants.HTTP_SCHEME;
-		
-		String domainName = store.getDomainName();
-		if(StringUtils.isBlank(domainName)) {
-			domainName = Constants.DEFAULT_DOMAIN_NAME;
-		}
-		
-		resourcePath.append(scheme).append("://")
-		.append(domainName)
-		.append(contextPath);
-		
-		return resourcePath.toString();
-		
+	public String buildCustomerUri(MerchantStore store,  String contextPath) {
+
+		return buildStoreUri(store, contextPath);
 	}
 	
-	public static String buildAdminUri(MerchantStore store, HttpServletRequest request) {
+	public String buildAdminUri(MerchantStore store, HttpServletRequest request) {
 		StringBuilder resourcePath = new StringBuilder();
-		HttpSession session= request.getSession();
-		@SuppressWarnings("unchecked")
-		Map<String,String> configurations = (Map<String, String>)session.getAttribute(Constants.STORE_CONFIGURATION);
-		String scheme = Constants.HTTP_SCHEME;
-		if(configurations!=null) {
-			scheme = (String)configurations.get("scheme");
-		}
+
+		String baseUrl = this.buildBaseUrl(request, store);
 		
-		String domainName = store.getDomainName();
-		if(StringUtils.isBlank(domainName)) {
-			domainName = Constants.DEFAULT_DOMAIN_NAME;
-		}
-		
-		resourcePath.append(scheme).append("://")
-		.append(domainName)
-		.append(request.getContextPath())
+		resourcePath
+		.append(baseUrl)
 		.append(Constants.ADMIN_URI);
 		
 		return resourcePath.toString();
-		
 	}
 	
-	public static String buildCategoryUrl(MerchantStore store, String contextPath, String url) {
+	public String buildCategoryUrl(MerchantStore store, String contextPath, String url) {
 		StringBuilder resourcePath = new StringBuilder();
 		resourcePath.append(buildStoreUri(store, contextPath))
 	
@@ -167,7 +197,7 @@ public class FilePathUtils {
 		
 	}
 	
-	public static String buildProductUrl(MerchantStore store, String contextPath, String url) {
+	public String buildProductUrl(MerchantStore store, String contextPath, String url) {
 		StringBuilder resourcePath = new StringBuilder();
 		resourcePath.append(buildStoreUri(store, contextPath))
 			.append(Constants.SHOP_URI)

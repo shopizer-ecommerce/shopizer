@@ -5,9 +5,6 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.tanesha.recaptcha.ReCaptchaImpl;
-import net.tanesha.recaptcha.ReCaptchaResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,11 +25,13 @@ import com.salesmanager.core.business.merchant.model.MerchantStore;
 import com.salesmanager.core.business.reference.language.model.Language;
 import com.salesmanager.core.utils.CoreConfiguration;
 import com.salesmanager.core.utils.ajax.AjaxResponse;
+import com.salesmanager.web.constants.ApplicationConstants;
 import com.salesmanager.web.constants.Constants;
 import com.salesmanager.web.entity.shop.ContactForm;
 import com.salesmanager.web.entity.shop.PageInformation;
 import com.salesmanager.web.shop.controller.AbstractController;
 import com.salesmanager.web.shop.controller.ControllerConstants;
+import com.salesmanager.web.utils.CaptchaRequestUtils;
 import com.salesmanager.web.utils.EmailTemplatesUtils;
 import com.salesmanager.web.utils.LabelUtils;
 import com.salesmanager.web.utils.LocaleUtils;
@@ -55,6 +54,9 @@ public class ContactController extends AbstractController {
 	@Autowired
 	private EmailTemplatesUtils emailTemplatesUtils;
 	
+	@Autowired
+	private CaptchaRequestUtils captchaRequestUtils;
+	
 	private final static String CONTACT_LINK = "CONTACT";
 	
 	
@@ -70,7 +72,7 @@ public class ContactController extends AbstractController {
 		ContactForm contact = new ContactForm();
 		model.addAttribute("contact", contact);
 		
-		model.addAttribute( "recapatcha_public_key", coreConfiguration.getProperty( Constants.RECAPATCHA_PUBLIC_KEY ) );
+		model.addAttribute( "recapatcha_public_key", coreConfiguration.getProperty( ApplicationConstants.RECAPTCHA_PUBLIC_KEY ) );
 		
 		Content content = contentService.getByCode(Constants.CONTENT_CONTACT_US, store, language);
 		ContentDescription contentDescription = null;
@@ -112,19 +114,19 @@ public class ContactController extends AbstractController {
 
 		try {
 			
-			if ( StringUtils.isBlank( contact.getCaptchaResponseField() )) {
-    			FieldError error = new FieldError("captchaResponseField","captchaResponseField",messages.getMessage("NotEmpty.contact.captchaResponseField", locale));
-    			bindingResult.addError(error);
-	            ajaxResponse.setErrorString(bindingResult.getAllErrors().get(0).getDefaultMessage());
-	            ajaxResponse.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
-	            return ajaxResponse.toJSONString();
-			}
+			//if ( StringUtils.isBlank( contact.getCaptchaResponseField() )) {
+    		//	FieldError error = new FieldError("captchaResponseField","captchaResponseField",messages.getMessage("NotEmpty.contact.captchaResponseField", locale));
+    		//	bindingResult.addError(error);
+	        //    ajaxResponse.setErrorString(bindingResult.getAllErrors().get(0).getDefaultMessage());
+	        //    ajaxResponse.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
+	        //    return ajaxResponse.toJSONString();
+			//}
 
-	        ReCaptchaImpl reCaptcha = new ReCaptchaImpl();
-	        reCaptcha.setPublicKey( coreConfiguration.getProperty( Constants.RECAPATCHA_PUBLIC_KEY ) );
-	        reCaptcha.setPrivateKey( coreConfiguration.getProperty( Constants.RECAPATCHA_PRIVATE_KEY ) );
+	        //ReCaptchaImpl reCaptcha = new ReCaptchaImpl();
+	        //reCaptcha.setPublicKey( coreConfiguration.getProperty( ApplicationConstants.RECAPTCHA_PUBLIC_KEY));
+	        //reCaptcha.setPrivateKey( coreConfiguration.getProperty( ApplicationConstants.RECAPTCHA_PRIVATE_KEY ) );
 	        
-	        if ( StringUtils.isNotBlank( contact.getCaptchaChallengeField() )
+/*	        if ( StringUtils.isNotBlank( contact.getCaptchaChallengeField() )
 	                && StringUtils.isNotBlank( contact.getCaptchaResponseField() ) )
 	            {
 	                ReCaptchaResponse reCaptchaResponse =
@@ -137,7 +139,20 @@ public class ContactController extends AbstractController {
 	        			bindingResult.addError(error);
 	                }
 
-	            }
+	        }*/
+	        
+	        if(!StringUtils.isBlank(request.getParameter("g-recaptcha-response"))) {
+	        	boolean validateCaptcha = captchaRequestUtils.checkCaptcha(request.getParameter("g-recaptcha-response"));
+	        	
+                if ( !validateCaptcha )
+                {
+                    LOGGER.debug( "Captcha response does not matched" );
+        			FieldError error = new FieldError("captchaChallengeField","captchaChallengeField",messages.getMessage("validaion.recaptcha.not.matched", locale));
+        			bindingResult.addError(error);
+                }
+	        }
+	        
+	        
 	        
 	        if ( bindingResult.hasErrors() )
 	        {

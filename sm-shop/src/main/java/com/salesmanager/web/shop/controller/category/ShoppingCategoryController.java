@@ -2,6 +2,7 @@ package com.salesmanager.web.shop.controller.category;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -15,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,6 +49,7 @@ import com.salesmanager.web.shop.controller.ControllerConstants;
 import com.salesmanager.web.shop.model.filter.QueryFilter;
 import com.salesmanager.web.shop.model.filter.QueryFilterType;
 import com.salesmanager.web.utils.BreadcrumbsUtils;
+import com.salesmanager.web.utils.ImageFilePath;
 import com.salesmanager.web.utils.LabelUtils;
 import com.salesmanager.web.utils.PageBuilderUtils;
 
@@ -90,6 +93,10 @@ public class ShoppingCategoryController {
 	
 	@Autowired
 	private PricingService pricingService;
+	
+	@Autowired
+	@Qualifier("img")
+	private ImageFilePath imageUtils;
 	
 
 	
@@ -505,6 +512,7 @@ public class ShoppingCategoryController {
 			
 			ReadableProductPopulator populator = new ReadableProductPopulator();
 			populator.setPricingService(pricingService);
+			populator.setimageUtils(imageUtils);
 
 			for(Product product : products) {
 				//create new proxy product
@@ -648,6 +656,7 @@ public class ShoppingCategoryController {
 			productCriteria.setMaxCount(max);
 			productCriteria.setStartIndex(start);
 			productCriteria.setCategoryIds(ids);
+			productCriteria.setAvailable(true);
 			
 			if(filters!=null) {
 				for(QueryFilter filter : filters) {
@@ -661,7 +670,7 @@ public class ShoppingCategoryController {
 
 			ReadableProductPopulator populator = new ReadableProductPopulator();
 			populator.setPricingService(pricingService);
-			
+			populator.setimageUtils(imageUtils);
 			
 			ProductList productList = new ProductList();
 			for(Product product : products.getProducts()) {
@@ -672,6 +681,19 @@ public class ShoppingCategoryController {
 				prices.add(p.getPrice());
 				
 			}
+			
+
+			/** order products based on the specified order **/
+		    Collections.sort(productList.getProducts(), new Comparator<ReadableProduct>() {
+
+				@Override
+				public int compare(ReadableProduct o1, ReadableProduct o2) {
+					int order1 = o1.getSortOrder();
+					int order2 = o2.getSortOrder();
+					return order1 - order2;
+				}
+		    });
+			
 			
 			productList.setProductCount(products.getTotalCount());
 			

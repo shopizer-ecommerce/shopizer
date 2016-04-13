@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -49,13 +51,13 @@ import com.salesmanager.web.entity.catalog.product.attribute.PersistableProductO
 import com.salesmanager.web.entity.catalog.product.attribute.PersistableProductOptionValue;
 import com.salesmanager.web.populator.catalog.PersistableProductOptionPopulator;
 import com.salesmanager.web.populator.catalog.PersistableProductOptionValuePopulator;
-import com.salesmanager.web.populator.catalog.PersistableProductPopulator;
 import com.salesmanager.web.populator.catalog.PersistableProductReviewPopulator;
 import com.salesmanager.web.populator.catalog.ReadableProductPopulator;
 import com.salesmanager.web.populator.manufacturer.PersistableManufacturerPopulator;
 import com.salesmanager.web.shop.controller.product.facade.ProductFacade;
 import com.salesmanager.web.shop.model.filter.QueryFilter;
 import com.salesmanager.web.shop.model.filter.QueryFilterType;
+import com.salesmanager.web.utils.ImageFilePath;
 
 /**
  * API for create, read and delete Product
@@ -101,6 +103,12 @@ public class ShopProductRESTController {
 	
 	@Autowired
 	private LanguageService languageService;
+	
+	@Autowired
+	@Qualifier("img")
+	private ImageFilePath imageUtils;
+	
+
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ShopProductRESTController.class);
 	
@@ -388,8 +396,51 @@ public class ShopProductRESTController {
 		}
 	}
 	
+
+	@RequestMapping("/public/products/{store}")
+	@ResponseBody
+	public ReadableProductList getProducts(@PathVariable String store, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		
+		/** default routine **/
+		
+		MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
+		if(merchantStore!=null) {
+			if(!merchantStore.getCode().equals(store)) {
+				merchantStore = null;
+			}
+		}
+		
+		if(merchantStore== null) {
+			merchantStore = merchantStoreService.getByCode(store);
+		}
+		
+		if(merchantStore==null) {
+			LOGGER.error("Merchant store is null for code " + store);
+			response.sendError(503, "Merchant store is null for code " + store);
+			return null;
+		}
+		
+		Language l = merchantStore.getDefaultLanguage();
+		
+		String lang = l.getCode();
+		
+		if(!StringUtils.isBlank(request.getParameter(Constants.LANG))) {
+			
+			lang = request.getParameter(Constants.LANG);
+			
+		}
+		
+		
+		/** end default routine **/
+		
+		
+
+		
+		return this.getProducts(0, 10000, store, lang, null, null, request, response);
+	}
 	
-	/**
+/*	*//**
 	 * Will get products for a given category
 	 * supports language by setting land as a query parameter
 	 * supports paging by adding start and max as query parameters
@@ -401,13 +452,13 @@ public class ShopProductRESTController {
 	 * @param response
 	 * @return
 	 * @throws Exception
-	 */
-	@RequestMapping("/public/{store}/category/{id}/productsproducts/page/{start}/{max}/{store}/{language}/{category}.html")
+	 *//*
+	@RequestMapping("/public/products/page/{start}/{max}/{store}/{language}/{category}.html")
 	@ResponseBody
-	public ReadableProductList getProducts(@PathVariable String store, @PathVariable final String category, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ReadableProductList getProducts(@PathVariable String store, @PathVariable final String category, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		
-		/** default routine **/
+		*//** default routine **//*
 		
 		MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
 		if(merchantStore!=null) {
@@ -436,19 +487,8 @@ public class ShopProductRESTController {
 			
 		}
 		
-/*		Map<String,Language> langs = languageService.getLanguagesMap();
-
 		
-		if(!StringUtils.isBlank(request.getParameter(Constants.LANG))) {
-			String lang = request.getParameter(Constants.LANG);
-			language = langs.get(language);
-			if(language==null) {
-				language = merchantStore.getDefaultLanguage();
-			}
-		}*/
-		
-		
-		/** end default routine **/
+		*//** end default routine **//*
 		
 		
 		//start
@@ -480,8 +520,8 @@ public class ShopProductRESTController {
 		}
 
 		
-		return this.getProducts(iStart, iMax, store, lang, category, null, model, request, response);
-	}
+		return this.getProducts(iStart, iMax, store, lang, category, null, request, response);
+	}*/
 	
 	
 	/**
@@ -519,11 +559,11 @@ public class ShopProductRESTController {
 			LOGGER.error("Invalid filter or filter-value " + filterType + " - " + filterValue,e);
 		}
 		
-		return this.getProducts(start, max, store, language, category, queryFilters, model, request, response);
+		return this.getProducts(start, max, store, language, category, queryFilters, request, response);
 	}
 	
 	
-	private ReadableProductList getProducts(final int start, final int max, final String store, final String language, final String category, final List<QueryFilter> filters, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	private ReadableProductList getProducts(final int start, final int max, final String store, final String language, final String category, final List<QueryFilter> filters, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		
 		try {
@@ -555,27 +595,7 @@ public class ShopProductRESTController {
 				return null;
 			}
 			
-			//get the category by code
-			Category cat = categoryService.getBySeUrl(merchantStore, category);
-			
-			if(cat==null) {
-				LOGGER.error("Category " + category + " is null");
-				response.sendError(503, "Category is null");//TODO localized message
-				return null;
-			}
-			
-			String lineage = new StringBuilder().append(cat.getLineage()).append(cat.getId()).append("/").toString();
-			
-			List<Category> categories = categoryService.listByLineage(store, lineage);
-			
-			List<Long> ids = new ArrayList<Long>();
-			if(categories!=null && categories.size()>0) {
-				for(Category c : categories) {
-					ids.add(c.getId());
-				}
-			} 
-			ids.add(cat.getId());
-			
+
 
 			Language lang = langs.get(language);
 			if(lang==null) {
@@ -585,7 +605,33 @@ public class ShopProductRESTController {
 			ProductCriteria productCriteria = new ProductCriteria();
 			productCriteria.setMaxCount(max);
 			productCriteria.setStartIndex(start);
-			productCriteria.setCategoryIds(ids);
+			
+			//get the category by code
+			if(!StringUtils.isBlank(category)) {
+				Category cat = categoryService.getBySeUrl(merchantStore, category);
+				
+				if(cat==null) {
+					LOGGER.error("Category " + category + " is null");
+					response.sendError(503, "Category is null");//TODO localized message
+					return null;
+				}
+				
+				
+				String lineage = new StringBuilder().append(cat.getLineage()).append(cat.getId()).append("/").toString();
+				
+				List<Category> categories = categoryService.listByLineage(store, lineage);
+				
+				List<Long> ids = new ArrayList<Long>();
+				if(categories!=null && categories.size()>0) {
+					for(Category c : categories) {
+						ids.add(c.getId());
+					}
+				} 
+				ids.add(cat.getId());
+				
+				
+				productCriteria.setCategoryIds(ids);
+			}
 			
 			if(filters!=null) {
 				for(QueryFilter filter : filters) {
@@ -600,6 +646,7 @@ public class ShopProductRESTController {
 			
 			ReadableProductPopulator populator = new ReadableProductPopulator();
 			populator.setPricingService(pricingService);
+			populator.setimageUtils(imageUtils);
 			
 			
 			ReadableProductList productList = new ReadableProductList();
@@ -626,6 +673,50 @@ public class ShopProductRESTController {
 
 	}
 	
+	
+	@RequestMapping(value = "/public/{store}/product/{id}", method=RequestMethod.GET)
+	@ResponseBody
+	public ReadableProduct getProduct(@PathVariable String store, @PathVariable final Long id, @RequestParam String lang, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		
+		/** bcz of the filter **/
+		MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
+		if(merchantStore!=null) {
+			if(!merchantStore.getCode().equals(store)) {
+				merchantStore = null;
+			}
+		}
+
+		if(store!=null) {
+			merchantStore = merchantStoreService.getByCode(store);
+		}
+		
+		if(merchantStore==null) {
+			LOGGER.error("Merchant store is null for code " + store);
+			response.sendError(503, "Merchant store is null for code " + store);
+			return null;
+		}
+
+		Language language = null;
+		
+		if(!StringUtils.isBlank(lang)) {
+			language = languageService.getByCode(lang);
+		}
+		
+		if(language==null) {
+			language = merchantStore.getDefaultLanguage();
+		}
+		
+		ReadableProduct product = productFacade.getProduct(merchantStore, id, language);
+		
+		if(product==null) {
+			response.sendError(404, "Product not fount for id " + id);
+			return null;
+		}
+		
+		return product;
+		
+	}
 
 	
 	

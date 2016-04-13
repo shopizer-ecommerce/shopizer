@@ -234,16 +234,16 @@ public class SearchServiceImpl implements com.salesmanager.core.business.search.
 				//Map<String,Object> metaEntries = hit.getMetaEntries();
 				Map<String,Object> metaEntries = hit.getItem();
 				IndexProduct indexProduct = new IndexProduct();
-				Map sourceEntries = (Map)metaEntries.get("source");
+				//Map sourceEntries = (Map)metaEntries.get("source");
 				
-				indexProduct.setDescription((String)sourceEntries.get("description"));
-				indexProduct.setHighlight((String)sourceEntries.get("highlight"));
-				indexProduct.setId((String)sourceEntries.get("id"));
-				indexProduct.setLang((String)sourceEntries.get("lang"));
-				indexProduct.setName(((String)sourceEntries.get("name")));
-				indexProduct.setManufacturer(((String)sourceEntries.get("manufacturer")));
-				indexProduct.setPrice(((Double)sourceEntries.get("price")));
-				indexProduct.setStore(((String)sourceEntries.get("store")));
+				indexProduct.setDescription((String)metaEntries.get("description"));
+				indexProduct.setHighlight((String)metaEntries.get("highlight"));
+				indexProduct.setId((String)metaEntries.get("id"));
+				indexProduct.setLang((String)metaEntries.get("lang"));
+				indexProduct.setName(((String)metaEntries.get("name")));
+				indexProduct.setManufacturer(((String)metaEntries.get("manufacturer")));
+				indexProduct.setPrice(Double.valueOf(((String)metaEntries.get("price"))));
+				indexProduct.setStore(((String)metaEntries.get("store")));
 				entry.setIndexProduct(indexProduct);
 				entries.add(entry);
 				

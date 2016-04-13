@@ -98,7 +98,7 @@ public class ProductPriceController {
 	}
 	
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/products/prices/paging.html", method=RequestMethod.POST, produces="application/json")
+	@RequestMapping(value="/admin/products/prices/paging.html", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	public @ResponseBody String pagePrices(HttpServletRequest request, HttpServletResponse response) {
 
 		String sProductId = request.getParameter("productId");

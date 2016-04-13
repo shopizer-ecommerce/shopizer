@@ -8,7 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.salesmanager.core.business.merchant.model.MerchantStore;
 import com.salesmanager.web.constants.Constants;
 
 public class ActiveLinkTag extends TagSupport {
@@ -34,9 +33,7 @@ public class ActiveLinkTag extends TagSupport {
 
 			HttpServletRequest request = (HttpServletRequest) pageContext
 					.getRequest();
-			
-			MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
-			
+
 			String requestLinkCode = (String)request.getAttribute(Constants.LINK_CODE);
 			
 			if(StringUtils.isBlank(requestLinkCode)) {

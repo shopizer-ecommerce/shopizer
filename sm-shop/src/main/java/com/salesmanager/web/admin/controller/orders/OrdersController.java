@@ -77,7 +77,7 @@ public class OrdersController {
 
 	@PreAuthorize("hasRole('ORDER')")
 	@SuppressWarnings({ "unchecked", "unused"})
-	@RequestMapping(value="/admin/orders/paging.html", method=RequestMethod.POST, produces="application/json")
+	@RequestMapping(value="/admin/orders/paging.html", method=RequestMethod.POST, produces="application/json;text/plain;charset=UTF-8")
 	public @ResponseBody String pageOrders(HttpServletRequest request, HttpServletResponse response, Locale locale) {
 
 

@@ -17,13 +17,15 @@ public class ShippingOption implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private BigDecimal optionPrice;
 
-	private String optionName;
-	private String optionCode;
-	private String optionDeliveryDate;
-	private String optionShippingDate;
-	private String optionPriceText;
-	private String optionId;
-	private String description;
+	private String optionName = null;
+	private String optionCode = null;
+	private String optionDeliveryDate = null;
+	private String optionShippingDate = null;
+	private String optionPriceText = null;
+	private String optionId = null;
+	private String description = null;
+	private String shippingModuleCode = null;
+	private String note = null;
 	
 	private String estimatedNumberOfDays;
 
@@ -94,6 +96,22 @@ public class ShippingOption implements Serializable {
 	}
 	public String getEstimatedNumberOfDays() {
 		return estimatedNumberOfDays;
+	}
+
+	public String getShippingModuleCode() {
+		return shippingModuleCode;
+	}
+
+	public void setShippingModuleCode(String shippingModuleCode) {
+		this.shippingModuleCode = shippingModuleCode;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
 	}
 
 

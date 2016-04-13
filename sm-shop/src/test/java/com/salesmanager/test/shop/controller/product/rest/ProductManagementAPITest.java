@@ -156,7 +156,7 @@ public class ProductManagementAPITest {
 		
 		HttpEntity<String> entity = new HttpEntity<String>(json, getHeader());
 
-		ResponseEntity response = restTemplate.postForEntity("http://localhost:8080/sm-shop/services/private//DEFAULT/product/review", entity, PersistableProductReview.class);
+		ResponseEntity response = restTemplate.postForEntity("http://localhost:8080/sm-shop/services/private/DEFAULT/product/review", entity, PersistableProductReview.class);
 
 		PersistableProductReview rev = (PersistableProductReview) response.getBody();
 		System.out.println("New ProductReview ID : " + rev.getId());

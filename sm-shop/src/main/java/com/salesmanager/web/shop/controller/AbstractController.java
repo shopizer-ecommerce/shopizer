@@ -50,8 +50,31 @@ public abstract class AbstractController {
     	return (Language)request.getAttribute(Constants.LANGUAGE);
     }
     
-
+	@ExceptionHandler(Exception.class)
+	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+	public ModelAndView handleException(Exception ex) {
+		
+		ModelAndView model = null;
+		if(ex instanceof AccessDeniedException) {
+			
+			model = new ModelAndView("error/access_denied");
+			
+		} else {
+			
+			model = new ModelAndView("error/generic_error");
+			model.addObject("stackError", ExceptionUtils.getStackTrace(ex));
+			model.addObject("errMsg", ex.getMessage());
+			
+		}
+		
+		
+ 
+		return model;
+ 
+	}
     
+
+ /*   
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
 	public String handleException(Model model, Exception ex, HttpServletRequest request) {
@@ -105,7 +128,7 @@ public abstract class AbstractController {
 		return template.toString();
  
 	}
-
+*/
     protected PaginationData createPaginaionData( final int pageNumber, final int pageSize )
     {
         final PaginationData paginaionData = new PaginationData(pageSize,pageNumber);

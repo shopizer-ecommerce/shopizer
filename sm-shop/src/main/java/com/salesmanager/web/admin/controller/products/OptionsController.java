@@ -222,7 +222,7 @@ public class OptionsController {
 	
 	@SuppressWarnings("unchecked")
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/options/paging.html", method=RequestMethod.POST, produces="application/json")
+	@RequestMapping(value="/admin/options/paging.html", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	public @ResponseBody String pageOptions(HttpServletRequest request, HttpServletResponse response) {
 		
 		String optionName = request.getParameter("name");

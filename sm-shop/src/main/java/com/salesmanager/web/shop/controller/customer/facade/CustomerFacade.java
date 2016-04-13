@@ -7,11 +7,11 @@ import com.salesmanager.core.business.customer.model.Customer;
 import com.salesmanager.core.business.customer.service.CustomerService;
 import com.salesmanager.core.business.merchant.model.MerchantStore;
 import com.salesmanager.core.business.reference.language.model.Language;
+import com.salesmanager.core.business.shoppingcart.model.ShoppingCart;
 import com.salesmanager.web.entity.customer.Address;
 import com.salesmanager.web.entity.customer.CustomerEntity;
 import com.salesmanager.web.entity.customer.PersistableCustomer;
 import com.salesmanager.web.entity.customer.ReadableCustomer;
-import com.salesmanager.web.entity.shoppingcart.ShoppingCartData;
 
 /**
  * <p>Customer facade working as a bridge between {@link CustomerService} and Controller
@@ -60,7 +60,7 @@ public interface CustomerFacade
      * @param sessionShoppingCartId session shopping cart, if user already have few items in Cart.
      * @throws Exception
      */
-    public ShoppingCartData mergeCart(final Customer customer,final String sessionShoppingCartId,final MerchantStore store,final Language language) throws Exception;
+    public ShoppingCart mergeCart(final Customer customer,final String sessionShoppingCartId,final MerchantStore store,final Language language) throws Exception;
     
     public Customer getCustomerByUserName(final String userName, final MerchantStore store) throws Exception;
     

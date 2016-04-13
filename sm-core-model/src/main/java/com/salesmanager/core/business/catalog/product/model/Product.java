@@ -107,6 +107,9 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 	@Column(name="AVAILABLE")
 	private boolean available = true;
 	
+	@Column(name="PREORDER")
+	private boolean preOrder = false;
+	
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH})
 	@JoinColumn(name="MANUFACTURER_ID", nullable=true)
@@ -158,6 +161,12 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 	@Pattern(regexp="^[a-zA-Z0-9_]*$")
 	@Column(name = "SKU")
 	private String sku;
+	
+	/**
+	 * External system reference SKU/ID
+	 */
+	@Column(name = "REF_SKU")
+	private String refSku;
 
 	public Product() {
 	}
@@ -414,6 +423,22 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 			}
 		}
 		return productImage;
+	}
+	
+	public boolean isPreOrder() {
+		return preOrder;
+	}
+
+	public void setPreOrder(boolean preOrder) {
+		this.preOrder = preOrder;
+	}
+
+	public String getRefSku() {
+		return refSku;
+	}
+
+	public void setRefSku(String refSku) {
+		this.refSku = refSku;
 	}
 
 

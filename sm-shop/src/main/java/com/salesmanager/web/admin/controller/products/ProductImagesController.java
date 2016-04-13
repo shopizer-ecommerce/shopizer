@@ -12,9 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,7 +40,7 @@ import com.salesmanager.web.admin.controller.ControllerConstants;
 import com.salesmanager.web.admin.entity.content.ProductImages;
 import com.salesmanager.web.admin.entity.web.Menu;
 import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.utils.ImageFilePathUtils;
+import com.salesmanager.web.utils.ImageFilePath;
 import com.salesmanager.web.utils.LabelUtils;
 
 @Controller
@@ -56,7 +58,11 @@ public class ProductImagesController {
 	private ProductImageService productImageService;
 	
 	@Autowired
-	LabelUtils messages;
+	private LabelUtils messages;
+	
+	@Autowired
+	@Qualifier("img")
+	private ImageFilePath imageUtils;
 	
 
 	@PreAuthorize("hasRole('PRODUCTS')")
@@ -82,14 +88,44 @@ public class ProductImagesController {
 		
 	}
 	
+	@PreAuthorize("hasRole('PRODUCTS')")
+	@RequestMapping(value="/admin/products/images/url/list.html", method=RequestMethod.GET)
+	public String displayProductImagesUrl(@RequestParam("id") long productId, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		
+		setMenu(model,request);
+		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
+		
+		Product product = productService.getById(productId);
+		
+		if(product==null) {
+			return "redirect:/admin/products/products.html";
+		}
+		
+		if(product.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
+			return "redirect:/admin/products/products.html";
+		}
+		
+        Map< String, String > mediaTypes = new HashMap<String, String>();  
+        mediaTypes.put("0", "IMAGE");  
+        mediaTypes.put("1", "VIDEO");   
+		
+		ProductImage productImage = new ProductImage();
+		
+		model.addAttribute("productImage", productImage);
+		model.addAttribute("product",product);
+		model.addAttribute("mediaTypes",mediaTypes);
+		return ControllerConstants.Tiles.Product.productImagesUrl;
+		
+	}
+	
 	
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/products/images/page.html", method=RequestMethod.POST, produces="application/json")
+	@RequestMapping(value="/admin/products/images/page.html", method=RequestMethod.POST, produces="application/json;text/plain;charset=UTF-8")
 	public @ResponseBody String pageProductImages(HttpServletRequest request, HttpServletResponse response) {
 
-		//String attribute = request.getParameter("attribute");
 		String sProductId = request.getParameter("productId");
 		
 		
@@ -115,8 +151,78 @@ public class ProductImagesController {
 
 			MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 			
-			//List<ProductAttribute> attributes = productAttributeService.getByProductId(store, product, language);
+			if(product.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
+				return "redirect:/admin/products/products.html";
+			}
+
+			Set<ProductImage> images = product.getImages();
 			
+			if(images!=null) {
+				
+				for(ProductImage image : images) {
+					
+						String imagePath = imageUtils.buildProductimageUtils(store, product, image.getProductImage());
+						
+						Map entry = new HashMap();
+						//entry.put("picture", new StringBuilder().append(request.getContextPath()).append(imagePath).toString());
+						entry.put("picture", imagePath);
+						entry.put("name", image.getProductImage());
+						entry.put("id",image.getId());
+						
+						resp.addDataEntry(entry);
+					
+				}
+			}
+
+			resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_SUCCESS);
+		
+		} catch (Exception e) {
+			LOGGER.error("Error while paging products", e);
+			resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
+			resp.setErrorMessage(e);
+		}
+		
+		String returnString = resp.toJSONString();
+		return returnString;
+
+
+	}
+	
+	
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@PreAuthorize("hasRole('PRODUCTS')")
+	@RequestMapping(value="/admin/products/images/url/page.html", method=RequestMethod.POST, produces="application/json")
+	public @ResponseBody String pageProductImagesUrl(HttpServletRequest request, HttpServletResponse response) {
+
+		String sProductId = request.getParameter("productId");
+		
+		
+		AjaxResponse resp = new AjaxResponse();
+		
+		Long productId;
+		Product product = null;
+		
+		try {
+			productId = Long.parseLong(sProductId);
+		} catch (Exception e) {
+			resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
+			resp.setErrorString("Product id is not valid");
+			String returnString = resp.toJSONString();
+			return returnString;
+		}
+
+		
+		try {
+			
+			
+			product = productService.getById(productId);
+
+			MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
+
+			if(product.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
+				return "redirect:/admin/products/products.html";
+			}
 			
 			Set<ProductImage> images = product.getImages();
 			
@@ -124,17 +230,19 @@ public class ProductImagesController {
 				
 				for(ProductImage image : images) {
 					
-					String imagePath = ImageFilePathUtils.buildProductImageFilePath(store, product, image.getProductImage());
+					if(!StringUtils.isBlank(image.getProductImageUrl())) {
+
+						Map entry = new HashMap();
+						entry.put("image", image.getProductImageUrl());
+						entry.put("url", image.getProductImageUrl());
+						entry.put("default", image.isDefaultImage());
+						entry.put("id",image.getId());
+						
+						resp.addDataEntry(entry);
 					
-					Map entry = new HashMap();
-					entry.put("picture", new StringBuilder().append(request.getContextPath()).append(imagePath).toString());
-					entry.put("name", image.getProductImage());
-					entry.put("id",image.getId());
-					
-					resp.addDataEntry(entry);
+					}
 				}
-				
-				
+
 			}
 
 
@@ -211,10 +319,58 @@ public class ProductImagesController {
         //reload
         product = productService.getById(productImages.getProductId());
         model.addAttribute("product",product);
+        model.addAttribute("success","success");
         
         return ControllerConstants.Tiles.Product.productImages;
 	}
 	
+
+
+	@PreAuthorize("hasRole('PRODUCTS')")
+	@RequestMapping(value="/admin/products/images/url/save.html", method=RequestMethod.POST)
+	public String saveProductImagesUrl(@ModelAttribute(value="productImage") @Valid final ProductImage productImage, final BindingResult bindingResult,final Model model, final HttpServletRequest request,Locale locale) throws Exception{
+	    
+	    
+		this.setMenu(model, request);
+
+		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
+		
+        Map< String, String > mediaTypes = new HashMap<String, String>();  
+        mediaTypes.put("0", "IMAGE");  
+        mediaTypes.put("1", "VIDEO");   
+
+		model.addAttribute("productImage", productImage);
+		model.addAttribute("mediaTypes",mediaTypes);
+
+		Product product = productService.getById(productImage.getId());
+		model.addAttribute("product",product);
+		if(product==null) {
+			FieldError error = new FieldError("productImages","image",messages.getMessage("message.error", locale));
+			bindingResult.addError(error);
+			return ControllerConstants.Tiles.Product.productImagesUrl;
+		}
+		
+		if(product.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
+			FieldError error = new FieldError("productImages","image",messages.getMessage("message.error", locale));
+			bindingResult.addError(error);
+		}
+		
+		model.addAttribute("product",product);
+		
+		if (bindingResult.hasErrors()) {
+	        LOGGER.info( "Found {} Validation errors", bindingResult.getErrorCount());
+	       return ControllerConstants.Tiles.Product.productImagesUrl;
+        }
+		
+		productImage.setProduct(product);
+		productImage.setId(null);
+		
+		productImageService.saveOrUpdate(productImage);
+        model.addAttribute("product",product);
+        model.addAttribute("success","success");
+        
+        return ControllerConstants.Tiles.Product.productImagesUrl;
+	}
 
 	
 	
@@ -252,22 +408,7 @@ public class ProductImagesController {
 			}
 			
 			productImageService.removeProductImage(productImage);
-			
-			//Long attributeId = Long.parseLong(sAttributeid);
-			//ProductAttribute attribute = productAttributeService.getById(attributeId);
-			
 
-/*			if(attribute==null || attribute.getProduct().getMerchantStore().getId().intValue()!=store.getId()) {
-
-				resp.setStatusMessage(messages.getMessage("message.unauthorized", locale));
-				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);			
-				return resp.toJSONString();
-			} 
-			
-
-			productAttributeService.delete(attribute);
-			*/
-			
 			resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
 
 		
@@ -282,6 +423,7 @@ public class ProductImagesController {
 		
 		return returnString;
 	}
+	
 	
 	
 

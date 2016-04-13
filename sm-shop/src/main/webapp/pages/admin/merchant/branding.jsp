@@ -76,7 +76,7 @@
 				                                    <input class="input-file" id="file" name="file[0]" type="file"><br/>
 				                                </c:when>
 				                                <c:otherwise>
-				                                	<img src="<sm:contentImage imageName="${store.storeLogo}" imageType="LOGO"/>">
+				                                	<img src="<c:url value=""/><sm:contentImage imageName="${store.storeLogo}" imageType="LOGO"/>">
 				                                </c:otherwise>
 			                            </c:choose>
 										

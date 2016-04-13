@@ -296,7 +296,7 @@ public class CustomerAccountController extends AbstractController {
 	 * @throws Exception
 	 */
 	@PreAuthorize("hasRole('AUTH_CUSTOMER')")
-	@RequestMapping(value={"/attributes/save.html"}, method=RequestMethod.POST, produces="application/json")
+	@RequestMapping(value={"/attributes/save.html"}, method=RequestMethod.POST, produces="application/json;text/plain;charset=UTF-8")
 	public @ResponseBody String saveCustomerAttributes(HttpServletRequest request, Locale locale) throws Exception {
 		
 

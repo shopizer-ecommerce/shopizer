@@ -67,7 +67,7 @@ public class ReferenceController {
 	
 	
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value={"/admin/reference/provinces.html","/shop/reference/provinces.html"}, method=RequestMethod.POST, produces="application/json")
+	@RequestMapping(value={"/admin/reference/provinces.html","/shop/reference/provinces.html"}, method=RequestMethod.POST, produces="application/json;text/plain;charset=UTF-8")
 	public @ResponseBody String getProvinces(HttpServletRequest request, HttpServletResponse response) {
 		
 		String countryCode = request.getParameter("countryCode");
@@ -172,7 +172,7 @@ public class ReferenceController {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value={"/shop/reference/creditCardDates.html"}, method=RequestMethod.GET, produces="application/json")
+	@RequestMapping(value={"/shop/reference/creditCardDates.html"}, method=RequestMethod.GET, produces="application/json;text/plain;charset=UTF-8")
 	public @ResponseBody String getCreditCardDates(HttpServletRequest request, HttpServletResponse response) {
 		
 
@@ -215,7 +215,7 @@ public class ReferenceController {
 	
 	
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value={"/shop/reference/monthsOfYear.html"}, method=RequestMethod.GET, produces="application/json")
+	@RequestMapping(value={"/shop/reference/monthsOfYear.html"}, method=RequestMethod.GET, produces="application/json;text/plain;charset=UTF-8")
 	public @ResponseBody String getMonthsOfYear(HttpServletRequest request, HttpServletResponse response) {
 		
 

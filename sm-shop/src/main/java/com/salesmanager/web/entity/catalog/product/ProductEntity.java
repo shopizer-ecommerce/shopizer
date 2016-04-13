@@ -20,6 +20,7 @@ public class ProductEntity extends Product implements Serializable {
 	private int quantity = 0;
 	private String sku;
 	private boolean productShipeable = false;
+	private boolean preOrder = false;
 	private boolean productVirtual = false;
 	private int quantityOrderMaximum =-1;//default unlimited
 	private int quantityOrderMinimum = 1;//default 1
@@ -33,6 +34,7 @@ public class ProductEntity extends Product implements Serializable {
 	private int ratingCount;
 	private int sortOrder;
 	private String dateAvailable;
+	private String refSku;
 
 	
 	
@@ -140,6 +142,18 @@ public class ProductEntity extends Product implements Serializable {
 	}
 	public void setRating(Double rating) {
 		this.rating = rating;
+	}
+	public boolean isPreOrder() {
+		return preOrder;
+	}
+	public void setPreOrder(boolean preOrder) {
+		this.preOrder = preOrder;
+	}
+	public String getRefSku() {
+		return refSku;
+	}
+	public void setRefSku(String refSku) {
+		this.refSku = refSku;
 	}
 
 

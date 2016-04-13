@@ -9,13 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import net.tanesha.recaptcha.ReCaptchaImpl;
-import net.tanesha.recaptcha.ReCaptchaResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -27,8 +25,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.salesmanager.core.business.catalog.product.service.PricingService;
 import com.salesmanager.core.business.customer.CustomerRegistrationException;
 import com.salesmanager.core.business.customer.model.Customer;
+import com.salesmanager.core.business.generic.exception.ConversionException;
 import com.salesmanager.core.business.generic.exception.ServiceException;
 import com.salesmanager.core.business.merchant.model.MerchantStore;
 import com.salesmanager.core.business.reference.country.model.Country;
@@ -37,16 +37,23 @@ import com.salesmanager.core.business.reference.language.model.Language;
 import com.salesmanager.core.business.reference.language.service.LanguageService;
 import com.salesmanager.core.business.reference.zone.model.Zone;
 import com.salesmanager.core.business.reference.zone.service.ZoneService;
+import com.salesmanager.core.business.shoppingcart.model.ShoppingCart;
+import com.salesmanager.core.business.shoppingcart.service.ShoppingCartCalculationService;
 import com.salesmanager.core.business.system.service.EmailService;
 import com.salesmanager.core.utils.CoreConfiguration;
+import com.salesmanager.web.constants.ApplicationConstants;
 import com.salesmanager.web.constants.Constants;
 import com.salesmanager.web.entity.customer.AnonymousCustomer;
 import com.salesmanager.web.entity.customer.CustomerEntity;
 import com.salesmanager.web.entity.customer.SecuredShopPersistableCustomer;
+import com.salesmanager.web.entity.shoppingcart.ShoppingCartData;
+import com.salesmanager.web.populator.shoppingCart.ShoppingCartDataPopulator;
 import com.salesmanager.web.shop.controller.AbstractController;
 import com.salesmanager.web.shop.controller.ControllerConstants;
 import com.salesmanager.web.shop.controller.customer.facade.CustomerFacade;
+import com.salesmanager.web.utils.CaptchaRequestUtils;
 import com.salesmanager.web.utils.EmailTemplatesUtils;
+import com.salesmanager.web.utils.ImageFilePath;
 import com.salesmanager.web.utils.LabelUtils;
 
 /**
@@ -95,6 +102,20 @@ public class CustomerRegistrationController extends AbstractController {
 	
 	@Autowired
 	private EmailTemplatesUtils emailTemplatesUtils;
+	
+	@Autowired
+	private CaptchaRequestUtils captchaRequestUtils;
+	
+	@Autowired
+	@Qualifier("img")
+	private ImageFilePath imageUtils;
+	
+    @Autowired
+    private ShoppingCartCalculationService shoppingCartCalculationService;
+    
+    @Autowired
+    private PricingService pricingService;
+	
 
 
 
@@ -103,7 +124,7 @@ public class CustomerRegistrationController extends AbstractController {
 
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
 
-		model.addAttribute( "recapatcha_public_key", coreConfiguration.getProperty( Constants.RECAPATCHA_PUBLIC_KEY ) );
+		model.addAttribute( "recapatcha_public_key", coreConfiguration.getProperty( ApplicationConstants.RECAPTCHA_PUBLIC_KEY ) );
 		
 		SecuredShopPersistableCustomer customer = new SecuredShopPersistableCustomer();
 		AnonymousCustomer anonymousCustomer = (AnonymousCustomer)request.getAttribute(Constants.ANONYMOUS_CUSTOMER);
@@ -129,32 +150,24 @@ public class CustomerRegistrationController extends AbstractController {
     {
         MerchantStore merchantStore = (MerchantStore) request.getAttribute( Constants.MERCHANT_STORE );
         Language language = super.getLanguage(request);
-        
-        
-        ReCaptchaImpl reCaptcha = new ReCaptchaImpl();
-        reCaptcha.setPublicKey( coreConfiguration.getProperty( Constants.RECAPATCHA_PUBLIC_KEY ) );
-        reCaptcha.setPrivateKey( coreConfiguration.getProperty( Constants.RECAPATCHA_PRIVATE_KEY ) );
-        
+
         String userName = null;
         String password = null;
         
-        model.addAttribute( "recapatcha_public_key", coreConfiguration.getProperty( Constants.RECAPATCHA_PUBLIC_KEY ) );
+        model.addAttribute( "recapatcha_public_key", coreConfiguration.getProperty( ApplicationConstants.RECAPTCHA_PUBLIC_KEY ) );
         
-        if ( StringUtils.isNotBlank( customer.getRecaptcha_challenge_field() )
-            && StringUtils.isNotBlank( customer.getRecaptcha_response_field() ) )
-        {
-            ReCaptchaResponse reCaptchaResponse =
-                reCaptcha.checkAnswer( request.getRemoteAddr(), customer.getRecaptcha_challenge_field(),
-                                       customer.getRecaptcha_response_field() );
-            if ( !reCaptchaResponse.isValid() )
+        if(!StringUtils.isBlank(request.getParameter("g-recaptcha-response"))) {
+        	boolean validateCaptcha = captchaRequestUtils.checkCaptcha(request.getParameter("g-recaptcha-response"));
+        	
+            if ( !validateCaptcha )
             {
                 LOGGER.debug( "Captcha response does not matched" );
-    			FieldError error = new FieldError("recaptcha_challenge_field","recaptcha_challenge_field",messages.getMessage("validaion.recaptcha.not.matched", locale));
+    			FieldError error = new FieldError("captchaChallengeField","captchaChallengeField",messages.getMessage("validaion.recaptcha.not.matched", locale));
     			bindingResult.addError(error);
             }
-
         }
         
+
         if ( StringUtils.isNotBlank( customer.getUserName() ) )
         {
             if ( customerFacade.checkIfUserExists( customer.getUserName(), merchantStore ) )
@@ -240,9 +253,24 @@ public class CustomerRegistrationController extends AbstractController {
             cookie.setMaxAge(60 * 24 * 3600);
             cookie.setPath(Constants.SLASH);
             response.addCookie(cookie);
-	        
-	        
-	        
+            
+            
+            String sessionShoppingCartCode= (String)request.getSession().getAttribute( Constants.SHOPPING_CART );
+            if(!StringUtils.isBlank(sessionShoppingCartCode)) {
+	            ShoppingCart shoppingCart = customerFacade.mergeCart( c, sessionShoppingCartCode, merchantStore, language );
+	            ShoppingCartData shoppingCartData=this.populateShoppingCartData(shoppingCart, merchantStore, language);
+	            if(shoppingCartData !=null) {
+	                request.getSession().setAttribute(Constants.SHOPPING_CART, shoppingCartData.getCode());
+	            }
+
+	            //set username in the cookie
+	            Cookie c1 = new Cookie(Constants.COOKIE_NAME_CART, shoppingCartData.getCode());
+	            c1.setMaxAge(60 * 24 * 3600);
+	            c1.setPath(Constants.SLASH);
+	            response.addCookie(c1);
+	            
+            }
+
 	        return "redirect:/shop/customer/dashboard.html";
         
         
@@ -297,7 +325,23 @@ public class CustomerRegistrationController extends AbstractController {
 
 	
 	
+    private ShoppingCartData populateShoppingCartData(final ShoppingCart cartModel , final MerchantStore store, final Language language){
 
+        ShoppingCartDataPopulator shoppingCartDataPopulator = new ShoppingCartDataPopulator();
+        shoppingCartDataPopulator.setShoppingCartCalculationService( shoppingCartCalculationService );
+        shoppingCartDataPopulator.setPricingService( pricingService );
+        
+        try
+        {
+            return shoppingCartDataPopulator.populate(  cartModel ,  store,  language);
+        }
+        catch ( ConversionException ce )
+        {
+           LOGGER.error( "Error in converting shopping cart to shopping cart data", ce );
+
+        }
+        return null;
+    }
 	
 
 

@@ -28,6 +28,9 @@
   <util:properties id="shopizer-properties">
     			<prop key="MULTIPLE_PRICE_AVAILABILITY">false</prop>
     			<prop key="INDEX_PRODUCTS">false</prop>
+    			
+    			<prop key="SHOP_SCHEME">http</prop>
+				<prop key="CONTEXT_PATH">sm-shop</prop>
 				<!-- Images -->
 				<prop key="PRODUCT_IMAGE_WIDTH_SIZE">350</prop>
 				<prop key="PRODUCT_IMAGE_HEIGHT_SIZE">375</prop>

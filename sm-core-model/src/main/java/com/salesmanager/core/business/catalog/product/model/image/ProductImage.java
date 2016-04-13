@@ -42,9 +42,19 @@ public class ProductImage extends SalesManagerEntity<Long, ProductImage> {
 	@Column(name = "DEFAULT_IMAGE")
 	private boolean defaultImage = true;
 	
+	/**
+	 * default to 0 for images managed by the system
+	 */
 	@Column(name = "IMAGE_TYPE")
 	private int imageType;
 	
+	/**
+	 * Refers to images not accessible through the system. It may also be a video.
+	 */
+	@Column(name = "PRODUCT_IMAGE_URL")
+	private String productImageUrl;
+	
+
 	@Column(name = "IMAGE_CROP")
 	private boolean imageCrop;
 	
@@ -126,7 +136,13 @@ public class ProductImage extends SalesManagerEntity<Long, ProductImage> {
 		this.image = image;
 	}
 
+	public String getProductImageUrl() {
+		return productImageUrl;
+	}
 
+	public void setProductImageUrl(String productImageUrl) {
+		this.productImageUrl = productImageUrl;
+	}
 
 
 }

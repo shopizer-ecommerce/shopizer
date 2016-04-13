@@ -1,5 +1,6 @@
 package com.salesmanager.web.shop.controller.shoppingCart;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.salesmanager.core.business.catalog.product.model.Product;
 import com.salesmanager.core.business.catalog.product.service.PricingService;
 import com.salesmanager.core.business.catalog.product.service.ProductService;
 import com.salesmanager.core.business.catalog.product.service.attribute.ProductAttributeService;
@@ -38,6 +40,7 @@ import com.salesmanager.web.shop.controller.AbstractController;
 import com.salesmanager.web.shop.controller.ControllerConstants;
 import com.salesmanager.web.shop.controller.shoppingCart.facade.ShoppingCartFacade;
 import com.salesmanager.web.utils.LabelUtils;
+import com.salesmanager.web.utils.LanguageUtils;
 
 import edu.emory.mathcs.backport.java.util.Arrays;
 
@@ -114,6 +117,9 @@ public class ShoppingCartController extends AbstractController {
 	
 	@Autowired
 	private LabelUtils messages;
+	
+	@Autowired
+	private LanguageUtils languageUtils;
 	
 	
 
@@ -230,7 +236,7 @@ public class ShoppingCartController extends AbstractController {
         throws Exception
     {
 
-        LOG.info( "Starting to calculate shopping cart..." );
+        LOG.debug( "Starting to calculate shopping cart..." );
         
         
 		//meta information
@@ -253,7 +259,33 @@ public class ShoppingCartController extends AbstractController {
         }
                 
         ShoppingCartData shoppingCart = shoppingCartFacade.getShoppingCartData(customer, store, cartCode);
+        
+        Language lang = languageUtils.getRequestLanguage(request, response);
+        //Filter unavailables
+        List<ShoppingCartItem> unavailables = new ArrayList<ShoppingCartItem>();
+        List<ShoppingCartItem> availables = new ArrayList<ShoppingCartItem>();
+        //Take out items no more available
+        List<ShoppingCartItem> items = shoppingCart.getShoppingCartItems();
+        for(ShoppingCartItem item : items) {
+        	String code = item.getProductCode();
+        	Product p =productService.getByCode(code, lang);
+        	if(!p.isAvailable()) {
+        		unavailables.add(item);
+        	} else {
+        		availables.add(item);
+        	}
+        	
+        }
+        shoppingCart.setShoppingCartItems(availables);
+        shoppingCart.setUnavailables(unavailables);
+        
+
+
         model.addAttribute( "cart", shoppingCart );
+        
+        
+        
+        
 
         /** template **/
         StringBuilder template =
@@ -264,7 +296,7 @@ public class ShoppingCartController extends AbstractController {
     
     
 	@RequestMapping(value={"/shoppingCartByCode.html"},  method = { RequestMethod.GET })
-	public String displayShoppingCart(@ModelAttribute String shoppingCartCode, final Model model, HttpServletRequest request, final Locale locale) throws Exception{
+	public String displayShoppingCart(@ModelAttribute String shoppingCartCode, final Model model, HttpServletRequest request, HttpServletResponse response, final Locale locale) throws Exception{
 
 			MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
 			Customer customer = getSessionAttribute(  Constants.CUSTOMER, request );
@@ -277,6 +309,26 @@ public class ShoppingCartController extends AbstractController {
 			if(cart==null) {
 				return "redirect:/shop";
 			}
+			
+			
+	        Language lang = languageUtils.getRequestLanguage(request, response);
+	        //Filter unavailables
+	        List<ShoppingCartItem> unavailables = new ArrayList<ShoppingCartItem>();
+	        List<ShoppingCartItem> availables = new ArrayList<ShoppingCartItem>();
+	        //Take out items no more available
+	        List<ShoppingCartItem> items = cart.getShoppingCartItems();
+	        for(ShoppingCartItem item : items) {
+	        	String code = item.getProductCode();
+	        	Product p =productService.getByCode(code, lang);
+	        	if(!p.isAvailable()) {
+	        		unavailables.add(item);
+	        	} else {
+	        		availables.add(item);
+	        	}
+	        	
+	        }
+	        cart.setShoppingCartItems(availables);
+	        cart.setUnavailables(unavailables);
 			
 			
 			//meta information

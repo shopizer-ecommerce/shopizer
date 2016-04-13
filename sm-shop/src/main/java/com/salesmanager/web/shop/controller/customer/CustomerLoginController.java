@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Controller;
@@ -17,17 +18,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.salesmanager.core.business.catalog.product.service.PricingService;
 import com.salesmanager.core.business.customer.model.Customer;
+import com.salesmanager.core.business.generic.exception.ConversionException;
 import com.salesmanager.core.business.merchant.model.MerchantStore;
 import com.salesmanager.core.business.reference.language.model.Language;
 import com.salesmanager.core.business.shoppingcart.model.ShoppingCart;
+import com.salesmanager.core.business.shoppingcart.service.ShoppingCartCalculationService;
 import com.salesmanager.core.business.shoppingcart.service.ShoppingCartService;
 import com.salesmanager.core.utils.ajax.AjaxResponse;
 import com.salesmanager.web.constants.Constants;
 import com.salesmanager.web.entity.customer.SecuredCustomer;
 import com.salesmanager.web.entity.shoppingcart.ShoppingCartData;
+import com.salesmanager.web.populator.shoppingCart.ShoppingCartDataPopulator;
 import com.salesmanager.web.shop.controller.AbstractController;
 import com.salesmanager.web.shop.controller.customer.facade.CustomerFacade;
+import com.salesmanager.web.utils.ImageFilePath;
 
 /**
  * Custom Spring Security authentication
@@ -47,6 +53,18 @@ public class CustomerLoginController extends AbstractController {
 
     @Autowired
     private ShoppingCartService shoppingCartService;
+    
+    @Autowired
+    private ShoppingCartCalculationService shoppingCartCalculationService;
+    
+    @Autowired
+    private PricingService pricingService;
+
+    
+	 @Autowired
+	 @Qualifier("img")
+	 private ImageFilePath imageUtils;
+	
 	
 	private static final Logger LOG = LoggerFactory.getLogger(CustomerLoginController.class);
 	
@@ -86,21 +104,29 @@ public class CustomerLoginController extends AbstractController {
             
             
             LOG.info( "Fetching and merging Shopping Cart data" );
-            final String sessionShoppingCartCode= (String)request.getSession().getAttribute( Constants.SHOPPING_CART );
+            String sessionShoppingCartCode= (String)request.getSession().getAttribute( Constants.SHOPPING_CART );
             if(!StringUtils.isBlank(sessionShoppingCartCode)) {
-	            ShoppingCartData shoppingCartData= customerFacade.mergeCart( customerModel, sessionShoppingCartCode, store, language );
+	            ShoppingCart shoppingCart = customerFacade.mergeCart( customerModel, sessionShoppingCartCode, store, language );
+	            ShoppingCartData shoppingCartData=this.populateShoppingCartData(shoppingCart, store, language);
 	            if(shoppingCartData !=null){
 	                jsonObject.addEntry(Constants.SHOPPING_CART, shoppingCartData.getCode());
 	                request.getSession().setAttribute(Constants.SHOPPING_CART, shoppingCartData.getCode());
+	                
+		            //set cart in the cookie
+		            Cookie c = new Cookie(Constants.COOKIE_NAME_CART, shoppingCartData.getCode());
+		            c.setMaxAge(60 * 24 * 3600);
+		            c.setPath(Constants.SLASH);
+		            response.addCookie(c);
+	                
+	            } else {
+	            	//DELETE COOKIE
+	            	Cookie c = new Cookie(Constants.COOKIE_NAME_CART, "");
+		            c.setMaxAge(0);
+		            c.setPath(Constants.SLASH);
+		            response.addCookie(c);
 	            }
 	            
 	            
-	            
-	            //set username in the cookie
-	            Cookie c = new Cookie(Constants.COOKIE_NAME_CART, shoppingCartData.getCode());
-	            c.setMaxAge(60 * 24 * 3600);
-	            c.setPath(Constants.SLASH);
-	            response.addCookie(c);
 	            
             } else {
 
@@ -164,5 +190,23 @@ public class CustomerLoginController extends AbstractController {
         
 	
 	}
+	
+    private ShoppingCartData populateShoppingCartData(final ShoppingCart cartModel , final MerchantStore store, final Language language){
+
+        ShoppingCartDataPopulator shoppingCartDataPopulator = new ShoppingCartDataPopulator();
+        shoppingCartDataPopulator.setShoppingCartCalculationService( shoppingCartCalculationService );
+        shoppingCartDataPopulator.setPricingService( pricingService );
+        
+        try
+        {
+            return shoppingCartDataPopulator.populate(  cartModel ,  store,  language);
+        }
+        catch ( ConversionException ce )
+        {
+           LOG.error( "Error in converting shopping cart to shopping cart data", ce );
+
+        }
+        return null;
+    }
 
 }

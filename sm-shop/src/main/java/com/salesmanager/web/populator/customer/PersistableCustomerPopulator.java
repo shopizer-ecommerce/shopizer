@@ -44,6 +44,7 @@ public class PersistableCustomerPopulator extends
 			
 			if(source.getDelivery()!=null) {
 				Address address = new Address();
+				address.setAddress(source.getDelivery().getAddress());
 				address.setCity(source.getDelivery().getCity());
 				address.setCompany(source.getDelivery().getCompany());
 				address.setFirstName(source.getDelivery().getFirstName());

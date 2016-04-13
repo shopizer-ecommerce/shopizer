@@ -8,7 +8,7 @@
    <uri>/shopizer-tags</uri>
 
 <tag>
- 		 <!-- Builds the image URL -->
+ 		 <!-- Builds the image URL (in admin section only)-->
          <name>contentImage</name>
          <tag-class>com.salesmanager.web.tags.ContentImageUrlTag</tag-class>
          <body-content>scriptless</body-content>
@@ -16,9 +16,16 @@
  
          <attribute>
                  <name>imageName</name>
-                 <required>true</required>
+                 <required>false</required>
                  <rtexprvalue>true</rtexprvalue>
                  <type>java.lang.String</type>
+         </attribute>
+         
+         <attribute>
+                 <name>merchantStore</name>
+                 <required>false</required>
+                 <rtexprvalue>true</rtexprvalue>
+                 <type>com.salesmanager.core.business.merchant.model.MerchantStore</type>
          </attribute>
          
          <attribute>
@@ -45,6 +52,24 @@
          </attribute>
 
 </tag>
+
+
+<tag>
+ 		 <!-- Core configuration -->
+         <name>config</name>
+         <tag-class>com.salesmanager.web.tags.ConfigurationTag</tag-class>
+         <body-content>scriptless</body-content>
+
+ 
+         <attribute>
+                 <name>configurationCode</name>
+                 <required>true</required>
+                 <rtexprvalue>true</rtexprvalue>
+                 <type>java.lang.String</type>
+         </attribute>
+
+</tag>
+
 
 <tag>
  		 <!-- Builds the manufacturer image URL -->

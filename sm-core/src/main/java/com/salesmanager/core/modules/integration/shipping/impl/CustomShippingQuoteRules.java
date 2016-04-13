@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.StringUtils;
 import org.drools.KnowledgeBase;
 import org.drools.runtime.StatelessKnowledgeSession;
 import org.slf4j.Logger;
@@ -34,6 +35,8 @@ public class CustomShippingQuoteRules implements ShippingQuoteModule {
 	
 	
 	private StatelessKnowledgeSession shippingPriceRule;
+	
+	public final static String MODULE_CODE = "customQuotesRules";
 	
 	private KnowledgeBase kbase;
 
@@ -67,13 +70,18 @@ public class CustomShippingQuoteRules implements ShippingQuoteModule {
 		Validate.notNull(packages, "packages cannot be null");
 		Validate.notEmpty(packages, "packages cannot be empty");
 		
-		Long distance = null;
+		//requires the postal code
+		if(StringUtils.isBlank(delivery.getPostalCode())) {
+			return null;
+		}
+
+		Double distance = null;
 		
 		if(quote!=null) {
 			//look if distance has been calculated
 			if(quote.getQuoteInformations()!=null) {
 				if(quote.getQuoteInformations().containsKey(Constants.DISTANCE_KEY)) {
-					distance = (Long)quote.getQuoteInformations().get(Constants.DISTANCE_KEY);
+					distance = (Double)quote.getQuoteInformations().get(Constants.DISTANCE_KEY);
 				}
 			}
 		}
@@ -113,25 +121,39 @@ public class CustomShippingQuoteRules implements ShippingQuoteModule {
 		}
 		
 		if(distance!=null) {
-			inputParameters.setDistance(distance);
+			double ddistance = distance.doubleValue();
+			long ldistance = (long)ddistance;
+			inputParameters.setDistance(ldistance);
 		}
 		
 		if(volume!=null) {
 			inputParameters.setVolume((long)volume.doubleValue());
 		}
 		
-		ShippingOption option = new ShippingOption();
+		List<ShippingOption> options = quote.getShippingOptions();
+		
+		if(options == null) {
+			options = new ArrayList<ShippingOption>();
+			quote.setShippingOptions(options);
+		}
+		
+		
 		
 		LOGGER.debug("Setting input parameters " + inputParameters.toString());
 		
 		shippingPriceRule.execute(Arrays.asList(new Object[] { inputParameters }));
-		
-		List<ShippingOption> options = null;
-		
-		
+
 		if(inputParameters.getPriceQuote() != null) {
-			options = new ArrayList<ShippingOption>();
-			options.add(option);
+
+			ShippingOption shippingOption = new ShippingOption();
+			
+			
+			shippingOption.setOptionPrice(new BigDecimal(inputParameters.getPriceQuote()));
+			shippingOption.setShippingModuleCode(MODULE_CODE);
+			shippingOption.setOptionCode(MODULE_CODE);
+			shippingOption.setOptionId(MODULE_CODE);
+
+			options.add(shippingOption);
 		}
 
 		

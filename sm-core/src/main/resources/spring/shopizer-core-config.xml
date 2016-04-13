@@ -14,6 +14,7 @@
 	
 
    	<bean id="coreConfiguration" class="com.salesmanager.core.utils.CoreConfiguration">
+		<!-- in sm-shop -->
 		<property name="properties" ref="shopizer-properties"/>
 	</bean>
 	

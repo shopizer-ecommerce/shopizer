@@ -4,12 +4,14 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import com.salesmanager.core.business.merchant.model.MerchantStore;
 import com.salesmanager.web.constants.Constants;
 
-
+@Component
 public class EmailUtils {
 	
 	private final static String EMAIL_STORE_NAME = "EMAIL_STORE_NAME";
@@ -19,6 +21,10 @@ public class EmailUtils {
 	private final static String EMAIL_ADMIN_LABEL = "EMAIL_ADMIN_LABEL";
 	private final static String LOGOPATH = "LOGOPATH";
 	
+	@Autowired
+	@Qualifier("img")
+	private ImageFilePath imageUtils;
+	
 	/**
 	 * Builds generic html email information
 	 * @param store
@@ -26,7 +32,7 @@ public class EmailUtils {
 	 * @param locale
 	 * @return
 	 */
-	public static Map<String, String> createEmailObjectsMap(String contextPath, MerchantStore store, LabelUtils messages, Locale locale){
+	public Map<String, String> createEmailObjectsMap(String contextPath, MerchantStore store, LabelUtils messages, Locale locale){
 		
 		Map<String, String> templateTokens = new HashMap<String, String>();
 		
@@ -41,9 +47,10 @@ public class EmailUtils {
 		templateTokens.put(EMAIL_SPAM_DISCLAIMER, messages.getMessage("email.spam.disclaimer", locale));
 		
 		if(store.getStoreLogo()!=null) {
+			//TODO revise
 			StringBuilder logoPath = new StringBuilder();
 			String scheme = Constants.HTTP_SCHEME;
-			logoPath.append("<img src='").append(scheme).append("://").append(store.getDomainName()).append(contextPath).append("/").append(ImageFilePathUtils.buildStoreLogoFilePath(store)).append("' style='max-width:400px;'>");
+			logoPath.append("<img src='").append(scheme).append("://").append(store.getDomainName()).append(contextPath).append("/").append(imageUtils.buildStoreLogoFilePath(store)).append("' style='max-width:400px;'>");
 			templateTokens.put(LOGOPATH, logoPath.toString());
 		} else {
 			templateTokens.put(LOGOPATH, store.getStorename());

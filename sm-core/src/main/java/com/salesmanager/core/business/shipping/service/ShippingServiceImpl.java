@@ -32,6 +32,7 @@ import com.salesmanager.core.business.reference.language.model.Language;
 import com.salesmanager.core.business.reference.language.service.LanguageService;
 import com.salesmanager.core.business.shipping.model.PackageDetails;
 import com.salesmanager.core.business.shipping.model.ShippingConfiguration;
+import com.salesmanager.core.business.shipping.model.ShippingMetaData;
 import com.salesmanager.core.business.shipping.model.ShippingOption;
 import com.salesmanager.core.business.shipping.model.ShippingOptionPriceType;
 import com.salesmanager.core.business.shipping.model.ShippingOrigin;
@@ -53,7 +54,7 @@ import com.salesmanager.core.constants.ShippingConstants;
 import com.salesmanager.core.modules.integration.IntegrationException;
 import com.salesmanager.core.modules.integration.shipping.model.Packaging;
 import com.salesmanager.core.modules.integration.shipping.model.ShippingQuoteModule;
-import com.salesmanager.core.modules.integration.shipping.model.ShippingQuotePreProcessModule;
+import com.salesmanager.core.modules.integration.shipping.model.ShippingQuotePrePostProcessModule;
 import com.salesmanager.core.modules.utils.Encryption;
 import com.salesmanager.core.utils.reference.ConfigurationModulesLoader;
 
@@ -65,6 +66,7 @@ public class ShippingServiceImpl implements ShippingService {
 	
 	private final static String SUPPORTED_COUNTRIES = "SUPPORTED_CNTR";
 	private final static String SHIPPING_MODULES = "SHIPPING";
+	private final static String SHIPPING_DISTANCE = "shippingDistanceModule";
 	
 	@Autowired
 	private MerchantConfigurationService merchantConfigurationService;
@@ -101,7 +103,12 @@ public class ShippingServiceImpl implements ShippingService {
 	//shipping pre-processors
 	@Autowired
 	@Resource(name="shippingModulePreProcessors")
-	private List<ShippingQuotePreProcessModule> shippingModulePreProcessors;
+	private List<ShippingQuotePrePostProcessModule> shippingModulePreProcessors;
+	
+	//shipping post-processors
+	@Autowired
+	@Resource(name="shippingModulePostProcessors")
+	private List<ShippingQuotePrePostProcessModule> shippingModulePostProcessors;
 	
 	@Override
 	public ShippingConfiguration getShippingConfiguration(MerchantStore store) throws ServiceException {
@@ -363,16 +370,28 @@ public class ShippingServiceImpl implements ShippingService {
 	public ShippingQuote getShippingQuote(MerchantStore store, Delivery delivery, List<ShippingProduct> products, Language language) throws ServiceException  {
 		
 		
+		//ShippingConfiguration -> Global configuration of a given store
+		//IntegrationConfiguration -> Configuration of a given module
+		//IntegrationModule -> The concrete module as defined in integrationmodules.properties
+		
+		//delivery without postal code is accepted
 		Validate.notNull(store,"MerchantStore must not be null");
 		Validate.notNull(delivery,"Delivery must not be null");
 		Validate.notEmpty(products,"products must not be empty");
 		Validate.notNull(language,"Language must not be null");
 		
 		
+		
 		ShippingQuote shippingQuote = new ShippingQuote();
 		ShippingQuoteModule shippingQuoteModule = null;
 		
 		try {
+			
+			
+			if(StringUtils.isBlank(delivery.getPostalCode())) {
+				shippingQuote.getWarnings().add("No postal code in delivery address");
+				shippingQuote.setShippingReturnCode(ShippingQuote.NO_POSTAL_CODE);
+			}
 		
 			//get configuration
 			ShippingConfiguration shippingConfiguration = getShippingConfiguration(store);
@@ -427,7 +446,7 @@ public class ShippingServiceImpl implements ShippingService {
 			
 			//must have a shipping module configured
 			Map<String, IntegrationConfiguration> modules = this.getShippingModulesConfigured(store);
-			if(modules==null){
+			if(modules == null){
 				shippingQuote.setShippingReturnCode(ShippingQuote.NO_SHIPPING_MODULE_CONFIGURED);
 				return shippingQuote;
 			}
@@ -442,7 +461,12 @@ public class ShippingServiceImpl implements ShippingService {
 				//use the first active module
 				if(configuration.isActive()) {
 					shippingQuoteModule = this.shippingModules.get(module);
-					break;
+					if(shippingQuoteModule instanceof ShippingQuotePrePostProcessModule) {
+						shippingQuoteModule = null;
+						continue;
+					} else {
+						break;
+					}
 				}
 			}
 			
@@ -507,11 +531,13 @@ public class ShippingServiceImpl implements ShippingService {
 			
 			//invoke pre processors
 			if(!CollectionUtils.isEmpty(shippingModulePreProcessors)) {
-				for(ShippingQuotePreProcessModule preProcessor : shippingModulePreProcessors) {
-					preProcessor.preProcessShippingQuotes(shippingQuote, packages, orderTotal, delivery, shippingOrigin, store, configuration, shippingModule, shippingConfiguration, shippingMethods, locale);
+				for(ShippingQuotePrePostProcessModule preProcessor : shippingModulePreProcessors) {
+					//System.out.println("Using pre-processor " + preProcessor.getModuleCode());
+					preProcessor.prePostProcessShippingQuotes(shippingQuote, packages, orderTotal, delivery, shippingOrigin, store, configuration, shippingModule, shippingConfiguration, shippingMethods, locale);
 					//TODO switch module if required
 					if(shippingQuote.getCurrentShippingModule()!=null && !shippingQuote.getCurrentShippingModule().getCode().equals(shippingModule.getCode())) {
 						shippingModule = shippingQuote.getCurrentShippingModule();
+						moduleName = shippingModule.getCode();
 						shippingQuoteModule = this.shippingModules.get(shippingModule.getCode());
 						configuration = modules.get(shippingModule.getCode());
 					}
@@ -535,7 +561,7 @@ public class ShippingServiceImpl implements ShippingService {
 				return shippingQuote;
 			}
 			
-			if(shippingOptions==null) {
+			if(shippingOptions==null &&!StringUtils.isBlank(delivery.getPostalCode())) {
 				shippingQuote.setShippingReturnCode(ShippingQuote.NO_SHIPPING_TO_SELECTED_COUNTRY);
 			}
 			
@@ -555,6 +581,7 @@ public class ShippingServiceImpl implements ShippingService {
 					//set price text
 					String priceText = pricingService.getDisplayAmount(option.getOptionPrice(), store);
 					option.setOptionPriceText(priceText);
+					option.setShippingModuleCode(moduleName);
 				
 					if(StringUtils.isBlank(option.getOptionName())) {
 						
@@ -614,7 +641,35 @@ public class ShippingServiceImpl implements ShippingService {
 			
 			}
 			
+			/** set final delivery address **/
+			shippingQuote.setDeliveryAddress(delivery);
+			
 			shippingQuote.setShippingOptions(shippingOptions);
+			
+			/** post processors **/
+			//invoke pre processors
+			if(!CollectionUtils.isEmpty(shippingModulePostProcessors)) {
+				for(ShippingQuotePrePostProcessModule postProcessor : shippingModulePostProcessors) {
+					//get module info
+					
+					//get module configuration
+					IntegrationConfiguration integrationConfiguration = modules.get(postProcessor.getModuleCode());
+					
+					IntegrationModule postProcessModule = null;
+					for(IntegrationModule mod : shippingMethods) {
+						if(mod.getCode().equals(postProcessor.getModuleCode())){
+							postProcessModule = mod;
+							break;
+						}
+					}
+					
+					IntegrationModule module = postProcessModule;
+					postProcessor.prePostProcessShippingQuotes(shippingQuote, packages, orderTotal, delivery, shippingOrigin, store, integrationConfiguration, module, shippingConfiguration, shippingMethods, locale);
+				}
+			}
+			
+			
+			
 			
 		} catch (Exception e) {
 			throw new ServiceException(e);
@@ -778,6 +833,53 @@ public class ShippingServiceImpl implements ShippingService {
 		}
 
 		return requiresShipping;		
+	}
+
+	@Override
+	public ShippingMetaData getShippingMetaData(MerchantStore store)
+			throws ServiceException {
+		
+		ShippingMetaData metaData = new ShippingMetaData();
+		
+		// configured country
+		List<Country> countries = getShipToCountryList(store, store.getDefaultLanguage());
+		metaData.setShipToCountry(countries);
+		
+		// configured modules
+		Map<String,IntegrationConfiguration> modules = getShippingModulesConfigured(store);
+		List<String> moduleKeys = new ArrayList<String>();
+		if(modules!=null) {
+			for(String key : modules.keySet()) {
+				moduleKeys.add(key);
+			}
+		}
+		metaData.setModules(moduleKeys);
+		
+		// pre processors
+		List<ShippingQuotePrePostProcessModule> preProcessors = this.shippingModulePreProcessors;
+		List<String> preProcessorKeys = new ArrayList<String>();
+		if(preProcessors!=null) {
+			for(ShippingQuotePrePostProcessModule processor : preProcessors) {
+				preProcessorKeys.add(processor.getModuleCode());
+				if(SHIPPING_DISTANCE.equals(processor.getModuleCode())) {
+					metaData.setUseDistanceModule(true);
+				}
+			}
+		}
+		metaData.setPreProcessors(preProcessorKeys);
+		
+		//post processors
+		List<ShippingQuotePrePostProcessModule> postProcessors = this.shippingModulePostProcessors;
+		List<String> postProcessorKeys = new ArrayList<String>();
+		if(postProcessors!=null) {
+			for(ShippingQuotePrePostProcessModule processor : postProcessors) {
+				postProcessorKeys.add(processor.getModuleCode());
+			}
+		}
+		metaData.setPostProcessors(postProcessorKeys);
+		
+		
+		return metaData;
 	}
 	
 

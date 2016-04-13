@@ -109,6 +109,9 @@ public class Order extends SalesManagerEntity<Long, Order> {
 	
 	@Column(name = "CUSTOMER_AGREED")
 	private Boolean customerAgreement = false;
+	
+	@Column(name = "CONFIRMED_ADDRESS")
+	private Boolean confirmedAddress = false;
 
 	@Embedded
 	private Delivery delivery = null;
@@ -370,6 +373,14 @@ public class Order extends SalesManagerEntity<Long, Order> {
 
 	public void setCustomerAgreement(Boolean customerAgreement) {
 		this.customerAgreement = customerAgreement;
+	}
+
+	public Boolean getConfirmedAddress() {
+		return confirmedAddress;
+	}
+
+	public void setConfirmedAddress(Boolean confirmedAddress) {
+		this.confirmedAddress = confirmedAddress;
 	}
 
 }

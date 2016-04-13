@@ -55,7 +55,6 @@ import com.salesmanager.web.entity.customer.Address;
 import com.salesmanager.web.entity.customer.CustomerEntity;
 import com.salesmanager.web.entity.customer.PersistableCustomer;
 import com.salesmanager.web.entity.customer.ReadableCustomer;
-import com.salesmanager.web.entity.shoppingcart.ShoppingCartData;
 import com.salesmanager.web.populator.customer.CustomerBillingAddressPopulator;
 import com.salesmanager.web.populator.customer.CustomerDeliveryAddressPopulator;
 import com.salesmanager.web.populator.customer.CustomerEntityPopulator;
@@ -63,7 +62,6 @@ import com.salesmanager.web.populator.customer.CustomerPopulator;
 import com.salesmanager.web.populator.customer.PersistableCustomerBillingAddressPopulator;
 import com.salesmanager.web.populator.customer.PersistableCustomerShippingAddressPopulator;
 import com.salesmanager.web.populator.customer.ReadableCustomerPopulator;
-import com.salesmanager.web.populator.shoppingCart.ShoppingCartDataPopulator;
 
 
 /**
@@ -72,14 +70,15 @@ import com.salesmanager.web.populator.shoppingCart.ShoppingCartDataPopulator;
  * @author Umesh Awasthi
  *
  */
+////http://stackoverflow.com/questions/17444258/how-to-use-new-passwordencoder-from-spring-security
 
 @Service("customerFacade")
-//// http://stackoverflow.com/questions/17444258/how-to-use-new-passwordencoder-from-spring-security
 public class CustomerFacadeImpl implements CustomerFacade
 {
 
 	private static final Logger LOG = LoggerFactory.getLogger(CustomerFacadeImpl.class);
 	private final static int USERNAME_LENGTH=6;
+
 
 	 @Autowired
      private CustomerService customerService;
@@ -170,7 +169,7 @@ public class CustomerFacadeImpl implements CustomerFacade
     *  @see com.salesmanager.web.shop.controller.customer.facade#mergeCart(final Customer customerModel, final String sessionShoppingCartId ,final MerchantStore store,final Language language)
     */
     @Override
-    public ShoppingCartData mergeCart( final Customer customerModel, final String sessionShoppingCartId ,final MerchantStore store,final Language language)
+    public ShoppingCart mergeCart( final Customer customerModel, final String sessionShoppingCartId ,final MerchantStore store,final Language language)
         throws Exception
     {
 
@@ -187,7 +186,8 @@ public class CustomerFacadeImpl implements CustomerFacade
 		                   sessionShoppingCart.setCustomerId( customerModel.getId() );
 		                   shoppingCartService.saveOrUpdate( sessionShoppingCart );
 		                   customerCart =shoppingCartService.getById( sessionShoppingCart.getId(), store );
-		                   return populateShoppingCartData(customerCart,store,language);
+		                   return customerCart;
+		                   //return populateShoppingCartData(customerCart,store,language);
 	            	   } else {
 	            		   return null;
 	            	   }
@@ -198,7 +198,8 @@ public class CustomerFacadeImpl implements CustomerFacade
 	                    	LOG.debug( "Customer shopping cart as well session cart is available, merging carts" );
 	                    	customerCart=shoppingCartService.mergeShoppingCarts( customerCart, sessionShoppingCart, store );
 	                    	customerCart =shoppingCartService.getById( customerCart.getId(), store );
-		                    return populateShoppingCartData(customerCart,store,language);
+	                    	return customerCart;
+		                    //return populateShoppingCartData(customerCart,store,language);
 	                    } else {
 	                    	if(sessionShoppingCart.getCustomerId().longValue()==customerModel.getId().longValue()) {
 	                    		if(!customerCart.getShoppingCartCode().equals(sessionShoppingCart.getShoppingCartCode())) {
@@ -206,9 +207,11 @@ public class CustomerFacadeImpl implements CustomerFacade
 		                    		LOG.info( "Customer shopping cart as well session cart is available" );
 		                    		customerCart=shoppingCartService.mergeShoppingCarts( customerCart, sessionShoppingCart, store );
 		                    		customerCart =shoppingCartService.getById( customerCart.getId(), store );
-		    	                    return populateShoppingCartData(customerCart,store,language);
+		                    		return customerCart;
+		    	                    //return populateShoppingCartData(customerCart,store,language);
 	                    		} else {
-	                    			return populateShoppingCartData(sessionShoppingCart,store,language);
+	                    			return customerCart;
+	                    			//return populateShoppingCartData(sessionShoppingCart,store,language);
 	                    		}
 	                    	} else {
 	                    		//the saved cart belongs to another user
@@ -222,7 +225,8 @@ public class CustomerFacadeImpl implements CustomerFacade
             }
             else{
                  if(customerCart !=null){
-                     return populateShoppingCartData(customerCart,store,language);
+                     //return populateShoppingCartData(customerCart,store,language);
+                     return customerCart;
                  }
                  return null;
 
@@ -234,22 +238,7 @@ public class CustomerFacadeImpl implements CustomerFacade
     }
 
 
-    private ShoppingCartData populateShoppingCartData(final ShoppingCart cartModel , final MerchantStore store, final Language language){
 
-        ShoppingCartDataPopulator shoppingCartDataPopulator = new ShoppingCartDataPopulator();
-        shoppingCartDataPopulator.setShoppingCartCalculationService( shoppingCartCalculationService );
-        shoppingCartDataPopulator.setPricingService( pricingService );
-        try
-        {
-            return shoppingCartDataPopulator.populate(  cartModel ,  store,  language);
-        }
-        catch ( ConversionException ce )
-        {
-           LOG.error( "Error in converting shopping cart to shopping cart data", ce );
-
-        }
-        return null;
-    }
 
 
  	@Override

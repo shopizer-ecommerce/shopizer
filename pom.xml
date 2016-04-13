@@ -19,10 +19,11 @@
 	<sm-core.version>2.0.3-SNAPSHOT</sm-core.version>
 	<sm-core-model.version>2.0.3-SNAPSHOT</sm-core-model.version>
 	<sm-core-modules.version>2.0.3-SNAPSHOT</sm-core-modules.version>
-	<sm-search.version>0.0.5-SNAPSHOT</sm-search.version>
 	<sm-shop.version>2.0.3-SNAPSHOT</sm-shop.version>
 	
-	<shopizer-canadapost.version>0.0.1</shopizer-canadapost.version>	
+	<sm-search.version>0.0.5</sm-search.version>
+	<shopizer-canadapost.version>2.0.3</shopizer-canadapost.version>
+	<shopizer-shipping-distance.version>2.0.3</shopizer-shipping-distance.version>	
   </properties>
 
 

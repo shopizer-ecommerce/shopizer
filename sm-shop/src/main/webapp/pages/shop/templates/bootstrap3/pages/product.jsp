@@ -130,7 +130,7 @@ response.setDateHeader ("Expires", -1);
 									<ul class="thumbnails product-list">
 										<!-- Iterate over featuredItems -->
                          				<c:set var="ITEMS" value="${relatedProducts}" scope="request" />
-	                         			<jsp:include page="/pages/shop/templates/bootstrap/sections/productBox.jsp" />
+	                         			<jsp:include page="/pages/shop/templates/bootstrap3/sections/productBox.jsp" />
 									</ul>
 						</c:if>
 						

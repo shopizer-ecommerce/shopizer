@@ -15,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -78,6 +79,7 @@ import com.salesmanager.web.populator.order.ReadableOrderPopulator;
 import com.salesmanager.web.populator.order.ReadableOrderProductPopulator;
 import com.salesmanager.web.populator.order.ShoppingCartItemPopulator;
 import com.salesmanager.web.shop.controller.customer.facade.CustomerFacade;
+import com.salesmanager.web.utils.ImageFilePath;
 import com.salesmanager.web.utils.LabelUtils;
 import com.salesmanager.web.utils.LocaleUtils;
 
@@ -122,6 +124,10 @@ public class OrderFacadeImpl implements OrderFacade {
 	
 	@Autowired
 	private LabelUtils messages;
+	
+	@Autowired
+	@Qualifier("img")
+	private ImageFilePath imageUtils;
 
 
 	@Override
@@ -357,6 +363,12 @@ public class OrderFacadeImpl implements OrderFacade {
 				((CreditCardPayment)payment).setExpirationMonth(order.getPayment().get("creditcard_card_expirationmonth"));
 				((CreditCardPayment)payment).setExpirationYear(order.getPayment().get("creditcard_card_expirationyear"));
 				
+				
+				Map<String,String> paymentMetaData = order.getPayment();
+				payment.setPaymentMetaData(paymentMetaData);
+				
+
+				
 				CreditCardType creditCardType =null;
 				String cardType = order.getPayment().get("creditcard_card_type");
 				
@@ -371,10 +383,7 @@ public class OrderFacadeImpl implements OrderFacade {
 				} else if(cardType.equalsIgnoreCase(CreditCardType.DISCOVERY.name())) {
 					creditCardType = CreditCardType.DISCOVERY;
 				}
-				
-
-				
-				
+	
 				((CreditCardPayment)payment).setCreditCard(creditCardType);
 			
 				CreditCard cc = new CreditCard();
@@ -387,6 +396,14 @@ public class OrderFacadeImpl implements OrderFacade {
 				String maskedNumber = CreditCardUtils.maskCardNumber(order.getPayment().get("creditcard_card_number"));
 				cc.setCcNumber(maskedNumber);
 				modelOrder.setCreditCard(cc);
+				
+				/**
+				 * Some payment method works wit a token for PCI reasons,
+				 * we have to remove the credit card number from the system
+				 */
+				//if(order.getPayment().get("null_creditcard")!=null) {
+				//	((CreditCardPayment)payment).setCreditCardNumber(null);
+				//}
 
 			}
 			
@@ -449,14 +466,16 @@ public class OrderFacadeImpl implements OrderFacade {
 		billing.setCountry(store.getCountry());
 		billing.setZone(store.getZone());
 		billing.setState(store.getStorestateprovince());
-		billing.setPostalCode(store.getStorepostalcode());
+		/** empty postal code for initial quote **/
+		//billing.setPostalCode(store.getStorepostalcode());
 		customer.setBilling(billing);
 		
 		Delivery delivery = new Delivery();
 		delivery.setCountry(store.getCountry());
 		delivery.setZone(store.getZone());
 		delivery.setState(store.getStorestateprovince());
-		delivery.setPostalCode(store.getStorepostalcode());
+		/** empty postal code for initial quote **/
+		//delivery.setPostalCode(store.getStorepostalcode());
 		customer.setDelivery(delivery);
 		
 		return customer;
@@ -501,9 +520,15 @@ public class OrderFacadeImpl implements OrderFacade {
 		
 		//adjust shipping and billing
 		if(order.isShipToBillingAdress()) {
+			
 			Billing billing = customer.getBilling();
+			
+			String postalCode = billing.getPostalCode();
+			postalCode = validatePostalCode(postalCode);
+			
 			delivery.setAddress(billing.getAddress());
 			delivery.setCompany(billing.getCompany());
+			delivery.setCity(billing.getCity());
 			delivery.setPostalCode(billing.getPostalCode());
 			delivery.setState(billing.getState());
 			delivery.setCountry(billing.getCountry());
@@ -520,6 +545,18 @@ public class OrderFacadeImpl implements OrderFacade {
 
 	}
 	
+	private String validatePostalCode(String postalCode) {
+		
+		String patternString = "__";//this one is set in the template
+		//Pattern pattern = Pattern.compile(patternString);
+		//Matcher matcher = pattern.matcher(postalCode);
+		if(postalCode.contains(patternString)) {
+		//if(matcher.matches()) {
+			postalCode = null;
+		}
+		return postalCode;
+	}
+	
 	@Override
 	public List<Country> getShipToCountry(MerchantStore store, Language language) throws Exception {
 		
@@ -531,14 +568,19 @@ public class OrderFacadeImpl implements OrderFacade {
 
 
 
-
+	/**
+	 * ShippingSummary contains the subset of information
+	 * of a ShippingQuote
+	 */
 	@Override
 	public ShippingSummary getShippingSummary(ShippingQuote quote,
 			MerchantStore store, Language language) {
 		
+		ShippingSummary summary = null;
 		if(quote.getSelectedShippingOption()!=null) {
-		
-			ShippingSummary summary = new ShippingSummary();
+			
+
+			summary = new ShippingSummary();
 			summary.setFreeShipping(quote.isFreeShipping());
 			summary.setTaxOnShipping(quote.isApplyTaxOnShipping());
 			summary.setHandling(quote.getHandlingFees());
@@ -546,11 +588,17 @@ public class OrderFacadeImpl implements OrderFacade {
 			summary.setShippingOption(quote.getSelectedShippingOption().getOptionName());
 			summary.setShippingModule(quote.getShippingModuleCode());
 			
-			return summary;
+			if(quote.getDeliveryAddress()!=null) {
+				
+				summary.setDeliveryAddress(quote.getDeliveryAddress());
+
+				
+			}
+				
 		
-		} else {
-			return null;
-		}
+		} 
+		
+		return summary;
 	}
 
 	@Override
@@ -778,6 +826,7 @@ public class OrderFacadeImpl implements OrderFacade {
 		if(order.isShipToBillingAdress()) {
 			Billing billing = customer.getBilling();
 			delivery.setAddress(billing.getAddress());
+			delivery.setCity(billing.getCity());
 			delivery.setCompany(billing.getCompany());
 			delivery.setPostalCode(billing.getPostalCode());
 			delivery.setState(billing.getState());
@@ -840,6 +889,7 @@ public class OrderFacadeImpl implements OrderFacade {
             orderProductPopulator.setLocale(locale);
             orderProductPopulator.setProductService(productService);
             orderProductPopulator.setPricingService(pricingService);
+            orderProductPopulator.setimageUtils(imageUtils);
             ReadableOrderProduct orderProduct = new ReadableOrderProduct();
             orderProductPopulator.populate(p, orderProduct, store, language);
             
@@ -932,6 +982,7 @@ public class OrderFacadeImpl implements OrderFacade {
 			ReadableOrderProductPopulator orderProductPopulator = new ReadableOrderProductPopulator();
 			orderProductPopulator.setProductService(productService);
 			orderProductPopulator.setPricingService(pricingService);
+			orderProductPopulator.setimageUtils(imageUtils);
 			
 			ReadableOrderProduct orderProduct = new ReadableOrderProduct();
 			orderProductPopulator.populate(p, orderProduct, store, language);

@@ -43,6 +43,7 @@ public interface ShoppingCartFacade {
 	public ShoppingCart getShoppingCartModel(final String shoppingCartCode, MerchantStore store) throws Exception;
 	public ShoppingCart getShoppingCartModel(final Customer customer, MerchantStore store) throws Exception;
 	void deleteShoppingCart(String code, MerchantStore store) throws Exception;
+	void saveOrUpdateShoppingCart(ShoppingCart cart) throws Exception;
 
 
 }

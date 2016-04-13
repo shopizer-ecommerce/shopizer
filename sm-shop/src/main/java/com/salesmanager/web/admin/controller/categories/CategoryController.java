@@ -42,7 +42,6 @@ public class CategoryController {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(CategoryController.class);
 	
-	//test
 	@Autowired
 	LanguageService languageService;
 	
@@ -241,7 +240,7 @@ public class CategoryController {
 	
 	@SuppressWarnings({ "unchecked"})
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/categories/paging.html", method=RequestMethod.POST, produces="application/json")
+	@RequestMapping(value="/admin/categories/paging.html", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	public @ResponseBody String pageCategories(HttpServletRequest request, HttpServletResponse response) {
 		String categoryName = request.getParameter("name");
 		String categoryCode = request.getParameter("code");

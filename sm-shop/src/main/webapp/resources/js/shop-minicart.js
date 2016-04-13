@@ -10,7 +10,7 @@
 	
 	function initMiniCart() {
 		var cartCode = getCartCode();
-		log('Check for cart code ' + cartCode);
+		//log('Check for cart code ' + cartCode);
 		if(cartCode!=null) {
 			miniCart(cartCode);
 		} else {
@@ -321,7 +321,7 @@ function fullCart(cart) {
 
     var miniCartTemplate = Hogan.compile(document.getElementById("miniCartTemplate").innerHTML);
     var miniCartRendered = miniCartTemplate.render(cart);
-    console.log(miniCartRendered);
+    //log(miniCartRendered);
     $('#miniCartDetails').html(miniCartRendered);
 	
 }

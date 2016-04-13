@@ -66,6 +66,9 @@ public class ReadableShopOrderPopulator extends
 				customer.setDelivery(address);
 			}
 			
+			//TODO if ship to billing enabled, set delivery = billing
+			
+			
 /*			if(persistableCustomer.getAttributes()!=null) {
 				for(PersistableCustomerAttribute attribute : persistableCustomer.getAttributes()) {
 					ReadableCustomerAttribute readableAttribute = new ReadableCustomerAttribute();
