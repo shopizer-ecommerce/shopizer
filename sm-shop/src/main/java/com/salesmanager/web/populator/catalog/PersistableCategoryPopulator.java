@@ -67,7 +67,7 @@ public class PersistableCategoryPopulator extends
 			target.setDepth(0);
 
 		} else {
-			Category parent = null;
+			Category parent;
 			if(!StringUtils.isBlank(source.getParent().getCode())) {
 				 parent = categoryService.getByCode(store.getCode(), source.getParent().getCode());
 			} else if(source.getParent().getId()!=null) {

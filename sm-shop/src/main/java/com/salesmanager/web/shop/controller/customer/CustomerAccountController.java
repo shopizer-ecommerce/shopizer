@@ -158,7 +158,7 @@ public class CustomerAccountController extends AbstractController {
 		MerchantStore store = getSessionAttribute(Constants.MERCHANT_STORE, request);
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		Customer customer = null;
+		Customer customer;
     	if(auth != null &&
         		 request.isUserInRole("AUTH_CUSTOMER")) {
     		customer = customerFacade.getCustomerByUserName(auth.getName(), store);
@@ -349,8 +349,8 @@ public class CustomerAccountController extends AbstractController {
 			try {
 				
 				String[] parameterKey = parameterName.split("-");
-				com.salesmanager.core.business.customer.model.attribute.CustomerOption customerOption = null;
-				com.salesmanager.core.business.customer.model.attribute.CustomerOptionValue customerOptionValue = null;
+				com.salesmanager.core.business.customer.model.attribute.CustomerOption customerOption;
+				com.salesmanager.core.business.customer.model.attribute.CustomerOptionValue customerOptionValue;
 
 				
 				if(CUSTOMER_ID_PARAMETER.equals(parameterName)) {

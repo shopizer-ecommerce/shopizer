@@ -380,7 +380,7 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 			.append(configKey.toString())
 			.append(Constants.MISSED_CACHE_KEY);
 			
-			Map<String, Object> configs = null;
+			Map<String, Object> configs;
 			
 			if(store.isUseCache()) {
 			
@@ -447,7 +447,7 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 				.append(contentKey.toString())
 				.append(Constants.MISSED_CACHE_KEY);
 				
-				Map<String, List<ContentDescription>> contents = null;
+				Map<String, List<ContentDescription>> contents;
 				
 				if(store.isUseCache()) {
 				
@@ -519,7 +519,7 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 			.append(contentKey.toString())
 			.append(Constants.MISSED_CACHE_KEY);
 			
-			Map<String, List<Content>> contents = null;
+			Map<String, List<Content>> contents;
 			
 			if(store.isUseCache()) {
 			
@@ -593,8 +593,8 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 		
 		
 		//language code - List of category
-		Map<String, List<ReadableCategory>> objects = null;
-		List<ReadableCategory> loadedCategories = null;
+		Map<String, List<ReadableCategory>> objects;
+		List<ReadableCategory> loadedCategories;
 		
 		if(store.isUseCache()) {
 			objects = (Map<String, List<ReadableCategory>>) webApplicationCache.getFromCache(categoriesKey.toString());
@@ -725,7 +725,7 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 						.append(Constants.CONTENT_PAGE_CACHE_KEY)
 						.append("-")
 						.append(lang.getCode()).toString();
-						List<ContentDescription> contentList = null;
+						List<ContentDescription> contentList;
 						if(contents==null || contents.size()==0) {
 							contents = new HashMap<String, List<ContentDescription>>();
 						}
@@ -772,7 +772,7 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 							.append(Constants.CONTENT_CACHE_KEY)
 							.append("-")
 							.append(lang.getCode()).toString();
-							List<Content> contentList = null;
+							List<Content> contentList;
 							if(contents==null || contents.size()==0) {
 								contents = new HashMap<String, List<Content>>();
 							}
@@ -843,7 +843,7 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 								if(category.getDepth().intValue() == 0) {
 								
 									//List<Category> cacheCategories = null;
-									List<ReadableCategory> cacheCategories = null;
+									List<ReadableCategory> cacheCategories;
 									if(objects==null || objects.size()==0) {
 										//objects = new HashMap<String, List<Category>>();
 										objects = new HashMap<String, List<ReadableCategory>>();

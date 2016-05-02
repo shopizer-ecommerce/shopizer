@@ -519,7 +519,7 @@ public class ShippingServiceImpl implements ShippingService {
 			}
 
 			//invoke module
-			List<ShippingOption> shippingOptions = null;
+			List<ShippingOption> shippingOptions;
 					
 			try {
 				shippingOptions = shippingQuoteModule.getShippingQuotes(shippingQuote, packages, orderTotal, delivery, shippingOrigin, store, configuration, shippingModule, shippingConfiguration, locale);
@@ -746,7 +746,7 @@ public class ShippingServiceImpl implements ShippingService {
 			List<ShippingProduct> products, MerchantStore store)
 			throws ServiceException {
 		
-		List<PackageDetails> packages = null;
+		List<PackageDetails> packages;
 		
 		ShippingConfiguration shippingConfiguration = this.getShippingConfiguration(store);
 		//determine if the system has to use BOX or ITEM

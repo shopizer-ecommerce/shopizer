@@ -102,7 +102,7 @@ public class ProductsController {
 			if(!StringUtils.isBlank(categoryId) && !categoryId.equals("-1")) {
 				
 				//get other filters
-				Long lcategoryId = 0L;
+				Long lcategoryId;
 				try {
 					lcategoryId = Long.parseLong(categoryId);
 				} catch (Exception e) {

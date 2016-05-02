@@ -278,7 +278,7 @@ public class USPSShippingQuote implements ShippingQuoteModule {
 				ounces = ouncesString.substring(ouncesIndex + 1);
 			}
 
-			String size = "REGULAR";
+			String size;
 		
 			if (totalL + totalG <= 64) {
 				size = "REGULAR";
@@ -414,7 +414,7 @@ public class USPSShippingQuote implements ShippingQuoteModule {
 
 			LOGGER.debug("USPS QUOTE REQUEST " + xmlbuffer.toString());
 
-			String data = "";
+			String data;
 
 
 			HttpClient client = new HttpClient();

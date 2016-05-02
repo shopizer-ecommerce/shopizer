@@ -117,7 +117,7 @@ public class ShippingOptionsController {
 			shippingConfiguration = new ShippingConfiguration();
 		}
 		
-		BigDecimal submitedOrderPrice = null;
+		BigDecimal submitedOrderPrice;
 		if(!StringUtils.isBlank(configuration.getOrderTotalFreeShippingText())){
 			try {
 				submitedOrderPrice = priceUtil.getAmount(configuration.getOrderTotalFreeShippingText());
@@ -128,7 +128,7 @@ public class ShippingOptionsController {
 			}
 		}
 		
-		BigDecimal submitedHandlingPrice = null;
+		BigDecimal submitedHandlingPrice;
 		if(!StringUtils.isBlank(configuration.getHandlingFeesText())){
 			try {
 				submitedHandlingPrice = priceUtil.getAmount(configuration.getHandlingFeesText());

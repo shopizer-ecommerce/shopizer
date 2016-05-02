@@ -171,7 +171,7 @@ public class CustomerOptionsValueController {
 		setMenu(model,request);
 		
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
-		CustomerOptionValue dbEntity =	null;	
+		CustomerOptionValue dbEntity;	
 
 		if(optionValue.getId() != null && optionValue.getId() >0) { //edit entry
 			
@@ -256,7 +256,7 @@ public class CustomerOptionsValueController {
 		
 			MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 			
-			List<CustomerOptionValue> options = null;
+			List<CustomerOptionValue> options;
 					
 	
 			options = customerOptionValueService.listByStore(store, language);

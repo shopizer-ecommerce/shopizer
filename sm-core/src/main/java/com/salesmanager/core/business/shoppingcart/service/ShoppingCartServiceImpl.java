@@ -314,7 +314,7 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 
 	private void populateItem(final ShoppingCartItem item) throws Exception {
 
-		Product product = null;
+		Product product;
 
 		Long productId = item.getProductId();
 		product = productService.getById(productId);

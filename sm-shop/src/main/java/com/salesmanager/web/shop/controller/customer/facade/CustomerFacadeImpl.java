@@ -317,7 +317,7 @@ public class CustomerFacadeImpl implements CustomerFacade
     public Customer getCustomerModel(final PersistableCustomer customer,final MerchantStore merchantStore, Language language) throws Exception {
         
         LOG.info( "Starting to populate customer model from customer data" );
-        Customer customerModel=null;
+        Customer customerModel;
         CustomerPopulator populator = new CustomerPopulator();
         populator.setCountryService(countryService);
         populator.setCustomerOptionService(customerOptionService);
@@ -439,7 +439,7 @@ public class CustomerFacadeImpl implements CustomerFacade
         throws Exception
     {
 	     LOG.info( "Fetching customer for id {} ", userId);
-        Address address=null;
+        Address address;
         final Customer customerModel=customerService.getById( userId );
         
         if(customerModel == null){

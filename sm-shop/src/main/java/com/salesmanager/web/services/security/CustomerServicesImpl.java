@@ -55,7 +55,7 @@ public class CustomerServicesImpl implements UserDetailsService{
 	public UserDetails loadUserByUsername(String userName)
 			throws UsernameNotFoundException, DataAccessException {
 
-		Customer user = null;
+		Customer user;
 		Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 
 		try {

@@ -165,7 +165,7 @@ public class StripePayment implements PaymentModule {
 				bSandbox = true;
 			}
 
-			String server = "";
+			String server;
 
 
 			ModuleConfig configs = module.getModuleConfigs().get("PROD");
@@ -262,7 +262,7 @@ public class StripePayment implements PaymentModule {
 		
 		String agent = "Mozilla/4.0";
 		String respText = "";
-		Map<String,String> nvp = null;
+		Map<String,String> nvp;
 		DataOutputStream output = null;
 		DataInputStream in = null;
 		BufferedReader is = null;
@@ -314,7 +314,7 @@ public class StripePayment implements PaymentModule {
 				bSandbox = true;
 			}
 
-			String server = "";
+			String server;
 			
 			ModuleConfig configs = module.getModuleConfigs().get("PROD");
 
@@ -368,7 +368,7 @@ public class StripePayment implements PaymentModule {
 			if (rc != -1) {
 				is = new BufferedReader(new InputStreamReader(conn
 						.getInputStream()));
-				String _line = null;
+				String _line;
 				while (((_line = is.readLine()) != null)) {
 					respText = respText + _line;
 				}
@@ -481,7 +481,7 @@ public class StripePayment implements PaymentModule {
 			bSandbox = true;
 		}
 
-		String server = "";
+		String server;
 
 		ModuleConfig configs = module.getModuleConfigs().get("PROD");
 

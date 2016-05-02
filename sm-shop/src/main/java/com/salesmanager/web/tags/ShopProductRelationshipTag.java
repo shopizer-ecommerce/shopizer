@@ -90,7 +90,7 @@ public class ShopProductRelationshipTag extends RequestContextAwareTag  {
 		.append(groupKey.toString())
 		.append(Constants.MISSED_CACHE_KEY);
 		
-		List<ReadableProduct> objects = null;
+		List<ReadableProduct> objects;
 		
 		if(store.isUseCache()) {
 		

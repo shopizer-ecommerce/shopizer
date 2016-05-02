@@ -251,7 +251,7 @@ public class OrderSalesManagerTestCase extends AbstractSalesManagerCoreTestCase 
 	@Test
 	public void getMerchantOrders() throws ServiceException {
 		
-		List<Order> merchantOrders= new ArrayList<Order>();
+		List<Order> merchantOrders;
 		
 		Language language = languageService.getByCode(ENGLISH_LANGUAGE_CODE);
 		Currency currency = currencyService.getByCode(EURO_CURRENCY_CODE);

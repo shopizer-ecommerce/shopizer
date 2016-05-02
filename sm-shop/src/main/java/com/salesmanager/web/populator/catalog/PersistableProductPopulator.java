@@ -74,7 +74,7 @@ public class PersistableProductPopulator extends
 
 			if(source.getManufacturer()!=null) {
 				
-				Manufacturer manuf = null;
+				Manufacturer manuf;
 				if(!StringUtils.isBlank(source.getManufacturer().getCode())) {
 					manuf = manufacturerService.getByCode(store, source.getManufacturer().getCode());
 				} else {
@@ -206,7 +206,7 @@ public class PersistableProductPopulator extends
 			if(source.getAttributes()!=null) {
 				for(com.salesmanager.web.entity.catalog.product.attribute.ProductAttributeEntity attr : source.getAttributes()) {
 					
-					ProductOption productOption = null;
+					ProductOption productOption;
 							
 					if(!StringUtils.isBlank(attr.getOption().getCode())) {
 						productOption = productOptionService.getByCode(store, attr.getOption().getCode());
@@ -219,7 +219,7 @@ public class PersistableProductPopulator extends
 						throw new ConversionException("Product option id " + attr.getOption().getId() + " does not exist");
 					}
 					
-					ProductOptionValue productOptionValue = null;
+					ProductOptionValue productOptionValue;
 					
 					if(!StringUtils.isBlank(attr.getOptionValue().getCode())) {
 						productOptionValue = productOptionValueService.getByCode(store, attr.getOptionValue().getCode());
@@ -256,7 +256,7 @@ public class PersistableProductPopulator extends
 			if(!CollectionUtils.isEmpty(source.getCategories())) {
 				for(com.salesmanager.web.entity.catalog.category.Category categ : source.getCategories()) {
 					
-					Category c = null;
+					Category c;
 					if(!StringUtils.isBlank(categ.getCode())) {
 						c = categoryService.getByCode(store, categ.getCode());
 					} else {

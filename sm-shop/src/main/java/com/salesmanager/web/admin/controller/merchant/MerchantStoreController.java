@@ -228,7 +228,7 @@ public class MerchantStoreController {
 			}
 		}
 		
-		Date date = new Date();
+		Date date;
 		if(!StringUtils.isBlank(store.getDateBusinessSince())) {
 			try {
 				date = DateUtil.getDate(store.getDateBusinessSince());

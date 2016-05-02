@@ -339,7 +339,7 @@ public class ManufacturerController {
 			Language language = (Language)request.getAttribute("LANGUAGE");	
 			MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 			
-			List<Manufacturer> manufacturers = null;				
+			List<Manufacturer> manufacturers;				
 			manufacturers = manufacturerService.listByStore(store, language);
 			
 				

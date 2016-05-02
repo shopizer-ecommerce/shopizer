@@ -121,7 +121,7 @@ public class UserController {
 		try {
 
 			User currentUser = userService.getByUserName(sCurrentUser);
-			List<User> users = null;
+			List<User> users;
 			if(UserUtils.userInGroup(currentUser, Constants.GROUP_SUPERADMIN) ) {
 				users = userService.listUser();
 			} else {
@@ -307,7 +307,7 @@ public class UserController {
 		}
 		
 		
-		List<MerchantStore> stores = new ArrayList<MerchantStore>();
+		List<MerchantStore> stores;
 		//stores.add(store);
 		stores = merchantStoreService.list();
 		
@@ -781,8 +781,8 @@ public class UserController {
 	public @ResponseBody String resetPasswordSecurityQtn(@ModelAttribute(value="userReset") UserReset userReset,HttpServletRequest request, HttpServletResponse response, Locale locale) {
 		
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
-		Language userLanguage = null; 
-		Locale userLocale =  null; 
+		Language userLanguage; 
+		Locale userLocale; 
 		AjaxResponse resp = new AjaxResponse();
 		
 		//String question1 = request.getParameter("question1");

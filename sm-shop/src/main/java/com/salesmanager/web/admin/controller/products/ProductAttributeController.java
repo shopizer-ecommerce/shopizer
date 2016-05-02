@@ -109,7 +109,7 @@ public class ProductAttributeController {
 		AjaxResponse resp = new AjaxResponse();
 		
 		Long productId;
-		Product product = null;
+		Product product;
 		
 		try {
 			productId = Long.parseLong(sProductId);
@@ -211,7 +211,7 @@ public class ProductAttributeController {
 		
 		List<Language> languages = store.getLanguages();
 		
-		ProductAttribute attribute = null;
+		ProductAttribute attribute;
 		
 		//get Options
 		List<ProductOption> options = productOptionService.listByStore(store, language);
@@ -294,7 +294,7 @@ public class ProductAttributeController {
 		}
 		
 		//validate price
-		BigDecimal submitedPrice = null;
+		BigDecimal submitedPrice;
 		try {
 			submitedPrice = priceUtil.getAmount(attribute.getAttributePrice());
 			attribute.setProductAttributePrice(submitedPrice);
@@ -459,7 +459,7 @@ public class ProductAttributeController {
 		AjaxResponse resp = new AjaxResponse();
 		
 		Long prodoptionId;
-		ProductOption productOption = null;
+		ProductOption productOption;
 		
 		try {
 			prodoptionId = Long.parseLong(sOptionId);

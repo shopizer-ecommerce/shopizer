@@ -71,7 +71,7 @@ public class PermissionController {
 
 		try {
 
-			List<Permission> permissions = null;
+			List<Permission> permissions;
 			permissions = permissionService.listPermission();
 
 			for (Permission permission : permissions) {

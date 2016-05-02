@@ -593,7 +593,7 @@ public class PayPalExpressCheckoutPayment implements PaymentModule {
 				// configuration file for your credentials and endpoint
 				PayPalAPIInterfaceServiceService service = new PayPalAPIInterfaceServiceService(configurationMap);
 				
-				DoCaptureResponseType doCaptureResponse = null;
+				DoCaptureResponseType doCaptureResponse;
 
 					// ## Making API call
 					// Invoke the appropriate method corresponding to API in service

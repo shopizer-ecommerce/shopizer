@@ -95,7 +95,7 @@ public class PersistableOrderPopulator extends
 				target.setCreditCard(creditCard);
 			}
 			
-			Currency currency = null;
+			Currency currency;
 			try {
 				currency = currencyService.getByCode(source.getCurrency());
 			} catch(Exception e) {

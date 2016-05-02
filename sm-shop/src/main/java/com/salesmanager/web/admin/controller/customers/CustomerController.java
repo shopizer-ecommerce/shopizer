@@ -126,7 +126,7 @@ public class CustomerController {
 
 		model.addAttribute("languages",languages);
 		
-		Customer customer = null;
+		Customer customer;
 		
 		//if request.attribute contains id then get this customer from customerService
 		if(id!=null && id!=0) {//edit mode
@@ -429,8 +429,8 @@ public class CustomerController {
 			try {
 				
 				String[] parameterKey = parameterName.split("-");
-				com.salesmanager.core.business.customer.model.attribute.CustomerOption customerOption = null;
-				com.salesmanager.core.business.customer.model.attribute.CustomerOptionValue customerOptionValue = null;
+				com.salesmanager.core.business.customer.model.attribute.CustomerOption customerOption;
+				com.salesmanager.core.business.customer.model.attribute.CustomerOptionValue customerOptionValue;
 
 				
 				if(CUSTOMER_ID_PARAMETER.equals(parameterName)) {

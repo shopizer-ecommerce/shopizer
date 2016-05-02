@@ -62,7 +62,7 @@ public class UserServicesImpl implements WebUserServices{
 	public UserDetails loadUserByUsername(String userName)
 			throws UsernameNotFoundException, DataAccessException {
 
-		com.salesmanager.core.business.user.model.User user = null;
+		com.salesmanager.core.business.user.model.User user;
 		Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		
 		try {

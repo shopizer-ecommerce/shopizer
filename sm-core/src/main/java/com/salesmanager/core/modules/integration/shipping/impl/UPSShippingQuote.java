@@ -365,7 +365,7 @@ public class UPSShippingQuote implements ShippingQuoteModule {
 
 			LOGGER.debug("UPS QUOTE REQUEST " + xmlbuffer.toString());
 
-			String data = "";
+			String data;
 
 
 			HttpClient client = new HttpClient();

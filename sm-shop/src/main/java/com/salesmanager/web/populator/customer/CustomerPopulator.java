@@ -112,7 +112,7 @@ public class CustomerPopulator extends
 			if(target.getBilling() ==null && source.getBilling()!=null){
 			    LOG.info( "Setting default values for billing" );
 			    Billing billing = new Billing();
-			    Country billingCountry = null;
+			    Country billingCountry;
 			    if(StringUtils.isNotBlank( source.getBilling().getCountry() )) {
                     billingCountry = countries.get(source.getBilling().getCountry());
                     if(billingCountry==null) {
@@ -158,7 +158,7 @@ public class CustomerPopulator extends
 			if(target.getDelivery() ==null && source.getDelivery()!=null){
 			    LOG.info( "Setting default value for delivery" );
 			    Delivery delivery = new Delivery();
-			    Country deliveryCountry = null;
+			    Country deliveryCountry;
                 if(StringUtils.isNotBlank( source.getDelivery().getCountry() )) {
                     deliveryCountry = countries.get(source.getDelivery().getCountry());
                     if(deliveryCountry==null) {

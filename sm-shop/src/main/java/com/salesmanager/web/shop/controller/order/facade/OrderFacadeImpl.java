@@ -189,7 +189,7 @@ public class OrderFacadeImpl implements OrderFacade {
 	
 	private OrderTotalSummary calculateOrderTotal(MerchantStore store, Customer customer, PersistableOrder order, Language language) throws Exception {
 		
-		OrderTotalSummary orderTotalSummary = null;
+		OrderTotalSummary orderTotalSummary;
 		
 		OrderSummary summary = new OrderSummary();
 		

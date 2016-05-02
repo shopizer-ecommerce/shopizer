@@ -58,7 +58,7 @@ public abstract class AbstractController {
 		
 		
 		MerchantStore store = getSessionAttribute(Constants.MERCHANT_STORE, request);
-		StringBuilder template = null;
+		StringBuilder template;
 		//ModelAndView model = null;
 		if(ex instanceof AccessDeniedException) {
 			

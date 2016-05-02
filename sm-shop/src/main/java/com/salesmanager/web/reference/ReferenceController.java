@@ -176,7 +176,7 @@ public class ReferenceController {
 	public @ResponseBody String getCreditCardDates(HttpServletRequest request, HttpServletResponse response) {
 		
 
-		List<String> years = null;
+		List<String> years;
 		String serialized = null;
 		try {
 			
@@ -219,7 +219,7 @@ public class ReferenceController {
 	public @ResponseBody String getMonthsOfYear(HttpServletRequest request, HttpServletResponse response) {
 		
 
-		List<String> days = null;
+		List<String> days;
 		String serialized = null;
 		
 		try {	

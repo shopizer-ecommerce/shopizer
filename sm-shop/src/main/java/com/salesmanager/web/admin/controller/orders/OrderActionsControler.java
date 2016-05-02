@@ -148,7 +148,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 		
 		AjaxResponse resp = new AjaxResponse();
 
-		BigDecimal submitedAmount = null;
+		BigDecimal submitedAmount;
 		
 		try {
 			
