@@ -511,7 +511,7 @@ public class ShopProductRESTController {
 				filter.setFilterType(QueryFilterType.BRAND);
 				filter.setFilterId(Long.parseLong(filterValue));
 				if(queryFilters==null) {
-					queryFilters = new ArrayList<QueryFilter>();
+					queryFilters = new ArrayList<>();
 				}
 				queryFilters.add(filter);
 			}
@@ -568,7 +568,7 @@ public class ShopProductRESTController {
 			
 			List<Category> categories = categoryService.listByLineage(store, lineage);
 			
-			List<Long> ids = new ArrayList<Long>();
+			List<Long> ids = new ArrayList<>();
 			if(categories!=null && categories.size()>0) {
 				for(Category c : categories) {
 					ids.add(c.getId());

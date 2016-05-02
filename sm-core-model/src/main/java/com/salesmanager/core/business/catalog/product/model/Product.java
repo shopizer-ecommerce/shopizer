@@ -63,19 +63,19 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 	private AuditSection auditSection = new AuditSection();
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "product")
-	private Set<ProductDescription> descriptions = new HashSet<ProductDescription>();
+	private Set<ProductDescription> descriptions = new HashSet<>();
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy="product", orphanRemoval = true)
-	private Set<ProductAvailability> availabilities = new HashSet<ProductAvailability>();
+	private Set<ProductAvailability> availabilities = new HashSet<>();
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "product")
-	private Set<ProductAttribute> attributes = new HashSet<ProductAttribute>();
+	private Set<ProductAttribute> attributes = new HashSet<>();
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "product")
-	private Set<ProductImage> images = new HashSet<ProductImage>();
+	private Set<ProductImage> images = new HashSet<>();
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "product")
-	private Set<ProductRelationship> relationships = new HashSet<ProductRelationship>();
+	private Set<ProductRelationship> relationships = new HashSet<>();
 	
 
 	
@@ -97,7 +97,7 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 		org.hibernate.annotations.CascadeType.REPLICATE
 		
 	})
-	private Set<Category> categories = new HashSet<Category>();
+	private Set<Category> categories = new HashSet<>();
 	
 	@Column(name="DATE_AVAILABLE")
 	@Temporal(TemporalType.TIMESTAMP)

@@ -28,7 +28,7 @@ public class EmailUtils {
 	 */
 	public static Map<String, String> createEmailObjectsMap(String contextPath, MerchantStore store, LabelUtils messages, Locale locale){
 		
-		Map<String, String> templateTokens = new HashMap<String, String>();
+		Map<String, String> templateTokens = new HashMap<>();
 		
 		String[] adminNameArg = {store.getStorename()};
 		String[] adminEmailArg = {store.getStoreEmailAddress()};

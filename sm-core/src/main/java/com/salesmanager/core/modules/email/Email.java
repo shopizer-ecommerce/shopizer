@@ -17,7 +17,7 @@ public class Email implements Serializable {
 	private String subject;
 	private String templateName;
 	
-	private Map<String,String> templateTokens = new HashMap<String,String>();
+	private Map<String,String> templateTokens = new HashMap<>();
 
 	public String getFrom() {
 		return from;

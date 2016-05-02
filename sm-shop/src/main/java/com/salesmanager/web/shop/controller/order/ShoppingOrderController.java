@@ -552,7 +552,7 @@ public class ShoppingOrderController extends AbstractController {
 			    cart = shoppingCartFacade.getShoppingCartModel(shoppingCartCode, store);
 
 				Set<ShoppingCartItem> items = cart.getLineItems();
-				List<ShoppingCartItem> cartItems = new ArrayList<ShoppingCartItem>(items);
+				List<ShoppingCartItem> cartItems = new ArrayList<>(items);
 				order.setShoppingCartItems(cartItems);
 
 				//get payment methods
@@ -654,7 +654,7 @@ public class ShoppingOrderController extends AbstractController {
 				order.setOrderTotalSummary(totalSummary);
 				
 			
-				orderFacade.validateOrder(order, bindingResult, new HashMap<String,String>(), store, locale);
+				orderFacade.validateOrder(order, bindingResult, new HashMap<>(), store, locale);
 		        
 		        if ( bindingResult.hasErrors() )
 		        {
@@ -794,7 +794,7 @@ public class ShoppingOrderController extends AbstractController {
 			}
 			
 			//set list of shopping cart items for core price calculation
-			List<ShoppingCartItem> items = new ArrayList<ShoppingCartItem>(cart.getLineItems());
+			List<ShoppingCartItem> items = new ArrayList<>(cart.getLineItems());
 			order.setShoppingCartItems(items);
 			
 			OrderTotalSummary orderTotalSummary = orderFacade.calculateOrderTotal(store, order, language);
@@ -805,7 +805,7 @@ public class ShoppingOrderController extends AbstractController {
 			totalPopulator.setMessages(messages);
 			totalPopulator.setPricingService(pricingService);
 
-			List<ReadableOrderTotal> subtotals = new ArrayList<ReadableOrderTotal>();
+			List<ReadableOrderTotal> subtotals = new ArrayList<>();
 			for(OrderTotal total : orderTotalSummary.getTotals()) {
 				if(!total.getOrderTotalCode().equals("order.total.total")) {
 					ReadableOrderTotal t = new ReadableOrderTotal();
@@ -906,7 +906,7 @@ public class ShoppingOrderController extends AbstractController {
 			}
 			
 			//set list of shopping cart items for core price calculation
-			List<ShoppingCartItem> items = new ArrayList<ShoppingCartItem>(cart.getLineItems());
+			List<ShoppingCartItem> items = new ArrayList<>(cart.getLineItems());
 			order.setShoppingCartItems(items);
 			
 			OrderTotalSummary orderTotalSummary = orderFacade.calculateOrderTotal(store, order, language);
@@ -917,7 +917,7 @@ public class ShoppingOrderController extends AbstractController {
 			totalPopulator.setMessages(messages);
 			totalPopulator.setPricingService(pricingService);
 
-			List<ReadableOrderTotal> subtotals = new ArrayList<ReadableOrderTotal>();
+			List<ReadableOrderTotal> subtotals = new ArrayList<>();
 			for(OrderTotal total : orderTotalSummary.getTotals()) {
 				if(!total.getOrderTotalCode().equals("order.total.total")) {
 					ReadableOrderTotal t = new ReadableOrderTotal();

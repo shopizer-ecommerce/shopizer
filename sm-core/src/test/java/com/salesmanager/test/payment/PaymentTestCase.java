@@ -89,7 +89,7 @@ public class PaymentTestCase extends AbstractSalesManagerCoreTestCase {
 		paymentConfiguration.setEnvironment(IntegrationConfiguration.TEST_ENVIRONMENT);
 		paymentConfiguration.setModuleCode("beanstream");
 		
-		Map<String,String> integrationKeys = new HashMap<String,String>();
+		Map<String,String> integrationKeys = new HashMap<>();
 		integrationKeys.put("merchantid", "123456");
 		integrationKeys.put("username", "accnt");
 		integrationKeys.put("password", "pass123");

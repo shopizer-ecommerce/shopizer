@@ -185,7 +185,7 @@ public class ReferenceController {
 			
 			if(years==null) {
 			
-				years = new ArrayList<String>();
+				years = new ArrayList<>();
 				//current year
 				
 				for(int i = 0 ; i < 10 ; i++) {
@@ -226,7 +226,7 @@ public class ReferenceController {
 			days = (List<String>)cache.getFromCache(Constants.MONTHS_OF_YEAR_CACHE_KEY);
 			if(days==null) {
 
-				days = new ArrayList<String>();
+				days = new ArrayList<>();
 				for(int i = 1 ; i < 13 ; i++) {
 					days.add(String.format("%02d", i));
 				}

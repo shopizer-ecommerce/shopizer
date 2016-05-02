@@ -162,7 +162,7 @@ public class CustomShippingMethodsController {
 					countries.add(customRegion.getCountries().get(0));
 					
 				} else {
-					List<String> countriesList = new ArrayList<String>();
+					List<String> countriesList = new ArrayList<>();
 					countriesList.add(customRegion.getCountries().get(0));
 					region.setCountries(countriesList);
 				}
@@ -194,7 +194,7 @@ public class CustomShippingMethodsController {
 		String moduleCode = configuration.getModuleCode();
 		LOGGER.debug("Saving module code " + moduleCode);
 		
-		List<String> environments = new ArrayList<String>();
+		List<String> environments = new ArrayList<>();
 		environments.add(com.salesmanager.core.constants.Constants.TEST_ENVIRONMENT);
 		environments.add(com.salesmanager.core.constants.Constants.PRODUCTION_ENVIRONMENT);
 
@@ -257,7 +257,7 @@ public class CustomShippingMethodsController {
 				List<CustomShippingQuotesRegion> quotes = customConfiguration.getRegions();
 				for (CustomShippingQuotesRegion quote : quotes) {
 						List<String> countries = quote.getCountries();
-						List<String> newCountries = new ArrayList<String>();
+						List<String> newCountries = new ArrayList<>();
 						if(countries!=null) {
 							for(String cntry : countries) {
 								if(!cntry.equals(country)) {
@@ -315,7 +315,7 @@ public class CustomShippingMethodsController {
 							List<CustomShippingQuoteWeightItem> quoteItems = quote.getQuoteItems();
 							
 							if(quoteItems!=null) {
-								List<CustomShippingQuoteWeightItem> newQuoteItems = new ArrayList<CustomShippingQuoteWeightItem>();
+								List<CustomShippingQuoteWeightItem> newQuoteItems = new ArrayList<>();
 								for(CustomShippingQuoteWeightItem q : quoteItems) {
 									if(maxWeight!=q.getMaximumWeight()) {
 										newQuoteItems.add(q);
@@ -429,7 +429,7 @@ public class CustomShippingMethodsController {
 						List<String> countries = quote.getCountries();
 						if(countries!=null) {
 							for(String country : countries) {
-								Map<String,String> entry = new HashMap<String,String> ();
+								Map<String,String> entry = new HashMap<>();
 								entry.put("regionCode", country);
 								entry.put("region", quote.getCustomRegionName());
 								entry.put("country", countriesMap.get(country).getName());
@@ -522,7 +522,7 @@ public class CustomShippingMethodsController {
 						List<CustomShippingQuoteWeightItem> quoteItems = quote.getQuoteItems();
 						if(quoteItems!=null) {
 							for(CustomShippingQuoteWeightItem quoteItem : quoteItems) {
-								Map<String,String> entry = new HashMap<String,String> ();
+								Map<String,String> entry = new HashMap<>();
 								entry.put("price", priceUtil.getAdminFormatedAmountWithCurrency(store,quoteItem.getPrice()));
 								entry.put("weight", String.valueOf(quoteItem.getMaximumWeight()));
 								resp.addDataEntry(entry);
@@ -607,7 +607,7 @@ public class CustomShippingMethodsController {
 					}
 					quotes.add(customQuote);
 				} else {
-					quotes = new ArrayList<CustomShippingQuoteWeightItem>();
+					quotes = new ArrayList<>();
 					quotes.add(customQuote);
 					region.setQuoteItems(quotes);
 				}
@@ -657,7 +657,7 @@ public class CustomShippingMethodsController {
 
 		List<CustomShippingQuotesRegion> regions = customConfiguration.getRegions();
 		
-		List<CustomShippingQuotesRegion> newRegions = new ArrayList<CustomShippingQuotesRegion>();
+		List<CustomShippingQuotesRegion> newRegions = new ArrayList<>();
 		for(CustomShippingQuotesRegion reg : regions) {
 
 			if(!reg.getCustomRegionName().equals(region)) {
@@ -734,7 +734,7 @@ public class CustomShippingMethodsController {
 		CustomShippingQuotesRegion customRegion = new CustomShippingQuotesRegion();
 		
 		
-		List<String> environments = new ArrayList<String>();
+		List<String> environments = new ArrayList<>();
 		environments.add(com.salesmanager.core.constants.Constants.PRODUCTION_ENVIRONMENT);//only production
 		
 		model.addAttribute("environments", environments);
@@ -749,7 +749,7 @@ public class CustomShippingMethodsController {
 	private void setMenu(Model model, HttpServletRequest request) throws Exception {
 		
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("shipping", "shipping");
 		activeMenus.put("shipping-methods", "shipping-methods");
 		

@@ -96,8 +96,8 @@ public class PersistableProductPopulator extends
 			
 			target.setMerchantStore(store);
 			
-			List<Language> languages = new ArrayList<Language>();
-			Set<ProductDescription> descriptions = new HashSet<ProductDescription>();
+			List<Language> languages = new ArrayList<>();
+			Set<ProductDescription> descriptions = new HashSet<>();
 			if(!CollectionUtils.isEmpty(source.getDescriptions())) {
 				for(com.salesmanager.web.entity.catalog.product.ProductDescription description : source.getDescriptions()) {
 					

@@ -186,7 +186,7 @@ public class IsolatedTestCase
         criteria.setStartIndex( 0 );
         criteria.setMaxCount( 75 );
 
-        final List<Long> categoryIds = new ArrayList<Long>();
+        final List<Long> categoryIds = new ArrayList<>();
         categoryIds.add( 1L );
         categoryIds.add( 2L );
         categoryIds.add( 3L );
@@ -305,13 +305,13 @@ public class IsolatedTestCase
         product.getDescriptions().add( description );
         // product.getCategories().add(book);
 
-        final Set<ProductAvailability> availabilities = new HashSet<ProductAvailability>();
+        final Set<ProductAvailability> availabilities = new HashSet<>();
 
         final ProductPrice dprice = new ProductPrice();
         dprice.setDefaultPrice( true );
         dprice.setProductPriceAmount( new BigDecimal( 29.99 ) );
 
-        final Set<ProductPrice> prices = new HashSet<ProductPrice>();
+        final Set<ProductPrice> prices = new HashSet<>();
         prices.add( dprice );
 
         // Availability
@@ -351,7 +351,7 @@ public class IsolatedTestCase
         desc2.setAltTag( "ALT IMAGE 1 fr" );
         desc2.setName( "Image du produit" );
 
-        final List<ProductImageDescription> imagedescriptions = new ArrayList<ProductImageDescription>();
+        final List<ProductImageDescription> imagedescriptions = new ArrayList<>();
         imagedescriptions.add( desc1 );
         imagedescriptions.add( desc2 );
 
@@ -482,7 +482,7 @@ public class IsolatedTestCase
         bookFrenchDescription.setCategory( book );
         bookFrenchDescription.setLanguage( fr );
 
-        final List<CategoryDescription> descriptions = new ArrayList<CategoryDescription>();
+        final List<CategoryDescription> descriptions = new ArrayList<>();
         descriptions.add( bookEnglishDescription );
         descriptions.add( bookFrenchDescription );
 
@@ -504,7 +504,7 @@ public class IsolatedTestCase
         musicFrenchDescription.setCategory( music );
         musicFrenchDescription.setLanguage( fr );
 
-        final List<CategoryDescription> descriptions2 = new ArrayList<CategoryDescription>();
+        final List<CategoryDescription> descriptions2 = new ArrayList<>();
         descriptions2.add( musicEnglishDescription );
         descriptions2.add( musicFrenchDescription );
 
@@ -526,7 +526,7 @@ public class IsolatedTestCase
         novellFrenchDescription.setCategory( novell );
         novellFrenchDescription.setLanguage( fr );
 
-        final List<CategoryDescription> descriptions3 = new ArrayList<CategoryDescription>();
+        final List<CategoryDescription> descriptions3 = new ArrayList<>();
         descriptions3.add( novellEnglishDescription );
         descriptions3.add( novellFrenchDescription );
 
@@ -551,7 +551,7 @@ public class IsolatedTestCase
         techFrenchDescription.setCategory( tech );
         techFrenchDescription.setLanguage( fr );
 
-        final List<CategoryDescription> descriptions4 = new ArrayList<CategoryDescription>();
+        final List<CategoryDescription> descriptions4 = new ArrayList<>();
         descriptions4.add( techFrenchDescription );
         descriptions4.add( techFrenchDescription );
 
@@ -576,7 +576,7 @@ public class IsolatedTestCase
         fictionFrenchDescription.setCategory( fiction );
         fictionFrenchDescription.setLanguage( fr );
 
-        final List<CategoryDescription> fictiondescriptions = new ArrayList<CategoryDescription>();
+        final List<CategoryDescription> fictiondescriptions = new ArrayList<>();
         fictiondescriptions.add( fictionEnglishDescription );
         fictiondescriptions.add( fictionFrenchDescription );
 
@@ -1073,7 +1073,7 @@ public class IsolatedTestCase
         bookFrenchDescription.setCategory( book );
         bookFrenchDescription.setLanguage( fr );
 
-        final List<CategoryDescription> descriptions = new ArrayList<CategoryDescription>();
+        final List<CategoryDescription> descriptions = new ArrayList<>();
         descriptions.add( bookEnglishDescription );
         descriptions.add( bookFrenchDescription );
 
@@ -1097,7 +1097,7 @@ public class IsolatedTestCase
         musicFrenchDescription.setCategory( music );
         musicFrenchDescription.setLanguage( fr );
 
-        final List<CategoryDescription> descriptions2 = new ArrayList<CategoryDescription>();
+        final List<CategoryDescription> descriptions2 = new ArrayList<>();
         descriptions2.add( musicEnglishDescription );
         descriptions2.add( musicFrenchDescription );
 
@@ -1121,7 +1121,7 @@ public class IsolatedTestCase
         novellFrenchDescription.setCategory( novell );
         novellFrenchDescription.setLanguage( fr );
 
-        final List<CategoryDescription> descriptions3 = new ArrayList<CategoryDescription>();
+        final List<CategoryDescription> descriptions3 = new ArrayList<>();
         descriptions3.add( novellEnglishDescription );
         descriptions3.add( novellFrenchDescription );
 
@@ -1146,7 +1146,7 @@ public class IsolatedTestCase
         techFrenchDescription.setCategory( tech );
         techFrenchDescription.setLanguage( fr );
 
-        final List<CategoryDescription> descriptions4 = new ArrayList<CategoryDescription>();
+        final List<CategoryDescription> descriptions4 = new ArrayList<>();
         descriptions4.add( techFrenchDescription );
         descriptions4.add( techFrenchDescription );
 
@@ -1179,13 +1179,13 @@ public class IsolatedTestCase
         throws ServiceException
     {
 
-        Map<String,IntegrationConfiguration> modules = new HashMap<String,IntegrationConfiguration>();
+        Map<String,IntegrationConfiguration> modules = new HashMap<>();
     	
     	IntegrationConfiguration canadaPost = new IntegrationConfiguration();
     	canadaPost.setActive(true);
     	canadaPost.setModuleCode("canadapost");
     	
-    	Map<String,String> integrationKeys= new HashMap<String,String>();
+    	Map<String,String> integrationKeys= new HashMap<>();
     	integrationKeys.put("userName", "cpUserName");
     	integrationKeys.put("password", "cpPassword");
     	
@@ -1193,13 +1193,13 @@ public class IsolatedTestCase
     	
     	//String cpOptions[] = {"A","B"};
     	
-    	List<String> cpOptions = new ArrayList<String>();
+    	List<String> cpOptions = new ArrayList<>();
     	cpOptions.add("A");
     	cpOptions.add("B");
     	
     	//String cpOptions = "A,B";
     	
-    	Map<String,List<String>> integrationOptions= new HashMap<String,List<String>>();
+    	Map<String,List<String>> integrationOptions= new HashMap<>();
     	integrationOptions.put("cpExpress", cpOptions);
     	
     	canadaPost.setIntegrationOptions(integrationOptions);
@@ -1211,20 +1211,20 @@ public class IsolatedTestCase
     	usps.setActive(false);
     	usps.setModuleCode("usps");
     	
-    	integrationKeys= new HashMap<String,String>();
+    	integrationKeys= new HashMap<>();
     	integrationKeys.put("userName", "uspsUserName");
     	integrationKeys.put("password", "uspsPassword");
     	
     	usps.setIntegrationKeys(integrationKeys);
     	
     	//String uspsOptions[] = {"X","Y"};
-    	List<String> uspsOptions = new ArrayList<String>();
+    	List<String> uspsOptions = new ArrayList<>();
     	uspsOptions.add("X");
     	uspsOptions.add("Y");
     	
     	//String uspsOptions = "X,Y";
     	
-    	integrationOptions= new HashMap<String,List<String>>();
+    	integrationOptions= new HashMap<>();
     	integrationOptions.put("uspsExpress", uspsOptions);
     	
     	usps.setIntegrationOptions(integrationOptions);

@@ -62,7 +62,7 @@ public class CatalogSalesManagerTestCase extends AbstractSalesManagerCoreTestCas
 	    bookFrenchDescription.setCategory(book);
 	    bookFrenchDescription.setLanguage(fr);
 
-	    List<CategoryDescription> descriptions = new ArrayList<CategoryDescription>();
+	    List<CategoryDescription> descriptions = new ArrayList<>();
 	    descriptions.add(bookEnglishDescription);
 	    descriptions.add(bookFrenchDescription);
 
@@ -84,7 +84,7 @@ public class CatalogSalesManagerTestCase extends AbstractSalesManagerCoreTestCas
 	    musicFrenchDescription.setCategory(music);
 	    musicFrenchDescription.setLanguage(fr);
 
-	    List<CategoryDescription> descriptions2 = new ArrayList<CategoryDescription>();
+	    List<CategoryDescription> descriptions2 = new ArrayList<>();
 	    descriptions2.add(musicEnglishDescription);
 	    descriptions2.add(musicFrenchDescription);
 
@@ -106,7 +106,7 @@ public class CatalogSalesManagerTestCase extends AbstractSalesManagerCoreTestCas
 	    novellFrenchDescription.setCategory(novell);
 	    novellFrenchDescription.setLanguage(fr);
 
-	    List<CategoryDescription> descriptions3 = new ArrayList<CategoryDescription>();
+	    List<CategoryDescription> descriptions3 = new ArrayList<>();
 	    descriptions3.add(novellEnglishDescription);
 	    descriptions3.add(novellFrenchDescription);
 
@@ -131,7 +131,7 @@ public class CatalogSalesManagerTestCase extends AbstractSalesManagerCoreTestCas
 	    techFrenchDescription.setCategory(tech);
 	    techFrenchDescription.setLanguage(fr);
 
-	    List<CategoryDescription> descriptions4 = new ArrayList<CategoryDescription>();
+	    List<CategoryDescription> descriptions4 = new ArrayList<>();
 	    descriptions4.add(techFrenchDescription);
 	    descriptions4.add(techFrenchDescription);
 
@@ -156,7 +156,7 @@ public class CatalogSalesManagerTestCase extends AbstractSalesManagerCoreTestCas
 	    fictionFrenchDescription.setCategory(fiction);
 	    fictionFrenchDescription.setLanguage(fr);
 
-	    List<CategoryDescription> fictiondescriptions = new ArrayList<CategoryDescription>();
+	    List<CategoryDescription> fictiondescriptions = new ArrayList<>();
 	    fictiondescriptions.add(fictionEnglishDescription);
 	    fictiondescriptions.add(fictionFrenchDescription);
 
@@ -504,7 +504,7 @@ public class CatalogSalesManagerTestCase extends AbstractSalesManagerCoreTestCas
 		
 		List<Category> categories = categoryService.listByLineage(store, lineage);
 		
-		List<Long> ids = new ArrayList<Long>();
+		List<Long> ids = new ArrayList<>();
 		if(categories!=null && categories.size()>0) {
 			for(Category c : categories) {
 				ids.add(c.getId());
@@ -555,7 +555,7 @@ public class CatalogSalesManagerTestCase extends AbstractSalesManagerCoreTestCas
 	    bookFrenchDescription.setCategory(book);
 	    bookFrenchDescription.setLanguage(fr);
 
-	    List<CategoryDescription> descriptions = new ArrayList<CategoryDescription>();
+	    List<CategoryDescription> descriptions = new ArrayList<>();
 	    descriptions.add(bookEnglishDescription);
 	    descriptions.add(bookFrenchDescription);
 

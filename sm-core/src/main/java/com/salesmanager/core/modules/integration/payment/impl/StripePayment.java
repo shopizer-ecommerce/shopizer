@@ -687,7 +687,7 @@ public class StripePayment implements PaymentModule {
 	}
 
 	private Map formatUrlResponse(String payload) throws Exception {
-		HashMap<String,String> nvp = new HashMap<String,String> ();
+		HashMap<String,String> nvp = new HashMap<>();
 		StringTokenizer stTok = new StringTokenizer(payload, "&");
 		while (stTok.hasMoreTokens()) {
 			StringTokenizer stInternalTokenizer = new StringTokenizer(stTok
@@ -716,14 +716,14 @@ public class StripePayment implements PaymentModule {
 		
 		//validate integrationKeys['secretKey']
 		if(keys==null || StringUtils.isBlank(keys.get("secretKey"))) {
-			errorFields = new ArrayList<String>();
+			errorFields = new ArrayList<>();
 			errorFields.add("secretKey");
 		}
 		
 		//validate integrationKeys['publishableKey']
 		if(keys==null || StringUtils.isBlank(keys.get("publishableKey"))) {
 			if(errorFields==null) {
-				errorFields = new ArrayList<String>();
+				errorFields = new ArrayList<>();
 			}
 			errorFields.add("publishableKey");
 		}

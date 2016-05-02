@@ -238,7 +238,7 @@ public class CmsStaticContentFileManagerInfinispanImpl implements FilePut,FileGe
         {
             throw new ServiceException( "CmsStaticContentFileManagerInfinispan has a null cacheManager.getTreeCache()" );
         }
-        List<OutputContentFile> images = new ArrayList<OutputContentFile>();
+        List<OutputContentFile> images = new ArrayList<>();
         try
         {
             
@@ -422,7 +422,7 @@ public class CmsStaticContentFileManagerInfinispanImpl implements FilePut,FileGe
 	    			LOGGER.warn( "Unable to find content attribute for given merchant" );
 	                return Collections.<String> emptyList();
 	    		}
-	    		return new ArrayList<String>(objectNode.getKeys());
+	    		return new ArrayList<>(objectNode.getKeys());
 
 	        }
 	        catch ( final Exception e )

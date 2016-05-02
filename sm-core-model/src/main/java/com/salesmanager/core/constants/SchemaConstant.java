@@ -44,7 +44,7 @@ public class SchemaConstant {
 	/**
 	 * Locale per country iso codes
 	 */
-	public static final HashMap<String, Locale> LOCALES = new HashMap<String, Locale>();
+	public static final HashMap<String, Locale> LOCALES = new HashMap<>();
 
 	static {
 		for (Locale locale : Locale.getAvailableLocales()) {
@@ -55,7 +55,7 @@ public class SchemaConstant {
 	/**
 	 * Currency codes with name
 	 */
-	public static final HashMap<String, String> CURRENCY_MAP = new HashMap<String, String>();
+	public static final HashMap<String, String> CURRENCY_MAP = new HashMap<>();
 	
 	static {
 		CURRENCY_MAP.put("AFN", "Afghani");

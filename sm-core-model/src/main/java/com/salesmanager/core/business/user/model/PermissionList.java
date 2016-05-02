@@ -9,7 +9,7 @@ public class PermissionList implements Serializable {
 
 	private static final long serialVersionUID = -3122326940968441727L;
 	private int totalCount;
-	private List<Permission> permissions = new ArrayList<Permission>();
+	private List<Permission> permissions = new ArrayList<>();
 	public int getTotalCount() {
 		return totalCount;
 	}

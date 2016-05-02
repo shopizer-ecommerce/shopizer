@@ -49,7 +49,7 @@ public class Category extends SalesManagerEntity<Long, Category> implements Audi
 
 	@Valid
 	@OneToMany(mappedBy="category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private List<CategoryDescription> descriptions = new ArrayList<CategoryDescription>();
+	private List<CategoryDescription> descriptions = new ArrayList<>();
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="MERCHANT_ID", nullable=false)
@@ -60,7 +60,7 @@ public class Category extends SalesManagerEntity<Long, Category> implements Audi
 	private Category parent;
 	
 	@OneToMany(mappedBy = "parent", cascade = CascadeType.REMOVE, orphanRemoval = true)
-	private List<Category> categories = new ArrayList<Category>();
+	private List<Category> categories = new ArrayList<>();
 	
 	@Column(name = "CATEGORY_IMAGE", length=100)
 	private String categoryImage;

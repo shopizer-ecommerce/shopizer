@@ -47,7 +47,7 @@ public class ConfigurationModulesLoader {
 	public static Map<String,IntegrationConfiguration> loadIntegrationConfigurations(String value) throws Exception {
 		
 		
-		Map<String,IntegrationConfiguration> modules = new HashMap<String,IntegrationConfiguration>();
+		Map<String,IntegrationConfiguration> modules = new HashMap<>();
 		
 		ObjectMapper mapper = new ObjectMapper();
 		

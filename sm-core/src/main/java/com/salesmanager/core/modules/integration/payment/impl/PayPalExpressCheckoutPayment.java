@@ -79,20 +79,20 @@ public class PayPalExpressCheckoutPayment implements PaymentModule {
 		//validate integrationKeys['account']
 		Map<String,String> keys = integrationConfiguration.getIntegrationKeys();
 		if(keys==null || StringUtils.isBlank(keys.get("api"))) {
-			errorFields = new ArrayList<String>();
+			errorFields = new ArrayList<>();
 			errorFields.add("api");
 		}
 		
 		if(keys==null || StringUtils.isBlank(keys.get("username"))) {
 			if(errorFields==null) {
-				errorFields = new ArrayList<String>();
+				errorFields = new ArrayList<>();
 			}
 			errorFields.add("username");
 		}
 		
 		if(keys==null || StringUtils.isBlank(keys.get("signature"))) {
 			if(errorFields==null) {
-				errorFields = new ArrayList<String>();
+				errorFields = new ArrayList<>();
 			}
 			errorFields.add("signature");
 		}
@@ -163,7 +163,7 @@ public class PayPalExpressCheckoutPayment implements PaymentModule {
 			}
 			
 
-			List<PaymentDetailsItemType> lineItems = new ArrayList<PaymentDetailsItemType>();
+			List<PaymentDetailsItemType> lineItems = new ArrayList<>();
 			
 			for(ShoppingCartItem cartItem : items) {
 			
@@ -232,7 +232,7 @@ public class PayPalExpressCheckoutPayment implements PaymentModule {
 			orderTotal.setValue(pricingService.getStringAmount(summary.getTotal(), store));
 			//System.out.println(pricingService.getStringAmount(itemsTotal, store));
 			paymentDetails.setOrderTotal(orderTotal);
-			List<PaymentDetailsType> paymentDetailsList = new ArrayList<PaymentDetailsType>();
+			List<PaymentDetailsType> paymentDetailsList = new ArrayList<>();
 			paymentDetailsList.add(paymentDetails);
 			
 			StringBuilder RETURN_URL = new StringBuilder().append(
@@ -265,7 +265,7 @@ public class PayPalExpressCheckoutPayment implements PaymentModule {
 				mode = "production";
 			}
 
-			Map<String,String> configurationMap = new HashMap<String,String>();
+			Map<String,String> configurationMap = new HashMap<>();
 			configurationMap.put("mode", mode);
 			configurationMap.put("acct1.UserName", configuration.getIntegrationKeys().get("username"));
 			configurationMap.put("acct1.Password", configuration.getIntegrationKeys().get("api"));
@@ -350,7 +350,7 @@ public class PayPalExpressCheckoutPayment implements PaymentModule {
 			 refundRequest.setRefundTransactionRequest(refundTransactionRequest);
 
 
-			 Map<String,String> configurationMap = new HashMap<String,String>();
+			 Map<String,String> configurationMap = new HashMap<>();
 			 configurationMap.put("mode", mode);
 			 configurationMap.put("acct1.UserName", configuration.getIntegrationKeys().get("username"));
 			 configurationMap.put("acct1.Password", configuration.getIntegrationKeys().get("api"));
@@ -440,7 +440,7 @@ public class PayPalExpressCheckoutPayment implements PaymentModule {
 			 GetExpressCheckoutDetailsReq getExpressCheckoutDetailsReq = new GetExpressCheckoutDetailsReq();
 			 getExpressCheckoutDetailsReq.setGetExpressCheckoutDetailsRequest(getExpressCheckoutDetailsRequest);
 
-			 Map<String,String> configurationMap = new HashMap<String,String>();
+			 Map<String,String> configurationMap = new HashMap<>();
 			 configurationMap.put("mode", mode);
 			 configurationMap.put("acct1.UserName", configuration.getIntegrationKeys().get("username"));
 			 configurationMap.put("acct1.Password", configuration.getIntegrationKeys().get("api"));
@@ -479,7 +479,7 @@ public class PayPalExpressCheckoutPayment implements PaymentModule {
 				 paymentDetail.setPaymentAction(urn.ebay.apis.eBLBaseComponents.PaymentActionCodeType.SALE);
 			 }
 			 
-			 List<PaymentDetailsType> paymentDetails = new ArrayList<PaymentDetailsType>();
+			 List<PaymentDetailsType> paymentDetails = new ArrayList<>();
 			 paymentDetails.add(paymentDetail);
 								
 			 DoExpressCheckoutPaymentRequestDetailsType doExpressCheckoutPaymentRequestDetails = new DoExpressCheckoutPaymentRequestDetailsType();
@@ -563,7 +563,7 @@ public class PayPalExpressCheckoutPayment implements PaymentModule {
 			}
 
 
-			 Map<String,String> configurationMap = new HashMap<String,String>();
+			 Map<String,String> configurationMap = new HashMap<>();
 			 configurationMap.put("mode", mode);
 			 configurationMap.put("acct1.UserName", configuration.getIntegrationKeys().get("username"));
 			 configurationMap.put("acct1.Password", configuration.getIntegrationKeys().get("api"));

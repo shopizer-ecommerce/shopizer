@@ -98,7 +98,7 @@ public class TransactionServiceImpl  extends SalesManagerEntityServiceImpl<Long,
 	public Transaction getRefundableTransaction(Order order)
 		throws ServiceException {
 		List<Transaction> transactions = transactionDao.listByOrder(order);
-		Map<String,Transaction> finalTransactions = new HashMap<String,Transaction>();
+		Map<String,Transaction> finalTransactions = new HashMap<>();
 		Transaction finalTransaction = null;
 		for(Transaction transaction : transactions) {
 			//System.out.println("Transaction type " + transaction.getTransactionType().name());

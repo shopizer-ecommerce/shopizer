@@ -29,7 +29,7 @@ public class EmailTestCase extends AbstractSalesManagerCoreTestCase {
 	@Test
 	public void sendHtmlEmail() throws Exception {
 		
-		Map<String, String> templateTokens = new HashMap<String, String>();
+		Map<String, String> templateTokens = new HashMap<>();
 		templateTokens.put("EMAIL_NEW_USER_TEXT", "Hi My Friend,");
 		templateTokens.put("EMAIL_STORE_NAME", "Shopizer Store");
 		templateTokens.put("EMAIL_ADMIN_LABEL", "Adminstrator:");

@@ -56,7 +56,7 @@ public class CustomerServicesImpl implements UserDetailsService{
 			throws UsernameNotFoundException, DataAccessException {
 
 		Customer user = null;
-		Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+		Collection<GrantedAuthority> authorities = new ArrayList<>();
 
 		try {
 
@@ -68,7 +68,7 @@ public class CustomerServicesImpl implements UserDetailsService{
 	
 	
 			
-			List<Integer> groupsId = new ArrayList<Integer>();
+			List<Integer> groupsId = new ArrayList<>();
 			List<Group> groups = user.getGroups();
 			for(Group group : groups) {
 				groupsId.add(group.getId());

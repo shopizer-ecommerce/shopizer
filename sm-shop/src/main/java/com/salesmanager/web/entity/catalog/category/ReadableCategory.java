@@ -13,7 +13,7 @@ public class ReadableCategory extends CategoryEntity implements Serializable {
 	private CategoryDescription description;//one category based on language
 	//private ReadableCategory parent;
 	private int productCount;
-	private List<ReadableCategory> children = new ArrayList<ReadableCategory>();
+	private List<ReadableCategory> children = new ArrayList<>();
 	
 	
 	public void setDescription(CategoryDescription description) {

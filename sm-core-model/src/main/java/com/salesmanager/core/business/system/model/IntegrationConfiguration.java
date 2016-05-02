@@ -26,8 +26,8 @@ public class IntegrationConfiguration implements JSONAware {
 	private boolean active;
 	private boolean defaultSelected;
 	//private boolean customModule;
-	private Map<String,String> integrationKeys= new HashMap<String,String>();
-	private Map<String,List<String>> integrationOptions= new HashMap<String,List<String>>();
+	private Map<String,String> integrationKeys= new HashMap<>();
+	private Map<String,List<String>> integrationOptions= new HashMap<>();
 	private String environment;
 	
 	

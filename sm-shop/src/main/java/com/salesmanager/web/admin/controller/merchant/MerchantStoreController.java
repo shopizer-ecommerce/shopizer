@@ -110,7 +110,7 @@ public class MerchantStoreController {
 			for (MerchantStore store : stores) {
 
 				if(!store.getCode().equals(MerchantStore.DEFAULT_STORE)){
-					Map<String,String> entry = new HashMap<String,String> ();
+					Map<String,String> entry = new HashMap<>();
 					entry.put("storeId", String.valueOf(store.getId()));
 					entry.put("code", store.getCode());
 					entry.put("name", store.getStorename());
@@ -190,11 +190,11 @@ public class MerchantStoreController {
 		//get countries
 		List<Country> countries = countryService.getCountries(language);
 		
-		List<Weight> weights = new ArrayList<Weight>();
+		List<Weight> weights = new ArrayList<>();
 		weights.add(new Weight("LB",messages.getMessage("label.generic.weightunit.LB", locale)));
 		weights.add(new Weight("KG",messages.getMessage("label.generic.weightunit.KG", locale)));
 		
-		List<Size> sizes = new ArrayList<Size>();
+		List<Size> sizes = new ArrayList<>();
 		sizes.add(new Size("CM",messages.getMessage("label.generic.sizeunit.CM", locale)));
 		sizes.add(new Size("IN",messages.getMessage("label.generic.sizeunit.IN", locale)));
 		
@@ -248,11 +248,11 @@ public class MerchantStoreController {
 		//get countries
 		List<Country> countries = countryService.getCountries(language);
 		
-		List<Weight> weights = new ArrayList<Weight>();
+		List<Weight> weights = new ArrayList<>();
 		weights.add(new Weight("LB",messages.getMessage("label.generic.weightunit.LB", locale)));
 		weights.add(new Weight("KG",messages.getMessage("label.generic.weightunit.KG", locale)));
 		
-		List<Size> sizes = new ArrayList<Size>();
+		List<Size> sizes = new ArrayList<>();
 		sizes.add(new Size("CM",messages.getMessage("label.generic.sizeunit.CM", locale)));
 		sizes.add(new Size("IN",messages.getMessage("label.generic.sizeunit.IN", locale)));
 		
@@ -289,7 +289,7 @@ public class MerchantStoreController {
 		currency = currencyService.getById(currency.getId());
 
 		List<Language> supportedLanguages = store.getLanguages();
-		List<Language> supportedLanguagesList = new ArrayList<Language>();
+		List<Language> supportedLanguagesList = new ArrayList<>();
 		Map<String,Language> languagesMap = languageService.getLanguagesMap();
 		for(Language lang : supportedLanguages) {
 			
@@ -461,7 +461,7 @@ public class MerchantStoreController {
 	private void setMenu(Model model, HttpServletRequest request) throws Exception {
 		
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("store", "store");
 		activeMenus.put("storeDetails", "storeDetails");
 

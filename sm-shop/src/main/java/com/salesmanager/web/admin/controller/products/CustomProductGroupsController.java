@@ -435,7 +435,7 @@ public class CustomProductGroupsController {
 	private void setMenu(Model model, HttpServletRequest request) throws Exception {
 		
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("catalogue", "catalogue");
 		activeMenus.put("catalogue-products-group", "catalogue-products-group");
 		

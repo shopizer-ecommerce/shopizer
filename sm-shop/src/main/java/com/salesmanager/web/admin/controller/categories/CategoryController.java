@@ -101,7 +101,7 @@ public class CategoryController {
 			
 		}
 		
-		List<CategoryDescription> descriptions = new ArrayList<CategoryDescription>();
+		List<CategoryDescription> descriptions = new ArrayList<>();
 		
 		for(Language l : languages) {
 			
@@ -265,7 +265,7 @@ public class CategoryController {
 				
 			} else if(!StringUtils.isBlank(categoryCode)) {
 				
-				categoryService.listByCodes(store, new ArrayList<String>(Arrays.asList(categoryCode)), language);
+				categoryService.listByCodes(store, new ArrayList<>(Arrays.asList(categoryCode)), language);
 			
 			} else {
 				
@@ -489,7 +489,7 @@ public class CategoryController {
 	private void setMenu(Model model, HttpServletRequest request) throws Exception {
 		
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("catalogue", "catalogue");
 		activeMenus.put("catalogue-categories", "catalogue-categories");
 		

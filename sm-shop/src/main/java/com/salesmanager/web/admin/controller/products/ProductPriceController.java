@@ -296,7 +296,7 @@ public class ProductPriceController {
 		List<Language> languages = store.getLanguages();
 		
 		Set<ProductPriceDescription> productPriceDescriptions = productPrice.getDescriptions();
-		List<ProductPriceDescription> descriptions = new ArrayList<ProductPriceDescription>();
+		List<ProductPriceDescription> descriptions = new ArrayList<>();
 		for(Language l : languages) {
 			ProductPriceDescription productPriceDesc = null;
 			for(ProductPriceDescription desc : productPriceDescriptions) {
@@ -428,7 +428,7 @@ public class ProductPriceController {
 		
 		
 		
-		Set<ProductPriceDescription> descriptions = new HashSet<ProductPriceDescription>();
+		Set<ProductPriceDescription> descriptions = new HashSet<>();
 		if(price.getDescriptions()!=null && price.getDescriptions().size()>0) {
 			
 			for(ProductPriceDescription description : price.getDescriptions()) {
@@ -493,7 +493,7 @@ public class ProductPriceController {
 	private void setMenu(Model model, HttpServletRequest request) throws Exception {
 		
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("catalogue", "catalogue");
 		activeMenus.put("catalogue-products", "catalogue-products");
 		

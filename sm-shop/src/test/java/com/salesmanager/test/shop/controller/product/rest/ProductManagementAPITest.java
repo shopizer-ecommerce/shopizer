@@ -73,7 +73,7 @@ public class ProductManagementAPITest {
 		description.setFriendlyUrl("tag-watches");
 		description.setTitle("Tag Heuer");
 		
-		List<ManufacturerDescription> descriptions = new ArrayList<ManufacturerDescription>();
+		List<ManufacturerDescription> descriptions = new ArrayList<>();
 		descriptions.add(description);
 		
 		PersistableManufacturer manufacturer = new PersistableManufacturer();
@@ -105,7 +105,7 @@ public class ProductManagementAPITest {
 		restTemplate = new RestTemplate();
 
 		
-		HttpEntity<String> entity = new HttpEntity<String>(json, getHeader());
+		HttpEntity<String> entity = new HttpEntity<>(json, getHeader());
 
 		ResponseEntity response = restTemplate.postForEntity("http://localhost:8080/sm-shop/services/private/DEFAULT/manufacturer", entity, PersistableManufacturer.class);
 
@@ -154,7 +154,7 @@ public class ProductManagementAPITest {
 		restTemplate = new RestTemplate();
 
 		
-		HttpEntity<String> entity = new HttpEntity<String>(json, getHeader());
+		HttpEntity<String> entity = new HttpEntity<>(json, getHeader());
 
 		ResponseEntity response = restTemplate.postForEntity("http://localhost:8080/sm-shop/services/private//DEFAULT/product/review", entity, PersistableProductReview.class);
 
@@ -177,7 +177,7 @@ public class ProductManagementAPITest {
 		description.setLanguage("en");
 		description.setName("Red");
 		
-		List<ProductOptionValueDescription> descriptions = new ArrayList<ProductOptionValueDescription>();
+		List<ProductOptionValueDescription> descriptions = new ArrayList<>();
 		descriptions.add(description);
 		
 		PersistableProductOptionValue optionValue = new PersistableProductOptionValue();
@@ -212,7 +212,7 @@ public class ProductManagementAPITest {
 
 		restTemplate = new RestTemplate();
 
-		HttpEntity<String> entity = new HttpEntity<String>(json, getHeader());
+		HttpEntity<String> entity = new HttpEntity<>(json, getHeader());
 
 		ResponseEntity response = restTemplate.postForEntity("http://localhost:8080/sm-shop/services/private/DEFAULT/product/optionValue", entity, PersistableProductOptionValue.class);
 
@@ -233,7 +233,7 @@ public class ProductManagementAPITest {
 		description.setLanguage("en");
 		description.setName("Color");
 		
-		List<ProductOptionDescription> descriptions = new ArrayList<ProductOptionDescription>();
+		List<ProductOptionDescription> descriptions = new ArrayList<>();
 		descriptions.add(description);
 		
 		PersistableProductOption option = new PersistableProductOption();
@@ -270,7 +270,7 @@ public class ProductManagementAPITest {
 
 		restTemplate = new RestTemplate();
 
-		HttpEntity<String> entity = new HttpEntity<String>(json, getHeader());
+		HttpEntity<String> entity = new HttpEntity<>(json, getHeader());
 
 		ResponseEntity response = restTemplate.postForEntity("http://localhost:8080/sm-shop/services/private/DEFAULT/product/option", entity, PersistableProductOption.class);
 
@@ -285,7 +285,7 @@ public class ProductManagementAPITest {
 	public void getProducts() throws Exception {
 		restTemplate = new RestTemplate();
 		
-		HttpEntity<String> httpEntity = new HttpEntity<String>(getHeader());
+		HttpEntity<String> httpEntity = new HttpEntity<>(getHeader());
 		
 		ResponseEntity<ReadableProduct[]> response = restTemplate.exchange("http://localhost:8080/sm-shop/services/rest/products/DEFAULT/en/"+testCategoryID, HttpMethod.GET, httpEntity, ReadableProduct[].class);
 		
@@ -321,7 +321,7 @@ public class ProductManagementAPITest {
 		
 		Category category = new Category();
 		category.setCode(categoryCode);
-		List<Category> categories = new ArrayList<Category>();
+		List<Category> categories = new ArrayList<>();
 		categories.add(category);
 
 		
@@ -352,7 +352,7 @@ public class ProductManagementAPITest {
 		persistableImage.setBytes(this.extractBytes(imgPath));
 		persistableImage.setImageName(imgPath.getName());
 
-		List<PersistableImage> images = new ArrayList<PersistableImage>();
+		List<PersistableImage> images = new ArrayList<>();
 		images.add(persistableImage);
 			
 		product.setImages(images);
@@ -373,14 +373,14 @@ public class ProductManagementAPITest {
 		productPrice.setOriginalPrice(new BigDecimal(250));
 		productPrice.setDiscountedPrice(new BigDecimal(125));
 		
-		List<PersistableProductPrice> productPriceList = new ArrayList<PersistableProductPrice>();
+		List<PersistableProductPrice> productPriceList = new ArrayList<>();
 		productPriceList.add(productPrice);
 		
 		product.setProductPrices(productPriceList);
 		
 		//product.setSortOrder(Integer.parseInt(record.get("position")));
 
-		List<ProductDescription> descriptions = new ArrayList<ProductDescription>();
+		List<ProductDescription> descriptions = new ArrayList<>();
 		
 		//add english description
 		ProductDescription description = new ProductDescription();
@@ -415,7 +415,7 @@ public class ProductManagementAPITest {
 		System.out.println(json);
 		
 		
-		HttpEntity<String> entity = new HttpEntity<String>(json, getHeader());
+		HttpEntity<String> entity = new HttpEntity<>(json, getHeader());
 
 		//post to create category web service
 		ResponseEntity response = restTemplate.postForEntity("http://localhost:8080/sm-shop/services/private/DEFAULT/product", entity, PersistableProduct.class);
@@ -438,7 +438,7 @@ public class ProductManagementAPITest {
 	public void deleteProduct() throws Exception {
 		restTemplate = new RestTemplate();
 		
-		HttpEntity<String> httpEntity = new HttpEntity<String>(getHeader());
+		HttpEntity<String> httpEntity = new HttpEntity<>(getHeader());
 		
 		restTemplate.exchange("http://localhost:8080/sm-shop/services/rest/products/DEFAULT/en/"+testCategoryID+"/"+testProductID, HttpMethod.DELETE, httpEntity, ReadableProduct.class);
 		System.out.println("Product "+testProductID+" Deleted.");

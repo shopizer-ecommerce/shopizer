@@ -251,7 +251,7 @@ public class OrderSalesManagerTestCase extends AbstractSalesManagerCoreTestCase 
 	@Test
 	public void getMerchantOrders() throws ServiceException {
 		
-		List<Order> merchantOrders= new ArrayList<Order>();
+		List<Order> merchantOrders= new ArrayList<>();
 		
 		Language language = languageService.getByCode(ENGLISH_LANGUAGE_CODE);
 		Currency currency = currencyService.getByCode(EURO_CURRENCY_CODE);
@@ -267,7 +267,7 @@ public class OrderSalesManagerTestCase extends AbstractSalesManagerCoreTestCase 
 		merchant.setCode( merchantService.count()+"");
 		Language en = languageService.getByCode("en");
 		Language fr = languageService.getByCode("fr");
-		List<Language> supportedLanguages = new ArrayList<Language>();
+		List<Language> supportedLanguages = new ArrayList<>();
 		supportedLanguages.add(en);
 		supportedLanguages.add(fr);
 		merchant.setLanguages( supportedLanguages );

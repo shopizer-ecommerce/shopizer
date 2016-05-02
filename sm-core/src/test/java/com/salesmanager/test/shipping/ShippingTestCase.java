@@ -176,7 +176,7 @@ public class ShippingTestCase extends AbstractSalesManagerCoreTestCase {
 	    shippingConfiguration.setMaxWeight(10);
 	    
 	    //configure module
-	    List<String> options = new ArrayList<String>();
+	    List<String> options = new ArrayList<>();
 	    options.add("PACKAGE");
 	    configuration.getIntegrationKeys().put("account", "CPC_CS_TI_INC");
 	    configuration.getIntegrationOptions().put("packages",options);
@@ -187,7 +187,7 @@ public class ShippingTestCase extends AbstractSalesManagerCoreTestCase {
 	    //now create ShippingProduct
 	    ShippingProduct shippingProduct1 = new ShippingProduct(product);
 	    ShippingProduct shippingProduct2 = new ShippingProduct(product2);
-	    List<ShippingProduct> shippingProducts = new ArrayList<ShippingProduct>();
+	    List<ShippingProduct> shippingProducts = new ArrayList<>();
 	    shippingProducts.add(shippingProduct1);
 	    shippingProducts.add(shippingProduct2);
 	    
@@ -275,7 +275,7 @@ public class ShippingTestCase extends AbstractSalesManagerCoreTestCase {
 	    shippingConfiguration.setBoxWeight(1);
 	    shippingConfiguration.setMaxWeight(10);
 	    
-	    List<String> supportedCountries = new ArrayList<String>();
+	    List<String> supportedCountries = new ArrayList<>();
 	    supportedCountries.add("CA");
 	    supportedCountries.add("US");
 	    supportedCountries.add("UK");
@@ -330,7 +330,7 @@ public class ShippingTestCase extends AbstractSalesManagerCoreTestCase {
 	    configuration.getIntegrationKeys().put("accessKey", "AC66279FF8020AE0");
 	    configuration.getIntegrationKeys().put("password", "william");
 	    
-	    List<String> options = new ArrayList<String>();
+	    List<String> options = new ArrayList<>();
 	    options.add("21");
 	    configuration.getIntegrationOptions().put("packages",options);
 
@@ -339,7 +339,7 @@ public class ShippingTestCase extends AbstractSalesManagerCoreTestCase {
 	    
 	    //now create ShippingProduct
 	    ShippingProduct shippingProduct1 = new ShippingProduct(product);
-	    List<ShippingProduct> shippingProducts = new ArrayList<ShippingProduct>();
+	    List<ShippingProduct> shippingProducts = new ArrayList<>();
 	    shippingProducts.add(shippingProduct1);
 	    
 		Customer customer = new Customer();
@@ -459,7 +459,7 @@ public class ShippingTestCase extends AbstractSalesManagerCoreTestCase {
 	    shippingConfiguration.setBoxWeight(1);
 	    shippingConfiguration.setMaxWeight(10);
 	    
-	    List<String> supportedCountries = new ArrayList<String>();
+	    List<String> supportedCountries = new ArrayList<>();
 	    supportedCountries.add("CA");
 	    supportedCountries.add("US");
 	    supportedCountries.add("UK");
@@ -475,7 +475,7 @@ public class ShippingTestCase extends AbstractSalesManagerCoreTestCase {
 		CustomShippingQuotesRegion northRegion = new CustomShippingQuotesRegion();
 		northRegion.setCustomRegionName("NORTH");
 		
-		List<String> countries = new ArrayList<String>();
+		List<String> countries = new ArrayList<>();
 		countries.add("CA");
 		countries.add("US");
 		
@@ -490,7 +490,7 @@ public class ShippingTestCase extends AbstractSalesManagerCoreTestCase {
 		CustomShippingQuoteWeightItem caQuote100 = new CustomShippingQuoteWeightItem();
 		caQuote100.setMaximumWeight(100);
 		caQuote100.setPrice(new BigDecimal(120));
-		List<CustomShippingQuoteWeightItem> quotes = new ArrayList<CustomShippingQuoteWeightItem>();
+		List<CustomShippingQuoteWeightItem> quotes = new ArrayList<>();
 		quotes.add(caQuote4);
 		quotes.add(caQuote10);
 		quotes.add(caQuote100);
@@ -517,7 +517,7 @@ public class ShippingTestCase extends AbstractSalesManagerCoreTestCase {
 	    
 	    //now create ShippingProduct
 	    ShippingProduct shippingProduct1 = new ShippingProduct(product);
-	    List<ShippingProduct> shippingProducts = new ArrayList<ShippingProduct>();
+	    List<ShippingProduct> shippingProducts = new ArrayList<>();
 	    shippingProducts.add(shippingProduct1);
 	    
 		Customer customer = new Customer();

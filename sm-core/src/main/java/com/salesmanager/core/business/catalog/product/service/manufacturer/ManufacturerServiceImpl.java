@@ -74,7 +74,7 @@ public class ManufacturerServiceImpl extends
 		
 		
 		if(manufacturer.getDescriptions()==null) {
-			manufacturer.setDescriptions(new HashSet<ManufacturerDescription>());
+			manufacturer.setDescriptions(new HashSet<>());
 		}
 		
 		manufacturer.getDescriptions().add(description);

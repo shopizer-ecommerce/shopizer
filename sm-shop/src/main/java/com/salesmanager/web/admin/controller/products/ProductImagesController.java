@@ -185,7 +185,7 @@ public class ProductImagesController {
 	       
         }
 		
-	    final List<ProductImage> contentImagesList=new ArrayList<ProductImage>();
+	    final List<ProductImage> contentImagesList= new ArrayList<>();
         if(CollectionUtils.isNotEmpty( productImages.getFile() )){
             LOGGER.info("Saving {} content images for merchant {}",productImages.getFile().size(),store.getId());
             for(final MultipartFile multipartFile:productImages.getFile()){
@@ -289,7 +289,7 @@ public class ProductImagesController {
 	private void setMenu(Model model, HttpServletRequest request) throws Exception {
 		
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("catalogue", "catalogue");
 		activeMenus.put("catalogue-products", "catalogue-products");
 		

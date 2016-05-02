@@ -61,10 +61,10 @@ public class ProductOptionValue extends SalesManagerEntity<Long, ProductOptionVa
 	private MultipartFile image = null;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "productOptionValue")
-	private Set<ProductOptionValueDescription> descriptions = new HashSet<ProductOptionValueDescription>();
+	private Set<ProductOptionValueDescription> descriptions = new HashSet<>();
 	
 	@Transient
-	private List<ProductOptionValueDescription> descriptionsList = new ArrayList<ProductOptionValueDescription>();
+	private List<ProductOptionValueDescription> descriptionsList = new ArrayList<>();
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="MERCHANT_ID", nullable=false)
@@ -125,7 +125,7 @@ public class ProductOptionValue extends SalesManagerEntity<Long, ProductOptionVa
 	
 	public List<ProductOptionValueDescription> getDescriptionsSettoList() {
 		if(descriptionsList==null || descriptionsList.size()==0) {
-			descriptionsList = new ArrayList<ProductOptionValueDescription>(this.getDescriptions());
+			descriptionsList = new ArrayList<>(this.getDescriptions());
 		} 
 		return descriptionsList;
 	}

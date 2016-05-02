@@ -137,11 +137,11 @@ public class ShoppingOrderPaymentController extends AbstractController {
 			com.salesmanager.core.business.shoppingcart.model.ShoppingCart cart = shoppingCartFacade.getShoppingCartModel(shoppingCartCode, store);
 			
 			Set<ShoppingCartItem> items = cart.getLineItems();
-			List<ShoppingCartItem> cartItems = new ArrayList<ShoppingCartItem>(items);
+			List<ShoppingCartItem> cartItems = new ArrayList<>(items);
 			order.setShoppingCartItems(cartItems);
 			
 			//validate order first
-			Map<String,String> messages = new TreeMap<String,String>();
+			Map<String,String> messages = new TreeMap<>();
 			orderFacade.validateOrder(order, new BeanPropertyBindingResult(order,"order"), messages, store, locale);
 			
 			if(CollectionUtils.isNotEmpty(messages.values())) {

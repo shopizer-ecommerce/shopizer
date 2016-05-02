@@ -22,7 +22,7 @@ public class OrderSummary implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private ShippingSummary shippingSummary;
-	private List<ShoppingCartItem> products = new ArrayList<ShoppingCartItem>();
+	private List<ShoppingCartItem> products = new ArrayList<>();
 
 	public void setProducts(List<ShoppingCartItem> products) {
 		this.products = products;

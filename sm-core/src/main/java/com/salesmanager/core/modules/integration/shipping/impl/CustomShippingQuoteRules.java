@@ -90,7 +90,7 @@ public class CustomShippingQuoteRules implements ShippingQuoteModule {
 				volume = tmpVolume;
 			} 
 			//largest size
-			List<Double> sizeList = new ArrayList<Double>();
+			List<Double> sizeList = new ArrayList<>();
 			sizeList.add(pack.getShippingHeight());
 			sizeList.add(pack.getShippingWeight());
 			sizeList.add(pack.getShippingLength());
@@ -130,7 +130,7 @@ public class CustomShippingQuoteRules implements ShippingQuoteModule {
 		
 		
 		if(inputParameters.getPriceQuote() != null) {
-			options = new ArrayList<ShippingOption>();
+			options = new ArrayList<>();
 			options.add(option);
 		}
 

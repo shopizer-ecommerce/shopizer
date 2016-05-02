@@ -32,7 +32,7 @@ public class CatalogServiceHelper {
 				ProductOption po = attribute.getProductOption();
 				Set<ProductOptionDescription> spod = po.getDescriptions();
 				if(spod!=null) {
-					Set<ProductOptionDescription> podDescriptions = new HashSet<ProductOptionDescription>();
+					Set<ProductOptionDescription> podDescriptions = new HashSet<>();
 					for(ProductOptionDescription pod : spod) {
 						//System.out.println("    ProductOptionDescription : " + pod.getProductOptionName());
 						if(pod.getLanguage().getId()==language) {
@@ -85,7 +85,7 @@ public class CatalogServiceHelper {
 		}
 		
 		if(defaultAvailability!=null || localeAvailability!=null) {
-			Set<ProductAvailability> productAvailabilities = new HashSet<ProductAvailability>();
+			Set<ProductAvailability> productAvailabilities = new HashSet<>();
 			if(defaultAvailability!=null) {
 				productAvailabilities.add(defaultAvailability);
 			}

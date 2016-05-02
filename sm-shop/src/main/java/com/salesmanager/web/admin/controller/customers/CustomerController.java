@@ -162,7 +162,7 @@ public class CustomerController {
 	
 	private void getCustomerOptions(Model model, Customer customer, MerchantStore store, Language language) throws Exception {
 
-		Map<Long,CustomerOption> options = new HashMap<Long,CustomerOption>();
+		Map<Long,CustomerOption> options = new HashMap<>();
 		//get options
 		List<CustomerOptionSet> optionSet = customerOptionSetService.listByStore(store, language);
 		if(!CollectionUtils.isEmpty(optionSet)) {
@@ -414,7 +414,7 @@ public class CustomerController {
 		}
 		
 		List<CustomerAttribute> customerAttributes = customerAttributeService.getByCustomer(store, customer);
-		Map<Long,CustomerAttribute> customerAttributesMap = new HashMap<Long,CustomerAttribute>();
+		Map<Long,CustomerAttribute> customerAttributesMap = new HashMap<>();
 		
 		for(CustomerAttribute attr : customerAttributes) {
 			customerAttributesMap.put(attr.getCustomerOption().getId(), attr);
@@ -705,7 +705,7 @@ public class CustomerController {
 	private void setMenu(Model model, HttpServletRequest request) throws Exception {
 		
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("customer", "customer");
 		activeMenus.put("customer-list", "customer-list");
 		

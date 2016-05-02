@@ -166,7 +166,7 @@ public class CmsImageFileManagerInfinispanImpl
             throw new ServiceException( "CmsImageFileManagerInfinispan has a null cacheManager.getTreeCache()" );
         }
 
-        List<OutputContentFile> images = new ArrayList<OutputContentFile>();
+        List<OutputContentFile> images = new ArrayList<>();
         
 
         try
@@ -338,7 +338,7 @@ public class CmsImageFileManagerInfinispanImpl
         {
             throw new ServiceException( "CmsImageFileManagerInfinispan has a null cacheManager.getTreeCache()" );
         }
-        List<OutputContentFile> images = new ArrayList<OutputContentFile>();
+        List<OutputContentFile> images = new ArrayList<>();
         FileNameMap fileNameMap = URLConnection.getFileNameMap();
 
         try

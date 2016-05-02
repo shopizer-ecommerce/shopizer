@@ -54,7 +54,7 @@ public class Language extends SalesManagerEntity<Integer, Language> implements A
 	
 	@SuppressWarnings("unused")
 	@ManyToMany(mappedBy = "languages", targetEntity = MerchantStore.class)
-	private List<MerchantStore> stores = new ArrayList<MerchantStore>();
+	private List<MerchantStore> stores = new ArrayList<>();
 	
 	public Language() {
 	}

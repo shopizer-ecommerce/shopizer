@@ -57,7 +57,7 @@ public class SearchByProductAttributeTestCase extends AbstractSalesManagerCoreTe
 	    bookEnglishDescription.setCategory(book);
 	    bookEnglishDescription.setLanguage(en);
 
-	    List<CategoryDescription> descriptions = new ArrayList<CategoryDescription>();
+	    List<CategoryDescription> descriptions = new ArrayList<>();
 	    descriptions.add(bookEnglishDescription);
 
 	    book.setDescriptions(descriptions);
@@ -74,7 +74,7 @@ public class SearchByProductAttributeTestCase extends AbstractSalesManagerCoreTe
 	    novellEnglishDescription.setCategory(novell);
 	    novellEnglishDescription.setLanguage(en);
 
-	    List<CategoryDescription> descriptions3 = new ArrayList<CategoryDescription>();
+	    List<CategoryDescription> descriptions3 = new ArrayList<>();
 	    descriptions3.add(novellEnglishDescription);
 
 	    novell.setDescriptions(descriptions3);
@@ -93,7 +93,7 @@ public class SearchByProductAttributeTestCase extends AbstractSalesManagerCoreTe
 	    techEnglishDescription.setCategory(tech);
 	    techEnglishDescription.setLanguage(en);
 
-	    List<CategoryDescription> descriptions4 = new ArrayList<CategoryDescription>();
+	    List<CategoryDescription> descriptions4 = new ArrayList<>();
 	    descriptions4.add(techEnglishDescription);
 
 	    tech.setDescriptions(descriptions4);
@@ -419,7 +419,7 @@ public class SearchByProductAttributeTestCase extends AbstractSalesManagerCoreTe
 	    ProductCriteria fetchCriteria = new ProductCriteria();
 	    //fetchCriteria.setCode("TB1234");
 	    
-	    List<AttributeCriteria> attributesCriteriaList = new ArrayList<AttributeCriteria>();
+	    List<AttributeCriteria> attributesCriteriaList = new ArrayList<>();
 	    
 	    AttributeCriteria fetchAttributeCriteria = new AttributeCriteria();
 	    fetchAttributeCriteria.setAttributeCode("author");

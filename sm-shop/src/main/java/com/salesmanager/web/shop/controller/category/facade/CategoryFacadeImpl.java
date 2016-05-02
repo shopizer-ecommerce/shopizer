@@ -37,9 +37,9 @@ public class CategoryFacadeImpl implements CategoryFacade {
 			int depth, Language language) throws Exception {
 		
 		List<Category> categories = categoryService.listByDepth(store, 2, language);
-		List<ReadableCategory> returnValues = new ArrayList<ReadableCategory>();
+		List<ReadableCategory> returnValues = new ArrayList<>();
 		
-		Map<Long, ReadableCategory> categoryMap = new ConcurrentHashMap<Long, ReadableCategory>();
+		Map<Long, ReadableCategory> categoryMap = new ConcurrentHashMap<>();
 		
 		ReadableCategoryPopulator categoryPopulator = new ReadableCategoryPopulator();
 		
@@ -66,7 +66,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 			}
 		}
 		
-		returnValues = new ArrayList<ReadableCategory>();
+		returnValues = new ArrayList<>();
 		for(Object obj : categoryMap.values()) {
 			
 			ReadableCategory readableCategory = (ReadableCategory)obj;

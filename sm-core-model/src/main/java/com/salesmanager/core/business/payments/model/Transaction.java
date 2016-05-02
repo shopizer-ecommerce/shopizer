@@ -84,7 +84,7 @@ public class Transaction extends SalesManagerEntity<Long, Transaction> implement
 	private String details;
 	
 	@Transient
-	private Map<String,String> transactionDetails= new HashMap<String,String>();
+	private Map<String,String> transactionDetails= new HashMap<>();
 
 	@Override
 	public AuditSection getAuditSection() {

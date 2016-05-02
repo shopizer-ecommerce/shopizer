@@ -74,7 +74,7 @@ public class ReadableOrderPopulator extends
 			target.setDelivery(address);
 		}
 		
-		List<com.salesmanager.web.entity.order.OrderTotal> totals = new ArrayList<com.salesmanager.web.entity.order.OrderTotal>();
+		List<com.salesmanager.web.entity.order.OrderTotal> totals = new ArrayList<>();
 		for(OrderTotal t : source.getOrderTotal()) {
 			if(t.getOrderTotalType()==null) {
 				continue;

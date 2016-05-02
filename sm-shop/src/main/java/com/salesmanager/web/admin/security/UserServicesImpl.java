@@ -63,7 +63,7 @@ public class UserServicesImpl implements WebUserServices{
 			throws UsernameNotFoundException, DataAccessException {
 
 		com.salesmanager.core.business.user.model.User user = null;
-		Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+		Collection<GrantedAuthority> authorities = new ArrayList<>();
 		
 		try {
 
@@ -76,7 +76,7 @@ public class UserServicesImpl implements WebUserServices{
 			GrantedAuthority role = new GrantedAuthorityImpl(Constants.PERMISSION_AUTHENTICATED);//required to login
 			authorities.add(role);
 	
-			List<Integer> groupsId = new ArrayList<Integer>();
+			List<Integer> groupsId = new ArrayList<>();
 			List<Group> groups = user.getGroups();
 			for(Group group : groups) {
 				

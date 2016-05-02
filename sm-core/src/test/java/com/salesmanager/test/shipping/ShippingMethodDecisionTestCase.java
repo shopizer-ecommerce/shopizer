@@ -41,7 +41,7 @@ public class ShippingMethodDecisionTestCase {
 		pDetail.setShippingLength(10);
 		pDetail.setShippingWeight(70);
 		pDetail.setShippingWidth(78);
-		List<PackageDetails> details = new ArrayList<PackageDetails>();
+		List<PackageDetails> details = new ArrayList<>();
 		details.add(pDetail);
 
 		Delivery delivery = new Delivery();
@@ -81,7 +81,7 @@ public class ShippingMethodDecisionTestCase {
 		IntegrationModule inhouse = new IntegrationModule();
 		inhouse.setCode("customQuotesRules");
 		
-		List<IntegrationModule> allModules = new ArrayList<IntegrationModule>();
+		List<IntegrationModule> allModules = new ArrayList<>();
 		allModules.add(canadapost);
 		allModules.add(ups);
 		allModules.add(inhouse);

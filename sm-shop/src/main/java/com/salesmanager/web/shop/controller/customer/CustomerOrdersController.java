@@ -144,7 +144,7 @@ public class CustomerOrdersController extends AbstractController {
 		List<OrderProductDownload> orderProductDownloads = orderProdctDownloadService.getByOrderId(order.getId());
 		if(CollectionUtils.isNotEmpty(orderProductDownloads)) {
 			ReadableOrderProductDownloadPopulator populator = new ReadableOrderProductDownloadPopulator();
-			List<ReadableOrderProductDownload> downloads = new ArrayList<ReadableOrderProductDownload>();
+			List<ReadableOrderProductDownload> downloads = new ArrayList<>();
 			for(OrderProductDownload download : orderProductDownloads) {
 				ReadableOrderProductDownload view = new ReadableOrderProductDownload();
 				populator.populate(download, view,  store, language);

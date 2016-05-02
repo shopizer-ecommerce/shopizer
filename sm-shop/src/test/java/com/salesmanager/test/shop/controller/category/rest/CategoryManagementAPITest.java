@@ -48,7 +48,7 @@ public class CategoryManagementAPITest {
 	public void getCategory() throws Exception {
 		restTemplate = new RestTemplate();
 		
-		HttpEntity<String> httpEntity = new HttpEntity<String>(getHeader());
+		HttpEntity<String> httpEntity = new HttpEntity<>(getHeader());
 		
 		ResponseEntity<ReadableCategory> response = restTemplate.exchange("http://localhost:8080/sm-shop/services/public/DEFAULT/category/100?lang=en", HttpMethod.GET, httpEntity, ReadableCategory.class);
 		
@@ -86,7 +86,7 @@ public class CategoryManagementAPITest {
 		description.setFriendlyUrl("javascript");
 		description.setTitle("Javascript");
 		
-		List<CategoryDescription> descriptions = new ArrayList<CategoryDescription>();
+		List<CategoryDescription> descriptions = new ArrayList<>();
 		descriptions.add(description);
 		
 		newCategory.setDescriptions(descriptions);
@@ -97,7 +97,7 @@ public class CategoryManagementAPITest {
 		System.out.println(json);
 		
 		
-		HttpEntity<String> entity = new HttpEntity<String>(json, getHeader());
+		HttpEntity<String> entity = new HttpEntity<>(json, getHeader());
 
 		ResponseEntity response = restTemplate.postForEntity("http://localhost:8080/sm-shop/services/private/DEFAULT/category", entity, PersistableCategory.class);
 
@@ -132,7 +132,7 @@ public class CategoryManagementAPITest {
 		frdescription.setFriendlyUrl("salle-a-manger");
 		frdescription.setTitle("Salle à manger");
 		
-		List<CategoryDescription> descriptions = new ArrayList<CategoryDescription>();
+		List<CategoryDescription> descriptions = new ArrayList<>();
 		descriptions.add(endescription);
 		descriptions.add(frdescription);
 		
@@ -164,7 +164,7 @@ public class CategoryManagementAPITest {
 		frdescription.setFriendlyUrl("armoires");
 		frdescription.setTitle("Armoires");
 		
-		descriptions = new ArrayList<CategoryDescription>();
+		descriptions = new ArrayList<>();
 		descriptions.add(endescription);
 		descriptions.add(frdescription);
 		
@@ -193,7 +193,7 @@ public class CategoryManagementAPITest {
 		frdescription.setFriendlyUrl("bancs");
 		frdescription.setTitle("Bancs");
 		
-		descriptions = new ArrayList<CategoryDescription>();
+		descriptions = new ArrayList<>();
 		descriptions.add(endescription);
 		descriptions.add(frdescription);
 		
@@ -222,7 +222,7 @@ public class CategoryManagementAPITest {
 		frdescription.setFriendlyUrl("salon");
 		frdescription.setTitle("Salon");
 		
-		descriptions = new ArrayList<CategoryDescription>();
+		descriptions = new ArrayList<>();
 		descriptions.add(endescription);
 		descriptions.add(frdescription);
 		
@@ -250,7 +250,7 @@ public class CategoryManagementAPITest {
 		frdescription.setFriendlyUrl("divan");
 		frdescription.setTitle("Divan");
 		
-		descriptions = new ArrayList<CategoryDescription>();
+		descriptions = new ArrayList<>();
 		descriptions.add(endescription);
 		descriptions.add(frdescription);
 		
@@ -265,7 +265,7 @@ public class CategoryManagementAPITest {
 		System.out.println(json);
 		
 		
-		HttpEntity<String> entity = new HttpEntity<String>(json, getHeader());
+		HttpEntity<String> entity = new HttpEntity<>(json, getHeader());
 
 		ResponseEntity response = restTemplate.postForEntity("http://localhost:8080/sm-shop/services/private/DEFAULT/category", entity, PersistableCategory.class);
 
@@ -279,7 +279,7 @@ public class CategoryManagementAPITest {
 	public void deleteCategory() throws Exception {
 		restTemplate = new RestTemplate();
 		
-		HttpEntity<String> httpEntity = new HttpEntity<String>(getHeader());
+		HttpEntity<String> httpEntity = new HttpEntity<>(getHeader());
 		
 		restTemplate.exchange("http://localhost:8080/sm-shop/services/DEFAULT/category/100", HttpMethod.DELETE, httpEntity, Category.class);
 		System.out.println("Category id 100 Deleted.");

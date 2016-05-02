@@ -32,7 +32,7 @@ public class ReadableMerchantStorePopulator extends
 		List<Language> languages = source.getLanguages();
 		if(!CollectionUtils.isEmpty(languages)) {
 			
-			List<String> langs = new ArrayList<String>();
+			List<String> langs = new ArrayList<>();
 			for(Language lang : languages) {
 				langs.add(lang.getCode());
 			}

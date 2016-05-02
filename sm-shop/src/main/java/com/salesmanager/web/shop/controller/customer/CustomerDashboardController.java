@@ -73,7 +73,7 @@ public class CustomerDashboardController extends AbstractController {
 	
 	private void getCustomerOptions(Model model, Customer customer, MerchantStore store, Language language) throws Exception {
 
-		Map<Long,CustomerOption> options = new HashMap<Long,CustomerOption>();
+		Map<Long,CustomerOption> options = new HashMap<>();
 		//get options
 		List<CustomerOptionSet> optionSet = customerOptionSetService.listByStore(store, language);
 		if(!CollectionUtils.isEmpty(optionSet)) {

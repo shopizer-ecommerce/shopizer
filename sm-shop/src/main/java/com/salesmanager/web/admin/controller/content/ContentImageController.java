@@ -173,7 +173,7 @@ public class ContentImageController {
 	       return ControllerConstants.Tiles.ContentImages.addContentImages;
 	       
         }
-	    final List<InputContentFile> contentImagesList=new ArrayList<InputContentFile>();
+	    final List<InputContentFile> contentImagesList= new ArrayList<>();
         final MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
         if(CollectionUtils.isNotEmpty( contentImages.getFile() )){
             LOGGER.info("Saving {} content images for merchant {}",contentImages.getFile().size(),store.getId());
@@ -240,7 +240,7 @@ public class ContentImageController {
 	private void setMenu(Model model, HttpServletRequest request) throws Exception {
 		
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("content", "content");
 		activeMenus.put("content-images", "content-images");
 		

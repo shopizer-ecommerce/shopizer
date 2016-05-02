@@ -60,10 +60,10 @@ public class CustomerOptionValue extends SalesManagerEntity<Long, CustomerOption
 	
 	@Valid
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "customerOptionValue")
-	private Set<CustomerOptionValueDescription> descriptions = new HashSet<CustomerOptionValueDescription>();
+	private Set<CustomerOptionValueDescription> descriptions = new HashSet<>();
 	
 	@Transient
-	private List<CustomerOptionValueDescription> descriptionsList = new ArrayList<CustomerOptionValueDescription>();
+	private List<CustomerOptionValueDescription> descriptionsList = new ArrayList<>();
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="MERCHANT_ID", nullable=false)
@@ -109,7 +109,7 @@ public class CustomerOptionValue extends SalesManagerEntity<Long, CustomerOption
 	
 	public List<CustomerOptionValueDescription> getDescriptionsSettoList() {
 		if(descriptionsList==null || descriptionsList.size()==0) {
-			descriptionsList = new ArrayList<CustomerOptionValueDescription>(this.getDescriptions());
+			descriptionsList = new ArrayList<>(this.getDescriptions());
 		} 
 		return descriptionsList;
 	}

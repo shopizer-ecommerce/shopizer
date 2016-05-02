@@ -176,7 +176,7 @@ public class ShoppingCategoryController {
 		
 		//TODO add to caching
 		List<Category> subCategs = categoryService.listByLineage(store, lineage);
-		List<Long> subIds = new ArrayList<Long>();
+		List<Long> subIds = new ArrayList<>();
 		if(subCategs!=null && subCategs.size()>0) {
 			for(Category c : subCategs) {
 				subIds.add(c.getId());
@@ -200,7 +200,7 @@ public class ShoppingCategoryController {
 		.append(subCategoriesCacheKey.toString())
 		.append(Constants.MISSED_CACHE_KEY);
 		
-		List<BigDecimal> prices = new ArrayList<BigDecimal>();
+		List<BigDecimal> prices = new ArrayList<>();
 		List<ReadableCategory> subCategories = null;
 		Map<Long,Long> countProductsByCategories = null;
 
@@ -306,7 +306,7 @@ public class ShoppingCategoryController {
 		List<ReadableManufacturer> manufacturerList = null;
 		List<com.salesmanager.core.business.catalog.product.model.manufacturer.Manufacturer> manufacturers = manufacturerService.listByProductsByCategoriesId(store, ids, language);
 		if(!CollectionUtils.isEmpty(manufacturers)) {
-			manufacturerList = new ArrayList<ReadableManufacturer>();
+			manufacturerList = new ArrayList<>();
 			for(com.salesmanager.core.business.catalog.product.model.manufacturer.Manufacturer manufacturer : manufacturers) {
 				ReadableManufacturer manuf = new ReadableManufacturerPopulator().populate(manufacturer, new ReadableManufacturer(), store, language);
 				manufacturerList.add(manuf);
@@ -321,7 +321,7 @@ public class ShoppingCategoryController {
 		if(CollectionUtils.isEmpty(subCategories)) {
 			return null;
 		}
-		List<Long> ids = new ArrayList<Long>();
+		List<Long> ids = new ArrayList<>();
 		if(subCategories!=null && subCategories.size()>0) {
 			for(Category c : subCategories) {
 				ids.add(c.getId());
@@ -329,7 +329,7 @@ public class ShoppingCategoryController {
 		} 
 
 		List<Object[]> countProductsByCategories = categoryService.countProductsByCategories(store, ids);
-		Map<Long, Long> countByCategories = new HashMap<Long,Long>();
+		Map<Long, Long> countByCategories = new HashMap<>();
 		
 		for(Object[] counts : countProductsByCategories) {
 			Category c = (Category)counts[0];
@@ -362,7 +362,7 @@ public class ShoppingCategoryController {
 		//sub categories
 		List<Category> subCategories = categoryService.listByParent(category, language);
 		ReadableCategoryPopulator populator = new ReadableCategoryPopulator();
-		List<ReadableCategory> subCategoryProxies = new ArrayList<ReadableCategory>();
+		List<ReadableCategory> subCategoryProxies = new ArrayList<>();
 		
 		
 		
@@ -419,7 +419,7 @@ public class ShoppingCategoryController {
 		
 		ReadableCategoryPopulator populator = new ReadableCategoryPopulator();
 		
-		List<ReadableCategory> returnCategories = new ArrayList<ReadableCategory>();
+		List<ReadableCategory> returnCategories = new ArrayList<>();
 		for(Category category : categories) {
 			ReadableCategory categoryProxy = populator.populate(category, new ReadableCategory(), merchantStore, l);
 			returnCategories.add(categoryProxy);
@@ -486,7 +486,7 @@ public class ShoppingCategoryController {
 			
 			List<Category> categories = categoryService.listByLineage(store, lineage);
 			
-			List<Long> ids = new ArrayList<Long>();
+			List<Long> ids = new ArrayList<>();
 			if(categories!=null && categories.size()>0) {
 				for(Category c : categories) {
 					ids.add(c.getId());
@@ -573,7 +573,7 @@ public class ShoppingCategoryController {
 				filter.setFilterType(QueryFilterType.BRAND);
 				filter.setFilterId(Long.parseLong(filterValue));
 				if(queryFilters==null) {
-					queryFilters = new ArrayList<QueryFilter>();
+					queryFilters = new ArrayList<>();
 				}
 				queryFilters.add(filter);
 			}
@@ -597,7 +597,7 @@ public class ShoppingCategoryController {
 			 */
 			
 			MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
-			List<BigDecimal> prices = new ArrayList<BigDecimal>();
+			List<BigDecimal> prices = new ArrayList<>();
 			
 			Map<String,Language> langs = languageService.getLanguagesMap();
 			
@@ -630,7 +630,7 @@ public class ShoppingCategoryController {
 			
 			List<Category> categories = categoryService.listByLineage(store, lineage);
 			
-			List<Long> ids = new ArrayList<Long>();
+			List<Long> ids = new ArrayList<>();
 			if(categories!=null && categories.size()>0) {
 				for(Category c : categories) {
 					ids.add(c.getId());

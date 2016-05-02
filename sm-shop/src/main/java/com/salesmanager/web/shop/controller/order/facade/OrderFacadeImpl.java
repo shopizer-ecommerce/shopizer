@@ -143,7 +143,7 @@ public class OrderFacadeImpl implements OrderFacade {
 		order.setCustomer(persistableCustomer);
 
 		//keep list of shopping cart items for core price calculation
-		List<ShoppingCartItem> items = new ArrayList<ShoppingCartItem>(shoppingCart.getLineItems());
+		List<ShoppingCartItem> items = new ArrayList<>(shoppingCart.getLineItems());
 		order.setShoppingCartItems(items);
 		
 		return order;
@@ -173,7 +173,7 @@ public class OrderFacadeImpl implements OrderFacade {
 		populator.setProductService(productService);
 		populator.setShoppingCartService(shoppingCartService);
 		
-		List<ShoppingCartItem> items = new ArrayList<ShoppingCartItem>();
+		List<ShoppingCartItem> items = new ArrayList<>();
 		for(PersistableOrderProduct orderProduct : orderProducts) {
 			ShoppingCartItem item = populator.populate(orderProduct, new ShoppingCartItem(), store, language);
 			items.add(item);
@@ -230,7 +230,7 @@ public class OrderFacadeImpl implements OrderFacade {
 	
 	private void setOrderTotals(OrderEntity order, OrderTotalSummary summary) {
 		
-		List<OrderTotal> totals = new ArrayList<OrderTotal>();
+		List<OrderTotal> totals = new ArrayList<>();
 		List<com.salesmanager.core.business.order.model.OrderTotal> orderTotals = summary.getTotals();
 		for(com.salesmanager.core.business.order.model.OrderTotal t : orderTotals) {
 			OrderTotal total = new OrderTotal();
@@ -289,7 +289,7 @@ public class OrderFacadeImpl implements OrderFacade {
 			modelOrder.setLocale(LocaleUtils.getLocale(store));//set the store locale based on the country for order $ formatting
 	
 			List<ShoppingCartItem> shoppingCartItems = order.getShoppingCartItems();
-			Set<OrderProduct> orderProducts = new LinkedHashSet<OrderProduct>();
+			Set<OrderProduct> orderProducts = new LinkedHashSet<>();
 			
 			OrderProductPopulator orderProductPopulator = new OrderProductPopulator();
 			orderProductPopulator.setDigitalProductService(digitalProductService);
@@ -320,7 +320,7 @@ public class OrderFacadeImpl implements OrderFacade {
 				
 			});
 			
-			Set<com.salesmanager.core.business.order.model.OrderTotal> modelTotals = new LinkedHashSet<com.salesmanager.core.business.order.model.OrderTotal>();
+			Set<com.salesmanager.core.business.order.model.OrderTotal> modelTotals = new LinkedHashSet<>();
 			for(com.salesmanager.core.business.order.model.OrderTotal total : totals) {
 				total.setOrder(modelOrder);
 				modelTotals.add(total);
@@ -477,7 +477,7 @@ public class OrderFacadeImpl implements OrderFacade {
 			order.setCustomer(persistableCustomer);
 		}
 		
-		List<ShoppingCartItem> items = new ArrayList<ShoppingCartItem>(shoppingCart.getLineItems());
+		List<ShoppingCartItem> items = new ArrayList<>(shoppingCart.getLineItems());
 		order.setShoppingCartItems(items);
 		
 		return;
@@ -810,7 +810,7 @@ public class OrderFacadeImpl implements OrderFacade {
         Locale locale = LocaleUtils.getLocale(language);
         orderPopulator.setLocale(locale);
         
-        List<ReadableOrder> readableOrders = new ArrayList<ReadableOrder>();
+        List<ReadableOrder> readableOrders = new ArrayList<>();
         for (Order order : orders) {
             ReadableOrder readableOrder = new ReadableOrder();
             try
@@ -834,7 +834,7 @@ public class OrderFacadeImpl implements OrderFacade {
     }
     
     private void setOrderProductList(final Order order, final Locale locale,final MerchantStore store, final Language language , final ReadableOrder readableOrder) throws ConversionException{
-        List<ReadableOrderProduct> orderProducts = new ArrayList<ReadableOrderProduct>();
+        List<ReadableOrderProduct> orderProducts = new ArrayList<>();
         for(OrderProduct p : order.getOrderProducts()) {
             ReadableOrderProductPopulator orderProductPopulator = new ReadableOrderProductPopulator();
             orderProductPopulator.setLocale(locale);
@@ -873,7 +873,7 @@ public class OrderFacadeImpl implements OrderFacade {
 			return null;
 		}
 
-		List<ReadableOrder> readableOrders = new ArrayList<ReadableOrder>();
+		List<ReadableOrder> readableOrders = new ArrayList<>();
 		for (Order order : orders) {
 			ReadableOrder readableOrder = new ReadableOrder();
 			orderPopulator.populate(order,readableOrder,store,language);
@@ -927,7 +927,7 @@ public class OrderFacadeImpl implements OrderFacade {
 		orderPopulator.populate(modelOrder, readableOrder,  store, language);
 		
 		//order products
-		List<ReadableOrderProduct> orderProducts = new ArrayList<ReadableOrderProduct>();
+		List<ReadableOrderProduct> orderProducts = new ArrayList<>();
 		for(OrderProduct p : modelOrder.getOrderProducts()) {
 			ReadableOrderProductPopulator orderProductPopulator = new ReadableOrderProductPopulator();
 			orderProductPopulator.setProductService(productService);

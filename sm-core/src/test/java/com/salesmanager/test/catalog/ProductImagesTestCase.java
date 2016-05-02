@@ -75,7 +75,7 @@ public class ProductImagesTestCase extends AbstractSalesManagerCoreTestCase {
 
 
 
-	    List<CategoryDescription> descriptions = new ArrayList<CategoryDescription>();
+	    List<CategoryDescription> descriptions = new ArrayList<>();
 	    descriptions.add(bookEnglishDescription);
 
 

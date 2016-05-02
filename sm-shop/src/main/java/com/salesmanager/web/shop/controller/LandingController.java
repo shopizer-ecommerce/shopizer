@@ -83,7 +83,7 @@ public class LandingController {
 		Breadcrumb breadCrumb = new Breadcrumb();
 		breadCrumb.setLanguage(language);
 		
-		List<BreadcrumbItem> items = new ArrayList<BreadcrumbItem>();
+		List<BreadcrumbItem> items = new ArrayList<>();
 		items.add(item);
 		
 		breadCrumb.setBreadCrumbs(items);
@@ -114,7 +114,7 @@ public class LandingController {
 		
 		//featured items
 		List<ProductRelationship> relationships = productRelationshipService.getByType(store, ProductRelationshipType.FEATURED_ITEM, language);
-		List<ReadableProduct> featuredItems = new ArrayList<ReadableProduct>();
+		List<ReadableProduct> featuredItems = new ArrayList<>();
 		for(ProductRelationship relationship : relationships) {
 			
 			Product product = relationship.getRelatedProduct();

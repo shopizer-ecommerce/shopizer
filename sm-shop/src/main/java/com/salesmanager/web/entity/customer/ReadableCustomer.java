@@ -12,7 +12,7 @@ public class ReadableCustomer extends CustomerEntity implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private List<ReadableCustomerAttribute> attributes = new ArrayList<ReadableCustomerAttribute>();
+	private List<ReadableCustomerAttribute> attributes = new ArrayList<>();
 	public void setAttributes(List<ReadableCustomerAttribute> attributes) {
 		this.attributes = attributes;
 	}

@@ -96,7 +96,7 @@ public class ManufacturerController {
 		
 		
 		com.salesmanager.web.admin.entity.catalog.Manufacturer manufacturer = new com.salesmanager.web.admin.entity.catalog.Manufacturer();		
-		List<ManufacturerDescription> descriptions = new ArrayList<ManufacturerDescription>();
+		List<ManufacturerDescription> descriptions = new ArrayList<>();
 
 		
 		if( manufacturerId!=null && manufacturerId.longValue()!=0) {	//edit mode
@@ -261,7 +261,7 @@ public class ManufacturerController {
 //			}
 //		}
 
-		Set<ManufacturerDescription> descriptions = new HashSet<ManufacturerDescription>();
+		Set<ManufacturerDescription> descriptions = new HashSet<>();
 		if(manufacturer.getDescriptions()!=null && manufacturer.getDescriptions().size()>0) {
 			
 			for(ManufacturerDescription desc : manufacturer.getDescriptions()) {
@@ -483,7 +483,7 @@ public class ManufacturerController {
 	
 	private void setMenu(Model model, HttpServletRequest request) throws Exception {		
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("catalogue", "catalogue");
 		activeMenus.put("manufacturer-list", "manufacturer-list");
 		

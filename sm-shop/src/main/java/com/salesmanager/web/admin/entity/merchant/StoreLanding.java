@@ -8,7 +8,7 @@ import javax.validation.Valid;
 public class StoreLanding {
 	
 	@Valid
-	private List<StoreLandingDescription> descriptions = new ArrayList<StoreLandingDescription>();
+	private List<StoreLandingDescription> descriptions = new ArrayList<>();
 
 	public void setDescriptions(List<StoreLandingDescription> descriptions) {
 		this.descriptions = descriptions;

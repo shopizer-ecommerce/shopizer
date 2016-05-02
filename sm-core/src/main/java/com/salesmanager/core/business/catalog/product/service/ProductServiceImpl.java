@@ -85,7 +85,7 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		
 		
 		if(product.getDescriptions()==null) {
-			product.setDescriptions(new HashSet<ProductDescription>());
+			product.setDescriptions(new HashSet<>());
 		}
 		
 		product.getDescriptions().add(description);
@@ -158,7 +158,7 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		//Get the category list
 		StringBuilder lineage = new StringBuilder().append(category.getLineage()).append(category.getId()).append("/");
 		List<Category> categories = categoryService.listByLineage(category.getMerchantStore(),lineage.toString());
-		Set<Long> categoryIds = new HashSet<Long>();
+		Set<Long> categoryIds = new HashSet<>();
 		for(Category c : categories) {
 			
 			categoryIds.add(c.getId());
@@ -283,7 +283,7 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		
 		//get availabilities
 		Set<ProductAvailability> availabilities = product.getAvailabilities();
-		List<Long> newAvailabilityIds = new ArrayList<Long>();
+		List<Long> newAvailabilityIds = new ArrayList<>();
 		if(availabilities!=null && availabilities.size()>0) {
 			for(ProductAvailability availability : availabilities) {
 				availability.setProduct(product);
@@ -311,7 +311,7 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		}
 		
 		LOGGER.debug("Creating attributes");
-		List<Long> newAttributesIds = new ArrayList<Long>();
+		List<Long> newAttributesIds = new ArrayList<>();
 		if(product.getAttributes()!=null && product.getAttributes().size()>0) {
 			Set<ProductAttribute> attributes = product.getAttributes();
 			for(ProductAttribute attribute : attributes) {
@@ -332,7 +332,7 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		
 		
 		LOGGER.debug("Creating relationships");
-		List<Long> newRelationshipIds = new ArrayList<Long>();
+		List<Long> newRelationshipIds = new ArrayList<>();
 		if(product.getRelationships()!=null && product.getRelationships().size()>0) {
 			Set<ProductRelationship> relationships = product.getRelationships();
 			for(ProductRelationship relationship : relationships) {
@@ -354,7 +354,7 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		LOGGER.debug("Creating images");
 
 		//get images
-		List<Long> newImageIds = new ArrayList<Long>();
+		List<Long> newImageIds = new ArrayList<>();
 		Set<ProductImage> images = product.getImages();
 		if(images!=null && images.size()>0) {
 			for(ProductImage image : images) {

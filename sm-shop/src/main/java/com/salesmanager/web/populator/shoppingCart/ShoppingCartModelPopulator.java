@@ -115,7 +115,7 @@ public class ShoppingCartModelPopulator
 
         List<ShoppingCartItem> items = shoppingCart.getShoppingCartItems();
         Set<com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem> newItems =
-            new HashSet<com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem>();
+                new HashSet<>();
         if ( items != null && items.size() > 0 )
         {
             for ( ShoppingCartItem item : items )
@@ -134,7 +134,7 @@ public class ShoppingCartModelPopulator
                             Set<com.salesmanager.core.business.shoppingcart.model.ShoppingCartAttributeItem> attributes =
                                 dbItem.getAttributes();
                             Set<com.salesmanager.core.business.shoppingcart.model.ShoppingCartAttributeItem> newAttributes =
-                                new HashSet<com.salesmanager.core.business.shoppingcart.model.ShoppingCartAttributeItem>();
+                                    new HashSet<>();
                             List<ShoppingCartAttribute> cartAttributes = item.getShoppingCartAttributes();
                             if ( !CollectionUtils.isEmpty( cartAttributes ) )
                             {
@@ -167,7 +167,7 @@ public class ShoppingCartModelPopulator
                         cartMdel.getLineItems();
                     if ( lineItems == null )
                     {
-                        lineItems = new HashSet<com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem>();
+                        lineItems = new HashSet<>();
                         cartMdel.setLineItems( lineItems );
                     }
                     lineItems.add( cartItem );
@@ -218,7 +218,7 @@ public class ShoppingCartModelPopulator
         if ( !CollectionUtils.isEmpty( cartAttributes ) )
         {
             Set<com.salesmanager.core.business.shoppingcart.model.ShoppingCartAttributeItem> newAttributes =
-                new HashSet<com.salesmanager.core.business.shoppingcart.model.ShoppingCartAttributeItem>();
+                    new HashSet<>();
             for ( ShoppingCartAttribute attribute : cartAttributes )
             {
                 ProductAttribute productAttribute = productAttributeService.getById( attribute.getAttributeId() );

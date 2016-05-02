@@ -72,7 +72,7 @@ public class SystemConfigurationController {
 
 	private void setMenu(Model model, HttpServletRequest request) throws Exception {
 		
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("configuration", "configuration");
 		activeMenus.put("system-configurations", "system-configurations");
 		

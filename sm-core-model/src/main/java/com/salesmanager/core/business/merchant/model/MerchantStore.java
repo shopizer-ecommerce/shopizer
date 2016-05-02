@@ -103,7 +103,7 @@ public class MerchantStore extends SalesManagerEntity<Integer, MerchantStore> {
 	@NotEmpty
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "MERCHANT_LANGUAGE")
-	private List<Language> languages = new ArrayList<Language>();
+	private List<Language> languages = new ArrayList<>();
 	
 	@Column(name = "USE_CACHE")
 	private boolean useCache = false;

@@ -105,7 +105,7 @@ public class TaxServiceImpl
 
 		List<ShoppingCartItem> items = orderSummary.getProducts();
 		
-		List<TaxItem> taxLines = new ArrayList<TaxItem>();
+		List<TaxItem> taxLines = new ArrayList<>();
 		
 		if(items==null) {
 			return taxLines;
@@ -172,10 +172,10 @@ public class TaxServiceImpl
 			stateProvince = store.getStorestateprovince();
 		}
 		
-		Map<Long,TaxClass> taxClasses =  new HashMap<Long,TaxClass>();
+		Map<Long,TaxClass> taxClasses = new HashMap<>();
 			
 		//put items in a map by tax class id
-		Map<Long,BigDecimal> taxClassAmountMap = new HashMap<Long,BigDecimal>();
+		Map<Long,BigDecimal> taxClassAmountMap = new HashMap<>();
 		for(ShoppingCartItem item : items) {
 				
 				BigDecimal itemPrice = item.getItemPrice();
@@ -223,7 +223,7 @@ public class TaxServiceImpl
 		//}
 		
 		
-		List<TaxItem> taxItems = new ArrayList<TaxItem>();
+		List<TaxItem> taxItems = new ArrayList<>();
 		
 		//iterate through the tax class and get appropriate rates
 		for(Long taxClassId : taxClassAmountMap.keySet()) {
@@ -271,7 +271,7 @@ public class TaxServiceImpl
 		
 		
 		
-		Map<String,TaxItem> taxItemsMap = new TreeMap<String,TaxItem>();
+		Map<String,TaxItem> taxItemsMap = new TreeMap<>();
 		//consolidate tax rates of same code
 		for(TaxItem taxItem : taxItems) {
 			
@@ -296,7 +296,7 @@ public class TaxServiceImpl
 		
 		
 		@SuppressWarnings("unchecked")
-		List<TaxItem> list = new ArrayList<TaxItem>(values);
+		List<TaxItem> list = new ArrayList<>(values);
 		return list;
 
 	}

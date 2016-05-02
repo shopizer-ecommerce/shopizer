@@ -139,15 +139,15 @@ public class Order extends SalesManagerEntity<Long, Order> {
 	//private Set<OrderAccount> orderAccounts = new HashSet<OrderAccount>();
 	
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-	private Set<OrderProduct> orderProducts = new LinkedHashSet<OrderProduct>();
+	private Set<OrderProduct> orderProducts = new LinkedHashSet<>();
 	
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
 	@OrderBy(clause = "sort_order asc")
-	private Set<OrderTotal> orderTotal = new LinkedHashSet<OrderTotal>();
+	private Set<OrderTotal> orderTotal = new LinkedHashSet<>();
 	
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
 	@OrderBy(clause = "ORDER_STATUS_HISTORY_ID asc")
-	private Set<OrderStatusHistory> orderHistory = new LinkedHashSet<OrderStatusHistory>();
+	private Set<OrderStatusHistory> orderHistory = new LinkedHashSet<>();
 	
 	public Order() {
 	}

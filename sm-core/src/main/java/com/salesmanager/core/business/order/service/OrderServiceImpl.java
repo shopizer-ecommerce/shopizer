@@ -122,7 +122,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     			status = OrderStatus.ORDERED;
     			order.setStatus(status);
     		}
-    		Set<OrderStatusHistory> statusHistorySet = new HashSet<OrderStatusHistory>();
+    		Set<OrderStatusHistory> statusHistorySet = new HashSet<>();
     		OrderStatusHistory statusHistory = new OrderStatusHistory();
     		statusHistory.setStatus(status);
     		statusHistory.setDateAdded(new Date());
@@ -166,8 +166,8 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     private OrderTotalSummary caculateOrder(final OrderSummary summary, final Customer customer, final MerchantStore store, final Language language) throws Exception {
 
         OrderTotalSummary totalSummary = new OrderTotalSummary();
-        List<OrderTotal> orderTotals = new ArrayList<OrderTotal>();
-        Map<String,OrderTotal> otherPricesTotals = new HashMap<String,OrderTotal>();
+        List<OrderTotal> orderTotals = new ArrayList<>();
+        Map<String,OrderTotal> otherPricesTotals = new HashMap<>();
 
         ShippingConfiguration shippingConfiguration = null;
 
@@ -368,7 +368,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     	
     	OrderSummary orderSummary = new OrderSummary();
     	
-    	List<ShoppingCartItem> itemsSet = new ArrayList<ShoppingCartItem>(shoppingCart.getLineItems());
+    	List<ShoppingCartItem> itemsSet = new ArrayList<>(shoppingCart.getLineItems());
     	orderSummary.setProducts(itemsSet);
     	
     	

@@ -130,7 +130,7 @@ public class ProductsController {
 					
 					List<Category> categories = categoryService.listByLineage(store, lineage.toString());
 					
-					List<Long> categoryIds = new ArrayList<Long>();
+					List<Long> categoryIds = new ArrayList<>();
 					
 					for(Category cat : categories) {
 						categoryIds.add(cat.getId());
@@ -244,7 +244,7 @@ public class ProductsController {
 	private void setMenu(Model model, HttpServletRequest request) throws Exception {
 		
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("catalogue", "catalogue");
 		activeMenus.put("catalogue-products", "catalogue-products");
 		

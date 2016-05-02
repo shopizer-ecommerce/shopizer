@@ -560,7 +560,7 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 				
 					List<Content> contentByStore = contents.get(contentKey.toString());
 					if(!CollectionUtils.isEmpty(contentByStore)) {
-						Map<String, ContentDescription> contentMap = new HashMap<String,ContentDescription>();
+						Map<String, ContentDescription> contentMap = new HashMap<>();
 						for(Content content : contentByStore) {
 							if(content.isVisible()) {
 								contentMap.put(content.getCode(), content.getDescription());
@@ -602,7 +602,7 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 			if(objects==null) {
 				//load categories
 				loadedCategories = categoryFacade.getCategoryHierarchy(store, 3, language);
-				objects = new ConcurrentHashMap<String, List<ReadableCategory>>();
+				objects = new ConcurrentHashMap<>();
 				objects.put(language.getCode(), loadedCategories);
 				webApplicationCache.putInCache(categoriesKey.toString(), objects);
 				
@@ -703,10 +703,10 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 	   private Map<String, List<ContentDescription>> getContentPagesNames(MerchantStore store, Language language) throws Exception {
 		   
 		   
-		    Map<String, List<ContentDescription>> contents = new ConcurrentHashMap<String, List<ContentDescription>>();
+		    Map<String, List<ContentDescription>> contents = new ConcurrentHashMap<>();
 		   
 			//Get boxes and sections from the database
-			List<ContentType> contentTypes = new ArrayList<ContentType>();
+			List<ContentType> contentTypes = new ArrayList<>();
 			contentTypes.add(ContentType.PAGE);
 
 			
@@ -727,10 +727,10 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 						.append(lang.getCode()).toString();
 						List<ContentDescription> contentList = null;
 						if(contents==null || contents.size()==0) {
-							contents = new HashMap<String, List<ContentDescription>>();
+							contents = new HashMap<>();
 						}
 						if(!contents.containsKey(key)) {
-							contentList = new ArrayList<ContentDescription>();
+							contentList = new ArrayList<>();
 
 							contents.put(key, contentList);
 						} else {//get from key
@@ -749,10 +749,10 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 	   private Map<String, List<Content>> getContent(MerchantStore store, Language language) throws Exception {
 		   
 		   
-		   Map<String, List<Content>> contents = new ConcurrentHashMap<String, List<Content>>();
+		   Map<String, List<Content>> contents = new ConcurrentHashMap<>();
 		   
 			//Get boxes and sections from the database
-			List<ContentType> contentTypes = new ArrayList<ContentType>();
+			List<ContentType> contentTypes = new ArrayList<>();
 			contentTypes.add(ContentType.BOX);
 			contentTypes.add(ContentType.SECTION);
 			
@@ -774,10 +774,10 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 							.append(lang.getCode()).toString();
 							List<Content> contentList = null;
 							if(contents==null || contents.size()==0) {
-								contents = new HashMap<String, List<Content>>();
+								contents = new HashMap<>();
 							}
 							if(!contents.containsKey(key)) {
-								contentList = new ArrayList<Content>();
+								contentList = new ArrayList<>();
 	
 								contents.put(key, contentList);
 							}else {//get from key
@@ -806,7 +806,7 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 	   private Map<String, List<ReadableCategory>> getCategories(MerchantStore store, Language language) throws Exception {
 		   
 		   //Map<String, List<Category>> objects = new ConcurrentHashMap<String, List<Category>>();
-		   Map<String, List<ReadableCategory>> objects = new ConcurrentHashMap<String, List<ReadableCategory>>();
+		   Map<String, List<ReadableCategory>> objects = new ConcurrentHashMap<>();
 		   
 		    /** returns categories with required depth, 0 = root category, 1 = root + 1 layer child ...) **/
 			List<Category> categories = categoryService.listByDepth(store, 0, language);
@@ -814,7 +814,7 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 			ReadableCategoryPopulator readableCategoryPopulator = new ReadableCategoryPopulator();
 			
 			
-			Map<String,ReadableCategory> subs = new ConcurrentHashMap<String,ReadableCategory>();
+			Map<String,ReadableCategory> subs = new ConcurrentHashMap<>();
 			
 			if(categories!=null && categories.size()>0) {
 				
@@ -846,11 +846,11 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 									List<ReadableCategory> cacheCategories = null;
 									if(objects==null || objects.size()==0) {
 										//objects = new HashMap<String, List<Category>>();
-										objects = new HashMap<String, List<ReadableCategory>>();
+										objects = new HashMap<>();
 									}
 									if(!objects.containsKey(key)) {
 										//cacheCategories = new ArrayList<Category>();
-										cacheCategories = new ArrayList<ReadableCategory>();
+										cacheCategories = new ArrayList<>();
 			
 										objects.put(key, cacheCategories);
 									} else {
@@ -883,7 +883,7 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 			   List<MerchantConfiguration> configurations = merchantConfigurationService.listByType(MerchantConfigurationType.CONFIG, store);
 			   
 			   if(!CollectionUtils.isEmpty(configurations) && configs==null) {
-				   configs = new HashMap<String,Object>();
+				   configs = new HashMap<>();
 			   }
 			   
 			   
@@ -895,7 +895,7 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 			   MerchantConfig merchantConfig = merchantConfigurationService.getMerchantConfig(store);
 			   if(merchantConfig!=null) {
 				   if(configs==null) {
-					   configs = new HashMap<String,Object>();
+					   configs = new HashMap<>();
 				   }
 				   
 				   ObjectMapper m = new ObjectMapper();
@@ -934,7 +934,7 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 					if(language.getCode().equals(breadCrumb.getLanguage().getCode())) {
 						
 						//rebuild using the appropriate language
-						List<BreadcrumbItem> items = new ArrayList<BreadcrumbItem>();
+						List<BreadcrumbItem> items = new ArrayList<>();
 						for(BreadcrumbItem item : breadCrumb.getBreadCrumbs()) {
 							
 							if(item.getItemType().name().equals(BreadcrumbItemType.HOME)) {

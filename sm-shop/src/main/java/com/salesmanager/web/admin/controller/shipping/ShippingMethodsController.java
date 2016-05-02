@@ -93,7 +93,7 @@ public class ShippingMethodsController {
 		
 		configuration.setModuleCode(code);
 		
-		List<String> environments = new ArrayList<String>();
+		List<String> environments = new ArrayList<>();
 		environments.add(com.salesmanager.core.constants.Constants.TEST_ENVIRONMENT);
 		environments.add(com.salesmanager.core.constants.Constants.PRODUCTION_ENVIRONMENT);
 		
@@ -114,7 +114,7 @@ public class ShippingMethodsController {
 		String moduleCode = configuration.getModuleCode();
 		LOGGER.debug("Saving module code " + moduleCode);
 		
-		List<String> environments = new ArrayList<String>();
+		List<String> environments = new ArrayList<>();
 		environments.add(com.salesmanager.core.constants.Constants.TEST_ENVIRONMENT);
 		environments.add(com.salesmanager.core.constants.Constants.PRODUCTION_ENVIRONMENT);
 
@@ -171,7 +171,7 @@ public class ShippingMethodsController {
 	private void setMenu(Model model, HttpServletRequest request) throws Exception {
 		
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("shipping", "shipping");
 		activeMenus.put("shipping-methods", "shipping-methods");
 		

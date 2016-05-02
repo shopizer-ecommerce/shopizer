@@ -249,7 +249,7 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 
 				//shoppingCart.setLineItems(shoppingCartItems);
 				boolean refreshCart = false;
-                Set<ShoppingCartItem> refreshedItems = new HashSet<ShoppingCartItem>();
+                Set<ShoppingCartItem> refreshedItems = new HashSet<>();
                 for(ShoppingCartItem item : items) {
                 	if(!item.isObsolete()) {
                 		refreshedItems.add(item);
@@ -333,7 +333,7 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 
 		Set<ShoppingCartAttributeItem> attributes = item.getAttributes();
 		Set<ProductAttribute> productAttributes = product.getAttributes();
-		List<ProductAttribute> attributesList = new ArrayList<ProductAttribute>();
+		List<ProductAttribute> attributesList = new ArrayList<>();
 		if(productAttributes!=null && productAttributes.size()>0 && attributes!=null && attributes.size()>0) {
 			for(ShoppingCartAttributeItem attribute : attributes) {
 				long attributeId = attribute.getProductAttributeId().longValue();
@@ -374,7 +374,7 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 			Product product = item.getProduct();
 			if(!product.isProductVirtual() && product.isProductShipeable()) {
 				if(shippingProducts==null) {
-					shippingProducts = new ArrayList<ShippingProduct>();
+					shippingProducts = new ArrayList<>();
 				}
 				ShippingProduct shippingProduct = new ShippingProduct(product);
 				shippingProduct.setQuantity(item.getQuantity());
@@ -486,7 +486,7 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 
                     Set<ShoppingCartItem> shoppingCartItemsSet=null;
                     if(CollectionUtils.isNotEmpty( sessionCart.getLineItems() )){
-                        shoppingCartItemsSet=new HashSet<ShoppingCartItem>();
+                        shoppingCartItemsSet= new HashSet<>();
                         for(ShoppingCartItem shoppingCartItem : sessionCart.getLineItems()){
                             Product product = productService.getById( shoppingCartItem.getProductId() );
                             if ( product == null )
@@ -504,7 +504,7 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
                             item.setQuantity( shoppingCartItem.getQuantity() );
                             item.setShoppingCart( cartModel );
 
-                            List<ShoppingCartAttributeItem> cartAttributes = new ArrayList<ShoppingCartAttributeItem>( shoppingCartItem.getAttributes() );
+                            List<ShoppingCartAttributeItem> cartAttributes = new ArrayList<>(shoppingCartItem.getAttributes());
                             if(CollectionUtils.isNotEmpty( cartAttributes )){
                                 for(ShoppingCartAttributeItem shoppingCartAttributeItem :cartAttributes ){
                                     ProductAttribute productAttribute =productAttributeService.getById( shoppingCartAttributeItem.getId() );
@@ -534,7 +534,7 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 	public boolean isFreeShoppingCart(List<ShoppingCartItem> items)
 			throws ServiceException {
 		ShoppingCart cart = new ShoppingCart();
-		Set<ShoppingCartItem> cartItems = new HashSet<ShoppingCartItem>(items);
+		Set<ShoppingCartItem> cartItems = new HashSet<>(items);
 		cart.setLineItems(cartItems);
 		return this.isFreeShoppingCart(cart);
 	}

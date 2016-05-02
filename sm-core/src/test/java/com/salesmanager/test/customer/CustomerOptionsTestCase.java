@@ -98,7 +98,7 @@ public class CustomerOptionsTestCase extends AbstractSalesManagerCoreTestCase {
 		mailingListDesciption.setLanguage(en);
 		mailingListDesciption.setCustomerOption(subscribedToMailingList);
 		
-		Set<CustomerOptionDescription> mailingListDesciptionList = new HashSet<CustomerOptionDescription>();
+		Set<CustomerOptionDescription> mailingListDesciptionList = new HashSet<>();
 		mailingListDesciptionList.add(mailingListDesciption);
 		subscribedToMailingList.setDescriptions(mailingListDesciptionList);
 		
@@ -118,7 +118,7 @@ public class CustomerOptionsTestCase extends AbstractSalesManagerCoreTestCase {
 		hasReturnedItemsDesciption.setLanguage(en);
 		hasReturnedItemsDesciption.setCustomerOption(hasReturnedItems);
 		
-		Set<CustomerOptionDescription> hasReturnedItemsList = new HashSet<CustomerOptionDescription>();
+		Set<CustomerOptionDescription> hasReturnedItemsList = new HashSet<>();
 		hasReturnedItemsList.add(hasReturnedItemsDesciption);
 		hasReturnedItems.setDescriptions(hasReturnedItemsList);
 

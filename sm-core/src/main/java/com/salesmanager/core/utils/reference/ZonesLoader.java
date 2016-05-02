@@ -38,7 +38,7 @@ public class ZonesLoader {
 List<Language> languages = languageService.list();
 		
 		List<Country> countries = countryService.list();
-		Map<String,Country> countriesMap = new HashMap<String,Country>();
+		Map<String,Country> countriesMap = new HashMap<>();
 		for(Country country : countries) {
 			
 			countriesMap.put(country.getIsoCode(), country);
@@ -55,9 +55,9 @@ List<Language> languages = languageService.list();
               @SuppressWarnings("unchecked")
               Map<String,Object> data = mapper.readValue(in, Map.class);
               
-              Map<String,Zone> zonesMap = new HashMap<String,Zone>();
-              Map<String,List<ZoneDescription>> zonesDescriptionsMap = new HashMap<String,List<ZoneDescription>>();
-              Map<String,String> zonesMark = new HashMap<String,String>();
+              Map<String,Zone> zonesMap = new HashMap<>();
+              Map<String,List<ZoneDescription>> zonesDescriptionsMap = new HashMap<>();
+              Map<String,String> zonesMark = new HashMap<>();
               
               for(Language l : languages) {
 	              @SuppressWarnings("rawtypes")
@@ -96,7 +96,7 @@ List<Language> languages = languageService.list();
 		                    if(zonesDescriptionsMap.containsKey(zoneCode)) {
 		                    	descriptions = zonesDescriptionsMap.get(zoneCode);
 		                    } else {
-		                    	descriptions = new ArrayList<ZoneDescription>();
+		                    	descriptions = new ArrayList<>();
 		                    	zonesDescriptionsMap.put(zoneCode, descriptions);
 		                    }
 		                    

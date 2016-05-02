@@ -46,7 +46,7 @@ public class ContentBoxesController {
 	
 	@ModelAttribute("boxPositions") 
     public Set<Map.Entry<String, String>> boxPositions() { 
-        final Map<String, String> map = new HashMap<String, String>(); 
+        final Map<String, String> map = new HashMap<>(); 
 
         map.put("LEFT", "LEFT");
         map.put("RIGHT", "RIGHT");
@@ -92,7 +92,7 @@ public class ContentBoxesController {
 		}
 		
 		//add positions
-		List<String> positions = new ArrayList<String>();
+		List<String> positions = new ArrayList<>();
 		positions.add("LEFT");
 		positions.add("RIGHT");
 		
@@ -114,7 +114,7 @@ public class ContentBoxesController {
 		Content content = contentService.getById(id);
 		
 
-		List<String> positions = new ArrayList<String>();
+		List<String> positions = new ArrayList<>();
 		positions.add("LEFT");
 		positions.add("RIGHT");
 		
@@ -137,7 +137,7 @@ public class ContentBoxesController {
 		
 		List<Language> languages = store.getLanguages();
 		
-		List<ContentDescription> descriptions = new ArrayList<ContentDescription>();
+		List<ContentDescription> descriptions = new ArrayList<>();
 		for(Language l : languages) {
 			for(ContentDescription description : content.getDescriptions()) {
 				if(description.getLanguage().getCode().equals(l.getCode())) {
@@ -167,7 +167,7 @@ public class ContentBoxesController {
 		
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		
-		List<String> positions = new ArrayList<String>();
+		List<String> positions = new ArrayList<>();
 		positions.add("LEFT");
 		positions.add("RIGHT");
 		
@@ -203,7 +203,7 @@ public class ContentBoxesController {
 	private void setMenu(Model model, HttpServletRequest request) throws Exception {
 		
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("content", "content");
 		activeMenus.put("content-boxes", "content-boxes");
 		

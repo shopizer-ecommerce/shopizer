@@ -14,7 +14,7 @@ public class SearchProductList extends ProductList {
 	
 
 	private static final long serialVersionUID = 1L;
-	private List<ReadableCategory> categoryFacets = new ArrayList<ReadableCategory>();
+	private List<ReadableCategory> categoryFacets = new ArrayList<>();
 	public List<ReadableCategory> getCategoryFacets() {
 		return categoryFacets;
 	}

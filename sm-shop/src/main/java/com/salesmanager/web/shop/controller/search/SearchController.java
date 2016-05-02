@@ -180,7 +180,7 @@ public class SearchController {
 			List<SearchEntry> entries = resp.getEntries();
 			
 			if(!CollectionUtils.isEmpty(entries)) {
-				List<Long> ids = new ArrayList<Long>();
+				List<Long> ids = new ArrayList<>();
 				for(SearchEntry entry : entries) {
 					IndexProduct indexedProduct = entry.getIndexProduct();
 					Long id = Long.parseLong(indexedProduct.getId());
@@ -229,15 +229,15 @@ public class SearchController {
 				
 				
 				if(categoriesFacets!=null) {
-					List<String> categoryCodes = new ArrayList<String>();
-					Map<String,Long> productCategoryCount = new HashMap<String,Long>();
+					List<String> categoryCodes = new ArrayList<>();
+					Map<String,Long> productCategoryCount = new HashMap<>();
 					for(SearchFacet facet : categoriesFacets) {
 						categoryCodes.add(facet.getName());
 						productCategoryCount.put(facet.getKey(), facet.getCount());
 					}
 					
 					List<Category> categories = categoryService.listByCodes(merchantStore, categoryCodes, l);
-					List<ReadableCategory> categoryProxies = new ArrayList<ReadableCategory>();
+					List<ReadableCategory> categoryProxies = new ArrayList<>();
 					ReadableCategoryPopulator populator = new ReadableCategoryPopulator();
 					
 					for(Category category : categories) {

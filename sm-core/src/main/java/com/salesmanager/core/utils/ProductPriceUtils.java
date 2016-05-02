@@ -514,7 +514,7 @@ public class ProductPriceUtils {
 						finalPrice = p;
 					} else {
 						if(otherPrices==null) {
-							otherPrices = new ArrayList<FinalPrice>();
+							otherPrices = new ArrayList<>();
 						}
 						otherPrices.add(p);
 					}

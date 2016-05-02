@@ -50,7 +50,7 @@ public class SecurityController {
 	private void setMenu(Model model, HttpServletRequest request) throws Exception {
 		
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("profile", "profile");
 		activeMenus.put("security", "security");
 		

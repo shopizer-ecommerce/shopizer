@@ -54,7 +54,7 @@ public class ConfigurationController {
 	public String displayAccountsConfguration(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		setConfigurationMenu(model, request);
-		List<MerchantConfiguration> configs = new ArrayList<MerchantConfiguration>();
+		List<MerchantConfiguration> configs = new ArrayList<>();
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		MerchantConfiguration merchantFBConfiguration = merchantConfigurationService.getMerchantConfiguration(Constants.KEY_FACEBOOK_PAGE_URL,store);
 		if(null == merchantFBConfiguration)
@@ -187,7 +187,7 @@ public class ConfigurationController {
 	
 	private void setConfigurationMenu(Model model, HttpServletRequest request) throws Exception {
 		
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("configuration", "configuration");
 		activeMenus.put("accounts-conf", "accounts-conf");
 		
@@ -201,7 +201,7 @@ public class ConfigurationController {
 	
 	private void setEmailConfigurationMenu(Model model, HttpServletRequest request) throws Exception {
 		
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("configuration", "configuration");
 		activeMenus.put("email-conf", "email-conf");
 		

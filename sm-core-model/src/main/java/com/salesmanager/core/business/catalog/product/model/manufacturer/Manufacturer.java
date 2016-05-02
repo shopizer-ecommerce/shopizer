@@ -45,7 +45,7 @@ public class Manufacturer extends SalesManagerEntity<Long, Manufacturer> impleme
 	private AuditSection auditSection = new AuditSection();
 	
 	@OneToMany(mappedBy = "manufacturer", cascade = CascadeType.ALL , fetch = FetchType.EAGER)
-	private Set<ManufacturerDescription> descriptions = new HashSet<ManufacturerDescription>();
+	private Set<ManufacturerDescription> descriptions = new HashSet<>();
 	
 	@Column(name = "MANUFACTURER_IMAGE")
 	private String image;

@@ -11,7 +11,7 @@ public class PersistableCategory extends CategoryEntity implements Serializable 
 	 */
 	private static final long serialVersionUID = 1L;
 	private List<CategoryDescription> descriptions;//always persist description
-	private List<PersistableCategory> children = new ArrayList<PersistableCategory>();
+	private List<PersistableCategory> children = new ArrayList<>();
 	
 	public List<CategoryDescription> getDescriptions() {
 		return descriptions;

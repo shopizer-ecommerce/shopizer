@@ -17,7 +17,7 @@ public class Menu implements Serializable {
 	private String icon;
 	private String role;
 	private int order;
-	private List<Menu> menus = new ArrayList<Menu>();
+	private List<Menu> menus = new ArrayList<>();
 	public String getCode() {
 		return code;
 	}

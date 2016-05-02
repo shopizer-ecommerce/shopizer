@@ -60,7 +60,7 @@ public class LanguageServiceImpl extends SalesManagerEntityServiceImpl<Integer, 
 		
 		List<Language> langs = this.getLanguages();
 
-		Map<String,Language> returnMap = new LinkedHashMap<String,Language>();
+		Map<String,Language> returnMap = new LinkedHashMap<>();
 		
 		for(Language lang : langs) {
 			

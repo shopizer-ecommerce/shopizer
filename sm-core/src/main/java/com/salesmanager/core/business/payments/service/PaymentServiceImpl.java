@@ -75,7 +75,7 @@ public class PaymentServiceImpl implements PaymentService {
 	public List<IntegrationModule> getPaymentMethods(MerchantStore store) throws ServiceException {
 		
 		List<IntegrationModule> modules =  moduleConfigurationService.getIntegrationModules(PAYMENT_MODULES);
-		List<IntegrationModule> returnModules = new ArrayList<IntegrationModule>();
+		List<IntegrationModule> returnModules = new ArrayList<>();
 		
 		for(IntegrationModule module : modules) {
 			if(module.getRegionsSet().contains(store.getCountry().getIsoCode())
@@ -93,7 +93,7 @@ public class PaymentServiceImpl implements PaymentService {
 		
 		Map<String,IntegrationConfiguration> modules =  this.getPaymentModulesConfigured(store);
 
-		List<PaymentMethod> returnModules = new ArrayList<PaymentMethod>();
+		List<PaymentMethod> returnModules = new ArrayList<>();
 		
 		for(String module : modules.keySet()) {
 			IntegrationConfiguration config = modules.get(module);
@@ -182,7 +182,7 @@ public class PaymentServiceImpl implements PaymentService {
 		
 		try {
 		
-			Map<String,IntegrationConfiguration> modules = new HashMap<String,IntegrationConfiguration>();
+			Map<String,IntegrationConfiguration> modules = new HashMap<>();
 			MerchantConfiguration merchantConfiguration = merchantConfigurationService.getMerchantConfiguration(PAYMENT_MODULES, store);
 			if(merchantConfiguration!=null) {
 				
@@ -219,7 +219,7 @@ public class PaymentServiceImpl implements PaymentService {
 		}
 		
 		try {
-			Map<String,IntegrationConfiguration> modules = new HashMap<String,IntegrationConfiguration>();
+			Map<String,IntegrationConfiguration> modules = new HashMap<>();
 			MerchantConfiguration merchantConfiguration = merchantConfigurationService.getMerchantConfiguration(PAYMENT_MODULES, store);
 			if(merchantConfiguration!=null) {
 				if(!StringUtils.isBlank(merchantConfiguration.getValue())) {
@@ -253,7 +253,7 @@ public class PaymentServiceImpl implements PaymentService {
 		
 
 		try {
-			Map<String,IntegrationConfiguration> modules = new HashMap<String,IntegrationConfiguration>();
+			Map<String,IntegrationConfiguration> modules = new HashMap<>();
 			MerchantConfiguration merchantConfiguration = merchantConfigurationService.getMerchantConfiguration(PAYMENT_MODULES, store);
 			if(merchantConfiguration!=null) {
 

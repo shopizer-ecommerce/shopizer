@@ -333,7 +333,7 @@ public class ShoppingCartFacadeImpl
                 if ( CollectionUtils.isNotEmpty( cartModel.getLineItems() ) )
                 {
                     Set<com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem> shoppingCartItemSet =
-                        new HashSet<com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem>();
+                            new HashSet<>();
                     for ( com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem shoppingCartItem : cartModel.getLineItems() )
                     {
                         if ( shoppingCartItem.getId().longValue() != itemID.longValue() )
@@ -382,7 +382,7 @@ public class ShoppingCartFacadeImpl
 
                 LOG.info( "Updating cart entry quantity to" + newQuantity );
                 entryToUpdate.setQuantity( (int) newQuantity );
-                List<ProductAttribute> productAttributes = new ArrayList<ProductAttribute>();
+                List<ProductAttribute> productAttributes = new ArrayList<>();
                 productAttributes.addAll( entryToUpdate.getProduct().getAttributes() );
                 final FinalPrice finalPrice =
                     productPriceUtils.getFinalProductPrice( entryToUpdate.getProduct(), productAttributes );
@@ -407,7 +407,7 @@ public class ShoppingCartFacadeImpl
     	
     		Validate.notEmpty(shoppingCartItems,"shoppingCartItems null or empty");
     		ShoppingCart cartModel = null;
-    		Set<com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem> cartItems = new HashSet<com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem>();
+    		Set<com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem> cartItems = new HashSet<>();
     		for(ShoppingCartItem item : shoppingCartItems) {
     			
     			if(item.getQuantity()<1) {
@@ -430,7 +430,7 @@ public class ShoppingCartFacadeImpl
                 LOG.info( "Updating cart entry quantity to" + item.getQuantity() );
                 entryToUpdate.setQuantity( (int) item.getQuantity() );
                 
-                List<ProductAttribute> productAttributes = new ArrayList<ProductAttribute>();
+                List<ProductAttribute> productAttributes = new ArrayList<>();
                 productAttributes.addAll( entryToUpdate.getProduct().getAttributes() );
                 
                 final FinalPrice finalPrice =

@@ -15,7 +15,7 @@ public class Breadcrumb implements Serializable {
 	private BreadcrumbItemType itemType;
 	private Language language;
 	private String urlRefContent = null;
-	private List<BreadcrumbItem> breadCrumbs = new ArrayList<BreadcrumbItem>();
+	private List<BreadcrumbItem> breadCrumbs = new ArrayList<>();
 	public Language getLanguage() {
 		return language;
 	}

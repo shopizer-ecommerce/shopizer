@@ -87,7 +87,7 @@ public class OptionsController {
 		
 		List<Language> languages = store.getLanguages();
 
-		Set<ProductOptionDescription> descriptions = new HashSet<ProductOptionDescription>();
+		Set<ProductOptionDescription> descriptions = new HashSet<>();
 		
 		ProductOption option = new ProductOption();
 		
@@ -198,7 +198,7 @@ public class OptionsController {
 				
 		}
 			
-		option.setDescriptions(new HashSet<ProductOptionDescription>(descriptions));
+		option.setDescriptions(new HashSet<>(descriptions));
 		option.setMerchantStore(store);
 
 		
@@ -289,7 +289,7 @@ public class OptionsController {
 	private void setMenu(Model model, HttpServletRequest request) throws Exception {
 		
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("catalogue", "catalogue");
 		activeMenus.put("catalogue-options", "catalogue-options");
 		

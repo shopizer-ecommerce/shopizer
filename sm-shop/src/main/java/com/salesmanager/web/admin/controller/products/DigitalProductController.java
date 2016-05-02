@@ -95,7 +95,7 @@ public class DigitalProductController {
         }
 
 	    
-	    final List<InputContentFile> contentFilesList=new ArrayList<InputContentFile>();
+	    final List<InputContentFile> contentFilesList= new ArrayList<>();
         if(CollectionUtils.isNotEmpty( productFiles.getFile() )){
             LOGGER.info("Saving {} product files for merchant {}",productFiles.getFile().size(),store.getId());
             for(final MultipartFile multipartFile:productFiles.getFile()){
@@ -169,7 +169,7 @@ public class DigitalProductController {
 	private void setMenu(Model model, HttpServletRequest request) throws Exception {
 		
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("catalogue", "catalogue");
 		activeMenus.put("catalogue-products", "catalogue-products");
 		

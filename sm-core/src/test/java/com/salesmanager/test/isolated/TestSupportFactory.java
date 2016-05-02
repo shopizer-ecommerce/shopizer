@@ -125,7 +125,7 @@ public class TestSupportFactory {
 
     cat.setMerchantStore(store);
 
-    List<CategoryDescription> descriptions = new ArrayList<CategoryDescription>();
+    List<CategoryDescription> descriptions = new ArrayList<>();
 
     String name = getRandomString(categoryDescriptions);
     cat.setCode(name);
@@ -153,7 +153,7 @@ public class TestSupportFactory {
     countryDescription.setName("Canada");
     countryDescription.setDescription("Canada Country");
 
-    List<CountryDescription> descriptions = new ArrayList<CountryDescription>();
+    List<CountryDescription> descriptions = new ArrayList<>();
     descriptions.add(countryDescription);
     ca.setDescriptions(descriptions);
 

@@ -117,7 +117,7 @@ public class ContentPagesController {
 		
 		List<Language> languages = store.getLanguages();
 		
-		List<ContentDescription> descriptions = new ArrayList<ContentDescription>();
+		List<ContentDescription> descriptions = new ArrayList<>();
 		for(Language l : languages) {
 			for(ContentDescription description : content.getDescriptions()) {
 				if(description.getLanguage().getCode().equals(l.getCode())) {
@@ -353,7 +353,7 @@ public class ContentPagesController {
 	private void setMenu(Model model, HttpServletRequest request) throws Exception {
 		
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("content", "content");
 		activeMenus.put("content-pages", "content-pages");
 		

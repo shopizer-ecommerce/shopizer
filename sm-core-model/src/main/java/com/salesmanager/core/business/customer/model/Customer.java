@@ -54,7 +54,7 @@ public class Customer extends SalesManagerEntity<Long, Customer> {
 	private Long id;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "customer")
-	private Set<CustomerAttribute> attributes = new HashSet<CustomerAttribute>();
+	private Set<CustomerAttribute> attributes = new HashSet<>();
 	
 	@Column(name="CUSTOMER_GENDER", length=1, nullable=true)
 	@Enumerated(value = EnumType.STRING)
@@ -93,7 +93,7 @@ public class Customer extends SalesManagerEntity<Long, Customer> {
 
 
 	@OneToMany(mappedBy = "customer", targetEntity = ProductReview.class)
-	private List<ProductReview> reviews = new ArrayList<ProductReview>();
+	private List<ProductReview> reviews = new ArrayList<>();
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="MERCHANT_ID", nullable=false)
@@ -122,7 +122,7 @@ public class Customer extends SalesManagerEntity<Long, Customer> {
 		org.hibernate.annotations.CascadeType.REPLICATE
 		
 	})
-	private List<Group> groups = new ArrayList<Group>();
+	private List<Group> groups = new ArrayList<>();
 	
 	@Transient
 	private String showCustomerStateList;

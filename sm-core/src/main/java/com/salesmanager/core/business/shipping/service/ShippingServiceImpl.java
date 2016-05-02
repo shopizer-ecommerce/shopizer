@@ -208,7 +208,7 @@ public class ShippingServiceImpl implements ShippingService {
 	public List<IntegrationModule> getShippingMethods(MerchantStore store) throws ServiceException {
 		
 		List<IntegrationModule> modules =  moduleConfigurationService.getIntegrationModules(SHIPPING_MODULES);
-		List<IntegrationModule> returnModules = new ArrayList<IntegrationModule>();
+		List<IntegrationModule> returnModules = new ArrayList<>();
 		
 		for(IntegrationModule module : modules) {
 			if(module.getRegionsSet().contains(store.getCountry().getIsoCode())
@@ -239,7 +239,7 @@ public class ShippingServiceImpl implements ShippingService {
 			}
 			
 			try {
-				Map<String,IntegrationConfiguration> modules = new HashMap<String,IntegrationConfiguration>();
+				Map<String,IntegrationConfiguration> modules = new HashMap<>();
 				MerchantConfiguration merchantConfiguration = merchantConfigurationService.getMerchantConfiguration(SHIPPING_MODULES, store);
 				if(merchantConfiguration!=null) {
 					if(!StringUtils.isBlank(merchantConfiguration.getValue())) {
@@ -272,7 +272,7 @@ public class ShippingServiceImpl implements ShippingService {
 		
 
 		try {
-			Map<String,IntegrationConfiguration> modules = new HashMap<String,IntegrationConfiguration>();
+			Map<String,IntegrationConfiguration> modules = new HashMap<>();
 			MerchantConfiguration merchantConfiguration = merchantConfigurationService.getMerchantConfiguration(SHIPPING_MODULES, store);
 			if(merchantConfiguration!=null) {
 				if(!StringUtils.isBlank(merchantConfiguration.getValue())) {
@@ -328,7 +328,7 @@ public class ShippingServiceImpl implements ShippingService {
 		try {
 			
 
-			Map<String,IntegrationConfiguration> modules = new HashMap<String,IntegrationConfiguration>();
+			Map<String,IntegrationConfiguration> modules = new HashMap<>();
 			MerchantConfiguration merchantConfiguration = merchantConfigurationService.getMerchantConfiguration(SHIPPING_MODULES, store);
 			if(merchantConfiguration!=null) {
 				if(!StringUtils.isBlank(merchantConfiguration.getValue())) {
@@ -608,7 +608,7 @@ public class ShippingServiceImpl implements ShippingService {
 				shippingQuote.setSelectedShippingOption(selectedOption);
 				
 				if(selectedOption!=null && !shippingOptionPriceType.name().equals(ShippingOptionPriceType.ALL.name())) {
-					shippingOptions = new ArrayList<ShippingOption>();
+					shippingOptions = new ArrayList<>();
 					shippingOptions.add(selectedOption);
 				}
 			
@@ -627,7 +627,7 @@ public class ShippingServiceImpl implements ShippingService {
 	@Override
 	public List<String> getSupportedCountries(MerchantStore store) throws ServiceException {
 		
-		List<String> supportedCountries = new ArrayList<String>();
+		List<String> supportedCountries = new ArrayList<>();
 		MerchantConfiguration configuration = merchantConfigurationService.getMerchantConfiguration(SUPPORTED_COUNTRIES, store);
 		
 		if(configuration!=null) {
@@ -655,7 +655,7 @@ public class ShippingServiceImpl implements ShippingService {
 		
 		ShippingConfiguration shippingConfiguration = getShippingConfiguration(store);
 		ShippingType shippingType = ShippingType.INTERNATIONAL;
-		List<String> supportedCountries = new ArrayList<String>();
+		List<String> supportedCountries = new ArrayList<>();
 		if(shippingConfiguration==null) {
 			shippingConfiguration = new ShippingConfiguration();
 		}

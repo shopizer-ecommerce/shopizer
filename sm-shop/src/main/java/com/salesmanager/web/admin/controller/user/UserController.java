@@ -298,7 +298,7 @@ public class UserController {
 	private void populateUserObjects(User user, MerchantStore store, Model model, Locale locale) throws Exception {
 		
 		//get groups
-		List<Group> groups = new ArrayList<Group>();
+		List<Group> groups = new ArrayList<>();
 		List<Group> userGroups = groupService.listGroup(GroupType.ADMIN);
 		for(Group group : userGroups) {
 			if(!group.getGroupName().equals(Constants.GROUP_SUPERADMIN)) {
@@ -307,7 +307,7 @@ public class UserController {
 		}
 		
 		
-		List<MerchantStore> stores = new ArrayList<MerchantStore>();
+		List<MerchantStore> stores = new ArrayList<>();
 		//stores.add(store);
 		stores = merchantStoreService.list();
 		
@@ -326,7 +326,7 @@ public class UserController {
 		}*/
 		
 		//questions
-		List<SecurityQuestion> questions = new ArrayList<SecurityQuestion>();
+		List<SecurityQuestion> questions = new ArrayList<>();
 		
 		SecurityQuestion question = new SecurityQuestion();
 		question.setId("1");
@@ -500,7 +500,7 @@ public class UserController {
 		}
 
 		List<Group> submitedGroups = user.getGroups();
-		Set<Integer> ids = new HashSet<Integer>();
+		Set<Integer> ids = new HashSet<>();
 		for(Group group : submitedGroups) {
 			ids.add(Integer.parseInt(group.getGroupName()));
 		}
@@ -708,7 +708,7 @@ public class UserController {
 	private void setMenu(Model model, HttpServletRequest request) throws Exception {
 		
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("profile", "profile");
 		activeMenus.put("user", "create-user");
 		
@@ -750,7 +750,7 @@ public class UserController {
 							return resp.toJSONString();
 						}
 					
-						Map<String,String> entry = new HashMap<String,String>();
+						Map<String,String> entry = new HashMap<>();
 						entry.put(QUESTION_1, dbUser.getQuestion1());
 						entry.put(QUESTION_2, dbUser.getQuestion2());
 						entry.put(QUESTION_3, dbUser.getQuestion3());

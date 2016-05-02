@@ -50,7 +50,7 @@ private static final long serialVersionUID = -2429388347536330540L;
 	private Integer orderAccountBillDay;
 
 	@OneToMany(mappedBy = "orderAccount", cascade = CascadeType.ALL)
-	private Set<OrderAccountProduct> orderAccountProducts = new HashSet<OrderAccountProduct>();
+	private Set<OrderAccountProduct> orderAccountProducts = new HashSet<>();
 
 	public OrderAccount() {
 	}

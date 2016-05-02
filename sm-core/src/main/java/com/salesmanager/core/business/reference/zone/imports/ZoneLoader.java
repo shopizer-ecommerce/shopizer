@@ -19,7 +19,7 @@ public class ZoneLoader {
 		
 		ObjectMapper mapper = new ObjectMapper();
 		InputStream in = this.getClass().getResourceAsStream("/reference/zoneconfig.json");
-		Map<String,List<ZoneTransient>> zoneConfigurations = new HashMap<String, List<ZoneTransient>>();
+		Map<String,List<ZoneTransient>> zoneConfigurations = new HashMap<>();
 		try {
 			zoneConfigurations = mapper.readValue(in, new TypeReference<HashMap<String,List<ZoneTransient>>>() { });
 		} catch (Exception e) {

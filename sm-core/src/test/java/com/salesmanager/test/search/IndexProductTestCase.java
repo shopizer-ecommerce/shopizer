@@ -60,7 +60,7 @@ public class IndexProductTestCase extends AbstractSalesManagerCoreTestCase {
 	    bookFrenchDescription.setCategory(book);
 	    bookFrenchDescription.setLanguage(fr);
 
-	    List<CategoryDescription> descriptions = new ArrayList<CategoryDescription>();
+	    List<CategoryDescription> descriptions = new ArrayList<>();
 	    descriptions.add(bookEnglishDescription);
 	    descriptions.add(bookFrenchDescription);
 

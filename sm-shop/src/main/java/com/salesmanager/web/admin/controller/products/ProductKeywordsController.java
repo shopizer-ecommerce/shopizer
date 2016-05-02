@@ -117,7 +117,7 @@ public class ProductKeywordsController {
 		}
 		
 		if(keyWordsList==null) {
-			keyWordsList = new ArrayList<String>();
+			keyWordsList = new ArrayList<>();
 		}
 		keyWordsList.add(keyword.getKeyword());
 		
@@ -127,7 +127,7 @@ public class ProductKeywordsController {
 		}
 		
 		productDescription.setMetatagKeywords(kwString.toString());
-		Set<ProductDescription> updatedDescriptions = new HashSet<ProductDescription>();
+		Set<ProductDescription> updatedDescriptions = new HashSet<>();
 		for(ProductDescription description : descriptions) {
 			
 			if(!description.getLanguage().getCode().equals(keyword.getLanguageCode())) {
@@ -183,7 +183,7 @@ public class ProductKeywordsController {
 			}
 			
 			Set<ProductDescription> descriptions = product.getDescriptions();
-			Set<ProductDescription> editedDescriptions = new HashSet<ProductDescription>();
+			Set<ProductDescription> editedDescriptions = new HashSet<>();
 			for(ProductDescription description : descriptions) {
 
 				Language lang = description.getLanguage();
@@ -192,7 +192,7 @@ public class ProductKeywordsController {
 					continue;
 				}
 
-				List<String> keyWordsList = new ArrayList<String>();
+				List<String> keyWordsList = new ArrayList<>();
 	
 				
 				String keywords = description.getMetatagKeywords();
@@ -335,7 +335,7 @@ public class ProductKeywordsController {
 	private void setMenu(Model model, HttpServletRequest request) throws Exception {
 		
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("catalogue", "catalogue");
 		activeMenus.put("catalogue-products", "catalogue-products");
 		

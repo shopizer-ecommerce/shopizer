@@ -66,7 +66,7 @@ public class ShoppingCart extends SalesManagerEntity<Long, ShoppingCart> impleme
 	private String shoppingCartCode;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true, mappedBy = "shoppingCart")
-	private Set<ShoppingCartItem> lineItems = new HashSet<ShoppingCartItem>();
+	private Set<ShoppingCartItem> lineItems = new HashSet<>();
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="MERCHANT_ID", nullable=false)

@@ -145,7 +145,7 @@ public class AdminFilter extends HandlerInterceptorAdapter {
 
 				Menu currentMenu = null;
 				
-				menus = new LinkedHashMap<String,Menu>();
+				menus = new LinkedHashMap<>();
 				List objects = (List)data.get("menus");
 				for(Object object : objects) {
 					Menu m = getMenu(object);
@@ -173,7 +173,7 @@ public class AdminFilter extends HandlerInterceptorAdapter {
 		} 
 		
 		
-		List<Menu> list = new ArrayList<Menu>(menus.values());
+		List<Menu> list = new ArrayList<>(menus.values());
 
 		request.setAttribute("MENULIST", list);
 

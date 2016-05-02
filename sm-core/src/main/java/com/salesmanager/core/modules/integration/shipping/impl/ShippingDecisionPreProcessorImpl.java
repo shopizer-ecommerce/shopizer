@@ -81,7 +81,7 @@ public class ShippingDecisionPreProcessorImpl implements ShippingQuotePreProcess
 				volume = tmpVolume;
 			} 
 			//largest size
-			List<Double> sizeList = new ArrayList<Double>();
+			List<Double> sizeList = new ArrayList<>();
 			sizeList.add(pack.getShippingHeight());
 			sizeList.add(pack.getShippingLength());
 			sizeList.add(pack.getShippingWidth());

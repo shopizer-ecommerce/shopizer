@@ -28,7 +28,7 @@ public class Manufacturer implements Serializable {
 	private com.salesmanager.core.business.catalog.product.model.manufacturer.Manufacturer manufacturer;
 	
 	@Valid
-	private List<ManufacturerDescription> descriptions = new ArrayList<ManufacturerDescription>();
+	private List<ManufacturerDescription> descriptions = new ArrayList<>();
 	
 	private Integer order = new Integer(0);
 	private MultipartFile image = null;

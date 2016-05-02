@@ -114,7 +114,7 @@ public class ContentDaoImpl extends SalesManagerEntityDaoImpl<Long, Content> imp
 		
 		List<Content> contents = query.list(qContent);
 		
-		List<ContentDescription> descriptions = new ArrayList<ContentDescription>();
+		List<ContentDescription> descriptions = new ArrayList<>();
 		for(Content c : contents) {
 				String name = c.getDescription().getName();
 				String url = c.getDescription().getSeUrl();

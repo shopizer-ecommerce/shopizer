@@ -192,7 +192,7 @@ public class ShopProductController {
 				//if(missedContent==null) {
 					relatedItems = relatedItems(store, product, language);
 					if(relatedItems!=null) {
-						relatedItemsMap = new HashMap<Long,List<ReadableProduct>>();
+						relatedItemsMap = new HashMap<>();
 						relatedItemsMap.put(product.getId(), relatedItems);
 						cache.putInCache(relatedItemsMap, relatedItemsCacheKey.toString());
 					} else {
@@ -221,7 +221,7 @@ public class ShopProductController {
 				
 				if(attribute.getAttributeDisplayOnly()==true) {//read only attribute
 					if(readOnlyAttributes==null) {
-						readOnlyAttributes = new TreeMap<Long,Attribute>();
+						readOnlyAttributes = new TreeMap<>();
 					}
 					attr = readOnlyAttributes.get(attribute.getProductOption().getId());
 					if(attr==null) {
@@ -233,7 +233,7 @@ public class ShopProductController {
 					}
 				} else {//selectable option
 					if(selectableOptions==null) {
-						selectableOptions = new TreeMap<Long,Attribute>();
+						selectableOptions = new TreeMap<>();
 					}
 					attr = selectableOptions.get(attribute.getProductOption().getId());
 					if(attr==null) {
@@ -275,7 +275,7 @@ public class ShopProductController {
 				attrValue.setDescription(description.getDescription());
 				List<AttributeValue> attrs = attr.getValues();
 				if(attrs==null) {
-					attrs = new ArrayList<AttributeValue>();
+					attrs = new ArrayList<>();
 					attr.setValues(attrs);
 				}
 				attrs.add(attrValue);
@@ -284,7 +284,7 @@ public class ShopProductController {
 
 		List<ProductReview> reviews = productReviewService.getByProduct(product, language);
 		if(!CollectionUtils.isEmpty(reviews)) {
-			List<ReadableProductReview> revs = new ArrayList<ReadableProductReview>();
+			List<ReadableProductReview> revs = new ArrayList<>();
 			ReadableProductReviewPopulator reviewPopulator = new ReadableProductReviewPopulator();
 			for(ProductReview review : reviews) {
 				ReadableProductReview rev = new ReadableProductReview();
@@ -296,12 +296,12 @@ public class ShopProductController {
 		
 		List<Attribute> attributesList = null;
 		if(readOnlyAttributes!=null) {
-			attributesList = new ArrayList<Attribute>(readOnlyAttributes.values());
+			attributesList = new ArrayList<>(readOnlyAttributes.values());
 		}
 		
 		List<Attribute> optionsList = null;
 		if(selectableOptions!=null) {
-			optionsList = new ArrayList<Attribute>(selectableOptions.values());
+			optionsList = new ArrayList<>(selectableOptions.values());
 		}
 		
 		model.addAttribute("attributes", attributesList);
@@ -328,7 +328,7 @@ public class ShopProductController {
 		Product product = productService.getById(productId);
 		
 		@SuppressWarnings("unchecked")
-		List<Long> ids = new ArrayList<Long>(Arrays.asList(attributeIds));
+		List<Long> ids = new ArrayList<>(Arrays.asList(attributeIds));
 		List<ProductAttribute> attributes = productAttributeService.getByAttributeIds(store, ids);      
 		
 		for(ProductAttribute attribute : attributes) {
@@ -386,7 +386,7 @@ public class ShopProductController {
 		
 		List<ProductRelationship> relatedItems = productRelationshipService.getByType(store, product, ProductRelationshipType.RELATED_ITEM);
 		if(relatedItems!=null && relatedItems.size()>0) {
-			List<ReadableProduct> items = new ArrayList<ReadableProduct>();
+			List<ReadableProduct> items = new ArrayList<>();
 			for(ProductRelationship relationship : relatedItems) {
 				Product relatedProduct = relationship.getRelatedProduct();
 				ReadableProduct proxyProduct = populator.populate(relatedProduct, new ReadableProduct(), store, language);

@@ -77,7 +77,7 @@ public class TaxClassController {
 				List<TaxClass> taxClasses = taxClassService.listByStore(store);
 				for(TaxClass tax : taxClasses) {
 					if(!tax.getCode().equals(TaxClass.DEFAULT_TAX_CLASS)) {
-						Map<String,String> entry = new HashMap<String,String>();
+						Map<String,String> entry = new HashMap<>();
 						entry.put("taxClassId", String.valueOf(tax.getId()));
 						entry.put("code", tax.getCode());
 						entry.put("name", tax.getTitle());
@@ -286,7 +286,7 @@ public class TaxClassController {
 	throws Exception {
 
 		// display menu
-		Map<String, String> activeMenus = new HashMap<String, String>();
+		Map<String, String> activeMenus = new HashMap<>();
 		activeMenus.put("tax", "tax");
 		activeMenus.put("taxclass", "taxclass");
 		

@@ -57,7 +57,7 @@ public class Group extends SalesManagerEntity<Integer, Group> implements Auditab
 	}
 	
 	@ManyToMany(mappedBy = "groups")
-	private Set<Permission> permissions = new HashSet<Permission>();	
+	private Set<Permission> permissions = new HashSet<>();	
 	
 	public Set<Permission> getPermissions() {
 		return permissions;

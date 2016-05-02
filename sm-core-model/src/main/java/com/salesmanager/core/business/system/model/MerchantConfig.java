@@ -27,8 +27,8 @@ public class MerchantConfig implements Serializable, JSONAware {
 	private boolean displayCustomerAgreement = false;
 	
 	/** Store default search json config **/
-	private Map<String,Boolean> useDefaultSearchConfig= new HashMap<String,Boolean>();//language code | true or false
-	private Map<String,String> defaultSearchConfigPath= new HashMap<String,String>();//language code | file path
+	private Map<String,Boolean> useDefaultSearchConfig= new HashMap<>();//language code | true or false
+	private Map<String,String> defaultSearchConfigPath= new HashMap<>();//language code | file path
 
 	@SuppressWarnings("unchecked")
 	@Override

@@ -96,7 +96,7 @@ public class TaxRate  extends SalesManagerEntity<Long, TaxRate> implements Audit
 	
 	@Valid
 	@OneToMany(mappedBy = "taxRate", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private List<TaxRateDescription> descriptions = new ArrayList<TaxRateDescription>();
+	private List<TaxRateDescription> descriptions = new ArrayList<>();
 	
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Country.class)
 	@JoinColumn(name="COUNTRY_ID", nullable=false, updatable=true)
@@ -114,7 +114,7 @@ public class TaxRate  extends SalesManagerEntity<Long, TaxRate> implements Audit
 	private TaxRate parent;
 	
 	@OneToMany(mappedBy = "parent", cascade = CascadeType.REMOVE, orphanRemoval = true)
-	private List<TaxRate> taxRates = new ArrayList<TaxRate>();
+	private List<TaxRate> taxRates = new ArrayList<>();
 	
 	@Transient
 	private String rateText;

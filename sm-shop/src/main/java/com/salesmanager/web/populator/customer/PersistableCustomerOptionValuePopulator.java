@@ -37,7 +37,7 @@ public class PersistableCustomerOptionValuePopulator extends
 			target.setSortOrder(source.getOrder());
 			
 			if(!CollectionUtils.isEmpty(source.getDescriptions())) {
-				Set<com.salesmanager.core.business.customer.model.attribute.CustomerOptionValueDescription> descriptions = new HashSet<com.salesmanager.core.business.customer.model.attribute.CustomerOptionValueDescription>();
+				Set<com.salesmanager.core.business.customer.model.attribute.CustomerOptionValueDescription> descriptions = new HashSet<>();
 				for(CustomerOptionValueDescription desc  : source.getDescriptions()) {
 					com.salesmanager.core.business.customer.model.attribute.CustomerOptionValueDescription description = new com.salesmanager.core.business.customer.model.attribute.CustomerOptionValueDescription();
 					Language lang = languageService.getByCode(desc.getLanguage());

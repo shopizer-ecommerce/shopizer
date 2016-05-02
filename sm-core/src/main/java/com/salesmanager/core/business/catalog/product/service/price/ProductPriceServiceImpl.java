@@ -38,7 +38,7 @@ public class ProductPriceServiceImpl extends SalesManagerEntityServiceImpl<Long,
 		} else {
 			
 			Set<ProductPriceDescription> descriptions = price.getDescriptions();
-			price.setDescriptions(new HashSet<ProductPriceDescription>());
+			price.setDescriptions(new HashSet<>());
 			this.create(price);
 			for(ProductPriceDescription description : descriptions) {
 				description.setProductPrice(price);

@@ -97,7 +97,7 @@ public class ModuleConfigurationServiceImpl extends
 						Object objConfigs=JSONValue.parse(configs); 
 						JSONArray arrayConfigs=(JSONArray)objConfigs;
 						
-						Map<String,ModuleConfig> moduleConfigs = new HashMap<String,ModuleConfig>();
+						Map<String,ModuleConfig> moduleConfigs = new HashMap<>();
 						
 						Iterator i = arrayConfigs.iterator();
 						while(i.hasNext()) {

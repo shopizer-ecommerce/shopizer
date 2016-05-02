@@ -261,7 +261,7 @@ public class CustomerOptionsSetController {
 	private void setMenu(Model model, HttpServletRequest request) throws Exception {
 		
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("customer", "customer");
 		activeMenus.put("customer-options", "customer-options");
 		

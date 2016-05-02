@@ -49,10 +49,10 @@ public class ProductOption extends SalesManagerEntity<Long, ProductOption> {
 	
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "productOption")
-	private Set<ProductOptionDescription> descriptions = new HashSet<ProductOptionDescription>();
+	private Set<ProductOptionDescription> descriptions = new HashSet<>();
 	
 	@Transient
-	private List<ProductOptionDescription> descriptionsList = new ArrayList<ProductOptionDescription>();
+	private List<ProductOptionDescription> descriptionsList = new ArrayList<>();
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="MERCHANT_ID", nullable=false)
@@ -125,7 +125,7 @@ public class ProductOption extends SalesManagerEntity<Long, ProductOption> {
 
 	public List<ProductOptionDescription> getDescriptionsSettoList() {
 		if(descriptionsList==null || descriptionsList.size()==0) {
-			descriptionsList = new ArrayList<ProductOptionDescription>(this.getDescriptions());
+			descriptionsList = new ArrayList<>(this.getDescriptions());
 		} 
 		return descriptionsList;
 

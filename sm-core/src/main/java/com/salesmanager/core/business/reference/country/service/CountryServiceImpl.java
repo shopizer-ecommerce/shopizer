@@ -54,7 +54,7 @@ public class CountryServiceImpl extends SalesManagerEntityServiceImpl<Integer, C
 		
 		List<Country> countries = this.getCountries(language);
 		
-		Map<String,Country> returnMap = new LinkedHashMap<String,Country>();
+		Map<String,Country> returnMap = new LinkedHashMap<>();
 		
 		for(Country country : countries) {
 			returnMap.put(country.getIsoCode(), country);
@@ -67,7 +67,7 @@ public class CountryServiceImpl extends SalesManagerEntityServiceImpl<Integer, C
 	@Override
 	public List<Country> getCountries(final List<String> isoCodes, final Language language) throws ServiceException {
 		List<Country> countryList = getCountries(language);
-		List<Country> requestedCountryList = new ArrayList<Country>();
+		List<Country> requestedCountryList = new ArrayList<>();
 		if(!CollectionUtils.isEmpty(countryList)) {
 			for(Country c : countryList) {
 				if(isoCodes.contains(c.getIsoCode())) {

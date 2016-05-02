@@ -71,7 +71,7 @@ public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailab
 	private Integer productQuantityOrderMax = 0;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy="productAvailability", cascade = CascadeType.REMOVE)	
-	private Set<ProductPrice> prices = new HashSet<ProductPrice>();
+	private Set<ProductPrice> prices = new HashSet<>();
 	
 	@Transient
 	public ProductPrice defaultPrice() {

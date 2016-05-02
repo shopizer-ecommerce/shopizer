@@ -79,7 +79,7 @@ public class ShoppingCartDataPopulator extends AbstractDataPopulator<ShoppingCar
         List<ShoppingCartItem> shoppingCartItemsList=Collections.emptyList();
         try{
             if(items!=null) {
-                shoppingCartItemsList=new ArrayList<ShoppingCartItem>();
+                shoppingCartItemsList= new ArrayList<>();
                 for(com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem item : items) {
 
                     ShoppingCartItem shoppingCartItem = new ShoppingCartItem();
@@ -106,7 +106,7 @@ public class ShoppingCartDataPopulator extends AbstractDataPopulator<ShoppingCar
                     }
                     Set<com.salesmanager.core.business.shoppingcart.model.ShoppingCartAttributeItem> attributes = item.getAttributes();
                     if(attributes!=null) {
-                        List<ShoppingCartAttribute> cartAttributes = new ArrayList<ShoppingCartAttribute>();
+                        List<ShoppingCartAttribute> cartAttributes = new ArrayList<>();
                         for(com.salesmanager.core.business.shoppingcart.model.ShoppingCartAttributeItem attribute : attributes) {
                             ShoppingCartAttribute cartAttribute = new ShoppingCartAttribute();
                             cartAttribute.setId(attribute.getId());
@@ -131,13 +131,13 @@ public class ShoppingCartDataPopulator extends AbstractDataPopulator<ShoppingCar
             }
 
             OrderSummary summary = new OrderSummary();
-            List<com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem> productsList = new ArrayList<com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem>();
+            List<com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem> productsList = new ArrayList<>();
             productsList.addAll(shoppingCart.getLineItems());
             summary.setProducts(productsList);
             OrderTotalSummary orderSummary = shoppingCartCalculationService.calculate(shoppingCart,store, language );
 
             if(CollectionUtils.isNotEmpty(orderSummary.getTotals())) {
-            	List<OrderTotal> totals = new ArrayList<OrderTotal>();
+            	List<OrderTotal> totals = new ArrayList<>();
             	for(com.salesmanager.core.business.order.model.OrderTotal t : orderSummary.getTotals()) {
             		OrderTotal total = new OrderTotal();
             		total.setCode(t.getOrderTotalCode());

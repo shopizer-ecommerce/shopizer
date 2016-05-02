@@ -13,7 +13,7 @@ public class ProductList extends EntityList {
 	 * 
 	 */
 	private static final long serialVersionUID = 7267292601646149482L;
-	private List<Product> products = new ArrayList<Product>();
+	private List<Product> products = new ArrayList<>();
 	public List<Product> getProducts() {
 		return products;
 	}

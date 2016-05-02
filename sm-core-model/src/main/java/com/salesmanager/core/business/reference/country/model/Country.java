@@ -36,10 +36,10 @@ public class Country extends SalesManagerEntity<Integer, Country> {
 	private Integer id;
 	
 	@OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
-	private List<CountryDescription> descriptions = new ArrayList<CountryDescription>();
+	private List<CountryDescription> descriptions = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "country")
-	private List<Zone> zones = new ArrayList<Zone>();
+	private List<Zone> zones = new ArrayList<>();
 	
 	@ManyToOne(targetEntity = GeoZone.class)
 	@JoinColumn(name = "GEOZONE_ID")

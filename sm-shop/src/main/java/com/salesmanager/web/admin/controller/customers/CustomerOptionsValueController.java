@@ -102,7 +102,7 @@ public class CustomerOptionsValueController {
 		
 		List<Language> languages = store.getLanguages();
 
-		Set<CustomerOptionValueDescription> descriptions = new HashSet<CustomerOptionValueDescription>();
+		Set<CustomerOptionValueDescription> descriptions = new HashSet<>();
 		CustomerOptionValue option = new CustomerOptionValue();
 		
 		if(id!=null && id!=0) {//edit mode
@@ -201,7 +201,7 @@ public class CustomerOptionsValueController {
 		List<CustomerOptionValueDescription> descriptions = optionValue.getDescriptionsList();
 		if(descriptions!=null && descriptions.size()>0) {
 			
-				Set<CustomerOptionValueDescription> descs = new HashSet<CustomerOptionValueDescription>();
+				Set<CustomerOptionValueDescription> descs = new HashSet<>();
 					optionValue.setDescriptions(descs);
 					for(CustomerOptionValueDescription description : descriptions) {
 						
@@ -333,7 +333,7 @@ public class CustomerOptionsValueController {
 	private void setMenu(Model model, HttpServletRequest request) throws Exception {
 		
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("customer", "customer");
 		activeMenus.put("customer-options", "customer-options");
 		

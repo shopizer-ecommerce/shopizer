@@ -133,7 +133,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.search.
 			
 			Set<Category> categories = product.getCategories();
 			if(!CollectionUtils.isEmpty(categories)) {
-				List<String> categoryList = new ArrayList<String>();
+				List<String> categoryList = new ArrayList<>();
 				for(Category category : categories) {
 					categoryList.add(category.getCode());
 				}
@@ -224,7 +224,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.search.
 			
 			resp.setTotalCount(response.getCount());
 			
-			List<SearchEntry> entries = new ArrayList<SearchEntry>();
+			List<SearchEntry> entries = new ArrayList<>();
 			
 			Collection<SearchHit> hits = response.getSearchHits();
 			for(SearchHit hit : hits) {
@@ -273,14 +273,14 @@ public class SearchServiceImpl implements com.salesmanager.core.business.search.
 			
 			Map<String,Facet> facets = response.getFacets();
 			if(facets!=null) {
-				Map<String,List<SearchFacet>> searchFacets = new HashMap<String,List<SearchFacet>>();
+				Map<String,List<SearchFacet>> searchFacets = new HashMap<>();
 				for(String key : facets.keySet()) {
 					
 					Facet f = facets.get(key);
 					
 					List<SearchFacet> fs = searchFacets.get(key);
 					if(fs==null) {
-						fs = new ArrayList<SearchFacet>();
+						fs = new ArrayList<>();
 						searchFacets.put(key, fs);
 					}
 					

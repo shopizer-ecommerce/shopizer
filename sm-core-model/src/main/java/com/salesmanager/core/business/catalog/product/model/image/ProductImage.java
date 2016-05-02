@@ -33,7 +33,7 @@ public class ProductImage extends SalesManagerEntity<Long, ProductImage> {
 	private Long id;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "productImage", cascade = CascadeType.ALL)
-	private List<ProductImageDescription> descriptions = new ArrayList<ProductImageDescription>();
+	private List<ProductImageDescription> descriptions = new ArrayList<>();
 
 	
 	@Column(name = "PRODUCT_IMAGE")

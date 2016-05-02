@@ -138,7 +138,7 @@ public class CustomWeightBasedShippingQuote implements ShippingQuoteModule {
 			}
 			
 			if(shippingOption!=null) {
-				List<ShippingOption> options = new ArrayList<ShippingOption>();
+				List<ShippingOption> options = new ArrayList<>();
 				options.add(shippingOption);
 				return options;
 			}

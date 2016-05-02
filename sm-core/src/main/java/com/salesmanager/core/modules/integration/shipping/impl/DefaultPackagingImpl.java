@@ -66,13 +66,13 @@ public class DefaultPackagingImpl implements Packaging {
 		
 
 
-		List<PackageDetails> boxes = new ArrayList<PackageDetails>();
+		List<PackageDetails> boxes = new ArrayList<>();
 
 		// maximum number of boxes
 		int maxBox = 100;
 		int iterCount = 0;
 
-		List<Product> individualProducts = new ArrayList<Product>();
+		List<Product> individualProducts = new ArrayList<>();
 
 		// need to put items individually
 		for(ShippingProduct shippingProduct : products){
@@ -144,7 +144,7 @@ public class DefaultPackagingImpl implements Packaging {
 
 		int productCount = individualProducts.size();
 
-		List<PackingBox> boxesList = new ArrayList<PackingBox>();
+		List<PackingBox> boxesList = new ArrayList<>();
 
 		//start the creation of boxes
 		PackingBox box = new PackingBox();
@@ -170,12 +170,12 @@ public class DefaultPackagingImpl implements Packaging {
 		boxesList.add(box);//assign first box
 
 		//int boxCount = 1;
-		List<Product> assignedProducts = new ArrayList<Product>();
+		List<Product> assignedProducts = new ArrayList<>();
 
 		// calculate the volume for the next object
 		if (assignedProducts.size() > 0) {
 			individualProducts.removeAll(assignedProducts);
-			assignedProducts = new ArrayList<Product>();
+			assignedProducts = new ArrayList<>();
 		}
 
 		boolean productAssigned = false;
@@ -315,7 +315,7 @@ public class DefaultPackagingImpl implements Packaging {
 			throws ServiceException {
 		
 		
-		List<PackageDetails> packages = new ArrayList<PackageDetails>();
+		List<PackageDetails> packages = new ArrayList<>();
 		for(ShippingProduct shippingProduct : products) {
 			Product product = shippingProduct.getProduct();
 

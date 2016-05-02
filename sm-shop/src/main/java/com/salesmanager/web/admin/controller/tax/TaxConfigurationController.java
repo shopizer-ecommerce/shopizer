@@ -71,7 +71,7 @@ public class TaxConfigurationController {
 	throws Exception {
 
 		// display menu
-		Map<String, String> activeMenus = new HashMap<String, String>();
+		Map<String, String> activeMenus = new HashMap<>();
 		activeMenus.put("tax", "tax");
 		activeMenus.put("taxconfiguration", "taxconfiguration");
 		

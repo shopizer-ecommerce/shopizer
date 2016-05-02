@@ -38,7 +38,7 @@ public class ShippingQuote implements Serializable {
 	private String quoteError = null;
 	
 	/** additinal shipping information **/
-	private Map<String,Object> quoteInformations = new HashMap<String,Object>();
+	private Map<String,Object> quoteInformations = new HashMap<>();
 	
 	
 	

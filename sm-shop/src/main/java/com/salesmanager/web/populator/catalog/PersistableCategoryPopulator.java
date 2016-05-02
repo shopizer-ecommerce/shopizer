@@ -105,7 +105,7 @@ public class PersistableCategoryPopulator extends
 
 		
 		if(!CollectionUtils.isEmpty(source.getDescriptions())) {
-			List<com.salesmanager.core.business.catalog.category.model.CategoryDescription> descriptions = new ArrayList<com.salesmanager.core.business.catalog.category.model.CategoryDescription>();
+			List<com.salesmanager.core.business.catalog.category.model.CategoryDescription> descriptions = new ArrayList<>();
 			for(CategoryDescription description : source.getDescriptions()) {
 				com.salesmanager.core.business.catalog.category.model.CategoryDescription desc = new com.salesmanager.core.business.catalog.category.model.CategoryDescription();
 				desc.setCategory(target);

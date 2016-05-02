@@ -61,7 +61,7 @@ public class ReadableOrderProductPopulator extends
 		}
 		
 		if(source.getOrderAttributes()!=null) {
-			List<ReadableOrderProductAttribute> attributes = new ArrayList<ReadableOrderProductAttribute>();
+			List<ReadableOrderProductAttribute> attributes = new ArrayList<>();
 			for(OrderProductAttribute attr : source.getOrderAttributes()) {
 				ReadableOrderProductAttribute readableAttribute = new ReadableOrderProductAttribute();
 				try {

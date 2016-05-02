@@ -71,21 +71,21 @@ public class CanadaPostShippingQuote implements ShippingQuoteModule {
 		//validate integrationKeys['account']
 		Map<String,String> keys = integrationConfiguration.getIntegrationKeys();
 		if(keys==null || StringUtils.isBlank(keys.get("account"))) {
-			errorFields = new ArrayList<String>();
+			errorFields = new ArrayList<>();
 			errorFields.add("identifier");
 		}
 
 		//validate at least one integrationOptions['packages']
 		Map<String,List<String>> options = integrationConfiguration.getIntegrationOptions();
 		if(options==null) {
-			errorFields = new ArrayList<String>();
+			errorFields = new ArrayList<>();
 			errorFields.add("identifier");
 		}
 		
 		List<String> packages = options.get("packages");
 		if(packages==null || packages.size()==0) {
 			if(errorFields==null) {
-				errorFields = new ArrayList<String>();
+				errorFields = new ArrayList<>();
 			}
 			errorFields.add("packages");
 		}
@@ -534,7 +534,7 @@ class CanadaPostParsedElements {
 
 	private String statusCode;
 	private String statusMessage;
-	private List<ShippingOption> options = new ArrayList<ShippingOption>();
+	private List<ShippingOption> options = new ArrayList<>();
 
 	public void addOption(ShippingOption option) {
 		options.add(option);

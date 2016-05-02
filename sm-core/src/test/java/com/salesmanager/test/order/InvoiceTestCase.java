@@ -105,7 +105,7 @@ public class InvoiceTestCase extends AbstractSalesManagerCoreTestCase {
 	    colorDescription.setLanguage(en);
 	    colorDescription.setProductOption(color);
 	    
-	    Set<ProductOptionDescription> colorDescriptions = new HashSet<ProductOptionDescription>();
+	    Set<ProductOptionDescription> colorDescriptions = new HashSet<>();
 	    colorDescriptions.add(colorDescription);
 	    
 	    color.setDescriptions(colorDescriptions);
@@ -123,7 +123,7 @@ public class InvoiceTestCase extends AbstractSalesManagerCoreTestCase {
 	    redDescription.setName("Red");
 	    redDescription.setProductOptionValue(red);
 	    
-	    Set<ProductOptionValueDescription> redDescriptions = new HashSet<ProductOptionValueDescription>();
+	    Set<ProductOptionValueDescription> redDescriptions = new HashSet<>();
 	    redDescriptions.add(redDescription);
 	    
 	    red.setDescriptions(redDescriptions);
@@ -177,7 +177,7 @@ public class InvoiceTestCase extends AbstractSalesManagerCoreTestCase {
 	    colorAttribute.setProductOption(color);
 	    colorAttribute.setProductOptionValue(red);
 	    
-	    Set<ProductAttribute> productAttributes = new HashSet<ProductAttribute>();
+	    Set<ProductAttribute> productAttributes = new HashSet<>();
 	    productAttributes.add(colorAttribute);
 	    
 	    product.setAttributes(productAttributes);
@@ -296,7 +296,7 @@ public class InvoiceTestCase extends AbstractSalesManagerCoreTestCase {
 		orderAttribute.setProductOptionValueId(red.getId());
 		orderAttribute.setProductAttributePrice(colorAttribute.getProductAttributePrice());
 		
-		Set<OrderProductAttribute> orderAttributes = new HashSet<OrderProductAttribute>();
+		Set<OrderProductAttribute> orderAttributes = new HashSet<>();
 		orderAttributes.add(orderAttribute);
 		
 		oproduct.setOrderAttributes(orderAttributes);

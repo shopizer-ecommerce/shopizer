@@ -44,7 +44,7 @@ public class ProductPrice extends SalesManagerEntity<Long, ProductPrice> {
 	private Long id;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "productPrice", cascade = CascadeType.ALL)
-	private Set<ProductPriceDescription> descriptions = new HashSet<ProductPriceDescription>();
+	private Set<ProductPriceDescription> descriptions = new HashSet<>();
 
 	@NotEmpty
 	@Pattern(regexp="^[a-zA-Z0-9_]*$")

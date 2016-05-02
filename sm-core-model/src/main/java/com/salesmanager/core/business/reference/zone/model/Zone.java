@@ -33,7 +33,7 @@ public class Zone extends SalesManagerEntity<Long, Zone>{
 	private Long id;
 	
 	@OneToMany(mappedBy = "zone", cascade = CascadeType.ALL)
-	private List<ZoneDescription> descriptions = new ArrayList<ZoneDescription>();
+	private List<ZoneDescription> descriptions = new ArrayList<>();
 	
 	@ManyToOne
 	@JoinColumn(name="COUNTRY_ID", nullable = false)

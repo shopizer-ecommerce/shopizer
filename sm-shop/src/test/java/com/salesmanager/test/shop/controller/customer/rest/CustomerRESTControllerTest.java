@@ -60,7 +60,7 @@ public class CustomerRESTControllerTest {
 		description.setLanguage("en");
 		description.setName("Yes");
 		
-		List<CustomerOptionValueDescription> descriptions = new ArrayList<CustomerOptionValueDescription>();
+		List<CustomerOptionValueDescription> descriptions = new ArrayList<>();
 		descriptions.add(description);
 		
 		optionValue.setDescriptions(descriptions);
@@ -71,7 +71,7 @@ public class CustomerRESTControllerTest {
 		System.out.println(json);
 		
 
-		HttpEntity<String> entity = new HttpEntity<String>(json, getHeader());
+		HttpEntity<String> entity = new HttpEntity<>(json, getHeader());
 
 		ResponseEntity response = restTemplate.postForEntity("http://localhost:8080/sm-shop/services/private/DEFAULT/customer/optionValue", entity, PersistableCustomerOptionValue.class);
 
@@ -94,7 +94,7 @@ public class CustomerRESTControllerTest {
 		description.setLanguage("en");
 		description.setName("Subscribe to newsletter?");
 		
-		List<CustomerOptionDescription> descriptions = new ArrayList<CustomerOptionDescription>();
+		List<CustomerOptionDescription> descriptions = new ArrayList<>();
 		descriptions.add(description);
 		
 		option.setDescriptions(descriptions);
@@ -105,7 +105,7 @@ public class CustomerRESTControllerTest {
 		System.out.println(json);
 		
 
-		HttpEntity<String> entity = new HttpEntity<String>(json, getHeader());
+		HttpEntity<String> entity = new HttpEntity<>(json, getHeader());
 
 		ResponseEntity response = restTemplate.postForEntity("http://localhost:8080/sm-shop/services/private/DEFAULT/customer/option", entity, PersistableCustomerOption.class);
 
@@ -123,7 +123,7 @@ public class CustomerRESTControllerTest {
 		//get customers
 		restTemplate = new RestTemplate();
 		
-		HttpEntity<String> httpEntity = new HttpEntity<String>(getHeader());
+		HttpEntity<String> httpEntity = new HttpEntity<>(getHeader());
 		
 		ResponseEntity<ReadableCustomer[]> response = restTemplate.exchange("http://localhost:8080/sm-shop/services/private/DEFAULT/customer", HttpMethod.GET, httpEntity, ReadableCustomer[].class);
 		
@@ -161,7 +161,7 @@ public class CustomerRESTControllerTest {
 		ObjectWriter writer = new ObjectMapper().writer().withDefaultPrettyPrinter();
 		String json = writer.writeValueAsString(customer);
 
-		HttpEntity<String> entity = new HttpEntity<String>(json, getHeader());
+		HttpEntity<String> entity = new HttpEntity<>(json, getHeader());
 
 		ResponseEntity response = restTemplate.postForEntity("http://localhost:8080/sm-shop/services/private/DEFAULT/customer", entity, PersistableCustomer.class);
 
@@ -175,7 +175,7 @@ public class CustomerRESTControllerTest {
 	public void deleteCustomer() throws Exception {
 		restTemplate = new RestTemplate();
 		
-		HttpEntity<String> httpEntity = new HttpEntity<String>(getHeader());
+		HttpEntity<String> httpEntity = new HttpEntity<>(getHeader());
 		
 		restTemplate.exchange("http://localhost:8080/sm-shop/services/private/DEFAULT/customer/"+testCustmerID, HttpMethod.DELETE, httpEntity, Customer.class);
 		System.out.println("Customer "+testCustmerID+" Deleted.");

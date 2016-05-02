@@ -95,7 +95,7 @@ public class PersistableOrderProductPopulator extends
 			
 
 			
-			Set<OrderProductPrice> prices = new HashSet<OrderProductPrice>();
+			Set<OrderProductPrice> prices = new HashSet<>();
 			prices.add(orderProductPrice);
 
 			/** DO NOT SUPPORT MUTIPLE PRICES **/
@@ -114,7 +114,7 @@ public class PersistableOrderProductPopulator extends
 			//OrderProductAttribute
 			List<ProductAttribute> attributeItems = source.getAttributes();
 			if(!CollectionUtils.isEmpty(attributeItems)) {
-				Set<OrderProductAttribute> attributes = new HashSet<OrderProductAttribute>();
+				Set<OrderProductAttribute> attributes = new HashSet<>();
 				for(ProductAttribute attribute : attributeItems) {
 					OrderProductAttribute orderProductAttribute = new OrderProductAttribute();
 					orderProductAttribute.setOrderProduct(target);

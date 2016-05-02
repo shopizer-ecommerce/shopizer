@@ -230,7 +230,7 @@ public class ProductAttributeController {
 			attribute = new ProductAttribute();
 			attribute.setProduct(product);
 			ProductOptionValue value = new ProductOptionValue();
-			Set<ProductOptionValueDescription> descriptions = new HashSet<ProductOptionValueDescription>();
+			Set<ProductOptionValueDescription> descriptions = new HashSet<>();
 			for(Language l : languages) {
 				
 				ProductOptionValueDescription desc = new ProductOptionValueDescription();
@@ -339,7 +339,7 @@ public class ProductAttributeController {
 				if(dbEntity.getProductOptionValue()!=null) {
 					ProductOptionValue optVal = dbEntity.getProductOptionValue();
 					List<ProductOptionValueDescription> descriptions = attribute.getProductOptionValue().getDescriptionsList();
-					Set<ProductOptionValueDescription> descriptionsSet = new HashSet<ProductOptionValueDescription>();
+					Set<ProductOptionValueDescription> descriptionsSet = new HashSet<>();
 					for(ProductOptionValueDescription description : descriptions) {
 						description.setProductOptionValue(optVal);
 						description.setName(description.getDescription().length()<15 ? description.getDescription() : description.getDescription().substring(0,15));
@@ -354,7 +354,7 @@ public class ProductAttributeController {
 			
 				//create new option value
 				List<ProductOptionValueDescription> descriptions = attribute.getProductOptionValue().getDescriptionsList();
-				Set<ProductOptionValueDescription> newDescriptions = new HashSet<ProductOptionValueDescription>();
+				Set<ProductOptionValueDescription> newDescriptions = new HashSet<>();
 				ProductOptionValue newValue = new ProductOptionValue();
 				for(ProductOptionValueDescription description : descriptions) {
 					ProductOptionValueDescription optionValueDescription = new ProductOptionValueDescription();
@@ -515,7 +515,7 @@ public class ProductAttributeController {
 	private void setMenu(Model model, HttpServletRequest request) throws Exception {
 		
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("catalogue", "catalogue");
 		activeMenus.put("catalogue-products", "catalogue-products");
 		

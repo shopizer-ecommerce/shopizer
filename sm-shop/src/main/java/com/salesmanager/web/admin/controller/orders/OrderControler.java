@@ -226,9 +226,9 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		
 		model.addAttribute("order", entityOrder);
 		
-		Set<OrderProduct> orderProducts = new HashSet<OrderProduct>();
-		Set<OrderTotal> orderTotal = new HashSet<OrderTotal>();
-		Set<OrderStatusHistory> orderHistory = new HashSet<OrderStatusHistory>();
+		Set<OrderProduct> orderProducts = new HashSet<>();
+		Set<OrderTotal> orderTotal = new HashSet<>();
+		Set<OrderStatusHistory> orderHistory = new HashSet<>();
 		
 		Date date = new Date();
 		if(!StringUtils.isBlank(entityOrder.getDatePurchased() ) ){
@@ -456,7 +456,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 	private void setMenu(Model model, HttpServletRequest request) throws Exception {
 	
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("order", "order");
 		activeMenus.put("order-list", "order-list");
 		

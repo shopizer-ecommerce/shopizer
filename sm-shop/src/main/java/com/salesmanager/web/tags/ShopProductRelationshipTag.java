@@ -139,7 +139,7 @@ public class ShopProductRelationshipTag extends RequestContextAwareTag  {
 		ReadableProductPopulator populator = new ReadableProductPopulator();
 		populator.setPricingService(pricingService);
 		
-		List<ReadableProduct> products = new ArrayList<ReadableProduct>();
+		List<ReadableProduct> products = new ArrayList<>();
 		for(ProductRelationship relationship : relationships) {
 			
 			Product product = relationship.getRelatedProduct();

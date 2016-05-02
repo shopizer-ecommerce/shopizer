@@ -334,7 +334,7 @@ public class CustomerAccountController extends AbstractController {
 		}
 		
 		List<CustomerAttribute> customerAttributes = customerAttributeService.getByCustomer(store, customer);
-		Map<Long,CustomerAttribute> customerAttributesMap = new HashMap<Long,CustomerAttribute>();
+		Map<Long,CustomerAttribute> customerAttributesMap = new HashMap<>();
 		
 		for(CustomerAttribute attr : customerAttributes) {
 			customerAttributesMap.put(attr.getCustomerOption().getId(), attr);

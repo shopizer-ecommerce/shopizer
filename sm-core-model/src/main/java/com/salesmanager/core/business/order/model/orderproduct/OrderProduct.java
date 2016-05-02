@@ -49,13 +49,13 @@ public class OrderProduct extends SalesManagerEntity<Long, OrderProduct> {
 	private Order order;
 
 	@OneToMany(mappedBy = "orderProduct", cascade = CascadeType.ALL)
-	private Set<OrderProductAttribute> orderAttributes = new HashSet<OrderProductAttribute>();
+	private Set<OrderProductAttribute> orderAttributes = new HashSet<>();
 
 	@OneToMany(mappedBy = "orderProduct", cascade = CascadeType.ALL)
-	private Set<OrderProductPrice> prices = new HashSet<OrderProductPrice>();
+	private Set<OrderProductPrice> prices = new HashSet<>();
 
 	@OneToMany(mappedBy = "orderProduct", cascade = CascadeType.ALL)
-	private Set<OrderProductDownload> downloads = new HashSet<OrderProductDownload>();
+	private Set<OrderProductDownload> downloads = new HashSet<>();
 	
 	public OrderProduct() {
 	}

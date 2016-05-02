@@ -174,7 +174,7 @@ public class StaticContentTestCase extends AbstractSalesManagerCoreTestCase {
 	    staticContent2.setFileName(file2.getName());
 	    staticContent2.setFileContentType(FileContentType.STATIC_FILE);//default to static data
 	    
-	    List<InputContentFile> staticFiles = new ArrayList<InputContentFile>();
+	    List<InputContentFile> staticFiles = new ArrayList<>();
 	    staticFiles.add(staticContent);
 	    staticFiles.add(staticContent2);
 		

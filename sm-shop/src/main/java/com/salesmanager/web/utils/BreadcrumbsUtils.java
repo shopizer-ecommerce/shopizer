@@ -43,14 +43,14 @@ public class BreadcrumbsUtils {
 		Breadcrumb breadCrumb = new Breadcrumb();
 		breadCrumb.setLanguage(language);
 		
-		List<BreadcrumbItem> items = new ArrayList<BreadcrumbItem>();
+		List<BreadcrumbItem> items = new ArrayList<>();
 		items.add(home);
 		
 		//if(!StringUtils.isBlank(refContent)) {
 
 			//List<String> categoryIds = parseBreadCrumb(refContent);
 			List<String> categoryIds = parseCategoryLineage(categoryClicked.getLineage());
-			List<Long> ids = new ArrayList<Long>();
+			List<Long> ids = new ArrayList<>();
 			for(String c : categoryIds) {
 				ids.add(Long.parseLong(c));
 			}
@@ -94,13 +94,13 @@ public class BreadcrumbsUtils {
 		Breadcrumb breadCrumb = new Breadcrumb();
 		breadCrumb.setLanguage(language);
 		
-		List<BreadcrumbItem> items = new ArrayList<BreadcrumbItem>();
+		List<BreadcrumbItem> items = new ArrayList<>();
 		items.add(home);
 		
 		if(!StringUtils.isBlank(refContent)) {
 
 			List<String> categoryIds = parseBreadCrumb(refContent);
-			List<Long> ids = new ArrayList<Long>();
+			List<Long> ids = new ArrayList<>();
 			for(String c : categoryIds) {
 				ids.add(Long.parseLong(c));
 			}
@@ -153,7 +153,7 @@ public class BreadcrumbsUtils {
 	private List<String> parseCategoryLineage(String lineage) throws Exception {
 		
 		String[] categoryPath = lineage.split(Constants.CATEGORY_LINEAGE_DELIMITER);
-		List<String> returnList = new LinkedList<String>();
+		List<String> returnList = new LinkedList<>();
 		for(String c : categoryPath) {
 			if(!StringUtils.isBlank(c)) {
 				returnList.add(c);

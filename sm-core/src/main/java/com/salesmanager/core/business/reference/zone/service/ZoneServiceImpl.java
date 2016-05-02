@@ -53,7 +53,7 @@ public class ZoneServiceImpl extends SalesManagerEntityServiceImpl<Long, Zone> i
 					update(zone);
 				}
 		} else {
-			List<ZoneDescription> descriptions = new ArrayList<ZoneDescription>();
+			List<ZoneDescription> descriptions = new ArrayList<>();
 			descriptions.add(description);
 			zone.setDescriptons(descriptions);
 			update(zone);
@@ -108,7 +108,7 @@ public class ZoneServiceImpl extends SalesManagerEntityServiceImpl<Long, Zone> i
 		
 		
 			if(zones==null) {
-				zones = new HashMap<String, Zone>();
+				zones = new HashMap<>();
 				List<Zone> zns = zoneDao.listByLanguage(language);
 			
 				//set names

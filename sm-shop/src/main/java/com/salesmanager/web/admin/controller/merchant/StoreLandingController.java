@@ -57,7 +57,7 @@ public class StoreLandingController {
 		Content content = contentService.getByCode("LANDING_PAGE", store);
 		StoreLanding landing = new StoreLanding();
 		
-		List<StoreLandingDescription> descriptions = new ArrayList<StoreLandingDescription>();
+		List<StoreLandingDescription> descriptions = new ArrayList<>();
 		
 		
 		for(Language l : languages) {
@@ -160,7 +160,7 @@ public class StoreLandingController {
 			
 
 		List<StoreLandingDescription> descriptions = storeLanding.getDescriptions();
-		List<ContentDescription> contentDescriptions = new ArrayList<ContentDescription>();
+		List<ContentDescription> contentDescriptions = new ArrayList<>();
 		if(descriptions!=null) {
 				
 				for(StoreLandingDescription description : descriptions) {
@@ -221,7 +221,7 @@ public class StoreLandingController {
 	private void setMenu(Model model, HttpServletRequest request) throws Exception {
 
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("store", "store");
 		activeMenus.put("storeLanding", "storeLanding");
 

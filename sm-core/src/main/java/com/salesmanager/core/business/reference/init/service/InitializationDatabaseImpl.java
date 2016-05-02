@@ -150,7 +150,7 @@ public class InitializationDatabaseImpl implements InitializationDatabase {
 		LOGGER.info(String.format("%s : Populating Zones ", name));
         try {
 
-    		  Map<String,Zone> zonesMap = new HashMap<String,Zone>();
+    		  Map<String,Zone> zonesMap = new HashMap<>();
     		  zonesMap = zonesLoader.loadZones("reference/zoneconfig.json");
               
               for (Map.Entry<String, Zone> entry : zonesMap.entrySet()) {
@@ -197,7 +197,7 @@ public class InitializationDatabaseImpl implements InitializationDatabase {
 		Currency currency = currencyService.getByCode("CAD");
 		Zone qc = zoneService.getByCode("QC");
 		
-		List<Language> supportedLanguages = new ArrayList<Language>();
+		List<Language> supportedLanguages = new ArrayList<>();
 		supportedLanguages.add(en);
 		
 		//create a merchant

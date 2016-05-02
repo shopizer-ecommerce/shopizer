@@ -80,7 +80,7 @@ public class PaymentsController {
 			configuration = new IntegrationConfiguration();
 			configuration.setEnvironment(com.salesmanager.core.constants.Constants.PRODUCTION_ENVIRONMENT);
 			
-			Map<String,String> keys = new HashMap<String,String>();
+			Map<String,String> keys = new HashMap<>();
 			keys.put("transaction", TransactionType.AUTHORIZECAPTURE.name());
 			
 			configuration.setIntegrationKeys(keys);
@@ -89,7 +89,7 @@ public class PaymentsController {
 		
 		configuration.setModuleCode(code);
 		
-		List<String> environments = new ArrayList<String>();
+		List<String> environments = new ArrayList<>();
 		environments.add(com.salesmanager.core.constants.Constants.TEST_ENVIRONMENT);
 		environments.add(com.salesmanager.core.constants.Constants.PRODUCTION_ENVIRONMENT);
 		
@@ -110,7 +110,7 @@ public class PaymentsController {
 		
 
 		
-		List<String> environments = new ArrayList<String>();
+		List<String> environments = new ArrayList<>();
 		environments.add(com.salesmanager.core.constants.Constants.TEST_ENVIRONMENT);
 		environments.add(com.salesmanager.core.constants.Constants.PRODUCTION_ENVIRONMENT);
 
@@ -157,7 +157,7 @@ public class PaymentsController {
 	private void setMenu(Model model, HttpServletRequest request) throws Exception {
 		
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("payment", "payment");
 		activeMenus.put("payment-methods", "payment-methods");
 		

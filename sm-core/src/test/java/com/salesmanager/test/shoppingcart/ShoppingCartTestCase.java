@@ -78,7 +78,7 @@ public class ShoppingCartTestCase extends AbstractSalesManagerCoreTestCase {
 	    shirtsEnglishDescription.setCategory(shirts);
 	    shirtsEnglishDescription.setLanguage(en);
 
-	    List<CategoryDescription> descriptions = new ArrayList<CategoryDescription>();
+	    List<CategoryDescription> descriptions = new ArrayList<>();
 	    descriptions.add(shirtsEnglishDescription);
 
 
@@ -284,7 +284,7 @@ public class ShoppingCartTestCase extends AbstractSalesManagerCoreTestCase {
 	    shirtsEnglishDescription.setCategory(shirts);
 	    shirtsEnglishDescription.setLanguage(en);
 
-	    List<CategoryDescription> descriptions = new ArrayList<CategoryDescription>();
+	    List<CategoryDescription> descriptions = new ArrayList<>();
 	    descriptions.add(shirtsEnglishDescription);
 
 

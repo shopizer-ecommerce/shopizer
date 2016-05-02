@@ -46,13 +46,13 @@ public class PayPalRestPayment implements PaymentModule {
 		//validate integrationKeys['account']
 		Map<String,String> keys = integrationConfiguration.getIntegrationKeys();
 		if(keys==null || StringUtils.isBlank(keys.get("client"))) {
-			errorFields = new ArrayList<String>();
+			errorFields = new ArrayList<>();
 			errorFields.add("client");
 		}
 		
 		if(keys==null || StringUtils.isBlank(keys.get("secret"))) {
 			if(errorFields==null) {
-				errorFields = new ArrayList<String>();
+				errorFields = new ArrayList<>();
 			}
 			errorFields.add("secret");
 		}

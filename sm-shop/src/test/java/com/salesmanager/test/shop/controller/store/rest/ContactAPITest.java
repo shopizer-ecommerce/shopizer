@@ -51,7 +51,7 @@ public class ContactAPITest {
 		
 		System.out.println(json);
 		
-		HttpEntity<String> httpEntity = new HttpEntity<String>(json, getHeader());
+		HttpEntity<String> httpEntity = new HttpEntity<>(json, getHeader());
 		
 		ResponseEntity<AjaxResponse> response = restTemplate.exchange("http://localhost:8080/sm-shop/services/public/DEFAULT/contact", HttpMethod.POST, httpEntity, AjaxResponse.class);
 		

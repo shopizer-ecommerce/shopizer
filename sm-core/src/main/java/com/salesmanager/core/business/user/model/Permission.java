@@ -69,7 +69,7 @@ public class Permission extends SalesManagerEntity<Integer, Permission> implemen
 		org.hibernate.annotations.CascadeType.REPLICATE
 		
 	})
-	private List<Group> groups = new ArrayList<Group>();
+	private List<Group> groups = new ArrayList<>();
 	
 	@Embedded
 	private AuditSection auditSection = new AuditSection();

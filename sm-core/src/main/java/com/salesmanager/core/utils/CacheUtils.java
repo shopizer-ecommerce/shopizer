@@ -52,7 +52,7 @@ public class CacheUtils {
 	public List<String> getCacheKeys(MerchantStore store) throws Exception {
 		
 		  net.sf.ehcache.Cache cacheImpl = (net.sf.ehcache.Cache) cache.getNativeCache();
-		  List<String> returnKeys = new ArrayList<String>();
+		  List<String> returnKeys = new ArrayList<>();
 		  for (Object key: cacheImpl.getKeys()) {
 		    
 			  

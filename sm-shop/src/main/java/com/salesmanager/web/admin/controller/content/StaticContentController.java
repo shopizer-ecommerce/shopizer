@@ -153,7 +153,7 @@ public class StaticContentController {
 	        return ControllerConstants.Tiles.ContentFiles.contentFiles;
 	       
         }
-	    final List<InputContentFile> contentFilesList=new ArrayList<InputContentFile>();
+	    final List<InputContentFile> contentFilesList= new ArrayList<>();
         final MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
         if(CollectionUtils.isNotEmpty( contentFiles.getFile() )){
             LOGGER.info("Saving {} content files for merchant {}",contentFiles.getFile().size(),store.getId());
@@ -222,7 +222,7 @@ public class StaticContentController {
 	private void setMenu(Model model, HttpServletRequest request) throws Exception {
 		
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("content", "content");
 		activeMenus.put("content-files", "content-files");
 		

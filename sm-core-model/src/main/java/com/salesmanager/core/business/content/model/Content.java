@@ -53,7 +53,7 @@ public class Content extends SalesManagerEntity<Long, Content> implements Serial
 	
 	@Valid
 	@OneToMany(mappedBy="content", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private List<ContentDescription> descriptions = new ArrayList<ContentDescription>();
+	private List<ContentDescription> descriptions = new ArrayList<>();
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="MERCHANT_ID", nullable=false)

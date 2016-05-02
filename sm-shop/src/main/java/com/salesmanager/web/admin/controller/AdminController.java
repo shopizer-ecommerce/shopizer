@@ -37,7 +37,7 @@ public class AdminController {
 		Language language = (Language)request.getAttribute("LANGUAGE");
 		
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("home", "home");
 		
 		model.addAttribute("activeMenus",activeMenus);

@@ -110,7 +110,7 @@ public class ReadableProductPopulator extends
 				//other images
 				Set<ProductImage> images = source.getImages();
 				if(images!=null && images.size()>0) {
-					List<ReadableImage> imageList = new ArrayList<ReadableImage>();
+					List<ReadableImage> imageList = new ArrayList<>();
 					for(ProductImage img : images) {
 						ReadableImage prdImage = new ReadableImage();
 						prdImage.setImageName(img.getProductImage());
