@@ -29,6 +29,17 @@
       								<form:errors path="*" cssClass="alert alert-error" element="div" />
 									<div id="store.success" class="alert alert-success" style="<c:choose><c:when test="${success!=null}">display:block;</c:when><c:otherwise>display:none;</c:otherwise></c:choose>"><s:message code="message.success" text="Request successfull"/></div>    
 
+		                        	   
+		                        	 <div class="control-group">
+	                        				<label><s:message code="label.store.testmode" text="Test mode" /></label>
+	                        				<div class="controls">
+	                        					<form:checkbox path="testMode" /> 
+	                                   			<span class="help-inline"></span>
+	                        				</div>
+	                  				   </div>
+		                        	   
+		                        	   
+		                        	   
 		                        	   <div class="control-group">
 	                        				<label><s:message code="label.customer.displaycustomersection" text="Display customer section" /></label>
 	                        				<div class="controls">
@@ -58,6 +69,14 @@
 	                        				<label><s:message code="label.order.displayagreement" text="Display customer terms and policy agreement in order page" /></label>
 	                        				<div class="controls">
 	                        					<form:checkbox path="displayCustomerAgreement" /> 
+	                                   			<span class="help-inline"></span>
+	                        				</div>
+	                  				   </div>
+	                  				   
+	                  				   <div class="control-group">
+	                        				<label><s:message code="label.store.displaysearchbox" text="Display search box" /></label>
+	                        				<div class="controls">
+	                        					<form:checkbox path="displaySearchBox" /> 
 	                                   			<span class="help-inline"></span>
 	                        				</div>
 	                  				   </div>

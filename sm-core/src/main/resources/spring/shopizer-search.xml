@@ -13,15 +13,15 @@
 	
 	<!-- Server configuration -->
 	<bean id="serverConfiguration" class="com.shopizer.search.utils.ServerConfiguration">
-		<property name="clusterName" value="shopizer"/>
+		<property name="clusterName" value="${elasticsearch.cluster.name}"/>
 		<!-- local (embedded version, will create new indexes in the working directory) or remote (requires existing server) -->
-		<property name="mode" value="remote"/>
+		<property name="mode" value="${elasticsearch.mode}"/>
 		<!-- http interface to ES server -->
-		<property name="clusterHost" value="http://localhost"/>
-		<property name="clusterPort" value="9200"/>
+		<property name="clusterHost" value="${elasticsearch.server.host}"/>
+		<property name="clusterPort" value="${elasticsearch.server.port}"/>
 		
-		<property name="proxyUser" value=""/>
-		<property name="proxyPassword" value=""/>
+		<property name="proxyUser" value="${elasticsearch.server.proxy.user}"/>
+		<property name="proxyPassword" value="${elasticsearch.server.proxy.password}"/>
 	</bean>
 	
 	

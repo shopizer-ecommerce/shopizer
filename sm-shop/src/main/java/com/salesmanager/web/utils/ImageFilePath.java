@@ -83,6 +83,15 @@ public interface ImageFilePath {
 	 * @return
 	 */
 	public String buildProductPropertyimageUtils(MerchantStore store, String imageName);
+	
+	
+	/**
+	 * Builds static file path
+	 * @param store
+	 * @param fileName
+	 * @return
+	 */
+	public String buildStaticContentFilePath(MerchantStore store, String fileName);
 
 
 }

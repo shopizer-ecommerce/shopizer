@@ -16,6 +16,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +37,7 @@ import com.salesmanager.web.admin.entity.content.ContentFiles;
 import com.salesmanager.web.admin.entity.web.Menu;
 import com.salesmanager.web.constants.Constants;
 import com.salesmanager.web.utils.FilePathUtils;
+import com.salesmanager.web.utils.ImageFilePath;
 
 
 @Controller
@@ -46,8 +48,12 @@ public class StaticContentController {
 	@Autowired
 	private ContentService contentService;
 	
+	//@Autowired
+	//private FilePathUtils filePathUtils;
+	
 	@Autowired
-	private FilePathUtils filePathUtils;
+	@Qualifier("img")
+	private ImageFilePath imageUtils;
 	
 
 	@PreAuthorize("hasRole('CONTENT')")
@@ -101,8 +107,10 @@ public class StaticContentController {
 					//StringBuilder filePath = new StringBuilder();
 
 					//filePath.append(storePath.toString()).append(filePathUtils.buildStaticFilePath(store,name));
+					
+					String filePath = imageUtils.buildStaticContentFilePath(store,name);
 
-					String filePath = filePathUtils.buildStaticFileAbsolutePath(store, name);
+					//String filePath = filePathUtils.buildStaticFileAbsolutePath(store, name);
 					
 					
 					@SuppressWarnings("rawtypes")

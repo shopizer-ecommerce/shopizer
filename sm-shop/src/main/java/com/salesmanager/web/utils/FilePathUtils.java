@@ -1,7 +1,5 @@
 package com.salesmanager.web.utils;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -76,7 +74,10 @@ public class FilePathUtils {
 			.append(coreConfiguration.getProperty("CONTEXT_PATH"));
 			
 
-			storePath.append(storePath.toString()).append(buildStaticFilePath(store,fileName));
+			//storePath.append(storePath.toString()).append(buildStaticFilePath(store,fileName));
+			//absolutePath = storePath.toString();
+			
+			storePath.append(buildStaticFilePath(store,fileName));
 			absolutePath = storePath.toString();
 		
 		}

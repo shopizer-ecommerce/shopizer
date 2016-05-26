@@ -155,7 +155,7 @@ public class CategoryController {
 			//get from DB
 			Category currentCategory = categoryService.getById(category.getId());
 			
-			if(currentCategory==null || currentCategory.getMerchantStore().getId()!=store.getId()) {
+			if(currentCategory==null || currentCategory.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
 				return "catalogue-categories";
 			}
 

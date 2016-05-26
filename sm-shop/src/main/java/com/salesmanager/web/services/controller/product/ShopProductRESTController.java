@@ -45,6 +45,7 @@ import com.salesmanager.web.constants.Constants;
 import com.salesmanager.web.entity.catalog.manufacturer.PersistableManufacturer;
 import com.salesmanager.web.entity.catalog.product.PersistableProduct;
 import com.salesmanager.web.entity.catalog.product.PersistableProductReview;
+import com.salesmanager.web.entity.catalog.product.ProductPriceEntity;
 import com.salesmanager.web.entity.catalog.product.ReadableProduct;
 import com.salesmanager.web.entity.catalog.product.ReadableProductList;
 import com.salesmanager.web.entity.catalog.product.attribute.PersistableProductOption;
@@ -60,7 +61,8 @@ import com.salesmanager.web.shop.model.filter.QueryFilterType;
 import com.salesmanager.web.utils.ImageFilePath;
 
 /**
- * API for create, read and delete Product
+ * API to create, read, updat and delete a Product
+ * API to create Manufacturer
  * @author Carl Samson
  *
  */
@@ -719,7 +721,138 @@ public class ShopProductRESTController {
 	}
 
 	
-	
-	
+	/**
+	 * Update the price of an item
+	 * ?lang=en|fr otherwise default store language
+	 */
+	@RequestMapping( value="/private/{store}/product/price/{sku}", method=RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	@ResponseBody
+	public ReadableProduct updateProductPrice(@PathVariable final String store, @Valid @RequestBody ProductPriceEntity price, @PathVariable final String sku, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		
+		try {
+			
+			MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
+			if(merchantStore!=null) {
+				if(!merchantStore.getCode().equals(store)) {
+					merchantStore = null;
+				}
+			}
+			
+			String lang = request.getParameter("lang");
+			Language language = null;
+			
+			if(merchantStore== null) {
+				merchantStore = merchantStoreService.getByCode(store);
+			}
+			
+			if(merchantStore==null) {
+				LOGGER.error("Merchant store is null for code " + store);
+				response.sendError(503, "Merchant store is null for code " + store);
+				return null;
+			}
+			
+			if(StringUtils.isBlank(lang)) {
+				language = merchantStore.getDefaultLanguage();
+			} else {
+				language = languageService.getByCode(lang);
+			}
+			
+			if(language==null) {
+				language = merchantStore.getDefaultLanguage();
+			}
+			
+			ReadableProduct product = productFacade.getProduct(merchantStore, sku, language);
+			
+			if(product==null) {
+				LOGGER.error("Product is null for sku " +sku);
+				response.sendError(503, "Product is null for sku " +sku);
+				return null;
+			}
+			
+			product = productFacade.updateProductPrice(product, price, language);
+			
+			return product;
+
+			
+		} catch (Exception e) {
+			LOGGER.error("Error while saving product",e);
+			try {
+				response.sendError(503, "Error while updating product " + e.getMessage());
+			} catch (Exception ignore) {
+			}
+			
+			return null;
+		}
+		
+	}
+
+	/**
+	 * Update the quantity of an item
+	 * ?lang=en|fr otherwise default store language
+	 */
+	@RequestMapping( value="/private/{store}/product/quantity/{sku}/{qty}", method=RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	@ResponseBody
+	public ReadableProduct updateProductQuantity(@PathVariable final String store, @PathVariable final String sku, @PathVariable final int qty, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		
+		try {
+			
+			MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
+			if(merchantStore!=null) {
+				if(!merchantStore.getCode().equals(store)) {
+					merchantStore = null;
+				}
+			}
+			
+			String lang = request.getParameter("lang");
+			Language language = null;
+			
+			if(merchantStore== null) {
+				merchantStore = merchantStoreService.getByCode(store);
+			}
+			
+			if(merchantStore==null) {
+				LOGGER.error("Merchant store is null for code " + store);
+				response.sendError(503, "Merchant store is null for code " + store);
+				return null;
+			}
+			
+			if(StringUtils.isBlank(lang)) {
+				language = merchantStore.getDefaultLanguage();
+			} else {
+				language = languageService.getByCode(lang);
+			}
+			
+			if(language==null) {
+				language = merchantStore.getDefaultLanguage();
+			}
+			
+			ReadableProduct product = productFacade.getProduct(merchantStore, sku, language);
+			
+			if(product==null) {
+				LOGGER.error("Product is null for sku " +sku);
+				response.sendError(503, "Product is null for sku " +sku);
+				return null;
+			}
+			
+			product = productFacade.updateProductQuantity(product, qty, language);
+			
+			return product;
+
+			
+		} catch (Exception e) {
+			LOGGER.error("Error while saving product",e);
+			try {
+				response.sendError(503, "Error while updating product " + e.getMessage());
+			} catch (Exception ignore) {
+			}
+			
+			return null;
+		}
+		
+	}	
 
 }

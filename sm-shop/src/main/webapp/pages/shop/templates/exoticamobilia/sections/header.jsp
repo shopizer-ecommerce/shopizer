@@ -253,6 +253,7 @@ $(document).ready(function() {
 								<!-- ================ -->
 								<div class="header-top-dropdown">
                                         <!-- search box -->
+                                        <c:if test="${requestScope.CONFIGS['displaySearchBox'] == true}">
                                         <div id="searchFieldGroup" class="btn-group dropdown no-responsive">  
 					      					<input id="searchField" class="typeahead form-control" name="q" type="text"  />" autocomplete="off" spellcheck="false" dir="auto" value="<c:out value="${q}"/>">
                                         </div>
@@ -263,6 +264,7 @@ $(document).ready(function() {
 												<input type="hidden" id="hiddenQuery" name="q">
 											</form>
                                         </div>
+                                         </c:if>
                                         <c:if test="${fn:length(requestScope.MERCHANT_STORE.languages) > 1}">
                                         <!-- switch language -->
                                         <div class="btn-group dropdown">

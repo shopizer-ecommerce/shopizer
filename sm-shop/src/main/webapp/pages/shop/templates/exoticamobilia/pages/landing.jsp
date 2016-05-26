@@ -36,11 +36,8 @@ response.setDateHeader ("Expires", -1);
 
 <div class="main">
 			<c:if test="${page!=null}">
-			<div class="row">
-				<div id="shop" class="col-md-12">
-	          			    <h1 class="text-center title" id="homeText"><c:out value="${page.description}" escapeXml="false"/></h1>
-	          			    <div class="separator"></div>
-				</div>
+				<div id="" class="container">
+	          			    <c:out value="${page.description}" escapeXml="false"/>
 				</div>
 			</c:if>
 

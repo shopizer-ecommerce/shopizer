@@ -65,6 +65,10 @@ response.setDateHeader ("Expires", -1);
 							       </c:if>
 							   </ul>
 						   </c:if>
+						   
+						   <c:if test="${requestScope.CONTENT['paymentDetails']!=null}">
+                                  <sm:pageContent contentCode="paymentDetails"/>
+						   </c:if>
 
 							<hr class="hidden-md hidden-lg hidden-sm">
 				
@@ -73,11 +77,12 @@ response.setDateHeader ("Expires", -1);
 		    		<div class="col-md-3 col-sm-6">
 		    
 				   		<c:if test="${requestScope.CONFIGS['displayStoreAddress'] == true}">  
-				        
-				        		<%--<p class="lead"><s:message code="label.store.tofindus" text="Where to find us" /></p>  --%>           
 								<ul class="list-icons">
 										<jsp:include page="/pages/shop/common/preBuiltBlocks/storeAddress.jsp"/>
-								
+										<c:if test="${requestScope.CONTENT['contactUsDetails']!=null}">
+									 		<br/>
+									 		<sm:pageContent contentCode="contactUsDetails"/>
+									 	</c:if>
 								</ul>
 		                 </c:if>
 
