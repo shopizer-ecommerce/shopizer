@@ -1300,9 +1300,9 @@ $(document).ready(function() {
 												    						<c:when test="${paymentMethod.paymentType=='CREDITCARD' || paymentMethod.paymentType=='PAYPAL'}">
 												    							<c:if test="${paymentMethod.paymentType=='CREDITCARD'}">
 												    								<p id="cc-img-container">
-												    									<img src="<c:url value="/resources/img/payment/icons/visa-straight-64px.png"/>" width="40">
-												    									<img src="<c:url value="/resources/img/payment/icons/mastercard-straight-64px.png"/>" width="40">
-												    								    <img src="<c:url value="/resources/img/payment/icons/american-express-straight-64px.png"/>" width="40">
+												    									<img src="<c:url value="/resources/img/payment/icons/visa-straight-64px.png"/>" width="40" style="display:inline-block;">
+												    									<img src="<c:url value="/resources/img/payment/icons/mastercard-straight-64px.png"/>" width="40" style="display:inline-block;">
+												    								    <img src="<c:url value="/resources/img/payment/icons/american-express-straight-64px.png"/>" width="40" style="display:inline-block;">
 												    								</p>
 												    							</c:if>
 												    							<c:if test="${paymentMethod.paymentType=='PAYPAL'}"><img src="<c:url value="/resources/img/payment/icons/paypal-straight-64px.png"/>" width="40"></c:if>

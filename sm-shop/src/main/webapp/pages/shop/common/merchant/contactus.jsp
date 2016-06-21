@@ -202,20 +202,18 @@ function sendContact(){
 									 	<br/>
 									 	<sm:pageContent contentCode="contactUsDetails"/>
 									 </c:if>
-
-                     </div>
-<!-- END RIGHT-SIDE CONTACT FORM AREA -->
-<!-- CUSTOM CONTENT --> 
-			<div class="row-fluid common-row">
-                                    <c:if test="${content!=null}">
-                                    	<br/>
+									 <c:if test="${content!=null}">
                                         <p>
                                         	<c:out value="${content.description}" escapeXml="false"/>
                                     	</p>
                                     	<br/>
                                     </c:if>
-                                    <br/>
-									<div class="contactMapCanvas" id="map_canvas" style="width:600px; height:300px"></div>
+
+                     </div>
+<!-- END RIGHT-SIDE CONTACT FORM AREA -->
+<!-- CUSTOM CONTENT --> 
+			<div class="row-fluid common-row">
+					<div class="contactMapCanvas" id="map_canvas" style="width:600px; height:300px"></div>
 
 			</div>
 			

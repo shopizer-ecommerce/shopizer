@@ -16,7 +16,7 @@
        
 
 		<link href="<c:url value="/resources/templates/exoticamobilia/css/responsive-slider.css" />" rel="stylesheet" type="text/css">
-		<link rel="shortcut icon" href="<c:url value="/resources/templates/exoticamobilia/img/favicon.ico"/> "> 
+		<link rel="icon" href="<c:url value="/resources/templates/exoticamobilia/img/favicon.ico"/> "> 
 		
 		<!--  Theme -->
 

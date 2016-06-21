@@ -37,6 +37,8 @@
 				<!-- when removing the context path from the url put that value to blank (nothing) -->
 				<prop key="CONTEXT_PATH">/sm-shop</prop>
 				<prop key="URL_EXTENSION">.html</prop>
+				<!-- Google maps key -->
+				<prop key="shopizer.googlemaps_key">YOUR-KEY-HERE</prop>
 				<!-- #https://www.google.com/recaptcha/admin/create -->
 				<!-- to be used with localhost
 				<prop key="shopizer.recapatcha_public_key">6LefQwsTAAAAAJWgJfNq_LgUwYunqct2x-EBr_CY</prop>
