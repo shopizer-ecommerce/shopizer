@@ -290,7 +290,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.search.
 						SearchFacet searchFacet = new SearchFacet();
 						searchFacet.setKey(facetEntry.getName());
 						searchFacet.setName(facetEntry.getName());
-						searchFacet.setCount(f.getEntries().size());
+						searchFacet.setCount(facetEntry.getCount());
 						
 						fs.add(searchFacet);
 					
