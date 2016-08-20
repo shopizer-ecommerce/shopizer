@@ -54,7 +54,7 @@ response.setDateHeader ("Expires", -1);
 		<div id="shippingOptions" class="controls">
 			{{#shippingOptions}}	
 				<label class="radio"> 
-					<input type="radio" name="selectedShippingOption.optionId" class="shippingOption" id="{{optionId}}" value="{{optionId}}" {{#checked}} checked="checked"{{/checked}}> 
+					<input type="radio" name="selectedShippingOption.optionId" code="{{shippingModuleCode}}" class="shippingOption" id="{{optionId}}" value="{{optionId}}" {{#checked}} checked="checked"{{/checked}}> 
 					{{description}} - {{optionPriceText}}
 					<br/>
 					{{#note}}<small>{{note}}</small>{{/note}}
@@ -67,8 +67,50 @@ response.setDateHeader ("Expires", -1);
 
 <script>
 
+//populate provinces drop down list
+$.fn.addItems = function(div, data, defaultValue) {
+	//console.log('Populating div ' + div + ' defaultValue ' + defaultValue);
+	var selector = div + ' > option';
+	var defaultExist = false;
+    $(selector).remove();
+        return this.each(function() {
+            var list = this;
+            $.each(data, function(index, itemData) {
+            	//console.log(itemData.code + ' ' + defaultValue);
+            	if(itemData.code==defaultValue) {
+            		defaultExist = true;
+            	}
+                var option = new Option(itemData.name, itemData.code);
+                list.add(option);
+            });
+            if(defaultExist && (defaultValue!=null && defaultValue!='')) {
+           	 	$(div).val(defaultValue);
+            }
+     });
+};
+
+<!-- creates a json representation of the form -->
+$.fn.serializeObject = function()
+{
+   var o = {};
+   var a = this.serializeArray();
+   $.each(a, function() {
+       if (o[this.name]) {
+           if (!o[this.name].push) {
+               o[this.name] = [o[this.name]];
+           }
+           o[this.name].push(this.value || '');
+       } else {
+           o[this.name] = this.value || '';
+       }
+   });
+   return o;
+};
+
 <!-- checkout form id -->
 var checkoutFormId = '#checkoutForm';
+
+<!-- checkout field id -->
 var formErrorMessageId = '#formErrorMessage';
 var useDistanceWindow = <c:out value="${shippingMetaData.useDistanceModule}"/>;
 
@@ -136,7 +178,7 @@ function isFormValid() {
 function setPaymentModule(module) {
 	console.log('Module - ' + module);
 	$('#paymentModule').val(module);
-	
+	var pType = module;
 	
 	if(module.indexOf('paypal') >= 0) {
 		$('#paymentMethodType').val('PAYPAL');
@@ -148,7 +190,9 @@ function setPaymentModule(module) {
 		$('#paymentMethodType').val('CREDITCARD');
 		
 	} else {
-		$('#paymentMethodType').val(module);
+		pType = pType.toUpperCase();
+		console.log('Other type - ' + pType);
+		$('#paymentMethodType').val(pType);
 	}
 	
 	//TODO set the TAB to the payment type
@@ -218,44 +262,7 @@ function isCheckoutFieldValid(field) {
 	}
 }
 
-//populate provinces drop down list
-$.fn.addItems = function(div, data, defaultValue) {
-	//console.log('Populating div ' + div + ' defaultValue ' + defaultValue);
-	var selector = div + ' > option';
-	var defaultExist = false;
-    $(selector).remove();
-        return this.each(function() {
-            var list = this;
-            $.each(data, function(index, itemData) {
-            	//console.log(itemData.code + ' ' + defaultValue);
-            	if(itemData.code==defaultValue) {
-            		defaultExist = true;
-            	}
-                var option = new Option(itemData.name, itemData.code);
-                list.add(option);
-            });
-            if(defaultExist && (defaultValue!=null && defaultValue!='')) {
-           	 	$(div).val(defaultValue);
-            }
-     });
-};
 
-$.fn.serializeObject = function()
-{
-   var o = {};
-   var a = this.serializeArray();
-   $.each(a, function() {
-       if (o[this.name]) {
-           if (!o[this.name].push) {
-               o[this.name] = [o[this.name]];
-           }
-           o[this.name].push(this.value || '');
-       } else {
-           o[this.name] = this.value || '';
-       }
-   });
-   return o;
-};
 
 function showErrorMessage(message) {
 	
@@ -371,6 +378,8 @@ function setCountrySettings(prefix, countryCode) {
 function bindCalculateShipping() {
 	
     $(".shippingOption").click(function() {
+    	console.log('shipping module code ' + $(this).attr('code'));
+    	$('#shippingModule').val($(this).attr('code'));
     	calculateTotal();
     });
 	
@@ -379,6 +388,10 @@ function bindCalculateShipping() {
 
 
 function bindActions() {
+	
+    $("#clickAgreement").click(function(){
+    	$("#customer-agreement-area").slideToggle("slow");
+	});
 	
 	bindCalculateShipping();
 	
@@ -402,18 +415,17 @@ function bindActions() {
     	shippingQuotes();		
     })
     
-    
-	$("input[id=billingPostalCode]").blur(function() {
+    $("input[id=billingPostalCode]").on('blur input', function() {
 		if ($('#shipToBillingAdress').is(':checked')) {
 			shippingQuotes();
 		}
-	});
+     });
 	
-	$("input[id=deliveryPostalCode]").blur(function() {
+     $("input[id=deliveryPostalCode]").on('blur input', function() {
 		if (!$('#shipToBillingAdress').is(':checked')) {
 			shippingQuotes();
 		}
-	});
+     });
     
     //shipping / billing decision checkbox
     $("#shipToBillingAdress").click(function() {
@@ -462,14 +474,7 @@ function bindActions() {
 		else if(paymentSelection.indexOf('beanstream') >= 0) {
 			//console.log('Beanstream ');
 			$('#paymentMethodType').val('CREDITCARD');
-		}
-		//if(paymentSelection.indexOf('PAYPAL')!=-1) {
-		//	initPayment(paymentSelection);
-		//} else if(paymentSelection.indexOf('CREDITCARD')!=-1 && $('input[name=paymentModule]', checkoutFormId).val()=='stripe') {
-		//	initStripePayment();
-		//} else {
-			
-		else {
+		} else {
 			//submit form
 			console.log('Checkout ');
 			$('#pageContainer').hideLoading();
@@ -555,7 +560,7 @@ function shippingQuotes(){
 			formValid = isFormValid();
 			
 			//if(formValid && response.shippingSummary!=null) {
-				validateConfirmShipping(response);
+			validateConfirmShipping(response);
 			//}
 			
 	  },
@@ -792,11 +797,6 @@ $(document).ready(function() {
 	
         formValid = false;	
 	
-	    $("#clickAgreement").click(function(){
-        	$("#customer-agreement-area").slideToggle("slow");
-    	});
-
-
 		<!-- 
 			//can use masked input for phone (USA - CANADA)
 		-->
@@ -859,10 +859,10 @@ $(document).ready(function() {
 			setCountrySettings('delivery',$(this).val());
 	    })
 	    
-	    if($('#billingPostalCode').val()!=null || $('#deliveryPostalCode').val()!=null) {
+	    //if($('#billingPostalCode').val()!=null || $('#deliveryPostalCode').val()!=null) {
 	    	//console.log('billing or delivery set');
 	    	//shippingQuotes();//TODO issue NPE
-	    }
+	    //}
 	    
 
 		//do we have a shipping address pre populated with a postal code
@@ -1206,7 +1206,7 @@ $(document).ready(function() {
 
 								        <c:choose>
 								        <c:when test="${fn:length(shippingQuote.shippingOptions)>0}">
-								        	<input type="hidden" name="shippingModule" value="${shippingQuote.shippingModuleCode}">
+								        	<input type="hidden" id="shippingModule" name="shippingModule" value="${shippingQuote.shippingModuleCode}">
 									        <div id="shippingSection" class="control-group"> 
 							 					<label class="control-label">
 							 						<s:message code="label.shipping.options" text="Shipping options"/>
@@ -1222,7 +1222,7 @@ $(document).ready(function() {
 							 						</c:if>
 							 						<c:forEach items="${shippingQuote.shippingOptions}" var="option" varStatus="status">
 														<label class="radio">
-															<input type="radio" name="selectedShippingOption.optionId" class="shippingOption" id="${option.optionId}" value="${option.optionId}" <c:if test="${shippingQuote.selectedShippingOption!=null && shippingQuote.selectedShippingOption.optionId==option.optionId}">checked="checked"</c:if>> 
+															<input type="radio" name="selectedShippingOption.optionId" class="shippingOption" code="${option.shippingModuleCode}" id="${option.optionId}" value="${option.optionId}" <c:if test="${shippingQuote.selectedShippingOption!=null && shippingQuote.selectedShippingOption.optionId==option.optionId}">checked="checked"</c:if>> 
 															<s:message code="module.shipping.${option.shippingModuleCode}" arguments="${requestScope.MERCHANT_STORE.storename}" text="${option.shippingModuleCode}"/> - ${option.optionPriceText}
 															<c:if test="${option.note!=null}">
 																<br/><small><c:out value="${option.note}"/></small>
@@ -1382,7 +1382,7 @@ $(document).ready(function() {
 												<tbody id="summaryRows"> 
 													<c:forEach items="${cart.shoppingCartItems}" var="shoppingCartItem">
 													<tr class="item"> 
-														<td width="40%">
+														<td width="38%">
 															${shoppingCartItem.quantity} x ${shoppingCartItem.name}
 															<c:if test="${fn:length(shoppingCartItem.shoppingCartAttributes)>0}">
 															<br/>
@@ -1394,8 +1394,8 @@ $(document).ready(function() {
 															</c:if>
 														</td> 
 														<!--<td width="15%">${shoppingCartItem.quantity}</td>--> 
-														<td width="20%"><strong>${shoppingCartItem.price}</strong></td> 
-														<td width="20%"><strong>${shoppingCartItem.subTotal}</strong></td> 
+														<td width="31%"><strong>${shoppingCartItem.price}</strong></td> 
+														<td width="31%"><strong>${shoppingCartItem.subTotal}</strong></td> 
 													</tr>
 													</c:forEach>
 													<!-- subtotals -->

@@ -38,6 +38,14 @@
 	                        				</div>
 	                  				   </div>
 		                        	   
+
+		                        	 <div class="control-group">
+	                        				<label><s:message code="label.store.debugmode" text="Debug mode" /></label>
+	                        				<div class="controls">
+	                        					<form:checkbox path="debugMode" /> 
+	                                   			<span class="help-inline"></span>
+	                        				</div>
+	                  				   </div>
 		                        	   
 		                        	   
 		                        	   <div class="control-group">

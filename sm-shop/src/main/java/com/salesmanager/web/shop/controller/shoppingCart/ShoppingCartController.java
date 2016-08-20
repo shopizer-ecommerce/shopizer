@@ -401,7 +401,8 @@ public class ShoppingCartController extends AbstractController {
 		
 		
 		
-		return Constants.REDIRECT_PREFIX + "/shop/shoppingCart.html";
+		return Constants.REDIRECT_PREFIX + "/shop/cart/shoppingCart.html";
+
 
 
 

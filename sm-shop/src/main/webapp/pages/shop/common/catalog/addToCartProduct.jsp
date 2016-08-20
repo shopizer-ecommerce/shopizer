@@ -78,7 +78,7 @@ $(function(){
 										<input id="qty-productId-<c:out value="${product.id}" />" class="input-mini form-control form-control-sm" placeholder="1" type="text">
 									</div>
 								</c:if>
-									<button class="btn addToCart addToCartButton" type="button" productId="<c:out value="${product.id}" />"><s:message code="button.label.addToCart" text="Add to cart"/></button>
+									<button class="btn addToCart addToCartButton btn-buy" type="button" productId="<c:out value="${product.id}" />"><s:message code="button.label.addToCart" text="Add to cart"/></button>
 								</div>
 								</c:if>
 								</c:if>

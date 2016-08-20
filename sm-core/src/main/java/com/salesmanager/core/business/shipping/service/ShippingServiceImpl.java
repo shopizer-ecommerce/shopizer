@@ -536,10 +536,16 @@ public class ShippingServiceImpl implements ShippingService {
 					preProcessor.prePostProcessShippingQuotes(shippingQuote, packages, orderTotal, delivery, shippingOrigin, store, configuration, shippingModule, shippingConfiguration, shippingMethods, locale);
 					//TODO switch module if required
 					if(shippingQuote.getCurrentShippingModule()!=null && !shippingQuote.getCurrentShippingModule().getCode().equals(shippingModule.getCode())) {
-						shippingModule = shippingQuote.getCurrentShippingModule();
-						moduleName = shippingModule.getCode();
-						shippingQuoteModule = this.shippingModules.get(shippingModule.getCode());
+						shippingModule = shippingQuote.getCurrentShippingModule();//determines the shipping module
 						configuration = modules.get(shippingModule.getCode());
+						if(configuration!=null) {
+							if(configuration.isActive()) {
+								moduleName = shippingModule.getCode();
+								shippingQuoteModule = this.shippingModules.get(shippingModule.getCode());
+								configuration = modules.get(shippingModule.getCode());
+							} //use default
+						}
+						
 					}
 				}
 			}

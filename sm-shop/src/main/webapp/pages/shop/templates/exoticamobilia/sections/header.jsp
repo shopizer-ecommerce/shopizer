@@ -123,7 +123,7 @@ $(document).ready(function() {
 												&nbsp
 											{{/image}}
 											</td>
-											<td class="cart-product">{{quantity}} {{name}}</td>
+											<td class="cart-product" width="50%">{{quantity}} {{name}}</td>
 											<td class="cart-amount">{{price}}</td>
 											<td><button productid="{{productId}}" class="close removeProductIcon" onclick="removeItemFromMinicart('{{id}}')">x</button></td>
 										</tr>
@@ -131,7 +131,7 @@ $(document).ready(function() {
 									</tbody>
 								</table>
 								<div class="panel-body text-right">	
-									    <a href="#" onclick="viewShoppingCartPage();" class="btn btn-group btn-success btn-sm"><s:message code="label.checkout" text="Checkout"/></a>
+									    <a href="#" onclick="viewShoppingCartPage();" class="btn btn-group btn-success btn-minicart"><s:message code="label.checkout" text="Checkout"/></a>
 								</div>
 								{{/code}}
 								{{^code}}

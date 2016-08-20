@@ -34,12 +34,7 @@ response.setDateHeader ("Expires", -1);
             </c:if>
             
             <section class="main-container">
-					
-				<!--	
-				<div class="container no-left-padding no-right-padding">	
-					<div class="row">
-				-->
-					
+
 						<div class="main col-md-12 no-left-padding no-right-padding">
 						
 						
@@ -70,7 +65,7 @@ response.setDateHeader ("Expires", -1);
 									<div id="product-images" class="tab-pane active">
 										
 										
-											<div style="width: 360px;" class="owl-item">
+											<div style="width:100%;" class="owl-item">
 													<div id="largeImg" class="overlay-container image-container">
 																<img src="<c:url value="${product.image.imageUrl}"/>" alt="<c:out value="${product.description.name}"/>">
 																<a href="<sm:shopProductImage imageName="${product.image.imageName}" sku="${product.sku}" size="LARGE"/>" class="popup-img overlay" title="<c:out value="${product.description.name}"/>"><i class="fa fa-search-plus"></i></a>
@@ -132,7 +127,8 @@ response.setDateHeader ("Expires", -1);
 							      </c:if>
 								  </span>
 								  <p>
-								  <div class="fb-like" data-href="<c:out value="${requestScope.MERCHANT_STORE.domainName}"/><c:url value="/shop/${product.description.friendlyUrl}.html"/>" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+								  <!--<div class="fb-like" data-href="<c:out value="${requestScope.MERCHANT_STORE.domainName}"/><c:url value="/shop/${product.description.friendlyUrl}.html"/>" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>-->
+								  <iframe src="https://www.facebook.com/plugins/share_button.php?href=<c:out value="${requestScope.CONFIGS['SHOP_SCHEME']}"/>%3A%2F%2F<c:out value="${requestScope.MERCHANT_STORE.domainName}"/><c:url value="/shop/${product.description.friendlyUrl}.html"/>&layout=button_count&size=large&mobile_iframe=true&appId=<c:out value="${requestScope.CONFIGS['shopizer.facebook-appid']}"/>&width=83&height=28" width="83" height="28" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
 								  </p>
 								  <jsp:include page="/pages/shop/common/catalog/addToCartProduct.jsp" />
 								</div>

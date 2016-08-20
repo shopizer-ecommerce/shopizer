@@ -1896,7 +1896,7 @@ tbody {
 }
 
 #summaryRows strong {
-	font-size:13px !important;
+	font-size:11px !important;
 }
 
 /* Small devices (tablets, phones less than 767px) */
@@ -1939,9 +1939,14 @@ tbody {
 .cart .form-group {
 	margin-bottom: 0;
 }
+@media(max-width:480px) {
+	.header-top-dropdown .dropdown-menu.cart {
+		max-width: 100% !important; 
+	}
+}
 .header-top-dropdown .dropdown-menu.cart {
 	padding: 0;
-	min-width: 350px;
+	width: 350px;
 	font-size: 12px;
 	right: -1px;
 }

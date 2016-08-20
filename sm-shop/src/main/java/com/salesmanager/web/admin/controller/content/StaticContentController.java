@@ -36,7 +36,6 @@ import com.salesmanager.web.admin.controller.ControllerConstants;
 import com.salesmanager.web.admin.entity.content.ContentFiles;
 import com.salesmanager.web.admin.entity.web.Menu;
 import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.utils.FilePathUtils;
 import com.salesmanager.web.utils.ImageFilePath;
 
 
@@ -48,9 +47,7 @@ public class StaticContentController {
 	@Autowired
 	private ContentService contentService;
 	
-	//@Autowired
-	//private FilePathUtils filePathUtils;
-	
+
 	@Autowired
 	@Qualifier("img")
 	private ImageFilePath imageUtils;

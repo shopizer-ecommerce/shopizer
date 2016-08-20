@@ -23,7 +23,12 @@ response.setDateHeader ("Expires", -1);
 												    		<c:out value="${product.description.highlights}" />
 												    	</div>
 											    	    </div>
-												    </c:if>                                     
+												    </c:if> 
+												    <c:if test="${!product.canBePurchased }">
+													    <div class="sold-out-box">
+	    															<span class="sold-out-text"><s:message code="label.soldout" text="Sold out" /></span>
+	  													</div> 
+												    </c:if>                                    
 													<div class="product-image"><c:if test="${product.image!=null}"><a href="<c:url value="/shop/product/" /><c:out value="${product.description.friendlyUrl}"/>.html"><img src="<sm:shopProductImage imageName="${product.image.imageName}"  sku="${product.sku}"/>" class="product-img" /></a></c:if></div>
 													
 													<!--  *** Product Name & Price Starts *** -->

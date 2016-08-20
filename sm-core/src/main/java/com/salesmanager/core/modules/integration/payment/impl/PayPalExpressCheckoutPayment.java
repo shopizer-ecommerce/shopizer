@@ -262,7 +262,7 @@ public class PayPalExpressCheckoutPayment implements PaymentModule {
 			String mode = "sandbox";
 			String env = configuration.getEnvironment();
 			if(Constants.PRODUCTION_ENVIRONMENT.equals(env)) {
-				mode = "production";
+				mode = "live";
 			}
 
 			Map<String,String> configurationMap = new HashMap<String,String>();
@@ -339,7 +339,7 @@ public class PayPalExpressCheckoutPayment implements PaymentModule {
 			String mode = "sandbox";
 			String env = configuration.getEnvironment();
 			if(Constants.PRODUCTION_ENVIRONMENT.equals(env)) {
-				mode = "production";
+				mode = "live";
 			}
 
 			
@@ -428,7 +428,7 @@ public class PayPalExpressCheckoutPayment implements PaymentModule {
 			String mode = "sandbox";
 			String env = configuration.getEnvironment();
 			if(Constants.PRODUCTION_ENVIRONMENT.equals(env)) {
-				mode = "production";
+				mode = "live";
 			}
 			
 	  
@@ -559,7 +559,7 @@ public class PayPalExpressCheckoutPayment implements PaymentModule {
 			String mode = "sandbox";
 			String env = configuration.getEnvironment();
 			if(Constants.PRODUCTION_ENVIRONMENT.equals(env)) {
-				mode = "production";
+				mode = "live";
 			}
 
 

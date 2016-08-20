@@ -69,6 +69,9 @@ public class Constants {
 	public final static String STORE_CONFIGURATION = "STORECONFIGURATION";
 
 	public final static String HTTP_SCHEME= "http";
+	
+	public final static String SHOP_SCHEME = "SHOP_SCHEME";
+	public final static String FACEBOOK_APP_ID = "shopizer.facebook-appid";
 
 	public final static String MISSED_CACHE_KEY = "MISSED";
 	public final static String CONTENT_CACHE_KEY = "CONTENT";
@@ -114,5 +117,7 @@ public class Constants {
     public final static String COOKIE_NAME_USER = "user";
     public final static String COOKIE_NAME_CART = "cart";
     public final static String RESPONSE_KEY_USERNAME = "userName";
+    
+    public final static String DEBUG_MODE = "debugMode";
 
 }

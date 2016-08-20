@@ -34,17 +34,21 @@ response.setDateHeader ("Expires", -1);
 							    <span class="icon-bar"></span>
 							    <span class="icon-bar"></span>
 						 </button>
+
  						<c:if test="${requestScope.CONFIGS['displaySearchBox'] == true}">
- 						<button type="button" class="navbar-toggle searchButton">
-							    <i class="fa fa-search"></i>
-						 </button>
- 
-						 <!-- search bar collapsed -->
-						 <div id="responsiveSearchFieldGroup" class="">
-							<input type="text" class="typeahead navbar-toggle"
-								placeholder="" id="responsiveSearchField"> 
-						 </div>
+	 						<button type="button" class="navbar-toggle searchButton no-desktop">
+								    <i class="fa fa-search"></i>
+							 </button>
+	 
+							 <!-- search bar collapsed -->
+							 <div id="responsiveSearchFieldGroup" class="no-desktop">
+								<input type="text" class="typeahead navbar-toggle"
+									placeholder="" id="responsiveSearchField"> 
+							 </div>
 						 </c:if>
+						 
+						 
+						 
 					</div>
 
 	

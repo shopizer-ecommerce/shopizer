@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.salesmanager.core.business.catalog.product.model.Product;
 import com.salesmanager.core.business.catalog.product.service.PricingService;
 import com.salesmanager.core.business.catalog.product.service.ProductService;
@@ -422,6 +423,21 @@ public class ShoppingOrderController extends AbstractController {
 			return template.toString();	
 		}
 		
+		@SuppressWarnings("unchecked")
+		Map<String, Object> configs = (Map<String, Object>) request.getAttribute(Constants.REQUEST_CONFIGS);
+		
+		if(configs!=null && configs.containsKey(Constants.DEBUG_MODE)) {
+			Boolean debugMode = (Boolean) configs.get(Constants.DEBUG_MODE);
+			if(debugMode) {
+				try {
+					ObjectMapper mapper = new ObjectMapper();
+					String jsonInString = mapper.writeValueAsString(order);
+					LOGGER.debug("Commit pre-authorized order -> " + jsonInString);
+				} catch(Exception de) {
+					LOGGER.error(de.getMessage());
+				}
+			}
+		}
 
 		
 		try {
@@ -440,7 +456,7 @@ public class ShoppingOrderController extends AbstractController {
 			Order orderModel = this.commitOrder(order, request, locale);
 			super.setSessionAttribute(Constants.ORDER_ID, orderModel.getId(), request);
 			
-			return "redirect://shop/order/confirmation.html";
+			return "redirect:/shop/order/confirmation.html";
 			
 		} catch(Exception e) {
 			LOGGER.error("Error while commiting order",e);
@@ -597,6 +613,7 @@ public class ShoppingOrderController extends AbstractController {
 	
 
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/commitOrder.html")
 	public String commitOrder(@CookieValue("cart") String cookie, @Valid @ModelAttribute(value="order") ShopOrder order, BindingResult bindingResult, Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
 
@@ -605,6 +622,21 @@ public class ShoppingOrderController extends AbstractController {
 		//validate if session has expired
 		
 		model.addAttribute("order", order);//TODO remove
+		
+		Map<String, Object> configs = (Map<String, Object>) request.getAttribute(Constants.REQUEST_CONFIGS);
+		
+		if(configs!=null && configs.containsKey(Constants.DEBUG_MODE)) {
+			Boolean debugMode = (Boolean) configs.get(Constants.DEBUG_MODE);
+			if(debugMode) {
+				try {
+					ObjectMapper mapper = new ObjectMapper();
+					String jsonInString = mapper.writeValueAsString(order);
+					LOGGER.debug("Commit order -> " + jsonInString);
+				} catch(Exception de) {
+					LOGGER.error(de.getMessage());
+				}
+			}
+		}
 			
 		try {
 				
@@ -843,7 +875,7 @@ public class ShoppingOrderController extends AbstractController {
 			}
 
 	        //redirect to completd
-	        return "redirect://shop/order/confirmation.html";
+	        return "redirect:/shop/order/confirmation.html";
 	  
 			
 
@@ -863,6 +895,7 @@ public class ShoppingOrderController extends AbstractController {
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value={"/shippingQuotes.html"}, method=RequestMethod.POST)
 	public @ResponseBody ReadableShopOrder calculateShipping(@ModelAttribute(value="order") ShopOrder order, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
 		
@@ -870,6 +903,22 @@ public class ShoppingOrderController extends AbstractController {
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
 		String shoppingCartCode  = getSessionAttribute(Constants.SHOPPING_CART, request);
 		
+
+		Map<String, Object> configs = (Map<String, Object>) request.getAttribute(Constants.REQUEST_CONFIGS);
+		
+		if(configs!=null && configs.containsKey(Constants.DEBUG_MODE)) {
+			Boolean debugMode = (Boolean) configs.get(Constants.DEBUG_MODE);
+			if(debugMode) {
+				try {
+					ObjectMapper mapper = new ObjectMapper();
+					String jsonInString = mapper.writeValueAsString(order);
+					LOGGER.debug("Calculate order -> shoppingCartCode[ " + shoppingCartCode + "] -> " + jsonInString);
+				} catch(Exception de) {
+					LOGGER.error(de.getMessage());
+				}
+			}
+		}
+
 		Validate.notNull(shoppingCartCode,"shoppingCartCode does not exist in the session");
 		
 		ReadableShopOrder readableOrder = new ReadableShopOrder();
@@ -893,7 +942,8 @@ public class ShoppingOrderController extends AbstractController {
 
 			if(quote!=null) {
 				String shippingReturnCode = quote.getShippingReturnCode();
-				if(StringUtils.isBlank(shippingReturnCode) || ShippingQuote.NO_POSTAL_CODE.equals(shippingReturnCode)) {
+				if(CollectionUtils.isNotEmpty(quote.getShippingOptions()) || ShippingQuote.NO_POSTAL_CODE.equals(shippingReturnCode)) {
+
 					ShippingSummary summary = orderFacade.getShippingSummary(quote, store, language);
 					order.setShippingSummary(summary);//for total calculation
 					
@@ -973,6 +1023,22 @@ public class ShoppingOrderController extends AbstractController {
 					request.getSession().setAttribute(Constants.SHIPPING_OPTIONS, options);
 					request.getSession().setAttribute("SHIPPING_INFORMATIONS", readableSummary.getQuoteInformations());
 					
+					if(configs!=null && configs.containsKey(Constants.DEBUG_MODE)) {
+						Boolean debugMode = (Boolean) configs.get(Constants.DEBUG_MODE);
+						if(debugMode) {
+							
+							try {
+								ObjectMapper mapper = new ObjectMapper();
+								String jsonInString = mapper.writeValueAsString(quote);
+								LOGGER.debug("Calculate order -> shoppingCartCode[ " + shoppingCartCode + "] -> " + jsonInString);
+							} catch(Exception de) {
+								LOGGER.error(de.getMessage());
+							}
+							
+
+						}
+					}
+					
 				
 				}
 
@@ -982,8 +1048,10 @@ public class ShoppingOrderController extends AbstractController {
 				}
 				
 				if(quote.getShippingReturnCode()!=null && quote.getShippingReturnCode().equals(ShippingQuote.NO_SHIPPING_TO_SELECTED_COUNTRY)) {
-					LOGGER.error("Shipping quote error " + quote.getShippingReturnCode());
-					readableOrder.setErrorMessage(messages.getMessage("message.noshipping", locale));
+					if(CollectionUtils.isEmpty(quote.getShippingOptions())) {//only if there are no other options
+						LOGGER.error("Shipping quote error " + quote.getShippingReturnCode());
+						readableOrder.setErrorMessage(messages.getMessage("message.noshipping", locale));
+					}
 				}
 				
 				//if(quote.getShippingReturnCode()!=null && quote.getShippingReturnCode().equals(ShippingQuote.NO_POSTAL_CODE)) {

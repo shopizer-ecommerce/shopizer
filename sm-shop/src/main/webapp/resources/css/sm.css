@@ -300,3 +300,54 @@ form input.valid {
   width: 100%;
   max-width: 40px;
 }
+
+@media screen and (max-width: 600px) {
+
+
+    table#mainCartTable tbody td .form-control{
+		width:20%;
+		display: inline !important;
+	}
+	.actions .btn{
+		width:36%;
+		margin:1.5em 0;
+	}
+	
+	.actions .btn-info{
+		float:left;
+	}
+	.actions .btn-danger{
+
+	}
+	
+	table#mainCartTable thead { display: none; }
+	table#mainCartTable tbody td { display: block; padding: .6rem; min-width:320px;}
+	table#mainCartTable tbody tr td:first-child { background: #333; color: #fff; }
+	table#mainCartTable tbody td:before {
+		content: attr(data-th); font-weight: bold;
+		display: inline-block; width: 8rem;
+	}
+	
+	
+	
+	table#mainCartTable tfoot td{display:block; }
+	table#mainCartTable tfoot td .btn{display:block;}
+	
+}
+
+.btn-regular {
+    background-color: #f1f1f1;
+    border-color: #f1f1f1;
+    color: #666666;
+}
+
+
+
+.btn-regular:hover, .btn-regular:focus, .btn-regular.focus {
+    text-decoration:none;
+    color: #666666 !important;
+}
+
+.btn-warning:hover, .btn-warning:focus, .btn-warning.focus {
+    color: #ffffff !important;
+}

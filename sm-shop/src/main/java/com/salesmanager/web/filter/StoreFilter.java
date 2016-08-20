@@ -41,6 +41,7 @@ import com.salesmanager.core.business.system.model.MerchantConfiguration;
 import com.salesmanager.core.business.system.model.MerchantConfigurationType;
 import com.salesmanager.core.business.system.service.MerchantConfigurationService;
 import com.salesmanager.core.utils.CacheUtils;
+import com.salesmanager.core.utils.CoreConfiguration;
 import com.salesmanager.web.constants.Constants;
 import com.salesmanager.web.entity.catalog.category.ReadableCategory;
 import com.salesmanager.web.entity.customer.Address;
@@ -102,6 +103,9 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 	
 	@Autowired
 	private CategoryFacade categoryFacade;
+	
+	@Autowired
+	private CoreConfiguration coreConfiguration;
 	
 	private final static String SERVICES_URL_PATTERN = "/services";
 	private final static String REFERENCE_URL_PATTERN = "/reference";
@@ -882,21 +886,25 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 			return objects;
 	   }
 	   
-	   private Map<String,Object> getConfigurations(MerchantStore store) {
+	   @SuppressWarnings("unused")
+	private Map<String,Object> getConfigurations(MerchantStore store) {
 		   
 		   Map<String,Object> configs = null;
 		   try {
 			   
-			   List<MerchantConfiguration> configurations = merchantConfigurationService.listByType(MerchantConfigurationType.CONFIG, store);
+			   List<MerchantConfiguration> merchantConfiguration = merchantConfigurationService.listByType(MerchantConfigurationType.CONFIG, store);
 			   
-			   if(!CollectionUtils.isEmpty(configurations) && configs==null) {
+			   if(!CollectionUtils.isEmpty(merchantConfiguration) && configs==null) {
 				   configs = new HashMap<String,Object>();
 			   }
 			   
 			   
-			   for(MerchantConfiguration configuration : configurations) {
+			   for(MerchantConfiguration configuration : merchantConfiguration) {
 				   configs.put(configuration.getKey(), configuration.getValue());
 			   }
+			   
+			   configs.put(Constants.SHOP_SCHEME, coreConfiguration.getProperty(Constants.SHOP_SCHEME));
+			   configs.put(Constants.FACEBOOK_APP_ID, coreConfiguration.getProperty(Constants.FACEBOOK_APP_ID));
 			   
 			   //get MerchantConfig
 			   MerchantConfig merchantConfig = merchantConfigurationService.getMerchantConfig(store);

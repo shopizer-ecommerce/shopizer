@@ -31,6 +31,11 @@ response.setDateHeader ("Expires", -1);
    		</div>
    	</div>
     {{/description.highlights}}
+	{{^canBePurchased}}
+		<div class="sold-out-box">
+	    			<span class="sold-out-text"><s:message code="label.soldout" text="Sold out" /></span>
+	  	</div> 
+	{{/canBePurchased}}
 	<div class="product-image">
     {{#image}}                              
 	<img class="product-img" src="<c:url value=""/>{{image.imageUrl}}"><a class="overlay" href="<c:url value="/shop/product/" />{{description.friendlyUrl}}.html<sm:breadcrumbParam/>"><img class="product-img" src="<c:url value="/"/>{{image.imageUrl}}"></a>
@@ -50,7 +55,7 @@ response.setDateHeader ("Expires", -1);
 		<div class="clearfix">
 			<a class="btn btn-default pull-left" href="<c:url value="/shop/product/" />{{description.friendlyUrl}}.html<sm:breadcrumbParam/>" class="details"><s:message code="button.label.view" text="Details" /></a>
 		<c:if test="${requestScope.CONFIGS['allowPurchaseItems'] == true}">
-		{{#canBePurchased}}<a class="btn btn-buy pull-right addToCart" href=" href="javascript:void(0);" class="addToCart"><s:message code="button.label.addToCart" text="Add to cart" /></a>{{/canBePurchased}}
+		{{#canBePurchased}}<a class="btn btn-buy pull-right addToCart" href="javascript:void(0);" class="addToCart" productId="{{id}}"><s:message code="button.label.addToCart" text="Add to cart" /></a>{{/canBePurchased}}
 		</c:if>
 		</div>
 	</div>
