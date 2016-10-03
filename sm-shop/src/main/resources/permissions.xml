@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<permissionList>
+	<permission>
+		<name>STORE_ADMIN</name>
+		<groups>
+			<group>
+				<name>SUPERADMIN</name>
+				<type>ADMIN</type>
+			</group>
+			<group>
+			    <name>ADMIN</name>
+				<type>ADMIN</type>
+			</group>
+		</groups>
+	</permission>
+
+	<permission>
+		<name>SUPERADMIN</name>
+		<groups>
+			<group>
+				<name>SUPERADMIN</name>
+				<type>ADMIN</type>
+			</group>
+		</groups>
+	</permission>
+
+	<permission>
+		<name>ADMIN</name>
+		<groups>
+			<group>
+				<name>SUPERADMIN</name>
+				<type>ADMIN</type>
+			</group>
+			<group>
+			    <name>ADMIN</name>
+				<type>ADMIN</type>
+			</group>
+		</groups>
+	</permission>
+	
+	<permission>
+		<name>AUTH_CUSTOMER</name>
+		<groups>
+			<group>
+				<name>CUSTOMER</name>
+				<type>CUSTOMER</type>
+			</group>
+		</groups>
+	</permission>
+	
+</permissionList>

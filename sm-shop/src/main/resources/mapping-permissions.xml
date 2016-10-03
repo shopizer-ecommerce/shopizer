@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" "http://castor.org/mapping.dtd">
+
+<mapping>
+
+	<class name="com.salesmanager.core.business.user.model.PermissionList">
+		<map-to xml="permissionList" />
+		<field name="permissions"
+			type="com.salesmanager.core.business.user.model.Permission"
+			collection="arraylist">
+			<bind-xml name="permissionList" />
+		</field>
+	</class>
+
+	<class name="com.salesmanager.core.business.user.model.Permission">
+		<map-to xml="permission" />
+		<field name="permissionName" type="string" required="true">
+			<bind-xml name="name" node="element" />
+		</field>
+		<field name="groups" collection="arraylist"
+			type="com.salesmanager.core.business.user.model.Group" container="false">
+			<bind-xml name="groups" />
+		</field>
+	</class>
+
+	<class name="com.salesmanager.core.business.user.model.Group">
+		<field name="groupName" type="string" required="true">
+			<bind-xml name="name" node="element" />
+		</field>
+		<field name="groupType"
+			type="com.salesmanager.core.business.user.model.GroupType" required="true">
+			<bind-xml name="type" node="element" />
+		</field>
+	</class>
+
+</mapping>
+
