@@ -698,7 +698,7 @@ public class ProductController {
 		
 
 		//copy
-		newProduct.setCategories(dbProduct.getCategories());
+		// newProduct.setCategories(dbProduct.getCategories());
 		newProduct.setDateAvailable(dbProduct.getDateAvailable());
 		newProduct.setManufacturer(dbProduct.getManufacturer());
 		newProduct.setMerchantStore(store);
