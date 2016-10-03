@@ -135,7 +135,7 @@ public class CanadaPostShippingQuote implements ShippingQuoteModule {
 
 		
 		PostMethod httppost = null;
-		CanadaPostParsedElements canadaPost = null;
+		CanadaPostParsedElements canadaPost;
 
 		try {
 			

@@ -111,7 +111,7 @@ public class TaxRatesController {
 
 		try {
 			
-			NumberFormat nf = null;
+			NumberFormat nf;
 
 			
 			nf = NumberFormat.getInstance(Locale.US);
@@ -398,7 +398,7 @@ public class TaxRatesController {
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		Language language = (Language)request.getAttribute("LANGUAGE");
 
-		TaxRate taxRate = null;
+		TaxRate taxRate;
 		try {
 			Long taxRateId = Long.parseLong(id);
 			taxRate = taxRateService.getById(taxRateId);
@@ -412,7 +412,7 @@ public class TaxRatesController {
 		}
 		
 		
-		NumberFormat nf = null;
+		NumberFormat nf;
 
 		
 		nf = NumberFormat.getInstance(Locale.US);

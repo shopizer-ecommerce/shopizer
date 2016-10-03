@@ -201,8 +201,8 @@ public class ShoppingCategoryController {
 		.append(Constants.MISSED_CACHE_KEY);
 		
 		List<BigDecimal> prices = new ArrayList<BigDecimal>();
-		List<ReadableCategory> subCategories = null;
-		Map<Long,Long> countProductsByCategories = null;
+		List<ReadableCategory> subCategories;
+		Map<Long,Long> countProductsByCategories;
 
 		if(store.isUseCache()) {
 

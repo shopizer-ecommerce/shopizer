@@ -29,7 +29,7 @@ public class LanguageUtils {
 	 */
 	public Language getRequestLanguage(HttpServletRequest request, HttpServletResponse response) {
 		
-		Locale locale = null;
+		Locale locale;
 		
 		Language language = (Language) request.getSession().getAttribute(Constants.LANGUAGE);
 		

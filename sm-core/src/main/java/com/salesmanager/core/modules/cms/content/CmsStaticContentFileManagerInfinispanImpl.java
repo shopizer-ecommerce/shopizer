@@ -188,8 +188,8 @@ public class CmsStaticContentFileManagerInfinispanImpl implements FilePut,FileGe
         {
             throw new ServiceException( "CmsStaticContentFileManagerInfinispan has a null cacheManager.getTreeCache()" );
         }
-        OutputContentFile outputStaticContentData=null;
-        InputStream input = null;
+        OutputContentFile outputStaticContentData;
+        InputStream input;
         try
         {
             

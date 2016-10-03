@@ -114,7 +114,7 @@ public class CustomerOrdersController extends AbstractController {
         LOGGER.info( "Fetching order details for Id " +orderId);
         
         //get order id
-        Long lOrderId = null;
+        Long lOrderId;
         try {
         	lOrderId = Long.parseLong(orderId);
         } catch(NumberFormatException nfe) {

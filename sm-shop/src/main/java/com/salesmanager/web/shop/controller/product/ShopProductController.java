@@ -178,8 +178,8 @@ public class ShopProductController {
 		.append(relatedItemsCacheKey.toString())
 		.append(Constants.MISSED_CACHE_KEY);
 		
-		Map<Long,List<ReadableProduct>> relatedItemsMap = null;
-		List<ReadableProduct> relatedItems = null;
+		Map<Long,List<ReadableProduct>> relatedItemsMap;
+		List<ReadableProduct> relatedItems;
 		
 		if(store.isUseCache()) {
 
@@ -215,7 +215,7 @@ public class ShopProductController {
 		
 		if(!CollectionUtils.isEmpty(attributes)) {
 			for(ProductAttribute attribute : attributes) {
-				Attribute attr = null;
+				Attribute attr;
 				AttributeValue attrValue = new AttributeValue();
 				ProductOptionValue optionValue = attribute.getProductOptionValue();
 				

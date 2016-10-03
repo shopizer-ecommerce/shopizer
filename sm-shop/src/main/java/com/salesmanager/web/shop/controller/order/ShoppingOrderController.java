@@ -156,12 +156,12 @@ public class ShoppingOrderController extends AbstractController {
 		 */
 		
 		//check if an existing order exist
-		ShopOrder order = null;
+		ShopOrder order;
 		order = super.getSessionAttribute(Constants.ORDER, request);
 	
 		//Get the cart from the DB
 		String shoppingCartCode  = (String)request.getSession().getAttribute(Constants.SHOPPING_CART);
-		com.salesmanager.core.business.shoppingcart.model.ShoppingCart cart = null;
+		com.salesmanager.core.business.shoppingcart.model.ShoppingCart cart;
 	
 	    if(StringUtils.isBlank(shoppingCartCode)) {
 				
@@ -410,7 +410,7 @@ public class ShoppingOrderController extends AbstractController {
 	        
 
 
-			Customer modelCustomer = null;
+			Customer modelCustomer;
 			try {//set groups
 				if(authCustomer==null) {//not authenticated, create a new volatile user
 					modelCustomer = customerFacade.getCustomerModel(customer, store, language);
@@ -427,7 +427,7 @@ public class ShoppingOrderController extends AbstractController {
 	        
            
 	        
-	        Order modelOrder = null;
+	        Order modelOrder;
 	        Transaction initialTransaction = (Transaction)super.getSessionAttribute(Constants.INIT_TRANSACTION_KEY, request);
 	        if(initialTransaction!=null) {
 	        	modelOrder=orderFacade.processOrder(order, modelCustomer, initialTransaction, store, language);
@@ -543,7 +543,7 @@ public class ShoppingOrderController extends AbstractController {
 					}
 					shoppingCartCode = merchantCookie[1];
 				}
-				com.salesmanager.core.business.shoppingcart.model.ShoppingCart cart = null;
+				com.salesmanager.core.business.shoppingcart.model.ShoppingCart cart;
 			
 			    if(StringUtils.isBlank(shoppingCartCode)) {
 					StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Pages.timeout).append(".").append(store.getStoreTemplate());

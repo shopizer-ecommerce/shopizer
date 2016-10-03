@@ -34,7 +34,7 @@ public class UserReset
 
   private static int getRandomNumber()
   {
-    int randomInt = 0;
+    int randomInt;
     Random randomGenerator = new Random();
     randomInt = randomGenerator.nextInt(CHAR_LIST.length());
     if (randomInt - 1 == -1) {

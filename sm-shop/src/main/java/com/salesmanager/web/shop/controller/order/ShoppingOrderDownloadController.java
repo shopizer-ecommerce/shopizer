@@ -79,7 +79,7 @@ public class ShoppingOrderDownloadController extends AbstractController {
 		}
 
 		
-		String fileName = null;//get it from OrderProductDownlaod
+		String fileName;//get it from OrderProductDownlaod
 		OrderProductDownload download = orderProductDownloadService.getById(id);
 		if(download==null) {
 			LOGGER.warn("OrderProductDownload is null for id " + id);

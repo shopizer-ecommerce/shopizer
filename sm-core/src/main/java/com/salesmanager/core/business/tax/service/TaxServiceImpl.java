@@ -229,7 +229,7 @@ public class TaxServiceImpl
 		for(Long taxClassId : taxClassAmountMap.keySet()) {
 			
 			//get taxRate by tax class
-			List<TaxRate> taxRates = null; 
+			List<TaxRate> taxRates; 
 			if(!StringUtils.isBlank(stateProvince)&& zone==null) {
 				taxRates = taxRateService.listByCountryStateProvinceAndTaxClass(country, stateProvince, taxClasses.get(taxClassId), store, language);
 			} else {
@@ -239,7 +239,7 @@ public class TaxServiceImpl
 			if(taxRates==null || taxRates.size()==0){
 				continue;
 			}
-			BigDecimal taxedItemValue = null;
+			BigDecimal taxedItemValue;
 			BigDecimal totalTaxedItemValue = new BigDecimal(0);
 			totalTaxedItemValue.setScale(2, RoundingMode.HALF_UP);
 			BigDecimal beforeTaxeAmount = taxClassAmountMap.get(taxClassId);

@@ -70,8 +70,8 @@ List<Language> languages = languageService.list();
 		                    ZoneDescription zoneDescription = new ZoneDescription();
 		                    zoneDescription.setLanguage(l);
 		                    zoneDescription.setName(e.get("zoneName"));
-		                    Zone zone = null;
-		                    List<ZoneDescription> descriptions = null;
+		                    Zone zone;
+		                    List<ZoneDescription> descriptions;
 		                    if(!zonesMap.containsKey(zoneCode)) {
 		                    	zone = new Zone();
 		                    	Country country = countriesMap.get(e.get("countryCode"));

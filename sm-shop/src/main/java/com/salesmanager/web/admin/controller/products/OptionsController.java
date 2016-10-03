@@ -161,7 +161,7 @@ public class OptionsController {
 		setMenu(model,request);
 		
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
-		ProductOption dbEntity =	null;	
+		ProductOption dbEntity;	
 
 		if(option.getId() != null && option.getId() >0) { //edit entry
 			//get from DB
@@ -238,7 +238,7 @@ public class OptionsController {
 		
 			MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 			
-			List<ProductOption> options = null;
+			List<ProductOption> options;
 					
 			if(!StringUtils.isBlank(optionName)) {
 				

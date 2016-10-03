@@ -835,7 +835,7 @@ public class ProductController {
 		AjaxResponse resp = new AjaxResponse();
 		
 		Long productId;
-		Product product = null;
+		Product product;
 		
 		try {
 			productId = Long.parseLong(sProductId);

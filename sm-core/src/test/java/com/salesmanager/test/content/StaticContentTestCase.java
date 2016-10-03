@@ -92,7 +92,7 @@ public class StaticContentTestCase extends AbstractSalesManagerCoreTestCase {
         }
 
         byte[] is;
-        ByteArrayInputStream inputStream = null;
+        ByteArrayInputStream inputStream;
 
 		is = IOUtils.toByteArray( new FileInputStream( file ) );
 		inputStream = new ByteArrayInputStream( is );
@@ -144,7 +144,7 @@ public class StaticContentTestCase extends AbstractSalesManagerCoreTestCase {
         }
 
         byte[] is;
-        ByteArrayInputStream inputStream = null;
+        ByteArrayInputStream inputStream;
 
 		is = IOUtils.toByteArray( new FileInputStream( file ) );
 		inputStream = new ByteArrayInputStream( is );
@@ -164,7 +164,7 @@ public class StaticContentTestCase extends AbstractSalesManagerCoreTestCase {
         }
 
         byte[] is2;
-        ByteArrayInputStream inputStream2 = null;
+        ByteArrayInputStream inputStream2;
 
 		is2 = IOUtils.toByteArray( new FileInputStream( file2 ) );
 		inputStream2 = new ByteArrayInputStream( is2 );

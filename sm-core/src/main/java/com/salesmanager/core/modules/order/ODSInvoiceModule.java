@@ -81,7 +81,7 @@ public class ODSInvoiceModule implements InvoiceModule {
 			String template = new StringBuilder().append(INVOICE_TEMPLATE).append("_").append(language.getCode().toLowerCase()).append(INVOICE_TEMPLATE_EXTENSION).toString();
 			
 			//try by language
-			InputStream is = null;
+			InputStream is;
 			try {
 				is = getClass().getClassLoader().getResourceAsStream(template);
 			} catch (Exception e) {

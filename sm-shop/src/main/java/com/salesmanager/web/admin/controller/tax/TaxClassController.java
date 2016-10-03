@@ -256,7 +256,7 @@ public class TaxClassController {
 
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 
-		TaxClass taxClass = null;
+		TaxClass taxClass;
 		try {
 			Long taxClassId = Long.parseLong(id);
 			taxClass = taxClassService.getById(taxClassId);

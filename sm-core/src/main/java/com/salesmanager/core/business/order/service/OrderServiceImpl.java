@@ -169,7 +169,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
         List<OrderTotal> orderTotals = new ArrayList<OrderTotal>();
         Map<String,OrderTotal> otherPricesTotals = new HashMap<String,OrderTotal>();
 
-        ShippingConfiguration shippingConfiguration = null;
+        ShippingConfiguration shippingConfiguration;
 
         BigDecimal grandTotal = new BigDecimal(0);
         grandTotal.setScale(2, RoundingMode.HALF_UP);

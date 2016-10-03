@@ -44,11 +44,11 @@ public class DefaultPackagingImpl implements Packaging {
 			throw new ServiceException("Product list cannot be null !!");
 		}
 
-		double width = 0;
-		double length = 0;
-		double height = 0;
-		double weight = 0;
-		double maxweight = 0;
+		double width;
+		double length;
+		double height;
+		double weight;
+		double maxweight;
 
 		//int treshold = 0;
 		
@@ -178,7 +178,7 @@ public class DefaultPackagingImpl implements Packaging {
 			assignedProducts = new ArrayList<Product>();
 		}
 
-		boolean productAssigned = false;
+		boolean productAssigned;
 
 		for(Product p : individualProducts) {
 

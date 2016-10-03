@@ -125,7 +125,7 @@ public class CustomerOptionsSetController {
 		}
 		
 		//see if association already exist
-		CustomerOption option =	null;	
+		CustomerOption option;	
 
 		//get from DB
 		//option = customerOptionService.getById(optionSet.getPk().getCustomerOption().getId());

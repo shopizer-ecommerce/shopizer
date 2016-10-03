@@ -150,7 +150,7 @@ public class InitializationDatabaseImpl implements InitializationDatabase {
 		LOGGER.info(String.format("%s : Populating Zones ", name));
         try {
 
-    		  Map<String,Zone> zonesMap = new HashMap<String,Zone>();
+    		  Map<String,Zone> zonesMap;
     		  zonesMap = zonesLoader.loadZones("reference/zoneconfig.json");
               
               for (Map.Entry<String, Zone> entry : zonesMap.entrySet()) {

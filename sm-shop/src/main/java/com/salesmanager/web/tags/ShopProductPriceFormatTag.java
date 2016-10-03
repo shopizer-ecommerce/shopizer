@@ -70,7 +70,7 @@ public class ShopProductPriceFormatTag extends RequestContextAwareTag  {
 
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
 
-		String formatedPrice = null;
+		String formatedPrice;
 		
 		if(this.getCurrency()!=null) {
 			formatedPrice = productPriceUtils.getFormatedAmountWithCurrency(this.getCurrency(), this.getValue());
