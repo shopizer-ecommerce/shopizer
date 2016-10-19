@@ -532,8 +532,8 @@ button.close:hover {
 }
 
 .contact-title {
-    margin-left: -15px;
-    margin-right: -15px;
+    /**margin-left: -15px;
+    margin-right: -15px;**/
 }
 
 /** overwrite dark_gray **/
@@ -546,7 +546,7 @@ fieldset {
 }
 
 #map_canvas {
-	margin-left:30px;
+	margin-left:0px;
 }
 
 #useAddress {
@@ -923,7 +923,8 @@ fieldset {
 
 
 .btn-buy {
-  background-color: #de4b39;
+  background-color: #5cb85c;
+  border-color: #4cae4c;
   color: #f7f7f7;
   font-size: 14px;
 }

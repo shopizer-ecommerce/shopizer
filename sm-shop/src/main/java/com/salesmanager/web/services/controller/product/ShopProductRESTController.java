@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -55,6 +56,7 @@ import com.salesmanager.web.populator.catalog.PersistableProductOptionValuePopul
 import com.salesmanager.web.populator.catalog.PersistableProductReviewPopulator;
 import com.salesmanager.web.populator.catalog.ReadableProductPopulator;
 import com.salesmanager.web.populator.manufacturer.PersistableManufacturerPopulator;
+import com.salesmanager.web.shop.controller.items.facade.ProductItemsFacade;
 import com.salesmanager.web.shop.controller.product.facade.ProductFacade;
 import com.salesmanager.web.shop.model.filter.QueryFilter;
 import com.salesmanager.web.shop.model.filter.QueryFilterType;
@@ -84,6 +86,9 @@ public class ShopProductRESTController {
 	
 	@Autowired
 	private ProductFacade productFacade;
+	
+	@Inject
+	private ProductItemsFacade productItemsFacade;
 	
 	@Autowired
 	private ProductReviewService productReviewService;

@@ -94,7 +94,7 @@ response.setDateHeader ("Expires", -1);
 	});
 	
 	 
-	loadCategoryProducts();
+	loadItemsProducts();
 
  });
  
@@ -196,8 +196,10 @@ response.setDateHeader ("Expires", -1);
 		
 	}
  
- 	function loadCategoryProducts() {
- 		var url = '<%=request.getContextPath()%>/services/public/products/page/' + START_COUNT_PRODUCTS + '/' + MAX_PRODUCTS + '/<c:out value="${requestScope.MERCHANT_STORE.code}"/>/<c:out value="${requestScope.LANGUAGE.code}"/>/<c:out value="${category.description.friendlyUrl}"/>.html';
+ 	function loadItemsProducts() {
+ 		
+ 		///products/public/page/{start}/{max}/{store}/{language}/manufacturer/{id}
+ 		var url = '<%=request.getContextPath()%>/services/public/products/page/' + START_COUNT_PRODUCTS + '/' + MAX_PRODUCTS + '/<c:out value="${requestScope.MERCHANT_STORE.code}"/>/<c:out value="${requestScope.LANGUAGE.code}"/>/manufacturer/<c:out value="${manufacturer.id}"/>.html';
 	 	
  		if(filter!=null) {
  			url = url + '/filter=' + filter + '/filter-value=' + filterValue +'';
@@ -207,15 +209,15 @@ response.setDateHeader ("Expires", -1);
  	}
  	
  	
- 	function filterCategory(filterType,filterVal) {
+/*  	function filterCategory(filterType,filterVal) {
 	 		//reset product section
 	 		$('#productsContainer').html('');
 	 		$('#hiddenProductsContainer').html('');
 	 		START_COUNT_PRODUCTS = 0;
 	 		filter = filterType;
 	 		filterValue = filterVal;
-	 		loadCategoryProducts();
- 	}
+	 		loadItemsProducts();
+ 	} */
  	
  	function buildProductsList(productList, divProductsContainer) {
  		log('Products-> ' + productList.products.length);
@@ -254,20 +256,20 @@ response.setDateHeader ("Expires", -1);
 <div id="mainContent" class="container">
 			
 			  <header class="page-header row">
-			  <c:if test="${category.description.name!=null}">
+			  <c:if test="${manufacturer.description.name!=null}">
 			  <div class="fixed-image section dark-translucent-bg parallax-bg-3">
 					<div class="container">
-					<h2 class="shop-banner-title lead"><c:out value="${category.description.name}"/></h2>
+					<h2 class="shop-banner-title lead"><c:out value="${manufacturer.description.name}"/></h2>
 					</div>
 			  </div>
 			  </c:if>
-			  <jsp:include page="/pages/shop/templates/exoticamobilia/sections/breadcrumb.jsp" />
+			  
 			  </header>
 
 			  
-			  <c:if test="${category.description.description!=null}">
+			  <c:if test="${manufacturer.description.description!=null}">
 			  <div class="row">
-			  	<p class="lead"><c:out value="${category.description.description}" escapeXml="false"/></p>
+			  	<p class="lead"><c:out value="${manufacturer.description.description}" escapeXml="false"/></p>
 			  </div>
 			  </c:if>
 			  
@@ -301,7 +303,7 @@ response.setDateHeader ("Expires", -1);
 						 </div>
                      </form>
                   </div>
-						<div class="col-md-9">
+						<div class="col-md-12">
 						
 							<div class="row product-list">
 							
@@ -321,40 +323,9 @@ response.setDateHeader ("Expires", -1);
 							<!-- hidden -->
 							<div id="hiddenProductsContainer" style="display:none;"></div>
 
-						</div><!-- /col-md-9 -->
-
-						<sidebar class="col-md-3">
-							<!-- categories -->
-							<c:if test="${parent!=null}">
-              					<h3><c:out value="${parent.description.name}" /></h3>
-             				</c:if>
-							<ul class="nav nav-list">
-							<c:forEach items="${subCategories}" var="subCategory">
-								<c:if test="${subCategory.visible}">
-              					<li>
-              					<a href="<c:url value="/shop/category/${subCategory.description.friendlyUrl}.html"/><sm:breadcrumbParam categoryId="${subCategory.id}"/>"><i class="fa fa-angle-right"></i> <c:out value="${subCategory.description.name}" />
-              						<c:if test="${subCategory.productCount>0}">&nbsp;<span class="countItems">(<c:out value="${subCategory.productCount}" />)</span></c:if></a>
-              					</li>
-              					</c:if>
-              				</c:forEach>
-							</ul>
-							<br/>
-							<!-- manufacturers -->
-							<c:if test="${fn:length(manufacturers) > 0}">
-					          	<h3><s:message code="label.manufacturer.collection" text="Collection" /></h3>
-					            <ul class="nav nav-list">
-					              <li class="nav-header"></li>
-					              <c:forEach items="${manufacturers}" var="manufacturer">
-					              	<li>
-					              		<a href="javascript:filterCategory('BRAND','${manufacturer.id}')"><i class="fa fa-angle-right"></i>&nbsp;<c:out value="${manufacturer.description.name}" /></a></li>
-					              </c:forEach>
-					            </ul>
-					          </div>          
-          					</c:if>
+						</div><!-- /col-md-12 -->
 
 
-
-						</sidebar>
 
 
 

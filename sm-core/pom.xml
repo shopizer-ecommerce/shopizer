@@ -42,7 +42,7 @@
 		<sm-core.junit.version>4.9</sm-core.junit.version>
 		<sm-core.org.springframework.version>3.1.0.RELEASE</sm-core.org.springframework.version>
 		<sm-core.c3p0.version>0.9.1.2</sm-core.c3p0.version>
-		<sm-core.querydsl.version>3.4.2</sm-core.querydsl.version>
+		<sm-core.querydsl.version>3.6.6</sm-core.querydsl.version>
 		<sm-core.jodatime.version>2.0</sm-core.jodatime.version>
 		<sm-core.jodatime-hibernate.version>1.3</sm-core.jodatime-hibernate.version>
 		<sm-core.javassist.version>3.3</sm-core.javassist.version>

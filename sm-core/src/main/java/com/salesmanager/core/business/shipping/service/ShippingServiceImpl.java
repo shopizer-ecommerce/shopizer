@@ -409,6 +409,8 @@ public class ShippingServiceImpl implements ShippingService {
 				shippingOrigin.setZone(store.getZone());
 			}
 			
+			System.out.println("BEFORE SHIPPING CONFIG");
+			
 			
 			if(shippingConfiguration==null) {
 				shippingConfiguration = new ShippingConfiguration();
@@ -420,9 +422,6 @@ public class ShippingServiceImpl implements ShippingService {
 
 			//look if customer country code excluded
 			Country shipCountry = delivery.getCountry();
-			if(shipCountry==null) {
-				throw new ServiceException("Delivery country is null");
-			}
 			
 			//a ship to country is required
 			Validate.notNull(shipCountry);
@@ -450,6 +449,8 @@ public class ShippingServiceImpl implements ShippingService {
 				shippingQuote.setShippingReturnCode(ShippingQuote.NO_SHIPPING_MODULE_CONFIGURED);
 				return shippingQuote;
 			}
+			
+			System.out.println("BEFORE SHIPPING MODULE");
 
 			
 			/** uses this module name **/
@@ -491,6 +492,8 @@ public class ShippingServiceImpl implements ShippingService {
 				return shippingQuote;
 			}
 			
+			System.out.println("BEFORE SHIPPING ORDER TOTAL");
+			
 			//calculate order total
 			BigDecimal orderTotal = calculateOrderTotal(products,store);
 			List<PackageDetails> packages = this.getPackagesDetails(products, store);
@@ -529,6 +532,8 @@ public class ShippingServiceImpl implements ShippingService {
 
 			Locale locale = languageService.toLocale(language);
 			
+			System.out.println("BEFORE SHIPPING PRE PROCESS");
+			
 			//invoke pre processors
 			if(!CollectionUtils.isEmpty(shippingModulePreProcessors)) {
 				for(ShippingQuotePrePostProcessModule preProcessor : shippingModulePreProcessors) {
@@ -556,7 +561,7 @@ public class ShippingServiceImpl implements ShippingService {
 			try {
 				shippingOptions = shippingQuoteModule.getShippingQuotes(shippingQuote, packages, orderTotal, delivery, shippingOrigin, store, configuration, shippingModule, shippingConfiguration, locale);
 			} catch(Exception e) {
-				LOGGER.error("Error while calculating shipping", e);
+				LOGGER.error("Error while calculating shipping : " + e.getMessage(), e);
 				merchantLogService.save(
 						new MerchantLog(store,
 								"Can't process " + shippingModule.getModule()
@@ -577,6 +582,8 @@ public class ShippingServiceImpl implements ShippingService {
 			//filter shipping options
 			ShippingOptionPriceType shippingOptionPriceType = shippingConfiguration.getShippingOptionPriceType();
 			ShippingOption selectedOption = null;
+			
+			System.out.println("BEFORE SHIPPING OPTIONS");
 			
 			if(shippingOptions!=null) {
 				
@@ -652,6 +659,8 @@ public class ShippingServiceImpl implements ShippingService {
 			
 			shippingQuote.setShippingOptions(shippingOptions);
 			
+			System.out.println("BEFORE SHIPPING POST PROCESS");
+			
 			/** post processors **/
 			//invoke pre processors
 			if(!CollectionUtils.isEmpty(shippingModulePostProcessors)) {
@@ -678,6 +687,7 @@ public class ShippingServiceImpl implements ShippingService {
 			
 			
 		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e);
 		}
 		

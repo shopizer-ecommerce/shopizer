@@ -2,20 +2,17 @@ package com.salesmanager.core.business.catalog.product.service.manufacturer;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
+import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.salesmanager.core.business.catalog.product.dao.manufacturer.ManufacturerDao;
-import com.salesmanager.core.business.catalog.product.model.Product;
-import com.salesmanager.core.business.catalog.product.model.description.ProductDescription;
 import com.salesmanager.core.business.catalog.product.model.manufacturer.Manufacturer;
 import com.salesmanager.core.business.catalog.product.model.manufacturer.ManufacturerDescription;
-import com.salesmanager.core.business.customer.model.Customer;
-import com.salesmanager.core.business.customer.service.CustomerServiceImpl;
 import com.salesmanager.core.business.generic.exception.ServiceException;
 import com.salesmanager.core.business.generic.service.SalesManagerEntityServiceImpl;
 import com.salesmanager.core.business.merchant.model.MerchantStore;
@@ -99,5 +96,21 @@ public class ManufacturerServiceImpl extends
 	@Override
 	public Manufacturer getByCode(MerchantStore store, String code) {
 		return manufacturerDao.getByCode(store, code);
+	}
+
+	@Override
+	public Manufacturer getByUrl(MerchantStore store, Language language,
+			String url) {
+		Validate.notEmpty(url,"Manufacturer url is required");
+		Validate.notNull(store,"Merchant store is required");
+		Validate.notNull(language,"Language is required");
+	
+		List<Manufacturer> manufacturers = manufacturerDao.getByUrl(store, url, language);
+		
+		if(CollectionUtils.isEmpty(manufacturers)) {
+			return null;
+		}
+		
+		return manufacturers.get(0);
 	}
 }

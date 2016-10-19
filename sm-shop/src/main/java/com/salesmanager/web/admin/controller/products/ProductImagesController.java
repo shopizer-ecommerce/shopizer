@@ -168,6 +168,7 @@ public class ProductImagesController {
 						entry.put("picture", imagePath);
 						entry.put("name", image.getProductImage());
 						entry.put("id",image.getId());
+						entry.put("defaultImageCheckmark", image.isDefaultImage() ? "/resources/img/admin/checkmark_checked.png" : "/resources/img/admin/checkmark_unchecked.png");
 						
 						resp.addDataEntry(entry);
 					
@@ -425,7 +426,52 @@ public class ProductImagesController {
 	}
 	
 	
-	
+	@PreAuthorize("hasRole('PRODUCTS')")
+	@RequestMapping(value="/admin/products/images/defaultImage.html", method=RequestMethod.POST, produces="application/json")
+	public @ResponseBody String setDefaultImage(final HttpServletRequest request, 
+												final HttpServletResponse response, 
+												final Locale locale) {
+		final String sImageId = request.getParameter("id");
+		final MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
+		final AjaxResponse resp = new AjaxResponse();
+
+		try {
+			final Long imageId = Long.parseLong(sImageId);
+			final ProductImage productImage = productImageService.getById(imageId);
+			
+			if (productImage == null) {
+				resp.setStatusMessage(messages.getMessage("message.unauthorized", locale));
+				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);			
+				return resp.toJSONString();
+			}
+			
+			if (productImage.getProduct().getMerchantStore().getId().intValue() != store.getId().intValue()) {
+				resp.setStatusMessage(messages.getMessage("message.unauthorized", locale));
+				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);			
+				return resp.toJSONString();
+			}
+			
+			productImage.setDefaultImage(true);
+			productImageService.saveOrUpdate(productImage);
+			
+			final Set<ProductImage> images = productService.getById(productImage.getProduct().getId()).getImages();
+			for (final ProductImage image : images) {
+				if (image.getId() != productImage.getId()) {
+					image.setDefaultImage(false);
+					productImageService.saveOrUpdate(image);		
+				}
+			}
+			
+			resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
+		} catch (final Exception e) {
+			LOGGER.error("Error while set default image", e);
+			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
+			resp.setErrorMessage(e);
+		}
+		
+		final String returnString = resp.toJSONString();
+		return returnString;
+	}
 
 	
 	private void setMenu(Model model, HttpServletRequest request) throws Exception {

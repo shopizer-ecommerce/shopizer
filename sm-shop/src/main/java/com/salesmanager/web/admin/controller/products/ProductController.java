@@ -380,6 +380,7 @@ public class ProductController {
 			
 			//copy properties
 			newProduct.setSku(product.getProduct().getSku());
+			newProduct.setRefSku(product.getProduct().getRefSku());
 			newProduct.setAvailable(product.getProduct().isAvailable());
 			newProduct.setDateAvailable(date);
 			newProduct.setManufacturer(product.getProduct().getManufacturer());

@@ -131,6 +131,39 @@ public class ManufacturerDaoImpl extends SalesManagerEntityDaoImpl<Long, Manufac
 		return query.uniqueResult(qManufacturer);
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Manufacturer> getByUrl(MerchantStore store, String url,
+			Language language) {
+		
+		StringBuilder qs = new StringBuilder();
+		qs.append("select m from Manufacturer as m join m.merchantStore mm left join fetch m.descriptions md join fetch md.language mdl where mm.id=:storeId and mdl.id=:languageId and md.url like:url");
+		
+		Query query = super.getEntityManager().createQuery(
+				qs.toString());
 
+		query.setParameter("storeId", store.getId());
+		query.setParameter("languageId", language.getId());
+		query.setParameter("url", new StringBuilder().append("%").append(url.toLowerCase()).append("%").toString());
+		
+		return query.getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Manufacturer> findByCode(MerchantStore store, String code, Language language) {
+		
+		StringBuilder qs = new StringBuilder();
+		qs.append("select m from Manufacturer as m join m.merchantStore mm left join fetch m.descriptions md join join fetch md.language mdl where mm.id=:storeId and mdl.id=:languageId and m.code like:code");
+		
+		Query query = super.getEntityManager().createQuery(
+				qs.toString());
+
+		query.setParameter("storeId", store.getId());
+		query.setParameter("languageId", language.getId());
+		query.setParameter("code", new StringBuilder().append("%").append(code.toLowerCase()).append("%").toString());
+		
+		return query.getResultList();
+	}
 
 }

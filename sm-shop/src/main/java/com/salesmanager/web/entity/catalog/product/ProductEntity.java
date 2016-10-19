@@ -26,6 +26,7 @@ public class ProductEntity extends Product implements Serializable {
 	private int quantityOrderMinimum = 1;//default 1
 	private boolean productIsFree;
 	private boolean available;
+	private boolean visible;
 	private BigDecimal productLength;
 	private BigDecimal productWidth;
 	private BigDecimal productHeight;
@@ -154,6 +155,12 @@ public class ProductEntity extends Product implements Serializable {
 	}
 	public void setRefSku(String refSku) {
 		this.refSku = refSku;
+	}
+	public boolean isVisible() {
+		return visible;
+	}
+	public void setVisible(boolean visible) {
+		this.visible = visible;
 	}
 
 

@@ -127,6 +127,13 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
 	                                  <span class="help-inline"><s:message code="label.generic.alphanumeric" text="Alphanumeric" /><form:errors path="product.sku" cssClass="error" /></span>
 	                        </div>
                   		</div>
+                  		
+                  		<div class="control-group">
+	                        <label><s:message code="label.product.refsku" text="External system identifier"/></label>
+	                        <div class="controls">
+	                        		  <form:input cssClass="input-large" id="refSku" path="product.refSku"/>
+	                        </div>
+                  		</div>
 
 						<form:hidden path="product.id" />
                  	

@@ -37,4 +37,13 @@ public interface ManufacturerService extends SalesManagerEntityService<Long, Man
 	List<Manufacturer> listByProductsByCategoriesId(MerchantStore store,
 			List<Long> ids, Language language) throws ServiceException;
 	
+	/**
+	 * Finds a manufacturer by the friendly url
+	 * @param store
+	 * @param language
+	 * @param name
+	 * @return
+	 */
+	Manufacturer getByUrl(MerchantStore store, Language language, String url);
+	
 }

@@ -269,6 +269,7 @@ public class ShoppingOrderController extends AbstractController {
 		/** shipping **/
 		ShippingQuote quote = null;
 		if(requiresShipping) {
+			System.out.println("** Berfore default shipping quote **");
 			quote = orderFacade.getShippingQuote(customer, cart, order, store, language);
 			model.addAttribute("shippingQuote", quote);
 		}
@@ -903,21 +904,22 @@ public class ShoppingOrderController extends AbstractController {
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
 		String shoppingCartCode  = getSessionAttribute(Constants.SHOPPING_CART, request);
 		
+		System.out.println("*** ENTERING SHIPPING QUOTES ***");
 
 		Map<String, Object> configs = (Map<String, Object>) request.getAttribute(Constants.REQUEST_CONFIGS);
 		
-		if(configs!=null && configs.containsKey(Constants.DEBUG_MODE)) {
+/*		if(configs!=null && configs.containsKey(Constants.DEBUG_MODE)) {
 			Boolean debugMode = (Boolean) configs.get(Constants.DEBUG_MODE);
 			if(debugMode) {
 				try {
 					ObjectMapper mapper = new ObjectMapper();
 					String jsonInString = mapper.writeValueAsString(order);
-					LOGGER.debug("Calculate order -> shoppingCartCode[ " + shoppingCartCode + "] -> " + jsonInString);
+					LOGGER.info("Calculate order -> shoppingCartCode[ " + shoppingCartCode + "] -> " + jsonInString);
 				} catch(Exception de) {
 					LOGGER.error(de.getMessage());
 				}
 			}
-		}
+		}*/
 
 		Validate.notNull(shoppingCartCode,"shoppingCartCode does not exist in the session");
 		
@@ -954,7 +956,7 @@ public class ShoppingOrderController extends AbstractController {
 					readableSummaryPopulator.populate(summary, readableSummary, store, language);
 					
 					//additional informations
-					if(quote.getQuoteInformations() != null && quote.getQuoteInformations().size() >0) {
+/*					if(quote.getQuoteInformations() != null && quote.getQuoteInformations().size() >0) {
 						for(String k : quote.getQuoteInformations().keySet()) {
 							Object o = quote.getQuoteInformations().get(k);
 							try {
@@ -963,7 +965,7 @@ public class ShoppingOrderController extends AbstractController {
 								LOGGER.error("Cannot cast value to string " + e.getMessage());
 							}
 						}
-					}
+					}*/
 					
 					if(quote.getDeliveryAddress()!=null) {
 						ReadableCustomerDeliveryAddressPopulator addressPopulator = new ReadableCustomerDeliveryAddressPopulator();
@@ -1029,8 +1031,9 @@ public class ShoppingOrderController extends AbstractController {
 							
 							try {
 								ObjectMapper mapper = new ObjectMapper();
-								String jsonInString = mapper.writeValueAsString(quote);
-								LOGGER.debug("Calculate order -> shoppingCartCode[ " + shoppingCartCode + "] -> " + jsonInString);
+								String jsonInString = mapper.writeValueAsString(readableOrder);
+								LOGGER.debug("Readable order -> shoppingCartCode[ " + shoppingCartCode + "] -> " + jsonInString);
+								System.out.println("Readable order -> shoppingCartCode[ " + shoppingCartCode + "] -> " + jsonInString);
 							} catch(Exception de) {
 								LOGGER.error(de.getMessage());
 							}

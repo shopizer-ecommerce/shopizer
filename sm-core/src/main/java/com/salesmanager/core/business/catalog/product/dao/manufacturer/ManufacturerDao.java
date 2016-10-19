@@ -19,5 +19,17 @@ public interface ManufacturerDao extends SalesManagerEntityDao<Long, Manufacture
 			List<Long> ids, Language language);
 	
 	Manufacturer getByCode(MerchantStore store, String code);
+	
+	/**
+	 * Get manufacturer using defined friendly name
+	 * @param store
+	 * @param name
+	 * @param language
+	 * @return
+	 */
+	List <Manufacturer> getByUrl(MerchantStore store, String url, Language language);
+
+	List<Manufacturer> findByCode(MerchantStore store, String code,
+			Language language);
 
 }

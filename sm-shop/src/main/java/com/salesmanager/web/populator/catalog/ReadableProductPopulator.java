@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
 
 import com.salesmanager.core.business.catalog.product.model.Product;
+import com.salesmanager.core.business.catalog.category.model.Category;
 import com.salesmanager.core.business.catalog.product.model.availability.ProductAvailability;
 import com.salesmanager.core.business.catalog.product.model.description.ProductDescription;
 import com.salesmanager.core.business.catalog.product.model.image.ProductImage;
@@ -149,6 +151,23 @@ public class ReadableProductPopulator extends
 					.setImages(imageList);
 				}
 			}
+			
+			//remove products from invisible category -> set visible = false
+			Set<Category> categories = source.getCategories();
+			boolean isVisible = true;
+			if(!CollectionUtils.isEmpty(categories)) {
+				for(Category c : categories) {
+					if(c.isVisible()) {
+						isVisible = true;
+						break;
+					} else {
+						isVisible = false;
+					}
+				}
+			}
+			
+			target.setVisible(isVisible);
+			
 	
 			target.setSku(source.getSku());
 			//target.setLanguage(language.getCode());

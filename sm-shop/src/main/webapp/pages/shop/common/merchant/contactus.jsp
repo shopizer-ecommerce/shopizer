@@ -187,6 +187,12 @@ function sendContact(){
 			</form:form>
 			
 
+<!-- CUSTOM CONTENT --> 
+			<div class="row-fluid common-row">
+					<div class="contactMapCanvas" id="map_canvas" style="width:600px; height:300px"></div>
+			</div>
+
+
 			
             </div>
 <!-- END LEFT-SIDE CONTACT FORM AREA -->
@@ -210,16 +216,15 @@ function sendContact(){
                                     </c:if>
 
                      </div>
-<!-- END RIGHT-SIDE CONTACT FORM AREA -->
-<!-- CUSTOM CONTENT --> 
-			<div class="row-fluid common-row">
-					<div class="contactMapCanvas" id="map_canvas" style="width:600px; height:300px"></div>
 
-			</div>
+<!-- END RIGHT-SIDE CONTACT FORM AREA -->
+
 			
 
 <!-- GOOGLE MAP -->  
 <c:if test="${requestScope.CONFIGS['displayStoreAddress'] == true}">
+
+
 
 
 <script>
