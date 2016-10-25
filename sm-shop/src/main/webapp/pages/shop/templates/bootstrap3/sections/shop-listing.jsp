@@ -18,7 +18,7 @@ function buildProductsList(productList, divProductsContainer) {
 			var productHtml = '<li class="col-md-4 productItem" itemscope itemtype="http://schema.org/Enumeration" class="item listing-item" data-id="' + productList.products[i].id  + '" item-price="' +  productList.products[i].price +'" item-name="' +  productList.products[i].description.name +'" item-order="' +  productList.products[i].sortOrder +'">';
 			productHtml = productHtml + '<div class="product-box">';
 			if(productList.products[i].image!=null) {
-				productHtml = productHtml + '<div class="product-image"><a href="' + productUrl + '"><img src="<c:url value="/"/>' + productList.products[i].image.imageUrl +'" itemprop="image"></a></div>';
+				productHtml = productHtml + '<div class="product-image"><a href="' + productUrl + '"><img src="<c:url value=""/>' + productList.products[i].image.imageUrl +'" itemprop="image"></a></div>';
 			}
 			productHtml = productHtml + '<div class="product-name">';
 			productHtml = productHtml + '<a href="<c:url value="/shop/product/" />' + productList.products[i].description.friendlyUrl + '.html<sm:breadcrumbParam/>">';

@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/!svn/ver/567/branches/v2/sm-search/src/test/resources/spring
+END
+product_fr.json
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/!svn/ver/567/branches/v2/sm-search/src/test/resources/spring/product_fr.json
+END
+settings_product_fr.json
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/!svn/ver/567/branches/v2/sm-search/src/test/resources/spring/settings_product_fr.json
+END
+spring-context-test.xml
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/!svn/ver/567/branches/v2/sm-search/src/test/resources/spring/spring-context-test.xml
+END
+shopizer-search.xml
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/!svn/ver/567/branches/v2/sm-search/src/test/resources/spring/shopizer-search.xml
+END
+product.json
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/!svn/ver/567/branches/v2/sm-search/src/test/resources/spring/product.json
+END
+settings_product.json
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/!svn/ver/567/branches/v2/sm-search/src/test/resources/spring/settings_product.json
+END

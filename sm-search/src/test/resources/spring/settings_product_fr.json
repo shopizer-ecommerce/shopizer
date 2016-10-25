@@ -1,0 +1,37 @@
+{
+	"index": {
+	    "analysis": {
+	          "filter": {
+		        "french_elision": {
+		          "type":"elision",
+		          "articles_case": true,
+		            "articles": [
+		              "l", "m", "t", "qu", "n", "s",
+		              "j", "d", "c", "jusqu", "quoiqu",
+		              "lorsqu", "puisqu"
+		            ]
+		        },
+		        "french_stop": {
+		          "type":       "stop",
+		          "stopwords":  "_french_" 
+		        },
+		        "french_stemmer": {
+		          "type":       "stemmer",
+		          "language":   "light_french"
+		        }
+      	  },
+	      "analyzer": {
+	        "folding_fr": {
+	          "tokenizer": "standard",
+	          "filter":  [ 
+	          	"lowercase", 
+	          	"asciifolding", 
+	          	"french_elision",
+	          	"french_stop",
+	          	"french_stemmer"
+	           ]
+	        }
+	      }
+	    }
+      }
+}

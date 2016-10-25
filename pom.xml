@@ -1,36 +1,81 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.shopizer</groupId>
-  <artifactId>shopizer</artifactId>
-  <version>2.0.3-SNAPSHOT</version>
-  <packaging>pom</packaging>
-
-  <name>shopizer</name>
-  <url>http://maven.apache.org</url>
-
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <java-version>1.8</java-version>
-    <jdk-version>1.8</jdk-version>
-    <!-- The version of this current module -->
-    <shopizer.version>2.0.3-SNAPSHOT</shopizer.version>
-	<sm-core.version>2.0.3-SNAPSHOT</sm-core.version>
-	<sm-core-model.version>2.0.3-SNAPSHOT</sm-core-model.version>
-	<sm-core-modules.version>2.0.3-SNAPSHOT</sm-core-modules.version>
-	<sm-search.version>0.0.5</sm-search.version>
-  <sm-shipping-distance-processor.version>2.0.3</sm-shipping-distance-processor.version>
-	<sm-shop.version>2.0.3-SNAPSHOT</sm-shop.version>
-	
-	<shopizer-canadapost.version>0.0.1</shopizer-canadapost.version>	
-  </properties>
+    <groupId>com.shopizer</groupId>
+    <artifactId>shopizer</artifactId>
+    <version>2.5.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    
+    <name>shopizer</name>
+    <url>http://maven.apache.org</url>
+    
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.3.5.RELEASE</version>
+    </parent>
 
 
-  <modules>
-  	<module>sm-core</module>
-  	<module>sm-core-model</module>
-  	<module>sm-core-modules</module>
-  	<module>sm-shop</module>
-  </modules>
+    <properties>
+        <java.version>1.8</java.version>        
+        <shopizer.version>2.5.0-SNAPSHOT</shopizer.version>
+        <shopizer.search.version>2.5.0-SNAPSHOT</shopizer.search.version>
+        <shopizer-canadapost.version>2.5.0-SNAPSHOT</shopizer-canadapost.version>
+		<shopizer-shipping-distance.version>2.5.0-SNAPSHOT</shopizer-shipping-distance.version>	
+        
+        
+        
+        <commons-collections4.version>4.0</commons-collections4.version>
+        <commons-validator.version>1.5.1</commons-validator.version>
+        <org.apache.httpcomponent.version>4.5.2</org.apache.httpcomponent.version>
+        <infinispan.version>6.0.2.Final</infinispan.version>
+        <!-- DON'T AS IT OVERWRITES SPRING -->
+        <!--<spring.version>4.2.1.RELEASE</spring.version>-->
+        <!--<spring-data.version>Gosling-RELEASE</spring-data.version>-->
+    </properties>
+
+    <dependencies>
+    
+
+
+    </dependencies>
+
+	<modules>
+	  	<module>sm-core-model</module>
+	  	<module>sm-core-modules</module>
+	  	<module>sm-core</module>
+	  	<module>sm-shop</module>
+	</modules>
+
+    <repositories>
+        <repository>
+            <id>spring-releases</id>
+            <name>Spring Releases</name>
+            <url>https://repo.spring.io/libs-release</url>
+        </repository>
+        <repository>
+            <id>org.jboss.repository.releases</id>
+            <name>JBoss Maven Release Repository</name>
+            <url>https://repository.jboss.org/nexus/content/repositories/releases</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-releases</id>
+            <name>Spring Releases</name>
+            <url>https://repo.spring.io/libs-release</url>
+        </pluginRepository>
+    </pluginRepositories>
+    
+    <dependencyManagement>
+		<dependencies>
+
+		</dependencies>
+
+	</dependencyManagement>
+
 </project>

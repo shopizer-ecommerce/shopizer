@@ -1,29 +1,3 @@
-/* Theme Name:iDea - Clean & Powerful Bootstrap Theme
-Author:HtmlCoder
-Author URI:http://www.htmlcoder.me
-Author e-mail:htmlcoder.me@gmail.com
-Version: 1.1.0
-Created:September 2014
-License URI:http://support.wrapbootstrap.com/
-File Description:Main CSS file of the template */
-
-/* TABLE OF CONTENTS
-
-1) Typography
-2) Layout
-3) Sections
-4) Pages ( blog,
-about etc )
-5) Template Components
-6) Navigations
-7) Blocks/Widgets
-8) Main Slideshow
-9) Owl carousel
-10) IE 8 Support
-* */
-
-/* 1 Typography
------------------------------------------------------------------------------ */
 html {
 	height: 100%;
 }
@@ -64,7 +38,7 @@ h2 {
 	margin-bottom: 15px;
 }
 h3 {
-	font-size: 22px;
+	font-size: 20px;
 }
 h4 {
 	font-size: 18px;
@@ -93,7 +67,7 @@ h6 {
 }
 .page-header {
 	margin-top: 20px;
-	padding-top: 20px;
+	/**padding-top: 20px;**/
 }
 p {
 	margin-bottom: 20px;
@@ -332,8 +306,7 @@ tbody {
 	}
 }
 
-/* 2 Layout
------------------------------------------------------------------------------ */
+
 .page-wrapper {
 	background-color: #ffffff;
 }
@@ -1100,10 +1073,7 @@ tbody {
 	}
 }
 
-/* 4 Pages
------------------------------------------------------------------------------ */
-/* Blog pages
----------------------------------- */
+
 .blogpost {
 	background-color: #fafafa;
 	border: 1px solid #f3f3f3;
@@ -1754,6 +1724,12 @@ tbody {
 .listing-item h3 {
 	font-size: 18px;
 }
+
+.listing-item-body h4 {
+	font-size: 14px !important;
+	font-weight:700;
+}
+
 .listing-item p {
 	color: #999999;
 	font-size: 13px;
@@ -1877,6 +1853,16 @@ tbody {
 .table .information {
 	width: 80%;
 }
+
+.product-info {
+	height:48px;
+}
+
+.product-info h3 {
+	font-size: 16px;
+	font-weight:200;
+}
+
 .cart.table .quantity input {
 	width: 60px;
 	padding: 6px;
@@ -1907,6 +1893,10 @@ tbody {
 }
 .cart.table .total-amount {
 	text-align: right;
+}
+
+#summaryRows strong {
+	font-size:11px !important;
 }
 
 /* Small devices (tablets, phones less than 767px) */
@@ -1949,9 +1939,14 @@ tbody {
 .cart .form-group {
 	margin-bottom: 0;
 }
+@media(max-width:480px) {
+	.header-top-dropdown .dropdown-menu.cart {
+		max-width: 100% !important; 
+	}
+}
 .header-top-dropdown .dropdown-menu.cart {
 	padding: 0;
-	min-width: 350px;
+	width: 350px;
 	font-size: 12px;
 	right: -1px;
 }
@@ -2000,7 +1995,7 @@ tbody {
 	padding: 10px 12px;
 	font-size: 14px;
 	line-height: 1.42857143;
-	min-width: 160px;
+	/**min-width: 160px;**/
 	text-align: center;
 	border-radius: 0;
 	text-transform: uppercase;
@@ -2025,6 +2020,10 @@ tbody {
 	padding: 8px;
 	font-size: 12px;
 	min-width: 105px;
+    background-color: #f3f3f3 !important;
+    border-color: #f3f3f3 !important;
+    color: #000 !important;
+
 }
 .btn.radius {
 	-webkit-border-radius: 15px;
@@ -2596,7 +2595,7 @@ ul.pagination li > a:focus {
 }
 .tab-content {
 	border: 1px solid #f0f0f0;
-	padding: 20px;
+	/**padding: 20px;**/
 	border-top: none;
 	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 	position: relative;
@@ -3268,6 +3267,12 @@ ul.pagination li > a:focus {
 	font-size: 26px;
 	margin: 0;
 }
+
+.box-style-4 .overlay i {
+	font-size: 26px;
+	margin: 0;
+}
+
 a.overlay {
 	background-color: rgba(255, 255, 255, 0.9);
 	cursor: pointer;
@@ -4179,11 +4184,18 @@ a.overlay.small i {
 .box.dark-bg:hover * {
 	color: #666;
 }
+
 .box-style-1 {
-	text-align: center;
-	padding: 20px;
+	padding-top: 20px;
 	margin: 20px 0;
 }
+
+.box-style-4 {
+	padding-top: 20px;
+	margin: 20px 0;
+}
+
+
 .grid-space-10 .box-style-1 {
 	margin: 10px 0;
 }
@@ -5620,4 +5632,3 @@ ul.tweets li span {
 .ie8 .overlay-container:hover .overlay { 
 	display: block;
 }
-

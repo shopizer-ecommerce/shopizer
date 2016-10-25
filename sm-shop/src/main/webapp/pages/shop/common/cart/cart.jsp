@@ -18,76 +18,164 @@
 <div class="span12 common-row">
 
 <h1 class="cart-title"><s:message code="label.cart.revieworder" text="Review your order" /></h1>
-<div id="store.error" class="alert alert-error" style="display:none;"><s:message code="message.error.shoppingcart.update" text="An error occurred while updating the shopping cart"/></div>
+<div id="store.error" class="alert alert-error alert-danger" style="display:none;"><s:message code="message.error.shoppingcart.update" text="An error occurred while updating the shopping cart"/></div>
+
+
+
+	     	<!-- Unavailables -->
+	        <c:if test="${fn:length(cart.unavailables) gt 0}">
+	        
+	        <div id="store.error" class="alert alert-error" style="display:block;"><s:message code="message.error.shoppingcart.unavailables" text="Some of the item in your shopping cart are as of today unavailable for purchase. Those items will be removed from your shopping cart when the order form is displayed. If you are interested in purchasing this item, please send use a message with the item number, we will get back to you as soon as possible with an update on the availability of the item."/></div>
+	        <table>
+	        <c:forEach items="${cart.unavailables}" var="unavailable" varStatus="itemStatus">
+	        	
+	        	<c:if test="${itemStatus.index eq 0}">
+					<thead>
+						<tr>
+							<th colspan="2" width="65%">&nbsp;</th>
+							<th colspan="1" width="35%">&nbsp;</th>
+						</tr>
+					</thead>
+					<tbody>
+				</c:if>
+	        	
+	        	
+	        	<tr>
+						<td width="20%">
+							<c:if test="${unavailable.image!=null}">
+								<img width="60" src="<c:url value="${unavailable.image}"/>">
+							</c:if>
+						</td>
+
+						<td style="border-left:none;">
+								<strong>${unavailable.name}</strong>
+								<c:if test="${fn:length(unavailable.shoppingCartAttributes)>0}">
+									<br/>
+									<ul>
+										<c:forEach items="${unavailable.shoppingCartAttributes}" var="option">
+										<li>${option.optionName} - ${option.optionValue}</li>
+										</c:forEach>
+									</ul>
+								</c:if>
+								<br/><s:message code="label.quantity" text="Quantity"/>: <c:out value="${unavailable.quantity}"/>
+								<br/><s:message code="label.generic.price" text="Price"/>: <c:out value="${unavailable.price}"/>
+								
+						
+						</td>
+						<td>
+							&nbsp;
+						</td>
+
+
+
+
+				</tr>
+	        </c:forEach>
+	        </table>
+	        <br/>
+			</c:if>
+
 <br/>
-<table id="mainCartTable" class="table table-bordered table-striped">
+
+
+
+
+<!-- ******* EX SHOPPING CART  **********-->
+
+<table id="mainCartTable" class="table table-hover table-condensed">
 
 	<c:if test="${not empty cart}">
 	   <c:choose>
 	     <c:when test="${not empty cart.shoppingCartItems}">
-
 			<c:forEach items="${cart.shoppingCartItems}" var="shoppingCartItem"
 				varStatus="itemStatus">
 				<c:if test="${itemStatus.index eq 0}">
-					<thead>
+
+    					<thead>
 						<tr>
-							<th colspan="2" width="55%"><s:message code="label.generic.item.title" text="Item"/></th>
-							<th colspan="2" width="15%"><s:message code="label.quantity" text="Quantity"/></th>
-							<th width="15%"><s:message code="label.generic.price" text="Price"/></th>
-							<th width="15%"><s:message code="label.order.total" text="Total"/></th>
+							<th><s:message code="label.generic.item.title" text="Item"/></th>
+							<th><s:message code="label.quantity" text="Quantity"/></th>
+							<th><s:message code="label.generic.price" text="Price"/></th>
+							<th><s:message code="label.order.total" text="Total"/></th>
+							<th></th>
+
+
 						</tr>
 					</thead>
 					<tbody>
 				</c:if>
 				<form:form action="${updateShoppingCartItemUrl}"
 					id="shoppingCartLineitem_${shoppingCartItem.id}">
-					<tr>
-						<td width="10%">
-							<c:if test="${shoppingCartItem.image!=null}">
-								<img width="60" src="<c:url value="${shoppingCartItem.image}"/>">
-							</c:if>
-						</td>
+						<tr>
+							<td data-th="<s:message code="label.generic.item.title" text="Item"/>">
+								<div class="row-cart">
 
-						<td style="border-left:none;">
-								<strong>${shoppingCartItem.name}</strong>
-								<c:if test="${fn:length(shoppingCartItem.shoppingCartAttributes)>0}">
-									<br/>
-									<ul>
-										<c:forEach items="${shoppingCartItem.shoppingCartAttributes}" var="option">
-										<li>${option.optionName} - ${option.optionValue}</li>
-										</c:forEach>
-									</ul>
-								</c:if>
-						
-						</td>
-						<td>
-							<input type="text" class="input-small quantity form-control" placeholder="<s:message code="label.quantity" text="Quantity"/>"
-							value="${shoppingCartItem.quantity}" name="quantity" id="${shoppingCartItem.id}" <c:if test="${shoppingCartItem.productVirtual==true}">readonly</c:if>>
-						</td>
-						<td style="border-left:none;"><button class="close"
-								onclick="javascript:updateLineItem('${shoppingCartItem.id}','${removeShoppingCartItemUrl}');">&times;</button>
-						</td>
+									<div class="col-sm-4 hidden-xs">
+										<c:if test="${shoppingCartItem.image!=null}">
+										<img width="60" src="<c:url value="${shoppingCartItem.image}"/>" class="">
+										</c:if>
+									</div>
+									<div class="col-sm-8">
+										<span class="nomargin"><strong>${shoppingCartItem.name}</strong></span>
 
-						<td><strong>${shoppingCartItem.price}</strong></td>
-						<td><strong>${shoppingCartItem.subTotal}</strong></td>
+										<c:if test="${fn:length(shoppingCartItem.shoppingCartAttributes)>0}">
+											<p>
+											<ul>
+												<c:forEach items="${shoppingCartItem.shoppingCartAttributes}" var="option">
+													<li>${option.optionName} - ${option.optionValue}</li>
+												</c:forEach>
+											</ul>
+											</p>
+										</c:if>
+									</div>
+								</div>
+							</td>
+							<td width="10%" data-th="<s:message code="label.quantity" text="Quantity"/>">
 
+<input type="number" class="input-small quantity form-control text-center" value="${shoppingCartItem.quantity}" name="quantity" id="${shoppingCartItem.id}" <c:if test="${shoppingCartItem.productVirtual==true}">readonly</c:if>>
 
-						<input type="hidden" name="lineItemId" id="lineItemId"
-							value="${shoppingCartItem.id}"/>
+							</td>
 
-
-					</tr>
+							<td data-th="<s:message code="label.generic.price" text="Price"/>"><strong>${shoppingCartItem.price}</strong></td>
+							<td data-th="<s:message code="label.order.total" text="Total"/>" class=""><strong>${shoppingCartItem.subTotal}</strong></td>
+							
+							<td width="10%" class="actions" data-th="">
+<button type="button" class="btn btn-danger btn-sm" onclick="javascript:updateLineItem('${shoppingCartItem.id}','${removeShoppingCartItemUrl}'); return false;" style="margin-top:0px !important;"><i class="fa fa-trash-o"></i>&nbsp;<s:message code="label.generic.remove" text="Remove"/></button>
+<input type="hidden" name="lineItemId" id="lineItemId" value="${shoppingCartItem.id}"/>	
+							
+							</td>
+							
+						</tr>
 				</form:form>
 
 
 			</c:forEach>
 			<c:forEach items="${cart.totals}" var="total">
-				<tr class="subt">
+				<tr class="subt" class="hidden-xs">
 					<td colspan="2">&nbsp;</td>
-					<td colspan="3"><strong><s:message code="${total.code}" text="label [${total.code}] not found"/></strong></td>
-					<td><strong><sm:monetary value="${total.value}" /></strong></td>
+					<td><strong><s:message code="${total.code}" text="label [${total.code}] not found"/></strong></td>
+					<td colspan="2"><strong><sm:monetary value="${total.value}" /></strong></td>
 				</tr>
 			</c:forEach>
+
+
+
+					</tbody>
+
+					<tfoot>
+
+						<tr>
+							<td colspan="3">
+
+<a href="#" onClick="javascript:updateCart('#mainCartTable');" class="btn btn-regular"><s:message code="label.order.recalculate" text="Racalculate"/></a>
+
+<a href="<c:url value="/shop"/>" class="btn btn-warning"><i class="fa fa-angle-left"></i> <s:message code="button.label.continue" text="Continue shopping" /></a>
+							</td>
+							<td colspan="2">
+							<button id="checkoutButton" type="submit" class="btn btn-success btn-block"><s:message code="label.cart.placeorder" text="Place your order" /> <i class="fa fa-angle-right"></i></button>
+							</td>
+						</tr>
+					</tfoot>
 
 		</c:when>
 		 <c:otherwise>
@@ -97,18 +185,14 @@
 	</c:if>
 
 
-	</tbody>
 </table>
-<c:if test="${not empty cart}">
-	<c:if test="${not empty cart.shoppingCartItems}">
-		<div class="pull-right">
-			<div class="form-actions">
-				<button type="button" class="btn" onClick="javascript:updateCart('#mainCartTable');"><s:message code="label.order.recalculate" text="Racalculate"/></button>
-				<button id="checkoutButton" type="submit" class="btn btn-success"><s:message code="label.cart.placeorder" text="Place your order" /></button>
-			</div>
-		</div>
-	</c:if>
-</c:if>
+
+
+<!-- ******* EX SHOPPING CART *********** -->
+
+
+
+
 </div>
 </div>
 <c:if test="${empty cart}">
@@ -138,5 +222,3 @@
 	    });
    });
 </script>
-
-

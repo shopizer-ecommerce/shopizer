@@ -87,6 +87,46 @@ function cartSubTotal(cart) {
 }
 
 
+function getOrderValidationMessage(messageKey) {
+	
+	//stripe messages
+	var invalid_number 	= '<s:message code="messages.error.creditcard.number" text="invalid_number"/>';
+	var invalid_expiry_month = '<s:message code="messages.error.creditcard.dateformat" text="invalid_expiry_month"/>';
+	var invalid_expiry_year = '<s:message code="messages.error.creditcard.dateformat" text="invalid_expiry_year"/>';
+	var invalid_cvc 	= '<s:message code="messages.error.creditcard.cvc" text="invalid_cvc"/>';
+	var incorrect_number = '<s:message code="messages.error.creditcard.number" text="invalid_expiry_month"/>';
+	var expired_card 	= '<s:message code="message.payment.declined" text="expired_card"/>';
+	var incorrect_cvc 	= '<s:message code="messages.error.creditcard.cvc" text="incorrect_cvc"/>';
+	var card_declined 	= '<s:message code="message.payment.declined" text="card_declined"/>';
+	var processing_error = '<s:message code="message.payment.error" text="processing_error"/>';
+	var rate_limit = '<s:message code="message.payment.error" text="rate_limit"/>';
+	
+	var map = new Object(); // or var map = {};
+	map['invalid_number'] = invalid_number;
+	map['invalid_expiry_month'] = invalid_expiry_month;
+	map['invalid_expiry_year'] = invalid_expiry_year;
+	map['invalid_cvc'] = invalid_cvc;
+	map['incorrect_number'] = incorrect_number;
+	map['expired_card'] = expired_card;
+	map['incorrect_cvc'] = incorrect_cvc;
+	map['card_declined'] = card_declined;
+	map['processing_error'] = processing_error;
+	map['rate_limit'] = rate_limit;
+	
+	//log('Got message key ' + messageKey);
+	
+	var message = map[messageKey];
+	
+	if(message==null) {
+		message = messageKey;
+	}
+	
+	return message;
+
+	
+}
+
+
 
 
 </script>

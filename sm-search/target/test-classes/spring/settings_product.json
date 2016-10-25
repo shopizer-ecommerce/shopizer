@@ -1,0 +1,12 @@
+{
+	"index": {
+	    "analysis": {
+	      "analyzer": {
+	        "folding_en": {
+	          "tokenizer": "standard",
+	          "filter":  [ "lowercase", "asciifolding", "stop" ]
+	        }
+	      }
+	    }
+      }
+}

@@ -15,7 +15,8 @@
 									dataFormat:"json",  
 									operationBindings:[ 
 										{operationType:"fetch", dataProtocol:"postParams",dataURL: "<c:url value="${pagingUrl}" />"},
-										{operationType:"remove", dataProtocol:"postParams",dataURL: "<c:url value="${removeUrl}" />"}
+										{operationType:"remove", dataProtocol:"postParams",dataURL: "<c:url value="${removeUrl}" />"},
+										{operationType:"update", dataProtocol:"postParams", dataURL: "<c:url value="${defaultImageUrl}" />"}
 									],
 									transformResponse : function (dsResponse, dsRequest, jsonData) {
 										var status = isc.XMLTools.selectObjects(jsonData, "/response/status");
@@ -51,6 +52,9 @@
 								        // override getTile() and add a "Remove" button
 								        var canvas = this.Super("getTile", arguments);
 								        canvas.addChild(this.getRemoveButton(this.getRecord(record)));
+									<c:if test="${canSetDefaultEntry==true}"> 
+								        canvas.addChild(this.getSetDefaultButton(this.getRecord(record)));
+									</c:if>
 								        return canvas;
 								    },
 								    
@@ -104,6 +108,47 @@
 
 								        return removeButton;
 								    }
+								   <c:if test="${canSetDefaultEntry==true}"> 
+								   ,
+								    getSetDefaultButton : function (record) {
+								        var setDefaultButton = isc.ImgButton.create({
+								            src: '<c:url value="' + record.defaultImageCheckmark + '"/>',
+								            showHover: true,
+								            prompt: "<s:message code='label.generic.setAsDefault' text='Set as default' />",
+								            size: 15,
+								            showFocused: false,
+								            showRollOver: false,
+								            snapTo: "TL",
+								            showDown: false,
+								            margin: 2,
+								            tileGrid: this,
+								            record: record,
+								            click : function () {
+								            	if (confirm('<s:message code="label.entity.setAsDefault.confirm" text="Do you really want to set this entity as default?" />')) {
+								        			$.ajax({
+								        				  type: 'POST',
+								        				  url: '<c:url value="${defaultImageUrl}"/>',
+								        				  data: 'id=' + record.id + '&name=' + record.name,
+								        				  dataType: 'json',
+								        				  success: function(response) {
+								        						var status = isc.XMLTools.selectObjects(response, "/response/status");
+								        						if (status==0 || status ==9999) {
+								        							//reload
+								        							window.location='<c:url value="${refreshUrl}" />';
+								        						} else {
+								        						}
+								        				  },
+								        				  error: function(xhr, textStatus, errorThrown) {
+								        				  	alert('error ' + errorThrown);
+								        				  }
+													});
+												}
+								            }
+								        });
+
+								        return setDefaultButton;
+								    }
+								</c:if>
 								});
 
 

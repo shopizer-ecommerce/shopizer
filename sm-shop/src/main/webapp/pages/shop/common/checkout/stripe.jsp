@@ -38,18 +38,27 @@ response.setDateHeader ("Expires", -1);
 
 					  if (response.error) {
 					    // Show the errors on the form
-					    showResponseErrorMessage(response.error.message);
+					    var orderValidationMessage = getOrderValidationMessage(response.error.code);
+					    log('Validation message ' + orderValidationMessage);
+					    if(orderValidationMessage == '') {
+					    	orderValidationMessage = error.message;
+					    }
+					    showResponseErrorMessage(orderValidationMessage);
 					    $('#pageContainer').hideLoading();
 					    $form.find('button').prop('disabled', false);
 					  } else {
 					    // response contains id and card, which contains additional card details
 					    var token = response.id;
 					    // Insert the token into the form so it gets submitted to the server
-					    $form.append($('<input type="hidden" name="payment['stripe_token']" />').val(token));
+					    var tokenField = '<input type="hidden" name="payment[\'stripe_token\']" value="' + token +'" /><input type="hidden" name="payment[\'null_creditcard\']" value="null_creditcard"/>';
+					    $form.append(tokenField);
+					    //log(tokenField);
 					    // and submit
 					    $form.get(0).submit();
 					  }
 					};
+					<c:if test="">
+					</c:if>
 				  
 				  
 				  

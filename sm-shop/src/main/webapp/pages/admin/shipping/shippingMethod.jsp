@@ -24,7 +24,7 @@
 
 
 								<div class="sm-ui-component">
-								<h3><s:message code="label.shipping.title" text="Shipping configuration" /> - <s:message code="module.shipping.${configuration.moduleCode}" text="No label found - ${configuration.moduleCode}"/></h3>	
+								<h3><s:message code="label.shipping.title" text="Shipping configuration" /> - <s:message code="module.shipping.${configuration.moduleCode}" arguments="${requestScope.ADMIN_STORE.storename}" text="No label found - ${configuration.moduleCode}"/></h3>	
 								<br/>
 								
 								

@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Implementation-Title: sm-core-modules
+Implementation-Version: 2.5.0-SNAPSHOT
+Built-By: c.samson
+Implementation-Vendor-Id: com.shopizer
+Build-Jdk: 1.8.0_91
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+

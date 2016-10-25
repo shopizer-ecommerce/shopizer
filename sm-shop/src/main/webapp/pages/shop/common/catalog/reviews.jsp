@@ -36,7 +36,7 @@ response.setDateHeader ("Expires", -1);
 									<c:if test="${reviews!=null}">
 										<c:forEach items="${reviews}" var="review" varStatus="status">
 											    <p>
-											    <div id="productRating<c:out value="${status.count}"/>" style="width: 100px;">
+											    <div class="stars" id="productRating<c:out value="${status.count}"/>" style="width: 100px;">
 											    </div>
 											    <br/>
 											    <blockquote>

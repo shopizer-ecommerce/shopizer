@@ -19,6 +19,14 @@
 	
 	$(function(){		
 		$('#order').numeric();
+		
+		if($("#code").val()=="") {
+			$('.btn').addClass('disabled');
+		}
+
+		<c:forEach items="${manufacturer.descriptions}" var="description" varStatus="counter">		
+			$("#name${counter.index}").friendurl({id : 'url${counter.index}'});
+		</c:forEach>
 	});
 
 	

@@ -17,7 +17,7 @@ response.setDateHeader ("Expires", -1);
 
 					<div id="review" class="review">
 								<div>
-									<div id="productRating" style="width: 100px;">
+									<div class="stars" id="productRating" style="width: 100px;">
 									</div>
 									<script>
 									$(function() {

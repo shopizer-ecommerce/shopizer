@@ -24,13 +24,18 @@ response.setDateHeader ("Expires", -1);
             
             <jsp:include page="/pages/shop/templates/exoticamobilia/sections/breadcrumb.jsp" />
             
+            <c:if test="${product.images!=null && fn:length(product.images) gt 1}">
+            	<c:forEach items="${product.images}" var="thumbnail">
+            		<c:if test="${thumbnail.videoUrl!=null}">
+            			<c:set var="VIDEO_URL" value="${thumbnail.videoUrl}" scope="request" />
+            		</c:if>
+            		
+            	</c:forEach>
+            </c:if>
+            
             <section class="main-container">
-					
-					
-				<div class="container no-left-padding no-right-padding">	
-					<div class="row">
-					
-						<div class="main col-md-12">
+
+						<div class="main col-md-12 no-left-padding no-right-padding">
 						
 						
 							<!-- page-title start -->
@@ -47,47 +52,61 @@ response.setDateHeader ("Expires", -1);
 											<i class="fa fa-camera pr-5"></i> <s:message code="label.generic.pictures" text="Pictures" />
 										</a>
 									</li>
+									<c:if test="${requestScope.VIDEO_URL!=null}">
 									<li>
 										<a title="video" data-toggle="tab" role="tab" href="#product-video">
 											<i class="fa fa-video-camera pr-5"></i> <s:message code="label.generic.videos" text="Videos" />
 										</a>
 									</li>
+									</c:if>
 								</ul>
 								<div class="tab-content clear-style">
 								    <c:if test="${product.image!=null}">
 									<div id="product-images" class="tab-pane active">
 										
 										
-											<div style="width: 360px;" class="owl-item">
+											<div style="width:100%;" class="owl-item">
 													<div id="largeImg" class="overlay-container image-container">
 																<img src="<c:url value="${product.image.imageUrl}"/>" alt="<c:out value="${product.description.name}"/>">
 																<a href="<sm:shopProductImage imageName="${product.image.imageName}" sku="${product.sku}" size="LARGE"/>" class="popup-img overlay" title="<c:out value="${product.description.name}"/>"><i class="fa fa-search-plus"></i></a>
 													</div>
 											</div>
 
-											<c:if test="${product.images!=null && fn:length(product.images)>1}">
+											<c:if test="${product.images!=null && fn:length(product.images) gt 1}">
 											<div id="imageGallery" class="row">
 												<c:forEach items="${product.images}" var="thumbnail">	
-												<div class="col-xs-6 col-md-3">
-													<a href="javascript:;"" class="thumbImg thumbnail" imgId="im-<c:out value="${thumbnail.id}"/>" title="<c:out value="${thumbnail.imageName}"/>" rel="<c:url value="${thumbnail.imageUrl}"/>"><img src="<c:url value="${thumbnail.imageUrl}"/>"  alt="<c:url value="${thumbnail.imageName}"/>" ></a>
-												</div>
+													<c:if test="${thumbnail.imageType==0}">
+													<div class="col-xs-6 col-md-3">
+														<c:choose>
+															<c:when test="${thumbnail.externalUrl==null}">
+																<a href="javascript:;"" class="detailsThumbImg thumbImg thumbnail" imgId="im-<c:out value="${thumbnail.id}"/>" title="<c:out value="${thumbnail.imageName}"/>" rel="<c:url value="${thumbnail.imageUrl}"/>"><img height="100" src="<c:url value="${thumbnail.imageUrl}"/>"  alt="<c:url value="${thumbnail.imageName}"/>" ></a>
+															</c:when>
+															<c:otherwise>
+																<a href="javascript:;"" class="detailsThumbImg thumbImg thumbnail" imgId="im-<c:out value="${thumbnail.id}"/>" title="<c:out value="${product.description.name}"/>" rel="<c:url value="${thumbnail.externalUrl}"/>"><img height="100" src="${thumbnail.externalUrl}"  alt="<c:url value="${product.description.name}"/>" ></a>
+															</c:otherwise>
+														</c:choose>
+													</div>
+													</c:if>
 												</c:forEach>
 											</div>
 											</c:if>
 									</div>
-
-									
-									
 									</c:if>
 									
+									<c:if test="${requestScope.VIDEO_URL!=null}">
 									<div class="tab-pane" id="product-video">
 										<div class="embed-responsive embed-responsive-16by9">
-												<!-- TODO -->
-											    <iframe class="embed-responsive-item" src="<c:url value="/resources/templates/exoticamobilia/img/vimeo.html" />"></iframe>
-												<p><a href="http://vimeo.com/29198414">Test Video</a> from <a href="http://vimeo.com/staff">Vimeo</a> on <a href="https://vimeo.com/">Vimeo</a>.</p>
+											    <iframe class="embed-responsive-item" height="350" src="<c:out value="${requestScope.VIDEO_URL}"/>"></iframe>
+
 										</div>
 									</div>
+									</c:if>
+									
+									
 									<hr>
+									<c:set var="HIDEACTION" value="TRUE" scope="request" />
+									<!-- product rating -->
+									<jsp:include page="/pages/shop/common/catalog/rating.jsp" />
 									<span itemprop="offerDetails" itemscope itemtype="http://data-vocabulary.org/Offer">
 									<meta itemprop="seller" content="${requestScope.MERCHANT_STORE.storename}"/>
 									<meta itemprop="currency" content="<c:out value="${requestScope.MERCHANT_STORE.currency.code}" />" />
@@ -107,8 +126,11 @@ response.setDateHeader ("Expires", -1);
 								   </address>
 							      </c:if>
 								  </span>
+								  <p>
+								  <!--<div class="fb-like" data-href="<c:out value="${requestScope.MERCHANT_STORE.domainName}"/><c:url value="/shop/${product.description.friendlyUrl}.html"/>" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>-->
+								  <iframe src="https://www.facebook.com/plugins/share_button.php?href=<c:out value="${requestScope.CONFIGS['SHOP_SCHEME']}"/>%3A%2F%2F<c:out value="${requestScope.MERCHANT_STORE.domainName}"/><c:url value="/shop/${product.description.friendlyUrl}.html"/>&layout=button_count&size=large&mobile_iframe=true&appId=<c:out value="${requestScope.CONFIGS['shopizer.facebook-appid']}"/>&width=83&height=28" width="83" height="28" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+								  </p>
 								  <jsp:include page="/pages/shop/common/catalog/addToCartProduct.jsp" />
-									
 								</div>
 						</div>
 
@@ -133,16 +155,21 @@ response.setDateHeader ("Expires", -1);
 														
 														<p>
 															<dl class="dl-horizontal">
-																<dt><s:message code="label.product.weight" text="Weight" />:</dt>
-																<dd><fmt:formatNumber value="${product.productWeight}" maxFractionDigits="2"/>&nbsp;<s:message code="label.generic.weightunit.${requestScope.MERCHANT_STORE.weightunitcode}" text="Pounds" /></dd>
+																<!--<dt><s:message code="label.product.weight" text="Weight" />:</dt>
+																<dd><fmt:formatNumber value="${product.productWeight}" maxFractionDigits="2"/>&nbsp;<s:message code="label.generic.weightunit.${requestScope.MERCHANT_STORE.weightunitcode}" text="Pounds" /></dd>-->
 																<dt><s:message code="label.product.height" text="Height" />:</dt>
 																<dd><fmt:formatNumber value="${product.productHeight}" maxFractionDigits="2"/>&nbsp;<s:message code="label.generic.sizeunit.${requestScope.MERCHANT_STORE.seizeunitcode}" text="Inches" /></dd>
-																<dt><s:message code="label.product.length" text="Length" />:</dt>
-																<dd><fmt:formatNumber value="${product.productLength}" maxFractionDigits="2"/>&nbsp;<s:message code="label.generic.sizeunit.${requestScope.MERCHANT_STORE.seizeunitcode}" text="Inches" /></dd>
 																<dt><s:message code="label.product.width" text="Width" />:</dt>
 																<dd><fmt:formatNumber value="${product.productWidth}" maxFractionDigits="2"/>&nbsp;<s:message code="label.generic.sizeunit.${requestScope.MERCHANT_STORE.seizeunitcode}" text="Inches" /></dd>
+																<dt><s:message code="label.product.length" text="Length" />:</dt>
+																<dd><fmt:formatNumber value="${product.productLength}" maxFractionDigits="2"/>&nbsp;<s:message code="label.generic.sizeunit.${requestScope.MERCHANT_STORE.seizeunitcode}" text="Inches" /></dd>
 															</dl>
 														</p>
+														<c:if test="${product.manufacturer.code=='green' || product.manufacturer.code=='local'}">
+															  <c:if test="${requestScope.CONTENT['fsa']!=null}">
+			    												<sm:pageContent contentCode="fsa"/>
+		        											  </c:if>
+														</c:if>
 													</div>
 													<div id="h2tab2" class="tab-pane fade">
 
@@ -180,8 +207,10 @@ response.setDateHeader ("Expires", -1);
 										</div>
 									</div>
 				    </aside>
+			<!--
 				</div>
 			</div>
+			-->
 		</section>
 		
 		<!-- Related items -->
@@ -194,7 +223,7 @@ response.setDateHeader ("Expires", -1);
 							<!--<p>Voici quelques suggestions de produits additionnels</p>-->
 							<!-- Iterate over featuredItems -->
                          	<c:set var="ITEMS" value="${relatedProducts}" scope="request" />
-	                        
+	                        <jsp:include page="/pages/shop/templates/exoticamobilia/sections/productBox.jsp" />
 						</div>
 					</div>
 				</div>
@@ -208,45 +237,22 @@ response.setDateHeader ("Expires", -1);
 		<script>
 		
 		$(function () {
+			
+			$('.popup-img').magnificPopup({type:'image'});
 		
 		
 		    $('.thumbImg').click(function(){
-		    	var igId= $(this).attr('imgId');
+		    	var igId = $(this).attr('imgId');
 		        var url = $(this).attr('rel');
 		        var name = $(this).attr('title');
 		        $("#largeImg").html("<img src='" + url + "' /><a href='" + url + "' data-mfp-src='" + url + "' class='popup-img overlay' title='" + name + "'><i class='fa fa-search-plus'></i></a>");
-		        //$('#'+ igId).magnificPopup({type:'image'});
+		        //re bind action
+		        $('.popup-img').magnificPopup({type:'image'});
 		    })
 		    
 		})
 		
-		
-			/**
-			
-			$(function () {
-				$('#productTabs a:first').tab('show');
-				$('#productTabs a').click(function (e) {
-					e.preventDefault();
-					$(this).tab('show');
-				})
-				$('.thumbImg').click(function (e) {
-					img = $(this).find('img').clone();
-					$('#mainImg').html(img);
-					setImageZoom(img.attr('id'));
-				})
-			})
 
-			<!-- lens plugin -->
-			function setImageZoom(id) {
-			    $('#' + id).elevateZoom({
-		    			zoomType	: "lens",
-		    			lensShape : "square",
-		    			lensSize    : 240
-		   		}); 
-			}
-			
-			**/
-			
 			
 		</script>
     

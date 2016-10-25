@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util    http://www.springframework.org/schema/util/spring-util.xsd
+	">
+
+	<!-- can have different search client for indexing & searching -->
+	<bean id="searchClient" class="com.shopizer.search.utils.SearchClient">
+		<property name="serverConfiguration">
+				<ref bean="serverConfiguration" />
+		</property>
+	</bean>
+	
+	<!-- Server configuration -->
+	<bean id="serverConfiguration" class="com.shopizer.search.utils.ServerConfiguration">
+		<property name="clusterName" value="shopizer"/>
+		<!-- local (embedded version, will create new indexes in the working directory) or remote (requires existing server) -->
+		<property name="mode" value="remote"/>
+		<!-- those properties are used when configured for remote -->
+		<property name="clusterHost" value="http://localhost"/>
+		<property name="clusterPort" value="9200"/>
+		
+		<property name="proxyUser" value=""/>
+		<property name="proxyPassword" value=""/>
+	</bean>
+	
+	<util:list id="facetTermsList" value-type="java.lang.String">
+    	<value>categories</value>
+    	<value>manufacturer</value>
+	</util:list>
+	
+	
+	
+	<bean id="searchDelegate" class="com.shopizer.search.services.impl.SearchDelegateImpl">
+		<property name="searchClient">
+				<ref bean="searchClient" />
+		</property>
+	</bean>
+	
+	<!-- Main service -->
+	<bean id="searchService" class="com.shopizer.search.services.SearchService"></bean>
+
+
+	<!--
+	Flow definitions for indexing and searching
+	-->
+
+	
+	<bean id="searchWorkflow" class="com.shopizer.search.services.workflow.SearchWorkflow">
+		<property name="searchFlow">
+			<list>
+				<bean id="search" class="com.shopizer.search.services.worker.SearchWorkerImpl"/>
+			</list>
+		</property>
+		<property name="searchKeywordWorkflow">
+			<list>
+				<bean id="searchKeyword" class="com.shopizer.search.services.worker.KeywordSearchWorkerImpl"/>
+			</list>
+		</property>
+		<property name="searchClient">
+				<ref bean="searchClient" />
+		</property>
+	</bean>
+
+	<bean id="indexWorkflow" class="com.shopizer.search.services.workflow.IndexWorkflow">
+		<property name="indexWorkflow">
+			<list>
+				<ref bean="index" />
+				<ref bean="keyword" />
+			</list>
+		</property>
+		<property name="searchClient">
+				<ref bean="searchClient" />
+		</property>
+	</bean>
+	
+	<bean id="deleteWorkflow" class="com.shopizer.search.services.workflow.DeleteObjectWorkflow">
+		<property name="deleteObjectWorkflow">
+			<list>
+				<bean id="deleteObject" class="com.shopizer.search.services.worker.DeleteObjectImpl"/>
+				<ref bean="deleteKeywords" />
+			</list>
+		</property>
+		<property name="searchClient">
+				<ref bean="searchClient" />
+		</property>
+	</bean>
+	
+	
+	<bean id="getWorkflow" class="com.shopizer.search.services.workflow.GetWorkflow">
+		<property name="searchClient">
+				<ref bean="searchClient" />
+		</property>
+	</bean>
+	
+	<bean id="deleteKeywords" class="com.shopizer.search.services.worker.DeleteKeywordsImpl">
+		<property name="indexConfigurations">
+			<list>
+				<ref bean="keywordindex_en_defaultstore" />
+				<ref bean="keywordindex_fr_defaultstore" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="index" class="com.shopizer.search.services.worker.ObjectIndexerImpl">
+		<property name="indexConfigurations">
+			<list>
+				<ref bean="productindex_en_defaultstore" />
+				<ref bean="productindex_fr_defaultstore" />
+			</list>
+		</property>
+	</bean>
+	
+
+	
+	<!-- The presence of those properties will allow the creation of mapping files -->
+	<bean id="productindex_en_defaultstore" class="com.shopizer.search.utils.IndexConfiguration">
+		<property name="collectionName" value="product_en_default"/>
+		<property name="indexName" value="product_en"/>
+		<property name="mappingFileName" value="spring/product.json"/>
+		<!-- not necessary, only to define index and search rules -->
+		<property name="settingsFileName" value="spring/settings_product.json"/>
+	</bean>
+	
+	<bean id="productindex_fr_defaultstore" class="com.shopizer.search.utils.IndexConfiguration">
+		<property name="collectionName" value="product_fr_default"/>
+		<property name="indexName" value="product_fr"/>
+		<property name="mappingFileName" value="spring/product_fr.json"/>
+		<!-- not necessary, only to define index and search rules -->
+		<property name="settingsFileName" value="spring/settings_product_fr.json"/>
+	</bean>
+		
+	<bean id="keyword" class="com.shopizer.search.services.worker.KeywordIndexerImpl">
+		<property name="indexConfigurations">
+			<list>
+				<ref bean="keywordindex_en_defaultstore" />
+				<ref bean="keywordindex_fr_defaultstore" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="keywordindex_en_defaultstore" class="com.shopizer.search.utils.CustomIndexConfiguration">
+		<property name="collectionName" value="keyword_en_default"/>
+		<property name="indexName" value="keyword_en"/>
+		<property name="createOnIndexName" value="product_en"/>
+		<property name="mappingFileName" value="spring/keyword.json"/>
+		<property name="settingsFileName" value="spring/settings_keyword.json"/>
+		<property name="fields">
+			<list>
+				<ref bean="field1" />
+				<ref bean="field2" />
+			</list>
+		</property>
+		<!-- NO FILTERS
+		<property name="filters">
+			<list>
+				<ref bean="filter1" />
+			</list>
+		</property>
+		 -->
+	</bean>
+
+
+	<bean id="keywordindex_fr_defaultstore" class="com.shopizer.search.utils.CustomIndexConfiguration">
+		<property name="collectionName" value="keyword_fr_default"/>
+		<property name="indexName" value="keyword_fr"/>
+		<property name="createOnIndexName" value="product_fr"/>
+		<property name="mappingFileName" value="spring/keyword_fr.json"/>
+		<property name="settingsFileName" value="spring/settings_keyword.json"/>
+		<property name="fields">
+			<list>
+				<ref bean="field1" />
+				<ref bean="field2" />
+			</list>
+		</property>
+		<!-- NO FILTERS
+		<property name="filters">
+			<list>
+				<ref bean="filter1" />
+			</list>
+		</property>
+		 -->
+	</bean>	
+	
+	
+	<!-- supported field types List, Integer, Double, Boolean, String -->
+	<bean id="field1" class="com.shopizer.search.utils.CustomIndexFieldConfiguration">
+		<property name="fieldName" value="tags"/>
+		<property name="fieldType" value="List"/>
+	</bean>
+	<bean id="field2" class="com.shopizer.search.utils.CustomIndexFieldConfiguration">
+		<property name="fieldName" value="name"/>
+		<property name="fieldType" value="String"/>
+	</bean>
+	<!--
+	<bean id="filter1" class="com.shopizer.search.utils.CustomIndexFieldConfiguration">
+		<property name="fieldName" value="price"/>
+		<property name="fieldType" value="Double"/>
+	</bean>
+	-->
+
+</beans>

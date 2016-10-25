@@ -94,6 +94,7 @@ $(document).ready(function() {
 
 
           <p class="lead"><c:out value="${ordermessage}" /></p>
+          <p class="lead"><c:out value="${ordermessageid}" /></p>
           <p><c:out value="${orderemail}" /></p>
           
 

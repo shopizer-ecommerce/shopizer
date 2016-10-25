@@ -12,15 +12,7 @@
 			}
 			initUserAccount();
 		}
-		
-		//init bindings
-    	//$("#switchLanguageButton").click(function(e) {
-    	//	log('Switch Language');
-    		//go to home page and set the new language
-    	//	location.href = getContextPath() + '/shop?locale=fr';
-    	//});
-		
-		
+
 	});
 	
 	function initUserAccount() {

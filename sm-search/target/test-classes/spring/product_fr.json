@@ -1,0 +1,15 @@
+{"product_fr": {
+    		"properties" :  {
+				   "name": {"type": "String","analyzer":"folding_fr"},	
+				   "price" : {"type":"String","index":"not_analyzed"},
+				   "categories" : {"type":"String","index":"not_analyzed"},
+				   "manufacturer" : {"type":"String","index":"not_analyzed"},
+				   "lang" : {"type":"String","index":"not_analyzed"},
+				   "store" : {"type":"String","index":"not_analyzed"},
+				   "availability" : {"type":"String","index":"not_analyzed"},
+				   "available" : {"type":"String","index":"not_analyzed"},
+				   "description" : {"type":"String","analyzer":"folding_fr"}, 
+				   "tags" : {"type":"String","analyzer":"folding_fr"} 
+				} 
+			}
+}

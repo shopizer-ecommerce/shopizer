@@ -48,7 +48,9 @@ function loadProducts(url,divProductsContainer) {
 
 function searchProducts(url,divProductsContainer,q,filter) {
 	
-	$(divProductsContainer).showLoading();
+	log(q);
+	
+	
 	
 	if(q==null || q=='') {
 		return;
@@ -59,7 +61,10 @@ function searchProducts(url,divProductsContainer,q,filter) {
     var highlights = null;
 	var queryStart = '{';
 
-	var query = '\"query\":{\"query_string\" : {\"fields\" : [\"name^3\", \"description\", \"tags\"], \"query\" : \"*' + q + '*", \"use_dis_max\" : true }}';
+	//curl -XGET 'http://localhost:9200/product_en_default/_search' -d '{"query":{"multi_match":{"query": "buddha","fields": [ "name^3", "description", "tags" ]}},"facets" : { "categories" : { "terms" : {"field" : "categories"}}}}'
+	
+	//var query = '\"query\":{\"query_string\" : {\"fields\" : [\"name^3\", \"description\", \"tags\"], \"query\" : \"*' + q + '*", \"use_dis_max\" : true }}';
+	var query = '\"query\":{\"multi_match\" : {\"fields\" : [\"name^3\", \"description\", \"tags\"], \"query\" : \"*' + q + '*"}}';
 	if(filter!=null && filter!='') {
 		//query = '\"query\":{\"filtered\":{\"query\":{\"text\":{\"_all\":\"' + q + '\"}},' + filter + '}}';
 		query = query + ',' + filter + '}}';
@@ -82,7 +87,6 @@ function searchProducts(url,divProductsContainer,q,filter) {
   			contentType:"application/json;charset=UTF-8",
 			success: function(productList) {
 
-				buildProductsList(productList,divProductsContainer, null);
 				callBackSearchProducts(productList);
 
 

@@ -1,7 +1,7 @@
     $(function() {
     	    	
     	$("#signinDrop").click(function(e){
-    		log('Signin drop down');
+    		//log('Signin drop down');
     		$("#loginError").hide();
     		e.preventDefault();
     	});
@@ -18,7 +18,7 @@
         });
         
         $("#login-button").click(function(e) {
-        	log('Calling login');
+        	//log('Calling login');
         	e.preventDefault();
         	e.stopPropagation();
         	login();
@@ -40,7 +40,7 @@
         		 return;
         	}
         	
-        	log('Before showLoading');
+        	//log('Before showLoading');
         	
         	//Need to have the logon table id signinPane
         	$('#signinPane').showLoading();
@@ -56,12 +56,12 @@
               	 dataType:'json',
                  'success': function(response) {
                     $('#signinPane').hideLoading();
-					log(response);
+					//log(response);
                     if (response.response.status==0) {//success
                 	   //SHOPPING_CART
-                	   log(response.response.SHOPPING_CART);
+                	   //log(response.response.SHOPPING_CART);
                 	   if(response.response.SHOPPING_CART!=null && response.response.SHOPPING_CART != ""){
-       					  log('saving cart ' + response.response.SHOPPING_CART);
+       					  //log('saving cart ' + response.response.SHOPPING_CART);
                 		  /** save cart in cookie **/
        					  var cartCode = buildCartCode(response.response.SHOPPING_CART);
        					  $.cookie('cart',cartCode, { expires: 1024, path:'/' });

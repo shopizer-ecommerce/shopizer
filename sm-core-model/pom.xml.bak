@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.shopizer</groupId>
+		<artifactId>shopizer</artifactId>
+		<version>2.5.0-SNAPSHOT</version>
+	</parent>
+
+
+	<artifactId>sm-core-model</artifactId>
+	<packaging>jar</packaging>
+
+	<name>sm-core-model</name>
+	<url>http://www.shopizer.com</url>
+
+	<properties>
+	
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+
+	</properties>
+
+	<dependencies>
+		
+		    <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+	</dependencies>
+</project>

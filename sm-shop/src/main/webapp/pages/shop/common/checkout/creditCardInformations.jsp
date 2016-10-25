@@ -26,15 +26,15 @@ response.setDateHeader ("Expires", -1);
 		
 		
 				$(document).ready(function() {
-					    $("#cvvImage").popover({ title: '<s:message code="label.payment.creditcard.cardcvv" text="Card validation number" />', content: img });
+					    $("#cvvImage").popover({ title: '<s:message code="label.payment.creditcard.cardcvv" text="Card validation number" />', content: img, html: true });
 					    var creditCardDiv = '#creditcard_card_number';
 					    invalidCreditCardNumber(creditCardDiv);
 						$(creditCardDiv).validateCreditCard(function(result) {
 							invalidCreditCardNumber(creditCardDiv);
 							if(result.card_type!=null) {
-									//console.log('CC type: ' + result.card_type.name
-									//			      + '\nLength validation: ' + result.length_valid
-									//			      + '\nLuhn validation: + result.luhn_valid');
+									log('CC type: ' + result.card_type.name
+												      + '\nLength validation: ' + result.length_valid
+												      + '\nLuhn validation: + result.luhn_valid');
 									if(result.luhn_valid==true && result.length_valid==true) {
 										validCreditCardNumber(creditCardDiv, result);
 									} else {
@@ -85,36 +85,36 @@ response.setDateHeader ("Expires", -1);
             <label class="control-label"><s:message code="label.payment.creditcard.cardowner" text="Card Holder's Name" /></label>
             <div class="controls">
               <s:message code="NotEmpty.order.creditcard.name" text="Credit card holder's name is required" var="msgCardHolderName"/>
-              <input type="text" id="creditcard_card_holder" name="payment['creditcard_card_holder']" class="input-xlarge required" title="${msgCardHolderName}" value="${order.payment['creditcard_card_holder']}">
+              <input type="text" id="creditcard_card_holder" name="payment['creditcard_card_holder']" class="input-xlarge required form-control form-control-50" title="${msgCardHolderName}" value="${order.payment['creditcard_card_holder']}">
             </div>
           </div>
-       
+          <br/>
           <div class="control-group">
             <label class="control-label"><s:message code="label.payment.creditcard.cardnumber" text="Card number" /></label>
             <s:message code="NotEmpty.order.creditcard.number" text="A valid credit card number is required" var="msgCardNumber"/>
-            <div class="input-append">
+            <div class="controls input-append">
             <!-- added stripe card-number -->
-            <input id="creditcard_card_number" class="input-xlarge valid required" type="text" name="payment['creditcard_card_number']" autocomplete="off" title="${msgCardNumber}" data-stripe="number">
+            <input id="creditcard_card_number" class="input-xlarge valid required form-control form-control-50" type="text" name="payment['creditcard_card_number']" autocomplete="off" title="${msgCardNumber}" data-stripe="number">
           	<span id="creditcard_card_image" class="img-add-on"></span>
           	</div>
           </div>
-       
           <div class="control-group">
             <label class="control-label"><s:message code="label.payment.creditcard.cardexpiry" text="Card expiry year" /></label>
             <div class="controls">
               <div class="row-fluid">
                 <div class="span2">
                   <!-- added stripe expiration month -->
-                  <select id="creditCardDays" name="payment['creditcard_card_expirationmonth']" class="input-small" data-stripe="exp-month"></select>
+                  <select id="creditCardDays" name="payment['creditcard_card_expirationmonth']" class="input-small form-control form-control-25" data-stripe="exp-month"></select>
                 </div>
+                <br/>
                 <div class="span2">
                   <!-- added stripe expiration year -->
-                  <select id="creditCardYears" name="payment['creditcard_card_expirationyear']" class="input-small" data-stripe="exp-year"></select>
+                  <select id="creditCardYears" name="payment['creditcard_card_expirationyear']" class="input-small form-control form-control-25" data-stripe="exp-year"></select>
                 </div>
               </div>
             </div>
           </div>
-       
+          <br/>
           <div class="control-group">
             <label class="control-label"><s:message code="label.payment.creditcard.cardcvv" text="Card validation number" /></label>
             <div class="controls">
@@ -122,10 +122,10 @@ response.setDateHeader ("Expires", -1);
                 <div class="span2">
                   <s:message code="NotEmpty.order.creditcard.cvv" text="Credit card validation digit is required" var="msgCardCvv"/>
                   <!-- added stripe cvc -->
-                  <input type="text" id="creditcard_card_cvv" name="payment['creditcard_card_cvv']" class="input-small required" autocomplete="off" maxlength="3" pattern="\d{3}" title="${msgCardCvv}" data-stripe="cvc">
+                  <input type="text" id="creditcard_card_cvv" name="payment['creditcard_card_cvv']" class="input-small required form-control form-control-25" autocomplete="off" maxlength="3" pattern="\d{3}" title="${msgCardCvv}" data-stripe="cvc">
                 </div>
                 <div class="span4">
-                  <a href="#" id="cvvImage" rel="popover"><s:message code="label.payment.creditcard.whatiscvv" text="What is a credit card validation number?" /></a>
+                  <a href="#!" id="cvvImage" rel="popover"><s:message code="label.payment.creditcard.whatiscvv" text="What is a credit card validation number?" /></a>
                 </div>
               </div>
             </div>

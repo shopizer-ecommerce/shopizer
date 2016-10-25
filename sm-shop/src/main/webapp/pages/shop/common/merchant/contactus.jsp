@@ -23,10 +23,6 @@ response.setDateHeader ("Expires", -1);
 
 <script type="text/javascript">
 
-var RecaptchaOptions = {
-	    theme : 'clean'
-};
-
 
 $(document).ready(function() {
 	
@@ -176,23 +172,11 @@ function sendContact(){
                                     </div>
 									<div class="control-group form-group">
 										<div class="controls">
-											<!--watch the white space in IOS!-->
-											<script type="text/javascript"
-												src="http://www.google.com/recaptcha/api/challenge?k=<c:out value="${recapatcha_public_key}"/>&hl=${requestScope.LANGUAGE.code}">
-												
-											</script>
-											<noscript>
-												<iframe
-													src="http://www.google.com/recaptcha/api/noscript?k=<c:out value="${recapatcha_public_key}"/>&hl=${requestScope.LANGUAGE.code}"
-													height="300" width="500" frameborder="0"> </iframe>
-												<br />
-												<form:textarea path="captchaResponseField" readonly="3"
-													cols="40" />
-												<form:errors path="captchaResponseField" cssClass="error" />
-					
-												<input type="hidden" name="captchaChallengeField"
-													value="manual_challenge">
-											</noscript>
+											
+											<script src="https://www.google.com/recaptcha/api.js?hl=<c:out value="${requestScope.LANGUAGE.code}"/>" async defer></script>
+
+											<div class="g-recaptcha" data-sitekey="<c:out value="${recapatcha_public_key}"/>"></div>
+
 										</div>
 									</div>
 
@@ -203,6 +187,12 @@ function sendContact(){
 			</form:form>
 			
 
+<!-- CUSTOM CONTENT --> 
+			<div class="row-fluid common-row">
+					<div class="contactMapCanvas" id="map_canvas" style="width:600px; height:300px"></div>
+			</div>
+
+
 			
             </div>
 <!-- END LEFT-SIDE CONTACT FORM AREA -->
@@ -211,40 +201,30 @@ function sendContact(){
 <!-- BEGIN RIGHT-SIDE CONTACT FORM AREA -->
               <div class="contact-info span4 offset1 col-md-4">
 									<!-- COMPANY ADDRESS -->   
-									<c:if test="${requestScope.CONFIGS['displayStoreAddress'] == true}">                                  
-                                     <address>  
-									 	<div itemscope itemtype="http://schema.org/Organization"> 
-										 	<h2 itemprop="name"><c:out value="${requestScope.MERCHANT_STORE.storename}"/></h2><br/>  
-										 	<div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress"> 
-											 	<span itemprop="streetAddress"><c:out value="${requestScope.MERCHANT_STORE.storeaddress}"/> <c:out value="${requestScope.MERCHANT_STORE.storecity}"/></span><br/>
-											 	<span itemprop="addressLocality"><c:choose><c:when test="${not empty requestScope.MERCHANT_STORE.storestateprovince}"><c:out value="${requestScope.MERCHANT_STORE.storestateprovince}"/></c:when><c:otherwise><script>$.ajax({url: "<c:url value="/shop/reference/zoneName"/>",type: "GET",data: "zoneCode=${requestScope.MERCHANT_STORE.zone.code}",success: function(data){$('#storeZoneName').html(data)}})</script><span id="storeZoneName"><c:out value="${requestScope.MERCHANT_STORE.zone.code}"/></span></c:otherwise></c:choose>,
-											 	<span id="storeCountryName"><script>$.ajax({url: "<c:url value="/shop/reference/countryName"/>",type: "GET",data: "countryCode=${requestScope.MERCHANT_STORE.country.isoCode}",success: function(data){$('#storeCountryName').html(data)}})</script></span></span><br/>
-											 	<span itemprop="postalCode"><c:out value="${requestScope.MERCHANT_STORE.storepostalcode}"/></span><br/>
-											 	<abbr title="Phone"><s:message code="label.generic.phone" text="Phone" /></abbr>: <span itemprop="telephone"><c:out value="${requestScope.MERCHANT_STORE.storephone}"/></span>
-											 </div>
-									 	</div>
-									 </address>
+									<c:if test="${requestScope.CONFIGS['displayStoreAddress'] == true}">
+										<jsp:include page="/pages/shop/common/preBuiltBlocks/storeAddress.jsp"/>                                  
 									 </c:if>
-
-                     </div>
-<!-- END RIGHT-SIDE CONTACT FORM AREA -->
-<!-- CUSTOM CONTENT --> 
-			<div class="row-fluid common-row">
-                                    <c:if test="${content!=null}">
-                                    	<br/>
+									 <c:if test="${requestScope.CONTENT['contactUsDetails']!=null}">
+									 	<br/>
+									 	<sm:pageContent contentCode="contactUsDetails"/>
+									 </c:if>
+									 <c:if test="${content!=null}">
                                         <p>
                                         	<c:out value="${content.description}" escapeXml="false"/>
                                     	</p>
                                     	<br/>
                                     </c:if>
-                                    <br/>
-									<div class="contactMapCanvas" id="map_canvas" style="width:600px; height:300px"></div>
 
-			</div>
+                     </div>
+
+<!-- END RIGHT-SIDE CONTACT FORM AREA -->
+
 			
 
 <!-- GOOGLE MAP -->  
 <c:if test="${requestScope.CONFIGS['displayStoreAddress'] == true}">
+
+
 
 
 <script>
@@ -275,4 +255,5 @@ if(address!=null) {
 </script>
 
 </c:if>
+ </div>
  </div>

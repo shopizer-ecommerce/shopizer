@@ -70,12 +70,19 @@ $(function(){
 									</c:forEach>
 								</c:if>
 								<br/>
+								<c:if test="${requestScope.CONFIGS['allowPurchaseItems'] == true}">
+								<c:if test="${product.quantity>0}">
 								<div class="form-inline">
 								<c:if test="${product.quantityOrderMaximum==-1 || product.quantityOrderMaximum>1 && not product.productVirtual}" >
-									<input id="qty-productId-<c:out value="${product.id}" />" class="input-mini form-control form-control-sm" placeholder="1" type="text">
+									<div class="form-group product-qty">
+										<input id="qty-productId-<c:out value="${product.id}" />" class="input-mini form-control form-control-sm" placeholder="1" type="text">
+									</div>
 								</c:if>
-									<button class="btn addToCart addToCartButton" type="button" productId="<c:out value="${product.id}" />"><s:message code="button.label.addToCart" text="Add to cart"/></button>
+									<button class="btn addToCart addToCartButton btn-buy" type="button" productId="<c:out value="${product.id}" />"><s:message code="button.label.addToCart" text="Add to cart"/></button>
 								</div>
+								</c:if>
+								</c:if>
+								<!-- TODO quantity == 0 contact us for details on the product -->
 							
 
 							</form>

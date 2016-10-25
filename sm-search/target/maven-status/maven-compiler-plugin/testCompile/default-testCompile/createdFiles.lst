@@ -1,0 +1,5 @@
+com\shopizer\test\TestIndex.class
+com\shopizer\test\TestSearchKeywords.class
+com\shopizer\test\TestGet.class
+com\shopizer\test\TestSearch.class
+com\shopizer\test\TestDelete.class

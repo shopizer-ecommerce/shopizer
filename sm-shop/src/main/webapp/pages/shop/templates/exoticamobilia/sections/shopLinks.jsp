@@ -5,24 +5,18 @@
 
 <%@ page session="false" %>
 
-		<!--<script src="<c:url value="/resources/js/jquery-1.10.2.min.js" />"></script>-->
 		<script src="<c:url value="/resources/templates/exoticamobilia/js/jquery-1.11.1.min.js" />"></script>
-		<!-- WEB FONTS -->
-		<!--<link href="<c:url value="/resources/templates/bootstrap3/css/css.css" />" rel="stylesheet" type="text/css">-->
-		
+
 		<!-- CORE CSS -->
 		<link href="<c:url value="/resources/templates/exoticamobilia/css/bootstrap.css" />" rel="stylesheet" type="text/css">
 
 		<!-- more fonts, cursor up -->
         <link href="<c:url value="/resources/templates/exoticamobilia/css/fontello.css" />" rel="stylesheet" type="text/css">
         <link href="<c:url value="/resources/templates/exoticamobilia/css/magnific-popup.css" />" rel="stylesheet" type="text/css">
-        <!--<link href="<c:url value="/resources/templates/exoticamobilia/css/owl.css" />" rel="stylesheet" type="text/css">-->
-		<!--
-		<link href="<c:url value="/resources/templates/exoticamobilia/css/magnific-popup.css" />" rel="stylesheet" type="text/css">
-        <link href="<c:url value="/resources/templates/exoticamobilia/css/animations.css" />" rel="stylesheet" type="text/css">
-		-->
+       
+
 		<link href="<c:url value="/resources/templates/exoticamobilia/css/responsive-slider.css" />" rel="stylesheet" type="text/css">
-		<link rel="shortcut icon" href="<c:url value="/resources/templates/exoticamobilia/img/favicon.ico"/> "> 
+		<link rel="icon" href="<c:url value="/resources/templates/exoticamobilia/img/favicon.ico"/> "> 
 		
 		<!--  Theme -->
 
@@ -32,17 +26,7 @@
 		
 		
 		<link href="<c:url value="/resources/templates/exoticamobilia/css/dark_gray.css" />" rel="stylesheet" type="text/css">
-		<!--
-		
-		<link href="<c:url value="/resources/templates/exoticamobilia/css/css_002.css" />" rel="stylesheet" type="text/css">
-		<link href="<c:url value="/resources/templates/exoticamobilia/css/css.css" />" rel="stylesheet" type="text/css">
-		<link href="<c:url value="/resources/templates/exoticamobilia/css/custom.css" />" rel="stylesheet" type="text/css">
-		<link href="<c:url value="/resources/templates/exoticamobilia/css/dark_gray.css" />" rel="stylesheet" type="text/css">
-		<link href="<c:url value="/resources/templates/exoticamobilia/css/extralayers.css" />" rel="stylesheet" type="text/css">
-		<link href="<c:url value="/resources/templates/exoticamobilia/css/settings.css" />" rel="stylesheet" type="text/css">
-		<link href="<c:url value="/resources/templates/exoticamobilia/css/style-switcher.css" />" rel="stylesheet" type="text/css">
 
-		-->
     
     	<!-- generic and common css file -->
     	<link href="<c:url value="/resources/css/sm.css" />" rel="stylesheet">

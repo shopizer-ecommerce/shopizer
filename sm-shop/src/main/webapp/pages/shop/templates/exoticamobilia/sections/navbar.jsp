@@ -34,33 +34,27 @@ response.setDateHeader ("Expires", -1);
 							    <span class="icon-bar"></span>
 							    <span class="icon-bar"></span>
 						 </button>
- 						
- 						<button type="button" class="navbar-toggle">
-							    <i class="fa fa-search"></i>
-						 </button>
- 
-						 <!-- search bar collapsed -->
-						 <div id="responsiveSearchFieldGroup" class="">
-							<input type="text" class="typeahead navbar-toggle"
-								placeholder="Search for..." id="responsiveSearchField"> 
-								<!--<span class="input-group-btn">-->
-								<!--<button class="btn navbar-toggle" type="button" id="go">Search</button>-->
-								<!--</span>-->
-						 </div>
+
+ 						<c:if test="${requestScope.CONFIGS['displaySearchBox'] == true}">
+	 						<button type="button" class="navbar-toggle searchButton no-desktop">
+								    <i class="fa fa-search"></i>
+							 </button>
+	 
+							 <!-- search bar collapsed -->
+							 <div id="responsiveSearchFieldGroup" class="no-desktop">
+								<input type="text" class="typeahead navbar-toggle"
+									placeholder="" id="responsiveSearchField"> 
+							 </div>
+						 </c:if>
+						 
+						 
+						 
 					</div>
 
 	
 					<div id="mainNavigation" class="collapse navbar-collapse">
 	
 						<ul class="nav navbar-nav navbar-right" id="topMain">
-	
-							<!--<li
-								class="<sm:activeLink linkCode="HOME" activeReturnCode="active"/>">
-								<a href="<c:url value="/shop"/>"><s:message code="menu.home"
-										text="Home" /></a>
-							</li>-->
-
-
 
 							<c:set var="code" value="${category.code}"/>
 							<c:forEach items="${requestScope.TOP_CATEGORIES}" var="category">
