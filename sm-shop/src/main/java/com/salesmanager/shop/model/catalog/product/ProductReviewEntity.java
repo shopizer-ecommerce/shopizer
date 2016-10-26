@@ -1,4 +1,4 @@
-package com.salesmanager.web.entity.catalog.product;
+package com.salesmanager.shop.model.catalog.product;
 
 import java.io.Serializable;
 
@@ -8,7 +8,8 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.salesmanager.web.entity.ShopEntity;
+import com.salesmanager.shop.model.ShopEntity;
+
 
 public class ProductReviewEntity extends ShopEntity implements Serializable {
 	

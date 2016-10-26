@@ -1,12 +1,14 @@
-package com.salesmanager.web.utils;
+package com.salesmanager.shop.utils;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.salesmanager.core.business.catalog.product.model.Product;
-import com.salesmanager.core.business.catalog.product.model.manufacturer.Manufacturer;
-import com.salesmanager.core.business.content.model.FileContentType;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.web.constants.Constants;
+import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
+import com.salesmanager.core.model.content.FileContentType;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.shop.constants.Constants;
+
+
 
 
 

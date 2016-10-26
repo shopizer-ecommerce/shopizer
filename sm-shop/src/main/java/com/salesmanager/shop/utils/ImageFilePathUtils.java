@@ -1,8 +1,6 @@
-package com.salesmanager.web.utils;
+package com.salesmanager.shop.utils;
 
-import com.salesmanager.web.constants.Constants;
-
-
+import com.salesmanager.shop.constants.Constants;
 
 public class ImageFilePathUtils extends AbstractimageFilePath{
 	
@@ -10,13 +8,11 @@ public class ImageFilePathUtils extends AbstractimageFilePath{
 
 	@Override
 	public String getBasePath() {
-		// TODO Auto-generated method stub
 		return basePath;
 	}
 
 	@Override
 	public void setBasePath(String basePath) {
-		// TODO Auto-generated method stub
 		this.basePath = basePath;
 	}
 

@@ -1,9 +1,10 @@
-package com.salesmanager.web.entity.catalog;
+package com.salesmanager.shop.model.catalog;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.salesmanager.web.entity.catalog.category.ReadableCategory;
+import com.salesmanager.shop.model.catalog.category.ReadableCategory;
+
 
 /**
  * Object representing the results of a search query

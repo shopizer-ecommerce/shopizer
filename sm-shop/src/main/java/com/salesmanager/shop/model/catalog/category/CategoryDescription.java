@@ -1,8 +1,10 @@
-package com.salesmanager.web.entity.catalog.category;
+package com.salesmanager.shop.model.catalog.category;
 
 import java.io.Serializable;
 
-import com.salesmanager.web.entity.catalog.CatalogEntity;
+import com.salesmanager.shop.model.catalog.CatalogEntity;
+
+
 
 public class CategoryDescription extends CatalogEntity implements Serializable {
 

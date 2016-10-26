@@ -1,4 +1,4 @@
-package com.salesmanager.web.entity.catalog.manufacturer;
+package com.salesmanager.shop.model.catalog.manufacturer;
 
 import java.io.Serializable;
 import java.util.List;

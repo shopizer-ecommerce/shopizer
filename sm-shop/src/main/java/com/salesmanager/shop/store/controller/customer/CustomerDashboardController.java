@@ -79,7 +79,7 @@ public class CustomerDashboardController extends AbstractController {
 		if(!CollectionUtils.isEmpty(optionSet)) {
 			
 			
-			CustomerOptionPopulator optionPopulator = new CustomerOptionPopulator();
+			ReadableCustomerOptionPopulator optionPopulator = new ReadableCustomerOptionPopulator();
 			
 			Set<CustomerAttribute> customerAttributes = customer.getAttributes();
 			

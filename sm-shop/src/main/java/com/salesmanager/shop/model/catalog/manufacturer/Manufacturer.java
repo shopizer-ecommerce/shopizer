@@ -1,8 +1,9 @@
-package com.salesmanager.web.entity.catalog.manufacturer;
+package com.salesmanager.shop.model.catalog.manufacturer;
 
 import java.io.Serializable;
 
-import com.salesmanager.web.entity.Entity;
+import com.salesmanager.shop.model.Entity;
+
 
 public class Manufacturer extends Entity implements Serializable {
 

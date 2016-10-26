@@ -1,4 +1,4 @@
-package com.salesmanager.web.entity.catalog.category;
+package com.salesmanager.shop.model.catalog.category;
 
 import java.io.Serializable;
 

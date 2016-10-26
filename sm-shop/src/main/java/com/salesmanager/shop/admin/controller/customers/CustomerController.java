@@ -1,4 +1,4 @@
-package com.salesmanager.web.admin.controller.customers;
+package com.salesmanager.shop.admin.controller.customers;
 
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -16,7 +17,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -28,39 +28,41 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.salesmanager.core.business.customer.model.Customer;
-import com.salesmanager.core.business.customer.model.CustomerCriteria;
-import com.salesmanager.core.business.customer.model.CustomerList;
-import com.salesmanager.core.business.customer.model.attribute.CustomerAttribute;
-import com.salesmanager.core.business.customer.model.attribute.CustomerOptionSet;
-import com.salesmanager.core.business.customer.model.attribute.CustomerOptionType;
-import com.salesmanager.core.business.customer.model.attribute.CustomerOptionValueDescription;
-import com.salesmanager.core.business.customer.service.CustomerService;
-import com.salesmanager.core.business.customer.service.attribute.CustomerAttributeService;
-import com.salesmanager.core.business.customer.service.attribute.CustomerOptionService;
-import com.salesmanager.core.business.customer.service.attribute.CustomerOptionSetService;
-import com.salesmanager.core.business.customer.service.attribute.CustomerOptionValueService;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.country.model.Country;
-import com.salesmanager.core.business.reference.country.service.CountryService;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.business.reference.language.service.LanguageService;
-import com.salesmanager.core.business.reference.zone.model.Zone;
-import com.salesmanager.core.business.reference.zone.service.ZoneService;
-import com.salesmanager.core.business.system.service.EmailService;
-import com.salesmanager.core.modules.email.Email;
-import com.salesmanager.core.utils.ajax.AjaxPageableResponse;
-import com.salesmanager.core.utils.ajax.AjaxResponse;
-import com.salesmanager.web.admin.entity.customer.attribute.CustomerOption;
-import com.salesmanager.web.admin.entity.customer.attribute.CustomerOptionValue;
-import com.salesmanager.web.admin.entity.userpassword.UserReset;
-import com.salesmanager.web.admin.entity.web.Menu;
-import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.constants.EmailConstants;
-import com.salesmanager.web.populator.customer.CustomerOptionPopulator;
-import com.salesmanager.web.utils.EmailUtils;
-import com.salesmanager.web.utils.LabelUtils;
-import com.salesmanager.web.utils.LocaleUtils;
+import com.salesmanager.core.business.modules.email.Email;
+import com.salesmanager.core.business.services.customer.CustomerService;
+import com.salesmanager.core.business.services.customer.attribute.CustomerAttributeService;
+import com.salesmanager.core.business.services.customer.attribute.CustomerOptionService;
+import com.salesmanager.core.business.services.customer.attribute.CustomerOptionSetService;
+import com.salesmanager.core.business.services.customer.attribute.CustomerOptionValueService;
+import com.salesmanager.core.business.services.reference.country.CountryService;
+import com.salesmanager.core.business.services.reference.language.LanguageService;
+import com.salesmanager.core.business.services.reference.zone.ZoneService;
+import com.salesmanager.core.business.services.system.EmailService;
+import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
+import com.salesmanager.core.business.utils.ajax.AjaxResponse;
+import com.salesmanager.core.model.customer.Customer;
+import com.salesmanager.core.model.customer.CustomerCriteria;
+import com.salesmanager.core.model.customer.CustomerList;
+import com.salesmanager.core.model.customer.attribute.CustomerAttribute;
+import com.salesmanager.core.model.customer.attribute.CustomerOptionSet;
+import com.salesmanager.core.model.customer.attribute.CustomerOptionType;
+import com.salesmanager.core.model.customer.attribute.CustomerOptionValueDescription;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.country.Country;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.model.reference.zone.Zone;
+import com.salesmanager.shop.admin.model.customer.attribute.CustomerOption;
+import com.salesmanager.shop.admin.model.customer.attribute.CustomerOptionValue;
+import com.salesmanager.shop.admin.model.userpassword.UserReset;
+import com.salesmanager.shop.admin.model.web.Menu;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.constants.EmailConstants;
+import com.salesmanager.shop.populator.customer.ReadableCustomerOptionPopulator;
+import com.salesmanager.shop.utils.EmailUtils;
+import com.salesmanager.shop.utils.LabelUtils;
+import com.salesmanager.shop.utils.LocaleUtils;
+
+
 
 @Controller
 public class CustomerController {
@@ -171,13 +173,13 @@ public class CustomerController {
 		if(!CollectionUtils.isEmpty(optionSet)) {
 			
 			
-			CustomerOptionPopulator optionPopulator = new CustomerOptionPopulator();
+			ReadableCustomerOptionPopulator optionPopulator = new ReadableCustomerOptionPopulator();
 			
 			Set<CustomerAttribute> customerAttributes = customer.getAttributes();
 			
 			for(CustomerOptionSet optSet : optionSet) {
 				
-				com.salesmanager.core.business.customer.model.attribute.CustomerOption custOption = optSet.getCustomerOption();
+				com.salesmanager.core.model.customer.attribute.CustomerOption custOption = optSet.getCustomerOption();
 				if(!custOption.isActive()) {
 					continue;
 				}
@@ -202,7 +204,7 @@ public class CustomerController {
 					for(CustomerAttribute customerAttribute : customerAttributes) {
 						if(customerAttribute.getCustomerOption().getId().longValue()==customerOption.getId()){
 							CustomerOptionValue selectedValue = new CustomerOptionValue();
-							com.salesmanager.core.business.customer.model.attribute.CustomerOptionValue attributeValue = customerAttribute.getCustomerOptionValue();
+							com.salesmanager.core.model.customer.attribute.CustomerOptionValue attributeValue = customerAttribute.getCustomerOptionValue();
 							selectedValue.setId(attributeValue.getId());
 							CustomerOptionValueDescription optValue = attributeValue.getDescriptionsSettoList().get(0);
 							selectedValue.setName(optValue.getName());
@@ -432,8 +434,8 @@ public class CustomerController {
 			try {
 				
 				String[] parameterKey = parameterName.split("-");
-				com.salesmanager.core.business.customer.model.attribute.CustomerOption customerOption = null;
-				com.salesmanager.core.business.customer.model.attribute.CustomerOptionValue customerOptionValue = null;
+				com.salesmanager.core.model.customer.attribute.CustomerOption customerOption = null;
+				com.salesmanager.core.model.customer.attribute.CustomerOptionValue customerOptionValue = null;
 
 				
 				if(CUSTOMER_ID_PARAMETER.equals(parameterName)) {
@@ -724,25 +726,6 @@ public class CustomerController {
 		
 	}
 	
-/*	private void setMenuCreate(Model model, HttpServletRequest request) throws Exception {
-		
-		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
-		activeMenus.put("customer", "customer");
-		activeMenus.put("customer-create", "customer-create");
-		
-		@SuppressWarnings("unchecked")
-		Map<String, Menu> menus = (Map<String, Menu>)request.getAttribute("MENUMAP");
-		
-		Menu currentMenu = (Menu)menus.get("customer");
-		model.addAttribute("currentMenu",currentMenu);
-		model.addAttribute("activeMenus",activeMenus);
-
-
-		//
-		
-	}*/
 	
-		
 
 }

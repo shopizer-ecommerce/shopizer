@@ -1,10 +1,11 @@
-package com.salesmanager.web.entity.customer;
+package com.salesmanager.shop.model.customer;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.salesmanager.web.entity.customer.attribute.ReadableCustomerAttribute;
+import com.salesmanager.shop.model.customer.attribute.ReadableCustomerAttribute;
+
 
 public class ReadableCustomer extends CustomerEntity implements Serializable {
 

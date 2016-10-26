@@ -1,9 +1,11 @@
-package com.salesmanager.web.admin.entity.customer.attribute;
+package com.salesmanager.shop.admin.model.customer.attribute;
 
 import java.io.Serializable;
 import java.util.List;
 
-import com.salesmanager.web.entity.ShopEntity;
+import com.salesmanager.shop.model.ShopEntity;
+
+
 
 public class CustomerOption extends ShopEntity implements Serializable {
 	
@@ -13,11 +15,6 @@ public class CustomerOption extends ShopEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String type;
 	private String name;
-	
-	//private List<long> values;
-	//private String value;
-	//private long idValue;
-
 
 
 	private CustomerOptionValue defaultValue;
