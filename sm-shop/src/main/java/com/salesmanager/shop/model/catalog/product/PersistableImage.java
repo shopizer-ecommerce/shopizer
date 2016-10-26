@@ -1,4 +1,4 @@
-package com.salesmanager.web.entity.catalog.product;
+package com.salesmanager.shop.model.catalog.product;
 
 public class PersistableImage {
 	

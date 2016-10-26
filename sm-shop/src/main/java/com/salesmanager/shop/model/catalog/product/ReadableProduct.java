@@ -1,11 +1,12 @@
-package com.salesmanager.web.entity.catalog.product;
+package com.salesmanager.shop.model.catalog.product;
 
 import java.io.Serializable;
 import java.util.List;
 
-import com.salesmanager.web.entity.catalog.ReadableImage;
-import com.salesmanager.web.entity.catalog.manufacturer.ReadableManufacturer;
-import com.salesmanager.web.entity.catalog.product.attribute.ReadableProductAttribute;
+import com.salesmanager.shop.model.catalog.ReadableImage;
+import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
+import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductAttribute;
+
 
 public class ReadableProduct extends ProductEntity implements Serializable {
 

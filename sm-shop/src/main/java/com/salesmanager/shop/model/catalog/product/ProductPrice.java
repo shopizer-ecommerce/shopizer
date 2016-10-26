@@ -1,6 +1,6 @@
-package com.salesmanager.web.entity.catalog.product;
+package com.salesmanager.shop.model.catalog.product;
 
-import com.salesmanager.web.entity.Entity;
+import com.salesmanager.shop.model.Entity;
 
 public class ProductPrice extends Entity {
 

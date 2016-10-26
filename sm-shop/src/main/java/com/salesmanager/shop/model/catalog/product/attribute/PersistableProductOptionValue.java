@@ -1,4 +1,4 @@
-package com.salesmanager.web.entity.catalog.product.attribute;
+package com.salesmanager.shop.model.catalog.product.attribute;
 
 import java.io.Serializable;
 import java.util.List;

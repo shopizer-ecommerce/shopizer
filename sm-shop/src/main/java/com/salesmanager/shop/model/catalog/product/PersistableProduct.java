@@ -1,11 +1,9 @@
-package com.salesmanager.web.entity.catalog.product;
+package com.salesmanager.shop.model.catalog.product;
 
 import java.io.Serializable;
 import java.util.List;
 
-import com.salesmanager.web.entity.catalog.category.Category;
-import com.salesmanager.web.entity.catalog.manufacturer.Manufacturer;
-import com.salesmanager.web.entity.catalog.product.attribute.PersistableProductAttribute;
+
 
 public class PersistableProduct extends ProductEntity implements Serializable {
 
