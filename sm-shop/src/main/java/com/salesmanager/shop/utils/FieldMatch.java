@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.salesmanager.web.utils;
+package com.salesmanager.shop.utils;
 
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.TYPE;

@@ -1,10 +1,10 @@
-package com.salesmanager.web.entity.customer;
+package com.salesmanager.shop.model.customer;
 
 import java.io.Serializable;
 
 import javax.validation.constraints.Size;
 
-import com.salesmanager.web.utils.FieldMatch;
+import com.salesmanager.shop.utils.FieldMatch;
 
 
 @FieldMatch.List({

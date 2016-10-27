@@ -1,12 +1,12 @@
-package com.salesmanager.web.entity.order;
+package com.salesmanager.shop.model.order;
 
 import java.io.Serializable;
 import java.util.List;
 
-import com.salesmanager.core.business.reference.currency.model.Currency;
-import com.salesmanager.web.entity.customer.Address;
-import com.salesmanager.web.entity.customer.ReadableCustomer;
-import com.salesmanager.web.entity.customer.ReadableDelivery;
+import com.salesmanager.core.model.reference.currency.Currency;
+import com.salesmanager.shop.model.customer.ReadableCustomer;
+import com.salesmanager.shop.model.customer.ReadableDelivery;
+
 
 public class ReadableOrder extends OrderEntity implements Serializable {
 

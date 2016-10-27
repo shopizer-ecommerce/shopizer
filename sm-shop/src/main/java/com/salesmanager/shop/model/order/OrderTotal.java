@@ -1,9 +1,10 @@
-package com.salesmanager.web.entity.order;
+package com.salesmanager.shop.model.order;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import com.salesmanager.web.entity.Entity;
+import com.salesmanager.shop.model.Entity;
+
 
 public class OrderTotal extends Entity implements Serializable {
 	

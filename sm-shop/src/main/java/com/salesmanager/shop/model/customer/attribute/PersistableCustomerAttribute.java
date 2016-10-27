@@ -1,4 +1,4 @@
-package com.salesmanager.web.entity.customer.attribute;
+package com.salesmanager.shop.model.customer.attribute;
 
 public class PersistableCustomerAttribute extends CustomerAttributeEntity {
 

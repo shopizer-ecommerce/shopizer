@@ -1,12 +1,12 @@
-package com.salesmanager.web.entity.order;
+package com.salesmanager.shop.model.order;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import com.salesmanager.core.business.order.model.orderstatus.OrderStatus;
-import com.salesmanager.core.business.order.model.payment.CreditCard;
-import com.salesmanager.core.business.payments.model.PaymentType;
+import com.salesmanager.core.model.order.orderstatus.OrderStatus;
+import com.salesmanager.core.model.order.payment.CreditCard;
+import com.salesmanager.core.model.payments.PaymentType;
 
 public class OrderEntity extends Order implements Serializable {
 

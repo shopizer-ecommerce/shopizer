@@ -1,9 +1,11 @@
-package com.salesmanager.web.entity.customer;
+package com.salesmanager.shop.model.customer;
 
 import java.io.Serializable;
 import java.util.List;
 
-import com.salesmanager.web.entity.customer.attribute.PersistableCustomerAttribute;
+import com.salesmanager.shop.model.customer.attribute.PersistableCustomerAttribute;
+
+
 
 public class PersistableCustomer extends CustomerEntity implements Serializable {
 

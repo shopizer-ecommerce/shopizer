@@ -1,4 +1,4 @@
-package com.salesmanager.web.entity.order;
+package com.salesmanager.shop.model.order;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -6,9 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.salesmanager.core.business.shipping.model.ShippingOption;
-import com.salesmanager.web.entity.customer.Address;
-import com.salesmanager.web.entity.customer.ReadableDelivery;
+import com.salesmanager.core.model.shipping.ShippingOption;
+import com.salesmanager.shop.model.customer.ReadableDelivery;
 
 public class ReadableShippingSummary implements Serializable {
 

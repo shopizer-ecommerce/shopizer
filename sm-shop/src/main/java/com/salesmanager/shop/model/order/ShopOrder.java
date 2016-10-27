@@ -1,13 +1,14 @@
-package com.salesmanager.web.entity.order;
+package com.salesmanager.shop.model.order;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-import com.salesmanager.core.business.order.model.OrderTotalSummary;
-import com.salesmanager.core.business.shipping.model.ShippingOption;
-import com.salesmanager.core.business.shipping.model.ShippingSummary;
-import com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem;
+import com.salesmanager.core.model.order.OrderTotalSummary;
+import com.salesmanager.core.model.shipping.ShippingOption;
+import com.salesmanager.core.model.shipping.ShippingSummary;
+import com.salesmanager.core.model.shoppingcart.ShoppingCartItem;
+
 
 /**
  * Orders saved on the website

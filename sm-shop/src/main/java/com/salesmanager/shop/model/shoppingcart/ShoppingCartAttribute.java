@@ -1,8 +1,8 @@
-package com.salesmanager.web.entity.shoppingcart;
+package com.salesmanager.shop.model.shoppingcart;
 
 import java.io.Serializable;
 
-import com.salesmanager.web.entity.ShopEntity;
+import com.salesmanager.shop.model.ShopEntity;
 
 public class ShoppingCartAttribute extends ShopEntity implements Serializable {
 

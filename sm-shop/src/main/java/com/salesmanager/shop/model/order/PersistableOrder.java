@@ -1,9 +1,10 @@
-package com.salesmanager.web.entity.order;
+package com.salesmanager.shop.model.order;
 
 import java.io.Serializable;
 import java.util.List;
 
-import com.salesmanager.web.entity.customer.PersistableCustomer;
+import com.salesmanager.shop.model.customer.PersistableCustomer;
+
 
 public class PersistableOrder extends OrderEntity implements Serializable {
 

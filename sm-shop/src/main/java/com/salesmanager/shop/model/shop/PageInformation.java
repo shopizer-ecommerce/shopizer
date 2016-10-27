@@ -1,4 +1,4 @@
-package com.salesmanager.web.entity.shop;
+package com.salesmanager.shop.model.shop;
 
 import java.io.Serializable;
 

@@ -1,8 +1,8 @@
-package com.salesmanager.web.entity.customer.attribute;
+package com.salesmanager.shop.model.customer.attribute;
 
 import java.io.Serializable;
 
-import com.salesmanager.web.entity.catalog.CatalogEntity;
+import com.salesmanager.shop.model.catalog.CatalogEntity;
 
 public class CustomerOptionValueDescription extends CatalogEntity implements
 		Serializable {

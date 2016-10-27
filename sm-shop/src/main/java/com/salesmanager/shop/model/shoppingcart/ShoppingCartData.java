@@ -1,4 +1,4 @@
-package com.salesmanager.web.entity.shoppingcart;
+package com.salesmanager.shop.model.shoppingcart;
 
 import java.io.Serializable;
 import java.util.List;
@@ -6,8 +6,9 @@ import java.util.List;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.salesmanager.web.entity.ShopEntity;
-import com.salesmanager.web.entity.order.OrderTotal;
+import com.salesmanager.shop.model.ShopEntity;
+import com.salesmanager.shop.model.order.OrderTotal;
+
 
 @Component
 @Scope(value = "prototype")

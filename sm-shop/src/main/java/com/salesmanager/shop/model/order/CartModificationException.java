@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.salesmanager.web.entity.order;
+package com.salesmanager.shop.model.order;
 
 /**
  * @author Umesh A
