@@ -1,0 +1,1355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="fcbb826d-6e02-4a83-94bd-4d2af42f8678" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/.gitignore" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/META-INF/MANIFEST.MF" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/META-INF/maven/com.shopizer/shopizer-shipping-canadapost-module/pom.properties" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/META-INF/maven/com.shopizer/shopizer-shipping-canadapost-module/pom.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/shopizer-shipping-distance-module/target/classes/.gitignore" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/shopizer-shipping-distance-module/target/classes/META-INF/MANIFEST.MF" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/shopizer-shipping-distance-module/target/classes/META-INF/maven/com.shopizer/shopizer-shipping-distance-processor/pom.properties" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/shopizer-shipping-distance-module/target/classes/META-INF/maven/com.shopizer/shopizer-shipping-distance-processor/pom.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-core-model/target/.gitignore" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-core-model/target/classes/META-INF/MANIFEST.MF" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-core-model/target/classes/META-INF/maven/com.shopizer/sm-core-model/pom.properties" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-core-model/target/classes/META-INF/maven/com.shopizer/sm-core-model/pom.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-core-modules/target/classes/.gitignore" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-core-modules/target/classes/META-INF/MANIFEST.MF" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-core-modules/target/classes/META-INF/maven/com.shopizer/sm-core-modules/pom.properties" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-core-modules/target/classes/META-INF/maven/com.shopizer/sm-core-modules/pom.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-core/target/classes/.gitignore" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-core/target/classes/META-INF/MANIFEST.MF" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-core/target/classes/META-INF/maven/com.shopizer/sm-core/pom.properties" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-core/target/classes/META-INF/maven/com.shopizer/sm-core/pom.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/AdminController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/ControllerConstants$Tiles$Configuration.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/ControllerConstants$Tiles$Content.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/ControllerConstants$Tiles$ContentFiles.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/ControllerConstants$Tiles$ContentImages.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/ControllerConstants$Tiles$Customer.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/ControllerConstants$Tiles$Order.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/ControllerConstants$Tiles$Payment.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/ControllerConstants$Tiles$Product.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/ControllerConstants$Tiles$Shipping.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/ControllerConstants$Tiles$Store.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/ControllerConstants$Tiles$Tax.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/ControllerConstants$Tiles$User.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/ControllerConstants$Tiles.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/ControllerConstants.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/categories/CategoryController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/configurations/CacheController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/configurations/ConfigurationController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/configurations/SystemConfigurationController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/content/ContentBoxesController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/content/ContentImageController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/content/ContentPagesController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/content/StaticContentController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/customers/CustomerController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/customers/CustomerOptionsController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/customers/CustomerOptionsSetController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/customers/CustomerOptionsValueController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/merchant/MerchantStoreController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/merchant/StoreBrandingController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/merchant/StoreLandingController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/orders/OrderActionsControler.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/orders/OrderControler.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/orders/OrdersController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/payments/PaymentsController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/products/CustomProductGroupsController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/products/DigitalProductController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/products/FeaturedItemsController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/products/ManufacturerController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/products/OptionsController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/products/OptionsValueController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/products/ProductAttributeController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/products/ProductController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/products/ProductImagesController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/products/ProductKeywordsController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/products/ProductPriceController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/products/ProductReviewController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/products/ProductsController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/products/RelatedItemsController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/shipping/CustomShippingMethodsController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/shipping/ShippingConfigsController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/shipping/ShippingMethodsController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/shipping/ShippingOptionsController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/shipping/ShippingOriginController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/shipping/ShippingPackagingController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/tax/TaxClassController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/tax/TaxConfigurationController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/tax/TaxRatesController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/user/GroupsController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/user/LoginController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/user/PermissionController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/user/SecurityController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/controller/user/UserController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/model/catalog/Keyword.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/model/catalog/Manufacturer.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/model/catalog/Product.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/model/catalog/ProductPrice.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/model/content/ContentFiles.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/model/content/ProductImages.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/model/customer/attribute/CustomerAttributes.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/model/customer/attribute/CustomerOption.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/model/customer/attribute/CustomerOptionValue.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/model/digital/ProductFiles.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/model/merchant/StoreLanding.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/model/merchant/StoreLandingDescription.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/model/orders/Order.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/model/orders/Refund.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/model/reference/Size.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/model/reference/Weight.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/model/secutity/Password.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/model/userpassword/UserReset.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/model/web/ConfigListWrapper.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/model/web/Menu.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/security/SecurityDataAccessException.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/security/SecurityQuestion.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/security/UserAuthenticationSuccessHandler.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/security/UserServicesImpl.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/admin/security/WebUserServices.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/constants/ApplicationConstants.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/constants/Constants.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/constants/EmailConstants.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/controller/FilesController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/controller/ImagesController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/controller/ReferenceController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/filter/AdminFilter.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/filter/StoreFilter.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/init/data/InitData.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/init/data/InitStoreData.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/init/data/InitializationLoader.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/Entity.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/ServiceEntity.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/ShopEntity.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/CatalogEntity.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/ProductList.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/ReadableImage.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/SearchProductList.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/category/Category.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/category/CategoryDescription.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/category/CategoryEntity.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/category/PersistableCategory.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/category/ReadableCategory.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/manufacturer/Manufacturer.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/manufacturer/ManufacturerDescription.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/manufacturer/ManufacturerEntity.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/manufacturer/PersistableManufacturer.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/manufacturer/ReadableManufacturer.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/product/PersistableImage.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/product/PersistableProduct.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/product/PersistableProductPrice.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/product/PersistableProductReview.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/product/Product.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/product/ProductDescription.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/product/ProductEntity.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/product/ProductPrice.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/product/ProductPriceEntity.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/product/ProductReviewEntity.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/product/ReadableProduct.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/product/ReadableProductList.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/product/ReadableProductPrice.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/product/ReadableProductReview.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/product/RelatedProduct.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/product/attribute/PersistableProductAttribute.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/product/attribute/PersistableProductOption.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/product/attribute/PersistableProductOptionValue.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/product/attribute/ProductAttribute.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/product/attribute/ProductAttributeEntity.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/product/attribute/ProductOption.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/product/attribute/ProductOptionDescription.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/product/attribute/ProductOptionEntity.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/product/attribute/ProductOptionValue.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/product/attribute/ProductOptionValueDescription.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/product/attribute/ProductOptionValueEntity.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/catalog/product/attribute/ReadableProductAttribute.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/customer/Address.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/customer/AnonymousCustomer.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/customer/Customer.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/customer/CustomerEntity.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/customer/CustomerPassword.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/customer/DeliveryEntity.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/customer/PersistableCustomer.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/customer/ReadableCustomer.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/customer/ReadableDelivery.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/customer/SecuredCustomer.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/customer/SecuredShopPersistableCustomer.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/customer/attribute/CustomerAttribute.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/customer/attribute/CustomerAttributeEntity.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/customer/attribute/CustomerOption.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/customer/attribute/CustomerOptionDescription.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/customer/attribute/CustomerOptionEntity.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/customer/attribute/CustomerOptionValue.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/customer/attribute/CustomerOptionValueDescription.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/customer/attribute/CustomerOptionValueEntity.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/customer/attribute/PersistableCustomerAttribute.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/customer/attribute/PersistableCustomerOption.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/customer/attribute/PersistableCustomerOptionValue.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/customer/attribute/ReadableCustomerAttribute.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/customer/attribute/ReadableCustomerOption.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/customer/attribute/ReadableCustomerOptionValue.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/order/CartModificationException.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/order/Order.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/order/OrderEntity.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/order/OrderProduct.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/order/OrderProductEntity.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/order/OrderTotal.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/order/PersistableOrder.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/order/PersistableOrderProduct.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/order/ReadableOrder.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/order/ReadableOrderList.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/order/ReadableOrderProduct.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/order/ReadableOrderProductAttribute.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/order/ReadableOrderProductDownload.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/order/ReadableOrderTotal.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/order/ReadableShippingSummary.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/order/ReadableShopOrder.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/order/ShopOrder.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/shop/Breadcrumb.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/shop/BreadcrumbItem.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/shop/BreadcrumbItemType.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/shop/ContactForm.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/shop/MerchantStoreEntity.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/shop/PageInformation.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/shop/ReadableMerchantStore.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/shoppingcart/ShoppingCartAttribute.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/shoppingcart/ShoppingCartData.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/model/shoppingcart/ShoppingCartItem.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/catalog/PersistableCategoryPopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/catalog/PersistableProductOptionPopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/catalog/PersistableProductOptionValuePopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/catalog/PersistableProductPopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/catalog/PersistableProductReviewPopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/catalog/ReadableCategoryPopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/catalog/ReadableFinalPricePopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/catalog/ReadableProductPopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/catalog/ReadableProductPricePopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/catalog/ReadableProductReviewPopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/customer/CustomerBillingAddressPopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/customer/CustomerDeliveryAddressPopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/customer/CustomerEntityPopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/customer/CustomerOptionPopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/customer/CustomerPopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/customer/PersistableCustomerBillingAddressPopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/customer/PersistableCustomerOptionPopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/customer/PersistableCustomerOptionValuePopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/customer/PersistableCustomerPopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/customer/PersistableCustomerShippingAddressPopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/customer/ReadableCustomerDeliveryAddressPopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/customer/ReadableCustomerOptionPopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/customer/ReadableCustomerPopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/manufacturer/PersistableManufacturerPopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/manufacturer/ReadableManufacturerPopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/order/OrderProductPopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/order/PersistableOrderPopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/order/PersistableOrderProductPopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/order/ReadableOrderPopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/order/ReadableOrderProductDownloadPopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/order/ReadableOrderProductPopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/order/ReadableOrderTotalPopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/order/ReadableShippingSummaryPopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/order/ReadableShopOrderPopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/order/ShoppingCartItemPopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/shoppingCart/ShoppingCartDataPopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/shoppingCart/ShoppingCartModelPopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/populator/store/ReadableMerchantStorePopulator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/AbstractController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/ControllerConstants$Tiles$Category.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/ControllerConstants$Tiles$Checkout.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/ControllerConstants$Tiles$Content.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/ControllerConstants$Tiles$Customer.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/ControllerConstants$Tiles$Error.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/ControllerConstants$Tiles$Items.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/ControllerConstants$Tiles$Merchant.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/ControllerConstants$Tiles$Pages.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/ControllerConstants$Tiles$Product.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/ControllerConstants$Tiles$Search.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/ControllerConstants$Tiles$ShoppingCart.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/ControllerConstants$Tiles.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/ControllerConstants$Views$Controllers$Registration.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/ControllerConstants$Views$Controllers.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/ControllerConstants$Views.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/ControllerConstants.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/LandingController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/category/ShoppingCategoryController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/category/facade/CategoryFacade.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/category/facade/CategoryFacadeImpl.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/content/ShopContentController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/customer/CustomerAccountController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/customer/CustomerDashboardController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/customer/CustomerLoginController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/customer/CustomerOrdersController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/customer/CustomerProductReviewController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/customer/CustomerRegistrationController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/customer/facade/CustomerFacade.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/customer/facade/CustomerFacadeImpl.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/items/ListItemsController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/items/facade/ProductItemsFacade.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/items/facade/ProductItemsFacadeImpl.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/order/ShoppingOrderConfirmationController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/order/ShoppingOrderController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/order/ShoppingOrderDownloadController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/order/ShoppingOrderPaymentController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/order/facade/OrderFacade.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/order/facade/OrderFacadeImpl.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/product/ShopProductController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/product/facade/ProductFacade.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/product/facade/ProductFacadeImpl.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/search/SearchController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/search/facade/SearchFacade.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/search/facade/SearchFacadeImpl.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/shoppingCart/MiniCartController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/shoppingCart/ShoppingCartController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/shoppingCart/facade/ShoppingCartFacade.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/shoppingCart/facade/ShoppingCartFacadeImpl.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/controller/store/ContactController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/model/catalog/Attribute.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/model/catalog/AttributeValue.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/model/filter/QueryFilter.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/model/filter/QueryFilterType.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/model/paging/PaginationData.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/model/search/AutoCompleteRequest.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/security/CustomerServicesImpl.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/security/ServicesAuthenticationEntryPoint.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/security/ServicesAuthenticationSuccessHandler.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/services/category/ShoppingCategoryRESTController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/services/customer/CustomerRESTController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/services/order/OrderRESTController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/services/product/ProductItemsRESTController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/services/product/ShopProductRESTController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/services/search/SearchRESTController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/services/store/StoreContactRESTController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/services/system/SystemRESTController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/store/services/utility/CallbackController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/tags/ActiveLinkTag.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/tags/AdminProductDownloadUrlTag.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/tags/Computer - Shortcut.lnk" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/tags/ConfigurationTag.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/tags/ContentImageUrlTag.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/tags/ManufacturerImageUrlTag.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/tags/OrderProductDownloadUrlTag.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/tags/PageContentTag.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/tags/ProductDescriptionUrlTag.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/tags/ProductImageUrlTag.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/tags/ShopProductImageUrlTag.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/tags/ShopProductPriceFormatTag.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/tags/ShopProductRelationshipTag.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/tags/StoreBreadcrumbsTag.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/tags/StoreFooterlTag.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/tags/StoreLogoUrlTag.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/utils/AbstractimageFilePath.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/utils/AdminAccessDeniedHandler.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/utils/AppConfiguration.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/utils/BeanUtils.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/utils/BreadcrumbsUtils.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/utils/CaptchaRequestUtils.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/utils/DateUtil.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/utils/EmailTemplatesUtils.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/utils/EmailUtils.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/utils/FieldMatch$List.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/utils/FieldMatch.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/utils/FieldMatchValidator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/utils/FilePathUtils.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/utils/GeoLocationUtils.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/utils/ImageFilePath.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/utils/ImageFilePathUtils.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/utils/LabelUtils.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/utils/LanguageUtils.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/utils/LocalImageFilePathUtils.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/utils/LocaleUtils.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/utils/MerchantUtils.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/utils/PageBuilderUtils.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/utils/SessionUtil.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/utils/TokenizeTool.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/utils/UserUtils.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/classes/com/salesmanager/shop/utils/WebApplicationCacheUtils.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/m2e-wtp/web-resources/.gitignore" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/m2e-wtp/web-resources/META-INF/MANIFEST.MF" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/m2e-wtp/web-resources/META-INF/maven/com.shopizer/sm-shop/pom.properties" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/m2e-wtp/web-resources/META-INF/maven/com.shopizer/sm-shop/pom.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/test-classes/com/salesmanager/test/shop/controller/category/rest/CategoryManagementAPITest.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/test-classes/com/salesmanager/test/shop/controller/customer/rest/CustomerRESTControllerTest.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/test-classes/com/salesmanager/test/shop/controller/product/rest/ProductManagementAPITest.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/test-classes/com/salesmanager/test/shop/controller/store/rest/ContactAPITest.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/test-classes/com/salesmanager/test/shop/controller/system/rest/SystemAPITest.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/test-classes/log4j.properties" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sm-shop/target/test-classes/log4j.xml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/common/CcAddressDetailsType.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/common/CcAddressDetailsType.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/common/CcDetailsType.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/common/CcDetailsType.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/common/CcType.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/common/CcType.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/common/LinkType.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/common/LinkType.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/common/Links.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/common/Links.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/common/ObjectFactory.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/common/ObjectFactory.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/CcAddressDetailsType.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/CcAddressDetailsType.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/CcDetailsType.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/CcDetailsType.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/CcType.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/CcType.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/Link.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/Link.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/Links.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/Links.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/NumberRangeType.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/NumberRangeType.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/ObjectFactory.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/ObjectFactory.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/Option$ConflictingOptions.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/Option$ConflictingOptions.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/Option$PrerequisiteOptions.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/Option$PrerequisiteOptions.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/Option.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/Option.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/Options$Option.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/Options$Option.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/Options.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/Options.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/RelType.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/RelType.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/Service$Options$Option.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/Service$Options$Option.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/Service$Options.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/Service$Options.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/Service$Restrictions$DimensionalRestrictions.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/Service$Restrictions$DimensionalRestrictions.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/Service$Restrictions.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/Service$Restrictions.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/Service.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/Service.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/Services$Service.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/Services$Service.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/Services.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/Services.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/package-info.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/discovery/package-info.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/messages/Messages$Message.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/messages/Messages$Message.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/messages/Messages.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/messages/Messages.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/messages/ObjectFactory.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/messages/ObjectFactory.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/messages/package-info.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/messages/package-info.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/CcAddressDetailsType.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/CcAddressDetailsType.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/CcDetailsType.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/CcDetailsType.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/CcType.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/CcType.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/Link.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/Link.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/Links.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/Links.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/MailingScenario$Destination$Domestic.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/MailingScenario$Destination$Domestic.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/MailingScenario$Destination$International.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/MailingScenario$Destination$International.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/MailingScenario$Destination$UnitedStates.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/MailingScenario$Destination$UnitedStates.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/MailingScenario$Destination.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/MailingScenario$Destination.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/MailingScenario$Options$Option.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/MailingScenario$Options$Option.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/MailingScenario$Options.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/MailingScenario$Options.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/MailingScenario$ParcelCharacteristics$Dimensions.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/MailingScenario$ParcelCharacteristics$Dimensions.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/MailingScenario$ParcelCharacteristics.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/MailingScenario$ParcelCharacteristics.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/MailingScenario$Services.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/MailingScenario$Services.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/MailingScenario.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/MailingScenario.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/ObjectFactory.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/ObjectFactory.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/PriceQuotes$PriceQuote$PriceDetails$Adjustments$Adjustment$Qualifier.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/PriceQuotes$PriceQuote$PriceDetails$Adjustments$Adjustment$Qualifier.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/PriceQuotes$PriceQuote$PriceDetails$Adjustments$Adjustment.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/PriceQuotes$PriceQuote$PriceDetails$Adjustments$Adjustment.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/PriceQuotes$PriceQuote$PriceDetails$Adjustments.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/PriceQuotes$PriceQuote$PriceDetails$Adjustments.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/PriceQuotes$PriceQuote$PriceDetails$Options$Option$Qualifier.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/PriceQuotes$PriceQuote$PriceDetails$Options$Option$Qualifier.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/PriceQuotes$PriceQuote$PriceDetails$Options$Option.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/PriceQuotes$PriceQuote$PriceDetails$Options$Option.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/PriceQuotes$PriceQuote$PriceDetails$Options.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/PriceQuotes$PriceQuote$PriceDetails$Options.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/PriceQuotes$PriceQuote$PriceDetails$Taxes.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/PriceQuotes$PriceQuote$PriceDetails$Taxes.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/PriceQuotes$PriceQuote$PriceDetails.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/PriceQuotes$PriceQuote$PriceDetails.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/PriceQuotes$PriceQuote$ServiceStandard.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/PriceQuotes$PriceQuote$ServiceStandard.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/PriceQuotes$PriceQuote$WeightDetails.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/PriceQuotes$PriceQuote$WeightDetails.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/PriceQuotes$PriceQuote.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/PriceQuotes$PriceQuote.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/PriceQuotes.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/PriceQuotes.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/TaxType.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/TaxType.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/package-info.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/ca/canadapost/cpcdp/rating/generated/rating/package-info.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/classes/com/shopizer/modules/shipping/canadapost/CanadaPostQuoteModule.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/classes/com/shopizer/modules/shipping/canadapost/CanadaPostQuoteModule.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/shopizer-shipping-canadapost-module-2.5.0-SNAPSHOT.jar" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/shopizer-shipping-canadapost-module-2.5.0-SNAPSHOT.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/test-classes/com/shopizer/modules/shipping/canadapost/test/ShippingCanadaPostTestCase.class" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/test-classes/com/shopizer/modules/shipping/canadapost/test/ShippingCanadaPostTestCase.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-shipping-distance-module/target/classes/com/shopizer/modules/shipping/distance/ShippingDistancePreProcessorImpl.class" afterPath="$PROJECT_DIR$/shopizer-shipping-distance-module/target/classes/com/shopizer/modules/shipping/distance/ShippingDistancePreProcessorImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-shipping-distance-module/target/shopizer-shipping-distance-processor-2.5.0-SNAPSHOT.jar" afterPath="$PROJECT_DIR$/shopizer-shipping-distance-module/target/shopizer-shipping-distance-processor-2.5.0-SNAPSHOT.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-shipping-distance-module/target/test-classes/com/shopizer/modules/shipping/distance/test/ShippingDistanceProcessorTestCase.class" afterPath="$PROJECT_DIR$/shopizer-shipping-distance-module/target/test-classes/com/shopizer/modules/shipping/distance/test/ShippingDistanceProcessorTestCase.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core-modules/target/classes/com/salesmanager/core/modules/constants/Constants.class" afterPath="$PROJECT_DIR$/sm-core-modules/target/classes/com/salesmanager/core/modules/constants/Constants.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core-modules/target/classes/com/salesmanager/core/modules/integration/IntegrationException.class" afterPath="$PROJECT_DIR$/sm-core-modules/target/classes/com/salesmanager/core/modules/integration/IntegrationException.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core-modules/target/classes/com/salesmanager/core/modules/integration/payment/model/PaymentModule.class" afterPath="$PROJECT_DIR$/sm-core-modules/target/classes/com/salesmanager/core/modules/integration/payment/model/PaymentModule.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core-modules/target/classes/com/salesmanager/core/modules/integration/shipping/model/CustomShippingQuoteItem.class" afterPath="$PROJECT_DIR$/sm-core-modules/target/classes/com/salesmanager/core/modules/integration/shipping/model/CustomShippingQuoteItem.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core-modules/target/classes/com/salesmanager/core/modules/integration/shipping/model/CustomShippingQuoteWeightItem.class" afterPath="$PROJECT_DIR$/sm-core-modules/target/classes/com/salesmanager/core/modules/integration/shipping/model/CustomShippingQuoteWeightItem.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core-modules/target/classes/com/salesmanager/core/modules/integration/shipping/model/CustomShippingQuotesConfiguration.class" afterPath="$PROJECT_DIR$/sm-core-modules/target/classes/com/salesmanager/core/modules/integration/shipping/model/CustomShippingQuotesConfiguration.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core-modules/target/classes/com/salesmanager/core/modules/integration/shipping/model/CustomShippingQuotesRegion.class" afterPath="$PROJECT_DIR$/sm-core-modules/target/classes/com/salesmanager/core/modules/integration/shipping/model/CustomShippingQuotesRegion.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core-modules/target/classes/com/salesmanager/core/modules/integration/shipping/model/Packaging.class" afterPath="$PROJECT_DIR$/sm-core-modules/target/classes/com/salesmanager/core/modules/integration/shipping/model/Packaging.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core-modules/target/classes/com/salesmanager/core/modules/integration/shipping/model/ShippingQuoteModule.class" afterPath="$PROJECT_DIR$/sm-core-modules/target/classes/com/salesmanager/core/modules/integration/shipping/model/ShippingQuoteModule.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core-modules/target/classes/com/salesmanager/core/modules/integration/shipping/model/ShippingQuotePrePostProcessModule.class" afterPath="$PROJECT_DIR$/sm-core-modules/target/classes/com/salesmanager/core/modules/integration/shipping/model/ShippingQuotePrePostProcessModule.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core-modules/target/classes/com/salesmanager/core/modules/utils/Encryption.class" afterPath="$PROJECT_DIR$/sm-core-modules/target/classes/com/salesmanager/core/modules/utils/Encryption.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core-modules/target/classes/com/salesmanager/core/modules/utils/GeoLocation.class" afterPath="$PROJECT_DIR$/sm-core-modules/target/classes/com/salesmanager/core/modules/utils/GeoLocation.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/configuration/CoreApplicationConfiguration.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/configuration/CoreApplicationConfiguration.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/constants/Constants.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/constants/Constants.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/constants/ShippingConstants.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/constants/ShippingConstants.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/constants/SystemConstants.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/constants/SystemConstants.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/common/ImageGet.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/common/ImageGet.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/common/ImageRemove.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/common/ImageRemove.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/common/StaticContentData.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/common/StaticContentData.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/content/ContentImageGet.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/content/ContentImageGet.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/content/ContentImageRemove.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/content/ContentImageRemove.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/content/FileGet.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/content/FileGet.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/content/FilePut.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/content/FilePut.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/content/FileRemove.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/content/FileRemove.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/content/ImagePut.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/content/ImagePut.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/content/StaticContentFileManager.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/content/StaticContentFileManager.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/content/StaticContentFileManagerImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/content/StaticContentFileManagerImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/content/infinispan/CmsStaticContentFileManagerImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/content/infinispan/CmsStaticContentFileManagerImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/content/local/CmsStaticContentFileManagerImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/content/local/CmsStaticContentFileManagerImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/impl/CacheManager.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/impl/CacheManager.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/impl/CacheManagerImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/impl/CacheManagerImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/impl/LocalCacheManagerImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/impl/LocalCacheManagerImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/impl/StaticContentCacheManagerImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/impl/StaticContentCacheManagerImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/impl/StoreCacheManagerImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/impl/StoreCacheManagerImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/impl/VendorCacheManager.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/impl/VendorCacheManager.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/product/ProductFileManager.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/product/ProductFileManager.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/product/ProductFileManagerImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/product/ProductFileManagerImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/product/ProductImageGet.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/product/ProductImageGet.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/product/ProductImagePut.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/product/ProductImagePut.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/product/ProductImageRemove.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/product/ProductImageRemove.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/product/infinispan/CmsImageFileManagerImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/product/infinispan/CmsImageFileManagerImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/product/local/CmsImageFileManagerImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/cms/product/local/CmsImageFileManagerImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/email/Email.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/email/Email.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/email/EmailConfig.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/email/EmailConfig.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/email/HtmlEmailSender.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/email/HtmlEmailSender.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/email/HtmlEmailSenderImpl$1$1.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/email/HtmlEmailSenderImpl$1$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/email/HtmlEmailSenderImpl$1$2.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/email/HtmlEmailSenderImpl$1$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/email/HtmlEmailSenderImpl$1.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/email/HtmlEmailSenderImpl$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/email/HtmlEmailSenderImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/email/HtmlEmailSenderImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/IntegrationException.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/IntegrationException.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/payment/impl/BeanStreamPayment.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/payment/impl/BeanStreamPayment.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/payment/impl/MoneyOrderPayment.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/payment/impl/MoneyOrderPayment.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/payment/impl/PayPalExpressCheckoutPayment.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/payment/impl/PayPalExpressCheckoutPayment.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/payment/impl/PayPalRestPayment.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/payment/impl/PayPalRestPayment.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/payment/impl/StripePayment.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/payment/impl/StripePayment.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/shipping/impl/CustomShippingQuoteRules.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/shipping/impl/CustomShippingQuoteRules.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/shipping/impl/CustomWeightBasedShippingQuote.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/shipping/impl/CustomWeightBasedShippingQuote.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/shipping/impl/DefaultPackagingImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/shipping/impl/DefaultPackagingImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/shipping/impl/PackingBox.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/shipping/impl/PackingBox.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/shipping/impl/PriceByDistanceShippingQuoteRules.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/shipping/impl/PriceByDistanceShippingQuoteRules.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/shipping/impl/ShippingDecisionPreProcessorImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/shipping/impl/ShippingDecisionPreProcessorImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/shipping/impl/ShippingInputParameters.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/shipping/impl/ShippingInputParameters.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/shipping/impl/StorePickupShippingQuote.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/shipping/impl/StorePickupShippingQuote.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/shipping/impl/UPSParsedElements.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/shipping/impl/UPSParsedElements.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/shipping/impl/UPSShippingQuote$1.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/shipping/impl/UPSShippingQuote$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/shipping/impl/UPSShippingQuote.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/shipping/impl/UPSShippingQuote.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/shipping/impl/USPSParsedElements.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/shipping/impl/USPSParsedElements.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/shipping/impl/USPSShippingQuote$1.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/shipping/impl/USPSShippingQuote$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/shipping/impl/USPSShippingQuote.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/integration/shipping/impl/USPSShippingQuote.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/order/InvoiceModule.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/order/InvoiceModule.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/order/ODSInvoiceModule.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/order/ODSInvoiceModule.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/utils/EncryptionImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/utils/EncryptionImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/utils/GeoLocationImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/modules/utils/GeoLocationImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/category/CategoryRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/category/CategoryRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/category/CategoryRepositoryCustom.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/category/CategoryRepositoryCustom.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/category/CategoryRepositoryImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/category/CategoryRepositoryImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/product/ProductRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/product/ProductRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/product/ProductRepositoryCustom.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/product/ProductRepositoryCustom.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/product/ProductRepositoryImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/product/ProductRepositoryImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/product/attribute/ProductAttributeRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/product/attribute/ProductAttributeRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/product/attribute/ProductOptionRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/product/attribute/ProductOptionRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/product/attribute/ProductOptionValueRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/product/attribute/ProductOptionValueRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/product/availability/ProductAvailabilityRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/product/availability/ProductAvailabilityRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/product/file/DigitalProductRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/product/file/DigitalProductRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/product/image/ProductImageRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/product/image/ProductImageRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/product/manufacturer/ManufacturerRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/product/manufacturer/ManufacturerRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/product/price/ProductPriceRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/product/price/ProductPriceRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/product/relationship/ProductRelationshipRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/product/relationship/ProductRelationshipRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/product/relationship/ProductRelationshipRepositoryCustom.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/product/relationship/ProductRelationshipRepositoryCustom.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/product/relationship/ProductRelationshipRepositoryImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/product/relationship/ProductRelationshipRepositoryImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/product/review/ProductReviewRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/product/review/ProductReviewRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/product/type/ProductTypeRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/catalog/product/type/ProductTypeRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/content/ContentRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/content/ContentRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/content/ContentRepositoryCustom.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/content/ContentRepositoryCustom.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/content/ContentRepositoryImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/content/ContentRepositoryImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/customer/CustomerRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/customer/CustomerRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/customer/CustomerRepositoryCustom.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/customer/CustomerRepositoryCustom.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/customer/CustomerRepositoryImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/customer/CustomerRepositoryImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/customer/attribute/CustomerAttributeRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/customer/attribute/CustomerAttributeRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/customer/attribute/CustomerOptionRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/customer/attribute/CustomerOptionRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/customer/attribute/CustomerOptionSetRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/customer/attribute/CustomerOptionSetRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/customer/attribute/CustomerOptionValueRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/customer/attribute/CustomerOptionValueRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/merchant/MerchantRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/merchant/MerchantRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/order/OrderRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/order/OrderRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/order/OrderRepositoryCustom.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/order/OrderRepositoryCustom.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/order/OrderRepositoryImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/order/OrderRepositoryImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/order/OrderTotalRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/order/OrderTotalRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/order/orderaccount/OrderAccountRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/order/orderaccount/OrderAccountRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/order/orderproduct/OrderProductDownloadRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/order/orderproduct/OrderProductDownloadRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/order/orderproduct/OrderProductRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/order/orderproduct/OrderProductRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/payments/TransactionRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/payments/TransactionRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/reference/country/CountryRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/reference/country/CountryRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/reference/currency/CurrencyRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/reference/currency/CurrencyRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/reference/language/LanguageRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/reference/language/LanguageRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/reference/zone/ZoneRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/reference/zone/ZoneRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/shipping/ShippingOriginRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/shipping/ShippingOriginRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/shoppingcart/ShoppingCartAttributeRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/shoppingcart/ShoppingCartAttributeRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/shoppingcart/ShoppingCartItemRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/shoppingcart/ShoppingCartItemRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/shoppingcart/ShoppingCartRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/shoppingcart/ShoppingCartRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/system/CustomerOptinRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/system/CustomerOptinRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/system/MerchantConfigurationRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/system/MerchantConfigurationRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/system/MerchantLogRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/system/MerchantLogRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/system/ModuleConfigurationRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/system/ModuleConfigurationRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/system/OptinRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/system/OptinRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/system/SystemConfigurationRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/system/SystemConfigurationRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/system/SystemNotificationRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/system/SystemNotificationRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/tax/TaxClassRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/tax/TaxClassRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/tax/TaxRateRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/tax/TaxRateRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/user/GroupRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/user/GroupRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/user/PermissionRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/user/PermissionRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/user/PermissionRepositoryCustom.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/user/PermissionRepositoryCustom.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/user/PermissionRepositoryImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/user/PermissionRepositoryImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/user/UserRepository.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/repositories/user/UserRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/category/CategoryService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/category/CategoryService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/category/CategoryServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/category/CategoryServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/PricingService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/PricingService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/PricingServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/PricingServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/ProductService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/ProductService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/ProductServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/ProductServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/attribute/ProductAttributeService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/attribute/ProductAttributeService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/attribute/ProductAttributeServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/attribute/ProductAttributeServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/attribute/ProductOptionService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/attribute/ProductOptionService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/attribute/ProductOptionServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/attribute/ProductOptionServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/attribute/ProductOptionValueService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/attribute/ProductOptionValueService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/attribute/ProductOptionValueServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/attribute/ProductOptionValueServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/availability/ProductAvailabilityService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/availability/ProductAvailabilityService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/availability/ProductAvailabilityServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/availability/ProductAvailabilityServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/file/DigitalProductService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/file/DigitalProductService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/file/DigitalProductServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/file/DigitalProductServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/image/ProductImageService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/image/ProductImageService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/image/ProductImageServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/image/ProductImageServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/manufacturer/ManufacturerService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/manufacturer/ManufacturerService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/manufacturer/ManufacturerServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/manufacturer/ManufacturerServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/price/ProductPriceService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/price/ProductPriceService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/price/ProductPriceServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/price/ProductPriceServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/relationship/ProductRelationshipService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/relationship/ProductRelationshipService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/relationship/ProductRelationshipServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/relationship/ProductRelationshipServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/review/ProductReviewService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/review/ProductReviewService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/review/ProductReviewServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/review/ProductReviewServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/type/ProductTypeService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/type/ProductTypeService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/type/ProductTypeServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/catalog/product/type/ProductTypeServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/common/generic/SalesManagerEntityService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/common/generic/SalesManagerEntityService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/common/generic/SalesManagerEntityServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/common/generic/SalesManagerEntityServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/common/generic/TransactionalAspectAwareService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/common/generic/TransactionalAspectAwareService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/content/ContentService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/content/ContentService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/content/ContentServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/content/ContentServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/customer/CustomerService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/customer/CustomerService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/customer/CustomerServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/customer/CustomerServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/customer/attribute/CustomerAttributeService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/customer/attribute/CustomerAttributeService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/customer/attribute/CustomerAttributeServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/customer/attribute/CustomerAttributeServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/customer/attribute/CustomerOptionService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/customer/attribute/CustomerOptionService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/customer/attribute/CustomerOptionServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/customer/attribute/CustomerOptionServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/customer/attribute/CustomerOptionSetService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/customer/attribute/CustomerOptionSetService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/customer/attribute/CustomerOptionSetServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/customer/attribute/CustomerOptionSetServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/customer/attribute/CustomerOptionValueService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/customer/attribute/CustomerOptionValueService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/customer/attribute/CustomerOptionValueServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/customer/attribute/CustomerOptionValueServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/merchant/MerchantStoreService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/merchant/MerchantStoreService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/merchant/MerchantStoreServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/merchant/MerchantStoreServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/order/OrderService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/order/OrderService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/order/OrderServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/order/OrderServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/order/orderproduct/OrderProductDownloadService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/order/orderproduct/OrderProductDownloadService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/order/orderproduct/OrderProductDownloadServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/order/orderproduct/OrderProductDownloadServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/payments/PaymentService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/payments/PaymentService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/payments/PaymentServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/payments/PaymentServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/payments/TransactionService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/payments/TransactionService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/payments/TransactionServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/payments/TransactionServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/reference/country/CountryService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/reference/country/CountryService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/reference/country/CountryServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/reference/country/CountryServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/reference/currency/CurrencyService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/reference/currency/CurrencyService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/reference/currency/CurrencyServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/reference/currency/CurrencyServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/reference/init/InitializationDatabase.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/reference/init/InitializationDatabase.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/reference/init/InitializationDatabaseImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/reference/init/InitializationDatabaseImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/reference/language/LanguageService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/reference/language/LanguageService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/reference/language/LanguageServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/reference/language/LanguageServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/reference/loader/ConfigurationModulesLoader.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/reference/loader/ConfigurationModulesLoader.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/reference/loader/IntegrationModulesLoader.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/reference/loader/IntegrationModulesLoader.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/reference/loader/ZonesLoader.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/reference/loader/ZonesLoader.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/reference/zone/ZoneService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/reference/zone/ZoneService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/reference/zone/ZoneServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/reference/zone/ZoneServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/reference/zone/ZoneTransient.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/reference/zone/ZoneTransient.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/search/SearchService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/search/SearchService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/search/SearchServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/search/SearchServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/shipping/ShippingOriginService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/shipping/ShippingOriginService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/shipping/ShippingOriginServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/shipping/ShippingOriginServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/shipping/ShippingService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/shipping/ShippingService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/shipping/ShippingServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/shipping/ShippingServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/shoppingcart/ShoppingCartCalculationService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/shoppingcart/ShoppingCartCalculationService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/shoppingcart/ShoppingCartCalculationServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/shoppingcart/ShoppingCartCalculationServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/shoppingcart/ShoppingCartService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/shoppingcart/ShoppingCartService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/shoppingcart/ShoppingCartServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/shoppingcart/ShoppingCartServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/system/EmailService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/system/EmailService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/system/EmailServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/system/EmailServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/system/MerchantConfigurationService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/system/MerchantConfigurationService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/system/MerchantConfigurationServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/system/MerchantConfigurationServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/system/MerchantLogService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/system/MerchantLogService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/system/MerchantLogServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/system/MerchantLogServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/system/ModuleConfigurationService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/system/ModuleConfigurationService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/system/ModuleConfigurationServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/system/ModuleConfigurationServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/system/SystemConfigurationService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/system/SystemConfigurationService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/system/SystemConfigurationServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/system/SystemConfigurationServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/tax/TaxClassService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/tax/TaxClassService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/tax/TaxClassServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/tax/TaxClassServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/tax/TaxRateService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/tax/TaxRateService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/tax/TaxRateServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/tax/TaxRateServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/tax/TaxService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/tax/TaxService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/tax/TaxServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/tax/TaxServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/user/GroupService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/user/GroupService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/user/GroupServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/user/GroupServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/user/PermissionService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/user/PermissionService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/user/PermissionServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/user/PermissionServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/user/UserService.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/user/UserService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/user/UserServiceImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/user/UserServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/user/UserServiceLDAPImpl.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/services/user/UserServiceLDAPImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/utils/AbstractDataPopulator.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/utils/AbstractDataPopulator.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/utils/ApplicationContextListenerUtils.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/utils/ApplicationContextListenerUtils.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/utils/CacheUtils.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/utils/CacheUtils.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/utils/CatalogServiceHelper.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/utils/CatalogServiceHelper.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/utils/CoreConfiguration.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/utils/CoreConfiguration.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/utils/CreditCardUtils.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/utils/CreditCardUtils.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/utils/DataPopulator.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/utils/DataPopulator.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/utils/DataUtils.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/utils/DataUtils.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/utils/EntityPopulator.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/utils/EntityPopulator.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/utils/ProductImageCropUtils.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/utils/ProductImageCropUtils.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/utils/ProductImageSizeUtils.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/utils/ProductImageSizeUtils.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/utils/ProductPriceUtils.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/utils/ProductPriceUtils.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/utils/ProductUtils.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/utils/ProductUtils.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/utils/ajax/AjaxPageableResponse.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/utils/ajax/AjaxPageableResponse.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/utils/ajax/AjaxResponse.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/utils/ajax/AjaxResponse.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/utils/query/ProductQueryBuilder.class" afterPath="$PROJECT_DIR$/sm-core/target/classes/com/salesmanager/core/business/utils/query/ProductQueryBuilder.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/test-classes/com/salesmanager/test/catalog/ProductTest.class" afterPath="$PROJECT_DIR$/sm-core/target/test-classes/com/salesmanager/test/catalog/ProductTest.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/test-classes/com/salesmanager/test/common/AbstractSalesManagerCoreTestCase.class" afterPath="$PROJECT_DIR$/sm-core/target/test-classes/com/salesmanager/test/common/AbstractSalesManagerCoreTestCase.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/test-classes/com/salesmanager/test/configuration/ConfigurationTest.class" afterPath="$PROJECT_DIR$/sm-core/target/test-classes/com/salesmanager/test/configuration/ConfigurationTest.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/test-classes/com/salesmanager/test/content/ContentImagesTest.class" afterPath="$PROJECT_DIR$/sm-core/target/test-classes/com/salesmanager/test/content/ContentImagesTest.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/test-classes/com/salesmanager/test/content/StaticContentTest.class" afterPath="$PROJECT_DIR$/sm-core/target/test-classes/com/salesmanager/test/content/StaticContentTest.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/test-classes/com/salesmanager/test/customer/CustomerTest.class" afterPath="$PROJECT_DIR$/sm-core/target/test-classes/com/salesmanager/test/customer/CustomerTest.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/test-classes/com/salesmanager/test/merchant/MerchantTest.class" afterPath="$PROJECT_DIR$/sm-core/target/test-classes/com/salesmanager/test/merchant/MerchantTest.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/test-classes/com/salesmanager/test/order/InvoiceTest.class" afterPath="$PROJECT_DIR$/sm-core/target/test-classes/com/salesmanager/test/order/InvoiceTest.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/test-classes/com/salesmanager/test/order/OrderTest.class" afterPath="$PROJECT_DIR$/sm-core/target/test-classes/com/salesmanager/test/order/OrderTest.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/test-classes/com/salesmanager/test/references/ReferencesTest.class" afterPath="$PROJECT_DIR$/sm-core/target/test-classes/com/salesmanager/test/references/ReferencesTest.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/test-classes/com/salesmanager/test/shipping/ShippingMethodDecisionTest.class" afterPath="$PROJECT_DIR$/sm-core/target/test-classes/com/salesmanager/test/shipping/ShippingMethodDecisionTest.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/test-classes/com/salesmanager/test/shipping/ShippingQuoteByWeightTest.class" afterPath="$PROJECT_DIR$/sm-core/target/test-classes/com/salesmanager/test/shipping/ShippingQuoteByWeightTest.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/test-classes/com/salesmanager/test/shoppingcart/ShoppingCartTest.class" afterPath="$PROJECT_DIR$/sm-core/target/test-classes/com/salesmanager/test/shoppingcart/ShoppingCartTest.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/test-classes/com/salesmanager/test/utils/ImportIntegrationModule.class" afterPath="$PROJECT_DIR$/sm-core/target/test-classes/com/salesmanager/test/utils/ImportIntegrationModule.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/target/test-classes/com/salesmanager/test/utils/UtilsTestCase.class" afterPath="$PROJECT_DIR$/sm-core/target/test-classes/com/salesmanager/test/utils/UtilsTestCase.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-canadapost/target/maven-archiver/pom.properties" afterPath="$PROJECT_DIR$/shopizer-canadapost/target/maven-archiver/pom.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer-shipping-distance-module/target/maven-archiver/pom.properties" afterPath="$PROJECT_DIR$/shopizer-shipping-distance-module/target/maven-archiver/pom.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core-model/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterPath="$PROJECT_DIR$/sm-core-model/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core-model/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterPath="$PROJECT_DIR$/sm-core-model/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/content/ContentBoxesController.java" afterPath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/content/ContentBoxesController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/model/web/Menu.java" afterPath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/model/web/Menu.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/utils/LabelUtils.java" afterPath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/utils/LabelUtils.java" />
+    </list>
+    <ignored path="shopizer.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <ignored path="$PROJECT_DIR$/sm-core/target/" />
+    <ignored path="$PROJECT_DIR$/sm-core-modules/target/" />
+    <ignored path="$PROJECT_DIR$/target/" />
+    <ignored path="$PROJECT_DIR$/sm-core-model/target/" />
+    <ignored path="$PROJECT_DIR$/sm-shop/target/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="shopizer" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="ContentBoxesController.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/content/ContentBoxesController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="6" column="29" selection-start-line="6" selection-start-column="29" selection-end-line="6" selection-end-column="29" />
+              <folding>
+                <element signature="e#4646#4666#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GradleLocalSettings">
+    <option name="externalProjectsViewState">
+      <projects_view />
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/model/web/Menu.java" />
+        <option value="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/utils/LabelUtils.java" />
+        <option value="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/content/ContentBoxesController.java" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Bundled (Maven 3)" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="createModuleGroups" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="y" value="23" />
+    <option name="width" value="1260" />
+    <option name="height" value="709" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="1" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shopizer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shopizer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shopizer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shopizer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shopizer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sm-shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shopizer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shopizer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sm-shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shopizer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shopizer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sm-shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shopizer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shopizer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sm-shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shopizer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shopizer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sm-shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="admin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shopizer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shopizer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sm-shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="admin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controller" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shopizer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shopizer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sm-shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="admin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controller" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="orders" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shopizer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shopizer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sm-shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="admin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controller" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="content" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shopizer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shopizer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sm-shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="admin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controller" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="categories" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.splitter.proportion" value="0.2" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="SearchEverywhereHistoryKey" value="LabelUtils&#9;PSI&#9;JAVA://com.salesmanager.web.utils.LabelUtils&#10;Menu.java&#9;FILE&#9;file:///Users/umesh/personal/git/shopizer/sm-shop/src/main/java/com/salesmanager/shop/admin/model/web/Menu.java" />
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+      <option name="PROGRAM_PARAMETERS" />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <module />
+      <method />
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+      <method />
+    </configuration>
+    <configuration default="true" type="TestNG" factoryName="TestNG">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="ANNOTATION_TYPE" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <envs />
+      <properties />
+      <listeners />
+      <method />
+    </configuration>
+  </component>
+  <component name="SbtLocalSettings">
+    <option name="externalProjectsViewState">
+      <projects_view />
+    </option>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fcbb826d-6e02-4a83-94bd-4d2af42f8678" name="Default" comment="" />
+      <created>1477686203176</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1477686203176</updated>
+      <workItem from="1477686206961" duration="538000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="538000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="23" width="1260" height="709" extended-state="0" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30317461" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/model/web/Menu.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="10" column="7" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/utils/LabelUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="29" selection-start-line="0" selection-start-column="29" selection-end-line="0" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/categories/CategoryController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="37" column="45" selection-start-line="37" selection-start-column="35" selection-end-line="37" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/configurations/SystemConfigurationController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="30" column="13" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/configurations/ConfigurationController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="39" column="13" selection-start-line="39" selection-start-column="13" selection-end-line="39" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/configurations/CacheController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-600">
+          <caret line="30" column="13" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/content/ContentBoxesController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="29" selection-start-line="6" selection-start-column="29" selection-end-line="6" selection-end-column="29" />
+          <folding>
+            <element signature="e#4646#4666#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

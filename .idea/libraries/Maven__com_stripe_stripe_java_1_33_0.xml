@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.stripe:stripe-java:1.33.0">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/stripe/stripe-java/1.33.0/stripe-java-1.33.0.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/stripe/stripe-java/1.33.0/stripe-java-1.33.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/stripe/stripe-java/1.33.0/stripe-java-1.33.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

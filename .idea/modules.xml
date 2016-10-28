@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/shopizer.iml" filepath="$PROJECT_DIR$/shopizer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sm-core/sm-core.iml" filepath="$PROJECT_DIR$/sm-core/sm-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sm-core-model/sm-core-model.iml" filepath="$PROJECT_DIR$/sm-core-model/sm-core-model.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sm-core-modules/sm-core-modules.iml" filepath="$PROJECT_DIR$/sm-core-modules/sm-core-modules.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sm-shop/sm-shop.iml" filepath="$PROJECT_DIR$/sm-shop/sm-shop.iml" />
+    </modules>
+  </component>
+</project>
