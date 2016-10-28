@@ -1,37 +1,36 @@
-package com.salesmanager.web.utils;
+package com.salesmanager.shop.utils;
 
-import java.util.Date;
-import java.util.Locale;
-import java.util.Map;
-
+import com.salesmanager.core.business.modules.email.Email;
+import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.services.catalog.product.ProductService;
+import com.salesmanager.core.business.services.reference.country.CountryService;
+import com.salesmanager.core.business.services.reference.zone.ZoneService;
+import com.salesmanager.core.business.services.system.EmailService;
+import com.salesmanager.core.model.customer.Customer;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.order.Order;
+import com.salesmanager.core.model.order.OrderTotal;
+import com.salesmanager.core.model.order.orderproduct.OrderProduct;
+import com.salesmanager.core.model.order.orderstatus.OrderStatusHistory;
+import com.salesmanager.core.model.reference.country.Country;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.model.reference.zone.Zone;
+import com.salesmanager.shop.constants.ApplicationConstants;
+import com.salesmanager.shop.constants.EmailConstants;
+import com.salesmanager.shop.model.customer.PersistableCustomer;
+import com.salesmanager.shop.model.shop.ContactForm;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.impl.cookie.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
-import com.salesmanager.core.business.catalog.product.service.PricingService;
-import com.salesmanager.core.business.catalog.product.service.ProductService;
-import com.salesmanager.core.business.customer.model.Customer;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.order.model.Order;
-import com.salesmanager.core.business.order.model.OrderTotal;
-import com.salesmanager.core.business.order.model.orderproduct.OrderProduct;
-import com.salesmanager.core.business.order.model.orderstatus.OrderStatusHistory;
-import com.salesmanager.core.business.reference.country.model.Country;
-import com.salesmanager.core.business.reference.country.service.CountryService;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.business.reference.zone.model.Zone;
-import com.salesmanager.core.business.reference.zone.service.ZoneService;
-import com.salesmanager.core.business.system.service.EmailService;
-import com.salesmanager.core.modules.email.Email;
-import com.salesmanager.web.constants.ApplicationConstants;
-import com.salesmanager.web.constants.EmailConstants;
-import com.salesmanager.web.entity.customer.PersistableCustomer;
-import com.salesmanager.web.entity.shop.ContactForm;
+import javax.inject.Inject;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
 
 
 @Component
@@ -275,7 +274,6 @@ public class EmailTemplatesUtils {
 	
 	/**
 	 * Sends an email to the customer after registration
-	 * @param request
 	 * @param customer
 	 * @param merchantStore
 	 * @param customerLocale
@@ -362,7 +360,6 @@ public class EmailTemplatesUtils {
 	
 	/**
 	 * Send an email to the customer with last order status
-	 * @param request
 	 * @param customer
 	 * @param order
 	 * @param merchantStore

@@ -2,27 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fcbb826d-6e02-4a83-94bd-4d2af42f8678" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopizer.iml" afterPath="$PROJECT_DIR$/shopizer.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-core/sm-core.iml" afterPath="$PROJECT_DIR$/sm-core/sm-core.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-shop/sm-shop.iml" afterPath="$PROJECT_DIR$/sm-shop/sm-shop.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/content/ContentPagesController.java" afterPath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/content/ContentPagesController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/content/StaticContentController.java" afterPath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/content/StaticContentController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/customers/CustomerOptionsController.java" afterPath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/customers/CustomerOptionsController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/customers/CustomerOptionsSetController.java" afterPath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/customers/CustomerOptionsSetController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/customers/CustomerOptionsValueController.java" afterPath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/customers/CustomerOptionsValueController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/merchant/MerchantStoreController.java" afterPath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/merchant/MerchantStoreController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/merchant/StoreBrandingController.java" afterPath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/merchant/StoreBrandingController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/merchant/StoreLandingController.java" afterPath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/merchant/StoreLandingController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/model/merchant/StoreLanding.java" afterPath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/model/merchant/StoreLanding.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/model/merchant/StoreLandingDescription.java" afterPath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/model/merchant/StoreLandingDescription.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/model/reference/Size.java" afterPath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/model/reference/Size.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/model/reference/Weight.java" afterPath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/model/reference/Weight.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/model/userpassword/UserReset.java" afterPath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/model/userpassword/UserReset.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/constants/ApplicationConstants.java" afterPath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/constants/ApplicationConstants.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/constants/EmailConstants.java" afterPath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/constants/EmailConstants.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/utils/DateUtil.java" afterPath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/utils/DateUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/utils/FilePathUtils.java" afterPath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/utils/FilePathUtils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/utils/UserUtils.java" afterPath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/utils/UserUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/orders/OrderActionsControler.java" afterPath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/orders/OrderActionsControler.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/orders/OrderControler.java" afterPath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/orders/OrderControler.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/orders/OrdersController.java" afterPath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/orders/OrdersController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/model/orders/Order.java" afterPath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/model/orders/Order.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/model/orders/Refund.java" afterPath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/model/orders/Refund.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/utils/EmailTemplatesUtils.java" afterPath="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/utils/EmailTemplatesUtils.java" />
     </list>
     <ignored path="shopizer.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -47,7 +32,18 @@
     <favorites_list name="shopizer" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="OrdersController.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/orders/OrdersController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="75">
+              <caret line="5" column="5" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -81,6 +77,12 @@
         <option value="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/merchant/StoreLandingController.java" />
         <option value="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/model/merchant/StoreLanding.java" />
         <option value="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/model/merchant/StoreLandingDescription.java" />
+        <option value="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/orders/OrderActionsControler.java" />
+        <option value="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/model/orders/Refund.java" />
+        <option value="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/utils/EmailTemplatesUtils.java" />
+        <option value="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/model/orders/Order.java" />
+        <option value="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/orders/OrderControler.java" />
+        <option value="$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/orders/OrdersController.java" />
       </list>
     </option>
   </component>
@@ -486,7 +488,7 @@
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="SearchEverywhereHistoryKey" value="StoreLandingDescription&#9;PSI&#9;JAVA://com.salesmanager.web.admin.entity.merchant.StoreLandingDescription&#10;StoreLanding&#9;PSI&#9;JAVA://com.salesmanager.web.admin.entity.merchant.StoreLanding&#10;AjaxResponse&#9;PSI&#9;JAVA://com.salesmanager.core.business.utils.ajax.AjaxResponse&#10;UserUtils&#9;PSI&#9;JAVA://com.salesmanager.web.utils.UserUtils&#10;ApplicationConstants&#9;PSI&#9;JAVA://com.salesmanager.web.constants.ApplicationConstants&#10;FilePathUtils&#9;PSI&#9;JAVA://com.salesmanager.web.utils.FilePathUtils&#10;com.salesmanager.core.constants&#9;PSI&#9;JAVA://com.salesmanager.core.business.constants.Constants&#10;Constants&#9;PSI&#9;JAVA://com.salesmanager.shop.constants.Constants&#10;DateUtil&#9;PSI&#9;JAVA://com.salesmanager.web.utils.DateUtil&#10;Weight&#9;PSI&#9;JAVA://com.salesmanager.web.admin.entity.reference.Weight&#10;Size&#9;PSI&#9;JAVA://com.salesmanager.web.admin.entity.reference.Size&#10;EmailConstants&#9;PSI&#9;JAVA://com.salesmanager.web.constants.EmailConstants&#10;UserReset&#9;PSI&#9;JAVA://com.salesmanager.web.admin.entity.userpassword.UserReset&#10;LabelUtils&#9;PSI&#9;JAVA://com.salesmanager.web.utils.LabelUtils&#10;Menu.java&#9;FILE&#9;file:///Users/umesh/personal/git/shopizer/sm-shop/src/main/java/com/salesmanager/shop/admin/model/web/Menu.java" />
+    <property name="SearchEverywhereHistoryKey" value="om.salesmanager.web.admin.entity.orders.Order&#9;PSI&#9;JAVA://com.salesmanager.web.admin.entity.orders.Order&#10;EmailService&#9;PSI&#9;JAVA://com.salesmanager.core.business.services.system.EmailService&#10;EmailTemplatesUtils&#9;PSI&#9;JAVA://com.salesmanager.web.utils.EmailTemplatesUtils&#10;Refund&#9;PSI&#9;JAVA://com.salesmanager.web.admin.entity.orders.Refund&#10;StoreLandingDescription&#9;PSI&#9;JAVA://com.salesmanager.web.admin.entity.merchant.StoreLandingDescription&#10;StoreLanding&#9;PSI&#9;JAVA://com.salesmanager.web.admin.entity.merchant.StoreLanding&#10;AjaxResponse&#9;PSI&#9;JAVA://com.salesmanager.core.business.utils.ajax.AjaxResponse&#10;UserUtils&#9;PSI&#9;JAVA://com.salesmanager.web.utils.UserUtils&#10;ApplicationConstants&#9;PSI&#9;JAVA://com.salesmanager.web.constants.ApplicationConstants&#10;FilePathUtils&#9;PSI&#9;JAVA://com.salesmanager.web.utils.FilePathUtils&#10;com.salesmanager.core.constants&#9;PSI&#9;JAVA://com.salesmanager.core.business.constants.Constants&#10;Constants&#9;PSI&#9;JAVA://com.salesmanager.shop.constants.Constants&#10;DateUtil&#9;PSI&#9;JAVA://com.salesmanager.web.utils.DateUtil&#10;Weight&#9;PSI&#9;JAVA://com.salesmanager.web.admin.entity.reference.Weight&#10;Size&#9;PSI&#9;JAVA://com.salesmanager.web.admin.entity.reference.Size&#10;EmailConstants&#9;PSI&#9;JAVA://com.salesmanager.web.constants.EmailConstants&#10;UserReset&#9;PSI&#9;JAVA://com.salesmanager.web.admin.entity.userpassword.UserReset&#10;LabelUtils&#9;PSI&#9;JAVA://com.salesmanager.web.utils.LabelUtils&#10;Menu.java&#9;FILE&#9;file:///Users/umesh/personal/git/shopizer/sm-shop/src/main/java/com/salesmanager/shop/admin/model/web/Menu.java" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
@@ -595,16 +597,16 @@
       <option name="presentableId" value="Default" />
       <updated>1477686203176</updated>
       <workItem from="1477686206961" duration="538000" />
-      <workItem from="1477689503605" duration="1375000" />
+      <workItem from="1477689503605" duration="2489000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1913000" />
+    <option name="totallyTimeSpent" value="3027000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1260" height="709" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -619,7 +621,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30317461" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30317461" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -922,6 +924,71 @@
           <folding>
             <element signature="e#5280#5300#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/model/orders/Refund.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="41" selection-start-line="0" selection-start-column="41" selection-end-line="0" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sm-core/src/main/java/com/salesmanager/core/business/services/system/EmailService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="54" selection-start-line="0" selection-start-column="8" selection-end-line="0" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/utils/EmailTemplatesUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="166">
+          <caret line="363" column="7" selection-start-line="363" selection-start-column="7" selection-end-line="363" selection-end-column="7" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/orders/OrderActionsControler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="42" column="54" selection-start-line="42" selection-start-column="35" selection-end-line="42" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/model/orders/Order.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="431">
+          <caret line="71" column="58" selection-start-line="71" selection-start-column="58" selection-end-line="71" selection-end-column="58" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/orders/OrderControler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-660">
+          <caret line="285" column="41" selection-start-line="285" selection-start-column="41" selection-end-line="285" selection-end-column="41" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#7753#7767#0" expanded="true" />
+            <element signature="e#7813#7825#0" expanded="true" />
+            <element signature="e#7881#7901#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sm-shop/src/main/java/com/salesmanager/shop/admin/controller/orders/OrdersController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="5" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="5" />
+          <folding />
         </state>
       </provider>
     </entry>
