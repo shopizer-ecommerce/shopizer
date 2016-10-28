@@ -1,14 +1,14 @@
-package com.salesmanager.web.populator.catalog;
+package com.salesmanager.shop.populator.catalog;
 
 import org.apache.commons.lang.Validate;
 
-import com.salesmanager.core.business.catalog.product.model.price.FinalPrice;
-import com.salesmanager.core.business.catalog.product.service.PricingService;
-import com.salesmanager.core.business.generic.exception.ConversionException;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.utils.AbstractDataPopulator;
-import com.salesmanager.web.entity.catalog.product.ReadableProductPrice;
+import com.salesmanager.core.business.exception.ConversionException;
+import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.utils.AbstractDataPopulator;
+import com.salesmanager.core.model.catalog.product.price.FinalPrice;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.model.catalog.product.ReadableProductPrice;
 
 public class ReadableFinalPricePopulator extends
 		AbstractDataPopulator<FinalPrice, ReadableProductPrice> {

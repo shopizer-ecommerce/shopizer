@@ -1,4 +1,4 @@
-package com.salesmanager.web.populator.catalog;
+package com.salesmanager.shop.populator.catalog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,15 +7,16 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
 
-import com.salesmanager.core.business.catalog.category.model.Category;
-import com.salesmanager.core.business.catalog.category.service.CategoryService;
-import com.salesmanager.core.business.generic.exception.ConversionException;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.business.reference.language.service.LanguageService;
-import com.salesmanager.core.utils.AbstractDataPopulator;
-import com.salesmanager.web.entity.catalog.category.CategoryDescription;
-import com.salesmanager.web.entity.catalog.category.PersistableCategory;
+import com.salesmanager.core.business.exception.ConversionException;
+import com.salesmanager.core.business.services.catalog.category.CategoryService;
+import com.salesmanager.core.business.services.reference.language.LanguageService;
+import com.salesmanager.core.business.utils.AbstractDataPopulator;
+import com.salesmanager.core.model.catalog.category.Category;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.model.catalog.category.CategoryDescription;
+import com.salesmanager.shop.model.catalog.category.PersistableCategory;
+
 
 public class PersistableCategoryPopulator extends
 		AbstractDataPopulator<PersistableCategory, Category> {
@@ -105,9 +106,9 @@ public class PersistableCategoryPopulator extends
 
 		
 		if(!CollectionUtils.isEmpty(source.getDescriptions())) {
-			List<com.salesmanager.core.business.catalog.category.model.CategoryDescription> descriptions = new ArrayList<com.salesmanager.core.business.catalog.category.model.CategoryDescription>();
+			List<com.salesmanager.core.model.catalog.category.CategoryDescription> descriptions = new ArrayList<com.salesmanager.core.model.catalog.category.CategoryDescription>();
 			for(CategoryDescription description : source.getDescriptions()) {
-				com.salesmanager.core.business.catalog.category.model.CategoryDescription desc = new com.salesmanager.core.business.catalog.category.model.CategoryDescription();
+				com.salesmanager.core.model.catalog.category.CategoryDescription desc = new com.salesmanager.core.model.catalog.category.CategoryDescription();
 				desc.setCategory(target);
 				desc.setCategoryHighlight(description.getHighlights());
 				desc.setDescription(description.getDescription());

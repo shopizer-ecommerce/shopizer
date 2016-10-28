@@ -1,4 +1,4 @@
-package com.salesmanager.web.populator.catalog;
+package com.salesmanager.shop.populator.catalog;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -6,14 +6,17 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.Validate;
 
-import com.salesmanager.core.business.catalog.product.model.attribute.ProductOption;
-import com.salesmanager.core.business.generic.exception.ConversionException;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.business.reference.language.service.LanguageService;
-import com.salesmanager.core.utils.AbstractDataPopulator;
-import com.salesmanager.web.entity.catalog.product.attribute.PersistableProductOption;
-import com.salesmanager.web.entity.catalog.product.attribute.ProductOptionDescription;
+import com.salesmanager.core.business.exception.ConversionException;
+import com.salesmanager.core.business.services.reference.language.LanguageService;
+import com.salesmanager.core.business.utils.AbstractDataPopulator;
+import com.salesmanager.core.model.catalog.product.attribute.ProductOption;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductOption;
+import com.salesmanager.shop.model.catalog.product.attribute.ProductOptionDescription;
+
+
+
 
 public class PersistableProductOptionPopulator extends
 		AbstractDataPopulator<PersistableProductOption, ProductOption> {
@@ -43,9 +46,9 @@ public class PersistableProductOptionPopulator extends
 			target.setCode(source.getCode());
 			
 			if(!CollectionUtils.isEmpty(source.getDescriptions())) {
-				Set<com.salesmanager.core.business.catalog.product.model.attribute.ProductOptionDescription> descriptions = new HashSet<com.salesmanager.core.business.catalog.product.model.attribute.ProductOptionDescription>();
+				Set<com.salesmanager.core.model.catalog.product.attribute.ProductOptionDescription> descriptions = new HashSet<com.salesmanager.core.model.catalog.product.attribute.ProductOptionDescription>();
 				for(ProductOptionDescription desc  : source.getDescriptions()) {
-					com.salesmanager.core.business.catalog.product.model.attribute.ProductOptionDescription description = new com.salesmanager.core.business.catalog.product.model.attribute.ProductOptionDescription();
+					com.salesmanager.core.model.catalog.product.attribute.ProductOptionDescription description = new com.salesmanager.core.model.catalog.product.attribute.ProductOptionDescription();
 					Language lang = languageService.getByCode(desc.getLanguage());
 					if(lang==null) {
 						throw new ConversionException("Language is null for code " + description.getLanguage() + " use language ISO code [en, fr ...]");

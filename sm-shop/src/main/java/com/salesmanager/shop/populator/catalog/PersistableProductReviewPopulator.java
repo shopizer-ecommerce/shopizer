@@ -1,24 +1,27 @@
-package com.salesmanager.web.populator.catalog;
+package com.salesmanager.shop.populator.catalog;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.commons.lang.Validate;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 
-import com.salesmanager.core.business.catalog.product.model.Product;
-import com.salesmanager.core.business.catalog.product.model.review.ProductReview;
-import com.salesmanager.core.business.catalog.product.model.review.ProductReviewDescription;
-import com.salesmanager.core.business.catalog.product.service.ProductService;
-import com.salesmanager.core.business.customer.model.Customer;
-import com.salesmanager.core.business.customer.service.CustomerService;
-import com.salesmanager.core.business.generic.exception.ConversionException;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.business.reference.language.service.LanguageService;
-import com.salesmanager.core.utils.AbstractDataPopulator;
-import com.salesmanager.web.entity.catalog.product.PersistableProductReview;
-import com.shopizer.search.utils.DateUtil;
+import org.apache.commons.lang.Validate;
+
+import com.salesmanager.core.business.exception.ConversionException;
+import com.salesmanager.core.business.services.catalog.product.ProductService;
+import com.salesmanager.core.business.services.customer.CustomerService;
+import com.salesmanager.core.business.services.reference.language.LanguageService;
+import com.salesmanager.core.business.utils.AbstractDataPopulator;
+import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.review.ProductReview;
+import com.salesmanager.core.model.catalog.product.review.ProductReviewDescription;
+import com.salesmanager.core.model.customer.Customer;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.model.catalog.product.PersistableProductReview;
+import com.salesmanager.shop.utils.DateUtil;
+
+
 
 public class PersistableProductReviewPopulator extends
 		AbstractDataPopulator<PersistableProductReview, ProductReview> {
@@ -67,7 +70,7 @@ public class PersistableProductReviewPopulator extends
 				throw new ConversionException("Invalid customer id for the given store");
 			}
 			
-			target.setReviewDate(DateUtil.formatDate(source.getDate()));
+			target.setReviewDate(DateUtil.getDate(source.getDate()));
 			target.setCustomer(customer);
 			target.setReviewRating(source.getRating());
 			

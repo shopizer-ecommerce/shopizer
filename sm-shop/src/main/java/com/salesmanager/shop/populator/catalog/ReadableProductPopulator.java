@@ -1,4 +1,4 @@
-package com.salesmanager.web.populator.catalog;
+package com.salesmanager.shop.populator.catalog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,23 +8,25 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
 
-import com.salesmanager.core.business.catalog.product.model.Product;
-import com.salesmanager.core.business.catalog.category.model.Category;
-import com.salesmanager.core.business.catalog.product.model.availability.ProductAvailability;
-import com.salesmanager.core.business.catalog.product.model.description.ProductDescription;
-import com.salesmanager.core.business.catalog.product.model.image.ProductImage;
-import com.salesmanager.core.business.catalog.product.model.manufacturer.ManufacturerDescription;
-import com.salesmanager.core.business.catalog.product.model.price.FinalPrice;
-import com.salesmanager.core.business.catalog.product.service.PricingService;
-import com.salesmanager.core.business.generic.exception.ConversionException;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.constants.Constants;
-import com.salesmanager.core.utils.AbstractDataPopulator;
-import com.salesmanager.web.entity.catalog.ReadableImage;
-import com.salesmanager.web.entity.catalog.manufacturer.ReadableManufacturer;
-import com.salesmanager.web.entity.catalog.product.ReadableProduct;
-import com.salesmanager.web.utils.ImageFilePath;
+import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.exception.ConversionException;
+import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.utils.AbstractDataPopulator;
+import com.salesmanager.core.model.catalog.category.Category;
+import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
+import com.salesmanager.core.model.catalog.product.description.ProductDescription;
+import com.salesmanager.core.model.catalog.product.image.ProductImage;
+import com.salesmanager.core.model.catalog.product.manufacturer.ManufacturerDescription;
+import com.salesmanager.core.model.catalog.product.price.FinalPrice;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.model.catalog.ReadableImage;
+import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
+import com.salesmanager.shop.model.catalog.product.ReadableProduct;
+import com.salesmanager.shop.utils.ImageFilePath;
+
+
 
 public class ReadableProductPopulator extends
 		AbstractDataPopulator<Product, ReadableProduct> {
@@ -93,7 +95,7 @@ public class ReadableProductPopulator extends
 				target.setRatingCount(source.getProductReviewCount().intValue());
 			}
 			if(description!=null) {
-				com.salesmanager.web.entity.catalog.product.ProductDescription tragetDescription = new com.salesmanager.web.entity.catalog.product.ProductDescription();
+				com.salesmanager.shop.model.catalog.product.ProductDescription tragetDescription = new com.salesmanager.shop.model.catalog.product.ProductDescription();
 				tragetDescription.setFriendlyUrl(description.getSeUrl());
 				tragetDescription.setName(description.getName());
 				if(!StringUtils.isBlank(description.getMetatagTitle())) {
@@ -110,7 +112,7 @@ public class ReadableProductPopulator extends
 			if(source.getManufacturer()!=null) {
 				ManufacturerDescription manufacturer = source.getManufacturer().getDescriptions().iterator().next(); 
 				ReadableManufacturer manufacturerEntity = new ReadableManufacturer();
-				com.salesmanager.web.entity.catalog.manufacturer.ManufacturerDescription d = new com.salesmanager.web.entity.catalog.manufacturer.ManufacturerDescription(); 
+				com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription d = new com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription(); 
 				d.setName(manufacturer.getName());
 				manufacturerEntity.setDescription(d);
 				manufacturerEntity.setId(manufacturer.getId());

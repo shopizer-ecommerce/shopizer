@@ -1,4 +1,4 @@
-package com.salesmanager.web.populator.catalog;
+package com.salesmanager.shop.populator.catalog;
 
 import java.io.ByteArrayInputStream;
 import java.math.BigDecimal;
@@ -12,31 +12,33 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
 
-import com.salesmanager.core.business.catalog.category.model.Category;
-import com.salesmanager.core.business.catalog.category.service.CategoryService;
-import com.salesmanager.core.business.catalog.product.model.Product;
-import com.salesmanager.core.business.catalog.product.model.attribute.ProductAttribute;
-import com.salesmanager.core.business.catalog.product.model.attribute.ProductOption;
-import com.salesmanager.core.business.catalog.product.model.attribute.ProductOptionValue;
-import com.salesmanager.core.business.catalog.product.model.availability.ProductAvailability;
-import com.salesmanager.core.business.catalog.product.model.description.ProductDescription;
-import com.salesmanager.core.business.catalog.product.model.image.ProductImage;
-import com.salesmanager.core.business.catalog.product.model.manufacturer.Manufacturer;
-import com.salesmanager.core.business.catalog.product.model.price.ProductPrice;
-import com.salesmanager.core.business.catalog.product.model.price.ProductPriceDescription;
-import com.salesmanager.core.business.catalog.product.service.attribute.ProductOptionService;
-import com.salesmanager.core.business.catalog.product.service.attribute.ProductOptionValueService;
-import com.salesmanager.core.business.catalog.product.service.manufacturer.ManufacturerService;
-import com.salesmanager.core.business.generic.exception.ConversionException;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.business.reference.language.service.LanguageService;
-import com.salesmanager.core.business.tax.service.TaxClassService;
-import com.salesmanager.core.utils.AbstractDataPopulator;
-import com.salesmanager.web.entity.catalog.product.PersistableImage;
-import com.salesmanager.web.entity.catalog.product.PersistableProduct;
-import com.salesmanager.web.entity.catalog.product.ProductPriceEntity;
-import com.salesmanager.web.utils.DateUtil;
+import com.salesmanager.core.business.exception.ConversionException;
+import com.salesmanager.core.business.services.catalog.category.CategoryService;
+import com.salesmanager.core.business.services.catalog.product.attribute.ProductOptionService;
+import com.salesmanager.core.business.services.catalog.product.attribute.ProductOptionValueService;
+import com.salesmanager.core.business.services.catalog.product.manufacturer.ManufacturerService;
+import com.salesmanager.core.business.services.reference.language.LanguageService;
+import com.salesmanager.core.business.services.tax.TaxClassService;
+import com.salesmanager.core.business.utils.AbstractDataPopulator;
+import com.salesmanager.core.model.catalog.category.Category;
+import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
+import com.salesmanager.core.model.catalog.product.attribute.ProductOption;
+import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValue;
+import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
+import com.salesmanager.core.model.catalog.product.description.ProductDescription;
+import com.salesmanager.core.model.catalog.product.image.ProductImage;
+import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
+import com.salesmanager.core.model.catalog.product.price.ProductPrice;
+import com.salesmanager.core.model.catalog.product.price.ProductPriceDescription;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.model.catalog.product.PersistableImage;
+import com.salesmanager.shop.model.catalog.product.PersistableProduct;
+import com.salesmanager.shop.model.catalog.product.ProductPriceEntity;
+import com.salesmanager.shop.utils.DateUtil;
+
+
 
 public class PersistableProductPopulator extends
 		AbstractDataPopulator<PersistableProduct, Product> {
@@ -101,7 +103,7 @@ public class PersistableProductPopulator extends
 			List<Language> languages = new ArrayList<Language>();
 			Set<ProductDescription> descriptions = new HashSet<ProductDescription>();
 			if(!CollectionUtils.isEmpty(source.getDescriptions())) {
-				for(com.salesmanager.web.entity.catalog.product.ProductDescription description : source.getDescriptions()) {
+				for(com.salesmanager.shop.model.catalog.product.ProductDescription description : source.getDescriptions()) {
 					
 					ProductDescription productDescription = new ProductDescription();
 					productDescription.setProduct(target);
@@ -216,7 +218,7 @@ public class PersistableProductPopulator extends
 			
 			//attributes
 			if(source.getAttributes()!=null) {
-				for(com.salesmanager.web.entity.catalog.product.attribute.ProductAttributeEntity attr : source.getAttributes()) {
+				for(com.salesmanager.shop.model.catalog.product.attribute.ProductAttributeEntity attr : source.getAttributes()) {
 					
 					ProductOption productOption = null;
 							
@@ -266,7 +268,7 @@ public class PersistableProductPopulator extends
 			
 			//categories
 			if(!CollectionUtils.isEmpty(source.getCategories())) {
-				for(com.salesmanager.web.entity.catalog.category.Category categ : source.getCategories()) {
+				for(com.salesmanager.shop.model.catalog.category.Category categ : source.getCategories()) {
 					
 					Category c = null;
 					if(!StringUtils.isBlank(categ.getCode())) {

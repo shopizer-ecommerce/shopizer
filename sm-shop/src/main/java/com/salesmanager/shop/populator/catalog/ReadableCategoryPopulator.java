@@ -1,12 +1,14 @@
-package com.salesmanager.web.populator.catalog;
+package com.salesmanager.shop.populator.catalog;
 
-import com.salesmanager.core.business.catalog.category.model.Category;
-import com.salesmanager.core.business.catalog.category.model.CategoryDescription;
-import com.salesmanager.core.business.generic.exception.ConversionException;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.utils.AbstractDataPopulator;
-import com.salesmanager.web.entity.catalog.category.ReadableCategory;
+
+
+import com.salesmanager.core.business.exception.ConversionException;
+import com.salesmanager.core.business.utils.AbstractDataPopulator;
+import com.salesmanager.core.model.catalog.category.Category;
+import com.salesmanager.core.model.catalog.category.CategoryDescription;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 
 public class ReadableCategoryPopulator extends
 		AbstractDataPopulator<Category, ReadableCategory> {
@@ -32,7 +34,7 @@ public class ReadableCategoryPopulator extends
 		
 		
 			if(description!=null) {
-				com.salesmanager.web.entity.catalog.category.CategoryDescription desc = new com.salesmanager.web.entity.catalog.category.CategoryDescription();
+				com.salesmanager.shop.model.catalog.category.CategoryDescription desc = new com.salesmanager.shop.model.catalog.category.CategoryDescription();
 				desc.setFriendlyUrl(description.getSeUrl());
 				desc.setName(description.getName());
 				desc.setDescription(description.getName());
@@ -47,7 +49,7 @@ public class ReadableCategoryPopulator extends
 		}
 		
 		if(source.getParent()!=null) {
-			com.salesmanager.web.entity.catalog.category.Category parent = new com.salesmanager.web.entity.catalog.category.Category();
+			com.salesmanager.shop.model.catalog.category.Category parent = new com.salesmanager.shop.model.catalog.category.Category();
 			parent.setCode(source.getParent().getCode());
 			parent.setId(source.getParent().getId());
 			target.setParent(parent);

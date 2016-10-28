@@ -1,18 +1,17 @@
-package com.salesmanager.web.populator.catalog;
+package com.salesmanager.shop.populator.catalog;
 
 import java.util.Set;
 
-
-import com.salesmanager.core.business.catalog.product.model.review.ProductReview;
-import com.salesmanager.core.business.catalog.product.model.review.ProductReviewDescription;
-import com.salesmanager.core.business.generic.exception.ConversionException;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.utils.AbstractDataPopulator;
-import com.salesmanager.web.entity.catalog.product.ReadableProductReview;
-import com.salesmanager.web.entity.customer.ReadableCustomer;
-import com.salesmanager.web.populator.customer.ReadableCustomerPopulator;
-import com.salesmanager.web.utils.DateUtil;
+import com.salesmanager.core.business.exception.ConversionException;
+import com.salesmanager.core.business.utils.AbstractDataPopulator;
+import com.salesmanager.core.model.catalog.product.review.ProductReview;
+import com.salesmanager.core.model.catalog.product.review.ProductReviewDescription;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.model.catalog.product.ReadableProductReview;
+import com.salesmanager.shop.model.customer.ReadableCustomer;
+import com.salesmanager.shop.populator.customer.ReadableCustomerPopulator;
+import com.salesmanager.shop.utils.DateUtil;
 
 public class ReadableProductReviewPopulator extends
 		AbstractDataPopulator<ProductReview, ReadableProductReview> {

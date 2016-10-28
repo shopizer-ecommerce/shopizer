@@ -1,18 +1,18 @@
-package com.salesmanager.web.populator.customer;
+package com.salesmanager.shop.populator.customer;
 
-import com.salesmanager.core.business.customer.model.Customer;
-import com.salesmanager.core.business.customer.model.attribute.CustomerAttribute;
-import com.salesmanager.core.business.generic.exception.ConversionException;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.utils.AbstractDataPopulator;
-import com.salesmanager.web.entity.customer.Address;
-import com.salesmanager.web.entity.customer.ReadableCustomer;
-import com.salesmanager.web.entity.customer.attribute.CustomerOptionDescription;
-import com.salesmanager.web.entity.customer.attribute.CustomerOptionValueDescription;
-import com.salesmanager.web.entity.customer.attribute.ReadableCustomerAttribute;
-import com.salesmanager.web.entity.customer.attribute.ReadableCustomerOption;
-import com.salesmanager.web.entity.customer.attribute.ReadableCustomerOptionValue;
+import com.salesmanager.core.business.exception.ConversionException;
+import com.salesmanager.core.business.utils.AbstractDataPopulator;
+import com.salesmanager.core.model.customer.Customer;
+import com.salesmanager.core.model.customer.attribute.CustomerAttribute;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.model.customer.Address;
+import com.salesmanager.shop.model.customer.ReadableCustomer;
+import com.salesmanager.shop.model.customer.attribute.CustomerOptionDescription;
+import com.salesmanager.shop.model.customer.attribute.CustomerOptionValueDescription;
+import com.salesmanager.shop.model.customer.attribute.ReadableCustomerAttribute;
+import com.salesmanager.shop.model.customer.attribute.ReadableCustomerOption;
+import com.salesmanager.shop.model.customer.attribute.ReadableCustomerOptionValue;
 
 public class ReadableCustomerPopulator extends
 		AbstractDataPopulator<Customer, ReadableCustomer> {
