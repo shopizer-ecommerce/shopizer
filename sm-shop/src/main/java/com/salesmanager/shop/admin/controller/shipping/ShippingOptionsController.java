@@ -1,4 +1,4 @@
-package com.salesmanager.web.admin.controller.shipping;
+package com.salesmanager.shop.admin.controller.shipping;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -7,7 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import javax.inject.Inject;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,15 +21,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.shipping.model.ShippingConfiguration;
-import com.salesmanager.core.business.shipping.model.ShippingType;
-import com.salesmanager.core.business.shipping.service.ShippingService;
-import com.salesmanager.core.utils.ProductPriceUtils;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.shipping.ShippingConfiguration;
+import com.salesmanager.core.model.shipping.ShippingType;
+import com.salesmanager.core.business.services.shipping.ShippingService;
+import com.salesmanager.core.business.utils.ProductPriceUtils;
 import com.salesmanager.shop.admin.controller.ControllerConstants;
-import com.salesmanager.web.admin.entity.web.Menu;
-import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.utils.LabelUtils;
+import com.salesmanager.shop.admin.model.web.Menu;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.utils.LabelUtils;
 
 @Controller
 public class ShippingOptionsController {

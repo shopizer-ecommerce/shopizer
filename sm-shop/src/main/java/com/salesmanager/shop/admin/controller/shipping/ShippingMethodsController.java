@@ -1,17 +1,17 @@
-package com.salesmanager.web.admin.controller.shipping;
+package com.salesmanager.shop.admin.controller.shipping;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.salesmanager.core.business.services.shipping.ShippingService;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.system.IntegrationConfiguration;
+import com.salesmanager.core.model.system.IntegrationModule;
+import com.salesmanager.core.modules.integration.IntegrationException;
+import com.salesmanager.core.modules.integration.shipping.model.CustomShippingQuotesConfiguration;
+import com.salesmanager.shop.admin.controller.ControllerConstants;
+import com.salesmanager.shop.admin.model.web.Menu;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.utils.LabelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,16 +21,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.shipping.service.ShippingService;
-import com.salesmanager.core.business.system.model.IntegrationConfiguration;
-import com.salesmanager.core.business.system.model.IntegrationModule;
-import com.salesmanager.core.modules.integration.IntegrationException;
-import com.salesmanager.core.modules.integration.shipping.model.CustomShippingQuotesConfiguration;
-import com.salesmanager.shop.admin.controller.ControllerConstants;
-import com.salesmanager.web.admin.entity.web.Menu;
-import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.utils.LabelUtils;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.*;
 
 @Controller
 public class ShippingMethodsController {
@@ -48,7 +42,6 @@ public class ShippingMethodsController {
 	 * Configures the shipping shows shipping methods
 	 * @param request
 	 * @param response
-	 * @param locale
 	 * @return
 	 * @throws Exception
 	 */
@@ -94,8 +87,8 @@ public class ShippingMethodsController {
 		configuration.setModuleCode(code);
 		
 		List<String> environments = new ArrayList<String>();
-		environments.add(com.salesmanager.core.constants.Constants.TEST_ENVIRONMENT);
-		environments.add(com.salesmanager.core.constants.Constants.PRODUCTION_ENVIRONMENT);
+		environments.add(com.salesmanager.core.business.constants.Constants.TEST_ENVIRONMENT);
+		environments.add(com.salesmanager.core.business.constants.Constants.PRODUCTION_ENVIRONMENT);
 		
 		model.addAttribute("configuration", configuration);
 		model.addAttribute("environments", environments);
@@ -115,8 +108,8 @@ public class ShippingMethodsController {
 		LOGGER.debug("Saving module code " + moduleCode);
 		
 		List<String> environments = new ArrayList<String>();
-		environments.add(com.salesmanager.core.constants.Constants.TEST_ENVIRONMENT);
-		environments.add(com.salesmanager.core.constants.Constants.PRODUCTION_ENVIRONMENT);
+		environments.add(com.salesmanager.core.business.constants.Constants.TEST_ENVIRONMENT);
+		environments.add(com.salesmanager.core.business.constants.Constants.PRODUCTION_ENVIRONMENT);
 
 		model.addAttribute("environments", environments);
 		model.addAttribute("configuration", configuration);

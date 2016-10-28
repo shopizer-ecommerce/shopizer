@@ -1,8 +1,8 @@
-package com.salesmanager.web.admin.entity.secutity;
+package com.salesmanager.shop.admin.model.secutity;
+
+import com.salesmanager.core.model.user.User;
 
 import java.io.Serializable;
-
-import com.salesmanager.core.business.user.model.User;
 
 /**
  * Entity used in the cahange passord page
