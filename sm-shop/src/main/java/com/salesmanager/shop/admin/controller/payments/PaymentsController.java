@@ -1,15 +1,15 @@
-package com.salesmanager.web.admin.controller.payments;
+package com.salesmanager.shop.admin.controller.payments;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.salesmanager.core.business.modules.integration.IntegrationException;
+import com.salesmanager.core.business.services.payments.PaymentService;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.payments.TransactionType;
+import com.salesmanager.core.model.system.IntegrationConfiguration;
+import com.salesmanager.core.model.system.IntegrationModule;
+import com.salesmanager.shop.admin.controller.ControllerConstants;
+import com.salesmanager.shop.admin.model.web.Menu;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.utils.LabelUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,16 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.payments.model.TransactionType;
-import com.salesmanager.core.business.payments.service.PaymentService;
-import com.salesmanager.core.business.system.model.IntegrationConfiguration;
-import com.salesmanager.core.business.system.model.IntegrationModule;
-import com.salesmanager.core.modules.integration.IntegrationException;
-import com.salesmanager.shop.admin.controller.ControllerConstants;
-import com.salesmanager.web.admin.entity.web.Menu;
-import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.utils.LabelUtils;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.*;
 
 @Controller
 public class PaymentsController {
@@ -78,7 +72,7 @@ public class PaymentsController {
 		IntegrationConfiguration configuration = paymentService.getPaymentConfiguration(code, store);
 		if(configuration==null) {
 			configuration = new IntegrationConfiguration();
-			configuration.setEnvironment(com.salesmanager.core.constants.Constants.PRODUCTION_ENVIRONMENT);
+			configuration.setEnvironment(com.salesmanager.core.business.constants.Constants.PRODUCTION_ENVIRONMENT);
 			
 			Map<String,String> keys = new HashMap<String,String>();
 			keys.put("transaction", TransactionType.AUTHORIZECAPTURE.name());
@@ -90,8 +84,8 @@ public class PaymentsController {
 		configuration.setModuleCode(code);
 		
 		List<String> environments = new ArrayList<String>();
-		environments.add(com.salesmanager.core.constants.Constants.TEST_ENVIRONMENT);
-		environments.add(com.salesmanager.core.constants.Constants.PRODUCTION_ENVIRONMENT);
+		environments.add(com.salesmanager.core.business.constants.Constants.TEST_ENVIRONMENT);
+		environments.add(com.salesmanager.core.business.constants.Constants.PRODUCTION_ENVIRONMENT);
 		
 		model.addAttribute("configuration", configuration);
 		model.addAttribute("environments", environments);
@@ -111,8 +105,8 @@ public class PaymentsController {
 
 		
 		List<String> environments = new ArrayList<String>();
-		environments.add(com.salesmanager.core.constants.Constants.TEST_ENVIRONMENT);
-		environments.add(com.salesmanager.core.constants.Constants.PRODUCTION_ENVIRONMENT);
+		environments.add(com.salesmanager.core.business.constants.Constants.TEST_ENVIRONMENT);
+		environments.add(com.salesmanager.core.business.constants.Constants.PRODUCTION_ENVIRONMENT);
 
 		model.addAttribute("environments", environments);
 		model.addAttribute("configuration", configuration);

@@ -1,18 +1,16 @@
 /**
  * 
  */
-package com.salesmanager.web.admin.entity.digital;
+package com.salesmanager.shop.admin.model.digital;
 
-import java.io.Serializable;
-import java.util.List;
-
-import javax.validation.Valid;
-
+import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.file.DigitalProduct;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.salesmanager.core.business.catalog.product.model.Product;
-import com.salesmanager.core.business.catalog.product.model.file.DigitalProduct;
+import javax.validation.Valid;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * A bean class responsible for getting form data from shop Admin for uploading

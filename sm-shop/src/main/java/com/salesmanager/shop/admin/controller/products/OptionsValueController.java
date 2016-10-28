@@ -1,47 +1,34 @@
-package com.salesmanager.web.admin.controller.products;
+package com.salesmanager.shop.admin.controller.products;
 
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
+import com.salesmanager.core.business.services.catalog.product.attribute.ProductOptionValueService;
+import com.salesmanager.core.business.services.content.ContentService;
+import com.salesmanager.core.business.services.reference.language.LanguageService;
+import com.salesmanager.core.business.utils.ajax.AjaxResponse;
+import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValue;
+import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueDescription;
+import com.salesmanager.core.model.content.FileContentType;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.admin.model.web.Menu;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.utils.ImageFilePath;
+import com.salesmanager.shop.utils.LabelUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import com.salesmanager.core.business.catalog.product.model.attribute.ProductOptionValue;
-import com.salesmanager.core.business.catalog.product.model.attribute.ProductOptionValueDescription;
-import com.salesmanager.core.business.catalog.product.service.attribute.ProductOptionValueService;
-import com.salesmanager.core.business.content.model.FileContentType;
-import com.salesmanager.core.business.content.model.InputContentFile;
-import com.salesmanager.core.business.content.service.ContentService;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.business.reference.language.service.LanguageService;
-import com.salesmanager.core.utils.ajax.AjaxResponse;
-import com.salesmanager.web.admin.entity.web.Menu;
-import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.utils.ImageFilePath;
-import com.salesmanager.web.utils.LabelUtils;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.util.*;
 
 @Controller
 public class OptionsValueController {
@@ -109,7 +96,8 @@ public class OptionsValueController {
 		if(optionId!=null && optionId!=0) {//edit mode
 			
 			
-			option = productOptionValueService.getById(store, optionId);
+			//option = productOptionValueService.getById(store, optionId);
+			option = productOptionValueService.getByCode(store, optionId.toString());
 			
 			
 			if(option==null) {
@@ -183,7 +171,8 @@ public class OptionsValueController {
 		if(optionValue.getId() != null && optionValue.getId() >0) { //edit entry
 			
 			//get from DB
-			dbEntity = productOptionValueService.getById(store,optionValue.getId());
+			dbEntity = productOptionValueService.getByCode(store, optionValue.getId().toString());
+                    //productOptionValueService.getById(store,optionValue.getId());
 			
 			if(dbEntity==null) {
 				return "redirect:/admin/options/optionsvalues.html";
@@ -249,7 +238,7 @@ public class OptionsValueController {
 		}
 		
 
-		if(optionValue.getImage()!=null && !optionValue.getImage().isEmpty()) {
+		/*if(optionValue.getImage()!=null && !optionValue.getImage().isEmpty()) {
 
 			String imageName = optionValue.getImage().getOriginalFilename();
             InputStream inputStream = optionValue.getImage().getInputStream();
@@ -261,7 +250,7 @@ public class OptionsValueController {
             
             optionValue.setProductOptionValueImage(imageName);
 
-		}
+		}*/
 		
 		productOptionValueService.saveOrUpdate(optionValue);
 
@@ -352,7 +341,8 @@ public class OptionsValueController {
 			
 			Long id = Long.parseLong(sid);
 			
-			ProductOptionValue entity = productOptionValueService.getById(store, id);
+			//ProductOptionValue entity = productOptionValueService.getById(store, id);
+            ProductOptionValue entity = productOptionValueService.getByCode(store,id.toString());
 
 			if(entity==null || entity.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
 
@@ -392,9 +382,9 @@ public class OptionsValueController {
 			
 			Long id = Long.parseLong(optionValueId);
 			
-			ProductOptionValue optionValue = productOptionValueService.getById(store, id);
-			
+			//ProductOptionValue optionValue = productOptionValueService.getById(store, id);
 
+            ProductOptionValue optionValue = productOptionValueService.getByCode(store, id.toString());
 			
 			contentService.removeFile(store.getCode(), FileContentType.PROPERTY, optionValue.getProductOptionValueImage());
 			
