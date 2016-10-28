@@ -1,8 +1,8 @@
-package com.salesmanager.web.admin.entity.merchant;
+package com.salesmanager.shop.admin.model.merchant;
+
+import com.salesmanager.core.model.reference.language.Language;
 
 import java.io.Serializable;
-
-import com.salesmanager.core.business.reference.language.model.Language;
 
 public class StoreLandingDescription implements Serializable {
 	

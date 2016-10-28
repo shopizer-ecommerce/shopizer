@@ -1,9 +1,8 @@
-package com.salesmanager.web.admin.entity.merchant;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.salesmanager.shop.admin.model.merchant;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StoreLanding {
 	

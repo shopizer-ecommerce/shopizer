@@ -1,9 +1,9 @@
-package com.salesmanager.web.utils;
+package com.salesmanager.shop.utils;
+
+import com.salesmanager.core.model.user.Group;
+import com.salesmanager.core.model.user.User;
 
 import java.util.List;
-
-import com.salesmanager.core.business.user.model.Group;
-import com.salesmanager.core.business.user.model.User;
 
 public class UserUtils {
 	

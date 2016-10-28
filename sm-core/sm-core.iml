@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="Spring" name="Spring">
+      <configuration>
+        <fileset id="fileset" name="Spring Application Context" removed="false">
+          <file>file://$MODULE_DIR$/src/main/resources/spring/datasource-c3p0.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/spring/shopizer-search.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/spring/shopizer-core-modules.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/spring/shopizer-core-config.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/spring/shopizer-core-rules.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/spring/processors/shopizer-core-shipping-processors.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/spring/shopizer-context.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/spring/shopizer-core-ehcache.xml</file>
+        </fileset>
+      </configuration>
+    </facet>
+  </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />

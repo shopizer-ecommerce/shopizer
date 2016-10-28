@@ -1,16 +1,18 @@
-package com.salesmanager.web.admin.controller.merchant;
+package com.salesmanager.shop.admin.controller.merchant;
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.salesmanager.core.business.services.content.ContentService;
+import com.salesmanager.core.business.services.merchant.MerchantStoreService;
+import com.salesmanager.core.business.services.reference.language.LanguageService;
+import com.salesmanager.core.model.content.Content;
+import com.salesmanager.core.model.content.ContentDescription;
+import com.salesmanager.core.model.content.ContentType;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.admin.model.merchant.StoreLanding;
+import com.salesmanager.shop.admin.model.merchant.StoreLandingDescription;
+import com.salesmanager.shop.admin.model.web.Menu;
+import com.salesmanager.shop.constants.Constants;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,18 +21,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.salesmanager.core.business.content.model.Content;
-import com.salesmanager.core.business.content.model.ContentDescription;
-import com.salesmanager.core.business.content.model.ContentType;
-import com.salesmanager.core.business.content.service.ContentService;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.merchant.service.MerchantStoreService;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.business.reference.language.service.LanguageService;
-import com.salesmanager.web.admin.entity.merchant.StoreLanding;
-import com.salesmanager.web.admin.entity.merchant.StoreLandingDescription;
-import com.salesmanager.web.admin.entity.web.Menu;
-import com.salesmanager.web.constants.Constants;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class StoreLandingController {

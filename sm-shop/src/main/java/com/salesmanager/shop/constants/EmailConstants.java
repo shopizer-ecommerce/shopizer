@@ -1,4 +1,4 @@
-package com.salesmanager.web.constants;
+package com.salesmanager.shop.constants;
 
 public class EmailConstants {
 	

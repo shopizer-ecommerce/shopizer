@@ -1,4 +1,4 @@
-package com.salesmanager.web.admin.entity.userpassword;
+package com.salesmanager.shop.admin.model.userpassword;
 
 import java.util.Random;
 
