@@ -1,18 +1,37 @@
-package com.salesmanager.web.shop.controller.customer;
+package com.salesmanager.shop.store.controller.customer;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
+import com.salesmanager.core.business.exception.ConversionException;
+import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.services.reference.country.CountryService;
+import com.salesmanager.core.business.services.reference.language.LanguageService;
+import com.salesmanager.core.business.services.reference.zone.ZoneService;
+import com.salesmanager.core.business.services.shoppingcart.ShoppingCartCalculationService;
+import com.salesmanager.core.business.services.system.EmailService;
+import com.salesmanager.core.business.utils.CoreConfiguration;
+import com.salesmanager.core.model.customer.Customer;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.country.Country;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.model.reference.zone.Zone;
+import com.salesmanager.core.model.shoppingcart.ShoppingCart;
+import com.salesmanager.shop.constants.ApplicationConstants;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.model.customer.AnonymousCustomer;
+import com.salesmanager.shop.model.customer.CustomerEntity;
+import com.salesmanager.shop.model.customer.SecuredShopPersistableCustomer;
+import com.salesmanager.shop.model.shoppingcart.ShoppingCartData;
+import com.salesmanager.shop.populator.shoppingCart.ShoppingCartDataPopulator;
+import com.salesmanager.shop.store.controller.AbstractController;
+import com.salesmanager.shop.store.controller.ControllerConstants;
+import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
+import com.salesmanager.shop.utils.CaptchaRequestUtils;
+import com.salesmanager.shop.utils.EmailTemplatesUtils;
+import com.salesmanager.shop.utils.ImageFilePath;
+import com.salesmanager.shop.utils.LabelUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
@@ -25,36 +44,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.salesmanager.core.business.catalog.product.service.PricingService;
-import com.salesmanager.core.business.customer.CustomerRegistrationException;
-import com.salesmanager.core.business.customer.model.Customer;
-import com.salesmanager.core.business.generic.exception.ConversionException;
-import com.salesmanager.core.business.generic.exception.ServiceException;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.country.model.Country;
-import com.salesmanager.core.business.reference.country.service.CountryService;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.business.reference.language.service.LanguageService;
-import com.salesmanager.core.business.reference.zone.model.Zone;
-import com.salesmanager.core.business.reference.zone.service.ZoneService;
-import com.salesmanager.core.business.shoppingcart.model.ShoppingCart;
-import com.salesmanager.core.business.shoppingcart.service.ShoppingCartCalculationService;
-import com.salesmanager.core.business.system.service.EmailService;
-import com.salesmanager.core.utils.CoreConfiguration;
-import com.salesmanager.web.constants.ApplicationConstants;
-import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.entity.customer.AnonymousCustomer;
-import com.salesmanager.web.entity.customer.CustomerEntity;
-import com.salesmanager.web.entity.customer.SecuredShopPersistableCustomer;
-import com.salesmanager.web.entity.shoppingcart.ShoppingCartData;
-import com.salesmanager.web.populator.shoppingCart.ShoppingCartDataPopulator;
-import com.salesmanager.web.shop.controller.AbstractController;
-import com.salesmanager.web.shop.controller.ControllerConstants;
-import com.salesmanager.web.shop.controller.customer.facade.CustomerFacade;
-import com.salesmanager.web.utils.CaptchaRequestUtils;
-import com.salesmanager.web.utils.EmailTemplatesUtils;
-import com.salesmanager.web.utils.ImageFilePath;
-import com.salesmanager.web.utils.LabelUtils;
+import javax.inject.Inject;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+
+//import com.salesmanager.core.business.customer.CustomerRegistrationException;
 
 /**
  * Registration of a new customer
@@ -209,7 +208,7 @@ public class CustomerRegistrationController extends AbstractController {
         	customer.setClearPassword(password);
         	customerData = customerFacade.registerCustomer( customer, merchantStore, language );
         }
-        catch ( CustomerRegistrationException cre )
+       /* catch ( CustomerRegistrationException cre )
         {
             LOGGER.error( "Error while registering customer.. ", cre);
         	ObjectError error = new ObjectError("registration",messages.getMessage("registration.failed", locale));
@@ -217,7 +216,7 @@ public class CustomerRegistrationController extends AbstractController {
             StringBuilder template =
                             new StringBuilder().append( ControllerConstants.Tiles.Customer.register ).append( "." ).append( merchantStore.getStoreTemplate() );
              return template.toString();
-        }
+        }*/
         catch ( Exception e )
         {
             LOGGER.error( "Error while registering customer.. ", e);

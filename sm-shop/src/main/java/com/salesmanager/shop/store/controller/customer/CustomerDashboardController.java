@@ -1,15 +1,20 @@
-package com.salesmanager.web.shop.controller.customer;
+package com.salesmanager.shop.store.controller.customer;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.salesmanager.core.business.services.customer.attribute.CustomerOptionSetService;
+import com.salesmanager.core.model.customer.Customer;
+import com.salesmanager.core.model.customer.attribute.CustomerAttribute;
+import com.salesmanager.core.model.customer.attribute.CustomerOptionSet;
+import com.salesmanager.core.model.customer.attribute.CustomerOptionType;
+import com.salesmanager.core.model.customer.attribute.CustomerOptionValueDescription;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.admin.model.customer.attribute.CustomerOption;
+import com.salesmanager.shop.admin.model.customer.attribute.CustomerOptionValue;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.populator.customer.ReadableCustomerOptionPopulator;
+import com.salesmanager.shop.store.controller.AbstractController;
+import com.salesmanager.shop.store.controller.ControllerConstants;
 import org.apache.commons.collections.CollectionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Controller;
@@ -17,20 +22,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.salesmanager.core.business.customer.model.Customer;
-import com.salesmanager.core.business.customer.model.attribute.CustomerAttribute;
-import com.salesmanager.core.business.customer.model.attribute.CustomerOptionSet;
-import com.salesmanager.core.business.customer.model.attribute.CustomerOptionType;
-import com.salesmanager.core.business.customer.model.attribute.CustomerOptionValueDescription;
-import com.salesmanager.core.business.customer.service.attribute.CustomerOptionSetService;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.web.admin.entity.customer.attribute.CustomerOption;
-import com.salesmanager.web.admin.entity.customer.attribute.CustomerOptionValue;
-import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.populator.customer.CustomerOptionPopulator;
-import com.salesmanager.web.shop.controller.AbstractController;
-import com.salesmanager.web.shop.controller.ControllerConstants;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Entry point for logged in customers
@@ -85,7 +83,7 @@ public class CustomerDashboardController extends AbstractController {
 			
 			for(CustomerOptionSet optSet : optionSet) {
 				
-				com.salesmanager.core.business.customer.model.attribute.CustomerOption custOption = optSet.getCustomerOption();
+				com.salesmanager.core.model.customer.attribute.CustomerOption custOption = optSet.getCustomerOption();
 				if(!custOption.isActive() || !custOption.isPublicOption()) {
 					continue;
 				}
@@ -110,7 +108,7 @@ public class CustomerDashboardController extends AbstractController {
 					for(CustomerAttribute customerAttribute : customerAttributes) {
 						if(customerAttribute.getCustomerOption().getId().longValue()==customerOption.getId()){
 							CustomerOptionValue selectedValue = new CustomerOptionValue();
-							com.salesmanager.core.business.customer.model.attribute.CustomerOptionValue attributeValue = customerAttribute.getCustomerOptionValue();
+							com.salesmanager.core.model.customer.attribute.CustomerOptionValue attributeValue = customerAttribute.getCustomerOptionValue();
 							selectedValue.setId(attributeValue.getId());
 							CustomerOptionValueDescription optValue = attributeValue.getDescriptionsSettoList().get(0);
 							selectedValue.setName(optValue.getName());

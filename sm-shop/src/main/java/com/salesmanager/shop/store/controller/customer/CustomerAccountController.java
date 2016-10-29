@@ -1,20 +1,39 @@
-package com.salesmanager.web.shop.controller.customer;
+package com.salesmanager.shop.store.controller.customer;
 
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
+import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.services.customer.CustomerService;
+import com.salesmanager.core.business.services.customer.attribute.CustomerAttributeService;
+import com.salesmanager.core.business.services.customer.attribute.CustomerOptionService;
+import com.salesmanager.core.business.services.customer.attribute.CustomerOptionSetService;
+import com.salesmanager.core.business.services.customer.attribute.CustomerOptionValueService;
+import com.salesmanager.core.business.services.order.OrderService;
+import com.salesmanager.core.business.services.reference.country.CountryService;
+import com.salesmanager.core.business.services.reference.language.LanguageService;
+import com.salesmanager.core.business.services.reference.zone.ZoneService;
+import com.salesmanager.core.business.utils.ajax.AjaxResponse;
+import com.salesmanager.core.model.customer.Customer;
+import com.salesmanager.core.model.customer.attribute.CustomerAttribute;
+import com.salesmanager.core.model.customer.attribute.CustomerOptionType;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.country.Country;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.model.customer.Address;
+import com.salesmanager.shop.model.customer.CustomerEntity;
+import com.salesmanager.shop.model.customer.CustomerPassword;
+import com.salesmanager.shop.model.customer.ReadableCustomer;
+import com.salesmanager.shop.populator.customer.ReadableCustomerPopulator;
+import com.salesmanager.shop.store.controller.AbstractController;
+import com.salesmanager.shop.store.controller.ControllerConstants;
+import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
+import com.salesmanager.shop.store.controller.order.facade.OrderFacade;
+import com.salesmanager.shop.utils.EmailTemplatesUtils;
+import com.salesmanager.shop.utils.LabelUtils;
+import com.salesmanager.shop.utils.LanguageUtils;
+import com.salesmanager.shop.utils.LocaleUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.core.Authentication;
@@ -23,44 +42,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import com.salesmanager.core.business.customer.model.Customer;
-import com.salesmanager.core.business.customer.model.attribute.CustomerAttribute;
-import com.salesmanager.core.business.customer.model.attribute.CustomerOptionType;
-import com.salesmanager.core.business.customer.service.CustomerService;
-import com.salesmanager.core.business.customer.service.attribute.CustomerAttributeService;
-import com.salesmanager.core.business.customer.service.attribute.CustomerOptionService;
-import com.salesmanager.core.business.customer.service.attribute.CustomerOptionSetService;
-import com.salesmanager.core.business.customer.service.attribute.CustomerOptionValueService;
-import com.salesmanager.core.business.generic.exception.ServiceException;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.order.service.OrderService;
-import com.salesmanager.core.business.reference.country.model.Country;
-import com.salesmanager.core.business.reference.country.service.CountryService;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.business.reference.language.service.LanguageService;
-import com.salesmanager.core.business.reference.zone.service.ZoneService;
-import com.salesmanager.core.utils.ajax.AjaxResponse;
-import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.entity.customer.Address;
-import com.salesmanager.web.entity.customer.CustomerEntity;
-import com.salesmanager.web.entity.customer.CustomerPassword;
-import com.salesmanager.web.entity.customer.ReadableCustomer;
-import com.salesmanager.web.populator.customer.ReadableCustomerPopulator;
-import com.salesmanager.web.shop.controller.AbstractController;
-import com.salesmanager.web.shop.controller.ControllerConstants;
-import com.salesmanager.web.shop.controller.customer.facade.CustomerFacade;
-import com.salesmanager.web.shop.controller.order.facade.OrderFacade;
-import com.salesmanager.web.utils.EmailTemplatesUtils;
-import com.salesmanager.web.utils.LabelUtils;
-import com.salesmanager.web.utils.LanguageUtils;
-import com.salesmanager.web.utils.LocaleUtils;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.util.*;
 //import com.salesmanager.web.shop.controller.data.CountryData;
 
 /**
@@ -349,8 +337,8 @@ public class CustomerAccountController extends AbstractController {
 			try {
 				
 				String[] parameterKey = parameterName.split("-");
-				com.salesmanager.core.business.customer.model.attribute.CustomerOption customerOption = null;
-				com.salesmanager.core.business.customer.model.attribute.CustomerOptionValue customerOptionValue = null;
+				com.salesmanager.core.model.customer.attribute.CustomerOption customerOption = null;
+				com.salesmanager.core.model.customer.attribute.CustomerOptionValue customerOptionValue = null;
 
 				
 				if(CUSTOMER_ID_PARAMETER.equals(parameterName)) {
