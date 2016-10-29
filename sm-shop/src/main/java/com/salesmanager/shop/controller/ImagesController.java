@@ -1,4 +1,4 @@
-package com.salesmanager.web.images;
+package com.salesmanager.shop.controller;
 
 import java.io.IOException;
 

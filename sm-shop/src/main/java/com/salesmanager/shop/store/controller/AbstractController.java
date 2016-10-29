@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.salesmanager.web.shop.controller;
+package com.salesmanager.shop.store.controller;
 
 import javax.servlet.http.HttpServletRequest;
 

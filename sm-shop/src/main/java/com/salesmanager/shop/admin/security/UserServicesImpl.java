@@ -1,30 +1,29 @@
-package com.salesmanager.web.admin.security;
+package com.salesmanager.shop.admin.security;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
+import com.salesmanager.core.business.services.merchant.MerchantStoreService;
+import com.salesmanager.core.business.services.user.GroupService;
+import com.salesmanager.core.business.services.user.PermissionService;
+import com.salesmanager.core.business.services.user.UserService;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.user.Group;
+import com.salesmanager.core.model.user.GroupType;
+import com.salesmanager.core.model.user.Permission;
+import com.salesmanager.shop.constants.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.GrantedAuthorityImpl;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.merchant.service.MerchantStoreService;
-import com.salesmanager.core.business.user.model.Group;
-import com.salesmanager.core.business.user.model.GroupType;
-import com.salesmanager.core.business.user.model.Permission;
-import com.salesmanager.core.business.user.service.GroupService;
-import com.salesmanager.core.business.user.service.PermissionService;
-import com.salesmanager.core.business.user.service.UserService;
-import com.salesmanager.web.constants.Constants;
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 
 /**
@@ -62,7 +61,7 @@ public class UserServicesImpl implements WebUserServices{
 	public UserDetails loadUserByUsername(String userName)
 			throws UsernameNotFoundException, DataAccessException {
 
-		com.salesmanager.core.business.user.model.User user = null;
+		com.salesmanager.core.model.user.User user = null;
 		Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		
 		try {
@@ -73,7 +72,7 @@ public class UserServicesImpl implements WebUserServices{
 				return null;
 			}
 
-			GrantedAuthority role = new GrantedAuthorityImpl(Constants.PERMISSION_AUTHENTICATED);//required to login
+			GrantedAuthority role = new SimpleGrantedAuthority(Constants.PERMISSION_AUTHENTICATED);//required to login
 			authorities.add(role);
 	
 			List<Integer> groupsId = new ArrayList<Integer>();
@@ -89,7 +88,7 @@ public class UserServicesImpl implements WebUserServices{
 	    	
 	    	List<Permission> permissions = permissionService.getPermissions(groupsId);
 	    	for(Permission permission : permissions) {
-	    		GrantedAuthority auth = new GrantedAuthorityImpl(permission.getPermissionName());
+	    		GrantedAuthority auth = new SimpleGrantedAuthority(permission.getPermissionName());
 	    		authorities.add(auth);
 	    	}
     	
@@ -119,7 +118,7 @@ public class UserServicesImpl implements WebUserServices{
 		  List<Group> groups = groupService.listGroup(GroupType.ADMIN);
 		  
 		  //creation of the super admin admin:password)
-		  com.salesmanager.core.business.user.model.User user = new com.salesmanager.core.business.user.model.User("admin",password,"admin@shopizer.com");
+		  com.salesmanager.core.model.user.User user = new com.salesmanager.core.model.user.User("admin",password,"admin@shopizer.com");
 		  user.setFirstName("Administrator");
 		  user.setLastName("User");
 		  
