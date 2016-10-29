@@ -1,11 +1,11 @@
-package com.salesmanager.web.shop.controller.category.facade;
+package com.salesmanager.shop.store.controller.category.facade;
+
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.model.catalog.category.PersistableCategory;
+import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 
 import java.util.List;
-
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.web.entity.catalog.category.PersistableCategory;
-import com.salesmanager.web.entity.catalog.category.ReadableCategory;
 
 public interface CategoryFacade {
 	

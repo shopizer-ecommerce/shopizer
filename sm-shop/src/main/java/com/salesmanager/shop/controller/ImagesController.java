@@ -1,7 +1,7 @@
 package com.salesmanager.shop.controller;
 
 import java.io.IOException;
-
+import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.salesmanager.core.business.catalog.product.model.file.ProductImageSize;
-import com.salesmanager.core.business.catalog.product.service.image.ProductImageService;
-import com.salesmanager.core.business.content.model.FileContentType;
-import com.salesmanager.core.business.content.model.OutputContentFile;
-import com.salesmanager.core.business.content.service.ContentService;
-import com.salesmanager.core.business.generic.exception.ServiceException;
+import com.salesmanager.core.model.catalog.product.file.ProductImageSize;
+import com.salesmanager.core.business.services.catalog.product.image.ProductImageService;
+import com.salesmanager.core.model.content.FileContentType;
+import com.salesmanager.core.model.content.OutputContentFile;
+import com.salesmanager.core.business.services.content.ContentService;
+import com.salesmanager.core.business.exception.ServiceException;
 
 /**
  * When handling images and files from the application server

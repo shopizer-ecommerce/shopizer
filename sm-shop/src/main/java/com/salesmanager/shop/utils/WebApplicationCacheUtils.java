@@ -1,9 +1,9 @@
-package com.salesmanager.web.utils;
+package com.salesmanager.shop.utils;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.salesmanager.core.business.utils.CacheUtils;
 import org.springframework.stereotype.Component;
 
-import com.salesmanager.core.utils.CacheUtils;
+import javax.inject.Inject;
 
 @Component
 public class WebApplicationCacheUtils {

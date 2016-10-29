@@ -1,61 +1,55 @@
-package com.salesmanager.web.filter;
+package com.salesmanager.shop.filter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.salesmanager.core.business.services.catalog.category.CategoryService;
+import com.salesmanager.core.business.services.catalog.product.ProductService;
+import com.salesmanager.core.business.services.content.ContentService;
+import com.salesmanager.core.business.services.customer.CustomerService;
+import com.salesmanager.core.business.services.merchant.MerchantStoreService;
+import com.salesmanager.core.business.services.reference.language.LanguageService;
+import com.salesmanager.core.business.services.system.MerchantConfigurationService;
+import com.salesmanager.core.business.utils.CacheUtils;
+import com.salesmanager.core.business.utils.CoreConfiguration;
+import com.salesmanager.core.model.catalog.category.Category;
+import com.salesmanager.core.model.catalog.category.CategoryDescription;
+import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.content.Content;
+import com.salesmanager.core.model.content.ContentDescription;
+import com.salesmanager.core.model.content.ContentType;
+import com.salesmanager.core.model.customer.Customer;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.model.system.MerchantConfig;
+import com.salesmanager.core.model.system.MerchantConfiguration;
+import com.salesmanager.core.model.system.MerchantConfigurationType;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.model.catalog.category.ReadableCategory;
+import com.salesmanager.shop.model.customer.Address;
+import com.salesmanager.shop.model.customer.AnonymousCustomer;
+import com.salesmanager.shop.model.shop.Breadcrumb;
+import com.salesmanager.shop.model.shop.BreadcrumbItem;
+import com.salesmanager.shop.model.shop.BreadcrumbItemType;
+import com.salesmanager.shop.model.shop.PageInformation;
+import com.salesmanager.shop.populator.catalog.ReadableCategoryPopulator;
+import com.salesmanager.shop.store.controller.category.facade.CategoryFacade;
+import com.salesmanager.shop.utils.GeoLocationUtils;
+import com.salesmanager.shop.utils.LabelUtils;
+import com.salesmanager.shop.utils.LanguageUtils;
+import com.salesmanager.shop.utils.WebApplicationCacheUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.salesmanager.core.business.catalog.category.model.Category;
-import com.salesmanager.core.business.catalog.category.model.CategoryDescription;
-import com.salesmanager.core.business.catalog.category.service.CategoryService;
-import com.salesmanager.core.business.catalog.product.model.Product;
-import com.salesmanager.core.business.catalog.product.service.ProductService;
-import com.salesmanager.core.business.content.model.Content;
-import com.salesmanager.core.business.content.model.ContentDescription;
-import com.salesmanager.core.business.content.model.ContentType;
-import com.salesmanager.core.business.content.service.ContentService;
-import com.salesmanager.core.business.customer.model.Customer;
-import com.salesmanager.core.business.customer.service.CustomerService;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.merchant.service.MerchantStoreService;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.business.reference.language.service.LanguageService;
-import com.salesmanager.core.business.system.model.MerchantConfig;
-import com.salesmanager.core.business.system.model.MerchantConfiguration;
-import com.salesmanager.core.business.system.model.MerchantConfigurationType;
-import com.salesmanager.core.business.system.service.MerchantConfigurationService;
-import com.salesmanager.core.utils.CacheUtils;
-import com.salesmanager.core.utils.CoreConfiguration;
-import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.entity.catalog.category.ReadableCategory;
-import com.salesmanager.web.entity.customer.Address;
-import com.salesmanager.web.entity.customer.AnonymousCustomer;
-import com.salesmanager.web.entity.shop.Breadcrumb;
-import com.salesmanager.web.entity.shop.BreadcrumbItem;
-import com.salesmanager.web.entity.shop.BreadcrumbItemType;
-import com.salesmanager.web.entity.shop.PageInformation;
-import com.salesmanager.web.populator.catalog.ReadableCategoryPopulator;
-import com.salesmanager.web.shop.controller.category.facade.CategoryFacade;
-import com.salesmanager.web.utils.GeoLocationUtils;
-import com.salesmanager.web.utils.LabelUtils;
-import com.salesmanager.web.utils.LanguageUtils;
-import com.salesmanager.web.utils.WebApplicationCacheUtils;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Servlet Filter implementation class StoreFilter
@@ -207,7 +201,7 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 					try {
 						
 						String ipAddress = GeoLocationUtils.getClientIpAddress(request);
-						com.salesmanager.core.business.common.model.Address geoAddress = customerService.getCustomerAddress(store, ipAddress);
+						com.salesmanager.core.model.common.Address geoAddress = customerService.getCustomerAddress(store, ipAddress);
 						if(geoAddress!=null) {
 							address = new Address();
 							address.setCountry(geoAddress.getCountry());
