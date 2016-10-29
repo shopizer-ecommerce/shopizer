@@ -1,11 +1,11 @@
-package com.salesmanager.web.entity.catalog;
+package com.salesmanager.shop.model.catalog;
+
+import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.salesmanager.web.entity.catalog.product.ReadableProduct;
 
 public class ProductList implements Serializable {
 	

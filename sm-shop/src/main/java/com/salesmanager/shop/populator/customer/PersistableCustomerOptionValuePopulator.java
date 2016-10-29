@@ -1,19 +1,18 @@
-package com.salesmanager.web.populator.customer;
+package com.salesmanager.shop.populator.customer;
 
-import java.util.HashSet;
-import java.util.Set;
-
+import com.salesmanager.core.business.exception.ConversionException;
+import com.salesmanager.core.business.services.reference.language.LanguageService;
+import com.salesmanager.core.business.utils.AbstractDataPopulator;
+import com.salesmanager.core.model.customer.attribute.CustomerOptionValue;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.model.customer.attribute.CustomerOptionValueDescription;
+import com.salesmanager.shop.model.customer.attribute.PersistableCustomerOptionValue;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.Validate;
 
-import com.salesmanager.core.business.customer.model.attribute.CustomerOptionValue;
-import com.salesmanager.core.business.generic.exception.ConversionException;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.business.reference.language.service.LanguageService;
-import com.salesmanager.core.utils.AbstractDataPopulator;
-import com.salesmanager.web.entity.customer.attribute.CustomerOptionValueDescription;
-import com.salesmanager.web.entity.customer.attribute.PersistableCustomerOptionValue;
+import java.util.HashSet;
+import java.util.Set;
 
 public class PersistableCustomerOptionValuePopulator extends
 		AbstractDataPopulator<PersistableCustomerOptionValue, CustomerOptionValue> {
@@ -37,9 +36,9 @@ public class PersistableCustomerOptionValuePopulator extends
 			target.setSortOrder(source.getOrder());
 			
 			if(!CollectionUtils.isEmpty(source.getDescriptions())) {
-				Set<com.salesmanager.core.business.customer.model.attribute.CustomerOptionValueDescription> descriptions = new HashSet<com.salesmanager.core.business.customer.model.attribute.CustomerOptionValueDescription>();
+				Set<com.salesmanager.core.model.customer.attribute.CustomerOptionValueDescription> descriptions = new HashSet<com.salesmanager.core.model.customer.attribute.CustomerOptionValueDescription>();
 				for(CustomerOptionValueDescription desc  : source.getDescriptions()) {
-					com.salesmanager.core.business.customer.model.attribute.CustomerOptionValueDescription description = new com.salesmanager.core.business.customer.model.attribute.CustomerOptionValueDescription();
+					com.salesmanager.core.model.customer.attribute.CustomerOptionValueDescription description = new com.salesmanager.core.model.customer.attribute.CustomerOptionValueDescription();
 					Language lang = languageService.getByCode(desc.getLanguage());
 					if(lang==null) {
 						throw new ConversionException("Language is null for code " + description.getLanguage() + " use language ISO code [en, fr ...]");

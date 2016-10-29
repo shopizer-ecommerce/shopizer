@@ -1,15 +1,15 @@
-package com.salesmanager.web.populator.manufacturer;
+package com.salesmanager.shop.populator.manufacturer;
+
+import com.salesmanager.core.business.exception.ConversionException;
+import com.salesmanager.core.business.utils.AbstractDataPopulator;
+import com.salesmanager.core.model.catalog.product.manufacturer.ManufacturerDescription;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
 
 import java.util.Set;
 
-import com.salesmanager.core.business.catalog.product.model.manufacturer.ManufacturerDescription;
-import com.salesmanager.core.business.generic.exception.ConversionException;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.utils.AbstractDataPopulator;
-import com.salesmanager.web.entity.catalog.manufacturer.ReadableManufacturer;
-
-public class ReadableManufacturerPopulator extends AbstractDataPopulator<com.salesmanager.core.business.catalog.product.model.manufacturer.Manufacturer,ReadableManufacturer>
+public class ReadableManufacturerPopulator extends AbstractDataPopulator<com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer,ReadableManufacturer>
 {
 
 
@@ -17,7 +17,7 @@ public class ReadableManufacturerPopulator extends AbstractDataPopulator<com.sal
 	
 	@Override
 	public ReadableManufacturer populate(
-			com.salesmanager.core.business.catalog.product.model.manufacturer.Manufacturer source,
+			com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer source,
 			ReadableManufacturer target, MerchantStore store, Language language) throws ConversionException {
 		target.setId(source.getId());
 		if(source.getDescriptions()!=null && source.getDescriptions().size()>0) {
@@ -36,7 +36,7 @@ public class ReadableManufacturerPopulator extends AbstractDataPopulator<com.sal
 				target.setCode(source.getCode());
 				
 				if (description != null) {
-					com.salesmanager.web.entity.catalog.manufacturer.ManufacturerDescription d = new com.salesmanager.web.entity.catalog.manufacturer.ManufacturerDescription();
+					com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription d = new com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription();
 					d.setName(description.getName());
 					d.setDescription(description.getDescription());
 					target.setDescription(d);

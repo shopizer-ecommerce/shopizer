@@ -1,12 +1,12 @@
-package com.salesmanager.web.populator.customer;
+package com.salesmanager.shop.populator.customer;
 
-import com.salesmanager.core.business.customer.model.Customer;
-import com.salesmanager.core.business.generic.exception.ConversionException;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.utils.AbstractDataPopulator;
-import com.salesmanager.web.entity.customer.Address;
-import com.salesmanager.web.entity.customer.PersistableCustomer;
+import com.salesmanager.core.model.customer.Customer;
+import com.salesmanager.core.business.exception.ConversionException;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.business.utils.AbstractDataPopulator;
+import com.salesmanager.shop.model.customer.Address;
+import com.salesmanager.shop.model.customer.PersistableCustomer;
 
 public class PersistableCustomerPopulator extends
 		AbstractDataPopulator<Customer, PersistableCustomer> {
