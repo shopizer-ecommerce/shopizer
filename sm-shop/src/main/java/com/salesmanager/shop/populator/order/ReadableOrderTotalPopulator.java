@@ -1,18 +1,17 @@
-package com.salesmanager.web.populator.order;
+package com.salesmanager.shop.populator.order;
 
-import java.util.Locale;
-
+import com.salesmanager.core.business.exception.ConversionException;
+import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.utils.AbstractDataPopulator;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.order.OrderTotal;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.model.order.ReadableOrderTotal;
+import com.salesmanager.shop.utils.LabelUtils;
+import com.salesmanager.shop.utils.LocaleUtils;
 import org.apache.commons.lang.Validate;
 
-import com.salesmanager.core.business.catalog.product.service.PricingService;
-import com.salesmanager.core.business.generic.exception.ConversionException;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.order.model.OrderTotal;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.utils.AbstractDataPopulator;
-import com.salesmanager.web.entity.order.ReadableOrderTotal;
-import com.salesmanager.web.utils.LabelUtils;
-import com.salesmanager.web.utils.LocaleUtils;
+import java.util.Locale;
 
 public class ReadableOrderTotalPopulator extends
 		AbstractDataPopulator<OrderTotal, ReadableOrderTotal> {

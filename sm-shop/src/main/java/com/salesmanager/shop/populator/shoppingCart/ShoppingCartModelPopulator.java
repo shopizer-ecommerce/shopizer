@@ -1,12 +1,22 @@
 /**
  * 
  */
-package com.salesmanager.web.populator.shoppingCart;
+package com.salesmanager.shop.populator.shoppingCart;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.services.catalog.product.ProductService;
+import com.salesmanager.core.business.services.catalog.product.attribute.ProductAttributeService;
+import com.salesmanager.core.business.services.shoppingcart.ShoppingCartService;
+import com.salesmanager.core.business.utils.AbstractDataPopulator;
+import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
+import com.salesmanager.core.model.customer.Customer;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.model.shoppingcart.ShoppingCart;
+import com.salesmanager.shop.model.shoppingcart.ShoppingCartAttribute;
+import com.salesmanager.shop.model.shoppingcart.ShoppingCartData;
+import com.salesmanager.shop.model.shoppingcart.ShoppingCartItem;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.configuration.ConversionException;
 import org.apache.commons.lang3.StringUtils;
@@ -14,20 +24,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.salesmanager.core.business.catalog.product.model.Product;
-import com.salesmanager.core.business.catalog.product.model.attribute.ProductAttribute;
-import com.salesmanager.core.business.catalog.product.service.ProductService;
-import com.salesmanager.core.business.catalog.product.service.attribute.ProductAttributeService;
-import com.salesmanager.core.business.customer.model.Customer;
-import com.salesmanager.core.business.generic.exception.ServiceException;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.business.shoppingcart.model.ShoppingCart;
-import com.salesmanager.core.business.shoppingcart.service.ShoppingCartService;
-import com.salesmanager.core.utils.AbstractDataPopulator;
-import com.salesmanager.web.entity.shoppingcart.ShoppingCartAttribute;
-import com.salesmanager.web.entity.shoppingcart.ShoppingCartData;
-import com.salesmanager.web.entity.shoppingcart.ShoppingCartItem;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Umesh A
@@ -114,33 +113,33 @@ public class ShoppingCartModelPopulator
         }
 
         List<ShoppingCartItem> items = shoppingCart.getShoppingCartItems();
-        Set<com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem> newItems =
-            new HashSet<com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem>();
+        Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> newItems =
+            new HashSet<com.salesmanager.core.model.shoppingcart.ShoppingCartItem>();
         if ( items != null && items.size() > 0 )
         {
             for ( ShoppingCartItem item : items )
             {
 
-                Set<com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem> cartItems = cartMdel.getLineItems();
+                Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> cartItems = cartMdel.getLineItems();
                 if ( cartItems != null && cartItems.size() > 0 )
                 {
 
-                    for ( com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem dbItem : cartItems )
+                    for ( com.salesmanager.core.model.shoppingcart.ShoppingCartItem dbItem : cartItems )
                     {
                         if ( dbItem.getId().longValue() == item.getId() )
                         {
                             dbItem.setQuantity( item.getQuantity() );
                             // compare attributes
-                            Set<com.salesmanager.core.business.shoppingcart.model.ShoppingCartAttributeItem> attributes =
+                            Set<com.salesmanager.core.model.shoppingcart.ShoppingCartAttributeItem> attributes =
                                 dbItem.getAttributes();
-                            Set<com.salesmanager.core.business.shoppingcart.model.ShoppingCartAttributeItem> newAttributes =
-                                new HashSet<com.salesmanager.core.business.shoppingcart.model.ShoppingCartAttributeItem>();
+                            Set<com.salesmanager.core.model.shoppingcart.ShoppingCartAttributeItem> newAttributes =
+                                new HashSet<com.salesmanager.core.model.shoppingcart.ShoppingCartAttributeItem>();
                             List<ShoppingCartAttribute> cartAttributes = item.getShoppingCartAttributes();
                             if ( !CollectionUtils.isEmpty( cartAttributes ) )
                             {
                                 for ( ShoppingCartAttribute attribute : cartAttributes )
                                 {
-                                    for ( com.salesmanager.core.business.shoppingcart.model.ShoppingCartAttributeItem dbAttribute : attributes )
+                                    for ( com.salesmanager.core.model.shoppingcart.ShoppingCartAttributeItem dbAttribute : attributes )
                                     {
                                         if ( dbAttribute.getId().longValue() == attribute.getId() )
                                         {
@@ -161,13 +160,13 @@ public class ShoppingCartModelPopulator
                 }
                 else
                 {// create new item
-                    com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem cartItem =
+                    com.salesmanager.core.model.shoppingcart.ShoppingCartItem cartItem =
                         createCartItem( cartMdel, item, store );
-                    Set<com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem> lineItems =
+                    Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> lineItems =
                         cartMdel.getLineItems();
                     if ( lineItems == null )
                     {
-                        lineItems = new HashSet<com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem>();
+                        lineItems = new HashSet<com.salesmanager.core.model.shoppingcart.ShoppingCartItem>();
                         cartMdel.setLineItems( lineItems );
                     }
                     lineItems.add( cartItem );
@@ -188,7 +187,7 @@ public class ShoppingCartModelPopulator
     }
 
    
-    private com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem createCartItem( com.salesmanager.core.business.shoppingcart.model.ShoppingCart cart,
+    private com.salesmanager.core.model.shoppingcart.ShoppingCartItem createCartItem( com.salesmanager.core.model.shoppingcart.ShoppingCart cart,
                                                                                                ShoppingCartItem shoppingCartItem,
                                                                                                MerchantStore store )
         throws Exception
@@ -207,8 +206,8 @@ public class ShoppingCartModelPopulator
                 + store.getId() );
         }
 
-        com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem item =
-            new com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem( cart, product );
+        com.salesmanager.core.model.shoppingcart.ShoppingCartItem item =
+            new com.salesmanager.core.model.shoppingcart.ShoppingCartItem( cart, product );
         item.setQuantity( shoppingCartItem.getQuantity() );
         item.setItemPrice( shoppingCartItem.getProductPrice() );
         item.setShoppingCart( cart );
@@ -217,16 +216,16 @@ public class ShoppingCartModelPopulator
         List<ShoppingCartAttribute> cartAttributes = shoppingCartItem.getShoppingCartAttributes();
         if ( !CollectionUtils.isEmpty( cartAttributes ) )
         {
-            Set<com.salesmanager.core.business.shoppingcart.model.ShoppingCartAttributeItem> newAttributes =
-                new HashSet<com.salesmanager.core.business.shoppingcart.model.ShoppingCartAttributeItem>();
+            Set<com.salesmanager.core.model.shoppingcart.ShoppingCartAttributeItem> newAttributes =
+                new HashSet<com.salesmanager.core.model.shoppingcart.ShoppingCartAttributeItem>();
             for ( ShoppingCartAttribute attribute : cartAttributes )
             {
                 ProductAttribute productAttribute = productAttributeService.getById( attribute.getAttributeId() );
                 if ( productAttribute != null
                     && productAttribute.getProduct().getId().longValue() == product.getId().longValue() )
                 {
-                    com.salesmanager.core.business.shoppingcart.model.ShoppingCartAttributeItem attributeItem =
-                        new com.salesmanager.core.business.shoppingcart.model.ShoppingCartAttributeItem( item,
+                    com.salesmanager.core.model.shoppingcart.ShoppingCartAttributeItem attributeItem =
+                        new com.salesmanager.core.model.shoppingcart.ShoppingCartAttributeItem( item,
                                                                                                          productAttribute );
                     if ( attribute.getAttributeId() > 0 )
                     {

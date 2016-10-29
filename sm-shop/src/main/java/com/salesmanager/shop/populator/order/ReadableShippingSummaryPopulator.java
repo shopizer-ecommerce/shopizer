@@ -1,15 +1,15 @@
-package com.salesmanager.web.populator.order;
+package com.salesmanager.shop.populator.order;
 
 import org.apache.commons.lang.Validate;
 
-import com.salesmanager.core.business.catalog.product.service.PricingService;
-import com.salesmanager.core.business.generic.exception.ConversionException;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.business.shipping.model.ShippingSummary;
-import com.salesmanager.core.utils.AbstractDataPopulator;
-import com.salesmanager.web.entity.customer.ReadableDelivery;
-import com.salesmanager.web.entity.order.ReadableShippingSummary;
+import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.exception.ConversionException;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.model.shipping.ShippingSummary;
+import com.salesmanager.core.business.utils.AbstractDataPopulator;
+import com.salesmanager.shop.model.customer.ReadableDelivery;
+import com.salesmanager.shop.model.order.ReadableShippingSummary;
 
 public class ReadableShippingSummaryPopulator extends
 		AbstractDataPopulator<ShippingSummary, ReadableShippingSummary> {

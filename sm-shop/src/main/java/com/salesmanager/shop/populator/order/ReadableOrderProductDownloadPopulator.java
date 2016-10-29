@@ -1,11 +1,11 @@
-package com.salesmanager.web.populator.order;
+package com.salesmanager.shop.populator.order;
 
-import com.salesmanager.core.business.generic.exception.ConversionException;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.order.model.orderproduct.OrderProductDownload;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.utils.AbstractDataPopulator;
-import com.salesmanager.web.entity.order.ReadableOrderProductDownload;
+import com.salesmanager.core.business.exception.ConversionException;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.order.orderproduct.OrderProductDownload;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.business.utils.AbstractDataPopulator;
+import com.salesmanager.shop.model.order.ReadableOrderProductDownload;
 
 public class ReadableOrderProductDownloadPopulator extends
 		AbstractDataPopulator<OrderProductDownload, ReadableOrderProductDownload> {

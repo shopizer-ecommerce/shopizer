@@ -1,19 +1,19 @@
-package com.salesmanager.web.populator.order;
+package com.salesmanager.shop.populator.order;
+
+import com.salesmanager.core.business.exception.ConversionException;
+import com.salesmanager.core.business.utils.AbstractDataPopulator;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.order.Order;
+import com.salesmanager.core.model.order.OrderTotal;
+import com.salesmanager.core.model.order.OrderTotalType;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.model.customer.Address;
+import com.salesmanager.shop.model.customer.ReadableDelivery;
+import com.salesmanager.shop.model.order.ReadableOrder;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.salesmanager.core.business.generic.exception.ConversionException;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.order.model.Order;
-import com.salesmanager.core.business.order.model.OrderTotal;
-import com.salesmanager.core.business.order.model.OrderTotalType;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.utils.AbstractDataPopulator;
-import com.salesmanager.web.entity.customer.Address;
-import com.salesmanager.web.entity.customer.ReadableDelivery;
-import com.salesmanager.web.entity.order.ReadableOrder;
 
 public class ReadableOrderPopulator extends
 		AbstractDataPopulator<Order, ReadableOrder> {
@@ -36,8 +36,8 @@ public class ReadableOrderPopulator extends
 			target.setConfirmedAddress(source.getConfirmedAddress());
 		}
 		
-		com.salesmanager.web.entity.order.OrderTotal taxTotal = null;
-		com.salesmanager.web.entity.order.OrderTotal shippingTotal = null;
+		com.salesmanager.shop.model.order.OrderTotal taxTotal = null;
+		com.salesmanager.shop.model.order.OrderTotal shippingTotal = null;
 		
 		
 		if(source.getBilling()!=null) {
@@ -78,18 +78,18 @@ public class ReadableOrderPopulator extends
 			target.setDelivery(address);
 		}
 		
-		List<com.salesmanager.web.entity.order.OrderTotal> totals = new ArrayList<com.salesmanager.web.entity.order.OrderTotal>();
+		List<com.salesmanager.shop.model.order.OrderTotal> totals = new ArrayList<com.salesmanager.shop.model.order.OrderTotal>();
 		for(OrderTotal t : source.getOrderTotal()) {
 			if(t.getOrderTotalType()==null) {
 				continue;
 			}
 			if(t.getOrderTotalType().name().equals(OrderTotalType.TOTAL.name())) {
-				com.salesmanager.web.entity.order.OrderTotal totalTotal = createTotal(t);
+				com.salesmanager.shop.model.order.OrderTotal totalTotal = createTotal(t);
 				target.setTotal(totalTotal);
 				totals.add(totalTotal);
 			}
 			else if(t.getOrderTotalType().name().equals(OrderTotalType.TAX.name())) {
-				com.salesmanager.web.entity.order.OrderTotal totalTotal = createTotal(t);
+				com.salesmanager.shop.model.order.OrderTotal totalTotal = createTotal(t);
 				if(taxTotal==null) {
 					taxTotal = totalTotal;
 				} else {
@@ -101,7 +101,7 @@ public class ReadableOrderPopulator extends
 				totals.add(totalTotal);
 			}
 			else if(t.getOrderTotalType().name().equals(OrderTotalType.SHIPPING.name())) {
-				com.salesmanager.web.entity.order.OrderTotal totalTotal = createTotal(t);
+				com.salesmanager.shop.model.order.OrderTotal totalTotal = createTotal(t);
 				if(shippingTotal==null) {
 					shippingTotal = totalTotal;
 				} else {
@@ -113,7 +113,7 @@ public class ReadableOrderPopulator extends
 				totals.add(totalTotal);
 			}
 			else if(t.getOrderTotalType().name().equals(OrderTotalType.HANDLING.name())) {
-				com.salesmanager.web.entity.order.OrderTotal totalTotal = createTotal(t);
+				com.salesmanager.shop.model.order.OrderTotal totalTotal = createTotal(t);
 				if(shippingTotal==null) {
 					shippingTotal = totalTotal;
 				} else {
@@ -125,12 +125,12 @@ public class ReadableOrderPopulator extends
 				totals.add(totalTotal);
 			}
 			else if(t.getOrderTotalType().name().equals(OrderTotalType.SUBTOTAL.name())) {
-				com.salesmanager.web.entity.order.OrderTotal subTotal = createTotal(t);
+				com.salesmanager.shop.model.order.OrderTotal subTotal = createTotal(t);
 				totals.add(subTotal);
 				
 			}
 			else {
-				com.salesmanager.web.entity.order.OrderTotal otherTotal = createTotal(t);
+				com.salesmanager.shop.model.order.OrderTotal otherTotal = createTotal(t);
 				totals.add(otherTotal);
 			}
 		}
@@ -140,8 +140,8 @@ public class ReadableOrderPopulator extends
 		return target;
 	}
 	
-	private com.salesmanager.web.entity.order.OrderTotal createTotal(OrderTotal t) {
-		com.salesmanager.web.entity.order.OrderTotal totalTotal = new com.salesmanager.web.entity.order.OrderTotal();
+	private com.salesmanager.shop.model.order.OrderTotal createTotal(OrderTotal t) {
+		com.salesmanager.shop.model.order.OrderTotal totalTotal = new com.salesmanager.shop.model.order.OrderTotal();
 		totalTotal.setCode(t.getOrderTotalCode());
 		totalTotal.setId(t.getId());
 		totalTotal.setModule(t.getModule());
