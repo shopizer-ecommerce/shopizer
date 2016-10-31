@@ -1,4 +1,4 @@
-package com.salesmanager.web.admin.entity.content;
+package com.salesmanager.shop.admin.model.content;
 
 public class ProductImages extends ContentFiles {
 	

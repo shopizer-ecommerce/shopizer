@@ -1,25 +1,23 @@
-package com.salesmanager.web.files;
+package com.salesmanager.shop.controller;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.services.content.ContentService;
+import com.salesmanager.core.model.content.FileContentType;
+import com.salesmanager.core.model.content.OutputContentFile;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.store.controller.AbstractController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.salesmanager.core.business.content.model.FileContentType;
-import com.salesmanager.core.business.content.model.OutputContentFile;
-import com.salesmanager.core.business.content.service.ContentService;
-import com.salesmanager.core.business.generic.exception.ServiceException;
-import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.shop.controller.AbstractController;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Controller
 public class FilesController extends AbstractController {
@@ -35,7 +33,6 @@ public class FilesController extends AbstractController {
 	/**
 	 * Serves static files (css, js ...) the repository is a single node by merchant
 	 * @param storeCode
-	 * @param imageName
 	 * @param extension
 	 * @return
 	 * @throws IOException

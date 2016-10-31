@@ -1,27 +1,26 @@
-package com.salesmanager.web.init.data;
+package com.salesmanager.shop.init.data;
 
-import javax.annotation.PostConstruct;
-
+import com.salesmanager.core.business.constants.SystemConstants;
+import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.services.reference.init.InitializationDatabase;
+import com.salesmanager.core.business.services.system.SystemConfigurationService;
+import com.salesmanager.core.business.services.user.GroupService;
+import com.salesmanager.core.business.services.user.PermissionService;
+import com.salesmanager.core.business.utils.CoreConfiguration;
+import com.salesmanager.core.model.system.SystemConfiguration;
+import com.salesmanager.core.model.user.Group;
+import com.salesmanager.core.model.user.GroupType;
+import com.salesmanager.core.model.user.Permission;
+import com.salesmanager.shop.admin.security.WebUserServices;
+import com.salesmanager.shop.constants.ApplicationConstants;
+import com.salesmanager.shop.utils.AppConfiguration;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.salesmanager.core.business.generic.exception.ServiceException;
-import com.salesmanager.core.business.reference.init.service.InitializationDatabase;
-import com.salesmanager.core.business.system.model.SystemConfiguration;
-import com.salesmanager.core.business.system.service.SystemConfigurationService;
-import com.salesmanager.core.business.user.model.Group;
-import com.salesmanager.core.business.user.model.GroupType;
-import com.salesmanager.core.business.user.model.Permission;
-import com.salesmanager.core.business.user.service.GroupService;
-import com.salesmanager.core.business.user.service.PermissionService;
-import com.salesmanager.core.constants.SystemConstants;
-import com.salesmanager.core.utils.CoreConfiguration;
-import com.salesmanager.web.admin.security.WebUserServices;
-import com.salesmanager.web.constants.ApplicationConstants;
-import com.salesmanager.web.utils.AppConfiguration;
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
 
 
@@ -38,7 +37,7 @@ public class InitializationLoader {
 	private InitializationDatabase initializationDatabase;
 	
 	@Inject
-	private com.salesmanager.web.init.data.InitData initData;
+	private com.salesmanager.shop.init.data.InitData initData;
 	
 	@Inject
 	private SystemConfigurationService systemConfigurationService;

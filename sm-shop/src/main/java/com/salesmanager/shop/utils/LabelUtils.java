@@ -1,10 +1,10 @@
-package com.salesmanager.web.utils;
-
-import java.util.Locale;
+package com.salesmanager.shop.utils;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+
+import java.util.Locale;
 
 public class LabelUtils implements ApplicationContextAware {
 

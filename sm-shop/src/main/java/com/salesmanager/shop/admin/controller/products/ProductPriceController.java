@@ -1,51 +1,38 @@
-package com.salesmanager.web.admin.controller.products;
+package com.salesmanager.shop.admin.controller.products;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
+import com.salesmanager.core.business.services.catalog.product.ProductService;
+import com.salesmanager.core.business.services.catalog.product.price.ProductPriceService;
+import com.salesmanager.core.business.utils.ProductPriceUtils;
+import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
+import com.salesmanager.core.business.utils.ajax.AjaxResponse;
+import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
+import com.salesmanager.core.model.catalog.product.price.ProductPrice;
+import com.salesmanager.core.model.catalog.product.price.ProductPriceDescription;
+import com.salesmanager.core.model.catalog.product.price.ProductPriceType;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.admin.controller.ControllerConstants;
+import com.salesmanager.shop.admin.model.web.Menu;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.utils.DateUtil;
+import com.salesmanager.shop.utils.LabelUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import com.salesmanager.core.business.catalog.product.model.Product;
-import com.salesmanager.core.business.catalog.product.model.availability.ProductAvailability;
-import com.salesmanager.core.business.catalog.product.model.price.ProductPrice;
-import com.salesmanager.core.business.catalog.product.model.price.ProductPriceDescription;
-import com.salesmanager.core.business.catalog.product.model.price.ProductPriceType;
-import com.salesmanager.core.business.catalog.product.service.ProductService;
-import com.salesmanager.core.business.catalog.product.service.price.ProductPriceService;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.utils.ProductPriceUtils;
-import com.salesmanager.core.utils.ajax.AjaxPageableResponse;
-import com.salesmanager.core.utils.ajax.AjaxResponse;
-import com.salesmanager.shop.admin.controller.ControllerConstants;
-import com.salesmanager.web.admin.entity.web.Menu;
-import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.utils.DateUtil;
-import com.salesmanager.web.utils.LabelUtils;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.math.BigDecimal;
+import java.util.*;
 
 @Controller
 public class ProductPriceController {
@@ -85,7 +72,7 @@ public class ProductPriceController {
 		
 		ProductAvailability productAvailability = null;
 		for(ProductAvailability availability : product.getAvailabilities()) {
-			if(availability.getRegion().equals(com.salesmanager.core.constants.Constants.ALL_REGIONS)) {
+			if(availability.getRegion().equals(com.salesmanager.core.business.constants.Constants.ALL_REGIONS)) {
 				productAvailability = availability;
 			}
 		}
@@ -147,7 +134,7 @@ public class ProductPriceController {
 
 			//get default availability
 			for(ProductAvailability availability : availabilities) {
-				if(availability.getRegion().equals(com.salesmanager.core.constants.Constants.ALL_REGIONS)) {
+				if(availability.getRegion().equals(com.salesmanager.core.business.constants.Constants.ALL_REGIONS)) {
 					defaultAvailability = availability;
 					break;
 				}
@@ -252,7 +239,7 @@ public class ProductPriceController {
 	
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 
-		com.salesmanager.web.admin.entity.catalog.ProductPrice pprice = new com.salesmanager.web.admin.entity.catalog.ProductPrice();
+		com.salesmanager.shop.admin.model.catalog.ProductPrice pprice = new com.salesmanager.shop.admin.model.catalog.ProductPrice();
 		
 		ProductPrice productPrice = null;
 		ProductAvailability productAvailability = null;
@@ -263,7 +250,7 @@ public class ProductPriceController {
 	
 			//get default availability
 			for(ProductAvailability availability : availabilities) {
-				if(availability.getRegion().equals(com.salesmanager.core.constants.Constants.ALL_REGIONS)) {//TODO to be updated when multiple regions is implemented
+				if(availability.getRegion().equals(com.salesmanager.core.business.constants.Constants.ALL_REGIONS)) {//TODO to be updated when multiple regions is implemented
 					productAvailability = availability;
 					Set<ProductPrice> prices = availability.getPrices();
 					for(ProductPrice price : prices) {
@@ -318,7 +305,7 @@ public class ProductPriceController {
 		if(productAvailability==null) {
 			Set<ProductAvailability> availabilities = product.getAvailabilities();
 			for(ProductAvailability availability : availabilities) {
-				if(availability.getRegion().equals(com.salesmanager.core.constants.Constants.ALL_REGIONS)) {//TODO to be updated when multiple regions is implemented
+				if(availability.getRegion().equals(com.salesmanager.core.business.constants.Constants.ALL_REGIONS)) {//TODO to be updated when multiple regions is implemented
 					productAvailability = availability;
 					break;
 				}
@@ -343,7 +330,7 @@ public class ProductPriceController {
 	
 	@PreAuthorize("hasRole('PRODUCTS')")
 	@RequestMapping(value="/admin/products/price/save.html", method=RequestMethod.POST)
-	public String saveProductPrice(@Valid @ModelAttribute("price") com.salesmanager.web.admin.entity.catalog.ProductPrice price, BindingResult result, Model model, HttpServletRequest request, Locale locale) throws Exception {
+	public String saveProductPrice(@Valid @ModelAttribute("price") com.salesmanager.shop.admin.model.catalog.ProductPrice price, BindingResult result, Model model, HttpServletRequest request, Locale locale) throws Exception {
 		
 		//dates after save
 		

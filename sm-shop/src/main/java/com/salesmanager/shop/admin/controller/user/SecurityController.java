@@ -1,22 +1,20 @@
-package com.salesmanager.web.admin.controller.user;
+package com.salesmanager.shop.admin.controller.user;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.salesmanager.core.business.services.user.GroupService;
+import com.salesmanager.core.model.user.Group;
+import com.salesmanager.core.model.user.GroupType;
+import com.salesmanager.shop.admin.model.web.Menu;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.salesmanager.core.business.user.model.Group;
-import com.salesmanager.core.business.user.model.GroupType;
-import com.salesmanager.core.business.user.service.GroupService;
-import com.salesmanager.web.admin.entity.web.Menu;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class SecurityController {

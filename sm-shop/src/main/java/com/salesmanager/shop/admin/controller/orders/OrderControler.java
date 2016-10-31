@@ -1,23 +1,39 @@
-package com.salesmanager.web.admin.controller.orders;
+package com.salesmanager.shop.admin.controller.orders;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import java.util.regex.Pattern;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
+import com.salesmanager.core.business.modules.email.Email;
+import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.services.customer.CustomerService;
+import com.salesmanager.core.business.services.order.OrderService;
+import com.salesmanager.core.business.services.order.orderproduct.OrderProductDownloadService;
+import com.salesmanager.core.business.services.payments.PaymentService;
+import com.salesmanager.core.business.services.payments.TransactionService;
+import com.salesmanager.core.business.services.reference.country.CountryService;
+import com.salesmanager.core.business.services.reference.zone.ZoneService;
+import com.salesmanager.core.business.services.system.EmailService;
+import com.salesmanager.core.model.customer.Customer;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.order.Order;
+import com.salesmanager.core.model.order.OrderTotal;
+import com.salesmanager.core.model.order.orderproduct.OrderProduct;
+import com.salesmanager.core.model.order.orderproduct.OrderProductDownload;
+import com.salesmanager.core.model.order.orderstatus.OrderStatusHistory;
+import com.salesmanager.core.model.payments.PaymentType;
+import com.salesmanager.core.model.payments.Transaction;
+import com.salesmanager.core.model.reference.country.Country;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.model.reference.zone.Zone;
+import com.salesmanager.shop.admin.controller.ControllerConstants;
+import com.salesmanager.shop.admin.model.web.Menu;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.constants.EmailConstants;
+import com.salesmanager.shop.utils.DateUtil;
+import com.salesmanager.shop.utils.EmailUtils;
+import com.salesmanager.shop.utils.LabelUtils;
+import com.salesmanager.shop.utils.LocaleUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,36 +44,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.salesmanager.core.business.catalog.product.service.PricingService;
-import com.salesmanager.core.business.customer.model.Customer;
-import com.salesmanager.core.business.customer.service.CustomerService;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.order.model.Order;
-import com.salesmanager.core.business.order.model.OrderTotal;
-import com.salesmanager.core.business.order.model.orderproduct.OrderProduct;
-import com.salesmanager.core.business.order.model.orderproduct.OrderProductDownload;
-import com.salesmanager.core.business.order.model.orderstatus.OrderStatusHistory;
-import com.salesmanager.core.business.order.service.OrderService;
-import com.salesmanager.core.business.order.service.orderproduct.OrderProductDownloadService;
-import com.salesmanager.core.business.payments.model.PaymentType;
-import com.salesmanager.core.business.payments.model.Transaction;
-import com.salesmanager.core.business.payments.service.PaymentService;
-import com.salesmanager.core.business.payments.service.TransactionService;
-import com.salesmanager.core.business.reference.country.model.Country;
-import com.salesmanager.core.business.reference.country.service.CountryService;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.business.reference.zone.model.Zone;
-import com.salesmanager.core.business.reference.zone.service.ZoneService;
-import com.salesmanager.core.business.system.service.EmailService;
-import com.salesmanager.core.modules.email.Email;
-import com.salesmanager.shop.admin.controller.ControllerConstants;
-import com.salesmanager.web.admin.entity.web.Menu;
-import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.constants.EmailConstants;
-import com.salesmanager.web.utils.DateUtil;
-import com.salesmanager.web.utils.EmailUtils;
-import com.salesmanager.web.utils.LabelUtils;
-import com.salesmanager.web.utils.LocaleUtils;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * Manage order details
@@ -119,7 +111,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		//display menu
 		setMenu(model,request);
 		   
-		com.salesmanager.web.admin.entity.orders.Order order = new com.salesmanager.web.admin.entity.orders.Order();
+		com.salesmanager.shop.admin.model.orders.Order order = new com.salesmanager.shop.admin.model.orders.Order();
 		Language language = (Language)request.getAttribute("LANGUAGE");
 		List<Country> countries = countryService.getCountries(language);
 		if(orderId!=null && orderId!=0) {		//edit mode		
@@ -212,7 +204,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 
 	@PreAuthorize("hasRole('ORDER')")
 	@RequestMapping(value="/admin/orders/save.html", method=RequestMethod.POST)
-	public String saveOrder(@Valid @ModelAttribute("order") com.salesmanager.web.admin.entity.orders.Order entityOrder, BindingResult result, Model model, HttpServletRequest request, Locale locale) throws Exception {
+	public String saveOrder(@Valid @ModelAttribute("order") com.salesmanager.shop.admin.model.orders.Order entityOrder, BindingResult result, Model model, HttpServletRequest request, Locale locale) throws Exception {
 		
 		String email_regEx = "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}\\b";
 		Pattern pattern = Pattern.compile(email_regEx);
@@ -291,7 +283,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 			 result.addError(error);
 		}
 		
-		com.salesmanager.core.business.order.model.Order newOrder = orderService.getById(entityOrder.getOrder().getId() );
+		com.salesmanager.core.model.order.Order newOrder = orderService.getById(entityOrder.getOrder().getId() );
 		
 		
 		//get capturable

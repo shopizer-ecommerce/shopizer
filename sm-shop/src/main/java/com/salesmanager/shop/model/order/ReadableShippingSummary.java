@@ -1,13 +1,14 @@
 package com.salesmanager.shop.model.order;
 
+import com.salesmanager.core.model.shipping.ShippingOption;
+import com.salesmanager.shop.model.customer.Address;
+import com.salesmanager.shop.model.customer.ReadableDelivery;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.salesmanager.core.model.shipping.ShippingOption;
-import com.salesmanager.shop.model.customer.ReadableDelivery;
 
 public class ReadableShippingSummary implements Serializable {
 

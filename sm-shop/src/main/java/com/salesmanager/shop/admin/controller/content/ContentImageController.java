@@ -1,20 +1,18 @@
-package com.salesmanager.web.admin.controller.content;
+package com.salesmanager.shop.admin.controller.content;
 
-import java.io.ByteArrayInputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
+import com.salesmanager.core.business.services.content.ContentService;
+import com.salesmanager.core.business.utils.ajax.AjaxResponse;
+import com.salesmanager.core.model.content.FileContentType;
+import com.salesmanager.core.model.content.InputContentFile;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.shop.admin.controller.ControllerConstants;
+import com.salesmanager.shop.admin.model.content.ContentFiles;
+import com.salesmanager.shop.admin.model.web.Menu;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.utils.ImageFilePath;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -26,16 +24,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.salesmanager.core.business.content.model.FileContentType;
-import com.salesmanager.core.business.content.model.InputContentFile;
-import com.salesmanager.core.business.content.service.ContentService;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.utils.ajax.AjaxResponse;
-import com.salesmanager.shop.admin.controller.ControllerConstants;
-import com.salesmanager.web.admin.entity.content.ContentFiles;
-import com.salesmanager.web.admin.entity.web.Menu;
-import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.utils.ImageFilePath;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.io.ByteArrayInputStream;
+import java.util.*;
 
 /**
  * Manage static content type image

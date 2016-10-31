@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="sm-shop:war">
+    <output-path>$PROJECT_DIR$/sm-shop/target</output-path>
+    <root id="archive" name="sm-shop-2.5.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="sm-shop:war exploded" />
+    </root>
+  </artifact>
+</component>

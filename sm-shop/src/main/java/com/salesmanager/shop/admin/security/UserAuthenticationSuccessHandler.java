@@ -1,18 +1,16 @@
-package com.salesmanager.web.admin.security;
+package com.salesmanager.shop.admin.security;
 
-import java.util.Date;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.salesmanager.core.business.services.user.UserService;
+import com.salesmanager.core.model.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
-import com.salesmanager.core.business.user.model.User;
-import com.salesmanager.core.business.user.service.UserService;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 
 public class UserAuthenticationSuccessHandler extends
 		SavedRequestAwareAuthenticationSuccessHandler {

@@ -1,27 +1,26 @@
-package com.salesmanager.web.shop.controller.order.facade;
+package com.salesmanager.shop.store.controller.order.facade;
+
+import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.model.customer.Customer;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.order.Order;
+import com.salesmanager.core.model.order.OrderTotalSummary;
+import com.salesmanager.core.model.payments.Transaction;
+import com.salesmanager.core.model.reference.country.Country;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.model.shipping.ShippingQuote;
+import com.salesmanager.core.model.shipping.ShippingSummary;
+import com.salesmanager.core.model.shoppingcart.ShoppingCart;
+import com.salesmanager.shop.model.customer.PersistableCustomer;
+import com.salesmanager.shop.model.order.PersistableOrder;
+import com.salesmanager.shop.model.order.ReadableOrder;
+import com.salesmanager.shop.model.order.ReadableOrderList;
+import com.salesmanager.shop.model.order.ShopOrder;
+import org.springframework.validation.BindingResult;
 
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
-import org.springframework.validation.BindingResult;
-
-import com.salesmanager.core.business.customer.model.Customer;
-import com.salesmanager.core.business.generic.exception.ServiceException;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.order.model.Order;
-import com.salesmanager.core.business.order.model.OrderTotalSummary;
-import com.salesmanager.core.business.payments.model.Transaction;
-import com.salesmanager.core.business.reference.country.model.Country;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.business.shipping.model.ShippingQuote;
-import com.salesmanager.core.business.shipping.model.ShippingSummary;
-import com.salesmanager.core.business.shoppingcart.model.ShoppingCart;
-import com.salesmanager.web.entity.customer.PersistableCustomer;
-import com.salesmanager.web.entity.order.PersistableOrder;
-import com.salesmanager.web.entity.order.ReadableOrder;
-import com.salesmanager.web.entity.order.ReadableOrderList;
-import com.salesmanager.web.entity.order.ShopOrder;
 
 
 public interface OrderFacade {

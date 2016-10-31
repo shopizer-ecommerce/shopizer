@@ -1,39 +1,34 @@
-package com.salesmanager.web.shop.controller.customer;
+package com.salesmanager.shop.store.controller.customer;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.salesmanager.core.business.exception.ConversionException;
+import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.services.shoppingcart.ShoppingCartCalculationService;
+import com.salesmanager.core.business.services.shoppingcart.ShoppingCartService;
+import com.salesmanager.core.business.utils.ajax.AjaxResponse;
+import com.salesmanager.core.model.customer.Customer;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.model.shoppingcart.ShoppingCart;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.model.customer.SecuredCustomer;
+import com.salesmanager.shop.model.shoppingcart.ShoppingCartData;
+import com.salesmanager.shop.populator.shoppingCart.ShoppingCartDataPopulator;
+import com.salesmanager.shop.store.controller.AbstractController;
+import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
+import com.salesmanager.shop.utils.ImageFilePath;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import com.salesmanager.core.business.catalog.product.service.PricingService;
-import com.salesmanager.core.business.customer.model.Customer;
-import com.salesmanager.core.business.generic.exception.ConversionException;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.business.shoppingcart.model.ShoppingCart;
-import com.salesmanager.core.business.shoppingcart.service.ShoppingCartCalculationService;
-import com.salesmanager.core.business.shoppingcart.service.ShoppingCartService;
-import com.salesmanager.core.utils.ajax.AjaxResponse;
-import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.entity.customer.SecuredCustomer;
-import com.salesmanager.web.entity.shoppingcart.ShoppingCartData;
-import com.salesmanager.web.populator.shoppingCart.ShoppingCartDataPopulator;
-import com.salesmanager.web.shop.controller.AbstractController;
-import com.salesmanager.web.shop.controller.customer.facade.CustomerFacade;
-import com.salesmanager.web.utils.ImageFilePath;
+import javax.inject.Inject;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Custom Spring Security authentication

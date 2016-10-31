@@ -1,67 +1,61 @@
 /**
  *
  */
-package com.salesmanager.web.shop.controller.customer.facade;
+package com.salesmanager.shop.store.controller.customer.facade;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
+import com.salesmanager.core.business.exception.ConversionException;
+import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.services.catalog.product.ProductService;
+import com.salesmanager.core.business.services.catalog.product.attribute.ProductAttributeService;
+import com.salesmanager.core.business.services.customer.CustomerService;
+import com.salesmanager.core.business.services.customer.attribute.CustomerOptionService;
+import com.salesmanager.core.business.services.customer.attribute.CustomerOptionValueService;
+import com.salesmanager.core.business.services.reference.country.CountryService;
+import com.salesmanager.core.business.services.reference.language.LanguageService;
+import com.salesmanager.core.business.services.reference.zone.ZoneService;
+import com.salesmanager.core.business.services.shoppingcart.ShoppingCartCalculationService;
+import com.salesmanager.core.business.services.shoppingcart.ShoppingCartService;
+import com.salesmanager.core.business.services.system.EmailService;
+import com.salesmanager.core.business.services.user.GroupService;
+import com.salesmanager.core.business.services.user.PermissionService;
+import com.salesmanager.core.model.customer.Customer;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.country.Country;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.model.reference.zone.Zone;
+import com.salesmanager.core.model.shoppingcart.ShoppingCart;
+import com.salesmanager.core.model.user.Group;
+import com.salesmanager.core.model.user.GroupType;
+import com.salesmanager.core.model.user.Permission;
+import com.salesmanager.shop.admin.model.userpassword.UserReset;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.model.customer.Address;
+import com.salesmanager.shop.model.customer.CustomerEntity;
+import com.salesmanager.shop.model.customer.PersistableCustomer;
+import com.salesmanager.shop.model.customer.ReadableCustomer;
+import com.salesmanager.shop.populator.customer.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.GrantedAuthorityImpl;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.salesmanager.core.business.catalog.product.service.PricingService;
-import com.salesmanager.core.business.catalog.product.service.ProductService;
-import com.salesmanager.core.business.catalog.product.service.attribute.ProductAttributeService;
-import com.salesmanager.core.business.customer.CustomerRegistrationException;
-import com.salesmanager.core.business.customer.exception.CustomerNotFoundException;
-import com.salesmanager.core.business.customer.model.Customer;
-import com.salesmanager.core.business.customer.service.CustomerService;
-import com.salesmanager.core.business.customer.service.attribute.CustomerOptionService;
-import com.salesmanager.core.business.customer.service.attribute.CustomerOptionValueService;
-import com.salesmanager.core.business.generic.exception.ConversionException;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.country.model.Country;
-import com.salesmanager.core.business.reference.country.service.CountryService;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.business.reference.language.service.LanguageService;
-import com.salesmanager.core.business.reference.zone.model.Zone;
-import com.salesmanager.core.business.reference.zone.service.ZoneService;
-import com.salesmanager.core.business.shoppingcart.model.ShoppingCart;
-import com.salesmanager.core.business.shoppingcart.service.ShoppingCartCalculationService;
-import com.salesmanager.core.business.shoppingcart.service.ShoppingCartService;
-import com.salesmanager.core.business.system.service.EmailService;
-import com.salesmanager.core.business.user.model.Group;
-import com.salesmanager.core.business.user.model.GroupType;
-import com.salesmanager.core.business.user.model.Permission;
-import com.salesmanager.core.business.user.service.GroupService;
-import com.salesmanager.core.business.user.service.PermissionService;
-import com.salesmanager.web.admin.entity.userpassword.UserReset;
-import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.entity.customer.Address;
-import com.salesmanager.web.entity.customer.CustomerEntity;
-import com.salesmanager.web.entity.customer.PersistableCustomer;
-import com.salesmanager.web.entity.customer.ReadableCustomer;
-import com.salesmanager.web.populator.customer.CustomerBillingAddressPopulator;
-import com.salesmanager.web.populator.customer.CustomerDeliveryAddressPopulator;
-import com.salesmanager.web.populator.customer.CustomerEntityPopulator;
-import com.salesmanager.web.populator.customer.CustomerPopulator;
-import com.salesmanager.web.populator.customer.PersistableCustomerBillingAddressPopulator;
-import com.salesmanager.web.populator.customer.PersistableCustomerShippingAddressPopulator;
-import com.salesmanager.web.populator.customer.ReadableCustomerPopulator;
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
+//import com.salesmanager.core.business.customer.CustomerRegistrationException;
+//import com.salesmanager.core.business.customer.exception.CustomerNotFoundException;
 
 
 /**
@@ -138,7 +132,7 @@ public class CustomerFacadeImpl implements CustomerFacade
      * Customer username is unique to each store.
      *
      * @param userName
-     * @param storeCode
+     * @param store
      * @throws ConversionException
      */
     @Override
@@ -292,7 +286,8 @@ public class CustomerFacadeImpl implements CustomerFacade
         Customer customerModel= getCustomerModel(customer,merchantStore,language);
         if(customerModel == null){
             LOG.equals( "Unable to create customer in system" );
-            throw new CustomerRegistrationException( "Unable to register customer" );
+            //throw new CustomerRegistrationException( "Unable to register customer" );
+            throw new Exception( "Unable to register customer" );
         }
         
         LOG.info( "About to persist customer to database." );
@@ -395,7 +390,7 @@ public class CustomerFacadeImpl implements CustomerFacade
 			Validate.notNull(customer, "Customer cannot be null");
 
         	Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-			GrantedAuthority role = new GrantedAuthorityImpl(Constants.PERMISSION_CUSTOMER_AUTHENTICATED);//required to login
+			GrantedAuthority role = new SimpleGrantedAuthority(Constants.PERMISSION_CUSTOMER_AUTHENTICATED);//required to login
 			authorities.add(role); 
 			List<Integer> groupsId = new ArrayList<Integer>();
 			List<Group> groups = customer.getGroups();
@@ -407,7 +402,7 @@ public class CustomerFacadeImpl implements CustomerFacade
 				if(groupsId!=null && groupsId.size()>0) {
 			    	List<Permission> permissions = permissionService.getPermissions(groupsId);
 			    	for(Permission permission : permissions) {
-			    		GrantedAuthority auth = new GrantedAuthorityImpl(permission.getPermissionName());
+			    		GrantedAuthority auth = new SimpleGrantedAuthority(permission.getPermissionName());
 			    		authorities.add(auth);
 			    	}
 				}
@@ -433,7 +428,8 @@ public class CustomerFacadeImpl implements CustomerFacade
         
         if(customerModel == null){
             LOG.error( "Customer with ID {} does not exists..", userId);
-            throw new CustomerNotFoundException( "customer with given id does not exists" ); 
+            //throw new CustomerNotFoundException( "customer with given id does not exists" );
+            throw new Exception( "customer with given id does not exists" );
         }
         
        if(isBillingAddress){
@@ -462,7 +458,8 @@ public class CustomerFacadeImpl implements CustomerFacade
       
       if(customerModel ==null){
            LOG.error( "Customer with ID {} does not exists..", userId);
-           throw new CustomerNotFoundException( "customer with given id does not exists" );
+           //throw new CustomerNotFoundException( "customer with given id does not exists" );
+           throw new Exception( "customer with given id does not exists" );
            
        }
        if(address.isBillingAddress()){

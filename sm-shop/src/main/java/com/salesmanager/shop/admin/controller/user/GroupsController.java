@@ -1,16 +1,17 @@
-package com.salesmanager.web.admin.controller.user;
+package com.salesmanager.shop.admin.controller.user;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.salesmanager.core.business.services.reference.country.CountryService;
+import com.salesmanager.core.business.services.reference.language.LanguageService;
+import com.salesmanager.core.business.services.user.GroupService;
+import com.salesmanager.core.business.services.user.PermissionService;
+import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
+import com.salesmanager.core.business.utils.ajax.AjaxResponse;
+import com.salesmanager.core.model.user.Group;
+import com.salesmanager.core.model.user.GroupType;
+import com.salesmanager.shop.admin.model.web.Menu;
+import com.salesmanager.shop.utils.LabelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,16 +20,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.salesmanager.core.business.reference.country.service.CountryService;
-import com.salesmanager.core.business.reference.language.service.LanguageService;
-import com.salesmanager.core.business.user.model.Group;
-import com.salesmanager.core.business.user.model.GroupType;
-import com.salesmanager.core.business.user.service.GroupService;
-import com.salesmanager.core.business.user.service.PermissionService;
-import com.salesmanager.core.utils.ajax.AjaxPageableResponse;
-import com.salesmanager.core.utils.ajax.AjaxResponse;
-import com.salesmanager.web.admin.entity.web.Menu;
-import com.salesmanager.web.utils.LabelUtils;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 @Controller
 public class GroupsController {

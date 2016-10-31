@@ -1,10 +1,10 @@
-package com.salesmanager.web.admin.entity.web;
+package com.salesmanager.shop.admin.model.web;
+
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.codehaus.jackson.annotate.JsonProperty;
 
 public class Menu implements Serializable {
 	

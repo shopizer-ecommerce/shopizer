@@ -1,4 +1,4 @@
-package com.salesmanager.web.admin.security;
+package com.salesmanager.shop.admin.security;
 
 import java.io.Serializable;
 

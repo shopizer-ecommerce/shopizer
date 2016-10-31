@@ -1,48 +1,36 @@
-package com.salesmanager.web.admin.controller.products;
+package com.salesmanager.shop.admin.controller.products;
 
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
-import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
+import com.salesmanager.core.business.services.catalog.product.manufacturer.ManufacturerService;
+import com.salesmanager.core.business.services.reference.language.LanguageService;
+import com.salesmanager.core.business.utils.CoreConfiguration;
+import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
+import com.salesmanager.core.business.utils.ajax.AjaxResponse;
+import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
+import com.salesmanager.core.model.catalog.product.manufacturer.ManufacturerDescription;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.admin.controller.ControllerConstants;
+import com.salesmanager.shop.admin.controller.customers.CustomerController;
+import com.salesmanager.shop.admin.model.web.Menu;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.utils.LabelUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import com.salesmanager.core.business.catalog.product.model.manufacturer.Manufacturer;
-import com.salesmanager.core.business.catalog.product.model.manufacturer.ManufacturerDescription;
-import com.salesmanager.core.business.catalog.product.service.manufacturer.ManufacturerService;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.business.reference.language.service.LanguageService;
-import com.salesmanager.core.utils.CoreConfiguration;
-import com.salesmanager.core.utils.ajax.AjaxPageableResponse;
-import com.salesmanager.core.utils.ajax.AjaxResponse;
-import com.salesmanager.shop.admin.controller.ControllerConstants;
-import com.salesmanager.web.admin.controller.customers.CustomerController;
-import com.salesmanager.web.admin.entity.web.Menu;
-import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.utils.LabelUtils;
+import javax.imageio.ImageIO;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.awt.image.BufferedImage;
+import java.util.*;
 
 @Controller
 public class ManufacturerController {
@@ -95,7 +83,7 @@ public class ManufacturerController {
 		List<Language> languages = store.getLanguages();
 		
 		
-		com.salesmanager.web.admin.entity.catalog.Manufacturer manufacturer = new com.salesmanager.web.admin.entity.catalog.Manufacturer();		
+		com.salesmanager.shop.admin.model.catalog.Manufacturer manufacturer = new com.salesmanager.shop.admin.model.catalog.Manufacturer();
 		List<ManufacturerDescription> descriptions = new ArrayList<ManufacturerDescription>();
 
 		
@@ -167,7 +155,7 @@ public class ManufacturerController {
 		
 	@PreAuthorize("hasRole('PRODUCTS')")  
 	@RequestMapping(value="/admin/catalogue/manufacturer/save.html", method=RequestMethod.POST)
-	public String saveManufacturer( @Valid @ModelAttribute("manufacturer") com.salesmanager.web.admin.entity.catalog.Manufacturer manufacturer, BindingResult result, Model model,  HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
+	public String saveManufacturer( @Valid @ModelAttribute("manufacturer") com.salesmanager.shop.admin.model.catalog.Manufacturer manufacturer, BindingResult result, Model model,  HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
 
 		this.setMenu(model, request);
 		//save or edit a manufacturer
@@ -389,7 +377,7 @@ public class ManufacturerController {
 				return resp.toJSONString();
 			} 
 			
-			int count = manufacturerService.getCountManufAttachedProducts( delManufacturer );  
+			int count = manufacturerService.getCountManufAttachedProducts( delManufacturer ).intValue();
 			//IF already attached to products it can't be deleted
 			if ( count > 0 ){
 				resp.setStatusMessage(messages.getMessage("message.product.association", locale));

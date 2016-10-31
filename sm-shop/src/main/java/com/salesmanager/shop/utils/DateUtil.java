@@ -12,19 +12,17 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package com.salesmanager.web.utils;
+package com.salesmanager.shop.utils;
 
+import com.salesmanager.core.business.constants.Constants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.servlet.http.HttpServletRequest;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.salesmanager.core.constants.Constants;
 
 
 

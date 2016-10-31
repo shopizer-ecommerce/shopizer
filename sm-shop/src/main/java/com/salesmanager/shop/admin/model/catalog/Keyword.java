@@ -1,9 +1,8 @@
-package com.salesmanager.web.admin.entity.catalog;
-
-import java.io.Serializable;
-
+package com.salesmanager.shop.admin.model.catalog;
 
 import org.hibernate.validator.constraints.NotEmpty;
+
+import java.io.Serializable;
 
 /**
  * Post keyword from the admin

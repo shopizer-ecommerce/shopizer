@@ -1,14 +1,14 @@
-package com.salesmanager.web.populator.order;
+package com.salesmanager.shop.populator.order;
 
-import com.salesmanager.core.business.generic.exception.ConversionException;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.utils.AbstractDataPopulator;
-import com.salesmanager.web.entity.customer.Address;
-import com.salesmanager.web.entity.customer.PersistableCustomer;
-import com.salesmanager.web.entity.customer.ReadableCustomer;
-import com.salesmanager.web.entity.order.ReadableShopOrder;
-import com.salesmanager.web.entity.order.ShopOrder;
+import com.salesmanager.core.business.exception.ConversionException;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.business.utils.AbstractDataPopulator;
+import com.salesmanager.shop.model.customer.Address;
+import com.salesmanager.shop.model.customer.PersistableCustomer;
+import com.salesmanager.shop.model.customer.ReadableCustomer;
+import com.salesmanager.shop.model.order.ReadableShopOrder;
+import com.salesmanager.shop.model.order.ShopOrder;
 
 public class ReadableShopOrderPopulator extends
 		AbstractDataPopulator<ShopOrder, ReadableShopOrder> {

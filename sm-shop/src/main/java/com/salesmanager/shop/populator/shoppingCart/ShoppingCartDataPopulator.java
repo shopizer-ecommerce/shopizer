@@ -1,36 +1,34 @@
 /**
  *
  */
-package com.salesmanager.web.populator.shoppingCart;
+package com.salesmanager.shop.populator.shoppingCart;
+
+import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.services.shoppingcart.ShoppingCartCalculationService;
+import com.salesmanager.core.business.utils.AbstractDataPopulator;
+import com.salesmanager.core.model.catalog.product.attribute.ProductOptionDescription;
+import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueDescription;
+import com.salesmanager.core.model.catalog.product.image.ProductImage;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.order.OrderSummary;
+import com.salesmanager.core.model.order.OrderTotalSummary;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.model.shoppingcart.ShoppingCart;
+import com.salesmanager.shop.model.order.OrderTotal;
+import com.salesmanager.shop.model.shoppingcart.ShoppingCartAttribute;
+import com.salesmanager.shop.model.shoppingcart.ShoppingCartData;
+import com.salesmanager.shop.model.shoppingcart.ShoppingCartItem;
+import com.salesmanager.shop.utils.ImageFilePath;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.configuration.ConversionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.configuration.ConversionException;
-import org.apache.commons.lang.Validate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.salesmanager.core.business.catalog.product.model.attribute.ProductOptionDescription;
-import com.salesmanager.core.business.catalog.product.model.attribute.ProductOptionValueDescription;
-import com.salesmanager.core.business.catalog.product.model.image.ProductImage;
-import com.salesmanager.core.business.catalog.product.service.PricingService;
-import com.salesmanager.core.business.generic.exception.ServiceException;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.order.model.OrderSummary;
-import com.salesmanager.core.business.order.model.OrderTotalSummary;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.business.shoppingcart.model.ShoppingCart;
-import com.salesmanager.core.business.shoppingcart.service.ShoppingCartCalculationService;
-import com.salesmanager.core.utils.AbstractDataPopulator;
-import com.salesmanager.web.entity.order.OrderTotal;
-import com.salesmanager.web.entity.shoppingcart.ShoppingCartAttribute;
-import com.salesmanager.web.entity.shoppingcart.ShoppingCartData;
-import com.salesmanager.web.entity.shoppingcart.ShoppingCartItem;
-import com.salesmanager.web.utils.ImageFilePath;
 
 
 /**
@@ -90,12 +88,12 @@ public class ShoppingCartDataPopulator extends AbstractDataPopulator<ShoppingCar
     	//Validate.notNull(imageUtils, "Requires to set imageUtils");
     	int cartQuantity = 0;
         cart.setCode(shoppingCart.getShoppingCartCode());
-        Set<com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem> items = shoppingCart.getLineItems();
+        Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> items = shoppingCart.getLineItems();
         List<ShoppingCartItem> shoppingCartItemsList=Collections.emptyList();
         try{
             if(items!=null) {
                 shoppingCartItemsList=new ArrayList<ShoppingCartItem>();
-                for(com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem item : items) {
+                for(com.salesmanager.core.model.shoppingcart.ShoppingCartItem item : items) {
 
                     ShoppingCartItem shoppingCartItem = new ShoppingCartItem();
                     shoppingCartItem.setCode(cart.getCode());
@@ -119,10 +117,10 @@ public class ShoppingCartDataPopulator extends AbstractDataPopulator<ShoppingCar
                         String imagePath = imageUtils.buildProductimageUtils(store, item.getProduct().getSku(), image.getProductImage());
                         shoppingCartItem.setImage(imagePath);
                     }
-                    Set<com.salesmanager.core.business.shoppingcart.model.ShoppingCartAttributeItem> attributes = item.getAttributes();
+                    Set<com.salesmanager.core.model.shoppingcart.ShoppingCartAttributeItem> attributes = item.getAttributes();
                     if(attributes!=null) {
                         List<ShoppingCartAttribute> cartAttributes = new ArrayList<ShoppingCartAttribute>();
-                        for(com.salesmanager.core.business.shoppingcart.model.ShoppingCartAttributeItem attribute : attributes) {
+                        for(com.salesmanager.core.model.shoppingcart.ShoppingCartAttributeItem attribute : attributes) {
                             ShoppingCartAttribute cartAttribute = new ShoppingCartAttribute();
                             cartAttribute.setId(attribute.getId());
                             cartAttribute.setAttributeId(attribute.getProductAttributeId());
@@ -146,14 +144,14 @@ public class ShoppingCartDataPopulator extends AbstractDataPopulator<ShoppingCar
             }
 
             OrderSummary summary = new OrderSummary();
-            List<com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem> productsList = new ArrayList<com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem>();
+            List<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> productsList = new ArrayList<com.salesmanager.core.model.shoppingcart.ShoppingCartItem>();
             productsList.addAll(shoppingCart.getLineItems());
             summary.setProducts(productsList);
             OrderTotalSummary orderSummary = shoppingCartCalculationService.calculate(shoppingCart,store, language );
 
             if(CollectionUtils.isNotEmpty(orderSummary.getTotals())) {
             	List<OrderTotal> totals = new ArrayList<OrderTotal>();
-            	for(com.salesmanager.core.business.order.model.OrderTotal t : orderSummary.getTotals()) {
+            	for(com.salesmanager.core.model.order.OrderTotal t : orderSummary.getTotals()) {
             		OrderTotal total = new OrderTotal();
             		total.setCode(t.getOrderTotalCode());
             		total.setValue(t.getValue());

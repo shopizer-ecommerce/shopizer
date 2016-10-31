@@ -1,22 +1,19 @@
 /**
  *
  */
-package com.salesmanager.web.shop.controller;
+package com.salesmanager.shop.store.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.store.model.paging.PaginationData;
 import org.jopendocument.util.ExceptionUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.shop.model.paging.PaginationData;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Umesh A
@@ -33,17 +30,17 @@ public abstract class AbstractController {
      */
     @SuppressWarnings( "unchecked" )
     protected <T> T getSessionAttribute(final String key, HttpServletRequest request) {
-	          return (T) com.salesmanager.web.utils.SessionUtil.getSessionAttribute(key, request);
+	          return (T) com.salesmanager.shop.utils.SessionUtil.getSessionAttribute(key, request);
 
 	}
     
     protected void setSessionAttribute(final String key, final Object value, HttpServletRequest request) {
-    	com.salesmanager.web.utils.SessionUtil.setSessionAttribute(key, value, request);
+    	com.salesmanager.shop.utils.SessionUtil.setSessionAttribute(key, value, request);
 	}
     
     
     protected void removeAttribute(final String key, HttpServletRequest request) {
-    	com.salesmanager.web.utils.SessionUtil.removeSessionAttribute(key, request);
+    	com.salesmanager.shop.utils.SessionUtil.removeSessionAttribute(key, request);
 	}
     
     protected Language getLanguage(HttpServletRequest request) {

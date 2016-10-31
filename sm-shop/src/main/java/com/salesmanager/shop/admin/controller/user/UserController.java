@@ -1,22 +1,30 @@
-package com.salesmanager.web.admin.controller.user;
+package com.salesmanager.shop.admin.controller.user;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-
+import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.modules.email.Email;
+import com.salesmanager.core.business.services.merchant.MerchantStoreService;
+import com.salesmanager.core.business.services.reference.country.CountryService;
+import com.salesmanager.core.business.services.reference.language.LanguageService;
+import com.salesmanager.core.business.services.system.EmailService;
+import com.salesmanager.core.business.services.user.GroupService;
+import com.salesmanager.core.business.services.user.UserService;
+import com.salesmanager.core.business.utils.ajax.AjaxResponse;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.model.user.Group;
+import com.salesmanager.core.model.user.GroupType;
+import com.salesmanager.core.model.user.User;
+import com.salesmanager.shop.admin.controller.ControllerConstants;
+import com.salesmanager.shop.admin.model.secutity.Password;
+import com.salesmanager.shop.admin.model.userpassword.UserReset;
+import com.salesmanager.shop.admin.model.web.Menu;
+import com.salesmanager.shop.admin.security.SecurityQuestion;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.constants.EmailConstants;
+import com.salesmanager.shop.utils.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -28,32 +36,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.salesmanager.core.business.generic.exception.ServiceException;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.merchant.service.MerchantStoreService;
-import com.salesmanager.core.business.reference.country.service.CountryService;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.business.reference.language.service.LanguageService;
-import com.salesmanager.core.business.system.service.EmailService;
-import com.salesmanager.core.business.user.model.Group;
-import com.salesmanager.core.business.user.model.GroupType;
-import com.salesmanager.core.business.user.model.User;
-import com.salesmanager.core.business.user.service.GroupService;
-import com.salesmanager.core.business.user.service.UserService;
-import com.salesmanager.core.modules.email.Email;
-import com.salesmanager.core.utils.ajax.AjaxResponse;
-import com.salesmanager.shop.admin.controller.ControllerConstants;
-import com.salesmanager.web.admin.entity.secutity.Password;
-import com.salesmanager.web.admin.entity.userpassword.UserReset;
-import com.salesmanager.web.admin.entity.web.Menu;
-import com.salesmanager.web.admin.security.SecurityQuestion;
-import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.constants.EmailConstants;
-import com.salesmanager.web.utils.EmailUtils;
-import com.salesmanager.web.utils.FilePathUtils;
-import com.salesmanager.web.utils.LabelUtils;
-import com.salesmanager.web.utils.LocaleUtils;
-import com.salesmanager.web.utils.UserUtils;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import java.util.*;
 
 @Controller
 public class UserController {

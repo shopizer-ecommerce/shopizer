@@ -1,23 +1,22 @@
 /**
  * 
  */
-package com.salesmanager.web.populator.customer;
+package com.salesmanager.shop.populator.customer;
 
-import java.util.Map;
-
+import com.salesmanager.core.business.exception.ConversionException;
+import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.services.reference.country.CountryService;
+import com.salesmanager.core.business.services.reference.zone.ZoneService;
+import com.salesmanager.core.business.utils.AbstractDataPopulator;
+import com.salesmanager.core.model.common.Delivery;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.country.Country;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.model.reference.zone.Zone;
+import com.salesmanager.shop.model.customer.ReadableDelivery;
 import org.apache.commons.lang.StringUtils;
 
-import com.salesmanager.core.business.common.model.Delivery;
-import com.salesmanager.core.business.generic.exception.ConversionException;
-import com.salesmanager.core.business.generic.exception.ServiceException;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.country.model.Country;
-import com.salesmanager.core.business.reference.country.service.CountryService;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.business.reference.zone.model.Zone;
-import com.salesmanager.core.business.reference.zone.service.ZoneService;
-import com.salesmanager.core.utils.AbstractDataPopulator;
-import com.salesmanager.web.entity.customer.ReadableDelivery;
+import java.util.Map;
 
 /**
  * @author Carl Samson

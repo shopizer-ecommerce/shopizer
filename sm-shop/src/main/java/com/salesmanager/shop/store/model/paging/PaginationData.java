@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.salesmanager.web.shop.model.paging;
+package com.salesmanager.shop.store.model.paging;
 
 import java.io.Serializable;
 

@@ -1,4 +1,4 @@
-package com.salesmanager.web.admin.entity.reference;
+package com.salesmanager.shop.admin.model.reference;
 
 import java.io.Serializable;
 

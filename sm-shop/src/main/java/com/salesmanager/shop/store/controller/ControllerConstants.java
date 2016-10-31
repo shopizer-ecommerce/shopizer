@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.salesmanager.web.shop.controller;
+package com.salesmanager.shop.store.controller;
 
 /**
  * Interface contain constant for Controller.These constant will be used throughout

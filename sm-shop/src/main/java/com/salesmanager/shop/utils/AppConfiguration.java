@@ -1,10 +1,10 @@
-package com.salesmanager.web.utils;
-
-import java.util.Properties;
+package com.salesmanager.shop.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import java.util.Properties;
 
 @Component
 public class AppConfiguration {

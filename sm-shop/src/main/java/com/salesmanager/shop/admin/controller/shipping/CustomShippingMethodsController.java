@@ -1,21 +1,28 @@
-package com.salesmanager.web.admin.controller.shipping;
+package com.salesmanager.shop.admin.controller.shipping;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.salesmanager.core.business.services.reference.country.CountryService;
+import com.salesmanager.core.business.services.shipping.ShippingService;
+import com.salesmanager.core.business.utils.ProductPriceUtils;
+import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
+import com.salesmanager.core.business.utils.ajax.AjaxResponse;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.country.Country;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.model.shipping.ShippingConfiguration;
+import com.salesmanager.core.model.shipping.ShippingType;
+import com.salesmanager.core.model.system.IntegrationConfiguration;
+import com.salesmanager.core.modules.integration.IntegrationException;
+import com.salesmanager.core.modules.integration.shipping.model.CustomShippingQuoteWeightItem;
+import com.salesmanager.core.modules.integration.shipping.model.CustomShippingQuotesConfiguration;
+import com.salesmanager.core.modules.integration.shipping.model.CustomShippingQuotesRegion;
+import com.salesmanager.shop.admin.controller.ControllerConstants;
+import com.salesmanager.shop.admin.model.web.Menu;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.utils.LabelUtils;
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,25 +33,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.country.model.Country;
-import com.salesmanager.core.business.reference.country.service.CountryService;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.business.shipping.model.ShippingConfiguration;
-import com.salesmanager.core.business.shipping.model.ShippingType;
-import com.salesmanager.core.business.shipping.service.ShippingService;
-import com.salesmanager.core.business.system.model.IntegrationConfiguration;
-import com.salesmanager.core.modules.integration.IntegrationException;
-import com.salesmanager.core.modules.integration.shipping.model.CustomShippingQuoteWeightItem;
-import com.salesmanager.core.modules.integration.shipping.model.CustomShippingQuotesConfiguration;
-import com.salesmanager.core.modules.integration.shipping.model.CustomShippingQuotesRegion;
-import com.salesmanager.core.utils.ProductPriceUtils;
-import com.salesmanager.core.utils.ajax.AjaxPageableResponse;
-import com.salesmanager.core.utils.ajax.AjaxResponse;
-import com.salesmanager.shop.admin.controller.ControllerConstants;
-import com.salesmanager.web.admin.entity.web.Menu;
-import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.utils.LabelUtils;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
+import java.util.*;
 
 @Controller
 public class CustomShippingMethodsController {
@@ -195,8 +188,8 @@ public class CustomShippingMethodsController {
 		LOGGER.debug("Saving module code " + moduleCode);
 		
 		List<String> environments = new ArrayList<String>();
-		environments.add(com.salesmanager.core.constants.Constants.TEST_ENVIRONMENT);
-		environments.add(com.salesmanager.core.constants.Constants.PRODUCTION_ENVIRONMENT);
+		environments.add(com.salesmanager.core.business.constants.Constants.TEST_ENVIRONMENT);
+		environments.add(com.salesmanager.core.business.constants.Constants.PRODUCTION_ENVIRONMENT);
 
 		model.addAttribute("environments", environments);
 		model.addAttribute("configuration", configuration);
@@ -735,7 +728,7 @@ public class CustomShippingMethodsController {
 		
 		
 		List<String> environments = new ArrayList<String>();
-		environments.add(com.salesmanager.core.constants.Constants.PRODUCTION_ENVIRONMENT);//only production
+		environments.add(com.salesmanager.core.business.constants.Constants.PRODUCTION_ENVIRONMENT);//only production
 		
 		model.addAttribute("environments", environments);
 		model.addAttribute("configuration", configuration);

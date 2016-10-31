@@ -1,67 +1,53 @@
-package com.salesmanager.web.admin.controller.products;
+package com.salesmanager.shop.admin.controller.products;
 
-import java.awt.image.BufferedImage;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-
-import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
+import com.salesmanager.core.business.services.catalog.category.CategoryService;
+import com.salesmanager.core.business.services.catalog.product.ProductService;
+import com.salesmanager.core.business.services.catalog.product.image.ProductImageService;
+import com.salesmanager.core.business.services.catalog.product.manufacturer.ManufacturerService;
+import com.salesmanager.core.business.services.catalog.product.type.ProductTypeService;
+import com.salesmanager.core.business.services.tax.TaxClassService;
+import com.salesmanager.core.business.utils.CoreConfiguration;
+import com.salesmanager.core.business.utils.ProductPriceUtils;
+import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
+import com.salesmanager.core.business.utils.ajax.AjaxResponse;
+import com.salesmanager.core.model.catalog.category.Category;
+import com.salesmanager.core.model.catalog.category.CategoryDescription;
+import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
+import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
+import com.salesmanager.core.model.catalog.product.description.ProductDescription;
+import com.salesmanager.core.model.catalog.product.image.ProductImage;
+import com.salesmanager.core.model.catalog.product.image.ProductImageDescription;
+import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
+import com.salesmanager.core.model.catalog.product.price.ProductPrice;
+import com.salesmanager.core.model.catalog.product.price.ProductPriceDescription;
+import com.salesmanager.core.model.catalog.product.relationship.ProductRelationship;
+import com.salesmanager.core.model.catalog.product.type.ProductType;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.model.tax.taxclass.TaxClass;
+import com.salesmanager.shop.admin.model.web.Menu;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.utils.DateUtil;
+import com.salesmanager.shop.utils.LabelUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import com.salesmanager.core.business.catalog.category.model.Category;
-import com.salesmanager.core.business.catalog.category.model.CategoryDescription;
-import com.salesmanager.core.business.catalog.category.service.CategoryService;
-import com.salesmanager.core.business.catalog.product.model.Product;
-import com.salesmanager.core.business.catalog.product.model.attribute.ProductAttribute;
-import com.salesmanager.core.business.catalog.product.model.availability.ProductAvailability;
-import com.salesmanager.core.business.catalog.product.model.description.ProductDescription;
-import com.salesmanager.core.business.catalog.product.model.image.ProductImage;
-import com.salesmanager.core.business.catalog.product.model.image.ProductImageDescription;
-import com.salesmanager.core.business.catalog.product.model.manufacturer.Manufacturer;
-import com.salesmanager.core.business.catalog.product.model.price.ProductPrice;
-import com.salesmanager.core.business.catalog.product.model.price.ProductPriceDescription;
-import com.salesmanager.core.business.catalog.product.model.relationship.ProductRelationship;
-import com.salesmanager.core.business.catalog.product.model.type.ProductType;
-import com.salesmanager.core.business.catalog.product.service.ProductService;
-import com.salesmanager.core.business.catalog.product.service.image.ProductImageService;
-import com.salesmanager.core.business.catalog.product.service.manufacturer.ManufacturerService;
-import com.salesmanager.core.business.catalog.product.service.type.ProductTypeService;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.business.tax.model.taxclass.TaxClass;
-import com.salesmanager.core.business.tax.service.TaxClassService;
-import com.salesmanager.core.utils.CoreConfiguration;
-import com.salesmanager.core.utils.ProductPriceUtils;
-import com.salesmanager.core.utils.ajax.AjaxPageableResponse;
-import com.salesmanager.core.utils.ajax.AjaxResponse;
-import com.salesmanager.web.admin.entity.web.Menu;
-import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.utils.DateUtil;
-import com.salesmanager.web.utils.LabelUtils;
+import javax.imageio.ImageIO;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.awt.image.BufferedImage;
+import java.math.BigDecimal;
+import java.util.*;
 
 @Controller
 public class ProductController {
@@ -135,7 +121,7 @@ public class ProductController {
 		
 
 		
-		com.salesmanager.web.admin.entity.catalog.Product product = new com.salesmanager.web.admin.entity.catalog.Product();
+		com.salesmanager.shop.admin.model.catalog.Product product = new com.salesmanager.shop.admin.model.catalog.Product();
 		List<ProductDescription> descriptions = new ArrayList<ProductDescription>();
 
 		if(productId!=null && productId!=0) {//edit mode
@@ -187,7 +173,7 @@ public class ProductController {
 			if(availabilities!=null && availabilities.size()>0) {
 				
 				for(ProductAvailability availability : availabilities) {
-					if(availability.getRegion().equals(com.salesmanager.core.constants.Constants.ALL_REGIONS)) {
+					if(availability.getRegion().equals(com.salesmanager.core.business.constants.Constants.ALL_REGIONS)) {
 						productAvailability = availability;
 						Set<ProductPrice> prices = availability.getPrices();
 						for(ProductPrice price : prices) {
@@ -256,7 +242,7 @@ public class ProductController {
 
 	@PreAuthorize("hasRole('PRODUCTS')")
 	@RequestMapping(value="/admin/products/save.html", method=RequestMethod.POST)
-	public String saveProduct(@Valid @ModelAttribute("product") com.salesmanager.web.admin.entity.catalog.Product  product, BindingResult result, Model model, HttpServletRequest request, Locale locale) throws Exception {
+	public String saveProduct(@Valid @ModelAttribute("product") com.salesmanager.shop.admin.model.catalog.Product  product, BindingResult result, Model model, HttpServletRequest request, Locale locale) throws Exception {
 		
 
 		Language language = (Language)request.getAttribute("LANGUAGE");
@@ -398,7 +384,7 @@ public class ProductController {
 			if(avails !=null && avails.size()>0) {
 				
 				for(ProductAvailability availability : avails) {
-					if(availability.getRegion().equals(com.salesmanager.core.constants.Constants.ALL_REGIONS)) {
+					if(availability.getRegion().equals(com.salesmanager.core.business.constants.Constants.ALL_REGIONS)) {
 
 						
 						newProductAvailability = availability;
@@ -572,7 +558,7 @@ public class ProductController {
 		}
 		
 		//Make a copy of the product
-		com.salesmanager.web.admin.entity.catalog.Product product = new com.salesmanager.web.admin.entity.catalog.Product();
+		com.salesmanager.shop.admin.model.catalog.Product product = new com.salesmanager.shop.admin.model.catalog.Product();
 		
 		Set<ProductAvailability> availabilities = new HashSet<ProductAvailability>();
 		//availability - price
@@ -626,7 +612,7 @@ public class ProductController {
 			
 			
 
-			if(availability.getRegion().equals(com.salesmanager.core.constants.Constants.ALL_REGIONS)) {
+			if(availability.getRegion().equals(com.salesmanager.core.business.constants.Constants.ALL_REGIONS)) {
 				product.setAvailability(availability);
 			}
 			

@@ -3,6 +3,7 @@
  */
 package com.salesmanager.shop.populator.customer;
 
+
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.utils.AbstractDataPopulator;
 import com.salesmanager.core.model.customer.Customer;

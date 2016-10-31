@@ -1,16 +1,14 @@
-package com.salesmanager.web.admin.entity.catalog;
+package com.salesmanager.shop.admin.model.catalog;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import com.salesmanager.core.model.catalog.product.image.ProductImage;
+import com.salesmanager.core.model.catalog.product.manufacturer.ManufacturerDescription;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-
-import org.springframework.web.multipart.MultipartFile;
-
-import com.salesmanager.core.business.catalog.product.model.image.ProductImage;
-import com.salesmanager.core.business.catalog.product.model.manufacturer.ManufacturerDescription;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Manufacturer implements Serializable {
@@ -25,7 +23,7 @@ public class Manufacturer implements Serializable {
 	 */
 
 	//provides wrapping to the main Manufacturer entity
-	private com.salesmanager.core.business.catalog.product.model.manufacturer.Manufacturer manufacturer;
+	private com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer manufacturer;
 	
 	@Valid
 	private List<ManufacturerDescription> descriptions = new ArrayList<ManufacturerDescription>();
@@ -62,12 +60,12 @@ public class Manufacturer implements Serializable {
 		this.productImage = productImage;
 	}
 
-	public com.salesmanager.core.business.catalog.product.model.manufacturer.Manufacturer getManufacturer() {
+	public com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer getManufacturer() {
 		return manufacturer;
 	}
 
 	public void setManufacturer(
-			com.salesmanager.core.business.catalog.product.model.manufacturer.Manufacturer manufacturer) {
+			com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer manufacturer) {
 		this.manufacturer = manufacturer;
 	}
 

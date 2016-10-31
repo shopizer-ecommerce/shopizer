@@ -1,19 +1,19 @@
-package com.salesmanager.web.utils;
+package com.salesmanager.shop.utils;
 
 import javax.servlet.http.HttpServletRequest;
-
+import javax.inject.Inject;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import com.salesmanager.core.business.catalog.product.model.file.DigitalProduct;
-import com.salesmanager.core.business.content.model.FileContentType;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.utils.CoreConfiguration;
-import com.salesmanager.web.constants.ApplicationConstants;
-import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.entity.order.ReadableOrderProductDownload;
+import com.salesmanager.core.model.catalog.product.file.DigitalProduct;
+import com.salesmanager.core.model.content.FileContentType;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.business.utils.CoreConfiguration;
+import com.salesmanager.shop.constants.ApplicationConstants;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.model.order.ReadableOrderProductDownload;
 
 @Component
 public class FilePathUtils {

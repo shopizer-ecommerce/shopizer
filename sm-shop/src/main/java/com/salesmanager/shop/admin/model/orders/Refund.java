@@ -1,4 +1,4 @@
-package com.salesmanager.web.admin.entity.orders;
+package com.salesmanager.shop.admin.model.orders;
 
 import java.io.Serializable;
 

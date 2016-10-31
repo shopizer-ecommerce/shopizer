@@ -1,19 +1,16 @@
-package com.salesmanager.web.admin.entity.catalog;
+package com.salesmanager.shop.admin.model.catalog;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.validation.Valid;
-
+import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
+import com.salesmanager.core.model.catalog.product.description.ProductDescription;
+import com.salesmanager.core.model.catalog.product.image.ProductImage;
+import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;
 
-
-import com.salesmanager.core.business.catalog.product.model.availability.ProductAvailability;
-import com.salesmanager.core.business.catalog.product.model.description.ProductDescription;
-import com.salesmanager.core.business.catalog.product.model.image.ProductImage;
-import com.salesmanager.core.business.catalog.product.model.price.ProductPrice;
+import javax.validation.Valid;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Product implements Serializable {
 	
@@ -28,7 +25,7 @@ public class Product implements Serializable {
 
 	//provides wrapping to the main product entity
 	@Valid
-	private com.salesmanager.core.business.catalog.product.model.Product product;
+	private com.salesmanager.core.model.catalog.product.Product product;
 	
 	@Valid
 	private List<ProductDescription> descriptions = new ArrayList<ProductDescription>();
@@ -56,10 +53,10 @@ public class Product implements Serializable {
 	public void setDateAvailable(String dateAvailable) {
 		this.dateAvailable = dateAvailable;
 	}
-	public com.salesmanager.core.business.catalog.product.model.Product getProduct() {
+	public com.salesmanager.core.model.catalog.product.Product getProduct() {
 		return product;
 	}
-	public void setProduct(com.salesmanager.core.business.catalog.product.model.Product product) {
+	public void setProduct(com.salesmanager.core.model.catalog.product.Product product) {
 		this.product = product;
 	}
 	

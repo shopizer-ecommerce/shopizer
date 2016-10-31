@@ -1,38 +1,37 @@
-package com.salesmanager.web.populator.order;
+package com.salesmanager.shop.populator.order;
+
+import com.salesmanager.core.business.exception.ConversionException;
+import com.salesmanager.core.business.services.catalog.product.ProductService;
+import com.salesmanager.core.business.services.catalog.product.attribute.ProductAttributeService;
+import com.salesmanager.core.business.services.catalog.product.file.DigitalProductService;
+import com.salesmanager.core.business.services.customer.CustomerService;
+import com.salesmanager.core.business.services.reference.country.CountryService;
+import com.salesmanager.core.business.services.reference.currency.CurrencyService;
+import com.salesmanager.core.business.services.reference.zone.ZoneService;
+import com.salesmanager.core.business.utils.AbstractDataPopulator;
+import com.salesmanager.core.business.utils.CreditCardUtils;
+import com.salesmanager.core.model.customer.Customer;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.order.Order;
+import com.salesmanager.core.model.order.orderproduct.OrderProduct;
+import com.salesmanager.core.model.order.orderstatus.OrderStatus;
+import com.salesmanager.core.model.order.orderstatus.OrderStatusHistory;
+import com.salesmanager.core.model.order.payment.CreditCard;
+import com.salesmanager.core.model.reference.country.Country;
+import com.salesmanager.core.model.reference.currency.Currency;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.model.reference.zone.Zone;
+import com.salesmanager.shop.model.customer.PersistableCustomer;
+import com.salesmanager.shop.model.order.OrderTotal;
+import com.salesmanager.shop.model.order.PersistableOrder;
+import com.salesmanager.shop.model.order.PersistableOrderProduct;
+import com.salesmanager.shop.utils.LocaleUtils;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.Validate;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.Validate;
-
-import com.salesmanager.core.business.catalog.product.service.ProductService;
-import com.salesmanager.core.business.catalog.product.service.attribute.ProductAttributeService;
-import com.salesmanager.core.business.catalog.product.service.file.DigitalProductService;
-import com.salesmanager.core.business.customer.model.Customer;
-import com.salesmanager.core.business.customer.service.CustomerService;
-import com.salesmanager.core.business.generic.exception.ConversionException;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.order.model.Order;
-import com.salesmanager.core.business.order.model.orderproduct.OrderProduct;
-import com.salesmanager.core.business.order.model.orderstatus.OrderStatus;
-import com.salesmanager.core.business.order.model.orderstatus.OrderStatusHistory;
-import com.salesmanager.core.business.order.model.payment.CreditCard;
-import com.salesmanager.core.business.reference.country.model.Country;
-import com.salesmanager.core.business.reference.country.service.CountryService;
-import com.salesmanager.core.business.reference.currency.model.Currency;
-import com.salesmanager.core.business.reference.currency.service.CurrencyService;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.business.reference.zone.model.Zone;
-import com.salesmanager.core.business.reference.zone.service.ZoneService;
-import com.salesmanager.core.utils.AbstractDataPopulator;
-import com.salesmanager.core.utils.CreditCardUtils;
-import com.salesmanager.web.entity.customer.PersistableCustomer;
-import com.salesmanager.web.entity.order.OrderTotal;
-import com.salesmanager.web.entity.order.PersistableOrder;
-import com.salesmanager.web.entity.order.PersistableOrderProduct;
-import com.salesmanager.web.utils.LocaleUtils;
 
 public class PersistableOrderPopulator extends
 		AbstractDataPopulator<PersistableOrder, Order> {
@@ -131,7 +130,7 @@ public class PersistableOrderPopulator extends
 			if(CollectionUtils.isEmpty(products)) {
 				throw new ConversionException("Requires at least 1 PersistableOrderProduct");
 			}
-			PersistableOrderProductPopulator orderProductPopulator = new PersistableOrderProductPopulator();
+			com.salesmanager.shop.populator.order.PersistableOrderProductPopulator orderProductPopulator = new PersistableOrderProductPopulator();
 			orderProductPopulator.setProductAttributeService(productAttributeService);
 			orderProductPopulator.setProductService(productService);
 			orderProductPopulator.setDigitalProductService(digitalProductService);
@@ -145,7 +144,7 @@ public class PersistableOrderPopulator extends
 			List<OrderTotal> orderTotals = source.getTotals();
 			if(CollectionUtils.isNotEmpty(orderTotals)) {
 				for(OrderTotal total : orderTotals) {
-					com.salesmanager.core.business.order.model.OrderTotal totalModel = new com.salesmanager.core.business.order.model.OrderTotal();
+					com.salesmanager.core.model.order.OrderTotal totalModel = new com.salesmanager.core.model.order.OrderTotal();
 					totalModel.setModule(total.getModule());
 					totalModel.setOrder(target);
 					totalModel.setOrderTotalCode(total.getCode());

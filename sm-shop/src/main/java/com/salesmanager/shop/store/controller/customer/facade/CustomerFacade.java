@@ -1,17 +1,17 @@
 /**
  *
  */
-package com.salesmanager.web.shop.controller.customer.facade;
+package com.salesmanager.shop.store.controller.customer.facade;
 
-import com.salesmanager.core.business.customer.model.Customer;
-import com.salesmanager.core.business.customer.service.CustomerService;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.business.shoppingcart.model.ShoppingCart;
-import com.salesmanager.web.entity.customer.Address;
-import com.salesmanager.web.entity.customer.CustomerEntity;
-import com.salesmanager.web.entity.customer.PersistableCustomer;
-import com.salesmanager.web.entity.customer.ReadableCustomer;
+import com.salesmanager.core.model.customer.Customer;
+import com.salesmanager.core.business.services.customer.CustomerService;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.model.shoppingcart.ShoppingCart;
+import com.salesmanager.shop.model.customer.Address;
+import com.salesmanager.shop.model.customer.CustomerEntity;
+import com.salesmanager.shop.model.customer.PersistableCustomer;
+import com.salesmanager.shop.model.customer.ReadableCustomer;
 
 /**
  * <p>Customer facade working as a bridge between {@link CustomerService} and Controller
@@ -31,7 +31,7 @@ public interface CustomerFacade
      * Customer username is unique to each store.
      *
      * @param userName
-     * @param storeCode
+     * @param store
      * @param store
      * @param language
      * @throws Exception
@@ -55,8 +55,7 @@ public interface CustomerFacade
      * <li> Convert Customer to {@link CustomerEntity} </li>
      * </p>
      *
-     * @param userName username of Customer
-     * @param storeCode storeCode to which user is associated/
+     * @param customer username of Customer
      * @param sessionShoppingCartId session shopping cart, if user already have few items in Cart.
      * @throws Exception
      */

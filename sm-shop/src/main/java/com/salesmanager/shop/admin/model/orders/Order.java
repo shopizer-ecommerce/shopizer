@@ -1,15 +1,13 @@
-package com.salesmanager.web.admin.entity.orders;
+package com.salesmanager.shop.admin.model.orders;
 
+import com.salesmanager.core.model.common.Billing;
+import com.salesmanager.core.model.common.Delivery;
+import com.salesmanager.core.model.order.orderstatus.OrderStatus;
+
+import javax.persistence.Embedded;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
-
-import javax.persistence.Embedded;
-
-import com.salesmanager.core.business.common.model.Billing;
-import com.salesmanager.core.business.common.model.Delivery;
-
-import com.salesmanager.core.business.order.model.orderstatus.OrderStatus;
 
 
 public class Order implements Serializable {
@@ -24,13 +22,13 @@ public class Order implements Serializable {
 	
 	List<OrderStatus> orderStatusList = Arrays.asList(OrderStatus.values());     
 	private String datePurchased = "";
-	private  com.salesmanager.core.business.order.model.Order order;
+	private  com.salesmanager.core.model.order.Order order;
 	
 	@Embedded
-	private com.salesmanager.core.business.common.model.Delivery delivery = null;
+	private com.salesmanager.core.model.common.Delivery delivery = null;
 	
 	@Embedded
-	private com.salesmanager.core.business.common.model.Billing billing = null;
+	private com.salesmanager.core.model.common.Billing billing = null;
 	
 	
 	
@@ -67,11 +65,11 @@ public class Order implements Serializable {
 		this.orderStatusList = orderStatusList;
 	}
 
-	public com.salesmanager.core.business.order.model.Order getOrder() {
+	public com.salesmanager.core.model.order.Order getOrder() {
 		return order;
 	}
 
-	public void setOrder(com.salesmanager.core.business.order.model.Order order) {
+	public void setOrder(com.salesmanager.core.model.order.Order order) {
 		this.order = order;
 	}
 

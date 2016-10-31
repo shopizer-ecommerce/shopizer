@@ -1,15 +1,14 @@
 /**
  * 
  */
-package com.salesmanager.web.admin.entity.content;
-
-import java.io.Serializable;
-import java.util.List;
-
-import javax.validation.Valid;
+package com.salesmanager.shop.admin.model.content;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.Valid;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * A bean class responsible for getting form data from shop Admin for uploading

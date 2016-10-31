@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.salesmanager.web.utils;
+package com.salesmanager.shop.utils;
 
 import javax.servlet.http.HttpServletRequest;
 

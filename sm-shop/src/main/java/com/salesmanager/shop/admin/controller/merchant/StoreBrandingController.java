@@ -1,20 +1,21 @@
-package com.salesmanager.web.admin.controller.merchant;
+package com.salesmanager.shop.admin.controller.merchant;
 
 
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
+import com.salesmanager.core.business.services.content.ContentService;
+import com.salesmanager.core.business.services.merchant.MerchantStoreService;
+import com.salesmanager.core.business.services.reference.country.CountryService;
+import com.salesmanager.core.business.services.reference.currency.CurrencyService;
+import com.salesmanager.core.business.services.reference.language.LanguageService;
+import com.salesmanager.core.business.services.reference.zone.ZoneService;
+import com.salesmanager.core.business.utils.ajax.AjaxResponse;
+import com.salesmanager.core.model.content.FileContentType;
+import com.salesmanager.core.model.content.InputContentFile;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.shop.admin.model.content.ContentFiles;
+import com.salesmanager.shop.admin.model.web.Menu;
+import com.salesmanager.shop.constants.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,19 +25,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.salesmanager.core.business.content.model.FileContentType;
-import com.salesmanager.core.business.content.model.InputContentFile;
-import com.salesmanager.core.business.content.service.ContentService;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.merchant.service.MerchantStoreService;
-import com.salesmanager.core.business.reference.country.service.CountryService;
-import com.salesmanager.core.business.reference.currency.service.CurrencyService;
-import com.salesmanager.core.business.reference.language.service.LanguageService;
-import com.salesmanager.core.business.reference.zone.service.ZoneService;
-import com.salesmanager.core.utils.ajax.AjaxResponse;
-import com.salesmanager.web.admin.entity.content.ContentFiles;
-import com.salesmanager.web.admin.entity.web.Menu;
-import com.salesmanager.web.constants.Constants;
+import javax.annotation.Resource;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 @Controller
 public class StoreBrandingController {

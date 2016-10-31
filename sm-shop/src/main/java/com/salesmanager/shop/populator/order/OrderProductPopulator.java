@@ -1,31 +1,30 @@
-package com.salesmanager.web.populator.order;
+package com.salesmanager.shop.populator.order;
+
+import com.salesmanager.core.business.exception.ConversionException;
+import com.salesmanager.core.business.services.catalog.product.ProductService;
+import com.salesmanager.core.business.services.catalog.product.attribute.ProductAttributeService;
+import com.salesmanager.core.business.services.catalog.product.file.DigitalProductService;
+import com.salesmanager.core.business.utils.AbstractDataPopulator;
+import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
+import com.salesmanager.core.model.catalog.product.file.DigitalProduct;
+import com.salesmanager.core.model.catalog.product.price.FinalPrice;
+import com.salesmanager.core.model.catalog.product.price.ProductPrice;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.order.orderproduct.OrderProduct;
+import com.salesmanager.core.model.order.orderproduct.OrderProductAttribute;
+import com.salesmanager.core.model.order.orderproduct.OrderProductDownload;
+import com.salesmanager.core.model.order.orderproduct.OrderProductPrice;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.model.shoppingcart.ShoppingCartAttributeItem;
+import com.salesmanager.core.model.shoppingcart.ShoppingCartItem;
+import com.salesmanager.shop.constants.ApplicationConstants;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.Validate;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.Validate;
-
-import com.salesmanager.core.business.catalog.product.model.Product;
-import com.salesmanager.core.business.catalog.product.model.attribute.ProductAttribute;
-import com.salesmanager.core.business.catalog.product.model.file.DigitalProduct;
-import com.salesmanager.core.business.catalog.product.model.price.FinalPrice;
-import com.salesmanager.core.business.catalog.product.model.price.ProductPrice;
-import com.salesmanager.core.business.catalog.product.service.ProductService;
-import com.salesmanager.core.business.catalog.product.service.attribute.ProductAttributeService;
-import com.salesmanager.core.business.catalog.product.service.file.DigitalProductService;
-import com.salesmanager.core.business.generic.exception.ConversionException;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.order.model.orderproduct.OrderProduct;
-import com.salesmanager.core.business.order.model.orderproduct.OrderProductAttribute;
-import com.salesmanager.core.business.order.model.orderproduct.OrderProductDownload;
-import com.salesmanager.core.business.order.model.orderproduct.OrderProductPrice;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.business.shoppingcart.model.ShoppingCartAttributeItem;
-import com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem;
-import com.salesmanager.core.utils.AbstractDataPopulator;
-import com.salesmanager.web.constants.ApplicationConstants;
 
 public class OrderProductPopulator extends
 		AbstractDataPopulator<ShoppingCartItem, OrderProduct> {
