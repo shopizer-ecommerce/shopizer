@@ -1,13 +1,15 @@
-package com.salesmanager.web.shop.controller.category;
+package com.salesmanager.shop.store.controller.category;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,7 +17,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,37 +24,36 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.salesmanager.core.business.catalog.category.model.Category;
-import com.salesmanager.core.business.catalog.category.service.CategoryService;
-import com.salesmanager.core.business.catalog.product.model.Product;
-import com.salesmanager.core.business.catalog.product.model.ProductCriteria;
-import com.salesmanager.core.business.catalog.product.service.PricingService;
-import com.salesmanager.core.business.catalog.product.service.ProductService;
-import com.salesmanager.core.business.catalog.product.service.manufacturer.ManufacturerService;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.merchant.service.MerchantStoreService;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.business.reference.language.service.LanguageService;
-import com.salesmanager.core.utils.CacheUtils;
-import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.entity.catalog.ProductList;
-import com.salesmanager.web.entity.catalog.category.ReadableCategory;
-import com.salesmanager.web.entity.catalog.manufacturer.ReadableManufacturer;
-import com.salesmanager.web.entity.catalog.product.ReadableProduct;
-import com.salesmanager.web.entity.shop.Breadcrumb;
-import com.salesmanager.web.entity.shop.PageInformation;
-import com.salesmanager.web.populator.catalog.ReadableCategoryPopulator;
-import com.salesmanager.web.populator.catalog.ReadableProductPopulator;
-import com.salesmanager.web.populator.manufacturer.ReadableManufacturerPopulator;
-import com.salesmanager.web.shop.controller.ControllerConstants;
-import com.salesmanager.web.shop.model.filter.QueryFilter;
-import com.salesmanager.web.shop.model.filter.QueryFilterType;
-import com.salesmanager.web.utils.BreadcrumbsUtils;
-import com.salesmanager.web.utils.ImageFilePath;
-import com.salesmanager.web.utils.LabelUtils;
-import com.salesmanager.web.utils.PageBuilderUtils;
+import com.salesmanager.core.business.services.catalog.category.CategoryService;
+import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.services.catalog.product.ProductService;
+import com.salesmanager.core.business.services.catalog.product.manufacturer.ManufacturerService;
+import com.salesmanager.core.business.services.merchant.MerchantStoreService;
+import com.salesmanager.core.business.services.reference.language.LanguageService;
+import com.salesmanager.core.business.utils.CacheUtils;
+import com.salesmanager.core.model.catalog.category.Category;
+import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.ProductCriteria;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.model.catalog.ProductList;
+import com.salesmanager.shop.model.catalog.category.ReadableCategory;
+import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
+import com.salesmanager.shop.model.catalog.product.ReadableProduct;
+import com.salesmanager.shop.model.shop.Breadcrumb;
+import com.salesmanager.shop.model.shop.PageInformation;
+import com.salesmanager.shop.populator.catalog.ReadableCategoryPopulator;
+import com.salesmanager.shop.populator.catalog.ReadableProductPopulator;
+import com.salesmanager.shop.populator.manufacturer.ReadableManufacturerPopulator;
+import com.salesmanager.shop.store.controller.ControllerConstants;
+import com.salesmanager.shop.store.model.filter.QueryFilter;
+import com.salesmanager.shop.store.model.filter.QueryFilterType;
+import com.salesmanager.shop.utils.BreadcrumbsUtils;
+import com.salesmanager.shop.utils.ImageFilePath;
+import com.salesmanager.shop.utils.LabelUtils;
+import com.salesmanager.shop.utils.PageBuilderUtils;
 
-import edu.emory.mathcs.backport.java.util.Collections;
 
 
 /**
@@ -295,7 +295,7 @@ public class ShoppingCategoryController {
 					//Boolean missedContent = (Boolean)cache.getFromCache(manufacturersKeyMissed.toString());
 					//if(missedContent==null) {
 						manufacturerList = this.getManufacturers(store, subCategoryIds, language);
-						if(CollectionUtils.isEmpty(manufacturerList)) {
+						if(manufacturerList.isEmpty()) {
 							cache.putInCache(new Boolean(true), manufacturersKeyMissed.toString());
 						} else {
 							//cache.putInCache(manufacturerList, manufacturersKey.toString());
@@ -311,10 +311,10 @@ public class ShoppingCategoryController {
 		
 	private List<ReadableManufacturer> getManufacturers(MerchantStore store, List<Long> ids, Language language) throws Exception {
 		List<ReadableManufacturer> manufacturerList = null;
-		List<com.salesmanager.core.business.catalog.product.model.manufacturer.Manufacturer> manufacturers = manufacturerService.listByProductsByCategoriesId(store, ids, language);
-		if(!CollectionUtils.isEmpty(manufacturers)) {
+		List<com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer> manufacturers = manufacturerService.listByProductsByCategoriesId(store, ids, language);
+		if(!manufacturers.isEmpty()) {
 			manufacturerList = new ArrayList<ReadableManufacturer>();
-			for(com.salesmanager.core.business.catalog.product.model.manufacturer.Manufacturer manufacturer : manufacturers) {
+			for(com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer manufacturer : manufacturers) {
 				ReadableManufacturer manuf = new ReadableManufacturerPopulator().populate(manufacturer, new ReadableManufacturer(), store, language);
 				manufacturerList.add(manuf);
 				
@@ -325,7 +325,7 @@ public class ShoppingCategoryController {
 	
 	private Map<Long,Long> getProductsByCategory(MerchantStore store, Category category, String lineage, List<Category> subCategories) throws Exception {
 
-		if(CollectionUtils.isEmpty(subCategories)) {
+		if(subCategories.isEmpty()) {
 			return null;
 		}
 		List<Long> ids = new ArrayList<Long>();
@@ -506,7 +506,7 @@ public class ShoppingCategoryController {
 				lang = langs.get(Constants.DEFAULT_LANGUAGE);
 			}
 			
-			List<com.salesmanager.core.business.catalog.product.model.Product> products = productService.getProducts(ids, lang);
+			List<com.salesmanager.core.model.catalog.product.Product> products = productService.getProducts(ids, lang);
 			
 			ProductList productList = new ProductList();
 			
@@ -666,7 +666,7 @@ public class ShoppingCategoryController {
 				}
 			}
 
-			com.salesmanager.core.business.catalog.product.model.ProductList products = productService.listByStore(merchantStore, lang, productCriteria);
+			com.salesmanager.core.model.catalog.product.ProductList products = productService.listByStore(merchantStore, lang, productCriteria);
 
 			ReadableProductPopulator populator = new ReadableProductPopulator();
 			populator.setPricingService(pricingService);

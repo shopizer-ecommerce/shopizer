@@ -71,7 +71,7 @@
 	        <groupId>org.springframework.boot</groupId>
 	        <artifactId>spring-boot-starter-security</artifactId>
 	    </dependency>
- 
+
         
         <!-- H2 session -->
         <dependency>

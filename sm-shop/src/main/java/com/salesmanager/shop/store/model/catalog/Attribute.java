@@ -1,9 +1,10 @@
-package com.salesmanager.web.shop.model.catalog;
+package com.salesmanager.shop.store.model.catalog;
 
 import java.io.Serializable;
 import java.util.List;
 
-import com.salesmanager.web.entity.ShopEntity;
+import com.salesmanager.shop.model.ShopEntity;
+
 
 public class Attribute extends ShopEntity implements Serializable {
 	

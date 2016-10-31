@@ -1,15 +1,17 @@
-package com.salesmanager.web.shop.controller.search.facade;
+package com.salesmanager.shop.store.controller.search.facade;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
+
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import com.salesmanager.core.business.catalog.product.model.Product;
-import com.salesmanager.core.business.catalog.product.service.ProductService;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.search.service.SearchService;
+import com.salesmanager.core.business.services.catalog.product.ProductService;
+import com.salesmanager.core.business.services.search.SearchService;
+import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.merchant.MerchantStore;
+
 
 @Service("searchFacade")
 public class SearchFacadeImpl implements SearchFacade {

@@ -1,4 +1,4 @@
-package com.salesmanager.web.shop.model.filter;
+package com.salesmanager.shop.store.model.filter;
 
 public enum QueryFilterType {
 	

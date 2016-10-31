@@ -1,6 +1,6 @@
-package com.salesmanager.web.shop.controller.search.facade;
+package com.salesmanager.shop.store.controller.search.facade;
 
-import com.salesmanager.core.business.merchant.model.MerchantStore;
+import com.salesmanager.core.model.merchant.MerchantStore;
 
 /**
  * Different services for searching and indexing data

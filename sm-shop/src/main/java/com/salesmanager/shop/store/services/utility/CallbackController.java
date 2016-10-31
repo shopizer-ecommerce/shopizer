@@ -1,4 +1,4 @@
-package com.salesmanager.web.services.controller.utility;
+package com.salesmanager.shop.store.services.utility;
 
 import java.io.IOException;
 
@@ -33,20 +33,14 @@ public class CallbackController {
 	
 	@RequestMapping( value="/public/callBack", method=RequestMethod.GET)
 	public void callBack(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		
-		System.out.println("*** ENTERING CALLBACK ***");
-		
+
 		String verificationToken = request.getParameter("hub.verify_token");
 		
 		if(!StringUtils.isBlank(verificationToken)) {
-			
-			System.out.println("*** CALLBACK " + verificationToken);
-			
+
 			if(verificationToken.equals(VERIFY_MESSENGER_WEBHOOK)) {
 				String replyToken = request.getParameter("hub.challenge");
-				
-				System.out.println("*** CHALLENGE " + replyToken);
-				
+
 				response.setStatus(HttpServletResponse.SC_OK);
 				response.getWriter().write(replyToken);
 				response.getWriter().flush();

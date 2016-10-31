@@ -1,21 +1,21 @@
-package com.salesmanager.web.services.controller.system;
+package com.salesmanager.shop.store.services.system;
 
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.salesmanager.core.business.system.service.ModuleConfigurationService;
-import com.salesmanager.core.utils.ajax.AjaxResponse;
+import com.salesmanager.core.business.services.system.ModuleConfigurationService;
+import com.salesmanager.core.business.utils.ajax.AjaxResponse;
+
 
 /**
  * Rest services for the system configuration

@@ -1,4 +1,4 @@
-package com.salesmanager.web.shop.model.search;
+package com.salesmanager.shop.store.model.search;
 
 import org.json.simple.JSONObject;
 
