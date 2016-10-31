@@ -1,61 +1,48 @@
-package com.salesmanager.web.shop.controller.order;
+package com.salesmanager.shop.store.controller.order;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
+import com.salesmanager.core.business.modules.integration.payment.impl.PayPalExpressCheckoutPayment;
+import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.services.customer.CustomerService;
+import com.salesmanager.core.business.services.customer.attribute.CustomerOptionService;
+import com.salesmanager.core.business.services.customer.attribute.CustomerOptionValueService;
+import com.salesmanager.core.business.services.order.OrderService;
+import com.salesmanager.core.business.services.payments.PaymentService;
+import com.salesmanager.core.business.services.payments.TransactionService;
+import com.salesmanager.core.business.services.reference.country.CountryService;
+import com.salesmanager.core.business.services.reference.language.LanguageService;
+import com.salesmanager.core.business.services.reference.zone.ZoneService;
+import com.salesmanager.core.business.services.shoppingcart.ShoppingCartService;
+import com.salesmanager.core.business.utils.CoreConfiguration;
+import com.salesmanager.core.business.utils.ajax.AjaxResponse;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.order.OrderTotalSummary;
+import com.salesmanager.core.model.payments.PaypalPayment;
+import com.salesmanager.core.model.payments.Transaction;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.model.shipping.ShippingSummary;
+import com.salesmanager.core.model.shoppingcart.ShoppingCartItem;
+import com.salesmanager.core.model.system.IntegrationConfiguration;
+import com.salesmanager.core.model.system.IntegrationModule;
+import com.salesmanager.core.modules.integration.payment.model.PaymentModule;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.model.order.ShopOrder;
+import com.salesmanager.shop.store.controller.AbstractController;
+import com.salesmanager.shop.store.controller.order.facade.OrderFacade;
+import com.salesmanager.shop.store.controller.shoppingCart.facade.ShoppingCartFacade;
+import com.salesmanager.shop.utils.LabelUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.salesmanager.core.business.catalog.product.service.PricingService;
-import com.salesmanager.core.business.customer.service.CustomerService;
-import com.salesmanager.core.business.customer.service.attribute.CustomerOptionService;
-import com.salesmanager.core.business.customer.service.attribute.CustomerOptionValueService;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.order.model.OrderTotalSummary;
-import com.salesmanager.core.business.order.service.OrderService;
-import com.salesmanager.core.business.payments.model.PaypalPayment;
-import com.salesmanager.core.business.payments.model.Transaction;
-import com.salesmanager.core.business.payments.service.PaymentService;
-import com.salesmanager.core.business.payments.service.TransactionService;
-import com.salesmanager.core.business.reference.country.service.CountryService;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.business.reference.language.service.LanguageService;
-import com.salesmanager.core.business.reference.zone.service.ZoneService;
-import com.salesmanager.core.business.shipping.model.ShippingMetaData;
-import com.salesmanager.core.business.shipping.model.ShippingSummary;
-import com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem;
-import com.salesmanager.core.business.shoppingcart.service.ShoppingCartService;
-import com.salesmanager.core.business.system.model.IntegrationConfiguration;
-import com.salesmanager.core.business.system.model.IntegrationModule;
-import com.salesmanager.core.modules.integration.payment.impl.PayPalExpressCheckoutPayment;
-import com.salesmanager.core.modules.integration.payment.model.PaymentModule;
-import com.salesmanager.core.utils.CoreConfiguration;
-import com.salesmanager.core.utils.ajax.AjaxResponse;
-import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.entity.order.ShopOrder;
-import com.salesmanager.web.shop.controller.AbstractController;
-import com.salesmanager.web.shop.controller.order.facade.OrderFacade;
-import com.salesmanager.web.shop.controller.shoppingCart.facade.ShoppingCartFacade;
-import com.salesmanager.web.utils.LabelUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.mobile.device.Device;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.util.*;
 
 @Controller
 @RequestMapping(Constants.SHOP_URI)
@@ -136,7 +123,7 @@ public class ShoppingOrderPaymentController extends AbstractController {
 		try {
 			
 
-			com.salesmanager.core.business.shoppingcart.model.ShoppingCart cart = shoppingCartFacade.getShoppingCartModel(shoppingCartCode, store);
+			com.salesmanager.core.model.shoppingcart.ShoppingCart cart = shoppingCartFacade.getShoppingCartModel(shoppingCartCode, store);
 			
 			Set<ShoppingCartItem> items = cart.getLineItems();
 			List<ShoppingCartItem> cartItems = new ArrayList<ShoppingCartItem>(items);
@@ -214,7 +201,7 @@ public class ShoppingOrderPaymentController extends AbstractController {
 						
 						
 						
-						if(config.getEnvironment().equals(com.salesmanager.core.constants.Constants.PRODUCTION_ENVIRONMENT)) {
+						if(config.getEnvironment().equals(com.salesmanager.core.business.constants.Constants.PRODUCTION_ENVIRONMENT)) {
 							StringBuilder url = new StringBuilder().append(coreConfiguration.getProperty("PAYPAL_EXPRESSCHECKOUT_PRODUCTION")).append(urlAppender.toString());
 							ajaxResponse.addEntry("url", url.toString());
 						} else {

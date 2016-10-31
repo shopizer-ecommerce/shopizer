@@ -1,20 +1,19 @@
-package com.salesmanager.web.shop.controller.items.facade;
+package com.salesmanager.shop.store.controller.items.facade;
 
-import javax.inject.Inject;
-
+import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.services.catalog.product.ProductService;
+import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.ProductCriteria;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.model.catalog.product.ReadableProduct;
+import com.salesmanager.shop.model.catalog.product.ReadableProductList;
+import com.salesmanager.shop.populator.catalog.ReadableProductPopulator;
+import com.salesmanager.shop.utils.ImageFilePath;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import com.salesmanager.core.business.catalog.product.model.Product;
-import com.salesmanager.core.business.catalog.product.model.ProductCriteria;
-import com.salesmanager.core.business.catalog.product.service.PricingService;
-import com.salesmanager.core.business.catalog.product.service.ProductService;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.web.entity.catalog.product.ReadableProduct;
-import com.salesmanager.web.entity.catalog.product.ReadableProductList;
-import com.salesmanager.web.populator.catalog.ReadableProductPopulator;
-import com.salesmanager.web.utils.ImageFilePath;
+import javax.inject.Inject;
 
 @Component
 public class ProductItemsFacadeImpl implements ProductItemsFacade {
@@ -41,7 +40,7 @@ public class ProductItemsFacadeImpl implements ProductItemsFacade {
 		
 
 		productCriteria.setManufacturerId(manufacturerId);
-		com.salesmanager.core.business.catalog.product.model.ProductList products = productService.listByStore(store, language, productCriteria);
+		com.salesmanager.core.model.catalog.product.ProductList products = productService.listByStore(store, language, productCriteria);
 
 		
 		ReadableProductPopulator populator = new ReadableProductPopulator();

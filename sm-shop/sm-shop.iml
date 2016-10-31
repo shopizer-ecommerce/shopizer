@@ -201,10 +201,15 @@
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-config:4.0.4.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-core:4.0.4.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-web:4.0.4.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.mobile:spring-mobile-device:1.1.4.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: com.h2database:h2:1.4.191" level="project" />
     <orderEntry type="library" name="Maven: javax.inject:javax.inject:1" level="project" />
     <orderEntry type="library" name="Maven: javax.validation:validation-api:1.1.0.Final" level="project" />
     <orderEntry type="library" name="Maven: net.sf.ehcache:ehcache:2.10.2" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.6.6" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet:servlet-api:2.5" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet.jsp:jsp-api:2.1" level="project" />
+    <orderEntry type="library" name="Maven: javax.servlet.jsp.jstl:jstl-api:1.2" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.web:jstl-impl:1.2" level="project" />
   </component>
 </module>

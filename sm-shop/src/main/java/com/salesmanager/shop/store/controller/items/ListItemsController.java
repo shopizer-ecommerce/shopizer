@@ -1,11 +1,15 @@
-package com.salesmanager.web.shop.controller.items;
+package com.salesmanager.shop.store.controller.items;
 
-import java.util.Locale;
-
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.salesmanager.core.business.services.catalog.product.manufacturer.ManufacturerService;
+import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
+import com.salesmanager.shop.model.shop.PageInformation;
+import com.salesmanager.shop.populator.manufacturer.ReadableManufacturerPopulator;
+import com.salesmanager.shop.store.controller.ControllerConstants;
+import com.salesmanager.shop.utils.PageBuilderUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -13,16 +17,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.salesmanager.core.business.catalog.product.model.manufacturer.Manufacturer;
-import com.salesmanager.core.business.catalog.product.service.manufacturer.ManufacturerService;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.entity.catalog.manufacturer.ReadableManufacturer;
-import com.salesmanager.web.entity.shop.PageInformation;
-import com.salesmanager.web.populator.manufacturer.ReadableManufacturerPopulator;
-import com.salesmanager.web.shop.controller.ControllerConstants;
-import com.salesmanager.web.utils.PageBuilderUtils;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Locale;
 
 /**
  * Drives various product listings
@@ -44,9 +42,9 @@ public class ListItemsController {
 		
 		Language language = (Language)request.getAttribute("LANGUAGE");
 		
-		Manufacturer manufacturer = manufacturerService.getByUrl(store, language, url);
-		
-		
+		//Manufacturer manufacturer = manufacturerService.getByUrl(store, language, url); // this needs to be checked
+
+		Manufacturer manufacturer =null;
 		
 		if(manufacturer==null) {
 			LOGGER.error("No manufacturer found for url " + url);

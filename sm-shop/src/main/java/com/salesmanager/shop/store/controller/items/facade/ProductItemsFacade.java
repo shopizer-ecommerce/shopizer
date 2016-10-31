@@ -1,8 +1,8 @@
-package com.salesmanager.web.shop.controller.items.facade;
+package com.salesmanager.shop.store.controller.items.facade;
 
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.web.entity.catalog.product.ReadableProductList;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.model.catalog.product.ReadableProductList;
 
 public interface ProductItemsFacade {
 	
@@ -10,7 +10,6 @@ public interface ProductItemsFacade {
 	 * List items attached to a Manufacturer
 	 * @param store
 	 * @param language
-	 * @param code
 	 * @return
 	 */
 	ReadableProductList listItemsByManufacturer(MerchantStore store, Language language, Long manufacturerId, int startCount, int maxCount) throws Exception;

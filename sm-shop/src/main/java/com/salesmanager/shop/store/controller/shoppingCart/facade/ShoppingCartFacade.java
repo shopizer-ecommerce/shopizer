@@ -1,16 +1,16 @@
 /**
  *
  */
-package com.salesmanager.web.shop.controller.shoppingCart.facade;
+package com.salesmanager.shop.store.controller.shoppingCart.facade;
+
+import com.salesmanager.core.model.customer.Customer;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.model.shoppingcart.ShoppingCart;
+import com.salesmanager.shop.model.shoppingcart.ShoppingCartData;
+import com.salesmanager.shop.model.shoppingcart.ShoppingCartItem;
 
 import java.util.List;
-
-import com.salesmanager.core.business.customer.model.Customer;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.business.shoppingcart.model.ShoppingCart;
-import com.salesmanager.web.entity.shoppingcart.ShoppingCartData;
-import com.salesmanager.web.entity.shoppingcart.ShoppingCartItem;
 
 /**
  * </p>Shopping cart Facade which provide abstraction layer between

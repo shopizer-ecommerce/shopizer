@@ -1,11 +1,18 @@
-package com.salesmanager.web.shop.controller.order;
+package com.salesmanager.shop.store.controller.order;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.salesmanager.core.business.services.content.ContentService;
+import com.salesmanager.core.business.services.order.OrderService;
+import com.salesmanager.core.business.services.order.orderproduct.OrderProductDownloadService;
+import com.salesmanager.core.model.content.FileContentType;
+import com.salesmanager.core.model.content.OutputContentFile;
+import com.salesmanager.core.model.customer.Customer;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.order.Order;
+import com.salesmanager.core.model.order.orderproduct.OrderProductDownload;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.store.controller.AbstractController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,17 +20,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.salesmanager.core.business.content.model.FileContentType;
-import com.salesmanager.core.business.content.model.OutputContentFile;
-import com.salesmanager.core.business.content.service.ContentService;
-import com.salesmanager.core.business.customer.model.Customer;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.order.model.Order;
-import com.salesmanager.core.business.order.model.orderproduct.OrderProductDownload;
-import com.salesmanager.core.business.order.service.OrderService;
-import com.salesmanager.core.business.order.service.orderproduct.OrderProductDownloadService;
-import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.shop.controller.AbstractController;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 
 @Controller

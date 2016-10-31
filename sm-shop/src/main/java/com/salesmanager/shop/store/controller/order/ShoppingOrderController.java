@@ -1,23 +1,61 @@
-package com.salesmanager.web.shop.controller.order;
+package com.salesmanager.shop.store.controller.order;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.services.catalog.product.ProductService;
+import com.salesmanager.core.business.services.customer.CustomerService;
+import com.salesmanager.core.business.services.order.OrderService;
+import com.salesmanager.core.business.services.order.orderproduct.OrderProductDownloadService;
+import com.salesmanager.core.business.services.payments.PaymentService;
+import com.salesmanager.core.business.services.reference.country.CountryService;
+import com.salesmanager.core.business.services.reference.zone.ZoneService;
+import com.salesmanager.core.business.services.shipping.ShippingService;
+import com.salesmanager.core.business.services.shoppingcart.ShoppingCartService;
+import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.common.Billing;
+import com.salesmanager.core.model.customer.Customer;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.order.Order;
+import com.salesmanager.core.model.order.OrderTotal;
+import com.salesmanager.core.model.order.OrderTotalSummary;
+import com.salesmanager.core.model.order.orderproduct.OrderProductDownload;
+import com.salesmanager.core.model.payments.PaymentMethod;
+import com.salesmanager.core.model.payments.Transaction;
+import com.salesmanager.core.model.reference.country.Country;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.model.reference.zone.Zone;
+import com.salesmanager.core.model.shipping.ShippingMetaData;
+import com.salesmanager.core.model.shipping.ShippingOption;
+import com.salesmanager.core.model.shipping.ShippingQuote;
+import com.salesmanager.core.model.shipping.ShippingSummary;
+import com.salesmanager.core.model.shoppingcart.ShoppingCartItem;
+import com.salesmanager.shop.admin.model.userpassword.UserReset;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.model.customer.AnonymousCustomer;
+import com.salesmanager.shop.model.customer.PersistableCustomer;
+import com.salesmanager.shop.model.customer.ReadableDelivery;
+import com.salesmanager.shop.model.order.ReadableOrderTotal;
+import com.salesmanager.shop.model.order.ReadableShippingSummary;
+import com.salesmanager.shop.model.order.ReadableShopOrder;
+import com.salesmanager.shop.model.order.ShopOrder;
+import com.salesmanager.shop.model.shoppingcart.ShoppingCartData;
+import com.salesmanager.shop.populator.customer.ReadableCustomerDeliveryAddressPopulator;
+import com.salesmanager.shop.populator.order.ReadableOrderTotalPopulator;
+import com.salesmanager.shop.populator.order.ReadableShippingSummaryPopulator;
+import com.salesmanager.shop.populator.order.ReadableShopOrderPopulator;
+import com.salesmanager.shop.store.controller.AbstractController;
+import com.salesmanager.shop.store.controller.ControllerConstants;
+import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
+import com.salesmanager.shop.store.controller.order.facade.OrderFacade;
+import com.salesmanager.shop.store.controller.shoppingCart.facade.ShoppingCartFacade;
+import com.salesmanager.shop.utils.EmailTemplatesUtils;
+import com.salesmanager.shop.utils.LabelUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.core.Authentication;
@@ -25,63 +63,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.salesmanager.core.business.catalog.product.model.Product;
-import com.salesmanager.core.business.catalog.product.service.PricingService;
-import com.salesmanager.core.business.catalog.product.service.ProductService;
-import com.salesmanager.core.business.common.model.Billing;
-import com.salesmanager.core.business.customer.model.Customer;
-import com.salesmanager.core.business.customer.service.CustomerService;
-import com.salesmanager.core.business.generic.exception.ServiceException;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.order.model.Order;
-import com.salesmanager.core.business.order.model.OrderTotal;
-import com.salesmanager.core.business.order.model.OrderTotalSummary;
-import com.salesmanager.core.business.order.model.orderproduct.OrderProductDownload;
-import com.salesmanager.core.business.order.service.OrderService;
-import com.salesmanager.core.business.order.service.orderproduct.OrderProductDownloadService;
-import com.salesmanager.core.business.payments.model.PaymentMethod;
-import com.salesmanager.core.business.payments.model.Transaction;
-import com.salesmanager.core.business.payments.service.PaymentService;
-import com.salesmanager.core.business.reference.country.model.Country;
-import com.salesmanager.core.business.reference.country.service.CountryService;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.business.reference.zone.model.Zone;
-import com.salesmanager.core.business.reference.zone.service.ZoneService;
-import com.salesmanager.core.business.shipping.model.ShippingMetaData;
-import com.salesmanager.core.business.shipping.model.ShippingOption;
-import com.salesmanager.core.business.shipping.model.ShippingQuote;
-import com.salesmanager.core.business.shipping.model.ShippingSummary;
-import com.salesmanager.core.business.shipping.service.ShippingService;
-import com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem;
-import com.salesmanager.core.business.shoppingcart.service.ShoppingCartService;
-import com.salesmanager.web.admin.entity.userpassword.UserReset;
-import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.entity.customer.AnonymousCustomer;
-import com.salesmanager.web.entity.customer.PersistableCustomer;
-import com.salesmanager.web.entity.customer.ReadableDelivery;
-import com.salesmanager.web.entity.order.ReadableOrderTotal;
-import com.salesmanager.web.entity.order.ReadableShippingSummary;
-import com.salesmanager.web.entity.order.ReadableShopOrder;
-import com.salesmanager.web.entity.order.ShopOrder;
-import com.salesmanager.web.entity.shoppingcart.ShoppingCartData;
-import com.salesmanager.web.populator.customer.ReadableCustomerDeliveryAddressPopulator;
-import com.salesmanager.web.populator.order.ReadableOrderTotalPopulator;
-import com.salesmanager.web.populator.order.ReadableShippingSummaryPopulator;
-import com.salesmanager.web.populator.order.ReadableShopOrderPopulator;
-import com.salesmanager.web.shop.controller.AbstractController;
-import com.salesmanager.web.shop.controller.ControllerConstants;
-import com.salesmanager.web.shop.controller.customer.facade.CustomerFacade;
-import com.salesmanager.web.shop.controller.order.facade.OrderFacade;
-import com.salesmanager.web.shop.controller.shoppingCart.facade.ShoppingCartFacade;
-import com.salesmanager.web.utils.EmailTemplatesUtils;
-import com.salesmanager.web.utils.LabelUtils;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.util.*;
 
 
 /**
@@ -171,7 +159,7 @@ public class ShoppingOrderController extends AbstractController {
 	
 		//Get the cart from the DB
 		String shoppingCartCode  = (String)request.getSession().getAttribute(Constants.SHOPPING_CART);
-		com.salesmanager.core.business.shoppingcart.model.ShoppingCart cart = null;
+		com.salesmanager.core.model.shoppingcart.ShoppingCart cart = null;
 	
 	    if(StringUtils.isBlank(shoppingCartCode)) {
 				
@@ -195,10 +183,10 @@ public class ShoppingOrderController extends AbstractController {
 	    }
 	    boolean allAvailables = true;
 	    //Filter items, delete unavailable
-        Set<com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem> availables = new HashSet<ShoppingCartItem>();
+        Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> availables = new HashSet<ShoppingCartItem>();
         //Take out items no more available
-        Set<com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem> items = cart.getLineItems();
-        for(com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem item : items) {
+        Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> items = cart.getLineItems();
+        for(com.salesmanager.core.model.shoppingcart.ShoppingCartItem item : items) {
         	
         	Long id = item.getProduct().getId();
         	Product p = productService.getById(id);
@@ -660,7 +648,7 @@ public class ShoppingOrderController extends AbstractController {
 					}
 					shoppingCartCode = merchantCookie[1];
 				}
-				com.salesmanager.core.business.shoppingcart.model.ShoppingCart cart = null;
+				com.salesmanager.core.model.shoppingcart.ShoppingCart cart = null;
 			
 			    if(StringUtils.isBlank(shoppingCartCode)) {
 					StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Pages.timeout).append(".").append(store.getStoreTemplate());
@@ -927,7 +915,7 @@ public class ShoppingOrderController extends AbstractController {
 		try {
 
 			//re-generate cart
-			com.salesmanager.core.business.shoppingcart.model.ShoppingCart cart = shoppingCartFacade.getShoppingCartModel(shoppingCartCode, store);
+			com.salesmanager.core.model.shoppingcart.ShoppingCart cart = shoppingCartFacade.getShoppingCartModel(shoppingCartCode, store);
 	
 			
 			
@@ -1128,7 +1116,7 @@ public class ShoppingOrderController extends AbstractController {
 		try {
 
 			//re-generate cart
-			com.salesmanager.core.business.shoppingcart.model.ShoppingCart cart = shoppingCartFacade.getShoppingCartModel(shoppingCartCode, store);
+			com.salesmanager.core.model.shoppingcart.ShoppingCart cart = shoppingCartFacade.getShoppingCartModel(shoppingCartCode, store);
 
 			ReadableShopOrderPopulator populator = new ReadableShopOrderPopulator();
 			populator.populate(order, readableOrder, store, language);
