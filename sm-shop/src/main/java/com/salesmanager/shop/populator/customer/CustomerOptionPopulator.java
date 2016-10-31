@@ -1,18 +1,24 @@
-package com.salesmanager.web.populator.customer;
+package com.salesmanager.shop.populator.customer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.salesmanager.core.business.customer.model.attribute.CustomerOptionSet;
-import com.salesmanager.core.business.generic.exception.ConversionException;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.utils.AbstractDataPopulator;
-import com.salesmanager.web.admin.entity.customer.attribute.CustomerOption;
-import com.salesmanager.web.admin.entity.customer.attribute.CustomerOptionValue;
+import com.salesmanager.core.business.exception.ConversionException;
+import com.salesmanager.core.business.utils.AbstractDataPopulator;
+import com.salesmanager.core.model.customer.attribute.CustomerOptionSet;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.admin.model.customer.attribute.CustomerOption;
+import com.salesmanager.shop.admin.model.customer.attribute.CustomerOptionValue;
 
+
+/**
+ * Used in the admin section
+ * @author c.samson
+ *
+ */
 public class CustomerOptionPopulator extends
-		AbstractDataPopulator<com.salesmanager.core.business.customer.model.attribute.CustomerOption, com.salesmanager.web.admin.entity.customer.attribute.CustomerOption> {
+		AbstractDataPopulator<com.salesmanager.core.model.customer.attribute.CustomerOption, com.salesmanager.shop.admin.model.customer.attribute.CustomerOption> {
 
 	
 	private CustomerOptionSet optionSet;
@@ -27,7 +33,7 @@ public class CustomerOptionPopulator extends
 
 	@Override
 	public CustomerOption populate(
-			com.salesmanager.core.business.customer.model.attribute.CustomerOption source,
+			com.salesmanager.core.model.customer.attribute.CustomerOption source,
 			CustomerOption target, MerchantStore store, Language language) throws ConversionException {
 		
 		
@@ -46,7 +52,7 @@ public class CustomerOptionPopulator extends
 			customerOption.setAvailableValues(values);
 		}
 		
-		com.salesmanager.core.business.customer.model.attribute.CustomerOptionValue optionValue = optionSet.getCustomerOptionValue();
+		com.salesmanager.core.model.customer.attribute.CustomerOptionValue optionValue = optionSet.getCustomerOptionValue();
 		CustomerOptionValue custOptValue = new CustomerOptionValue();
 		custOptValue.setId(optionValue.getId());
 		custOptValue.setLanguage(language.getCode());

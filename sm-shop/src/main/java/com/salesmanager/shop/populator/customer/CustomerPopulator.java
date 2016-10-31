@@ -1,4 +1,4 @@
-package com.salesmanager.web.populator.customer;
+package com.salesmanager.shop.populator.customer;
 
 import java.util.Map;
 
@@ -7,26 +7,28 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.salesmanager.core.business.common.model.Billing;
-import com.salesmanager.core.business.common.model.Delivery;
-import com.salesmanager.core.business.customer.model.Customer;
-import com.salesmanager.core.business.customer.model.attribute.CustomerAttribute;
-import com.salesmanager.core.business.customer.model.attribute.CustomerOption;
-import com.salesmanager.core.business.customer.model.attribute.CustomerOptionValue;
-import com.salesmanager.core.business.customer.service.attribute.CustomerOptionService;
-import com.salesmanager.core.business.customer.service.attribute.CustomerOptionValueService;
-import com.salesmanager.core.business.generic.exception.ConversionException;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.country.model.Country;
-import com.salesmanager.core.business.reference.country.service.CountryService;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.business.reference.language.service.LanguageService;
-import com.salesmanager.core.business.reference.zone.model.Zone;
-import com.salesmanager.core.business.reference.zone.service.ZoneService;
-import com.salesmanager.core.utils.AbstractDataPopulator;
-import com.salesmanager.web.entity.customer.Address;
-import com.salesmanager.web.entity.customer.PersistableCustomer;
-import com.salesmanager.web.entity.customer.attribute.PersistableCustomerAttribute;
+import com.salesmanager.core.business.exception.ConversionException;
+import com.salesmanager.core.business.services.customer.attribute.CustomerOptionService;
+import com.salesmanager.core.business.services.customer.attribute.CustomerOptionValueService;
+import com.salesmanager.core.business.services.reference.country.CountryService;
+import com.salesmanager.core.business.services.reference.language.LanguageService;
+import com.salesmanager.core.business.services.reference.zone.ZoneService;
+import com.salesmanager.core.business.utils.AbstractDataPopulator;
+import com.salesmanager.core.model.common.Billing;
+import com.salesmanager.core.model.common.Delivery;
+import com.salesmanager.core.model.customer.Customer;
+import com.salesmanager.core.model.customer.attribute.CustomerAttribute;
+import com.salesmanager.core.model.customer.attribute.CustomerOption;
+import com.salesmanager.core.model.customer.attribute.CustomerOptionValue;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.country.Country;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.model.reference.zone.Zone;
+import com.salesmanager.shop.model.customer.Address;
+import com.salesmanager.shop.model.customer.PersistableCustomer;
+import com.salesmanager.shop.model.customer.attribute.PersistableCustomerAttribute;
+
+
 
 public class CustomerPopulator extends
 		AbstractDataPopulator<PersistableCustomer, Customer> {
@@ -68,10 +70,10 @@ public class CustomerPopulator extends
 			target.setEmailAddress(source.getEmailAddress());
 			target.setNick(source.getUserName());
 			if(source.getGender()!=null && target.getGender()==null) {
-				target.setGender( com.salesmanager.core.business.customer.model.CustomerGender.valueOf( source.getGender() ) );
+				target.setGender( com.salesmanager.core.model.customer.CustomerGender.valueOf( source.getGender() ) );
 			}
 			if(target.getGender()==null) {
-				target.setGender( com.salesmanager.core.business.customer.model.CustomerGender.M);
+				target.setGender( com.salesmanager.core.model.customer.CustomerGender.M);
 			}
 
 			Map<String,Country> countries = countryService.getCountriesMap(language);
