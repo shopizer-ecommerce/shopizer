@@ -1,4 +1,4 @@
-package com.salesmanager.web.utils;
+package com.salesmanager.shop.utils;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;

@@ -1,26 +1,27 @@
-package com.salesmanager.web.utils;
+package com.salesmanager.shop.utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.salesmanager.core.business.catalog.category.model.Category;
-import com.salesmanager.core.business.catalog.category.service.CategoryService;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.entity.catalog.category.ReadableCategory;
-import com.salesmanager.web.entity.catalog.product.ReadableProduct;
-import com.salesmanager.web.entity.shop.Breadcrumb;
-import com.salesmanager.web.entity.shop.BreadcrumbItem;
-import com.salesmanager.web.entity.shop.BreadcrumbItemType;
+import com.salesmanager.core.business.services.catalog.category.CategoryService;
+import com.salesmanager.core.model.catalog.category.Category;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.model.catalog.category.ReadableCategory;
+import com.salesmanager.shop.model.catalog.product.ReadableProduct;
+import com.salesmanager.shop.model.shop.Breadcrumb;
+import com.salesmanager.shop.model.shop.BreadcrumbItem;
+import com.salesmanager.shop.model.shop.BreadcrumbItemType;
 
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 @Component
 public class BreadcrumbsUtils {

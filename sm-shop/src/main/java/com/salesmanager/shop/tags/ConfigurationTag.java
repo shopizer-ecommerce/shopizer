@@ -1,16 +1,17 @@
-package com.salesmanager.web.tags;
+package com.salesmanager.shop.tags;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.tags.RequestContextAwareTag;
 
-import com.salesmanager.core.utils.CoreConfiguration;
+import com.salesmanager.core.business.utils.CoreConfiguration;
+
 
 public class ConfigurationTag extends RequestContextAwareTag {
 	

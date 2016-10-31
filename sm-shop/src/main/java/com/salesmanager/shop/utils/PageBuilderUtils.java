@@ -1,7 +1,7 @@
-package com.salesmanager.web.utils;
+package com.salesmanager.shop.utils;
 
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.web.shop.controller.ControllerConstants;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.shop.store.controller.ControllerConstants;
 
 public class PageBuilderUtils {
 	

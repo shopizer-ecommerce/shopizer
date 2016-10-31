@@ -5,7 +5,7 @@ package com.salesmanager.shop.populator.customer;
 
 import org.apache.commons.lang.StringUtils;
 
-<<<<<<< HEAD
+
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.utils.AbstractDataPopulator;
 import com.salesmanager.core.model.customer.Customer;
@@ -14,15 +14,7 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.customer.Address;
 import com.salesmanager.shop.model.customer.CustomerEntity;
 
-=======
-import com.salesmanager.core.model.customer.Customer;
-import com.salesmanager.core.business.exception.ConversionException;
-import com.salesmanager.core.model.merchant.MerchantStore;
-import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.core.business.utils.AbstractDataPopulator;
-import com.salesmanager.shop.model.customer.Address;
-import com.salesmanager.shop.model.customer.CustomerEntity;
->>>>>>> 9e4a0d45714b1916a82f1c684b357c0a4ed2e78f
+
 
 /**
  * <p>

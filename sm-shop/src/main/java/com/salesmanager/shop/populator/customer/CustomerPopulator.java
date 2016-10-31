@@ -1,9 +1,7 @@
 package com.salesmanager.shop.populator.customer;
-<<<<<<< HEAD
+
 
 import java.util.Map;
-=======
->>>>>>> 9e4a0d45714b1916a82f1c684b357c0a4ed2e78f
 
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.services.customer.attribute.CustomerOptionService;
@@ -29,33 +27,6 @@ import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-<<<<<<< HEAD
-import com.salesmanager.core.business.exception.ConversionException;
-import com.salesmanager.core.business.services.customer.attribute.CustomerOptionService;
-import com.salesmanager.core.business.services.customer.attribute.CustomerOptionValueService;
-import com.salesmanager.core.business.services.reference.country.CountryService;
-import com.salesmanager.core.business.services.reference.language.LanguageService;
-import com.salesmanager.core.business.services.reference.zone.ZoneService;
-import com.salesmanager.core.business.utils.AbstractDataPopulator;
-import com.salesmanager.core.model.common.Billing;
-import com.salesmanager.core.model.common.Delivery;
-import com.salesmanager.core.model.customer.Customer;
-import com.salesmanager.core.model.customer.attribute.CustomerAttribute;
-import com.salesmanager.core.model.customer.attribute.CustomerOption;
-import com.salesmanager.core.model.customer.attribute.CustomerOptionValue;
-import com.salesmanager.core.model.merchant.MerchantStore;
-import com.salesmanager.core.model.reference.country.Country;
-import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.core.model.reference.zone.Zone;
-import com.salesmanager.shop.model.customer.Address;
-import com.salesmanager.shop.model.customer.PersistableCustomer;
-import com.salesmanager.shop.model.customer.attribute.PersistableCustomerAttribute;
-
-
-=======
-import java.util.Map;
->>>>>>> 9e4a0d45714b1916a82f1c684b357c0a4ed2e78f
 
 public class CustomerPopulator extends
 		AbstractDataPopulator<PersistableCustomer, Customer> {

@@ -1,29 +1,31 @@
-package com.salesmanager.web.tags;
+package com.salesmanager.shop.tags;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.tags.RequestContextAwareTag;
 
-import com.salesmanager.core.business.catalog.product.model.Product;
-import com.salesmanager.core.business.catalog.product.model.relationship.ProductRelationship;
-import com.salesmanager.core.business.catalog.product.service.PricingService;
-import com.salesmanager.core.business.catalog.product.service.relationship.ProductRelationshipService;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.utils.CacheUtils;
-import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.entity.catalog.product.ReadableProduct;
-import com.salesmanager.web.populator.catalog.ReadableProductPopulator;
-import com.salesmanager.web.utils.ImageFilePath;
+import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.services.catalog.product.relationship.ProductRelationshipService;
+import com.salesmanager.core.business.utils.CacheUtils;
+import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.relationship.ProductRelationship;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.model.catalog.product.ReadableProduct;
+import com.salesmanager.shop.populator.catalog.ReadableProductPopulator;
+import com.salesmanager.shop.utils.ImageFilePath;
+
+
 
 public class ShopProductRelationshipTag extends RequestContextAwareTag  {
 	

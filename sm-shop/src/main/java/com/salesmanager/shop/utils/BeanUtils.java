@@ -1,4 +1,4 @@
-package com.salesmanager.web.utils;
+package com.salesmanager.shop.utils;
 
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;

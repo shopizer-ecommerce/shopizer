@@ -1,6 +1,5 @@
 package com.salesmanager.shop.populator.customer;
-<<<<<<< HEAD
-=======
+
 
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.utils.AbstractDataPopulator;
@@ -9,19 +8,11 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.admin.model.customer.attribute.CustomerOption;
 import com.salesmanager.shop.admin.model.customer.attribute.CustomerOptionValue;
->>>>>>> 9e4a0d45714b1916a82f1c684b357c0a4ed2e78f
+
 
 import java.util.ArrayList;
 import java.util.List;
 
-<<<<<<< HEAD
-import com.salesmanager.core.business.exception.ConversionException;
-import com.salesmanager.core.business.utils.AbstractDataPopulator;
-import com.salesmanager.core.model.customer.attribute.CustomerOptionSet;
-import com.salesmanager.core.model.merchant.MerchantStore;
-import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.shop.admin.model.customer.attribute.CustomerOption;
-import com.salesmanager.shop.admin.model.customer.attribute.CustomerOptionValue;
 
 
 /**
@@ -29,8 +20,7 @@ import com.salesmanager.shop.admin.model.customer.attribute.CustomerOptionValue;
  * @author c.samson
  *
  */
-=======
->>>>>>> 9e4a0d45714b1916a82f1c684b357c0a4ed2e78f
+
 public class CustomerOptionPopulator extends
 		AbstractDataPopulator<com.salesmanager.core.model.customer.attribute.CustomerOption, com.salesmanager.shop.admin.model.customer.attribute.CustomerOption> {
 

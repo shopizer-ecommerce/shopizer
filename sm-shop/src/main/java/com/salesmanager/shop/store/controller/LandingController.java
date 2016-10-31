@@ -1,15 +1,15 @@
-package com.salesmanager.web.shop.controller;
+package com.salesmanager.shop.store.controller;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,26 +17,28 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.salesmanager.core.business.catalog.product.model.Product;
-import com.salesmanager.core.business.catalog.product.model.relationship.ProductRelationship;
-import com.salesmanager.core.business.catalog.product.model.relationship.ProductRelationshipType;
-import com.salesmanager.core.business.catalog.product.service.PricingService;
-import com.salesmanager.core.business.catalog.product.service.relationship.ProductRelationshipService;
-import com.salesmanager.core.business.content.model.Content;
-import com.salesmanager.core.business.content.model.ContentDescription;
-import com.salesmanager.core.business.content.service.ContentService;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.merchant.service.MerchantStoreService;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.entity.catalog.product.ReadableProduct;
-import com.salesmanager.web.entity.shop.Breadcrumb;
-import com.salesmanager.web.entity.shop.BreadcrumbItem;
-import com.salesmanager.web.entity.shop.BreadcrumbItemType;
-import com.salesmanager.web.entity.shop.PageInformation;
-import com.salesmanager.web.populator.catalog.ReadableProductPopulator;
-import com.salesmanager.web.utils.ImageFilePath;
-import com.salesmanager.web.utils.LabelUtils;
+import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.services.catalog.product.relationship.ProductRelationshipService;
+import com.salesmanager.core.business.services.content.ContentService;
+import com.salesmanager.core.business.services.merchant.MerchantStoreService;
+import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.relationship.ProductRelationship;
+import com.salesmanager.core.model.catalog.product.relationship.ProductRelationshipType;
+import com.salesmanager.core.model.content.Content;
+import com.salesmanager.core.model.content.ContentDescription;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.model.catalog.product.ReadableProduct;
+import com.salesmanager.shop.model.shop.Breadcrumb;
+import com.salesmanager.shop.model.shop.BreadcrumbItem;
+import com.salesmanager.shop.model.shop.BreadcrumbItemType;
+import com.salesmanager.shop.model.shop.PageInformation;
+import com.salesmanager.shop.populator.catalog.ReadableProductPopulator;
+import com.salesmanager.shop.utils.ImageFilePath;
+import com.salesmanager.shop.utils.LabelUtils;
+
+
 
 @Controller
 public class LandingController {

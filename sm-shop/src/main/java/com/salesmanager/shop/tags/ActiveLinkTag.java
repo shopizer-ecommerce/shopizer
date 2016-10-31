@@ -1,4 +1,4 @@
-package com.salesmanager.web.tags;
+package com.salesmanager.shop.tags;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
@@ -8,7 +8,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.salesmanager.web.constants.Constants;
+import com.salesmanager.shop.constants.Constants;
+
 
 public class ActiveLinkTag extends TagSupport {
 	

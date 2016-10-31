@@ -1,4 +1,4 @@
-package com.salesmanager.web.tags;
+package com.salesmanager.shop.tags;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -10,8 +10,8 @@ import javax.servlet.jsp.tagext.TagSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.web.constants.Constants;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.shop.constants.Constants;
 
 public class StoreFooterlTag extends TagSupport {
 	

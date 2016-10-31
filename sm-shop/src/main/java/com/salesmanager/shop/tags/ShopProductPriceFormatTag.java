@@ -1,21 +1,22 @@
-package com.salesmanager.web.tags;
+package com.salesmanager.shop.tags;
 
 import java.math.BigDecimal;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.tags.RequestContextAwareTag;
 
-import com.salesmanager.core.business.catalog.product.service.PricingService;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.currency.model.Currency;
-import com.salesmanager.core.utils.ProductPriceUtils;
-import com.salesmanager.web.constants.Constants;
+import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.utils.ProductPriceUtils;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.currency.Currency;
+import com.salesmanager.shop.constants.Constants;
+
 
 public class ShopProductPriceFormatTag extends RequestContextAwareTag  {
 	
