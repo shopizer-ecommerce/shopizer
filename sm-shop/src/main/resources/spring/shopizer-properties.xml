@@ -61,7 +61,7 @@
 		<value>exoticamobilia</value>
     </util:list>
     
-    <bean id="initData" class="com.salesmanager.web.init.data.InitStoreData"/>
+    <bean id="initData" class="com.salesmanager.shop.init.data.InitStoreData"/>
 
 	
  
