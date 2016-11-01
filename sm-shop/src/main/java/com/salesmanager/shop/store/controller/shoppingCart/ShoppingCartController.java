@@ -1,48 +1,37 @@
-package com.salesmanager.web.shop.controller.shoppingCart;
+package com.salesmanager.shop.store.controller.shoppingCart;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.UUID;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.services.catalog.product.ProductService;
+import com.salesmanager.core.business.services.catalog.product.attribute.ProductAttributeService;
+import com.salesmanager.core.business.services.order.OrderService;
+import com.salesmanager.core.business.services.shoppingcart.ShoppingCartService;
+import com.salesmanager.core.business.utils.ProductPriceUtils;
+import com.salesmanager.core.business.utils.ajax.AjaxResponse;
+import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.customer.Customer;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.model.shop.PageInformation;
+import com.salesmanager.shop.model.shoppingcart.ShoppingCartData;
+import com.salesmanager.shop.model.shoppingcart.ShoppingCartItem;
+import com.salesmanager.shop.store.controller.AbstractController;
+import com.salesmanager.shop.store.controller.ControllerConstants;
+import com.salesmanager.shop.store.controller.shoppingCart.facade.ShoppingCartFacade;
+import com.salesmanager.shop.utils.LabelUtils;
+import com.salesmanager.shop.utils.LanguageUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import com.salesmanager.core.business.catalog.product.model.Product;
-import com.salesmanager.core.business.catalog.product.service.PricingService;
-import com.salesmanager.core.business.catalog.product.service.ProductService;
-import com.salesmanager.core.business.catalog.product.service.attribute.ProductAttributeService;
-import com.salesmanager.core.business.customer.model.Customer;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.order.service.OrderService;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.business.shoppingcart.service.ShoppingCartService;
-import com.salesmanager.core.utils.ProductPriceUtils;
-import com.salesmanager.core.utils.ajax.AjaxResponse;
-import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.entity.shop.PageInformation;
-import com.salesmanager.web.entity.shoppingcart.ShoppingCartData;
-import com.salesmanager.web.entity.shoppingcart.ShoppingCartItem;
-import com.salesmanager.web.shop.controller.AbstractController;
-import com.salesmanager.web.shop.controller.ControllerConstants;
-import com.salesmanager.web.shop.controller.shoppingCart.facade.ShoppingCartFacade;
-import com.salesmanager.web.utils.LabelUtils;
-import com.salesmanager.web.utils.LanguageUtils;
-
-import edu.emory.mathcs.backport.java.util.Arrays;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.*;
 
 
 /**
@@ -67,7 +56,7 @@ import edu.emory.mathcs.backport.java.util.Arrays;
  *
  * @see
  *
- * The javascript re-creates the shopping cart div item (div id shoppingcart) (see webapp\pages\shop\templates\bootstrap\sections\header.jsp)
+ *  javascript re-creates the shopping cart div item (div id shoppingcart) (see webapp\pages\shop\templates\bootstrap\sections\header.jsp)
  * The javascript set the shopping cart code in the cookie
  *
  * Display a page
@@ -125,8 +114,6 @@ public class ShoppingCartController extends AbstractController {
 
 	/**
 	 * Add an item to the ShoppingCart (AJAX exposed method)
-	 * @param id
-	 * @param quantity
 	 * @param request
 	 * @param response
 	 * @return
@@ -148,7 +135,7 @@ public class ShoppingCartController extends AbstractController {
 
 
 		if(customer != null) {
-			com.salesmanager.core.business.shoppingcart.model.ShoppingCart customerCart = shoppingCartService.getByCustomer(customer);
+			com.salesmanager.core.model.shoppingcart.ShoppingCart customerCart = shoppingCartService.getByCustomer(customer);
 			if(customerCart!=null) {
 				shoppingCart = shoppingCartFacade.getShoppingCartData( customerCart);
 
@@ -350,7 +337,6 @@ public class ShoppingCartController extends AbstractController {
 
 	/**
 	 * Removes an item from the Shopping Cart (AJAX exposed method)
-	 * @param id
 	 * @param request
 	 * @param response
 	 * @return
@@ -410,8 +396,6 @@ public class ShoppingCartController extends AbstractController {
 
 	/**
 	 * Update the quantity of an item in the Shopping Cart (AJAX exposed method)
-	 * @param id
-	 * @param quantity
 	 * @param request
 	 * @param response
 	 * @return

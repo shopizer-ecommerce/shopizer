@@ -1,30 +1,29 @@
-package com.salesmanager.web.services.security;
+package com.salesmanager.shop.store.security;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
+import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.services.customer.CustomerService;
+import com.salesmanager.core.business.services.user.GroupService;
+import com.salesmanager.core.business.services.user.PermissionService;
+import com.salesmanager.core.model.customer.Customer;
+import com.salesmanager.core.model.user.Group;
+import com.salesmanager.core.model.user.Permission;
+import com.salesmanager.shop.admin.security.SecurityDataAccessException;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.GrantedAuthorityImpl;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.salesmanager.core.business.customer.model.Customer;
-import com.salesmanager.core.business.customer.service.CustomerService;
-import com.salesmanager.core.business.generic.exception.ServiceException;
-import com.salesmanager.core.business.user.model.Group;
-import com.salesmanager.core.business.user.model.Permission;
-import com.salesmanager.core.business.user.service.GroupService;
-import com.salesmanager.core.business.user.service.PermissionService;
-import com.salesmanager.web.admin.security.SecurityDataAccessException;
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 
 /**
@@ -78,7 +77,7 @@ public class CustomerServicesImpl implements UserDetailsService{
 			if(CollectionUtils.isNotEmpty(groupsId)) {
 		    	List<Permission> permissions = permissionService.getPermissions(groupsId);
 		    	for(Permission permission : permissions) {
-		    		GrantedAuthority auth = new GrantedAuthorityImpl(permission.getPermissionName());
+		    		GrantedAuthority auth = new SimpleGrantedAuthority(permission.getPermissionName());
 		    		authorities.add(auth);
 		    	}
 			}

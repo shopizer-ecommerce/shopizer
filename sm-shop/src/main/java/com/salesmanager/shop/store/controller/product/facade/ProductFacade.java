@@ -1,10 +1,10 @@
-package com.salesmanager.web.shop.controller.product.facade;
+package com.salesmanager.shop.store.controller.product.facade;
 
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.web.entity.catalog.product.PersistableProduct;
-import com.salesmanager.web.entity.catalog.product.ProductPriceEntity;
-import com.salesmanager.web.entity.catalog.product.ReadableProduct;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.model.catalog.product.PersistableProduct;
+import com.salesmanager.shop.model.catalog.product.ProductPriceEntity;
+import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 
 public interface ProductFacade {
 	

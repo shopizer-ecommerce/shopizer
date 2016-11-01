@@ -1,66 +1,54 @@
-package com.salesmanager.web.shop.controller.product;
+package com.salesmanager.shop.store.controller.product;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.salesmanager.core.business.services.catalog.category.CategoryService;
+import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.services.catalog.product.ProductService;
+import com.salesmanager.core.business.services.catalog.product.attribute.ProductAttributeService;
+import com.salesmanager.core.business.services.catalog.product.relationship.ProductRelationshipService;
+import com.salesmanager.core.business.services.catalog.product.review.ProductReviewService;
+import com.salesmanager.core.business.utils.CacheUtils;
+import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
+import com.salesmanager.core.model.catalog.product.attribute.ProductOptionDescription;
+import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValue;
+import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueDescription;
+import com.salesmanager.core.model.catalog.product.price.FinalPrice;
+import com.salesmanager.core.model.catalog.product.relationship.ProductRelationship;
+import com.salesmanager.core.model.catalog.product.relationship.ProductRelationshipType;
+import com.salesmanager.core.model.catalog.product.review.ProductReview;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.model.catalog.product.ReadableProduct;
+import com.salesmanager.shop.model.catalog.product.ReadableProductPrice;
+import com.salesmanager.shop.model.catalog.product.ReadableProductReview;
+import com.salesmanager.shop.model.shop.Breadcrumb;
+import com.salesmanager.shop.model.shop.PageInformation;
+import com.salesmanager.shop.populator.catalog.ReadableFinalPricePopulator;
+import com.salesmanager.shop.populator.catalog.ReadableProductPopulator;
+import com.salesmanager.shop.populator.catalog.ReadableProductReviewPopulator;
+import com.salesmanager.shop.store.controller.ControllerConstants;
+import com.salesmanager.shop.store.model.catalog.Attribute;
+import com.salesmanager.shop.store.model.catalog.AttributeValue;
+import com.salesmanager.shop.utils.BreadcrumbsUtils;
+import com.salesmanager.shop.utils.ImageFilePath;
+import com.salesmanager.shop.utils.LabelUtils;
+import com.salesmanager.shop.utils.PageBuilderUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import com.salesmanager.core.business.catalog.category.service.CategoryService;
-import com.salesmanager.core.business.catalog.product.model.Product;
-import com.salesmanager.core.business.catalog.product.model.attribute.ProductAttribute;
-import com.salesmanager.core.business.catalog.product.model.attribute.ProductOptionDescription;
-import com.salesmanager.core.business.catalog.product.model.attribute.ProductOptionValue;
-import com.salesmanager.core.business.catalog.product.model.attribute.ProductOptionValueDescription;
-import com.salesmanager.core.business.catalog.product.model.price.FinalPrice;
-import com.salesmanager.core.business.catalog.product.model.relationship.ProductRelationship;
-import com.salesmanager.core.business.catalog.product.model.relationship.ProductRelationshipType;
-import com.salesmanager.core.business.catalog.product.model.review.ProductReview;
-import com.salesmanager.core.business.catalog.product.service.PricingService;
-import com.salesmanager.core.business.catalog.product.service.ProductService;
-import com.salesmanager.core.business.catalog.product.service.attribute.ProductAttributeService;
-import com.salesmanager.core.business.catalog.product.service.relationship.ProductRelationshipService;
-import com.salesmanager.core.business.catalog.product.service.review.ProductReviewService;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.utils.CacheUtils;
-import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.entity.catalog.product.ReadableProduct;
-import com.salesmanager.web.entity.catalog.product.ReadableProductPrice;
-import com.salesmanager.web.entity.catalog.product.ReadableProductReview;
-import com.salesmanager.web.entity.shop.Breadcrumb;
-import com.salesmanager.web.entity.shop.PageInformation;
-import com.salesmanager.web.populator.catalog.ReadableFinalPricePopulator;
-import com.salesmanager.web.populator.catalog.ReadableProductPopulator;
-import com.salesmanager.web.populator.catalog.ReadableProductReviewPopulator;
-import com.salesmanager.web.shop.controller.ControllerConstants;
-import com.salesmanager.web.shop.model.catalog.Attribute;
-import com.salesmanager.web.shop.model.catalog.AttributeValue;
-import com.salesmanager.web.utils.BreadcrumbsUtils;
-import com.salesmanager.web.utils.ImageFilePath;
-import com.salesmanager.web.utils.LabelUtils;
-import com.salesmanager.web.utils.PageBuilderUtils;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.*;
 
-import edu.emory.mathcs.backport.java.util.Arrays;
+
 
 /**
  * Populates the product details page

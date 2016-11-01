@@ -1,55 +1,48 @@
-package com.salesmanager.web.services.controller.customer;
+package com.salesmanager.shop.store.services.customer;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
+import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.services.customer.CustomerService;
+import com.salesmanager.core.business.services.customer.attribute.CustomerOptionService;
+import com.salesmanager.core.business.services.customer.attribute.CustomerOptionValueService;
+import com.salesmanager.core.business.services.merchant.MerchantStoreService;
+import com.salesmanager.core.business.services.reference.country.CountryService;
+import com.salesmanager.core.business.services.reference.language.LanguageService;
+import com.salesmanager.core.business.services.reference.zone.ZoneService;
+import com.salesmanager.core.business.services.system.EmailService;
+import com.salesmanager.core.business.services.user.GroupService;
+import com.salesmanager.core.model.customer.Customer;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.user.Group;
+import com.salesmanager.core.model.user.GroupType;
+import com.salesmanager.shop.admin.model.userpassword.UserReset;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.model.customer.PersistableCustomer;
+import com.salesmanager.shop.model.customer.ReadableCustomer;
+import com.salesmanager.shop.model.customer.attribute.PersistableCustomerOption;
+import com.salesmanager.shop.model.customer.attribute.PersistableCustomerOptionValue;
+import com.salesmanager.shop.populator.customer.CustomerPopulator;
+import com.salesmanager.shop.populator.customer.PersistableCustomerOptionPopulator;
+import com.salesmanager.shop.populator.customer.PersistableCustomerOptionValuePopulator;
+import com.salesmanager.shop.populator.customer.ReadableCustomerPopulator;
+import com.salesmanager.shop.store.services.category.ShoppingCategoryRESTController;
+import com.salesmanager.shop.utils.EmailTemplatesUtils;
+import com.salesmanager.shop.utils.LabelUtils;
+import com.salesmanager.shop.utils.LocaleUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
-import com.salesmanager.core.business.customer.model.Customer;
-import com.salesmanager.core.business.customer.service.CustomerService;
-import com.salesmanager.core.business.customer.service.attribute.CustomerOptionService;
-import com.salesmanager.core.business.customer.service.attribute.CustomerOptionValueService;
-import com.salesmanager.core.business.generic.exception.ServiceException;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.merchant.service.MerchantStoreService;
-import com.salesmanager.core.business.reference.country.service.CountryService;
-import com.salesmanager.core.business.reference.language.service.LanguageService;
-import com.salesmanager.core.business.reference.zone.service.ZoneService;
-import com.salesmanager.core.business.system.service.EmailService;
-import com.salesmanager.core.business.user.model.Group;
-import com.salesmanager.core.business.user.model.GroupType;
-import com.salesmanager.core.business.user.service.GroupService;
-import com.salesmanager.web.admin.entity.userpassword.UserReset;
-import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.entity.customer.PersistableCustomer;
-import com.salesmanager.web.entity.customer.ReadableCustomer;
-import com.salesmanager.web.entity.customer.attribute.PersistableCustomerOption;
-import com.salesmanager.web.entity.customer.attribute.PersistableCustomerOptionValue;
-import com.salesmanager.web.populator.customer.CustomerPopulator;
-import com.salesmanager.web.populator.customer.PersistableCustomerOptionPopulator;
-import com.salesmanager.web.populator.customer.PersistableCustomerOptionValuePopulator;
-import com.salesmanager.web.populator.customer.ReadableCustomerPopulator;
-import com.salesmanager.web.services.controller.category.ShoppingCategoryRESTController;
-import com.salesmanager.web.utils.EmailTemplatesUtils;
-import com.salesmanager.web.utils.LabelUtils;
-import com.salesmanager.web.utils.LocaleUtils;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 @Controller
 @RequestMapping("/services")
@@ -122,7 +115,7 @@ public class CustomerRESTController {
 		}
 		
 		Customer customer = customerService.getById(id);
-		com.salesmanager.web.entity.customer.Customer customerProxy;
+		com.salesmanager.shop.model.customer.Customer customerProxy;
 		if(customer == null){
 			response.sendError(404, "No Customer found with id : " + id);
 			return null;
@@ -173,7 +166,7 @@ public class CustomerRESTController {
 			PersistableCustomerOptionValuePopulator populator = new PersistableCustomerOptionValuePopulator();
 			populator.setLanguageService(languageService);
 			
-			com.salesmanager.core.business.customer.model.attribute.CustomerOptionValue optValue = new com.salesmanager.core.business.customer.model.attribute.CustomerOptionValue();
+			com.salesmanager.core.model.customer.attribute.CustomerOptionValue optValue = new com.salesmanager.core.model.customer.attribute.CustomerOptionValue();
 			populator.populate(optionValue, optValue, merchantStore, merchantStore.getDefaultLanguage());
 		
 			customerOptionValueService.save(optValue);
@@ -229,7 +222,7 @@ public class CustomerRESTController {
 			PersistableCustomerOptionPopulator populator = new PersistableCustomerOptionPopulator();
 			populator.setLanguageService(languageService);
 			
-			com.salesmanager.core.business.customer.model.attribute.CustomerOption opt = new com.salesmanager.core.business.customer.model.attribute.CustomerOption();
+			com.salesmanager.core.model.customer.attribute.CustomerOption opt = new com.salesmanager.core.model.customer.attribute.CustomerOption();
 			populator.populate(option, opt, merchantStore, merchantStore.getDefaultLanguage());
 		
 			customerOptionService.save(opt);

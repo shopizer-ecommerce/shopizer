@@ -1,54 +1,39 @@
-package com.salesmanager.web.shop.controller.search;
+package com.salesmanager.shop.store.controller.search;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.salesmanager.core.business.services.catalog.category.CategoryService;
+import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.services.catalog.product.ProductService;
+import com.salesmanager.core.business.services.merchant.MerchantStoreService;
+import com.salesmanager.core.business.services.reference.language.LanguageService;
+import com.salesmanager.core.business.services.search.SearchService;
+import com.salesmanager.core.model.catalog.category.Category;
+import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.ProductCriteria;
+import com.salesmanager.core.model.catalog.product.ProductList;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.model.search.*;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.model.catalog.SearchProductList;
+import com.salesmanager.shop.model.catalog.category.ReadableCategory;
+import com.salesmanager.shop.model.catalog.product.ReadableProduct;
+import com.salesmanager.shop.populator.catalog.ReadableCategoryPopulator;
+import com.salesmanager.shop.populator.catalog.ReadableProductPopulator;
+import com.salesmanager.shop.store.controller.ControllerConstants;
+import com.salesmanager.shop.store.model.search.AutoCompleteRequest;
+import com.salesmanager.shop.utils.ImageFilePath;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import com.salesmanager.core.business.catalog.category.model.Category;
-import com.salesmanager.core.business.catalog.category.service.CategoryService;
-import com.salesmanager.core.business.catalog.product.model.Product;
-import com.salesmanager.core.business.catalog.product.model.ProductCriteria;
-import com.salesmanager.core.business.catalog.product.model.ProductList;
-import com.salesmanager.core.business.catalog.product.service.PricingService;
-import com.salesmanager.core.business.catalog.product.service.ProductService;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.merchant.service.MerchantStoreService;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.business.reference.language.service.LanguageService;
-import com.salesmanager.core.business.search.model.IndexProduct;
-import com.salesmanager.core.business.search.model.SearchEntry;
-import com.salesmanager.core.business.search.model.SearchFacet;
-import com.salesmanager.core.business.search.model.SearchKeywords;
-import com.salesmanager.core.business.search.model.SearchResponse;
-import com.salesmanager.core.business.search.service.SearchService;
-import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.entity.catalog.SearchProductList;
-import com.salesmanager.web.entity.catalog.category.ReadableCategory;
-import com.salesmanager.web.entity.catalog.product.ReadableProduct;
-import com.salesmanager.web.populator.catalog.ReadableCategoryPopulator;
-import com.salesmanager.web.populator.catalog.ReadableProductPopulator;
-import com.salesmanager.web.shop.controller.ControllerConstants;
-import com.salesmanager.web.shop.model.search.AutoCompleteRequest;
-import com.salesmanager.web.utils.ImageFilePath;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.*;
 
 @Controller
 public class SearchController {

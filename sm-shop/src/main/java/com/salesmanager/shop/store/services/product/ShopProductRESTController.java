@@ -1,66 +1,53 @@
-package com.salesmanager.web.services.controller.product;
+package com.salesmanager.shop.store.services.product;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import com.salesmanager.core.business.services.catalog.category.CategoryService;
+import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.services.catalog.product.ProductService;
+import com.salesmanager.core.business.services.catalog.product.attribute.ProductOptionService;
+import com.salesmanager.core.business.services.catalog.product.attribute.ProductOptionValueService;
+import com.salesmanager.core.business.services.catalog.product.manufacturer.ManufacturerService;
+import com.salesmanager.core.business.services.catalog.product.review.ProductReviewService;
+import com.salesmanager.core.business.services.customer.CustomerService;
+import com.salesmanager.core.business.services.merchant.MerchantStoreService;
+import com.salesmanager.core.business.services.reference.language.LanguageService;
+import com.salesmanager.core.business.services.tax.TaxClassService;
+import com.salesmanager.core.model.catalog.category.Category;
+import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.ProductCriteria;
+import com.salesmanager.core.model.catalog.product.review.ProductReview;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.model.catalog.manufacturer.PersistableManufacturer;
+import com.salesmanager.shop.model.catalog.product.*;
+import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductOption;
+import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductOptionValue;
+import com.salesmanager.shop.populator.catalog.PersistableProductOptionPopulator;
+import com.salesmanager.shop.populator.catalog.PersistableProductOptionValuePopulator;
+import com.salesmanager.shop.populator.catalog.PersistableProductReviewPopulator;
+import com.salesmanager.shop.populator.catalog.ReadableProductPopulator;
+import com.salesmanager.shop.populator.manufacturer.PersistableManufacturerPopulator;
+import com.salesmanager.shop.store.controller.items.facade.ProductItemsFacade;
+import com.salesmanager.shop.store.controller.product.facade.ProductFacade;
+import com.salesmanager.shop.store.model.filter.QueryFilter;
+import com.salesmanager.shop.store.model.filter.QueryFilterType;
+import com.salesmanager.shop.utils.ImageFilePath;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
-import com.salesmanager.core.business.catalog.category.model.Category;
-import com.salesmanager.core.business.catalog.category.service.CategoryService;
-import com.salesmanager.core.business.catalog.product.model.Product;
-import com.salesmanager.core.business.catalog.product.model.ProductCriteria;
-import com.salesmanager.core.business.catalog.product.model.review.ProductReview;
-import com.salesmanager.core.business.catalog.product.service.PricingService;
-import com.salesmanager.core.business.catalog.product.service.ProductService;
-import com.salesmanager.core.business.catalog.product.service.attribute.ProductOptionService;
-import com.salesmanager.core.business.catalog.product.service.attribute.ProductOptionValueService;
-import com.salesmanager.core.business.catalog.product.service.manufacturer.ManufacturerService;
-import com.salesmanager.core.business.catalog.product.service.review.ProductReviewService;
-import com.salesmanager.core.business.customer.service.CustomerService;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.merchant.service.MerchantStoreService;
-import com.salesmanager.core.business.reference.language.model.Language;
-import com.salesmanager.core.business.reference.language.service.LanguageService;
-import com.salesmanager.core.business.tax.service.TaxClassService;
-import com.salesmanager.web.constants.Constants;
-import com.salesmanager.web.entity.catalog.manufacturer.PersistableManufacturer;
-import com.salesmanager.web.entity.catalog.product.PersistableProduct;
-import com.salesmanager.web.entity.catalog.product.PersistableProductReview;
-import com.salesmanager.web.entity.catalog.product.ProductPriceEntity;
-import com.salesmanager.web.entity.catalog.product.ReadableProduct;
-import com.salesmanager.web.entity.catalog.product.ReadableProductList;
-import com.salesmanager.web.entity.catalog.product.attribute.PersistableProductOption;
-import com.salesmanager.web.entity.catalog.product.attribute.PersistableProductOptionValue;
-import com.salesmanager.web.populator.catalog.PersistableProductOptionPopulator;
-import com.salesmanager.web.populator.catalog.PersistableProductOptionValuePopulator;
-import com.salesmanager.web.populator.catalog.PersistableProductReviewPopulator;
-import com.salesmanager.web.populator.catalog.ReadableProductPopulator;
-import com.salesmanager.web.populator.manufacturer.PersistableManufacturerPopulator;
-import com.salesmanager.web.shop.controller.items.facade.ProductItemsFacade;
-import com.salesmanager.web.shop.controller.product.facade.ProductFacade;
-import com.salesmanager.web.shop.model.filter.QueryFilter;
-import com.salesmanager.web.shop.model.filter.QueryFilterType;
-import com.salesmanager.web.utils.ImageFilePath;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * API to create, read, updat and delete a Product
@@ -180,7 +167,6 @@ public class ShopProductRESTController {
 	 * Method for creating a manufacturer
 	 * @param store
 	 * @param manufacturer
-	 * @param model
 	 * @param request
 	 * @param response
 	 * @return
@@ -214,7 +200,7 @@ public class ShopProductRESTController {
 			PersistableManufacturerPopulator populator = new PersistableManufacturerPopulator();
 			populator.setLanguageService(languageService);
 			
-			com.salesmanager.core.business.catalog.product.model.manufacturer.Manufacturer manuf = new com.salesmanager.core.business.catalog.product.model.manufacturer.Manufacturer();
+			com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer manuf = new com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer();
 			
 			populator.populate(manufacturer, manuf, merchantStore, merchantStore.getDefaultLanguage());
 		
@@ -265,7 +251,7 @@ public class ShopProductRESTController {
 			PersistableProductOptionValuePopulator populator = new PersistableProductOptionValuePopulator();
 			populator.setLanguageService(languageService);
 			
-			com.salesmanager.core.business.catalog.product.model.attribute.ProductOptionValue optValue = new com.salesmanager.core.business.catalog.product.model.attribute.ProductOptionValue();
+			com.salesmanager.core.model.catalog.product.attribute.ProductOptionValue optValue = new com.salesmanager.core.model.catalog.product.attribute.ProductOptionValue();
 			populator.populate(optionValue, optValue, merchantStore, merchantStore.getDefaultLanguage());
 		
 			productOptionValueService.save(optValue);
@@ -315,7 +301,7 @@ public class ShopProductRESTController {
 			PersistableProductOptionPopulator populator = new PersistableProductOptionPopulator();
 			populator.setLanguageService(languageService);
 			
-			com.salesmanager.core.business.catalog.product.model.attribute.ProductOption opt = new com.salesmanager.core.business.catalog.product.model.attribute.ProductOption();
+			com.salesmanager.core.model.catalog.product.attribute.ProductOption opt = new com.salesmanager.core.model.catalog.product.attribute.ProductOption();
 			populator.populate(option, opt, merchantStore, merchantStore.getDefaultLanguage());
 		
 			productOptionService.save(opt);
@@ -382,7 +368,7 @@ public class ShopProductRESTController {
 			populator.setCustomerService(customerService);
 			populator.setProductService(productService);
 			
-			com.salesmanager.core.business.catalog.product.model.review.ProductReview rev = new com.salesmanager.core.business.catalog.product.model.review.ProductReview();
+			com.salesmanager.core.model.catalog.product.review.ProductReview rev = new com.salesmanager.core.model.catalog.product.review.ProductReview();
 			populator.populate(review, rev, merchantStore, merchantStore.getDefaultLanguage());
 		
 			productReviewService.create(rev);
@@ -648,7 +634,7 @@ public class ShopProductRESTController {
 				}
 			}
 
-			com.salesmanager.core.business.catalog.product.model.ProductList products = productService.listByStore(merchantStore, lang, productCriteria);
+			com.salesmanager.core.model.catalog.product.ProductList products = productService.listByStore(merchantStore, lang, productCriteria);
 
 			
 			ReadableProductPopulator populator = new ReadableProductPopulator();
