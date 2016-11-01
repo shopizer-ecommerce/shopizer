@@ -50,7 +50,7 @@
 			<version>${shopizer.search.version}</version>
 		</dependency>
 		
-		    	<!-- shipping rules -->
+		<!-- shipping rules -->
 		<!-- shipping distance pre-processor -->
  		<dependency>
 			<groupId>com.shopizer</groupId>
@@ -65,12 +65,6 @@
 			<version>${shopizer-canadapost.version}</version>
 		</dependency>
 
-		<dependency>
-   			<groupId>javax.el</groupId>
-   			<artifactId>javax.el-api</artifactId>
-   			<version>${javax.el.version}</version>
-		</dependency>
-		
 		<!-- Rules engine -->
 		<dependency>
 			<groupId>org.drools</groupId>
@@ -110,32 +104,6 @@
 			<artifactId>h2</artifactId>
 			<!--<version>${dbh2.version}</version>-->
 		</dependency>	
-		
-		<!-- https://mvnrepository.com/artifact/javax.inject/javax.inject -->
-		<dependency>
-		    <groupId>javax.inject</groupId>
-		    <artifactId>javax.inject</artifactId>
-		    <version>${javax.inject.version}</version>
-		</dependency>
-		
-		<dependency>
-		    <groupId>javax.validation</groupId>
-		    <artifactId>validation-api</artifactId>
-		    <version>1.1.0.Final</version>
-		</dependency>
-			
-		<!-- https://mvnrepository.com/artifact/net.sf.ehcache/ehcache -->
-		<dependency>
-		    <groupId>net.sf.ehcache</groupId>
-		    <artifactId>ehcache</artifactId>
-		</dependency>
-
-
-		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
-		<dependency>
-		    <groupId>com.fasterxml.jackson.core</groupId>
-		    <artifactId>jackson-core</artifactId>
-		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-collections4 -->
 		<dependency>

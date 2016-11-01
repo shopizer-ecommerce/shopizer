@@ -21,7 +21,7 @@
         
         
 
-  <beans:import resource="classpath:/spring/shopizer-context.xml" />
+  <beans:import resource="classpath:/spring/shopizer-core-context.xml" />
 
 
   <beans:bean id="datasource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">

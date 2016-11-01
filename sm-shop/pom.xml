@@ -19,8 +19,6 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- testing properties -->
 		<!--<dbh2.version>1.4.187</dbh2.version>-->
-		<javax.inject.version>1</javax.inject.version>
-		<javax.el.version>2.2.4</javax.el.version>
 	</properties>
 
 	<dependencies>
@@ -46,26 +44,13 @@
 			<artifactId>sm-search</artifactId>
 			<version>${shopizer.search.version}</version>
 		</dependency>
-		
 
-
-		<dependency>
-   			<groupId>javax.el</groupId>
-   			<artifactId>javax.el-api</artifactId>
-   			<version>${javax.el.version}</version>
-		</dependency>
-		
     	<!--  Spring boot  -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        
-        <!-- Spring JDBC -->
-        <dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-jdbc</artifactId>
-		</dependency>
+
         
  		<dependency>
 	        <groupId>org.springframework.boot</groupId>
@@ -73,11 +58,18 @@
 	    </dependency>
 
 
-			<dependency>
-				<groupId>org.springframework.mobile</groupId>
-				<artifactId>spring-mobile-device</artifactId>
-				<version>${spring-mobile-device-version}</version>
-			</dependency>
+		<dependency>
+			<groupId>org.springframework.mobile</groupId>
+			<artifactId>spring-mobile-device</artifactId>
+			<version>${spring-mobile-device-version}</version>
+		</dependency>
+		
+		<!-- Add Apache Tiles into the mix -->
+        <dependency>
+            <groupId>org.apache.tiles</groupId>
+            <artifactId>tiles-jsp</artifactId>
+            <version>3.0.4</version>
+        </dependency>
 
 
         <!-- H2 session -->
@@ -85,34 +77,13 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 		</dependency>	
-		
-		<!-- https://mvnrepository.com/artifact/javax.inject/javax.inject -->
-		<dependency>
-		    <groupId>javax.inject</groupId>
-		    <artifactId>javax.inject</artifactId>
-		    <version>${javax.inject.version}</version>
-		</dependency>
-		
+
 		<dependency>
 		    <groupId>javax.validation</groupId>
 		    <artifactId>validation-api</artifactId>
 		    <version>1.1.0.Final</version>
 		</dependency>
-			
-		<!-- https://mvnrepository.com/artifact/net.sf.ehcache/ehcache -->
-		<dependency>
-		    <groupId>net.sf.ehcache</groupId>
-		    <artifactId>ehcache</artifactId>
-		</dependency>
 
-
-		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
-		<dependency>
-		    <groupId>com.fasterxml.jackson.core</groupId>
-		    <artifactId>jackson-core</artifactId>
-		</dependency>
-
-	
 		<!-- Servlet -->
 		<dependency>
 			<groupId>javax.servlet</groupId>

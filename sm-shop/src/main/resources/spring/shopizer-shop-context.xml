@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans 
+  http://www.springframework.org/schema/beans/spring-beans.xsd"> 	
+  
+    <!-- controllers -->
+  	<beans:import resource="classpath:/spring/shopizer-controllers.xml" />
+  	<!-- properties -->
+  	<beans:import resource="classpath:/spring/shopizer-properties.xml" />
+  	<!-- security -->
+<!--   	<beans:import resource="classpath:/spring/shopizer-security.xml" /> -->
+  	<!-- servlet-context -->
+  	<beans:import resource="classpath:/spring/shopizer-servlet-context.xml" />
+	
+</beans:beans>

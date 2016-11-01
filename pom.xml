@@ -32,6 +32,8 @@
         <commons-validator.version>1.5.1</commons-validator.version>
         <org.apache.httpcomponent.version>4.5.2</org.apache.httpcomponent.version>
         <infinispan.version>6.0.2.Final</infinispan.version>
+        <javax.inject.version>1</javax.inject.version>
+		<javax.el.version>2.2.4</javax.el.version>
         <!-- DON'T AS IT OVERWRITES SPRING -->
         <!--<spring.version>4.2.1.RELEASE</spring.version>-->
         <!--<spring-data.version>Gosling-RELEASE</spring-data.version>-->
@@ -39,8 +41,38 @@
 
     <dependencies>
     
+		<dependency>
+   			<groupId>javax.el</groupId>
+   			<artifactId>javax.el-api</artifactId>
+   			<version>${javax.el.version}</version>
+		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/javax.inject/javax.inject -->
+		<dependency>
+		    <groupId>javax.inject</groupId>
+		    <artifactId>javax.inject</artifactId>
+		    <version>${javax.inject.version}</version>
+		</dependency>
 
+		<dependency>
+		    <groupId>javax.validation</groupId>
+		    <artifactId>validation-api</artifactId>
+		    <version>1.1.0.Final</version>
+		</dependency>
+		
+		
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-core</artifactId>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/net.sf.ehcache/ehcache -->
+		<dependency>
+		    <groupId>net.sf.ehcache</groupId>
+		    <artifactId>ehcache</artifactId>
+		</dependency>
+		
     </dependencies>
 
 	<modules>
