@@ -1,5 +1,23 @@
 package com.salesmanager.test.shop.controller.product.rest;
 
+import com.salesmanager.core.model.catalog.product.attribute.ProductOptionType;
+import com.salesmanager.shop.model.catalog.category.Category;
+import com.salesmanager.shop.model.catalog.manufacturer.Manufacturer;
+import com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription;
+import com.salesmanager.shop.model.catalog.manufacturer.PersistableManufacturer;
+import com.salesmanager.shop.model.catalog.product.*;
+import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductOption;
+import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductOptionValue;
+import com.salesmanager.shop.model.catalog.product.attribute.ProductOptionDescription;
+import com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.ObjectWriter;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.springframework.http.*;
+import org.springframework.security.crypto.codec.Base64;
+import org.springframework.web.client.RestTemplate;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,35 +25,6 @@ import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.ObjectWriter;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.codec.Base64;
-import org.springframework.web.client.RestTemplate;
-
-import com.salesmanager.core.business.catalog.product.model.attribute.ProductOptionType;
-import com.salesmanager.web.entity.catalog.category.Category;
-import com.salesmanager.web.entity.catalog.manufacturer.Manufacturer;
-import com.salesmanager.web.entity.catalog.manufacturer.ManufacturerDescription;
-import com.salesmanager.web.entity.catalog.manufacturer.PersistableManufacturer;
-import com.salesmanager.web.entity.catalog.product.PersistableImage;
-import com.salesmanager.web.entity.catalog.product.PersistableProduct;
-import com.salesmanager.web.entity.catalog.product.PersistableProductPrice;
-import com.salesmanager.web.entity.catalog.product.PersistableProductReview;
-import com.salesmanager.web.entity.catalog.product.ProductDescription;
-import com.salesmanager.web.entity.catalog.product.ReadableProduct;
-import com.salesmanager.web.entity.catalog.product.attribute.PersistableProductOption;
-import com.salesmanager.web.entity.catalog.product.attribute.PersistableProductOptionValue;
-import com.salesmanager.web.entity.catalog.product.attribute.ProductOptionDescription;
-import com.salesmanager.web.entity.catalog.product.attribute.ProductOptionValueDescription;
 
 public class ProductManagementAPITest {
 	

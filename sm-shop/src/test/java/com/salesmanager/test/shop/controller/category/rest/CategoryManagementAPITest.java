@@ -1,26 +1,20 @@
 package com.salesmanager.test.shop.controller.category.rest;
 
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.salesmanager.shop.model.catalog.category.Category;
+import com.salesmanager.shop.model.catalog.category.CategoryDescription;
+import com.salesmanager.shop.model.catalog.category.PersistableCategory;
+import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.web.client.RestTemplate;
 
-import com.salesmanager.web.entity.catalog.category.Category;
-import com.salesmanager.web.entity.catalog.category.CategoryDescription;
-import com.salesmanager.web.entity.catalog.category.PersistableCategory;
-import com.salesmanager.web.entity.catalog.category.ReadableCategory;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CategoryManagementAPITest {
 	
