@@ -20,10 +20,6 @@
     
     
       <context:annotation-config />
-	  <!-- services -->
-	  <context:component-scan base-package="com.salesmanager.core.business.services" />
-	  <!-- utils - components -->
-	  <context:component-scan base-package="com.salesmanager.core.business.utils" />
 	  <!-- repositories -->
 	  <repositories base-package="com.salesmanager.core.business.repositories"/>
     
@@ -118,10 +114,11 @@
 		jndi-name="java:comp/env/secretKey" />
 	-->	
 	
-	<!-- JDBC User -->
-	<!-- 	
-	<beans:bean id="userService" class="com.salesmanager.core.business.user.service.UserServiceImpl"/>
-	<beans:bean id="applicationContextListenerUtils" class="com.salesmanager.core.utils.ApplicationContextListenerUtils" />
-	-->
+	<!-- JDBC User -->	
+	<beans:bean id="userService" class="com.salesmanager.core.business.services.user.UserServiceImpl"/>
+	
+	<!-- After app context init -->
+	<beans:bean id="applicationContextListenerUtils" class="com.salesmanager.core.business.utils.ApplicationContextListenerUtils" />
+
 	
 </beans:beans>
