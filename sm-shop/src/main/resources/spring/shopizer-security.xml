@@ -10,38 +10,38 @@
 
 	<global-method-security secured-annotations="enabled" jsr250-annotations="enabled" pre-post-annotations="enabled"/>
 
-	<beans:bean id="customerFacade" class="com.salesmanager.web.shop.controller.customer.facade.CustomerFacadeImpl">
+	<beans:bean id="customerFacade" class="com.salesmanager.shop.store.controller.customer.facade.CustomerFacadeImpl">
 	</beans:bean>
 	
 	<!-- JDBC Customer details -->
 	<beans:bean id="customerDetailsService"
-		class="com.salesmanager.web.services.security.CustomerServicesImpl">
+		class="com.salesmanager.shop.store.security.CustomerServicesImpl">
 	</beans:bean>
 
 	<!-- JDBC User details -->
 	<beans:bean id="userDetailsService"
-		class="com.salesmanager.web.admin.security.UserServicesImpl">
+		class="com.salesmanager.shop.admin.security.UserServicesImpl">
 	</beans:bean>
-	
-	<beans:bean id="passwordEncoder"
-		class="org.springframework.security.authentication.encoding.ShaPasswordEncoder">
+
+	<beans:bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+		<beans:constructor-arg value="11"/>
 	</beans:bean>
 	
 	<beans:bean id="adminAccessDenied"
-		class="com.salesmanager.web.utils.AdminAccessDeniedHandler">
+		class="com.salesmanager.shop.utils.AdminAccessDeniedHandler">
 		<beans:property name="accessDeniedUrl" value="/admin/denied.html" />
 	</beans:bean>
 
 	
 	<!-- updates last user logon timestamp -->
-	<beans:bean id="userAuthenticationSuccessHandler" class="com.salesmanager.web.admin.security.UserAuthenticationSuccessHandler">
+	<beans:bean id="userAuthenticationSuccessHandler" class="com.salesmanager.shop.admin.security.UserAuthenticationSuccessHandler">
 	</beans:bean>
 	
 	
-	<beans:bean id="servicesAuthenticationSuccessHandler" class="com.salesmanager.web.services.security.ServicesAuthenticationSuccessHandler">
+	<beans:bean id="servicesAuthenticationSuccessHandler" class="com.salesmanager.shop.store.security.ServicesAuthenticationSuccessHandler">
 	</beans:bean>
 	
-	<beans:bean id="servicesAuthenticationEntryPoint" class="com.salesmanager.web.services.security.ServicesAuthenticationEntryPoint">
+	<beans:bean id="servicesAuthenticationEntryPoint" class="com.salesmanager.shop.store.security.ServicesAuthenticationEntryPoint">
 	</beans:bean>
 	
 	
