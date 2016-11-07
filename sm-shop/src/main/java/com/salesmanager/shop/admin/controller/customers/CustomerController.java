@@ -18,7 +18,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -61,6 +60,7 @@ import com.salesmanager.shop.populator.customer.ReadableCustomerOptionPopulator;
 import com.salesmanager.shop.utils.EmailUtils;
 import com.salesmanager.shop.utils.LabelUtils;
 import com.salesmanager.shop.utils.LocaleUtils;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 
@@ -651,7 +651,7 @@ public class CustomerController {
 			Locale customerLocale = LocaleUtils.getLocale(userLanguage);
 			
 			String password = UserReset.generateRandomString();
-			String encodedPassword = passwordEncoder.encodePassword(password, null);
+			String encodedPassword = passwordEncoder.encode(password);
 			
 			customer.setPassword(encodedPassword);
 			

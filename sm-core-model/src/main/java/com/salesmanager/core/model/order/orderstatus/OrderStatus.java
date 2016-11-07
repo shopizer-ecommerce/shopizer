@@ -6,6 +6,7 @@ public enum OrderStatus {
 	PROCESSED("processed"),
 	DELIVERED("delivered"),
 	REFUNDED("refunded"),
+	CANCELED("canceled"),
 	;
 	
 	private String value;

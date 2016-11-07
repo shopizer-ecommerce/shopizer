@@ -12,12 +12,12 @@ import com.salesmanager.shop.constants.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
-import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -113,7 +113,7 @@ public class UserServicesImpl implements WebUserServices{
 		
 		  MerchantStore store = merchantStoreService.getMerchantStore(MerchantStore.DEFAULT_STORE);
 
-		  String password = passwordEncoder.encodePassword("password", null);
+		  String password = passwordEncoder.encode("password");
 		  
 		  List<Group> groups = groupService.listGroup(GroupType.ADMIN);
 		  
