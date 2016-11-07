@@ -21,6 +21,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import javax.inject.Named;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -45,6 +47,7 @@ public class UserServicesImpl implements WebUserServices{
 	private MerchantStoreService merchantStoreService;
 	
 	@Inject
+	@Named("passwordEncoder")
 	private PasswordEncoder passwordEncoder;
 	
 

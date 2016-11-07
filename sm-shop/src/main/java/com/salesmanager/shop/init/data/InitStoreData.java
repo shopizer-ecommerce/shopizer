@@ -59,7 +59,7 @@ import com.salesmanager.shop.utils.LocaleUtils;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.authentication.encoding.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
@@ -789,7 +789,7 @@ public class InitStoreData implements InitData {
 			customer.setDefaultLanguage(en);
 			customer.setNick("shopizer");
 			
-			String password = passwordEncoder.encodePassword("password", null);
+			String password = passwordEncoder.encode("password");
 			customer.setPassword(password);
 			
 			List<Group> groups = groupService.listGroup(GroupType.CUSTOMER);

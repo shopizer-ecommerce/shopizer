@@ -9,6 +9,8 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Qualifier;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -101,6 +103,7 @@ public class CustomerController {
 	private CustomerAttributeService customerAttributeService;
 	
 	@Inject
+	@Named("passwordEncoder")
 	private PasswordEncoder passwordEncoder;
 	
 	@Inject

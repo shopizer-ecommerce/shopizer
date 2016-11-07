@@ -26,7 +26,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.encoding.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -191,7 +191,7 @@ public class UserController {
 		}
 		
 
-		String tempPass = passwordEncoder.encodePassword(password.getPassword(), null);
+		String tempPass = passwordEncoder.encode(password.getPassword());
 		
 		//password match
 		if(!tempPass.equals(dbUser.getAdminPassword())) {
@@ -228,7 +228,7 @@ public class UserController {
 		
 		
 		
-		String pass = passwordEncoder.encodePassword(password.getNewPassword(), null);
+		String pass = passwordEncoder.encode(password.getNewPassword());
 		dbUser.setAdminPassword(pass);
 		userService.update(dbUser);
 		
@@ -571,7 +571,7 @@ public class UserController {
 		if(user.getId()!=null && user.getId()>0) {
 			user.setAdminPassword(dbUser.getAdminPassword());
 		} else {
-			String encoded = passwordEncoder.encodePassword(user.getAdminPassword(),null);
+			String encoded = passwordEncoder.encode(user.getAdminPassword());
 			user.setAdminPassword(encoded);
 		}
 		
@@ -799,7 +799,7 @@ public class UserController {
 					userLocale =  LocaleUtils.getLocale(userLanguage);
 					
 					String tempPass = userReset.generateRandomString();
-					String pass = passwordEncoder.encodePassword(tempPass, null);
+					String pass = passwordEncoder.encode(tempPass);
 					
 					dbUser.setAdminPassword(pass);
 					userService.update(dbUser);
