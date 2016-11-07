@@ -883,13 +883,13 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 	   @SuppressWarnings("unused")
 	private Map<String,Object> getConfigurations(MerchantStore store) {
 		   
-		   Map<String,Object> configs = null;
+		   Map<String,Object> configs = configs = new HashMap<String,Object>();
 		   try {
 			   
 			   List<MerchantConfiguration> merchantConfiguration = merchantConfigurationService.listByType(MerchantConfigurationType.CONFIG, store);
 			   
-			   if(!CollectionUtils.isEmpty(merchantConfiguration) && configs==null) {
-				   configs = new HashMap<String,Object>();
+			   if(CollectionUtils.isEmpty(merchantConfiguration)) {
+				   return configs;
 			   }
 			   
 			   

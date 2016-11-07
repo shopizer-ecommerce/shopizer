@@ -26,6 +26,8 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+
+@Ignore
 public class ProductManagementAPITest {
 	
 	private RestTemplate restTemplate;

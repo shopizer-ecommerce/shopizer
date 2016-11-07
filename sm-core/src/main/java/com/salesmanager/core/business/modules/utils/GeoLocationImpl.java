@@ -10,6 +10,12 @@ import com.maxmind.geoip2.model.CityResponse;
 import com.salesmanager.core.model.common.Address;
 import com.salesmanager.core.modules.utils.GeoLocation;
 
+/**
+ * Using Geolite2 City database
+ * http://dev.maxmind.com/geoip/geoip2/geolite2/#Databases
+ * @author c.samson
+ *
+ */
 public class GeoLocationImpl implements GeoLocation {
 	
 	private DatabaseReader reader = null;
@@ -21,7 +27,7 @@ public class GeoLocationImpl implements GeoLocation {
 		
 			if(reader==null) {
 					try {
-						java.io.InputStream inputFile = GeoLocationImpl.class.getClassLoader().getResourceAsStream("reference/GeoLite2-Country.mmdb");
+						java.io.InputStream inputFile = GeoLocationImpl.class.getClassLoader().getResourceAsStream("reference/GeoLite2-City.mmdb");
 						reader = new DatabaseReader.Builder(inputFile).build();
 					} catch(Exception e) {
 						LOGGER.error("Cannot instantiate IP database",e);

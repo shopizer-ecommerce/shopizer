@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.salesmanager.core.model.system.MerchantConfiguration;
+import com.salesmanager.core.model.system.MerchantConfigurationType;
 
 public interface MerchantConfigurationRepository extends JpaRepository<MerchantConfiguration, Long> {
 
@@ -20,5 +21,5 @@ public interface MerchantConfigurationRepository extends JpaRepository<MerchantC
 	MerchantConfiguration findByMerchantStoreAndKey(Integer id, String key);
 	
 	@Query("select m from MerchantConfiguration m join fetch m.merchantStore ms where ms.id=?1 and m.merchantConfigurationType=?2")
-	List<MerchantConfiguration> findByMerchantStoreAndType(Integer id, String type);
+	List<MerchantConfiguration> findByMerchantStoreAndType(Integer id, MerchantConfigurationType type);
 }

@@ -9,6 +9,7 @@ import org.springframework.context.annotation.ImportResource;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
+import org.springframework.web.servlet.view.tiles3.TilesView;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 
 import com.salesmanager.core.business.configuration.CoreApplicationConfiguration;
@@ -35,10 +36,17 @@ public class ShopApplicationConfiguration extends WebMvcConfigurerAdapter{
     /**
      * Configure ViewResolvers to deliver preferred views.
      */
-    @Override
+/*    @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
         TilesViewResolver viewResolver = new TilesViewResolver();
         registry.viewResolver(viewResolver);
+    }*/
+    
+    @Bean
+    public TilesViewResolver tilesViewResolver() {
+        final TilesViewResolver resolver = new TilesViewResolver();
+        resolver.setViewClass(TilesView.class);
+        return resolver;
     }
 
 }

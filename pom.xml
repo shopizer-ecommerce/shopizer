@@ -25,7 +25,7 @@
         <shopizer.search.version>2.5.0-SNAPSHOT</shopizer.search.version>
         <shopizer-canadapost.version>2.5.0-SNAPSHOT</shopizer-canadapost.version>
 		<shopizer-shipping-distance.version>2.5.0-SNAPSHOT</shopizer-shipping-distance.version>	
-        
+        <jackson-version>2.7.4</jackson-version>
         
         <spring-mobile-device-version>1.1.4.RELEASE</spring-mobile-device-version>
         <commons-collections4.version>4.0</commons-collections4.version>
@@ -60,12 +60,36 @@
 		    <version>1.1.0.Final</version>
 		</dependency>
 		
+
 		
-		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
-		<dependency>
-		    <groupId>com.fasterxml.jackson.core</groupId>
-		    <artifactId>jackson-core</artifactId>
-		</dependency>
+				<!-- Jackson JSON Processor -->
+				<dependency>
+				    <groupId>com.fasterxml.jackson.core</groupId>
+				    <artifactId>jackson-databind</artifactId>
+				    <version>${jackson-version}</version>
+				    <exclusions>
+				        <exclusion>
+				            <groupId>com.fasterxml.jackson.core</groupId>
+				            <artifactId>jackson-core</artifactId>
+				        </exclusion>
+				        <exclusion>
+				            <groupId>com.fasterxml.jackson.core</groupId>
+				            <artifactId>jackson-annotations</artifactId>
+				        </exclusion>
+				    </exclusions>
+				</dependency>
+				<dependency>
+				    <groupId>com.fasterxml.jackson.core</groupId>
+				    <artifactId>jackson-core</artifactId>
+				    <version>${jackson-version}</version>
+				</dependency>
+				 
+				<dependency>
+				    <groupId>com.fasterxml.jackson.core</groupId>
+				    <artifactId>jackson-annotations</artifactId>
+				    <version>${jackson-version}</version>
+				</dependency>
+						
 		
 		<!-- https://mvnrepository.com/artifact/net.sf.ehcache/ehcache -->
 		<dependency>
