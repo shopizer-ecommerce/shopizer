@@ -6,7 +6,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportResource;
-import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesView;
@@ -36,12 +35,7 @@ public class ShopApplicationConfiguration extends WebMvcConfigurerAdapter{
     /**
      * Configure ViewResolvers to deliver preferred views.
      */
-/*    @Override
-    public void configureViewResolvers(ViewResolverRegistry registry) {
-        TilesViewResolver viewResolver = new TilesViewResolver();
-        registry.viewResolver(viewResolver);
-    }*/
-    
+
     @Bean
     public TilesViewResolver tilesViewResolver() {
         final TilesViewResolver resolver = new TilesViewResolver();

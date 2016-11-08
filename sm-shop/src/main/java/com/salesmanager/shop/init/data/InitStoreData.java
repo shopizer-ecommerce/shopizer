@@ -422,6 +422,25 @@ public class InitStoreData implements InitData {
 		    product.setType(generalType);
 		    product.setMerchantStore(store);
 		    product.setProductShipeable(true);
+		    
+		    // Availability
+		    ProductAvailability availability = new ProductAvailability();
+		    availability.setProductDateAvailable(date);
+		    availability.setProductQuantity(100);
+		    availability.setRegion("*");
+		    availability.setProduct(product);// associate with product
+		    
+		    ProductPrice dprice = new ProductPrice();
+		    dprice.setDefaultPrice(true);
+		    dprice.setProductPriceAmount(new BigDecimal(39.99));
+		    dprice.setProductAvailability(availability);
+
+		    ProductPriceDescription dpd = new ProductPriceDescription();
+		    dpd.setName("Base price");
+		    dpd.setProductPrice(dprice);
+		    dpd.setLanguage(en);
+
+		    dprice.getDescriptions().add(dpd);
 
 		    // Product description
 		    ProductDescription description = new ProductDescription();
@@ -445,29 +464,6 @@ public class InitStoreData implements InitData {
 		    	LOGGER.error("Error while reading demo file spring.png",e);
 		    }
 		    
-
-		    // Availability
-		    ProductAvailability availability = new ProductAvailability();
-		    availability.setProductDateAvailable(date);
-		    availability.setProductQuantity(100);
-		    availability.setRegion("*");
-		    availability.setProduct(product);// associate with product
-
-		    productAvailabilityService.create(availability);
-
-		    ProductPrice dprice = new ProductPrice();
-		    dprice.setDefaultPrice(true);
-		    dprice.setProductPriceAmount(new BigDecimal(39.99));
-		    dprice.setProductAvailability(availability);
-
-		    ProductPriceDescription dpd = new ProductPriceDescription();
-		    dpd.setName("Base price");
-		    dpd.setProductPrice(dprice);
-		    dpd.setLanguage(en);
-
-		    dprice.getDescriptions().add(dpd);
-
-		    productPriceService.create(dprice);
 
 		    // PRODUCT 2
 
@@ -493,23 +489,12 @@ public class InitStoreData implements InitData {
 		    product2.getCategories().add(tech);
 		    product2.getCategories().add(web);
 		    
-		    productService.create(product2);
-		    
-		    try {
-		    	InputStream inStream = this.getClass().getClassLoader().getResourceAsStream("/demo/node.jpg");
-		    	this.saveFile(inStream, "node.jpg", product2);
-		    } catch(Exception e) {
-		    	LOGGER.error("Error while reading demo file node.jpg",e);
-		    }
-
 		    // Availability
 		    ProductAvailability availability2 = new ProductAvailability();
 		    availability2.setProductDateAvailable(date);
 		    availability2.setProductQuantity(100);
 		    availability2.setRegion("*");
 		    availability2.setProduct(product2);// associate with product
-
-		    productAvailabilityService.create(availability2);
 
 		    ProductPrice dprice2 = new ProductPrice();
 		    dprice2.setDefaultPrice(true);
@@ -522,8 +507,17 @@ public class InitStoreData implements InitData {
 		    dpd.setLanguage(en);
 
 		    dprice2.getDescriptions().add(dpd);
+		    
+		    productService.create(product2);
+		    
+		    try {
+		    	InputStream inStream = this.getClass().getClassLoader().getResourceAsStream("/demo/node.jpg");
+		    	this.saveFile(inStream, "node.jpg", product2);
+		    } catch(Exception e) {
+		    	LOGGER.error("Error while reading demo file node.jpg",e);
+		    }
 
-		    productPriceService.create(dprice2);
+
 
 		    // PRODUCT 3
 
@@ -547,16 +541,13 @@ public class InitStoreData implements InitData {
 		    product3.getDescriptions().add(description);
 
 		    product3.getCategories().add(cloud);
-		    productService.create(product3);
-
+		    
 		    // Availability
 		    ProductAvailability availability3 = new ProductAvailability();
 		    availability3.setProductDateAvailable(date);
 		    availability3.setProductQuantity(100);
 		    availability3.setRegion("*");
 		    availability3.setProduct(product3);// associate with product
-
-		    productAvailabilityService.create(availability3);
 
 		    ProductPrice dprice3 = new ProductPrice();
 		    dprice3.setDefaultPrice(true);
@@ -569,8 +560,10 @@ public class InitStoreData implements InitData {
 		    dpd.setLanguage(en);
 
 		    dprice3.getDescriptions().add(dpd);
+		    
+		    
+		    productService.create(product3);
 
-		    productPriceService.create(dprice3);
 		    
 		    try {
 		    	InputStream inStream = this.getClass().getClassLoader().getResourceAsStream("/demo/paas.JPG");
@@ -600,8 +593,7 @@ public class InitStoreData implements InitData {
 		    product4.getDescriptions().add(description);
 
 		    product4.getCategories().add(tech);
-		    productService.create(product4);
-
+		    
 		    // Availability
 		    ProductAvailability availability4 = new ProductAvailability();
 		    availability4.setProductDateAvailable(date);
@@ -609,7 +601,6 @@ public class InitStoreData implements InitData {
 		    availability4.setRegion("*");
 		    availability4.setProduct(product4);// associate with product
 
-		    productAvailabilityService.create(availability4);
 
 		    ProductPrice dprice4 = new ProductPrice();
 		    dprice4.setDefaultPrice(true);
@@ -622,8 +613,10 @@ public class InitStoreData implements InitData {
 		    dpd.setLanguage(en);
 
 		    dprice4.getDescriptions().add(dpd);
+ 
+		    productService.create(product4);
 
-		    productPriceService.create(dprice4);
+
 		    
 		    try {
 		    	InputStream inStream = this.getClass().getClassLoader().getResourceAsStream("/demo/android.jpg");
@@ -653,8 +646,8 @@ public class InitStoreData implements InitData {
 		    product5.getDescriptions().add(description);
 
 		    product5.getCategories().add(tech);
-		    productService.create(product5);
-
+		    
+		    
 		    // Availability
 		    ProductAvailability availability5 = new ProductAvailability();
 		    availability5.setProductDateAvailable(date);
@@ -662,7 +655,7 @@ public class InitStoreData implements InitData {
 		    availability5.setRegion("*");
 		    availability5.setProduct(product5);// associate with product
 
-		    productAvailabilityService.create(availability5);
+		   // productAvailabilityService.create(availability5);
 
 		    ProductPrice dprice5 = new ProductPrice();
 		    dprice5.setDefaultPrice(true);
@@ -676,7 +669,11 @@ public class InitStoreData implements InitData {
 
 		    dprice5.getDescriptions().add(dpd);
 
-		    productPriceService.create(dprice5);
+		    //productPriceService.create(dprice5);
+
+		    productService.create(product5);
+
+
 		    
 		    try {
 		    	InputStream inStream = this.getClass().getClassLoader().getResourceAsStream("/demo/android2.jpg");
@@ -707,8 +704,7 @@ public class InitStoreData implements InitData {
 		    product6.getDescriptions().add(description);
 
 		    product6.getCategories().add(business);
-		    productService.create(product6);
-
+		    
 		    // Availability
 		    ProductAvailability availability6 = new ProductAvailability();
 		    availability6.setProductDateAvailable(date);
@@ -716,7 +712,7 @@ public class InitStoreData implements InitData {
 		    availability6.setRegion("*");
 		    availability6.setProduct(product6);// associate with product
 
-		    productAvailabilityService.create(availability6);
+		    //productAvailabilityService.create(availability6);
 
 		    ProductPrice dprice6 = new ProductPrice();
 		    dprice6.setDefaultPrice(true);
@@ -730,7 +726,11 @@ public class InitStoreData implements InitData {
 
 		    dprice6.getDescriptions().add(dpd);
 
-		    productPriceService.create(dprice6);
+		    //productPriceService.create(dprice6);
+		    
+		    productService.create(product6);
+
+
 		    
 		    try {
 		    	InputStream inStream = this.getClass().getClassLoader().getResourceAsStream("/demo/google.jpg");
