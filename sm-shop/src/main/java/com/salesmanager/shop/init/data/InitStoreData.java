@@ -59,6 +59,7 @@ import com.salesmanager.shop.utils.LocaleUtils;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -430,6 +431,8 @@ public class InitStoreData implements InitData {
 		    availability.setRegion("*");
 		    availability.setProduct(product);// associate with product
 		    
+		    
+		    
 		    ProductPrice dprice = new ProductPrice();
 		    dprice.setDefaultPrice(true);
 		    dprice.setProductPriceAmount(new BigDecimal(39.99));
@@ -441,6 +444,9 @@ public class InitStoreData implements InitData {
 		    dpd.setLanguage(en);
 
 		    dprice.getDescriptions().add(dpd);
+		    
+		    availability.getPrices().add(dprice);
+		    product.getAvailabilities().add(availability);
 
 		    // Product description
 		    ProductDescription description = new ProductDescription();
@@ -458,7 +464,10 @@ public class InitStoreData implements InitData {
 		    productService.create(product);
 		    
 		    try {
-		    	InputStream inStream = this.getClass().getClassLoader().getResourceAsStream("/demo/spring.png");
+		    	//InputStream inStream = this.getClass().getClassLoader().getResourceAsStream("/demo/spring.png");
+		    	//TODO TO BE TESTED
+		    	ClassPathResource classPathResource = new ClassPathResource("/demo/spring.png");
+		    	InputStream inStream = classPathResource.getInputStream();
 		    	this.saveFile(inStream, "spring.png", product);
 		    } catch(Exception e) {
 		    	LOGGER.error("Error while reading demo file spring.png",e);
@@ -507,6 +516,9 @@ public class InitStoreData implements InitData {
 		    dpd.setLanguage(en);
 
 		    dprice2.getDescriptions().add(dpd);
+		    
+		    availability2.getPrices().add(dprice2);
+		    product2.getAvailabilities().add(availability2);
 		    
 		    productService.create(product2);
 		    
@@ -561,6 +573,9 @@ public class InitStoreData implements InitData {
 
 		    dprice3.getDescriptions().add(dpd);
 		    
+		    availability3.getPrices().add(dprice3);
+		    product3.getAvailabilities().add(availability3);
+		    
 		    
 		    productService.create(product3);
 
@@ -613,6 +628,9 @@ public class InitStoreData implements InitData {
 		    dpd.setLanguage(en);
 
 		    dprice4.getDescriptions().add(dpd);
+		    
+		    availability4.getPrices().add(dprice4);
+		    product4.getAvailabilities().add(availability4);
  
 		    productService.create(product4);
 
@@ -669,7 +687,8 @@ public class InitStoreData implements InitData {
 
 		    dprice5.getDescriptions().add(dpd);
 
-		    //productPriceService.create(dprice5);
+		    availability5.getPrices().add(dprice5);
+		    product5.getAvailabilities().add(availability5);
 
 		    productService.create(product5);
 
@@ -726,7 +745,8 @@ public class InitStoreData implements InitData {
 
 		    dprice6.getDescriptions().add(dpd);
 
-		    //productPriceService.create(dprice6);
+		    availability6.getPrices().add(dprice6);
+		    product6.getAvailabilities().add(availability6);
 		    
 		    productService.create(product6);
 

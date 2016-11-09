@@ -1,6 +1,8 @@
 package com.salesmanager.shop.store.controller.error;
 
 import org.jopendocument.util.ExceptionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -11,11 +13,17 @@ import org.springframework.web.servlet.ModelAndView;
 @ControllerAdvice
 public class ErrorController {
 	
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(ErrorController.class);
+	
+	
     
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
 	public ModelAndView handleException(Exception ex) {
 		
+		LOGGER.error("Error page controller",ex);
+
 		ModelAndView model = null;
 		if(ex instanceof AccessDeniedException) {
 			
@@ -38,6 +46,8 @@ public class ErrorController {
 	@ExceptionHandler(RuntimeException.class)
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
 	public ModelAndView handleRuntimeException(Exception ex) {
+		
+		LOGGER.error("Error page controller",ex);
 		
 		ModelAndView model = null;
 
