@@ -1,32 +1,10 @@
 package com.salesmanager.test.catalog;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.apache.commons.io.IOUtils;
-import java.io.ByteArrayOutputStream;
-import org.junit.Ignore;
-import org.junit.Test;
-
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.category.CategoryDescription;
 import com.salesmanager.core.model.catalog.product.Product;
-import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
-import com.salesmanager.core.model.catalog.product.attribute.ProductOption;
-import com.salesmanager.core.model.catalog.product.attribute.ProductOptionDescription;
-import com.salesmanager.core.model.catalog.product.attribute.ProductOptionType;
-import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValue;
-import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueDescription;
+import com.salesmanager.core.model.catalog.product.attribute.*;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
 import com.salesmanager.core.model.catalog.product.file.ProductImageSize;
@@ -44,11 +22,21 @@ import com.salesmanager.core.model.content.ImageContentFile;
 import com.salesmanager.core.model.content.OutputContentFile;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
-
 import junit.framework.Assert;
+import org.apache.commons.io.IOUtils;
+import org.junit.Ignore;
+import org.junit.Test;
+
+import java.io.*;
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
-//@Ignore
+@Ignore
 public class ProductTest extends com.salesmanager.test.common.AbstractSalesManagerCoreTestCase {
 	
 	private static final Date date = new Date(System.currentTimeMillis());
