@@ -1,21 +1,6 @@
 package com.shopizer.search.services.impl;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
-import io.searchbox.action.Action;
-import io.searchbox.client.JestClient;
-import io.searchbox.client.JestResult;
-import io.searchbox.core.Bulk;
-import io.searchbox.core.Delete;
-import io.searchbox.core.Get;
-import io.searchbox.core.Index;
-import io.searchbox.core.Search;
-import io.searchbox.core.SearchResult;
-import io.searchbox.core.search.aggregation.MetricAggregation;
-import io.searchbox.core.search.aggregation.TermsAggregation;
-import io.searchbox.indices.CreateIndex;
-import io.searchbox.indices.IndicesExists;
-import io.searchbox.indices.mapping.PutMapping;
-import io.searchbox.params.Parameters;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,16 +13,11 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Resource;
-import javax.inject.Inject;
-
-
-
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -54,6 +34,21 @@ import com.shopizer.search.services.field.ListField;
 import com.shopizer.search.services.field.LongField;
 import com.shopizer.search.services.field.StringField;
 import com.shopizer.search.utils.SearchClient;
+
+import io.searchbox.action.Action;
+import io.searchbox.client.JestClient;
+import io.searchbox.client.JestResult;
+import io.searchbox.core.Bulk;
+import io.searchbox.core.Delete;
+import io.searchbox.core.Get;
+import io.searchbox.core.Index;
+import io.searchbox.core.Search;
+import io.searchbox.core.SearchResult;
+import io.searchbox.core.search.aggregation.TermsAggregation;
+import io.searchbox.indices.CreateIndex;
+import io.searchbox.indices.IndicesExists;
+import io.searchbox.indices.mapping.PutMapping;
+import io.searchbox.params.Parameters;
 
 /**
  * https://www.found.no/foundation/java-clients-for-elasticsearch/
@@ -182,10 +177,11 @@ public class SearchDelegateImpl implements SearchDelegate {
 		
 		
 		CreateIndex.Builder createIndex = new CreateIndex.Builder(index);
-				//.Builder(index);
+
+		//set settings to the index
 		if(settings!=null) {
 			createIndex.settings(
-			Settings.builder()
+			Settings.settingsBuilder()
 			.loadFromSource(settings)
 			.build()
 			.getAsMap());

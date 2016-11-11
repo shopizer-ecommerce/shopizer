@@ -2,6 +2,7 @@ package com.shopizer.test;
 
 import javax.inject.Inject;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -39,14 +40,13 @@ import com.shopizer.search.services.SearchService;
 	DependencyInjectionTestExecutionListener.class,
 })
 
-
+@Ignore
 public class TestSearchKeywords {
 	
 	@Inject
 	private SearchService searchService;
 	
 	@Test
-	//@Ignore
 	public void testSearchKeywords() throws Exception {
 		
 

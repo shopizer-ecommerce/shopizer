@@ -31,10 +31,13 @@
         <commons-collections4.version>4.0</commons-collections4.version>
         <commons-validator.version>1.5.1</commons-validator.version>
         <org.apache.httpcomponent.version>4.5.2</org.apache.httpcomponent.version>
-        <infinispan.version>6.0.2.Final</infinispan.version>
         <javax.inject.version>1</javax.inject.version>
 		<javax.el.version>2.2.4</javax.el.version>
+		
+		<!-- external systems -->
 		<c3p0-version>0.9.5.2</c3p0-version>
+		<org.elasticsearch-version>2.4.1</org.elasticsearch-version>
+		<infinispan.version>6.0.2.Final</infinispan.version>
         <!-- DON'T AS IT OVERWRITES SPRING -->
         <!--<spring.version>4.2.1.RELEASE</spring.version>-->
         <!--<spring-data.version>Gosling-RELEASE</spring-data.version>-->
@@ -104,7 +107,12 @@
             <artifactId>c3p0</artifactId>
             <version>${c3p0-version}</version>
         </dependency>
-		
+
+		<dependency>
+			<groupId>org.elasticsearch</groupId>
+			<artifactId>elasticsearch</artifactId>
+			<version>${org.elasticsearch-version}</version>
+		</dependency>		
 		
     </dependencies>
 

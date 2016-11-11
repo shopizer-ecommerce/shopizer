@@ -60,14 +60,13 @@ import com.shopizer.search.services.SearchService;
 	DependencyInjectionTestExecutionListener.class,
 })
 
-
+@Ignore
 public class TestSearch {
 	
 	@Inject
 	private SearchService searchService;
 	
-	//@Test
-	@Ignore
+	@Test
 	public void testSearch() throws Exception {
 		
 		String facets = "\"aggregations\": {\"categories\": {\"terms\": {\"field\": \"categories\"}},\"manufacturer\": {\"terms\": {\"field\": \"manufacturer\"}}}";
