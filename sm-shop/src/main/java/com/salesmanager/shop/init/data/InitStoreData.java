@@ -464,8 +464,6 @@ public class InitStoreData implements InitData {
 		    productService.create(product);
 		    
 		    try {
-		    	//InputStream inStream = this.getClass().getClassLoader().getResourceAsStream("/demo/spring.png");
-		    	//TODO TO BE TESTED
 		    	ClassPathResource classPathResource = new ClassPathResource("/demo/spring.png");
 		    	InputStream inStream = classPathResource.getInputStream();
 		    	this.saveFile(inStream, "spring.png", product);
@@ -523,7 +521,8 @@ public class InitStoreData implements InitData {
 		    productService.create(product2);
 		    
 		    try {
-		    	InputStream inStream = this.getClass().getClassLoader().getResourceAsStream("/demo/node.jpg");
+		    	ClassPathResource classPathResource = new ClassPathResource("/demo/node.jpg");
+		    	InputStream inStream = classPathResource.getInputStream();
 		    	this.saveFile(inStream, "node.jpg", product2);
 		    } catch(Exception e) {
 		    	LOGGER.error("Error while reading demo file node.jpg",e);
@@ -581,7 +580,8 @@ public class InitStoreData implements InitData {
 
 		    
 		    try {
-		    	InputStream inStream = this.getClass().getClassLoader().getResourceAsStream("/demo/paas.JPG");
+		    	ClassPathResource classPathResource = new ClassPathResource("/demo/paas.JPG");
+		    	InputStream inStream = classPathResource.getInputStream();
 		    	this.saveFile(inStream, "paas.JPG", product3);
 		    } catch(Exception e) {
 		    	LOGGER.error("Error while reading demo file paas.jpg",e);
@@ -637,7 +637,8 @@ public class InitStoreData implements InitData {
 
 		    
 		    try {
-		    	InputStream inStream = this.getClass().getClassLoader().getResourceAsStream("/demo/android.jpg");
+		    	ClassPathResource classPathResource = new ClassPathResource("/demo/android.jpg");
+		    	InputStream inStream = classPathResource.getInputStream();
 		    	this.saveFile(inStream, "android.jpg", product4);
 		    } catch(Exception e) {
 		    	LOGGER.error("Error while reading demo file android.jpg",e);
@@ -695,7 +696,8 @@ public class InitStoreData implements InitData {
 
 		    
 		    try {
-		    	InputStream inStream = this.getClass().getClassLoader().getResourceAsStream("/demo/android2.jpg");
+		    	ClassPathResource classPathResource = new ClassPathResource("/demo/android2.jpg");
+		    	InputStream inStream = classPathResource.getInputStream();
 		    	this.saveFile(inStream, "android2.jpg", product5);
 		    } catch(Exception e) {
 		    	LOGGER.error("Error while reading demo file android2.jpg",e);
@@ -753,7 +755,9 @@ public class InitStoreData implements InitData {
 
 		    
 		    try {
-		    	InputStream inStream = this.getClass().getClassLoader().getResourceAsStream("/demo/google.jpg");
+
+		    	ClassPathResource classPathResource = new ClassPathResource("/demo/google.jpg");
+		    	InputStream inStream = classPathResource.getInputStream();
 		    	this.saveFile(inStream, "google.jpg", product6);
 		    } catch(Exception e) {
 		    	LOGGER.error("Error while reading demo file google.jpg",e);

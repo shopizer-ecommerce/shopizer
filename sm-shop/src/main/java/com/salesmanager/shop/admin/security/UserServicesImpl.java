@@ -60,7 +60,6 @@ public class UserServicesImpl implements WebUserServices{
 	
 	
 	
-	@SuppressWarnings("deprecation")
 	public UserDetails loadUserByUsername(String userName)
 			throws UsernameNotFoundException, DataAccessException {
 

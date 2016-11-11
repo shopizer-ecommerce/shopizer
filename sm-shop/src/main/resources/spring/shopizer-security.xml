@@ -47,7 +47,8 @@
 	
 	
 	<http pattern="/admin/**" auto-config="true" use-expressions="true" authentication-manager-ref="userAuthenticationManager">
-		<intercept-url pattern="/admin/logon.html*" access="permitAll" />
+		<!--<intercept-url pattern="/admin/logon.html*" access="permitAll" />-->
+		<intercept-url pattern="/admin/logon*" access="permitAll" />
 		<intercept-url pattern="/admin/denied.html" access="permitAll" />
 		<intercept-url pattern="/admin/unauthorized.html" access="permitAll" />
 		<intercept-url pattern="/admin/users/resetPassword.html*" access="permitAll" />
@@ -60,7 +61,7 @@
 
 		
 		<form-login 
-			login-processing-url="/admin/j_spring_security_check" 
+			login-processing-url="/admin/logon" 
 			login-page="/admin/logon.html"
 			authentication-success-handler-ref="userAuthenticationSuccessHandler"
 			authentication-failure-url="/admin/logon.html?login_error=true"
@@ -69,7 +70,8 @@
 			
 		<logout invalidate-session="true" 
 			logout-success-url="/admin/home.html" 
-			logout-url="/admin/j_spring_security_logout" />
+			logout-url="/admin/logout" />
+			
 		<access-denied-handler ref="adminAccessDenied"/>
 	</http>
 	
@@ -84,7 +86,7 @@
 		<intercept-url pattern="/shop/customer/registration.html*" access="permitAll" />
 		<intercept-url pattern="/shop/customer/customLogon.html*" access="permitAll" />
 		<intercept-url pattern="/shop/customer/denied.html" access="permitAll" />
-		<intercept-url pattern="/shop/customer/j_spring_security_check" access="permitAll" />
+		<intercept-url pattern="/shop/customer/logon" access="permitAll" />
 		<intercept-url pattern="/shop/customer" access="hasRole('AUTH_CUSTOMER')" />
 		<intercept-url pattern="/shop/customer/" access="hasRole('AUTH_CUSTOMER')" />
 		<intercept-url pattern="/shop/customer/*.html*" access="hasRole('AUTH_CUSTOMER')" />
@@ -95,7 +97,7 @@
 			
 		<logout invalidate-session="false" 
 			logout-success-url="/shop/" 
-			logout-url="/shop/customer/j_spring_security_logout" />
+			logout-url="/shop/customer/logout" />
 		<access-denied-handler error-page="/shop/"/>
 	</http>
 	

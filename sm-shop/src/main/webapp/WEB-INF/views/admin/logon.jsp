@@ -227,7 +227,7 @@
 
 						var username = $.cookie('usernamecookie');
 						if (username != null && username != '') {
-							$('#j_username').val(username);
+							$('#username').val(username);
 							$('#remember').attr('checked', true);
 						}
 
@@ -239,13 +239,13 @@
 											
 
 											var hasError = false;
-											$('#j_username_help').html("");
-											$('#j_password_help').html("");
+											$('#username_help').html("");
+											$('#password_help').html("");
 											
 											
 											if ($('#remember').attr('checked')) {
 												$.cookie('usernamecookie', $(
-														'#j_username').val(), {
+														'#username').val(), {
 													expires : 1024,
 													path : '/'
 												});
@@ -256,16 +256,16 @@
 															path : '/'
 														});
 											}
-											if ($.trim($('#j_username').val()) == '') {
+											if ($.trim($('#username').val()) == '') {
 												hasError = true;
-												$('#j_username_help')
+												$('#username_help')
 														.html(
 																"<font color='red' size='4'><strong>*</strong></font>");
 											}
 
-											if ($.trim($('#j_password').val()) == '') {
+											if ($.trim($('#password').val()) == '') {
 												hasError = true;
-												$('#j_password_help')
+												$('#password_help')
 														.html(
 																"<font color='red' size='4'><strong>*</strong></font>");
 											}
@@ -326,15 +326,15 @@
 					<div class="row">
 						<div id="controls">
 
-							<form method="post" id="logonForm" class="form-horizontal" action="<c:url value="/admin/j_spring_security_check"/>">
+							<form method="post" id="logonForm" class="form-horizontal" action="<c:url value="/admin/logon"/>">
 								<div class="control-group">
 									<label class="control-label" for="inputUser">
 										<s:message code="label.username" text="Username" />
 									</label>
 									<div class="controls">
-										<input type="text" id="j_username" name="j_username"
+										<input type="text" id="username" name="username"
 											placeholder="<s:message code="label.username" text="Username"/>">
-											<span id="j_username_help" class="help-inline"></span>
+											<span id="username_help" class="help-inline"></span>
 									</div>
 								</div>
 								<div class="control-group">
@@ -343,9 +343,9 @@
 									</label>
 
 									<div class="controls">
-										<input type="password" id="j_password" name="j_password"
+										<input type="password" id="password" name="password"
 											placeholder="<s:message code="label.password" text="Password"/>">
-											<span id="j_password_help" class="help-inline"></span>
+											<span id="password_help" class="help-inline"></span>
 									</div>
 								</div>
 								<div class="control-group">
