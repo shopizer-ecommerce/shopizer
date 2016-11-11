@@ -34,6 +34,7 @@
         <infinispan.version>6.0.2.Final</infinispan.version>
         <javax.inject.version>1</javax.inject.version>
 		<javax.el.version>2.2.4</javax.el.version>
+		<c3p0-version>0.9.5.2</c3p0-version>
         <!-- DON'T AS IT OVERWRITES SPRING -->
         <!--<spring.version>4.2.1.RELEASE</spring.version>-->
         <!--<spring-data.version>Gosling-RELEASE</spring-data.version>-->
@@ -96,13 +97,13 @@
 		    <groupId>net.sf.ehcache</groupId>
 		    <artifactId>ehcache</artifactId>
 		</dependency>
-		
-		<!-- https://mvnrepository.com/artifact/com.mchange/c3p0 -->
-		<dependency>
-		    <groupId>com.mchange</groupId>
-		    <artifactId>c3p0</artifactId>
-		    <version>0.9.5.2</version>
-		</dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.mchange/c3p0 -->
+        <dependency>
+            <groupId>com.mchange</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>${c3p0-version}</version>
+        </dependency>
 		
 		
     </dependencies>
