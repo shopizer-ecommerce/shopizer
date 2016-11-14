@@ -9,3 +9,5 @@
 */target/*
 .idea/workspace.xml
 *.class
+/bin/
+/WebContent/

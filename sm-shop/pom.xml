@@ -74,7 +74,6 @@
 		<dependency>
 			<groupId>org.springframework.mobile</groupId>
 			<artifactId>spring-mobile-device</artifactId>
-			<version>${spring-mobile-device-version}</version>
 		</dependency>
 		
 		<!-- Add Apache Tiles into the mix -->

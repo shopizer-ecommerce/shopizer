@@ -261,31 +261,14 @@ public class SearchDelegateImpl implements SearchDelegate {
 
 			if(ids!=null && ids.size()>0) {
 				
-				//BulkRequestBuilder bulkRequest = client.prepareBulk();
-				
-				
-			    //.defaultType(object);
-			    //.addAction(new Index.Builder(article1).build())
-			    //.addAction(new Index.Builder(article2).build())
-			    //.addAction(new Delete.Builder("1").index("twitter").type("tweet").build())
-			    //.build();
-				
 				Bulk.Builder bulk = new Bulk.Builder()
 			    .defaultIndex(collection);
 				
 				for(String s : ids) {
-					
-					
-					
-					
-					//DeleteRequest dr = new DeleteRequest();
-					//dr.type("keyword").index(collection).id(s);
+
 					bulk.defaultType(object)
 					.addAction(new Delete.Builder(s).index(collection).type(object).build());
-					
-					//System.out.println(dr.toString());
-					
-					//bulkRequest.add(dr);
+
 					
 				}
 				
@@ -309,24 +292,16 @@ public class SearchDelegateImpl implements SearchDelegate {
 	 */
 	@Override
 	public void bulkIndexKeywords(Collection<IndexKeywordRequest> bulks, String collection, String object) throws Exception {
-		
 
-			//Client client = searchClient.getClient();
-			
 			JestClient client = searchClient.getClient();
-			
-			//BulkRequestBuilder bulkRequest = client.prepareBulk();
-			
+
 			Bulk.Builder bulk = new Bulk.Builder()
 		    .defaultIndex(collection)
 		    .defaultType(object);
 			
 			//@todo, index in appropriate Locale
 			for(IndexKeywordRequest key : bulks) {
-			
-				// either use client#prepare, or use Requests# to directly build index/delete requests 
-				//bulkRequest.add(client.prepareIndex(collection, object, key.getId()) 
-				
+
 				String id = key.getKey();
 				if(id.length()>25) {
 					id = id.substring(0,25);

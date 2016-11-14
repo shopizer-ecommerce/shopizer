@@ -14,7 +14,7 @@ public interface GroupRepository extends JpaRepository<Group, Integer> {
 
 	Group findById(Long id);
 	
-	@Query("select g from Group as g join fetch g.permissions perms order by g.id")
+	@Query("select distinct g from Group as g join fetch g.permissions perms order by g.id")
 	List<Group> findAll();
 	
 	@Query("select g from Group as g join fetch g.permissions perms where perms.id in (?1) ")
@@ -23,6 +23,6 @@ public interface GroupRepository extends JpaRepository<Group, Integer> {
 	@Query("select g from Group as g join fetch g.permissions perms where g.id in (?1) ")
 	List<Group> findByIds(Set<Integer> groupIds);
 	
-	@Query("select g from Group as g join fetch g.permissions perms where g.groupType = ?1")
+	@Query("select distinct g from Group as g join fetch g.permissions perms where g.groupType = ?1")
 	List<Group> findByType(GroupType type);
 }

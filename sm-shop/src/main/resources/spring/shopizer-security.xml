@@ -24,6 +24,7 @@
 	</beans:bean>
 
 	<beans:bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+	    <!-- strength 4 to 31 -->
 		<beans:constructor-arg value="11"/>
 	</beans:bean>
 	
@@ -37,7 +38,6 @@
 	<beans:bean id="userAuthenticationSuccessHandler" class="com.salesmanager.shop.admin.security.UserAuthenticationSuccessHandler">
 	</beans:bean>
 	
-	
 	<beans:bean id="servicesAuthenticationSuccessHandler" class="com.salesmanager.shop.store.security.ServicesAuthenticationSuccessHandler">
 	</beans:bean>
 	
@@ -46,26 +46,35 @@
 	
 	
 	
-	<http pattern="/admin/**" auto-config="true" use-expressions="true" authentication-manager-ref="userAuthenticationManager">
-		<!--<intercept-url pattern="/admin/logon.html*" access="permitAll" />-->
+	<http pattern="/admin/**" auto-config="true" use-expressions="true" authentication-manager-ref="adminAuthenticationManager">
+		<!-- Spring security login component -->
+		<intercept-url pattern="/admin/login" access="permitAll" />
+		<!-- Shopizer logon page -->
 		<intercept-url pattern="/admin/logon*" access="permitAll" />
 		<intercept-url pattern="/admin/denied.html" access="permitAll" />
 		<intercept-url pattern="/admin/unauthorized.html" access="permitAll" />
 		<intercept-url pattern="/admin/users/resetPassword.html*" access="permitAll" />
 		<intercept-url pattern="/admin/users/resetPasswordSecurityQtn.html*" access="permitAll" /> 
-		<intercept-url pattern="/admin" access="hasRole('AUTH')" />
+ 		<intercept-url pattern="/admin" access="hasRole('AUTH')" />
 		<intercept-url pattern="/admin/" access="hasRole('AUTH')" />
 		<intercept-url pattern="/admin/*.html*" access="hasRole('AUTH')" />
 		<intercept-url pattern="/admin/*/*.html*" access="hasRole('AUTH')" />
 		<intercept-url pattern="/admin/*/*/*.html*" access="hasRole('AUTH')" />
 
 		
-		<form-login 
-			login-processing-url="/admin/logon" 
+<!-- 		<form-login 
+			login-processing-url="/logonForm" 
 			login-page="/admin/logon.html"
 			authentication-success-handler-ref="userAuthenticationSuccessHandler"
 			authentication-failure-url="/admin/logon.html?login_error=true"
-			default-target-url="/admin/home.html" />
+			default-target-url="/admin/home.html" /> -->
+			
+		<form-login login-page="/admin/logon.html"
+					username-parameter="username" 
+					password-parameter="password" 
+					login-processing-url="/login" 
+					authentication-failure-url="/admin/logon.html?login_error=true" 
+		/>
 			
 			
 		<logout invalidate-session="true" 
@@ -103,7 +112,7 @@
 	
 	
 	<!-- REST services -->
-	<http pattern="/services/**" create-session="stateless" use-expressions="true" authentication-manager-ref="userAuthenticationManager" entry-point-ref="servicesAuthenticationEntryPoint">
+	<http pattern="/services/**" create-session="stateless" use-expressions="true" authentication-manager-ref="adminAuthenticationManager" entry-point-ref="servicesAuthenticationEntryPoint">
       <intercept-url pattern="/services/private/**" access="hasRole('AUTH')"/>
       <intercept-url pattern="/services/public/**" access="permitAll"/>
       <form-login authentication-success-handler-ref="servicesAuthenticationSuccessHandler" />
@@ -112,7 +121,7 @@
    
 	
 	
-	<authentication-manager id="userAuthenticationManager">
+	<authentication-manager id="adminAuthenticationManager">
 		<authentication-provider user-service-ref="userDetailsService">
 			<password-encoder hash="sha" />
 		</authentication-provider>

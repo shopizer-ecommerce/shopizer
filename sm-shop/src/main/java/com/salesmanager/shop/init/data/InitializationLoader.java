@@ -70,14 +70,19 @@ public class InitializationLoader {
 
 				  Group gsuperadmin = new Group("SUPERADMIN");
 				  gsuperadmin.setGroupType(GroupType.ADMIN);
+				  
 				  Group gadmin = new Group("ADMIN");
 				  gadmin.setGroupType(GroupType.ADMIN);
+				  
 				  Group gcatalogue = new Group("ADMIN_CATALOGUE");
 				  gcatalogue.setGroupType(GroupType.ADMIN);
+				 
 				  Group gstore = new Group("ADMIN_STORE");
 				  gstore.setGroupType(GroupType.ADMIN);
+				 
 				  Group gorder = new Group("ADMIN_ORDER");
 				  gorder.setGroupType(GroupType.ADMIN);
+				  
 				  Group gcontent = new Group("ADMIN_CONTENT");
 				  gcontent.setGroupType(GroupType.ADMIN);
 

@@ -326,7 +326,7 @@
 					<div class="row">
 						<div id="controls">
 
-							<form method="post" id="logonForm" class="form-horizontal" action="<c:url value="/admin/logon"/>">
+							<form method="post" id="logonForm" class="form-horizontal" action="<c:url value="/login"/>">
 								<div class="control-group">
 									<label class="control-label" for="inputUser">
 										<s:message code="label.username" text="Username" />

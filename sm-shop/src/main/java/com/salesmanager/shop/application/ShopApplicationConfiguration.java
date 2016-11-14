@@ -6,6 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesView;
@@ -18,6 +19,7 @@ import com.salesmanager.core.business.configuration.CoreApplicationConfiguration
 @EnableAutoConfiguration
 @Import(CoreApplicationConfiguration.class)//import sm-core configurations
 @ImportResource("spring/shopizer-shop-context.xml")
+@EnableWebSecurity
 public class ShopApplicationConfiguration extends WebMvcConfigurerAdapter{
 	
 	
