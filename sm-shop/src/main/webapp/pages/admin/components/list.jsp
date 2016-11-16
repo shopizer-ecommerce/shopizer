@@ -5,11 +5,7 @@
 <%@ page session="false" %>				
 
 			<script>
-			      			     
-							
 
-
-								
 								isc.RestDataSource.create({ 
 									ID:"dataSource", 
 									dataFormat:"json",  

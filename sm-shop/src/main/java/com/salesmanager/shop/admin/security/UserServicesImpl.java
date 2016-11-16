@@ -58,6 +58,8 @@ public class UserServicesImpl implements WebUserServices{
 	@Inject
 	protected GroupService   groupService;
 	
+	public final static String ROLE_PREFIX = "ROLE_";//Spring Security 4
+	
 	
 	
 	public UserDetails loadUserByUsername(String userName)
@@ -74,7 +76,7 @@ public class UserServicesImpl implements WebUserServices{
 				return null;
 			}
 
-			GrantedAuthority role = new SimpleGrantedAuthority(Constants.PERMISSION_AUTHENTICATED);//required to login
+			GrantedAuthority role = new SimpleGrantedAuthority(ROLE_PREFIX + Constants.PERMISSION_AUTHENTICATED);//required to login
 			authorities.add(role);
 	
 			List<Integer> groupsId = new ArrayList<Integer>();
@@ -90,7 +92,7 @@ public class UserServicesImpl implements WebUserServices{
 	    	
 	    	List<Permission> permissions = permissionService.getPermissions(groupsId);
 	    	for(Permission permission : permissions) {
-	    		GrantedAuthority auth = new SimpleGrantedAuthority(permission.getPermissionName());
+	    		GrantedAuthority auth = new SimpleGrantedAuthority(ROLE_PREFIX + permission.getPermissionName());
 	    		authorities.add(auth);
 	    	}
     	

@@ -1,5 +1,6 @@
 package com.salesmanager.shop.admin.controller.orders;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.salesmanager.core.business.services.order.OrderService;
 import com.salesmanager.core.business.services.system.ModuleConfigurationService;
 import com.salesmanager.core.business.utils.ProductPriceUtils;
@@ -19,6 +20,7 @@ import com.salesmanager.shop.utils.LabelUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,6 +44,7 @@ import java.util.Map;
  *
  */
 @Controller
+@JsonAutoDetect(getterVisibility=com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.NONE)
 public class OrdersController {
 	
 	@Inject
@@ -71,19 +74,17 @@ public class OrdersController {
 		
 		
 	}
-	
+
 
 	@PreAuthorize("hasRole('ORDER')")
 	@SuppressWarnings({ "unchecked", "unused"})
-	@RequestMapping(value="/admin/orders/paging.html", method=RequestMethod.POST, produces="application/json;text/plain;charset=UTF-8")
+	//@RequestMapping(value="/admin/orders/paging.html", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value="/admin/orders/paging.html", method=RequestMethod.POST)
 	public @ResponseBody String pageOrders(HttpServletRequest request, HttpServletResponse response, Locale locale) {
 
 
 		AjaxPageableResponse resp = new AjaxPageableResponse();
-		
-		
 
-		
 		try {
 			
 			int startRow = Integer.parseInt(request.getParameter("_startRow"));

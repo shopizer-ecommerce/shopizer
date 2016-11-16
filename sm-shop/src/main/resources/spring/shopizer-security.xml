@@ -44,6 +44,9 @@
 	<beans:bean id="servicesAuthenticationEntryPoint" class="com.salesmanager.shop.store.security.ServicesAuthenticationEntryPoint">
 	</beans:bean>
 	
+	<!-- spring security 4 -->
+	<http pattern="/resources/**" security="none" /><!-- remove css and other static resources -->
+	<http pattern="/layout/**" security="none" /><!-- remove css and other static resources -->
 	
 	
 	<http pattern="/admin/**" auto-config="true" use-expressions="true" authentication-manager-ref="adminAuthenticationManager">
@@ -83,6 +86,8 @@
 			logout-success-url="/admin/home.html" 
 			logout-url="/admin/logout" />
 			
+		<csrf disabled="true"/><!-- Spring security 4 -->
+			
 		<access-denied-handler ref="adminAccessDenied"/>
 	</http>
 	
@@ -110,6 +115,8 @@
 			logout-success-url="/shop/" 
 			logout-url="/shop/customer/logout" />
 		<access-denied-handler error-page="/shop/"/>
+		
+		<csrf disabled="true"/><!-- Spring security 4 -->
 	</http>
 	
 	
