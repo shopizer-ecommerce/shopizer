@@ -55,11 +55,7 @@ public class AdminFilter extends HandlerInterceptorAdapter {
 		
 		User user = (User)request.getSession().getAttribute(Constants.ADMIN_USER);
 		
-		
 
-		
-		
-		
 		String storeCode = MerchantStore.DEFAULT_STORE;
 		MerchantStore store = (MerchantStore)request.getSession().getAttribute(Constants.ADMIN_STORE);
 		

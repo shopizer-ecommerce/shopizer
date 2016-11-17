@@ -16,6 +16,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -57,8 +59,9 @@ public class ReferenceController {
 	
 	
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value={"/admin/reference/provinces.html","/shop/reference/provinces.html"}, method=RequestMethod.POST, produces="application/json;text/plain;charset=UTF-8")
-	public @ResponseBody String getProvinces(HttpServletRequest request, HttpServletResponse response) {
+	//@RequestMapping(value={"/admin/reference/provinces.html","/shop/reference/provinces.html"}, method=RequestMethod.POST, produces="application/json;text/plain;charset=UTF-8")
+	@RequestMapping(value={"/admin/reference/provinces.html","/shop/reference/provinces.html"}, method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> getProvinces(HttpServletRequest request, HttpServletResponse response) {
 		
 		String countryCode = request.getParameter("countryCode");
 		String lang = request.getParameter("lang");
@@ -113,7 +116,7 @@ public class ReferenceController {
 		
 		
 		String returnString = resp.toJSONString();
-		return returnString;
+		return new ResponseEntity<String>(returnString,HttpStatus.OK);
 		
 	}
 	

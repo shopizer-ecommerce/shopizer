@@ -34,8 +34,8 @@
 				
 				<prop key="POPULATE_TEST_DATA">true</prop>
 				<prop key="SHOP_SCHEME">http</prop>
-				<!-- when removing the context path from the url put that value to blank (nothing) -->
-				<prop key="CONTEXT_PATH">/sm-shop</prop>
+				<!-- when removing the context path from the url put that value to blank (nothing) otherwise put the uri for the web app eg /sm-shop -->
+				<prop key="CONTEXT_PATH"></prop>
 				<prop key="URL_EXTENSION">.html</prop>
 				<!-- Google maps key -->
 				<prop key="shopizer.googlemaps_key">YOUR-KEY-HERE</prop>

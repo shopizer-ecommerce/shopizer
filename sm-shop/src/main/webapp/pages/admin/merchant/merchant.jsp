@@ -293,7 +293,7 @@ function callBackCheckCode(msg,code) {
 	                  <div class="control-group">
 	                        <label><s:message code="label.store.inbusinesssince" text="Web site operating since"/></label>
 	                        <div class="controls">
-	                        					<input id="dateBusinessSince" name="dateBusinessSince" value="${store.dateBusinessSince}" class="small" type="text" data-date-format="<%=com.salesmanager.core.constants.Constants.DEFAULT_DATE_FORMAT%>" data-datepicker="datepicker"> 
+	                        					<input id="dateBusinessSince" name="dateBusinessSince" value="${store.dateBusinessSince}" class="small" type="text" data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>" data-datepicker="datepicker"> 
 	                                   			 <span class="help-inline"><form:errors path="dateBusinessSince" cssClass="error" /></span>
 	                        </div>
 	                  </div>
