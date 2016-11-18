@@ -9,6 +9,8 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.user.User;
 import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.utils.LanguageUtils;
+
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -24,6 +26,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -43,6 +46,9 @@ public class AdminFilter extends HandlerInterceptorAdapter {
 	
 	@Inject
 	private CacheUtils cache;
+	
+	@Inject
+	private LanguageUtils languageUtils;
 	
 	public boolean preHandle(
             HttpServletRequest request,
@@ -101,8 +107,10 @@ public class AdminFilter extends HandlerInterceptorAdapter {
 		request.setAttribute(Constants.ADMIN_STORE, store);
 		
 		
-		Language language = (Language) request.getSession().getAttribute("LANGUAGE");
+		Language language = languageUtils.getRequestLanguage(request, response);
 		
+		//Language language = (Language) request.getSession().getAttribute("LANGUAGE");
+
 		if(language==null) {
 			
 			//TODO get the Locale from Spring API, is it simply request.getLocale() ???
@@ -116,11 +124,8 @@ public class AdminFilter extends HandlerInterceptorAdapter {
 			} else {
 				language = store.getDefaultLanguage();
 			}
-			
-			
-			
+
 			request.getSession().setAttribute("LANGUAGE", language);
-			
 
 		}
 		

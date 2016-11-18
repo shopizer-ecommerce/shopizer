@@ -14,7 +14,7 @@
 
 
 $(document).ready(function() {
-	
+
 	if($("#code").val()=="") {
 		$('.btn').addClass('disabled');
 	}
@@ -52,9 +52,12 @@ $.fn.addItems = function(data) {
 };
 
 function getZones(countryCode){
+
+	var url = '<c:url value="/admin/reference/provinces.html"/>?lang=<c:out value="${requestScope.LANGUAGE.code}"/>';	
+
 	$.ajax({
 	  type: 'POST',
-	  url: '<c:url value="/admin/reference/provinces.html"/>',
+	  url: url,
 	  data: 'countryCode=' + countryCode,
 	  dataType: 'json',
 	  success: function(response){

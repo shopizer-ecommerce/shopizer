@@ -97,6 +97,7 @@ public class ImagesController {
 		// example small product image -> /static/DEFAULT/products/TB12345/product1.jpg
 		
 		// example large product image -> /static/DEFAULT/products/TB12345/product1.jpg
+
 		
 		/**
 		 * List of possible imageType
@@ -137,8 +138,57 @@ public class ImagesController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping("/static/products/{storeCode}/{productCode}/{imageName}.{extension}")
-	public @ResponseBody byte[] printImage(@PathVariable final String storeCode, @PathVariable final String productCode, @PathVariable final String imageName, @PathVariable final String extension, HttpServletRequest request) throws IOException {
+	@RequestMapping("/static/products/{storeCode}/{productCode}/{imageSize}/{imageName}")
+	public @ResponseBody byte[] printImage(@PathVariable final String storeCode, @PathVariable final String productCode, @PathVariable final String imageSize, @PathVariable final String imageName, HttpServletRequest request) throws IOException {
+
+		// product image small
+		// example small product image -> /static/products/DEFAULT/TB12345/SMALL/product1.jpg
+		
+		// example large product image -> /static/products/DEFAULT/TB12345/LARGE/product1.jpg
+
+
+		/**
+		 * List of possible imageType
+		 * 
+		 */
+		
+		
+		ProductImageSize size = ProductImageSize.SMALL;
+		
+		if(FileContentType.PRODUCTLG.name().equals(imageSize)) {
+			size = ProductImageSize.LARGE;
+		} 
+		
+	
+
+		
+		OutputContentFile image = null;
+		try {
+			image = productImageService.getProductImage(storeCode, productCode, imageName, size);
+		} catch (ServiceException e) {
+			LOGGER.error("Cannot retrieve image " + imageName, e);
+		}
+		if(image!=null) {
+			return image.getFile().toByteArray();
+		} else {
+			//empty image placeholder
+			return null;
+		}
+
+	}
+	
+	/**
+	 * Exclusive method for dealing with product images
+	 * @param storeCode
+	 * @param productCode
+	 * @param imageName
+	 * @param extension
+	 * @param request
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping("/static/products/{storeCode}/{productCode}/{imageName}")
+	public @ResponseBody byte[] printImage(@PathVariable final String storeCode, @PathVariable final String productCode, @PathVariable final String imageName, HttpServletRequest request) throws IOException {
 
 		// product image
 		// example small product image -> /static/products/DEFAULT/TB12345/product1.jpg?size=small
@@ -147,6 +197,7 @@ public class ImagesController {
 		// or
 		//example large product image -> /static/products/DEFAULT/TB12345/product1.jpg?size=large
 		
+
 		/**
 		 * List of possible imageType
 		 * 
@@ -167,7 +218,7 @@ public class ImagesController {
 		
 		OutputContentFile image = null;
 		try {
-			image = productImageService.getProductImage(storeCode, productCode, new StringBuilder().append(imageName).append(".").append(extension).toString(), size);
+			image = productImageService.getProductImage(storeCode, productCode, imageName, size);
 		} catch (ServiceException e) {
 			LOGGER.error("Cannot retrieve image " + imageName, e);
 		}

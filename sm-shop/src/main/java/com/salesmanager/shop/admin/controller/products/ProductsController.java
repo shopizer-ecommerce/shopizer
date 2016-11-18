@@ -105,7 +105,7 @@ public class ProductsController {
 					LOGGER.error("Product page cannot parse categoryId " + categoryId );
 					resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 					String returnString = resp.toJSONString();
-					return returnString;
+					return new ResponseEntity<String>(returnString,HttpStatus.BAD_REQUEST);
 				} 
 				
 				
@@ -117,7 +117,7 @@ public class ProductsController {
 					if(category==null || category.getMerchantStore().getId()!=store.getId()) {
 						resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 						String returnString = resp.toJSONString();
-						return returnString;
+						return new ResponseEntity<String>(returnString,HttpStatus.BAD_REQUEST);
 					}
 					
 					//get all sub categories

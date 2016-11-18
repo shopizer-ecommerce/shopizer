@@ -1,5 +1,7 @@
 package com.salesmanager.shop.application;
 
+import java.nio.charset.Charset;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -8,7 +10,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -28,6 +32,7 @@ import com.salesmanager.core.business.configuration.CoreApplicationConfiguration
 @EnableWebSecurity
 public class ShopApplicationConfiguration extends WebMvcConfigurerAdapter{
 	
+	private static final Charset UTF8 = Charset.forName("UTF-8");
 	
     /**
      * Configure TilesConfigurer.
@@ -51,9 +56,18 @@ public class ShopApplicationConfiguration extends WebMvcConfigurerAdapter{
         return resolver;
     }
     
-    /**
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+      StringHttpMessageConverter stringConverter = new StringHttpMessageConverter();
+      stringConverter.setSupportedMediaTypes(Arrays.asList(new MediaType("application", "json", UTF8)));
+      converters.add(stringConverter);
+
+      // Add other converters ...
+    }
+    
+/*    *//**
      * Spring 4 JSON converter
-     */
+     *//*
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
         converters.add(mappingJackson2HttpMessageConverter());
@@ -64,6 +78,6 @@ public class ShopApplicationConfiguration extends WebMvcConfigurerAdapter{
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
         converter.setObjectMapper(new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false));
         return converter;
-    }
+    }*/
 
 }
