@@ -155,7 +155,7 @@ public class ReadableProductPopulator extends
 			}
 			
 			//remove products from invisible category -> set visible = false
-			Set<Category> categories = source.getCategories();
+/*			Set<Category> categories = source.getCategories();
 			boolean isVisible = true;
 			if(!CollectionUtils.isEmpty(categories)) {
 				for(Category c : categories) {
@@ -166,9 +166,9 @@ public class ReadableProductPopulator extends
 						isVisible = false;
 					}
 				}
-			}
+			}*/
 			
-			target.setVisible(isVisible);
+			//target.setVisible(isVisible);
 			
 	
 			target.setSku(source.getSku());

@@ -540,7 +540,7 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
         
         product.getImages().add(productImage);
         
-        productService.saveOrUpdate(product);
+        productService.saveOrUpdate(product);//saves the ProductImage entity and the file on disk
 		
 		
 	}
