@@ -32,18 +32,20 @@ import com.shopizer.search.services.SearchService;
  * @author carlsamson
  *
  */
+//@Ignore
 public class TestGet {
 	
 	@Inject
 	private SearchService searchService;
 	
 	@Test
-	//@Ignore
 	public void testGet() throws Exception {
 		
 		/** requires to index at least a product first **/
 		GetResponse response = searchService.getObject("product_en_default", "product_en", "1");
 
+		Assert.notNull(response);
+		
 		
 		Map<String, Object> fieldMap = response.getFieldMap();
 		

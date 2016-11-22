@@ -85,7 +85,7 @@ public class User extends SalesManagerEntity<Long, User> implements Auditable {
 	private String adminEmail;
 	
 	@NotEmpty
-	@Column(name="ADMIN_PASSWORD", length=50)
+	@Column(name="ADMIN_PASSWORD", length=60)
 	private String adminPassword;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

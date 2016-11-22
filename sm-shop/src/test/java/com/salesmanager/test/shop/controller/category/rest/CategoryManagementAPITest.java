@@ -16,6 +16,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+@Ignore
 public class CategoryManagementAPITest {
 	
 	private RestTemplate restTemplate;

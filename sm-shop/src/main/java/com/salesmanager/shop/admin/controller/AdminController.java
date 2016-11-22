@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +34,7 @@ public class AdminController {
 	@Inject
 	UserService userService;
 	
+	@PreAuthorize("hasRole('AUTH')")
 	@RequestMapping(value={"/admin/home.html","/admin/","/admin"}, method=RequestMethod.GET)
 	public String displayDashboard(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Language language = (Language)request.getAttribute("LANGUAGE");

@@ -20,7 +20,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Ignore
 public class CustomerRESTControllerTest {
 	
 	private RestTemplate restTemplate;

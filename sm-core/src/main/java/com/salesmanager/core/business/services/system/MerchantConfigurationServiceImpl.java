@@ -43,7 +43,7 @@ public class MerchantConfigurationServiceImpl extends
 	
 	@Override
 	public List<MerchantConfiguration> listByType(MerchantConfigurationType type, MerchantStore store) throws ServiceException {
-		return merchantConfigurationRepository.findByMerchantStoreAndType(store.getId(), type.name());
+		return merchantConfigurationRepository.findByMerchantStoreAndType(store.getId(), type);
 	}
 	
 	@Override

@@ -20,7 +20,7 @@ import com.salesmanager.shop.constants.EmailConstants;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
 import com.salesmanager.shop.model.shop.ContactForm;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.impl.cookie.DateUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -223,7 +223,7 @@ public class EmailTemplatesUtils {
 		           templateTokens.put(EmailConstants.EMAIL_CUSTOMER_LASTNAME, order.getBilling().getLastName());
 		           
 		           String[] params = {String.valueOf(order.getId())};
-		           String[] dt = {DateUtils.formatDate(order.getDatePurchased())};
+		           String[] dt = {DateUtil.formatDate(order.getDatePurchased())};
 		           templateTokens.put(EmailConstants.EMAIL_ORDER_NUMBER, messages.getMessage("email.order.confirmation", params, customerLocale));
 		           templateTokens.put(EmailConstants.EMAIL_ORDER_DATE, messages.getMessage("email.order.ordered", dt, customerLocale));
 		           templateTokens.put(EmailConstants.EMAIL_ORDER_THANKS, messages.getMessage("email.order.thanks",customerLocale));
@@ -250,7 +250,7 @@ public class EmailTemplatesUtils {
 		           }
 		           
 			       String status = messages.getMessage("label.order." + order.getStatus().name(), customerLocale, order.getStatus().name());
-			       String[] statusMessage = {DateUtils.formatDate(order.getDatePurchased()),status};
+			       String[] statusMessage = {DateUtil.formatDate(order.getDatePurchased()),status};
 		           templateTokens.put(EmailConstants.ORDER_STATUS, messages.getMessage("email.order.status", statusMessage, customerLocale));
 		           
 
@@ -380,9 +380,9 @@ public class EmailTemplatesUtils {
 		        templateTokens.put(EmailConstants.EMAIL_CUSTOMER_FIRSTNAME, customer.getBilling().getFirstName());
 		        templateTokens.put(EmailConstants.EMAIL_CUSTOMER_LASTNAME, customer.getBilling().getLastName());
 				
-		        String[] statusMessageText = {String.valueOf(order.getId()),DateUtils.formatDate(order.getDatePurchased())};
+		        String[] statusMessageText = {String.valueOf(order.getId()),DateUtil.formatDate(order.getDatePurchased())};
 		        String status = messages.getMessage("label.order." + order.getStatus().name(), customerLocale, order.getStatus().name());
-		        String[] statusMessage = {DateUtils.formatDate(lastHistory.getDateAdded()),status};
+		        String[] statusMessage = {DateUtil.formatDate(lastHistory.getDateAdded()),status};
 		        
 		        String comments = lastHistory.getComments();
 		        if(StringUtils.isBlank(comments)) {

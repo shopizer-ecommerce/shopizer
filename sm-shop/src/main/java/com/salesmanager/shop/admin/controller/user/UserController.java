@@ -25,8 +25,10 @@ import com.salesmanager.shop.utils.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.encoding.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -101,9 +103,9 @@ public class UserController {
 	 */
 	@SuppressWarnings("unchecked")
 	@PreAuthorize("hasRole('STORE_ADMIN')")
-	@RequestMapping(value = "/admin/users/paging.html", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/admin/users/paging.html", method = RequestMethod.POST)
 	public @ResponseBody
-	String pageUsers(HttpServletRequest request,
+	ResponseEntity<String> pageUsers(HttpServletRequest request,
 			HttpServletResponse response) {
 
 		AjaxResponse resp = new AjaxResponse();
@@ -152,7 +154,7 @@ public class UserController {
 
 		String returnString = resp.toJSONString();
 
-		return returnString;
+		return new ResponseEntity<String>(returnString,HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasRole('AUTH')")
@@ -191,7 +193,7 @@ public class UserController {
 		}
 		
 
-		String tempPass = passwordEncoder.encodePassword(password.getPassword(), null);
+		String tempPass = passwordEncoder.encode(password.getPassword());
 		
 		//password match
 		if(!tempPass.equals(dbUser.getAdminPassword())) {
@@ -228,7 +230,7 @@ public class UserController {
 		
 		
 		
-		String pass = passwordEncoder.encodePassword(password.getNewPassword(), null);
+		String pass = passwordEncoder.encode(password.getNewPassword());
 		dbUser.setAdminPassword(pass);
 		userService.update(dbUser);
 		
@@ -571,7 +573,7 @@ public class UserController {
 		if(user.getId()!=null && user.getId()>0) {
 			user.setAdminPassword(dbUser.getAdminPassword());
 		} else {
-			String encoded = passwordEncoder.encodePassword(user.getAdminPassword(),null);
+			String encoded = passwordEncoder.encode(user.getAdminPassword());
 			user.setAdminPassword(encoded);
 		}
 		
@@ -799,7 +801,7 @@ public class UserController {
 					userLocale =  LocaleUtils.getLocale(userLanguage);
 					
 					String tempPass = userReset.generateRandomString();
-					String pass = passwordEncoder.encodePassword(tempPass, null);
+					String pass = passwordEncoder.encode(tempPass);
 					
 					dbUser.setAdminPassword(pass);
 					userService.update(dbUser);

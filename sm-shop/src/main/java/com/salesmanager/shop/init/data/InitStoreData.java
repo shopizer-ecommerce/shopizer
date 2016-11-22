@@ -59,7 +59,8 @@ import com.salesmanager.shop.utils.LocaleUtils;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.authentication.encoding.PasswordEncoder;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
@@ -422,6 +423,30 @@ public class InitStoreData implements InitData {
 		    product.setType(generalType);
 		    product.setMerchantStore(store);
 		    product.setProductShipeable(true);
+		    
+		    // Availability
+		    ProductAvailability availability = new ProductAvailability();
+		    availability.setProductDateAvailable(date);
+		    availability.setProductQuantity(100);
+		    availability.setRegion("*");
+		    availability.setProduct(product);// associate with product
+		    
+		    
+		    
+		    ProductPrice dprice = new ProductPrice();
+		    dprice.setDefaultPrice(true);
+		    dprice.setProductPriceAmount(new BigDecimal(39.99));
+		    dprice.setProductAvailability(availability);
+
+		    ProductPriceDescription dpd = new ProductPriceDescription();
+		    dpd.setName("Base price");
+		    dpd.setProductPrice(dprice);
+		    dpd.setLanguage(en);
+
+		    dprice.getDescriptions().add(dpd);
+		    
+		    availability.getPrices().add(dprice);
+		    product.getAvailabilities().add(availability);
 
 		    // Product description
 		    ProductDescription description = new ProductDescription();
@@ -439,35 +464,13 @@ public class InitStoreData implements InitData {
 		    productService.create(product);
 		    
 		    try {
-		    	InputStream inStream = this.getClass().getClassLoader().getResourceAsStream("/demo/spring.png");
+		    	ClassPathResource classPathResource = new ClassPathResource("/demo/spring.png");
+		    	InputStream inStream = classPathResource.getInputStream();
 		    	this.saveFile(inStream, "spring.png", product);
 		    } catch(Exception e) {
 		    	LOGGER.error("Error while reading demo file spring.png",e);
 		    }
 		    
-
-		    // Availability
-		    ProductAvailability availability = new ProductAvailability();
-		    availability.setProductDateAvailable(date);
-		    availability.setProductQuantity(100);
-		    availability.setRegion("*");
-		    availability.setProduct(product);// associate with product
-
-		    productAvailabilityService.create(availability);
-
-		    ProductPrice dprice = new ProductPrice();
-		    dprice.setDefaultPrice(true);
-		    dprice.setProductPriceAmount(new BigDecimal(39.99));
-		    dprice.setProductAvailability(availability);
-
-		    ProductPriceDescription dpd = new ProductPriceDescription();
-		    dpd.setName("Base price");
-		    dpd.setProductPrice(dprice);
-		    dpd.setLanguage(en);
-
-		    dprice.getDescriptions().add(dpd);
-
-		    productPriceService.create(dprice);
 
 		    // PRODUCT 2
 
@@ -493,23 +496,12 @@ public class InitStoreData implements InitData {
 		    product2.getCategories().add(tech);
 		    product2.getCategories().add(web);
 		    
-		    productService.create(product2);
-		    
-		    try {
-		    	InputStream inStream = this.getClass().getClassLoader().getResourceAsStream("/demo/node.jpg");
-		    	this.saveFile(inStream, "node.jpg", product2);
-		    } catch(Exception e) {
-		    	LOGGER.error("Error while reading demo file node.jpg",e);
-		    }
-
 		    // Availability
 		    ProductAvailability availability2 = new ProductAvailability();
 		    availability2.setProductDateAvailable(date);
 		    availability2.setProductQuantity(100);
 		    availability2.setRegion("*");
 		    availability2.setProduct(product2);// associate with product
-
-		    productAvailabilityService.create(availability2);
 
 		    ProductPrice dprice2 = new ProductPrice();
 		    dprice2.setDefaultPrice(true);
@@ -522,8 +514,21 @@ public class InitStoreData implements InitData {
 		    dpd.setLanguage(en);
 
 		    dprice2.getDescriptions().add(dpd);
+		    
+		    availability2.getPrices().add(dprice2);
+		    product2.getAvailabilities().add(availability2);
+		    
+		    productService.create(product2);
+		    
+		    try {
+		    	ClassPathResource classPathResource = new ClassPathResource("/demo/node.jpg");
+		    	InputStream inStream = classPathResource.getInputStream();
+		    	this.saveFile(inStream, "node.jpg", product2);
+		    } catch(Exception e) {
+		    	LOGGER.error("Error while reading demo file node.jpg",e);
+		    }
 
-		    productPriceService.create(dprice2);
+
 
 		    // PRODUCT 3
 
@@ -547,16 +552,13 @@ public class InitStoreData implements InitData {
 		    product3.getDescriptions().add(description);
 
 		    product3.getCategories().add(cloud);
-		    productService.create(product3);
-
+		    
 		    // Availability
 		    ProductAvailability availability3 = new ProductAvailability();
 		    availability3.setProductDateAvailable(date);
 		    availability3.setProductQuantity(100);
 		    availability3.setRegion("*");
 		    availability3.setProduct(product3);// associate with product
-
-		    productAvailabilityService.create(availability3);
 
 		    ProductPrice dprice3 = new ProductPrice();
 		    dprice3.setDefaultPrice(true);
@@ -569,11 +571,17 @@ public class InitStoreData implements InitData {
 		    dpd.setLanguage(en);
 
 		    dprice3.getDescriptions().add(dpd);
+		    
+		    availability3.getPrices().add(dprice3);
+		    product3.getAvailabilities().add(availability3);
+		    
+		    
+		    productService.create(product3);
 
-		    productPriceService.create(dprice3);
 		    
 		    try {
-		    	InputStream inStream = this.getClass().getClassLoader().getResourceAsStream("/demo/paas.JPG");
+		    	ClassPathResource classPathResource = new ClassPathResource("/demo/paas.JPG");
+		    	InputStream inStream = classPathResource.getInputStream();
 		    	this.saveFile(inStream, "paas.JPG", product3);
 		    } catch(Exception e) {
 		    	LOGGER.error("Error while reading demo file paas.jpg",e);
@@ -600,8 +608,7 @@ public class InitStoreData implements InitData {
 		    product4.getDescriptions().add(description);
 
 		    product4.getCategories().add(tech);
-		    productService.create(product4);
-
+		    
 		    // Availability
 		    ProductAvailability availability4 = new ProductAvailability();
 		    availability4.setProductDateAvailable(date);
@@ -609,7 +616,6 @@ public class InitStoreData implements InitData {
 		    availability4.setRegion("*");
 		    availability4.setProduct(product4);// associate with product
 
-		    productAvailabilityService.create(availability4);
 
 		    ProductPrice dprice4 = new ProductPrice();
 		    dprice4.setDefaultPrice(true);
@@ -622,11 +628,17 @@ public class InitStoreData implements InitData {
 		    dpd.setLanguage(en);
 
 		    dprice4.getDescriptions().add(dpd);
+		    
+		    availability4.getPrices().add(dprice4);
+		    product4.getAvailabilities().add(availability4);
+ 
+		    productService.create(product4);
 
-		    productPriceService.create(dprice4);
+
 		    
 		    try {
-		    	InputStream inStream = this.getClass().getClassLoader().getResourceAsStream("/demo/android.jpg");
+		    	ClassPathResource classPathResource = new ClassPathResource("/demo/android.jpg");
+		    	InputStream inStream = classPathResource.getInputStream();
 		    	this.saveFile(inStream, "android.jpg", product4);
 		    } catch(Exception e) {
 		    	LOGGER.error("Error while reading demo file android.jpg",e);
@@ -653,8 +665,8 @@ public class InitStoreData implements InitData {
 		    product5.getDescriptions().add(description);
 
 		    product5.getCategories().add(tech);
-		    productService.create(product5);
-
+		    
+		    
 		    // Availability
 		    ProductAvailability availability5 = new ProductAvailability();
 		    availability5.setProductDateAvailable(date);
@@ -662,7 +674,7 @@ public class InitStoreData implements InitData {
 		    availability5.setRegion("*");
 		    availability5.setProduct(product5);// associate with product
 
-		    productAvailabilityService.create(availability5);
+		   // productAvailabilityService.create(availability5);
 
 		    ProductPrice dprice5 = new ProductPrice();
 		    dprice5.setDefaultPrice(true);
@@ -676,10 +688,16 @@ public class InitStoreData implements InitData {
 
 		    dprice5.getDescriptions().add(dpd);
 
-		    productPriceService.create(dprice5);
+		    availability5.getPrices().add(dprice5);
+		    product5.getAvailabilities().add(availability5);
+
+		    productService.create(product5);
+
+
 		    
 		    try {
-		    	InputStream inStream = this.getClass().getClassLoader().getResourceAsStream("/demo/android2.jpg");
+		    	ClassPathResource classPathResource = new ClassPathResource("/demo/android2.jpg");
+		    	InputStream inStream = classPathResource.getInputStream();
 		    	this.saveFile(inStream, "android2.jpg", product5);
 		    } catch(Exception e) {
 		    	LOGGER.error("Error while reading demo file android2.jpg",e);
@@ -707,8 +725,7 @@ public class InitStoreData implements InitData {
 		    product6.getDescriptions().add(description);
 
 		    product6.getCategories().add(business);
-		    productService.create(product6);
-
+		    
 		    // Availability
 		    ProductAvailability availability6 = new ProductAvailability();
 		    availability6.setProductDateAvailable(date);
@@ -716,7 +733,7 @@ public class InitStoreData implements InitData {
 		    availability6.setRegion("*");
 		    availability6.setProduct(product6);// associate with product
 
-		    productAvailabilityService.create(availability6);
+		    //productAvailabilityService.create(availability6);
 
 		    ProductPrice dprice6 = new ProductPrice();
 		    dprice6.setDefaultPrice(true);
@@ -730,10 +747,17 @@ public class InitStoreData implements InitData {
 
 		    dprice6.getDescriptions().add(dpd);
 
-		    productPriceService.create(dprice6);
+		    availability6.getPrices().add(dprice6);
+		    product6.getAvailabilities().add(availability6);
+		    
+		    productService.create(product6);
+
+
 		    
 		    try {
-		    	InputStream inStream = this.getClass().getClassLoader().getResourceAsStream("/demo/google.jpg");
+
+		    	ClassPathResource classPathResource = new ClassPathResource("/demo/google.jpg");
+		    	InputStream inStream = classPathResource.getInputStream();
 		    	this.saveFile(inStream, "google.jpg", product6);
 		    } catch(Exception e) {
 		    	LOGGER.error("Error while reading demo file google.jpg",e);
@@ -789,7 +813,7 @@ public class InitStoreData implements InitData {
 			customer.setDefaultLanguage(en);
 			customer.setNick("shopizer");
 			
-			String password = passwordEncoder.encodePassword("password", null);
+			String password = passwordEncoder.encode("password");
 			customer.setPassword(password);
 			
 			List<Group> groups = groupService.listGroup(GroupType.CUSTOMER);

@@ -16,6 +16,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -57,8 +61,9 @@ public class ReferenceController {
 	
 	
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value={"/admin/reference/provinces.html","/shop/reference/provinces.html"}, method=RequestMethod.POST, produces="application/json;text/plain;charset=UTF-8")
-	public @ResponseBody String getProvinces(HttpServletRequest request, HttpServletResponse response) {
+	//@RequestMapping(value={"/admin/reference/provinces.html","/shop/reference/provinces.html"}, method=RequestMethod.POST, produces="application/json;text/plain;charset=UTF-8")
+	@RequestMapping(value={"/admin/reference/provinces.html","/shop/reference/provinces.html"}, method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> getProvinces(HttpServletRequest request, HttpServletResponse response) {
 		
 		String countryCode = request.getParameter("countryCode");
 		String lang = request.getParameter("lang");
@@ -111,9 +116,10 @@ public class ReferenceController {
 			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 		}
 		
-		
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		String returnString = resp.toJSONString();
-		return returnString;
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 		
 	}
 	
@@ -162,8 +168,8 @@ public class ReferenceController {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value={"/shop/reference/creditCardDates.html"}, method=RequestMethod.GET, produces="application/json;text/plain;charset=UTF-8")
-	public @ResponseBody String getCreditCardDates(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value={"/shop/reference/creditCardDates.html"}, method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<String> getCreditCardDates(HttpServletRequest request, HttpServletResponse response) {
 		
 
 		List<String> years = null;
@@ -199,14 +205,16 @@ public class ReferenceController {
 			LOGGER.error("ReferenceControler ",e);
 		}
 		
-		return serialized;
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		return new ResponseEntity<String>(serialized,httpHeaders,HttpStatus.OK);
 	
 	}
 	
 	
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value={"/shop/reference/monthsOfYear.html"}, method=RequestMethod.GET, produces="application/json;text/plain;charset=UTF-8")
-	public @ResponseBody String getMonthsOfYear(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value={"/shop/reference/monthsOfYear.html"}, method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<String> getMonthsOfYear(HttpServletRequest request, HttpServletResponse response) {
 		
 
 		List<String> days = null;
@@ -234,7 +242,9 @@ public class ReferenceController {
 			LOGGER.error("ReferenceControler ",e);
 		}
 		
-		return serialized;
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		return new ResponseEntity<String>(serialized,httpHeaders,HttpStatus.OK);
 	
 	}
 	

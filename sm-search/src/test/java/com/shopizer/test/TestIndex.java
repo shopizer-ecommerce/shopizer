@@ -37,13 +37,13 @@ import com.shopizer.search.services.SearchService;
  * @author carlsamson
  *
  */
+@Ignore
 public class TestIndex {
 	
 	@Inject
 	private SearchService searchService;
 	
-	//@Test
-	@Ignore
+	@Test
 	public void testIndex() throws Exception {
 		
 		//String jsonData = "{\"id\":\"1\",\"name\":\"Sac de plage en tissu recyclé M4858\",\"price\":\"45.99\",\"categories\":[\"sac\",\"accessoires\"],\"store\":\"default\",\"availability\":\"*\",\"available\":\"true\",\"lang\":\"fr\",\"description\":\"Sac de plage vintage en tissu et cuir recyclés\"}";

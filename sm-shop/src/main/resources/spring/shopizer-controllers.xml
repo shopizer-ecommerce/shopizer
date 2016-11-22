@@ -57,19 +57,19 @@
 		
 		 <mvc:interceptor>
   			<mvc:mapping path="/shop/**"/>
-  			<bean class="com.salesmanager.web.filter.StoreFilter"/>
+  			<bean class="com.salesmanager.shop.filter.StoreFilter"/>
  		</mvc:interceptor>
  		
  		
  		<mvc:interceptor>
   			<mvc:mapping path="/customer/**"/>
-  			<bean class="com.salesmanager.web.filter.StoreFilter"/>
+  			<bean class="com.salesmanager.shop.filter.StoreFilter"/>
  		</mvc:interceptor>
 		
 		
  		<mvc:interceptor>
   			<mvc:mapping path="/admin/**"/>
-  			<bean class="com.salesmanager.web.filter.AdminFilter" />
+  			<bean class="com.salesmanager.shop.filter.AdminFilter" />
  		</mvc:interceptor>
 	</mvc:interceptors>
 	

@@ -25,15 +25,18 @@
         <shopizer.search.version>2.5.0-SNAPSHOT</shopizer.search.version>
         <shopizer-canadapost.version>2.5.0-SNAPSHOT</shopizer-canadapost.version>
 		<shopizer-shipping-distance.version>2.5.0-SNAPSHOT</shopizer-shipping-distance.version>	
-        
-        
-        <spring-mobile-device-version>1.1.4.RELEASE</spring-mobile-device-version>
+        <jackson-version>2.7.4</jackson-version>
+
         <commons-collections4.version>4.0</commons-collections4.version>
         <commons-validator.version>1.5.1</commons-validator.version>
         <org.apache.httpcomponent.version>4.5.2</org.apache.httpcomponent.version>
-        <infinispan.version>6.0.2.Final</infinispan.version>
         <javax.inject.version>1</javax.inject.version>
 		<javax.el.version>2.2.4</javax.el.version>
+		
+		<!-- external systems -->
+		<c3p0-version>0.9.5.2</c3p0-version>
+		<org.elasticsearch-version>2.4.1</org.elasticsearch-version>
+		<infinispan.version>6.0.2.Final</infinispan.version>
         <!-- DON'T AS IT OVERWRITES SPRING -->
         <!--<spring.version>4.2.1.RELEASE</spring.version>-->
         <!--<spring-data.version>Gosling-RELEASE</spring-data.version>-->
@@ -60,26 +63,56 @@
 		    <version>1.1.0.Final</version>
 		</dependency>
 		
+
 		
-		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
-		<dependency>
-		    <groupId>com.fasterxml.jackson.core</groupId>
-		    <artifactId>jackson-core</artifactId>
-		</dependency>
+				<!-- Jackson JSON Processor -->
+				<dependency>
+				    <groupId>com.fasterxml.jackson.core</groupId>
+				    <artifactId>jackson-databind</artifactId>
+				    <version>${jackson-version}</version>
+<!-- 				    <exclusions>
+				        <exclusion>
+				            <groupId>com.fasterxml.jackson.core</groupId>
+				            <artifactId>jackson-core</artifactId>
+				        </exclusion>
+				        <exclusion>
+				            <groupId>com.fasterxml.jackson.core</groupId>
+				            <artifactId>jackson-annotations</artifactId>
+				        </exclusion>
+				    </exclusions> -->
+				</dependency>
+				
+				<dependency>
+				    <groupId>com.fasterxml.jackson.core</groupId>
+				    <artifactId>jackson-core</artifactId>
+				    <version>${jackson-version}</version>
+				</dependency>
+				 
+				<dependency>
+				    <groupId>com.fasterxml.jackson.core</groupId>
+				    <artifactId>jackson-annotations</artifactId>
+				    <version>${jackson-version}</version>
+				</dependency>
+						
 		
 		<!-- https://mvnrepository.com/artifact/net.sf.ehcache/ehcache -->
 		<dependency>
 		    <groupId>net.sf.ehcache</groupId>
 		    <artifactId>ehcache</artifactId>
 		</dependency>
-		
-		<!-- https://mvnrepository.com/artifact/com.mchange/c3p0 -->
+
+        <!-- https://mvnrepository.com/artifact/com.mchange/c3p0 -->
+        <dependency>
+            <groupId>com.mchange</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>${c3p0-version}</version>
+        </dependency>
+
 		<dependency>
-		    <groupId>com.mchange</groupId>
-		    <artifactId>c3p0</artifactId>
-		    <version>0.9.5.2</version>
-		</dependency>
-		
+			<groupId>org.elasticsearch</groupId>
+			<artifactId>elasticsearch</artifactId>
+			<version>${org.elasticsearch-version}</version>
+		</dependency>		
 		
     </dependencies>
 

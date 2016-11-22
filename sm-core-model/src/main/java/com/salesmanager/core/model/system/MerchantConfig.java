@@ -26,6 +26,7 @@ public class MerchantConfig implements Serializable, JSONAware {
 	private boolean allowPurchaseItems = true;
 	private boolean displaySearchBox = true;
 	private boolean testMode = false;
+	private boolean debugMode = false;
 	
 	/** Store default search json config **/
 	private Map<String,Boolean> useDefaultSearchConfig= new HashMap<String,Boolean>();//language code | true or false
@@ -43,6 +44,7 @@ public class MerchantConfig implements Serializable, JSONAware {
 		data.put("allowPurchaseItems", this.isAllowPurchaseItems());
 		data.put("displaySearchBox", this.displaySearchBox);
 		data.put("testMode", this.isTestMode());
+		data.put("debugMode", this.isDebugMode());
 		
 		if(useDefaultSearchConfig!=null) {
 			JSONObject obj = new JSONObject();
@@ -149,6 +151,14 @@ public class MerchantConfig implements Serializable, JSONAware {
 
 	public void setTestMode(boolean testMode) {
 		this.testMode = testMode;
+	}
+
+	public boolean isDebugMode() {
+		return debugMode;
+	}
+
+	public void setDebugMode(boolean debugMode) {
+		this.debugMode = debugMode;
 	}
 
 }

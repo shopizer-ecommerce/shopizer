@@ -32,7 +32,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.encoding.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -368,7 +368,7 @@ public class CustomerRESTController {
 		}
 
 		@SuppressWarnings("deprecation")
-		String encodedPassword = passwordEncoder.encodePassword(password, null);
+		String encodedPassword = passwordEncoder.encode(password);
 		if(!StringUtils.isBlank(customer.getEncodedPassword())) {
 			encodedPassword = customer.getEncodedPassword();
 			customer.setClearPassword("");

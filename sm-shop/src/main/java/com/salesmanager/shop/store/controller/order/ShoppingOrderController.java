@@ -57,9 +57,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -486,7 +486,7 @@ public class ShoppingOrderController extends AbstractController {
 	        //if the customer is new, generate a password
 	        if(customer.getId()==null || customer.getId()==0) {//new customer
 	        	password = UserReset.generateRandomString();
-	        	String encodedPassword = passwordEncoder.encodePassword(password, null);
+	        	String encodedPassword = passwordEncoder.encode(password);
 	        	customer.setEncodedPassword(encodedPassword);
 	        }
 	        

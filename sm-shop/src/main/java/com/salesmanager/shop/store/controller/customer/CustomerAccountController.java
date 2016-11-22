@@ -35,9 +35,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -240,7 +240,7 @@ public class CustomerAccountController extends AbstractController {
     	}
     	
     	String currentPassword = password.getCurrentPassword();
-    	String encodedCurrentPassword = passwordEncoder.encodePassword(currentPassword, null);
+    	String encodedCurrentPassword = passwordEncoder.encode(currentPassword);
     	
     	if(!StringUtils.equals(encodedCurrentPassword, customer.getPassword())) {
 			FieldError error = new FieldError("password","password",messages.getMessage("message.invalidpassword", locale));
@@ -260,7 +260,7 @@ public class CustomerAccountController extends AbstractController {
 		model.addAttribute("password", customerPassword);
 		
 		String newPassword = password.getPassword();
-		String encodedPassword = passwordEncoder.encodePassword(newPassword, null);
+		String encodedPassword = passwordEncoder.encode(newPassword);
 		
 		customer.setPassword(encodedPassword);
 		

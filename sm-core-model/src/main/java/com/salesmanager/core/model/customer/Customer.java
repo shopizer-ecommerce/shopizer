@@ -80,7 +80,7 @@ public class Customer extends SalesManagerEntity<Long, Customer> {
 	private String company;
 	
 
-	@Column(name="CUSTOMER_PASSWORD", length=50)
+	@Column(name="CUSTOMER_PASSWORD", length=60)
 	private String password;
 
 	

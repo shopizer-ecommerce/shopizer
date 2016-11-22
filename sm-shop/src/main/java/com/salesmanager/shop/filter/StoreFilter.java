@@ -606,7 +606,7 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 			
 			if(objects==null) {
 				//load categories
-				loadedCategories = categoryFacade.getCategoryHierarchy(store, 3, language);
+				loadedCategories = categoryFacade.getCategoryHierarchy(store, 0, language);
 				objects = new ConcurrentHashMap<String, List<ReadableCategory>>();
 				objects.put(language.getCode(), loadedCategories);
 				webApplicationCache.putInCache(categoriesKey.toString(), objects);
@@ -616,7 +616,7 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 			}
 			
 		} else {
-			loadedCategories = categoryFacade.getCategoryHierarchy(store, 3, language);
+			loadedCategories = categoryFacade.getCategoryHierarchy(store, 0, language);
 		}
 		
 		if(loadedCategories!=null) {
@@ -883,13 +883,13 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 	   @SuppressWarnings("unused")
 	private Map<String,Object> getConfigurations(MerchantStore store) {
 		   
-		   Map<String,Object> configs = null;
+		   Map<String,Object> configs = configs = new HashMap<String,Object>();
 		   try {
 			   
 			   List<MerchantConfiguration> merchantConfiguration = merchantConfigurationService.listByType(MerchantConfigurationType.CONFIG, store);
 			   
-			   if(!CollectionUtils.isEmpty(merchantConfiguration) && configs==null) {
-				   configs = new HashMap<String,Object>();
+			   if(CollectionUtils.isEmpty(merchantConfiguration)) {
+				   return configs;
 			   }
 			   
 			   

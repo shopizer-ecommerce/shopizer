@@ -41,11 +41,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -318,7 +318,7 @@ public class CustomerFacadeImpl implements CustomerFacade
             }
 			//set groups
             if(!StringUtils.isBlank(customerModel.getPassword()) && !StringUtils.isBlank(customerModel.getNick())) {
-            	customerModel.setPassword(passwordEncoder.encodePassword(customer.getClearPassword(), null));
+            	customerModel.setPassword(passwordEncoder.encode(customer.getClearPassword()));
             	setCustomerModelDefaultProperties(customerModel, merchantStore);
             }
             
@@ -364,7 +364,7 @@ public class CustomerFacadeImpl implements CustomerFacade
 			}
 			if(StringUtils.isBlank(customer.getPassword())) {
 	        	String password = UserReset.generateRandomString();
-	        	String encodedPassword = passwordEncoder.encodePassword(password, null);
+	        	String encodedPassword = passwordEncoder.encode(password);
 	        	customer.setPassword(encodedPassword);
 			}
 		}

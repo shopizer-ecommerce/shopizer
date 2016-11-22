@@ -13,12 +13,12 @@
   
   	<context:annotation-config />
 	
-	    <!-- controllers -->
+	<!-- controllers -->
   	<beans:import resource="classpath:/spring/shopizer-controllers.xml" />
   	<!-- properties -->
   	<beans:import resource="classpath:/spring/shopizer-properties.xml" />
   	<!-- security -->
-<!--   	<beans:import resource="classpath:/spring/shopizer-security.xml" /> -->
+	<beans:import resource="classpath:/spring/shopizer-security.xml" />
   	<!-- servlet-context -->
   	<beans:import resource="classpath:/spring/shopizer-servlet-context.xml" />
 	

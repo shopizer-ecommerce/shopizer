@@ -11,32 +11,21 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 
-
-
-	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources/ directory -->
-	<resources mapping="/resources/**" location="/resources/" />
-	
-	<beans:bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
- 		<beans:property name="viewClass">
-  			<beans:value>org.springframework.web.servlet.view.tiles2.TilesView</beans:value> 
-  		</beans:property>
-  	</beans:bean>
-
-
-	<beans:bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
- 			<beans:property name="definitions">
- 				<beans:list>
-  					<beans:value>/WEB-INF/tiles/tiles-admin.xml</beans:value>
-  					<beans:value>/WEB-INF/tiles/tiles-shop.xml</beans:value>
-  				</beans:list>
-  			</beans:property>
-  	</beans:bean>
-
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
-	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+ 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
+	
+
+<!-- 	<beans:bean id="jacksonMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"></beans:bean>
+	 <beans:bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<beans:property name="messageConverters">
+		  <beans:list>
+		    <beans:ref bean="jacksonMessageConverter"/>
+		  </beans:list>
+		</beans:property>
+	</beans:bean> -->
 	
 
 	<!-- Only needed because we require fileupload in the org.springframework.samples.mvc.fileupload package -->
@@ -67,7 +56,7 @@
 	
 	<!-- load images from local web server [com.salesmanager.web.utils.LocalImageFilePathUtils] -->
 	<beans:bean id="img" class="com.salesmanager.shop.utils.LocalImageFilePathUtils">
-		<beans:property name="basePath" value="/sm-shop/static" />
+		<beans:property name="basePath" value="/static" />
 		<!-- /static --><!-- /sm-shop/static -->
 	</beans:bean>
 	

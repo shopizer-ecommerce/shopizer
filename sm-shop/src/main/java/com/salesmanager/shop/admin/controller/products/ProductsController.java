@@ -17,6 +17,8 @@ import com.salesmanager.shop.utils.LabelUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -65,8 +67,8 @@ public class ProductsController {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/products/paging.html", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-	public @ResponseBody String pageProducts(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value="/admin/products/paging.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> pageProducts(HttpServletRequest request, HttpServletResponse response) {
 		
 		//TODO what if ROOT
 		
@@ -103,7 +105,7 @@ public class ProductsController {
 					LOGGER.error("Product page cannot parse categoryId " + categoryId );
 					resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 					String returnString = resp.toJSONString();
-					return returnString;
+					return new ResponseEntity<String>(returnString,HttpStatus.BAD_REQUEST);
 				} 
 				
 				
@@ -115,7 +117,7 @@ public class ProductsController {
 					if(category==null || category.getMerchantStore().getId()!=store.getId()) {
 						resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 						String returnString = resp.toJSONString();
-						return returnString;
+						return new ResponseEntity<String>(returnString,HttpStatus.BAD_REQUEST);
 					}
 					
 					//get all sub categories
@@ -189,7 +191,7 @@ public class ProductsController {
 		}
 		
 		String returnString = resp.toJSONString();
-		return returnString;
+		return new ResponseEntity<String>(returnString,HttpStatus.OK);
 
 
 	}

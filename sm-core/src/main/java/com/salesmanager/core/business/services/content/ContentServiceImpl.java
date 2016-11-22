@@ -1,6 +1,5 @@
 package com.salesmanager.core.business.services.content;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -54,7 +53,7 @@ public class ContentServiceImpl
         throws ServiceException
     {
 
-        return contentRepository.findByType( contentType.name(), store.getId(), language.getId() );
+        return contentRepository.findByType( contentType, store.getId(), language.getId() );
     }
     
     @Override
@@ -78,12 +77,12 @@ public class ContentServiceImpl
         throws ServiceException
     {
 
-    	List<String> contentTypes = new ArrayList<String>();
+/*    	List<String> contentTypes = new ArrayList<String>();
     	for (int i = 0; i < contentType.size(); i++) {
     		contentTypes.add(contentType.get(i).name());
-        }
+        }*/
     	
-        return contentRepository.findByTypes( contentTypes, store.getId(), language.getId() );
+        return contentRepository.findByTypes( contentType, store.getId(), language.getId() );
     }
     
     @Override
@@ -99,12 +98,12 @@ public class ContentServiceImpl
     public List<Content> listByType(  List<ContentType> contentType,  MerchantStore store )
     throws ServiceException
     {
-    	List<String> contentTypes = new ArrayList<String>();
+/*    	List<String> contentTypes = new ArrayList<String>();
     	for (int i = 0; i < contentType.size(); i++) {
     		contentTypes.add(contentType.get(i).name());
-        }
+        }*/
 
-	    return contentRepository.findByTypes( contentTypes, store.getId() );
+	    return contentRepository.findByTypes( contentType, store.getId() );
     }
 
     @Override

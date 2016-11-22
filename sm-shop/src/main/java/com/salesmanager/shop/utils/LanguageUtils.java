@@ -74,7 +74,11 @@ public class LanguageUtils {
 
 		}
 		
-		locale = languageService.toLocale(language);
+		if(language != null) {
+			locale = languageService.toLocale(language);
+		} else {
+			language = languageService.toLanguage(locale);
+		}
 		
 		LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
 		if(localeResolver!=null) {

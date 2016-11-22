@@ -532,7 +532,7 @@ function captureOrder(orderId){
 				<s:message code="label.customer.order.date" text="Order date"/>			 		
 			 	<div class="controls">
 							<form:input  cssClass="input-large" path="datePurchased"  class="small" type="text"
-							 data-date-format="<%=com.salesmanager.core.constants.Constants.DEFAULT_DATE_FORMAT%>" />
+							 data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>" />
 							  <script type="text/javascript">
                                  $('#datePurchased').datepicker();
                               </script>

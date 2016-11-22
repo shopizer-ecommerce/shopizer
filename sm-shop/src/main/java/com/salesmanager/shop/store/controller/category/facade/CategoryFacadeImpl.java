@@ -31,7 +31,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 	public List<ReadableCategory> getCategoryHierarchy(MerchantStore store,
 			int depth, Language language) throws Exception {
 		
-		List<Category> categories = categoryService.listByDepth(store, 2, language);
+		List<Category> categories = categoryService.listByDepth(store, depth, language);
 		List<ReadableCategory> returnValues = new ArrayList<ReadableCategory>();
 		
 		Map<Long, ReadableCategory> categoryMap = new ConcurrentHashMap<Long, ReadableCategory>();
