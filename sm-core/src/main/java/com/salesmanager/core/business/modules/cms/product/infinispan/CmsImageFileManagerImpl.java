@@ -119,8 +119,6 @@ public class CmsImageFileManagerImpl
         	}
         	
         	Node<String, Object> productNode = this.getNode(nodePath.toString());
-        	
-        	System.out.println("*** WRITING PRODUCT IMAGE TO KEY " + productNode.toString());
 
             
             InputStream isFile = contentImage.getFile();
@@ -132,12 +130,6 @@ public class CmsImageFileManagerImpl
             // object for a given product containing all images
             productNode.put(contentImage.getFileName(), output.toByteArray());
             
-            
-            /////NOW READ THE IMAGE
-            OutputContentFile ocf = getProductImage(productImage);
-            if(ocf==null) {
-            	//we have a problem 
-            }
 
 
         }
@@ -444,8 +436,7 @@ public class CmsImageFileManagerImpl
         	
         	Node<String,Object> productNode = this.getNode(nodePath.toString());
         	
-        	System.out.println("*** READING PRODUCT IMAGE TO KEY " + productNode.toString());
-        	
+
             byte[] imageBytes = (byte[])productNode.get( imageName );
             
             if(imageBytes==null) {

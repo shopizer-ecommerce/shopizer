@@ -531,11 +531,13 @@ public class ShippingServiceImpl implements ShippingService {
 			Locale locale = languageService.toLocale(language);
 			
 			//invoke pre processors
+			//the main pre-processor determines at runtime the shipping module
+			//also available distance calculation
 			if(!CollectionUtils.isEmpty(shippingModulePreProcessors)) {
 				for(ShippingQuotePrePostProcessModule preProcessor : shippingModulePreProcessors) {
 					//System.out.println("Using pre-processor " + preProcessor.getModuleCode());
 					preProcessor.prePostProcessShippingQuotes(shippingQuote, packages, orderTotal, delivery, shippingOrigin, store, configuration, shippingModule, shippingConfiguration, shippingMethods, locale);
-					//TODO switch module if required
+					//switch module if required
 					if(shippingQuote.getCurrentShippingModule()!=null && !shippingQuote.getCurrentShippingModule().getCode().equals(shippingModule.getCode())) {
 						shippingModule = shippingQuote.getCurrentShippingModule();
 						moduleName = shippingModule.getCode();
