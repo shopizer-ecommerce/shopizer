@@ -452,7 +452,7 @@ public class ShoppingCategoryController {
 	@ResponseBody
 	public ProductList getProducts(@PathVariable final String store, @PathVariable final String language, @PathVariable final String category, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		//http://localhost:8080/sm-shop/services/public/products/DEFAULT/en/book.html
+		//http://localhost:8080/sm-shop/services/public/products/DEFAULT/en/book
 
 		try {
 
@@ -545,7 +545,7 @@ public class ShoppingCategoryController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping("/services/public/products/page/{start}/{max}/{store}/{language}/{category}.html")
+	@RequestMapping("/services/public/products/page/{start}/{max}/{store}/{language}/{category}")
 	@ResponseBody
 	public ProductList getProducts(@PathVariable int start, @PathVariable int max, @PathVariable String store, @PathVariable final String language, @PathVariable final String category, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
@@ -570,7 +570,7 @@ public class ShoppingCategoryController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping("/services/public/products/page/{start}/{max}/{store}/{language}/{category}.html/filter={filterType}/filter-value={filterValue}")
+	@RequestMapping("/services/public/products/page/{start}/{max}/{store}/{language}/{category}/filter={filterType}/filter-value={filterValue}")
 	@ResponseBody
 	public ProductList getProductsFilteredByType(@PathVariable int start, @PathVariable int max, @PathVariable String store, @PathVariable final String language, @PathVariable final String category, @PathVariable final String filterType, @PathVariable final String filterValue, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		

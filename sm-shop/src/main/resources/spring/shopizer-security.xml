@@ -122,10 +122,11 @@
 	
 	<!-- REST services -->
 	<http pattern="/services/**" create-session="stateless" use-expressions="true" authentication-manager-ref="adminAuthenticationManager" entry-point-ref="servicesAuthenticationEntryPoint">
-      <intercept-url pattern="/services/private/**" access="hasRole('AUTH')"/>
-      <intercept-url pattern="/services/public/**" access="permitAll"/>
-      <form-login authentication-success-handler-ref="servicesAuthenticationSuccessHandler" />
-      <http-basic />
+	      <intercept-url pattern="/services/private/**" access="hasRole('AUTH')"/>
+	      <intercept-url pattern="/services/public/**" access="permitAll"/>
+	      <form-login authentication-success-handler-ref="servicesAuthenticationSuccessHandler" />
+	      <http-basic />
+	      <csrf disabled="true"/><!-- Spring security 4 -->
     </http>
    
 	

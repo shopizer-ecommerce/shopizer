@@ -202,7 +202,7 @@
 		var cartCode=getCartCode();
 		if(cartCode!=null) {
 			console.log('cart code ' + cartCode);
-			location.href='<c:url value="/shop/cart/shoppingCartByCode.html" />?shoppingCartCode=' + cartCode;
+			location.href='<c:url value="/shop/cart/shoppingCartByCode" />?shoppingCartCode=' + cartCode;
 		}
 
    });

@@ -282,7 +282,7 @@ public class ShoppingCartController extends AbstractController {
     }
     
     
-	@RequestMapping(value={"/shoppingCartByCode.html"},  method = { RequestMethod.GET })
+	@RequestMapping(value={"/shoppingCartByCode"},  method = { RequestMethod.GET })
 	public String displayShoppingCart(@ModelAttribute String shoppingCartCode, final Model model, HttpServletRequest request, HttpServletResponse response, final Locale locale) throws Exception{
 
 			MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);

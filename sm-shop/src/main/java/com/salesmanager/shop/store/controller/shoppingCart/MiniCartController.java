@@ -38,7 +38,7 @@ public class MiniCartController extends AbstractController{
 	
 
 	
-	@RequestMapping(value={"/displayMiniCartByCode.html"},  method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value={"/displayMiniCartByCode"},  method = { RequestMethod.GET, RequestMethod.POST })
 	public @ResponseBody ShoppingCartData displayMiniCart(final String shoppingCartCode, HttpServletRequest request, Model model){
 		
 		try {
@@ -64,7 +64,7 @@ public class MiniCartController extends AbstractController{
 	}
 
 	
-	@RequestMapping(value={"/removeMiniShoppingCartItem.html"},   method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value={"/removeMiniShoppingCartItem"},   method = { RequestMethod.GET, RequestMethod.POST })
 	public @ResponseBody ShoppingCartData removeShoppingCartItem(Long lineItemId, final String shoppingCartCode, HttpServletRequest request, Model model) throws Exception {
 		Language language = (Language)request.getAttribute(Constants.LANGUAGE);
 		MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
