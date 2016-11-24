@@ -119,7 +119,7 @@ public class ShoppingCartController extends AbstractController {
 	 * @return
 	 * @throws Exception
 	 */
-    @RequestMapping(value={"/addShoppingCartItem.html"}, method=RequestMethod.POST)
+    @RequestMapping(value={"/addShoppingCartItem"}, method=RequestMethod.POST)
 	public @ResponseBody
 	ShoppingCartData addShoppingCartItem(@RequestBody final ShoppingCartItem item, final HttpServletRequest request, final HttpServletResponse response, final Locale locale) throws Exception {
 

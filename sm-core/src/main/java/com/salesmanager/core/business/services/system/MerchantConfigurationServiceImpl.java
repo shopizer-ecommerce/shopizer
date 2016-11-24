@@ -71,7 +71,7 @@ public class MerchantConfigurationServiceImpl extends
 	@Override
 	public MerchantConfig getMerchantConfig(MerchantStore store) throws ServiceException {
 
-		MerchantConfiguration configuration = merchantConfigurationRepository.findByMerchantStoreAndKey(store.getId(), Constants.MERCHANT_CONFIG);
+		MerchantConfiguration configuration = merchantConfigurationRepository.findByMerchantStoreAndKey(store.getId(), MerchantConfigurationType.CONFIG.name());
 		
 		MerchantConfig config = null;
 		if(configuration!=null) {
@@ -91,12 +91,13 @@ public class MerchantConfigurationServiceImpl extends
 	@Override
 	public void saveMerchantConfig(MerchantConfig config, MerchantStore store) throws ServiceException {
 		
-		MerchantConfiguration configuration = merchantConfigurationRepository.findByMerchantStoreAndKey(store.getId(), Constants.MERCHANT_CONFIG);
+		MerchantConfiguration configuration = merchantConfigurationRepository.findByMerchantStoreAndKey(store.getId(), MerchantConfigurationType.CONFIG.name());
 
 		if(configuration==null) {
 			configuration = new MerchantConfiguration();
 			configuration.setMerchantStore(store);
-			configuration.setKey(Constants.MERCHANT_CONFIG);
+			configuration.setKey(MerchantConfigurationType.CONFIG.name());
+			configuration.setMerchantConfigurationType(MerchantConfigurationType.CONFIG);
 		}
 		
 		String value = config.toJSONString();

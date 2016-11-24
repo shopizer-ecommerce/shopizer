@@ -61,6 +61,7 @@ public class SystemConfigurationController {
 	public String saveSystemConfigurations(@ModelAttribute("configuration") MerchantConfig merchantConfiguration, BindingResult result, Model model, HttpServletRequest request, Locale locale) throws Exception
 	{
 		setMenu(model, request);
+		
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		merchantConfigurationService.saveMerchantConfig(merchantConfiguration, store);
 		model.addAttribute("success","success");

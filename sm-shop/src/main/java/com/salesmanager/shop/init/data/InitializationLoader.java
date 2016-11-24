@@ -2,11 +2,15 @@ package com.salesmanager.shop.init.data;
 
 import com.salesmanager.core.business.constants.SystemConstants;
 import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.services.merchant.MerchantStoreService;
 import com.salesmanager.core.business.services.reference.init.InitializationDatabase;
+import com.salesmanager.core.business.services.system.MerchantConfigurationService;
 import com.salesmanager.core.business.services.system.SystemConfigurationService;
 import com.salesmanager.core.business.services.user.GroupService;
 import com.salesmanager.core.business.services.user.PermissionService;
 import com.salesmanager.core.business.utils.CoreConfiguration;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.system.MerchantConfig;
 import com.salesmanager.core.model.system.SystemConfiguration;
 import com.salesmanager.core.model.user.Group;
 import com.salesmanager.core.model.user.GroupType;
@@ -31,6 +35,9 @@ public class InitializationLoader {
 	
 	@Inject
 	private AppConfiguration appConfiguration;
+	
+	@Inject
+	private MerchantConfigurationService merchantConfigurationService;
 
 	
 	@Inject
@@ -54,17 +61,24 @@ public class InitializationLoader {
 	@Inject
 	private CoreConfiguration configuration;
 	
+	@Inject
+	protected MerchantStoreService merchantService;
+	
 	@PostConstruct
 	public void init() {
 		
 		try {
 			
 			if (initializationDatabase.isEmpty()) {
+				
+				
+				//All default data to be created
+				
 				LOGGER.info(String.format("%s : Shopizer database is empty, populate it....", "sm-shop"));
 		
 				 initializationDatabase.populate("sm-shop");
 				
-				
+				 MerchantStore store = merchantService.getByCode(MerchantStore.DEFAULT_STORE);
 				
 				 //security groups and permissions
 
@@ -184,6 +198,12 @@ public class InitializationLoader {
 				  Permission gcustomerpermission = new Permission("AUTH_CUSTOMER");
 				  gcustomerpermission.getGroups().add(gcustomer);
 				  permissionService.create(gcustomerpermission);
+				  
+				  MerchantConfig config = new MerchantConfig();
+				  config.setAllowPurchaseItems(true);
+				  config.setDisplayAddToCartOnFeaturedItems(true);
+				  
+				  merchantConfigurationService.saveMerchantConfig(config, store);
 
 				  loadData();
 

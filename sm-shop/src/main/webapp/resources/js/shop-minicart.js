@@ -139,7 +139,7 @@
 		
 		$.ajax({  
 			 type: 'POST',  
-			 url: getContextPath() + '/shop/cart/addShoppingCartItem.html',  
+			 url: getContextPath() + '/shop/cart/addShoppingCartItem',  
 			 data: scItem, 
 			 contentType: 'application/json;charset=utf-8',
 			 dataType: 'json', 
