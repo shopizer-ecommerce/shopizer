@@ -82,6 +82,16 @@ public class StoreBrandingController {
 		return "admin-store-branding";
 	}
 	
+	/**
+	 * https://spring.io/guides/gs/uploading-files/
+	 * @param contentImages
+	 * @param result
+	 * @param model
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
 	@PreAuthorize("hasRole('STORE')")
 	@RequestMapping(value="/admin/store/saveBranding.html", method=RequestMethod.POST)
 	public String saveStoreBranding(@ModelAttribute(value="contentImages") @Valid final ContentFiles contentImages, BindingResult result, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -89,6 +99,16 @@ public class StoreBrandingController {
 		setMenu(model,request);
 
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
+		
+		model.addAttribute("templates", templates);
+		
+		
+		model.addAttribute("store", store);
+		
+		if(contentImages == null || contentImages.getFile() == null) {
+			model.addAttribute("error","error");
+			return "admin-store-branding";
+		}
 		
 		
 		if(contentImages.getFile()!=null && contentImages.getFile().size()>0) {
@@ -109,11 +129,8 @@ public class StoreBrandingController {
 		}
 		
 		//display templates
-		model.addAttribute("templates", templates);
-		
-		model.addAttribute("success","success");
-		model.addAttribute("store", store);
 
+		model.addAttribute("success","success");
 		return "admin-store-branding";
 	}
 	

@@ -368,18 +368,21 @@ public class MerchantStoreController {
 	}
 	
 	@PreAuthorize("hasRole('AUTH')")
-	@RequestMapping(value="/admin/store/checkStoreCode.html", method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody String checkStoreCode(HttpServletRequest request, HttpServletResponse response, Locale locale) {
+	@RequestMapping(value="/admin/store/checkStoreCode.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> checkStoreCode(HttpServletRequest request, HttpServletResponse response, Locale locale) {
 		String code = request.getParameter("code");
 
 
 		AjaxResponse resp = new AjaxResponse();
 		
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		
 		try {
 			
 			if(StringUtils.isBlank(code)) {
 				resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
-				return resp.toJSONString();
+				return new ResponseEntity<String>(resp.toJSONString(),httpHeaders,HttpStatus.OK);
 			}
 			
 			MerchantStore store = merchantStoreService.getByCode(code);
@@ -389,7 +392,7 @@ public class MerchantStoreController {
 			
 			if(store!=null) {
 				resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
-				return resp.toJSONString();
+				return new ResponseEntity<String>(resp.toJSONString(),httpHeaders,HttpStatus.OK);
 			}
 
 
@@ -404,7 +407,8 @@ public class MerchantStoreController {
 		
 		String returnString = resp.toJSONString();
 		
-		return returnString;
+		
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 	
