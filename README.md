@@ -1,56 +1,65 @@
-Official Shopizer master (2.0.4)
-
+Official Shopizer 2.0.3
+-------------------
 Java open source e-commerce software
 
-Shopping cart
-Catalogue
-Search
-Checkout
-Administration
+- Shopping cart
+- Catalogue
+- Search
+- Checkout
+- Administration
+
+### This version (master - 2.0.4) runs only with java 1.8
+An upcoming version 2.0.5 for Java 1.8 will be available soon (December 2016)
+
 To get the code:
-
-Clone the repository: $ git clone git://github.com/shopizer-ecommerce/shopizer.git
-
-** This version works with Java 1.7 only ** 
-An upcoming version will be available soon (december 2016) for java 8
+-------------------
+Clone the repository:
+$ git clone git://github.com/shopizer-ecommerce/shopizer.git
 
 If this is your first time using Github, review http://help.github.com to learn the basics.
 
-You can also download the zip file containing the code from https://github.com/shopizer-ecommerce/shopizer
+You can also download the zip file containing the code from https://github.com/shopizer-ecommerce/shopizer 
 
 To run the application:
-
+-------------------	
 From the command line with Maven installed:
 
-$ cd shopizer
-$ mvn clean install
+	$ cd shopizer
+	$ mvn clean install
+	
+
+
 copy sm-shop/target/sm-shop.war to tomcat or any other application server deployment dir
 
 Increase heap space to 1024 m or at least 512 m
 
-Heap space configuration in Tomcat:
+### Heap space configuration in Tomcat:
+
 
 If you are using Tomcat, edit catalina.bat for windows users or catalina.sh for linux / Mac users
 
-in Windows
-set JAVA_OPTS="-Xms1024m -Xmx1024m -XX:MaxPermSize=256m" 
+	in Windows
+	set JAVA_OPTS="-Xms1024m -Xmx1024m -XX:MaxPermSize=256m" 
+	
+	in Linux / Mac
+	export JAVA_OPTS="-Xms1024m -Xmx1024m -XX:MaxPermSize=256m" 
 
-in Linux / Mac
-export JAVA_OPTS="-Xms1024m -Xmx1024m -XX:MaxPermSize=256m" 
-Access the application:
+
+### Access the application:
+
 
 Access the deployed web application at: http://localhost:8080/sm-shop/shop
 
 Acces the admin section at: http://localhost:8080/sm-shop/admin
 
-username : admin
+#####username : admin
+#####password : password
 
-password : password
+The instructions above will let you run the application with default settings and configurations.
+Please read the instructions on how to connect to MySQL, configure an email server and configure other subsystems
 
-The instructions above will let you run the application with default settings and configurations. Please read the instructions on how to connect to MySQL, configure an email server and configure other subsystems
+### Documentation:
 
-Documentation:
+Documentation available from the wiki <https://github.com/shopizer-ecommerce/shopizer/wiki>
 
-Documentation available from the wiki https://github.com/shopizer-ecommerce/shopizer/wiki
-
-More documentation is available on shopizer web site here http://www.shopizer.com
+More documentation is available on shopizer web site here <http://www.shopizer.com>
