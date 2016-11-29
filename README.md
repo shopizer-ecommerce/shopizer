@@ -1,50 +1,56 @@
-# Shopizer
+Official Shopizer master (2.0.4)
 
-Shopizer is a free open source Java e-commerce software that is ideal for every online shop or business.
+Java open source e-commerce software
 
-Create your online store in minutes using the secure, fast and reliable application right out of the box or integrate it to your existing technology by using Shopizer's set of tools, APIs and a fully open source customizable environment.
+Shopping cart
+Catalogue
+Search
+Checkout
+Administration
+To get the code:
 
-<img src="http://www.shopizer.com/common/images/ecommerce-community.jpg"
- alt="Snowplow logo" width="395px " height="231px" title="Snowplow" align="right" />
+Clone the repository: $ git clone git://github.com/shopizer-ecommerce/shopizer.git
 
-Shopizer is built by a dedicated, agile community of Java and e-commerce experts who are motivated by the desire to create the perfect software that is easily adaptable to the demanding practices and changing trends of e-commerce. Shopizer's team is developing for developers first; we are working in a continuous release and delivery environment, which allows us to put out new features and ideas at faster pace. Our technology stack is based on well known, proven technology such as Java, Spring, Hibernate and JQuery. 
+** This version works with Java 1.7 only ** 
+An upcoming version will be available soon (december 2016) for java 8
 
+If this is your first time using Github, review http://help.github.com to learn the basics.
 
+You can also download the zip file containing the code from https://github.com/shopizer-ecommerce/shopizer
 
- 
+To run the application:
 
-<br/><br/>
-**To find out more, please check out the [Shopizer website] [website]**
+From the command line with Maven installed:
 
-Shopizer provide Web and mobile e-commerce application, tools and APIs for building awesome online stores !!!
+$ cd shopizer
+$ mvn clean install
+copy sm-shop/target/sm-shop.war to tomcat or any other application server deployment dir
 
-| **Agility** 												               | **Community**												              | **Portability**																							                  |
-|--------------------------------------------------------------------------|--------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------|
-|   ![i1] [agility-image]                                                  |       ![i2] [community-image]                                            |         ![i3] [portability-image]                                                                                            |
-| Move quickly with the needs <br/> of your application                    |       Driven by a community <br/>of e-commerce experts                   |        Deploy to 'Platform as a Service' </br>or 'Infrastructure as service' <br/> cloud environments                     |
+Increase heap space to 1024 m or at least 512 m
 
+Heap space configuration in Tomcat:
 
-## Why Shopizer
+If you are using Tomcat, edit catalina.bat for windows users or catalina.sh for linux / Mac users
 
-* **Moble Ready** Responsive web and responsive emails, easy theming with frameworks such as bootstrap css and Zurb foundation.
-* **Commerce Engine** Lean and fast application that will help you build your online store effectively and efficiently. Built in shopping cart, inventory management and order flow that run standalone or can be integrated to an existing application. Java and RESTFul API. 
-* **Open source** The code is open source under LGPL licence and is built with reliable Java frameworks such as Spring and Hibernate  
+in Windows
+set JAVA_OPTS="-Xms1024m -Xmx1024m -XX:MaxPermSize=256m" 
 
-## Read more
+in Linux / Mac
+export JAVA_OPTS="-Xms1024m -Xmx1024m -XX:MaxPermSize=256m" 
+Access the application:
 
-| **Technical Docs (Coming soon)**        | **[Setup Guide] [setup]**     | **[Contributing] [contributing]**           |
-|-----------------------------------------|-------------------------------|---------------------------------------------|
-| [![i4] [techdocs-image]][doc]                  | [![i5] [setup-image]] [setup]     | [![i6] [contributing-image]][contributing]                |
+Access the deployed web application at: http://localhost:8080/sm-shop/shop
 
+Acces the admin section at: http://localhost:8080/sm-shop/admin
 
-[agility-image]: http://umeshawasthi.github.io/shopizer-documentation/images/agility.PNG
-[community-image]: http://umeshawasthi.github.io/shopizer-documentation/images/community.PNG
-[portability-image]: http://umeshawasthi.github.io/shopizer-documentation/images/portability.PNG
-[website]: http://www.shopizer.com
+username : admin
 
-[setup]:https://github.com/shopizer-ecommerce/shopizer/wiki/Setup
-[contributing]:https://github.com/shopizer-ecommerce/shopizer/wiki/Contribution
-[doc]:https://github.com/shopizer-ecommerce/shopizer
-[techdocs-image]: http://umeshawasthi.github.io/shopizer-documentation/images/document.png
-[setup-image]: http://umeshawasthi.github.io/shopizer-documentation/images/setup.png
-[contributing-image]: http://umeshawasthi.github.io/shopizer-documentation/images/document.png
+password : password
+
+The instructions above will let you run the application with default settings and configurations. Please read the instructions on how to connect to MySQL, configure an email server and configure other subsystems
+
+Documentation:
+
+Documentation available from the wiki https://github.com/shopizer-ecommerce/shopizer/wiki
+
+More documentation is available on shopizer web site here http://www.shopizer.com
