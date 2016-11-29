@@ -249,7 +249,7 @@ public class ShopProductController {
 				}
 				
 				if(!StringUtils.isBlank(attribute.getProductOptionValue().getProductOptionValueImage())) {
-					attrValue.setImage(imageUtils.buildProductPropertyimageUtils(store, attribute.getProductOptionValue().getProductOptionValueImage()));
+					attrValue.setImage(imageUtils.buildProductPropertyImageUtils(store, attribute.getProductOptionValue().getProductOptionValueImage()));
 				}
 				
 				List<ProductOptionValueDescription> descriptions = optionValue.getDescriptionsSettoList();

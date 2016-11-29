@@ -28,14 +28,15 @@ public class ContentFiles implements Serializable
     
     
     private List<MultipartFile> file;
+    
     public void setFile(List<MultipartFile> file) {
 		this.file = file;
 	}
 
 	private String fileName;
 
-    @NotEmpty(message="{merchant.files.invalid}")
-    @Valid
+    //@NotEmpty(message="{merchant.files.invalid}")
+    //@Valid
     public List<MultipartFile> getFile()
     {
         return file;

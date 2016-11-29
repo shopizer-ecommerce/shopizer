@@ -17,13 +17,11 @@ public class LocalImageFilePathUtils extends AbstractimageFilePath{
 
 	@Override
 	public String getBasePath() {
-		// TODO Auto-generated method stub
 		return basePath;
 	}
 
 	@Override
 	public void setBasePath(String context) {
-		// TODO Auto-generated method stub
 		this.basePath = context;
 	}
 	
@@ -35,7 +33,7 @@ public class LocalImageFilePathUtils extends AbstractimageFilePath{
 	 * @return
 	 */
 	public String buildStaticimageUtils(MerchantStore store, String imageName) {
-		StringBuilder imgName = new StringBuilder().append(getBasePath()).append("/files/").append(store.getCode()).append("/").append(FileContentType.IMAGE.name()).append("/");
+		StringBuilder imgName = new StringBuilder().append(getBasePath()).append(Constants.FILES_URI).append(Constants.SLASH).append(store.getCode()).append("/").append(FileContentType.IMAGE.name()).append("/");
 				if(!StringUtils.isBlank(imageName)) {
 					imgName.append(imageName);
 				}
@@ -51,7 +49,7 @@ public class LocalImageFilePathUtils extends AbstractimageFilePath{
 	 * @return
 	 */
 	public String buildStaticimageUtils(MerchantStore store, String type, String imageName) {
-		StringBuilder imgName = new StringBuilder().append(getBasePath()).append("/files/").append(store.getCode()).append("/").append(type).append("/");
+		StringBuilder imgName = new StringBuilder().append(getBasePath()).append(Constants.FILES_URI).append(Constants.SLASH).append(store.getCode()).append("/").append(type).append("/");
 		if(!StringUtils.isBlank(imageName)) {
 				imgName.append(imageName);
 		}
@@ -120,7 +118,7 @@ public class LocalImageFilePathUtils extends AbstractimageFilePath{
 	 * @return
 	 */
 	public String buildStoreLogoFilePath(MerchantStore store) {
-		return new StringBuilder().append(getBasePath()).append("/files/").append(store.getCode()).append("/").append(FileContentType.LOGO).append("/")
+		return new StringBuilder().append(getBasePath()).append(Constants.FILES_URI).append(Constants.SLASH).append(store.getCode()).append("/").append(FileContentType.LOGO).append("/")
 				.append(store.getStoreLogo()).toString();
 	}
 	
@@ -131,7 +129,7 @@ public class LocalImageFilePathUtils extends AbstractimageFilePath{
 	 * @return
 	 */
 	public String buildProductPropertyimageUtils(MerchantStore store, String imageName) {
-		return new StringBuilder().append(getBasePath()).append("/files/").append(store.getCode()).append("/").append(FileContentType.PROPERTY).append("/")
+		return new StringBuilder().append(getBasePath()).append(Constants.FILES_URI).append(Constants.SLASH).append(store.getCode()).append("/").append(FileContentType.PROPERTY).append("/")
 				.append(imageName).toString();
 	}
 	

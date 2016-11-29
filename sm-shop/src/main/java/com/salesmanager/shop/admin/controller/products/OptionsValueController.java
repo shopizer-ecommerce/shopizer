@@ -305,7 +305,7 @@ public class OptionsValueController {
 				
 				entry.put("name", description.getName());
 				//entry.put("image", new StringBuilder().append(store.getCode()).append("/").append(FileContentType.PROPERTY.name()).append("/").append(option.getProductOptionValueImage()).toString());
-				entry.put("image", imageUtils.buildProductPropertyimageUtils(store, option.getProductOptionValueImage()));
+				entry.put("image", imageUtils.buildProductPropertyImageUtils(store, option.getProductOptionValueImage()));
 				resp.addDataEntry(entry);
 				
 				

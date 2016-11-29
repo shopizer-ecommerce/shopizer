@@ -114,7 +114,7 @@ public class ShoppingCartDataPopulator extends AbstractDataPopulator<ShoppingCar
                     shoppingCartItem.setSubTotal(pricingService.getDisplayAmount(item.getSubTotal(), store));
                     ProductImage image = item.getProduct().getProductImage();
                     if(image!=null && imageUtils!=null) {
-                        String imagePath = imageUtils.buildProductimageUtils(store, item.getProduct().getSku(), image.getProductImage());
+                        String imagePath = imageUtils.buildProductImageUtils(store, item.getProduct().getSku(), image.getProductImage());
                         shoppingCartItem.setImage(imagePath);
                     }
                     Set<com.salesmanager.core.model.shoppingcart.ShoppingCartAttributeItem> attributes = item.getAttributes();

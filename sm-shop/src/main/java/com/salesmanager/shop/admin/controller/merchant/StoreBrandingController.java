@@ -16,6 +16,10 @@ import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +27,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
@@ -94,7 +100,7 @@ public class StoreBrandingController {
 	 */
 	@PreAuthorize("hasRole('STORE')")
 	@RequestMapping(value="/admin/store/saveBranding.html", method=RequestMethod.POST)
-	public String saveStoreBranding(@ModelAttribute(value="contentImages") @Valid final ContentFiles contentImages, BindingResult result, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String saveStoreBranding(@RequestParam("file") MultipartFile file, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		setMenu(model,request);
 
@@ -104,20 +110,16 @@ public class StoreBrandingController {
 		
 		
 		model.addAttribute("store", store);
-		
-		if(contentImages == null || contentImages.getFile() == null) {
-			model.addAttribute("error","error");
-			return "admin-store-branding";
-		}
-		
-		
-		if(contentImages.getFile()!=null && contentImages.getFile().size()>0) {
 
-			String imageName = contentImages.getFile().get(0).getOriginalFilename();
-            InputStream inputStream = contentImages.getFile().get(0).getInputStream();
+		if(file!=null) {
+
+			String imageName = file.getOriginalFilename();
+			InputStream inputStream = file.getInputStream();
+			String mimeType = file.getContentType();
+			
             InputContentFile cmsContentImage = new InputContentFile();
             cmsContentImage.setFileName(imageName);
-            cmsContentImage.setMimeType( contentImages.getFile().get(0).getContentType());
+            cmsContentImage.setMimeType(mimeType);
             cmsContentImage.setFile( inputStream );
             contentService.addLogo(store.getCode(), cmsContentImage);
 			
@@ -125,10 +127,11 @@ public class StoreBrandingController {
             store.setStoreLogo(imageName);
             merchantStoreService.update(store);
             request.getSession().setAttribute(Constants.ADMIN_STORE, store);
-  
+
+		} else {
+			model.addAttribute("error","error");
+			return "admin-store-branding";
 		}
-		
-		//display templates
 
 		model.addAttribute("success","success");
 		return "admin-store-branding";
@@ -158,14 +161,13 @@ public class StoreBrandingController {
 	}
 	
 	@PreAuthorize("hasRole('STORE')")
-	@RequestMapping(value="/admin/store/removeImage.html", method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody String removeImage(HttpServletRequest request, HttpServletResponse response, Locale locale) {
+	@RequestMapping(value="/admin/store/removeImage.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> removeImage(HttpServletRequest request, HttpServletResponse response, Locale locale) {
 
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		
 		AjaxResponse resp = new AjaxResponse();
 
-		
 		try {
 			
 
@@ -183,8 +185,9 @@ public class StoreBrandingController {
 		}
 		
 		String returnString = resp.toJSONString();
-		
-		return returnString;
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 	private void setMenu(Model model, HttpServletRequest request) throws Exception {

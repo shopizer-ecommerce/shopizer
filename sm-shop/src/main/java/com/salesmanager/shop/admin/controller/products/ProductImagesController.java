@@ -150,7 +150,7 @@ public class ProductImagesController {
 				
 				for(ProductImage image : images) {
 					
-						String imagePath = imageUtils.buildProductimageUtils(store, product, image.getProductImage());
+						String imagePath = imageUtils.buildProductImageUtils(store, product, image.getProductImage());
 						
 						Map entry = new HashMap();
 						//entry.put("picture", new StringBuilder().append(request.getContextPath()).append(imagePath).toString());

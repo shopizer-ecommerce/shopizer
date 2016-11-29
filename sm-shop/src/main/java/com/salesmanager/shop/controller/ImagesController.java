@@ -47,10 +47,10 @@ public class ImagesController {
 	 * @throws IOException
 	 * @throws ServiceException 
 	 */
-	@RequestMapping("/static/{storeCode}/{imageType}/{imageName}.{extension}")
+	@RequestMapping("/static/files/{storeCode}/{imageType}/{imageName}.{extension}")
 	public @ResponseBody byte[] printImage(@PathVariable final String storeCode, @PathVariable final String imageType, @PathVariable final String imageName, @PathVariable final String extension) throws IOException, ServiceException {
 
-		// example -> /static/mystore/CONTENT/myImage.png
+		// example -> /static/files/DEFAULT/CONTENT/myImage.png
 		
 		FileContentType imgType = null;
 		

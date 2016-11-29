@@ -55,15 +55,8 @@ public class ContentImageUrlTag extends RequestContextAwareTag {
 			if(this.getMerchantStore()!=null) {
 				merchantStore = this.getMerchantStore();
 			}
-			
-			//TODO TO BE REVISED
-			//StringBuilder imagePath = new StringBuilder();
-			//String baseUrl = filePathUtils.buildStoreUri(merchantStore, request);
-			//imagePath.append(baseUrl);	
-			
-			
-			String img = imageUtils.buildStaticimageUtils(merchantStore,this.getImageType(),this.getImageName());
-			//imagePath.append(img);
+
+			String img = imageUtils.buildStaticImageUtils(merchantStore,this.getImageType(),this.getImageName());
 
 			pageContext.getOut().print(img);
 

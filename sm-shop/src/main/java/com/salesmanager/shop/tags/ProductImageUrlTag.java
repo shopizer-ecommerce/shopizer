@@ -61,7 +61,7 @@ public class ProductImageUrlTag extends RequestContextAwareTag {
 			
 			imagePath
 
-				.append(imageUtils.buildProductimageUtils(merchantStore, product, this.getImageName())).toString();
+				.append(imageUtils.buildProductImageUtils(merchantStore, product, this.getImageName())).toString();
 
 			System.out.println("Printing image " + imagePath.toString());
 

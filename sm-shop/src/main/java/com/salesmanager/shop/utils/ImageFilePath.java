@@ -16,7 +16,7 @@ public interface ImageFilePath {
 	 * @param imageName
 	 * @return
 	 */
-	public String buildStaticimageUtils(MerchantStore store, String imageName);
+	public String buildStaticImageUtils(MerchantStore store, String imageName);
 	
 	/**
 	 * Builds a static content image file path that can be used by image servlet
@@ -25,7 +25,7 @@ public interface ImageFilePath {
 	 * @param imageName
 	 * @return
 	 */
-	public String buildStaticimageUtils(MerchantStore store, String type, String imageName);
+	public String buildStaticImageUtils(MerchantStore store, String type, String imageName);
 	
 	/**
 	 * Builds a manufacturer image file path that can be used by image servlet
@@ -35,7 +35,7 @@ public interface ImageFilePath {
 	 * @param imageName
 	 * @return
 	 */
-	public String buildManufacturerimageUtils(MerchantStore store, Manufacturer manufacturer, String imageName);
+	public String buildManufacturerImageUtils(MerchantStore store, Manufacturer manufacturer, String imageName);
 	
 	/**
 	 * Builds a product image file path that can be used by image servlet
@@ -45,7 +45,7 @@ public interface ImageFilePath {
 	 * @param imageName
 	 * @return
 	 */
-	public String buildProductimageUtils(MerchantStore store, Product product, String imageName);
+	public String buildProductImageUtils(MerchantStore store, Product product, String imageName);
 	
 	/**
 	 * Builds a default product image file path that can be used by image servlet
@@ -55,7 +55,7 @@ public interface ImageFilePath {
 	 * @param imageName
 	 * @return
 	 */
-	public String buildProductimageUtils(MerchantStore store, String sku, String imageName);
+	public String buildProductImageUtils(MerchantStore store, String sku, String imageName);
 	
 	/**
 	 * Builds a large product image file path that can be used by the image servlet
@@ -64,7 +64,7 @@ public interface ImageFilePath {
 	 * @param imageName
 	 * @return
 	 */
-	public String buildLargeProductimageUtils(MerchantStore store, String sku, String imageName);
+	public String buildLargeProductImageUtils(MerchantStore store, String sku, String imageName);
 
 
 	
@@ -81,7 +81,7 @@ public interface ImageFilePath {
 	 * @param imageName
 	 * @return
 	 */
-	public String buildProductPropertyimageUtils(MerchantStore store, String imageName);
+	public String buildProductPropertyImageUtils(MerchantStore store, String imageName);
 	
 	
 	/**

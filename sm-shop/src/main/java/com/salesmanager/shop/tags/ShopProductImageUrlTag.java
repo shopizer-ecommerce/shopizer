@@ -63,9 +63,9 @@ public class ShopProductImageUrlTag extends RequestContextAwareTag {
 			imagePath.append(baseUrl);
 			
 			if(StringUtils.isBlank(this.getSize()) || this.getSize().equals(SMALL)) {
-				imagePath.append(imageUtils.buildProductimageUtils(merchantStore, this.getSku(), this.getImageName())).toString();
+				imagePath.append(imageUtils.buildProductImageUtils(merchantStore, this.getSku(), this.getImageName())).toString();
 			} else {
-				imagePath.append(imageUtils.buildLargeProductimageUtils(merchantStore, this.getSku(), this.getImageName())).toString();
+				imagePath.append(imageUtils.buildLargeProductImageUtils(merchantStore, this.getSku(), this.getImageName())).toString();
 			}
 
 			//System.out.println("Printing image -M " + imagePath.toString());

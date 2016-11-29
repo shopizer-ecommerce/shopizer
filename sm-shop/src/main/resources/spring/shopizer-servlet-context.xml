@@ -28,10 +28,11 @@
 	</beans:bean> -->
 	
 
-	<!-- Only needed because we require fileupload in the org.springframework.samples.mvc.fileupload package -->
+ 	<!-- Only needed because we require fileupload in the org.springframework.samples.mvc.fileupload package -->
+ 	<!--
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<beans:property name="maxUploadSize" value="10000000"/>
-	</beans:bean>
+	</beans:bean> -->
 	
 	
 	<beans:bean id="localeResolver"

@@ -14,6 +14,7 @@ import com.salesmanager.shop.constants.Constants;
 
 public abstract class AbstractimageFilePath implements ImageFilePath {
 
+
 	public abstract String getBasePath();
 
 	public abstract void setBasePath(String basePath);
@@ -25,7 +26,7 @@ public abstract class AbstractimageFilePath implements ImageFilePath {
 	 * @param imageName
 	 * @return
 	 */
-	public String buildStaticimageUtils(MerchantStore store, String imageName) {
+	public String buildStaticImageUtils(MerchantStore store, String imageName) {
 		StringBuilder imgName = new StringBuilder().append(getBasePath()).append(Constants.SLASH).append(store.getCode()).append(Constants.SLASH).append(FileContentType.IMAGE.name()).append(Constants.SLASH);
 				if(!StringUtils.isBlank(imageName)) {
 					imgName.append(imageName);
@@ -41,8 +42,8 @@ public abstract class AbstractimageFilePath implements ImageFilePath {
 	 * @param imageName
 	 * @return
 	 */
-	public String buildStaticimageUtils(MerchantStore store, String type, String imageName) {
-		StringBuilder imgName = new StringBuilder().append(getBasePath()).append(Constants.SLASH).append(store.getCode()).append(Constants.SLASH).append(type).append(Constants.SLASH);
+	public String buildStaticImageUtils(MerchantStore store, String type, String imageName) {
+		StringBuilder imgName = new StringBuilder().append(getBasePath()).append(Constants.FILES_URI).append(Constants.SLASH).append(store.getCode()).append(Constants.SLASH).append(type).append(Constants.SLASH);
 		if(!StringUtils.isBlank(imageName)) {
 				imgName.append(imageName);
 		}
@@ -58,7 +59,7 @@ public abstract class AbstractimageFilePath implements ImageFilePath {
 	 * @param imageName
 	 * @return
 	 */
-	public String buildManufacturerimageUtils(MerchantStore store, Manufacturer manufacturer, String imageName) {
+	public String buildManufacturerImageUtils(MerchantStore store, Manufacturer manufacturer, String imageName) {
 		return new StringBuilder().append(getBasePath()).append(Constants.SLASH).append(store.getCode()).append(Constants.SLASH).
 				append(FileContentType.MANUFACTURER.name()).append(Constants.SLASH)
 				.append(manufacturer.getId()).append(Constants.SLASH)
@@ -73,7 +74,7 @@ public abstract class AbstractimageFilePath implements ImageFilePath {
 	 * @param imageName
 	 * @return
 	 */
-	public String buildProductimageUtils(MerchantStore store, Product product, String imageName) {
+	public String buildProductImageUtils(MerchantStore store, Product product, String imageName) {
 		return new StringBuilder().append(getBasePath()).append(Constants.SLASH).append(store.getCode()).append(Constants.SLASH).append(FileContentType.PRODUCT.name()).append(Constants.SLASH)
 				.append(product.getSku()).append(Constants.SLASH).append(imageName).toString();
 	}
@@ -86,7 +87,7 @@ public abstract class AbstractimageFilePath implements ImageFilePath {
 	 * @param imageName
 	 * @return
 	 */
-	public String buildProductimageUtils(MerchantStore store, String sku, String imageName) {
+	public String buildProductImageUtils(MerchantStore store, String sku, String imageName) {
 		return new StringBuilder().append(getBasePath()).append(Constants.SLASH).append(store.getCode()).append(Constants.SLASH).append(FileContentType.PRODUCT.name()).append(Constants.SLASH)
 				.append(sku).append(Constants.SLASH).append(imageName).toString();
 	}
@@ -98,7 +99,7 @@ public abstract class AbstractimageFilePath implements ImageFilePath {
 	 * @param imageName
 	 * @return
 	 */
-	public String buildLargeProductimageUtils(MerchantStore store, String sku, String imageName) {
+	public String buildLargeProductImageUtils(MerchantStore store, String sku, String imageName) {
 		return new StringBuilder().append(getBasePath()).append(Constants.SLASH).append(store.getCode()).append(Constants.SLASH).append(FileContentType.PRODUCTLG.name()).append(Constants.SLASH)
 				.append(sku).append(Constants.SLASH).append(imageName).toString();
 	}
@@ -121,12 +122,12 @@ public abstract class AbstractimageFilePath implements ImageFilePath {
 	 * @param imageName
 	 * @return
 	 */
-	public String buildProductPropertyimageFilePath(MerchantStore store, String imageName) {
+	public String buildProductPropertyImageFilePath(MerchantStore store, String imageName) {
 		return new StringBuilder().append(getBasePath()).append(Constants.SLASH).append(store.getCode()).append(Constants.SLASH).append(FileContentType.PROPERTY).append(Constants.SLASH)
 				.append(imageName).toString();
 	}
 	
-	public String buildProductPropertyimageUtils(MerchantStore store, String imageName) {
+	public String buildProductPropertyImageUtils(MerchantStore store, String imageName) {
 		return new StringBuilder().append(getBasePath()).append("/files/").append(store.getCode()).append("/").append(FileContentType.PROPERTY).append("/")
 				.append(imageName).toString();
 	}

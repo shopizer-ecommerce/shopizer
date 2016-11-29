@@ -107,7 +107,7 @@ public class ContentImageController {
 
 					@SuppressWarnings("rawtypes")
 					Map entry = new HashMap();
-					entry.put("picture", new StringBuilder().append(request.getContextPath()).append(imageUtils.buildStaticimageUtils(store, name)).toString());
+					entry.put("picture", new StringBuilder().append(request.getContextPath()).append(imageUtils.buildStaticImageUtils(store, name)).toString());
 					
 					entry.put("name", name);
 					entry.put("id", name);
