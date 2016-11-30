@@ -25,7 +25,9 @@ import com.salesmanager.shop.utils.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -39,6 +41,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -78,6 +81,7 @@ public class UserController {
 	private EmailUtils emailUtils;
 	
 	@Inject
+	@Named("passwordEncoder")
 	private PasswordEncoder passwordEncoder;
 	
 	private final static String QUESTION_1 = "question1";
@@ -140,9 +144,7 @@ public class UserController {
 						resp.addDataEntry(entry);
 					
 					}
-				
 				}
-
 			}
 
 			resp.setStatus(AjaxResponse.RESPONSE_STATUS_SUCCESS);
@@ -153,7 +155,6 @@ public class UserController {
 		}
 
 		String returnString = resp.toJSONString();
-
 		return new ResponseEntity<String>(returnString,HttpStatus.OK);
 	}
 
@@ -191,19 +192,14 @@ public class UserController {
 			result.addError(error);
 			return ControllerConstants.Tiles.User.password;
 		}
-		
 
-		String tempPass = passwordEncoder.encode(password.getPassword());
-		
-		//password match
-		if(!tempPass.equals(dbUser.getAdminPassword())) {
+		if(!passwordEncoder.matches(password.getPassword(), dbUser.getAdminPassword())) {
 			ObjectError error = new ObjectError("password",messages.getMessage("message.password.invalid", locale));
 			result.addError(error);
 			return ControllerConstants.Tiles.User.password;
 		}
-
-
 		
+
 		if(StringUtils.isBlank(password.getNewPassword())) {
 			ObjectError error = new ObjectError("newPassword",new StringBuilder().append(messages.getMessage("label.generic.newpassword", locale)).append(" ").append(messages.getMessage("message.cannot.empty", locale)).toString());
 			result.addError(error);
@@ -407,18 +403,22 @@ public class UserController {
 	}
 	
 	@PreAuthorize("hasRole('AUTH')")
-	@RequestMapping(value="/admin/users/checkUserCode.html", method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody String checkUserCode(HttpServletRequest request, HttpServletResponse response, Locale locale) {
+	@RequestMapping(value="/admin/users/checkUserCode.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> checkUserCode(HttpServletRequest request, HttpServletResponse response, Locale locale) {
 		String code = request.getParameter("code");
 		String id = request.getParameter("id");
 
 		AjaxResponse resp = new AjaxResponse();
 		
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		
 		try {
 			
 			if(StringUtils.isBlank(code)) {
 				resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
-				return resp.toJSONString();
+				String returnString =  resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			User user = userService.getByUserName(code);
@@ -430,11 +430,13 @@ public class UserController {
 					
 					if(user.getAdminName().equals(code) && user.getId()==lid) {
 						resp.setStatus(AjaxResponse.RESPONSE_STATUS_SUCCESS);
-						return resp.toJSONString();
+						String returnString =  resp.toJSONString();
+						return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 					}
 				} catch (Exception e) {
 					resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
-					return resp.toJSONString();
+					String returnString =  resp.toJSONString();
+					return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 				}
 	
 			}
@@ -442,13 +444,16 @@ public class UserController {
 			
 			if(StringUtils.isBlank(code)) {
 				resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
-				return resp.toJSONString();
+				String returnString =  resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 
 			if(user!=null) {
 				resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
-				return resp.toJSONString();
+				String returnString =  resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
+			
 
 			resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
 
@@ -459,8 +464,8 @@ public class UserController {
 		}
 		
 		String returnString = resp.toJSONString();
-		
-		return returnString;
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+
 	}
 	
 	@PreAuthorize("hasRole('AUTH')")

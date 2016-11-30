@@ -125,21 +125,6 @@
 		    <groupId>org.freemarker</groupId>
 		    <artifactId>freemarker</artifactId>
 		</dependency>
-		
- 		<!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
- 		<!--
-		<dependency>
-		    <groupId>javax.mail</groupId>
-		    <artifactId>javax.mail-api</artifactId>
-		</dependency> -->
-		
-		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
-		<dependency>
-		    <groupId>javax.mail</groupId>
-		    <artifactId>mail</artifactId>
-		    <version>1.4.7</version>
-		</dependency>
-		
 
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context-support -->
 		<dependency>

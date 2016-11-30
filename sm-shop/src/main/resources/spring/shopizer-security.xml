@@ -65,13 +65,6 @@
 		<intercept-url pattern="/admin/*/*.html*" access="hasRole('AUTH')" />
 		<intercept-url pattern="/admin/*/*/*.html*" access="hasRole('AUTH')" />
 
-		
-<!-- 		<form-login 
-			login-processing-url="/logonForm" 
-			login-page="/admin/logon.html"
-			authentication-success-handler-ref="userAuthenticationSuccessHandler"
-			authentication-failure-url="/admin/logon.html?login_error=true"
-			default-target-url="/admin/home.html" /> -->
 			
 		<form-login login-page="/admin/logon.html"
 					username-parameter="username" 

@@ -90,11 +90,6 @@
 			<artifactId>h2</artifactId>
 		</dependency>	
 
-		<dependency>
-		    <groupId>javax.validation</groupId>
-		    <artifactId>validation-api</artifactId>
-		    <version>1.1.0.Final</version>
-		</dependency>
 
 		<!-- Servlet -->
 		<dependency>
@@ -120,7 +115,14 @@
 			<version>1.2</version>
 		</dependency>
 		
-
+		<!-- https://mvnrepository.com/artifact/javax/javaee-api -->
+		<!--
+		<dependency>
+		    <groupId>javax</groupId>
+		    <artifactId>javaee-api</artifactId>
+		    <version>7.0</version>
+		</dependency>
+		-->
 		
 	</dependencies>
 	

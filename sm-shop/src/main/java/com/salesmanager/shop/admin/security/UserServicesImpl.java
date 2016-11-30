@@ -38,6 +38,8 @@ import java.util.List;
 public class UserServicesImpl implements WebUserServices{
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserServicesImpl.class);
+	
+	private static final String DEFAULT_INITIAL_PASSWORD = "password";
 
 	@Inject
 	private UserService userService;
@@ -117,7 +119,7 @@ public class UserServicesImpl implements WebUserServices{
 		
 		  MerchantStore store = merchantStoreService.getMerchantStore(MerchantStore.DEFAULT_STORE);
 
-		  String password = passwordEncoder.encode("password");
+		  String password = passwordEncoder.encode(DEFAULT_INITIAL_PASSWORD);
 		  
 		  List<Group> groups = groupService.listGroup(GroupType.ADMIN);
 		  

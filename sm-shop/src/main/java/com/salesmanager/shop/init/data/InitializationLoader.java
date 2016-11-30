@@ -1,5 +1,13 @@
 package com.salesmanager.shop.init.data;
 
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 import com.salesmanager.core.business.constants.SystemConstants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.merchant.MerchantStoreService;
@@ -17,14 +25,6 @@ import com.salesmanager.core.model.user.GroupType;
 import com.salesmanager.core.model.user.Permission;
 import com.salesmanager.shop.admin.security.WebUserServices;
 import com.salesmanager.shop.constants.ApplicationConstants;
-import com.salesmanager.shop.utils.AppConfiguration;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 
 
 
@@ -32,9 +32,7 @@ import javax.inject.Inject;
 public class InitializationLoader {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(InitializationLoader.class);
-	
-	@Inject
-	private AppConfiguration appConfiguration;
+
 	
 	@Inject
 	private MerchantConfigurationService merchantConfigurationService;
