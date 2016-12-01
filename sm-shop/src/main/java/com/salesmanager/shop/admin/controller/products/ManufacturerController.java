@@ -17,6 +17,10 @@ import com.salesmanager.shop.utils.LabelUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -318,8 +322,8 @@ public class ManufacturerController {
 	
 	@SuppressWarnings("unchecked")
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/catalogue/manufacturer/paging.html", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-	public @ResponseBody String pageManufacturers(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value="/admin/catalogue/manufacturer/paging.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> pageManufacturers(HttpServletRequest request, HttpServletResponse response) {
 		
 		AjaxResponse resp = new AjaxResponse();
 		try {
@@ -356,7 +360,9 @@ public class ManufacturerController {
 		resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_SUCCESS);
 		
 		String returnString = resp.toJSONString();
-		return returnString;
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 		
 	}
 	

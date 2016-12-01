@@ -61,7 +61,6 @@ public class ReferenceController {
 	
 	
 	@SuppressWarnings("unchecked")
-	//@RequestMapping(value={"/admin/reference/provinces.html","/shop/reference/provinces.html"}, method=RequestMethod.POST, produces="application/json;text/plain;charset=UTF-8")
 	@RequestMapping(value={"/admin/reference/provinces.html","/shop/reference/provinces.html"}, method=RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> getProvinces(HttpServletRequest request, HttpServletResponse response) {
 		

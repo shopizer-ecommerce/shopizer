@@ -15,6 +15,10 @@ import javax.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -242,8 +246,8 @@ public class CategoryController {
 	
 	@SuppressWarnings({ "unchecked"})
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/categories/paging.html", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-	public @ResponseBody String pageCategories(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value="/admin/categories/paging.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> pageCategories(HttpServletRequest request, HttpServletResponse response) {
 		String categoryName = request.getParameter("name");
 		String categoryCode = request.getParameter("code");
 
@@ -303,8 +307,10 @@ public class CategoryController {
 		}
 		
 		String returnString = resp.toJSONString();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		
-		return returnString;
+	    return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasRole('PRODUCTS')")
@@ -327,8 +333,8 @@ public class CategoryController {
 	}
 	
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/categories/remove.html", method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody String deleteCategory(HttpServletRequest request, HttpServletResponse response, Locale locale) {
+	@RequestMapping(value="/admin/categories/remove.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> deleteCategory(HttpServletRequest request, HttpServletResponse response, Locale locale) {
 		String sid = request.getParameter("categoryId");
 
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
@@ -362,19 +368,22 @@ public class CategoryController {
 		}
 		
 		String returnString = resp.toJSONString();
-		
-		return returnString;
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/categories/moveCategory.html", method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody String moveCategory(HttpServletRequest request, HttpServletResponse response, Locale locale) {
+	@RequestMapping(value="/admin/categories/moveCategory.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> moveCategory(HttpServletRequest request, HttpServletResponse response, Locale locale) {
 		String parentid = request.getParameter("parentId");
 		String childid = request.getParameter("childId");
 
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		
 		AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 
 		
 		try {
@@ -387,7 +396,7 @@ public class CategoryController {
 			
 			if(child.getParent().getId()==parentId) {
 				resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
 			}
 
 			if(parentId!=1) {
@@ -396,13 +405,15 @@ public class CategoryController {
 					resp.setStatusMessage(messages.getMessage("message.unauthorized", locale));
 					
 					resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
-					return resp.toJSONString();
+					String returnString = resp.toJSONString();
+					return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 				}
 				
 				if(child.getMerchantStore().getId()!=store.getId() || parent.getMerchantStore().getId()!=store.getId()) {
 					resp.setStatusMessage(messages.getMessage("message.unauthorized", locale));
 					resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
-					return resp.toJSONString();
+					String returnString = resp.toJSONString();
+					return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 				}
 			
 			}
@@ -420,12 +431,12 @@ public class CategoryController {
 		
 		String returnString = resp.toJSONString();
 		
-		return returnString;
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/categories/checkCategoryCode.html", method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody String checkCategoryCode(HttpServletRequest request, HttpServletResponse response, Locale locale) {
+	@RequestMapping(value="/admin/categories/checkCategoryCode.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> checkCategoryCode(HttpServletRequest request, HttpServletResponse response, Locale locale) {
 		String code = request.getParameter("code");
 		String id = request.getParameter("id");
 
@@ -435,9 +446,14 @@ public class CategoryController {
 		
 		AjaxResponse resp = new AjaxResponse();
 		
+		
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		
 		if(StringUtils.isBlank(code)) {
 			resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
-			return resp.toJSONString();
+			String returnString = resp.toJSONString();
+			return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 		}
 
 		
@@ -447,7 +463,8 @@ public class CategoryController {
 		
 		if(category!=null && StringUtils.isBlank(id)) {
 			resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
-			return resp.toJSONString();
+			String returnString = resp.toJSONString();
+			return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 		}
 		
 		
@@ -457,11 +474,13 @@ public class CategoryController {
 				
 				if(category.getCode().equals(code) && category.getId().longValue()==lid) {
 					resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
-					return resp.toJSONString();
+					String returnString = resp.toJSONString();
+					return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 				}
 			} catch (Exception e) {
 				resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 
 		}
@@ -484,8 +503,8 @@ public class CategoryController {
 		}
 		
 		String returnString = resp.toJSONString();
-		
-		return returnString;
+
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 	private void setMenu(Model model, HttpServletRequest request) throws Exception {

@@ -637,14 +637,16 @@ public class UserController {
 	}
 	
 	@PreAuthorize("hasRole('AUTH')")
-	@RequestMapping(value="/admin/users/remove.html", method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody String removeUser(HttpServletRequest request, Locale locale) throws Exception {
+	@RequestMapping(value="/admin/users/remove.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> removeUser(HttpServletRequest request, Locale locale) throws Exception {
 		
 		//do not remove super admin
 		
 		String sUserId = request.getParameter("userId");
 
 		AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		
 		String userName = request.getRemoteUser();
 		User remoteUser = userService.getByUserName(userName);
@@ -664,13 +666,15 @@ public class UserController {
 			if(user==null){
 				resp.setStatusMessage(messages.getMessage("message.unauthorized", locale));
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);			
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			if(!request.isUserInRole(Constants.GROUP_ADMIN)) {
 				resp.setStatusMessage(messages.getMessage("message.unauthorized", locale));
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);			
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 
 			
@@ -684,7 +688,8 @@ public class UserController {
 			if(!isAdmin) {
 				resp.setStatusMessage(messages.getMessage("message.security.caanotremovesuperadmin", locale));
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);			
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			userService.delete(user);
@@ -700,8 +705,7 @@ public class UserController {
 		}
 		
 		String returnString = resp.toJSONString();
-		
-		return returnString;
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 		
 	}
 	
@@ -724,10 +728,13 @@ public class UserController {
 	}
 	
 	//password reset functionality  ---  Sajid Shajahan  
-	@RequestMapping(value="/admin/users/resetPassword.html", method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody String resetPassword(HttpServletRequest request, HttpServletResponse response, Locale locale) {
+	@RequestMapping(value="/admin/users/resetPassword.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> resetPassword(HttpServletRequest request, HttpServletResponse response, Locale locale) {
 		
 		AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	    
 		String userName = request.getParameter("username");
 		
 		
@@ -748,7 +755,8 @@ public class UserController {
 						if(dbUser==null) {
 							resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 							resp.setStatusMessage(messages.getMessage("message.username.notfound", locale));
-							return resp.toJSONString();
+							String returnString = resp.toJSONString();
+							return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 						}
 					
 						Map<String,String> entry = new HashMap<String,String>();
@@ -768,27 +776,25 @@ public class UserController {
 						e.printStackTrace();
 						resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 						resp.setStatusMessage(messages.getMessage("User.resetPassword.Error", locale));
-						return resp.toJSONString();
+						String returnString = resp.toJSONString();
+						return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 	
 		
 		
 		
 		String returnString = resp.toJSONString();
-		return returnString;
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	//password reset functionality  ---  Sajid Shajahan
-	@RequestMapping(value="/admin/users/resetPasswordSecurityQtn.html", method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody String resetPasswordSecurityQtn(@ModelAttribute(value="userReset") UserReset userReset,HttpServletRequest request, HttpServletResponse response, Locale locale) {
+	@RequestMapping(value="/admin/users/resetPasswordSecurityQtn.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> resetPasswordSecurityQtn(@ModelAttribute(value="userReset") UserReset userReset,HttpServletRequest request, HttpServletResponse response, Locale locale) {
 		
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		Language userLanguage = null; 
 		Locale userLocale =  null; 
 		AjaxResponse resp = new AjaxResponse();
-		
-		//String question1 = request.getParameter("question1");
-		//String question2 = request.getParameter("question2");
-		//String question3 = request.getParameter("question3");
+
 
 		String answer1 = request.getParameter("answer1");
 		String answer2 = request.getParameter("answer2");
@@ -857,7 +863,9 @@ public class UserController {
 		}
 		
 		String returnString = resp.toJSONString();
-		return returnString;
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 	}

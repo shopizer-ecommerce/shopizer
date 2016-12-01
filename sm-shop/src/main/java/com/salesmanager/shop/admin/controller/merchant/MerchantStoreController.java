@@ -413,12 +413,14 @@ public class MerchantStoreController {
 	
 	
 	@PreAuthorize("hasRole('STORE_ADMIN')")
-	@RequestMapping(value="/admin/store/remove.html", method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody String removeMerchantStore(HttpServletRequest request, Locale locale) throws Exception {
+	@RequestMapping(value="/admin/store/remove.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> removeMerchantStore(HttpServletRequest request, Locale locale) throws Exception {
 
 		String sMerchantStoreId = request.getParameter("storeId");
 
 		AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 
 		
 		try {
@@ -442,7 +444,8 @@ public class MerchantStoreController {
 			if(!isSuperAdmin) {
 				resp.setStatusMessage(messages.getMessage("message.security.caanotremovesuperadmin", locale));
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);			
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			merchantStoreService.delete(store);
@@ -458,8 +461,8 @@ public class MerchantStoreController {
 		}
 		
 		String returnString = resp.toJSONString();
-		
-		return returnString;
+
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 		
 	}
 	
