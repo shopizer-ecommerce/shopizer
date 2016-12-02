@@ -16,7 +16,7 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.constants.ApplicationConstants;
 import com.salesmanager.shop.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.shop.model.order.PersistableOrderProduct;
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.Validate;
 
 import java.util.HashSet;

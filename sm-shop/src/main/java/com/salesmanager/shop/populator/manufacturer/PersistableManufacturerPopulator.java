@@ -9,7 +9,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription;
 import com.salesmanager.shop.model.catalog.manufacturer.PersistableManufacturer;
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.Validate;
 
 import java.util.HashSet;

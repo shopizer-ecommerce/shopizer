@@ -26,7 +26,7 @@ import com.salesmanager.shop.model.order.OrderTotal;
 import com.salesmanager.shop.model.order.PersistableOrder;
 import com.salesmanager.shop.model.order.PersistableOrderProduct;
 import com.salesmanager.shop.utils.LocaleUtils;
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.Validate;
 
 import java.math.BigDecimal;
