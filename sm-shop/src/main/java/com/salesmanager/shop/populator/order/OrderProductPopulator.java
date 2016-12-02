@@ -19,7 +19,7 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.shoppingcart.ShoppingCartAttributeItem;
 import com.salesmanager.core.model.shoppingcart.ShoppingCartItem;
 import com.salesmanager.shop.constants.ApplicationConstants;
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.Validate;
 
 import java.util.HashSet;
