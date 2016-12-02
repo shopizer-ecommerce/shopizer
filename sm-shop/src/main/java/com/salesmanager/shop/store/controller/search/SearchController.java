@@ -22,7 +22,7 @@ import com.salesmanager.shop.populator.catalog.ReadableProductPopulator;
 import com.salesmanager.shop.store.controller.ControllerConstants;
 import com.salesmanager.shop.store.model.search.AutoCompleteRequest;
 import com.salesmanager.shop.utils.ImageFilePath;
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
