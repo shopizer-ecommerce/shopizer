@@ -1,25 +1,5 @@
 package com.salesmanager.core.business.services.shipping;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.inject.Inject;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.Validate;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONValue;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.salesmanager.core.business.constants.ShippingConstants;
 import com.salesmanager.core.business.exception.ServiceException;
@@ -35,28 +15,27 @@ import com.salesmanager.core.model.common.Delivery;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.country.Country;
 import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.core.model.shipping.PackageDetails;
-import com.salesmanager.core.model.shipping.ShippingConfiguration;
-import com.salesmanager.core.model.shipping.ShippingMetaData;
-import com.salesmanager.core.model.shipping.ShippingOption;
-import com.salesmanager.core.model.shipping.ShippingOptionPriceType;
-import com.salesmanager.core.model.shipping.ShippingOrigin;
-import com.salesmanager.core.model.shipping.ShippingPackageType;
-import com.salesmanager.core.model.shipping.ShippingProduct;
-import com.salesmanager.core.model.shipping.ShippingQuote;
-import com.salesmanager.core.model.shipping.ShippingSummary;
-import com.salesmanager.core.model.shipping.ShippingType;
+import com.salesmanager.core.model.shipping.*;
 import com.salesmanager.core.model.shoppingcart.ShoppingCartItem;
-import com.salesmanager.core.model.system.CustomIntegrationConfiguration;
-import com.salesmanager.core.model.system.IntegrationConfiguration;
-import com.salesmanager.core.model.system.IntegrationModule;
-import com.salesmanager.core.model.system.MerchantConfiguration;
-import com.salesmanager.core.model.system.MerchantLog;
+import com.salesmanager.core.model.system.*;
 import com.salesmanager.core.modules.integration.IntegrationException;
 import com.salesmanager.core.modules.integration.shipping.model.Packaging;
 import com.salesmanager.core.modules.integration.shipping.model.ShippingQuoteModule;
 import com.salesmanager.core.modules.integration.shipping.model.ShippingQuotePrePostProcessModule;
 import com.salesmanager.core.modules.utils.Encryption;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONValue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import javax.inject.Inject;
+import java.math.BigDecimal;
+import java.util.*;
 
 
 @Service("shippingService")
