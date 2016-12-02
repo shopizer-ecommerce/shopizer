@@ -21,6 +21,8 @@
 		<!--<dbh2.version>1.4.187</dbh2.version>-->
 		<main.basedir>${basedir}/../..</main.basedir>
         <m2eclipse.wtp.contextRoot>/</m2eclipse.wtp.contextRoot>
+
+
 	</properties>
 
 	<dependencies>
@@ -51,6 +53,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+			<scope>provided</scope>
         </dependency>
 
         
@@ -71,6 +74,15 @@
     	</dependency>
 
 
+            <!-- ... -->
+            <!--<dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-tomcat</artifactId>
+
+            </dependency>-->
+            <!-- ... -->
+
+
 		<dependency>
 			<groupId>org.springframework.mobile</groupId>
 			<artifactId>spring-mobile-device</artifactId>
@@ -81,6 +93,12 @@
             <groupId>org.apache.tiles</groupId>
             <artifactId>tiles-jsp</artifactId>
             <version>3.0.4</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>servlet-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
 
@@ -91,13 +109,24 @@
 		</dependency>	
 
 
+		<!--<dependency>
+		    <groupId>javax.validation</groupId>
+		    <artifactId>validation-api</artifactId>
+		    <version>1.1.0.Final</version>
+		</dependency>-->
+
+
 		<!-- Servlet -->
+
+		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
 		<dependency>
 			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>${javax.servlet-api-version}</version>
 			<scope>provided</scope>
-		</dependency>
+		</dependency>-->
+
+
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>jsp-api</artifactId>
@@ -108,12 +137,25 @@
 			<groupId>javax.servlet.jsp.jstl</groupId>
 			<artifactId>jstl-api</artifactId>
 			<version>1.2</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>servlet-api</artifactId>
+                </exclusion>
+            </exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish.web</groupId>
 			<artifactId>jstl-impl</artifactId>
 			<version>1.2</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>servlet-api</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
+
 		
 		<!-- https://mvnrepository.com/artifact/javax/javaee-api -->
 		<!--
@@ -123,11 +165,12 @@
 		    <version>7.0</version>
 		</dependency>
 		-->
+
 		
 	</dependencies>
 	
 
-	
+
 
 
 </project>

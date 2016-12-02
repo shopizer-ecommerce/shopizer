@@ -131,6 +131,12 @@
 			<groupId>org.elasticsearch</groupId>
 			<artifactId>elasticsearch</artifactId>
 			<version>${org.elasticsearch-version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>servlet-api</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 
@@ -138,6 +144,12 @@
 			<groupId>io.searchbox</groupId>
 			<artifactId>jest</artifactId>
 			<version>${io.searchbox.jest-version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>servlet-api</artifactId>
+                </exclusion>
+            </exclusions>
 		</dependency>
 
 			<dependency>
