@@ -10,7 +10,7 @@ import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValue;
 public interface ProductOptionValueRepository extends JpaRepository<ProductOptionValue, Long> {
 
 	@Query("select p from ProductOptionValue p join fetch p.merchantStore pm left join fetch p.descriptions pd where p.id = ?1")
-	ProductOptionValue getById(Long id);
+	ProductOptionValue findOne(Long id);
 	
 	@Query("select distinct p from ProductOptionValue p join fetch p.merchantStore pm left join fetch p.descriptions pd where pm.id = ?1 and pd.language.id = ?2")
 	List<ProductOptionValue> findByStoreId(Integer storeId, Integer languageId);

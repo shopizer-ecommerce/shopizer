@@ -11,7 +11,7 @@ public interface ProductReviewRepository extends JpaRepository<ProductReview, Lo
 
 
 	@Query("select p from ProductReview p join fetch p.customer pc join fetch p.product pp join fetch pp.merchantStore ppm left join fetch p.descriptions pd where p.id = ?1")
-	List<ProductReview> findById(Long id);
+	ProductReview findOne(Long id);
 	
 	@Query("select p from ProductReview p join fetch p.customer pc join fetch p.product pp join fetch pp.merchantStore ppm left join fetch p.descriptions pd where pc.id = ?1")
 	List<ProductReview> findByCustomer(Long customerId);

@@ -10,7 +10,7 @@ import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 public interface ProductAttributeRepository extends JpaRepository<ProductAttribute, Long> {
 
 	@Query("select p from ProductAttribute p join fetch p.product pr left join fetch p.productOption po left join fetch p.productOptionValue pov left join fetch po.descriptions pod left join fetch pov.descriptions povd left join fetch po.merchantStore where p.id = ?1")
-	ProductAttribute findById(Long id);
+	ProductAttribute findOne(Long id);
 	
 	@Query("select p from ProductAttribute p join fetch p.product pr left join fetch p.productOption po left join fetch p.productOptionValue pov left join fetch po.descriptions pod left join fetch pov.descriptions povd left join fetch po.merchantStore pom where pom.id = ?1 and po.id = ?2")
 	List<ProductAttribute> findByOptionId(Integer storeId, Long id);

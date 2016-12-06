@@ -15,6 +15,10 @@ import com.salesmanager.shop.constants.Constants;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -116,12 +120,15 @@ public class DigitalProductController {
 	}
 	
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/products/product/removeDigitalProduct.html", method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody String removeFile(@RequestParam("fileId") long fileId, HttpServletRequest request, HttpServletResponse response, Locale locale) {
+	@RequestMapping(value="/admin/products/product/removeDigitalProduct.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> removeFile(@RequestParam("fileId") long fileId, HttpServletRequest request, HttpServletResponse response, Locale locale) {
 
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		
 		AjaxResponse resp = new AjaxResponse();
+		
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 
 		
 		try {
@@ -131,13 +138,15 @@ public class DigitalProductController {
 			//validate store
 			if(digitalProduct==null) {
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			Product product = digitalProduct.getProduct();
 			if(product.getMerchantStore().getId().intValue()!= store.getId().intValue()) {
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			digitalProductService.delete(digitalProduct);
@@ -151,8 +160,7 @@ public class DigitalProductController {
 		}
 		
 		String returnString = resp.toJSONString();
-		
-		return returnString;
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 	

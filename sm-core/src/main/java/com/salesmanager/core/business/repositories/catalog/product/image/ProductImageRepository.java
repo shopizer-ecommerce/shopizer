@@ -9,7 +9,7 @@ public interface ProductImageRepository extends JpaRepository<ProductImage, Long
 
 
 	@Query("select p from ProductImage p left join fetch p.descriptions pd inner join fetch p.product pp inner join fetch pp.merchantStore ppm where p.id = ?1")
-	ProductImage findById(Long id);
+	ProductImage findOne(Long id);
 	
 	
 }

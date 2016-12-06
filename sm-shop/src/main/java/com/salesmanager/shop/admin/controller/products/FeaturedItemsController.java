@@ -16,6 +16,10 @@ import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -66,8 +70,8 @@ public class FeaturedItemsController {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/catalogue/featured/paging.html", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-	public @ResponseBody String pageProducts(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value="/admin/catalogue/featured/paging.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> pageProducts(HttpServletRequest request, HttpServletResponse response) {
 		
 		
 		AjaxResponse resp = new AjaxResponse();
@@ -114,17 +118,23 @@ public class FeaturedItemsController {
 		}
 		
 		String returnString = resp.toJSONString();
-		return returnString;
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 
 
 	}
 	
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/catalogue/featured/addItem.html", method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody String addItem(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value="/admin/catalogue/featured/addItem.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> addItem(HttpServletRequest request, HttpServletResponse response) {
 		
 		String productId = request.getParameter("productId");
 		AjaxResponse resp = new AjaxResponse();
+		
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		
 		
 		try {
 			
@@ -137,12 +147,14 @@ public class FeaturedItemsController {
 			
 			if(product==null) {
 				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			if(product.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
 				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 
 
@@ -164,16 +176,19 @@ public class FeaturedItemsController {
 		}
 		
 		String returnString = resp.toJSONString();
-		return returnString;
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 		
 	}
 	
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/catalogue/featured/removeItem.html&removeEntity=FEATURED", method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody String removeItem(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value="/admin/catalogue/featured/removeItem.html&removeEntity=FEATURED", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> removeItem(HttpServletRequest request, HttpServletResponse response) {
 		
 		String productId = request.getParameter("productId");
 		AjaxResponse resp = new AjaxResponse();
+		
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		
 		try {
 			
@@ -186,12 +201,14 @@ public class FeaturedItemsController {
 			
 			if(product==null) {
 				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			if(product.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
 				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			
@@ -206,12 +223,14 @@ public class FeaturedItemsController {
 			
 			if(relationship==null) {
 				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			if(relationship.getStore().getId().intValue()!=store.getId().intValue()) {
 				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 
 
@@ -229,7 +248,7 @@ public class FeaturedItemsController {
 		}
 		
 		String returnString = resp.toJSONString();
-		return returnString;
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 		
 	}
 	

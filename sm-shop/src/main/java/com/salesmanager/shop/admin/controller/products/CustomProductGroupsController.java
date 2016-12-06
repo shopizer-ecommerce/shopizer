@@ -19,6 +19,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -71,8 +75,8 @@ public class CustomProductGroupsController {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/products/groups/paging.html", method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody String pageCustomGroups(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value="/admin/products/groups/paging.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> pageCustomGroups(HttpServletRequest request, HttpServletResponse response) {
 		
 		
 		AjaxResponse resp = new AjaxResponse();
@@ -108,7 +112,9 @@ public class CustomProductGroupsController {
 		}
 		
 		String returnString = resp.toJSONString();
-		return returnString;
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 
 
 	}
@@ -161,8 +167,8 @@ public class CustomProductGroupsController {
 	}
 	
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/products/groups/remove.html", method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody String removeCustomProductGroup(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value="/admin/products/groups/remove.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> removeCustomProductGroup(HttpServletRequest request, HttpServletResponse response) {
 		
 		String groupCode = request.getParameter("code");
 
@@ -180,14 +186,15 @@ public class CustomProductGroupsController {
 		}
 
 		String returnString = resp.toJSONString();
-
-		return returnString;
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 
 	}
 	
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/products/groups/update.html", method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody String activateProductGroup(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value="/admin/products/groups/update.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> activateProductGroup(HttpServletRequest request, HttpServletResponse response) {
 		String values = request.getParameter("_oldValues");
 		String active = request.getParameter("active");
 		
@@ -224,7 +231,9 @@ public class CustomProductGroupsController {
 		}
 		
 		String returnString = resp.toJSONString();
-		return returnString;
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasRole('PRODUCTS')")
@@ -250,8 +259,8 @@ public class CustomProductGroupsController {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/products/group/details/paging.html", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-	public @ResponseBody String pageProducts(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value="/admin/products/group/details/paging.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> pageProducts(HttpServletRequest request, HttpServletResponse response) {
 		
 		String code = request.getParameter("code");
 		AjaxResponse resp = new AjaxResponse();
@@ -298,7 +307,9 @@ public class CustomProductGroupsController {
 		}
 		
 		String returnString = resp.toJSONString();
-		return returnString;
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 
 
 	}
@@ -306,12 +317,15 @@ public class CustomProductGroupsController {
 	
 	
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/products/group/details/addItem.html", method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody String addItem(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value="/admin/products/group/details/addItem.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> addItem(HttpServletRequest request, HttpServletResponse response) {
 		
 		String code = request.getParameter("code");
 		String productId = request.getParameter("productId");
 		AjaxResponse resp = new AjaxResponse();
+		
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		
 		try {
 			
@@ -324,12 +338,14 @@ public class CustomProductGroupsController {
 			
 			if(product==null) {
 				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			if(product.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
 				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 
 
@@ -351,17 +367,20 @@ public class CustomProductGroupsController {
 		}
 		
 		String returnString = resp.toJSONString();
-		return returnString;
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 		
 	}
 	
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/products/group/details/removeItem.html", method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody String removeItem(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value="/admin/products/group/details/removeItem.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> removeItem(HttpServletRequest request, HttpServletResponse response) {
 		
 		String code = request.getParameter("code");
 		String productId = request.getParameter("productId");
 		AjaxResponse resp = new AjaxResponse();
+		
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		
 		try {
 			
@@ -374,12 +393,14 @@ public class CustomProductGroupsController {
 			
 			if(product==null) {
 				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			if(product.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
 				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			
@@ -395,12 +416,14 @@ public class CustomProductGroupsController {
 			
 			if(relationship==null) {
 				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			if(relationship.getStore().getId().intValue()!=store.getId().intValue()) {
 				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 
 
@@ -418,7 +441,7 @@ public class CustomProductGroupsController {
 		}
 		
 		String returnString = resp.toJSONString();
-		return returnString;
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 		
 	}
 

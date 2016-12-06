@@ -11,7 +11,7 @@ public interface DigitalProductRepository extends JpaRepository<DigitalProduct, 
 	DigitalProduct findByProduct(Integer storeId, Long productId);
 	
 	@Query("select p from DigitalProduct p inner join fetch p.product pp inner join fetch pp.merchantStore ppm where p.id = ?1")
-	DigitalProduct findById(Long id);
+	DigitalProduct findOne(Long id);
 	
 	
 }

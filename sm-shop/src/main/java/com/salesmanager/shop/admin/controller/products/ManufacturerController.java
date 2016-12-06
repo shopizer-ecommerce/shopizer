@@ -367,20 +367,23 @@ public class ManufacturerController {
 	}
 	
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/catalogue/manufacturer/remove.html", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-	public @ResponseBody String deleteManufacturer(HttpServletRequest request, HttpServletResponse response, Locale locale) {
+	@RequestMapping(value="/admin/catalogue/manufacturer/remove.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> deleteManufacturer(HttpServletRequest request, HttpServletResponse response, Locale locale) {
 		Long sid =  Long.valueOf(request.getParameter("id") );
 	
 	
 		AjaxResponse resp = new AjaxResponse();
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		
 		try{
 			Manufacturer delManufacturer = manufacturerService.getById( sid  );				
 			if(delManufacturer==null || delManufacturer.getMerchantStore().getId().intValue() != store.getId().intValue()) {
 				resp.setStatusMessage(messages.getMessage("message.unauthorized", locale));
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);			
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			} 
 			
 			int count = manufacturerService.getCountManufAttachedProducts( delManufacturer ).intValue();
@@ -388,7 +391,8 @@ public class ManufacturerController {
 			if ( count > 0 ){
 				resp.setStatusMessage(messages.getMessage("message.product.association", locale));
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);			
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}	
 
 			manufacturerService.delete( delManufacturer );
@@ -403,18 +407,20 @@ public class ManufacturerController {
 		}
 		
 		String returnString = resp.toJSONString();
-		return returnString;
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 		
 	}
 	
 	
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/manufacturer/checkCode.html", method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody String checkCode(HttpServletRequest request, HttpServletResponse response, Locale locale) {
+	@RequestMapping(value="/admin/manufacturer/checkCode.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> checkCode(HttpServletRequest request, HttpServletResponse response, Locale locale) {
 		String code = request.getParameter("code");
 		String id = request.getParameter("id");
 
 
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		
 		
@@ -422,7 +428,8 @@ public class ManufacturerController {
 		
 		if(StringUtils.isBlank(code)) {
 			resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
-			return resp.toJSONString();
+			String returnString = resp.toJSONString();
+			return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 		}
 
 		
@@ -432,7 +439,8 @@ public class ManufacturerController {
 		
 		if(manufacturer!=null && StringUtils.isBlank(id)) {
 			resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
-			return resp.toJSONString();
+			String returnString = resp.toJSONString();
+			return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 		}
 		
 		
@@ -442,11 +450,13 @@ public class ManufacturerController {
 				
 				if(manufacturer.getCode().equals(code) && manufacturer.getId().longValue()==lid) {
 					resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
-					return resp.toJSONString();
+					String returnString = resp.toJSONString();
+					return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 				}
 			} catch (Exception e) {
 				resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 
 		}
@@ -469,8 +479,7 @@ public class ManufacturerController {
 		}
 		
 		String returnString = resp.toJSONString();
-		
-		return returnString;
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 	

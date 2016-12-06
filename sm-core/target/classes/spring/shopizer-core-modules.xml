@@ -232,7 +232,7 @@
 	<!-- Email -->
 	<beans:bean id="freemarkerMailConfiguration" class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
                  <!-- Uses HTML with templates and freemarker template engine -->
-                 <beans:property name="templateLoaderPath" value="/templates/email"/>
+                 <beans:property name="templateLoaderPath" value="classpath:/templates/email"/>
     </beans:bean>
 
 

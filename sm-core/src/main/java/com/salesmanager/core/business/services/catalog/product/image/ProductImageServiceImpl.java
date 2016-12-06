@@ -43,7 +43,7 @@ public class ProductImageServiceImpl extends SalesManagerEntityServiceImpl<Long,
 	public ProductImage getById(Long id) {
 		
 		
-		return productImageRepository.findById(id);
+		return productImageRepository.findOne(id);
 	}
 	
 	

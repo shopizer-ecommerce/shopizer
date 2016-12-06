@@ -29,7 +29,7 @@ public class ProductAttributeServiceImpl extends
 	@Override
 	public ProductAttribute getById(Long id) {
 		
-		return productAttributeRepository.findById(id);
+		return productAttributeRepository.findOne(id);
 		
 	}
 	
