@@ -12,6 +12,9 @@ public interface ProductOptionRepository extends JpaRepository<ProductOption, Lo
 	@Query("select p from ProductOption p join fetch p.merchantStore pm left join fetch p.descriptions pd where p.id = ?1")
 	ProductOption findOne(Long id);
 	
+	@Query("select p from ProductOption p join fetch p.merchantStore pm left join fetch p.descriptions pd where p.id = ?2 and pm.id = ?1")
+	ProductOption findOne(Integer storeId, Long id);
+	
 	@Query("select distinct p from ProductOption p join fetch p.merchantStore pm left join fetch p.descriptions pd where pm.id = ?1 and pd.language.id = ?2")
 	List<ProductOption> findByStoreId(Integer storeId, Integer languageId);
 	

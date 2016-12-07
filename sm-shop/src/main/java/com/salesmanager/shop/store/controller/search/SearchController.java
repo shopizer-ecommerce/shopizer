@@ -26,6 +26,10 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -80,11 +84,13 @@ public class SearchController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/services/public/search/{store}/{language}/autocomplete.html", produces="application/json;charset=UTF-8")
+	//@RequestMapping(value="/services/public/search/{store}/{language}/autocomplete", produces="application/json;charset=UTF-8")
+	@RequestMapping(value="/services/public/search/{store}/{language}/autocomplete")
 	@ResponseBody
-	public String autocomplete(@RequestParam("q") String query, @PathVariable String store, @PathVariable final String language, Model model, HttpServletRequest request, HttpServletResponse response)  {
+	public ResponseEntity<String> autocomplete(@RequestParam("q") String query, @PathVariable String store, @PathVariable final String language, Model model, HttpServletRequest request, HttpServletResponse response)  {
 	
-		
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
 
 		if(merchantStore!=null) {
@@ -110,7 +116,8 @@ public class SearchController {
 		AutoCompleteRequest req = new AutoCompleteRequest(store,language);
 		/** formatted toJSONString because of te specific field names required in the UI **/
 		SearchKeywords keywords = searchService.searchForKeywords(req.getCollectionName(), req.toJSONString(query), AUTOCOMPLETE_ENTRIES_COUNT);
-		return keywords.toJSONString();
+		//return keywords.toJSONString();
+		return new ResponseEntity<String>(keywords.toJSONString(),httpHeaders,HttpStatus.OK);
 		
 		} catch (Exception e) {
 			LOGGER.error("Exception while autocomplete " + e);

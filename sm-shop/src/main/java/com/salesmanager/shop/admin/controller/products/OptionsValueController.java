@@ -100,12 +100,12 @@ public class OptionsValueController {
 		if(optionId!=null && optionId!=0) {//edit mode
 			
 			
-			//option = productOptionValueService.getById(store, optionId);
-			option = productOptionValueService.getByCode(store, optionId.toString());
+			option = productOptionValueService.getById(store, optionId);
+			//option = productOptionValueService.getByCode(store, optionId.toString());
 			
 			
 			if(option==null) {
-				return "redirect:/admin/options/optionsvalues.html";
+				return "redirect:/admin/options/optionvalues.html";
 			}
 			
 			Set<ProductOptionValueDescription> optionDescriptions = option.getDescriptions();

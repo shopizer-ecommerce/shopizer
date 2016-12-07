@@ -16,6 +16,10 @@ import com.salesmanager.shop.utils.LabelUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -74,14 +78,16 @@ public class ProductReviewController {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/products/reviews/paging.html", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-	public @ResponseBody String pageProductReviews(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value="/admin/products/reviews/paging.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> pageProductReviews(HttpServletRequest request, HttpServletResponse response) {
 
 		String sProductId = request.getParameter("productId");
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		
 		
 		AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		
 		Long productId;
 		Product product = null;
@@ -92,7 +98,7 @@ public class ProductReviewController {
 			resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
 			resp.setErrorString("Product id is not valid");
 			String returnString = resp.toJSONString();
-			return returnString;
+			return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 		}
 
 		
@@ -105,14 +111,14 @@ public class ProductReviewController {
 				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
 				resp.setErrorString("Product id is not valid");
 				String returnString = resp.toJSONString();
-				return returnString;
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			if(product.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
 				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
 				resp.setErrorString("Product id is not valid");
 				String returnString = resp.toJSONString();
-				return returnString;
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			
@@ -150,20 +156,22 @@ public class ProductReviewController {
 		}
 		
 		String returnString = resp.toJSONString();
-		return returnString;
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 
 
 	}
 	
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/products/reviews/remove.html", method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody String deleteProductReview(HttpServletRequest request, HttpServletResponse response, Locale locale) {
+	@RequestMapping(value="/admin/products/reviews/remove.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> deleteProductReview(HttpServletRequest request, HttpServletResponse response, Locale locale) {
 		String sReviewid = request.getParameter("reviewId");
 
 		
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		
 		AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 
 		
 		try {
@@ -178,7 +186,8 @@ public class ProductReviewController {
 
 				resp.setStatusMessage(messages.getMessage("message.unauthorized", locale));
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);			
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			} 
 			
 
@@ -196,8 +205,7 @@ public class ProductReviewController {
 		}
 		
 		String returnString = resp.toJSONString();
-		
-		return returnString;
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 	

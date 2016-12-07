@@ -26,6 +26,8 @@ public interface ProductOptionService extends SalesManagerEntityService<Long, Pr
 
 	ProductOption getByCode(MerchantStore store, String optionCode);
 	
+	ProductOption getById(MerchantStore store, Long optionId);
+	
 
 
 

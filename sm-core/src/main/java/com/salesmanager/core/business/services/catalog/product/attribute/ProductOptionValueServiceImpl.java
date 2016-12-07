@@ -96,5 +96,11 @@ public class ProductOptionValueServiceImpl extends
 	}
 
 
+	@Override
+	public ProductOptionValue getById(MerchantStore store, Long optionValueId) {
+		return productOptionValueRepository.findOne(store.getId(), optionValueId);
+	}
+
+
 
 }

@@ -87,7 +87,7 @@ public class OptionsController {
 		if(optionId!=null && optionId!=0) {//edit mode
 			
 			
-			option = productOptionService.getById(optionId);
+			option = productOptionService.getById(store, optionId);
 			
 			
 			if(option==null) {

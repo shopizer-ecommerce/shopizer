@@ -17,6 +17,10 @@ import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -81,11 +85,13 @@ public class RelatedItemsController {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/catalogue/related/paging.html", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-	public @ResponseBody String pageRelatedItems(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value="/admin/catalogue/related/paging.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> pageRelatedItems(HttpServletRequest request, HttpServletResponse response) {
 		
 		String sProductId = request.getParameter("productId");
 		AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		
 		try {
 			
@@ -102,7 +108,7 @@ public class RelatedItemsController {
 				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
 				resp.setErrorString("Product id is not valid");
 				String returnString = resp.toJSONString();
-				return returnString;
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			
@@ -142,18 +148,20 @@ public class RelatedItemsController {
 		}
 		
 		String returnString = resp.toJSONString();
-		return returnString;
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 
 
 	}
 	
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/catalogue/related/addItem.html", method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody String addItem(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value="/admin/catalogue/related/addItem.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> addItem(HttpServletRequest request, HttpServletResponse response) {
 		
 		String productId = request.getParameter("productId");
 		String baseProductId = request.getParameter("baseProductId");
 		AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		
 		try {
 			
@@ -167,24 +175,28 @@ public class RelatedItemsController {
 			
 			if(product==null) {
 				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			if(product.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
 				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			Product baseProduct = productService.getById(lBaseProductId);
 			
 			if(baseProduct==null) {
 				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			if(baseProduct.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
 				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 
 
@@ -207,17 +219,19 @@ public class RelatedItemsController {
 		}
 		
 		String returnString = resp.toJSONString();
-		return returnString;
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 		
 	}
 	
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/catalogue/related/removeItem.html", method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody String removeItem(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value="/admin/catalogue/related/removeItem.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> removeItem(HttpServletRequest request, HttpServletResponse response) {
 		
 		String productId = request.getParameter("productId");
 		String baseProductId = request.getParameter("baseProductId");
 		AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		
 		try {
 			
@@ -231,24 +245,28 @@ public class RelatedItemsController {
 			
 			if(product==null) {
 				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			if(product.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
 				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			Product baseProduct = productService.getById(lBaseProductId);
 			
 			if(baseProduct==null) {
 				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			if(baseProduct.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
 				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			ProductRelationship relationship = null;
@@ -263,12 +281,14 @@ public class RelatedItemsController {
 			
 			if(relationship==null) {
 				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			if(relationship.getStore().getId().intValue()!=store.getId().intValue()) {
 				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 
 
@@ -286,7 +306,7 @@ public class RelatedItemsController {
 		}
 		
 		String returnString = resp.toJSONString();
-		return returnString;
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 		
 	}
 	
