@@ -297,8 +297,8 @@ public class OptionsController {
 		
 	}
 	
-	@RequestMapping(value="/admin/options/remove.html", method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody String deleteOption(HttpServletRequest request, HttpServletResponse response, Locale locale) {
+	@RequestMapping(value="/admin/options/remove.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> deleteOption(HttpServletRequest request, HttpServletResponse response, Locale locale) {
 		String sid = request.getParameter("optionId");
 
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
@@ -332,8 +332,9 @@ public class OptionsController {
 		}
 		
 		String returnString = resp.toJSONString();
-		
-		return returnString;
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 	}
 
 }

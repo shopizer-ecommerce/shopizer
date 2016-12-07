@@ -10,6 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -56,8 +60,8 @@ public class CacheController {
 	
 	
 	@PreAuthorize("hasRole('AUTH')")
-	@RequestMapping(value="/admin/cache/clear.html", method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody String clearCache(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value="/admin/cache/clear.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> clearCache(HttpServletRequest request, HttpServletResponse response) {
 		String cacheKey = request.getParameter("cacheKey");
 
 		AjaxResponse resp = new AjaxResponse();
@@ -83,7 +87,9 @@ public class CacheController {
 		}
 		
 		String returnString = resp.toJSONString();
-		return returnString;
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 

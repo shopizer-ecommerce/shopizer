@@ -18,6 +18,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -112,13 +116,15 @@ public class ProductImagesController {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/products/images/page.html", method=RequestMethod.POST, produces="application/json;text/plain;charset=UTF-8")
-	public @ResponseBody String pageProductImages(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value="/admin/products/images/page.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> pageProductImages(HttpServletRequest request, HttpServletResponse response) {
 
 		String sProductId = request.getParameter("productId");
 		
 		
 		AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		
 		Long productId;
 		Product product = null;
@@ -129,7 +135,7 @@ public class ProductImagesController {
 			resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
 			resp.setErrorString("Product id is not valid");
 			String returnString = resp.toJSONString();
-			return returnString;
+			return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 		}
 
 		
@@ -141,7 +147,10 @@ public class ProductImagesController {
 			MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 			
 			if(product.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
-				return "redirect:/admin/products/products.html";
+				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
+				resp.setErrorString("Merchant id is not valid");
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 
 			Set<ProductImage> images = product.getImages();
@@ -173,7 +182,7 @@ public class ProductImagesController {
 		}
 		
 		String returnString = resp.toJSONString();
-		return returnString;
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 
 
 	}
@@ -182,13 +191,15 @@ public class ProductImagesController {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/products/images/url/page.html", method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody String pageProductImagesUrl(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value="/admin/products/images/url/page.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> pageProductImagesUrl(HttpServletRequest request, HttpServletResponse response) {
 
 		String sProductId = request.getParameter("productId");
 		
 		
 		AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		
 		Long productId;
 		Product product = null;
@@ -199,7 +210,7 @@ public class ProductImagesController {
 			resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
 			resp.setErrorString("Product id is not valid");
 			String returnString = resp.toJSONString();
-			return returnString;
+			return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 		}
 
 		
@@ -211,7 +222,10 @@ public class ProductImagesController {
 			MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 
 			if(product.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
-				return "redirect:/admin/products/products.html";
+				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
+				resp.setErrorString("Merchant id is not valid");
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			Set<ProductImage> images = product.getImages();
@@ -246,7 +260,7 @@ public class ProductImagesController {
 		}
 		
 		String returnString = resp.toJSONString();
-		return returnString;
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 
 
 	}
@@ -367,19 +381,19 @@ public class ProductImagesController {
 
 		
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/products/images/remove.html", method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody String deleteImage(HttpServletRequest request, HttpServletResponse response, Locale locale) {
+	@RequestMapping(value="/admin/products/images/remove.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> deleteImage(HttpServletRequest request, HttpServletResponse response, Locale locale) {
 		String sImageId = request.getParameter("id");
 
 		
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 
 		
 		try {
-			
-			
-		
+
 				
 			Long imageId = Long.parseLong(sImageId);
 
@@ -387,14 +401,16 @@ public class ProductImagesController {
 			ProductImage productImage = productImageService.getById(imageId);
 			if(productImage==null) {
 				resp.setStatusMessage(messages.getMessage("message.unauthorized", locale));
-				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);			
-				return resp.toJSONString();
+				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			if(productImage.getProduct().getMerchantStore().getId().intValue()!=store.getId().intValue()) {
 				resp.setStatusMessage(messages.getMessage("message.unauthorized", locale));
-				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);			
-				return resp.toJSONString();
+				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);	
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			productImageService.removeProductImage(productImage);
@@ -410,19 +426,20 @@ public class ProductImagesController {
 		}
 		
 		String returnString = resp.toJSONString();
-		
-		return returnString;
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 	
 	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/products/images/defaultImage.html", method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody String setDefaultImage(final HttpServletRequest request, 
+	@RequestMapping(value="/admin/products/images/defaultImage.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> setDefaultImage(final HttpServletRequest request, 
 												final HttpServletResponse response, 
 												final Locale locale) {
 		final String sImageId = request.getParameter("id");
 		final MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		final AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 
 		try {
 			final Long imageId = Long.parseLong(sImageId);
@@ -431,13 +448,15 @@ public class ProductImagesController {
 			if (productImage == null) {
 				resp.setStatusMessage(messages.getMessage("message.unauthorized", locale));
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);			
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			if (productImage.getProduct().getMerchantStore().getId().intValue() != store.getId().intValue()) {
 				resp.setStatusMessage(messages.getMessage("message.unauthorized", locale));
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);			
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			productImage.setDefaultImage(true);
@@ -458,8 +477,8 @@ public class ProductImagesController {
 			resp.setErrorMessage(e);
 		}
 		
-		final String returnString = resp.toJSONString();
-		return returnString;
+		String returnString = resp.toJSONString();
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 	}
 
 	
