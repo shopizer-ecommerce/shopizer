@@ -14,6 +14,10 @@ import com.salesmanager.shop.constants.Constants;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -128,13 +132,15 @@ public class ContentPagesController {
 	
 	
 	@PreAuthorize("hasRole('CONTENT')")
-	@RequestMapping(value="/admin/content/remove.html", method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody String removeContent(HttpServletRequest request, HttpServletResponse response, Locale locale) {
+	@RequestMapping(value="/admin/content/remove.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> removeContent(HttpServletRequest request, HttpServletResponse response, Locale locale) {
 		String id = request.getParameter("id");
 
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		
 		AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 
 		
 		try {
@@ -147,12 +153,14 @@ public class ContentPagesController {
 			if(dbContent==null) {
 				LOGGER.error("Invalid content id ", id);
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			if(dbContent!=null && dbContent.getMerchantStore().getId().intValue()!= store.getId().intValue()) {
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			contentService.delete(dbContent);
@@ -166,15 +174,14 @@ public class ContentPagesController {
 		}
 		
 		String returnString = resp.toJSONString();
-		
-		return returnString;
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 	
 	@SuppressWarnings({ "unchecked"})
 	@PreAuthorize("hasRole('CONTENT')")
-	@RequestMapping(value="/admin/content/page.html", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-	public @ResponseBody String pageStaticContent(@RequestParam("contentType") String contentType, HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value="/admin/content/page.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> pageStaticContent(@RequestParam("contentType") String contentType, HttpServletRequest request, HttpServletResponse response) {
 		AjaxResponse resp = new AjaxResponse();
 
 		try {
@@ -226,8 +233,9 @@ public class ContentPagesController {
 		}
 		
 		String returnString = resp.toJSONString();
-		
-		return returnString;
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 	
@@ -277,25 +285,22 @@ public class ContentPagesController {
 	 * @return
 	 */
 	@PreAuthorize("hasRole('CONTENT')")
-	@RequestMapping(value="/admin/content/checkContentCode.html", method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody String checkContentCode(HttpServletRequest request, HttpServletResponse response, Locale locale) {
+	@RequestMapping(value="/admin/content/checkContentCode.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> checkContentCode(HttpServletRequest request, HttpServletResponse response, Locale locale) {
 		
 		String code = request.getParameter("code");
 		String id = request.getParameter("id");
-		
-		
-
 
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
-		
-		
-		
-		
+
 		AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		
 		   if(StringUtils.isBlank(code)) {
 				resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 		   }
 		
 		try {
@@ -309,17 +314,20 @@ public class ContentPagesController {
 				
 				if(content!=null && content.getCode().equals(code) && content.getId().longValue()==lid) {
 					resp.setStatus(AjaxResponse.RESPONSE_STATUS_SUCCESS);
-					return resp.toJSONString();
+					String returnString = resp.toJSONString();
+					return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 				}
 			} catch (Exception e) {
 				resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 
 		} else {
 			if(content!=null) {
 				resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 		}
 
@@ -334,8 +342,7 @@ public class ContentPagesController {
 		}
 		
 		String returnString = resp.toJSONString();
-		
-		return returnString;
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 	

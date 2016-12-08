@@ -84,8 +84,8 @@ public class SearchController {
 	 * @return
 	 * @throws Exception
 	 */
-	//@RequestMapping(value="/services/public/search/{store}/{language}/autocomplete", produces="application/json;charset=UTF-8")
-	@RequestMapping(value="/services/public/search/{store}/{language}/autocomplete")
+	@RequestMapping(value="/services/public/search/{store}/{language}/autocomplete", produces="application/json;charset=UTF-8")
+	//@RequestMapping(value="/services/public/search/{store}/{language}/autocomplete")
 	@ResponseBody
 	public ResponseEntity<String> autocomplete(@RequestParam("q") String query, @PathVariable String store, @PathVariable final String language, Model model, HttpServletRequest request, HttpServletResponse response)  {
 	

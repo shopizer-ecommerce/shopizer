@@ -17,6 +17,10 @@ import com.salesmanager.shop.utils.LabelUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -322,21 +326,22 @@ public class TaxRatesController {
 	
 
 	@PreAuthorize("hasRole('TAX')")
-	@RequestMapping(value="/admin/tax/taxrates/remove.html", method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody String removeTaxRate(HttpServletRequest request, Locale locale) throws Exception {
+	@RequestMapping(value="/admin/tax/taxrates/remove.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> removeTaxRate(HttpServletRequest request, Locale locale) throws Exception {
 		
 		//do not remove super admin
 		
 		String taxRateId = request.getParameter("taxRateId");
 
 		AjaxResponse resp = new AjaxResponse();
-		
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 
 		try {
 			
 
 			/**
-			 * In order to remove a User the logged in ser must be STORE_ADMIN
+			 * In order to remove a User the logged in must be STORE_ADMIN
 			 * or SUPER_USER
 			 */
 			
@@ -344,7 +349,8 @@ public class TaxRatesController {
 			if(taxRateId==null){
 				resp.setStatusMessage(messages.getMessage("message.unauthorized", locale));
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);			
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			long ltaxRateId;
@@ -354,7 +360,8 @@ public class TaxRatesController {
 				LOGGER.error("Invalid taxRateId " + taxRateId);
 				resp.setStatusMessage(messages.getMessage("message.unauthorized", locale));
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);			
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			TaxRate taxRate = taxRateService.getById(ltaxRateId);
@@ -363,7 +370,8 @@ public class TaxRatesController {
 				LOGGER.error("Invalid taxRateId " + taxRateId);
 				resp.setStatusMessage(messages.getMessage("message.unauthorized", locale));
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);			
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 
@@ -382,8 +390,7 @@ public class TaxRatesController {
 		}
 		
 		String returnString = resp.toJSONString();
-		
-		return returnString;
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 		
 	}
 	

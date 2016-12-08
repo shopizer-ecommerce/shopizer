@@ -12,6 +12,10 @@ import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.utils.LabelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -174,15 +178,16 @@ public class TaxClassController {
 	
 	
 	@PreAuthorize("hasRole('TAX')")
-	@RequestMapping(value="/admin/tax/taxclass/remove.html", method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody String removeTaxClass(HttpServletRequest request, Locale locale) throws Exception {
+	@RequestMapping(value="/admin/tax/taxclass/remove.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> removeTaxClass(HttpServletRequest request, Locale locale) throws Exception {
 		
 		//do not remove super admin
 		
 		String taxClassId = request.getParameter("taxClassId");
 
 		AjaxResponse resp = new AjaxResponse();
-		
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 
 		try {
 			
@@ -196,7 +201,8 @@ public class TaxClassController {
 			if(taxClassId==null){
 				resp.setStatusMessage(messages.getMessage("message.unauthorized", locale));
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);			
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			long lTaxClassId;
@@ -206,7 +212,8 @@ public class TaxClassController {
 				LOGGER.error("Invalid taxClassId " + taxClassId);
 				resp.setStatusMessage(messages.getMessage("message.unauthorized", locale));
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);			
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			TaxClass taxClass = taxClassService.getById(lTaxClassId);
@@ -215,7 +222,8 @@ public class TaxClassController {
 				LOGGER.error("Invalid taxClassId " + taxClassId);
 				resp.setStatusMessage(messages.getMessage("message.unauthorized", locale));
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);			
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			//look if the taxclass is used for products
@@ -224,7 +232,8 @@ public class TaxClassController {
 			if(products!=null && products.size()>0) {
 				resp.setStatusMessage(messages.getMessage("message.product.association", locale));
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);			
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			
@@ -241,8 +250,7 @@ public class TaxClassController {
 		}
 		
 		String returnString = resp.toJSONString();
-		
-		return returnString;
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 		
 	}
 	
