@@ -15,6 +15,10 @@ import com.salesmanager.shop.utils.LabelUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -182,8 +186,8 @@ public class CustomerOptionsSetController {
 	
 	@SuppressWarnings("unchecked")
 	@PreAuthorize("hasRole('CUSTOMER')")
-	@RequestMapping(value="/admin/customers/optionsset/paging.html", method=RequestMethod.POST, produces="application/json;text/plain;charset=UTF-8")
-	public @ResponseBody String pageOptionsSet(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value="/admin/customers/optionsset/paging.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String>  pageOptionsSet(HttpServletRequest request, HttpServletResponse response) {
 
 		AjaxResponse resp = new AjaxResponse();
 
@@ -243,8 +247,9 @@ public class CustomerOptionsSetController {
 		}
 		
 		String returnString = resp.toJSONString();
-		
-		return returnString;
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 		
 		
 	}
@@ -270,8 +275,8 @@ public class CustomerOptionsSetController {
 	}
 	
 	@PreAuthorize("hasRole('CUSTOMER')")
-	@RequestMapping(value="/admin/customers/optionsset/remove.html", method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody String deleteOptionSet(HttpServletRequest request, HttpServletResponse response, Locale locale) {
+	@RequestMapping(value="/admin/customers/optionsset/remove.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> deleteOptionSet(HttpServletRequest request, HttpServletResponse response, Locale locale) {
 		String sid = request.getParameter("id");
 
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
@@ -307,15 +312,16 @@ public class CustomerOptionsSetController {
 		}
 		
 		String returnString = resp.toJSONString();
-		
-		return returnString;
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 	
 
 	@PreAuthorize("hasRole('CUSTOMER')")
-	@RequestMapping(value="/admin/customers/optionsset/update.html", method=RequestMethod.POST, produces="application/json;text/plain;charset=UTF-8")
-	public @ResponseBody String updateOrder(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value="/admin/customers/optionsset/update.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> updateOrder(HttpServletRequest request, HttpServletResponse response) {
 		String values = request.getParameter("_oldValues");
 		String order = request.getParameter("order");
 
@@ -352,8 +358,9 @@ public class CustomerOptionsSetController {
 		}
 		
 		String returnString = resp.toJSONString();
-		
-		return returnString;
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 	

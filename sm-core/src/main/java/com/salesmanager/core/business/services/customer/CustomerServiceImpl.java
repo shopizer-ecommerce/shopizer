@@ -49,7 +49,7 @@ public class CustomerServiceImpl extends SalesManagerEntityServiceImpl<Long, Cus
 	
 	@Override
 	public Customer getById(Long id) {
-			return customerRepository.findById(id);		
+			return customerRepository.findOne(id);		
 	}
 	
 	@Override

@@ -45,7 +45,7 @@ public class CustomerOptionSetServiceImpl extends
 	
 	@Override
 	public void delete(CustomerOptionSet customerOptionSet) throws ServiceException {
-		customerOptionSet = customerOptionSetRepository.findById(customerOptionSet.getId());
+		customerOptionSet = customerOptionSetRepository.findOne(customerOptionSet.getId());
 		super.delete(customerOptionSet);
 	}
 	

@@ -11,7 +11,7 @@ public interface CustomerOptionRepository extends JpaRepository<CustomerOption, 
 
 	
 	@Query("select o from CustomerOption o join fetch o.merchantStore om left join fetch o.descriptions od where o.id = ?1")
-	CustomerOption findById(Long id);
+	CustomerOption findOne(Long id);
 	
 	@Query("select o from CustomerOption o join fetch o.merchantStore om left join fetch o.descriptions od where om.id = ?1 and o.code = ?2")
 	CustomerOption findByCode(Integer merchantId, String code);

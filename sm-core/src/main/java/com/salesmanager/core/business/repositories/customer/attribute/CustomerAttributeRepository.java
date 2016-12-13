@@ -11,7 +11,7 @@ public interface CustomerAttributeRepository extends JpaRepository<CustomerAttri
 
 	
 	@Query("select a from CustomerAttribute a left join fetch a.customerOption aco left join fetch a.customerOptionValue acov left join fetch aco.descriptions acod left join fetch acov.descriptions acovd where a.id = ?1")
-	CustomerAttribute findById(Long id);
+	CustomerAttribute findOne(Long id);
 	
 	@Query("select a from CustomerAttribute a join fetch a.customer ac left join fetch a.customerOption aco join fetch aco.merchantStore acom left join fetch a.customerOptionValue acov left join fetch aco.descriptions acod left join fetch acov.descriptions acovd where acom.id = ?1 and ac.id = ?2 and aco.id = ?3")
 	CustomerAttribute findByOptionId(Integer merchantId,Long customerId,Long id);

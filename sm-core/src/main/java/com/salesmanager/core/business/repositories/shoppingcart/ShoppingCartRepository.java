@@ -7,7 +7,7 @@ import com.salesmanager.core.model.shoppingcart.ShoppingCart;
 public interface ShoppingCartRepository extends JpaRepository<ShoppingCart, Long> {
 
 	@Query("select c from ShoppingCart c left join fetch c.lineItems cl left join fetch cl.attributes cla join fetch c.merchantStore cm where c.id = ?1")
-	ShoppingCart findById(Long id);
+	ShoppingCart findOne(Long id);
 	
 	@Query("select c from ShoppingCart c left join fetch c.lineItems cl left join fetch cl.attributes cla join fetch c.merchantStore cm where c.shoppingCartCode = ?1")
 	ShoppingCart findByCode(String code);

@@ -138,7 +138,7 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 	public ShoppingCart getById(final Long id) {
 
 		try {
-			ShoppingCart shoppingCart = shoppingCartRepository.findById(id);
+			ShoppingCart shoppingCart = shoppingCartRepository.findOne(id);
 			if (shoppingCart == null) {
 				return null;
 			}

@@ -37,6 +37,10 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -376,11 +380,13 @@ public class CustomerController {
 	 * @throws Exception
 	 */
 	@PreAuthorize("hasRole('CUSTOMER')")
-	@RequestMapping(value={"/admin/customers/attributes/save.html"}, method=RequestMethod.POST, produces="application/json;text/plain;charset=UTF-8")
-	public @ResponseBody String saveCustomerAttributes(HttpServletRequest request, Locale locale) throws Exception {
+	@RequestMapping(value={"/admin/customers/attributes/save.html"}, method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> saveCustomerAttributes(HttpServletRequest request, Locale locale) throws Exception {
 		
 
 		AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		
@@ -404,13 +410,15 @@ public class CustomerController {
 		if(customer==null) {
 			LOGGER.error("Customer id [customer] is not defined in the parameters");
 			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
-			return resp.toJSONString();
+			String returnString = resp.toJSONString();
+			return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 		}
 		
 		if(customer.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
 			LOGGER.error("Customer id does not belong to current store");
 			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
-			return resp.toJSONString();
+			String returnString = resp.toJSONString();
+			return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 		}
 		
 		List<CustomerAttribute> customerAttributes = customerAttributeService.getByCustomer(store, customer);
@@ -500,7 +508,8 @@ public class CustomerController {
 		}
 		
 		resp.setStatus(AjaxResponse.RESPONSE_STATUS_SUCCESS);
-		return resp.toJSONString();
+		String returnString = resp.toJSONString();
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 		
 
 	}
@@ -528,9 +537,9 @@ public class CustomerController {
 	
 	
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value="/admin/customers/page.html", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
+	@RequestMapping(value="/admin/customers/page.html", method=RequestMethod.POST)
 	public @ResponseBody
-	String pageCustomers(HttpServletRequest request,HttpServletResponse response) {
+	ResponseEntity<String>  pageCustomers(HttpServletRequest request,HttpServletResponse response) {
 
 
 		AjaxPageableResponse resp = new AjaxPageableResponse();
@@ -604,22 +613,25 @@ public class CustomerController {
 		}
 		
 		String returnString = resp.toJSONString();
-		
-		return returnString;
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 		
 	
 	}
 	
 	
 	@PreAuthorize("hasRole('CUSTOMER')")
-	@RequestMapping(value="/admin/customers/resetPassword.html", method=RequestMethod.POST, produces="application/json")
+	@RequestMapping(value="/admin/customers/resetPassword.html", method=RequestMethod.POST)
 	public @ResponseBody
-	String resetPassword(HttpServletRequest request,HttpServletResponse response) {
+	ResponseEntity<String> resetPassword(HttpServletRequest request,HttpServletResponse response) {
 		
 		String customerId = request.getParameter("customerId");
 		
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		
 		
 		
@@ -632,13 +644,15 @@ public class CustomerController {
 			if(customer==null) {
 				resp.setErrorString("Customer does not exist");
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			if(customer.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
 				resp.setErrorString("Invalid customer id");
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			Language userLanguage = customer.getDefaultLanguage();
@@ -697,7 +711,8 @@ public class CustomerController {
 		}
 		
 		
-		return resp.toJSONString();
+		String returnString = resp.toJSONString();
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 		
 		
 	}

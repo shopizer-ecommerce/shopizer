@@ -30,7 +30,7 @@ $(document).ready(function() {
 
 
 	    remote: {
-    		url: '<c:url value="/services/public/search/${requestScope.MERCHANT_STORE.code}/${requestScope.LANGUAGE.code}/autocomplete"/>?q=%QUERY',
+    		url: '<c:url value="/services/public/search/${requestScope.MERCHANT_STORE.code}/${requestScope.LANGUAGE.code}/autocomplete.json"/>?q=%QUERY',
         	filter: function (parsedResponse) {
             	// parsedResponse is the array returned from your backend
             	console.log(parsedResponse);
@@ -41,7 +41,7 @@ $(document).ready(function() {
     	},
 		template: [
 		'<p class="name">{{name}}</p>',
-		'<p class="description">{{description}}</p>'
+		'<p class="description">{{value}}</p>'
 		].join(''),
 		engine: Hogan
 		});

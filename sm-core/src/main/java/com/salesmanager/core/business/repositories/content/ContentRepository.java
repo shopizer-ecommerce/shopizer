@@ -33,7 +33,7 @@ public interface ContentRepository extends JpaRepository<Content, Long>,  Conten
 	Content findByIdAndLanguage(Long contentId, Integer languageId);
 	
 	@Query("select c from Content c left join fetch c.descriptions cd join fetch c.merchantStore cm where c.id = ?1")
-	Content findById(Long contentId);
+	Content findOne(Long contentId);
 
 
 }

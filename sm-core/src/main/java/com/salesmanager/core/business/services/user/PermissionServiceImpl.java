@@ -42,7 +42,7 @@ public class PermissionServiceImpl extends
 
 	@Override
 	public Permission getById(Integer permissionId) {
-		return permissionRepository.findById(permissionId);
+		return permissionRepository.findOne(permissionId);
 
 	}
 

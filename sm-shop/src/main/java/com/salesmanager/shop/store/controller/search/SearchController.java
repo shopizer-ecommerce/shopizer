@@ -84,11 +84,10 @@ public class SearchController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/services/public/search/{store}/{language}/autocomplete", produces="application/json;charset=UTF-8")
-	//@RequestMapping(value="/services/public/search/{store}/{language}/autocomplete")
+	@RequestMapping(value="/services/public/search/{store}/{language}/autocomplete.json", produces="application/json;charset=UTF-8")
 	@ResponseBody
 	public ResponseEntity<String> autocomplete(@RequestParam("q") String query, @PathVariable String store, @PathVariable final String language, Model model, HttpServletRequest request, HttpServletResponse response)  {
-	
+	//public String autocomplete(@RequestParam("q") String query, @PathVariable String store, @PathVariable final String language, Model model, HttpServletRequest request, HttpServletResponse response)  {
 		final HttpHeaders httpHeaders= new HttpHeaders();
 	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
@@ -101,24 +100,23 @@ public class SearchController {
 		
 		try {
 		
-		if(merchantStore== null) {
+			if(merchantStore== null) {
+					merchantStore = merchantStoreService.getByCode(store);
+			}
 			
-				merchantStore = merchantStoreService.getByCode(store);
-
-		}
-		
-		if(merchantStore==null) {
-			LOGGER.error("Merchant store is null for code " + store);
-			response.sendError(503, "Merchant store is null for code " + store);//TODO localized message
-			return null;
-		}
-		
-		AutoCompleteRequest req = new AutoCompleteRequest(store,language);
-		/** formatted toJSONString because of te specific field names required in the UI **/
-		SearchKeywords keywords = searchService.searchForKeywords(req.getCollectionName(), req.toJSONString(query), AUTOCOMPLETE_ENTRIES_COUNT);
-		//return keywords.toJSONString();
-		return new ResponseEntity<String>(keywords.toJSONString(),httpHeaders,HttpStatus.OK);
-		
+			if(merchantStore==null) {
+				LOGGER.error("Merchant store is null for code " + store);
+				response.sendError(503, "Merchant store is null for code " + store);//TODO localized message
+				return null;
+			}
+			
+			AutoCompleteRequest req = new AutoCompleteRequest(store,language);
+			/** formatted toJSONString because of te specific field names required in the UI **/
+			SearchKeywords keywords = searchService.searchForKeywords(req.getCollectionName(), req.toJSONString(query), AUTOCOMPLETE_ENTRIES_COUNT);
+			//return keywords.toJSONString();
+			return new ResponseEntity<String>(keywords.toJSONString(),httpHeaders,HttpStatus.OK);
+			//return new ResponseEntity<String>(keywords.toJSONString(),HttpStatus.OK);
+			
 		} catch (Exception e) {
 			LOGGER.error("Exception while autocomplete " + e);
 		}

@@ -169,7 +169,7 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
 	@Override
 	public Category getById(Long id) {
 
-			return categoryRepository.findById(id);
+			return categoryRepository.findOne(id);
 		
 	}
 	

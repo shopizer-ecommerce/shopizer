@@ -12,7 +12,7 @@ public interface PermissionRepository extends JpaRepository<Permission, Integer>
 
 	
 	@Query("select p from Permission as p where p.id = ?1")
-	Permission findById(Integer id);
+	Permission findOne(Integer id);
 	
 	@Query("select p from Permission as p order by p.id")
 	List<Permission> findAll();

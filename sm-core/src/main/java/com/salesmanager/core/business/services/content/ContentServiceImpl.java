@@ -119,7 +119,7 @@ public class ContentServiceImpl
     
     @Override
     public Content getById( Long id ) {
-    	return contentRepository.findById(id);
+    	return contentRepository.findOne(id);
     }
 
     @Override
