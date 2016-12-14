@@ -81,15 +81,12 @@ function searchProducts(url,divProductsContainer,q,filter) {
 	$.ajax({
   			cache: false,
   			type:"POST",
-  			dataType:"json",
+  			//dataType:"json",
   			url:url,
   			data:query,
-  			contentType:"application/json;charset=UTF-8",
+  			//contentType:"application/json;charset=UTF-8",
 			success: function(productList) {
-
 				callBackSearchProducts(productList);
-
-
 			},
 			error: function(jqXHR,textStatus,errorThrown) { 
 				$(divProductsContainer).hideLoading();

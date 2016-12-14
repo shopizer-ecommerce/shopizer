@@ -36,12 +36,12 @@ $(document).ready(function() {
             	console.log(parsedResponse);
 
             	// do whatever processing you need here
-            	return parsedResponse;
+            	return JSON.parse(parsedResponse);
         	}
     	},
 		template: [
 		'<p class="name">{{name}}</p>',
-		'<p class="description">{{value}}</p>'
+		'<p class="description">{{description}}</p>'
 		].join(''),
 		engine: Hogan
 		});

@@ -86,10 +86,8 @@ public class SearchController {
 	 */
 	@RequestMapping(value="/services/public/search/{store}/{language}/autocomplete.json", produces="application/json;charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> autocomplete(@RequestParam("q") String query, @PathVariable String store, @PathVariable final String language, Model model, HttpServletRequest request, HttpServletResponse response)  {
-	//public String autocomplete(@RequestParam("q") String query, @PathVariable String store, @PathVariable final String language, Model model, HttpServletRequest request, HttpServletResponse response)  {
-		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	public String autocomplete(@RequestParam("q") String query, @PathVariable String store, @PathVariable final String language, Model model, HttpServletRequest request, HttpServletResponse response)  {
+
 		MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
 
 		if(merchantStore!=null) {
@@ -113,9 +111,8 @@ public class SearchController {
 			AutoCompleteRequest req = new AutoCompleteRequest(store,language);
 			/** formatted toJSONString because of te specific field names required in the UI **/
 			SearchKeywords keywords = searchService.searchForKeywords(req.getCollectionName(), req.toJSONString(query), AUTOCOMPLETE_ENTRIES_COUNT);
-			//return keywords.toJSONString();
-			return new ResponseEntity<String>(keywords.toJSONString(),httpHeaders,HttpStatus.OK);
-			//return new ResponseEntity<String>(keywords.toJSONString(),HttpStatus.OK);
+			return keywords.toJSONString();
+
 			
 		} catch (Exception e) {
 			LOGGER.error("Exception while autocomplete " + e);
@@ -139,7 +136,7 @@ public class SearchController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping("/services/public/search/{store}/{language}/{start}/{max}/term.html")
+	@RequestMapping(value="/services/public/search/{store}/{language}/{start}/{max}/term.html", method=RequestMethod.POST)
 	@ResponseBody
 	public SearchProductList search(@RequestBody String json, @PathVariable String store, @PathVariable final String language, @PathVariable int start, @PathVariable int max, Model model, HttpServletRequest request, HttpServletResponse response) {
 	

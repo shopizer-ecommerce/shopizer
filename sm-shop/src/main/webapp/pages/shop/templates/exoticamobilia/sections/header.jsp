@@ -52,8 +52,16 @@ $(document).ready(function() {
 		     prefetch: '<c:out value="${requestScope.CONFIGS['defaultSearchConfigPath'][requestScope.LANGUAGE.code]}"/>',
 		  </c:if>
 	    </c:if>
-	    remote: '<c:url value="/services/public/search/${requestScope.MERCHANT_STORE.code}/${requestScope.LANGUAGE.code}/autocomplete"/>?q=%QUERY'
+	    remote: {
+    		url: '<c:url value="/services/public/search/${requestScope.MERCHANT_STORE.code}/${requestScope.LANGUAGE.code}/autocomplete.json"/>?q=%QUERY',
+        	filter: function (parsedResponse) {
+            	// parsedResponse is the array returned from your backend
+            	console.log(parsedResponse);
 
+            	// do whatever processing you need here
+            	return JSON.parse(parsedResponse);
+        	}
+    	}
 	});
    
    searchElements.initialize();
