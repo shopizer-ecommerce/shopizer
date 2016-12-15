@@ -23,6 +23,7 @@ import com.salesmanager.shop.store.controller.ControllerConstants;
 import com.salesmanager.shop.store.model.search.AutoCompleteRequest;
 import com.salesmanager.shop.utils.ImageFilePath;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -37,6 +38,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import java.io.StringWriter;
 import java.util.*;
 
 @Controller
@@ -136,14 +139,20 @@ public class SearchController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/services/public/search/{store}/{language}/{start}/{max}/term.html", method=RequestMethod.POST)
+	@RequestMapping(value="/services/public/search/{store}/{language}/{start}/{max}/search.json", method=RequestMethod.POST)
 	@ResponseBody
-	public SearchProductList search(@RequestBody String json, @PathVariable String store, @PathVariable final String language, @PathVariable int start, @PathVariable int max, Model model, HttpServletRequest request, HttpServletResponse response) {
-	
+	//public SearchProductList search(@RequestBody String json, @PathVariable String store, @PathVariable final String language, @PathVariable int start, @PathVariable int max, Model model, HttpServletRequest request, HttpServletResponse response) {
+	public SearchProductList search(@PathVariable String store, @PathVariable final String language, @PathVariable int start, @PathVariable int max, Model model, HttpServletRequest request, HttpServletResponse response) {
 		SearchProductList returnList = new SearchProductList();
 		MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
 		
+		String json = null;
+		
 		try {
+			
+			StringWriter writer = new StringWriter();
+			IOUtils.copy(request.getInputStream(), writer, "UTF-8");
+			json = writer.toString();
 			
 			Map<String,Language> langs = languageService.getLanguagesMap();
 			
