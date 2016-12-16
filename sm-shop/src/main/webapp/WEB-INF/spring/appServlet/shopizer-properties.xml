@@ -44,6 +44,7 @@
 				<prop key="shopizer.recapatcha_public_key">6LefQwsTAAAAAJWgJfNq_LgUwYunqct2x-EBr_CY</prop>
 				<prop key="shopizer.recapatcha_private_key">6LefQwsTAAAAAM667PyQxTLkSfQ4P0YYeN5DQDTc</prop>
 				<prop key="shopizer.recapatcha_url"><![CDATA[https://www.google.com/recaptcha/api/siteverify]]></prop>
+				-->
 				<!-- express checkout url -->
 				<prop key="PAYPAL_EXPRESSCHECKOUT_SANDBOX"><![CDATA[https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=]]></prop>
 				<prop key="PAYPAL_EXPRESSCHECKOUT_PRODUCTION"><![CDATA[https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=]]></prop>
