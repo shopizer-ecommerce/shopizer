@@ -23,6 +23,10 @@ import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -234,8 +238,8 @@ public class CustomShippingMethodsController {
 	}
 	
 	@PreAuthorize("hasRole('SHIPPING')")
-	@RequestMapping(value="/admin/shipping/weightBased/removeCountry.html", method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody String deleteCountry(HttpServletRequest request, HttpServletResponse response, Locale locale) {
+	@RequestMapping(value="/admin/shipping/weightBased/removeCountry.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> deleteCountry(HttpServletRequest request, HttpServletResponse response, Locale locale) {
 		String country = request.getParameter("regionCode");
 
 		AjaxResponse resp = new AjaxResponse();
@@ -273,14 +277,15 @@ public class CustomShippingMethodsController {
 		}
 
 		String returnString = resp.toJSONString();
-
-		return returnString;
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 	
 	@PreAuthorize("hasRole('SHIPPING')")
-	@RequestMapping(value="/admin/shipping/weightBased/removePrice.html", method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody String deletePrice(HttpServletRequest request, HttpServletResponse response, Locale locale) {
+	@RequestMapping(value="/admin/shipping/weightBased/removePrice.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> deletePrice(HttpServletRequest request, HttpServletResponse response, Locale locale) {
 		String weight = request.getParameter("weight");
 		String region = request.getParameter("region");
 		int maxWeight = 0;
@@ -333,8 +338,9 @@ public class CustomShippingMethodsController {
 		}
 
 		String returnString = resp.toJSONString();
-
-		return returnString;
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 
@@ -359,19 +365,22 @@ public class CustomShippingMethodsController {
 	 * @return
 	 */
 	@PreAuthorize("hasRole('SHIPPING')")
-	@RequestMapping(value="/admin/shipping/checkRegionCode.html", method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody String checkRegionCode(HttpServletRequest request, HttpServletResponse response, Locale locale) {
+	@RequestMapping(value="/admin/shipping/checkRegionCode.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> checkRegionCode(HttpServletRequest request, HttpServletResponse response, Locale locale) {
 		String code = request.getParameter("code");
 
 
 		AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		
 		try {
 			
 			if(StringUtils.isBlank(code)) {
 				resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			CustomShippingQuotesConfiguration customConfiguration = (CustomShippingQuotesConfiguration)shippingService.getCustomShippingConfiguration(WEIGHT_BASED_SHIPPING_METHOD, store);
@@ -382,7 +391,8 @@ public class CustomShippingMethodsController {
 					
 					if(code.equals(region.getCustomRegionName())) {
 						resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
-						return resp.toJSONString();
+						String returnString = resp.toJSONString();
+						return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 					}
 					
 				}
@@ -397,8 +407,7 @@ public class CustomShippingMethodsController {
 		}
 		
 		String returnString = resp.toJSONString();
-		
-		return returnString;
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasRole('SHIPPING')")

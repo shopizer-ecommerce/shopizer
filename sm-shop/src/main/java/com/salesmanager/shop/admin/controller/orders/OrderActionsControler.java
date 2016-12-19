@@ -24,6 +24,10 @@ import com.salesmanager.shop.utils.LabelUtils;
 import com.salesmanager.shop.utils.LocaleUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -81,8 +85,8 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 	
 	
 	@PreAuthorize("hasRole('ORDER')")
-	@RequestMapping(value="/admin/orders/captureOrder.html", method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody String captureOrder(HttpServletRequest request, HttpServletResponse response, Locale locale) {
+	@RequestMapping(value="/admin/orders/captureOrder.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> captureOrder(HttpServletRequest request, HttpServletResponse response, Locale locale) {
 
 
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
@@ -90,6 +94,8 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 		String sId = request.getParameter("id");
 		
 		AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 
 		try {
 			Long id = Long.parseLong(sId);
@@ -100,14 +106,16 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 				
 				LOGGER.error("Order {0} does not exists", id);
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			if(order.getMerchant().getId().intValue()!=store.getId().intValue()) {
 				
 				LOGGER.error("Merchant store does not have order {0}",id);
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			Customer customer = customerService.getById(order.getCustomerId());
@@ -115,7 +123,8 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 			if(customer==null) {
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 				resp.setStatusMessage(messages.getMessage("message.notexist.customer", locale));
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			paymentService.processCapturePayment(order, customer, store);
@@ -133,19 +142,20 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 		}
 		
 		String returnString = resp.toJSONString();
-		
-		return returnString;
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasRole('ORDER')")
-	@RequestMapping(value="/admin/orders/refundOrder.html", method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody String refundOrder(@RequestBody Refund refund, HttpServletRequest request, HttpServletResponse response, Locale locale) {
+	@RequestMapping(value="/admin/orders/refundOrder.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> refundOrder(@RequestBody Refund refund, HttpServletRequest request, HttpServletResponse response, Locale locale) {
 
 
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		
 		
 		AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 
 		BigDecimal submitedAmount = null;
 		
@@ -157,14 +167,16 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 				
 				LOGGER.error("Order {0} does not exists", refund.getOrderId());
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			if(order.getMerchant().getId().intValue()!=store.getId().intValue()) {
 				
 				LOGGER.error("Merchant store does not have order {0}",refund.getOrderId());
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 		
 			//parse amount
@@ -173,13 +185,15 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 				if(submitedAmount.doubleValue()==0) {
 					resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 					resp.setStatusMessage(messages.getMessage("message.invalid.amount", locale));
-					return resp.toJSONString();
+					String returnString = resp.toJSONString();
+					return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 				}
 				
 			} catch (Exception e) {
 				LOGGER.equals("invalid refundAmount " + refund.getAmount());
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 				
 				
@@ -187,13 +201,15 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 				if(submitedAmount.doubleValue()>orderTotal.doubleValue()) {
 					resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 					resp.setStatusMessage(messages.getMessage("message.invalid.amount", locale));
-					return resp.toJSONString();
+					String returnString = resp.toJSONString();
+					return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 				}
 				
 				if(submitedAmount.doubleValue()<=0) {
 					resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 					resp.setStatusMessage(messages.getMessage("message.invalid.amount", locale));
-					return resp.toJSONString();
+					String returnString = resp.toJSONString();
+					return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 				}
 				
 				Customer customer = customerService.getById(order.getCustomerId());
@@ -201,7 +217,8 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 				if(customer==null) {
 					resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 					resp.setStatusMessage(messages.getMessage("message.notexist.customer", locale));
-					return resp.toJSONString();
+					String returnString = resp.toJSONString();
+					return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 				}
 				
 	
@@ -219,12 +236,11 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 		}
 		
 		String returnString = resp.toJSONString();
-		
-		return returnString;
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasRole('ORDER')")
-	@RequestMapping(value="/admin/orders/printInvoice.html", method=RequestMethod.GET, produces="application/json;text/plain;charset=UTF-8")
+	@RequestMapping(value="/admin/orders/printInvoice.html", method=RequestMethod.GET)
 	public void printInvoice(HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
 		
 		String sId = request.getParameter("id");
@@ -272,21 +288,22 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 
 	@SuppressWarnings("unchecked")
 	@PreAuthorize("hasRole('ORDER')")
-	@RequestMapping(value="/admin/orders/listTransactions.html", method=RequestMethod.GET, produces="application/json")
-	public @ResponseBody String listTransactions(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value="/admin/orders/listTransactions.html", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<String> listTransactions(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String sId = request.getParameter("id");
-		
 
-		
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		
 		
 		AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		
 		if(sId==null) {
 			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
-			return resp.toJSONString();
+			String returnString = resp.toJSONString();
+			return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 		}
 
 
@@ -300,13 +317,15 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 
 			if(dbOrder==null) {
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			
 			if(dbOrder.getMerchant().getId().intValue()!=store.getId().intValue()) {
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 
@@ -339,25 +358,29 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 			resp.setErrorMessage(e);
 		}
 		
-		return resp.toJSONString();
+		String returnString = resp.toJSONString();
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 		
 		
 	}
 	
 
 	@PreAuthorize("hasRole('ORDER')")
-	@RequestMapping(value="/admin/orders/sendInvoice.html", method=RequestMethod.GET, produces="application/json")
-	public @ResponseBody String sendInvoice(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value="/admin/orders/sendInvoice.html", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<String> sendInvoice(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String sId = request.getParameter("id");
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		
 		
 		AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		
 		if(sId==null) {
 			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
-			return resp.toJSONString();
+			String returnString = resp.toJSONString();
+			return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 		}
 
 
@@ -371,13 +394,15 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 
 			if(dbOrder==null) {
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			
 			if(dbOrder.getMerchant().getId().intValue()!=store.getId().intValue()) {
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			//get customer
@@ -386,7 +411,8 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 			if(customer==null) {
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 				resp.setErrorString("Customer does not exist");
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			Locale customerLocale = LocaleUtils.getLocale(customer.getDefaultLanguage());
@@ -402,7 +428,8 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 			resp.setErrorMessage(e);
 		}
 		
-		return resp.toJSONString();
+		String returnString = resp.toJSONString();
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 		
 		
 	}
@@ -410,18 +437,21 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 	
 
 	@PreAuthorize("hasRole('ORDER')")
-	@RequestMapping(value="/admin/orders/updateStatus.html", method=RequestMethod.GET, produces="application/json;text/plain;charset=UTF-8")
-	public @ResponseBody String updateStatus(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value="/admin/orders/updateStatus.html", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<String> updateStatus(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String sId = request.getParameter("id");
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		
 		
 		AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		
 		if(sId==null) {
 			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
-			return resp.toJSONString();
+			String returnString = resp.toJSONString();
+			return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 		}
 
 
@@ -435,13 +465,15 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 
 			if(dbOrder==null) {
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			
 			if(dbOrder.getMerchant().getId().intValue()!=store.getId().intValue()) {
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			//get customer
@@ -450,7 +482,8 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 			if(customer==null) {
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 				resp.setErrorString("Customer does not exist");
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			Locale customerLocale = LocaleUtils.getLocale(customer.getDefaultLanguage());
@@ -472,7 +505,8 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 			if(lastHistory==null) {
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 				resp.setErrorString("No history");
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			emailTemplatesUtils.sendUpdateOrderStatusEmail(customer, dbOrder, lastHistory, store, customerLocale, request.getContextPath());
 
@@ -486,24 +520,28 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 			resp.setErrorMessage(e);
 		}
 		
-		return resp.toJSONString();
+		String returnString = resp.toJSONString();
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 		
 		
 	}
 	
 	@PreAuthorize("hasRole('ORDER')")
-	@RequestMapping(value="/admin/orders/sendDownloadEmail.html", method=RequestMethod.GET, produces="application/json")
-	public @ResponseBody String sendDownloadEmail(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value="/admin/orders/sendDownloadEmail.html", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<String> sendDownloadEmail(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String sId = request.getParameter("id");
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		
 		
 		AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		
 		if(sId==null) {
 			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
-			return resp.toJSONString();
+			String returnString = resp.toJSONString();
+			return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 		}
 
 
@@ -517,13 +555,15 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 
 			if(dbOrder==null) {
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			
 			if(dbOrder.getMerchant().getId().intValue()!=store.getId().intValue()) {
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			//get customer
@@ -532,7 +572,8 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 			if(customer==null) {
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 				resp.setErrorString("Customer does not exist");
-				return resp.toJSONString();
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			Locale customerLocale = LocaleUtils.getLocale(customer.getDefaultLanguage());
@@ -550,7 +591,8 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 			resp.setErrorMessage(e);
 		}
 		
-		return resp.toJSONString();
+		String returnString = resp.toJSONString();
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 		
 		
 	}
