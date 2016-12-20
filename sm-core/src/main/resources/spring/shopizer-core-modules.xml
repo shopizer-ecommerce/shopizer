@@ -84,13 +84,13 @@
 	
 	<!-- CMS implementation for product images-->
 	<bean id="cmsProductImage"
-				class="com.salesmanager.core.modules.cms.product.local.CmsImageFileManagerImpl" factory-method="getInstance" >
+				class="com.salesmanager.core.modules.cms.product.infinispan.CmsImageFileManagerImpl" factory-method="getInstance" >
 				<property name="cacheManager">
-						<!--<ref bean="storeCacheManager" />-->
-						<ref bean="localCacheManager" />
+						<ref bean="storeCacheManager" />
+						<!--<ref bean="localCacheManager" />-->
 				</property>
-				<!--<property name="rootName" value="product-merchant"/>-->
-				<property name="rootName" value="/Applications/AMPPS/www/shop-images"/>
+				<property name="rootName" value="product-merchant"/>
+				<!--<property name="rootName" value="/Applications/AMPPS/www/shop-images"/>-->
 	</bean>
 	
 
@@ -111,13 +111,13 @@
 	
 	<!-- logo, store artifacts -->
 	<bean id="cmsStoreFile"
-				class="com.salesmanager.core.modules.cms.content.local.CmsStaticContentFileManagerImpl" factory-method="getInstance" >
+				class="com.salesmanager.core.modules.cms.content.infinispan.CmsStaticContentFileManagerImpl" factory-method="getInstance" >
 				<property name="cacheManager">
-						<!--<ref bean="storeCacheManager" />-->
-						<ref bean="localCacheManager" />
+						<ref bean="storeCacheManager" />
+						<!--<ref bean="localCacheManager" />-->
 				</property>
-				<!--<property name="rootName" value="store-merchant"/>-->
-				<property name="rootName" value="/Applications/AMPPS/www/shop-images"/>
+				<property name="rootName" value="store-merchant"/>
+				<!--<property name="rootName" value="/Applications/AMPPS/www/shop-images"/>-->
 	</bean>
 	
 	
@@ -139,13 +139,13 @@
 	
 	
 	<!-- CMS implementation for static content data -->
-	<bean id="cmsStaticFile" class="com.salesmanager.core.modules.cms.content.local.CmsStaticContentFileManagerImpl" factory-method="getInstance">
+	<bean id="cmsStaticFile" class="com.salesmanager.core.modules.cms.content.infinispan.CmsStaticContentFileManagerImpl" factory-method="getInstance">
 		<property name="cacheManager">
-			<!--<ref bean="filesCacheManager" />-->
-		    <ref bean="localCacheManager" />
+			<ref bean="filesCacheManager" />
+		    <!--<ref bean="localCacheManager" />-->
 		</property>
-		<!--<property name="rootName" value="store-merchant"/>-->
-		<property name="rootName" value="/Applications/AMPPS/www/shop-images/"/>
+		<property name="rootName" value="store-merchant"/>
+		<!--<property name="rootName" value="/Applications/AMPPS/www/shop-images/"/>-->
 	</bean>
 	
 	
@@ -167,29 +167,28 @@
 	
 	
 	<!-- CMS implementation for static content data -->
-	<bean id="cmsProductFile" class="com.salesmanager.core.modules.cms.content.local.CmsStaticContentFileManagerImpl" factory-method="getInstance">
+	<bean id="cmsProductFile" class="com.salesmanager.core.modules.cms.content.infinispan.CmsStaticContentFileManagerImpl" factory-method="getInstance">
 		<property name="cacheManager">
-			<!--<ref bean="storeCacheManager" />-->
-			<ref bean="localCacheManager" />
+			<ref bean="storeCacheManager" />
 		</property>
-		<!-- <property name="rootName" value="product-file"/>-->
-		<property name="rootName" value="/Applications/AMPPS/www/shop-images"/>
+		<property name="rootName" value="product-file"/>
+		<!--<property name="rootName" value="/Applications/AMPPS/www/shop-images"/>-->
 	</bean>
 	
 	
 
 	
-	<!-- Store Cache Manager -->
-	<!--
+	<!-- Store Cache Manager (infinispan) -->
 	<bean id="storeCacheManager"
 				class="com.salesmanager.core.modules.cms.impl.StoreCacheManagerImpl" factory-method="getInstance" >
 	</bean>
-	-->
 	
-	<!-- Local cache manager  -->
+	<!-- Local cache manager (web server) -->
+	<!--
 	<bean id="localCacheManager"
 				class="com.salesmanager.core.modules.cms.impl.LocalCacheManagerImpl" factory-method="getInstance" >
 	</bean>
+	-->
 	
 	<!-- Invoice -->
 	<bean id="invoiceModule"

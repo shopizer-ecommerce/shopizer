@@ -67,7 +67,7 @@ response.setDateHeader ("Expires", -1);
 										
 											<div style="width:100%;" class="owl-item">
 													<div id="largeImg" class="overlay-container image-container">
-																<img src="<c:url value="${product.image.imageUrl}"/>" alt="<c:out value="${product.description.name}"/>">
+																<img src="<c:out value="${product.image.imageUrl}"/>" alt="<c:out value="${product.description.name}"/>">
 																<a href="<sm:shopProductImage imageName="${product.image.imageName}" sku="${product.sku}" size="LARGE"/>" class="popup-img overlay" title="<c:out value="${product.description.name}"/>"><i class="fa fa-search-plus"></i></a>
 													</div>
 											</div>
@@ -79,7 +79,7 @@ response.setDateHeader ("Expires", -1);
 													<div class="col-xs-6 col-md-3">
 														<c:choose>
 															<c:when test="${thumbnail.externalUrl==null}">
-																<a href="javascript:;"" class="detailsThumbImg thumbImg thumbnail" imgId="im-<c:out value="${thumbnail.id}"/>" title="<c:out value="${thumbnail.imageName}"/>" rel="<c:url value="${thumbnail.imageUrl}"/>"><img height="100" src="<c:url value="${thumbnail.imageUrl}"/>"  alt="<c:url value="${thumbnail.imageName}"/>" ></a>
+																<a href="javascript:;"" class="detailsThumbImg thumbImg thumbnail" imgId="im-<c:out value="${thumbnail.id}"/>" title="<c:out value="${thumbnail.imageName}"/>" rel="<c:out value="${thumbnail.imageUrl}"/>"><img height="100" src="<c:out value="${thumbnail.imageUrl}"/>"  alt="<c:url value="${thumbnail.imageName}"/>" ></a>
 															</c:when>
 															<c:otherwise>
 																<a href="javascript:;"" class="detailsThumbImg thumbImg thumbnail" imgId="im-<c:out value="${thumbnail.id}"/>" title="<c:out value="${product.description.name}"/>" rel="<c:url value="${thumbnail.externalUrl}"/>"><img height="100" src="${thumbnail.externalUrl}"  alt="<c:url value="${product.description.name}"/>" ></a>

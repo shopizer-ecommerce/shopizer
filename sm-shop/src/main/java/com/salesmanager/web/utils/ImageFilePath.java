@@ -1,11 +1,19 @@
 package com.salesmanager.web.utils;
 
+import org.springframework.stereotype.Component;
+
 import com.salesmanager.core.business.catalog.product.model.Product;
 import com.salesmanager.core.business.catalog.product.model.manufacturer.Manufacturer;
 import com.salesmanager.core.business.merchant.model.MerchantStore;
 
-
+@Component
 public interface ImageFilePath {
+	
+	/**
+	 * Context path configured in shopizer-properties.xml
+	 * @return
+	 */
+	public String getContextPath();
 	
 	
 	public String getBasePath();

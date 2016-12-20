@@ -1,6 +1,7 @@
 package com.salesmanager.web.utils;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
 
 import com.salesmanager.core.business.catalog.product.model.Product;
 import com.salesmanager.core.business.catalog.product.model.manufacturer.Manufacturer;
@@ -8,7 +9,12 @@ import com.salesmanager.core.business.content.model.FileContentType;
 import com.salesmanager.core.business.merchant.model.MerchantStore;
 import com.salesmanager.web.constants.Constants;
 
-
+/**
+ * To be used when using shopizer servlet for displaying files
+ * @author c.samson
+ *
+ */
+@Component
 public class LocalImageFilePathUtils extends AbstractimageFilePath{
 	
 	private String basePath = Constants.STATIC_URI;
@@ -131,6 +137,11 @@ public class LocalImageFilePathUtils extends AbstractimageFilePath{
 	public String buildProductPropertyimageUtils(MerchantStore store, String imageName) {
 		return new StringBuilder().append(getBasePath()).append("/files/").append(store.getCode()).append("/").append(FileContentType.PROPERTY).append("/")
 				.append(imageName).toString();
+	}
+
+	@Override
+	public String getContextPath() {
+		return super.getProperties().getProperty(CONTEXT_PATH);
 	}
 	
 

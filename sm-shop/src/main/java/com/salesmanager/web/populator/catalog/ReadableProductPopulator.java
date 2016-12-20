@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
 
 import com.salesmanager.core.business.catalog.product.model.Product;
-import com.salesmanager.core.business.catalog.category.model.Category;
 import com.salesmanager.core.business.catalog.product.model.availability.ProductAvailability;
 import com.salesmanager.core.business.catalog.product.model.description.ProductDescription;
 import com.salesmanager.core.business.catalog.product.model.image.ProductImage;
@@ -123,8 +121,12 @@ public class ReadableProductPopulator extends
 			if(image!=null) {
 				ReadableImage rimg = new ReadableImage();
 				rimg.setImageName(image.getProductImage());
-				String imagePath = imageUtils.buildProductimageUtils(store, source.getSku(), image.getProductImage());
-				rimg.setImageUrl(imagePath);
+				
+				String contextPath = imageUtils.getContextPath();
+				StringBuilder imagePath = new StringBuilder();
+				imagePath.append(contextPath).append(imageUtils.buildProductimageUtils(store, source.getSku(), image.getProductImage()));
+				
+				rimg.setImageUrl(imagePath.toString());
 				rimg.setId(image.getId());
 				target.setImage(rimg);
 				
@@ -135,8 +137,11 @@ public class ReadableProductPopulator extends
 					for(ProductImage img : images) {
 						ReadableImage prdImage = new ReadableImage();
 						prdImage.setImageName(img.getProductImage());
-						String imgPath = imageUtils.buildProductimageUtils(store, source.getSku(), img.getProductImage());
-						prdImage.setImageUrl(imgPath);
+						
+						StringBuilder imgPath = new StringBuilder();
+						imgPath.append(contextPath).append(imageUtils.buildProductimageUtils(store, source.getSku(), img.getProductImage()));
+	
+						prdImage.setImageUrl(imgPath.toString());
 						prdImage.setId(img.getId());
 						prdImage.setImageType(img.getImageType());
 						if(img.getProductImageUrl()!=null){
@@ -153,7 +158,7 @@ public class ReadableProductPopulator extends
 			}
 			
 			//remove products from invisible category -> set visible = false
-			Set<Category> categories = source.getCategories();
+/*			Set<Category> categories = source.getCategories();
 			boolean isVisible = true;
 			if(!CollectionUtils.isEmpty(categories)) {
 				for(Category c : categories) {
@@ -164,9 +169,9 @@ public class ReadableProductPopulator extends
 						isVisible = false;
 					}
 				}
-			}
+			}*/
 			
-			target.setVisible(isVisible);
+			target.setVisible(true);
 			
 	
 			target.setSku(source.getSku());

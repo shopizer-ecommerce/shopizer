@@ -27,7 +27,7 @@ response.setDateHeader ("Expires", -1);
                     	<!-- Image column -->
 						<div id="img" class="span4 productMainImage">
 							<c:if test="${product.image!=null}">
-							<span id="mainImg"><img id="im-<c:out value="${product.image.id}"/>" alt="<c:out value="${product.description.name}"/>" src="<c:url value="${product.image.imageUrl}"/>" data-zoom-image="<sm:shopProductImage imageName="${product.image.imageName}" sku="${product.sku}" size="LARGE"/>"></span>												
+							<span id="mainImg"><img id="im-<c:out value="${product.image.id}"/>" alt="<c:out value="${product.description.name}"/>" src="<c:out value="${product.image.imageUrl}"/>" data-zoom-image="<sm:shopProductImage imageName="${product.image.imageName}" sku="${product.sku}" size="LARGE"/>"></span>												
 							<script>
 								$(function() {
 									setImageZoom('im-<c:out value="${product.image.id}"/>');
@@ -37,7 +37,7 @@ response.setDateHeader ("Expires", -1);
 								<ul id="imageGallery" class="thumbnails small">
 									<c:forEach items="${product.images}" var="thumbnail">								
 									<li class="span2">
-										<a href="#img" class="thumbImg" title="<c:out value="${thumbnail.imageName}"/>"><img id="im-<c:out value="${thumbnail.id}"/>" src="<c:url value="${thumbnail.imageUrl}"/>" data-zoom-image="<sm:shopProductImage imageName="${thumbnail.imageName}" sku="${product.sku}" size="LARGE"/>" alt="<c:url value="${thumbnail.imageName}"/>" ></a>
+										<a href="#img" class="thumbImg" title="<c:out value="${thumbnail.imageName}"/>"><img id="im-<c:out value="${thumbnail.id}"/>" src="<c:out value="${thumbnail.imageUrl}"/>" data-zoom-image="<sm:shopProductImage imageName="${thumbnail.imageName}" sku="${product.sku}" size="LARGE"/>" alt="<c:url value="${thumbnail.imageName}"/>" ></a>
 									</li>
 									</c:forEach>								
 								</ul>

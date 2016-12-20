@@ -89,8 +89,7 @@
 	
 	<!-- load images from local web server [com.salesmanager.web.utils.LocalImageFilePathUtils] -->
 	<beans:bean id="img" class="com.salesmanager.web.utils.LocalImageFilePathUtils">
-		<beans:property name="basePath" value="/sm-shop/static" />
-		<!-- /static --><!-- /sm-shop/static -->
+		<beans:property name="basePath" value="/static" />
 	</beans:bean>
 	
 
