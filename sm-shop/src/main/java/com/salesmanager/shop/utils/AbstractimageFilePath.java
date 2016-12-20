@@ -1,5 +1,9 @@
 package com.salesmanager.shop.utils;
 
+import java.util.Properties;
+
+import javax.annotation.Resource;
+
 import org.apache.commons.lang3.StringUtils;
 
 import com.salesmanager.core.model.catalog.product.Product;
@@ -19,6 +23,19 @@ public abstract class AbstractimageFilePath implements ImageFilePath {
 
 	public abstract void setBasePath(String basePath);
 	
+	protected static final String CONTEXT_PATH = "CONTEXT_PATH";
+	
+	public @Resource(name="shopizer-properties") Properties properties = new Properties();//shopizer-properties
+
+	
+	public Properties getProperties() {
+		return properties;
+	}
+
+	public void setProperties(Properties properties) {
+		this.properties = properties;
+	}
+
 	/**
 	 * Builds a static content image file path that can be used by image servlet
 	 * utility for getting the physical image

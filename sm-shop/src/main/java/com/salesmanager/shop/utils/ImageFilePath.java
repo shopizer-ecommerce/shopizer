@@ -6,6 +6,12 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 
 public interface ImageFilePath {
 	
+	/**
+	 * Context path configured in shopizer-properties.xml
+	 * @return
+	 */
+	public String getContextPath();
+	
 	
 	public String getBasePath();
 

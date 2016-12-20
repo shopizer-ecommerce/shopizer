@@ -125,8 +125,14 @@ public class ReadableProductPopulator extends
 			if(image!=null) {
 				ReadableImage rimg = new ReadableImage();
 				rimg.setImageName(image.getProductImage());
-				String imagePath = imageUtils.buildProductImageUtils(store, source.getSku(), image.getProductImage());
-				rimg.setImageUrl(imagePath);
+				
+				String contextPath = imageUtils.getContextPath();
+				StringBuilder imagePath = new StringBuilder();
+				imagePath.append(contextPath).append(imageUtils.buildProductImageUtils(store, source.getSku(), image.getProductImage()));
+
+				rimg.setImageUrl(imagePath.toString());
+				
+	
 				rimg.setId(image.getId());
 				target.setImage(rimg);
 				
@@ -137,8 +143,11 @@ public class ReadableProductPopulator extends
 					for(ProductImage img : images) {
 						ReadableImage prdImage = new ReadableImage();
 						prdImage.setImageName(img.getProductImage());
-						String imgPath = imageUtils.buildProductImageUtils(store, source.getSku(), img.getProductImage());
-						prdImage.setImageUrl(imgPath);
+
+						StringBuilder imgPath = new StringBuilder();
+						imgPath.append(contextPath).append(imageUtils.buildProductImageUtils(store, source.getSku(), img.getProductImage()));
+
+						prdImage.setImageUrl(imgPath.toString());
 						prdImage.setId(img.getId());
 						prdImage.setImageType(img.getImageType());
 						if(img.getProductImageUrl()!=null){

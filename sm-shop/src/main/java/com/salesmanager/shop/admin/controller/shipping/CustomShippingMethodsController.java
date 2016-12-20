@@ -411,9 +411,9 @@ public class CustomShippingMethodsController {
 	}
 	
 	@PreAuthorize("hasRole('SHIPPING')")
-	@RequestMapping(value = "/admin/shipping/weightBased/page.html", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/admin/shipping/weightBased/page.html", method = RequestMethod.POST)
 	public @ResponseBody
-	String pageCustomShipping(HttpServletRequest request,
+	ResponseEntity<String> pageCustomShipping(HttpServletRequest request,
 			HttpServletResponse response) {
 
 		AjaxResponse resp = new AjaxResponse();
@@ -449,8 +449,9 @@ public class CustomShippingMethodsController {
 		}
 
 		String returnString = resp.toJSONString();
-
-		return returnString;
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 	}
 
 	
@@ -493,21 +494,23 @@ public class CustomShippingMethodsController {
 	
 	
 	@PreAuthorize("hasRole('SHIPPING')")
-	@RequestMapping(value = "/admin/shipping/weightBasedDetails/page.html", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/admin/shipping/weightBasedDetails/page.html", method = RequestMethod.POST)
 	public @ResponseBody
-	String pageCustomShippingDetails(HttpServletRequest request,
+	ResponseEntity<String> pageCustomShippingDetails(HttpServletRequest request,
 			HttpServletResponse response) {
 		
 		String region = request.getParameter("region");
 		
 		AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		
 		if(StringUtils.isBlank(region)){
 			
 			resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
 			resp.setErrorString("Region is not valid");
 			String returnString = resp.toJSONString();
-			return returnString;
+			return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			
 		}
 
@@ -541,8 +544,7 @@ public class CustomShippingMethodsController {
 		}
 
 		String returnString = resp.toJSONString();
-
-		return returnString;
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 	
