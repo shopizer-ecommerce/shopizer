@@ -72,8 +72,11 @@
   <li>Replace QueryDSL with JPAQl [<font color="red">DONE</font>]</li>
   <li>Some of the unit tests are not working. 1 unit test by class, uses H2 [<font color="red">DONE</font>]</li>
 	<li>Align with elasticsearch 2.4.1,buckets to replace facets [<font color="red">DONE</font>]</li>
-  <li>Have a cache API</li>
-  <li>Slow product 'get', might use cache</li>
+  <li>Have a cache API (More details to come)</li>
+  <li>Slow product 'get', might use cache (More details to come)</li>
+  <li>Customer email OPTIN (see <a href="http://shopizer-ecommerce.github.io/shopizer/articles/new-features.html">Newsletter opt in</a></li>
+  <li>Refactoring of REST API to use HATEAOS (More details to come)</li>
+  <li>Customer sign-in section using Facebook and Google (More details to come)</li>
 </ul>
  </p>
  
