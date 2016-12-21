@@ -9,9 +9,9 @@
 
 		<!-- Shipping pre-processors -->
 		<util:list id="shippingModulePreProcessors" value-type="com.salesmanager.core.business.modules.integration.shipping.model.ShippingQuotePrePostProcessModule">
-			<ref bean="shippingDistancePreProcessor"/>
-			<!-- From rules -->
-			<ref bean="shippingMethodDecisionProcess"/>
+			<!-- Not configured by default, should know what is your intention before enabling -->
+<!-- 		<ref bean="shippingDistancePreProcessor"/>
+			<ref bean="shippingMethodDecisionProcess"/> -->
 		</util:list>
 	
 		<!-- Calculates the distance between the origin and destination -->
@@ -32,13 +32,14 @@
 		<!-- Any post process required after getting a quote -->
 		<!-- Shipping post-processors -->
 		<util:list id="shippingModulePostProcessors" value-type="com.salesmanager.core.business.modules.integration.shipping.model.ShippingQuotePrePostProcessModule">
-			<ref bean="storePickUp"/><!-- defined in core-modules -->
+			<!-- Not configured by default, should be configured to be used -->
+			<!-- <ref bean="storePickUp"/> --><!-- defined in core-modules -->
 		</util:list>
 		
 		<!-- List of accepted zones for using shipping distance pre processor -->
 		<util:list id="acceptedZones" value-type="java.lang.String">
 			<value>NY</value>
 			<value>NJ</value>
-    	        </util:list>
+    	</util:list>
 	
 </beans>

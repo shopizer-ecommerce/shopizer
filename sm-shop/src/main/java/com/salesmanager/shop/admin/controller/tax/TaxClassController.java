@@ -66,9 +66,9 @@ public class TaxClassController {
 	
 	
 	@PreAuthorize("hasRole('TAX')")
-	@RequestMapping(value = "/admin/tax/taxclass/paging.html", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/admin/tax/taxclass/paging.html", method = RequestMethod.POST)
 	public @ResponseBody
-	String pageTaxClasses(HttpServletRequest request,
+	ResponseEntity<String> pageTaxClasses(HttpServletRequest request,
 			HttpServletResponse response, Locale locale) {
 		
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
@@ -96,7 +96,9 @@ public class TaxClassController {
 		}
 		
 		String returnString = resp.toJSONString();
-		return returnString;
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasRole('TAX')")

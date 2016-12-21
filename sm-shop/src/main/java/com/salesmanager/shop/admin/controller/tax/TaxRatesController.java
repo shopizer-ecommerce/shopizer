@@ -102,10 +102,11 @@ public class TaxRatesController {
 		return com.salesmanager.shop.admin.controller.ControllerConstants.Tiles.Tax.taxRates;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@PreAuthorize("hasRole('TAX')")
-	@RequestMapping(value = "/admin/tax/taxrates/page.html", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/admin/tax/taxrates/page.html", method = RequestMethod.POST)
 	public @ResponseBody
-	String pageTaxRates(HttpServletRequest request,
+	ResponseEntity<String> pageTaxRates(HttpServletRequest request,
 			HttpServletResponse response) {
 
 		AjaxResponse resp = new AjaxResponse();
@@ -117,7 +118,6 @@ public class TaxRatesController {
 
 			
 			nf = NumberFormat.getInstance(Locale.US);
-
 			nf.setMaximumFractionDigits(Integer.parseInt(Character
 						.toString(DECIMALCOUNT)));
 			nf.setMinimumFractionDigits(Integer.parseInt(Character
@@ -160,10 +160,8 @@ public class TaxRatesController {
 						zoneCode = rate.getZone().getCode();
 					}
 					entry.put("zone", zoneCode);
-					
 					entry.put("rate", nf.format(rate.getTaxRate()));
 
-					
 					resp.addDataEntry(entry);
 
 				}
@@ -177,8 +175,9 @@ public class TaxRatesController {
 		}
 
 		String returnString = resp.toJSONString();
-
-		return returnString;
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasRole('TAX')")

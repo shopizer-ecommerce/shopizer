@@ -886,7 +886,7 @@ public class ShoppingOrderController extends AbstractController {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value={"/shippingQuotes.html"}, method=RequestMethod.POST)
+	@RequestMapping(value={"/shippingQuotes.json"}, method=RequestMethod.POST)
 	public @ResponseBody ReadableShopOrder calculateShipping(@ModelAttribute(value="order") ShopOrder order, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
 		
 		Language language = (Language)request.getAttribute("LANGUAGE");
@@ -1104,7 +1104,7 @@ public class ShoppingOrderController extends AbstractController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value={"/calculateOrderTotal.html"}, method=RequestMethod.POST)
+	@RequestMapping(value={"/calculateOrderTotal.json"}, method=RequestMethod.POST)
 	public @ResponseBody ReadableShopOrder calculateOrderTotal(@ModelAttribute(value="order") ShopOrder order, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
 		
 		Language language = (Language)request.getAttribute("LANGUAGE");

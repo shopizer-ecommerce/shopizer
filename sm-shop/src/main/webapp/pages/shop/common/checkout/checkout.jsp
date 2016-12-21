@@ -500,7 +500,7 @@ function shippingQuotes(){
 	
 	$.ajax({
 	  type: 'POST',
-	  url: '<c:url value="/shop/order/shippingQuotes.html"/>',
+	  url: '<c:url value="/shop/order/shippingQuotes.json"/>',
 	  data: data,
 	  cache: false,
 	  dataType: 'json',
@@ -753,7 +753,7 @@ function calculateTotal(){
 	
 	$.ajax({
 	  type: 'POST',
-	  url: '<c:url value="/shop/order/calculateOrderTotal.html"/>',
+	  url: '<c:url value="/shop/order/calculateOrderTotal.json"/>',
 	  data: data,
 	  cache: false,
 	  dataType: 'json',

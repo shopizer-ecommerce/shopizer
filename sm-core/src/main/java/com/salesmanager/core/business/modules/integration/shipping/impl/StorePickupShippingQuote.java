@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.apache.commons.lang.Validate;
+
 import com.salesmanager.core.business.services.system.MerchantConfigurationService;
 import com.salesmanager.core.business.utils.ProductPriceUtils;
 import com.salesmanager.core.model.common.Delivery;
@@ -120,6 +122,8 @@ public class StorePickupShippingQuote implements ShippingQuoteModule, ShippingQu
 			ShippingConfiguration shippingConfiguration,
 			List<IntegrationModule> allModules, Locale locale)
 			throws IntegrationException {
+		
+		Validate.notNull(globalShippingConfiguration, "IntegrationConfiguration must not be null for StorePickUp");
 		
 		
 		try {

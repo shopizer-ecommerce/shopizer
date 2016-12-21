@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.digester.Digester;
+import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -127,6 +128,8 @@ public class UPSShippingQuote implements ShippingQuoteModule {
 			IntegrationConfiguration configuration, IntegrationModule module,
 			ShippingConfiguration shippingConfiguration, Locale locale)
 			throws IntegrationException {
+		
+		Validate.notNull(configuration, "IntegrationConfiguration must not be null for USPS shipping module");
 
 		
 		if(StringUtils.isBlank(delivery.getPostalCode())) {
