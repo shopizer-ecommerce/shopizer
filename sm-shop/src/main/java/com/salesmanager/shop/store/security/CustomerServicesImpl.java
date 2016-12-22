@@ -8,6 +8,8 @@ import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.user.Group;
 import com.salesmanager.core.model.user.Permission;
 import com.salesmanager.shop.admin.security.SecurityDataAccessException;
+import com.salesmanager.shop.constants.Constants;
+
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +39,8 @@ public class CustomerServicesImpl implements UserDetailsService{
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(CustomerServicesImpl.class);
 	
+	public final static String ROLE_PREFIX = "ROLE_";//Spring Security 4
+	
 	@Inject
 	private CustomerService customerService;
 	
@@ -50,7 +54,6 @@ public class CustomerServicesImpl implements UserDetailsService{
 	
 	
 	
-	@SuppressWarnings("deprecation")
 	public UserDetails loadUserByUsername(String userName)
 			throws UsernameNotFoundException, DataAccessException {
 
@@ -66,6 +69,9 @@ public class CustomerServicesImpl implements UserDetailsService{
 				}
 	
 	
+
+			GrantedAuthority role = new SimpleGrantedAuthority(ROLE_PREFIX + Constants.PERMISSION_CUSTOMER_AUTHENTICATED);//required to login
+			authorities.add(role); 
 			
 			List<Integer> groupsId = new ArrayList<Integer>();
 			List<Group> groups = user.getGroups();

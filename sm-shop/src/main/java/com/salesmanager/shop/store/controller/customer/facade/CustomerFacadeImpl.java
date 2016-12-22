@@ -72,6 +72,8 @@ public class CustomerFacadeImpl implements CustomerFacade
 
 	private static final Logger LOG = LoggerFactory.getLogger(CustomerFacadeImpl.class);
 	private final static int USERNAME_LENGTH=6;
+	
+	public final static String ROLE_PREFIX = "ROLE_";//Spring Security 4
 
 
 	 @Inject
@@ -390,7 +392,7 @@ public class CustomerFacadeImpl implements CustomerFacade
 			Validate.notNull(customer, "Customer cannot be null");
 
         	Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-			GrantedAuthority role = new SimpleGrantedAuthority(Constants.PERMISSION_CUSTOMER_AUTHENTICATED);//required to login
+			GrantedAuthority role = new SimpleGrantedAuthority(ROLE_PREFIX + Constants.PERMISSION_CUSTOMER_AUTHENTICATED);//required to login
 			authorities.add(role); 
 			List<Integer> groupsId = new ArrayList<Integer>();
 			List<Group> groups = customer.getGroups();
