@@ -717,6 +717,112 @@ public class CustomerController {
 		
 	}
 	
+	
+	@PreAuthorize("hasRole('CUSTOMER')")
+	@RequestMapping(value="/admin/customers/setCredentials.html", method=RequestMethod.POST)
+	public @ResponseBody
+	ResponseEntity<String> setCredentials(HttpServletRequest request,HttpServletResponse response) {
+		
+		String customerId = request.getParameter("customerId");
+		String userName = request.getParameter("userName");
+		String password = request.getParameter("password");
+		
+		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
+		AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		
+		
+		
+		try {
+			
+			Long id = Long.parseLong(customerId);
+			
+			Customer customer = customerService.getById(id);
+			
+			if(customer==null) {
+				resp.setErrorString("Customer does not exist");
+				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+			}
+			
+			if(customer.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
+				resp.setErrorString("Invalid customer id");
+				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+			}
+			
+			if(StringUtils.isBlank(userName) || StringUtils.isBlank(password)) {
+				resp.setErrorString("Invalid username or password");
+				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+			}
+			
+			Language userLanguage = customer.getDefaultLanguage();
+			
+			Locale customerLocale = LocaleUtils.getLocale(userLanguage);
+
+			String encodedPassword = passwordEncoder.encode(password);
+			
+			customer.setPassword(encodedPassword);
+			customer.setNick(userName);
+			
+			customerService.saveOrUpdate(customer);
+			
+			//send email
+			
+/*			try {
+
+				//creation of a user, send an email
+				String[] storeEmail = {store.getStoreEmailAddress()};
+				
+				
+				Map<String, String> templateTokens = emailUtils.createEmailObjectsMap(request.getContextPath(), store, messages, customerLocale);
+				templateTokens.put(EmailConstants.LABEL_HI, messages.getMessage("label.generic.hi", customerLocale));
+		        templateTokens.put(EmailConstants.EMAIL_CUSTOMER_FIRSTNAME, customer.getBilling().getFirstName());
+		        templateTokens.put(EmailConstants.EMAIL_CUSTOMER_LASTNAME, customer.getBilling().getLastName());
+				templateTokens.put(EmailConstants.EMAIL_RESET_PASSWORD_TXT, messages.getMessage("email.customer.resetpassword.text", customerLocale));
+				templateTokens.put(EmailConstants.EMAIL_CONTACT_OWNER, messages.getMessage("email.contactowner", storeEmail, customerLocale));
+				templateTokens.put(EmailConstants.EMAIL_PASSWORD_LABEL, messages.getMessage("label.generic.password",customerLocale));
+				templateTokens.put(EmailConstants.EMAIL_CUSTOMER_PASSWORD, password);
+
+
+				Email email = new Email();
+				email.setFrom(store.getStorename());
+				email.setFromEmail(store.getStoreEmailAddress());
+				email.setSubject(messages.getMessage("label.generic.changepassword",customerLocale));
+				email.setTo(customer.getEmailAddress());
+				email.setTemplateName(RESET_PASSWORD_TPL);
+				email.setTemplateTokens(templateTokens);
+	
+	
+				
+				emailService.sendHtmlEmail(store, email);
+				resp.setStatus(AjaxResponse.RESPONSE_STATUS_SUCCESS);
+			
+			} catch (Exception e) {
+				LOGGER.error("Cannot send email to user",e);
+				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
+			}*/
+			
+			
+			
+			
+		} catch (Exception e) {
+			LOGGER.error("An exception occured while changing password",e);
+			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
+		}
+		
+		
+		String returnString = resp.toJSONString();
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		
+		
+	}
+	
 	private void setMenu(Model model, HttpServletRequest request) throws Exception {
 		
 		//display menu

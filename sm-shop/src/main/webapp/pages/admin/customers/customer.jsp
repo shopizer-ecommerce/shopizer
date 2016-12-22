@@ -102,11 +102,14 @@ $(document).ready(function() {
 	    
 	    //reset password link
 	    $('a[href="#resetPassword"]').click(function(){
-  			
 	    	var customerId = this.id;
-
 			$('#confirmModal').modal();
-
+		});
+		
+	    //set credentials link
+	    $('a[href="#setCredentials"]').click(function(){
+	    	var customerId = this.id;
+			$('#credentialsModal').modal();
 		});
 	    
 });
@@ -308,6 +311,47 @@ function resetCustomerPassword(customerId){
 }
 
 
+function setCredentials(customerId, userName, password){
+	$('#customerError').hide();
+	$('#customerSuccess').hide();
+	$('#crConfirmationInnerBox').showLoading({
+            'indicatorZIndex' : 1000001,
+            'overlayZIndex': 1000000
+	})
+	$.ajax({
+	  type: 'POST',
+	  url: '<c:url value="/admin/customers/setCredentials.html"/>',
+	  data: 'customerId=' + customerId + '&userName=' + userName + '&password=' + password,
+	  dataType: 'json',
+	  success: function(response){
+		   $('#crConfirmationInnerBox').hideLoading();
+		   $('#confirmModal').modal('hide');
+			var status = isc.XMLTools.selectObjects(response, "/response/status");
+			if(status==0 || status ==9999) {
+				
+				$('#customerSuccess').html('<s:message code="message.credentials.reset" text="Credentials have been changed" />');
+				$('#customerSuccess').show();
+				
+			} else {
+				$('#customerError').html('<s:message code="message.error" text="An error occured" />');
+				$('#customerError').show();
+			}
+
+
+	  
+	  },
+	  error: function(xhr, textStatus, errorThrown) {
+	  	//alert('error ' + errorThrown);
+	  	$('#confirmationInnerBox').hideLoading();
+		$('#confirmModal').modal('hide');
+	  	$('#customerError').html('<s:message code="message.error" text="An error occured" />');
+		$('#customerError').show();
+	  }
+	  
+	});
+}
+
+
 </script>
 
 
@@ -338,7 +382,8 @@ function resetCustomerPassword(customerId){
 				<div class="btn-group" style="z-index:400000;">
                     <button class="btn btn-info dropdown-toggle" data-toggle="dropdown"><s:message code="label.generic.moreoptions" text="More options"/> ... <span class="caret"></span></button>
                      <ul class="dropdown-menu">
-				    	<li><a id="${customer.id}" href="#resetPassword"><s:message code="button.label.resetpassword" text="Reset Password" /></a></li>
+				    	<li><a id="${customer.id}" href="#resetPassword"><s:message code="button.label.resetpassword" text="Reset password" /></a></li>
+				    	<li><a id="${customer.id}" href="#setCredentials"><s:message code="button.label.setcredentials" text="Set credentials" /></a></li>
                      </ul>
                 </div><!-- /btn-group -->
 			    <br/>
@@ -619,4 +664,36 @@ function resetCustomerPassword(customerId){
 </div>
 
 
+<div id="credentialsModal"  class="modal hide" style="z-index:650000" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <span id="crConfirmationInnerBox">
+  <div class="modal-header">
+          <button type="button" class="close close-modal" data-dismiss="modal" aria-hidden="true">X</button>
+          <h3 id="modalTitle"><s:message code="button.label.setcredentials" text="Set credentials" /></h3>
+  </div>
+  <div class="modal-body">
+
+           <p id="modalMessage">
+           		    <label>
+           		    	<s:message code="label.generic.username" text="User Name"/>
+           		    </label>&nbsp;<input type="text" id="crUserName" name="crUserName" class="input-small">            		    
+           </p>
+           <p id="modalMessage">
+                    <label>
+           		    	<s:message code="label.generic.password" text="Password"/>
+           		    </label>&nbsp;<input type="text" id="crPassword" name="crPassworde" class="input-small"> 
+           </p>
+  </div>  
+  <div class="modal-footer">
+  
+  		   <button class="btn btn-primary" aria-hidden="true"
+	  		   	onClick="setCredentials( $('#customerId').val(), $('#crUserName').val(), $('#crPassword').val() );" >
+	  		   	<s:message  code="button.label.submit2" text="Submit" />
+	  	   </button>
+  		   	
+  		   	
+           <button class="btn cancel-modal" data-dismiss="modal" aria-hidden="true"><s:message code="button.label.cancel" text="Cancel" /></button>
+           <button class="btn btn-success close-modal" id="closeModal" data-dismiss="modal" aria-hidden="true" style="display:none;"><s:message code="button.label.close" text="Close" /></button>
+  </div>
+  </span>
+</div>
 
