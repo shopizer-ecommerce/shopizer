@@ -376,6 +376,16 @@ value : optional additional customer information captured for the campaign<br/>
 </p>
 <br/>
 
+<img src="../images/optin.jpg">
+
+A new html component displayed on the theme footer will allow the customer to put in its email address. When clicking on submit an Ajax POST will be done to a new REST endpoint for managing that entry.
+The post will be done to <b>/public/<STORE CODE>/customer/optin</b>
+
+A new class in sm-shop will have to be created com.salesmanager.shop.store.services.customer.CustomerCommunicationRESTController
+
+The controller will delegate to the existing CustomerFacade class which will delegate to a new method in sm-core CustomerService which will invoke a new CustomerOptinRepository for storing the optin object
+
+
 <br/>
 <h2>&nbsp;</h2>
 <br/>
