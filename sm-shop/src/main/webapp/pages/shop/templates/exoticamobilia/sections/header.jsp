@@ -168,7 +168,7 @@ $(document).ready(function() {
 					<a onClick="javascript:location.href='<c:url value="/shop/customer/dashboard.html" />';" href="#"><i class="fa fa-user"></i><s:message code="label.customer.myaccount" text="My account"/></a>
 				</li>
 				<li>
-					<a onClick="javascript:location.href='<c:url value="/shop/customer/j_spring_security_logout" />';" href="#"><i class="fa fa-power-off"></i><s:message code="button.label.logout" text="Logout"/></a>
+					<a onClick="javascript:location.href='<c:url value="/shop/customer/logout" />';" href="#"><i class="fa fa-power-off"></i><s:message code="button.label.logout" text="Logout"/></a>
 				</li>
 		</ul>
 </script>

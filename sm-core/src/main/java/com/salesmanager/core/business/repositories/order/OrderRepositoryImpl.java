@@ -27,7 +27,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		StringBuilder objectBuilderSelect = new StringBuilder();
 		
 		String countBaseQuery = "select count(o) from Order as o";
-		String baseQuery = "select o from Order as o";
+		String baseQuery = "select o from Order as o left join fetch o.orderTotal ot left join fetch o.orderProducts op left join fetch op.orderAttributes opo left join fetch op.prices opp";
 		countBuilderSelect.append(countBaseQuery);
 		objectBuilderSelect.append(baseQuery);
 		

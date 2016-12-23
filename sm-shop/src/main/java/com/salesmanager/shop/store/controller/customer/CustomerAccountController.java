@@ -53,7 +53,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.*;
-//import com.salesmanager.web.shop.controller.data.CountryData;
 
 /**
  * Entry point for logged in customers
@@ -143,7 +142,7 @@ public class CustomerAccountController extends AbstractController {
 	}
 	
 	
-	@RequestMapping(value="/accountSummary.html", method=RequestMethod.GET)
+	@RequestMapping(value="/accountSummary.json", method=RequestMethod.GET)
 	public @ResponseBody ReadableCustomer customerInformation(@RequestParam String userName, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 	
 	

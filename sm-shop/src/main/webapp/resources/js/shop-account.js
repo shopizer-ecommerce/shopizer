@@ -27,7 +27,7 @@
 
 
 function displayUserAccount(userName){
-	url = getContextPath() + '/shop/customer/accountSummary.html?userName='+userName;
+	url = getContextPath() + '/shop/customer/accountSummary.json?userName='+userName;
 	$.ajax({  
 		 type: 'GET',  
 		 url: url,  
@@ -38,7 +38,7 @@ function displayUserAccount(userName){
 			 
 		 },
 		 success: function(customer) {
-			 log('Return');
+			 log('From account summary');
 			 if(customer!=null) {
 				 //display user
 				 //alert("Supports customer loggin " + supportsCustomerLogin());
