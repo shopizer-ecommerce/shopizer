@@ -5,7 +5,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.impl.cookie.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,9 +46,7 @@ public class EmailTemplatesUtils {
 	
 	@Autowired
 	private CountryService countryService;
-	
-	@Autowired
-	private ProductService productService;
+
 	
 	@Autowired
 	private ZoneService zoneService;
@@ -87,7 +84,7 @@ public class EmailTemplatesUtils {
 	 * @param contextPath
 	 */
 	@Async
-	public void sendOrderEmail(Customer customer, Order order, Locale customerLocale, Language language, MerchantStore merchantStore, String contextPath) {
+	public void sendOrderEmail(String toEmail, Customer customer, Order order, Locale customerLocale, Language language, MerchantStore merchantStore, String contextPath) {
 			   /** issue with putting that elsewhere **/ 
 		       LOGGER.info( "Sending welcome email to customer" );
 		       try {
@@ -111,8 +108,6 @@ public class EmailTemplatesUtils {
 		    		   Zone zone = zones.get(order.getBilling().getZone().getCode());
 		    		   if(zone!=null) {
 		    			   billing.append(zone.getName());
-		    		   } else {
-		    			   billing.append(zone.getCode());
 		    		   }
 		    		   billing.append(LINE_BREAK);
 		    	   } else if(!StringUtils.isBlank(order.getBilling().getState())) {
@@ -142,8 +137,6 @@ public class EmailTemplatesUtils {
 			    		   Zone zone = zones.get(order.getDelivery().getZone().getCode());
 			    		   if(zone!=null) {
 			    			   shipping.append(zone.getName());
-			    		   } else {
-			    			   shipping.append(zone.getCode());
 			    		   }
 			    		   shipping.append(LINE_BREAK);
 			    	   } else if(!StringUtils.isBlank(order.getDelivery().getState())) {
@@ -168,18 +161,7 @@ public class EmailTemplatesUtils {
 		    	   for(OrderProduct product : order.getOrderProducts()) {
 		    		   //Product productModel = productService.getByCode(product.getSku(), language);
 		    		   orderTable.append(TR);
-		    		   	   //images are ugly
-/*		    		       orderTable.append(TD);
-			    		   if(productModel!=null && productModel.getProductImage()!=null) {
-			    			   String productImage = new StringBuilder().append(storeUri).append(imageUtils.buildProductimageUtils(merchantStore, productModel, productModel.getProductImage().getProductImage())).toString();
-			    			   
-			    			   String imgSrc = new StringBuilder().append("<img src=\"").append(productImage).append("\" width=\"40\">").toString();
-			    			   orderTable.append(imgSrc);
-			    		   } else {
-			    			   orderTable.append("&nbsp;");
-			    		   }
-			    		   orderTable.append(CLOSING_TD);*/
-			    		   orderTable.append(TD).append(product.getProductName()).append(CLOSING_TD);
+			    		   orderTable.append(TD).append(product.getProductName()).append(" - ").append(product.getSku()).append(CLOSING_TD);
 		    		   	   orderTable.append(TD).append(messages.getMessage("label.quantity", customerLocale)).append(": ").append(product.getProductQuantity()).append(CLOSING_TD);
 	    		   		   orderTable.append(TD).append(pricingService.getDisplayAmount(product.getOneTimeCharge(), merchantStore)).append(CLOSING_TD);
     		   		   orderTable.append(CLOSING_TR);
@@ -224,7 +206,7 @@ public class EmailTemplatesUtils {
 		           templateTokens.put(EmailConstants.EMAIL_CUSTOMER_LASTNAME, order.getBilling().getLastName());
 		           
 		           String[] params = {String.valueOf(order.getId())};
-		           String[] dt = {DateUtils.formatDate(order.getDatePurchased())};
+		           String[] dt = {DateUtil.formatDate(order.getDatePurchased())};
 		           templateTokens.put(EmailConstants.EMAIL_ORDER_NUMBER, messages.getMessage("email.order.confirmation", params, customerLocale));
 		           templateTokens.put(EmailConstants.EMAIL_ORDER_DATE, messages.getMessage("email.order.ordered", dt, customerLocale));
 		           templateTokens.put(EmailConstants.EMAIL_ORDER_THANKS, messages.getMessage("email.order.thanks",customerLocale));
@@ -251,7 +233,7 @@ public class EmailTemplatesUtils {
 		           }
 		           
 			       String status = messages.getMessage("label.order." + order.getStatus().name(), customerLocale, order.getStatus().name());
-			       String[] statusMessage = {DateUtils.formatDate(order.getDatePurchased()),status};
+			       String[] statusMessage = {DateUtil.formatDate(order.getDatePurchased()),status};
 		           templateTokens.put(EmailConstants.ORDER_STATUS, messages.getMessage("email.order.status", statusMessage, customerLocale));
 		           
 
@@ -260,7 +242,7 @@ public class EmailTemplatesUtils {
 		           email.setFrom(merchantStore.getStorename());
 		           email.setFromEmail(merchantStore.getStoreEmailAddress());
 		           email.setSubject(messages.getMessage("email.order.title", title, customerLocale));
-		           email.setTo(customer.getEmailAddress());
+		           email.setTo(toEmail);
 		           email.setTemplateName(EmailConstants.EMAIL_ORDER_TPL);
 		           email.setTemplateTokens(templateTokens);
 
@@ -383,9 +365,9 @@ public class EmailTemplatesUtils {
 		        templateTokens.put(EmailConstants.EMAIL_CUSTOMER_FIRSTNAME, customer.getBilling().getFirstName());
 		        templateTokens.put(EmailConstants.EMAIL_CUSTOMER_LASTNAME, customer.getBilling().getLastName());
 				
-		        String[] statusMessageText = {String.valueOf(order.getId()),DateUtils.formatDate(order.getDatePurchased())};
+		        String[] statusMessageText = {String.valueOf(order.getId()),DateUtil.formatDate(order.getDatePurchased())};
 		        String status = messages.getMessage("label.order." + order.getStatus().name(), customerLocale, order.getStatus().name());
-		        String[] statusMessage = {DateUtils.formatDate(lastHistory.getDateAdded()),status};
+		        String[] statusMessage = {DateUtil.formatDate(lastHistory.getDateAdded()),status};
 		        
 		        String comments = lastHistory.getComments();
 		        if(StringUtils.isBlank(comments)) {

@@ -3,12 +3,14 @@ package com.salesmanager.web.populator.order;
 import java.util.Locale;
 
 import org.apache.commons.lang.Validate;
+import org.elasticsearch.common.lang3.StringUtils;
 
 import com.salesmanager.core.business.catalog.product.service.PricingService;
 import com.salesmanager.core.business.generic.exception.ConversionException;
 import com.salesmanager.core.business.merchant.model.MerchantStore;
 import com.salesmanager.core.business.order.model.OrderTotal;
 import com.salesmanager.core.business.reference.language.model.Language;
+import com.salesmanager.core.constants.Constants;
 import com.salesmanager.core.utils.AbstractDataPopulator;
 import com.salesmanager.web.entity.order.ReadableOrderTotal;
 import com.salesmanager.web.utils.LabelUtils;
@@ -42,9 +44,19 @@ public class ReadableOrderTotalPopulator extends
 				target.setId(source.getId());
 				target.setModule(source.getModule());
 				target.setOrder(source.getSortOrder());
+				
+
 				target.setTitle(messages.getMessage(source.getOrderTotalCode(), locale, source.getOrderTotalCode()));
+				target.setText(source.getText());
+				
 				target.setValue(source.getValue());
 				target.setTotal(pricingService.getDisplayAmount(source.getValue(), store));
+				
+				if(!StringUtils.isBlank(source.getOrderTotalCode())) {
+					if(Constants.OT_DISCOUNT_TITLE.equals(source.getOrderTotalCode())) {
+						target.setDiscounted(true);
+					}
+				}
 				
 			} catch(Exception e) {
 				throw new ConversionException(e);

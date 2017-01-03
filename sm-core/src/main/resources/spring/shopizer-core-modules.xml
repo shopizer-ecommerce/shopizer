@@ -90,7 +90,7 @@
 						<ref bean="localCacheManager" />
 				</property>
 				<!--<property name="rootName" value="product-merchant"/>-->
-				<property name="rootName" value="/Applications/AMPPS/www/shop-images"/>
+				<property name="rootName" value="/Applications/MAMP/htdocs/shop-images"/>
 	</bean>
 	
 
@@ -117,7 +117,7 @@
 						<ref bean="localCacheManager" />
 				</property>
 				<!--<property name="rootName" value="store-merchant"/>-->
-				<property name="rootName" value="/Applications/AMPPS/www/shop-images"/>
+				<property name="rootName" value="/Applications/MAMP/htdocs/shop-images"/>
 	</bean>
 	
 	
@@ -145,7 +145,7 @@
 		    <ref bean="localCacheManager" />
 		</property>
 		<!--<property name="rootName" value="store-merchant"/>-->
-		<property name="rootName" value="/Applications/AMPPS/www/shop-images/"/>
+		<property name="rootName" value="/Applications/MAMP/htdocs/shop-images/"/>
 	</bean>
 	
 	
@@ -173,7 +173,7 @@
 			<ref bean="localCacheManager" />
 		</property>
 		<!-- <property name="rootName" value="product-file"/>-->
-		<property name="rootName" value="/Applications/AMPPS/www/shop-images"/>
+		<property name="rootName" value="/Applications/MAMP/htdocs/shop-images"/>
 	</bean>
 	
 	

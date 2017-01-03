@@ -39,5 +39,24 @@
 		<property name="shippingPriceRule" ref="shippingPriceRule" />
 		<property name="kbase" ref="shippingPriceDecisionBase" />
 	</bean>
+	
+	<!-- placeholder for order-total variation based on product manufacturer -->
+	
+	<!-- Basic Manufacturer Shipping Method rules -->
+	<drools:kbase id="manufacturerShippingMethodOrderTotalBase">
+        <drools:resources>
+            <drools:resource type="DTABLE" source="classpath:rules/manufacturer-shipping-ordertotal-rules.xls"/>
+        </drools:resources>
+    </drools:kbase>
+	
+	<drools:ksession id="manufacturerShippingMethodOrderTotalDecision" name="manufacturerShippingMethodOrderTotalDecision" type="stateless" kbase="manufacturerShippingMethodOrderTotalBase"/>
+ 
+  	<!-- concrete module for the above kbase -->
+  	<bean id="manufacturerShippingCodeOrderTotalModule" class="com.salesmanager.core.modules.order.total.ManufacturerShippingCodeOrderTotalModuleImpl">
+		<property name="orderTotalMethodDecision" ref="manufacturerShippingMethodOrderTotalDecision" />
+		<property name="kbase" ref="manufacturerShippingMethodOrderTotalBase" />
+		<property name="pricingService" ref="pricingService" />
+	</bean>
+
 
 </beans>

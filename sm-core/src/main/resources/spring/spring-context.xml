@@ -26,6 +26,8 @@
 	<import resource="classpath:/spring/shopizer-core-modules.xml" />
 	<!-- shipping pre processors -->
 	<import resource="classpath:/spring/processors/shopizer-core-shipping-processors.xml" />
+	<!-- order total variation processors -->
+	<import resource="classpath:/spring/processors/shopizer-core-ordertotal-processors.xml" />
 	<!-- rules -->
 	<import resource="classpath:/spring/shopizer-core-rules.xml" />
 	<!-- search -->

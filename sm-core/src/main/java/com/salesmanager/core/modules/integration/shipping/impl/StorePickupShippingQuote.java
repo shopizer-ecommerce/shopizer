@@ -137,7 +137,8 @@ public class StorePickupShippingQuote implements ShippingQuoteModule, ShippingQu
 			ShippingOption shippingOption = new ShippingOption();
 			shippingOption.setShippingModuleCode(MODULE_CODE);
 			shippingOption.setOptionCode(MODULE_CODE);
-			shippingOption.setOptionId(new StringBuilder().append(MODULE_CODE).append("_").append(region).toString());
+			//shippingOption.setOptionId(new StringBuilder().append(MODULE_CODE).append("_").append(region).toString());
+			shippingOption.setOptionId(MODULE_CODE);
 			
 			shippingOption.setOptionPrice(productPriceUtils.getAmount(price));
 	

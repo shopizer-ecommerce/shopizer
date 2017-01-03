@@ -409,7 +409,7 @@ public class ShippingServiceImpl implements ShippingService {
 				shippingOrigin.setZone(store.getZone());
 			}
 			
-			System.out.println("BEFORE SHIPPING CONFIG");
+			//System.out.println("BEFORE SHIPPING CONFIG");
 			
 			
 			if(shippingConfiguration==null) {
@@ -450,7 +450,7 @@ public class ShippingServiceImpl implements ShippingService {
 				return shippingQuote;
 			}
 			
-			System.out.println("BEFORE SHIPPING MODULE");
+			//System.out.println("BEFORE SHIPPING MODULE");
 
 			
 			/** uses this module name **/
@@ -532,7 +532,7 @@ public class ShippingServiceImpl implements ShippingService {
 
 			Locale locale = languageService.toLocale(language);
 			
-			System.out.println("BEFORE SHIPPING PRE PROCESS");
+			//System.out.println("BEFORE SHIPPING PRE PROCESS");
 			
 			//invoke pre processors
 			if(!CollectionUtils.isEmpty(shippingModulePreProcessors)) {
@@ -548,7 +548,7 @@ public class ShippingServiceImpl implements ShippingService {
 								moduleName = shippingModule.getCode();
 								shippingQuoteModule = this.shippingModules.get(shippingModule.getCode());
 								configuration = modules.get(shippingModule.getCode());
-							} //use default
+							} //TODO use default
 						}
 						
 					}
@@ -572,7 +572,9 @@ public class ShippingServiceImpl implements ShippingService {
 				return shippingQuote;
 			}
 			
-			if(shippingOptions==null &&!StringUtils.isBlank(delivery.getPostalCode())) {
+			if(shippingOptions==null && !StringUtils.isBlank(delivery.getPostalCode())) {
+				
+				//absolutely need to use in this case store pickup or other default shipping quote
 				shippingQuote.setShippingReturnCode(ShippingQuote.NO_SHIPPING_TO_SELECTED_COUNTRY);
 			}
 			
@@ -583,7 +585,7 @@ public class ShippingServiceImpl implements ShippingService {
 			ShippingOptionPriceType shippingOptionPriceType = shippingConfiguration.getShippingOptionPriceType();
 			ShippingOption selectedOption = null;
 			
-			System.out.println("BEFORE SHIPPING OPTIONS");
+			//System.out.println("BEFORE SHIPPING OPTIONS");
 			
 			if(shippingOptions!=null) {
 				
@@ -659,7 +661,7 @@ public class ShippingServiceImpl implements ShippingService {
 			
 			shippingQuote.setShippingOptions(shippingOptions);
 			
-			System.out.println("BEFORE SHIPPING POST PROCESS");
+			//System.out.println("BEFORE SHIPPING POST PROCESS");
 			
 			/** post processors **/
 			//invoke pre processors
@@ -680,11 +682,10 @@ public class ShippingServiceImpl implements ShippingService {
 					
 					IntegrationModule module = postProcessModule;
 					postProcessor.prePostProcessShippingQuotes(shippingQuote, packages, orderTotal, delivery, shippingOrigin, store, integrationConfiguration, module, shippingConfiguration, shippingMethods, locale);
+				
 				}
 			}
-			
-			
-			
+
 			
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);

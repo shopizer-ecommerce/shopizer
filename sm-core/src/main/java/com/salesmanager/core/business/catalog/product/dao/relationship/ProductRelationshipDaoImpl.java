@@ -26,6 +26,7 @@ public class ProductRelationshipDaoImpl extends SalesManagerEntityDaoImpl<Long, 
 		StringBuilder qs = new StringBuilder();
 		qs.append("select distinct pr from ProductRelationship as pr ");
 		qs.append("left join fetch pr.product p ");
+		qs.append("left join fetch pr.product p ");
 		qs.append("join fetch pr.relatedProduct rp ");
 		qs.append("left join fetch rp.descriptions rpd ");
 
@@ -66,6 +67,7 @@ public class ProductRelationshipDaoImpl extends SalesManagerEntityDaoImpl<Long, 
 		qs.append("join fetch pr.relatedProduct rp ");
 		
 		qs.append("left join fetch rp.attributes pattr ");
+		qs.append("left join fetch rp.categories rpc ");
 		qs.append("left join fetch rp.descriptions rpd ");
 		qs.append("left join fetch rp.images pd ");
 		qs.append("left join fetch rp.merchantStore rpm ");
@@ -112,6 +114,7 @@ public class ProductRelationshipDaoImpl extends SalesManagerEntityDaoImpl<Long, 
 		qs.append("left join fetch pr.relatedProduct rp ");
 		
 		qs.append("left join fetch rp.attributes pattr ");
+		qs.append("left join fetch rp.categories rpc ");
 		qs.append("left join fetch rp.descriptions rpd ");
 		qs.append("left join fetch rp.images pd ");
 		qs.append("left join fetch rp.merchantStore rpm ");
@@ -225,6 +228,7 @@ public class ProductRelationshipDaoImpl extends SalesManagerEntityDaoImpl<Long, 
 		qs.append("left join fetch pr.product p ");
 		qs.append("left join fetch pr.relatedProduct rp ");
 		qs.append("left join fetch rp.attributes pattr ");
+		qs.append("left join fetch rp.categories rpc ");
 		qs.append("left join fetch p.descriptions pd ");
 		qs.append("left join fetch rp.descriptions rpd ");
 
@@ -261,6 +265,7 @@ public class ProductRelationshipDaoImpl extends SalesManagerEntityDaoImpl<Long, 
 		qs.append("left join fetch pr.relatedProduct rp ");
 		
 		qs.append("left join fetch rp.attributes pattr ");
+		qs.append("left join fetch rp.categories rpc ");
 		qs.append("left join fetch rp.descriptions rpd ");
 		qs.append("left join fetch rp.images pd ");
 		qs.append("left join fetch rp.merchantStore rpm ");

@@ -111,15 +111,6 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		return productDao.getProductsListByCategories(ids, language);
 		
 	}
-	
-	//@Override
-/*	public ProductList getProductList(ProductCriteria criteria, List<Long> categoryIds, Language language) throws ServiceException {
-		
-		@SuppressWarnings({ "unchecked", "rawtypes" })
-		Set<Long> ids = new HashSet(categoryIds);
-		return productDao.getProductListByCategories(criteria, ids, language);
-		
-	}*/
 
 	@Override
 	public ProductDescription getProductDescription(Product product, Language language) {
@@ -392,6 +383,11 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		
 		searchService.index(product.getMerchantStore(), product);
 
+	}
+
+	@Override
+	public Product getById(Long id, Language language) {
+		return productDao.getById(id, language);
 	}
 	
 	

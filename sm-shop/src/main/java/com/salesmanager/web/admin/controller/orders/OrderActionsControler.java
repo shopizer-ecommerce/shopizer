@@ -397,7 +397,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 			
 			Locale customerLocale = LocaleUtils.getLocale(customer.getDefaultLanguage());
 			
-			emailTemplatesUtils.sendOrderEmail(customer, dbOrder, customerLocale, customer.getDefaultLanguage(), store, request.getContextPath());
+			emailTemplatesUtils.sendOrderEmail(customer.getEmailAddress(), customer, dbOrder, customerLocale, customer.getDefaultLanguage(), store, request.getContextPath());
 			
 			
 			resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);

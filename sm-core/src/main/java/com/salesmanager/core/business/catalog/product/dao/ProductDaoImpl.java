@@ -982,6 +982,56 @@ public class ProductDaoImpl extends SalesManagerEntityDaoImpl<Long, Product> imp
 		}
 		
 	}
+	
+	@Override
+	public Product getById(Long id, Language language) {
+		
+		try {
+			
+
+
+			StringBuilder qs = new StringBuilder();
+			qs.append("select distinct p from Product as p ");
+			qs.append("join fetch p.availabilities pa ");
+			qs.append("join fetch p.descriptions pd ");
+			qs.append("join fetch p.merchantStore pm ");
+			qs.append("left join fetch pa.prices pap ");
+			qs.append("left join fetch pap.descriptions papd ");
+
+			//images
+			qs.append("left join fetch p.images images ");
+			//options
+			qs.append("left join fetch p.attributes pattr ");
+			qs.append("left join fetch pattr.productOption po ");
+			qs.append("left join fetch po.descriptions pod ");
+			qs.append("left join fetch pattr.productOptionValue pov ");
+			qs.append("left join fetch pov.descriptions povd ");
+			qs.append("left join fetch p.relationships pr ");
+			//other lefts
+			qs.append("left join fetch p.manufacturer manuf ");
+			qs.append("left join fetch manuf.descriptions manufd ");
+			qs.append("left join fetch p.type type ");
+			qs.append("left join fetch p.taxClass tx ");
+			
+			qs.append("where p.id=:id ");
+			qs.append("and pd.language.id=:lang and papd.language.id=:lang");
+
+	    	String hql = qs.toString();
+			Query q = super.getEntityManager().createQuery(hql);
+
+	    	q.setParameter("id", id);
+	    	q.setParameter("lang", language.getId());
+
+	    	Product p = (Product)q.getSingleResult();
+
+
+			return p;
+		
+		} catch(javax.persistence.NoResultException ers) {
+			return null;
+		}
+		
+	}
 }
 
 

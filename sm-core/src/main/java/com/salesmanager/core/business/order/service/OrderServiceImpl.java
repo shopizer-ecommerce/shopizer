@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.inject.Inject;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
@@ -29,14 +31,17 @@ import com.salesmanager.core.business.order.model.Order;
 import com.salesmanager.core.business.order.model.OrderCriteria;
 import com.salesmanager.core.business.order.model.OrderList;
 import com.salesmanager.core.business.order.model.OrderSummary;
+import com.salesmanager.core.business.order.model.OrderSummaryType;
 import com.salesmanager.core.business.order.model.OrderTotal;
 import com.salesmanager.core.business.order.model.OrderTotalSummary;
 import com.salesmanager.core.business.order.model.OrderTotalType;
+import com.salesmanager.core.business.order.model.OrderTotalVariation;
 import com.salesmanager.core.business.order.model.OrderValueType;
 import com.salesmanager.core.business.order.model.Order_;
 import com.salesmanager.core.business.order.model.orderproduct.OrderProduct;
 import com.salesmanager.core.business.order.model.orderstatus.OrderStatus;
 import com.salesmanager.core.business.order.model.orderstatus.OrderStatusHistory;
+import com.salesmanager.core.business.order.service.ordertotal.OrderTotalService;
 import com.salesmanager.core.business.payments.model.Payment;
 import com.salesmanager.core.business.payments.model.Transaction;
 import com.salesmanager.core.business.payments.service.PaymentService;
@@ -74,6 +79,9 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     
     @Autowired
     private TransactionService transactionService;
+    
+    @Inject
+    private OrderTotalService orderTotalService;
 
     private final OrderDao orderDao;
 
@@ -198,7 +206,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
                             if(itemSubTotal==null) {
                                 itemSubTotal = new OrderTotal();
                                 itemSubTotal.setModule(Constants.OT_ITEM_PRICE_MODULE_CODE);
-                                itemSubTotal.setText(Constants.OT_ITEM_PRICE_MODULE_CODE);
+                                //itemSubTotal.setText(Constants.OT_ITEM_PRICE_MODULE_CODE);
                                 itemSubTotal.setTitle(Constants.OT_ITEM_PRICE_MODULE_CODE);
                                 itemSubTotal.setOrderTotalCode(price.getProductPrice().getCode());
                                 itemSubTotal.setOrderTotalType(OrderTotalType.PRODUCT);
@@ -223,6 +231,25 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
             }
 
         }
+        
+        //only in order page, otherwise invokes too many processing
+        if(OrderSummaryType.ORDERTOTAL.name().equals(summary.getOrderSummaryType().name())) {
+
+	        //Post processing order total variation modules for sub total calculation - drools, custom modules
+	        //may affect the sub total
+	        OrderTotalVariation orderTotalVariation = orderTotalService.findOrderTotalVariation(summary, customer, store, language);
+	        
+	        int currentCount = 10;
+	        
+	        if(CollectionUtils.isNotEmpty(orderTotalVariation.getVariations())) {
+	        	for(OrderTotal variation : orderTotalVariation.getVariations()) {
+	        		variation.setSortOrder(currentCount++);
+	        		orderTotals.add(variation);
+	        		subTotal = subTotal.subtract(variation.getValue());
+	        	}
+	        }
+        
+        }
 
 
         totalSummary.setSubTotal(subTotal);
@@ -233,15 +260,11 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
         orderTotalSubTotal.setOrderTotalType(OrderTotalType.SUBTOTAL);
         orderTotalSubTotal.setOrderTotalCode("order.total.subtotal");
         orderTotalSubTotal.setTitle(Constants.OT_SUBTOTAL_MODULE_CODE);
-        orderTotalSubTotal.setText("order.total.subtotal");
+        //orderTotalSubTotal.setText("order.total.subtotal");
         orderTotalSubTotal.setSortOrder(5);
         orderTotalSubTotal.setValue(subTotal);
-
-        //TODO autowire a list of post processing modules for price calculation - drools, custom modules
-        //may affect the sub total
-
+        
         orderTotals.add(orderTotalSubTotal);
-
 
         //shipping
         if(summary.getShippingSummary()!=null) {
@@ -252,8 +275,8 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
 	            shippingSubTotal.setOrderTotalType(OrderTotalType.SHIPPING);
 	            shippingSubTotal.setOrderTotalCode("order.total.shipping");
 	            shippingSubTotal.setTitle(Constants.OT_SHIPPING_MODULE_CODE);
-	            shippingSubTotal.setText("order.total.shipping");
-	            shippingSubTotal.setSortOrder(10);
+	            //shippingSubTotal.setText("order.total.shipping");
+	            shippingSubTotal.setSortOrder(100);
 	
 	            orderTotals.add(shippingSubTotal);
 
@@ -274,8 +297,8 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
                     handlingubTotal.setOrderTotalType(OrderTotalType.HANDLING);
                     handlingubTotal.setOrderTotalCode("order.total.handling");
                     handlingubTotal.setTitle(Constants.OT_HANDLING_MODULE_CODE);
-                    handlingubTotal.setText("order.total.handling");
-                    handlingubTotal.setSortOrder(12);
+                    //handlingubTotal.setText("order.total.handling");
+                    handlingubTotal.setSortOrder(120);
                     handlingubTotal.setValue(summary.getShippingSummary().getHandling());
                     orderTotals.add(handlingubTotal);
                     grandTotal=grandTotal.add(summary.getShippingSummary().getHandling());
@@ -288,7 +311,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
         if(taxes!=null && taxes.size()>0) {
         	BigDecimal totalTaxes = new BigDecimal(0);
         	totalTaxes.setScale(2, RoundingMode.HALF_UP);
-            int taxCount = 20;
+            int taxCount = 200;
             for(TaxItem tax : taxes) {
 
                 OrderTotal taxLine = new OrderTotal();
@@ -317,8 +340,8 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
         orderTotal.setOrderTotalType(OrderTotalType.TOTAL);
         orderTotal.setOrderTotalCode("order.total.total");
         orderTotal.setTitle(Constants.OT_TOTAL_MODULE_CODE);
-        orderTotal.setText("order.total.total");
-        orderTotal.setSortOrder(300);
+        //orderTotal.setText("order.total.total");
+        orderTotal.setSortOrder(500);
         orderTotal.setValue(grandTotal);
         orderTotals.add(orderTotal);
 
@@ -362,11 +385,9 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
 
     private OrderTotalSummary caculateShoppingCart( final ShoppingCart shoppingCart, final Customer customer, final MerchantStore store, final Language language) throws Exception {
 
-        
-    	
-    	
-    	
+
     	OrderSummary orderSummary = new OrderSummary();
+    	orderSummary.setOrderSummaryType(OrderSummaryType.SHOPPINGCART);
     	
     	List<ShoppingCartItem> itemsSet = new ArrayList<ShoppingCartItem>(shoppingCart.getLineItems());
     	orderSummary.setProducts(itemsSet);

@@ -14,6 +14,7 @@ import com.salesmanager.core.business.shipping.model.ShippingQuote;
 import com.salesmanager.core.business.system.model.CustomIntegrationConfiguration;
 import com.salesmanager.core.business.system.model.IntegrationConfiguration;
 import com.salesmanager.core.business.system.model.IntegrationModule;
+import com.salesmanager.core.modules.Module;
 import com.salesmanager.core.modules.integration.IntegrationException;
 
 public interface ShippingQuoteModule {

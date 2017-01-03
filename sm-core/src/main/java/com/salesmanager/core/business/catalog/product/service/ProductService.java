@@ -54,5 +54,13 @@ public interface ProductService extends SalesManagerEntityService<Long, Product>
 	 */
 	Product getByCode(String productCode, Language language);
 	
+	/**
+	 * Get a product by id and language
+	 * @param id
+	 * @param language
+	 * @return
+	 */
+	Product getById(Long id, Language language);
+	
 }
 	

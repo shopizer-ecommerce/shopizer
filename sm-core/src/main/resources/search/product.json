@@ -10,6 +10,5 @@
 				   "description" : {"type":"String","analyzer":"folding_en"}, 
 				   "tags" : {"type":"String","analyzer":"folding_en"} 
 				} 
-			} 
 			}
 }
