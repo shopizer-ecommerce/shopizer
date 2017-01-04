@@ -21,6 +21,7 @@ import javax.persistence.TableGenerator;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Pattern;
+import org.springframework.web.multipart.MultipartFile;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -58,9 +59,17 @@ public class ProductOptionValue extends SalesManagerEntity<Long, ProductOptionVa
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "productOptionValue")
 	private Set<ProductOptionValueDescription> descriptions = new HashSet<ProductOptionValueDescription>();
 	
-	//@Transient
-	//private MultipartFile image = null;
+	@Transient
+	private MultipartFile image = null;
 	
+	public MultipartFile getImage() {
+		return image;
+	}
+
+	public void setImage(MultipartFile image) {
+		this.image = image;
+	}
+
 	@Transient
 	private List<ProductOptionValueDescription> descriptionsList = new ArrayList<ProductOptionValueDescription>();
 

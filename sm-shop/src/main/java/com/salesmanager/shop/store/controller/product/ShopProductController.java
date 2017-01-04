@@ -310,7 +310,7 @@ public class ShopProductController {
 		return template.toString();
 	}
 	
-    @RequestMapping(value={"/{productId}/calculatePrice.html"}, method=RequestMethod.POST)
+    @RequestMapping(value={"/{productId}/calculatePrice.json"}, method=RequestMethod.POST)
 	public @ResponseBody
 	ReadableProductPrice calculatePrice(@RequestParam(value="attributeIds[]") Long[] attributeIds, @PathVariable final Long productId, final HttpServletRequest request, final HttpServletResponse response, final Locale locale) throws Exception {
 
@@ -323,7 +323,7 @@ public class ShopProductController {
 		
 		@SuppressWarnings("unchecked")
 		List<Long> ids = new ArrayList<Long>(Arrays.asList(attributeIds));
-		List<ProductAttribute> attributes = productAttributeService.getByAttributeIds(store, ids);      
+		List<ProductAttribute> attributes = productAttributeService.getByAttributeValueIds(store, product, ids);      
 		
 		for(ProductAttribute attribute : attributes) {
 			if(attribute.getProduct().getId().longValue()!=productId.longValue()) {

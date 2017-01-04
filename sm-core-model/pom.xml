@@ -35,6 +35,12 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
         
+        <!-- For transient Multipart File only -->
+        <dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+		</dependency>
+        
         <!-- http://mvnrepository.com/artifact/org.hibernate/hibernate-validator -->
 		<dependency>
 		    <groupId>org.hibernate</groupId>

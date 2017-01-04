@@ -7,6 +7,7 @@ import com.salesmanager.core.business.utils.ajax.AjaxResponse;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValue;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueDescription;
 import com.salesmanager.core.model.content.FileContentType;
+import com.salesmanager.core.model.content.InputContentFile;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.admin.model.web.Menu;
@@ -32,6 +33,8 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+
+import java.io.InputStream;
 import java.util.*;
 
 @Controller
@@ -101,9 +104,7 @@ public class OptionsValueController {
 			
 			
 			option = productOptionValueService.getById(store, optionId);
-			//option = productOptionValueService.getByCode(store, optionId.toString());
-			
-			
+
 			if(option==null) {
 				return "redirect:/admin/options/optionvalues.html";
 			}
@@ -241,7 +242,7 @@ public class OptionsValueController {
 		}
 		
 
-/*		if(optionValue.getImage()!=null && !optionValue.getImage().isEmpty()) {
+	    if(optionValue.getImage()!=null && !optionValue.getImage().isEmpty()) {
 
 			String imageName = optionValue.getImage().getOriginalFilename();
             InputStream inputStream = optionValue.getImage().getInputStream();
@@ -253,7 +254,7 @@ public class OptionsValueController {
             
             optionValue.setProductOptionValueImage(imageName);
 
-		}*/
+		}
 		
 		productOptionValueService.saveOrUpdate(optionValue);
 
@@ -387,10 +388,8 @@ public class OptionsValueController {
 			
 			Long id = Long.parseLong(optionValueId);
 			
-			//ProductOptionValue optionValue = productOptionValueService.getById(store, id);
+			ProductOptionValue optionValue = productOptionValueService.getById(store, id);
 
-            ProductOptionValue optionValue = productOptionValueService.getByCode(store, id.toString());
-			
 			contentService.removeFile(store.getCode(), FileContentType.PROPERTY, optionValue.getProductOptionValueImage());
 			
 			store.setStoreLogo(null);
