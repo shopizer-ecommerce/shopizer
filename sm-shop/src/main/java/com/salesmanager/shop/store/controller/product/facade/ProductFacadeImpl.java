@@ -76,7 +76,7 @@ public class ProductFacadeImpl implements ProductFacade {
 		
 		persistableProductPopulator.populate(product, target, store, language);
 		
-		productService.saveOrUpdate(target);
+		productService.create(target);
 		
 		product.setId(target.getId());
 		
@@ -156,7 +156,7 @@ public class ProductFacadeImpl implements ProductFacade {
 			
 		}
 		
-		productService.saveOrUpdate(persistable);
+		productService.update(persistable);
 		
 		ReadableProduct readableProduct = new ReadableProduct();
 		
@@ -183,7 +183,7 @@ public class ProductFacadeImpl implements ProductFacade {
 			availability.setProductQuantity(quantity);
 		}
 		
-		productService.saveOrUpdate(persistable);
+		productService.update(persistable);
 		
 		ReadableProduct readableProduct = new ReadableProduct();
 		

@@ -175,8 +175,7 @@ public class OptionsValueController {
 		if(optionValue.getId() != null && optionValue.getId() >0) { //edit entry
 			
 			//get from DB
-			dbEntity = productOptionValueService.getByCode(store, optionValue.getId().toString());
-                    //productOptionValueService.getById(store,optionValue.getId());
+			dbEntity = productOptionValueService.getById(store,optionValue.getId());
 			
 			if(dbEntity==null) {
 				return "redirect:/admin/options/optionsvalues.html";
@@ -242,7 +241,7 @@ public class OptionsValueController {
 		}
 		
 
-		/*if(optionValue.getImage()!=null && !optionValue.getImage().isEmpty()) {
+/*		if(optionValue.getImage()!=null && !optionValue.getImage().isEmpty()) {
 
 			String imageName = optionValue.getImage().getOriginalFilename();
             InputStream inputStream = optionValue.getImage().getInputStream();
@@ -347,8 +346,7 @@ public class OptionsValueController {
 			
 			Long id = Long.parseLong(sid);
 			
-			//ProductOptionValue entity = productOptionValueService.getById(store, id);
-            ProductOptionValue entity = productOptionValueService.getByCode(store,id.toString());
+			ProductOptionValue entity = productOptionValueService.getById(store, id);
 
 			if(entity==null || entity.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
 

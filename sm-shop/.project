@@ -3,6 +3,10 @@
 	<name>sm-shop</name>
 	<comment></comment>
 	<projects>
+		<project>sm-core</project>
+		<project>sm-core-model</project>
+		<project>sm-core-modules</project>
+		<project>sm-search</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

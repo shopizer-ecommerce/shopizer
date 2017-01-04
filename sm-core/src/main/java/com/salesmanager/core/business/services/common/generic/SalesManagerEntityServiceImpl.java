@@ -51,7 +51,7 @@ public abstract class SalesManagerEntityServiceImpl<K extends Serializable & Com
 
 	
 	
-	public final void update(E entity) throws ServiceException {
+	public void update(E entity) throws ServiceException {
 		save(entity);
 	}
 	

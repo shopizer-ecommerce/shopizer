@@ -58,6 +58,9 @@ public class ProductOptionValue extends SalesManagerEntity<Long, ProductOptionVa
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "productOptionValue")
 	private Set<ProductOptionValueDescription> descriptions = new HashSet<ProductOptionValueDescription>();
 	
+	//@Transient
+	//private MultipartFile image = null;
+	
 	@Transient
 	private List<ProductOptionValueDescription> descriptionsList = new ArrayList<ProductOptionValueDescription>();
 

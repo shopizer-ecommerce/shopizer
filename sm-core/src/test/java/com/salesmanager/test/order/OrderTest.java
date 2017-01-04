@@ -264,7 +264,7 @@ public class OrderTest extends com.salesmanager.test.common.AbstractSalesManager
 	    
 	    product.getAttributes().add(blackAttribute);
 
-	    productService.saveOrUpdate(product);
+	    productService.create(product);
 
 			
 

@@ -504,19 +504,19 @@ public class ProductController {
 			
 			newProduct.getImages().add(productImage);
 			
-			productService.saveOrUpdate(newProduct);
+			//productService.saveOrUpdate(newProduct);
 			
 			//product displayed
 			product.setProductImage(productImage);
 			
 			
-		} else {
+		} //else {
 			
-			productService.saveOrUpdate(newProduct);
+			//productService.saveOrUpdate(newProduct);
 			
-		}
+		//}
 		
-
+		productService.create(newProduct);
 		model.addAttribute("success","success");
 		
 		return "admin-products-edit";
@@ -706,7 +706,7 @@ public class ProductController {
 		newProduct.setProductVirtual(dbProduct.isProductVirtual());
 		newProduct.setProductShipeable(dbProduct.isProductShipeable());
 		
-		productService.saveOrUpdate(newProduct);
+		productService.update(newProduct);
 		
 		Set<Category> categories = dbProduct.getCategories();
 		for(Category category : categories) {

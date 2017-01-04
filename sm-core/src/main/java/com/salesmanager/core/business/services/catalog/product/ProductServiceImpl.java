@@ -35,7 +35,6 @@ import com.salesmanager.core.model.catalog.product.ProductCriteria;
 import com.salesmanager.core.model.catalog.product.ProductList;
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
 import com.salesmanager.core.model.catalog.product.image.ProductImage;
-import com.salesmanager.core.model.catalog.product.relationship.ProductRelationship;
 import com.salesmanager.core.model.catalog.product.review.ProductReview;
 import com.salesmanager.core.model.content.FileContentType;
 import com.salesmanager.core.model.content.ImageContentFile;
@@ -249,14 +248,19 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		searchService.index(product.getMerchantStore(), product);
 	}
 	
+	@Override
+	public void update(Product product) throws ServiceException {
+		this.saveOrUpdate(product);
+		searchService.index(product.getMerchantStore(), product);
+	}
 	
-	
-	@Override	
-	public void saveOrUpdate(Product product) throws ServiceException {
+
+	private void saveOrUpdate(Product product) throws ServiceException {
 		LOGGER.debug("Save or update product ");
 		Validate.notNull(product,"product cannot be null");
 		Validate.notNull(product.getAvailabilities(),"product must have at least one availability");
 		Validate.notEmpty(product.getAvailabilities(),"product must have at least one availability");
+		
 		
 		//List of original images
 		Set<ProductImage> originalProductImages = null;
@@ -264,6 +268,10 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		if(product.getId()!=null && product.getId()>0) {
 			originalProductImages = product.getImages();
 		}
+		
+		/** save product first **/
+		super.save(product);
+
 		
 		/**
 		 * Image creation needs extra service to save the file in the CMS
@@ -306,11 +314,8 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 			LOGGER.error("Cannot save images " + e.getMessage());
 		}
 		
-		/** End image handling **/
-		
-		super.save(product);
-		
-		//searchService.index(product.getMerchantStore(), product);
+
+
 	}
 	
 	/*	@Override	

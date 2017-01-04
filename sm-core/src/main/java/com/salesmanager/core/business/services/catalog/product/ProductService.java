@@ -33,9 +33,6 @@ public interface ProductService extends SalesManagerEntityService<Long, Product>
 	ProductList listByStore(MerchantStore store, Language language,
 			ProductCriteria criteria);
 
-
-	void saveOrUpdate(Product product) throws ServiceException;
-
 	List<Product> listByStore(MerchantStore store);
 
 	List<Product> listByTaxClass(TaxClass taxClass);

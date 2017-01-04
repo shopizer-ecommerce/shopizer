@@ -129,7 +129,7 @@ public class ProductKeywordsController {
 		updatedDescriptions.add(productDescription);
 		product.setDescriptions(updatedDescriptions);
 		
-		productService.saveOrUpdate(product);
+		productService.update(product);
 		model.addAttribute("success","success");
 
 		
@@ -215,7 +215,7 @@ public class ProductKeywordsController {
 			}
 			
 			product.setDescriptions(editedDescriptions);
-			productService.saveOrUpdate(product);
+			productService.update(product);
 			resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
 		
 		} catch (Exception e) {

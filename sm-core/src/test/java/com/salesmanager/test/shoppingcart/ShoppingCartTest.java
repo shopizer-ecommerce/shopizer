@@ -220,7 +220,7 @@ public class ShoppingCartTest extends com.salesmanager.test.common.AbstractSales
 	    
 	    product.getAttributes().add(blackAttribute);
 
-	    productService.saveOrUpdate(product);
+	    productService.create(product);
 	    
 	    /** Create Shopping cart **/
 	    

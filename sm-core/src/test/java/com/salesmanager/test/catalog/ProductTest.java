@@ -1,10 +1,32 @@
 package com.salesmanager.test.catalog;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.apache.commons.io.IOUtils;
+import org.junit.Ignore;
+import org.junit.Test;
+
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.category.CategoryDescription;
 import com.salesmanager.core.model.catalog.product.Product;
-import com.salesmanager.core.model.catalog.product.attribute.*;
+import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
+import com.salesmanager.core.model.catalog.product.attribute.ProductOption;
+import com.salesmanager.core.model.catalog.product.attribute.ProductOptionDescription;
+import com.salesmanager.core.model.catalog.product.attribute.ProductOptionType;
+import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValue;
+import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueDescription;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
 import com.salesmanager.core.model.catalog.product.file.ProductImageSize;
@@ -22,18 +44,9 @@ import com.salesmanager.core.model.content.ImageContentFile;
 import com.salesmanager.core.model.content.OutputContentFile;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
-import junit.framework.Assert;
-import org.apache.commons.io.IOUtils;
-import org.junit.Ignore;
-import org.junit.Test;
 
-import java.io.*;
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import junit.framework.Assert;
+
 
 
 @Ignore
@@ -367,7 +380,7 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 		
 		
 		updatableProduct.setDateAvailable(new java.util.Date());
-		productService.saveOrUpdate(updatableProduct);
+		productService.create(updatableProduct);
 		
 		//go and get products again
 		products = productService.listByStore(store);
@@ -501,7 +514,7 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 	    
 	    product.getAttributes().add(attribute);
 	    
-	    productService.saveOrUpdate(product);
+	    productService.update(product);
 		
 		
 	}
@@ -540,7 +553,7 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
         
         product.getImages().add(productImage);
         
-        productService.saveOrUpdate(product);//saves the ProductImage entity and the file on disk
+        productService.update(product);//saves the ProductImage entity and the file on disk
 		
 		
 	}
