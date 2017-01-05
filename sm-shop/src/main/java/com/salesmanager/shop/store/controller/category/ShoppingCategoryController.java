@@ -151,6 +151,10 @@ public class ShoppingCategoryController {
 			
 		}
 		
+		if(!category.isVisible()) {
+			return PageBuilderUtils.buildHomePage(store);
+		}
+		
 		ReadableCategoryPopulator populator = new ReadableCategoryPopulator();
 		ReadableCategory categoryProxy = populator.populate(category, new ReadableCategory(), store, language);
 
@@ -178,7 +182,9 @@ public class ShoppingCategoryController {
 		List<Long> subIds = new ArrayList<Long>();
 		if(subCategs!=null && subCategs.size()>0) {
 			for(Category c : subCategs) {
-				subIds.add(c.getId());
+				if(c.isVisible()) {
+					subIds.add(c.getId());
+				}
 			}
 		}
 		subIds.add(category.getId());
@@ -212,7 +218,7 @@ public class ShoppingCategoryController {
 				//Boolean missedContent = (Boolean)cache.getFromCache(subCategoriesMissed.toString());
 
 				//if(missedContent==null) {
-					countProductsByCategories = getProductsByCategory(store, category, lineage, subCategs);
+					countProductsByCategories = getProductsByCategory(store, category, lineage, subIds);
 					subCategories = getSubCategories(store,category,countProductsByCategories,language,locale);
 					
 					if(subCategories!=null) {
@@ -223,7 +229,7 @@ public class ShoppingCategoryController {
 				//}
 			}
 		} else {
-			countProductsByCategories = getProductsByCategory(store, category, lineage, subCategs);
+			countProductsByCategories = getProductsByCategory(store, category, lineage, subIds);
 			subCategories = getSubCategories(store,category,countProductsByCategories,language,locale);
 		}
 
@@ -315,37 +321,33 @@ public class ShoppingCategoryController {
 		return manufacturerList;
 	}
 	
-	private Map<Long,Long> getProductsByCategory(MerchantStore store, Category category, String lineage, List<Category> subCategories) throws Exception {
+	private Map<Long,Long> getProductsByCategory(MerchantStore store, Category category, String lineage, List<Long> subIds) throws Exception {
 
-		if(subCategories.isEmpty()) {
+		if(subIds.isEmpty()) {
 			return null;
 		}
-		List<Long> ids = new ArrayList<Long>();
-		if(subCategories!=null && subCategories.size()>0) {
-			for(Category c : subCategories) {
-				ids.add(c.getId());
-			}
-		} 
 
-		List<Object[]> countProductsByCategories = categoryService.countProductsByCategories(store, ids);
+		List<Object[]> countProductsByCategories = categoryService.countProductsByCategories(store, subIds);
 		Map<Long, Long> countByCategories = new HashMap<Long,Long>();
 		
 		for(Object[] counts : countProductsByCategories) {
 			Category c = (Category)counts[0];
-			if(c.getParent().getId()==category.getId()) {
-				countByCategories.put(c.getId(), (Long)counts[1]);
-			} else {
-				//get lineage
-				String lin = c.getLineage();
-				String[] categoryPath = lin.split(Constants.CATEGORY_LINEAGE_DELIMITER);
-				for(int i=0 ; i<categoryPath.length; i++) {
-					String sId = categoryPath[i];
-					if(!StringUtils.isBlank(sId)) {
-							Long count = countByCategories.get(Long.parseLong(sId));
-							if(count!=null) {
-								count = count + (Long)counts[1];
-								countByCategories.put(Long.parseLong(sId), count);
-							}
+			if(c.getParent()!=null) {
+				if(c.getParent().getId()==category.getId()) {
+					countByCategories.put(c.getId(), (Long)counts[1]);
+				} else {
+					//get lineage
+					String lin = c.getLineage();
+					String[] categoryPath = lin.split(Constants.CATEGORY_LINEAGE_DELIMITER);
+					for(int i=0 ; i<categoryPath.length; i++) {
+						String sId = categoryPath[i];
+						if(!StringUtils.isBlank(sId)) {
+								Long count = countByCategories.get(Long.parseLong(sId));
+								if(count!=null) {
+									count = count + (Long)counts[1];
+									countByCategories.put(Long.parseLong(sId), count);
+								}
+						}
 					}
 				}
 			}
@@ -590,12 +592,7 @@ public class ShoppingCategoryController {
 		
 		try {
 
-			
-			/**
-			 * How to Spring MVC Rest web service - ajax / jquery
-			 * http://codetutr.com/2013/04/09/spring-mvc-easy-rest-based-json-services-with-responsebody/
-			 */
-			
+
 			MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
 			List<BigDecimal> prices = new ArrayList<BigDecimal>();
 			
@@ -633,7 +630,9 @@ public class ShoppingCategoryController {
 			List<Long> ids = new ArrayList<Long>();
 			if(categories!=null && categories.size()>0) {
 				for(Category c : categories) {
-					ids.add(c.getId());
+					if(c.isVisible()) {
+						ids.add(c.getId());
+					}
 				}
 			} 
 			ids.add(cat.getId());

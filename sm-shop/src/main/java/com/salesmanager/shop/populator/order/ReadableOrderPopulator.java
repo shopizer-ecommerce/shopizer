@@ -62,8 +62,8 @@ public class ReadableOrderPopulator extends
 		if(source.getDelivery()!=null) {
 			ReadableDelivery address = new ReadableDelivery();
 			address.setCity(source.getDelivery().getCity());
-			address.setAddress(source.getDelivery().getAddress())
-;			address.setCompany(source.getDelivery().getCompany());
+			address.setAddress(source.getDelivery().getAddress());
+			address.setCompany(source.getDelivery().getCompany());
 			address.setFirstName(source.getDelivery().getFirstName());
 			address.setLastName(source.getDelivery().getLastName());
 			address.setPostalCode(source.getDelivery().getPostalCode());
