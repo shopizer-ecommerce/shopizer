@@ -323,7 +323,7 @@ public class ShopProductController {
 		
 		@SuppressWarnings("unchecked")
 		List<Long> ids = new ArrayList<Long>(Arrays.asList(attributeIds));
-		List<ProductAttribute> attributes = productAttributeService.getByAttributeValueIds(store, product, ids);      
+		List<ProductAttribute> attributes = productAttributeService.getByAttributeIds(store, product, ids);      
 		
 		for(ProductAttribute attribute : attributes) {
 			if(attribute.getProduct().getId().longValue()!=productId.longValue()) {

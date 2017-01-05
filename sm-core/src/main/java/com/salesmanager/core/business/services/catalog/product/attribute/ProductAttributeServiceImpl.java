@@ -43,7 +43,7 @@ public class ProductAttributeServiceImpl extends
 	}
 	
 	@Override
-	public List<ProductAttribute> getByAttributeValueIds(MerchantStore store,
+	public List<ProductAttribute> getByAttributeIds(MerchantStore store,
 			Product product, List<Long> ids) throws ServiceException {
 		
 		return productAttributeRepository.findByAttributeIds(store.getId(), product.getId(), ids);
