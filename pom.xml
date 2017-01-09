@@ -38,9 +38,7 @@
 		<org.elasticsearch-version>2.4.1</org.elasticsearch-version>
 		<infinispan.version>6.0.2.Final</infinispan.version>
 		<mysql-jdbc-version>5.1.40</mysql-jdbc-version>
-        <!-- DON'T AS IT OVERWRITES SPRING -->
-        <!--<spring.version>4.2.1.RELEASE</spring.version>-->
-        <!--<spring-data.version>Gosling-RELEASE</spring-data.version>-->
+		<simple-json-version>1.1.1</simple-json-version>
     </properties>
 
     <dependencies>
@@ -78,9 +76,7 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql-jdbc-version}</version>
 		</dependency>
-		
 
-		
 				<!-- Jackson JSON Processor -->
 				<dependency>
 				    <groupId>com.fasterxml.jackson.core</groupId>
@@ -131,6 +127,13 @@
 		    <groupId>javax.mail</groupId>
 		    <artifactId>mail</artifactId>
 		    <version>1.4.7</version>
+		</dependency>
+		
+		<!-- http://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
+		<dependency>
+		    <groupId>com.googlecode.json-simple</groupId>
+		    <artifactId>json-simple</artifactId>
+		    <version>${simple-json-version}</version>
 		</dependency>	
 		
     </dependencies>
