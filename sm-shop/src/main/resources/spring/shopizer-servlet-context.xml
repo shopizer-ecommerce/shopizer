@@ -18,19 +18,10 @@
 	</beans:bean>
 	
 
-<!-- 	<beans:bean id="jacksonMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"></beans:bean>
-	 <beans:bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-		<beans:property name="messageConverters">
-		  <beans:list>
-		    <beans:ref bean="jacksonMessageConverter"/>
-		  </beans:list>
-		</beans:property>
-	</beans:bean> -->
 	
 
  	<!-- Only needed because we require fileupload in the org.springframework.samples.mvc.fileupload package -->
- 	<!--
-	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+<!-- 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<beans:property name="maxUploadSize" value="10000000"/>
 	</beans:bean> -->
 	

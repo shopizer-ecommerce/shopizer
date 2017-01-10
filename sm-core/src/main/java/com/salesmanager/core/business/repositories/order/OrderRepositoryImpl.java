@@ -6,6 +6,7 @@ import javax.persistence.Query;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.salesmanager.core.model.common.CriteriaOrderBy;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.OrderCriteria;
 import com.salesmanager.core.model.order.OrderList;
@@ -26,16 +27,27 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		StringBuilder countBuilderSelect = new StringBuilder();
 		StringBuilder objectBuilderSelect = new StringBuilder();
 		
+		String orderByCriteria = " order by o.id desc";
+		
+		if(criteria.getOrderBy()!=null) {
+			if(CriteriaOrderBy.ASC.name().equals(criteria.getOrderBy().name())) {
+				orderByCriteria = " order by o.id asc";
+			}
+		}
+		
 		String countBaseQuery = "select count(o) from Order as o";
 		String baseQuery = "select o from Order as o left join fetch o.orderTotal ot left join fetch o.orderProducts op left join fetch op.orderAttributes opo left join fetch op.prices opp";
 		countBuilderSelect.append(countBaseQuery);
 		objectBuilderSelect.append(baseQuery);
+
+		
 		
 		StringBuilder countBuilderWhere = new StringBuilder();
 		StringBuilder objectBuilderWhere = new StringBuilder();
 		String whereQuery = " where o.merchant.id=:mId";
 		countBuilderWhere.append(whereQuery);
 		objectBuilderWhere.append(whereQuery);
+		objectBuilderWhere.append(orderByCriteria);
 
 		if(!StringUtils.isBlank(criteria.getCustomerName())) {
 			String nameQuery =" and o.billing.firstName like:nm or o.billing.lastName like:nm";

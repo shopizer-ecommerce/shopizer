@@ -6,6 +6,7 @@ import com.salesmanager.core.business.services.system.ModuleConfigurationService
 import com.salesmanager.core.business.utils.ProductPriceUtils;
 import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
+import com.salesmanager.core.model.common.CriteriaOrderBy;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.Order;
 import com.salesmanager.core.model.order.OrderCriteria;
@@ -95,6 +96,7 @@ public class OrdersController {
 			String customerName = request.getParameter("customer");
 			
 			OrderCriteria criteria = new OrderCriteria();
+			criteria.setOrderBy(CriteriaOrderBy.DESC);
 			criteria.setStartIndex(startRow);
 			criteria.setMaxCount(endRow);
 			if(!StringUtils.isBlank(paymentModule)) {

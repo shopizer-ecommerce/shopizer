@@ -35,6 +35,7 @@ import com.salesmanager.core.model.catalog.product.ProductCriteria;
 import com.salesmanager.core.model.catalog.product.ProductList;
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
 import com.salesmanager.core.model.catalog.product.image.ProductImage;
+import com.salesmanager.core.model.catalog.product.relationship.ProductRelationship;
 import com.salesmanager.core.model.catalog.product.review.ProductReview;
 import com.salesmanager.core.model.content.FileContentType;
 import com.salesmanager.core.model.content.ImageContentFile;
@@ -231,11 +232,10 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		}
 		
 		//related - featured
-		//TODO REVISE
-/*		List<ProductRelationship> relationships = productRelationshipService.listByProduct(product);
+		List<ProductRelationship> relationships = productRelationshipService.listByProduct(product);
 		for(ProductRelationship relationship : relationships) {
 			productRelationshipService.delete(relationship);
-		}*/
+		}
 		
 		super.delete(product);
 		searchService.deleteIndex(product.getMerchantStore(), product);
