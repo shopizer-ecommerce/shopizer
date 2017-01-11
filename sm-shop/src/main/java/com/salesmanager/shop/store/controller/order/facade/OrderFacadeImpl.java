@@ -375,13 +375,6 @@ public class OrderFacadeImpl implements OrderFacade {
 				cc.setCcNumber(maskedNumber);
 				modelOrder.setCreditCard(cc);
 				
-				/**
-				 * Some payment method works wit a token for PCI reasons,
-				 * we have to remove the credit card number from the system
-				 */
-				//if(order.getPayment().get("null_creditcard")!=null) {
-				//	((CreditCardPayment)payment).setCreditCardNumber(null);
-				//}
 
 			}
 			
@@ -526,10 +519,7 @@ public class OrderFacadeImpl implements OrderFacade {
 	private String validatePostalCode(String postalCode) {
 		
 		String patternString = "__";//this one is set in the template
-		//Pattern pattern = Pattern.compile(patternString);
-		//Matcher matcher = pattern.matcher(postalCode);
 		if(postalCode.contains(patternString)) {
-		//if(matcher.matches()) {
 			postalCode = null;
 		}
 		return postalCode;
