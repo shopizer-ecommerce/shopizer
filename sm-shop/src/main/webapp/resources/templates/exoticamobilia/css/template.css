@@ -10,7 +10,15 @@
 
 }
 
-
+.hTitle {
+  font-family: "Neue Helvetica W01",Helvetica,Arial,sans-serif!important;
+  font-style: normal!important;
+  font-variant: normal;
+  text-transform: none;
+  text-decoration: inherit;
+  font-weight: 300!important;
+  -webkit-font-smoothing: antialiased;
+}
 
 .helvetica-light {
   font-family: "Neue Helvetica W01",Helvetica,Arial,sans-serif!important;

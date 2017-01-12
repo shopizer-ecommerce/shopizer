@@ -11,7 +11,6 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.tax.taxclass.TaxClass;
 
-//@NoRepositoryBean
 public interface ProductRepositoryCustom {
 	
 	

@@ -32,5 +32,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="src" path="/sm-core-modules"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/sm-core-model"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

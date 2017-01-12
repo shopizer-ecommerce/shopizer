@@ -20,6 +20,7 @@ public class ShippingSummary implements Serializable {
 	private BigDecimal handling;
 	private String shippingModule;
 	private String shippingOption;
+	private String shippingOptionCode;
 	private boolean freeShipping;
 	private boolean taxOnShipping;
 	
@@ -67,6 +68,12 @@ public class ShippingSummary implements Serializable {
 	}
 	public void setDeliveryAddress(Delivery deliveryAddress) {
 		this.deliveryAddress = deliveryAddress;
+	}
+	public String getShippingOptionCode() {
+		return shippingOptionCode;
+	}
+	public void setShippingOptionCode(String shippingOptionCode) {
+		this.shippingOptionCode = shippingOptionCode;
 	}
 
 }
