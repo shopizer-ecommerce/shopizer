@@ -90,7 +90,7 @@ public class PriceByDistanceShippingQuoteRules implements ShippingQuoteModule {
 		}
 		
 		//maximum distance TODO configure from admin
-		if(distance > 350D) {
+		if(distance > 150D) {
 			return null;
 		}
 		
@@ -101,9 +101,19 @@ public class PriceByDistanceShippingQuoteRules implements ShippingQuoteModule {
 			quote.setShippingOptions(options);
 		}
 		
+		BigDecimal price = null;
+		BigDecimal total = null;
 		
-		BigDecimal price = new BigDecimal(1.5);//TODO from the admin
-		BigDecimal total = new BigDecimal(distance).multiply(price);
+		if(distance<=20) {
+			price = new BigDecimal(69);//TODO from the admin
+			total = new BigDecimal(distance).multiply(price);
+		} else {
+			price = new BigDecimal(3);//TODO from the admin
+			total = new BigDecimal(distance).multiply(price);
+		}
+		
+		
+
 
 		ShippingOption shippingOption = new ShippingOption();
 			
