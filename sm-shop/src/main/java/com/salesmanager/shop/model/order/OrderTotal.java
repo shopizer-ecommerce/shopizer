@@ -13,11 +13,13 @@ public class OrderTotal extends Entity implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private String title;
-        private String text;
+    private String text;
 	private String code;
 	private int order;
 	private String module;
 	private BigDecimal value;
+	
+	
 	public String getTitle() {
 		return title;
 	}
@@ -47,6 +49,12 @@ public class OrderTotal extends Entity implements Serializable {
 	}
 	public void setValue(BigDecimal value) {
 		this.value = value;
+	}
+	public String getText() {
+		return text;
+	}
+	public void setText(String text) {
+		this.text = text;
 	}
 
 
