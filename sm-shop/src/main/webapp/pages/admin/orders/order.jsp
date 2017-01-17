@@ -377,7 +377,7 @@ function captureOrder(orderId){
 							</c:if>
 				    	</li>
 				    	
-				    	<li><a href="<c:url value="/admin/orders/printInvoice.html?id=${order.id}" />"><s:message code="label.order.printinvoice" text="Print invoice"/></a></li>
+				    	<!--<li><a href="<c:url value="/admin/orders/printInvoice.html?id=${order.id}" />"><s:message code="label.order.printinvoice" text="Print invoice"/></a></li>-->
 				    	<!-- available soon <li><a href="<c:url value="/admin/orders/printShippingLabel.html?id=${order.id}" />"><s:message code="label.order.packing" text="Print packing slip"/></a></li>-->
 				    	<li>
 				    		<c:if test="${customer!=null}">

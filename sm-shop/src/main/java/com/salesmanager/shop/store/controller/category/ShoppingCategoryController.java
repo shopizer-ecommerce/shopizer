@@ -441,7 +441,8 @@ public class ShoppingCategoryController {
 	 * @param response
 	 * @return
 	 * @throws Exception
-	 */
+	 **/
+	////TODO : services/public/DEFAULT/products/category/MYCATEGORY?lang=fr
 	@RequestMapping("/services/public/products/{store}/{language}/{category}")
 	@ResponseBody
 	public ProductList getProducts(@PathVariable final String store, @PathVariable final String language, @PathVariable final String category, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {

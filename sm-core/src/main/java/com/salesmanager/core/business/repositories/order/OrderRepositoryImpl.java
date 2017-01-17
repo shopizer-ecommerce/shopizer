@@ -47,7 +47,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		String whereQuery = " where o.merchant.id=:mId";
 		countBuilderWhere.append(whereQuery);
 		objectBuilderWhere.append(whereQuery);
-		objectBuilderWhere.append(orderByCriteria);
+		
 
 		if(!StringUtils.isBlank(criteria.getCustomerName())) {
 			String nameQuery =" and o.billing.firstName like:nm or o.billing.lastName like:nm";
@@ -66,6 +66,8 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 			countBuilderWhere.append(customerQuery);
 			objectBuilderWhere.append(customerQuery);
 		}
+		
+		objectBuilderWhere.append(orderByCriteria);
 		
 
 		//count query

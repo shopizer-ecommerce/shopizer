@@ -400,9 +400,6 @@ public class ShippingServiceImpl implements ShippingService {
 
 			//look if customer country code excluded
 			Country shipCountry = delivery.getCountry();
-			if(shipCountry==null) {
-				throw new ServiceException("Delivery country is null");
-			}
 			
 			//a ship to country is required
 			Validate.notNull(shipCountry);
@@ -516,12 +513,18 @@ public class ShippingServiceImpl implements ShippingService {
 				for(ShippingQuotePrePostProcessModule preProcessor : shippingModulePreProcessors) {
 					//System.out.println("Using pre-processor " + preProcessor.getModuleCode());
 					preProcessor.prePostProcessShippingQuotes(shippingQuote, packages, orderTotal, delivery, shippingOrigin, store, configuration, shippingModule, shippingConfiguration, shippingMethods, locale);
-					//switch module if required
+					//TODO switch module if required
 					if(shippingQuote.getCurrentShippingModule()!=null && !shippingQuote.getCurrentShippingModule().getCode().equals(shippingModule.getCode())) {
-						shippingModule = shippingQuote.getCurrentShippingModule();
+						shippingModule = shippingQuote.getCurrentShippingModule();//determines the shipping module
+						configuration = modules.get(shippingModule.getCode());
+						if(configuration!=null) {
+							if(configuration.isActive()) {
 						moduleName = shippingModule.getCode();
 						shippingQuoteModule = this.shippingModules.get(shippingModule.getCode());
 						configuration = modules.get(shippingModule.getCode());
+							} //TODO use default
+						}
+						
 					}
 				}
 			}
@@ -532,7 +535,7 @@ public class ShippingServiceImpl implements ShippingService {
 			try {
 				shippingOptions = shippingQuoteModule.getShippingQuotes(shippingQuote, packages, orderTotal, delivery, shippingOrigin, store, configuration, shippingModule, shippingConfiguration, locale);
 			} catch(Exception e) {
-				LOGGER.error("Error while calculating shipping", e);
+				LOGGER.error("Error while calculating shipping : " + e.getMessage(), e);
 				merchantLogService.save(
 						new MerchantLog(store,
 								"Can't process " + shippingModule.getModule()
@@ -543,7 +546,9 @@ public class ShippingServiceImpl implements ShippingService {
 				return shippingQuote;
 			}
 			
-			if(shippingOptions==null &&!StringUtils.isBlank(delivery.getPostalCode())) {
+			if(shippingOptions==null && !StringUtils.isBlank(delivery.getPostalCode())) {
+				
+				//absolutely need to use in this case store pickup or other default shipping quote
 				shippingQuote.setShippingReturnCode(ShippingQuote.NO_SHIPPING_TO_SELECTED_COUNTRY);
 			}
 			
@@ -654,6 +659,7 @@ public class ShippingServiceImpl implements ShippingService {
 			
 			
 		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e);
 		}
 		
@@ -863,12 +869,4 @@ public class ShippingServiceImpl implements ShippingService {
 		
 		return metaData;
 	}
-	
-
-
-
-
 }
-
-
-

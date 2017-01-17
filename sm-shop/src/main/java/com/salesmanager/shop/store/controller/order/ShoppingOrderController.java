@@ -258,13 +258,13 @@ public class ShoppingOrderController extends AbstractController {
 		/** shipping **/
 		ShippingQuote quote = null;
 		if(requiresShipping) {
-			System.out.println("** Berfore default shipping quote **");
+			//System.out.println("** Berfore default shipping quote **");
+			//Get all applicable shipping quotes
 			quote = orderFacade.getShippingQuote(customer, cart, order, store, language);
 			model.addAttribute("shippingQuote", quote);
 		}
 
 		if(quote!=null) {
-			
 			String shippingReturnCode = quote.getShippingReturnCode();
 
 			if(StringUtils.isBlank(shippingReturnCode) || shippingReturnCode.equals(ShippingQuote.NO_POSTAL_CODE)) {
@@ -579,13 +579,17 @@ public class ShoppingOrderController extends AbstractController {
 					}
 	    		}
 	    		
-				//send order confirmation email
-				emailTemplatesUtils.sendOrderEmail(modelCustomer, modelOrder, locale, language, store, request.getContextPath());
+				//send order confirmation email to customer
+				emailTemplatesUtils.sendOrderEmail(modelCustomer.getEmailAddress(), modelCustomer, modelOrder, locale, language, store, request.getContextPath());
 		        
 		        if(orderService.hasDownloadFiles(modelOrder)) {
 		        	emailTemplatesUtils.sendOrderDownloadEmail(modelCustomer, modelOrder, store, locale, request.getContextPath());
 		
 		        }
+	    		
+				//send order confirmation email to merchant
+				emailTemplatesUtils.sendOrderEmail(store.getStoreEmailAddress(), modelCustomer, modelOrder, locale, language, store, request.getContextPath());
+		        
 	    		
 	    		
 	        } catch(Exception e) {
@@ -892,8 +896,6 @@ public class ShoppingOrderController extends AbstractController {
 		Language language = (Language)request.getAttribute("LANGUAGE");
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
 		String shoppingCartCode  = getSessionAttribute(Constants.SHOPPING_CART, request);
-		
-		System.out.println("*** ENTERING SHIPPING QUOTES ***");
 
 		Map<String, Object> configs = (Map<String, Object>) request.getAttribute(Constants.REQUEST_CONFIGS);
 		
@@ -1188,11 +1190,13 @@ public class ShoppingOrderController extends AbstractController {
 							
 							
 							readableSummary.setSelectedShippingOption(quoteOption);
-							readableSummary.setShippingOptions(options);
-							
+							readableSummary.setShippingOptions(options);							
 
 							summary.setShippingOption(quoteOption.getOptionId());
+							summary.setShippingOptionCode(quoteOption.getOptionCode());
 							summary.setShipping(quoteOption.getOptionPrice());
+							order.setShippingSummary(summary);//override with new summary
+							
 							
 							@SuppressWarnings("unchecked")
 							Map<String,String> informations = (Map<String,String>)request.getSession().getAttribute("SHIPPING_INFORMATIONS");
@@ -1209,6 +1213,7 @@ public class ShoppingOrderController extends AbstractController {
 			List<ShoppingCartItem> items = new ArrayList<ShoppingCartItem>(cart.getLineItems());
 			order.setShoppingCartItems(items);
 			
+			//order total calculation
 			OrderTotalSummary orderTotalSummary = orderFacade.calculateOrderTotal(store, order, language);
 			super.setSessionAttribute(Constants.ORDER_SUMMARY, orderTotalSummary, request);
 			
@@ -1219,7 +1224,7 @@ public class ShoppingOrderController extends AbstractController {
 
 			List<ReadableOrderTotal> subtotals = new ArrayList<ReadableOrderTotal>();
 			for(OrderTotal total : orderTotalSummary.getTotals()) {
-				if(!total.getOrderTotalCode().equals("order.total.total")) {
+				if(total.getOrderTotalCode() == null || !total.getOrderTotalCode().equals("order.total.total")) {
 					ReadableOrderTotal t = new ReadableOrderTotal();
 					totalPopulator.populate(total, t, store, language);
 					subtotals.add(t);

@@ -86,7 +86,7 @@ public class EmailTemplatesUtils {
 	 * @param contextPath
 	 */
 	@Async
-	public void sendOrderEmail(Customer customer, Order order, Locale customerLocale, Language language, MerchantStore merchantStore, String contextPath) {
+	public void sendOrderEmail(String toEmail, Customer customer, Order order, Locale customerLocale, Language language, MerchantStore merchantStore, String contextPath) {
 			   /** issue with putting that elsewhere **/ 
 		       LOGGER.info( "Sending welcome email to customer" );
 		       try {
@@ -110,8 +110,6 @@ public class EmailTemplatesUtils {
 		    		   Zone zone = zones.get(order.getBilling().getZone().getCode());
 		    		   if(zone!=null) {
 		    			   billing.append(zone.getName());
-		    		   } else {
-		    			   billing.append(zone.getCode());
 		    		   }
 		    		   billing.append(LINE_BREAK);
 		    	   } else if(!StringUtils.isBlank(order.getBilling().getState())) {
@@ -141,8 +139,6 @@ public class EmailTemplatesUtils {
 			    		   Zone zone = zones.get(order.getDelivery().getZone().getCode());
 			    		   if(zone!=null) {
 			    			   shipping.append(zone.getName());
-			    		   } else {
-			    			   shipping.append(zone.getCode());
 			    		   }
 			    		   shipping.append(LINE_BREAK);
 			    	   } else if(!StringUtils.isBlank(order.getDelivery().getState())) {
@@ -167,18 +163,7 @@ public class EmailTemplatesUtils {
 		    	   for(OrderProduct product : order.getOrderProducts()) {
 		    		   //Product productModel = productService.getByCode(product.getSku(), language);
 		    		   orderTable.append(TR);
-		    		   	   //images are ugly
-/*		    		       orderTable.append(TD);
-			    		   if(productModel!=null && productModel.getProductImage()!=null) {
-			    			   String productImage = new StringBuilder().append(storeUri).append(imageUtils.buildProductimageUtils(merchantStore, productModel, productModel.getProductImage().getProductImage())).toString();
-			    			   
-			    			   String imgSrc = new StringBuilder().append("<img src=\"").append(productImage).append("\" width=\"40\">").toString();
-			    			   orderTable.append(imgSrc);
-			    		   } else {
-			    			   orderTable.append("&nbsp;");
-			    		   }
-			    		   orderTable.append(CLOSING_TD);*/
-			    		   orderTable.append(TD).append(product.getProductName()).append(CLOSING_TD);
+			    		   orderTable.append(TD).append(product.getProductName()).append(" - ").append(product.getSku()).append(CLOSING_TD);
 		    		   	   orderTable.append(TD).append(messages.getMessage("label.quantity", customerLocale)).append(": ").append(product.getProductQuantity()).append(CLOSING_TD);
 	    		   		   orderTable.append(TD).append(pricingService.getDisplayAmount(product.getOneTimeCharge(), merchantStore)).append(CLOSING_TD);
     		   		   orderTable.append(CLOSING_TR);
@@ -259,7 +244,7 @@ public class EmailTemplatesUtils {
 		           email.setFrom(merchantStore.getStorename());
 		           email.setFromEmail(merchantStore.getStoreEmailAddress());
 		           email.setSubject(messages.getMessage("email.order.title", title, customerLocale));
-		           email.setTo(customer.getEmailAddress());
+		           email.setTo(toEmail);
 		           email.setTemplateName(EmailConstants.EMAIL_ORDER_TPL);
 		           email.setTemplateTokens(templateTokens);
 
@@ -274,6 +259,7 @@ public class EmailTemplatesUtils {
 	
 	/**
 	 * Sends an email to the customer after registration
+	 * @param request
 	 * @param customer
 	 * @param merchantStore
 	 * @param customerLocale
@@ -360,6 +346,7 @@ public class EmailTemplatesUtils {
 	
 	/**
 	 * Send an email to the customer with last order status
+	 * @param request
 	 * @param customer
 	 * @param order
 	 * @param merchantStore
