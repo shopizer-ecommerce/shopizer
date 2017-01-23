@@ -222,7 +222,6 @@ public class ShoppingCartFacadeImpl
         if ( CustomerId != null )
         {
             cartModel.setCustomerId( CustomerId );
-            ;
         }
         shoppingCartService.create( cartModel );
         return cartModel;

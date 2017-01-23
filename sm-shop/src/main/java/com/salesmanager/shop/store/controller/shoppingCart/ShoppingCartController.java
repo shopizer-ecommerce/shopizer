@@ -179,7 +179,7 @@ public class ShoppingCartController extends AbstractController {
 
 
 		/**
-		 * my concern is with the following :
+		 *  Tested with the following :
 		 * 	what if you add item in the shopping cart as an anonymous user
 		 *  later on you log in to process with checkout but the system retrieves a previous shopping cart saved in the database for that customer
 		 *  in that case we need to synchronize both carts and the original one (the one with the customer id) supercedes the current cart in session
@@ -194,16 +194,7 @@ public class ShoppingCartController extends AbstractController {
 		//from FinalPrice get final price which is the calculated price given attributes and discounts
 		//set each item price in ShoppingCartItem.price
 
-		//add new item shoppingCartService.create
 
-		//create JSON representation of the shopping cart
-
-		//return the JSON structure in AjaxResponse
-
-		
-
-		//AjaxResponse resp = new AjaxResponse();
-		//resp.setStatus(AjaxResponse.RESPONSE_STATUS_SUCCESS);
 		return shoppingCart;
 
 	}

@@ -96,6 +96,21 @@ public class ProductController {
 	}
 	
 	@PreAuthorize("hasRole('PRODUCTS')")
+	@RequestMapping(value="/admin/products/viewEditProduct.html", method=RequestMethod.GET)
+	public String displayProductEdit(@RequestParam("sku") String sku, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		Language language = (Language)request.getAttribute("LANGUAGE");
+		Product dbProduct = productService.getByCode(sku, language);
+		
+		long productId = -1;//non existent
+		if(dbProduct!=null) {
+			productId = dbProduct.getId();
+		}
+		
+		return displayProduct(productId,model,request,response);
+	}
+	
+	@PreAuthorize("hasRole('PRODUCTS')")
 	@RequestMapping(value="/admin/products/createProduct.html", method=RequestMethod.GET)
 	public String displayProductCreate(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		return displayProduct(null,model,request,response);
@@ -1014,9 +1029,6 @@ public class ProductController {
 		Menu currentMenu = (Menu)menus.get("catalogue");
 		model.addAttribute("currentMenu",currentMenu);
 		model.addAttribute("activeMenus",activeMenus);
-		//
-		
+		//	
 	}
-	
-
 }
