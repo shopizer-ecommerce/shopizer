@@ -584,7 +584,17 @@ function captureOrder(orderId){
 			            	<c:set var="total" value="${orderProduct.oneTimeCharge * orderProduct.productQuantity }" />
 			            	
 							<tr> 
-								<td colspan="2"> <c:out value="${orderProduct.productName}" /> - <a href="<c:url value="/admin/products/viewEditProduct.html?sku=${orderProduct.sku}"/>"><c:out value="${orderProduct.sku}" /></a></td> 
+								<td colspan="2"> 
+									<c:out value="${orderProduct.productName}" /> - <a href="<c:url value="/admin/products/viewEditProduct.html?sku=${orderProduct.sku}"/>"><c:out value="${orderProduct.sku}" /></a>
+									<c:if test="${fn:length(orderProduct.orderAttributes)>0}">
+										<br/>
+											<ul>
+												<c:forEach items="${orderProduct.orderAttributes}" var="attribute">
+												<li>${attribute.productAttributeName} - ${attribute.productAttributeValueName}</li>
+												</c:forEach>
+											</ul>
+									</c:if>
+								</td> 
 								<td ><c:out value="${orderProduct.productQuantity}" /></td> 
 			            		<td><strong><sm:monetary value="${orderProduct.oneTimeCharge}" currency="${order.order.currency}"/></strong> </td>
 								<td><strong><sm:monetary value="${total}" currency="${order.order.currency}"/></strong></td> 
