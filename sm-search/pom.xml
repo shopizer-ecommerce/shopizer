@@ -36,11 +36,19 @@
 	</properties>
 	
 	<!-- mvn clean deploy -->
+	<!--
 	<parent>
     	<groupId>org.sonatype.oss</groupId>
     	<artifactId>oss-parent</artifactId>
     	<version>7</version>
     </parent>
+	-->
+	
+	<parent>
+		<groupId>com.shopizer</groupId>
+		<artifactId>shopizer</artifactId>
+		<version>2.0.5-SNAPSHOT</version>
+	</parent>
     
     <scm>
     	<connection>scm:svn:http://svn.shopizer.com/branches/v2/sm-search/</connection>

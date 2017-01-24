@@ -24,6 +24,7 @@
 		<javax.inject.version>1</javax.inject.version>
 		<javax.el.version>2.2.4</javax.el.version>
 		<drools.version>5.6.0.Final</drools.version>
+		<jackson-version>2.7.4</jackson-version>
 	</properties>
 
 	<dependencies>
@@ -112,7 +113,24 @@
 		    <version>${commons-collections4.version}</version>
 		</dependency>
 		
-
+				<!-- Jackson JSON Processor -->
+				<dependency>
+				    <groupId>com.fasterxml.jackson.core</groupId>
+				    <artifactId>jackson-databind</artifactId>
+				    <version>${jackson-version}</version>
+				</dependency>
+				
+				<dependency>
+				    <groupId>com.fasterxml.jackson.core</groupId>
+				    <artifactId>jackson-core</artifactId>
+				    <version>${jackson-version}</version>
+				</dependency>
+				 
+				<dependency>
+				    <groupId>com.fasterxml.jackson.core</groupId>
+				    <artifactId>jackson-annotations</artifactId>
+				    <version>${jackson-version}</version>
+				</dependency>
 		
 		
 		<!-- https://mvnrepository.com/artifact/commons-validator/commons-validator -->

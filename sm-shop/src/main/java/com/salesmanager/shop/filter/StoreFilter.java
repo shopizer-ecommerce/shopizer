@@ -1,5 +1,6 @@
 package com.salesmanager.shop.filter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.content.ContentService;
@@ -37,7 +38,6 @@ import com.salesmanager.shop.utils.LanguageUtils;
 import com.salesmanager.shop.utils.WebApplicationCacheUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.i18n.LocaleContextHolder;

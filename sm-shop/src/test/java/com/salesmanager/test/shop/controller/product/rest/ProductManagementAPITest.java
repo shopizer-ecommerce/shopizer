@@ -1,5 +1,7 @@
 package com.salesmanager.test.shop.controller.product.rest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionType;
 import com.salesmanager.shop.model.catalog.category.Category;
 import com.salesmanager.shop.model.catalog.manufacturer.Manufacturer;
@@ -10,8 +12,6 @@ import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductO
 import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductOptionValue;
 import com.salesmanager.shop.model.catalog.product.attribute.ProductOptionDescription;
 import com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.ObjectWriter;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.http.*;

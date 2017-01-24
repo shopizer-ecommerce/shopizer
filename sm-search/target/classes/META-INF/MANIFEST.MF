@@ -1,5 +1,0 @@
-Manifest-Version: 1.0
-Built-By: c.samson
-Build-Jdk: 1.8.0_91
-Created-By: Maven Integration for Eclipse
-
