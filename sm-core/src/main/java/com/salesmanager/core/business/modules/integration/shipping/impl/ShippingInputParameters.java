@@ -9,6 +9,7 @@ public class ShippingInputParameters {
 	private String province;
 	private long distance;
 	private long size;
+	private int price;//integer should be rounded from BigBecimal
 	private String priceQuote;
 	
 	public String getModuleName() {
@@ -61,15 +62,22 @@ public class ShippingInputParameters {
 		.append(" size : ").append(this.getSize())
 		.append(" distance : ").append(this.getDistance())
 		.append(" province : ").append(this.getProvince())
+		.append(" price : ").append(this.getPrice())
 		.append(" country : ").append(this.getCountry());
-		return sb.toString();
-		
+		return sb.toString();	
 	}
+	
 	public long getSize() {
 		return size;
 	}
 	public void setSize(long size) {
 		this.size = size;
+	}
+	public int getPrice() {
+		return price;
+	}
+	public void setPrice(int price) {
+		this.price = price;
 	}
 
 
