@@ -93,8 +93,10 @@ response.setDateHeader ("Expires", -1);
 		visualize()	
 	});
 	
-	 
+	
+	<c:if test="${category.hideProducts==false}">
 	loadCategoryProducts();
+	</c:if>
 
  });
  
@@ -271,7 +273,7 @@ response.setDateHeader ("Expires", -1);
 			  </div>
 			  </c:if>
 			  
-
+			  <c:if test="${category.hideProducts==false}">
 
 			   <div id="shop" class="row">
                   <div class="sorting-filters">
@@ -359,4 +361,5 @@ response.setDateHeader ("Expires", -1);
 
 
 			</div>
+			</c:if>
 		</div>

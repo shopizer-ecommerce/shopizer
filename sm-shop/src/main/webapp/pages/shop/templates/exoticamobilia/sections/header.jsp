@@ -26,7 +26,7 @@ response.setDateHeader ("Expires", -1);
 $(document).ready(function() { 
 
     //post search form
-   $(".searchButton").click(function(){
+   $(".searchButton").click(function(e){
 			var searchQuery = $('#searchField').val();
 			var responsiveSearchField = $('#responsiveSearchField').val();
 			var q = searchQuery;
@@ -38,7 +38,10 @@ $(document).ready(function() {
 			}
 			$('#hiddenQuery').val(q);
 			//log('Search string : ' + searchQuery);
-	        $('#hiddenSearchForm').submit();
+			var uri = '<c:url value="/shop/search/search.html"/>?q=' + q;
+            var res = encodeURI(uri);
+			e.preventDefault();//action url will be overriden
+	        $('#hiddenSearchForm').attr('action',res).submit();
    });
 
    
@@ -53,7 +56,7 @@ $(document).ready(function() {
 		  </c:if>
 	    </c:if>
 	    remote: {
-		url : ’<c:url value="/services/public/search/${requestScope.MERCHANT_STORE.code}/${requestScope.LANGUAGE.code}/autocomplete.html"/>?q=%QUERY',
+		url : '<c:url value="/services/public/search/${requestScope.MERCHANT_STORE.code}/${requestScope.LANGUAGE.code}/autocomplete.html"/>?q=%QUERY',
    		filter: function(response) {      
      			console.log(response);
    		}
@@ -152,7 +155,7 @@ $(document).ready(function() {
 		<span class="no-responsive uppercase"><s:message code="label.cart" text="Shopping cart"/></span> (0)
 		{{/code}}
 		{{#code}}
-		<span class="no-responsive uppercase"><s:message code="label.cart" text="Shopping cart"/></span> ({{quantity}})
+		<span class="no-responsive uppercase"><s:message code="label.cart" text="Shopping cart"/></span> <font color="red"><strong>({{quantity}})</strong></font>
 		{{/code}}
 </script>
 

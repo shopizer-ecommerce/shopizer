@@ -107,7 +107,9 @@ public class ShoppingCartFacadeImpl
             cartModel = getShoppingCartModel( item.getCode(), store );
             if ( cartModel == null )
             {
-                cartModel = createCartModel( shoppingCartData.getCode(), store,customer );
+                if(customer!=null) {
+                	cartModel = createCartModel( shoppingCartData.getCode(), store,customer );
+                }
             }
 
         }
@@ -121,7 +123,7 @@ public class ShoppingCartFacadeImpl
 
         }
         com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem shoppingCartItem =
-            createCartItem( cartModel, item, store );
+            createCartItem( cartModel, item, store, language );
         
         boolean duplicateFound = false;
         if(CollectionUtils.isEmpty(item.getShoppingCartAttributes())) {//increment quantity
@@ -164,11 +166,20 @@ public class ShoppingCartFacadeImpl
 
     private com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem createCartItem( final ShoppingCart cartModel,
                                                                                                final ShoppingCartItem shoppingCartItem,
-                                                                                               final MerchantStore store )
+                                                                                               final MerchantStore store, 
+                                                                                               Language language)
         throws Exception
     {
 
-        Product product = productService.getById( shoppingCartItem.getProductId() );
+    	Product product = null;
+    	if(!StringUtils.isBlank(shoppingCartItem.getProductCode()) && shoppingCartItem.getId().longValue() == 0) {
+    		product = productService.getByCode(shoppingCartItem.getProductCode());
+    		System.out.println("Produit null" + product == null);
+    	} else {
+    		product = productService.getById( shoppingCartItem.getProductId() );
+    	}
+    	
+        
 
         if ( product == null )
         {

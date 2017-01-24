@@ -58,6 +58,7 @@ public class ReadableCategoryPopulator extends
 		target.setDepth(source.getDepth());
 		target.setSortOrder(source.getSortOrder());
 		target.setVisible(source.isVisible());
+		target.setHideProducts(source.isHideProducts());
 
 		return target;
 		

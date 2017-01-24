@@ -1,0 +1,742 @@
+---- AspectJ Properties ---
+AspectJ Compiler 1.6.10 built on Friday Oct 22, 2010 at 03:50:26 GMT
+---- Dump Properties ---
+Dump file: ajcore.20160909.142117.089.txt
+Dump reason: org.aspectj.apache.bcel.classfile.ClassFormatException
+Dump on exception: true
+Dump at exit condition: abort
+---- Exception Information ---
+org.aspectj.apache.bcel.classfile.ClassFormatException: File: 'java/lang/CharSequence.class': Invalid byte tag in constant pool: 18
+	at org.aspectj.apache.bcel.classfile.ClassParser.readConstantPool(ClassParser.java:192)
+	at org.aspectj.apache.bcel.classfile.ClassParser.parse(ClassParser.java:131)
+	at org.aspectj.weaver.bcel.BcelWorld.lookupJavaClass(BcelWorld.java:424)
+	at org.aspectj.weaver.bcel.BcelWorld.resolveDelegate(BcelWorld.java:376)
+	at org.aspectj.weaver.World.resolveToReferenceType(World.java:461)
+	at org.aspectj.weaver.World.resolve(World.java:305)
+	at org.aspectj.weaver.World.resolve(World.java:218)
+	at org.aspectj.weaver.bcel.BcelObjectType.getDeclaredInterfaces(BcelObjectType.java:266)
+	at org.aspectj.weaver.ReferenceType.getDeclaredInterfaces(ReferenceType.java:624)
+	at org.aspectj.weaver.ResolvedType.getDirectSupertypes(ResolvedType.java:76)
+	at org.aspectj.weaver.ResolvedType.collectInterTypeMungers(ResolvedType.java:1390)
+	at org.aspectj.weaver.ResolvedType.getInterTypeMungersIncludingSupers(ResolvedType.java:1371)
+	at org.aspectj.weaver.ResolvedType.checkInterTypeMungers(ResolvedType.java:1442)
+	at org.aspectj.ajdt.internal.compiler.lookup.AjLookupEnvironment.weaveInterTypeDeclarations(AjLookupEnvironment.java:809)
+	at org.aspectj.ajdt.internal.compiler.lookup.AjLookupEnvironment.weaveInterTypeDeclarations(AjLookupEnvironment.java:652)
+	at org.aspectj.ajdt.internal.compiler.lookup.AjLookupEnvironment.doPendingWeaves(AjLookupEnvironment.java:427)
+	at org.aspectj.ajdt.internal.compiler.lookup.AjLookupEnvironment.completeTypeBindings(AjLookupEnvironment.java:213)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.Compiler.internalBeginToCompile(Compiler.java:616)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.Compiler.beginToCompile(Compiler.java:357)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.Compiler.compile(Compiler.java:371)
+	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.performCompilation(AjBuildManager.java:1021)
+	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.performBuild(AjBuildManager.java:268)
+	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.batchBuild(AjBuildManager.java:181)
+	at org.aspectj.ajdt.ajc.AjdtCommand.doCommand(AjdtCommand.java:112)
+	at org.aspectj.ajdt.ajc.AjdtCommand.runCommand(AjdtCommand.java:60)
+	at org.aspectj.tools.ajc.Main.run(Main.java:371)
+	at org.aspectj.tools.ajc.Main.runMain(Main.java:248)
+	at org.codehaus.mojo.aspectj.AbstractAjcCompiler.execute(AbstractAjcCompiler.java:360)
+	at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo(DefaultBuildPluginManager.java:134)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:208)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:153)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:145)
+	at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:116)
+	at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:80)
+	at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build(SingleThreadedBuilder.java:51)
+	at org.apache.maven.lifecycle.internal.LifecycleStarter.execute(LifecycleStarter.java:128)
+	at org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:307)
+	at org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:193)
+	at org.apache.maven.DefaultMaven.execute(DefaultMaven.java:106)
+	at org.apache.maven.cli.MavenCli.execute(MavenCli.java:862)
+	at org.apache.maven.cli.MavenCli.doMain(MavenCli.java:286)
+	at org.apache.maven.cli.MavenCli.main(MavenCli.java:197)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced(Launcher.java:289)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.launch(Launcher.java:229)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode(Launcher.java:415)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.main(Launcher.java:356)
+---- System Properties ---
+java.runtime.name=Java(TM) SE Runtime Environment
+sun.boot.library.path=/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib
+java.vm.version=25.102-b14
+user.country.format=CA
+gopherProxySet=false
+maven.multiModuleProjectDirectory=/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop
+java.vm.vendor=Oracle Corporation
+java.vendor.url=http://java.oracle.com/
+guice.disable.misplaced.annotation.check=true
+path.separator=:
+java.vm.name=Java HotSpot(TM) 64-Bit Server VM
+file.encoding.pkg=sun.io
+user.country=US
+sun.java.launcher=SUN_STANDARD
+sun.os.patch.level=unknown
+java.vm.specification.name=Java Virtual Machine Specification
+user.dir=/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop
+java.runtime.version=1.8.0_102-b14
+java.awt.graphicsenv=sun.awt.CGraphicsEnvironment
+java.endorsed.dirs=/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib/endorsed
+os.arch=x86_64
+java.io.tmpdir=/var/folders/q2/btg3yt8539z5ythbnbtgnmbc0000gn/T/
+line.separator=
+
+java.vm.specification.vendor=Oracle Corporation
+os.name=Mac OS X
+classworlds.conf=/Users/carlsamson/Documents/dev/apache-maven-3.3.3/bin/m2.conf
+sun.jnu.encoding=UTF-8
+java.library.path=/Users/carlsamson/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:.
+java.specification.name=Java Platform API Specification
+java.class.version=52.0
+sun.management.compiler=HotSpot 64-Bit Tiered Compilers
+os.version=10.10.3
+http.nonProxyHosts=local|*.local|169.254/16|*.169.254/16
+user.home=/Users/carlsamson
+user.timezone=America/Montreal
+java.awt.printerjob=sun.lwawt.macosx.CPrinterJob
+file.encoding=UTF-8
+java.specification.version=1.8
+java.class.path=/Users/carlsamson/Documents/dev/apache-maven-3.3.3/boot/plexus-classworlds-2.5.2.jar
+user.name=carlsamson
+java.vm.specification.version=1.8
+sun.java.command=org.codehaus.plexus.classworlds.launcher.Launcher install
+java.home=/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre
+sun.arch.data.model=64
+user.language=en
+java.specification.vendor=Oracle Corporation
+awt.toolkit=sun.lwawt.macosx.LWCToolkit
+java.vm.info=mixed mode
+java.version=1.8.0_102
+java.ext.dirs=/Users/carlsamson/Library/Java/Extensions:/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib/ext:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java
+sun.boot.class.path=/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib/resources.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib/rt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib/sunrsasign.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib/jsse.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib/jce.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib/charsets.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib/jfr.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/classes
+java.vendor=Oracle Corporation
+maven.home=/Users/carlsamson/Documents/dev/apache-maven-3.3.3
+file.separator=/
+java.vendor.url.bug=http://bugreport.sun.com/bugreport/
+sun.io.unicode.encoding=UnicodeBig
+sun.cpu.endian=little
+socksNonProxyHosts=local|*.local|169.254/16|*.169.254/16
+ftp.nonProxyHosts=local|*.local|169.254/16|*.169.254/16
+sun.cpu.isalist=
+---- Command Line ---
+-encoding
+UTF-8
+-outxml
+-source
+1.7
+-target
+1.7
+-classpath
+/Users/carlsamson/.m2/repository/antlr/antlr/2.7.7/antlr-2.7.7.jar:/Users/carlsamson/.m2/repository/aopalliance/aopalliance/1.0/aopalliance-1.0.jar:/Users/carlsamson/.m2/repository/backport-util-concurrent/backport-util-concurrent/3.1/backport-util-concurrent-3.1.jar:/Users/carlsamson/.m2/repository/c3p0/c3p0/0.9.1.2/c3p0-0.9.1.2.jar:/Users/carlsamson/.m2/repository/cglib/cglib/3.1/cglib-3.1.jar:/Users/carlsamson/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.2.3/jackson-annotations-2.2.3.jar:/Users/carlsamson/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.2.3/jackson-core-2.2.3.jar:/Users/carlsamson/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.2.3/jackson-databind-2.2.3.jar:/Users/carlsamson/.m2/repository/com/google/code/findbugs/jsr305/1.3.9/jsr305-1.3.9.jar:/Users/carlsamson/.m2/repository/com/google/code/gson/gson/2.3.1/gson-2.3.1.jar:/Users/carlsamson/.m2/repository/com/google/guava/guava/18.0/guava-18.0.jar:/Users/carlsamson/.m2/repository/com/google/http-client/google-http-client/1.17.0-rc/google-http-client-1.17.0-rc.jar:/Users/carlsamson/.m2/repository/com/google/maps/google-maps-services/0.1.6/google-maps-services-0.1.6.jar:/Users/carlsamson/.m2/repository/com/googlecode/json-simple/json-simple/1.1.1/json-simple-1.1.1.jar:/Users/carlsamson/.m2/repository/com/h2database/h2/1.3.152/h2-1.3.152.jar:/Users/carlsamson/.m2/repository/com/infradna/tool/bridge-method-annotation/1.13/bridge-method-annotation-1.13.jar:/Users/carlsamson/.m2/repository/com/itextpdf/itextpdf/5.5.6/itextpdf-5.5.6.jar:/Users/carlsamson/.m2/repository/com/maxmind/db/maxmind-db/0.3.1/maxmind-db-0.3.1.jar:/Users/carlsamson/.m2/repository/com/maxmind/geoip2/geoip2/0.7.0/geoip2-0.7.0.jar:/Users/carlsamson/.m2/repository/com/mysema/commons/mysema-commons-lang/0.2.4/mysema-commons-lang-0.2.4.jar:/Users/carlsamson/.m2/repository/com/mysema/querydsl/querydsl-core/3.6.6/querydsl-core-3.6.6.jar:/Users/carlsamson/.m2/repository/com/mysema/querydsl/querydsl-jpa/3.6.6/querydsl-jpa-3.6.6.jar:/Users/carlsamson/.m2/repository/com/paypal/sdk/merchantsdk/2.6.109/merchantsdk-2.6.109.jar:/Users/carlsamson/.m2/repository/com/paypal/sdk/paypal-core/1.5.1/paypal-core-1.5.1.jar:/Users/carlsamson/.m2/repository/com/shopizer/shopizer-shipping-canadapost-module/2.0.3/shopizer-shipping-canadapost-module-2.0.3.jar:/Users/carlsamson/.m2/repository/com/shopizer/shopizer-shipping-distance-processor/2.0.3/shopizer-shipping-distance-processor-2.0.3.jar:/Users/carlsamson/.m2/repository/com/shopizer/sm-core/2.0.3-SNAPSHOT/sm-core-2.0.3-SNAPSHOT.jar:/Users/carlsamson/.m2/repository/com/shopizer/sm-core-model/2.0.3-SNAPSHOT/sm-core-model-2.0.3-SNAPSHOT.jar:/Users/carlsamson/.m2/repository/com/shopizer/sm-core-modules/2.0.3-SNAPSHOT/sm-core-modules-2.0.3-SNAPSHOT.jar:/Users/carlsamson/.m2/repository/com/shopizer/sm-search/0.0.5/sm-search-0.0.5.jar:/Users/carlsamson/.m2/repository/com/spatial4j/spatial4j/0.4.1/spatial4j-0.4.1.jar:/Users/carlsamson/.m2/repository/com/squareup/okhttp/okhttp/2.0.0/okhttp-2.0.0.jar:/Users/carlsamson/.m2/repository/com/squareup/okio/okio/1.0.0/okio-1.0.0.jar:/Users/carlsamson/.m2/repository/com/stripe/stripe-java/1.33.0/stripe-java-1.33.0.jar:/Users/carlsamson/.m2/repository/com/sun/jersey/jersey-bundle/1.19/jersey-bundle-1.19.jar:/Users/carlsamson/.m2/repository/com/thoughtworks/xstream/xstream/1.4.1/xstream-1.4.1.jar:/Users/carlsamson/.m2/repository/commons-beanutils/commons-beanutils/1.8.3/commons-beanutils-1.8.3.jar:/Users/carlsamson/.m2/repository/commons-beanutils/commons-beanutils-core/1.8.0/commons-beanutils-core-1.8.0.jar:/Users/carlsamson/.m2/repository/commons-codec/commons-codec/1.2/commons-codec-1.2.jar:/Users/carlsamson/.m2/repository/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1.jar:/Users/carlsamson/.m2/repository/commons-configuration/commons-configuration/1.6/commons-configuration-1.6.jar:/Users/carlsamson/.m2/repository/commons-digester/commons-digester/1.8/commons-digester-1.8.jar:/Users/carlsamson/.m2/repository/commons-fileupload/commons-fileupload/1.2.2/commons-fileupload-1.2.2.jar:/Users/carlsamson/.m2/repository/commons-httpclient/commons-httpclient/3.1/commons-httpclient-3.1.jar:/Users/carlsamson/.m2/repository/commons-io/commons-io/2.0.1/commons-io-2.0.1.jar:/Users/carlsamson/.m2/repository/commons-lang/commons-lang/2.6/commons-lang-2.6.jar:/Users/carlsamson/.m2/repository/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar:/Users/carlsamson/.m2/repository/commons-logging/commons-logging-api/1.1/commons-logging-api-1.1.jar:/Users/carlsamson/.m2/repository/commons-validator/commons-validator/1.4.0/commons-validator-1.4.0.jar:/Users/carlsamson/.m2/repository/dom4j/dom4j/1.6.1/dom4j-1.6.1.jar:/Users/carlsamson/.m2/repository/io/searchbox/jest/0.1.5/jest-0.1.5.jar:/Users/carlsamson/.m2/repository/io/searchbox/jest-common/0.1.5/jest-common-0.1.5.jar:/Users/carlsamson/.m2/repository/javassist/javassist/3.3/javassist-3.3.jar:/Users/carlsamson/.m2/repository/javax/activation/activation/1.1/activation-1.1.jar:/Users/carlsamson/.m2/repository/javax/annotation/jsr250-api/1.0/jsr250-api-1.0.jar:/Users/carlsamson/.m2/repository/javax/inject/javax.inject/1/javax.inject-1.jar:/Users/carlsamson/.m2/repository/javax/mail/mail/1.4.5/mail-1.4.5.jar:/Users/carlsamson/.m2/repository/javax/servlet/jstl/1.2/jstl-1.2.jar:/Users/carlsamson/.m2/repository/javax/servlet/servlet-api/2.5/servlet-api-2.5.jar:/Users/carlsamson/.m2/repository/javax/servlet/jsp/jsp-api/2.1/jsp-api-2.1.jar:/Users/carlsamson/.m2/repository/javax/servlet/jsp/jstl/jstl-api/1.2/jstl-api-1.2.jar:/Users/carlsamson/.m2/repository/javax/transaction/jta/1.1/jta-1.1.jar:/Users/carlsamson/.m2/repository/javax/validation/validation-api/1.0.0.GA/validation-api-1.0.0.GA.jar:/Users/carlsamson/.m2/repository/javax/ws/rs/jsr311-api/1.1.1/jsr311-api-1.1.1.jar:/Users/carlsamson/.m2/repository/jdom/jdom/1.0/jdom-1.0.jar:/Users/carlsamson/.m2/repository/jgroups/jgroups/2.6.13.GA/jgroups-2.6.13.GA.jar:/Users/carlsamson/.m2/repository/joda-time/joda-time/2.0/joda-time-2.0.jar:/Users/carlsamson/.m2/repository/junit/junit/4.8.2/junit-4.8.2.jar:/Users/carlsamson/.m2/repository/log4j/log4j/1.2.16/log4j-1.2.16.jar:/Users/carlsamson/.m2/repository/mysql/mysql-connector-java/5.1.31/mysql-connector-java-5.1.31.jar:/Users/carlsamson/.m2/repository/net/java/dev/rome/rome/1.0.0/rome-1.0.0.jar:/Users/carlsamson/.m2/repository/net/sf/ehcache/ehcache/1.5.0/ehcache-1.5.0.jar:/Users/carlsamson/.m2/repository/net/sf/jsr107cache/jsr107cache/1.0/jsr107cache-1.0.jar:/Users/carlsamson/.m2/repository/net/tanesha/recaptcha4j/recaptcha4j/0.0.7/recaptcha4j-0.0.7.jar:/Users/carlsamson/.m2/repository/org/antlr/antlr/3.3/antlr-3.3.jar:/Users/carlsamson/.m2/repository/org/antlr/antlr-runtime/3.5/antlr-runtime-3.5.jar:/Users/carlsamson/.m2/repository/org/antlr/stringtemplate/3.2.1/stringtemplate-3.2.1.jar:/Users/carlsamson/.m2/repository/org/apache/commons/commons-collections4/4.0/commons-collections4-4.0.jar:/Users/carlsamson/.m2/repository/org/apache/commons/commons-lang3/3.0/commons-lang3-3.0.jar:/Users/carlsamson/.m2/repository/org/apache/httpcomponents/httpasyncclient/4.0.2/httpasyncclient-4.0.2.jar:/Users/carlsamson/.m2/repository/org/apache/httpcomponents/httpclient/4.4/httpclient-4.4.jar:/Users/carlsamson/.m2/repository/org/apache/httpcomponents/httpcore/4.4/httpcore-4.4.jar:/Users/carlsamson/.m2/repository/org/apache/httpcomponents/httpcore-nio/4.4/httpcore-nio-4.4.jar:/Users/carlsamson/.m2/repository/org/apache/lucene/lucene-analyzers-common/4.10.4/lucene-analyzers-common-4.10.4.jar:/Users/carlsamson/.m2/repository/org/apache/lucene/lucene-core/4.10.4/lucene-core-4.10.4.jar:/Users/carlsamson/.m2/repository/org/apache/lucene/lucene-grouping/4.10.4/lucene-grouping-4.10.4.jar:/Users/carlsamson/.m2/repository/org/apache/lucene/lucene-highlighter/4.10.4/lucene-highlighter-4.10.4.jar:/Users/carlsamson/.m2/repository/org/apache/lucene/lucene-join/4.10.4/lucene-join-4.10.4.jar:/Users/carlsamson/.m2/repository/org/apache/lucene/lucene-memory/4.10.4/lucene-memory-4.10.4.jar:/Users/carlsamson/.m2/repository/org/apache/lucene/lucene-misc/4.10.4/lucene-misc-4.10.4.jar:/Users/carlsamson/.m2/repository/org/apache/lucene/lucene-queries/4.10.4/lucene-queries-4.10.4.jar:/Users/carlsamson/.m2/repository/org/apache/lucene/lucene-queryparser/4.10.4/lucene-queryparser-4.10.4.jar:/Users/carlsamson/.m2/repository/org/apache/lucene/lucene-sandbox/4.10.4/lucene-sandbox-4.10.4.jar:/Users/carlsamson/.m2/repository/org/apache/lucene/lucene-spatial/4.10.4/lucene-spatial-4.10.4.jar:/Users/carlsamson/.m2/repository/org/apache/lucene/lucene-suggest/4.10.4/lucene-suggest-4.10.4.jar:/Users/carlsamson/.m2/repository/org/apache/poi/poi/3.9/poi-3.9.jar:/Users/carlsamson/.m2/repository/org/apache/poi/poi-ooxml/3.9/poi-ooxml-3.9.jar:/Users/carlsamson/.m2/repository/org/apache/poi/poi-ooxml-schemas/3.9/poi-ooxml-schemas-3.9.jar:/Users/carlsamson/.m2/repository/org/apache/tiles/tiles-api/2.1.2/tiles-api-2.1.2.jar:/Users/carlsamson/.m2/repository/org/apache/tiles/tiles-core/2.1.2/tiles-core-2.1.2.jar:/Users/carlsamson/.m2/repository/org/apache/tiles/tiles-jsp/2.1.2/tiles-jsp-2.1.2.jar:/Users/carlsamson/.m2/repository/org/apache/tiles/tiles-servlet/2.1.2/tiles-servlet-2.1.2.jar:/Users/carlsamson/.m2/repository/org/apache/xmlbeans/xmlbeans/2.3.0/xmlbeans-2.3.0.jar:/Users/carlsamson/.m2/repository/org/aspectj/aspectjrt/1.6.10/aspectjrt-1.6.10.jar:/Users/carlsamson/.m2/repository/org/aspectj/aspectjweaver/1.5.4/aspectjweaver-1.5.4.jar:/Users/carlsamson/.m2/repository/org/codehaus/jackson/jackson-core-asl/1.9.13/jackson-core-asl-1.9.13.jar:/Users/carlsamson/.m2/repository/org/codehaus/jackson/jackson-mapper-asl/1.9.13/jackson-mapper-asl-1.9.13.jar:/Users/carlsamson/.m2/repository/org/drools/drools-compiler/5.6.0.Final/drools-compiler-5.6.0.Final.jar:/Users/carlsamson/.m2/repository/org/drools/drools-core/5.6.0.Final/drools-core-5.6.0.Final.jar:/Users/carlsamson/.m2/repository/org/drools/drools-decisiontables/5.6.0.Final/drools-decisiontables-5.6.0.Final.jar:/Users/carlsamson/.m2/repository/org/drools/drools-spring/5.6.0.Final/drools-spring-5.6.0.Final.jar:/Users/carlsamson/.m2/repository/org/drools/drools-templates/5.6.0.Final/drools-templates-5.6.0.Final.jar:/Users/carlsamson/.m2/repository/org/drools/knowledge-api/5.6.0.Final/knowledge-api-5.6.0.Final.jar:/Users/carlsamson/.m2/repository/org/drools/knowledge-internal-api/5.6.0.Final/knowledge-internal-api-5.6.0.Final.jar:/Users/carlsamson/.m2/repository/org/eclipse/jdt/core/compiler/ecj/3.5.1/ecj-3.5.1.jar:/Users/carlsamson/.m2/repository/org/elasticsearch/elasticsearch/1.5.2/elasticsearch-1.5.2.jar:/Users/carlsamson/.m2/repository/org/freemarker/freemarker/2.3.19/freemarker-2.3.19.jar:/Users/carlsamson/.m2/repository/org/glassfish/web/jstl-impl/1.2/jstl-impl-1.2.jar:/Users/carlsamson/.m2/repository/org/hibernate/hibernate-core/4.1.2/hibernate-core-4.1.2.jar:/Users/carlsamson/.m2/repository/org/hibernate/hibernate-ehcache/3.5.1-Final/hibernate-ehcache-3.5.1-Final.jar:/Users/carlsamson/.m2/repository/org/hibernate/hibernate-entitymanager/4.1.2/hibernate-entitymanager-4.1.2.jar:/Users/carlsamson/.m2/repository/org/hibernate/hibernate-validator/4.1.0.Final/hibernate-validator-4.1.0.Final.jar:/Users/carlsamson/.m2/repository/org/hibernate/common/hibernate-commons-annotations/4.0.1.Final/hibernate-commons-annotations-4.0.1.Final.jar:/Users/carlsamson/.m2/repository/org/hibernate/javax/persistence/hibernate-jpa-2.0-api/1.0.1.Final/hibernate-jpa-2.0-api-1.0.1.Final.jar:/Users/carlsamson/.m2/repository/org/infinispan/infinispan-cachestore-jdbc/5.3.0.Final/infinispan-cachestore-jdbc-5.3.0.Final.jar:/Users/carlsamson/.m2/repository/org/infinispan/infinispan-core/5.3.0.Final/infinispan-core-5.3.0.Final.jar:/Users/carlsamson/.m2/repository/org/infinispan/infinispan-tree/5.3.0.Final/infinispan-tree-5.3.0.Final.jar:/Users/carlsamson/.m2/repository/org/jadira/usertype/usertype.core/3.0.0.CR1/usertype.core-3.0.0.CR1.jar:/Users/carlsamson/.m2/repository/org/jadira/usertype/usertype.spi/3.0.0.CR1/usertype.spi-3.0.0.CR1.jar:/Users/carlsamson/.m2/repository/org/jboss/jboss-common-core/2.2.14.GA/jboss-common-core-2.2.14.GA.jar:/Users/carlsamson/.m2/repository/org/jboss/staxmapper/1.1.0.Final/staxmapper-1.1.0.Final.jar:/Users/carlsamson/.m2/repository/org/jboss/cache/jbosscache-core/3.2.5.GA/jbosscache-core-3.2.5.GA.jar:/Users/carlsamson/.m2/repository/org/jboss/javaee/jboss-transaction-api/1.0.1.GA/jboss-transaction-api-1.0.1.GA.jar:/Users/carlsamson/.m2/repository/org/jboss/logging/jboss-logging/3.1.0.GA/jboss-logging-3.1.0.GA.jar:/Users/carlsamson/.m2/repository/org/jboss/logging/jboss-logging-spi/2.0.5.GA/jboss-logging-spi-2.0.5.GA.jar:/Users/carlsamson/.m2/repository/org/jboss/marshalling/jboss-marshalling/1.3.15.GA/jboss-marshalling-1.3.15.GA.jar:/Users/carlsamson/.m2/repository/org/jboss/marshalling/jboss-marshalling-river/1.3.15.GA/jboss-marshalling-river-1.3.15.GA.jar:/Users/carlsamson/.m2/repository/org/jboss/spec/javax/transaction/jboss-transaction-api_1.1_spec/1.0.0.Final/jboss-transaction-api_1.1_spec-1.0.0.Final.jar:/Users/carlsamson/.m2/repository/org/jgroups/jgroups/3.3.1.Final/jgroups-3.3.1.Final.jar:/Users/carlsamson/.m2/repository/org/joda/joda-money/0.6/joda-money-0.6.jar:/Users/carlsamson/.m2/repository/org/jopendocument/jOpenDocument/1.3b1/jOpenDocument-1.3b1.jar:/Users/carlsamson/.m2/repository/org/mvel/mvel2/2.1.8.Final/mvel2-2.1.8.Final.jar:/Users/carlsamson/.m2/repository/org/ow2/asm/asm/4.2/asm-4.2.jar:/Users/carlsamson/.m2/repository/org/ow2/asm/asm-commons/4.1/asm-commons-4.1.jar:/Users/carlsamson/.m2/repository/org/slf4j/jcl-over-slf4j/1.6.6/jcl-over-slf4j-1.6.6.jar:/Users/carlsamson/.m2/repository/org/slf4j/slf4j-api/1.6.6/slf4j-api-1.6.6.jar:/Users/carlsamson/.m2/repository/org/slf4j/slf4j-log4j12/1.6.6/slf4j-log4j12-1.6.6.jar:/Users/carlsamson/.m2/repository/org/springframework/spring-aop/3.1.0.RELEASE/spring-aop-3.1.0.RELEASE.jar:/Users/carlsamson/.m2/repository/org/springframework/spring-asm/3.1.0.RELEASE/spring-asm-3.1.0.RELEASE.jar:/Users/carlsamson/.m2/repository/org/springframework/spring-aspects/3.1.0.RELEASE/spring-aspects-3.1.0.RELEASE.jar:/Users/carlsamson/.m2/repository/org/springframework/spring-beans/3.1.0.RELEASE/spring-beans-3.1.0.RELEASE.jar:/Users/carlsamson/.m2/repository/org/springframework/spring-context/3.1.0.RELEASE/spring-context-3.1.0.RELEASE.jar:/Users/carlsamson/.m2/repository/org/springframework/spring-context-support/3.1.0.RELEASE/spring-context-support-3.1.0.RELEASE.jar:/Users/carlsamson/.m2/repository/org/springframework/spring-core/3.1.0.RELEASE/spring-core-3.1.0.RELEASE.jar:/Users/carlsamson/.m2/repository/org/springframework/spring-expression/3.1.0.RELEASE/spring-expression-3.1.0.RELEASE.jar:/Users/carlsamson/.m2/repository/org/springframework/spring-jdbc/3.0.7.RELEASE/spring-jdbc-3.0.7.RELEASE.jar:/Users/carlsamson/.m2/repository/org/springframework/spring-orm/3.1.0.RELEASE/spring-orm-3.1.0.RELEASE.jar:/Users/carlsamson/.m2/repository/org/springframework/spring-test/3.1.0.RELEASE/spring-test-3.1.0.RELEASE.jar:/Users/carlsamson/.m2/repository/org/springframework/spring-tx/3.1.0.RELEASE/spring-tx-3.1.0.RELEASE.jar:/Users/carlsamson/.m2/repository/org/springframework/spring-web/3.1.0.RELEASE/spring-web-3.1.0.RELEASE.jar:/Users/carlsamson/.m2/repository/org/springframework/spring-webmvc/3.1.0.RELEASE/spring-webmvc-3.1.0.RELEASE.jar:/Users/carlsamson/.m2/repository/org/springframework/mobile/spring-mobile-device/1.1.0.RELEASE/spring-mobile-device-1.1.0.RELEASE.jar:/Users/carlsamson/.m2/repository/org/springframework/security/spring-security-acl/3.1.4.RELEASE/spring-security-acl-3.1.4.RELEASE.jar:/Users/carlsamson/.m2/repository/org/springframework/security/spring-security-config/3.1.4.RELEASE/spring-security-config-3.1.4.RELEASE.jar:/Users/carlsamson/.m2/repository/org/springframework/security/spring-security-core/3.1.4.RELEASE/spring-security-core-3.1.4.RELEASE.jar:/Users/carlsamson/.m2/repository/org/springframework/security/spring-security-taglibs/3.1.4.RELEASE/spring-security-taglibs-3.1.4.RELEASE.jar:/Users/carlsamson/.m2/repository/org/springframework/security/spring-security-web/3.1.4.RELEASE/spring-security-web-3.1.4.RELEASE.jar:/Users/carlsamson/.m2/repository/stax/stax-api/1.0.1/stax-api-1.0.1.jar:/Users/carlsamson/.m2/repository/xmlpull/xmlpull/1.1.3.1/xmlpull-1.1.3.1.jar:/Users/carlsamson/.m2/repository/xpp3/xpp3_min/1.1.4c/xpp3_min-1.1.4c.jar:/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/target/classes
+-d
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/target/classes
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/security/SecurityDataAccessException.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/controller/customer/CustomerLoginController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/controller/store/ContactController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/merchant/StoreBrandingController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/populator/customer/CustomerPopulator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/product/PersistableProduct.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/populator/order/PersistableOrderProductPopulator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/customers/CustomerController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/controller/customer/facade/CustomerFacadeImpl.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/ProductList.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/utils/PageBuilderUtils.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/images/ImagesController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/services/security/CustomerServicesImpl.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/shoppingcart/ShoppingCartAttribute.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/init/data/InitializationLoader.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/user/LoginController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/services/controller/store/StoreContactRESTController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/utils/EmailTemplatesUtils.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/products/ProductAttributeController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/tags/ShopProductRelationshipTag.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/orders/OrdersController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/controller/order/ShoppingOrderConfirmationController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/product/ReadableProductPrice.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/customers/CustomerOptionsSetController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/product/attribute/ProductOptionDescription.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/populator/catalog/PersistableProductOptionValuePopulator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/category/Category.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/order/ReadableOrder.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/services/security/ServicesAuthenticationSuccessHandler.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/category/CategoryEntity.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/product/attribute/ProductOption.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/tags/ActiveLinkTag.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/utils/LabelUtils.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/tags/StoreBreadcrumbsTag.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/user/SecurityController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/order/OrderTotal.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/services/controller/search/SearchRESTController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/controller/order/ShoppingOrderPaymentController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/populator/order/ReadableShippingSummaryPopulator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/product/attribute/ReadableProductAttribute.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/customer/attribute/CustomerOptionDescription.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/controller/search/facade/SearchFacade.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/orders/OrderControler.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/tags/ConfigurationTag.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/customer/attribute/CustomerOptionValueDescription.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/populator/customer/PersistableCustomerOptionPopulator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/security/UserAuthenticationSuccessHandler.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/user/GroupsController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/order/OrderProduct.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/controller/shoppingCart/MiniCartController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/controller/category/facade/CategoryFacade.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/populator/customer/CustomerDeliveryAddressPopulator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/shipping/ShippingOptionsController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/populator/catalog/ReadableProductReviewPopulator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/tags/StoreLogoUrlTag.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/utils/AdminAccessDeniedHandler.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/customer/PersistableCustomer.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/populator/catalog/ReadableProductPricePopulator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/order/Order.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/model/catalog/Attribute.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/utils/FieldMatchValidator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/order/ReadableOrderTotal.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/services/controller/system/SystemRESTController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/model/catalog/AttributeValue.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/populator/catalog/PersistableProductReviewPopulator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/content/ContentImageController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/utils/ImageFilePathUtils.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/customers/CustomerOptionsValueController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/customer/attribute/CustomerAttribute.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/merchant/MerchantStoreController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/entity/content/ProductImages.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/products/DigitalProductController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/order/PersistableOrder.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/populator/catalog/PersistableProductPopulator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/shipping/ShippingMethodsController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/init/data/InitData.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/product/ProductReviewEntity.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/order/ReadableOrderList.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/products/ManufacturerController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/order/OrderEntity.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/populator/customer/PersistableCustomerBillingAddressPopulator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/populator/store/ReadableMerchantStorePopulator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/customer/attribute/PersistableCustomerOptionValue.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/controller/order/facade/OrderFacadeImpl.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/entity/customer/attribute/CustomerOption.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/shop/BreadcrumbItemType.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/products/ProductPriceController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/customer/CustomerEntity.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/controller/product/ShopProductController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/products/OptionsController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/shoppingcart/ShoppingCartData.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/populator/customer/PersistableCustomerOptionValuePopulator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/product/attribute/ProductOptionValue.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/customer/SecuredShopPersistableCustomer.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/products/FeaturedItemsController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/controller/search/SearchController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/utils/MerchantUtils.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/controller/shoppingCart/facade/ShoppingCartFacadeImpl.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/utils/BreadcrumbsUtils.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/populator/catalog/ReadableProductPopulator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/utils/WebApplicationCacheUtils.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/customer/SecuredCustomer.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/controller/content/ShopContentController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/customer/attribute/CustomerOption.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/populator/order/ReadableOrderProductDownloadPopulator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/customer/attribute/ReadableCustomerAttribute.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/tags/ManufacturerImageUrlTag.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/product/attribute/ProductAttribute.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/order/PersistableOrderProduct.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/services/controller/product/ShopProductRESTController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/filter/StoreFilter.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/tags/ShopProductPriceFormatTag.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/product/ReadableProduct.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/entity/digital/ProductFiles.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/entity/orders/Refund.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/manufacturer/ManufacturerEntity.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/content/StaticContentController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/product/RelatedProduct.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/security/UserServicesImpl.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/services/security/ServicesAuthenticationEntryPoint.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/shop/Breadcrumb.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/utils/GeoLocationUtils.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/entity/reference/Size.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/shop/ContactForm.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/entity/merchant/StoreLanding.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/categories/CategoryController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/product/ProductDescription.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/utils/UserUtils.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/order/ReadableShopOrder.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/populator/customer/PersistableCustomerPopulator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/user/UserController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/order/ReadableOrderProduct.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/utils/TokenizeTool.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/category/CategoryDescription.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/category/ReadableCategory.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/order/OrderProductEntity.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/entity/catalog/ProductPrice.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/product/attribute/PersistableProductOptionValue.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/controller/ControllerConstants.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/populator/customer/ReadableCustomerDeliveryAddressPopulator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/controller/search/facade/SearchFacadeImpl.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/product/PersistableImage.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/services/controller/category/ShoppingCategoryRESTController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/products/OptionsValueController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/order/ReadableShippingSummary.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/ReadableImage.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/controller/shoppingCart/facade/ShoppingCartFacade.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/populator/manufacturer/PersistableManufacturerPopulator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/ShopEntity.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/manufacturer/ManufacturerDescription.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/AdminController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/Entity.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/merchant/StoreLandingController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/products/ProductController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/entity/customer/attribute/CustomerAttributes.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/utils/LanguageUtils.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/populator/customer/CustomerOptionPopulator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/products/CustomProductGroupsController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/customer/Address.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/customer/attribute/CustomerOptionValue.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/products/RelatedItemsController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/manufacturer/PersistableManufacturer.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/configurations/SystemConfigurationController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/product/attribute/ProductOptionValueDescription.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/populator/order/ShoppingCartItemPopulator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/tags/ProductDescriptionUrlTag.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/customer/attribute/PersistableCustomerAttribute.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/customer/Customer.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/configurations/ConfigurationController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/entity/reference/Weight.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/controller/order/ShoppingOrderController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/populator/catalog/ReadableCategoryPopulator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/order/CartModificationException.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/shipping/ShippingPackagingController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/model/filter/QueryFilter.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/controller/category/ShoppingCategoryController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/populator/order/PersistableOrderPopulator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/manufacturer/ReadableManufacturer.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/order/ShopOrder.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/manufacturer/Manufacturer.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/utils/LocalImageFilePathUtils.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/product/ReadableProductReview.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/populator/customer/CustomerBillingAddressPopulator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/populator/order/ReadableOrderPopulator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/entity/web/ConfigListWrapper.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/tax/TaxClassController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/products/ProductImagesController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/products/ProductsController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/entity/orders/Order.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/populator/customer/ReadableCustomerPopulator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/product/attribute/PersistableProductOption.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/product/attribute/ProductOptionValueEntity.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/files/FilesController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/populator/order/ReadableOrderTotalPopulator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/ControllerConstants.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/product/attribute/ProductOptionEntity.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/controller/shoppingCart/ShoppingCartController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/controller/AbstractController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/product/ProductPriceEntity.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/populator/order/OrderProductPopulator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/shop/MerchantStoreEntity.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/controller/customer/CustomerOrdersController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/product/attribute/PersistableProductAttribute.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/entity/web/Menu.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/populator/shoppingCart/ShoppingCartModelPopulator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/entity/merchant/StoreLandingDescription.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/controller/customer/CustomerAccountController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/utils/SessionUtil.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/shipping/ShippingConfigsController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/utils/CaptchaRequestUtils.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/orders/OrderActionsControler.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/product/ReadableProductList.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/tags/ContentImageUrlTag.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/utils/BeanUtils.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/entity/customer/attribute/CustomerOptionValue.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/content/ContentPagesController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/populator/customer/PersistableCustomerShippingAddressPopulator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/filter/AdminFilter.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/tags/StoreFooterlTag.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/entity/catalog/Keyword.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/tax/TaxConfigurationController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/payments/PaymentsController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/category/PersistableCategory.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/entity/secutity/Password.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/populator/customer/CustomerEntityPopulator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/shop/ReadableMerchantStore.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/security/SecurityQuestion.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/product/Product.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/customer/attribute/PersistableCustomerOption.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/customer/ReadableCustomer.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/utils/AppConfiguration.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/utils/FilePathUtils.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/customer/attribute/CustomerOptionValueEntity.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/security/WebUserServices.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/populator/catalog/ReadableFinalPricePopulator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/services/controller/order/OrderRESTController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/populator/manufacturer/ReadableManufacturerPopulator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/controller/order/facade/OrderFacade.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/controller/category/facade/CategoryFacadeImpl.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/controller/customer/CustomerProductReviewController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/entity/catalog/Product.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/populator/catalog/PersistableProductOptionPopulator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/shipping/CustomShippingMethodsController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/customer/attribute/ReadableCustomerOptionValue.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/shipping/ShippingOriginController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/shoppingcart/ShoppingCartItem.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/customer/attribute/ReadableCustomerOption.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/customer/CustomerPassword.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/order/ReadableOrderProductDownload.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/product/attribute/ProductAttributeEntity.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/product/ProductEntity.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/tax/TaxRatesController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/user/PermissionController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/controller/customer/facade/CustomerFacade.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/populator/shoppingCart/ShoppingCartDataPopulator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/controller/order/ShoppingOrderDownloadController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/entity/catalog/Manufacturer.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/product/PersistableProductPrice.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/model/filter/QueryFilterType.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/tags/AdminProductDownloadUrlTag.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/constants/ApplicationConstants.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/utils/FieldMatch.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/order/ReadableOrderProductAttribute.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/tags/OrderProductDownloadUrlTag.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/model/search/AutoCompleteRequest.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/customer/DeliveryEntity.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/utils/ImageFilePath.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/controller/LandingController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/utils/LocaleUtils.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/constants/EmailConstants.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/ServiceEntity.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/constants/Constants.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/services/controller/customer/CustomerRESTController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/utils/AbstractimageFilePath.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/customer/attribute/CustomerAttributeEntity.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/CatalogEntity.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/customer/attribute/CustomerOptionEntity.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/customer/ReadableDelivery.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/reference/ReferenceController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/populator/order/ReadableShopOrderPopulator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/products/ProductReviewController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/model/paging/PaginationData.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/utils/EmailUtils.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/product/PersistableProductReview.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/controller/customer/CustomerDashboardController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/entity/content/ContentFiles.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/init/data/InitStoreData.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/shop/BreadcrumbItem.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/tags/PageContentTag.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/controller/product/facade/ProductFacadeImpl.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/entity/userpassword/UserReset.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/tags/ProductImageUrlTag.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/content/ContentBoxesController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/customer/AnonymousCustomer.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/customers/CustomerOptionsController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/product/ProductPrice.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/products/ProductKeywordsController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/shop/PageInformation.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/tags/ShopProductImageUrlTag.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/utils/DateUtil.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/entity/catalog/SearchProductList.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/populator/order/ReadableOrderProductPopulator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/populator/catalog/PersistableCategoryPopulator.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/controller/customer/CustomerRegistrationController.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/shop/controller/product/facade/ProductFacade.java
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/configurations/CacheController.java
+---- Full Classpath ---
+/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib/resources.jar(3503700 bytes)
+/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib/rt.jar(66629792 bytes)
+/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib/sunrsasign.jar(missing)
+/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib/jsse.jar(634758 bytes)
+/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib/jce.jar(115557 bytes)
+/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib/charsets.jar(3135391 bytes)
+/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib/jfr.jar(560043 bytes)
+/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/classes(missing)
+/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib/ext/cldrdata.jar(3860502 bytes)
+/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib/ext/dnsns.jar(8286 bytes)
+/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib/ext/jaccess.jar(44516 bytes)
+/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib/ext/jfxrt.jar(18555520 bytes)
+/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib/ext/localedata.jar(1178872 bytes)
+/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib/ext/nashorn.jar(2019024 bytes)
+/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib/ext/sunec.jar(39771 bytes)
+/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib/ext/sunjce_provider.jar(279427 bytes)
+/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib/ext/sunpkcs11.jar(250826 bytes)
+/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib/ext/zipfs.jar(68924 bytes)
+/System/Library/Java/Extensions/MRJToolkit.jar(12848 bytes)
+/Users/carlsamson/.m2/repository/antlr/antlr/2.7.7/antlr-2.7.7.jar(445288 bytes)
+/Users/carlsamson/.m2/repository/aopalliance/aopalliance/1.0/aopalliance-1.0.jar(4467 bytes)
+/Users/carlsamson/.m2/repository/backport-util-concurrent/backport-util-concurrent/3.1/backport-util-concurrent-3.1.jar(331716 bytes)
+/Users/carlsamson/.m2/repository/c3p0/c3p0/0.9.1.2/c3p0-0.9.1.2.jar(610790 bytes)
+/Users/carlsamson/.m2/repository/cglib/cglib/3.1/cglib-3.1.jar(283080 bytes)
+/Users/carlsamson/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.2.3/jackson-annotations-2.2.3.jar(33483 bytes)
+/Users/carlsamson/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.2.3/jackson-core-2.2.3.jar(192699 bytes)
+/Users/carlsamson/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.2.3/jackson-databind-2.2.3.jar(865838 bytes)
+/Users/carlsamson/.m2/repository/com/google/code/findbugs/jsr305/1.3.9/jsr305-1.3.9.jar(33015 bytes)
+/Users/carlsamson/.m2/repository/com/google/code/gson/gson/2.3.1/gson-2.3.1.jar(210856 bytes)
+/Users/carlsamson/.m2/repository/com/google/guava/guava/18.0/guava-18.0.jar(2256213 bytes)
+/Users/carlsamson/.m2/repository/com/google/http-client/google-http-client/1.17.0-rc/google-http-client-1.17.0-rc.jar(270099 bytes)
+/Users/carlsamson/.m2/repository/com/google/maps/google-maps-services/0.1.6/google-maps-services-0.1.6.jar(80459 bytes)
+/Users/carlsamson/.m2/repository/com/googlecode/json-simple/json-simple/1.1.1/json-simple-1.1.1.jar(23931 bytes)
+/Users/carlsamson/.m2/repository/com/h2database/h2/1.3.152/h2-1.3.152.jar(1227267 bytes)
+/Users/carlsamson/.m2/repository/com/infradna/tool/bridge-method-annotation/1.13/bridge-method-annotation-1.13.jar(3161 bytes)
+/Users/carlsamson/.m2/repository/com/itextpdf/itextpdf/5.5.6/itextpdf-5.5.6.jar(2265678 bytes)
+/Users/carlsamson/.m2/repository/com/maxmind/db/maxmind-db/0.3.1/maxmind-db-0.3.1.jar(16703 bytes)
+/Users/carlsamson/.m2/repository/com/maxmind/geoip2/geoip2/0.7.0/geoip2-0.7.0.jar(29663 bytes)
+/Users/carlsamson/.m2/repository/com/mysema/commons/mysema-commons-lang/0.2.4/mysema-commons-lang-0.2.4.jar(12050 bytes)
+/Users/carlsamson/.m2/repository/com/mysema/querydsl/querydsl-core/3.6.6/querydsl-core-3.6.6.jar(466415 bytes)
+/Users/carlsamson/.m2/repository/com/mysema/querydsl/querydsl-jpa/3.6.6/querydsl-jpa-3.6.6.jar(114519 bytes)
+/Users/carlsamson/.m2/repository/com/paypal/sdk/merchantsdk/2.6.109/merchantsdk-2.6.109.jar(609562 bytes)
+/Users/carlsamson/.m2/repository/com/paypal/sdk/paypal-core/1.5.1/paypal-core-1.5.1.jar(124129 bytes)
+/Users/carlsamson/.m2/repository/com/shopizer/shopizer-shipping-canadapost-module/2.0.3/shopizer-shipping-canadapost-module-2.0.3.jar(70509 bytes)
+/Users/carlsamson/.m2/repository/com/shopizer/shopizer-shipping-distance-processor/2.0.3/shopizer-shipping-distance-processor-2.0.3.jar(6768 bytes)
+/Users/carlsamson/.m2/repository/com/shopizer/sm-core/2.0.3-SNAPSHOT/sm-core-2.0.3-SNAPSHOT.jar(1382356 bytes)
+/Users/carlsamson/.m2/repository/com/shopizer/sm-core-model/2.0.3-SNAPSHOT/sm-core-model-2.0.3-SNAPSHOT.jar(409568 bytes)
+/Users/carlsamson/.m2/repository/com/shopizer/sm-core-modules/2.0.3-SNAPSHOT/sm-core-modules-2.0.3-SNAPSHOT.jar(13347 bytes)
+/Users/carlsamson/.m2/repository/com/shopizer/sm-search/0.0.5/sm-search-0.0.5.jar(49921 bytes)
+/Users/carlsamson/.m2/repository/com/spatial4j/spatial4j/0.4.1/spatial4j-0.4.1.jar(102177 bytes)
+/Users/carlsamson/.m2/repository/com/squareup/okhttp/okhttp/2.0.0/okhttp-2.0.0.jar(260956 bytes)
+/Users/carlsamson/.m2/repository/com/squareup/okio/okio/1.0.0/okio-1.0.0.jar(52131 bytes)
+/Users/carlsamson/.m2/repository/com/stripe/stripe-java/1.33.0/stripe-java-1.33.0.jar(145251 bytes)
+/Users/carlsamson/.m2/repository/com/sun/jersey/jersey-bundle/1.19/jersey-bundle-1.19.jar(1623690 bytes)
+/Users/carlsamson/.m2/repository/com/thoughtworks/xstream/xstream/1.4.1/xstream-1.4.1.jar(495701 bytes)
+/Users/carlsamson/.m2/repository/commons-beanutils/commons-beanutils/1.8.3/commons-beanutils-1.8.3.jar(232019 bytes)
+/Users/carlsamson/.m2/repository/commons-beanutils/commons-beanutils-core/1.8.0/commons-beanutils-core-1.8.0.jar(206035 bytes)
+/Users/carlsamson/.m2/repository/commons-codec/commons-codec/1.2/commons-codec-1.2.jar(30085 bytes)
+/Users/carlsamson/.m2/repository/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1.jar(575389 bytes)
+/Users/carlsamson/.m2/repository/commons-configuration/commons-configuration/1.6/commons-configuration-1.6.jar(298829 bytes)
+/Users/carlsamson/.m2/repository/commons-digester/commons-digester/1.8/commons-digester-1.8.jar(143602 bytes)
+/Users/carlsamson/.m2/repository/commons-fileupload/commons-fileupload/1.2.2/commons-fileupload-1.2.2.jar(59590 bytes)
+/Users/carlsamson/.m2/repository/commons-httpclient/commons-httpclient/3.1/commons-httpclient-3.1.jar(305001 bytes)
+/Users/carlsamson/.m2/repository/commons-io/commons-io/2.0.1/commons-io-2.0.1.jar(159509 bytes)
+/Users/carlsamson/.m2/repository/commons-lang/commons-lang/2.6/commons-lang-2.6.jar(284220 bytes)
+/Users/carlsamson/.m2/repository/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar(60686 bytes)
+/Users/carlsamson/.m2/repository/commons-logging/commons-logging-api/1.1/commons-logging-api-1.1.jar(44598 bytes)
+/Users/carlsamson/.m2/repository/commons-validator/commons-validator/1.4.0/commons-validator-1.4.0.jar(176897 bytes)
+/Users/carlsamson/.m2/repository/dom4j/dom4j/1.6.1/dom4j-1.6.1.jar(313898 bytes)
+/Users/carlsamson/.m2/repository/io/searchbox/jest/0.1.5/jest-0.1.5.jar(15921 bytes)
+/Users/carlsamson/.m2/repository/io/searchbox/jest-common/0.1.5/jest-common-0.1.5.jar(158640 bytes)
+/Users/carlsamson/.m2/repository/javassist/javassist/3.3/javassist-3.3.jar(459663 bytes)
+/Users/carlsamson/.m2/repository/javax/activation/activation/1.1/activation-1.1.jar(62983 bytes)
+/Users/carlsamson/.m2/repository/javax/annotation/jsr250-api/1.0/jsr250-api-1.0.jar(5848 bytes)
+/Users/carlsamson/.m2/repository/javax/inject/javax.inject/1/javax.inject-1.jar(2497 bytes)
+/Users/carlsamson/.m2/repository/javax/mail/mail/1.4.5/mail-1.4.5.jar(508143 bytes)
+/Users/carlsamson/.m2/repository/javax/servlet/jstl/1.2/jstl-1.2.jar(414240 bytes)
+/Users/carlsamson/.m2/repository/javax/servlet/servlet-api/2.5/servlet-api-2.5.jar(105112 bytes)
+/Users/carlsamson/.m2/repository/javax/servlet/jsp/jsp-api/2.1/jsp-api-2.1.jar(100636 bytes)
+/Users/carlsamson/.m2/repository/javax/servlet/jsp/jstl/jstl-api/1.2/jstl-api-1.2.jar(30527 bytes)
+/Users/carlsamson/.m2/repository/javax/transaction/jta/1.1/jta-1.1.jar(15071 bytes)
+/Users/carlsamson/.m2/repository/javax/validation/validation-api/1.0.0.GA/validation-api-1.0.0.GA.jar(47433 bytes)
+/Users/carlsamson/.m2/repository/javax/ws/rs/jsr311-api/1.1.1/jsr311-api-1.1.1.jar(46367 bytes)
+/Users/carlsamson/.m2/repository/jdom/jdom/1.0/jdom-1.0.jar(153253 bytes)
+/Users/carlsamson/.m2/repository/jgroups/jgroups/2.6.13.GA/jgroups-2.6.13.GA.jar(2123983 bytes)
+/Users/carlsamson/.m2/repository/joda-time/joda-time/2.0/joda-time-2.0.jar(569231 bytes)
+/Users/carlsamson/.m2/repository/junit/junit/4.8.2/junit-4.8.2.jar(237344 bytes)
+/Users/carlsamson/.m2/repository/log4j/log4j/1.2.16/log4j-1.2.16.jar(481535 bytes)
+/Users/carlsamson/.m2/repository/mysql/mysql-connector-java/5.1.31/mysql-connector-java-5.1.31.jar(964879 bytes)
+/Users/carlsamson/.m2/repository/net/java/dev/rome/rome/1.0.0/rome-1.0.0.jar(220277 bytes)
+/Users/carlsamson/.m2/repository/net/sf/ehcache/ehcache/1.5.0/ehcache-1.5.0.jar(264400 bytes)
+/Users/carlsamson/.m2/repository/net/sf/jsr107cache/jsr107cache/1.0/jsr107cache-1.0.jar(8277 bytes)
+/Users/carlsamson/.m2/repository/net/tanesha/recaptcha4j/recaptcha4j/0.0.7/recaptcha4j-0.0.7.jar(10245 bytes)
+/Users/carlsamson/.m2/repository/org/antlr/antlr/3.3/antlr-3.3.jar(897071 bytes)
+/Users/carlsamson/.m2/repository/org/antlr/antlr-runtime/3.5/antlr-runtime-3.5.jar(167735 bytes)
+/Users/carlsamson/.m2/repository/org/antlr/stringtemplate/3.2.1/stringtemplate-3.2.1.jar(148627 bytes)
+/Users/carlsamson/.m2/repository/org/apache/commons/commons-collections4/4.0/commons-collections4-4.0.jar(610259 bytes)
+/Users/carlsamson/.m2/repository/org/apache/commons/commons-lang3/3.0/commons-lang3-3.0.jar(306008 bytes)
+/Users/carlsamson/.m2/repository/org/apache/httpcomponents/httpasyncclient/4.0.2/httpasyncclient-4.0.2.jar(157851 bytes)
+/Users/carlsamson/.m2/repository/org/apache/httpcomponents/httpclient/4.4/httpclient-4.4.jar(719304 bytes)
+/Users/carlsamson/.m2/repository/org/apache/httpcomponents/httpcore/4.4/httpcore-4.4.jar(321639 bytes)
+/Users/carlsamson/.m2/repository/org/apache/httpcomponents/httpcore-nio/4.4/httpcore-nio-4.4.jar(355662 bytes)
+/Users/carlsamson/.m2/repository/org/apache/lucene/lucene-analyzers-common/4.10.4/lucene-analyzers-common-4.10.4.jar(1699875 bytes)
+/Users/carlsamson/.m2/repository/org/apache/lucene/lucene-core/4.10.4/lucene-core-4.10.4.jar(2563490 bytes)
+/Users/carlsamson/.m2/repository/org/apache/lucene/lucene-grouping/4.10.4/lucene-grouping-4.10.4.jar(107784 bytes)
+/Users/carlsamson/.m2/repository/org/apache/lucene/lucene-highlighter/4.10.4/lucene-highlighter-4.10.4.jar(138282 bytes)
+/Users/carlsamson/.m2/repository/org/apache/lucene/lucene-join/4.10.4/lucene-join-4.10.4.jar(64021 bytes)
+/Users/carlsamson/.m2/repository/org/apache/lucene/lucene-memory/4.10.4/lucene-memory-4.10.4.jar(36078 bytes)
+/Users/carlsamson/.m2/repository/org/apache/lucene/lucene-misc/4.10.4/lucene-misc-4.10.4.jar(97173 bytes)
+/Users/carlsamson/.m2/repository/org/apache/lucene/lucene-queries/4.10.4/lucene-queries-4.10.4.jar(213029 bytes)
+/Users/carlsamson/.m2/repository/org/apache/lucene/lucene-queryparser/4.10.4/lucene-queryparser-4.10.4.jar(391515 bytes)
+/Users/carlsamson/.m2/repository/org/apache/lucene/lucene-sandbox/4.10.4/lucene-sandbox-4.10.4.jar(119449 bytes)
+/Users/carlsamson/.m2/repository/org/apache/lucene/lucene-spatial/4.10.4/lucene-spatial-4.10.4.jar(126794 bytes)
+/Users/carlsamson/.m2/repository/org/apache/lucene/lucene-suggest/4.10.4/lucene-suggest-4.10.4.jar(179011 bytes)
+/Users/carlsamson/.m2/repository/org/apache/poi/poi/3.9/poi-3.9.jar(1869113 bytes)
+/Users/carlsamson/.m2/repository/org/apache/poi/poi-ooxml/3.9/poi-ooxml-3.9.jar(936648 bytes)
+/Users/carlsamson/.m2/repository/org/apache/poi/poi-ooxml-schemas/3.9/poi-ooxml-schemas-3.9.jar(4802621 bytes)
+/Users/carlsamson/.m2/repository/org/apache/tiles/tiles-api/2.1.2/tiles-api-2.1.2.jar(25891 bytes)
+/Users/carlsamson/.m2/repository/org/apache/tiles/tiles-core/2.1.2/tiles-core-2.1.2.jar(135084 bytes)
+/Users/carlsamson/.m2/repository/org/apache/tiles/tiles-jsp/2.1.2/tiles-jsp-2.1.2.jar(55071 bytes)
+/Users/carlsamson/.m2/repository/org/apache/tiles/tiles-servlet/2.1.2/tiles-servlet-2.1.2.jar(53051 bytes)
+/Users/carlsamson/.m2/repository/org/apache/xmlbeans/xmlbeans/2.3.0/xmlbeans-2.3.0.jar(2666695 bytes)
+/Users/carlsamson/.m2/repository/org/aspectj/aspectjrt/1.6.10/aspectjrt-1.6.10.jar(116226 bytes)
+/Users/carlsamson/.m2/repository/org/aspectj/aspectjweaver/1.5.4/aspectjweaver-1.5.4.jar(1894165 bytes)
+/Users/carlsamson/.m2/repository/org/codehaus/jackson/jackson-core-asl/1.9.13/jackson-core-asl-1.9.13.jar(232248 bytes)
+/Users/carlsamson/.m2/repository/org/codehaus/jackson/jackson-mapper-asl/1.9.13/jackson-mapper-asl-1.9.13.jar(780664 bytes)
+/Users/carlsamson/.m2/repository/org/drools/drools-compiler/5.6.0.Final/drools-compiler-5.6.0.Final.jar(1212410 bytes)
+/Users/carlsamson/.m2/repository/org/drools/drools-core/5.6.0.Final/drools-core-5.6.0.Final.jar(3042927 bytes)
+/Users/carlsamson/.m2/repository/org/drools/drools-decisiontables/5.6.0.Final/drools-decisiontables-5.6.0.Final.jar(58433 bytes)
+/Users/carlsamson/.m2/repository/org/drools/drools-spring/5.6.0.Final/drools-spring-5.6.0.Final.jar(97024 bytes)
+/Users/carlsamson/.m2/repository/org/drools/drools-templates/5.6.0.Final/drools-templates-5.6.0.Final.jar(54959 bytes)
+/Users/carlsamson/.m2/repository/org/drools/knowledge-api/5.6.0.Final/knowledge-api-5.6.0.Final.jar(186690 bytes)
+/Users/carlsamson/.m2/repository/org/drools/knowledge-internal-api/5.6.0.Final/knowledge-internal-api-5.6.0.Final.jar(9918 bytes)
+/Users/carlsamson/.m2/repository/org/eclipse/jdt/core/compiler/ecj/3.5.1/ecj-3.5.1.jar(1674737 bytes)
+/Users/carlsamson/.m2/repository/org/elasticsearch/elasticsearch/1.5.2/elasticsearch-1.5.2.jar(13774099 bytes)
+/Users/carlsamson/.m2/repository/org/freemarker/freemarker/2.3.19/freemarker-2.3.19.jar(931168 bytes)
+/Users/carlsamson/.m2/repository/org/glassfish/web/jstl-impl/1.2/jstl-impl-1.2.jar(391957 bytes)
+/Users/carlsamson/.m2/repository/org/hibernate/hibernate-core/4.1.2/hibernate-core-4.1.2.jar(4401198 bytes)
+/Users/carlsamson/.m2/repository/org/hibernate/hibernate-ehcache/3.5.1-Final/hibernate-ehcache-3.5.1-Final.jar(9478 bytes)
+/Users/carlsamson/.m2/repository/org/hibernate/hibernate-entitymanager/4.1.2/hibernate-entitymanager-4.1.2.jar(478017 bytes)
+/Users/carlsamson/.m2/repository/org/hibernate/hibernate-validator/4.1.0.Final/hibernate-validator-4.1.0.Final.jar(287706 bytes)
+/Users/carlsamson/.m2/repository/org/hibernate/common/hibernate-commons-annotations/4.0.1.Final/hibernate-commons-annotations-4.0.1.Final.jar(81271 bytes)
+/Users/carlsamson/.m2/repository/org/hibernate/javax/persistence/hibernate-jpa-2.0-api/1.0.1.Final/hibernate-jpa-2.0-api-1.0.1.Final.jar(102661 bytes)
+/Users/carlsamson/.m2/repository/org/infinispan/infinispan-cachestore-jdbc/5.3.0.Final/infinispan-cachestore-jdbc-5.3.0.Final.jar(156144 bytes)
+/Users/carlsamson/.m2/repository/org/infinispan/infinispan-core/5.3.0.Final/infinispan-core-5.3.0.Final.jar(2662427 bytes)
+/Users/carlsamson/.m2/repository/org/infinispan/infinispan-tree/5.3.0.Final/infinispan-tree-5.3.0.Final.jar(67325 bytes)
+/Users/carlsamson/.m2/repository/org/jadira/usertype/usertype.core/3.0.0.CR1/usertype.core-3.0.0.CR1.jar(115449 bytes)
+/Users/carlsamson/.m2/repository/org/jadira/usertype/usertype.spi/3.0.0.CR1/usertype.spi-3.0.0.CR1.jar(33474 bytes)
+/Users/carlsamson/.m2/repository/org/jboss/jboss-common-core/2.2.14.GA/jboss-common-core-2.2.14.GA.jar(542693 bytes)
+/Users/carlsamson/.m2/repository/org/jboss/staxmapper/1.1.0.Final/staxmapper-1.1.0.Final.jar(36001 bytes)
+/Users/carlsamson/.m2/repository/org/jboss/cache/jbosscache-core/3.2.5.GA/jbosscache-core-3.2.5.GA.jar(1169975 bytes)
+/Users/carlsamson/.m2/repository/org/jboss/javaee/jboss-transaction-api/1.0.1.GA/jboss-transaction-api-1.0.1.GA.jar(10899 bytes)
+/Users/carlsamson/.m2/repository/org/jboss/logging/jboss-logging/3.1.0.GA/jboss-logging-3.1.0.GA.jar(60768 bytes)
+/Users/carlsamson/.m2/repository/org/jboss/logging/jboss-logging-spi/2.0.5.GA/jboss-logging-spi-2.0.5.GA.jar(11924 bytes)
+/Users/carlsamson/.m2/repository/org/jboss/marshalling/jboss-marshalling/1.3.15.GA/jboss-marshalling-1.3.15.GA.jar(229949 bytes)
+/Users/carlsamson/.m2/repository/org/jboss/marshalling/jboss-marshalling-river/1.3.15.GA/jboss-marshalling-river-1.3.15.GA.jar(82089 bytes)
+/Users/carlsamson/.m2/repository/org/jboss/spec/javax/transaction/jboss-transaction-api_1.1_spec/1.0.0.Final/jboss-transaction-api_1.1_spec-1.0.0.Final.jar(11209 bytes)
+/Users/carlsamson/.m2/repository/org/jgroups/jgroups/3.3.1.Final/jgroups-3.3.1.Final.jar(2079265 bytes)
+/Users/carlsamson/.m2/repository/org/joda/joda-money/0.6/joda-money-0.6.jar(53925 bytes)
+/Users/carlsamson/.m2/repository/org/jopendocument/jOpenDocument/1.3b1/jOpenDocument-1.3b1.jar(2957693 bytes)
+/Users/carlsamson/.m2/repository/org/mvel/mvel2/2.1.8.Final/mvel2-2.1.8.Final.jar(746671 bytes)
+/Users/carlsamson/.m2/repository/org/ow2/asm/asm/4.2/asm-4.2.jar(47895 bytes)
+/Users/carlsamson/.m2/repository/org/ow2/asm/asm-commons/4.1/asm-commons-4.1.jar(38090 bytes)
+/Users/carlsamson/.m2/repository/org/slf4j/jcl-over-slf4j/1.6.6/jcl-over-slf4j-1.6.6.jar(17289 bytes)
+/Users/carlsamson/.m2/repository/org/slf4j/slf4j-api/1.6.6/slf4j-api-1.6.6.jar(26176 bytes)
+/Users/carlsamson/.m2/repository/org/slf4j/slf4j-log4j12/1.6.6/slf4j-log4j12-1.6.6.jar(9711 bytes)
+/Users/carlsamson/.m2/repository/org/springframework/spring-aop/3.1.0.RELEASE/spring-aop-3.1.0.RELEASE.jar(331474 bytes)
+/Users/carlsamson/.m2/repository/org/springframework/spring-asm/3.1.0.RELEASE/spring-asm-3.1.0.RELEASE.jar(53079 bytes)
+/Users/carlsamson/.m2/repository/org/springframework/spring-aspects/3.1.0.RELEASE/spring-aspects-3.1.0.RELEASE.jar(50621 bytes)
+/Users/carlsamson/.m2/repository/org/springframework/spring-beans/3.1.0.RELEASE/spring-beans-3.1.0.RELEASE.jar(589253 bytes)
+/Users/carlsamson/.m2/repository/org/springframework/spring-context/3.1.0.RELEASE/spring-context-3.1.0.RELEASE.jar(829601 bytes)
+/Users/carlsamson/.m2/repository/org/springframework/spring-context-support/3.1.0.RELEASE/spring-context-support-3.1.0.RELEASE.jar(106819 bytes)
+/Users/carlsamson/.m2/repository/org/springframework/spring-core/3.1.0.RELEASE/spring-core-3.1.0.RELEASE.jar(442400 bytes)
+/Users/carlsamson/.m2/repository/org/springframework/spring-expression/3.1.0.RELEASE/spring-expression-3.1.0.RELEASE.jar(176283 bytes)
+/Users/carlsamson/.m2/repository/org/springframework/spring-jdbc/3.0.7.RELEASE/spring-jdbc-3.0.7.RELEASE.jar(386083 bytes)
+/Users/carlsamson/.m2/repository/org/springframework/spring-orm/3.1.0.RELEASE/spring-orm-3.1.0.RELEASE.jar(378235 bytes)
+/Users/carlsamson/.m2/repository/org/springframework/spring-test/3.1.0.RELEASE/spring-test-3.1.0.RELEASE.jar(229729 bytes)
+/Users/carlsamson/.m2/repository/org/springframework/spring-tx/3.1.0.RELEASE/spring-tx-3.1.0.RELEASE.jar(246036 bytes)
+/Users/carlsamson/.m2/repository/org/springframework/spring-web/3.1.0.RELEASE/spring-web-3.1.0.RELEASE.jar(540819 bytes)
+/Users/carlsamson/.m2/repository/org/springframework/spring-webmvc/3.1.0.RELEASE/spring-webmvc-3.1.0.RELEASE.jar(572266 bytes)
+/Users/carlsamson/.m2/repository/org/springframework/mobile/spring-mobile-device/1.1.0.RELEASE/spring-mobile-device-1.1.0.RELEASE.jar(44096 bytes)
+/Users/carlsamson/.m2/repository/org/springframework/security/spring-security-acl/3.1.4.RELEASE/spring-security-acl-3.1.4.RELEASE.jar(79531 bytes)
+/Users/carlsamson/.m2/repository/org/springframework/security/spring-security-config/3.1.4.RELEASE/spring-security-config-3.1.4.RELEASE.jar(203691 bytes)
+/Users/carlsamson/.m2/repository/org/springframework/security/spring-security-core/3.1.4.RELEASE/spring-security-core-3.1.4.RELEASE.jar(340298 bytes)
+/Users/carlsamson/.m2/repository/org/springframework/security/spring-security-taglibs/3.1.4.RELEASE/spring-security-taglibs-3.1.4.RELEASE.jar(20980 bytes)
+/Users/carlsamson/.m2/repository/org/springframework/security/spring-security-web/3.1.4.RELEASE/spring-security-web-3.1.4.RELEASE.jar(253827 bytes)
+/Users/carlsamson/.m2/repository/stax/stax-api/1.0.1/stax-api-1.0.1.jar(26514 bytes)
+/Users/carlsamson/.m2/repository/xmlpull/xmlpull/1.1.3.1/xmlpull-1.1.3.1.jar(7188 bytes)
+/Users/carlsamson/.m2/repository/xpp3/xpp3_min/1.1.4c/xpp3_min-1.1.4c.jar(24956 bytes)
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/target/classes(1 entries)
+---- Compiler Messages ---
+info directory classpath entry does not exist: /Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib/sunrsasign.jar
+info zipfile classpath entry does not exist: /Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/classes
+info Pipelining compilation
+error at (no source information available)
+/Users/carlsamson/Documents/dev/workspaces/shopizer-exotika/shopizer/sm-shop/src/main/java/com/salesmanager/web/admin/controller/configurations/CacheController.java:0::0 Internal compiler error
+org.aspectj.apache.bcel.classfile.ClassFormatException: File: 'java/lang/CharSequence.class': Invalid byte tag in constant pool: 18
+	at org.aspectj.apache.bcel.classfile.ClassParser.readConstantPool(ClassParser.java:192)
+	at org.aspectj.apache.bcel.classfile.ClassParser.parse(ClassParser.java:131)
+	at org.aspectj.weaver.bcel.BcelWorld.lookupJavaClass(BcelWorld.java:424)
+	at org.aspectj.weaver.bcel.BcelWorld.resolveDelegate(BcelWorld.java:376)
+	at org.aspectj.weaver.World.resolveToReferenceType(World.java:461)
+	at org.aspectj.weaver.World.resolve(World.java:305)
+	at org.aspectj.weaver.World.resolve(World.java:218)
+	at org.aspectj.weaver.bcel.BcelObjectType.getDeclaredInterfaces(BcelObjectType.java:266)
+	at org.aspectj.weaver.ReferenceType.getDeclaredInterfaces(ReferenceType.java:624)
+	at org.aspectj.weaver.ResolvedType.getDirectSupertypes(ResolvedType.java:76)
+	at org.aspectj.weaver.ResolvedType.collectInterTypeMungers(ResolvedType.java:1390)
+	at org.aspectj.weaver.ResolvedType.getInterTypeMungersIncludingSupers(ResolvedType.java:1371)
+	at org.aspectj.weaver.ResolvedType.checkInterTypeMungers(ResolvedType.java:1442)
+	at org.aspectj.ajdt.internal.compiler.lookup.AjLookupEnvironment.weaveInterTypeDeclarations(AjLookupEnvironment.java:809)
+	at org.aspectj.ajdt.internal.compiler.lookup.AjLookupEnvironment.weaveInterTypeDeclarations(AjLookupEnvironment.java:652)
+	at org.aspectj.ajdt.internal.compiler.lookup.AjLookupEnvironment.doPendingWeaves(AjLookupEnvironment.java:427)
+	at org.aspectj.ajdt.internal.compiler.lookup.AjLookupEnvironment.completeTypeBindings(AjLookupEnvironment.java:213)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.Compiler.internalBeginToCompile(Compiler.java:616)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.Compiler.beginToCompile(Compiler.java:357)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.Compiler.compile(Compiler.java:371)
+	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.performCompilation(AjBuildManager.java:1021)
+	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.performBuild(AjBuildManager.java:268)
+	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.batchBuild(AjBuildManager.java:181)
+	at org.aspectj.ajdt.ajc.AjdtCommand.doCommand(AjdtCommand.java:112)
+	at org.aspectj.ajdt.ajc.AjdtCommand.runCommand(AjdtCommand.java:60)
+	at org.aspectj.tools.ajc.Main.run(Main.java:371)
+	at org.aspectj.tools.ajc.Main.runMain(Main.java:248)
+	at org.codehaus.mojo.aspectj.AbstractAjcCompiler.execute(AbstractAjcCompiler.java:360)
+	at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo(DefaultBuildPluginManager.java:134)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:208)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:153)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:145)
+	at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:116)
+	at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:80)
+	at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build(SingleThreadedBuilder.java:51)
+	at org.apache.maven.lifecycle.internal.LifecycleStarter.execute(LifecycleStarter.java:128)
+	at org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:307)
+	at org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:193)
+	at org.apache.maven.DefaultMaven.execute(DefaultMaven.java:106)
+	at org.apache.maven.cli.MavenCli.execute(MavenCli.java:862)
+	at org.apache.maven.cli.MavenCli.doMain(MavenCli.java:286)
+	at org.apache.maven.cli.MavenCli.main(MavenCli.java:197)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced(Launcher.java:289)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.launch(Launcher.java:229)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode(Launcher.java:415)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.main(Launcher.java:356)
+
+abort ABORT -- (ClassFormatException) File: 'java/lang/CharSequence.class': Invalid byte tag in constant pool: 18
+File: 'java/lang/CharSequence.class': Invalid byte tag in constant pool: 18
+org.aspectj.apache.bcel.classfile.ClassFormatException: File: 'java/lang/CharSequence.class': Invalid byte tag in constant pool: 18
+	at org.aspectj.apache.bcel.classfile.ClassParser.readConstantPool(ClassParser.java:192)
+	at org.aspectj.apache.bcel.classfile.ClassParser.parse(ClassParser.java:131)
+	at org.aspectj.weaver.bcel.BcelWorld.lookupJavaClass(BcelWorld.java:424)
+	at org.aspectj.weaver.bcel.BcelWorld.resolveDelegate(BcelWorld.java:376)
+	at org.aspectj.weaver.World.resolveToReferenceType(World.java:461)
+	at org.aspectj.weaver.World.resolve(World.java:305)
+	at org.aspectj.weaver.World.resolve(World.java:218)
+	at org.aspectj.weaver.bcel.BcelObjectType.getDeclaredInterfaces(BcelObjectType.java:266)
+	at org.aspectj.weaver.ReferenceType.getDeclaredInterfaces(ReferenceType.java:624)
+	at org.aspectj.weaver.ResolvedType.getDirectSupertypes(ResolvedType.java:76)
+	at org.aspectj.weaver.ResolvedType.collectInterTypeMungers(ResolvedType.java:1390)
+	at org.aspectj.weaver.ResolvedType.getInterTypeMungersIncludingSupers(ResolvedType.java:1371)
+	at org.aspectj.weaver.ResolvedType.checkInterTypeMungers(ResolvedType.java:1442)
+	at org.aspectj.ajdt.internal.compiler.lookup.AjLookupEnvironment.weaveInterTypeDeclarations(AjLookupEnvironment.java:809)
+	at org.aspectj.ajdt.internal.compiler.lookup.AjLookupEnvironment.weaveInterTypeDeclarations(AjLookupEnvironment.java:652)
+	at org.aspectj.ajdt.internal.compiler.lookup.AjLookupEnvironment.doPendingWeaves(AjLookupEnvironment.java:427)
+	at org.aspectj.ajdt.internal.compiler.lookup.AjLookupEnvironment.completeTypeBindings(AjLookupEnvironment.java:213)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.Compiler.internalBeginToCompile(Compiler.java:616)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.Compiler.beginToCompile(Compiler.java:357)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.Compiler.compile(Compiler.java:371)
+	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.performCompilation(AjBuildManager.java:1021)
+	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.performBuild(AjBuildManager.java:268)
+	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.batchBuild(AjBuildManager.java:181)
+	at org.aspectj.ajdt.ajc.AjdtCommand.doCommand(AjdtCommand.java:112)
+	at org.aspectj.ajdt.ajc.AjdtCommand.runCommand(AjdtCommand.java:60)
+	at org.aspectj.tools.ajc.Main.run(Main.java:371)
+	at org.aspectj.tools.ajc.Main.runMain(Main.java:248)
+	at org.codehaus.mojo.aspectj.AbstractAjcCompiler.execute(AbstractAjcCompiler.java:360)
+	at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo(DefaultBuildPluginManager.java:134)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:208)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:153)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:145)
+	at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:116)
+	at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:80)
+	at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build(SingleThreadedBuilder.java:51)
+	at org.apache.maven.lifecycle.internal.LifecycleStarter.execute(LifecycleStarter.java:128)
+	at org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:307)
+	at org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:193)
+	at org.apache.maven.DefaultMaven.execute(DefaultMaven.java:106)
+	at org.apache.maven.cli.MavenCli.execute(MavenCli.java:862)
+	at org.apache.maven.cli.MavenCli.doMain(MavenCli.java:286)
+	at org.apache.maven.cli.MavenCli.main(MavenCli.java:197)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced(Launcher.java:289)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.launch(Launcher.java:229)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode(Launcher.java:415)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.main(Launcher.java:356)
+

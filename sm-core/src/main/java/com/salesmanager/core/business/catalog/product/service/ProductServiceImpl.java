@@ -188,6 +188,10 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 	public Product getByCode(String productCode, Language language) {
 		return productDao.getByCode(productCode, language);
 	}
+	
+	public Product getByCode(String productCode) {
+		return productDao.getByCode(productCode);
+	}
 		
 
 

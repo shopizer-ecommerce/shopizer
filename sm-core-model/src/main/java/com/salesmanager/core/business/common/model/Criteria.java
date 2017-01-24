@@ -1,5 +1,7 @@
 package com.salesmanager.core.business.common.model;
 
+import java.util.List;
+
 public class Criteria {
 	
 	private int startIndex = 0;

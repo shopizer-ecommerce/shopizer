@@ -73,6 +73,9 @@ public class Category extends SalesManagerEntity<Long, Category> implements Audi
 
 	@Column(name = "VISIBLE")
 	private boolean visible;
+	
+	@Column(name = "HIDEPRODUCTS")
+	private boolean hideProducts;
 
 	@Column(name = "DEPTH")
 	private Integer depth;
@@ -210,4 +213,16 @@ public class Category extends SalesManagerEntity<Long, Category> implements Audi
 		
 		return null;
 	}
+
+	public boolean isHideProducts() {
+		return hideProducts;
+	}
+
+	public void setHideProducts(boolean hideProducts) {
+		this.hideProducts = hideProducts;
+	}
+
+
+
+
 }

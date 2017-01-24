@@ -61,6 +61,12 @@ response.setDateHeader ("Expires", -1);
 </script>
 </script>
  
+<!-- FACEBOOK PIXEL --> 
+<script>
+fbq('track', 'Search', {
+   search_string: '<c:out value="${q}"/>'
+});
+</script>
 
  
  <script>

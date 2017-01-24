@@ -60,4 +60,5 @@ public abstract class CatalogEntity extends ShopEntity implements Serializable {
 		this.title = title;
 	}
 
+
 }

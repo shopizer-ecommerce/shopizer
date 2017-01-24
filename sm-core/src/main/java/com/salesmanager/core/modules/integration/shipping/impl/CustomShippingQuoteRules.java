@@ -1,6 +1,7 @@
 package com.salesmanager.core.modules.integration.shipping.impl;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -108,6 +109,11 @@ public class CustomShippingQuoteRules implements ShippingQuoteModule {
 			}
 		}
 		
+		BigDecimal price = orderTotal;
+		price.setScale(2, RoundingMode.UP);
+		
+		int intPrice = price.intValue();
+		
 		//Build a ShippingInputParameters
 		ShippingInputParameters inputParameters = new ShippingInputParameters();
 		
@@ -115,6 +121,7 @@ public class CustomShippingQuoteRules implements ShippingQuoteModule {
 		inputParameters.setCountry(delivery.getCountry().getIsoCode());
 		inputParameters.setProvince("*");
 		inputParameters.setModuleName(module.getCode());
+		inputParameters.setPrice(intPrice);
 		
 		if(delivery.getZone().getCode()!=null) {
 			inputParameters.setProvince(delivery.getZone().getCode());

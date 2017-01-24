@@ -6,6 +6,16 @@
 
 <script src="<c:url value="/resources/js/jquery.alphanumeric.pack.js" />"></script>
 
+<!-- FACEBOOK PIXEL --> 
+<c:if test="${not empty cart}">
+<script>
+  fbq('track', 'AddToCart', {
+    value: <c:out value="${cart.total}"/>,
+    currency: 'CAD'
+});
+</script>
+</c:if>
+
 
 
 <c:url value="/shop/cart/removeShoppingCartItem.html"

@@ -19,7 +19,7 @@
 		<bean id="shippingDistancePreProcessor"
 			class="com.shopizer.modules.shipping.distance.ShippingDistancePreProcessorImpl">
 			<!-- Google API key -->
-			<property name="apiKey" value="YOUR_KEY_HERE"/>
+			<property name="apiKey" value="AIzaSyCFqjgSH_6_ktwKLcVi-IRojLx2iRWlcig"/>
 			<property name="allowedZonesCodes" ref="acceptedZones"/>
 		</bean>
 		
@@ -33,12 +33,13 @@
 		<!-- Shipping post-processors -->
 		<util:list id="shippingModulePostProcessors" value-type="com.salesmanager.core.modules.integration.shipping.model.ShippingQuotePrePostProcessModule">
 			<ref bean="storePickUp"/><!-- defined in core-modules -->
+			<ref bean="shippingAjustment"/><!-- defined in core-modules -->
 		</util:list>
 		
 		<!-- List of accepted zones for using shipping distance pre processor -->
 		<util:list id="acceptedZones" value-type="java.lang.String">
-			<value>NY</value>
-			<value>NJ</value>
-    	        </util:list>
+			<value>QC</value>
+			<value>ON</value>
+    	</util:list>
 	
 </beans>

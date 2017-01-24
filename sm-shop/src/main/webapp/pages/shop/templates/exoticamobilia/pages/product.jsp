@@ -11,6 +11,15 @@ response.setDateHeader ("Expires", -1);
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="/WEB-INF/shopizer-tags.tld" prefix="sm" %> 
+
+<!-- FACEBOOK PIXEL -->
+<script>
+   fbq('track', 'ViewContent', {
+     value: <c:out value="${product.price}"/>,
+     currency: 'CAD'
+});
+</script>
+
  
 <%@page contentType="text/html"%>
 <%@page pageEncoding="UTF-8"%>

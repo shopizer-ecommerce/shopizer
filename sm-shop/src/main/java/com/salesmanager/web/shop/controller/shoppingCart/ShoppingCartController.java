@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,6 +29,7 @@ import com.salesmanager.core.business.catalog.product.service.ProductService;
 import com.salesmanager.core.business.catalog.product.service.attribute.ProductAttributeService;
 import com.salesmanager.core.business.customer.model.Customer;
 import com.salesmanager.core.business.merchant.model.MerchantStore;
+import com.salesmanager.core.business.merchant.service.MerchantStoreService;
 import com.salesmanager.core.business.order.service.OrderService;
 import com.salesmanager.core.business.reference.language.model.Language;
 import com.salesmanager.core.business.shoppingcart.service.ShoppingCartService;
@@ -36,6 +39,7 @@ import com.salesmanager.web.constants.Constants;
 import com.salesmanager.web.entity.shop.PageInformation;
 import com.salesmanager.web.entity.shoppingcart.ShoppingCartData;
 import com.salesmanager.web.entity.shoppingcart.ShoppingCartItem;
+import com.salesmanager.web.services.controller.product.ProductItemsRESTController;
 import com.salesmanager.web.shop.controller.AbstractController;
 import com.salesmanager.web.shop.controller.ControllerConstants;
 import com.salesmanager.web.shop.controller.shoppingCart.facade.ShoppingCartFacade;
@@ -99,6 +103,9 @@ public class ShoppingCartController extends AbstractController {
 
 	@Autowired
 	private ProductAttributeService productAttributeService;
+	
+	@Autowired
+	private MerchantStoreService merchantStoreService;
 
 	@Autowired
 	private PricingService pricingService;
@@ -120,6 +127,8 @@ public class ShoppingCartController extends AbstractController {
 	
 	@Autowired
 	private LanguageUtils languageUtils;
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(ShoppingCartController.class);
 	
 	
 
@@ -218,6 +227,92 @@ public class ShoppingCartController extends AbstractController {
 		//AjaxResponse resp = new AjaxResponse();
 		//resp.setStatus(AjaxResponse.RESPONSE_STATUS_SUCCESS);
 		return shoppingCart;
+
+	}
+    
+    /**
+     * Method that can be used remotely to create a new shopping cart instance
+     * //DEFAULT/addItemToCart.html?sku=123456&qty=1
+     * @param storeCode
+     * @param request
+     * @param response
+     * @param locale
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value={"/{storeCode}/addItemToCart.html"}, method=RequestMethod.GET)
+	public String addCartItem(@PathVariable String storeCode, final HttpServletRequest request, final HttpServletResponse response, final Locale locale) throws Exception {
+
+
+		ShoppingCartData shoppingCart=null;
+		
+		MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
+
+		
+		if(merchantStore!=null) {
+			if(!merchantStore.getCode().equals(storeCode)) {
+				merchantStore = null; //reset for the current request
+			}
+		}
+		
+		if(merchantStore== null) {
+			merchantStore = merchantStoreService.getByCode(storeCode);
+		}
+		
+		if(merchantStore==null) {
+			LOGGER.error("Merchant store is null for code " + storeCode);
+			throw new Exception("Merchant store " + storeCode + " does not exist");
+		}
+		
+		//get quantity
+		String sku = (String)request.getParameter("sku");
+		String qty = (String)request.getParameter("qty");
+		
+		if(StringUtils.isBlank(sku)) {
+			LOGGER.error("sku parameter not set in the request");
+			throw new Exception("sku parameter not set in the request, add ?sku=");
+		}
+		
+		int quantity = 1;
+		
+		if(!StringUtils.isBlank(qty)) {
+			try {
+				quantity = Integer.parseInt(qty);
+			} catch(Exception e) {
+				LOGGER.error("Cannot transform " + qty + " to integer");
+			}
+		}
+		
+		ShoppingCartItem item = new ShoppingCartItem();
+		item.setProductCode(sku);
+		item.setQuantity(quantity);
+
+
+		//create a new cart
+		shoppingCart = new ShoppingCartData();
+		String code = UUID.randomUUID().toString().replaceAll("-", "");
+		shoppingCart.setCode(code);
+
+
+		shoppingCart=shoppingCartFacade.addItemsToShoppingCart( shoppingCart, item, merchantStore, merchantStore.getDefaultLanguage(), null );
+		
+		if(shoppingCart == null) {
+			LOGGER.error("Cannot create shopping cart");
+			throw new Exception("Cannot create shopping cart");
+		}
+		
+		request.getSession().setAttribute(Constants.SHOPPING_CART, shoppingCart.getCode());
+
+        //set cart in the cookie
+        Cookie c = new Cookie(Constants.COOKIE_NAME_CART, shoppingCart.getCode());
+        c.setMaxAge(60 * 24 * 3600);
+        c.setPath(Constants.SLASH);
+        response.addCookie(c);
+
+
+
+		//redirect to cart
+		return "redirect:/shop/cart/shoppingCart.html";
 
 	}
 

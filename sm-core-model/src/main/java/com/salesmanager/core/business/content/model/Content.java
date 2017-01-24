@@ -25,10 +25,12 @@ import javax.validation.Valid;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.salesmanager.core.business.catalog.product.model.relationship.ProductRelationship;
 import com.salesmanager.core.business.common.model.audit.AuditListener;
 import com.salesmanager.core.business.common.model.audit.AuditSection;
 import com.salesmanager.core.business.generic.model.SalesManagerEntity;
 import com.salesmanager.core.business.merchant.model.MerchantStore;
+import com.salesmanager.core.business.reference.country.model.Country;
 import com.salesmanager.core.constants.SchemaConstant;
 
 
@@ -79,6 +81,20 @@ public class Content extends SalesManagerEntity<Long, Content> implements Serial
 	@Column(name = "SORT_ORDER")
 	private Integer sortOrder = 0;
 	
+	//A page can contain one product listing
+	@Column(name = "PRODUCT_GROUP", nullable = true)
+	private String productGroup;
+	
+
+
+	public String getProductGroup() {
+		return productGroup;
+	}
+
+	public void setProductGroup(String productGroup) {
+		this.productGroup = productGroup;
+	}
+
 	@Override
 	public Long getId() {
 		return this.id;

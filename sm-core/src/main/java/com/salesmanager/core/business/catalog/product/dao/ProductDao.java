@@ -44,6 +44,8 @@ public interface ProductDao extends SalesManagerEntityDao<Long, Product> {
 
 	Product getByCode(String productCode, Language language);
 	
+	Product getByCode(String productCode);
+	
 	Product getById(Long id, Language language);
 	
 }

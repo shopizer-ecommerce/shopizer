@@ -46,7 +46,8 @@
 		class="com.salesmanager.core.modules.integration.shipping.impl.StorePickupShippingQuote"/>
 	<bean id="customShippingPriceModule"
 		class="com.salesmanager.core.modules.integration.shipping.impl.CustomShippingQuoteRules"/>
-	
+	<bean id="shippingAjustment"
+		class="com.salesmanager.core.modules.integration.shipping.impl.ShippingPriceAjustment"/>
 	
 	<!-- Default packaging -->
 	<bean id="boxPackaging"

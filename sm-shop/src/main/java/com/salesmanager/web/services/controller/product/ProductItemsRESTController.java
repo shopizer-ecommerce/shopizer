@@ -20,11 +20,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.salesmanager.core.business.catalog.category.service.CategoryService;
+import com.salesmanager.core.business.catalog.product.model.Product;
+import com.salesmanager.core.business.catalog.product.model.relationship.ProductRelationship;
 import com.salesmanager.core.business.catalog.product.service.PricingService;
 import com.salesmanager.core.business.catalog.product.service.ProductService;
 import com.salesmanager.core.business.catalog.product.service.attribute.ProductOptionService;
 import com.salesmanager.core.business.catalog.product.service.attribute.ProductOptionValueService;
 import com.salesmanager.core.business.catalog.product.service.manufacturer.ManufacturerService;
+import com.salesmanager.core.business.catalog.product.service.relationship.ProductRelationshipService;
 import com.salesmanager.core.business.catalog.product.service.review.ProductReviewService;
 import com.salesmanager.core.business.customer.service.CustomerService;
 import com.salesmanager.core.business.merchant.model.MerchantStore;
@@ -39,6 +42,7 @@ import com.salesmanager.web.shop.controller.product.facade.ProductFacade;
 import com.salesmanager.web.shop.model.filter.QueryFilter;
 import com.salesmanager.web.shop.model.filter.QueryFilterType;
 import com.salesmanager.web.utils.ImageFilePath;
+import com.salesmanager.web.utils.LanguageUtils;
 
 /**
  * API to create, read, updat and delete a Product
@@ -90,8 +94,14 @@ public class ProductItemsRESTController {
 	private LanguageService languageService;
 	
 	@Autowired
+	private LanguageUtils languageUtils;
+	
+	@Autowired
 	@Qualifier("img")
 	private ImageFilePath imageUtils;
+	
+	@Autowired
+	ProductRelationshipService productRelationshipService;
 	
 
 	
@@ -163,6 +173,72 @@ public class ProductItemsRESTController {
 			
 			
 			return list;
+		
+		} catch (Exception e) {
+			LOGGER.error("Error while getting products",e);
+			response.sendError(503, "An error occured while retrieving products " + e.getMessage());
+		}
+		
+		return null;
+		
+	}
+	
+	/**
+	 * Query for a product group
+	 * public/products/{store code}/products/group/{id}?lang=fr|en
+	 * no lang it will take session lang or default store lang
+	 * @param store
+	 * @param language
+	 * @param groupCode
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/public/{store}/products/group/{code}")
+	@ResponseBody
+	public ReadableProductList getProductItemsByGroup(@PathVariable String store, @PathVariable final String code, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		try {
+
+			MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
+
+			
+			if(merchantStore!=null) {
+				if(!merchantStore.getCode().equals(store)) {
+					merchantStore = null; //reset for the current request
+				}
+			}
+			
+			if(merchantStore== null) {
+				merchantStore = merchantStoreService.getByCode(store);
+			}
+			
+			if(merchantStore==null) {
+				LOGGER.error("Merchant store is null for code " + store);
+				response.sendError(503, "Merchant store is null for code " + store);//TODO localized message
+				return null;
+			}
+			
+	
+	
+			Language lang = languageUtils.getRESTLanguage(request, merchantStore);
+			
+			//get product group
+			List<ProductRelationship> group = productRelationshipService.getByGroup(merchantStore, code, lang);
+
+			if(group!=null) {
+				List<Long> ids = new ArrayList<Long>();
+				for(ProductRelationship relationship : group) {
+					Product product = relationship.getRelatedProduct();
+					ids.add(product.getId());
+				}
+				
+				ReadableProductList list = productItemsFacade.listItemsByIds(merchantStore, lang, ids, 0, 0);
+				return list;
+			}
+			
+			
 		
 		} catch (Exception e) {
 			LOGGER.error("Error while getting products",e);

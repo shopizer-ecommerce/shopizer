@@ -481,14 +481,20 @@ public class ShoppingCategoryController {
 				return null;
 			}
 			
+			ProductList productList = new ProductList();
+			
 			//get the category by code
 			Category cat = categoryService.getBySeUrl(merchantStore, category);
-
+			
 			if(cat==null) {
 				LOGGER.error("Category with friendly url " + category + " is null");
 				response.sendError(503, "Category is null");//TODO localized message
 			}
 			
+			if(cat.isHideProducts()) {
+				return productList;
+			}
+
 			String lineage = new StringBuilder().append(cat.getLineage()).append(cat.getId()).append("/").toString();
 			
 			List<Category> categories = categoryService.listByLineage(store, lineage);
@@ -507,8 +513,6 @@ public class ShoppingCategoryController {
 			}
 			
 			List<com.salesmanager.core.business.catalog.product.model.Product> products = productService.getProducts(ids, lang);
-			
-			ProductList productList = new ProductList();
 			
 			ReadableProductPopulator populator = new ReadableProductPopulator();
 			populator.setPricingService(pricingService);
@@ -625,6 +629,8 @@ public class ShoppingCategoryController {
 				return null;
 			}
 			
+			ProductList productList = new ProductList();
+			
 			//get the category by code
 			Category cat = categoryService.getBySeUrl(merchantStore, category);
 			
@@ -632,6 +638,10 @@ public class ShoppingCategoryController {
 				LOGGER.error("Category " + category + " is null");
 				response.sendError(503, "Category is null");//TODO localized message
 				return null;
+			}
+			
+			if(cat.isHideProducts()) {
+				return productList;
 			}
 			
 			String lineage = new StringBuilder().append(cat.getLineage()).append(cat.getId()).append("/").toString();
@@ -672,7 +682,7 @@ public class ShoppingCategoryController {
 			populator.setPricingService(pricingService);
 			populator.setimageUtils(imageUtils);
 			
-			ProductList productList = new ProductList();
+			
 			for(Product product : products.getProducts()) {
 
 				//create new proxy product

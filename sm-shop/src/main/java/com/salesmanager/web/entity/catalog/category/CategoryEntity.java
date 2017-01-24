@@ -17,6 +17,7 @@ public class CategoryEntity extends Category implements Serializable {
 	private String lineage;
 	private int depth;
 	private Category parent;
+	private boolean hideProducts;
 	
 
 	public int getSortOrder() {
@@ -48,6 +49,12 @@ public class CategoryEntity extends Category implements Serializable {
 	}
 	public void setParent(Category parent) {
 		this.parent = parent;
+	}
+	public boolean isHideProducts() {
+		return hideProducts;
+	}
+	public void setHideProducts(boolean hideProducts) {
+		this.hideProducts = hideProducts;
 	}
 
 }

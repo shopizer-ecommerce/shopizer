@@ -10,6 +10,7 @@ public class ShippingInputParameters {
 	private long distance;
 	private long size;
 	private String priceQuote;
+	private int price;
 	
 	public String getModuleName() {
 		return moduleName;
@@ -70,6 +71,12 @@ public class ShippingInputParameters {
 	}
 	public void setSize(long size) {
 		this.size = size;
+	}
+	public int getPrice() {
+		return price;
+	}
+	public void setPrice(int price) {
+		this.price = price;
 	}
 
 

@@ -250,7 +250,6 @@ public class ContentDaoImpl extends SalesManagerEntityDaoImpl<Long, Content> imp
 			.leftJoin(qContent.merchantStore).fetch()
 			.where(qContentDescription.seUrl.eq(seUrl)
 			.and(qContent.merchantStore.id.eq(store.getId()))
-			.and(qContent.visible.eq(true))
 		);
 		
 
