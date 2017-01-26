@@ -13,7 +13,7 @@
         <dependent-module archiveName="shopizer-shipping-distance-processor-2.0.5-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/shopizer-shipping-distance-processor/shopizer-shipping-distance-processor">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="shopizer-shipping-canadapost-module-2.0.5-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/shopizer-shipping-canadapost-module/shopizer-shipping-canadapost-module">
+        <dependent-module archiveName="shopizer-shipping-canadapost-module-2.0.5-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/shopizer-canadapost/shopizer-canadapost">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="sm-core-model-2.0.5-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/sm-core-model/sm-core-model">

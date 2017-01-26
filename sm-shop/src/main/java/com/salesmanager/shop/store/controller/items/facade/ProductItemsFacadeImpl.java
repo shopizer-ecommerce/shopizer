@@ -13,6 +13,8 @@ import com.salesmanager.shop.utils.ImageFilePath;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 @Component
@@ -40,6 +42,40 @@ public class ProductItemsFacadeImpl implements ProductItemsFacade {
 		
 
 		productCriteria.setManufacturerId(manufacturerId);
+		com.salesmanager.core.model.catalog.product.ProductList products = productService.listByStore(store, language, productCriteria);
+
+		
+		ReadableProductPopulator populator = new ReadableProductPopulator();
+		populator.setPricingService(pricingService);
+		populator.setimageUtils(imageUtils);
+		
+		
+		ReadableProductList productList = new ReadableProductList();
+		for(Product product : products.getProducts()) {
+
+			//create new proxy product
+			ReadableProduct readProduct = populator.populate(product, new ReadableProduct(), store, language);
+			productList.getProducts().add(readProduct);
+			
+		}
+		
+		productList.setTotalCount(products.getTotalCount());
+		
+		
+		return productList;
+	}
+	
+	@Override
+	public ReadableProductList listItemsByIds(MerchantStore store, Language language, List<Long> ids, int startCount,
+			int maxCount) throws Exception {
+		
+		
+		ProductCriteria productCriteria = new ProductCriteria();
+		productCriteria.setMaxCount(maxCount);
+		productCriteria.setStartIndex(startCount);
+		productCriteria.setProductIds(ids);
+		
+
 		com.salesmanager.core.model.catalog.product.ProductList products = productService.listByStore(store, language, productCriteria);
 
 		

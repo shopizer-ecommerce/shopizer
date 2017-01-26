@@ -38,7 +38,7 @@ public class FilesController extends AbstractController {
 	 * @throws IOException
 	 * @throws ServiceException
 	 */
-	@RequestMapping("/files/{storeCode}/{fileName}.{extension}")
+	@RequestMapping("/static/files/{storeCode}/{fileName}.{extension}")
 	public @ResponseBody byte[] downloadFile(@PathVariable final String storeCode, @PathVariable final String fileName, @PathVariable final String extension, HttpServletRequest request, HttpServletResponse response) throws IOException, ServiceException {
 
 		// example -> /files/<store code>/myfile.css

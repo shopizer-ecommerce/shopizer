@@ -43,11 +43,11 @@
 
     <dependencies>
     
-		<dependency>
+<!-- 		<dependency>
    			<groupId>javax.el</groupId>
    			<artifactId>javax.el-api</artifactId>
    			<version>${javax.el.version}</version>
-		</dependency>
+		</dependency> -->
 
 		<!-- https://mvnrepository.com/artifact/javax.inject/javax.inject -->
 		<dependency>

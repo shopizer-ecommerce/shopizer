@@ -6,11 +6,14 @@ import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductOptionService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductOptionValueService;
 import com.salesmanager.core.business.services.catalog.product.manufacturer.ManufacturerService;
+import com.salesmanager.core.business.services.catalog.product.relationship.ProductRelationshipService;
 import com.salesmanager.core.business.services.catalog.product.review.ProductReviewService;
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.merchant.MerchantStoreService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.business.services.tax.TaxClassService;
+import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.relationship.ProductRelationship;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.constants.Constants;
@@ -18,6 +21,8 @@ import com.salesmanager.shop.model.catalog.product.ReadableProductList;
 import com.salesmanager.shop.store.controller.items.facade.ProductItemsFacade;
 import com.salesmanager.shop.store.controller.product.facade.ProductFacade;
 import com.salesmanager.shop.utils.ImageFilePath;
+import com.salesmanager.shop.utils.LanguageUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +36,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -43,48 +51,54 @@ import java.util.Map;
 @RequestMapping("/services")
 public class ProductItemsRESTController {
 	
-	@Autowired
+	@Inject
 	private MerchantStoreService merchantStoreService;
 	
-	@Autowired
+	@Inject
 	private CategoryService categoryService;
 	
-	@Autowired
+	@Inject
 	private CustomerService customerService;
 	
-	@Autowired
+	@Inject
 	private ProductService productService;
 	
-	@Autowired
+	@Inject
 	private ProductFacade productFacade;
 	
 	@Inject
 	private ProductItemsFacade productItemsFacade;
 	
-	@Autowired
+	@Inject
 	private ProductReviewService productReviewService;
 	
-	@Autowired
+	@Inject
 	private PricingService pricingService;
 
-	@Autowired
+	@Inject
 	private ProductOptionService productOptionService;
 	
-	@Autowired
+	@Inject
 	private ProductOptionValueService productOptionValueService;
 	
-	@Autowired
+	@Inject
 	private TaxClassService taxClassService;
 	
-	@Autowired
+	@Inject
 	private ManufacturerService manufacturerService;
 	
-	@Autowired
+	@Inject
 	private LanguageService languageService;
 	
-	@Autowired
+	@Inject
 	@Qualifier("img")
 	private ImageFilePath imageUtils;
+	
+	@Inject
+	private LanguageUtils languageUtils;
+	
+	@Inject
+	private ProductRelationshipService productRelationshipService;
 	
 
 	
@@ -165,6 +179,73 @@ public class ProductItemsRESTController {
 		return null;
 		
 	}
+	
+	/**
+	 * Query for a product group
+	 * public/products/{store code}/products/group/{id}?lang=fr|en
+	 * no lang it will take session lang or default store lang
+	 * @param store
+	 * @param language
+	 * @param groupCode
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/public/{store}/products/group/{code}")
+	@ResponseBody
+	public ReadableProductList getProductItemsByGroup(@PathVariable String store, @PathVariable final String code, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		try {
+
+			MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
+
+			
+			if(merchantStore!=null) {
+				if(!merchantStore.getCode().equals(store)) {
+					merchantStore = null; //reset for the current request
+				}
+			}
+			
+			if(merchantStore== null) {
+				merchantStore = merchantStoreService.getByCode(store);
+			}
+			
+			if(merchantStore==null) {
+				LOGGER.error("Merchant store is null for code " + store);
+				response.sendError(503, "Merchant store is null for code " + store);//TODO localized message
+				return null;
+			}
+			
+	
+	
+			Language lang = languageUtils.getRESTLanguage(request, merchantStore);
+			
+			//get product group
+			List<ProductRelationship> group = productRelationshipService.getByGroup(merchantStore, code, lang);
+
+			if(group!=null) {
+				List<Long> ids = new ArrayList<Long>();
+				for(ProductRelationship relationship : group) {
+					Product product = relationship.getRelatedProduct();
+					ids.add(product.getId());
+				}
+				
+				ReadableProductList list = productItemsFacade.listItemsByIds(merchantStore, lang, ids, 0, 0);
+				return list;
+			}
+			
+			
+		
+		} catch (Exception e) {
+			LOGGER.error("Error while getting products",e);
+			response.sendError(503, "An error occured while retrieving products " + e.getMessage());
+		}
+		
+		return null;
+		
+	}
+
 	
 
 
