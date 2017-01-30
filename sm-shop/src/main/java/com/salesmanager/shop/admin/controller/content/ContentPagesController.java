@@ -1,8 +1,10 @@
 package com.salesmanager.shop.admin.controller.content;
 
+import com.salesmanager.core.business.services.catalog.product.relationship.ProductRelationshipService;
 import com.salesmanager.core.business.services.content.ContentService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
+import com.salesmanager.core.model.catalog.product.relationship.ProductRelationship;
 import com.salesmanager.core.model.content.Content;
 import com.salesmanager.core.model.content.ContentDescription;
 import com.salesmanager.core.model.content.ContentType;
@@ -11,6 +13,8 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.admin.controller.ControllerConstants;
 import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
+
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +44,9 @@ public class ContentPagesController {
 	
 	@Inject
 	LanguageService languageService;
+	
+	@Inject
+	ProductRelationshipService productRelationshipService;
 	
 	
 	@PreAuthorize("hasRole('CONTENT')")
@@ -72,6 +79,11 @@ public class ContentPagesController {
 			ContentDescription description = new ContentDescription();
 			description.setLanguage(l);
 			content.getDescriptions().add(description);
+		}
+		
+		List<ProductRelationship> relationships = productRelationshipService.getGroups(store);
+		if(!CollectionUtils.isEmpty(relationships)) {
+			model.addAttribute("productGroups", relationships);
 		}
 		
 		
@@ -120,10 +132,13 @@ public class ContentPagesController {
 			}
 		}
 		content.setDescriptions(descriptions);
-		
 		model.addAttribute("content",content);
 		
-
+		List<ProductRelationship> relationships = productRelationshipService.getGroups(store);
+		if(!CollectionUtils.isEmpty(relationships)) {
+			model.addAttribute("productGroups", relationships);
+		}
+		
 		return ControllerConstants.Tiles.Content.contentPagesDetails;
 		
 		
@@ -263,10 +278,15 @@ public class ContentPagesController {
 		if(content.getSortOrder()==null) {
 			content.setSortOrder(0);
 		}
-		
+
 		content.setContentType(ContentType.PAGE);
 		content.setMerchantStore(store);
 		contentService.saveOrUpdate(content);
+		
+		List<ProductRelationship> relationships = productRelationshipService.getGroups(store);
+		if(!CollectionUtils.isEmpty(relationships)) {
+			model.addAttribute("productGroups", relationships);
+		}
 		
 		
 		model.addAttribute("content",content);

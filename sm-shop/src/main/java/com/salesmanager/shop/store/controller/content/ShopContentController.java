@@ -1,12 +1,15 @@
 package com.salesmanager.shop.store.controller.content;
 
 import com.salesmanager.core.business.services.content.ContentService;
+import com.salesmanager.core.model.content.Content;
 import com.salesmanager.core.model.content.ContentDescription;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.shop.PageInformation;
 import com.salesmanager.shop.store.controller.ControllerConstants;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,11 +33,17 @@ public class ShopContentController {
 		
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
 
-		Language language = (Language)request.getAttribute("LANGUAGE");
-		
 		ContentDescription contentDescription = contentService.getBySeUrl(store, friendlyUrl);
 		
+		Content content = null;
+		
 		if(contentDescription!=null) {
+			
+			content = contentDescription.getContent();
+			
+			if(!content.isVisible()) {
+				return "redirect:/shop";
+			}
 			
 			//meta information
 			PageInformation pageInformation = new PageInformation();
@@ -46,11 +55,17 @@ public class ShopContentController {
 			request.setAttribute(Constants.REQUEST_PAGE_INFORMATION, pageInformation);
 			
 			
+			
+			
 		}
 		
 		//TODO breadcrumbs
 		request.setAttribute(Constants.LINK_CODE, contentDescription.getSeUrl());
 		model.addAttribute("content",contentDescription);
+
+		if(!StringUtils.isBlank(content.getProductGroup())) {
+			model.addAttribute("productGroup",content.getProductGroup());
+		}
 		
 		/** template **/
 		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Content.content).append(".").append(store.getStoreTemplate());

@@ -79,6 +79,20 @@ public class Content extends SalesManagerEntity<Long, Content> implements Serial
 	@Column(name = "SORT_ORDER")
 	private Integer sortOrder = 0;
 	
+	//A page can contain one product listing
+	@Column(name = "PRODUCT_GROUP", nullable = true)
+	private String productGroup;
+	
+
+
+	public String getProductGroup() {
+		return productGroup;
+	}
+
+	public void setProductGroup(String productGroup) {
+		this.productGroup = productGroup;
+	}
+
 	@Override
 	public Long getId() {
 		return this.id;
@@ -165,6 +179,4 @@ public class Content extends SalesManagerEntity<Long, Content> implements Serial
 	public ContentPosition getContentPosition() {
 		return contentPosition;
 	}
-
-
 }

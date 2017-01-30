@@ -223,6 +223,18 @@
                         			<span class="help-inline"><form:errors path="descriptions[${counter.index}].metatagKeywords" cssClass="error" /></span>
                         </div>
                   </div>
+                  <c:if test="${productGroups!=null}">
+                  <div class="control-group">
+	                        <label><s:message code="label.product.customGroup.title" text="Product group"/></label>
+	                        <div class="controls">					
+	                        <form:select cssClass="productGrouplist" path="productGroup">
+	                                <form:option value="">&nbsp;</form:option>
+					  				<form:options items="${productGroups}" itemValue="code" itemLabel="code"/>
+				       		</form:select>
+	                         <span class="help-inline"><form:errors path="productGroup" cssClass="error" /></span>
+	                  		</div>
+	             </div>
+	             </c:if>
                   
                  <div class="control-group">
                         <label><s:message code="label.content.metatag.description" text="Metatag description"/> (<c:out value="${description.language.code}"/>)</label>
