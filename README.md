@@ -49,9 +49,8 @@ If you are using Tomcat, edit catalina.bat for windows users or catalina.sh for 
 Run the application from Spring boot 
 -------------------
 
-cd sm-shop
-
-mvn spring-boot:run
+       $ cd sm-shop
+       $ mvn spring-boot:run
 
 Run the application from Spring boot in eclipse
 -------------------
@@ -61,7 +60,6 @@ Right click on com.salesmanager.shop.application.ShopApplication
 run as Java Application
 
 ### Access the application:
-
 
 Access the deployed web application at: http://localhost:8080/sm-shop/shop
 
