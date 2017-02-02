@@ -1,8 +1,6 @@
-Upcoming Shopizer 2.5.0
-
-** Until completed, GIT branch is 2.0.5
-
+Upcoming Shopizer 2.0.5
 -------------------
+
 Java open source e-commerce software
 
 - Shopping cart
