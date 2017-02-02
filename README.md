@@ -60,6 +60,7 @@ Right click on com.salesmanager.shop.application.ShopApplication
 run as Java Application
 
 ### Access the application:
+-------------------
 
 Access the deployed web application at: http://localhost:8080/sm-shop/shop
 
@@ -73,6 +74,7 @@ Please read the instructions on how to connect to MySQL, configure an email serv
 
 
 ### Documentation:
+-------------------
 
 Documentation available from the wiki <https://github.com/shopizer-ecommerce/shopizer/wiki>
 
