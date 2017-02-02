@@ -50,12 +50,14 @@ Run the application from Spring boot
 -------------------
 
 cd sm-shop
+
 mvn spring-boot:run
 
 Run the application from Spring boot in eclipse
 -------------------
 
 Right click on com.salesmanager.shop.application.ShopApplication
+
 run as Java Application
 
 ### Access the application:
