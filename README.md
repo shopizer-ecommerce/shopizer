@@ -1,4 +1,4 @@
-Upcoming Shopizer 2.0.5 (for java 1.8)
+Upcoming Shopizer 2.0.6 - ALPHA (for java 1.8)
 -------------------
 
 Java open source e-commerce software
