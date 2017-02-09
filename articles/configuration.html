@@ -101,21 +101,21 @@ Log to your MySQL as root and create schema SALESMANAGER
 </p>
 
 <pre class="command-line">
-     mysql>CREATE DATABASE SALESMANAGER;
-     mysql>GRANT USAGE, SELECT ON *.* TO <YOUR USERNAME>@localhost IDENTIFIED BY '<YOUR PASSWORD>' with grant option;
-     mysql>GRANT ALL ON SALESMANAGER.* TO <YOUR USERNAME>@localhost;
-     mysql>GRANT FILE ON *.* TO <YOUR USERNAME>@localhost;
-     mysql>FLUSH PRIVILEGES;
+     <span class="command">mysql>CREATE DATABASE SALESMANAGER;</span>
+     <span class="command">mysql>GRANT USAGE, SELECT ON *.* TO <YOUR USERNAME>@localhost IDENTIFIED BY '<YOUR PASSWORD>' with grant option;</span>
+     <span class="command">mysql>GRANT ALL ON SALESMANAGER.* TO <YOUR USERNAME>@localhost;</span>
+     <span class="command">mysql>GRANT FILE ON *.* TO <YOUR USERNAME>@localhost;</span>
+     <span class="command">mysql>FLUSH PRIVILEGES;</span>
 </pre>
 
 <p>
 <strong>Example</strong>
 </p>
 <pre class="command-line">
-     mysql>CREATE DATABASE SALESMANAGER;
-     mysql>GRANT USAGE, SELECT ON *.* TO testuser@localhost IDENTIFIED BY 'password' with grant option;
-     mysql>GRANT ALL ON SALESMANAGER.* TO testuser@localhost;
-     mysql>FLUSH PRIVILEGES;
+     <span class="command">mysql>CREATE DATABASE SALESMANAGER;</span>
+     <span class="command">mysql>GRANT USAGE, SELECT ON *.* TO testuser@localhost IDENTIFIED BY 'password' with grant option;</span>
+     <span class="command">mysql>GRANT ALL ON SALESMANAGER.* TO testuser@localhost;</span>
+     <span class="command">mysql>FLUSH PRIVILEGES;</span>
 </pre>
 
 <p>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+    
+  <meta charset="utf-8"> 
+	
+	
+
+	<!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+	<!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->	
+	<meta name="description" content="Java open source shopping cart | E-commerce content management" />
+	<meta name="keywords" content="Java open source shopping cart, java e-commerce, java shopping cart, responsive e-commerce, java open source, free Java shopping cart" />
+	<meta name="author" content="Shopizer" />     
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes">
+    <link href="../../stylesheets/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="../../stylesheets/layout.css" rel="stylesheet" type="text/css" media="all" /> 
+    <link href="../../stylesheets/technical.css" rel="stylesheet" type="text/css" media="all" />   
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
+
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
+
+
+
+
+
+
+
+	<script>
+  	   	//var _gaq = _gaq || [];
+  	   	//_gaq.push(['_setAccount', 'UA-4436714-6']);
+  	   	//(function() {
+    		//	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    		//	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+   		 	//var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  	   	//})();
+	</script>
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+  <title>References</title>
+  </head>
+
+  <body>
+  
+  
+
+<!-- ****** WHAT IS SHOPIZER *******-->
+<div name="WhatisShopizer" data-unique="References"></div><h2>References objects</h2> 
+<br/>
+<p>
+References are objects used for building main Shopizer business objects. Reference objects map to database tables which for most of them can be populated from the administration tool.
+</p>
+<h3>Zone</h3>
+<br/>
+<p>
+Zones represent provinces and states. Zones are loaded dynamically on the initial system startup. Zones file can be found from a static json configuration file:
+<p class="well">
+shopizer/sm-core/src/main/resources/reference/zoneconfig.json
+</p>
+And can be reladed for each new startup. Zones exist in english and french, if you want to modify the list feel free to do so and you are welcome to add a new language to that list. Each zone refers to a valid country code that must exist before starting the insertion of 
+new zones.
+<br/><br/>
+<h3>Country</h3>
+<br/>
+<p>
+Country are loaded dynamically during the initial startup. An initial static list of ISO country code is provided in <b>com.salesmanager.core.constants.SchemaConstant</b> class. 
+<pre class="command-line">
+<span class="command">Locale locale = new Locale("US");</span>
+<span class="command">String name = locale.getDisplayCountry(new Locale("en"));</span>
+</pre>
+Country list will be loaded on the first startup. For each country a zone exist in english and french, if you want to modify the list feel free to do so and you are welcome to add a new language to that list. Each zone refers to a valid country code that must exist before starting the insertion of 
+new zones.
+<br/><br/>
+<h3>Language</h3>
+<br/>
+<p>
+Languages are defined in the database in the table language. Shopizer uses java.util.Locale in order to get the name of the Language.
+<p>
+	
+  
+</body>
+  
+  </html>
