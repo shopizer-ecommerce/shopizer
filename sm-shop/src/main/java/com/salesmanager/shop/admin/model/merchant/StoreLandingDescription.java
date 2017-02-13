@@ -4,6 +4,8 @@ import com.salesmanager.core.model.reference.language.Language;
 
 import java.io.Serializable;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class StoreLandingDescription implements Serializable {
 	
 	
@@ -11,6 +13,7 @@ public class StoreLandingDescription implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	@NotEmpty
 	private String title;
 	private String description;
 	private String keywords;

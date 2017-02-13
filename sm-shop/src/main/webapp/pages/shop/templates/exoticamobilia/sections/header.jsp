@@ -19,7 +19,7 @@ response.setDateHeader ("Expires", -1);
 <!-- TT Typeahead js files -->
 <script src="<c:url value="/resources/js/hogan.js" />"></script>
 <script src="<c:url value="/resources/templates/exoticamobilia/js/bloodhound.min.js" />"></script>
-<script src="<c:url value="/resources/templates/bootstrap3/js/typeahead.bundle.min.js" />"></script>
+<script src="<c:url value="/resources/templates/exoticamobilia/js/typeahead.bundle.min.js" />"></script>
 
 <script type="text/javascript">
 //***** Search code *****
