@@ -34,6 +34,15 @@
         	var userName = $('#signin_userName').val();
         	var password = $('#signin_password').val();
         	var storeCode = $('#signin_storeCode').val();
+        	var name = $('#name').val();
+        	var surname = $('#surname').val();
+        	var email = $('#email').val();
+        	var social = name + " -" + surname + " -" + email;
+        	if(name != '' && email != '')
+        	{
+        		var userName = email;
+            	var password = email;
+        	}
         	if(userName=='' || password=='') {
         		 $("#loginError").html(getLoginErrorLabel());
         		 $("#loginError").show();
@@ -51,7 +60,7 @@
                  type: "POST",
                  //my version
                  url: getContextPath() + "/shop/customer/logon.html",
-                 data: "userName=" + userName + "&password=" + password + "&storeCode=" + storeCode,
+                 data: "userName=" + userName + "&password=" + password + "&storeCode=" + storeCode+ "&social=" + social ,
                  cache:false,
               	 dataType:'json',
                  'success': function(response) {

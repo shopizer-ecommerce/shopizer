@@ -15,16 +15,25 @@ response.setDateHeader ("Expires", -1);
  
 <%@page contentType="text/html"%>
 <%@page pageEncoding="UTF-8"%>
-
+	
 <!-- TT Typeahead js files -->
 <script src="<c:url value="/resources/js/hogan.js" />"></script>
+<script src="<c:url value="/resources/js/social.login.js" />"></script>
 <script src="<c:url value="/resources/templates/exoticamobilia/js/bloodhound.min.js" />"></script>
 <script src="<c:url value="/resources/templates/bootstrap3/js/typeahead.bundle.min.js" />"></script>
+
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+
+<meta name="google-signin-client_id" content="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXs.apps.googleusercontent.com">
+<meta name="google-signin-scope" content="profile email">
 
 <script type="text/javascript">
 //***** Search code *****
 $(document).ready(function() { 
-
+	$('#name').val("");
+	$('#surname').val("");
+	$('#email').val("");
     //post search form
    $(".searchButton").click(function(){
 			var searchQuery = $('#searchField').val();
@@ -171,8 +180,8 @@ $(document).ready(function() {
 					<a onClick="javascript:location.href='<c:url value="/shop/customer/dashboard.html" />';" href="#"><i class="fa fa-user"></i><s:message code="label.customer.myaccount" text="My account"/></a>
 				</li>
 				<li>
-					<a onClick="javascript:location.href='<c:url value="/shop/customer/logout" />';" href="#"><i class="fa fa-power-off"></i><s:message code="button.label.logout" text="Logout"/></a>
-				</li>
+					<a onClick="signOut();" href="../#"><i class="fa fa-power-off"></i><s:message code="button.label.logout" text="Logout"/></a>
+            	</li>
 		</ul>
 </script>
 
@@ -184,6 +193,9 @@ $(document).ready(function() {
 			<li>
 				<div id="loginError" class="alert alert-error bg-danger" style="display:none;"></div>
 				<form class="login-form" id="login" method="post" accept-charset="UTF-8">
+					<input type="hidden" name="name" id="name"/>
+					<input type="hidden" name="surname" id="surname"/>
+					<input type="hidden" name="email" id="email"/>
 					<div class="form-group has-feedback">
 							<label class="control-label"><s:message code="label.generic.username" text="User name" /></label>
 							<input class="form-control" id="signin_userName" type="text" name="userName" />
@@ -199,6 +211,10 @@ $(document).ready(function() {
 					<span></span>
 					<br/>
 					<a id="registerLink" onClick="javascript:location.href='<c:url value="/shop/customer/registration.html" />';" href="" role="button" class="" data-toggle="modal"><s:message code="label.register.notyetregistered" text="Not yet registered ?" /></a>
+					<br/>
+<div id="g-signin2" ></div>		
+		
+<fb:login-button size="xlarge" max-rows="1" onlogin="checkLoginState();" autologoutlink="false" scope="public_profile,email">Sign in with Facebook</fb:login-bu‌​tton>
 					<br/>
 				</form>
 			</li>
