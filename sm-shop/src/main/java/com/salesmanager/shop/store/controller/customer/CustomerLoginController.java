@@ -88,7 +88,28 @@ public class CustomerLoginController extends AbstractController {
           //in case is new social customer, register 
             if(customerModel==null && StringUtils.isNotEmpty(social))
             {            	
-            	registerSocialCustomer(userName, password, storeCode, social, request, response);
+            	SecuredShopPersistableCustomer customer = customerFacade.registerSocialCustomer(userName, password, storeCode, social, request, response);
+            	/**
+                 * Send registration email
+                 */
+                emailTemplatesUtils.sendRegistrationEmail( customer, store, request.getLocale(), request.getContextPath() );
+
+                /**
+                 * Login user
+                 */
+                
+                try {
+                	
+        	        //refresh customer
+        	        Customer c = customerFacade.getCustomerByUserName(customer.getUserName(), store);
+        	        //authenticate
+        	        customerFacade.authenticate(c, userName, password);
+        	        super.setSessionAttribute(Constants.CUSTOMER, c, request);
+                
+                } catch(Exception e) {
+                	LOG.error("Cannot authenticate social user ",e);
+                	
+                }
             }
             else if(customerModel==null) {
             	jsonObject.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);

@@ -1,4 +1,4 @@
- 
+ 	  var facebookKey;
       function signOut() {
     	    var auth2 = gapi.auth2.getAuthInstance();
     	    auth2.signOut().then(function () {
@@ -55,7 +55,8 @@
       // This function is called when someone finishes with the Login
       // Button.  See the onlogin handler attached to it in the sample
       // code below.
-      function checkLoginState() {
+      function checkLoginState(keyFacebook) {
+    	facebookKey = keyFacebook;
         FB.getLoginStatus(function(response) {
           statusChangeCallback(response);
         });
@@ -63,7 +64,7 @@
 
       window.fbAsyncInit = function() {
         FB.init({
-          appId: 'XXXXXXXXXXXXXXX',
+          appId: facebookKey,
           cookie: true, // enable cookies to allow the server to access 
           // the session
           xfbml: true, // parse social plugins on this page

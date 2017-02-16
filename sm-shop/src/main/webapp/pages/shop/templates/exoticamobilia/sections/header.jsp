@@ -25,7 +25,7 @@ response.setDateHeader ("Expires", -1);
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
 
-<meta name="google-signin-client_id" content="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXs.apps.googleusercontent.com">
+<meta name="google-signin-client_id" content="<s:eval expression="@propertyConfigurer.getProperty('login.google.key')" />.apps.googleusercontent.com">
 <meta name="google-signin-scope" content="profile email">
 
 <script type="text/javascript">
@@ -214,7 +214,7 @@ $(document).ready(function() {
 					<br/>
 <div id="g-signin2" ></div>		
 		
-<fb:login-button size="xlarge" max-rows="1" onlogin="checkLoginState();" autologoutlink="false" scope="public_profile,email">Sign in with Facebook</fb:login-bu‌​tton>
+<fb:login-button size="xlarge" max-rows="1" onlogin="checkLoginState('<s:eval expression="@propertyConfigurer.getProperty('login.facebook.key')" />');" autologoutlink="false" scope="public_profile,email">Sign in with Facebook</fb:login-bu‌​tton>
 					<br/>
 				</form>
 			</li>
