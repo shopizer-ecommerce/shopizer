@@ -11,5 +11,4 @@
 				   "tags" : {"type":"String","analyzer":"folding_fr"} 
 				} 
 			}
-			}
 }
