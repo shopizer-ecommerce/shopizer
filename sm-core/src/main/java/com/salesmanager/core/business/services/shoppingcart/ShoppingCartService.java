@@ -76,5 +76,11 @@ public interface ShoppingCartService extends SalesManagerEntityService<Long, Sho
 	 * @throws ServiceException
 	 */
 	boolean requiresShipping(ShoppingCart cart) throws ServiceException;
+	
+	/**
+	 * Removes a shopping cart item
+	 * @param item
+	 */
+	void deleteShoppingCartItem(Long id);
 
 }
