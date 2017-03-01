@@ -15,7 +15,7 @@
 		       "french_stop": {
 		         "type":       "stop",
 		         "stopwords":  "_french_" 
-		       }
+		       },
 		       "french_stemmer": {
 		         "type":       "stemmer",
 		         "language":   "light_french"
