@@ -1,267 +1,269 @@
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:context="http://www.springframework.org/schema/context" xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:task="http://www.springframework.org/schema/task"
-	xmlns:util="http://www.springframework.org/schema/util"
-	xsi:schemaLocation="
-   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
-   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
-   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
-   http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd
-   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
-   http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.1.xsd
-   http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd">
-
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://www.springframework.org/schema/data/jpa"
+  xmlns:util="http://www.springframework.org/schema/util"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xmlns:tx="http://www.springframework.org/schema/tx"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/tx 
+    http://www.springframework.org/schema/tx/spring-tx.xsd
+    http://www.springframework.org/schema/aop 
+    http://www.springframework.org/schema/aop/spring-aop.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/data/jpa
+    http://www.springframework.org/schema/data/jpa/spring-jpa.xsd"> 
 
 	<!-- Shipping integration modules -->
-	<util:map id="shippingModules" map-class="java.util.HashMap" key-type="java.lang.String" value-type="com.salesmanager.core.modules.integration.shipping.model.ShippingQuoteModule">
-    			<entry key="canadapost" value-ref="canadapost"/>
-    			<entry key="usps" value-ref="usps"/>
-    			<entry key="ups" value-ref="ups"/>
-    			<entry key="weightBased" value-ref="weightBased"/>
-    			<entry key="priceByDistance" value-ref="priceByDistance"/>
-    			<entry key="storePickUp" value-ref="storePickUp"/>
-    			<entry key="customQuotesRules" value-ref="customShippingPriceModule"/><!-- as defined in shopizer-core-rules -->
+
+	<util:map id="shippingModules" map-class="java.util.HashMap" key-type="java.lang.String" value-type="com.salesmanager.core.business.modules.integration.shipping.model.ShippingQuoteModule">
+    			<beans:entry key="canadapost" value-ref="canadapost"/>
+    			<beans:entry key="usps" value-ref="usps"/>
+    			<beans:entry key="ups" value-ref="ups"/>
+    			<beans:entry key="weightBased" value-ref="weightBased"/>
+    			<beans:entry key="priceByDistance" value-ref="priceByDistance"/>
+    			<beans:entry key="storePickUp" value-ref="storePickUp"/>
+    			<beans:entry key="customQuotesRules" value-ref="customShippingPriceModule"/><!--as defined in shopizer-core-rules-->
     </util:map>
     
-    <!-- Payment integration modules -->
-	<util:map id="paymentModules" map-class="java.util.HashMap" key-type="java.lang.String" value-type="com.salesmanager.core.modules.integration.payment.model.PaymentModule">
-    			<entry key="beanstream" value-ref="beanstream"/>
-    			<entry key="paypal-express-checkout" value-ref="paypal-ec"/>
-    			<entry key="moneyorder" value-ref="moneyorder"/>
-    			<entry key="stripe" value-ref="stripe"/>
+    <!--  Payment integration modules -->
+	<util:map id="paymentModules" map-class="java.util.HashMap" key-type="java.lang.String" value-type="com.salesmanager.core.business.modules.integration.payment.model.PaymentModule">
+    			<beans:entry key="beanstream" value-ref="beanstream"/>
+    			<beans:entry key="paypal-express-checkout" value-ref="paypal-ec"/>
+    			<beans:entry key="moneyorder" value-ref="moneyorder"/>
+    			<beans:entry key="stripe" value-ref="stripe"/>
     </util:map>
 
-
 	<!-- Shipping -->
-	<bean id="canadapost"
-		class="com.shopizer.modules.shipping.canadapost.CanadaPostQuoteModule"/><!-- shopizer-shipping-canadapost-module -->
-	<bean id="usps"
-		class="com.salesmanager.core.modules.integration.shipping.impl.USPSShippingQuote"/>
-	<bean id="ups"
-		class="com.salesmanager.core.modules.integration.shipping.impl.UPSShippingQuote"/>
-	<bean id="weightBased"
-		class="com.salesmanager.core.modules.integration.shipping.impl.CustomWeightBasedShippingQuote"/>
-	<bean id="priceByDistance"
-		class="com.salesmanager.core.modules.integration.shipping.impl.PriceByDistanceShippingQuoteRules"/>
-	<bean id="storePickUp"
-		class="com.salesmanager.core.modules.integration.shipping.impl.StorePickupShippingQuote"/>
-	<bean id="customShippingPriceModule"
-		class="com.salesmanager.core.modules.integration.shipping.impl.CustomShippingQuoteRules"/>
-	<bean id="shippingAjustment"
-		class="com.salesmanager.core.modules.integration.shipping.impl.ShippingPriceAjustment"/>
+	<beans:bean id="canadapost"
+		class="com.shopizer.modules.shipping.canadapost.CanadaPostQuoteModule"/><!--shopizer-shipping-canadapost-module-->
+	<beans:bean id="usps"
+		class="com.salesmanager.core.business.modules.integration.shipping.impl.USPSShippingQuote"/>
+	<beans:bean id="ups"
+		class="com.salesmanager.core.business.modules.integration.shipping.impl.UPSShippingQuote"/>
+	<beans:bean id="weightBased"
+		class="com.salesmanager.core.business.modules.integration.shipping.impl.CustomWeightBasedShippingQuote"/>
+	<beans:bean id="priceByDistance"
+		class="com.salesmanager.core.business.modules.integration.shipping.impl.PriceByDistanceShippingQuoteRules"/>
+	<beans:bean id="storePickUp"
+		class="com.salesmanager.core.business.modules.integration.shipping.impl.StorePickupShippingQuote"/>
+	<beans:bean id="customShippingPriceModule"
+		class="com.salesmanager.core.business.modules.integration.shipping.impl.CustomShippingQuoteRules"/>
 	
-	<!-- Default packaging -->
-	<bean id="boxPackaging"
-		class="com.salesmanager.core.modules.integration.shipping.impl.DefaultPackagingImpl"/>
-	<!-- Payment -->
-	<bean id="beanstream"
-		class="com.salesmanager.core.modules.integration.payment.impl.BeanStreamPayment"/>
-	<bean id="moneyorder"
-		class="com.salesmanager.core.modules.integration.payment.impl.MoneyOrderPayment"/>
-	<bean id="paypal-ec"
-		class="com.salesmanager.core.modules.integration.payment.impl.PayPalExpressCheckoutPayment"/>
-	<bean id="stripe"
-		class="com.salesmanager.core.modules.integration.payment.impl.StripePayment"/>
+	
+	<!--Default packaging-->
+	<beans:bean id="boxPackaging"
+		class="com.salesmanager.core.business.modules.integration.shipping.impl.DefaultPackagingImpl"/>
+	
+	<!-- 
+	Payment -->
+	<beans:bean id="beanstream"
+		class="com.salesmanager.core.business.modules.integration.payment.impl.BeanStreamPayment"/>
+	<beans:bean id="moneyorder"
+		class="com.salesmanager.core.business.modules.integration.payment.impl.MoneyOrderPayment"/>
+	<beans:bean id="paypal-ec"
+		class="com.salesmanager.core.business.modules.integration.payment.impl.PayPalExpressCheckoutPayment"/>
+	<beans:bean id="stripe"
+		class="com.salesmanager.core.business.modules.integration.payment.impl.StripePayment"/>
 
-	<!--     -->
-	<!-- CMS -->
-	<!--     -->
+
+
+  
+	<!-- 
+	********************
+	CMS
+	********************
+	 -->
+	   
 	
-	<!-- Product images manager-->
-	<bean id="productFileManager"
-		class="com.salesmanager.core.modules.cms.product.ProductFileManagerImpl">
-		<property name="uploadImage">
-				<ref bean="cmsProductImage" />
-		</property>
-		<property name="getImage">
-				<ref bean="cmsProductImage" />
-		</property>
-		<property name="removeImage">
-				<ref bean="cmsProductImage" />
-		</property>
-		<property name="configuration">
-				<ref bean="coreConfiguration" />
-		</property>
-	</bean>
+	<!-- Product images manager -->
+	<beans:bean id="productFileManager"
+		class="com.salesmanager.core.business.modules.cms.product.ProductFileManagerImpl">
+		<beans:property name="uploadImage">
+				<beans:ref bean="cmsProductImage" />
+		</beans:property>
+		<beans:property name="getImage">
+				<beans:ref bean="cmsProductImage" />
+		</beans:property>
+		<beans:property name="removeImage">
+				<beans:ref bean="cmsProductImage" />
+		</beans:property>
+		<beans:property name="configuration">
+				<beans:ref bean="coreConfiguration" />
+		</beans:property>
+	</beans:bean>
 	
-	<!-- CMS implementation for product images-->
-	<bean id="cmsProductImage"
-				class="com.salesmanager.core.modules.cms.product.local.CmsImageFileManagerImpl" factory-method="getInstance" >
-				<property name="cacheManager">
-						<!--<ref bean="storeCacheManager" />-->
-						<ref bean="localCacheManager" />
-				</property>
-				<!--<property name="rootName" value="product-merchant"/>-->
-				<property name="rootName" value="/Applications/MAMP/htdocs/shop-images"/>
-	</bean>
+	<!-- CMS implementation for product images -->
+	<beans:bean id="cmsProductImage"
+				class="com.salesmanager.core.business.modules.cms.product.infinispan.CmsImageFileManagerImpl" factory-method="getInstance" >
+				<beans:property name="cacheManager">
+						<beans:ref bean="storeCacheManager" />
+				</beans:property>
+				<beans:property name="rootName" value="product-merchant"/>
+				<!--<beans:property name="rootName" value="/Applications/AMPPS/www/shop-images"/>-->
+	</beans:bean>
 	
 
 	
-	<!-- Content images manager (logo, other store artifacts)-->
-	<bean id="contentFileManager"
-		class="com.salesmanager.core.modules.cms.content.StaticContentFileManagerImpl">
-		<property name="uploadFile">
-				<ref bean="cmsStoreFile" />
-		</property>
-		<property name="getFile">
-				<ref bean="cmsStoreFile" />
-		</property>
-		<property name="removeFile">
-				<ref bean="cmsStoreFile" />
-		</property>
-	</bean>
+	<!-- Content images manager (logo, other store artifacts) -->
+	<beans:bean id="contentFileManager"
+		class="com.salesmanager.core.business.modules.cms.content.StaticContentFileManagerImpl">
+		<beans:property name="uploadFile">
+				<beans:ref bean="cmsStoreFile" />
+		</beans:property>
+		<beans:property name="getFile">
+				<beans:ref bean="cmsStoreFile" />
+		</beans:property>
+		<beans:property name="removeFile">
+				<beans:ref bean="cmsStoreFile" />
+		</beans:property>
+	</beans:bean>
 	
 	<!-- logo, store artifacts -->
-	<bean id="cmsStoreFile"
-				class="com.salesmanager.core.modules.cms.content.local.CmsStaticContentFileManagerImpl" factory-method="getInstance" >
-				<property name="cacheManager">
-						<!--<ref bean="storeCacheManager" />-->
-						<ref bean="localCacheManager" />
-				</property>
-				<!--<property name="rootName" value="store-merchant"/>-->
-				<property name="rootName" value="/Applications/MAMP/htdocs/shop-images"/>
-	</bean>
+	<beans:bean id="cmsStoreFile"
+				class="com.salesmanager.core.business.modules.cms.content.infinispan.CmsStaticContentFileManagerImpl" factory-method="getInstance" >
+				<beans:property name="cacheManager">
+						<beans:ref bean="storeCacheManager" />
+				</beans:property>
+				<beans:property name="rootName" value="store-merchant"/>
+				<!-- <beans:property name="rootName" value="/Applications/AMPPS/www/shop-images"/> -->
+	</beans:bean>
 	
 	
 
 	
 	<!-- Static content files manager (images, pdf...) -->
-	<bean id="staticContentFileManager"	class="com.salesmanager.core.modules.cms.content.StaticContentFileManagerImpl">
-		<property name="uploadFile">
-				<ref bean="cmsStaticFile" />
-		</property>
-		<property name="getFile">
-			<ref bean="cmsStaticFile" />
-		</property>
-		<property name="removeFile">
-			<ref bean="cmsStaticFile" />
-		</property>
-	</bean>
+	<beans:bean id="staticContentFileManager"	class="com.salesmanager.core.business.modules.cms.content.StaticContentFileManagerImpl">
+		<beans:property name="uploadFile">
+				<beans:ref bean="cmsStaticFile" />
+		</beans:property>
+		<beans:property name="getFile">
+			<beans:ref bean="cmsStaticFile" />
+		</beans:property>
+		<beans:property name="removeFile">
+			<beans:ref bean="cmsStaticFile" />
+		</beans:property>
+	</beans:bean>
 	<!--  end of CMS implementation for static content data -->
 	
 	
 	<!-- CMS implementation for static content data -->
-	<bean id="cmsStaticFile" class="com.salesmanager.core.modules.cms.content.local.CmsStaticContentFileManagerImpl" factory-method="getInstance">
-		<property name="cacheManager">
-			<!--<ref bean="filesCacheManager" />-->
-		    <ref bean="localCacheManager" />
-		</property>
-		<!--<property name="rootName" value="store-merchant"/>-->
-		<property name="rootName" value="/Applications/MAMP/htdocs/shop-images/"/>
-	</bean>
+	<beans:bean id="cmsStaticFile" class="com.salesmanager.core.business.modules.cms.content.infinispan.CmsStaticContentFileManagerImpl" factory-method="getInstance">
+		<beans:property name="cacheManager">
+			<beans:ref bean="filesCacheManager" />
+		</beans:property>
+		<beans:property name="rootName" value="store-merchant"/>
+		<!-- <beans:property name="rootName" value="/Applications/AMPPS/www/shop-images/"/> -->
+	</beans:bean>
 	
 	
 	
 	
 	<!-- product downloads -->
-	<bean id="productDownloadsFileManager"	class="com.salesmanager.core.modules.cms.content.StaticContentFileManagerImpl">
-		<property name="uploadFile">
-				<ref bean="cmsProductFile" />
-		</property>
-		<property name="getFile">
-			<ref bean="cmsProductFile" />
-		</property>
-		<property name="removeFile">
-			<ref bean="cmsProductFile" />
-		</property>
-	</bean>
+	<beans:bean id="productDownloadsFileManager"	class="com.salesmanager.core.business.modules.cms.content.StaticContentFileManagerImpl">
+		<beans:property name="uploadFile">
+				<beans:ref bean="cmsProductFile" />
+		</beans:property>
+		<beans:property name="getFile">
+			<beans:ref bean="cmsProductFile" />
+		</beans:property>
+		<beans:property name="removeFile">
+			<beans:ref bean="cmsProductFile" />
+		</beans:property>
+	</beans:bean>
 	<!--  end of CMS implementation for static content data -->
 	
 	
 	<!-- CMS implementation for static content data -->
-	<bean id="cmsProductFile" class="com.salesmanager.core.modules.cms.content.local.CmsStaticContentFileManagerImpl" factory-method="getInstance">
-		<property name="cacheManager">
-			<!--<ref bean="storeCacheManager" />-->
-			<ref bean="localCacheManager" />
-		</property>
-		<!-- <property name="rootName" value="product-file"/>-->
-		<property name="rootName" value="/Applications/MAMP/htdocs/shop-images"/>
-	</bean>
-	
+	<beans:bean id="cmsProductFile" class="com.salesmanager.core.business.modules.cms.content.infinispan.CmsStaticContentFileManagerImpl" factory-method="getInstance">
+		<beans:property name="cacheManager">
+			<beans:ref bean="storeCacheManager" />
+		</beans:property>
+		<beans:property name="rootName" value="product-file"/>
+		<!-- <beans:property name="rootName" value="/Applications/AMPPS/www/shop-images"/> -->
+	</beans:bean>
 	
 
+	<!-- Store Cache Manager (infinispan) -->
+	<beans:bean id="storeCacheManager"
+				class="com.salesmanager.core.business.modules.cms.impl.StoreCacheManagerImpl" factory-method="getInstance" >
+	</beans:bean>
 	
-	<!-- Store Cache Manager -->
-	<!--
-	<bean id="storeCacheManager"
-				class="com.salesmanager.core.modules.cms.impl.StoreCacheManagerImpl" factory-method="getInstance" >
-	</bean>
-	-->
 	
-	<!-- Local cache manager  -->
-	<bean id="localCacheManager"
-				class="com.salesmanager.core.modules.cms.impl.LocalCacheManagerImpl" factory-method="getInstance" >
-	</bean>
+	<!-- Local cache manager  (for apache httpd)
+	<beans:bean id="localCacheManager"
+				class="com.salesmanager.core.business.modules.cms.impl.LocalCacheManagerImpl" factory-method="getInstance" >
+	</beans:bean>
+    -->
 	
-	<!-- Invoice -->
-	<bean id="invoiceModule"
-				class="com.salesmanager.core.modules.order.ODSInvoiceModule" >
-	</bean>
+
 
 	
-	<!-- 
-	 Cache manager to handle static content data which includes
+	
+	<!-- Cache manager to handle static content data which includes
 	 1. CSS Files
 	 2. JS Files
-	 2. Digital data
-	 -->
-	 
-	<bean id="filesCacheManager" 
-		class="com.salesmanager.core.modules.cms.impl.StaticContentCacheManagerImpl" factory-method="getInstance" >
-	</bean>
+	 2. Digital data -->
+
+	<beans:bean id="filesCacheManager" 
+		class="com.salesmanager.core.business.modules.cms.impl.StaticContentCacheManagerImpl" factory-method="getInstance" >
+	</beans:bean>
+
+ 	<!--Encryption-->
+	<beans:bean id="encryption"
+		class="com.salesmanager.core.business.modules.utils.EncryptionImpl">
+		<beans:property name="secretKey" ref="secretKey"/>
+	</beans:bean>
 	
-	<!-- Encryption -->
-	<bean id="encryption"
-		class="com.salesmanager.core.modules.utils.EncryptionImpl">
-		<property name="secretKey" ref="secretKey"/>
-	</bean>
+	<!--Geo Location-->
+	<beans:bean id="geoLocation"
+		class="com.salesmanager.core.business.modules.utils.GeoLocationImpl">
+	</beans:bean>
 	
-	<!-- Geo Location -->
-	<bean id="geoLocation"
-		class="com.salesmanager.core.modules.utils.GeoLocationImpl">
-	</bean>
-	
+	<!-- Invoices -->
+	<beans:bean id="invoiceModule"
+				class="com.salesmanager.core.business.modules.order.ODSInvoiceModule" >
+	</beans:bean>
+ 
 	<!-- Email -->
-	<bean id="freemarkerMailConfiguration" class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
+	<beans:bean id="freemarkerMailConfiguration" class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
                  <!-- Uses HTML with templates and freemarker template engine -->
-                 <property name="templateLoaderPath" value="/templates/email"/>
-    </bean>
+                 <beans:property name="templateLoaderPath" value="classpath:/templates/email"/>
+    </beans:bean>
 
 
-	<bean id="mailSender"
+	<beans:bean id="mailSender"
 		class="org.springframework.mail.javamail.JavaMailSenderImpl">
 
 		<!-- configured in systems.properties -->
-		<property name="protocol" value="${mailSender.protocol}" />
-		<property name="host" value="${mailSender.host}" />
-		<property name="port" value="${mailSender.port}" />
+		<beans:property name="protocol" value="${mailSender.protocol}" />
+		<beans:property name="host" value="${mailSender.host}" />
+		<beans:property name="port" value="${mailSender.port}" />
 
-		<property name="username">
-			<value>${mailSender.username}</value>
-		</property>
+		<beans:property name="username">
+			<beans:value>${mailSender.username}</beans:value>
+		</beans:property>
 
-		<property name="password">
-			<value>${mailSender.password}</value>
-		</property>
-		<property name="javaMailProperties">
-			<props>
-				<prop key="mail.smtp.auth">${mailSender.mail.smtp.auth}</prop>
-				<prop key="mail.smtp.starttls.enable">${mail.smtp.starttls.enable}</prop>
-			</props>
-		</property>
-	</bean>
+		<beans:property name="password">
+			<beans:value>${mailSender.password}</beans:value>
+		</beans:property>
+		
+		<beans:property name="javaMailProperties">
+			<beans:props>
+				<beans:prop key="mail.smtp.auth">${mailSender.mail.smtp.auth}</beans:prop>
+				<beans:prop key="mail.smtp.starttls.enable">${mail.smtp.starttls.enable}</beans:prop>
+			</beans:props>
+		</beans:property>
+	</beans:bean>
 	
-	<bean id="htmlEmailSender" class="com.salesmanager.core.modules.email.HtmlEmailSenderImpl" >
-             <property name="mailSender" ref="mailSender"/>
-             <property name="freemarkerMailConfiguration" ref="freemarkerMailConfiguration"/>
- 	</bean>
- 
-	
- 
- 
- 
-	
+	<beans:bean id="htmlEmailSender" class="com.salesmanager.core.business.modules.email.HtmlEmailSenderImpl" >
+             <beans:property name="mailSender" ref="mailSender"/>
+             <beans:property name="freemarkerMailConfiguration" ref="freemarkerMailConfiguration"/>
+ 	</beans:bean>
  
 
-	
-	
-</beans>
+</beans:beans>

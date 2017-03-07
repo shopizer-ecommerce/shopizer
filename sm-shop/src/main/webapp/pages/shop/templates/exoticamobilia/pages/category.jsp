@@ -93,10 +93,8 @@ response.setDateHeader ("Expires", -1);
 		visualize()	
 	});
 	
-	
-	<c:if test="${category.hideProducts==false}">
+	 
 	loadCategoryProducts();
-	</c:if>
 
  });
  
@@ -199,7 +197,7 @@ response.setDateHeader ("Expires", -1);
 	}
  
  	function loadCategoryProducts() {
- 		var url = '<%=request.getContextPath()%>/services/public/products/page/' + START_COUNT_PRODUCTS + '/' + MAX_PRODUCTS + '/<c:out value="${requestScope.MERCHANT_STORE.code}"/>/<c:out value="${requestScope.LANGUAGE.code}"/>/<c:out value="${category.description.friendlyUrl}"/>.html';
+ 		var url = '<%=request.getContextPath()%>/services/public/products/page/' + START_COUNT_PRODUCTS + '/' + MAX_PRODUCTS + '/<c:out value="${requestScope.MERCHANT_STORE.code}"/>/<c:out value="${requestScope.LANGUAGE.code}"/>/<c:out value="${category.description.friendlyUrl}"/>';
 	 	
  		if(filter!=null) {
  			url = url + '/filter=' + filter + '/filter-value=' + filterValue +'';
@@ -273,7 +271,7 @@ response.setDateHeader ("Expires", -1);
 			  </div>
 			  </c:if>
 			  
-			  <c:if test="${category.hideProducts==false}">
+
 
 			   <div id="shop" class="row">
                   <div class="sorting-filters">
@@ -361,5 +359,4 @@ response.setDateHeader ("Expires", -1);
 
 
 			</div>
-			</c:if>
 		</div>

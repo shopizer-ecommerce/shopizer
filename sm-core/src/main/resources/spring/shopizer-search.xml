@@ -2,7 +2,11 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util    http://www.springframework.org/schema/util/spring-util.xsd
+	">
 
 	<!-- can have different search client for indexing & searching -->
 	<bean id="searchClient" class="com.shopizer.search.utils.SearchClient">
@@ -24,7 +28,10 @@
 		<property name="proxyPassword" value="${elasticsearch.server.proxy.password}"/>
 	</bean>
 	
-	
+	<util:list id="facetTermsList" value-type="java.lang.String">
+    	<value>categories</value>
+    	<value>manufacturer</value>
+	</util:list>
 	
 	<bean id="searchDelegate" class="com.shopizer.search.services.impl.SearchDelegateImpl">
 		<property name="searchClient">

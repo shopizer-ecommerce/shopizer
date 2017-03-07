@@ -1,11 +1,13 @@
 package com.salesmanager.core.modules.order.total;
 
-import com.salesmanager.core.business.catalog.product.model.Product;
-import com.salesmanager.core.business.customer.model.Customer;
-import com.salesmanager.core.business.merchant.model.MerchantStore;
-import com.salesmanager.core.business.order.model.OrderSummary;
-import com.salesmanager.core.business.order.model.OrderTotal;
-import com.salesmanager.core.business.shoppingcart.model.ShoppingCartItem;
+
+
+import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.customer.Customer;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.order.OrderSummary;
+import com.salesmanager.core.model.order.OrderTotal;
+import com.salesmanager.core.model.shoppingcart.ShoppingCartItem;
 import com.salesmanager.core.modules.Module;
 
 /**

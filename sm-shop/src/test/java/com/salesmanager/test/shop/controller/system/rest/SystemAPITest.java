@@ -1,20 +1,14 @@
 package com.salesmanager.test.shop.controller.system.rest;
 
-import java.nio.charset.Charset;
-
+import com.salesmanager.core.business.utils.ajax.AjaxResponse;
 import org.junit.Ignore;
-import org.junit.Test;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.web.client.RestTemplate;
 
-import com.salesmanager.core.utils.ajax.AjaxResponse;
+import java.nio.charset.Charset;
 
+@Ignore
 public class SystemAPITest {
 	
 	private RestTemplate restTemplate;

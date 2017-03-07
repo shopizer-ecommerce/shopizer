@@ -1,0 +1,141 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/jdbc
+	http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security.xsd">
+
+
+	<global-method-security secured-annotations="enabled" jsr250-annotations="enabled" pre-post-annotations="enabled"/>
+
+	<beans:bean id="customerFacade" class="com.salesmanager.shop.store.controller.customer.facade.CustomerFacadeImpl">
+	</beans:bean>
+	
+	<!-- JDBC Customer details -->
+	<beans:bean id="customerDetailsService"
+		class="com.salesmanager.shop.store.security.CustomerServicesImpl">
+	</beans:bean>
+
+	<!-- JDBC User details -->
+	<beans:bean id="userDetailsService"
+		class="com.salesmanager.shop.admin.security.UserServicesImpl">
+	</beans:bean>
+
+	<beans:bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+	    <!-- strength 4 to 31 -->
+		<beans:constructor-arg value="11"/>
+	</beans:bean>
+	
+	<beans:bean id="adminAccessDenied"
+		class="com.salesmanager.shop.utils.AdminAccessDeniedHandler">
+		<beans:property name="accessDeniedUrl" value="/admin/denied.html" />
+	</beans:bean>
+
+	
+	<!-- updates last user logon timestamp -->
+	<beans:bean id="userAuthenticationSuccessHandler" class="com.salesmanager.shop.admin.security.UserAuthenticationSuccessHandler">
+	</beans:bean>
+	
+	<beans:bean id="servicesAuthenticationSuccessHandler" class="com.salesmanager.shop.store.security.ServicesAuthenticationSuccessHandler">
+	</beans:bean>
+	
+	<beans:bean id="servicesAuthenticationEntryPoint" class="com.salesmanager.shop.store.security.ServicesAuthenticationEntryPoint">
+	</beans:bean>
+	
+	<!-- spring security 4 -->
+	<http pattern="/resources/**" security="none" /><!-- remove css and other static resources -->
+	<http pattern="/layout/**" security="none" /><!-- remove css and other static resources -->
+	
+	
+	<http pattern="/admin/**" auto-config="true" use-expressions="true" authentication-manager-ref="adminAuthenticationManager">
+		<!-- Shopizer logon page -->
+		<intercept-url pattern="/admin/logon*" access="permitAll" />
+		<intercept-url pattern="/admin/denied.html" access="permitAll" />
+		<intercept-url pattern="/admin/unauthorized.html" access="permitAll" />
+		<intercept-url pattern="/admin/users/resetPassword.html*" access="permitAll" />
+		<intercept-url pattern="/admin/users/resetPasswordSecurityQtn.html*" access="permitAll" /> 
+ 		
+ 		
+ 		
+ 		<intercept-url pattern="/admin" access="hasRole('AUTH')" />
+		<intercept-url pattern="/admin/" access="hasRole('AUTH')" />
+		<intercept-url pattern="/admin/*.html*" access="hasRole('AUTH')" />
+		<intercept-url pattern="/admin/*/*.html*" access="hasRole('AUTH')" />
+		<intercept-url pattern="/admin/*/*/*.html*" access="hasRole('AUTH')" />
+
+			
+		<form-login login-page="/admin/logon.html"
+					username-parameter="username" 
+					password-parameter="password" 
+					login-processing-url="/login" 
+					authentication-success-handler-ref="userAuthenticationSuccessHandler"
+					authentication-failure-url="/admin/logon.html?login_error=true" 
+		/>
+			
+			
+		<logout invalidate-session="true" 
+			logout-success-url="/admin/home.html" 
+			logout-url="/admin/logout" />
+			
+		<csrf disabled="true"/><!-- Spring security 4 -->
+			
+		<access-denied-handler ref="adminAccessDenied"/>
+	</http>
+	
+
+	
+	<http pattern="/shop/**" auto-config="true" use-expressions="true" authentication-manager-ref="customerAuthenticationManager">
+
+		<intercept-url pattern="/shop" access="permitAll" />
+		<intercept-url pattern="/shop/" access="permitAll" />
+		<intercept-url pattern="/shop/**" access="permitAll" />
+		<intercept-url pattern="/shop/customer/logon.html*" access="permitAll" />
+		<intercept-url pattern="/shop/customer/registration.html*" access="permitAll" />
+		<intercept-url pattern="/shop/customer/customLogon.html*" access="permitAll" />
+		<intercept-url pattern="/shop/customer/denied.html" access="permitAll" />
+		<intercept-url pattern="/shop/customer/logon" access="permitAll" />
+		<intercept-url pattern="/shop/customer" access="hasRole('AUTH_CUSTOMER')" />
+		<intercept-url pattern="/shop/customer/" access="hasRole('AUTH_CUSTOMER')" />
+		<intercept-url pattern="/shop/customer/*.html*" access="hasRole('AUTH_CUSTOMER')" />
+		<intercept-url pattern="/shop/customer/*.html*" access="hasRole('AUTH_CUSTOMER')" />
+		<intercept-url pattern="/shop/customer/*/*.html*" access="hasRole('AUTH_CUSTOMER')" />
+		<intercept-url pattern="/shop/customer/*/*/*.html*" access="hasRole('AUTH_CUSTOMER')" />
+
+			
+		<logout invalidate-session="false" 
+			logout-success-url="/shop/" 
+			logout-url="/shop/customer/logout" />
+		<access-denied-handler error-page="/shop/"/>
+		
+		<csrf disabled="true"/><!-- Spring security 4 -->
+	</http>
+	
+	
+	<!-- REST services -->
+	<http pattern="/services/**" create-session="stateless" use-expressions="true" authentication-manager-ref="adminAuthenticationManager" entry-point-ref="servicesAuthenticationEntryPoint">
+	      <intercept-url pattern="/services/private/**" access="hasRole('AUTH')"/>
+	      <intercept-url pattern="/services/public/**" access="permitAll"/>
+	      <form-login authentication-success-handler-ref="servicesAuthenticationSuccessHandler" />
+	      <http-basic />
+	      <csrf disabled="true"/><!-- Spring security 4 -->
+    </http>
+   
+	
+	
+	<authentication-manager id="adminAuthenticationManager">
+		<authentication-provider user-service-ref="userDetailsService">
+			<password-encoder ref="passwordEncoder" hash="sha"/>
+		</authentication-provider>
+	</authentication-manager>
+	
+	<authentication-manager id="customerAuthenticationManager">
+		<authentication-provider user-service-ref="customerDetailsService">
+			<password-encoder ref="passwordEncoder" hash="sha"/>
+		</authentication-provider>
+	</authentication-manager>
+
+
+
+</beans:beans>

@@ -19,14 +19,14 @@ response.setDateHeader ("Expires", -1);
 <!-- TT Typeahead js files -->
 <script src="<c:url value="/resources/js/hogan.js" />"></script>
 <script src="<c:url value="/resources/templates/exoticamobilia/js/bloodhound.min.js" />"></script>
-<script src="<c:url value="/resources/templates/bootstrap3/js/typeahead.bundle.min.js" />"></script>
+<script src="<c:url value="/resources/templates/exoticamobilia/js/typeahead.bundle.min.js" />"></script>
 
 <script type="text/javascript">
 //***** Search code *****
 $(document).ready(function() { 
 
     //post search form
-   $(".searchButton").click(function(e){
+   $(".searchButton").click(function(){
 			var searchQuery = $('#searchField').val();
 			var responsiveSearchField = $('#responsiveSearchField').val();
 			var q = searchQuery;
@@ -56,12 +56,15 @@ $(document).ready(function() {
 		  </c:if>
 	    </c:if>
 	    remote: {
-		url : '<c:url value="/services/public/search/${requestScope.MERCHANT_STORE.code}/${requestScope.LANGUAGE.code}/autocomplete.html"/>?q=%QUERY',
-   		filter: function(response) {      
-     			console.log(response);
-   		}
-	    }
+    		url: '<c:url value="/services/public/search/${requestScope.MERCHANT_STORE.code}/${requestScope.LANGUAGE.code}/autocomplete.json"/>?q=%QUERY',
+        	filter: function (parsedResponse) {
+            	// parsedResponse is the array returned from your backend
+            	console.log(parsedResponse);
 
+            	// do whatever processing you need here
+            	return JSON.parse(parsedResponse);
+        	}
+    	}
 	});
    
    searchElements.initialize();
@@ -168,7 +171,7 @@ $(document).ready(function() {
 					<a onClick="javascript:location.href='<c:url value="/shop/customer/dashboard.html" />';" href="#"><i class="fa fa-user"></i><s:message code="label.customer.myaccount" text="My account"/></a>
 				</li>
 				<li>
-					<a onClick="javascript:location.href='<c:url value="/shop/customer/j_spring_security_logout" />';" href="#"><i class="fa fa-power-off"></i><s:message code="button.label.logout" text="Logout"/></a>
+					<a onClick="javascript:location.href='<c:url value="/shop/customer/logout" />';" href="#"><i class="fa fa-power-off"></i><s:message code="button.label.logout" text="Logout"/></a>
 				</li>
 		</ul>
 </script>
@@ -343,24 +346,8 @@ $(document).ready(function() {
 						                </c:choose>
 									</c:otherwise>
 								</c:choose>
-								<!-- logo -->
-								<!-- 
-								<div class="logo" id="logo">a grey
-									<h1 class="logo-text" alt="Entrepôt de meubles exotiques à Montréal"><span class="logo-text-inner">ExotiKA Mobilia</span></h1>
-								</div>
-
 								
-								<div class="site-slogan">
-									Meubles exotiques importés de qualité
-								</div>
-								-->
-								
-
 							</div>
 							<!-- header-left end -->
 
 						</div>
-
-
-
-			

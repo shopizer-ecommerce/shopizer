@@ -10,7 +10,7 @@
 <tag>
  		 <!-- Builds the image URL (in admin section only)-->
          <name>contentImage</name>
-         <tag-class>com.salesmanager.web.tags.ContentImageUrlTag</tag-class>
+         <tag-class>com.salesmanager.shop.tags.ContentImageUrlTag</tag-class>
          <body-content>scriptless</body-content>
 
  
@@ -40,7 +40,7 @@
 <tag>
  		 <!-- Builds a content block -->
          <name>pageContent</name>
-         <tag-class>com.salesmanager.web.tags.PageContentTag</tag-class>
+         <tag-class>com.salesmanager.shop.tags.PageContentTag</tag-class>
          <body-content>scriptless</body-content>
 
  
@@ -57,7 +57,7 @@
 <tag>
  		 <!-- Core configuration -->
          <name>config</name>
-         <tag-class>com.salesmanager.web.tags.ConfigurationTag</tag-class>
+         <tag-class>com.salesmanager.shop.tags.ConfigurationTag</tag-class>
          <body-content>scriptless</body-content>
 
  
@@ -74,7 +74,7 @@
 <tag>
  		 <!-- Builds the manufacturer image URL -->
          <name>manufacturerImage</name>
-         <tag-class>com.salesmanager.web.tags.ManufacturerImageUrlTag</tag-class>
+         <tag-class>com.salesmanager.shop.tags.ManufacturerImageUrlTag</tag-class>
          <body-content>scriptless</body-content>
 
  
@@ -98,7 +98,7 @@
 <tag>
  		 <!-- Builds the product image URL -->
          <name>productImage</name>
-         <tag-class>com.salesmanager.web.tags.ProductImageUrlTag</tag-class>
+         <tag-class>com.salesmanager.shop.tags.ProductImageUrlTag</tag-class>
          <body-content>scriptless</body-content>
 
  
@@ -123,7 +123,7 @@
 <tag>
  		 <!-- Builds the product image URL -->
          <name>shopProductImage</name>
-         <tag-class>com.salesmanager.web.tags.ShopProductImageUrlTag</tag-class>
+         <tag-class>com.salesmanager.shop.tags.ShopProductImageUrlTag</tag-class>
          <body-content>scriptless</body-content>
 
  
@@ -154,7 +154,7 @@
 <tag>
  		 <!-- Builds the product image URL -->
          <name>shopProductGroup</name>
-         <tag-class>com.salesmanager.web.tags.ShopProductRelationshipTag</tag-class>
+         <tag-class>com.salesmanager.shop.tags.ShopProductRelationshipTag</tag-class>
          <body-content>scriptless</body-content>
 
  
@@ -173,7 +173,7 @@
 <tag>
  		 <!-- Product price utility -->
          <name>monetary</name>
-         <tag-class>com.salesmanager.web.tags.ShopProductPriceFormatTag</tag-class>
+         <tag-class>com.salesmanager.shop.tags.ShopProductPriceFormatTag</tag-class>
          <body-content>scriptless</body-content>
 
  
@@ -197,7 +197,7 @@
 <tag>
  		 <!-- Builds the admin product download URL -->
          <name>adminProductDownload</name>
-         <tag-class>com.salesmanager.web.tags.AdminProductDownloadUrlTag</tag-class>
+         <tag-class>com.salesmanager.shop.tags.AdminProductDownloadUrlTag</tag-class>
          <body-content>scriptless</body-content>
          
          <attribute>
@@ -213,7 +213,7 @@
 <tag>
  		 <!-- Builds the order product download URL -->
          <name>orderProductDownload</name>
-         <tag-class>com.salesmanager.web.tags.OrderProductDownloadUrlTag</tag-class>
+         <tag-class>com.salesmanager.shop.tags.OrderProductDownloadUrlTag</tag-class>
          <body-content>scriptless</body-content>
          
          <attribute>
@@ -236,7 +236,7 @@
 <tag>
  		 <!-- Builds the store logo URL -->
          <name>storeLogo</name>
-         <tag-class>com.salesmanager.web.tags.StoreLogoUrlTag</tag-class>
+         <tag-class>com.salesmanager.shop.tags.StoreLogoUrlTag</tag-class>
          <body-content>scriptless</body-content>
 
 </tag>
@@ -244,7 +244,7 @@
 <tag>
  		 <!-- Builds breadcrumb parameter -->
          <name>breadcrumbParam</name>
-         <tag-class>com.salesmanager.web.tags.StoreBreadcrumbsTag</tag-class>
+         <tag-class>com.salesmanager.shop.tags.StoreBreadcrumbsTag</tag-class>
          <body-content>scriptless</body-content>
          <attribute>
                  <name>categoryId</name>
@@ -264,7 +264,7 @@
 <tag>
  		 <!-- Builds the copyright -->
          <name>storeCopy</name>
-         <tag-class>com.salesmanager.web.tags.StoreFooterlTag</tag-class>
+         <tag-class>com.salesmanager.shop.tags.StoreFooterlTag</tag-class>
          <body-content>scriptless</body-content>
 
 </tag>
@@ -273,7 +273,7 @@
 <tag>
  		 <!-- Builds the product URL -->
          <name>productUrl</name>
-         <tag-class>com.salesmanager.web.tags.ProductDescriptionUrlTag</tag-class>
+         <tag-class>com.salesmanager.shop.tags.ProductDescriptionUrlTag</tag-class>
          <body-content>scriptless</body-content>
 
  
@@ -291,7 +291,7 @@
 <tag>
  		 <!-- Decides if the link anlalyzed has to be handled as the active link -->
          <name>activeLink</name>
-         <tag-class>com.salesmanager.web.tags.ActiveLinkTag</tag-class>
+         <tag-class>com.salesmanager.shop.tags.ActiveLinkTag</tag-class>
          <body-content>scriptless</body-content>
          
          <attribute>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+ 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+	
+
+	
+
+ 	<!-- Only needed because we require fileupload in the org.springframework.samples.mvc.fileupload package -->
+<!-- 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="10000000"/>
+	</beans:bean> -->
+	
+	
+	<beans:bean id="localeResolver"
+        class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+        <beans:property name="defaultLocale" value="en"></beans:property>
+    </beans:bean>
+	
+	<beans:bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<beans:property name="basenames">
+			<beans:list>
+  				<beans:value>classpath:bundles/shopizer</beans:value>
+  				<beans:value>classpath:bundles/messages</beans:value>
+  				<beans:value>classpath:bundles/shipping</beans:value>
+  				<beans:value>classpath:bundles/payment</beans:value>    
+  			</beans:list>
+  		</beans:property>
+  		<beans:property name="defaultEncoding" value="UTF-8"/>
+  	</beans:bean>
+
+	
+	<beans:bean id="messages" class="com.salesmanager.shop.utils.LabelUtils"/>
+	
+	<!-- load images from local web server [com.salesmanager.web.utils.LocalImageFilePathUtils] -->
+	<beans:bean id="img" class="com.salesmanager.shop.utils.LocalImageFilePathUtils">
+		<beans:property name="basePath" value="/static" />
+	</beans:bean>
+	
+
+</beans:beans>

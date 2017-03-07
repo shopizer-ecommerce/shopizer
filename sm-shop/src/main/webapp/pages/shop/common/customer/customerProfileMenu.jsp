@@ -23,5 +23,5 @@ response.setDateHeader ("Expires", -1);
 									    </a>
 									 </li>
 									 <li><a href="<c:url value="/shop/customer/password.html"/>"><i class="fa fa-angle-right"></i> <s:message code="menu.change-password" text="Change password"/></a></li>
-									 <li><a href="<c:url value="/shop/customer/j_spring_security_logout"/>"><i class="fa fa-angle-right"></i> <s:message code="button.label.logout" text="Logout"/></a></li>
+									 <li><a href="<c:url value="/shop/customer/logout"/>"><i class="fa fa-angle-right"></i> <s:message code="button.label.logout" text="Logout"/></a></li>
 								</ul>

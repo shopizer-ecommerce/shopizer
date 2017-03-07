@@ -1,32 +1,26 @@
 package com.salesmanager.test.shop.controller.customer.rest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.salesmanager.shop.model.customer.Address;
+import com.salesmanager.shop.model.customer.Customer;
+import com.salesmanager.shop.model.customer.PersistableCustomer;
+import com.salesmanager.shop.model.customer.ReadableCustomer;
+import com.salesmanager.shop.model.customer.attribute.CustomerOptionDescription;
+import com.salesmanager.shop.model.customer.attribute.CustomerOptionValueDescription;
+import com.salesmanager.shop.model.customer.attribute.PersistableCustomerOption;
+import com.salesmanager.shop.model.customer.attribute.PersistableCustomerOptionValue;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.springframework.http.*;
+import org.springframework.security.crypto.codec.Base64;
+import org.springframework.web.client.RestTemplate;
+
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.ObjectWriter;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.codec.Base64;
-import org.springframework.web.client.RestTemplate;
-
-import com.salesmanager.web.entity.customer.Address;
-import com.salesmanager.web.entity.customer.Customer;
-import com.salesmanager.web.entity.customer.PersistableCustomer;
-import com.salesmanager.web.entity.customer.ReadableCustomer;
-import com.salesmanager.web.entity.customer.attribute.CustomerOptionDescription;
-import com.salesmanager.web.entity.customer.attribute.CustomerOptionValueDescription;
-import com.salesmanager.web.entity.customer.attribute.PersistableCustomerOption;
-import com.salesmanager.web.entity.customer.attribute.PersistableCustomerOptionValue;
-
-
+@Ignore
 public class CustomerRESTControllerTest {
 	
 	private RestTemplate restTemplate;

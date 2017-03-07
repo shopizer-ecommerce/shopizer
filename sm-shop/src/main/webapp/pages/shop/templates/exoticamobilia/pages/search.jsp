@@ -61,12 +61,6 @@ response.setDateHeader ("Expires", -1);
 </script>
 </script>
  
-<!-- FACEBOOK PIXEL --> 
-<script>
-fbq('track', 'Search', {
-   search_string: '<c:out value="${q}"/>'
-});
-</script>
 
  
  <script>
@@ -86,7 +80,7 @@ fbq('track', 'Search', {
  	function search() {
  		//Invoke search service
  		$('#productsContainer').showLoading();
- 		var url = '<%=request.getContextPath()%>/services/public/search/<c:out value="${requestScope.MERCHANT_STORE.code}"/>/<c:out value="${requestScope.LANGUAGE.code}"/>/' + START_COUNT_PRODUCTS + '/' + MAX_PRODUCTS + '/term.html';
+ 		var url = '<%=request.getContextPath()%>/services/public/search/<c:out value="${requestScope.MERCHANT_STORE.code}"/>/<c:out value="${requestScope.LANGUAGE.code}"/>/' + START_COUNT_PRODUCTS + '/' + MAX_PRODUCTS + '/search.json';
 	 	searchProducts(url,'#productsContainer','<c:out value="${q}"/>',null);
  	}
  	

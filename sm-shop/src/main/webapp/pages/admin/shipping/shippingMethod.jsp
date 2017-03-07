@@ -54,13 +54,6 @@
                         				</div>
                   					</div>
                   					
-                  					<div class="control-group">
-                        				<label><s:message code="label.defaultSelection" text="Default selection"/></label>
-                        				<div class="controls">
-                                    		<form:checkbox path="defaultSelected" />
-                        				</div>
-                  					</div>
-                  					
                   					<div class="controls">
 	                        			<label><s:message code="label.generic.environment" text="Environment"/></label>			
 	                        			<div class="controls">

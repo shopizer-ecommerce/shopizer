@@ -61,7 +61,7 @@ response.setDateHeader ("Expires", -1);
 						<c:forEach items="${customerOrders.orders}" var="order" varStatus="orderStatus">
 							<tr><!-- item -->
 								<td><a href="${customerOrder}?orderId=${order.id}">${order.id}</a></td>
-								<td><fmt:formatDate type="both" value="${order.datePurchased}" /></td>
+								<td><fmt:formatDate type="both" value="${order.datePurchased}" pattern="yyyy-MM-dd" /></td>
 								<td><sm:monetary value="${order.total.value}" />&nbsp;<small>(${fn:length(order.products)} <c:choose><c:when test="${fn:length(order.products)==1}"><s:message code="label.generic.item" text="item"/></c:when><c:otherwise><s:message code="label.generic.items" text="items"/></c:otherwise></c:choose>)</small></td>
 								<td>${order.orderStatus}</td>
 								
@@ -109,5 +109,3 @@ response.setDateHeader ("Expires", -1);
 		<!-- close row-fluid--> 
 	</div>
 	<!--close .container "main-content" -->
-	
-	<!-- http://theme.stepofweb.com/Alkaline/v1.0/shop-history-summary.html -->

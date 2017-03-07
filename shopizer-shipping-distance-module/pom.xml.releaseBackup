@@ -1,0 +1,225 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.shopizer</groupId>
+  <artifactId>shopizer-shipping-distance-processor</artifactId>
+  <version>2.0.3-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <name>shopizer-shipping-distance-processor</name>
+  <url>http://www.shopizer.com</url>
+  
+    
+  
+  <properties>
+  	
+  	    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  	    <java-version>1.7</java-version>
+  		<sm-core-model.version>2.0.3</sm-core-model.version>
+  		<sm-core-modules.version>2.0.3</sm-core-modules.version>
+  	
+		
+		<jackson-version>1.9.13</jackson-version>
+		<org.springframework-version>3.2.0.RELEASE</org.springframework-version>
+		<junit.version>4.9</junit.version>
+		<org.aspectj-version>1.6.10</org.aspectj-version>
+		<org.slf4j-version>1.6.6</org.slf4j-version>
+		<sm-core.drools.version>5.6.0.Final</sm-core.drools.version>
+		<google-client-maps-services-version>0.1.6</google-client-maps-services-version>
+		
+	</properties>
+	
+	<!-- mvn clean deploy -->
+	<parent>
+    	<groupId>org.sonatype.oss</groupId>
+    	<artifactId>oss-parent</artifactId>
+    	<version>7</version>
+    </parent>
+    
+
+
+
+	
+	<dependencies>
+	
+	
+	
+		<!-- sm-core-model -->
+		<dependency>
+			<groupId>com.shopizer</groupId>
+			<artifactId>sm-core-model</artifactId>
+			<version>${sm-core-model.version}</version>
+		</dependency>
+		
+		
+		<!-- sm-core-modules -->
+		<dependency>
+			<groupId>com.shopizer</groupId>
+			<artifactId>sm-core-modules</artifactId>
+			<version>${sm-core-modules.version}</version>
+		</dependency>
+
+	
+	
+	
+		<!-- Spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${org.springframework-version}</version>
+			<exclusions>
+				<!-- Exclude Commons Logging in favor of SLF4j -->
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				 </exclusion>
+			</exclusions>
+		</dependency>
+		<!-- AspectJ -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>${org.aspectj-version}</version>
+		</dependency>	
+		
+		<!-- Logging -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${org.slf4j-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>${org.slf4j-version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${org.slf4j-version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<!-- @Inject -->
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>1</version>
+		</dependency>
+				
+		<!-- Servlet -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+
+		<!-- Jackson JSON Processor -->
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>${jackson-version}</version>
+		</dependency>
+
+		
+		<!-- JSR 303 with Hibernate Validator -->
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>1.0.0.GA</version>
+		</dependency>
+
+	
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.0.1</version>
+		</dependency>
+		
+		<dependency>
+    			<groupId>commons-configuration</groupId>
+    			<artifactId>commons-configuration</artifactId>
+    			<version>1.6</version>
+		</dependency>
+
+			
+        <!-- Google Map API -->
+        <dependency>
+		    <groupId>com.google.maps</groupId>
+		    <artifactId>google-maps-services</artifactId>
+		    <version>${google-client-maps-services-version}</version>
+		</dependency>
+        
+
+        
+        <!-- Test dependencies -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${org.springframework-version}</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<!-- Rules engine -->
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-spring</artifactId>
+			<version>${sm-core.drools.version}</version>
+		</dependency>
+        
+        
+	</dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>				
+				<configuration>
+					<source>${java-version}</source>
+					<target>${java-version}</target>
+				</configuration>
+			</plugin>
+			<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.12</version>
+					<configuration>
+          				<skipTests>true</skipTests>
+        			</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+
+  <scm>
+    <connection>scm:svn:http://svn.sonatype.org/spice/tags/shopizer-shipping-distance-processor-2.0.3</connection>
+    <developerConnection>scm:svn:https://svn.sonatype.org/spice/tags/shopizer-shipping-distance-processor-2.0.3</developerConnection>
+    <url>http://svn.sonatype.org/spice/tags/shopizer-shipping-distance-processor-2.0.3</url>
+  </scm>
+</project>

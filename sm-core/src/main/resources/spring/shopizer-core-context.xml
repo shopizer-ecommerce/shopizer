@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://www.springframework.org/schema/data/jpa"
+  xmlns:util="http://www.springframework.org/schema/util"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xmlns:tx="http://www.springframework.org/schema/tx"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/tx 
+    http://www.springframework.org/schema/tx/spring-tx.xsd
+    http://www.springframework.org/schema/aop 
+    http://www.springframework.org/schema/aop/spring-aop.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/data/jpa
+    http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">  
+    
+  <!-- This is the entry XML point -->
+  
+   
+  <!-- datasource -->
+  <beans:import resource="classpath:/spring/datasource-c3p0.xml" />
+  <!-- cache -->
+  <beans:import resource="classpath:/spring/shopizer-core-ehcache.xml" />
+  <!-- DB, TX and properties -->
+  <beans:import resource="classpath:/spring/shopizer-core-config.xml" />
+  <!-- modules -->
+  <beans:import resource="classpath:/spring/shopizer-core-modules.xml" />
+  <!-- shipping pre processors -->
+  <beans:import resource="classpath:/spring/processors/shopizer-core-shipping-processors.xml" />
+  <!-- order total pre processors -->
+  <beans:import resource="classpath:/spring/processors/shopizer-core-ordertotal-processors.xml" />
+  <!-- rules -->
+  <beans:import resource="classpath:/spring/shopizer-core-rules.xml" />
+  <!-- search -->
+  <beans:import resource="classpath:/spring/shopizer-search.xml" />
+  
+
+   
+
+</beans:beans>

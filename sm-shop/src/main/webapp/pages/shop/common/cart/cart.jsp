@@ -6,16 +6,6 @@
 
 <script src="<c:url value="/resources/js/jquery.alphanumeric.pack.js" />"></script>
 
-<!-- FACEBOOK PIXEL --> 
-<c:if test="${not empty cart}">
-<script>
-  fbq('track', 'AddToCart', {
-    value: <c:out value="${cart.total}"/>,
-    currency: 'CAD'
-});
-</script>
-</c:if>
-
 
 
 <c:url value="/shop/cart/removeShoppingCartItem.html"
@@ -212,7 +202,7 @@
 		var cartCode=getCartCode();
 		if(cartCode!=null) {
 			console.log('cart code ' + cartCode);
-			location.href='<c:url value="/shop/cart/shoppingCartByCode.html" />?shoppingCartCode=' + cartCode;
+			location.href='<c:url value="/shop/cart/shoppingCartByCode" />?shoppingCartCode=' + cartCode;
 		}
 
    });

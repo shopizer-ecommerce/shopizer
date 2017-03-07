@@ -39,6 +39,7 @@ response.setDateHeader ("Expires", -1);
     			
     			<script src="<c:url value="/resources/js/bootstrap/jquery.js" />"></script>
     			<script src="<c:url value="/resources/js/jquery.friendurl.min.js" />"></script>
+    			<link rel="icon" href="<c:url value="/static/favicon.ico"/>"> 
  
   
                 <jsp:include page="/common/adminLinks.jsp" />
@@ -80,7 +81,7 @@ response.setDateHeader ("Expires", -1);
 										<li><a href="<c:url value="/admin/users/displayUser.html" />"><s:message code="label.my.profile" text="My profile" /></a></li>
 										<li class="divider"></li>
 										<li>
-											<c:url value="/admin/j_spring_security_logout" var="logoutUrl"/>
+											<c:url value="/admin/logout" var="logoutUrl"/>
 											<a href="${logoutUrl}"><s:message code="button.label.logout" text="Logout" /></a>
 										</li>
 									</ul>

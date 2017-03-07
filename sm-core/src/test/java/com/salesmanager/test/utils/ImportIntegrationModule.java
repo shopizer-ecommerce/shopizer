@@ -5,34 +5,35 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Map;
 
-import org.codehaus.jackson.map.ObjectMapper;
+import javax.inject.Inject;
+
 import org.junit.Ignore;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
-import com.salesmanager.core.business.generic.exception.ServiceException;
-import com.salesmanager.core.business.system.model.IntegrationModule;
-import com.salesmanager.core.business.system.service.ModuleConfigurationService;
-import com.salesmanager.core.utils.reference.IntegrationModulesLoader;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.services.reference.loader.IntegrationModulesLoader;
+import com.salesmanager.core.business.services.system.ModuleConfigurationService;
+import com.salesmanager.core.model.system.IntegrationModule;
+import com.salesmanager.test.configuration.ConfigurationTest;
 
 
 
 
-@ContextConfiguration( locations = { "classpath:spring/test-spring-context.xml" } )
-@RunWith( SpringJUnit4ClassRunner.class )
-@TestExecutionListeners( { DependencyInjectionTestExecutionListener.class } )
+
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(classes = {ConfigurationTest.class})
+@Ignore
 public class ImportIntegrationModule  {
 
-	@Autowired
+	@Inject
 	private IntegrationModulesLoader integrationModulesLoader;
 	
 	
-	@Autowired
+	@Inject
 	private ModuleConfigurationService moduleCongigurationService;
 	
 	/**

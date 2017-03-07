@@ -2,9 +2,8 @@
 
 <infinispan xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 
-	xsi:schemaLocation="urn:infinispan:config:5.1 http://www.infinispan.org/schemas/infinispan-config-5.1.xsd"
-
-	xmlns="urn:infinispan:config:5.1">
+	xsi:schemaLocation="urn:infinispan:config:6.0 http://www.infinispan.org/schemas/infinispan-config-6.0.xsd"
+	xmlns="urn:infinispan:config:6.0">
 
 	<global>
 	
@@ -18,18 +17,18 @@
 		<invocationBatching enabled="true"/>
 		<!-- disable jmx in prod -->
 		<jmxStatistics enabled="false"/>
-		<loaders passivation="false" shared="false" preload="false">		
+		<persistence passivation="false">		
 			  
-		       <loader class="org.infinispan.loaders.file.FileCacheStore" fetchPersistentState="false"
-	               ignoreModifications="false" purgeOnStartup="false">
+		       <store class="org.infinispan.persistence.file.SingleFileStore" fetchPersistentState="false"
+	               ignoreModifications="false" purgeOnStartup="false" shared="false" preload="false">
 	               <properties>
 	                 <property name="location" value="./files/store"/>
 	               </properties>
-	          </loader>
+	          </store>
 	          	
-			</loaders>
+		</persistence>
 		
-		    <eviction maxEntries="10" strategy="LRU"/>
+		<eviction maxEntries="10" strategy="LRU"/>
 
 		<transaction
 			transactionManagerLookupClass="org.infinispan.transaction.lookup.DummyTransactionManagerLookup"
@@ -41,14 +40,14 @@
 		 <invocationBatching enabled="true"/>
 		 <!-- disable jmx in prod -->
 		 <jmxStatistics enabled="true"/>
-	     <loaders passivation="false" shared="false" preload="false">
-	          <loader class="org.infinispan.loaders.file.FileCacheStore" fetchPersistentState="false"
-	               ignoreModifications="false" purgeOnStartup="false">
+	     <persistence passivation="false">
+	          <store class="org.infinispan.persistence.file.SingleFileStore" fetchPersistentState="false"
+	               ignoreModifications="false" purgeOnStartup="false" shared="false" preload="false">
 	            <properties>
 	                 <property name="location" value="./files/repos"/>
 	               </properties>
-	          </loader>
-	     </loaders>
+	          </store>
+	     </persistence>
 	     
 	     <transaction
 

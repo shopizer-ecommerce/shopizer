@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" 
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xmlns:drools="http://drools.org/schema/drools-spring"
 	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="
-   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
-   http://drools.org/schema/drools-spring http://anonsvn.jboss.org/repos/labs/labs/jbossrules/trunk/drools-container/drools-spring/src/main/resources/org/drools/container/spring/drools-spring-1.0.0.xsd
-   http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd">
+   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+   http://drools.org/schema/drools-spring http://drools.org/schema/drools-spring.xsd
+   http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<!-- Decision table for the the selection of a shipping method -->
 	<!-- from shopizer-shipping-decision-table-module -->
@@ -19,10 +19,10 @@
     <drools:ksession id="shippingMethodDecision" name="shippingMethodDecision" type="stateless" kbase="shippingMethodDecisionBase"/>
  
   	<!-- concrete module for the above kbase -->
-  	<bean id="shippingMethodDecisionProcess" class="com.salesmanager.core.modules.integration.shipping.impl.ShippingDecisionPreProcessorImpl">
-		<property name="shippingMethodDecision" ref="shippingMethodDecision" />
-		<property name="kbase" ref="shippingMethodDecisionBase" />
-	</bean>
+  	<beans:bean id="shippingMethodDecisionProcess" class="com.salesmanager.core.business.modules.integration.shipping.impl.ShippingDecisionPreProcessorImpl">
+		<beans:property name="shippingMethodDecision" ref="shippingMethodDecision" />
+		<beans:property name="kbase" ref="shippingMethodDecisionBase" />
+	</beans:bean>
 	
 	<!-- Custom shipping price based on drool rules -->
 	<!-- Basic custom shipping rules -->
@@ -35,12 +35,12 @@
     <drools:ksession id="shippingPriceRule" name="shippingPriceRule" type="stateless" kbase="shippingPriceDecisionBase"/>
     
     <!-- concrete module for the above kbase -->
-    <bean id="customShippingPriceModule" class="com.salesmanager.core.modules.integration.shipping.impl.CustomShippingQuoteRules">
-		<property name="shippingPriceRule" ref="shippingPriceRule" />
-		<property name="kbase" ref="shippingPriceDecisionBase" />
-	</bean>
+    <beans:bean id="customShippingPriceModule" class="com.salesmanager.core.business.modules.integration.shipping.impl.CustomShippingQuoteRules">
+		<beans:property name="shippingPriceRule" ref="shippingPriceRule" />
+		<beans:property name="kbase" ref="shippingPriceDecisionBase" />
+	</beans:bean>
 	
-	<!-- placeholder for order-total variation based on product manufacturer -->
+		<!-- placeholder for order-total variation based on product manufacturer -->
 	
 	<!-- Basic Manufacturer Shipping Method rules -->
 	<drools:kbase id="manufacturerShippingMethodOrderTotalBase">
@@ -52,11 +52,10 @@
 	<drools:ksession id="manufacturerShippingMethodOrderTotalDecision" name="manufacturerShippingMethodOrderTotalDecision" type="stateless" kbase="manufacturerShippingMethodOrderTotalBase"/>
  
   	<!-- concrete module for the above kbase -->
-  	<bean id="manufacturerShippingCodeOrderTotalModule" class="com.salesmanager.core.modules.order.total.ManufacturerShippingCodeOrderTotalModuleImpl">
-		<property name="orderTotalMethodDecision" ref="manufacturerShippingMethodOrderTotalDecision" />
-		<property name="kbase" ref="manufacturerShippingMethodOrderTotalBase" />
-		<property name="pricingService" ref="pricingService" />
-	</bean>
+  	<beans:bean id="manufacturerShippingCodeOrderTotalModule" class="com.salesmanager.core.business.modules.order.total.ManufacturerShippingCodeOrderTotalModuleImpl">
+		<beans:property name="orderTotalMethodDecision" ref="manufacturerShippingMethodOrderTotalDecision" />
+		<beans:property name="kbase" ref="manufacturerShippingMethodOrderTotalBase" />
+		<beans:property name="pricingService" ref="pricingService" />
+	</beans:bean>
 
-
-</beans>
+</beans:beans>

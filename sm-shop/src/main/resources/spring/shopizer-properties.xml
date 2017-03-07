@@ -1,0 +1,75 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+   http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+   http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+   http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	
+	<!-- 
+		image template bootstrap 350 x 376
+		image template bootstrap3 350 x 376
+		image template exotica 400 x 400
+	 -->
+
+
+	<util:properties id="shopizer-properties">
+    			<prop key="MULTIPLE_PRICE_AVAILABILITY">false</prop>
+    			<prop key="INDEX_PRODUCTS">true</prop>
+				<!-- Images -->
+				<prop key="PRODUCT_IMAGE_WIDTH_SIZE">400</prop>
+				<prop key="PRODUCT_IMAGE_HEIGHT_SIZE">400</prop>
+				<prop key="CROP_UPLOADED_IMAGES">false</prop>
+				
+				<!-- upload image validations -->
+				<prop key="PRODUCT_IMAGE_MAX_HEIGHT_SIZE">2000</prop>
+				<prop key="PRODUCT_IMAGE_MAX_WIDTH_SIZE">4000</prop>
+				<prop key="PRODUCT_IMAGE_MAX_SIZE">9000000</prop>
+				<prop key="IMAGE_FORMATS">jpg|png|gif</prop>
+				
+				<prop key="POPULATE_TEST_DATA">true</prop>
+				<prop key="SHOP_SCHEME">http</prop>
+				<!-- when removing the context path from the url put that value to blank (nothing) otherwise put the uri for the web app eg /sm-shop -->
+				<prop key="CONTEXT_PATH"></prop>
+				<prop key="URL_EXTENSION">.html</prop>
+				<!-- Google maps key -->
+				<prop key="shopizer.googlemaps_key">YOUR-KEY-HERE</prop>
+				<!-- #https://www.google.com/recaptcha/admin/create -->
+				<!-- to be used with localhost
+				<prop key="shopizer.recapatcha_public_key">6LefQwsTAAAAAJWgJfNq_LgUwYunqct2x-EBr_CY</prop>
+				<prop key="shopizer.recapatcha_private_key">6LefQwsTAAAAAM667PyQxTLkSfQ4P0YYeN5DQDTc</prop>
+				<prop key="shopizer.recapatcha_url"><![CDATA[https://www.google.com/recaptcha/api/siteverify]]></prop>
+				-->
+				<!-- express checkout url -->
+				<prop key="PAYPAL_EXPRESSCHECKOUT_SANDBOX"><![CDATA[https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=]]></prop>
+				<prop key="PAYPAL_EXPRESSCHECKOUT_PRODUCTION"><![CDATA[https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=]]></prop>
+				<prop key="PAYPAL_EXPRESSCHECKOUT_REGULAR"><![CDATA[_express-checkout&token=]]></prop>
+				<prop key="PAYPAL_EXPRESSCHECKOUT_MOBILE"><![CDATA[_express-checkout-mobile&token=]]></prop>
+	</util:properties>
+	
+	
+	<!-- templates -->
+	<!-- Add new templates in the list, should point to pages/shop/templates and resources/templates -->
+	<util:list id="templates" value-type="java.lang.String">
+		<value>bootstrap</value>
+		<value>bootstrap3</value>
+		<value>exoticamobilia</value>
+    </util:list>
+    
+    <bean id="initData" class="com.salesmanager.shop.init.data.InitStoreData"/>
+
+	
+ 
+ 
+ 
+	
+ 
+
+	
+	
+</beans>

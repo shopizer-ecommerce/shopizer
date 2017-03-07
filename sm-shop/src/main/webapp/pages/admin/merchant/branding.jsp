@@ -55,7 +55,7 @@
 		<div class="tab-pane active" id="catalogue-section">
 		
 				<c:url var="saveBrandingImage" value="/admin/store/saveBranding.html" />
-				<form:form method="POST" enctype="multipart/form-data" commandName="contentImages" action="${saveBrandingImage}">
+				<form:form method="POST" enctype="multipart/form-data" action="${saveBrandingImage}">
 
 					<form:errors path="*" cssClass="alert alert-error" element="div" />
 					<div id="store.success" class="alert alert-success"
@@ -72,8 +72,7 @@
 						
 									   <c:choose>
 				                        		<c:when test="${store.storeLogo==null}">
-				                                    
-				                                    <input class="input-file" id="file" name="file[0]" type="file"><br/>
+				                                    <input class="input-file" name="file" type="file"><br/>
 				                                </c:when>
 				                                <c:otherwise>
 				                                	<img src="<c:url value=""/><sm:contentImage imageName="${store.storeLogo}" imageType="LOGO"/>">

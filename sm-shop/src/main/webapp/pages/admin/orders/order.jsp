@@ -377,7 +377,7 @@ function captureOrder(orderId){
 							</c:if>
 				    	</li>
 				    	
-				    	<li><a href="<c:url value="/admin/orders/printInvoice.html?id=${order.id}" />"><s:message code="label.order.printinvoice" text="Print invoice"/></a></li>
+				    	<!--<li><a href="<c:url value="/admin/orders/printInvoice.html?id=${order.id}" />"><s:message code="label.order.printinvoice" text="Print invoice"/></a></li>-->
 				    	<!-- available soon <li><a href="<c:url value="/admin/orders/printShippingLabel.html?id=${order.id}" />"><s:message code="label.order.packing" text="Print packing slip"/></a></li>-->
 				    	<li>
 				    		<c:if test="${customer!=null}">
@@ -532,7 +532,7 @@ function captureOrder(orderId){
 				<s:message code="label.customer.order.date" text="Order date"/>			 		
 			 	<div class="controls">
 							<form:input  cssClass="input-large" path="datePurchased"  class="small" type="text"
-							 data-date-format="<%=com.salesmanager.core.constants.Constants.DEFAULT_DATE_FORMAT%>" />
+							 data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>" />
 							  <script type="text/javascript">
                                  $('#datePurchased').datepicker();
                               </script>
@@ -584,7 +584,17 @@ function captureOrder(orderId){
 			            	<c:set var="total" value="${orderProduct.oneTimeCharge * orderProduct.productQuantity }" />
 			            	
 							<tr> 
-								<td colspan="2"> <c:out value="${orderProduct.productName}" /> - <a href="<c:url value="/admin/products/viewEditProduct.html?sku=${orderProduct.sku}"/>"><c:out value="${orderProduct.sku}" /></a></td> 
+								<td colspan="2"> 
+									<c:out value="${orderProduct.productName}" /> - <a href="<c:url value="/admin/products/viewEditProduct.html?sku=${orderProduct.sku}"/>"><c:out value="${orderProduct.sku}" /></a>
+									<c:if test="${fn:length(orderProduct.orderAttributes)>0}">
+										<br/>
+											<ul>
+												<c:forEach items="${orderProduct.orderAttributes}" var="attribute">
+												<li>${attribute.productAttributeName} - ${attribute.productAttributeValueName}</li>
+												</c:forEach>
+											</ul>
+									</c:if>
+								</td> 
 								<td ><c:out value="${orderProduct.productQuantity}" /></td> 
 			            		<td><strong><sm:monetary value="${orderProduct.oneTimeCharge}" currency="${order.order.currency}"/></strong> </td>
 								<td><strong><sm:monetary value="${total}" currency="${order.order.currency}"/></strong></td> 
@@ -709,9 +719,4 @@ function captureOrder(orderId){
     <div class="modal-footer">
            <button class="btn btn-primary close-modal" id="closeModal" data-dismiss="modal" aria-hidden="true"><s:message code="button.label.close" text="Close" /></button>
     </div>
-</div>
-
-
-
-
-     			     
+</div

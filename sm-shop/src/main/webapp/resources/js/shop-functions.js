@@ -48,48 +48,41 @@ function loadProducts(url,divProductsContainer) {
 
 function searchProducts(url,divProductsContainer,q,filter) {
 	
-	log(q);
-	
-	
-	
+	//log(q);
+
 	if(q==null || q=='') {
 		return;
 	}
 
-    //category facets
-	var facets = '\"facets\" : { \"categories\" : { \"terms\" : {\"field\" : \"categories\"}}}';
+    //category aggregations
+	var aggregations = '\"aggregations\" : { \"categories\" : { \"terms\" : {\"field\" : \"categories\"}}}';
     var highlights = null;
 	var queryStart = '{';
 
-	//curl -XGET 'http://localhost:9200/product_en_default/_search' -d '{"query":{"multi_match":{"query": "buddha","fields": [ "name^3", "description", "tags" ]}},"facets" : { "categories" : { "terms" : {"field" : "categories"}}}}'
-	
-	//var query = '\"query\":{\"query_string\" : {\"fields\" : [\"name^3\", \"description\", \"tags\"], \"query\" : \"*' + q + '*", \"use_dis_max\" : true }}';
-	var query = '\"query\":{\"multi_match\" : {\"fields\" : [\"name^3\", \"description\", \"tags\"], \"query\" : \"*' + q + '*"}}';
+	var query = '\"query\":{\"query_string\" : {\"fields\" : [\"name^3\", \"description\", \"tags\"], \"query\" : \"' + q + '", \"use_dis_max\" : true }}';
 	if(filter!=null && filter!='') {
-		//query = '\"query\":{\"filtered\":{\"query\":{\"text\":{\"_all\":\"' + q + '\"}},' + filter + '}}';
 		query = query + ',' + filter + '}}';
 	}
 
-	if(facets!=null && facets!='') {
-		query = query + ',' + facets;
+	if(aggregations!=null && aggregations!='') {
+		query = query + ',' + aggregations;
 	}
 
 	var queryEnd = '}';
 	
 	query = queryStart + query + queryEnd;
+	
+	log(query);
 
 	$.ajax({
-  			cache: false,
+			cache: false,
   			type:"POST",
   			dataType:"json",
   			url:url,
   			data:query,
   			contentType:"application/json;charset=UTF-8",
 			success: function(productList) {
-
 				callBackSearchProducts(productList);
-
-
 			},
 			error: function(jqXHR,textStatus,errorThrown) { 
 				$(divProductsContainer).hideLoading();
