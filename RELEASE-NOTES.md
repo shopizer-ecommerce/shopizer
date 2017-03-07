@@ -1,6 +1,6 @@
-Release changes in version 2.5.0
+Release changes in version master
 
-- Not yet Alpha ;-) Please use 2.0.3 or master
+- From 2.0.5 branch
 
 - Spring Data JPA
 - Removal of QueryDSL

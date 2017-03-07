@@ -1,4 +1,4 @@
-Upcoming Shopizer 2.0.5 (for java 1.8)
+Master
 -------------------
 
 Java open source e-commerce software
@@ -60,9 +60,9 @@ run as Java Application
 ### Access the application:
 -------------------
 
-Access the deployed web application at: http://localhost:8080/sm-shop/shop
+Access the deployed web application at: http://localhost:8080/
 
-Acces the admin section at: http://localhost:8080/sm-shop/admin
+Acces the admin section at: http://localhost:8080/admin
 
 #####username : admin
 #####password : password
