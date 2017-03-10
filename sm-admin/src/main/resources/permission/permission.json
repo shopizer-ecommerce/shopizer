@@ -1,0 +1,122 @@
+{
+    "permission": [
+      {
+        "type": "STORE_ADMIN",
+        "group": {
+          "name": [
+            "SUPERADMIN",
+            "ADMIN"
+          ]
+        }
+      },
+      {
+        "type": "SUPERADMIN",
+        "group": { "name": ["SUPERADMIN"] }
+      },
+      {
+        "type": "ADMIN",
+        "group": {
+          "name": [
+            "SUPERADMIN",
+            "ADMIN"
+          ]
+        }
+      },
+      {
+        "type": "AUTH",
+        "group": {
+          "name": [
+            "SUPERADMIN",
+            "ADMIN",
+            "ADMIN_CATALOGUE",
+            "ADMIN_STORE",
+            "ADMIN_ORDER"
+          ]
+        }
+      },
+      {
+        "type": "PRODUCTS",
+        "group": {
+          "name": [
+            "SUPERADMIN",
+            "ADMIN",
+            "ADMIN_CATALOGUE"
+          ]
+        }
+      },
+      {
+        "type": "ORDER",
+        "group": {
+          "name": [
+            "SUPERADMIN",
+            "ADMIN",
+            "ADMIN_ORDER"
+          ]
+        }
+      },
+      {
+        "type": "CONTENT",
+        "group": {
+          "name": [
+            "SUPERADMIN",
+            "ADMIN",
+            "ADMIN_CONTENT"
+          ]
+        }
+      },
+      {
+        "type": "STORE",
+        "group": {
+          "name": [
+            "SUPERADMIN",
+            "ADMIN",
+            "ADMIN_STORE"
+          ]
+        }
+      },
+      {
+        "type": "TAX",
+        "group": {
+          "name": [
+            "SUPERADMIN",
+            "ADMIN",
+            "ADMIN_STORE"
+          ]
+        }
+      },
+      {
+        "type": "PAYMENT",
+        "group": {
+          "name": [
+            "SUPERADMIN",
+            "ADMIN",
+            "ADMIN_STORE"
+          ]
+        }
+      },
+      {
+        "type": "CUSTOMER",
+        "group": {
+          "name": [
+            "SUPERADMIN",
+            "ADMIN",
+            "ADMIN_STORE"
+          ]
+        }
+      },
+      {
+        "type": "SHIPPING",
+        "group": {
+          "name": [
+            "SUPERADMIN",
+            "ADMIN",
+            "ADMIN_STORE"
+          ]
+        }
+      },
+      {
+        "type": "AUTH_CUSTOMER",
+        "group": { "name": ["CUSTOMER" ]}
+      }
+    ]
+  }
