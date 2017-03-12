@@ -5,6 +5,12 @@
   Time: 8:43 PM
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+
 <section class="content">
     <!-- Info boxes -->
     <div class="row">
@@ -70,7 +76,7 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">Responsive Hover Table</h3>
+                    <h3 class="box-title"><s:message code="label.store.information" text="Store information" /></h3>
 
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -82,40 +88,56 @@
                 <div class="box-body table-responsive no-padding">
                     <table class="table table-hover">
                         <tr>
-                            <th>ID</th>
-                            <th>User</th>
-                            <th>Date</th>
-                            <th>Status</th>
-                            <th>Reason</th>
+                            <th>Store Name </th>
+                            <td><c:out value="${store.storename}"/></td>
+
                         </tr>
+                        <c:if test="${not empty store.storeaddress}">
+                            <tr>
+                                <th>Store Address</th>
+                                <td><c:out value="${store.storeaddress}"/></td>
+                            </tr>
+                        </c:if>
+                        <c:if test="${not empty store.storecity}">
+                            <tr>
+                                <th>City</th>
+                                <td><c:out value="${store.storecity}"/></td>
+                            </tr>
+                        </c:if>
+                        <c:choose>
+
+                            <c:when test="${not empty store.zone}">
+                                <tr>
+                                    <th>Zone</th>
+                                    <td><c:out value="${store.zone.code}"/></td>
+                                </tr>
+                            </c:when>
+                            <c:otherwise>
+                                <c:if test="${not empty store.storestateprovince}">
+                                    <tr>
+                                        <th>Zone</th>
+                                        <td> <c:out value="${store.storestateprovince}"/></td>
+                                    </tr>
+                                </c:if>
+                            </c:otherwise>
+                        </c:choose>
+                        </tr>
+                        <c:if test="${not empty store.storepostalcode}">
+                            <tr>
+                                <th>Postal Code</th>
+                                <td><c:out value="${store.storepostalcode}"/></td>
+                            </tr>
+                        </c:if>
                         <tr>
-                            <td>183</td>
-                            <td>John Doe</td>
-                            <td>11-7-2014</td>
-                            <td><span class="label label-success">Approved</span></td>
-                            <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                            <th>Country</th>
+                            <td><c:out value="${country.name}"/></td>
                         </tr>
-                        <tr>
-                            <td>219</td>
-                            <td>Alexander Pierce</td>
-                            <td>11-7-2014</td>
-                            <td><span class="label label-warning">Pending</span></td>
-                            <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                        </tr>
-                        <tr>
-                            <td>657</td>
-                            <td>Bob Doe</td>
-                            <td>11-7-2014</td>
-                            <td><span class="label label-primary">Approved</span></td>
-                            <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                        </tr>
-                        <tr>
-                            <td>175</td>
-                            <td>Mike Doe</td>
-                            <td>11-7-2014</td>
-                            <td><span class="label label-danger">Denied</span></td>
-                            <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                        </tr>
+                        <c:if test="${not empty store.storephone}">
+                            <tr>
+                                <th>Phone Number</th>
+                                <td><c:out value="${store.storephone}"/></td>
+                            </tr>
+                        </c:if>
                     </table>
                 </div>
                 <!-- /.box-body -->
@@ -124,14 +146,13 @@
         </div>
     </div>
 
+    <sec:authorize access="hasAnyRole('ADMIN', 'SUPERADMIN', 'ADMIN_ORDER')">
+      <c:if test="${not empty orderList}">
     <!-- Main row -->
     <div class="row">
         <!-- Left col -->
         <div class="col-md-12">
             <!-- MAP & BOX PANE -->
-
-
-
             <!-- TABLE: LATEST ORDERS -->
             <div class="box box-info">
                 <div class="box-header with-border">
@@ -150,21 +171,23 @@
                             <thead>
                             <tr>
                                 <th>Order ID</th>
-                                <th>Item</th>
+                                <th>Date</th>
                                 <th>Status</th>
-                                <th>Popularity</th>
+                                <th>Total Price</th>
                             </tr>
                             </thead>
                             <tbody>
+                            <c:forEach items="${orderList.orders}" var="order">
                             <tr>
-                                <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                                <td>Call of Duty IV</td>
-                                <td><span class="label label-success">Shipped</span></td>
+                                <td><a href="#">${order.id}</a></td>
+                                <td>${order.datePurchased}</td>
+                                <td><span class="label label-success">${order.status}</span></td>
                                 <td>
-                                    <div class="sparkbar" data-color="#00a65a" data-height="20">90,80,90,-70,61,-83,63</div>
+                                    <div class="sparkbar" data-color="#00a65a" data-height="20">${order.total}</div>
                                 </td>
                             </tr>
-                            <tr>
+                            </c:forEach>
+                            <%--<tr>
                                 <td><a href="pages/examples/invoice.html">OR1848</a></td>
                                 <td>Samsung Smart TV</td>
                                 <td><span class="label label-warning">Pending</span></td>
@@ -211,7 +234,7 @@
                                 <td>
                                     <div class="sparkbar" data-color="#00a65a" data-height="20">90,80,90,-70,61,-83,63</div>
                                 </td>
-                            </tr>
+                            </tr>--%>
                             </tbody>
                         </table>
                     </div>
@@ -232,4 +255,6 @@
         <!-- /.col -->
     </div>
     <!-- /.row -->
+      </c:if>
+    </sec:authorize>
 </section>
