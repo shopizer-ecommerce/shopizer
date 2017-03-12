@@ -11,3 +11,5 @@
 *.class
 /bin/
 /WebContent/
+/.gradle/
+*/**/org.eclipse.buildship.core.prefs

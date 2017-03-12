@@ -1,0 +1,16 @@
+rootProject.name = 'shopizer'
+include ':sm-core-model'
+include ':sm-core-modules'
+include ':sm-core'
+include ':sm-search'
+include ':sm-shop'
+include ':shopizer-shipping-canadapost-module'
+include ':shopizer-shipping-distance-processor'
+
+project(':sm-core-model').projectDir = "$rootDir/sm-core-model" as File
+project(':sm-core-modules').projectDir = "$rootDir/sm-core-modules" as File
+project(':sm-core').projectDir = "$rootDir/sm-core" as File
+project(':sm-search').projectDir = "$rootDir/sm-search" as File
+project(':sm-shop').projectDir = "$rootDir/sm-shop" as File
+project(':shopizer-shipping-canadapost-module').projectDir = "$rootDir/shopizer-canadapost" as File
+project(':shopizer-shipping-distance-processor').projectDir = "$rootDir/shopizer-shipping-distance-module" as File
