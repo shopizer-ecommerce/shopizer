@@ -1,0 +1,6 @@
+com.shopizer.search.services
+com.shopizer.search.services.field
+com.shopizer.search.services.impl
+com.shopizer.search.services.worker
+com.shopizer.search.services.workflow
+com.shopizer.search.utils

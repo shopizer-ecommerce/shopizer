@@ -1,0 +1,7 @@
+com.salesmanager.core.modules
+com.salesmanager.core.modules.constants
+com.salesmanager.core.modules.integration
+com.salesmanager.core.modules.integration.payment.model
+com.salesmanager.core.modules.integration.shipping.model
+com.salesmanager.core.modules.order.total
+com.salesmanager.core.modules.utils
