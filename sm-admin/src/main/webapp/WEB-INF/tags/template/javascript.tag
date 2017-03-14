@@ -3,10 +3,18 @@
 
 <%@ taglib prefix="template" tagdir="/WEB-INF/tags/template"%>
 
-<!-- jQuery 2.2.3 -->
-<script src="${contextPath}/plugins/jQuery/jquery-2.2.3.min.js"></script>
+
 <!-- Bootstrap 3.3.6 -->
 <script src="${contextPath}/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- for pagination and searching -->
+
+<script src="${contextPath}/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="${contextPath}/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<!-- SlimScroll -->
+<script src="${contextPath}/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+
+
 <!-- FastClick -->
 <script src="${contextPath}/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
@@ -20,7 +28,8 @@
 <script src="${contextPath}/plugins/slimScroll/jquery.slimscroll.min.js"></script>
 <!-- ChartJS 1.0.1 -->
 <script src="${contextPath}/plugins/chartjs/Chart.min.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="${contextPath}/dist/js/pages/dashboard2.js"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes)
+<script src="${contextPath}/dist/js/pages/dashboard2.js"></script>-->
 <!-- AdminLTE for demo purposes -->
 <script src="${contextPath}/dist/js/demo.js"></script>
+

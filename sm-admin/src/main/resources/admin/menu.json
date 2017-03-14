@@ -250,12 +250,12 @@
 "menu":{
 "code":"order",
 "icon":"fa fa-shopping-cart",
-"url":"/admin/orders/list.html", 
+"url":"/admin/order.html",
 "role":"ORDER",
 "order":8,
 "menus":[
 	{"menu":{
-		"code":"order-list","url":"/admin/orders/list.html","role":"ORDER","order":0
+		"code":"order-list","url":"/admin/orders.html","role":"ORDER","order":0
 	}}
 ]
 }},

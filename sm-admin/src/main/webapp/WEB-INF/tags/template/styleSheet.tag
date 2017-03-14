@@ -10,7 +10,7 @@
 <!-- Ionicons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
 
-
+<link rel="stylesheet" href="${contextPath}/plugins/datatables/dataTables.bootstrap.css">
 <link rel="stylesheet" href="${contextPath}/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
 <!-- Theme style -->
 <link rel="stylesheet" href="${contextPath}/dist/css/AdminLTE.min.css">

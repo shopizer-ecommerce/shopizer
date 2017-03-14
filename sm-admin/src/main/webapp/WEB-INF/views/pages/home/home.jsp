@@ -11,6 +11,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
+<%@ taglib prefix="header" tagdir="/WEB-INF/tags/header"%>
+
+
+<header:breadcrumb breadcrumb=""/>
 <section class="content">
     <!-- Info boxes -->
     <div class="row">
@@ -243,7 +247,7 @@
                 <!-- /.box-body -->
                 <div class="box-footer clearfix">
                     <a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat pull-left">Place New Order</a>
-                    <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">View All Orders</a>
+                    <a href="<c:url value="/admin/orders.html"/>" class="btn btn-sm btn-default btn-flat pull-right">View All Orders</a>
                 </div>
                 <!-- /.box-footer -->
             </div>

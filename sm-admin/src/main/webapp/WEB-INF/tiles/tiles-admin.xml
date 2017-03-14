@@ -21,6 +21,11 @@
     </definition>
 
 
+    <!-- Order Section -->
+    <definition name="admin-orders" extends="admin.layout.basic">
+        <put-attribute name="body" value="/WEB-INF/views/pages/order/orderList.jsp" />
+    </definition>
+
 
 
 

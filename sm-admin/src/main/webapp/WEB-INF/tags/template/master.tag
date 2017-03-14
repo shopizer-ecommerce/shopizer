@@ -37,7 +37,8 @@
 
     <%-- CSS Files Are Loaded First as they can be downloaded in parallel --%>
     <template:styleSheet/>
-
+        <!-- jQuery 2.2.3 -->
+        <script src="${contextPath}/plugins/jQuery/jquery-2.2.3.min.js"></script>
 
 </head>
 
@@ -86,19 +87,7 @@
        <!-- /.sidebar -->
    </aside>
 
-   <!-- Content Wrapper. Contains page content -->
-   <div class="content-wrapper">
-       <!-- Content Header (Page header) -->
-       <section class="content-header">
-           <h1>
-               Dashboard
-               <small>Version 2.0</small>
-           </h1>
-           <ol class="breadcrumb">
-               <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-               <li class="active">Dashboard</li>
-           </ol>
-       </section>
+
 
        <!-- Main content -->
             <tiles:insertAttribute name="body"/>

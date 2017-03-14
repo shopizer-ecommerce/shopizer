@@ -14,7 +14,7 @@
     <c:forEach items="${requestScope.MENULIST}" var="menu">
        <%-- <sec:authorize access="hasRole('${menu.role}') and fullyAuthenticated">--%>
             <li class="${not empty activeMenus[menu.code] ? 'active treeview' : 'treeview'} ">
-                <a href="#">  <%--<c:url value="${menu.url}" />--%>
+                <a href="<c:url value="${menu.url}" />">  <%--<c:url value="${menu.url}" />--%>
                     <i class="${menu.icon}"></i>
                     <span><spring:message code="menu.${menu.code}" text="${menu.code}"/></span>
                     <span class="pull-right-container">
