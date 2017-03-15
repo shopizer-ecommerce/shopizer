@@ -23,13 +23,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.salesmanager.core.business.services.merchant.MerchantStoreService;
-import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.business.services.system.OptinService;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
 import com.salesmanager.core.model.merchant.MerchantStore;
-import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.system.optin.Optin;
 import com.salesmanager.shop.admin.controller.ControllerConstants;
 import com.salesmanager.shop.admin.model.web.Menu;
@@ -75,8 +72,6 @@ public class CustomerOptinController {
 
 		
 		this.setMenu(model, request);
-		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
-		
 		List<MerchantStore> stores = merchantService.list();
 
 		Optin optin = new Optin();
