@@ -15,7 +15,9 @@ import com.salesmanager.core.business.services.reference.language.LanguageServic
 import com.salesmanager.core.business.services.reference.zone.ZoneService;
 import com.salesmanager.core.business.services.shoppingcart.ShoppingCartCalculationService;
 import com.salesmanager.core.business.services.shoppingcart.ShoppingCartService;
+import com.salesmanager.core.business.services.system.CustomerOptinService;
 import com.salesmanager.core.business.services.system.EmailService;
+import com.salesmanager.core.business.services.system.OptinService;
 import com.salesmanager.core.business.services.user.GroupService;
 import com.salesmanager.core.business.services.user.PermissionService;
 import com.salesmanager.core.model.customer.Customer;
@@ -24,6 +26,8 @@ import com.salesmanager.core.model.reference.country.Country;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.reference.zone.Zone;
 import com.salesmanager.core.model.shoppingcart.ShoppingCart;
+import com.salesmanager.core.model.system.optin.CustomerOptin;
+import com.salesmanager.core.model.system.optin.Optin;
 import com.salesmanager.core.model.user.Group;
 import com.salesmanager.core.model.user.GroupType;
 import com.salesmanager.core.model.user.Permission;
@@ -125,6 +129,12 @@ public class CustomerFacadeImpl implements CustomerFacade
  	 
  	 @Inject
      private AuthenticationManager customerAuthenticationManager;
+ 	 
+// 	@Inject
+//    private CustomerOptinService customerOptinService;
+ 	
+// 	@Inject
+//    private OptinService optinService;
 
 
 
@@ -549,5 +559,17 @@ public class CustomerFacadeImpl implements CustomerFacade
             customerService.saveOrUpdate( customerModel );
             return customerModel;
 	}
+
+
+//	@Override
+//	public void newsletterSubscription(MerchantStore store, String email, Customer customer) throws Exception {
+//		List<Optin> optin = optinService.findByMerchant(store.getId());
+//		
+//		
+//		CustomerOptin customerOptin = new CustomerOptin();
+//		customerOptin.setFirstName(customer.get);
+//		customerOptinService.update(entity);
+//		
+//	}
 
 }

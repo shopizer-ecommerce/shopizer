@@ -51,6 +51,14 @@
   		<put-attribute name="body" value="/pages/admin/customers/optionsset.jsp" /> 
   	</definition>
   	
+  	<definition name="admin-customer-optins-list" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/customers/optins.jsp" /> 
+  	</definition>
+  	
+  	<definition name="admin-customer-optins-details" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/customers/optin.jsp" /> 
+  	</definition>
+  	
   	 <definition name="admin-products" template="/layout/admin/layout.jsp">
   		<put-attribute name="body" value="/pages/admin/products/products.jsp" /> 
   	</definition>

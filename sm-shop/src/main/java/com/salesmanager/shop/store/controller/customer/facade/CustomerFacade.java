@@ -84,6 +84,8 @@ public interface CustomerFacade
 	Customer populateCustomerModel(Customer customerModel, PersistableCustomer customer,
 			MerchantStore merchantStore, Language language) throws Exception;
 	
+//	public void newsletterSubscription(final MerchantStore store, String email, Customer customer) throws Exception;
+//	
 
 	
 

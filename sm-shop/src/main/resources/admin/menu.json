@@ -244,6 +244,18 @@
 			}}
 		]
 	}}
+	,
+	{"menu":{
+		"code":"optin-customers","url":"","role":"CUSTOMER","order":1,"menus":
+		[
+			{"menu":{
+				"code":"optin-customers-list","url":"/admin/customers/optin/list.html","role":"CUSTOMER","order":0
+			}},
+			{"menu":{
+				"code":"optin-customers-create","url":"/admin/customers/optin/create.html","role":"CUSTOMER","order":1
+			}}
+		]
+	}}
 ]
 }},
 {

@@ -45,6 +45,12 @@ public interface ControllerConstants
 
         }
         
+        
+        interface Optin{
+            final String optinsList="admin-customer-optins-list";
+            final String optinDetails="admin-customer-optins-details";
+        }
+        
         interface Product{
             final String productReviews="catalogue-product-reviews";
             final String productPrices="admin-products-prices";
