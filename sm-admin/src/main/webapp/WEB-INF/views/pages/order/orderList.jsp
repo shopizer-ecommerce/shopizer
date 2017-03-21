@@ -10,77 +10,133 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-<%@ taglib prefix="header" tagdir="/WEB-INF/tags/header"%>
+<%@ taglib prefix="header" tagdir="/WEB-INF/tags/header" %>
 
 
 <header:breadcrumb breadcrumb="Order List"/>
 
-<!-- Main content -->
+
 <section class="content">
+
+    <!-- search  section -->
+
+    <div class="box box-default">
+        <div class="box-header with-border">
+            <h3 class="box-title">Search</h3>
+
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                        class="fa fa-minus"></i></button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i
+                        class="fa fa-remove"></i></button>
+            </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="control-label" for="order_id">Order ID</label>
+                        <input id="order_id" name="order_id" value="" placeholder="Order ID"
+                               class="form-control" type="text">
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="control-label" for="status">Order status</label>
+                        <input id="status" name="status" value="" placeholder="Status"
+                               class="form-control" type="text">
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="control-label" for="customer">Customer</label>
+                        <input id="customer" name="customer" value="" placeholder="Customer"
+                               class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="control-label" for="date_added">Date added</label>
+                        <div class="input-group date">
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            <input id="date_added" class="form-control" value="03/04/2014"
+                                   type="datepicker">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="control-label" for="date_modified">Date modified</label>
+                        <div class="input-group date">
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            <input id="date_modified" class="form-control" value="03/06/2014"
+                                   type="datepicker">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="control-label" for="amount">Amount</label>
+                        <input id="amount" name="amount" value="" placeholder="Amount"
+                               class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <button type="button" id="orderSearch" class="btn btn-block btn-primary btn-sm">
+                        Search
+                    </button>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+
+    </div>
+
+    <!-- end of search section -->
+
     <div class="row">
         <div class="col-xs-12">
-
             <div class="box">
                 <div class="box-header">
                     <h3 class="box-title"><s:message code="label.order.title"/></h3>
                 </div>
                 <!-- /.box-header -->
-                <c:choose>
-                    <c:when test="${not empty orderList.orders}">
-
-                        <div class="box-body">
-                            <table id="orders" class="table table-bordered table-striped">
-                                <thead>
-                                <tr>
-                                    <th>Order Number</th>
-                                    <th>Customer ID</th>
-                                    <th>Order Total</th>
-                                    <th>Status</th>
-                                    <th>Date Placed</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <c:forEach items="${orderList.orders}" var="order">
-                                    <tr>
-                                        <td><a href="#">${order.id}</a></td>
-                                        <td><a href="#">${order.customerId}</a>
-                                        </td>
-                                        <td>${order.total}</td>
-                                        <td>${order.status}</td>
-                                        <td>${order.datePurchased}</td>
-                                    </tr>
-
-                                </c:forEach>
-
-                                </tbody>
-                                <tfoot>
-                                <tr>
-                                    <th>Order Number</th>
-                                    <th>Customer ID</th>
-                                    <th>Order Total</th>
-                                    <th>Status</th>
-                                    <th>Date Placed</th>
-                                </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                        <!-- /.box-body -->
-                    </c:when>
-
-                <c:otherwise>
                 <div class="box-body">
-                    <table  class="table table-bordered table-striped">
+                    <table id="orders" class="table table-bordered table-hover">
+                        <thead>
                         <tr>
-                            <td>No Orders</td>
+                            <th>Order Number</th>
+                            <th>Customer ID</th>
+                            <th>Order Total</th>
+                            <th>Status</th>
+                            <th>Date Placed</th>
                         </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th>Order Number</th>
+                            <th>Customer ID</th>
+                            <th>Order Total</th>
+                            <th>Status</th>
+                            <th>Date Placed</th>
+                        </tr>
+                        </tfoot>
                     </table>
                 </div>
-               </c:otherwise>
-
-                </c:choose>
-
-
+                <!-- /.box-body -->
             </div>
+            <!-- /.box -->
+
+
             <!-- /.box -->
         </div>
         <!-- /.col -->
@@ -89,11 +145,53 @@
 </section>
 
 <script>
-    $(window).on('load', function() {
-        $("#orders").DataTable();
-// your standard jquery code goes here with $ prefix
-// best used inside a page with inline code,
-// or outside the document ready, enter code here
+    $(window).on('load', function () {
+        //var table12 = $('#orders').DataTable();
+        var table ;
+        $('#orders').DataTable({
+                                               serverSide: true,
+                                               //searching: false,
+                                               contentType: "application/json",
+                                               dataType: 'json',
+                                               processing: true,
+                                               ajax: '/sm-admin/admin/orders.html',
+
+                                               "aoColumnDefs": [
+                                                   {
+                                                       "aTargets": [0], // Column to target
+                                                       "mRender": function (data, type, full) {
+
+                                                           return '<a href="<c:url value="/admin/order/"/>' + data
+                                                                  + '">' + data + '</a>';
+                                                       }
+                                                   }
+                                               ],
+
+                                               "columns": [
+                                                   {"data": "orderNumber", "orderable": true},
+                                                   {"data": "customerId"},
+                                                   {"data": "orderTotal"},
+                                                   {"data": "status", "orderable": true},
+                                                   {"data": "date", "orderable": true}
+                                               ]
+                                           });
+
+        $('#date_added').datepicker({
+                                        autoclose: true
+                                    });
+
+        $('#date_modified').datepicker({
+                                           autoclose: true
+                                       });
+
+        $('#orderSearch').on('click', function () {
+
+            table.columns(0).search($("#order_id").val()).column(1).search($("#status").val())
+                .draw();
+            //table.search( $(this).val() ).search("umesh").draw();
+        });
+
     });
+
 
 </script>

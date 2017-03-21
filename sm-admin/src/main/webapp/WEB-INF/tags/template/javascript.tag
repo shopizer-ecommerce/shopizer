@@ -28,8 +28,9 @@
 <script src="${contextPath}/plugins/slimScroll/jquery.slimscroll.min.js"></script>
 <!-- ChartJS 1.0.1 -->
 <script src="${contextPath}/plugins/chartjs/Chart.min.js"></script>
+
+<script src="${contextPath}/plugins/datepicker/bootstrap-datepicker.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes)
 <script src="${contextPath}/dist/js/pages/dashboard2.js"></script>-->
 <!-- AdminLTE for demo purposes -->
 <script src="${contextPath}/dist/js/demo.js"></script>
-

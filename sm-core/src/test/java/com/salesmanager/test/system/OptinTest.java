@@ -1,17 +1,26 @@
 package com.salesmanager.test.system;
 
-import java.util.Date;
+import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.services.system.OptinService;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.system.optin.Optin;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.util.Assert;
-import com.salesmanager.core.business.exception.ServiceException;
-import com.salesmanager.core.model.merchant.MerchantStore;
-import com.salesmanager.core.model.system.optin.Optin;
+
+import java.util.Date;
+
+import javax.inject.Inject;
+
 @Ignore
 public class OptinTest extends com.salesmanager.test.common.AbstractSalesManagerCoreTestCase{
 	
 	MerchantStore store;
+
+	@Inject
+    protected OptinService optinService;
 	
 	@Before
 	public void setUpClass() throws ServiceException {

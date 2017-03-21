@@ -12,6 +12,7 @@
 
 <link rel="stylesheet" href="${contextPath}/plugins/datatables/dataTables.bootstrap.css">
 <link rel="stylesheet" href="${contextPath}/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
+<link rel="stylesheet" href="${contextPath}/plugins/datepicker/datepicker3.css">
 <!-- Theme style -->
 <link rel="stylesheet" href="${contextPath}/dist/css/AdminLTE.min.css">
 <!-- AdminLTE Skins. Choose a skin from the css/skins
