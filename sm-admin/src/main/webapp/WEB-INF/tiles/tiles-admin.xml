@@ -26,6 +26,14 @@
         <put-attribute name="body" value="/WEB-INF/views/pages/order/orderList.jsp" />
     </definition>
 
+    <!-- Configuration section -->
+
+    <definition name="admin-cache" extends="admin.layout.basic">
+        <put-attribute name="body" value="/WEB-INF/views/pages/configuration/cacheManagement.jsp" />
+    </definition>
+
+
+
 
 
 
