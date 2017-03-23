@@ -32,6 +32,12 @@
         <put-attribute name="body" value="/WEB-INF/views/pages/configuration/cacheManagement.jsp" />
     </definition>
 
+    <definition name="config-accounts" extends="admin.layout.basic">
+        <put-attribute name="body" value="/WEB-INF/views/pages/configuration/accounts.jsp" />
+    </definition>
+
+
+
 
 
 
