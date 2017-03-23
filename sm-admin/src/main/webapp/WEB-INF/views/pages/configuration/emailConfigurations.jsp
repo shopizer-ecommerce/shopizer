@@ -14,7 +14,7 @@
 <%@ taglib prefix="header" tagdir="/WEB-INF/tags/header" %>
 
 
-<header:breadcrumb breadcrumb="Configuration"/>
+<header:breadcrumb breadcrumb="Email Configuration"/>
 <section class="content">
 
     <c:if test="${success eq 'success'}">

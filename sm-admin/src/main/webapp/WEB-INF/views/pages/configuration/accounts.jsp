@@ -48,7 +48,6 @@
                        action="${saveAccountsConfiguration}" id="sm-configuration">
             <c:forEach var="merchantConfig" items="${configuration.merchantConfigs}"
                        varStatus="counter">
-
             <c:if test="${(counter.index) % 2 == 0}">
             <div class="row">
                 </c:if>
@@ -66,7 +65,6 @@
                 </div>
                 <c:choose>
                 <c:when test="${(fn:length(configuration.merchantConfigs) le 2 ) && (fn:length(configuration.merchantConfigs) eq (counter.count))}">
-
             </div>
             </c:when>
             <c:otherwise>
@@ -74,12 +72,9 @@
 
         </div>
         </c:if>
-
         </c:otherwise>
         </c:choose>
-
-
-        </c:forEach>
+         </c:forEach>
         </form:form>
 
 

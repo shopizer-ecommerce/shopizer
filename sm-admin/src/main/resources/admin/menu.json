@@ -298,10 +298,10 @@
 		"code":"accounts-conf","url":"/admin/configuration/accounts.html","role":"AUTH","order":0
 	}},
 	{"menu":{
-		"code":"email-conf","url":"/admin/configuration/email.html","role":"AUTH","order":1
+		"code":"email-conf","url":"/admin/configuration/email.html","role":"AUTH","order":1,"icon":"fa fa-inbox"
 	}},
 	{"menu":{
-		"code":"system-configurations","url":"/admin/configuration/system.html","role":"AUTH","order":2
+		"code":"system-configurations","url":"/admin/configuration/system.html","role":"AUTH","order":2,"icon" :"fa fa-cog"
 	}}
 ]
 }}

@@ -40,6 +40,11 @@
         <put-attribute name="body" value="/WEB-INF/views/pages/configuration/emailConfigurations.jsp" />
     </definition>
 
+    <definition name="config-system" extends="admin.layout.basic">
+        <put-attribute name="body" value="/WEB-INF/views/pages/configuration/system.jsp" />
+    </definition>
+
+
 
 
 
