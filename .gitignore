@@ -13,4 +13,4 @@
 /WebContent/
 /SALESMANAGER.h2.db/
 /SALESMANAGER.lock.db/
-*/sm-shop/
+*/sm-shop/**

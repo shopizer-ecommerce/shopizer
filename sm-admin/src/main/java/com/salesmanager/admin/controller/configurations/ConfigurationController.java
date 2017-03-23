@@ -4,6 +4,8 @@ import com.salesmanager.admin.constants.Constants;
 import com.salesmanager.admin.controller.ControllerConstants;
 import com.salesmanager.admin.controller.pages.AbstractAdminController;
 import com.salesmanager.admin.data.ConfigListWrapper;
+import com.salesmanager.admin.data.Menu;
+import com.salesmanager.core.business.modules.email.EmailConfig;
 import com.salesmanager.core.business.services.system.EmailService;
 import com.salesmanager.core.business.services.system.MerchantConfigurationService;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -23,8 +25,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -52,7 +56,11 @@ public class ConfigurationController extends AbstractAdminController {
     @RequestMapping(value="/admin/configuration/accounts.html", method= RequestMethod.GET)
     public String displayAccountsConfguration(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+        Map<String,String> activeMenus = new HashMap<String,String>();
+        activeMenus.put("configuration", "configuration");
+        activeMenus.put("accounts-conf", "accounts-conf");
 
+        setMenu(model, (Map<String, Menu>) request.getAttribute("MENUMAP"), "configuration", activeMenus);
         List<MerchantConfiguration> configs = new ArrayList<MerchantConfiguration>();
         MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
         MerchantConfiguration merchantFBConfiguration = merchantConfigurationService.getMerchantConfiguration(Constants.KEY_FACEBOOK_PAGE_URL,store);
@@ -112,7 +120,12 @@ public class ConfigurationController extends AbstractAdminController {
     @RequestMapping(value="/admin/configuration/saveConfiguration.html", method=RequestMethod.POST)
     public String saveConfigurations(@ModelAttribute("configuration") ConfigListWrapper configWrapper, BindingResult result, Model model, HttpServletRequest request, Locale locale) throws Exception
     {
-        //setConfigurationMenu(model, request);
+        Map<String,String> activeMenus = new HashMap<String,String>();
+        activeMenus.put("configuration", "configuration");
+        activeMenus.put("accounts-conf", "accounts-conf");
+
+        setMenu(model, (Map<String, Menu>) request.getAttribute("MENUMAP"), "configuration", activeMenus);
+
         List<MerchantConfiguration> configs = configWrapper.getMerchantConfigs();
         MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
         for(MerchantConfiguration mConfigs : configs)
@@ -133,4 +146,66 @@ public class ConfigurationController extends AbstractAdminController {
         return ControllerConstants.Tiles.Configuration.accounts;
 
     }
+
+
+    @PreAuthorize("hasRole('AUTH')")
+    @RequestMapping(value="/admin/configuration/email.html", method=RequestMethod.GET)
+    public String displayEmailSettings(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        Map<String,String> activeMenus = new HashMap<String,String>();
+        activeMenus.put("configuration", "configuration");
+        activeMenus.put("email-conf", "email-conf");
+        setMenu(model, (Map<String, Menu>) request.getAttribute("MENUMAP"), "configuration", activeMenus);
+
+        MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
+        EmailConfig emailConfig = emailService.getEmailConfiguration(store);
+        if(emailConfig == null){
+            emailConfig = new EmailConfig();
+            //TODO: Need to check below properties. When there are no record available in MerchantConfguration table with EMAIL_CONFIG key,
+            // instead of showing blank fields in setup screen, show default configured values from email.properties
+            emailConfig.setProtocol(env.getProperty("mailSender.protocol"));
+            emailConfig.setHost(env.getProperty("mailSender.host"));
+            emailConfig.setPort(env.getProperty("mailSender.port}"));
+            emailConfig.setUsername(env.getProperty("mailSender.username"));
+            emailConfig.setPassword(env.getProperty("mailSender.password"));
+            emailConfig.setSmtpAuth(Boolean.parseBoolean(env.getProperty("mailSender.mail.smtp.auth")));
+            emailConfig.setStarttls(Boolean.parseBoolean(env.getProperty("mail.smtp.starttls.enable")));
+        }
+
+         model.addAttribute("configuration", emailConfig);
+        return ControllerConstants.Tiles.Configuration.email;
+    }
+
+    @PreAuthorize("hasRole('AUTH')")
+    @RequestMapping(value="/admin/configuration/saveEmailConfiguration.html", method=RequestMethod.POST)
+    public String saveEmailSettings(@ModelAttribute("configuration") EmailConfig config, BindingResult result, Model model, HttpServletRequest request, Locale locale) throws Exception {
+
+        Map<String,String> activeMenus = new HashMap<String,String>();
+        activeMenus.put("configuration", "configuration");
+        activeMenus.put("email-conf", "email-conf");
+        setMenu(model, (Map<String, Menu>) request.getAttribute("MENUMAP"), "configuration", activeMenus);
+
+        MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
+        EmailConfig emailConfig = emailService.getEmailConfiguration(store);
+        if(emailConfig == null){
+            emailConfig = new EmailConfig();
+        }
+
+        // populte EmailConfig model from UI values
+        emailConfig.setProtocol(config.getProtocol());
+        emailConfig.setHost(config.getHost());
+        emailConfig.setPort(config.getPort());
+        emailConfig.setUsername(config.getUsername());
+        emailConfig.setPassword(config.getPassword());
+        emailConfig.setSmtpAuth(config.isSmtpAuth());
+        emailConfig.setStarttls(config.isStarttls());
+
+        emailService.saveEmailConfiguration(emailConfig, store);
+
+        model.addAttribute("configuration", emailConfig);
+        model.addAttribute("success","success");
+        return ControllerConstants.Tiles.Configuration.email;
+    }
+
+
 }

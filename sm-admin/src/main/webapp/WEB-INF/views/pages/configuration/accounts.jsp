@@ -16,69 +16,89 @@
 
 <header:breadcrumb breadcrumb="Configuration"/>
 <section class="content">
-<c:url value="/admin/configuration/saveConfiguration.html" var="saveAccountsConfiguration"/>
+
+
+    <c:if test="${success eq 'success'}">
+        <div class="box-header with-border" >
+            <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert"
+                        aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-check"></i></h4>
+                <s:message code="message.success" text="Request successfull"/>
+            </div>
+        </div>
+    </c:if>
+
+    <c:url value="/admin/configuration/saveConfiguration.html" var="saveAccountsConfiguration"/>
     <div class="box box-default">
         <div class="box-header with-border">
-            <h3 class="box-title"><s:message code="label.configuration.options" text="Configuration options" /></h3>
+            <h3 class="box-title"><s:message code="label.configuration.options"
+                                             text="Configuration options"/></h3>
 
             <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                        class="fa fa-minus"></i></button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i
+                        class="fa fa-remove"></i></button>
             </div>
         </div>
         <!-- /.box-header -->
         <div class="box-body">
-            <form:form method="POST" modelAttribute="configuration" action="${saveAccountsConfiguration}" id="sm-configuration">
-                <c:forEach var="merchantConfig" items="${configuration.merchantConfigs}" varStatus="counter">
+            <form:form method="POST" modelAttribute="configuration"
+                       action="${saveAccountsConfiguration}" id="sm-configuration">
+            <c:forEach var="merchantConfig" items="${configuration.merchantConfigs}"
+                       varStatus="counter">
 
-                    <c:if test="${(counter.index) % 2 == 0}">
-                        <div class="row">
-                    </c:if>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="control-label"><s:message code="label.configuration.${merchantConfig.key}" text="** Label for [label.configuration.${merchantConfig.key}] not found **" /></label>
-                                <form:hidden  path="merchantConfigs[${counter.index}].key" />
-                                <form:hidden  path="merchantConfigs[${counter.index}].id" />
-                                <form:input  path="merchantConfigs[${counter.index}].value" cssClass="form-control"/>
+            <c:if test="${(counter.index) % 2 == 0}">
+            <div class="row">
+                </c:if>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label"><s:message
+                                code="label.configuration.${merchantConfig.key}"
+                                text="** Label for [label.configuration.${merchantConfig.key}] not found **"/></label>
+                        <form:hidden path="merchantConfigs[${counter.index}].key"/>
+                        <form:hidden path="merchantConfigs[${counter.index}].id"/>
+                        <form:input path="merchantConfigs[${counter.index}].value"
+                                    cssClass="form-control"/>
 
-                            </div>
-                        </div>
-                        <c:choose>
-                            <c:when test="${(fn:length(configuration.merchantConfigs) le 2 ) && (fn:length(configuration.merchantConfigs) eq (counter.count))}">
+                    </div>
+                </div>
+                <c:choose>
+                <c:when test="${(fn:length(configuration.merchantConfigs) le 2 ) && (fn:length(configuration.merchantConfigs) eq (counter.count))}">
 
-                        </div>
-                            </c:when>
-                            <c:otherwise>
-                <c:if test="${(counter.index ge 1) && (counter.count) % 2 == 0}">
+            </div>
+            </c:when>
+            <c:otherwise>
+            <c:if test="${(counter.index ge 1) && (counter.count) % 2 == 0}">
 
         </div>
         </c:if>
 
-                            </c:otherwise>
-                        </c:choose>
+        </c:otherwise>
+        </c:choose>
 
 
-
-                </c:forEach>
-            </form:form>
-
+        </c:forEach>
+        </form:form>
 
 
-            <!-- /.row -->
-        </div>
+        <!-- /.row -->
+    </div>
 
     <div class="box-body">
         <div class="row">
             <div class="col-sm-2 pull-right">
 
-                    <button type="button" id="saveConfigurations" class="btn btn-block btn-success pull-right">
-                        <s:message code="button.label.submit" text="Submit"/>
-                    </button>
-                </div>
+                <button type="button" id="saveConfigurations"
+                        class="btn btn-block btn-success pull-right">
+                    <s:message code="button.label.submit" text="Submit"/>
+                </button>
+            </div>
 
         </div>
     </div>
-        <!-- /.box-body -->
+    <!-- /.box-body -->
 
     </div>
 
@@ -86,12 +106,11 @@
 
 <script>
 
-    $(function() {
-        $('#saveConfigurations').click(function(e) {
+    $(function () {
+        $('#saveConfigurations').click(function (e) {
             e.preventDefault();
             $("#sm-configuration").submit();
         });
-
 
     });
 </script>

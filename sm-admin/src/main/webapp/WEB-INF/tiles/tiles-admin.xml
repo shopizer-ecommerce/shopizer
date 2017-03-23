@@ -36,6 +36,12 @@
         <put-attribute name="body" value="/WEB-INF/views/pages/configuration/accounts.jsp" />
     </definition>
 
+    <definition name="config-email" extends="admin.layout.basic">
+        <put-attribute name="body" value="/WEB-INF/views/pages/configuration/emailConfigurations.jsp" />
+    </definition>
+
+
+
 
 
 

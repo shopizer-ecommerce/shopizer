@@ -63,7 +63,17 @@ public abstract class AbstractAdminController {
         model.addAttribute("currentMenu",currentMenu);
         model.addAttribute("activeMenus",activeMenus);
         //
-
     }
+
+    protected void setMenu(Model model,  Map<String, Menu> menus, final String activeMenu,  Map<String,String> activeMenus) throws Exception {
+
+        activeMenus.put(activeMenu, activeMenu);
+        Menu currentMenu = (Menu)menus.get(activeMenu);
+        model.addAttribute("currentMenu",currentMenu);
+        model.addAttribute("activeMenus",activeMenus);
+       //
+    }
+
+
 
 }
