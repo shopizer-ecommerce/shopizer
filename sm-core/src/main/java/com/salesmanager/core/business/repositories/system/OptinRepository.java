@@ -11,4 +11,6 @@ public interface OptinRepository extends JpaRepository<Optin, Long> {
 
 	@Query("select distinct o from Optin as o  left join fetch o.merchant om where om.id = ?1")
 	List<Optin> findByMerchant(Integer storeId);
+	@Query("select distinct o from Optin as o where code = ?1")
+	Optin findByCode(String code);
 }

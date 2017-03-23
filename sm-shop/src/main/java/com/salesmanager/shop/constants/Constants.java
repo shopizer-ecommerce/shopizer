@@ -119,5 +119,8 @@ public class Constants {
     public final static String RESPONSE_KEY_USERNAME = "userName";
     
     public final static String DEBUG_MODE = "debugMode";
+    
+    
+    public final static String NEWSLETTER_OPTIN_CODE = "00";
 
 }
