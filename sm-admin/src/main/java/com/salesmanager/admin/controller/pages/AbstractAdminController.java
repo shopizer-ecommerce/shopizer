@@ -1,6 +1,7 @@
 package com.salesmanager.admin.controller.pages;
 
 import com.salesmanager.admin.constants.Constants;
+import com.salesmanager.admin.data.Menu;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.reference.country.CountryService;
 import com.salesmanager.core.business.services.user.UserService;
@@ -9,8 +10,10 @@ import com.salesmanager.core.model.reference.country.Country;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.user.User;
 
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -50,6 +53,27 @@ public abstract class AbstractAdminController {
         String currentUser = request.getRemoteUser();
         return userService.getByUserName(currentUser);
     }
+
+    protected void setMenu(Model model,  Map<String, Menu> menus, final String activeMenu) throws Exception {
+
+        //display menu
+        Map<String,String> activeMenus = new HashMap<String,String>();
+        activeMenus.put(activeMenu, activeMenu);
+        Menu currentMenu = (Menu)menus.get(activeMenu);
+        model.addAttribute("currentMenu",currentMenu);
+        model.addAttribute("activeMenus",activeMenus);
+        //
+    }
+
+    protected void setMenu(Model model,  Map<String, Menu> menus, final String activeMenu,  Map<String,String> activeMenus) throws Exception {
+
+        activeMenus.put(activeMenu, activeMenu);
+        Menu currentMenu = (Menu)menus.get(activeMenu);
+        model.addAttribute("currentMenu",currentMenu);
+        model.addAttribute("activeMenus",activeMenus);
+       //
+    }
+
 
 
 }
