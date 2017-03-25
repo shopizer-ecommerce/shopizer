@@ -38,6 +38,7 @@ import com.salesmanager.shop.model.customer.CustomerEntity;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
 import com.salesmanager.shop.model.customer.ReadableCustomer;
 import com.salesmanager.shop.populator.customer.*;
+import com.salesmanager.shop.store.model.optinnewsletter.OptinCustomerDTO;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
@@ -55,6 +56,7 @@ import org.springframework.stereotype.Service;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -130,11 +132,11 @@ public class CustomerFacadeImpl implements CustomerFacade
  	 @Inject
      private AuthenticationManager customerAuthenticationManager;
  	 
-// 	@Inject
-//    private CustomerOptinService customerOptinService;
+ 	@Inject
+    private CustomerOptinService customerOptinService;
  	
-// 	@Inject
-//    private OptinService optinService;
+ 	@Inject
+    private OptinService optinService;
 
 
 
@@ -561,15 +563,18 @@ public class CustomerFacadeImpl implements CustomerFacade
 	}
 
 
-//	@Override
-//	public void newsletterSubscription(MerchantStore store, String email, Customer customer) throws Exception {
-//		List<Optin> optin = optinService.findByMerchant(store.getId());
-//		
-//		
-//		CustomerOptin customerOptin = new CustomerOptin();
-//		customerOptin.setFirstName(customer.get);
-//		customerOptinService.update(entity);
-//		
-//	}
+	@Override
+	public void createCustomerOptin(OptinCustomerDTO customerOptin) throws Exception {
+		Optin optin = optinService.findByCode(customerOptin.getOptinCode());
+		CustomerOptin customerOptinModel = new CustomerOptin();
+		customerOptinModel.setEmail(customerOptin.getEmail());
+		customerOptinModel.setFirstName(customerOptin.getName());
+		customerOptinModel.setLastName(customerOptin.getSurname());
+		customerOptinModel.setOptin(optin);
+		customerOptinModel.setOptinDate(new Date());
+		customerOptinService.create(customerOptinModel);
+		
+	}
+
 
 }

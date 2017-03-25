@@ -7,4 +7,5 @@ import com.salesmanager.core.model.system.optin.Optin;
 
 public interface OptinService extends SalesManagerEntityService<Long, Optin>{
 	List<Optin> findByMerchant(Integer storeId);
+	Optin findByCode(String code);
 }

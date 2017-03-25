@@ -25,4 +25,9 @@ public class OptinServiceImpl extends SalesManagerEntityServiceImpl<Long, Optin>
 		return optinRepository.findByMerchant(storeId);
 	}
 
+	@Override
+	public Optin findByCode(String code) {
+		return optinRepository.findByCode(code);
+	}
+
 }
