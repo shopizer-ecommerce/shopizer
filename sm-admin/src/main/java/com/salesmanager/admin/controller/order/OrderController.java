@@ -72,7 +72,7 @@ public class OrderController extends AbstractAdminController{
         criteria.setOrderBy(CriteriaOrderBy.valueOf(orderBy.toUpperCase()));
         criteria.setStartIndex(startRow);
         criteria.setMaxCount(endRow);
-
+        // MapStruct will be used in future for data population
         MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
         AjaxDataTableResponse ajaxDataTableResponse = new AjaxDataTableResponse();
         OrderList orderList = orderService.listByStore(store, criteria);

@@ -55,7 +55,7 @@ import com.salesmanager.core.model.reference.zone.Zone;
 import com.salesmanager.core.model.user.Group;
 import com.salesmanager.core.model.user.GroupType;
 import com.salesmanager.admin.constants.Constants;
-import com.salesmanager.admin.utils.LocaleUtils;
+import com.salesmanager.admin.common.utils.LocaleUtils;
 
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;

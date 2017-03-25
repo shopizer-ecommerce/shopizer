@@ -44,6 +44,18 @@
         <put-attribute name="body" value="/WEB-INF/views/pages/configuration/system.jsp" />
     </definition>
 
+    <!--Tax section -->
+    <definition name="tax-configuration" extends="admin.layout.basic">
+        <put-attribute name="body" value="/WEB-INF/views/pages/tax/taxConfiguration.jsp" />
+    </definition>
+
+    <definition name="tax-classes" extends="admin.layout.basic">
+        <put-attribute name="body" value="/WEB-INF/views/pages/tax/taxClass.jsp" />
+    </definition>
+
+
+
+
 
 
 
