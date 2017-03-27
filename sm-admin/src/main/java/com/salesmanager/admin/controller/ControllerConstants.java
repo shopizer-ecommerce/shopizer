@@ -106,4 +106,6 @@ public interface ControllerConstants
         }
 
     }
+
+    final String REDIRECT_PREFIX="redirect:";
 }

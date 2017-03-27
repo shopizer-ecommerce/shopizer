@@ -32,14 +32,14 @@
         </c:when>
         <c:otherwise>
             <c:if test="${response.status eq 1}">
-            <div class="box-header with-border">
-                <div class="alert alert-danger alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert"
-                            aria-hidden="true">&times;</button>
-                    <h4><i class="icon fa fa-check"></i></h4>
-                        ${response.message}
+                <div class="box-header with-border">
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert"
+                                aria-hidden="true">&times;</button>
+                        <h4><i class="icon fa fa-check"></i></h4>
+                            ${response.message}
+                    </div>
                 </div>
-            </div>
             </c:if>
         </c:otherwise>
     </c:choose>
@@ -60,16 +60,34 @@
 
         <!-- /.box-header -->
         <div class="box-body">
-            <c:url var="saveTaxClass" value="/admin/tax/taxclass/save.html"/>
-            <form:form method="POST" modelAttribute="taxClass" action="${saveTaxClass}">
+            <c:url var="TaxClassURL" value="/admin/tax/taxclass/save.html"/>
+            <c:if test="${(not empty taxClass) &&  (not empty taxID)}">
+                <c:url var="TaxClassURL" value="/admin/tax/taxclass/update.html"/>
+            </c:if>
+
+            <form:form method="POST" modelAttribute="taxClass" action="${TaxClassURL}">
+
+            <c:if test="${(not empty taxClass) &&  (not empty taxID)}">
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label" for="code"><s:message code="label.tax.taxclass.id"
+                                                                               text="ID"
+                                                                               var="taxClass"/></label>
+                            <input type="text" value="${taxID}" name="tax id" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </c:if>
             <div class="row">
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label class="control-label" for="code"><s:message code="label.tax.taxclass"
                                                                            text="Tax class"
-                                                                           var="taxClass"/></label>
+                                                                           var="taxClassMsg"/></label>
                         <form:input cssClass="form-control" id="code" path="code"
-                                    placeholder="${taxClass}"/>
+                                    placeholder="${taxClassMsg}"/>
 
                     </div>
                 </div>
@@ -93,7 +111,15 @@
 
                         <button type="submit" id="saveTaxClass"
                                 class="btn btn-block btn-success pull-right">
-                            <s:message code="button.label.submit" text="Submit"/>
+                            <c:choose>
+                                <c:when test="${(not empty taxClass) &&  (not empty taxID)}">
+
+                                    <s:message code="button.label.update" text="Update"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <s:message code="button.label.submit" text="Submit"/>
+                                </c:otherwise>
+                            </c:choose>
                         </button>
                     </div>
 
@@ -167,11 +193,8 @@
                                                        {"data": "title"},
                                                        {
                                                            mRender: function (data, type, row) {
-                                                               return '<a class="btn table-bordered" href="<c:url value="/admin/order/"/>'
-                                                                      + row.id + '">' + 'View '
-                                                                      + '</a>' +
-                                                                      '<a class="btn table-bordered" href="<c:url value="/admin/order/"/>'
-                                                                      + row.id + '">' + 'Edit '
+                                                               return '<a class="btn table-bordered" href="<c:url value="/admin/tax/taxclass/edit.html?id="/>'
+                                                                      + row.id + '">' + 'Edit'
                                                                       + '</a>' +
                                                                       '<a class="btn table-bordered" href="<c:url value="/admin/tax/taxclass/remove.html?taxClassId="/>'
                                                                       + row.id + '">' + 'Delete'

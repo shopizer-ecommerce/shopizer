@@ -18,6 +18,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.tax.taxclass.TaxClass;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -33,6 +34,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,22 +67,38 @@ public class TaxClassController extends AbstractAdminController {
 
     @PreAuthorize("hasRole('TAX')")
     @RequestMapping(value = {"/admin/tax/taxclass/list.html"}, method = RequestMethod.GET)
-    public String displayTaxClasses(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String displayTaxClasses(final Model model, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
-
-        Map<String, String> activeMenus = new HashMap<String, String>();
-        activeMenus.put("tax", "tax");
-        activeMenus.put("taxclass", "taxclass");
-        setMenu(model, (Map<String, Menu>) request.getAttribute("MENUMAP"), "tax", activeMenus);
+        setupMenu(model, request);
         MerchantStore store = (MerchantStore) request.getAttribute(Constants.ADMIN_STORE);
         TaxClass taxClass = new TaxClass();
         taxClass.setMerchantStore(store);
-
         model.addAttribute("taxClass", taxClass);
 
         return ControllerConstants.Tiles.Tax.taxClasses;
     }
 
+
+    private void setupMenu(final Model model, final HttpServletRequest request) throws Exception {
+
+        Map<String,Object> mapModel = model.asMap();
+
+        if(MapUtils.isNotEmpty(mapModel)) {
+            if (mapModel.get("response") != null) {
+                model.addAttribute("response", model.asMap().get("response"));
+            }
+            if (mapModel.get("currentMenu") != null || mapModel.get("activeMenus") != null) {
+                model.addAttribute("currentMenu", mapModel.get("currentMenu"));
+                model.addAttribute("activeMenus", mapModel.get("activeMenus"));
+            }
+        }
+        else{
+            Map<String, String> activeMenus = new HashMap<String, String>();
+            activeMenus.put("tax", "tax");
+            activeMenus.put("taxclass", "taxclass");
+            setMenu(model, (Map<String, Menu>) request.getAttribute("MENUMAP"), "tax", activeMenus);
+        }
+    }
 
     @PreAuthorize("hasRole('TAX')")
     @RequestMapping(value = "/admin/tax/taxclass/paging.html", method = {RequestMethod.POST, RequestMethod.GET})
@@ -129,7 +147,7 @@ public class TaxClassController extends AbstractAdminController {
 
     @PreAuthorize("hasRole('TAX')")
     @RequestMapping(value = "/admin/tax/taxclass/save.html", method = RequestMethod.POST)
-    public String saveTaxClass(@Valid @ModelAttribute("taxClass") TaxClass taxClass, BindingResult result, Model model, HttpServletRequest request, Locale locale) throws Exception {
+    public String saveTaxClass(@Valid @ModelAttribute("taxClass") TaxClass taxClass, BindingResult result, RedirectAttributes model, HttpServletRequest request, Locale locale) throws Exception {
 
 
         Map<String, String> activeMenus = new HashMap<String, String>();
@@ -163,16 +181,14 @@ public class TaxClassController extends AbstractAdminController {
 
         responseData.setStatus(AjaxResponse.RESPONSE_STATUS_SUCCESS);
         responseData.setMessage("Request completed successfully");
-        model.addAttribute("response", responseData);
-
-        return ControllerConstants.Tiles.Tax.taxClasses;
-
+        model.addFlashAttribute("response", responseData);
+        return ControllerConstants.REDIRECT_PREFIX+"/admin/tax/taxclass/list.html";
     }
 
 
     @PreAuthorize("hasRole('TAX')")
     @RequestMapping(value = "/admin/tax/taxclass/update.html", method = RequestMethod.POST)
-    public String updateTaxClass(@Valid @ModelAttribute("taxClass") TaxClass taxClass, BindingResult result, Model model, HttpServletRequest request, Locale locale) throws Exception {
+    public String updateTaxClass(@Valid @ModelAttribute("taxClass") TaxClass taxClass, BindingResult result, RedirectAttributes model, HttpServletRequest request, Locale locale) throws Exception {
 
 
         Map<String, String> activeMenus = new HashMap<String, String>();
@@ -206,21 +222,24 @@ public class TaxClassController extends AbstractAdminController {
 
         responseData.setStatus(AjaxResponse.RESPONSE_STATUS_SUCCESS);
         responseData.setMessage("Request completed successfully");
-        model.addAttribute("response", AjaxResponse.RESPONSE_STATUS_SUCCESS);
 
-        return ControllerConstants.Tiles.Tax.taxClass;
+        model.addFlashAttribute("response", responseData);
+        return ControllerConstants.REDIRECT_PREFIX+"/admin/tax/taxclass/list.html";
+
 
     }
 
 
     @PreAuthorize("hasRole('TAX')")
     @RequestMapping(value = "/admin/tax/taxclass/remove.html", method = {RequestMethod.POST, RequestMethod.GET})
-    public String removeTaxClass(HttpServletRequest request, Locale locale, final Model model) throws Exception {
+    public String removeTaxClass(HttpServletRequest request, Locale locale, final RedirectAttributes model) throws Exception {
 
         //do not remove super admin
 
         long taxClassId = Long.parseLong(request.getParameter("taxClassId"));
         ResponseData response = new ResponseData();
+        response.setStatus(AjaxResponse.RESPONSE_STATUS_SUCCESS);
+        response.setMessage("Request completed successfully");
 
         try {
 
@@ -264,17 +283,14 @@ public class TaxClassController extends AbstractAdminController {
         taxClass.setMerchantStore(store);
 
         model.addAttribute("taxClass", taxClass);
-
-        response.setStatus(AjaxResponse.RESPONSE_STATUS_SUCCESS);
-        response.setMessage("Request completed successfully");
-        model.addAttribute("response", response);  // default status
-        return ControllerConstants.Tiles.Tax.taxClasses;
+        model.addFlashAttribute("response", response);
+        return ControllerConstants.REDIRECT_PREFIX+"/admin/tax/taxclass/list.html";
 
     }
 
     @PreAuthorize("hasRole('TAX')")
     @RequestMapping(value = "/admin/tax/taxclass/edit.html", method = RequestMethod.GET)
-    public String editTaxClass(@ModelAttribute("id") String id, Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
+    public String editTaxClass(@ModelAttribute("id") long taxClassId, final Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
 
         Map<String, String> activeMenus = new HashMap<String, String>();
         activeMenus.put("tax", "tax");
@@ -282,24 +298,23 @@ public class TaxClassController extends AbstractAdminController {
         setMenu(model, (Map<String, Menu>) request.getAttribute("MENUMAP"), "tax", activeMenus);
 
         MerchantStore store = (MerchantStore) request.getAttribute(Constants.ADMIN_STORE);
-
         TaxClass taxClass = null;
         try {
-            Long taxClassId = Long.parseLong(id);
             taxClass = taxClassService.getById(taxClassId);
         } catch (Exception e) {
-            LOGGER.error("Cannot parse taxclassid " + id);
-            return "redirect:/admin/tax/taxclass/list.html";
+            LOGGER.error("Unable to find tax information for the ID {} " , taxClassId);
         }
 
         if (taxClass == null || taxClass.getMerchantStore().getId() != store.getId()) {
-            return "redirect:/admin/tax/taxclass/list.html";
+
+            taxClass = new TaxClass();
+            taxClass.setMerchantStore(store);
+            model.addAttribute("taxClass", taxClass);
+            return ControllerConstants.Tiles.Tax.taxClasses;
         }
 
-
         model.addAttribute("taxClass", taxClass);
-
-        return ControllerConstants.Tiles.Tax.taxClass;
+        return ControllerConstants.Tiles.Tax.taxClasses;
 
 
     }
