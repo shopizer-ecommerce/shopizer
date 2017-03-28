@@ -53,6 +53,10 @@
         <put-attribute name="body" value="/WEB-INF/views/pages/tax/taxClass.jsp" />
     </definition>
 
+    <definition name="tax-rates" extends="admin.layout.basic">
+        <put-attribute name="body" value="/WEB-INF/views/pages/tax/taxRates.jsp" />
+    </definition>
+
 
 
 
