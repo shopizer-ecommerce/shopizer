@@ -101,7 +101,7 @@ public class CustomerPopulator extends
 				}
 				
 				if(billingCountry!=null && !StringUtils.isBlank(sourceBilling.getZone())) {
-					Zone zone = zoneService.getByCode(sourceBilling.getZone());
+					Zone zone = zoneService.getByCode(sourceBilling.getZone(), billingCountry);
 					if(zone==null) {
 						throw new ConversionException("Unsuported zone code " + sourceBilling.getZone());
 					}
@@ -148,7 +148,7 @@ public class CustomerPopulator extends
 				}
 				
 				if(deliveryCountry!=null && !StringUtils.isBlank(sourceShipping.getZone())) {
-					Zone zone = zoneService.getByCode(sourceShipping.getZone());
+					Zone zone = zoneService.getByCode(sourceShipping.getZone(), deliveryCountry);
 					if(zone==null) {
 						throw new ConversionException("Unsuported zone code " + sourceShipping.getZone());
 					}

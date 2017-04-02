@@ -196,7 +196,7 @@ public class InitializationDatabaseImpl implements InitializationDatabase {
 		Language en = languageService.getByCode("en");
 		Country ca = countryService.getByCode("CA");
 		Currency currency = currencyService.getByCode("CAD");
-		Zone qc = zoneService.getByCode("QC");
+		Zone qc = zoneService.getByCode("QC", ca);
 		
 		List<Language> supportedLanguages = new ArrayList<Language>();
 		supportedLanguages.add(en);
