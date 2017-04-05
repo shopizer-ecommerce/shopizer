@@ -141,6 +141,7 @@
         </div>
         <!-- /.col -->
     </div>
+<c:url value="/admin/orders.html" var="ordersURL"/>
     <!-- /.row -->
 </section>
 
@@ -154,7 +155,7 @@
                                                contentType: "application/json",
                                                dataType: 'json',
                                                processing: true,
-                                               ajax: '/sm-admin/admin/orders.html',
+                                               ajax: '${ordersURL}',
 
                                                "aoColumnDefs": [
                                                    {

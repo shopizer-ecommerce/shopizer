@@ -45,3 +45,6 @@
 <script src="${contextPath}/dist/js/pages/dashboard2.js"></script>-->
 <!-- AdminLTE for demo purposes -->
 <script src="${contextPath}/dist/js/demo.js"></script>
+
+<!-- for tax section -->
+<script src="${contextPath}/dist/js/pages/tax/admin-tax.js?v1.0"></script>

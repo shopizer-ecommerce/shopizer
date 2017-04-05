@@ -144,7 +144,7 @@
 	  	<module>sm-core</module>
 		<module>sm-search</module>
       	<module>sm-admin</module>
-	  	<module>sm-shop</module>
+	  	<!--<module>sm-shop</module>-->
 		<module>shopizer-canadapost</module>
 		<module>shopizer-shipping-distance-module</module>
 	</modules>
