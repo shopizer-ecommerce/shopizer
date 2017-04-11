@@ -112,7 +112,7 @@ public class OrderFacadeImpl implements OrderFacade {
 	public ShopOrder initializeOrder(MerchantStore store, Customer customer,
 			ShoppingCart shoppingCart, Language language) throws Exception {
 
-		//assert not null shopping cart items
+		// assert not null shopping cart items
 		
 		ShopOrder order = new ShopOrder();
 		
