@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * Created by umesh on 3/15/17.
  */
-public class OrderData implements Serializable {
+public class OrderListData implements Serializable {
 
     private long orderNumber;
     private long customerId;

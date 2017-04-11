@@ -48,3 +48,5 @@
 
 <!-- for tax section -->
 <script src="${contextPath}/dist/js/pages/tax/admin-tax.js?v1.0"></script>
+<script src="${contextPath}/dist/js/pages/common/common.js"></script>
+<script src="${contextPath}/dist/js/pages/order/order.js"></script>

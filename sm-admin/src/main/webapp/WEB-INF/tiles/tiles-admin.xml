@@ -21,7 +21,7 @@
     </definition>
 
 
-    <!-- Order Section -->
+    <!-- OrderData Section -->
     <definition name="admin-orders" extends="admin.layout.basic">
         <put-attribute name="body" value="/WEB-INF/views/pages/order/orderList.jsp" />
     </definition>
@@ -56,6 +56,13 @@
     <definition name="tax-rates" extends="admin.layout.basic">
         <put-attribute name="body" value="/WEB-INF/views/pages/tax/taxRates.jsp" />
     </definition>
+
+    <!-- Order Section -->
+
+    <definition name="admin-orders-edit" extends="admin.layout.basic">
+        <put-attribute name="body" value="/WEB-INF/views/pages/order/editOrder.jsp" />
+    </definition>
+
 
 
 

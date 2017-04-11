@@ -21,11 +21,18 @@ import com.salesmanager.core.model.common.Delivery;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.Order;
-import com.salesmanager.core.model.order.*;
+import com.salesmanager.core.model.order.OrderCriteria;
+import com.salesmanager.core.model.order.OrderList;
+import com.salesmanager.core.model.order.OrderSummary;
+import com.salesmanager.core.model.order.OrderTotalSummary;
 import com.salesmanager.core.model.order.orderproduct.OrderProduct;
 import com.salesmanager.core.model.order.orderstatus.OrderStatus;
 import com.salesmanager.core.model.order.payment.CreditCard;
-import com.salesmanager.core.model.payments.*;
+import com.salesmanager.core.model.payments.CreditCardPayment;
+import com.salesmanager.core.model.payments.CreditCardType;
+import com.salesmanager.core.model.payments.Payment;
+import com.salesmanager.core.model.payments.PaymentType;
+import com.salesmanager.core.model.payments.Transaction;
 import com.salesmanager.core.model.reference.country.Country;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.shipping.ShippingProduct;
@@ -36,8 +43,14 @@ import com.salesmanager.core.model.shoppingcart.ShoppingCartItem;
 import com.salesmanager.shop.model.customer.Address;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
 import com.salesmanager.shop.model.customer.ReadableCustomer;
-import com.salesmanager.shop.model.order.*;
+import com.salesmanager.shop.model.order.OrderEntity;
 import com.salesmanager.shop.model.order.OrderTotal;
+import com.salesmanager.shop.model.order.PersistableOrder;
+import com.salesmanager.shop.model.order.PersistableOrderProduct;
+import com.salesmanager.shop.model.order.ReadableOrder;
+import com.salesmanager.shop.model.order.ReadableOrderList;
+import com.salesmanager.shop.model.order.ReadableOrderProduct;
+import com.salesmanager.shop.model.order.ShopOrder;
 import com.salesmanager.shop.populator.customer.CustomerPopulator;
 import com.salesmanager.shop.populator.customer.PersistableCustomerPopulator;
 import com.salesmanager.shop.populator.order.OrderProductPopulator;
@@ -60,8 +73,17 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+
 import javax.inject.Inject;
-import java.util.*;
 
 @Service("orderFacade")
 public class OrderFacadeImpl implements OrderFacade {
@@ -335,6 +357,7 @@ public class OrderFacadeImpl implements OrderFacade {
 				
 				
 				payment = new CreditCardPayment();
+				payment.setPaymentType(PaymentType.valueOf(paymentType));
 				((CreditCardPayment)payment).setCardOwner(order.getPayment().get("creditcard_card_holder"));
 				((CreditCardPayment)payment).setCredidCardValidationNumber(order.getPayment().get("creditcard_card_cvv"));
 				((CreditCardPayment)payment).setCreditCardNumber(order.getPayment().get("creditcard_card_number"));
@@ -365,7 +388,7 @@ public class OrderFacadeImpl implements OrderFacade {
 				((CreditCardPayment)payment).setCreditCard(creditCardType);
 			
 				CreditCard cc = new CreditCard();
-				cc.setCardType(creditCardType);
+				cc.setCardType(creditCardType); // to avoid NPE
 				cc.setCcCvv(((CreditCardPayment)payment).getCredidCardValidationNumber());
 				cc.setCcOwner(((CreditCardPayment)payment).getCardOwner());
 				cc.setCcExpires(((CreditCardPayment)payment).getExpirationMonth() + "-" + ((CreditCardPayment)payment).getExpirationYear());

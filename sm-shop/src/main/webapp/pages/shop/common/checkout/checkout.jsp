@@ -21,7 +21,7 @@ response.setDateHeader ("Expires", -1);
 
 <script src="<c:url value="/resources/js/jquery.maskedinput.min.js" />"></script>
 
-
+11111111111111
 <!-- subtotals template -->
 <script type="text/html" id="subTotalsTemplate">
 		{{#subTotals}}
@@ -440,7 +440,9 @@ function bindActions() {
     });
     
 	$("#submitOrder").click(function(e) {
-		e.preventDefault();//do not submit form
+
+	    alert("ashjshjhjhdjfh");
+	    e.preventDefault();//do not submit form
 		formValid = isFormValid();
 		resetErrorMessage();
 		setCountrySettings('billing',$('.billing-country-list').val());
@@ -469,6 +471,7 @@ function bindActions() {
 		else if(paymentSelection.indexOf('stripe') >= 0) {
 			//console.log('Stripe ');
 			$('#paymentMethodType').val('CREDITCARD');
+			alert("Stripe");
 			initStripePayment();
 		}		
 		else if(paymentSelection.indexOf('beanstream') >= 0) {

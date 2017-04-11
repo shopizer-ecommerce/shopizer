@@ -28,12 +28,13 @@ response.setDateHeader ("Expires", -1);
 
 						    // Disable the submit button to prevent repeated clicks
 						    $form.find('button').prop('disabled', true);
-
+                            alert("askhdjsahjhhjhjdh")
 						    Stripe.card.createToken($form, stripeResponseHandler);
 				  }; 
 				  
 				  
 				  function stripeResponseHandler(status, response) {
+				      alert("agdhasgsfghg");
 					  var $form = $('#checkoutForm');
 
 					  if (response.error) {

@@ -26,8 +26,6 @@ import com.salesmanager.core.model.reference.country.Country;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.reference.zone.Zone;
 import com.salesmanager.core.model.shoppingcart.ShoppingCart;
-import com.salesmanager.core.model.system.optin.CustomerOptin;
-import com.salesmanager.core.model.system.optin.Optin;
 import com.salesmanager.core.model.user.Group;
 import com.salesmanager.core.model.user.GroupType;
 import com.salesmanager.core.model.user.Permission;
@@ -37,8 +35,14 @@ import com.salesmanager.shop.model.customer.Address;
 import com.salesmanager.shop.model.customer.CustomerEntity;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
 import com.salesmanager.shop.model.customer.ReadableCustomer;
-import com.salesmanager.shop.populator.customer.*;
-import com.salesmanager.shop.store.model.optinnewsletter.OptinCustomerDTO;
+import com.salesmanager.shop.populator.customer.CustomerBillingAddressPopulator;
+import com.salesmanager.shop.populator.customer.CustomerDeliveryAddressPopulator;
+import com.salesmanager.shop.populator.customer.CustomerEntityPopulator;
+import com.salesmanager.shop.populator.customer.CustomerPopulator;
+import com.salesmanager.shop.populator.customer.PersistableCustomerBillingAddressPopulator;
+import com.salesmanager.shop.populator.customer.PersistableCustomerShippingAddressPopulator;
+import com.salesmanager.shop.populator.customer.ReadableCustomerPopulator;
+
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
@@ -53,12 +57,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import javax.inject.Inject;
 
 //import com.salesmanager.core.business.customer.CustomerRegistrationException;
 //import com.salesmanager.core.business.customer.exception.CustomerNotFoundException;
@@ -563,18 +567,7 @@ public class CustomerFacadeImpl implements CustomerFacade
 	}
 
 
-	@Override
-	public void createCustomerOptin(OptinCustomerDTO customerOptin) throws Exception {
-		Optin optin = optinService.findByCode(customerOptin.getOptinCode());
-		CustomerOptin customerOptinModel = new CustomerOptin();
-		customerOptinModel.setEmail(customerOptin.getEmail());
-		customerOptinModel.setFirstName(customerOptin.getName());
-		customerOptinModel.setLastName(customerOptin.getSurname());
-		customerOptinModel.setOptin(optin);
-		customerOptinModel.setOptinDate(new Date());
-		customerOptinService.create(customerOptinModel);
-		
-	}
+
 
 
 }

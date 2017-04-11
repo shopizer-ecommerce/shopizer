@@ -116,6 +116,7 @@
                             <th>Order Total</th>
                             <th>Status</th>
                             <th>Date Placed</th>
+                            <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -128,6 +129,7 @@
                             <th>Order Total</th>
                             <th>Status</th>
                             <th>Date Placed</th>
+                            <th>Action</th>
                         </tr>
                         </tfoot>
                     </table>
@@ -173,7 +175,20 @@
                                                    {"data": "customerId"},
                                                    {"data": "orderTotal"},
                                                    {"data": "status", "orderable": true},
-                                                   {"data": "date", "orderable": true}
+                                                   {"data": "date", "orderable": true},
+                                                   {
+
+                                                       mRender: function (data, type, row) {
+                                                           return '<a class="btn table-bordered" href="<c:url value="/admin/order/editOrder.html?id="/>'
+                                                                  + row.orderNumber + '">' + 'Edit'
+                                                                  + '</a>' +
+                                                                  '<a class="btn table-bordered" href="<c:url value="/admin/order/deleteOrder.html?id="/>'
+                                                                  + row.orderNumber + '">' + 'Delete'
+                                                                  + '</a>';
+                                                       }
+
+                                                   }
+
                                                ]
                                            });
 

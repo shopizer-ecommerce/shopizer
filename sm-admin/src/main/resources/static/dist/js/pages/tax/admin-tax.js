@@ -3,11 +3,11 @@
  */
 
 
-$.fn.addItems = function(data) {
+$.fn.addItems = function (data) {
     $(".zone-list > option").remove();
-    return this.each(function() {
+    return this.each(function () {
         var list = this;
-        $.each(data, function(index, itemData) {
+        $.each(data, function (index, itemData) {
             //alert(itemData.name + " " + itemData.id)
             var option = new Option(itemData.name, itemData.id);
             list.add(option);
@@ -15,24 +15,23 @@ $.fn.addItems = function(data) {
     });
 };
 
-
-function getZones(countryCode, url){
+function getZones(countryCode, url) {
     $.ajax({
-               type: 'POST',
+               type: 'GET',
                url: url,
                data: 'countryCode=' + countryCode,
-               dataType: 'json',
-               success: function(response){
+               dataType: 'application/json',
+               success: function (responseData) {
 
-                   var status = isc.XMLTools.selectObjects(response, "/response/status");
-                   if(status==0 || status ==9999) {
+                   var status = responseData.response.status;
+                   if (status == 0 || status == 9999) {
 
-                       var data = isc.XMLTools.selectObjects(response, "/response/data");
-                       if(data && data.length>0) {
+                       alert(responseData.response.data.length);
+                       if (responseData.response.data.length > 0) {
 
                            $('.zone-list').show();
                            $('#stateProvince').hide();
-                           $(".zone-list").addItems(data);
+                           $(".zone-list").addItems(responseData.response.data);
                        } else {
                            $('.zone-list').hide();
                            $('#stateProvince').show();
@@ -43,9 +42,8 @@ function getZones(countryCode, url){
                        $('#stateProvince').show();
                    }
 
-
                },
-               error: function(xhr, textStatus, errorThrown) {
+               error: function (xhr, textStatus, errorThrown) {
                    alert('error ' + errorThrown);
                }
 
@@ -55,18 +53,12 @@ function getZones(countryCode, url){
 $(window).on('load', function () {
 
     $("#tax-country").select2();  // init select2
+    $("#stateProvince").hide();  // hide text box
 
-    $("#tax-country" ).change(function() {
-        alert( $(this).val());
-    });
+    $("#tax-country").change(function () {
+        var url = $("#adminApplicationContext").val() + "/common/reference/provinces.html";
 
-    $("#tax-country").on("change",'select' ,function () {
-        alert("hello");
-        //$("#second option[value]").remove();
-
-        //var newOptions = []; // the result of your JSON request
-
-        //$("#second").append(newOptions).val("").trigger("change");
+        getZones($(this).val(), url);
     });
 
 });

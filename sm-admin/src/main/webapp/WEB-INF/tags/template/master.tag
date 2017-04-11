@@ -31,6 +31,7 @@
 
 
         <c:set var="contextPath" value="${pageContext.request.contextPath}" scope="application"/>
+        <input type="hidden" value="${contextPath}" name="adminApplicationContext" id="adminApplicationContext"/>
     <%-- Favourite Icon --%>
     <spring:theme code="img.favIcon" text="/" var="favIconPath"/>
     <link rel="shortcut icon" type="image/x-icon" media="all" href="${originalContextPath}${favIconPath}" />

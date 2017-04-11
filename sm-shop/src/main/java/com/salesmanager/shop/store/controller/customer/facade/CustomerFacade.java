@@ -3,8 +3,8 @@
  */
 package com.salesmanager.shop.store.controller.customer.facade;
 
-import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.business.services.customer.CustomerService;
+import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.shoppingcart.ShoppingCart;
@@ -12,7 +12,6 @@ import com.salesmanager.shop.model.customer.Address;
 import com.salesmanager.shop.model.customer.CustomerEntity;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
 import com.salesmanager.shop.model.customer.ReadableCustomer;
-import com.salesmanager.shop.store.model.optinnewsletter.OptinCustomerDTO;
 
 /**
  * <p>Customer facade working as a bridge between {@link CustomerService} and Controller
@@ -85,7 +84,7 @@ public interface CustomerFacade
 	Customer populateCustomerModel(Customer customerModel, PersistableCustomer customer,
 			MerchantStore merchantStore, Language language) throws Exception;
 	
-    void createCustomerOptin(OptinCustomerDTO customerOptin) throws Exception;
+   // void createCustomerOptin(OptinCustomerDTO customerOptin) throws Exception;
 
 
 	

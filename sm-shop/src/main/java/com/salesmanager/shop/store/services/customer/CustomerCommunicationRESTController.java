@@ -1,25 +1,13 @@
 package com.salesmanager.shop.store.services.customer;
 
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import com.salesmanager.core.business.services.merchant.MerchantStoreService;
-import com.salesmanager.core.business.utils.ajax.AjaxResponse;
-import com.salesmanager.core.model.merchant.MerchantStore;
-import com.salesmanager.shop.constants.Constants;
-import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
-import com.salesmanager.shop.store.model.optinnewsletter.OptinCustomerDTO;
+
+import javax.inject.Inject;
 
 
 @RestController
@@ -34,7 +22,7 @@ public class CustomerCommunicationRESTController {
 	/**
 	 * Store the email of the customer for the newsletter
 	 */
-	@RequestMapping( value="/customer/optin.html", method=RequestMethod.POST)
+	/*@RequestMapping( value="/customer/optin.html", method=RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> createOptin(@RequestBody final OptinCustomerDTO optin, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		AjaxResponse resp = new AjaxResponse();
@@ -60,5 +48,5 @@ public class CustomerCommunicationRESTController {
 		}
 
 
-	}
+	}*/
 }
