@@ -160,13 +160,13 @@ public class CanadaPostQuoteModule implements ShippingQuoteModule {
 			throw new IntegrationException("Canadapost missing configuration key password");
 		}
 		
-		if(StringUtils.isBlank(keys.get("account"))) {
+		/*if(StringUtils.isBlank(keys.get("account"))) {
 			throw new IntegrationException("Canadapost missing configuration key account");
-		}
+		}*/
 		
     	String username = keys.get("username");
     	String password = keys.get("password");
-    	String client = keys.get("account");
+    	//String client = keys.get("account");
     	
     	List<String> domesticServices = options.get("services-domestic");
     	List<String> intlServices = options.get("services-intl");

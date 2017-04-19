@@ -1,0 +1,5 @@
+
+description = 'sm-core-modules'
+dependencies {
+  compile project(':sm-core-model')
+}
