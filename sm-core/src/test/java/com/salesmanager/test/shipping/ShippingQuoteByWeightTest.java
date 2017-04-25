@@ -61,7 +61,7 @@ public class ShippingQuoteByWeightTest extends com.salesmanager.test.common.Abst
 
 	    Language en = languageService.getByCode("en");
 	    Country country = countryService.getByCode("CA");
-	    Zone zone = zoneService.getByCode("QC");
+	    Zone zone = zoneService.getByCode("QC", country);
 
 	    MerchantStore store = merchantService.getByCode(MerchantStore.DEFAULT_STORE);
 	    ProductType generalType = productTypeService.getProductType(ProductType.GENERAL_TYPE);

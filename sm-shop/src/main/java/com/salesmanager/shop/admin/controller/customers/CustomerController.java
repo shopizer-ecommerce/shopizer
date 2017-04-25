@@ -333,7 +333,7 @@ public class CustomerController {
 
 		
 		if (customer.getShowDeliveryStateList().equalsIgnoreCase("yes" )) {
-			deliveryZone = zoneService.getByCode(customer.getDelivery().getZone().getCode());
+			deliveryZone = zoneService.getByCode(customer.getDelivery().getZone().getCode(), deliveryCountry);
 			customer.getDelivery().setState( null );
 			
 		}else if (customer.getShowDeliveryStateList().equalsIgnoreCase("no" )){
@@ -342,7 +342,7 @@ public class CustomerController {
 		}
 	
 		if (customer.getShowBillingStateList().equalsIgnoreCase("yes" )) {
-			billingZone = zoneService.getByCode(customer.getBilling().getZone().getCode());
+			billingZone = zoneService.getByCode(customer.getBilling().getZone().getCode(), billingCountry);
 			customer.getBilling().setState( null );
 			
 		}else if (customer.getShowBillingStateList().equalsIgnoreCase("no" )){
