@@ -15,12 +15,12 @@ import com.salesmanager.test.common.AbstractSalesManagerCoreTestCase;
  *
  */
 
-@Ignore
+//@Ignore
 public class MerchantTest extends AbstractSalesManagerCoreTestCase {
 	
 	
-	//@Test
-	@Ignore
+	@Test
+	//@Ignore
 	public void testReferences() {
 		System.out.println("No tests in merchant");
 	}

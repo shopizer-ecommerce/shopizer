@@ -49,7 +49,7 @@ import junit.framework.Assert;
 
 
 
-@Ignore
+//@Ignore
 public class ProductTest extends com.salesmanager.test.common.AbstractSalesManagerCoreTestCase {
 	
 	private static final Date date = new Date(System.currentTimeMillis());
