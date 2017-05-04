@@ -77,7 +77,7 @@ public class InvoiceTest extends com.salesmanager.test.common.AbstractSalesManag
 	@Inject
 	ProductPriceUtils priceUtil;
 
-	//@Test
+	@Test
 	@Ignore
 	public void createInvoice() throws ServiceException {
 		

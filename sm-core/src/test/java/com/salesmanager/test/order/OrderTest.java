@@ -51,7 +51,7 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.reference.zone.Zone;
 
 
-@Ignore
+//@Ignore
 public class OrderTest extends com.salesmanager.test.common.AbstractSalesManagerCoreTestCase {
 
 
