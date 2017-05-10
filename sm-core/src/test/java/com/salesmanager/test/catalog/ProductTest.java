@@ -231,7 +231,7 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 	    product.setProductHeight(new BigDecimal(4));
 	    product.setProductLength(new BigDecimal(3));
 	    product.setProductWidth(new BigDecimal(1));
-	    product.setSku("TB12345");
+	    product.setSku("TB54321");
 	    product.setManufacturer(oreilley);
 	    product.setType(generalType);
 	    product.setMerchantStore(store);
