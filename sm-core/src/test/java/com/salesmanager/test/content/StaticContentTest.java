@@ -47,7 +47,7 @@ public class StaticContentTest extends com.salesmanager.test.common.AbstractSale
     {
 
         MerchantStore store = merchantService.getByCode( MerchantStore.DEFAULT_STORE );
-        final File file1 = new File( "c:/doc/Hadoop.jpg" );
+        final File file1 = new File( "./doc/Hadoop.jpg" );
 
         if ( !file1.exists() || !file1.canRead() )
         {

@@ -54,7 +54,7 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 	
 	private static final Date date = new Date(System.currentTimeMillis());
 	
-	private final String IMAGE_FOLDER = "C:/doc/";
+	private final String IMAGE_FOLDER = "./doc/";
 	private final String IMAGE_NAME = "Hadoop.jpg";
 
 	/**
