@@ -85,7 +85,7 @@ public class ContentImagesTest extends com.salesmanager.test.common.AbstractSale
 		OutputContentFile image = contentService.getContentFile(store.getCode(), FileContentType.LOGO, logo);
 
         //print image
-   	 	OutputStream outputStream = new FileOutputStream ("C:/doc/logo-" + image.getFileName()); 
+   	 	OutputStream outputStream = new FileOutputStream ("./doc/logo-" + image.getFileName()); 
 
    	 	ByteArrayOutputStream baos =  image.getFile();
    	 	baos.writeTo(outputStream);

@@ -69,7 +69,7 @@ public class StaticContentTest extends com.salesmanager.test.common.AbstractSale
 		OutputContentFile image = contentService.getContentFile(store.getCode(), FileContentType.IMAGE, file1.getName());
 
         //print image
-   	 	OutputStream outputStream = new FileOutputStream ("c:/doc/content-" + image.getFileName()); 
+   	 	OutputStream outputStream = new FileOutputStream ("./doc/content-" + image.getFileName()); 
 
    	 	ByteArrayOutputStream baos =  image.getFile();
    	 	baos.writeTo(outputStream);
