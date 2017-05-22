@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.shopizer</groupId>
@@ -152,7 +150,9 @@
 	  	<module>sm-shop</module>
 		<module>shopizer-canadapost</module>
 		<module>shopizer-shipping-distance-module</module>
-	</modules>
+    	<module>sm-cucumber</module>
+  </modules>
+
 
     <repositories>
         <repository>
@@ -166,6 +166,7 @@
             <url>https://repository.jboss.org/nexus/content/repositories/releases</url>
         </repository>
     </repositories>
+
 
     <pluginRepositories>
         <pluginRepository>
