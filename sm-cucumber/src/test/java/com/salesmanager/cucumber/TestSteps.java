@@ -48,8 +48,8 @@ public class TestSteps {
 	    //throw new PendingException();
 	}
 
-	@Given("^I want to write a step with name(\\d+)$")
-	public void i_want_to_write_a_step_with_name(int arg1) throws Throwable {
+	@Given("^I want to write a step with name (.*)$")
+	public void i_want_to_write_a_step_with_name(String arg1) throws Throwable {
 	    // Write code here that turns the phrase above into concrete actions
 	    //throw new PendingException();
 	}
