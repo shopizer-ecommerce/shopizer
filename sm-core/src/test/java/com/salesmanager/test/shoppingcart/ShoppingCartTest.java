@@ -46,7 +46,7 @@ import com.salesmanager.core.model.shoppingcart.ShoppingCartItem;
  * @author Carl Samson
  *
  */
-@Ignore
+//@Ignore
 public class ShoppingCartTest extends com.salesmanager.test.common.AbstractSalesManagerCoreTestCase {
 	
 
@@ -69,10 +69,10 @@ public class ShoppingCartTest extends com.salesmanager.test.common.AbstractSales
 	     */
 	    Category shirts = new Category();
 	    shirts.setMerchantStore(store);
-	    shirts.setCode("shirts");
+	    shirts.setCode("shirts2");
 
 	    CategoryDescription shirtsEnglishDescription = new CategoryDescription();
-	    shirtsEnglishDescription.setName("Shirts");
+	    shirtsEnglishDescription.setName("Shirts2");
 	    shirtsEnglishDescription.setCategory(shirts);
 	    shirtsEnglishDescription.setLanguage(en);
 
@@ -89,12 +89,12 @@ public class ShoppingCartTest extends com.salesmanager.test.common.AbstractSales
 	     */
 	    Manufacturer addidas = new Manufacturer();
 	    addidas.setMerchantStore(store);
-	    addidas.setCode("addidas");
+	    addidas.setCode("addidas2");
 
 	    ManufacturerDescription addidasDesc = new ManufacturerDescription();
 	    addidasDesc.setLanguage(en);
 	    addidasDesc.setManufacturer(addidas);
-	    addidasDesc.setName("Addidas");
+	    addidasDesc.setName("Addidas2");
 	    addidas.getDescriptions().add(addidasDesc);
 
 	    manufacturerService.create(addidas);
@@ -104,12 +104,12 @@ public class ShoppingCartTest extends com.salesmanager.test.common.AbstractSales
 	     */
 	    ProductOption option = new ProductOption();
 	    option.setMerchantStore(store);
-	    option.setCode("color");
+	    option.setCode("color2");
 	    option.setProductOptionType(ProductOptionType.Radio.name());
 	    
 	    ProductOptionDescription optionDescription = new ProductOptionDescription();
 	    optionDescription.setLanguage(en);
-	    optionDescription.setName("Color");
+	    optionDescription.setName("Color2");
 	    optionDescription.setDescription("Item color");
 	    optionDescription.setProductOption(option);
 	    
@@ -121,11 +121,11 @@ public class ShoppingCartTest extends com.salesmanager.test.common.AbstractSales
 	    /** first option value **/
 	    ProductOptionValue white = new ProductOptionValue();
 	    white.setMerchantStore(store);
-	    white.setCode("white");
+	    white.setCode("white2");
 	    
 	    ProductOptionValueDescription whiteDescription = new ProductOptionValueDescription();
 	    whiteDescription.setLanguage(en);
-	    whiteDescription.setName("White");
+	    whiteDescription.setName("White2");
 	    whiteDescription.setDescription("White color");
 	    whiteDescription.setProductOptionValue(white);
 	    
@@ -136,12 +136,12 @@ public class ShoppingCartTest extends com.salesmanager.test.common.AbstractSales
 	    
 	    ProductOptionValue black = new ProductOptionValue();
 	    black.setMerchantStore(store);
-	    black.setCode("black");
+	    black.setCode("black2");
 	    
 	    /** second option value **/
 	    ProductOptionValueDescription blackDesc = new ProductOptionValueDescription();
 	    blackDesc.setLanguage(en);
-	    blackDesc.setName("Black");
+	    blackDesc.setName("Black2");
 	    blackDesc.setDescription("Black color");
 	    blackDesc.setProductOptionValue(black);
 	    
@@ -157,14 +157,14 @@ public class ShoppingCartTest extends com.salesmanager.test.common.AbstractSales
 	    product.setProductHeight(new BigDecimal(4));
 	    product.setProductLength(new BigDecimal(3));
 	    product.setProductWidth(new BigDecimal(1));
-	    product.setSku("TB12345");
+	    product.setSku("TB123452");
 	    product.setManufacturer(addidas);
 	    product.setType(generalType);
 	    product.setMerchantStore(store);
 
 	    // Product description
 	    ProductDescription description = new ProductDescription();
-	    description.setName("Short sleeves shirt");
+	    description.setName("Short sleeves shirt2");
 	    description.setLanguage(en);
 	    description.setProduct(product);
 

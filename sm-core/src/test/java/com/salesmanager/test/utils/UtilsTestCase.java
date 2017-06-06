@@ -27,7 +27,7 @@ import com.salesmanager.test.configuration.ConfigurationTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {ConfigurationTest.class})
-@Ignore
+//@Ignore
 public class UtilsTestCase  {
 	
 	
@@ -48,8 +48,8 @@ public class UtilsTestCase  {
 	
 
 	
-	//@Test
-	@Ignore
+	@Test
+	//@Ignore
 	public void testCache() throws Exception {
 		
 
@@ -67,8 +67,8 @@ public class UtilsTestCase  {
 		
 	}
 	
-	//@Test
-	@Ignore
+	@Test
+	//@Ignore
 	public void testCurrency() throws Exception {
 		
 		Currency currency = currencyService.getByCode("BGN");

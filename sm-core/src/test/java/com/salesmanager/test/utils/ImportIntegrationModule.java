@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.junit.Ignore;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -26,7 +27,7 @@ import com.salesmanager.test.configuration.ConfigurationTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {ConfigurationTest.class})
-@Ignore
+//@Ignore
 public class ImportIntegrationModule  {
 
 	@Inject
@@ -41,13 +42,13 @@ public class ImportIntegrationModule  {
 	 * if it already exists 
 	 * @throws Exception
 	 */
-	@Ignore
-	//@Test
+	//@Ignore
+	@Test
 	public void importSpecificIntegrationModule() throws Exception {
 		
 
 			ObjectMapper mapper = new ObjectMapper();
-			File file = new File(" /Users/carlsamson/Documents/dev/workspaces/shopizer-master/shopizer/sm-core/src/main/resources/reference/integrationmodules.json");
+			File file = new File("C:/eclipse/workspace/shopizer/sm-core/src/main/resources/reference/integrationmodules.json");
 			
 			InputStream in = null;
 			

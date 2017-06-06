@@ -25,14 +25,14 @@ import com.salesmanager.core.model.system.IntegrationModule;
 
 
 
-@Ignore
+//@Ignore
 public class ShippingMethodDecisionTest extends com.salesmanager.test.common.AbstractSalesManagerCoreTestCase {
 	
 	@Inject
 	ShippingDecisionPreProcessorImpl shippingMethodDecisionProcess;
 
-	//@Test
-	@Ignore
+	@Test
+	//@Ignore
 	public void validateShippingMethod() throws Exception {
 		
 		ShippingQuote quote = new ShippingQuote();
