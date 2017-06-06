@@ -133,26 +133,12 @@
 		    <artifactId>json-simple</artifactId>
 		    <version>${simple-json-version}</version>
 		</dependency>	
-<<<<<<< HEAD
-		
 		<dependency>
 			<groupId>javax.el</groupId>
 			<artifactId>javax.el-api</artifactId>
 			<version>2.2.4</version>
 		</dependency>
-		
-=======
-	<dependency>
-   <groupId>javax.el</groupId>
-   <artifactId>javax.el-api</artifactId>
-   <version>2.2.4</version>
-</dependency>
-<dependency>
-   <groupId>org.glassfish.web</groupId>
-   <artifactId>javax.el</artifactId>
-   <version>2.2.4</version>
-</dependency>	
->>>>>>> origin/2.0.5
+
     </dependencies>
 
 	<modules>
