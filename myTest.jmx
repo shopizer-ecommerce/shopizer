@@ -117,8 +117,8 @@
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments"/>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">jenkins2017.westeurope.cloudapp.azure.com</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">shopizer.azurewebsites.net</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding"></stringProp>
               <stringProp name="HTTPSampler.path">/shop</stringProp>
@@ -166,8 +166,8 @@
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments"/>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">jenkins2017.westeurope.cloudapp.azure.com</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">shopizer.azurewebsites.net</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding"></stringProp>
               <stringProp name="HTTPSampler.path">/resources/templates/exoticamobilia/js/iframe_api</stringProp>
@@ -185,7 +185,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://jenkins2017.westeurope.cloudapp.azure.com:8080/shop</stringProp>
+                    <stringProp name="Header.value">http://shopizer.azurewebsites.net:8080/shop</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -223,8 +223,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">jenkins2017.westeurope.cloudapp.azure.com</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">shopizer.azurewebsites.net</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding"></stringProp>
               <stringProp name="HTTPSampler.path">/shop/reference/countryName</stringProp>
@@ -242,7 +242,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://jenkins2017.westeurope.cloudapp.azure.com:8080/shop</stringProp>
+                    <stringProp name="Header.value">http://shopizer.azurewebsites.net:8080/shop</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -283,8 +283,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">jenkins2017.westeurope.cloudapp.azure.com</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">shopizer.azurewebsites.net</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding"></stringProp>
               <stringProp name="HTTPSampler.path">/shop/reference/zoneName</stringProp>
@@ -302,7 +302,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://jenkins2017.westeurope.cloudapp.azure.com:8080/shop</stringProp>
+                    <stringProp name="Header.value">http://shopizer.azurewebsites.net:8080/shop</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -385,8 +385,8 @@
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments"/>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">jenkins2017.westeurope.cloudapp.azure.com</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">shopizer.azurewebsites.net</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding"></stringProp>
               <stringProp name="HTTPSampler.path">/shop/product/Spring-in-Action.html</stringProp>
@@ -404,7 +404,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://jenkins2017.westeurope.cloudapp.azure.com:8080/shop</stringProp>
+                    <stringProp name="Header.value">http://shopizer.azurewebsites.net:8080/shop</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -441,8 +441,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">jenkins2017.westeurope.cloudapp.azure.com</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">shopizer.azurewebsites.net</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/shop/reference/countryName</stringProp>
@@ -460,7 +460,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://jenkins2017.westeurope.cloudapp.azure.com:8080/shop/product/Spring-in-Action.html</stringProp>
+                    <stringProp name="Header.value">http://shopizer.azurewebsites.net:8080/shop/product/Spring-in-Action.html</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -497,8 +497,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">jenkins2017.westeurope.cloudapp.azure.com</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">shopizer.azurewebsites.net</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/shop/reference/zoneName</stringProp>
@@ -516,7 +516,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://jenkins2017.westeurope.cloudapp.azure.com:8080/shop/product/Spring-in-Action.html</stringProp>
+                    <stringProp name="Header.value">http://shopizer.azurewebsites.net:8080/shop/product/Spring-in-Action.html</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -657,8 +657,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">jenkins2017.westeurope.cloudapp.azure.com</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">shopizer.azurewebsites.net</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
               <stringProp name="HTTPSampler.path">/shop/cart/addShoppingCartItem</stringProp>
@@ -676,7 +676,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://jenkins2017.westeurope.cloudapp.azure.com:8080/shop/product/Spring-in-Action.html</stringProp>
+                    <stringProp name="Header.value">http://shopizer.azurewebsites.net:8080/shop/product/Spring-in-Action.html</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -716,8 +716,8 @@
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments"/>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">jenkins2017.westeurope.cloudapp.azure.com</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">shopizer.azurewebsites.net</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding"></stringProp>
               <stringProp name="HTTPSampler.path">/shop/cart/shoppingCart.html</stringProp>
@@ -735,7 +735,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://jenkins2017.westeurope.cloudapp.azure.com:8080/shop/product/Spring-in-Action.html</stringProp>
+                    <stringProp name="Header.value">http://shopizer.azurewebsites.net:8080/shop/product/Spring-in-Action.html</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -772,8 +772,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">jenkins2017.westeurope.cloudapp.azure.com</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">shopizer.azurewebsites.net</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/shop/reference/zoneName</stringProp>
@@ -791,7 +791,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://jenkins2017.westeurope.cloudapp.azure.com:8080/shop/cart/shoppingCart.html</stringProp>
+                    <stringProp name="Header.value">http://shopizer.azurewebsites.net:8080/shop/cart/shoppingCart.html</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -828,8 +828,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">jenkins2017.westeurope.cloudapp.azure.com</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">shopizer.azurewebsites.net</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/shop/reference/countryName</stringProp>
@@ -847,7 +847,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://jenkins2017.westeurope.cloudapp.azure.com:8080/shop/cart/shoppingCart.html</stringProp>
+                    <stringProp name="Header.value">http://shopizer.azurewebsites.net:8080/shop/cart/shoppingCart.html</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -890,8 +890,8 @@
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">jenkins2017.westeurope.cloudapp.azure.com</stringProp>
-              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.domain">shopizer.azurewebsites.net</stringProp>
+              <stringProp name="HTTPSampler.port">80</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding"></stringProp>
               <stringProp name="HTTPSampler.path">/shop/cart/displayMiniCartByCode</stringProp>
@@ -909,7 +909,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">http://jenkins2017.westeurope.cloudapp.azure.com:8080/shop/cart/shoppingCart.html</stringProp>
+                    <stringProp name="Header.value">http://shopizer.azurewebsites.net:8080/shop/cart/shoppingCart.html</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
