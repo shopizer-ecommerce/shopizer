@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -25,7 +26,10 @@ public class RegisterCustomerSteps {
 
 	@Before("@selenium")
 	public void setUp() throws Throwable {
-		DesiredCapabilities capability = DesiredCapabilities.firefox();
+		//System.setProperty("webdriver.gecko.driver", "C:\\selenium\\geckodriver.exe");
+        //driver = new FirefoxDriver();
+
+        DesiredCapabilities capability = DesiredCapabilities.firefox();
 		capability.setBrowserName("firefox");
 		driver = new RemoteWebDriver( new URL("http://dockerselenium.azurewebsites.net/wd/hub"), capability);
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
@@ -52,9 +56,10 @@ public class RegisterCustomerSteps {
 	    driver.findElement(By.id("email")).clear();
 	    driver.findElement(By.id("email")).sendKeys("3bitstest@gmail.com");
 	    driver.findElement(By.id("password")).clear();
-	    driver.findElement(By.id("password")).sendKeys("Password123");
+	    String password=java.util.UUID.randomUUID().toString();
+	    driver.findElement(By.id("password")).sendKeys(password);
 	    driver.findElement(By.id("passwordAgain")).clear();
-	    driver.findElement(By.id("passwordAgain")).sendKeys("Password123");
+	    driver.findElement(By.id("passwordAgain")).sendKeys(password);
 	    driver.findElement(By.id("submitRegistration")).click();
 	}
 
