@@ -1,0 +1,9 @@
+2017-08-13 11:28:23 jdbc[12]: exception
+org.h2.jdbc.JdbcSQLException: Table "CUSTOMER" not found; SQL statement:
+select * from customer [42102-192]
+2017-08-13 11:32:34 jdbc[12]: exception
+org.h2.jdbc.JdbcSQLException: Table "CUSTOMER" not found; SQL statement:
+select * from customer [42102-192]
+2017-08-13 11:40:55 jdbc[12]: exception
+org.h2.jdbc.JdbcSQLException: Table "CUSTOMER" not found; SQL statement:
+select * from customer [42102-192]
