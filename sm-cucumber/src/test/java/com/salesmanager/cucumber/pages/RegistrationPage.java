@@ -14,7 +14,7 @@ public class RegistrationPage  extends PageObject {
 		
 		getDriver().findElement(By.id("firstName")).clear();
 		getDriver().findElement(By.id("firstName")).sendKeys(name);
-	    element(By.id("lastName")).clear();
+		element(By.id("lastName")).clear();
 	    element(By.id("lastName")).sendKeys("Test");
 	    element(By.id("hidden_zones")).clear();
 	    element(By.id("hidden_zones")).sendKeys("Test");

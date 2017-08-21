@@ -21,7 +21,8 @@ public class BuyerSteps extends ScenarioSteps {
 		registrationPage.register(name);
 	}
 
-	public String read_greeting() {
+    @Step
+    public String read_greeting() {
 		return currentPage.readGreeting();
 	}
 
