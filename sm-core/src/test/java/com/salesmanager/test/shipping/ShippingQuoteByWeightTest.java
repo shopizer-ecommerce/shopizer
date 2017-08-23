@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.inject.Inject;
 
 import org.junit.Ignore;
+import org.junit.Test;
 import org.springframework.util.Assert;
 
 import com.salesmanager.core.business.exception.ServiceException;
@@ -41,7 +42,7 @@ import com.salesmanager.core.modules.integration.shipping.model.CustomShippingQu
 import com.salesmanager.core.modules.integration.shipping.model.CustomShippingQuotesConfiguration;
 import com.salesmanager.core.modules.integration.shipping.model.CustomShippingQuotesRegion;
 
-@Ignore
+//@Ignore
 public class ShippingQuoteByWeightTest extends com.salesmanager.test.common.AbstractSalesManagerCoreTestCase {
 	
 	private static final Date date = new Date(System.currentTimeMillis());
@@ -55,8 +56,8 @@ public class ShippingQuoteByWeightTest extends com.salesmanager.test.common.Abst
 
 	
 	
-	@Ignore
-	//@Test
+	//@Ignore
+	@Test
 	public void testGetCustomShippingQuotesByWeight() throws ServiceException {
 
 	    Language en = languageService.getByCode("en");
@@ -86,9 +87,6 @@ public class ShippingQuoteByWeightTest extends com.salesmanager.test.common.Abst
 
 	    product.getDescriptions().add(description);
 	    
-	    productService.create(product);
-	    //productService.saveOrUpdate(product);
-	    
 
 	    // Availability
 	    ProductAvailability availability = new ProductAvailability();
@@ -99,8 +97,13 @@ public class ShippingQuoteByWeightTest extends com.salesmanager.test.common.Abst
 	    
 	    product.getAvailabilities().add(availability);
 
-	    productAvailabilityService.create(availability);
+	    //productAvailabilityService.create(availability);
 
+	    productService.create(product);
+	    //productService.saveOrUpdate(product);
+	    
+
+	    
 	    ProductPrice dprice = new ProductPrice();
 	    dprice.setDefaultPrice(true);
 	    dprice.setProductPriceAmount(new BigDecimal(29.99));

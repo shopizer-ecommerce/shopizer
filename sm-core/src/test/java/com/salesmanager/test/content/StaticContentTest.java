@@ -32,7 +32,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
  * @author Carl Samson
  *
  */
-@Ignore
+//@Ignore
 public class StaticContentTest extends com.salesmanager.test.common.AbstractSalesManagerCoreTestCase {
 	
 
@@ -40,14 +40,14 @@ public class StaticContentTest extends com.salesmanager.test.common.AbstractSale
 	private ContentService contentService;
 	
 	
-    //@Test
-    @Ignore
+    @Test
+    //@Ignore
     public void createImage()
         throws ServiceException, FileNotFoundException, IOException
     {
 
         MerchantStore store = merchantService.getByCode( MerchantStore.DEFAULT_STORE );
-        final File file1 = new File( "c:/doc/Hadoop.jpg" );
+        final File file1 = new File( "./doc/Hadoop.jpg" );
 
         if ( !file1.exists() || !file1.canRead() )
         {
@@ -69,7 +69,7 @@ public class StaticContentTest extends com.salesmanager.test.common.AbstractSale
 		OutputContentFile image = contentService.getContentFile(store.getCode(), FileContentType.IMAGE, file1.getName());
 
         //print image
-   	 	OutputStream outputStream = new FileOutputStream ("c:/doc/content-" + image.getFileName()); 
+   	 	OutputStream outputStream = new FileOutputStream ("./doc/content-" + image.getFileName()); 
 
    	 	ByteArrayOutputStream baos =  image.getFile();
    	 	baos.writeTo(outputStream);

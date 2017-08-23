@@ -35,7 +35,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
  * @author Carl Samson
  *
  */
-@Ignore
+//@Ignore
 public class ContentImagesTest extends com.salesmanager.test.common.AbstractSalesManagerCoreTestCase {
 	
 	private static final Date date = new Date(System.currentTimeMillis());
@@ -45,15 +45,15 @@ public class ContentImagesTest extends com.salesmanager.test.common.AbstractSale
 	
 
 	
-    //@Test
-    @Ignore
+    @Test
+    //@Ignore
     public void createStoreLogo()
         throws ServiceException, FileNotFoundException, IOException
     {
 
         MerchantStore store = merchantService.getByCode( MerchantStore.DEFAULT_STORE );
         
-        final File file1 = new File( "C:/doc/Hadoop.jpg" );
+        final File file1 = new File( "./doc/Hadoop.jpg" );
 
         if ( !file1.exists() || !file1.canRead() )
         {
@@ -85,7 +85,7 @@ public class ContentImagesTest extends com.salesmanager.test.common.AbstractSale
 		OutputContentFile image = contentService.getContentFile(store.getCode(), FileContentType.LOGO, logo);
 
         //print image
-   	 	OutputStream outputStream = new FileOutputStream ("C:/doc/logo-" + image.getFileName()); 
+   	 	OutputStream outputStream = new FileOutputStream ("./doc/logo-" + image.getFileName()); 
 
    	 	ByteArrayOutputStream baos =  image.getFile();
    	 	baos.writeTo(outputStream);

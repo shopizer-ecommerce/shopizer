@@ -21,7 +21,7 @@ import com.salesmanager.test.configuration.ConfigurationTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {ConfigurationTest.class})
-@Ignore
+//@Ignore
 public class ReferencesTest {
 	
 
@@ -32,18 +32,18 @@ public class ReferencesTest {
 	@Inject
 	CountryService countryService;
 	
-	//@Test
-	@Ignore
+	@Test
+	//@Ignore
 	public void testReferences() throws ServiceException {
 		
 		Language en = new Language();
-		en.setCode("en");
+		en.setCode("en2");
 		en.setSortOrder(0);
 		
 		languageService.save(en);
 		
 		Language fr = new Language();
-		fr.setCode("fr");
+		fr.setCode("fr2");
 		fr.setSortOrder(0);
 		
 		languageService.save(fr);
@@ -54,7 +54,7 @@ public class ReferencesTest {
 		System.out.println("Language size " + langs.size());
 		
 		Country us = new Country();
-		us.setIsoCode("US");
+		us.setIsoCode("US2");
 		
 		CountryDescription us_en = new CountryDescription();
 		us_en.setLanguage(en);
@@ -72,7 +72,7 @@ public class ReferencesTest {
 		
 		countryService.save(us);
 		
-		Country c = countryService.getByCode("US");
+		Country c = countryService.getByCode("US2");
 		
 		System.out.println(c.getId());
 		

@@ -61,6 +61,8 @@ public class AbstractSalesManagerCoreTestCase {
 	protected static String ENGLISH_LANGUAGE_CODE = "en";
 	protected static String FRENCH_LANGUAGE_CODE = "fr";
 	
+	protected static boolean isPopulated = false;
+	
 	@Inject
 	protected InitializationDatabase   initializationDatabase;
 	
@@ -160,9 +162,10 @@ public class AbstractSalesManagerCoreTestCase {
 	
 	private void populate() throws ServiceException {
 		
+		if(!isPopulated)
+			initializationDatabase.populate("TEST");
 		
-		initializationDatabase.populate("TEST");
-		
+		isPopulated=true;
 
 	}
 
