@@ -27,8 +27,11 @@ public class RegistrationPage  extends PageObject {
 	    element(By.id("password")).sendKeys(password);
 	    element(By.id("passwordAgain")).clear();
 	    element(By.id("passwordAgain")).sendKeys(password);
-	    getDriver().findElement(By.id("submitRegistration")).submit();
 		
+	}
+
+	public void submitRegistration() {
+	    getDriver().findElement(By.id("submitRegistration")).submit();		
 	}
 
 }

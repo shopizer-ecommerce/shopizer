@@ -57,13 +57,15 @@ public class RegisterCustomerSteps {
 */	
 	@Given("^the user is logged out$")
 	public void the_user_is_logged_out() throws Throwable {
+		user.opens_home_page();
+		user.logout();
 //	    driver.get(baseUrl + "/shop/customer/logout");
 	}
 
 	@When("^the user register with \"(.*)\"$")
 	public void the_user_register_with(String name) throws Throwable {
-		user.opens_home_page();
 		user.register(name);
+		user.submitRegistration();
 		
 /*	    driver.get(baseUrl + "/shop/customer/registration.html");
 	    driver.findElement(By.id("firstName")).clear();
