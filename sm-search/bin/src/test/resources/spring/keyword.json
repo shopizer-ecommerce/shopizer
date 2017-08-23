@@ -1,0 +1,11 @@
+{
+    "keyword_en": {
+        "properties": {
+            "keyword": {
+                "type":     "string",
+                "analyzer": "autocomplete",
+                "search_analyzer": "standard"
+            }
+        }
+    }
+}
