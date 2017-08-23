@@ -14,6 +14,9 @@
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <serenity.version>1.1.37-rc.6</serenity.version> <!-- https://bintray.com/serenity/maven/serenity-core/ -->
+        <serenity.maven.version>1.1.37-rc.6</serenity.maven.version>
+        <serenity.cucumber.version>1.1.9</serenity.cucumber.version> <!--  https://bintray.com/serenity/maven/serenity-cucumber/ -->
   </properties>
   <dependencies>
     <dependency>
@@ -43,5 +46,55 @@
         <version>3.4.0</version>
     </dependency> 
     
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-core</artifactId>
+            <version>${serenity.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-junit</artifactId>
+            <version>${serenity.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-cucumber</artifactId>
+            <version>${serenity.cucumber.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.6.1</version>
+        </dependency>
+        
+    
+    
   </dependencies>
+  
+      <build>
+        <plugins>
+              <plugin>
+                <groupId>net.serenity-bdd.maven.plugins</groupId>
+                <artifactId>serenity-maven-plugin</artifactId>
+                <version>${serenity.maven.version}</version>
+                <dependencies>
+                  <dependency>
+                    <groupId>net.serenity-bdd</groupId>
+                    <artifactId>serenity-core</artifactId>
+                    <version>${serenity.version}</version>
+                  </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>serenity-reports</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>aggregate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+  
 </project>
