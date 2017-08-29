@@ -33,7 +33,7 @@ public class RegisterCustomerSteps {
     @Steps
     BuyerSteps user;
 
-    HomePage homePage;
+    //HomePage homePage;
     
     //private WebDriver driver;
 	//private String baseUrl;

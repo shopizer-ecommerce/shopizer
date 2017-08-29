@@ -25,5 +25,6 @@ public class BuyerSteps extends ScenarioSteps {
     public String read_greeting() {
 		return currentPage.readGreeting();
 	}
+    
 
 }
