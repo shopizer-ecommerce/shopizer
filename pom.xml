@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.shopizer</groupId>
+    <artifactId>shopizer</artifactId>
+    <version>2.0.5-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    
+    <name>shopizer</name>
+    <url>http://maven.apache.org</url>
+    
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.3.5.RELEASE</version>
+    </parent>
+
+
+    <properties>
+        <java.version>1.8</java.version>        
+        <shopizer.version>2.0.5-SNAPSHOT</shopizer.version>
+        <shopizer.search.version>2.0.5-SNAPSHOT</shopizer.search.version>
+        <shopizer-canadapost.version>2.0.5-SNAPSHOT</shopizer-canadapost.version>
+		<shopizer-shipping-distance.version>2.0.5-SNAPSHOT</shopizer-shipping-distance.version>	
+        <jackson-version>2.7.4</jackson-version>
+
+        <commons-collections4.version>4.0</commons-collections4.version>
+        <commons-validator.version>1.5.1</commons-validator.version>
+        <org.apache.httpcomponent.version>4.5.2</org.apache.httpcomponent.version>
+        <javax.inject.version>1</javax.inject.version>
+		<javax.el.version>2.2.4</javax.el.version>
+		<javax.servlet-api-version>3.0.1</javax.servlet-api-version>
+		<!-- external systems -->
+		<c3p0-version>0.9.5.2</c3p0-version>
+		<org.elasticsearch-version>2.4.1</org.elasticsearch-version>
+		<infinispan.version>6.0.2.Final</infinispan.version>
+		<mysql-jdbc-version>5.1.40</mysql-jdbc-version>
+		<simple-json-version>1.1.1</simple-json-version>
+    </properties>
+
+    <dependencies>
+    
+<!-- 		<dependency>
+   			<groupId>javax.el</groupId>
+   			<artifactId>javax.el-api</artifactId>
+   			<version>${javax.el.version}</version>
+		</dependency> -->
+
+		<!-- https://mvnrepository.com/artifact/javax.inject/javax.inject -->
+		<dependency>
+		    <groupId>javax.inject</groupId>
+		    <artifactId>javax.inject</artifactId>
+		    <version>${javax.inject.version}</version>
+		</dependency>
+
+		<dependency>
+		    <groupId>javax.validation</groupId>
+		    <artifactId>validation-api</artifactId>
+		    <version>1.1.0.Final</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-lang3</artifactId>
+		    <version>3.5</version>
+		</dependency>
+		
+
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql-jdbc-version}</version>
+		</dependency>
+
+				<!-- Jackson JSON Processor -->
+				<dependency>
+				    <groupId>com.fasterxml.jackson.core</groupId>
+				    <artifactId>jackson-databind</artifactId>
+				    <version>${jackson-version}</version>
+				</dependency>
+				
+				<dependency>
+				    <groupId>com.fasterxml.jackson.core</groupId>
+				    <artifactId>jackson-core</artifactId>
+				    <version>${jackson-version}</version>
+				</dependency>
+				 
+				<dependency>
+				    <groupId>com.fasterxml.jackson.core</groupId>
+				    <artifactId>jackson-annotations</artifactId>
+				    <version>${jackson-version}</version>
+				</dependency>
+						
+		
+		<!-- https://mvnrepository.com/artifact/net.sf.ehcache/ehcache -->
+		<dependency>
+		    <groupId>net.sf.ehcache</groupId>
+		    <artifactId>ehcache</artifactId>
+		</dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.mchange/c3p0 -->
+        <dependency>
+            <groupId>com.mchange</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>${c3p0-version}</version>
+        </dependency>
+
+		<dependency>
+			<groupId>org.elasticsearch</groupId>
+			<artifactId>elasticsearch</artifactId>
+			<version>${org.elasticsearch-version}</version>
+		</dependency>	
+		
+		<!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
+		<dependency>
+		    <groupId>javax.mail</groupId>
+		    <artifactId>javax.mail-api</artifactId>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+		<dependency>
+		    <groupId>javax.mail</groupId>
+		    <artifactId>mail</artifactId>
+		    <version>1.4.7</version>
+		</dependency>
+		
+		<!-- http://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
+		<dependency>
+		    <groupId>com.googlecode.json-simple</groupId>
+		    <artifactId>json-simple</artifactId>
+		    <version>${simple-json-version}</version>
+		</dependency>	
+		<dependency>
+			<groupId>javax.el</groupId>
+			<artifactId>javax.el-api</artifactId>
+			<version>2.2.4</version>
+		</dependency>
+
+    </dependencies>
+
+<profiles>
+      <!-- DO NOT CHANGE THE *ORDER* IN WHICH THESE PROFILES ARE DEFINED! -->
+      <profile>
+         <id>acceptance-test</id>
+         <modules>
+    	<module>sm-cucumber</module>
+         </modules>
+      </profile>
+      <profile>
+         <id>default</id>
+         <activation>
+            <activeByDefault>true</activeByDefault>
+         </activation>
+         <modules>
+	  	<module>sm-core-model</module>
+	  	<module>sm-core-modules</module>
+	  	<module>sm-core</module>
+		<module>sm-search</module>
+	  	<module>sm-shop</module>
+		<module>shopizer-canadapost</module>
+		<module>shopizer-shipping-distance-module</module>
+         </modules>
+      </profile>
+   </profiles>
+<!--   
+	<modules>
+	  	<module>sm-core-model</module>
+	  	<module>sm-core-modules</module>
+	  	<module>sm-core</module>
+		<module>sm-search</module>
+	  	<module>sm-shop</module>
+		<module>shopizer-canadapost</module>
+		<module>shopizer-shipping-distance-module</module>
+    	<module>sm-cucumber</module>
+  </modules>
+-->
+
+    <repositories>
+        <repository>
+            <id>spring-releases</id>
+            <name>Spring Releases</name>
+            <url>https://repo.spring.io/libs-release</url>
+        </repository>
+        <repository>
+            <id>org.jboss.repository.releases</id>
+            <name>JBoss Maven Release Repository</name>
+            <url>https://repository.jboss.org/nexus/content/repositories/releases</url>
+        </repository>
+    </repositories>
+
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-releases</id>
+            <name>Spring Releases</name>
+            <url>https://repo.spring.io/libs-release</url>
+        </pluginRepository>
+    </pluginRepositories>
+    
+    <dependencyManagement>
+		<dependencies>
+
+		</dependencies>
+
+	</dependencyManagement>
+
+</project>

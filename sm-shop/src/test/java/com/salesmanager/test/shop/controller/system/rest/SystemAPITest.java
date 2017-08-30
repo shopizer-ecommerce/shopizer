@@ -30,8 +30,8 @@ public class SystemAPITest {
 	 * Contact us email
 	 * @throws Exception
 	 */
-	//@Test
-	@Ignore
+	@Test
+	//@Ignore
 	public void createIntegrationModule() throws Exception {
 		restTemplate = new RestTemplate();
 		
@@ -62,7 +62,8 @@ public class SystemAPITest {
 		
 		HttpEntity<String> httpEntity = new HttpEntity<String>(json, getHeader());
 		
-		ResponseEntity<AjaxResponse> response = restTemplate.exchange("http://localhost:8080/sm-shop/services/private/system/module", HttpMethod.POST, httpEntity, AjaxResponse.class);
+		//ResponseEntity<AjaxResponse> response = restTemplate.exchange("http://localhost:8080/sm-shop/services/private/system/module", HttpMethod.POST, httpEntity, AjaxResponse.class);
+		ResponseEntity<AjaxResponse> response = restTemplate.exchange("http://bluebottle.westeurope.cloudapp.azure.com:8080/services/private/system/module", HttpMethod.POST, httpEntity, AjaxResponse.class);
 		
 		if(response.getStatusCode() != HttpStatus.OK){
 			throw new Exception();

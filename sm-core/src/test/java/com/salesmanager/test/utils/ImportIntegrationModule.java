@@ -27,7 +27,7 @@ import com.salesmanager.test.configuration.ConfigurationTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {ConfigurationTest.class})
-//@Ignore
+@Ignore
 public class ImportIntegrationModule  {
 
 	@Inject
@@ -42,7 +42,7 @@ public class ImportIntegrationModule  {
 	 * if it already exists 
 	 * @throws Exception
 	 */
-	//@Ignore
+	@Ignore
 	@Test
 	public void importSpecificIntegrationModule() throws Exception {
 		

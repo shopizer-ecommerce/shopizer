@@ -21,7 +21,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 import net.thucydides.core.annotations.Steps;
 
-import com.salesmanager.cucumber.pages.HomePage;
+//import com.salesmanager.cucumber.pages.HomePage;
 import com.salesmanager.cucumber.steps.BuyerSteps;
 
 
@@ -33,7 +33,7 @@ public class RegisterCustomerSteps {
     @Steps
     BuyerSteps user;
 
-    HomePage homePage;
+    //HomePage homePage;
     
     //private WebDriver driver;
 	//private String baseUrl;
@@ -65,8 +65,12 @@ public class RegisterCustomerSteps {
 	@When("^the user register with \"(.*)\"$")
 	public void the_user_register_with(String name) throws Throwable {
 		user.register(name);
+		//
 		user.submitRegistration();
-		
+
+/*
+ * nedan flyttad till egen fil
+ */
 /*	    driver.get(baseUrl + "/shop/customer/registration.html");
 	    driver.findElement(By.id("firstName")).clear();
 	    driver.findElement(By.id("firstName")).sendKeys(name);

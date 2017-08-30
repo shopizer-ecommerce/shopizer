@@ -16,7 +16,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-@Ignore
+//@Ignore
 public class CategoryManagementAPITest {
 	
 	private RestTemplate restTemplate;
@@ -45,7 +45,8 @@ public class CategoryManagementAPITest {
 		
 		HttpEntity<String> httpEntity = new HttpEntity<String>(getHeader());
 		
-		ResponseEntity<ReadableCategory> response = restTemplate.exchange("http://localhost:8080/sm-shop/services/public/DEFAULT/category/100?lang=en", HttpMethod.GET, httpEntity, ReadableCategory.class);
+		//ResponseEntity<ReadableCategory> response = restTemplate.exchange("http://localhost:8080/sm-shop/services/public/DEFAULT/category/100?lang=en", HttpMethod.GET, httpEntity, ReadableCategory.class);
+		ResponseEntity<ReadableCategory> response = restTemplate.exchange("http://bluebottle.westeurope.cloudapp.azure.com:8080/services/private/DEFAULT/100?lang=en", HttpMethod.GET, httpEntity, ReadableCategory.class);
 		
 		if(response.getStatusCode() != HttpStatus.OK){
 			throw new Exception();
@@ -61,6 +62,7 @@ public class CategoryManagementAPITest {
 	 * @throws Exception
 	 */
 	@Test
+	//ok?
 	@Ignore
 	public void postCategory() throws Exception {
 		restTemplate = new RestTemplate();
@@ -94,7 +96,8 @@ public class CategoryManagementAPITest {
 		
 		HttpEntity<String> entity = new HttpEntity<String>(json, getHeader());
 
-		ResponseEntity response = restTemplate.postForEntity("http://localhost:8080/sm-shop/services/private/DEFAULT/category", entity, PersistableCategory.class);
+		//ResponseEntity response = restTemplate.postForEntity("http://localhost:8080/sm-shop/services/private/DEFAULT/category", entity, PersistableCategory.class);
+		ResponseEntity response = restTemplate.postForEntity("http://bluebottle.westeurope.cloudapp.azure.com:8080/services/private/DEFAULT/category", entity, PersistableCategory.class);
 
 		PersistableCategory cat = (PersistableCategory) response.getBody();
 		System.out.println("New Category ID : " + cat.getId());
@@ -262,7 +265,8 @@ public class CategoryManagementAPITest {
 		
 		HttpEntity<String> entity = new HttpEntity<String>(json, getHeader());
 
-		ResponseEntity response = restTemplate.postForEntity("http://localhost:8080/sm-shop/services/private/DEFAULT/category", entity, PersistableCategory.class);
+		//ResponseEntity response = restTemplate.postForEntity("http://localhost:8080/sm-shop/services/private/DEFAULT/category", entity, PersistableCategory.class);
+		ResponseEntity response = restTemplate.postForEntity("http://bluebottle.westeurope.cloudapp.azure.com:8080/services/private/DEFAULT/category", entity, PersistableCategory.class);
 
 		PersistableCategory cat = (PersistableCategory) response.getBody();
 		System.out.println("New Category ID : " + cat.getId());
@@ -276,9 +280,9 @@ public class CategoryManagementAPITest {
 		
 		HttpEntity<String> httpEntity = new HttpEntity<String>(getHeader());
 		
-		restTemplate.exchange("http://localhost:8080/sm-shop/services/DEFAULT/category/100", HttpMethod.DELETE, httpEntity, Category.class);
+		//restTemplate.exchange("http://localhost:8080/sm-shop/services/DEFAULT/category/100", HttpMethod.DELETE, httpEntity, Category.class);
+		restTemplate.exchange("http://bluebottle.westeurope.cloudapp.azure.com:8080/services/private/DEFAULT/category/100", HttpMethod.DELETE, httpEntity, Category.class);
 		System.out.println("Category id 100 Deleted.");
 	}
-
 	
 }

@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.Charset;
 
-@Ignore
+//@Ignore
 public class ContactAPITest {
 	
 	private RestTemplate restTemplate;
@@ -30,7 +30,7 @@ public class ContactAPITest {
 	 * @throws Exception
 	 */
 	@Test
-	@Ignore
+	//@Ignore
 	public void contactUs() throws Exception {
 		restTemplate = new RestTemplate();
 		
@@ -48,7 +48,8 @@ public class ContactAPITest {
 		
 		HttpEntity<String> httpEntity = new HttpEntity<String>(json, getHeader());
 		
-		ResponseEntity<AjaxResponse> response = restTemplate.exchange("http://localhost:8080/sm-shop/services/public/DEFAULT/contact", HttpMethod.POST, httpEntity, AjaxResponse.class);
+		//ResponseEntity<AjaxResponse> response = restTemplate.exchange("http://localhost:8080/sm-shop/services/public/DEFAULT/contact", HttpMethod.POST, httpEntity, AjaxResponse.class);
+		ResponseEntity<AjaxResponse> response = restTemplate.exchange("http://bluebottle.westeurope.cloudapp.azure.com:8080/services/public/DEFAULT/contact", HttpMethod.POST, httpEntity, AjaxResponse.class);
 		
 		if(response.getStatusCode() != HttpStatus.OK){
 			throw new Exception();

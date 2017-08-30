@@ -32,7 +32,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
  * @author Carl Samson
  *
  */
-//@Ignore
+@Ignore
 public class StaticContentTest extends com.salesmanager.test.common.AbstractSalesManagerCoreTestCase {
 	
 
@@ -41,7 +41,7 @@ public class StaticContentTest extends com.salesmanager.test.common.AbstractSale
 	
 	
     @Test
-    //@Ignore
+    @Ignore
     public void createImage()
         throws ServiceException, FileNotFoundException, IOException
     {

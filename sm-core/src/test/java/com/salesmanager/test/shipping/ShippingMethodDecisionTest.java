@@ -25,7 +25,7 @@ import com.salesmanager.core.model.system.IntegrationModule;
 
 
 
-//@Ignore
+@Ignore
 public class ShippingMethodDecisionTest extends com.salesmanager.test.common.AbstractSalesManagerCoreTestCase {
 	
 	@Inject

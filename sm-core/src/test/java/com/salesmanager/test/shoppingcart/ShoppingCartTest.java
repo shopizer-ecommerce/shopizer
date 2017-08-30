@@ -46,7 +46,7 @@ import com.salesmanager.core.model.shoppingcart.ShoppingCartItem;
  * @author Carl Samson
  *
  */
-//@Ignore
+@Ignore
 public class ShoppingCartTest extends com.salesmanager.test.common.AbstractSalesManagerCoreTestCase {
 	
 

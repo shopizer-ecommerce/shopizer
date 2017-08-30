@@ -24,18 +24,13 @@ import com.salesmanager.core.model.content.InputContentFile;
 import com.salesmanager.core.model.content.OutputContentFile;
 import com.salesmanager.core.model.merchant.MerchantStore;
 
-
-
-
-
-
 /**
  * Test content with infinispan
  * store logo
  * @author Carl Samson
  *
  */
-//@Ignore
+@Ignore
 public class ContentImagesTest extends com.salesmanager.test.common.AbstractSalesManagerCoreTestCase {
 	
 	private static final Date date = new Date(System.currentTimeMillis());
@@ -46,7 +41,7 @@ public class ContentImagesTest extends com.salesmanager.test.common.AbstractSale
 
 	
     @Test
-    //@Ignore
+    @Ignore
     public void createStoreLogo()
         throws ServiceException, FileNotFoundException, IOException
     {

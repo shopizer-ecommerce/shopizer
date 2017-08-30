@@ -26,7 +26,7 @@ import com.salesmanager.core.model.reference.zone.Zone;
 
 
 
-//@Ignore
+@Ignore
 public class CustomerTest extends com.salesmanager.test.common.AbstractSalesManagerCoreTestCase {
 	
 	@Test

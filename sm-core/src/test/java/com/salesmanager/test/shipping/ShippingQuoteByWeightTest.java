@@ -42,7 +42,7 @@ import com.salesmanager.core.modules.integration.shipping.model.CustomShippingQu
 import com.salesmanager.core.modules.integration.shipping.model.CustomShippingQuotesConfiguration;
 import com.salesmanager.core.modules.integration.shipping.model.CustomShippingQuotesRegion;
 
-//@Ignore
+@Ignore
 public class ShippingQuoteByWeightTest extends com.salesmanager.test.common.AbstractSalesManagerCoreTestCase {
 	
 	private static final Date date = new Date(System.currentTimeMillis());
@@ -56,7 +56,7 @@ public class ShippingQuoteByWeightTest extends com.salesmanager.test.common.Abst
 
 	
 	
-	//@Ignore
+	@Ignore
 	@Test
 	public void testGetCustomShippingQuotesByWeight() throws ServiceException {
 
