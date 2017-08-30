@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.salesmanager.shop.model.customer.Address;
 import com.salesmanager.shop.model.customer.Customer;
+import com.salesmanager.shop.model.customer.CustomerEntity;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
 import com.salesmanager.shop.model.customer.ReadableCustomer;
 import com.salesmanager.shop.model.customer.attribute.CustomerOptionDescription;
@@ -38,7 +39,8 @@ public class CustomerRESTControllerTest {
 		String authorisation = "admin" + ":" + "password";
 		//nedan översätter till vanliga bokstäver
 		byte[] encodedAuthorisation = Base64.encode(authorisation.getBytes());
-		headers.add("Authorization", "Basic " + new String(encodedAuthorisation));
+		String authorisationstring = "Basic " + new String(encodedAuthorisation);
+		headers.add("Authorization", authorisationstring);
 		return headers;
 	}
 	
@@ -121,14 +123,15 @@ public class CustomerRESTControllerTest {
 		restTemplate = new RestTemplate();
 		
 		HttpEntity<String> httpEntity = new HttpEntity<String>(getHeader());
-		// behöver korrigeras se Jonas fil
-		//ResponseEntity<ReadableCustomer[]> response = restTemplate.exchange("http://localhost:8080/sm-shop/services/private/DEFAULT/customer", HttpMethod.GET, httpEntity, ReadableCustomer[].class);
-		ResponseEntity<ReadableCustomer[]> response = restTemplate.exchange("http://bluebottle.westeurope.cloudapp.azure.com:8080/services/private/DEFAULT/customer", HttpMethod.GET, httpEntity, ReadableCustomer[].class);
 		
+//		ResponseEntity<ReadableCustomer[]> response = restTemplate.exchange("http://localhost:8080/sm-shop/services/private/DEFAULT/customer", HttpMethod.GET, httpEntity, ReadableCustomer[].class);
+		ResponseEntity<ReadableCustomer[]> response = restTemplate.exchange("http://bluebottle.westeurope.cloudapp.azure.com:8080/services/private/DEFAULT/customer", HttpMethod.GET, httpEntity, ReadableCustomer[].class);
+	    
+
 		if(response.getStatusCode() != HttpStatus.OK){
 			throw new Exception();
 		}else{
-			System.out.println(response.getBody().length + " Customer records found.");
+			System.out.println(response.getBody().length + " Customer recorpds found.");
 		}
 	}
 
@@ -138,7 +141,7 @@ public class CustomerRESTControllerTest {
 		restTemplate = new RestTemplate();
 		
 		
-		PersistableCustomer customer = new PersistableCustomer();
+		CustomerEntity customer = new CustomerEntity();
 		customer.setEmailAddress("carl@csticonsulting.com");
 		customer.setGender("M");
 		customer.setLanguage("en");
@@ -158,14 +161,13 @@ public class CustomerRESTControllerTest {
 		
 		ObjectWriter writer = new ObjectMapper().writer().withDefaultPrettyPrinter();
 		String json = writer.writeValueAsString(customer);
-
+json="{\"id\" : 0,\"emailAddress\" : \"carl@csticonsulting.com\",\"billing\" : {\"firstName\" : \"Johny\",\"lastName\" : \"BGood\",\"bilstateOther\" : null,\"company\" : null,\"phone\" : null,\"address\" : \"123 my street\",\"city\" : \"Boucherville\",\"postalCode\" : \"H2H 2H2\",\"stateProvince\" : null,\"billingAddress\" : false,\"latitude\" : null,\"longitude\" : null,\"zone\" : \"QC\",\"country\" : \"CA\"},\"delivery\" : null,\"gender\" : \"M\",\"language\" : \"en\",\"firstName\" : null,\"lastName\" : null,\"encodedPassword\" : \"5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8\",\"clearPassword\" : null,\"storeCode\" : null,\"userName\" : \"testuser2\",\"attributes\" : null}";
 		HttpEntity<String> entity = new HttpEntity<String>(json, getHeader());
 
-		//!!! göras om
+
 		//ResponseEntity response = restTemplate.postForEntity("http://localhost:8080/sm-shop/services/private/DEFAULT/customer", entity, PersistableCustomer.class);
-		ResponseEntity response = restTemplate.postForEntity("http://bluebottle.westeurope.cloudapp.azure.com:8080/services/private/DEFAULT/customer", entity, PersistableCustomer.class);
-		
-		
+		ResponseEntity response = restTemplate.postForEntity("http://localhost:8080/services/private/DEFAULT/customer", entity, CustomerEntity.class);
+
 		Customer cust = (Customer) response.getBody();
 		System.out.println("New Customer ID : " + cust.getId());
 		testCustmerID = cust.getId();

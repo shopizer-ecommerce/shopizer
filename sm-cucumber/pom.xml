@@ -19,6 +19,8 @@
         <serenity.cucumber.version>1.1.9</serenity.cucumber.version> <!--  https://bintray.com/serenity/maven/serenity-cucumber/ -->
   </properties>
   <dependencies>
+ 
+  
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -45,6 +47,41 @@
         <artifactId>selenium-java</artifactId>
         <version>3.4.0</version>
     </dependency> 
+ 
+    	<!--  Spring boot  -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+			<scope>provided</scope>
+        </dependency>
+
+        
+ 		<dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-starter-security</artifactId>
+	    </dependency>
+	    
+	    <dependency>
+    		<groupId>org.springframework.security</groupId>
+    		<artifactId>spring-security-taglibs</artifactId>
+		</dependency>
+	    
+	    <dependency>
+        	<groupId>org.apache.tomcat.embed</groupId>
+        	<artifactId>tomcat-embed-jasper</artifactId>
+        	<scope>provided</scope>
+    	</dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-tomcat</artifactId>
+            </dependency>
+
+		<dependency>
+			<groupId>org.springframework.mobile</groupId>
+			<artifactId>spring-mobile-device</artifactId>
+		</dependency>
+ 
     
         <dependency>
             <groupId>net.serenity-bdd</groupId>
