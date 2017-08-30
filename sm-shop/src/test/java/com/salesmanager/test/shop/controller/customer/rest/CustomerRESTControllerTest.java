@@ -1,4 +1,4 @@
-package com.salesmanager.cucumber.api;
+package com.salesmanager.test.shop.controller.customer.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
