@@ -257,7 +257,7 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 
 				//if (refreshCart) {
 					shoppingCart.setLineItems(refreshedItems);
-					update(shoppingCart);
+				    update(shoppingCart);
 				//}
 
 				if (cartIsObsolete) {
@@ -267,7 +267,7 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 			}
 
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			LOGGER.error(e.getMessage());
 			throw new ServiceException(e);
 		}
 
@@ -546,6 +546,11 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 		Set<ShoppingCartItem> cartItems = new HashSet<ShoppingCartItem>(items);
 		cart.setLineItems(cartItems);
 		return this.isFreeShoppingCart(cart);
+	}
+
+	@Override
+	public void deleteShoppingCartItem(Long id) {
+		shoppingCartItemRepository.delete(id);
 	}
 
 }

@@ -60,12 +60,12 @@ run as Java Application
 ### Access the application:
 -------------------
 
-Access the deployed web application at: http://localhost:8080/sm-shop/shop
+Access the deployed web application at: http://localhost:8080/
 
-Acces the admin section at: http://localhost:8080/sm-shop/admin
+Acces the admin section at: http://localhost:8080/admin
 
-#####username : admin
-#####password : password
+##### username : admin
+##### password : password
 
 The instructions above will let you run the application with default settings and configurations.
 Please read the instructions on how to connect to MySQL, configure an email server and configure other subsystems

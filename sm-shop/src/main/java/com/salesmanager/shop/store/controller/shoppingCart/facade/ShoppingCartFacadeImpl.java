@@ -358,15 +358,17 @@ public class ShoppingCartFacadeImpl
                         new HashSet<com.salesmanager.core.model.shoppingcart.ShoppingCartItem>();
                     for ( com.salesmanager.core.model.shoppingcart.ShoppingCartItem shoppingCartItem : cartModel.getLineItems() )
                     {
-                        if ( shoppingCartItem.getId().longValue() != itemID.longValue() )
+                        //if ( shoppingCartItem.getId().longValue() != itemID.longValue() )
+                    	if ( shoppingCartItem.getId().longValue() == itemID.longValue() )
                         {
-                            shoppingCartItemSet.add( shoppingCartItem );
+                            //shoppingCartItemSet.add( shoppingCartItem );
+                    		shoppingCartService.deleteShoppingCartItem(itemID);
                         }
                     }
-                    cartModel.setLineItems( shoppingCartItemSet );
-                    shoppingCartService.saveOrUpdate( cartModel );
+                    //cartModel.setLineItems( shoppingCartItemSet );
+                    //shoppingCartService.saveOrUpdate( cartModel );
 
-
+                    cartModel = getCartModel( cartId,store );
 
 
                     ShoppingCartDataPopulator shoppingCartDataPopulator = new ShoppingCartDataPopulator();

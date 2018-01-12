@@ -20,7 +20,7 @@ response.setDateHeader ("Expires", -1);
 <script src="<c:url value="/resources/js/hogan.js" />"></script>
 <script src="<c:url value="/resources/js/social.login.js" />"></script>
 <script src="<c:url value="/resources/templates/exoticamobilia/js/bloodhound.min.js" />"></script>
-<script src="<c:url value="/resources/templates/bootstrap3/js/typeahead.bundle.min.js" />"></script>
+<script src="<c:url value="/resources/templates/exoticamobilia/js/typeahead.bundle.min.js" />"></script>
 
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>

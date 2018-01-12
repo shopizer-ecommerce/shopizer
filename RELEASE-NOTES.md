@@ -1,6 +1,5 @@
-Release changes in version 2.5.0
+Release changes in version 2.0.5
 
-- Not yet Alpha ;-) Please use 2.0.3 or master
 
 - Spring Data JPA
 - Removal of QueryDSL

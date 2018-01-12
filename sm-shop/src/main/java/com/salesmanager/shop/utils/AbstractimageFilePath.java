@@ -44,7 +44,7 @@ public abstract class AbstractimageFilePath implements ImageFilePath {
 	 * @return
 	 */
 	public String buildStaticImageUtils(MerchantStore store, String imageName) {
-		StringBuilder imgName = new StringBuilder().append(getBasePath()).append(Constants.SLASH).append(store.getCode()).append(Constants.SLASH).append(FileContentType.IMAGE.name()).append(Constants.SLASH);
+		StringBuilder imgName = new StringBuilder().append(getBasePath()).append(Constants.FILES_URI).append(Constants.SLASH).append(store.getCode()).append(Constants.SLASH).append(FileContentType.IMAGE.name()).append(Constants.SLASH);
 				if(!StringUtils.isBlank(imageName)) {
 					imgName.append(imageName);
 				}
