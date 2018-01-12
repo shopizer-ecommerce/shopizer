@@ -10,11 +10,15 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.shoppingcart.ShoppingCart;
 import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.model.customer.Address;
+import com.salesmanager.shop.model.customer.CustomerEntity;
 import com.salesmanager.shop.model.customer.SecuredCustomer;
+import com.salesmanager.shop.model.customer.SecuredShopPersistableCustomer;
 import com.salesmanager.shop.model.shoppingcart.ShoppingCartData;
 import com.salesmanager.shop.populator.shoppingCart.ShoppingCartDataPopulator;
 import com.salesmanager.shop.store.controller.AbstractController;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
+import com.salesmanager.shop.utils.EmailTemplatesUtils;
 import com.salesmanager.shop.utils.ImageFilePath;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -39,10 +43,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/shop/customer")
 public class CustomerLoginController extends AbstractController {
 	
-	@Inject
-    private AuthenticationManager customerAuthenticationManager;
 	
-
     @Inject
     private  CustomerFacade customerFacade;
 
@@ -54,7 +55,11 @@ public class CustomerLoginController extends AbstractController {
     
     @Inject
     private PricingService pricingService;
+    
+    @Inject
+	private EmailTemplatesUtils emailTemplatesUtils;
 
+    
     
 	 @Inject
 	 @Qualifier("img")
@@ -64,7 +69,7 @@ public class CustomerLoginController extends AbstractController {
 	private static final Logger LOG = LoggerFactory.getLogger(CustomerLoginController.class);
 	
 	
-	private AjaxResponse logon(String userName, String password, String storeCode, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	private AjaxResponse logon(String userName, String password, String storeCode, String social, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
         AjaxResponse jsonObject = new AjaxResponse();
         
@@ -79,10 +84,38 @@ public class CustomerLoginController extends AbstractController {
 
             //check if username is from the appropriate store
             Customer customerModel = customerFacade.getCustomerByUserName(userName, store);
-            if(customerModel==null) {
+            
+          //in case is new social customer, register 
+            if(customerModel==null && StringUtils.isNotEmpty(social))
+            {            	
+            	SecuredShopPersistableCustomer customer = customerFacade.registerSocialCustomer(userName, password, storeCode, social, request, response);
+            	/**
+                 * Send registration email
+                 */
+                emailTemplatesUtils.sendRegistrationEmail( customer, store, request.getLocale(), request.getContextPath() );
+
+                /**
+                 * Login user
+                 */
+                
+                try {
+                	
+        	        //refresh customer
+        	        Customer c = customerFacade.getCustomerByUserName(customer.getUserName(), store);
+        	        //authenticate
+        	        customerFacade.authenticate(c, userName, password);
+        	        super.setSessionAttribute(Constants.CUSTOMER, c, request);
+                
+                } catch(Exception e) {
+                	LOG.error("Cannot authenticate social user ",e);
+                	
+                }
+            }
+            else if(customerModel==null) {
             	jsonObject.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
             	return jsonObject;
             }
+           
             
             if(!customerModel.getMerchantStore().getCode().equals(storeCode)) {
             	jsonObject.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
@@ -164,7 +197,7 @@ public class CustomerLoginController extends AbstractController {
 	@RequestMapping(value="/authenticate.html", method=RequestMethod.GET)
 	public @ResponseBody String basicLogon(@RequestParam String userName, @RequestParam String password, @RequestParam String storeCode, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		AjaxResponse jsonObject = this.logon(userName, password, storeCode, request, response);
+		AjaxResponse jsonObject = this.logon(userName, password, storeCode, null, request, response);
 		return jsonObject.toJSONString();
 		
 	}
@@ -180,7 +213,7 @@ public class CustomerLoginController extends AbstractController {
 	@RequestMapping(value="/logon.html", method=RequestMethod.POST)
 	public @ResponseBody String jsonLogon(@ModelAttribute SecuredCustomer securedCustomer, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-        AjaxResponse jsonObject = this.logon(securedCustomer.getUserName(), securedCustomer.getPassword(), securedCustomer.getStoreCode(), request, response);
+        AjaxResponse jsonObject = this.logon(securedCustomer.getUserName(), securedCustomer.getPassword(), securedCustomer.getStoreCode(),securedCustomer.getSocial(), request, response);
         return jsonObject.toJSONString();
         
 	
@@ -203,5 +236,65 @@ public class CustomerLoginController extends AbstractController {
         }
         return null;
     }
+    
+    /**
+   	 * Social Customer registration
+   	 */
+       private void registerSocialCustomer(String userName, String password, String storeCode, String social, HttpServletRequest request, HttpServletResponse response)
+       {
+       	MerchantStore store = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
+       	Language language = (Language)request.getAttribute("LANGUAGE");
+       	String[] socialData = social.split(" -");
+       	SecuredShopPersistableCustomer customer = null;
+       	
+       	@SuppressWarnings( "unused" )
+           CustomerEntity customerData = null;
+           try
+           {
+           	
+           	customer = new SecuredShopPersistableCustomer(); 
+           	Address billing = new Address();
+           	customer.setFirstName(socialData[0]);
+           	customer.setLastName(socialData[1]);
+           	customer.setEmailAddress(socialData[2]);
+           	customer.setUserName(socialData[2]);
+           	customer.setPassword(socialData[2]);
+           	customer.setClearPassword(socialData[2]);
+           	billing.setFirstName(socialData[0]);
+           	billing.setLastName(socialData[1]);
+           	billing.setCountry(store.getCountry().getIsoCode());
+           	customer.setBilling(billing);
+           	customerData = customerFacade.registerCustomer( customer, store, language );
+           }
+          
+           catch ( Exception e )
+           {
+               LOG.error( "Error while registering social customer.. ", e);
+           }
+                 
+           /**
+            * Send registration email
+            */
+           emailTemplatesUtils.sendRegistrationEmail( customer, store, request.getLocale(), request.getContextPath() );
+
+           /**
+            * Login user
+            */
+           
+           try {
+           	
+   	        //refresh customer
+   	        Customer c = customerFacade.getCustomerByUserName(customer.getUserName(), store);
+   	        //authenticate
+   	        customerFacade.authenticate(c, userName, password);
+   	        super.setSessionAttribute(Constants.CUSTOMER, c, request);
+           
+           } catch(Exception e) {
+           	LOG.error("Cannot authenticate social user ",e);
+           	
+           }
+           
+           
+       }
 
 }

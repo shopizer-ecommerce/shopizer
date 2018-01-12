@@ -4,6 +4,10 @@
 package com.salesmanager.shop.store.controller.customer.facade;
 
 import com.salesmanager.core.model.customer.Customer;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
@@ -12,6 +16,7 @@ import com.salesmanager.shop.model.customer.Address;
 import com.salesmanager.shop.model.customer.CustomerEntity;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
 import com.salesmanager.shop.model.customer.ReadableCustomer;
+import com.salesmanager.shop.model.customer.SecuredShopPersistableCustomer;
 
 /**
  * <p>Customer facade working as a bridge between {@link CustomerService} and Controller
@@ -83,6 +88,18 @@ public interface CustomerFacade
 	
 	Customer populateCustomerModel(Customer customerModel, PersistableCustomer customer,
 			MerchantStore merchantStore, Language language) throws Exception;
+	/**
+     * Creates a Customer from social login
+     * @param username
+     * @param password
+     * @param storecode
+     * @param social
+     * @param request
+     * @param response
+     * @return SecuredShopPersistableCustomer
+     */
+	SecuredShopPersistableCustomer registerSocialCustomer(String userName, String password, String storeCode, String social, HttpServletRequest request, HttpServletResponse response);
+    
 	
 
 	

@@ -63,7 +63,9 @@
     
     <bean id="initData" class="com.salesmanager.shop.init.data.InitStoreData"/>
 
-	
+	<!-- PropertyPlaceHolder -->
+    <util:properties id="propertyConfigurer" location="application.properties"/>
+    <context:property-placeholder properties-ref="propertyConfigurer"/>
  
  
  

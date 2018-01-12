@@ -33,6 +33,7 @@ import com.salesmanager.shop.model.customer.Address;
 import com.salesmanager.shop.model.customer.CustomerEntity;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
 import com.salesmanager.shop.model.customer.ReadableCustomer;
+import com.salesmanager.shop.model.customer.SecuredShopPersistableCustomer;
 import com.salesmanager.shop.populator.customer.*;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -49,6 +50,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -549,5 +553,44 @@ public class CustomerFacadeImpl implements CustomerFacade
             customerService.saveOrUpdate( customerModel );
             return customerModel;
 	}
+	
+	/**
+   	 * Social Customer registration
+   	 */
+       public SecuredShopPersistableCustomer registerSocialCustomer(String userName, String password, String storeCode, String social, HttpServletRequest request, HttpServletResponse response)
+       {
+       	MerchantStore store = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
+       	Language language = (Language)request.getAttribute("LANGUAGE");
+       	String[] socialData = social.split(" -");
+       	SecuredShopPersistableCustomer customer = null;
+       	
+       	@SuppressWarnings( "unused" )
+           CustomerEntity customerData = null;
+           try
+           {
+           	
+           	customer = new SecuredShopPersistableCustomer(); 
+           	Address billing = new Address();
+           	customer.setFirstName(socialData[0]);
+           	customer.setLastName(socialData[1]);
+           	customer.setEmailAddress(socialData[2]);
+           	customer.setUserName(socialData[2]);
+           	customer.setPassword(socialData[2]);
+           	customer.setClearPassword(socialData[2]);
+           	billing.setFirstName(socialData[0]);
+           	billing.setLastName(socialData[1]);
+           	billing.setCountry(store.getCountry().getIsoCode());
+           	customer.setBilling(billing);
+           	customerData = registerCustomer( customer, store, language );
+           }
+          
+           catch ( Exception e )
+           {
+               LOG.error( "Error while registering social customer.. ", e);
+           }
+             
+          return customer; 
+           
+       }
 
 }

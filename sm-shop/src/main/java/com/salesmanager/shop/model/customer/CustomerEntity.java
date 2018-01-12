@@ -32,6 +32,8 @@ public class CustomerEntity extends Customer implements Serializable {
 	
 	private String storeCode;
 	
+	private String social;
+	
 	@NotEmpty(message="{NotEmpty.customer.userName}")
 	private String userName;
 	
@@ -125,6 +127,14 @@ public class CustomerEntity extends Customer implements Serializable {
 
 	public void setClearPassword(String clearPassword) {
 		this.clearPassword = clearPassword;
+	}
+
+	public String getSocial() {
+		return social;
+	}
+
+	public void setSocial(String social) {
+		this.social = social;
 	}
 
 
