@@ -21,5 +21,7 @@ public interface ZoneService extends SalesManagerEntityService<Long, Zone> {
 
 	Map<String, Zone> getZones(Language language) throws ServiceException;
 
+	Zone getByCode(String code);
+
 
 }
