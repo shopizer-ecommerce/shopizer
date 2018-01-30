@@ -178,6 +178,7 @@ public class MerchantStoreController {
 		
 		
 		setMenu(model,request);
+		request.getSession().setAttribute(Constants.ADMIN_STORE, store);
 		Language language = (Language)request.getAttribute("LANGUAGE");
 		List<Language> languages = languageService.getLanguages();
 		List<Currency> currencies = currencyService.list();
