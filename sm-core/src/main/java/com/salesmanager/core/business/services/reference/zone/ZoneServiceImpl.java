@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -64,10 +65,18 @@ public class ZoneServiceImpl extends SalesManagerEntityServiceImpl<Long, Zone> i
 	@Override
 	public List<Zone> getZones(Country country, Language language) throws ServiceException {
 		
+		//Validate.notNull(country,"Country cannot be null");
+		Validate.notNull(language,"Language cannot be null");
+		
 		List<Zone> zones = null;
 		try {
+			
+			String countryCode = Constants.DEFAULT_COUNTRY;
+			if(country!=null) {
+				countryCode = country.getIsoCode();
+			}
 
-			String cacheKey = ZONE_CACHE_PREFIX + country.getIsoCode() + Constants.UNDERSCORE + language.getCode();
+			String cacheKey = ZONE_CACHE_PREFIX + countryCode + Constants.UNDERSCORE + language.getCode();
 			
 			zones = (List<Zone>) cache.getFromCache(cacheKey);
 
@@ -75,7 +84,7 @@ public class ZoneServiceImpl extends SalesManagerEntityServiceImpl<Long, Zone> i
 		
 			if(zones==null) {
 			
-				zones = zoneRepository.listByLanguageAndCountry(country.getIsoCode(), language.getId());
+				zones = zoneRepository.listByLanguageAndCountry(countryCode, language.getId());
 			
 				//set names
 				for(Zone zone : zones) {

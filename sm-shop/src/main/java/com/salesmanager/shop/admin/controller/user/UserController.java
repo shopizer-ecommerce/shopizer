@@ -303,19 +303,6 @@ public class UserController {
 		//stores.add(store);
 		stores = merchantStoreService.list();
 		
-		//String remoteUser = request.getRemoteUser();
-		
-/*		if(user!=null && user.getId()!=null) {
-			User logedInUser = userService.getByUserName(user.getAdminName());
-			
-			//check groups
-			List<Group> logedInUserGroups = logedInUser.getGroups();
-			for(Group group : logedInUserGroups) {
-				if(group.getGroupName().equals(Constants.GROUP_SUPERADMIN)) {
-					stores = merchantStoreService.list();
-				}
-			}
-		}*/
 		
 		//questions
 		List<SecurityQuestion> questions = new ArrayList<SecurityQuestion>();
@@ -699,7 +686,7 @@ public class UserController {
 		
 		
 		} catch (Exception e) {
-			LOGGER.error("Error while deleting product price", e);
+			LOGGER.error("Error while deleting user", e);
 			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 			resp.setErrorMessage(e);
 		}

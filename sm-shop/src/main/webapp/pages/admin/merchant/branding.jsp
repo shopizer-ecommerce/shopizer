@@ -71,7 +71,7 @@
 						<div class="controls" id="imageControl">
 						
 									   <c:choose>
-				                        		<c:when test="${store.storeLogo==null}">
+				                        		<c:when test="${empty store.storeLogo}">
 				                                    <input class="input-file" name="file" type="file"><br/>
 				                                </c:when>
 				                                <c:otherwise>

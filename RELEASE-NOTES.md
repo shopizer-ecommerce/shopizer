@@ -1,9 +1,9 @@
-Release changes in version 2.0.5
+Release changes in version 2.2.0
 
 
-- Spring Data JPA
-- Removal of QueryDSL
-- Upgrade of Infinispan
-- Upgrade to Spring 4.2.1
-- Spring Boot
+- New Template
+- Bug fixing
+- Braintree payments
+- Complete REST API
 - UI improvements
+- Apache 2 Licence

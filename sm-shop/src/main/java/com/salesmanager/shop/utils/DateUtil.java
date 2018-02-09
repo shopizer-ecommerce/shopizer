@@ -127,6 +127,25 @@ public class DateUtil {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy");
 		return format.format(new Date(dt.getTime()));
 	}
+	
+	public static boolean dateBeforeEqualsDate(Date firstDate, Date compareDate) {
+		
+        
+		if(firstDate==null || compareDate==null) {
+			return true;
+		}
+		
+		if (firstDate.compareTo(compareDate) > 0) {
+            return false;
+        } else if (firstDate.compareTo(compareDate) < 0) {
+            return true;
+        } else if (firstDate.compareTo(compareDate) == 0) {
+            return true;
+        } else {
+            return false;
+        }
+		
+	}
 
 	public void processPostedDates(HttpServletRequest request) {
 		Date dt = new Date();

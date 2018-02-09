@@ -78,13 +78,10 @@ public class MerchantStoreServiceImpl extends SalesManagerEntityServiceImpl<Inte
 
 	@Override
 	public MerchantStore getByCode(String code) throws ServiceException {
+		
 		return merchantRepository.findByCode(code);
 	}
-
-	@Override
-	public MerchantStore getById(Integer id) {
-		return merchantRepository.findById(id);
-	}
+	
 /*	@Override
 	public void delete(MerchantStore merchant) throws ServiceException {
 		

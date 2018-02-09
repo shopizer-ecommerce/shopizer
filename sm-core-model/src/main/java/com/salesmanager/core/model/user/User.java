@@ -125,8 +125,7 @@ public class User extends SalesManagerEntity<Long, User> implements Auditable {
 	
 	@Column(name="ADMIN_A3")
 	private String answer3;
-	
-	
+
 	@Embedded
 	private AuditSection auditSection = new AuditSection();
 	
@@ -294,5 +293,6 @@ public class User extends SalesManagerEntity<Long, User> implements Auditable {
 	public Date getLoginTime() {
 		return loginTime;
 	}
+	
 
 }

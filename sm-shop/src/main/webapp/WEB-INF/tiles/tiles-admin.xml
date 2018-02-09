@@ -183,6 +183,10 @@
   		<put-attribute name="body" value="/pages/admin/profile/groups.jsp" /> 
   	</definition>
   	
+  	<definition name="admin-user-group" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/profile/group.jsp" /> 
+  	</definition>
+  	
   	<definition name="admin-users" template="/layout/admin/layout.jsp">
   		<put-attribute name="body" value="/pages/admin/profile/users.jsp" /> 
   	</definition>

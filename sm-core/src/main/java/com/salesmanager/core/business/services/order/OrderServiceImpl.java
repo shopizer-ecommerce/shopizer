@@ -20,6 +20,7 @@ import com.salesmanager.core.model.order.orderstatus.OrderStatus;
 import com.salesmanager.core.model.order.orderstatus.OrderStatusHistory;
 import com.salesmanager.core.model.payments.Payment;
 import com.salesmanager.core.model.payments.Transaction;
+import com.salesmanager.core.model.payments.TransactionType;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.shipping.ShippingConfiguration;
 import com.salesmanager.core.model.shoppingcart.ShoppingCart;
@@ -514,6 +515,84 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
 		}
 		
 		return hasDownloads;
+	}
+
+	@Override
+	public List<Order> getCapturableOrders(MerchantStore store, Date startDate, Date endDate) throws ServiceException {
+		
+		List<Transaction> transactions = transactionService.listTransactions(startDate, endDate);
+		
+		List<Order> returnOrders = null;
+
+		if(!CollectionUtils.isEmpty(transactions)) {
+			
+			returnOrders = new ArrayList<Order>();
+			
+			//order id
+			Map<Long,Order> preAuthOrders = new HashMap<Long,Order> ();
+			//order id
+			Map<Long,List<Transaction>> processingTransactions = new HashMap<Long,List<Transaction>> ();
+			
+			for(Transaction trx : transactions) {
+				Order order = trx.getOrder();
+				if(TransactionType.AUTHORIZE.name().equals(trx.getTransactionType().name())) {
+					preAuthOrders.put(order.getId(), order);
+				}
+				
+				//put transaction
+				List<Transaction> listTransactions = null;
+				if(processingTransactions.containsKey(order.getId())) {
+					listTransactions = processingTransactions.get(order.getId());
+				} else {
+					listTransactions = new ArrayList<Transaction>();
+					processingTransactions.put(order.getId(), listTransactions);
+				}
+				listTransactions.add(trx);
+			}
+			
+			//should have when captured
+			/**
+			 * Order id  Transaction type
+			 * 1          AUTHORIZE
+			 * 1          CAPTURE 
+			 */
+			
+			//should have when not captured
+			/**
+			 * Order id  Transaction type
+			 * 2          AUTHORIZE
+			 */
+			
+			for(Long orderId : processingTransactions.keySet()) {
+				
+				List<Transaction> trx = processingTransactions.get(orderId);
+				if(CollectionUtils.isNotEmpty(trx)) {
+					
+					boolean capturable = true;
+					for(Transaction t : trx) {
+						
+						if(TransactionType.CAPTURE.name().equals(t.getTransactionType().name())) {
+							capturable = false;
+						} else if(TransactionType.AUTHORIZECAPTURE.name().equals(t.getTransactionType().name())) {
+							capturable = false;
+						} else if(TransactionType.REFUND.name().equals(t.getTransactionType().name())) {
+							capturable = false;
+						}
+						
+					}
+					
+					if(capturable) {
+						Order o = preAuthOrders.get(orderId);
+						returnOrders.add(o);
+					}
+					
+				}
+				
+				
+			}
+		}
+
+		return returnOrders;
 	}
 
 

@@ -122,7 +122,7 @@ function resetGlobalErrors() {
 						 </div>
 						
 						<div class="form-actions">
-							<input id="submitChangePassword" class="btn btn-large btn-disabled" type="submit" name="changePassword" value="<s:message code="menu.change-password" text="Change password"/>" disabled="">
+							<input id="submitChangePassword" class="btn btn-large btn-disabled template-btn" type="submit" name="changePassword" value="<s:message code="menu.change-password" text="Change password"/>" disabled="">
 						</div>
 						
 						

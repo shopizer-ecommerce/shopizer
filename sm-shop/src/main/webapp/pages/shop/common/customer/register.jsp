@@ -161,7 +161,6 @@ function isFormValid() {
 							     <s:message code="NotEmpty.customer.emailAddress" text="Email address is required" var="msgEmail"/>
 							     <form:input path="emailAddress" cssClass="span8 required email form-control form-control-md" id="email" title="${msgEmail}"/>
 							     <form:errors path="emailAddress" cssClass="error" />
-								
 							</div>
 						</div>
 						
@@ -194,7 +193,7 @@ function isFormValid() {
 						</div>
 
 						<div class="form-actions">
-							<input id="submitRegistration" type="submit" value="<s:message code="label.generic.register" text="Register"/>" name="register" class="btn btn-large">
+							<input id="submitRegistration" type="submit" value="<s:message code="label.generic.register" text="Register"/>" name="register" class="btn btn-large template-btn">
 						</div>
 					</fieldset>
 				</form:form>

@@ -28,7 +28,7 @@
   
 		<beans:bean id="entityManagerFactory" name="shopizerContainer" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 
-			<beans:property name="dataSource" ref="datasource" />		
+			<beans:property name="dataSource" ref="dataSource" />		
 
 			<beans:property name="jpaVendorAdapter">
 				<beans:bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
@@ -85,17 +85,7 @@
       class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
       
         
-    <!-- properties files -->
-    <beans:bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<beans:property name="ignoreUnresolvablePlaceholders" value="false"/>
-		<beans:property name="locations">
-			<beans:list>
-		    	<beans:value>classpath:database.properties</beans:value>
-				<beans:value>classpath:email.properties</beans:value>
-				<beans:value>classpath:configs.properties</beans:value>
-			</beans:list>
-		</beans:property>
-	</beans:bean> 
+
     
 	
     <!-- in sm-shop -->
@@ -119,6 +109,42 @@
 	
 	<!-- After app context init -->
 	<beans:bean id="applicationContextListenerUtils" class="com.salesmanager.core.business.utils.ApplicationContextListenerUtils" />
-
+    
+    
+    <!-- 
+    
+    properties files 
+    
+    
+    
+    
+    -->
+    <beans:beans profile="default">
+    <beans:bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<beans:property name="ignoreUnresolvablePlaceholders" value="false"/>
+		<beans:property name="locations">
+			<beans:list>
+		    	<beans:value>classpath:database.properties</beans:value>
+				<beans:value>classpath:email.properties</beans:value>
+				<beans:value>classpath:configs.properties</beans:value>
+				<beans:value>classpath:authentication.properties</beans:value>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+	</beans:beans> 
+	
+    <beans:beans profile="docker">
+    <beans:bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<beans:property name="ignoreUnresolvablePlaceholders" value="false"/>
+		<beans:property name="locations">
+			<beans:list>
+		    	<beans:value>classpath:profiles/docker/database.properties</beans:value>
+				<beans:value>classpath:email.properties</beans:value>
+				<beans:value>classpath:configs.properties</beans:value>
+				<beans:value>classpath:authentication.properties</beans:value>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+	</beans:beans> 	
 	
 </beans:beans>

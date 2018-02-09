@@ -22,12 +22,13 @@ import com.salesmanager.core.model.reference.currency.Currency;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.reference.zone.Zone;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
-import com.salesmanager.shop.model.order.OrderTotal;
 import com.salesmanager.shop.model.order.PersistableOrder;
 import com.salesmanager.shop.model.order.PersistableOrderProduct;
+import com.salesmanager.shop.model.order.total.OrderTotal;
 import com.salesmanager.shop.utils.LocaleUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -124,6 +125,14 @@ public class PersistableOrderPopulator extends
 					statusHistory.setOrder(target);
 					target.getOrderHistory().add(statusHistory);
 				}
+			}
+			
+			if(!StringUtils.isBlank(source.getComments())) {
+				OrderStatusHistory statusHistory = new OrderStatusHistory();
+				statusHistory.setStatus(null);
+				statusHistory.setOrder(target);
+				statusHistory.setComments(source.getComments());
+				target.getOrderHistory().add(statusHistory);
 			}
 			
 			List<PersistableOrderProduct> products = source.getOrderProductItems();

@@ -281,6 +281,7 @@ public class ContentPagesController {
 
 		content.setContentType(ContentType.PAGE);
 		content.setMerchantStore(store);
+
 		contentService.saveOrUpdate(content);
 		
 		List<ProductRelationship> relationships = productRelationshipService.getGroups(store);

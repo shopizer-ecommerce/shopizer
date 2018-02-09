@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+   name: shopizer-ecommerce
+   labels:
+     app: shopizer-ecommerce
+     tier: backend
+spec:
+   type: NodePort
+   ports:
+   - port: 8888
+   selector:
+     app: shopizer-ecommerce
+     tier: backend

@@ -136,12 +136,7 @@ public class TransactionServiceImpl  extends SalesManagerEntityServiceImpl<Long,
 		if(finalTransactions.containsKey(TransactionType.CAPTURE.name())) {
 			finalTransaction = finalTransactions.get(TransactionType.CAPTURE.name());
 		}
-		
-		//if(finalTransactions.containsKey(TransactionType.REFUND.name())) {
-		//	finalTransaction = finalTransactions.get(TransactionType.REFUND.name());
-		//}
 
-		
 		if(finalTransaction!=null && !StringUtils.isBlank(finalTransaction.getDetails())) {
 			try {
 				ObjectMapper mapper = new ObjectMapper();
@@ -154,6 +149,12 @@ public class TransactionServiceImpl  extends SalesManagerEntityServiceImpl<Long,
 		}
 		
 		return finalTransaction;
+	}
+
+	@Override
+	public List<Transaction> listTransactions(Date startDate, Date endDate) throws ServiceException {
+		
+		return transactionRepository.findByDates(startDate, endDate);
 	}
 
 }

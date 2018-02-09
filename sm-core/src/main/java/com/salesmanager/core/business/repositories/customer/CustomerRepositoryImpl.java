@@ -66,6 +66,8 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
 			countBuilderWhere.append(countryQuery);
 			objectBuilderWhere.append(countryQuery);
 		}
+		
+		objectBuilderSelect.append(" left join fetch c.attributes ca left join fetch ca.customerOption cao left join fetch ca.customerOptionValue cav left join fetch cao.descriptions caod left join fetch cav.descriptions  left join fetch c.groups");
 
 		//count query
 		Query countQ = em.createQuery(
@@ -108,6 +110,7 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
 			countQ.setParameter("country",country);
 			objectQ.setParameter("country",country);
 		}
+		
 		
 
 

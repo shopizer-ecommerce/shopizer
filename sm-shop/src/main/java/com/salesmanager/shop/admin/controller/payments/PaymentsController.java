@@ -114,7 +114,7 @@ public class PaymentsController {
 		try {
 			paymentService.savePaymentModuleConfiguration(configuration, store);
 		} catch (Exception e) {
-			if(e instanceof IntegrationException) {
+			if(e instanceof com.salesmanager.core.business.modules.integration.IntegrationException) {
 				if(((IntegrationException)e).getErrorCode()==IntegrationException.ERROR_VALIDATION_SAVE) {
 					
 					List<String> errorCodes = ((IntegrationException)e).getErrorFields();

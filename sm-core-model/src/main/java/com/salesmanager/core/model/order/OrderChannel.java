@@ -2,6 +2,6 @@ package com.salesmanager.core.model.order;
 
 public enum OrderChannel {
 	
-	ONLINE
+	ONLINE, API
 
 }

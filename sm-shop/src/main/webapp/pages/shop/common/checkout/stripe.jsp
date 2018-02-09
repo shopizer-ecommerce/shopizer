@@ -25,16 +25,27 @@ response.setDateHeader ("Expires", -1);
 				  function initStripePayment() {
 
 						    var $form = $('#checkoutForm');
+						    
+						    try {
 
 						    // Disable the submit button to prevent repeated clicks
 						    $form.find('button').prop('disabled', true);
 
 						    Stripe.card.createToken($form, stripeResponseHandler);
+						    
+						    }
+						    catch(err) {
+						    	hideSMLoading('#pageContainer');
+						    	//log(err.message);
+						    	showResponseErrorMessage(err.message);
+						    }
 				  }; 
 				  
 				  
 				  function stripeResponseHandler(status, response) {
 					  var $form = $('#checkoutForm');
+					  
+					  log('Stripe response');
 
 					  if (response.error) {
 					    // Show the errors on the form
@@ -44,7 +55,7 @@ response.setDateHeader ("Expires", -1);
 					    	orderValidationMessage = error.message;
 					    }
 					    showResponseErrorMessage(orderValidationMessage);
-					    $('#pageContainer').hideLoading();
+					    hideSMLoading('#pageContainer');
 					    $form.find('button').prop('disabled', false);
 					  } else {
 					    // response contains id and card, which contains additional card details
@@ -72,5 +83,5 @@ response.setDateHeader ("Expires", -1);
             </div>
           </div>
           
-          <jsp:include page="/pages/shop/common/checkout/creditCardInformations.jsp" />
+          <jsp:include page="/pages/shop/common/checkout/${creditCardInformationsPage}.jsp" />
 		 

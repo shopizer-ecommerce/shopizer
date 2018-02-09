@@ -67,7 +67,9 @@ public class ProductRelationshipRepositoryImpl implements ProductRelationshipRep
 		
 		qs.append("left join fetch rp.attributes pattr ");
 		qs.append("left join fetch rp.categories rpc ");
+		qs.append("left join fetch rpc.descriptions rpcd ");
 		qs.append("left join fetch rp.descriptions rpd ");
+		qs.append("left join fetch rp.owner rpo ");
 		qs.append("left join fetch rp.images pd ");
 		qs.append("left join fetch rp.merchantStore rpm ");
 		qs.append("left join fetch rpm.currency rpmc ");
@@ -113,7 +115,9 @@ public class ProductRelationshipRepositoryImpl implements ProductRelationshipRep
 		
 		qs.append("left join fetch rp.attributes pattr ");
 		qs.append("left join fetch rp.categories rpc ");
+		qs.append("left join fetch rpc.descriptions rpcd ");
 		qs.append("left join fetch rp.descriptions rpd ");
+		qs.append("left join fetch rp.owner rpo ");
 		qs.append("left join fetch rp.images pd ");
 		qs.append("left join fetch rp.merchantStore rpm ");
 		qs.append("left join fetch rpm.currency rpmc ");
@@ -260,7 +264,9 @@ public class ProductRelationshipRepositoryImpl implements ProductRelationshipRep
 		
 		qs.append("left join fetch rp.attributes pattr ");
 		qs.append("left join fetch rp.categories rpc ");
+		qs.append("left join fetch rpc.descriptions rpcd ");
 		qs.append("left join fetch rp.descriptions rpd ");
+		qs.append("left join fetch rp.owner rpo ");
 		qs.append("left join fetch rp.images pd ");
 		qs.append("left join fetch rp.merchantStore rpm ");
 		qs.append("left join fetch rpm.currency rpmc ");

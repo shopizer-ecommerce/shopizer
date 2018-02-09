@@ -63,6 +63,7 @@ public class ShoppingCart extends SalesManagerEntity<Long, ShoppingCart> impleme
 	@Column(name = "SHP_CART_CODE", unique=true, nullable=false)
 	private String shoppingCartCode;
 	
+	//@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true, mappedBy = "shoppingCart")
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "shoppingCart")
 	private Set<ShoppingCartItem> lineItems = new HashSet<ShoppingCartItem>();
 	

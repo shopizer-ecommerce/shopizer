@@ -51,7 +51,7 @@ public class OrderTotalServiceImpl implements OrderTotalService {
 				for(ShoppingCartItem item : items) {
 					
 					Long productId = item.getProductId();
-					Product product = productService.getProductForLocale(productId, language, languageService.toLocale(language));
+					Product product = productService.getProductForLocale(productId, language, languageService.toLocale(language, store));
 					
 					OrderTotal orderTotal = module.caculateProductPiceVariation(summary, item, product, customer, store);
 					if(orderTotal==null) {

@@ -15,6 +15,7 @@ public class AttributeValue extends ShopEntity implements Serializable {
 	private boolean defaultAttribute;
 	private String image;
 	private String price;
+	private int sortOrder;
 
 	public String getName() {
 		return name;
@@ -45,6 +46,12 @@ public class AttributeValue extends ShopEntity implements Serializable {
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	public int getSortOrder() {
+		return sortOrder;
+	}
+	public void setSortOrder(int sortOrder) {
+		this.sortOrder = sortOrder;
 	}
 
 }

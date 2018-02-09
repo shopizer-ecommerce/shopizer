@@ -17,7 +17,7 @@ response.setDateHeader ("Expires", -1);
 <!--Set google map API key -->
 <c:if test="${requestScope.CONFIGS['displayStoreAddress'] == true}">
 <script type="text/javascript"
-      src="https://maps.googleapis.com/maps/api/js?sensor=true">
+      src="https://maps.googleapis.com/maps/api/js?key=<sm:config configurationCode="shopizer.googlemaps_key" />&sensor=true">
 </script>
 </c:if>
 
@@ -42,7 +42,8 @@ $(document).ready(function() {
 
 
 function sendContact(){
-	$('#pageContainer').showLoading();
+	//$('#pageContainer').showLoading();
+	showSMLoading('#pageContainer');
 	$(".alert-error").hide();
 	$(".alert-success").hide();
 	var data = $('#contactForm').serialize();
@@ -55,7 +56,8 @@ function sendContact(){
 	  dataType: 'json',
 	  success: function(response){
 		  
-		    $('#pageContainer').hideLoading();
+		    //$('#pageContainer').hideLoading();
+		    hideSMLoading('#pageContainer');
 		  	if(response.errorMessage!=null && response.errorMessage!='') {
 		  		$(".alert-error").show();
 				$(".alert-success").hide();
@@ -66,7 +68,8 @@ function sendContact(){
 			$(".alert-success").show();
 	  },
 	  error: function(xhr, textStatus, errorThrown) {
-	    	$('#pageContainer').hideLoading();
+	    	//$('#pageContainer').hideLoading();
+	    	hideSMLoading('#pageContainer');
 	  		alert('error ' + errorThrown);
 	  }
 
@@ -188,7 +191,7 @@ function sendContact(){
 			
 
 <!-- CUSTOM CONTENT --> 
-			<div class="row-fluid common-row">
+			<div class="row-fluid common-row" style="margin-top:30px;">
 					<div class="contactMapCanvas" id="map_canvas" style="width:600px; height:300px"></div>
 			</div>
 
@@ -234,7 +237,7 @@ var address = '<c:out value="${requestScope.MERCHANT_STORE.storeaddress}"/> <c:o
 if(address!=null) {
 	geocoder = new google.maps.Geocoder();
 		var mapOptions = {
-  			zoom: 8,
+  			zoom: 10,
   			mapTypeId: google.maps.MapTypeId.ROADMAP
 		}
 		map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);

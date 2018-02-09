@@ -46,6 +46,9 @@ public class PersistableManufacturerPopulator extends AbstractDataPopulator<Pers
 				for(ManufacturerDescription description : source.getDescriptions()) {
 					com.salesmanager.core.model.catalog.product.manufacturer.ManufacturerDescription desc = new com.salesmanager.core.model.catalog.product.manufacturer.ManufacturerDescription();
 					desc.setManufacturer(target);
+					if(desc.getId() != null && desc.getId().longValue()>0) {
+						desc.setId(description.getId());
+					}
 					desc.setDescription(description.getDescription());
 					desc.setName(description.getName());
 					Language lang = languageService.getByCode(description.getLanguage());

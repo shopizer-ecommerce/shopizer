@@ -68,6 +68,14 @@ public class CustomerEntityPopulator
 
                 target.setBilling( address );
             }
+            
+    		if(source.getCustomerReviewAvg() != null) {
+    			target.setRating(source.getCustomerReviewAvg().doubleValue());
+    		}
+    		
+    		if(source.getCustomerReviewCount() != null) {
+    			target.setRatingCount(source.getCustomerReviewCount().intValue());
+    		}
 
             if ( source.getDelivery() != null )
             {

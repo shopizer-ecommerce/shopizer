@@ -1,5 +1,6 @@
 package com.salesmanager.core.business.services.payments;
 
+import java.util.Date;
 import java.util.List;
 
 import com.salesmanager.core.business.exception.ServiceException;
@@ -23,6 +24,8 @@ public interface TransactionService extends SalesManagerEntityService<Long, Tran
 	Transaction getRefundableTransaction(Order order) throws ServiceException;
 
 	List<Transaction> listTransactions(Order order) throws ServiceException;
+	
+	List<Transaction> listTransactions(Date startDate, Date endDate) throws ServiceException;
 
 
 

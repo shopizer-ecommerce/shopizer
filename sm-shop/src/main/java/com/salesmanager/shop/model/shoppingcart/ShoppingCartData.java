@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.salesmanager.shop.model.ShopEntity;
-import com.salesmanager.shop.model.order.OrderTotal;
+import com.salesmanager.shop.model.order.total.OrderTotal;
 
 
 @Component

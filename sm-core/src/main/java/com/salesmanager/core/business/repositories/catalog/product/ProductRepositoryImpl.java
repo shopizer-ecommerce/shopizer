@@ -7,6 +7,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -41,10 +42,13 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			qs.append("join fetch p.availabilities pa ");
 			qs.append("join fetch p.merchantStore merch ");
 			qs.append("join fetch p.descriptions pd ");
+			
 			qs.append("left join fetch p.categories categs ");
+			qs.append("left join fetch categs.descriptions categsd ");
+			
 			qs.append("left join fetch pa.prices pap ");
 			qs.append("left join fetch pap.descriptions papd ");
-			qs.append("left join fetch categs.descriptions categsd ");
+			
 			
 			//images
 			qs.append("left join fetch p.images images ");
@@ -60,6 +64,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			qs.append("left join fetch manuf.descriptions manufd ");
 			qs.append("left join fetch p.type type ");
 			qs.append("left join fetch p.taxClass tx ");
+			
+			//RENTAL
+			qs.append("left join fetch p.owner owner ");
 			
 			qs.append("where p.id=:pid");
 	
@@ -97,7 +104,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			qs.append("left join fetch pa.prices pap ");
 			qs.append("left join fetch pap.descriptions papd ");
 			
-			
+			qs.append("left join fetch p.categories categs ");
+			qs.append("left join fetch categs.descriptions categsd ");
 			
 			
 			//images
@@ -114,6 +122,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			qs.append("left join fetch manuf.descriptions manufd ");
 			qs.append("left join fetch p.type type ");
 			qs.append("left join fetch p.taxClass tx ");
+			
+			//RENTAL
+			qs.append("left join fetch p.owner owner ");
 			
 			qs.append("where p.sku=:code ");
 			qs.append("and pd.language.id=:lang and papd.language.id=:lang");
@@ -153,6 +164,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		qs.append("left join fetch pa.prices pap ");
 		qs.append("left join fetch pap.descriptions papd ");
 		
+		qs.append("left join fetch p.categories categs ");
+		qs.append("left join fetch categs.descriptions categsd ");
+		
 		
 		//images
 		qs.append("left join fetch p.images images ");
@@ -168,6 +182,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		qs.append("left join fetch manuf.descriptions manufd ");
 		qs.append("left join fetch p.type type ");
 		qs.append("left join fetch p.taxClass tx ");
+		
+		//RENTAL
+		qs.append("left join fetch p.owner owner ");
 		
 		qs.append("where pa.region in (:lid) ");
 		qs.append("and pd.seUrl=:seUrl ");
@@ -242,6 +259,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 				qs.append("left join fetch p.type type ");
 				qs.append("left join fetch p.taxClass tx ");
 				
+				//RENTAL
+				qs.append("left join fetch p.owner owner ");
+				
 				qs.append("where p.id=:pid and pa.region in (:lid) ");
 				qs.append("and pd.language.id=:lang and papd.language.id=:lang ");
 				qs.append("and p.available=true and p.dateAvailable<=:dt ");
@@ -255,11 +275,13 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		    	q.setParameter("lid", regionList);
 		    	q.setParameter("dt", new Date());
 		    	q.setParameter("lang", language.getId());
+		    	
+		        @SuppressWarnings("unchecked")
+				List<Product> results = q.getResultList();
+		        if (results.isEmpty()) return null;
+		        else if (results.size() == 1) return (Product) results.get(0);
+		        throw new NonUniqueResultException();
 
-		    	Product p = (Product)q.getSingleResult();
-
-
-				return p;
 				
 	}
 	
@@ -308,6 +330,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		qs.append("left join fetch p.manufacturer manuf ");
 		qs.append("left join fetch p.type type ");
 		qs.append("left join fetch p.taxClass tx ");
+		
+		//RENTAL
+		qs.append("left join fetch p.owner owner ");
 		
 		//qs.append("where pa.region in (:lid) ");
 		qs.append("where categs.id in (:cid)");
@@ -376,6 +401,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		qs.append("left join fetch p.type type ");
 		qs.append("left join fetch p.taxClass tx ");
 		
+		//RENTAL
+		qs.append("left join fetch p.owner owner ");
+		
 		//qs.append("where pa.region in (:lid) ");
 		qs.append("where categs.id in (:cid) ");
 		//qs.append("and pd.language.id=:lang and papd.language.id=:lang and manufd.language.id=:lang ");
@@ -420,14 +448,11 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		        
 				Query countQ = this.em.createQuery(
 							"select count(p) from Product as p INNER JOIN p.availabilities pa INNER JOIN p.categories categs where p.merchantStore.id=:mId and categs.id in (:cid) and pa.region in (:lid) and p.available=1 and p.dateAvailable<=:dt");
-							//"select p from Product as p join fetch p.availabilities pa join fetch p.categories categs where categs.id in (:cid) and pa.region in (:lid) and p.available=1 and p.dateAvailable<=:dt");
-				
+
 				countQ.setParameter("cid", categoryIds);
 				countQ.setParameter("lid", regionList);
 				countQ.setParameter("dt", new Date());
 				countQ.setParameter("mId", store.getId());
-				
-				//List<Product> ps =  countQ.getResultList();
 
 				Number count = (Number) countQ.getSingleResult ();
 
@@ -471,6 +496,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 				qs.append("left join fetch p.type type ");
 				qs.append("left join fetch p.taxClass tx ");
 				
+				//RENTAL
+				qs.append("left join fetch p.owner owner ");
+				
 				//qs.append("where pa.region in (:lid) ");
 				qs.append("where p.merchantStore.id=mId and categs.id in (:cid) and pa.region in (:lid) ");
 				//qs.append("and p.available=true and p.dateAvailable<=:dt and pd.language.id=:lang and manufd.language.id=:lang");
@@ -508,7 +536,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 	}
 
 	/**
-	 * Used for all purpose !
+	 * This query is used for filtering products based on criterias
 	 * @param store
 	 * @param first
 	 * @param max
@@ -549,8 +577,17 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		}
 		
 		if(!StringUtils.isBlank(criteria.getCode())) {
-			
 			countBuilderWhere.append(" and lower(p.sku) like :sku");
+		}
+		
+		//RENTAL
+		if(!StringUtils.isBlank(criteria.getStatus())) {
+			countBuilderWhere.append(" and p.rentalStatus = :status");
+		}
+		
+		if(criteria.getOwnerId()!=null) {
+			countBuilderSelect.append(" INNER JOIN p.owner owner");
+			countBuilderWhere.append(" and owner.id = :ownerid");
 		}
 		
 		if(!CollectionUtils.isEmpty(criteria.getAttributeCriteria())) {
@@ -621,6 +658,15 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		if(!CollectionUtils.isEmpty(criteria.getProductIds())) {
 			countQ.setParameter("pId", criteria.getProductIds());
 		}
+		
+		//RENTAL
+		if(!StringUtils.isBlank(criteria.getStatus())) {
+			countQ.setParameter("status", criteria.getStatus());
+		}
+		
+		if(criteria.getOwnerId()!=null) {
+			countQ.setParameter("ownerid", criteria.getOwnerId());
+		}
 
 		Number count = (Number) countQ.getSingleResult ();
 
@@ -638,6 +684,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		
 		qs.append("join fetch p.descriptions pd ");
 		qs.append("left join fetch p.categories categs ");
+		qs.append("left join fetch categs.descriptions cd ");
 		
 
 		//images
@@ -649,6 +696,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		qs.append("left join fetch manuf.descriptions manufd ");
 		qs.append("left join fetch p.type type ");
 		qs.append("left join fetch p.taxClass tx ");
+		
+		//RENTAL
+		qs.append("left join fetch p.owner owner ");
 		
 		
 		//attributes
@@ -701,6 +751,15 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			qs.append(" and lower(p.sku) like :sku");
 		}
 		
+		//RENTAL
+		if(!StringUtils.isBlank(criteria.getStatus())) {
+			qs.append(" and p.rentalStatus = :status");
+		}
+		
+		if(criteria.getOwnerId()!=null) {
+			qs.append(" and owner.id = :ownerid");
+		}
+		
 		if(!CollectionUtils.isEmpty(criteria.getAttributeCriteria())) {
 			int cnt = 0;
 			for(AttributeCriteria attributeCriteria : criteria.getAttributeCriteria()) {
@@ -750,6 +809,15 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			}
 		}
 		
+		//RENTAL
+		if(!StringUtils.isBlank(criteria.getStatus())) {
+			q.setParameter("status", criteria.getStatus());
+		}
+		
+		if(criteria.getOwnerId()!=null) {
+			q.setParameter("ownerid", criteria.getOwnerId());
+		}
+		
 		if(!StringUtils.isBlank(criteria.getProductName())) {
 			q.setParameter("nm", new StringBuilder().append("%").append(criteria.getProductName().toLowerCase()).append("%").toString());
 		}
@@ -794,7 +862,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		qs.append("left join fetch pa.prices pap ");
 		
 		qs.append("join fetch p.descriptions pd ");
-		qs.append("join fetch p.categories categs ");
+		qs.append("left join fetch p.categories categs ");
 		
 		
 		
@@ -816,6 +884,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		qs.append("left join fetch manuf.descriptions manufd ");
 		qs.append("left join fetch p.type type ");
 		qs.append("left join fetch p.taxClass tx ");
+		
+		//RENTAL
+		qs.append("left join fetch p.owner owner ");
 		
 		//qs.append("where pa.region in (:lid) ");
 		qs.append("where merch.id=:mid");
@@ -878,6 +949,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		qs.append("left join fetch manuf.descriptions manufd ");
 		qs.append("left join fetch p.type type ");
 		qs.append("left join fetch p.taxClass tx ");
+		
+		//RENTAL
+		qs.append("left join fetch p.owner owner ");
 		
 		//qs.append("where pa.region in (:lid) ");
 		qs.append("where tx.id=:tid");

@@ -44,7 +44,7 @@ public class Zone extends SalesManagerEntity<Long, Zone>{
 	
 
 	
-	@Column(name = "ZONE_CODE", nullable = false)
+	@Column(name = "ZONE_CODE", unique=true, nullable = false)
 	private String code;
 	
 	public Zone() {

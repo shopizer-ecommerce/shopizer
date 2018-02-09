@@ -10,8 +10,22 @@
 		<!-- Shipping pre-processors -->
 		<util:list id="shippingModulePreProcessors" value-type="com.salesmanager.core.business.modules.integration.shipping.model.ShippingQuotePrePostProcessModule">
 			<!-- Not configured by default, should know what is your intention before enabling -->
-<!-- 		<ref bean="shippingDistancePreProcessor"/>
-			<ref bean="shippingMethodDecisionProcess"/> -->
+			
+			<!-- 
+				Shipping distance preprocessor as indicated in its name is a module that calculates
+				the distance between shipping origin and customer shipping address. It uses google 
+				distance calculation and requires google api keys to be configured belog. 
+			 -->
+			<ref bean="shippingDistancePreProcessor"/>
+
+			<!-- 
+				Used drules decision tables to decide at runtime which module the system will use
+				for instance you can specify rules such as if dimension (volume) of each item lte
+				a given volume then use this method, otherwise use another one. Decision tables
+				need to be configured in resources/rules/shipping-decision-rules.xls
+			
+			 -->
+			<!--  <ref bean="shippingMethodDecisionProcess"/> -->
 		</util:list>
 	
 		<!-- Calculates the distance between the origin and destination -->
@@ -19,7 +33,7 @@
 		<bean id="shippingDistancePreProcessor"
 			class="com.shopizer.modules.shipping.distance.ShippingDistancePreProcessorImpl">
 			<!-- Google API key -->
-			<property name="apiKey" value="YOUR_KEY_HERE"/>
+			<property name="apiKey" value="${shippingDistancePreProcessor.apiKey}"/>
 			<property name="allowedZonesCodes" ref="acceptedZones"/>
 		</bean>
 		
@@ -33,13 +47,15 @@
 		<!-- Shipping post-processors -->
 		<util:list id="shippingModulePostProcessors" value-type="com.salesmanager.core.business.modules.integration.shipping.model.ShippingQuotePrePostProcessModule">
 			<!-- Not configured by default, should be configured to be used -->
-			<!-- <ref bean="storePickUp"/> --><!-- defined in core-modules -->
+			<ref bean="storePickUp"/><!-- defined in core-modules -->
 		</util:list>
 		
 		<!-- List of accepted zones for using shipping distance pre processor -->
 		<util:list id="acceptedZones" value-type="java.lang.String">
 			<value>NY</value>
 			<value>NJ</value>
+			<value>QC</value>
+			<value>ON</value>
     	</util:list>
 	
 </beans>

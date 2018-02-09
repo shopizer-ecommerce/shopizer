@@ -21,7 +21,10 @@ public class PersistableProduct extends ProductEntity implements Serializable {
 	private List<PersistableProductPrice> productPrices;//to be set when using discounts
 	private List<Category> categories;//save reference
 	private List<RelatedProduct> relatedProducts;//save reference
-	private Manufacturer manufacturer;
+	private Manufacturer manufacturer;//save reference
+	
+	//RENTAL
+	private RentalOwner owner;
 	
 	public List<ProductDescription> getDescriptions() {
 		return descriptions;
@@ -65,6 +68,12 @@ public class PersistableProduct extends ProductEntity implements Serializable {
 	}
 	public void setProductPrices(List<PersistableProductPrice> productPrices) {
 		this.productPrices = productPrices;
+	}
+	public RentalOwner getOwner() {
+		return owner;
+	}
+	public void setOwner(RentalOwner owner) {
+		this.owner = owner;
 	}
 
 }

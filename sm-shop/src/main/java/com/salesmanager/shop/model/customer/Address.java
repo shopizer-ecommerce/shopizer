@@ -17,6 +17,7 @@ public class Address implements Serializable {
 	
 	@NotEmpty(message="{NotEmpty.customer.lastName}")
 	private String lastName;
+	
 	private String bilstateOther;
 
 	private String company;

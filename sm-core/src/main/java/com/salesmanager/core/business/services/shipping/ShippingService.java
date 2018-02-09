@@ -108,13 +108,14 @@ public interface ShippingService {
 	 * shipping gateway. The quotes are displayed to the end user so he can pick
 	 * the ShippingOption he wants
 	 * @param store
+	 * @param shoppingCartId
 	 * @param customer
 	 * @param products
 	 * @param language
 	 * @return
 	 * @throws ServiceException
 	 */
-	ShippingQuote getShippingQuote(MerchantStore store, Delivery delivery,
+	ShippingQuote getShippingQuote(Long shoppingCartId, MerchantStore store, Delivery delivery,
 			List<ShippingProduct> products, Language language)
 			throws ServiceException;
 	
@@ -203,6 +204,14 @@ public interface ShippingService {
 	 * @throws ServiceException
 	 */
 	ShippingMetaData getShippingMetaData(MerchantStore store) throws ServiceException;
+	
+	/**
+	 * Based on merchant configurations will return if tax must be calculated on shipping
+	 * @param store
+	 * @return
+	 * @throws ServiceException
+	 */
+	boolean hasTaxOnShipping(MerchantStore store) throws ServiceException;
 
 
 }

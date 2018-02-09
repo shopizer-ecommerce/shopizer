@@ -39,6 +39,7 @@ public class ReadableManufacturerPopulator extends AbstractDataPopulator<com.sal
 					com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription d = new com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription();
 					d.setName(description.getName());
 					d.setDescription(description.getDescription());
+					d.setId(description.getId());
 					target.setDescription(d);
 				}
 

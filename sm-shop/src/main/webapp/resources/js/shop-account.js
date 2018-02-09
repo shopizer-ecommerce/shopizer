@@ -62,6 +62,7 @@ function getUserName() {
 	var code = new Array();
 	
 	if(user!=null) {
+		user = user.replace(/['"]+/g, '');
 		code = user.split('_');
 		if(code[0]==getMerchantStoreCode()) {
 			return code[1];

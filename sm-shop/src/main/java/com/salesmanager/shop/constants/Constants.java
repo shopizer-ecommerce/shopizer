@@ -10,6 +10,7 @@ public class Constants {
     public final static String RESPONSE_SUCCESS = "SUCCESS";
     public final static String DEFAULT_LANGUAGE = "en";
 	public final static String LANGUAGE = "LANGUAGE";
+	public final static String LOCALE = "LOCALE";
 	public final static String LANG = "lang";
 	public final static String BREADCRUMB = "BREADCRUMB";
 
@@ -56,6 +57,9 @@ public class Constants {
 	public final static String STATIC_URI = "/static";
 	public final static String FILES_URI = "/files";
 	public final static String PRODUCT_URI= "/product";
+	public final static String PRODUCTS_URI= "/products";
+	public final static String SMALL_IMAGE= "SMALL";
+	public final static String LARGE_IMAGE= "LARGE";
 	public final static String CATEGORY_URI = "/category";
 	public final static String PRODUCT_ID_URI= "/productid";
 	public final static String ORDER_DOWNLOAD_URI= "/order/download";

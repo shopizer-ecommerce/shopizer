@@ -79,6 +79,9 @@ public class Category extends SalesManagerEntity<Long, Category> implements Audi
 	@Column(name = "LINEAGE")
 	private String lineage;
 	
+	@Column(name="FEATURED")
+	private boolean featured;
+	
 	@NotEmpty
 	@Column(name="CODE", length=100, nullable=false)
 	private String code;
@@ -208,5 +211,13 @@ public class Category extends SalesManagerEntity<Long, Category> implements Audi
 		}
 		
 		return null;
+	}
+
+	public boolean isFeatured() {
+		return featured;
+	}
+
+	public void setFeatured(boolean featured) {
+		this.featured = featured;
 	}
 }

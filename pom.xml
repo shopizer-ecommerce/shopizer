@@ -6,7 +6,7 @@
 
     <groupId>com.shopizer</groupId>
     <artifactId>shopizer</artifactId>
-    <version>2.0.5-SNAPSHOT</version>
+    <version>2.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     
     <name>shopizer</name>
@@ -21,10 +21,10 @@
 
     <properties>
         <java.version>1.8</java.version>        
-        <shopizer.version>2.0.5-SNAPSHOT</shopizer.version>
-        <shopizer.search.version>2.0.5-SNAPSHOT</shopizer.search.version>
-        <shopizer-canadapost.version>2.0.5-SNAPSHOT</shopizer-canadapost.version>
-		<shopizer-shipping-distance.version>2.0.5-SNAPSHOT</shopizer-shipping-distance.version>	
+        <shopizer.version>2.2.0-SNAPSHOT</shopizer.version>
+        <shopizer.search.version>2.2.0.1</shopizer.search.version>
+        <shopizer-canadapost.version>2.2.0</shopizer-canadapost.version>
+		<shopizer-shipping-distance.version>2.2.0</shopizer-shipping-distance.version>	
         <jackson-version>2.7.4</jackson-version>
 
         <commons-collections4.version>4.0</commons-collections4.version>
@@ -42,12 +42,7 @@
     </properties>
 
     <dependencies>
-    
-<!-- 		<dependency>
-   			<groupId>javax.el</groupId>
-   			<artifactId>javax.el-api</artifactId>
-   			<version>${javax.el.version}</version>
-		</dependency> -->
+
 
 		<!-- https://mvnrepository.com/artifact/javax.inject/javax.inject -->
 		<dependency>
@@ -142,10 +137,7 @@
 	  	<module>sm-core-model</module>
 	  	<module>sm-core-modules</module>
 	  	<module>sm-core</module>
-		<module>sm-search</module>
 	  	<module>sm-shop</module>
-		<module>shopizer-canadapost</module>
-		<module>shopizer-shipping-distance-module</module>
 	</modules>
 
     <repositories>
@@ -153,6 +145,12 @@
             <id>spring-releases</id>
             <name>Spring Releases</name>
             <url>https://repo.spring.io/libs-release</url>
+        </repository>
+        <!-- Milestone repo -->
+        <repository>
+            <id>spring-milestone</id>
+            <name>Spring Milestone</name>
+            <url>https://repo.spring.io/milestone/</url>
         </repository>
         <repository>
             <id>org.jboss.repository.releases</id>

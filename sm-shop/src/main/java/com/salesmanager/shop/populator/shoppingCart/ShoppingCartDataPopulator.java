@@ -9,19 +9,21 @@ import com.salesmanager.core.business.services.shoppingcart.ShoppingCartCalculat
 import com.salesmanager.core.business.utils.AbstractDataPopulator;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionDescription;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueDescription;
+import com.salesmanager.core.model.catalog.product.description.ProductDescription;
 import com.salesmanager.core.model.catalog.product.image.ProductImage;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.OrderSummary;
 import com.salesmanager.core.model.order.OrderTotalSummary;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.shoppingcart.ShoppingCart;
-import com.salesmanager.shop.model.order.OrderTotal;
+import com.salesmanager.shop.model.order.total.OrderTotal;
 import com.salesmanager.shop.model.shoppingcart.ShoppingCartAttribute;
 import com.salesmanager.shop.model.shoppingcart.ShoppingCartData;
 import com.salesmanager.shop.model.shoppingcart.ShoppingCartItem;
 import com.salesmanager.shop.utils.ImageFilePath;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.configuration.ConversionException;
+import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -85,7 +87,8 @@ public class ShoppingCartDataPopulator extends AbstractDataPopulator<ShoppingCar
     public ShoppingCartData populate(final ShoppingCart shoppingCart,
                                      final ShoppingCartData cart, final MerchantStore store, final Language language) {
 
-    	//Validate.notNull(imageUtils, "Requires to set imageUtils");
+    	Validate.notNull(shoppingCart, "Requires ShoppingCart");
+    	Validate.notNull(language, "Requires Language not null");
     	int cartQuantity = 0;
         cart.setCode(shoppingCart.getShoppingCartCode());
         Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> items = shoppingCart.getLineItems();
@@ -102,7 +105,18 @@ public class ShoppingCartDataPopulator extends AbstractDataPopulator<ShoppingCar
 
                     shoppingCartItem.setProductId(item.getProductId());
                     shoppingCartItem.setId(item.getId());
-                    shoppingCartItem.setName(item.getProduct().getProductDescription().getName());
+                    
+                    String itemName = item.getProduct().getProductDescription().getName();
+                    if(!CollectionUtils.isEmpty(item.getProduct().getDescriptions())) {
+                    	for(ProductDescription productDescription : item.getProduct().getDescriptions()) {
+                    		if(language != null && language.getId().intValue() == productDescription.getLanguage().getId().intValue()) {
+                    			itemName = productDescription.getName();
+                    			break;
+                    		}
+                    	}
+                    }
+                    
+                    shoppingCartItem.setName(itemName);
 
                     shoppingCartItem.setPrice(pricingService.getDisplayAmount(item.getItemPrice(),store));
                     shoppingCartItem.setQuantity(item.getQuantity());
@@ -129,8 +143,25 @@ public class ShoppingCartDataPopulator extends AbstractDataPopulator<ShoppingCar
                             List<ProductOptionDescription> optionDescriptions = attribute.getProductAttribute().getProductOption().getDescriptionsSettoList();
                             List<ProductOptionValueDescription> optionValueDescriptions = attribute.getProductAttribute().getProductOptionValue().getDescriptionsSettoList();
                             if(!CollectionUtils.isEmpty(optionDescriptions) && !CollectionUtils.isEmpty(optionValueDescriptions)) {
-                            	cartAttribute.setOptionName(optionDescriptions.get(0).getName());
-                            	cartAttribute.setOptionValue(optionValueDescriptions.get(0).getName());
+                            	
+                            	String optionName = optionDescriptions.get(0).getName();
+                            	String optionValue = optionValueDescriptions.get(0).getName();
+                            	
+                            	for(ProductOptionDescription optionDescription : optionDescriptions) {
+                            		if(optionDescription.getLanguage() != null && optionDescription.getLanguage().getId().intValue() == language.getId().intValue()) {
+                            			optionName = optionDescription.getName();
+                            			break;
+                            		}
+                            	}
+                            	
+                            	for(ProductOptionValueDescription optionValueDescription : optionValueDescriptions) {
+                            		if(optionValueDescription.getLanguage() != null && optionValueDescription.getLanguage().getId().intValue() == language.getId().intValue()) {
+                            			optionValue = optionValueDescription.getName();
+                            			break;
+                            		}
+                            	}
+                            	cartAttribute.setOptionName(optionName);
+                            	cartAttribute.setOptionValue(optionValue);
                             	cartAttributes.add(cartAttribute);
                             }
                         }

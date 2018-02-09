@@ -226,12 +226,21 @@ public class CustomerRegistrationController extends AbstractController {
                             new StringBuilder().append( ControllerConstants.Tiles.Customer.register ).append( "." ).append( merchantStore.getStoreTemplate() );
             return template.toString();
         }
+        
+        
+        try {
               
-        /**
-         * Send registration email
-         */
-        emailTemplatesUtils.sendRegistrationEmail( customer, merchantStore, locale, request.getContextPath() );
+	        /**
+	         * Send registration email
+	         */
+	        emailTemplatesUtils.sendRegistrationEmail( customer, merchantStore, locale, request.getContextPath() );
 
+        } catch(Exception e) {
+    	   
+        	LOGGER.error("Cannot send email to customer ",e);
+        	
+        }
+        
         /**
          * Login user
          */

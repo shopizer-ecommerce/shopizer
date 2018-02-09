@@ -33,6 +33,7 @@ public class LanguageUtils {
 		Locale locale = null;
 		
 		Language language = (Language) request.getSession().getAttribute(Constants.LANGUAGE);
+		MerchantStore store = (MerchantStore)request.getSession().getAttribute(Constants.MERCHANT_STORE);
 		
 
 		if(language==null) {
@@ -41,11 +42,11 @@ public class LanguageUtils {
 					locale = LocaleContextHolder.getLocale();//should be browser locale
 				
 				
-					MerchantStore store = (MerchantStore)request.getSession().getAttribute(Constants.MERCHANT_STORE);
+					
 					if(store!=null) {
 						language = store.getDefaultLanguage();
 						if(language!=null) {
-							locale = languageService.toLocale(language);
+							locale = languageService.toLocale(language, store);
 							if(locale!=null) {
 								LocaleContextHolder.setLocale(locale);
 							}
@@ -78,7 +79,7 @@ public class LanguageUtils {
 		}
 		
 		if(language != null) {
-			locale = languageService.toLocale(language);
+			locale = languageService.toLocale(language, store);
 		} else {
 			language = languageService.toLanguage(locale);
 		}
@@ -88,6 +89,7 @@ public class LanguageUtils {
 			localeResolver.setLocale(request, response, locale);
 		}
 		response.setLocale(locale);
+		request.getSession().setAttribute(Constants.LANGUAGE, language);
 
 		return language;
 	}

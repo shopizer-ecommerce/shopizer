@@ -25,12 +25,16 @@
 								
 								<!-- Listing grid include -->
 								 <c:set value="/admin/groups/paging.html" var="pagingUrl" scope="request"/>
-								 <c:set value="/admin/groups/editGroup.html?id=${group.id}" var="editUrl" scope="request"/>
+								 <c:set value="/admin/groups/editGroup.html" var="editUrl" scope="request"/>
+								 <c:set value="/admin/groups/delete.html" var="removeUrl" scope="request"/>
+								 <c:set value="/admin/groups/groups.html" var="refreshUrl" scope="request"/>
 								 <c:set var="entityId" value="groupId" scope="request"/>
 								 <c:set var="expandDetails" value="description" scope="request"/>
 								 <c:set var="componentTitleKey" value="label.groups.title" scope="request"/>
 								 <c:set var="gridHeader" value="/pages/admin/profile/groups-gridHeader.jsp" scope="request"/>
-								 <c:set var="canRemoveEntry" value="false" scope="request"/>
+								 <sec:authorize access="hasRole('STORE_ADMIN') and fullyAuthenticated">
+								 <c:set var="canRemoveEntry" value="true" scope="request"/>
+								 </sec:authorize>
 				
 				            	 <jsp:include page="/pages/admin/components/list.jsp"></jsp:include> 
 								 <!-- End listing grid include -->

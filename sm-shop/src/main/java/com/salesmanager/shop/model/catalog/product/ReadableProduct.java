@@ -3,7 +3,7 @@ package com.salesmanager.shop.model.catalog.product;
 import java.io.Serializable;
 import java.util.List;
 
-import com.salesmanager.shop.model.catalog.ReadableImage;
+import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductAttribute;
 
@@ -22,7 +22,11 @@ public class ReadableProduct extends ProductEntity implements Serializable {
 	private List<ReadableImage> images;
 	private ReadableManufacturer manufacturer;
 	private List<ReadableProductAttribute> attributes;
+	private List<ReadableCategory> categories;
 	private boolean canBePurchased = false;
+	
+	//RENTAL
+	private RentalOwner owner;
 	
 		
 	public ProductDescription getDescription() {
@@ -79,6 +83,18 @@ public class ReadableProduct extends ProductEntity implements Serializable {
 	}
 	public void setCanBePurchased(boolean canBePurchased) {
 		this.canBePurchased = canBePurchased;
+	}
+	public RentalOwner getOwner() {
+		return owner;
+	}
+	public void setOwner(RentalOwner owner) {
+		this.owner = owner;
+	}
+	public List<ReadableCategory> getCategories() {
+		return categories;
+	}
+	public void setCategories(List<ReadableCategory> categories) {
+		this.categories = categories;
 	}
 
 }

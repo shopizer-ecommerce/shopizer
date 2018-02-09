@@ -87,6 +87,26 @@ public interface PaymentService {
 	Transaction processCapturePayment(Order order, Customer customer,
 			MerchantStore store)
 			throws ServiceException;
+	
+	/**
+	 * Initializes a transaction
+	 * @param order
+	 * @param customer
+	 * @param payment
+	 * @param store
+	 * @return Transaction
+	 */
+	Transaction initTransaction(Order order, Customer customer, Payment payment, MerchantStore store) throws ServiceException;
+	
+	/**
+	 * Initializes a transaction without an order
+	 * @param order
+	 * @param customer
+	 * @param payment
+	 * @param store
+	 * @return Transaction
+	 */
+	Transaction initTransaction(Customer customer, Payment payment, MerchantStore store) throws ServiceException;
 
 	List<PaymentMethod> getAcceptedPaymentMethods(MerchantStore store)
 			throws ServiceException;

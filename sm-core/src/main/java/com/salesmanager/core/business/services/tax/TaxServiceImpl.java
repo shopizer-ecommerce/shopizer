@@ -165,6 +165,10 @@ public class TaxServiceImpl
 			stateProvince = store.getStorestateprovince();
 		}
 		
+		if(zone == null && StringUtils.isBlank(stateProvince)) {
+			return null;
+		}
+		
 		Map<Long,TaxClass> taxClasses =  new HashMap<Long,TaxClass>();
 			
 		//put items in a map by tax class id

@@ -16,6 +16,8 @@ public class ShippingOption implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private BigDecimal optionPrice;
+	private Long shippingQuoteOptionId;
+
 
 	private String optionName = null;
 	private String optionCode = null;
@@ -114,6 +116,12 @@ public class ShippingOption implements Serializable {
 		this.note = note;
 	}
 
+	public Long getShippingQuoteOptionId() {
+		return shippingQuoteOptionId;
+	}
 
+	public void setShippingQuoteOptionId(Long shippingQuoteOptionId) {
+		this.shippingQuoteOptionId = shippingQuoteOptionId;
+	}
 
 }

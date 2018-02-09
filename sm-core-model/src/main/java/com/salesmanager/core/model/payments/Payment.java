@@ -1,5 +1,6 @@
 package com.salesmanager.core.model.payments;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 import com.salesmanager.core.model.reference.currency.Currency;
@@ -10,6 +11,7 @@ public class Payment {
 	private TransactionType transactionType = TransactionType.AUTHORIZECAPTURE;
 	private String moduleName;
 	private Currency currency;
+	private BigDecimal amount;
 	private Map<String,String> paymentMetaData = null;
 
 	public void setPaymentType(PaymentType paymentType) {
@@ -50,6 +52,14 @@ public class Payment {
 
 	public void setPaymentMetaData(Map<String,String> paymentMetaData) {
 		this.paymentMetaData = paymentMetaData;
+	}
+
+	public BigDecimal getAmount() {
+		return amount;
+	}
+
+	public void setAmount(BigDecimal amount) {
+		this.amount = amount;
 	}
 
 }

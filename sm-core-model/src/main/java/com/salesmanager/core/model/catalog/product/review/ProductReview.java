@@ -21,6 +21,7 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.product.Product;
@@ -32,7 +33,13 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
 
 @Entity
 @EntityListeners(value = AuditListener.class)
-@Table(name = "PRODUCT_REVIEW", schema=SchemaConstant.SALESMANAGER_SCHEMA)
+@Table(name = "PRODUCT_REVIEW", schema=SchemaConstant.SALESMANAGER_SCHEMA, uniqueConstraints={
+		@UniqueConstraint(columnNames={
+				"CUSTOMERS_ID",
+				"PRODUCT_ID"
+			})
+		}
+)
 public class ProductReview extends SalesManagerEntity<Long, ProductReview> implements Auditable {
 	private static final long serialVersionUID = -7509351278087554383L;
 

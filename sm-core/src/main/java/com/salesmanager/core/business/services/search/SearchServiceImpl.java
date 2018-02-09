@@ -21,6 +21,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -51,6 +52,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 		searchService.initService();
 	}
 
+	@Async
 	@SuppressWarnings("rawtypes")
 	public void index(MerchantStore store, Product product)
 			throws ServiceException {
@@ -213,85 +215,91 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 			SearchResponse response =searchService.search(request);
 			
 			com.salesmanager.core.model.search.SearchResponse resp = new com.salesmanager.core.model.search.SearchResponse();
+			resp.setTotalCount(0);
 			
-			
-			resp.setTotalCount(response.getCount());
-			
-			List<SearchEntry> entries = new ArrayList<SearchEntry>();
-			
-			Collection<SearchHit> hits = response.getSearchHits();
-			for(SearchHit hit : hits) {
+			if(response != null) {
+				resp.setTotalCount(response.getCount());
 				
-				SearchEntry entry = new SearchEntry();
-
-				//Map<String,Object> metaEntries = hit.getMetaEntries();
-				Map<String,Object> metaEntries = hit.getItem();
-				IndexProduct indexProduct = new IndexProduct();
-				//Map sourceEntries = (Map)metaEntries.get("source");
+				List<SearchEntry> entries = new ArrayList<SearchEntry>();
 				
-				indexProduct.setDescription((String)metaEntries.get("description"));
-				indexProduct.setHighlight((String)metaEntries.get("highlight"));
-				indexProduct.setId((String)metaEntries.get("id"));
-				indexProduct.setLang((String)metaEntries.get("lang"));
-				indexProduct.setName(((String)metaEntries.get("name")));
-				indexProduct.setManufacturer(((String)metaEntries.get("manufacturer")));
-				indexProduct.setPrice(Double.valueOf(((String)metaEntries.get("price"))));
-				indexProduct.setStore(((String)metaEntries.get("store")));
-				entry.setIndexProduct(indexProduct);
-				entries.add(entry);
+				Collection<SearchHit> hits = response.getSearchHits();
 				
-				/**
-				 * no more support for highlighted
-				 */
-				
-/*				Map<String, HighlightField> fields = hit.getHighlightFields();
-				if(fields!=null) {
-					List<String> highlights = new ArrayList<String>();
-					for(HighlightField field : fields.values()) {
+				if(!CollectionUtils.isEmpty(hits)) {
+					for(SearchHit hit : hits) {
 						
-						Text[] text = field.getFragments();
-						//text[0]
-						String f = field.getName();
-						highlights.add(f);
+						SearchEntry entry = new SearchEntry();
+		
+						//Map<String,Object> metaEntries = hit.getMetaEntries();
+						Map<String,Object> metaEntries = hit.getItem();
+						IndexProduct indexProduct = new IndexProduct();
+						//Map sourceEntries = (Map)metaEntries.get("source");
 						
+						indexProduct.setDescription((String)metaEntries.get("description"));
+						indexProduct.setHighlight((String)metaEntries.get("highlight"));
+						indexProduct.setId((String)metaEntries.get("id"));
+						indexProduct.setLang((String)metaEntries.get("lang"));
+						indexProduct.setName(((String)metaEntries.get("name")));
+						indexProduct.setManufacturer(((String)metaEntries.get("manufacturer")));
+						indexProduct.setPrice(Double.valueOf(((String)metaEntries.get("price"))));
+						indexProduct.setStore(((String)metaEntries.get("store")));
+						entry.setIndexProduct(indexProduct);
+						entries.add(entry);
 						
+						/**
+						 * no more support for highlighted
+						 */
+						
+		/*				Map<String, HighlightField> fields = hit.getHighlightFields();
+						if(fields!=null) {
+							List<String> highlights = new ArrayList<String>();
+							for(HighlightField field : fields.values()) {
+								
+								Text[] text = field.getFragments();
+								//text[0]
+								String f = field.getName();
+								highlights.add(f);
+								
+								
+							}
+							
+							entry.setHighlights(highlights);
+						
+						}*/
 					}
 					
-					entry.setHighlights(highlights);
-				
-				}*/
-			}
-			
-			resp.setEntries(entries);
-			
-			Map<String,List<FacetEntry>> facets = response.getFacets();
-			if(facets!=null) {
-				Map<String,List<SearchFacet>> searchFacets = new HashMap<String,List<SearchFacet>>();
-				for(String key : facets.keySet()) {
+					resp.setEntries(entries);
 					
-					List<FacetEntry> f = facets.get(key);
-					
-					List<SearchFacet> fs = searchFacets.get(key);
-					if(fs==null) {
-						fs = new ArrayList<SearchFacet>();
-						searchFacets.put(key, fs);
-					}
-
-					for(com.shopizer.search.services.FacetEntry facetEntry : f) {
-					
-						SearchFacet searchFacet = new SearchFacet();
-						searchFacet.setKey(facetEntry.getName());
-						searchFacet.setName(facetEntry.getName());
-						searchFacet.setCount(facetEntry.getCount());
+					Map<String,List<FacetEntry>> facets = response.getFacets();
+					if(facets!=null) {
+						Map<String,List<SearchFacet>> searchFacets = new HashMap<String,List<SearchFacet>>();
+						for(String key : facets.keySet()) {
+							
+							List<FacetEntry> f = facets.get(key);
+							
+							List<SearchFacet> fs = searchFacets.get(key);
+							if(fs==null) {
+								fs = new ArrayList<SearchFacet>();
+								searchFacets.put(key, fs);
+							}
+		
+							for(com.shopizer.search.services.FacetEntry facetEntry : f) {
+							
+								SearchFacet searchFacet = new SearchFacet();
+								searchFacet.setKey(facetEntry.getName());
+								searchFacet.setName(facetEntry.getName());
+								searchFacet.setCount(facetEntry.getCount());
+								
+								fs.add(searchFacet);
+							
+							}
+							
+						}
 						
-						fs.add(searchFacet);
+						resp.setFacets(searchFacets);
 					
 					}
-					
+				
 				}
-				
-				resp.setFacets(searchFacets);
-			
 			}
 			
 			

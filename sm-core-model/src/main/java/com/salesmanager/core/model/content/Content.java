@@ -66,6 +66,9 @@ public class Content extends SalesManagerEntity<Long, Content> implements Serial
 	@Column(name = "VISIBLE")
 	private boolean visible;
 	
+	@Column(name = "LINK_TO_MENU")
+	private boolean linkToMenu;
+
 	@Column(name = "CONTENT_POSITION", length=10, nullable=true)
 	@Enumerated(value = EnumType.STRING)
 	private ContentPosition contentPosition;
@@ -82,8 +85,6 @@ public class Content extends SalesManagerEntity<Long, Content> implements Serial
 	//A page can contain one product listing
 	@Column(name = "PRODUCT_GROUP", nullable = true)
 	private String productGroup;
-	
-
 
 	public String getProductGroup() {
 		return productGroup;
@@ -179,4 +180,15 @@ public class Content extends SalesManagerEntity<Long, Content> implements Serial
 	public ContentPosition getContentPosition() {
 		return contentPosition;
 	}
+	
+
+
+	public boolean isLinkToMenu() {
+		return linkToMenu;
+	}
+
+	public void setLinkToMenu(boolean linkToMenu) {
+		this.linkToMenu = linkToMenu;
+	}
+
 }

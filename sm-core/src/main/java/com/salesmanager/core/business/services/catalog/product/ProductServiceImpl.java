@@ -147,7 +147,9 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 	public Product getProductForLocale(long productId, Language language, Locale locale)
 			throws ServiceException {
 		Product product =  productRepository.getProductForLocale(productId, language, locale);
-		
+		if(product==null) {
+			return null;
+		}
 
 		CatalogServiceHelper.setToAvailability(product, locale);
 		CatalogServiceHelper.setToLanguage(product, language.getId());
@@ -270,9 +272,15 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		}
 		
 		/** save product first **/
-		super.save(product);
-
 		
+		if(product.getId()!=null && product.getId()>0) {
+			super.update(product);
+		} else {			
+		
+			super.create(product);
+
+		}
+
 		/**
 		 * Image creation needs extra service to save the file in the CMS
 		 */

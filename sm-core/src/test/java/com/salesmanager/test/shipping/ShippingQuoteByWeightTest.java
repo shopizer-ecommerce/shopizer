@@ -254,8 +254,10 @@ public class ShippingQuoteByWeightTest extends com.salesmanager.test.common.Abst
 	    customer.setDelivery(delivery);
 		
 		customerService.create(customer);
+		
+		Long dummyCartId = 0L;//for correlation
 	    
-	    ShippingQuote shippingQuote = shippingService.getShippingQuote(store, delivery, shippingProducts, en);
+	    ShippingQuote shippingQuote = shippingService.getShippingQuote(dummyCartId, store, delivery, shippingProducts, en);
 
 	    Assert.notNull(shippingQuote);
 	    

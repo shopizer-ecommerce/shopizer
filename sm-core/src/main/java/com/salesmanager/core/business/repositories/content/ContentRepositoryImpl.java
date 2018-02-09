@@ -52,7 +52,9 @@ public class ContentRepositoryImpl implements ContentRepositoryCustom {
 					ContentDescription contentDescription = new ContentDescription();
 					contentDescription.setName(name);
 					contentDescription.setSeUrl(url);
+					contentDescription.setContent(c);
 					descriptions.add(contentDescription);
+					
 			}
 			
 			return descriptions;
@@ -66,7 +68,6 @@ public class ContentRepositoryImpl implements ContentRepositoryCustom {
 
 			qs.append("select c from Content c ");
 			qs.append("left join fetch c.descriptions cd join fetch c.merchantStore cm ");
-			qs.append("where c.contentType in (:ct) ");
 			qs.append("where cm.id =:cm ");
 			qs.append("and cd.seUrl =:se ");
 

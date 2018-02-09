@@ -95,7 +95,13 @@
                      <label><s:message code="label.entity.visible" text="Visible"/></label>
                      <div class="controls">
                                  <form:checkbox path="visible" />
-
+                     </div>
+            </div>
+            
+            <div class="control-group">
+                     <label><s:message code="label.content.page.displaymainmenu" text="Show this page in main menu"/></label>
+                     <div class="controls">
+                                 <form:checkbox path="linkToMenu" />
                      </div>
             </div>
             

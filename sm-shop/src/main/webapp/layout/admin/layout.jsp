@@ -39,7 +39,6 @@ response.setDateHeader ("Expires", -1);
     			
     			<script src="<c:url value="/resources/js/bootstrap/jquery.js" />"></script>
     			<script src="<c:url value="/resources/js/jquery.friendurl.min.js" />"></script>
-    			<link rel="icon" href="<c:url value="/static/favicon.ico"/>"> 
  
   
                 <jsp:include page="/common/adminLinks.jsp" />
@@ -202,17 +201,11 @@ response.setDateHeader ("Expires", -1);
 		$(document).ready(function(){ 
 			
 
-			$("#catalogue-products-create-link").click(function() {
-				window.location='<c:url value="/admin/products/createProduct.html" />';
-			});
 			$("#catalogue-categories-list-link").click(function() {
 				window.location='<c:url value="/admin/categories/categories.html" />';
 			});
 			$("#catalogue-products-categories-link").click(function() {
 				window.location='<c:url value="/admin/products/product-categories.html" />';
-			});
-			$("#catalogue-link").click(function() {
-				window.location='<c:url value="/admin/products/products.html" />';
 			});
 			$("#catalogue-categories-hierarchy-link").click(function() {
 				window.location='<c:url value="/admin/categories/hierarchy.html" />';
