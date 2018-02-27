@@ -408,7 +408,7 @@ public class OrderFacadeImpl implements OrderFacade {
 			payment.setModuleName(order.getPaymentModule());
 			payment.setCurrency(modelOrder.getCurrency());
 			
-			if(order.getPayment().get("paymentToken") != null) {// set any tokenization payment token
+			if(order.getPayment() != null && order.getPayment().get("paymentToken") != null) {// set any tokenization payment token
 				String paymentToken = order.getPayment().get("paymentToken");
 				Map<String,String> paymentMetaData = new HashMap<String,String>();
 				payment.setPaymentMetaData(paymentMetaData);

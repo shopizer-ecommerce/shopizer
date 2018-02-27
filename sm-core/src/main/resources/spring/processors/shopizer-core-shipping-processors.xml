@@ -16,7 +16,8 @@
 				the distance between shipping origin and customer shipping address. It uses google 
 				distance calculation and requires google api keys to be configured belog. 
 			 -->
-			<ref bean="shippingDistancePreProcessor"/>
+			 
+			<!--<ref bean="shippingDistancePreProcessor"/>-->
 
 			<!-- 
 				Used drules decision tables to decide at runtime which module the system will use

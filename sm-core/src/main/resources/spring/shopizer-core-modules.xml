@@ -25,9 +25,16 @@
     			<beans:entry key="usps" value-ref="usps"/>
     			<beans:entry key="ups" value-ref="ups"/>
     			<beans:entry key="weightBased" value-ref="weightBased"/>
-    			<beans:entry key="priceByDistance" value-ref="priceByDistance"/>
     			<beans:entry key="storePickUp" value-ref="storePickUp"/>
-    			<beans:entry key="customQuotesRules" value-ref="customShippingPriceModule"/><!--as defined in shopizer-core-rules-->
+    			<!--
+    			Requires google maps shippingDistancePreProcessor.apiKey=<YOUR KEY>
+    			in configs.properties
+    			<beans:entry key="priceByDistance" value-ref="priceByDistance"/>
+    			 -->
+    			<!--
+    			This will activate drules
+    			<beans:entry key="customQuotesRules" value-ref="customShippingPriceModule"/>
+    			--><!--as defined in shopizer-core-rules-->
     </util:map>
     
     <!--  Payment integration modules -->
