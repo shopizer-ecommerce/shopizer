@@ -37,7 +37,7 @@
 		<c3p0-version>0.9.5.2</c3p0-version>
 		<org.elasticsearch-version>2.4.1</org.elasticsearch-version>
 		<infinispan.version>6.0.2.Final</infinispan.version>
-		<mysql-jdbc-version>5.1.40</mysql-jdbc-version>
+		<mysql-jdbc-version>6.0.5</mysql-jdbc-version>
 		<simple-json-version>1.1.1</simple-json-version>
     </properties>
 

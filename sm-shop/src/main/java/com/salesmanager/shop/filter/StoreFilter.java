@@ -125,7 +125,6 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 			 * exit from here !
 			 */
 			//System.out.println("****** " + request.getRequestURL().toString());
-			//System.out.println("****** " + request.getRequestURI().toString());
 			if(request.getRequestURL().toString().toLowerCase().contains(SERVICES_URL_PATTERN)
 				|| request.getRequestURL().toString().toLowerCase().contains(REFERENCE_URL_PATTERN)	
 			) {
