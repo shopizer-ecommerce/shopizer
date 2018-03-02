@@ -49,7 +49,7 @@ response.setDateHeader ("Expires", -1);
 				                 </c:if>
 				
 
-						   <c:if test="${requestScope.CONFIGS['facebook_page_url'] != null || requestScope.CONFIGS['twitter_handle'] != null || requestScope.CONFIGS['pinterest'] != null || requestScope.CONFIGS['instagram'] != null}">
+						   <c:if test="${requestScope.CONFIGS['facebook_page_url'] != null || requestScope.CONFIGS['twitter_handle'] != null || requestScope.CONFIGS['pinterest'] != null || requestScope.CONFIGS['instagram'] != null || requestScope.CONFIGS['vkontakte'] != null}">
 							   <ul class="social-links circle">
 							       <c:if test="${requestScope.CONFIGS['twitter_handle'] != null}">
 								   <li class="twitter"><a target="_blank" href="<c:out value="${requestScope.CONFIGS['twitter_handle']}"/>"><i class="fa fa-twitter"></i></a></li>
@@ -63,6 +63,9 @@ response.setDateHeader ("Expires", -1);
 								   <c:if test="${requestScope.CONFIGS['instagram'] != null}">
 							   	   <li class="instagram"><a target="_blank" href="<c:out value="${requestScope.CONFIGS['instagram']}"/>"><i class="fa fa-instagram"></i></a></li>
 							       </c:if>
+								   <c:if test="${requestScope.CONFIGS['vkontakte'] != null}">
+									   <li class="vk"><a target="_blank" href="<c:out value="${requestScope.CONFIGS['vkontakte']}"/>"><i class="fa fa-vk"></i></a></li>
+								   </c:if>
 							   </ul>
 						   </c:if>
 						   

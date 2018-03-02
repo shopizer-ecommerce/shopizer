@@ -98,6 +98,7 @@ public class Constants {
 	public final static String KEY_PINTEREST_PAGE_URL = "pinterest";
 	public final static String KEY_GOOGLE_ANALYTICS_URL = "google_analytics_url";
 	public final static String KEY_INSTAGRAM_URL = "instagram";
+	public final static String KEY_VKONTAKTE_URL = "vkontakte";
 	public final static String KEY_GOOGLE_API_KEY = "google_api_key";
 	public final static String KEY_TWITTER_HANDLE = "twitter_handle";
 	public final static String KEY_SESSION_ADDRESS = "readableDelivery";

@@ -93,6 +93,15 @@ public class ConfigurationController {
 			merchantPinterestConfiguration.setMerchantConfigurationType(MerchantConfigurationType.CONFIG);
 		}
 		configs.add(merchantPinterestConfiguration);
+
+		MerchantConfiguration merchantVKontakteConfiguration = merchantConfigurationService.getMerchantConfiguration(Constants.KEY_VKONTAKTE_URL,store);
+		if(null == merchantVKontakteConfiguration)
+		{
+			merchantVKontakteConfiguration = new MerchantConfiguration();
+			merchantVKontakteConfiguration.setKey(Constants.KEY_VKONTAKTE_URL);
+			merchantVKontakteConfiguration.setMerchantConfigurationType(MerchantConfigurationType.CONFIG);
+		}
+		configs.add(merchantVKontakteConfiguration);
 		
 		/**
 		MerchantConfiguration merchantGoogleApiConfiguration = merchantConfigurationService.getMerchantConfiguration(Constants.KEY_GOOGLE_API_KEY,store);
