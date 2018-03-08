@@ -1,4 +1,4 @@
-Shopizer 2.2.0 (for java 1.8 +)
+Shopizer Master- 2.2.0 (for java 1.8 +)
 -------------------
 
 Java open source e-commerce software
