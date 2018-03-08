@@ -203,11 +203,14 @@ public class ShopProductController {
 		model.addAttribute("relatedProducts",relatedItems);	
 		Set<ProductAttribute> attributes = product.getAttributes();
 		
+
+		
 		//split read only and options
 		Map<Long,Attribute> readOnlyAttributes = null;
 		Map<Long,Attribute> selectableOptions = null;
 		
 		if(!CollectionUtils.isEmpty(attributes)) {
+						
 			for(ProductAttribute attribute : attributes) {
 				Attribute attr = null;
 				AttributeValue attrValue = new AttributeValue();
@@ -251,6 +254,10 @@ public class ShopProductController {
 				if(!StringUtils.isBlank(attribute.getProductOptionValue().getProductOptionValueImage())) {
 					attrValue.setImage(imageUtils.buildProductPropertyImageUtils(store, attribute.getProductOptionValue().getProductOptionValueImage()));
 				}
+				attrValue.setSortOrder(0);
+				if(attribute.getProductOptionSortOrder()!=null) {
+					attrValue.setSortOrder(attribute.getProductOptionSortOrder().intValue());
+				}
 				
 				List<ProductOptionValueDescription> descriptions = optionValue.getDescriptionsSettoList();
 				ProductOptionValueDescription description = null;
@@ -274,7 +281,10 @@ public class ShopProductController {
 				}
 				attrs.add(attrValue);
 			}
+			
 		}
+		
+		
 
 		List<ProductReview> reviews = productReviewService.getByProduct(product, language);
 		if(!CollectionUtils.isEmpty(reviews)) {
@@ -296,6 +306,17 @@ public class ShopProductController {
 		List<Attribute> optionsList = null;
 		if(selectableOptions!=null) {
 			optionsList = new ArrayList<Attribute>(selectableOptions.values());
+			//order attributes by sort order
+			for(Attribute attr : optionsList) {
+				Collections.sort(attr.getValues(), new Comparator<AttributeValue>(){
+				     public int compare(AttributeValue o1, AttributeValue o2){
+					         if(o1.getSortOrder()== o2.getSortOrder())
+					             return 0;
+					         return o1.getSortOrder() < o2.getSortOrder() ? -1 : 1;
+				    	
+				     }
+				});
+			}
 		}
 		
 		model.addAttribute("attributes", attributesList);
@@ -367,6 +388,7 @@ public class ShopProductController {
 		attribute.setLanguage(language.getCode());
 		attribute.setName(description.getName());
 		attribute.setCode(productAttribute.getProductOption().getCode());
+
 		
 		return attribute;
 		

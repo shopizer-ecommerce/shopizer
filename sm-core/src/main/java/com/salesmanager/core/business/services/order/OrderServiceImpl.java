@@ -14,45 +14,29 @@ import com.salesmanager.core.business.services.tax.TaxService;
 import com.salesmanager.core.model.catalog.product.price.FinalPrice;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
-import com.salesmanager.core.model.order.Order;
-import com.salesmanager.core.model.order.OrderCriteria;
-import com.salesmanager.core.model.order.OrderList;
-import com.salesmanager.core.model.order.OrderSummary;
-import com.salesmanager.core.model.order.OrderSummaryType;
-import com.salesmanager.core.model.order.OrderTotal;
-import com.salesmanager.core.model.order.OrderTotalSummary;
-import com.salesmanager.core.model.order.OrderTotalType;
-import com.salesmanager.core.model.order.OrderTotalVariation;
-import com.salesmanager.core.model.order.OrderValueType;
+import com.salesmanager.core.model.order.*;
 import com.salesmanager.core.model.order.orderproduct.OrderProduct;
 import com.salesmanager.core.model.order.orderstatus.OrderStatus;
 import com.salesmanager.core.model.order.orderstatus.OrderStatusHistory;
 import com.salesmanager.core.model.payments.Payment;
 import com.salesmanager.core.model.payments.Transaction;
+import com.salesmanager.core.model.payments.TransactionType;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.shipping.ShippingConfiguration;
 import com.salesmanager.core.model.shoppingcart.ShoppingCart;
 import com.salesmanager.core.model.shoppingcart.ShoppingCartItem;
 import com.salesmanager.core.model.tax.TaxItem;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import javax.inject.Inject;
 import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.inject.Inject;
+import java.util.*;
 
 
 
@@ -137,7 +121,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     		statusHistory.setOrder(order);
     		statusHistorySet.add(statusHistory);
     		order.setOrderHistory(statusHistorySet);
-
+    		
     	}
     	
     	if(customer.getId()==null || customer.getId()==0) {
@@ -531,6 +515,84 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
 		}
 		
 		return hasDownloads;
+	}
+
+	@Override
+	public List<Order> getCapturableOrders(MerchantStore store, Date startDate, Date endDate) throws ServiceException {
+		
+		List<Transaction> transactions = transactionService.listTransactions(startDate, endDate);
+		
+		List<Order> returnOrders = null;
+
+		if(!CollectionUtils.isEmpty(transactions)) {
+			
+			returnOrders = new ArrayList<Order>();
+			
+			//order id
+			Map<Long,Order> preAuthOrders = new HashMap<Long,Order> ();
+			//order id
+			Map<Long,List<Transaction>> processingTransactions = new HashMap<Long,List<Transaction>> ();
+			
+			for(Transaction trx : transactions) {
+				Order order = trx.getOrder();
+				if(TransactionType.AUTHORIZE.name().equals(trx.getTransactionType().name())) {
+					preAuthOrders.put(order.getId(), order);
+				}
+				
+				//put transaction
+				List<Transaction> listTransactions = null;
+				if(processingTransactions.containsKey(order.getId())) {
+					listTransactions = processingTransactions.get(order.getId());
+				} else {
+					listTransactions = new ArrayList<Transaction>();
+					processingTransactions.put(order.getId(), listTransactions);
+				}
+				listTransactions.add(trx);
+			}
+			
+			//should have when captured
+			/**
+			 * Order id  Transaction type
+			 * 1          AUTHORIZE
+			 * 1          CAPTURE 
+			 */
+			
+			//should have when not captured
+			/**
+			 * Order id  Transaction type
+			 * 2          AUTHORIZE
+			 */
+			
+			for(Long orderId : processingTransactions.keySet()) {
+				
+				List<Transaction> trx = processingTransactions.get(orderId);
+				if(CollectionUtils.isNotEmpty(trx)) {
+					
+					boolean capturable = true;
+					for(Transaction t : trx) {
+						
+						if(TransactionType.CAPTURE.name().equals(t.getTransactionType().name())) {
+							capturable = false;
+						} else if(TransactionType.AUTHORIZECAPTURE.name().equals(t.getTransactionType().name())) {
+							capturable = false;
+						} else if(TransactionType.REFUND.name().equals(t.getTransactionType().name())) {
+							capturable = false;
+						}
+						
+					}
+					
+					if(capturable) {
+						Order o = preAuthOrders.get(orderId);
+						returnOrders.add(o);
+					}
+					
+				}
+				
+				
+			}
+		}
+
+		return returnOrders;
 	}
 
 

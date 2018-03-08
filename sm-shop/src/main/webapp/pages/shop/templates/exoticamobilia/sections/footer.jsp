@@ -14,58 +14,7 @@ response.setDateHeader ("Expires", -1);
  
 <%@page contentType="text/html"%>
 <%@page pageEncoding="UTF-8"%>
-<script>
 
-
-$(document).ready(function() {
-
-	$("#newsletter").click(function() {
-		if(isEmail($("#email").val()))
-		{
-			registerNewsletter();
-		}
-		else
-		{
-			$("#email").val('<s:message code="email.valid" text="Valid Email"/>')
-		}
-	});
-});
-
-
-function registerNewsletter(){
-	var optin = {}
-	optin["email"] = $("#email").val();
-	optin["optinCode"] = "123";
-	
-	$.ajax({
-	  type: 'POST',
-	  contentType : "application/json",
-	  url: '<c:url value="/public/customer/optin.html"/>',
-	  data: JSON.stringify(optin),
-	  dataType: 'json',
-	  cache: false,
-	  success: function(){
-				
-			  $("#email").hide();
-			  $("#newsletter").hide();
-			  
-			  $('#result').html('<s:message code="newsletter.subscription" text="Subscription ok"/>');
-			  $('#result').show();
-			
-	  },
-	  error: function(xhr, textStatus, errorThrown) {
-		  $('#email').html("Unable to subscribe");
-	  }
-	 
-	  
-	});
-}
-function isEmail(email) {
-	  var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-	  return regex.test(email);
-}
-
-</script>
 	  <!-- footer -->
       <footer id="footer">
             
@@ -210,12 +159,6 @@ function isEmail(email) {
 				    <div class="col-md-6">
 				          <div id="navbar-collapse-2" class="collapse navbar-collapse">
 				                <ul class="nav navbar-nav">
-				                	
-				                	<li>
-				                		<div id="result"/>
-										<input id="email" cssClass="input-large highlight" placeholder="Email for newsletter" />
-                           				<button id="newsletter" type="button	" class="btn btn-group btn-dark btn-sm">Subscribe</button>
-							        </li>
 				                    <li class="<sm:activeLink linkCode="HOME" activeReturnCode="active"/>">
 										<a href="<c:url value="/shop"/>"><s:message code="menu.home" text="Home"/></a>
 							        </li>

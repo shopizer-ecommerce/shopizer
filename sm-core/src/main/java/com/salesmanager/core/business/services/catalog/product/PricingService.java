@@ -91,6 +91,15 @@ public interface PricingService {
 			throws ServiceException;
 	
 	/**
+	 * Converts a String amount to BigDecimal
+	 * Takes care of String amount validation
+	 * @param amount
+	 * @return
+	 * @throws ServiceException
+	 */
+	BigDecimal getAmount(String amount) throws ServiceException;
+	
+	/**
 	 * String format of the money amount without currency symbol
 	 * @param amount
 	 * @param store
@@ -99,4 +108,12 @@ public interface PricingService {
 	 */
 	String getStringAmount(BigDecimal amount, MerchantStore store)
 			throws ServiceException;
+
+	/**
+	 * Method for calculating sub total
+	 * @param price
+	 * @param quantity
+	 * @return
+	 */
+	BigDecimal calculatePriceQuantity(BigDecimal price, int quantity);
 }

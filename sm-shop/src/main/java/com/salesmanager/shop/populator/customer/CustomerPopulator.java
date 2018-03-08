@@ -1,6 +1,7 @@
 package com.salesmanager.shop.populator.customer;
 
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 import com.salesmanager.core.business.exception.ConversionException;
@@ -9,6 +10,7 @@ import com.salesmanager.core.business.services.customer.attribute.CustomerOption
 import com.salesmanager.core.business.services.reference.country.CountryService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.business.services.reference.zone.ZoneService;
+import com.salesmanager.core.business.services.user.GroupService;
 import com.salesmanager.core.business.utils.AbstractDataPopulator;
 import com.salesmanager.core.model.common.Billing;
 import com.salesmanager.core.model.common.Delivery;
@@ -38,7 +40,10 @@ public class CustomerPopulator extends
 
 	private CustomerOptionService customerOptionService;
 	private CustomerOptionValueService customerOptionValueService;
+	private GroupService groupService;
 	
+
+
 
 	/**
 	 * Creates a Customer entity ready to be saved
@@ -52,6 +57,7 @@ public class CustomerPopulator extends
 		Validate.notNull(zoneService, "Requires to set ZoneService");
 		Validate.notNull(countryService, "Requires to set CountryService");
 		Validate.notNull(languageService, "Requires to set LanguageService");
+		Validate.notNull(groupService, "Requires to set GroupService");
 
 		try {
 			
@@ -64,6 +70,8 @@ public class CustomerPopulator extends
 				target.setPassword(source.getEncodedPassword());
 				target.setAnonymous(false);
 			}
+		    
+		    target.setProvider(source.getProvider());
 
 			target.setEmailAddress(source.getEmailAddress());
 			target.setNick(source.getUserName());
@@ -101,7 +109,7 @@ public class CustomerPopulator extends
 				}
 				
 				if(billingCountry!=null && !StringUtils.isBlank(sourceBilling.getZone())) {
-					Zone zone = zoneService.getByCode(sourceBilling.getZone(), billingCountry);
+					Zone zone = zoneService.getByCode(sourceBilling.getZone());
 					if(zone==null) {
 						throw new ConversionException("Unsuported zone code " + sourceBilling.getZone());
 					}
@@ -148,7 +156,7 @@ public class CustomerPopulator extends
 				}
 				
 				if(deliveryCountry!=null && !StringUtils.isBlank(sourceShipping.getZone())) {
-					Zone zone = zoneService.getByCode(sourceShipping.getZone(), deliveryCountry);
+					Zone zone = zoneService.getByCode(sourceShipping.getZone());
 					if(zone==null) {
 						throw new ConversionException("Unsuported zone code " + sourceShipping.getZone());
 					}
@@ -157,6 +165,13 @@ public class CustomerPopulator extends
 				}
 				target.setDelivery(delivery);
 			}
+			
+			if(source.getRating() != null) {
+				target.setCustomerReviewAvg(new BigDecimal(source.getRating().doubleValue()));
+			}
+			
+			target.setCustomerReviewCount(source.getRatingCount());
+
 			
 			if(target.getDelivery() ==null && source.getDelivery()!=null){
 			    LOG.info( "Setting default value for delivery" );
@@ -267,6 +282,14 @@ public class CustomerPopulator extends
 
 	public void setLanguageService(LanguageService languageService) {
 		this.languageService = languageService;
+	}
+	
+	public GroupService getGroupService() {
+		return groupService;
+	}
+
+	public void setGroupService(GroupService groupService) {
+		this.groupService = groupService;
 	}
 
 }

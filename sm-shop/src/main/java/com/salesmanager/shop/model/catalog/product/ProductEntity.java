@@ -3,6 +3,9 @@ package com.salesmanager.shop.model.catalog.product;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import com.salesmanager.core.model.catalog.product.ProductCondition;
+import com.salesmanager.core.model.catalog.product.RentalStatus;
+
 
 /**
  * A product entity is used by services API
@@ -26,7 +29,7 @@ public class ProductEntity extends Product implements Serializable {
 	private int quantityOrderMinimum = 1;//default 1
 	private boolean productIsFree;
 	private boolean available;
-	private boolean visible;
+	private boolean visible = true;
 	private BigDecimal productLength;
 	private BigDecimal productWidth;
 	private BigDecimal productHeight;
@@ -36,9 +39,21 @@ public class ProductEntity extends Product implements Serializable {
 	private int sortOrder;
 	private String dateAvailable;
 	private String refSku;
+	private ProductCondition condition;
+	
+	/**
+	 * RENTAL additional fields
+	 * @return
+	 */
 
+	private int rentalDuration;
+	private int rentalPeriod;
+	private RentalStatus rentalStatus;
 	
-	
+	/**
+	 * End RENTAL fields
+	 * @return
+	 */
 	
 	
 	public BigDecimal getPrice() {
@@ -161,6 +176,31 @@ public class ProductEntity extends Product implements Serializable {
 	}
 	public void setVisible(boolean visible) {
 		this.visible = visible;
+	}
+	public ProductCondition getCondition() {
+		return condition;
+	}
+	public void setCondition(ProductCondition condition) {
+		this.condition = condition;
+	}
+	public int getRentalDuration() {
+		return rentalDuration;
+	}
+	public void setRentalDuration(int rentalDuration) {
+		this.rentalDuration = rentalDuration;
+	}
+	public RentalStatus getRentalStatus() {
+		return rentalStatus;
+	}
+	public void setRentalStatus(RentalStatus rentalStatus) {
+		this.rentalStatus = rentalStatus;
+	}
+	
+	public int getRentalPeriod() {
+		return rentalPeriod;
+	}
+	public void setRentalPeriod(int rentalPeriod) {
+		this.rentalPeriod = rentalPeriod;
 	}
 
 

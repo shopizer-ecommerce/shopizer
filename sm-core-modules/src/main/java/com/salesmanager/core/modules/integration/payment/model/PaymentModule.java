@@ -17,13 +17,18 @@ public interface PaymentModule {
 	
 	public void validateModuleConfiguration(IntegrationConfiguration integrationConfiguration, MerchantStore store) throws IntegrationException;
 	
+
 	/**
 	 * Returns token-value related to the initialization of the transaction This
 	 * method is invoked for paypal express checkout
-	 * @param customer
-	 * @param order
-	 * @return
-	 * @throws IntegrationException
+	 * @param store MerchantStore
+	 * @param customer Customer
+	 * @param amount BigDecimal
+	 * @param payment Payment
+	 * @param configuration IntegrationConfiguration
+	 * @param module IntegrationModule
+	 * @return Transaction a Transaction
+	 * @throws IntegrationException IntegrationException
 	 */
 	public Transaction initTransaction(
 			MerchantStore store, Customer customer, BigDecimal amount, Payment payment, IntegrationConfiguration configuration, IntegrationModule module)

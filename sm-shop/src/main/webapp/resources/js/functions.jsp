@@ -43,6 +43,19 @@ function getItemLabel(quantity) {
 	return labelItem;
 }
 
+//assign rating on a list of products
+function setProductRating(productList) {
+	jQuery.each( productList, function( i, val ) {
+		var pId = '#productRating_' + val.id; 
+	    $(pId).raty({ 
+			readOnly: true,
+			half: true,
+			path : '<c:url value="/resources/img/stars/"/>',
+			score: val.ratingCount
+		});
+	 });
+}
+
 function getLoginErrorLabel() {
 	return '<s:message code="message.username.password" text="Login Failed. Username or Password is incorrect."/>';
 }
@@ -91,6 +104,7 @@ function getOrderValidationMessage(messageKey) {
 	
 	//stripe messages
 	var invalid_number 	= '<s:message code="messages.error.creditcard.number" text="invalid_number"/>';
+	var error_creditcard 	= '<s:message code="messages.error.creditcard" text="messages.error.creditcard"/>';
 	var invalid_expiry_month = '<s:message code="messages.error.creditcard.dateformat" text="invalid_expiry_month"/>';
 	var invalid_expiry_year = '<s:message code="messages.error.creditcard.dateformat" text="invalid_expiry_year"/>';
 	var invalid_cvc 	= '<s:message code="messages.error.creditcard.cvc" text="invalid_cvc"/>';
@@ -103,6 +117,7 @@ function getOrderValidationMessage(messageKey) {
 	
 	var map = new Object(); // or var map = {};
 	map['invalid_number'] = invalid_number;
+	map['error_creditcard'] = error_creditcard;
 	map['invalid_expiry_month'] = invalid_expiry_month;
 	map['invalid_expiry_year'] = invalid_expiry_year;
 	map['invalid_cvc'] = invalid_cvc;

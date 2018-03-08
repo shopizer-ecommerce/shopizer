@@ -1,4 +1,4 @@
-Master
+Shopizer 2.2.0 (for java 1.8 +)
 -------------------
 
 Java open source e-commerce software
@@ -8,6 +8,7 @@ Java open source e-commerce software
 - Search
 - Checkout
 - Administration
+- REST API
 
 
 To get the code:
@@ -29,7 +30,7 @@ From the command line with Maven installed:
 
 Run the application from Tomcat 
 -------------------
-copy sm-shop/target/sm-shop.war to tomcat or any other application server deployment dir
+copy sm-shop/target/ROOT.war to tomcat or any other application server deployment dir
 
 Increase heap space to 1024 m or at least 512 m
 

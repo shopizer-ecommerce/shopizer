@@ -1,12 +1,14 @@
 package com.salesmanager.shop.model.order;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import com.salesmanager.core.model.order.orderstatus.OrderStatus;
 import com.salesmanager.core.model.order.payment.CreditCard;
 import com.salesmanager.core.model.payments.PaymentType;
+import com.salesmanager.shop.model.order.total.OrderTotal;
 
 public class OrderEntity extends Order implements Serializable {
 
@@ -15,6 +17,7 @@ public class OrderEntity extends Order implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private List<OrderTotal> totals;
+	private List<OrderAttribute> attributes = new ArrayList<OrderAttribute>();
 	
 	private PaymentType paymentType;
 	private String paymentModule;
@@ -26,6 +29,7 @@ public class OrderEntity extends Order implements Serializable {
 	private String currency;
 	private boolean customerAgreed;
 	private boolean confirmedAddress;
+	private String comments;
 	
 	public void setTotals(List<OrderTotal> totals) {
 		this.totals = totals;
@@ -93,6 +97,18 @@ public class OrderEntity extends Order implements Serializable {
 	}
 	public void setConfirmedAddress(boolean confirmedAddress) {
 		this.confirmedAddress = confirmedAddress;
+	}
+	public String getComments() {
+		return comments;
+	}
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
+	public List<OrderAttribute> getAttributes() {
+		return attributes;
+	}
+	public void setAttributes(List<OrderAttribute> attributes) {
+		this.attributes = attributes;
 	}
 
 

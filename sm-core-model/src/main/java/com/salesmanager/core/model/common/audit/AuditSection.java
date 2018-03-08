@@ -11,7 +11,6 @@ import javax.persistence.TemporalType;
 import com.salesmanager.core.utils.CloneUtils;
 
 @Embeddable
-//@org.hibernate.annotations.Entity(dynamicUpdate = true, dynamicInsert = true)
 public class AuditSection implements Serializable {
 
 

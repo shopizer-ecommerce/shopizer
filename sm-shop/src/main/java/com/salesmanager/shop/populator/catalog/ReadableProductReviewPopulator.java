@@ -27,6 +27,7 @@ public class ReadableProductReviewPopulator extends
 			ReadableCustomer customer = new ReadableCustomer();
 			populator.populate(source.getCustomer(), customer, store, language);
 
+			target.setId(source.getId());
 			target.setDate(DateUtil.formatDate(source.getReviewDate()));
 			target.setCustomer(customer);
 			target.setRating(source.getReviewRating());

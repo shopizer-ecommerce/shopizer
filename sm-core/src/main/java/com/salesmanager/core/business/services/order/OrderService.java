@@ -1,6 +1,7 @@
 package com.salesmanager.core.business.services.order;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Date;
 import java.util.List;
 
 import com.salesmanager.core.business.exception.ServiceException;
@@ -77,10 +78,6 @@ public interface OrderService extends SalesManagerEntityService<Long, Order> {
 
     Order getOrder(Long id);
 
-    //List<Order> listByStore(MerchantStore merchantStore);
-
-    
-
     
     /**
      * For finding orders. Mainly used in the administration tool
@@ -111,5 +108,15 @@ public interface OrderService extends SalesManagerEntityService<Long, Order> {
 	 * @throws ServiceException
 	 */
 	boolean hasDownloadFiles(Order order) throws ServiceException;
+	
+	/**
+	 * List all orders that have been pre-authorized but not captured
+	 * @param store
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 * @throws ServiceException
+	 */
+	List<Order> getCapturableOrders(MerchantStore store, Date startDate, Date endDate) throws ServiceException;
 
 }

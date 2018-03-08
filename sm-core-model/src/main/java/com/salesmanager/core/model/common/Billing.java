@@ -42,6 +42,12 @@ public class Billing {
 	
 	@Column (name ="BILLING_STATE", length=100)
 	private String state;
+	
+	@Column (name ="LONGITUDE", length=100)
+	private String longitude;
+	
+	@Column (name ="LATITUDE", length=100)
+	private String latitude;
 
 
 	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Country.class)
@@ -134,6 +140,22 @@ public class Billing {
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
+	}
+
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+
+	public String getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
 	}
 	
 }

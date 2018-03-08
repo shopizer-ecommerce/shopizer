@@ -32,6 +32,7 @@ import com.salesmanager.core.model.common.Billing;
 import com.salesmanager.core.model.common.Delivery;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.order.attributes.OrderAttribute;
 import com.salesmanager.core.model.order.orderproduct.OrderProduct;
 import com.salesmanager.core.model.order.orderstatus.OrderStatus;
 import com.salesmanager.core.model.order.orderstatus.OrderStatusHistory;
@@ -151,6 +152,9 @@ public class Order extends SalesManagerEntity<Long, Order> {
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
 	@OrderBy(clause = "ORDER_STATUS_HISTORY_ID asc")
 	private Set<OrderStatusHistory> orderHistory = new LinkedHashSet<OrderStatusHistory>();
+	
+	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+	private Set<OrderAttribute> orderAttributes = new LinkedHashSet<OrderAttribute>();
 	
 	public Order() {
 	}
@@ -381,6 +385,14 @@ public class Order extends SalesManagerEntity<Long, Order> {
 
 	public void setConfirmedAddress(Boolean confirmedAddress) {
 		this.confirmedAddress = confirmedAddress;
+	}
+	
+	public Set<OrderAttribute> getOrderAttributes() {
+		return orderAttributes;
+	}
+
+	public void setOrderAttributes(Set<OrderAttribute> orderAttributes) {
+		this.orderAttributes = orderAttributes;
 	}
 
 }

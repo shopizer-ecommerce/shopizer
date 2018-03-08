@@ -81,8 +81,7 @@ function getZones(countryCode){
 	  data: 'countryCode=' + countryCode,
 	  dataType: 'json',
 	  success: function(response){
-          var responseData = $.parseJSON(response);;
-          console.log(responseData);
+
 			var status = isc.XMLTools.selectObjects(response, "/response/status");
 			if(status==0 || status ==9999) {
 				
@@ -167,6 +166,7 @@ function getZones(countryCode){
 				                       </div>
 				                       <form:hidden path="descriptions[${counter.index}].language.id" />
 				                       <form:hidden path="descriptions[${counter.index}].language.code" />
+				                       
 				                    </c:forEach>
 				                    
 				                    <div class="control-group">

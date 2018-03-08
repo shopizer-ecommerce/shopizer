@@ -93,6 +93,17 @@
 		"image":"stripe.png",
 		"configuration":[{"env":"TEST","scheme":"https","host":"www.stripe.com","port":"443","uri":"/"},{"env":"PROD","scheme":"https","host":"www.stripe.com","port":"443","uri":"/"}]
 
+	},
+	
+	{
+		"module": "PAYMENT",
+		"code": "braintree",
+		"type":"creditcard",
+		"version":"",
+		"regions": ["US","CA","GB","AU","FI","DK","IE","NO","SE","AL","AD","AT","BY","BE","BG","HY","CY","CZ","FR","GR","IS","IE","IM","IT","PL","LU","CH","RS","SG","MY","HK","NZ"],
+		"image":"braintree.jpg",
+		"configuration":[{"env":"TEST","scheme":"https","host":"NOTREQUIRED","port":"NOTREQUIRED","uri":"NOTREQUIRED"},{"env":"PROD","scheme":"https","host":"NOTREQUIRED","port":"NOTREQUIRED","uri":"NOTREQUIRED"}]
+
 	}
 
 ] 

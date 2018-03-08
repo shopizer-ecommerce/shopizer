@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.apache.commons.lang.Validate;
 import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.exception.ServiceException;
@@ -54,9 +55,13 @@ public class ProductReviewServiceImpl extends
 		return productReviewRepository.findByProduct(product.getId(), language.getId());
 	}
 	
-	public void create(ProductReview review) throws ServiceException {
+	private void saveOrUpdate(ProductReview review) throws ServiceException {
 		
-		//adjust score
+
+		Validate.notNull(review,"ProductReview cannot be null");
+		Validate.notNull(review.getProduct(),"ProductReview.product cannot be null");
+		Validate.notNull(review.getCustomer(),"ProductReview.customer cannot be null");
+		
 		
 		//refresh product
 		Product product = productService.getById(review.getProduct().getId());
@@ -85,10 +90,20 @@ public class ProductReviewServiceImpl extends
 		
 		product.setProductReviewAvg(new BigDecimal(avg));
 		product.setProductReviewCount(count);
-		super.create(review);
+		super.save(review);
 		
 		productService.update(product);
 		
+		review.setProduct(product);
+		
+	}
+	
+	public void update(ProductReview review) throws ServiceException {
+		this.saveOrUpdate(review);
+	}
+	
+	public void create(ProductReview review) throws ServiceException {
+		this.saveOrUpdate(review);
 	}
 
 	/* (non-Javadoc)

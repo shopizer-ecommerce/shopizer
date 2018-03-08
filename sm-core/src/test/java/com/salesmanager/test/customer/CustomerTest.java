@@ -38,7 +38,7 @@ public class CustomerTest extends com.salesmanager.test.common.AbstractSalesMana
 		
 		MerchantStore store = merchantService.getByCode(MerchantStore.DEFAULT_STORE);
 		Country country = countryService.getByCode("CA");
-		Zone zone = zoneService.getByCode("QC", country);
+		Zone zone = zoneService.getByCode("QC");
 		
 		/** Core customer attributes **/
 		Customer customer = new Customer();

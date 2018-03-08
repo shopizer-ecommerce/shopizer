@@ -21,7 +21,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import com.salesmanager.core.constants.SchemaConstant;
-import com.salesmanager.core.model.common.Description;
+import com.salesmanager.core.model.common.description.Description;
 import com.salesmanager.core.model.reference.language.Language;
 
 @Entity

@@ -191,7 +191,7 @@ public class InvoiceTest extends com.salesmanager.test.common.AbstractSalesManag
 
 	    //1.2 create a Customer
 		Country country = countryService.getByCode("CA");
-		Zone zone = zoneService.getByCode("QC", country);
+		Zone zone = zoneService.getByCode("QC");
 		
 		Customer customer = new Customer();
 		customer.setMerchantStore(store);

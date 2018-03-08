@@ -21,8 +21,7 @@
 								
 				<h3>
 						<s:message code="menu.customer-options" text="Customer options" />
-				</h3>
-					
+				</h3>	
 				<br/>
 				
 				

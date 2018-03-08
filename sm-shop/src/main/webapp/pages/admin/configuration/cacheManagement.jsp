@@ -16,7 +16,6 @@
         	$(".alert-success").hide();
 			$('.tab-content').showLoading();
             var cacheKey = $(this).attr('id');
-            alert(cacheKey);
             clearCache(cacheKey);
             return false;
         });

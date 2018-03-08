@@ -13,9 +13,8 @@ import java.util.regex.Pattern;
 import javax.annotation.Resource;
 import javax.inject.Inject;
 
-import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.commons.lang3.Validate;
 import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.constants.Constants;
@@ -24,6 +23,7 @@ import com.salesmanager.core.business.services.order.OrderService;
 import com.salesmanager.core.business.services.reference.loader.ConfigurationModulesLoader;
 import com.salesmanager.core.business.services.system.MerchantConfigurationService;
 import com.salesmanager.core.business.services.system.ModuleConfigurationService;
+import com.salesmanager.core.business.utils.CoreConfiguration;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.Order;
@@ -65,6 +65,9 @@ public class PaymentServiceImpl implements PaymentService {
 	
 	@Inject
 	private OrderService orderService;
+	
+	@Inject
+	private CoreConfiguration coreConfiguration;
 	
 	@Inject
 	@Resource(name="paymentModules")
@@ -168,11 +171,15 @@ public class PaymentServiceImpl implements PaymentService {
 	@Override
 	public IntegrationConfiguration getPaymentConfiguration(String moduleCode, MerchantStore store) throws ServiceException {
 
+		Validate.notNull(moduleCode,"Module code must not be null");
+		Validate.notNull(store,"Store must not be null");
+		
+		String mod = moduleCode.toLowerCase();
 		
 		Map<String,IntegrationConfiguration> configuredModules = getPaymentModulesConfigured(store);
 		if(configuredModules!=null) {
 			for(String key : configuredModules.keySet()) {
-				if(key.equals(moduleCode)) {
+				if(key.equals(mod)) {
 					return configuredModules.get(key);	
 				}
 			}
@@ -350,7 +357,7 @@ public class PaymentServiceImpl implements PaymentService {
 			throw new ServiceException("Payment module " + payment.getModuleName() + " does not exist");
 		}
 		
-		if(payment instanceof CreditCardPayment) {
+		if(payment instanceof CreditCardPayment && "true".equals(coreConfiguration.getProperty("VALIDATE_CREDIT_CARD"))) {
 			CreditCardPayment creditCardPayment = (CreditCardPayment)payment;
 			validateCreditCard(creditCardPayment.getCreditCardNumber(),creditCardPayment.getCreditCard(),creditCardPayment.getExpirationMonth(),creditCardPayment.getExpirationYear());
 		}
@@ -699,6 +706,89 @@ public class PaymentServiceImpl implements PaymentService {
 			throw ex;
 		}
 	
+	}
+
+	@Override
+	public Transaction initTransaction(Order order, Customer customer, Payment payment, MerchantStore store) throws ServiceException {
+		
+		Validate.notNull(store);
+		Validate.notNull(payment);
+		Validate.notNull(order);
+		Validate.notNull(order.getTotal());
+		
+		payment.setCurrency(store.getCurrency());
+		
+		BigDecimal amount = order.getTotal();
+
+		//must have a shipping module configured
+		Map<String, IntegrationConfiguration> modules = this.getPaymentModulesConfigured(store);
+		if(modules==null){
+			throw new ServiceException("No payment module configured");
+		}
+		
+		IntegrationConfiguration configuration = modules.get(payment.getModuleName());
+		
+		if(configuration==null) {
+			throw new ServiceException("Payment module " + payment.getModuleName() + " is not configured");
+		}
+		
+		if(!configuration.isActive()) {
+			throw new ServiceException("Payment module " + payment.getModuleName() + " is not active");
+		}
+		
+		PaymentModule module = this.paymentModules.get(order.getPaymentModuleCode());
+		
+		if(module==null) {
+			throw new ServiceException("Payment module " + order.getPaymentModuleCode() + " does not exist");
+		}
+		
+		IntegrationModule integrationModule = getPaymentMethodByCode(store,payment.getModuleName());
+		
+		Transaction transaction = module.initTransaction(store, customer, amount, payment, configuration, integrationModule);
+
+		return transaction;
+	}
+
+	@Override
+	public Transaction initTransaction(Customer customer, Payment payment, MerchantStore store) throws ServiceException {
+
+		Validate.notNull(store);
+		Validate.notNull(payment);
+		Validate.notNull(payment.getAmount());
+		
+		payment.setCurrency(store.getCurrency());
+		
+		BigDecimal amount = payment.getAmount();
+
+		//must have a shipping module configured
+		Map<String, IntegrationConfiguration> modules = this.getPaymentModulesConfigured(store);
+		if(modules==null){
+			throw new ServiceException("No payment module configured");
+		}
+		
+		IntegrationConfiguration configuration = modules.get(payment.getModuleName());
+		
+		if(configuration==null) {
+			throw new ServiceException("Payment module " + payment.getModuleName() + " is not configured");
+		}
+		
+		if(!configuration.isActive()) {
+			throw new ServiceException("Payment module " + payment.getModuleName() + " is not active");
+		}
+		
+		PaymentModule module = this.paymentModules.get(payment.getModuleName());
+		
+		if(module==null) {
+			throw new ServiceException("Payment module " + payment.getModuleName() + " does not exist");
+		}
+		
+		IntegrationModule integrationModule = getPaymentMethodByCode(store,payment.getModuleName());
+		
+		Transaction transaction = module.initTransaction(store, customer, amount, payment, configuration, integrationModule);
+		
+		transactionService.save(transaction);
+
+		return transaction;
 	}
 
 

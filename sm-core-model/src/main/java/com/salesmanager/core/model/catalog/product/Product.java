@@ -41,6 +41,7 @@ import com.salesmanager.core.model.catalog.product.type.ProductType;
 import com.salesmanager.core.model.common.audit.AuditListener;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.common.audit.Auditable;
+import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.tax.taxclass.TaxClass;
@@ -166,6 +167,48 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 	 */
 	@Column(name = "REF_SKU")
 	private String refSku;
+	
+	@Column(name="COND", nullable = true)
+	private ProductCondition condition;
+	
+	/**
+	 * RENTAL ADDITIONAL FIELDS
+	 */
+
+	@Column(name="RENTAL_STATUS", nullable = true)
+	private RentalStatus rentalStatus;
+	
+
+	@Column(name="RENTAL_DURATION", nullable = true)
+	private Integer rentalDuration;
+	
+	@Column(name="RENTAL_PERIOD", nullable = true)
+	private Integer rentalPeriod;
+
+	
+	public Integer getRentalPeriod() {
+		return rentalPeriod;
+	}
+
+	public void setRentalPeriod(Integer rentalPeriod) {
+		this.rentalPeriod = rentalPeriod;
+	}
+
+	public Integer getRentalDuration() {
+		return rentalDuration;
+	}
+
+	public void setRentalDuration(Integer rentalDuration) {
+		this.rentalDuration = rentalDuration;
+	}
+
+	/**
+	 * End rental fields
+	 */
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="CUSTOMER_ID", nullable=true)
+	private Customer owner;
 
 	public Product() {
 	}
@@ -439,6 +482,32 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 	public void setRefSku(String refSku) {
 		this.refSku = refSku;
 	}
+
+	public ProductCondition getCondition() {
+		return condition;
+	}
+
+	public void setCondition(ProductCondition condition) {
+		this.condition = condition;
+	}
+
+	public RentalStatus getRentalStatus() {
+		return rentalStatus;
+	}
+
+	public void setRentalStatus(RentalStatus rentalStatus) {
+		this.rentalStatus = rentalStatus;
+	}
+	
+	public Customer getOwner() {
+		return owner;
+	}
+
+	public void setOwner(Customer owner) {
+		this.owner = owner;
+	}
+
+
 
 
 }

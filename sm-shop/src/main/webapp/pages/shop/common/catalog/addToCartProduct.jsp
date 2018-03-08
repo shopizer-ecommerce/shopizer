@@ -25,6 +25,11 @@ $(function(){
 
 </script>
 
+								<c:set var="SKU" value="product_${product.sku}" scope="request" />
+								<c:if test="${requestScope.CONTENT[SKU]!=null}">
+									<sm:pageContent contentCode="${SKU}"/>
+								</c:if>
+
 
 								<!-- leave the form id as is -->
 								<form id="input-<c:out value="${product.id}" />">
@@ -48,7 +53,7 @@ $(function(){
 															<img src="<c:url value="${optionValue.image}"/>" height="40">
 														</c:if>
 														<input type="radio" class="attribute" id="${status.index}" name="${status.index}" value="<c:out value="${optionValue.id}"/>" <c:if test="${optionValue.defaultAttribute==true}"> checked="checked" </c:if> />
-														<c:out value="${optionValue.name}"/><c:if test="${optionValue.price!=null}">&nbsp;<c:out value="${optionValue.price}"/></c:if><br/>
+														<c:out value="${optionValue.name}"/><c:if test="${optionValue.price!=null}">&nbsp; (<c:out value="${optionValue.price}"/>)</c:if><br/>
 													</c:forEach>
 												</c:when>
 												<c:when test="${option.type=='text'}">
@@ -60,7 +65,7 @@ $(function(){
 															<img src="<c:url value="${optionValue.image}"/>" height="40">
 														</c:if>
 														<input type="checkbox" class="attribute" id="${status.index}" name="${status.index}" value="<c:out value="${optionValue.id}"/>"<c:if test="${optionValue.defaultAttribute==true}"> checked="checked" </c:if>  />
-														<c:out value="${optionValue.name}"/><c:if test="${optionValue.price!=null}">&nbsp;<c:out value="${optionValue.price}"/></c:if><br/>
+														<c:out value="${optionValue.name}"/><c:if test="${optionValue.price!=null}">&nbsp; (<c:out value="${optionValue.price}"/>)</c:if><br/>
 													</c:forEach>
 												</c:when>										
 											</c:choose>				       							

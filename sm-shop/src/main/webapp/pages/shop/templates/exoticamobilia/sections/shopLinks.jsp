@@ -16,7 +16,7 @@
        
 
 		<link href="<c:url value="/resources/templates/exoticamobilia/css/responsive-slider.css" />" rel="stylesheet" type="text/css">
-		<link rel="icon" href="<c:url value="/resources/templates/exoticamobilia/img/favicon.ico"/>"> 
+		<link rel="icon" href="<c:url value="/resources/templates/exoticamobilia/img/favicon.ico"/> "> 
 		
 		<!--  Theme -->
 
@@ -33,6 +33,12 @@
     	<link href="<c:url value="/resources/css/showLoading.css" />" rel="stylesheet">
     
     	<!-- ////////////// -->
+    	
+
+<!--
+
+//-->
+</script>
 
     <!-- mini shopping cart template -->
     <script type="text/html" id="miniShoppingCartTemplate">

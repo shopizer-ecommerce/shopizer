@@ -41,7 +41,6 @@ import com.salesmanager.core.business.services.reference.language.LanguageServic
 import com.salesmanager.core.business.services.reference.zone.ZoneService;
 import com.salesmanager.core.business.services.shoppingcart.ShoppingCartService;
 import com.salesmanager.core.business.services.system.EmailService;
-import com.salesmanager.core.business.services.system.OptinService;
 import com.salesmanager.core.business.utils.ProductPriceUtils;
 import com.salesmanager.test.configuration.ConfigurationTest;
 
@@ -146,9 +145,6 @@ public class AbstractSalesManagerCoreTestCase {
 	
 	@Inject
 	protected EmailService emailService;
-	
-	@Inject
-	protected OptinService optinService;
 	
 	@Before
 	public void init() throws ServiceException {

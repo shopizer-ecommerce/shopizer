@@ -17,8 +17,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.common.audit.AuditListener;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
@@ -48,11 +46,11 @@ public class Optin extends SalesManagerEntity<Long, Optin> implements Serializab
 	@TableGenerator(name = "TABLE_GEN", table = "SM_SEQUENCER", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "OPTIN_SEQ_NEXT_VAL")
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
 	private Long id;
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column (name ="START_DATE")
 	private Date startDate;
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column (name ="END_DATE")
 	private Date endDate;

@@ -44,6 +44,7 @@ public class Group extends SalesManagerEntity<Integer, Group> implements Auditab
 		
 	}
 	
+	//@NotEmpty
 	@Column (name ="GROUP_TYPE")
 	@Enumerated(value = EnumType.STRING)
 	private GroupType groupType;

@@ -552,9 +552,20 @@ function setCredentials(customerId, userName, password){
 			 				<form:input id="deliveryPostalCode" cssClass="input-large" maxlength="20"  path="delivery.postalCode"/>
 			 				<span class="help-inline"><form:errors path="delivery.postalCode" cssClass="error" /></span>
 			            </div>	       	            	            	            				
-				</address>	
+				</address>
+				
+				<c:if test="${fn:length(groups)>0}">
+				  <div class="control-group">
+	                        <label><s:message code="label.groups.title" text="Groups"/></label>
+	                        <div class="controls">
+	                        	<form:checkboxes cssClass="highlight" items="${groups}" itemValue="id" itemLabel="groupName" path="groups" delimiter="<br/>" /> 
+	                            <span class="help-inline"><form:errors path="groups" cssClass="error" /></span>
+	                        </div>
+	              </div>
+	              
+	             </c:if>
 
-		  	 <!--</div>--> 
+
 		        <div class="form-actions">
                  	  <div class="pull-right">
                  			<button type="submit" class="btn btn-success"><s:message code="button.label.save" text="Save"/></button>

@@ -2,6 +2,8 @@ package com.salesmanager.shop.populator.catalog;
 
 
 
+import org.apache.commons.lang.Validate;
+
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.utils.AbstractDataPopulator;
 import com.salesmanager.core.model.catalog.category.Category;
@@ -16,6 +18,9 @@ public class ReadableCategoryPopulator extends
 	@Override
 	public ReadableCategory populate(Category source, ReadableCategory target,
 			MerchantStore store, Language language) throws ConversionException {
+		
+		
+		Validate.notNull(source,"Category must not be null");
 		
 		
 		target.setLineage(source.getLineage());
@@ -37,6 +42,7 @@ public class ReadableCategoryPopulator extends
 				com.salesmanager.shop.model.catalog.category.CategoryDescription desc = new com.salesmanager.shop.model.catalog.category.CategoryDescription();
 				desc.setFriendlyUrl(description.getSeUrl());
 				desc.setName(description.getName());
+				desc.setId(source.getId());
 				desc.setDescription(description.getName());
 				desc.setKeyWords(description.getMetatagKeywords());
 				desc.setHighlights(description.getCategoryHighlight());
@@ -55,11 +61,13 @@ public class ReadableCategoryPopulator extends
 			target.setParent(parent);
 		}
 		
+		
 		target.setCode(source.getCode());
 		target.setId(source.getId());
 		target.setDepth(source.getDepth());
 		target.setSortOrder(source.getSortOrder());
 		target.setVisible(source.isVisible());
+		target.setFeatured(source.isFeatured());
 
 		return target;
 		

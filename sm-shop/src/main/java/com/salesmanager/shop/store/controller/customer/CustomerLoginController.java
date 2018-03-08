@@ -102,23 +102,25 @@ public class CustomerLoginController extends AbstractController {
             String sessionShoppingCartCode= (String)request.getSession().getAttribute( Constants.SHOPPING_CART );
             if(!StringUtils.isBlank(sessionShoppingCartCode)) {
 	            ShoppingCart shoppingCart = customerFacade.mergeCart( customerModel, sessionShoppingCartCode, store, language );
-	            ShoppingCartData shoppingCartData=this.populateShoppingCartData(shoppingCart, store, language);
-	            if(shoppingCartData !=null){
-	                jsonObject.addEntry(Constants.SHOPPING_CART, shoppingCartData.getCode());
-	                request.getSession().setAttribute(Constants.SHOPPING_CART, shoppingCartData.getCode());
-	                
-		            //set cart in the cookie
-		            Cookie c = new Cookie(Constants.COOKIE_NAME_CART, shoppingCartData.getCode());
-		            c.setMaxAge(60 * 24 * 3600);
-		            c.setPath(Constants.SLASH);
-		            response.addCookie(c);
-	                
-	            } else {
-	            	//DELETE COOKIE
-	            	Cookie c = new Cookie(Constants.COOKIE_NAME_CART, "");
-		            c.setMaxAge(0);
-		            c.setPath(Constants.SLASH);
-		            response.addCookie(c);
+	            if(shoppingCart != null) {
+		            ShoppingCartData shoppingCartData=this.populateShoppingCartData(shoppingCart, store, language);
+		            if(shoppingCartData !=null){
+		                jsonObject.addEntry(Constants.SHOPPING_CART, shoppingCartData.getCode());
+		                request.getSession().setAttribute(Constants.SHOPPING_CART, shoppingCartData.getCode());
+		                
+			            //set cart in the cookie
+			            Cookie c = new Cookie(Constants.COOKIE_NAME_CART, shoppingCartData.getCode());
+			            c.setMaxAge(60 * 24 * 3600);
+			            c.setPath(Constants.SLASH);
+			            response.addCookie(c);
+		                
+		            } else {
+		            	//DELETE COOKIE
+		            	Cookie c = new Cookie(Constants.COOKIE_NAME_CART, "");
+			            c.setMaxAge(0);
+			            c.setPath(Constants.SLASH);
+			            response.addCookie(c);
+		            }
 	            }
 	            
 	            
@@ -185,6 +187,8 @@ public class CustomerLoginController extends AbstractController {
         
 	
 	}
+	
+
 	
     private ShoppingCartData populateShoppingCartData(final ShoppingCart cartModel , final MerchantStore store, final Language language){
 

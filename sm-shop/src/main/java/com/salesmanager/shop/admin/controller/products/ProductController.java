@@ -592,7 +592,6 @@ public class ProductController {
 			availability.setProductStatus(pAvailability.getProductStatus());
 			availability.setRegion(pAvailability.getRegion());
 			availability.setRegionVariant(pAvailability.getRegionVariant());
-			availability.setProduct(newProduct);
 
 
 			
@@ -692,7 +691,6 @@ public class ProductController {
 			description.setMetatagDescription(pDescription.getMetatagDescription());
 			description.setMetatagKeywords(pDescription.getMetatagKeywords());
 			description.setMetatagTitle(pDescription.getMetatagTitle());
-			description.setProduct(newProduct);
 			descsset.add(description);
 			desclist.add(description);
 		}

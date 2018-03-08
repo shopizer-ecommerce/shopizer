@@ -10,7 +10,7 @@ import javax.persistence.UniqueConstraint;
 import org.hibernate.annotations.Type;
 
 import com.salesmanager.core.constants.SchemaConstant;
-import com.salesmanager.core.model.common.Description;
+import com.salesmanager.core.model.common.description.Description;
 
 @Entity
 @Table(name="CUSTOMER_OPTION_DESC", schema=SchemaConstant.SALESMANAGER_SCHEMA, uniqueConstraints={

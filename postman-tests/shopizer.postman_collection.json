@@ -1,0 +1,2067 @@
+{
+	"id": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+	"name": "shopizer",
+	"description": "",
+	"order": [],
+	"folders": [
+		{
+			"name": "Admin",
+			"description": "",
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"order": [
+				"80674bcf-b0af-eaa8-507a-a5194feaa9db"
+			],
+			"owner": "1350207",
+			"folders_order": [
+				"d2d710ef-35d4-67b9-259e-5f79e3cd31f6",
+				"7b72249f-ad93-f830-befb-cc432829f5b3",
+				"b9d229d5-34ae-f67a-ccbb-10191c7da262",
+				"5bcca65d-6d40-d64c-6d60-e842260f16d3",
+				"7b91c544-0b63-7781-6fbb-cb08d1d1a4b7"
+			],
+			"id": "08dac1ef-e0bd-275b-1c44-60674745f9dd"
+		},
+		{
+			"owner": "1350207",
+			"lastUpdatedBy": "1350207",
+			"lastRevision": 2265812938,
+			"folder": null,
+			"id": "7a1df60f-761b-9df6-f95b-e7062f2486ed",
+			"name": "Authentication",
+			"description": "",
+			"order": [
+				"ea899dba-4d4e-368c-8b81-fda7a66454f5",
+				"4698e684-6f23-4ba0-f93c-908aa59d5672"
+			],
+			"folders_order": [
+				"857235ff-53ce-0939-ea85-1e8af96e30cd"
+			],
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7"
+		},
+		{
+			"name": "Category",
+			"description": "",
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"order": [
+				"c381e2b3-10cc-87e5-2ca0-44f861d502c1"
+			],
+			"owner": "1350207",
+			"folder": "08dac1ef-e0bd-275b-1c44-60674745f9dd",
+			"folders_order": [],
+			"id": "d2d710ef-35d4-67b9-259e-5f79e3cd31f6"
+		},
+		{
+			"name": "Category",
+			"description": "",
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"order": [
+				"f4ac8665-acad-f3a5-a33b-c65de705f5dc",
+				"daab2dd9-266f-9d60-81fd-a4985ef98544"
+			],
+			"owner": "1350207",
+			"folder": "d33d1d8e-c034-e506-3201-c996c2099fe7",
+			"folders_order": [],
+			"id": "672123c5-93ab-8101-3da3-709c43a30fc9"
+		},
+		{
+			"name": "Customer",
+			"description": "",
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"order": [],
+			"owner": "1350207",
+			"folder": "d33d1d8e-c034-e506-3201-c996c2099fe7",
+			"folders_order": [],
+			"id": "8adfe786-eb86-409c-d062-04d500d6db9f"
+		},
+		{
+			"owner": "1350207",
+			"lastUpdatedBy": "1350207",
+			"lastRevision": 2265797930,
+			"folder": "08dac1ef-e0bd-275b-1c44-60674745f9dd",
+			"id": "7b72249f-ad93-f830-befb-cc432829f5b3",
+			"name": "Customers",
+			"description": "Manage customers and customer reviews",
+			"order": [
+				"faf566bd-bc4e-8eee-c3dd-5760c74b0233",
+				"8fe74ae2-d104-76be-3544-45f2a9040d46",
+				"1d21e38f-ee3b-3ab0-3ba6-24e7cd4e5000",
+				"1082d10d-9522-3142-5255-7f9aac6a6755",
+				"d87f1f4e-8fe5-d079-f749-e6871539b56c"
+			],
+			"folders_order": [],
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7"
+		},
+		{
+			"name": "Manufacturer",
+			"description": "",
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"order": [
+				"fff0eb99-a0d7-4ed5-9266-5e276fb36e95"
+			],
+			"owner": "1350207",
+			"folder": "d33d1d8e-c034-e506-3201-c996c2099fe7",
+			"folders_order": [],
+			"id": "ea184b94-7c56-9a2a-9061-d3e24c71d880"
+		},
+		{
+			"name": "Manufacturer",
+			"description": "",
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"order": [
+				"9de73cd0-51a5-e17f-5940-feeabfa77faf"
+			],
+			"owner": "1350207",
+			"folder": "08dac1ef-e0bd-275b-1c44-60674745f9dd",
+			"folders_order": [],
+			"id": "b9d229d5-34ae-f67a-ccbb-10191c7da262"
+		},
+		{
+			"name": "Product",
+			"description": "",
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"order": [
+				"a670e5e6-e9e1-1a2f-17ab-62f68d58fc96",
+				"fbdb3a7a-21f1-148e-6512-d004d3b53fed",
+				"cccf1aa5-0621-f972-560f-f1aca9e1a04d",
+				"14d47131-3959-98f2-3929-8eb33b722fc3",
+				"b16b7252-b7ab-1796-368f-3844eb162598"
+			],
+			"owner": "1350207",
+			"folder": "d33d1d8e-c034-e506-3201-c996c2099fe7",
+			"folders_order": [],
+			"id": "869901fd-ebbd-566c-4458-9ef2d787f781"
+		},
+		{
+			"owner": "1350207",
+			"lastUpdatedBy": "1350207",
+			"lastRevision": 2314489588,
+			"folder": "08dac1ef-e0bd-275b-1c44-60674745f9dd",
+			"id": "7b91c544-0b63-7781-6fbb-cb08d1d1a4b7",
+			"name": "Product",
+			"description": "",
+			"order": [
+				"5395f9cf-3797-e226-092c-80ae5dd24353",
+				"1b4b6f7c-bb74-775c-d2c0-7f2476fbb2e6",
+				"fc1e5dca-9ed7-dcdc-e625-f5b38132a736",
+				"ad55afb5-8fc9-b4ba-b319-d50ad401d896",
+				"5e3f6a0e-6bb8-e8d3-75a7-f8d2b17a4aa1",
+				"e6e29485-e2c6-71df-7b6e-a0fcccbdc83a"
+			],
+			"folders_order": []
+		},
+		{
+			"name": "Product grouping",
+			"description": "",
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"order": [
+				"b113b1fc-faa8-01d8-9f3e-31445ff5c798"
+			],
+			"owner": "1350207",
+			"folder": "08dac1ef-e0bd-275b-1c44-60674745f9dd",
+			"folders_order": [],
+			"id": "5bcca65d-6d40-d64c-6d60-e842260f16d3"
+		},
+		{
+			"name": "Products",
+			"description": "",
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"order": [
+				"d5903412-6d11-7403-0ca2-9a1e9ebd9525",
+				"3d6d4e5f-9501-0f67-1828-314051ff51e8"
+			],
+			"owner": "1350207",
+			"folder": "7a1df60f-761b-9df6-f95b-e7062f2486ed",
+			"folders_order": [],
+			"id": "857235ff-53ce-0939-ea85-1e8af96e30cd"
+		},
+		{
+			"name": "Public",
+			"description": "",
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"order": [],
+			"owner": "1350207",
+			"folders_order": [
+				"672123c5-93ab-8101-3da3-709c43a30fc9",
+				"8adfe786-eb86-409c-d062-04d500d6db9f",
+				"ea184b94-7c56-9a2a-9061-d3e24c71d880",
+				"869901fd-ebbd-566c-4458-9ef2d787f781",
+				"675d7679-0ecd-929b-1c44-c0db279226e0"
+			],
+			"id": "d33d1d8e-c034-e506-3201-c996c2099fe7"
+		},
+		{
+			"name": "ShoppingCart",
+			"description": "",
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"order": [
+				"39d888df-9b21-5cb2-c557-85a9fa127aa3",
+				"bb820890-0743-d59b-64b8-66ca92e66213"
+			],
+			"owner": "1350207",
+			"folder": "d33d1d8e-c034-e506-3201-c996c2099fe7",
+			"folders_order": [],
+			"id": "675d7679-0ecd-929b-1c44-c0db279226e0"
+		}
+	],
+	"folders_order": [
+		"7a1df60f-761b-9df6-f95b-e7062f2486ed",
+		"08dac1ef-e0bd-275b-1c44-60674745f9dd",
+		"d33d1d8e-c034-e506-3201-c996c2099fe7"
+	],
+	"timestamp": 1503421437787,
+	"owner": "1350207",
+	"public": false,
+	"requests": [
+		{
+			"id": "1082d10d-9522-3142-5255-7f9aac6a6755",
+			"headers": "Authorization: Basic YWRtaW46cGFzc3dvcmQ=\nAccept: \nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Basic YWRtaW46cGFzc3dvcmQ=",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Accept",
+					"value": "",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "localhost:8080/api/v1/private/customers/1",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"data": [],
+			"dataMode": "raw",
+			"name": "localhost:8080/api/v1/private/customers/{id}",
+			"description": "Get a customer by id",
+			"descriptionFormat": "html",
+			"time": 1506094318359,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"folder": "7b72249f-ad93-f830-befb-cc432829f5b3",
+			"rawModeData": "{\n\"emailAddress\":\"carl@csticonsulting.com\",\n\"gender\":\"M\",\n\"language\":\"en\",\n\"userName\":\"testuser\",\n\"clearPassword\":\"password\",\n\"billing\":{\n  \"address\":\"352 Du Languedoc\",\n  \"city\":\"Boucherville\",\n  \"postalCode\":\"J4B 8J9\",\n  \"country\":\"CA\",\n  \"zone\":\"QC\",\n  \"firstName\":\"Carl\",\n  \"lastName\":\"Samson\"\n  }\n}"
+		},
+		{
+			"id": "14d47131-3959-98f2-3929-8eb33b722fc3",
+			"headers": "Accept: application/json\nContent-Type: application/json\nAuthorization: Basic YWRtaW46cGFzc3dvcmQ=\n",
+			"headerData": [
+				{
+					"key": "Accept",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Authorization",
+					"value": "Basic YWRtaW46cGFzc3dvcmQ=",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "localhost:8080/api/v1/products/group/FEATURED_ITEM",
+			"folder": "869901fd-ebbd-566c-4458-9ef2d787f781",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1506357147335,
+			"name": "localhost:8080/api/v1/products/{productId}/group/{code}",
+			"description": "Find items belonging to a group\n\nFor instance FEATURED",
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"responses": [],
+			"rawModeData": "{\r\n  \"price\" : 25.99,\r\n  \"quantity\" : 5,\r\n  \"sku\" : \"abcdef\",\r\n  \"quantityOrderMaximum\" : 2,\r\n  \"quantityOrderMinimum\" : 1,\r\n  \"productIsFree\" : false,\r\n  \"available\" : true,\r\n  \"visible\" : true,\r\n  \"productLength\" : 20,\r\n  \"productWidth\" : 20,\r\n  \"productHeight\" : 20,\r\n  \"productWeight\" : 20,\r\n  \"rating\" : 0.0,\r\n  \"ratingCount\" : 0,\r\n  \"sortOrder\" : 0,\r\n  \"dateAvailable\" : null,\r\n  \"condition\" : null,\r\n  \"rentalDuration\" : 0,\r\n  \"rentalStatus\" : null,\r\n  \"descriptions\" : [ {\r\n    \"language\" : \"en\",\r\n    \"name\" : \"Buddha Head\",\r\n    \"description\" : \"Buddha Head\",\r\n    \"keyWords\" : null,\r\n    \"highlights\" : \"Short description\",\r\n    \"title\" : \"Buddha Head\"\r\n  }],\r\n  \"categories\" : null,\r\n  \"relatedProducts\" : null,\r\n  \"manufacturer\" : null,\r\n  \"owner\" : {\r\n    \r\n  \"id\":1\r\n  }\r\n}"
+		},
+		{
+			"id": "1b4b6f7c-bb74-775c-d2c0-7f2476fbb2e6",
+			"folder": "7b91c544-0b63-7781-6fbb-cb08d1d1a4b7",
+			"name": "localhost:8080/api/v1/private/products - second item",
+			"dataMode": "raw",
+			"data": [],
+			"descriptionFormat": null,
+			"description": "API for the creation of a product using customer authentication API. Requires a valid customer created",
+			"headers": "Accept: application/json\nContent-Type: application/json\nAuthorization: Basic YWRtaW46cGFzc3dvcmQ=\n",
+			"method": "POST",
+			"pathVariables": {},
+			"url": "localhost:8080/api/v1/private/products",
+			"preRequestScript": null,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Accept",
+					"value": "application/json",
+					"enabled": true,
+					"description": ""
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"enabled": true,
+					"description": ""
+				},
+				{
+					"key": "Authorization",
+					"value": "Basic YWRtaW46cGFzc3dvcmQ=",
+					"enabled": true,
+					"description": ""
+				}
+			],
+			"pathVariableData": [],
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"responses": [
+				{
+					"owner": "1350207",
+					"lastUpdatedBy": "1350207",
+					"lastRevision": 2260508392,
+					"request": {},
+					"id": "349ec807-9777-f73e-998f-e226e388bb69",
+					"name": "localhost:8080/api/v1/private/products",
+					"status": "",
+					"responseCode": {
+						"code": 200,
+						"name": "OK"
+					},
+					"time": "0",
+					"headers": [],
+					"cookies": [],
+					"mime": "",
+					"text": "",
+					"language": "",
+					"rawDataType": "",
+					"state": null,
+					"previewType": "parsed",
+					"searchResultScrolledTo": "-1",
+					"version": null,
+					"requestObject": "5395f9cf-3797-e226-092c-80ae5dd24353",
+					"createdAt": "2017-09-22T15:34:13.000Z",
+					"updatedAt": "2017-09-22T15:34:13.000Z",
+					"write": true
+				},
+				{
+					"owner": "1350207",
+					"lastUpdatedBy": "1350207",
+					"lastRevision": 2314406357,
+					"request": {
+						"url": "localhost:8080/api/v1/private/products",
+						"pathVariables": {},
+						"pathVariableData": [],
+						"queryParams": [],
+						"headerData": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"enabled": true,
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"enabled": true,
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46cGFzc3dvcmQ=",
+								"enabled": true,
+								"description": ""
+							}
+						],
+						"headers": "Accept: application/json\nContent-Type: application/json\nAuthorization: Basic YWRtaW46cGFzc3dvcmQ=\n",
+						"data": "{\r\n  \"price\" : 1450.99,\r\n  \"quantity\" : 5,\r\n  \"sku\" : \"123456\",\r\n  \"quantityOrderMaximum\" : 2,\r\n  \"quantityOrderMinimum\" : 1,\r\n  \"productIsFree\" : false,\r\n  \"available\" : true,\r\n  \"visible\" : true,\r\n  \"productLength\" : 20,\r\n  \"productWidth\" : 20,\r\n  \"productHeight\" : 20,\r\n  \"productWeight\" : 20,\r\n  \"rating\" : 0.0,\r\n  \"ratingCount\" : 0,\r\n  \"sortOrder\" : 0,\r\n  \"dateAvailable\" : null,\r\n  \"condition\" : null,\r\n  \"rentalDuration\" : 0,\r\n  \"rentalStatus\" : null,\r\n  \"descriptions\" : [ {\r\n    \"language\" : \"en\",\r\n    \"name\" : \"Tag watch\",\r\n    \"description\" : \"Tag watch\",\r\n    \"keyWords\" : null,\r\n    \"highlights\" : \"Formula 1 Tag watch\",\r\n    \"title\" : \"Formula 1 Tag watch !\"\r\n  }],\r\n  \"categories\" : null,\r\n  \"relatedProducts\" : null,\r\n  \"manufacturer\" : null,\r\n  \"owner\" : {\r\n  \"id\":1\r\n  }\r\n}",
+						"method": "POST",
+						"dataMode": "raw"
+					},
+					"id": "82b0750c-0f4e-2952-7f8f-ec55e859bbc9",
+					"name": "localhost:8080/api/v1/private/products - second item",
+					"status": "",
+					"responseCode": {
+						"code": 201,
+						"name": "Created"
+					},
+					"time": "220",
+					"headers": [
+						{
+							"name": "cache-control",
+							"key": "cache-control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate",
+							"description": ""
+						},
+						{
+							"name": "content-type",
+							"key": "content-type",
+							"value": "application/json;charset=UTF-8",
+							"description": ""
+						},
+						{
+							"name": "date",
+							"key": "date",
+							"value": "Tue, 03 Oct 2017 01:09:52 GMT",
+							"description": ""
+						},
+						{
+							"name": "expires",
+							"key": "expires",
+							"value": "0",
+							"description": ""
+						},
+						{
+							"name": "pragma",
+							"key": "pragma",
+							"value": "no-cache",
+							"description": ""
+						},
+						{
+							"name": "server",
+							"key": "server",
+							"value": "Apache-Coyote/1.1",
+							"description": ""
+						},
+						{
+							"name": "transfer-encoding",
+							"key": "transfer-encoding",
+							"value": "chunked",
+							"description": ""
+						},
+						{
+							"name": "x-content-type-options",
+							"key": "x-content-type-options",
+							"value": "nosniff",
+							"description": ""
+						},
+						{
+							"name": "x-frame-options",
+							"key": "x-frame-options",
+							"value": "DENY",
+							"description": ""
+						},
+						{
+							"name": "x-xss-protection",
+							"key": "x-xss-protection",
+							"value": "1; mode=block",
+							"description": ""
+						}
+					],
+					"cookies": [],
+					"mime": "",
+					"text": "{\n    \"id\": 2,\n    \"price\": 1450.99,\n    \"quantity\": 5,\n    \"sku\": \"123456\",\n    \"productShipeable\": false,\n    \"preOrder\": false,\n    \"productVirtual\": false,\n    \"quantityOrderMaximum\": 2,\n    \"quantityOrderMinimum\": 1,\n    \"productIsFree\": false,\n    \"available\": true,\n    \"visible\": true,\n    \"productLength\": 20,\n    \"productWidth\": 20,\n    \"productHeight\": 20,\n    \"productWeight\": 20,\n    \"rating\": 0,\n    \"ratingCount\": 0,\n    \"sortOrder\": 0,\n    \"dateAvailable\": null,\n    \"refSku\": null,\n    \"condition\": null,\n    \"rentalDuration\": 0,\n    \"rentalStatus\": null,\n    \"descriptions\": [\n        {\n            \"id\": 0,\n            \"language\": \"en\",\n            \"name\": \"Tag watch\",\n            \"description\": \"Tag watch\",\n            \"friendlyUrl\": null,\n            \"keyWords\": null,\n            \"highlights\": \"Formula 1 Tag watch\",\n            \"metaDescription\": null,\n            \"title\": \"Formula 1 Tag watch !\"\n        }\n    ],\n    \"attributes\": null,\n    \"images\": null,\n    \"productPrices\": null,\n    \"categories\": null,\n    \"relatedProducts\": null,\n    \"manufacturer\": {\n        \"id\": 2\n    },\n    \"owner\": {\n        \"id\": 1,\n        \"firstName\": null,\n        \"lastName\": null,\n        \"address\": null,\n        \"emailAddress\": null\n    }\n}",
+					"language": "json",
+					"rawDataType": "text",
+					"state": null,
+					"previewType": "text",
+					"searchResultScrolledTo": "-1",
+					"version": null,
+					"requestObject": "{\"url\":\"localhost:8080/api/v1/private/products\",\"pathVariables\":{},\"pathVariableData\":[],\"queryParams\":[],\"headerData\":[{\"key\":\"Accept\",\"value\":\"application/json\",\"enabled\":true,\"description\":\"\"},{\"key\":\"Content-Type\",\"value\":\"application/json\",\"enabled\":true,\"description\":\"\"},{\"key\":\"Authorization\",\"value\":\"Basic YWRtaW46cGFzc3dvcmQ=\",\"enabled\":true,\"description\":\"\"}],\"headers\":\"Accept: application/json\\nContent-Type: application/json\\nAuthorization: Basic YWRtaW46cGFzc3dvcmQ=\\n\",\"data\":\"{\\r\\n  \\\"price\\\" : 1450.99,\\r\\n  \\\"quantity\\\" : 5,\\r\\n  \\\"sku\\\" : \\\"123456\\\",\\r\\n  \\\"quantityOrderMaximum\\\" : 2,\\r\\n  \\\"quantityOrderMinimum\\\" : 1,\\r\\n  \\\"productIsFree\\\" : false,\\r\\n  \\\"available\\\" : true,\\r\\n  \\\"visible\\\" : true,\\r\\n  \\\"productLength\\\" : 20,\\r\\n  \\\"productWidth\\\" : 20,\\r\\n  \\\"productHeight\\\" : 20,\\r\\n  \\\"productWeight\\\" : 20,\\r\\n  \\\"rating\\\" : 0.0,\\r\\n  \\\"ratingCount\\\" : 0,\\r\\n  \\\"sortOrder\\\" : 0,\\r\\n  \\\"dateAvailable\\\" : null,\\r\\n  \\\"condition\\\" : null,\\r\\n  \\\"rentalDuration\\\" : 0,\\r\\n  \\\"rentalStatus\\\" : null,\\r\\n  \\\"descriptions\\\" : [ {\\r\\n    \\\"language\\\" : \\\"en\\\",\\r\\n    \\\"name\\\" : \\\"Tag watch\\\",\\r\\n    \\\"description\\\" : \\\"Tag watch\\\",\\r\\n    \\\"keyWords\\\" : null,\\r\\n    \\\"highlights\\\" : \\\"Formula 1 Tag watch\\\",\\r\\n    \\\"title\\\" : \\\"Formula 1 Tag watch !\\\"\\r\\n  }],\\r\\n  \\\"categories\\\" : null,\\r\\n  \\\"relatedProducts\\\" : null,\\r\\n  \\\"manufacturer\\\" : null,\\r\\n  \\\"owner\\\" : {\\r\\n  \\\"id\\\":1\\r\\n  }\\r\\n}\",\"method\":\"POST\",\"dataMode\":\"raw\"}",
+					"createdAt": "2017-10-03T01:10:36.000Z",
+					"updatedAt": "2017-10-03T01:10:36.000Z",
+					"write": true
+				}
+			],
+			"isFromCollection": true,
+			"rawModeData": "{\r\n  \"price\" : 1450.99,\r\n  \"quantity\" : 5,\r\n  \"sku\" : \"123456\",\r\n  \"quantityOrderMaximum\" : 2,\r\n  \"quantityOrderMinimum\" : 1,\r\n  \"productIsFree\" : false,\r\n  \"available\" : true,\r\n  \"visible\" : true,\r\n  \"productLength\" : 20,\r\n  \"productWidth\" : 20,\r\n  \"productHeight\" : 20,\r\n  \"productWeight\" : 20,\r\n  \"rating\" : 0.0,\r\n  \"ratingCount\" : 0,\r\n  \"sortOrder\" : 0,\r\n  \"dateAvailable\" : null,\r\n  \"condition\" : null,\r\n  \"rentalDuration\" : 0,\r\n  \"rentalStatus\" : null,\r\n  \"descriptions\" : [ {\r\n    \"language\" : \"en\",\r\n    \"name\" : \"Tag watch\",\r\n    \"description\" : \"Tag watch\",\r\n    \"keyWords\" : null,\r\n    \"highlights\" : \"Formula 1 Tag watch\",\r\n    \"title\" : \"Formula 1 Tag watch !\"\r\n  }],\r\n  \"categories\" : null,\r\n  \"relatedProducts\" : null,\r\n  \"manufacturer\" : null,\r\n  \"owner\" : {\r\n  \"id\":1\r\n  }\r\n}"
+		},
+		{
+			"id": "1d21e38f-ee3b-3ab0-3ba6-24e7cd4e5000",
+			"headers": "Accept: \nContent-Type: application/json\nAuthorization: Basic YWRtaW46cGFzc3dvcmQ=\n",
+			"headerData": [
+				{
+					"key": "Accept",
+					"value": "",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Authorization",
+					"value": "Basic YWRtaW46cGFzc3dvcmQ=",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "localhost:8080/api/v1/private/customers",
+			"folder": "7b72249f-ad93-f830-befb-cc432829f5b3",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1506532458419,
+			"name": "localhost:8080/api/v1/private/customers",
+			"description": "Get all customers\n\nadd paging controls (not required)\n\n?start=0\n&count=10\n\nwill start at the first item and retrieve only 10 entry",
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"responses": [],
+			"rawModeData": "{\n\"emailAddress\":\"carl@csticonsulting.com\",\n\"gender\":\"M\",\n\"language\":\"en\",\n\"userName\":\"testuser\",\n\"clearPassword\":\"password\",\n\"billing\":{\n  \"address\":\"352 Du Languedoc\",\n  \"city\":\"Boucherville\",\n  \"postalCode\":\"J4B 8J9\",\n  \"country\":\"CA\",\n  \"zone\":\"QC\",\n  \"firstName\":\"Carl\",\n  \"lastName\":\"Samson\"\n  }\n}"
+		},
+		{
+			"id": "39d888df-9b21-5cb2-c557-85a9fa127aa3",
+			"headers": "Accept: application/json\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Accept",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "localhost:8080/api/v1/customers/1/cart",
+			"folder": "5b079195-2288-1184-d07a-2697ce2068e9",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1507135148548,
+			"name": "localhost:8080/api/v1/customers/{customerId}/cart",
+			"description": "Add a product to shopping cart that belongs to a given customer\n\n\nReturns the content of the shopping cart",
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"responses": [],
+			"rawModeData": "{\r\n  \"product\" : 1,\r\n  \"quantity\": 1\r\n\r\n}"
+		},
+		{
+			"folder": "857235ff-53ce-0939-ea85-1e8af96e30cd",
+			"id": "3d6d4e5f-9501-0f67-1828-314051ff51e8",
+			"name": "localhost:8080/api/v1/auth/products - fourth item",
+			"dataMode": "raw",
+			"data": [],
+			"descriptionFormat": null,
+			"description": "API for the creation of a product using customer authentication API. Requires a valid customer created",
+			"headers": "Accept: application/json\nContent-Type: application/json\nAuthorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjYXJsQGNzdGljb25zdWx0aW5nLmNvbSIsImF1ZCI6InVua25vd24iLCJleHAiOjE1MDc2MDA5MjAsImlhdCI6MTUwNjk5NjEyMH0._Af16M_ZX1jCTRaiwbL5DAlkMo2EL_3nc6yBPxhK7oaCyaa_SX-6z8842Y2c9CHCfNFXqBmE1dgXUBdJ1P0t4g\n",
+			"method": "POST",
+			"pathVariables": {},
+			"url": "localhost:8080/api/v1/auth/products",
+			"preRequestScript": null,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Accept",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Authorization",
+					"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjYXJsQGNzdGljb25zdWx0aW5nLmNvbSIsImF1ZCI6InVua25vd24iLCJleHAiOjE1MDc2MDA5MjAsImlhdCI6MTUwNjk5NjEyMH0._Af16M_ZX1jCTRaiwbL5DAlkMo2EL_3nc6yBPxhK7oaCyaa_SX-6z8842Y2c9CHCfNFXqBmE1dgXUBdJ1P0t4g",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"pathVariableData": [],
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"responses": [
+				{
+					"owner": "1350207",
+					"lastUpdatedBy": "1350207",
+					"lastRevision": 2314488566,
+					"request": {
+						"url": "localhost:8080/api/v1/private/products",
+						"pathVariables": {},
+						"pathVariableData": [],
+						"queryParams": [],
+						"headerData": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"enabled": true,
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"enabled": true,
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46cGFzc3dvcmQ=",
+								"enabled": true,
+								"description": ""
+							}
+						],
+						"headers": "Accept: application/json\nContent-Type: application/json\nAuthorization: Basic YWRtaW46cGFzc3dvcmQ=\n",
+						"data": "{\r\n  \"price\" : 1450.99,\r\n  \"quantity\" : 5,\r\n  \"sku\" : \"123456\",\r\n  \"quantityOrderMaximum\" : 2,\r\n  \"quantityOrderMinimum\" : 1,\r\n  \"productIsFree\" : false,\r\n  \"available\" : true,\r\n  \"visible\" : true,\r\n  \"productLength\" : 20,\r\n  \"productWidth\" : 20,\r\n  \"productHeight\" : 20,\r\n  \"productWeight\" : 20,\r\n  \"rating\" : 0.0,\r\n  \"ratingCount\" : 0,\r\n  \"sortOrder\" : 0,\r\n  \"dateAvailable\" : null,\r\n  \"condition\" : null,\r\n  \"rentalDuration\" : 0,\r\n  \"rentalStatus\" : null,\r\n  \"descriptions\" : [ {\r\n    \"language\" : \"en\",\r\n    \"name\" : \"Tag watch\",\r\n    \"description\" : \"Tag watch\",\r\n    \"keyWords\" : null,\r\n    \"highlights\" : \"Formula 1 Tag watch\",\r\n    \"title\" : \"Formula 1 Tag watch !\"\r\n  }],\r\n  \"categories\" : null,\r\n  \"relatedProducts\" : null,\r\n  \"manufacturer\" : null,\r\n  \"owner\" : {\r\n  \"id\":1\r\n  }\r\n}",
+						"method": "POST",
+						"dataMode": "raw"
+					},
+					"id": "599a0d3d-ed37-367e-5199-524d482652d7",
+					"name": "localhost:8080/api/v1/private/products - second item",
+					"status": "",
+					"responseCode": {
+						"code": 201,
+						"name": "Created",
+						"detail": "The request has been fulfilled and resulted in a new resource being created."
+					},
+					"time": "220",
+					"headers": [
+						{
+							"name": "cache-control",
+							"key": "cache-control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate",
+							"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+						},
+						{
+							"name": "content-type",
+							"key": "content-type",
+							"value": "application/json;charset=UTF-8",
+							"description": "The mime type of this content"
+						},
+						{
+							"name": "date",
+							"key": "date",
+							"value": "Tue, 03 Oct 2017 01:09:52 GMT",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"name": "expires",
+							"key": "expires",
+							"value": "0",
+							"description": "Gives the date/time after which the response is considered stale"
+						},
+						{
+							"name": "pragma",
+							"key": "pragma",
+							"value": "no-cache",
+							"description": "Implementation-specific headers that may have various effects anywhere along the request-response chain."
+						},
+						{
+							"name": "server",
+							"key": "server",
+							"value": "Apache-Coyote/1.1",
+							"description": "A name for the server"
+						},
+						{
+							"name": "transfer-encoding",
+							"key": "transfer-encoding",
+							"value": "chunked",
+							"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+						},
+						{
+							"name": "x-content-type-options",
+							"key": "x-content-type-options",
+							"value": "nosniff",
+							"description": "The only defined value, \"nosniff\", prevents Internet Explorer from MIME-sniffing a response away from the declared content-type"
+						},
+						{
+							"name": "x-frame-options",
+							"key": "x-frame-options",
+							"value": "DENY",
+							"description": "Clickjacking protection: \"deny\" - no rendering within a frame, \"sameorigin\" - no rendering if origin mismatch"
+						},
+						{
+							"name": "x-xss-protection",
+							"key": "x-xss-protection",
+							"value": "1; mode=block",
+							"description": "Cross-site scripting (XSS) filter"
+						}
+					],
+					"cookies": [],
+					"mime": "",
+					"text": "{\n    \"id\": 2,\n    \"price\": 1450.99,\n    \"quantity\": 5,\n    \"sku\": \"123456\",\n    \"productShipeable\": false,\n    \"preOrder\": false,\n    \"productVirtual\": false,\n    \"quantityOrderMaximum\": 2,\n    \"quantityOrderMinimum\": 1,\n    \"productIsFree\": false,\n    \"available\": true,\n    \"visible\": true,\n    \"productLength\": 20,\n    \"productWidth\": 20,\n    \"productHeight\": 20,\n    \"productWeight\": 20,\n    \"rating\": 0,\n    \"ratingCount\": 0,\n    \"sortOrder\": 0,\n    \"dateAvailable\": null,\n    \"refSku\": null,\n    \"condition\": null,\n    \"rentalDuration\": 0,\n    \"rentalStatus\": null,\n    \"descriptions\": [\n        {\n            \"id\": 0,\n            \"language\": \"en\",\n            \"name\": \"Tag watch\",\n            \"description\": \"Tag watch\",\n            \"friendlyUrl\": null,\n            \"keyWords\": null,\n            \"highlights\": \"Formula 1 Tag watch\",\n            \"metaDescription\": null,\n            \"title\": \"Formula 1 Tag watch !\"\n        }\n    ],\n    \"attributes\": null,\n    \"images\": null,\n    \"productPrices\": null,\n    \"categories\": null,\n    \"relatedProducts\": null,\n    \"manufacturer\": {\n        \"id\": 2\n    },\n    \"owner\": {\n        \"id\": 1,\n        \"firstName\": null,\n        \"lastName\": null,\n        \"address\": null,\n        \"emailAddress\": null\n    }\n}",
+					"language": "json",
+					"rawDataType": "text",
+					"state": null,
+					"previewType": "text",
+					"searchResultScrolledTo": "-1",
+					"version": null,
+					"requestObject": "{\"url\":\"localhost:8080/api/v1/private/products\",\"pathVariables\":{},\"pathVariableData\":[],\"queryParams\":[],\"headerData\":[{\"key\":\"Accept\",\"value\":\"application/json\",\"enabled\":true,\"description\":\"\"},{\"key\":\"Content-Type\",\"value\":\"application/json\",\"enabled\":true,\"description\":\"\"},{\"key\":\"Authorization\",\"value\":\"Basic YWRtaW46cGFzc3dvcmQ=\",\"enabled\":true,\"description\":\"\"}],\"headers\":\"Accept: application/json\\nContent-Type: application/json\\nAuthorization: Basic YWRtaW46cGFzc3dvcmQ=\\n\",\"data\":\"{\\r\\n  \\\"price\\\" : 1450.99,\\r\\n  \\\"quantity\\\" : 5,\\r\\n  \\\"sku\\\" : \\\"123456\\\",\\r\\n  \\\"quantityOrderMaximum\\\" : 2,\\r\\n  \\\"quantityOrderMinimum\\\" : 1,\\r\\n  \\\"productIsFree\\\" : false,\\r\\n  \\\"available\\\" : true,\\r\\n  \\\"visible\\\" : true,\\r\\n  \\\"productLength\\\" : 20,\\r\\n  \\\"productWidth\\\" : 20,\\r\\n  \\\"productHeight\\\" : 20,\\r\\n  \\\"productWeight\\\" : 20,\\r\\n  \\\"rating\\\" : 0.0,\\r\\n  \\\"ratingCount\\\" : 0,\\r\\n  \\\"sortOrder\\\" : 0,\\r\\n  \\\"dateAvailable\\\" : null,\\r\\n  \\\"condition\\\" : null,\\r\\n  \\\"rentalDuration\\\" : 0,\\r\\n  \\\"rentalStatus\\\" : null,\\r\\n  \\\"descriptions\\\" : [ {\\r\\n    \\\"language\\\" : \\\"en\\\",\\r\\n    \\\"name\\\" : \\\"Tag watch\\\",\\r\\n    \\\"description\\\" : \\\"Tag watch\\\",\\r\\n    \\\"keyWords\\\" : null,\\r\\n    \\\"highlights\\\" : \\\"Formula 1 Tag watch\\\",\\r\\n    \\\"title\\\" : \\\"Formula 1 Tag watch !\\\"\\r\\n  }],\\r\\n  \\\"categories\\\" : null,\\r\\n  \\\"relatedProducts\\\" : null,\\r\\n  \\\"manufacturer\\\" : null,\\r\\n  \\\"owner\\\" : {\\r\\n  \\\"id\\\":1\\r\\n  }\\r\\n}\",\"method\":\"POST\",\"dataMode\":\"raw\"}",
+					"createdAt": "2017-10-03T02:02:52.000Z",
+					"updatedAt": "2017-10-03T02:02:52.000Z",
+					"write": true
+				},
+				{
+					"owner": "1350207",
+					"lastUpdatedBy": "1350207",
+					"lastRevision": 2314488564,
+					"request": {},
+					"id": "35077ba2-0b45-0c8b-fb26-92661eadb9a0",
+					"name": "localhost:8080/api/v1/private/products",
+					"status": "",
+					"responseCode": {
+						"code": 200,
+						"name": "OK"
+					},
+					"time": "0",
+					"headers": [],
+					"cookies": [],
+					"mime": "",
+					"text": "",
+					"language": "",
+					"rawDataType": "",
+					"state": null,
+					"previewType": "parsed",
+					"searchResultScrolledTo": "-1",
+					"version": null,
+					"requestObject": "5395f9cf-3797-e226-092c-80ae5dd24353",
+					"createdAt": "2017-10-03T02:02:52.000Z",
+					"updatedAt": "2017-10-03T02:02:52.000Z",
+					"write": true
+				}
+			],
+			"isFromCollection": true,
+			"collectionRequestId": "3d6d4e5f-9501-0f67-1828-314051ff51e8",
+			"rawModeData": "{\r\n  \"price\" : 14.99,\r\n  \"quantity\" : 5,\r\n  \"sku\" : \"1234ee\",\r\n  \"quantityOrderMaximum\" : 2,\r\n  \"quantityOrderMinimum\" : 1,\r\n  \"productIsFree\" : false,\r\n  \"available\" : true,\r\n  \"visible\" : true,\r\n  \"productLength\" : 20,\r\n  \"productWidth\" : 20,\r\n  \"productHeight\" : 20,\r\n  \"productWeight\" : 20,\r\n  \"rating\" : 0.0,\r\n  \"ratingCount\" : 0,\r\n  \"sortOrder\" : 0,\r\n  \"dateAvailable\" : null,\r\n  \"condition\" : null,\r\n  \"rentalDuration\" : 0,\r\n  \"rentalStatus\" : null,\r\n  \"descriptions\" : [ {\r\n    \"language\" : \"en\",\r\n    \"name\" : \"Test auth\",\r\n    \"description\" : \"Test auth\",\r\n    \"keyWords\" : null,\r\n    \"highlights\" : \"Test test test\",\r\n    \"title\" : \"Test !\"\r\n  }],\r\n  \"categories\" : null,\r\n  \"relatedProducts\" : null,\r\n  \"manufacturer\" : null,\r\n  \"owner\" : {\r\n  \"id\":1\r\n  }\r\n}"
+		},
+		{
+			"id": "4698e684-6f23-4ba0-f93c-908aa59d5672",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "localhost:8080/api/v1/auth/login",
+			"folder": "7a1df60f-761b-9df6-f95b-e7062f2486ed",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1507048991868,
+			"name": "localhost:8080/api/v1/auth/login",
+			"description": "Login as a Customer",
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"responses": [],
+			"rawModeData": "{\n\t\"username\":\"carl@csticonsulting.com\",\n\t\"password\":\"password\"\n}"
+		},
+		{
+			"id": "5395f9cf-3797-e226-092c-80ae5dd24353",
+			"headers": "Accept: application/json\nContent-Type: application/json\nAuthorization: Basic YWRtaW46cGFzc3dvcmQ=\n",
+			"headerData": [
+				{
+					"key": "Accept",
+					"value": "application/json",
+					"enabled": true,
+					"description": ""
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"enabled": true,
+					"description": ""
+				},
+				{
+					"key": "Authorization",
+					"value": "Basic YWRtaW46cGFzc3dvcmQ=",
+					"enabled": true,
+					"description": ""
+				}
+			],
+			"url": "localhost:8080/api/v1/private/products",
+			"folder": "7b91c544-0b63-7781-6fbb-cb08d1d1a4b7",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": "{}",
+			"time": 1506013984209,
+			"name": "localhost:8080/api/v1/private/products",
+			"description": "API for the creation of a product",
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"responses": [
+				{
+					"owner": "1350207",
+					"lastUpdatedBy": "1350207",
+					"lastRevision": 2135946655,
+					"request": {
+						"url": "localhost:8080/api/v1/private/products",
+						"pathVariables": {},
+						"pathVariableData": [],
+						"queryParams": [],
+						"headerData": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"enabled": true,
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"enabled": true,
+								"description": ""
+							}
+						],
+						"headers": "Accept: application/json\nContent-Type: application/json\n",
+						"data": "{\r\n  \"price\" : 25.99,\r\n  \"quantity\" : 5,\r\n  \"sku\" : \"abcdef\",\r\n  \"quantityOrderMaximum\" : 2,\r\n  \"quantityOrderMinimum\" : 1,\r\n  \"productIsFree\" : false,\r\n  \"available\" : true,\r\n  \"visible\" : true,\r\n  \"productLength\" : 20,\r\n  \"productWidth\" : 20,\r\n  \"productHeight\" : 20,\r\n  \"productWeight\" : 20,\r\n  \"rating\" : 0.0,\r\n  \"ratingCount\" : 0,\r\n  \"sortOrder\" : 0,\r\n  \"dateAvailable\" : null,\r\n  \"condition\" : null,\r\n  \"rentalDuration\" : 0,\r\n  \"rentalStatus\" : null,\r\n  \"descriptions\" : [ {\r\n    \"language\" : \"en\",\r\n    \"name\" : \"Buddha Head\",\r\n    \"description\" : \"Buddha Head\",\r\n    \"keyWords\" : null,\r\n    \"highlights\" : \"Short description\",\r\n    \"title\" : \"Buddha Head\"\r\n  }],\r\n  \"categories\" : null,\r\n  \"relatedProducts\" : null,\r\n  \"manufacturer\" : null,\r\n  \"owner\" : {\r\n    \r\n  \"id\":1\r\n  }\r\n}",
+						"method": "POST",
+						"dataMode": "raw"
+					},
+					"id": "a24e76eb-e468-bb8a-d762-13846b0190d5",
+					"name": "localhost:8080/api/v1/private/products",
+					"status": "",
+					"responseCode": {
+						"code": 200,
+						"name": "OK"
+					},
+					"time": "0",
+					"headers": [],
+					"cookies": [],
+					"mime": "",
+					"text": "",
+					"language": "",
+					"rawDataType": "",
+					"state": null,
+					"previewType": "parsed",
+					"searchResultScrolledTo": "-1",
+					"version": null,
+					"requestObject": "{\"url\":\"localhost:8080/api/v1/private/products\",\"pathVariables\":{},\"pathVariableData\":[],\"queryParams\":[],\"headerData\":[{\"key\":\"Accept\",\"value\":\"application/json\",\"enabled\":true,\"description\":\"\"},{\"key\":\"Content-Type\",\"value\":\"application/json\",\"enabled\":true,\"description\":\"\"}],\"headers\":\"Accept: application/json\\nContent-Type: application/json\\n\",\"data\":\"{\\r\\n  \\\"price\\\" : 25.99,\\r\\n  \\\"quantity\\\" : 5,\\r\\n  \\\"sku\\\" : \\\"abcdef\\\",\\r\\n  \\\"quantityOrderMaximum\\\" : 2,\\r\\n  \\\"quantityOrderMinimum\\\" : 1,\\r\\n  \\\"productIsFree\\\" : false,\\r\\n  \\\"available\\\" : true,\\r\\n  \\\"visible\\\" : true,\\r\\n  \\\"productLength\\\" : 20,\\r\\n  \\\"productWidth\\\" : 20,\\r\\n  \\\"productHeight\\\" : 20,\\r\\n  \\\"productWeight\\\" : 20,\\r\\n  \\\"rating\\\" : 0.0,\\r\\n  \\\"ratingCount\\\" : 0,\\r\\n  \\\"sortOrder\\\" : 0,\\r\\n  \\\"dateAvailable\\\" : null,\\r\\n  \\\"condition\\\" : null,\\r\\n  \\\"rentalDuration\\\" : 0,\\r\\n  \\\"rentalStatus\\\" : null,\\r\\n  \\\"descriptions\\\" : [ {\\r\\n    \\\"language\\\" : \\\"en\\\",\\r\\n    \\\"name\\\" : \\\"Buddha Head\\\",\\r\\n    \\\"description\\\" : \\\"Buddha Head\\\",\\r\\n    \\\"keyWords\\\" : null,\\r\\n    \\\"highlights\\\" : \\\"Short description\\\",\\r\\n    \\\"title\\\" : \\\"Buddha Head\\\"\\r\\n  }],\\r\\n  \\\"categories\\\" : null,\\r\\n  \\\"relatedProducts\\\" : null,\\r\\n  \\\"manufacturer\\\" : null,\\r\\n  \\\"owner\\\" : {\\r\\n    \\r\\n  \\\"id\\\":1\\r\\n  }\\r\\n}\",\"method\":\"POST\",\"dataMode\":\"raw\"}",
+					"createdAt": "2017-09-03T20:59:15.000Z",
+					"updatedAt": "2017-09-03T20:59:15.000Z",
+					"write": true
+				}
+			],
+			"isFromCollection": true,
+			"collectionRequestId": "5395f9cf-3797-e226-092c-80ae5dd24353",
+			"timestamp": null,
+			"rawModeData": "{\r\n  \"price\" : 25.99,\r\n  \"quantity\" : 5,\r\n  \"sku\" : \"abcdefg\",\r\n  \"quantityOrderMaximum\" : 2,\r\n  \"quantityOrderMinimum\" : 1,\r\n  \"productIsFree\" : false,\r\n  \"available\" : true,\r\n  \"visible\" : true,\r\n  \"productLength\" : 20,\r\n  \"productWidth\" : 20,\r\n  \"productHeight\" : 20,\r\n  \"productWeight\" : 20,\r\n  \"rating\" : 0.0,\r\n  \"ratingCount\" : 0,\r\n  \"sortOrder\" : 0,\r\n  \"dateAvailable\" : null,\r\n  \"condition\" : null,\r\n  \"rentalDuration\" : 0,\r\n  \"rentalStatus\" : null,\r\n  \"descriptions\" : [ {\r\n    \"language\" : \"en\",\r\n    \"name\" : \"My Second Item\",\r\n    \"description\" : \"This is the description for my second item\",\r\n    \"keyWords\" : null,\r\n    \"highlights\" : \"Short description\",\r\n    \"title\" : \"Second item !\"\r\n  }],\r\n  \"categories\" : null,\r\n  \"relatedProducts\" : null,\r\n  \"manufacturer\" : null,\r\n  \"owner\" : {\r\n\t\"id\":1\r\n  }\r\n}"
+		},
+		{
+			"id": "5e3f6a0e-6bb8-e8d3-75a7-f8d2b17a4aa1",
+			"headers": "Accept: application/json\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Accept",
+					"value": "application/json",
+					"enabled": true,
+					"description": ""
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"enabled": true,
+					"description": ""
+				}
+			],
+			"url": "localhost:8080/api/v1/private/products/1/images",
+			"folder": "7b91c544-0b63-7781-6fbb-cb08d1d1a4b7",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": "{}",
+			"time": 1506439743090,
+			"name": "localhost:8080/api/v1/private/products/{id}/images",
+			"description": "",
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"responses": [],
+			"timestamp": null,
+			"rawModeData": "{\n\t\n\t\"defaultImage\":true,\n\t\"imageName\":\"My item image\",\n\t\"bytes\":\"1fe3frdfgjelf\",\n\t\"contentType\":\"image/jpeg\"\n\t\n}"
+		},
+		{
+			"folder": "08dac1ef-e0bd-275b-1c44-60674745f9dd",
+			"id": "80674bcf-b0af-eaa8-507a-a5194feaa9db",
+			"name": "localhost:8080/api/v1/customers/{id}/reviews",
+			"dataMode": "raw",
+			"data": [],
+			"descriptionFormat": "html",
+			"description": "Get reviews created for customer id specified",
+			"headers": "Authorization: Basic YWRtaW46cGFzc3dvcmQ=\nAccept: application/json\nContent-Type: application/json\n",
+			"method": "GET",
+			"pathVariables": {},
+			"url": "localhost:8080/api/v1/customers/2/reviews",
+			"preRequestScript": null,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Basic YWRtaW46cGFzc3dvcmQ=",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Accept",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"pathVariableData": [],
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"rawModeData": "{\n\"emailAddress\":\"carl@csticonsulting.com\",\n\"gender\":\"M\",\n\"language\":\"en\",\n\"userName\":\"testuser\",\n\"clearPassword\":\"password\",\n\"billing\":{\n  \"address\":\"352 Du Languedoc\",\n  \"city\":\"Boucherville\",\n  \"postalCode\":\"J4B 8J9\",\n  \"country\":\"CA\",\n  \"zone\":\"QC\",\n  \"firstName\":\"Carl\",\n  \"lastName\":\"Samson\"\n  }\n}"
+		},
+		{
+			"folder": "7b72249f-ad93-f830-befb-cc432829f5b3",
+			"id": "8fe74ae2-d104-76be-3544-45f2a9040d46",
+			"name": "localhost:8080/api/v1/private/customers - second customer",
+			"dataMode": "raw",
+			"data": [],
+			"descriptionFormat": "html",
+			"description": "",
+			"headers": "Content-Type: application/json\nAccept: application/json\nAuthorization: Basic YWRtaW46cGFzc3dvcmQ=\n",
+			"method": "POST",
+			"pathVariables": {},
+			"url": "localhost:8080/api/v1/private/customers",
+			"preRequestScript": null,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Accept",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Authorization",
+					"value": "Basic YWRtaW46cGFzc3dvcmQ=",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"pathVariableData": [],
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"rawModeData": "{\n\"emailAddress\":\"john@acme.com\",\n\"gender\":\"M\",\n\"language\":\"en\",\n\"userName\":\"testuser2\",\n\"clearPassword\":\"password2\",\n\"billing\":{\n  \"address\":\"123 that street\",\n  \"city\":\"Boucherville\",\n  \"postalCode\":\"99945\",\n  \"country\":\"US\",\n  \"zone\":\"CA\",\n  \"firstName\":\"John\",\n  \"lastName\":\"Doe\"\n  }\n}"
+		},
+		{
+			"id": "9de73cd0-51a5-e17f-5940-feeabfa77faf",
+			"headers": "Accept: application/json\nContent-Type: application/json\nAuthorization: Basic YWRtaW46cGFzc3dvcmQ=\n",
+			"headerData": [
+				{
+					"key": "Accept",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Authorization",
+					"value": "Basic YWRtaW46cGFzc3dvcmQ=",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "localhost:8080/api/v1/private/manufacturers",
+			"folder": "b9d229d5-34ae-f67a-ccbb-10191c7da262",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1505933084699,
+			"name": "localhost:8080/api/v1/private/manufacturers",
+			"description": "API for creating a manufacturer",
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"responses": [
+				{
+					"owner": "1350207",
+					"lastUpdatedBy": "1350207",
+					"lastRevision": 2245383501,
+					"request": {
+						"url": "localhost:8080/api/v1/private/manufacturers",
+						"pathVariables": {},
+						"pathVariableData": [],
+						"queryParams": [],
+						"headerData": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"enabled": true,
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"enabled": true,
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"name": "Authorization",
+								"value": "Basic YWRtaW46cGFzc3dvcmQ=",
+								"description": "",
+								"enabled": true
+							}
+						],
+						"headers": "Accept: application/json\nContent-Type: application/json\nAuthorization: Basic YWRtaW46cGFzc3dvcmQ=\n",
+						"data": "{\r\n  \"code\" : \"taghueur\",\r\n  \"order\" : 1,\r\n  \"descriptions\" : [ {\r\n    \"language\" : \"en\",\r\n    \"name\" : \"Tag Heuer\",\r\n    \"friendlyUrl\" : \"tag-watches\",\r\n    \"title\" : \"Tag Heuer\"\r\n  } ]\r\n}",
+						"method": "POST",
+						"dataMode": "raw"
+					},
+					"id": "77da6a99-fc09-ee54-7826-b0e83b8bc382",
+					"name": "localhost:8080/api/v1/private/manufacturers",
+					"status": "",
+					"responseCode": {
+						"code": 201,
+						"name": "Created"
+					},
+					"time": "52970",
+					"headers": [
+						{
+							"name": "cache-control",
+							"key": "cache-control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate",
+							"description": ""
+						},
+						{
+							"name": "content-type",
+							"key": "content-type",
+							"value": "application/json;charset=UTF-8",
+							"description": ""
+						},
+						{
+							"name": "date",
+							"key": "date",
+							"value": "Wed, 20 Sep 2017 18:44:38 GMT",
+							"description": ""
+						},
+						{
+							"name": "expires",
+							"key": "expires",
+							"value": "0",
+							"description": ""
+						},
+						{
+							"name": "pragma",
+							"key": "pragma",
+							"value": "no-cache",
+							"description": ""
+						},
+						{
+							"name": "server",
+							"key": "server",
+							"value": "Apache-Coyote/1.1",
+							"description": ""
+						},
+						{
+							"name": "transfer-encoding",
+							"key": "transfer-encoding",
+							"value": "chunked",
+							"description": ""
+						},
+						{
+							"name": "x-content-type-options",
+							"key": "x-content-type-options",
+							"value": "nosniff",
+							"description": ""
+						},
+						{
+							"name": "x-frame-options",
+							"key": "x-frame-options",
+							"value": "DENY",
+							"description": ""
+						},
+						{
+							"name": "x-xss-protection",
+							"key": "x-xss-protection",
+							"value": "1; mode=block",
+							"description": ""
+						}
+					],
+					"cookies": [],
+					"mime": "",
+					"text": "{\"id\":100,\"code\":\"taghueur\",\"order\":1,\"descriptions\":[{\"id\":0,\"language\":\"en\",\"name\":\"Tag Heuer\",\"description\":null,\"friendlyUrl\":\"tag-watches\",\"keyWords\":null,\"highlights\":null,\"metaDescription\":null,\"title\":\"Tag Heuer\"}]}",
+					"language": "json",
+					"rawDataType": "text",
+					"state": null,
+					"previewType": "text",
+					"searchResultScrolledTo": "-1",
+					"version": null,
+					"requestObject": "{\"url\":\"localhost:8080/api/v1/private/manufacturers\",\"pathVariables\":{},\"pathVariableData\":[],\"queryParams\":[],\"headerData\":[{\"key\":\"Accept\",\"value\":\"application/json\",\"enabled\":true,\"description\":\"\"},{\"key\":\"Content-Type\",\"value\":\"application/json\",\"enabled\":true,\"description\":\"\"},{\"key\":\"Authorization\",\"name\":\"Authorization\",\"value\":\"Basic YWRtaW46cGFzc3dvcmQ=\",\"description\":\"\",\"enabled\":true}],\"headers\":\"Accept: application/json\\nContent-Type: application/json\\nAuthorization: Basic YWRtaW46cGFzc3dvcmQ=\\n\",\"data\":\"{\\r\\n  \\\"code\\\" : \\\"taghueur\\\",\\r\\n  \\\"order\\\" : 1,\\r\\n  \\\"descriptions\\\" : [ {\\r\\n    \\\"language\\\" : \\\"en\\\",\\r\\n    \\\"name\\\" : \\\"Tag Heuer\\\",\\r\\n    \\\"friendlyUrl\\\" : \\\"tag-watches\\\",\\r\\n    \\\"title\\\" : \\\"Tag Heuer\\\"\\r\\n  } ]\\r\\n}\",\"method\":\"POST\",\"dataMode\":\"raw\"}",
+					"createdAt": "2017-09-20T19:03:44.000Z",
+					"updatedAt": "2017-09-20T19:03:44.000Z",
+					"write": true
+				}
+			],
+			"rawModeData": "{\r\n  \"code\" : \"taghueur\",\r\n  \"order\" : 1,\r\n  \"descriptions\" : [ {\r\n    \"language\" : \"en\",\r\n    \"name\" : \"Tag Heuer\",\r\n    \"friendlyUrl\" : \"tag-watches\",\r\n    \"title\" : \"Tag Heuer\"\r\n  } ]\r\n}"
+		},
+		{
+			"id": "a670e5e6-e9e1-1a2f-17ab-62f68d58fc96",
+			"headers": "",
+			"headerData": [],
+			"url": "localhost:8080/api/v1/products/1",
+			"folder": "869901fd-ebbd-566c-4458-9ef2d787f781",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1506452415578,
+			"name": "localhost:8080/api/v1/products/{id}",
+			"description": "Ge a product by id",
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"rawModeData": "{\r\n  \"price\" : 25.99,\r\n  \"quantity\" : 5,\r\n  \"sku\" : \"abcdef\",\r\n  \"quantityOrderMaximum\" : 2,\r\n  \"quantityOrderMinimum\" : 1,\r\n  \"productIsFree\" : false,\r\n  \"available\" : true,\r\n  \"visible\" : true,\r\n  \"productLength\" : 20,\r\n  \"productWidth\" : 20,\r\n  \"productHeight\" : 20,\r\n  \"productWeight\" : 20,\r\n  \"rating\" : 0.0,\r\n  \"ratingCount\" : 0,\r\n  \"sortOrder\" : 0,\r\n  \"dateAvailable\" : null,\r\n  \"condition\" : null,\r\n  \"rentalDuration\" : 0,\r\n  \"rentalStatus\" : null,\r\n  \"descriptions\" : [ {\r\n    \"language\" : \"en\",\r\n    \"name\" : \"Buddha Head\",\r\n    \"description\" : \"Buddha Head\",\r\n    \"keyWords\" : null,\r\n    \"highlights\" : \"Short description\",\r\n    \"title\" : \"Buddha Head\"\r\n  }],\r\n  \"categories\" : null,\r\n  \"relatedProducts\" : null,\r\n  \"manufacturer\" : null,\r\n  \"owner\" : {\r\n    \r\n  \"id\":1\r\n  }\r\n}"
+		},
+		{
+			"id": "ad55afb5-8fc9-b4ba-b319-d50ad401d896",
+			"headers": "Accept: application/json\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Accept",
+					"value": "application/json",
+					"enabled": true,
+					"description": ""
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"enabled": true,
+					"description": ""
+				}
+			],
+			"url": "localhost:8080/api/v1/products/1/reviews",
+			"folder": "7b91c544-0b63-7781-6fbb-cb08d1d1a4b7",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1505134953407,
+			"name": "localhost:8080/api/v1/private/products/{id}/reviews",
+			"description": "API for creating a product review",
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"responses": [
+				{
+					"owner": "1350207",
+					"lastUpdatedBy": "1350207",
+					"lastRevision": 2281116925,
+					"request": {
+						"url": "localhost:8080/api/v1/private/products",
+						"pathVariables": {},
+						"pathVariableData": [],
+						"queryParams": [],
+						"headerData": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"enabled": true,
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"enabled": true,
+								"description": ""
+							}
+						],
+						"headers": "Accept: application/json\nContent-Type: application/json\n",
+						"data": "{\r\n  \"price\" : 25.99,\r\n  \"quantity\" : 5,\r\n  \"sku\" : \"abcdef\",\r\n  \"quantityOrderMaximum\" : 2,\r\n  \"quantityOrderMinimum\" : 1,\r\n  \"productIsFree\" : false,\r\n  \"available\" : true,\r\n  \"visible\" : true,\r\n  \"productLength\" : 20,\r\n  \"productWidth\" : 20,\r\n  \"productHeight\" : 20,\r\n  \"productWeight\" : 20,\r\n  \"rating\" : 0.0,\r\n  \"ratingCount\" : 0,\r\n  \"sortOrder\" : 0,\r\n  \"dateAvailable\" : null,\r\n  \"condition\" : null,\r\n  \"rentalDuration\" : 0,\r\n  \"rentalStatus\" : null,\r\n  \"descriptions\" : [ {\r\n    \"language\" : \"en\",\r\n    \"name\" : \"Buddha Head\",\r\n    \"description\" : \"Buddha Head\",\r\n    \"keyWords\" : null,\r\n    \"highlights\" : \"Short description\",\r\n    \"title\" : \"Buddha Head\"\r\n  }],\r\n  \"categories\" : null,\r\n  \"relatedProducts\" : null,\r\n  \"manufacturer\" : null,\r\n  \"owner\" : {\r\n    \r\n  \"id\":1\r\n  }\r\n}",
+						"method": "POST",
+						"dataMode": "raw"
+					},
+					"id": "57463716-76f6-062e-a35c-e511e38fc9b9",
+					"name": "localhost:8080/api/v1/private/products",
+					"status": "",
+					"responseCode": {
+						"code": 200,
+						"name": "OK"
+					},
+					"time": "0",
+					"headers": [],
+					"cookies": [],
+					"mime": "",
+					"text": "",
+					"language": "",
+					"rawDataType": "",
+					"state": null,
+					"previewType": "parsed",
+					"searchResultScrolledTo": "-1",
+					"version": null,
+					"requestObject": "{\"url\":\"localhost:8080/api/v1/private/products\",\"pathVariables\":{},\"pathVariableData\":[],\"queryParams\":[],\"headerData\":[{\"key\":\"Accept\",\"value\":\"application/json\",\"enabled\":true,\"description\":\"\"},{\"key\":\"Content-Type\",\"value\":\"application/json\",\"enabled\":true,\"description\":\"\"}],\"headers\":\"Accept: application/json\\nContent-Type: application/json\\n\",\"data\":\"{\\r\\n  \\\"price\\\" : 25.99,\\r\\n  \\\"quantity\\\" : 5,\\r\\n  \\\"sku\\\" : \\\"abcdef\\\",\\r\\n  \\\"quantityOrderMaximum\\\" : 2,\\r\\n  \\\"quantityOrderMinimum\\\" : 1,\\r\\n  \\\"productIsFree\\\" : false,\\r\\n  \\\"available\\\" : true,\\r\\n  \\\"visible\\\" : true,\\r\\n  \\\"productLength\\\" : 20,\\r\\n  \\\"productWidth\\\" : 20,\\r\\n  \\\"productHeight\\\" : 20,\\r\\n  \\\"productWeight\\\" : 20,\\r\\n  \\\"rating\\\" : 0.0,\\r\\n  \\\"ratingCount\\\" : 0,\\r\\n  \\\"sortOrder\\\" : 0,\\r\\n  \\\"dateAvailable\\\" : null,\\r\\n  \\\"condition\\\" : null,\\r\\n  \\\"rentalDuration\\\" : 0,\\r\\n  \\\"rentalStatus\\\" : null,\\r\\n  \\\"descriptions\\\" : [ {\\r\\n    \\\"language\\\" : \\\"en\\\",\\r\\n    \\\"name\\\" : \\\"Buddha Head\\\",\\r\\n    \\\"description\\\" : \\\"Buddha Head\\\",\\r\\n    \\\"keyWords\\\" : null,\\r\\n    \\\"highlights\\\" : \\\"Short description\\\",\\r\\n    \\\"title\\\" : \\\"Buddha Head\\\"\\r\\n  }],\\r\\n  \\\"categories\\\" : null,\\r\\n  \\\"relatedProducts\\\" : null,\\r\\n  \\\"manufacturer\\\" : null,\\r\\n  \\\"owner\\\" : {\\r\\n    \\r\\n  \\\"id\\\":1\\r\\n  }\\r\\n}\",\"method\":\"POST\",\"dataMode\":\"raw\"}",
+					"createdAt": "2017-09-26T18:48:22.000Z",
+					"updatedAt": "2017-09-26T18:48:22.000Z",
+					"write": true
+				}
+			],
+			"descriptionFormat": null,
+			"isFromCollection": true,
+			"rawModeData": "{\r\n  \"rating\":3.5,\r\n  \"description\" : \"Seems to be a good item compared to similar ones i wanted to test but the price was unfotunately above my budget. Thanks to the team !\",\r\n  \"productId\" : 1,\r\n  \"customerId\" : 1\r\n}"
+		},
+		{
+			"id": "b113b1fc-faa8-01d8-9f3e-31445ff5c798",
+			"headers": "Accept: application/json\nContent-Type: application/json\nAuthorization: Basic YWRtaW46cGFzc3dvcmQ=\n",
+			"headerData": [
+				{
+					"key": "Accept",
+					"value": "application/json",
+					"enabled": true,
+					"description": ""
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"enabled": true,
+					"description": ""
+				},
+				{
+					"key": "Authorization",
+					"value": "Basic YWRtaW46cGFzc3dvcmQ=",
+					"enabled": true,
+					"description": ""
+				}
+			],
+			"url": "localhost:8080/api/v1/private/products/1/group/FEATURED_ITEM",
+			"folder": "5bcca65d-6d40-d64c-6d60-e842260f16d3",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": "{}",
+			"time": 1506357150078,
+			"name": "localhost:8080/api/v1/private/products/{productId}/group/{code}",
+			"description": "Add a product to a group\n\nThis url adds product ID 251 to group FEATURED\n\n*** Returns the groupo list",
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"responses": [],
+			"descriptionFormat": "html",
+			"rawModeData": "{\r\n  \"price\" : 25.99,\r\n  \"quantity\" : 5,\r\n  \"sku\" : \"abcdef\",\r\n  \"quantityOrderMaximum\" : 2,\r\n  \"quantityOrderMinimum\" : 1,\r\n  \"productIsFree\" : false,\r\n  \"available\" : true,\r\n  \"visible\" : true,\r\n  \"productLength\" : 20,\r\n  \"productWidth\" : 20,\r\n  \"productHeight\" : 20,\r\n  \"productWeight\" : 20,\r\n  \"rating\" : 0.0,\r\n  \"ratingCount\" : 0,\r\n  \"sortOrder\" : 0,\r\n  \"dateAvailable\" : null,\r\n  \"condition\" : null,\r\n  \"rentalDuration\" : 0,\r\n  \"rentalStatus\" : null,\r\n  \"descriptions\" : [ {\r\n    \"language\" : \"en\",\r\n    \"name\" : \"Buddha Head\",\r\n    \"description\" : \"Buddha Head\",\r\n    \"keyWords\" : null,\r\n    \"highlights\" : \"Short description\",\r\n    \"title\" : \"Buddha Head\"\r\n  }],\r\n  \"categories\" : null,\r\n  \"relatedProducts\" : null,\r\n  \"manufacturer\" : null,\r\n  \"owner\" : {\r\n    \r\n  \"id\":1\r\n  }\r\n}"
+		},
+		{
+			"id": "b16b7252-b7ab-1796-368f-3844eb162598",
+			"headers": "Accept: application/json\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Accept",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "localhost:8080/api/v1/products/1/reviews",
+			"folder": "869901fd-ebbd-566c-4458-9ef2d787f781",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1506452284235,
+			"name": "localhost:8080/api/v1/products/{id}/reviews",
+			"description": "API for getting a product reviews",
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"responses": [
+				{
+					"owner": "1350207",
+					"lastUpdatedBy": "1350207",
+					"lastRevision": 2147483647,
+					"request": {
+						"url": "localhost:8080/api/v1/private/products",
+						"pathVariables": {},
+						"pathVariableData": [],
+						"queryParams": [],
+						"headerData": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"enabled": true,
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"enabled": true,
+								"description": ""
+							}
+						],
+						"headers": "Accept: application/json\nContent-Type: application/json\n",
+						"data": "{\r\n  \"price\" : 25.99,\r\n  \"quantity\" : 5,\r\n  \"sku\" : \"abcdef\",\r\n  \"quantityOrderMaximum\" : 2,\r\n  \"quantityOrderMinimum\" : 1,\r\n  \"productIsFree\" : false,\r\n  \"available\" : true,\r\n  \"visible\" : true,\r\n  \"productLength\" : 20,\r\n  \"productWidth\" : 20,\r\n  \"productHeight\" : 20,\r\n  \"productWeight\" : 20,\r\n  \"rating\" : 0.0,\r\n  \"ratingCount\" : 0,\r\n  \"sortOrder\" : 0,\r\n  \"dateAvailable\" : null,\r\n  \"condition\" : null,\r\n  \"rentalDuration\" : 0,\r\n  \"rentalStatus\" : null,\r\n  \"descriptions\" : [ {\r\n    \"language\" : \"en\",\r\n    \"name\" : \"Buddha Head\",\r\n    \"description\" : \"Buddha Head\",\r\n    \"keyWords\" : null,\r\n    \"highlights\" : \"Short description\",\r\n    \"title\" : \"Buddha Head\"\r\n  }],\r\n  \"categories\" : null,\r\n  \"relatedProducts\" : null,\r\n  \"manufacturer\" : null,\r\n  \"owner\" : {\r\n    \r\n  \"id\":1\r\n  }\r\n}",
+						"method": "POST",
+						"dataMode": "raw"
+					},
+					"id": "b3fcf95e-c134-a471-1b9c-bc0cd466500d",
+					"name": "localhost:8080/api/v1/private/products",
+					"status": "",
+					"responseCode": {
+						"code": 200,
+						"name": "OK"
+					},
+					"time": "0",
+					"headers": [],
+					"cookies": [],
+					"mime": "",
+					"text": "",
+					"language": "",
+					"rawDataType": "",
+					"state": null,
+					"previewType": "parsed",
+					"searchResultScrolledTo": "-1",
+					"version": null,
+					"requestObject": "{\"url\":\"localhost:8080/api/v1/private/products\",\"pathVariables\":{},\"pathVariableData\":[],\"queryParams\":[],\"headerData\":[{\"key\":\"Accept\",\"value\":\"application/json\",\"enabled\":true,\"description\":\"\"},{\"key\":\"Content-Type\",\"value\":\"application/json\",\"enabled\":true,\"description\":\"\"}],\"headers\":\"Accept: application/json\\nContent-Type: application/json\\n\",\"data\":\"{\\r\\n  \\\"price\\\" : 25.99,\\r\\n  \\\"quantity\\\" : 5,\\r\\n  \\\"sku\\\" : \\\"abcdef\\\",\\r\\n  \\\"quantityOrderMaximum\\\" : 2,\\r\\n  \\\"quantityOrderMinimum\\\" : 1,\\r\\n  \\\"productIsFree\\\" : false,\\r\\n  \\\"available\\\" : true,\\r\\n  \\\"visible\\\" : true,\\r\\n  \\\"productLength\\\" : 20,\\r\\n  \\\"productWidth\\\" : 20,\\r\\n  \\\"productHeight\\\" : 20,\\r\\n  \\\"productWeight\\\" : 20,\\r\\n  \\\"rating\\\" : 0.0,\\r\\n  \\\"ratingCount\\\" : 0,\\r\\n  \\\"sortOrder\\\" : 0,\\r\\n  \\\"dateAvailable\\\" : null,\\r\\n  \\\"condition\\\" : null,\\r\\n  \\\"rentalDuration\\\" : 0,\\r\\n  \\\"rentalStatus\\\" : null,\\r\\n  \\\"descriptions\\\" : [ {\\r\\n    \\\"language\\\" : \\\"en\\\",\\r\\n    \\\"name\\\" : \\\"Buddha Head\\\",\\r\\n    \\\"description\\\" : \\\"Buddha Head\\\",\\r\\n    \\\"keyWords\\\" : null,\\r\\n    \\\"highlights\\\" : \\\"Short description\\\",\\r\\n    \\\"title\\\" : \\\"Buddha Head\\\"\\r\\n  }],\\r\\n  \\\"categories\\\" : null,\\r\\n  \\\"relatedProducts\\\" : null,\\r\\n  \\\"manufacturer\\\" : null,\\r\\n  \\\"owner\\\" : {\\r\\n    \\r\\n  \\\"id\\\":1\\r\\n  }\\r\\n}\",\"method\":\"POST\",\"dataMode\":\"raw\"}",
+					"createdAt": "2017-09-06T16:45:59.000Z",
+					"updatedAt": "2017-09-06T16:45:59.000Z",
+					"write": true
+				}
+			],
+			"rawModeData": "{\r\n  \"rating\":3.5,\r\n  \"description\" : \"Seems to be a good item compared to similar ones i wanted to test but the price was unfotunately above my budget. Thanks to the team !\",\r\n  \"productId\" : 1,\r\n  \"customerId\" : 1\r\n}"
+		},
+		{
+			"id": "bb820890-0743-d59b-64b8-66ca92e66213",
+			"headers": "Accept: application/json\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Accept",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "localhost:8080/api/v1/customers/2/cart",
+			"folder": "675d7679-0ecd-929b-1c44-c0db279226e0",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1506436021782,
+			"name": "localhost:8080/api/v1/customers/{customerId}/cart",
+			"description": "Get a customer shopping cart",
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"responses": [],
+			"rawModeData": "{\r\n  \"product\" : 2,\r\n  \"quantity\": 1\r\n\r\n}"
+		},
+		{
+			"id": "c381e2b3-10cc-87e5-2ca0-44f861d502c1",
+			"headers": "Accept: application/json\nContent-Type: application/json\nAuthorization: Basic YWRtaW46cGFzc3dvcmQ=\n",
+			"headerData": [
+				{
+					"key": "Accept",
+					"value": "application/json",
+					"enabled": true,
+					"description": ""
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"enabled": true,
+					"description": ""
+				},
+				{
+					"key": "Authorization",
+					"value": "Basic YWRtaW46cGFzc3dvcmQ=",
+					"enabled": true,
+					"description": ""
+				}
+			],
+			"url": "localhost:8080/api/v1/private/category",
+			"folder": "d2d710ef-35d4-67b9-259e-5f79e3cd31f6",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1506094427212,
+			"name": "localhost:8080/api/v1/private/category",
+			"description": "",
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"responses": [
+				{
+					"owner": "1350207",
+					"lastUpdatedBy": "1350207",
+					"lastRevision": 2260503866,
+					"request": {
+						"url": "localhost:8080/api/v1/private/category",
+						"pathVariables": {},
+						"pathVariableData": [],
+						"queryParams": [],
+						"headerData": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": "",
+								"enabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "",
+								"enabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46cGFzc3dvcmQ=",
+								"description": "",
+								"enabled": true
+							}
+						],
+						"headers": "Accept: application/json\nContent-Type: application/json\nAuthorization: Basic YWRtaW46cGFzc3dvcmQ=\n",
+						"data": "{\r\n  \"id\" : 0,\r\n  \"code\" : \"dining-room\",\r\n  \"sortOrder\" : 0,\r\n  \"visible\" : true,\r\n  \"lineage\" : null,\r\n  \"depth\" : 0,\r\n  \"parent\" : null,\r\n  \"descriptions\" : [ {\r\n    \"id\" : 0,\r\n    \"language\" : \"en\",\r\n    \"name\" : \"Dining room\",\r\n    \"description\" : null,\r\n    \"friendlyUrl\" : \"dining-room\",\r\n    \"keyWords\" : null,\r\n    \"highlights\" : null,\r\n    \"metaDescription\" : null,\r\n    \"title\" : \"Dining room\"\r\n  } ],\r\n  \"children\" : [ \r\n   {\r\n    \"id\" : 0,\r\n    \"code\" : \"tables\",\r\n    \"sortOrder\" : 1,\r\n    \"visible\" : true,\r\n    \"lineage\" : null,\r\n    \"depth\" : 0,\r\n    \"parent\" : {\r\n      \"id\" : 0,\r\n      \"code\" : \"dining-room\"\r\n    },\r\n    \"descriptions\" : [ {\r\n      \"id\" : 0,\r\n      \"language\" : \"en\",\r\n      \"name\" : \"Tables\",\r\n      \"description\" : null,\r\n      \"friendlyUrl\" : \"tables\",\r\n      \"keyWords\" : null,\r\n      \"highlights\" : null,\r\n      \"metaDescription\" : null,\r\n      \"title\" : \"Nice tables !\"\r\n    }],\r\n    \"children\" : [ ]\r\n    }, \r\n    {\r\n    \"id\" : 0,\r\n    \"code\" : \"bench\",\r\n    \"sortOrder\" : 4,\r\n    \"visible\" : true,\r\n    \"lineage\" : null,\r\n    \"depth\" : 0,\r\n    \"parent\" : {\r\n      \"id\" : 0,\r\n      \"code\" : \"dining-room\"\r\n    },\r\n    \"descriptions\" : [ {\r\n      \"id\" : 0,\r\n      \"language\" : \"en\",\r\n      \"name\" : \"Benches\",\r\n      \"description\" : null,\r\n      \"friendlyUrl\" : \"benches\",\r\n      \"keyWords\" : null,\r\n      \"highlights\" : null,\r\n      \"metaDescription\" : null,\r\n      \"title\" : \"Benches\"\r\n    }],\r\n    \"children\" : [ ]\r\n    }\r\n    ]\r\n}",
+						"method": "POST",
+						"dataMode": "raw"
+					},
+					"id": "f848df53-38dd-51b9-7b41-20541a508568",
+					"name": "localhost:8080/api/v1/private/category",
+					"status": "",
+					"responseCode": {
+						"code": 201,
+						"name": "Created"
+					},
+					"time": "254",
+					"headers": [
+						{
+							"name": "cache-control",
+							"key": "cache-control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate",
+							"description": ""
+						},
+						{
+							"name": "content-type",
+							"key": "content-type",
+							"value": "application/json;charset=UTF-8",
+							"description": ""
+						},
+						{
+							"name": "date",
+							"key": "date",
+							"value": "Fri, 22 Sep 2017 15:33:32 GMT",
+							"description": ""
+						},
+						{
+							"name": "expires",
+							"key": "expires",
+							"value": "0",
+							"description": ""
+						},
+						{
+							"name": "pragma",
+							"key": "pragma",
+							"value": "no-cache",
+							"description": ""
+						},
+						{
+							"name": "server",
+							"key": "server",
+							"value": "Apache-Coyote/1.1",
+							"description": ""
+						},
+						{
+							"name": "transfer-encoding",
+							"key": "transfer-encoding",
+							"value": "chunked",
+							"description": ""
+						},
+						{
+							"name": "x-content-type-options",
+							"key": "x-content-type-options",
+							"value": "nosniff",
+							"description": ""
+						},
+						{
+							"name": "x-frame-options",
+							"key": "x-frame-options",
+							"value": "DENY",
+							"description": ""
+						},
+						{
+							"name": "x-xss-protection",
+							"key": "x-xss-protection",
+							"value": "1; mode=block",
+							"description": ""
+						}
+					],
+					"cookies": [],
+					"mime": "",
+					"text": "{\"id\":1,\"code\":\"dining-room\",\"sortOrder\":0,\"visible\":true,\"featured\":false,\"lineage\":null,\"depth\":0,\"parent\":null,\"descriptions\":[{\"id\":0,\"language\":\"en\",\"name\":\"Dining room\",\"description\":null,\"friendlyUrl\":\"dining-room\",\"keyWords\":null,\"highlights\":null,\"metaDescription\":null,\"title\":\"Dining room\"}],\"children\":[{\"id\":0,\"code\":\"tables\",\"sortOrder\":1,\"visible\":true,\"featured\":false,\"lineage\":null,\"depth\":0,\"parent\":{\"id\":0,\"code\":\"dining-room\"},\"descriptions\":[{\"id\":0,\"language\":\"en\",\"name\":\"Tables\",\"description\":null,\"friendlyUrl\":\"tables\",\"keyWords\":null,\"highlights\":null,\"metaDescription\":null,\"title\":\"Nice tables !\"}],\"children\":[]},{\"id\":0,\"code\":\"bench\",\"sortOrder\":4,\"visible\":true,\"featured\":false,\"lineage\":null,\"depth\":0,\"parent\":{\"id\":0,\"code\":\"dining-room\"},\"descriptions\":[{\"id\":0,\"language\":\"en\",\"name\":\"Benches\",\"description\":null,\"friendlyUrl\":\"benches\",\"keyWords\":null,\"highlights\":null,\"metaDescription\":null,\"title\":\"Benches\"}],\"children\":[]}]}",
+					"language": "json",
+					"rawDataType": "text",
+					"state": null,
+					"previewType": "text",
+					"searchResultScrolledTo": "-1",
+					"version": null,
+					"requestObject": "{\"url\":\"localhost:8080/api/v1/private/category\",\"pathVariables\":{},\"pathVariableData\":[],\"queryParams\":[],\"headerData\":[{\"key\":\"Accept\",\"value\":\"application/json\",\"description\":\"\",\"enabled\":true},{\"key\":\"Content-Type\",\"value\":\"application/json\",\"description\":\"\",\"enabled\":true},{\"key\":\"Authorization\",\"value\":\"Basic YWRtaW46cGFzc3dvcmQ=\",\"description\":\"\",\"enabled\":true}],\"headers\":\"Accept: application/json\\nContent-Type: application/json\\nAuthorization: Basic YWRtaW46cGFzc3dvcmQ=\\n\",\"data\":\"{\\r\\n  \\\"id\\\" : 0,\\r\\n  \\\"code\\\" : \\\"dining-room\\\",\\r\\n  \\\"sortOrder\\\" : 0,\\r\\n  \\\"visible\\\" : true,\\r\\n  \\\"lineage\\\" : null,\\r\\n  \\\"depth\\\" : 0,\\r\\n  \\\"parent\\\" : null,\\r\\n  \\\"descriptions\\\" : [ {\\r\\n    \\\"id\\\" : 0,\\r\\n    \\\"language\\\" : \\\"en\\\",\\r\\n    \\\"name\\\" : \\\"Dining room\\\",\\r\\n    \\\"description\\\" : null,\\r\\n    \\\"friendlyUrl\\\" : \\\"dining-room\\\",\\r\\n    \\\"keyWords\\\" : null,\\r\\n    \\\"highlights\\\" : null,\\r\\n    \\\"metaDescription\\\" : null,\\r\\n    \\\"title\\\" : \\\"Dining room\\\"\\r\\n  } ],\\r\\n  \\\"children\\\" : [ \\r\\n   {\\r\\n    \\\"id\\\" : 0,\\r\\n    \\\"code\\\" : \\\"tables\\\",\\r\\n    \\\"sortOrder\\\" : 1,\\r\\n    \\\"visible\\\" : true,\\r\\n    \\\"lineage\\\" : null,\\r\\n    \\\"depth\\\" : 0,\\r\\n    \\\"parent\\\" : {\\r\\n      \\\"id\\\" : 0,\\r\\n      \\\"code\\\" : \\\"dining-room\\\"\\r\\n    },\\r\\n    \\\"descriptions\\\" : [ {\\r\\n      \\\"id\\\" : 0,\\r\\n      \\\"language\\\" : \\\"en\\\",\\r\\n      \\\"name\\\" : \\\"Tables\\\",\\r\\n      \\\"description\\\" : null,\\r\\n      \\\"friendlyUrl\\\" : \\\"tables\\\",\\r\\n      \\\"keyWords\\\" : null,\\r\\n      \\\"highlights\\\" : null,\\r\\n      \\\"metaDescription\\\" : null,\\r\\n      \\\"title\\\" : \\\"Nice tables !\\\"\\r\\n    }],\\r\\n    \\\"children\\\" : [ ]\\r\\n    }, \\r\\n    {\\r\\n    \\\"id\\\" : 0,\\r\\n    \\\"code\\\" : \\\"bench\\\",\\r\\n    \\\"sortOrder\\\" : 4,\\r\\n    \\\"visible\\\" : true,\\r\\n    \\\"lineage\\\" : null,\\r\\n    \\\"depth\\\" : 0,\\r\\n    \\\"parent\\\" : {\\r\\n      \\\"id\\\" : 0,\\r\\n      \\\"code\\\" : \\\"dining-room\\\"\\r\\n    },\\r\\n    \\\"descriptions\\\" : [ {\\r\\n      \\\"id\\\" : 0,\\r\\n      \\\"language\\\" : \\\"en\\\",\\r\\n      \\\"name\\\" : \\\"Benches\\\",\\r\\n      \\\"description\\\" : null,\\r\\n      \\\"friendlyUrl\\\" : \\\"benches\\\",\\r\\n      \\\"keyWords\\\" : null,\\r\\n      \\\"highlights\\\" : null,\\r\\n      \\\"metaDescription\\\" : null,\\r\\n      \\\"title\\\" : \\\"Benches\\\"\\r\\n    }],\\r\\n    \\\"children\\\" : [ ]\\r\\n    }\\r\\n    ]\\r\\n}\",\"method\":\"POST\",\"dataMode\":\"raw\"}",
+					"createdAt": "2017-09-22T15:33:22.000Z",
+					"updatedAt": "2017-09-22T15:33:22.000Z",
+					"write": true
+				}
+			],
+			"descriptionFormat": null,
+			"rawModeData": "{\r\n  \"code\" : \"dining-room\",\r\n  \"sortOrder\" : 0,\r\n  \"visible\" : true,\r\n  \"lineage\" : null,\r\n  \"depth\" : 0,\r\n  \"parent\" : null,\r\n  \"descriptions\" : [ {\r\n    \"id\" : 0,\r\n    \"language\" : \"en\",\r\n    \"name\" : \"Dining room\",\r\n    \"description\" : null,\r\n    \"friendlyUrl\" : \"dining-room\",\r\n    \"keyWords\" : null,\r\n    \"highlights\" : null,\r\n    \"metaDescription\" : null,\r\n    \"title\" : \"Dining room\"\r\n  } ],\r\n  \"children\" : [ \r\n   {\r\n    \"id\" : 0,\r\n    \"code\" : \"tables\",\r\n    \"sortOrder\" : 1,\r\n    \"visible\" : true,\r\n    \"lineage\" : null,\r\n    \"depth\" : 0,\r\n    \"parent\" : {\r\n      \"id\" : 0,\r\n      \"code\" : \"dining-room\"\r\n    },\r\n    \"descriptions\" : [ {\r\n      \"id\" : 0,\r\n      \"language\" : \"en\",\r\n      \"name\" : \"Tables\",\r\n      \"description\" : null,\r\n      \"friendlyUrl\" : \"tables\",\r\n      \"keyWords\" : null,\r\n      \"highlights\" : null,\r\n      \"metaDescription\" : null,\r\n      \"title\" : \"Nice tables !\"\r\n    }],\r\n    \"children\" : [ ]\r\n    }, \r\n    {\r\n    \"id\" : 0,\r\n    \"code\" : \"bench\",\r\n    \"sortOrder\" : 4,\r\n    \"visible\" : true,\r\n    \"lineage\" : null,\r\n    \"depth\" : 0,\r\n    \"parent\" : {\r\n      \"id\" : 0,\r\n      \"code\" : \"dining-room\"\r\n    },\r\n    \"descriptions\" : [ {\r\n      \"id\" : 0,\r\n      \"language\" : \"en\",\r\n      \"name\" : \"Benches\",\r\n      \"description\" : null,\r\n      \"friendlyUrl\" : \"benches\",\r\n      \"keyWords\" : null,\r\n      \"highlights\" : null,\r\n      \"metaDescription\" : null,\r\n      \"title\" : \"Benches\"\r\n    }],\r\n    \"children\" : [ ]\r\n    }\r\n    ]\r\n}"
+		},
+		{
+			"id": "cccf1aa5-0621-f972-560f-f1aca9e1a04d",
+			"headers": "Accept: application/json\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Accept",
+					"value": "application/json",
+					"enabled": true,
+					"description": ""
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"enabled": true,
+					"description": ""
+				}
+			],
+			"url": "localhost:8080/api/v1/search",
+			"folder": "869901fd-ebbd-566c-4458-9ef2d787f781",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1504621228065,
+			"name": "localhost:8080/api/v1/search",
+			"description": "API for the creation of a product\n\n{\n  \"query\":\"test\"\n}\n\nor when paging is required\n\n{\n  \"query\":\"test\",\n  \"start\":0,\n  \"count\":10 \n}\n\nNeed to have Elastic search server running",
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"responses": [
+				{
+					"owner": "1350207",
+					"lastUpdatedBy": "1350207",
+					"lastRevision": 2147483647,
+					"request": {
+						"url": "localhost:8080/api/v1/private/products",
+						"pathVariables": {},
+						"pathVariableData": [],
+						"queryParams": [],
+						"headerData": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"enabled": true,
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"enabled": true,
+								"description": ""
+							}
+						],
+						"headers": "Accept: application/json\nContent-Type: application/json\n",
+						"data": "{\r\n  \"price\" : 25.99,\r\n  \"quantity\" : 5,\r\n  \"sku\" : \"abcdef\",\r\n  \"quantityOrderMaximum\" : 2,\r\n  \"quantityOrderMinimum\" : 1,\r\n  \"productIsFree\" : false,\r\n  \"available\" : true,\r\n  \"visible\" : true,\r\n  \"productLength\" : 20,\r\n  \"productWidth\" : 20,\r\n  \"productHeight\" : 20,\r\n  \"productWeight\" : 20,\r\n  \"rating\" : 0.0,\r\n  \"ratingCount\" : 0,\r\n  \"sortOrder\" : 0,\r\n  \"dateAvailable\" : null,\r\n  \"condition\" : null,\r\n  \"rentalDuration\" : 0,\r\n  \"rentalStatus\" : null,\r\n  \"descriptions\" : [ {\r\n    \"language\" : \"en\",\r\n    \"name\" : \"Buddha Head\",\r\n    \"description\" : \"Buddha Head\",\r\n    \"keyWords\" : null,\r\n    \"highlights\" : \"Short description\",\r\n    \"title\" : \"Buddha Head\"\r\n  }],\r\n  \"categories\" : null,\r\n  \"relatedProducts\" : null,\r\n  \"manufacturer\" : null,\r\n  \"owner\" : {\r\n    \r\n  \"id\":1\r\n  }\r\n}",
+						"method": "POST",
+						"dataMode": "raw"
+					},
+					"id": "70b0fb45-6a80-c2f2-156c-470198377621",
+					"name": "localhost:8080/api/v1/private/products",
+					"status": "",
+					"responseCode": {
+						"code": 200,
+						"name": "OK"
+					},
+					"time": "0",
+					"headers": [],
+					"cookies": [],
+					"mime": "",
+					"text": "",
+					"language": "",
+					"rawDataType": "",
+					"state": null,
+					"previewType": "parsed",
+					"searchResultScrolledTo": "-1",
+					"version": null,
+					"requestObject": "{\"url\":\"localhost:8080/api/v1/private/products\",\"pathVariables\":{},\"pathVariableData\":[],\"queryParams\":[],\"headerData\":[{\"key\":\"Accept\",\"value\":\"application/json\",\"enabled\":true,\"description\":\"\"},{\"key\":\"Content-Type\",\"value\":\"application/json\",\"enabled\":true,\"description\":\"\"}],\"headers\":\"Accept: application/json\\nContent-Type: application/json\\n\",\"data\":\"{\\r\\n  \\\"price\\\" : 25.99,\\r\\n  \\\"quantity\\\" : 5,\\r\\n  \\\"sku\\\" : \\\"abcdef\\\",\\r\\n  \\\"quantityOrderMaximum\\\" : 2,\\r\\n  \\\"quantityOrderMinimum\\\" : 1,\\r\\n  \\\"productIsFree\\\" : false,\\r\\n  \\\"available\\\" : true,\\r\\n  \\\"visible\\\" : true,\\r\\n  \\\"productLength\\\" : 20,\\r\\n  \\\"productWidth\\\" : 20,\\r\\n  \\\"productHeight\\\" : 20,\\r\\n  \\\"productWeight\\\" : 20,\\r\\n  \\\"rating\\\" : 0.0,\\r\\n  \\\"ratingCount\\\" : 0,\\r\\n  \\\"sortOrder\\\" : 0,\\r\\n  \\\"dateAvailable\\\" : null,\\r\\n  \\\"condition\\\" : null,\\r\\n  \\\"rentalDuration\\\" : 0,\\r\\n  \\\"rentalStatus\\\" : null,\\r\\n  \\\"descriptions\\\" : [ {\\r\\n    \\\"language\\\" : \\\"en\\\",\\r\\n    \\\"name\\\" : \\\"Buddha Head\\\",\\r\\n    \\\"description\\\" : \\\"Buddha Head\\\",\\r\\n    \\\"keyWords\\\" : null,\\r\\n    \\\"highlights\\\" : \\\"Short description\\\",\\r\\n    \\\"title\\\" : \\\"Buddha Head\\\"\\r\\n  }],\\r\\n  \\\"categories\\\" : null,\\r\\n  \\\"relatedProducts\\\" : null,\\r\\n  \\\"manufacturer\\\" : null,\\r\\n  \\\"owner\\\" : {\\r\\n    \\r\\n  \\\"id\\\":1\\r\\n  }\\r\\n}\",\"method\":\"POST\",\"dataMode\":\"raw\"}",
+					"createdAt": "2017-09-05T14:14:40.000Z",
+					"updatedAt": "2017-09-05T14:14:40.000Z",
+					"write": true
+				}
+			],
+			"descriptionFormat": null,
+			"rawModeData": "{\r\n  \"query\":\"tag\",\r\n  \"start\":0,\r\n  \"count\":10\r\n}"
+		},
+		{
+			"id": "d5903412-6d11-7403-0ca2-9a1e9ebd9525",
+			"headers": "Accept: application/json\nContent-Type: application/json\nAuthorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huQGNzdGljb25zdWx0aW5nLmNvbSIsImF1ZCI6InVua25vd24iLCJleHAiOjE1MDc2NTMwMzQsImlhdCI6MTUwNzA0ODIzNH0.b-N0Amr_CPVMCdI4Svc7oZnKMQrICx1f9LoaD4i5-FCDypHlBUj7_l84ehSyW7q6HrJ7pCMSX370U1M4yD4zIw\n",
+			"headerData": [
+				{
+					"key": "Accept",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Authorization",
+					"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huQGNzdGljb25zdWx0aW5nLmNvbSIsImF1ZCI6InVua25vd24iLCJleHAiOjE1MDc2NTMwMzQsImlhdCI6MTUwNzA0ODIzNH0.b-N0Amr_CPVMCdI4Svc7oZnKMQrICx1f9LoaD4i5-FCDypHlBUj7_l84ehSyW7q6HrJ7pCMSX370U1M4yD4zIw",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "localhost:8080/api/v1/auth/products",
+			"folder": "7b91c544-0b63-7781-6fbb-cb08d1d1a4b7",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1507048545797,
+			"name": "localhost:8080/api/v1/auth/products - third item",
+			"description": "API for the creation of a product using customer authentication API. Requires a valid customer created",
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"responses": [
+				{
+					"owner": "1350207",
+					"lastUpdatedBy": "1350207",
+					"lastRevision": 2312911615,
+					"request": {},
+					"id": "950173a8-e094-07b9-67b4-b5dc35c68158",
+					"name": "localhost:8080/api/v1/private/products",
+					"status": "",
+					"responseCode": {
+						"code": 200,
+						"name": "OK"
+					},
+					"time": "0",
+					"headers": [],
+					"cookies": [],
+					"mime": "",
+					"text": "",
+					"language": "",
+					"rawDataType": "",
+					"state": null,
+					"previewType": "parsed",
+					"searchResultScrolledTo": "-1",
+					"version": null,
+					"requestObject": "5395f9cf-3797-e226-092c-80ae5dd24353",
+					"createdAt": "2017-10-02T17:45:21.000Z",
+					"updatedAt": "2017-10-02T17:45:21.000Z",
+					"write": true
+				}
+			],
+			"rawModeData": "{\r\n  \"price\" : 49.99,\r\n  \"quantity\" : 1,\r\n  \"sku\" : \"001unique\",\r\n  \"quantityOrderMaximum\" : 1,\r\n  \"quantityOrderMinimum\" : 1,\r\n  \"productIsFree\" : false,\r\n  \"available\" : true,\r\n  \"visible\" : true,\r\n  \"productLength\" : 0,\r\n  \"productWidth\" : 0,\r\n  \"productHeight\" : 0,\r\n  \"productWeight\" : 0,\r\n  \"rating\" : 0.0,\r\n  \"ratingCount\" : 0,\r\n  \"sortOrder\" : 0,\r\n  \"dateAvailable\" : \"2017-11-01\",\r\n  \"condition\" : \"NEW\",\r\n  \"rentalDuration\" : 10,\r\n  \"rentalPeriod\" : 3,\r\n  \"rentalStatus\" : \"AVAILABLE\",\r\n  \"descriptions\" : [ {\r\n    \"language\" : \"en\",\r\n    \"name\" : \"Jeep Cherokeel\",\r\n    \"description\" : \"Jeep Cherokee 2013, perfect condition, non smoker\",\r\n    \"keyWords\" : null,\r\n    \"highlights\" : \"Jeep Cherokee 2013\"\r\n  }],\r\n  \"categories\" : null,\r\n  \"relatedProducts\" : null,\r\n  \"manufacturer\" : null,\r\n  \"owner\" : {\r\n    \"id\":1\r\n  }\r\n}"
+		},
+		{
+			"id": "d87f1f4e-8fe5-d079-f749-e6871539b56c",
+			"headers": "Authorization: Basic YWRtaW46cGFzc3dvcmQ=\nAccept: \nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Basic YWRtaW46cGFzc3dvcmQ=",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Accept",
+					"value": "",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "localhost:8080/api/v1/private/customers/2/reviews",
+			"folder": "7b72249f-ad93-f830-befb-cc432829f5b3",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1506436278189,
+			"name": "localhost:8080/api/v1/private/customers/{id}/reviews",
+			"description": "Create a customer review\n\nThis requires having 2 customers customer 1 reviews customer 2\n\n/api/v1/private/customers/{reviewed customer id}/reviews",
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"rawModeData": "{\r\n  \"rating\":4.5,\r\n  \"description\" : \"Always on time, always premium quality !\",\r\n  \"customerId\" : 1\r\n}"
+		},
+		{
+			"folder": "672123c5-93ab-8101-3da3-709c43a30fc9",
+			"id": "daab2dd9-266f-9d60-81fd-a4985ef98544",
+			"name": "localhost:8080/api/v1/category",
+			"dataMode": "raw",
+			"data": [],
+			"descriptionFormat": null,
+			"description": "Ge all category. This returns the complete hierarchy",
+			"headers": "",
+			"method": "GET",
+			"pathVariables": {},
+			"url": "localhost:8080/api/v1/products/251",
+			"preRequestScript": null,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"queryParams": [],
+			"headerData": [],
+			"pathVariableData": [],
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"rawModeData": "{\r\n  \"price\" : 25.99,\r\n  \"quantity\" : 5,\r\n  \"sku\" : \"abcdef\",\r\n  \"quantityOrderMaximum\" : 2,\r\n  \"quantityOrderMinimum\" : 1,\r\n  \"productIsFree\" : false,\r\n  \"available\" : true,\r\n  \"visible\" : true,\r\n  \"productLength\" : 20,\r\n  \"productWidth\" : 20,\r\n  \"productHeight\" : 20,\r\n  \"productWeight\" : 20,\r\n  \"rating\" : 0.0,\r\n  \"ratingCount\" : 0,\r\n  \"sortOrder\" : 0,\r\n  \"dateAvailable\" : null,\r\n  \"condition\" : null,\r\n  \"rentalDuration\" : 0,\r\n  \"rentalStatus\" : null,\r\n  \"descriptions\" : [ {\r\n    \"language\" : \"en\",\r\n    \"name\" : \"Buddha Head\",\r\n    \"description\" : \"Buddha Head\",\r\n    \"keyWords\" : null,\r\n    \"highlights\" : \"Short description\",\r\n    \"title\" : \"Buddha Head\"\r\n  }],\r\n  \"categories\" : null,\r\n  \"relatedProducts\" : null,\r\n  \"manufacturer\" : null,\r\n  \"owner\" : {\r\n    \r\n  \"id\":1\r\n  }\r\n}"
+		},
+		{
+			"folder": "7b91c544-0b63-7781-6fbb-cb08d1d1a4b7",
+			"id": "e6e29485-e2c6-71df-7b6e-a0fcccbdc83a",
+			"name": "localhost:8080/api/v1/private/products/{id}/reviews",
+			"dataMode": "raw",
+			"data": [],
+			"descriptionFormat": "html",
+			"description": "API for the creation of a review associated with a product",
+			"headers": "Accept: application/json\nContent-Type: application/json\nAuthorization: Basic YWRtaW46cGFzc3dvcmQ=\n",
+			"method": "POST",
+			"pathVariables": {},
+			"url": "localhost:8080/api/v1/private/products/1/reviews",
+			"preRequestScript": null,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Accept",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Authorization",
+					"value": "Basic YWRtaW46cGFzc3dvcmQ=",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"pathVariableData": [],
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"rawModeData": "{\r\n  \"rating\":3.5,\r\n  \"description\" : \"Seems to be a good item compared to similar ones i wanted to test but the price was unfotunately above my budget. Thanks to the team !\",\r\n  \"productId\" : 1,\r\n  \"customerId\" : 1\r\n}"
+		},
+		{
+			"id": "ea899dba-4d4e-368c-8b81-fda7a66454f5",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "localhost:8080/api/v1/auth/register",
+			"folder": "7a1df60f-761b-9df6-f95b-e7062f2486ed",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1507048995661,
+			"name": "localhost:8080/api/v1/auth/register.",
+			"description": "Register a new Customer to the system. This is  a self serve service done by a Customer wanting to register to the system.\n\nTjis action ends up by the creation of a Customer with only reqyired fields.",
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"responses": [],
+			"rawModeData": "{\n\"emailAddress\":\"john@csticonsulting.com\",\n\"gender\":\"M\",\n\"language\":\"en\",\n\"userName\":\"john@csticonsulting.com\",\n\"clearPassword\":\"password\",\n\"billing\":{\n  \"address\":\"123 E Street\",\n  \"city\":\"Toronto\",\n  \"postalCode\":\"J4B 8J9\",\n  \"country\":\"CA\",\n  \"zone\":\"ON\",\n  \"firstName\":\"John\",\n  \"lastName\":\"Lastname\"\n  }\n}"
+		},
+		{
+			"id": "f4ac8665-acad-f3a5-a33b-c65de705f5dc",
+			"headers": "",
+			"headerData": [],
+			"url": "localhost:8080/api/v1/category/150",
+			"folder": "672123c5-93ab-8101-3da3-709c43a30fc9",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"name": "localhost:8080/api/v1/category/{id}",
+			"description": "Ge a category by id",
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"descriptionFormat": null,
+			"rawModeData": "{\r\n  \"price\" : 25.99,\r\n  \"quantity\" : 5,\r\n  \"sku\" : \"abcdef\",\r\n  \"quantityOrderMaximum\" : 2,\r\n  \"quantityOrderMinimum\" : 1,\r\n  \"productIsFree\" : false,\r\n  \"available\" : true,\r\n  \"visible\" : true,\r\n  \"productLength\" : 20,\r\n  \"productWidth\" : 20,\r\n  \"productHeight\" : 20,\r\n  \"productWeight\" : 20,\r\n  \"rating\" : 0.0,\r\n  \"ratingCount\" : 0,\r\n  \"sortOrder\" : 0,\r\n  \"dateAvailable\" : null,\r\n  \"condition\" : null,\r\n  \"rentalDuration\" : 0,\r\n  \"rentalStatus\" : null,\r\n  \"descriptions\" : [ {\r\n    \"language\" : \"en\",\r\n    \"name\" : \"Buddha Head\",\r\n    \"description\" : \"Buddha Head\",\r\n    \"keyWords\" : null,\r\n    \"highlights\" : \"Short description\",\r\n    \"title\" : \"Buddha Head\"\r\n  }],\r\n  \"categories\" : null,\r\n  \"relatedProducts\" : null,\r\n  \"manufacturer\" : null,\r\n  \"owner\" : {\r\n    \r\n  \"id\":1\r\n  }\r\n}"
+		},
+		{
+			"id": "faf566bd-bc4e-8eee-c3dd-5760c74b0233",
+			"headers": "Content-Type: application/json\nAccept: application/json\nAuthorization: Basic YWRtaW46cGFzc3dvcmQ=\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Accept",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Authorization",
+					"value": "Basic YWRtaW46cGFzc3dvcmQ=",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "localhost:8080/api/v1/private/customers",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "POST",
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"data": [],
+			"dataMode": "raw",
+			"name": "localhost:8080/api/v1/private/customers",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1506094100897,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"folder": "7b72249f-ad93-f830-befb-cc432829f5b3",
+			"rawModeData": "{\n\"emailAddress\":\"carl@csticonsulting.com\",\n\"gender\":\"M\",\n\"language\":\"en\",\n\"userName\":\"testuser\",\n\"clearPassword\":\"password\",\n\"billing\":{\n  \"address\":\"352 Du Languedoc\",\n  \"city\":\"Boucherville\",\n  \"postalCode\":\"J4B 8J9\",\n  \"country\":\"CA\",\n  \"zone\":\"QC\",\n  \"firstName\":\"Carl\",\n  \"lastName\":\"Samson\"\n  }\n}"
+		},
+		{
+			"id": "fbdb3a7a-21f1-148e-6512-d004d3b53fed",
+			"headers": "",
+			"headerData": [],
+			"url": "localhost:8080/api/v1/products",
+			"folder": "869901fd-ebbd-566c-4458-9ef2d787f781",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1504708554002,
+			"name": "localhost:8080/api/v1/products",
+			"description": "List all products\n\ncriterias can be allplied\n\n?category={id}\n&manufacturer={}\n&status={status}\n&owner={id}\n&start={start index (by default 0)}\n&count={max count}",
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"descriptionFormat": null,
+			"rawModeData": "{\r\n  \"price\" : 25.99,\r\n  \"quantity\" : 5,\r\n  \"sku\" : \"abcdef\",\r\n  \"quantityOrderMaximum\" : 2,\r\n  \"quantityOrderMinimum\" : 1,\r\n  \"productIsFree\" : false,\r\n  \"available\" : true,\r\n  \"visible\" : true,\r\n  \"productLength\" : 20,\r\n  \"productWidth\" : 20,\r\n  \"productHeight\" : 20,\r\n  \"productWeight\" : 20,\r\n  \"rating\" : 0.0,\r\n  \"ratingCount\" : 0,\r\n  \"sortOrder\" : 0,\r\n  \"dateAvailable\" : null,\r\n  \"condition\" : null,\r\n  \"rentalDuration\" : 0,\r\n  \"rentalStatus\" : null,\r\n  \"descriptions\" : [ {\r\n    \"language\" : \"en\",\r\n    \"name\" : \"Buddha Head\",\r\n    \"description\" : \"Buddha Head\",\r\n    \"keyWords\" : null,\r\n    \"highlights\" : \"Short description\",\r\n    \"title\" : \"Buddha Head\"\r\n  }],\r\n  \"categories\" : null,\r\n  \"relatedProducts\" : null,\r\n  \"manufacturer\" : null,\r\n  \"owner\" : {\r\n    \r\n  \"id\":1\r\n  }\r\n}"
+		},
+		{
+			"id": "fc1e5dca-9ed7-dcdc-e625-f5b38132a736",
+			"headers": "Accept: application/json\nContent-Type: application/json\nAuthorization: Basic YWRtaW46cGFzc3dvcmQ=\n",
+			"headerData": [
+				{
+					"key": "Accept",
+					"value": "application/json",
+					"enabled": true,
+					"description": ""
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"enabled": true,
+					"description": ""
+				},
+				{
+					"key": "Authorization",
+					"value": "Basic YWRtaW46cGFzc3dvcmQ=",
+					"enabled": true,
+					"description": ""
+				}
+			],
+			"url": "localhost:8080/api/v1/private/products/2/category/2",
+			"folder": "7b91c544-0b63-7781-6fbb-cb08d1d1a4b7",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": "{}",
+			"time": 1506014367002,
+			"name": "localhost:8080/api/v1/private/products/{productId}/category/{categoryId}",
+			"description": "Add a product to a category\n\nThis url adds product ID 251 to category 100\n\n*** Return object has no category",
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"responses": [],
+			"descriptionFormat": null,
+			"rawModeData": "{\r\n  \"price\" : 25.99,\r\n  \"quantity\" : 5,\r\n  \"sku\" : \"abcdef\",\r\n  \"quantityOrderMaximum\" : 2,\r\n  \"quantityOrderMinimum\" : 1,\r\n  \"productIsFree\" : false,\r\n  \"available\" : true,\r\n  \"visible\" : true,\r\n  \"productLength\" : 20,\r\n  \"productWidth\" : 20,\r\n  \"productHeight\" : 20,\r\n  \"productWeight\" : 20,\r\n  \"rating\" : 0.0,\r\n  \"ratingCount\" : 0,\r\n  \"sortOrder\" : 0,\r\n  \"dateAvailable\" : null,\r\n  \"condition\" : null,\r\n  \"rentalDuration\" : 0,\r\n  \"rentalStatus\" : null,\r\n  \"descriptions\" : [ {\r\n    \"language\" : \"en\",\r\n    \"name\" : \"Buddha Head\",\r\n    \"description\" : \"Buddha Head\",\r\n    \"keyWords\" : null,\r\n    \"highlights\" : \"Short description\",\r\n    \"title\" : \"Buddha Head\"\r\n  }],\r\n  \"categories\" : null,\r\n  \"relatedProducts\" : null,\r\n  \"manufacturer\" : null,\r\n  \"owner\" : {\r\n    \r\n  \"id\":1\r\n  }\r\n}"
+		},
+		{
+			"id": "fff0eb99-a0d7-4ed5-9266-5e276fb36e95",
+			"headers": "",
+			"headerData": [],
+			"url": "localhost:8080/api/v1/manufacturers/1",
+			"folder": "ea184b94-7c56-9a2a-9061-d3e24c71d880",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1505321205846,
+			"name": "localhost:8080/api/v1/manufacturers/{id}",
+			"description": "Ge a manufacturer by id",
+			"collectionId": "2915ed8c-5bd6-3955-ccae-b4937e431de7",
+			"rawModeData": "{\r\n  \"price\" : 25.99,\r\n  \"quantity\" : 5,\r\n  \"sku\" : \"abcdef\",\r\n  \"quantityOrderMaximum\" : 2,\r\n  \"quantityOrderMinimum\" : 1,\r\n  \"productIsFree\" : false,\r\n  \"available\" : true,\r\n  \"visible\" : true,\r\n  \"productLength\" : 20,\r\n  \"productWidth\" : 20,\r\n  \"productHeight\" : 20,\r\n  \"productWeight\" : 20,\r\n  \"rating\" : 0.0,\r\n  \"ratingCount\" : 0,\r\n  \"sortOrder\" : 0,\r\n  \"dateAvailable\" : null,\r\n  \"condition\" : null,\r\n  \"rentalDuration\" : 0,\r\n  \"rentalStatus\" : null,\r\n  \"descriptions\" : [ {\r\n    \"language\" : \"en\",\r\n    \"name\" : \"Buddha Head\",\r\n    \"description\" : \"Buddha Head\",\r\n    \"keyWords\" : null,\r\n    \"highlights\" : \"Short description\",\r\n    \"title\" : \"Buddha Head\"\r\n  }],\r\n  \"categories\" : null,\r\n  \"relatedProducts\" : null,\r\n  \"manufacturer\" : null,\r\n  \"owner\" : {\r\n    \r\n  \"id\":1\r\n  }\r\n}"
+		}
+	]
+}

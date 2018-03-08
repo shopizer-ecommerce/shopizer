@@ -81,7 +81,7 @@ public class ManufacturerServiceImpl extends
 
 		LOGGER.debug("Creating Manufacturer");
 		
-		if(manufacturer.getId()!=null && manufacturer.getId()>0) {
+		if(manufacturer.getId()!=null && manufacturer.getId().longValue()>0) {
 		   super.update(manufacturer);  
 			
 		} else {						

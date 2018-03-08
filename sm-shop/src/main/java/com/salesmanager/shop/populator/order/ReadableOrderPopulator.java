@@ -1,19 +1,20 @@
 package com.salesmanager.shop.populator.order;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.utils.AbstractDataPopulator;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.Order;
 import com.salesmanager.core.model.order.OrderTotal;
 import com.salesmanager.core.model.order.OrderTotalType;
+import com.salesmanager.core.model.order.attributes.OrderAttribute;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.customer.Address;
 import com.salesmanager.shop.model.customer.ReadableDelivery;
 import com.salesmanager.shop.model.order.ReadableOrder;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ReadableOrderPopulator extends
 		AbstractDataPopulator<Order, ReadableOrder> {
@@ -29,6 +30,12 @@ public class ReadableOrderPopulator extends
 		target.setOrderStatus(source.getStatus());
 		target.setCurrency(source.getCurrency().getCode());
 		target.setCurrencyModel(source.getCurrency());
+		
+		target.setPaymentType(source.getPaymentType());
+		target.setPaymentModule(source.getPaymentModuleCode());
+		target.setShippingModule(source.getShippingModuleCode());
+		
+		
 		if(source.getCustomerAgreement()!=null) {
 			target.setCustomerAgreed(source.getCustomerAgreement());
 		}
@@ -36,8 +43,8 @@ public class ReadableOrderPopulator extends
 			target.setConfirmedAddress(source.getConfirmedAddress());
 		}
 		
-		com.salesmanager.shop.model.order.OrderTotal taxTotal = null;
-		com.salesmanager.shop.model.order.OrderTotal shippingTotal = null;
+		com.salesmanager.shop.model.order.total.OrderTotal taxTotal = null;
+		com.salesmanager.shop.model.order.total.OrderTotal shippingTotal = null;
 		
 		
 		if(source.getBilling()!=null) {
@@ -59,6 +66,15 @@ public class ReadableOrderPopulator extends
 			target.setBilling(address);
 		}
 		
+		if(source.getOrderAttributes()!=null && source.getOrderAttributes().size()>0) {
+			for(OrderAttribute attr : source.getOrderAttributes()) {
+				com.salesmanager.shop.model.order.OrderAttribute a = new com.salesmanager.shop.model.order.OrderAttribute();
+				a.setKey(attr.getKey());
+				a.setValue(attr.getValue());
+				target.getAttributes().add(a);
+			}
+		}
+		
 		if(source.getDelivery()!=null) {
 			ReadableDelivery address = new ReadableDelivery();
 			address.setCity(source.getDelivery().getCity());
@@ -78,18 +94,18 @@ public class ReadableOrderPopulator extends
 			target.setDelivery(address);
 		}
 		
-		List<com.salesmanager.shop.model.order.OrderTotal> totals = new ArrayList<com.salesmanager.shop.model.order.OrderTotal>();
+		List<com.salesmanager.shop.model.order.total.OrderTotal> totals = new ArrayList<com.salesmanager.shop.model.order.total.OrderTotal>();
 		for(OrderTotal t : source.getOrderTotal()) {
 			if(t.getOrderTotalType()==null) {
 				continue;
 			}
 			if(t.getOrderTotalType().name().equals(OrderTotalType.TOTAL.name())) {
-				com.salesmanager.shop.model.order.OrderTotal totalTotal = createTotal(t);
+				com.salesmanager.shop.model.order.total.OrderTotal totalTotal = createTotal(t);
 				target.setTotal(totalTotal);
 				totals.add(totalTotal);
 			}
 			else if(t.getOrderTotalType().name().equals(OrderTotalType.TAX.name())) {
-				com.salesmanager.shop.model.order.OrderTotal totalTotal = createTotal(t);
+				com.salesmanager.shop.model.order.total.OrderTotal totalTotal = createTotal(t);
 				if(taxTotal==null) {
 					taxTotal = totalTotal;
 				} else {
@@ -101,7 +117,7 @@ public class ReadableOrderPopulator extends
 				totals.add(totalTotal);
 			}
 			else if(t.getOrderTotalType().name().equals(OrderTotalType.SHIPPING.name())) {
-				com.salesmanager.shop.model.order.OrderTotal totalTotal = createTotal(t);
+				com.salesmanager.shop.model.order.total.OrderTotal totalTotal = createTotal(t);
 				if(shippingTotal==null) {
 					shippingTotal = totalTotal;
 				} else {
@@ -113,7 +129,7 @@ public class ReadableOrderPopulator extends
 				totals.add(totalTotal);
 			}
 			else if(t.getOrderTotalType().name().equals(OrderTotalType.HANDLING.name())) {
-				com.salesmanager.shop.model.order.OrderTotal totalTotal = createTotal(t);
+				com.salesmanager.shop.model.order.total.OrderTotal totalTotal = createTotal(t);
 				if(shippingTotal==null) {
 					shippingTotal = totalTotal;
 				} else {
@@ -125,12 +141,12 @@ public class ReadableOrderPopulator extends
 				totals.add(totalTotal);
 			}
 			else if(t.getOrderTotalType().name().equals(OrderTotalType.SUBTOTAL.name())) {
-				com.salesmanager.shop.model.order.OrderTotal subTotal = createTotal(t);
+				com.salesmanager.shop.model.order.total.OrderTotal subTotal = createTotal(t);
 				totals.add(subTotal);
 				
 			}
 			else {
-				com.salesmanager.shop.model.order.OrderTotal otherTotal = createTotal(t);
+				com.salesmanager.shop.model.order.total.OrderTotal otherTotal = createTotal(t);
 				totals.add(otherTotal);
 			}
 		}
@@ -140,8 +156,8 @@ public class ReadableOrderPopulator extends
 		return target;
 	}
 	
-	private com.salesmanager.shop.model.order.OrderTotal createTotal(OrderTotal t) {
-		com.salesmanager.shop.model.order.OrderTotal totalTotal = new com.salesmanager.shop.model.order.OrderTotal();
+	private com.salesmanager.shop.model.order.total.OrderTotal createTotal(OrderTotal t) {
+		com.salesmanager.shop.model.order.total.OrderTotal totalTotal = new com.salesmanager.shop.model.order.total.OrderTotal();
 		totalTotal.setCode(t.getOrderTotalCode());
 		totalTotal.setId(t.getId());
 		totalTotal.setModule(t.getModule());

@@ -27,13 +27,17 @@ public class CustomerEntity extends Customer implements Serializable {
 	private String firstName;
 	private String lastName;
 	
-	private String encodedPassword = null;
-	private String clearPassword = null;
+	private String provider;//online, facebook ...
+
 	
 	private String storeCode;
 	
 	@NotEmpty(message="{NotEmpty.customer.userName}")
+	//can be email or anything else
 	private String userName;
+	
+	private Double rating = 0D;
+	private int ratingCount;
 	
 	public void setUserName(final String userName) {
 		this.userName = userName;
@@ -111,20 +115,29 @@ public class CustomerEntity extends Customer implements Serializable {
 		this.lastName = lastName;
 	}
 
-	public String getEncodedPassword() {
-		return encodedPassword;
+
+	public int getRatingCount() {
+		return ratingCount;
 	}
 
-	public void setEncodedPassword(String encodedPassword) {
-		this.encodedPassword = encodedPassword;
+	public void setRatingCount(int ratingCount) {
+		this.ratingCount = ratingCount;
 	}
 
-	public String getClearPassword() {
-		return clearPassword;
+	public Double getRating() {
+		return rating;
 	}
 
-	public void setClearPassword(String clearPassword) {
-		this.clearPassword = clearPassword;
+	public void setRating(Double rating) {
+		this.rating = rating;
+	}
+
+	public String getProvider() {
+		return provider;
+	}
+
+	public void setProvider(String provider) {
+		this.provider = provider;
 	}
 
 

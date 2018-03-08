@@ -10,6 +10,7 @@ import com.salesmanager.core.business.services.reference.country.CountryService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.business.services.reference.zone.ZoneService;
 import com.salesmanager.core.business.services.system.EmailService;
+import com.salesmanager.core.business.services.user.GroupService;
 import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
 import com.salesmanager.core.model.customer.Customer;
@@ -23,6 +24,8 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.country.Country;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.reference.zone.Zone;
+import com.salesmanager.core.model.user.Group;
+import com.salesmanager.core.model.user.GroupType;
 import com.salesmanager.shop.admin.model.customer.attribute.CustomerOption;
 import com.salesmanager.shop.admin.model.customer.attribute.CustomerOptionValue;
 import com.salesmanager.shop.admin.model.userpassword.UserReset;
@@ -75,6 +78,9 @@ public class CustomerController {
 	private LabelUtils messages;
 	
 	@Inject
+	private GroupService groupService;
+	
+	@Inject
 	private CustomerService customerService;
 	
 	@Inject
@@ -123,6 +129,15 @@ public class CustomerController {
 			
 		//display menu
 		this.setMenu(model, request);
+		
+		//get groups
+		List<Group> groups = new ArrayList<Group>();
+		List<Group> userGroups = groupService.listGroup(GroupType.CUSTOMER);
+		for(Group group : userGroups) {
+			groups.add(group);
+		}
+		
+		model.addAttribute("groups",groups);
 		
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		
@@ -238,6 +253,15 @@ public class CustomerController {
 		
 		model.addAttribute("languages",languages);
 		
+		//get groups
+		List<Group> groups = new ArrayList<Group>();
+		List<Group> userGroups = groupService.listGroup(GroupType.CUSTOMER);
+		for(Group group : userGroups) {
+			groups.add(group);
+		}
+		
+		model.addAttribute("groups",groups);
+		
 		this.getCustomerOptions(model, customer, store, language);
 		
 		//get countries
@@ -320,6 +344,15 @@ public class CustomerController {
 			newCustomer.setMerchantStore(merchantStore);
 		}
 		
+		List<Group> submitedGroups = customer.getGroups();
+		Set<Integer> ids = new HashSet<Integer>();
+		for(Group group : submitedGroups) {
+			ids.add(Integer.parseInt(group.getGroupName()));
+		}
+		
+		List<Group> newGroups = groupService.listGroupByIds(ids);
+		newCustomer.setGroups(newGroups);
+		
 
 		newCustomer.setEmailAddress(customer.getEmailAddress() );		
 		
@@ -332,22 +365,30 @@ public class CustomerController {
 		
 
 		
-		if (customer.getShowDeliveryStateList().equalsIgnoreCase("yes" )) {
-			deliveryZone = zoneService.getByCode(customer.getDelivery().getZone().getCode(), deliveryCountry);
-			customer.getDelivery().setState( null );
+		if ("yes".equalsIgnoreCase(customer.getShowDeliveryStateList())) {
+			if(customer.getDelivery().getZone()!=null) {
+				deliveryZone = zoneService.getByCode(customer.getDelivery().getZone().getCode());
+				customer.getDelivery().setState( null );
+			}
 			
-		}else if (customer.getShowDeliveryStateList().equalsIgnoreCase("no" )){
-			deliveryZone = null ;
-			customer.getDelivery().setState( customer.getDelivery().getState() );
+		}else if ("no".equalsIgnoreCase(customer.getShowDeliveryStateList())){
+			if(customer.getDelivery().getState()!=null) {
+				deliveryZone = null ;
+				customer.getDelivery().setState( customer.getDelivery().getState() );
+			}
 		}
 	
-		if (customer.getShowBillingStateList().equalsIgnoreCase("yes" )) {
-			billingZone = zoneService.getByCode(customer.getBilling().getZone().getCode(), billingCountry);
-			customer.getBilling().setState( null );
+		if ("yes".equalsIgnoreCase(customer.getShowBillingStateList())) {
+			if(customer.getBilling().getZone()!=null) {
+				billingZone = zoneService.getByCode(customer.getBilling().getZone().getCode());
+				customer.getBilling().setState( null );
+			}
 			
-		}else if (customer.getShowBillingStateList().equalsIgnoreCase("no" )){
-			billingZone = null ;
-			customer.getBilling().setState( customer.getBilling().getState() );
+		}else if ("no".equalsIgnoreCase(customer.getShowBillingStateList())){
+			if(customer.getBilling().getState()!=null) {
+				billingZone = null ;
+				customer.getBilling().setState( customer.getBilling().getState() );
+			}
 		}
 				
 

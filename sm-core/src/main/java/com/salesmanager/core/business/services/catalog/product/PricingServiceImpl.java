@@ -54,6 +54,11 @@ public class PricingServiceImpl implements PricingService {
 		/** TODO add rules for price calculation **/
 		return priceUtil.getFinalProductPrice(product, attributes);
 	}
+	
+	@Override
+	public BigDecimal calculatePriceQuantity(BigDecimal price, int quantity) {
+		return price.multiply(new BigDecimal(quantity));
+	}
 
 	@Override
 	public String getDisplayAmount(BigDecimal amount, MerchantStore store) throws ServiceException {
@@ -88,6 +93,18 @@ public class PricingServiceImpl implements PricingService {
 			LOGGER.error("An error occured when trying to format an amount " + amount.toString());
 			throw new ServiceException(e);
 		}
+	}
+
+	@Override
+	public BigDecimal getAmount(String amount) throws ServiceException {
+
+		try {
+			return priceUtil.getAmount(amount);
+		} catch (Exception e) {
+			LOGGER.error("An error occured when trying to format an amount " + amount);
+			throw new ServiceException(e);
+		}
+
 	}
 
 

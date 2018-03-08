@@ -3,6 +3,9 @@ package com.salesmanager.shop.model.order;
 import java.io.Serializable;
 import java.util.List;
 
+import com.salesmanager.shop.model.order.shipping.ReadableShippingSummary;
+import com.salesmanager.shop.model.order.total.ReadableOrderTotal;
+
 public class ReadableShopOrder extends ReadableOrder implements Serializable {
 
 	/**

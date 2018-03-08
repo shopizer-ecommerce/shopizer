@@ -31,7 +31,7 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
  */
 @Entity
 @EntityListeners(value = AuditListener.class)
-@Table(name = "CUSTMER_OPTIN", schema= SchemaConstant.SALESMANAGER_SCHEMA,uniqueConstraints=
+@Table(name = "CUSTOMER_OPTIN", schema= SchemaConstant.SALESMANAGER_SCHEMA,uniqueConstraints=
 @UniqueConstraint(columnNames = {"EMAIL", "OPTIN_ID"}))
 public class CustomerOptin extends SalesManagerEntity<Long, CustomerOptin> implements Serializable {
 

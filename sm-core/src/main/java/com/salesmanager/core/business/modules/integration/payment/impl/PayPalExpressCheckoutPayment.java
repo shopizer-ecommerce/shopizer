@@ -151,6 +151,9 @@ public class PayPalExpressCheckoutPayment implements PaymentModule {
 			IntegrationConfiguration configuration, IntegrationModule module)
 			throws IntegrationException {
 		
+			Validate.notNull(configuration, "Configuration must not be null");
+			Validate.notNull(payment, "Payment must not be null");
+			Validate.notNull(summary, "OrderTotalSummary must not be null");
 		
 
 		try {

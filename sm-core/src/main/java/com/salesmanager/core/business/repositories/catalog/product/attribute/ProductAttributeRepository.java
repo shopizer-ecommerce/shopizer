@@ -15,12 +15,12 @@ public interface ProductAttributeRepository extends JpaRepository<ProductAttribu
 	@Query("select p from ProductAttribute p join fetch p.product pr left join fetch p.productOption po left join fetch p.productOptionValue pov left join fetch po.descriptions pod left join fetch pov.descriptions povd left join fetch po.merchantStore pom where pom.id = ?1 and po.id = ?2")
 	List<ProductAttribute> findByOptionId(Integer storeId, Long id);
 	
-	@Query("select p from ProductAttribute p join fetch p.product pr left join fetch p.productOption po left join fetch p.productOptionValue pov left join fetch po.descriptions pod left join fetch pov.descriptions povd left join fetch po.merchantStore pom where pom.id = ?1 and po.id = ?2")
+	@Query("select distinct p from ProductAttribute p join fetch p.product pr left join fetch p.productOption po left join fetch p.productOptionValue pov left join fetch po.descriptions pod left join fetch pov.descriptions povd left join fetch po.merchantStore pom where pom.id = ?1 and po.id = ?2")
 	List<ProductAttribute> findByOptionValueId(Integer storeId, Long id);
 	
-	@Query("select p from ProductAttribute p join fetch p.product pr left join fetch p.productOption po left join fetch p.productOptionValue pov left join fetch po.descriptions pod left join fetch pov.descriptions povd left join fetch pov.merchantStore povm where povm.id = ?1 and pr.id = ?2 and p.id in ?3")
+	@Query("select distinct p from ProductAttribute p join fetch p.product pr left join fetch p.productOption po left join fetch p.productOptionValue pov left join fetch po.descriptions pod left join fetch pov.descriptions povd left join fetch pov.merchantStore povm where povm.id = ?1 and pr.id = ?2 and p.id in ?3")
 	List<ProductAttribute> findByAttributeIds(Integer storeId, Long productId, List<Long> ids);
 	
-	@Query("select p from ProductAttribute p join fetch p.product pr left join fetch p.productOption po left join fetch p.productOptionValue pov left join fetch po.descriptions pod left join fetch pov.descriptions povd left join fetch po.merchantStore pom where pom.id = ?1 and pr.id = ?2 and povd.language.id = ?3")
+	@Query("select distinct p from ProductAttribute p join fetch p.product pr left join fetch p.productOption po left join fetch p.productOptionValue pov left join fetch po.descriptions pod left join fetch pov.descriptions povd left join fetch po.merchantStore pom where pom.id = ?1 and pr.id = ?2 and povd.language.id = ?3")
 	List<ProductAttribute> findByProductId(Integer storeId, Long productId, Integer languageId);
 }

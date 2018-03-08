@@ -1,9 +1,8 @@
 package com.salesmanager.shop.populator.catalog;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.inject.Inject;
 
 import org.apache.commons.lang.Validate;
 
@@ -28,13 +27,13 @@ public class PersistableProductReviewPopulator extends
 	
 	
 	
-	@Inject
+
 	private CustomerService customerService;
 	
-	@Inject
+
 	private ProductService productService;
 	
-	@Inject
+
 	private LanguageService languageService;
 	
 
@@ -56,6 +55,7 @@ public class PersistableProductReviewPopulator extends
 		Validate.notNull(customerService,"customerService cannot be null");
 		Validate.notNull(productService,"productService cannot be null");
 		Validate.notNull(languageService,"languageService cannot be null");
+		Validate.notNull(source.getRating(),"Rating cannot bot be null");
 		
 		try {
 			
@@ -70,6 +70,10 @@ public class PersistableProductReviewPopulator extends
 				throw new ConversionException("Invalid customer id for the given store");
 			}
 			
+			if(source.getDate() == null) {
+				String date = DateUtil.formatDate(new Date());
+				source.setDate(date);
+			}
 			target.setReviewDate(DateUtil.getDate(source.getDate()));
 			target.setCustomer(customer);
 			target.setReviewRating(source.getRating());

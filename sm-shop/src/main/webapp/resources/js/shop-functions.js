@@ -20,9 +20,25 @@ function log(value) {
 	}
 }
 
-function loadProducts(url,divProductsContainer) {
-	$(divProductsContainer).showLoading();
+function showSMLoading(element) {
+	if ($.isFunction(showTemplateLoading)) {
+		showTemplateLoading(element);
+	} else {
+		$(element).showLoading();
+	}
+	
+}
 
+function hideSMLoading(element) {
+	if ($.isFunction(hideTemplateLoading)) {
+		hideTemplateLoading(element);
+	} else {
+		$(element).hideLoading();
+	}
+}
+
+function loadProducts(url,divProductsContainer) {
+	showSMLoading(divProductsContainer);
 	$.ajax({
 			type: 'POST',
 			dataType: "json",
@@ -35,7 +51,7 @@ function loadProducts(url,divProductsContainer) {
 
 			},
 			error: function(jqXHR,textStatus,errorThrown) { 
-				$(divProductsContainer).hideLoading();
+				hideSMLoading(divProductsContainer);
 				alert('Error ' + jqXHR + "-" + textStatus + "-" + errorThrown);
 			}
 			
@@ -44,6 +60,7 @@ function loadProducts(url,divProductsContainer) {
 	
 	
 }
+
 
 
 function searchProducts(url,divProductsContainer,q,filter) {

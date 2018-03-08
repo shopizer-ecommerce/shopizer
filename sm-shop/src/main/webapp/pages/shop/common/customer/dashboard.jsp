@@ -116,7 +116,7 @@ $(document).ready(function() {
 							<input id="customer" type="hidden" value="<c:out value="${requestScope.CUSTOMER.id}"/>" name="customer">
 							
 							<div class="form-actions">
-		                 			<button type="submit" class="btn btn-large"><s:message code="button.label.submit2" text="Submit"/></button>
+		                 			<button type="submit" class="btn btn-large template-btn"><s:message code="button.label.submit2" text="Submit"/></button>
 		           	  		 </div>
 		
 		
@@ -130,8 +130,7 @@ $(document).ready(function() {
 						
 				</c:if>
 
-		
-				 </br>
+
 				 <c:if test="${requestScope.CONTENT['DASHBOARD']!=null}">
 			     <div class="row-fluid">	
 			     	<div class="span-12 col-md-12 common-row">
@@ -139,8 +138,7 @@ $(document).ready(function() {
 			     	</div>
 			     </div>
 			     </c:if>
-		
-				 </br>
+
 			     <div class="row-fluid">
 			
 			

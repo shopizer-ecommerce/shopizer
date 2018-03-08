@@ -31,10 +31,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long>, Categ
 	
 	@Query("select c from Category c left join fetch c.descriptions cd join fetch cd.language cdl join fetch c.merchantStore cm where cdl.id=?2 and c.id = ?1")
 	Category findById(Long categoryId, Integer languageId);
-	
-	//@Query("select c from Category c left join fetch c.descriptions cd join fetch c.merchantStore cm where cd.language.id=?2 and c.id = ?1")
-	//List<Category> findById(Long categoryId, Integer languageId);
-	
+
 	@Query("select c from Category c left join fetch c.descriptions cd join fetch cd.language cdl join fetch c.merchantStore cm where cm.code=?1 and c.code=?2")
 	public Category findByCode(String merchantStoreCode, String code);
 	
@@ -53,9 +50,9 @@ public interface CategoryRepository extends JpaRepository<Category, Long>, Categ
 	@Query("select distinct c from Category c left join fetch c.descriptions cd join fetch cd.language cdl join fetch c.merchantStore cm where cm.id=?1 and cdl.id=?3 and c.depth >= ?2 order by c.lineage, c.sortOrder asc")
 	public List<Category> findByDepth(Integer merchantId, int depth, Integer languageId);
 	
-	//@Query("select distinct c from Category c left join fetch c.descriptions cd join fetch c.merchantStore cm left join fetch c.parent cp where cm.id=?1 and cp.id=?2 and cd.language.id=?3 order by c.lineage, c.sortOrder asc")
-	//public List<Category> findByParent(Integer merchantId, Long parentId, Integer languageId);
-	
+	@Query("select distinct c from Category c left join fetch c.descriptions cd join fetch cd.language cdl join fetch c.merchantStore cm where cm.id=?1 and cdl.id=?3 and c.depth >= ?2 and c.featured=true order by c.lineage, c.sortOrder asc")
+	public List<Category> findByDepthFilterByFeatured(Integer merchantId, int depth, Integer languageId);
+
 	@Query("select distinct c from Category c left join fetch c.descriptions cd join fetch cd.language cdl join fetch c.merchantStore cm left join fetch c.parent cp where cp.id=?1 and cdl.id=?2 order by c.lineage, c.sortOrder asc")
 	public List<Category> findByParent(Long parentId, Integer languageId);
 	

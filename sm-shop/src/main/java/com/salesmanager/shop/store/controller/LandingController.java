@@ -1,6 +1,7 @@
 package com.salesmanager.shop.store.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -35,6 +36,7 @@ import com.salesmanager.shop.model.shop.BreadcrumbItem;
 import com.salesmanager.shop.model.shop.BreadcrumbItemType;
 import com.salesmanager.shop.model.shop.PageInformation;
 import com.salesmanager.shop.populator.catalog.ReadableProductPopulator;
+import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.ImageFilePath;
 import com.salesmanager.shop.utils.LabelUtils;
 
@@ -102,10 +104,8 @@ public class LandingController {
 		if(content!=null) {
 			
 			ContentDescription description = content.getDescription();
-			
-			
+
 			model.addAttribute("page",description);
-			
 			
 			PageInformation pageInformation = new PageInformation();
 			pageInformation.setPageTitle(description.getName());
@@ -124,12 +124,13 @@ public class LandingController {
 		//featured items
 		List<ProductRelationship> relationships = productRelationshipService.getByType(store, ProductRelationshipType.FEATURED_ITEM, language);
 		List<ReadableProduct> featuredItems = new ArrayList<ReadableProduct>();
+		Date today = new Date();
 		for(ProductRelationship relationship : relationships) {
-			
 			Product product = relationship.getRelatedProduct();
-			ReadableProduct proxyProduct = populator.populate(product, new ReadableProduct(), store, language);
-
-			featuredItems.add(proxyProduct);
+			if(product.isAvailable() && DateUtil.dateBeforeEqualsDate(product.getDateAvailable(), today)) {
+				ReadableProduct proxyProduct = populator.populate(product, new ReadableProduct(), store, language);
+			    featuredItems.add(proxyProduct);
+			}
 		}
 
 		

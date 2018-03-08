@@ -1,5 +1,27 @@
 package com.salesmanager.shop.store.controller.shoppingCart;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.UUID;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductAttributeService;
@@ -20,18 +42,6 @@ import com.salesmanager.shop.store.controller.ControllerConstants;
 import com.salesmanager.shop.store.controller.shoppingCart.facade.ShoppingCartFacade;
 import com.salesmanager.shop.utils.LabelUtils;
 import com.salesmanager.shop.utils.LanguageUtils;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.*;
 
 
 /**
@@ -125,8 +135,7 @@ public class ShoppingCartController extends AbstractController {
 
 
 		ShoppingCartData shoppingCart=null;
-
-
+		
 
 		//Look in the HttpSession to see if a customer is logged in
 	    MerchantStore store = getSessionAttribute(Constants.MERCHANT_STORE, request);
@@ -137,7 +146,7 @@ public class ShoppingCartController extends AbstractController {
 		if(customer != null) {
 			com.salesmanager.core.model.shoppingcart.ShoppingCart customerCart = shoppingCartService.getByCustomer(customer);
 			if(customerCart!=null) {
-				shoppingCart = shoppingCartFacade.getShoppingCartData( customerCart);
+				shoppingCart = shoppingCartFacade.getShoppingCartData( customerCart, language);
 
 
 				//TODO if shoppingCart != null ?? merge
@@ -148,7 +157,7 @@ public class ShoppingCartController extends AbstractController {
 
 		
 		if(shoppingCart==null && !StringUtils.isBlank(item.getCode())) {
-			shoppingCart = shoppingCartFacade.getShoppingCartData(item.getCode(), store);
+			shoppingCart = shoppingCartFacade.getShoppingCartData(item.getCode(), store, language);
 		}
 
 
@@ -216,6 +225,8 @@ public class ShoppingCartController extends AbstractController {
 
         LOG.debug( "Starting to calculate shopping cart..." );
         
+        Language language = (Language)request.getAttribute(Constants.LANGUAGE);
+        
         
 		//meta information
 		PageInformation pageInformation = new PageInformation();
@@ -236,7 +247,14 @@ public class ShoppingCartController extends AbstractController {
                 return template.toString();
         }
                 
-        ShoppingCartData shoppingCart = shoppingCartFacade.getShoppingCartData(customer, store, cartCode);
+        ShoppingCartData shoppingCart = shoppingCartFacade.getShoppingCartData(customer, store, cartCode, language);
+        
+        if(shoppingCart == null) {
+        	//display empty cart
+            StringBuilder template =
+                    new StringBuilder().append( ControllerConstants.Tiles.ShoppingCart.shoppingCart ).append( "." ).append( store.getStoreTemplate() );
+                return template.toString();
+        }
         
         Language lang = languageUtils.getRequestLanguage(request, response);
         //Filter unavailables
@@ -279,11 +297,13 @@ public class ShoppingCartController extends AbstractController {
 			MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
 			Customer customer = getSessionAttribute(  Constants.CUSTOMER, request );
 			
+			Language language = (Language)request.getAttribute(Constants.LANGUAGE);
+			
 			if(StringUtils.isBlank(shoppingCartCode)) {
 				return "redirect:/shop";
 			}
 			
-			ShoppingCartData cart =  shoppingCartFacade.getShoppingCartData(customer,merchantStore,shoppingCartCode);
+			ShoppingCartData cart =  shoppingCartFacade.getShoppingCartData(customer,merchantStore,shoppingCartCode,language);
 			if(cart==null) {
 				return "redirect:/shop";
 			}
@@ -366,7 +386,7 @@ public class ShoppingCartController extends AbstractController {
         	return "redirect:/shop";
         }
                 
-        ShoppingCartData shoppingCart = shoppingCartFacade.getShoppingCartData(customer, store, cartCode);
+        ShoppingCartData shoppingCart = shoppingCartFacade.getShoppingCartData(customer, store, cartCode, language);
                 
 		ShoppingCartData shoppingCartData=shoppingCartFacade.removeCartItem(lineItemId, shoppingCart.getCode(),store,language);
 

@@ -63,6 +63,9 @@
 		[
 			{"menu":{
 				"code":"security-groups","url":"/admin/user/groups.html","role":"ADMIN","order":1
+			}},
+			{"menu":{
+				"code":"security-create-group","url":"/admin/groups/new.html","role":"ADMIN","order":2
 			}}
 		]
 	}}
@@ -80,7 +83,7 @@
 		"code":"catalogue-products","url":"","role":"PRODUCTS","order":0,"menus":
 		[
 			{"menu":{
-				"code":"catalogue-products-create","url":"/admin/products/product.html","role":"PRODUCTS","order":0
+				"code":"catalogue-products-create","url":"/admin/products/createProduct.html","role":"PRODUCTS","order":0
 			}},
 			{"menu":{
 				"code":"catalogue","url":"/admin/products/products.html","role":"PRODUCTS","order":2
@@ -241,18 +244,6 @@
 			}},
 			{"menu":{
 				"code":"customer-options-set","url":"/admin/customers/optionsset/list.html","role":"CUSTOMER","order":4
-			}}
-		]
-	}}
-	,
-	{"menu":{
-		"code":"optin-customers","url":"","role":"CUSTOMER","order":1,"menus":
-		[
-			{"menu":{
-				"code":"optin-customers-list","url":"/admin/customers/optin/list.html","role":"CUSTOMER","order":0
-			}},
-			{"menu":{
-				"code":"optin-customers-create","url":"/admin/customers/optin/create.html","role":"CUSTOMER","order":1
 			}}
 		]
 	}}

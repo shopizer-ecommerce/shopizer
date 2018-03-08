@@ -5,6 +5,7 @@ import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductOptionService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductOptionValueService;
 import com.salesmanager.core.business.services.catalog.product.manufacturer.ManufacturerService;
+import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.business.services.tax.TaxClassService;
 import com.salesmanager.core.business.utils.AbstractDataPopulator;
@@ -24,6 +25,7 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.PersistableImage;
 import com.salesmanager.shop.model.catalog.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.ProductPriceEntity;
+import com.salesmanager.shop.model.customer.Customer;
 import com.salesmanager.shop.utils.DateUtil;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.Validate;
@@ -46,6 +48,7 @@ public class PersistableProductPopulator extends
 	
 	private ProductOptionService productOptionService;
 	private ProductOptionValueService productOptionValueService;
+	private CustomerService customerService;
 	
 
 	@Override
@@ -57,6 +60,7 @@ public class PersistableProductPopulator extends
 			Validate.notNull(languageService, "Requires to set LanguageService");
 			Validate.notNull(categoryService, "Requires to set CategoryService");
 			Validate.notNull(taxClassService, "Requires to set TaxClassService");
+			Validate.notNull(customerService, "Requires to set CustomerService");//RENTAL
 			Validate.notNull(productOptionService, "Requires to set ProductOptionService");
 			Validate.notNull(productOptionValueService, "Requires to set ProductOptionValueService");
 		
@@ -66,6 +70,26 @@ public class PersistableProductPopulator extends
 			target.setAvailable(source.isAvailable());
 			target.setPreOrder(source.isPreOrder());
 			target.setRefSku(source.getRefSku());
+			if(source.getId() != null && source.getId().longValue()==0) {
+				target.setId(null);
+			} else {
+				target.setId(source.getId());
+			}
+			
+			target.setCondition(source.getCondition());
+			
+			
+			//RENTAL
+			target.setRentalDuration(source.getRentalDuration());
+			target.setRentalStatus(source.getRentalStatus());
+			target.setRentalPeriod(source.getRentalPeriod());
+			
+			/** end RENTAL **/
+			
+			if(source.getOwner()!=null && source.getOwner().getId()!=null) {
+				com.salesmanager.core.model.customer.Customer owner = customerService.getById(source.getOwner().getId());
+				target.setOwner(owner);
+			}
 			
 			if(!StringUtils.isBlank(source.getDateAvailable())) {
 				target.setDateAvailable(DateUtil.getDate(source.getDateAvailable()));
@@ -89,7 +113,6 @@ public class PersistableProductPopulator extends
 						throw new ConversionException("Invalid manufacturer id");
 					}
 					target.setManufacturer(manuf);
-					
 				}
 			}
 			
@@ -103,6 +126,12 @@ public class PersistableProductPopulator extends
 					ProductDescription productDescription = new ProductDescription();
 					productDescription.setProduct(target);
 					productDescription.setDescription(description.getDescription());
+					if(description.getId() != null && description.getId().longValue() ==0) {
+						productDescription.setId(null);
+					} else {
+						productDescription.setId(description.getId());
+					}
+					
 					productDescription.setName(description.getName());
 					productDescription.setSeUrl(description.getFriendlyUrl());
 					productDescription.setMetatagKeywords(description.getKeyWords());
@@ -142,13 +171,20 @@ public class PersistableProductPopulator extends
 				
 				ProductAvailability productAvailability = new ProductAvailability();
 				
+/*				if(productAvailability.getId() != null && productAvailability.getId().longValue() == 0) {
+				} else {
+					productAvailability.setId(null);
+				}*/
+				
 				productAvailability.setProductQuantity(source.getQuantity());
+				productAvailability.setProduct(target);
 				productAvailability.setProductQuantityOrderMin(1);
 				productAvailability.setProductQuantityOrderMax(1);
 				
 				for(ProductPriceEntity priceEntity : source.getProductPrices()) {
 					
 					ProductPrice price = new ProductPrice();
+					price.setProductAvailability(productAvailability);
 					price.setDefaultPrice(priceEntity.isDefaultPrice());
 					price.setProductPriceAmount(priceEntity.getOriginalPrice());
 					price.setCode(priceEntity.getCode());
@@ -172,10 +208,10 @@ public class PersistableProductPopulator extends
 					}
 				}
 
-			} else {
+			} else { //create 
 				
 				ProductAvailability productAvailability = new ProductAvailability();
-				
+				productAvailability.setProduct(target);
 				productAvailability.setProductQuantity(source.getQuantity());
 				productAvailability.setProductQuantityOrderMin(1);
 				productAvailability.setProductQuantityOrderMax(1);
@@ -346,6 +382,18 @@ public class PersistableProductPopulator extends
 	protected Product createTarget() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+
+	public CustomerService getCustomerService() {
+		return customerService;
+	}
+
+
+
+	public void setCustomerService(CustomerService customerService) {
+		this.customerService = customerService;
 	}
 
 }

@@ -9,7 +9,7 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.shipping.ShippingSummary;
 import com.salesmanager.core.business.utils.AbstractDataPopulator;
 import com.salesmanager.shop.model.customer.ReadableDelivery;
-import com.salesmanager.shop.model.order.ReadableShippingSummary;
+import com.salesmanager.shop.model.order.shipping.ReadableShippingSummary;
 
 public class ReadableShippingSummaryPopulator extends
 		AbstractDataPopulator<ShippingSummary, ReadableShippingSummary> {

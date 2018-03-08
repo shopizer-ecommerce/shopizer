@@ -47,4 +47,10 @@ public class GroupServiceImpl extends
 	}
 
 
+	@Override
+	public Group findByName(String groupName) throws ServiceException {
+		return groupRepository.findByGroupName(groupName);
+	}
+
+
 }

@@ -185,7 +185,7 @@ function isFormValid() {
 	               
 
 					 <div class="form-actions">
-							<input id="submitAddress" class="btn btn-large btn-disabled" type="submit" name="submitAddress" value="<s:message code="menu.editaddress" text="Change address"/>" disabled="">
+							<input id="submitAddress" class="btn btn-large btn-disabled template-btn" type="submit" name="submitAddress" value="<s:message code="menu.editaddress" text="Change address"/>" disabled="">
 					  </div>
 
 

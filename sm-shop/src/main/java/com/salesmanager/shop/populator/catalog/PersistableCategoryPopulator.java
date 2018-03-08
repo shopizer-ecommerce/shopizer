@@ -57,6 +57,7 @@ public class PersistableCategoryPopulator extends
 		target.setCode(source.getCode());
 		target.setSortOrder(source.getSortOrder());
 		target.setVisible(source.isVisible());
+		target.setFeatured(source.isFeatured());
 		
 		//get parent
 		

@@ -1,5 +1,12 @@
 package com.salesmanager.shop.store.controller.order.facade;
 
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import org.springframework.validation.BindingResult;
+
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -13,14 +20,11 @@ import com.salesmanager.core.model.shipping.ShippingSummary;
 import com.salesmanager.core.model.shoppingcart.ShoppingCart;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
 import com.salesmanager.shop.model.order.PersistableOrder;
+import com.salesmanager.shop.model.order.PersistableOrderApi;
 import com.salesmanager.shop.model.order.ReadableOrder;
 import com.salesmanager.shop.model.order.ReadableOrderList;
 import com.salesmanager.shop.model.order.ShopOrder;
-import org.springframework.validation.BindingResult;
-
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import com.salesmanager.shop.model.order.transaction.ReadableTransaction;
 
 
 public interface OrderFacade {
@@ -36,6 +40,10 @@ public interface OrderFacade {
 	Order processOrder(ShopOrder order, Customer customer, MerchantStore store, Language language) throws ServiceException;
 	/** process a valid order against an initial transaction **/
 	Order processOrder(ShopOrder order, Customer customer, Transaction transaction, MerchantStore store, Language language) throws ServiceException;
+	/** process a valid order submitted from the API **/
+	Order processOrder(PersistableOrderApi order, Customer customer, MerchantStore store, Language language, Locale locale) throws ServiceException;
+
+	
 	
 	/** creates a working copy of customer when the user is anonymous **/
 	Customer initEmptyCustomer(MerchantStore store);
@@ -57,6 +65,9 @@ public interface OrderFacade {
 	ShippingQuote getShippingQuote(Customer customer, ShoppingCart cart, PersistableOrder order,
 			MerchantStore store, Language language) throws Exception;
 	
+	ShippingQuote getShippingQuote(Customer customer, ShoppingCart cart,
+			MerchantStore store, Language language) throws Exception;
+	
 	/**
 	 * Creates a ShippingSummary object for OrderTotal calculation based on a ShippingQuote
 	 * @param quote
@@ -65,6 +76,16 @@ public interface OrderFacade {
 	 * @return
 	 */
 	ShippingSummary getShippingSummary(ShippingQuote quote, MerchantStore store, Language language);
+	
+	/**
+	 * Validates an order submitted from the web application
+	 * @param order
+	 * @param bindingResult
+	 * @param messagesResult
+	 * @param store
+	 * @param locale
+	 * @throws ServiceException
+	 */
 	void validateOrder(ShopOrder order, BindingResult bindingResult,
 			Map<String, String> messagesResult, MerchantStore store,
 			Locale locale) throws ServiceException;
@@ -93,6 +114,30 @@ public interface OrderFacade {
     
 	ReadableOrderList getReadableOrderList(MerchantStore store, Customer customer, int start,
 			int maxCount, Language language) throws Exception;
+	
+	
+	/**
+	 * Get a list of Order on which payment capture must be done
+	 * @param store
+	 * @param startDate
+	 * @param endDate
+	 * @param language
+	 * @return
+	 * @throws Exception
+	 */
+	ReadableOrderList getCapturableOrderList(MerchantStore store, Date startDate, Date endDate,
+			Language language) throws Exception;
+	
+	/**
+	 * Capture a pre-authorized transaction. Candidate order ids can be obtained from
+	 * getCapturableOrderList
+	 * @param store
+	 * @param order
+	 * @param customer
+	 * @return
+	 * @throws Exception
+	 */
+	ReadableTransaction captureOrder(MerchantStore store, Order order, Customer customer, Language language) throws Exception;
 	
 	
 	/**

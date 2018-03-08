@@ -2,10 +2,11 @@ package com.salesmanager.core.model.common;
 
 public class Criteria {
 	
+	
 	private int startIndex = 0;
 	private int maxCount = 0;
 	private String code;
-	
+	private String language;
 	
 	private CriteriaOrderBy orderBy = CriteriaOrderBy.DESC;
 	
@@ -33,6 +34,12 @@ public class Criteria {
 	}
 	public CriteriaOrderBy getOrderBy() {
 		return orderBy;
+	}
+	public String getLanguage() {
+		return language;
+	}
+	public void setLanguage(String language) {
+		this.language = language;
 	}
 
 

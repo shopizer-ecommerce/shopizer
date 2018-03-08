@@ -155,7 +155,7 @@
 	                            <span class="help-inline"><form:errors path="groups" cssClass="error" /></span>
 	                        </div>
 	              </div>
-	               </sec:authorize>
+	              </sec:authorize>
                   
                   
                   <sec:authorize access="hasRole('ADMIN') and fullyAuthenticated">

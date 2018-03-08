@@ -1,5 +1,6 @@
 package com.salesmanager.core.model.customer;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -36,6 +37,8 @@ import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.product.review.ProductReview;
 import com.salesmanager.core.model.common.Billing;
 import com.salesmanager.core.model.common.Delivery;
+import com.salesmanager.core.model.common.audit.AuditSection;
+import com.salesmanager.core.model.common.audit.Auditable;
 import com.salesmanager.core.model.customer.attribute.CustomerAttribute;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -45,7 +48,7 @@ import com.salesmanager.core.utils.CloneUtils;
 
 @Entity
 @Table(name = "CUSTOMER", schema=SchemaConstant.SALESMANAGER_SCHEMA)
-public class Customer extends SalesManagerEntity<Long, Customer> {
+public class Customer extends SalesManagerEntity<Long, Customer> implements Auditable {
 	private static final long serialVersionUID = -6966934116557219193L;
 	
 	@Id
@@ -55,7 +58,9 @@ public class Customer extends SalesManagerEntity<Long, Customer> {
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
 	private Long id;
 	
-	//@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "customer")
+	@Embedded
+	private AuditSection auditSection = new AuditSection();
+	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "customer")
 	private Set<CustomerAttribute> attributes = new HashSet<CustomerAttribute>();
 	
@@ -87,8 +92,16 @@ public class Customer extends SalesManagerEntity<Long, Customer> {
 	@Column(name="CUSTOMER_ANONYMOUS")
 	private boolean anonymous;
 	
+	@Column(name = "REVIEW_AVG")
+	private BigDecimal customerReviewAvg;
 
+	@Column(name = "REVIEW_COUNT")
+	private Integer customerReviewCount;
 	
+	@Column(name="PROVIDER")
+	private String provider;
+	
+
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Language.class)
 	@JoinColumn(name = "LANGUAGE_ID", nullable=false)
 	private Language defaultLanguage;
@@ -288,6 +301,40 @@ public class Customer extends SalesManagerEntity<Long, Customer> {
 
 	public CustomerGender getGender() {
 		return gender;
+	}
+
+	public BigDecimal getCustomerReviewAvg() {
+		return customerReviewAvg;
+	}
+
+	public void setCustomerReviewAvg(BigDecimal customerReviewAvg) {
+		this.customerReviewAvg = customerReviewAvg;
+	}
+
+	public Integer getCustomerReviewCount() {
+		return customerReviewCount;
+	}
+
+	public void setCustomerReviewCount(Integer customerReviewCount) {
+		this.customerReviewCount = customerReviewCount;
+	}
+
+	@Override
+	public AuditSection getAuditSection() {
+		return auditSection;
+	}
+
+	@Override
+	public void setAuditSection(AuditSection auditSection) {
+		this.auditSection = auditSection;
+	}
+	
+	public String getProvider() {
+		return provider;
+	}
+
+	public void setProvider(String provider) {
+		this.provider = provider;
 	}
 	
 }

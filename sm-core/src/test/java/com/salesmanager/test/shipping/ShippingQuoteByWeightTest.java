@@ -61,7 +61,7 @@ public class ShippingQuoteByWeightTest extends com.salesmanager.test.common.Abst
 
 	    Language en = languageService.getByCode("en");
 	    Country country = countryService.getByCode("CA");
-	    Zone zone = zoneService.getByCode("QC", country);
+	    Zone zone = zoneService.getByCode("QC");
 
 	    MerchantStore store = merchantService.getByCode(MerchantStore.DEFAULT_STORE);
 	    ProductType generalType = productTypeService.getProductType(ProductType.GENERAL_TYPE);
@@ -254,8 +254,10 @@ public class ShippingQuoteByWeightTest extends com.salesmanager.test.common.Abst
 	    customer.setDelivery(delivery);
 		
 		customerService.create(customer);
+		
+		Long dummyCartId = 0L;//for correlation
 	    
-	    ShippingQuote shippingQuote = shippingService.getShippingQuote(store, delivery, shippingProducts, en);
+	    ShippingQuote shippingQuote = shippingService.getShippingQuote(dummyCartId, store, delivery, shippingProducts, en);
 
 	    Assert.notNull(shippingQuote);
 	    

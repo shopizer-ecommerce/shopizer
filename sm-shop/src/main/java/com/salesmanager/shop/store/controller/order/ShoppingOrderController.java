@@ -35,10 +35,10 @@ import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.customer.AnonymousCustomer;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
 import com.salesmanager.shop.model.customer.ReadableDelivery;
-import com.salesmanager.shop.model.order.ReadableOrderTotal;
-import com.salesmanager.shop.model.order.ReadableShippingSummary;
 import com.salesmanager.shop.model.order.ReadableShopOrder;
 import com.salesmanager.shop.model.order.ShopOrder;
+import com.salesmanager.shop.model.order.shipping.ReadableShippingSummary;
+import com.salesmanager.shop.model.order.total.ReadableOrderTotal;
 import com.salesmanager.shop.model.shoppingcart.ShoppingCartData;
 import com.salesmanager.shop.populator.customer.ReadableCustomerDeliveryAddressPopulator;
 import com.salesmanager.shop.populator.order.ReadableOrderTotalPopulator;
@@ -64,24 +64,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.*;
 
 
 /**
@@ -349,7 +339,7 @@ public class ShoppingOrderController extends AbstractController {
 		
 		if(quote!=null && quote.getShippingReturnCode()!=null && quote.getShippingReturnCode().equals(ShippingQuote.NO_SHIPPING_MODULE_CONFIGURED)) {
 			LOGGER.error("Shipping quote error " + quote.getShippingReturnCode());
-			model.addAttribute("errorMessages", quote.getShippingReturnCode());
+			model.addAttribute("errorMessages", messages.getMessage(quote.getShippingReturnCode(), locale, quote.getShippingReturnCode()));
 		}
 		
 		if(quote!=null && !StringUtils.isBlank(quote.getQuoteError())) {
@@ -369,7 +359,8 @@ public class ShoppingOrderController extends AbstractController {
 		//not free and no payment methods
 		if(CollectionUtils.isEmpty(paymentMethods) && !freeShoppingCart) {
 			LOGGER.error("No payment method configured");
-			model.addAttribute("errorMessages", "No payments configured");
+			model.addAttribute("errorMessages", messages.getMessage("payment.not.configured", locale,
+					"No payments configured"));
 		}
 		
 		if(!CollectionUtils.isEmpty(paymentMethods)) {//select default payment method
@@ -391,7 +382,7 @@ public class ShoppingOrderController extends AbstractController {
 		}
 		
 		//readable shopping cart items for order summary box
-        ShoppingCartData shoppingCart = shoppingCartFacade.getShoppingCartData(cart);
+        ShoppingCartData shoppingCart = shoppingCartFacade.getShoppingCartData(cart, language);
         model.addAttribute( "cart", shoppingCart );
 		//TODO filter here
 
@@ -615,7 +606,9 @@ public class ShoppingOrderController extends AbstractController {
 		
 	}
 
+	
 
+	
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/commitOrder.html")
 	public String commitOrder(@CookieValue("cart") String cookie, @Valid @ModelAttribute(value="order") ShopOrder order, BindingResult bindingResult, Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
@@ -671,7 +664,7 @@ public class ShoppingOrderController extends AbstractController {
 			    cart = shoppingCartFacade.getShoppingCartModel(shoppingCartCode, store);
 			    
 				//readable shopping cart items for order summary box
-		        ShoppingCartData shoppingCart = shoppingCartFacade.getShoppingCartData(cart);
+		        ShoppingCartData shoppingCart = shoppingCartFacade.getShoppingCartData(cart, language);
 		        model.addAttribute( "cart", shoppingCart );
 
 				Set<ShoppingCartItem> items = cart.getLineItems();
@@ -834,7 +827,16 @@ public class ShoppingOrderController extends AbstractController {
 		        {
 		            LOGGER.info( "found {} validation error while validating in customer registration ",
 		                         bindingResult.getErrorCount() );
-		    		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Checkout.checkout).append(".").append(store.getStoreTemplate());
+		            String message = null;
+		            List<ObjectError> errors = bindingResult.getAllErrors();
+		            if(!CollectionUtils.isEmpty(errors)) {
+		            	for(ObjectError error : errors) {
+		            		message = error.getDefaultMessage();
+		            		break;
+		            	}
+		            }
+        			model.addAttribute("errorMessages", message);
+		            StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Checkout.checkout).append(".").append(store.getStoreTemplate());
 		    		return template.toString();
 	
 		        }

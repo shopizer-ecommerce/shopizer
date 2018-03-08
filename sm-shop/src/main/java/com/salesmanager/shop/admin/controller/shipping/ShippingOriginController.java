@@ -99,7 +99,7 @@ public class ShippingOriginController {
 		origin.setCountry(country);
 		
 		if(origin.getZone() !=null) {
-			Zone zone = zoneService.getByCode(origin.getZone().getCode(), country);
+			Zone zone = zoneService.getByCode(origin.getZone().getCode());
 			origin.setZone(zone);
 		}
 		

@@ -65,7 +65,6 @@ response.setDateHeader ("Expires", -1);
 													<ul class="dropdown-menu">
 															<li>
 																<div class="row">
-																
 																		<c:if test="${requestScope.CONTENT[category.code]!=null}">
 																		<div class="col-sm-4 col-md-6">
 																			<c:if test="${requestScope.CONTENT[category.code].description!=null}">
@@ -89,7 +88,6 @@ response.setDateHeader ("Expires", -1);
 													
 													<!-- mega-menu end -->
 													</c:if>
-									
 								</li>
 							</c:forEach>
 	

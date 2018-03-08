@@ -26,7 +26,7 @@ response.setDateHeader ("Expires", -1);
 $(document).ready(function() { 
 
     //post search form
-   $(".searchButton").click(function(){
+   $(".searchButton").click(function(e){
 			var searchQuery = $('#searchField').val();
 			var responsiveSearchField = $('#responsiveSearchField').val();
 			var q = searchQuery;

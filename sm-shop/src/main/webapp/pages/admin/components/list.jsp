@@ -30,6 +30,7 @@
 											} else {
 
 												var msg = isc.XMLTools.selectObjects(jsonData, "/response/statusMessage");
+												console.log('Error received ' + JSON.stringify(jsonData));
 												alert("! " + msg);
 											}
 										}

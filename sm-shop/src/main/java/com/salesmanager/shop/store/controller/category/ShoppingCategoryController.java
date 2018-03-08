@@ -308,10 +308,10 @@ public class ShoppingCategoryController {
 	}
 		
 	private List<ReadableManufacturer> getManufacturers(MerchantStore store, List<Long> ids, Language language) throws Exception {
-		List<ReadableManufacturer> manufacturerList = null;
+		List<ReadableManufacturer> manufacturerList = new ArrayList<ReadableManufacturer>();
 		List<com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer> manufacturers = manufacturerService.listByProductsByCategoriesId(store, ids, language);
 		if(!manufacturers.isEmpty()) {
-			manufacturerList = new ArrayList<ReadableManufacturer>();
+			
 			for(com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer manufacturer : manufacturers) {
 				ReadableManufacturer manuf = new ReadableManufacturerPopulator().populate(manufacturer, new ReadableManufacturer(), store, language);
 				manufacturerList.add(manuf);

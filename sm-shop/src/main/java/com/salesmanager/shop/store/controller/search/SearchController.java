@@ -1,46 +1,41 @@
 package com.salesmanager.shop.store.controller.search;
 
+import java.io.StringWriter;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.merchant.MerchantStoreService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.business.services.search.SearchService;
-import com.salesmanager.core.model.catalog.category.Category;
-import com.salesmanager.core.model.catalog.product.Product;
-import com.salesmanager.core.model.catalog.product.ProductCriteria;
-import com.salesmanager.core.model.catalog.product.ProductList;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.core.model.search.*;
+import com.salesmanager.core.model.search.SearchKeywords;
+import com.salesmanager.core.model.search.SearchResponse;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.catalog.SearchProductList;
-import com.salesmanager.shop.model.catalog.category.ReadableCategory;
-import com.salesmanager.shop.model.catalog.product.ReadableProduct;
-import com.salesmanager.shop.populator.catalog.ReadableCategoryPopulator;
-import com.salesmanager.shop.populator.catalog.ReadableProductPopulator;
 import com.salesmanager.shop.store.controller.ControllerConstants;
+import com.salesmanager.shop.store.controller.search.facade.SearchFacade;
 import com.salesmanager.shop.store.model.search.AutoCompleteRequest;
 import com.salesmanager.shop.utils.ImageFilePath;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import java.io.StringWriter;
-import java.util.*;
 
 @Controller
 public class SearchController {
@@ -64,6 +59,9 @@ public class SearchController {
 	private PricingService pricingService;
 	
 	@Inject
+	private SearchFacade searchFacade;
+	
+	@Inject
 	@Qualifier("img")
 	private ImageFilePath imageUtils;
 
@@ -71,8 +69,7 @@ public class SearchController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SearchController.class);
 	
 	private final static int AUTOCOMPLETE_ENTRIES_COUNT = 15;
-	private final static String CATEGORY_FACET_NAME = "categories";
-	private final static String MANUFACTURER_FACET_NAME = "manufacturer";
+
 	
 	
 	/**
@@ -178,90 +175,8 @@ public class SearchController {
 			}
 
 			SearchResponse resp = searchService.search(merchantStore, language, json, max, start);
-			
-			List<SearchEntry> entries = resp.getEntries();
-			
-			if(!CollectionUtils.isEmpty(entries)) {
-				List<Long> ids = new ArrayList<Long>();
-				for(SearchEntry entry : entries) {
-					IndexProduct indexedProduct = entry.getIndexProduct();
-					Long id = Long.parseLong(indexedProduct.getId());
-					
-					//No highlights	
-					ids.add(id);
-				}
-				
-				ProductCriteria searchCriteria = new ProductCriteria();
-				searchCriteria.setMaxCount(max);
-				searchCriteria.setStartIndex(start);
-				searchCriteria.setProductIds(ids);
-				searchCriteria.setAvailable(true);
-				
-				ProductList productList = productService.listByStore(merchantStore, l, searchCriteria);
-				
-				ReadableProductPopulator populator = new ReadableProductPopulator();
-				populator.setPricingService(pricingService);
-				populator.setimageUtils(imageUtils);
-				
-				for(Product product : productList.getProducts()) {
-					//create new proxy product
-					ReadableProduct p = populator.populate(product, new ReadableProduct(), merchantStore, l);
-					
-					//com.salesmanager.web.entity.catalog.Product p = catalogUtils.buildProxyProduct(product,merchantStore,LocaleUtils.getLocale(l));
-					returnList.getProducts().add(p);
-		
-				}
-				returnList.setProductCount(productList.getProducts().size());
-			}
-			
-			//Facets
-			Map<String,List<SearchFacet>> facets = resp.getFacets();
-			List<SearchFacet> categoriesFacets = null;
-			List<SearchFacet> manufacturersFacets = null;
-			if(facets!=null) {
-				for(String key : facets.keySet()) {
-					//supports category and manufacturer
-					if(CATEGORY_FACET_NAME.equals(key)) {
-						categoriesFacets = facets.get(key);
-					}
-					
-					if(MANUFACTURER_FACET_NAME.equals(key)) {
-						manufacturersFacets = facets.get(key);
-					}
-				}
-				
-				
-				if(categoriesFacets!=null) {
-					List<String> categoryCodes = new ArrayList<String>();
-					Map<String,Long> productCategoryCount = new HashMap<String,Long>();
-					for(SearchFacet facet : categoriesFacets) {
-						categoryCodes.add(facet.getName());
-						productCategoryCount.put(facet.getKey(), facet.getCount());
-					}
-					
-					List<Category> categories = categoryService.listByCodes(merchantStore, categoryCodes, l);
-					List<ReadableCategory> categoryProxies = new ArrayList<ReadableCategory>();
-					ReadableCategoryPopulator populator = new ReadableCategoryPopulator();
-					
-					for(Category category : categories) {
-						//com.salesmanager.web.entity.catalog.Category categoryProxy = catalogUtils.buildProxyCategory(category, merchantStore, LocaleUtils.getLocale(l));
-						ReadableCategory categoryProxy = populator.populate(category, new ReadableCategory(), merchantStore, l);
-						Long total = productCategoryCount.get(categoryProxy.getCode());
-						if(total!=null) {
-							categoryProxy.setProductCount(total.intValue());
-						}
-						categoryProxies.add(categoryProxy);
-					}
-					returnList.setCategoryFacets(categoryProxies);
-				}
-				
-				//todo manufacturer facets
-				if(manufacturersFacets!=null) {
-					
-				}
-				
-				
-			}
+			return searchFacade.copySearchResponse(resp, merchantStore, start, max, l);
+
 		} catch (Exception e) {
 			LOGGER.error("Exception occured while querying " + json,e);
 		}

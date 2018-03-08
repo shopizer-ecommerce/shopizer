@@ -16,6 +16,7 @@ import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.repositories.reference.language.LanguageRepository;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
 import com.salesmanager.core.business.utils.CacheUtils;
+import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 
 /**
@@ -48,8 +49,23 @@ public class LanguageServiceImpl extends SalesManagerEntityServiceImpl<Integer, 
 	}
 	
 	@Override
-	public Locale toLocale(Language language) {
-		return new Locale(language.getCode());
+	public Locale toLocale(Language language, MerchantStore store) {
+		
+		if(store != null) {
+		
+			String countryCode = store.getCountry().getIsoCode();
+			
+			//try to build valid language
+			if("CA".equals(countryCode) && language.getCode().equals("en")) {
+				countryCode = "US";
+			}
+			
+			return new Locale(language.getCode(), countryCode);
+		
+		} else {
+			
+			return new Locale(language.getCode());
+		}
 	}
 	
 	@Override

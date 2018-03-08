@@ -89,6 +89,13 @@ public class ProductFileManagerImpl extends ProductFileManager {
 	    InputStream is2 = new ByteArrayInputStream(baos.toByteArray()); 
 	    
 	    BufferedImage bufferedImage = ImageIO.read(is2);
+	    
+	    
+	    if(bufferedImage == null) {
+	    	LOGGER.error("Cannot read image format for " + productImage.getProductImage());
+	    	throw new Exception("Cannot read image format "  + productImage.getProductImage());
+	    }
+	    
 	    //contentImage.setBufferedImage(bufferedImage);
 	    contentImage.setFile(is1);
 

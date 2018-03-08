@@ -125,7 +125,6 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 			 * exit from here !
 			 */
 			//System.out.println("****** " + request.getRequestURL().toString());
-			//System.out.println("****** " + request.getRequestURI().toString());
 			if(request.getRequestURL().toString().toLowerCase().contains(SERVICES_URL_PATTERN)
 				|| request.getRequestURL().toString().toLowerCase().contains(REFERENCE_URL_PATTERN)	
 			) {
@@ -241,7 +240,8 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 				request.setAttribute(Constants.LANGUAGE, language);
 				
 				
-				Locale locale = languageService.toLocale(language);
+				Locale locale = languageService.toLocale(language, store);
+				request.setAttribute(Constants.LOCALE, locale);
 				
 				//Locale locale = LocaleContextHolder.getLocale();
 				LocaleContextHolder.setLocale(locale);
@@ -606,7 +606,7 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 			
 			if(objects==null) {
 				//load categories
-				loadedCategories = categoryFacade.getCategoryHierarchy(store, 0, language);
+				loadedCategories = categoryFacade.getCategoryHierarchy(store, 0, language, null);//null filter
 				objects = new ConcurrentHashMap<String, List<ReadableCategory>>();
 				objects.put(language.getCode(), loadedCategories);
 				webApplicationCache.putInCache(categoriesKey.toString(), objects);
@@ -616,7 +616,7 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 			}
 			
 		} else {
-			loadedCategories = categoryFacade.getCategoryHierarchy(store, 0, language);
+			loadedCategories = categoryFacade.getCategoryHierarchy(store, 0, language, null);//null filter
 		}
 		
 		if(loadedCategories!=null) {

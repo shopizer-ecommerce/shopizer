@@ -14,6 +14,7 @@ public class CategoryEntity extends Category implements Serializable {
 
 	private int sortOrder;
 	private boolean visible;
+	private boolean featured;
 	private String lineage;
 	private int depth;
 	private Category parent;
@@ -48,6 +49,12 @@ public class CategoryEntity extends Category implements Serializable {
 	}
 	public void setParent(Category parent) {
 		this.parent = parent;
+	}
+	public boolean isFeatured() {
+		return featured;
+	}
+	public void setFeatured(boolean featured) {
+		this.featured = featured;
 	}
 
 }
