@@ -143,9 +143,6 @@
 				<!--<beans:property name="rootName" value="/Applications/MAMP/htdocs/bam-images"/>-->
 	</beans:bean>
 	
-	
-
-	
 	<!-- Static content files manager (images, pdf...) -->
 	<beans:bean id="staticContentFileManager"	class="com.salesmanager.core.business.modules.cms.content.StaticContentFileManagerImpl">
 		<beans:property name="uploadFile">
@@ -171,9 +168,7 @@
 		<!--<beans:property name="rootName" value="/Applications/MAMP/htdocs/bam-images/"/>-->
 	</beans:bean>
 	
-	
-	
-	
+
 	<!-- product downloads -->
 	<beans:bean id="productDownloadsFileManager"	class="com.salesmanager.core.business.modules.cms.content.StaticContentFileManagerImpl">
 		<beans:property name="uploadFile">
@@ -201,8 +196,10 @@
 
 	<!-- Store Cache Manager (infinispan) -->
 	<beans:bean id="localCacheManager"
-				class="com.salesmanager.core.business.modules.cms.impl.StoreCacheManagerImpl" factory-method="getInstance" >
+				class="com.salesmanager.core.business.modules.cms.impl.StoreCacheManagerImpl">
+				<beans:constructor-arg value="${config.cms.store.location}"/>
 	</beans:bean>
+	<!-- factory-method="getInstance"  -->
 	
 	
 	<!-- Local cache manager  (for apache httpd)-->
@@ -211,11 +208,7 @@
 				class="com.salesmanager.core.business.modules.cms.impl.LocalCacheManagerImpl" factory-method="getInstance" >
 	</beans:bean>
 	-->
-    
-	
 
-
-	
 	
 	<!-- Cache manager to handle static content data which includes
 	 1. CSS Files
@@ -223,8 +216,15 @@
 	 2. Digital data -->
 
 	<beans:bean id="filesCacheManager" 
-		class="com.salesmanager.core.business.modules.cms.impl.StaticContentCacheManagerImpl" factory-method="getInstance" >
+		class="com.salesmanager.core.business.modules.cms.impl.StaticContentCacheManagerImpl" >
+		<beans:constructor-arg value="${config.cms.files.location}"/>
 	</beans:bean>
+	
+	<!-- factory-method="getInstance" -->
+	
+	<!-- 
+		*** End CMS configuration ***
+	 -->
 
  	<!--Encryption-->
 	<beans:bean id="encryption"

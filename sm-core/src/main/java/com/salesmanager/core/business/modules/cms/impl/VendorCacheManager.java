@@ -1,5 +1,6 @@
 package com.salesmanager.core.business.modules.cms.impl;
 
+import org.infinispan.configuration.cache.Configuration;
 import org.infinispan.manager.DefaultCacheManager;
 import org.infinispan.manager.EmbeddedCacheManager;
 import org.slf4j.Logger;
@@ -17,7 +18,8 @@ public class VendorCacheManager {
 	private VendorCacheManager(){
 		
 		try {
-			manager = new DefaultCacheManager(repositoryFileName);
+			//manager = new DefaultCacheManager(repositoryFileName);
+			manager = new DefaultCacheManager();
 		} catch (Exception e) {
 			LOGGER.error("Cannot start manager " + e.toString());
 		}

@@ -3,6 +3,8 @@
  */
 package com.salesmanager.core.business.modules.cms.impl;
 
+import com.google.api.client.util.Value;
+
 /**
  * Cache manager to handle static content data in Infinispan cache.
  * static content data can be of following type
@@ -18,25 +20,26 @@ package com.salesmanager.core.business.modules.cms.impl;
  */
 public class StaticContentCacheManagerImpl extends CacheManagerImpl
 {
-    private static  StaticContentCacheManagerImpl cacheManager = null;
-    private final static String NAMED_CACHE = "FilesRepository";
+    
+	private final static String NAMED_CACHE = "FilesRepository";
+    
+    @Value(("${config.cms.files.location}"))
+    private String location = null;
     
 
-    private StaticContentCacheManagerImpl() {
+    public StaticContentCacheManagerImpl(String location) {
         
-        super.init(NAMED_CACHE);
+        super.init(NAMED_CACHE,location);
         
         
     }
 
-   public static StaticContentCacheManagerImpl getInstance() {
-        
-        if(cacheManager==null) {
-            cacheManager = new StaticContentCacheManagerImpl();
-        }
-        
-        return cacheManager;
-      
-        
-    }
+
+	public String getLocation() {
+		return location;
+	}
+	
+	public void setLocation(String location) {
+		this.location = location;
+	}
 }

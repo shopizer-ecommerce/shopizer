@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.model.CityResponse;
+import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.model.common.Address;
 import com.salesmanager.core.modules.utils.GeoLocation;
 
@@ -36,6 +37,7 @@ public class GeoLocationImpl implements GeoLocation {
 		
 			Address address = new Address();
 
+			try {
 			
 			CityResponse response = reader.city(InetAddress.getByName(ipAddress));
 
@@ -44,7 +46,11 @@ public class GeoLocationImpl implements GeoLocation {
 			address.setZone(response.getMostSpecificSubdivision().getIsoCode());
 			address.setCity(response.getCity().getName());
 			
-
+			} catch(com.maxmind.geoip2.exception.AddressNotFoundException ne) {
+				LOGGER.debug("Address not fount in DB " + ne.getMessage());
+			} catch(Exception e) {
+				throw new ServiceException(e);
+			}
 
 		
 			return address;
