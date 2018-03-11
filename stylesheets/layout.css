@@ -11,7 +11,8 @@ h1,h2,h3,h4,h5{margin:0;padding:0;}
 .play{float:left;background: url(../images/play-bg.png) no-repeat 0 0;width:69px;height:69px;}
 .join{float:left;font:700 24px/64px 'Open Sans';color:#fff;border-bottom:6px solid #aa691b;background:#f58f15;padding:0 89px;text-transform:uppercase;}
 .join:hover,.join:focus{border-bottom:6px solid #01a1dd;background:#12beff;color:#fff;text-decoration:none;}
-header{float:left;width:100%;padding:0 0 20px;background:#f58f15;}
+#header{float:left;width:100%;padding:0 0 20px;background:#f58f15;}
+header{background:url(../images/banner_bg.jpg) no-repeat center top;background-size:cover;max-height:60%;}
 .header{float:left;width:100%;padding:0 0 20px;background:#f58f15;}
 .logo{float:left;margin:21px 0 0 0;}
 .dwnload{float:right;padding:23px 0 0 0;}
@@ -28,6 +29,17 @@ header{float:left;width:100%;padding:0 0 20px;background:#f58f15;}
 .navBlock .navbar-nav  li{text-transform:uppercase;}
 .navBlock .navbar-nav > li > a{font:600 14px/60px 'Open Sans';padding:0 15px;color:#fff;}
 .navBlock .navbar-nav > li > a:hover{color:#f58f15;}
+
+.download {
+    font: normal 15px;
+    color: #434343;
+    background-color: #f9f178;
+    text-align: center;
+    padding: 15px 44px;
+    border-radius: 5px;
+    text-transform: capitalize;
+    text-decoration-color: #434343;
+}
 
 .navBlock2 {
 	left:0;
