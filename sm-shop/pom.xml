@@ -10,7 +10,7 @@
 	</parent>
 
 	<artifactId>sm-shop</artifactId>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>sm-shop</name>
 	<url>http://www.shopizer.com</url>

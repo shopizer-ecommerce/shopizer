@@ -8,31 +8,31 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class CorsFilter implements Filter {
+import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+public class CorsFilter extends HandlerInterceptorAdapter {
 
-
-		@Override
-		public void destroy() {
-		}
-		@Override
-		public void init(FilterConfig filterConfig) throws ServletException {
-			// TODO Auto-generated method stub
+		public CorsFilter() {
 			
 		}
-		@Override
-		public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-				throws IOException, ServletException {
+
+		/**
+		 * Allows public web services to work from remote hosts
+		 */
+	   public boolean preHandle(
+	            HttpServletRequest request,
+	            HttpServletResponse response,
+	            Object handler) throws Exception {
+		   
         	HttpServletResponse httpResponse = (HttpServletResponse) response;
 	
 	        httpResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE");
         	httpResponse.setHeader("Access-Control-Allow-Headers", "X-Auth-Token, Content-Type");
-        	//httpResponse.setHeader("Access-Control-Allow-Credentials", "false");
-	        //httpResponse.setHeader("Access-Control-Max-Age", "4800");
-	        //System.out.println("---CORS Configuration Completed---");
-	        chain.doFilter(request, response);
+	        
+        	return true;
 			
 		}
 }
