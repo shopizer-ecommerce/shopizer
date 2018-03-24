@@ -79,6 +79,6 @@ Please read the instructions on how to connect to MySQL, configure an email serv
 ### Documentation:
 -------------------
 
-Documentation available from the wiki <https://github.com/shopizer-ecommerce/shopizer/wiki>
+Documentation available from the wiki <http://shopizer-ecommerce.github.io/shopizer/#>
 
-More documentation is available on shopizer web site here <http://www.shopizer.com>
+More information is available on shopizer web site here <http://www.shopizer.com>
