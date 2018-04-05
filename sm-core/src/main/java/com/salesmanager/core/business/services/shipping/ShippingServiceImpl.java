@@ -633,9 +633,7 @@ public class ShippingServiceImpl implements ShippingService {
 					shippingOptions = new ArrayList<ShippingOption>();
 					shippingOptions.add(selectedOption);
 				}
-				
-				//TODO save shipping option
-			
+
 			}
 			
 			/** set final delivery address **/
@@ -665,52 +663,54 @@ public class ShippingServiceImpl implements ShippingService {
 				}
 			}
 			
-			//save SHIPPING OPTIONS
-			List<ShippingOption> finalShippingOptions = shippingQuote.getShippingOptions();
-			for(ShippingOption option : finalShippingOptions) {
-				
-				//transform to Quote
-				Quote q = new Quote();
-				q.setCartId(shoppingCartId);
-				q.setDelivery(delivery);
-				if(!StringUtils.isBlank(option.getEstimatedNumberOfDays())) {
-					try {
-						q.setEstimatedNumberOfDays(new Integer(option.getEstimatedNumberOfDays()));
-					} catch(Exception e) {
-						LOGGER.error("Cannot cast to integer " + option.getEstimatedNumberOfDays());
-					}
-				}
-				
-				if(freeShipping) {
-					q.setFreeShipping(true);
-					q.setPrice(new BigDecimal(0));
-					q.setModule("FREE");
-					q.setOptionCode("FREE");
-					q.setOptionName("FREE");
-				} else {
-					q.setModule(option.getShippingModuleCode());
-					q.setOptionCode(option.getOptionCode());
-					if(!StringUtils.isBlank(option.getOptionDeliveryDate())) {
+			if(shippingQuote!=null && CollectionUtils.isNotEmpty(shippingQuote.getShippingOptions())) {
+				//save SHIPPING OPTIONS
+				List<ShippingOption> finalShippingOptions = shippingQuote.getShippingOptions();
+				for(ShippingOption option : finalShippingOptions) {
+					
+					//transform to Quote
+					Quote q = new Quote();
+					q.setCartId(shoppingCartId);
+					q.setDelivery(delivery);
+					if(!StringUtils.isBlank(option.getEstimatedNumberOfDays())) {
 						try {
-						q.setOptionDeliveryDate(DateUtil.formatDate(option.getOptionDeliveryDate()));
+							q.setEstimatedNumberOfDays(new Integer(option.getEstimatedNumberOfDays()));
 						} catch(Exception e) {
-							LOGGER.error("Cannot transform to date " + option.getOptionDeliveryDate());
+							LOGGER.error("Cannot cast to integer " + option.getEstimatedNumberOfDays());
 						}
 					}
-					q.setOptionName(option.getOptionName());
-					q.setOptionShippingDate(new Date());
-					q.setPrice(option.getOptionPrice());
+					
+					if(freeShipping) {
+						q.setFreeShipping(true);
+						q.setPrice(new BigDecimal(0));
+						q.setModule("FREE");
+						q.setOptionCode("FREE");
+						q.setOptionName("FREE");
+					} else {
+						q.setModule(option.getShippingModuleCode());
+						q.setOptionCode(option.getOptionCode());
+						if(!StringUtils.isBlank(option.getOptionDeliveryDate())) {
+							try {
+							q.setOptionDeliveryDate(DateUtil.formatDate(option.getOptionDeliveryDate()));
+							} catch(Exception e) {
+								LOGGER.error("Cannot transform to date " + option.getOptionDeliveryDate());
+							}
+						}
+						q.setOptionName(option.getOptionName());
+						q.setOptionShippingDate(new Date());
+						q.setPrice(option.getOptionPrice());
+						
+					}
+					
+					if(handlingFees != null) {
+						q.setHandling(handlingFees);
+					}
+					
+					q.setQuoteDate(new Date());
+					shippingQuoteService.save(q);
+					option.setShippingQuoteOptionId(q.getId());
 					
 				}
-				
-				if(handlingFees != null) {
-					q.setHandling(handlingFees);
-				}
-				
-				q.setQuoteDate(new Date());
-				shippingQuoteService.save(q);
-				option.setShippingQuoteOptionId(q.getId());
-				
 			}
 			
 			

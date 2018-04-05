@@ -127,6 +127,9 @@ public class StorePickupShippingQuote implements ShippingQuoteModule, ShippingQu
 		
 		
 		try {
+			
+			if(!globalShippingConfiguration.isActive())
+				return;
 
 			String region = null;
 			
