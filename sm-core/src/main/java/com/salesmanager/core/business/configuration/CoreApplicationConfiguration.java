@@ -11,6 +11,6 @@ import org.springframework.context.annotation.ImportResource;
 @EntityScan(basePackages = {"com.salesmanager.core.model"})
 @ComponentScan({"com.salesmanager.core.business.services","com.salesmanager.core.business.utils"})
 @ImportResource("classpath:/spring/shopizer-core-context.xml")
-public class CoreApplicationConfiguration {
+public class  CoreApplicationConfiguration {
 
 }
