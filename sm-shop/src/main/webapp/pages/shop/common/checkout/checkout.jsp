@@ -234,6 +234,9 @@ function isCheckoutFieldValid(field) {
 		//console.log($('input[name=paymentMethodType]:checked', checkoutFormId).val());
 		//var paymentMethod = $('input[name=paymentMethodType]:checked', checkoutFormId).val();
 		var paymentType = $('input[name=paymentMethodType]').val();
+		if(!paymentType) {
+			paymentType = '${order.paymentMethodType}';
+		}
 		console.log('Payment Method Type ' + paymentType);
 		if(paymentType=='CREDITCARD') {
 			console.log(paymentType);
@@ -813,7 +816,12 @@ $(document).ready(function() {
 		-->
 		formValid = isFormValid();
 		
-		setPaymentModule('${order.defaultPaymentMethodCode}')
+		paymentModule = '${order.defaultPaymentMethodCode}';
+		if(!paymentModule) {
+			paymentModule = '${order.paymentModule}';
+		}
+		
+		setPaymentModule(paymentModule);
 
 		bindActions();
 		
@@ -1354,7 +1362,7 @@ $(document).ready(function() {
 													    			
 													    		</div>
 									    				</c:forEach>
-									    				<input type="hidden" id="paymentMethodType" name="paymentMethodType" value="<c:if test="${order.paymentType!=null}"><c:out value="${order.paymentType}"/></c:if>"/>
+									    				<input type="hidden" id="paymentMethodType" name="paymentMethodType" value="<c:if test="${order.paymentMethodType!=null}"><c:out value="${order.paymentMethodType}"/></c:if>"/>
 									    				<input type="hidden" id="paymentModule" name="paymentModule" value="<c:choose><c:when test="${order.paymentModule!=null}"><c:out value="${order.paymentModule}"/></c:when><c:otherwise><c:out value="${paymentModule}" /></c:otherwise></c:choose>"/>
 									    				</div>
 									 			</div>

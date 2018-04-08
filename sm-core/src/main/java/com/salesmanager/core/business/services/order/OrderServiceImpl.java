@@ -106,7 +106,6 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     	
     	//first process payment
     	Transaction processTransaction = paymentService.processPayment(customer, store, payment, items, order);
-    	//transactionService.save(processTransaction);
     	
     	if(order.getOrderHistory()==null || order.getOrderHistory().size()==0 || order.getStatus()==null) {
     		OrderStatus status = order.getStatus();

@@ -617,7 +617,7 @@ public class ShoppingOrderController extends AbstractController {
 		Language language = (Language)request.getAttribute("LANGUAGE");
 		//validate if session has expired
 		
-		model.addAttribute("order", order);//TODO remove
+		model.addAttribute("order", order);
 		
 		Map<String, Object> configs = (Map<String, Object>) request.getAttribute(Constants.REQUEST_CONFIGS);
 		

@@ -295,7 +295,7 @@ public class StripePayment implements PaymentModule {
 			transaction.setAmount(amount);
 			//transaction.setOrder(order);
 			transaction.setTransactionDate(new Date());
-			transaction.setTransactionType(TransactionType.AUTHORIZE);
+			transaction.setTransactionType(TransactionType.AUTHORIZECAPTURE);
 			transaction.setPaymentType(PaymentType.CREDITCARD);
 			transaction.getTransactionDetails().put("TRANSACTIONID", token);
 			transaction.getTransactionDetails().put("TRNAPPROVED", ch.getStatus());
@@ -468,6 +468,14 @@ public class StripePayment implements PaymentModule {
 				te.setErrorCode(IntegrationException.EXCEPTION_VALIDATION);
 				return te;
 			}
+			
+			//nothing good so create generic error
+			IntegrationException te = new IntegrationException(
+					"Can't process stripe card  " + e.getMessage());
+			te.setExceptionType(IntegrationException.EXCEPTION_VALIDATION);
+			te.setMessageCode("messages.error.creditcard.number");
+			te.setErrorCode(IntegrationException.EXCEPTION_VALIDATION);
+			return te;
 		
 
 		  
@@ -477,7 +485,7 @@ public class StripePayment implements PaymentModule {
 		IntegrationException te = new IntegrationException(
 				"Can't process Stripe, missing invalid payment parameters");
 		te.setExceptionType(IntegrationException.TRANSACTION_EXCEPTION);
-		te.setMessageCode("message.payment.error");
+		te.setMessageCode("messages.error.creditcard.number");
 		te.setErrorCode(IntegrationException.TRANSACTION_EXCEPTION);
 		return te;
 		
@@ -540,9 +548,7 @@ public class StripePayment implements PaymentModule {
 		te.setErrorCode(IntegrationException.TRANSACTION_EXCEPTION);
 		return te;
 	}
-	return null;
 
-		
 	}
 	
 	

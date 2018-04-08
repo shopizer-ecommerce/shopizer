@@ -36,9 +36,9 @@ response.setDateHeader ("Expires", -1);
 						$(creditCardDiv).validateCreditCard(function(result) {
 							invalidCreditCardNumber(creditCardDiv);
 							if(result.card_type!=null) {
-									log('CC type: ' + result.card_type.name
-												      + '\nLength validation: ' + result.length_valid
-												      + '\nLuhn validation: + result.luhn_valid');
+									//log('CC type: ' + result.card_type.name
+									//			      + '\nLength validation: ' + result.length_valid
+									//			      + '\nLuhn validation: + result.luhn_valid');
 									if(result.luhn_valid==true && result.length_valid==true) {
 										validCreditCardNumber(creditCardDiv, result);
 									} else {
@@ -123,7 +123,7 @@ response.setDateHeader ("Expires", -1);
 							<s:message code="NotEmpty.order.creditcard.number"
 								text="A valid credit card number is required"
 								var="msgCardNumber" />
-							<input id="creditcard_card_number" creditcard_card_number" type="text"
+							<input id="creditcard_card_number" type="text"
 								class="form-control required"
 								name="payment['creditcard_card_number']"
 								title="${msgCardNumber}" autocomplete="off" data-stripe="number" required />

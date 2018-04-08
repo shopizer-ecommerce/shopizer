@@ -60,6 +60,7 @@ import com.salesmanager.core.model.order.OrderTotalSummary;
 import com.salesmanager.core.model.order.attributes.OrderAttribute;
 import com.salesmanager.core.model.order.orderproduct.OrderProduct;
 import com.salesmanager.core.model.order.orderstatus.OrderStatus;
+import com.salesmanager.core.model.order.orderstatus.OrderStatusHistory;
 import com.salesmanager.core.model.order.payment.CreditCard;
 import com.salesmanager.core.model.payments.CreditCardPayment;
 import com.salesmanager.core.model.payments.CreditCardType;
@@ -349,6 +350,15 @@ public class OrderFacadeImpl implements OrderFacade {
 			List<ShoppingCartItem> shoppingCartItems = order.getShoppingCartItems();
 			Set<OrderProduct> orderProducts = new LinkedHashSet<OrderProduct>();
 			
+			if(!StringUtils.isBlank(order.getComments())) {
+				OrderStatusHistory statusHistory = new OrderStatusHistory();
+				statusHistory.setStatus(OrderStatus.ORDERED);
+				statusHistory.setOrder(modelOrder);
+				statusHistory.setDateAdded(new Date());
+				statusHistory.setComments(order.getComments());
+				modelOrder.getOrderHistory().add(statusHistory);
+			}
+			
 			OrderProductPopulator orderProductPopulator = new OrderProductPopulator();
 			orderProductPopulator.setDigitalProductService(digitalProductService);
 			orderProductPopulator.setProductAttributeService(productAttributeService);
@@ -430,13 +440,17 @@ public class OrderFacadeImpl implements OrderFacade {
 				
 				Map<String,String> paymentMetaData = order.getPayment();
 				payment.setPaymentMetaData(paymentMetaData);
+				payment.setPaymentType(PaymentType.valueOf(paymentType));
+				payment.setAmount(order.getOrderTotalSummary().getTotal());
+				payment.setModuleName(order.getPaymentModule());
+				payment.setCurrency(modelOrder.getCurrency());
 				
 
 				
 				CreditCardType creditCardType =null;
 				String cardType = order.getPayment().get("creditcard_card_type");
 				
-				
+				//supported credit cards
 				if(CreditCardType.AMEX.name().equalsIgnoreCase(cardType)) {
 					creditCardType = CreditCardType.AMEX;
 				} else if(CreditCardType.VISA.name().equalsIgnoreCase(cardType)) {
@@ -460,9 +474,11 @@ public class OrderFacadeImpl implements OrderFacade {
 					cc.setCcExpires(((CreditCardPayment)payment).getExpirationMonth() + "-" + ((CreditCardPayment)payment).getExpirationYear());
 				
 					//hash credit card number
-					String maskedNumber = CreditCardUtils.maskCardNumber(order.getPayment().get("creditcard_card_number"));
-					cc.setCcNumber(maskedNumber);
-					modelOrder.setCreditCard(cc);
+					if(!StringUtils.isBlank(cc.getCcNumber())) {
+						String maskedNumber = CreditCardUtils.maskCardNumber(order.getPayment().get("creditcard_card_number"));
+						cc.setCcNumber(maskedNumber);
+						modelOrder.setCreditCard(cc);
+					}
 				
 				}
 				

@@ -45,12 +45,12 @@ response.setDateHeader ("Expires", -1);
 				  function stripeResponseHandler(status, response) {
 					  var $form = $('#checkoutForm');
 					  
-					  log('Stripe response');
+					  //log('Stripe response');
 
 					  if (response.error) {
 					    // Show the errors on the form
 					    var orderValidationMessage = getOrderValidationMessage(response.error.code);
-					    log('Validation message ' + orderValidationMessage);
+					    //log('Validation message ' + orderValidationMessage);
 					    if(orderValidationMessage == '') {
 					    	orderValidationMessage = error.message;
 					    }
@@ -63,6 +63,7 @@ response.setDateHeader ("Expires", -1);
 					    // Insert the token into the form so it gets submitted to the server
 					    var tokenField = '<input type="hidden" name="payment[\'stripe_token\']" value="' + token +'" /><input type="hidden" name="payment[\'null_creditcard\']" value="null_creditcard"/>';
 					    $form.append(tokenField);
+					    $('#creditcard_card_number').val('');
 					    //log(tokenField);
 					    // and submit
 					    $form.get(0).submit();
