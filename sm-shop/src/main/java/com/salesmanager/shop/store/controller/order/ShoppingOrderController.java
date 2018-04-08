@@ -378,7 +378,7 @@ public class ShoppingOrderController extends AbstractController {
 			}
 			
 			order.setDefaultPaymentMethodCode(defaultPaymentSelected.getPaymentMethodCode());
-			
+
 		}
 		
 		//readable shopping cart items for order summary box

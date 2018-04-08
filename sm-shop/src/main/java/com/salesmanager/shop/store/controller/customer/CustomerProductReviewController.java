@@ -167,6 +167,11 @@ public class CustomerProductReviewController extends AbstractController {
 			bindingResult.addError(error);
 	    }
 	    
+	    if(review.getRating()==null) {
+	    	FieldError error = new FieldError("rating","rating",messages.getMessage("NotEmpty.review.rating", locale, "Product rating is required"));
+			bindingResult.addError(error);
+	    }
+	    
 
 	    
         ReadableProduct readableProduct = new ReadableProduct();

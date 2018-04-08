@@ -107,6 +107,17 @@ public class ShoppingCartFacadeImpl
     {
 
         ShoppingCart cartModel = null;
+        
+        /**
+         * Sometimes a user logs in and a shopping cart is present in db (shoppingCartData
+         * but ui has no cookie with shopping cart code so the cart code will have
+         * to be added to the item in order to process add to cart normally
+         */
+        if(shoppingCartData != null && StringUtils.isBlank(item.getCode())) {
+        	item.setCode(shoppingCartData.getCode());
+        }
+        
+        
         if ( !StringUtils.isBlank( item.getCode() ) )
         {
             // get it from the db

@@ -486,20 +486,31 @@ function bindActions() {
 		else if(paymentSelection.indexOf('braintree') >= 0) {
 			//console.log('Braintree ');
 			$('#paymentMethodType').val('CREDITCARD');
-			console.log('Set payment method type ' + $('#paymentMethodType').val());
+			log('Set payment method type ' + $('#paymentMethodType').val());
 			initBraintreePayment();
+		}
+		else if(paymentSelection.indexOf('moneyorder') >= 0) {
+			log('Money order ' + $('input[name=paymentMethodType]').val());
+			$('#paymentMethodType').attr("value", 'MONEYORDER');
+			log('Payment method type -> ' + $('input[name=paymentMethodType]').val());
+			submitForm()
 		}
 		else if(paymentSelection.indexOf('beanstream') >= 0) {
 			//console.log('Beanstream ');
 			$('#paymentMethodType').val('CREDITCARD');
+			submitForm();
 		} else {
 			//submit form
-			console.log('Checkout ');
-			$('#pageContainer').hideLoading();
-			$('#checkoutForm').submit();
+			submitForm();
 			
 		}
     });
+}
+
+function submitForm() {
+	log('Checkout ');
+	$('#pageContainer').hideLoading();
+	$('#checkoutForm').submit();
 }
 
 

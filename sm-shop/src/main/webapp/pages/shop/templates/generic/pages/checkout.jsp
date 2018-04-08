@@ -104,6 +104,7 @@ $(document).ready(function() {
 	-->
 
 	paymentModule = '${order.defaultPaymentMethodCode}';
+	log('PaymentModule ' + paymentModule);
 	if(!paymentModule) {
 		paymentModule = '${order.paymentModule}';
 	}
@@ -282,10 +283,11 @@ function isCheckoutFieldValid(field) {
 		//console.log($('input[name=paymentMethodType]:checked', checkoutFormId).val());
 		//var paymentMethod = $('input[name=paymentMethodType]:checked', checkoutFormId).val();
 		var paymentType = $('input[name=paymentMethodType]').val();
+		log('PaymentType ' + paymentType);
 		if(!paymentType) {
 			paymentType = '${order.paymentMethodType}';
 		}
-		console.log('Payment Method Type ' + paymentType);
+		log('Payment Method Type ' + paymentType);
 		if(paymentType=='CREDITCARD') {
 			if (fieldId.indexOf("creditcard") >= 0) {
 				if(fieldId!='creditcard_card_number' || fieldId!='creditcard-card-number') {
@@ -428,7 +430,7 @@ function bindActions() {
 		
 		showSMLoading('#pageContainer');
 		var paymentSelection = $('#paymentModule').val();
-		console.log('Selection-> ' + paymentSelection);
+		log('Selection-> ' + paymentSelection);
 		if(paymentSelection.indexOf('paypal') >= 0 || paymentSelection.indexOf('PAYPAL') >= 0) {
 
 			//$('#paymentMethodType').val('PAYPAL');
@@ -436,30 +438,41 @@ function bindActions() {
 			initPayment('PAYPAL');
 		}
 		else if(paymentSelection.indexOf('stripe') >= 0) {
-			//console.log('Stripe ');
+			log('Stripe ');
 			//$('#paymentMethodType').val('CREDITCARD');
 			$('#paymentMethodType').attr("value", 'CREDITCARD');
 			initStripePayment();
 		}
 		else if(paymentSelection.indexOf('braintree') >= 0) {
-			console.log('Braintree ' + $('input[name=paymentMethodType]').val());
+			log('Braintree ' + $('input[name=paymentMethodType]').val());
 			//$('#paymentMethodType').val('CREDITCARD');
 			$('#paymentMethodType').attr("value", 'CREDITCARD');
-			console.log('Payment method type -> ' + $('input[name=paymentMethodType]').val());
+			log('Payment method type -> ' + $('input[name=paymentMethodType]').val());
 			initBraintreePayment();
 		}
+		else if(paymentSelection.indexOf('moneyorder') >= 0) {
+			log('Money order ' + $('input[name=paymentMethodType]').val());
+			//$('#paymentMethodType').val('CREDITCARD');
+			$('#paymentMethodType').attr("value", 'MONEYORDER');
+			log('Payment method type -> ' + $('input[name=paymentMethodType]').val());
+			submitForm();
+		}
 		else if(paymentSelection.indexOf('beanstream') >= 0) {
-			//console.log('Beanstream ');
+			//log('Beanstream ');
 			//$('#paymentMethodType').val('CREDITCARD');
 			$('#paymentMethodType').attr("value", 'CREDITCARD');
+			submitForm();
 		} else {
 			//submit form
-			//console.log('Checkout ');
-			hideSMLoading('#pageContainer');
-			$('#checkoutForm').submit();
-			
+			submitForm();	
 		}
     });
+}
+
+function submitForm() {
+	log('Checkout ');
+	$('#pageContainer').hideLoading();
+	$('#checkoutForm').submit();
 }
 
 function initPayment(paymentSelection) {
