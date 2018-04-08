@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://www.springframework.org/schema/data/jpa"
+  xmlns:util="http://www.springframework.org/schema/util"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xmlns:tx="http://www.springframework.org/schema/tx"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/tx 
+    http://www.springframework.org/schema/tx/spring-tx.xsd
+    http://www.springframework.org/schema/aop 
+    http://www.springframework.org/schema/aop/spring-aop.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/data/jpa
+    http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">       
+        
+        
+
+  <beans:import resource="classpath:/spring/shopizer-core-context.xml" />
+
+
+  <beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <beans:property name="driverClassName" value="${db.driverClass}" />
+    <beans:property name="url" value="${db.jdbcUrl}" />
+    <beans:property name="username" value="${db.user}" />
+    <beans:property name="password" value="${db.password}" />
+  </beans:bean>
+
+
+  <context:component-scan base-package="com.salesmanager.test" />
+
+  <!-- For testing utility classes -->
+  <util:properties id="shopizer-properties">
+    			<beans:prop key="MULTIPLE_PRICE_AVAILABILITY">false</beans:prop>
+    			<beans:prop key="INDEX_PRODUCTS">false</beans:prop>
+    			
+    			<beans:prop key="SHOP_SCHEME">http</beans:prop>
+				<beans:prop key="CONTEXT_PATH">sm-shop</beans:prop>
+				<!-- Images -->
+				<beans:prop key="PRODUCT_IMAGE_WIDTH_SIZE">350</beans:prop>
+				<beans:prop key="PRODUCT_IMAGE_HEIGHT_SIZE">375</beans:prop>
+				<beans:prop key="CROP_UPLOADED_IMAGES">false</beans:prop>
+				
+				<!-- upload image validations -->
+				<beans:prop key="PRODUCT_IMAGE_MAX_HEIGHT_SIZE">2000</beans:prop>
+				<beans:prop key="PRODUCT_IMAGE_MAX_WIDTH_SIZE">4000</beans:prop>
+				<beans:prop key="PRODUCT_IMAGE_MAX_SIZE">9000000</beans:prop>
+				<beans:prop key="IMAGE_FORMATS">jpg|png|gif</beans:prop>
+				
+				<beans:prop key="POPULATE_TEST_DATA">true</beans:prop>
+
+  </util:properties>
+
+</beans:beans>

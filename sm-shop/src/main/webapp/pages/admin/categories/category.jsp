@@ -116,13 +116,7 @@
                         <label><s:message code="label.entity.visible" text="Visible"/></label>
                         <div class="controls">
                                     <form:checkbox path="visible" />
-                        </div>
-                  </div>
-                  
-                  <div class="control-group">
-                        <label><s:message code="label.products.hide" text="Hide poducts in this category page"/></label>
-                        <div class="controls">
-                                    <form:checkbox path="hideProducts" />
+
                         </div>
                   </div>
                   

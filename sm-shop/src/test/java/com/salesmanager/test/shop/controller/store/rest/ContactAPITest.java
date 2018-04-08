@@ -1,22 +1,17 @@
 package com.salesmanager.test.shop.controller.store.rest;
 
-import java.nio.charset.Charset;
-
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.ObjectWriter;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.salesmanager.core.business.utils.ajax.AjaxResponse;
+import com.salesmanager.shop.model.shop.ContactForm;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
-import com.salesmanager.core.utils.ajax.AjaxResponse;
-import com.salesmanager.web.entity.shop.ContactForm;
+import java.nio.charset.Charset;
 
+@Ignore
 public class ContactAPITest {
 	
 	private RestTemplate restTemplate;

@@ -22,7 +22,7 @@
     
     
     <script src="<c:url value="/resources/templates/exoticamobilia/js/modernizr.js" />"></script>
-    <script src="<c:url value="/resources/templates/exoticamobilia/js/owl.js" />"></script>
+    <script src="<c:url value="/resources/templates/exoticamobilia/js/owl.carousel.min.js" />"></script>
 
     
     

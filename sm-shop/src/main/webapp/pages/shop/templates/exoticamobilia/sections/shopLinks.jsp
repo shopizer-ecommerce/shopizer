@@ -33,6 +33,12 @@
     	<link href="<c:url value="/resources/css/showLoading.css" />" rel="stylesheet">
     
     	<!-- ////////////// -->
+    	
+
+<!--
+
+//-->
+</script>
 
     <!-- mini shopping cart template -->
     <script type="text/html" id="miniShoppingCartTemplate">

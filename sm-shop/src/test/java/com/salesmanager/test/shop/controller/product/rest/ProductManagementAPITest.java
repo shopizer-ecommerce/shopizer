@@ -1,5 +1,23 @@
 package com.salesmanager.test.shop.controller.product.rest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.salesmanager.core.model.catalog.product.attribute.ProductOptionType;
+import com.salesmanager.shop.model.catalog.category.Category;
+import com.salesmanager.shop.model.catalog.manufacturer.Manufacturer;
+import com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription;
+import com.salesmanager.shop.model.catalog.manufacturer.PersistableManufacturer;
+import com.salesmanager.shop.model.catalog.product.*;
+import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductOption;
+import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductOptionValue;
+import com.salesmanager.shop.model.catalog.product.attribute.ProductOptionDescription;
+import com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.springframework.http.*;
+import org.springframework.security.crypto.codec.Base64;
+import org.springframework.web.client.RestTemplate;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,35 +26,8 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.ObjectWriter;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.codec.Base64;
-import org.springframework.web.client.RestTemplate;
 
-import com.salesmanager.core.business.catalog.product.model.attribute.ProductOptionType;
-import com.salesmanager.web.entity.catalog.category.Category;
-import com.salesmanager.web.entity.catalog.manufacturer.Manufacturer;
-import com.salesmanager.web.entity.catalog.manufacturer.ManufacturerDescription;
-import com.salesmanager.web.entity.catalog.manufacturer.PersistableManufacturer;
-import com.salesmanager.web.entity.catalog.product.PersistableImage;
-import com.salesmanager.web.entity.catalog.product.PersistableProduct;
-import com.salesmanager.web.entity.catalog.product.PersistableProductPrice;
-import com.salesmanager.web.entity.catalog.product.PersistableProductReview;
-import com.salesmanager.web.entity.catalog.product.ProductDescription;
-import com.salesmanager.web.entity.catalog.product.ReadableProduct;
-import com.salesmanager.web.entity.catalog.product.attribute.PersistableProductOption;
-import com.salesmanager.web.entity.catalog.product.attribute.PersistableProductOptionValue;
-import com.salesmanager.web.entity.catalog.product.attribute.ProductOptionDescription;
-import com.salesmanager.web.entity.catalog.product.attribute.ProductOptionValueDescription;
-
+@Ignore
 public class ProductManagementAPITest {
 	
 	private RestTemplate restTemplate;
@@ -310,12 +301,12 @@ public class ProductManagementAPITest {
 	public void postProduct() throws Exception {
 		restTemplate = new RestTemplate();
 		
-
+		PersistableProduct product = new PersistableProduct();
 		
 		String code = "abcdef";
 		
 
-		String categoryCode = "statue";
+		String categoryCode = "ROOT";//root category
 		
 
 		
@@ -330,10 +321,11 @@ public class ProductManagementAPITest {
 		collection.setCode(manufacturer);
 		
 		//core properties
-		PersistableProduct product = new PersistableProduct();
+		
 		product.setSku(code);
-		product.setManufacturer(collection);
-		product.setCategories(categories);
+		
+		//product.setManufacturer(collection); //no manufacturer assigned for now
+		//product.setCategories(categories); //no category assigned for now
 		
 		product.setSortOrder(0);//set iterator as sort order
 		product.setAvailable(true);//force availability
@@ -342,20 +334,21 @@ public class ProductManagementAPITest {
 		product.setProductShipeable(true);//all items are shipeable
 		
 		/** images **/
-		String image = "/Users/carlsamson/Documents/csti/mobilia-exotika/pictures-600-resize/buddha1.jpg";
+		String image = "/Users/carlsamson/Documents/csti/IMG_4626.jpg";
+		//String image = "C:/personal/em/pictures-misc/IMG_2675.JPG";
 
 		File imgPath = new File(image);
 			
-		PersistableImage persistableImage = new PersistableImage();
+		//PersistableImage persistableImage = new PersistableImage();
 			
 			
-		persistableImage.setBytes(this.extractBytes(imgPath));
-		persistableImage.setImageName(imgPath.getName());
+		//persistableImage.setBytes(this.extractBytes(imgPath));
+		//persistableImage.setImageName(imgPath.getName());
 
-		List<PersistableImage> images = new ArrayList<PersistableImage>();
-		images.add(persistableImage);
+		//List<PersistableImage> images = new ArrayList<PersistableImage>();
+		//images.add(persistableImage);
 			
-		product.setImages(images);
+		//product.setImages(images);
 
 
 
@@ -377,8 +370,6 @@ public class ProductManagementAPITest {
 		productPriceList.add(productPrice);
 		
 		product.setProductPrices(productPriceList);
-		
-		//product.setSortOrder(Integer.parseInt(record.get("position")));
 
 		List<ProductDescription> descriptions = new ArrayList<ProductDescription>();
 		
@@ -408,6 +399,12 @@ public class ProductManagementAPITest {
 		
 		product.setDescriptions(descriptions);
 		
+		//RENTAL
+		RentalOwner owner = new RentalOwner();
+		//need to create a customer first
+		owner.setId(1L);
+		product.setOwner(owner);
+		
 		
 		ObjectWriter writer = new ObjectMapper().writer().withDefaultPrettyPrinter();
 		String json = writer.writeValueAsString(product);
@@ -418,7 +415,7 @@ public class ProductManagementAPITest {
 		HttpEntity<String> entity = new HttpEntity<String>(json, getHeader());
 
 		//post to create category web service
-		ResponseEntity response = restTemplate.postForEntity("http://localhost:8080/sm-shop/services/private/DEFAULT/product", entity, PersistableProduct.class);
+		ResponseEntity response = restTemplate.postForEntity("http://localhost:8080/api/v1/product", entity, PersistableProduct.class);
 
 		PersistableProduct prod = (PersistableProduct) response.getBody();
 		

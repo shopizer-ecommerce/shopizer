@@ -27,7 +27,7 @@
 
 
 function displayUserAccount(userName){
-	url = getContextPath() + '/shop/customer/accountSummary.html?userName='+userName;
+	url = getContextPath() + '/shop/customer/accountSummary.json?userName='+userName;
 	$.ajax({  
 		 type: 'GET',  
 		 url: url,  
@@ -38,7 +38,7 @@ function displayUserAccount(userName){
 			 
 		 },
 		 success: function(customer) {
-			 log('Return');
+			 log('From account summary');
 			 if(customer!=null) {
 				 //display user
 				 //alert("Supports customer loggin " + supportsCustomerLogin());
@@ -62,6 +62,7 @@ function getUserName() {
 	var code = new Array();
 	
 	if(user!=null) {
+		user = user.replace(/['"]+/g, '');
 		code = user.split('_');
 		if(code[0]==getMerchantStoreCode()) {
 			return code[1];

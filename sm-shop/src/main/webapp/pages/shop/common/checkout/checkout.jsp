@@ -19,6 +19,8 @@ response.setDateHeader ("Expires", -1);
 <script src="https://maps.googleapis.com/maps/api/js?key=<sm:config configurationCode="shopizer.googlemaps_key" />"></script>
 </c:if>
 
+<c:set var="creditCardInformationsPage" value="creditCardInformations" scope="request" />
+
 <script src="<c:url value="/resources/js/jquery.maskedinput.min.js" />"></script>
 
 
@@ -37,7 +39,7 @@ response.setDateHeader ("Expires", -1);
 		<span class="total-box-grand-total">
 			<font class="total-box-label">
 			  <s:message code="order.total.total" text="Total"/>
-			  <font class="total-box-price">{{grandTotal}}</font>
+			  <font class="total-box-price grand-total">{{grandTotal}}</font>
 			</font>
 		</span>
 </script>
@@ -61,6 +63,7 @@ response.setDateHeader ("Expires", -1);
 				</label>
 			{{/shippingOptions}}						
 		</div>
+
 </script>
 
 
@@ -121,6 +124,7 @@ function isFormValid() {
 	var firstErrorMessage = null;
 	$inputs.each(function() {
 		if($(this).hasClass('required')) {
+			console.log('Before ischecout field valid');
 			var fieldValid = isCheckoutFieldValid($(this));
 			//log($(this).attr('id') + ' Is valid ' + fieldValid);
 			if(!fieldValid) {
@@ -187,7 +191,10 @@ function setPaymentModule(module) {
 	}		
 	else if(module.indexOf('beanstream') >= 0) {
 		$('#paymentMethodType').val('CREDITCARD');
-		
+	}
+	else if(module.indexOf('braintree') >= 0) {
+			$('#paymentMethodType').val('CREDITCARD');
+			console.log('TYPE ' + $('#paymentMethodType').val());
 	} else {
 		pType = pType.toUpperCase();
 		console.log('Other type - ' + pType);
@@ -200,6 +207,8 @@ function setPaymentModule(module) {
 }
 
 function isCheckoutFieldValid(field) {
+	
+	console.log('Entering is checkout valid');
 	var validateField = true;
 	var fieldId = field.prop('id');
 	var value = field.val();
@@ -225,13 +234,18 @@ function isCheckoutFieldValid(field) {
 		//console.log($('input[name=paymentMethodType]:checked', checkoutFormId).val());
 		//var paymentMethod = $('input[name=paymentMethodType]:checked', checkoutFormId).val();
 		var paymentType = $('input[name=paymentMethodType]').val();
+		if(!paymentType) {
+			paymentType = '${order.paymentMethodType}';
+		}
 		console.log('Payment Method Type ' + paymentType);
 		if(paymentType=='CREDITCARD') {
+			console.log(paymentType);
+			console.log(fieldId);
 			if (fieldId.indexOf("creditcard") >= 0) {
-				if(fieldId!='creditcard_card_number') {
+				if(fieldId!='creditcard_card_number' || fieldId!='creditcard-card-number') {
 					validateField = true;// but validate credit card fields when credit card is selected
 				}
-				if(fieldId=='creditcard_card_number') {
+				if(fieldId=='creditcard_card_number' || fieldId=='creditcard-card-number') {
 					return isCreditCardValid();// validate credit card number differently
 				}
 			}
@@ -346,7 +360,6 @@ function getZones(listDiv, textDiv, countryCode, defaultValue, callBackFunction)
 	  }
 
 	});
-	
 }
 
 
@@ -469,18 +482,35 @@ function bindActions() {
 			//console.log('Stripe ');
 			$('#paymentMethodType').val('CREDITCARD');
 			initStripePayment();
-		}		
+		}
+		else if(paymentSelection.indexOf('braintree') >= 0) {
+			//console.log('Braintree ');
+			$('#paymentMethodType').val('CREDITCARD');
+			log('Set payment method type ' + $('#paymentMethodType').val());
+			initBraintreePayment();
+		}
+		else if(paymentSelection.indexOf('moneyorder') >= 0) {
+			log('Money order ' + $('input[name=paymentMethodType]').val());
+			$('#paymentMethodType').attr("value", 'MONEYORDER');
+			log('Payment method type -> ' + $('input[name=paymentMethodType]').val());
+			submitForm()
+		}
 		else if(paymentSelection.indexOf('beanstream') >= 0) {
 			//console.log('Beanstream ');
 			$('#paymentMethodType').val('CREDITCARD');
+			submitForm();
 		} else {
 			//submit form
-			console.log('Checkout ');
-			$('#pageContainer').hideLoading();
-			$('#checkoutForm').submit();
+			submitForm();
 			
 		}
     });
+}
+
+function submitForm() {
+	log('Checkout ');
+	$('#pageContainer').hideLoading();
+	$('#checkoutForm').submit();
 }
 
 
@@ -499,7 +529,7 @@ function shippingQuotes(){
 	
 	$.ajax({
 	  type: 'POST',
-	  url: '<c:url value="/shop/order/shippingQuotes.html"/>',
+	  url: '<c:url value="/shop/order/shippingQuotes.json"/>',
 	  data: data,
 	  cache: false,
 	  dataType: 'json',
@@ -672,13 +702,18 @@ function validateConfirmShipping(shopOrder) {
 }
 
 function displayConfirmShipping(delivery,shippingMethod) {
+	
+	/**
+	* Requires this div in the form
+	* <div class="checkout-box" id="confirmShippingAddress" style="height:250px;"></div>
+	*
+	**/
 
 	var $form = $('#checkoutForm');
 	$('#confirm_address').remove();
 	$("#confirmShippingAddress").hide();
 	var deliveryAddress = buildMailAddress(delivery);
-	//alert('Use distance: ' + useDistanceWindow + ' lat: ' + delivery.latitude + ' lon: ' + delivery.longitude + ' postal code: ' + delivery.postalCode + ' shipping method: ' + shippingMethod);
-	
+
 	/**
 	* quote =! storePickup
 	* postal code
@@ -723,15 +758,6 @@ function displayConfirmShipping(delivery,shippingMethod) {
 
 				// To add the marker to the map, call setMap();
 				marker.setMap(map);
-				
-				
-				
-				//var map;
-				//function initMap() {
-				//map = new google.maps.Map(document.getElementById('confirmShippingAddress'), {
-				//    center: {lat: lat, lng: lon},
-				//    zoom: 18
-				//});
 
 				$("#confirmShippingAddress").show();
 			}
@@ -752,7 +778,7 @@ function calculateTotal(){
 	
 	$.ajax({
 	  type: 'POST',
-	  url: '<c:url value="/shop/order/calculateOrderTotal.html"/>',
+	  url: '<c:url value="/shop/order/calculateOrderTotal.json"/>',
 	  data: data,
 	  cache: false,
 	  dataType: 'json',
@@ -801,7 +827,12 @@ $(document).ready(function() {
 		-->
 		formValid = isFormValid();
 		
-		setPaymentModule('${order.defaultPaymentMethodCode}')
+		paymentModule = '${order.defaultPaymentMethodCode}';
+		if(!paymentModule) {
+			paymentModule = '${order.paymentModule}';
+		}
+		
+		setPaymentModule(paymentModule);
 
 		bindActions();
 		
@@ -938,7 +969,7 @@ $(document).ready(function() {
 														<label><s:message code="label.generic.firstname" text="First Name"/></label>
 									    					<div class="controls"> 
 										    					<s:message code="NotEmpty.customer.firstName" text="First name is required" var="msgFirstName"/>
-										      					<form:input id="customer.firstName" cssClass="input-large required form-control form-control-lg" path="customer.billing.firstName" title="${msgFirstName}"/>
+										      					<form:input id="customer.firstName" cssClass="input-large required form-control form-control-lg" path="customer.billing.firstName" autofocus="autofocus" title="${msgFirstName}"/>
 										    					<form:errors path="customer.billing.firstName" cssClass="error" />
 										    					<span id="error-customer.billing.firstName" class="error"></span>
 									    					</div> 
@@ -1273,11 +1304,6 @@ $(document).ready(function() {
 									<!-- Confirm address box box -->
 									<!-- Shipping -->
 									<div class="checkout-box" id="confirmShippingAddress" style="height:250px;">
-										<!--
-										<span class="box-title">
-												<p class="p-title"><s:message code="label.customer.confirmshippingaddress" text="Shipping address confirmation" /> </p>
-										</span>
-										-->
 									</div>
 									<!-- end confirm shipping box -->
 									<br/>
@@ -1336,7 +1362,7 @@ $(document).ready(function() {
 													    			
 													    			<!-- exception for stripe which has it's own page -->
 													    			<c:choose>
-													    				<c:when test="${paymentMethod.paymentMethodCode=='stripe'}">
+													    				<c:when test="${(paymentMethod.paymentMethodCode=='stripe') or (paymentMethod.paymentMethodCode=='braintree')}">
 													    					<c:set var="pageName" value="${fn:toLowerCase(paymentMethod.paymentMethodCode)}" />
 													    				</c:when>
 													    				<c:otherwise>
@@ -1347,7 +1373,7 @@ $(document).ready(function() {
 													    			
 													    		</div>
 									    				</c:forEach>
-									    				<input type="hidden" id="paymentMethodType" name="paymentMethodType" value="<c:if test="${order.paymentType!=null}"><c:out value="${order.paymentType}"/></c:if>"/>
+									    				<input type="hidden" id="paymentMethodType" name="paymentMethodType" value="<c:if test="${order.paymentMethodType!=null}"><c:out value="${order.paymentMethodType}"/></c:if>"/>
 									    				<input type="hidden" id="paymentModule" name="paymentModule" value="<c:choose><c:when test="${order.paymentModule!=null}"><c:out value="${order.paymentModule}"/></c:when><c:otherwise><c:out value="${paymentModule}" /></c:otherwise></c:choose>"/>
 									    				</div>
 									 			</div>
@@ -1427,7 +1453,7 @@ $(document).ready(function() {
 												<span class="total-box-grand-total">
 													<font class="total-box-label">
 													<s:message code="order.total.total" text="Total"/>
-													<font class="total-box-price"><sm:monetary value="${order.orderTotalSummary.total}"/></font>
+													<font class="total-box-price grand-total"><sm:monetary value="${order.orderTotalSummary.total}"/></font>
 													</font>
 												</span>
 											</div>					

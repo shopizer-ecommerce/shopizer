@@ -28,6 +28,8 @@
     
     <script src="<c:url value="/resources/templates/bootstrap/js/bootstrap-tooltip.js" />"></script>
     <script src="<c:url value="/resources/templates/bootstrap/js/bootstrap-popover.js" />"></script>
+    
+    <link rel="icon" href="<c:url value="/resources/templates/bootstrap/img/favicon.ico"/> ">
 
     
     <!-- mini shopping cart template -->

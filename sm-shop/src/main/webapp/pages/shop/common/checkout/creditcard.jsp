@@ -14,8 +14,6 @@ response.setDateHeader ("Expires", -1);
 <%@page contentType="text/html"%>
 <%@page pageEncoding="UTF-8"%>
 
-
-		  
           <div class="control-group">
             <label class="control-label"><s:message code="label.payment.creditcard.usecredicard" text="Use your credit card" /></label>
             <div class="controls">
@@ -23,4 +21,4 @@ response.setDateHeader ("Expires", -1);
             </div>
           </div>
 
-		 <jsp:include page="/pages/shop/common/checkout/creditCardInformations.jsp" /> 
+		 <jsp:include page="/pages/shop/common/checkout/${creditCardInformationsPage}.jsp" /> 

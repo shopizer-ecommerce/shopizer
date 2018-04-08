@@ -22,7 +22,7 @@
   										<ul class="dropdown-menu"> 
   											<c:forEach items="${menu.menus}" var="submenu">
   												<sec:authorize access="hasRole('${submenu.role}') and fullyAuthenticated">
-  													<li><a href="#" id="${submenu.code}-link" data-toggle="tab"><s:message code="menu.${submenu.code}" text="${submenu.code}"/></a></li>
+  													<li><a href="#" onClick="window.location.href='${submenu.url}';" id="${submenu.code}-link" data-toggle="tab"><s:message code="menu.${submenu.code}" text="${submenu.code}"/></a></li>
   												</sec:authorize>
   											</c:forEach>
   										</ul> 

@@ -124,18 +124,8 @@ response.setDateHeader ("Expires", -1);
 
           					<!-- end block -->
 
-							</div>
+			</div>
 
 						</div>
 			    </c:if>
 			</div>
-			
-
-
-
-            
-
-        		
-    
-
-    

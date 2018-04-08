@@ -4,10 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.simple.JSONObject;
-
-import com.salesmanager.core.business.system.model.CustomIntegrationConfiguration;
-import com.salesmanager.core.business.system.model.IntegrationConfiguration;
+import com.salesmanager.core.model.system.CustomIntegrationConfiguration;
+import com.salesmanager.core.model.system.IntegrationConfiguration;
 
 public class CustomShippingQuotesConfiguration extends IntegrationConfiguration implements CustomIntegrationConfiguration, Serializable {
 	

@@ -1,32 +1,26 @@
 package com.salesmanager.test.shop.controller.customer.rest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.salesmanager.shop.model.customer.Address;
+import com.salesmanager.shop.model.customer.Customer;
+import com.salesmanager.shop.model.customer.PersistableCustomer;
+import com.salesmanager.shop.model.customer.ReadableCustomer;
+import com.salesmanager.shop.model.customer.attribute.CustomerOptionDescription;
+import com.salesmanager.shop.model.customer.attribute.CustomerOptionValueDescription;
+import com.salesmanager.shop.model.customer.attribute.PersistableCustomerOption;
+import com.salesmanager.shop.model.customer.attribute.PersistableCustomerOptionValue;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.springframework.http.*;
+import org.springframework.security.crypto.codec.Base64;
+import org.springframework.web.client.RestTemplate;
+
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.ObjectWriter;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.codec.Base64;
-import org.springframework.web.client.RestTemplate;
-
-import com.salesmanager.web.entity.customer.Address;
-import com.salesmanager.web.entity.customer.Customer;
-import com.salesmanager.web.entity.customer.PersistableCustomer;
-import com.salesmanager.web.entity.customer.ReadableCustomer;
-import com.salesmanager.web.entity.customer.attribute.CustomerOptionDescription;
-import com.salesmanager.web.entity.customer.attribute.CustomerOptionValueDescription;
-import com.salesmanager.web.entity.customer.attribute.PersistableCustomerOption;
-import com.salesmanager.web.entity.customer.attribute.PersistableCustomerOptionValue;
-
-
+@Ignore
 public class CustomerRESTControllerTest {
 	
 	private RestTemplate restTemplate;
@@ -144,8 +138,9 @@ public class CustomerRESTControllerTest {
 		customer.setEmailAddress("carl@csticonsulting.com");
 		customer.setGender("M");
 		customer.setLanguage("en");
-		customer.setEncodedPassword("5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8");
-		customer.setUserName("testuser2");
+		//customer.setEncodedPassword("5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8");
+		customer.setClearPassword("password");
+		customer.setUserName("testuser");
 		
 		Address address = new Address();
 		address.setAddress("123 my street");

@@ -1,5 +1,6 @@
-Official Shopizer 2.0.4 (master)
+Shopizer 2.2.0 (for java 1.8 +)
 -------------------
+
 Java open source e-commerce software
 
 - Shopping cart
@@ -7,9 +8,12 @@ Java open source e-commerce software
 - Search
 - Checkout
 - Administration
+- REST API
 
-### This version (master - 2.0.4) runs only with java 1.8
-An upcoming version 2.0.5 for Java 1.8 will be available soon (December 2016)
+See the demo:
+-------------------
+http://demo.shopizer.com:8080
+
 
 To get the code:
 -------------------
@@ -20,7 +24,7 @@ If this is your first time using Github, review http://help.github.com to learn 
 
 You can also download the zip file containing the code from https://github.com/shopizer-ecommerce/shopizer 
 
-To run the application:
+To build the application:
 -------------------	
 From the command line with Maven installed:
 
@@ -28,8 +32,9 @@ From the command line with Maven installed:
 	$ mvn clean install
 	
 
-
-copy sm-shop/target/sm-shop.war to tomcat or any other application server deployment dir
+Run the application from Tomcat 
+-------------------
+copy sm-shop/target/ROOT.war to tomcat or any other application server deployment dir
 
 Increase heap space to 1024 m or at least 512 m
 
@@ -44,13 +49,25 @@ If you are using Tomcat, edit catalina.bat for windows users or catalina.sh for 
 	in Linux / Mac
 	export JAVA_OPTS="-Xms1024m -Xmx1024m -XX:MaxPermSize=256m" 
 
+Run the application from Spring boot 
+-------------------
+
+       $ cd sm-shop
+       $ mvn spring-boot:run
+
+Run the application from Spring boot in eclipse
+-------------------
+
+Right click on com.salesmanager.shop.application.ShopApplication
+
+run as Java Application
 
 ### Access the application:
+-------------------
 
+Access the deployed web application at: http://localhost:8080/
 
-Access the deployed web application at: http://localhost:8080/sm-shop/shop
-
-Acces the admin section at: http://localhost:8080/sm-shop/admin
+Acces the admin section at: http://localhost:8080/admin
 
 #####username : admin
 #####password : password
@@ -58,8 +75,10 @@ Acces the admin section at: http://localhost:8080/sm-shop/admin
 The instructions above will let you run the application with default settings and configurations.
 Please read the instructions on how to connect to MySQL, configure an email server and configure other subsystems
 
+
 ### Documentation:
+-------------------
 
-Documentation available from the wiki <https://github.com/shopizer-ecommerce/shopizer/wiki>
+Documentation available from the wiki <http://shopizer-ecommerce.github.io/shopizer/#>
 
-More documentation is available on shopizer web site here <http://www.shopizer.com>
+More information is available on shopizer web site here <http://www.shopizer.com>

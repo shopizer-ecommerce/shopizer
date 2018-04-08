@@ -9,7 +9,6 @@
 				   "available" : {"type":"String","index":"not_analyzed"},
 				   "description" : {"type":"String","analyzer":"folding_fr"}, 
 				   "tags" : {"type":"String","analyzer":"folding_fr"} 
-			} 
-
-		}
+				} 
+			}
 }

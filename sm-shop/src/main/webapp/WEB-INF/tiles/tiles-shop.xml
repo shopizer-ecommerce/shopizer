@@ -1,29 +1,7 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?> 
-<!-- 
-/*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- *
- */
---> 
-<!DOCTYPE tiles-definitions PUBLIC
-         "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
-         "http://struts.apache.org/dtds/tiles-config_2_0.dtd">
- 
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE tiles-definitions PUBLIC  
+        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"  
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 
 <tiles-definitions>
  	
@@ -93,6 +71,14 @@
   		<put-attribute name="footer" value="/pages/shop/templates/{1}/sections/footer.jsp" />
   	</definition>
   	
+  	<!-- generic temlate cart -->
+  	 <definition name="maincart.generic" template="/pages/shop/templates/generic/catalogLayout.jsp">
+  	  	<put-attribute name="header" value="/pages/shop/templates/generic/sections/header.jsp" />
+  	  	<put-attribute name="navbar" value="/pages/shop/templates/generic/sections/navbar.jsp" />
+  		<put-attribute name="body" value="/pages/shop/templates/generic/pages/cart.jsp" />
+  		<put-attribute name="footer" value="/pages/shop/templates/generic/sections/footer.jsp" />
+  	</definition>
+  	
   	<!-- Contact us -->
   	<definition name="contactus.*" template="/pages/shop/templates/{1}/catalogLayout.jsp">
   	  	<put-attribute name="header" value="/pages/shop/templates/{1}/sections/header.jsp" />
@@ -115,6 +101,13 @@
   		<put-attribute name="navbar" value="/pages/shop/templates/{1}/sections/navbar.jsp" />
   		<put-attribute name="body" value="/pages/shop/common/customer/register.jsp" />
   		<put-attribute name="footer" value="/pages/shop/templates/{1}/sections/footer.jsp" />
+  	</definition>
+  	
+  	<definition name="register.generic" template="/pages/shop/templates/generic/catalogLayout.jsp">
+  	  	<put-attribute name="header" value="/pages/shop/templates/generic/sections/header.jsp" />
+  		<put-attribute name="navbar" value="/pages/shop/templates/generic/sections/navbar.jsp" />
+  		<put-attribute name="body" value="/pages/shop/templates/generic/pages/register.jsp" />
+  		<put-attribute name="footer" value="/pages/shop/templates/generic/sections/footer.jsp" />
   	</definition>
   	  	
   	<definition name="customerAccount.*" template="/pages/shop/templates/{1}/catalogLayout.jsp">
@@ -159,11 +152,20 @@
   		<put-attribute name="footer" value="/pages/shop/templates/{1}/sections/footer.jsp" />
   	</definition>
   	
+  	  	
   	<definition name="customerLogon.*" template="/pages/shop/templates/{1}/catalogLayout.jsp">
   	  	<put-attribute name="header" value="/pages/shop/templates/{1}/sections/header.jsp" />
   		<put-attribute name="navbar" value="/pages/shop/templates/{1}/sections/navbar.jsp" />
   		<put-attribute name="body" value="/pages/shop/common/customer/logon.jsp" />
   		<put-attribute name="footer" value="/pages/shop/templates/{1}/sections/footer.jsp" />
+  	</definition>
+  	
+  	<!-- logon page specific to generic template -->
+  	<definition name="customerLogon.generic" template="/pages/shop/templates/generic/catalogLayout.jsp">
+  	  	<put-attribute name="header" value="/pages/shop/templates/generic/sections/header.jsp" />
+  		<put-attribute name="navbar" value="/pages/shop/templates/generic/sections/navbar.jsp" />
+  		<put-attribute name="body" value="/pages/shop/templates/generic/pages/logon.jsp" />
+  		<put-attribute name="footer" value="/pages/shop/templates/generic/sections/footer.jsp" />
   	</definition>
   	
   	<!-- One page checkout -->
@@ -172,6 +174,14 @@
   		<put-attribute name="navbar" value="/pages/shop/templates/{1}/sections/navbar.jsp" />
   		<put-attribute name="body" value="/pages/shop/common/checkout/checkout.jsp" />
   		<put-attribute name="footer" value="/pages/shop/templates/{1}/sections/footer.jsp" />
+  	</definition>
+  	
+  	<!-- Checkout for generic template -->
+  	<definition name="checkout.generic" template="/pages/shop/templates/generic/catalogLayout.jsp">
+  	  	<put-attribute name="header" value="/pages/shop/templates/generic/sections/header.jsp" />
+  		<put-attribute name="navbar" value="/pages/shop/templates/generic/sections/navbar.jsp" />
+  		<put-attribute name="body" value="/pages/shop/templates/generic/pages/checkout.jsp" />
+  		<put-attribute name="footer" value="/pages/shop/templates/generic/sections/footer.jsp" />
   	</definition>
   	
   	<definition name="confirmation.*" template="/pages/shop/templates/{1}/catalogLayout.jsp">

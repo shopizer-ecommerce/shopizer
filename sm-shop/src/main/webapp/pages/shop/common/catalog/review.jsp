@@ -87,7 +87,7 @@ response.setDateHeader ("Expires", -1);
 
 						<c:url var="submitReview" value="/shop/customer/review/submit.html"/>
 					    <form:form method="POST" commandName="review" action="${submitReview}">
-					        <form:errors path="*" cssClass="alert alert-error" element="div" />
+					        <form:errors path="*" cssClass="alert alert-error alert-danger" element="div" />
 					    	<fieldset>
 					    	<form:hidden id="rating" path="rating"/>
 					    	<form:hidden path="productId"/>
@@ -115,7 +115,7 @@ response.setDateHeader ("Expires", -1);
 									</div>
 								</div>
 							</fieldset>
-							<button type="submit" class="btn">
+							<button type="submit" class="btn btn-default">
 								<s:message code="button.label.submit2" text="Submit"/>
 							</button>
 					    </form:form>
@@ -134,4 +134,6 @@ response.setDateHeader ("Expires", -1);
 					<sec:authorize access="!hasRole('AUTH_CUSTOMER') and !fullyAuthenticated">
 							<p class="muted"><s:message code="label.product.reviews.logon.write" text="You have to be authenticated to write a review" /></p>
 					</sec:authorize>
+					
+					<div>&nbsp;</div>
 

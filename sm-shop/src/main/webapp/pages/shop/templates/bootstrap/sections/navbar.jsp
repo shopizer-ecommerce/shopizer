@@ -30,13 +30,13 @@ $(document).ready(function() {
 
 
 	    remote: {
-    		url: '<c:url value="/services/public/search/${requestScope.MERCHANT_STORE.code}/${requestScope.LANGUAGE.code}/autocomplete.html"/>?q=%QUERY',
+    		url: '<c:url value="/services/public/search/${requestScope.MERCHANT_STORE.code}/${requestScope.LANGUAGE.code}/autocomplete.json"/>?q=%QUERY',
         	filter: function (parsedResponse) {
             	// parsedResponse is the array returned from your backend
             	console.log(parsedResponse);
 
             	// do whatever processing you need here
-            	return parsedResponse;
+            	return JSON.parse(parsedResponse);
         	}
     	},
 		template: [

@@ -14,11 +14,6 @@ response.setDateHeader ("Expires", -1);
 <%@page contentType="text/html"%>
 <%@page pageEncoding="UTF-8"%>  
 
-		  <!--
-		  <span style="margin-left:2px;">
-		  <input type="radio" onClick="setPaymentModule('${requestScope.paymentMethod.paymentMethodCode}');" name="paymentMethodType" value="<c:out value="${requestScope.paymentMethod.paymentType}"/>" <c:choose><c:when test="${requestScope.selectedPaymentMethod!=null && (requestScope.selectedPaymentMethod==requestScope.paymentMethod.paymentType)}"> checked</c:when><c:otherwise><c:if test="${requestScope.selectedPaymentMethod==null && requestScope.paymentMethod.defaultSelected==true}"> checked</c:if></c:otherwise></c:choose>/>
-		  </span>
-		  -->
 		  
 		  
 		  

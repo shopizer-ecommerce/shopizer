@@ -22,7 +22,7 @@ response.setDateHeader ("Expires", -1);
             </div>
           </div>
           
-         <div class="control-group">
+         <div class="control-group payment-method-box">
          	<s:message code="label.checkout.moneyorder" text="Please make your check or money order payable to:"/><br/>
 			<c:out value="${requestScope.paymentMethod.informations.integrationKeys['address']}" escapeXml="false"/>
          </div>

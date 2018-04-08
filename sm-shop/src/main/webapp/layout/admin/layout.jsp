@@ -80,7 +80,7 @@ response.setDateHeader ("Expires", -1);
 										<li><a href="<c:url value="/admin/users/displayUser.html" />"><s:message code="label.my.profile" text="My profile" /></a></li>
 										<li class="divider"></li>
 										<li>
-											<c:url value="/admin/j_spring_security_logout" var="logoutUrl"/>
+											<c:url value="/admin/logout" var="logoutUrl"/>
 											<a href="${logoutUrl}"><s:message code="button.label.logout" text="Logout" /></a>
 										</li>
 									</ul>
@@ -201,17 +201,11 @@ response.setDateHeader ("Expires", -1);
 		$(document).ready(function(){ 
 			
 
-			$("#catalogue-products-create-link").click(function() {
-				window.location='<c:url value="/admin/products/createProduct.html" />';
-			});
 			$("#catalogue-categories-list-link").click(function() {
 				window.location='<c:url value="/admin/categories/categories.html" />';
 			});
 			$("#catalogue-products-categories-link").click(function() {
 				window.location='<c:url value="/admin/products/product-categories.html" />';
-			});
-			$("#catalogue-link").click(function() {
-				window.location='<c:url value="/admin/products/products.html" />';
 			});
 			$("#catalogue-categories-hierarchy-link").click(function() {
 				window.location='<c:url value="/admin/categories/hierarchy.html" />';

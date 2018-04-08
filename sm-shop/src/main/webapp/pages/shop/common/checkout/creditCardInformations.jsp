@@ -32,9 +32,9 @@ response.setDateHeader ("Expires", -1);
 						$(creditCardDiv).validateCreditCard(function(result) {
 							invalidCreditCardNumber(creditCardDiv);
 							if(result.card_type!=null) {
-									log('CC type: ' + result.card_type.name
-												      + '\nLength validation: ' + result.length_valid
-												      + '\nLuhn validation: + result.luhn_valid');
+									//log('CC type: ' + result.card_type.name
+									//			      + '\nLength validation: ' + result.length_valid
+									//			      + '\nLuhn validation: + result.luhn_valid');
 									if(result.luhn_valid==true && result.length_valid==true) {
 										validCreditCardNumber(creditCardDiv, result);
 									} else {
@@ -80,7 +80,7 @@ response.setDateHeader ("Expires", -1);
 		
 		</script>
 
-		  
+		  <div class="payment-method-box" id="creditCardBox">
           <div class="control-group">
             <label class="control-label"><s:message code="label.payment.creditcard.cardowner" text="Card Holder's Name" /></label>
             <div class="controls">
@@ -129,6 +129,7 @@ response.setDateHeader ("Expires", -1);
                 </div>
               </div>
             </div>
+          </div>
           </div>
 
 		<input type="hidden" name="payment['creditcard_card_type']" id="creditcard_type" value="" />

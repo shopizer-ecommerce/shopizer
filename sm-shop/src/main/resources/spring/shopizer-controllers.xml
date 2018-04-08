@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+
+	
+	<!-- Async -->
+	<bean id="executorService" class="java.util.concurrent.Executors"
+    	factory-method="newFixedThreadPool">
+    	<constructor-arg value="5" />
+	</bean>
+	
+	
+	<task:executor id="threadPoolTaskExecutor" pool-size="5" />
+	<task:annotation-driven executor="executorService" />
+	<!--  End ASYNCH -->
+	
+	<!-- Enables the Spring MVC @Controller programming model, matrix variables are parameters containing
+	     multiple values color=red,green,blue
+	 -->
+	<mvc:annotation-driven enable-matrix-variables="true">
+
+		<!-- Device object in controller method -->
+		<mvc:argument-resolvers>
+        	<bean class="org.springframework.mobile.device.DeviceWebArgumentResolver" />
+    	</mvc:argument-resolvers>
+		
+		<mvc:message-converters >
+		
+		    <bean
+             class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+		
+	        <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter">
+	            <property name="supportedMediaTypes">
+	                <list>
+	                    <value>image/jpeg</value>
+	                    <value>image/gif</value>
+	                    <value>image/png</value>
+	                </list>
+	            </property>
+	        </bean>
+    	</mvc:message-converters>
+
+	</mvc:annotation-driven>
+	
+
+	<!-- Maps '/' requests to the 'home' view -->
+	<mvc:view-controller path="/" view-name="shop"/>
+	
+
+	<mvc:interceptors>     
+		<!-- Changes the locale when a 'locale' request parameter is sent; e.g. /?locale=de -->    
+		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"/>
+		
+		<!-- store web front filter -->
+		 <mvc:interceptor>
+  			<mvc:mapping path="/shop/**"/>
+  			<bean class="com.salesmanager.shop.filter.StoreFilter"/>
+ 		</mvc:interceptor>
+ 		
+ 		<!-- public services cors filter -->
+ 		<mvc:interceptor>
+  			<mvc:mapping path="/services/**"/>
+  			<bean class="com.salesmanager.shop.filter.CorsFilter"/>
+ 		</mvc:interceptor>
+ 		
+ 		<!-- customer section filter -->
+ 		<mvc:interceptor>
+  			<mvc:mapping path="/customer/**"/>
+  			<bean class="com.salesmanager.shop.filter.StoreFilter"/>
+ 		</mvc:interceptor>
+		
+		<!-- admin panel filter -->
+ 		<mvc:interceptor>
+  			<mvc:mapping path="/admin/**"/>
+  			<bean class="com.salesmanager.shop.filter.AdminFilter" />
+ 		</mvc:interceptor>
+	</mvc:interceptors>
+ 
+</beans>
