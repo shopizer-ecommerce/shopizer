@@ -1,0 +1,95 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.shopizer</groupId>
+	<artifactId>sm-admin</artifactId>
+	<version>2.3.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<name>sm-admin -> Administration application for Shopizer</name>
+	<description>Admin web app uses sm-shop REST api</description>
+
+	<parent>
+		<groupId>com.shopizer</groupId>
+		<artifactId>shopizer</artifactId>
+		<version>2.3.0-SNAPSHOT</version>
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<main.basedir>${basedir}/../..</main.basedir>
+		<m2eclipse.wtp.contextRoot>/</m2eclipse.wtp.contextRoot>
+		<jjwt.version>0.8.0</jjwt.version>
+		<!-- Need to use the latest milestone in order to logon with latest FB 
+			app version -->
+		<spring-social-facebook.version>3.0.0.M3</spring-social-facebook.version>
+	</properties>
+
+	<dependencies>
+
+		<!-- sm-core-model -->
+		<dependency>
+			<groupId>com.shopizer</groupId>
+			<artifactId>sm-core-model</artifactId>
+			<version>${shopizer.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+
+		<!--  
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		-->
+
+<!-- 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+		</dependency> -->
+
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		
+		<!-- hot swapping, disable cache for template, enable live reload -->
+		<!-- Remove in prod -->
+<!-- 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<optional>true</optional>
+		</dependency> -->
+
+        <!-- https://mvnrepository.com/artifact/org.webjars/bootstrap -->
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>3.3.7</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.webjars/jquery -->
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>jquery</artifactId>
+		    <version>3.3.1-1</version>
+		</dependency>
+		
+		
+	</dependencies>
+	
+	<build>
+		<plugins>
+			<!-- Package as an executable jar/war -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
