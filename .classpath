@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="shopizer-canadapost/src/main/java"/>
+	<classpathentry kind="src" path="shopizer-canadapost/src/test/java"/>
+	<classpathentry kind="src" path="shopizer-shipping-distance-module/src/main/java"/>
+	<classpathentry kind="src" path="shopizer-shipping-distance-module/src/test/java"/>
+	<classpathentry kind="src" path="sm-core/src/main/java"/>
+	<classpathentry kind="src" path="sm-core/src/test/java"/>
+	<classpathentry kind="src" path="sm-core-model/src/main/java"/>
+	<classpathentry kind="src" path="sm-core-modules/src/main/java"/>
+	<classpathentry kind="src" path="sm-search/src/main/java"/>
+	<classpathentry kind="src" path="sm-search/src/test/java"/>
+	<classpathentry kind="src" path="sm-shop/src/main/java"/>
+	<classpathentry kind="src" path="sm-shop/src/test/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="owner.project.facets" value="java"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
