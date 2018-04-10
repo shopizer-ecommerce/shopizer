@@ -134,13 +134,14 @@ public class StripePayment implements PaymentModule {
 			
 			String strAmount = String.valueOf(amnt);
 			strAmount = strAmount.replace(".","");
+			strAmount = strAmount.replaceAll(",","");
 			
 			Map<String, Object> chargeParams = new HashMap<String, Object>();
 			chargeParams.put("amount", strAmount);
 			chargeParams.put("capture", false);
 			chargeParams.put("currency", store.getCurrency().getCode());
 			chargeParams.put("source", token); // obtained with Stripe.js
-			chargeParams.put("description", new StringBuilder().append(TRANSACTION).append(" - ").append(store.getStorename()).toString());
+			chargeParams.put("description", getDescription(customer));
 			
 			Stripe.apiKey = apiKey;
 			
@@ -276,13 +277,14 @@ public class StripePayment implements PaymentModule {
 		
 			String strAmount = String.valueOf(amnt);
 			strAmount = strAmount.replace(".","");
+			strAmount = strAmount.replaceAll(",","");
 			
 			Map<String, Object> chargeParams = new HashMap<String, Object>();
 			chargeParams.put("amount", strAmount);
 			chargeParams.put("capture", true);
 			chargeParams.put("currency", store.getCurrency().getCode());
 			chargeParams.put("source", token); // obtained with Stripe.js
-			chargeParams.put("description", new StringBuilder().append(TRANSACTION).append(" - ").append(store.getStorename()).toString());
+			chargeParams.put("description", getDescription(customer));
 			
 			Stripe.apiKey = apiKey;
 			
@@ -346,6 +348,7 @@ public class StripePayment implements PaymentModule {
 			
 			String strAmount = String.valueOf(amnt);
 			strAmount = strAmount.replace(".","");
+			strAmount = strAmount.replaceAll(",","");
 			
 			Map params = new HashMap();
 			//TODO amount
@@ -551,7 +554,19 @@ public class StripePayment implements PaymentModule {
 
 	}
 	
-	
+	private String getDescription (Customer customer) {
+		
+		StringBuilder description = new StringBuilder().append(TRANSACTION).append(" - ");
+		if (customer != null) {
+			if (customer.getEmailAddress() != null) {
+				description.append(customer.getEmailAddress());
+			} else if (customer.getNick() != null ) {
+				description.append(customer.getNick());
+			}
+		}
+		return description.toString();
+		
+	}
 
 
 
