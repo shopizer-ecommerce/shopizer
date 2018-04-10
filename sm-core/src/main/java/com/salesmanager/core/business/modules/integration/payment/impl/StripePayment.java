@@ -134,7 +134,10 @@ public class StripePayment implements PaymentModule {
 			
 			String strAmount = String.valueOf(amnt);
 			strAmount = strAmount.replace(".","");
-			
+            //There may be use case where , will be added to the amount, it will not be accepted by Stripe due to non integer value
+            if(StringUtils.contains(strAmount, ",")){
+                strAmount = strAmount.replace(",", "");
+            }
 			Map<String, Object> chargeParams = new HashMap<String, Object>();
 			chargeParams.put("amount", strAmount);
 			chargeParams.put("capture", false);
@@ -276,6 +279,11 @@ public class StripePayment implements PaymentModule {
 		
 			String strAmount = String.valueOf(amnt);
 			strAmount = strAmount.replace(".","");
+
+            //There may be use case where , will be added to the amount, it will not be accepted by Stripe due to non integer value
+            if(StringUtils.contains(strAmount, ",")){
+                strAmount = strAmount.replace(",", "");
+            }
 			
 			Map<String, Object> chargeParams = new HashMap<String, Object>();
 			chargeParams.put("amount", strAmount);
