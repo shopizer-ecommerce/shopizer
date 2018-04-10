@@ -19,24 +19,33 @@
 		<main.basedir>${basedir}/../..</main.basedir>
 		<m2eclipse.wtp.contextRoot>/</m2eclipse.wtp.contextRoot>
 		<jjwt.version>0.8.0</jjwt.version>
-		<!-- Need to use the latest milestone in order to logon with latest FB 
-			app version -->
-		<spring-social-facebook.version>3.0.0.M3</spring-social-facebook.version>
 	</properties>
 
 	<dependencies>
 
-		<!-- sm-core-model -->
-		<dependency>
+		<!-- sm-shop -->
+<!-- 		<dependency>
 			<groupId>com.shopizer</groupId>
-			<artifactId>sm-core-model</artifactId>
-			<version>${shopizer.version}</version>
-		</dependency>
+			<artifactId>sm-shop</artifactId>
+			<version>2.2.0</version>
+		</dependency> -->
+		
+		<!-- Spring Security -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
 		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
+		
+		<!-- optional, it brings useful tags to display spring security stuff -->
+        <dependency>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-springsecurity4</artifactId>
+        </dependency>
 
 		<!--  
 		<dependency>
@@ -46,7 +55,7 @@
 		</dependency>
 		-->
 
-<!-- 		<dependency>
+<!-- 	<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 		</dependency> -->
