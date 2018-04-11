@@ -1,4 +1,4 @@
-package com.salesmanager.admin.components;
+package com.salesmanager.admin.components.security;
 
 import java.security.Principal;
 import java.util.ArrayList;

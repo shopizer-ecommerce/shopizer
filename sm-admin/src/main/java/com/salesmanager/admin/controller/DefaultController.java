@@ -10,7 +10,9 @@ public class DefaultController {
 	public String landing() {
 		
 		//check if user is logged in, if he is logged in display dashboard else display login
-		return "login/login";
+		//return "dashboard/dashboard";
+		//forward to the dashboard
+		return "redirect:/admin/dashboard";
 	}
 
 }

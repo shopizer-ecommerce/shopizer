@@ -30,13 +30,16 @@ public class AdminSecurityConfiguration extends WebSecurityConfigurerAdapter{
 
 	
     // roles auth allow to access /admin/**
-    // custom 403 access denied handler
+    // custom 403 access denied handler 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
         http.csrf().disable()
                 .authorizeRequests()
 					.antMatchers("/").permitAll()//todo secure so only /login is public
+					.antMatchers("/webjars/**").permitAll()
+					.antMatchers("/static/**").permitAll()
+					.antMatchers("/static/**/**").permitAll()
 					.antMatchers("/admin/**").hasAnyRole("AUTH")
 					.anyRequest().authenticated()
                 .and()

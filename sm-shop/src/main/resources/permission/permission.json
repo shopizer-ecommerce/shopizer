@@ -5,20 +5,21 @@
         "group": {
           "name": [
             "SUPERADMIN",
-            "ADMIN"
+            "ADMIN",
+            "AUTH"
           ]
         }
       },
       {
         "type": "SUPERADMIN",
-        "group": { "name": ["SUPERADMIN"] }
+        "group": { "name": ["SUPERADMIN","AUTH"] }
       },
       {
         "type": "ADMIN",
         "group": {
           "name": [
-            "SUPERADMIN",
-            "ADMIN"
+            "ADMIN",          
+            "AUTH"
           ]
         }
       },
@@ -26,11 +27,7 @@
         "type": "AUTH",
         "group": {
           "name": [
-            "SUPERADMIN",
-            "ADMIN",
-            "ADMIN_CATALOGUE",
-            "ADMIN_STORE",
-            "ADMIN_ORDER"
+            "AUTH"
           ]
         }
       },
@@ -38,9 +35,8 @@
         "type": "PRODUCTS",
         "group": {
           "name": [
-            "SUPERADMIN",
-            "ADMIN",
-            "ADMIN_CATALOGUE"
+            "ADMIN_CATALOGUE",
+            "AUTH"
           ]
         }
       },
@@ -48,9 +44,8 @@
         "type": "ORDER",
         "group": {
           "name": [
-            "SUPERADMIN",
-            "ADMIN",
             "ADMIN_ORDER"
+            "AUTH"
           ]
         }
       },
@@ -58,9 +53,8 @@
         "type": "CONTENT",
         "group": {
           "name": [
-            "SUPERADMIN",
-            "ADMIN",
-            "ADMIN_CONTENT"
+            "ADMIN_CONTENT",
+            "AUTH"
           ]
         }
       },
@@ -68,9 +62,8 @@
         "type": "STORE",
         "group": {
           "name": [
-            "SUPERADMIN",
-            "ADMIN",
-            "ADMIN_STORE"
+            "ADMIN_STORE",
+            "AUTH"
           ]
         }
       },
@@ -78,9 +71,8 @@
         "type": "TAX",
         "group": {
           "name": [
-            "SUPERADMIN",
-            "ADMIN",
-            "ADMIN_STORE"
+            "ADMIN_STORE",
+            "AUTH"
           ]
         }
       },
@@ -88,9 +80,8 @@
         "type": "PAYMENT",
         "group": {
           "name": [
-            "SUPERADMIN",
-            "ADMIN",
-            "ADMIN_STORE"
+            "ADMIN_STORE",
+            "AUTH"
           ]
         }
       },
@@ -98,9 +89,8 @@
         "type": "CUSTOMER",
         "group": {
           "name": [
-            "SUPERADMIN",
-            "ADMIN",
-            "ADMIN_STORE"
+            "ADMIN_CUSTOMER",
+            "AUTH"
           ]
         }
       },
@@ -108,15 +98,14 @@
         "type": "SHIPPING",
         "group": {
           "name": [
-            "SUPERADMIN",
-            "ADMIN",
-            "ADMIN_STORE"
+            "ADMIN_STORE",
+            "AUTH"
           ]
         }
       },
       {
         "type": "AUTH_CUSTOMER",
-        "group": { "name": ["CUSTOMER" ]}
+        "group": { "name": ["AUTH_CUSTOMER" ]}
       }
     ]
   }
