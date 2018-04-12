@@ -1,109 +1,79 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <title>Sign In</title>
-    <style>
-      #loader {
-        transition: all 0.3s ease-in-out;
-        opacity: 1;
-        visibility: visible;
-        position: fixed;
-        height: 100vh;
-        width: 100%;
-        background: #fff;
-        z-index: 90000;
-      }
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
 
-      #loader.fadeOut {
-        opacity: 0;
-        visibility: hidden;
-      }
+<head>
+<title th:text="#{title}"></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" type="text/css" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
+<script src="webjars/jquery/3.3.1-1/jquery.min.js"></script>
+<!-- Include the above in your HEAD tag -->
+<style>
+body { 
+  background: url(resources/static/img/bg.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
 
-      .spinner {
-        width: 40px;
-        height: 40px;
-        position: absolute;
-        top: calc(50% - 20px);
-        left: calc(50% - 20px);
-        background-color: #333;
-        border-radius: 100%;
-        -webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
-        animation: sk-scaleout 1.0s infinite ease-in-out;
-      }
+.panel-default {
+opacity: 0.9;
+margin-top:30px;
+}
+.form-group.last { margin-bottom:0px; }
+</style>
+</head>
 
-      @-webkit-keyframes sk-scaleout {
-        0% { -webkit-transform: scale(0) }
-        100% {
-          -webkit-transform: scale(1.0);
-          opacity: 0;
-        }
-      }
+<body>
 
-      @keyframes sk-scaleout {
-        0% {
-          -webkit-transform: scale(0);
-          transform: scale(0);
-        } 100% {
-          -webkit-transform: scale(1.0);
-          transform: scale(1.0);
-          opacity: 0;
-        }
-      }
-    </style>
-    <link rel="stylesheet" type="text/css"
-	href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
-  </head>
-  <body class="app">
-    <div id='loader'>
-      <div class="spinner"></div>
-    </div>
-
-    <script>
-      window.addEventListener('load', () => {
-        const loader = document.getElementById('loader');
-        setTimeout(() => {
-          loader.classList.add('fadeOut');
-        }, 300);
-      });
-    </script>
-    <div class="peers ai-s fxw-nw h-100vh">
-      <div class="d-n@sm- peer peer-greed h-100 pos-r bgr-n bgpX-c bgpY-c bgsz-cv" style='background-image: url("../../static/img/bg.jpg")'>
-        <div class="pos-a centerXY">
-          <div class="bgc-white bdrs-50p pos-r" style='width: 120px; height: 120px;'>
-            <img class="pos-a centerXY" src="/static/img/logox.png" alt=""/>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-md-4 peer pX-40 pY-80 h-100 bgc-white scrollable pos-r" style='min-width: 320px;'>
-        <h4 class="fw-300 c-grey-900 mB-40">Login</h4>
-        <form>
-          <div class="form-group">
-            <label class="text-normal text-dark">Username</label>
-            <input type="email" class="form-control" placeholder="John Doe"/>
-          </div>
-          <div class="form-group">
-            <label class="text-normal text-dark">Password</label>
-            <input type="password" class="form-control" placeholder="Password"/>
-          </div>
-          <div class="form-group">
-            <div class="peers ai-c jc-sb fxw-nw">
-              <div class="peer">
-                <div class="checkbox checkbox-circle checkbox-info peers ai-c">
-                  <input type="checkbox" id="inputCall1" name="inputCheckboxesCall" class="peer"/>
-                  <label for="inputCall1" class=" peers peer-greed js-sb ai-c">
-                    <span class="peer peer-greed">Remember Me</span>
-                  </label>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-7">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="glyphicon glyphicon-lock"></span> Login</div>
+                <div class="panel-body">
+                    <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-3 control-label">
+                            Email</label>
+                        <div class="col-sm-9">
+                            <input type="email" class="form-control" id="inputEmail3" placeholder="Email" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-3 control-label">
+                            Password</label>
+                        <div class="col-sm-9">
+                            <input type="password" class="form-control" id="inputPassword3" placeholder="Password" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-3 col-sm-9">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox"/>
+                                    Remember me
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group last">
+                        <div class="col-sm-offset-3 col-sm-9">
+                            <button type="submit" class="btn btn-success btn-sm">
+                                Sign in</button>
+                                 <button type="reset" class="btn btn-default btn-sm">
+                                Reset</button>
+                        </div>
+                    </div>
+                    </form>
                 </div>
-              </div>
-              <div class="peer">
-                <button class="btn btn-primary">Login</button>
-              </div>
+                <div class="panel-footer">
+                    Not Registred? <a href="http://www.jquery2dotnet.com">Register here</a></div>
             </div>
-          </div>
-        </form>
-      </div>
+        </div>
     </div>
-  </body>
+</div>
+</body>
+<script type="text/javascript" src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </html>

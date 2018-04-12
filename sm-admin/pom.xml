@@ -88,6 +88,13 @@
 		    <version>3.3.1-1</version>
 		</dependency>
 		
+		<!-- https://mvnrepository.com/artifact/net.sourceforge.nekohtml/nekohtml -->
+		<dependency>
+		    <groupId>net.sourceforge.nekohtml</groupId>
+		    <artifactId>nekohtml</artifactId>
+		</dependency>
+		
+		
 		<!-- H2 session -->
         <dependency>
 			<groupId>com.h2database</groupId>

@@ -36,10 +36,10 @@ public class AdminSecurityConfiguration extends WebSecurityConfigurerAdapter{
 
         http.csrf().disable()
                 .authorizeRequests()
-					.antMatchers("/").permitAll()//todo secure so only /login is public
+					.antMatchers("/").permitAll()
 					.antMatchers("/webjars/**").permitAll()
-					.antMatchers("/static/**").permitAll()
-					.antMatchers("/static/**/**").permitAll()
+					.antMatchers("/public/**/**/**").permitAll()
+					.antMatchers("/public/**").permitAll()
 					.antMatchers("/admin/**").hasAnyRole("AUTH")
 					.anyRequest().authenticated()
                 .and()
