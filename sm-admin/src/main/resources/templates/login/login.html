@@ -9,7 +9,7 @@
 <!-- Include the above in your HEAD tag -->
 <style>
 body { 
-  background: url(resources/static/img/bg.jpg) no-repeat center center fixed; 
+  background: url(/img/bg.jpg) no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -17,18 +17,23 @@ body {
 }
 
 .panel-default {
-opacity: 0.9;
+opacity: 1.0;
 margin-top:30px;
 }
+
+
 .form-group.last { margin-bottom:0px; }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-        <div class="col-md-4 col-md-offset-7">
+        <!--  <div class="col-md-4 col-md-offset-7">-->
+        <!--<div class="main-box col-md-8 col-md-offset-2">-->
+        	<div style="float:left; margin-top:30px;" class="col-lg-4 col-md-4 col-sm-6 col-xs-12"><h1>Logo</h1></div>
+        	<div style="float:right;" class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <span class="glyphicon glyphicon-lock"></span> Login</div>
@@ -71,7 +76,8 @@ margin-top:30px;
                 <div class="panel-footer">
                     Not Registred? <a href="http://www.jquery2dotnet.com">Register here</a></div>
             </div>
-        </div>
+        	</div>
+        <!--</div>-->
     </div>
 </div>
 </body>
