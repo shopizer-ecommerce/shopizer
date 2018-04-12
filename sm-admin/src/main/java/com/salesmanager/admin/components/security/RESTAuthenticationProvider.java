@@ -66,8 +66,10 @@ public class RESTAuthenticationProvider extends AbstractUserDetailsAuthenticatio
 	            authenticationApi.authenticate(name, password);
 	        //TODO WTF
 	        if (authenticationResponse.getStatusCode().value() == 401) {
-	            return new User("wrongUsername", "wrongPass", 
-	                new ArrayList<GrantedAuthority>());
+/*	            return new User("wrongUsername", "wrongPass", 
+	                new ArrayList<GrantedAuthority>());*/
+	        	//throw UserNameNotFound ?
+	        	//override preckeck
 	        }
 	        Principal principalFromRest = authenticationResponse.getBody();
 	        Set<String> privilegesFromRest = Sets.newHashSet(); 
