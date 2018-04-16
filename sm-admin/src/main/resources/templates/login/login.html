@@ -136,7 +136,7 @@ margin-top:30px;
                     </div>
                     <div class="form-group last">
                         <div class="col-sm-offset-3 col-sm-9">
-                            <button type="submit" class="btn btn-success btn-sm" th:text="#{button.login}">
+                            <button type="submit" class="btn btn-default btn-sm btn-login" th:text="#{button.login}">
                                 </button>
                         </div>
                     </div>
@@ -152,4 +152,11 @@ margin-top:30px;
 </div>
 </body>
 <script type="text/javascript" src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("btn-login").click(function(){
+        console.log("Login");
+    });
+});
+</script>
 </html>
