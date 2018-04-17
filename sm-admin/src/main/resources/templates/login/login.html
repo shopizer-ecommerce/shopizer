@@ -154,8 +154,17 @@ margin-top:30px;
 <script type="text/javascript" src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script>
 $(document).ready(function(){
+	
+	var username = $.cookie('usernamecookie');
+	if (username != null && username != '') {
+		$('#username').val(username);
+		$('#remember').attr('checked', true);
+	}
+	
     $("btn-login").click(function(){
         console.log("Login");
+        //login clicked
+        
     });
 });
 </script>
