@@ -110,37 +110,37 @@ margin-top:30px;
                 <div class="panel-heading" th:text="#{login}">
                     <span class="glyphicon glyphicon-lock"></span></div>
                 <div class="panel-body">
-                    <form class="form-horizontal" role="form">
+                <form id="submitForm" class="form-horizontal" role="form">
                     <div class="form-group">
                         <label for="inputEmail3" class="col-sm-3 control-label" th:text="#{label.generic.username}">
                             </label>
                         <div class="col-sm-9">
-                            <input type="email" class="form-control" id="inputEmail3" placeholder="" required>
+                            <input type="text" class="form-control" id="userName" placeholder="" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="inputPassword3" class="col-sm-3 control-label" th:text="#{password}">
                             </label>
                         <div class="col-sm-9">
-                            <input type="password" class="form-control" id="inputPassword3" placeholder="" required>
+                            <input type="password" class="form-control" id="password" placeholder="" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-3 col-sm-9">
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" th:text="#{rememberme}"/>
+                                    <input id="remember" type="checkbox" th:text="#{rememberme}"/>
                                 </label>
                             </div>
                         </div>
                     </div>
                     <div class="form-group last">
                         <div class="col-sm-offset-3 col-sm-9">
-                            <button type="submit" class="btn btn-default btn-sm btn-login" th:text="#{button.login}">
+                            <button type="button" class="btn btn-default btn-sm btn-login" th:text="#{button.login}">
                                 </button>
                         </div>
                     </div>
-                    </form>
+                </form>
                 </div>
                 <div class="panel-footer">
                     <!--Not Registred? <a href="http://www.jquery2dotnet.com">Register here</a>-->
@@ -152,20 +152,41 @@ margin-top:30px;
 </div>
 </body>
 <script type="text/javascript" src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="webjars/jquery-cookie/1.4.1-1/jquery.cookie.js"></script>
 <script>
 $(document).ready(function(){
 	
-	var username = $.cookie('usernamecookie');
-	if (username != null && username != '') {
-		$('#username').val(username);
-		$('#remember').attr('checked', true);
-	}
+	setUserNameCookie($('#userName').val());
 	
-    $("btn-login").click(function(){
-        console.log("Login");
-        //login clicked
+    $(".btn-login").click(function(){
+
+    	//var str = $("#submitForm").serialize();
+    	var str = $("#submitForm").serializeArray();
+    	
+    	console.log( str );
+
+    	$.ajax({
+    	    type:"post",
+    	    contentType: 'application/json',
+    	    data:str,
+    	    url:"/login/process",
+    	    async: false,
+    	    dataType: "json",
+    	    success: function(){
+    	       alert("success");
+    	    }
+    	});
+    	
         
     });
+    
+    function setUserNameCookie(username) {
+    	var username = $.cookie('usernamecookie');
+    	if (username != null && username != '') {
+    		$('#userName').val(username);
+    		$('#remember').attr('checked', true);
+    	}
+    }
 });
 </script>
 </html>
