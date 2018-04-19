@@ -173,15 +173,20 @@ $(document).ready(function(){
     	//var firstName = $('#firstName').val();
     	//console.log(JSON.stringify(contactForm));
     	
-    	var array = '{"userName":"admin","password":"mypassword"}';
+     	var array = '{"userName":"' + $("#userName").val()+ '","password":"' + $("#password").val()+ '"}';
+     	console.log(array);
+     	
+/*     	array = array.replace("${1}, $("#userName").val());
+    	array = array.replace("${2}, $("#password").val())
+    	
     	console.log(array);
     	
     	var formData = {
-        		firstname : $("#userName").val(),
-        		lastname :  $("#password").val()
+    			userName : $("#userName").val(),
+    			password :  $("#password").val()
         }
-    	
-    	//JSON.stringify(formData),
+    	 
+    	JSON.stringify(formData), */
 
     	$.ajax({
     	    type:"post",

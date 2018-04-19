@@ -10,7 +10,7 @@ public class User extends AbstractModel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	//@NotNull
+	@NotNull
 	private String userName;
 	public String getUserName() {
 		return userName;

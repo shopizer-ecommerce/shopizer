@@ -8,6 +8,8 @@ import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,14 +29,19 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value="/login/process", method = RequestMethod.POST)
-	public ResponseEntity<String> login(@RequestBody LogonUser user, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ResponseEntity<String> login(@Valid @RequestBody LogonUser user, BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		//http://www.springboottutorial.com/spring-boot-validation-for-rest-services
+		//http://blog.codeleak.pl/2013/09/request-body-validation-in-spring-mvc-3.2.html
 		
 		//return "login/login";
 		//retrun RESTEntity
 		
 		//authenticationManager.authenticate(auth)
+		
+	       if (bindingResult.hasErrors()) {
+	            System.out.println("Has error");
+	        }
 		
 		return null;
 	}
