@@ -26,6 +26,10 @@
 		class="com.salesmanager.shop.store.security.JWTCustomerServicesImpl">
 	</beans:bean>
 	
+<!-- 	<beans:bean id="jwtUserDetailsService"
+		class="com.salesmanager.shop.store.security.admin.JWTAdminServicesImpl">
+	</beans:bean> -->
+	
 
 	<!-- JDBC User details -->
 	<beans:bean id="userDetailsService"
@@ -161,11 +165,7 @@
     </http>
    
     <!-- REST services v1 for Customer REALM -->
-    <!-- http://www.gauravbytes.com/2017/03/spring-security-digest-authentication.html
-    
-    https://www.toptal.com/java/rest-security-with-jwt-spring-security-and-java
-    https://github.com/szerhusenBC/jwt-spring-security-demo
-    
+    <!-- 
     FB
     https://github.com/ozgengunay/FBSpringSocialRESTAuth
     
@@ -175,7 +175,6 @@
 
     FB user access token
     EAABZBKVBQN2QBALvVE6RfhdzNVw3JkZCN6HDzGqeFXJJ5kOupH8EZA5PQrgO4sAOy7MfOS8pfilGtWeYlhT6eA7v5Obj02uPBq9oW9mdZC52GuTWnO18kTUKpqAx45CjZCqoKDGsPzTk0DWLkdcBDo3aDuUKW3wiFLGeRyuVmBKTmOLprOVtI7nISmb4tTsYZD
-    
      -->
      
 	<http pattern="/api/v1/auth/**" 

@@ -18,6 +18,11 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+/**
+ * Used for managing token based authentication for customer and user
+ * @author c.samson
+ *
+ */
 @Component
 public class JWTTokenUtil implements Serializable {
 
