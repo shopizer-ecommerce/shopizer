@@ -27,7 +27,7 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value="/login/process", method = RequestMethod.POST)
-	public ResponseEntity<String> login(@Valid @RequestBody LogonUser user, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ResponseEntity<String> login(@RequestBody LogonUser user, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		//http://www.springboottutorial.com/spring-boot-validation-for-rest-services
 		
