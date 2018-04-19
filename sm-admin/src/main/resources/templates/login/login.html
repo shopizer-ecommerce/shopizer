@@ -110,19 +110,19 @@ margin-top:30px;
                 <div class="panel-heading" th:text="#{login}">
                     <span class="glyphicon glyphicon-lock"></span></div>
                 <div class="panel-body">
-                <form id="submitForm" class="form-horizontal" role="form">
+                <form id="submitForm" class="form-horizontal logon-form">
                     <div class="form-group">
                         <label for="inputEmail3" class="col-sm-3 control-label" th:text="#{label.generic.username}">
                             </label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="userName" placeholder="" required>
+                            <input type="text" class="form-control" name="userName" id="userName" placeholder="" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="inputPassword3" class="col-sm-3 control-label" th:text="#{password}">
                             </label>
                         <div class="col-sm-9">
-                            <input type="password" class="form-control" id="password" placeholder="" required>
+                            <input type="password" class="form-control" name="password" id="password" placeholder="" required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -160,15 +160,26 @@ $(document).ready(function(){
 	
     $(".btn-login").click(function(){
 
-    	//var str = $("#submitForm").serialize();
-    	var str = $("#submitForm").serializeArray();
+/*     	var array = $('.logon-form').serializeArray();
+    	//console.log(array);
+
+    	var json = {};
+    	$.each(array, function() {
+    		json[this.name] = this.value || ''
+    	}); */
     	
-    	console.log( str );
+    	//console.log(json);
+    	//var contactForm = new Object;
+    	//var firstName = $('#firstName').val();
+    	//console.log(JSON.stringify(contactForm));
+    	
+    	var array = '{"userName":"admin","password":"mypassword"}';
+    	console.log(array);
 
     	$.ajax({
     	    type:"post",
-    	    contentType: 'application/json',
-    	    data:str,
+    	    contentType : 'application/json; charset=utf-8',
+    	    data:json,
     	    url:"/login/process",
     	    async: false,
     	    dataType: "json",
