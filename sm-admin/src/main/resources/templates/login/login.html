@@ -193,10 +193,12 @@ $(document).ready(function(){
     	    contentType : 'application/json; charset=utf-8',
     	    data:array,
     	    url:"/login/process",
-    	    async: false,
     	    dataType: "json",
     	    success: function(){
     	       alert("success");
+    	    },
+    	    error: function(error) {
+    	    	console.log("error" + error);
     	    }
     	});
     	
