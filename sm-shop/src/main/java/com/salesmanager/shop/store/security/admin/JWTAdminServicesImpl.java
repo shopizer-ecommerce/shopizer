@@ -33,17 +33,17 @@ import com.salesmanager.shop.store.security.AbstractCustomerServices;
 import com.salesmanager.shop.store.security.user.JWTUser;
 
 
-//@Service("jwtAdminDetailsService")
+@Service("jwtAdminDetailsService")
 public class JWTAdminServicesImpl implements UserDetailsService{
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(JWTAdminServicesImpl.class);
 	
 	
-	//@Inject
+	@Inject
 	private UserService userService;
-	//@Inject
+	@Inject
 	private PermissionService  permissionService;
-	//@Inject
+	@Inject
 	private GroupService   groupService;
 	
 	public final static String ROLE_PREFIX = "ROLE_";//Spring Security 4

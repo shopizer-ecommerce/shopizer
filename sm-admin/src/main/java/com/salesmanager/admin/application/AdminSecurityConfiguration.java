@@ -4,28 +4,39 @@ import javax.inject.Inject;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
+import com.salesmanager.admin.components.security.AdminAuthenticationProvider;
+
 //https://www.future-processing.pl/blog/exploring-spring-boot-and-spring-security-custom-token-based-authentication-of-rest-services-with-spring-security-and-pinch-of-spring-java-configuration-and-spring-integration-testing/
 @Configuration
+@EnableWebSecurity
 public class AdminSecurityConfiguration extends WebSecurityConfigurerAdapter{
 	
 	@Inject
 	private AccessDeniedHandler accessDeniedHandler;
 	
 	@Inject
-	private AuthenticationProvider authenticationProvider;
+	private AdminAuthenticationProvider authenticationProvider;
 	
-	  @Override
-	  protected void configure(final AuthenticationManagerBuilder auth)
-	      throws Exception {
-	    auth.authenticationProvider(authenticationProvider);
-	    super.configure(auth);
-	  }
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+	  
+	@Override
+	public void configure(AuthenticationManagerBuilder builder)
+	          throws Exception {
+	    builder.authenticationProvider(authenticationProvider);
+	}
+
 
 
 	
@@ -33,8 +44,8 @@ public class AdminSecurityConfiguration extends WebSecurityConfigurerAdapter{
     // custom 403 access denied handler 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
         http.csrf().disable()
+                .authenticationProvider(authenticationProvider)
                 .authorizeRequests()
 					.antMatchers("/").permitAll()
 					.antMatchers("/webjars/**").permitAll()

@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 
 import com.google.common.collect.Sets;
 
-@Component("authenticationProvider")
+@Component("restAuthenticationProvider")
 public class RESTAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
 	
 

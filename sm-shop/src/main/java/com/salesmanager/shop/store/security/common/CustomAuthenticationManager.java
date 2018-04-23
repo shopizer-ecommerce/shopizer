@@ -1,4 +1,4 @@
-package com.salesmanager.shop.store.security.manager;
+package com.salesmanager.shop.store.security.common;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -84,10 +84,10 @@ public abstract class CustomAuthenticationManager {
 	}
 
 	
-	abstract Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, Exception;
+	public abstract Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, Exception;
 	
-	abstract void successfullAuthentication(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws AuthenticationException;
+	public abstract void successfullAuthentication(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws AuthenticationException;
 
-	abstract void unSuccessfullAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException;
+	public abstract void unSuccessfullAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException;
 
 }

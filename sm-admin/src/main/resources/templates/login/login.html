@@ -6,6 +6,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" type="text/css" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
 <script src="webjars/jquery/3.3.1-1/jquery.min.js"></script>
+<script src="js/loader.js"></script>
+<script src="js/loadingoverlay.min.js"></script>
 <link rel="stylesheet" type="text/css" href="css/admin.css" />
 <!-- Include the above in your HEAD tag -->
 <style>
@@ -109,6 +111,8 @@ margin-top:30px;
             <div class="panel panel-default">
                 <div class="panel-heading" th:text="#{login}">
                     <span class="glyphicon glyphicon-lock"></span></div>
+                <div class="alert alert-danger" style="margin-top:10px;margin-left:10px;margin-right:10px;">
+				</div>
                 <div class="panel-body">
                 <form id="submitForm" class="form-horizontal logon-form">
                     <div class="form-group">
@@ -156,37 +160,18 @@ margin-top:30px;
 <script>
 $(document).ready(function(){
 	
+	//hide logon error message
+	$('.alert-danger').hide();
+	
 	setUserNameCookie($('#userName').val());
 	
     $(".btn-login").click(function(){
-
-/*     	var array = $('.logon-form').serializeArray();
-    	//console.log(array);
-
-    	var json = {};
-    	$.each(array, function() {
-    		json[this.name] = this.value || ''
-    	}); */
     	
-    	//console.log(json);
-    	//var contactForm = new Object;
-    	//var firstName = $('#firstName').val();
-    	//console.log(JSON.stringify(contactForm));
+    	showLoader();
+    	
+    	$('.alert-danger').hide();
     	
      	var array = '{"userName":"' + $("#userName").val()+ '","password":"' + $("#password").val()+ '"}';
-     	console.log(array);
-     	
-/*     	array = array.replace("${1}, $("#userName").val());
-    	array = array.replace("${2}, $("#password").val())
-    	
-    	console.log(array);
-    	
-    	var formData = {
-    			userName : $("#userName").val(),
-    			password :  $("#password").val()
-        }
-    	 
-    	JSON.stringify(formData), */
 
     	$.ajax({
     	    type:"post",
@@ -195,10 +180,15 @@ $(document).ready(function(){
     	    url:"/login/process",
     	    dataType: "json",
     	    success: function(){
-    	       alert("success");
+    	       hideLoader();
+    	       console.log("success");
     	    },
-    	    error: function(error) {
-    	    	console.log("error" + error);
+    	    error: function(response,textStatus,errorThrown) { 
+    	    	hideLoader();
+    	    	var r = jQuery.parseJSON(response.responseText);
+    	    	console.log(r.message + "-" + textStatus + "-" + errorThrown);
+    	    	$('.alert-danger').html(r.message);
+    	    	$('.alert-danger').show();
     	    }
     	});
     	

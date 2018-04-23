@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.salesmanager.shop.store.security.manager.CustomAuthenticationManager;
+import com.salesmanager.shop.store.security.common.CustomAuthenticationManager;
 
 
 public class AuthenticationTokenFilter extends OncePerRequestFilter {
@@ -32,6 +32,9 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
     
     @Inject
     private CustomAuthenticationManager jwtCustomCustomerAuthenticationManager;
+    
+    @Inject
+    private CustomAuthenticationManager jwtCustomAdminAuthenticationManager;
 
     @Inject
     private CustomAuthenticationManager facebookCustomerAuthenticationManager;
@@ -59,6 +62,24 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
 		        } else if(requestHeader != null && requestHeader.startsWith(FACEBOOK_TOKEN)) {
 		        	//Facebook
 		        	facebookCustomerAuthenticationManager.authenticateRequest(request, response);
+		        } else {
+		        	LOGGER.warn("couldn't find any authorization token, will ignore the header");
+		        }
+	        
+	    	} catch(Exception e) {
+	    		throw new ServletException(e);
+	    	}
+    	}
+    	
+    	if(request.getRequestURL().toString().contains("/api/v1/private")) {
+	    	
+	    	final String requestHeader = request.getHeader(this.tokenHeader);//token
+	    	
+	    	try {
+		        if (requestHeader != null && requestHeader.startsWith(BEARER_TOKEN)) {//Bearer
+		        	
+		        	jwtCustomAdminAuthenticationManager.authenticateRequest(request, response);
+	
 		        } else {
 		        	LOGGER.warn("couldn't find any authorization token, will ignore the header");
 		        }

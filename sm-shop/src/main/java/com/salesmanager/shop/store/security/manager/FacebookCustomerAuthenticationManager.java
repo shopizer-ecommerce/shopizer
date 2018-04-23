@@ -63,6 +63,7 @@ import com.salesmanager.shop.model.customer.PersistableCustomer;
 import com.salesmanager.shop.model.customer.UserAlreadyExistException;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
+import com.salesmanager.shop.store.security.common.CustomAuthenticationManager;
 import com.salesmanager.shop.store.security.user.CustomerDetails;
 import com.salesmanager.shop.utils.LanguageUtils;
 
@@ -282,7 +283,7 @@ public class FacebookCustomerAuthenticationManager extends CustomAuthenticationM
 
 
 	@Override
-	void successfullAuthentication(HttpServletRequest request, HttpServletResponse response,
+	public void successfullAuthentication(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws AuthenticationException {
 		logger.debug("Successfull FB authentication");
 		
@@ -290,7 +291,7 @@ public class FacebookCustomerAuthenticationManager extends CustomAuthenticationM
 
 
 	@Override
-	void unSuccessfullAuthentication(HttpServletRequest request, HttpServletResponse response)
+	public void unSuccessfullAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
 		logger.debug("Un successfull FB authentication");
 		
