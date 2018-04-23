@@ -28,13 +28,15 @@ public class ReadableUserPopulator extends AbstractDataPopulator<User, ReadableU
 		target.setUserName(source.getAdminName());
 		target.setDefaultLanguage(source.getDefaultLanguage().getCode());
 		target.setMerchant(source.getMerchantStore().getCode());
+		target.setId(source.getId());
 		
 		
 		for(Group group:source.getGroups()) {
 			
 			ReadableGroup g = new ReadableGroup();
 			g.setId(new Long(group.getId()));
-			g.setName(g.getName());
+			g.setName(group.getGroupName());
+			//TODO permissions
 			target.getGroups().add(g);
 			
 		}

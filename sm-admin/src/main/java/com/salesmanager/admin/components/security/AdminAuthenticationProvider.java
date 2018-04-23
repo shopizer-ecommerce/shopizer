@@ -81,6 +81,40 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
 		headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set(AUTHORIZATION, String.valueOf(map.get("token")));
+        
+        
+        entity = new HttpEntity<String>(headers);
+        
+        String profileResourceUrl
+        = backend + "/users/" + name;
+        
+        //Invoke web service
+        restTemplate = new RestTemplate();
+
+        resp
+          = restTemplate.getForEntity(profileResourceUrl, String.class);
+        
+        if(!HttpStatus.OK.equals(resp.getStatusCode())) {
+        	throw new AdminAuthenticationException("Cannot get profile for this client [ " + resp.getStatusCode().name() + "]");
+        }
+        
+        body = resp.getBody();
+		map = new HashMap<String, Object>();
+
+		// convert JSON string to Map
+		try {
+			map = mapper.readValue(body, new TypeReference<Map<String, String>>(){});
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			logger.error("Cannot parse get profile response body " + body, e);
+			throw new AdminAuthenticationException("Cannot get profile this client, response parsing problem [ " + body + "]");
+		}
+		
+		//first name
+		//last name
+		//email
+		//language
+		//groups
 		
 		
 		//put token in cookie

@@ -41,13 +41,6 @@ public class LoginController {
 	@RequestMapping(value="/login/process", method = RequestMethod.POST)
 	public ResponseEntity<String> login(@Valid @RequestBody LogonUser user, BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
 		
-		//http://www.springboottutorial.com/spring-boot-validation-for-rest-services
-		//http://blog.codeleak.pl/2013/09/request-body-validation-in-spring-mvc-3.2.html
-		
-		//return "login/login";
-		//retrun RESTEntity
-		
-		//authenticationManager.authenticate(auth)
 		
 	    if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(ResponseToJson.toObject(messages.get("message.credentials.required", locale), Constants.Code.VALIDATION_ERROR));
