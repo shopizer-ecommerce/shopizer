@@ -23,12 +23,6 @@
 
 	<dependencies>
 
-		<!-- sm-shop -->
-<!-- 		<dependency>
-			<groupId>com.shopizer</groupId>
-			<artifactId>sm-shop</artifactId>
-			<version>2.2.0</version>
-		</dependency> -->
 		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -66,37 +60,7 @@
 			<scope>provided</scope>
 		</dependency>
 		
-		<!-- hot swapping, disable cache for template, enable live reload -->
-		<!-- Remove in prod -->
- 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<optional>true</optional>
-		</dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.webjars/bootstrap -->
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootstrap</artifactId>
-			<version>3.3.7</version>
-		</dependency>
-		
-		<!-- https://mvnrepository.com/artifact/org.webjars/jquery -->
-		<dependency>
-		    <groupId>org.webjars</groupId>
-		    <artifactId>jquery</artifactId>
-		    <version>3.3.1-1</version>
-		</dependency>
-		
-		<!-- https://mvnrepository.com/artifact/org.webjars/jquery-cookie -->
-		<dependency>
-		    <groupId>org.webjars</groupId>
-		    <artifactId>jquery-cookie</artifactId>
-		    <version>1.4.1-1</version>
-		</dependency>
-		
-		
-		<!-- https://mvnrepository.com/artifact/net.sourceforge.nekohtml/nekohtml -->
+	    <!-- https://mvnrepository.com/artifact/net.sourceforge.nekohtml/nekohtml -->
 		<dependency>
 		    <groupId>net.sourceforge.nekohtml</groupId>
 		    <artifactId>nekohtml</artifactId>
@@ -119,6 +83,61 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 		</dependency>	
+		
+		<!-- hot swapping, disable cache for template, enable live reload -->
+		<!-- Remove in prod -->
+ 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<!-- Web jars -->
+        <!-- https://mvnrepository.com/artifact/org.webjars/bootstrap -->
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>3.3.7</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.webjars/jquery -->
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>jquery</artifactId>
+		    <version>3.3.1-1</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.webjars/jquery-cookie -->
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>jquery-cookie</artifactId>
+		    <version>1.4.1-1</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.webjars/font-awesome -->
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>font-awesome</artifactId>
+		    <version>5.0.10</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>ionicons</artifactId>
+		    <version>2.0.1</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>morrisjs</artifactId>
+		    <version>0.5.1</version>
+		</dependency>
+		
+		<!-- End webjars -->
+		
+		
+		
+
 		
 		
 	</dependencies>
