@@ -2,6 +2,7 @@ package com.salesmanager.admin.components.security;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -9,13 +10,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -42,7 +45,8 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
         String password = authentication.getCredentials().toString();
         
 		ObjectMapper mapper = new ObjectMapper();
-		String json = "{\"username\":\"+ name password+\", \"password\":\"+ password +\"}";
+		String json = "{\"username\":\"" + name
+				+ "\",\"password\":\"" + password + "\"}";
         
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -71,65 +75,82 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
 		try {
 			map = mapper.readValue(body, new TypeReference<Map<String, String>>(){});
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			logger.error("Cannot parse login response body " + body, e);
 			throw new AdminAuthenticationException("Cannot authenticate this client, response parsing problem [ " + body + "]");
-		} 	
-
-
-        //get user details (Principal)
-		headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set(AUTHORIZATION, String.valueOf(map.get("token")));
-        
-        
-        entity = new HttpEntity<String>(headers);
-        
-        String profileResourceUrl
-        = backend + "/users/" + name;
-        
-        //Invoke web service
-        restTemplate = new RestTemplate();
-
-        resp
-          = restTemplate.getForEntity(profileResourceUrl, String.class);
-        
-        if(!HttpStatus.OK.equals(resp.getStatusCode())) {
-        	throw new AdminAuthenticationException("Cannot get profile for this client [ " + resp.getStatusCode().name() + "]");
-        }
-        
-        body = resp.getBody();
-		map = new HashMap<String, Object>();
-
-		// convert JSON string to Map
-		try {
-			map = mapper.readValue(body, new TypeReference<Map<String, String>>(){});
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			logger.error("Cannot parse get profile response body " + body, e);
-			throw new AdminAuthenticationException("Cannot get profile this client, response parsing problem [ " + body + "]");
 		}
 		
-		//first name
-		//last name
-		//email
-		//language
-		//groups
+		String token = String.valueOf(map.get("token"));
+		
+        //get user details (Principal)
+		headers = new HttpHeaders();
+	    headers.setContentType(MediaType.APPLICATION_JSON);
+	    headers.set(AUTHORIZATION, "Bearer " + token);//set bearer token
+	        
+	        
+	    entity = new HttpEntity<String>(headers);
+	        
+	    String profileResourceUrl
+	        = backend + "/users/" + name;
+	        
+	        //Invoke web service
+	    restTemplate = new RestTemplate();
+
+	     resp = restTemplate.exchange(profileResourceUrl, HttpMethod.GET, entity, String.class);
+
+	        
+	     if(!HttpStatus.OK.equals(resp.getStatusCode())) {
+	        	throw new AdminAuthenticationException("Cannot get profile for this client [ " + resp.getStatusCode().name() + "]");
+	     }
+	        
+	     body = resp.getBody();
+	     map = new HashMap<String, Object>();
+
+			// convert JSON string to Map
+		 try {
+				map = mapper.readValue(body, new TypeReference<Map<String, Object>>(){});
+		  } catch (Exception e) {
+				// TODO Auto-generated catch block
+				logger.error("Cannot parse get profile response body " + body, e);
+				throw new AdminAuthenticationException("Cannot get profile this client, response parsing problem [ " + body + "]");
+		  }
+			
+			//first name
+			//last name
+			//email
+			//language
+			//groups
+		
+		 List grants = new ArrayList<String>();
+
+		List<Map<String,String>> groups = (List<Map<String,String>>)map.get("groups");
 		
 		
-		//put token in cookie
-        
-        
-        //name will be token
-        return new UsernamePasswordAuthenticationToken(
-                name, password, new ArrayList<>());
-        
+		//TODO add prefix ROLE_ in front of group
+		for(Map<String,String> g : groups) {
+			GrantedAuthority gt = new SimpleGrantedAuthority("ROLE_"+g.get("name"));
+			grants.add(gt);
+		}
+		
+		GrantedAuthority gta = new SimpleGrantedAuthority("ROLE_AUTH");
+		grants.add(gta);
+		
+		
+		AdminAuthenticationToken auth = new AdminAuthenticationToken(name,password,grants);
+		
+		
+		Map<String,String> details = new HashMap<String,String>();
+		details.put("token",token);
+		
+		auth.setDetails(details);
+			
+		return auth;
+     
         
 	}
 
 	@Override
 	public boolean supports(Class<?> authentication) {
-		return authentication.equals(UsernamePasswordAuthenticationToken.class);
+		return authentication.equals(AdminAuthenticationToken.class);
 	}
 
 

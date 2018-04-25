@@ -55,6 +55,7 @@ public class AdminSecurityConfiguration extends WebSecurityConfigurerAdapter{
 					.antMatchers("/css/**").permitAll()
 					.antMatchers("/js/**/**").permitAll()
 					.antMatchers("/js/**").permitAll()
+					.antMatchers("/robots**").permitAll()
 					.antMatchers("/login/**").permitAll()
 					.antMatchers("/admin/**").hasAnyRole("AUTH")
 					.anyRequest().authenticated()

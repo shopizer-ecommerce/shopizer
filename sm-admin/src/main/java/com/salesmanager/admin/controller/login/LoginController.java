@@ -10,14 +10,15 @@ import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.salesmanager.admin.components.security.AdminAuthenticationToken;
 import com.salesmanager.admin.model.common.Constants;
 import com.salesmanager.admin.model.common.Messages;
 import com.salesmanager.admin.model.common.ResponseToJson;
@@ -45,45 +46,44 @@ public class LoginController {
 	    if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(ResponseToJson.toObject(messages.get("message.credentials.required", locale), Constants.Code.VALIDATION_ERROR));
         }
+	    
 
 		try {
-			
 
 	        // Perform the security
 	    	Authentication authentication = null;
 	    	try {
 	    		
 	    		authentication = authenticationManager.authenticate(
-	                    new UsernamePasswordAuthenticationToken(
-	                            user.getUserName(),
-	                            user.getPassword()
-	                    )
+	    				new AdminAuthenticationToken(
+	    			            user.getUserName(),
+	    			            user.getPassword()
+	    			    )
 	    		 );
 	    		
 	    	} catch(Exception e) {
-	    		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	    		return ResponseEntity.badRequest().body(ResponseToJson.toObject(messages.get("error", locale), Constants.Code.ERROR));
 	    	}
 	    	
 	    	if(authentication == null) {
-	    		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	    		return ResponseEntity.badRequest().body(ResponseToJson.toObject(messages.get("authentication.failed",locale),Constants.Code.ERROR));
 	    	}
-
-/*	        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-	        // Reload password post-security so we can generate token
-	        final JWTUser userDetails = (JWTUser)jwtCustomerDetailsService.loadUserByUsername(customer.getUserName());
-	        final String token = jwtTokenUtil.generateToken(userDetails, device);
-
-	        // Return the token
-	        return ResponseEntity.ok(new AuthenticationResponse(customer.getId(),token));*/
 	    	
-	    	return null;
+	    	SecurityContextHolder.getContext().setAuthentication(authentication);
+	    	
+	    	/**
+	    	 * Get token for further usage
+	    	 */
+	    	
+
+	    	
+	    	return ResponseEntity.ok().body("{}");
 
 			
 		} catch (Exception e) {
-			//LOGGER.error("Error while registering customer",e);
+			//LOGGER.error("Error while login user",e);
 			try {
-				response.sendError(503, "Error while registering customer " + e.getMessage());
+				response.sendError(503, "Error while login user " + e.getMessage());
 			} catch (Exception ignore) {
 			}
 			

@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" type="text/css" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
 <script src="webjars/jquery/3.3.1-1/jquery.min.js"></script>
-<script src="js/loader.js"></script>
+<script src="js/functions.js"></script>
 <script src="js/loadingoverlay.min.js"></script>
 <link rel="stylesheet" type="text/css" href="css/admin.css" />
 <!-- Include the above in your HEAD tag -->
@@ -168,6 +168,7 @@ $(document).ready(function(){
     $(".btn-login").click(function(){
     	
     	showLoader();
+    	saveUserNameCookie();
     	
     	$('.alert-danger').hide();
     	
@@ -181,12 +182,15 @@ $(document).ready(function(){
     	    dataType: "json",
     	    success: function(){
     	       hideLoader();
-    	       console.log("success");
+    	       log("success");
+    	       window.location.replace("/admin/dashboard");
     	    },
     	    error: function(response,textStatus,errorThrown) { 
     	    	hideLoader();
+    	    	log(textStatus);
+    	        log(response);
     	    	var r = jQuery.parseJSON(response.responseText);
-    	    	console.log(r.message + "-" + textStatus + "-" + errorThrown);
+    	    	log(r.message + "-" + textStatus + "-" + errorThrown);
     	    	$('.alert-danger').html(r.message);
     	    	$('.alert-danger').show();
     	    }
@@ -200,6 +204,13 @@ $(document).ready(function(){
     	if (username != null && username != '') {
     		$('#userName').val(username);
     		$('#remember').attr('checked', true);
+    	}
+    }
+    
+    function saveUserNameCookie() {
+     	
+        if($("#remember").is(':checked')){
+    		$.cookie('usernamecookie',$('#userName').val());
     	}
     }
 });
