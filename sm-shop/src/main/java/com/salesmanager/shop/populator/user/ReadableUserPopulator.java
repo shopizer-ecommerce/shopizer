@@ -1,7 +1,6 @@
 package com.salesmanager.shop.populator.user;
 
 import org.apache.commons.lang.Validate;
-import org.apache.commons.lang3.StringUtils;
 
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ConversionException;
@@ -13,6 +12,11 @@ import com.salesmanager.core.model.user.User;
 import com.salesmanager.shop.model.security.ReadableGroup;
 import com.salesmanager.shop.model.user.ReadableUser;
 
+/**
+ * Converts user model to readable user
+ * @author carlsamson
+ *
+ */
 public class ReadableUserPopulator extends AbstractDataPopulator<User, ReadableUser> {
 
 	@Override
@@ -47,6 +51,12 @@ public class ReadableUserPopulator extends AbstractDataPopulator<User, ReadableU
 			target.getGroups().add(g);
 			
 		}
+		
+		/**
+		 * dates
+		 * DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm a z");
+		 * myObjectMapper.setDateFormat(df);
+		 */
 		
 		
 		return target;

@@ -12,6 +12,9 @@ public class UserEntity extends User {
 	private String userName;
 	private String defaultLanguage;
 	private String merchant;
+	private boolean active;
+	private String lastAccess;
+	private String loginTime;
 	
 	
 	
@@ -50,6 +53,24 @@ public class UserEntity extends User {
 	}
 	public void setMerchant(String merchant) {
 		this.merchant = merchant;
+	}
+	public boolean isActive() {
+		return active;
+	}
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+	public String getLastAccess() {
+		return lastAccess;
+	}
+	public void setLastAccess(String lastAccess) {
+		this.lastAccess = lastAccess;
+	}
+	public String getLoginTime() {
+		return loginTime;
+	}
+	public void setLoginTime(String loginTime) {
+		this.loginTime = loginTime;
 	}
 
 }
