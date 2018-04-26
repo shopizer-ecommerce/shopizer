@@ -118,7 +118,7 @@
 		<dependency>
 		    <groupId>org.webjars</groupId>
 		    <artifactId>font-awesome</artifactId>
-		    <version>5.0.10</version>
+		    <version>4.7.0</version>
 		</dependency>
 		
 		<dependency>
@@ -131,6 +131,12 @@
 		    <groupId>org.webjars</groupId>
 		    <artifactId>morrisjs</artifactId>
 		    <version>0.5.1</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>jquery-ui</artifactId>
+		    <version>1.12.1</version>
 		</dependency>
 		
 		<!-- End webjars -->
