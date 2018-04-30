@@ -25,6 +25,7 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.salesmanager.admin.controller.exception.AdminAuthenticationException;
+import com.salesmanager.admin.utils.Constants;
 
 
 @Component
@@ -79,7 +80,7 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
 			throw new AdminAuthenticationException("Cannot authenticate this client, response parsing problem [ " + body + "]");
 		}
 		
-		String token = String.valueOf(map.get("token"));
+		String token = String.valueOf(map.get(Constants.TOKEN));
 		
         //get user details (Principal)
 		headers = new HttpHeaders();
@@ -139,7 +140,7 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
 		
 		
 		Map<String,String> details = new HashMap<String,String>();
-		details.put("token",token);
+		details.put(Constants.TOKEN,token);
 		
 		auth.setDetails(details);
 			

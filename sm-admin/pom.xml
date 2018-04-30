@@ -49,11 +49,6 @@
         </dependency>
 
 
-<!-- 	<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-tomcat</artifactId>
-		</dependency> -->
-
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-jasper</artifactId>
@@ -76,7 +71,22 @@
 		    <groupId>org.hibernate.validator</groupId>
 		    <artifactId>hibernate-validator-annotation-processor</artifactId>
 		    <version>6.0.9.Final</version>
-		</dependency>	
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-collections4 -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-collections4</artifactId>
+		    <version>4.1</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.ehcache/ehcache -->
+		<dependency>
+		    <groupId>org.ehcache</groupId>
+		    <artifactId>ehcache</artifactId>
+		    <version>3.5.2</version>
+		</dependency>
+		
 				
 		<!-- H2 session -->
         <dependency>

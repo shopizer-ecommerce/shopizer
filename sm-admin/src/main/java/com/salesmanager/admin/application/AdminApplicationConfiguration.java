@@ -13,6 +13,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+import com.salesmanager.admin.filter.AdminFilter;
+
 @Configuration
 @ComponentScan({"com.salesmanager.admin"})
 public class AdminApplicationConfiguration extends WebMvcConfigurerAdapter{
@@ -39,9 +41,15 @@ public class AdminApplicationConfiguration extends WebMvcConfigurerAdapter{
 	    return lci;
 	}
 	
+	@Bean
+	public AdminFilter getAdminFilter() {
+		return new AdminFilter();
+	}
+	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 	    registry.addInterceptor(localeChangeInterceptor());
+	    registry.addInterceptor(getAdminFilter());
 	}
 	
 	@Bean
