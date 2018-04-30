@@ -17,8 +17,15 @@
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
           <!-- Messages: style can be found in dropdown.less-->
-          <!-- Email box -->
-
+          <!-- Languages -->
+          <li class="dropdown messages-menu">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <span class="">Languages</span>
+          </a>
+             <ul class="dropdown-menu">
+              <li th:each="language : ${LANGUAGE}" class="footer"><a href="#" th:text="${language.name}"></a></li>
+            </ul>
+          </li>
 <!--           <li class="dropdown messages-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-envelope-o"></i>

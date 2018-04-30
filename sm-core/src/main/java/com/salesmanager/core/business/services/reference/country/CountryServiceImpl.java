@@ -104,11 +104,7 @@ public class CountryServiceImpl extends SalesManagerEntityServiceImpl<Integer, C
 				
 				cache.putInCache(countries, "COUNTRIES_" + language.getCode());
 			}
-			
-			
-		
-		
-		
+
 		} catch (Exception e) {
 			LOGGER.error("getCountries()", e);
 		}
@@ -116,6 +112,17 @@ public class CountryServiceImpl extends SalesManagerEntityServiceImpl<Integer, C
 		return countries;
 		
 		
+	}
+
+	@Override
+	public List<Country> listCountryZones(Language language) throws ServiceException {
+		try {
+			return countryRepository.listCountryZonesByLanguage(language.getId());
+		} catch(Exception e) {
+			LOGGER.error("listCountryZones", e);
+			throw new ServiceException(e);
+		}
+
 	}
 
 

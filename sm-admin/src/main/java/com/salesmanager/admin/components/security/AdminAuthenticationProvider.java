@@ -55,7 +55,7 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
         HttpEntity<String> entity = new HttpEntity<String>(json, headers);
         
         String loginResourceUrl
-        = backend + "/login";
+        = backend + "/private/login";
         
         //Invoke web service
         RestTemplate restTemplate = new RestTemplate();
@@ -91,7 +91,7 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
 	    entity = new HttpEntity<String>(headers);
 	        
 	    String profileResourceUrl
-	        = backend + "/users/" + name;
+	        = backend + "/private/users/" + name;
 	        
 	        //Invoke web service
 	    restTemplate = new RestTemplate();

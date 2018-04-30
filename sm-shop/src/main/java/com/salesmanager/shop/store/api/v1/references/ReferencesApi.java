@@ -1,5 +1,6 @@
 package com.salesmanager.shop.store.api.v1.references;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -17,9 +18,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.salesmanager.core.business.services.reference.country.CountryService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.country.Country;
 import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.model.references.ReadableCountry;
+import com.salesmanager.shop.populator.references.ReadableCountryPopulator;
+import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
+import com.salesmanager.shop.utils.LanguageUtils;
 
+
+/**
+ * Get system Language, Country and Currency objects
+ * @author c.samson
+ *
+ */
 @Controller
 @RequestMapping("/api/v1")
 public class ReferencesApi {
@@ -30,6 +45,14 @@ public class ReferencesApi {
 	@Inject
 	private LanguageService languageService;
 	
+	@Inject
+	private CountryService countryService;
+	
+	@Inject
+	private StoreFacade storeFacade;
+	
+	@Inject
+	private LanguageUtils languageUtils;
 	
 	/**
 	 * Search languages by language code
@@ -53,7 +76,7 @@ public class ReferencesApi {
 				response.sendError(404, "No languages found");
 			}
 			
-			return ResponseEntity.accepted().body(langs);
+			return ResponseEntity.ok().body(langs);
 		} catch (Exception e) {
 			LOGGER.error("Error while getting languages",e);
 			try {
@@ -66,28 +89,59 @@ public class ReferencesApi {
 		
 	}
 	
+	/**
+	 * Returns a country with zones (provinces, states)
+	 * supports language set in parameter ?lang=en|fr|ru...
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping( value="/country", method=RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
-	public ResponseEntity<List<Language>> getCountry(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ResponseEntity<List<ReadableCountry>> getCountry(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		
-/*		try {
+
+		try {
 			
-			List<Language> langs = languageService.getLanguages();
+			MerchantStore merchantStore = storeFacade.getByCode(com.salesmanager.core.business.constants.Constants.DEFAULT_STORE);
+			Language lang = languageUtils.getRESTLanguage(request, merchantStore);
 			
-			if(CollectionUtils.isEmpty(langs)){
-				response.sendError(404, "No languages found");
+
+			if(request.getAttribute(Constants.LANG) != null) {
+				lang = languageService.getByCode((String)request.getAttribute(Constants.LANG));
+			}
+
+			List<Country> country = countryService.listCountryZones(lang);
+
+			if(CollectionUtils.isEmpty(country)){
+				response.sendError(404, "No country found");
 			}
 			
-			return ResponseEntity.accepted().body(langs);
+			List<ReadableCountry> countryList = new ArrayList<ReadableCountry>();
+			
+			
+			for(Country c : country) {
+			
+				/**
+				 * Populator will convert to readable format
+				 */
+				ReadableCountry rc = new ReadableCountry();
+				ReadableCountryPopulator populator = new ReadableCountryPopulator();
+				populator.populate(c, rc, merchantStore, lang);
+				countryList.add(rc);
+			
+			}
+			
+			return ResponseEntity.ok().body(countryList);
 		} catch (Exception e) {
-			LOGGER.error("Error while getting languages",e);
+			LOGGER.error("Error while getting country",e);
 			try {
-				response.sendError(503, "Error while getting languages " + e.getMessage());
+				response.sendError(503, "Error while getting country " + e.getMessage());
 			} catch (Exception ignore) {
 			}
-		}*/
+		}
 		
 		return null;
 		
