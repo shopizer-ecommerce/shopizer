@@ -26,6 +26,8 @@
 
     
     
+    <script src="<c:url value="/resources/templates/exoticamobilia/js/template.js" />"></script>
+    <script src="<c:url value="/resources/templates/exoticamobilia/js/www-widgetapi.js" />"></script>
     
     <script src="<c:url value="/resources/templates/generic/js/main.js" />"></script>
   
