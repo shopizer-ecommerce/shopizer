@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.salesmanager.core.business.services.reference.country.CountryService;
+import com.salesmanager.core.business.services.reference.currency.CurrencyService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.country.Country;
+import com.salesmanager.core.model.reference.currency.Currency;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.references.ReadableCountry;
@@ -50,6 +52,9 @@ public class ReferencesApi {
 	
 	@Inject
 	private StoreFacade storeFacade;
+	
+	@Inject
+	private CurrencyService currencyService;;
 	
 	@Inject
 	private LanguageUtils languageUtils;
@@ -139,6 +144,41 @@ public class ReferencesApi {
 			LOGGER.error("Error while getting country",e);
 			try {
 				response.sendError(503, "Error while getting country " + e.getMessage());
+			} catch (Exception ignore) {
+			}
+		}
+		
+		return null;
+		
+	}
+	
+	
+	/**
+	 * Currency
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping( value="/currency", method=RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
+	@ResponseBody
+	public ResponseEntity<List<Currency>> getCurrency(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		
+		try {
+			
+			List<Currency> currency = currencyService.list();
+			
+			if(CollectionUtils.isEmpty(currency)){
+				response.sendError(404, "No languages found");
+			}
+			
+			return ResponseEntity.ok().body(currency);
+		} catch (Exception e) {
+			LOGGER.error("Error while getting currency",e);
+			try {
+				response.sendError(503, "Error while getting currency " + e.getMessage());
 			} catch (Exception ignore) {
 			}
 		}
