@@ -16,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.salesmanager.admin.controller.exception.AdminAuthenticationException;
 import com.salesmanager.admin.model.references.Country;
+import com.salesmanager.admin.model.references.Currency;
 import com.salesmanager.admin.model.references.Language;
 
 
@@ -79,6 +80,33 @@ public class ReferencesLoader {
         
         if(!HttpStatus.OK.equals(resp.getStatusCode())) {
         	throw new AdminAuthenticationException("Cannot list country [ " + resp.getStatusCode().name() + "]");
+        }
+        
+        return resp.getBody();
+		
+	}
+	
+	public List<Currency> loadCurrency() throws Exception {
+		
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        
+        HttpEntity<String> entity = new HttpEntity<String>(headers);
+        
+        String resourceUrl
+        = backend + "/currency";
+        
+        //Invoke web service
+        RestTemplate restTemplate = new RestTemplate();
+        
+        ResponseEntity<List<Currency>> resp =
+                restTemplate.exchange(resourceUrl,
+                            HttpMethod.GET, entity, new ParameterizedTypeReference<List<Currency>>() {
+                    });
+
+        
+        if(!HttpStatus.OK.equals(resp.getStatusCode())) {
+        	throw new AdminAuthenticationException("Cannot list currency [ " + resp.getStatusCode().name() + "]");
         }
         
         return resp.getBody();

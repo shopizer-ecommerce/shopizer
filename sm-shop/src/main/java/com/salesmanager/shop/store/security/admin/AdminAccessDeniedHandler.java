@@ -1,4 +1,4 @@
-package com.salesmanager.shop.utils;
+package com.salesmanager.shop.store.security.admin;
 
 import java.io.IOException;
 
