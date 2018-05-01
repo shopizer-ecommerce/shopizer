@@ -18,7 +18,7 @@ public interface CountryRepository extends JpaRepository <Country, Integer> {
 	List<Country> listByLanguage(Integer id);
 	
 	/** get country including zones by language **/
-	@Query("select c from Country c left join fetch c.descriptions cd left join fetch c.zones where cd.language.id=?1")
+	@Query("select distinct c from Country c left join fetch c.descriptions cd left join fetch c.zones cz left join fetch cz.descriptions where cd.language.id=?1")
 	List<Country> listCountryZonesByLanguage(Integer id);
 
 }

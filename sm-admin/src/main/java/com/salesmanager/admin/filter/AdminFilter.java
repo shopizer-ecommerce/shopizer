@@ -26,6 +26,7 @@ import com.salesmanager.admin.utils.Constants;
 /**
  * Get Authentication and set objects in HttpRequest
  * This class makes sure non REST API requests are managed
+ * Puts reference objects in HttpServletRequest
  * @author carl samson
  *
  */
@@ -88,7 +89,16 @@ public class AdminFilter extends HandlerInterceptorAdapter {
 		//push user details in request
 		/**
 		 * User details are in Auth details
+		 * First name
+		 * Store code
 		 */
+		if(auth != null && auth instanceof AdminAuthenticationToken && auth.getDetails() != null) {
+			Map<String,String> details = (Map<String, String>) auth.getDetails();
+			request.setAttribute(Constants.User.FIRST_NAME, details.get(Constants.User.FIRST_NAME));
+			request.setAttribute(Constants.User.MERCHANT_CODE, details.get(Constants.User.MERCHANT_CODE));
+		}
+		
+		
 		
 		return true;
 		

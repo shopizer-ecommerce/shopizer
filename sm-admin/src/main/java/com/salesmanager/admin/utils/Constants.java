@@ -11,6 +11,14 @@ public class Constants {
 		public final static String LANGUAGE = "LANGUAGE";
 		public final static String COUNTRY = "COUNTRY";
 		public final static String ZONE = "ZONE";
+		public final static String CURRENCY = "CURRENCY";
+	}
+	
+	public static class User {
+		public final static String FIRST_NAME = "firstName";
+		public final static String DEFAULT_LANGUAGE = "defaultLanguage";
+		public final static String ACTIVE = "active";
+		public final static String MERCHANT_CODE = "merchant";
 	}
 	
 	public final static String TOKEN = "token";

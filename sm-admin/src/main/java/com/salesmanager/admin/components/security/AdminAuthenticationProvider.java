@@ -3,11 +3,13 @@ package com.salesmanager.admin.components.security;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -115,13 +117,12 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
 				throw new AdminAuthenticationException("Cannot get profile this client, response parsing problem [ " + body + "]");
 		  }
 			
-			//first name
-			//last name
-			//email
-			//language
+			//firstName
+			//defaultLanguage
+			//active
 			//groups
 		
-		 List grants = new ArrayList<String>();
+		List grants = new ArrayList<String>();
 
 		List<Map<String,String>> groups = (List<Map<String,String>>)map.get("groups");
 		
@@ -141,6 +142,14 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
 		
 		Map<String,String> details = new HashMap<String,String>();
 		details.put(Constants.TOKEN,token);
+		details.put(Constants.User.FIRST_NAME, (String)map.get(Constants.User.FIRST_NAME));
+		details.put(Constants.User.ACTIVE, String.valueOf((Boolean)map.get(Constants.User.ACTIVE)));
+		details.put(Constants.User.DEFAULT_LANGUAGE, (String)map.get(Constants.User.DEFAULT_LANGUAGE));
+		details.put(Constants.User.MERCHANT_CODE, (String)map.get(Constants.User.MERCHANT_CODE));
+		
+		//set locale (language) according to the selection created for that user
+		Locale l = new Locale((String)map.get(Constants.User.DEFAULT_LANGUAGE));
+		LocaleContextHolder.setLocale(l);
 		
 		auth.setDetails(details);
 			

@@ -35,6 +35,7 @@ public class CacheHelper {
 	private CacheManager cacheManager;
 	private Cache languages;
 	private Cache country;
+	private Cache currency;
 	
 	@Inject
 	ReferencesLoader references;
@@ -55,6 +56,7 @@ public class CacheHelper {
 
               languages = cacheManager.createCache(Constants.Cache.LANGUAGE, noExpirationCacheConfiguration);
               country = cacheManager.createCache(Constants.Cache.COUNTRY, noExpirationCacheConfiguration);
+              currency = cacheManager.createCache(Constants.Cache.CURRENCY, noExpirationCacheConfiguration);
 
 	}
 	
@@ -82,6 +84,7 @@ public class CacheHelper {
 		return langs;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<Country> getCountry(Locale locale) throws Exception {
 		
 		String isoCode = locale.getLanguage();

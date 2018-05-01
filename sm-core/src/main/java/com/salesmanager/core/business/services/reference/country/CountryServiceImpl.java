@@ -97,7 +97,7 @@ public class CountryServiceImpl extends SalesManagerEntityServiceImpl<Integer, C
 				//set names
 				for(Country country : countries) {
 					
-					CountryDescription description = country.getDescriptions().get(0);
+					CountryDescription description = country.getDescriptions().iterator().next();
 					country.setName(description.getName());
 					
 				}

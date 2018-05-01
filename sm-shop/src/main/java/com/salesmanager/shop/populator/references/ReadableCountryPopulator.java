@@ -8,6 +8,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.country.Country;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.reference.zone.Zone;
+import com.salesmanager.core.model.reference.zone.ZoneDescription;
 import com.salesmanager.shop.model.references.ReadableCountry;
 import com.salesmanager.shop.model.references.ReadableZone;
 
@@ -25,15 +26,21 @@ public class ReadableCountryPopulator extends AbstractDataPopulator<Country, Rea
 		target.setCode(source.getIsoCode());
 		target.setSupported(source.getSupported());
 		if(!CollectionUtils.isEmpty(source.getDescriptions())) {
-			target.setName(source.getDescriptions().get(0).getName());
+			target.setName(source.getDescriptions().iterator().next().getName());
 	    }
 		
 		if(!CollectionUtils.isEmpty(source.getZones())) {
 			for(Zone z : source.getZones()) {
 				ReadableZone readableZone = new ReadableZone();
 				readableZone.setCountryCode(target.getCode());
+				readableZone.setId(z.getId());
 				if(!CollectionUtils.isEmpty(z.getDescriptions())) {
-					readableZone.setName(z.getDescriptions().get(0).getName());
+					for(ZoneDescription d : z.getDescriptions()) {
+						if(d.getLanguage().getId() == language.getId()) {
+							readableZone.setName(d.getName());
+							continue;
+						}
+					}
 				}
 				target.getZones().add(readableZone);
 			}

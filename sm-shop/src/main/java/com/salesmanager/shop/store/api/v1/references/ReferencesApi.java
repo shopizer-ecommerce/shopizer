@@ -112,11 +112,7 @@ public class ReferencesApi {
 			
 			MerchantStore merchantStore = storeFacade.getByCode(com.salesmanager.core.business.constants.Constants.DEFAULT_STORE);
 			Language lang = languageUtils.getRESTLanguage(request, merchantStore);
-			
 
-			if(request.getAttribute(Constants.LANG) != null) {
-				lang = languageService.getByCode((String)request.getAttribute(Constants.LANG));
-			}
 
 			List<Country> country = countryService.listCountryZones(lang);
 

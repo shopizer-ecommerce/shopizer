@@ -1,12 +1,13 @@
 package com.salesmanager.core.model.reference.country;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,10 +37,10 @@ public class Country extends SalesManagerEntity<Integer, Country> {
 	private Integer id;
 	
 	@OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
-	private List<CountryDescription> descriptions = new ArrayList<CountryDescription>();
-	
-	@OneToMany(mappedBy = "country")
-	private List<Zone> zones = new ArrayList<Zone>();
+	private Set<CountryDescription> descriptions = new HashSet<CountryDescription>();
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "country")
+	private Set<Zone> zones = new HashSet<Zone>();
 	
 	@ManyToOne(targetEntity = GeoZone.class)
 	@JoinColumn(name = "GEOZONE_ID")
@@ -96,21 +97,15 @@ public class Country extends SalesManagerEntity<Integer, Country> {
 		this.id = id;
 	}
 
-	public List<Zone> getZones() {
+
+	public Set<Zone> getZones() {
 		return zones;
 	}
 
-	public void setZones(List<Zone> zones) {
+	public void setZones(Set<Zone> zones) {
 		this.zones = zones;
 	}
 
-	public List<CountryDescription> getDescriptions() {
-		return descriptions;
-	}
-
-	public void setDescriptions(List<CountryDescription> descriptions) {
-		this.descriptions = descriptions;
-	}
 
 	public GeoZone getGeoZone() {
 		return geoZone;
@@ -119,12 +114,13 @@ public class Country extends SalesManagerEntity<Integer, Country> {
 	public void setGeoZone(GeoZone geoZone) {
 		this.geoZone = geoZone;
 	}
-
-/*	public GeoZone getGeoZone() {
-		return geoZone;
+	
+	
+	public Set<CountryDescription> getDescriptions() {
+		return descriptions;
 	}
 
-	public void setGeoZone(GeoZone geoZone) {
-		this.geoZone = geoZone;
-	}*/
+	public void setDescriptions(Set<CountryDescription> descriptions) {
+		this.descriptions = descriptions;
+	}
 }
