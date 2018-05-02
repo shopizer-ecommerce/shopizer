@@ -113,7 +113,7 @@ public class CacheHelper {
 		List<Menu> m =  (List<Menu>)menu.get(Constants.Cache.MENU);
 		if(m==null) {
 			m = menuLoader.loadMenu();
-			menu.put(Constants.Cache.MENU, m);
+			//menu.put(Constants.Cache.MENU, m);
 		}
 		
 		return m;

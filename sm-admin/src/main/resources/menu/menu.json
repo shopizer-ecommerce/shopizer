@@ -15,21 +15,21 @@
 "role":"STORE",
 "order":1,
 "menus":[
-	{"menu":{"code":"storeDetails","url":"/admin/store/store.html","role":"STORE","order":0, "menus":
+	{"menu":{"code":"storeDetails","url":"/admin/store/store","role":"STORE","order":0, "menus":
 		[
 			{"menu":{
-				"code":"storeDetails","url":"/admin/store/store.html","role":"STORE","order":0
+				"code":"storeDetails","url":"/admin/store/store","role":"STORE","order":0
 			}},
 			{"menu":{
-				"code":"create-store","url":"/admin/store/createStore.html","role":"SUPERADMIN","order":1
+				"code":"create-store","url":"/admin/store/createStore","role":"SUPERADMIN","order":2
 			}},
 			{"menu":{
-				"code":"store-list","url":"/admin/store/list.html","role":"SUPERADMIN","order":1
+				"code":"store-list","url":"/admin/store/list","role":"SUPERADMIN","order":1
 			}}
 		]
 	}},
-	{"menu":{"code":"storeBranding","url":"/admin/store/branding.html","role":"STORE","order":1}},
-	{"menu":{"code":"storeLanding","url":"/admin/store/storeLanding.html","role":"STORE","order":2}}
+	{"menu":{"code":"storeBranding","url":"/admin/store/branding","role":"STORE","order":1}},
+	{"menu":{"code":"storeLanding","url":"/admin/store/landing","role":"STORE","order":2}}
 ]
 }},
 {

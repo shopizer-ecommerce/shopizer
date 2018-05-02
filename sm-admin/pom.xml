@@ -87,7 +87,16 @@
 		    <version>3.5.2</version>
 		</dependency>
 		
-				
+		<!-- 
+		http://www.baeldung.com/thymeleaf-spring-layouts
+		https://github.com/eugenp/tutorials/blob/master/spring-thymeleaf/src/main/webapp/WEB-INF/views/template.html
+		 -->
+		<dependency>
+		    <groupId>nz.net.ultraq.thymeleaf</groupId>
+		    <artifactId>thymeleaf-layout-dialect</artifactId>
+		    <version>2.0.4</version>
+		</dependency>
+	
 		<!-- H2 session -->
         <dependency>
 			<groupId>com.h2database</groupId>

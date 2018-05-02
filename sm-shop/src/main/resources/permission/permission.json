@@ -44,7 +44,7 @@
         "type": "ORDER",
         "group": {
           "name": [
-            "ADMIN_ORDER"
+            "ADMIN_ORDER",
             "AUTH"
           ]
         }
