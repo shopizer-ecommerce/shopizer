@@ -19,6 +19,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import com.salesmanager.admin.components.security.AdminAuthenticationToken;
 import com.salesmanager.admin.model.references.Country;
 import com.salesmanager.admin.model.references.Language;
+import com.salesmanager.admin.model.web.Menu;
 import com.salesmanager.admin.utils.CacheHelper;
 import com.salesmanager.admin.utils.Constants;
 
@@ -96,6 +97,14 @@ public class AdminFilter extends HandlerInterceptorAdapter {
 			Map<String,String> details = (Map<String, String>) auth.getDetails();
 			request.setAttribute(Constants.User.FIRST_NAME, details.get(Constants.User.FIRST_NAME));
 			request.setAttribute(Constants.User.MERCHANT_CODE, details.get(Constants.User.MERCHANT_CODE));
+		}
+		
+		//put menus to ArrayList
+		try {
+			List<Menu> menu = cacheHelper.getMenu(locale);
+			request.setAttribute(Constants.Cache.MENU, menu);
+		} catch(Exception e) {
+			logger.error("Cannot retrieve menus" + e.getMessage());
 		}
 		
 		

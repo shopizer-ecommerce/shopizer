@@ -3,6 +3,7 @@ package com.salesmanager.admin.utils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -18,9 +19,11 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.salesmanager.admin.components.references.MenuLoader;
 import com.salesmanager.admin.components.references.ReferencesLoader;
 import com.salesmanager.admin.model.references.Country;
 import com.salesmanager.admin.model.references.Language;
+import com.salesmanager.admin.model.web.Menu;
 
 
 /**
@@ -36,9 +39,13 @@ public class CacheHelper {
 	private Cache languages;
 	private Cache country;
 	private Cache currency;
+	private Cache menu;
 	
 	@Inject
 	ReferencesLoader references;
+	
+	@Inject
+	MenuLoader menuLoader;
 	
 	
 	private void buildCacheHelper() {
@@ -57,6 +64,8 @@ public class CacheHelper {
               languages = cacheManager.createCache(Constants.Cache.LANGUAGE, noExpirationCacheConfiguration);
               country = cacheManager.createCache(Constants.Cache.COUNTRY, noExpirationCacheConfiguration);
               currency = cacheManager.createCache(Constants.Cache.CURRENCY, noExpirationCacheConfiguration);
+              menu = cacheManager.createCache(Constants.Cache.MENU, noExpirationCacheConfiguration);
+
 
 	}
 	
@@ -96,6 +105,19 @@ public class CacheHelper {
 		}
 		return listCountry;
 
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Menu> getMenu(Locale locale) throws Exception {
+		
+		List<Menu> m =  (List<Menu>)menu.get(Constants.Cache.MENU);
+		if(m==null) {
+			m = menuLoader.loadMenu();
+			menu.put(Constants.Cache.MENU, m);
+		}
+		
+		return m;
+		
 	}
 
 }
