@@ -43,6 +43,8 @@
 					<beans:entry key="hibernate.default_schema" value="${db.schema}" />
 					<beans:entry key="hibernate.hbm2ddl.auto" value="${hibernate.hbm2ddl.auto}" />
 					<beans:entry key="hibernate.show_sql" value="true" />
+					<!-- for existing applications, this property should be false -->
+					<beans:entry key="hibernate.id.new_generator_mappings" value="false" />
 					<beans:entry key="hibernate.cache.provider_class" value="org.hibernate.cache.EhCacheProvider" />
 					<beans:entry key="hibernate.cache.use_second_level_cache" value="true" />
 					
