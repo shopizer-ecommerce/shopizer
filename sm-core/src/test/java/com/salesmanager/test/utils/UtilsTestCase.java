@@ -12,7 +12,7 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.salesmanager.core.business.services.reference.country.CountryService;
@@ -26,7 +26,7 @@ import com.salesmanager.test.configuration.ConfigurationTest;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {ConfigurationTest.class})
+@SpringBootTest(classes = {ConfigurationTest.class})
 @Ignore
 public class UtilsTestCase  {
 	

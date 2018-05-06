@@ -50,7 +50,7 @@ public class OrderStatusHistory implements Serializable {
 	private java.lang.Integer customerNotified;
 	
 	@Column(name = "COMMENTS")
-	@Type(type = "org.hibernate.type.StringClobType")
+	@Type(type = "org.hibernate.type.TextType")
 	private String comments;
 	
 	public OrderStatusHistory() {

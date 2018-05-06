@@ -10,7 +10,7 @@
 	</parent>
 
 	<artifactId>sm-shop</artifactId>
-	<packaging>war</packaging>
+ 	<packaging>war</packaging>
 
 	<name>sm-shop</name>
 	<url>http://www.shopizer.com</url>
@@ -55,11 +55,46 @@
 			<scope>provided</scope>
         </dependency>
 
-        
  		<dependency>
 	        <groupId>org.springframework.boot</groupId>
 	        <artifactId>spring-boot-starter-security</artifactId>
 	    </dependency>
+	    
+
+<!-- 	    <dependency>
+	      <groupId>javax.servlet.jsp.jstl</groupId>
+	      <artifactId>javax.servlet.jsp.jstl-api</artifactId>
+	      <version>1.2.1</version>
+	    </dependency>
+	
+	    <dependency>
+	      <groupId>taglibs</groupId>
+	      <artifactId>standard</artifactId>
+	      <version>1.1.2</version>
+	    </dependency>
+
+	    <dependency>
+	      <groupId>org.apache.tomcat.embed</groupId>
+	      <artifactId>tomcat-embed-jasper</artifactId>
+	      <scope>provided</scope>
+	    </dependency> -->
+	    
+ 	    <dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
+			<scope>provided</scope>
+		</dependency>
 	    
 	    <dependency>
     		<groupId>org.springframework.security</groupId>
@@ -95,21 +130,21 @@
     		<version>${spring-social-facebook.version}</version>
 		</dependency>
 
-        <dependency>
+<!--         <dependency>
               <groupId>org.springframework.boot</groupId>
               <artifactId>spring-boot-starter-tomcat</artifactId>
-        </dependency>
+        </dependency> -->
 
 		<dependency>
 			<groupId>org.springframework.mobile</groupId>
 			<artifactId>spring-mobile-device</artifactId>
 		</dependency>
 		
-	    <dependency>
+<!-- 	    <dependency>
         	<groupId>org.apache.tomcat.embed</groupId>
         	<artifactId>tomcat-embed-jasper</artifactId>
         	<scope>provided</scope>
-    	</dependency>
+    	</dependency> -->
 		
 		<!-- Add Apache Tiles into the mix -->
         <dependency>
@@ -131,6 +166,10 @@
 			<artifactId>h2</artifactId>
 		</dependency>	
 
+<!-- 		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
@@ -138,6 +177,7 @@
 			<version>2.1</version>
 			<scope>provided</scope>
 		</dependency>
+		
 		<dependency>
 			<groupId>javax.servlet.jsp.jstl</groupId>
 			<artifactId>jstl-api</artifactId>
@@ -148,7 +188,9 @@
                     <artifactId>servlet-api</artifactId>
                 </exclusion>
             </exclusions>
-		</dependency>
+		</dependency> -->
+		
+		
 		<dependency>
 			<groupId>org.glassfish.web</groupId>
 			<artifactId>jstl-impl</artifactId>

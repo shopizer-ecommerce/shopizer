@@ -28,7 +28,7 @@ public class ProductOptionDescription extends Description {
 	private ProductOption productOption;
 	
 	@Column(name="PRODUCT_OPTION_COMMENT")
-	@Type(type = "org.hibernate.type.StringClobType")
+	@Type(type = "org.hibernate.type.TextType")
 	private String productOptionComment;
 	
 	public ProductOptionDescription() {

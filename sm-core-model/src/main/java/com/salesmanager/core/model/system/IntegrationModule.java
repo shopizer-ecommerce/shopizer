@@ -56,11 +56,11 @@ public class IntegrationModule extends SalesManagerEntity<Long, IntegrationModul
 	private String regions;
 	
 	@Column(name="CONFIGURATION")
-	@Type(type = "org.hibernate.type.StringClobType")
+	@Type(type = "org.hibernate.type.TextType")
 	private String configuration;
 	
 	@Column(name="DETAILS")
-	@Type(type = "org.hibernate.type.StringClobType")
+	@Type(type = "org.hibernate.type.TextType")
 	private String configDetails;
 	
 	@Column(name="TYPE")

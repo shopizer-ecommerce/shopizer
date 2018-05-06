@@ -80,7 +80,7 @@ public class Transaction extends SalesManagerEntity<Long, Transaction> implement
 	private PaymentType paymentType;
 	
 	@Column(name="DETAILS")
-	@Type(type = "org.hibernate.type.StringClobType")
+	@Type(type = "org.hibernate.type.TextType")
 	private String details;
 	
 	@Transient

@@ -44,7 +44,7 @@ public class OrderTotal extends SalesManagerEntity<Long, OrderTotal> {
 	private String title;
 	
 	@Column (name ="TEXT", nullable=true)
-	@Type(type = "org.hibernate.type.StringClobType")
+	@Type(type = "org.hibernate.type.TextType")
 	private String text;
 	
 	@Column (name ="VALUE", precision=15, scale=4, nullable=false )

@@ -28,7 +28,7 @@ public class CustomerOptionDescription extends Description {
 	private CustomerOption customerOption;
 	
 	@Column(name="CUSTOMER_OPTION_COMMENT")
-	@Type(type = "org.hibernate.type.StringClobType")
+	@Type(type = "org.hibernate.type.TextType")
 	private String customerOptionComment;
 	
 

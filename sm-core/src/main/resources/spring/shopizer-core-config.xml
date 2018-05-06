@@ -29,7 +29,8 @@
 		<beans:bean id="entityManagerFactory" name="shopizerContainer" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 
 			<beans:property name="dataSource" ref="dataSource" />		
-
+			<beans:property name="packagesToScan" value="com.salesmanager.core.model" />
+			
 			<beans:property name="jpaVendorAdapter">
 				<beans:bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
 					<beans:property name="showSql" value="true" />
@@ -84,10 +85,7 @@
      <beans:bean id="persistenceExceptionTranslationPostProcessor"
       class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
       
-        
 
-    
-	
     <!-- in sm-shop -->
    	<beans:bean id="coreConfiguration" class="com.salesmanager.core.business.utils.CoreConfiguration">
 		<beans:property name="properties" ref="shopizer-properties"/>

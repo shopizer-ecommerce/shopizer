@@ -50,7 +50,7 @@ public class Description implements Auditable, Serializable {
 	private String title;
 	
 	@Column(name="DESCRIPTION")
-	@Type(type = "org.hibernate.type.StringClobType")
+	@Type(type = "org.hibernate.type.TextType")
 	private String description;
 	
 	public Description() {
