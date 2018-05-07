@@ -79,6 +79,13 @@
   		<put-attribute name="footer" value="/pages/shop/templates/generic/sections/footer.jsp" />
   	</definition>
   	
+  	 <definition name="maincart.ambroselar" template="/pages/shop/templates/ambroselar/catalogLayout.jsp">
+  	  	<put-attribute name="header" value="/pages/shop/templates/ambroselar/sections/header.jsp" />
+  	  	<put-attribute name="navbar" value="/pages/shop/templates/ambroselar/sections/navbar.jsp" />
+  		<put-attribute name="body" value="/pages/shop/templates/ambroselar/pages/cart.jsp" />
+  		<put-attribute name="footer" value="/pages/shop/templates/ambroselar/sections/footer.jsp" />
+  	</definition>
+  	
   	<!-- Contact us -->
   	<definition name="contactus.*" template="/pages/shop/templates/{1}/catalogLayout.jsp">
   	  	<put-attribute name="header" value="/pages/shop/templates/{1}/sections/header.jsp" />
@@ -108,6 +115,13 @@
   		<put-attribute name="navbar" value="/pages/shop/templates/generic/sections/navbar.jsp" />
   		<put-attribute name="body" value="/pages/shop/templates/generic/pages/register.jsp" />
   		<put-attribute name="footer" value="/pages/shop/templates/generic/sections/footer.jsp" />
+  	</definition>
+  	
+   	<definition name="register.ambroselar" template="/pages/shop/templates/ambroselar/catalogLayout.jsp">
+  	  	<put-attribute name="header" value="/pages/shop/templates/ambroselar/sections/header.jsp" />
+  		<put-attribute name="navbar" value="/pages/shop/templates/ambroselar/sections/navbar.jsp" />
+  		<put-attribute name="body" value="/pages/shop/templates/ambroselar/pages/register.jsp" />
+  		<put-attribute name="footer" value="/pages/shop/templates/ambroselar/sections/footer.jsp" />
   	</definition>
   	  	
   	<definition name="customerAccount.*" template="/pages/shop/templates/{1}/catalogLayout.jsp">
@@ -168,6 +182,13 @@
   		<put-attribute name="footer" value="/pages/shop/templates/generic/sections/footer.jsp" />
   	</definition>
   	
+  	<definition name="customerLogon.ambroselar" template="/pages/shop/templates/ambroselar/catalogLayout.jsp">
+  	  	<put-attribute name="header" value="/pages/shop/templates/ambroselar/sections/header.jsp" />
+  		<put-attribute name="navbar" value="/pages/shop/templates/ambroselar/sections/navbar.jsp" />
+  		<put-attribute name="body" value="/pages/shop/templates/ambroselar/pages/logon.jsp" />
+  		<put-attribute name="footer" value="/pages/shop/templates/ambroselar/sections/footer.jsp" />
+  	</definition>
+  	
   	<!-- One page checkout -->
   	<definition name="checkout.*" template="/pages/shop/templates/{1}/catalogLayout.jsp">
   	  	<put-attribute name="header" value="/pages/shop/templates/{1}/sections/header.jsp" />
@@ -182,6 +203,13 @@
   		<put-attribute name="navbar" value="/pages/shop/templates/generic/sections/navbar.jsp" />
   		<put-attribute name="body" value="/pages/shop/templates/generic/pages/checkout.jsp" />
   		<put-attribute name="footer" value="/pages/shop/templates/generic/sections/footer.jsp" />
+  	</definition>
+  	
+  	<definition name="checkout.ambroselar" template="/pages/shop/templates/ambroselar/catalogLayout.jsp">
+  	  	<put-attribute name="header" value="/pages/shop/templates/ambroselar/sections/header.jsp" />
+  		<put-attribute name="navbar" value="/pages/shop/templates/ambroselar/sections/navbar.jsp" />
+  		<put-attribute name="body" value="/pages/shop/templates/ambroselar/pages/checkout.jsp" />
+  		<put-attribute name="footer" value="/pages/shop/templates/ambroselar/sections/footer.jsp" />
   	</definition>
   	
   	<definition name="confirmation.*" template="/pages/shop/templates/{1}/catalogLayout.jsp">

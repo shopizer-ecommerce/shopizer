@@ -26,7 +26,7 @@
 <script type="text/html" id="productBoxTemplate">
 {{#products}}
 <div itemscope itemtype="http://schema.org/Enumeration" class="col-md-4 productItem" item-order="{{sortOrder}}" item-name="{{description.name}}" item-price="{{price}}" data-id="{{id}}" class="col-sm-4">
-<div class="box-style-4 white-bg object-non-visible animated object-visible">
+<div class="box-style-4 white-bg object-non-visible animated object-visible test2">
  	{{#description.highlights}}  
     <div class="ribbon-wrapper-green">
    		<div class="ribbon-green">
@@ -44,7 +44,7 @@
 	<img class="product-img" src="<c:url value=""/>{{image.imageUrl}}"><a class="overlay" href="<c:url value="/shop/product/" />{{description.friendlyUrl}}.html<sm:breadcrumbParam/>"><img class="product-img" src="<c:url value="/"/>{{image.imageUrl}}"></a>
     {{/image}}
     </div>
-	<!--  *** Product Name & Price Starts *** -->
+	<!--  *** Product Name & Price Starts5 *** -->
 	<div class="caption">
 	<div class="product-details">
 	<div class="clearfix">
@@ -320,7 +320,7 @@
 			<div class="row product-list">
 
 
-				<!-- just copy that block for havimg products displayed -->
+				<!-- 5 just copy that block for havimg products displayed -->
 				<!-- products are loaded by ajax -->
 				<div id="productsContainer" class="list-unstyled"></div>
 

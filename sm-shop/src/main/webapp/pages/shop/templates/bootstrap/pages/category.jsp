@@ -202,7 +202,7 @@ response.setDateHeader ("Expires", -1);
 		 </div>
         
         
-			<!-- just copy that block for havimg products displayed -->
+			<!-- 4 just copy that block for havimg products displayed -->
           	<!-- products are loaded by ajax -->
         	<ul id="productsContainer" class="thumbnails product-list"></ul>
 			

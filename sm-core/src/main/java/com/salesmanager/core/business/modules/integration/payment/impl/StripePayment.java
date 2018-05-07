@@ -264,12 +264,12 @@ public class StripePayment implements PaymentModule {
 		}
 		
 
-
+		LOGGER.info("Transaction transaction BEGIN ");
 		Transaction transaction = new Transaction();
 		try {
 			
 			String amnt = productPriceUtils.getAdminFormatedAmount(store, amount);
-			
+			LOGGER.info("amnt is " + amnt);
 			//stripe does not support floating point
 			//so amnt * 100 or remove floating point
 			//553.47 = 55347
@@ -279,20 +279,25 @@ public class StripePayment implements PaymentModule {
 			strAmount = strAmount.replace(".","");
 			strAmount = strAmount.replaceAll(",","");
 			
+			LOGGER.info("strAmount is " + strAmount);
 			Map<String, Object> chargeParams = new HashMap<String, Object>();
 			chargeParams.put("amount", strAmount);
 			chargeParams.put("capture", true);
+			LOGGER.info("store.getCurrency() " + store.getCurrency());
 			chargeParams.put("currency", store.getCurrency().getCode());
+			LOGGER.info("store.getCurrency().getCode() " + store.getCurrency().getCode());
 			chargeParams.put("source", token); // obtained with Stripe.js
 			chargeParams.put("description", getDescription(customer));
-			
+			LOGGER.info("getDescription(customer) " + getDescription(customer));
 			Stripe.apiKey = apiKey;
 			
-			
+			LOGGER.info("BEFORE charge");
 			Charge ch = Charge.create(chargeParams);
-	
+			LOGGER.info("AFTER charge");
 			//Map<String,String> metadata = ch.getMetadata();
 			
+			LOGGER.info("ch.getStatus() " + ch.getStatus());
+			LOGGER.info("Tch.getId() " + ch.getId());
 			
 			transaction.setAmount(amount);
 			//transaction.setOrder(order);
@@ -305,7 +310,7 @@ public class StripePayment implements PaymentModule {
 			transaction.getTransactionDetails().put("MESSAGETEXT", null);
 			
 		} catch (Exception e) {
-			
+			LOGGER.error("Strip ERROR:" + e.getMessage());
 			throw buildException(e);
 	
 		} 
@@ -382,8 +387,9 @@ public class StripePayment implements PaymentModule {
 	
 	private IntegrationException buildException(Exception ex) {
 		
-		
+	LOGGER.info("buildException");
 	if(ex instanceof CardException) {
+		LOGGER.info("CardException");
 		  CardException e = (CardException)ex;
 		  // Since it's a decline, CardException will be caught
 		  //System.out.println("Status is: " + e.getCode());
@@ -483,6 +489,7 @@ public class StripePayment implements PaymentModule {
 
 		  
 	} else if (ex instanceof InvalidRequestException) {
+		LOGGER.info("InvalidRequestException");
 		LOGGER.error("InvalidRequest error with stripe", ex.getMessage());
 		InvalidRequestException e =(InvalidRequestException)ex;
 		IntegrationException te = new IntegrationException(
@@ -493,6 +500,7 @@ public class StripePayment implements PaymentModule {
 		return te;
 		
 	} else if (ex instanceof AuthenticationException) {
+		LOGGER.info("AuthenticationException");
 		LOGGER.error("Authentication error with stripe", ex.getMessage());
 		AuthenticationException e = (AuthenticationException)ex;
 		  // Authentication with Stripe's API failed
@@ -505,6 +513,7 @@ public class StripePayment implements PaymentModule {
 		return te;
 		
 	} else if (ex instanceof APIConnectionException) {
+		LOGGER.info("APIConnectionException");
 		LOGGER.error("API connection error with stripe", ex.getMessage());
 		APIConnectionException e = (APIConnectionException)ex;
 		  // Network communication with Stripe failed
@@ -515,6 +524,7 @@ public class StripePayment implements PaymentModule {
 		te.setErrorCode(IntegrationException.TRANSACTION_EXCEPTION);
 		return te;
 	} else if (ex instanceof StripeException) {
+		LOGGER.info("StripeException");
 		LOGGER.error("Error with stripe", ex.getMessage());
 		StripeException e = (StripeException)ex;
 		  // Display a very generic error to the user, and maybe send
@@ -529,10 +539,13 @@ public class StripePayment implements PaymentModule {
 		
 
 	} else if (ex instanceof Exception) {
+		LOGGER.info("Exception");
 		LOGGER.error("Stripe module error", ex.getMessage());
 		if(ex instanceof IntegrationException) {
+			LOGGER.info("IntegrationException");
 			return (IntegrationException)ex;
 		} else {
+			LOGGER.info("Exception ELSE");
 			IntegrationException te = new IntegrationException(
 					"Can't process Stripe authorize, exception", ex);
 			te.setExceptionType(IntegrationException.TRANSACTION_EXCEPTION);
@@ -543,6 +556,7 @@ public class StripePayment implements PaymentModule {
 
 
 	} else {
+		LOGGER.info("ELSE");
 		LOGGER.error("Stripe module error", ex.getMessage());
 		IntegrationException te = new IntegrationException(
 				"Can't process Stripe authorize, exception", ex);
@@ -551,7 +565,6 @@ public class StripePayment implements PaymentModule {
 		te.setErrorCode(IntegrationException.TRANSACTION_EXCEPTION);
 		return te;
 	}
-
 	}
 	
 	private String getDescription (Customer customer) {

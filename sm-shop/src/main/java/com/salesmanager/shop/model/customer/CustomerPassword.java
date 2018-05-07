@@ -9,7 +9,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import com.salesmanager.shop.utils.FieldMatch;
 
 @FieldMatch.List({
-    @FieldMatch(first="password",second="checkPassword",message="password.notequal")
+		@FieldMatch(first = "password", second = "checkPassword", message = "password.notequal")
 })
 public class CustomerPassword implements Serializable {
 	
