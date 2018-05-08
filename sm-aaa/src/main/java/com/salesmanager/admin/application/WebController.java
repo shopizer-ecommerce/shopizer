@@ -10,13 +10,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class WebController {
 	
 	@GetMapping
-	public String page1() {
-		return "page1";
+	public String welcome() {
+		//return "dashboard/page1";
+		return "redirect:/admin/dashboard";
+		
 	}
 	
 	@GetMapping("/page2")
 	public String page2() {
-		return "page2";
+		return "dashboard/page2";
+	}
+	
+	@GetMapping("/admin/dashboard")
+	public String dashboard() {
+		return "dashboard/page1";
 	}
 
 }
