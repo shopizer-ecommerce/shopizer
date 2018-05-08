@@ -35,7 +35,7 @@ response.setDateHeader ("Expires", -1);
 	<img class="product-img" src="<c:url value=""/>{{image.imageUrl}}"><a class="overlay" href="<c:url value="/shop/product/" />{{description.friendlyUrl}}.html<sm:breadcrumbParam/>"><img class="product-img" src="<c:url value="/"/>{{image.imageUrl}}"></a>
     {{/image}}
     </div>
-	<!--  *** Product Name & Price Starts *** -->
+	<!--  *** Product Name & Price Starts11 *** -->
 	<div class="caption">
 	<div class="product-details">
 	<div class="clearfix">

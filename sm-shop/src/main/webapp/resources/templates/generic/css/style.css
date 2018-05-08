@@ -4,7 +4,7 @@
     Description: Digital eCommerce bootstrap template
     Author: BootExperts
     Author URI: http://bootexperts.com
-    Version: 1.0
+    Version: 1.0 generic
 	------------------------------------------------ */
 
 /*------------------------------------------------------    
@@ -49,7 +49,7 @@ body {
 .alignright {float:right;margin-left:15px;margin-bottom: 15px}
 .aligncenter {display:block;margin:0 auto 15px}
 a:focus {outline:0px solid;text-decoration:none;}
-img {max-width:100%;height:auto}
+img {max-width:90%;height:auto}
 .fix {overflow:hidden}
 p {margin:0 0 15px;color:#333}
 h1, h2, h3, h4, h5, h6 {

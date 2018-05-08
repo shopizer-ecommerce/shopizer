@@ -31,7 +31,7 @@ response.setDateHeader ("Expires", -1);
 												    </c:if>                                    
 													<div class="product-image"><c:if test="${product.image!=null}"><a href="<c:url value="/shop/product/" /><c:out value="${product.description.friendlyUrl}"/>.html"><img src="<sm:shopProductImage imageName="${product.image.imageName}"  sku="${product.sku}"/>" class="product-img" /></a></c:if></div>
 													
-													<!--  *** Product Name & Price Starts *** -->
+													<!--  *** Product Name & Price Starts9 *** -->
 													<div class="caption">
 													<div class="product-details">
 													<div class="clearfix">

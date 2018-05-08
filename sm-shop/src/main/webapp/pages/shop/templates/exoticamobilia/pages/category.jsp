@@ -1,29 +1,32 @@
+
 <%
-response.setCharacterEncoding("UTF-8");
-response.setHeader("Cache-Control","no-cache");
-response.setHeader("Pragma","no-cache");
-response.setDateHeader ("Expires", -1);
+	response.setCharacterEncoding("UTF-8");
+	response.setHeader("Cache-Control", "no-cache");
+	response.setHeader("Pragma", "no-cache");
+	response.setDateHeader("Expires", -1);
 %>
 
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<%@ taglib uri="/WEB-INF/shopizer-tags.tld" prefix="sm" %> 
- 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="/WEB-INF/shopizer-tags.tld" prefix="sm"%>
+
 <%@page contentType="text/html"%>
 <%@page pageEncoding="UTF-8"%>
- 
- <script src="<c:url value="/resources/js/jquery.easing.1.3.js" />"></script>
- <script src="<c:url value="/resources/js/jquery.quicksand.js" />"></script>
- <script src="<c:url value="/resources/js/jquery-sort-filter-plugin.js" />"></script>
- <script src="<c:url value="/resources/js/jquery.alphanumeric.pack.js" />"></script>
- 
- 
- <script type="text/html" id="productBoxTemplate">
+
+<script src="<c:url value="/resources/js/jquery.easing.1.3.js" />"></script>
+<script src="<c:url value="/resources/js/jquery.quicksand.js" />"></script>
+<script
+	src="<c:url value="/resources/js/jquery-sort-filter-plugin.js" />"></script>
+<script
+	src="<c:url value="/resources/js/jquery.alphanumeric.pack.js" />"></script>
+
+
+<script type="text/html" id="productBoxTemplate">
 {{#products}}
 <div itemscope itemtype="http://schema.org/Enumeration" class="col-md-4 productItem" item-order="{{sortOrder}}" item-name="{{description.name}}" item-price="{{price}}" data-id="{{id}}" class="col-sm-4">
-<div class="box-style-4 white-bg object-non-visible animated object-visible">
+<div class="box-style-4 white-bg object-non-visible animated object-visible test2">
  	{{#description.highlights}}  
     <div class="ribbon-wrapper-green">
    		<div class="ribbon-green">
@@ -41,7 +44,7 @@ response.setDateHeader ("Expires", -1);
 	<img class="product-img" src="<c:url value=""/>{{image.imageUrl}}"><a class="overlay" href="<c:url value="/shop/product/" />{{description.friendlyUrl}}.html<sm:breadcrumbParam/>"><img class="product-img" src="<c:url value="/"/>{{image.imageUrl}}"></a>
     {{/image}}
     </div>
-	<!--  *** Product Name & Price Starts *** -->
+	<!--  *** Product Name & Price Starts5 *** -->
 	<div class="caption">
 	<div class="product-details">
 	<div class="clearfix">
@@ -67,7 +70,7 @@ response.setDateHeader ("Expires", -1);
 </script>
 
 
- <!-- don't change that script except max_oroducts -->
+<!-- don't change that script except max_oroducts -->
  <script>
  
  var START_COUNT_PRODUCTS = 0;
@@ -76,6 +79,12 @@ response.setDateHeader ("Expires", -1);
  var filterValue = null;
 
  $(function(){
+	
+	/** specific to this template ***/
+	var tpl = $('#productBoxTemplate').text();
+	tpl = tpl.replace("COLUMN-SIZE", "4");//size of the div
+	$('#productBoxTemplate').text(tpl);
+	/*** ***/
 	 
     //price minimum/maximum
 	$('.numeric').numeric();
@@ -103,8 +112,6 @@ response.setDateHeader ("Expires", -1);
  		var orderBy = $("#filter").val();
 		var minimumPrice = $('#priceFilterMinimum').val();
 		var maximumPrice = $('#priceFilterMaximum').val();
-		
-		//orderProducts(orderBy);
 		orderProducts(orderBy, minimumPrice, maximumPrice);
  	}
  
@@ -140,7 +147,7 @@ response.setDateHeader ("Expires", -1);
 		  //console.log(data);
 		  
 		  
-		  listedData = data.find('.productItem');
+		  listedData = data.find('.product');
 		  
 		  //console.log('Listed Data');
 		  //console.log(listedData);
@@ -234,8 +241,7 @@ response.setDateHeader ("Expires", -1);
 			} else {
 					$("#button_nav").hide();
 			}
-			$('#productsContainer').hideLoading();
-
+			hideSMLoading('#productsContainer');
 			visualize();
 			
 			var productQty = productList.productCount + ' <s:message code="label.search.items.found" text="item(s) found" />';
@@ -252,111 +258,136 @@ response.setDateHeader ("Expires", -1);
 
 
 <div id="mainContent" class="container">
-			
-			  <header class="page-header row">
-			  <c:if test="${category.description.name!=null}">
-			  <div class="fixed-image section dark-translucent-bg parallax-bg-3">
-					<div class="container">
-					<h2 class="shop-banner-title lead"><c:out value="${category.description.name}"/></h2>
+
+	<header class="page-header row">
+		<c:if test="${category.description.name!=null}">
+			<div class="fixed-image section dark-translucent-bg parallax-bg-3">
+				<div class="container">
+					<h2 class="shop-banner-title lead">
+						<c:out value="${category.description.name}" />
+					</h2>
+				</div>
+			</div>
+		</c:if>
+		<jsp:include
+			page="/pages/shop/templates/exoticamobilia/sections/breadcrumb.jsp" />
+	</header>
+
+
+	<c:if test="${category.description.description!=null}">
+		<div class="row">
+			<p class="lead">
+				<c:out value="${category.description.description}" escapeXml="false" />
+			</p>
+		</div>
+	</c:if>
+
+
+
+	<div id="shop" class="row">
+		<div class="sorting-filters">
+			<form class="form-inline">
+				<div class="form-group">
+					<label><s:message code="label.generic.sortby"
+							text="Sort by" />:</label> <select id="filter" class="form-control">
+						<option value="item-order"><s:message code="label.generic.default" text="Default" /></option>
+						<option value="item-name"><s:message code="label.generic.name" text="Name" /></option>
+						<option value="item-price"><s:message code="label.generic.price" text="Price" /></option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label><s:message code="label.generic.price" text="Price" />
+						(<s:message code="label.entity.minimum" text="Minimum" />/<s:message
+							code="label.entity.maximum" text="Maximum" />):</label>
+					<div class="row grid-space-10">
+						<div class="col-sm-6">
+							<input id="priceFilterMinimum" name="priceFilterMinimum"
+								class="form-control numeric filterByField" type="text">
+						</div>
+						<div class="col-sm-6">
+							<input id="priceFilterMaximum" name="priceFilterMaximum"
+								class="form-control numeric filterByField" type="text">
+						</div>
 					</div>
-			  </div>
-			  </c:if>
-			  <jsp:include page="/pages/shop/templates/exoticamobilia/sections/breadcrumb.jsp" />
-			  </header>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-6"></div>
+				</div>
+			</form>
+		</div>
+		<div class="col-md-9">
 
-			  
-			  <c:if test="${category.description.description!=null}">
-			  <div class="row">
-			  	<p class="lead"><c:out value="${category.description.description}" escapeXml="false"/></p>
-			  </div>
-			  </c:if>
-			  
+			<div class="row product-list">
 
 
-			   <div id="shop" class="row">
-                  <div class="sorting-filters">
-                     <form class="form-inline">
-	                     <div class="form-group">
-	                      <label><s:message code="label.generic.sortby" text="Sort by" />:</label>
-										<select id="filter" class="form-control">
-											<option value="item-order"><s:message code="label.generic.default" text="Default" /></option>
-											<option value="item-name"><s:message code="label.generic.name" text="Name" /></option>
-											<option value="item-price"><s:message code="label.generic.price" text="Price" /></option>
-										</select>
-						 </div>
-						 <div class="form-group">
-						    <label><s:message code="label.generic.price" text="Price" /> (<s:message code="label.entity.minimum" text="Minimum"/>/<s:message code="label.entity.maximum" text="Maximum"/>):</label>
-						    <div class="row grid-space-10">
-						 		<div class="col-sm-6">
-						 		    <input id="priceFilterMinimum" name="priceFilterMinimum" class="form-control numeric filterByField" type="text">
-						 		</div>
-						 		<div class="col-sm-6">
-						 		    <input id="priceFilterMaximum" name="priceFilterMaximum" class="form-control numeric filterByField" type="text">
-						 		</div>
-						    </div>
-						 </div>
-						 <div class="form-group">
-						 	<div class="col-sm-6">
-						 	</div>
-						 </div>
-                     </form>
-                  </div>
-						<div class="col-md-9">
-						
-							<div class="row product-list">
-							
-							
-							<!-- just copy that block for havimg products displayed -->
-							<!-- products are loaded by ajax -->
-        					<div id="productsContainer" class="list-unstyled"></div>
-			
-							<nav id="button_nav" style="text-align:center;display:none;">
-								<button id="moreProductsButton" class="btn btn-primary btn-large" style="width:400px;" onClick="loadCategoryProducts();"><s:message code="label.product.moreitems" text="Display more items" />...</button>
-							</nav>
-							<span id="end_nav" style="display:none;"><s:message code="label.product.nomoreitems" text="No more items to be displayed" /></span>
-          					<!-- end block -->
+				<!-- 5 just copy that block for havimg products displayed -->
+				<!-- products are loaded by ajax -->
+				<div id="productsContainer" class="list-unstyled"></div>
 
-							</div>
-							
-							<!-- hidden -->
-							<div id="hiddenProductsContainer" style="display:none;"></div>
-
-						</div><!-- /col-md-9 -->
-
-						<sidebar class="col-md-3">
-							<!-- categories -->
-							<c:if test="${parent!=null}">
-              					<h3><c:out value="${parent.description.name}" /></h3>
-             				</c:if>
-							<ul class="nav nav-list">
-							<c:forEach items="${subCategories}" var="subCategory">
-								<c:if test="${subCategory.visible}">
-              					<li>
-              					<a href="<c:url value="/shop/category/${subCategory.description.friendlyUrl}.html"/><sm:breadcrumbParam categoryId="${subCategory.id}"/>"><i class="fa fa-angle-right"></i> <c:out value="${subCategory.description.name}" />
-              						<c:if test="${subCategory.productCount>0}">&nbsp;<span class="countItems">(<c:out value="${subCategory.productCount}" />)</span></c:if></a>
-              					</li>
-              					</c:if>
-              				</c:forEach>
-							</ul>
-							<br/>
-							<!-- manufacturers -->
-							<c:if test="${fn:length(manufacturers) > 0}">
-					          	<h3><s:message code="label.manufacturer.collection" text="Collection" /></h3>
-					            <ul class="nav nav-list">
-					              <li class="nav-header"></li>
-					              <c:forEach items="${manufacturers}" var="manufacturer">
-					              	<li>
-					              		<a href="javascript:filterCategory('BRAND','${manufacturer.id}')"><i class="fa fa-angle-right"></i>&nbsp;<c:out value="${manufacturer.description.name}" /></a></li>
-					              </c:forEach>
-					            </ul>
-					          </div>          
-          					</c:if>
-
-
-
-						</sidebar>
-
-
+				<nav id="button_nav" style="text-align: center; display: none;">
+					<button id="moreProductsButton" class="btn btn-primary btn-large"
+						style="width: 400px;" onClick="loadCategoryProducts();">
+						<s:message code="label.product.moreitems"
+							text="Display more items" />
+						...
+					</button>
+				</nav>
+				<span id="end_nav" style="display: none;"><s:message
+						code="label.product.nomoreitems"
+						text="No more items to be displayed" /></span>
+				<!-- end block -->
 
 			</div>
+
+			<!-- hidden -->
+			<div id="hiddenProductsContainer" style="display: none;"></div>
+
 		</div>
+		<!-- /col-md-9 -->
+
+		<sidebar class="col-md-3"> <!-- categories --> <c:if
+			test="${parent!=null}">
+			<h3>
+				<c:out value="${parent.description.name}" />
+			</h3>
+		</c:if>
+		<ul class="nav nav-list">
+			<c:forEach items="${subCategories}" var="subCategory">
+				<c:if test="${subCategory.visible}">
+					<li><a
+						href="<c:url value="/shop/category/${subCategory.description.friendlyUrl}.html"/><sm:breadcrumbParam categoryId="${subCategory.id}"/>"><i
+							class="fa fa-angle-right"></i> <c:out
+								value="${subCategory.description.name}" /> <c:if
+								test="${subCategory.productCount>0}">&nbsp;<span
+									class="countItems">(<c:out
+										value="${subCategory.productCount}" />)
+								</span>
+							</c:if></a></li>
+				</c:if>
+			</c:forEach>
+		</ul>
+		<br />
+		<!-- manufacturers --> <c:if test="${fn:length(manufacturers) > 0}">
+			<h3>
+				<s:message code="label.manufacturer.collection" text="Collection" />
+			</h3>
+			<ul class="nav nav-list">
+				<li class="nav-header"></li>
+				<c:forEach items="${manufacturers}" var="manufacturer">
+					<li><a
+						href="javascript:filterCategory('BRAND','${manufacturer.id}')"><i
+							class="fa fa-angle-right"></i>&nbsp;<c:out
+								value="${manufacturer.description.name}" /></a></li>
+				</c:forEach>
+			</ul>
+	</div>
+	</c:if>
+
+
+
+	</sidebar>
+
+
+
+</div>
+</div>

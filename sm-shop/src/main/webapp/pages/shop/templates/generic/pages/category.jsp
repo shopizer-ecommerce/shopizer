@@ -209,7 +209,7 @@ response.setDateHeader ("Expires", -1);
 
 
 
-<div id="mainContent" class="container">
+<div id="mainContent" class="container test3">
 	
 			  <header class="page-header row">
 			  <c:if test="${category.description.name!=null}">
