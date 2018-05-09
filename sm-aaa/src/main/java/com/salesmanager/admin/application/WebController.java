@@ -21,9 +21,9 @@ public class WebController {
 		return "dashboard/page2";
 	}
 	
-	@GetMapping("/admin/dashboard")
+/*	@GetMapping("/admin/dashboard")
 	public String dashboard() {
 		return "dashboard/page1";
-	}
+	}*/
 
 }

@@ -8,9 +8,12 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+
+import com.salesmanager.admin.filter.AdminFilter;
 
 @Configuration
 @ComponentScan({"com.salesmanager.admin"})
@@ -38,7 +41,7 @@ public class AdminApplicationConfiguration extends WebMvcConfigurerAdapter{
 	    return lci;
 	}
 	
-/*	@Bean
+	@Bean
 	public AdminFilter getAdminFilter() {
 		return new AdminFilter();
 	}
@@ -47,7 +50,7 @@ public class AdminApplicationConfiguration extends WebMvcConfigurerAdapter{
 	public void addInterceptors(InterceptorRegistry registry) {
 	    registry.addInterceptor(localeChangeInterceptor());
 	    registry.addInterceptor(getAdminFilter());
-	}*/
+	}
 	
 	@Bean
 	public MessageSource messageSource() {
