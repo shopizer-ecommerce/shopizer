@@ -7,41 +7,6 @@
 
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-share"></i> <span>Multilevel</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-
-          <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
-            <li class="treeview">
-              <a href="#"><i class="fa fa-circle-o"></i> Level One
-                <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="#"><i class="fa fa-circle-o"></i> Level Two</a></li>
-                <li class="treeview">
-                  <a href="#"><i class="fa fa-circle-o"></i> Level Two
-                    <span class="pull-right-container">
-                      <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                  </a>
-                  <ul class="treeview-menu">
-                    <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
-                    <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-            <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
-          </ul>
-
-		</li>
 		
         <li class="" th:each="menuitem : ${MENU}" th:attrappend="class= ${#lists.size(menuitem.menus)} > 1 ? treeview : ''">
           <a th:href="@{${menuitem.url}}">
@@ -52,7 +17,7 @@
             	</span>
             </a>
             <ul th:if="${#lists.size(menuitem.menus)} > 1" class="treeview-menu">
-            		<li th:each="subitem1 : ${menuitem.menus}">
+            		<li class="" th:each="subitem1 : ${menuitem.menus}" th:attrappend="class= ${#lists.size(subitem1.menus)} > 1 ? treeview : ''">
             			<a th:href="@{${subitem1.url}}">
             				<i class="fa fa-circle-o"></i><span th:text="#{${'menu.'+subitem1.code}}"></span>
             				<span th:if="${#lists.size(subitem1.menus)} > 1" class="pull-right-container">

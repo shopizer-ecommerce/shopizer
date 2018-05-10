@@ -23,7 +23,7 @@
               <span class="">Languages</span>
           </a>
              <ul class="dropdown-menu">
-              <li th:each="language : ${LANGUAGE}" class="footer"><a href="#" th:text="${language.name}"></a></li>
+              <li th:each="language : ${LANGUAGE}" class="footer"><a th:href="@{'?lang=' + ${language.code}}" th:text="${language.name}"></a></li>
             </ul>
           </li>
           <!-- User Account: style can be found in dropdown.less -->
