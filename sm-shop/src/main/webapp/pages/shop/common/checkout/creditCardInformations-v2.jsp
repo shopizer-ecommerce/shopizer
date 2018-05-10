@@ -128,7 +128,7 @@ response.setDateHeader ("Expires", -1);
 								name="payment['creditcard_card_number']"
 								title="${msgCardNumber}" autocomplete="off" data-stripe="number" required />
 							<span id="creditcard_card_image" class="input-group-addon">
-								<!--<i class="fa fa-credit-card"></i>-->
+								<i class="fa fa-credit-card"></i>
 							</span>
 						</div>
 					</div>
