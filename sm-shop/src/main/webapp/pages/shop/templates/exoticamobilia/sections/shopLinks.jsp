@@ -34,6 +34,18 @@
     
     	<!-- ////////////// -->
     	
+    	<script type="text/javascript">
+	    	//show overlay wait
+	    	function showTemplateLoading(element) {
+	    		$.LoadingOverlay("show");
+	    	}
+	    	
+	    	function hideTemplateLoading(element) {
+	    		$.LoadingOverlay("hide", true);
+	    	}
+   
+       </script>
+     
 
 <!--
 
