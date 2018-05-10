@@ -79,7 +79,7 @@ public class OrderApi {
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		
-		MerchantStore merchantStore = storeFacade.getByCode(com.salesmanager.core.business.constants.Constants.DEFAULT_STORE);
+		MerchantStore merchantStore = storeFacade.getByCode(request);
 		Language language = languageUtils.getRESTLanguage(request, merchantStore);
 		
 	
@@ -135,7 +135,7 @@ public class OrderApi {
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		
-		MerchantStore merchantStore = storeFacade.getByCode(com.salesmanager.core.business.constants.Constants.DEFAULT_STORE);
+		MerchantStore merchantStore = storeFacade.getByCode(request);
 		Language language = languageUtils.getRESTLanguage(request, merchantStore);
 		
 		
@@ -190,7 +190,7 @@ public class OrderApi {
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		
-		MerchantStore merchantStore = storeFacade.getByCode(com.salesmanager.core.business.constants.Constants.DEFAULT_STORE);
+		MerchantStore merchantStore = storeFacade.getByCode(request);
 		Language language = languageUtils.getRESTLanguage(request, merchantStore);
 	
 		Principal principal = request.getUserPrincipal();
@@ -245,7 +245,7 @@ public class OrderApi {
 
 		try {
 			
-			MerchantStore merchantStore = storeFacade.getByCode(com.salesmanager.core.business.constants.Constants.DEFAULT_STORE);
+			MerchantStore merchantStore = storeFacade.getByCode(request);
 			Language language = languageUtils.getRESTLanguage(request, merchantStore);
 			
 			Principal principal = request.getUserPrincipal();

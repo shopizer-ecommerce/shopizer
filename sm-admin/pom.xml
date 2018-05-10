@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>info.sanaulla</groupId>
-	<artifactId>sm-aaa</artifactId>
+	<artifactId>sm-admin</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 

@@ -1,5 +1,7 @@
 package com.salesmanager.shop.store.controller.store.facade;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.salesmanager.core.model.merchant.MerchantStore;
 
 /**
@@ -15,6 +17,8 @@ public interface StoreFacade {
 	 * @return
 	 * @throws Exception
 	 */
-	MerchantStore getByCode(String code) throws Exception;
+	MerchantStore getByCode(HttpServletRequest reques) throws Exception;
+	
+	MerchantStore get(String code) throws Exception;
 
 }

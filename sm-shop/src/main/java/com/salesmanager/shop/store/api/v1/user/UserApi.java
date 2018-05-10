@@ -50,7 +50,7 @@ public class UserApi {
 		
 		try {
 			
-			MerchantStore merchantStore = storeFacade.getByCode(com.salesmanager.core.business.constants.Constants.DEFAULT_STORE);
+			MerchantStore merchantStore = storeFacade.getByCode(request);
 			Language language = languageUtils.getRESTLanguage(request, merchantStore);
 
 			ReadableUser user = userFacade.findByUserName(name, language);

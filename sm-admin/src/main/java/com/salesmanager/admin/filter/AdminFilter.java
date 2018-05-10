@@ -38,6 +38,7 @@ public class AdminFilter extends HandlerInterceptorAdapter {
 	@Inject
 	CacheHelper cacheHelper;
 	
+	@SuppressWarnings("unchecked")
 	public boolean preHandle(
             HttpServletRequest request,
             HttpServletResponse response,

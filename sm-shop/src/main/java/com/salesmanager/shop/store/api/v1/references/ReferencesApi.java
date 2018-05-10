@@ -110,7 +110,7 @@ public class ReferencesApi {
 
 		try {
 			
-			MerchantStore merchantStore = storeFacade.getByCode(com.salesmanager.core.business.constants.Constants.DEFAULT_STORE);
+			MerchantStore merchantStore = storeFacade.getByCode(request);
 			Language lang = languageUtils.getRESTLanguage(request, merchantStore);
 
 

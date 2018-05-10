@@ -54,7 +54,7 @@ public class ShoppingCartApi {
 		
 		try {
 			
-			MerchantStore merchantStore = storeFacade.getByCode(com.salesmanager.core.business.constants.Constants.DEFAULT_STORE);
+			MerchantStore merchantStore = storeFacade.getByCode(request);
 			Language language = languageUtils.getRESTLanguage(request, merchantStore);	
 			
 			//lookup customer
@@ -88,7 +88,7 @@ public class ShoppingCartApi {
 		
 		try {
 			
-			MerchantStore merchantStore = storeFacade.getByCode(com.salesmanager.core.business.constants.Constants.DEFAULT_STORE);
+			MerchantStore merchantStore = storeFacade.getByCode(request);
 			Language language = languageUtils.getRESTLanguage(request, merchantStore);	
 			
 			//lookup customer
