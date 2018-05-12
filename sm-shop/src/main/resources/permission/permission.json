@@ -5,14 +5,13 @@
         "group": {
           "name": [
             "SUPERADMIN",
-            "ADMIN",
-            "AUTH"
+            "ADMIN"
           ]
         }
       },
       {
         "type": "SUPERADMIN",
-        "group": { "name": ["SUPERADMIN","AUTH"] }
+        "group": { "name": ["SUPERADMIN"] }
       },
       {
         "type": "ADMIN",

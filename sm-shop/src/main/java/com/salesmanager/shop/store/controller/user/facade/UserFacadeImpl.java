@@ -1,5 +1,7 @@
 package com.salesmanager.shop.store.controller.user.facade;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
@@ -31,6 +33,12 @@ public class UserFacadeImpl implements UserFacade {
 		populator.populate(user, readableUser, user.getMerchantStore(), lang);
 		
 		return readableUser;
+	}
+
+	@Override
+	public List<String> findPermissionsByGroups(List<Integer> ids) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
