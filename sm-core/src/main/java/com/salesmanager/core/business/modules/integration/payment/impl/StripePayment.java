@@ -136,14 +136,14 @@ public class StripePayment implements PaymentModule {
 			strAmount = strAmount.replace(".","");
             //There may be use case where , will be added to the amount, it will not be accepted by Stripe due to non integer value
             if(StringUtils.contains(strAmount, ",")){
-                strAmount = strAmount.replaceAll(",", "");
+                strAmount = strAmount.replace(",", "");
             }
 			Map<String, Object> chargeParams = new HashMap<String, Object>();
 			chargeParams.put("amount", strAmount);
 			chargeParams.put("capture", false);
 			chargeParams.put("currency", store.getCurrency().getCode());
 			chargeParams.put("source", token); // obtained with Stripe.js
-			chargeParams.put("description", getDescription(customer));
+			chargeParams.put("description", new StringBuilder().append(TRANSACTION).append(" - ").append(store.getStorename()).toString());
 			
 			Stripe.apiKey = apiKey;
 			
@@ -266,10 +266,12 @@ public class StripePayment implements PaymentModule {
 		}
 		
 
+
 		Transaction transaction = new Transaction();
 		try {
 			
 			String amnt = productPriceUtils.getAdminFormatedAmount(store, amount);
+			
 			//stripe does not support floating point
 			//so amnt * 100 or remove floating point
 			//553.47 = 55347
@@ -280,7 +282,7 @@ public class StripePayment implements PaymentModule {
 
             //There may be use case where , will be added to the amount, it will not be accepted by Stripe due to non integer value
             if(StringUtils.contains(strAmount, ",")){
-                strAmount = strAmount.replaceAll(",", "");
+                strAmount = strAmount.replace(",", "");
             }
 			
 			Map<String, Object> chargeParams = new HashMap<String, Object>();
@@ -288,12 +290,15 @@ public class StripePayment implements PaymentModule {
 			chargeParams.put("capture", true);
 			chargeParams.put("currency", store.getCurrency().getCode());
 			chargeParams.put("source", token); // obtained with Stripe.js
-			chargeParams.put("description", getDescription(customer));
+			chargeParams.put("description", new StringBuilder().append(TRANSACTION).append(" - ").append(store.getStorename()).toString());
+			
 			Stripe.apiKey = apiKey;
 			
-			Charge ch = Charge.create(chargeParams);
 			
+			Charge ch = Charge.create(chargeParams);
+	
 			//Map<String,String> metadata = ch.getMetadata();
+			
 			
 			transaction.setAmount(amount);
 			//transaction.setOrder(order);
@@ -306,7 +311,7 @@ public class StripePayment implements PaymentModule {
 			transaction.getTransactionDetails().put("MESSAGETEXT", null);
 			
 		} catch (Exception e) {
-			LOGGER.error("Strip ERROR:" + e.getMessage());
+			
 			throw buildException(e);
 	
 		} 
@@ -350,11 +355,6 @@ public class StripePayment implements PaymentModule {
 			String strAmount = String.valueOf(amnt);
 			strAmount = strAmount.replace(".","");
 			
-			//There may be use case where , will be added to the amount, it will not be accepted by Stripe due to non integer value
-            if(StringUtils.contains(strAmount, ",")){
-                strAmount = strAmount.replaceAll(",", "");
-            }
-			
 			Map params = new HashMap();
 			//TODO amount
 			params.put("amount", strAmount);
@@ -386,6 +386,7 @@ public class StripePayment implements PaymentModule {
 	}
 	
 	private IntegrationException buildException(Exception ex) {
+		
 		
 	if(ex instanceof CardException) {
 		  CardException e = (CardException)ex;
@@ -537,7 +538,6 @@ public class StripePayment implements PaymentModule {
 		if(ex instanceof IntegrationException) {
 			return (IntegrationException)ex;
 		} else {
-			LOGGER.info("Exception ELSE");
 			IntegrationException te = new IntegrationException(
 					"Can't process Stripe authorize, exception", ex);
 			te.setExceptionType(IntegrationException.TRANSACTION_EXCEPTION);
@@ -556,21 +556,10 @@ public class StripePayment implements PaymentModule {
 		te.setErrorCode(IntegrationException.TRANSACTION_EXCEPTION);
 		return te;
 	}
+
 	}
 	
-	private String getDescription (Customer customer) {
-		
-		StringBuilder description = new StringBuilder().append(TRANSACTION).append(" - ");
-		if (customer != null) {
-			if (customer.getEmailAddress() != null) {
-				description.append(customer.getEmailAddress());
-			} else if (customer.getNick() != null ) {
-				description.append(customer.getNick());
-			}
-		}
-		return description.toString();
-		
-	}
+	
 
 
 
