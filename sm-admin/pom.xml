@@ -8,8 +8,8 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
-	<name>sm-aaa</name>
-	<description>Demo project for Spring Boot</description>
+	<name>sm-admin</name>
+	<description>Shopizer administration</description>
 
 <!--
 	<parent>
@@ -52,6 +52,7 @@
         </dependency>
         
         <!-- optional, it brings userful tags to display spring security stuff -->
+        <!-- TODO remove -->
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity4</artifactId>
@@ -126,6 +127,20 @@
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
         </dependency>
+        
+		 <!-- https://mvnrepository.com/artifact/com.amazonaws/aws-lambda-java-events -->
+		<dependency>
+		    <groupId>com.amazonaws</groupId>
+		    <artifactId>aws-lambda-java-events</artifactId>
+		    <version>2.1.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-lambda-java-core -->
+		<dependency>
+		    <groupId>com.amazonaws</groupId>
+		    <artifactId>aws-lambda-java-core</artifactId>
+		    <version>1.2.0</version>
+		</dependency>
+ 
     </dependencies>
 
 	<build>
@@ -174,6 +189,38 @@
 			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>
+	
+	<profiles>
+	    <profile>
+        <id>lambdas</id>
+        <activation>
+            <activeByDefault>true</activeByDefault>
+        </activation>
+        <build>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>2.2.1</version>
+                    <configuration>
+                        <finalName>ShopizerLambdas</finalName>
+                        <descriptors>
+                            <descriptor>src/assembly/lambdas/assembly.xml</descriptor>
+                        </descriptors>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>single</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </build>
+    </profile>
+	
+	</profiles>
 
 
 </project>

@@ -286,7 +286,7 @@
 "code":"cache",
 "icon":"fa-spinner", 
 "url":"/admin/cache/cacheManagement.html", 
-"role":"AUTH",
+"role":"ADMIN",
 "order":10
 }},
 {
@@ -294,17 +294,17 @@
 "code":"configuration",
 "icon":"fa-cog", 
 "url":"/admin/configuration/accounts.html", 
-"role":"AUTH",
+"role":"ADMIN",
 "order":11,
 "menus":[
 	{"menu":{
-		"code":"accounts-conf","url":"/admin/configuration/accounts.html","role":"AUTH","order":0
+		"code":"accounts-conf","url":"/admin/configuration/accounts.html","role":"ADMIN","order":0
 	}},
 	{"menu":{
-		"code":"email-conf","url":"/admin/configuration/email.html","role":"AUTH","order":1
+		"code":"email-conf","url":"/admin/configuration/email.html","role":"ADMIN","order":1
 	}},
 	{"menu":{
-		"code":"system-configurations","url":"/admin/configuration/system.html","role":"AUTH","order":2
+		"code":"system-configurations","url":"/admin/configuration/system.html","role":"ADMIN","order":2
 	}}
 ]
 }}

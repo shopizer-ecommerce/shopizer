@@ -125,14 +125,20 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
 		List grants = new ArrayList<String>();
 
 		List<Map<String,String>> groups = (List<Map<String,String>>)map.get("groups");
+		List<Map<String,String>> permissions = (List<Map<String,String>>)map.get("permissions");
 		
 		
-		//TODO add prefix ROLE_ in front of group
+		//prefix ROLE_ in front of group (spring security obligation)
 		for(Map<String,String> g : groups) {
 			GrantedAuthority gt = new SimpleGrantedAuthority("ROLE_"+g.get("name"));
 			grants.add(gt);
 		}
 		
+		for(Map<String,String> p : permissions) {
+			GrantedAuthority gt = new SimpleGrantedAuthority("ROLE_"+p.get("name"));
+			grants.add(gt);
+		}
+
 		GrantedAuthority gta = new SimpleGrantedAuthority("ROLE_AUTH");
 		grants.add(gta);
 		

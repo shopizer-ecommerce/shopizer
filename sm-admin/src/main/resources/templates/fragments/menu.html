@@ -14,7 +14,7 @@
             	</span>
             </a>
             <ul th:if="${#lists.size(menuitem.menus)} > 1" class="treeview-menu">
-            		<li class="" th:each="subitem1 : ${menuitem.menus}" th:attrappend="class= ${#lists.size(subitem1.menus)} > 1 ? treeview : ''">
+            		<li class="" th:each="subitem1 : ${menuitem.menus}" th:attrappend="class= ${#lists.size(subitem1.menus)} > 1 ? treeview : ''" th:if="${#request.isUserInRole('ROLE_'+subitem1.role)}">
             			<a th:href="@{${subitem1.url}}">
             				<i class="fa fa-circle-o"></i><span th:text="#{${'menu.'+subitem1.code}}"></span>
             				<span th:if="${#lists.size(subitem1.menus)} > 1" class="pull-right-container">
@@ -22,7 +22,7 @@
             				</span>
             			</a>
             			<ul th:if="${#lists.size(subitem1.menus)} > 1" class="treeview-menu">
-            				<li th:each="subitem2 : ${subitem1.menus}">
+            				<li th:each="subitem2 : ${subitem1.menus}" th:if="${#request.isUserInRole('ROLE_'+subitem2.role)}">
             				<a th:href="@{${subitem2.url}}">
             					<i class="fa fa-circle-o"></i><span th:text="#{${'menu.'+subitem2.code}}"></span>
             				</a>
