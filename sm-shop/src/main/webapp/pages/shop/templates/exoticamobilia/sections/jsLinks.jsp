@@ -43,10 +43,8 @@
     <script src="<c:url value="/resources/js/login.js" />"></script>
     <script src="<c:url value="/resources/js/jquery.showLoading.min.js" />"></script>
 
-
+    <script src="<c:url value="/resources/templates/generic/js/loadingoverlay.min.js" />"></script>
+    
 	<!-- ////////////// -->
-
-
-     
 
    
