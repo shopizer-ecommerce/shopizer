@@ -123,22 +123,17 @@ public class StorePickupShippingQuote implements ShippingQuoteModule, ShippingQu
 			List<IntegrationModule> allModules, Locale locale)
 			throws IntegrationException {
 		
-		//Validate.notNull(globalShippingConfiguration, "IntegrationConfiguration must not be null for StorePickUp");
+		Validate.notNull(globalShippingConfiguration, "IntegrationConfiguration must not be null for StorePickUp");
 		
 		
 		try {
 			
-			if(globalShippingConfiguration == null || !globalShippingConfiguration.isActive())
+			if(!globalShippingConfiguration.isActive())
 				return;
 
 			String region = null;
 			
-			String price = "0";
-			if (globalShippingConfiguration.getIntegrationKeys() != null && 
-				globalShippingConfiguration.getIntegrationKeys().containsKey("price") ) {
-				price = globalShippingConfiguration.getIntegrationKeys().get("price");
-			}
-			 
+			String price = globalShippingConfiguration.getIntegrationKeys().get("price");
 	
 	
 			if(delivery.getZone()!=null) {
