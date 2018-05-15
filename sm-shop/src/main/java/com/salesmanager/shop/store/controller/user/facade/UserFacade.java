@@ -3,6 +3,8 @@ package com.salesmanager.shop.store.controller.user.facade;
 import java.util.List;
 
 import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.model.user.Permission;
+import com.salesmanager.shop.model.security.ReadablePermission;
 import com.salesmanager.shop.model.user.ReadableUser;
 
 /**
@@ -25,7 +27,7 @@ public interface UserFacade {
 	 * @return
 	 * @throws Exception
 	 */
-	List<String> findPermissionsByGroups(List<Integer> ids) throws Exception;
+	public List<ReadablePermission> findPermissionsByGroups(List<Integer> ids) throws Exception;
 	
 	
 

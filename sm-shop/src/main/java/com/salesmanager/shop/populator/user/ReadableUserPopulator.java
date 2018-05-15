@@ -51,7 +51,7 @@ public class ReadableUserPopulator extends AbstractDataPopulator<User, ReadableU
 			g.setId(new Long(group.getId()));
 			g.setName(group.getGroupName());
 			target.getGroups().add(g);
-			Set<Permission> perms = group.getPermissions();
+/*			Set<Permission> perms = group.getPermissions();
 			if(perms != null) {
 				for(Permission p : perms) {
 					ReadableGroup gp = new ReadableGroup();
@@ -59,7 +59,7 @@ public class ReadableUserPopulator extends AbstractDataPopulator<User, ReadableU
 					gp.setName(p.getPermissionName());
 					target.getGroups().add(gp);
 				}
-			}
+			}*/
 			
 		}
 		
