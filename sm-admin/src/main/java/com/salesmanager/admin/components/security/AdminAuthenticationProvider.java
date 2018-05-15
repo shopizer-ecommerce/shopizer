@@ -120,6 +120,7 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
 			//firstName
 			//defaultLanguage
 			//active
+		    //userName
 			//groups
 		
 		List grants = new ArrayList<String>();
@@ -149,7 +150,8 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
 		Map<String,String> details = new HashMap<String,String>();
 		details.put(Constants.TOKEN,token);
 		details.put(Constants.User.FIRST_NAME, (String)map.get(Constants.User.FIRST_NAME));
-		details.put(Constants.User.ACTIVE, String.valueOf((Boolean)map.get(Constants.User.ACTIVE)));
+		details.put(Constants.User.USER_NAME, (String)map.get(Constants.User.FIRST_NAME));
+		details.put(Constants.User.ACTIVE, String.valueOf((Boolean)map.get(Constants.User.USER_NAME)));
 		details.put(Constants.User.DEFAULT_LANGUAGE, (String)map.get(Constants.User.DEFAULT_LANGUAGE));
 		details.put(Constants.User.MERCHANT_CODE, (String)map.get(Constants.User.MERCHANT_CODE));
 		

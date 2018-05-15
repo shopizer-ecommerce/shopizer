@@ -97,6 +97,7 @@ public class AdminFilter extends HandlerInterceptorAdapter {
 		if(auth != null && auth instanceof AdminAuthenticationToken && auth.getDetails() != null) {
 			Map<String,String> details = (Map<String, String>) auth.getDetails();
 			request.setAttribute(Constants.User.FIRST_NAME, details.get(Constants.User.FIRST_NAME));
+			request.setAttribute(Constants.User.USER_NAME, details.get(Constants.User.FIRST_NAME));
 			request.setAttribute(Constants.User.MERCHANT_CODE, details.get(Constants.User.MERCHANT_CODE));
 		}
 		
