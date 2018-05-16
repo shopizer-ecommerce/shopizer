@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.salesmanager.admin.components.security.AdminAuthenticationProvider;
 import com.salesmanager.admin.components.security.AdminAuthenticationToken;
 import com.salesmanager.admin.model.common.Messages;
 import com.salesmanager.admin.model.common.ResponseToJson;
@@ -25,6 +28,9 @@ import com.salesmanager.admin.utils.Constants;
 
 @Controller
 public class LoginController {
+	
+	 private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+	 
 	
 	
 	@Inject
@@ -61,6 +67,7 @@ public class LoginController {
 	    		 );
 	    		
 	    	} catch(Exception e) {
+	    		logger.error("An error occured when logging in " + e.getMessage());
 	    		return ResponseEntity.badRequest().body(ResponseToJson.toObject(messages.get("error", locale), Constants.Code.ERROR));
 	    	}
 	    	

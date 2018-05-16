@@ -150,8 +150,8 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
 		Map<String,String> details = new HashMap<String,String>();
 		details.put(Constants.TOKEN,token);
 		details.put(Constants.User.FIRST_NAME, (String)map.get(Constants.User.FIRST_NAME));
-		details.put(Constants.User.USER_NAME, (String)map.get(Constants.User.FIRST_NAME));
-		details.put(Constants.User.ACTIVE, String.valueOf((Boolean)map.get(Constants.User.USER_NAME)));
+		details.put(Constants.User.USER_NAME, (String)map.get(Constants.User.USER_NAME));
+		details.put(Constants.User.ACTIVE, String.valueOf(((Boolean)map.get(Constants.User.ACTIVE)).booleanValue()));
 		details.put(Constants.User.DEFAULT_LANGUAGE, (String)map.get(Constants.User.DEFAULT_LANGUAGE));
 		details.put(Constants.User.MERCHANT_CODE, (String)map.get(Constants.User.MERCHANT_CODE));
 		
@@ -160,6 +160,8 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
 		LocaleContextHolder.setLocale(l);
 		
 		auth.setDetails(details);
+		
+		logger.debug("Successfull authentication for [" + (String)map.get(Constants.User.USER_NAME) + "]");
 			
 		return auth;
      
