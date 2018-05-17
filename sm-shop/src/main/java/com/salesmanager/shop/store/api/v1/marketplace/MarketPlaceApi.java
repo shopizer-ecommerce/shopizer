@@ -13,14 +13,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.salesmanager.shop.model.marketplace.ReadableMarketPlace;
-import com.salesmanager.shop.model.shop.ReadableMerchantStore;
-import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
+import com.salesmanager.shop.store.controller.marketplace.facade.MarketPlaceFacade;
 
 @Controller
 public class MarketPlaceApi {
 	
 	@Inject
-	private StoreFacade storeFacade;
+	private MarketPlaceFacade marketPlaceFacade;
 	
 	
 	void create() throws Exception {
@@ -36,14 +35,14 @@ public class MarketPlaceApi {
     public @ResponseBody ReadableMarketPlace marketPlace(@PathVariable String store, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	
     	
-    	ReadableMerchantStore readableStore = storeFacade.getByCode(store);
+    	ReadableMarketPlace marketPlace = marketPlaceFacade.get(store);
     	
-		if(readableStore==null) {
+		if(marketPlace==null) {
 			response.sendError(404,  "Marketplace not found for merchant store [" + store + "]");
 			return null;
 		}
     	
-    	return null;
+    	return marketPlace;
     }
 		
 

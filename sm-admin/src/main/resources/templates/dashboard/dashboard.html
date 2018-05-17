@@ -410,11 +410,20 @@
       <!-- /.span (main span) -->
       
       <!-- All actions in dashboard to be defined here -->
+      <th:block layout:fragment="script">
       <script type="text/javascript">
+      $(document).ready(function(){
+    	  
+      		console.log('TEST');
       
-      		//TODO
-      		var TOKEN = /*[[${token}]]*/
-      		var USERNAME = /*[[${userName}]]*/
+      		//Variables
+      		var TOKEN = '[[${token}]]';
+      		var USERNAME = '[[${userName}]]';
+      		var FIRSTNAME = '[[${firstName}]]';
+      		var LASTNAME = '[[${lastName}]]';
+      		var STORECODE = '[[${merchant}]]';
+      		
+      		log("Store code " + STORECODE)
       
 
       		//User summary
@@ -423,19 +432,19 @@
       		var url = ""
 
 	    	$.ajax({
-	    	    type:"post",
+	    	    type:"get",
 	    	    contentType : 'application/json; charset=utf-8',
 	    	    crossDomain: true,
-	    	    url:"/private/users/" + USERNAME,
+	    	    url:"/private/marketplace/" + STORECODE,
 	    	    dataType: "json",
 	    		beforeSend: function (xhr) {
 	    			/* Authorization header */
 	    			/* Need to have a Customer created with username + password */
 	    			xhr.setRequestHeader("Authorization", "Bearer " + TOKEN);
 	            },
-	    	    success: function(){
+	    	    success: function(data){
 	    	       hideLoader();
-	    	       log("success");
+	    	       log("success " + data);
 	    	    },
 	    	    error: function(response,textStatus,errorThrown) { 
 	    	    	hideLoader();
@@ -453,5 +462,6 @@
       		//End user summary
       		
       
-      
+      });
       </script>
+      </th:block>

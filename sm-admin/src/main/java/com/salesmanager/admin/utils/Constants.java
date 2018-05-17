@@ -17,6 +17,7 @@ public class Constants {
 	
 	public static class User {
 		public final static String FIRST_NAME = "firstName";
+		public final static String LAST_NAME = "lastName";
 		public final static String USER_NAME = "userName";
 		public final static String DEFAULT_LANGUAGE = "defaultLanguage";
 		public final static String ACTIVE = "active";
