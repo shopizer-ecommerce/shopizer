@@ -13,7 +13,7 @@
         <dependent-module archiveName="sm-core-model-2.3.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/sm-core-model/sm-core-model">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <property name="context-root" value="sm-shop"/>
         <property name="java-output-path" value="/sm-shop/target/classes"/>
+        <property name="context-root" value="sm-shop-OLD"/>
     </wb-module>
 </project-modules>

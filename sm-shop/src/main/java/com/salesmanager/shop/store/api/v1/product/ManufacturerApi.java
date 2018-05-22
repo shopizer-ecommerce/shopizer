@@ -70,7 +70,7 @@ public class ManufacturerApi {
 		
 		try {
 			
-			MerchantStore merchantStore = storeFacade.getByCode(request);
+			MerchantStore merchantStore = storeFacade.getByCode(com.salesmanager.core.business.constants.Constants.DEFAULT_STORE);
 			Language language = languageUtils.getRESTLanguage(request, merchantStore);	
 
 			productFacade.saveOrUpdateManufacturer(manufacturer, merchantStore, language);
@@ -97,7 +97,7 @@ public class ManufacturerApi {
 		
 		try {
 			
-			MerchantStore merchantStore = storeFacade.getByCode(request);
+			MerchantStore merchantStore = storeFacade.getByCode(com.salesmanager.core.business.constants.Constants.DEFAULT_STORE);
 			Language language = languageUtils.getRESTLanguage(request, merchantStore);	
 
 			ReadableManufacturer manufacturer = productFacade.getManufacturer(id, merchantStore, language);
@@ -131,7 +131,7 @@ public class ManufacturerApi {
 		
 		try {
 			
-			MerchantStore merchantStore = storeFacade.getByCode(request);
+			MerchantStore merchantStore = storeFacade.getByCode(com.salesmanager.core.business.constants.Constants.DEFAULT_STORE);
 			Language language = languageUtils.getRESTLanguage(request, merchantStore);	
 
 			return productFacade.getAllManufacturers(merchantStore, language);
@@ -158,7 +158,7 @@ public class ManufacturerApi {
 		
 		try {
 			
-			MerchantStore merchantStore = storeFacade.getByCode(request);
+			MerchantStore merchantStore = storeFacade.getByCode(com.salesmanager.core.business.constants.Constants.DEFAULT_STORE);
 			Language language = languageUtils.getRESTLanguage(request, merchantStore);	
 
 			productFacade.saveOrUpdateManufacturer(manufacturer, merchantStore, language);
@@ -185,7 +185,7 @@ public class ManufacturerApi {
 		
 		try {
 			
-			MerchantStore merchantStore = storeFacade.getByCode(request);
+			MerchantStore merchantStore = storeFacade.getByCode(com.salesmanager.core.business.constants.Constants.DEFAULT_STORE);
 			Language language = languageUtils.getRESTLanguage(request, merchantStore);
 			
 			Manufacturer manufacturer = manufacturerService.getById(id);

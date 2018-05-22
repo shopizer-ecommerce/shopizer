@@ -80,7 +80,7 @@ public class ProductGroupApi {
 		
 		try {
 
-			MerchantStore merchantStore = storeFacade.getByCode(request);
+			MerchantStore merchantStore = storeFacade.getByCode(com.salesmanager.core.business.constants.Constants.DEFAULT_STORE);
 			Language language = languageUtils.getRESTLanguage(request, merchantStore);
 			
 			
@@ -109,7 +109,7 @@ public class ProductGroupApi {
     	
 		try {
     	
-	    	MerchantStore merchantStore = storeFacade.getByCode(request);
+	    	MerchantStore merchantStore = storeFacade.getByCode(com.salesmanager.core.business.constants.Constants.DEFAULT_STORE);
 			Language language = languageUtils.getRESTLanguage(request, merchantStore);	
 	    	
 	    	//get the product
@@ -141,7 +141,7 @@ public class ProductGroupApi {
     	
 		try {
     	
-	    	MerchantStore merchantStore = storeFacade.getByCode(request);
+	    	MerchantStore merchantStore = storeFacade.getByCode(com.salesmanager.core.business.constants.Constants.DEFAULT_STORE);
 			Language language = languageUtils.getRESTLanguage(request, merchantStore);	
 	    	
 	    	//get the product

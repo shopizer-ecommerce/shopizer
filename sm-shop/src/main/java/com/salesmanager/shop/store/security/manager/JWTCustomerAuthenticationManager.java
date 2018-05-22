@@ -16,8 +16,6 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 
 import com.salesmanager.shop.store.security.JWTTokenUtil;
-import com.salesmanager.shop.store.security.common.CustomAuthenticationException;
-import com.salesmanager.shop.store.security.common.CustomAuthenticationManager;
 
 import io.jsonwebtoken.ExpiredJwtException;
 
@@ -33,7 +31,7 @@ public class JWTCustomerAuthenticationManager extends CustomAuthenticationManage
     private UserDetailsService jwtCustomerDetailsService;
 
 	@Override
-	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
+	Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
 		
 		final String requestHeader = request.getHeader(super.getTokenHeader());//token
@@ -76,14 +74,14 @@ public class JWTCustomerAuthenticationManager extends CustomAuthenticationManage
 	}
 
 	@Override
-	public void successfullAuthentication(HttpServletRequest request, HttpServletResponse response,
+	void successfullAuthentication(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws AuthenticationException {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void unSuccessfullAuthentication(HttpServletRequest request, HttpServletResponse response)
+	void unSuccessfullAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
 		// TODO Auto-generated method stub
 

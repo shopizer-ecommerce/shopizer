@@ -60,7 +60,7 @@ public class SearchApi {
 		
 		try {
 			
-			MerchantStore merchantStore = storeFacade.getByCode(request);
+			MerchantStore merchantStore = storeFacade.getByCode(com.salesmanager.core.business.constants.Constants.DEFAULT_STORE);
 			Language language = languageUtils.getRESTLanguage(request, merchantStore);			
 			SearchProductList productList = searchFacade.search(merchantStore, language, searchRequest);
 			

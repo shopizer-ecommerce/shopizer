@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.salesmanager.shop.store.security.common.CustomAuthenticationManager;
+import com.salesmanager.shop.store.security.manager.CustomAuthenticationManager;
 
 
 public class AuthenticationTokenFilter extends OncePerRequestFilter {
@@ -24,17 +24,10 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
     
     @Value("${authToken.header}")
     private String tokenHeader;
-    
-    private final static String BEARER_TOKEN ="Bearer ";
-    
-    private final static String FACEBOOK_TOKEN ="FB ";
 
     
     @Inject
     private CustomAuthenticationManager jwtCustomCustomerAuthenticationManager;
-    
-    @Inject
-    private CustomAuthenticationManager jwtCustomAdminAuthenticationManager;
 
     @Inject
     private CustomAuthenticationManager facebookCustomerAuthenticationManager;
@@ -43,43 +36,24 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         
-		//Allow CORS requests, support pre-flight check
-		response.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE");
-		response.setHeader("Access-Control-Allow-Headers", "X-Auth-Token, Content-Type, Authorization");
-		response.setHeader("Access-Control-Allow-Origin", "*");
-    	
-    	
     	//@TODO edit this
     	if(request.getRequestURL().toString().contains("/api/v1/auth")) {
-    		    	
+    		
+    		//Allow CORS requests, support pre-flight check
+    		response.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE");
+    		response.setHeader("Access-Control-Allow-Headers", "X-Auth-Token, Content-Type, Authorization");
+    		response.setHeader("Access-Control-Allow-Origin", "*");
+    	
 	    	final String requestHeader = request.getHeader(this.tokenHeader);//token
 	    	
 	    	try {
-		        if (requestHeader != null && requestHeader.startsWith(BEARER_TOKEN)) {//Bearer
+		        if (requestHeader != null && requestHeader.startsWith("Bearer ")) {//Bearer
 		        	
 		        	jwtCustomCustomerAuthenticationManager.authenticateRequest(request, response);
 	
-		        } else if(requestHeader != null && requestHeader.startsWith(FACEBOOK_TOKEN)) {
+		        } else if(requestHeader != null && requestHeader.startsWith("FB ")) {
 		        	//Facebook
 		        	facebookCustomerAuthenticationManager.authenticateRequest(request, response);
-		        } else {
-		        	LOGGER.warn("couldn't find any authorization token, will ignore the header");
-		        }
-	        
-	    	} catch(Exception e) {
-	    		throw new ServletException(e);
-	    	}
-    	}
-    	
-    	if(request.getRequestURL().toString().contains("/api/v1/private")) {
-	    	
-	    	final String requestHeader = request.getHeader(this.tokenHeader);//token
-	    	
-	    	try {
-		        if (requestHeader != null && requestHeader.startsWith(BEARER_TOKEN)) {//Bearer
-		        	
-		        	jwtCustomAdminAuthenticationManager.authenticateRequest(request, response);
-	
 		        } else {
 		        	LOGGER.warn("couldn't find any authorization token, will ignore the header");
 		        }

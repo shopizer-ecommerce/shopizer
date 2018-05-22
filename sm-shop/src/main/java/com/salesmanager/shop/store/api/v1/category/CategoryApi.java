@@ -59,7 +59,7 @@ public class CategoryApi {
 	public ReadableCategory get(@PathVariable final Long id, @RequestParam(value = "lang", required=false) String lang, HttpServletRequest request, HttpServletResponse response) throws Exception {
 	
 		try {
-			MerchantStore merchantStore = storeFacade.getByCode(request);
+			MerchantStore merchantStore = storeFacade.getByCode(com.salesmanager.core.business.constants.Constants.DEFAULT_STORE);
 			Language language = languageUtils.getRESTLanguage(request, merchantStore);	
 			
 			ReadableCategory category  = categoryFacade.getById(merchantStore, id, language);
@@ -100,7 +100,7 @@ public class CategoryApi {
 			String lang, HttpServletRequest request, HttpServletResponse response) throws Exception {
 	
 		try {
-			MerchantStore merchantStore = storeFacade.getByCode(request);
+			MerchantStore merchantStore = storeFacade.getByCode(com.salesmanager.core.business.constants.Constants.DEFAULT_STORE);
 			Language language = languageUtils.getRESTLanguage(request, merchantStore);	
 			
 			List <ReadableCategory> category  = categoryFacade.getCategoryHierarchy(merchantStore, 0, language, filter);
@@ -130,7 +130,7 @@ public class CategoryApi {
 		try {
 
 
-			MerchantStore merchantStore = storeFacade.getByCode(request);
+			MerchantStore merchantStore = storeFacade.getByCode(com.salesmanager.core.business.constants.Constants.DEFAULT_STORE);
 			Language language = languageUtils.getRESTLanguage(request, merchantStore);	
 			categoryFacade.saveCategory(merchantStore, category);
 
@@ -155,7 +155,7 @@ public class CategoryApi {
 		
 		try {
 			
-			MerchantStore merchantStore = storeFacade.getByCode(request);
+			MerchantStore merchantStore = storeFacade.getByCode(com.salesmanager.core.business.constants.Constants.DEFAULT_STORE);
 			categoryFacade.saveCategory(merchantStore, category);
 
 			return category;

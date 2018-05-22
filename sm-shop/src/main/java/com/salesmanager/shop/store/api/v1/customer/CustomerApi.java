@@ -68,7 +68,7 @@ public class CustomerApi {
 		
 		try {
 			
-			MerchantStore merchantStore = storeFacade.getByCode(request);
+			MerchantStore merchantStore = storeFacade.getByCode(com.salesmanager.core.business.constants.Constants.DEFAULT_STORE);
 
 			customerFacade.create(customer, merchantStore);
 			
@@ -97,7 +97,7 @@ public class CustomerApi {
     	
 		try {
 
-			MerchantStore merchantStore = storeFacade.getByCode(request);
+			MerchantStore merchantStore = storeFacade.getByCode(com.salesmanager.core.business.constants.Constants.DEFAULT_STORE);
 			customerFacade.update(customer, merchantStore);
 			return customer;
 			
@@ -153,7 +153,7 @@ public class CustomerApi {
 
 		try {
 			
-			MerchantStore merchantStore = storeFacade.getByCode(request);
+			MerchantStore merchantStore = storeFacade.getByCode(com.salesmanager.core.business.constants.Constants.DEFAULT_STORE);
 			Language language = languageUtils.getRESTLanguage(request, merchantStore);	
 			
 			CustomerCriteria customerCriteria = new CustomerCriteria();
@@ -203,7 +203,7 @@ public class CustomerApi {
 		
 		try {
 			
-			MerchantStore merchantStore = storeFacade.getByCode(request);
+			MerchantStore merchantStore = storeFacade.getByCode(com.salesmanager.core.business.constants.Constants.DEFAULT_STORE);
 			Language language = languageUtils.getRESTLanguage(request, merchantStore);
 
 			ReadableCustomer customer = customerFacade.getCustomerById(id, merchantStore, language);
@@ -232,7 +232,7 @@ public class CustomerApi {
 		
 		try {
 			
-			MerchantStore merchantStore = storeFacade.getByCode(request);
+			MerchantStore merchantStore = storeFacade.getByCode(com.salesmanager.core.business.constants.Constants.DEFAULT_STORE);
 			Language language = languageUtils.getRESTLanguage(request, merchantStore);
 
 			Principal principal = request.getUserPrincipal();

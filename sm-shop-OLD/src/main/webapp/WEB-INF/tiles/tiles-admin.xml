@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE tiles-definitions PUBLIC  
+        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"  
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+ 	<definition name="admin-dashboard" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/home.jsp" /> 
+  	</definition>
+ 	<definition name="admin-store" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/merchant/merchant.jsp" /> 
+  	</definition>
+  	
+  	 <definition name="admin-stores" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/merchant/stores.jsp" /> 
+  	</definition>
+  	
+  	<definition name="admin-store-branding" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/merchant/branding.jsp" /> 
+  	</definition>
+  	
+  	 <definition name="admin-store-landing" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/merchant/storeLanding.jsp" /> 
+  	</definition>
+  	
+  	<definition name="admin-customers" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/customers/customers.jsp" /> 
+  	</definition>
+  	
+  	<definition name="admin-customer" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/customers/customer.jsp" /> 
+  	</definition>
+  	
+  	 <definition name="admin-customer-options-values-list" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/customers/optionsValues.jsp" /> 
+  	</definition>
+  	
+  	 <definition name="admin-customer-options-values-details" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/customers/optionValue.jsp" /> 
+  	</definition>
+  	
+  	 <definition name="admin-customer-options-list" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/customers/options.jsp" /> 
+  	</definition>
+  	
+  	 <definition name="admin-customer-options-details" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/customers/option.jsp" /> 
+  	</definition>
+  	
+  	<definition name="admin-customer-options-set" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/customers/optionsset.jsp" /> 
+  	</definition>
+  	
+  	 <definition name="admin-products" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/products/products.jsp" /> 
+  	</definition>
+  	
+  	<definition name="admin-catalogue-featured" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/products/featured.jsp" /> 
+  	</definition>
+  	
+  	 <definition name="admin-products-groups" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/products/customProductGroup.jsp" /> 
+  	</definition>
+  	
+  	<definition name="admin-products-groups-details" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/products/customProductGroupDetails.jsp" /> 
+  	</definition>
+  	
+  	<definition name="admin-products-edit" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/products/product.jsp" /> 
+  	</definition>
+  	
+  	<definition name="admin-products-attributes" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/products/attributes.jsp" /> 
+  	</definition>
+  	
+  	<definition name="admin-products-attribute-details" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/products/attribute.jsp" /> 
+  	</definition>
+  	
+  	<definition name="admin-products-related" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/products/related.jsp" /> 
+  	</definition>
+  	
+  	<definition name="admin-products-bundles" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/products/bundles.jsp" /> 
+  	</definition>
+  	
+  	 <definition name="admin-products-prices" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/products/prices.jsp" /> 
+  	</definition>
+  	
+  	<definition name="admin-products-price" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/products/price.jsp" /> 
+  	</definition>
+  	
+  	<definition name="admin-products-digital" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/products/digitalProduct.jsp" /> 
+  	</definition>
+  	
+  	<definition name="admin-products-keywords" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/products/keywords.jsp" /> 
+  	</definition>
+  	
+  	<definition name="admin-products-images" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/products/productImages.jsp" /> 
+  	</definition>
+  	
+  	<definition name="admin-products-images-url" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/products/productImagesUrl.jsp" /> 
+  	</definition>
+  	
+  	<definition name="admin-products-manufacturer" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/products/manufacturers.jsp" /> 
+  	</definition>
+  	
+  	 <definition name="admin-products-manufacturer-details" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/products/manufacturer.jsp" /> 
+  	</definition>
+  	
+  	<definition name="catalogue-products-categories" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/products/productsCategories.jsp" /> 
+  	</definition>
+  	
+  	<definition name="catalogue-product-categories" template="/layout/admin/layout.jsp"> 
+  		<put-attribute name="body" value="/pages/admin/products/productsCategories.jsp" /> 
+  	</definition>
+  	
+  	<definition name="catalogue-product-reviews" template="/layout/admin/layout.jsp"> 
+  		<put-attribute name="body" value="/pages/admin/products/reviews.jsp" /> 
+  	</definition>
+  	
+  	
+  	<definition name="admin-shipping-custom" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/shipping/customShippingDetails.jsp" /> 
+  	</definition>
+  	
+  	<definition name="catalogue-categories" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/categories/categories.jsp" /> 
+  	</definition>
+  	
+  	 <definition name="catalogue-categories-category" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/categories/category.jsp" /> 
+  	</definition>
+  	
+  	<definition name="catalogue-categories-hierarchy" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/categories/hierarchy.jsp" /> 
+  	</definition>
+  	
+  	 <definition name="catalogue-options-list" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/products/options.jsp" /> 
+  	</definition>
+  	
+  	<definition name="catalogue-options-details" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/products/option.jsp" /> 
+  	</definition>
+  	
+  	 <definition name="catalogue-optionsvalues-list" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/products/optionsValues.jsp" /> 
+  	</definition>
+  	
+  	<definition name="catalogue-optionsvalues-details" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/products/optionValue.jsp" /> 
+  	</definition>
+  	
+  	<definition name="admin-user-profile" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/profile/profile.jsp" /> 
+  	</definition>
+  	
+  	<definition name="admin-user-password" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/profile/password.jsp" /> 
+  	</definition>
+  	
+  	 <definition name="admin-user-permissions" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/profile/permissions.jsp" /> 
+  	</definition>
+   	 <definition name="admin-user-permission" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/profile/permission.jsp" /> 
+  	</definition>
+  	 	
+  	 <definition name="admin-user-groups" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/profile/groups.jsp" /> 
+  	</definition>
+  	
+  	<definition name="admin-user-group" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/profile/group.jsp" /> 
+  	</definition>
+  	
+  	<definition name="admin-users" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/profile/users.jsp" /> 
+  	</definition>
+  	
+  	<definition name="shipping-configs" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/shipping/shippingConfig.jsp" /> 
+  	</definition>
+  	
+  	 <definition name="shipping-methods" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/shipping/shippingMethods.jsp" /> 
+  	</definition>
+  	
+  	<definition name="shipping-method" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/shipping/shippingMethod.jsp" /> 
+  	</definition>
+  	
+  	<definition name="shipping-origin" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/shipping/shippingOrigin.jsp" /> 
+  	</definition>
+  	
+  	<definition name="payment-methods" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/payment/paymentMethods.jsp" /> 
+  	</definition>
+  	
+  	<definition name="payment-method" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/payment/paymentMethod.jsp" /> 
+  	</definition>
+  	
+  	<definition name="shipping-options" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/shipping/shippingOptions.jsp" /> 
+  	</definition>
+  	
+  	<definition name="shipping-packaging" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/shipping/packaging.jsp" /> 
+  	</definition>
+  	
+  	<definition name="admin-orders" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/orders/orders.jsp" /> 
+  	</definition>
+  	
+  	<definition name="admin-content-images" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/content/contentImages.jsp" /> 
+  	</definition>
+  	
+  	<definition name="admin-contentImages-add" template="/layout/admin/layout.jsp"> 
+  		<put-attribute name="body" value="/pages/admin/content/addContentImages.jsp" /> 
+  	</definition>
+  	
+  	<definition name="admin-content-files" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/content/contentFiles.jsp" /> 
+  	</definition>
+  	
+  	<definition name="admin-content-pages" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/content/contentPages.jsp" /> 
+  	</definition>
+  	
+  	<definition name="admin-content-pages-details" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/content/contentPagesDetails.jsp" /> 
+  	</definition>
+  	
+
+  	
+  	<definition name="config-accounts" template="/layout/admin/layout.jsp"> 
+  		<put-attribute name="body" value="/pages/admin/configuration/accounts.jsp" /> 
+  	</definition>
+  	
+  	<definition name="config-email" template="/layout/admin/layout.jsp"> 
+  		<put-attribute name="body" value="/pages/admin/configuration/email.jsp" /> 
+  	</definition>
+  	
+  	 <definition name="config-system" template="/layout/admin/layout.jsp"> 
+  		<put-attribute name="body" value="/pages/admin/configuration/system.jsp" /> 
+  	</definition>
+
+  	 <definition name="admin-content-filebrowser" template="/layout/admin/noSkinLayout.jsp"> 
+  		<put-attribute name="body" value="/pages/admin/components/fileBrowser.jsp" /> 
+  	</definition>
+  	
+	<definition name="admin-orders-edit" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/orders/order.jsp" /> 
+  	</definition>
+  	
+    <definition name="admin-orders-transactions" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/orders/transactions.jsp" /> 
+  	</definition>
+  	
+  	<definition name="tax-classes" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/tax/taxClass.jsp" /> 
+  	</definition>
+  	
+  	
+  	<definition name="tax-class" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/tax/taxClassDetails.jsp" /> 
+  	</definition>
+  	
+  	<definition name="tax-configuration" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/tax/taxConfiguration.jsp" /> 
+  	</definition>
+  	
+   	<definition name="tax-rates" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/tax/taxRates.jsp" /> 
+  	</definition> 	
+
+   	<definition name="tax-rate" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/tax/taxRateDetails.jsp" /> 
+  	</definition> 
+  	
+  	<definition name="admin-cache" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/configuration/cacheManagement.jsp" /> 
+  	</definition>    	
+  	
+  	
+</tiles-definitions>

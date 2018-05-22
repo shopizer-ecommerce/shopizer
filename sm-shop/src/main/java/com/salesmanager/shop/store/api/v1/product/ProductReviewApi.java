@@ -62,7 +62,7 @@ public class ProductReviewApi {
 		
 		try {
 			
-			MerchantStore merchantStore = storeFacade.getByCode(request);
+			MerchantStore merchantStore = storeFacade.getByCode(com.salesmanager.core.business.constants.Constants.DEFAULT_STORE);
 			Language language = languageUtils.getRESTLanguage(request, merchantStore);	
 			
 			//rating already exist
@@ -105,7 +105,7 @@ public class ProductReviewApi {
 		
 		try {
 			
-			MerchantStore merchantStore = storeFacade.getByCode(request);
+			MerchantStore merchantStore = storeFacade.getByCode(com.salesmanager.core.business.constants.Constants.DEFAULT_STORE);
 			Language language = languageUtils.getRESTLanguage(request, merchantStore);	
 			
 			//product exist
@@ -142,7 +142,7 @@ public class ProductReviewApi {
 		
 		try {
 			
-			MerchantStore merchantStore = storeFacade.getByCode(request);
+			MerchantStore merchantStore = storeFacade.getByCode(com.salesmanager.core.business.constants.Constants.DEFAULT_STORE);
 			Language language = languageUtils.getRESTLanguage(request, merchantStore);	
 			
 			ProductReview prodReview = productReviewService.getById(reviewId);
@@ -188,7 +188,7 @@ public class ProductReviewApi {
 		
 		try {
 			
-			MerchantStore merchantStore = storeFacade.getByCode(request);
+			MerchantStore merchantStore = storeFacade.getByCode(com.salesmanager.core.business.constants.Constants.DEFAULT_STORE);
 			Language language = languageUtils.getRESTLanguage(request, merchantStore);	
 			
 			ProductReview prodReview = productReviewService.getById(reviewId);

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,6 +38,9 @@ public class AdminFilter extends HandlerInterceptorAdapter {
 	
 	@Inject
 	CacheHelper cacheHelper;
+	
+	@Value("${shopizer.api.url}")
+	private String backend;
 	
 	@SuppressWarnings("unchecked")
 	public boolean preHandle(
@@ -109,10 +113,9 @@ public class AdminFilter extends HandlerInterceptorAdapter {
 			logger.error("Cannot retrieve menus" + e.getMessage());
 		}
 		
-		
-		
-		return true;
-		
+		request.setAttribute("backend", backend);
+
+		return true;		
 	}
 	
 

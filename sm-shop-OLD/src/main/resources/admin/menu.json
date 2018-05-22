@@ -1,0 +1,313 @@
+{"menus":[
+{
+"menu":{
+"code":"home", 
+"icon":"icon-home",
+"url":"/admin/home.html", 
+"role":"AUTH", 
+"order":0
+}},
+{
+"menu":{
+"code":"store", 
+"icon":"icon-file",
+"url":"/admin/store/store.html", 
+"role":"STORE",
+"order":1,
+"menus":[
+	{"menu":{"code":"storeDetails","url":"/admin/store/store.html","role":"STORE","order":0, "menus":
+		[
+			{"menu":{
+				"code":"storeDetails","url":"/admin/store/store.html","role":"STORE","order":0
+			}},
+			{"menu":{
+				"code":"create-store","url":"/admin/store/createStore.html","role":"SUPERADMIN","order":1
+			}},
+			{"menu":{
+				"code":"store-list","url":"/admin/store/list.html","role":"SUPERADMIN","order":1
+			}}
+		]
+	}},
+	{"menu":{"code":"storeBranding","url":"/admin/store/branding.html","role":"STORE","order":1}},
+	{"menu":{"code":"storeLanding","url":"/admin/store/storeLanding.html","role":"STORE","order":2}}
+]
+}},
+{
+"menu":{
+"code":"profile", 
+"icon":"icon-info-sign",
+"url":"/admin/users/displayUser.html", 
+"role":"AUTH",
+"order":2,
+"menus":[
+	{"menu":{
+		"code":"user","url":"","role":"AUTH","order":0,"menus":
+		[
+			{"menu":{
+				"code":"myprofile","url":"/admin/user/profile.html","role":"AUTH","order":0
+			}},
+			{"menu":{
+				"code":"change-password","url":"/admin/user/password.html","role":"AUTH","order":1
+			}},
+			{"menu":{
+				"code":"users","url":"","role":"ADMIN","order":2
+			}},
+			{"menu":{
+				"code":"create-user","url":"","role":"ADMIN","order":3
+			}}
+		]
+		
+	}},
+	{"menu":{
+		"code":"security","url":"","role":"ADMIN","order":1,"menus":
+		[
+			{"menu":{
+				"code":"security-groups","url":"/admin/user/groups.html","role":"ADMIN","order":1
+			}},
+			{"menu":{
+				"code":"security-create-group","url":"/admin/groups/new.html","role":"ADMIN","order":2
+			}}
+		]
+	}}
+]
+}},
+{
+"menu":{
+"code":"catalogue",
+"icon":"icon-tags", 
+"url":"/admin/products/products.html", 
+"role":"PRODUCTS",
+"order":3,
+"menus":[
+	{"menu":{
+		"code":"catalogue-products","url":"","role":"PRODUCTS","order":0,"menus":
+		[
+			{"menu":{
+				"code":"catalogue-products-create","url":"/admin/products/createProduct.html","role":"PRODUCTS","order":0
+			}},
+			{"menu":{
+				"code":"catalogue","url":"/admin/products/products.html","role":"PRODUCTS","order":2
+			}}
+		]
+	}},
+	{"menu":{
+		"code":"catalogue-categories","url":"","role":"PRODUCTS","order":1,"menus":
+		[
+			{"menu":{
+				"code":"catalogue-categories-create","url":"/admin/categories/createCategory.html","role":"PRODUCTS","order":0
+			}},
+			{"menu":{
+				"code":"catalogue-categories-list","url":"/admin/categories/categories.html","role":"PRODUCTS","order":1
+			}},
+			{"menu":{
+				"code":"catalogue-categories-hierarchy","url":"/admin/categories/hierarchy.html","role":"PRODUCTS","order":2
+			}}
+		]
+	}},
+	{"menu":{
+		"code":"catalogue-options","url":"","role":"PRODUCTS","order":2,"menus":
+		[
+			{"menu":{
+				"code":"catalogue-options-list","url":"/admin/catalogue/options/options.html","role":"PRODUCTS","order":1
+			}},
+			{"menu":{
+				"code":"catalogue-options-create","url":"/admin/catalogue/options/option.html","role":"PRODUCTS","order":1
+			}},
+			{"menu":{
+				"code":"catalogue-optionsvalues-list","url":"/admin/catalogue/options/optionsvalues.html","role":"PRODUCTS","order":1
+			}},
+			{"menu":{
+				"code":"catalogue-optionsvalues-create","url":"/admin/options/createOptionValue.html","role":"PRODUCTS","order":1
+			}}
+		]
+	}},
+	{"menu":{
+		"code":"catalogue-products-group","url":"/admin/catalogue/groups/list.html","role":"PRODUCTS","order":3,"menus":
+		[
+			{"menu":{
+				"code":"catalogue-featured","url":"/admin/catalogue/featured/list.html","role":"PRODUCTS","order":0
+			}},
+			{"menu":{
+				"code":"catalogue-products-custom-group","url":"/admin/catalogue/groups/list.html","role":"PRODUCTS","order":1
+			}}
+		]
+	}},
+	{"menu":{
+		"code":"manufacturer-list","url":"","role":"PRODUCTS","order":4,"menus":
+		[
+			{"menu":{
+				"code":"manufacturer-list","url":"/admin/catalogue/manufacturer/list.html","role":"PRODUCTS","order":0
+			}},
+			{"menu":{
+				"code":"manufacturer-create","url":"/admin/catalogue/manufacturer/create.html","role":"PRODUCTS","order":1
+			}}
+		]
+	}}
+]
+}},
+
+
+
+
+{
+"menu":{
+"code":"content",
+"icon":"icon-pencil", 
+"url":"/admin/content/pages/list.html", 
+"role":"CONTENT",
+"order":4,
+"menus":[
+	{"menu":{
+	    "code":"content-pages","url":"","role":"CONTENT","order":0,"menus":
+		[
+			{"menu":{
+				"code":"content-pages","url":"/admin/content/pages/list.html","role":"CONTENT","order":0
+			}},
+			{"menu":{
+				"code":"content-pages-create","url":"/admin/content/pages/create.html","role":"CONTENT","order":1
+			}}
+		]
+	
+	}},
+	{"menu":{
+	    "code":"content-boxes","url":"","role":"CONTENT","order":1,"menus":
+		[
+			{"menu":{
+				"code":"content-boxes","url":"/admin/content/boxes/list.html","role":"CONTENT","order":0
+			}},
+			{"menu":{
+				"code":"content-boxes-create","url":"/admin/content/boxes/create.html","role":"CONTENT","order":1
+			}}
+		]
+	
+	}},
+	{"menu":{"code":"content-images","url":"","role":"CONTENT","order":0}},
+	{"menu":{"code":"content-files","url":"","role":"CONTENT","order":0}}
+]
+}},
+{
+"menu":{
+"code":"shipping",
+"icon":"icon-plane", 
+"url":"/admin/shipping/shippingConfigs.html", 
+"role":"SHIPPING",
+"order":5,
+"menus":[
+	{"menu":{"code":"shipping-configs","url":"","role":"SHIPPING","order":0}},
+	{"menu":{"code":"shipping-methods","url":"","role":"SHIPPING","order":2}},
+	{"menu":{"code":"shipping-origin","url":"","role":"SHIPPING","order":3}},
+	{"menu":{"code":"shipping-options","url":"","role":"SHIPPING","order":4}},
+	{"menu":{"code":"shipping-packages","url":"","role":"SHIPPING","order":6}}
+]
+}},
+{
+"menu":{
+"code":"payment",
+"icon":"icon-cog", 
+"url":"/admin/payments/paymentMethods.html", 
+"role":"PAYMENT",
+"order":6
+}},
+{
+"menu":{
+"code":"customer",
+"icon":"icon-user", 
+"url":"/admin/customers/list.html", 
+"role":"CUSTOMER",
+"order":7,
+"menus":[
+	{"menu":{
+		"code":"customer-list","url":"","role":"CUSTOMER","order":0,"menus":
+		[
+			{"menu":{
+				"code":"customer-list","url":"/admin/customers/list.html","role":"CUSTOMER","order":0
+			}},
+			{"menu":{
+				"code":"customer-create","url":"/admin/customers/customer.html","role":"CUSTOMER","order":1
+			}}
+		]
+	}},
+	{"menu":{
+		"code":"customer-options","url":"","role":"CUSTOMER","order":1,"menus":
+		[
+			{"menu":{
+				"code":"customer-options-list","url":"/admin/customers/options/list.html","role":"CUSTOMER","order":0
+			}},
+			{"menu":{
+				"code":"customer-options-create","url":"/admin/customers/options/create.html","role":"CUSTOMER","order":1
+			}},
+			{"menu":{
+				"code":"customer-options-values-list","url":"/admin/customers/options/values/list.html","role":"CUSTOMER","order":2
+			}},
+			{"menu":{
+				"code":"customer-options-values-create","url":"/admin/customers/options/values/create.html","role":"CUSTOMER","order":3
+			}},
+			{"menu":{
+				"code":"customer-options-set","url":"/admin/customers/optionsset/list.html","role":"CUSTOMER","order":4
+			}}
+		]
+	}}
+]
+}},
+{
+"menu":{
+"code":"order",
+"icon":"icon-shopping-cart", 
+"url":"/admin/orders/list.html", 
+"role":"ORDER",
+"order":8,
+"menus":[
+	{"menu":{
+		"code":"order-list","url":"/admin/orders/list.html","role":"ORDER","order":0
+	}}
+]
+}},
+{
+"menu":{
+"code":"tax",
+"icon":"icon-book", 
+"url":"/admin/tax/taxconfiguration/edit.html", 
+"role":"TAX",
+"order":9,
+"menus":[
+	{"menu":{
+		"code":"taxconfiguration","url":"/admin/tax/taxconfiguration/edit.html","role":"TAX","order":0
+	}},
+	{"menu":{
+		"code":"taxclass","url":"/admin/tax/taxclass/list.html","role":"TAX","order":1
+	}},
+		{"menu":{
+		"code":"taxrates","url":"/admin/tax/taxrates/list.html","role":"TAX","order":2
+	}}
+]
+}},
+{
+"menu":{
+"code":"cache",
+"icon":"icon-th", 
+"url":"/admin/cache/cacheManagement.html", 
+"role":"AUTH",
+"order":10
+}},
+{
+"menu":{
+"code":"configuration",
+"icon":"icon-wrench", 
+"url":"/admin/configuration/accounts.html", 
+"role":"AUTH",
+"order":11,
+"menus":[
+	{"menu":{
+		"code":"accounts-conf","url":"/admin/configuration/accounts.html","role":"AUTH","order":0
+	}},
+	{"menu":{
+		"code":"email-conf","url":"/admin/configuration/email.html","role":"AUTH","order":1
+	}},
+	{"menu":{
+		"code":"system-configurations","url":"/admin/configuration/system.html","role":"AUTH","order":2
+	}}
+]
+}}
+]}
+
+

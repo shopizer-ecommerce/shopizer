@@ -433,15 +433,19 @@
 
 	    	$.ajax({
 	    	    type:"get",
-	    	    contentType : 'application/json; charset=utf-8',
+	    	    //contentType : 'application/json; charset=utf-8',
 	    	    crossDomain: true,
-	    	    url:"/private/marketplace/" + STORECODE,
+	    	    cache: false,
+	    	    url:"[[${backend}]]/private/marketplace/" + STORECODE,
 	    	    dataType: "json",
-	    		beforeSend: function (xhr) {
+	    	    headers: {
+	    	        "Authorization": "Bearer " + TOKEN
+	    	    },
+	    		//beforeSend: function (xhr) {
 	    			/* Authorization header */
-	    			/* Need to have a Customer created with username + password */
-	    			xhr.setRequestHeader("Authorization", "Bearer " + TOKEN);
-	            },
+	    			//xhr.withCredentials = 'true';
+	    			//xhr.setRequestHeader("Authorization", "Bearer " + TOKEN);
+	            //},
 	    	    success: function(data){
 	    	       hideLoader();
 	    	       log("success " + data);

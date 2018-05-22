@@ -79,7 +79,7 @@ public class OrderShippingApi {
 			HttpServletResponse response) throws Exception {
 		
 		try {
-			MerchantStore merchantStore = storeFacade.getByCode(request);
+			MerchantStore merchantStore = storeFacade.getByCode(com.salesmanager.core.business.constants.Constants.DEFAULT_STORE);
 			Language language = languageUtils.getRESTLanguage(request, merchantStore);	
 			Locale locale = request.getLocale();
 			

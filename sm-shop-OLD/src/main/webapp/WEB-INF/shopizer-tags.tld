@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+ 
+ <taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd">
+   <description><![CDATA["Shopizer tag libs"]]></description>
+   <display-name>"Shopizer Tags"</display-name>
+   <tlib-version>2.2</tlib-version>
+   <short-name>sm</short-name>
+   <uri>/shopizer-tags</uri>
+
+<tag>
+ 		 <!-- Builds the image URL (in admin section only)-->
+         <name>contentImage</name>
+         <tag-class>com.salesmanager.shop.tags.ContentImageUrlTag</tag-class>
+         <body-content>scriptless</body-content>
+
+ 
+         <attribute>
+                 <name>imageName</name>
+                 <required>false</required>
+                 <rtexprvalue>true</rtexprvalue>
+                 <type>java.lang.String</type>
+         </attribute>
+         
+         <attribute>
+                 <name>merchantStore</name>
+                 <required>false</required>
+                 <rtexprvalue>true</rtexprvalue>
+                 <type>com.salesmanager.core.business.merchant.model.MerchantStore</type>
+         </attribute>
+         
+         <attribute>
+                 <name>imageType</name>
+                 <required>true</required>
+                 <rtexprvalue>true</rtexprvalue>
+                 <type>java.lang.String</type>
+         </attribute>
+</tag>
+
+
+<tag>
+ 		 <!-- Builds a content block -->
+         <name>pageContent</name>
+         <tag-class>com.salesmanager.shop.tags.PageContentTag</tag-class>
+         <body-content>scriptless</body-content>
+
+ 
+         <attribute>
+                 <name>contentCode</name>
+                 <required>true</required>
+                 <rtexprvalue>true</rtexprvalue>
+                 <type>java.lang.String</type>
+         </attribute>
+
+</tag>
+
+
+<tag>
+ 		 <!-- Core configuration -->
+         <name>config</name>
+         <tag-class>com.salesmanager.shop.tags.ConfigurationTag</tag-class>
+         <body-content>scriptless</body-content>
+
+ 
+         <attribute>
+                 <name>configurationCode</name>
+                 <required>true</required>
+                 <rtexprvalue>true</rtexprvalue>
+                 <type>java.lang.String</type>
+         </attribute>
+
+</tag>
+
+
+<tag>
+ 		 <!-- Builds the manufacturer image URL -->
+         <name>manufacturerImage</name>
+         <tag-class>com.salesmanager.shop.tags.ManufacturerImageUrlTag</tag-class>
+         <body-content>scriptless</body-content>
+
+ 
+         <attribute>
+                 <name>imageName</name>
+                 <required>true</required>
+                 <rtexprvalue>true</rtexprvalue>
+                 <type>java.lang.String</type>
+         </attribute>
+         
+         <attribute>
+                 <name>manufacturer</name>
+                 <required>true</required>
+                 <rtexprvalue>true</rtexprvalue>
+                 <type>com.salesmanager.core.business.catalog.product.model.manufacturer.Manufacturer</type>
+         </attribute>         
+
+</tag>
+
+
+<tag>
+ 		 <!-- Builds the product image URL -->
+         <name>productImage</name>
+         <tag-class>com.salesmanager.shop.tags.ProductImageUrlTag</tag-class>
+         <body-content>scriptless</body-content>
+
+ 
+         <attribute>
+                 <name>imageName</name>
+                 <required>true</required>
+                 <rtexprvalue>true</rtexprvalue>
+                 <type>java.lang.String</type>
+         </attribute>
+         
+         <attribute>
+                 <name>product</name>
+                 <required>true</required>
+                 <rtexprvalue>true</rtexprvalue>
+                 <type>com.salesmanager.core.business.catalog.product.model.Product</type>
+         </attribute>
+         
+
+</tag>
+
+
+<tag>
+ 		 <!-- Builds the product image URL -->
+         <name>shopProductImage</name>
+         <tag-class>com.salesmanager.shop.tags.ShopProductImageUrlTag</tag-class>
+         <body-content>scriptless</body-content>
+
+ 
+         <attribute>
+                 <name>imageName</name>
+                 <required>true</required>
+                 <rtexprvalue>true</rtexprvalue>
+                 <type>java.lang.String</type>
+         </attribute>
+         
+         <attribute>
+                 <name>sku</name>
+                 <required>true</required>
+                 <rtexprvalue>true</rtexprvalue>
+                 <type>java.lang.String</type>
+         </attribute>
+         
+         <attribute>
+                 <name>size</name>
+                 <required>false</required>
+                 <type>java.lang.String</type>
+         </attribute>
+         
+
+</tag>
+
+
+<tag>
+ 		 <!-- Builds the product image URL -->
+         <name>shopProductGroup</name>
+         <tag-class>com.salesmanager.shop.tags.ShopProductRelationshipTag</tag-class>
+         <body-content>scriptless</body-content>
+
+ 
+         <attribute>
+                 <name>groupName</name>
+                 <required>true</required>
+                 <rtexprvalue>true</rtexprvalue>
+                 <type>java.lang.String</type>
+         </attribute>
+         
+
+         
+
+</tag>
+
+<tag>
+ 		 <!-- Product price utility -->
+         <name>monetary</name>
+         <tag-class>com.salesmanager.shop.tags.ShopProductPriceFormatTag</tag-class>
+         <body-content>scriptless</body-content>
+
+ 
+         <attribute>
+                 <name>value</name>
+                 <required>true</required>
+                 <rtexprvalue>true</rtexprvalue>
+                 <type>java.math.BigDecimal</type>
+         </attribute>
+         
+         <attribute>
+                 <name>currency</name>
+                 <required>false</required>
+                 <rtexprvalue>true</rtexprvalue>
+                 <type>com.salesmanager.core.business.reference.currency.model.Currency</type>
+         </attribute>
+         
+
+</tag>
+
+<tag>
+ 		 <!-- Builds the admin product download URL -->
+         <name>adminProductDownload</name>
+         <tag-class>com.salesmanager.shop.tags.AdminProductDownloadUrlTag</tag-class>
+         <body-content>scriptless</body-content>
+         
+         <attribute>
+                 <name>digitalProduct</name>
+                 <required>true</required>
+                 <rtexprvalue>true</rtexprvalue>
+                 <type>com.salesmanager.core.business.catalog.product.model.file.DigitalProduct</type>
+         </attribute>
+         
+
+</tag>
+
+<tag>
+ 		 <!-- Builds the order product download URL -->
+         <name>orderProductDownload</name>
+         <tag-class>com.salesmanager.shop.tags.OrderProductDownloadUrlTag</tag-class>
+         <body-content>scriptless</body-content>
+         
+         <attribute>
+                 <name>productDownload</name>
+                 <required>true</required>
+                 <rtexprvalue>true</rtexprvalue>
+                 <type>com.salesmanager.web.entity.order.ReadableOrderProductDownload</type>
+         </attribute>
+         <attribute>
+                 <name>orderId</name>
+                 <required>true</required>
+                 <rtexprvalue>true</rtexprvalue>
+                 <type>java.lang.Long</type>
+         </attribute>
+         
+
+</tag>
+
+
+<tag>
+ 		 <!-- Builds the store logo URL -->
+         <name>storeLogo</name>
+         <tag-class>com.salesmanager.shop.tags.StoreLogoUrlTag</tag-class>
+         <body-content>scriptless</body-content>
+
+</tag>
+
+<tag>
+ 		 <!-- Builds breadcrumb parameter -->
+         <name>breadcrumbParam</name>
+         <tag-class>com.salesmanager.shop.tags.StoreBreadcrumbsTag</tag-class>
+         <body-content>scriptless</body-content>
+         <attribute>
+                 <name>categoryId</name>
+                 <required>false</required>
+                 <rtexprvalue>true</rtexprvalue>
+                 <type>java.lang.Long</type>
+         </attribute>
+         <attribute>
+                 <name>productId</name>
+                 <required>false</required>
+                 <rtexprvalue>true</rtexprvalue>
+                 <type>java.lang.Long</type>
+         </attribute>
+
+</tag>
+
+<tag>
+ 		 <!-- Builds the copyright -->
+         <name>storeCopy</name>
+         <tag-class>com.salesmanager.shop.tags.StoreFooterlTag</tag-class>
+         <body-content>scriptless</body-content>
+
+</tag>
+
+
+<tag>
+ 		 <!-- Builds the product URL -->
+         <name>productUrl</name>
+         <tag-class>com.salesmanager.shop.tags.ProductDescriptionUrlTag</tag-class>
+         <body-content>scriptless</body-content>
+
+ 
+
+         <attribute>
+                 <name>productDescription</name>
+                 <required>true</required>
+                 <rtexprvalue>true</rtexprvalue>
+                 <type>com.salesmanager.core.business.catalog.product.model.description.ProductDescription</type>
+         </attribute>
+         
+
+</tag>
+
+<tag>
+ 		 <!-- Decides if the link anlalyzed has to be handled as the active link -->
+         <name>activeLink</name>
+         <tag-class>com.salesmanager.shop.tags.ActiveLinkTag</tag-class>
+         <body-content>scriptless</body-content>
+         
+         <attribute>
+                 <name>linkCode</name>
+                 <required>true</required>
+                 <rtexprvalue>true</rtexprvalue>
+                 <type>java.lang.String</type>
+         </attribute>
+         <attribute>
+                 <name>activeReturnCode</name>
+                 <required>false</required>
+                 <rtexprvalue>false</rtexprvalue>
+                 <type>java.lang.String</type>
+         </attribute>
+         <attribute>
+                 <name>inactiveReturnCode</name>
+                 <required>false</required>
+                 <rtexprvalue>false</rtexprvalue>
+                 <type>java.lang.String</type>
+         </attribute>
+         
+
+</tag>
+
+
+
+
+</taglib>
+
+ 

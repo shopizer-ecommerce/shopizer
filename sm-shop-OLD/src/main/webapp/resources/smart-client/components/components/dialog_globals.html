@@ -1,0 +1,91 @@
+<HTML><HEAD>
+	<SCRIPT>var isomorphicDir="../../isomorphic/";</SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Core.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Foundation.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Containers.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Grids.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_Forms.js></SCRIPT>
+    <SCRIPT SRC=../../isomorphic/system/modules/ISC_DataBinding.js></SCRIPT>
+	<SCRIPT SRC=../../isomorphic/skins/SmartClient/load_skin.js></SCRIPT>
+</HEAD><BODY BGCOLOR='papayawhip' MARGINHEIGHT=0 MARGINWIDTH=0 LEFTMARGIN=0 TOPMARGIN=0>
+<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=5 BORDER=0><TR><TD CLASS=pageHeader BGCOLOR=WHITE>
+
+	Global dialog methods
+
+</TD><TD CLASS=pageHeader ALIGN=RIGHT BGCOLOR=WHITE>
+
+	Isomorphic SmartClient SDK 
+
+</TD></TR></TABLE><TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0 BORDER=0><TR>
+<TD BGCOLOR=336666><IMG SRC=images/blank.gif WIDTH=1 HEIGHT=4></TD></TR></TABLE>
+
+
+<!--------------------------
+  Example code starts here
+---------------------------->
+
+<SCRIPT>
+
+Button.create({
+	ID:"askButton",
+	title:"launch ISC ask()",
+	left:100,
+	top:100,
+	width:200,
+	height:25,
+	click:"ask('This is an ask() dialog.', 													\
+				{yesClick:	function () {													\
+								outputLabel.setContents('ask() dialog - [YES] clicked');	\
+								return this.Super('yesClick', arguments);					\
+							},																\
+				 noClick:	function () {													\
+								outputLabel.setContents('ask() dialog - [NO] clicked');		\
+								return this.Super('noClick', arguments);					\
+							}																\
+				}																			\
+		       );"
+});
+
+Button.create({
+	ID:"warnButton",
+	title:"launch ISC warn()",
+	left:100,
+	top:150,
+	width:200,
+	height:25,
+	click:"warn('This is a warn() dialog.', 												\
+				{okClick:	function () {													\
+								outputLabel.setContents('warn() dialog - [OK] clicked');	\
+								return this.Super('okClick', arguments);					\
+							}																\
+				}																			\
+		       );"
+});
+
+Button.create({
+	ID:"promptButton",
+	title:"launch ISC showPrompt()",
+	left:100,
+	top:200,
+	width:200,
+	height:25,
+	click:"showPrompt('This is a prompt() dialog.');														\
+		   outputLabel.setContents('Showing prompt() dialog for 3 seconds.');								\
+		   Timer.setTimeout('clearPrompt(); outputLabel.setContents(\"prompt() dialog hidden.\")',3000);"
+});
+
+Label.create({
+	ID:"outputLabel",
+	contents:"Dialog test output.",
+	padding:2,
+	left:350,
+	top:100,
+	width:250,
+	height:20,
+	backgroundColor:"white",
+	border:"1px solid black"
+});
+
+</SCRIPT>
+</BODY>
+</HTML>

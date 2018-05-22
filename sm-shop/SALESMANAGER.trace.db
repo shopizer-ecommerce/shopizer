@@ -1,0 +1,3 @@
+2018-05-11 22:55:17 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "PERMISSION_GROUP" not found; SQL statement:
+select * from PERMISSION_GROUP [42102-191]
