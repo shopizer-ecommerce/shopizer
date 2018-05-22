@@ -1,4 +1,4 @@
-package com.salesmanager.shop.store.security.manager;
+package com.salesmanager.shop.store.security.common;
 
 import org.springframework.security.core.AuthenticationException;
 
