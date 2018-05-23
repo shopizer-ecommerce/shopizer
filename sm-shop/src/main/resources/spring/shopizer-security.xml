@@ -155,6 +155,7 @@
 		use-expressions="true" 
 		authentication-manager-ref="jwtAdminAuthenticationManager" 
 		entry-point-ref="servicesAuthenticationEntryPoint">
+		  
 		  <intercept-url pattern="/api/v1/private/login" access="permitAll" />
 		  <intercept-url pattern="/api/v1/private/refresh" access="permitAll" />
 	      <intercept-url pattern="/api/v1/private/**" access="hasRole('AUTH')"/>
@@ -162,6 +163,10 @@
 	      <csrf disabled="true"/>
     </http>
    
+   <!--<custom-filter ref="corsFilter" before="SESSION_MANAGEMENT_FILTER"/>-->
+   <!-- 
+   https://stackoverflow.com/questions/40286549/spring-boot-security-cors
+    -->
     <!-- REST services v1 for Customer REALM -->
     <!-- http://www.gauravbytes.com/2017/03/spring-security-digest-authentication.html
     

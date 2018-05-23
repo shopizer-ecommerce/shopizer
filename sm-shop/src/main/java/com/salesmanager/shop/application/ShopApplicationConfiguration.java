@@ -37,6 +37,7 @@ import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 
 import com.salesmanager.core.business.configuration.CoreApplicationConfiguration;
 import com.salesmanager.core.constants.SchemaConstant;
+import com.salesmanager.shop.filter.CorsFilter;
 
 @Configuration
 @ComponentScan({"com.salesmanager.shop","com.salesmanager.core.business"})
@@ -88,6 +89,12 @@ public class ShopApplicationConfiguration extends WebMvcConfigurerAdapter{
         resolver.setViewClass(TilesView.class);
         return resolver;
     }
+    
+/*    @Bean
+    CorsFilter corsFilter() {
+        CorsFilter filter = new CorsFilter();
+        return filter;
+    }*/
     
 /*    @Bean
     public ConnectionFactoryLocator connectionFactoryLocator() {
