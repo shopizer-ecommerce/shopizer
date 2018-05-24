@@ -12,11 +12,17 @@ public class MerchantStoreEntity implements Serializable {
 	private int id;
 	private String code;
 	private String name;
-	private String address;
-	private String postalCode;
-	private String storeProvince;//code
-	private String country;//code
+
 	private String defaultLanguage;//code
+	private String currency;//code
+	private String inBusinessSince;
+	private String logo;
+	private String email;
+	private String phone;
+	private String template;
+	
+	
+	private boolean currencyFormatNational;
 
 	public int getId() {
 		return id;
@@ -49,37 +55,61 @@ public class MerchantStoreEntity implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public String getStoreProvince() {
-		return storeProvince;
+
+	public String getCurrency() {
+		return currency;
 	}
 
-	public void setStoreProvince(String storeProvince) {
-		this.storeProvince = storeProvince;
+	public void setCurrency(String currency) {
+		this.currency = currency;
 	}
 
-	public String getCountry() {
-		return country;
+	public String getInBusinessSince() {
+		return inBusinessSince;
 	}
 
-	public void setCountry(String country) {
-		this.country = country;
+	public void setInBusinessSince(String inBusinessSince) {
+		this.inBusinessSince = inBusinessSince;
 	}
 
-	public String getPostalCode() {
-		return postalCode;
+	public String getLogo() {
+		return logo;
 	}
 
-	public void setPostalCode(String postalCode) {
-		this.postalCode = postalCode;
+	public void setLogo(String logo) {
+		this.logo = logo;
 	}
 
-	public String getAddress() {
-		return address;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getTemplate() {
+		return template;
+	}
+
+	public void setTemplate(String template) {
+		this.template = template;
+	}
+
+	public boolean isCurrencyFormatNational() {
+		return currencyFormatNational;
+	}
+
+	public void setCurrencyFormatNational(boolean currencyFormatNational) {
+		this.currencyFormatNational = currencyFormatNational;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 }

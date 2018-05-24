@@ -4,7 +4,11 @@ import java.io.Serializable;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-
+/**
+ * Customer or someone address
+ * @author carlsamson
+ *
+ */
 public class Address implements Serializable {
 	
 	/**

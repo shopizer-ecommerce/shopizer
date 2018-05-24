@@ -116,6 +116,12 @@
 		    <version>2.7.5</version>
 		</dependency>
 		
+		<dependency>
+		    <groupId>org.webjars.npm</groupId>
+		    <artifactId>github-com-linkedin-dustjs-helpers</artifactId>
+		    <version>1.7.3</version>
+		</dependency>
+		
 		<!-- End webjars -->
         
         

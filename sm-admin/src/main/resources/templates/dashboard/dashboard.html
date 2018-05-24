@@ -7,27 +7,16 @@
 	 
 	 <script id="merchant" type="text/x-dust">
 
-		<!--https://stackoverflow.com/questions/29512342/how-to-use-dust-js-on-the-client-dynamically-->
         <div class="col-sm-4 invoice-col">
-          Store details[[TO BE LOCALIZED]]
+          Store details ->TO BE LOCALIZED
           <address>
             <strong>{name}</strong><br>
-            795 Folsom Ave, Suite 600<br>
-            San Francisco, CA 94107<br>
-            Phone: (804) 123-5432<br>
-            Email: info@almasaeedstudio.com
+            {address.address}<br>
+            {address.city}, {address.stateProvince} {address.postalCode}<br>
+            ->Phone-: {store.phone}<br>
+            ->Email-: {store.email}
           </address>
         </div>
-
-
-    <div>
-       <em>Name:</em> {name}
-       {?showNickname}
-          {?nickname}	
-            (Goes by <em>{nickname}</em>)
-         {/nickname}
-      {/showNickname}
-    </div>
 
 	</script>
 	 
@@ -44,24 +33,15 @@
       <div class="row">
         <div class="col-xs-12">
           <h2 class="page-header">
-            <i class="fa fa-globe"></i> AdminLTE, Inc. [[FIRSTNAME LASTNAME]]
-            <small class="pull-right">Last login date: [[2/10/2014]]</small>
+            <i class="fa fa-globe"></i> AdminLTE, Inc. ->FIRSTNAME LASTNAME-
+            <small class="pull-right">Last login date: ->2/10/2014-</small>
           </h2>
         </div>
         <!-- /.col -->
       </div>
       <!-- info row -->
       <div class="row invoice-info">
-        <div class="col-sm-4 invoice-col">
-          Store details
-          <address>
-            <strong>Admin, Inc.</strong><br>
-            795 Folsom Ave, Suite 600<br>
-            San Francisco, CA 94107<br>
-            Phone: (804) 123-5432<br>
-            Email: info@almasaeedstudio.com
-          </address>
-        </div>
+        <div class="col-sm-4 invoice-col" id="merchant-container"></div>
         <!-- /.col -->
         <div class="col-sm-4 invoice-col">
           Current catalogs
@@ -468,6 +448,22 @@
 	    	    success: function(data){
 	    	       hideLoader();
 	    	       log("success " + data);
+	    	       //render merchant
+	    	       
+	    	       var source   = $("#merchant");
+    			   var compiled = dust.compile(source, 'merchant');
+                   dust.loadSource(compiled);
+                   
+                   dust.render('merchant', data, function(err, out) {
+                	   // `out` contains the rendered output.
+                	   //document.getElementById('merchant-container').textContent = out;
+                	   $("#merchant-container").html(out);
+                   });
+	    	       
+	    	       //var template = $.templates("#merchant");
+	    	       //var htmlOutput = template.render(data);
+	    	       //$("#merchant-container").html(htmlOutput);
+	    	       log('merchant rendering done');
 	    	    },
 	    	    error: function(response,textStatus,errorThrown) {
 	    	    	//TODO if 403 or 401 redirect to not authorized page
