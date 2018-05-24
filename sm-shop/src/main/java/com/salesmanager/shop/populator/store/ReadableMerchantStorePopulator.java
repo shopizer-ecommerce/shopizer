@@ -29,6 +29,8 @@ public class ReadableMerchantStorePopulator extends
 		target.setId(source.getId());
 		target.setCode(source.getCode());
 		target.setDefaultLanguage(source.getDefaultLanguage().getCode());
+		target.setAddress(source.getStoreaddress());
+		target.setPostalCode(source.getStorepostalcode());
 		
 		List<Language> languages = source.getLanguages();
 		if(!CollectionUtils.isEmpty(languages)) {

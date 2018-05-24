@@ -160,12 +160,11 @@
 		  <intercept-url pattern="/api/v1/private/refresh" access="permitAll" />
 		  <intercept-url pattern="/api/v1/private/**" method="OPTIONS" access="permitAll"/>
 	      <intercept-url pattern="/api/v1/private/**" access="hasRole('AUTH')"/>
-	      <!-- <cors configuration-source-ref="privateUrlsCorsConfigurationSource"/> -->
 	      <custom-filter ref="authenticationTokenFilter" before="FORM_LOGIN_FILTER"/>
 	      <csrf disabled="true"/>
     </http>
    
-   <!--<custom-filter ref="corsFilter" before="SESSION_MANAGEMENT_FILTER"/>-->
+
    <!-- 
    https://stackoverflow.com/questions/40286549/spring-boot-security-cors
     -->

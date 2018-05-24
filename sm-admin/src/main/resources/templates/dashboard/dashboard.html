@@ -3,7 +3,35 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{base}">
 
 <head>
-	 <title>Page 2</title>
+	 <title>Title to be changed</title>
+	 
+	 <script id="merchant" type="text/x-dust">
+
+		<!--https://stackoverflow.com/questions/29512342/how-to-use-dust-js-on-the-client-dynamically-->
+        <div class="col-sm-4 invoice-col">
+          Store details[[TO BE LOCALIZED]]
+          <address>
+            <strong>{name}</strong><br>
+            795 Folsom Ave, Suite 600<br>
+            San Francisco, CA 94107<br>
+            Phone: (804) 123-5432<br>
+            Email: info@almasaeedstudio.com
+          </address>
+        </div>
+
+
+    <div>
+       <em>Name:</em> {name}
+       {?showNickname}
+          {?nickname}	
+            (Goes by <em>{nickname}</em>)
+         {/nickname}
+      {/showNickname}
+    </div>
+
+	</script>
+	 
+	 
 </head>
       
       
@@ -16,8 +44,8 @@
       <div class="row">
         <div class="col-xs-12">
           <h2 class="page-header">
-            <i class="fa fa-globe"></i> AdminLTE, Inc.
-            <small class="pull-right">Last login date: 2/10/2014</small>
+            <i class="fa fa-globe"></i> AdminLTE, Inc. [[FIRSTNAME LASTNAME]]
+            <small class="pull-right">Last login date: [[2/10/2014]]</small>
           </h2>
         </div>
         <!-- /.col -->
@@ -25,7 +53,7 @@
       <!-- info row -->
       <div class="row invoice-info">
         <div class="col-sm-4 invoice-col">
-          User details
+          Store details
           <address>
             <strong>Admin, Inc.</strong><br>
             795 Folsom Ave, Suite 600<br>
@@ -414,43 +442,35 @@
       <script type="text/javascript">
       $(document).ready(function(){
     	  
-      		console.log('TEST');
+    		showLoader();
       
       		//Variables
-      		var TOKEN = '[[${token}]]';
+/*       		var TOKEN = '[[${token}]]';
       		var USERNAME = '[[${userName}]]';
       		var FIRSTNAME = '[[${firstName}]]';
       		var LASTNAME = '[[${lastName}]]';
-      		var STORECODE = '[[${merchant}]]';
+      		var STORECODE = '[[${merchant}]]'; */
       		
       		log("Store code " + STORECODE)
-      
 
-      		//User summary
-      		showLoader();
-      		
-      		var url = ""
+      		var url = BACKEND + "/private/marketplace/" + STORECODE;
 
 	    	$.ajax({
 	    	    type:"get",
 	    	    //contentType : 'application/json; charset=utf-8',
 	    	    crossDomain: true,
 	    	    cache: false,
-	    	    url:"[[${backend}]]/private/marketplace/" + STORECODE,
+	    	    url: url,
 	    	    dataType: "json",
 	    	    headers: {
 	    	        "Authorization": "Bearer " + TOKEN
 	    	    },
-	    		//beforeSend: function (xhr) {
-	    			/* Authorization header */
-	    			//xhr.withCredentials = 'true';
-	    			//xhr.setRequestHeader("Authorization", "Bearer " + TOKEN);
-	            //},
 	    	    success: function(data){
 	    	       hideLoader();
 	    	       log("success " + data);
 	    	    },
-	    	    error: function(response,textStatus,errorThrown) { 
+	    	    error: function(response,textStatus,errorThrown) {
+	    	    	//TODO if 403 or 401 redirect to not authorized page
 	    	    	hideLoader();
 	    	    	log(textStatus);
 	    	        log(response);

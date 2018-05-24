@@ -12,6 +12,7 @@ public class ReadableMerchantStore extends MerchantStoreEntity implements Serial
 	private List<String> supportedLanguages;
 	private String currentUserLanguage;
 
+
 	public List<String> getSupportedLanguages() {
 		return supportedLanguages;
 	}
@@ -27,5 +28,7 @@ public class ReadableMerchantStore extends MerchantStoreEntity implements Serial
 	public void setCurrentUserLanguage(String currentUserLanguage) {
 		this.currentUserLanguage = currentUserLanguage;
 	}
+
+
 
 }

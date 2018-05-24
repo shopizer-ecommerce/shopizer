@@ -12,7 +12,11 @@ public class MerchantStoreEntity implements Serializable {
 	private int id;
 	private String code;
 	private String name;
-	private String defaultLanguage;
+	private String address;
+	private String postalCode;
+	private String storeProvince;//code
+	private String country;//code
+	private String defaultLanguage;//code
 
 	public int getId() {
 		return id;
@@ -44,6 +48,38 @@ public class MerchantStoreEntity implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public String getStoreProvince() {
+		return storeProvince;
+	}
+
+	public void setStoreProvince(String storeProvince) {
+		this.storeProvince = storeProvince;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getPostalCode() {
+		return postalCode;
+	}
+
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 }

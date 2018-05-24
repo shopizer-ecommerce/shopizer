@@ -11,15 +11,6 @@
 	<name>sm-admin</name>
 	<description>Shopizer administration</description>
 
-<!--
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.3.RELEASE</version>
-		<relativePath/>
-	</parent>
--->
-	
 	<parent>
 		<groupId>com.shopizer</groupId>
 		<artifactId>shopizer</artifactId>
@@ -117,6 +108,12 @@
 		    <groupId>org.webjars</groupId>
 		    <artifactId>jquery-ui</artifactId>
 		    <version>1.12.1</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.webjars.bower</groupId>
+		    <artifactId>dustjs-linkedin</artifactId>
+		    <version>2.7.5</version>
 		</dependency>
 		
 		<!-- End webjars -->
