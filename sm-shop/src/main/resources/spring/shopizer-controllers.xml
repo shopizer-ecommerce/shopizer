@@ -76,6 +76,12 @@
   			<mvc:mapping path="/customer/**"/>
   			<bean class="com.salesmanager.shop.filter.StoreFilter"/>
  		</mvc:interceptor>
+ 		
+ 		 <!-- REST api -->
+ 		<mvc:interceptor>
+  			<mvc:mapping path="/api/**"/>
+  			<bean class="com.salesmanager.shop.filter.CorsFilter"/>
+ 		</mvc:interceptor>
 		
 		<!-- admin panel filter -->
  		<mvc:interceptor>

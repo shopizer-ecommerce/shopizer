@@ -88,22 +88,7 @@ public class ShopApplicationConfiguration extends WebMvcConfigurerAdapter{
         resolver.setViewClass(TilesView.class);
         return resolver;
     }
-    
-    @Bean
-	CorsConfigurationSource privateUrlsCorsConfigurationSource() {
-		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(Arrays.asList("*"));
-		configuration.setAllowedMethods(Arrays.asList("GET","POST"));
-		UrlBasedCorsConfigurationSource privateSource = new UrlBasedCorsConfigurationSource();
-		privateSource.registerCorsConfiguration("/api/v1/private/**", configuration);
-		return privateSource;
-	}
-    
-/*    @Bean
-    CorsFilter corsFilter() {
-        CorsFilter filter = new CorsFilter();
-        return filter;
-    }*/
+
     
 /*    @Bean
     public ConnectionFactoryLocator connectionFactoryLocator() {

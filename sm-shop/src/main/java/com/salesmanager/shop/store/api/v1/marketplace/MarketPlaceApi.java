@@ -16,6 +16,7 @@ import com.salesmanager.shop.model.marketplace.ReadableMarketPlace;
 import com.salesmanager.shop.store.controller.marketplace.facade.MarketPlaceFacade;
 
 @Controller
+@RequestMapping("/api/v1")
 public class MarketPlaceApi {
 	
 	@Inject

@@ -46,15 +46,19 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         
+    	String origin = "*";
+    	if(!StringUtils.isBlank(request.getHeader("origin"))) {
+    		origin = request.getHeader("origin");
+    	}
     	response.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE");
-    	response.setHeader("Access-Control-Allow-Origin", "*");
+    	response.setHeader("Access-Control-Allow-Origin", origin);
     	response.setHeader("Access-Control-Allow-Headers", "X-Auth-Token, Content-Type, Authorization");
     	response.setHeader("Access-Control-Allow-Credentials", "true");
 
         	
     	//@TODO edit this
     	if(request.getRequestURL().toString().contains("/api/v1/auth")) {
-    		setHeader(request,response);   	
+    		//setHeader(request,response);   	
 	    	final String requestHeader = request.getHeader(this.tokenHeader);//token
 	    	
 	    	try {
@@ -76,7 +80,7 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
     	
     	if(request.getRequestURL().toString().contains("/api/v1/private")) {
     		
-    		setHeader(request,response);  
+    		//setHeader(request,response);  
     		
     		Enumeration<String> headers = request.getHeaderNames();
     		while(headers.hasMoreElements()) {
@@ -102,7 +106,7 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
         chain.doFilter(request, response);
     }
     
-    private void setHeader(HttpServletRequest request, HttpServletResponse response) {
+/*    private void setHeader(HttpServletRequest request, HttpServletResponse response) {
     	
     
 
@@ -114,9 +118,9 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
     	response.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE");
     	response.setHeader("Access-Control-Allow-Origin", origin);
     	
-    	/**
+    	*//**
     	 * Simplify options
-    	 */
+    	 *//*
     	
     	if("options".equalsIgnoreCase(request.getMethod())) {
     		try {
@@ -134,7 +138,7 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
     	response.setHeader("Access-Control-Allow-Credentials", "true");
 	
     	
-    }
+    }*/
     
     private byte[] restOptionsResponseBytes() throws IOException {
         String serialized = "{\"status\":200}";
