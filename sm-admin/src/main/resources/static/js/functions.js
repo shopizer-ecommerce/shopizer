@@ -14,10 +14,12 @@
 	}
 
    function showLoader() {
-	  $.LoadingOverlay("show");
-      return this;
+	  //$.LoadingOverlay("show");
+      //return this;
+      $('#loader').removeClass('fadeOut');
    }; 
    function hideLoader() {
-	   $.LoadingOverlay("hide");
-	   return this;
+	  // $.LoadingOverlay("hide");
+	  // return this;
+	   $('#loader').addClass('fadeOut');
    }; 

@@ -4,28 +4,25 @@
 
 <head>
 	 <title>Title to be changed</title>
-	 
-	 <script id="merchant" type="text/x-dust">
-
-        <div class="col-sm-4 invoice-col">
-          Store details ->TO BE LOCALIZED
-          <address>
-            <strong>{name}</strong><br>
-            {address.address}<br>
-            {address.city}, {address.stateProvince} {address.postalCode}<br>
-            ->Phone-: {store.phone}<br>
-            ->Email-: {store.email}
-          </address>
-        </div>
-
-	</script>
-	 
-	 
 </head>
-      
+
       
       <!-- Main row -->
       <span layout:fragment="page_content" id="page_content">
+            
+         <!-- https://gist.github.com/Serhioromano/3683224 -->
+         <!-- https://stackoverflow.com/questions/4778881/how-to-use-underscore-js-as-a-template-engine -->
+      	 <script id="merchant-address" type="text/template">
+          Store details
+          <address>
+            <strong><%=code%></strong><br>
+            <%=address.address%><br>
+            <%=address.city%>, <%=address.stateProvince%> <%=address.postalCode%><br>
+			<%=address.country%><br>
+            ->Phone-:<%=phone%><br>
+            ->Email-:<%=email%>
+          </address>
+	     </script>
       
 
       <section class="invoice" style="margin-left:15px !important; margin-right:15px !important;">
@@ -447,22 +444,15 @@
 	    	    },
 	    	    success: function(data){
 	    	       hideLoader();
-	    	       log("success " + data);
+	    	       log("success ");
 	    	       //render merchant
-	    	       
-	    	       var source   = $("#merchant");
-    			   var compiled = dust.compile(source, 'merchant');
-                   dust.loadSource(compiled);
-                   
-                   dust.render('merchant', data, function(err, out) {
-                	   // `out` contains the rendered output.
-                	   //document.getElementById('merchant-container').textContent = out;
-                	   $("#merchant-container").html(out);
-                   });
-	    	       
-	    	       //var template = $.templates("#merchant");
-	    	       //var htmlOutput = template.render(data);
-	    	       //$("#merchant-container").html(htmlOutput);
+
+	    	       var template = _.template($("#merchant-address").html());
+	    	       log('Template is ' + template);
+	    	       var result = template(data.store);
+
+	    	       $("#merchant-container").html(result);
+
 	    	       log('merchant rendering done');
 	    	    },
 	    	    error: function(response,textStatus,errorThrown) {

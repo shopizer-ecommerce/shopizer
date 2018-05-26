@@ -112,14 +112,8 @@
 		
 		<dependency>
 		    <groupId>org.webjars.bower</groupId>
-		    <artifactId>dustjs-linkedin</artifactId>
-		    <version>2.7.5</version>
-		</dependency>
-		
-		<dependency>
-		    <groupId>org.webjars.npm</groupId>
-		    <artifactId>github-com-linkedin-dustjs-helpers</artifactId>
-		    <version>1.7.3</version>
+		    <artifactId>underscore</artifactId>
+		    <version>1.9.0</version>
 		</dependency>
 		
 		<!-- End webjars -->
