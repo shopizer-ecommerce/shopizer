@@ -3,25 +3,37 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{base}">
 
 <head>
-	 <title>Title to be changed</title>
+	 <title></title>
 </head>
 
       
       <!-- Main row -->
       <span layout:fragment="page_content" id="page_content">
-            
+         
+         <!-- References for templates with underscore --> 
          <!-- https://gist.github.com/Serhioromano/3683224 -->
          <!-- https://stackoverflow.com/questions/4778881/how-to-use-underscore-js-as-a-template-engine -->
+         
+         <!-- underscore templates -->
       	 <script id="merchant-address" type="text/template">
-          Store details
+          ->Store details
           <address>
-            <strong><%=code%></strong><br>
+            <span th:if="${#request.isUserInRole('ROLE_STORE')}"><a th:href="@{/admin/store}">></span>
+			<strong><%=name%></strong>
+			<span th:if="${#request.isUserInRole('ROLE_STORE')}"></a></span>
+			<br>
             <%=address.address%><br>
             <%=address.city%>, <%=address.stateProvince%> <%=address.postalCode%><br>
 			<%=address.country%><br>
-            ->Phone-:<%=phone%><br>
-            ->Email-:<%=email%>
+            ->Phone: <%=phone%><br>
+            ->Email: <%=email%><br>
+            ->Store code: <%=code%>
           </address>
+	     </script>
+	     
+	     <script id="merchant-header" type="text/template">
+            <i class="fa fa-globe"></i> <%=name%> - [[${firstName}]] [[${lastName}]]
+            <small class="pull-right">-> Last login date: {2/10/2014}</small>
 	     </script>
       
 
@@ -29,9 +41,7 @@
       <!-- title row -->
       <div class="row">
         <div class="col-xs-12">
-          <h2 class="page-header">
-            <i class="fa fa-globe"></i> AdminLTE, Inc. ->FIRSTNAME LASTNAME-
-            <small class="pull-right">Last login date: ->2/10/2014-</small>
+          <h2 class="page-header" id="merchant-header-container">
           </h2>
         </div>
         <!-- /.col -->
@@ -430,11 +440,10 @@
       		
       		log("Store code " + STORECODE)
 
-      		var url = BACKEND + "/private/marketplace/" + STORECODE;
+      		var url = BACKEND + "/private/marketplace/" + STORECODE + '?lang=' + LANGUAGE.code;
 
 	    	$.ajax({
 	    	    type:"get",
-	    	    //contentType : 'application/json; charset=utf-8',
 	    	    crossDomain: true,
 	    	    cache: false,
 	    	    url: url,
@@ -445,15 +454,17 @@
 	    	    success: function(data){
 	    	       hideLoader();
 	    	       log("success ");
+	    	       
+	    	       
 	    	       //render merchant
-
 	    	       var template = _.template($("#merchant-address").html());
-	    	       log('Template is ' + template);
 	    	       var result = template(data.store);
-
 	    	       $("#merchant-container").html(result);
 
-	    	       log('merchant rendering done');
+	    	       //render merchant header
+	    	       var merchantHeaderTemplate = _.template($("#merchant-header").html());
+	    	       var merchantHeaderResult = merchantHeaderTemplate(data.store);
+	    	       $("#merchant-header-container").html(merchantHeaderResult);
 	    	    },
 	    	    error: function(response,textStatus,errorThrown) {
 	    	    	//TODO if 403 or 401 redirect to not authorized page

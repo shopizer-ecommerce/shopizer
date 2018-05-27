@@ -1,5 +1,6 @@
 package com.salesmanager.shop.utils;
 
+import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
@@ -7,6 +8,8 @@ import com.salesmanager.shop.constants.Constants;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.LocaleResolver;
@@ -20,8 +23,27 @@ import java.util.Locale;
 @Component
 public class LanguageUtils {
 	
+	protected final Log logger = LogFactory.getLog(getClass());
+	
 	@Inject
 	LanguageService languageService;
+	
+	public Language getServiceLanguage(String lang) {
+		Language l = null;
+		if(!StringUtils.isBlank(lang)) {
+			try {
+				l = languageService.getByCode(lang);
+			} catch (ServiceException e) {
+				logger.error("Cannot retrieve language " + lang, e);
+			}
+		} 
+		
+		if(l==null) {
+			l = languageService.defaultLanguage();
+		}
+		
+		return l;
+	}
 	
 	/**
 	 * Determines request language based on store rules

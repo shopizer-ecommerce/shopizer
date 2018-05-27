@@ -7,8 +7,11 @@ import org.drools.core.util.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.services.merchant.MerchantStoreService;
+import com.salesmanager.core.business.services.reference.country.CountryService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
+import com.salesmanager.core.business.services.reference.zone.ZoneService;
 import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.shop.ReadableMerchantStore;
 import com.salesmanager.shop.populator.store.ReadableMerchantStorePopulator;
 
@@ -20,6 +23,12 @@ public class StoreFacadeImpl implements StoreFacade {
 	
 	@Inject
 	private LanguageService languageService;
+	
+	@Inject
+	private CountryService countryService;
+	
+	@Inject
+	private ZoneService zoneService;
 
 	@Override
 	public MerchantStore getByCode(HttpServletRequest request) throws Exception {
@@ -36,16 +45,21 @@ public class StoreFacadeImpl implements StoreFacade {
 	}
 
 	@Override
-	public ReadableMerchantStore getByCode(String code) throws Exception {
+	public ReadableMerchantStore getByCode(String code, Language language) throws Exception {
+		
 		MerchantStore store = get(code);
 		ReadableMerchantStorePopulator populator = new ReadableMerchantStorePopulator();
 		
 		ReadableMerchantStore readable = new ReadableMerchantStore();
+		
+		populator.setCountryService(countryService);
+		populator.setZoneService(zoneService);
+		
 		/**
 		 * Language is not important for this conversion
 		 * using default language
 		 */
-		readable = populator.populate(store, readable, store, languageService.defaultLanguage());
+		readable = populator.populate(store, readable, store, language);
 		return readable;
 	}
 

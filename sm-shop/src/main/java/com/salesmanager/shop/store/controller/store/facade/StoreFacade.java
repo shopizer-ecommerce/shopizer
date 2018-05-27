@@ -3,6 +3,7 @@ package com.salesmanager.shop.store.controller.store.facade;
 import javax.servlet.http.HttpServletRequest;
 
 import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.shop.ReadableMerchantStore;
 
 /**
@@ -22,6 +23,6 @@ public interface StoreFacade {
 	
 	MerchantStore get(String code) throws Exception;
 	
-	ReadableMerchantStore getByCode(String code) throws Exception;
+	ReadableMerchantStore getByCode(String code, Language lang) throws Exception;
 
 }

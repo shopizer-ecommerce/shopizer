@@ -1,6 +1,6 @@
       #loader {
         transition: all 0.3s ease-in-out;
-        opacity: 1;
+        opacity: 0.8;
         visibility: visible;
         position: fixed;
         height: 100vh;

@@ -4,6 +4,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Component;
 
+import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.marketplace.ReadableMarketPlace;
 import com.salesmanager.shop.model.shop.ReadableMerchantStore;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
@@ -16,9 +17,9 @@ public class MarketPlaceFacadeImpl implements MarketPlaceFacade {
 	
 
 	@Override
-	public ReadableMarketPlace get(String store) throws Exception {
+	public ReadableMarketPlace get(String store, Language lang) throws Exception {
 		// TODO Auto-generated method stub
-		ReadableMerchantStore readableStore = storeFacade.getByCode(store);
+		ReadableMerchantStore readableStore = storeFacade.getByCode(store, lang);
 		
 		if(readableStore==null) {
 			return null;
