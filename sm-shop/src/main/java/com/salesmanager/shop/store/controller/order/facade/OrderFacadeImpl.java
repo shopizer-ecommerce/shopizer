@@ -15,6 +15,9 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
+import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
@@ -325,7 +328,10 @@ public class OrderFacadeImpl implements OrderFacade {
 	
 	private Order processOrderModel(ShopOrder order, Customer customer, Transaction transaction, MerchantStore store,
 			Language language) throws ServiceException {
-		
+
+        Boolean allItemsDecremented = false;
+        HashMap<Product, Integer> productQuantitiesForRollback = new HashMap<>();
+
 		try {
 			
 			if(order.isShipToBillingAdress()) {//customer shipping is billing
@@ -366,6 +372,9 @@ public class OrderFacadeImpl implements OrderFacade {
 			
 			for(ShoppingCartItem item : shoppingCartItems) {
 				OrderProduct orderProduct = new OrderProduct();
+
+                allItemsDecremented = decrementInventory(item, productQuantitiesForRollback);
+
 				orderProduct = orderProductPopulator.populate(item, orderProduct , store, language);
 				orderProduct.setOrder(modelOrder);
 				orderProducts.add(orderProduct);
@@ -515,9 +524,15 @@ public class OrderFacadeImpl implements OrderFacade {
 			return modelOrder;
 		
 		} catch(ServiceException se) {//may be invalid credit card
-			throw se;
+            if(allItemsDecremented) {
+                rollbackDecrementInventory(productQuantitiesForRollback);
+            }
+		    throw se;
 		} catch(Exception e) {
-			throw new ServiceException(e);
+            if(allItemsDecremented) {
+                rollbackDecrementInventory(productQuantitiesForRollback);
+            }
+		    throw new ServiceException(e);
 		}
 		
 	}
@@ -1121,8 +1136,10 @@ public class OrderFacadeImpl implements OrderFacade {
 		populator.setProductAttributeService(productAttributeService);
 		populator.setProductService(productService);
 		populator.setShoppingCartService(shoppingCartService);
-		
-		
+
+		Boolean allItemsDecremented = false;
+		HashMap<Product, Integer> productQuantitiesForRollback = new HashMap<>();
+
 		try {
 			
 			Order modelOrder = new Order();
@@ -1148,6 +1165,9 @@ public class OrderFacadeImpl implements OrderFacade {
 			
 			for(ShoppingCartItem item : shoppingCartItems) {
 				OrderProduct orderProduct = new OrderProduct();
+
+				allItemsDecremented = decrementInventory(item, productQuantitiesForRollback);
+
 				orderProduct = orderProductPopulator.populate(item, orderProduct , store, language);
 				orderProduct.setOrder(modelOrder);
 				orderProducts.add(orderProduct);
@@ -1255,7 +1275,10 @@ public class OrderFacadeImpl implements OrderFacade {
 			return modelOrder;
 			
 		} catch(Exception e) {
-			throw new ServiceException(e);
+            if(allItemsDecremented) {
+                rollbackDecrementInventory(productQuantitiesForRollback);
+            }
+		    throw new ServiceException(e);
 		}
 
 	}
@@ -1310,6 +1333,63 @@ public class OrderFacadeImpl implements OrderFacade {
 
 		return transaction;
 
+	}
+
+	/**
+	 * This method decrements the inventory quantity based on the quantity in the shopping cart
+	 * Or, if after the quantity has been decremented, an error occurs in payment processing or for any other reason
+	 * the order processing doesn't succeed it will roll it back.
+	 * @param item
+	 * @param originalInventoryQuantities stores the product and the original values we need to keep track of to rollback if necessary
+	 * @return
+	 * @throws ServiceException
+	 */
+	private Boolean decrementInventory(
+			ShoppingCartItem item,
+			HashMap<Product, Integer> originalInventoryQuantities) throws ServiceException {
+
+		Product persistable = productService.getById(item.getProductId());
+		Set<ProductAvailability> availabilities = persistable.getAvailabilities();
+
+		Boolean hasBeenDecremented = false;
+		for(ProductAvailability availability : availabilities) {
+			if (availability.getRegion().equals(Constants.ALL_REGIONS)) {
+
+				if (availability.getProductQuantity() >= item.getQuantity()) {
+					originalInventoryQuantities.put(persistable, availability.getProductQuantity());
+
+					availability.setProductQuantity(availability.getProductQuantity() - item.getQuantity());
+
+					hasBeenDecremented = true;
+				} else {
+					throw new ServiceException("quantity to remove exceeded inventory");
+				}
+			}
+		}
+		if(hasBeenDecremented) {
+			productService.update(persistable);
+		}
+		return hasBeenDecremented;
+	}
+
+	/**
+	 * Rolls Back the changes to the product quantities if necessary
+	 * @param quantitiesForRollback
+	 * @throws ServiceException
+	 */
+	private void rollbackDecrementInventory(HashMap<Product, Integer> quantitiesForRollback) throws ServiceException {
+
+		for (Map.Entry<Product, Integer> entry : quantitiesForRollback.entrySet()) {
+			Product persistable = entry.getKey();
+			Set<ProductAvailability> availabilities = persistable.getAvailabilities();
+
+			for(ProductAvailability availability : availabilities) {
+				if(availability.getRegion().equals(Constants.ALL_REGIONS)) {
+					availability.setProductQuantity(entry.getValue());
+				}
+			}
+			productService.update(persistable);
+		}
 	}
 
 }
