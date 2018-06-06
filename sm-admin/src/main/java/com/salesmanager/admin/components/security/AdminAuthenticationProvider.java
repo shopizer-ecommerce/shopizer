@@ -1,11 +1,14 @@
 package com.salesmanager.admin.components.security;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +25,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -36,6 +41,7 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
     private static final Logger logger = LoggerFactory.getLogger(AdminAuthenticationProvider.class);
 	 
     private final static String AUTHORIZATION = "Authorization";
+    private final static String LONGDATE_FORMAT = "EEE, d MMM yyyy HH:mm:ss Z";
 
 	@Value("${shopizer.api.url}")
 	private String backend;
@@ -62,8 +68,21 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
         //Invoke web service
         RestTemplate restTemplate = new RestTemplate();
 
-        ResponseEntity<String> resp
-          = restTemplate.postForEntity(loginResourceUrl, entity, String.class);
+        ResponseEntity<String> resp = null;
+        try {
+        	resp = restTemplate.postForEntity(loginResourceUrl, entity, String.class);
+        } catch(HttpClientErrorException e) {
+        	if(HttpStatus.FORBIDDEN.name().equals(e.getStatusCode().name())) {
+        		
+        		throw new AdminAuthenticationException("Cannot authenticate this client [Forbidden]",e.getStatusCode());
+
+        	}
+        	if(HttpStatus.NOT_FOUND.name().equals(e.getStatusCode().name())) {
+        		throw new AdminAuthenticationException("Cannot authenticate this client [Not found]",e.getStatusCode());
+        	}
+        	logger.error("Error during authentication [" + e.getMessage() + "] [" + e.getStatusCode().name() + "]" );
+        }
+          
  
         
         if(!HttpStatus.OK.equals(resp.getStatusCode())) {
@@ -91,11 +110,12 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
 	        
 	        
 	    entity = new HttpEntity<String>(headers);
-	        
+	    
+	    //User details web service
 	    String profileResourceUrl
 	        = backend + "/private/users/" + name;
 	        
-	        //Invoke web service
+	    //Invoke web service
 	    restTemplate = new RestTemplate();
 
 	     resp = restTemplate.exchange(profileResourceUrl, HttpMethod.GET, entity, String.class);
@@ -146,12 +166,18 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
 		
 		AdminAuthenticationToken auth = new AdminAuthenticationToken(name,password,grants);
 		
+		String lastAccess = (String)map.get(Constants.User.LAST_ACCESS);
+		if(StringUtils.isBlank(lastAccess)) {
+			SimpleDateFormat format = new SimpleDateFormat(LONGDATE_FORMAT);
+			lastAccess =  format.format(new Date());
+		}
 		
 		Map<String,String> details = new HashMap<String,String>();
 		details.put(Constants.TOKEN,token);
 		details.put(Constants.User.FIRST_NAME, (String)map.get(Constants.User.FIRST_NAME));
 		details.put(Constants.User.LAST_NAME, (String)map.get(Constants.User.LAST_NAME));
 		details.put(Constants.User.USER_NAME, (String)map.get(Constants.User.USER_NAME));
+		details.put(Constants.User.LAST_ACCESS, lastAccess);
 		details.put(Constants.User.ACTIVE, String.valueOf(((Boolean)map.get(Constants.User.ACTIVE)).booleanValue()));
 		details.put(Constants.User.DEFAULT_LANGUAGE, (String)map.get(Constants.User.DEFAULT_LANGUAGE));
 		details.put(Constants.User.MERCHANT_CODE, (String)map.get(Constants.User.MERCHANT_CODE));

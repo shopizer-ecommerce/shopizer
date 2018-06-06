@@ -21,6 +21,7 @@ public class Constants {
 		public final static String USER_NAME = "userName";
 		public final static String DEFAULT_LANGUAGE = "defaultLanguage";
 		public final static String ACTIVE = "active";
+		public final static String LAST_ACCESS = "lastAccess";
 		public final static String MERCHANT_CODE = "merchant";
 	}
 	

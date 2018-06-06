@@ -42,6 +42,9 @@ public class AdminFilter extends HandlerInterceptorAdapter {
 	@Value("${shopizer.api.url}")
 	private String backend;
 	
+	@Value("${version.number}")
+	private String versionNumber;
+	
 	@SuppressWarnings("unchecked")
 	public boolean preHandle(
             HttpServletRequest request,
@@ -102,6 +105,7 @@ public class AdminFilter extends HandlerInterceptorAdapter {
 			Map<String,String> details = (Map<String, String>) auth.getDetails();
 			request.setAttribute(Constants.User.FIRST_NAME, details.get(Constants.User.FIRST_NAME));
 			request.setAttribute(Constants.User.USER_NAME, details.get(Constants.User.FIRST_NAME));
+			request.setAttribute(Constants.User.LAST_ACCESS, details.get(Constants.User.LAST_ACCESS));
 			request.setAttribute(Constants.User.MERCHANT_CODE, details.get(Constants.User.MERCHANT_CODE));
 		}
 		
@@ -114,6 +118,7 @@ public class AdminFilter extends HandlerInterceptorAdapter {
 		}
 		
 		request.setAttribute("backend", backend);
+		request.setAttribute("version", versionNumber);
 
 		return true;		
 	}

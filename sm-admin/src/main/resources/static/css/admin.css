@@ -11,3 +11,5 @@ font-style: normal;
 }
 
 .admin_text h2{font:normal 28px 'ralewayextrabold';color:#ffffff;text-transform:uppercase;padding-bottom:10px;margin-left:42px;margin-top:-20px;}
+.breadcrumb-title {margin-left:12px;}
+.breadcrumb {margin-bottom:10px !important;}

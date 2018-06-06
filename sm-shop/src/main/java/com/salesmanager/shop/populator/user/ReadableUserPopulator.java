@@ -14,6 +14,7 @@ import com.salesmanager.core.model.user.Permission;
 import com.salesmanager.core.model.user.User;
 import com.salesmanager.shop.model.security.ReadableGroup;
 import com.salesmanager.shop.model.user.ReadableUser;
+import com.salesmanager.shop.utils.DateUtil;
 
 /**
  * Converts user model to readable user
@@ -36,6 +37,10 @@ public class ReadableUserPopulator extends AbstractDataPopulator<User, ReadableU
 		target.setEmailAddress(source.getAdminEmail());
 		target.setUserName(source.getAdminName());
 		
+		if(source.getLastAccess()!=null) {
+			target.setLastAccess(DateUtil.formatDate(source.getLastAccess()));
+		}
+		
 		//set default language
 		target.setDefaultLanguage(Constants.DEFAULT_LANGUAGE);
 		
@@ -51,16 +56,6 @@ public class ReadableUserPopulator extends AbstractDataPopulator<User, ReadableU
 			g.setId(new Long(group.getId()));
 			g.setName(group.getGroupName());
 			target.getGroups().add(g);
-/*			Set<Permission> perms = group.getPermissions();
-			if(perms != null) {
-				for(Permission p : perms) {
-					ReadableGroup gp = new ReadableGroup();
-					gp.setId(new Long(p.getId()));
-					gp.setName(p.getPermissionName());
-					target.getGroups().add(gp);
-				}
-			}*/
-			
 		}
 		
 		/**

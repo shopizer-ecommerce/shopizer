@@ -6,9 +6,25 @@
 	 <title></title>
 </head>
 
+
+	 <span layout:fragment="breadcrumb" id="breadcrumb">
+	       <h2>
+	        <span class="breadcrumb-title" th:text="#{'menu.dashboard'}"/>
+	        <small></small>
+	      </h2>
+	      <ol class="breadcrumb">
+	        <li><a href="#"><i class="fa fa-dashboard"></i><span th:text="#{'menu.home'}"></span></a></li>
+	        <li class="active"><span th:text="#{'menu.dashboard'}"></span></li>
+	      </ol>
+	 </span>
+
       
       <!-- Main row -->
       <span layout:fragment="page_content" id="page_content">
+      
+         <!-- 
+         <% if (typeof(lastAccess) !== "undefined") { %><% } %>
+          -->
          
          <!-- References for templates with underscore --> 
          <!-- https://gist.github.com/Serhioromano/3683224 -->
@@ -16,9 +32,8 @@
          
          <!-- underscore templates -->
       	 <script id="merchant-address" type="text/template">
-          ->Store details
           <address>
-            <span th:if="${#request.isUserInRole('ROLE_STORE')}"><a th:href="@{/admin/store}">></span>
+            <span th:if="${#request.isUserInRole('ROLE_STORE')}"><a th:href="@{/admin/store}"></span>
 			<strong><%=name%></strong>
 			<span th:if="${#request.isUserInRole('ROLE_STORE')}"></a></span>
 			<br>
@@ -33,7 +48,7 @@
 	     
 	     <script id="merchant-header" type="text/template">
             <i class="fa fa-globe"></i> <%=name%> - [[${firstName}]] [[${lastName}]]
-            <small class="pull-right">-> Last login date: {2/10/2014}</small>
+            <small class="pull-right"><span th:text="#{label.profile.lastaccess}"/>: <span th:text="${LAST_ACCESS}"/></small>
 	     </script>
       
 
@@ -432,7 +447,7 @@
     		showLoader();
       
       		//Variables
-/*       		var TOKEN = '[[${token}]]';
+/*       	var TOKEN = '[[${token}]]';
       		var USERNAME = '[[${userName}]]';
       		var FIRSTNAME = '[[${firstName}]]';
       		var LASTNAME = '[[${lastName}]]';

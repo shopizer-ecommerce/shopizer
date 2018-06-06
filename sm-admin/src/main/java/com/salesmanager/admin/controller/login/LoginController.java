@@ -9,6 +9,7 @@ import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.salesmanager.admin.components.security.AdminAuthenticationProvider;
 import com.salesmanager.admin.components.security.AdminAuthenticationToken;
+import com.salesmanager.admin.controller.exception.AdminAuthenticationException;
 import com.salesmanager.admin.model.common.Messages;
 import com.salesmanager.admin.model.common.ResponseToJson;
 import com.salesmanager.admin.model.user.LogonUser;
@@ -65,8 +67,16 @@ public class LoginController {
 	    			            user.getPassword()
 	    			    )
 	    		 );
-	    		
+
 	    	} catch(Exception e) {
+	    		if(e instanceof AdminAuthenticationException) {
+		    		if(HttpStatus.FORBIDDEN.name().equals(((AdminAuthenticationException)e).getStatus().name())) {
+		    			return ResponseEntity.badRequest().body(ResponseToJson.toObject(messages.get("message.access.forbidden", locale), Constants.Code.ERROR));
+		    		}
+		    		if(HttpStatus.NOT_FOUND.name().equals(((AdminAuthenticationException)e).getStatus().name())) {
+		    			return ResponseEntity.badRequest().body(ResponseToJson.toObject(messages.get("message.credentials.required", locale), Constants.Code.ERROR));
+		    		}
+	    		}
 	    		logger.error("An error occured when logging in " + e.getMessage());
 	    		return ResponseEntity.badRequest().body(ResponseToJson.toObject(messages.get("error", locale), Constants.Code.ERROR));
 	    	}
@@ -87,7 +97,7 @@ public class LoginController {
 
 			
 		} catch (Exception e) {
-			//LOGGER.error("Error while login user",e);
+			logger.error("Error while login user",e);
 			try {
 				response.sendError(503, "Error while login user " + e.getMessage());
 			} catch (Exception ignore) {
