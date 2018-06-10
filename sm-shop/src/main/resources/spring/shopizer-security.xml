@@ -152,10 +152,10 @@
     <!-- REST services v1 for Admin REALM -->
     <http pattern="/api/v1/private/**" 
 		create-session="stateless" 
-		use-expressions="true" 
+		use-expressions="true"
 		authentication-manager-ref="jwtAdminAuthenticationManager" 
 		entry-point-ref="servicesAuthenticationEntryPoint">
-		  
+		  <form-login authentication-success-handler-ref="userAuthenticationSuccessHandler" />
 		  <intercept-url pattern="/api/v1/private/login" access="permitAll" />
 		  <intercept-url pattern="/api/v1/private/refresh" access="permitAll" />
 		  <intercept-url pattern="/api/v1/private/**" method="OPTIONS" access="permitAll"/>

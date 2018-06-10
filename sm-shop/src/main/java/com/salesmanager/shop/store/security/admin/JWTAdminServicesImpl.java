@@ -18,18 +18,15 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.exception.ServiceException;
-import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.user.GroupService;
 import com.salesmanager.core.business.services.user.PermissionService;
 import com.salesmanager.core.business.services.user.UserService;
 import com.salesmanager.core.model.common.audit.AuditSection;
-import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.user.Group;
 import com.salesmanager.core.model.user.Permission;
 import com.salesmanager.core.model.user.User;
 import com.salesmanager.shop.admin.security.SecurityDataAccessException;
 import com.salesmanager.shop.constants.Constants;
-import com.salesmanager.shop.store.security.AbstractCustomerServices;
 import com.salesmanager.shop.store.security.user.JWTUser;
 
 
@@ -104,11 +101,7 @@ public class JWTAdminServicesImpl implements UserDetailsService{
 		    		authorities.add(auth);
 		    	}
 			}
-			
 
-			
-
-		
 		
 		} catch (ServiceException e) {
 			LOGGER.error("Exception while querrying customer",e);

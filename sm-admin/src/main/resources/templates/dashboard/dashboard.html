@@ -13,7 +13,7 @@
 	        <small></small>
 	      </h2>
 	      <ol class="breadcrumb">
-	        <li><a href="#"><i class="fa fa-dashboard"></i><span th:text="#{'menu.home'}"></span></a></li>
+	        <li><a href="#"><i class="fa fa-dashboard"></i>&nbsp;<span th:text="#{'menu.home'}"></span></a></li>
 	        <li class="active"><span th:text="#{'menu.dashboard'}"></span></li>
 	      </ol>
 	 </span>
@@ -48,7 +48,7 @@
 	     
 	     <script id="merchant-header" type="text/template">
             <i class="fa fa-globe"></i> <%=name%> - [[${firstName}]] [[${lastName}]]
-            <small class="pull-right"><span th:text="#{label.profile.lastaccess}"/>: <span th:text="${LAST_ACCESS}"/></small>
+            <small class="pull-right"><span th:text="#{label.profile.lastaccess}"/>: <span th:text="${lastAccess}"/></small>
 	     </script>
       
 

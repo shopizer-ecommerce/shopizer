@@ -53,7 +53,7 @@ public class CmsImageFileManagerImpl
     
     private String rootName = ROOT_NAME;
 
-    private CacheManager cacheManager;
+    private CacheManager cacheManager;//TODO CMSManager
 
     /**
      * Requires to stop the engine when image servlet un-deploys
@@ -63,8 +63,8 @@ public class CmsImageFileManagerImpl
 
         try
         {
+        	LOGGER.info( "Stopping CMS" );
         	cacheManager.getManager().stop();
-            LOGGER.info( "Stopping CMS" );
         }
         catch ( Exception e )
         {

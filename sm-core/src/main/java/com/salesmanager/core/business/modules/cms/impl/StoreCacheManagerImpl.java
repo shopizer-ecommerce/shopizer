@@ -16,6 +16,13 @@ public class StoreCacheManagerImpl extends CacheManagerImpl {
 	}
 
 
+	@Override
+	public String getRootName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 
 }
 

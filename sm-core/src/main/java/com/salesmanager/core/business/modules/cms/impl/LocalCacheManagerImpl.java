@@ -1,7 +1,7 @@
 package com.salesmanager.core.business.modules.cms.impl;
 
 
-public class LocalCacheManagerImpl {
+public class LocalCacheManagerImpl implements CMSManager {
 	
 	private static  LocalCacheManagerImpl cacheManager = null;   
 	public static LocalCacheManagerImpl getInstance() {
@@ -14,6 +14,10 @@ public class LocalCacheManagerImpl {
 	      
 	        
 	    }
+	@Override
+	public String getRootName() {
+		return "";
+	}
 	
 
 }

@@ -20,7 +20,7 @@
           <!-- Languages -->
           <li class="dropdown user-menu">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <span class="">Languages</span>
+              <span th:text="#{'languages'}"></span>
           </a>
              <ul class="dropdown-menu">
               <li th:each="language : ${LANGUAGE}" class="footer"><a th:href="@{'?lang=' + ${language.code}}" th:text="#{${'lang.'+language.code}}"></a></li>

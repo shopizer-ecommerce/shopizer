@@ -111,19 +111,21 @@
 		</beans:property>
 	</beans:bean>
 	
-	<!-- CMS implementation for product images -->
+	<!-- CMS implementation for [[product images]] -->
+	<!-- TODO refbean to manager implementation -->
 	<beans:bean id="cmsProductImage"
 				class="com.salesmanager.core.business.modules.cms.product.infinispan.CmsImageFileManagerImpl" factory-method="getInstance" >
 				<beans:property name="cacheManager">
-						<beans:ref bean="localCacheManager" />
+						<beans:ref bean="cmsManager" />
 				</beans:property>
-				<!--<beans:property name="rootName" value="product-merchant"/>-->
-				<beans:property name="rootName" value="/Applications/MAMP/htdocs/bam-images"/>
+				<!-- TODO move to cmsManager-->
+				<beans:property name="rootName" value="product-merchant"/>
+				<!--<beans:property name="rootName" value="/Applications/MAMP/htdocs/bam-images"/>-->
 	</beans:bean>
 	
 
 	
-	<!-- Content images manager (logo, other store artifacts) -->
+	<!-- Content images manager -->
 	<beans:bean id="contentFileManager"
 		class="com.salesmanager.core.business.modules.cms.content.StaticContentFileManagerImpl">
 		<beans:property name="uploadFile">
@@ -137,12 +139,14 @@
 		</beans:property>
 	</beans:bean>
 	
-	<!-- logo, store artifacts -->
+	<!-- store images, js, css [[merchant images]] -->
+	<!-- TODO refbean -->
 	<beans:bean id="cmsStoreFile"
 				class="com.salesmanager.core.business.modules.cms.content.infinispan.CmsStaticContentFileManagerImpl" factory-method="getInstance" >
 				<beans:property name="cacheManager">
-						<beans:ref bean="localCacheManager" />
+						<beans:ref bean="filesCacheManager" />
 				</beans:property>
+				<!-- TODO move to cmsManager-->
 				<beans:property name="rootName" value="store-merchant"/>
 				<!--<beans:property name="rootName" value="/Applications/MAMP/htdocs/bam-images"/>-->
 	</beans:bean>
@@ -162,19 +166,20 @@
 	<!--  end of CMS implementation for static content data -->
 	
 	
-	<!-- CMS implementation for static content data -->
+	<!-- Store files-->
+	<!-- TODO refbean -->
 	<beans:bean id="cmsStaticFile" class="com.salesmanager.core.business.modules.cms.content.infinispan.CmsStaticContentFileManagerImpl" factory-method="getInstance">
 		<beans:property name="cacheManager">
-			<!--<beans:ref bean="filesCacheManager" />-->
-			<beans:ref bean="localCacheManager" />
+			<beans:ref bean="cmsManager" />
 		</beans:property>
+		<!-- TODO move to cmsManager-->
 		<beans:property name="rootName" value="store-merchant"/>
 		<!--<beans:property name="rootName" value="/Applications/MAMP/htdocs/bam-images/"/>-->
 	</beans:bean>
 	
 
 	<!-- product downloads -->
-	<beans:bean id="productDownloadsFileManager"	class="com.salesmanager.core.business.modules.cms.content.StaticContentFileManagerImpl">
+	<beans:bean id="productDownloadsFileManager" class="com.salesmanager.core.business.modules.cms.content.StaticContentFileManagerImpl">
 		<beans:property name="uploadFile">
 				<beans:ref bean="cmsProductFile" />
 		</beans:property>
@@ -188,43 +193,52 @@
 	<!--  end of CMS implementation for static content data -->
 	
 	
-	<!-- CMS implementation for static content data -->
+	<!-- CMS implementation for product download files -->
 	<beans:bean id="cmsProductFile" class="com.salesmanager.core.business.modules.cms.content.infinispan.CmsStaticContentFileManagerImpl" factory-method="getInstance">
 		<beans:property name="cacheManager">
-			<beans:ref bean="localCacheManager" />
+			<beans:ref bean="cmsManager" /><!-- todo download file manager -->
 		</beans:property>
+		<!-- TODO move to cmsManager-->
 		<beans:property name="rootName" value="product-file"/>
 		<!--<beans:property name="rootName" value="/Applications/MAMP/htdocs/bam-images"/>-->
 	</beans:bean>
 	
-
-	<!-- Store Cache Manager (infinispan) -->
-	<beans:bean id="localCacheManager"
+	<!-- *** CMS managers *** -->
+	<!-- Infinispan for store ( rename to productContentManager)-->
+	<beans:bean id="cmsManager"
 				class="com.salesmanager.core.business.modules.cms.impl.StoreCacheManagerImpl">
 				<beans:constructor-arg value="${config.cms.store.location}"/>
 	</beans:bean>
-	<!-- factory-method="getInstance"  -->
 	
-	
-	<!-- Local cache manager  (for apache httpd)-->
-	<!--
-	<beans:bean id="localCacheManager"
-				class="com.salesmanager.core.business.modules.cms.impl.LocalCacheManagerImpl" factory-method="getInstance" >
-	</beans:bean>
-	-->
-
-	
-	<!-- Cache manager to handle static content data which includes
-	 1. CSS Files
-	 2. JS Files
-	 2. Digital data -->
-
+	<!-- Infinispan for static ( rename to contentManager)-->
 	<beans:bean id="filesCacheManager" 
 		class="com.salesmanager.core.business.modules.cms.impl.StaticContentCacheManagerImpl" >
 		<beans:constructor-arg value="${config.cms.files.location}"/>
 	</beans:bean>
 	
-	<!-- factory-method="getInstance" -->
+	<!-- Todo digitalDownloadManager -->
+	<!--
+	<beans:bean id="filesCacheManager" 
+		class="com.salesmanager.core.business.modules.cms.impl.StaticContentCacheManagerImpl" >
+		<beans:constructor-arg value="${config.cms.files.location}"/>
+	</beans:bean>
+	-->
+	
+	
+	<!-- Httpd-->
+	<!--
+	<beans:bean id="cmsManager"
+				class="com.salesmanager.core.business.modules.cms.impl.LocalCacheManagerImpl" factory-method="getInstance" >
+	</beans:bean>
+	-->
+	
+	<!--  Todo new CMS manager for AWS -->
+
+	
+
+
+	
+	<!--  -->
 	
 	<!-- 
 		*** End CMS configuration ***
@@ -281,6 +295,7 @@
              <beans:property name="mailSender" ref="mailSender"/>
              <beans:property name="freemarkerMailConfiguration" ref="freemarkerMailConfiguration"/>
  	</beans:bean>
+ 	<!-- End email -->
  
 
 </beans:beans>

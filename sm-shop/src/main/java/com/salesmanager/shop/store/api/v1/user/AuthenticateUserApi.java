@@ -77,6 +77,7 @@ public class AuthenticateUserApi {
 
     		
     	} catch(Exception e) {
+    		LOGGER.error("Error during authentication " + e.getMessage());
     		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     	}
     	

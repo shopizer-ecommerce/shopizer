@@ -42,4 +42,11 @@ public class StaticContentCacheManagerImpl extends CacheManagerImpl
 	public void setLocation(String location) {
 		this.location = location;
 	}
+
+
+	@Override
+	public String getRootName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

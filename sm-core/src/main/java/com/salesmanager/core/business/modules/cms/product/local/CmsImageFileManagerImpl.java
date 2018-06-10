@@ -49,7 +49,7 @@ public class CmsImageFileManagerImpl
     
     private String rootName = ROOT_NAME;
     
-    private LocalCacheManagerImpl cacheManager;
+    private LocalCacheManagerImpl cacheManager;//TODO CMSManager
 
 
     public static CmsImageFileManagerImpl getInstance()

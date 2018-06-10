@@ -38,7 +38,7 @@ public class ReadableUserPopulator extends AbstractDataPopulator<User, ReadableU
 		target.setUserName(source.getAdminName());
 		
 		if(source.getLastAccess()!=null) {
-			target.setLastAccess(DateUtil.formatDate(source.getLastAccess()));
+			target.setLastAccess(DateUtil.formatLongDate(source.getLastAccess()));
 		}
 		
 		//set default language

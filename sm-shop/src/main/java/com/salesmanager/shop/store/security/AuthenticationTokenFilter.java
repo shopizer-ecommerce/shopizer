@@ -46,6 +46,7 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         
+
     	String origin = "*";
     	if(!StringUtils.isBlank(request.getHeader("origin"))) {
     		origin = request.getHeader("origin");

@@ -56,39 +56,9 @@ public abstract class CacheManagerImpl implements CacheManager {
 				 manager.getManager().defineConfiguration(namedCache, config);  
 
 				 final Cache<String, String> cache = manager.getManager().getCache(namedCache);  
-				 //c.addListener(new CacheListener());
 
-				 
-				/* 
-				 @SuppressWarnings("rawtypes")
-				 Cache cache = cacheManager.getManager().getCache(namedCache);
-				 cache.getCacheConfiguration().invocationBatching().enabled();
-				 
-				 Configuration c = cacheManager.getManager().getCacheConfiguration(namedCache);
-				 if(c!=null) {
-					 List<StoreConfiguration> l =c.persistence().stores();
-					 StoreConfiguration sc = null;
-					 int i = 0;
-					 for(StoreConfiguration conf : l) {
-						 if(conf.properties()!=null && conf.properties().containsKey(LOCATION_PROPERTIES)) {
-							 sc = conf;
-							 continue;
-						 }
-						 i++;
-					 }
-					 if(sc!=null) {
-						 sc.properties().setProperty(LOCATION_PROPERTIES, location);
-
-						 c.persistence().stores().set(i, sc);
-						 
-					 }
-					 
-					 
-				  }*/
-					
 		    
 				 TreeCacheFactory f = new TreeCacheFactory();
-		    
 				 treeCache = f.createTreeCache(cache);
 				 
 				 cache.start();
