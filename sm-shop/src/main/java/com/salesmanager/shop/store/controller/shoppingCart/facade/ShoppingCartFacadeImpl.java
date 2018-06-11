@@ -489,10 +489,13 @@ public class ShoppingCartFacadeImpl
                     		shoppingCartService.deleteShoppingCartItem(itemID);
                         }
                     }
-                    //cartModel.setLineItems( shoppingCartItemSet );
-                    //shoppingCartService.saveOrUpdate( cartModel );
+
 
                     cartModel = getCartModel( cartId,store );
+                    
+                    if(cartModel == null) {
+                    	return null;
+                    }
 
 
                     ShoppingCartDataPopulator shoppingCartDataPopulator = new ShoppingCartDataPopulator();

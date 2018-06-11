@@ -154,20 +154,21 @@ $(document).ready(function(){
     });
     
     function setUserNameCookie(username) {
-    	//if($("#remember").is(':checked')){
 	    	var username = $.cookie('usernamecookie');
+	    	log('Username is ' + username);
 	    	if (username != null && username != '') {
 	    		$('#userName').val(username);
 	    		$('#remember').attr('checked', true);
 	    	}
-    	//}
     }
     
     //saves username in cookie when checkbox clicked
     function saveUserNameCookie() {
         if($("#remember").is(':checked')){
+        	log('Remember username checked');
     		$.cookie('usernamecookie',$('#userName').val());
     	} else {
+    		log('Rememver username not checked');
     		$.cookie("usernamecookie", null, { path: '/' });
     	}
     }

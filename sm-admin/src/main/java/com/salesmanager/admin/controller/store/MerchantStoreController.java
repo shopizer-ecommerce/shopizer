@@ -15,10 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class MerchantStoreController {
 	
 	
-	@RequestMapping("/admin/store/{code}")
-	public String display(@RequestParam String code, Principal principal, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping("/admin/store")
+	public String display(@RequestParam(value = "code", required=false) String code, Principal principal, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		request.setAttribute("action", "READ");
 		return "store/store";
 	}
 

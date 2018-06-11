@@ -40,9 +40,9 @@
             <%=address.address%><br>
             <%=address.city%>, <%=address.stateProvince%> <%=address.postalCode%><br>
 			<%=address.country%><br>
-            ->Phone: <%=phone%><br>
-            ->Email: <%=email%><br>
-            ->Store code: <%=code%>
+            <span th:text="#{label.generic.phone}"></span>: <%=phone%><br>
+            <span th:text="#{label.generic.email}"></span>: <%=email%><br>
+            <span th:text="#{label.storecode}"></span>: <strong><%=code%></strong>
           </address>
 	     </script>
 	     

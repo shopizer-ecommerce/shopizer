@@ -24,74 +24,63 @@
       
       <div class="box box-default">
         <div class="box-header with-border">
-          <h3 class="box-title">Select2</h3>
-
-          <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
-          </div>
+          <h3 class="box-title"><span th:text="#{'label.store.information'}"></span></h3>
         </div>
         <!-- /.box-header -->
         <div class="box-body">
           <div class="row">
             <div class="col-md-6">
-              <div class="form-group">
-                <label>Minimal</label>
-                <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                  <option selected="selected">Alabama</option>
-                  <option>Alaska</option>
-                  <option>California</option>
-                  <option>Delaware</option>
-                  <option>Tennessee</option>
-                  <option>Texas</option>
-                  <option>Washington</option>
-                </select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-d9va-container"><span class="select2-selection__rendered" id="select2-d9va-container" title="Alabama">Alabama</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+
+            
+            
+            <form role="form">
+              <div class="box-body">
+                <div class="form-group">
+                  <label for="storeName"><span th:text="#{'label.storename'}"></span></label>
+                  <input class="form-control" id="name">
+                </div>
+                <div class="form-group">
+                  <label for="code"><span th:text="#{'label.storecode'}"></span></label>
+                  <input class="form-control" id="code">
+                </div>
+                <div class="form-group">
+                  <label for="phone"><span th:text="#{'label.storephone'}"></span></label>
+                  <input class="form-control" id="phone">
+                </div>
+                <div class="form-group">
+                  <label for="phone"><span th:text="#{'label.storeemailaddress'}"></span></label>
+                  <input type="email" class="form-control" id="email">
+                </div>
+                <div class="form-group">
+                  <label for="address"><span th:text="#{'label.generic.address'}"></span></label>
+                  <input class="form-control" id="address_address">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Password</label>
+                  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputFile">File input</label>
+                  <input type="file" id="exampleInputFile">
+
+                  <p class="help-block">Example block-level help text here.</p>
+                </div>
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox"> Check me out
+                  </label>
+                </div>
               </div>
-              <!-- /.form-group -->
-              <div class="form-group">
-                <label>Disabled</label>
-                <select class="form-control select2 select2-hidden-accessible" disabled="" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                  <option selected="selected">Alabama</option>
-                  <option>Alaska</option>
-                  <option>California</option>
-                  <option>Delaware</option>
-                  <option>Tennessee</option>
-                  <option>Texas</option>
-                  <option>Washington</option>
-                </select><span class="select2 select2-container select2-container--default select2-container--disabled" dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="-1" aria-labelledby="select2-oho0-container"><span class="select2-selection__rendered" id="select2-oho0-container" title="Alabama">Alabama</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+              <!-- /.box-body -->
+
+              <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Submit</button>
               </div>
-              <!-- /.form-group -->
+            </form>
+            
             </div>
-            <!-- /.col -->
-            <div class="col-md-6">
-              <div class="form-group">
-                <label>Multiple</label>
-                <select class="form-control select2 select2-hidden-accessible" multiple="" data-placeholder="Select a State" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                  <option>Alabama</option>
-                  <option>Alaska</option>
-                  <option>California</option>
-                  <option>Delaware</option>
-                  <option>Tennessee</option>
-                  <option>Texas</option>
-                  <option>Washington</option>
-                </select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--multiple" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="-1"><ul class="select2-selection__rendered"><li class="select2-search select2-search--inline"><input class="select2-search__field" type="search" tabindex="0" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" role="textbox" aria-autocomplete="list" placeholder="Select a State" style="width: 563px;"></li></ul></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-              </div>
-              <!-- /.form-group -->
-              <div class="form-group">
-                <label>Disabled Result</label>
-                <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                  <option selected="selected">Alabama</option>
-                  <option>Alaska</option>
-                  <option disabled="disabled">California (disabled)</option>
-                  <option>Delaware</option>
-                  <option>Tennessee</option>
-                  <option>Texas</option>
-                  <option>Washington</option>
-                </select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-m5jl-container"><span class="select2-selection__rendered" id="select2-m5jl-container" title="Alabama">Alabama</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-              </div>
-              <!-- /.form-group -->
-            </div>
-            <!-- /.col -->
+    
+  
           </div>
           <!-- /.row -->
         </div>
@@ -103,8 +92,6 @@
       </div>
       
       
-      
-      
        </span>
       <!-- /.span (main span) -->
       
@@ -113,45 +100,57 @@
       <script type="text/javascript">
       $(document).ready(function(){
     	  
-    		showLoader();
-      
-      		//Variables
-/*       	var TOKEN = '[[${token}]]';
-      		var USERNAME = '[[${userName}]]';
-      		var FIRSTNAME = '[[${firstName}]]';
-      		var LASTNAME = '[[${lastName}]]';
-      		var STORECODE = '[[${merchant}]]'; */
-      		
-      		log("Store code " + STORECODE)
+    	    if('READ' == '[[${action}]]') {
 
-      		var url = BACKEND + "/private/store/" + STORECODE + '?lang=' + LANGUAGE.code;
-
-	    	$.ajax({
-	    	    type:"get",
-	    	    crossDomain: true,
-	    	    cache: false,
-	    	    url: url,
-	    	    dataType: "json",
-	    	    headers: {
-	    	        "Authorization": "Bearer " + TOKEN
-	    	    },
-	    	    success: function(data){
-	    	       hideLoader();
-	    	       log("success ");
-	    	       
-
-	    	    },
-	    	    error: function(response,textStatus,errorThrown) {
-	    	    	//TODO if 403 or 401 redirect to not authorized page
-	    	    	hideLoader();
-	    	    	log(textStatus);
-	    	        log(response);
-	    	    	var r = jQuery.parseJSON(response.responseText);
-	    	    	log(r.message + "-" + textStatus + "-" + errorThrown);
-	    	    	$('.alert-danger').html(r.message);
-	    	    	$('.alert-danger').show();
-	    	    }
-	    	});
+	    		showLoader();
+	      
+	      		//Variables
+	/*       s	var TOKEN = '[[${token}]]';
+	      		var USERNAME = '[[${userName}]]';
+	      		var FIRSTNAME = '[[${firstName}]]';
+	      		var LASTNAME = '[[${lastName}]]';
+	      		var STORECODE = '[[${merchant}]]'; */
+	      		
+	      		log("Store code " + STORECODE)
+	
+	      		var url = BACKEND + "/private/store/" + STORECODE + '?lang=' + LANGUAGE.code;
+	
+		    	$.ajax({
+		    	    type:"get",
+		    	    crossDomain: true,
+		    	    cache: false,
+		    	    url: url,
+		    	    dataType: "json",
+		    	    headers: {
+		    	        "Authorization": "Bearer " + TOKEN
+		    	    },
+		    	    success: function(data){
+		    	       hideLoader();
+		    	       log("success ");
+		    	       
+		    	       $("#name").val(data.name);
+		    	       $("#code").val(data.code);
+		    	       $('#code').attr('readonly', true);
+		    	       $("#phone").val(data.phone);
+		    	       $("#email").val(data.email);
+		    	       $("#address_address").val(data.address.address);
+		    	       
+	
+		    	    },
+		    	    error: function(response,textStatus,errorThrown) {
+		    	    	//TODO if 403 or 401 redirect to not authorized page
+		    	    	hideLoader();
+		    	    	log(textStatus);
+		    	        log(response);
+		    	    	var r = jQuery.parseJSON(response.responseText);
+		    	    	log(r.message + "-" + textStatus + "-" + errorThrown);
+		    	    	$('.alert-danger').html(r.message);
+		    	    	$('.alert-danger').show();
+		    	    }
+		    	});
+	    	
+	    	
+    	    }
       		
       		
       		
