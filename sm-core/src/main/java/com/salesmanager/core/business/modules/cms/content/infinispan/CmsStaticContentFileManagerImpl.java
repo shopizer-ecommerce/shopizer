@@ -19,9 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.salesmanager.core.business.exception.ServiceException;
-import com.salesmanager.core.business.modules.cms.content.FileGet;
-import com.salesmanager.core.business.modules.cms.content.FilePut;
-import com.salesmanager.core.business.modules.cms.content.FileRemove;
+import com.salesmanager.core.business.modules.cms.content.ContentAssetsManager;
 import com.salesmanager.core.business.modules.cms.impl.CacheManager;
 import com.salesmanager.core.model.content.FileContentType;
 import com.salesmanager.core.model.content.InputContentFile;
@@ -37,7 +35,9 @@ import com.salesmanager.core.model.content.OutputContentFile;
  * @since 1.2
  *
  */
-public class CmsStaticContentFileManagerImpl implements FilePut,FileGet,FileRemove
+public class CmsStaticContentFileManagerImpl 
+	//implements FilePut,FileGet,FileRemove
+	implements ContentAssetsManager
 {
 
     private static final Logger LOGGER = LoggerFactory.getLogger( CmsStaticContentFileManagerImpl.class );

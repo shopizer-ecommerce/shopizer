@@ -28,6 +28,8 @@
   <beans:import resource="classpath:/spring/shopizer-core-ehcache.xml" />
   <!-- DB, TX and properties -->
   <beans:import resource="classpath:/spring/shopizer-core-config.xml" />
+  <!-- content -->
+  <beans:import resource="classpath:/spring/shopizer-core-cms.xml" />
   <!-- modules -->
   <beans:import resource="classpath:/spring/shopizer-core-modules.xml" />
   <!-- shipping pre processors -->

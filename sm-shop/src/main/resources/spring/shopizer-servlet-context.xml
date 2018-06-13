@@ -51,8 +51,8 @@
 	
 	<beans:bean id="messages" class="com.salesmanager.shop.utils.LabelUtils"/>
 	
-	<!-- with infinispan -->
-	<!-- load images from local web server [com.salesmanager.web.utils.LocalImageFilePathUtils] -->
+	<!-- default settings -->
+	<!-- load images from local application[com.salesmanager.web.utils.LocalImageFilePathUtils] -->
 	<beans:bean id="img" class="com.salesmanager.shop.utils.LocalImageFilePathUtils">
 		<beans:property name="basePath" value="/static" />
 	</beans:bean> 

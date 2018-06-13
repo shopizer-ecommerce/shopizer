@@ -10,6 +10,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.commons.io.IOUtils;
 import org.infinispan.tree.Fqn;
 import org.infinispan.tree.Node;
@@ -19,9 +21,7 @@ import org.slf4j.LoggerFactory;
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.modules.cms.impl.CacheManager;
-import com.salesmanager.core.business.modules.cms.product.ProductImageGet;
-import com.salesmanager.core.business.modules.cms.product.ProductImagePut;
-import com.salesmanager.core.business.modules.cms.product.ProductImageRemove;
+import com.salesmanager.core.business.modules.cms.product.ProductAssetsManager;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.file.ProductImageSize;
 import com.salesmanager.core.model.catalog.product.image.ProductImage;
@@ -39,10 +39,15 @@ import com.salesmanager.core.model.merchant.MerchantStore;
  * @author Carl Samson
  */
 public class CmsImageFileManagerImpl
-    implements ProductImagePut, ProductImageGet, ProductImageRemove
+    implements ProductAssetsManager
 {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger( CmsImageFileManagerImpl.class );
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private static final Logger LOGGER = LoggerFactory.getLogger( CmsImageFileManagerImpl.class );
 
     private static CmsImageFileManagerImpl fileManager = null;
     
@@ -54,6 +59,11 @@ public class CmsImageFileManagerImpl
     private String rootName = ROOT_NAME;
 
     private CacheManager cacheManager;//TODO CMSManager
+    
+/*	@PostConstruct
+	public void initIt() throws Exception {
+	  this.setRootName(cacheManager.getRootName());
+	}*/
 
     /**
      * Requires to stop the engine when image servlet un-deploys
@@ -79,6 +89,7 @@ public class CmsImageFileManagerImpl
         {
             fileManager = new CmsImageFileManagerImpl();
         }
+        
 
         return fileManager;
 

@@ -19,7 +19,11 @@ import com.salesmanager.core.model.content.OutputContentFile;
 public class StaticContentFileManagerImpl extends StaticContentFileManager
 {
 
-    private FilePut uploadFile;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private FilePut uploadFile;
     private FileGet getFile;
     private FileRemove removeFile;
 

@@ -14,9 +14,7 @@ import org.slf4j.LoggerFactory;
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.modules.cms.impl.LocalCacheManagerImpl;
-import com.salesmanager.core.business.modules.cms.product.ProductImageGet;
-import com.salesmanager.core.business.modules.cms.product.ProductImagePut;
-import com.salesmanager.core.business.modules.cms.product.ProductImageRemove;
+import com.salesmanager.core.business.modules.cms.product.ProductAssetsManager;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.file.ProductImageSize;
 import com.salesmanager.core.model.catalog.product.image.ProductImage;
@@ -33,10 +31,16 @@ import com.salesmanager.core.model.merchant.MerchantStore;
  * @author Carl Samson
  */
 public class CmsImageFileManagerImpl
-    implements ProductImagePut, ProductImageGet, ProductImageRemove
+    //implements ProductImagePut, ProductImageGet, ProductImageRemove
+	implements ProductAssetsManager
 {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger( CmsImageFileManagerImpl.class );
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private static final Logger LOGGER = LoggerFactory.getLogger( CmsImageFileManagerImpl.class );
 
     private static CmsImageFileManagerImpl fileManager = null;
     
