@@ -1,7 +1,7 @@
 package com.salesmanager.core.business.modules.cms.impl;
 
 /**
- * Used for managing images
+ * Infinispan asset manager
  * @author casams1
  *
  */
@@ -18,6 +18,13 @@ public class StoreCacheManagerImpl extends CacheManagerImpl {
 
 	@Override
 	public String getRootName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public String getLocation() {
 		// TODO Auto-generated method stub
 		return null;
 	}

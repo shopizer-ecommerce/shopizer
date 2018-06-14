@@ -2,6 +2,8 @@ package com.salesmanager.core.business.modules.cms.content;
 
 import java.io.Serializable;
 
-public interface ContentAssetsManager extends FileGet, FilePut, FileRemove, Serializable {
+import com.salesmanager.core.business.modules.cms.common.AssetsManager;
+
+public interface ContentAssetsManager extends AssetsManager, FileGet, FilePut, FileRemove, Serializable {
 
 }

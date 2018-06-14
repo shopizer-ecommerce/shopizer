@@ -22,6 +22,11 @@ public class LocalCacheManagerImpl implements CMSManager {
 	public String getRootName() {
 		return "";
 	}
+	@Override
+	public String getLocation() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 
 }

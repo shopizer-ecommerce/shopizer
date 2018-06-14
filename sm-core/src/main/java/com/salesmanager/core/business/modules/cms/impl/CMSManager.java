@@ -8,5 +8,6 @@ package com.salesmanager.core.business.modules.cms.impl;
 public interface CMSManager {
 	
 	String getRootName();
+	String getLocation();
 
 }

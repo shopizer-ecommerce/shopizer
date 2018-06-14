@@ -10,4 +10,10 @@ public class S3CacheManagerImpl implements CMSManager {
 		return null;
 	}
 
+	@Override
+	public String getLocation() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

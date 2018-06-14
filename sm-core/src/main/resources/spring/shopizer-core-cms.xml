@@ -27,7 +27,7 @@
 	
 	<!-- Product images manager -->
 	<beans:bean id="productFileManager"
-		class="com.salesmanager.core.business.modules.cms.product.ProductFileManagerImpl">
+		class="com.salesmanager.core.business.modules.cms.product.productfilemanagerimpl">
 		<beans:property name="uploadImage">
 				<beans:ref bean="defaultProductAssetsManager" />
 		</beans:property>
@@ -95,16 +95,17 @@
 				<beans:property name="rootName" value="/Applications/MAMP/htdocs/bam-images"/> -->
 	</beans:bean>
 	
-	<!-- store images, js, css [[merchant images]] -->
-<!-- 	<beans:bean id="defaultStoreAssetsManager"
+	<!-- store images, js, css [[static images]] -->
+ 	<beans:bean id="defaultContentAssetsManager"
 				class="com.salesmanager.core.business.modules.cms.content.infinispan.CmsStaticContentFileManagerImpl" factory-method="getInstance" >
 				<beans:property name="cacheManager">
-						<beans:ref bean="filesCacheManager" />
+						<beans:ref bean="infinispanStaticAssetsManager" />
 				</beans:property>
-				TODO move to cmsManager -> location
+				<!--
 				<beans:property name="rootName" value="store-merchant"/>
 				<beans:property name="rootName" value="/Applications/MAMP/htdocs/bam-images"/>
-	</beans:bean> -->
+				-->
+	</beans:bean> 
 	
 <!-- 	
 	<beans:bean id="serverProductAssetsManager"
@@ -176,8 +177,8 @@
 		<beans:constructor-arg value="${config.cms.store.location}"/>
 	</beans:bean>	
 	
-	<!-- infinispan content STARTUP-->
-	<beans:bean id="infinispanContentAssetsManager" 
+	<!-- infinispan static STARTUP-->
+	<beans:bean id="infinispanStaticAssetsManager" 
 		class="com.salesmanager.core.business.modules.cms.impl.StaticContentCacheManagerImpl" >
 		<beans:constructor-arg value="${config.cms.files.location}"/>
 	</beans:bean>
