@@ -23,30 +23,23 @@ public class StaticContentCacheManagerImpl extends CacheManagerImpl
     
 	private final static String NAMED_CACHE = "FilesRepository";
     
-    @Value(("${config.cms.files.location}"))
     private String location = null;
+    private String root = null;
     
 
-    public StaticContentCacheManagerImpl(String location) {
+    public StaticContentCacheManagerImpl(String location, String root) {
         
         super.init(NAMED_CACHE,location);
-        
-        
+        this.location = location; 
+        this.root = root;
     }
-
 
 	public String getLocation() {
 		return location;
 	}
-	
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
 
 	@Override
 	public String getRootName() {
-		// TODO Auto-generated method stub
-		return null;
+		return root;
 	}
 }

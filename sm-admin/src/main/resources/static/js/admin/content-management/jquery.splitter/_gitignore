@@ -1,0 +1,14 @@
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# npm install
+node_modules/
+.sizecache.json
+
+# editor
+*~
+*.bak

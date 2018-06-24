@@ -1,16 +1,11 @@
 package com.salesmanager.core.business.modules.cms.impl;
 
-import java.util.List;
-import java.util.Properties;
-
 import org.infinispan.Cache;
 import org.infinispan.configuration.cache.Configuration;
 import org.infinispan.configuration.cache.ConfigurationBuilder;
 import org.infinispan.configuration.cache.PersistenceConfigurationBuilder;
 import org.infinispan.configuration.cache.SingleFileStoreConfigurationBuilder;
-import org.infinispan.configuration.cache.StoreConfiguration;
 import org.infinispan.eviction.EvictionStrategy;
-import org.infinispan.manager.DefaultCacheManager;
 import org.infinispan.manager.EmbeddedCacheManager;
 import org.infinispan.tree.TreeCache;
 import org.infinispan.tree.TreeCacheFactory;
@@ -23,16 +18,18 @@ public abstract class CacheManagerImpl implements CacheManager {
 
 	private static final String LOCATION_PROPERTIES = "location";
 	
+	protected String location = null;
+	
 	@SuppressWarnings("rawtypes")
 	private TreeCache treeCache = null;
 
 	@SuppressWarnings("unchecked")
-	protected void init(String namedCache, String location) {
+	protected void init(String namedCache, String locationFolder) {
 		
 		
 		try {
 			
-
+				this.location = locationFolder;
 				 //manager = new DefaultCacheManager(repositoryFileName);
 			
 			     VendorCacheManager manager =  VendorCacheManager.getInstance();

@@ -153,7 +153,7 @@
 "menu":{
 "code":"content",
 "icon":"fa-folder", 
-"url":"/admin/content/pages/list.html", 
+"url":"/admin/content", 
 "role":"CONTENT",
 "order":4,
 "menus":[
@@ -181,7 +181,7 @@
 		]
 	
 	}},
-	{"menu":{"code":"content-images","url":"","role":"CONTENT","order":0}},
+	{"menu":{"code":"content-images","url":"/admin/content","role":"CONTENT","order":0}},
 	{"menu":{"code":"content-files","url":"","role":"CONTENT","order":0}}
 ]
 }},

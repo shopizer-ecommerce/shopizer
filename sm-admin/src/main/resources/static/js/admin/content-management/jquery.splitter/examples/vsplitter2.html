@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Language" content="en" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>jQuery Vertical Splitter (Skinny Splitbar)</title>
+<script type="text/javascript" src="../lib/jquery.js"></script>
+<script type="text/javascript" src="../splitter.js"></script>
+
+<!-- General page styles (not critical to the demos) -->
+<link rel="stylesheet" type="text/css" href="main.css" />
+
+<style type="text/css" media="all">
+
+body {
+	padding: 10px;
+}
+
+/*
+ * Splitter container. Set this to the desired width and height
+ * of the combined left and right panes. In this example, the
+ * height is fixed and the width is the full width of the body,
+ * less the margin on the splitter itself.
+ */
+#MySplitter {
+	height: 400px;
+	width: 600px;
+	margin: 1em 2em;
+	background: #def;
+	border: 2px solid #039;
+	/* No padding allowed */
+}
+/*
+ * Left-side element of the splitter. Use pixel units for the
+ * min-width and max-width; the splitter plugin parses them to
+ * determine the splitter movement limits. Set the width to
+ * the desired initial width of the element; the plugin changes
+ * the width of this element dynamically.
+ */
+#LeftPane {
+	background: #def;
+	overflow: auto;
+	width: 200px;		/* optional, initial splitbar position */
+	min-width: 50px;	/* optional */
+	/* No margin or border allowed */
+}
+/*
+ * Right-side element of the splitter.
+ */
+#RightPane {
+	background: #def;
+	overflow: auto;
+	min-width: 100px;
+	/* No margin or border allowed */
+}
+/* 
+ * Splitter bar style; the .active class is added when the
+ * mouse is over the splitter or the splitter is focused
+ * via the keyboard taborder or an accessKey. 
+ */
+#MySplitter .splitter-bar-vertical {
+	width: 8px;
+	cursor: e-resize;	/* in case col-resize isn't supported */
+	cursor: col-resize;
+	background: #def url(img/vgrabber2-normal.gif) repeat-y left;
+}
+#MySplitter .splitter-bar-vertical.active, #MySplitter .splitter-bar-vertical:hover {
+	background: #def url(img/vgrabber2-active.gif) repeat-y left;
+}
+</style>
+<script type="text/javascript">
+$().ready(function() {
+	$("#MySplitter").splitter({
+		splitVertical: true,
+		sizeLeft: true,
+		accessKey: 'I'
+	});
+});
+</script>
+</head>
+<body>
+
+<h1>jQuery Vertical Splitter (Skinny Splitbar)</h1>
+
+<p><a href="index.html">See the splitter documentation</a></p>
+
+<div id="MySplitter">
+
+	<div id="LeftPane">
+		<p>This is the left side of the vertical splitter.</p>
+		<p>Note what happens when you move the splitbar as far left as you can to make this pane very thin. A scrollbar appears and it is flush against the splitbar, just the way it should be.</p>
+	</div>
+	
+	<div id="RightPane">
+		<p>The splitbar needs to be wide enough to grab with the mouse, but a thick splitbar may be visually distracting in a design. This example shows how to make a splitbar that looks skinny but has a wider grabbing area. It also demonstrates the use of an alternate resize cursor. (Not all browsers support alternate cursors and only IE seems to support animated cursors.)</p>
+		<p>A background image in the splitbar provides the visual marker but the splitbar area extends further right, appearing as padding on the right pane. The splitbar's hot zone is "biased" to the right so that it will not have a gap against any left-side scrollbar when it appears. If you know the left pane will never have a scroll bar, you could make the hot zone centered on the skinny splitbar.</p>
+	</div>
+
+</div>
+
+</body>
+</html>

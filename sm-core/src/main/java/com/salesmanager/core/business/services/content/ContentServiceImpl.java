@@ -34,8 +34,8 @@ public class ContentServiceImpl
 
     private final ContentRepository contentRepository;
 
-    @Inject
-    StaticContentFileManager staticContentFileManager;
+    //@Inject
+    //StaticContentFileManager staticContentFileManager;
     
     @Inject
     StaticContentFileManager contentFileManager;
@@ -231,7 +231,8 @@ public class ContentServiceImpl
     	try
 	    {
 	        LOG.info( "Adding content file for merchant id {}", merchantStoreCode);
-	        staticContentFileManager.addFile(merchantStoreCode, contentImage);
+	       // staticContentFileManager.addFile(merchantStoreCode, contentImage);
+	        contentFileManager.addFile(merchantStoreCode, contentImage);
 	        
 	    } catch ( Exception e )
 		 {
@@ -268,8 +269,8 @@ public class ContentServiceImpl
         LOG.info( "Adding total {} images for given merchant",contentFilesList.size() );
 		
         LOG.info( "Adding content images for merchant...." );
-        //contentFileManager.addImages( merchantStoreCode, contentImagesList );
-        staticContentFileManager.addFiles(merchantStoreCode, contentFilesList);
+        contentFileManager.addFiles( merchantStoreCode, contentFilesList );
+        //staticContentFileManager.addFiles(merchantStoreCode, contentFilesList);
         
         try {
 			for(InputContentFile file : contentFilesList) {
@@ -302,7 +303,8 @@ public class ContentServiceImpl
         //check where to remove the file
         if(fileContentType.name().equals(FileContentType.IMAGE.name())
         		|| fileContentType.name().equals(FileContentType.STATIC_FILE.name())) {
-        	staticContentFileManager.removeFile(merchantStoreCode, fileContentType, fileName);
+        	//staticContentFileManager.removeFile(merchantStoreCode, fileContentType, fileName);
+        	contentFileManager.removeFile( merchantStoreCode, fileContentType, fileName );
         } else {
         	contentFileManager.removeFile( merchantStoreCode, fileContentType, fileName );
         }
@@ -323,7 +325,8 @@ public class ContentServiceImpl
 
         
         contentFileManager.removeFiles( merchantStoreCode );
-        staticContentFileManager.removeFiles(merchantStoreCode);
+        
+        //staticContentFileManager.removeFiles(merchantStoreCode);
 		
 	}
 
@@ -347,7 +350,8 @@ public class ContentServiceImpl
         
         if(fileContentType.name().equals(FileContentType.IMAGE.name())
         		|| fileContentType.name().equals(FileContentType.STATIC_FILE.name())) {
-        	return staticContentFileManager.getFile(merchantStoreCode, fileContentType, fileName);
+        	//return staticContentFileManager.getFile(merchantStoreCode, fileContentType, fileName);
+        	return contentFileManager.getFile( merchantStoreCode, fileContentType, fileName );
         	
         } else {
         	return contentFileManager.getFile( merchantStoreCode, fileContentType, fileName );
@@ -369,7 +373,8 @@ public class ContentServiceImpl
 	public List<OutputContentFile> getContentFiles(String merchantStoreCode,
 			FileContentType fileContentType) throws ServiceException {
         Assert.notNull( merchantStoreCode, "Merchant store Id can not be null" );
-        return staticContentFileManager.getFiles(merchantStoreCode, fileContentType);
+        //return staticContentFileManager.getFiles(merchantStoreCode, fileContentType);
+        return contentFileManager.getFiles(merchantStoreCode, fileContentType);
 	}
 
     /**
@@ -386,7 +391,8 @@ public class ContentServiceImpl
         
         if(fileContentType.name().equals(FileContentType.IMAGE.name())
         		|| fileContentType.name().equals(FileContentType.STATIC_FILE.name())) {
-        	return staticContentFileManager.getFileNames(merchantStoreCode, fileContentType);
+        	//return staticContentFileManager.getFileNames(merchantStoreCode, fileContentType);
+        	return contentFileManager.getFileNames(merchantStoreCode, fileContentType);
         } else {
         	return contentFileManager.getFileNames(merchantStoreCode, fileContentType);
         }

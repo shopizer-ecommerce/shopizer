@@ -9,24 +9,24 @@ public class StoreCacheManagerImpl extends CacheManagerImpl {
 	
 	
 	private final static String NAMED_CACHE = "StoreRepository";
+	private String root;
 
 
-	public StoreCacheManagerImpl(String location) {		
+	public StoreCacheManagerImpl(String location, String root) {		
 		super.init(NAMED_CACHE,location);
+		this.root = root;
 	}
 
 
 	@Override
 	public String getRootName() {
-		// TODO Auto-generated method stub
-		return null;
+		return root;
 	}
 
 
 	@Override
 	public String getLocation() {
-		// TODO Auto-generated method stub
-		return null;
+		return location;
 	}
 
 

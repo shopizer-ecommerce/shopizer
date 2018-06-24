@@ -1,0 +1,225 @@
+$box-shadow: 0 2px 5px 0 rgba(0,0,0,.2);
+$padding-base: 12px;
+$success-color: rgba(76, 175, 80, .9);
+$warning-color: rgba(255, 125, 25, .9);
+$danger-color: rgba(244, 67, 54, .9);
+$text-color: rgba(0, 0, 0, .8);
+$border-radius: 1px;
+
+.alertify {
+    position: fixed;
+    background-color: rgba(0, 0, 0, .3);
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 99999;
+
+    &.hide {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    &, &.show {
+        box-sizing: border-box;
+        transition: all .33s cubic-bezier(.25, .8, .25, 1);
+    }
+
+    &, * {
+        box-sizing: border-box;
+    }
+
+    .dialog, .alert {
+        width: 100%;
+        padding: 0;
+        margin: 0 auto;
+        position: relative;
+        top: 50%;
+
+        > * {
+            width: 400px;
+            max-width: 95%;
+            margin: 0 auto;
+            text-align: left;
+            padding: $padding-base * 1.5;
+            background: #fff;
+            box-shadow: 0 2px 4px -1px rgba(0,0,0,.14), 0 4px 5px 0 rgba(0,0,0,.098), 0 1px 10px 0 rgba(0,0,0,.084);
+        }
+
+        [data-alertify-msg] {
+            padding-bottom: $padding-base;
+            text-align: left;
+        }
+
+        input[data-alertify-input]:not(.form-control){
+            width: 100%;
+            font-size: 100%;
+            padding: 8px;
+            &:focus {
+                outline-offset: -2px;
+            }
+        }
+
+        [data-alertify-btn-holder] {
+            text-align: right;
+            margin-top: 12px;
+
+            [data-alertify-btn]:not(.btn):not(.pure-button):not(.md-button):not(.mdl-button) {
+                background: transparent;
+                box-sizing: border-box;
+                color: rgba(0,0,0,0.87);
+                position: relative;
+                outline: 0;
+                display: inline-block;
+                align-items: center;
+                padding: 0 6px;
+                margin-left: 15px;
+                line-height: 36px;
+                min-height: 36px;
+                white-space: nowrap;
+                min-width: 88px;
+                text-align: center;
+                text-transform: uppercase;
+                font-size: 14px;
+                text-decoration: none;
+                cursor: pointer;
+                border: 1px solid #DBDBDB;
+                border-radius: 2px;
+
+                &:hover, &:active {
+                    background-color: rgba(0,0,0,.05);
+                }
+
+                &:focus {
+                    border: 1px solid rgba(0, 0, 0, .1);
+                }
+            }
+
+            [data-alertify-btn].btn {
+                margin: 6px 4px;
+            }
+        }
+    }
+}
+
+.alertify-logs {
+    position: fixed;
+    z-index: 100000;
+
+    &.bottom, &:not(.top) {
+        bottom: 16px;
+        // Bottom left placement. Default. Use for transitions.
+        &.left, &:not(.right) {
+            > * {
+
+            }
+        }
+        // Top right placement
+        &.right {
+            > * {
+
+            }
+        }
+    }
+
+    // All left positions.
+    &.left, &:not(.right) {
+        left: 16px;
+        > * {
+            float: left;
+            transform: translate3d(0, 0, 0);
+            height: auto;
+
+            &.show {
+                left: 0;
+            }
+            &, &.hide {
+                left: -110%;
+            }
+        }
+    }
+
+    &.right {
+        right: 16px;
+        > * {
+            float: right;
+            transform: translate3d(0, 0, 0);
+            &.show {
+                right: 0;
+                opacity: 1;
+            }
+            &, &.hide {
+                right: -110%;
+                opacity: 0;
+            }
+        }
+    }
+
+    &.top {
+        top: 0;
+        // Top left placement, use for transitions.
+        &.left, &:not(.right) {
+            > * {
+
+            }
+        }
+        // Top right placement, use for transitions
+        &.right {
+            > * {
+
+            }
+        }
+    }
+
+    > * {
+        box-sizing: border-box;
+        transition: all .4s cubic-bezier(.25, .8, .25, 1);
+        position: relative;
+        clear: both;
+        backface-visibility: hidden;
+	    perspective: 1000;
+
+        & {
+            max-height: 0;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        &.show {
+            margin-top: $padding-base;
+            opacity: 1;
+            max-height: 1000px;
+            pointer-events: auto;
+        }
+    }
+
+    [data-alertify-log-msg] {
+        padding: $padding-base $padding-base * 2;
+        color: #fff;
+        box-shadow: $box-shadow;
+        border-radius: $border-radius;
+        transition: .2s all;
+        display: block !important;
+        &, &.default {
+            color: #fff;
+            background: rgba(0, 0, 0, .8);
+        }
+        &.success {
+            color: #fff;
+            background: $success-color;
+        }
+        &.warning {
+            color: #fff;
+            background: $warning-color;
+        }
+        &.error {
+            color: #fff;
+            background: $danger-color;
+        }
+    }
+}

@@ -636,7 +636,14 @@ public class ShoppingOrderController extends AbstractController {
 			
 		try {
 				
-				
+				/**
+				 * 
+				 * Retrieve shopping cart and metadata 
+				 * (information required to process order)
+				 * 
+				 * - Cart rerieved from cookie or from user session
+				 * - Retrieves payment metadata
+				 */
 				ShippingMetaData shippingMetaData = shippingService.getShippingMetaData(store);
 				model.addAttribute("shippingMetaData",shippingMetaData);
 				//basic stuff
@@ -697,6 +704,11 @@ public class ShoppingOrderController extends AbstractController {
 					
 					
 				}
+				
+				/**
+				 * Prepare failure data
+				 * - Get another shipping quote
+				 */
 				
 				ShippingQuote quote = orderFacade.getShippingQuote(order.getCustomer(), cart, order, store, language);
 				
@@ -809,6 +821,11 @@ public class ShoppingOrderController extends AbstractController {
 
 					order.setShippingSummary(summary);
 				}
+				
+				
+				/**
+				 * Calculate order total summary
+				 */
 				
 				OrderTotalSummary totalSummary = super.getSessionAttribute(Constants.ORDER_SUMMARY, request);
 				

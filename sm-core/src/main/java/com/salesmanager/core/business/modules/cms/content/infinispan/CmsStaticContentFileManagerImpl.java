@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.commons.io.IOUtils;
 import org.infinispan.tree.Fqn;
 import org.infinispan.tree.Node;
@@ -20,6 +22,7 @@ import org.slf4j.LoggerFactory;
 
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.modules.cms.content.ContentAssetsManager;
+import com.salesmanager.core.business.modules.cms.impl.CMSManager;
 import com.salesmanager.core.business.modules.cms.impl.CacheManager;
 import com.salesmanager.core.model.content.FileContentType;
 import com.salesmanager.core.model.content.InputContentFile;
@@ -40,7 +43,11 @@ public class CmsStaticContentFileManagerImpl
 	implements ContentAssetsManager
 {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger( CmsStaticContentFileManagerImpl.class );
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private static final Logger LOGGER = LoggerFactory.getLogger( CmsStaticContentFileManagerImpl.class );
     private static CmsStaticContentFileManagerImpl fileManager = null;
     private static final String ROOT_NAME="static-merchant-";
     
@@ -60,6 +67,14 @@ public class CmsStaticContentFileManagerImpl
         {
             LOGGER.error( "Error while stopping CmsStaticContentFileManager", e );
         }
+    }
+    
+    @PostConstruct
+    void init() {
+
+    	this.rootName = ((CMSManager)cacheManager).getRootName();
+    	LOGGER.info("init " + getClass().getName() + " setting root" + this.rootName);
+    	
     }
 
     public static CmsStaticContentFileManagerImpl getInstance()

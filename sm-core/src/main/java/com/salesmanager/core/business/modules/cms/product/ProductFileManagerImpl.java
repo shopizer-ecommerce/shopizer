@@ -16,7 +16,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.Inject;
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.utils.CoreConfiguration;
@@ -39,7 +38,6 @@ public class ProductFileManagerImpl extends ProductFileManager {
 	private ProductImageGet getImage;
 	private ProductImageRemove removeImage;
 	
-	@Inject
 	private CoreConfiguration configuration;
 	
 	private final static String PRODUCT_IMAGE_HEIGHT_SIZE = "PRODUCT_IMAGE_HEIGHT_SIZE";

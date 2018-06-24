@@ -13,6 +13,8 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.modules.cms.content.ContentAssetsManager;
+import com.salesmanager.core.business.modules.cms.impl.CMSManager;
 import com.salesmanager.core.business.modules.cms.impl.LocalCacheManagerImpl;
 import com.salesmanager.core.model.content.FileContentType;
 import com.salesmanager.core.model.content.InputContentFile;
@@ -54,6 +57,13 @@ public class CmsStaticContentFileManagerImpl
     
     private LocalCacheManagerImpl cacheManager;
     
+    @PostConstruct
+    void init() {
+
+    	this.rootName = ((CMSManager)cacheManager).getRootName();
+    	LOGGER.info("init " + getClass().getName() + " setting root" + this.rootName);
+    	
+    }
  
 
     public static CmsStaticContentFileManagerImpl getInstance()

@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.modules.cms.impl.CMSManager;
 import com.salesmanager.core.business.modules.cms.impl.CacheManager;
 import com.salesmanager.core.business.modules.cms.product.ProductAssetsManager;
 import com.salesmanager.core.model.catalog.product.Product;
@@ -59,11 +60,7 @@ public class CmsImageFileManagerImpl
     private String rootName = ROOT_NAME;
 
     private CacheManager cacheManager;//TODO CMSManager
-    
-/*	@PostConstruct
-	public void initIt() throws Exception {
-	  this.setRootName(cacheManager.getRootName());
-	}*/
+
 
     /**
      * Requires to stop the engine when image servlet un-deploys
@@ -80,6 +77,14 @@ public class CmsImageFileManagerImpl
         {
             LOGGER.error( "Error while stopping CmsImageFileManager", e );
         }
+    }
+    
+    @PostConstruct
+    void init() {
+
+    	this.rootName = ((CMSManager)cacheManager).getRootName();
+    	LOGGER.info("init " + getClass().getName() + " setting root" + this.rootName);
+    	
     }
 
     public static CmsImageFileManagerImpl getInstance()

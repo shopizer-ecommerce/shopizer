@@ -1,0 +1,82 @@
+@import "variables";
+
+$context-menu-icons: () !default;
+
+@font-face {
+  font-family: '#{$context-menu-icon-font-name}';
+  src: url('#{$context-menu-icon-font-path}#{$context-menu-icon-font-name}.eot?#{$context-menu-icons-cachebust}');
+  src: url('#{$context-menu-icon-font-path}#{$context-menu-icon-font-name}.eot?#{$context-menu-icons-cachebust}#iefix') format('embedded-opentype'),
+  url('#{$context-menu-icon-font-path}#{$context-menu-icon-font-name}.woff2?#{$context-menu-icons-cachebust}') format('woff2'),
+  url('#{$context-menu-icon-font-path}#{$context-menu-icon-font-name}.woff?#{$context-menu-icons-cachebust}') format('woff'),
+  url('#{$context-menu-icon-font-path}#{$context-menu-icon-font-name}.ttf?#{$context-menu-icons-cachebust}') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@mixin context-menu-icon-without-mediaquery($position: before, $icon: false, $icons-font: $context-menu-icon-font-name) {
+  @if not map-has-key($context-menu-icons, $icon) {
+    @error "Invalid icon `#{$icon}`.";
+  }
+
+  @if $position == both {
+    $position: 'before, &:after';
+  }
+  // Either a :before or :after pseudo-element, or both, defaulting to :before
+  &:#{$position} {
+    @if $icon {
+      // A particular icon has been specified
+      content: "#{map-get($context-menu-icons, $icon)}";
+    }
+    // Include any extra rules supplied for the pseudo-element
+    @content;
+  }
+}
+
+@mixin context-menu-icon-screen-only($position: before, $icon: false, $icons-font: $context-menu-icon-font-name) {
+  @media screen {
+    @include context-menu-icon-without-mediaquery($position, $icon, $icons-font) {
+      @content;
+    }
+  }
+}
+
+// For adding font icons to elements using CSS pseudo-elements
+// http://jaydenseric.com/blog/fun-with-sass-and-font-icons
+@mixin context-menu-icon($position: before, $icon: false, $icons-font: $context-menu-icon-font-name, $screen-only: false) {
+  @if $screen-only {
+    @include context-menu-icon-screen-only($position, $icon, $icons-font) {
+      @content;
+    }
+  } @else {
+    @include context-menu-icon-without-mediaquery($position, $icon, $icons-font) {
+      @content;
+    }
+  }
+}
+
+%context-menu-icon {
+  &:before {
+    color: $context-menu-icon-color;
+    font-family: "context-menu-icons";
+    font-style: normal;
+    font-weight: normal;
+    font-size: $context-menu-icon-size;
+    left: 0;
+    line-height: 1;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    width: 28px;
+  }
+}
+
+@mixin context-menu-item-icon($icon: false) {
+  @include context-menu-icon(before, $icon);
+  @extend %context-menu-icon;
+  &.context-menu-hover:before {
+    color: $context-menu-icon-color-hover;
+  }
+}

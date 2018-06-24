@@ -8,11 +8,14 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.modules.cms.impl.CMSManager;
 import com.salesmanager.core.business.modules.cms.impl.LocalCacheManagerImpl;
 import com.salesmanager.core.business.modules.cms.product.ProductAssetsManager;
 import com.salesmanager.core.model.catalog.product.Product;
@@ -53,8 +56,15 @@ public class CmsImageFileManagerImpl
     
     private String rootName = ROOT_NAME;
     
-    private LocalCacheManagerImpl cacheManager;//TODO CMSManager
+    private LocalCacheManagerImpl cacheManager;
 
+    @PostConstruct
+    void init() {
+
+    	this.rootName = ((CMSManager)cacheManager).getRootName();
+    	LOGGER.info("init " + getClass().getName() + " setting root" + this.rootName);
+    	
+    }
 
     public static CmsImageFileManagerImpl getInstance()
     {
