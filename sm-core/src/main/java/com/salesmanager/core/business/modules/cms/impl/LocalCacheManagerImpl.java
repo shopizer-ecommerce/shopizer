@@ -7,25 +7,20 @@ package com.salesmanager.core.business.modules.cms.impl;
  */
 public class LocalCacheManagerImpl implements CMSManager {
 	
-	private static  LocalCacheManagerImpl cacheManager = null;   
-	public static LocalCacheManagerImpl getInstance() {
-	        
-	        if(cacheManager==null) {
-	            cacheManager = new LocalCacheManagerImpl();
-	        }
-	        
-	        return cacheManager;
-	      
-	        
-	    }
+	private String rootName;//file location root
+	
+	public LocalCacheManagerImpl(String rootName) {
+		this.rootName = rootName;
+	}
+	
+	
 	@Override
 	public String getRootName() {
-		return "";
+		return rootName;
 	}
 	@Override
 	public String getLocation() {
-		// TODO Auto-generated method stub
-		return null;
+		return "";
 	}
 	
 

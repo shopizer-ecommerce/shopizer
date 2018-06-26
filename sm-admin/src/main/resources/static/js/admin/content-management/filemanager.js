@@ -176,9 +176,10 @@ $.richFilemanagerPlugin = function(element, pluginOptions)
 	// Called on initial page load and on resize.
 	fm.setDimensions = function() {
 		var padding = $wrapper.outerHeight(true) - $wrapper.height(),
-        	newH = $(window).height() - $header.height() - $footer.height() - padding,
+        	newH = $(window).height() - $header.height() - $footer.height() - (padding * 10),
             newW = $splitter.width() - $splitter.children(".splitter-bar-vertical").outerWidth() - $filetree.outerWidth();
-
+		//less padding fix
+		//log('Height ' + newH);
         $splitter.height(newH);
 		$fileinfo.width(newW);
 	};

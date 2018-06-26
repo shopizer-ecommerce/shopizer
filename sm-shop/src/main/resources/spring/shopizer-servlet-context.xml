@@ -57,7 +57,7 @@
 		<beans:property name="basePath" value="/static" />
 	</beans:bean> 
 	
-	<!-- External web server -->
+	<!-- External web server - httpd -->
 	<!-- load images from external web server [com.salesmanager.web.utils.ImageFilePathUtils] -->
 	<!--
 	<beans:bean id="img" class="com.salesmanager.shop.utils.ImageFilePathUtils">

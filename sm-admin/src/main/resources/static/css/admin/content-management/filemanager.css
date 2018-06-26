@@ -633,7 +633,7 @@ html[data-useragent*='MSIE 11.0'] .fm-container #newfile {
 }
 
 .fm-container .search-box {
-    position: absolute;
+    /**position: absolute;**/
 }
 
 .fm-container .search-box input {

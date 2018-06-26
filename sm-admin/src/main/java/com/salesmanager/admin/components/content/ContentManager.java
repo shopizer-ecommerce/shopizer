@@ -12,6 +12,8 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,7 +23,6 @@ import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -30,6 +31,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.regex.PatternSyntaxException;
+import org.apache.commons.io.FilenameUtils;
 
 import javax.annotation.PostConstruct;
 import javax.imageio.ImageIO;
@@ -37,20 +39,33 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.imgscalr.Scalr;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.salesmanager.admin.components.content.util.FileManagerUtils;
 import com.salesmanager.admin.components.content.util.FileUtils;
 import com.salesmanager.admin.components.content.util.ImageUtils;
 import com.salesmanager.admin.components.content.util.StringUtils;
 import com.salesmanager.admin.components.content.util.ZipUtils;
+import com.salesmanager.admin.controller.exception.AdminAuthenticationException;
 
 
 @Component
@@ -65,6 +80,12 @@ public class ContentManager {
 
     protected Properties propertiesConfig = new Properties();
     protected Properties dictionnary = new Properties();
+    
+	@Value("${shopizer.api.url}")
+	private String backend;
+	
+	@Value("${content.url}")
+	private String contentUrl;
 
 
 
@@ -78,6 +99,7 @@ public class ContentManager {
     	try {
     		
     		initProperties();
+    		initSettings();
     		
     	} catch(Exception e) {
     		logger.error("Content manager init error",e);
@@ -118,6 +140,8 @@ public class ContentManager {
         }
     }*/
 
+    
+    void initSettings() throws Exception {}
 
 
     void initProperties() throws Exception {
@@ -262,9 +286,12 @@ public class ContentManager {
         JSONObject attributes = new JSONObject();
         data.put("id", "/");
         data.put("type", "initiate");
+        
+        Locale locale = LocaleContextHolder.getLocale();
 
         JSONObject options = new JSONObject();
-        options.put("culture", propertiesConfig.getProperty("culture"));
+        String[] localeStrings = (locale.getLanguage().split("[-_]+"));
+        options.put("culture", localeStrings[0]);
         options.put("charsLatinOnly", Boolean.parseBoolean(propertiesConfig.getProperty("charsLatinOnly")));
         if( propertiesConfig.getProperty("capabilities") != null ){
             options.put("capabilities", propertiesConfig.getProperty("capabilities"));
@@ -554,6 +581,82 @@ public class ContentManager {
 
     @SuppressWarnings("unchecked")
 	public JSONObject actionGetFolder(HttpServletRequest request) throws Exception {
+    	
+
+    	String path = getPath(request, "path");
+    	
+    	ObjectMapper mapper = new ObjectMapper();
+    	
+		try {
+			
+			path = URLEncoder.encode(path, "UTF-8");
+			
+	        HttpHeaders headers = new HttpHeaders();
+	        headers.setContentType(MediaType.APPLICATION_JSON);
+	        
+	        HttpEntity<String> entity = new HttpEntity<String>(headers);
+	        
+	        String contentResourceUrl
+	        = backend + "/content/folder?path=" + path;
+	        
+	        RestTemplate restTemplate = new RestTemplate();
+
+	        ResponseEntity<String> resp = null;
+	        
+	        resp = restTemplate.exchange(contentResourceUrl, HttpMethod.GET, entity, String.class);
+	        
+		    if(!HttpStatus.OK.equals(resp.getStatusCode())) {
+		        throw new Exception("Cannot get folder for this path [ " + path + "]");
+		    }
+		    
+		    String body = resp.getBody();
+		    Map<String, Object> map = new HashMap<String, Object>();
+
+			 // convert JSON string to Map
+			 try {
+					map = mapper.readValue(body, new TypeReference<Map<String, Object>>(){});
+			  } catch (Exception e) {
+					// TODO Auto-generated catch block
+					logger.error("Cannot parse get folder response body " + body, e);
+					throw new Exception("Cannot get folder, response parsing problem [ " + body + "]");
+			  }
+			 
+			 List<Map<String,String>> files = (List<Map<String,String>>)map.get("content");
+
+
+			JSONArray array = new JSONArray();
+			
+			//images from CMS
+			if(CollectionUtils.isNotEmpty(files)) {
+
+				for(Map m : files) {
+					String p = (String) m.get("path");
+					String name = (String) m.get("name");
+					Map fileInfo = getFileInfo(p,name);
+					array.add(fileInfo);
+				}
+			}
+
+			JSONObject o = new JSONObject();
+			o.put("data", array);
+			return o;
+		
+        } catch(HttpClientErrorException e) {
+        	if(HttpStatus.FORBIDDEN.name().equals(e.getStatusCode().name())) {
+        		throw new AdminAuthenticationException("Cannot authenticate this client [Forbidden]",e.getStatusCode());
+        	}
+        	if(HttpStatus.NOT_FOUND.name().equals(e.getStatusCode().name())) {
+        		throw new AdminAuthenticationException("Cannot authenticate this client [Not found]",e.getStatusCode());
+        	}
+        	logger.error("Error during authentication [" + e.getMessage() + "] [" + e.getStatusCode().name() + "]" );
+        	return getErrorResponse(String.format(getProperties().getProperty("ERROR_SERVER"), e.getMessage()));
+        	
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			return getErrorResponse(String.format(getProperties().getProperty("ERROR_SERVER"), e.getMessage()));
+		}
+		
+		/*
 
         String path = getPath(request, "path");
         String type = request.getParameter("type");
@@ -606,10 +709,8 @@ public class ContentManager {
                 }
             }
         }
-        
-        JSONObject o = new JSONObject();
-        o.put("data", array);
-        return o;
+*/        
+
 
         //return new JSONObject().put("data", array);
     }
@@ -647,52 +748,37 @@ public class ContentManager {
     }
 
     public JSONObject actionGetImage(HttpServletRequest request, HttpServletResponse response, Boolean thumbnail) throws Exception {
+        
+
         InputStream is = null;
         String path = getPath(request, "path");
-        File file = getFile(path);
+        
+        //NEED CONTENT META (http, local, aws...)
 
-        if (!file.exists()) {
-            return getErrorResponse(String.format(dictionnary.getProperty("FILE_DOES_NOT_EXIST"), file.getName()));
-        }
-
-        if (file.isDirectory()) {
-            return getErrorResponse(dictionnary.getProperty("FORBIDDEN_ACTION_DIR"));
-        }
-
-        if (!file.canRead()) {
-            return getErrorResponse(dictionnary.getProperty("NOT_ALLOWED_SYSTEM"));
-        }
-
-        if (!isAllowedImageExt(FileUtils.getExtension(file.getName()))) {
-            return getErrorResponse(dictionnary.getProperty("INVALID_FILE_TYPE"));
-        }
+        String urlBuilder = new StringBuilder().append(this.contentUrl).append(path).toString();
 
         try {
+
+        	URL url = new URL(urlBuilder.toString());
+         
+            String fileName = FilenameUtils.getName(url.getPath());
+            String encodedName = java.net.URLEncoder.encode(fileName, "UTF-8");
+            String fullPath = FilenameUtils.getFullPath(url.getPath());
+            String queryUrlString = new StringBuilder()
+            .append(fullPath).append(encodedName).toString();
+            URL queryUrl = new URL(this.contentUrl + queryUrlString);
+            
+            File file = new File(FilenameUtils.getName(url.getPath()));
+
+        	
+			org.apache.commons.io.FileUtils.copyURLToFile(queryUrl, file);
+
             String filename = file.getName();
             String fileExt = filename.substring(filename.lastIndexOf(".") + 1);
             String mimeType = (!StringUtils.isEmpty(FileUtils.getExtension(fileExt))) ? FileManagerUtils.getMimeTypeByExt(fileExt) : "application/octet-stream";
             long fileSize = file.length();
-            if (thumbnail) {
 
-                if (Boolean.parseBoolean(propertiesConfig.getProperty("image_thumbnail_enabled"))) {
-
-                    File thumbnailFile = getThumbnail(path, true);
-                    if (thumbnailFile == null) return getErrorResponse(dictionnary.getProperty("ERROR_SERVER"));
-                    is = new FileInputStream(thumbnailFile);
-                    fileSize = thumbnailFile.length();
-                } else {
-                    // no cache
-                    BufferedImage image = ImageIO.read(file);
-                    BufferedImage resizedImage = generateThumbnail(image);
-                    ByteArrayOutputStream os = new ByteArrayOutputStream();
-                    ImageIO.write(resizedImage, fileExt, os);
-                    is = new ByteArrayInputStream(os.toByteArray());
-                    fileSize = os.toByteArray().length;
-                }
-
-            } else {
-                is = new FileInputStream(file);
-            }
+            is = new FileInputStream(file);
 
             response.setContentType(mimeType);
             response.setHeader("Content-Length", Long.toString(fileSize));
@@ -701,9 +787,11 @@ public class ContentManager {
 
             FileUtils.copy(new BufferedInputStream(is), response.getOutputStream());
         } catch (IOException e) {
-            throw new Exception("Error serving image: " + file.getName() , e);
+            throw new Exception("Error serving image: ", e);
         }
+       
         return null;
+    	
     }
 
 
@@ -1330,6 +1418,26 @@ public class ContentManager {
         
         return ret;
     }
+    
+	private Map getFileInfo(String path, String fileName) throws Exception {
+		
+        Map model = this.getFileModel();
+
+
+        model.put("id", path + fileName);
+        model.put("type", "file");
+        
+        Map attributes = (Map) model.get("attributes");
+
+        String fileExt = FileUtils.getExtension(fileName);
+
+        attributes.put("extension", fileExt);
+        attributes.put("name", fileName);
+        attributes.put("path", path + fileName);
+
+
+        return model;
+	}
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
 	private Map getFileInfo(String path) throws Exception {

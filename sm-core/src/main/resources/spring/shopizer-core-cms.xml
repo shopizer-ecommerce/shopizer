@@ -21,7 +21,7 @@
       
 	<!-- 
 	********************
-	CMS
+	Content management
 	********************
 	 -->  
 	
@@ -76,6 +76,8 @@
 	<!-- Assets manager -->
 	<!-- ************** -->
 	
+	<!-- Infinispan -->
+	
 	<!-- default CMS implementation for [[product images]] -->
 	<beans:bean id="defaultProductAssetsManager"
 				class="com.salesmanager.core.business.modules.cms.product.infinispan.CmsImageFileManagerImpl" factory-method="getInstance" >
@@ -83,9 +85,6 @@
 				<beans:property name="cacheManager">
 						<beans:ref bean="infinispanProductAssetsManager" />
 				</beans:property>
-<!-- 				TODO move to cmsManager -> location
-				<beans:property name="rootName" value="product-merchant"/>
-				<beans:property name="rootName" value="/Applications/MAMP/htdocs/bam-images"/> -->
 	</beans:bean>
 	
 	<!-- store images, js, css [[static images]] -->
@@ -109,6 +108,25 @@
 		<!--<beans:property name="rootName" value="product-file"/>-->
 		<!--<beans:property name="rootName" value="/Applications/MAMP/htdocs/bam-images"/>-->
 	</beans:bean>
+	
+	<!-- Httpd -->
+	
+	<beans:bean id="httpdProductAssetsManager"
+				class="com.salesmanager.core.business.modules.cms.product.local.CmsImageFileManagerImpl" factory-method="getInstance" >
+				<!-- internal implementation -->
+				<beans:property name="cacheManager">
+						<beans:ref bean="httpdAssetsManager" />
+				</beans:property>
+	</beans:bean>
+	
+	 <beans:bean id="httpdContentAssetsManager"
+				class="com.salesmanager.core.business.modules.cms.content.local.CmsStaticContentFileManagerImpl" factory-method="getInstance" >
+				<beans:property name="cacheManager">
+						<beans:ref bean="httpdAssetsManager" />
+				</beans:property>
+	</beans:bean>
+	
+	<!-- downloads files are not supported with httpd, used infinispan (default) -->
 	
 <!-- 	
 	<beans:bean id="serverProductAssetsManager"
@@ -188,11 +206,12 @@
 				<beans:constructor-arg value="product-file"/><!-- root -->
 	</beans:bean>
 	
-	<!-- Infinispan for static ( rename to contentManager)-->
-<!-- 	<beans:bean id="filesCacheManager" 
-		class="com.salesmanager.core.business.modules.cms.impl.StaticContentCacheManagerImpl" >
-		<beans:constructor-arg value="${config.cms.files.location}"/>
-	</beans:bean> -->
+	<!-- httpd product STARTUP-->
+	<beans:bean id="httpdAssetsManager" 
+		class="com.salesmanager.core.business.modules.cms.impl.LocalCacheManagerImpl">
+		<beans:constructor-arg value="/Applications/MAMP/htdocs/images"/><!-- where files are copied on disk -->
+	</beans:bean>
+	
 	
 	<!-- Todo digitalDownloadManager -->
 	<!--

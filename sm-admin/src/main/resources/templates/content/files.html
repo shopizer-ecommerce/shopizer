@@ -129,12 +129,12 @@
 					<div class="view-items">
 						<ul class="grid" data-bind="visible: viewMode() === 'grid', foreach: {data: itemsModel.objects, as: 'koItem'}">
 							<!-- ko if: koItem.rdo.type === "parent" -->
-							<li class="directory-parent" data-bind="event: {click: koItem.open, dblclick: koItem.open}, droppableView: koItem, css: koItem.itemClass()" oncontextmenu="return false;">
+<!-- 							<li class="directory-parent" data-bind="event: {click: koItem.open, dblclick: koItem.open}, droppableView: koItem, css: koItem.itemClass()" oncontextmenu="return false;">
 								<div class="clip">
 									<img src="" class="grid-icon ico_folder_parent" data-bind="attr: {src: null, width: $root.config().viewer.image.thumbMaxWidth}" />
 								</div>
 								<p>..</p>
-							</li>
+							</li> -->
 							<!-- /ko -->
 
 							<!-- ko if: koItem.rdo.type !== "parent" -->
@@ -334,7 +334,7 @@
 		<div class="fm-footer">
 			<div class="left">
 				<div class="search-box" data-bind="visible: config().options.searchBox">
-					<input type="text" data-bind="value: searchModel.value(), event: {keyup: searchModel.findAll}" />
+					<input type="text" th:placeholder="#{label.generic.search}" data-bind="value: searchModel.value(), event: {keyup: searchModel.findAll}" />
 					<div class="search-box-reset" data-bind="event: {click: searchModel.reset}"></div>
 				</div>
 			</div>
