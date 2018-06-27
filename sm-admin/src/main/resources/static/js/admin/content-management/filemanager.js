@@ -3048,12 +3048,16 @@ $.richFilemanagerPlugin = function(element, pluginOptions)
 	};
 
 	var buildAbsolutePath = function(path, disableCache) {
-		var url = (typeof config.viewer.previewUrl === "string") ? config.viewer.previewUrl : location.origin;
+		log('buildAbsolutePath input ' + path);
+		//var url = (typeof config.viewer.previewUrl === "string") ? config.viewer.previewUrl : location.origin;
+		var url = config.options.fileServeUrl;
+		//log('backend url ' + config.options.fileServeUrl);
         url = trim(url, '/') + path;
 		// add timestamp-based query parameter to disable browser caching
 		if (disableCache) {
             url += '?time=' + (new Date().getTime());
 		}
+		log('buildAbsolutePath output ' + url);
 		return url;
 	};
 

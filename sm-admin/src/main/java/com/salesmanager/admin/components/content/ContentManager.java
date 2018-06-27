@@ -298,6 +298,7 @@ public class ContentManager {
         } else{
             options.put("capabilities", false);
         }
+        options.put("fileServeUrl", this.contentUrl);
         options.put("allowFolderDownload", Boolean.parseBoolean(propertiesConfig.getProperty("allowFolderDownload")));
 
         JSONObject security = new JSONObject();
@@ -327,6 +328,7 @@ public class ContentManager {
         sharedConfig.put("security", security);
         sharedConfig.put("upload", upload);
         attributes.put("config", sharedConfig);
+        
 
         data.put("attributes", attributes);
         init.put("data", data);
