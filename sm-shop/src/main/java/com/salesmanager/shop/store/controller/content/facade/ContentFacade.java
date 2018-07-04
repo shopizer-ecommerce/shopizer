@@ -12,5 +12,13 @@ public interface ContentFacade {
 	
 	
 	ContentFolder getContentFolder(String folder, MerchantStore store) throws Exception;
+	
+	/**
+	 * File pth
+	 * @param store
+	 * @param file
+	 * @return
+	 */
+	String absolutePath(MerchantStore store, String file);
 
 }

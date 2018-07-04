@@ -5,7 +5,6 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -31,7 +30,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.regex.PatternSyntaxException;
-import org.apache.commons.io.FilenameUtils;
 
 import javax.annotation.PostConstruct;
 import javax.imageio.ImageIO;
@@ -40,6 +38,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.imgscalr.Scalr;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -66,6 +66,7 @@ import com.salesmanager.admin.components.content.util.ImageUtils;
 import com.salesmanager.admin.components.content.util.StringUtils;
 import com.salesmanager.admin.components.content.util.ZipUtils;
 import com.salesmanager.admin.controller.exception.AdminAuthenticationException;
+import com.salesmanager.admin.utils.Constants;
 
 
 @Component
@@ -74,6 +75,9 @@ public class ContentManager {
 	
 	
     private static final Logger logger = LoggerFactory.getLogger(ContentManager.class);
+    
+    private final static String AUTHORIZATION = "Authorization";
+    
     protected final static String CONFIG_DEFAULT_PROPERTIES = "filemanager/config.default.properties";
     protected final static String CONFIG_CUSTOM_PROPERTIES = "filemanager/config.properties";
     protected final static String LANG_FILE = "bundles/filemanager.lang.en.properties";
@@ -1119,7 +1123,101 @@ public class ContentManager {
 
     @SuppressWarnings("unchecked")
 	public JSONObject actionUpload(HttpServletRequest request) throws Exception {
+        
+		//MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
+		
+		//LocalFileManager fileManager = (LocalFileManager)super.getFileManager();
         String path = getPath(request, "path");
+
+        
+        JSONArray array = new JSONArray();
+        try {
+
+            for (Part uploadedFile : request.getParts()) {
+            	
+                if (uploadedFile.getContentType() == null) {
+                    continue;
+                }
+
+                if (uploadedFile.getSize() == 0) {
+                    throw new Exception(getProperties().getProperty("FILE_EMPTY"));
+                }
+                
+                String submittedFileName = uploadedFile.getSubmittedFileName();
+                String filename = StringUtils.normalize(FileUtils.getBaseName(submittedFileName)) + '.' + FileUtils.getExtension(submittedFileName);
+
+                Long uploadFileSizeLimit = 0L;
+                String uploadFileSizeLimitString = getPropertiesConfig().getProperty("upload_fileSizeLimit");
+                try {
+                    uploadFileSizeLimit = Long.parseLong(uploadFileSizeLimitString);
+                } catch (NumberFormatException e) {
+                    throw new Exception(String.format(getProperties().getProperty("ERROR_CONFIG_FILE"), "upload_fileSizeLimit:" + uploadFileSizeLimitString));
+                }
+
+                if (uploadedFile.getSize() > uploadFileSizeLimit) {
+                    throw new Exception(getProperties().getProperty("upload_file_too_big"));
+                }
+                
+                String type = uploadedFile.getContentType() .split("/")[0];
+                
+                BufferedInputStream inputStream = new BufferedInputStream(uploadedFile.getInputStream());
+                byte[] bytes = IOUtils.toByteArray(inputStream);
+                
+                
+                Map<String, Object> m = new HashMap<String, Object>();
+                m.put("name", submittedFileName);
+                m.put("contentType", type);
+                m.put("file", bytes);
+                
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_JSON);
+                
+                ObjectMapper mapper = new ObjectMapper();
+                String json = mapper.writeValueAsString(m);
+                
+                String token = (String)request.getAttribute(Constants.TOKEN);
+                
+                headers.set(AUTHORIZATION, "Bearer " + token);//set bearer token
+                
+                HttpEntity<String> entity = new HttpEntity<String>(json, headers);
+                RestTemplate restTemplate = new RestTemplate();
+                
+                String resourceUrl
+                = backend + "/private/content";
+                
+                ResponseEntity<String> resp = null;
+                try {
+                	resp = restTemplate.postForEntity(resourceUrl, entity, String.class);
+                } catch(HttpClientErrorException e) {
+                	if(HttpStatus.FORBIDDEN.name().equals(e.getStatusCode().name())) {
+                		
+                		throw new AdminAuthenticationException("Cannot post content[Forbidden]",e.getStatusCode());
+
+                	}
+                	logger.error("Error while uploading file " + e.getMessage());
+                	//TODO redirect to dashboard
+                }
+                
+                
+                 
+
+                JSONObject o = new JSONObject(getFileInfo(path, submittedFileName));
+                array.add(new JSONObject(getFileInfo(path, resp.getBody())));
+                
+                
+            }
+        
+            
+        } catch(Exception e) {
+        	throw new Exception("Error uploading image: ", e);
+        }
+
+        JSONObject r = new JSONObject();
+        r.put("data", array);
+        return r;
+		
+    	
+/*    	String path = getPath(request, "path");
         File targetDirectory = getFile(path);
         String targetDirectoryString = path.substring(0, path.lastIndexOf("/") + 1);
         if (!hasPermission("upload")) {
@@ -1141,7 +1239,7 @@ public class ContentManager {
         return o;
 
         //return new JSONObject().put("data", array);
-
+*/
     }
 
     

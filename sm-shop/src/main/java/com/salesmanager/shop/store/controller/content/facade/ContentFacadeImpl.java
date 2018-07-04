@@ -67,4 +67,10 @@ public class ContentFacadeImpl implements ContentFacade {
 
 	}
 
+	@Override
+	public String absolutePath(MerchantStore store, String file) {
+		String path = new StringBuilder().append(imageUtils.getContextPath()).append(imageUtils.buildStaticImageUtils(store, file)).toString();
+		return path;
+	}
+
 }

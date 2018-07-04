@@ -4053,7 +4053,7 @@ $.richFilemanagerPlugin = function(element, pluginOptions)
 							var $template = $(tmpl('tmpl-upload-item', {
 								file: file,
 								lang: lg,
-								imagesPath: fm.settings.baseUrl + '/scripts/jQuery-File-Upload/img'
+								imagesPath: fm.settings.baseUrl + '/jQuery-File-Upload/img'
 							}));
 							file.context = $template;
 							$template.find('.buttons').data(data);
