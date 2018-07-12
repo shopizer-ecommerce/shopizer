@@ -72,20 +72,18 @@ public class ProductPriceUtils {
 		
 		return defaultPrice;
 	}
-	
+
 	/**
 	 * This method calculates the final price taking into account
 	 * all attributes included having a specified default attribute with an attribute price gt 0
 	 * in the product object. The calculation is based
 	 * on the default price.
 	 * Attributes may be null
-	 * @param Product
-	 * @param List<ProductAttribute>
+	 * @param product
+	 * @param attributes
 	 * @return FinalPrice
 	 */
 	public FinalPrice getFinalProductPrice(Product product, List<ProductAttribute> attributes) {
-
-
 		FinalPrice finalPrice = calculateFinalPrice(product);
 		
 		//attributes
@@ -117,10 +115,8 @@ public class ProductPriceUtils {
 				
 			}
 		}
-		
 
 		return finalPrice;
-
 	}
 
 	

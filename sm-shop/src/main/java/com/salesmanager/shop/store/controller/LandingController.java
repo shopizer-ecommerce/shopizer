@@ -41,134 +41,136 @@ import com.salesmanager.shop.utils.ImageFilePath;
 import com.salesmanager.shop.utils.LabelUtils;
 
 
-
 @Controller
 public class LandingController {
-	
-	
-	private final static String LANDING_PAGE = "LANDING_PAGE";
-	
-	
-	@Inject
-	private ContentService contentService;
-	
-	@Inject
-	private ProductRelationshipService productRelationshipService;
 
-	
-	@Inject
-	private LabelUtils messages;
-	
-	@Inject
-	private PricingService pricingService;
-	
-	@Inject
-	private MerchantStoreService merchantService;
-	
-	@Inject
-	@Qualifier("img")
-	private ImageFilePath imageUtils;
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(LandingController.class);
-	private final static String HOME_LINK_CODE="HOME";
-	
-	@RequestMapping(value={Constants.SHOP_URI + "/home.html",Constants.SHOP_URI +"/", Constants.SHOP_URI}, method=RequestMethod.GET)
-	public String displayLanding(Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
-		
-		Language language = (Language)request.getAttribute(Constants.LANGUAGE);
-		
-		MerchantStore store = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
 
-		request.setAttribute(Constants.LINK_CODE, HOME_LINK_CODE);
-		
-		Content content = contentService.getByCode(LANDING_PAGE, store, language);
-		
-		/** Rebuild breadcrumb **/
-		BreadcrumbItem item = new BreadcrumbItem();
-		item.setItemType(BreadcrumbItemType.HOME);
-		item.setLabel(messages.getMessage(Constants.HOME_MENU_KEY, locale));
-		item.setUrl(Constants.HOME_URL);
+  private final static String LANDING_PAGE = "LANDING_PAGE";
 
-		
-		Breadcrumb breadCrumb = new Breadcrumb();
-		breadCrumb.setLanguage(language);
-		
-		List<BreadcrumbItem> items = new ArrayList<BreadcrumbItem>();
-		items.add(item);
-		
-		breadCrumb.setBreadCrumbs(items);
-		request.getSession().setAttribute(Constants.BREADCRUMB, breadCrumb);
-		request.setAttribute(Constants.BREADCRUMB, breadCrumb);
-		/** **/
-		
-		if(content!=null) {
-			
-			ContentDescription description = content.getDescription();
 
-			model.addAttribute("page",description);
-			
-			PageInformation pageInformation = new PageInformation();
-			pageInformation.setPageTitle(description.getName());
-			pageInformation.setPageDescription(description.getMetatagDescription());
-			pageInformation.setPageKeywords(description.getMetatagKeywords());
-			
-			request.setAttribute(Constants.REQUEST_PAGE_INFORMATION, pageInformation);
-			
-		}
-		
-		ReadableProductPopulator populator = new ReadableProductPopulator();
-		populator.setPricingService(pricingService);
-		populator.setimageUtils(imageUtils);
+  @Inject
+  private ContentService contentService;
 
-		
-		//featured items
-		List<ProductRelationship> relationships = productRelationshipService.getByType(store, ProductRelationshipType.FEATURED_ITEM, language);
-		List<ReadableProduct> featuredItems = new ArrayList<ReadableProduct>();
-		Date today = new Date();
-		for(ProductRelationship relationship : relationships) {
-			Product product = relationship.getRelatedProduct();
-			if(product.isAvailable() && DateUtil.dateBeforeEqualsDate(product.getDateAvailable(), today)) {
-				ReadableProduct proxyProduct = populator.populate(product, new ReadableProduct(), store, language);
-			    featuredItems.add(proxyProduct);
-			}
-		}
+  @Inject
+  private ProductRelationshipService productRelationshipService;
 
-		
-		model.addAttribute("featuredItems", featuredItems);
-		
-		/** template **/
-		StringBuilder template = new StringBuilder().append("landing.").append(store.getStoreTemplate());
-		return template.toString();
-	}
-	
-	@RequestMapping(value={Constants.SHOP_URI + "/stub.html"}, method=RequestMethod.GET)
-	public String displayHomeStub(Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
-		return "index";
-	}
-	
-	@RequestMapping( value=Constants.SHOP_URI + "/{store}", method=RequestMethod.GET)
-	public String displayStoreLanding(@PathVariable final String store, HttpServletRequest request, HttpServletResponse response) {
-		
-		try {
-			
-			request.getSession().invalidate();
-			request.getSession().removeAttribute(Constants.MERCHANT_STORE);
-			
-			MerchantStore merchantStore = merchantService.getByCode(store);
-			if(merchantStore!=null) {
-				request.getSession().setAttribute(Constants.MERCHANT_STORE, merchantStore);
-			} else {
-				LOGGER.error("MerchantStore does not exist for store code " + store);
-			}
-			
-		} catch(Exception e) {
-			LOGGER.error("Error occured while getting store code " + store, e);
-		}
-		
 
-		
-		return "redirect:" + Constants.SHOP_URI;
-	}
-		
+  @Inject
+  private LabelUtils messages;
+
+  @Inject
+  private PricingService pricingService;
+
+  @Inject
+  private MerchantStoreService merchantService;
+
+  @Inject
+  @Qualifier("img")
+  private ImageFilePath imageUtils;
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(LandingController.class);
+  private final static String HOME_LINK_CODE = "HOME";
+
+  @RequestMapping(value = {Constants.SHOP_URI + "/home.html", Constants.SHOP_URI + "/",
+      Constants.SHOP_URI}, method = RequestMethod.GET)
+  public String displayLanding(Model model, HttpServletRequest request,
+      HttpServletResponse response, Locale locale) throws Exception {
+
+    Language language = (Language) request.getAttribute(Constants.LANGUAGE);
+
+    MerchantStore store = (MerchantStore) request.getAttribute(Constants.MERCHANT_STORE);
+
+    request.setAttribute(Constants.LINK_CODE, HOME_LINK_CODE);
+
+    Content content = contentService.getByCode(LANDING_PAGE, store, language);
+
+    /** Rebuild breadcrumb **/
+    BreadcrumbItem item = new BreadcrumbItem();
+    item.setItemType(BreadcrumbItemType.HOME);
+    item.setLabel(messages.getMessage(Constants.HOME_MENU_KEY, locale));
+    item.setUrl(Constants.HOME_URL);
+
+    Breadcrumb breadCrumb = new Breadcrumb();
+    breadCrumb.setLanguage(language);
+
+    List<BreadcrumbItem> items = new ArrayList<BreadcrumbItem>();
+    items.add(item);
+
+    breadCrumb.setBreadCrumbs(items);
+    request.getSession().setAttribute(Constants.BREADCRUMB, breadCrumb);
+    request.setAttribute(Constants.BREADCRUMB, breadCrumb);
+    /** **/
+
+    if (content != null) {
+
+      ContentDescription description = content.getDescription();
+
+      model.addAttribute("page", description);
+
+      PageInformation pageInformation = new PageInformation();
+      pageInformation.setPageTitle(description.getName());
+      pageInformation.setPageDescription(description.getMetatagDescription());
+      pageInformation.setPageKeywords(description.getMetatagKeywords());
+
+      request.setAttribute(Constants.REQUEST_PAGE_INFORMATION, pageInformation);
+
+    }
+
+    ReadableProductPopulator populator = new ReadableProductPopulator();
+    populator.setPricingService(pricingService);
+    populator.setimageUtils(imageUtils);
+
+    //featured items
+    List<ProductRelationship> relationships = productRelationshipService
+        .getByType(store, ProductRelationshipType.FEATURED_ITEM, language);
+    List<ReadableProduct> featuredItems = new ArrayList<ReadableProduct>();
+    Date today = new Date();
+    for (ProductRelationship relationship : relationships) {
+      Product product = relationship.getRelatedProduct();
+      if (product.isAvailable() && DateUtil
+          .dateBeforeEqualsDate(product.getDateAvailable(), today)) {
+        ReadableProduct proxyProduct = populator
+            .populate(product, new ReadableProduct(), store, language);
+        featuredItems.add(proxyProduct);
+      }
+    }
+
+    model.addAttribute("featuredItems", featuredItems);
+
+    /** template **/
+    StringBuilder template = new StringBuilder().append("landing.")
+        .append(store.getStoreTemplate());
+    return template.toString();
+  }
+
+  @RequestMapping(value = {Constants.SHOP_URI + "/stub.html"}, method = RequestMethod.GET)
+  public String displayHomeStub(Model model, HttpServletRequest request,
+      HttpServletResponse response, Locale locale) throws Exception {
+    return "index";
+  }
+
+  @RequestMapping(value = Constants.SHOP_URI + "/{store}", method = RequestMethod.GET)
+  public String displayStoreLanding(@PathVariable final String store, HttpServletRequest request,
+      HttpServletResponse response) {
+
+    try {
+
+      request.getSession().invalidate();
+      request.getSession().removeAttribute(Constants.MERCHANT_STORE);
+
+      MerchantStore merchantStore = merchantService.getByCode(store);
+      if (merchantStore != null) {
+        request.getSession().setAttribute(Constants.MERCHANT_STORE, merchantStore);
+      } else {
+        LOGGER.error("MerchantStore does not exist for store code " + store);
+      }
+
+    } catch (Exception e) {
+      LOGGER.error("Error occured while getting store code " + store, e);
+    }
+
+    return "redirect:" + Constants.SHOP_URI;
+  }
+
 
 }

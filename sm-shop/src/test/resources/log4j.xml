@@ -32,7 +32,7 @@
 		<level value="info" />
 	</logger>
 
-	<!-- Root Logger -->
+	<!-- Root LOGGER -->
 	<root>
 		<priority value="info" />
 		<appender-ref ref="console" />
