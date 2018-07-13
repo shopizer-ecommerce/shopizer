@@ -3,7 +3,6 @@ package com.salesmanager.core.model.generic;
 import java.io.Serializable;
 import java.text.Collator;
 import java.util.Locale;
-
 import org.hibernate.Hibernate;
 
 
@@ -13,93 +12,91 @@ import org.hibernate.Hibernate;
  * @param <E> type de l'entité
  */
 public abstract class SalesManagerEntity<K extends Serializable & Comparable<K>, E extends SalesManagerEntity<K, ?>>
-		implements Serializable, Comparable<E> {
+    implements Serializable, Comparable<E> {
 
-	private static final long serialVersionUID = -3988499137919577054L;
-	
-	public static final Collator DEFAULT_STRING_COLLATOR = Collator.getInstance(Locale.FRENCH);
-	
-	static {
-		DEFAULT_STRING_COLLATOR.setStrength(Collator.PRIMARY);
-	}
-	
-	/**
-	 * Retourne la valeur de l'identifiant unique.
-	 * 
-	 * @return id
-	 */
-	public abstract K getId();
+  private static final long serialVersionUID = -3988499137919577054L;
 
-	/**
-	 * Définit la valeur de l'identifiant unique.
-	 * 
-	 * @param id id
-	 */
-	public abstract void setId(K id);
-	
-	/**
-	 * Indique si l'objet a déjà été persisté ou non
-	 * 
-	 * @return vrai si l'objet n'a pas encore été persisté
-	 */
-	public boolean isNew() {
-		return getId() == null;
-	}
+  private static final Collator DEFAULT_STRING_COLLATOR = Collator.getInstance(Locale.FRENCH);
 
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public boolean equals(Object object) {
-		if (object == null) {
-			return false;
-		}
-		if (object == this) {
-			return true;
-		}
-		
-		// l'objet peut être proxyfié donc on utilise Hibernate.getClass() pour sortir la vraie classe
-		if (Hibernate.getClass(object) != Hibernate.getClass(this)) {
-			return false;
-		}
+  static {
+    DEFAULT_STRING_COLLATOR.setStrength(Collator.PRIMARY);
+  }
 
-		SalesManagerEntity<K, E> entity = (SalesManagerEntity<K, E>) object; // NOSONAR : traité au-dessus mais wrapper Hibernate 
-		K id = getId();
+  /**
+   * Retourne la valeur de l'identifiant unique.
+   *
+   * @return id
+   */
+  public abstract K getId();
 
-		if (id == null) {
-			return false;
-		}
+  /**
+   * Définit la valeur de l'identifiant unique.
+   *
+   * @param id id
+   */
+  public abstract void setId(K id);
 
-		return id.equals(entity.getId());
-	}
+  /**
+   * Indique si l'objet a déjà été persisté ou non
+   *
+   * @return vrai si l'objet n'a pas encore été persisté
+   */
+  public boolean isNew() {
+    return getId() == null;
+  }
 
-	@Override
-	public int hashCode() {
-		int hash = 7;
-		
-		K id = getId();
-		hash = 31 * hash + ((id == null) ? 0 : id.hashCode());
+  @SuppressWarnings("unchecked")
+  @Override
+  public boolean equals(Object object) {
+    if (object == null) {
+      return false;
+    }
+    if (object == this) {
+      return true;
+    }
 
-		return hash;
-	}
+    // l'objet peut être proxyfié donc on utilise Hibernate.getClass() pour sortir la vraie classe
+    if (Hibernate.getClass(object) != Hibernate.getClass(this)) {
+      return false;
+    }
 
-	public int compareTo(E o) {
-		if (this == o) {
-			return 0;
-		}
-		return this.getId().compareTo(o.getId());
-	}
+    SalesManagerEntity<K, E> entity = (SalesManagerEntity<K, E>) object; // NOSONAR : traité au-dessus mais wrapper Hibernate
+    K id = getId();
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("entity.");
-		builder.append(Hibernate.getClass(this).getSimpleName());
-		builder.append("<");
-		builder.append(getId());
-		builder.append("-");
-		builder.append(super.toString());
-		builder.append(">");
-		
-		return builder.toString();
-	}
+    if (id == null) {
+      return false;
+    }
+
+    return id.equals(entity.getId());
+  }
+
+  @Override
+  public int hashCode() {
+    int hash = 7;
+
+    K id = getId();
+    hash = 31 * hash + ((id == null) ? 0 : id.hashCode());
+
+    return hash;
+  }
+
+  public int compareTo(E o) {
+    if (this == o) {
+      return 0;
+    }
+    return this.getId().compareTo(o.getId());
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("entity.");
+    builder.append(Hibernate.getClass(this).getSimpleName());
+    builder.append("<");
+    builder.append(getId());
+    builder.append("-");
+    builder.append(super.toString());
+    builder.append(">");
+    return builder.toString();
+  }
 }

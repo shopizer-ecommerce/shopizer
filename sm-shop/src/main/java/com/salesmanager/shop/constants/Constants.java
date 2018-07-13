@@ -4,8 +4,6 @@ public class Constants {
   public final static String SLASH = "/";
   public final static String BLANK = "";
   public final static String EQUALS = "=";
-  public final static String RESPONSE_STATUS = "STATUS";
-  public final static String RESPONSE_SUCCESS = "SUCCESS";
   public final static String DEFAULT_LANGUAGE = "en";
   public final static String LANGUAGE = "LANGUAGE";
   public final static String LOCALE = "LOCALE";
@@ -15,10 +13,8 @@ public class Constants {
   public final static String HOME_URL = "/shop";
   public final static String ADMIN_URI = "/admin";
   public final static String SHOP_URI = "/shop";
-  public final static String SHOP = "shop";
   public final static String REF = "ref";
   public final static String REF_C = "c:";
-  public final static String REF_SPLITTER = ":";
   public final static String FILE_NOT_FOUND = "File not found";
   public final static String DEFAULT_DOMAIN_NAME = "localhost:8080";
   public final static String ADMIN_STORE = "ADMIN_STORE";
@@ -38,7 +34,6 @@ public class Constants {
   public final static String GROUP_SUPERADMIN = "SUPERADMIN";
   public final static String GROUP_CUSTOMER = "CUSTOMER";
   public final static String ANONYMOUS_CUSTOMER = "ANONYMOUS_CUSTOMER";
-  public final static String CONTENT_IMAGE = "CONTENT";
   public final static String CONTENT_LANDING_PAGE = "LANDING_PAGE";
   public final static String CONTENT_CONTACT_US = "contact";
   public final static String STATIC_URI = "/static";
@@ -46,7 +41,6 @@ public class Constants {
   public final static String PRODUCT_URI = "/product";
   public final static String PRODUCTS_URI = "/products";
   public final static String SMALL_IMAGE = "SMALL";
-  public final static String LARGE_IMAGE = "LARGE";
   public final static String CATEGORY_URI = "/category";
   public final static String PRODUCT_ID_URI = "/productid";
   public final static String ORDER_DOWNLOAD_URI = "/order/download";
@@ -75,14 +69,12 @@ public class Constants {
   public final static String KEY_PINTEREST_PAGE_URL = "pinterest";
   public final static String KEY_GOOGLE_ANALYTICS_URL = "google_analytics_url";
   public final static String KEY_INSTAGRAM_URL = "instagram";
-  public final static String KEY_GOOGLE_API_KEY = "google_api_key";
   public final static String KEY_TWITTER_HANDLE = "twitter_handle";
   public final static String KEY_SESSION_ADDRESS = "readableDelivery";
   public final static String CATEGORY_LINEAGE_DELIMITER = "/";
   public final static int MAX_REVIEW_RATING_SCORE = 5;
   public final static int MAX_ORDERS_PAGE = 5;
   public final static String SUCCESS = "success";
-  public final static String CANCEL = "cancel";
   public final static String START = "start";
   public final static String MAX = "max";
   public final static String CREDIT_CARD_YEARS_CACHE_KEY = "CREDIT_CARD_YEARS_CACHE_KEY";

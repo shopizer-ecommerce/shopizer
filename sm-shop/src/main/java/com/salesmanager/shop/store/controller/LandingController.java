@@ -1,23 +1,6 @@
 package com.salesmanager.shop.store.controller;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
+import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.catalog.product.relationship.ProductRelationshipService;
 import com.salesmanager.core.business.services.content.ContentService;
@@ -39,21 +22,33 @@ import com.salesmanager.shop.populator.catalog.ReadableProductPopulator;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.ImageFilePath;
 import com.salesmanager.shop.utils.LabelUtils;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 
 @Controller
 public class LandingController {
 
-
   private final static String LANDING_PAGE = "LANDING_PAGE";
-
 
   @Inject
   private ContentService contentService;
 
   @Inject
   private ProductRelationshipService productRelationshipService;
-
 
   @Inject
   private LabelUtils messages;
@@ -69,12 +64,12 @@ public class LandingController {
   private ImageFilePath imageUtils;
 
   private static final Logger LOGGER = LoggerFactory.getLogger(LandingController.class);
+
   private final static String HOME_LINK_CODE = "HOME";
 
-  @RequestMapping(value = {Constants.SHOP_URI + "/home.html", Constants.SHOP_URI + "/",
-      Constants.SHOP_URI}, method = RequestMethod.GET)
+  @RequestMapping(value = {"/"}, method = RequestMethod.GET)
   public String displayLanding(Model model, HttpServletRequest request,
-      HttpServletResponse response, Locale locale) throws Exception {
+      HttpServletResponse response, Locale locale) throws ServiceException {
 
     Language language = (Language) request.getAttribute(Constants.LANGUAGE);
 
@@ -84,7 +79,7 @@ public class LandingController {
 
     Content content = contentService.getByCode(LANDING_PAGE, store, language);
 
-    /** Rebuild breadcrumb **/
+    // Rebuild breadcrumb
     BreadcrumbItem item = new BreadcrumbItem();
     item.setItemType(BreadcrumbItemType.HOME);
     item.setLabel(messages.getMessage(Constants.HOME_MENU_KEY, locale));
@@ -93,37 +88,31 @@ public class LandingController {
     Breadcrumb breadCrumb = new Breadcrumb();
     breadCrumb.setLanguage(language);
 
-    List<BreadcrumbItem> items = new ArrayList<BreadcrumbItem>();
+    List<BreadcrumbItem> items = new ArrayList<>();
     items.add(item);
 
     breadCrumb.setBreadCrumbs(items);
     request.getSession().setAttribute(Constants.BREADCRUMB, breadCrumb);
     request.setAttribute(Constants.BREADCRUMB, breadCrumb);
-    /** **/
 
     if (content != null) {
-
       ContentDescription description = content.getDescription();
-
       model.addAttribute("page", description);
-
       PageInformation pageInformation = new PageInformation();
       pageInformation.setPageTitle(description.getName());
       pageInformation.setPageDescription(description.getMetatagDescription());
       pageInformation.setPageKeywords(description.getMetatagKeywords());
-
       request.setAttribute(Constants.REQUEST_PAGE_INFORMATION, pageInformation);
-
     }
 
     ReadableProductPopulator populator = new ReadableProductPopulator();
     populator.setPricingService(pricingService);
     populator.setimageUtils(imageUtils);
 
-    //featured items
+    //List featured items
     List<ProductRelationship> relationships = productRelationshipService
         .getByType(store, ProductRelationshipType.FEATURED_ITEM, language);
-    List<ReadableProduct> featuredItems = new ArrayList<ReadableProduct>();
+    List<ReadableProduct> featuredItems = new ArrayList<>();
     Date today = new Date();
     for (ProductRelationship relationship : relationships) {
       Product product = relationship.getRelatedProduct();
@@ -137,10 +126,7 @@ public class LandingController {
 
     model.addAttribute("featuredItems", featuredItems);
 
-    /** template **/
-    StringBuilder template = new StringBuilder().append("landing.")
-        .append(store.getStoreTemplate());
-    return template.toString();
+    return "landing." + store.getStoreTemplate();
   }
 
   @RequestMapping(value = {Constants.SHOP_URI + "/stub.html"}, method = RequestMethod.GET)

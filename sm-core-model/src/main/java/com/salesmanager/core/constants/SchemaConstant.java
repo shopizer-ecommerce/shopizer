@@ -266,8 +266,5 @@ public class SchemaConstant {
 		CURRENCY_MAP.put("YER", "Yemeni Rial");
 		CURRENCY_MAP.put("ZMK", "Zambian Kwacha");
 		//CURRENCY_MAP.put("ZWL", "Zimbabwe Dollar");
-		
-
-
 	}
 }

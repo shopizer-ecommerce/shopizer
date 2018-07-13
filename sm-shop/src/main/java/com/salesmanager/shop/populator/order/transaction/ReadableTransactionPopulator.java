@@ -1,8 +1,6 @@
 package com.salesmanager.shop.populator.order.transaction;
 
-import org.apache.commons.lang.Validate;
-
-import com.salesmanager.core.business.exception.ConversionException;
+import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.order.OrderService;
 import com.salesmanager.core.business.utils.AbstractDataPopulator;
@@ -11,73 +9,62 @@ import com.salesmanager.core.model.payments.Transaction;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.order.transaction.ReadableTransaction;
 import com.salesmanager.shop.utils.DateUtil;
+import org.apache.commons.lang.Validate;
 
 
-public class ReadableTransactionPopulator extends AbstractDataPopulator<Transaction, ReadableTransaction> {
+public class ReadableTransactionPopulator extends
+    AbstractDataPopulator<Transaction, ReadableTransaction> {
 
-	
-	private OrderService orderService;
-	private PricingService pricingService;
-	
-	@Override
-	public ReadableTransaction populate(Transaction source, ReadableTransaction target, MerchantStore store,
-			Language language) throws ConversionException {
+  private OrderService orderService;
 
-		
-		Validate.notNull(source,"PersistableTransaction must not be null");
-		Validate.notNull(orderService,"OrderService must not be null");
-		Validate.notNull(pricingService,"OrderService must not be null");
-		
-		if(target == null) {
-			target = new ReadableTransaction();
-		}
-		
-		
-		try {
-			
+  private PricingService pricingService;
 
-			target.setAmount(pricingService.getDisplayAmount(source.getAmount(), store));
-			target.setDetails(source.getDetails());
-			target.setPaymentType(source.getPaymentType());
-			target.setTransactionType(source.getTransactionType());
-			target.setTransactionDate(DateUtil.formatDate(source.getTransactionDate()));
-			target.setId(source.getId());
-			
-			if(source.getOrder() != null) {
-				target.setOrderId(source.getOrder().getId());
+  @Override
+  public ReadableTransaction populate(Transaction source, ReadableTransaction target,
+      MerchantStore store,
+      Language language) throws ServiceException {
 
-			}
-			
-			return target;
-			
-			
-		
-		} catch(Exception e) {
-			throw new ConversionException(e);
-		}
-		
-	}
+    Validate.notNull(source, "PersistableTransaction must not be null");
+    Validate.notNull(orderService, "OrderService must not be null");
+    Validate.notNull(pricingService, "OrderService must not be null");
 
-	@Override
-	protected ReadableTransaction createTarget() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	public OrderService getOrderService() {
-		return orderService;
-	}
+    if (target == null) {
+      target = new ReadableTransaction();
+    }
 
-	public void setOrderService(OrderService orderService) {
-		this.orderService = orderService;
-	}
+    target.setAmount(pricingService.getDisplayAmount(source.getAmount(), store));
+    target.setDetails(source.getDetails());
+    target.setPaymentType(source.getPaymentType());
+    target.setTransactionType(source.getTransactionType());
+    target.setTransactionDate(DateUtil.formatDate(source.getTransactionDate()));
+    target.setId(source.getId());
 
-	public PricingService getPricingService() {
-		return pricingService;
-	}
+    if (source.getOrder() != null) {
+      target.setOrderId(source.getOrder().getId());
+    }
 
-	public void setPricingService(PricingService pricingService) {
-		this.pricingService = pricingService;
-	}
+    return target;
+  }
 
+  @Override
+  protected ReadableTransaction createTarget() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  public OrderService getOrderService() {
+    return orderService;
+  }
+
+  public void setOrderService(OrderService orderService) {
+    this.orderService = orderService;
+  }
+
+  public PricingService getPricingService() {
+    return pricingService;
+  }
+
+  public void setPricingService(PricingService pricingService) {
+    this.pricingService = pricingService;
+  }
 }
