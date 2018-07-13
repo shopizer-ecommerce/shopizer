@@ -21,11 +21,10 @@ import org.springframework.util.Assert;
 
 
 @Service("contentService")
-public class ContentServiceImpl
-    extends SalesManagerEntityServiceImpl<Long, Content>
+public class ContentServiceImpl extends SalesManagerEntityServiceImpl<Long, Content>
     implements ContentService {
 
-  private static final Logger LOG = LoggerFactory.getLogger(ContentServiceImpl.class);
+  private static final Logger LOLOGGER = LoggerFactory.getLogger(ContentServiceImpl.class);
 
   private final ContentRepository contentRepository;
 
@@ -38,24 +37,19 @@ public class ContentServiceImpl
   @Inject
   public ContentServiceImpl(ContentRepository contentRepository) {
     super(contentRepository);
-
     this.contentRepository = contentRepository;
   }
 
   @Override
   public List<Content> listByType(ContentType contentType, MerchantStore store, Language language)
       throws ServiceException {
-
     return contentRepository.findByType(contentType, store.getId(), language.getId());
   }
 
   @Override
   public void delete(Content content) throws ServiceException {
-
     Content c = this.getById(content.getId());
     super.delete(c);
-
-
   }
 
   @Override
@@ -63,45 +57,27 @@ public class ContentServiceImpl
     return contentRepository.findByIdAndLanguage(id, language.getId());
   }
 
-
   @Override
   public List<Content> listByType(List<ContentType> contentType, MerchantStore store,
-      Language language)
-      throws ServiceException {
-
-/*    	List<String> contentTypes = new ArrayList<String>();
-      for (int i = 0; i < contentType.size(); i++) {
-    		contentTypes.add(contentType.get(i).name());
-        }*/
-
+      Language language) throws ServiceException {
     return contentRepository.findByTypes(contentType, store.getId(), language.getId());
   }
 
   @Override
   public List<ContentDescription> listNameByType(List<ContentType> contentType, MerchantStore store,
-      Language language)
-      throws ServiceException {
-
+      Language language) throws ServiceException {
     return contentRepository.listNameByType(contentType, store, language);
   }
 
   @Override
   public List<Content> listByType(List<ContentType> contentType, MerchantStore store)
       throws ServiceException {
-/*    	List<String> contentTypes = new ArrayList<String>();
-      for (int i = 0; i < contentType.size(); i++) {
-    		contentTypes.add(contentType.get(i).name());
-        }*/
-
     return contentRepository.findByTypes(contentType, store.getId());
   }
 
   @Override
-  public Content getByCode(String code, MerchantStore store)
-      throws ServiceException {
-
+  public Content getByCode(String code, MerchantStore store) throws ServiceException {
     return contentRepository.findByCode(code, store.getId());
-
   }
 
   @Override
@@ -112,7 +88,6 @@ public class ContentServiceImpl
   @Override
   public void saveOrUpdate(final Content content)
       throws ServiceException {
-
     // save or update (persist and attach entities
     if (content.getId() != null && content.getId() > 0) {
       super.update(content);
@@ -144,28 +119,21 @@ public class ContentServiceImpl
     Assert.notNull(contentFile, "InputContentFile image can not be null");
     Assert.notNull(contentFile.getFileContentType(),
         "InputContentFile.fileContentType can not be null");
-
     if (contentFile.getFileContentType().name().equals(FileContentType.IMAGE.name())
         || contentFile.getFileContentType().name().equals(FileContentType.STATIC_FILE.name())) {
       addFile(merchantStoreCode, contentFile);
     } else {
       addImage(merchantStoreCode, contentFile);
     }
-
-
   }
 
   @Override
   public void addLogo(String merchantStoreCode, InputContentFile cmsContentImage)
       throws ServiceException {
-
     Assert.notNull(merchantStoreCode, "Merchant store Id can not be null");
     Assert.notNull(cmsContentImage, "CMSContent image can not be null");
-
     cmsContentImage.setFileContentType(FileContentType.LOGO);
     addImage(merchantStoreCode, cmsContentImage);
-
-
   }
 
   @Override
@@ -176,66 +144,49 @@ public class ContentServiceImpl
     Assert.notNull(cmsContentImage, "CMSContent image can not be null");
     cmsContentImage.setFileContentType(FileContentType.PROPERTY);
     addImage(merchantStoreCode, cmsContentImage);
-
-
   }
-
 
   private void addImage(String merchantStoreCode, InputContentFile contentImage)
       throws ServiceException {
-
     try {
-      LOG.info("Adding content image for merchant id {}", merchantStoreCode);
+      LOLOGGER.info("Adding content image for merchant id {}", merchantStoreCode);
       contentFileManager.addFile(merchantStoreCode, contentImage);
-
     } catch (Exception e) {
-      LOG.error("Error while trying to convert input stream to buffered image", e);
+      LOLOGGER.error("Error while trying to convert input stream to buffered image", e);
       throw new ServiceException(e);
-
     } finally {
-
       try {
         if (contentImage.getFile() != null) {
           contentImage.getFile().close();
         }
-      } catch (Exception ignore) {
-      }
-
+      } catch (Exception ignore) { }
     }
-
   }
 
   private void addFile(final String merchantStoreCode, InputContentFile contentImage)
       throws ServiceException {
-
     try {
-      LOG.info("Adding content file for merchant id {}", merchantStoreCode);
+      LOLOGGER.info("Adding content file for merchant id {}", merchantStoreCode);
       staticContentFileManager.addFile(merchantStoreCode, contentImage);
-
     } catch (Exception e) {
-      LOG.error("Error while trying to convert input stream to buffered image", e);
+      LOLOGGER.error("Error while trying to convert input stream to buffered image", e);
       throw new ServiceException(e);
-
     } finally {
-
       try {
         if (contentImage.getFile() != null) {
           contentImage.getFile().close();
         }
-      } catch (Exception ignore) {
-      }
+      } catch (Exception ignore) { }
     }
-
   }
-
 
   /**
    * Method responsible for adding list of content images for given merchant store in underlying
-   * Infinispan tree cache. It will take list of {@link CMSContentImage} and will store them for
+   * Infinispan tree cache. It will take list of {@link InputContentFile} and will store them for
    * given merchant store.
    *
    * @param merchantStoreCode Merchant store
-   * @param contentImagesList list of {@link CMSContentImage} being stored
+   * @param contentFilesList list of {@link InputContentFile} being stored
    * @throws ServiceException service exception
    */
   @Override
@@ -244,9 +195,8 @@ public class ContentServiceImpl
 
     Assert.notNull(merchantStoreCode, "Merchant store ID can not be null");
     Assert.notEmpty(contentFilesList, "File list can not be empty");
-    LOG.info("Adding total {} images for given merchant", contentFilesList.size());
-
-    LOG.info("Adding content images for merchant....");
+    LOLOGGER.info("Adding total {} images for given merchant", contentFilesList.size());
+    LOLOGGER.info("Adding content images for merchant....");
     //contentFileManager.addImages( merchantStoreCode, contentImagesList );
     staticContentFileManager.addFiles(merchantStoreCode, contentFilesList);
 
@@ -259,7 +209,6 @@ public class ContentServiceImpl
     } catch (Exception e) {
       throw new ServiceException(e);
     }
-
   }
 
   /**
@@ -283,7 +232,6 @@ public class ContentServiceImpl
     } else {
       contentFileManager.removeFile(merchantStoreCode, fileContentType, fileName);
     }
-
   }
 
   /**
@@ -293,10 +241,8 @@ public class ContentServiceImpl
   @Override
   public void removeFiles(String merchantStoreCode) throws ServiceException {
     Assert.notNull(merchantStoreCode, "Merchant Store Id can not be null");
-
     contentFileManager.removeFiles(merchantStoreCode);
     staticContentFileManager.removeFiles(merchantStoreCode);
-
   }
 
 
@@ -305,9 +251,9 @@ public class ContentServiceImpl
    * will return Content image with given image name for the Merchant store or will return null if
    * no image with given name found for requested Merchant Store in Infinispan tree cache.
    *
-   * @param store Merchant merchantStoreCode
-   * @param imageName name of requested image
-   * @return {@link OutputContentImage}
+   * @param merchantStoreCode Merchant merchantStoreCode
+   * @param fileContentType name of requested image
+   * @return {@link OutputContentFile}
    */
   @Override
   public OutputContentFile getContentFile(String merchantStoreCode,
@@ -319,12 +265,9 @@ public class ContentServiceImpl
     if (fileContentType.name().equals(FileContentType.IMAGE.name())
         || fileContentType.name().equals(FileContentType.STATIC_FILE.name())) {
       return staticContentFileManager.getFile(merchantStoreCode, fileContentType, fileName);
-
     } else {
       return contentFileManager.getFile(merchantStoreCode, fileContentType, fileName);
     }
-
-
   }
 
   /**
@@ -332,8 +275,8 @@ public class ContentServiceImpl
    * will return list of all Content image associated with given  Merchant store or will return
    * empty list if no image is associated with given Merchant Store in Infinispan tree cache.
    *
-   * @param merchantStoreId Merchant store
-   * @return list of {@link OutputContentImage}
+   * @param merchantStoreCode Merchant store
+   * @return list of {@link OutputContentFile}
    */
   @Override
   public List<OutputContentFile> getContentFiles(String merchantStoreCode,
@@ -364,6 +307,4 @@ public class ContentServiceImpl
   public ContentDescription getBySeUrl(MerchantStore store, String seUrl) {
     return contentRepository.getBySeUrl(store, seUrl);
   }
-
-
 }

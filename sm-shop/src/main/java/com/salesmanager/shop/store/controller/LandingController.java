@@ -44,6 +44,10 @@ public class LandingController {
 
   private final static String LANDING_PAGE = "LANDING_PAGE";
 
+  private static final Logger LOGGER = LoggerFactory.getLogger(LandingController.class);
+
+  private final static String HOME_LINK_CODE = "HOME";
+
   @Inject
   private ContentService contentService;
 
@@ -63,20 +67,13 @@ public class LandingController {
   @Qualifier("img")
   private ImageFilePath imageUtils;
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(LandingController.class);
-
-  private final static String HOME_LINK_CODE = "HOME";
-
   @RequestMapping(value = {"/"}, method = RequestMethod.GET)
   public String displayLanding(Model model, HttpServletRequest request,
       HttpServletResponse response, Locale locale) throws ServiceException {
 
     Language language = (Language) request.getAttribute(Constants.LANGUAGE);
-
     MerchantStore store = (MerchantStore) request.getAttribute(Constants.MERCHANT_STORE);
-
     request.setAttribute(Constants.LINK_CODE, HOME_LINK_CODE);
-
     Content content = contentService.getByCode(LANDING_PAGE, store, language);
 
     // Rebuild breadcrumb
@@ -140,23 +137,18 @@ public class LandingController {
       HttpServletResponse response) {
 
     try {
-
       request.getSession().invalidate();
       request.getSession().removeAttribute(Constants.MERCHANT_STORE);
-
       MerchantStore merchantStore = merchantService.getByCode(store);
       if (merchantStore != null) {
         request.getSession().setAttribute(Constants.MERCHANT_STORE, merchantStore);
       } else {
         LOGGER.error("MerchantStore does not exist for store code " + store);
       }
-
     } catch (Exception e) {
       LOGGER.error("Error occured while getting store code " + store, e);
     }
 
     return "redirect:" + Constants.SHOP_URI;
   }
-
-
 }
