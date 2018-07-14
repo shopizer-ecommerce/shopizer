@@ -2,29 +2,47 @@ package com.salesmanager.shop.model.content;
 
 import java.io.Serializable;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 public abstract class Content implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String path;
+	@NotEmpty
 	private String name;
+	
+	private String contentType;
+	
+	public Content() {}
 	
 	public Content(String name) {
 		this.name = name;
 	}
+	
+	public Content(String name, String contentType) {
+		this.name = name;
+		this.contentType = contentType;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 
 	public String getName() {
 		return name;
 	}
 
-	public String getPath() {
-		return path;
+	public String getContentType() {
+		return contentType;
 	}
 
-	public void setPath(String path) {
-		this.path = path;
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
 	}
+
 
 }

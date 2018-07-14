@@ -898,7 +898,7 @@ $.richFilemanagerPlugin = function(element, pluginOptions)
                 }
                 if(isOpenDocFile(filename) && config.viewer.opendoc.enabled === true) {
                     viewerObject.type = 'opendoc';
-                    viewerObject.url = fm.settings.baseUrl + '/scripts/ViewerJS/index.html#' + createPreviewUrl(resourceObject, true);
+                    viewerObject.url = fm.settings.baseUrl + '/ViewerJS/index.html#' + createPreviewUrl(resourceObject, true);
                     viewerObject.options = {
                         width: config.viewer.opendoc.readerWidth,
                         height: config.viewer.opendoc.readerHeight

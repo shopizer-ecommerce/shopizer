@@ -4,14 +4,15 @@ import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
@@ -64,7 +65,6 @@ import com.salesmanager.admin.components.content.util.FileManagerUtils;
 import com.salesmanager.admin.components.content.util.FileUtils;
 import com.salesmanager.admin.components.content.util.ImageUtils;
 import com.salesmanager.admin.components.content.util.StringUtils;
-import com.salesmanager.admin.components.content.util.ZipUtils;
 import com.salesmanager.admin.controller.exception.AdminAuthenticationException;
 import com.salesmanager.admin.utils.Constants;
 
@@ -956,49 +956,64 @@ public class ContentManager {
 
     @SuppressWarnings("unchecked")
 	public JSONObject actionDelete(HttpServletRequest request) throws Exception {
+    	
 
         String path = getPath(request, "path");
-        File thumbnail = new File(getThumbnailPath(path));
-        File file = new File(docRoot.getPath() + path);
+        
+        int pathPos = path.lastIndexOf("/");
+        String fileName = path.substring(pathPos + 1);
 
-        if (!hasPermission("delete")) {
-            return getErrorResponse(dictionnary.getProperty("NOT_ALLOWED"));
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);  
+        String token = (String)request.getAttribute(Constants.TOKEN);
+        
+        headers.set(AUTHORIZATION, "Bearer " + token);//set bearer token
+        
+        
+        RestTemplate restTemplate = new RestTemplate();
+        
+        String resourceUrl
+        = backend + "/private/content";
+        
+        Map<String,String> m = new HashMap<String,String>();
+        m.put("name", fileName);
+        
+        String fileType = "STATIC_FILE";
+        String type = null;
+        String encoded= URLEncoder.encode(fileName, "UTF-8");
+        String mimetype = URLConnection.guessContentTypeFromName(encoded);
+        if(mimetype!=null) {
+    	   type = mimetype.split("/")[0]; 
         }
+        
+        if(type!=null && type.equals("image"))
+        	fileType = "IMAGE";
+        
+        m.put("contentType", fileType);
 
-        if (!file.exists() || !isAllowedName(file.getName(), false)) {
-            return getErrorResponse(dictionnary.getProperty("INVALID_DIRECTORY_OR_FILE"));
+        
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(m);
+        
+        HttpEntity<String> entity = new HttpEntity<String>(json, headers);
+        
+        ResponseEntity<String> resp = null;
+        try {
+        	resp = restTemplate.exchange(resourceUrl, HttpMethod.DELETE, entity,String.class);
+        } catch(HttpClientErrorException e) {
+        	if(HttpStatus.FORBIDDEN.name().equals(e.getStatusCode().name())) {
+        		throw new AdminAuthenticationException("Cannot delete content " + fileName,e.getStatusCode());
+        	}
+        	logger.error("Error while uploading file " + e.getMessage());
+        	throw new Exception("Cannot delete file " + fileName + " " + e.getMessage());
         }
+        
+        String urlPath = path.replace(fileName, "");
+        JSONObject ret = new JSONObject();
+        JSONObject o = new JSONObject(getFileInfo(urlPath, fileName));
+        ret.put("data", o);
+        return ret;
 
-        if (!file.canWrite()) {
-            return getErrorResponse(dictionnary.getProperty("NOT_ALLOWED_SYSTEM"));
-        }
-
-        if (file.equals(docRoot)) {
-            return getErrorResponse(dictionnary.getProperty("NOT_ALLOWED"));
-        }
-
-        // Recover the result before the operation
-        JSONObject result = new JSONObject();
-        JSONObject o = new JSONObject(getFileInfo(path));
-        result.put("data", o);
-        //JSONObject result = new JSONObject().put("data", new JSONObject(getFileInfo(path)));
-        if (file.isDirectory()) {
-            try {
-                FileUtils.removeDirectory(file.toPath());
-                if (thumbnail.exists()) {
-                    FileUtils.removeDirectory(thumbnail.toPath());
-                }
-            } catch (IOException e) {
-                throw new Exception("Error during removing directory: " + file.getName(), e);
-            }
-        } else {
-            if (!file.delete()) {
-                return getErrorResponse(String.format(dictionnary.getProperty("ERROR_SERVER"), path));
-            }
-            if (thumbnail.exists()) thumbnail.delete();
-        }
-
-        return result;
     }
 
     
@@ -1037,87 +1052,55 @@ public class ContentManager {
     @SuppressWarnings("unchecked")
 	public JSONObject actionDownload(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String path = getPath(request, "path");
+        
+        String filePath = getFilePath(path);
+        //filePath = URLEncoder.encode(filePath, "UTF-8");
+        int statusCode = 0;
+        File file = getFile(filePath);
+        filePath = filePath.replaceAll(" ","%20");
+        URL u = new URL (filePath);
+        //URL u = new URL ("http://localhost:8080/static/files/DEFAULT/IMAGE/FX-IMG_0288_burned.jpg");
+        HttpURLConnection huc =  ( HttpURLConnection )  u.openConnection (); 
+        //huc.setRequestMethod ("GET");  //OR  huc.setRequestMethod ("HEAD"); 
+        //huc.connect () ; 
+        statusCode = huc.getResponseCode() ;
 
-        File file = getFile(path);
-        String filename = file.getName();
-
-        if (!hasPermission("download")) {
-            return getErrorResponse(dictionnary.getProperty("NOT_ALLOWED"));
-        }
-
-        if (!file.exists()) {
-            return getErrorResponse(String.format(dictionnary.getProperty("FILE_DOES_NOT_EXIST"), file.getName()));
-        }
-
-        if (!file.canRead()) {
-            return getErrorResponse(dictionnary.getProperty("NOT_ALLOWED_SYSTEM"));
-        }
-
-        if (!isAllowedName(filename, file.isDirectory())) {
-            return getErrorResponse(dictionnary.getProperty("INVALID_DIRECTORY_OR_FILE"));
-        }
-
-        if (file.isDirectory()) {
-
-            // check  if permission is granted
-            if (!Boolean.parseBoolean(propertiesConfig.getProperty("allowFolderDownload"))) {
-                return getErrorResponse(dictionnary.getProperty("NOT_ALLOWED"));
-            }
-
-            // check if not requestion the main FM userfiles folder
-            if (file.equals(docRoot)) {
-                return getErrorResponse(dictionnary.getProperty("NOT_ALLOWED"));
-            }
-        }
-
-        // Ajax
-        if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
-            JSONObject result = new JSONObject();
-            JSONObject o = new JSONObject(getFileInfo(path));
-            result.put("data", o);
-            return result;
-            //return new JSONObject().put("data", new JSONObject(getFileInfo(path)));
-        } else {
+        	InputStream inputStream = null;
 
             try {
                 response.setHeader("Content-Description", "File Transfer");
-                if (file.isFile()) {
-                    String fileExt = filename.substring(filename.lastIndexOf(".") + 1);
-                    String mimeType = (!StringUtils.isEmpty(FileManagerUtils.mimetypes.get(fileExt))) ? FileManagerUtils.mimetypes.get(fileExt) : "application/octet-stream";
-                    response.setContentLength((int) file.length());
-                    response.setContentType(mimeType);
-                    response.setHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
-                    response.setContentLength((int) file.length());
+                if (statusCode == HttpURLConnection.HTTP_OK) {
 
-                    FileUtils.copy(new BufferedInputStream(new FileInputStream(file)), response.getOutputStream());
+                    String contentType = huc.getContentType();
+                    int contentLength = huc.getContentLength();
+                	
+                    inputStream = huc.getInputStream();
+                	
+                    String fileExt = filePath.substring(filePath.lastIndexOf(".") + 1);
+                    response.setContentType(contentType);
+                    response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"");
+                    response.setContentLength(contentLength);
+
+                    FileUtils.copy(new BufferedInputStream(inputStream), 
+                    response.getOutputStream());
                 } else {
-                    String[] files = file.list();
-
-                    if (files == null || files.length == 0) {
-                        return getErrorResponse(String.format(dictionnary.getProperty("DIRECTORY_EMPTY"), file.getName()));
-                    }
-
-                    String zipFileName = FileUtils.getBaseName(path.substring(0, path.length() - 1)) + ".zip";
-                    String mimType = FileManagerUtils.mimetypes.get("zip");
-                    response.setContentType(mimType);
-                    response.setHeader("Content-Disposition", "attachment; filename=\"" + zipFileName + "\"");
-                    byte[] zipFileByteArray;
-                    try {
-                        zipFileByteArray = ZipUtils.zipFolder(file);
-                    } catch (IOException e) {
-                        throw new Exception("Exception during ZipFiles", e);
-                    }
-                    response.setContentLength(zipFileByteArray.length);
-
-                    FileUtils.copy(new ByteArrayInputStream(zipFileByteArray), response.getOutputStream());
+                	throw new Exception("File could not be downloaded " + filePath);
                 }
 
             } catch (IOException e) {
-                throw new Exception("Download error: " + file.getName(), e);
+                throw new Exception("Download error: " + filePath, e);
+            } finally {
+            	if(inputStream != null) {
+            		try {
+            			inputStream.close();
+            		} catch(Exception e) {
+            			//ignore
+            		}
+            	}
             }
 
             return null;
-        }
+ 
     }
 
 
@@ -1144,7 +1127,7 @@ public class ContentManager {
                 }
                 
                 String submittedFileName = uploadedFile.getSubmittedFileName();
-                String filename = StringUtils.normalize(FileUtils.getBaseName(submittedFileName)) + '.' + FileUtils.getExtension(submittedFileName);
+                //String filename = StringUtils.normalize(FileUtils.getBaseName(submittedFileName)) + '.' + FileUtils.getExtension(submittedFileName);
 
                 Long uploadFileSizeLimit = 0L;
                 String uploadFileSizeLimitString = getPropertiesConfig().getProperty("upload_fileSizeLimit");
@@ -1195,14 +1178,13 @@ public class ContentManager {
 
                 	}
                 	logger.error("Error while uploading file " + e.getMessage());
-                	//TODO redirect to dashboard
+                	throw new Exception("Error while uploading file " + e.getMessage());
                 }
                 
-                
-                 
+                String urlPath = resp.getBody().replace(submittedFileName, "");
 
-                JSONObject o = new JSONObject(getFileInfo(path, submittedFileName));
-                array.add(new JSONObject(getFileInfo(path, resp.getBody())));
+                JSONObject o = new JSONObject(getFileInfo(urlPath, submittedFileName));
+                array.add(o);
                 
                 
             }
@@ -1603,7 +1585,11 @@ public class ContentManager {
     }
 
     private File getFile(String path) {
-        return new File(docRoot.getPath() + path);
+        return new File(contentUrl + path);
+    }
+    
+    private String getFilePath(String path) {
+    	return new StringBuilder().append(contentUrl).append(path).toString();
     }
 
     private String getDynamicPath(String path) {

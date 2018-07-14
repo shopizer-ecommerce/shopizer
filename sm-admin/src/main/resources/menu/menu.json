@@ -181,8 +181,7 @@
 		]
 	
 	}},
-	{"menu":{"code":"content-images","url":"/admin/content","role":"CONTENT","order":0}},
-	{"menu":{"code":"content-files","url":"","role":"CONTENT","order":0}}
+	{"menu":{"code":"content-files","url":"/admin/content","role":"CONTENT","order":0}}
 ]
 }},
 {

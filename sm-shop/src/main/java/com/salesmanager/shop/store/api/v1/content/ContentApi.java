@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +30,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.content.ContentFile;
 import com.salesmanager.shop.model.content.ContentFolder;
+import com.salesmanager.shop.model.content.ContentName;
 import com.salesmanager.shop.store.controller.content.facade.ContentFacade;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
@@ -191,6 +193,43 @@ public class ContentApi {
 		return null;
 
 	}
+	
+	/**
+	 * Deletes a files from CMS
+	 * @param path
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping( value={"/private/content"}, method=RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.OK)
+	@ResponseBody
+	public ResponseEntity<Void> delete(@Valid @RequestBody ContentName name, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		try {
+			
+			MerchantStore merchantStore = storeFacade.getByCode(request);
+			Language language = languageUtils.getRESTLanguage(request, merchantStore);
+			
+
+			contentFacade.delete(merchantStore, name.getName(), name.getContentType());
+
+
+			return new ResponseEntity<Void>(HttpStatus.OK);
+			
+			
+		} catch (Exception e) {
+			LOGGER.error("Error while deleting file name ["+ name + "]",e);
+			try {
+				response.sendError(503, "Error while deleting file name ["+ name + "]" + e.getMessage());
+			} catch (Exception ignore) {
+			}
+		}
+		
+		return null;
+	}
+
 	
 
 

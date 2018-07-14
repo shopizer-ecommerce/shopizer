@@ -79,6 +79,13 @@ public interface ContentService
      */
     public void removeFile( String merchantStoreCode, FileContentType fileContentType, String fileName) throws ServiceException;
     
+    /**
+     * Removes static file
+     * FileType is no more important
+     * @param storeCode
+     * @param filename
+     */
+    public void removeFile(String storeCode, String filename) throws ServiceException;
     
     /**
      * Method to remove all images for a given merchant.It will take merchant store as an input and will

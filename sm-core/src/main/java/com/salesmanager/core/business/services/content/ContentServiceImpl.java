@@ -1,5 +1,6 @@
 package com.salesmanager.core.business.services.content;
 
+import java.net.URLConnection;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -300,14 +301,22 @@ public class ContentServiceImpl
         Assert.notNull( fileName, "Content Image type can not be null" );
         
         
-        //check where to remove the file
-        if(fileContentType.name().equals(FileContentType.IMAGE.name())
-        		|| fileContentType.name().equals(FileContentType.STATIC_FILE.name())) {
-        	//staticContentFileManager.removeFile(merchantStoreCode, fileContentType, fileName);
-        	contentFileManager.removeFile( merchantStoreCode, fileContentType, fileName );
-        } else {
-        	contentFileManager.removeFile( merchantStoreCode, fileContentType, fileName );
-        }
+
+        contentFileManager.removeFile( merchantStoreCode, fileContentType, fileName );
+ 
+		
+	}
+	
+	@Override
+	public void removeFile(String storeCode, String fileName) throws ServiceException {
+		
+        String fileType = "IMAGE";
+        String mimetype = URLConnection.guessContentTypeFromName(fileName);
+        String type = mimetype.split("/")[0];
+        if(!type.equals("image"))
+        	fileType = "STATIC_FILE";
+
+		contentFileManager.removeFile( storeCode, FileContentType.valueOf(fileType), fileName);
 		
 	}
 
@@ -402,6 +411,8 @@ public class ContentServiceImpl
 	public ContentDescription getBySeUrl(MerchantStore store,String seUrl) {
 		return contentRepository.getBySeUrl(store, seUrl);
 	}
+
+
 
     
 

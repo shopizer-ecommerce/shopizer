@@ -20,5 +20,12 @@ public interface ContentFacade {
 	 * @return
 	 */
 	String absolutePath(MerchantStore store, String file);
+	
+	/**
+	 * Deletes a file from CMS
+	 * @param store
+	 * @param fileName
+	 */
+	void delete(MerchantStore store, String fileName, String fileType) throws Exception;
 
 }

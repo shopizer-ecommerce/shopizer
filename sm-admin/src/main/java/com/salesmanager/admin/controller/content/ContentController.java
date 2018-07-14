@@ -6,6 +6,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,7 @@ public class ContentController {
 	private ContentManager contentManager;
 	
 	@RequestMapping("/admin/content")
+	@Secured({"ROLE_CONTENT"})
 	public String display(Principal principal, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -37,6 +39,7 @@ public class ContentController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/admin/contentManagement/api")
+	@Secured({"ROLE_CONTENT"})
 	public void api(Principal principal, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		contentManager.handleRequest(request, response);
