@@ -19,5 +19,4 @@
   <beans:import resource="classpath:/spring/shopizer-security.xml"/>
   <!-- servlet-context -->
   <beans:import resource="classpath:/spring/shopizer-servlet-context.xml"/>
-
 </beans:beans>

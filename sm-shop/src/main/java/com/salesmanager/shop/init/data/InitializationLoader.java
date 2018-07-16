@@ -20,167 +20,139 @@ import com.salesmanager.shop.admin.model.permission.Permissions;
 import com.salesmanager.shop.admin.model.permission.ShopPermission;
 import com.salesmanager.shop.admin.security.WebUserServices;
 import com.salesmanager.shop.constants.ApplicationConstants;
-
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
-
-import java.io.File;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import javax.xml.transform.stream.StreamSource;
 
 
 @Component
 public class InitializationLoader {
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(InitializationLoader.class);
 
-	
-	@Inject
-	private MerchantConfigurationService merchantConfigurationService;
+  private static final Logger LOGGER = LoggerFactory.getLogger(InitializationLoader.class);
 
-	
-	@Inject
-	private InitializationDatabase initializationDatabase;
-	
-	@Inject
-	private InitData initData;
-	
-	@Inject
-	private SystemConfigurationService systemConfigurationService;
-	
-	@Inject
-	private WebUserServices userDetailsService;
+  @Inject
+  private MerchantConfigurationService merchantConfigurationService;
 
-	@Inject
-	protected PermissionService  permissionService;
-	
-	@Inject
-	protected GroupService   groupService;
-	
-	@Inject
-	private CoreConfiguration configuration;
-	
-	@Inject
-	protected MerchantStoreService merchantService;
+  @Inject
+  private InitializationDatabase initializationDatabase;
 
-    @Inject
-    private ObjectMapper jacksonObjectMapper;
+  @Inject
+  private InitData initData;
 
-    @Inject
-    private ResourceLoader resourceLoader;
-	
-	@PostConstruct
-	public void init() {
-		
-		try {
-			
-			if (initializationDatabase.isEmpty()) {
-				//InputStream in =
-		        //        this.getClass().getClassLoader().getResourceAsStream("/permission/permission.json");
-				
-				
-				org.springframework.core.io.Resource permissionXML=resourceLoader.getResource("classpath:/permission/permission.json");
-				
-				InputStream xmlSource = permissionXML.getInputStream();
-				
-                //File permissionXML=resourceLoader.getResource("classpath:/permission/permission.json").getFile();
-                //StreamSource xmlSource = new StreamSource(permissionXML);
+  @Inject
+  private SystemConfigurationService systemConfigurationService;
 
-                Permissions permissions= jacksonObjectMapper.readValue(xmlSource,Permissions.class);
+  @Inject
+  private WebUserServices userDetailsService;
 
-				//All default data to be created
-				
-				LOGGER.info(String.format("%s : Shopizer database is empty, populate it....", "sm-shop"));
-		
-				 initializationDatabase.populate("sm-shop");
-				
-				 MerchantStore store = merchantService.getByCode(MerchantStore.DEFAULT_STORE);
-				
-				 //security groups and permissions
+  @Inject
+  protected PermissionService permissionService;
 
-                Map<String, Group> groupMap = new HashMap<String,Group>();
-                if(CollectionUtils.isNotEmpty(permissions.getShopPermission())){
+  @Inject
+  protected GroupService groupService;
 
-                    for(ShopPermission shopPermission : permissions.getShopPermission()){
+  @Inject
+  private CoreConfiguration configuration;
 
-                        Permission permission = new Permission(shopPermission.getType());
+  @Inject
+  protected MerchantStoreService merchantService;
 
-                        for(String groupName: shopPermission.getShopGroup().getName()){
-                            if(groupMap.get(groupName) == null){
-                                Group group = new Group(groupName);
-                                group.setGroupType(GroupType.ADMIN);
-                                groupService.create(group);
-                                groupMap.put(groupName,group);
-                                permission.getGroups().add(group);
-                            }
-                            else{
-                                permission.getGroups().add(groupMap.get(groupName)) ;
-                            }
-                            permissionService.create( permission);
-                        }
+  @Inject
+  private ObjectMapper jacksonObjectMapper;
 
+  @Inject
+  private ResourceLoader resourceLoader;
 
-                    }
-                }
+  @PostConstruct
+  public void init() {
+    try {
+      if (initializationDatabase.isEmpty()) {
 
-                  userDetailsService.createDefaultAdmin();
-                  MerchantConfig config = new MerchantConfig();
-				  config.setAllowPurchaseItems(true);
-				  config.setDisplayAddToCartOnFeaturedItems(true);
-				  
-				  merchantConfigurationService.saveMerchantConfig(config, store);
+        Resource permissionConfig = resourceLoader.getResource("classpath:/permission/permission.json");
 
-				  loadData();
+        Permissions permissions = jacksonObjectMapper.readValue(
+            permissionConfig.getInputStream(), Permissions.class);
 
-			}
-			
-		} catch (Exception e) {
-			LOGGER.error("Error in the init method",e);
-		}
-		
+        LOGGER.info(String.format("%s : Populating initial data ..", "sm-shop"));
 
-		
-	}
-	
-	private void loadData() throws ServiceException {
-		
-		String loadTestData = configuration.getProperty(ApplicationConstants.POPULATE_TEST_DATA);
-		boolean loadData =  !StringUtils.isBlank(loadTestData) && loadTestData.equals(SystemConstants.CONFIG_VALUE_TRUE);
+        // Populate default data
+        initializationDatabase.populate("sm-shop");
 
+        MerchantStore store = merchantService.getByCode(MerchantStore.DEFAULT_STORE);
 
-		if(loadData) {
+        //security groups and permissions
+        Map<String, Group> groupMap = new HashMap<>();
+        if (CollectionUtils.isNotEmpty(permissions.getShopPermission())) {
 
-			SystemConfiguration configuration = systemConfigurationService.getByKey(ApplicationConstants.TEST_DATA_LOADED);
+          for (ShopPermission shopPermission : permissions.getShopPermission()) {
 
-			if(configuration!=null) {
-					if(configuration.getKey().equals(ApplicationConstants.TEST_DATA_LOADED)) {
-						if(configuration.getValue().equals(SystemConstants.CONFIG_VALUE_TRUE)) {
-							return;
-						}
-					}
-			}
+            Permission permission = new Permission(shopPermission.getType());
 
-			initData.initInitialData();
+            for (String groupName : shopPermission.getShopGroup().getName()) {
+              if (groupMap.get(groupName) == null) {
+                Group group = new Group(groupName);
+                group.setGroupType(GroupType.ADMIN);
+                groupService.create(group);
+                groupMap.put(groupName, group);
+                permission.getGroups().add(group);
+              } else {
+                permission.getGroups().add(groupMap.get(groupName));
+              }
+              permissionService.create(permission);
+            }
+          }
+        }
 
-			configuration = new SystemConfiguration();
-			configuration.getAuditSection().setModifiedBy(SystemConstants.SYSTEM_USER);
-			configuration.setKey(ApplicationConstants.TEST_DATA_LOADED);
-			configuration.setValue(SystemConstants.CONFIG_VALUE_TRUE);
-			systemConfigurationService.create(configuration);
+        userDetailsService.createDefaultAdmin();
+        MerchantConfig config = new MerchantConfig();
+        config.setAllowPurchaseItems(true);
+        config.setDisplayAddToCartOnFeaturedItems(true);
+        merchantConfigurationService.saveMerchantConfig(config, store);
+        loadData();
+      }
 
+    } catch (ServiceException serviceException) {
+      LOGGER.error("Error in the init method", serviceException);
+    } catch (IOException ioException) {
+      LOGGER.error("Error reading config", ioException);
+    }
+  }
 
-		}
-	}
+  private void loadData() throws ServiceException {
+    String loadTestData = configuration.getProperty(ApplicationConstants.POPULATE_TEST_DATA);
+    boolean loadData = !StringUtils.isBlank(loadTestData) && loadTestData
+        .equals(SystemConstants.CONFIG_VALUE_TRUE);
 
+    if (loadData) {
 
+      SystemConfiguration configuration = systemConfigurationService
+          .getByKey(ApplicationConstants.TEST_DATA_LOADED);
 
+      if (configuration != null) {
+        if (configuration.getKey().equals(ApplicationConstants.TEST_DATA_LOADED)) {
+          if (configuration.getValue().equals(SystemConstants.CONFIG_VALUE_TRUE)) {
+            return;
+          }
+        }
+      }
+
+      initData.initInitialData();
+
+      configuration = new SystemConfiguration();
+      configuration.getAuditSection().setModifiedBy(SystemConstants.SYSTEM_USER);
+      configuration.setKey(ApplicationConstants.TEST_DATA_LOADED);
+      configuration.setValue(SystemConstants.CONFIG_VALUE_TRUE);
+      systemConfigurationService.create(configuration);
+    }
+  }
 }

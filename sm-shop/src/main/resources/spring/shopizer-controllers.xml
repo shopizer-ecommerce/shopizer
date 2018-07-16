@@ -46,7 +46,7 @@
 
 
   <!-- Maps '/' requests to the 'home' view -->
-  <mvc:view-controller path="/" view-name="shop"/>
+  <!--<mvc:view-controller path="/" view-name="shop"/>-->
 
 
   <mvc:interceptors>

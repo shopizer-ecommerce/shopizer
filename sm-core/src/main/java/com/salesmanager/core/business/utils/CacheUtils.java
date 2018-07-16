@@ -16,17 +16,20 @@ import org.springframework.stereotype.Component;
 public class CacheUtils {
 
   public final static String REFERENCE_CACHE = "REF";
+
   private static final Logger LOGGER = LoggerFactory.getLogger(CacheUtils.class);
+
   private final static String KEY_DELIMITER = "_";
+
   @Inject
   @Qualifier("serviceCache")
   private Cache cache;
 
-  public void putInCache(Object object, String keyName) throws Exception {
+  public void putInCache(Object object, String keyName) {
     cache.put(keyName, object);
   }
 
-  public Object getFromCache(String keyName) throws Exception {
+  public Object getFromCache(String keyName) {
     ValueWrapper vw = cache.get(keyName);
     if (vw != null) {
       return vw.get();
