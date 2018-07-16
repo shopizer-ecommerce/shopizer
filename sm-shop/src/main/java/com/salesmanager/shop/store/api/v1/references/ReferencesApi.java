@@ -25,7 +25,6 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.country.Country;
 import com.salesmanager.core.model.reference.currency.Currency;
 import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.references.ReadableCountry;
 import com.salesmanager.shop.populator.references.ReadableCountryPopulator;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;

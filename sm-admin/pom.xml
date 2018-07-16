@@ -39,7 +39,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
-            <!-- <version>1.4.2.RELEASE</version> -->
         </dependency>
         
         <!-- optional, it brings userful tags to display spring security stuff -->

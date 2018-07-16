@@ -54,7 +54,7 @@ public class SearchApi {
 	 * @return SearchProductList
 	 * @throws Exception
 	 */
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
 	@RequestMapping( value="/search", method=RequestMethod.POST)
 	public @ResponseBody SearchProductList search(@RequestBody SearchProductRequest searchRequest, @RequestParam(value = "lang", required=false) String lang, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		

@@ -43,7 +43,7 @@
 				<!-- #https://www.google.com/recaptcha/admin/create -->
 				<!-- to be used with localhost -->
 				<prop key="shopizer.recapatcha_public_key">6Le3DiUUAAAAAGECVhc4zwFewu8bG-6etonJNTvD</prop>
-				<prop key="shopizer.recapatcha_private_key">6Le3DiUUAAAAAPUUz_JVqujTLRITPzbIR85khz6W</prop>
+				<prop key="shopizer.recapatcha_private_key">6Le3DiUUAAAAAPUUz_JVqujTLRITPzbIR85khz6W</prop><!-- secret -->
 				<prop key="shopizer.recapatcha_url"><![CDATA[https://www.google.com/recaptcha/api/siteverify]]></prop>
 				
 				<!-- express checkout url -->

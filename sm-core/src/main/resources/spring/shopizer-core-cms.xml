@@ -128,7 +128,7 @@
 	
 	<!-- downloads files are not supported with httpd, used infinispan (default) -->
 	
-<!-- 	
+    <!-- 	
 	<beans:bean id="serverProductAssetsManager"
 				class="com.salesmanager.core.business.modules.cms.product.local.CmsImageFileManagerImpl" factory-method="getInstance" >
 				internal implementation
@@ -139,47 +139,13 @@
 				<beans:property name="rootName" value="product-merchant"/>
 				<beans:property name="rootName" value="/Applications/MAMP/htdocs/bam-images"/>
 	</beans:bean> -->
-	
-	<!-- TODO create another one for Local (Local assets manager)-->
-			<!--<beans:property name="rootName" value="/Applications/MAMP/htdocs/bam-images"/>-->
-	
+
 	<!-- TODO create another one for aws (aws assets manager)-->
 	
 
-	
-	<!-- Assets manager ** don't need anymore, see above -->
-	<!-- store images, js, css [[merchant images]] -->
-<!--  	<beans:bean id="cmsStoreFile"
-				class="com.salesmanager.core.business.modules.cms.content.infinispan.CmsStaticContentFileManagerImpl" factory-method="getInstance" >
-				<beans:property name="cacheManager">
-						<beans:ref bean="filesCacheManager" />
-				</beans:property>
-				<beans:property name="rootName" value="store-merchant"/>
-				<beans:property name="rootName" value="/Applications/MAMP/htdocs/bam-images"/>
-	</beans:bean>  -->
-	
+	<!--  end of CMS implementation for static content data -->
 
 	<!--  end of CMS implementation for static content data -->
-	
-	
-	<!-- Assets manager ** don't need anymore, see above-->
-	<!-- TODO refbean -->
-<!-- 	<beans:bean id="cmsStaticFile" class="com.salesmanager.core.business.modules.cms.content.infinispan.CmsStaticContentFileManagerImpl" factory-method="getInstance">
-		<beans:property name="cacheManager">
-			<beans:ref bean="cmsManager" />
-		</beans:property>
-		TODO move to cmsManager
-		<beans:property name="rootName" value="store-merchant"/>
-		<beans:property name="rootName" value="/Applications/MAMP/htdocs/bam-images/"/>
-	</beans:bean> -->
-	
-
-
-	<!--  end of CMS implementation for static content data -->
-	
-	
-
-	
 
 	<!-- ++++++++++++ -->
 	<!-- CMS managers -->
@@ -209,29 +175,18 @@
 	<!-- httpd product STARTUP-->
 	<beans:bean id="httpdAssetsManager" 
 		class="com.salesmanager.core.business.modules.cms.impl.LocalCacheManagerImpl">
-		<beans:constructor-arg value="/Applications/MAMP/htdocs/images"/><!-- where files are copied on disk -->
+		<beans:constructor-arg value="/Applications/MAMP/htdocs/files"/><!-- where files are copied on disk -->
 	</beans:bean>
-	
-	
-	<!-- Todo digitalDownloadManager -->
-	<!--
-	<beans:bean id="filesCacheManager" 
-		class="com.salesmanager.core.business.modules.cms.impl.StaticContentCacheManagerImpl" >
-		<beans:constructor-arg value="${config.cms.files.location}"/>
-	</beans:bean>
-	-->
-	
-	
-	<!-- Httpd-->
-	<!--
-	<beans:bean id="cmsManager"
-				class="com.salesmanager.core.business.modules.cms.impl.LocalCacheManagerImpl" factory-method="getInstance" >
-	</beans:bean>
-	-->
+
+
 	
 	<!--  Todo new CMS manager for AWS -->
-
-
+<!-- 	<beans:bean id="awsAssetsManager" 
+		class="com.salesmanager.core.business.modules.cms.impl.S3CacheManagerImpl">
+		<beans:constructor-arg value="{bucketName}"/>
+		<beans:constructor-arg value="{prefix}"/>
+	</beans:bean>
+ -->
 	
 	<!--  -->
 	

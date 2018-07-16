@@ -22,6 +22,8 @@
         <jjwt.version>0.8.0</jjwt.version>
         <!-- Need to use the latest milestone in order to logon with latest FB app version -->
         <spring-social-facebook.version>3.0.0.M3</spring-social-facebook.version>
+        <guava.version>19.0</guava.version>
+        <swagger.version>2.7.0</swagger.version>
 	</properties>
 
 	<dependencies>
@@ -59,6 +61,12 @@
 	        <groupId>org.springframework.boot</groupId>
 	        <artifactId>spring-boot-starter-security</artifactId>
 	    </dependency>
+	    
+	    <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
+        </dependency>
 
 	    
  	    <dependency>
@@ -116,6 +124,19 @@
 		<dependency>
 			<groupId>org.springframework.mobile</groupId>
 			<artifactId>spring-mobile-device</artifactId>
+		</dependency>
+		
+		<!-- Swagger 2 documentation -->		
+		<dependency>
+		    <groupId>io.springfox</groupId>
+		    <artifactId>springfox-swagger2</artifactId>
+		    <version>${swagger.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>io.springfox</groupId>
+		    <artifactId>springfox-swagger-ui</artifactId>
+		    <version>${swagger.version}</version>
 		</dependency>
 
 		

@@ -162,8 +162,11 @@ public class OrderApi {
 		
 		ReadableOrderList returnList = orderFacade.getReadableOrderList(merchantStore, customer, start, count, language);
 
-		List<ReadableOrder> orders = returnList.getOrders();
+		if(returnList==null) {
+			returnList = new ReadableOrderList();
+		}
 		
+		List<ReadableOrder> orders = returnList.getOrders();
 		if(!CollectionUtils.isEmpty(orders)) {
 			for(ReadableOrder order : orders) {
 				order.setCustomer(readableCustomer);

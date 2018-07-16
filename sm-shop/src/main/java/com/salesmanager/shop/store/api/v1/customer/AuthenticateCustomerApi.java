@@ -10,13 +10,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mobile.device.Device;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,6 +35,8 @@ import com.salesmanager.shop.store.security.AuthenticationResponse;
 import com.salesmanager.shop.store.security.JWTTokenUtil;
 import com.salesmanager.shop.store.security.user.JWTUser;
 import com.salesmanager.shop.utils.LanguageUtils;
+
+import io.swagger.annotations.ApiOperation;
 
 @Controller
 @RequestMapping("/api/v1")
@@ -66,8 +68,9 @@ public class AuthenticateCustomerApi {
 	/**
 	 * Create new customer for a given MerchantStore, then authenticate that customer
 	 */
-	@RequestMapping( value={"/auth/register"}, method=RequestMethod.POST)
+	@RequestMapping( value={"/customer/register"}, method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.CREATED)
+	@ApiOperation(httpMethod = "POST", value = "Registers a customer to the application", notes = "Used as self-served operation",response = AuthenticationResponse.class)
 	@ResponseBody
 	public ResponseEntity<?> register(@Valid @RequestBody PersistableCustomer customer, HttpServletRequest request, HttpServletResponse response, Device device) throws Exception {
 
@@ -131,7 +134,7 @@ public class AuthenticateCustomerApi {
 	 * @return
 	 * @throws AuthenticationException
 	 */
-    @RequestMapping(value = "/auth/login", method = RequestMethod.POST)
+    @RequestMapping(value = "/customer/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> authenticate(@RequestBody @Valid AuthenticationRequest authenticationRequest, Device device) throws AuthenticationException {
 
         // Perform the security
@@ -168,8 +171,8 @@ public class AuthenticateCustomerApi {
         return ResponseEntity.ok(new AuthenticationResponse(userDetails.getId(),token));
     }
 
-    @RequestMapping(value = "/auth/refresh", method = RequestMethod.GET)
-    public ResponseEntity<?> refreshAndGetAuthenticationToken(HttpServletRequest request) {
+    @RequestMapping(value = "/auth/customer/refresh", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> refreshToken(HttpServletRequest request) {
         String token = request.getHeader(tokenHeader);
         String username = jwtTokenUtil.getUsernameFromToken(token);
         JWTUser user = (JWTUser) jwtCustomerDetailsService.loadUserByUsername(username);
