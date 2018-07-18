@@ -92,8 +92,7 @@ public class Category extends SalesManagerEntity<Long, Category> implements Audi
     this.code = code;
   }
 
-  public Category() {
-  }
+  public Category() { }
 
   public Category(MerchantStore store) {
     this.merchantStore = store;

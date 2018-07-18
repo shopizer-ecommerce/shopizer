@@ -33,7 +33,7 @@ import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 @Configuration
 @ComponentScan({"com.salesmanager.shop", "com.salesmanager.core.business"})
 @EnableAutoConfiguration
-@Import(CoreApplicationConfiguration.class)//import sm-core configurations
+@Import(CoreApplicationConfiguration.class) //import sm-core configurations
 @ImportResource({"classpath:/spring/shopizer-shop-context.xml"})
 @EnableWebSecurity
 public class ShopApplicationConfiguration extends WebMvcConfigurerAdapter {
