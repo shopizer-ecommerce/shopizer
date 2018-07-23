@@ -85,7 +85,7 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
   @Column(name = "CUSTOMER_PASSWORD", length = 60)
   private String password;
 
-  @Column(name = "CUSTOMER_ANONYMOUS")
+  @Column(name = "CUSTOMER_ANONYMOUS", columnDefinition = "TINYINT(1)")
   private boolean anonymous;
 
   @Column(name = "REVIEW_AVG")

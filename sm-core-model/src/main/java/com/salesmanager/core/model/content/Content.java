@@ -58,10 +58,10 @@ public class Content extends SalesManagerEntity<Long, Content> implements Serial
   @Column(name = "CODE", length = 100, nullable = false)
   private String code;
 
-  @Column(name = "VISIBLE")
+  @Column(name = "VISIBLE", columnDefinition = "TINYINT(1)")
   private boolean visible;
 
-  @Column(name = "LINK_TO_MENU")
+  @Column(name = "LINK_TO_MENU", columnDefinition = "TINYINT(1)")
   private boolean linkToMenu;
 
   @Column(name = "CONTENT_POSITION", length = 10, nullable = true)

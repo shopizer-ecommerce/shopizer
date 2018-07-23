@@ -45,7 +45,7 @@ public class Country extends SalesManagerEntity<Integer, Country> {
   @JoinColumn(name = "GEOZONE_ID")
   private GeoZone geoZone;
 
-  @Column(name = "COUNTRY_SUPPORTED")
+  @Column(name = "COUNTRY_SUPPORTED", columnDefinition = "TINYINT(1)")
   private boolean supported = true;
 
   @Column(name = "COUNTRY_ISOCODE", unique = true, nullable = false)

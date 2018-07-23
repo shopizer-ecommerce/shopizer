@@ -100,7 +100,7 @@ public class MerchantStore extends SalesManagerEntity<Integer, MerchantStore> {
   @JoinTable(name = "MERCHANT_LANGUAGE")
   private List<Language> languages = new ArrayList<>();
 
-  @Column(name = "USE_CACHE")
+  @Column(name = "USE_CACHE", columnDefinition = "TINYINT(1)")
   private boolean useCache = false;
 
   @Column(name = "STORE_TEMPLATE", length = 25)
@@ -127,7 +127,7 @@ public class MerchantStore extends SalesManagerEntity<Integer, MerchantStore> {
   @JoinColumn(name = "CURRENCY_ID", nullable = false)
   private Currency currency;
 
-  @Column(name = "CURRENCY_FORMAT_NATIONAL")
+  @Column(name = "CURRENCY_FORMAT_NATIONAL", columnDefinition = "TINYINT(1)")
   private boolean currencyFormatNational;
 
   public MerchantStore() {

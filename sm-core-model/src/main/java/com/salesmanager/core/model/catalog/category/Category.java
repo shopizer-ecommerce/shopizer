@@ -65,10 +65,10 @@ public class Category extends SalesManagerEntity<Long, Category> implements Audi
   @Column(name = "SORT_ORDER")
   private Integer sortOrder = 0;
 
-  @Column(name = "CATEGORY_STATUS")
+  @Column(name = "CATEGORY_STATUS", columnDefinition = "TINYINT(1)")
   private boolean categoryStatus;
 
-  @Column(name = "VISIBLE")
+  @Column(name = "VISIBLE", columnDefinition = "TINYINT(1)")
   private boolean visible;
 
   @Column(name = "DEPTH")
@@ -77,7 +77,7 @@ public class Category extends SalesManagerEntity<Long, Category> implements Audi
   @Column(name = "LINEAGE")
   private String lineage;
 
-  @Column(name = "FEATURED")
+  @Column(name = "FEATURED", columnDefinition = "TINYINT(1)")
   private boolean featured;
 
   @NotEmpty
