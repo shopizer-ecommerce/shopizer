@@ -1,8 +1,11 @@
 package com.salesmanager.core.model.reference.country;
 
+import com.salesmanager.core.constants.SchemaConstant;
+import com.salesmanager.core.model.generic.SalesManagerEntity;
+import com.salesmanager.core.model.reference.geozone.GeoZone;
+import com.salesmanager.core.model.reference.zone.Zone;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,114 +20,101 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Transient;
 
-import com.salesmanager.core.constants.SchemaConstant;
-import com.salesmanager.core.model.generic.SalesManagerEntity;
-import com.salesmanager.core.model.reference.geozone.GeoZone;
-import com.salesmanager.core.model.reference.zone.Zone;
 
 @Entity
-@Table(name = "COUNTRY", schema=SchemaConstant.SALESMANAGER_SCHEMA)
+@Table(name = "COUNTRY", schema = SchemaConstant.SALESMANAGER_SCHEMA)
 @Cacheable
 public class Country extends SalesManagerEntity<Integer, Country> {
-	private static final long serialVersionUID = -7388011537255588035L;
 
-	@Id
-	@Column(name="COUNTRY_ID")
-	@TableGenerator(name = "TABLE_GEN", table = "SM_SEQUENCER", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT",
-	pkColumnValue = "COUNTRY_SEQ_NEXT_VAL")
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
-	private Integer id;
-	
-	@OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
-	private List<CountryDescription> descriptions = new ArrayList<CountryDescription>();
-	
-	@OneToMany(mappedBy = "country")
-	private List<Zone> zones = new ArrayList<Zone>();
-	
-	@ManyToOne(targetEntity = GeoZone.class)
-	@JoinColumn(name = "GEOZONE_ID")
-	private GeoZone geoZone;
-	
-	@Column(name = "COUNTRY_SUPPORTED")
-	private boolean supported = true;
-	
-	@Column(name = "COUNTRY_ISOCODE", unique=true, nullable = false)
-	private String isoCode;
-	
-	@Transient
-	private String name;
-	
-	public String getName() {
-		return name;
-	}
+  private static final long serialVersionUID = -7388011537255588035L;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  @Id
+  @Column(name = "COUNTRY_ID")
+  @TableGenerator(name = "TABLE_GEN", table = "SM_SEQUENCER", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT",
+      pkColumnValue = "COUNTRY_SEQ_NEXT_VAL")
+  @GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
+  private Integer id;
 
-	public Country() {
-	}
-	
-	public Country(String isoCode) {
-		this.setIsoCode(isoCode);
-	}
-	
-	public boolean getSupported() {
-		return supported;
-	}
+  @OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
+  private List<CountryDescription> descriptions = new ArrayList<>();
 
-	public void setSupported(boolean supported) {
-		this.supported = supported;
-	}
+  @OneToMany(mappedBy = "country")
+  private List<Zone> zones = new ArrayList<>();
 
-	public String getIsoCode() {
-		return isoCode;
-	}
+  @ManyToOne(targetEntity = GeoZone.class)
+  @JoinColumn(name = "GEOZONE_ID")
+  private GeoZone geoZone;
 
-	public void setIsoCode(String isoCode) {
-		this.isoCode = isoCode;
-	}
+  @Column(name = "COUNTRY_SUPPORTED", columnDefinition = "TINYINT(1)")
+  private boolean supported = true;
 
+  @Column(name = "COUNTRY_ISOCODE", unique = true, nullable = false)
+  private String isoCode;
 
-	@Override
-	public Integer getId() {
-		return id;
-	}
+  @Transient
+  private String name;
 
-	@Override
-	public void setId(Integer id) {
-		this.id = id;
-	}
+  public String getName() {
+    return name;
+  }
 
-	public List<Zone> getZones() {
-		return zones;
-	}
+  public void setName(String name) {
+    this.name = name;
+  }
 
-	public void setZones(List<Zone> zones) {
-		this.zones = zones;
-	}
+  public Country() { }
 
-	public List<CountryDescription> getDescriptions() {
-		return descriptions;
-	}
+  public Country(String isoCode) {
+    this.setIsoCode(isoCode);
+  }
 
-	public void setDescriptions(List<CountryDescription> descriptions) {
-		this.descriptions = descriptions;
-	}
+  public boolean getSupported() {
+    return supported;
+  }
 
-	public GeoZone getGeoZone() {
-		return geoZone;
-	}
+  public void setSupported(boolean supported) {
+    this.supported = supported;
+  }
 
-	public void setGeoZone(GeoZone geoZone) {
-		this.geoZone = geoZone;
-	}
+  public String getIsoCode() {
+    return isoCode;
+  }
 
-/*	public GeoZone getGeoZone() {
-		return geoZone;
-	}
+  public void setIsoCode(String isoCode) {
+    this.isoCode = isoCode;
+  }
 
-	public void setGeoZone(GeoZone geoZone) {
-		this.geoZone = geoZone;
-	}*/
+  @Override
+  public Integer getId() {
+    return id;
+  }
+
+  @Override
+  public void setId(Integer id) {
+    this.id = id;
+  }
+
+  public List<Zone> getZones() {
+    return zones;
+  }
+
+  public void setZones(List<Zone> zones) {
+    this.zones = zones;
+  }
+
+  public List<CountryDescription> getDescriptions() {
+    return descriptions;
+  }
+
+  public void setDescriptions(List<CountryDescription> descriptions) {
+    this.descriptions = descriptions;
+  }
+
+  public GeoZone getGeoZone() {
+    return geoZone;
+  }
+
+  public void setGeoZone(GeoZone geoZone) {
+    this.geoZone = geoZone;
+  }
 }

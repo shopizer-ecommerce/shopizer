@@ -1,102 +1,99 @@
 package com.salesmanager.core.model.catalog.product;
 
-import java.util.List;
-
 import com.salesmanager.core.model.catalog.product.attribute.AttributeCriteria;
 import com.salesmanager.core.model.common.Criteria;
+import java.util.List;
+
 
 public class ProductCriteria extends Criteria {
-	
-	
-	private String productName;
-	private List<AttributeCriteria> attributeCriteria;
 
-	
-	private Boolean available = null;
-	
-	private List<Long> categoryIds;
-	private List<String> availabilities;
-	private List<Long> productIds;
-	
-	private String status;
-	
-	private Long manufacturerId = null;
-	
-	private Long ownerId = null;
+  private String productName;
 
-	public String getProductName() {
-		return productName;
-	}
+  private List<AttributeCriteria> attributeCriteria;
 
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
+  private Boolean available = null;
 
+  private List<Long> categoryIds;
 
-	public List<Long> getCategoryIds() {
-		return categoryIds;
-	}
+  private List<String> availabilities;
 
-	public void setCategoryIds(List<Long> categoryIds) {
-		this.categoryIds = categoryIds;
-	}
+  private List<Long> productIds;
 
-	public List<String> getAvailabilities() {
-		return availabilities;
-	}
+  private String status;
 
-	public void setAvailabilities(List<String> availabilities) {
-		this.availabilities = availabilities;
-	}
+  private Long manufacturerId = null;
 
-	public Boolean getAvailable() {
-		return available;
-	}
+  private Long ownerId = null;
 
-	public void setAvailable(Boolean available) {
-		this.available = available;
-	}
+  public String getProductName() {
+    return productName;
+  }
 
-	public void setAttributeCriteria(List<AttributeCriteria> attributeCriteria) {
-		this.attributeCriteria = attributeCriteria;
-	}
+  public void setProductName(String productName) {
+    this.productName = productName;
+  }
 
-	public List<AttributeCriteria> getAttributeCriteria() {
-		return attributeCriteria;
-	}
+  public List<Long> getCategoryIds() {
+    return categoryIds;
+  }
 
-	public void setProductIds(List<Long> productIds) {
-		this.productIds = productIds;
-	}
+  public void setCategoryIds(List<Long> categoryIds) {
+    this.categoryIds = categoryIds;
+  }
 
-	public List<Long> getProductIds() {
-		return productIds;
-	}
+  public List<String> getAvailabilities() {
+    return availabilities;
+  }
 
-	public void setManufacturerId(Long manufacturerId) {
-		this.manufacturerId = manufacturerId;
-	}
+  public void setAvailabilities(List<String> availabilities) {
+    this.availabilities = availabilities;
+  }
 
-	public Long getManufacturerId() {
-		return manufacturerId;
-	}
+  public Boolean getAvailable() {
+    return available;
+  }
 
-	public String getStatus() {
-		return status;
-	}
+  public void setAvailable(Boolean available) {
+    this.available = available;
+  }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+  public void setAttributeCriteria(List<AttributeCriteria> attributeCriteria) {
+    this.attributeCriteria = attributeCriteria;
+  }
 
-	public Long getOwnerId() {
-		return ownerId;
-	}
+  public List<AttributeCriteria> getAttributeCriteria() {
+    return attributeCriteria;
+  }
 
-	public void setOwnerId(Long ownerId) {
-		this.ownerId = ownerId;
-	}
+  public void setProductIds(List<Long> productIds) {
+    this.productIds = productIds;
+  }
 
+  public List<Long> getProductIds() {
+    return productIds;
+  }
 
+  public void setManufacturerId(Long manufacturerId) {
+    this.manufacturerId = manufacturerId;
+  }
 
+  public Long getManufacturerId() {
+    return manufacturerId;
+  }
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
+  }
+
+  public Long getOwnerId() {
+    return ownerId;
+  }
+
+  public void setOwnerId(Long ownerId) {
+    this.ownerId = ownerId;
+  }
 }

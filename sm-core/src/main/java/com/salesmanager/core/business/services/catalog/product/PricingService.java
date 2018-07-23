@@ -50,8 +50,7 @@ public interface PricingService {
 	 * @return
 	 * @throws ServiceException
 	 */
-	FinalPrice calculateProductPrice(Product product,
-			List<ProductAttribute> attributes) throws ServiceException;
+	FinalPrice calculateProductPrice(Product product, List<ProductAttribute> attributes);
 
 	/**
 	 * Calculates the FinalPrice of a Product taking into account
@@ -64,9 +63,8 @@ public interface PricingService {
 	 * @return
 	 * @throws ServiceException
 	 */
-	FinalPrice calculateProductPrice(Product product,
-			List<ProductAttribute> attributes, Customer customer)
-			throws ServiceException;
+	FinalPrice calculateProductPrice(
+			Product product, List<ProductAttribute> attributes, Customer customer);
 
 	/**
 	 * Method to be used to print a displayable formated amount to the end user

@@ -45,12 +45,12 @@ public class PricingServiceImpl implements PricingService {
 	}
 	
 	@Override
-	public FinalPrice calculateProductPrice(Product product, List<ProductAttribute> attributes) throws ServiceException {
+	public FinalPrice calculateProductPrice(Product product, List<ProductAttribute> attributes) {
 		return priceUtil.getFinalProductPrice(product, attributes);
 	}
 	
 	@Override
-	public FinalPrice calculateProductPrice(Product product, List<ProductAttribute> attributes, Customer customer) throws ServiceException {
+	public FinalPrice calculateProductPrice(Product product, List<ProductAttribute> attributes, Customer customer) {
 		/** TODO add rules for price calculation **/
 		return priceUtil.getFinalProductPrice(product, attributes);
 	}

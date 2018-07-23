@@ -29,7 +29,7 @@ public class Currency extends SalesManagerEntity<Long, Currency> implements Seri
 	@Column(name = "CURRENCY_CURRENCY_CODE" ,nullable = false, unique = true)
 	private java.util.Currency currency;
 	
-	@Column(name = "CURRENCY_SUPPORTED")
+	@Column(name = "CURRENCY_SUPPORTED", columnDefinition = "TINYINT(1)")
 	private Boolean supported = true;
 	
 	@Column(name = "CURRENCY_CODE", unique = true)

@@ -1,0 +1,2932 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+  <changeSet author="binayak (generated)" id="1532244833569-1">
+    <createTable tableName="CATEGORY">
+      <column name="CATEGORY_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DATE_CREATED" type="datetime"/>
+      <column name="DATE_MODIFIED" type="datetime"/>
+      <column name="UPDT_ID" type="varchar(20) CHARACTER SET 'utf8'"/>
+      <column name="CATEGORY_IMAGE" type="varchar(100) CHARACTER SET 'utf8'"/>
+      <column name="CATEGORY_STATUS" type="BIT(1)"/>
+      <column name="CODE" type="varchar(100) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="DEPTH" type="INT"/>
+      <column name="FEATURED" type="BIT(1)"/>
+      <column name="LINEAGE" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="SORT_ORDER" type="INT"/>
+      <column name="VISIBLE" type="BIT(1)"/>
+      <column name="MERCHANT_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="PARENT_ID" type="BIGINT"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-2">
+    <createTable tableName="CATEGORY_DESCRIPTION">
+      <column name="DESCRIPTION_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DATE_CREATED" type="datetime"/>
+      <column name="DATE_MODIFIED" type="datetime"/>
+      <column name="UPDT_ID" type="varchar(20) CHARACTER SET 'utf8'"/>
+      <column name="DESCRIPTION" type="LONGTEXT"/>
+      <column name="NAME" type="varchar(120) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="TITLE" type="varchar(100) CHARACTER SET 'utf8'"/>
+      <column name="CATEGORY_HIGHLIGHT" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="META_DESCRIPTION" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="META_KEYWORDS" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="META_TITLE" type="varchar(120) CHARACTER SET 'utf8'"/>
+      <column name="SEF_URL" type="varchar(120) CHARACTER SET 'utf8'"/>
+      <column name="LANGUAGE_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="CATEGORY_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-3">
+    <createTable tableName="CONTENT">
+      <column name="CONTENT_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DATE_CREATED" type="datetime"/>
+      <column name="DATE_MODIFIED" type="datetime"/>
+      <column name="UPDT_ID" type="varchar(20) CHARACTER SET 'utf8'"/>
+      <column name="CODE" type="varchar(100) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="CONTENT_POSITION" type="varchar(10) CHARACTER SET 'utf8'"/>
+      <column name="CONTENT_TYPE" type="varchar(10) CHARACTER SET 'utf8'"/>
+      <column name="LINK_TO_MENU" type="BIT(1)"/>
+      <column name="PRODUCT_GROUP" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="SORT_ORDER" type="INT"/>
+      <column name="VISIBLE" type="BIT(1)"/>
+      <column name="MERCHANT_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-4">
+    <createTable tableName="CONTENT_DESCRIPTION">
+      <column name="DESCRIPTION_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DATE_CREATED" type="datetime"/>
+      <column name="DATE_MODIFIED" type="datetime"/>
+      <column name="UPDT_ID" type="varchar(20) CHARACTER SET 'utf8'"/>
+      <column name="DESCRIPTION" type="LONGTEXT"/>
+      <column name="NAME" type="varchar(120) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="TITLE" type="varchar(100) CHARACTER SET 'utf8'"/>
+      <column name="META_DESCRIPTION" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="META_KEYWORDS" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="META_TITLE" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="SEF_URL" type="varchar(120) CHARACTER SET 'utf8'"/>
+      <column name="LANGUAGE_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="CONTENT_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-5">
+    <createTable tableName="COUNTRY">
+      <column name="COUNTRY_ID" type="INT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="COUNTRY_ISOCODE" type="varchar(255) CHARACTER SET 'utf8'">
+        <constraints nullable="false" unique="true"/>
+      </column>
+      <column name="COUNTRY_SUPPORTED" type="BIT(1)"/>
+      <column name="GEOZONE_ID" type="BIGINT"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-6">
+    <createTable tableName="COUNTRY_DESCRIPTION">
+      <column name="DESCRIPTION_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DATE_CREATED" type="datetime"/>
+      <column name="DATE_MODIFIED" type="datetime"/>
+      <column name="UPDT_ID" type="VARCHAR(20) CHARACTER SET 'utf8'"/>
+      <column name="DESCRIPTION" type="LONGTEXT"/>
+      <column name="NAME" type="VARCHAR(120) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="TITLE" type="VARCHAR(100) CHARACTER SET 'utf8'"/>
+      <column name="LANGUAGE_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="COUNTRY_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-7">
+    <createTable tableName="CURRENCY">
+      <column name="CURRENCY_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="CURRENCY_CODE" type="VARCHAR(255) CHARACTER SET 'utf8'">
+        <constraints unique="true"/>
+      </column>
+      <column name="CURRENCY_CURRENCY_CODE" type="VARCHAR(255) CHARACTER SET 'utf8'">
+        <constraints nullable="false" unique="true"/>
+      </column>
+      <column name="CURRENCY_NAME" type="VARCHAR(255) CHARACTER SET 'utf8'">
+        <constraints unique="true"/>
+      </column>
+      <column name="CURRENCY_SUPPORTED" type="BIT(1)"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-8">
+    <createTable tableName="CUSTOMER">
+      <column name="CUSTOMER_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="CUSTOMER_ANONYMOUS" type="BIT(1)"/>
+      <column name="DATE_CREATED" type="datetime"/>
+      <column name="DATE_MODIFIED" type="datetime"/>
+      <column name="UPDT_ID" type="VARCHAR(20) CHARACTER SET 'utf8'"/>
+      <column name="BILLING_STREET_ADDRESS" type="VARCHAR(256) CHARACTER SET 'utf8'"/>
+      <column name="BILLING_CITY" type="VARCHAR(100) CHARACTER SET 'utf8'"/>
+      <column name="BILLING_COMPANY" type="VARCHAR(100) CHARACTER SET 'utf8'"/>
+      <column name="BILLING_FIRST_NAME" type="VARCHAR(64) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="BILLING_LAST_NAME" type="VARCHAR(64) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="LATITUDE" type="VARCHAR(100) CHARACTER SET 'utf8'"/>
+      <column name="LONGITUDE" type="VARCHAR(100) CHARACTER SET 'utf8'"/>
+      <column name="BILLING_POSTCODE" type="VARCHAR(20) CHARACTER SET 'utf8'"/>
+      <column name="BILLING_STATE" type="VARCHAR(100) CHARACTER SET 'utf8'"/>
+      <column name="BILLING_TELEPHONE" type="VARCHAR(32) CHARACTER SET 'utf8'"/>
+      <column name="CUSTOMER_COMPANY" type="VARCHAR(100) CHARACTER SET 'utf8'"/>
+      <column name="REVIEW_AVG" type="DECIMAL(19, 2)"/>
+      <column name="REVIEW_COUNT" type="INT"/>
+      <column name="CUSTOMER_DOB" type="datetime"/>
+      <column name="DELIVERY_STREET_ADDRESS" type="VARCHAR(256) CHARACTER SET 'utf8'"/>
+      <column name="DELIVERY_CITY" type="VARCHAR(100) CHARACTER SET 'utf8'"/>
+      <column name="DELIVERY_COMPANY" type="VARCHAR(100) CHARACTER SET 'utf8'"/>
+      <column name="DELIVERY_FIRST_NAME" type="VARCHAR(64) CHARACTER SET 'utf8'"/>
+      <column name="DELIVERY_LAST_NAME" type="VARCHAR(64) CHARACTER SET 'utf8'"/>
+      <column name="DELIVERY_POSTCODE" type="VARCHAR(20) CHARACTER SET 'utf8'"/>
+      <column name="DELIVERY_STATE" type="VARCHAR(100) CHARACTER SET 'utf8'"/>
+      <column name="DELIVERY_TELEPHONE" type="VARCHAR(32) CHARACTER SET 'utf8'"/>
+      <column name="CUSTOMER_EMAIL_ADDRESS" type="VARCHAR(96) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="CUSTOMER_GENDER" type="VARCHAR(1) CHARACTER SET 'utf8'"/>
+      <column name="CUSTOMER_NICK" type="VARCHAR(96) CHARACTER SET 'utf8'"/>
+      <column name="CUSTOMER_PASSWORD" type="VARCHAR(60) CHARACTER SET 'utf8'"/>
+      <column name="PROVIDER" type="VARCHAR(255) CHARACTER SET 'utf8'"/>
+      <column name="BILLING_COUNTRY_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="BILLING_ZONE_ID" type="BIGINT"/>
+      <column name="LANGUAGE_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="DELIVERY_COUNTRY_ID" type="INT"/>
+      <column name="DELIVERY_ZONE_ID" type="BIGINT"/>
+      <column name="MERCHANT_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-9">
+    <createTable tableName="CUSTOMER_ATTRIBUTE">
+      <column name="CUSTOMER_ATTRIBUTE_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="CUSTOMER_ATTR_TXT_VAL" type="VARCHAR(255) CHARACTER SET 'utf8'"/>
+      <column name="CUSTOMER_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="OPTION_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="OPTION_VALUE_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-10">
+    <createTable tableName="CUSTOMER_GROUP">
+      <column name="CUSTOMER_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="GROUP_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-11">
+    <createTable tableName="CUSTOMER_OPTIN">
+      <column name="CUSTOMER_OPTIN_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="EMAIL" type="VARCHAR(255) CHARACTER SET 'utf8'"/>
+      <column name="FIRST" type="VARCHAR(255) CHARACTER SET 'utf8'"/>
+      <column name="LAST" type="VARCHAR(255) CHARACTER SET 'utf8'"/>
+      <column name="OPTIN_DATE" type="datetime"/>
+      <column name="VALUE" type="LONGTEXT"/>
+      <column name="OPTIN_ID" type="BIGINT"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-12">
+    <createTable tableName="CUSTOMER_OPTION">
+      <column name="CUSTOMER_OPTION_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="CUSTOMER_OPT_ACTIVE" type="BIT(1)"/>
+      <column name="CUSTOMER_OPT_CODE" type="VARCHAR(255) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="CUSTOMER_OPTION_TYPE" type="VARCHAR(10) CHARACTER SET 'utf8'"/>
+      <column name="CUSTOMER_OPT_PUBLIC" type="BIT(1)"/>
+      <column name="SORT_ORDER" type="INT"/>
+      <column name="MERCHANT_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-13">
+    <createTable tableName="CUSTOMER_OPTION_DESC">
+      <column name="DESCRIPTION_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DATE_CREATED" type="datetime"/>
+      <column name="DATE_MODIFIED" type="datetime"/>
+      <column name="UPDT_ID" type="VARCHAR(20) CHARACTER SET 'utf8'"/>
+      <column name="DESCRIPTION" type="LONGTEXT"/>
+      <column name="NAME" type="VARCHAR(120) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="TITLE" type="VARCHAR(100) CHARACTER SET 'utf8'"/>
+      <column name="CUSTOMER_OPTION_COMMENT" type="LONGTEXT"/>
+      <column name="LANGUAGE_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="CUSTOMER_OPTION_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-14">
+    <createTable tableName="CUSTOMER_OPTION_SET">
+      <column name="CUSTOMER_OPTIONSET_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="SORT_ORDER" type="INT"/>
+      <column name="CUSTOMER_OPTION_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="CUSTOMER_OPTION_VALUE_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-15">
+    <createTable tableName="CUSTOMER_OPTION_VALUE">
+      <column name="CUSTOMER_OPTION_VALUE_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="CUSTOMER_OPT_VAL_CODE" type="VARCHAR(255) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="CUSTOMER_OPT_VAL_IMAGE" type="VARCHAR(255) CHARACTER SET 'utf8'"/>
+      <column name="SORT_ORDER" type="INT"/>
+      <column name="MERCHANT_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-16">
+    <createTable tableName="CUSTOMER_OPT_VAL_DESCRIPTION">
+      <column name="DESCRIPTION_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DATE_CREATED" type="datetime"/>
+      <column name="DATE_MODIFIED" type="datetime"/>
+      <column name="UPDT_ID" type="VARCHAR(20) CHARACTER SET 'utf8'"/>
+      <column name="DESCRIPTION" type="LONGTEXT"/>
+      <column name="NAME" type="VARCHAR(120) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="TITLE" type="VARCHAR(100) CHARACTER SET 'utf8'"/>
+      <column name="LANGUAGE_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="CUSTOMER_OPT_VAL_ID" type="BIGINT"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-17">
+    <createTable tableName="CUSTOMER_REVIEW">
+      <column name="CUSTOMER_REVIEW_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DATE_CREATED" type="datetime"/>
+      <column name="DATE_MODIFIED" type="datetime"/>
+      <column name="UPDT_ID" type="VARCHAR(20) CHARACTER SET 'utf8'"/>
+      <column name="REVIEW_DATE" type="datetime"/>
+      <column name="REVIEWS_RATING" type="DOUBLE"/>
+      <column name="REVIEWS_READ" type="BIGINT"/>
+      <column name="STATUS" type="INT"/>
+      <column name="CUSTOMERS_ID" type="BIGINT"/>
+      <column name="REVIEWED_CUSTOMER_ID" type="BIGINT"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-18">
+    <createTable tableName="CUSTOMER_REVIEW_DESCRIPTION">
+      <column name="DESCRIPTION_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DATE_CREATED" type="datetime"/>
+      <column name="DATE_MODIFIED" type="datetime"/>
+      <column name="UPDT_ID" type="VARCHAR(20) CHARACTER SET 'utf8'"/>
+      <column name="DESCRIPTION" type="LONGTEXT"/>
+      <column name="NAME" type="VARCHAR(120) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="TITLE" type="VARCHAR(100) CHARACTER SET 'utf8'"/>
+      <column name="LANGUAGE_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="CUSTOMER_REVIEW_ID" type="BIGINT"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-19">
+    <createTable tableName="FILE_HISTORY">
+      <column name="FILE_HISTORY_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="ACCOUNTED_DATE" type="datetime"/>
+      <column name="DATE_ADDED" type="datetime">
+        <constraints nullable="false"/>
+      </column>
+      <column name="DATE_DELETED" type="datetime"/>
+      <column name="DOWNLOAD_COUNT" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="FILE_ID" type="BIGINT"/>
+      <column name="FILESIZE" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="MERCHANT_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-20">
+    <createTable tableName="GEOZONE">
+      <column name="GEOZONE_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="GEOZONE_CODE" type="VARCHAR(255) CHARACTER SET 'utf8'"/>
+      <column name="GEOZONE_NAME" type="VARCHAR(255) CHARACTER SET 'utf8'"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-21">
+    <createTable tableName="GEOZONE_DESCRIPTION">
+      <column name="DESCRIPTION_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DATE_CREATED" type="datetime"/>
+      <column name="DATE_MODIFIED" type="datetime"/>
+      <column name="UPDT_ID" type="VARCHAR(20) CHARACTER SET 'utf8'"/>
+      <column name="DESCRIPTION" type="LONGTEXT"/>
+      <column name="NAME" type="VARCHAR(120) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="TITLE" type="VARCHAR(100) CHARACTER SET 'utf8'"/>
+      <column name="LANGUAGE_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="GEOZONE_ID" type="BIGINT"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-22">
+    <createTable tableName="LANGUAGE">
+      <column name="LANGUAGE_ID" type="INT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DATE_CREATED" type="datetime"/>
+      <column name="DATE_MODIFIED" type="datetime"/>
+      <column name="UPDT_ID" type="VARCHAR(20) CHARACTER SET 'utf8'"/>
+      <column name="CODE" type="VARCHAR(255) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="SORT_ORDER" type="INT"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-23">
+    <createTable tableName="MANUFACTURER">
+      <column name="MANUFACTURER_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DATE_CREATED" type="datetime"/>
+      <column name="DATE_MODIFIED" type="datetime"/>
+      <column name="UPDT_ID" type="VARCHAR(20) CHARACTER SET 'utf8'"/>
+      <column name="CODE" type="VARCHAR(100) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="MANUFACTURER_IMAGE" type="VARCHAR(255) CHARACTER SET 'utf8'"/>
+      <column name="SORT_ORDER" type="INT"/>
+      <column name="MERCHANT_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-24">
+    <createTable tableName="MANUFACTURER_DESCRIPTION">
+      <column name="DESCRIPTION_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DATE_CREATED" type="datetime"/>
+      <column name="DATE_MODIFIED" type="datetime"/>
+      <column name="UPDT_ID" type="VARCHAR(20) CHARACTER SET 'utf8'"/>
+      <column name="DESCRIPTION" type="LONGTEXT"/>
+      <column name="NAME" type="VARCHAR(120) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="TITLE" type="VARCHAR(100) CHARACTER SET 'utf8'"/>
+      <column name="DATE_LAST_CLICK" type="datetime"/>
+      <column name="MANUFACTURERS_URL" type="VARCHAR(255) CHARACTER SET 'utf8'"/>
+      <column name="URL_CLICKED" type="INT"/>
+      <column name="LANGUAGE_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="MANUFACTURER_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-25">
+    <createTable tableName="MERCHANT_CONFIGURATION">
+      <column name="MERCHANT_CONFIG_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DATE_CREATED" type="datetime"/>
+      <column name="DATE_MODIFIED" type="datetime"/>
+      <column name="UPDT_ID" type="VARCHAR(20) CHARACTER SET 'utf8'"/>
+      <column name="CONFIG_KEY" type="VARCHAR(255) CHARACTER SET 'utf8'"/>
+      <column name="TYPE" type="VARCHAR(255) CHARACTER SET 'utf8'"/>
+      <column name="VALUE" type="LONGTEXT"/>
+      <column name="MERCHANT_ID" type="INT"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-26">
+    <createTable tableName="MERCHANT_LANGUAGE">
+      <column name="stores_MERCHANT_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="languages_LANGUAGE_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-27">
+    <createTable tableName="MERCHANT_LOG">
+      <column name="MERCHANT_LOG_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="LOG" type="LONGTEXT"/>
+      <column name="MODULE" type="VARCHAR(25) CHARACTER SET 'utf8'"/>
+      <column name="MERCHANT_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-28">
+    <createTable tableName="MERCHANT_STORE">
+      <column name="MERCHANT_ID" type="INT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="STORE_CODE" type="VARCHAR(100) CHARACTER SET 'utf8'">
+        <constraints nullable="false" unique="true"/>
+      </column>
+      <column name="CONTINUESHOPPINGURL" type="VARCHAR(150) CHARACTER SET 'utf8'"/>
+      <column name="CURRENCY_FORMAT_NATIONAL" type="BIT(1)"/>
+      <column name="DOMAIN_NAME" type="varchar(80) CHARACTER SET 'utf8'"/>
+      <column name="IN_BUSINESS_SINCE" type="date"/>
+      <column name="INVOICE_TEMPLATE" type="varchar(25) CHARACTER SET 'utf8'"/>
+      <column name="SEIZEUNITCODE" type="varchar(5) CHARACTER SET 'utf8'"/>
+      <column name="STORE_EMAIL" type="varchar(60) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="STORE_LOGO" type="varchar(100) CHARACTER SET 'utf8'"/>
+      <column name="STORE_TEMPLATE" type="varchar(25) CHARACTER SET 'utf8'"/>
+      <column name="STORE_ADDRESS" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="STORE_CITY" type="varchar(100) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="STORE_NAME" type="varchar(100) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="STORE_PHONE" type="varchar(50) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="STORE_POSTAL_CODE" type="varchar(15) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="STORE_STATE_PROV" type="varchar(100) CHARACTER SET 'utf8'"/>
+      <column name="USE_CACHE" type="BIT(1)"/>
+      <column name="WEIGHTUNITCODE" type="varchar(5) CHARACTER SET 'utf8'"/>
+      <column name="COUNTRY_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="CURRENCY_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="LANGUAGE_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="ZONE_ID" type="BIGINT"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-29">
+    <createTable tableName="MODULE_CONFIGURATION">
+      <column name="MODULE_CONF_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DATE_CREATED" type="datetime"/>
+      <column name="DATE_MODIFIED" type="datetime"/>
+      <column name="UPDT_ID" type="varchar(20) CHARACTER SET 'utf8'"/>
+      <column name="CODE" type="varchar(255) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="DETAILS" type="LONGTEXT"/>
+      <column name="CONFIGURATION" type="LONGTEXT"/>
+      <column name="CUSTOM_IND" type="BIT(1)"/>
+      <column name="IMAGE" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="MODULE" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="REGIONS" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="TYPE" type="varchar(255) CHARACTER SET 'utf8'"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-30">
+    <createTable tableName="OPTIN">
+      <column name="OPTIN_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="CODE" type="varchar(255) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="DESCRIPTION" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="END_DATE" type="datetime"/>
+      <column name="START_DATE" type="datetime"/>
+      <column name="MERCHANT_ID" type="INT"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-31">
+    <createTable tableName="ORDERS">
+      <column name="ORDER_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="BILLING_STREET_ADDRESS" type="varchar(256) CHARACTER SET 'utf8'"/>
+      <column name="BILLING_CITY" type="varchar(100) CHARACTER SET 'utf8'"/>
+      <column name="BILLING_COMPANY" type="varchar(100) CHARACTER SET 'utf8'"/>
+      <column name="BILLING_FIRST_NAME" type="varchar(64) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="BILLING_LAST_NAME" type="varchar(64) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="LATITUDE" type="varchar(100) CHARACTER SET 'utf8'"/>
+      <column name="LONGITUDE" type="varchar(100) CHARACTER SET 'utf8'"/>
+      <column name="BILLING_POSTCODE" type="varchar(20) CHARACTER SET 'utf8'"/>
+      <column name="BILLING_STATE" type="varchar(100) CHARACTER SET 'utf8'"/>
+      <column name="BILLING_TELEPHONE" type="varchar(32) CHARACTER SET 'utf8'"/>
+      <column name="CHANNEL" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="CONFIRMED_ADDRESS" type="BIT(1)"/>
+      <column name="CARD_TYPE" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="CC_CVV" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="CC_EXPIRES" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="CC_NUMBER" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="CC_OWNER" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="CURRENCY_VALUE" type="DECIMAL(19, 2)"/>
+      <column name="CUSTOMER_AGREED" type="BIT(1)"/>
+      <column name="CUSTOMER_EMAIL_ADDRESS" type="varchar(50) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="CUSTOMER_ID" type="BIGINT"/>
+      <column name="DATE_PURCHASED" type="date"/>
+      <column name="DELIVERY_STREET_ADDRESS" type="varchar(256) CHARACTER SET 'utf8'"/>
+      <column name="DELIVERY_CITY" type="varchar(100) CHARACTER SET 'utf8'"/>
+      <column name="DELIVERY_COMPANY" type="varchar(100) CHARACTER SET 'utf8'"/>
+      <column name="DELIVERY_FIRST_NAME" type="varchar(64) CHARACTER SET 'utf8'"/>
+      <column name="DELIVERY_LAST_NAME" type="varchar(64) CHARACTER SET 'utf8'"/>
+      <column name="DELIVERY_POSTCODE" type="varchar(20) CHARACTER SET 'utf8'"/>
+      <column name="DELIVERY_STATE" type="varchar(100) CHARACTER SET 'utf8'"/>
+      <column name="DELIVERY_TELEPHONE" type="varchar(32) CHARACTER SET 'utf8'"/>
+      <column name="IP_ADDRESS" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="LAST_MODIFIED" type="datetime"/>
+      <column name="LOCALE" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="ORDER_DATE_FINISHED" type="datetime"/>
+      <column name="ORDER_TYPE" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="PAYMENT_MODULE_CODE" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="PAYMENT_TYPE" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="SHIPPING_MODULE_CODE" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="ORDER_STATUS" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="ORDER_TOTAL" type="DECIMAL(19, 2)"/>
+      <column name="BILLING_COUNTRY_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="BILLING_ZONE_ID" type="BIGINT"/>
+      <column name="CURRENCY_ID" type="BIGINT"/>
+      <column name="DELIVERY_COUNTRY_ID" type="INT"/>
+      <column name="DELIVERY_ZONE_ID" type="BIGINT"/>
+      <column name="MERCHANTID" type="INT"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-32">
+    <createTable tableName="ORDER_ACCOUNT">
+      <column name="ORDER_ACCOUNT_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="ORDER_ACCOUNT_BILL_DAY" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="ORDER_ACCOUNT_END_DATE" type="date"/>
+      <column name="ORDER_ACCOUNT_START_DATE" type="date">
+        <constraints nullable="false"/>
+      </column>
+      <column name="ORDER_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-33">
+    <createTable tableName="ORDER_ACCOUNT_PRODUCT">
+      <column name="ORDER_ACCOUNT_PRODUCT_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="ORDER_ACCOUNT_PRODUCT_ACCNT_DT" type="date"/>
+      <column name="ORDER_ACCOUNT_PRODUCT_END_DT" type="date"/>
+      <column name="ORDER_ACCOUNT_PRODUCT_EOT" type="datetime"/>
+      <column name="ORDER_ACCOUNT_PRODUCT_L_ST_DT" type="datetime"/>
+      <column name="ORDER_ACCOUNT_PRODUCT_L_TRX_ST" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="ORDER_ACCOUNT_PRODUCT_PM_FR_TY" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="ORDER_ACCOUNT_PRODUCT_ST_DT" type="date">
+        <constraints nullable="false"/>
+      </column>
+      <column name="ORDER_ACCOUNT_PRODUCT_STATUS" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="ORDER_ACCOUNT_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="ORDER_PRODUCT_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-34">
+    <createTable tableName="ORDER_ATTRIBUTE">
+      <column name="ORDER_ATTRIBUTE_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="IDENTIFIER" type="varchar(255) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="VALUE" type="varchar(255) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="ORDER_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-35">
+    <createTable tableName="ORDER_PRODUCT">
+      <column name="ORDER_PRODUCT_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="ONETIME_CHARGE" type="DECIMAL(19, 2)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="PRODUCT_NAME" type="varchar(64) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="PRODUCT_QUANTITY" type="INT"/>
+      <column name="PRODUCT_SKU" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="ORDER_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-36">
+    <createTable tableName="ORDER_PRODUCT_ATTRIBUTE">
+      <column name="ORDER_PRODUCT_ATTRIBUTE_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="PRODUCT_ATTRIBUTE_IS_FREE" type="BIT(1)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="PRODUCT_ATTRIBUTE_NAME" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="PRODUCT_ATTRIBUTE_PRICE" type="DECIMAL(15, 4)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="PRODUCT_ATTRIBUTE_VAL_NAME" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="PRODUCT_ATTRIBUTE_WEIGHT" type="DECIMAL(15, 4)"/>
+      <column name="PRODUCT_OPTION_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="PRODUCT_OPTION_VALUE_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="ORDER_PRODUCT_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-37">
+    <createTable tableName="ORDER_PRODUCT_DOWNLOAD">
+      <column name="ORDER_PRODUCT_DOWNLOAD_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DOWNLOAD_COUNT" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="DOWNLOAD_MAXDAYS" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="ORDER_PRODUCT_FILENAME" type="varchar(255) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="ORDER_PRODUCT_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-38">
+    <createTable tableName="ORDER_PRODUCT_PRICE">
+      <column name="ORDER_PRODUCT_PRICE_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DEFAULT_PRICE" type="BIT(1)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="PRODUCT_PRICE" type="DECIMAL(19, 2)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="PRODUCT_PRICE_CODE" type="varchar(64) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="PRODUCT_PRICE_NAME" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="PRODUCT_PRICE_SPECIAL" type="DECIMAL(19, 2)"/>
+      <column name="PRD_PRICE_SPECIAL_END_DT" type="datetime"/>
+      <column name="PRD_PRICE_SPECIAL_ST_DT" type="datetime"/>
+      <column name="ORDER_PRODUCT_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-39">
+    <createTable tableName="ORDER_STATUS_HISTORY">
+      <column name="ORDER_STATUS_HISTORY_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="COMMENTS" type="LONGTEXT"/>
+      <column name="CUSTOMER_NOTIFIED" type="INT"/>
+      <column name="DATE_ADDED" type="datetime">
+        <constraints nullable="false"/>
+      </column>
+      <column name="status" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="ORDER_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-40">
+    <createTable tableName="ORDER_TOTAL">
+      <column name="ORDER_ACCOUNT_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="MODULE" type="varchar(60) CHARACTER SET 'utf8'"/>
+      <column name="CODE" type="varchar(255) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="ORDER_TOTAL_TYPE" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="ORDER_VALUE_TYPE" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="SORT_ORDER" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="TEXT" type="LONGTEXT"/>
+      <column name="TITLE" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="VALUE" type="DECIMAL(15, 4)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="ORDER_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-41">
+    <createTable tableName="PERMISSION">
+      <column name="PERMISSION_ID" type="INT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DATE_CREATED" type="datetime"/>
+      <column name="DATE_MODIFIED" type="datetime"/>
+      <column name="UPDT_ID" type="varchar(20) CHARACTER SET 'utf8'"/>
+      <column name="PERMISSION_NAME" type="varchar(255) CHARACTER SET 'utf8'">
+        <constraints nullable="false" unique="true"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-42">
+    <createTable tableName="PERMISSION_GROUP">
+      <column name="PERMISSION_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="GROUP_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-43">
+    <createTable tableName="PRODUCT">
+      <column name="PRODUCT_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DATE_CREATED" type="datetime"/>
+      <column name="DATE_MODIFIED" type="datetime"/>
+      <column name="UPDT_ID" type="varchar(20) CHARACTER SET 'utf8'"/>
+      <column name="AVAILABLE" type="BIT(1)"/>
+      <column name="COND" type="INT"/>
+      <column name="DATE_AVAILABLE" type="datetime"/>
+      <column name="PREORDER" type="BIT(1)"/>
+      <column name="PRODUCT_HEIGHT" type="DECIMAL(19, 2)"/>
+      <column name="PRODUCT_FREE" type="BIT(1)"/>
+      <column name="PRODUCT_LENGTH" type="DECIMAL(19, 2)"/>
+      <column name="QUANTITY_ORDERED" type="INT"/>
+      <column name="REVIEW_AVG" type="DECIMAL(19, 2)"/>
+      <column name="REVIEW_COUNT" type="INT"/>
+      <column name="PRODUCT_SHIP" type="BIT(1)"/>
+      <column name="PRODUCT_VIRTUAL" type="BIT(1)"/>
+      <column name="PRODUCT_WEIGHT" type="DECIMAL(19, 2)"/>
+      <column name="PRODUCT_WIDTH" type="DECIMAL(19, 2)"/>
+      <column name="REF_SKU" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="RENTAL_DURATION" type="INT"/>
+      <column name="RENTAL_PERIOD" type="INT"/>
+      <column name="RENTAL_STATUS" type="INT"/>
+      <column name="SKU" type="varchar(255) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="SORT_ORDER" type="INT"/>
+      <column name="MANUFACTURER_ID" type="BIGINT"/>
+      <column name="MERCHANT_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="CUSTOMER_ID" type="BIGINT"/>
+      <column name="TAX_CLASS_ID" type="BIGINT"/>
+      <column name="PRODUCT_TYPE_ID" type="BIGINT"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-44">
+    <createTable tableName="PRODUCT_ATTRIBUTE">
+      <column name="PRODUCT_ATTRIBUTE_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="PRODUCT_ATTRIBUTE_DEFAULT" type="BIT(1)"/>
+      <column name="PRODUCT_ATTRIBUTE_DISCOUNTED" type="BIT(1)"/>
+      <column name="PRODUCT_ATTRIBUTE_FOR_DISP" type="BIT(1)"/>
+      <column name="PRODUCT_ATTRIBUTE_REQUIRED" type="BIT(1)"/>
+      <column name="PRODUCT_ATTRIBUTE_FREE" type="BIT(1)"/>
+      <column name="PRODUCT_ATRIBUTE_PRICE" type="DECIMAL(19, 2)"/>
+      <column name="PRODUCT_ATTRIBUTE_WEIGHT" type="DECIMAL(19, 2)"/>
+      <column name="PRODUCT_ATTRIBUTE_SORT_ORD" type="INT"/>
+      <column name="PRODUCT_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="OPTION_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="OPTION_VALUE_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-45">
+    <createTable tableName="PRODUCT_AVAILABILITY">
+      <column name="PRODUCT_AVAIL_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DATE_AVAILABLE" type="date"/>
+      <column name="FREE_SHIPPING" type="BIT(1)"/>
+      <column name="QUANTITY" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="QUANTITY_ORD_MAX" type="INT"/>
+      <column name="QUANTITY_ORD_MIN" type="INT"/>
+      <column name="STATUS" type="BIT(1)"/>
+      <column name="REGION" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="REGION_VARIANT" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="PRODUCT_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-46">
+    <createTable tableName="PRODUCT_CATEGORY">
+      <column name="PRODUCT_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="CATEGORY_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-47">
+    <createTable tableName="PRODUCT_DESCRIPTION">
+      <column name="DESCRIPTION_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DATE_CREATED" type="datetime"/>
+      <column name="DATE_MODIFIED" type="datetime"/>
+      <column name="UPDT_ID" type="varchar(20) CHARACTER SET 'utf8'"/>
+      <column name="DESCRIPTION" type="LONGTEXT"/>
+      <column name="NAME" type="varchar(120) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="TITLE" type="varchar(100) CHARACTER SET 'utf8'"/>
+      <column name="META_DESCRIPTION" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="META_KEYWORDS" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="META_TITLE" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="DOWNLOAD_LNK" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="PRODUCT_HIGHLIGHT" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="SEF_URL" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="LANGUAGE_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="PRODUCT_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-48">
+    <createTable tableName="PRODUCT_DIGITAL">
+      <column name="PRODUCT_DIGITAL_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="FILE_NAME" type="varchar(255) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="PRODUCT_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-49">
+    <createTable tableName="PRODUCT_IMAGE">
+      <column name="PRODUCT_IMAGE_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DEFAULT_IMAGE" type="BIT(1)"/>
+      <column name="IMAGE_CROP" type="BIT(1)"/>
+      <column name="IMAGE_TYPE" type="INT"/>
+      <column name="PRODUCT_IMAGE" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="PRODUCT_IMAGE_URL" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="PRODUCT_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-50">
+    <createTable tableName="PRODUCT_IMAGE_DESCRIPTION">
+      <column name="DESCRIPTION_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DATE_CREATED" type="datetime"/>
+      <column name="DATE_MODIFIED" type="datetime"/>
+      <column name="UPDT_ID" type="varchar(20) CHARACTER SET 'utf8'"/>
+      <column name="DESCRIPTION" type="LONGTEXT"/>
+      <column name="NAME" type="varchar(120) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="TITLE" type="varchar(100) CHARACTER SET 'utf8'"/>
+      <column name="ALT_TAG" type="varchar(100) CHARACTER SET 'utf8'"/>
+      <column name="LANGUAGE_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="PRODUCT_IMAGE_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-51">
+    <createTable tableName="PRODUCT_OPTION">
+      <column name="PRODUCT_OPTION_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="PRODUCT_OPTION_CODE" type="varchar(255) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="PRODUCT_OPTION_SORT_ORD" type="INT"/>
+      <column name="PRODUCT_OPTION_TYPE" type="varchar(10) CHARACTER SET 'utf8'"/>
+      <column name="PRODUCT_OPTION_READ" type="BIT(1)"/>
+      <column name="MERCHANT_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-52">
+    <createTable tableName="PRODUCT_OPTION_DESC">
+      <column name="DESCRIPTION_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DATE_CREATED" type="datetime"/>
+      <column name="DATE_MODIFIED" type="datetime"/>
+      <column name="UPDT_ID" type="varchar(20) CHARACTER SET 'utf8'"/>
+      <column name="DESCRIPTION" type="LONGTEXT"/>
+      <column name="NAME" type="varchar(120) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="TITLE" type="varchar(100) CHARACTER SET 'utf8'"/>
+      <column name="PRODUCT_OPTION_COMMENT" type="LONGTEXT"/>
+      <column name="LANGUAGE_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="PRODUCT_OPTION_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-53">
+    <createTable tableName="PRODUCT_OPTION_VALUE">
+      <column name="PRODUCT_OPTION_VALUE_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="PRODUCT_OPTION_VAL_CODE" type="varchar(255) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="PRODUCT_OPT_FOR_DISP" type="BIT(1)"/>
+      <column name="PRODUCT_OPT_VAL_IMAGE" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="PRODUCT_OPT_VAL_SORT_ORD" type="INT"/>
+      <column name="MERCHANT_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-54">
+    <createTable tableName="PRODUCT_OPTION_VALUE_DESCRIPTION">
+      <column name="DESCRIPTION_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DATE_CREATED" type="datetime"/>
+      <column name="DATE_MODIFIED" type="datetime"/>
+      <column name="UPDT_ID" type="varchar(20) CHARACTER SET 'utf8'"/>
+      <column name="DESCRIPTION" type="LONGTEXT"/>
+      <column name="NAME" type="varchar(120) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="TITLE" type="varchar(100) CHARACTER SET 'utf8'"/>
+      <column name="LANGUAGE_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="PRODUCT_OPTION_VALUE_ID" type="BIGINT"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-55">
+    <createTable tableName="PRODUCT_PRICE">
+      <column name="PRODUCT_PRICE_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="PRODUCT_PRICE_CODE" type="varchar(255) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="DEFAULT_PRICE" type="BIT(1)"/>
+      <column name="PRODUCT_PRICE_AMOUNT" type="DECIMAL(19, 2)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="PRODUCT_PRICE_SPECIAL_AMOUNT" type="DECIMAL(19, 2)"/>
+      <column name="PRODUCT_PRICE_SPECIAL_END_DATE" type="date"/>
+      <column name="PRODUCT_PRICE_SPECIAL_ST_DATE" type="date"/>
+      <column name="PRODUCT_PRICE_TYPE" type="varchar(20) CHARACTER SET 'utf8'"/>
+      <column name="PRODUCT_AVAIL_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-56">
+    <createTable tableName="PRODUCT_PRICE_DESCRIPTION">
+      <column name="DESCRIPTION_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DATE_CREATED" type="datetime"/>
+      <column name="DATE_MODIFIED" type="datetime"/>
+      <column name="UPDT_ID" type="varchar(20) CHARACTER SET 'utf8'"/>
+      <column name="DESCRIPTION" type="LONGTEXT"/>
+      <column name="NAME" type="varchar(120) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="TITLE" type="varchar(100) CHARACTER SET 'utf8'"/>
+      <column name="LANGUAGE_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="PRODUCT_PRICE_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-57">
+    <createTable tableName="PRODUCT_RELATIONSHIP">
+      <column name="PRODUCT_RELATIONSHIP_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="ACTIVE" type="BIT(1)"/>
+      <column name="CODE" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="PRODUCT_ID" type="BIGINT"/>
+      <column name="RELATED_PRODUCT_ID" type="BIGINT"/>
+      <column name="MERCHANT_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-58">
+    <createTable tableName="PRODUCT_REVIEW">
+      <column name="PRODUCT_REVIEW_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DATE_CREATED" type="datetime"/>
+      <column name="DATE_MODIFIED" type="datetime"/>
+      <column name="UPDT_ID" type="varchar(20) CHARACTER SET 'utf8'"/>
+      <column name="REVIEW_DATE" type="datetime"/>
+      <column name="REVIEWS_RATING" type="DOUBLE"/>
+      <column name="REVIEWS_READ" type="BIGINT"/>
+      <column name="STATUS" type="INT"/>
+      <column name="CUSTOMERS_ID" type="BIGINT"/>
+      <column name="PRODUCT_ID" type="BIGINT"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-59">
+    <createTable tableName="PRODUCT_REVIEW_DESCRIPTION">
+      <column name="DESCRIPTION_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DATE_CREATED" type="datetime"/>
+      <column name="DATE_MODIFIED" type="datetime"/>
+      <column name="UPDT_ID" type="varchar(20) CHARACTER SET 'utf8'"/>
+      <column name="DESCRIPTION" type="LONGTEXT"/>
+      <column name="NAME" type="varchar(120) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="TITLE" type="varchar(100) CHARACTER SET 'utf8'"/>
+      <column name="LANGUAGE_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="PRODUCT_REVIEW_ID" type="BIGINT"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-60">
+    <createTable tableName="PRODUCT_TYPE">
+      <column name="PRODUCT_TYPE_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="PRD_TYPE_ADD_TO_CART" type="BIT(1)"/>
+      <column name="DATE_CREATED" type="datetime"/>
+      <column name="DATE_MODIFIED" type="datetime"/>
+      <column name="UPDT_ID" type="varchar(20) CHARACTER SET 'utf8'"/>
+      <column name="PRD_TYPE_CODE" type="varchar(255) CHARACTER SET 'utf8'"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-61">
+    <createTable tableName="SHIPING_ORIGIN">
+      <column name="SHIP_ORIGIN_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="ACTIVE" type="BIT(1)"/>
+      <column name="STREET_ADDRESS" type="varchar(256) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="CITY" type="varchar(100) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="POSTCODE" type="varchar(20) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="STATE" type="varchar(100) CHARACTER SET 'utf8'"/>
+      <column name="COUNTRY_ID" type="INT"/>
+      <column name="MERCHANT_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="ZONE_ID" type="BIGINT"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-62">
+    <createTable tableName="SHIPPING_QUOTE">
+      <column name="SHIPPING_QUOTE_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="CART_ID" type="BIGINT"/>
+      <column name="CUSTOMER_ID" type="BIGINT"/>
+      <column name="DELIVERY_STREET_ADDRESS" type="varchar(256) CHARACTER SET 'utf8'"/>
+      <column name="DELIVERY_CITY" type="varchar(100) CHARACTER SET 'utf8'"/>
+      <column name="DELIVERY_COMPANY" type="varchar(100) CHARACTER SET 'utf8'"/>
+      <column name="DELIVERY_FIRST_NAME" type="varchar(64) CHARACTER SET 'utf8'"/>
+      <column name="DELIVERY_LAST_NAME" type="varchar(64) CHARACTER SET 'utf8'"/>
+      <column name="DELIVERY_POSTCODE" type="varchar(20) CHARACTER SET 'utf8'"/>
+      <column name="DELIVERY_STATE" type="varchar(100) CHARACTER SET 'utf8'"/>
+      <column name="DELIVERY_TELEPHONE" type="varchar(32) CHARACTER SET 'utf8'"/>
+      <column name="SHIPPING_NUMBER_DAYS" type="INT"/>
+      <column name="FREE_SHIPPING" type="BIT(1)"/>
+      <column name="QUOTE_HANDLING" type="DECIMAL(19, 2)"/>
+      <column name="MODULE" type="varchar(255) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="OPTION_CODE" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="OPTION_DELIVERY_DATE" type="datetime"/>
+      <column name="OPTION_NAME" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="OPTION_SHIPPING_DATE" type="datetime"/>
+      <column name="ORDER_ID" type="BIGINT"/>
+      <column name="QUOTE_PRICE" type="DECIMAL(19, 2)"/>
+      <column name="QUOTE_DATE" type="datetime"/>
+      <column name="DELIVERY_COUNTRY_ID" type="INT"/>
+      <column name="DELIVERY_ZONE_ID" type="BIGINT"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-63">
+    <createTable tableName="SHOPPING_CART">
+      <column name="SHP_CART_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DATE_CREATED" type="datetime"/>
+      <column name="DATE_MODIFIED" type="datetime"/>
+      <column name="UPDT_ID" type="varchar(20) CHARACTER SET 'utf8'"/>
+      <column name="CUSTOMER_ID" type="BIGINT"/>
+      <column name="SHP_CART_CODE" type="varchar(255) CHARACTER SET 'utf8'">
+        <constraints nullable="false" unique="true"/>
+      </column>
+      <column name="MERCHANT_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-64">
+    <createTable tableName="SHOPPING_CART_ATTR_ITEM">
+      <column name="SHP_CART_ATTR_ITEM_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DATE_CREATED" type="datetime"/>
+      <column name="DATE_MODIFIED" type="datetime"/>
+      <column name="UPDT_ID" type="varchar(20) CHARACTER SET 'utf8'"/>
+      <column name="PRODUCT_ATTR_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="SHP_CART_ITEM_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-65">
+    <createTable tableName="SHOPPING_CART_ITEM">
+      <column name="SHP_CART_ITEM_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DATE_CREATED" type="datetime"/>
+      <column name="DATE_MODIFIED" type="datetime"/>
+      <column name="UPDT_ID" type="varchar(20) CHARACTER SET 'utf8'"/>
+      <column name="PRODUCT_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="QUANTITY" type="INT"/>
+      <column name="SHP_CART_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-66">
+    <createTable tableName="SM_GROUP">
+      <column name="GROUP_ID" type="INT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DATE_CREATED" type="datetime"/>
+      <column name="DATE_MODIFIED" type="datetime"/>
+      <column name="UPDT_ID" type="varchar(20) CHARACTER SET 'utf8'"/>
+      <column name="GROUP_NAME" type="varchar(255) CHARACTER SET 'utf8'">
+        <constraints nullable="false" unique="true"/>
+      </column>
+      <column name="GROUP_TYPE" type="varchar(255) CHARACTER SET 'utf8'"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-67">
+    <createTable tableName="SM_SEQUENCER">
+      <column name="SEQ_NAME" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="SEQ_COUNT" type="INT"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-68">
+    <createTable tableName="SM_TRANSACTION">
+      <column name="TRANSACTION_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="AMOUNT" type="DECIMAL(19, 2)"/>
+      <column name="DATE_CREATED" type="datetime"/>
+      <column name="DATE_MODIFIED" type="datetime"/>
+      <column name="UPDT_ID" type="varchar(20) CHARACTER SET 'utf8'"/>
+      <column name="DETAILS" type="LONGTEXT"/>
+      <column name="PAYMENT_TYPE" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="TRANSACTION_DATE" type="datetime"/>
+      <column name="TRANSACTION_TYPE" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="ORDER_ID" type="BIGINT"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-69">
+    <createTable tableName="SYSTEM_CONFIGURATION">
+      <column name="SYSTEM_CONFIG_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DATE_CREATED" type="datetime"/>
+      <column name="DATE_MODIFIED" type="datetime"/>
+      <column name="UPDT_ID" type="varchar(20) CHARACTER SET 'utf8'"/>
+      <column name="CONFIG_KEY" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="VALUE" type="varchar(255) CHARACTER SET 'utf8'"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-70">
+    <createTable tableName="SYSTEM_NOTIFICATION">
+      <column name="SYSTEM_NOTIF_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DATE_CREATED" type="datetime"/>
+      <column name="DATE_MODIFIED" type="datetime"/>
+      <column name="UPDT_ID" type="varchar(20) CHARACTER SET 'utf8'"/>
+      <column name="END_DATE" type="date"/>
+      <column name="CONFIG_KEY" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="START_DATE" type="date"/>
+      <column name="VALUE" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="MERCHANT_ID" type="INT"/>
+      <column name="USER_ID" type="BIGINT"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-71">
+    <createTable tableName="TAX_CLASS">
+      <column name="TAX_CLASS_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="TAX_CLASS_CODE" type="varchar(10) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="TAX_CLASS_TITLE" type="varchar(32) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="MERCHANT_ID" type="INT"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-72">
+    <createTable tableName="TAX_RATE">
+      <column name="TAX_RATE_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DATE_CREATED" type="datetime"/>
+      <column name="DATE_MODIFIED" type="datetime"/>
+      <column name="UPDT_ID" type="varchar(20) CHARACTER SET 'utf8'"/>
+      <column name="TAX_CODE" type="varchar(255) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="PIGGYBACK" type="BIT(1)"/>
+      <column name="STORE_STATE_PROV" type="varchar(100) CHARACTER SET 'utf8'"/>
+      <column name="TAX_PRIORITY" type="INT"/>
+      <column name="TAX_RATE" type="DECIMAL(7, 4)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="COUNTRY_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="MERCHANT_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="PARENT_ID" type="BIGINT"/>
+      <column name="TAX_CLASS_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="ZONE_ID" type="BIGINT"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-73">
+    <createTable tableName="TAX_RATE_DESCRIPTION">
+      <column name="DESCRIPTION_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DATE_CREATED" type="datetime"/>
+      <column name="DATE_MODIFIED" type="datetime"/>
+      <column name="UPDT_ID" type="varchar(20) CHARACTER SET 'utf8'"/>
+      <column name="DESCRIPTION" type="LONGTEXT"/>
+      <column name="NAME" type="varchar(120) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="TITLE" type="varchar(100) CHARACTER SET 'utf8'"/>
+      <column name="LANGUAGE_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="TAX_RATE_ID" type="BIGINT"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-74">
+    <createTable tableName="USER">
+      <column name="USER_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="ACTIVE" type="BIT(1)"/>
+      <column name="ADMIN_EMAIL" type="varchar(255) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="ADMIN_NAME" type="varchar(100) CHARACTER SET 'utf8'">
+        <constraints nullable="false" unique="true"/>
+      </column>
+      <column name="ADMIN_PASSWORD" type="varchar(60) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="ADMIN_A1" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="ADMIN_A2" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="ADMIN_A3" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="DATE_CREATED" type="datetime"/>
+      <column name="DATE_MODIFIED" type="datetime"/>
+      <column name="UPDT_ID" type="varchar(20) CHARACTER SET 'utf8'"/>
+      <column name="ADMIN_FIRST_NAME" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="LAST_ACCESS" type="datetime"/>
+      <column name="ADMIN_LAST_NAME" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="LOGIN_ACCESS" type="datetime"/>
+      <column name="ADMIN_Q1" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="ADMIN_Q2" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="ADMIN_Q3" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="LANGUAGE_ID" type="INT"/>
+      <column name="MERCHANT_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-75">
+    <createTable tableName="USER_GROUP">
+      <column name="USER_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="GROUP_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-76">
+    <createTable tableName="UserConnection">
+      <column name="providerId" type="varchar(255) CHARACTER SET 'utf8'">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="providerUserId" type="varchar(255) CHARACTER SET 'utf8'">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="userId" type="varchar(255) CHARACTER SET 'utf8'">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="accessToken" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="displayName" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="expireTime" type="BIGINT"/>
+      <column name="imageUrl" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="profileUrl" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="rank" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="refreshToken" type="varchar(255) CHARACTER SET 'utf8'"/>
+      <column name="secret" type="varchar(255) CHARACTER SET 'utf8'"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-77">
+    <createTable tableName="ZONE">
+      <column name="ZONE_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="ZONE_CODE" type="varchar(255) CHARACTER SET 'utf8'">
+        <constraints nullable="false" unique="true"/>
+      </column>
+      <column name="COUNTRY_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-78">
+    <createTable tableName="ZONE_DESCRIPTION">
+      <column name="DESCRIPTION_ID" type="BIGINT">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="DATE_CREATED" type="datetime"/>
+      <column name="DATE_MODIFIED" type="datetime"/>
+      <column name="UPDT_ID" type="varchar(20) CHARACTER SET 'utf8'"/>
+      <column name="DESCRIPTION" type="LONGTEXT"/>
+      <column name="NAME" type="varchar(120) CHARACTER SET 'utf8'">
+        <constraints nullable="false"/>
+      </column>
+      <column name="TITLE" type="varchar(100) CHARACTER SET 'utf8'"/>
+      <column name="LANGUAGE_ID" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="ZONE_ID" type="BIGINT">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-79">
+    <addUniqueConstraint columnNames="CUSTOMER_REVIEW_ID, LANGUAGE_ID"
+      constraintName="UK_1va9q0nhoe3wli25ktpmouvyh" tableName="CUSTOMER_REVIEW_DESCRIPTION"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-80">
+    <addUniqueConstraint columnNames="CUSTOMERS_ID, REVIEWED_CUSTOMER_ID"
+      constraintName="UK_2momthbfrtgico2yyod8w18pk" tableName="CUSTOMER_REVIEW"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-81">
+    <addUniqueConstraint columnNames="MERCHANT_ID, CODE"
+      constraintName="UK_3mq9i6qmgquvoieslx39pej6x" tableName="CATEGORY"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-82">
+    <addUniqueConstraint columnNames="OPTION_ID, CUSTOMER_ID"
+      constraintName="UK_46kbpre88yh963gewm3kmdni1" tableName="CUSTOMER_ATTRIBUTE"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-83">
+    <addUniqueConstraint columnNames="CUSTOMER_OPTION_ID, CUSTOMER_OPTION_VALUE_ID"
+      constraintName="UK_4peli2ritnnq2xqpyq188srm6" tableName="CUSTOMER_OPTION_SET"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-84">
+    <addUniqueConstraint columnNames="MERCHANT_ID, CODE"
+      constraintName="UK_6brqfdkga7jc78n8dh3v595y3" tableName="MANUFACTURER"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-85">
+    <addUniqueConstraint columnNames="CUSTOMER_OPTION_ID, LANGUAGE_ID"
+      constraintName="UK_6ovl4t1ciag1wubtcebaoo7vi" tableName="CUSTOMER_OPTION_DESC"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-86">
+    <addUniqueConstraint columnNames="TAX_CODE, MERCHANT_ID"
+      constraintName="UK_8gh6l9n0xq03b91sglp62oelu" tableName="TAX_RATE"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-87">
+    <addUniqueConstraint columnNames="CUSTOMERS_ID, PRODUCT_ID"
+      constraintName="UK_9ew5idgdbk8a77534hbnhd4yb" tableName="PRODUCT_REVIEW"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-88">
+    <addUniqueConstraint columnNames="MERCHANT_ID, TAX_CLASS_CODE"
+      constraintName="UK_a4q5q57a8oeh2ojeo8dhr935k" tableName="TAX_CLASS"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-89">
+    <addUniqueConstraint columnNames="PRODUCT_OPTION_VALUE_ID, LANGUAGE_ID"
+      constraintName="UK_asgc60ot1wy0uho96n0j8429p" tableName="PRODUCT_OPTION_VALUE_DESCRIPTION"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-90">
+    <addUniqueConstraint columnNames="MERCHANT_ID, FILE_ID"
+      constraintName="UK_av35sb3v4nxq8v1n1rkxufir" tableName="FILE_HISTORY"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-91">
+    <addUniqueConstraint columnNames="CATEGORY_ID, LANGUAGE_ID"
+      constraintName="UK_buesqq6cyx7e5hy3mf30cfieq" tableName="CATEGORY_DESCRIPTION"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-92">
+    <addUniqueConstraint columnNames="EMAIL, OPTIN_ID" constraintName="UK_c4fnyu0pvxxtrbko10rm1jqyw"
+      tableName="CUSTOMER_OPTIN"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-93">
+    <addUniqueConstraint columnNames="MERCHANT_ID, CUSTOMER_OPT_VAL_CODE"
+      constraintName="UK_cb1fmv71nrx7m1rlx1ff5qvdt" tableName="CUSTOMER_OPTION_VALUE"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-94">
+    <addUniqueConstraint columnNames="PRODUCT_PRICE_ID, LANGUAGE_ID"
+      constraintName="UK_frsw8d41sxxogvxxoyd8nwaxu" tableName="PRODUCT_PRICE_DESCRIPTION"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-95">
+    <addUniqueConstraint columnNames="CUSTOMER_OPT_VAL_ID, LANGUAGE_ID"
+      constraintName="UK_ge7f2t1d31r87wnk09h9u1tnv" tableName="CUSTOMER_OPT_VAL_DESCRIPTION"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-96">
+    <addUniqueConstraint columnNames="MERCHANT_ID, PRODUCT_OPTION_CODE"
+      constraintName="UK_hfcw5oi9ulljlog1b7ns1r9tu" tableName="PRODUCT_OPTION"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-97">
+    <addUniqueConstraint columnNames="MERCHANT_ID, PRODUCT_OPTION_VAL_CODE"
+      constraintName="UK_ixbpi4hxrhljh935c3xfvnvsh" tableName="PRODUCT_OPTION_VALUE"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-98">
+    <addUniqueConstraint columnNames="MERCHANT_ID, CONFIG_KEY"
+      constraintName="UK_j0c3h8onw3m6hjcr3yylst9fb" tableName="MERCHANT_CONFIGURATION"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-99">
+    <addUniqueConstraint columnNames="PRODUCT_ID, FILE_NAME"
+      constraintName="UK_juk1qgkh9v5w7ghvb18krwo8v" tableName="PRODUCT_DIGITAL"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-100">
+    <addUniqueConstraint columnNames="MANUFACTURER_ID, LANGUAGE_ID"
+      constraintName="UK_lpv09p83sc887clxe04nroup6" tableName="MANUFACTURER_DESCRIPTION"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-101">
+    <addUniqueConstraint columnNames="ZONE_ID, LANGUAGE_ID"
+      constraintName="UK_m64laxgrv9fxm6io232ap4su9" tableName="ZONE_DESCRIPTION"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-102">
+    <addUniqueConstraint columnNames="MERCHANT_ID, CODE"
+      constraintName="UK_manlx6siq6ddf14cud40k8gw6" tableName="OPTIN"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-103">
+    <addUniqueConstraint columnNames="PRODUCT_OPTION_ID, LANGUAGE_ID"
+      constraintName="UK_mkcm8isyyyqbjd1yyb8mrpkuw" tableName="PRODUCT_OPTION_DESC"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-104">
+    <addUniqueConstraint columnNames="CONTENT_ID, LANGUAGE_ID"
+      constraintName="UK_n0w5r7ctbp88r4rvk7ayklofm" tableName="CONTENT_DESCRIPTION"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-105">
+    <addUniqueConstraint columnNames="PRODUCT_IMAGE_ID, LANGUAGE_ID"
+      constraintName="UK_n7yhdj6ccydgf201gibb882cd" tableName="PRODUCT_IMAGE_DESCRIPTION"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-106">
+    <addUniqueConstraint columnNames="MERCHANT_ID, CONFIG_KEY"
+      constraintName="UK_npdnlc390vgr2mhepib1mtrmr" tableName="SYSTEM_NOTIFICATION"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-107">
+    <addUniqueConstraint columnNames="OPTION_ID, OPTION_VALUE_ID, PRODUCT_ID"
+      constraintName="UK_o0c6cfxcfejwfa2877gfgpuco" tableName="PRODUCT_ATTRIBUTE"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-108">
+    <addUniqueConstraint columnNames="PRODUCT_ID, LANGUAGE_ID"
+      constraintName="UK_q4dnkx5b776ayqas2h4rr2d8q" tableName="PRODUCT_DESCRIPTION"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-109">
+    <addUniqueConstraint columnNames="PRODUCT_REVIEW_ID, LANGUAGE_ID"
+      constraintName="UK_qno5wjdtcj8pm3ykkkh7t4rxj" tableName="PRODUCT_REVIEW_DESCRIPTION"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-110">
+    <addUniqueConstraint columnNames="MERCHANT_ID, CUSTOMER_OPT_CODE"
+      constraintName="UK_rov34a6g4dhhiqukvhp1ggm0u" tableName="CUSTOMER_OPTION"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-111">
+    <addUniqueConstraint columnNames="MERCHANT_ID, SKU"
+      constraintName="UK_s8ofsn9pehdrstjg52j5qabxh" tableName="PRODUCT"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-112">
+    <addUniqueConstraint columnNames="GEOZONE_ID, LANGUAGE_ID"
+      constraintName="UK_soq8o99w3c8ys3ntamt5i4mat" tableName="GEOZONE_DESCRIPTION"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-113">
+    <addUniqueConstraint columnNames="MERCHANT_ID, CODE"
+      constraintName="UK_t1v2ld0mrwviquqourql4uub0" tableName="CONTENT"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-114">
+    <addUniqueConstraint columnNames="TAX_RATE_ID, LANGUAGE_ID"
+      constraintName="UK_t3xg8pl88yacdxg49nb46effg" tableName="TAX_RATE_DESCRIPTION"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-115">
+    <addUniqueConstraint columnNames="COUNTRY_ID, LANGUAGE_ID"
+      constraintName="UK_t7nshki1rbp6157ed0v6cx4y4" tableName="COUNTRY_DESCRIPTION"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-116">
+    <createIndex indexName="CUST_OPT_CODE_IDX" tableName="CUSTOMER_OPTION">
+      <column name="CUSTOMER_OPT_CODE"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-117">
+    <createIndex indexName="CUST_OPT_VAL_CODE_IDX" tableName="CUSTOMER_OPTION_VALUE">
+      <column name="CUSTOMER_OPT_VAL_CODE"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-118">
+    <createIndex indexName="FK_141243r2vth00rq0lyem39abo" tableName="MERCHANT_STORE">
+      <column name="ZONE_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-119">
+    <createIndex indexName="FK_1lcbkc4tt49q5qbue3m9p29c2" tableName="GEOZONE_DESCRIPTION">
+      <column name="LANGUAGE_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-120">
+    <createIndex indexName="FK_23nqig56qilwn2f6d76cl5ubx" tableName="PRODUCT_OPTION_DESC">
+      <column name="LANGUAGE_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-121">
+    <createIndex indexName="FK_29fkuiaadeus36gasl9q1tsq3" tableName="CUSTOMER_ATTRIBUTE">
+      <column name="CUSTOMER_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-122">
+    <createIndex indexName="FK_2atbo3aje6mi15gk8p7a5qvxb" tableName="CUSTOMER">
+      <column name="DELIVERY_ZONE_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-123">
+    <createIndex indexName="FK_2lbinu04sww6iku2vis3qrj75" tableName="COUNTRY">
+      <column name="GEOZONE_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-124">
+    <createIndex indexName="FK_2sv3ldopc4d3h30rg4wxixvgw" tableName="CUSTOMER_OPTIN">
+      <column name="OPTIN_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-125">
+    <createIndex indexName="FK_35a95oa56qeqjqltvfh5wo2h7" tableName="TAX_RATE">
+      <column name="MERCHANT_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-126">
+    <createIndex indexName="FK_3at466hpmis1abruuh3x6nftg" tableName="USER_GROUP">
+      <column name="USER_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-127">
+    <createIndex indexName="FK_3b8cm7lvbxjbtepjn64nnbtc0" tableName="ORDERS">
+      <column name="MERCHANTID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-128">
+    <createIndex indexName="FK_3j13fd0w8fcubko0fdv53w18j" tableName="CUSTOMER">
+      <column name="BILLING_COUNTRY_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-129">
+    <createIndex indexName="FK_4dk6cmp3gpa7y7wuwbesvpetb" tableName="TAX_RATE">
+      <column name="COUNTRY_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-130">
+    <createIndex indexName="FK_4ex9p3ihrxoysn8k46kh965sf" tableName="USER_GROUP">
+      <column name="GROUP_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-131">
+    <createIndex indexName="FK_4k1mv6pikwues6f2uhnju0aj6" tableName="MERCHANT_STORE">
+      <column name="COUNTRY_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-132">
+    <createIndex indexName="FK_4lkaw8wsvt2mfmwna70lctuu8" tableName="ORDERS">
+      <column name="DELIVERY_COUNTRY_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-133">
+    <createIndex indexName="FK_4nsxta166qmi0u7v02p6gtnxa" tableName="ORDER_PRODUCT">
+      <column name="ORDER_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-134">
+    <createIndex indexName="FK_4uyyjjys5buui6oe3vp84k5ip" tableName="MERCHANT_STORE">
+      <column name="CURRENCY_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-135">
+    <createIndex indexName="FK_52kb521ve197of5311bu3ee5b" tableName="ORDER_PRODUCT_DOWNLOAD">
+      <column name="ORDER_PRODUCT_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-136">
+    <createIndex indexName="FK_53o35arh6914xpjlfkk9fg7hr" tableName="MERCHANT_LANGUAGE">
+      <column name="languages_LANGUAGE_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-137">
+    <createIndex indexName="FK_5g26jyni5x8li9apet7eo5atg" tableName="TAX_RATE_DESCRIPTION">
+      <column name="LANGUAGE_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-138">
+    <createIndex indexName="FK_5g3sbaqbfh5fny7ehf58pk869" tableName="TAX_RATE">
+      <column name="PARENT_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-139">
+    <createIndex indexName="FK_5rjwlj26iv0e3vnuajjiniek7" tableName="ORDER_PRODUCT_ATTRIBUTE">
+      <column name="ORDER_PRODUCT_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-140">
+    <createIndex indexName="FK_5tan60tg9d812ti5hg0ch784f" tableName="CUSTOMER_OPT_VAL_DESCRIPTION">
+      <column name="LANGUAGE_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-141">
+    <createIndex indexName="FK_650chnyaktynqq6ykvjp39h0v" tableName="USER">
+      <column name="MERCHANT_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-142">
+    <createIndex indexName="FK_6h8m6ocg2jhu3bfieqa0dupb1" tableName="PRODUCT_ATTRIBUTE">
+      <column name="PRODUCT_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-143">
+    <createIndex indexName="FK_72ork8lgtlvgwi0iwf0khdhv7" tableName="CUSTOMER">
+      <column name="BILLING_ZONE_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-144">
+    <createIndex indexName="FK_74fk2wqic6o7iayx04ojn63du" tableName="SHIPING_ORIGIN">
+      <column name="COUNTRY_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-145">
+    <createIndex indexName="FK_7dgmjiv744ak7617blnsqm560" tableName="CUSTOMER_GROUP">
+      <column name="GROUP_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-146">
+    <createIndex indexName="FK_7u7308kmafqhsvht9xwaba9h8" tableName="ZONE">
+      <column name="COUNTRY_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-147">
+    <createIndex indexName="FK_886779uo5mvsjx1aflijs3ldi" tableName="MANUFACTURER_DESCRIPTION">
+      <column name="LANGUAGE_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-148">
+    <createIndex indexName="FK_8e0096usk6ubo6g1m4g02cdg9" tableName="ORDERS">
+      <column name="BILLING_ZONE_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-149">
+    <createIndex indexName="FK_8lvfncpkdnd2ivn245u3792k3" tableName="SHIPING_ORIGIN">
+      <column name="MERCHANT_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-150">
+    <createIndex indexName="FK_8nwkbdvovjbaqovh1omtdqd4s" tableName="SHOPPING_CART_ITEM">
+      <column name="SHP_CART_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-151">
+    <createIndex indexName="FK_8rommesmavdij4j64u80rnpf5" tableName="CUSTOMER_OPTION_SET">
+      <column name="CUSTOMER_OPTION_VALUE_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-152">
+    <createIndex indexName="FK_adhnr56rrg1b3v9ufoey6vjfs" tableName="PRODUCT_DESCRIPTION">
+      <column name="LANGUAGE_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-153">
+    <createIndex indexName="FK_ajwett661pbjo6u9tk74ochve" tableName="SM_TRANSACTION">
+      <column name="ORDER_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-154">
+    <createIndex indexName="FK_bt21fp36gai74hfosfo02wucx" tableName="PRODUCT_PRICE">
+      <column name="PRODUCT_AVAIL_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-155">
+    <createIndex indexName="FK_by5aj5to9lgmfvlhn4fb5b242" tableName="CATEGORY">
+      <column name="PARENT_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-156">
+    <createIndex indexName="FK_c0kdjwp4gdxe36vlu83qfvme5" tableName="ZONE_DESCRIPTION">
+      <column name="LANGUAGE_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-157">
+    <createIndex indexName="FK_caeovxjxl3iya5jmoauqsxf9k" tableName="CUSTOMER_ATTRIBUTE">
+      <column name="OPTION_VALUE_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-158">
+    <createIndex indexName="FK_d1m8psp38jc0nk5ux56918eik" tableName="PRODUCT_RELATIONSHIP">
+      <column name="RELATED_PRODUCT_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-159">
+    <createIndex indexName="FK_d20pfg92gsn2m93b3q172gjlv" tableName="SHIPPING_QUOTE">
+      <column name="DELIVERY_COUNTRY_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-160">
+    <createIndex indexName="FK_d505g6bra836ja1kamcnhkiju" tableName="TAX_RATE">
+      <column name="ZONE_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-161">
+    <createIndex indexName="FK_dmpwg0pdbotjf8h0ca15tx3qm" tableName="PRODUCT_IMAGE">
+      <column name="PRODUCT_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-162">
+    <createIndex indexName="FK_eyy3eqwvkp4nudh4r02afghhs" tableName="CUSTOMER">
+      <column name="LANGUAGE_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-163">
+    <createIndex indexName="FK_f9ivw889okp1hujbvfq072ll2" tableName="CONTENT_DESCRIPTION">
+      <column name="LANGUAGE_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-164">
+    <createIndex indexName="FK_fnbc9pw6waewb1yraliutnhh1" tableName="ORDERS">
+      <column name="BILLING_COUNTRY_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-165">
+    <createIndex indexName="FK_fykbb1jc6rp1nsiaaj9ur40um" tableName="PRODUCT_PRICE_DESCRIPTION">
+      <column name="LANGUAGE_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-166">
+    <createIndex indexName="FK_g2h5gdhgcbn7b3cr26sj6ax4c" tableName="PRODUCT_ATTRIBUTE">
+      <column name="OPTION_VALUE_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-167">
+    <createIndex indexName="FK_g32kj493ntgjnky10l88q8ba7" tableName="PRODUCT_AVAILABILITY">
+      <column name="PRODUCT_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-168">
+    <createIndex indexName="FK_g76deolju6sf5ikvoe5ir23q3" tableName="MERCHANT_LOG">
+      <column name="MERCHANT_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-169">
+    <createIndex indexName="FK_gxbf63g476n3u9ovtrlnjveuu" tableName="COUNTRY_DESCRIPTION">
+      <column name="LANGUAGE_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-170">
+    <createIndex indexName="FK_hmjmi3k2k2xts6r1b3h59p7dj"
+      tableName="PRODUCT_OPTION_VALUE_DESCRIPTION">
+      <column name="LANGUAGE_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-171">
+    <createIndex indexName="FK_hq0mw7hixmta7q34ohl1g18wl" tableName="ORDERS">
+      <column name="DELIVERY_ZONE_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-172">
+    <createIndex indexName="FK_i17o4f83r3q77m1wpwqxj3qeh" tableName="CATEGORY_DESCRIPTION">
+      <column name="LANGUAGE_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-173">
+    <createIndex indexName="FK_i1vhr6iv0i07sy5ogjcb7n8un" tableName="PRODUCT_REVIEW">
+      <column name="PRODUCT_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-174">
+    <createIndex indexName="FK_i3pt01q982o6f1eelf2wgg16a" tableName="CUSTOMER_OPTION_DESC">
+      <column name="LANGUAGE_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-175">
+    <createIndex indexName="FK_ib790h1pasu1n7mye2hxl3i99" tableName="ORDERS">
+      <column name="CURRENCY_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-176">
+    <createIndex indexName="FK_iok46l7xqptpqplqleyxp72ew" tableName="CUSTOMER_REVIEW">
+      <column name="REVIEWED_CUSTOMER_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-177">
+    <createIndex indexName="FK_j00dj3m9tcac4sua8ajqln77a" tableName="CUSTOMER">
+      <column name="MERCHANT_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-178">
+    <createIndex indexName="FK_j0abhuuifvojg9079r0njja07" tableName="PRODUCT_CATEGORY">
+      <column name="CATEGORY_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-179">
+    <createIndex indexName="FK_jlyfte1wuvqgdxwwt2fnbg47g" tableName="PRODUCT_RELATIONSHIP">
+      <column name="MERCHANT_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-180">
+    <createIndex indexName="FK_jw5seps7hq717mgsqjrequeou" tableName="SYSTEM_NOTIFICATION">
+      <column name="USER_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-181">
+    <createIndex indexName="FK_jwovcys19bo3gyrko0kj0dh4l" tableName="ORDER_ACCOUNT">
+      <column name="ORDER_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-182">
+    <createIndex indexName="FK_k7gt46oima5w2h4wq84hhg19c" tableName="CUSTOMER">
+      <column name="DELIVERY_COUNTRY_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-183">
+    <createIndex indexName="FK_k7sh5ke7r2tlfe6nllvpa7ynu" tableName="USER">
+      <column name="LANGUAGE_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-184">
+    <createIndex indexName="FK_khquiwoxp3mpaolsy0hslfjch" tableName="ORDER_TOTAL">
+      <column name="ORDER_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-185">
+    <createIndex indexName="FK_kmd61ih4bv0aaofdyel8d2se1" tableName="CUSTOMER_GROUP">
+      <column name="CUSTOMER_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-186">
+    <createIndex indexName="FK_ldcx5d9ghtpsyb0qwrqc4chi2" tableName="SHIPPING_QUOTE">
+      <column name="DELIVERY_ZONE_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-187">
+    <createIndex indexName="FK_n14slyp7y649y5rhbmikw3pi0" tableName="ORDER_STATUS_HISTORY">
+      <column name="ORDER_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-188">
+    <createIndex indexName="FK_n52r1gofhi1sfancu7ld7xp09" tableName="PRODUCT_REVIEW_DESCRIPTION">
+      <column name="LANGUAGE_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-189">
+    <createIndex indexName="FK_nngtfydo0o1i7w2lv6k4csut" tableName="PERMISSION_GROUP">
+      <column name="PERMISSION_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-190">
+    <createIndex indexName="FK_nor0i9e2avl4yyioivxyxpr28" tableName="PRODUCT">
+      <column name="PRODUCT_TYPE_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-191">
+    <createIndex indexName="FK_otl5jb3ntlujif2krkk7f1hfc" tableName="MERCHANT_LANGUAGE">
+      <column name="stores_MERCHANT_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-192">
+    <createIndex indexName="FK_pcotjac5eu4pmsl4dhaq024po" tableName="ORDER_ACCOUNT_PRODUCT">
+      <column name="ORDER_PRODUCT_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-193">
+    <createIndex indexName="FK_pj2gjygldr9p81w673a27taw3" tableName="PERMISSION_GROUP">
+      <column name="GROUP_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-194">
+    <createIndex indexName="FK_pm6ef7y9lxy9xeav2dvcr4n4p" tableName="PRODUCT">
+      <column name="TAX_CLASS_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-195">
+    <createIndex indexName="FK_pxjv2i0f7bouvj3tgklxipp37" tableName="ORDER_ATTRIBUTE">
+      <column name="ORDER_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-196">
+    <createIndex indexName="FK_q28ohfcbdwexg6oojcft90adr" tableName="CUSTOMER_REVIEW_DESCRIPTION">
+      <column name="LANGUAGE_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-197">
+    <createIndex indexName="FK_q45avgtx0scd4e5m2m3k6i3rv" tableName="TAX_RATE">
+      <column name="TAX_CLASS_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-198">
+    <createIndex indexName="FK_q71ctu5sjtuird3f07paim1f2" tableName="SHOPPING_CART">
+      <column name="MERCHANT_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-199">
+    <createIndex indexName="FK_qubd75iis2h2u0pmncwp2ergp" tableName="SHIPING_ORIGIN">
+      <column name="ZONE_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-200">
+    <createIndex indexName="FK_r94hy42pyt9ot7ncu2s2kykqc" tableName="PRODUCT">
+      <column name="CUSTOMER_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-201">
+    <createIndex indexName="FK_rh6ota16guhs9w00trr64087g" tableName="ORDER_ACCOUNT_PRODUCT">
+      <column name="ORDER_ACCOUNT_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-202">
+    <createIndex indexName="FK_ro5t1gks1imat7hji5p7hessp" tableName="PRODUCT_IMAGE_DESCRIPTION">
+      <column name="LANGUAGE_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-203">
+    <createIndex indexName="FK_sc176ct7c75smml3pppgd6x7n" tableName="SHOPPING_CART_ATTR_ITEM">
+      <column name="SHP_CART_ITEM_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-204">
+    <createIndex indexName="FK_shr0wnakwvod5vksceh64umfy" tableName="ORDER_PRODUCT_PRICE">
+      <column name="ORDER_PRODUCT_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-205">
+    <createIndex indexName="FK_soi25dq8dn9vmk1yiggivp2fl" tableName="PRODUCT_RELATIONSHIP">
+      <column name="PRODUCT_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-206">
+    <createIndex indexName="FK_t03uwph4r4si70siiqafff3qj" tableName="PRODUCT">
+      <column name="MANUFACTURER_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-207">
+    <createIndex indexName="FK_tcj9cbm9ur5itu2c6wrct1dnq" tableName="MERCHANT_STORE">
+      <column name="LANGUAGE_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-208">
+    <createIndex indexName="PRD_OPTION_CODE_IDX" tableName="PRODUCT_OPTION">
+      <column name="PRODUCT_OPTION_CODE"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-209">
+    <createIndex indexName="PRD_OPTION_VAL_CODE_IDX" tableName="PRODUCT_OPTION_VALUE">
+      <column name="PRODUCT_OPTION_VAL_CODE"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-210">
+    <createIndex indexName="SHP_CART_CUSTOMER_IDX" tableName="SHOPPING_CART">
+      <column name="CUSTOMER_ID"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-211">
+    <addForeignKeyConstraint baseColumnNames="ZONE_ID" baseTableName="ZONE_DESCRIPTION"
+      constraintName="FK_11l2ifk07g04697nmb9arifnb" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ZONE_ID"
+      referencedTableName="ZONE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-212">
+    <addForeignKeyConstraint baseColumnNames="ZONE_ID" baseTableName="MERCHANT_STORE"
+      constraintName="FK_141243r2vth00rq0lyem39abo" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ZONE_ID"
+      referencedTableName="ZONE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-213">
+    <addForeignKeyConstraint baseColumnNames="CUSTOMER_REVIEW_ID"
+      baseTableName="CUSTOMER_REVIEW_DESCRIPTION" constraintName="FK_15vh2djpyycr278wc2dvu99xf"
+      deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+      referencedColumnNames="CUSTOMER_REVIEW_ID" referencedTableName="CUSTOMER_REVIEW"
+      validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-214">
+    <addForeignKeyConstraint baseColumnNames="LANGUAGE_ID" baseTableName="GEOZONE_DESCRIPTION"
+      constraintName="FK_1lcbkc4tt49q5qbue3m9p29c2" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="LANGUAGE_ID"
+      referencedTableName="LANGUAGE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-215">
+    <addForeignKeyConstraint baseColumnNames="MANUFACTURER_ID"
+      baseTableName="MANUFACTURER_DESCRIPTION" constraintName="FK_1o49ome5ymq7n6xabxylr6fmg"
+      deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+      referencedColumnNames="MANUFACTURER_ID" referencedTableName="MANUFACTURER" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-216">
+    <addForeignKeyConstraint baseColumnNames="PRODUCT_IMAGE_ID"
+      baseTableName="PRODUCT_IMAGE_DESCRIPTION" constraintName="FK_1sdajmriuthbewh872gji4qgt"
+      deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+      referencedColumnNames="PRODUCT_IMAGE_ID" referencedTableName="PRODUCT_IMAGE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-217">
+    <addForeignKeyConstraint baseColumnNames="LANGUAGE_ID" baseTableName="PRODUCT_OPTION_DESC"
+      constraintName="FK_23nqig56qilwn2f6d76cl5ubx" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="LANGUAGE_ID"
+      referencedTableName="LANGUAGE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-218">
+    <addForeignKeyConstraint baseColumnNames="CUSTOMER_ID" baseTableName="CUSTOMER_ATTRIBUTE"
+      constraintName="FK_29fkuiaadeus36gasl9q1tsq3" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="CUSTOMER_ID"
+      referencedTableName="CUSTOMER" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-219">
+    <addForeignKeyConstraint baseColumnNames="DELIVERY_ZONE_ID" baseTableName="CUSTOMER"
+      constraintName="FK_2atbo3aje6mi15gk8p7a5qvxb" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ZONE_ID"
+      referencedTableName="ZONE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-220">
+    <addForeignKeyConstraint baseColumnNames="GEOZONE_ID" baseTableName="COUNTRY"
+      constraintName="FK_2lbinu04sww6iku2vis3qrj75" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="GEOZONE_ID"
+      referencedTableName="GEOZONE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-221">
+    <addForeignKeyConstraint baseColumnNames="OPTIN_ID" baseTableName="CUSTOMER_OPTIN"
+      constraintName="FK_2sv3ldopc4d3h30rg4wxixvgw" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="OPTIN_ID"
+      referencedTableName="OPTIN" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-222">
+    <addForeignKeyConstraint baseColumnNames="PRODUCT_PRICE_ID"
+      baseTableName="PRODUCT_PRICE_DESCRIPTION" constraintName="FK_2xu1k5v5blwc7w6x65g4ww0au"
+      deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+      referencedColumnNames="PRODUCT_PRICE_ID" referencedTableName="PRODUCT_PRICE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-223">
+    <addForeignKeyConstraint baseColumnNames="MERCHANT_ID" baseTableName="TAX_RATE"
+      constraintName="FK_35a95oa56qeqjqltvfh5wo2h7" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="MERCHANT_ID"
+      referencedTableName="MERCHANT_STORE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-224">
+    <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="USER_GROUP"
+      constraintName="FK_3at466hpmis1abruuh3x6nftg" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="USER_ID"
+      referencedTableName="USER" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-225">
+    <addForeignKeyConstraint baseColumnNames="MERCHANTID" baseTableName="ORDERS"
+      constraintName="FK_3b8cm7lvbxjbtepjn64nnbtc0" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="MERCHANT_ID"
+      referencedTableName="MERCHANT_STORE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-226">
+    <addForeignKeyConstraint baseColumnNames="BILLING_COUNTRY_ID" baseTableName="CUSTOMER"
+      constraintName="FK_3j13fd0w8fcubko0fdv53w18j" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="COUNTRY_ID"
+      referencedTableName="COUNTRY" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-227">
+    <addForeignKeyConstraint baseColumnNames="COUNTRY_ID" baseTableName="TAX_RATE"
+      constraintName="FK_4dk6cmp3gpa7y7wuwbesvpetb" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="COUNTRY_ID"
+      referencedTableName="COUNTRY" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-228">
+    <addForeignKeyConstraint baseColumnNames="CONTENT_ID" baseTableName="CONTENT_DESCRIPTION"
+      constraintName="FK_4ds7m2jymx6n57xxp0qp268oi" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="CONTENT_ID"
+      referencedTableName="CONTENT" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-229">
+    <addForeignKeyConstraint baseColumnNames="GROUP_ID" baseTableName="USER_GROUP"
+      constraintName="FK_4ex9p3ihrxoysn8k46kh965sf" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="GROUP_ID"
+      referencedTableName="SM_GROUP" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-230">
+    <addForeignKeyConstraint baseColumnNames="MERCHANT_ID" baseTableName="MERCHANT_CONFIGURATION"
+      constraintName="FK_4hwqhy43w922otscgfah9d30a" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="MERCHANT_ID"
+      referencedTableName="MERCHANT_STORE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-231">
+    <addForeignKeyConstraint baseColumnNames="PRODUCT_OPTION_VALUE_ID"
+      baseTableName="PRODUCT_OPTION_VALUE_DESCRIPTION" constraintName="FK_4igjaqwi959o699j6o8jhfftl"
+      deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+      referencedColumnNames="PRODUCT_OPTION_VALUE_ID" referencedTableName="PRODUCT_OPTION_VALUE"
+      validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-232">
+    <addForeignKeyConstraint baseColumnNames="COUNTRY_ID" baseTableName="MERCHANT_STORE"
+      constraintName="FK_4k1mv6pikwues6f2uhnju0aj6" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="COUNTRY_ID"
+      referencedTableName="COUNTRY" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-233">
+    <addForeignKeyConstraint baseColumnNames="DELIVERY_COUNTRY_ID" baseTableName="ORDERS"
+      constraintName="FK_4lkaw8wsvt2mfmwna70lctuu8" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="COUNTRY_ID"
+      referencedTableName="COUNTRY" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-234">
+    <addForeignKeyConstraint baseColumnNames="ORDER_ID" baseTableName="ORDER_PRODUCT"
+      constraintName="FK_4nsxta166qmi0u7v02p6gtnxa" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ORDER_ID"
+      referencedTableName="ORDERS" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-235">
+    <addForeignKeyConstraint baseColumnNames="CURRENCY_ID" baseTableName="MERCHANT_STORE"
+      constraintName="FK_4uyyjjys5buui6oe3vp84k5ip" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="CURRENCY_ID"
+      referencedTableName="CURRENCY" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-236">
+    <addForeignKeyConstraint baseColumnNames="MERCHANT_ID" baseTableName="PRODUCT_OPTION"
+      constraintName="FK_4w5ar6nahg63cj3vbm00xr7r7" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="MERCHANT_ID"
+      referencedTableName="MERCHANT_STORE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-237">
+    <addForeignKeyConstraint baseColumnNames="ORDER_PRODUCT_ID"
+      baseTableName="ORDER_PRODUCT_DOWNLOAD" constraintName="FK_52kb521ve197of5311bu3ee5b"
+      deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+      referencedColumnNames="ORDER_PRODUCT_ID" referencedTableName="ORDER_PRODUCT" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-238">
+    <addForeignKeyConstraint baseColumnNames="languages_LANGUAGE_ID"
+      baseTableName="MERCHANT_LANGUAGE" constraintName="FK_53o35arh6914xpjlfkk9fg7hr"
+      deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+      referencedColumnNames="LANGUAGE_ID" referencedTableName="LANGUAGE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-239">
+    <addForeignKeyConstraint baseColumnNames="LANGUAGE_ID" baseTableName="TAX_RATE_DESCRIPTION"
+      constraintName="FK_5g26jyni5x8li9apet7eo5atg" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="LANGUAGE_ID"
+      referencedTableName="LANGUAGE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-240">
+    <addForeignKeyConstraint baseColumnNames="PARENT_ID" baseTableName="TAX_RATE"
+      constraintName="FK_5g3sbaqbfh5fny7ehf58pk869" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="TAX_RATE_ID"
+      referencedTableName="TAX_RATE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-241">
+    <addForeignKeyConstraint baseColumnNames="MERCHANT_ID" baseTableName="FILE_HISTORY"
+      constraintName="FK_5p2nkrcj0b8k5r3mv3lijif45" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="MERCHANT_ID"
+      referencedTableName="MERCHANT_STORE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-242">
+    <addForeignKeyConstraint baseColumnNames="CUSTOMERS_ID" baseTableName="CUSTOMER_REVIEW"
+      constraintName="FK_5pqg5kifmqcewf9tukkftbo99" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="CUSTOMER_ID"
+      referencedTableName="CUSTOMER" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-243">
+    <addForeignKeyConstraint baseColumnNames="ORDER_PRODUCT_ID"
+      baseTableName="ORDER_PRODUCT_ATTRIBUTE" constraintName="FK_5rjwlj26iv0e3vnuajjiniek7"
+      deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+      referencedColumnNames="ORDER_PRODUCT_ID" referencedTableName="ORDER_PRODUCT" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-244">
+    <addForeignKeyConstraint baseColumnNames="LANGUAGE_ID"
+      baseTableName="CUSTOMER_OPT_VAL_DESCRIPTION" constraintName="FK_5tan60tg9d812ti5hg0ch784f"
+      deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+      referencedColumnNames="LANGUAGE_ID" referencedTableName="LANGUAGE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-245">
+    <addForeignKeyConstraint baseColumnNames="MERCHANT_ID" baseTableName="USER"
+      constraintName="FK_650chnyaktynqq6ykvjp39h0v" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="MERCHANT_ID"
+      referencedTableName="MERCHANT_STORE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-246">
+    <addForeignKeyConstraint baseColumnNames="MERCHANT_ID" baseTableName="MANUFACTURER"
+      constraintName="FK_6a0xjjrya6f08ys6bm5tr84q5" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="MERCHANT_ID"
+      referencedTableName="MERCHANT_STORE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-247">
+    <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="PRODUCT_ATTRIBUTE"
+      constraintName="FK_6h8m6ocg2jhu3bfieqa0dupb1" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="PRODUCT_ID"
+      referencedTableName="PRODUCT" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-248">
+    <addForeignKeyConstraint baseColumnNames="MERCHANT_ID" baseTableName="SYSTEM_NOTIFICATION"
+      constraintName="FK_6pow79mefofmd6svpdb47p1tq" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="MERCHANT_ID"
+      referencedTableName="MERCHANT_STORE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-249">
+    <addForeignKeyConstraint baseColumnNames="BILLING_ZONE_ID" baseTableName="CUSTOMER"
+      constraintName="FK_72ork8lgtlvgwi0iwf0khdhv7" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ZONE_ID"
+      referencedTableName="ZONE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-250">
+    <addForeignKeyConstraint baseColumnNames="COUNTRY_ID" baseTableName="SHIPING_ORIGIN"
+      constraintName="FK_74fk2wqic6o7iayx04ojn63du" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="COUNTRY_ID"
+      referencedTableName="COUNTRY" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-251">
+    <addForeignKeyConstraint baseColumnNames="MERCHANT_ID" baseTableName="OPTIN"
+      constraintName="FK_78lse42pdfcesqv7t666puqqi" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="MERCHANT_ID"
+      referencedTableName="MERCHANT_STORE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-252">
+    <addForeignKeyConstraint baseColumnNames="GROUP_ID" baseTableName="CUSTOMER_GROUP"
+      constraintName="FK_7dgmjiv744ak7617blnsqm560" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="GROUP_ID"
+      referencedTableName="SM_GROUP" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-253">
+    <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="PRODUCT_DIGITAL"
+      constraintName="FK_7nmms6pbk5w9yvqm874hw1a1r" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="PRODUCT_ID"
+      referencedTableName="PRODUCT" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-254">
+    <addForeignKeyConstraint baseColumnNames="COUNTRY_ID" baseTableName="ZONE"
+      constraintName="FK_7u7308kmafqhsvht9xwaba9h8" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="COUNTRY_ID"
+      referencedTableName="COUNTRY" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-255">
+    <addForeignKeyConstraint baseColumnNames="LANGUAGE_ID" baseTableName="MANUFACTURER_DESCRIPTION"
+      constraintName="FK_886779uo5mvsjx1aflijs3ldi" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="LANGUAGE_ID"
+      referencedTableName="LANGUAGE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-256">
+    <addForeignKeyConstraint baseColumnNames="BILLING_ZONE_ID" baseTableName="ORDERS"
+      constraintName="FK_8e0096usk6ubo6g1m4g02cdg9" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ZONE_ID"
+      referencedTableName="ZONE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-257">
+    <addForeignKeyConstraint baseColumnNames="MERCHANT_ID" baseTableName="SHIPING_ORIGIN"
+      constraintName="FK_8lvfncpkdnd2ivn245u3792k3" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="MERCHANT_ID"
+      referencedTableName="MERCHANT_STORE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-258">
+    <addForeignKeyConstraint baseColumnNames="SHP_CART_ID" baseTableName="SHOPPING_CART_ITEM"
+      constraintName="FK_8nwkbdvovjbaqovh1omtdqd4s" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="SHP_CART_ID"
+      referencedTableName="SHOPPING_CART" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-259">
+    <addForeignKeyConstraint baseColumnNames="CUSTOMER_OPTION_VALUE_ID"
+      baseTableName="CUSTOMER_OPTION_SET" constraintName="FK_8rommesmavdij4j64u80rnpf5"
+      deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+      referencedColumnNames="CUSTOMER_OPTION_VALUE_ID" referencedTableName="CUSTOMER_OPTION_VALUE"
+      validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-260">
+    <addForeignKeyConstraint baseColumnNames="MERCHANT_ID" baseTableName="PRODUCT_OPTION_VALUE"
+      constraintName="FK_9q3e32t980pm3xfonwcb94e9t" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="MERCHANT_ID"
+      referencedTableName="MERCHANT_STORE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-261">
+    <addForeignKeyConstraint baseColumnNames="MERCHANT_ID" baseTableName="PRODUCT"
+      constraintName="FK_a1p3pj01g4ojbdf1i93iavwoo" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="MERCHANT_ID"
+      referencedTableName="MERCHANT_STORE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-262">
+    <addForeignKeyConstraint baseColumnNames="PRODUCT_OPTION_ID" baseTableName="PRODUCT_OPTION_DESC"
+      constraintName="FK_aa0fbx3v56bjbxwipag3bbdev" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="PRODUCT_OPTION_ID"
+      referencedTableName="PRODUCT_OPTION" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-263">
+    <addForeignKeyConstraint baseColumnNames="LANGUAGE_ID" baseTableName="PRODUCT_DESCRIPTION"
+      constraintName="FK_adhnr56rrg1b3v9ufoey6vjfs" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="LANGUAGE_ID"
+      referencedTableName="LANGUAGE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-264">
+    <addForeignKeyConstraint baseColumnNames="ORDER_ID" baseTableName="SM_TRANSACTION"
+      constraintName="FK_ajwett661pbjo6u9tk74ochve" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ORDER_ID"
+      referencedTableName="ORDERS" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-265">
+    <addForeignKeyConstraint baseColumnNames="OPTION_ID" baseTableName="CUSTOMER_ATTRIBUTE"
+      constraintName="FK_apotuxwjsvba5y88au4xyw0nh" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="CUSTOMER_OPTION_ID"
+      referencedTableName="CUSTOMER_OPTION" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-266">
+    <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="PRODUCT_DESCRIPTION"
+      constraintName="FK_aruidfgmbeki4pu5ipjdd5j7p" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="PRODUCT_ID"
+      referencedTableName="PRODUCT" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-267">
+    <addForeignKeyConstraint baseColumnNames="MERCHANT_ID" baseTableName="CATEGORY"
+      constraintName="FK_b5718wl9wilwj9k8je1k2jeo" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="MERCHANT_ID"
+      referencedTableName="MERCHANT_STORE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-268">
+    <addForeignKeyConstraint baseColumnNames="PRODUCT_AVAIL_ID" baseTableName="PRODUCT_PRICE"
+      constraintName="FK_bt21fp36gai74hfosfo02wucx" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="PRODUCT_AVAIL_ID"
+      referencedTableName="PRODUCT_AVAILABILITY" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-269">
+    <addForeignKeyConstraint baseColumnNames="CATEGORY_ID" baseTableName="CATEGORY_DESCRIPTION"
+      constraintName="FK_by2tlirq8wuhx2ml9ashsjwv2" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="CATEGORY_ID"
+      referencedTableName="CATEGORY" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-270">
+    <addForeignKeyConstraint baseColumnNames="PARENT_ID" baseTableName="CATEGORY"
+      constraintName="FK_by5aj5to9lgmfvlhn4fb5b242" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="CATEGORY_ID"
+      referencedTableName="CATEGORY" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-271">
+    <addForeignKeyConstraint baseColumnNames="LANGUAGE_ID" baseTableName="ZONE_DESCRIPTION"
+      constraintName="FK_c0kdjwp4gdxe36vlu83qfvme5" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="LANGUAGE_ID"
+      referencedTableName="LANGUAGE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-272">
+    <addForeignKeyConstraint baseColumnNames="MERCHANT_ID" baseTableName="CUSTOMER_OPTION"
+      constraintName="FK_c8hb7w6e4rle5vfjf4p96sh80" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="MERCHANT_ID"
+      referencedTableName="MERCHANT_STORE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-273">
+    <addForeignKeyConstraint baseColumnNames="OPTION_VALUE_ID" baseTableName="CUSTOMER_ATTRIBUTE"
+      constraintName="FK_caeovxjxl3iya5jmoauqsxf9k" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="CUSTOMER_OPTION_VALUE_ID"
+      referencedTableName="CUSTOMER_OPTION_VALUE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-274">
+    <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="PRODUCT_CATEGORY"
+      constraintName="FK_cu9i33d6dbyo4s8jmfepoyn59" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="PRODUCT_ID"
+      referencedTableName="PRODUCT" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-275">
+    <addForeignKeyConstraint baseColumnNames="RELATED_PRODUCT_ID"
+      baseTableName="PRODUCT_RELATIONSHIP" constraintName="FK_d1m8psp38jc0nk5ux56918eik"
+      deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+      referencedColumnNames="PRODUCT_ID" referencedTableName="PRODUCT" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-276">
+    <addForeignKeyConstraint baseColumnNames="DELIVERY_COUNTRY_ID" baseTableName="SHIPPING_QUOTE"
+      constraintName="FK_d20pfg92gsn2m93b3q172gjlv" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="COUNTRY_ID"
+      referencedTableName="COUNTRY" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-277">
+    <addForeignKeyConstraint baseColumnNames="ZONE_ID" baseTableName="TAX_RATE"
+      constraintName="FK_d505g6bra836ja1kamcnhkiju" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ZONE_ID"
+      referencedTableName="ZONE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-278">
+    <addForeignKeyConstraint baseColumnNames="COUNTRY_ID" baseTableName="COUNTRY_DESCRIPTION"
+      constraintName="FK_dlhty043oqoecr3f37uqvhj8w" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="COUNTRY_ID"
+      referencedTableName="COUNTRY" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-279">
+    <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="PRODUCT_IMAGE"
+      constraintName="FK_dmpwg0pdbotjf8h0ca15tx3qm" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="PRODUCT_ID"
+      referencedTableName="PRODUCT" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-280">
+    <addForeignKeyConstraint baseColumnNames="LANGUAGE_ID" baseTableName="CUSTOMER"
+      constraintName="FK_eyy3eqwvkp4nudh4r02afghhs" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="LANGUAGE_ID"
+      referencedTableName="LANGUAGE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-281">
+    <addForeignKeyConstraint baseColumnNames="LANGUAGE_ID" baseTableName="CONTENT_DESCRIPTION"
+      constraintName="FK_f9ivw889okp1hujbvfq072ll2" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="LANGUAGE_ID"
+      referencedTableName="LANGUAGE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-282">
+    <addForeignKeyConstraint baseColumnNames="BILLING_COUNTRY_ID" baseTableName="ORDERS"
+      constraintName="FK_fnbc9pw6waewb1yraliutnhh1" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="COUNTRY_ID"
+      referencedTableName="COUNTRY" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-283">
+    <addForeignKeyConstraint baseColumnNames="LANGUAGE_ID" baseTableName="PRODUCT_PRICE_DESCRIPTION"
+      constraintName="FK_fykbb1jc6rp1nsiaaj9ur40um" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="LANGUAGE_ID"
+      referencedTableName="LANGUAGE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-284">
+    <addForeignKeyConstraint baseColumnNames="OPTION_VALUE_ID" baseTableName="PRODUCT_ATTRIBUTE"
+      constraintName="FK_g2h5gdhgcbn7b3cr26sj6ax4c" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="PRODUCT_OPTION_VALUE_ID"
+      referencedTableName="PRODUCT_OPTION_VALUE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-285">
+    <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="PRODUCT_AVAILABILITY"
+      constraintName="FK_g32kj493ntgjnky10l88q8ba7" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="PRODUCT_ID"
+      referencedTableName="PRODUCT" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-286">
+    <addForeignKeyConstraint baseColumnNames="MERCHANT_ID" baseTableName="MERCHANT_LOG"
+      constraintName="FK_g76deolju6sf5ikvoe5ir23q3" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="MERCHANT_ID"
+      referencedTableName="MERCHANT_STORE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-287">
+    <addForeignKeyConstraint baseColumnNames="LANGUAGE_ID" baseTableName="COUNTRY_DESCRIPTION"
+      constraintName="FK_gxbf63g476n3u9ovtrlnjveuu" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="LANGUAGE_ID"
+      referencedTableName="LANGUAGE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-288">
+    <addForeignKeyConstraint baseColumnNames="LANGUAGE_ID"
+      baseTableName="PRODUCT_OPTION_VALUE_DESCRIPTION" constraintName="FK_hmjmi3k2k2xts6r1b3h59p7dj"
+      deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+      referencedColumnNames="LANGUAGE_ID" referencedTableName="LANGUAGE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-289">
+    <addForeignKeyConstraint baseColumnNames="DELIVERY_ZONE_ID" baseTableName="ORDERS"
+      constraintName="FK_hq0mw7hixmta7q34ohl1g18wl" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ZONE_ID"
+      referencedTableName="ZONE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-290">
+    <addForeignKeyConstraint baseColumnNames="MERCHANT_ID" baseTableName="TAX_CLASS"
+      constraintName="FK_hs8kji9qd3y9sc8yb38k8fefb" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="MERCHANT_ID"
+      referencedTableName="MERCHANT_STORE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-291">
+    <addForeignKeyConstraint baseColumnNames="LANGUAGE_ID" baseTableName="CATEGORY_DESCRIPTION"
+      constraintName="FK_i17o4f83r3q77m1wpwqxj3qeh" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="LANGUAGE_ID"
+      referencedTableName="LANGUAGE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-292">
+    <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="PRODUCT_REVIEW"
+      constraintName="FK_i1vhr6iv0i07sy5ogjcb7n8un" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="PRODUCT_ID"
+      referencedTableName="PRODUCT" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-293">
+    <addForeignKeyConstraint baseColumnNames="LANGUAGE_ID" baseTableName="CUSTOMER_OPTION_DESC"
+      constraintName="FK_i3pt01q982o6f1eelf2wgg16a" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="LANGUAGE_ID"
+      referencedTableName="LANGUAGE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-294">
+    <addForeignKeyConstraint baseColumnNames="CURRENCY_ID" baseTableName="ORDERS"
+      constraintName="FK_ib790h1pasu1n7mye2hxl3i99" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="CURRENCY_ID"
+      referencedTableName="CURRENCY" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-295">
+    <addForeignKeyConstraint baseColumnNames="REVIEWED_CUSTOMER_ID" baseTableName="CUSTOMER_REVIEW"
+      constraintName="FK_iok46l7xqptpqplqleyxp72ew" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="CUSTOMER_ID"
+      referencedTableName="CUSTOMER" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-296">
+    <addForeignKeyConstraint baseColumnNames="MERCHANT_ID" baseTableName="CUSTOMER"
+      constraintName="FK_j00dj3m9tcac4sua8ajqln77a" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="MERCHANT_ID"
+      referencedTableName="MERCHANT_STORE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-297">
+    <addForeignKeyConstraint baseColumnNames="CATEGORY_ID" baseTableName="PRODUCT_CATEGORY"
+      constraintName="FK_j0abhuuifvojg9079r0njja07" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="CATEGORY_ID"
+      referencedTableName="CATEGORY" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-298">
+    <addForeignKeyConstraint baseColumnNames="MERCHANT_ID" baseTableName="PRODUCT_RELATIONSHIP"
+      constraintName="FK_jlyfte1wuvqgdxwwt2fnbg47g" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="MERCHANT_ID"
+      referencedTableName="MERCHANT_STORE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-299">
+    <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="SYSTEM_NOTIFICATION"
+      constraintName="FK_jw5seps7hq717mgsqjrequeou" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="USER_ID"
+      referencedTableName="USER" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-300">
+    <addForeignKeyConstraint baseColumnNames="ORDER_ID" baseTableName="ORDER_ACCOUNT"
+      constraintName="FK_jwovcys19bo3gyrko0kj0dh4l" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ORDER_ID"
+      referencedTableName="ORDERS" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-301">
+    <addForeignKeyConstraint baseColumnNames="DELIVERY_COUNTRY_ID" baseTableName="CUSTOMER"
+      constraintName="FK_k7gt46oima5w2h4wq84hhg19c" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="COUNTRY_ID"
+      referencedTableName="COUNTRY" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-302">
+    <addForeignKeyConstraint baseColumnNames="LANGUAGE_ID" baseTableName="USER"
+      constraintName="FK_k7sh5ke7r2tlfe6nllvpa7ynu" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="LANGUAGE_ID"
+      referencedTableName="LANGUAGE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-303">
+    <addForeignKeyConstraint baseColumnNames="ORDER_ID" baseTableName="ORDER_TOTAL"
+      constraintName="FK_khquiwoxp3mpaolsy0hslfjch" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ORDER_ID"
+      referencedTableName="ORDERS" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-304">
+    <addForeignKeyConstraint baseColumnNames="CUSTOMER_ID" baseTableName="CUSTOMER_GROUP"
+      constraintName="FK_kmd61ih4bv0aaofdyel8d2se1" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="CUSTOMER_ID"
+      referencedTableName="CUSTOMER" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-305">
+    <addForeignKeyConstraint baseColumnNames="MERCHANT_ID" baseTableName="CONTENT"
+      constraintName="FK_l2s62g3nt07rx5tdfhsap7t7h" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="MERCHANT_ID"
+      referencedTableName="MERCHANT_STORE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-306">
+    <addForeignKeyConstraint baseColumnNames="TAX_RATE_ID" baseTableName="TAX_RATE_DESCRIPTION"
+      constraintName="FK_ld9jwc8vxb7ftku6yxx2mkjbf" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="TAX_RATE_ID"
+      referencedTableName="TAX_RATE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-307">
+    <addForeignKeyConstraint baseColumnNames="DELIVERY_ZONE_ID" baseTableName="SHIPPING_QUOTE"
+      constraintName="FK_ldcx5d9ghtpsyb0qwrqc4chi2" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ZONE_ID"
+      referencedTableName="ZONE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-308">
+    <addForeignKeyConstraint baseColumnNames="GEOZONE_ID" baseTableName="GEOZONE_DESCRIPTION"
+      constraintName="FK_m2xipv66da4ujekwbwxuyhmb8" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="GEOZONE_ID"
+      referencedTableName="GEOZONE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-309">
+    <addForeignKeyConstraint baseColumnNames="PRODUCT_REVIEW_ID"
+      baseTableName="PRODUCT_REVIEW_DESCRIPTION" constraintName="FK_m7su4leperkhlinccx5ec3kja"
+      deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+      referencedColumnNames="PRODUCT_REVIEW_ID" referencedTableName="PRODUCT_REVIEW"
+      validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-310">
+    <addForeignKeyConstraint baseColumnNames="ORDER_ID" baseTableName="ORDER_STATUS_HISTORY"
+      constraintName="FK_n14slyp7y649y5rhbmikw3pi0" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ORDER_ID"
+      referencedTableName="ORDERS" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-311">
+    <addForeignKeyConstraint baseColumnNames="LANGUAGE_ID"
+      baseTableName="PRODUCT_REVIEW_DESCRIPTION" constraintName="FK_n52r1gofhi1sfancu7ld7xp09"
+      deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+      referencedColumnNames="LANGUAGE_ID" referencedTableName="LANGUAGE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-312">
+    <addForeignKeyConstraint baseColumnNames="PERMISSION_ID" baseTableName="PERMISSION_GROUP"
+      constraintName="FK_nngtfydo0o1i7w2lv6k4csut" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="PERMISSION_ID"
+      referencedTableName="PERMISSION" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-313">
+    <addForeignKeyConstraint baseColumnNames="PRODUCT_TYPE_ID" baseTableName="PRODUCT"
+      constraintName="FK_nor0i9e2avl4yyioivxyxpr28" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="PRODUCT_TYPE_ID"
+      referencedTableName="PRODUCT_TYPE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-314">
+    <addForeignKeyConstraint baseColumnNames="CUSTOMER_OPTION_ID"
+      baseTableName="CUSTOMER_OPTION_SET" constraintName="FK_nw8syffq9lv0p0nc0vvlecbba"
+      deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+      referencedColumnNames="CUSTOMER_OPTION_ID" referencedTableName="CUSTOMER_OPTION"
+      validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-315">
+    <addForeignKeyConstraint baseColumnNames="stores_MERCHANT_ID" baseTableName="MERCHANT_LANGUAGE"
+      constraintName="FK_otl5jb3ntlujif2krkk7f1hfc" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="MERCHANT_ID"
+      referencedTableName="MERCHANT_STORE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-316">
+    <addForeignKeyConstraint baseColumnNames="CUSTOMER_OPTION_ID"
+      baseTableName="CUSTOMER_OPTION_DESC" constraintName="FK_p7u6vmiivmpui2sytdt41u2ye"
+      deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+      referencedColumnNames="CUSTOMER_OPTION_ID" referencedTableName="CUSTOMER_OPTION"
+      validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-317">
+    <addForeignKeyConstraint baseColumnNames="ORDER_PRODUCT_ID"
+      baseTableName="ORDER_ACCOUNT_PRODUCT" constraintName="FK_pcotjac5eu4pmsl4dhaq024po"
+      deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+      referencedColumnNames="ORDER_PRODUCT_ID" referencedTableName="ORDER_PRODUCT" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-318">
+    <addForeignKeyConstraint baseColumnNames="GROUP_ID" baseTableName="PERMISSION_GROUP"
+      constraintName="FK_pj2gjygldr9p81w673a27taw3" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="GROUP_ID"
+      referencedTableName="SM_GROUP" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-319">
+    <addForeignKeyConstraint baseColumnNames="TAX_CLASS_ID" baseTableName="PRODUCT"
+      constraintName="FK_pm6ef7y9lxy9xeav2dvcr4n4p" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="TAX_CLASS_ID"
+      referencedTableName="TAX_CLASS" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-320">
+    <addForeignKeyConstraint baseColumnNames="CUSTOMERS_ID" baseTableName="PRODUCT_REVIEW"
+      constraintName="FK_pvhck0hgg98k948igph4wtjo1" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="CUSTOMER_ID"
+      referencedTableName="CUSTOMER" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-321">
+    <addForeignKeyConstraint baseColumnNames="ORDER_ID" baseTableName="ORDER_ATTRIBUTE"
+      constraintName="FK_pxjv2i0f7bouvj3tgklxipp37" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ORDER_ID"
+      referencedTableName="ORDERS" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-322">
+    <addForeignKeyConstraint baseColumnNames="LANGUAGE_ID"
+      baseTableName="CUSTOMER_REVIEW_DESCRIPTION" constraintName="FK_q28ohfcbdwexg6oojcft90adr"
+      deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+      referencedColumnNames="LANGUAGE_ID" referencedTableName="LANGUAGE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-323">
+    <addForeignKeyConstraint baseColumnNames="TAX_CLASS_ID" baseTableName="TAX_RATE"
+      constraintName="FK_q45avgtx0scd4e5m2m3k6i3rv" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="TAX_CLASS_ID"
+      referencedTableName="TAX_CLASS" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-324">
+    <addForeignKeyConstraint baseColumnNames="MERCHANT_ID" baseTableName="SHOPPING_CART"
+      constraintName="FK_q71ctu5sjtuird3f07paim1f2" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="MERCHANT_ID"
+      referencedTableName="MERCHANT_STORE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-325">
+    <addForeignKeyConstraint baseColumnNames="MERCHANT_ID" baseTableName="CUSTOMER_OPTION_VALUE"
+      constraintName="FK_qbur9hs0qbtgl3f85l4c6s3yd" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="MERCHANT_ID"
+      referencedTableName="MERCHANT_STORE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-326">
+    <addForeignKeyConstraint baseColumnNames="ZONE_ID" baseTableName="SHIPING_ORIGIN"
+      constraintName="FK_qubd75iis2h2u0pmncwp2ergp" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ZONE_ID"
+      referencedTableName="ZONE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-327">
+    <addForeignKeyConstraint baseColumnNames="CUSTOMER_ID" baseTableName="PRODUCT"
+      constraintName="FK_r94hy42pyt9ot7ncu2s2kykqc" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="CUSTOMER_ID"
+      referencedTableName="CUSTOMER" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-328">
+    <addForeignKeyConstraint baseColumnNames="OPTION_ID" baseTableName="PRODUCT_ATTRIBUTE"
+      constraintName="FK_r9u2iot9wkbn263up3pj9stc1" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="PRODUCT_OPTION_ID"
+      referencedTableName="PRODUCT_OPTION" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-329">
+    <addForeignKeyConstraint baseColumnNames="ORDER_ACCOUNT_ID"
+      baseTableName="ORDER_ACCOUNT_PRODUCT" constraintName="FK_rh6ota16guhs9w00trr64087g"
+      deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+      referencedColumnNames="ORDER_ACCOUNT_ID" referencedTableName="ORDER_ACCOUNT" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-330">
+    <addForeignKeyConstraint baseColumnNames="LANGUAGE_ID" baseTableName="PRODUCT_IMAGE_DESCRIPTION"
+      constraintName="FK_ro5t1gks1imat7hji5p7hessp" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="LANGUAGE_ID"
+      referencedTableName="LANGUAGE" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-331">
+    <addForeignKeyConstraint baseColumnNames="SHP_CART_ITEM_ID"
+      baseTableName="SHOPPING_CART_ATTR_ITEM" constraintName="FK_sc176ct7c75smml3pppgd6x7n"
+      deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+      referencedColumnNames="SHP_CART_ITEM_ID" referencedTableName="SHOPPING_CART_ITEM"
+      validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-332">
+    <addForeignKeyConstraint baseColumnNames="ORDER_PRODUCT_ID" baseTableName="ORDER_PRODUCT_PRICE"
+      constraintName="FK_shr0wnakwvod5vksceh64umfy" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ORDER_PRODUCT_ID"
+      referencedTableName="ORDER_PRODUCT" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-333">
+    <addForeignKeyConstraint baseColumnNames="CUSTOMER_OPT_VAL_ID"
+      baseTableName="CUSTOMER_OPT_VAL_DESCRIPTION" constraintName="FK_sj4lco1gcmplvqlgfdbdpmtyn"
+      deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+      referencedColumnNames="CUSTOMER_OPTION_VALUE_ID" referencedTableName="CUSTOMER_OPTION_VALUE"
+      validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-334">
+    <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="PRODUCT_RELATIONSHIP"
+      constraintName="FK_soi25dq8dn9vmk1yiggivp2fl" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="PRODUCT_ID"
+      referencedTableName="PRODUCT" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-335">
+    <addForeignKeyConstraint baseColumnNames="MANUFACTURER_ID" baseTableName="PRODUCT"
+      constraintName="FK_t03uwph4r4si70siiqafff3qj" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="MANUFACTURER_ID"
+      referencedTableName="MANUFACTURER" validate="true"/>
+  </changeSet>
+  <changeSet author="binayak (generated)" id="1532244833569-336">
+    <addForeignKeyConstraint baseColumnNames="LANGUAGE_ID" baseTableName="MERCHANT_STORE"
+      constraintName="FK_tcj9cbm9ur5itu2c6wrct1dnq" deferrable="false" initiallyDeferred="false"
+      onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="LANGUAGE_ID"
+      referencedTableName="LANGUAGE" validate="true"/>
+  </changeSet>
+</databaseChangeLog>
