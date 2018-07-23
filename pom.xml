@@ -135,6 +135,7 @@
     <module>sm-core-modules</module>
     <module>sm-core</module>
     <module>sm-shop</module>
+    <module>databaseconfig</module>
   </modules>
 
   <repositories>
