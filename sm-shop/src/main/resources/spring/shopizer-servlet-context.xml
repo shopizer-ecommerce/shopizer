@@ -24,12 +24,6 @@
 	
 
 	
-
- 	<!-- Only needed because we require fileupload in the org.springframework.samples.mvc.fileupload package -->
-<!-- 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<beans:property name="maxUploadSize" value="10000000"/>
-	</beans:bean> -->
-	
 	
 	<beans:bean id="localeResolver"
         class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
@@ -50,25 +44,19 @@
 
 	
 	<beans:bean id="messages" class="com.salesmanager.shop.utils.LabelUtils"/>
-	
-	<!-- default settings -->
-	<!-- load images from local application[com.salesmanager.web.utils.LocalImageFilePathUtils] -->
+
 	<beans:bean id="img" class="com.salesmanager.shop.utils.LocalImageFilePathUtils">
 		<beans:property name="basePath" value="/static" />
-	</beans:bean> 
-	
-	<!-- External web server - httpd -->
-	<!-- load images from external web server [com.salesmanager.web.utils.ImageFilePathUtils] -->
-	<!--
-	<beans:bean id="img" class="com.salesmanager.shop.utils.ImageFilePathUtils">
-		<beans:property name="basePath" value="http://localhost:80/bam-images" />
 	</beans:bean>
-	-->
 	
+<!-- 	<beans:bean id="img" class="com.salesmanager.shop.utils.ImageFilePathUtils">
+		<beans:property name="basePath" value="http://localhost:80/images" />
+	</beans:bean> -->
+	
+
 	<!--
         Configures FB and Twitter support.
      -->
-    
     <facebook:config app-id="${facebook.app.id}" app-secret="${facebook.app.secret}"/>
 
     <!--

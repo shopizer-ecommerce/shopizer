@@ -13,6 +13,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,6 +36,8 @@ import com.salesmanager.shop.populator.customer.ReadableCustomerPopulator;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
+
+import io.swagger.annotations.ApiOperation;
 
 @Controller
 @RequestMapping("/api/v1")
@@ -60,7 +63,8 @@ public class CustomerApi {
 	 * Create new customer for a given MerchantStore
 	 */
 	@RequestMapping( value={"/private/customers"}, method=RequestMethod.POST)
-	@ResponseStatus(HttpStatus.CREATED)
+	@ResponseStatus(HttpStatus.OK)
+	@ApiOperation(httpMethod = "POST", value = "Creates a customer", notes = "Requires administration access",response = PersistableCustomer.class)
 	@ResponseBody
 	public PersistableCustomer create(@Valid @RequestBody PersistableCustomer customer, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -92,6 +96,7 @@ public class CustomerApi {
 	
     @ResponseStatus(HttpStatus.OK)
 	@RequestMapping( value="/private/customers/{id}", method=RequestMethod.PUT)
+	@ApiOperation(httpMethod = "PUT", value = "Updates a customer", notes = "Requires administration access",response = PersistableCustomer.class)
     public @ResponseBody PersistableCustomer update(@PathVariable Long id, @Valid @RequestBody PersistableCustomer customer, HttpServletRequest request, HttpServletResponse response) throws Exception {
 	
     	
@@ -114,6 +119,7 @@ public class CustomerApi {
     
     @ResponseStatus(HttpStatus.OK)
 	@RequestMapping( value="/private/customers/{id}", method=RequestMethod.DELETE)
+    @ApiOperation(httpMethod = "DELETE", value = "Deletes a customer", notes = "Requires administration access",response = Void.class)
     public void delete(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		try {

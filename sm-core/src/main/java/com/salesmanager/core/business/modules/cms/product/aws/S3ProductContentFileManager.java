@@ -3,6 +3,7 @@ package com.salesmanager.core.business.modules.cms.product.aws;
 import java.util.List;
 
 import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.modules.cms.impl.CacheManager;
 import com.salesmanager.core.business.modules.cms.product.ProductImageGet;
 import com.salesmanager.core.business.modules.cms.product.ProductImagePut;
 import com.salesmanager.core.business.modules.cms.product.ProductImageRemove;
@@ -14,6 +15,23 @@ import com.salesmanager.core.model.content.ImageContentFile;
 import com.salesmanager.core.model.content.OutputContentFile;
 
 public class S3ProductContentFileManager implements ProductImagePut, ProductImageGet, ProductImageRemove {
+	
+    
+	private static S3ProductContentFileManager fileManager = null;
+	
+	private CacheManager cacheManager;
+	
+	public static S3ProductContentFileManager getInstance()
+    {
+
+        if ( fileManager == null )
+        {
+            fileManager = new S3ProductContentFileManager();
+        }
+
+        return fileManager;
+
+    }
 
 	@Override
 	public List<OutputContentFile> getImages(String merchantStoreCode, FileContentType imageContentType)
@@ -71,5 +89,14 @@ public class S3ProductContentFileManager implements ProductImagePut, ProductImag
 		// TODO Auto-generated method stub
 
 	}
+
+	public CacheManager getCacheManager() {
+		return cacheManager;
+	}
+
+	public void setCacheManager(CacheManager cacheManager) {
+		this.cacheManager = cacheManager;
+	}
+
 
 }

@@ -135,6 +135,8 @@ public class AuthenticateCustomerApi {
 	 * @throws AuthenticationException
 	 */
     @RequestMapping(value = "/customer/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ApiOperation(httpMethod = "POST", value = "Authenticates a customer to the application", notes = "Customer can authenticate after registration",response = ResponseEntity.class)
+	@ResponseBody
     public ResponseEntity<?> authenticate(@RequestBody @Valid AuthenticationRequest authenticationRequest, Device device) throws AuthenticationException {
 
         // Perform the security

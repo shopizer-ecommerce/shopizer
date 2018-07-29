@@ -162,6 +162,14 @@
 			<artifactId>httpclient</artifactId>
 			<version>${org.apache.httpcomponent.version}</version>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-s3 -->
+		<dependency>
+		    <groupId>com.amazonaws</groupId>
+		    <artifactId>aws-java-sdk-s3</artifactId>
+		    <version>1.11.375</version>
+		</dependency>
+		
 
 
 		<!-- Payment dependencies -->

@@ -39,7 +39,6 @@ import com.salesmanager.core.model.content.OutputContentFile;
  *
  */
 public class CmsStaticContentFileManagerImpl 
-	//implements FilePut,FileGet,FileRemove
 	implements ContentAssetsManager
 {
 
