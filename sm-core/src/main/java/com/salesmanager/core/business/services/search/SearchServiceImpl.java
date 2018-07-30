@@ -90,7 +90,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 		 * 
 		 */
 		
-		if(configuration.getProperty(INDEX_PRODUCTS)==null || configuration.getProperty(INDEX_PRODUCTS).equals(Constants.FALSE)) {
+		if(configuration.getProperty(INDEX_PRODUCTS)==null || configuration.getProperty(INDEX_PRODUCTS).equals(Boolean.FALSE.toString())) {
 			return;
 		}
 		
@@ -147,7 +147,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 
 	public void deleteIndex(MerchantStore store, Product product) throws ServiceException {
 		
-		if(configuration.getProperty(INDEX_PRODUCTS)==null || configuration.getProperty(INDEX_PRODUCTS).equals(Constants.FALSE)) {
+		if(configuration.getProperty(INDEX_PRODUCTS)==null || configuration.getProperty(INDEX_PRODUCTS).equals(Boolean.FALSE.toString())) {
 			return;
 		}
 		

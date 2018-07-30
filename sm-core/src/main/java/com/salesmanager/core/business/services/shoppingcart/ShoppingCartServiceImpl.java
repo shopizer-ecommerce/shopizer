@@ -33,524 +33,522 @@ import java.util.Set;
 
 @Service("shoppingCartService")
 public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long, ShoppingCart>
-		implements ShoppingCartService {
+        implements ShoppingCartService {
 
-	private ShoppingCartRepository shoppingCartRepository;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ShoppingCartServiceImpl.class);
 
-	@Inject
-	private ProductService productService;
+    private ShoppingCartRepository shoppingCartRepository;
 
-	@Inject
-	private ShoppingCartItemRepository shoppingCartItemRepository;
-	
-	@Inject
-	private ShoppingCartAttributeRepository shoppingCartAttributeItemRepository;
-	
-	@Inject
-	private PricingService pricingService;
+    @Inject
+    private ProductService productService;
 
-	@Inject
-	private ProductAttributeService productAttributeService;
-	
+    @Inject
+    private ShoppingCartItemRepository shoppingCartItemRepository;
+
+    @Inject
+    private ShoppingCartAttributeRepository shoppingCartAttributeItemRepository;
+
+    @Inject
+    private PricingService pricingService;
+
+    @Inject
+    private ProductAttributeService productAttributeService;
 
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ShoppingCartServiceImpl.class);
+    @Inject
+    public ShoppingCartServiceImpl(ShoppingCartRepository shoppingCartRepository) {
+        super(shoppingCartRepository);
+        this.shoppingCartRepository = shoppingCartRepository;
 
-	@Inject
-	public ShoppingCartServiceImpl(ShoppingCartRepository shoppingCartRepository) {
-		super(shoppingCartRepository);
-		this.shoppingCartRepository = shoppingCartRepository;
+    }
 
-	}
+    /**
+     * Retrieve a {@link ShoppingCart} cart for a given customer
+     */
+    @Override
+    @Transactional
+    public ShoppingCart getShoppingCart(final Customer customer) throws ServiceException {
 
-	/**
-	 * Retrieve a {@link ShoppingCart} cart for a given customer
-	 */
-	@Override
-	@Transactional
-	public ShoppingCart getShoppingCart(final Customer customer) throws ServiceException {
+        try {
 
-		try {
+            ShoppingCart shoppingCart = shoppingCartRepository.findByCustomer(customer.getId());
+            getPopulatedShoppingCart(shoppingCart);
+            if (shoppingCart != null && shoppingCart.isObsolete()) {
+                delete(shoppingCart);
+                return null;
+            } else {
+                return shoppingCart;
+            }
 
-			ShoppingCart shoppingCart = shoppingCartRepository.findByCustomer(customer.getId());
-			getPopulatedShoppingCart(shoppingCart);
-			if (shoppingCart != null && shoppingCart.isObsolete()) {
-				delete(shoppingCart);
-				return null;
-			} else {
-				return shoppingCart;
-			}
+        } catch (Exception e) {
+            throw new ServiceException(e);
+        }
 
-		} catch (Exception e) {
-			throw new ServiceException(e);
-		}
+    }
 
-	}
+    /**
+     * Save or update a {@link ShoppingCart} for a given customer
+     */
+    @Override
+    public void saveOrUpdate(final ShoppingCart shoppingCart) throws ServiceException {
+        if (shoppingCart.getId() == null || shoppingCart.getId().longValue() == 0) {
+            super.create(shoppingCart);
+        } else {
+            super.update(shoppingCart);
+        }
+    }
 
-	/**
-	 * Save or update a {@link ShoppingCart} for a given customer
-	 */
-	@Override
-	public void saveOrUpdate(final ShoppingCart shoppingCart) throws ServiceException {
-		if (shoppingCart.getId() == null || shoppingCart.getId().longValue() == 0) {
-			super.create(shoppingCart);
-		} else {
-			super.update(shoppingCart);
-		}
-	}
+    /**
+     * Get a {@link ShoppingCart} for a given id and MerchantStore. Will update
+     * the shopping cart prices and items based on the actual inventory. This
+     * method will remove the shopping cart if no items are attached.
+     */
+    @Override
+    @Transactional
+    public ShoppingCart getById(final Long id, final MerchantStore store) throws ServiceException {
 
-	/**
-	 * Get a {@link ShoppingCart} for a given id and MerchantStore. Will update
-	 * the shopping cart prices and items based on the actual inventory. This
-	 * method will remove the shopping cart if no items are attached.
-	 */
-	@Override
-	@Transactional
-	public ShoppingCart getById(final Long id, final MerchantStore store) throws ServiceException {
+        try {
+            ShoppingCart shoppingCart = shoppingCartRepository.findById(store.getId(), id);
+            if (shoppingCart == null) {
+                return null;
+            }
+            getPopulatedShoppingCart(shoppingCart);
 
-		try {
-			ShoppingCart shoppingCart = shoppingCartRepository.findById(store.getId(), id);
-			if (shoppingCart == null) {
-				return null;
-			}
-			getPopulatedShoppingCart(shoppingCart);
+            if (shoppingCart.isObsolete()) {
+                delete(shoppingCart);
+                return null;
+            } else {
+                return shoppingCart;
+            }
 
-			if (shoppingCart.isObsolete()) {
-				delete(shoppingCart);
-				return null;
-			} else {
-				return shoppingCart;
-			}
+        } catch (Exception e) {
+            throw new ServiceException(e);
+        }
 
-		} catch (Exception e) {
-			throw new ServiceException(e);
-		}
+    }
 
-	}
+    /**
+     * Get a {@link ShoppingCart} for a given id. Will update the shopping cart
+     * prices and items based on the actual inventory. This method will remove
+     * the shopping cart if no items are attached.
+     */
+    @Override
+    @Transactional
+    public ShoppingCart getById(final Long id) {
 
-	/**
-	 * Get a {@link ShoppingCart} for a given id. Will update the shopping cart
-	 * prices and items based on the actual inventory. This method will remove
-	 * the shopping cart if no items are attached.
-	 */
-	@Override
-	@Transactional
-	public ShoppingCart getById(final Long id) {
+        try {
+            ShoppingCart shoppingCart = shoppingCartRepository.findOne(id);
+            if (shoppingCart == null) {
+                return null;
+            }
+            getPopulatedShoppingCart(shoppingCart);
 
-		try {
-			ShoppingCart shoppingCart = shoppingCartRepository.findOne(id);
-			if (shoppingCart == null) {
-				return null;
-			}
-			getPopulatedShoppingCart(shoppingCart);
+            if (shoppingCart.isObsolete()) {
+                delete(shoppingCart);
+                return null;
+            } else {
+                return shoppingCart;
+            }
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
 
-			if (shoppingCart.isObsolete()) {
-				delete(shoppingCart);
-				return null;
-			} else {
-				return shoppingCart;
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+    }
 
-	}
+    /**
+     * Get a {@link ShoppingCart} for a given code. Will update the shopping
+     * cart prices and items based on the actual inventory. This method will
+     * remove the shopping cart if no items are attached.
+     */
+    @Override
+    @Transactional
+    public ShoppingCart getByCode(final String code, final MerchantStore store) throws ServiceException {
 
-	/**
-	 * Get a {@link ShoppingCart} for a given code. Will update the shopping
-	 * cart prices and items based on the actual inventory. This method will
-	 * remove the shopping cart if no items are attached.
-	 */
-	@Override
-	@Transactional
-	public ShoppingCart getByCode(final String code, final MerchantStore store) throws ServiceException {
+        try {
+            ShoppingCart shoppingCart = shoppingCartRepository.findByCode(store.getId(), code);
+            if (shoppingCart == null) {
+                return null;
+            }
+            getPopulatedShoppingCart(shoppingCart);
 
-		try {
-			ShoppingCart shoppingCart = shoppingCartRepository.findByCode(store.getId(), code);
-			if (shoppingCart == null) {
-				return null;
-			}
-			getPopulatedShoppingCart(shoppingCart);
+            if (shoppingCart.isObsolete()) {
+                delete(shoppingCart);
+                return null;
+            } else {
+                return shoppingCart;
+            }
 
-			if (shoppingCart.isObsolete()) {
-				delete(shoppingCart);
-				return null;
-			} else {
-				return shoppingCart;
-			}
+        } catch (javax.persistence.NoResultException nre) {
+            return null;
+        } catch (RuntimeException e) {
+            throw new ServiceException(e);
+        } catch (Exception ee) {
+            throw new ServiceException(ee);
+        } catch (Throwable t) {
+            throw new ServiceException(t);
+        }
 
-		} catch (javax.persistence.NoResultException nre) {
-			return null;
-		} catch (RuntimeException e) {
-			throw new ServiceException(e);
-		} catch (Exception ee) {
-			throw new ServiceException(ee);
-		} catch (Throwable t) {
-			throw new ServiceException(t);
-		}
+    }
 
-	}
+    @Override
+    public void deleteCart(final ShoppingCart shoppingCart) throws ServiceException {
+        ShoppingCart cart = this.getById(shoppingCart.getId());
+        if (cart != null) {
+            super.delete(cart);
+        }
+    }
 
-	@Override
-	public void deleteCart(final ShoppingCart shoppingCart) throws ServiceException {
-		ShoppingCart cart = this.getById(shoppingCart.getId());
-		if (cart != null) {
-			super.delete(cart);
-		}
-	}
+    @Override
+    @Transactional
+    public ShoppingCart getByCustomer(final Customer customer) throws ServiceException {
 
-	@Override
-	@Transactional
-	public ShoppingCart getByCustomer(final Customer customer) throws ServiceException {
+        try {
+            ShoppingCart shoppingCart = shoppingCartRepository.findByCustomer(customer.getId());
+            if (shoppingCart == null) {
+                return null;
+            }
+            return getPopulatedShoppingCart(shoppingCart);
 
-		try {
-			ShoppingCart shoppingCart = shoppingCartRepository.findByCustomer(customer.getId());
-			if (shoppingCart == null) {
-				return null;
-			}
-			return getPopulatedShoppingCart(shoppingCart);
+        } catch (Exception e) {
+            throw new ServiceException(e);
+        }
+    }
 
-		} catch (Exception e) {
-			throw new ServiceException(e);
-		}
-	}
+    @Transactional(noRollbackFor = {org.springframework.dao.EmptyResultDataAccessException.class})
+    public ShoppingCart getPopulatedShoppingCart(final ShoppingCart shoppingCart) throws Exception {
 
-	@Transactional(noRollbackFor = { org.springframework.dao.EmptyResultDataAccessException.class })
-	private ShoppingCart getPopulatedShoppingCart(final ShoppingCart shoppingCart) throws Exception {
+        try {
 
-		try {
+            boolean cartIsObsolete = false;
+            if (shoppingCart != null) {
 
-			boolean cartIsObsolete = false;
-			if (shoppingCart != null) {
+                Set<ShoppingCartItem> items = shoppingCart.getLineItems();
+                if (items == null || items.size() == 0) {
+                    shoppingCart.setObsolete(true);
+                    return shoppingCart;
 
-				Set<ShoppingCartItem> items = shoppingCart.getLineItems();
-				if (items == null || items.size() == 0) {
-					shoppingCart.setObsolete(true);
-					return shoppingCart;
+                }
 
-				}
+                // Set<ShoppingCartItem> shoppingCartItems = new
+                // HashSet<ShoppingCartItem>();
+                for (ShoppingCartItem item : items) {
+                    LOGGER.debug("Populate item " + item.getId());
+                    getPopulatedItem(item);
+                    LOGGER.debug("Obsolete item ? " + item.isObsolete());
+                    if (item.isObsolete()) {
+                        cartIsObsolete = true;
+                    }
+                }
 
-				// Set<ShoppingCartItem> shoppingCartItems = new
-				// HashSet<ShoppingCartItem>();
-				for (ShoppingCartItem item : items) {
-					LOGGER.debug("Populate item " + item.getId());
-					getPopulatedItem(item);
-					LOGGER.debug("Obsolete item ? " + item.isObsolete());
-					if (item.isObsolete()) {
-						cartIsObsolete = true;
-					} 
-				}
-
-				// shoppingCart.setLineItems(shoppingCartItems);
-				boolean refreshCart = false;
-				Set<ShoppingCartItem> refreshedItems = new HashSet<ShoppingCartItem>();
-				for (ShoppingCartItem item : items) {
+                // shoppingCart.setLineItems(shoppingCartItems);
+                boolean refreshCart = false;
+                Set<ShoppingCartItem> refreshedItems = new HashSet<ShoppingCartItem>();
+                for (ShoppingCartItem item : items) {
 /*					if (!item.isObsolete()) {
 						refreshedItems.add(item);
 					} else {
 						refreshCart = true;
 					}*/
-					refreshedItems.add(item);
-				}
+                    refreshedItems.add(item);
+                }
 
-				//if (refreshCart) {
-					shoppingCart.setLineItems(refreshedItems);
-				    update(shoppingCart);
-				//}
+                //if (refreshCart) {
+                shoppingCart.setLineItems(refreshedItems);
+                update(shoppingCart);
+                //}
 
-				if (cartIsObsolete) {
-					shoppingCart.setObsolete(true);
-				}
-				return shoppingCart;
-			}
+                if (cartIsObsolete) {
+                    shoppingCart.setObsolete(true);
+                }
+                return shoppingCart;
+            }
 
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
-			throw new ServiceException(e);
-		}
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            throw new ServiceException(e);
+        }
 
-		return shoppingCart;
+        return shoppingCart;
 
-	}
+    }
 
-	@Override
-	public ShoppingCartItem populateShoppingCartItem(final Product product) throws ServiceException {
-		Validate.notNull(product, "Product should not be null");
-		Validate.notNull(product.getMerchantStore(), "Product.merchantStore should not be null");
+    @Override
+    public ShoppingCartItem populateShoppingCartItem(final Product product) throws ServiceException {
+        Validate.notNull(product, "Product should not be null");
+        Validate.notNull(product.getMerchantStore(), "Product.merchantStore should not be null");
 
-		ShoppingCartItem item = new ShoppingCartItem(product);
+        ShoppingCartItem item = new ShoppingCartItem(product);
 
-		// Set<ProductAttribute> productAttributes = product.getAttributes();
-		// Set<ShoppingCartAttributeItem> attributesList = new
-		// HashSet<ShoppingCartAttributeItem>();
-		// if(!CollectionUtils.isEmpty(productAttributes)) {
+        // Set<ProductAttribute> productAttributes = product.getAttributes();
+        // Set<ShoppingCartAttributeItem> attributesList = new
+        // HashSet<ShoppingCartAttributeItem>();
+        // if(!CollectionUtils.isEmpty(productAttributes)) {
 
-		// for(ProductAttribute productAttribute : productAttributes) {
-		// ShoppingCartAttributeItem attributeItem = new
-		// ShoppingCartAttributeItem();
-		// attributeItem.setShoppingCartItem(item);
-		// attributeItem.setProductAttribute(productAttribute);
-		// attributeItem.setProductAttributeId(productAttribute.getId());
-		// attributesList.add(attributeItem);
+        // for(ProductAttribute productAttribute : productAttributes) {
+        // ShoppingCartAttributeItem attributeItem = new
+        // ShoppingCartAttributeItem();
+        // attributeItem.setShoppingCartItem(item);
+        // attributeItem.setProductAttribute(productAttribute);
+        // attributeItem.setProductAttributeId(productAttribute.getId());
+        // attributesList.add(attributeItem);
 
-		// }
+        // }
 
-		// item.setAttributes(attributesList);
-		// }
+        // item.setAttributes(attributesList);
+        // }
 
-		item.setProductVirtual(product.isProductVirtual());
+        item.setProductVirtual(product.isProductVirtual());
 
-		// set item price
-		FinalPrice price = pricingService.calculateProductPrice(product);
-		item.setItemPrice(price.getFinalPrice());
-		return item;
+        // set item price
+        FinalPrice price = pricingService.calculateProductPrice(product);
+        item.setItemPrice(price.getFinalPrice());
+        return item;
 
-	}
+    }
 
-	@Transactional
-	private void getPopulatedItem(final ShoppingCartItem item) throws Exception {
+    @Transactional
+    private void getPopulatedItem(final ShoppingCartItem item) throws Exception {
 
-		Product product = null;
+        Product product = null;
 
-		Long productId = item.getProductId();
-		product = productService.getById(productId);
+        Long productId = item.getProductId();
+        product = productService.getById(productId);
 
-		if (product == null) {
-			item.setObsolete(true);
-			return;
-		}
+        if (product == null) {
+            item.setObsolete(true);
+            return;
+        }
 
-		item.setProduct(product);
+        item.setProduct(product);
 
-		if (product.isProductVirtual()) {
-			item.setProductVirtual(true);
-		}
+        if (product.isProductVirtual()) {
+            item.setProductVirtual(true);
+        }
 
-		Set<ShoppingCartAttributeItem> cartAttributes = item.getAttributes();
-		Set<ProductAttribute> productAttributes = product.getAttributes();
-		List<ProductAttribute> attributesList = new ArrayList<ProductAttribute>();//attributes maintained
-		List<ShoppingCartAttributeItem> removeAttributesList = new ArrayList<ShoppingCartAttributeItem>();//attributes to remove
-		//DELETE ORPHEANS MANUALLY
-		if ( (productAttributes != null && productAttributes.size() > 0) || (cartAttributes != null && cartAttributes.size() > 0)) {
-			for (ShoppingCartAttributeItem attribute : cartAttributes) {
-				long attributeId = attribute.getProductAttributeId().longValue();
-				boolean existingAttribute = false;
-				for (ProductAttribute productAttribute : productAttributes) {
+        Set<ShoppingCartAttributeItem> cartAttributes = item.getAttributes();
+        Set<ProductAttribute> productAttributes = product.getAttributes();
+        List<ProductAttribute> attributesList = new ArrayList<ProductAttribute>();//attributes maintained
+        List<ShoppingCartAttributeItem> removeAttributesList = new ArrayList<ShoppingCartAttributeItem>();//attributes to remove
+        //DELETE ORPHEANS MANUALLY
+        if ((productAttributes != null && productAttributes.size() > 0) || (cartAttributes != null && cartAttributes.size() > 0)) {
+            for (ShoppingCartAttributeItem attribute : cartAttributes) {
+                long attributeId = attribute.getProductAttributeId().longValue();
+                boolean existingAttribute = false;
+                for (ProductAttribute productAttribute : productAttributes) {
 
-					if (productAttribute.getId().longValue() == attributeId) {
-						attribute.setProductAttribute(productAttribute);
-						attributesList.add(productAttribute);
-						existingAttribute = true;
-						break;
-					}
-				}
-				
-				if(!existingAttribute) {
-					removeAttributesList.add(attribute);
-				}
+                    if (productAttribute.getId().longValue() == attributeId) {
+                        attribute.setProductAttribute(productAttribute);
+                        attributesList.add(productAttribute);
+                        existingAttribute = true;
+                        break;
+                    }
+                }
 
-			}
-		}
-		
-		//cleanup orphean item
-		if(CollectionUtils.isNotEmpty(removeAttributesList)) {
-			for(ShoppingCartAttributeItem attr : removeAttributesList) {
-				shoppingCartAttributeItemRepository.delete(attr);
-			}
-		}
-		
-		//cleanup detached attributes
-		if(CollectionUtils.isEmpty(attributesList)) {
-			item.setAttributes(null);
-		}
-		
-		
+                if (!existingAttribute) {
+                    removeAttributesList.add(attribute);
+                }
 
-		// set item price
-		FinalPrice price = pricingService.calculateProductPrice(product, attributesList);
-		item.setItemPrice(price.getFinalPrice());
-		item.setFinalPrice(price);
+            }
+        }
 
-		BigDecimal subTotal = item.getItemPrice().multiply(new BigDecimal(item.getQuantity().intValue()));
-		item.setSubTotal(subTotal);
+        //cleanup orphean item
+        if (CollectionUtils.isNotEmpty(removeAttributesList)) {
+            for (ShoppingCartAttributeItem attr : removeAttributesList) {
+                shoppingCartAttributeItemRepository.delete(attr);
+            }
+        }
 
-	}
+        //cleanup detached attributes
+        if (CollectionUtils.isEmpty(attributesList)) {
+            item.setAttributes(null);
+        }
 
-	@Override
-	public List<ShippingProduct> createShippingProduct(final ShoppingCart cart) throws ServiceException {
-		/**
-		 * Determines if products are virtual
-		 */
-		Set<ShoppingCartItem> items = cart.getLineItems();
-		List<ShippingProduct> shippingProducts = null;
-		for (ShoppingCartItem item : items) {
-			Product product = item.getProduct();
-			if (!product.isProductVirtual() && product.isProductShipeable()) {
-				if (shippingProducts == null) {
-					shippingProducts = new ArrayList<ShippingProduct>();
-				}
-				ShippingProduct shippingProduct = new ShippingProduct(product);
-				shippingProduct.setQuantity(item.getQuantity());
-				shippingProduct.setFinalPrice(item.getFinalPrice());
-				shippingProducts.add(shippingProduct);
-			}
-		}
 
-		return shippingProducts;
+        // set item price
+        FinalPrice price = pricingService.calculateProductPrice(product, attributesList);
+        item.setItemPrice(price.getFinalPrice());
+        item.setFinalPrice(price);
 
-	}
+        BigDecimal subTotal = item.getItemPrice().multiply(new BigDecimal(item.getQuantity().intValue()));
+        item.setSubTotal(subTotal);
 
-	@Override
-	public boolean isFreeShoppingCart(final ShoppingCart cart) throws ServiceException {
-		/**
-		 * Determines if products are free
-		 */
-		Set<ShoppingCartItem> items = cart.getLineItems();
-		for (ShoppingCartItem item : items) {
-			Product product = item.getProduct();
-			FinalPrice finalPrice = pricingService.calculateProductPrice(product);
-			if (finalPrice.getFinalPrice().longValue() > 0) {
-				return false;
-			}
-		}
+    }
 
-		return true;
+    @Override
+    public List<ShippingProduct> createShippingProduct(final ShoppingCart cart) throws ServiceException {
+        /**
+         * Determines if products are virtual
+         */
+        Set<ShoppingCartItem> items = cart.getLineItems();
+        List<ShippingProduct> shippingProducts = null;
+        for (ShoppingCartItem item : items) {
+            Product product = item.getProduct();
+            if (!product.isProductVirtual() && product.isProductShipeable()) {
+                if (shippingProducts == null) {
+                    shippingProducts = new ArrayList<ShippingProduct>();
+                }
+                ShippingProduct shippingProduct = new ShippingProduct(product);
+                shippingProduct.setQuantity(item.getQuantity());
+                shippingProduct.setFinalPrice(item.getFinalPrice());
+                shippingProducts.add(shippingProduct);
+            }
+        }
 
-	}
+        return shippingProducts;
 
-	@Override
-	public boolean requiresShipping(final ShoppingCart cart) throws ServiceException {
+    }
 
-		Validate.notNull(cart, "Shopping cart cannot be null");
-		Validate.notNull(cart.getLineItems(), "ShoppingCart items cannot be null");
-		boolean requiresShipping = false;
-		for (ShoppingCartItem item : cart.getLineItems()) {
-			Product product = item.getProduct();
-			if (product.isProductShipeable()) {
-				requiresShipping = true;
-				break;
-			}
-		}
+    @Override
+    public boolean isFreeShoppingCart(final ShoppingCart cart) throws ServiceException {
+        /**
+         * Determines if products are free
+         */
+        Set<ShoppingCartItem> items = cart.getLineItems();
+        for (ShoppingCartItem item : items) {
+            Product product = item.getProduct();
+            FinalPrice finalPrice = pricingService.calculateProductPrice(product);
+            if (finalPrice.getFinalPrice().longValue() > 0) {
+                return false;
+            }
+        }
 
-		return requiresShipping;
+        return true;
 
-	}
+    }
 
-	@Override
-	public void removeShoppingCart(final ShoppingCart cart) throws ServiceException {
-		shoppingCartRepository.delete(cart);
-	}
+    @Override
+    public boolean requiresShipping(final ShoppingCart cart) throws ServiceException {
 
-	@Override
-	public ShoppingCart mergeShoppingCarts(final ShoppingCart userShoppingModel, final ShoppingCart sessionCart,
-			final MerchantStore store) throws Exception {
-		if (sessionCart.getCustomerId() != null && sessionCart.getCustomerId() == userShoppingModel.getCustomerId()) {
-			LOGGER.info("Session Shopping cart belongs to same logged in user");
-			if (CollectionUtils.isNotEmpty(userShoppingModel.getLineItems())
-					&& CollectionUtils.isNotEmpty(sessionCart.getLineItems())) {
-				return userShoppingModel;
-			}
-		}
+        Validate.notNull(cart, "Shopping cart cannot be null");
+        Validate.notNull(cart.getLineItems(), "ShoppingCart items cannot be null");
+        boolean requiresShipping = false;
+        for (ShoppingCartItem item : cart.getLineItems()) {
+            Product product = item.getProduct();
+            if (product.isProductShipeable()) {
+                requiresShipping = true;
+                break;
+            }
+        }
 
-		LOGGER.info("Starting merging shopping carts");
-		if (CollectionUtils.isNotEmpty(sessionCart.getLineItems())) {
-			Set<ShoppingCartItem> shoppingCartItemsSet = getShoppingCartItems(sessionCart, store, userShoppingModel);
-			boolean duplicateFound = false;
-			if (CollectionUtils.isNotEmpty(shoppingCartItemsSet)) {
-				for (ShoppingCartItem sessionShoppingCartItem : shoppingCartItemsSet) {
-					if (CollectionUtils.isNotEmpty(userShoppingModel.getLineItems())) {
-						for (ShoppingCartItem cartItem : userShoppingModel.getLineItems()) {
-							if (cartItem.getProduct().getId().longValue() == sessionShoppingCartItem.getProduct()
-									.getId().longValue()) {
-								if (CollectionUtils.isNotEmpty(cartItem.getAttributes())) {
-									if (!duplicateFound) {
-										LOGGER.info("Dupliate item found..updating exisitng product quantity");
-										cartItem.setQuantity(
-												cartItem.getQuantity() + sessionShoppingCartItem.getQuantity());
-										duplicateFound = true;
-										break;
-									}
-								}
-							}
-						}
-					}
-					if (!duplicateFound) {
-						LOGGER.info("New item found..adding item to Shopping cart");
-						userShoppingModel.getLineItems().add(sessionShoppingCartItem);
-					}
-				}
+        return requiresShipping;
 
-			}
+    }
 
-		}
-		LOGGER.info("Shopping Cart merged successfully.....");
-		saveOrUpdate(userShoppingModel);
-		removeShoppingCart(sessionCart);
+    @Override
+    public void removeShoppingCart(final ShoppingCart cart) throws ServiceException {
+        shoppingCartRepository.delete(cart);
+    }
 
-		return userShoppingModel;
-	}
+    @Override
+    public ShoppingCart mergeShoppingCarts(final ShoppingCart userShoppingModel, final ShoppingCart sessionCart,
+                                           final MerchantStore store) throws Exception {
+        if (sessionCart.getCustomerId() != null && sessionCart.getCustomerId() == userShoppingModel.getCustomerId()) {
+            LOGGER.info("Session Shopping cart belongs to same logged in user");
+            if (CollectionUtils.isNotEmpty(userShoppingModel.getLineItems())
+                    && CollectionUtils.isNotEmpty(sessionCart.getLineItems())) {
+                return userShoppingModel;
+            }
+        }
 
-	private Set<ShoppingCartItem> getShoppingCartItems(final ShoppingCart sessionCart, final MerchantStore store,
-			final ShoppingCart cartModel) throws Exception {
+        LOGGER.info("Starting merging shopping carts");
+        if (CollectionUtils.isNotEmpty(sessionCart.getLineItems())) {
+            Set<ShoppingCartItem> shoppingCartItemsSet = getShoppingCartItems(sessionCart, store, userShoppingModel);
+            boolean duplicateFound = false;
+            if (CollectionUtils.isNotEmpty(shoppingCartItemsSet)) {
+                for (ShoppingCartItem sessionShoppingCartItem : shoppingCartItemsSet) {
+                    if (CollectionUtils.isNotEmpty(userShoppingModel.getLineItems())) {
+                        for (ShoppingCartItem cartItem : userShoppingModel.getLineItems()) {
+                            if (cartItem.getProduct().getId().longValue() == sessionShoppingCartItem.getProduct()
+                                    .getId().longValue()) {
+                                if (CollectionUtils.isNotEmpty(cartItem.getAttributes())) {
+                                    if (!duplicateFound) {
+                                        LOGGER.info("Dupliate item found..updating exisitng product quantity");
+                                        cartItem.setQuantity(
+                                                cartItem.getQuantity() + sessionShoppingCartItem.getQuantity());
+                                        duplicateFound = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (!duplicateFound) {
+                        LOGGER.info("New item found..adding item to Shopping cart");
+                        userShoppingModel.getLineItems().add(sessionShoppingCartItem);
+                    }
+                }
 
-		Set<ShoppingCartItem> shoppingCartItemsSet = null;
-		if (CollectionUtils.isNotEmpty(sessionCart.getLineItems())) {
-			shoppingCartItemsSet = new HashSet<ShoppingCartItem>();
-			for (ShoppingCartItem shoppingCartItem : sessionCart.getLineItems()) {
-				Product product = productService.getById(shoppingCartItem.getProductId());
-				if (product == null) {
-					throw new Exception("Item with id " + shoppingCartItem.getProductId() + " does not exist");
-				}
+            }
 
-				if (product.getMerchantStore().getId().intValue() != store.getId().intValue()) {
-					throw new Exception("Item with id " + shoppingCartItem.getProductId()
-							+ " does not belong to merchant " + store.getId());
-				}
+        }
+        LOGGER.info("Shopping Cart merged successfully.....");
+        saveOrUpdate(userShoppingModel);
+        removeShoppingCart(sessionCart);
 
-				ShoppingCartItem item = populateShoppingCartItem(product);
-				item.setQuantity(shoppingCartItem.getQuantity());
-				item.setShoppingCart(cartModel);
+        return userShoppingModel;
+    }
 
-				List<ShoppingCartAttributeItem> cartAttributes = new ArrayList<ShoppingCartAttributeItem>(
-						shoppingCartItem.getAttributes());
-				if (CollectionUtils.isNotEmpty(cartAttributes)) {
-					for (ShoppingCartAttributeItem shoppingCartAttributeItem : cartAttributes) {
-						ProductAttribute productAttribute = productAttributeService
-								.getById(shoppingCartAttributeItem.getId());
-						if (productAttribute != null
-								&& productAttribute.getProduct().getId().longValue() == product.getId().longValue()) {
+    private Set<ShoppingCartItem> getShoppingCartItems(final ShoppingCart sessionCart, final MerchantStore store,
+                                                       final ShoppingCart cartModel) throws Exception {
 
-							ShoppingCartAttributeItem attributeItem = new ShoppingCartAttributeItem(item,
-									productAttribute);
-							if (shoppingCartAttributeItem.getId() > 0) {
-								attributeItem.setId(shoppingCartAttributeItem.getId());
-							}
-							item.addAttributes(attributeItem);
+        Set<ShoppingCartItem> shoppingCartItemsSet = null;
+        if (CollectionUtils.isNotEmpty(sessionCart.getLineItems())) {
+            shoppingCartItemsSet = new HashSet<ShoppingCartItem>();
+            for (ShoppingCartItem shoppingCartItem : sessionCart.getLineItems()) {
+                Product product = productService.getById(shoppingCartItem.getProductId());
+                if (product == null) {
+                    throw new Exception("Item with id " + shoppingCartItem.getProductId() + " does not exist");
+                }
 
-						}
-					}
-				}
+                if (product.getMerchantStore().getId().intValue() != store.getId().intValue()) {
+                    throw new Exception("Item with id " + shoppingCartItem.getProductId()
+                            + " does not belong to merchant " + store.getId());
+                }
 
-				shoppingCartItemsSet.add(item);
-			}
+                ShoppingCartItem item = populateShoppingCartItem(product);
+                item.setQuantity(shoppingCartItem.getQuantity());
+                item.setShoppingCart(cartModel);
 
-		}
-		return shoppingCartItemsSet;
-	}
+                List<ShoppingCartAttributeItem> cartAttributes = new ArrayList<ShoppingCartAttributeItem>(
+                        shoppingCartItem.getAttributes());
+                if (CollectionUtils.isNotEmpty(cartAttributes)) {
+                    for (ShoppingCartAttributeItem shoppingCartAttributeItem : cartAttributes) {
+                        ProductAttribute productAttribute = productAttributeService
+                                .getById(shoppingCartAttributeItem.getId());
+                        if (productAttribute != null
+                                && productAttribute.getProduct().getId().longValue() == product.getId().longValue()) {
 
-	@Override
-	public boolean isFreeShoppingCart(List<ShoppingCartItem> items) throws ServiceException {
-		ShoppingCart cart = new ShoppingCart();
-		Set<ShoppingCartItem> cartItems = new HashSet<ShoppingCartItem>(items);
-		cart.setLineItems(cartItems);
-		return this.isFreeShoppingCart(cart);
-	}
+                            ShoppingCartAttributeItem attributeItem = new ShoppingCartAttributeItem(item,
+                                    productAttribute);
+                            if (shoppingCartAttributeItem.getId() > 0) {
+                                attributeItem.setId(shoppingCartAttributeItem.getId());
+                            }
+                            item.addAttributes(attributeItem);
 
-	@Override
-	public void deleteShoppingCartItem(Long id) {
-		shoppingCartItemRepository.delete(id);
-	}
+                        }
+                    }
+                }
+
+                shoppingCartItemsSet.add(item);
+            }
+
+        }
+        return shoppingCartItemsSet;
+    }
+
+    @Override
+    public boolean isFreeShoppingCart(List<ShoppingCartItem> items) throws ServiceException {
+        ShoppingCart cart = new ShoppingCart();
+        Set<ShoppingCartItem> cartItems = new HashSet<ShoppingCartItem>(items);
+        cart.setLineItems(cartItems);
+        return this.isFreeShoppingCart(cart);
+    }
+
+    @Override
+    public void deleteShoppingCartItem(Long id) {
+        shoppingCartItemRepository.delete(id);
+    }
 
 }

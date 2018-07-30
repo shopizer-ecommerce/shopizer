@@ -5,8 +5,8 @@ import com.salesmanager.core.business.services.common.generic.SalesManagerEntity
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 
 public interface ProductAvailabilityService extends
-		SalesManagerEntityService<Long, ProductAvailability> {
+        SalesManagerEntityService<Long, ProductAvailability> {
 
-	void saveOrUpdate(ProductAvailability availability) throws ServiceException;
+    void saveOrUpdate(ProductAvailability availability) throws ServiceException;
 
 }

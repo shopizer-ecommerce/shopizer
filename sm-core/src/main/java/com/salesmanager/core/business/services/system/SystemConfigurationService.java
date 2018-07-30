@@ -5,8 +5,8 @@ import com.salesmanager.core.business.services.common.generic.SalesManagerEntity
 import com.salesmanager.core.model.system.SystemConfiguration;
 
 public interface SystemConfigurationService extends
-		SalesManagerEntityService<Long, SystemConfiguration> {
-	
-	SystemConfiguration getByKey(String key) throws ServiceException;
+        SalesManagerEntityService<Long, SystemConfiguration> {
+
+    SystemConfiguration getByKey(String key) throws ServiceException;
 
 }

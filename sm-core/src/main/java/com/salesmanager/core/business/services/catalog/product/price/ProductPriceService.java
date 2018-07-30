@@ -7,9 +7,9 @@ import com.salesmanager.core.model.catalog.product.price.ProductPriceDescription
 
 public interface ProductPriceService extends SalesManagerEntityService<Long, ProductPrice> {
 
-	void addDescription(ProductPrice price, ProductPriceDescription description) throws ServiceException;
+    void addDescription(ProductPrice price, ProductPriceDescription description) throws ServiceException;
 
-	void saveOrUpdate(ProductPrice price) throws ServiceException;
-	
+    void saveOrUpdate(ProductPrice price) throws ServiceException;
+
 
 }
