@@ -1,12 +1,12 @@
 package com.salesmanager.core.business.modules.email;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.StringWriter;
-import java.util.Map;
-import java.util.Properties;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import org.springframework.mail.MailPreparationException;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 
 import javax.mail.BodyPart;
 import javax.mail.Message;
@@ -16,180 +16,163 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-
-import org.springframework.mail.MailPreparationException;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.mail.javamail.MimeMessagePreparator;
-
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
+import java.io.*;
+import java.util.Map;
+import java.util.Properties;
 
 
 public class HtmlEmailSenderImpl implements HtmlEmailSender {
-	
-	private static final String CHARSET = "UTF-8";
-	private Configuration freemarkerMailConfiguration;
-	private JavaMailSender mailSender;
-	private EmailConfig emailConfig;
-	
-	private final static String TEMPLATE_PATH = "templates/email";
-	
-	@Override
-	public void send(Email email)
-			throws Exception {
-		
-		final String eml = email.getFrom();
-		final String from = email.getFromEmail();
-		final String to = email.getTo();
-		final String subject = email.getSubject();
-		final String tmpl = email.getTemplateName();
-		final Map<String,String> templateTokens = email.getTemplateTokens();
 
-		MimeMessagePreparator preparator = new MimeMessagePreparator() {
-			public void prepare(MimeMessage mimeMessage)
-					throws MessagingException, IOException {
-				
-				JavaMailSenderImpl impl = (JavaMailSenderImpl)mailSender;
-				// if email configuration is present in Database, use the same
-				if(emailConfig != null) {
-					impl.setProtocol(emailConfig.getProtocol());
-					impl.setHost(emailConfig.getHost());
-					impl.setPort(Integer.parseInt(emailConfig.getPort()));
-					impl.setUsername(emailConfig.getUsername());
-					impl.setPassword(emailConfig.getPassword());
-					
-					Properties prop = new Properties();
-					prop.put("mail.smtp.auth", emailConfig.isSmtpAuth());
-					prop.put("mail.smtp.starttls.enable", emailConfig.isStarttls());
-					impl.setJavaMailProperties(prop);
-				}
-				
-				mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
+    private static final String CHARSET = "UTF-8";
+    private Configuration freemarkerMailConfiguration;
+    private JavaMailSender mailSender;
+    private EmailConfig emailConfig;
 
-				InternetAddress inetAddress = new InternetAddress();
+    private final static String TEMPLATE_PATH = "templates/email";
 
-				inetAddress.setPersonal(eml);
-				inetAddress.setAddress(from);
+    @Override
+    public void send(Email email)
+            throws Exception {
 
-				mimeMessage.setFrom(inetAddress);
-				mimeMessage.setSubject(subject);
+        final String eml = email.getFrom();
+        final String from = email.getFromEmail();
+        final String to = email.getTo();
+        final String subject = email.getSubject();
+        final String tmpl = email.getTemplateName();
+        final Map<String, String> templateTokens = email.getTemplateTokens();
 
-				Multipart mp = new MimeMultipart("alternative");
+        MimeMessagePreparator preparator = new MimeMessagePreparator() {
+            public void prepare(MimeMessage mimeMessage)
+                    throws MessagingException, IOException {
 
-				// Create a "text" Multipart message
-				BodyPart textPart = new MimeBodyPart();
-				freemarkerMailConfiguration.setClassForTemplateLoading(HtmlEmailSenderImpl.class, "/");
-				Template textTemplate = freemarkerMailConfiguration.getTemplate(new StringBuilder(TEMPLATE_PATH).append("").append("/").append(tmpl).toString());
-				final StringWriter textWriter = new StringWriter();
-				try {
-					textTemplate.process(templateTokens, textWriter);
-				} catch (TemplateException e) {
-					throw new MailPreparationException(
-							"Can't generate text mail", e);
-				}
-				textPart.setDataHandler(new javax.activation.DataHandler(
-						new javax.activation.DataSource() {
-							public InputStream getInputStream()
-									throws IOException {
-								//return new StringBufferInputStream(textWriter
-								//		.toString());
-								return new ByteArrayInputStream(textWriter
-										.toString().getBytes(CHARSET));
-							}
+                JavaMailSenderImpl impl = (JavaMailSenderImpl) mailSender;
+                // if email configuration is present in Database, use the same
+                if (emailConfig != null) {
+                    impl.setProtocol(emailConfig.getProtocol());
+                    impl.setHost(emailConfig.getHost());
+                    impl.setPort(Integer.parseInt(emailConfig.getPort()));
+                    impl.setUsername(emailConfig.getUsername());
+                    impl.setPassword(emailConfig.getPassword());
 
-							public OutputStream getOutputStream()
-									throws IOException {
-								throw new IOException("Read-only data");
-							}
+                    Properties prop = new Properties();
+                    prop.put("mail.smtp.auth", emailConfig.isSmtpAuth());
+                    prop.put("mail.smtp.starttls.enable", emailConfig.isStarttls());
+                    impl.setJavaMailProperties(prop);
+                }
 
-							public String getContentType() {
-								return "text/plain";
-							}
+                mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
-							public String getName() {
-								return "main";
-							}
-						}));
-				mp.addBodyPart(textPart);
+                InternetAddress inetAddress = new InternetAddress();
 
-				// Create a "HTML" Multipart message
-				Multipart htmlContent = new MimeMultipart("related");
-				BodyPart htmlPage = new MimeBodyPart();
-				freemarkerMailConfiguration.setClassForTemplateLoading(HtmlEmailSenderImpl.class, "/");
-				Template htmlTemplate = freemarkerMailConfiguration.getTemplate(new StringBuilder(TEMPLATE_PATH).append("").append("/").append(tmpl).toString());
-				final StringWriter htmlWriter = new StringWriter();
-				try {
-					htmlTemplate.process(templateTokens, htmlWriter);
-				} catch (TemplateException e) {
-					throw new MailPreparationException(
-							"Can't generate HTML mail", e);
-				}
-				htmlPage.setDataHandler(new javax.activation.DataHandler(
-						new javax.activation.DataSource() {
-							public InputStream getInputStream()
-									throws IOException {
-								//return new StringBufferInputStream(htmlWriter
-								//		.toString());
-								return new ByteArrayInputStream(textWriter
-										.toString().getBytes(CHARSET));
-							}
+                inetAddress.setPersonal(eml);
+                inetAddress.setAddress(from);
 
-							public OutputStream getOutputStream()
-									throws IOException {
-								throw new IOException("Read-only data");
-							}
+                mimeMessage.setFrom(inetAddress);
+                mimeMessage.setSubject(subject);
 
-							public String getContentType() {
-								return "text/html";
-							}
+                Multipart mp = new MimeMultipart("alternative");
 
-							public String getName() {
-								return "main";
-							}
-						}));
-				htmlContent.addBodyPart(htmlPage);
-				BodyPart htmlPart = new MimeBodyPart();
-				htmlPart.setContent(htmlContent);
-				mp.addBodyPart(htmlPart);
+                // Create a "text" Multipart message
+                BodyPart textPart = new MimeBodyPart();
+                freemarkerMailConfiguration.setClassForTemplateLoading(HtmlEmailSenderImpl.class, "/");
+                Template textTemplate = freemarkerMailConfiguration.getTemplate(new StringBuilder(TEMPLATE_PATH).append("").append("/").append(tmpl).toString());
+                final StringWriter textWriter = new StringWriter();
+                try {
+                    textTemplate.process(templateTokens, textWriter);
+                } catch (TemplateException e) {
+                    throw new MailPreparationException(
+                            "Can't generate text mail", e);
+                }
+                textPart.setDataHandler(new javax.activation.DataHandler(
+                        new javax.activation.DataSource() {
+                            public InputStream getInputStream()
+                                    throws IOException {
+                                return new ByteArrayInputStream(textWriter
+                                        .toString().getBytes(CHARSET));
+                            }
 
-				mimeMessage.setContent(mp);
+                            public OutputStream getOutputStream()
+                                    throws IOException {
+                                throw new IOException("Read-only data");
+                            }
 
-				// if(attachment!=null) {
-				// MimeMessageHelper messageHelper = new
-				// MimeMessageHelper(mimeMessage, true);
-				// messageHelper.addAttachment(attachmentFileName, attachment);
-				// }
+                            public String getContentType() {
+                                return "text/plain";
+                            }
 
-			}
-		};
+                            public String getName() {
+                                return "main";
+                            }
+                        }));
+                mp.addBodyPart(textPart);
 
-		mailSender.send(preparator);
-	}
+                // Create a "HTML" Multipart message
+                Multipart htmlContent = new MimeMultipart("related");
+                BodyPart htmlPage = new MimeBodyPart();
+                freemarkerMailConfiguration.setClassForTemplateLoading(HtmlEmailSenderImpl.class, "/");
+                Template htmlTemplate = freemarkerMailConfiguration.getTemplate(new StringBuilder(TEMPLATE_PATH).append("").append("/").append(tmpl).toString());
+                final StringWriter htmlWriter = new StringWriter();
+                try {
+                    htmlTemplate.process(templateTokens, htmlWriter);
+                } catch (TemplateException e) {
+                    throw new MailPreparationException(
+                            "Can't generate HTML mail", e);
+                }
+                htmlPage.setDataHandler(new javax.activation.DataHandler(
+                        new javax.activation.DataSource() {
+                            public InputStream getInputStream()
+                                    throws IOException {
+                                return new ByteArrayInputStream(textWriter
+                                        .toString().getBytes(CHARSET));
+                            }
 
-	public Configuration getFreemarkerMailConfiguration() {
-		return freemarkerMailConfiguration;
-	}
+                            public OutputStream getOutputStream()
+                                    throws IOException {
+                                throw new IOException("Read-only data");
+                            }
 
-	public void setFreemarkerMailConfiguration(Configuration freemarkerMailConfiguration) {
-		this.freemarkerMailConfiguration = freemarkerMailConfiguration;
-	}
+                            public String getContentType() {
+                                return "text/html";
+                            }
 
-	public JavaMailSender getMailSender() {
-		return mailSender;
-	}
+                            public String getName() {
+                                return "main";
+                            }
+                        }));
+                htmlContent.addBodyPart(htmlPage);
+                BodyPart htmlPart = new MimeBodyPart();
+                htmlPart.setContent(htmlContent);
+                mp.addBodyPart(htmlPart);
 
-	public void setMailSender(JavaMailSender mailSender) {
-		this.mailSender = mailSender;
-	}
+                mimeMessage.setContent(mp);
+            }
+        };
 
-	public EmailConfig getEmailConfig() {
-		return emailConfig;
-	}
+        mailSender.send(preparator);
+    }
 
-	public void setEmailConfig(EmailConfig emailConfig) {
-		this.emailConfig = emailConfig;
-	}
+    public Configuration getFreemarkerMailConfiguration() {
+        return freemarkerMailConfiguration;
+    }
+
+    public void setFreemarkerMailConfiguration(Configuration freemarkerMailConfiguration) {
+        this.freemarkerMailConfiguration = freemarkerMailConfiguration;
+    }
+
+    public JavaMailSender getMailSender() {
+        return mailSender;
+    }
+
+    public void setMailSender(JavaMailSender mailSender) {
+        this.mailSender = mailSender;
+    }
+
+    public EmailConfig getEmailConfig() {
+        return emailConfig;
+    }
+
+    public void setEmailConfig(EmailConfig emailConfig) {
+        this.emailConfig = emailConfig;
+    }
 
 }

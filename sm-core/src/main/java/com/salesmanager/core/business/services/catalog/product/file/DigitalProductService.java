@@ -10,15 +10,14 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 
 public interface DigitalProductService extends SalesManagerEntityService<Long, DigitalProduct> {
 
-	void saveOrUpdate(DigitalProduct digitalProduct) throws ServiceException;
+    void saveOrUpdate(DigitalProduct digitalProduct) throws ServiceException;
 
-	void addProductFile(Product product, DigitalProduct digitalProduct,
-			InputContentFile inputFile) throws ServiceException;
+    void addProductFile(Product product, DigitalProduct digitalProduct,
+                        InputContentFile inputFile) throws ServiceException;
 
 
+    DigitalProduct getByProduct(MerchantStore store, Product product)
+            throws ServiceException;
 
-	DigitalProduct getByProduct(MerchantStore store, Product product)
-			throws ServiceException;
 
-	
 }

@@ -6,6 +6,6 @@ import com.salesmanager.core.model.catalog.product.type.ProductType;
 
 public interface ProductTypeService extends SalesManagerEntityService<Long, ProductType> {
 
-	ProductType getProductType(String productTypeCode) throws ServiceException;
+    ProductType getProductType(String productTypeCode) throws ServiceException;
 
 }

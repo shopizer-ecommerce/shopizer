@@ -7,11 +7,9 @@ import com.salesmanager.core.model.catalog.product.image.ProductImage;
 
 
 public interface ProductImageRemove extends ImageRemove {
-	
-	
-	public void removeProductImage(ProductImage productImage) throws ServiceException;
-	public void removeProductImages(Product product) throws ServiceException;
-	
 
+    void removeProductImage(ProductImage productImage) throws ServiceException;
+
+    void removeProductImages(Product product) throws ServiceException;
 
 }
