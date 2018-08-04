@@ -260,51 +260,8 @@ public class CmsStaticContentFileManagerImpl
     public OutputContentFile getFile( final String merchantStoreCode, final FileContentType fileContentType, final String contentFileName )
         throws ServiceException
     {
-       
-/*        if ( cacheManager.getTreeCache() == null )
-        {
-            throw new ServiceException( "CmsStaticContentFileManagerInfinispan has a null cacheManager.getTreeCache()" );
-        }
-        OutputContentFile outputStaticContentData=null;
-        InputStream input = null;
-        try
-        {
-            
-        	
-    		String nodePath = this.getNodePath(merchantStoreCode, fileContentType);
-        	
-    		final Node<String, Object> merchantNode = this.getNode(nodePath);
-    		
 
-            final byte[] fileBytes= (byte[]) merchantNode.get( contentFileName );
-            
-            if ( fileBytes == null )
-            {
-                LOGGER.warn( "file byte is null, no file found" );
-                return null;
-            }
-
-            input=new ByteArrayInputStream( fileBytes );
-           
-            final ByteArrayOutputStream output = new ByteArrayOutputStream();
-            IOUtils.copy( input, output );
-            
-            outputStaticContentData=new OutputContentFile();
-            outputStaticContentData.setFile( output );
-            outputStaticContentData.setMimeType( URLConnection.getFileNameMap().getContentTypeFor(contentFileName) );
-            outputStaticContentData.setFileName( contentFileName );
-            outputStaticContentData.setFileContentType( fileContentType );
-            
-        }
-        catch ( final Exception e )
-        {
-            LOGGER.error( "Error while fetching file for {} merchant ", merchantStoreCode);
-            throw new ServiceException( e );
-        }
-       return outputStaticContentData != null ? outputStaticContentData : null;*/
-    	
-    	
-    	return null;
+    	throw new ServiceException("Not implemented for httpd image manager");
     	
     }
     
@@ -314,54 +271,7 @@ public class CmsStaticContentFileManagerImpl
 			final String merchantStoreCode, final FileContentType staticContentType) throws ServiceException {
 
 		
-/*		
-        if ( cacheManager.getTreeCache() == null )
-        {
-            throw new ServiceException( "CmsStaticContentFileManagerInfinispan has a null cacheManager.getTreeCache()" );
-        }
-        List<OutputContentFile> images = new ArrayList<OutputContentFile>();
-        try
-        {
-            
-        	FileNameMap fileNameMap = URLConnection.getFileNameMap();
-    		String nodePath = this.getNodePath(merchantStoreCode, staticContentType);
-        	
-    		final Node<String, Object> merchantNode = this.getNode(nodePath);
-    		
-            for(String key : merchantNode.getKeys()) {
-            	
-                byte[] imageBytes = (byte[])merchantNode.get( key );
-
-                OutputContentFile contentImage = new OutputContentFile();
-
-                InputStream input = new ByteArrayInputStream( imageBytes );
-                ByteArrayOutputStream output = new ByteArrayOutputStream();
-                IOUtils.copy( input, output );
-
-                String contentType = fileNameMap.getContentTypeFor( key );
-
-                contentImage.setFile( output );
-                contentImage.setMimeType( contentType );
-                contentImage.setFileName( key );
-
-                images.add( contentImage );
-            	
-            	
-            }
-            
-
-            
-        }
-        catch ( final Exception e )
-        {
-            LOGGER.error( "Error while fetching file for {} merchant ", merchantStoreCode);
-            throw new ServiceException( e );
-        }
-
-		
-		return images;*/
-		
-		return null;
+		throw new ServiceException("Not implemented for httpd image manager");
 		
 		
 	}

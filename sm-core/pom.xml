@@ -66,6 +66,8 @@
 			<version>${shopizer-canadapost.version}</version>
 		</dependency>
 
+
+
 		<!-- Rules engine -->
 		<!-- http://www.baeldung.com/drools-spring-integration -->
 		<!-- http://www.baeldung.com/drools-excel -->
@@ -162,14 +164,14 @@
 			<artifactId>httpclient</artifactId>
 			<version>${org.apache.httpcomponent.version}</version>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-s3 -->
 		<dependency>
-		    <groupId>com.amazonaws</groupId>
-		    <artifactId>aws-java-sdk-s3</artifactId>
-		    <version>1.11.375</version>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-s3</artifactId>
+			<version>1.11.375</version>
 		</dependency>
-		
+
 
 
 		<!-- Payment dependencies -->
@@ -222,6 +224,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 		</dependency>
+<!-- 		   <dependency>
+	        <groupId>junit</groupId>
+	        <artifactId>junit</artifactId>
+	        <scope>test</scope>
+	    </dependency> -->
 		<!-- H2 DB -->
 		<dependency>
 			<groupId>com.h2database</groupId>

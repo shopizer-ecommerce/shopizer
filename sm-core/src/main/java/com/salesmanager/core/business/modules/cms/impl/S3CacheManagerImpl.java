@@ -4,9 +4,11 @@ public class S3CacheManagerImpl implements CMSManager {
 	
 	
 	private String bucketName;
+	private String regionName;
 	
-	public S3CacheManagerImpl(String bucketName){
+	public S3CacheManagerImpl(String bucketName, String regionName){
 		this.bucketName = bucketName;
+		this.regionName = regionName;
 	}
 
 	
@@ -18,12 +20,16 @@ public class S3CacheManagerImpl implements CMSManager {
 
 	@Override
 	public String getLocation() {
-		return bucketName;
+		return regionName;
 	}
 
 
 	public String getBucketName() {
 		return bucketName;
+	}
+	
+	public String getRegionName() {
+		return regionName;
 	}
 
 

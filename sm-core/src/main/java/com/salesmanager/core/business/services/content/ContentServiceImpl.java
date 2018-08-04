@@ -161,7 +161,11 @@ public class ContentServiceImpl
     {
         Assert.notNull( merchantStoreCode, "Merchant store Id can not be null" );
         Assert.notNull( contentFile, "InputContentFile image can not be null" );
+        Assert.notNull( contentFile.getFileName(), "InputContentFile.fileName can not be null" );
         Assert.notNull( contentFile.getFileContentType(), "InputContentFile.fileContentType can not be null" );
+        
+        String mimeType = URLConnection.guessContentTypeFromName(contentFile.getFileName());
+        contentFile.setMimeType(mimeType);
         
         if(contentFile.getFileContentType().name().equals(FileContentType.IMAGE.name())
         		|| contentFile.getFileContentType().name().equals(FileContentType.STATIC_FILE.name())) {

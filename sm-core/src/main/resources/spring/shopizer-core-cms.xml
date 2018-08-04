@@ -62,13 +62,13 @@
 	<!-- Product downloads -->
 	<beans:bean id="productDownloadsFileManager" class="com.salesmanager.core.business.modules.cms.content.StaticContentFileManagerImpl">
 		<beans:property name="uploadFile">
-				<beans:ref bean="${config.cms.method}DownloadsManager" />
+				<beans:ref bean="defaultDownloadsManager" />
 		</beans:property>
 		<beans:property name="getFile">
-			<beans:ref bean="${config.cms.method}DownloadsManager" />
+			<beans:ref bean="defaultDownloadsManager" />
 		</beans:property>
 		<beans:property name="removeFile">
-			<beans:ref bean="${config.cms.method}DownloadsManager" />
+			<beans:ref bean="defaultDownloadsManager" />
 		</beans:property>
 	</beans:bean>
 	
@@ -145,16 +145,16 @@
 		<beans:bean id="awsProductAssetsManager"
 				class="com.salesmanager.core.business.modules.cms.product.aws.S3ProductContentFileManager" factory-method="getInstance" >
 				<!-- internal implementation -->
-<!-- 				<beans:property name="cacheManager">
+ 				<beans:property name="cmsManager">
 						<beans:ref bean="awsAssetsManager" />
-				</beans:property> -->
+				</beans:property>
 	</beans:bean>
 	
 	 <beans:bean id="awsContentAssetsManager"
-				class="com.salesmanager.core.business.modules.cms.content.local.CmsStaticContentFileManagerImpl" factory-method="getInstance" >
-<!-- 				<beans:property name="cacheManager">
+				class="com.salesmanager.core.business.modules.cms.content.aws.S3StaticContentAssetsManagerImpl" factory-method="getInstance" >
+ 				<beans:property name="cmsManager">
 						<beans:ref bean="awsAssetsManager" />
-				</beans:property> -->
+				</beans:property>
 	</beans:bean>
 	
 
@@ -187,16 +187,17 @@
 				<beans:constructor-arg value="product-file"/><!-- root -->
 	</beans:bean>
 	
-	<!-- httpd product STARTUP-->
+	<!-- httpd -->
 	<beans:bean id="httpdAssetsManager" 
 		class="com.salesmanager.core.business.modules.cms.impl.LocalCacheManagerImpl">
 		<beans:constructor-arg value="${config.cms.http.path.location}"/><!-- where files are copied on disk -->
 	</beans:bean>
 
-
+    <!-- aws -->
 	<beans:bean id="awsAssetsManager" 
 		class="com.salesmanager.core.business.modules.cms.impl.S3CacheManagerImpl">
 		<beans:constructor-arg value="${config.cms.aws.bucket}"/>
+		<beans:constructor-arg value="${config.cms.aws.region}"/>
 	</beans:bean>
 
 	

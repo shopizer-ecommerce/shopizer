@@ -12,7 +12,6 @@ import java.io.OutputStream;
 import javax.inject.Inject;
 
 import org.apache.commons.io.IOUtils;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.salesmanager.core.business.exception.ServiceException;
@@ -32,22 +31,28 @@ import com.salesmanager.core.model.merchant.MerchantStore;
  * @author Carl Samson
  *
  */
-@Ignore
+//@Ignore
 public class StaticContentTest extends com.salesmanager.test.common.AbstractSalesManagerCoreTestCase {
 	
 
 	@Inject
 	private ContentService contentService;
 	
+	/**
+	 * Change this path to an existing image path
+	 */
+	private final static String IMAGE_FILE = "/Users/carlsamson/Documents/Database.png";
 	
-    //@Test
-    @Ignore
+	private final static String OUTPUT_FOLDER = "/Users/carlsamson/Documents/test/";
+	
+	
+    @Test
     public void createImage()
         throws ServiceException, FileNotFoundException, IOException
     {
 
         MerchantStore store = merchantService.getByCode( MerchantStore.DEFAULT_STORE );
-        final File file1 = new File( "c:/doc/Hadoop.jpg" );
+        final File file1 = new File( IMAGE_FILE);
 
         if ( !file1.exists() || !file1.canRead() )
         {
@@ -69,7 +74,7 @@ public class StaticContentTest extends com.salesmanager.test.common.AbstractSale
 		OutputContentFile image = contentService.getContentFile(store.getCode(), FileContentType.IMAGE, file1.getName());
 
         //print image
-   	 	OutputStream outputStream = new FileOutputStream ("c:/doc/content-" + image.getFileName()); 
+   	 	OutputStream outputStream = new FileOutputStream (OUTPUT_FOLDER + image.getFileName()); 
 
    	 	ByteArrayOutputStream baos =  image.getFile();
    	 	baos.writeTo(outputStream);
