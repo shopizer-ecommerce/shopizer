@@ -12,6 +12,7 @@ import java.io.OutputStream;
 import javax.inject.Inject;
 
 import org.apache.commons.io.IOUtils;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.salesmanager.core.business.exception.ServiceException;
@@ -31,7 +32,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
  * @author Carl Samson
  *
  */
-//@Ignore
+@Ignore
 public class StaticContentTest extends com.salesmanager.test.common.AbstractSalesManagerCoreTestCase {
 	
 

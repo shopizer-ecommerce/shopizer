@@ -44,7 +44,8 @@ public class ContentFacadeImpl implements ContentFacade {
 	public ContentFolder getContentFolder(String folder, MerchantStore store) throws Exception {
 
 			List<String> imageNames = contentService.getContentFilesNames(store.getCode(),FileContentType.IMAGE);
-			List<String> fileNames = contentService.getContentFilesNames(store.getCode(),FileContentType.STATIC_FILE);
+			List<String> fileNames = null;//add files since they are bundled with images
+					//contentService.getContentFilesNames(store.getCode(),FileContentType.STATIC_FILE);
 
 			ContentFolder contentFolder = null;
 			

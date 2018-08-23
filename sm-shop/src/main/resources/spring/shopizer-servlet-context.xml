@@ -45,13 +45,27 @@
 	
 	<beans:bean id="messages" class="com.salesmanager.shop.utils.LabelUtils"/>
 
+	<!-- 
+	local image handler
 	<beans:bean id="img" class="com.salesmanager.shop.utils.LocalImageFilePathUtils">
 		<beans:property name="basePath" value="/static" />
 	</beans:bean>
+	-->
 	
-<!-- 	<beans:bean id="img" class="com.salesmanager.shop.utils.ImageFilePathUtils">
+    <!-- 
+    httpd image handler	
+    <beans:bean id="img" class="com.salesmanager.shop.utils.ImageFilePathUtils">
 		<beans:property name="basePath" value="http://localhost:80/images" />
-	</beans:bean> -->
+	</beans:bean> 
+	-->
+	
+	<!--
+	AWS image handler
+	-->
+	<beans:bean id="img" class="com.salesmanager.shop.utils.AWSFilePathUtils">
+		<beans:property name="basePath" value="https://s3.ca-central-1.amazonaws.com/shopizer-demo" />
+	</beans:bean>
+	
 	
 
 	<!--

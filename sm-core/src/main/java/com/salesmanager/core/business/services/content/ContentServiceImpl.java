@@ -363,7 +363,6 @@ public class ContentServiceImpl
         
         if(fileContentType.name().equals(FileContentType.IMAGE.name())
         		|| fileContentType.name().equals(FileContentType.STATIC_FILE.name())) {
-        	//return staticContentFileManager.getFile(merchantStoreCode, fileContentType, fileName);
         	return contentFileManager.getFile( merchantStoreCode, fileContentType, fileName );
         	
         } else {
