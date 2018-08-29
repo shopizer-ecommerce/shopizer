@@ -19,8 +19,10 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.country.Country;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.reference.zone.Zone;
+import com.salesmanager.shop.model.content.ReadableImage;
 import com.salesmanager.shop.model.references.ReadableAddress;
 import com.salesmanager.shop.model.shop.ReadableMerchantStore;
+import com.salesmanager.shop.utils.ImageFilePath;
 
 /**
  * Populates MerchantStore core entity model object
@@ -34,6 +36,7 @@ public class ReadableMerchantStorePopulator extends
 	
 	private CountryService countryService;
 	private ZoneService zoneService;
+	private ImageFilePath filePath;
 
 
 
@@ -61,7 +64,7 @@ public class ReadableMerchantStorePopulator extends
 				address.setCountry(source.getCountry().getIsoCode());
 				Country c =countryService.getCountriesMap(language).get(source.getCountry().getIsoCode());
 				if(c!=null) {
-					address.setCountry(c.getName());
+					address.setCountry(c.getIsoCode());
 				}
 			} catch (ServiceException e) {
 				logger.error("Cannot get Country", e);
@@ -72,14 +75,27 @@ public class ReadableMerchantStorePopulator extends
 			address.setStateProvince(source.getZone().getCode());
 			try {
 				Zone z = zoneService.getZones(language).get(source.getZone().getCode());
-				address.setStateProvince(z.getName());
+				address.setStateProvince(z.getCode());
 			} catch (ServiceException e) {
 				logger.error("Cannot get Zone", e);
 			}
 		}
 		
+		if(!StringUtils.isBlank(source.getDateBusinessSince())) {
+			target.setInBusinessSince(source.getDateBusinessSince());
+		}
+		
 		if(!StringUtils.isBlank(source.getStorestateprovince())) {
 			address.setStateProvince(source.getStorestateprovince());
+		}
+		
+		if(!StringUtils.isBlank(source.getStoreLogo())) {
+			ReadableImage image = new ReadableImage();
+			image.setName(source.getStoreLogo());
+			if(filePath!=null) {
+				image.setPath(filePath.buildStoreLogoFilePath(source));
+			}
+			target.setLogo(image);
 		}
 		
 		address.setPostalCode(source.getStorepostalcode());
@@ -128,6 +144,14 @@ public class ReadableMerchantStorePopulator extends
 
 	public void setZoneService(ZoneService zoneService) {
 		this.zoneService = zoneService;
+	}
+
+	public ImageFilePath getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(ImageFilePath filePath) {
+		this.filePath = filePath;
 	}
 
 }

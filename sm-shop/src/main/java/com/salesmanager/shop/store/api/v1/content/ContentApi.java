@@ -3,6 +3,7 @@ package com.salesmanager.shop.store.api.v1.content;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.URLDecoder;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -31,9 +32,12 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.content.ContentFile;
 import com.salesmanager.shop.model.content.ContentFolder;
 import com.salesmanager.shop.model.content.ContentName;
+import com.salesmanager.shop.model.content.ContentPath;
 import com.salesmanager.shop.store.controller.content.facade.ContentFacade;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
+
+import io.swagger.annotations.ApiOperation;
 
 @Controller
 @RequestMapping("/api/v1")
@@ -52,56 +56,39 @@ public class ContentApi {
 	
 	@Inject
 	private ContentService contentService;
-	
-/*	@RequestMapping( value={"/private/content/settings"}, method=RequestMethod.GET)
+
+	@RequestMapping( value={"/content/pages"}, method=RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
+	@ApiOperation(httpMethod = "GET", value = "Get page names created for a given MerchantStore", notes = "", produces = "application/json", response = List.class)
 	@ResponseBody
-	public ContentSettings settings(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public List<ContentPath>  pages(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		try {
 			
 			MerchantStore merchantStore = storeFacade.getByCode(request);
 			Language language = languageUtils.getRESTLanguage(request, merchantStore);
-			
 
-			//scheme [SHOP_SCHEME]
-			//String scheme = request.getScheme();
 			
-			//host [determin host]
-			//String hostname = InetAddress.getLocalHost().getHostName();
-			
-			//port [determine port]
-			//int port = request.getServerPort();
-			
-			
-			int port = request.getServerPort();
-			StringBuilder result = new StringBuilder();
-			result.append(request.getScheme())
-			        .append("://")
-			        .append(request.getServerName());
+			List<ContentPath> names = contentFacade.pageNames(merchantStore, language);
 
-			if ( (request.getScheme().equals("http") && port != 80) || (request.getScheme().equals("https") && port != 443) ) {
-				result.append(':')
-					.append(port);
+			
+			if(names == null){
+				response.sendError(404, "No content found : " + names);
 			}
-
-			result.append(request.getContextPath());
 			
-			ContentSettings settings = new ContentSettings();
-			settings.setHttpBasePath(result.toString());
-			
-			return settings;
-
+			return names;
 			
 			
 		} catch (Exception e) {
-			LOGGER.error("Error while building content settings",e);
-			response.sendError(503, "Error while building content settings " + e.getMessage());
+			LOGGER.error("Error while getting content",e);
+			try {
+				response.sendError(503, "Error while getting content " + e.getMessage());
+			} catch (Exception ignore) {
+			}
 		}
 		
 		return null;
-	}*/
-	
+	}
 	
 	@RequestMapping( value={"/content/folder"}, method=RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)

@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.builders.ResponseMessageBuilder;
 import springfox.documentation.schema.ModelRef;
@@ -24,6 +23,11 @@ import springfox.documentation.spring.web.plugins.Docket;
 public class DocumentationConfiguration {
 	
 	 public static final Contact DEFAULT_CONTACT = new Contact("Shopizer", "http://www.shopizer.com", "");
+	 
+	 /**
+	  * http://localhost:8080/swagger-ui.html#/
+	  * http://localhost:8080/v2/api-docs
+	  */
 	
 	 @Bean
 	    public Docket api() {

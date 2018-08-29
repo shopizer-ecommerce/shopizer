@@ -8,7 +8,8 @@ public class PersistableImage extends Entity {
 	   private static final long serialVersionUID = 1L;
 	   private boolean defaultImage;
 	   private int imageType = 0;
-	   private String imageName = null;
+	   private String name = null;
+	   private String path;
 
 	
 	   private byte[] bytes = null;
@@ -42,16 +43,6 @@ public class PersistableImage extends Entity {
 	}
 
 
-	public void setImageName(String imageName) {
-		this.imageName = imageName;
-	}
-
-
-	public String getImageName() {
-		return imageName;
-	}
-
-
 	public String getImageUrl() {
 		return imageUrl;
 	}
@@ -79,6 +70,26 @@ public class PersistableImage extends Entity {
 
 	public void setDefaultImage(boolean defaultImage) {
 		this.defaultImage = defaultImage;
+	}
+
+
+	public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+	public String getPath() {
+		return path;
+	}
+
+
+	public void setPath(String path) {
+		this.path = path;
 	}
 
 }

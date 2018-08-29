@@ -16,7 +16,6 @@ public class MerchantStoreEntity implements Serializable {
 	private String defaultLanguage;//code
 	private String currency;//code
 	private String inBusinessSince;
-	private String logo;
 	private String email;
 	private String phone;
 	private String template;
@@ -70,14 +69,6 @@ public class MerchantStoreEntity implements Serializable {
 
 	public void setInBusinessSince(String inBusinessSince) {
 		this.inBusinessSince = inBusinessSince;
-	}
-
-	public String getLogo() {
-		return logo;
-	}
-
-	public void setLogo(String logo) {
-		this.logo = logo;
 	}
 
 	public String getEmail() {

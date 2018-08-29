@@ -3,6 +3,7 @@ package com.salesmanager.shop.model.shop;
 import java.io.Serializable;
 import java.util.List;
 
+import com.salesmanager.shop.model.content.ReadableImage;
 import com.salesmanager.shop.model.references.ReadableAddress;
 
 public class ReadableMerchantStore extends MerchantStoreEntity implements Serializable {
@@ -14,6 +15,7 @@ public class ReadableMerchantStore extends MerchantStoreEntity implements Serial
 	private List<String> supportedLanguages;
 	private String currentUserLanguage;
 	private ReadableAddress address;
+	private ReadableImage logo;
 
 
 	public List<String> getSupportedLanguages() {
@@ -38,6 +40,14 @@ public class ReadableMerchantStore extends MerchantStoreEntity implements Serial
 
 	public void setAddress(ReadableAddress address) {
 		this.address = address;
+	}
+
+	public ReadableImage getLogo() {
+		return logo;
+	}
+
+	public void setLogo(ReadableImage logo) {
+		this.logo = logo;
 	}
 
 

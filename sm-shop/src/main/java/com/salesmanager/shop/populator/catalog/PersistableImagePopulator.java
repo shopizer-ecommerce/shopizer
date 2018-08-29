@@ -26,7 +26,7 @@ public class PersistableImagePopulator extends AbstractDataPopulator<Persistable
 		
 		target.setDefaultImage(source.isDefaultImage());
 		target.setImageType(source.getImageType());
-		target.setProductImage(source.getImageName());
+		target.setProductImage(source.getName());
 		if(source.getImageUrl() != null) {
 			target.setProductImageUrl(source.getImageUrl());
 		}

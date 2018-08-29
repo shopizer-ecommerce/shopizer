@@ -1,9 +1,13 @@
 package com.salesmanager.core.business.constants;
 
+import java.nio.charset.Charset;
 import java.util.Currency;
 import java.util.Locale;
 
 public class Constants {
+	
+	public static final Charset ISO_8859_1 = Charset.forName("ISO-8859-1");
+	public static final Charset UTF_8 = Charset.forName("UTF-8");
 	
 	public final static String TEST_ENVIRONMENT= "TEST";
 	public final static String PRODUCTION_ENVIRONMENT= "PROD";

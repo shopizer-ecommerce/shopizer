@@ -20,11 +20,14 @@ import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.model.customer.PersistableCustomer;
 import com.salesmanager.shop.model.shoppingcart.PersistableShoppingCartItem;
 import com.salesmanager.shop.model.shoppingcart.ReadableShoppingCart;
 import com.salesmanager.shop.store.controller.shoppingCart.facade.ShoppingCartFacade;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
+
+import io.swagger.annotations.ApiOperation;
 
 @Controller
 @RequestMapping("/api/v1")
@@ -47,9 +50,38 @@ public class ShoppingCartApi {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ShoppingCartApi.class);
 	
 
+    @ResponseStatus(HttpStatus.CREATED)
+	@RequestMapping( value="/cart", method=RequestMethod.POST)
+    @ApiOperation(httpMethod = "POST", value = "Add product to shopping cart", notes = "No customer ID in scope. Add to cart for non authenticated users, as simple as {\"product\":1232,\"quantity\":1}", produces = "application/json", response = ReadableShoppingCart.class)
+    public @ResponseBody ReadableShoppingCart addToCart(@Valid @RequestBody PersistableShoppingCartItem shoppingCartItem, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		try {
+			
+			MerchantStore merchantStore = storeFacade.getByCode(request);
+			Language language = languageUtils.getRESTLanguage(request, merchantStore);	
+			
+			
+			ReadableShoppingCart cart = shoppingCartFacade.addToCart(shoppingCartItem, merchantStore, language);
+			
+ 			return cart;
+ 			
+		} catch (Exception e) {
+			LOGGER.error("Error while adding product to cart",e);
+			try {
+				response.sendError(503, "Error while adding product to cart " + e.getMessage());
+			} catch (Exception ignore) {
+			}
+			
+			return null;
+		}
+		
+	}
+	
+	
 	
     @ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping( value="/customers/{id}/cart", method=RequestMethod.POST)
+    @ApiOperation(httpMethod = "POST", value = "Add product to a specific customer shopping cart", notes = "", produces = "application/json", response = ReadableShoppingCart.class)
     public @ResponseBody ReadableShoppingCart addToCart(@PathVariable Long id, @Valid @RequestBody PersistableShoppingCartItem shoppingCartItem, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		try {
@@ -84,6 +116,7 @@ public class ShoppingCartApi {
     
     @ResponseStatus(HttpStatus.OK)
 	@RequestMapping( value="/customers/{id}/cart", method=RequestMethod.GET)
+    @ApiOperation(httpMethod = "GET", value = "Get a chopping cart by id", notes = "", produces = "application/json", response = ReadableShoppingCart.class)
     public @ResponseBody ReadableShoppingCart get(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		try {

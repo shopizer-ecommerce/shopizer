@@ -48,6 +48,11 @@
 					<beans:entry key="hibernate.cache.provider_class" value="org.hibernate.cache.EhCacheProvider" />
 					<beans:entry key="hibernate.cache.use_second_level_cache" value="true" />
 					
+					<!-- character set -->
+					<beans:entry key="hibernate.connection.CharSet" value="utf8" />
+					<beans:entry key="hibernate.connection.characterEncoding" value="utf8" />
+					<beans:entry key="hibernate.connection.useUnicode" value="true" />
+					
 					<!-- Uncomment the following 2 lines to generate shopizer sql schema when the application is built. Remove the schema.sql file once generated, otherwise it will try to create it twice in the test database (table already exist... -->
 					<!--
 					<beans:entry key="javax.persistence.schema-generation.scripts.action" value="create"  />

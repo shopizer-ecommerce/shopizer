@@ -19,7 +19,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<main.basedir>${basedir}/../..</main.basedir>
         <m2eclipse.wtp.contextRoot>/</m2eclipse.wtp.contextRoot>
-        <jjwt.version>0.8.0</jjwt.version>
+        <jwt.version>0.8.0</jwt.version>
         <!-- Need to use the latest milestone in order to logon with latest FB app version -->
         <spring-social-facebook.version>3.0.0.M3</spring-social-facebook.version>
         <guava.version>19.0</guava.version>
@@ -200,7 +200,7 @@
 		<dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
-            <version>${jjwt.version}</version>
+            <version>${jwt.version}</version>
         </dependency>
 		
 	</dependencies>

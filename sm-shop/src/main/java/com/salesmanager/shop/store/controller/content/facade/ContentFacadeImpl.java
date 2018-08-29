@@ -12,12 +12,14 @@ import org.springframework.stereotype.Component;
 
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.content.ContentService;
+import com.salesmanager.core.model.content.Content;
+import com.salesmanager.core.model.content.ContentType;
 import com.salesmanager.core.model.content.FileContentType;
 import com.salesmanager.core.model.merchant.MerchantStore;
-import com.salesmanager.shop.constants.Constants;
-import com.salesmanager.shop.model.content.ContentFile;
+import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.content.ContentFolder;
 import com.salesmanager.shop.model.content.ContentImage;
+import com.salesmanager.shop.model.content.ContentPath;
 import com.salesmanager.shop.utils.FilePathUtils;
 import com.salesmanager.shop.utils.ImageFilePath;
 
@@ -26,9 +28,7 @@ public class ContentFacadeImpl implements ContentFacade {
 	
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ContentFacade.class);
-	
-	private String basePath = Constants.STATIC_URI;
-	
+
 	
 	@Inject
 	private ContentService contentService;
@@ -40,12 +40,12 @@ public class ContentFacadeImpl implements ContentFacade {
 	@Inject
 	private FilePathUtils fileUtils;
 
+	@SuppressWarnings("unused")
 	@Override
 	public ContentFolder getContentFolder(String folder, MerchantStore store) throws Exception {
 
 			List<String> imageNames = contentService.getContentFilesNames(store.getCode(),FileContentType.IMAGE);
 			List<String> fileNames = null;//add files since they are bundled with images
-					//contentService.getContentFilesNames(store.getCode(),FileContentType.STATIC_FILE);
 
 			ContentFolder contentFolder = null;
 			
@@ -66,7 +66,7 @@ public class ContentFacadeImpl implements ContentFacade {
 				}
 			}
 			
-			//files from CMS
+/*			//files from CMS
 			if(fileNames!=null) {
 				
 				if(contentFolder==null) {
@@ -82,7 +82,7 @@ public class ContentFacadeImpl implements ContentFacade {
 					contentFolder.getContent().add(cf);
 				}
 			
-			}
+			}*/
 			
 			return contentFolder;
 			
@@ -110,6 +110,17 @@ public class ContentFacadeImpl implements ContentFacade {
 				throw e;
 			}
 		
+	}
+
+	@Override
+	public List<ContentPath> pageNames(MerchantStore store, Language language) throws Exception {
+		// TODO Auto-generated method stub
+		
+		List<Content> contents = contentService.listByType(ContentType.PAGE, store, language);
+		
+		//TODO convert to ContentPath
+		
+		return null;
 	}
 
 }

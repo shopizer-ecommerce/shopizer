@@ -13,7 +13,6 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -64,7 +63,7 @@ public class CustomerApi {
 	 */
 	@RequestMapping( value={"/private/customers"}, method=RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
-	@ApiOperation(httpMethod = "POST", value = "Creates a customer", notes = "Requires administration access",response = PersistableCustomer.class)
+	@ApiOperation(httpMethod = "POST", value = "Creates a customer", notes = "Requires administration access", produces = "application/json", response = PersistableCustomer.class)
 	@ResponseBody
 	public PersistableCustomer create(@Valid @RequestBody PersistableCustomer customer, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -96,7 +95,7 @@ public class CustomerApi {
 	
     @ResponseStatus(HttpStatus.OK)
 	@RequestMapping( value="/private/customers/{id}", method=RequestMethod.PUT)
-	@ApiOperation(httpMethod = "PUT", value = "Updates a customer", notes = "Requires administration access",response = PersistableCustomer.class)
+	@ApiOperation(httpMethod = "PUT", value = "Updates a customer", notes = "Requires administration access", produces = "application/json", response = PersistableCustomer.class)
     public @ResponseBody PersistableCustomer update(@PathVariable Long id, @Valid @RequestBody PersistableCustomer customer, HttpServletRequest request, HttpServletResponse response) throws Exception {
 	
     	

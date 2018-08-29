@@ -61,6 +61,17 @@ public interface ShoppingCartFacade {
 	ReadableShoppingCart getCart(Customer customer, MerchantStore store, Language language) throws Exception;
 	
 	/**
+	 * Add item to shopping cart
+	 * @param item
+	 * @param store
+	 * @param language
+	 * @return
+	 * @throws Exception
+	 */
+	ReadableShoppingCart addToCart(PersistableShoppingCartItem item, MerchantStore store,
+			Language language) throws Exception;
+	
+	/**
 	 * Add product to ShoppingCart
 	 * This method is used by the API
 	 * @param customer

@@ -1,7 +1,11 @@
 package com.salesmanager.shop.store.controller.content.facade;
 
+import java.util.List;
+
 import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.content.ContentFolder;
+import com.salesmanager.shop.model.content.ContentPath;
 
 /**
  * Images and files management
@@ -27,5 +31,15 @@ public interface ContentFacade {
 	 * @param fileName
 	 */
 	void delete(MerchantStore store, String fileName, String fileType) throws Exception;
+	
+	
+	/**
+	 * Returns page names and urls configured for a given MerchantStore
+	 * @param store
+	 * @param language
+	 * @return
+	 * @throws Exception
+	 */
+	List<ContentPath> pageNames(MerchantStore store, Language language) throws Exception;
 
 }

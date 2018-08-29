@@ -698,24 +698,26 @@ public class ShoppingCartFacadeImpl
 		
 		return readableCart;
 	}
-
+	
 	@Override
-	public ReadableShoppingCart addToCart(Customer customer, PersistableShoppingCartItem item, MerchantStore store,
+	public ReadableShoppingCart addToCart(PersistableShoppingCartItem item, MerchantStore store,
 			Language language) throws Exception {
 		
-		Validate.notNull(customer,"Customer cannot be null");
-		Validate.notNull(customer.getId(),"Customer.id cannot be null or empty");
-		
-		//Check if customer has an existing shopping cart
-		ShoppingCart cartModel = shoppingCartService.getByCustomer(customer);
+		Validate.notNull(item,"PersistableShoppingCartItem cannot be null");
 		
 		//if cart does not exist create a new one
-		if(cartModel==null) {
-			cartModel = new ShoppingCart();
-			cartModel.setCustomerId(customer.getId());
-			cartModel.setMerchantStore(store);
-			cartModel.setShoppingCartCode(uniqueShoppingCartCode());
-		}
+
+		ShoppingCart cartModel = new ShoppingCart();
+		cartModel.setMerchantStore(store);
+		cartModel.setShoppingCartCode(uniqueShoppingCartCode());
+
+
+		return readableShoppingCart(cartModel,item,store,language);
+	}
+	
+	private ReadableShoppingCart readableShoppingCart(ShoppingCart cartModel, PersistableShoppingCartItem item, MerchantStore store,
+			Language language) throws Exception {
+		
 		
 		com.salesmanager.core.model.shoppingcart.ShoppingCartItem itemModel = createCartItem(cartModel, item, store);
 		
@@ -764,6 +766,28 @@ public class ShoppingCartFacadeImpl
 
 		
 		return readableCart;
+		
+	}
+
+	@Override
+	public ReadableShoppingCart addToCart(Customer customer, PersistableShoppingCartItem item, MerchantStore store,
+			Language language) throws Exception {
+		
+		Validate.notNull(customer,"Customer cannot be null");
+		Validate.notNull(customer.getId(),"Customer.id cannot be null or empty");
+		
+		//Check if customer has an existing shopping cart
+		ShoppingCart cartModel = shoppingCartService.getByCustomer(customer);
+		
+		//if cart does not exist create a new one
+		if(cartModel==null) {
+			cartModel = new ShoppingCart();
+			cartModel.setCustomerId(customer.getId());
+			cartModel.setMerchantStore(store);
+			cartModel.setShoppingCartCode(uniqueShoppingCartCode());
+		}
+		
+		return readableShoppingCart(cartModel,item,store,language);
 	}
 	
 	private void saveShoppingCart(ShoppingCart shoppingCart) throws Exception {
