@@ -5,6 +5,7 @@ package com.salesmanager.shop.store.controller.customer.facade;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -16,6 +17,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -32,6 +35,7 @@ import com.salesmanager.core.business.services.catalog.product.attribute.Product
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.customer.attribute.CustomerOptionService;
 import com.salesmanager.core.business.services.customer.attribute.CustomerOptionValueService;
+import com.salesmanager.core.business.services.customer.optin.CustomerOptinService;
 import com.salesmanager.core.business.services.customer.review.CustomerReviewService;
 import com.salesmanager.core.business.services.reference.country.CountryService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
@@ -39,6 +43,7 @@ import com.salesmanager.core.business.services.reference.zone.ZoneService;
 import com.salesmanager.core.business.services.shoppingcart.ShoppingCartCalculationService;
 import com.salesmanager.core.business.services.shoppingcart.ShoppingCartService;
 import com.salesmanager.core.business.services.system.EmailService;
+import com.salesmanager.core.business.services.system.optin.OptinService;
 import com.salesmanager.core.business.services.user.GroupService;
 import com.salesmanager.core.business.services.user.PermissionService;
 import com.salesmanager.core.business.utils.CoreConfiguration;
@@ -49,6 +54,8 @@ import com.salesmanager.core.model.reference.country.Country;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.reference.zone.Zone;
 import com.salesmanager.core.model.shoppingcart.ShoppingCart;
+import com.salesmanager.core.model.system.optin.Optin;
+import com.salesmanager.core.model.system.optin.OptinType;
 import com.salesmanager.core.model.user.Group;
 import com.salesmanager.core.model.user.GroupType;
 import com.salesmanager.core.model.user.Permission;
@@ -61,6 +68,8 @@ import com.salesmanager.shop.model.customer.PersistableCustomerReview;
 import com.salesmanager.shop.model.customer.ReadableCustomer;
 import com.salesmanager.shop.model.customer.ReadableCustomerReview;
 import com.salesmanager.shop.model.customer.UserAlreadyExistException;
+import com.salesmanager.shop.model.customer.optin.PersistableCustomerOptin;
+import com.salesmanager.shop.model.system.ReadableOptin;
 import com.salesmanager.shop.populator.customer.CustomerBillingAddressPopulator;
 import com.salesmanager.shop.populator.customer.CustomerDeliveryAddressPopulator;
 import com.salesmanager.shop.populator.customer.CustomerEntityPopulator;
@@ -93,6 +102,12 @@ public class CustomerFacadeImpl implements CustomerFacade
 
 	 @Inject
      private CustomerService customerService;
+	 
+	 @Inject
+	 private OptinService optinService;
+	 
+	 @Inject
+     private CustomerOptinService customerOptinService;
 
      @Inject
      private ShoppingCartService shoppingCartService;
@@ -723,5 +738,39 @@ public class CustomerFacadeImpl implements CustomerFacade
 		customerReviewService.delete(review);
 		
 	}
+
+
+	@Override
+	public void optinCustomer(PersistableCustomerOptin optin, MerchantStore store) throws Exception {
+		Optin optinDef = optinService.getOptinByCode(store, OptinType.NEWSLETTER.name());
+		
+		if(optinDef == null) {
+			LOG.error("Optin " + OptinType.NEWSLETTER.name() + " does not exists");
+			throw new Exception("Optin newsletter does not exist");
+		}
+		
+		//check if customer optin exists
+		com.salesmanager.core.model.system.optin.CustomerOptin customerOptin = customerOptinService.findByEmailAddress(store, optin.getEmail(), OptinType.NEWSLETTER.name());
+
+		if(customerOptin != null) {
+			//exists update
+			customerOptin.setEmail(optin.getEmail());
+			customerOptin.setFirstName(optin.getFirstName());
+			customerOptin.setLastName(optin.getLastName());
+		} else {
+			customerOptin = new com.salesmanager.core.model.system.optin.CustomerOptin();
+			customerOptin.setEmail(optin.getEmail());
+			customerOptin.setFirstName(optin.getFirstName());
+			customerOptin.setLastName(optin.getLastName());
+			customerOptin.setOptinDate(new Date());
+			customerOptin.setOptin(optinDef);
+			customerOptin.setMerchantStore(store);
+		}
+		
+		customerOptinService.save(customerOptin);
+		
+	}
+
+
 
 }

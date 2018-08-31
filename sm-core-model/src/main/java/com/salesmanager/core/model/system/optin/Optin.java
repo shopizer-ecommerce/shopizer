@@ -6,6 +6,8 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -54,6 +56,10 @@ public class Optin extends SalesManagerEntity<Long, Optin> implements Serializab
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column (name ="END_DATE")
 	private Date endDate;
+	
+	@Column(name="TYPE", nullable=false)
+	@Enumerated(value = EnumType.STRING)
+	private OptinType optinType;
 	
 	@ManyToOne(targetEntity = MerchantStore.class)
 	@JoinColumn(name="MERCHANT_ID")
@@ -114,6 +120,14 @@ public class Optin extends SalesManagerEntity<Long, Optin> implements Serializab
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public OptinType getOptinType() {
+		return optinType;
+	}
+
+	public void setOptinType(OptinType optinType) {
+		this.optinType = optinType;
 	}
 
 }

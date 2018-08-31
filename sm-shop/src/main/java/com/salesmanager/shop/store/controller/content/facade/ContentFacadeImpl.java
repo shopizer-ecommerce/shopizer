@@ -1,5 +1,6 @@
 package com.salesmanager.shop.store.controller.content.facade;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.content.ContentService;
 import com.salesmanager.core.model.content.Content;
+import com.salesmanager.core.model.content.ContentDescription;
 import com.salesmanager.core.model.content.ContentType;
 import com.salesmanager.core.model.content.FileContentType;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -114,13 +116,28 @@ public class ContentFacadeImpl implements ContentFacade {
 
 	@Override
 	public List<ContentPath> pageNames(MerchantStore store, Language language) throws Exception {
-		// TODO Auto-generated method stub
+		Validate.notNull(store, "MerchantStore cannot be null");
+		Validate.notNull(language, "Language cannot be null");
 		
 		List<Content> contents = contentService.listByType(ContentType.PAGE, store, language);
-		
-		//TODO convert to ContentPath
-		
-		return null;
+		List<ContentPath> returnContents = new ArrayList<ContentPath>(); 
+		for(Content content : contents) {
+			if(content.isVisible()) {//mke sure content is available
+				//TODO segmentation
+				ContentPath path = new ContentPath();
+				for(ContentDescription description : content.getDescriptions()) {
+					if(description.getLanguage().getCode().equals(language.getCode())) {
+						path.setName(description.getName());
+						break;
+					}
+				}
+				path.setContentType(ContentType.PAGE.name());
+				path.setPath(fileUtils.buildStaticFilePath(store, path.getName()));
+				returnContents.add(path);
+				
+			}
+		}
+		return returnContents;
 	}
 
 }
