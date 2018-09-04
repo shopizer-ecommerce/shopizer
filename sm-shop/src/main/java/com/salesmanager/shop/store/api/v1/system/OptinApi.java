@@ -23,8 +23,6 @@ import com.salesmanager.core.model.system.optin.Optin;
 import com.salesmanager.core.model.system.optin.OptinType;
 import com.salesmanager.shop.model.system.PersistableOptin;
 import com.salesmanager.shop.model.system.ReadableOptin;
-import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
-import com.salesmanager.shop.store.controller.marketplace.facade.MarketPlaceFacade;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
 
@@ -32,7 +30,7 @@ import io.swagger.annotations.ApiOperation;
 
 
 /**
- * Optin a customer to newsletter
+ * Optin a customer to events such s newsletter
  * @author carlsamson
  *
  */
@@ -58,7 +56,7 @@ public class OptinApi {
 	/**
 	 * Create new optin
 	 */
-	@RequestMapping( value={"/private/optin"}, method=RequestMethod.POST)
+	@RequestMapping( value={"/optin"}, method=RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(httpMethod = "POST", value = "Creates an optin event type definition", notes = "", produces = "application/json")
 	@ResponseBody

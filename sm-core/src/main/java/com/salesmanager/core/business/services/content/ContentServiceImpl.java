@@ -415,6 +415,11 @@ public class ContentServiceImpl
 		return contentRepository.getBySeUrl(store, seUrl);
 	}
 
+	@Override
+	public List<Content> getByCodeLike(ContentType type, String codeLike, MerchantStore store, Language language) {
+		return contentRepository.findByCodeLike(type, '%'+codeLike+'%', store.getId(), language.getId());
+	}
+
 
 
     

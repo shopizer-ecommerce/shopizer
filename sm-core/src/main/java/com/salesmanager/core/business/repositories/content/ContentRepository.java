@@ -26,6 +26,9 @@ public interface ContentRepository extends JpaRepository<Content, Long>,  Conten
 	@Query("select c from Content c left join fetch c.descriptions cd join fetch c.merchantStore cm where c.code = ?1 and cm.id = ?2")
 	Content findByCode(String code, Integer storeId);
 	
+	@Query("select c from Content c left join fetch c.descriptions cd join fetch c.merchantStore cm where c.contentType = ?1 and cm.id=?3 and c.code like ?2 and cd.language.id = ?4")
+	List<Content> findByCodeLike(ContentType contentType, String code, Integer storeId, Integer languageId);
+	
 	@Query("select c from Content c left join fetch c.descriptions cd join fetch c.merchantStore cm where c.code = ?1 and cm.id = ?2 and cd.language.id = ?3")
 	Content findByCode(String code, Integer storeId, Integer languageId);
 	

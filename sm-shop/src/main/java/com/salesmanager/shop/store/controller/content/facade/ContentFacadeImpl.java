@@ -21,7 +21,8 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.content.ContentFolder;
 import com.salesmanager.shop.model.content.ContentImage;
-import com.salesmanager.shop.model.content.ContentPath;
+import com.salesmanager.shop.model.content.ReadableContentBox;
+import com.salesmanager.shop.model.content.ReadableContentPage;
 import com.salesmanager.shop.utils.FilePathUtils;
 import com.salesmanager.shop.utils.ImageFilePath;
 
@@ -115,29 +116,112 @@ public class ContentFacadeImpl implements ContentFacade {
 	}
 
 	@Override
-	public List<ContentPath> pageNames(MerchantStore store, Language language) throws Exception {
+	public List<ReadableContentPage> pages(MerchantStore store, Language language) throws Exception {
 		Validate.notNull(store, "MerchantStore cannot be null");
 		Validate.notNull(language, "Language cannot be null");
 		
 		List<Content> contents = contentService.listByType(ContentType.PAGE, store, language);
-		List<ContentPath> returnContents = new ArrayList<ContentPath>(); 
+		List<ReadableContentPage> returnContents = new ArrayList<ReadableContentPage>(); 
 		for(Content content : contents) {
 			if(content.isVisible()) {//mke sure content is available
 				//TODO segmentation
-				ContentPath path = new ContentPath();
+				ReadableContentPage page = new ReadableContentPage();
 				for(ContentDescription description : content.getDescriptions()) {
 					if(description.getLanguage().getCode().equals(language.getCode())) {
-						path.setName(description.getName());
+						page.setName(description.getSeUrl());
+						page.setPageContent(description.getDescription());
 						break;
 					}
 				}
-				path.setContentType(ContentType.PAGE.name());
-				path.setPath(fileUtils.buildStaticFilePath(store, path.getName()));
-				returnContents.add(path);
+				page.setDisplayedInMenu(content.isLinkToMenu());
+				page.setContentType(ContentType.PAGE.name());
+				page.setPath(fileUtils.buildStaticFilePath(store, page.getName()));
+				returnContents.add(page);
 				
 			}
 		}
 		return returnContents;
+	}
+
+	@Override
+	public ReadableContentPage page(String code, MerchantStore store, Language language) throws Exception {
+
+		
+		Validate.notNull(code, "Content code cannot be null");
+		Validate.notNull(store, "MerchantStore cannot be null");
+		Validate.notNull(language, "Language cannot be null");
+		
+		Content content = contentService.getByCode(code, store, language);
+		
+		
+		if(content==null) {
+			return null;
+		}
+		
+		ReadableContentPage page = new ReadableContentPage();
+		for(ContentDescription description : content.getDescriptions()) {
+			if(description.getLanguage().getCode().equals(language.getCode())) {
+				page.setName(description.getSeUrl());
+				page.setPageContent(description.getDescription());
+				break;
+			}
+		}
+		
+		return page;
+
+	}
+
+	@Override
+	public List<ReadableContentBox> boxes(ContentType type, String codePrefix, MerchantStore store, Language language) throws Exception {
+		
+		Validate.notNull(codePrefix, "content code prefix cannot be null");
+		Validate.notNull(store, "MerchantStore cannot be null");
+		Validate.notNull(language, "Language cannot be null");
+		
+		
+		
+		List<Content> contents = contentService.getByCodeLike(type, codePrefix, store, language);
+		List<ReadableContentBox> returns = new ArrayList<ReadableContentBox>();
+		for(Content content: contents) {
+			ReadableContentBox box = new ReadableContentBox();
+			for(ContentDescription description : content.getDescriptions()) {
+				if(description.getLanguage().getCode().equals(language.getCode())) {
+					box.setName(description.getName());
+					box.setBoxContent(description.getDescription());
+					break;
+				}
+			}
+			box.setImage(imageUtils.buildStaticImageUtils(store, content.getCode() + ".jpg"));
+			returns.add(box);
+		}
+		
+		return returns;
+
+	}
+
+	@Override
+	public ReadableContentBox box(String code, MerchantStore store, Language language) throws Exception {
+		Validate.notNull(code, "Content code cannot be null");
+		Validate.notNull(store, "MerchantStore cannot be null");
+		Validate.notNull(language, "Language cannot be null");
+		
+		Content content = contentService.getByCode(code, store, language);
+		
+		
+		if(content==null) {
+			return null;
+		}
+		
+		ReadableContentBox box = new ReadableContentBox();
+		for(ContentDescription description : content.getDescriptions()) {
+			if(description.getLanguage().getCode().equals(language.getCode())) {
+				box.setName(description.getSeUrl());
+				box.setBoxContent(description.getDescription());
+				break;
+			}
+		}
+		
+		return box;
 	}
 
 }

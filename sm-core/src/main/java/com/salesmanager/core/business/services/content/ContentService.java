@@ -153,5 +153,16 @@ public interface ContentService
 	Content getByLanguage(Long id, Language language) throws ServiceException;
 
 	ContentDescription getBySeUrl(MerchantStore store, String seUrl);
+	
+	/**
+	 * Finds content for a specific Merchant for a specific ContentType where content
+	 * code is like a given prefix in a specific language
+	 * @param type
+	 * @param codeLike
+	 * @param store
+	 * @param lamguage
+	 * @return
+	 */
+	List<Content> getByCodeLike(ContentType type, String codeLike, MerchantStore store, Language language);
 
 }

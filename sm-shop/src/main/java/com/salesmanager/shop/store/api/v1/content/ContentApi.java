@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.salesmanager.core.business.services.content.ContentService;
+import com.salesmanager.core.model.content.ContentType;
 import com.salesmanager.core.model.content.FileContentType;
 import com.salesmanager.core.model.content.InputContentFile;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -32,7 +33,8 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.content.ContentFile;
 import com.salesmanager.shop.model.content.ContentFolder;
 import com.salesmanager.shop.model.content.ContentName;
-import com.salesmanager.shop.model.content.ContentPath;
+import com.salesmanager.shop.model.content.ReadableContentBox;
+import com.salesmanager.shop.model.content.ReadableContentPage;
 import com.salesmanager.shop.store.controller.content.facade.ContentFacade;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
@@ -61,7 +63,7 @@ public class ContentApi {
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(httpMethod = "GET", value = "Get page names created for a given MerchantStore", notes = "", produces = "application/json", response = List.class)
 	@ResponseBody
-	public List<ContentPath>  pages(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public List<ReadableContentPage>  pages(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		try {
 			
@@ -69,7 +71,7 @@ public class ContentApi {
 			Language language = languageUtils.getRESTLanguage(request, merchantStore);
 
 			
-			List<ContentPath> names = contentFacade.pageNames(merchantStore, language);
+			List<ReadableContentPage> names = contentFacade.pages(merchantStore, language);
 
 			
 			if(names == null){
@@ -83,6 +85,106 @@ public class ContentApi {
 			LOGGER.error("Error while getting content",e);
 			try {
 				response.sendError(503, "Error while getting content " + e.getMessage());
+			} catch (Exception ignore) {
+			}
+		}
+		
+		return null;
+	}
+	
+	@RequestMapping( value={"/content/summary"}, method=RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
+	@ApiOperation(httpMethod = "GET", value = "Get pages summary created for a given MerchantStore", notes = "", produces = "application/json", response = List.class)
+	@ResponseBody
+	public List<ReadableContentBox>  pagesSummary(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		try {
+			
+			MerchantStore merchantStore = storeFacade.getByCode(request);
+			Language language = languageUtils.getRESTLanguage(request, merchantStore);
+
+			
+			List<ReadableContentBox> boxes = contentFacade.boxes(ContentType.BOX, "summary_", merchantStore, language);
+	
+			
+			if(boxes == null){
+				response.sendError(404, "No content summary found");
+			}
+			
+			return boxes;
+			
+			
+		} catch (Exception e) {
+			LOGGER.error("Error while getting content",e);
+			try {
+				response.sendError(503, "Error while getting content summary " + e.getMessage());
+			} catch (Exception ignore) {
+			}
+		}
+		
+		return null;
+	}
+	
+	
+	@RequestMapping( value={"/content/pages/{code}"}, method=RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
+	@ApiOperation(httpMethod = "GET", value = "Get page content by code for a given MerchantStore", notes = "", produces = "application/json", response = List.class)
+	@ResponseBody
+	public ReadableContentPage page(@RequestParam("code") String code, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		try {
+			
+			MerchantStore merchantStore = storeFacade.getByCode(request);
+			Language language = languageUtils.getRESTLanguage(request, merchantStore);
+
+			
+			ReadableContentPage page = contentFacade.page(code, merchantStore, language);
+
+			
+			if(page == null){
+				response.sendError(404, "No page found : " + code);
+			}
+			
+			return page;
+			
+			
+		} catch (Exception e) {
+			LOGGER.error("Error while getting page",e);
+			try {
+				response.sendError(503, "Error while getting page " + e.getMessage());
+			} catch (Exception ignore) {
+			}
+		}
+		
+		return null;
+	}
+	
+	@RequestMapping( value={"/content/boxes/{code}"}, method=RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
+	@ApiOperation(httpMethod = "GET", value = "Get box content by code for a code and a given MerchantStore", notes = "", produces = "application/json", response = List.class)
+	@ResponseBody
+	public ReadableContentBox box(@RequestParam("code") String code, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		try {
+			
+			MerchantStore merchantStore = storeFacade.getByCode(request);
+			Language language = languageUtils.getRESTLanguage(request, merchantStore);
+
+			
+			ReadableContentBox box = contentFacade.box(code, merchantStore, language);
+
+			
+			if(box == null){
+				response.sendError(404, "No box found : " + code);
+			}
+			
+			return box;
+			
+			
+		} catch (Exception e) {
+			LOGGER.error("Error while getting box",e);
+			try {
+				response.sendError(503, "Error while getting box " + e.getMessage());
 			} catch (Exception ignore) {
 			}
 		}
