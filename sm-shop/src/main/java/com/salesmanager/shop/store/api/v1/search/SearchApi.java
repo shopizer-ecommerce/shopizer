@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.model.ValueList;
 import com.salesmanager.shop.model.catalog.SearchProductList;
 import com.salesmanager.shop.model.catalog.SearchProductRequest;
 import com.salesmanager.shop.store.controller.search.facade.SearchFacade;
@@ -70,6 +71,29 @@ public class SearchApi {
 			LOGGER.error("Error while searching products",e);
 			try {
 				response.sendError(503, "Error while searching products " + e.getMessage());
+			} catch (Exception ignore) {
+			}
+
+		}
+		return null;
+	}
+    
+    @ResponseStatus(HttpStatus.OK)
+	@RequestMapping( value="/search/autocomplete", method=RequestMethod.POST)
+	public @ResponseBody ValueList autocomplete(@RequestBody SearchProductRequest searchRequest, @RequestParam(value = "lang", required=false) String lang, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		try {
+			
+			MerchantStore merchantStore = storeFacade.getByCode(request);
+			Language language = languageUtils.getRESTLanguage(request, merchantStore);			
+			ValueList keywords = searchFacade.autocompleteRequest(searchRequest.getQuery(), merchantStore, language);
+			
+			return keywords;
+			
+		} catch (Exception e) {
+			LOGGER.error("Error while autocomplete products",e);
+			try {
+				response.sendError(503, "Error while autocomplete products " + e.getMessage());
 			} catch (Exception ignore) {
 			}
 

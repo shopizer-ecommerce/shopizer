@@ -3,6 +3,7 @@ package com.salesmanager.shop.store.controller.search.facade;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.search.SearchResponse;
+import com.salesmanager.shop.model.ValueList;
 import com.salesmanager.shop.model.catalog.SearchProductList;
 import com.salesmanager.shop.model.catalog.SearchProductRequest;
 
@@ -36,4 +37,13 @@ public interface SearchFacade {
 	 */
 	public SearchProductList copySearchResponse(SearchResponse searchResponse, MerchantStore store, int start, int count, Language language) throws Exception;
 
+	/**
+	 * List of keywords / autocompletes for a given word being typed
+	 * @param query
+	 * @param store
+	 * @param language
+	 * @return
+	 * @throws Exception
+	 */
+	ValueList autocompleteRequest(String query, MerchantStore store, Language language) throws Exception;
 }

@@ -800,7 +800,7 @@ public class ShoppingCartFacadeImpl
 
 	@Override
 	public ReadableShoppingCart getById(Long shoppingCartId, MerchantStore store, Language language) throws Exception {
-		// TODO Auto-generated method stub
+
 		ShoppingCart cart = shoppingCartService.getById(shoppingCartId);
 		
 		ReadableShoppingCart readableCart = null;
@@ -825,6 +825,31 @@ public class ShoppingCartFacadeImpl
 	@Override
 	public ShoppingCart getShoppingCartModel(Long id, MerchantStore store) throws Exception {
 		return shoppingCartService.getById(id);
+	}
+
+	@Override
+	public ReadableShoppingCart getByCode(String code, MerchantStore store, Language language) throws Exception {
+		
+		ShoppingCart cart = shoppingCartService.getByCode(code, store);
+		
+		ReadableShoppingCart readableCart = null;
+		
+		if(cart != null) {
+			
+	        ReadableShoppingCartPopulator readableShoppingCart = new ReadableShoppingCartPopulator();
+	        
+	        readableShoppingCart.setImageUtils(imageUtils);
+	        readableShoppingCart.setPricingService(pricingService);
+	        readableShoppingCart.setProductAttributeService(productAttributeService);
+	        readableShoppingCart.setShoppingCartCalculationService(shoppingCartCalculationService);
+
+	        readableCart = readableShoppingCart.populate(cart, null,  store, language);
+			
+			
+		}
+		
+		return readableCart;
+		
 	}
 
 

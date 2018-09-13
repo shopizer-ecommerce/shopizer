@@ -20,7 +20,6 @@ import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.shop.model.customer.PersistableCustomer;
 import com.salesmanager.shop.model.shoppingcart.PersistableShoppingCartItem;
 import com.salesmanager.shop.model.shoppingcart.ReadableShoppingCart;
 import com.salesmanager.shop.store.controller.shoppingCart.facade.ShoppingCartFacade;
@@ -69,6 +68,37 @@ public class ShoppingCartApi {
 			LOGGER.error("Error while adding product to cart",e);
 			try {
 				response.sendError(503, "Error while adding product to cart " + e.getMessage());
+			} catch (Exception ignore) {
+			}
+			
+			return null;
+		}
+		
+	}
+    
+    @ResponseStatus(HttpStatus.OK)
+	@RequestMapping( value="/cart/{code}", method=RequestMethod.GET)
+    @ApiOperation(httpMethod = "GET", value = "Get a chopping cart by code", notes = "", produces = "application/json", response = ReadableShoppingCart.class)
+    public @ResponseBody ReadableShoppingCart getByCode(@PathVariable String code, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		try {
+			
+			MerchantStore merchantStore = storeFacade.getByCode(request);
+			Language language = languageUtils.getRESTLanguage(request, merchantStore);	
+			
+ 			ReadableShoppingCart cart = shoppingCartFacade.getByCode(code, merchantStore, language);
+ 			
+ 			if(cart == null){
+ 				response.sendError(404, "No ShoppingCart found for customer code : " + code);
+ 				return null;
+ 			}
+ 			
+ 			return cart;
+ 			
+		} catch (Exception e) {
+			LOGGER.error("Error while getting cart",e);
+			try {
+				response.sendError(503, "Error while getting cart " + e.getMessage());
 			} catch (Exception ignore) {
 			}
 			

@@ -217,7 +217,7 @@ public class S3ProductContentFileManager implements ProductImagePut, ProductImag
         	String bucketName = bucketName();
             final AmazonS3 s3 = s3Client();
             
-            String nodePath = this.nodePath(productImage.getProduct().getMerchantStore().getCode(), productImage.getProduct().getRefSku(), contentImage);
+            String nodePath = this.nodePath(productImage.getProduct().getMerchantStore().getCode(), productImage.getProduct().getSku(), contentImage);
 
             
             ObjectMetadata metadata = new ObjectMetadata();

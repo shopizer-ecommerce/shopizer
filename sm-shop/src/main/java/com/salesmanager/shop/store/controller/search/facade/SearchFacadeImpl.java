@@ -9,7 +9,6 @@ import javax.inject.Inject;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -27,13 +26,16 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.search.IndexProduct;
 import com.salesmanager.core.model.search.SearchEntry;
 import com.salesmanager.core.model.search.SearchFacet;
+import com.salesmanager.core.model.search.SearchKeywords;
 import com.salesmanager.core.model.search.SearchResponse;
+import com.salesmanager.shop.model.ValueList;
 import com.salesmanager.shop.model.catalog.SearchProductList;
 import com.salesmanager.shop.model.catalog.SearchProductRequest;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.populator.catalog.ReadableCategoryPopulator;
 import com.salesmanager.shop.populator.catalog.ReadableProductPopulator;
+import com.salesmanager.shop.store.model.search.AutoCompleteRequest;
 import com.salesmanager.shop.utils.ImageFilePath;
 
 
@@ -62,6 +64,7 @@ public class SearchFacadeImpl implements SearchFacade {
     
 	private final static String CATEGORY_FACET_NAME = "categories";
 	private final static String MANUFACTURER_FACET_NAME = "manufacturer";
+	private final static int AUTOCOMPLETE_ENTRIES_COUNT = 15;
 
 	/**
 	 * Index all products from the catalogue
@@ -176,6 +179,22 @@ public class SearchFacadeImpl implements SearchFacade {
 		}
 		
 		return returnList;
+	}
+
+	@Override
+	public ValueList autocompleteRequest(String query, MerchantStore store, Language language) throws Exception {
+		
+		AutoCompleteRequest req = new AutoCompleteRequest(store.getCode(),language.getCode());
+		/** formatted toJSONString because of te specific field names required in the UI **/
+		SearchKeywords keywords = searchService.searchForKeywords(req.getCollectionName(), req.toJSONString(query), AUTOCOMPLETE_ENTRIES_COUNT);
+		ValueList returnList = new ValueList();
+		returnList.setValues(keywords.getKeywords());
+		
+		return returnList;
+
+		
+		
+		
 	}
 	
 

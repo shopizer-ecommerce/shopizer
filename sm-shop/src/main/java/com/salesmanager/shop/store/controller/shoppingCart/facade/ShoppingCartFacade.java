@@ -92,4 +92,14 @@ public interface ShoppingCartFacade {
 	 * @throws Exception
 	 */
 	ReadableShoppingCart getById(Long shoppingCartId, MerchantStore store, Language language) throws Exception;
+	
+	/**
+	 * Retrieves a shopping cart
+	 * @param code
+	 * @param store
+	 * @param language
+	 * @return
+	 * @throws Exception
+	 */
+	ReadableShoppingCart getByCode(String code, MerchantStore store, Language language) throws Exception;
 }

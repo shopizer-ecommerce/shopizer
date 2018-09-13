@@ -19,3 +19,4 @@
 **/build
 **/.settings
 **/.classpath
+*/sm-shop/src/main/resources/*
