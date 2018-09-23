@@ -1,6 +1,6 @@
 package com.salesmanager.shop.model.catalog.product.attribute;
 
-public class ReadableProductOptionValue extends ProductOptionValue {
+public class ReadableProductAttributeValue extends ProductOptionValue {
 
 	/**
 	 * 
@@ -9,8 +9,6 @@ public class ReadableProductOptionValue extends ProductOptionValue {
 	
 	private String name;
 	private String lang;
-	private String price;
-	private String image;
 
 	public String getName() {
 		return name;
@@ -28,20 +26,5 @@ public class ReadableProductOptionValue extends ProductOptionValue {
 		this.lang = lang;
 	}
 
-	public String getPrice() {
-		return price;
-	}
-
-	public void setPrice(String price) {
-		this.price = price;
-	}
-
-	public String getImage() {
-		return image;
-	}
-
-	public void setImage(String image) {
-		this.image = image;
-	}
 
 }

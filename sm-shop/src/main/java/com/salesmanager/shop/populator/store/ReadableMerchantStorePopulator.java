@@ -15,6 +15,7 @@ import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.reference.country.CountryService;
 import com.salesmanager.core.business.services.reference.zone.ZoneService;
 import com.salesmanager.core.business.utils.AbstractDataPopulator;
+import com.salesmanager.core.constants.MeasureUnit;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.country.Country;
 import com.salesmanager.core.model.reference.language.Language;
@@ -70,6 +71,9 @@ public class ReadableMerchantStorePopulator extends
 				logger.error("Cannot get Country", e);
 			}
 		}
+		
+		target.setDimension(MeasureUnit.valueOf(source.getSeizeunitcode()));
+		target.setWeight(MeasureUnit.valueOf(source.getWeightunitcode()));
 		
 		if(source.getZone()!=null) {
 			address.setStateProvince(source.getZone().getCode());

@@ -18,6 +18,7 @@ import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductOptionService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductOptionValueService;
 import com.salesmanager.core.business.services.catalog.product.manufacturer.ManufacturerService;
+import com.salesmanager.core.business.services.catalog.product.relationship.ProductRelationshipService;
 import com.salesmanager.core.business.services.catalog.product.review.ProductReviewService;
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
@@ -28,6 +29,8 @@ import com.salesmanager.core.model.catalog.product.ProductCriteria;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
+import com.salesmanager.core.model.catalog.product.relationship.ProductRelationship;
+import com.salesmanager.core.model.catalog.product.relationship.ProductRelationshipType;
 import com.salesmanager.core.model.catalog.product.review.ProductReview;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
@@ -80,6 +83,9 @@ public class ProductFacadeImpl implements ProductFacade {
 	
 	@Inject
 	private ProductReviewService productReviewService;
+	
+	@Inject
+	private ProductRelationshipService productRelationshipService;
 	
 	@Inject
 	@Qualifier("img")
@@ -478,6 +484,26 @@ public class ProductFacadeImpl implements ProductFacade {
 		}
 
 		return returnList;
+	}
+
+	@Override
+	public List<ReadableProduct> relatedItems(MerchantStore store, Product product, Language language)
+			throws Exception {
+		ReadableProductPopulator populator = new ReadableProductPopulator();
+		populator.setPricingService(pricingService);
+		populator.setimageUtils(imageUtils);
+		
+		List<ProductRelationship> relatedItems = productRelationshipService.getByType(store, product, ProductRelationshipType.RELATED_ITEM);
+		if(relatedItems!=null && relatedItems.size()>0) {
+			List<ReadableProduct> items = new ArrayList<ReadableProduct>();
+			for(ProductRelationship relationship : relatedItems) {
+				Product relatedProduct = relationship.getRelatedProduct();
+				ReadableProduct proxyProduct = populator.populate(relatedProduct, new ReadableProduct(), store, language);
+				items.add(proxyProduct);
+			}
+			return items;
+		}
+		return null;
 	}
 
 }

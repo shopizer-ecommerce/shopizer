@@ -175,4 +175,15 @@ public interface ProductFacade {
 	 * @throws Exception
 	 */
 	List<ReadableManufacturer> getAllManufacturers(MerchantStore store, Language language) throws Exception;
+	
+	/**
+	 * Get related items
+	 * @param store
+	 * @param product
+	 * @param language
+	 * @return
+	 * @throws Exception
+	 */
+	List<ReadableProduct> relatedItems(MerchantStore store, Product product, Language language) throws Exception;
+		
 }

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,21 +24,30 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
+import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
+import com.salesmanager.core.business.services.catalog.product.attribute.ProductAttributeService;
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.merchant.MerchantStoreService;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.ProductCriteria;
+import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
+import com.salesmanager.core.model.catalog.product.price.FinalPrice;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProductList;
+import com.salesmanager.shop.model.catalog.product.ReadableProductPrice;
+import com.salesmanager.shop.model.catalog.product.attribute.ProductVariant;
+import com.salesmanager.shop.populator.catalog.ReadableFinalPricePopulator;
 import com.salesmanager.shop.store.controller.product.facade.ProductFacade;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.ImageFilePath;
 import com.salesmanager.shop.utils.LanguageUtils;
+
+import io.swagger.annotations.ApiOperation;
 
 /**
  * API to create, read, update and delete a Product
@@ -57,6 +67,12 @@ public class ProductApi {
 	
 	@Inject
 	private CustomerService customerService;
+	
+	@Inject
+	private PricingService pricingService;
+	
+	@Inject
+	private ProductAttributeService productAttributeService;
 	
 	@Inject
 	private ProductService productService;
@@ -523,6 +539,59 @@ public class ProductApi {
 		}
 		
 		return product;
+		
+	}
+	
+	@RequestMapping(value = "/products/{id}/variant", method=RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
+	@ApiOperation(httpMethod = "POST", value = "Get product variations (variants) based on possible options", notes = "", produces = "application/json", response = ReadableProductPrice.class)
+	@ResponseBody
+	public ReadableProductPrice calculateVariant(@PathVariable final Long id, @RequestBody ProductVariant variant, @RequestParam(value = "lang", required=false) String lang, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	
+		MerchantStore merchantStore = storeFacade.getByCode(request);
+		Language language = languageUtils.getRESTLanguage(request, merchantStore);	
+		
+		Product product = productService.getById(id);
+		
+		if(product==null) {
+			response.sendError(404, "Product not fount for id " + id);
+			return null;
+		}
+		
+		@SuppressWarnings("unchecked")
+		List<String> ids = variant.getOptions();
+		
+		if(CollectionUtils.isEmpty(ids)) {
+			return null;
+		}
+		
+		List<Long> optionIds = new ArrayList<Long>();
+		
+		for(String o : ids) {
+			try {
+				Long optionId  = Long.parseLong(o);
+				optionIds.add(optionId);
+			} catch(Exception e) {
+				response.sendError(404, "Oups wrong variant format, should be numeric ");
+			}
+		}
+		
+		List<ProductAttribute> attributes = productAttributeService.getByAttributeIds(merchantStore, product, optionIds);      
+		
+		for(ProductAttribute attribute : attributes) {
+			if(attribute.getProduct().getId().longValue()!=product.getId().longValue()) {
+				return null;
+			}
+		}
+		
+		FinalPrice price = pricingService.calculateProductPrice(product, attributes);
+    	ReadableProductPrice readablePrice = new ReadableProductPrice();
+    	ReadableFinalPricePopulator populator = new ReadableFinalPricePopulator();
+    	populator.setPricingService(pricingService);
+    	populator.populate(price, readablePrice, merchantStore, language);
+    	return readablePrice;
+		
+
 		
 	}
 

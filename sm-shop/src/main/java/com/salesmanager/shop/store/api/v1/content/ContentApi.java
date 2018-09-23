@@ -17,6 +17,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -163,7 +164,7 @@ public class ContentApi {
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(httpMethod = "GET", value = "Get box content by code for a code and a given MerchantStore", notes = "", produces = "application/json", response = List.class)
 	@ResponseBody
-	public ReadableContentBox box(@RequestParam("code") String code, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ReadableContentBox box(@PathVariable("code") String code, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		try {
 			

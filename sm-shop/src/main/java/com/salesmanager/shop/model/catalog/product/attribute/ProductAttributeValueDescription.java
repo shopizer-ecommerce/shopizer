@@ -2,14 +2,14 @@ package com.salesmanager.shop.model.catalog.product.attribute;
 
 import java.io.Serializable;
 
-import com.salesmanager.shop.model.Entity;
+import com.salesmanager.shop.model.catalog.CatalogEntity;
 
-public class ProductAttribute extends Entity implements Serializable {
+public class ProductAttributeValueDescription extends CatalogEntity implements
+		Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
 
 }

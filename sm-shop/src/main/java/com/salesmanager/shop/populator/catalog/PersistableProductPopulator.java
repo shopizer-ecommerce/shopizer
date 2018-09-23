@@ -257,7 +257,7 @@ public class PersistableProductPopulator extends
 			
 			//attributes
 			if(source.getAttributes()!=null) {
-				for(com.salesmanager.shop.model.catalog.product.attribute.ProductAttributeEntity attr : source.getAttributes()) {
+				for(com.salesmanager.shop.model.catalog.product.attribute.PersistableProductAttribute attr : source.getAttributes()) {
 					
 					ProductOption productOption = null;
 							

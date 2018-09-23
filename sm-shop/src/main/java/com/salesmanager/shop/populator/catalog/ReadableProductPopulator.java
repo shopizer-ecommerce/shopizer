@@ -2,7 +2,9 @@ package com.salesmanager.shop.populator.catalog;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.Validate;
@@ -14,6 +16,10 @@ import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.utils.AbstractDataPopulator;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
+import com.salesmanager.core.model.catalog.product.attribute.ProductOptionDescription;
+import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValue;
+import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueDescription;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
 import com.salesmanager.core.model.catalog.product.image.ProductImage;
@@ -26,6 +32,13 @@ import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
 import com.salesmanager.shop.model.catalog.product.ReadableImage;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.catalog.product.RentalOwner;
+import com.salesmanager.shop.model.catalog.product.attribute.ProductAttributeValueDescription;
+import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductAttribute;
+import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductAttributeValue;
+import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOption;
+import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOptionValue;
+import com.salesmanager.shop.store.model.catalog.Attribute;
+import com.salesmanager.shop.store.model.catalog.AttributeValue;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.ImageFilePath;
 
@@ -233,6 +246,132 @@ public class ReadableProductPopulator extends
 				
 			}
 			
+			if(!CollectionUtils.isEmpty(source.getAttributes())) {
+			
+				Set<ProductAttribute> attributes = source.getAttributes();
+				
+
+				//split read only and options
+				Map<Long,ReadableProductAttribute> readOnlyAttributes = null;
+				Map<Long,ReadableProductOption> selectableOptions = null;
+				
+				if(!CollectionUtils.isEmpty(attributes)) {
+								
+					for(ProductAttribute attribute : attributes) {
+							ReadableProductOption opt = null;
+							ReadableProductAttribute attr = null;
+							ReadableProductOptionValue optValue = new ReadableProductOptionValue();
+							ReadableProductAttributeValue attrValue = new ReadableProductAttributeValue();
+							
+							ProductOptionValue optionValue = attribute.getProductOptionValue();
+							
+							if(attribute.getAttributeDisplayOnly()) {//read only attribute
+								if(readOnlyAttributes==null) {
+									readOnlyAttributes = new TreeMap<Long,ReadableProductAttribute>();
+								}
+								attr = readOnlyAttributes.get(attribute.getProductOption().getId());
+								if(attr==null) {
+									attr = createAttribute(attribute, language);
+								}
+								if(attr!=null) {
+									readOnlyAttributes.put(attribute.getProductOption().getId(), attr);
+									//attr.setReadOnlyValue(attrValue);
+								}
+								
+								
+								attrValue.setDefaultValue(attribute.getAttributeDefault());
+								attrValue.setId(attribute.getId());//id of the attribute
+								attrValue.setLang(language.getCode());
+
+
+								attrValue.setSortOrder(0);
+								if(attribute.getProductOptionSortOrder()!=null) {
+									attrValue.setSortOrder(attribute.getProductOptionSortOrder().intValue());
+								}
+								
+								List<ProductOptionValueDescription> podescriptions = optionValue.getDescriptionsSettoList();
+								ProductOptionValueDescription podescription = null;
+								if(podescriptions!=null && podescriptions.size()>0) {
+									podescription = podescriptions.get(0);
+									if(descriptions.size()>1) {
+										for(ProductOptionValueDescription optionValueDescription : podescriptions) {
+											if(optionValueDescription.getLanguage().getId().intValue()==language.getId().intValue()) {
+												podescription = optionValueDescription;
+												break;
+											}
+										}
+									}
+								}
+								attrValue.setName(podescription.getName());
+								attrValue.setDescription(podescription.getDescription());
+								
+								if(attr!=null) {
+									attr.getAttributeValues().add(attrValue);
+								}
+								
+								
+							} else {//selectable option
+								
+								if(selectableOptions==null) {
+									selectableOptions = new TreeMap<Long,ReadableProductOption>();
+								}
+								opt = selectableOptions.get(attribute.getProductOption().getId());
+								if(opt==null) {
+									opt = createOption(attribute, language);
+								}
+								if(opt!=null) {
+									selectableOptions.put(attribute.getProductOption().getId(), opt);
+								}
+								
+								optValue.setDefaultValue(attribute.getAttributeDefault());
+								optValue.setId(attribute.getId());//id of the attribute
+								optValue.setLang(language.getCode());
+								if(attribute.getProductAttributePrice()!=null && attribute.getProductAttributePrice().doubleValue()>0) {
+									String formatedPrice = pricingService.getDisplayAmount(attribute.getProductAttributePrice(), store);
+									optValue.setPrice(formatedPrice);
+								}
+								
+								if(!StringUtils.isBlank(attribute.getProductOptionValue().getProductOptionValueImage())) {
+									optValue.setImage(imageUtils.buildProductPropertyImageUtils(store, attribute.getProductOptionValue().getProductOptionValueImage()));
+								}
+								optValue.setSortOrder(0);
+								if(attribute.getProductOptionSortOrder()!=null) {
+									optValue.setSortOrder(attribute.getProductOptionSortOrder().intValue());
+								}
+								
+								List<ProductOptionValueDescription> podescriptions = optionValue.getDescriptionsSettoList();
+								ProductOptionValueDescription podescription = null;
+								if(podescriptions!=null && podescriptions.size()>0) {
+									podescription = podescriptions.get(0);
+									if(descriptions.size()>1) {
+										for(ProductOptionValueDescription optionValueDescription : podescriptions) {
+											if(optionValueDescription.getLanguage().getId().intValue()==language.getId().intValue()) {
+												podescription = optionValueDescription;
+												break;
+											}
+										}
+									}
+								}
+								optValue.setName(podescription.getName());
+								optValue.setDescription(podescription.getDescription());
+								
+								if(opt!=null) {
+									opt.getOptionValues().add(optValue);
+								}
+							}
+
+						}
+						
+					}
+				
+				if(selectableOptions != null) {
+					List<ReadableProductOption> options = new ArrayList<ReadableProductOption>(selectableOptions.values());
+					target.setOptions(options);
+				}
+
+			
+			}
+			
 
 			
 			//remove products from invisible category -> set visible = false
@@ -282,6 +421,70 @@ public class ReadableProductPopulator extends
 		} catch (Exception e) {
 			throw new ConversionException(e);
 		}
+	}
+	
+	private ReadableProductOption createOption(ProductAttribute productAttribute, Language language) {
+		
+		ReadableProductOption option = new ReadableProductOption();
+		option.setId(productAttribute.getProductOption().getId());//attribute of the option
+		option.setType(productAttribute.getProductOption().getProductOptionType());
+		List<ProductOptionDescription> descriptions = productAttribute.getProductOption().getDescriptionsSettoList();
+		ProductOptionDescription description = null;
+		if(descriptions!=null && descriptions.size()>0) {
+			description = descriptions.get(0);
+			if(descriptions.size()>1) {
+				for(ProductOptionDescription optionDescription : descriptions) {
+					if(optionDescription.getLanguage().getId().intValue()==language.getId().intValue()) {
+						description = optionDescription;
+						break;
+					}
+				}
+			}
+		}
+		
+		if(description==null) {
+			return null;
+		}
+
+		option.setLang(language.getCode());
+		option.setName(description.getName());
+		option.setCode(productAttribute.getProductOption().getCode());
+
+		
+		return option;
+		
+	}
+	
+	private ReadableProductAttribute createAttribute(ProductAttribute productAttribute, Language language) {
+		
+		ReadableProductAttribute attr = new ReadableProductAttribute();
+		attr.setId(productAttribute.getProductOption().getId());//attribute of the option
+		attr.setType(productAttribute.getProductOption().getProductOptionType());
+		List<ProductOptionDescription> descriptions = productAttribute.getProductOption().getDescriptionsSettoList();
+		ProductOptionDescription description = null;
+		if(descriptions!=null && descriptions.size()>0) {
+			description = descriptions.get(0);
+			if(descriptions.size()>1) {
+				for(ProductOptionDescription optionDescription : descriptions) {
+					if(optionDescription.getLanguage().getId().intValue()==language.getId().intValue()) {
+						description = optionDescription;
+						break;
+					}
+				}
+			}
+		}
+		
+		if(description==null) {
+			return null;
+		}
+
+		attr.setLang(language.getCode());
+		attr.setName(description.getName());
+		attr.setCode(productAttribute.getProductOption().getCode());
+
+		
+		return attr;
+		
 	}
 
 

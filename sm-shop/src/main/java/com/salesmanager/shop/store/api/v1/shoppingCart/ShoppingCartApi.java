@@ -76,6 +76,33 @@ public class ShoppingCartApi {
 		
 	}
     
+    @ResponseStatus(HttpStatus.CREATED)
+	@RequestMapping( value="/cart/{code}", method=RequestMethod.PUT)
+    @ApiOperation(httpMethod = "PUT", value = "Modify an existing shopping cart", notes = "No customer ID in scope. Modify cart for non authenticated users, as simple as {\"product\":1232,\"quantity\":0} for instance will remove item 1234 from cart", produces = "application/json", response = ReadableShoppingCart.class)
+    public @ResponseBody ReadableShoppingCart modifyCart(@PathVariable String code, @Valid @RequestBody PersistableShoppingCartItem shoppingCartItem, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		try {
+			
+			MerchantStore merchantStore = storeFacade.getByCode(request);
+			Language language = languageUtils.getRESTLanguage(request, merchantStore);	
+			
+			
+			ReadableShoppingCart cart = shoppingCartFacade.addToCart(code, shoppingCartItem, merchantStore, language);
+			
+ 			return cart;
+ 			
+		} catch (Exception e) {
+			LOGGER.error("Error while modyfing cart " + code + " ",e);
+			try {
+				response.sendError(503, "Error while modyfing cart " + code + " " + e.getMessage());
+			} catch (Exception ignore) {
+			}
+			
+			return null;
+		}
+		
+	}
+    
     @ResponseStatus(HttpStatus.OK)
 	@RequestMapping( value="/cart/{code}", method=RequestMethod.GET)
     @ApiOperation(httpMethod = "GET", value = "Get a chopping cart by code", notes = "", produces = "application/json", response = ReadableShoppingCart.class)
