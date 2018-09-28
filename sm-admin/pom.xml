@@ -160,6 +160,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<finalName>admin</finalName>
 	</build>
 
 	<repositories>
@@ -231,6 +232,8 @@
     </profile>
 	
 	</profiles>
+	
+
 
 
 </project>

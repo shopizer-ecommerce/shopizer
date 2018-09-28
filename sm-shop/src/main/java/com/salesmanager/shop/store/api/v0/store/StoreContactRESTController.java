@@ -50,12 +50,6 @@ public class StoreContactRESTController {
 	private MerchantStoreService merchantStoreService;
 	
 	@Inject
-	private CategoryService categoryService;
-	
-	@Inject
-	private ProductService productService;
-	
-	@Inject
 	private EmailTemplatesUtils emailTemplatesUtils;
 	
 
