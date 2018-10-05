@@ -1,8 +1,6 @@
 package com.salesmanager.shop.application;
 
 
-import java.util.Arrays;
-
 import javax.inject.Inject;
 import javax.sql.DataSource;
 
@@ -26,9 +24,6 @@ import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
 import org.springframework.social.facebook.security.FacebookAuthenticationService;
 import org.springframework.social.security.SocialAuthenticationServiceLocator;
 import org.springframework.social.security.SocialAuthenticationServiceRegistry;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesView;
@@ -36,7 +31,6 @@ import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 
 import com.salesmanager.core.business.configuration.CoreApplicationConfiguration;
 import com.salesmanager.core.constants.SchemaConstant;
-import com.salesmanager.shop.filter.CorsFilter;
 
 @Configuration
 @ComponentScan({"com.salesmanager.shop","com.salesmanager.core.business"})

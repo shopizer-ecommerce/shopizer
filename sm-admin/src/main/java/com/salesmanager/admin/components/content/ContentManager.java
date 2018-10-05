@@ -344,7 +344,11 @@ public class ContentManager {
         if(request == null) throw new IllegalArgumentException("Request is null");
         String path = request.getParameter(parameterName);
         if(path == null) throw new IllegalArgumentException("Path is null");
-        return path.replace("//", "/").replace("..", "");
+        if(path.contains("http:") || path.contains("https:")) {
+        	return path;
+        } else {
+        	return path.replace("//", "/").replace("..", "");
+        }
     };
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -772,8 +776,13 @@ public class ContentManager {
             String fullPath = FilenameUtils.getFullPath(url.getPath());
             String queryUrlString = new StringBuilder()
             .append(fullPath).append(encodedName).toString();
-            URL queryUrl = new URL(this.contentUrl + queryUrlString);
-            
+            URL queryUrl = null;
+            if(!StringUtils.isEmpty(this.contentUrl)) {
+            	queryUrl = new URL(this.contentUrl + queryUrlString);
+            } else {
+            	queryUrl = url;
+            }
+ 
             File file = new File(FilenameUtils.getName(url.getPath()));
 
         	
@@ -1505,8 +1514,9 @@ public class ContentManager {
 		
         Map model = this.getFileModel();
 
-
-        model.put("id", path + fileName);
+        String decodePath = java.net.URLDecoder.decode(path, "UTF-8");
+        
+        model.put("id", decodePath + fileName);
         model.put("type", "file");
         
         Map attributes = (Map) model.get("attributes");
@@ -1515,7 +1525,7 @@ public class ContentManager {
 
         attributes.put("extension", fileExt);
         attributes.put("name", fileName);
-        attributes.put("path", path + fileName);
+        attributes.put("path", decodePath + fileName);
 
 
         return model;

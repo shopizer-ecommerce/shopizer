@@ -22,8 +22,7 @@
   <!-- This is the entry XML point -->
   
    
-  <!-- datasource -->
-  <beans:import resource="classpath:/spring/datasource-c3p0.xml" />
+
   <!-- cache -->
   <beans:import resource="classpath:/spring/shopizer-core-ehcache.xml" />
   <!-- DB, TX and properties -->
@@ -37,9 +36,22 @@
   <!-- order total pre processors -->
   <beans:import resource="classpath:/spring/processors/shopizer-core-ordertotal-processors.xml" />
   <!-- rules -->
-<!--   <beans:import resource="classpath:/spring/shopizer-core-rules.xml" /> -->
+  <!--   <beans:import resource="classpath:/spring/shopizer-core-rules.xml" /> -->
   <!-- search -->
   <beans:import resource="classpath:/spring/shopizer-search.xml" />
+  <!-- datasource -->
+  <beans:beans profile="default">
+  	<beans:import resource="classpath:/spring/datasource-c3p0.xml" />
+  </beans:beans>
+  <beans:beans profile="docker">
+  	<beans:import resource="classpath:/spring/datasource-c3p0.xml" />
+  </beans:beans>
+    <beans:beans profile="gcp">
+  	<beans:import resource="classpath:/spring/datasource-c3p0.xml" />
+  </beans:beans>
+  <beans:beans profile="aws">
+  	<beans:import resource="classpath:/profiles/aws/spring/datasource-c3p0.xml" />
+  </beans:beans>
   
 
    

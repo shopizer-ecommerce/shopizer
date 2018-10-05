@@ -40,7 +40,8 @@ import com.salesmanager.shop.model.catalog.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProductList;
 import com.salesmanager.shop.model.catalog.product.ReadableProductPrice;
-import com.salesmanager.shop.model.catalog.product.attribute.ProductVariant;
+import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductVariant;
+import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductVariantValue;
 import com.salesmanager.shop.populator.catalog.ReadableFinalPricePopulator;
 import com.salesmanager.shop.store.controller.product.facade.ProductFacade;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
@@ -546,7 +547,7 @@ public class ProductApi {
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(httpMethod = "POST", value = "Get product variations (variants) based on possible options", notes = "", produces = "application/json", response = ReadableProductPrice.class)
 	@ResponseBody
-	public ReadableProductPrice calculateVariant(@PathVariable final Long id, @RequestBody ProductVariant variant, @RequestParam(value = "lang", required=false) String lang, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ReadableProductPrice calculateVariant(@PathVariable final Long id, @RequestBody ReadableProductVariant variant, @RequestParam(value = "lang", required=false) String lang, HttpServletRequest request, HttpServletResponse response) throws Exception {
 	
 		MerchantStore merchantStore = storeFacade.getByCode(request);
 		Language language = languageUtils.getRESTLanguage(request, merchantStore);	
@@ -557,26 +558,20 @@ public class ProductApi {
 			response.sendError(404, "Product not fount for id " + id);
 			return null;
 		}
-		
-		@SuppressWarnings("unchecked")
-		List<String> ids = variant.getOptions();
+
+		List<ReadableProductVariantValue> ids = variant.getOptions();
 		
 		if(CollectionUtils.isEmpty(ids)) {
 			return null;
 		}
 		
-		List<Long> optionIds = new ArrayList<Long>();
-		
-		for(String o : ids) {
-			try {
-				Long optionId  = Long.parseLong(o);
-				optionIds.add(optionId);
-			} catch(Exception e) {
-				response.sendError(404, "Oups wrong variant format, should be numeric ");
-			}
+		List<Long> longIds = new ArrayList<Long>();
+		for(ReadableProductVariantValue n : ids) {
+			longIds.add(n.getValue().longValue());
 		}
+
 		
-		List<ProductAttribute> attributes = productAttributeService.getByAttributeIds(merchantStore, product, optionIds);      
+		List<ProductAttribute> attributes = productAttributeService.getByAttributeIds(merchantStore, product, longIds);      
 		
 		for(ProductAttribute attribute : attributes) {
 			if(attribute.getProduct().getId().longValue()!=product.getId().longValue()) {
