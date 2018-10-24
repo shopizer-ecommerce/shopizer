@@ -3,16 +3,14 @@
  */
 package com.salesmanager.shop.store.controller.customer.facade;
 
-import com.salesmanager.core.model.customer.Customer;
-import com.salesmanager.core.model.customer.review.CustomerReview;
-
 import java.util.List;
 
 import com.salesmanager.core.business.services.customer.CustomerService;
+import com.salesmanager.core.model.customer.Customer;
+import com.salesmanager.core.model.customer.review.CustomerReview;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.shoppingcart.ShoppingCart;
-import com.salesmanager.core.model.system.optin.OptinType;
 import com.salesmanager.shop.model.customer.Address;
 import com.salesmanager.shop.model.customer.CustomerEntity;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
@@ -20,7 +18,6 @@ import com.salesmanager.shop.model.customer.PersistableCustomerReview;
 import com.salesmanager.shop.model.customer.ReadableCustomer;
 import com.salesmanager.shop.model.customer.ReadableCustomerReview;
 import com.salesmanager.shop.model.customer.optin.PersistableCustomerOptin;
-import com.salesmanager.shop.model.system.ReadableOptin;
 
 /**
  * <p>Customer facade working as a bridge between {@link CustomerService} and Controller
@@ -28,7 +25,7 @@ import com.salesmanager.shop.model.system.ReadableOptin;
  * </p>
  *
  * @author Umesh Awasthi
- * @version 1/2
+ * @version 2.2.1
  *
  *
  */
@@ -97,6 +94,15 @@ public interface CustomerFacade
 	 * Creates a Customer from a PersistableCustomer received from REST API
 	 */
 	void create(PersistableCustomer customer, MerchantStore store) throws Exception;
+	
+	/**
+	 * Reset customer password
+	 * @param customer
+	 * @param store
+	 * @param language
+	 * @throws Exception
+	 */
+	void resetPassword(Customer customer, MerchantStore store, Language language) throws Exception;
 	
 	/**
 	 * Updates a Customer

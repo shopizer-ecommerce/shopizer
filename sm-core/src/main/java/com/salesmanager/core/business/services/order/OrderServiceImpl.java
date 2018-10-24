@@ -4,6 +4,7 @@ import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.modules.order.InvoiceModule;
 import com.salesmanager.core.business.repositories.order.OrderRepository;
+import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.order.ordertotal.OrderTotalService;
@@ -11,6 +12,8 @@ import com.salesmanager.core.business.services.payments.PaymentService;
 import com.salesmanager.core.business.services.payments.TransactionService;
 import com.salesmanager.core.business.services.shipping.ShippingService;
 import com.salesmanager.core.business.services.tax.TaxService;
+import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.price.FinalPrice;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -54,6 +57,9 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     
     @Inject
     private PaymentService paymentService;
+    
+    @Inject
+    private ProductService productService;
 
     @Inject
     private TaxService taxService;
@@ -104,6 +110,26 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     	Validate.notNull(store, "MerchantStore cannot be null");
     	Validate.notNull(summary, "Order total Summary cannot be null");
     	
+    	/**
+    	 * decrement inventory
+    	 */
+    	Set<OrderProduct> products = order.getOrderProducts();
+    	for(OrderProduct orderProduct : products) {
+    		orderProduct.getProductQuantity();
+    		Product p = productService.getByCode(orderProduct.getSku(), store.getDefaultLanguage());
+    		if(p == null) 
+    			throw new ServiceException(ServiceException.EXCEPTION_INVENTORY_MISMATCH);
+    		for(ProductAvailability availability : p.getAvailabilities()) {
+    			int qty = availability.getProductQuantity();
+    			if(qty < orderProduct.getProductQuantity()) {
+    				throw new ServiceException(ServiceException.EXCEPTION_INVENTORY_MISMATCH);
+    			}
+    			qty = qty - orderProduct.getProductQuantity();
+    			availability.setProductQuantity(qty);
+    		}
+    		productService.update(p);
+    	}
+    	
     	//first process payment
     	Transaction processTransaction = paymentService.processPayment(customer, store, payment, items, order);
     	
@@ -150,6 +176,8 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     	}
     	
     	//TODO post order processing
+    	
+
     	
     	return order;
     	

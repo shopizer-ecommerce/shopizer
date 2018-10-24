@@ -4,6 +4,11 @@ import java.nio.charset.Charset;
 import java.util.Currency;
 import java.util.Locale;
 
+/**
+ * Constants used for sm-core
+ * @author carlsamson
+ *
+ */
 public class Constants {
 	
 	public static final Charset ISO_8859_1 = Charset.forName("ISO-8859-1");
@@ -22,7 +27,6 @@ public class Constants {
 	public final static String DEFAULT_COUNTRY = "CA";
 	
 	public final static String EMAIL_CONFIG = "EMAIL_CONFIG";
-	//public final static String MERCHANT_CONFIG = "MERCHANT_CONFIG";
 	
 	public final static String UNDERSCORE = "_";
 	public final static String SLASH = "/";

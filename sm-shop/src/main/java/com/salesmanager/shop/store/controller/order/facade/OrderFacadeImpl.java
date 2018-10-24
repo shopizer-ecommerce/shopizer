@@ -26,6 +26,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 
+import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
@@ -48,6 +49,8 @@ import com.salesmanager.core.business.services.system.EmailService;
 import com.salesmanager.core.business.services.user.GroupService;
 import com.salesmanager.core.business.utils.CoreConfiguration;
 import com.salesmanager.core.business.utils.CreditCardUtils;
+import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.common.Billing;
 import com.salesmanager.core.model.common.Delivery;
 import com.salesmanager.core.model.customer.Customer;
@@ -365,6 +368,26 @@ public class OrderFacadeImpl implements OrderFacade {
 			orderProductPopulator.setProductService(productService);
 			
 			for(ShoppingCartItem item : shoppingCartItems) {
+				
+				/**
+				 * Before processing order quantity of item must be > 0
+				 */
+				
+				Product product = productService.getById(item.getProductId());
+				if(product == null) {
+					throw new ServiceException(ServiceException.EXCEPTION_INVENTORY_MISMATCH);
+				}
+				
+				for(ProductAvailability availability : product.getAvailabilities()) {
+					if (availability.getRegion().equals(Constants.ALL_REGIONS)) {
+		    			int qty = availability.getProductQuantity();
+		    			if(qty < item.getQuantity()) {
+		    				throw new ServiceException(ServiceException.EXCEPTION_INVENTORY_MISMATCH);
+		    			}
+					}	
+				}
+				
+				
 				OrderProduct orderProduct = new OrderProduct();
 				orderProduct = orderProductPopulator.populate(item, orderProduct , store, language);
 				orderProduct.setOrder(modelOrder);
@@ -503,6 +526,8 @@ public class OrderFacadeImpl implements OrderFacade {
 
 			modelOrder.setPaymentModuleCode(order.getPaymentModule());
 			payment.setModuleName(order.getPaymentModule());
+			
+
 
 			if(transaction!=null) {
 				orderService.processOrder(modelOrder, customer, order.getShoppingCartItems(), summary, payment, store);

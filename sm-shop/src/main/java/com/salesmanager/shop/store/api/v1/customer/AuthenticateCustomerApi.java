@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
@@ -187,6 +188,34 @@ public class AuthenticateCustomerApi {
         } else {
             return ResponseEntity.badRequest().body(null);
         }
+    }
+    
+    @RequestMapping(value = "/customer/password/reset", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ApiOperation(httpMethod = "POST", value = "Sends a request to reset password", notes = "Password reset request is {\"username\":\"test@email.com\"}",response = ResponseEntity.class)
+    public ResponseEntity<?> resetPassword(@RequestBody @Valid AuthenticationRequest authenticationRequest, HttpServletRequest request) {
+
+        try {
+        	
+        	MerchantStore merchantStore = storeFacade.getByCode(request);
+    		Language language = languageUtils.getRESTLanguage(request, merchantStore);
+        	
+        	Customer customer = customerFacade.getCustomerByUserName(authenticationRequest.getUsername(), merchantStore);
+        	
+			if(customer == null){
+				return ResponseEntity.notFound().build();
+			}
+        	
+        	
+        	customerFacade.resetPassword(customer, merchantStore, language);
+        	
+        	return ResponseEntity.ok(Void.class);
+        	
+        } catch(Exception e) {
+        	return ResponseEntity.badRequest().body("Exception when reseting password "+e.getMessage());
+        }
+    	
+    	
+
     }
 
 }

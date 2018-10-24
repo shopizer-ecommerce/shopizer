@@ -33,6 +33,7 @@ import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.constants.EmailConstants;
 import com.salesmanager.shop.populator.customer.ReadableCustomerOptionPopulator;
+import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
 import com.salesmanager.shop.utils.EmailUtils;
 import com.salesmanager.shop.utils.LabelUtils;
 import com.salesmanager.shop.utils.LocaleUtils;
@@ -72,7 +73,7 @@ public class CustomerController {
 	
 	private static final String CUSTOMER_ID_PARAMETER = "customer";
 	
-	private final static String RESET_PASSWORD_TPL = "email_template_password_reset_customer.ftl";
+	
 	
 	@Inject
 	private LabelUtils messages;
@@ -113,6 +114,9 @@ public class CustomerController {
 	
 	@Inject
 	private EmailUtils emailUtils;
+	
+	@Inject
+	private CustomerFacade customerFacade;
 	
 	
 	/**
@@ -698,53 +702,9 @@ public class CustomerController {
 			
 			Language userLanguage = customer.getDefaultLanguage();
 			
-			Locale customerLocale = LocaleUtils.getLocale(userLanguage);
+			customerFacade.resetPassword(customer, store, userLanguage);
 			
-			String password = UserReset.generateRandomString();
-			String encodedPassword = passwordEncoder.encode(password);
-			
-			customer.setPassword(encodedPassword);
-			
-			customerService.saveOrUpdate(customer);
-			
-			//send email
-			
-			try {
-
-				//creation of a user, send an email
-				String[] storeEmail = {store.getStoreEmailAddress()};
-				
-				
-				Map<String, String> templateTokens = emailUtils.createEmailObjectsMap(request.getContextPath(), store, messages, customerLocale);
-				templateTokens.put(EmailConstants.LABEL_HI, messages.getMessage("label.generic.hi", customerLocale));
-		        templateTokens.put(EmailConstants.EMAIL_CUSTOMER_FIRSTNAME, customer.getBilling().getFirstName());
-		        templateTokens.put(EmailConstants.EMAIL_CUSTOMER_LASTNAME, customer.getBilling().getLastName());
-				templateTokens.put(EmailConstants.EMAIL_RESET_PASSWORD_TXT, messages.getMessage("email.customer.resetpassword.text", customerLocale));
-				templateTokens.put(EmailConstants.EMAIL_CONTACT_OWNER, messages.getMessage("email.contactowner", storeEmail, customerLocale));
-				templateTokens.put(EmailConstants.EMAIL_PASSWORD_LABEL, messages.getMessage("label.generic.password",customerLocale));
-				templateTokens.put(EmailConstants.EMAIL_CUSTOMER_PASSWORD, password);
-
-
-				Email email = new Email();
-				email.setFrom(store.getStorename());
-				email.setFromEmail(store.getStoreEmailAddress());
-				email.setSubject(messages.getMessage("label.generic.changepassword",customerLocale));
-				email.setTo(customer.getEmailAddress());
-				email.setTemplateName(RESET_PASSWORD_TPL);
-				email.setTemplateTokens(templateTokens);
-	
-	
-				
-				emailService.sendHtmlEmail(store, email);
-				resp.setStatus(AjaxResponse.RESPONSE_STATUS_SUCCESS);
-			
-			} catch (Exception e) {
-				LOGGER.error("Cannot send email to user",e);
-				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
-			}
-			
-			
-			
+			resp.setStatus(AjaxResponse.RESPONSE_STATUS_SUCCESS);
 			
 		} catch (Exception e) {
 			LOGGER.error("An exception occured while changing password",e);
