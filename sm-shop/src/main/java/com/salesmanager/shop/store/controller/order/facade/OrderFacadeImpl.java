@@ -638,6 +638,7 @@ public class OrderFacadeImpl implements OrderFacade {
 			delivery.setZone(billing.getZone());
 		} else {
 			delivery = customer.getDelivery();
+			order.setShipToBillingAdress(false);
 		}
 		
 		
