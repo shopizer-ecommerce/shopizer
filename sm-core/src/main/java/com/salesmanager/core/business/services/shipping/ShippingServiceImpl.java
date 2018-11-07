@@ -442,7 +442,7 @@ public class ShippingServiceImpl implements ShippingService {
 				configuration = modules.get(module);
 				//use the first active module
 				if(configuration.isActive()) {
-					shippingQuoteModule = this.shippingModules.get(module);
+					shippingQuoteModule = shippingModules.get(module);
 					if(shippingQuoteModule instanceof ShippingQuotePrePostProcessModule) {
 						shippingQuoteModule = null;
 						continue;

@@ -6,9 +6,10 @@ import com.salesmanager.core.model.content.ImageContentFile;
 
 
 public interface ProductImagePut {
-	
-	
-	public void addProductImage(ProductImage productImage, ImageContentFile contentImage) throws ServiceException;
+
+
+  public void addProductImage(ProductImage productImage, ImageContentFile contentImage)
+      throws ServiceException;
 
 
 }

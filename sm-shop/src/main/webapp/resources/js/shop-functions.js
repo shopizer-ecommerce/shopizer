@@ -70,13 +70,17 @@ function searchProducts(url,divProductsContainer,q,filter) {
 	if(q==null || q=='') {
 		return;
 	}
-
+	
+	var query ='\"query\":{\"query_string\":{\"fields\" : [\"name^5\", \"description\", \"tags\"], \"query\" : \"' + q + '", \"use_dis_max\" : true }}';
+	var aggregations = '\"aggregations\": {\"categories\": {\"terms\": {\"field\": \"categories\"}}}';
+	
+	
     //category aggregations
-	var aggregations = '\"aggregations\" : { \"categories\" : { \"terms\" : {\"field\" : \"categories\"}}}';
+	//var aggregations = '\"aggregations\": {\"categories\": { \"terms\": {\"field\": \"categories\"}}}';
     var highlights = null;
 	var queryStart = '{';
 
-	var query = '\"query\":{\"query_string\" : {\"fields\" : [\"name^3\", \"description\", \"tags\"], \"query\" : \"' + q + '", \"use_dis_max\" : true }}';
+	//var query = '\"query\":{\"query_string\" : {\"fields\" : [\"name^3\", \"description\", \"tags\"], \"query\" : \"' + q + '", \"use_dis_max\" : true }}';
 	if(filter!=null && filter!='') {
 		query = query + ',' + filter + '}}';
 	}

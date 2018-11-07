@@ -1,9 +1,9 @@
 package com.salesmanager.shop.model.order;
 
 import com.salesmanager.core.model.reference.currency.Currency;
-import com.salesmanager.shop.model.customer.Address;
 import com.salesmanager.shop.model.customer.ReadableCustomer;
 import com.salesmanager.shop.model.customer.ReadableDelivery;
+import com.salesmanager.shop.model.customer.address.Address;
 import com.salesmanager.shop.model.order.total.OrderTotal;
 
 import java.io.Serializable;

@@ -12,8 +12,8 @@ import com.salesmanager.core.model.order.OrderTotal;
 import com.salesmanager.core.model.order.OrderTotalType;
 import com.salesmanager.core.model.order.attributes.OrderAttribute;
 import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.shop.model.customer.Address;
 import com.salesmanager.shop.model.customer.ReadableDelivery;
+import com.salesmanager.shop.model.customer.address.Address;
 import com.salesmanager.shop.model.order.ReadableOrder;
 
 public class ReadableOrderPopulator extends

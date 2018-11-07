@@ -37,11 +37,10 @@ $(document).ready(function() {
 				return;
 			}
 			$('#hiddenQuery').val(q);
-			//log('Search string : ' + searchQuery);
-			var uri = '<c:url value="/shop/search/search.html"/>?q=' + q;
-            var res = encodeURI(uri);
+			var uri = '<c:url value="/shop/search/search.html"/>;
 			e.preventDefault();//action url will be overriden
-	        $('#hiddenSearchForm').attr('action',res).submit();
+	        $('#hiddenSearchForm').attr('action',url).submit();
+
    });
 
    

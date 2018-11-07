@@ -136,7 +136,7 @@ public class ReadableProductPopulator extends
 				owner.setEmailAddress(source.getOwner().getEmailAddress());
 				owner.setFirstName(source.getOwner().getBilling().getFirstName());
 				owner.setLastName(source.getOwner().getBilling().getLastName());
-				com.salesmanager.shop.model.customer.Address address = new com.salesmanager.shop.model.customer.Address();
+				com.salesmanager.shop.model.customer.address.Address address = new com.salesmanager.shop.model.customer.address.Address();
 				address.setAddress(source.getOwner().getBilling().getAddress());
 				address.setBillingAddress(true);
 				address.setCity(source.getOwner().getBilling().getCity());

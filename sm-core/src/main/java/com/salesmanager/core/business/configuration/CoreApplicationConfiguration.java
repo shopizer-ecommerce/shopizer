@@ -10,6 +10,7 @@ import org.springframework.context.annotation.ImportResource;
 @EnableAutoConfiguration
 /**
  * added in shopizer-core-config.xml
+ * 
  * @author c.samson
  *
  */
@@ -17,7 +18,7 @@ import org.springframework.context.annotation.ImportResource;
 @ImportResource("classpath:/spring/shopizer-core-context.xml")
 @Import(DroolsConfiguration.class)
 public class CoreApplicationConfiguration {
-	
+
 
 
 }

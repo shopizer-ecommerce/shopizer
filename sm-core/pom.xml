@@ -18,9 +18,6 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-		<!-- testing properties -->
-		<!--<dbh2.version>1.4.187</dbh2.version> -->
 		<geoip2.version>2.7.0</geoip2.version>
 		<javax.inject.version>1</javax.inject.version>
 		<javax.el.version>2.2.4</javax.el.version>
@@ -43,13 +40,8 @@
 			<artifactId>sm-core-modules</artifactId>
 			<version>${shopizer.version}</version>
 		</dependency>
+		
 
-		<!-- sm-search -->
-		<dependency>
-			<groupId>com.shopizer</groupId>
-			<artifactId>sm-search</artifactId>
-			<version>${shopizer.search.version}</version>
-		</dependency>
 
 		<!-- shipping rules -->
 		<!-- shipping distance pre-processor -->
@@ -66,12 +58,6 @@
 			<version>${shopizer-canadapost.version}</version>
 		</dependency>
 
-
-
-		<!-- Rules engine -->
-		<!-- http://www.baeldung.com/drools-spring-integration -->
-		<!-- http://www.baeldung.com/drools-excel -->
-		<!-- https://github.com/kiegroup/kie-docs/blob/master/docs/drools-docs/src/main/asciidoc/UserGuide/DecisionTables-section.adoc -->
 
 		<dependency>
 			<groupId>org.kie</groupId>
@@ -162,7 +148,6 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			<version>${org.apache.httpcomponent.version}</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-s3 -->
@@ -218,17 +203,14 @@
 			<version>${geoip2.version}</version>
 		</dependency>
 
+
+
 		<!-- tests dependencies -->
 		<!-- http://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 		</dependency>
-<!-- 		   <dependency>
-	        <groupId>junit</groupId>
-	        <artifactId>junit</artifactId>
-	        <scope>test</scope>
-	    </dependency> -->
 		<!-- H2 DB -->
 		<dependency>
 			<groupId>com.h2database</groupId>

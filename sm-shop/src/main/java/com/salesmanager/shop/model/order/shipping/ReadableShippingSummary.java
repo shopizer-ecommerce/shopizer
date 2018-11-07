@@ -1,8 +1,8 @@
 package com.salesmanager.shop.model.order.shipping;
 
 import com.salesmanager.core.model.shipping.ShippingOption;
-import com.salesmanager.shop.model.customer.Address;
 import com.salesmanager.shop.model.customer.ReadableDelivery;
+import com.salesmanager.shop.model.customer.address.Address;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

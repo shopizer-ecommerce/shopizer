@@ -11,12 +11,12 @@ import com.salesmanager.core.model.customer.review.CustomerReview;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.shoppingcart.ShoppingCart;
-import com.salesmanager.shop.model.customer.Address;
 import com.salesmanager.shop.model.customer.CustomerEntity;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
 import com.salesmanager.shop.model.customer.PersistableCustomerReview;
 import com.salesmanager.shop.model.customer.ReadableCustomer;
 import com.salesmanager.shop.model.customer.ReadableCustomerReview;
+import com.salesmanager.shop.model.customer.address.Address;
 import com.salesmanager.shop.model.customer.optin.PersistableCustomerOptin;
 
 /**

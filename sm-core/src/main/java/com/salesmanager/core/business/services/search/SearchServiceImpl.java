@@ -1,5 +1,19 @@
 package com.salesmanager.core.business.services.search;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import javax.inject.Inject;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
@@ -13,19 +27,11 @@ import com.salesmanager.core.model.search.IndexProduct;
 import com.salesmanager.core.model.search.SearchEntry;
 import com.salesmanager.core.model.search.SearchFacet;
 import com.salesmanager.core.model.search.SearchKeywords;
-import com.shopizer.search.services.FacetEntry;
+import com.shopizer.search.services.Facet;
 import com.shopizer.search.services.SearchHit;
 import com.shopizer.search.services.SearchRequest;
 import com.shopizer.search.services.SearchResponse;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
-import java.util.*;
 
 
 @Service("productSearchService")
@@ -169,15 +175,6 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 
 	public SearchKeywords searchForKeywords(String collectionName, String jsonString, int entriesCount) throws ServiceException {
 		
-		/**
-		 * 	$('#search').searchAutocomplete({
-			url: '<%=request.getContextPath()%>/search/autocomplete/keyword_en'
-		  		//filter: function() { 
-				//return '\"filter\" : {\"numeric_range\" : {\"price\" : {\"from\" : \"22\",\"to\" : \"45\",\"include_lower\" : true,\"include_upper\" : true}}}';
-		  		//}
-     		});
-     		
-     	**/	
      		
 		try {
 
@@ -212,7 +209,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 			request.setStart(startIndex);
 			request.setJson(jsonString);
 			
-			SearchResponse response =searchService.search(request);
+			SearchResponse response = searchService.search(request);
 			
 			com.salesmanager.core.model.search.SearchResponse resp = new com.salesmanager.core.model.search.SearchResponse();
 			resp.setTotalCount(0);
@@ -248,33 +245,21 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 						/**
 						 * no more support for highlighted
 						 */
-						
-		/*				Map<String, HighlightField> fields = hit.getHighlightFields();
-						if(fields!=null) {
-							List<String> highlights = new ArrayList<String>();
-							for(HighlightField field : fields.values()) {
-								
-								Text[] text = field.getFragments();
-								//text[0]
-								String f = field.getName();
-								highlights.add(f);
-								
-								
-							}
-							
-							entry.setHighlights(highlights);
-						
-						}*/
+
 					}
 					
 					resp.setEntries(entries);
 					
-					Map<String,List<FacetEntry>> facets = response.getFacets();
+					//Map<String,List<FacetEntry>> facets = response.getFacets();
+					Map<String,Facet> facets = response.getFacets();
 					if(facets!=null) {
 						Map<String,List<SearchFacet>> searchFacets = new HashMap<String,List<SearchFacet>>();
 						for(String key : facets.keySet()) {
 							
-							List<FacetEntry> f = facets.get(key);
+							Facet f = facets.get(key);
+							List<com.shopizer.search.services.Entry> ent = f.getEntries();
+							
+							//List<FacetEntry> f = facets.get(key);
 							
 							List<SearchFacet> fs = searchFacets.get(key);
 							if(fs==null) {
@@ -282,7 +267,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 								searchFacets.put(key, fs);
 							}
 		
-							for(com.shopizer.search.services.FacetEntry facetEntry : f) {
+							for(com.shopizer.search.services.Entry facetEntry : ent) {
 							
 								SearchFacet searchFacet = new SearchFacet();
 								searchFacet.setKey(facetEntry.getName());

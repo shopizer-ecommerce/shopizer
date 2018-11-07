@@ -1,9 +1,9 @@
-Release changes in version 2.2.0
+Release changes in version 2.2.1
 
 
-- New Template
+- New REST apis
+- Supports Elastic Search 5.6.12
+- AWS S3 content management system based
 - Bug fixing
-- Braintree payments
-- Complete REST API
-- UI improvements
-- Apache 2 Licence
+- PRs
+	#240

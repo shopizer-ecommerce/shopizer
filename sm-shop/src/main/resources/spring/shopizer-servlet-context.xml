@@ -47,10 +47,11 @@
 
 	<!-- 
 	local image handler
+	-->
 	<beans:bean id="img" class="com.salesmanager.shop.utils.LocalImageFilePathUtils">
 		<beans:property name="basePath" value="/static" />
 	</beans:bean>
-	-->
+
 	
     <!-- 
     httpd image handler	
@@ -62,9 +63,11 @@
 	<!--
 	AWS image handler
 	-->
+	<!-- 	
 	<beans:bean id="img" class="com.salesmanager.shop.utils.AWSFilePathUtils">
 		<beans:property name="basePath" value="https://s3.ca-central-1.amazonaws.com/shopizer-demo" />
-	</beans:bean>
+	</beans:bean> 
+	-->
 	
 	
 

@@ -1,4 +1,4 @@
-package com.salesmanager.shop.model.customer;
+package com.salesmanager.shop.model.customer.address;
 
 import java.io.Serializable;
 
@@ -9,7 +9,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  * @author carlsamson
  *
  */
-public class Address implements Serializable {
+public class Address extends AddressLocation implements Serializable {
 	
 	/**
 	 * 
@@ -31,7 +31,6 @@ public class Address implements Serializable {
 	private String city;
 	
 
-	private String postalCode;
 	
 
 	private String stateProvince;
@@ -81,13 +80,7 @@ public class Address implements Serializable {
 		this.city = city;
 	}
 
-	public String getPostalCode() {
-		return postalCode;
-	}
 
-	public void setPostalCode(String postalCode) {
-		this.postalCode = postalCode;
-	}
 
 	public String getStateProvince() {
 		return stateProvince;

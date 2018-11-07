@@ -194,7 +194,7 @@ response.setDateHeader ("Expires", -1);
 		                    <div class="input-group menu-search-box">
    								<input type="text" class="form-control typeahead" type="search" name="q" id="searchField" placeholder="<s:message code="label.generic.search" text="Search"/>" value="" />
    								<span class="input-group-btn">
-        							<button class="btn btn-default searchButton" type="submit"><s:message code="label.generic.search" text="Search"/></button>
+        							<button class="btn btn-default searchButton" type="button"><s:message code="label.generic.search" text="Search"/></button>
    								</span>
 								<!-- important for submitting search -->
                                 <form id="hiddenSearchForm" method="post" action="<c:url value="/shop/search/search.html"/>">

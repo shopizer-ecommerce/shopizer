@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,6 +29,7 @@ import com.salesmanager.core.model.shipping.ShippingOption;
 import com.salesmanager.core.model.shipping.ShippingQuote;
 import com.salesmanager.core.model.shipping.ShippingSummary;
 import com.salesmanager.core.model.shoppingcart.ShoppingCart;
+import com.salesmanager.shop.model.customer.address.AddressLocation;
 import com.salesmanager.shop.model.order.shipping.ReadableShippingSummary;
 import com.salesmanager.shop.populator.order.ReadableShippingSummaryPopulator;
 import com.salesmanager.shop.store.controller.order.facade.OrderFacade;
@@ -109,6 +111,92 @@ public class OrderShippingApi {
 			}
 			
 			ShippingQuote quote = orderFacade.getShippingQuote(customer, cart, merchantStore, language);
+		
+			ShippingSummary summary = orderFacade.getShippingSummary(quote, merchantStore, language);
+			
+			ReadableShippingSummary shippingSummary = new ReadableShippingSummary();
+			ReadableShippingSummaryPopulator populator = new ReadableShippingSummaryPopulator();
+			populator.setPricingService(pricingService);
+			populator.populate(summary, shippingSummary, merchantStore, language);
+			
+			List<ShippingOption> options = quote.getShippingOptions();
+			
+			if(!CollectionUtils.isEmpty(options)) {
+			
+				for(ShippingOption shipOption : options) {
+					
+					StringBuilder moduleName = new StringBuilder();
+					moduleName.append("module.shipping.").append(shipOption.getShippingModuleCode());
+									
+					String carrier = messages.getMessage(moduleName.toString(),new String[]{merchantStore.getStorename()},locale);
+					
+					String note = messages.getMessage(moduleName.append(".note").toString(), locale, "");
+					
+							
+					shipOption.setDescription(carrier);
+					shipOption.setNote(note);
+					
+					//option name
+					if(!StringUtils.isBlank(shipOption.getOptionCode())) {
+						//try to get the translate
+						StringBuilder optionCodeBuilder = new StringBuilder();
+						try {
+							
+							optionCodeBuilder.append("module.shipping.").append(shipOption.getShippingModuleCode());
+							String optionName = messages.getMessage(optionCodeBuilder.toString(),locale);
+							shipOption.setOptionName(optionName);
+						} catch(Exception e) {//label not found
+							LOGGER.warn("No shipping code found for " + optionCodeBuilder.toString());
+						}
+					}
+
+				}
+				
+				shippingSummary.setShippingOptions(options);
+			
+			}
+			
+			
+			
+			return shippingSummary;
+			
+			
+		} catch (Exception e) {
+			LOGGER.error("Error while getting shipping quote",e);
+			try {
+				response.sendError(503, "Error while getting shipping quote" + e.getMessage());
+			} catch (Exception ignore) {
+			}
+			return null;
+		}
+
+		
+	}
+	
+	
+	@RequestMapping(value = {"/cart/{id}/shipping"}, method=RequestMethod.POST)
+	@ResponseBody
+	public ReadableShippingSummary shipping(
+			@PathVariable final String code,
+			@RequestBody AddressLocation address,
+			HttpServletRequest request, 
+			HttpServletResponse response) throws Exception {
+		
+		try {
+			MerchantStore merchantStore = storeFacade.getByCode(request);
+			Language language = languageUtils.getRESTLanguage(request, merchantStore);	
+			Locale locale = request.getLocale();
+			
+
+			
+			ShoppingCart cart = shoppingCartService.getByCode(code, merchantStore);
+			
+			if(cart == null) {
+				response.sendError(404, "Cart code " + code + " does not exist");
+			}
+			
+			//TODO create shipping address
+			ShippingQuote quote = orderFacade.getShippingQuote(null, cart, merchantStore, language);
 		
 			ShippingSummary summary = orderFacade.getShippingSummary(quote, merchantStore, language);
 			

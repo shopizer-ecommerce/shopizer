@@ -22,7 +22,7 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<shopizer.version>2.3.0-SNAPSHOT</shopizer.version>
-		<shopizer.search.version>2.2.0.1</shopizer.search.version>
+		<shopizer.search.version>2.3.0</shopizer.search.version>
 		<shopizer-canadapost.version>2.2.0</shopizer-canadapost.version>
 		<shopizer-shipping-distance.version>2.2.0</shopizer-shipping-distance.version>
 		<spring-vault-core-version>1.1.2.RELEASE</spring-vault-core-version>
@@ -34,18 +34,20 @@
 		<javax.servlet-api-version>3.0.1</javax.servlet-api-version>
 		<!-- external systems -->
 		<c3p0-version>0.9.5.2</c3p0-version>
-		<org.elasticsearch-version>2.4.1</org.elasticsearch-version>
 		<infinispan.version>6.0.2.Final</infinispan.version>
 		<mysql-jdbc-version>6.0.5</mysql-jdbc-version>
 		<simple-json-version>1.1.1</simple-json-version>
+		<org.elasticsearch-version>5.6.12</org.elasticsearch-version>
+		<io.searchbox.jest-version>5.3.3</io.searchbox.jest-version>
+		<jackson-version>2.9.5</jackson-version>
 	</properties>
 
 	<dependencies>
-	
+
 		<dependency>
-		    <groupId>org.springframework.vault</groupId>
-		    <artifactId>spring-vault-core</artifactId>
-		    <version>${spring-vault-core-version}</version>
+			<groupId>org.springframework.vault</groupId>
+			<artifactId>spring-vault-core</artifactId>
+			<version>${spring-vault-core-version}</version>
 		</dependency>
 
 
@@ -80,16 +82,19 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
+			<version>${jackson-version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
+			<version>${jackson-version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
+			<version>${jackson-version}</version>
 		</dependency>
 
 
@@ -107,12 +112,6 @@
 		</dependency>
 		<!-- end c3po -->
 
-
-		<dependency>
-			<groupId>org.elasticsearch</groupId>
-			<artifactId>elasticsearch</artifactId>
-			<version>${org.elasticsearch-version}</version>
-		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
 		<dependency>
@@ -133,6 +132,37 @@
 			<artifactId>json-simple</artifactId>
 			<version>${simple-json-version}</version>
 		</dependency>
+		
+		<!-- sm-search -->		
+		<dependency>
+			<groupId>com.shopizer</groupId>
+			<artifactId>sm-search</artifactId>
+			<version>${shopizer.search.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.elasticsearch</groupId>
+					<artifactId>elasticsearch</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>io.searchbox</groupId>
+					<artifactId>jest</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency> 
+		
+		<!-- Elastic search -->				
+		<dependency>
+			<groupId>org.elasticsearch</groupId>
+			<artifactId>elasticsearch</artifactId>
+			<version>${org.elasticsearch-version}</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>io.searchbox</groupId>
+			<artifactId>jest</artifactId>
+			<version>${io.searchbox.jest-version}</version>
+		</dependency>
 
 	</dependencies>
 
@@ -142,9 +172,19 @@
 		<module>sm-core</module>
 		<module>sm-shop</module>
 		<module>sm-admin</module>
+		<!-- <module>sm-search</module> -->
 	</modules>
 
 	<repositories>
+		<!-- Sonatype snapshot repo -->
+		<repository>
+			<id>oss-sonatype</id>
+			<name>oss-sonatype</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
 		<repository>
 			<id>spring-releases</id>
 			<name>Spring Releases</name>

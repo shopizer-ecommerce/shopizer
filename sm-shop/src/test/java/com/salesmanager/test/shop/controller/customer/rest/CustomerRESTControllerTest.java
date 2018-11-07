@@ -2,10 +2,10 @@ package com.salesmanager.test.shop.controller.customer.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.salesmanager.shop.model.customer.Address;
 import com.salesmanager.shop.model.customer.Customer;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
 import com.salesmanager.shop.model.customer.ReadableCustomer;
+import com.salesmanager.shop.model.customer.address.Address;
 import com.salesmanager.shop.model.customer.attribute.CustomerOptionDescription;
 import com.salesmanager.shop.model.customer.attribute.CustomerOptionValueDescription;
 import com.salesmanager.shop.model.customer.attribute.PersistableCustomerOption;

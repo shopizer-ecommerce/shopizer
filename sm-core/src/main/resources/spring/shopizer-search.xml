@@ -37,6 +37,12 @@
 		<property name="searchClient">
 				<ref bean="searchClient" />
 		</property>
+		<property name="aggregationList">
+			<list>
+	    		<value>categories</value>
+	    		<value>manufacturers</value>
+    		</list>
+		</property>
 	</bean>
 	
 	<!-- Main service -->

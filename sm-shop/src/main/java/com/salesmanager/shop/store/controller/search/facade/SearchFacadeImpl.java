@@ -185,8 +185,9 @@ public class SearchFacadeImpl implements SearchFacade {
 	public ValueList autocompleteRequest(String query, MerchantStore store, Language language) throws Exception {
 		
 		AutoCompleteRequest req = new AutoCompleteRequest(store.getCode(),language.getCode());
+		String q = String.format(coreConfiguration.getProperty("AUTOCOMPLETE_QUERY"), query);
 		/** formatted toJSONString because of te specific field names required in the UI **/
-		SearchKeywords keywords = searchService.searchForKeywords(req.getCollectionName(), req.toJSONString(query), AUTOCOMPLETE_ENTRIES_COUNT);
+		SearchKeywords keywords = searchService.searchForKeywords(req.getCollectionName(), q, AUTOCOMPLETE_ENTRIES_COUNT);
 		ValueList returnList = new ValueList();
 		returnList.setValues(keywords.getKeywords());
 		
