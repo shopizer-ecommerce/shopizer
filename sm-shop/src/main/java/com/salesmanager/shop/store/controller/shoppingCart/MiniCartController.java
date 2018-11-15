@@ -76,6 +76,9 @@ public class MiniCartController extends AbstractController{
 		}
 		ShoppingCartData shoppingCartData=shoppingCartFacade.removeCartItem(lineItemId, cart.getCode(), merchantStore,language);
 		
+	    if(shoppingCartData==null) {
+            return null;
+        }
 		
 		if(CollectionUtils.isEmpty(shoppingCartData.getShoppingCartItems())) {
 			shoppingCartFacade.deleteShoppingCart(shoppingCartData.getId(), merchantStore);

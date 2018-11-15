@@ -1,4 +1,4 @@
-Shopizer 2.2.0 (for java 1.8 +)
+Shopizer 2.3.0 (for java 1.8 +)
 -------------------
 
 Java open source e-commerce software
@@ -81,4 +81,8 @@ Please read the instructions on how to connect to MySQL, configure an email serv
 
 Documentation available from the wiki <http://shopizer-ecommerce.github.io/shopizer/#>
 
+ChatOps <https://shopizer.slack.com>
+
 More information is available on shopizer web site here <http://www.shopizer.com>
+
+

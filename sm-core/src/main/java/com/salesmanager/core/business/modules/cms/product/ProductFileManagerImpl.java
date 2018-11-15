@@ -133,7 +133,7 @@ public class ProductFileManagerImpl extends ProductFileManager {
       // String ssmallImageHeight = configuration.getProperty("SMALL_IMAGE_HEIGHT_SIZE");
       // String ssmallImageWidth = configuration.getProperty("SMALL_IMAGE_WIDTH_SIZE");
 
-
+      //Resizes
       if (!StringUtils.isBlank(slargeImageHeight) && !StringUtils.isBlank(slargeImageWidth)) { // &&
                                                                                                // !StringUtils.isBlank(ssmallImageHeight)
                                                                                                // &&
@@ -174,10 +174,6 @@ public class ProductFileManagerImpl extends ProductFileManager {
             bufferedImage = utils.getCroppedImage();
           }
         }
-
-
-        // TODO print cropped image
-
 
         // do not keep a large image for now, just take care of the regular image and a small image
 
