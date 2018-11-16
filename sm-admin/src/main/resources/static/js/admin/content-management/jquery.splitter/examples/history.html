@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> 
+<html>
+
+<!-- Mirrored from methvin.com/splitter/history.html by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 21 Mar 2014 12:24:13 GMT -->
+<head>
+<meta http-equiv="Content-Language" content="en" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>jQuery Splitter Plugin</title>
+
+<script type="text/javascript" src="../jquery/jquery.js"></script>
+<link rel="stylesheet" type="text/css" href="main.css" />
+
+<style type="text/css" media="all">
+</style>
+<script type="text/javascript">
+</script>
+</head>
+<body>
+
+<h1>Version 1.52 - 2008/12/17</h1>
+
+<p>Fixed a bug that caused sizeLeft/Top to be ignored if the cookie option was used.</p>
+
+<h1>Version 1.5 - 2008/04/02</h1>
+
+<p>The first public version of the splitter, 1.03, was released on 2007/01/19. Version 1.5 has several new features and bugfixes. If you are currently using 1.03, be aware that some of the options have been renamed; you may need to do some minor edits before you can upgrade.</p>
+
+<p>
+<a href="index.html">See the splitter documentation</a>
+</p>
+
+<h2>Breaking changes</h2>
+<p>
+The left and right panes can no longer have padding and border placed on them. This was done so that the splitbar can be moved entirely to one side or the other, effectively hiding one pane. To add padding or border to a pane, nest another element within the pane. Several of the examples show how to do this.
+</p>
+
+<h2>Renamed features</h2>
+<ul>
+<li><code>initA/B</code> are now named <code>sizeLeft</code>, <code>sizeRight</code>, <code>sizeTop</code>, and <code>sizeBottom</code> to reflect the orientation of the splitter.</li>
+<li><code>minA/B</code> are now named <code>minLeft</code>, <code>maxLeft</code>, <code>minRight</code>, <code>maxRight</code>, <code>minTop</code>, <code>maxTop</code>, <code>minBottom</code>, and <code>maxBottom</code>.</li>
+</ul>
+
+<h2>New features</h2>
+<ul>
+<li>When <code>outline:true</code> is used, the splitter waits until the mouse is released to resize the two panes. This reduces reflows and flickering.</li>
+<li><code>cookie</code> can set a page-specific cookie that remembers the splitbar position and dock state. The <code>cookiePath</code> and <code>cookieExpires</code> properties can modify the cookie the splitter creates. NOTE: This option requires the jQuery cookie plugin.</li>
+<li>If no <code>max*/min*</code> constraints are given in the arguments or styles, the splitbar can now be moved the entire range of the splitter area. This allows one pane to be effectively hidden.</li>
+<li>One pane of the splitter can be initially hidden by setting the corresponding <code>size*</code> property to 0, e.g., <code>sizeLeft:0</code>. The <code>cookie</code> can remember this state as well.</li>
+<li><code>resizeToWidth</code> automatically resizes the splitter when the browser window width is changed.</li>
+<li><code>anchorToWindow</code> automatically expands the splitter height to fill the remainder of the browser window. NOTE: This option requires the jQuery 1.2 so that it can use <code>.offset()</code> and <code>.height()</code></li>
+<li><code>splitVertical</code> and <code>splitHorizontal</code> have been added as an alternative for <code>type</code>.</li>
+</ul>
+
+<h2>Bugs fixed</h2>
+<ul>
+<li>The right pane sometimes overlapped the right border on the splitter by 1 pixel.</li>
+<li>If you resized the window height of the 3-Column/3-Pane demo too small in IE, it generated a script error. The plugin now enforces min-height to avoid negative heights.</li>
+<li>During keyboard use, the panes would sometimes get a dotted focus outline in Firefox.</li>
+</ul>
+
+<h2>Bugs remaining</h2>
+<ul>
+<li>In IE6, a <code>resize</code> operation cannot make the splitter smaller than its initial vertical size. This is due to a bug in IE6's interpretation of position:relative that is difficult to work around, so I don't intend to fix it.</li>
+</ul>
+
+</body>
+
+<!-- Mirrored from methvin.com/splitter/history.html by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 21 Mar 2014 12:24:13 GMT -->
+</html>

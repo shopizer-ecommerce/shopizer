@@ -1,0 +1,357 @@
+.dropzone, .dropzone * {
+    box-sizing: border-box;
+}
+
+.dropzone-wrapper {
+    overflow-y: auto;
+    height: 215px;
+    border: 2px solid rgba(0, 0, 0, 0.3);
+    background: white;
+    margin-top: 1em;
+    cursor: pointer;
+}
+
+.dropzone {
+    padding: 10px 20px 20px;
+}
+
+.dropzone * {
+    cursor: default;
+}
+
+.dropzone.started .default-message {
+    display: none;
+}
+
+.dropzone.dz-drag-hover {
+    border-style: solid;
+}
+
+.dropzone.dz-drag-hover .default-message {
+    opacity: 0.5;
+}
+
+.dropzone .default-message {
+    background: none !important;
+    color: #999;
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+    margin: 4em 0;
+}
+
+.dropzone .default-message span {
+    display: block !important;
+    cursor: pointer;
+}
+
+.dropzone .upload-item {
+    width: 120px;
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    margin: 16px;
+}
+
+.dropzone .upload-item .preview {
+    min-height: 100px;
+}
+
+.dropzone .upload-item .preview:hover {
+    z-index: 1000;
+}
+
+.dropzone .upload-item .preview:hover .details {
+    opacity: 1;
+}
+
+.dropzone .upload-item .preview.file-preview .image {
+    border-radius: 20px;
+    background: #999;
+    background: linear-gradient(to bottom, #eee, #ddd);
+}
+
+.dropzone .upload-item .preview.file-preview .details {
+    opacity: 1;
+}
+
+.dropzone .upload-item .preview.image-preview {
+    background: white;
+}
+
+.dropzone .upload-item .preview.image-preview .details {
+    -webkit-transition: opacity 0.2s linear;
+    -moz-transition: opacity 0.2s linear;
+    -ms-transition: opacity 0.2s linear;
+    -o-transition: opacity 0.2s linear;
+    transition: opacity 0.2s linear;
+}
+
+.dropzone .upload-item .preview .remove {
+    font-size: 14px;
+    text-align: center;
+    display: block;
+    cursor: pointer;
+    border: none;
+    margin-top: 10px;
+    color: #5A5A5A;
+    font-weight: bold;
+}
+
+.dropzone .upload-item .preview .remove:hover {
+    text-decoration: underline;
+}
+
+.dropzone .upload-item .preview:hover .details {
+    opacity: 1;
+}
+
+.dropzone .upload-item .preview .details {
+    z-index: 20;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    font-size: 13px;
+    min-width: 100%;
+    max-width: 100%;
+    padding: 2em 1em;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.9);
+    line-height: 150%;
+}
+
+.dropzone .upload-item .preview .details {
+    padding: 1em 1em;
+}
+
+.dropzone .upload-item .preview .details .size {
+    margin-bottom: 0.3em;
+    font-size: 16px;
+}
+
+.dropzone .upload-item .preview .details .filename {
+    white-space: nowrap;
+}
+
+.dropzone .upload-item .preview .details .filename:hover span {
+    border: 1px solid rgba(200, 200, 200, 0.8);
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.dropzone .upload-item .preview .details .filename:not(:hover) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dropzone .upload-item .preview .details .filename:not(:hover) span {
+    border: 1px solid transparent;
+}
+
+.dropzone .upload-item .preview .details .filename span,
+.dropzone .upload-item .preview .details .size span {
+    background-color: rgba(255, 255, 255, 0.4);
+    padding: 0 0.4em;
+    border-radius: 3px;
+}
+
+.dropzone .upload-item .preview:hover .image canvas {
+    -webkit-transform: scale(1.05, 1.05);
+    -moz-transform: scale(1.05, 1.05);
+    -ms-transform: scale(1.05, 1.05);
+    -o-transform: scale(1.05, 1.05);
+    transform: scale(1.05, 1.05);
+    -webkit-filter: blur(8px);
+    filter: blur(8px);
+}
+
+.dropzone .upload-item .preview .image {
+    overflow: hidden;
+    width: 120px;
+    height: 120px;
+    position: relative;
+    display: block;
+    z-index: 10;
+    border-radius: 20px;
+    border: 1px solid #acacac;
+    -webkit-box-shadow: 1px 1px 4px rgba(0,0,0,0.16);
+    box-shadow: 1px 1px 4px rgba(0,0,0,0.16);
+}
+
+.dropzone .upload-item.success .preview .success-mark {
+    opacity: 1;
+    -webkit-animation: passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);
+    -moz-animation: passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);
+    -ms-animation: passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);
+    -o-animation: passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);
+    animation: passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.dropzone .upload-item.error .preview .error-mark {
+    opacity: 1;
+    -webkit-animation: slide-in 3s cubic-bezier(0.77, 0, 0.175, 1);
+    -moz-animation: slide-in 3s cubic-bezier(0.77, 0, 0.175, 1);
+    -ms-animation: slide-in 3s cubic-bezier(0.77, 0, 0.175, 1);
+    -o-animation: slide-in 3s cubic-bezier(0.77, 0, 0.175, 1);
+    animation: slide-in 3s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.dropzone .upload-item .preview .success-mark,
+.dropzone .upload-item .preview .error-mark {
+    opacity: 0;
+    z-index: 500;
+    position: absolute;
+    display: block;
+    top: 85px;
+    left: 50%;
+    margin-left: -27px;
+    margin-top: -27px;
+}
+
+.dropzone .upload-item .preview .success-mark svg,
+.dropzone .upload-item .preview .error-mark svg {
+    display: block;
+    width: 56px;
+    height: 56px;
+}
+
+.dropzone .upload-item .preview .item-progress {
+    opacity: 1;
+    z-index: 1000;
+    position: absolute;
+    height: 16px;
+    left: 50%;
+    top: 85px;
+    margin-top: -8px;
+    width: 80px;
+    margin-left: -40px;
+    background: rgba(255, 255, 255, 0.9);
+    -webkit-transform: scale(1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.dropzone .upload-item .preview .item-progress .progress-bar {
+    background: #333;
+    background: linear-gradient(to bottom, #666, #444);
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 0;
+}
+
+.dropzone .upload-item.success .preview .item-progress,
+.dropzone .upload-item.error .preview .item-progress {
+    display: none;
+}
+
+.dropzone .upload-item.process .preview .loading-spinner {
+    opacity: 1;
+}
+
+.dropzone .upload-item .preview .loading-spinner {
+    position: absolute;
+    opacity: 0;
+    z-index: 500;
+    top: 85px;
+    left: 50%;
+    margin-left: -15px;
+    margin-top: -15px;
+}
+
+.dropzone .upload-item .preview .loading-spinner span {
+    background-image: url(../../../images/wait30trans.gif);
+    display: block;
+    width: 30px;
+    height: 30px;
+}
+
+.dropzone .upload-item.error .preview .image {
+    border: 1px solid #FF0000;
+}
+
+.dropzone .upload-item .preview .error-message {
+    z-index: 1000;
+    position: absolute;
+    opacity: 0;
+    white-space: normal;
+    -webkit-transition: opacity 0.3s ease;
+    -moz-transition: opacity 0.3s ease;
+    -ms-transition: opacity 0.3s ease;
+    -o-transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease;
+    border-radius: 8px;
+    font-size: 13px;
+    top: -500px;
+    left: -10px;
+    width: 140px;
+    background: #be2626;
+    /*background: linear-gradient(to bottom, #be2626, #a92222);*/
+    padding: 0.5em 0.8em;
+    color: white;
+}
+
+.dropzone .upload-item.error .preview:hover .error-message {
+    opacity: 1 !important;
+    top: 125px;
+}
+
+.dropzone .upload-item .preview .error-message:after {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 64px;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid #be2626;
+}
+
+.dropzone .upload-item .actions {
+    padding-top: 5px;
+}
+
+.dropzone .upload-item .actions table {
+    width: 100%;
+    text-align: center;
+}
+
+.dropzone .upload-item .actions img {
+    width: 20px;
+    cursor: pointer;
+}
+
+.dropzone .upload-item .actions .button {
+    display: inline-block;
+}
+
+.dropzone .upload-item .actions .button-start,
+.dropzone .upload-item .actions .button-abort,
+.dropzone .upload-item .actions .button-resume,
+.dropzone .upload-item .actions .button-info,
+.dropzone .upload-item .actions .button-remove,
+.dropzone .upload-item .actions .loading-spinner {
+    display: none;
+}
+
+.dropzone .upload-item.added .actions .button-start {
+    display: inline-block;
+}
+.dropzone .upload-item.process .actions .button-abort {
+    display: inline-block;
+}
+.dropzone .upload-item.process .actions .loading-spinner {
+    display: inline-block;
+}
+.dropzone .upload-item.aborted .actions .button-resume {
+    display: inline-block;
+}
+.dropzone .upload-item.error .actions .button-info {
+    display: inline-block;
+}
+.dropzone .upload-item.added .actions .button-remove,
+.dropzone .upload-item.error .actions .button-remove {
+    display: inline-block;
+}

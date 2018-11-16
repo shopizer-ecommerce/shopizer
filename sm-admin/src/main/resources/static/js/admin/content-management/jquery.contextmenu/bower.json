@@ -1,0 +1,43 @@
+{
+  "name": "jQuery-contextMenu",
+  "version": "2.0.1",
+  "main": [
+    "dist/jquery.contextMenu.js",
+    "dist/jquery.contextMenu.min.js",
+    "dist/jquery.contextMenu.min.js.map",
+    "dist/jquery.contextMenu.css",
+    "dist/jquery.contextMenu.min.css",
+    "dist/jquery.contextMenu.min.css.map",
+    "dist/jquery.ui.position.js",
+    "dist/jquery.ui.position.min.js",
+    "dist/images/cut.png",
+    "dist/images/door.png",
+    "dist/images/page_white_add.png",
+    "dist/images/page_white_copy.png",
+    "dist/images/page_white_delete.png",
+    "dist/images/page_white_edit.png",
+    "dist/images/page_white_paste.png",
+    "dist/images/cut.png"
+  ],
+  "homepage": "http://swisnl.github.io/jQuery-contextMenu/",
+  "authors": [
+    "Björn Brala <bjorn@swis.nl> (http://www.swis.nl)",
+    "Rodney Rehm <rodney.rehm@medialize.de> (http://rodneyrehm.de/en)"
+  ],
+  "description": "Full featured context menu handler capable of handling thousands of elements",
+  "keywords": ["contextmenu", "context-menu", "right-click-menu", "right-click", "navigation", "menu"],
+  "license": "MIT",
+  "dependencies": {
+    "jquery": ">=1.8.2"
+  },
+  "ignore": [
+    "demo/",
+    "prettify/",
+    "screenshots/",
+    "**/.*",
+    "*.md",
+    "*.html",
+    "/*.css",
+    "/*.js"
+  ]
+}
