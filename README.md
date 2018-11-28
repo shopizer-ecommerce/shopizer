@@ -81,8 +81,16 @@ Please read the instructions on how to connect to MySQL, configure an email serv
 
 Documentation available from the wiki <http://shopizer-ecommerce.github.io/shopizer/#>
 
-ChatOps <https://shopizer.slack.com>
-
 More information is available on shopizer web site here <http://www.shopizer.com>
+
+### Participation:
+-------------------
+
+We have created a new channel for discussing requirements and implementation.
+If you have interest in giving feedback or for participating to Shopizer project in any way
+Feel to use the contact form <http://www.shopizer.com/contact.html> and share your email address
+so we can send an invite to our new Slack channel
+
+ChatOps <https://shopizer.slack.com>
 
 
