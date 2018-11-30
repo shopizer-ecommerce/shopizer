@@ -21,6 +21,8 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<maven.compiler.source>1.8</maven.compiler.source>
+   		<maven.compiler.target>1.8</maven.compiler.target>
 		<shopizer.version>2.3.0</shopizer.version>
 		<shopizer.search.version>2.3.0</shopizer.search.version>
 		<shopizer-canadapost.version>2.3.0</shopizer-canadapost.version>
@@ -172,7 +174,6 @@
 		<module>sm-core</module>
 		<module>sm-shop</module>
 		<module>sm-admin</module>
-		<!-- <module>sm-search</module> -->
 	</modules>
 
 	<repositories>
