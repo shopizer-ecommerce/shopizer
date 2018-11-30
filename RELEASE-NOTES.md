@@ -1,7 +1,7 @@
-Release changes in version 2.3.0
+Release changes in version 2.2.1
 
 
-- New REST apis (complete set to support all commerce functionality)
+- New REST apis
 - Supports Elastic Search 5.6.12
 - AWS S3 content management system based
 - Bug fixing
