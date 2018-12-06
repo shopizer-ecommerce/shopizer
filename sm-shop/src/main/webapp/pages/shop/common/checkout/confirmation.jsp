@@ -92,7 +92,6 @@ $(document).ready(function() {
 		<div class="row-fluid">
 			<div class="span12">  
 
-
           <p class="lead"><c:out value="${ordermessage}" /></p>
           <p class="lead"><c:out value="${ordermessageid}" /></p>
           <p><c:out value="${orderemail}" /></p>
@@ -120,6 +119,11 @@ $(document).ready(function() {
           
             </div>
             
+            <c:if test="${requestScope.CONTENT['confirmationMessage']!=null}">
+			<div class="span12">
+				<sm:pageContent contentCode="confirmationMessage"/>
+			</div>
+			</c:if>
           </div>
           
       </div>
