@@ -2,6 +2,7 @@ package com.salesmanager.core.business.services.merchant;
 
 import javax.inject.Inject;
 
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.exception.ServiceException;
@@ -13,9 +14,25 @@ import com.salesmanager.core.business.services.tax.TaxClassService;
 import com.salesmanager.core.model.merchant.MerchantStore;
 
 @Service("merchantService")
-public class MerchantStoreServiceImpl extends SalesManagerEntityServiceImpl<Integer, MerchantStore> 
-		implements MerchantStoreService {
-	
+public class MerchantStoreServiceImpl extends SalesManagerEntityServiceImpl<Integer, MerchantStore>
+    implements MerchantStoreService {
+
+
+  @Inject
+  protected ProductTypeService productTypeService;
+
+  private MerchantRepository merchantRepository;
+
+  @Inject
+  public MerchantStoreServiceImpl(MerchantRepository merchantRepository) {
+    super(merchantRepository);
+    this.merchantRepository = merchantRepository;
+  }
+
+
+  public MerchantStore getMerchantStore(String merchantStoreCode) throws ServiceException {
+    return merchantRepository.findByCode(merchantStoreCode);
+  }
 
 		
 	@Inject
@@ -44,18 +61,16 @@ public class MerchantStoreServiceImpl extends SalesManagerEntityServiceImpl<Inte
 	}
 	
 
-	@Override
-	public MerchantStore getByCode(String code) throws ServiceException {
-		
-		return merchantRepository.findByCode(code);
-	}
-	
-/*	@Override
+    return merchantRepository.findByCode(code);
+  }
+
+//  region 他们自己写的，我为了方便，通过region注释掉了
+/* @Override
 	public void delete(MerchantStore merchant) throws ServiceException {
 		
 		merchant = this.getById(merchant.getId());
 		
-		
+
 		//reference
 		List<Manufacturer> manufacturers = manufacturerService.listByStore(merchant);
 		for(Manufacturer manufacturer : manufacturers) {
@@ -103,7 +118,14 @@ public class MerchantStoreServiceImpl extends SalesManagerEntityServiceImpl<Inte
 		}
 		
 		super.delete(merchant);
-		
+
 	}*/
+//endregion
+
+
+  public MerchantStore getById(Integer merchantId) {
+    return merchantRepository.getById(merchantId);
+  }
+
 
 }
