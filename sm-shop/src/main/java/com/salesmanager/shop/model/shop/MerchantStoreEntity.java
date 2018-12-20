@@ -20,7 +20,7 @@ public class MerchantStoreEntity implements Serializable {
 	private String phone;
 	private String template;
 	
-	
+	private boolean useCache;
 	private boolean currencyFormatNational;
 
 	public int getId() {
@@ -101,6 +101,14 @@ public class MerchantStoreEntity implements Serializable {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public boolean isUseCache() {
+		return useCache;
+	}
+
+	public void setUseCache(boolean useCache) {
+		this.useCache = useCache;
 	}
 
 }

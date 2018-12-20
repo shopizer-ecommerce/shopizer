@@ -1,6 +1,8 @@
 package com.salesmanager.admin.controller.exception;
 
-public class AdminException extends Exception {
+import java.io.IOException;
+
+public class AdminException extends IOException {
 	
 	/**
 	 * 

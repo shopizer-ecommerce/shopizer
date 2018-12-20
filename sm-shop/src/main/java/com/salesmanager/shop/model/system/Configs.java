@@ -1,5 +1,9 @@
 package com.salesmanager.shop.model.system;
 
+import java.util.List;
+
+import com.salesmanager.shop.model.references.MeasureUnit;
+import com.salesmanager.shop.model.references.WeightUnit;
 
 public class Configs {
 	
@@ -11,6 +15,7 @@ public class Configs {
 	private boolean allowOnlinePurchase;
 	private boolean displaySearchBox;
 	private boolean displayContactUs;
+
 	public String getFacebook() {
 		return facebook;
 	}

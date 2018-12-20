@@ -24,5 +24,14 @@ public class MerchantStoreController {
 		request.setAttribute("action", "READ");
 		return "store/store";
 	}
+	
+	@RequestMapping("/admin/store/create")
+	@Secured({"ROLE_STORE"})
+	public String create(Principal principal, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		request.setAttribute("action", "CREATE");
+		return "store/store";
+	}
 
 }

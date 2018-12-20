@@ -111,6 +111,7 @@ public class ReadableMerchantStorePopulator extends
 		target.setName(source.getStorename());
 		target.setId(source.getId());
 		target.setInBusinessSince(source.getDateBusinessSince());
+		target.setUseCache(source.isUseCache());
 		
 		
 		List<Language> languages = source.getLanguages();

@@ -45,6 +45,7 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
 	@Value("${shopizer.api.url}")
 	private String backend;
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
@@ -72,18 +73,14 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
         	resp = restTemplate.postForEntity(loginResourceUrl, entity, String.class);
         } catch(HttpClientErrorException e) {
         	if(HttpStatus.FORBIDDEN.name().equals(e.getStatusCode().name())) {
-        		
         		throw new AdminAuthenticationException("Cannot authenticate this client [Forbidden]",e.getStatusCode());
-
         	}
         	if(HttpStatus.NOT_FOUND.name().equals(e.getStatusCode().name())) {
         		throw new AdminAuthenticationException("Cannot authenticate this client [Not found]",e.getStatusCode());
         	}
         	logger.error("Error during authentication [" + e.getMessage() + "] [" + e.getStatusCode().name() + "]" );
         }
-          
  
-        
         if(!HttpStatus.OK.equals(resp.getStatusCode())) {
         	throw new AdminAuthenticationException("Cannot authenticate this client [ " + resp.getStatusCode().name() + "]");
         }

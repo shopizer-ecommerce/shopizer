@@ -32,6 +32,7 @@
 
 	<!-- javascripts here -->
 	<script src="/webjars/jquery/3.3.1-1/jquery.min.js"></script>
+	<script src="/webjars/jquery-cookie/1.4.1-1/jquery.cookie.js"></script>
 	<script src="/js/functions.js"></script>
 	<script src="/js/loadingoverlay.min.js"></script>
 	
@@ -45,7 +46,16 @@
 	    var LASTNAME = '[[${lastName}]]';
 	    var STORECODE = '[[${merchant}]]';
 	    var BACKEND = '[[${backend}]]';
-	    var LANGUAGE = '[[${LANGUAGE}]]';
+	    var LANGUAGE = '[[${defaultLanguage}]]';
+	    
+	    
+	    var params = (new URL(document.location)).searchParams;
+	    var lang = params.get("lang");
+	    if (lang != null && lang !="undefined") {
+	    	LANGUAGE = lang;
+	    	$.cookie('lang',lang);
+	    }
+	    
 	</script>
     
 </head>

@@ -45,7 +45,7 @@ public class MarketPlaceApi {
 	 * returns market place details and merchant store
 	 */
     @ResponseStatus(HttpStatus.OK)
-	@RequestMapping( value={"/marketplace/{store}"}, method=RequestMethod.GET)
+	@RequestMapping( value={"/private/marketplace/{store}"}, method=RequestMethod.GET)
 	@ApiOperation(httpMethod = "GET", value = "Get market place meta-data", notes = "", produces = "application/json", response = ReadableMarketPlace.class)
     public @ResponseBody ReadableMarketPlace marketPlace(@PathVariable String store, @RequestParam(value = "lang", required=false) String lang, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	

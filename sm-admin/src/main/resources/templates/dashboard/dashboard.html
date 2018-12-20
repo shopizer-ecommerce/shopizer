@@ -445,17 +445,11 @@
       $(document).ready(function(){
     	  
     		showLoader();
-      
-      		//Variables
-/*       	var TOKEN = '[[${token}]]';
-      		var USERNAME = '[[${userName}]]';
-      		var FIRSTNAME = '[[${firstName}]]';
-      		var LASTNAME = '[[${lastName}]]';
-      		var STORECODE = '[[${merchant}]]'; */
       		
-      		log("Store code " + STORECODE)
+      		log("Store code " + STORECODE);
+      		log("Language " + LANGUAGE);
 
-      		var url = BACKEND + "/private/marketplace/" + STORECODE + '?lang=' + LANGUAGE.code;
+      		var url = BACKEND + "/private/marketplace/" + STORECODE + '?lang=' + LANGUAGE;
 
 	    	$.ajax({
 	    	    type:"get",
@@ -468,9 +462,7 @@
 	    	    },
 	    	    success: function(data){
 	    	       hideLoader();
-	    	       log("success ");
-	    	       
-	    	       
+	    	       	    	       
 	    	       //render merchant
 	    	       var template = _.template($("#merchant-address").html());
 	    	       var result = template(data.store);
@@ -480,6 +472,12 @@
 	    	       var merchantHeaderTemplate = _.template($("#merchant-header").html());
 	    	       var merchantHeaderResult = merchantHeaderTemplate(data.store);
 	    	       $("#merchant-header-container").html(merchantHeaderResult);
+	    	       
+	    	       //store default address in cookie
+	    	       $.cookie('default-address',JSON.stringify(data.store.address));
+	    	       //log(JSON.parse($.cookie('default-address')));
+	    	       
+	    	       
 	    	    },
 	    	    error: function(response,textStatus,errorThrown) {
 	    	    	//TODO if 403 or 401 redirect to not authorized page

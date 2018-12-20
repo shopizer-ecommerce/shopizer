@@ -1,127 +1,155 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" 
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{base}">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{base}">
 
 <head>
-	 <title></title>
+<title></title>
 </head>
 
 
-	 <span layout:fragment="breadcrumb" id="breadcrumb">
-	       <h2>
-	        <span class="breadcrumb-title" th:text="#{'menu.store'}"/>
-	        <small></small>
-	      </h2>
-	      <ol class="breadcrumb">
-	        <li><a href="#"><i class="fa fa-building"></i>&nbsp;<span th:text="#{'menu.home'}"></span></a></li>
-	        <li class="active"><span th:text="#{'menu.store'}"></span></li>
-	      </ol>
-	 </span>
+<span layout:fragment="breadcrumb" id="breadcrumb">
+	<h2>
+		<span class="breadcrumb-title" th:text="#{'menu.store'}" /> <small></small>
+	</h2>
+	<ol class="breadcrumb">
+		<li><a href="#"><i class="fa fa-building"></i>&nbsp;<span
+				th:text="#{'menu.home'}"></span></a></li>
+		<li class="active"><span th:text="#{'menu.store'}"></span></li>
+	</ol>
+</span>
 
-      
-      <!-- Main row -->
-      <span layout:fragment="page_content" id="page_content">
-      
-      <div class="box box-default">
-        <div class="box-header with-border">
-          <h3 class="box-title"><span th:text="#{'label.store.information'}"></span></h3>
-        </div>
-        <!-- /.box-header -->
-        <div class="box-body">
-          <div class="row">
-            <div class="col-md-6">
 
-            
-            
-            <form role="form">
-              <div class="box-body">
-                <div class="form-group">
-                  <label for="storeName"><span th:text="#{'label.storename'}"></span></label>
-                  <input class="form-control" id="name">
-                </div>
-                <div class="form-group">
-                  <label for="code"><span th:text="#{'label.storecode'}"></span></label>
-                  <input class="form-control" id="code">
-                </div>
-                <div class="form-group">
-                  <label for="phone"><span th:text="#{'label.storephone'}"></span></label>
-                  <input class="form-control" id="phone">
-                </div>
-                <div class="form-group">
-                  <label for="phone"><span th:text="#{'label.storeemailaddress'}"></span></label>
-                  <input type="email" class="form-control" id="email">
-                </div>
-                <div class="form-group">
-                  <label for="address"><span th:text="#{'label.generic.address'}"></span></label>
-                  <input class="form-control" id="address_address">
-                </div>
-                <div class="form-group">
-                  <label for="address"><span th:text="#{'label.generic.city'}"></span></label>
-                  <input class="form-control" id="city">
-                </div>
-                <div class="form-group">
-                  <label for="address"><span th:text="#{'label.generic.country'}"></span></label>
-                  <input class="form-control" id="city">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">Password</label>
-                  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputFile">File input</label>
-                  <input type="file" id="exampleInputFile">
+<!-- Main row -->
+<span layout:fragment="page_content" id="page_content">
 
-                  <p class="help-block">Example block-level help text here.</p>
-                </div>
-                <div class="checkbox">
-                  <label>
-                    <input type="checkbox"> Check me out
-                  </label>
-                </div>
-              </div>
-              <!-- /.box-body -->
+	<div class="box box-default">
+		<div class="box-header with-border">
+			<h3 class="box-title">
+				<span th:text="#{'label.store.information'}"></span>
+			</h3>
+		</div>
+		<!-- /.box-header -->
+		<div class="box-body">
+			<div class="row">
+				<div class="col-md-6">
 
-              <div class="box-footer">
-                <button type="submit" class="btn btn-primary">Submit</button>
-              </div>
-            </form>
-            
-            </div>
-    
-  
-          </div>
-          <!-- /.row -->
-        </div>
-        <!-- /.box-body -->
-        <div class="box-footer">
-          Visit <a href="https://select2.github.io/">Select2 documentation</a> for more examples and information about
-          the plugin.
-        </div>
-      </div>
-      
-      
-       </span>
-      <!-- /.span (main span) -->
-      
-      <!-- All actions in store to be defined here -->
-      <th:block layout:fragment="script">
-      <script type="text/javascript">
+					<form role="form">
+						<div class="box-body">
+							<div class="form-group">
+								<label for="storeName"><span
+									th:text="#{'label.storename'}"></span></label> <input
+									class="form-control" id="name">
+							</div>
+							<div class="form-group">
+								<label for="code"><span th:text="#{'label.storecode'}"></span></label>
+								<input class="form-control" id="code">
+							</div>
+							<div class="form-group">
+								<label for="phone"><span th:text="#{'label.storephone'}"></span></label>
+								<input class="form-control" id="phone">
+							</div>
+							<div class="form-group">
+								<label for="phone"><span
+									th:text="#{'label.storeemailaddress'}"></span></label> <input
+									type="email" class="form-control" id="email">
+							</div>
+
+							<th:block th:include="fragments/address.html :: address"></th:block>
+							<th:block th:include="fragments/languages.html :: languages"></th:block>
+							
+							
+							<div class="form-group">
+								<label for="currency"><span
+									th:text="#{'label.currency'}"></span></label> 
+									<select class="form-control" id="currency"></select>
+							</div>
+							
+							<div class="checkbox">
+								<label> <input type="checkbox" name="currencyFormatNational" id="currencyFormatNational"><span
+									th:text="#{'label.store.currency.format'}"></span>
+								</label>
+								<p class="help-block"><span
+									th:text="#{'label.store.currency.format.help'}"></span></p>
+							</div>
+							
+							<div class="form-group">
+								<label for="weight"><span
+									th:text="#{'label.store.weightunit'}"></span></label> 
+									<select class="form-control" id="weight"></select>
+							</div>
+							
+							<div class="form-group">
+								<label for="size"><span
+									th:text="#{'label.store.sizeunits'}"></span></label> 
+									<select class="form-control" id="dimension"></select>
+							</div>
+							
+							<div class="form-group">
+				                <label><span
+									th:text="#{'label.store.inbusinesssince'}"></span></label>
+				
+				                <div class="input-group date">
+				                  <div class="input-group-addon">
+				                    <i class="fa fa-calendar"></i>
+				                  </div>
+				                  <input type="text" class="form-control pull-right" id="datepicker">
+				                </div>
+				                <!-- /.input group -->
+				            </div>
+							
+							<div class="checkbox">
+								<label> <input type="checkbox" name="useCache" id="useCache"><span
+									th:text="#{'label.store.useCache'}"></span>
+								</label>
+							</div>
+
+						</div>
+						<!-- /.box-body -->
+
+						<div class="box-footer">
+							<button type="submit" class="btn btn-primary">
+								<span th:text="#{'button.label.submit'}">
+							</button>
+						</div>
+					</form>
+
+				</div>
+
+
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- /.box-body -->
+<!-- 		<div class="box-footer">
+			Visit <a href="https://select2.github.io/">Select2 documentation</a>
+			for more examples and information about the plugin.
+		</div> -->
+	</div>
+
+
+</span>
+<!-- /.span (main span) -->
+
+<!-- All actions in store to be defined here -->
+<th:block layout:fragment="script">
+	<!-- address component -->
+	<script src="/js/address.js"></script>
+	<script src="/js/languages.js"></script>
+	<script type="text/javascript">
       $(document).ready(function(){
+    	  
+  	    	//Date picker
+	  	    $('#datepicker').datepicker({
+	  	      autoclose: true
+	  	    })
     	  
     	    if('READ' == '[[${action}]]') {
 
 	    		showLoader();
-	      
-	      		//Variables
-	/*       s	var TOKEN = '[[${token}]]';
-	      		var USERNAME = '[[${userName}]]';
-	      		var FIRSTNAME = '[[${firstName}]]';
-	      		var LASTNAME = '[[${lastName}]]';
-	      		var STORECODE = '[[${merchant}]]'; */
-	      		
-	      		log("Store code " + STORECODE)
-	
-	      		var url = BACKEND + "/private/store/" + STORECODE + '?lang=' + LANGUAGE.code;
+
+	      		var url = BACKEND + "/store/" + STORECODE + '?lang=' + LANGUAGE;
 	
 		    	$.ajax({
 		    	    type:"get",
@@ -133,9 +161,8 @@
 		    	        "Authorization": "Bearer " + TOKEN
 		    	    },
 		    	    success: function(data){
-		    	       hideLoader();
-		    	       log("success ");
-		    	       
+		    	       hideLoader();	
+		    	       log(JSON.stringify(data));
 		    	       $("#name").val(data.name);
 		    	       $("#code").val(data.code);
 		    	       $('#code').attr('readonly', true);
@@ -143,8 +170,24 @@
 		    	       $("#email").val(data.email);
 		    	       $("#address_address").val(data.address.address);
 		    	       $("#city").val(data.address.city);
-		    	       
-	
+		    	       $("#country").val(data.address.country);
+		    	       zones( data.address.country, data.address.stateProvince );
+		    	       $("#postalCode").val(data.address.postalCode);
+		    	       $("#defaultLanguage").val(data.defaultLanguage);
+		    	       for (var i=0; i<data.supportedLanguages.length; i++) {
+		    	    	    $("input[value='" + data.supportedLanguages[i] + "'][type='checkbox']").prop("checked", true);
+		    	    	}
+		    	       $("#currency").val(data.currency);
+		    	       if(data.currencyFormatNational) {
+		    	    	   $("input[name='currencyFormatNational'][type='checkbox']").prop("checked", true);
+		    	       }
+		    	       if(data.useCache) {
+		    	    	   $("input[name='useCache'][type='checkbox']").prop("checked", true);
+		    	       }
+		    	       $("#weight").val(data.weight);
+		    	       $("#dimension").val(data.dimension);
+		    	       $("#inBusinessSince").val(data.inBusinessSince);
+
 		    	    },
 		    	    error: function(response,textStatus,errorThrown) {
 		    	    	//TODO if 403 or 401 redirect to not authorized page
@@ -160,12 +203,92 @@
 	    	
 	    	
     	    }
-      		
-      		
-      		
       		//End user summary
       		
-      
+      		//handle country change
+    	    $('#country').on('change', function() {
+    	    	  log('Country changed ' + this.value);
+    	    	  zones( this.value, null );
+    	    });
+      		
+
+      		
+      		currency();
+      		weight();
+      		size();
+      		
       });
+      
+      //load country
+      //set default country
+      //load zones from default country
+      //set default zone
+      addressComponent.BACKEND = BACKEND;
+      addressComponent.MODE = '[[${action}]]';
+      addressComponent.LANGUAGE = LANGUAGE;
+      address();//load address component
+      
+      languagesComponent.BACKEND = BACKEND;
+      languagesComponent.MODE = '[[${action}]]';
+      languagesComponent.LANGUAGE = LANGUAGE;
+      languages();//load address component
+      
+	  //populate currency
+      function currency() {
+    	  
+			showLoader();
+			var url = "/admin/references/currency";
+		    
+			$.getJSON(url, function (data) {
+
+				$('#currency').empty();
+		        $.each(data, function (i, data) {      // bind the dropdown list using json result              
+   		             $("#currency").append($("<option></option>").val(data.code).html(data.name)); 
+		        });
+		        hideLoader();
+		    })
+
+	  }
+      
+      //populate weight
+      function weight() {
+    	  
+			showLoader();
+			var url = "/admin/references/weights";
+		    
+			$.getJSON(url, function (data) {
+
+				$('#weight').empty();
+		        $.each(data, function (i, data) {      // bind the dropdown list using json result              
+ 		             $("#weight").append($("<option></option>").val(data.code).html(data.name)); 
+		        });
+		        hideLoader();
+		    })
+
+	  }
+      
+      //populate size
+      function size() {
+    	  
+			showLoader();
+			var url = "/admin/references/sizes";
+		    
+			$.getJSON(url, function (data) {
+
+				$('#dimension').empty();
+		        $.each(data, function (i, data) {      // bind the dropdown list using json result              
+ 		             $("#dimension").append($("<option></option>").val(data.code).html(data.name)); 
+		        });
+		        hideLoader();
+		    })
+
+	  }
+      
       </script>
-      </th:block>
+
+    <!-- required for address component -->
+	<script
+		src=""
+		async defer></script>
+
+</th:block>

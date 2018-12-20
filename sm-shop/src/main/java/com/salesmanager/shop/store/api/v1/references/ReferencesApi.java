@@ -1,6 +1,7 @@
 package com.salesmanager.shop.store.api.v1.references;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -15,18 +16,26 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.salesmanager.core.business.services.reference.country.CountryService;
 import com.salesmanager.core.business.services.reference.currency.CurrencyService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
+import com.salesmanager.core.business.services.reference.zone.ZoneService;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.country.Country;
 import com.salesmanager.core.model.reference.currency.Currency;
 import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.model.reference.zone.Zone;
+import com.salesmanager.shop.model.references.MeasureUnit;
 import com.salesmanager.shop.model.references.ReadableCountry;
+import com.salesmanager.shop.model.references.ReadableZone;
+import com.salesmanager.shop.model.references.SizeReferences;
+import com.salesmanager.shop.model.references.WeightUnit;
 import com.salesmanager.shop.populator.references.ReadableCountryPopulator;
+import com.salesmanager.shop.populator.references.ReadableZonePopulator;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
 
@@ -51,6 +60,9 @@ public class ReferencesApi {
 	
 	@Inject
 	private StoreFacade storeFacade;
+	
+	@Inject
+	private ZoneService zoneService;
 	
 	@Inject
 	private CurrencyService currencyService;;
@@ -147,6 +159,52 @@ public class ReferencesApi {
 		
 	}
 	
+	@RequestMapping( value="/zones", method=RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
+	@ResponseBody
+	public ResponseEntity<List<ReadableZone>> getZones(@RequestParam("code") String code, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+
+		try {
+			
+			MerchantStore merchantStore = storeFacade.getByCode(request);
+			Language lang = languageUtils.getRESTLanguage(request, merchantStore);
+
+
+			List<Zone> zones = zoneService.getZones(code, lang);
+
+			if(CollectionUtils.isEmpty(zones)){
+				response.sendError(404, "No zones found");
+			}
+			
+			List<ReadableZone> zoneList = new ArrayList<ReadableZone>();
+			
+			
+			for(Zone z : zones) {
+			
+				/**
+				 * Populator will convert to readable format
+				 */
+				ReadableZone rz = new ReadableZone();
+				ReadableZonePopulator populator = new ReadableZonePopulator();
+				populator.populate(z, rz, merchantStore, lang);
+				zoneList.add(rz);
+			
+			}
+			
+			return ResponseEntity.ok().body(zoneList);
+		} catch (Exception e) {
+			LOGGER.error("Error while getting zones",e);
+			try {
+				response.sendError(503, "Error while getting zones " + e.getMessage());
+			} catch (Exception ignore) {
+			}
+		}
+		
+		return null;
+		
+	}
+	
 	
 	/**
 	 * Currency
@@ -181,5 +239,20 @@ public class ReferencesApi {
 		return null;
 		
 	}
+	
+	@RequestMapping( value="/measures", method=RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
+	@ResponseBody
+	public ResponseEntity<SizeReferences> measures(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		SizeReferences c = new SizeReferences();
+		c.setMeasures(Arrays.asList(MeasureUnit.values()));
+		c.setWeights(Arrays.asList(WeightUnit.values()));
+		
+		return ResponseEntity.ok().body(c);
+		
+	}
+	
+
 
 }

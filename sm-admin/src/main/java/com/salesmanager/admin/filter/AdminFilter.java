@@ -52,7 +52,7 @@ public class AdminFilter extends HandlerInterceptorAdapter {
             Object handler) throws Exception {
 		
 		Locale locale = LocaleContextHolder.getLocale();
-		
+
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		
 		//push token to request
@@ -79,20 +79,20 @@ public class AdminFilter extends HandlerInterceptorAdapter {
 			logger.error("Cannot retrieve languages" + e.getMessage());
 		}
 		
-		//push supported country to request
-		/**
+/*		//push supported country to request
+		*//**
 		 * Query cache for country
-		 */
+		 *//*
 		
 		try {
-			
+			//TODO set default Country and Zone code
 			List<Country> country = cacheHelper.getCountry(locale);
 			request.setAttribute(Constants.Cache.COUNTRY,country);
 			
 		} catch(Exception e) {
 			logger.error("Cannot retrieve country" + e.getMessage());
 		}
-		
+		*/
 		
 		
 		//push user details in request
@@ -106,6 +106,7 @@ public class AdminFilter extends HandlerInterceptorAdapter {
 			request.setAttribute(Constants.User.FIRST_NAME, details.get(Constants.User.FIRST_NAME));
 			request.setAttribute(Constants.User.USER_NAME, details.get(Constants.User.FIRST_NAME));
 			request.setAttribute(Constants.User.LAST_ACCESS, details.get(Constants.User.LAST_ACCESS));
+			request.setAttribute(Constants.User.DEFAULT_LANGUAGE, details.get(Constants.User.DEFAULT_LANGUAGE));
 			request.setAttribute(Constants.User.MERCHANT_CODE, details.get(Constants.User.MERCHANT_CODE));
 		}
 		

@@ -13,6 +13,8 @@ public class Constants {
 		public final static String ZONE = "ZONE";
 		public final static String CURRENCY = "CURRENCY";
 		public final static String MENU = "MENU";
+		public final static String WEIGHT = "WEIGHT";
+		public final static String SIZE = "SIZE";
 	}
 	
 	public static class User {

@@ -1,5 +1,8 @@
 package com.salesmanager.shop.store.api.v1.system;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +22,8 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.system.MerchantConfig;
 import com.salesmanager.core.model.system.MerchantConfiguration;
 import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.model.references.MeasureUnit;
+import com.salesmanager.shop.model.references.WeightUnit;
 import com.salesmanager.shop.model.system.Configs;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
@@ -67,6 +72,8 @@ public class PublicConfigsApi {
 			c.setAllowOnlinePurchase(configs.isAllowPurchaseItems());
 			c.setDisplaySearchBox(configs.isDisplaySearchBox());
 			c.setDisplayContactUs(configs.isDisplayContactUs());
+			
+
 			
 			
 			MerchantConfiguration merchantConfiguration = merchantConfigurationService.getMerchantConfiguration(Constants.KEY_FACEBOOK_PAGE_URL,merchantStore);

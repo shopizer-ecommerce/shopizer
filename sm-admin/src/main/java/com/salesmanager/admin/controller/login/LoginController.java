@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.salesmanager.admin.components.security.AdminAuthenticationProvider;
 import com.salesmanager.admin.components.security.AdminAuthenticationToken;
 import com.salesmanager.admin.controller.exception.AdminAuthenticationException;
 import com.salesmanager.admin.model.common.Messages;
