@@ -137,7 +137,7 @@
 			showLoader();
 
 			var zonesCacheUrl = "/admin/references/zones?code="+ code  + "&lang=" + addressComponent.LANGUAGE;
-			$('#stateProvince').replaceWith("<select id='stateProvince' name='stateProvince' class='form-control' style='border-radius:0px !important;'></select>");
+			$('#stateProvince').replaceWith("<select id='stateProvince' name='address[stateProvince]' class='form-control' style='border-radius:0px !important;'></select>");
 			$.getJSON(zonesCacheUrl, function(data) {
 					$('#stateProvince').empty();
 			        $.each(data, function (i, data) {      // bind the dropdown list using json result              
@@ -146,7 +146,7 @@
 				})
 				.fail(function() {
 					//change select to plain text field
-					$('#stateProvince').replaceWith("<input class='form-control' name='stateProvince' id='stateProvince'>");
+					$('#stateProvince').replaceWith("<input class='form-control' name='address[stateProvince]' id='stateProvince'>");
 				 })
 				.always(function() {
 					selectZone(selected);  
@@ -164,7 +164,7 @@
         }
       
       	function selectCountry(code) {
-	    	  $("select[name=country] option[value="+code+"]").attr('selected','selected');
+	    	  $("select[id=country] option[value="+code+"]").attr('selected','selected');
 	     }
       	
       	function selectZone(code) {
@@ -172,6 +172,6 @@
 	    		  var address = JSON.parse($.cookie('default-address'));
 	    		  code = address.stateProvince;
 	    	  }
-	    	  $("select[name=stateProvince] option[value="+code+"]").attr('selected','selected');
+	    	  $("select[id=stateProvince] option[value="+code+"]").attr('selected','selected');
 	     }
 

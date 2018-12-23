@@ -17,7 +17,7 @@
   				$('#languages').empty();
   				langs = data;
 		        $.each(langs, function (i, langs) {             
-		        	 $('<div class="checkbox"><label><input type="checkbox" name="supportedLanguages" value="' + langs.code + '">' + langs.name + '</label></div>').appendTo('#languages'); 
+		        	 $('<div class="checkbox"><label><input type="checkbox" name="supportedLanguages[]" id="supportedLanguages" value="' + langs.code + '">' + langs.name + '</label></div>').appendTo('#languages'); 
 		        });
 		        $.each(langs, function (i, langs) {             
 		        	 $('<option value='+ langs.code +'>' + langs.name + '</option>').appendTo('#defaultLanguage'); 

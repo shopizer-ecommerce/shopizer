@@ -8,6 +8,7 @@ import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.drools.core.util.DateUtils;
 import org.springframework.util.CollectionUtils;
 
 import com.salesmanager.core.business.exception.ConversionException;
@@ -110,7 +111,7 @@ public class ReadableMerchantStorePopulator extends
 		target.setEmail(source.getStoreEmailAddress());
 		target.setName(source.getStorename());
 		target.setId(source.getId());
-		target.setInBusinessSince(source.getDateBusinessSince());
+		target.setInBusinessSince(DateUtils.format(source.getInBusinessSince()));
 		target.setUseCache(source.isUseCache());
 		
 		

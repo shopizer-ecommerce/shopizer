@@ -1,6 +1,11 @@
 package com.salesmanager.shop.model.shop;
 
 import java.io.Serializable;
+import java.util.List;
+
+import javax.validation.constraints.NotNull;
+
+import com.salesmanager.core.constants.MeasureUnit;
 
 public class MerchantStoreEntity implements Serializable {
 	
@@ -10,18 +15,24 @@ public class MerchantStoreEntity implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private int id;
+	@NotNull
 	private String code;
+	@NotNull
 	private String name;
 
 	private String defaultLanguage;//code
 	private String currency;//code
 	private String inBusinessSince;
+	@NotNull
 	private String email;
 	private String phone;
 	private String template;
 	
 	private boolean useCache;
 	private boolean currencyFormatNational;
+	private MeasureUnit dimension;
+	private MeasureUnit weight;
+	private List<String> supportedLanguages;
 
 	public int getId() {
 		return id;
@@ -109,6 +120,30 @@ public class MerchantStoreEntity implements Serializable {
 
 	public void setUseCache(boolean useCache) {
 		this.useCache = useCache;
+	}
+
+	public MeasureUnit getDimension() {
+		return dimension;
+	}
+
+	public void setDimension(MeasureUnit dimension) {
+		this.dimension = dimension;
+	}
+
+	public MeasureUnit getWeight() {
+		return weight;
+	}
+
+	public void setWeight(MeasureUnit weight) {
+		this.weight = weight;
+	}
+
+	public List<String> getSupportedLanguages() {
+		return supportedLanguages;
+	}
+
+	public void setSupportedLanguages(List<String> supportedLanguages) {
+		this.supportedLanguages = supportedLanguages;
 	}
 
 }

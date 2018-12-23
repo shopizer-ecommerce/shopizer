@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.marketplace.ReadableMarketPlace;
-import com.salesmanager.shop.model.shop.ReadableMerchantStore;
 import com.salesmanager.shop.store.controller.marketplace.facade.MarketPlaceFacade;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
@@ -61,24 +60,7 @@ public class MarketPlaceApi {
     	return marketPlace;
     }
     
-    @ResponseStatus(HttpStatus.OK)
-	@RequestMapping( value={"/store/{store}"}, method=RequestMethod.GET)
-    @ApiOperation(httpMethod = "GET", value = "Get merchant store", notes = "", produces = "application/json", response = ReadableMerchantStore.class)
-    public @ResponseBody ReadableMerchantStore store(@PathVariable String store, @RequestParam(value = "lang", required=false) String lang, HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	
-    	Language l = languageUtils.getServiceLanguage(lang);
-    	
-    	
-    	
-    	ReadableMerchantStore readableStore = storeFacade.getByCode(store, l);
-    	
-		if(readableStore==null) {
-			response.sendError(404,  "MerchanStore not found for merchant store [" + store + "]");
-			return null;
-		}
-    	
-    	return readableStore;
-    }
+
 		
 
 }

@@ -7,13 +7,18 @@ import org.drools.core.util.StringUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.services.merchant.MerchantStoreService;
 import com.salesmanager.core.business.services.reference.country.CountryService;
+import com.salesmanager.core.business.services.reference.currency.CurrencyService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.business.services.reference.zone.ZoneService;
+import com.salesmanager.core.constants.MeasureUnit;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.model.shop.PersistableMerchantStore;
 import com.salesmanager.shop.model.shop.ReadableMerchantStore;
+import com.salesmanager.shop.populator.store.PersistableMerchantStorePopulator;
 import com.salesmanager.shop.populator.store.ReadableMerchantStorePopulator;
 import com.salesmanager.shop.utils.ImageFilePath;
 
@@ -31,6 +36,9 @@ public class StoreFacadeImpl implements StoreFacade {
 	
 	@Inject
 	private ZoneService zoneService;
+	
+	@Inject
+	private CurrencyService currencyService;
 	
 	@Inject
 	@Qualifier("img")
@@ -68,6 +76,27 @@ public class StoreFacadeImpl implements StoreFacade {
 		 */
 		readable = populator.populate(store, readable, store, language);
 		return readable;
+	}
+
+	@Override
+	public void create(PersistableMerchantStore store) throws Exception {
+		
+		
+		PersistableMerchantStorePopulator populator = new PersistableMerchantStorePopulator();
+		populator.setCountryService(countryService);
+		populator.setZoneService(zoneService);
+		populator.setLanguageService(languageService);
+		populator.setCurrencyService(currencyService);
+		
+		MerchantStore mStore = new MerchantStore();
+		//set default values
+		mStore.setWeightunitcode(MeasureUnit.KG.name());
+		mStore.setSeizeunitcode(MeasureUnit.IN.name());
+		
+		mStore = populator.populate(store, mStore, languageService.defaultLanguage());
+		
+		merchantStoreService.create(mStore);
+		
 	}
 
 }

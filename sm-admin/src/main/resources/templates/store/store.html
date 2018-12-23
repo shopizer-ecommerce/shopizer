@@ -20,7 +20,6 @@
 	</ol>
 </span>
 
-
 <!-- Main row -->
 <span layout:fragment="page_content" id="page_content">
 
@@ -34,26 +33,30 @@
 		<div class="box-body">
 			<div class="row">
 				<div class="col-md-6">
+				
+					<p>
+					<i class="fa fa-building"></i> <span th:text="#{'label.store.metadata'}"></span>
+					</p>
 
-					<form role="form">
+					<form role="form" id="store">
 						<div class="box-body">
 							<div class="form-group">
 								<label for="storeName"><span
 									th:text="#{'label.storename'}"></span></label> <input
-									class="form-control" id="name">
+									class="form-control" id="name" name="name">
 							</div>
 							<div class="form-group">
 								<label for="code"><span th:text="#{'label.storecode'}"></span></label>
-								<input class="form-control" id="code">
+								<input class="form-control" id="code" name="code">
 							</div>
 							<div class="form-group">
 								<label for="phone"><span th:text="#{'label.storephone'}"></span></label>
-								<input class="form-control" id="phone">
+								<input class="form-control" id="phone" name="phone">
 							</div>
 							<div class="form-group">
 								<label for="phone"><span
 									th:text="#{'label.storeemailaddress'}"></span></label> <input
-									type="email" class="form-control" id="email">
+									type="email" class="form-control" id="email" name="email">
 							</div>
 
 							<th:block th:include="fragments/address.html :: address"></th:block>
@@ -63,11 +66,11 @@
 							<div class="form-group">
 								<label for="currency"><span
 									th:text="#{'label.currency'}"></span></label> 
-									<select class="form-control" id="currency"></select>
+									<select class="form-control" id="currency" name="currency"></select>
 							</div>
 							
 							<div class="checkbox">
-								<label> <input type="checkbox" name="currencyFormatNational" id="currencyFormatNational"><span
+								<label> <input type="checkbox" class="checkTrueFalse" name="currencyFormatNational" id="currencyFormatNational"><span
 									th:text="#{'label.store.currency.format'}"></span>
 								</label>
 								<p class="help-block"><span
@@ -77,13 +80,13 @@
 							<div class="form-group">
 								<label for="weight"><span
 									th:text="#{'label.store.weightunit'}"></span></label> 
-									<select class="form-control" id="weight"></select>
+									<select class="form-control" id="weight" name="weight"></select>
 							</div>
 							
 							<div class="form-group">
 								<label for="size"><span
 									th:text="#{'label.store.sizeunits'}"></span></label> 
-									<select class="form-control" id="dimension"></select>
+									<select class="form-control" id="dimension" name="dimension"></select>
 							</div>
 							
 							<div class="form-group">
@@ -94,13 +97,13 @@
 				                  <div class="input-group-addon">
 				                    <i class="fa fa-calendar"></i>
 				                  </div>
-				                  <input type="text" class="form-control pull-right" id="datepicker">
+				                  <input type="text" class="form-control pull-right" data-date-format="yyyy-mm-dd" name="inBusinessSince" id="inBusinessSince">
 				                </div>
 				                <!-- /.input group -->
 				            </div>
 							
 							<div class="checkbox">
-								<label> <input type="checkbox" name="useCache" id="useCache"><span
+								<label> <input class="checkTrueFalse" type="checkbox" name="useCache" id="useCache"><span
 									th:text="#{'label.store.useCache'}"></span>
 								</label>
 							</div>
@@ -114,18 +117,16 @@
 							</button>
 						</div>
 					</form>
-
 				</div>
-
-
 			</div>
 			<!-- /.row -->
 		</div>
 		<!-- /.box-body -->
-<!-- 		<div class="box-footer">
-			Visit <a href="https://select2.github.io/">Select2 documentation</a>
-			for more examples and information about the plugin.
-		</div> -->
+		<!-- 		
+			<div class="box-footer">
+			footer text if required
+		</div> 
+		-->
 	</div>
 
 
@@ -141,14 +142,14 @@
       $(document).ready(function(){
     	  
   	    	//Date picker
-	  	    $('#datepicker').datepicker({
+	  	    $('#inBusinessSince').datepicker({
 	  	      autoclose: true
 	  	    })
     	  
     	    if('READ' == '[[${action}]]') {
 
 	    		showLoader();
-
+				//fetch store
 	      		var url = BACKEND + "/store/" + STORECODE + '?lang=' + LANGUAGE;
 	
 		    	$.ajax({
@@ -186,7 +187,12 @@
 		    	       }
 		    	       $("#weight").val(data.weight);
 		    	       $("#dimension").val(data.dimension);
-		    	       $("#inBusinessSince").val(data.inBusinessSince);
+		    	       if(data.inBusinessSince != null) {
+		    	    	   $("#inBusinessSince").val(data.inBusinessSince);
+		    	       } else {
+		    	    	   $('#inBusinessSince').datepicker("setDate", new Date() );
+		    	       }
+		    	      
 
 		    	    },
 		    	    error: function(response,textStatus,errorThrown) {
@@ -200,14 +206,67 @@
 		    	    	$('.alert-danger').show();
 		    	    }
 		    	});
-	    	
-	    	
     	    }
-      		//End user summary
+      		
+  	    	
+  	    	//handle submit
+  	    	$("#store").submit(function(event){
+				event.preventDefault(); //prevent default action 
+				var form_data = $(this).serializeJSON(); //Encode form elements for submission
+				
+				
+				
+				log('*****POST*****');
+				log(form_data);
+				
+				var url = BACKEND + "/private/store"
+				
+		    	$.ajax({
+		    	    type:"post",
+		    	    crossDomain: true,
+		    	    cache: false,
+		    	    url: url,
+		    	    dataType: "json",
+		    	    contentType : 'application/json; charset=utf-8',
+		    	    data:JSON.stringify(form_data),
+		    	    headers: {
+		    	        "Authorization": "Bearer " + TOKEN
+		    	    },
+		    	    success: function(data){
+		    	    	log('!!!success');
+		    	    },
+		    	    error: function(response,textStatus,errorThrown) {
+		    	    	log('---error---');
+		    	    }
+		    	});
+				
+				//$.post( post_url, form_data, function( response ) {
+				  //$("#server-results").html( response );
+				  //log(response);
+				//});
+			});
+  	    	
+  	    	$(".checkTrueFalse").change(function() {
+  	    		var $input = $( this );
+  	    		if($input.is(':checked')) {
+  	    			log('Is checked');
+  	              	$input.attr('value', 'true');
+  	          	 } else {
+  	          		log('Not checked');
+  	          		$input.attr('value', 'false');
+  	          	 }
+
+  	    	});
+  	    	
+  	    	
+  	    	
+  	    	
+      		//handle unique code
+      		
+      		
       		
       		//handle country change
     	    $('#country').on('change', function() {
-    	    	  log('Country changed ' + this.value);
     	    	  zones( this.value, null );
     	    });
       		
@@ -286,9 +345,6 @@
       
       </script>
 
-    <!-- required for address component -->
-	<script
-		src=""
-		async defer></script>
+
 
 </th:block>

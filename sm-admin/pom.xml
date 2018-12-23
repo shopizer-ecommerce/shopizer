@@ -202,34 +202,7 @@
 	</pluginRepositories>
 	
 	<profiles>
-	    <profile>
-        <id>lambdas</id>
-        <activation>
-            <activeByDefault>true</activeByDefault>
-        </activation>
-        <build>
-            <plugins>
-                <plugin>
-                    <artifactId>maven-assembly-plugin</artifactId>
-                    <version>2.2.1</version>
-                    <configuration>
-                        <finalName>ShopizerLambdas</finalName>
-                        <descriptors>
-                            <descriptor>src/assembly/lambdas/assembly.xml</descriptor>
-                        </descriptors>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <phase>package</phase>
-                            <goals>
-                                <goal>single</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-            </plugins>
-        </build>
-    </profile>
+
 	
 	</profiles>
 	
