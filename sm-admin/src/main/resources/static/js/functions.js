@@ -23,3 +23,12 @@
 	  // return this;
 	   $('#loader').addClass('fadeOut');
    }; 
+   
+   //displays success message on a given componentId
+   function success(message, componentId) {
+	   
+   }
+   
+   function error(message, componentId) {
+	   
+   }

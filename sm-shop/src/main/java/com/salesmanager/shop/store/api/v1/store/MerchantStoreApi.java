@@ -1,5 +1,7 @@
 package com.salesmanager.shop.store.api.v1.store;
 
+import java.security.Principal;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -7,7 +9,6 @@ import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -24,8 +25,8 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.shop.PersistableMerchantStore;
 import com.salesmanager.shop.model.shop.ReadableMerchantStore;
-import com.salesmanager.shop.model.system.ReadableOptin;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
+import com.salesmanager.shop.store.controller.user.facade.UserFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
 
 import io.swagger.annotations.ApiOperation;
@@ -43,6 +44,8 @@ public class MerchantStoreApi {
 	private LanguageUtils languageUtils;
 	
 	@Inject LanguageService languageService;
+	
+	@Inject UserFacade userFacade;
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(MerchantStoreApi.class);
 	
@@ -87,9 +90,45 @@ public class MerchantStoreApi {
     		return new ResponseEntity<ReadableMerchantStore>(readable,HttpStatus.OK);
     	
 		} catch (Exception e) {
-			LOGGER.error("Error while creating store product",e);
+			LOGGER.error("Error while creating store ",e);
 			try {
 				response.sendError(503, "Error while creating store " + e.getMessage());
+			} catch (Exception ignore) {
+			}
+			
+			return null;
+		}
+    }
+    
+    @ResponseStatus(HttpStatus.OK)
+	@RequestMapping( value={"/private/store/{code}"}, method=RequestMethod.PUT)
+    @ApiOperation(httpMethod = "PUT", value = "Updates a store", notes = "", produces = "application/json", response = ReadableMerchantStore.class)
+    public ResponseEntity<ReadableMerchantStore> update(@Valid @RequestBody PersistableMerchantStore store, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+
+
+    	try {
+    		
+        	//user doing action must be attached to the store being modified
+    		Principal principal = request.getUserPrincipal();
+    		String userName = principal.getName();
+    		
+    		if(!userFacade.authorizedStore(userName, store.getCode())) {
+    			response.sendError(401, "User " + userName + " not authorized");
+    			return null;
+    		}
+    		
+    		
+    		storeFacade.update(store);
+    		
+    		ReadableMerchantStore readable = storeFacade.getByCode(store.getCode(), languageService.defaultLanguage());
+
+    		return new ResponseEntity<ReadableMerchantStore>(readable,HttpStatus.OK);
+    	
+		} catch (Exception e) {
+			LOGGER.error("Error while updating store ",e);
+			try {
+				response.sendError(503, "Error while updating store " + e.getMessage());
 			} catch (Exception ignore) {
 			}
 			

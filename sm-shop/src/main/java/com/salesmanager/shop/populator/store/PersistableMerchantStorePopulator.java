@@ -2,6 +2,7 @@ package com.salesmanager.shop.populator.store;
 
 import java.util.List;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.drools.core.util.StringUtils;
 import org.jsoup.helper.Validate;
 
@@ -47,7 +48,9 @@ public class PersistableMerchantStorePopulator extends AbstractDataPopulator<Per
 		}
 		
 		target.setCode(source.getCode());
-		target.setId(source.getId());
+		if(source.getId()!=0) {
+			target.setId(source.getId());
+		}
 		target.setDateBusinessSince(source.getInBusinessSince());
 		target.setSeizeunitcode(source.getDimension().name());
 		target.setWeightunitcode(source.getWeight().name());
@@ -71,9 +74,11 @@ public class PersistableMerchantStorePopulator extends AbstractDataPopulator<Per
 			}
 			
 			List<String> languages = source.getSupportedLanguages();
-			for(String lang : languages) {
-				Language ll = languageService.getByCode(lang);
-				target.getLanguages().add(ll);
+			if(!CollectionUtils.isEmpty(languages)) {
+				for(String lang : languages) {
+					Language ll = languageService.getByCode(lang);
+					target.getLanguages().add(ll);
+				}
 			}
 			
 		} catch(Exception e) {

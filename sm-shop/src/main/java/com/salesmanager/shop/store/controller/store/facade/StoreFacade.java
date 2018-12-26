@@ -32,5 +32,11 @@ public interface StoreFacade {
 	 * @throws Exception
 	 */
 	void create(PersistableMerchantStore store) throws Exception;
+	/**
+	 * Updates an existing store
+	 * @param store
+	 * @throws Exception
+	 */
+	void update(PersistableMerchantStore store) throws Exception;
 
 }

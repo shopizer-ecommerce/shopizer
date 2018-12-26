@@ -23,6 +23,9 @@
 <!-- Main row -->
 <span layout:fragment="page_content" id="page_content">
 
+    <th:block th:include="fragments/messages.html :: messages"></th:block>
+    
+    <!-- end messages -->
 	<div class="box box-default">
 		<div class="box-header with-border">
 			<h3 class="box-title">
@@ -107,6 +110,8 @@
 									th:text="#{'label.store.useCache'}"></span>
 								</label>
 							</div>
+							
+							<input type="hidden" id="action" th:value="${action}"/>
 
 						</div>
 						<!-- /.box-body -->
@@ -141,12 +146,14 @@
 	<script type="text/javascript">
       $(document).ready(function(){
     	  
+    	  	resetMessages();
+    	  
   	    	//Date picker
 	  	    $('#inBusinessSince').datepicker({
 	  	      autoclose: true
 	  	    })
     	  
-    	    if('READ' == '[[${action}]]') {
+    	    if($("#action").val()=='READ') {
 
 	    		showLoader();
 				//fetch store
@@ -163,7 +170,7 @@
 		    	    },
 		    	    success: function(data){
 		    	       hideLoader();	
-		    	       log(JSON.stringify(data));
+		    	       //log(JSON.stringify(data));
 		    	       $("#name").val(data.name);
 		    	       $("#code").val(data.code);
 		    	       $('#code').attr('readonly', true);
@@ -198,12 +205,7 @@
 		    	    error: function(response,textStatus,errorThrown) {
 		    	    	//TODO if 403 or 401 redirect to not authorized page
 		    	    	hideLoader();
-		    	    	log(textStatus);
-		    	        log(response);
-		    	    	var r = jQuery.parseJSON(response.responseText);
-		    	    	log(r.message + "-" + textStatus + "-" + errorThrown);
-		    	    	$('.alert-danger').html(r.message);
-		    	    	$('.alert-danger').show();
+		    	        error(JSON.stringify(response.responseJSON));
 		    	    }
 		    	});
     	    }
@@ -212,17 +214,25 @@
   	    	//handle submit
   	    	$("#store").submit(function(event){
 				event.preventDefault(); //prevent default action 
+				resetMessages();
+				adjustCheckBoxes($(".checkTrueFalse"));
+				
 				var form_data = $(this).serializeJSON(); //Encode form elements for submission
+
+				//log('*****FORM DATA*****');
+				//log(form_data);
 				
+				//create url
+				var url = BACKEND + "/private/store";
+				var type ='POST';
 				
-				
-				log('*****POST*****');
-				log(form_data);
-				
-				var url = BACKEND + "/private/store"
-				
+				if($("#action").val()=='READ') {
+					url = BACKEND + "/private/store/" + $("#code").val();
+					 type ='PUT';
+				}
+
 		    	$.ajax({
-		    	    type:"post",
+		    	    type:type,
 		    	    crossDomain: true,
 		    	    cache: false,
 		    	    url: url,
@@ -234,29 +244,28 @@
 		    	    },
 		    	    success: function(data){
 		    	    	log('!!!success');
+		    	    	$("#action").val('READ');
+		    	    	success('');
 		    	    },
 		    	    error: function(response,textStatus,errorThrown) {
 		    	    	log('---error---');
+		    	    	log(JSON.stringify(response.responseJSON));
+		    	    	error(JSON.stringify(response.responseJSON));
 		    	    }
 		    	});
-				
-				//$.post( post_url, form_data, function( response ) {
-				  //$("#server-results").html( response );
-				  //log(response);
-				//});
+
 			});
   	    	
-  	    	$(".checkTrueFalse").change(function() {
-  	    		var $input = $( this );
+  	    	//$(".checkTrueFalse").change(function() {
+  	    	function adjustCheckBoxes($input) {
   	    		if($input.is(':checked')) {
-  	    			log('Is checked');
   	              	$input.attr('value', 'true');
   	          	 } else {
-  	          		log('Not checked');
   	          		$input.attr('value', 'false');
   	          	 }
+  	    	}
 
-  	    	});
+  	    	//});
   	    	
   	    	
   	    	
@@ -286,6 +295,12 @@
       addressComponent.MODE = '[[${action}]]';
       addressComponent.LANGUAGE = LANGUAGE;
       address();//load address component
+      
+	  //keep or remoce autocomplete address
+	  var key = '[[${addressApiKey}]]'
+	  if(key == null) {
+		$('#addressAutocomplete').hide();
+	  } 
       
       languagesComponent.BACKEND = BACKEND;
       languagesComponent.MODE = '[[${action}]]';
@@ -340,11 +355,13 @@
 		        });
 		        hideLoader();
 		    })
-
 	  }
-      
       </script>
 
-
+    <!-- required for address component -->
+	<script th:if="${addressApiKey!=null}"
+		th:src="@{${'https://maps.googleapis.com/maps/api/js?key=' + addressApiKey + '&libraries=places&callback=initAutocomplete'}}"
+		async defer>
+	</script>
 
 </th:block>

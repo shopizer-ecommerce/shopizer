@@ -8,7 +8,6 @@ import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.drools.core.util.DateUtils;
 import org.springframework.util.CollectionUtils;
 
 import com.salesmanager.core.business.exception.ConversionException;
@@ -24,6 +23,7 @@ import com.salesmanager.core.model.reference.zone.Zone;
 import com.salesmanager.shop.model.content.ReadableImage;
 import com.salesmanager.shop.model.references.ReadableAddress;
 import com.salesmanager.shop.model.shop.ReadableMerchantStore;
+import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.ImageFilePath;
 
 /**
@@ -86,9 +86,6 @@ public class ReadableMerchantStorePopulator extends
 			}
 		}
 		
-		if(!StringUtils.isBlank(source.getDateBusinessSince())) {
-			target.setInBusinessSince(source.getDateBusinessSince());
-		}
 		
 		if(!StringUtils.isBlank(source.getStorestateprovince())) {
 			address.setStateProvince(source.getStorestateprovince());
@@ -111,7 +108,7 @@ public class ReadableMerchantStorePopulator extends
 		target.setEmail(source.getStoreEmailAddress());
 		target.setName(source.getStorename());
 		target.setId(source.getId());
-		target.setInBusinessSince(DateUtils.format(source.getInBusinessSince()));
+		target.setInBusinessSince(DateUtil.formatDate(source.getInBusinessSince()));
 		target.setUseCache(source.isUseCache());
 		
 		

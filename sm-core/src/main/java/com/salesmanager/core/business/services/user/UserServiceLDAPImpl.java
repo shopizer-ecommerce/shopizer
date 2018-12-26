@@ -94,6 +94,12 @@ public class UserServiceLDAPImpl implements UserService {
 		
 	}
 
+	@Override
+	public User findByStore(Long userId, String storeCode) throws ServiceException {
+		// TODO Auto-generated method stub
+		throw new ServiceException("Not implemented");
+	}
+
 
 
 }

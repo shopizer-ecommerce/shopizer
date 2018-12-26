@@ -5,8 +5,8 @@ public enum MeasureUnit {
 	
 	CM,
 	IN,
-	METER,
-	FOOT
+	//METER,
+	//FOOT
 	;
 
 }

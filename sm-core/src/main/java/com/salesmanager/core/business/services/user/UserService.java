@@ -23,6 +23,8 @@ public interface UserService extends SalesManagerEntityService<Long, User> {
 	void saveOrUpdate(User user) throws ServiceException;
 
 	List<User> listByStore(MerchantStore store) throws ServiceException;
+	
+	User findByStore(Long userId, String storeCode) throws ServiceException;
 
 
 

@@ -6,10 +6,8 @@ import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.repositories.merchant.MerchantRepository;
-import com.salesmanager.core.business.services.catalog.product.manufacturer.ManufacturerService;
 import com.salesmanager.core.business.services.catalog.product.type.ProductTypeService;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
-import com.salesmanager.core.business.services.tax.TaxClassService;
 import com.salesmanager.core.model.merchant.MerchantStore;
 
 @Service("merchantService")
@@ -49,6 +47,7 @@ public class MerchantStoreServiceImpl extends SalesManagerEntityServiceImpl<Inte
 		
 		return merchantRepository.findByCode(code);
 	}
+
 	
 /*	@Override
 	public void delete(MerchantStore merchant) throws ServiceException {

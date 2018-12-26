@@ -5,6 +5,7 @@ import java.security.Principal;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class MerchantStoreController {
 	
+	@Value("${address.autocomplete.apikey}")
+	private String addressAutocompleteApiKey;
+	
 	
 	@RequestMapping("/admin/store")
 	@Secured({"ROLE_STORE"})
@@ -22,6 +26,7 @@ public class MerchantStoreController {
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		request.setAttribute("action", "READ");
+		request.setAttribute("addressApiKey", addressAutocompleteApiKey);
 		return "store/store";
 	}
 	
@@ -31,6 +36,7 @@ public class MerchantStoreController {
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		request.setAttribute("action", "CREATE");
+		request.setAttribute("addressApiKey", addressAutocompleteApiKey);
 		return "store/store";
 	}
 

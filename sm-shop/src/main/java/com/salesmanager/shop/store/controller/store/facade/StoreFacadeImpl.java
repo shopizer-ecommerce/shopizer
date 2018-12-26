@@ -3,11 +3,11 @@ package com.salesmanager.shop.store.controller.store.facade;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.Validate;
 import org.drools.core.util.StringUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.services.merchant.MerchantStoreService;
 import com.salesmanager.core.business.services.reference.country.CountryService;
 import com.salesmanager.core.business.services.reference.currency.CurrencyService;
@@ -62,6 +62,9 @@ public class StoreFacadeImpl implements StoreFacade {
 	public ReadableMerchantStore getByCode(String code, Language language) throws Exception {
 		
 		MerchantStore store = get(code);
+		if(store == null) {
+			return null;
+		}
 		ReadableMerchantStorePopulator populator = new ReadableMerchantStorePopulator();
 		
 		ReadableMerchantStore readable = new ReadableMerchantStore();
@@ -81,14 +84,19 @@ public class StoreFacadeImpl implements StoreFacade {
 	@Override
 	public void create(PersistableMerchantStore store) throws Exception {
 		
+		Validate.notNull(store,"PersistableMerchantStore must not be null");
+		Validate.notNull(store.getCode(),"PersistableMerchantStore.code must not be null");
 		
+		
+		MerchantStore mStore = new MerchantStore();
+	
 		PersistableMerchantStorePopulator populator = new PersistableMerchantStorePopulator();
 		populator.setCountryService(countryService);
 		populator.setZoneService(zoneService);
 		populator.setLanguageService(languageService);
 		populator.setCurrencyService(currencyService);
 		
-		MerchantStore mStore = new MerchantStore();
+
 		//set default values
 		mStore.setWeightunitcode(MeasureUnit.KG.name());
 		mStore.setSeizeunitcode(MeasureUnit.IN.name());
@@ -96,6 +104,28 @@ public class StoreFacadeImpl implements StoreFacade {
 		mStore = populator.populate(store, mStore, languageService.defaultLanguage());
 		
 		merchantStoreService.create(mStore);
+		
+	}
+
+	@Override
+	public void update(PersistableMerchantStore store) throws Exception {
+		MerchantStore mStore = merchantStoreService.getByCode(store.getCode());
+		
+		if(mStore == null) {
+			throw new Exception("Store with code " + store.getCode() + " does not exists");
+		}
+		
+		PersistableMerchantStorePopulator populator = new PersistableMerchantStorePopulator();
+		populator.setCountryService(countryService);
+		populator.setZoneService(zoneService);
+		populator.setLanguageService(languageService);
+		populator.setCurrencyService(currencyService);
+		
+		store.setId(mStore.getId());
+
+		mStore = populator.populate(store, mStore, languageService.defaultLanguage());
+		
+		merchantStoreService.update(mStore);
 		
 	}
 

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+					<span th:fragment="messages">
+						<!-- messages -->
+						<div class="callout callout-danger errorCallout" style="display:none;">
+					                <h4><span th:text="#{'message.error'}"></span></h4>
+					                <p class="errorMessage"></p>
+					    </div>
+					    <div class="callout callout-success successCallout" style="display:none;">
+					                <h4><span th:text="#{'message.success'}"></span></h4>
+					                <p class="successMessage"></p>
+					    </div>
+					</span>
+<body>
+
+</body>
+</html>
