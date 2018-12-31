@@ -39,5 +39,13 @@ public class MerchantStoreController {
 		request.setAttribute("addressApiKey", addressAutocompleteApiKey);
 		return "store/store";
 	}
+	
+	@RequestMapping("/admin/store/list")
+	@Secured({"ROLE_STORE"})
+	public String list(Principal principal, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		return "store/list";
+	}
 
 }

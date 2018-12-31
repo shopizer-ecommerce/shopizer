@@ -2,7 +2,7 @@ package com.salesmanager.shop.store.security;
 
 import java.io.Serializable;
 
-import com.salesmanager.shop.model.Entity;
+import com.salesmanager.shop.model.entity.Entity;
 
 public class AuthenticationResponse extends Entity implements Serializable {
 	

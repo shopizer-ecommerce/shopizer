@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.model.shop.PersistableMerchantStore;
 import com.salesmanager.shop.model.shop.ReadableMerchantStore;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
@@ -129,6 +130,35 @@ public class MerchantStoreApi {
 			LOGGER.error("Error while updating store ",e);
 			try {
 				response.sendError(503, "Error while updating store " + e.getMessage());
+			} catch (Exception ignore) {
+			}
+			
+			return null;
+		}
+    }
+    
+    @ResponseStatus(HttpStatus.OK)
+	@RequestMapping( value={"/private/store/unique"}, method=RequestMethod.GET)
+    @ApiOperation(httpMethod = "GET", value = "Check if store code already exists", notes = "", produces = "application/json", response = EntityExists.class)
+    public ResponseEntity<EntityExists> exists(@RequestParam(value="code") String code, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+
+
+    	try {
+    		
+		
+    		MerchantStore store = storeFacade.get(code);
+    	
+    		EntityExists exists = new EntityExists();
+    		if(store != null) {
+    			exists.setExists(true);
+    		}
+    		return new ResponseEntity<EntityExists>(exists,HttpStatus.OK);
+    	
+		} catch (Exception e) {
+			LOGGER.error("Error while updating store ",e);
+			try {
+				response.sendError(503, "Error while getting store " + e.getMessage());
 			} catch (Exception ignore) {
 			}
 			

@@ -6,17 +6,30 @@
 	<script type="text/javascript" src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="/webjars/jquery-cookie/1.4.1-1/jquery.cookie.js"></script>
 	<script type="text/javascript" src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"></script>
+		<!-- Parsley validator http://parsleyjs.org/ -->
+	<script type="text/javascript" src="/webjars/parsleyjs/2.8.1/dist/parsley.min.js"></script>
+	<!-- languages for parsley - others can be added -->
 	<script>
   		$.widget.bridge('uibutton', $.ui.button);
+  		var srcLanguage = "/webjars/parsleyjs/2.8.1/dist/i18n/" + LANGUAGE + ".js";
+  		document.write('<script type="text\/javascript" t" src="'+srcLanguage+'"><\/script>')
 	</script>
+	
+
+<!-- 	<script type="text/javascript" src="/webjars/parsleyjs/2.8.1/dist/i18n/fr.extra.js"></script>
+	<script type="text/javascript" src="/webjars/parsleyjs/2.8.1/dist/i18n/fr.js"></script>
+	<script type="text/javascript" src="/webjars/parsleyjs/2.8.1/dist/i18n/fr.js"></script>
+	<script type="text/javascript" src="/webjars/parsleyjs/2.8.1/dist/i18n/en.js"></script>
+	<script type="text/javascript" src="/webjars/parsleyjs/2.8.1/dist/i18n/ru.extra.js"></script>
+	<script type="text/javascript" src="/webjars/parsleyjs/2.8.1/dist/i18n/ru.js"></script> -->
+	
+	
 	<!-- Morris.js charts -->
 	<script type="text/javascript" src="/js/admin/raphael.min.js"></script>
 	<script type="text/javascript" src="/webjars/morrisjs/0.5.1/morris.min.js"></script>
 	
 	<script type="text/javascript" src="/js/admin/jquery.serializejson.min.js"></script>
 	<script type="text/javascript" src="/js/admin/jquery.sparkline.min.js"></script>
-<!-- 	<script type="text/javascript" src="/js/admin/jquery-jvectormap.js"></script>
-	<script type="text/javascript" src="/js/admin/jquery-jvectormap-world-mill-en.js"></script> -->
 	<script type="text/javascript" src="/js/admin/jquery.knob.min.js"></script>
 	
 	<!-- date range -->
@@ -34,11 +47,8 @@
 	
 	<!-- templating engine -->
 	<script type="text/javascript" src="/webjars/underscore/1.9.0/underscore-min.js"></script>
-
 	<script type="text/javascript" src="/js/messages.js"></script>
-	
-	<!-- demo only -->
-	<!-- <script type="text/javascript" src="/js/admin/dashboard2.js"></script> -->
+
 	
 	
 	

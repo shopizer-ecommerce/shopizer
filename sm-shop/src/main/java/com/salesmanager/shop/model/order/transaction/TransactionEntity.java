@@ -2,7 +2,7 @@ package com.salesmanager.shop.model.order.transaction;
 
 import java.io.Serializable;
 
-import com.salesmanager.shop.model.Entity;
+import com.salesmanager.shop.model.entity.Entity;
 
 /**
  * Readable version of Transaction entity object

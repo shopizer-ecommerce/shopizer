@@ -1,7 +1,7 @@
 package com.salesmanager.shop.model.catalog.product;
 
-import com.salesmanager.shop.model.Entity;
 import com.salesmanager.shop.model.customer.address.Address;
+import com.salesmanager.shop.model.entity.Entity;
 
 /**
  * RENTAL customer

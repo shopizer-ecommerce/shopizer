@@ -148,8 +148,8 @@
 					//change select to plain text field
 					$('#stateProvince').replaceWith("<input class='form-control' name='address[stateProvince]' id='stateProvince'>");
 				 })
-				.always(function() {
-					selectZone(selected);  
+				.always(function(data) {
+					selectZone(selected.trim());  
 					hideLoader();
 				});
 

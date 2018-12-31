@@ -115,6 +115,12 @@
 		    <version>1.9.0</version>
 		</dependency>
 		
+		<dependency>
+		    <groupId>org.webjars.bower</groupId>
+		    <artifactId>parsleyjs</artifactId>
+		    <version>2.8.1</version>
+		</dependency>
+		
 		<!-- End webjars -->
 		
 		<!-- https://mvnrepository.com/artifact/org.imgscalr/imgscalr-lib -->
