@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -48,12 +49,10 @@ public class Language extends SalesManagerEntity<Integer, Language> implements A
 	@Column(name="SORT_ORDER")
 	private Integer sortOrder;
 	
-	@SuppressWarnings("unused")
 	@OneToMany(mappedBy = "defaultLanguage", targetEntity = MerchantStore.class)
 	private List<MerchantStore> storesDefaultLanguage;
 	
-	@SuppressWarnings("unused")
-	@ManyToMany(mappedBy = "languages", targetEntity = MerchantStore.class)
+	@ManyToMany(mappedBy = "languages", targetEntity = MerchantStore.class, fetch = FetchType.LAZY)
 	private List<MerchantStore> stores = new ArrayList<MerchantStore>();
 	
 	public Language() {

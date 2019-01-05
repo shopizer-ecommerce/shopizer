@@ -35,13 +35,26 @@
 		<!-- /.box-header -->
 		<div class="box-body">
 			<div class="row">
-				<div class="col-md-6">
+				<div class="col-md-12">
 				
 					<p>
 					<i class="fa fa-building"></i> <span th:text="#{'label.store.metadata'}"></span>
 					</p>
 
-					Store list
+					<p>
+						<table class="table table-bordered" id="storeListTable">
+		                    <thead>
+		                           <th>Code</th>
+		                           <th>Name</th>
+		                    </thead>
+		                    <tfoot>
+						        <tr>
+						           <th>Code</th>
+						           <th>Name</th>
+						        </tr>
+						   </tfoot>				
+		               </table>
+					</p>
 				</div>
 			</div>
 			<!-- /.row -->
@@ -60,5 +73,47 @@
 
 <!-- All actions in store to be defined here -->
 <th:block layout:fragment="script">
+
+	<script type="text/javascript">
+
+	$(document).ready(function () {
+		
+		//showLoader();
+		var url = BACKEND + "/private/stores";
+	
+		var dataTable =  $('#storeListTable').DataTable( {
+			
+			processing:true,
+			serverSide: true,
+			ajax: {
+				"url": url,
+				"type": "GET",
+				"dataSrc":"data",
+				"headers": {
+		    	      "Authorization": "Bearer " + TOKEN
+		    	 },
+		    	 "columns": [
+			         {"data":"code"},
+			         {"data":"name"}
+			     ]
+			 }
+					
+		});
+	
+		//datatable pagination
+		
+		
+		//datatable search
+	
+	});
+	
+	</script>
+	
+<script
+	th:src="@{|/webjars/datatables/1.10.19/js/jquery.dataTables.min.js|}">
+</script>
+<script
+	th:src="@{|/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js|}">
+</script>	
 
 </th:block>

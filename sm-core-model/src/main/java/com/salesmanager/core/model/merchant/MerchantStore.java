@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -26,6 +27,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import com.salesmanager.core.constants.MeasureUnit;
 import com.salesmanager.core.constants.SchemaConstant;
+import com.salesmanager.core.model.common.audit.AuditSection;
+import com.salesmanager.core.model.common.audit.Auditable;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 import com.salesmanager.core.model.reference.country.Country;
 import com.salesmanager.core.model.reference.currency.Currency;
@@ -35,7 +38,7 @@ import com.salesmanager.core.utils.CloneUtils;
 
 @Entity
 @Table(name = "MERCHANT_STORE", schema=SchemaConstant.SALESMANAGER_SCHEMA)
-public class MerchantStore extends SalesManagerEntity<Integer, MerchantStore> {
+public class MerchantStore extends SalesManagerEntity<Integer, MerchantStore> implements Auditable {
 	private static final long serialVersionUID = 7671103335743647655L;
 	
 	
@@ -47,6 +50,9 @@ public class MerchantStore extends SalesManagerEntity<Integer, MerchantStore> {
 		pkColumnValue = "STORE_SEQ_NEXT_VAL")
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
 	private Integer id;
+	
+	@Embedded
+	private AuditSection auditSection = new AuditSection();
 
 	@NotEmpty
 	@Column(name = "STORE_NAME", nullable=false, length=100)
@@ -345,6 +351,17 @@ public class MerchantStore extends SalesManagerEntity<Integer, MerchantStore> {
 
 	public boolean isCurrencyFormatNational() {
 		return currencyFormatNational;
+	}
+
+	@Override
+	public AuditSection getAuditSection() {
+		return this.auditSection;
+	}
+
+	@Override
+	public void setAuditSection(AuditSection audit) {
+		this.auditSection = audit;
+		
 	}
 
 

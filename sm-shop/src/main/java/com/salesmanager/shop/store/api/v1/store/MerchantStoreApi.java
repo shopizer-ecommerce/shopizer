@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -22,10 +23,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.merchant.MerchantStoreCriteria;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.model.shop.PersistableMerchantStore;
 import com.salesmanager.shop.model.shop.ReadableMerchantStore;
+import com.salesmanager.shop.model.shop.ReadableMerchantStoreList;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.store.controller.user.facade.UserFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
@@ -118,8 +121,6 @@ public class MerchantStoreApi {
     			response.sendError(401, "User " + userName + " not authorized");
     			return null;
     		}
-    		
-    		
     		storeFacade.update(store);
     		
     		ReadableMerchantStore readable = storeFacade.getByCode(store.getCode(), languageService.defaultLanguage());
@@ -159,6 +160,53 @@ public class MerchantStoreApi {
 			LOGGER.error("Error while updating store ",e);
 			try {
 				response.sendError(503, "Error while getting store " + e.getMessage());
+			} catch (Exception ignore) {
+			}
+			
+			return null;
+		}
+    }
+    
+    @ResponseStatus(HttpStatus.OK)
+	@RequestMapping( value={"/private/stores"}, method=RequestMethod.GET)
+    @ApiOperation(httpMethod = "GET", value = "Check list of stores", notes = "", produces = "application/json", response = EntityExists.class)
+    public ResponseEntity<ReadableMerchantStoreList> list(
+			@RequestParam(value = "start", required=false) Integer start,
+			@RequestParam(value = "count", required=false) Integer count,
+			@RequestParam(value = "code", required=false) String code,
+    		HttpServletRequest request, 
+    		HttpServletResponse response) throws Exception {
+
+
+
+    	try {
+    		
+    		Principal principal = request.getUserPrincipal();
+    		String userName = principal.getName();
+    		
+    		MerchantStoreCriteria criteria = new MerchantStoreCriteria();
+    		if(start!=null)
+    			criteria.setStartIndex(start);
+    		if(count!=null)
+    			criteria.setMaxCount(count);
+    		criteria.setCode(code);
+    		criteria.setUser(userName);
+    		
+    		ReadableMerchantStoreList readableList = storeFacade.getByCriteria(criteria, languageService.defaultLanguage());
+    		readableList.setRecordsFiltered(readableList.getTotalCount());
+    		readableList.setRecordsTotal(readableList.getTotalCount());
+    		String drawParam = request.getParameter("draw");
+    		if(!StringUtils.isEmpty(drawParam)) {
+    			readableList.setDraw(Integer.parseInt(request.getParameter("draw")));
+    		}
+    		
+ 
+    		return new ResponseEntity<ReadableMerchantStoreList>(readableList,HttpStatus.OK);
+    	
+		} catch (Exception e) {
+			LOGGER.error("Error while getting store list ",e);
+			try {
+				response.sendError(503, "Error while getting store list " + e.getMessage());
 			} catch (Exception ignore) {
 			}
 			

@@ -7,6 +7,7 @@ public class Criteria {
 	private int maxCount = 0;
 	private String code;
 	private String language;
+	private String user;
 	
 	private CriteriaOrderBy orderBy = CriteriaOrderBy.DESC;
 	
@@ -40,6 +41,12 @@ public class Criteria {
 	}
 	public void setLanguage(String language) {
 		this.language = language;
+	}
+	public String getUser() {
+		return user;
+	}
+	public void setUser(String user) {
+		this.user = user;
 	}
 
 

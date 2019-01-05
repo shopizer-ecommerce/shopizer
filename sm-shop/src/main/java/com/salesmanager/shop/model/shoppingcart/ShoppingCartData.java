@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.salesmanager.shop.model.ShopEntity;
+import com.salesmanager.shop.model.entity.ShopEntity;
 import com.salesmanager.shop.model.order.total.OrderTotal;
 
 

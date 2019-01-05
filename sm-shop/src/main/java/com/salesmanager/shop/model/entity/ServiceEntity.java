@@ -1,4 +1,4 @@
-package com.salesmanager.shop.model;
+package com.salesmanager.shop.model.entity;
 
 public abstract class ServiceEntity {
 	

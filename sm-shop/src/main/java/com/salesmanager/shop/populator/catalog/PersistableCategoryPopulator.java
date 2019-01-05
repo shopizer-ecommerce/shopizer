@@ -1,5 +1,14 @@
 package com.salesmanager.shop.populator.catalog;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
+
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
@@ -9,19 +18,14 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.category.CategoryDescription;
 import com.salesmanager.shop.model.catalog.category.PersistableCategory;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang.Validate;
-import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
+@Component
 public class PersistableCategoryPopulator extends
 		AbstractDataPopulator<PersistableCategory, Category> {
 	
-	
+	@Inject
 	private CategoryService categoryService;
+	@Inject
 	private LanguageService languageService;
 
 
@@ -50,8 +54,8 @@ public class PersistableCategoryPopulator extends
 		try {
 
 		
-		Validate.notNull(categoryService, "Requires to set CategoryService");
-		Validate.notNull(languageService, "Requires to set LanguageService");
+/*		Validate.notNull(categoryService, "Requires to set CategoryService");
+		Validate.notNull(languageService, "Requires to set LanguageService");*/
 		
 		target.setMerchantStore(store);
 		target.setCode(source.getCode());

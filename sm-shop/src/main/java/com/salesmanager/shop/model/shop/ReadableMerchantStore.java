@@ -3,9 +3,11 @@ package com.salesmanager.shop.model.shop;
 import java.io.Serializable;
 
 import com.salesmanager.shop.model.content.ReadableImage;
+import com.salesmanager.shop.model.entity.ReadableAudit;
+import com.salesmanager.shop.model.entity.ReadableAuditable;
 import com.salesmanager.shop.model.references.ReadableAddress;
 
-public class ReadableMerchantStore extends MerchantStoreEntity implements Serializable {
+public class ReadableMerchantStore extends MerchantStoreEntity implements ReadableAuditable, Serializable {
 	
 	/**
 	 * 
@@ -15,6 +17,7 @@ public class ReadableMerchantStore extends MerchantStoreEntity implements Serial
 	private String currentUserLanguage;
 	private ReadableAddress address;
 	private ReadableImage logo;
+	private ReadableAudit audit;
 
 
 
@@ -40,6 +43,17 @@ public class ReadableMerchantStore extends MerchantStoreEntity implements Serial
 
 	public void setLogo(ReadableImage logo) {
 		this.logo = logo;
+	}
+
+	@Override
+	public void setReadableAudit(ReadableAudit audit) {
+		this.audit = audit;
+		
+	}
+
+	@Override
+	public ReadableAudit getReadableAudit() {
+		return this.audit;
 	}
 
 

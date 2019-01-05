@@ -63,6 +63,11 @@
 	    </dependency>
 	    
 	    <dependency>
+        	<groupId>org.springframework.boot</groupId>
+        	<artifactId>spring-boot-starter-aop</artifactId>
+    	</dependency>
+	    
+	    <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
@@ -177,6 +182,7 @@
             <artifactId>jjwt</artifactId>
             <version>${jwt.version}</version>
         </dependency>
+
 		
 	</dependencies>
 	

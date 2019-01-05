@@ -1,3 +1,26 @@
 2018-05-11 22:55:17 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLException: Table "PERMISSION_GROUP" not found; SQL statement:
 select * from PERMISSION_GROUP [42102-191]
+2019-01-02 19:56:51 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "PRODUCT" not found; SQL statement:
+select * from product [42102-191]
+2019-01-05 08:56:07 database: close
+org.h2.message.DbException: IO Exception: "java.io.EOFException"; "/Users/carlsamson/Documents/dev/workspaces/master/shopizer/sm-shop/SALESMANAGER.h2.db" [90031-194]
+	at org.h2.message.DbException.get(DbException.java:168)
+	at org.h2.message.DbException.convertIOException(DbException.java:330)
+	at org.h2.store.FileStore.readFully(FileStore.java:274)
+	at org.h2.store.PageStore.readPage(PageStore.java:1326)
+	at org.h2.store.PageStore.getPage(PageStore.java:750)
+	at org.h2.store.PageStreamTrunk$Iterator.next(PageStreamTrunk.java:251)
+	at org.h2.store.PageLog.free(PageLog.java:213)
+	at org.h2.store.PageStore.compact(PageStore.java:499)
+	at org.h2.engine.Database.closeOpenFilesAndUnlock(Database.java:1365)
+	at org.h2.engine.Database.close(Database.java:1295)
+	at org.h2.engine.DatabaseCloser.run(DatabaseCloser.java:63)
+Caused by: org.h2.jdbc.JdbcSQLException: IO Exception: "java.io.EOFException"; "/Users/carlsamson/Documents/dev/workspaces/master/shopizer/sm-shop/SALESMANAGER.h2.db" [90031-194]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	... 11 more
+Caused by: java.io.EOFException
+	at org.h2.store.fs.FileUtils.readFully(FileUtils.java:358)
+	at org.h2.store.FileStore.readFully(FileStore.java:272)
+	... 8 more

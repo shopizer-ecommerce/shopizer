@@ -1,5 +1,7 @@
 package com.salesmanager.shop.store.controller.store.facade;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,10 +16,13 @@ import com.salesmanager.core.business.services.reference.currency.CurrencyServic
 import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.business.services.reference.zone.ZoneService;
 import com.salesmanager.core.constants.MeasureUnit;
+import com.salesmanager.core.model.common.GenericEntityList;
 import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.merchant.MerchantStoreCriteria;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.shop.PersistableMerchantStore;
 import com.salesmanager.shop.model.shop.ReadableMerchantStore;
+import com.salesmanager.shop.model.shop.ReadableMerchantStoreList;
 import com.salesmanager.shop.populator.store.PersistableMerchantStorePopulator;
 import com.salesmanager.shop.populator.store.ReadableMerchantStorePopulator;
 import com.salesmanager.shop.utils.ImageFilePath;
@@ -39,6 +44,9 @@ public class StoreFacadeImpl implements StoreFacade {
 	
 	@Inject
 	private CurrencyService currencyService;
+	
+	@Inject
+	private PersistableMerchantStorePopulator persistableMerchantStorePopulator;
 	
 	@Inject
 	@Qualifier("img")
@@ -89,19 +97,13 @@ public class StoreFacadeImpl implements StoreFacade {
 		
 		
 		MerchantStore mStore = new MerchantStore();
-	
-		PersistableMerchantStorePopulator populator = new PersistableMerchantStorePopulator();
-		populator.setCountryService(countryService);
-		populator.setZoneService(zoneService);
-		populator.setLanguageService(languageService);
-		populator.setCurrencyService(currencyService);
-		
 
+		
 		//set default values
 		mStore.setWeightunitcode(MeasureUnit.KG.name());
 		mStore.setSeizeunitcode(MeasureUnit.IN.name());
 		
-		mStore = populator.populate(store, mStore, languageService.defaultLanguage());
+		mStore = persistableMerchantStorePopulator.populate(store, mStore, languageService.defaultLanguage());
 		
 		merchantStoreService.create(mStore);
 		
@@ -115,18 +117,42 @@ public class StoreFacadeImpl implements StoreFacade {
 			throw new Exception("Store with code " + store.getCode() + " does not exists");
 		}
 		
-		PersistableMerchantStorePopulator populator = new PersistableMerchantStorePopulator();
-		populator.setCountryService(countryService);
-		populator.setZoneService(zoneService);
-		populator.setLanguageService(languageService);
-		populator.setCurrencyService(currencyService);
+
 		
 		store.setId(mStore.getId());
 
-		mStore = populator.populate(store, mStore, languageService.defaultLanguage());
+		mStore = persistableMerchantStorePopulator.populate(store, mStore, languageService.defaultLanguage());
 		
 		merchantStoreService.update(mStore);
 		
+	}
+
+	@Override
+	public ReadableMerchantStoreList getByCriteria(MerchantStoreCriteria criteria, Language lang) throws Exception {
+		
+		
+		GenericEntityList<MerchantStore> list = merchantStoreService.getByCriteria(criteria);
+		if(list==null)
+			throw new Exception("No stores are defined, searching stores won't be possible");
+		List<MerchantStore> stores = list.getList();
+		ReadableMerchantStorePopulator populator = new ReadableMerchantStorePopulator();
+		populator.setCountryService(countryService);
+		populator.setZoneService(zoneService);
+		populator.setFilePath(imageUtils);
+		
+		ReadableMerchantStoreList returnList = new ReadableMerchantStoreList();
+		returnList.setTotalCount(list.getTotalCount());
+		
+		for(MerchantStore store : stores) {
+			
+			
+			ReadableMerchantStore readable = new ReadableMerchantStore();
+			readable = populator.populate(store, readable, store, lang);
+			returnList.getData().add(readable);
+
+		}
+		
+		return returnList;
 	}
 
 }

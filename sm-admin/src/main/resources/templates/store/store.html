@@ -142,7 +142,7 @@
 	<!-- available language -->
 	<script src="/js/languages.js"></script>
 	<!-- Unique code detection -->
-	<script src="/js/uniqueCode.js"></script>
+	<script src="/js/uniqueCodeX.js"></script>
 	
 	<script type="text/javascript">
 		$(function () {
@@ -360,46 +360,7 @@
 		        hideLoader();
 		    })
 	  }
-      
-/*       function submit() {
-			resetMessages();
-			adjustCheckBoxes($(".checkTrueFalse"));
-			
-			var form_data = $('#store').serializeJSON(); //Encode form elements for submission
 
-			//log(form_data);
-			
-			//create url
-			var url = BACKEND + "/private/store";
-			var type ='POST';
-			
-			if($("#action").val()=='READ') {
-				url = BACKEND + "/private/store/" + $("#code").val();
-				 type ='PUT';
-			}
-
-	    	$.ajax({
-	    	    type:type,
-	    	    crossDomain: true,
-	    	    cache: false,
-	    	    url: url,
-	    	    dataType: "json",
-	    	    contentType : 'application/json; charset=utf-8',
-	    	    data:JSON.stringify(form_data),
-	    	    headers: {
-	    	        "Authorization": "Bearer " + TOKEN
-	    	    },
-	    	    success: function(data){
-	    	    	$("#action").val('READ');
-	    	    	success('');
-	    	    },
-	    	    error: function(response,textStatus,errorThrown) {
-	    	    	log(JSON.stringify(response.responseJSON));
-	    	    	error(JSON.stringify(response.responseJSON));
-	    	    }
-	    	});
-      } */
-      
     	function adjustCheckBoxes($input) {
 	    		if($input.is(':checked')) {
 	              	$input.attr('value', 'true');
