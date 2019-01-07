@@ -15,12 +15,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-<<<<<<< HEAD
-		<!--<version>1.5.3.RELEASE</version> upgrading to handle potential No target ValidatorFactory set exception-->
-		<version>1.5.4.RELEASE</version>
-=======
 		<version>1.5.18.RELEASE</version>
->>>>>>> 3e6fb59... Spring Boot 1.5.18
 	</parent>
 
 
