@@ -1,13 +1,9 @@
 package com.salesmanager.shop.store.api.v1.store;
 
-import com.google.common.collect.ImmutableMap;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.security.Principal;
-import java.util.AbstractMap;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,12 +24,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import com.google.common.collect.ImmutableMap;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.model.content.FileContentType;
 import com.salesmanager.core.model.content.InputContentFile;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.merchant.MerchantStoreCriteria;
-import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.PersistableImage;
 import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.model.shop.PersistableMerchantStore;
