@@ -41,11 +41,7 @@ public class PersistableMerchantStorePopulator extends AbstractDataPopulator<Per
 	@Override
 	public MerchantStore populate(PersistableMerchantStore source, MerchantStore target, MerchantStore store,
 			Language language) throws ConversionException {
-	
-/*		Validate.notNull(countryService, "CountryService must not be null");
-		Validate.notNull(zoneService, "ZoneService must not be null");
-		Validate.notNull(languageService, "LanguageService must not be null");
-		Validate.notNull(currencyService, "CurrencyService must not be null");*/
+
 		Validate.notNull(source, "PersistableMerchantStore mst not be null");
 		
 		if(target == null) {
@@ -63,6 +59,7 @@ public class PersistableMerchantStorePopulator extends AbstractDataPopulator<Per
 		target.setStorename(source.getName());
 		target.setStorephone(source.getPhone());
 		target.setStoreEmailAddress(source.getEmail());
+		target.setUseCache(source.isUseCache());
 		
 		try {
 			

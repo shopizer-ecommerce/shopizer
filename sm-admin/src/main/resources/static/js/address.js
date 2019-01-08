@@ -149,7 +149,9 @@
 					$('#stateProvince').replaceWith("<input class='form-control' name='address[stateProvince]' id='stateProvince'>");
 				 })
 				.always(function(data) {
-					selectZone(selected.trim());  
+					if(selected != null) {
+						selectZone(selected.trim()); 
+					}
 					hideLoader();
 				});
 

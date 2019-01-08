@@ -36,21 +36,21 @@
 		<div class="box-body">
 			<div class="row">
 				<div class="col-md-12">
-				
-					<p>
-					<i class="fa fa-building"></i> <span th:text="#{'label.store.metadata'}"></span>
-					</p>
 
 					<p>
 						<table class="table table-bordered" id="storeListTable">
 		                    <thead>
-		                           <th>Code</th>
-		                           <th>Name</th>
+		                           <th><span th:text="#{'label.entity.id'}"></span></th>
+		                           <th><span th:text="#{'label.entity.code'}"></span></th>
+		                           <th><span th:text="#{'label.entity.name'}"></span></th>
+		                           <th><span th:text="#{'label.generic.createdBy'}"></span></th>
 		                    </thead>
 		                    <tfoot>
 						        <tr>
-						           <th>Code</th>
-						           <th>Name</th>
+						           <th><span th:text="#{'label.entity.id'}"></span></th>
+						           <th><span th:text="#{'label.entity.code'}"></span></th>
+						           <th><span th:text="#{'label.entity.name'}"></span></th>
+						           <th><span th:text="#{'label.generic.createdBy'}"></span></th>
 						        </tr>
 						   </tfoot>				
 		               </table>
@@ -77,33 +77,67 @@
 	<script type="text/javascript">
 
 	$(document).ready(function () {
-		
+
 		//showLoader();
 		var url = BACKEND + "/private/stores";
 	
 		var dataTable =  $('#storeListTable').DataTable( {
-			
+			columnDefs: [{
+				    "defaultContent": "-",
+				    "targets": "_all"
+			}],
 			processing:true,
 			serverSide: true,
+			searchDelay: 2000,
 			ajax: {
 				"url": url,
 				"type": "GET",
-				"dataSrc":"data",
 				"headers": {
 		    	      "Authorization": "Bearer " + TOKEN
-		    	 },
-		    	 "columns": [
-			         {"data":"code"},
-			         {"data":"name"}
-			     ]
-			 }
+		    	 }
+			 },
+			 "columns": [
+				 { "data": "id" },
+				 { "data": "code",
+				   "render": function ( data, type, row, meta ) {
+					     return '<a href="/admin/store?code=' + data + '">' + data + '</a>';
+					}
+				 },
+				 { "data": "name" },
+				 { "data": "readableAudit.user" }
+			]
 					
 		});
+		
+		
+		dataTable.on( 'search.dt', function (event) {
+			//log('search');
+
+		    //$('#filterInfo').html( 'Currently applied global search: '+table.search() );
+		} );
 	
 		//datatable pagination
 		
 		
 		//datatable search
+		// this function is used to intialize the event handlers
+		//function onint(){
+		     // take off all events from the searchfield
+		     //$("#storeListTable_filter input[type='search']").off();
+		      //$('.dataTables_filter input').unbind('keypress keyup');
+		     // Use return key to trigger search
+		     //$("#storeListTable_filter input[type='search']").on("keydown", function(evt){
+		    //	  log('Searching');
+		    //      if(evt.keyCode == 13){
+		    //    	log('Searching searching');
+		    //        $("#storeListTable").DataTable().search($("input[type='search']").val()).draw();
+		    //      }
+		    // });
+		    // $("#storeListTable_filter").button().on("click", function(){
+		    //       $("#storeListTable").DataTable().search($("input[type='search']").val()).draw();
+
+		     //});
+		//}
 	
 	});
 	

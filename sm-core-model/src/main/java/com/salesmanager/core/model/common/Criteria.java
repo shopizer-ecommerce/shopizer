@@ -6,10 +6,13 @@ public class Criteria {
 	private int startIndex = 0;
 	private int maxCount = 0;
 	private String code;
+	private String name;
 	private String language;
 	private String user;
-	
+
 	private CriteriaOrderBy orderBy = CriteriaOrderBy.DESC;
+	private String criteriaOrderByField;
+	private String search;
 	
 	
 	public int getMaxCount() {
@@ -48,6 +51,24 @@ public class Criteria {
 	public void setUser(String user) {
 		this.user = user;
 	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getCriteriaOrderByField() {
+		return criteriaOrderByField;
+	}
+	public void setCriteriaOrderByField(String criteriaOrderByField) {
+		this.criteriaOrderByField = criteriaOrderByField;
+	}
+  public String getSearch() {
+    return search;
+  }
+  public void setSearch(String search) {
+    this.search = search;
+  }
 
 
 

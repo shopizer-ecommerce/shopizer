@@ -22,3 +22,8 @@ fieldset.address-border {
     -webkit-box-shadow:  0px 0px 0px 0px #000;
             box-shadow:  0px 0px 0px 0px #000;
 }
+
+input.parsley-success, select.parsley-success, textarea.parsley-success {
+    color: #000 !important;
+    background-color: #fff !important;
+}
