@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.salemanager.shop.exception.ResourceNotFoundException;
+import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -66,18 +67,14 @@ public class CategoryApi {
     @GetMapping("/category/{id}")
     @ApiOperation(httpMethod = "GET", value = "Get category list for an given Category id", notes = "List current Category and child category")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "List of category found", response = ReadableCategory.class)})
-    public ReadableCategory get(@PathVariable final Long categoryId,
+    public ReadableCategory get(@PathVariable(name = "id") final Long categoryId,
                                 @RequestParam(name = "store", defaultValue = DEFAULT_STORE) String storeCode,
                                 @RequestParam(value = "lang", required = false) String lang,
                                 HttpServletRequest request) {
-        try {
-            MerchantStore merchantStore = storeFacade.get(storeCode);
-            Language language = languageUtils.getRESTLanguage(request, merchantStore);
-            ReadableCategory categories = categoryFacade.getById(merchantStore, categoryId, language);
-            return categories;
-        } catch (Exception exception) {
-            throw new RestApiException("Error while getting category", exception);
-        }
+        MerchantStore merchantStore = storeFacade.get(storeCode);
+        Language language = languageUtils.getRESTLanguage(request, merchantStore);
+        ReadableCategory categories = categoryFacade.getById(merchantStore, categoryId, language);
+        return categories;
     }
 
     /**
@@ -95,17 +92,12 @@ public class CategoryApi {
             @RequestParam(value = "filter", required = false) String filter,
             @RequestParam(value = "lang", required = false) String lang,
             @RequestParam(name = "store", defaultValue = DEFAULT_STORE) String storeCode,
-            HttpServletRequest request, HttpServletResponse response) {
+            HttpServletRequest request) {
 
-        try {
-            MerchantStore merchantStore = storeFacade.get(storeCode);
-            Language language = languageUtils.getRESTLanguage(request, merchantStore);
-            List<ReadableCategory> categories = categoryFacade.getCategoryHierarchy(merchantStore, DEFAULT_CATEGORY_DEPTH, language, filter);
-            return categories;
-        } catch (Exception exception) {
-            throw new RestApiException(String.format("Error while getting root category %s", exception.getMessage()),
-                    exception);
-        }
+        MerchantStore merchantStore = storeFacade.get(storeCode);
+        Language language = languageUtils.getRESTLanguage(request, merchantStore);
+        List<ReadableCategory> categories = categoryFacade.getCategoryHierarchy(merchantStore, DEFAULT_CATEGORY_DEPTH, language, filter);
+        return categories;
     }
 
     /**
@@ -114,50 +106,32 @@ public class CategoryApi {
     @PostMapping("/private/category")
     public PersistableCategory createCategory(@Valid @RequestBody PersistableCategory category,
                                               @RequestParam(name = "store", defaultValue = DEFAULT_STORE) String storeCode,
-                                              HttpServletRequest request,
-                                              HttpServletResponse response) {
-        try {
-            MerchantStore merchantStore = storeFacade.get(storeCode);
-            //TODO review maybe redundant
-            Language language = languageUtils.getRESTLanguage(request, merchantStore);
-            categoryFacade.saveCategory(merchantStore, category);
+                                              HttpServletRequest request) {
+        MerchantStore merchantStore = storeFacade.get(storeCode);
+        //TODO review maybe redundant
+        Language language = languageUtils.getRESTLanguage(request, merchantStore);
+        categoryFacade.saveCategory(merchantStore, category);
 
-            category.setId(category.getId());
-            return category;
-
-        } catch (Exception exception) {
-            throw new RestApiException("Error while creating category", exception);
-        }
+        category.setId(category.getId());
+        return category;
     }
 
     @PutMapping("/private/category/{id}")
     public PersistableCategory update(@PathVariable Long id,
                                       @Valid @RequestBody PersistableCategory category,
-                                      @RequestParam(name = "store", defaultValue = DEFAULT_STORE) String storeCode,
-                                      HttpServletRequest request,
-                                      HttpServletResponse response) throws Exception {
+                                      @RequestParam(name = "store", defaultValue = DEFAULT_STORE) String storeCode) {
 
-        try {
-            MerchantStore merchantStore = storeFacade.get(storeCode);
-            categoryFacade.saveCategory(merchantStore, category);
-            return category;
-        } catch (Exception exception) {
-            throw new RestApiException("Error while updating category", exception);
-        }
-
+        MerchantStore merchantStore = storeFacade.get(storeCode);
+        return categoryFacade.saveCategory(merchantStore, category);
     }
 
     @DeleteMapping("/private/category/{id}")
-    public void delete(@PathVariable Long categoryId) {
-        try {
-            Category category = Optional.ofNullable(categoryService.getById(categoryId))
-                    //TODO should be moved to categoryService
-                    .orElseThrow(() -> new ResourceNotFoundException(String.format("No Category found for ID : %s", categoryId)));
+    public void delete(@PathVariable(name = "id") Long categoryId) {
+        Category category = Optional.ofNullable(categoryService.getById(categoryId))
+                //TODO should be moved to categoryService
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("No Category found for ID : %s", categoryId)));
 
-            categoryFacade.deleteCategory(category);
-        } catch (Exception exception) {
-            throw new RestApiException("Error while deleting category", exception);
-        }
+        categoryFacade.deleteCategory(category);
     }
 
 }

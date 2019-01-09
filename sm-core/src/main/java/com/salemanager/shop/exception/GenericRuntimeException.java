@@ -6,32 +6,32 @@ import lombok.Getter;
 public class GenericRuntimeException extends RuntimeException{
 
     private String errorCode;
-    private String message;
+    private String errorMessage;
 
-    public GenericRuntimeException(String errorCode, String message) {
+    public GenericRuntimeException(String errorCode, String errorMessage) {
         this.errorCode = errorCode;
-        this.message = message;
+        this.errorMessage = errorMessage;
     }
 
-    public GenericRuntimeException(String message) {
-        this.message = message;
+    public GenericRuntimeException(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 
     public GenericRuntimeException(Throwable exception) {
         super(exception);
         this.errorCode = null;
-        this.message = null;
+        this.errorMessage = null;
     }
 
-    public GenericRuntimeException(String message, Throwable exception) {
+    public GenericRuntimeException(String errorMessage, Throwable exception) {
         super(exception);
         this.errorCode = null;
-        this.message = message;
+        this.errorMessage = errorMessage;
     }
 
-    public GenericRuntimeException(String errorCode, String message, Throwable exception) {
+    public GenericRuntimeException(String errorCode, String errorMessage, Throwable exception) {
         super(exception);
         this.errorCode = errorCode;
-        this.message = message;
+        this.errorMessage = errorMessage;
     }
 }

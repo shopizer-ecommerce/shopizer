@@ -3,6 +3,9 @@ package com.salesmanager.shop.store.controller.store.facade;
 import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+
+import com.salemanager.shop.exception.ServiceRuntimeException;
+import com.salesmanager.core.business.exception.ServiceException;
 import org.apache.commons.lang.Validate;
 import org.drools.core.util.StringUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -59,8 +62,13 @@ public class StoreFacadeImpl implements StoreFacade {
   }
 
   @Override
-  public MerchantStore get(String code) throws Exception {
-    return merchantStoreService.getByCode(code);
+  public MerchantStore get(String code) {
+    try {
+        return merchantStoreService.getByCode(code);
+    } catch (ServiceException e){
+        throw new ServiceRuntimeException(e);
+    }
+
   }
 
   @Override
