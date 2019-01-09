@@ -1,43 +1,41 @@
 package com.salesmanager.shop.store.api.v1.category;
 
-import java.util.List;
-import java.util.Optional;
-
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import java.util.List;
+import java.util.Optional;
 
 import com.salemanager.shop.exception.ResourceNotFoundException;
-import com.salemanager.shop.exception.ServiceRuntimeException;
-import com.salesmanager.shop.store.api.exception.RestApiException;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.category.PersistableCategory;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
+import com.salesmanager.shop.store.api.exception.RestApiException;
 import com.salesmanager.shop.store.controller.category.facade.CategoryFacade;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.ImageFilePath;
 import com.salesmanager.shop.utils.LanguageUtils;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
-
-import javax.ws.rs.core.MediaType;
+import io.swagger.annotations.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import static com.salesmanager.core.business.constants.Constants.DEFAULT_STORE;
 
