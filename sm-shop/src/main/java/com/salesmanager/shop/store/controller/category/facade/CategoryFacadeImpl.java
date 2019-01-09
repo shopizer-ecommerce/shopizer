@@ -35,6 +35,9 @@ public class CategoryFacadeImpl implements CategoryFacade {
 	@Inject
 	private LanguageService languageService;
 	
+	@Inject
+	private PersistableCategoryPopulator persistableCatagoryPopulator;
+	
 	private final static String FEATURED_CATEGORY = "featured";
 
 	@Override
@@ -108,9 +111,9 @@ public class CategoryFacadeImpl implements CategoryFacade {
 	public void saveCategory(MerchantStore store, PersistableCategory category)
 			throws Exception {
 		
-		PersistableCategoryPopulator populator = new PersistableCategoryPopulator();
+/*		PersistableCategoryPopulator populator = new PersistableCategoryPopulator();
 		populator.setCategoryService(categoryService);
-		populator.setLanguageService(languageService);
+		populator.setLanguageService(languageService);*/
 		
 		Category target = null;
 		
@@ -120,7 +123,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 			target = new Category();
 		}
 		
-		Category dbCategory = populator.populate(category, target, store, store.getDefaultLanguage());
+		Category dbCategory = persistableCatagoryPopulator.populate(category, target, store, store.getDefaultLanguage());
 		
 		this.saveCategory(store, dbCategory, null);
 		

@@ -21,4 +21,5 @@
 	  function resetMessages() {
 		  $(".errorCallout").hide();
 		  $(".successCallout").hide();
+		  //$(".callout-warning").hide();
 	  }

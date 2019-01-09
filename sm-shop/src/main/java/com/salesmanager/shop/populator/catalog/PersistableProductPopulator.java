@@ -8,9 +8,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.inject.Inject;
+
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
 
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
@@ -38,21 +41,25 @@ import com.salesmanager.shop.model.catalog.product.PersistableImage;
 import com.salesmanager.shop.model.catalog.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.ProductPriceEntity;
 import com.salesmanager.shop.utils.DateUtil;
-import com.salesmanager.shop.utils.ImageFilePath;
 
 
-
+@Component
 public class PersistableProductPopulator extends
 		AbstractDataPopulator<PersistableProduct, Product> {
 	
-	
+	@Inject
 	private CategoryService categoryService;
+	@Inject
 	private ManufacturerService manufacturerService;
+	@Inject
 	private TaxClassService taxClassService;
+	@Inject
 	private LanguageService languageService;
-	
+	@Inject
 	private ProductOptionService productOptionService;
+	@Inject
 	private ProductOptionValueService productOptionValueService;
+	@Inject
 	private CustomerService customerService;
 
 	
@@ -64,13 +71,13 @@ public class PersistableProductPopulator extends
 			Product target, MerchantStore store, Language language)
 			throws ConversionException {
 		
-			Validate.notNull(manufacturerService, "Requires to set ManufacturerService");
+/*			Validate.notNull(manufacturerService, "Requires to set ManufacturerService");
 			Validate.notNull(languageService, "Requires to set LanguageService");
 			Validate.notNull(categoryService, "Requires to set CategoryService");
 			Validate.notNull(taxClassService, "Requires to set TaxClassService");
 			Validate.notNull(customerService, "Requires to set CustomerService");//RENTAL
 			Validate.notNull(productOptionService, "Requires to set ProductOptionService");
-			Validate.notNull(productOptionValueService, "Requires to set ProductOptionValueService");
+			Validate.notNull(productOptionValueService, "Requires to set ProductOptionValueService");*/
 		
 		try {
 

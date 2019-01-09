@@ -2,9 +2,12 @@ package com.salesmanager.shop.populator.store;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.apache.commons.collections4.CollectionUtils;
 import org.drools.core.util.StringUtils;
 import org.jsoup.helper.Validate;
+import org.springframework.stereotype.Component;
 
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ConversionException;
@@ -22,25 +25,23 @@ import com.salesmanager.core.model.reference.zone.Zone;
 import com.salesmanager.shop.model.references.PersistableAddress;
 import com.salesmanager.shop.model.shop.PersistableMerchantStore;
 
+@Component
 public class PersistableMerchantStorePopulator extends AbstractDataPopulator<PersistableMerchantStore, MerchantStore> {
 
+	@Inject
 	private CountryService countryService;
-
+	@Inject
 	private ZoneService zoneService;
-	
+	@Inject
 	private LanguageService languageService;
-	
+	@Inject
 	private CurrencyService currencyService;
 	
 	
 	@Override
 	public MerchantStore populate(PersistableMerchantStore source, MerchantStore target, MerchantStore store,
 			Language language) throws ConversionException {
-	
-		Validate.notNull(countryService, "CountryService must not be null");
-		Validate.notNull(zoneService, "ZoneService must not be null");
-		Validate.notNull(languageService, "LanguageService must not be null");
-		Validate.notNull(currencyService, "CurrencyService must not be null");
+
 		Validate.notNull(source, "PersistableMerchantStore mst not be null");
 		
 		if(target == null) {
@@ -58,6 +59,7 @@ public class PersistableMerchantStorePopulator extends AbstractDataPopulator<Per
 		target.setStorename(source.getName());
 		target.setStorephone(source.getPhone());
 		target.setStoreEmailAddress(source.getEmail());
+		target.setUseCache(source.isUseCache());
 		
 		try {
 			

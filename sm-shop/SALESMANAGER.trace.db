@@ -1,3 +1,55 @@
 2018-05-11 22:55:17 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLException: Table "PERMISSION_GROUP" not found; SQL statement:
 select * from PERMISSION_GROUP [42102-191]
+2019-01-02 19:56:51 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "PRODUCT" not found; SQL statement:
+select * from product [42102-191]
+2019-01-05 08:56:07 database: close
+org.h2.message.DbException: IO Exception: "java.io.EOFException"; "/Users/carlsamson/Documents/dev/workspaces/master/shopizer/sm-shop/SALESMANAGER.h2.db" [90031-194]
+	at org.h2.message.DbException.get(DbException.java:168)
+	at org.h2.message.DbException.convertIOException(DbException.java:330)
+	at org.h2.store.FileStore.readFully(FileStore.java:274)
+	at org.h2.store.PageStore.readPage(PageStore.java:1326)
+	at org.h2.store.PageStore.getPage(PageStore.java:750)
+	at org.h2.store.PageStreamTrunk$Iterator.next(PageStreamTrunk.java:251)
+	at org.h2.store.PageLog.free(PageLog.java:213)
+	at org.h2.store.PageStore.compact(PageStore.java:499)
+	at org.h2.engine.Database.closeOpenFilesAndUnlock(Database.java:1365)
+	at org.h2.engine.Database.close(Database.java:1295)
+	at org.h2.engine.DatabaseCloser.run(DatabaseCloser.java:63)
+Caused by: org.h2.jdbc.JdbcSQLException: IO Exception: "java.io.EOFException"; "/Users/carlsamson/Documents/dev/workspaces/master/shopizer/sm-shop/SALESMANAGER.h2.db" [90031-194]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	... 11 more
+Caused by: java.io.EOFException
+	at org.h2.store.fs.FileUtils.readFully(FileUtils.java:358)
+	at org.h2.store.FileStore.readFully(FileStore.java:272)
+	... 8 more
+2019-01-05 12:50:15 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "MERCHANTSTORE" not found; SQL statement:
+select distinct m from MerchantStore m left join fetch m.country mc left join fetch m.currency mc left join fetch m.zone mz left join fetch m.defaultLanguage md left join fetch m.languages mls  where m.code like:'t' [42102-191]
+2019-01-05 12:50:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "SELECT DISTINCT M FROM SALESMANAGER.MERCHANT_STORE M LEFT JOIN FETCH[*] M.COUNTRY MC LEFT JOIN FETCH M.CURRENCY MC LEFT JOIN FETCH M.ZONE MZ LEFT JOIN FETCH M.DEFAULTLANGUAGE MD LEFT JOIN FETCH M.LANGUAGES MLS  WHERE M.CODE LIKE:'t' "; expected "identifier"; SQL statement:
+select distinct m from SALESMANAGER.MERCHANT_STORE m left join fetch m.country mc left join fetch m.currency mc left join fetch m.zone mz left join fetch m.defaultLanguage md left join fetch m.languages mls  where m.code like:'t' [42001-191]
+2019-01-05 12:55:54 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "HIBERNATE[*]: SELECT DISTINCT MERCHANTST0_.MERCHANT_ID AS MERCHANT1_27_0_, COUNTRY1_.COUNTRY_ID AS COUNTRY_1_4_1_, CURRENCY2_.CURRENCY_ID AS CURRENCY1_6_2_, ZONE3_.ZONE_ID AS ZONE_ID1_75_3_, LANGUAGE4_.LANGUAGE_ID AS LANGUAGE1_21_4_, LANGUAGE6_.LANGUAGE_ID AS LANGUAGE1_21_5_, MERCHANTST0_.DATE_CREATED AS DATE_CRE2_27_0_, MERCHANTST0_.DATE_MODIFIED AS DATE_MOD3_27_0_, MERCHANTST0_.UPDT_ID AS UPDT_ID4_27_0_, MERCHANTST0_.STORE_CODE AS STORE_CO5_27_0_, MERCHANTST0_.CONTINUESHOPPINGURL AS CONTINUE6_27_0_, MERCHANTST0_.COUNTRY_ID AS COUNTRY23_27_0_, MERCHANTST0_.CURRENCY_ID AS CURRENC24_27_0_, MERCHANTST0_.CURRENCY_FORMAT_NATIONAL AS CURRENCY7_27_0_, MERCHANTST0_.LANGUAGE_ID AS LANGUAG25_27_0_, MERCHANTST0_.DOMAIN_NAME AS DOMAIN_N8_27_0_, MERCHANTST0_.IN_BUSINESS_SINCE AS IN_BUSIN9_27_0_, MERCHANTST0_.INVOICE_TEMPLATE AS INVOICE10_27_0_, MERCHANTST0_.SEIZEUNITCODE AS SEIZEUN11_27_0_, MERCHANTST0_.STORE_EMAIL AS STORE_E12_27_0_, MERCHANTST0_.STORE_LOGO AS STORE_L13_27_0_, MERCHANTST0_.STORE_TEMPLATE AS STORE_T14_27_0_, MERCHANTST0_.STORE_ADDRESS AS STORE_A15_27_0_, MERCHANTST0_.STORE_CITY AS STORE_C16_27_0_, MERCHANTST0_.STORE_NAME AS STORE_N17_27_0_, MERCHANTST0_.STORE_PHONE AS STORE_P18_27_0_, MERCHANTST0_.STORE_POSTAL_CODE AS STORE_P19_27_0_, MERCHANTST0_.STORE_STATE_PROV AS STORE_S20_27_0_, MERCHANTST0_.USE_CACHE AS USE_CAC21_27_0_, MERCHANTST0_.WEIGHTUNITCODE AS WEIGHTU22_27_0_, MERCHANTST0_.ZONE_ID AS ZONE_ID26_27_0_, COUNTRY1_.GEOZONE_ID AS GEOZONE_4_4_1_, COUNTRY1_.COUNTRY_ISOCODE AS COUNTRY_2_4_1_, COUNTRY1_.COUNTRY_SUPPORTED AS COUNTRY_3_4_1_, CURRENCY2_.CURRENCY_CODE AS CURRENCY2_6_2_, CURRENCY2_.CURRENCY_CURRENCY_CODE AS CURRENCY3_6_2_, CURRENCY2_.CURRENCY_NAME AS CURRENCY4_6_2_, CURRENCY2_.CURRENCY_SUPPORTED AS CURRENCY5_6_2_, ZONE3_.ZONE_CODE AS ZONE_COD2_75_3_, ZONE3_.COUNTRY_ID AS COUNTRY_3_75_3_, LANGUAGE4_.DATE_CREATED AS DATE_CRE2_21_4_, LANGUAGE4_.DATE_MODIFIED AS DATE_MOD3_21_4_, LANGUAGE4_.UPDT_ID AS UPDT_ID4_21_4_, LANGUAGE4_.CODE AS CODE5_21_4_, LANGUAGE4_.SORT_ORDER AS SORT_ORD6_21_4_, LANGUAGE6_.DATE_CREATED AS DATE_CRE2_21_5_, LANGUAGE6_.DATE_MODIFIED AS DATE_MOD3_21_5_, LANGUAGE6_.UPDT_ID AS UPDT_ID4_21_5_, LANGUAGE6_.CODE AS CODE5_21_5_, LANGUAGE6_.SORT_ORDER AS SORT_ORD6_21_5_, LANGUAGES5_.STORES_MERCHANT_ID AS STORES_M1_25_0__, LANGUAGES5_.LANGUAGES_LANGUAGE_ID AS LANGUAGE2_25_0__ FROM SALESMANAGER.MERCHANT_STORE MERCHANTST0_ LEFT OUTER JOIN SALESMANAGER.COUNTRY COUNTRY1_ ON MERCHANTST0_.COUNTRY_ID=COUNTRY1_.COUNTRY_ID LEFT OUTER JOIN SALESMANAGER.CURRENCY CURRENCY2_ ON MERCHANTST0_.CURRENCY_ID=CURRENCY2_.CURRENCY_ID LEFT OUTER JOIN SALESMANAGER.ZONE ZONE3_ ON MERCHANTST0_.ZONE_ID=ZONE3_.ZONE_ID LEFT OUTER JOIN SALESMANAGER.LANGUAGE LANGUAGE4_ ON MERCHANTST0_.LANGUAGE_ID=LANGUAGE4_.LANGUAGE_ID LEFT OUTER JOIN SALESMANAGER.MERCHANT_LANGUAGE LANGUAGES5_ ON MERCHANTST0_.MERCHANT_ID=LANGUAGES5_.STORES_MERCHANT_ID LEFT OUTER JOIN SALESMANAGER.LANGUAGE LANGUAGE6_ ON LANGUAGES5_.LANGUAGES_LANGUAGE_ID=LANGUAGE6_.LANGUAGE_ID WHERE MERCHANTST0_.STORE_CODE LIKE 'te' "; expected "HELP, {"; SQL statement:
+Hibernate: select distinct merchantst0_.MERCHANT_ID as MERCHANT1_27_0_, country1_.COUNTRY_ID as COUNTRY_1_4_1_, currency2_.CURRENCY_ID as CURRENCY1_6_2_, zone3_.ZONE_ID as ZONE_ID1_75_3_, language4_.LANGUAGE_ID as LANGUAGE1_21_4_, language6_.LANGUAGE_ID as LANGUAGE1_21_5_, merchantst0_.DATE_CREATED as DATE_CRE2_27_0_, merchantst0_.DATE_MODIFIED as DATE_MOD3_27_0_, merchantst0_.UPDT_ID as UPDT_ID4_27_0_, merchantst0_.STORE_CODE as STORE_CO5_27_0_, merchantst0_.CONTINUESHOPPINGURL as CONTINUE6_27_0_, merchantst0_.COUNTRY_ID as COUNTRY23_27_0_, merchantst0_.CURRENCY_ID as CURRENC24_27_0_, merchantst0_.CURRENCY_FORMAT_NATIONAL as CURRENCY7_27_0_, merchantst0_.LANGUAGE_ID as LANGUAG25_27_0_, merchantst0_.DOMAIN_NAME as DOMAIN_N8_27_0_, merchantst0_.IN_BUSINESS_SINCE as IN_BUSIN9_27_0_, merchantst0_.INVOICE_TEMPLATE as INVOICE10_27_0_, merchantst0_.SEIZEUNITCODE as SEIZEUN11_27_0_, merchantst0_.STORE_EMAIL as STORE_E12_27_0_, merchantst0_.STORE_LOGO as STORE_L13_27_0_, merchantst0_.STORE_TEMPLATE as STORE_T14_27_0_, merchantst0_.STORE_ADDRESS as STORE_A15_27_0_, merchantst0_.STORE_CITY as STORE_C16_27_0_, merchantst0_.STORE_NAME as STORE_N17_27_0_, merchantst0_.STORE_PHONE as STORE_P18_27_0_, merchantst0_.STORE_POSTAL_CODE as STORE_P19_27_0_, merchantst0_.STORE_STATE_PROV as STORE_S20_27_0_, merchantst0_.USE_CACHE as USE_CAC21_27_0_, merchantst0_.WEIGHTUNITCODE as WEIGHTU22_27_0_, merchantst0_.ZONE_ID as ZONE_ID26_27_0_, country1_.GEOZONE_ID as GEOZONE_4_4_1_, country1_.COUNTRY_ISOCODE as COUNTRY_2_4_1_, country1_.COUNTRY_SUPPORTED as COUNTRY_3_4_1_, currency2_.CURRENCY_CODE as CURRENCY2_6_2_, currency2_.CURRENCY_CURRENCY_CODE as CURRENCY3_6_2_, currency2_.CURRENCY_NAME as CURRENCY4_6_2_, currency2_.CURRENCY_SUPPORTED as CURRENCY5_6_2_, zone3_.ZONE_CODE as ZONE_COD2_75_3_, zone3_.COUNTRY_ID as COUNTRY_3_75_3_, language4_.DATE_CREATED as DATE_CRE2_21_4_, language4_.DATE_MODIFIED as DATE_MOD3_21_4_, language4_.UPDT_ID as UPDT_ID4_21_4_, language4_.CODE as CODE5_21_4_, language4_.SORT_ORDER as SORT_ORD6_21_4_, language6_.DATE_CREATED as DATE_CRE2_21_5_, language6_.DATE_MODIFIED as DATE_MOD3_21_5_, language6_.UPDT_ID as UPDT_ID4_21_5_, language6_.CODE as CODE5_21_5_, language6_.SORT_ORDER as SORT_ORD6_21_5_, languages5_.stores_MERCHANT_ID as stores_M1_25_0__, languages5_.languages_LANGUAGE_ID as language2_25_0__ from SALESMANAGER.MERCHANT_STORE merchantst0_ left outer join SALESMANAGER.COUNTRY country1_ on merchantst0_.COUNTRY_ID=country1_.COUNTRY_ID left outer join SALESMANAGER.CURRENCY currency2_ on merchantst0_.CURRENCY_ID=currency2_.CURRENCY_ID left outer join SALESMANAGER.ZONE zone3_ on merchantst0_.ZONE_ID=zone3_.ZONE_ID left outer join SALESMANAGER.LANGUAGE language4_ on merchantst0_.LANGUAGE_ID=language4_.LANGUAGE_ID left outer join SALESMANAGER.MERCHANT_LANGUAGE languages5_ on merchantst0_.MERCHANT_ID=languages5_.stores_MERCHANT_ID left outer join SALESMANAGER.LANGUAGE language6_ on languages5_.languages_LANGUAGE_ID=language6_.LANGUAGE_ID where merchantst0_.STORE_CODE like 'te' [42001-191]
+2019-01-05 12:58:41 database: close
+org.h2.message.DbException: IO Exception: "java.io.EOFException"; "/Users/carlsamson/Documents/dev/workspaces/master/shopizer/sm-shop/SALESMANAGER.h2.db" [90031-194]
+	at org.h2.message.DbException.get(DbException.java:168)
+	at org.h2.message.DbException.convertIOException(DbException.java:330)
+	at org.h2.store.FileStore.readFully(FileStore.java:274)
+	at org.h2.store.PageStore.readPage(PageStore.java:1326)
+	at org.h2.store.PageStore.getPage(PageStore.java:750)
+	at org.h2.store.PageStreamTrunk$Iterator.next(PageStreamTrunk.java:251)
+	at org.h2.store.PageLog.free(PageLog.java:213)
+	at org.h2.store.PageStore.compact(PageStore.java:499)
+	at org.h2.engine.Database.closeOpenFilesAndUnlock(Database.java:1365)
+	at org.h2.engine.Database.close(Database.java:1295)
+	at org.h2.engine.DatabaseCloser.run(DatabaseCloser.java:63)
+Caused by: org.h2.jdbc.JdbcSQLException: IO Exception: "java.io.EOFException"; "/Users/carlsamson/Documents/dev/workspaces/master/shopizer/sm-shop/SALESMANAGER.h2.db" [90031-194]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	... 11 more
+Caused by: java.io.EOFException
+	at org.h2.store.fs.FileUtils.readFully(FileUtils.java:358)
+	at org.h2.store.FileStore.readFully(FileStore.java:272)
+	... 8 more
