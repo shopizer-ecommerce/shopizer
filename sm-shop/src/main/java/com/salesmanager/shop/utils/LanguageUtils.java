@@ -1,5 +1,6 @@
 package com.salesmanager.shop.utils;
 
+import com.salemanager.shop.exception.ServiceRuntimeException;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -123,41 +124,45 @@ public class LanguageUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public Language getRESTLanguage(HttpServletRequest request, MerchantStore store) throws Exception {
+	public Language getRESTLanguage(HttpServletRequest request, MerchantStore store) {
 		
 		Validate.notNull(request,"HttpServletRequest must not be null");
 		Validate.notNull(store,"MerchantStore must not be null");
 
-		Language language = null;
-		
-		
-		String lang = request.getParameter(Constants.LANG);
-		
-		if(StringUtils.isBlank(lang)) {
-			//try with HttpSession
-			language = (Language) request.getSession().getAttribute(Constants.LANGUAGE);
-			if(language==null) {
-				language = store.getDefaultLanguage();
-			}
-			
-			if(language==null) {
-				language = languageService.defaultLanguage();
-			}
-		} else {
-			language = languageService.getByCode(lang);
-			if(language==null) {
+		try {
+			Language language = null;
+
+			String lang = request.getParameter(Constants.LANG);
+
+			if (StringUtils.isBlank(lang)) {
+				//try with HttpSession
 				language = (Language) request.getSession().getAttribute(Constants.LANGUAGE);
-				if(language==null) {
+				if (language == null) {
 					language = store.getDefaultLanguage();
 				}
-				
-				if(language==null) {
+
+				if (language == null) {
 					language = languageService.defaultLanguage();
 				}
-			}
-		}
+			} else {
+				language = languageService.getByCode(lang);
+				if (language == null) {
+					language = (Language) request.getSession().getAttribute(Constants.LANGUAGE);
+					if (language == null) {
+						language = store.getDefaultLanguage();
+					}
 
-		return language;
+					if (language == null) {
+						language = languageService.defaultLanguage();
+					}
+				}
+			}
+
+			return language;
+
+		} catch (ServiceException e) {
+			throw new ServiceRuntimeException(e);
+		}
 	}
 
 }

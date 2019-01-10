@@ -26,7 +26,7 @@ public interface StoreFacade {
 	 */
 	MerchantStore getByCode(HttpServletRequest reques) throws Exception;
 	
-	MerchantStore get(String code) throws Exception;
+	MerchantStore get(String code);
 	
 	ReadableMerchantStore getByCode(String code, Language lang) throws Exception;
 	
