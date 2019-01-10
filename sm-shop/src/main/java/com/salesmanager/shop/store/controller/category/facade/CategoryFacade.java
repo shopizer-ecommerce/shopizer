@@ -18,14 +18,14 @@ public interface CategoryFacade {
 	 * @return
 	 * @throws Exception
 	 */
-	List<ReadableCategory> getCategoryHierarchy(MerchantStore store, int depth, Language language, String filter) throws Exception;
+	List<ReadableCategory> getCategoryHierarchy(MerchantStore store, int depth, Language language, String filter);
+
+	PersistableCategory saveCategory(MerchantStore store, PersistableCategory category);
 	
-	void saveCategory(MerchantStore store, PersistableCategory category) throws Exception;
-	
-	ReadableCategory getById(MerchantStore store, Long id, Language language) throws Exception;
+	ReadableCategory getById(MerchantStore store, Long id, Language language);
 	
 	ReadableCategory getByCode(MerchantStore store, String code, Language language) throws Exception;
 	
-	void deleteCategory(Category category) throws Exception;
+	void deleteCategory(Category category);
 
 }
