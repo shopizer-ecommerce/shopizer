@@ -127,6 +127,12 @@
 		    <version>1.10.19</version>
 		</dependency>
 		
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>jquery.inputmask</artifactId>
+		    <version>4.0.5</version>
+		</dependency>
+		
 		<!-- End webjars -->
 		
 		<!-- https://mvnrepository.com/artifact/org.imgscalr/imgscalr-lib -->

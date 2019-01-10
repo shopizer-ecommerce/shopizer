@@ -56,33 +56,38 @@
         var streetField = '';
         var country;
         var zone;
-        for (var i = 0; i < place.address_components.length; i++) {
-          var addressType = place.address_components[i].types[0];
-          //content can vary from geolocation
-          if (placeForm[addressType]) {
-            var val = place.address_components[i][placeForm[addressType]];
-            var field = componentForm[addressType];
-            if (typeof field != "undefined") {
-            	if(addressType == 'street_number') {
-            		streetNumber = val;
-            		continue;
-            	} 
-            	if(addressType == 'route') {
-            		street = val;
-            		continue;
-            	} 
-            	if(addressType == 'country') {
-            		country = val;
-            	}
-            	if(addressType == 'administrative_area_level_1') {
-            		zone = val;
-            		continue;
-            	} 
-            	document.getElementById(componentForm[addressType]).value = val;
-            }
-          }
+        if(place.address_components!=null) {
+	        for (var i = 0; i < place.address_components.length; i++) {
+	          var addressType = place.address_components[i].types[0];
+	          //content can vary from geolocation
+	          if (placeForm[addressType]) {
+	            var val = place.address_components[i][placeForm[addressType]];
+	            var field = componentForm[addressType];
+	            if (typeof field != "undefined") {
+	            	if(addressType == 'street_number') {
+	            		streetNumber = val;
+	            		continue;
+	            	} 
+	            	if(addressType == 'route') {
+	            		street = val;
+	            		continue;
+	            	} 
+	            	if(addressType == 'country') {
+	            		country = val;
+	            	}
+	            	if(addressType == 'administrative_area_level_1') {
+	            		zone = val;
+	            		continue;
+	            	} 
+	            	document.getElementById(componentForm[addressType]).value = val;
+	            }
+	          }
+	        }
         }
         zones(country,zone);
+        if($("#phone") != 'undefined') {
+        	maskPhone(country, $("#phone"));
+        }
         if(streetNumber != '') {
       	  streetField = streetNumber + ' ';
         }
@@ -174,6 +179,9 @@
 	    		  var address = JSON.parse($.cookie('default-address'));
 	    		  code = address.stateProvince;
 	    	  }
-	    	  $("select[id=stateProvince] option[value="+code+"]").attr('selected','selected');
+	    	  var ctrl = $('#stateProvince');
+	    	  if( !ctrl.is('input') ) {
+	    	  	$("select[id=stateProvince] option[value="+code+"]").attr('selected','selected');
+      		  }
 	     }
 

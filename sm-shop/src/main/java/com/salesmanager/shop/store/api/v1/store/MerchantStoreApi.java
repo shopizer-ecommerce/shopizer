@@ -199,7 +199,7 @@ public class MerchantStoreApi {
       produces = "application/json", response = EntityExists.class)
   public ResponseEntity<ReadableMerchantStoreList> list(
       @RequestParam(value = "start", required = false) Integer start,
-      @RequestParam(value = "count", required = false) Integer count,
+      @RequestParam(value = "length", required = false) Integer count,
       @RequestParam(value = "code", required = false) String code, HttpServletRequest request,
       HttpServletResponse response) throws Exception {
 
@@ -209,6 +209,14 @@ public class MerchantStoreApi {
 
       // Principal principal = request.getUserPrincipal();
       // String userName = principal.getName();
+      
+      Enumeration names =  request.getParameterNames();
+      while(names.hasMoreElements()){
+          //System.out.println(names.nextElement().toString());
+          String param = names.nextElement().toString();
+          String val = request.getParameter(param);
+          System.out.println("param ->" + param + " Val ->" + val);
+      }
 
       MerchantStoreCriteria criteria = (MerchantStoreCriteria) ServiceRequestCriteriaBuilderUtils.buildRequest(mappingFields, request);
 

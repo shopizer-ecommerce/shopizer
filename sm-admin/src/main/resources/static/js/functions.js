@@ -24,11 +24,12 @@
 	   $('#loader').addClass('fadeOut');
    }; 
    
-   //displays success message on a given componentId
-   function success(message, componentId) {
-	   
-   }
-   
-   function error(message, componentId) {
-	   
+   //display phone number mask
+   function maskPhone(countryCode, fieldInstance) {
+       if(countryCode==='CA' || countryCode==='USD') {
+    	   fieldInstance.attr('data-inputmask', '"mask": "(999) 999-9999"');
+       } else {
+    	   fieldInstance.attr('data-inputmask', "'mask': ['999-999-9999 [x99999]', '+099 99 99 9999[9]-9999']");
+       }
+       $('[data-mask]').inputmask();
    }

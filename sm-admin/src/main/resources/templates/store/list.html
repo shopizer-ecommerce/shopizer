@@ -88,6 +88,7 @@
 			}],
 			processing:true,
 			serverSide: true,
+			pages: 3,
 			searchDelay: 2000,
 			ajax: {
 				"url": url,
@@ -96,6 +97,7 @@
 		    	      "Authorization": "Bearer " + TOKEN
 		    	 }
 			 },
+			 "order": [ 0, 'desc' ],
 			 "columns": [
 				 { "data": "id" },
 				 { "data": "code",
@@ -105,39 +107,15 @@
 				 },
 				 { "data": "name" },
 				 { "data": "readableAudit.user" }
-			]
-					
+			]		
 		});
-		
-		
+
 		dataTable.on( 'search.dt', function (event) {
 			//log('search');
 
 		    //$('#filterInfo').html( 'Currently applied global search: '+table.search() );
 		} );
-	
-		//datatable pagination
-		
-		
-		//datatable search
-		// this function is used to intialize the event handlers
-		//function onint(){
-		     // take off all events from the searchfield
-		     //$("#storeListTable_filter input[type='search']").off();
-		      //$('.dataTables_filter input').unbind('keypress keyup');
-		     // Use return key to trigger search
-		     //$("#storeListTable_filter input[type='search']").on("keydown", function(evt){
-		    //	  log('Searching');
-		    //      if(evt.keyCode == 13){
-		    //    	log('Searching searching');
-		    //        $("#storeListTable").DataTable().search($("input[type='search']").val()).draw();
-		    //      }
-		    // });
-		    // $("#storeListTable_filter").button().on("click", function(){
-		    //       $("#storeListTable").DataTable().search($("input[type='search']").val()).draw();
 
-		     //});
-		//}
 	
 	});
 	

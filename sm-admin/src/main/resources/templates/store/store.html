@@ -51,7 +51,7 @@
 							<th:block th:include="fragments/code.html :: code"></th:block>
 							<div class="form-group">
 								<label for="phone"><span th:text="#{'label.storephone'}"></span> *</label>
-								<input class="form-control" id="phone" name="phone" required="">
+								<input class="form-control" id="phone" name="phone" required="" data-mask>
 							</div>
 							<div class="form-group">
 								<label for="email"><span
@@ -225,7 +225,9 @@
 		    	       } else {
 		    	    	   $('#inBusinessSince').datepicker("setDate", new Date() );
 		    	       }
-		    	      
+		    	       
+		    	       maskPhone($("#country").val(), $("#phone"));
+
 
 		    	    },
 		    	    error: function(response,textStatus,errorThrown) {
@@ -289,9 +291,10 @@
       		//handle country change
     	    $('#country').on('change', function() {
     	    	  zones( this.value, null );
+    	    	  maskPhone(this.value, $("#phone"));
     	    });
       		
-
+    	    maskPhone($("#country").val(), $("#phone"));
       		currency();
       		weight();
       		size();
