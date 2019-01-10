@@ -1,10 +1,10 @@
-package com.salesmanager.shop.store.controller.error;
+package com.salesmanager.shop.store.api.exception;
 
-import com.salemanager.shop.exception.ResourceNotFoundException;
-import com.salemanager.shop.exception.ServiceRuntimeException;
-import com.salesmanager.shop.store.api.exception.RestApiException;
-import com.salesmanager.shop.store.controller.error.model.ErrorEntity;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Optional;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -12,16 +12,14 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import com.salesmanager.shop.store.controller.error.model.ErrorEntity;
 
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import java.util.Optional;
-
-@Slf4j
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
 @ResponseBody
 public class RestErrorHandler {
+  
+    private static final Logger log = LoggerFactory.getLogger(RestErrorHandler.class);
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

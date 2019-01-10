@@ -24,8 +24,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
-import com.salesmanager.core.model.common.Criteria;
-import com.salesmanager.core.model.common.CriteriaOrderBy;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.merchant.MerchantStoreCriteria;
 import com.salesmanager.core.model.reference.language.Language;
@@ -72,7 +70,7 @@ public class MerchantStoreApi {
       produces = "application/json", response = ReadableMerchantStore.class)
   public @ResponseBody ReadableMerchantStore store(@PathVariable String store,
       @RequestParam(value = "lang", required = false) String lang, HttpServletRequest request,
-      HttpServletResponse response) throws Exception {
+      HttpServletResponse response) {
 
     Language l = languageUtils.getServiceLanguage(lang);
 
@@ -80,10 +78,6 @@ public class MerchantStoreApi {
 
     ReadableMerchantStore readableStore = storeFacade.getByCode(store, l);
 
-    if (readableStore == null) {
-      response.sendError(404, "MerchanStore not found for merchant store [" + store + "]");
-      return null;
-    }
 
     return readableStore;
   }

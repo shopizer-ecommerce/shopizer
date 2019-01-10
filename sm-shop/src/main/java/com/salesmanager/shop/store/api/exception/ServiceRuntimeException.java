@@ -1,8 +1,11 @@
-package com.salemanager.shop.exception;
-
-import lombok.Getter;
+package com.salesmanager.shop.store.api.exception;
 
 public class ServiceRuntimeException extends GenericRuntimeException {
+
+    /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
 
     public ServiceRuntimeException(String errorCode, String message) {
         super(errorCode, message);

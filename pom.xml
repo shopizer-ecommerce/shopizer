@@ -166,12 +166,12 @@
 			<version>${io.searchbox.jest-version}</version>
 		</dependency>
 
-		<!-- Lombok -->
+<!-- 
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>${lombok.version}</version>
-		</dependency>
+		</dependency> -->
 
 	</dependencies>
 
@@ -219,11 +219,11 @@
 		</pluginRepository>
 	</pluginRepositories>
 
+	
 	<dependencyManagement>
 		<dependencies>
 
 		</dependencies>
-
 	</dependencyManagement>
 
 </project>

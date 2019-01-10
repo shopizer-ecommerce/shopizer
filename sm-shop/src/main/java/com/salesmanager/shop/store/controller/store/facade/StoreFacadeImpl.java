@@ -1,18 +1,16 @@
 package com.salesmanager.shop.store.controller.store.facade;
 
 import java.util.List;
+import java.util.Optional;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-
-import com.salemanager.shop.exception.ServiceRuntimeException;
-import com.salesmanager.core.business.exception.ServiceException;
 import org.apache.commons.lang.Validate;
 import org.drools.core.util.StringUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.merchant.MerchantStoreService;
 import com.salesmanager.core.business.services.reference.country.CountryService;
-import com.salesmanager.core.business.services.reference.currency.CurrencyService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.business.services.reference.zone.ZoneService;
 import com.salesmanager.core.constants.MeasureUnit;
@@ -25,6 +23,8 @@ import com.salesmanager.shop.model.shop.ReadableMerchantStore;
 import com.salesmanager.shop.model.shop.ReadableMerchantStoreList;
 import com.salesmanager.shop.populator.store.PersistableMerchantStorePopulator;
 import com.salesmanager.shop.populator.store.ReadableMerchantStorePopulator;
+import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
+import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.utils.ImageFilePath;
 
 @Service("storeFacade")
@@ -42,8 +42,6 @@ public class StoreFacadeImpl implements StoreFacade {
   @Inject
   private ZoneService zoneService;
 
-  @Inject
-  private CurrencyService currencyService;
 
   @Inject
   private PersistableMerchantStorePopulator persistableMerchantStorePopulator;
@@ -53,7 +51,7 @@ public class StoreFacadeImpl implements StoreFacade {
   private ImageFilePath imageUtils;
 
   @Override
-  public MerchantStore getByCode(HttpServletRequest request) throws Exception {
+  public MerchantStore getByCode(HttpServletRequest request){
     String code = request.getParameter("store");
     if (StringUtils.isEmpty(code)) {
       code = com.salesmanager.core.business.constants.Constants.DEFAULT_STORE;
@@ -72,12 +70,11 @@ public class StoreFacadeImpl implements StoreFacade {
   }
 
   @Override
-  public ReadableMerchantStore getByCode(String code, Language language) throws Exception {
+  public ReadableMerchantStore getByCode(String code, Language language) {
+    
+    MerchantStore store = Optional.ofNullable(get(code))
+        .orElseThrow(() -> new ResourceNotFoundException("Merchant store code not found"));
 
-    MerchantStore store = get(code);
-    if (store == null) {
-      return null;
-    }
     ReadableMerchantStorePopulator populator = new ReadableMerchantStorePopulator();
 
     ReadableMerchantStore readable = new ReadableMerchantStore();
@@ -89,8 +86,14 @@ public class StoreFacadeImpl implements StoreFacade {
     /**
      * Language is not important for this conversion using default language
      */
-    readable = populator.populate(store, readable, store, language);
+    try {
+      readable = populator.populate(store, readable, store, language);
+      
+    } catch(Exception e) {
+      throw new ServiceRuntimeException("Error while populating MerchantStore " + e.getMessage());
+    }
     return readable;
+
   }
 
   @Override
@@ -116,13 +119,11 @@ public class StoreFacadeImpl implements StoreFacade {
 
   @Override
   public void update(PersistableMerchantStore store) throws Exception {
-    MerchantStore mStore = merchantStoreService.getByCode(store.getCode());
-
-    if (mStore == null) {
-      throw new Exception("Store with code " + store.getCode() + " does not exists");
-    }
-
-
+    
+    Validate.notNull(store);
+    
+    MerchantStore mStore = Optional.ofNullable(get(store.getCode()))
+        .orElseThrow(() -> new ResourceNotFoundException("Merchant store code not found"));
 
     store.setId(mStore.getId());
 
@@ -136,11 +137,10 @@ public class StoreFacadeImpl implements StoreFacade {
   @Override
   public ReadableMerchantStoreList getByCriteria(MerchantStoreCriteria criteria, Language lang)
       throws Exception {
+    
+    GenericEntityList<MerchantStore> list = Optional.ofNullable(merchantStoreService.getByCriteria(criteria))
+        .orElseThrow(() -> new ResourceNotFoundException("Criteria did not match any store"));
 
-
-    GenericEntityList<MerchantStore> list = merchantStoreService.getByCriteria(criteria);
-    if (list == null)
-      throw new Exception("No stores are defined, searching stores won't be possible");
     List<MerchantStore> stores = list.getList();
     ReadableMerchantStorePopulator populator = new ReadableMerchantStorePopulator();
     populator.setCountryService(countryService);
