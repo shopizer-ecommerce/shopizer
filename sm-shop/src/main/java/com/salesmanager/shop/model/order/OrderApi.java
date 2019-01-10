@@ -3,7 +3,7 @@ package com.salesmanager.shop.model.order;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.salesmanager.shop.model.Entity;
+import com.salesmanager.shop.model.entity.Entity;
 
 public class OrderApi extends Entity {
 

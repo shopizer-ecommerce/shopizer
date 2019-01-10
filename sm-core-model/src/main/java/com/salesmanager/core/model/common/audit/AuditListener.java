@@ -17,7 +17,7 @@ public class AuditListener {
 			auditSection.setDateModified(new Date());
 			if (auditSection.getDateCreated() == null) {
 				auditSection.setDateCreated(new Date());
-			}
+			}			
 			audit.setAuditSection(auditSection);
 		}
 	}

@@ -1,6 +1,6 @@
 package com.salesmanager.shop.model.security;
 
-import com.salesmanager.shop.model.Entity;
+import com.salesmanager.shop.model.entity.Entity;
 
 public class PermissionEntity extends Entity {
 

@@ -88,6 +88,9 @@ public class ProductFacadeImpl implements ProductFacade {
 	private ProductRelationshipService productRelationshipService;
 	
 	@Inject
+	private PersistableProductPopulator persistableProductPopulator;
+	
+	@Inject
 	@Qualifier("img")
 	private ImageFilePath imageUtils;
 
@@ -115,15 +118,15 @@ public class ProductFacadeImpl implements ProductFacade {
 			
 		}
 		
-		PersistableProductPopulator persistableProductPopulator = new PersistableProductPopulator();
+		//persistableProductPopulator = new PersistableProductPopulator();
 		
-		persistableProductPopulator.setCategoryService(categoryService);
+/*		persistableProductPopulator.setCategoryService(categoryService);
 		persistableProductPopulator.setManufacturerService(manufacturerService);
 		persistableProductPopulator.setLanguageService(languageService);
 		persistableProductPopulator.setProductOptionService(productOptionService);
 		persistableProductPopulator.setProductOptionValueService(productOptionValueService);
 		persistableProductPopulator.setTaxClassService(taxClassService);
-		persistableProductPopulator.setCustomerService(customerService);
+		persistableProductPopulator.setCustomerService(customerService);*/
 		
 		Product target = null;
 		if(product.getId() != null && product.getId().longValue() > 0) {

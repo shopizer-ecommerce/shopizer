@@ -84,7 +84,7 @@ public class OptinApi {
 			readable.setDescription(optin.getDescription());
 			readable.setOptinType(optin.getOptinType());
 			
-			return new ResponseEntity<ReadableOptin>(HttpStatus.OK);
+			return new ResponseEntity<ReadableOptin>(readable, HttpStatus.OK);
 
 
 			

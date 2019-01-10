@@ -6,11 +6,11 @@ import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.repositories.merchant.MerchantRepository;
-import com.salesmanager.core.business.services.catalog.product.manufacturer.ManufacturerService;
 import com.salesmanager.core.business.services.catalog.product.type.ProductTypeService;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
-import com.salesmanager.core.business.services.tax.TaxClassService;
+import com.salesmanager.core.model.common.GenericEntityList;
 import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.merchant.MerchantStoreCriteria;
 
 @Service("merchantService")
 public class MerchantStoreServiceImpl extends SalesManagerEntityServiceImpl<Integer, MerchantStore> 
@@ -49,6 +49,13 @@ public class MerchantStoreServiceImpl extends SalesManagerEntityServiceImpl<Inte
 		
 		return merchantRepository.findByCode(code);
 	}
+
+
+	@Override
+	public GenericEntityList<MerchantStore> getByCriteria(MerchantStoreCriteria criteria) throws ServiceException {
+		return merchantRepository.listByCriteria(criteria);
+	}
+
 	
 /*	@Override
 	public void delete(MerchantStore merchant) throws ServiceException {

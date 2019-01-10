@@ -103,6 +103,44 @@ public class ZoneServiceImpl extends SalesManagerEntityServiceImpl<Long, Zone> i
 		
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Zone> getZones(String countryCode, Language language) throws ServiceException {
+		
+		Validate.notNull(countryCode,"countryCode cannot be null");
+		Validate.notNull(language,"Language cannot be null");
+		
+		List<Zone> zones = null;
+		try {
+			
+
+			String cacheKey = ZONE_CACHE_PREFIX + countryCode + Constants.UNDERSCORE + language.getCode();
+			
+			zones = (List<Zone>) cache.getFromCache(cacheKey);
+
+		
+		
+			if(zones==null) {
+			
+				zones = zoneRepository.listByLanguageAndCountry(countryCode, language.getId());
+			
+				//set names
+				for(Zone zone : zones) {
+					ZoneDescription description = zone.getDescriptions().get(0);
+					zone.setName(description.getName());
+					
+				}
+				cache.putInCache(zones, cacheKey);
+			}
+
+		} catch (Exception e) {
+			LOGGER.error("getZones()", e);
+		}
+		return zones;
+		
+		
+	}
+	
 	@Override
 	@SuppressWarnings("unchecked")
 	public Map<String, Zone> getZones(Language language) throws ServiceException {

@@ -16,7 +16,8 @@ import org.springframework.context.annotation.ImportResource;
  */
 @ComponentScan({"com.salesmanager.core.business"})
 @ImportResource("classpath:/spring/shopizer-core-context.xml")
-@Import(DroolsConfiguration.class)
+//@Import({DroolsConfiguration.class,VaultConfiguration.class})
+@Import({DroolsConfiguration.class})
 public class CoreApplicationConfiguration {
 
 

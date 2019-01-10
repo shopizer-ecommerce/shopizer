@@ -1,11 +1,9 @@
 package com.salesmanager.shop.utils;
 
-import com.salesmanager.core.business.exception.ServiceException;
-import com.salesmanager.core.business.services.reference.language.LanguageService;
-import com.salesmanager.core.model.merchant.MerchantStore;
-import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.shop.constants.Constants;
-
+import java.util.Locale;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.logging.Log;
@@ -14,11 +12,12 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.support.RequestContextUtils;
-
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Locale;
+import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.services.reference.language.LanguageService;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 
 @Component
 public class LanguageUtils {
@@ -123,41 +122,45 @@ public class LanguageUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public Language getRESTLanguage(HttpServletRequest request, MerchantStore store) throws Exception {
+	public Language getRESTLanguage(HttpServletRequest request, MerchantStore store) {
 		
 		Validate.notNull(request,"HttpServletRequest must not be null");
 		Validate.notNull(store,"MerchantStore must not be null");
 
-		Language language = null;
-		
-		
-		String lang = request.getParameter(Constants.LANG);
-		
-		if(StringUtils.isBlank(lang)) {
-			//try with HttpSession
-			language = (Language) request.getSession().getAttribute(Constants.LANGUAGE);
-			if(language==null) {
-				language = store.getDefaultLanguage();
-			}
-			
-			if(language==null) {
-				language = languageService.defaultLanguage();
-			}
-		} else {
-			language = languageService.getByCode(lang);
-			if(language==null) {
+		try {
+			Language language = null;
+
+			String lang = request.getParameter(Constants.LANG);
+
+			if (StringUtils.isBlank(lang)) {
+				//try with HttpSession
 				language = (Language) request.getSession().getAttribute(Constants.LANGUAGE);
-				if(language==null) {
+				if (language == null) {
 					language = store.getDefaultLanguage();
 				}
-				
-				if(language==null) {
+
+				if (language == null) {
 					language = languageService.defaultLanguage();
 				}
-			}
-		}
+			} else {
+				language = languageService.getByCode(lang);
+				if (language == null) {
+					language = (Language) request.getSession().getAttribute(Constants.LANGUAGE);
+					if (language == null) {
+						language = store.getDefaultLanguage();
+					}
 
-		return language;
+					if (language == null) {
+						language = languageService.defaultLanguage();
+					}
+				}
+			}
+
+			return language;
+
+		} catch (ServiceException e) {
+			throw new ServiceRuntimeException(e);
+		}
 	}
 
 }

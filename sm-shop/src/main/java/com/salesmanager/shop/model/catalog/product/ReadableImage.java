@@ -2,7 +2,7 @@ package com.salesmanager.shop.model.catalog.product;
 
 import java.io.Serializable;
 
-import com.salesmanager.shop.model.Entity;
+import com.salesmanager.shop.model.entity.Entity;
 
 public class ReadableImage extends Entity implements Serializable {
 	

@@ -7,11 +7,14 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.business.services.user.PermissionService;
 import com.salesmanager.core.business.services.user.UserService;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.user.Permission;
 import com.salesmanager.core.model.user.User;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.model.security.ReadableGroup;
 import com.salesmanager.shop.model.security.ReadablePermission;
 import com.salesmanager.shop.model.user.ReadableUser;
 import com.salesmanager.shop.populator.user.ReadableUserPopulator;
@@ -25,6 +28,9 @@ public class UserFacadeImpl implements UserFacade {
 
 	@Inject
 	private PermissionService permissionService;
+	
+	@Inject
+	private LanguageService languageService;
 	
 	@Override
 	public ReadableUser findByUserName(String userName, Language lang) throws Exception {
@@ -57,6 +63,33 @@ public class UserFacadeImpl implements UserFacade {
 		
 		
 		return values;
+	}
+
+	@Override
+	public boolean authorizedStore(String userName, String merchantStoreCode) throws Exception {
+		
+		ReadableUser ruser = this.findByUserName(userName, languageService.defaultLanguage());
+		
+		
+		if(ruser==null) {//should not happen
+			throw new Exception("Error while creating store, invalid user " + userName);
+		}
+		
+		//unless superadmin
+		for(ReadableGroup group : ruser.getGroups()) {
+			if(Constants.GROUP_SUPERADMIN.equals(group.getName())) {
+				return true;
+			}
+		}
+
+		
+		boolean authorized = false; 
+		User user = userService.findByStore(ruser.getId(), merchantStoreCode);
+		if(user != null) {
+			authorized = true;
+		}
+		
+		return authorized;
 	}
 
 }

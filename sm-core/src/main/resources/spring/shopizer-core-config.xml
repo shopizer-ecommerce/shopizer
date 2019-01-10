@@ -131,6 +131,7 @@
 				<beans:value>classpath:email.properties</beans:value>
 				<beans:value>classpath:shopizer-core.properties</beans:value>
 				<beans:value>classpath:authentication.properties</beans:value>
+				<beans:value>classpath:vault.properties</beans:value>
 			</beans:list>
 		</beans:property>
 	</beans:bean>

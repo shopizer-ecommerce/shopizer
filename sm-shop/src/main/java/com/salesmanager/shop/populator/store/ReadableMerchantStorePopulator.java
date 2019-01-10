@@ -21,8 +21,10 @@ import com.salesmanager.core.model.reference.country.Country;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.reference.zone.Zone;
 import com.salesmanager.shop.model.content.ReadableImage;
+import com.salesmanager.shop.model.entity.ReadableAudit;
 import com.salesmanager.shop.model.references.ReadableAddress;
 import com.salesmanager.shop.model.shop.ReadableMerchantStore;
+import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.ImageFilePath;
 
 /**
@@ -85,9 +87,6 @@ public class ReadableMerchantStorePopulator extends
 			}
 		}
 		
-		if(!StringUtils.isBlank(source.getDateBusinessSince())) {
-			target.setInBusinessSince(source.getDateBusinessSince());
-		}
 		
 		if(!StringUtils.isBlank(source.getStorestateprovince())) {
 			address.setStateProvince(source.getStorestateprovince());
@@ -110,7 +109,8 @@ public class ReadableMerchantStorePopulator extends
 		target.setEmail(source.getStoreEmailAddress());
 		target.setName(source.getStorename());
 		target.setId(source.getId());
-		target.setInBusinessSince(source.getDateBusinessSince());
+		target.setInBusinessSince(DateUtil.formatDate(source.getInBusinessSince()));
+		target.setUseCache(source.isUseCache());
 		
 		
 		List<Language> languages = source.getLanguages();
@@ -124,7 +124,18 @@ public class ReadableMerchantStorePopulator extends
 			target.setSupportedLanguages(langs);
 		}
 		
-		
+		if(source.getAuditSection()!=null) {
+			ReadableAudit audit = new ReadableAudit();
+			if(source.getAuditSection().getDateCreated()!=null) {
+				audit.setCreated(DateUtil.formatDate(source.getAuditSection().getDateCreated()));
+			}
+			if(source.getAuditSection().getDateModified()!=null) {
+				audit.setModified(DateUtil.formatDate(source.getAuditSection().getDateCreated()));
+			}
+			audit.setUser(source.getAuditSection().getModifiedBy());
+			target.setReadableAudit(audit);
+		}
+
 		return target;
 	}
 
@@ -157,5 +168,6 @@ public class ReadableMerchantStorePopulator extends
 	public void setFilePath(ImageFilePath filePath) {
 		this.filePath = filePath;
 	}
+
 
 }

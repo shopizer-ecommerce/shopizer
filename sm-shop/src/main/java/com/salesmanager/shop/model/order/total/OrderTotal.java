@@ -3,7 +3,7 @@ package com.salesmanager.shop.model.order.total;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import com.salesmanager.shop.model.Entity;
+import com.salesmanager.shop.model.entity.Entity;
 
 
 public class OrderTotal extends Entity implements Serializable {

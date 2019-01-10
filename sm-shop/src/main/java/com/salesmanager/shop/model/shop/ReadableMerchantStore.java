@@ -1,34 +1,25 @@
 package com.salesmanager.shop.model.shop;
 
 import java.io.Serializable;
-import java.util.List;
 
-import com.salesmanager.core.constants.MeasureUnit;
 import com.salesmanager.shop.model.content.ReadableImage;
+import com.salesmanager.shop.model.entity.ReadableAudit;
+import com.salesmanager.shop.model.entity.ReadableAuditable;
 import com.salesmanager.shop.model.references.ReadableAddress;
 
-public class ReadableMerchantStore extends MerchantStoreEntity implements Serializable {
+public class ReadableMerchantStore extends MerchantStoreEntity implements ReadableAuditable, Serializable {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private List<String> supportedLanguages;
+
 	private String currentUserLanguage;
 	private ReadableAddress address;
 	private ReadableImage logo;
-	private MeasureUnit dimension;
-	private MeasureUnit weight;;
-	
+	private ReadableAudit audit;
 
 
-	public List<String> getSupportedLanguages() {
-		return supportedLanguages;
-	}
-
-	public void setSupportedLanguages(List<String> supportedLanguages) {
-		this.supportedLanguages = supportedLanguages;
-	}
 
 	public String getCurrentUserLanguage() {
 		return currentUserLanguage;
@@ -54,20 +45,15 @@ public class ReadableMerchantStore extends MerchantStoreEntity implements Serial
 		this.logo = logo;
 	}
 
-	public MeasureUnit getDimension() {
-		return dimension;
+	@Override
+	public void setReadableAudit(ReadableAudit audit) {
+		this.audit = audit;
+		
 	}
 
-	public void setDimension(MeasureUnit dimension) {
-		this.dimension = dimension;
-	}
-
-	public MeasureUnit getWeight() {
-		return weight;
-	}
-
-	public void setWeight(MeasureUnit weight) {
-		this.weight = weight;
+	@Override
+	public ReadableAudit getReadableAudit() {
+		return this.audit;
 	}
 
 
