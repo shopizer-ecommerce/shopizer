@@ -1,7 +1,11 @@
 package com.salesmanager.shop.store.api.v1.content;
 
+import static com.salesmanager.core.business.constants.Constants.DEFAULT_STORE;
+
+import com.salesmanager.shop.store.api.exception.RestApiException;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
 
@@ -16,7 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,8 +45,9 @@ import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
 
 import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequestMapping("/api/v1")
 public class ContentApi {
 	
@@ -60,156 +65,82 @@ public class ContentApi {
 	@Inject
 	private ContentService contentService;
 
-	@RequestMapping( value={"/content/pages"}, method=RequestMethod.GET)
-	@ResponseStatus(HttpStatus.OK)
+	@GetMapping("/content/pages")
 	@ApiOperation(httpMethod = "GET", value = "Get page names created for a given MerchantStore", notes = "", produces = "application/json", response = List.class)
-	@ResponseBody
-	public List<ReadableContentPage>  pages(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-		try {
-			
-			MerchantStore merchantStore = storeFacade.getByCode(request);
+	public List<ReadableContentPage> getContentPages(@RequestParam(name = "store", defaultValue = DEFAULT_STORE) String storeCode,
+	    HttpServletRequest request) {
+
+			MerchantStore merchantStore = storeFacade.get(storeCode);
 			Language language = languageUtils.getRESTLanguage(request, merchantStore);
-
-			
-			List<ReadableContentPage> names = contentFacade.pages(merchantStore, language);
-
-			
-			if(names == null){
-				response.sendError(404, "No content found : " + names);
-			}
-			
-			return names;
-			
-			
-		} catch (Exception e) {
-			LOGGER.error("Error while getting content",e);
-			try {
-				response.sendError(503, "Error while getting content " + e.getMessage());
-			} catch (Exception ignore) {
-			}
-		}
-		
-		return null;
+      return contentFacade.getContentPage(merchantStore, language);
 	}
-	
-	@RequestMapping( value={"/content/summary"}, method=RequestMethod.GET)
-	@ResponseStatus(HttpStatus.OK)
-	@ApiOperation(httpMethod = "GET", value = "Get pages summary created for a given MerchantStore", notes = "", produces = "application/json", response = List.class)
-	@ResponseBody
-	public List<ReadableContentBox>  pagesSummary(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-		try {
-			
-			MerchantStore merchantStore = storeFacade.getByCode(request);
-			Language language = languageUtils.getRESTLanguage(request, merchantStore);
 
-			
-			List<ReadableContentBox> boxes = contentFacade.boxes(ContentType.BOX, "summary_", merchantStore, language);
-	
-			
-			if(boxes == null){
-				response.sendError(404, "No content summary found");
-			}
-			
-			return boxes;
-			
-			
-		} catch (Exception e) {
-			LOGGER.error("Error while getting content",e);
-			try {
-				response.sendError(503, "Error while getting content summary " + e.getMessage());
-			} catch (Exception ignore) {
-			}
-		}
-		
-		return null;
+  @GetMapping("/content/summary")
+  @ApiOperation(
+      httpMethod = "GET",
+      value = "Get pages summary created for a given MerchantStore",
+      notes = "",
+      produces = "application/json",
+      response = List.class)
+  public List<ReadableContentBox> pagesSummary(
+      @RequestParam(name = "store", defaultValue = DEFAULT_STORE) String storeCode,
+      HttpServletRequest request) {
+
+    MerchantStore merchantStore = storeFacade.get(storeCode);
+    Language language = languageUtils.getRESTLanguage(request, merchantStore);
+    return contentFacade.getContentBoxes(ContentType.BOX, "summary_", merchantStore, language);
+  }
+
+  @GetMapping("/content/pages/{code}")
+  @ApiOperation(
+      httpMethod = "GET",
+      value = "Get page content by code for a given MerchantStore",
+      notes = "",
+      produces = "application/json",
+      response = List.class)
+  public ReadableContentPage page(
+      @RequestParam("code") String code,
+      @RequestParam(name = "store", defaultValue = DEFAULT_STORE) String storeCode,
+      HttpServletRequest request) {
+			MerchantStore merchantStore = storeFacade.get(storeCode);
+			Language language = languageUtils.getRESTLanguage(request, merchantStore);
+      return contentFacade.getContentPage(code, merchantStore, language);
 	}
-	
-	
-	@RequestMapping( value={"/content/pages/{code}"}, method=RequestMethod.GET)
-	@ResponseStatus(HttpStatus.OK)
-	@ApiOperation(httpMethod = "GET", value = "Get page content by code for a given MerchantStore", notes = "", produces = "application/json", response = List.class)
-	@ResponseBody
-	public ReadableContentPage page(@RequestParam("code") String code, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-		try {
-			
-			MerchantStore merchantStore = storeFacade.getByCode(request);
-			Language language = languageUtils.getRESTLanguage(request, merchantStore);
 
-			
-			ReadableContentPage page = contentFacade.page(code, merchantStore, language);
+  @GetMapping("/content/boxes/{code}")
+  @ApiOperation(
+      httpMethod = "GET",
+      value = "Get box content by code for a code and a given MerchantStore",
+      notes = "",
+      produces = "application/json",
+      response = List.class)
+  public ReadableContentBox box(
+      @PathVariable("code") String code,
+      @RequestParam(name = "store", defaultValue = DEFAULT_STORE) String storeCode,
+      HttpServletRequest request) {
 
-			
-			if(page == null){
-				response.sendError(404, "No page found : " + code);
-			}
-			
-			return page;
-			
-			
-		} catch (Exception e) {
-			LOGGER.error("Error while getting page",e);
-			try {
-				response.sendError(503, "Error while getting page " + e.getMessage());
-			} catch (Exception ignore) {
-			}
-		}
-		
-		return null;
+    MerchantStore merchantStore = storeFacade.get(storeCode);
+    Language language = languageUtils.getRESTLanguage(request, merchantStore);
+    return contentFacade.getContentBox(code, merchantStore, language);
 	}
-	
-	@RequestMapping( value={"/content/boxes/{code}"}, method=RequestMethod.GET)
-	@ResponseStatus(HttpStatus.OK)
-	@ApiOperation(httpMethod = "GET", value = "Get box content by code for a code and a given MerchantStore", notes = "", produces = "application/json", response = List.class)
-	@ResponseBody
-	public ReadableContentBox box(@PathVariable("code") String code, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
+
+  @GetMapping("/content/folder")
+  public ContentFolder folder(
+      @RequestParam(value = "path", required = false) String path,
+      @RequestParam(name = "store", defaultValue = DEFAULT_STORE) String storeCode,
+      HttpServletRequest request,
+      HttpServletResponse response)
+      throws Exception {
+
 		try {
 			
-			MerchantStore merchantStore = storeFacade.getByCode(request);
+			MerchantStore merchantStore = storeFacade.get(storeCode);
 			Language language = languageUtils.getRESTLanguage(request, merchantStore);
 
+      String decodedPath = decodeContentPath(path);
 			
-			ReadableContentBox box = contentFacade.box(code, merchantStore, language);
+			ContentFolder folder = contentFacade.getContentFolder(decodedPath, merchantStore);
 
-			
-			if(box == null){
-				response.sendError(404, "No box found : " + code);
-			}
-			
-			return box;
-			
-			
-		} catch (Exception e) {
-			LOGGER.error("Error while getting box",e);
-			try {
-				response.sendError(503, "Error while getting box " + e.getMessage());
-			} catch (Exception ignore) {
-			}
-		}
-		
-		return null;
-	}
-	
-	@RequestMapping( value={"/content/folder"}, method=RequestMethod.GET)
-	@ResponseStatus(HttpStatus.OK)
-	@ResponseBody
-	public ContentFolder folder(@RequestParam(value = "path", required=false) String path, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-		try {
-			
-			MerchantStore merchantStore = storeFacade.getByCode(request);
-			Language language = languageUtils.getRESTLanguage(request, merchantStore);
-			
-			if(!StringUtils.isBlank(path)) {
-				path = URLDecoder.decode(path,"UTF-8");
-			}
-			
-			ContentFolder folder = contentFacade.getContentFolder(path, merchantStore);
-
-			
 			if(folder == null){
 				response.sendError(404, "No Folder found for path : " + path);
 			}
@@ -227,8 +158,17 @@ public class ContentApi {
 		
 		return null;
 	}
-	
-	/**
+
+  private String decodeContentPath(String path) throws UnsupportedEncodingException {
+	  try{
+      return StringUtils.isBlank(path) ? path : URLDecoder.decode(path,"UTF-8");
+    } catch (UnsupportedEncodingException e) {
+	    throw new RestApiException(e);
+    }
+
+  }
+
+  /**
 	 * Need type, name and entity
 	 * @param requestEntity
 	 * @param fileName

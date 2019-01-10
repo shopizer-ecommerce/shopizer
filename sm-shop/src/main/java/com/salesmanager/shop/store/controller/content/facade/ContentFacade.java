@@ -42,7 +42,7 @@ public interface ContentFacade {
 	 * @return
 	 * @throws Exception
 	 */
-	List<ReadableContentPage> pages(MerchantStore store, Language language) throws Exception;
+	List<ReadableContentPage> getContentPage(MerchantStore store, Language language);
 	
 	
 	/**
@@ -53,7 +53,7 @@ public interface ContentFacade {
 	 * @return
 	 * @throws Exception
 	 */
-	ReadableContentPage page(String code, MerchantStore store, Language language) throws Exception;
+	ReadableContentPage getContentPage(String code, MerchantStore store, Language language);
 	
 	/**
 	 * Returns a content box for a given code and merchant store
@@ -63,7 +63,7 @@ public interface ContentFacade {
 	 * @return
 	 * @throws Exception
 	 */
-	ReadableContentBox box(String code, MerchantStore store, Language language) throws Exception;
+	ReadableContentBox getContentBox(String code, MerchantStore store, Language language);
 	
 	
 	/**
@@ -74,6 +74,6 @@ public interface ContentFacade {
 	 * @return
 	 * @throws Exception
 	 */
-	List<ReadableContentBox> boxes(ContentType type, String codePrefix, MerchantStore store, Language language) throws Exception;
+	List<ReadableContentBox> getContentBoxes(ContentType type, String codePrefix, MerchantStore store, Language language);
 
 }

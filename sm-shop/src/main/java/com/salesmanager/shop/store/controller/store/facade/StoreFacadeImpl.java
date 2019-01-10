@@ -51,12 +51,12 @@ public class StoreFacadeImpl implements StoreFacade {
   private ImageFilePath imageUtils;
 
   @Override
-  public MerchantStore getByCode(HttpServletRequest request){
-    String code = request.getParameter("store");
-    if (StringUtils.isEmpty(code)) {
-      code = com.salesmanager.core.business.constants.Constants.DEFAULT_STORE;
-    }
-    return get(code);
+  public MerchantStore getByCode(HttpServletRequest request) {
+      String code = request.getParameter("store");
+      if (StringUtils.isEmpty(code)) {
+        code = com.salesmanager.core.business.constants.Constants.DEFAULT_STORE;
+      }
+      return get(code);
   }
 
   @Override
