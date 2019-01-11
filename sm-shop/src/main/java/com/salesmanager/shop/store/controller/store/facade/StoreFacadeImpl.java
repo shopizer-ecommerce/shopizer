@@ -6,6 +6,8 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.Validate;
 import org.drools.core.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import com.salesmanager.core.business.exception.ServiceException;
@@ -49,6 +51,8 @@ public class StoreFacadeImpl implements StoreFacade {
   @Inject
   @Qualifier("img")
   private ImageFilePath imageUtils;
+  
+  private static final Logger LOG = LoggerFactory.getLogger(StoreFacadeImpl.class);
 
   @Override
   public MerchantStore getByCode(HttpServletRequest request){
@@ -64,6 +68,7 @@ public class StoreFacadeImpl implements StoreFacade {
     try {
         return merchantStoreService.getByCode(code);
     } catch (ServiceException e){
+        LOG.error("Error while getting MerchantStore",e);
         throw new ServiceRuntimeException(e);
     }
 
@@ -90,6 +95,7 @@ public class StoreFacadeImpl implements StoreFacade {
       readable = populator.populate(store, readable, store, language);
       
     } catch(Exception e) {
+      LOG.error("Error while populating MerchantStore",e);
       throw new ServiceRuntimeException("Error while populating MerchantStore " + e.getMessage());
     }
     return readable;
@@ -160,6 +166,20 @@ public class StoreFacadeImpl implements StoreFacade {
     }
 
     return returnList;
+  }
+
+  @Override
+  public void delete(String code) {
+    MerchantStore mStore = Optional.ofNullable(get(code))
+        .orElseThrow(() -> new ResourceNotFoundException("Merchant store code not found"));
+    
+    try {
+      merchantStoreService.delete(mStore);
+    } catch(Exception e) {
+      LOG.error("Error while deleting MerchantStore",e);
+      throw new ServiceRuntimeException("Error while deleting MerchantStore " + e.getMessage());
+    }
+    
   }
 
 }

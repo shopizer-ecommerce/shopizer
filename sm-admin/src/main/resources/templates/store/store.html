@@ -118,6 +118,7 @@
 							<button type="submit" class="btn btn-primary">
 								<span th:text="#{'button.label.submit'}">
 							</button>
+							<button type="button" class="btn btn-danger pull-right"><span th:text="#{'label.generic.remove'}"></button>
 						</div>
 					</form>
 				</div>
@@ -151,6 +152,7 @@
 		    var ok = $('.parsley-error').length === 0;
 		    $('.callout-warning').toggleClass('hidden', ok);
 		    if (fieldInstance.$element.is(":disabled")) {
+		    	$('.callout-warning').hide();
 		        fieldInstance._ui.$errorsWrapper.css('display', 'none');
 		        // set validation result to true
 		        fieldInstance.validationResult = true;
@@ -240,7 +242,6 @@
   	    	
 	  	    //handle submit
   	    	$("#store").submit(function(event){
-  	    		log('Submit save');
   	    		showLoader();
 				event.preventDefault(); //prevent default action 
 				resetMessages();
@@ -259,10 +260,10 @@
 				
 				if($("#action").val()=='READ') {
 					url = BACKEND + "/private/store/" + $("#code").val();
-					 type ='PUT';
+					type ='PUT';
 				}
 
-		    	$.ajax({
+		    	 $.ajax({
 		    	    type:type,
 		    	    crossDomain: true,
 		    	    cache: false,

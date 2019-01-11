@@ -10,12 +10,13 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.merchant.MerchantStoreCriteria;
@@ -31,13 +33,17 @@ import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.model.shop.PersistableMerchantStore;
 import com.salesmanager.shop.model.shop.ReadableMerchantStore;
 import com.salesmanager.shop.model.shop.ReadableMerchantStoreList;
+import com.salesmanager.shop.store.api.exception.UnauthorizedException;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.store.controller.user.facade.UserFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
 import com.salesmanager.shop.utils.ServiceRequestCriteriaBuilderUtils;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-@Controller
+@RestController
+@Produces({MediaType.APPLICATION_JSON})
+@Api(value = "/api/v1/store")
 @RequestMapping("/api/v1")
 public class MerchantStoreApi {
 
@@ -203,16 +209,17 @@ public class MerchantStoreApi {
 
       // Principal principal = request.getUserPrincipal();
       // String userName = principal.getName();
-      
-      Enumeration names =  request.getParameterNames();
-      while(names.hasMoreElements()){
-          //System.out.println(names.nextElement().toString());
-          String param = names.nextElement().toString();
-          String val = request.getParameter(param);
-          System.out.println("param ->" + param + " Val ->" + val);
+
+      Enumeration names = request.getParameterNames();
+      while (names.hasMoreElements()) {
+        // System.out.println(names.nextElement().toString());
+        String param = names.nextElement().toString();
+        String val = request.getParameter(param);
+        System.out.println("param ->" + param + " Val ->" + val);
       }
 
-      MerchantStoreCriteria criteria = (MerchantStoreCriteria) ServiceRequestCriteriaBuilderUtils.buildRequest(mappingFields, request);
+      MerchantStoreCriteria criteria = (MerchantStoreCriteria) ServiceRequestCriteriaBuilderUtils
+          .buildRequest(mappingFields, request);
 
       if (start != null)
         criteria.setStartIndex(start);
@@ -246,6 +253,35 @@ public class MerchantStoreApi {
 
       return null;
     }
+  }
+
+  @ResponseStatus(HttpStatus.OK)
+  @RequestMapping(value = {"/private/store/{code}"}, method = RequestMethod.DELETE)
+  @ApiOperation(httpMethod = "DELETE", value = "Deletes a store", notes = "",
+      produces = "application/json", response = ResponseEntity.class)
+  public ResponseEntity<Void> delete(@PathVariable String code, HttpServletRequest request,
+      HttpServletResponse response) {
+
+    // user doing action must be attached to the store being modified
+    Principal principal = request.getUserPrincipal();
+    String userName = principal.getName();
+
+    try { // TODO remove trycatch
+
+      if (!userFacade.authorizedStore(userName, code)) {
+        // response.sendError(401, "User " + userName + " not authorized");
+        // return null;
+        throw new UnauthorizedException("Not authorized");
+      }
+
+    } catch (Exception e) {
+      // todo to be removed
+    }
+
+
+    storeFacade.delete(code);
+    return new ResponseEntity<Void>(HttpStatus.OK);
+
   }
 
 }
