@@ -94,14 +94,16 @@ public class CustomerApi {
 	}
 	
     @ResponseStatus(HttpStatus.OK)
-	@RequestMapping( value="/private/customers/{id}", method=RequestMethod.PUT)
+	@RequestMapping( value="/private/customers/{username}", method=RequestMethod.PUT)
 	@ApiOperation(httpMethod = "PUT", value = "Updates a customer", notes = "Requires administration access", produces = "application/json", response = PersistableCustomer.class)
-    public @ResponseBody PersistableCustomer update(@PathVariable Long id, @Valid @RequestBody PersistableCustomer customer, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public @ResponseBody PersistableCustomer update(@PathVariable String userName, @Valid @RequestBody PersistableCustomer customer, HttpServletRequest request, HttpServletResponse response) throws Exception {
 	
     	
 		try {
 
 			MerchantStore merchantStore = storeFacade.getByCode(request);
+			//TODO customer.setUserName
+			//TODO more validation
 			customerFacade.update(customer, merchantStore);
 			return customer;
 			
@@ -117,18 +119,19 @@ public class CustomerApi {
     }
     
     @ResponseStatus(HttpStatus.OK)
-	@RequestMapping( value="/private/customers/{id}", method=RequestMethod.DELETE)
+	@RequestMapping( value="/private/customers/{userName}", method=RequestMethod.DELETE)
     @ApiOperation(httpMethod = "DELETE", value = "Deletes a customer", notes = "Requires administration access",response = Void.class)
-    public void delete(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void delete(@PathVariable String userName, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		try {
 			
 
-			Customer customer = customerService.getById(id);
+			Customer customer = customerService.getByNick(userName);
+			    //getById(id);
 			if(customer != null){
 				customerService.delete(customer);
 			}else{
-				response.sendError(404, "No Customer found for ID : " + id);
+				response.sendError(404, "No Customer found for ID : " + userName);
 			}
 		} catch (Exception e) {
 			LOGGER.error("Error while deleting customer",e);
@@ -200,10 +203,10 @@ public class CustomerApi {
 		return null;
 	}
 	
-	@RequestMapping( value="/private/customers/{id}", method=RequestMethod.GET)
+	@RequestMapping( value="/private/customers/{userName}", method=RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
-	public ReadableCustomer get(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ReadableCustomer get(@PathVariable String userName, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		
 		try {
@@ -211,9 +214,9 @@ public class CustomerApi {
 			MerchantStore merchantStore = storeFacade.getByCode(request);
 			Language language = languageUtils.getRESTLanguage(request, merchantStore);
 
-			ReadableCustomer customer = customerFacade.getCustomerById(id, merchantStore, language);
+			ReadableCustomer customer = customerFacade.getByUserName(userName, merchantStore, language);
 			if(customer == null){
-				response.sendError(404, "No Customer found for ID : " + id);
+				response.sendError(404, "No Customer found for ID : " + userName);
 			}
 			
 			return customer;

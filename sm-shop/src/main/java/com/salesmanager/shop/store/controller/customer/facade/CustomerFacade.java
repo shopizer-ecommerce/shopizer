@@ -55,6 +55,16 @@ public interface CustomerFacade
     public ReadableCustomer getCustomerById(final Long id, final MerchantStore merchantStore, final Language language) throws Exception;
     
     /**
+     * Get Customer using unique username
+     * @param userName
+     * @param merchantStore
+     * @param language
+     * @return
+     * @throws Exception
+     */
+    ReadableCustomer getByUserName(final String userName, final MerchantStore merchantStore,
+        final Language language) throws Exception;
+    /**
      * <p>Method responsible for merging cart during authentication, 
      *     Method will perform following operations
      * <li> Merge Customer Shopping Cart with Session Cart if any.</li>
@@ -79,8 +89,7 @@ public interface CustomerFacade
                     throws Exception;
 
     public void setCustomerModelDefaultProperties(Customer customer, MerchantStore store) throws Exception; 
-	//public Customer populateCustomerModel(PersistableCustomer customer,
-	//		MerchantStore merchantStore) throws Exception;
+
 	
 	public void authenticate(Customer customer, String userName, String password) throws Exception;
 
