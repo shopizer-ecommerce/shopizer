@@ -38,7 +38,7 @@ public class RestErrorHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @Produces({MediaType.APPLICATION_JSON})
     public ErrorEntity handleServiceException(ServiceRuntimeException exception) {
-        //log.error(exception.getErrorMessage(), exception);
+        log.error(exception.getErrorMessage(), exception);
         ErrorEntity errorEntity = createErrorEntity(exception.getErrorCode(), exception.getErrorMessage(),
                 exception.getLocalizedMessage());
         return errorEntity;
@@ -48,7 +48,7 @@ public class RestErrorHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @Produces({MediaType.APPLICATION_JSON})
     public ErrorEntity handleServiceException(ResourceNotFoundException exception) {
-        //log.error(exception.getErrorMessage(), exception);
+        log.error(exception.getErrorMessage(), exception);
 
         ErrorEntity errorEntity = createErrorEntity(exception.getErrorCode(), exception.getErrorMessage(),
                 exception.getLocalizedMessage());
@@ -59,7 +59,7 @@ public class RestErrorHandler {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @Produces({MediaType.APPLICATION_JSON})
     public ErrorEntity handleServiceException(UnauthorizedException exception) {
-        //log.error(exception.getErrorMessage(), exception);
+        log.error(exception.getErrorMessage(), exception);
 
         ErrorEntity errorEntity = createErrorEntity(exception.getErrorCode(), exception.getErrorMessage(),
                 exception.getLocalizedMessage());

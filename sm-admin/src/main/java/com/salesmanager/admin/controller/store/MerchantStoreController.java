@@ -48,5 +48,15 @@ public class MerchantStoreController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		return "store/list";
 	}
+	
+    @RequestMapping("/admin/store/marketing")
+    @Secured({"ROLE_STORE"})
+    public String marketing(@RequestParam(value = "code", required=false) String code, Principal principal, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        request.setAttribute("action", "READ");
+        request.setAttribute("code", code);
+        return "store/marketing";
+    }	
 
 }
