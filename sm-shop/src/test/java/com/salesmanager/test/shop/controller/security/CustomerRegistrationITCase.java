@@ -17,7 +17,7 @@ import com.salesmanager.shop.store.security.AuthenticationRequest;
 import com.salesmanager.shop.store.security.AuthenticationResponse;
 import com.salesmanager.test.shop.controller.category.rest.ServicesTestSupport;
 
-public class CustomerRegistrationIntegrationTest extends ServicesTestSupport {
+public class CustomerRegistrationITCase extends ServicesTestSupport {
 
     @Test
     public void registerCustomer() {

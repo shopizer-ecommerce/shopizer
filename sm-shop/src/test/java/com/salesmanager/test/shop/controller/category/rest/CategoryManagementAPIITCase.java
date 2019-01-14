@@ -31,7 +31,7 @@ import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 
 @SpringBootTest(classes = ShopApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 @RunWith(SpringRunner.class)
-public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
+public class CategoryManagementAPIITCase extends ServicesTestSupport {
 
     @Autowired
     private TestRestTemplate testRestTemplate;
