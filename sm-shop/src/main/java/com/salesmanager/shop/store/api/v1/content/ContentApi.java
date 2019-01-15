@@ -20,8 +20,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -50,10 +52,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1")
 public class ContentApi {
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(ContentApi.class);
-	
-	@Inject
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(ContentApi.class);
+  public static final String FILE_CONTENT_DELIMETER = "/";
+
+  @Inject
 	private ContentFacade contentFacade;
 	
 	@Inject
@@ -132,31 +135,12 @@ public class ContentApi {
       HttpServletResponse response)
       throws Exception {
 
-		try {
-			
 			MerchantStore merchantStore = storeFacade.get(storeCode);
 			Language language = languageUtils.getRESTLanguage(request, merchantStore);
 
       String decodedPath = decodeContentPath(path);
-			
 			ContentFolder folder = contentFacade.getContentFolder(decodedPath, merchantStore);
-
-			if(folder == null){
-				response.sendError(404, "No Folder found for path : " + path);
-			}
-			
 			return folder;
-			
-			
-		} catch (Exception e) {
-			LOGGER.error("Error while getting folder",e);
-			try {
-				response.sendError(503, "Error while getting folder " + e.getMessage());
-			} catch (Exception ignore) {
-			}
-		}
-		
-		return null;
 	}
 
   private String decodeContentPath(String path) throws UnsupportedEncodingException {
@@ -169,98 +153,45 @@ public class ContentApi {
   }
 
   /**
-	 * Need type, name and entity
-	 * @param requestEntity
-	 * @param fileName
-	 * @param request
-	 * @param response
-	 * @throws Exception
-	 */
-	@RequestMapping( value={"/private/content"}, method=RequestMethod.POST)
-	@ResponseStatus(HttpStatus.CREATED)
-	@ResponseBody
-	public HttpEntity<String> upload(@Valid @RequestBody ContentFile file, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-		try {
-			
-			MerchantStore merchantStore = storeFacade.getByCode(request);
-			Language language = languageUtils.getRESTLanguage(request, merchantStore);
-			
+   * Need type, name and entity
+   *
+   * @param file
+   * @param storeCode
+   * @param request
+   * @throws Exception
+   */
+  @PostMapping("/private/content")
+  @ResponseStatus(HttpStatus.CREATED)
+  public HttpEntity<String> upload(
+      @Valid ContentFile file,
+      @RequestParam(name = "store", defaultValue = DEFAULT_STORE) String storeCode,
+      HttpServletRequest request) {
 
-			byte[] payload = file.getFile();
-			InputStream targetStream = new ByteArrayInputStream(payload);
-		    
-			String fileName = file.getName();
-			
-            String type = file.getContentType() .split("/")[0];
-            FileContentType fileType = FileContentType.STATIC_FILE;
-            if(type.equals("image")){
-            	fileType = FileContentType.IMAGE;
-            } 
+    MerchantStore merchantStore = storeFacade.get(storeCode);
+    Language language = languageUtils.getRESTLanguage(request, merchantStore);
 
-            InputContentFile cmsContent = new InputContentFile();
-            cmsContent.setFileName(fileName);
-            cmsContent.setMimeType( file.getContentType() );
-            cmsContent.setFile( targetStream );
-            cmsContent.setFileContentType(fileType);
+    String fileName = file.getName();
 
-            contentService.addContentFile( merchantStore.getCode(), cmsContent );
-            
-            String fileUrl = contentFacade.absolutePath(merchantStore, fileName);
-            HttpEntity<String> responseEntity = new HttpEntity<>(fileUrl);
-            return responseEntity;
-			
-	
-		} catch (Exception e) {
-			LOGGER.error("Error while adding file folder",e);
-			try {
-				response.sendError(503, "Error while adding file " + e.getMessage());
-			} catch (Exception ignore) {
-			}
-			
-		}
-		
-		return null;
+    contentFacade.addContentFile(file, merchantStore.getCode());
+    String fileUrl = contentFacade.absolutePath(merchantStore, fileName);
+    return new HttpEntity<String>(fileUrl);
+  }
 
-	}
-	
-	/**
-	 * Deletes a files from CMS
-	 * @param path
-	 * @param request
-	 * @param response
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping( value={"/private/content"}, method=RequestMethod.DELETE)
-	@ResponseStatus(HttpStatus.OK)
-	@ResponseBody
-	public ResponseEntity<Void> delete(@Valid @RequestBody ContentName name, HttpServletRequest request, HttpServletResponse response) throws Exception {
+  /**
+   * Deletes a files from CMS
+   *
+   * @param name
+   * @param storeCode
+   * @param request
+   */
+  @DeleteMapping("/private/content")
+  public void delete(
+      @Valid ContentName name,
+      @RequestParam(name = "store", defaultValue = DEFAULT_STORE) String storeCode,
+      HttpServletRequest request) {
 
-		try {
-			
-			MerchantStore merchantStore = storeFacade.getByCode(request);
-			Language language = languageUtils.getRESTLanguage(request, merchantStore);
-			
-
-			contentFacade.delete(merchantStore, name.getName(), name.getContentType());
-
-
-			return new ResponseEntity<Void>(HttpStatus.OK);
-			
-			
-		} catch (Exception e) {
-			LOGGER.error("Error while deleting file name ["+ name + "]",e);
-			try {
-				response.sendError(503, "Error while deleting file name ["+ name + "]" + e.getMessage());
-			} catch (Exception ignore) {
-			}
-		}
-		
-		return null;
-	}
-
-	
-
-
+    MerchantStore merchantStore = storeFacade.get(storeCode);
+    Language language = languageUtils.getRESTLanguage(request, merchantStore);
+    contentFacade.delete(merchantStore, name.getName(), name.getContentType());
+  }
 }

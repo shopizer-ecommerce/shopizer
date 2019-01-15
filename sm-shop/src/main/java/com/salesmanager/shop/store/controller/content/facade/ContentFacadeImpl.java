@@ -1,7 +1,12 @@
 package com.salesmanager.shop.store.controller.content.facade;
 
+import com.salesmanager.core.model.content.InputContentFile;
+import com.salesmanager.shop.model.content.ContentFile;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import java.util.Optional;
@@ -28,98 +33,79 @@ import com.salesmanager.shop.model.content.ReadableContentBox;
 import com.salesmanager.shop.model.content.ReadableContentPage;
 import com.salesmanager.shop.utils.FilePathUtils;
 import com.salesmanager.shop.utils.ImageFilePath;
+import org.springframework.stereotype.Service;
 
 @Component("contentFacade")
 public class ContentFacadeImpl implements ContentFacade {
-	
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(ContentFacade.class);
 
-	
+  private static final Logger LOGGER = LoggerFactory.getLogger(ContentFacade.class);
+
+  public static final String FILE_CONTENT_DELIMETER = "/";
+
 	@Inject
 	private ContentService contentService;
-	
+
 	@Inject
 	@Qualifier("img")
 	private ImageFilePath imageUtils;
-	
+
 	@Inject
 	private FilePathUtils fileUtils;
 
-	@SuppressWarnings("unused")
-	@Override
-	public ContentFolder getContentFolder(String folder, MerchantStore store) throws Exception {
+  @SuppressWarnings("unused")
+  @Override
+  public ContentFolder getContentFolder(String folder, MerchantStore store) throws Exception {
+    try {
+      List<String> imageNames =
+          Optional.ofNullable(
+                  contentService.getContentFilesNames(store.getCode(), FileContentType.IMAGE))
+              .orElseThrow(
+                  () -> new ResourceNotFoundException("No Folder found for path : " + folder));
 
-	  try {
-			List<String> imageNames = Optional.ofNullable(contentService.getContentFilesNames(store.getCode(),FileContentType.IMAGE))
-          .orElseThrow(() -> new ResourceNotFoundException("No Folder found for path : " + folder));
-			List<String> fileNames = null;//add files since they are bundled with images
+      List<String> fileNames = null; // add files since they are bundled with images
 
-			ContentFolder contentFolder = null;
-			
-			//images from CMS
-			if(imageNames!=null) {
-				
-				if(contentFolder==null) {
-					contentFolder = new ContentFolder();
-					contentFolder.setPath(folder);
-				}
+      // images from CMS
+      List<ContentImage> contentImages =
+          imageNames.stream()
+              .map(name -> convertToContentImage(name, store))
+              .collect(Collectors.toList());
 
-				for(String name : imageNames) {
-					String path = new StringBuilder().append(imageUtils.getContextPath()).append(imageUtils.buildStaticImageUtils(store, null)).toString();
-					ContentImage contentImage = new ContentImage();
-					contentImage.setName(name);
-					contentImage.setPath(path);
-					contentFolder.getContent().add(contentImage);
-				}
-			}
-			
-/*			//files from CMS
-			if(fileNames!=null) {
-				
-				if(contentFolder==null) {
-					contentFolder = new ContentFolder();
-					contentFolder.setPath(folder);
-				}
+      ContentFolder contentFolder = new ContentFolder();
+      contentFolder.setPath(folder);
+      contentFolder.getContent().addAll(contentImages);
+      return contentFolder;
 
-				for(String name : fileNames) {
-					String path = new StringBuilder().append(fileUtils.getContextPath()).append(fileUtils.buildStaticFilePath(store)).toString();
-					ContentFile cf = new ContentFile();
-					cf.setPath(path);
-					cf.setName(name);
-					contentFolder.getContent().add(cf);
-				}
-			
-			}*/
-			
-			return contentFolder;
     } catch (ServiceException e) {
-	    throw new ServiceRuntimeException("Error while getting folder " + e.getMessage(),e);
+      throw new ServiceRuntimeException("Error while getting folder " + e.getMessage(), e);
     }
+  }
 
-	}
+  private ContentImage convertToContentImage(String name, MerchantStore store) {
+    String path = absolutePath(store, null);
+    ContentImage contentImage = new ContentImage();
+    contentImage.setName(name);
+    contentImage.setPath(path);
+    return contentImage;
+  }
 
-	@Override
+  @Override
 	public String absolutePath(MerchantStore store, String file) {
-		String path = new StringBuilder().append(imageUtils.getContextPath()).append(imageUtils.buildStaticImageUtils(store, file)).toString();
-		return path;
+    return new StringBuilder()
+        .append(imageUtils.getContextPath())
+        .append(imageUtils.buildStaticImageUtils(store, file))
+        .toString();
 	}
 
 	@Override
-	public void delete(MerchantStore store, String fileName, String fileType) throws Exception {
+	public void delete(MerchantStore store, String fileName, String fileType) {
 			Validate.notNull(store, "MerchantStore cannot be null");
 			Validate.notNull(fileName, "File name cannot be null");
-			
-
 			try {
 				FileContentType t = FileContentType.valueOf(fileType);
 				contentService.removeFile(store.getCode(), t, fileName);
 			} catch (ServiceException e) {
-				// TODO Auto-generated catch block
-				LOGGER.error("Cannot remove file ["+ fileName + "]",e.getMessage());
-				throw e;
+			  throw new ServiceRuntimeException(e);
 			}
-		
 	}
 
 	@Override
@@ -180,7 +166,7 @@ public class ContentFacadeImpl implements ContentFacade {
 
 	@Override
 	public List<ReadableContentBox> getContentBoxes(ContentType type, String codePrefix, MerchantStore store, Language language) {
-		
+
 		Validate.notNull(codePrefix, "content code prefix cannot be null");
 		Validate.notNull(store, "MerchantStore cannot be null");
 		Validate.notNull(language, "Language cannot be null");
@@ -190,6 +176,38 @@ public class ContentFacadeImpl implements ContentFacade {
         .map(content -> convertContentToReadableContentBox(store, language, content))
         .collect(Collectors.toList());
 	}
+
+  @Override
+  public void addContentFile(ContentFile file, String merchantStoreCode) {
+    try {
+      byte[] payload = file.getFile();
+      String fileName = file.getName();
+
+      try (InputStream targetStream = new ByteArrayInputStream(payload)) {
+
+        String type = file.getContentType().split(FILE_CONTENT_DELIMETER)[0];
+        FileContentType fileType = getFileContentType(type);
+
+        InputContentFile cmsContent = new InputContentFile();
+        cmsContent.setFileName(fileName);
+        cmsContent.setMimeType(file.getContentType());
+        cmsContent.setFile(targetStream);
+        cmsContent.setFileContentType(fileType);
+
+        contentService.addContentFile(merchantStoreCode, cmsContent);
+      }
+    } catch (ServiceException | IOException e) {
+      throw new ServiceRuntimeException(e);
+    }
+  }
+
+  private FileContentType getFileContentType(String type) {
+    FileContentType fileType = FileContentType.STATIC_FILE;
+    if (type.equals("image")) {
+      fileType = FileContentType.IMAGE;
+    }
+    return fileType;
+  }
 
   private ReadableContentBox convertContentToReadableContentBox(MerchantStore store,
       Language language, Content content) {
