@@ -28,7 +28,7 @@
 			}}
 		]
 	}},
-	{"menu":{"code":"storeBranding","url":"/admin/store/branding.html","role":"STORE","order":1}},
+	{"menu":{"code":"storeBranding","url":"/admin/store/marketing.html","role":"STORE","order":1}},
 	{"menu":{"code":"storeLanding","url":"/admin/store/storeLanding.html","role":"STORE","order":2}}
 ]
 }},

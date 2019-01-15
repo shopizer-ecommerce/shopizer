@@ -118,6 +118,7 @@
 							<button type="submit" class="btn btn-primary">
 								<span th:text="#{'button.label.submit'}">
 							</button>
+							<button id="delete" type="button" class="btn btn-danger pull-right"><span th:text="#{'label.generic.remove'}"></button>
 						</div>
 					</form>
 				</div>
@@ -151,6 +152,7 @@
 		    var ok = $('.parsley-error').length === 0;
 		    $('.callout-warning').toggleClass('hidden', ok);
 		    if (fieldInstance.$element.is(":disabled")) {
+		    	$('.callout-warning').hide();
 		        fieldInstance._ui.$errorsWrapper.css('display', 'none');
 		        // set validation result to true
 		        fieldInstance.validationResult = true;
@@ -168,14 +170,17 @@
       $(document).ready(function(){
     	  	resetMessages();
     	  	
-    	  	var MODE = '[[${action}]]';
-    	  
+    	  	//hide delete button
+    	  	$('#delete').hide()
+
   	    	//Date picker
 	  	    $('#inBusinessSince').datepicker({
 	  	      autoclose: true
 	  	    })
     	  
     	    if($("#action").val()=='READ') {
+    	    	
+    	    	$('#delete').show();
 
 	    		showLoader();
 	    		var store = STORECODE;
@@ -233,14 +238,12 @@
 		    	    error: function(response,textStatus,errorThrown) {
 		    	    	//TODO if 403 or 401 redirect to not authorized page
 		    	    	hideLoader();
-		    	        error(JSON.stringify(response.responseJSON));
 		    	    }
 		    	});
     	    }
   	    	
 	  	    //handle submit
   	    	$("#store").submit(function(event){
-  	    		log('Submit save');
   	    		showLoader();
 				event.preventDefault(); //prevent default action 
 				resetMessages();
@@ -259,10 +262,10 @@
 				
 				if($("#action").val()=='READ') {
 					url = BACKEND + "/private/store/" + $("#code").val();
-					 type ='PUT';
+					type ='PUT';
 				}
 
-		    	$.ajax({
+		    	 $.ajax({
 		    	    type:type,
 		    	    crossDomain: true,
 		    	    cache: false,
@@ -276,17 +279,61 @@
 		    	    success: function(data){
 		    	    	$("#action").val('READ');
 		    	    	$("#code").prop("disabled", true);
+		    	    	$('#delete').show();
 		    	    	success('');
 		    	    	hideLoader();
 		    	    },
 		    	    error: function(response,textStatus,errorThrown) {
-		    	    	log(JSON.stringify(response.responseJSON));
-		    	    	error(JSON.stringify(response.responseJSON));
+		    	    	log(JSON.stringify(response.message));
+		    	    	error(JSON.stringify(response.message));
 		    	    	hideLoader();
 		    	    }
 		    	});
  
 			});
+	  	    
+  	    	$("#delete").click(function(event){
+  	    		
+  	    		//log('Deleting');
+  	    		
+  	    		showLoader();
+				event.preventDefault(); //prevent default action 
+				resetMessages();
+
+
+				//create url
+				url = BACKEND + "/private/store/" + $("#code").val();
+				var type ='DELETE';
+				
+
+		    	 $.ajax({
+		    	    type:type,
+		    	    crossDomain: true,
+		    	    cache: false,
+		    	    url: url,
+		    	    contentType : 'application/json; charset=utf-8',
+		    	    headers: {
+		    	        "Authorization": "Bearer " + TOKEN
+		    	    },
+		    	    success: function(data){
+		    	    	log('success');
+		    	    	success('[[#{label.store.title}]] [' + $("#code").val() + '] [[#{label.generic.deleted}]]');
+		    	    	hideLoader();
+		    	    	//reset form
+		    	    	$('#store').trigger("reset");
+		    	    	//becomes creat mode
+		    	    	$("#action").val('CREATE');
+		    	    	$("#code").prop("disabled", false);
+		    	    	
+		    	    },
+		    	    error: function(response,textStatus,errorThrown) {
+		    	    	log('error');
+		    	    	error(JSON.stringify(response.message));
+		    	    	hideLoader();
+		    	    }
+		    	 });
+  	    		
+  	    	});
 
       		//handle country change
     	    $('#country').on('change', function() {

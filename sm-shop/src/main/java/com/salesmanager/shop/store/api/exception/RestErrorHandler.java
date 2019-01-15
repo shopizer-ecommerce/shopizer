@@ -54,6 +54,17 @@ public class RestErrorHandler {
                 exception.getLocalizedMessage());
         return errorEntity;
     }
+    
+    @ExceptionHandler(UnauthorizedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @Produces({MediaType.APPLICATION_JSON})
+    public ErrorEntity handleServiceException(UnauthorizedException exception) {
+        log.error(exception.getErrorMessage(), exception);
+
+        ErrorEntity errorEntity = createErrorEntity(exception.getErrorCode(), exception.getErrorMessage(),
+                exception.getLocalizedMessage());
+        return errorEntity;
+    }
 
     @ExceptionHandler(RestApiException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)

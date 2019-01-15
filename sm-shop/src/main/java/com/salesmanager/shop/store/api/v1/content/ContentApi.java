@@ -54,7 +54,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ContentApi {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ContentApi.class);
-  public static final String FILE_CONTENT_DELIMETER = "/";
 
   @Inject
 	private ContentFacade contentFacade;
