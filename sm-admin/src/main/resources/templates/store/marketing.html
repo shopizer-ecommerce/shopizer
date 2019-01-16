@@ -30,21 +30,31 @@
 			<div class="box box-primary">
 				<div class="box-header">
 					<h3 class="box-title">
-						<span th:text="#{'label.marketing.social'}"></span>
+						<span th:text="#{'label.storelogo'}"></span>
 					</h3>
 				</div>
 				<div class="box-body">
-<!-- 					<form id="logoUpload" action="/file-upload" class="dropzone">
+				
+					<!-- 
+					If an image is present, show image
+					 -->
+				
+					<!-- 					
+					<form id="logoUpload" action="/file-upload" class="dropzone">
 					  <div class="fallback">
 					    <input name="file" type="file"/>
 					  </div>
 					</form> -->
-				<!--teste dropzone com preview-->
+				
+					
+					<!-- 
+					If no image present show upload
+					 -->
 
                     <!-- Uploader Dropzone -->
                     <form action="upload.php" id="zdrop" class="fileuploader center-align">
                       <div id="upload-label" style="width: 200px;">
-                        <i class="material-icons">cloud_upload</i>
+                        <i class="fa fa-cloud-upload"></i>
                       </div>
                       <span class="tittle">Click the Button or Drop Files Here</span>
                     </form>
@@ -208,6 +218,7 @@
 						url: 'upload.php',
 		                maxFiles:1,
 						maxFilesize:30,
+						uploadMultiple: false,
 						previewTemplate: previewTemplate,
 						previewsContainer: "#previews",
 						clickable: "#upload-label"
