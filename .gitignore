@@ -22,3 +22,8 @@
 */sm-shop/src/main/resources/*
 sm-shop/src/main/resources/database.properties
 .DS_Store
+sm-shop/.settings/org.eclipse.jdt.core.prefs
+sm-core-modules/.settings/org.eclipse.jdt.core.prefs
+sm-shop/.settings/org.eclipse.jdt.core.prefs
+sm-core/.settings/org.eclipse.jdt.core.prefs
+sm-core-model/.classpath
