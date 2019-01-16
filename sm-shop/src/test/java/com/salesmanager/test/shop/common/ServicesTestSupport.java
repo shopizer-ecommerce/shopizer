@@ -1,5 +1,4 @@
 package com.salesmanager.test.shop.common;
-
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;

@@ -1,24 +1,26 @@
 package com.salesmanager.shop.store.security;
 
 import java.io.Serializable;
-
 import com.salesmanager.shop.model.entity.Entity;
 
 public class AuthenticationResponse extends Entity implements Serializable {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private final String token;
+  public AuthenticationResponse() {
 
-    public AuthenticationResponse(Long userId, String token) {
-        this.token = token;
-        super.setId(userId);
-    }
+  }
 
-    public String getToken() {
-        return this.token;
-    }
+  /**
+   *
+   */
+  private static final long serialVersionUID = 1L;
+  private String token;
+
+  public AuthenticationResponse(final Long userId, final String token) {
+    this.token = token;
+    super.setId(userId);
+  }
+
+  public String getToken() {
+    return token;
+  }
 
 }

@@ -4,18 +4,16 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.springframework.http.HttpStatus.OK;
-
 import org.junit.Test;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
-
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.model.customer.CustomerGender;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
 import com.salesmanager.shop.model.customer.address.Address;
 import com.salesmanager.shop.store.security.AuthenticationRequest;
 import com.salesmanager.shop.store.security.AuthenticationResponse;
-import com.salesmanager.test.shop.controller.category.rest.ServicesTestSupport;
+import com.salesmanager.test.shop.common.ServicesTestSupport;
 
 public class CustomerRegistrationIntegrationTest extends ServicesTestSupport {
 
