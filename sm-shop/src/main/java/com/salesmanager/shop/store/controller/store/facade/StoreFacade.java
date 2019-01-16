@@ -23,7 +23,7 @@ public interface StoreFacade {
    * @return
    * @throws Exception
    */
-  MerchantStore getByCode(HttpServletRequest reques) throws Exception;
+  MerchantStore getByCode(HttpServletRequest request);
 
   MerchantStore get(String code);
 

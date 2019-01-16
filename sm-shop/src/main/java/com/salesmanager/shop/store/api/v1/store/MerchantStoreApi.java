@@ -161,6 +161,43 @@ public class MerchantStoreApi {
       return null;
     }
   }
+  
+  @ResponseStatus(HttpStatus.OK)
+  @RequestMapping(value = {"/private/store/{code}/marketing"}, method = RequestMethod.GET)
+  @ApiOperation(httpMethod = "GET", value = "Get store branding and marketing details", notes = "",
+      produces = "application/json", response = ReadableMerchantStore.class)
+  public ResponseEntity<ReadableMerchantStore> getStoreMarketing(
+      @PathVariable String code, HttpServletRequest request,
+      HttpServletResponse response) {
+
+    try {
+
+      // user doing action must be attached to the store being modified
+      Principal principal = request.getUserPrincipal();
+      String userName = principal.getName();
+
+      if (!userFacade.authorizedStore(userName, code)) {
+        throw new UnauthorizedException("User " + userName + " not authorized");
+      }
+      
+      //get ReadableStore
+      
+      //get MerchantStoreConfiguration
+      
+      //BuildReadableMarketing
+
+      return null;
+
+    } catch (Exception e) {
+      LOGGER.error("Error while updating store ", e);
+      try {
+        response.sendError(503, "Error while updating store " + e.getMessage());
+      } catch (Exception ignore) {
+      }
+
+      return null;
+    }
+  }
 
   @ResponseStatus(HttpStatus.OK)
   @RequestMapping(value = {"/private/store/unique"}, method = RequestMethod.GET)
@@ -210,13 +247,13 @@ public class MerchantStoreApi {
       // Principal principal = request.getUserPrincipal();
       // String userName = principal.getName();
 
-      Enumeration names = request.getParameterNames();
+/*      Enumeration names = request.getParameterNames();
       while (names.hasMoreElements()) {
         // System.out.println(names.nextElement().toString());
         String param = names.nextElement().toString();
         String val = request.getParameter(param);
         System.out.println("param ->" + param + " Val ->" + val);
-      }
+      }*/
 
       MerchantStoreCriteria criteria = (MerchantStoreCriteria) ServiceRequestCriteriaBuilderUtils
           .buildRequest(mappingFields, request);

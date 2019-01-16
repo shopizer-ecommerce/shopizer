@@ -13,8 +13,15 @@
 /WebContent/
 /SALESMANAGER.h2.db/
 /SALESMANAGER.lock.db/
+sm-shop/SALESMANAGER.lock.db
+.DS_Store
 */sm-shop/**
-
+.project
+sm-admin/.project
+sm-core-model/.project
+sm-core-modules/.project
+sm-core/.project
+sm-shop/.project
 **/bin
 **/build
 **/.settings
