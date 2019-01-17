@@ -36,9 +36,8 @@ import io.swagger.annotations.ApiResponses;
 
 
 @RestController
-@Produces({MediaType.APPLICATION_JSON})
 @Api(value = "/api/v1/category")
-@RequestMapping("/api/v1")
+@RequestMapping(value = "/api/v1", consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
 public class CategoryApi {
 
   public static final int DEFAULT_CATEGORY_DEPTH = 0;
