@@ -39,21 +39,18 @@ public class UserServicesImpl implements WebUserServices{
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserServicesImpl.class);
 	
-	private static final String DEFAULT_INITIAL_PASSWORD = "password";
+	private static final String DEFAULT_INITIAL_PASS = "password";
 
 	@Inject
 	private UserService userService;
 	
-
 	@Inject
 	private MerchantStoreService merchantStoreService;
 	
 	@Inject
 	@Named("passwordEncoder")
 	private PasswordEncoder passwordEncoder;
-	
 
-	
 	@Inject
 	protected PermissionService  permissionService;
 	
@@ -61,9 +58,7 @@ public class UserServicesImpl implements WebUserServices{
 	protected GroupService   groupService;
 	
 	public final static String ROLE_PREFIX = "ROLE_";//Spring Security 4
-	
-	
-	
+
 	public UserDetails loadUserByUsername(String userName)
 			throws UsernameNotFoundException, DataAccessException {
 
@@ -84,16 +79,11 @@ public class UserServicesImpl implements WebUserServices{
 			List<Integer> groupsId = new ArrayList<Integer>();
 			List<Group> groups = user.getGroups();
 			for(Group group : groups) {
-				
-				
 				groupsId.add(group.getId());
-				
 			}
-			
-	
-	    	
-	    	List<Permission> permissions = permissionService.getPermissions(groupsId);
-	    	for(Permission permission : permissions) {
+
+			List<Permission> permissions = permissionService.getPermissions(groupsId);
+			for(Permission permission : permissions) {
 	    		GrantedAuthority auth = new SimpleGrantedAuthority(ROLE_PREFIX + permission.getPermissionName());
 	    		authorities.add(auth);
 	    	}
@@ -102,14 +92,8 @@ public class UserServicesImpl implements WebUserServices{
 			LOGGER.error("Exception while querrying user",e);
 			throw new SecurityDataAccessException("Exception while querrying user",e);
 		}
-		
-		
-		
-	
-		
-		User secUser = new User(userName, user.getAdminPassword(), user.isActive(), true,
-				true, true, authorities);
-		return secUser;
+		return new User(userName, user.getAdminPassword(), user.isActive(), true,
+                true, true, authorities);
 	}
 	
 	
@@ -119,7 +103,7 @@ public class UserServicesImpl implements WebUserServices{
 		
 		  MerchantStore store = merchantStoreService.getMerchantStore(MerchantStore.DEFAULT_STORE);
 
-		  String password = passwordEncoder.encode(DEFAULT_INITIAL_PASSWORD);
+		  String password = passwordEncoder.encode(DEFAULT_INITIAL_PASS);
 		  
 		  List<Group> groups = groupService.listGroup(GroupType.ADMIN);
 		  
@@ -136,10 +120,5 @@ public class UserServicesImpl implements WebUserServices{
 
 		  user.setMerchantStore(store);		  
 		  userService.create(user);
-		
-		
 	}
-
-
-
 }

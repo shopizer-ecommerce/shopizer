@@ -92,11 +92,11 @@ import com.salesmanager.shop.utils.LocaleUtils;
 public class CustomerFacadeImpl implements CustomerFacade {
 
   private static final Logger LOG = LoggerFactory.getLogger(CustomerFacadeImpl.class);
-  private final static int USERNAME_LENGTH = 6;
+  private static final int USERNAME_LENGTH = 6;
 
-  private final static String RESET_PASSWORD_TPL = "email_template_password_reset_customer.ftl";
+  private static final String RESET_PASS_TPL = "email_template_password_reset_customer.ftl";
 
-  public final static String ROLE_PREFIX = "ROLE_";// Spring Security 4
+  public static final String ROLE_PREFIX = "ROLE_";// Spring Security 4
 
 
   @Inject
@@ -830,13 +830,13 @@ public class CustomerFacadeImpl implements CustomerFacade {
           customer.getBilling().getFirstName());
       templateTokens.put(EmailConstants.EMAIL_CUSTOMER_LASTNAME,
           customer.getBilling().getLastName());
-      templateTokens.put(EmailConstants.EMAIL_RESET_PASSWORD_TXT,
+      templateTokens.put(EmailConstants.EMAIL_RESET_PASS_TXT,
           messages.getMessage("email.customer.resetpassword.text", locale));
       templateTokens.put(EmailConstants.EMAIL_CONTACT_OWNER,
           messages.getMessage("email.contactowner", storeEmail, locale));
-      templateTokens.put(EmailConstants.EMAIL_PASSWORD_LABEL,
+      templateTokens.put(EmailConstants.EMAIL_PASS_LABEL,
           messages.getMessage("label.generic.password", locale));
-      templateTokens.put(EmailConstants.EMAIL_CUSTOMER_PASSWORD, password);
+      templateTokens.put(EmailConstants.EMAIL_CUSTOMER_PASS, password);
 
 
       Email email = new Email();
@@ -844,7 +844,7 @@ public class CustomerFacadeImpl implements CustomerFacade {
       email.setFromEmail(store.getStoreEmailAddress());
       email.setSubject(messages.getMessage("label.generic.changepassword", locale));
       email.setTo(customer.getEmailAddress());
-      email.setTemplateName(RESET_PASSWORD_TPL);
+      email.setTemplateName(RESET_PASS_TPL);
       email.setTemplateTokens(templateTokens);
 
 

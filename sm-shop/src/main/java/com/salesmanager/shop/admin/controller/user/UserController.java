@@ -46,6 +46,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 @Controller
@@ -84,11 +85,11 @@ public class UserController {
 	@Named("passwordEncoder")
 	private PasswordEncoder passwordEncoder;
 	
-	private final static String QUESTION_1 = "question1";
-	private final static String QUESTION_2 = "question2";
-	private final static String QUESTION_3 = "question3";
-	private final static String RESET_PASSWORD_TPL = "email_template_password_reset_user.ftl";	
-	private final static String NEW_USER_TMPL = "email_template_new_user.ftl";
+	private static final String QUESTION_1 = "question1";
+	private static final String QUESTION_2 = "question2";
+	private static final String QUESTION_3 = "question3";
+	private static final String RESET_PASS_TPL = "email_template_password_reset_user.ftl";
+	private static final String NEW_USER_TMPL = "email_template_new_user.ftl";
 	
 	@PreAuthorize("hasRole('STORE_ADMIN')")
 	@RequestMapping(value="/admin/users/list.html", method=RequestMethod.GET)
@@ -170,7 +171,7 @@ public class UserController {
 		
 		model.addAttribute("password",password);
 		model.addAttribute("user",user);
-		return ControllerConstants.Tiles.User.password;
+		return ControllerConstants.Tiles.User.pass;
 	}
 	
 	
@@ -190,13 +191,13 @@ public class UserController {
 		if(StringUtils.isBlank(password.getPassword())) {
 			ObjectError error = new ObjectError("password",new StringBuilder().append(messages.getMessage("label.generic.password", locale)).append(" ").append(messages.getMessage("message.cannot.empty", locale)).toString());
 			result.addError(error);
-			return ControllerConstants.Tiles.User.password;
+			return ControllerConstants.Tiles.User.pass;
 		}
 
 		if(!passwordEncoder.matches(password.getPassword(), dbUser.getAdminPassword())) {
 			ObjectError error = new ObjectError("password",messages.getMessage("message.password.invalid", locale));
 			result.addError(error);
-			return ControllerConstants.Tiles.User.password;
+			return ControllerConstants.Tiles.User.pass;
 		}
 		
 
@@ -221,7 +222,7 @@ public class UserController {
 		}
 		
 		if (result.hasErrors()) {
-			return ControllerConstants.Tiles.User.password;
+			return ControllerConstants.Tiles.User.pass;
 		}
 		
 		
@@ -231,7 +232,7 @@ public class UserController {
 		userService.update(dbUser);
 		
 		model.addAttribute("success","success");
-		return ControllerConstants.Tiles.User.password;
+		return ControllerConstants.Tiles.User.pass;
 	}
 	
 	@PreAuthorize("hasRole('STORE_ADMIN')")
@@ -592,8 +593,8 @@ public class UserController {
 				templateTokens.put(EmailConstants.EMAIL_ADMIN_USERNAME_LABEL, messages.getMessage("label.generic.username",userLocale));
 				templateTokens.put(EmailConstants.EMAIL_ADMIN_NAME, user.getAdminName());
 				templateTokens.put(EmailConstants.EMAIL_TEXT_NEW_USER_CREATED, messages.getMessage("email.newuser.text",userLocale));
-				templateTokens.put(EmailConstants.EMAIL_ADMIN_PASSWORD_LABEL, messages.getMessage("label.generic.password",userLocale));
-				templateTokens.put(EmailConstants.EMAIL_ADMIN_PASSWORD, decodedPassword);
+				templateTokens.put(EmailConstants.EMAIL_ADMIN_PASS_LABEL, messages.getMessage("label.generic.password",userLocale));
+				templateTokens.put(EmailConstants.EMAIL_ADMIN_PASS, decodedPassword);
 				templateTokens.put(EmailConstants.EMAIL_ADMIN_URL_LABEL, messages.getMessage("label.adminurl",userLocale));
 				templateTokens.put(EmailConstants.EMAIL_ADMIN_URL, filePathUtils.buildAdminUri(store, request));
 	
@@ -714,7 +715,7 @@ public class UserController {
 		
 	}
 	
-	//password reset functionality  ---  Sajid Shajahan  
+	//password reset functionality  ---  Sajid Shajahan
 	@RequestMapping(value="/admin/users/resetPassword.html", method=RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> resetPassword(HttpServletRequest request, HttpServletResponse response, Locale locale) {
 		
@@ -810,17 +811,17 @@ public class UserController {
 						String[] storeEmail = {store.getStoreEmailAddress()};						
 						
 						Map<String, String> templateTokens = emailUtils.createEmailObjectsMap(request.getContextPath(), store, messages, userLocale);
-						templateTokens.put(EmailConstants.EMAIL_RESET_PASSWORD_TXT, messages.getMessage("email.user.resetpassword.text", userLocale));
+						templateTokens.put(EmailConstants.EMAIL_RESET_PASS_TXT, messages.getMessage("email.user.resetpassword.text", userLocale));
 						templateTokens.put(EmailConstants.EMAIL_CONTACT_OWNER, messages.getMessage("email.contactowner", storeEmail, userLocale));
-						templateTokens.put(EmailConstants.EMAIL_PASSWORD_LABEL, messages.getMessage("label.generic.password",userLocale));
-						templateTokens.put(EmailConstants.EMAIL_USER_PASSWORD, tempPass);
+						templateTokens.put(EmailConstants.EMAIL_PASS_LABEL, messages.getMessage("label.generic.password",userLocale));
+						templateTokens.put(EmailConstants.EMAIL_USER_PASS, tempPass);
 
 						Email email = new Email();
 						email.setFrom(store.getStorename());
 						email.setFromEmail(store.getStoreEmailAddress());
 						email.setSubject(messages.getMessage("label.generic.changepassword",userLocale));
 						email.setTo(dbUser.getAdminEmail() );
-						email.setTemplateName(RESET_PASSWORD_TPL);
+						email.setTemplateName(RESET_PASS_TPL);
 						email.setTemplateTokens(templateTokens);
 						
 						emailService.sendHtmlEmail(store, email);
@@ -843,8 +844,8 @@ public class UserController {
 				  
 			  }
 			
-		} catch (ServiceException e) {
-			e.printStackTrace();
+		} catch (ServiceException | NoSuchAlgorithmException e) {
+			LOGGER.error("Context: ", e);
 			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 			resp.setStatusMessage(messages.getMessage("User.resetPassword.Error", locale));
 		}

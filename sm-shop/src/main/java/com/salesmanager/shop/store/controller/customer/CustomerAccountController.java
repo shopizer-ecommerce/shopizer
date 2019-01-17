@@ -214,7 +214,7 @@ public class CustomerAccountController extends AbstractController {
 		model.addAttribute("password", customerPassword);
 		
 		/** template **/
-		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Customer.changePassword).append(".").append(store.getStoreTemplate());
+		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Customer.CHANGE_PASS).append(".").append(store.getStoreTemplate());
 
 		return template.toString();
 		
@@ -228,7 +228,7 @@ public class CustomerAccountController extends AbstractController {
 	    MerchantStore store = getSessionAttribute(Constants.MERCHANT_STORE, request);
 	    
 		/** template **/
-		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Customer.changePassword).append(".").append(store.getStoreTemplate());
+		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Customer.CHANGE_PASS).append(".").append(store.getStoreTemplate());
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Customer customer = null;
@@ -391,7 +391,7 @@ public class CustomerAccountController extends AbstractController {
 					}
 					
 					
-					if(attribute.getId()!=null && attribute.getId().longValue()>0) {
+					if(attribute.getId()!=null && attribute.getId() > 0) {
 						if(attribute.getCustomerOptionValue()==null){
 							customerAttributeService.delete(attribute);
 						} else {
@@ -548,9 +548,7 @@ public class CustomerAccountController extends AbstractController {
             {
                 language = languageService.getByCode( Constants.DEFAULT_LANGUAGE );
             }
-            
-            List<Country> countryList=countryService.getCountries( language );
-            return countryList;
+            return countryService.getCountries(language);
         }
         catch ( ServiceException e )
         {

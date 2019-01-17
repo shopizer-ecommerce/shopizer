@@ -63,7 +63,7 @@ public interface ControllerConstants
         interface User{
             final String profile="admin-user-profile";
             final String users="admin-users";
-            final String password="admin-user-password";
+            final String pass ="admin-user-password";
         }
         
         interface Store{
