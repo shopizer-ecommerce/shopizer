@@ -424,28 +424,24 @@ public class USPSShippingQuote implements ShippingQuoteModule {
 					xmldatabuffer.toString()).append(xmlfooter.toString());
 
 			LOGGER.debug("USPS QUOTE REQUEST " + xmlbuffer.toString());
-
-
-
 			//HttpClient client = new HttpClient();
-			CloseableHttpClient httpclient = HttpClients.createDefault();
-		
+			try(CloseableHttpClient httpclient = HttpClients.createDefault()) {
 			@SuppressWarnings("deprecation")
 			String encoded = java.net.URLEncoder.encode(xmlbuffer.toString());
-		
+
 			String completeUri = url + "?API=RateV3&XML=" + encoded;
 			if(!store.getCountry().getIsoCode().equals(delivery.getCountry().getIsoCode())) {
 				completeUri = url + "?API=IntlRate&XML=" + encoded;
 			}
-		
+
 			// ?API=RateV3
-		
+
 			httpget = new HttpGet(protocol + "://" + host + ":" + port
 					+ completeUri);
 			// RequestEntity entity = new
 			// StringRequestEntity(xmlbuffer.toString(),"text/plain","UTF-8");
 			// httpget.setRequestEntity(entity);
-			
+
             ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
 
                 @Override
@@ -462,7 +458,7 @@ public class USPSShippingQuote implements ShippingQuoteModule {
                 }
 
             };
-		
+
             String data = httpclient.execute(httpget, responseHandler);
 /*			int result = client.executeMethod(httpget);
 			if (result != 200) {
@@ -512,7 +508,7 @@ public class USPSShippingQuote implements ShippingQuoteModule {
 						"addOption");
 
 			} else {
-	
+
 				digester.addCallMethod("Error/Description",
 						"setError", 0);
 				digester.addCallMethod("IntlRateResponse/Package/Error/Description",
@@ -537,7 +533,7 @@ public class USPSShippingQuote implements ShippingQuoteModule {
 				//		"setEstimatedNumberOfDays", 0);
 				digester.addSetNext("IntlRateResponse/Package/Service",
 						"addOption");
-	
+
 			}
 
 			// <?xml
@@ -546,13 +542,13 @@ public class USPSShippingQuote implements ShippingQuoteModule {
 			// XML document is well formed but the document is not
 			// valid</ErrorDescription><ErrorLocation><ErrorLocationElementName>AddressValidationRequest</ErrorLocationElementName></ErrorLocation></Error></Response></AddressValidationResponse>
 
-			
+
 			//<?xml version="1.0"?>
 			//<IntlRateResponse><Package ID="1"><Error><Number>-2147218046</Number>
 			//<Source>IntlPostage;clsIntlPostage.GetCountryAndRestirctedServiceId;clsIntlPostage.CalcAllPostageDimensionsXML;IntlRate.ProcessRequest</Source>
 			//<Description>Invalid Country Name</Description><HelpFile></HelpFile><HelpContext>1000440</HelpContext></Error></Package></IntlRateResponse>
-			
-			
+
+
 			xmlreader = new StringReader(data);
 			digester.parse(xmlreader);
 
@@ -568,22 +564,22 @@ public class USPSShippingQuote implements ShippingQuoteModule {
 						+ parsed.getError());
 				throw new IntegrationException(parsed.getError());
 			}
-		
+
 			if (parsed.getOptions() == null || parsed.getOptions().size() == 0) {
 				LOGGER.warn("No options returned from USPS");
 				throw new IntegrationException(parsed.getError());
 			}
 
-	
-			
+
+
 /*			String carrier = getShippingMethodDescription(locale);
 			// cost is in USD, need to do conversion
-		
+
 			MerchantConfiguration rtdetails = config
 					.getMerchantConfiguration(ShippingConstants.MODULE_SHIPPING_DISPLAY_REALTIME_QUOTES);
 			int displayQuoteDeliveryTime = ShippingConstants.NO_DISPLAY_RT_QUOTE_TIME;
 			if (rtdetails != null) {
-		
+
 				if (!StringUtils.isBlank(rtdetails.getConfigurationValue1())) {// display
 																				// or
 																				// not
@@ -591,25 +587,25 @@ public class USPSShippingQuote implements ShippingQuoteModule {
 					try {
 						displayQuoteDeliveryTime = Integer.parseInt(rtdetails
 								.getConfigurationValue1());
-		
+
 					} catch (Exception e) {
 						log.error("Display quote is not an integer value ["
 								+ rtdetails.getConfigurationValue1() + "]");
 					}
 				}
 			}
-		
+
 			LabelUtil labelUtil = LabelUtil.getInstance();*/
 			// Map serviceMap =
 			// com.salesmanager.core.util.ShippingUtil.buildServiceMap("usps",locale);
-		
+
 			@SuppressWarnings("unchecked")
 			List<ShippingOption> shippingOptions = parsed.getOptions();
-		
+
 /*			List<ShippingOption> returnOptions = null;
-		
+
 			if (shippingOptions != null && shippingOptions.size() > 0) {
-		
+
 				returnOptions = new ArrayList<ShippingOption>();
 				// Map selectedintlservices =
 				// (Map)config.getConfiguration("service-global-usps");
@@ -617,17 +613,17 @@ public class USPSShippingQuote implements ShippingQuoteModule {
 				// Iterator servicesIterator =
 				// selectedintlservices.keySet().iterator();
 				// Map services = new HashMap();
-		
+
 				// ResourceBundle bundle = ResourceBundle.getBundle("usps",
 				// locale);
-		
+
 				// while(servicesIterator.hasNext()) {
 				// String key = (String)servicesIterator.next();
 				// String value =
 				// bundle.getString("shipping.quote.services.label." + key);
 				// services.put(value, key);
 				// }
-		
+
 				for(ShippingOption option : shippingOptions) {
 
 					StringBuilder description = new StringBuilder();
@@ -643,14 +639,14 @@ public class USPSShippingQuote implements ShippingQuoteModule {
 						}
 					}
 					option.setDescription(description.toString());
-		
+
 					// get currency
 					if (!option.getCurrency().equals(store.getCurrency())) {
 						option.setOptionPrice(CurrencyUtil.convertToCurrency(
 								option.getOptionPrice(), option.getCurrency(),
 								store.getCurrency()));
 					}
-		
+
 					// if(!services.containsKey(option.getOptionCode())) {
 					// if(returnColl==null) {
 					// returnColl = new ArrayList();
@@ -659,7 +655,7 @@ public class USPSShippingQuote implements ShippingQuoteModule {
 					// }
 					returnOptions.add(option);
 				}
-		
+
 				// if(options.size()==0) {
 				// CommonService.logServiceMessage(store.getMerchantId(),
 				// " none of the service code returned by UPS [" +
@@ -667,11 +663,12 @@ public class USPSShippingQuote implements ShippingQuoteModule {
 				// String[selectedintlservices.size()]) +
 				// "] for this shipping is in your selection list");
 				// }
-		
+
 			}*/
-		
+
 			return shippingOptions;
-		
+			}
+
 		} catch (Exception e1) {
 			LOGGER.error("Error in USPS shipping quote ",e1);
 			throw new IntegrationException(e1);
@@ -687,7 +684,7 @@ public class USPSShippingQuote implements ShippingQuoteModule {
 			}
 		}
 
-		
+
 	}
 
 
