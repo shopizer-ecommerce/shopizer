@@ -146,7 +146,7 @@ public class ProductFileManagerImpl extends ProductFileManager {
         String contentType = fileNameMap.getContentTypeFor(contentImage.getFileName());
         String extension = null;
         if (contentType != null) {
-          extension = contentType.substring(contentType.indexOf("/") + 1, contentType.length());
+          extension = contentType.substring(contentType.indexOf('/') + 1, contentType.length());
         }
 
         if (extension == null) {
@@ -188,7 +188,7 @@ public class ProductFileManagerImpl extends ProductFileManager {
                 .append("tmpLarge").toString(), "." + extension);
         ImageIO.write(largeResizedImage, extension, tempLarge);
 
-        FileInputStream isLarge = new FileInputStream(tempLarge);
+        try(FileInputStream isLarge = new FileInputStream(tempLarge)) {
 
 
         // IOUtils.copy(isLarge, output);
@@ -224,28 +224,28 @@ public class ProductFileManagerImpl extends ProductFileManager {
          * smallImageWidth, smallImageHeight); File tempSmall = File.createTempFile(new
          * StringBuilder().append(productImage.getProduct().getId()).append("tmpSmall").toString(),
          * "." + extension ); ImageIO.write(smallResizedImage, extension, tempSmall);
-         * 
+         *
          * //byte[] is = IOUtils.toByteArray(new FileInputStream(tempSmall));
-         * 
+         *
          * FileInputStream isSmall = new FileInputStream(tempSmall);
-         * 
+         *
          * output = new ByteArrayOutputStream(); IOUtils.copy(isSmall, output);
-         * 
-         * 
+         *
+         *
          * smallContentImage = new InputContentImage(ImageContentType.PRODUCT);
          * smallContentImage.setFile(output); smallContentImage.setDefaultImage(false);
          * smallContentImage.setImageName(new
          * StringBuilder().append("S-").append(productImage.getProductImage()).toString());
-         * 
+         *
          * uploadImage.uploadProductImage(configuration, productImage, smallContentImage);
-         * 
+         *
          * output.flush(); output.close();
-         * 
+         *
          * tempSmall.delete();
          */
 
 
-
+    }
       } else {
         // small will be the same as the original
         contentImage.setFileContentType(FileContentType.PRODUCT);
