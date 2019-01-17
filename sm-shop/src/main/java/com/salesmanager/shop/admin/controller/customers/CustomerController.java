@@ -785,10 +785,10 @@ public class CustomerController {
 				templateTokens.put(EmailConstants.LABEL_HI, messages.getMessage("label.generic.hi", customerLocale));
 		        templateTokens.put(EmailConstants.EMAIL_CUSTOMER_FIRSTNAME, customer.getBilling().getFirstName());
 		        templateTokens.put(EmailConstants.EMAIL_CUSTOMER_LASTNAME, customer.getBilling().getLastName());
-				templateTokens.put(EmailConstants.EMAIL_RESET_PASSWORD_TXT, messages.getMessage("email.customer.resetpassword.text", customerLocale));
+				templateTokens.put(EmailConstants.EMAIL_RESET_PASS_TXT, messages.getMessage("email.customer.resetpassword.text", customerLocale));
 				templateTokens.put(EmailConstants.EMAIL_CONTACT_OWNER, messages.getMessage("email.contactowner", storeEmail, customerLocale));
-				templateTokens.put(EmailConstants.EMAIL_PASSWORD_LABEL, messages.getMessage("label.generic.password",customerLocale));
-				templateTokens.put(EmailConstants.EMAIL_CUSTOMER_PASSWORD, password);
+				templateTokens.put(EmailConstants.EMAIL_PASS_LABEL, messages.getMessage("label.generic.password",customerLocale));
+				templateTokens.put(EmailConstants.EMAIL_CUSTOMER_PASS, pass);
 
 
 				Email email = new Email();

@@ -279,11 +279,11 @@ public class EmailTemplatesUtils {
 	           String[] greetingMessage = {merchantStore.getStorename(),filePathUtils.buildCustomerUri(merchantStore,contextPath),merchantStore.getStoreEmailAddress()};
 	           templateTokens.put(EmailConstants.EMAIL_CUSTOMER_GREETING, messages.getMessage("email.customer.greeting", greetingMessage, customerLocale));
 	           templateTokens.put(EmailConstants.EMAIL_USERNAME_LABEL, messages.getMessage("label.generic.username",customerLocale));
-	           templateTokens.put(EmailConstants.EMAIL_PASSWORD_LABEL, messages.getMessage("label.generic.password",customerLocale));
+	           templateTokens.put(EmailConstants.EMAIL_PASS_LABEL, messages.getMessage("label.generic.password",customerLocale));
 	           templateTokens.put(EmailConstants.CUSTOMER_ACCESS_LABEL, messages.getMessage("label.customer.accessportal",customerLocale));
 	           templateTokens.put(EmailConstants.ACCESS_NOW_LABEL, messages.getMessage("label.customer.accessnow",customerLocale));
 	           templateTokens.put(EmailConstants.EMAIL_USER_NAME, customer.getUserName());
-	           templateTokens.put(EmailConstants.EMAIL_CUSTOMER_PASSWORD, customer.getClearPassword());
+	           templateTokens.put(EmailConstants.EMAIL_CUSTOMER_PASS, customer.getClearPassword());
 
 	           //shop url
 	           String customerUrl = filePathUtils.buildStoreUri(merchantStore, contextPath);

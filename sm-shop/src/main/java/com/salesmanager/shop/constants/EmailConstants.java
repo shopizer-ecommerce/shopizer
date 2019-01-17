@@ -8,21 +8,20 @@ public class EmailConstants {
 	public static final String EMAIL_ADMIN_USERNAME_LABEL = "EMAIL_ADMIN_USERNAME_LABEL";
 	public static final String EMAIL_ADMIN_NAME = "EMAIL_ADMIN_NAME";
 	public static final String EMAIL_TEXT_NEW_USER_CREATED = "EMAIL_TEXT_NEW_USER_CREATED";
-	public static final String EMAIL_ADMIN_PASSWORD_LABEL = "EMAIL_ADMIN_PASSWORD_LABEL";
-	public static final String EMAIL_ADMIN_PASSWORD = "EMAIL_ADMIN_PASSWORD";
-	
+	public static final String EMAIL_ADMIN_PASS_LABEL = "EMAIL_ADMIN_PASSWORD_LABEL";
+	public static final String EMAIL_ADMIN_PASS = "EMAIL_ADMIN_PASSWORD";
 	
 	public static final String EMAIL_USERNAME_LABEL = "EMAIL_USERNAME_LABEL";
-	public static final String EMAIL_PASSWORD_LABEL = "EMAIL_PASSWORD_LABEL";
-	public static final String EMAIL_CUSTOMER_PASSWORD = "EMAIL_CUSTOMER_PASSWORD";
+	public static final String EMAIL_PASS_LABEL = "EMAIL_PASSWORD_LABEL";
+	public static final String EMAIL_CUSTOMER_PASS = "EMAIL_CUSTOMER_PASSWORD";
 	public static final String EMAIL_CUSTOMER_NAME = "EMAIL_CUSTOMER_NAME";
 	public static final String EMAIL_CUSTOMER_FIRSTNAME = "EMAIL_CUSTOMER_FIRSTNAME";
 	public static final String EMAIL_CUSTOMER_LASTNAME = "EMAIL_CUSTOMER_LASTNAME";
 	public static final String EMAIL_NOTIFICATION_MESSAGE = "EMAIL_NOTIFICATION_MESSAGE";
 	public static final String EMAIL_CUSTOMER_GREETING = "EMAIL_CUSTOMER_GREETING";
-	public static final String EMAIL_RESET_PASSWORD_TXT = "EMAIL_RESET_PASSWORD_TXT";
+	public static final String EMAIL_RESET_PASS_TXT = "EMAIL_RESET_PASSWORD_TXT";
 	public static final String EMAIL_USER_NAME = "EMAIL_USER_NAME";
-	public static final String EMAIL_USER_PASSWORD = "EMAIL_USER_PASSWORD";
+	public static final String EMAIL_USER_PASS = "EMAIL_USER_PASSWORD";
 	
 	public static final String EMAIL_TEXT_ORDER_NUMBER = "EMAIL_TEXT_ORDER_NUMBER";
 	public static final String EMAIL_TEXT_DATE_ORDERED = "EMAIL_TEXT_DATE_ORDERED";
@@ -38,9 +37,7 @@ public class EmailConstants {
 	public static final String EMAIL_STORE_NAME = "EMAIL_STORE_NAME";
 	public static final String EMAIL_ADMIN_STORE_INFO_LABEL = "EMAIL_ADMIN_STORE_INFO_LABEL";
 	public static final String EMAIL_ADMIN_USERNAME_TEXT = "EMAIL_ADMIN_USERNAME_TEXT";
-	public static final String EMAIL_ADMIN_PASSWORD_TEXT = "EMAIL_ADMIN_PASSWORD_TEXT";
-
-	
+	public static final String EMAIL_ADMIN_PASS_TEXT = "EMAIL_ADMIN_PASSWORD_TEXT";
 
 	public static final String EMAIL_CONTACT_OWNER = "EMAIL_CONTACT_OWNER";
 	public static final String EMAIL_ADMIN_URL_LABEL = "EMAIL_ADMIN_URL_LABEL";
@@ -69,13 +66,11 @@ public class EmailConstants {
 	public static final String EMAIL_CONTACT_EMAIL_LABEL ="EMAIL_CONTACT_EMAIL_LABEL";
 	public static final String EMAIL_CONTACT_EMAIL ="EMAIL_CONTACT_EMAIL";
 	public static final String EMAIL_CONTACT_CONTENT ="EMAIL_CONTACT_CONTENT";
-	
-	
-	
-	public final static String LABEL_HI = "LABEL_HI";
-	public final static String CUSTOMER_ACCESS_LABEL = "CUSTOMER_ACCESS_LABEL";
-	public final static String CUSTOMER_ACCESS_URL = "CUSTOMER_ACCESS_URL";
-	public final static String ACCESS_NOW_LABEL = "ACCESS_NOW_LABEL";
+
+	public static final String LABEL_HI = "LABEL_HI";
+	public static final String CUSTOMER_ACCESS_LABEL = "CUSTOMER_ACCESS_LABEL";
+	public static final String CUSTOMER_ACCESS_URL = "CUSTOMER_ACCESS_URL";
+	public static final String ACCESS_NOW_LABEL = "ACCESS_NOW_LABEL";
 	
 	public static final String EMAIL_CUSTOMER_TPL = "email_template_customer.ftl";
 	public static final String EMAIL_ORDER_TPL = "email_template_checkout.ftl";
@@ -83,6 +78,4 @@ public class EmailConstants {
 	public static final String ORDER_STATUS_TMPL = "email_template_order_status.ftl";
 	public static final String EMAIL_CONTACT_TMPL = "email_template_contact.ftl";
 	public static final String EMAIL_NOTIFICATION_TMPL = "email_template_notification.ftl";
-	
-	
 }
