@@ -1,5 +1,6 @@
 package com.salesmanager.shop.store.api.exception;
 
+import com.salesmanager.shop.store.controller.error.model.ErrorEntity;
 import java.util.Optional;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -12,11 +13,11 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import com.salesmanager.shop.store.controller.error.model.ErrorEntity;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
 @ResponseBody
+@Produces({MediaType.APPLICATION_JSON})
 public class RestErrorHandler {
   
     private static final Logger log = LoggerFactory.getLogger(RestErrorHandler.class);

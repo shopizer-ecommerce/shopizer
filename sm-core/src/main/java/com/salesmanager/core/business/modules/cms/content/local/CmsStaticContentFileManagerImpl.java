@@ -352,7 +352,7 @@ public class CmsStaticContentFileManagerImpl implements ContentAssetsManager {
       if (Files.exists(path)) {
 
         fileNames = new ArrayList<String>();
-        DirectoryStream<Path> directoryStream = Files.newDirectoryStream(path);
+        try(DirectoryStream<Path> directoryStream = Files.newDirectoryStream(path)) {
         for (Path dirPath : directoryStream) {
 
           String fileName = dirPath.getFileName().toString();
@@ -377,12 +377,12 @@ public class CmsStaticContentFileManagerImpl implements ContentAssetsManager {
       }
 
       return fileNames;
-
+      }
     } catch (final Exception e) {
       LOGGER.error("Error while fetching file for {} merchant ", merchantStoreCode);
       throw new ServiceException(e);
     }
-
+    return new ArrayList<>();
   }
 
   public void setRootName(String rootName) {

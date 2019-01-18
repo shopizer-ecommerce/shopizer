@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,7 +52,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping(value = "/api/v1", consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
 public class ContentApi {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ContentApi.class);

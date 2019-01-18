@@ -760,7 +760,6 @@ public class ContentManager {
     public JSONObject actionGetImage(HttpServletRequest request, HttpServletResponse response, Boolean thumbnail) throws Exception {
         
 
-        InputStream is = null;
         String path = getPath(request, "path");
         
         //NEED CONTENT META (http, local, aws...)
@@ -769,7 +768,7 @@ public class ContentManager {
 
         try {
 
-        	URL url = new URL(urlBuilder.toString());
+        	URL url = new URL(urlBuilder);
          
             String fileName = FilenameUtils.getName(url.getPath());
             String encodedName = java.net.URLEncoder.encode(fileName, "UTF-8");
@@ -784,23 +783,18 @@ public class ContentManager {
             }
  
             File file = new File(FilenameUtils.getName(url.getPath()));
-
-        	
+            try(InputStream is = new FileInputStream(file)) {
 			org.apache.commons.io.FileUtils.copyURLToFile(queryUrl, file);
-
             String filename = file.getName();
             String fileExt = filename.substring(filename.lastIndexOf(".") + 1);
             String mimeType = (!StringUtils.isEmpty(FileUtils.getExtension(fileExt))) ? FileManagerUtils.getMimeTypeByExt(fileExt) : "application/octet-stream";
             long fileSize = file.length();
-
-            is = new FileInputStream(file);
-
             response.setContentType(mimeType);
             response.setHeader("Content-Length", Long.toString(fileSize));
             response.setHeader("Content-Transfer-Encoding", "binary");
             response.setHeader("Content-Disposition", "inline; filename=\"" + filename + "\"");
-
             FileUtils.copy(new BufferedInputStream(is), response.getOutputStream());
+            }
         } catch (IOException e) {
             throw new Exception("Error serving image: ", e);
         }
@@ -1338,8 +1332,8 @@ public class ContentManager {
         response.setHeader("Content-Transfer-Encoding", "binary");
         response.setHeader("Content-Disposition", "inline; filename=\"" + filename + "\"");
 
-        try {
-            FileUtils.copy(new BufferedInputStream(new FileInputStream(file)), response.getOutputStream());
+        try(BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(file))) {
+            FileUtils.copy(bufferedInputStream, response.getOutputStream());
         } catch (IOException e) {
             throw new Exception("Read file error: " + path, e);
         }
@@ -1432,10 +1426,8 @@ public class ContentManager {
             return getErrorResponse(dictionnary.getProperty("INVALID_DIRECTORY_OR_FILE"));
         }
 
-        try {
-            FileOutputStream oldFile = new FileOutputStream(file, false);
+        try(FileOutputStream oldFile = new FileOutputStream(file, false)) {
             oldFile.write(content.getBytes());
-            oldFile.close();
         } catch (IOException e) {
             throw new Exception("Error writing modified file", e);
         }
