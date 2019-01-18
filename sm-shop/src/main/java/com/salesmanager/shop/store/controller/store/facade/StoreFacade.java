@@ -5,6 +5,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.merchant.MerchantStoreCriteria;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.shop.PersistableMerchantStore;
+import com.salesmanager.shop.model.shop.ReadableBrand;
 import com.salesmanager.shop.model.shop.ReadableMerchantStore;
 import com.salesmanager.shop.model.shop.ReadableMerchantStoreList;
 
@@ -62,5 +63,12 @@ public interface StoreFacade {
    * @param code
    */
   void delete(String code);
+  
+  /**
+   * Get Logo, social networks and other brand configurations
+   * @param code
+   * @return
+   */
+  ReadableBrand getBrand(String code);
 
 }

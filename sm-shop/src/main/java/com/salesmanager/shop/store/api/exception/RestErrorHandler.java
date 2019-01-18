@@ -23,7 +23,7 @@ public class RestErrorHandler {
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @Produces({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public ErrorEntity handleServiceException(Exception exception) {
         log.error(exception.getMessage(), exception);
         ErrorEntity errorEntity = createErrorEntity(null, exception.getMessage(),
@@ -36,7 +36,7 @@ public class RestErrorHandler {
      */
     @ExceptionHandler(ServiceRuntimeException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @Produces({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public ErrorEntity handleServiceException(ServiceRuntimeException exception) {
         log.error(exception.getErrorMessage(), exception);
         ErrorEntity errorEntity = createErrorEntity(exception.getErrorCode(), exception.getErrorMessage(),
@@ -46,7 +46,7 @@ public class RestErrorHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @Produces({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public ErrorEntity handleServiceException(ResourceNotFoundException exception) {
         log.error(exception.getErrorMessage(), exception);
 
@@ -57,7 +57,7 @@ public class RestErrorHandler {
     
     @ExceptionHandler(UnauthorizedException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @Produces({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public ErrorEntity handleServiceException(UnauthorizedException exception) {
         log.error(exception.getErrorMessage(), exception);
 
@@ -68,7 +68,7 @@ public class RestErrorHandler {
 
     @ExceptionHandler(RestApiException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @Produces({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public ErrorEntity handleRestApiException(RestApiException exception) {
         log.error(exception.getErrorMessage(), exception);
 

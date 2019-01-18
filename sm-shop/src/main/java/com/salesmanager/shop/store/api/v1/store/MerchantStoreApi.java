@@ -2,7 +2,6 @@ package com.salesmanager.shop.store.api.v1.store;
 
 import java.security.Principal;
 import java.util.AbstractMap;
-import java.util.Enumeration;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -10,14 +9,14 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,12 +37,9 @@ import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.store.controller.user.facade.UserFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
 import com.salesmanager.shop.utils.ServiceRequestCriteriaBuilderUtils;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@Produces({MediaType.APPLICATION_JSON})
-@Api(value = "/api/v1/store")
 @RequestMapping("/api/v1")
 public class MerchantStoreApi {
 
@@ -71,9 +67,10 @@ public class MerchantStoreApi {
   private static final Logger LOGGER = LoggerFactory.getLogger(MerchantStoreApi.class);
 
   @ResponseStatus(HttpStatus.OK)
-  @RequestMapping(value = {"/store/{store}"}, method = RequestMethod.GET)
+  //@GetMapping(value = {"/store/{store}"}, produces ={ "application/json", "application/xml" })
+  @GetMapping(value = {"/store/{store}"})
   @ApiOperation(httpMethod = "GET", value = "Get merchant store", notes = "",
-      produces = "application/json", response = ReadableMerchantStore.class)
+     response = ReadableMerchantStore.class)
   public @ResponseBody ReadableMerchantStore store(@PathVariable String store,
       @RequestParam(value = "lang", required = false) String lang, HttpServletRequest request,
       HttpServletResponse response) {
@@ -89,9 +86,10 @@ public class MerchantStoreApi {
   }
 
   @ResponseStatus(HttpStatus.OK)
-  @RequestMapping(value = {"/private/store"}, method = RequestMethod.POST)
+  //@GetMapping(value = {"/private/store"}, produces ={ "application/json", "application/xml" })
+  @GetMapping(value = {"/private/store"})
   @ApiOperation(httpMethod = "POST", value = "Creates a new store", notes = "",
-      produces = "application/json", response = ReadableMerchantStore.class)
+      response = ReadableMerchantStore.class)
   public ResponseEntity<ReadableMerchantStore> create(
       @Valid @RequestBody PersistableMerchantStore store, HttpServletRequest request,
       HttpServletResponse response) throws Exception {
@@ -125,9 +123,10 @@ public class MerchantStoreApi {
   }
 
   @ResponseStatus(HttpStatus.OK)
-  @RequestMapping(value = {"/private/store/{code}"}, method = RequestMethod.PUT)
+  //@PutMapping(value = {"/private/store/{code}"}, produces ={ "application/json", "application/xml" })
+  @PutMapping(value = {"/private/store/{code}"})
   @ApiOperation(httpMethod = "PUT", value = "Updates a store", notes = "",
-      produces = "application/json", response = ReadableMerchantStore.class)
+      response = ReadableMerchantStore.class)
   public ResponseEntity<ReadableMerchantStore> update(
       @Valid @RequestBody PersistableMerchantStore store, HttpServletRequest request,
       HttpServletResponse response) throws Exception {
@@ -163,9 +162,10 @@ public class MerchantStoreApi {
   }
   
   @ResponseStatus(HttpStatus.OK)
-  @RequestMapping(value = {"/private/store/{code}/marketing"}, method = RequestMethod.GET)
+  //@GetMapping(value = {"/private/store/{code}/marketing"}, produces ={ "application/json", "application/xml" })
+  @GetMapping(value = {"/private/store/{code}/marketing"})
   @ApiOperation(httpMethod = "GET", value = "Get store branding and marketing details", notes = "",
-      produces = "application/json", response = ReadableMerchantStore.class)
+      response = ReadableMerchantStore.class)
   public ResponseEntity<ReadableMerchantStore> getStoreMarketing(
       @PathVariable String code, HttpServletRequest request,
       HttpServletResponse response) {
@@ -200,9 +200,10 @@ public class MerchantStoreApi {
   }
 
   @ResponseStatus(HttpStatus.OK)
-  @RequestMapping(value = {"/private/store/unique"}, method = RequestMethod.GET)
+  //@GetMapping(value = {"/private/store/unique"}, produces ={ "application/json", "application/xml" })
+  @GetMapping(value = {"/private/store/unique"})
   @ApiOperation(httpMethod = "GET", value = "Check if store code already exists", notes = "",
-      produces = "application/json", response = EntityExists.class)
+      response = EntityExists.class)
   public ResponseEntity<EntityExists> exists(@RequestParam(value = "code") String code,
       HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -231,9 +232,10 @@ public class MerchantStoreApi {
   }
 
   @ResponseStatus(HttpStatus.OK)
-  @RequestMapping(value = {"/private/stores"}, method = RequestMethod.GET)
+  //@GetMapping(value = {"/private/stores"}, produces ={ "application/json", "application/xml" })
+  @GetMapping(value = {"/private/stores"})
   @ApiOperation(httpMethod = "GET", value = "Check list of stores", notes = "",
-      produces = "application/json", response = EntityExists.class)
+      response = EntityExists.class)
   public ResponseEntity<ReadableMerchantStoreList> list(
       @RequestParam(value = "start", required = false) Integer start,
       @RequestParam(value = "length", required = false) Integer count,
@@ -295,7 +297,7 @@ public class MerchantStoreApi {
   @ResponseStatus(HttpStatus.OK)
   @RequestMapping(value = {"/private/store/{code}"}, method = RequestMethod.DELETE)
   @ApiOperation(httpMethod = "DELETE", value = "Deletes a store", notes = "",
-      produces = "application/json", response = ResponseEntity.class)
+      response = ResponseEntity.class)
   public ResponseEntity<Void> delete(@PathVariable String code, HttpServletRequest request,
       HttpServletResponse response) {
 

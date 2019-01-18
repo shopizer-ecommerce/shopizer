@@ -1,13 +1,9 @@
 package com.salesmanager.core.business.services.system;
 
 import java.util.List;
-
 import javax.inject.Inject;
-
 import org.springframework.stereotype.Service;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.repositories.system.MerchantConfigurationRepository;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;

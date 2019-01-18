@@ -15,12 +15,17 @@ import com.salesmanager.core.business.services.merchant.MerchantStoreService;
 import com.salesmanager.core.business.services.reference.country.CountryService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.business.services.reference.zone.ZoneService;
+import com.salesmanager.core.business.services.system.MerchantConfigurationService;
 import com.salesmanager.core.constants.MeasureUnit;
 import com.salesmanager.core.model.common.GenericEntityList;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.merchant.MerchantStoreCriteria;
 import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.model.system.MerchantConfiguration;
+import com.salesmanager.core.model.system.MerchantConfigurationType;
+import com.salesmanager.shop.model.shop.MerchantConfigEntity;
 import com.salesmanager.shop.model.shop.PersistableMerchantStore;
+import com.salesmanager.shop.model.shop.ReadableBrand;
 import com.salesmanager.shop.model.shop.ReadableMerchantStore;
 import com.salesmanager.shop.model.shop.ReadableMerchantStoreList;
 import com.salesmanager.shop.populator.store.PersistableMerchantStorePopulator;
@@ -34,6 +39,9 @@ public class StoreFacadeImpl implements StoreFacade {
 
   @Inject
   private MerchantStoreService merchantStoreService;
+  
+  @Inject
+  private MerchantConfigurationService merchantConfigurationService;
 
   @Inject
   private LanguageService languageService;
@@ -180,6 +188,31 @@ public class StoreFacadeImpl implements StoreFacade {
       throw new ServiceRuntimeException("Error while deleting MerchantStore " + e.getMessage());
     }
     
+  }
+
+  @Override
+  public ReadableBrand getBrand(String code) {
+    MerchantStore mStore = Optional.ofNullable(get(code))
+        .orElseThrow(() -> new ResourceNotFoundException("Merchant store code not found"));
+    
+    ReadableBrand readableBrand = new ReadableBrand();
+    //TODO full image path
+    readableBrand.setLogo(mStore.getStoreLogo());
+    try {
+      List<MerchantConfiguration> configurations = merchantConfigurationService.listByType(MerchantConfigurationType.SOCIAL, mStore);
+      for(MerchantConfiguration config : configurations) {
+        MerchantConfigEntity conf = new MerchantConfigEntity();
+        conf.setId(config.getId());
+        conf.setKey(config.getKey());
+        conf.setType(MerchantConfigurationType.SOCIAL);
+        conf.setValue(config.getValue());
+        readableBrand.getSocialNetworks().add(conf);
+      }
+    } catch (ServiceException e) {
+      throw new ServiceRuntimeException("Error wile getting merchantConfigurations " + e.getMessage());
+    }
+    
+    return readableBrand;
   }
 
 }

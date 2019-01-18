@@ -1,8 +1,9 @@
 package com.salesmanager.shop.application;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-
+import java.util.Set;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -48,6 +49,14 @@ public class DocumentationConfiguration {
                 				.code(401).message("Unauthorized")
                 				.build()		
                 );
+		 	
+		 	Set<String> produces = new HashSet<>();
+		 	produces.add("application/xml");
+		 	produces.add("application/json");
+		 	
+		 	
+            Set<String> consumes = new HashSet<>();
+            consumes.add("application/json");
 		 
 	        return new Docket(DocumentationType.SWAGGER_2)
 	        		.select()
@@ -56,6 +65,8 @@ public class DocumentationConfiguration {
 	        		.build()
 	        		.apiInfo(apiInfo())
 	        		.useDefaultResponseMessages(false)
+	        		.produces(produces)
+	        		.consumes(consumes)
 	                .globalResponseMessage(RequestMethod.GET, getMessages);
 	    }
 	

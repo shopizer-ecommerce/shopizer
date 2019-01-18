@@ -4,6 +4,7 @@ public enum MerchantConfigurationType {
 	
 	INTEGRATION,
 	SHOP,
-	CONFIG
+	CONFIG,
+	SOCIAL
 
 }

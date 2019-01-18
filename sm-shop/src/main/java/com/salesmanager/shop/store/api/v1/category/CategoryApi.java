@@ -6,8 +6,6 @@ import java.util.Optional;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +34,6 @@ import io.swagger.annotations.ApiResponses;
 
 
 @RestController
-@Produces({MediaType.APPLICATION_JSON})
 @Api(value = "/api/v1/category")
 @RequestMapping("/api/v1")
 public class CategoryApi {
@@ -58,7 +55,7 @@ public class CategoryApi {
   @Inject
   private LanguageUtils languageUtils;
 
-  @GetMapping("/category/{id}")
+  @GetMapping(value="/category/{id}",produces ={ "application/json", "application/xml" })
   @ApiOperation(httpMethod = "GET", value = "Get category list for an given Category id",
       notes = "List current Category and child category")
   @ApiResponses(value = {@ApiResponse(code = 200, message = "List of category found",
@@ -81,7 +78,7 @@ public class CategoryApi {
    * @param response
    * @return
    */
-  @GetMapping("/category")
+  @GetMapping(value="/category",produces ={ "application/json", "application/xml" })
   public List<ReadableCategory> getFiltered(
       @RequestParam(value = "filter", required = false) String filter,
       @RequestParam(value = "lang", required = false) String lang,
@@ -98,7 +95,7 @@ public class CategoryApi {
   /**
    * Category creation
    */
-  @PostMapping("/private/category")
+  @PostMapping(value="/private/category",produces ={ "application/json", "application/xml" })
   public PersistableCategory createCategory(@Valid @RequestBody PersistableCategory category,
       @RequestParam(name = "store", defaultValue = DEFAULT_STORE) String storeCode,
       HttpServletRequest request) {
@@ -111,7 +108,7 @@ public class CategoryApi {
     return category;
   }
 
-  @PutMapping("/private/category/{id}")
+  @PutMapping(value="/private/category/{id}",produces ={ "application/json", "application/xml" })
   public PersistableCategory update(@PathVariable Long id,
       @Valid @RequestBody PersistableCategory category,
       @RequestParam(name = "store", defaultValue = DEFAULT_STORE) String storeCode) {
@@ -120,7 +117,7 @@ public class CategoryApi {
     return categoryFacade.saveCategory(merchantStore, category);
   }
 
-  @DeleteMapping("/private/category/{id}")
+  @DeleteMapping(value="/private/category/{id}",produces ={ "application/json", "application/xml" })
   public void delete(@PathVariable(name = "id") Long categoryId) {
     Category category = Optional.ofNullable(categoryService.getById(categoryId))
         // TODO should be moved to categoryService
