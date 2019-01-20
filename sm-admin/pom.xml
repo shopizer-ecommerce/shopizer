@@ -133,20 +133,18 @@
 		    <version>4.0.5</version>
 		</dependency>
 		
-		<!-- 	
-		<dependency>
-		    <groupId>org.webjars</groupId>
-		    <artifactId>knockout</artifactId>
-		    <version>3.4.2</version>
-		    <scope>runtime</scope>
-		</dependency> -->
-		
 		<dependency>
 		    <groupId>org.webjars</groupId>
 		    <artifactId>dropzone</artifactId>
 		    <version>5.5.0</version>
 		</dependency>
 		
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>materializecss</artifactId>
+		    <version>1.0.0</version>
+		</dependency>
+				
 		
 		<!-- End webjars -->
 		

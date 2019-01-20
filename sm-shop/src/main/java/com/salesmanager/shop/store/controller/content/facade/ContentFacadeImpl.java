@@ -1,39 +1,35 @@
 package com.salesmanager.shop.store.controller.content.facade;
 
-import com.salesmanager.core.model.content.InputContentFile;
-import com.salesmanager.shop.model.content.ContentFile;
-import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
-import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-
 import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
-
 import org.jsoup.helper.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.content.ContentService;
 import com.salesmanager.core.model.content.Content;
 import com.salesmanager.core.model.content.ContentDescription;
 import com.salesmanager.core.model.content.ContentType;
 import com.salesmanager.core.model.content.FileContentType;
+import com.salesmanager.core.model.content.InputContentFile;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.model.content.ContentFile;
 import com.salesmanager.shop.model.content.ContentFolder;
 import com.salesmanager.shop.model.content.ContentImage;
 import com.salesmanager.shop.model.content.ReadableContentBox;
 import com.salesmanager.shop.model.content.ReadableContentPage;
+import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
+import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.utils.FilePathUtils;
 import com.salesmanager.shop.utils.ImageFilePath;
-import org.springframework.stereotype.Service;
 
 @Component("contentFacade")
 public class ContentFacadeImpl implements ContentFacade {

@@ -8,7 +8,7 @@ import java.util.Locale;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -132,12 +132,17 @@ public class LandingController {
 			    featuredItems.add(proxyProduct);
 			}
 		}
+		
+		String tmpl = store.getStoreTemplate();
+		if(StringUtils.isBlank(tmpl)) {
+		    tmpl = "generic";
+		}
 
 		
 		model.addAttribute("featuredItems", featuredItems);
 		
 		/** template **/
-		StringBuilder template = new StringBuilder().append("landing.").append(store.getStoreTemplate());
+		StringBuilder template = new StringBuilder().append("landing.").append(tmpl);
 		return template.toString();
 	}
 	

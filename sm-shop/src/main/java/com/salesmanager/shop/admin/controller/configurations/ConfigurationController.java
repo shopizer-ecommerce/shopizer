@@ -63,7 +63,7 @@ public class ConfigurationController {
 		{
 			merchantFBConfiguration = new MerchantConfiguration();
 			merchantFBConfiguration.setKey(Constants.KEY_FACEBOOK_PAGE_URL);
-			merchantFBConfiguration.setMerchantConfigurationType(MerchantConfigurationType.CONFIG);
+			merchantFBConfiguration.setMerchantConfigurationType(MerchantConfigurationType.SOCIAL);
 		}
 		configs.add(merchantFBConfiguration);
 		
@@ -72,7 +72,7 @@ public class ConfigurationController {
 		{
 			merchantGoogleAnalyticsConfiguration = new MerchantConfiguration();
 			merchantGoogleAnalyticsConfiguration.setKey(Constants.KEY_GOOGLE_ANALYTICS_URL);
-			merchantGoogleAnalyticsConfiguration.setMerchantConfigurationType(MerchantConfigurationType.CONFIG);
+			merchantGoogleAnalyticsConfiguration.setMerchantConfigurationType(MerchantConfigurationType.SOCIAL);
 		}
 		configs.add(merchantGoogleAnalyticsConfiguration);
 		
@@ -81,7 +81,7 @@ public class ConfigurationController {
 		{
 			merchantInstagramConfiguration = new MerchantConfiguration();
 			merchantInstagramConfiguration.setKey(Constants.KEY_INSTAGRAM_URL);
-			merchantInstagramConfiguration.setMerchantConfigurationType(MerchantConfigurationType.CONFIG);
+			merchantInstagramConfiguration.setMerchantConfigurationType(MerchantConfigurationType.SOCIAL);
 		}
 		configs.add(merchantInstagramConfiguration);
 		
@@ -90,7 +90,7 @@ public class ConfigurationController {
 		{
 			merchantPinterestConfiguration = new MerchantConfiguration();
 			merchantPinterestConfiguration.setKey(Constants.KEY_PINTEREST_PAGE_URL);
-			merchantPinterestConfiguration.setMerchantConfigurationType(MerchantConfigurationType.CONFIG);
+			merchantPinterestConfiguration.setMerchantConfigurationType(MerchantConfigurationType.SOCIAL);
 		}
 		configs.add(merchantPinterestConfiguration);
 		
@@ -110,7 +110,7 @@ public class ConfigurationController {
 		{
 			twitterConfiguration = new MerchantConfiguration();
 			twitterConfiguration.setKey(Constants.KEY_TWITTER_HANDLE);
-			twitterConfiguration.setMerchantConfigurationType(MerchantConfigurationType.CONFIG);
+			twitterConfiguration.setMerchantConfigurationType(MerchantConfigurationType.SOCIAL);
 		}
 		configs.add(twitterConfiguration);
 		
@@ -132,7 +132,7 @@ public class ConfigurationController {
 		{
 			mConfigs.setMerchantStore(store);
 			if(!StringUtils.isBlank(mConfigs.getValue())) {
-				mConfigs.setMerchantConfigurationType(MerchantConfigurationType.CONFIG);
+				mConfigs.setMerchantConfigurationType(MerchantConfigurationType.SOCIAL);
 				merchantConfigurationService.saveOrUpdate(mConfigs);
 			} else {//remove if submited blank and exists
 				MerchantConfiguration config = merchantConfigurationService.getMerchantConfiguration(mConfigs.getKey(), store);

@@ -237,6 +237,8 @@
 		    	    },
 		    	    error: function(response,textStatus,errorThrown) {
 		    	    	//TODO if 403 or 401 redirect to not authorized page
+		    	    	log(JSON.stringify(response.message));
+		    	    	error(JSON.stringify(response.message));
 		    	    	hideLoader();
 		    	    }
 		    	});

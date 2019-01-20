@@ -1,6 +1,7 @@
 package com.salesmanager.shop.store.controller.error;
 
 import com.salesmanager.shop.store.api.v1.category.CategoryApi;
+import com.salesmanager.shop.store.api.v1.content.ContentApi;
 import org.jopendocument.util.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.HashMap;
 import java.util.Map;
 
-@ControllerAdvice(assignableTypes = {CategoryApi.class})
+@ControllerAdvice(assignableTypes = {CategoryApi.class, ContentApi.class})
 @Order(Ordered.LOWEST_PRECEDENCE)
 public class ErrorController {
 	

@@ -380,17 +380,14 @@ public class UPSShippingQuote implements ShippingQuoteModule {
 			LOGGER.debug("UPS QUOTE REQUEST " + xmlbuffer.toString());
 
 
-			CloseableHttpClient httpclient = HttpClients.createDefault();
+			try(CloseableHttpClient httpclient = HttpClients.createDefault()) {
 			//HttpClient client = new HttpClient();
 			httppost = new HttpPost(protocol + "://" + host + ":" + port
 					+ url);
-			
 			StringEntity entity = new StringEntity(xmlbuffer.toString(),ContentType.APPLICATION_ATOM_XML);
-			
 			//RequestEntity entity = new StringRequestEntity(
 			//		xmlbuffer.toString(), "text/plain", "UTF-8");
 			httppost.setEntity(entity);
-			
             // Create a custom response handler
             ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
 
@@ -408,7 +405,6 @@ public class UPSShippingQuote implements ShippingQuoteModule {
                 }
 
             };
-			
 			String data = httpclient.execute(httppost, responseHandler);
 
 			//int result = response.getStatusLine().getStatusCode();
@@ -485,7 +481,6 @@ public class UPSShippingQuote implements ShippingQuoteModule {
 
 			if (!StringUtils.isBlank(parsed.getErrorCode())) {
 
-				
 					LOGGER.error("Can't process UPS statusCode="
 							+ parsed.getErrorCode() + " message= "
 							+ parsed.getError());
@@ -505,12 +500,10 @@ public class UPSShippingQuote implements ShippingQuoteModule {
 			/*String carrier = getShippingMethodDescription(locale);
 			// cost is in CAD, need to do conversion
 
-			
 			boolean requiresCurrencyConversion = false; String storeCurrency
 			 = store.getCurrency();
 			if(!storeCurrency.equals(Constants.CURRENCY_CODE_CAD)) {
 			 requiresCurrencyConversion = true; }
-			 
 
 			LabelUtil labelUtil = LabelUtil.getInstance();
 			Map serviceMap = com.salesmanager.core.util.ShippingUtil
@@ -520,8 +513,6 @@ public class UPSShippingQuote implements ShippingQuoteModule {
 			MerchantConfiguration rtdetails = config
 					.getMerchantConfiguration(ShippingConstants.MODULE_SHIPPING_DISPLAY_REALTIME_QUOTES);
 			int displayQuoteDeliveryTime = ShippingConstants.NO_DISPLAY_RT_QUOTE_TIME;
-			
-			
 			if (rtdetails != null) {
 
 				if (!StringUtils.isBlank(rtdetails.getConfigurationValue1())) {// display
@@ -538,16 +529,11 @@ public class UPSShippingQuote implements ShippingQuoteModule {
 					}
 				}
 			}*/
-			
 
 			List<ShippingOption> shippingOptions = parsed.getOptions();
-			
 			if(shippingOptions!=null) {
-				
 				Map<String,String> details = module.getDetails();
-				
 				for(ShippingOption option : shippingOptions) {
-					
 					String name = details.get(option.getOptionCode());
 					option.setOptionName(name);
 					if(option.getOptionPrice()==null) {
@@ -555,22 +541,15 @@ public class UPSShippingQuote implements ShippingQuoteModule {
 						if(StringUtils.isBlank(priceText)) {
 							throw new IntegrationException("Price text is null for option " + name);
 						}
-						
 						try {
 							BigDecimal price = new BigDecimal(priceText);
 							option.setOptionPrice(price);
 						} catch(Exception e) {
 							throw new IntegrationException("Can't convert to numeric price " + priceText);
 						}
-						
 					}
-					
-					
 				}
-				
-				
 			}
-			
 /*			if (options != null) {
 
 				Map selectedintlservices = (Map) config
@@ -643,7 +622,7 @@ public class UPSShippingQuote implements ShippingQuoteModule {
 
 
 			return shippingOptions;
-
+	}
 		} catch (Exception e1) {
 			LOGGER.error("UPS quote error",e1);
 			throw new IntegrationException(e1);
