@@ -28,118 +28,29 @@ input.parsley-success, select.parsley-success, textarea.parsley-success {
     background-color: #fff !important;
 }
 
-.filedrag {
-    border: 2px dashed #AAA;
-    border-radius: 7px;
-    cursor: default;
-    padding: 15px;
-    margin-bottom: 20px;
-}
 
-.fileuploader {
+span.title {
     position: relative;
-    width: 100%;
-    margin: auto;
-    height: 150px;
-    border: 4px dashed #ddd;
-    background: #f6f6f6;
-    margin-top: 0px;
-}
-.fileuploader #upload-label{
-  background: rgba(231, 97, 92, 0);
-  color: #fff;
-  position: absolute;
-  height: 115px;
-  top: 20%;
-  left: 0;
-  right: 0;
-  margin-right: auto;
-  margin-left: auto;
-  min-width: 20%;
-  text-align: center;
-  cursor: pointer;
-}
-.fileuploader.active{
-  background: #fff;
-}
-.fileuploader.active #upload-label{
-  background: #fff;
-  color: #e7615c;
-}
-
-.fileuploader #upload-label i:hover {
-    color: #444;
-    font-size: 9.4rem;
-    -webkit-transition: width 2s;
-}
-
-.fileuploader #upload-label span.title{
-  font-size: 1em;
-  font-weight: bold;
-  display: block;
-}
-
-span.tittle {
-    position: relative;
-    top: 222px;
     color: #bdbdbd;
 }
 
-.fileuploader #upload-label i{
+.dropzone {
+  background: #f6f6f6 !important;
+  border: 4px dashed #ddd !important;
+}
+
+.dropzone #upload-label i{
   text-align: center;
   display: block;
   color: #e7615c;
   height: 115px;
   font-size: 9.5rem;
-  position: absolute;
-  top: -12px;
+  top: 0px;
   left: 0;
   right: 0;
   margin-right: auto;
   margin-left: auto;
 }
-/** Preview of collections of uploaded documents **/
-.preview-container{
-  position: relative;
-  bottom: 0px;
-  width: 35%;
-  margin: auto;
-  top: 25px;
-  visibility: hidden;
-}
-.preview-container #previews{
-  max-height: 400px;
-  overflow: auto; 
-}
-.preview-container #previews .zdrop-info{
-  width: 88%;
-  margin-right: 2%;
-}
-.preview-container #previews.collection{
-  margin: 0;
-  box-shadow: none;
-}
-
-.preview-container #previews.collection .collection-item {
-    background-color: #e0e0e0;
-}
-
-.preview-container #previews.collection .actions a{
-  width: 1.5em;
-  height: 1.5em;
-  line-height: 1;
-}
-.preview-container #previews.collection .actions a i{
-  font-size: 1em;
-  line-height: 1.6;
-}
-.preview-container #previews.collection .dz-error-message{
-  font-size: 0.8em;
-  margin-top: -12px;
-  color: #F44336;
-}
-
-
 
 /*media queries*/
 

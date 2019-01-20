@@ -34,55 +34,31 @@
 					</h3>
 				</div>
 				<div class="box-body">
+								
+									<!-- 
+									If an image is present, show image
+									 -->
 				
-					<!-- 
-					If an image is present, show image
-					 -->
+								
+									
+									<!-- 
+									If no image present show upload
+									 -->
+									 
+				  <div id="dropzone" class="fileuploaderX center-alignX">
+				    <form class="dropzone needsclick" id="logo-upload" action="/upload">
+				      <div id="upload-label">
+				           <i class="fa fa-cloud-upload"></i>
+				       </div>
+				      <div class="" style="width:100%;text-align:center;"><span class="title" th:text="#{'message.upload.image'}"></span></div>
+				     
+				    </form>
+				  </div>
 				
-					<!-- 					
-					<form id="logoUpload" action="/file-upload" class="dropzone">
-					  <div class="fallback">
-					    <input name="file" type="file"/>
-					  </div>
-					</form> -->
-				
-					
-					<!-- 
-					If no image present show upload
-					 -->
+				</div>
 
-                    <!-- Uploader Dropzone -->
-                    <form action="upload.php" id="zdrop" class="fileuploader center-align">
-                      <div id="upload-label" style="width: 200px;">
-                        <i class="fa fa-cloud-upload"></i>
-                      </div>
-                      <span class="tittle">Click the Button or Drop Files Here</span>
-                    </form>
-
-                    <!-- Preview collection of uploaded documents -->
-                    <div class="preview-container">
-                      <div class="collection card" id="previews">
-                        <div class="collection-item clearhack valign-wrapper item-template" id="zdrop-template">
-                          <div class="left pv zdrop-info" data-dz-thumbnail>
-                            <div>
-                              <span data-dz-name></span> <span data-dz-size></span>
-                            </div>
-                            <div class="progress">
-                              <div class="determinate" style="width:0" data-dz-uploadprogress></div>
-                            </div>
-                            <div class="dz-error-message"><span data-dz-errormessage></span></div>
-                          </div>
-
-                          <div class="secondary-content actions">
-                            <a href="#!" data-dz-remove class="btn-floating ph red white-text waves-effect waves-light"><i class="material-icons white-text">clear</i></a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-	   </div>
-</div>
-</div>
+			</div>
+		</div>
 		<!-- /.box -->
 
 	<div class="col-md-6">
@@ -170,86 +146,122 @@
 <th:block layout:fragment="script">
 
 	<script>
-	//$(document).ready(function(){
-		//Dropzone.options.logoUpload = {
-		//		  paramName: "file", // The name that will be used to transfer the file
-		//		  maxFilesize: 1, // MB
-		//		  accept: function(file, done) {
-		//			log('Filename ' + file.name);
-		//			done();
-				    //if (file.name == "justinbieber.jpg") {
-				    //  done("Naha, you don't.");
-				    //}
-				    //else { done(); }
-		//		  }
-		//};
-		 //Dropzone.prototype.defaultOptions.init = function () {
+	
+		Dropzone.autoDiscover = false;
 
-         //        this.hiddenFileInput.removeAttribute('multiple');
-         //        this.on("maxfilesexceeded", function (file) {
-         //            this.removeAllFiles();
-         //            this.addFile(file);
-         //        });
-         //    };
-		Dropzone.prototype.defaultOptions.dictDefaultMessage = "Test 123";
-		Dropzone.prototype.defaultOptions.dictFallbackMessage = "Your browser does not support drag'n'drop file uploads.";
-		Dropzone.prototype.defaultOptions.dictFallbackText = "Please use the fallback form below to upload your files like in the olden days.";
-		Dropzone.prototype.defaultOptions.dictFileTooBig = "File is too big ({{filesize}}MiB). Max filesize: {{maxFilesize}}MiB.";
-		Dropzone.prototype.defaultOptions.dictInvalidFileType = "You can't upload files of this type.";
-		Dropzone.prototype.defaultOptions.dictResponseError = "Server responded with {{statusCode}} code.";
-		Dropzone.prototype.defaultOptions.dictCancelUpload = "Cancel upload";
-		Dropzone.prototype.defaultOptions.dictCancelUploadConfirmation = "Are you sure you want to cancel this upload?";
-		Dropzone.prototype.defaultOptions.dictRemoveFile = "Remove file";
-		Dropzone.prototype.defaultOptions.dictMaxFilesExceeded = "You can not upload any more files.";
-		
-		
+        Dropzone.prototype.defaultOptions.dictDefaultMessage = "";
+		//Dropzone.prototype.defaultOptions.dictFallbackMessage = "Your browser does not support drag'n'drop file uploads.";
+		//Dropzone.prototype.defaultOptions.dictFallbackText = "Please use the fallback form below to upload your files like in the olden days.";
+		//Dropzone.prototype.defaultOptions.dictFileTooBig = "File is too big ({{filesize}}MiB). Max filesize: {{maxFilesize}}MiB.";
+		//Dropzone.prototype.defaultOptions.dictInvalidFileType = "You can't upload files of this type.";
+		//Dropzone.prototype.defaultOptions.dictResponseError = "Server responded with {{statusCode}} code.";
+		//Dropzone.prototype.defaultOptions.dictCancelUpload = "Cancel upload";
+		//Dropzone.prototype.defaultOptions.dictCancelUploadConfirmation = "Are you sure you want to cancel this upload?";
+		//Dropzone.prototype.defaultOptions.dictRemoveFile = "Remove file";
+		//Dropzone.prototype.defaultOptions.dictMaxFilesExceeded = "You can not upload any more files.";
 		
 		$(document).ready(function(){
+			
+			
+				//read marketing
+				  
+				showLoader();
+	    		var store = STORECODE;
+	    		if('[[${code}]]'!='') {
+	    			store = '[[${code}]]';
+	    		}
+				//fetch store
+	      		var url = BACKEND + "/private/store/" + store + '/marketing?lang=' + LANGUAGE;
+	
+		    	$.ajax({
+		    	    type:"get",
+		    	    crossDomain: true,
+		    	    cache: false,
+		    	    url: url,
+		    	    dataType: "json",
+		    	    headers: {
+		    	        "Authorization": "Bearer " + TOKEN
+		    	    },
+		    	    success: function(data){
+		    	       hideLoader();	
+		    	       log(JSON.stringify(data));
 
-			initFileUploader("#zdrop");
-				function initFileUploader(target) {
-					var previewNode = document.querySelector("#zdrop-template");
-					previewNode.id = "";
-					var previewTemplate = previewNode.parentNode.innerHTML;
-					previewNode.parentNode.removeChild(previewNode);
+		    	    },
+		    	    error: function(response,textStatus,errorThrown) {
+		    	    	log(JSON.stringify(response.message));
+		    	    	error(JSON.stringify(response.message));
+		    	    	hideLoader();
+		    	    }
+		    	});
 
+				  
+				  var dropzone = new Dropzone('#logo-upload', {
+					  //previewTemplate: document.querySelector('#preview-template').innerHTML,
+					  parallelUploads: 1,
+					  thumbnailHeight: 120,
+					  thumbnailWidth: 120,
+					  maxFilesize: 1,
+					  filesizeBase: 1000,
+					  thumbnail: function(file, dataUrl) {
+					    if (file.previewElement) {
+					      log('thumbnail');
+					      file.previewElement.classList.remove("dz-file-preview");
+					      var images = file.previewElement.querySelectorAll("[data-dz-thumbnail]");
+					      for (var i = 0; i < images.length; i++) {
+					        var thumbnailElement = images[i];
+					        thumbnailElement.alt = file.name;
+					        thumbnailElement.src = dataUrl;
+					      }
+					      setTimeout(function() { file.previewElement.classList.add("dz-image-preview"); }, 1);
+					    }
+					  }
 
-					var zdrop = new Dropzone(target, {
-						url: 'upload.php',
-		                maxFiles:1,
-						maxFilesize:30,
-						uploadMultiple: false,
-						previewTemplate: previewTemplate,
-						previewsContainer: "#previews",
-						clickable: "#upload-label"
 					});
 
-					zdrop.on("addedfile", function(file) { 
-						$('.preview-container').css('visibility', 'visible');
-					});
 
-					zdrop.on("totaluploadprogress", function (progress) {
-						var progr = document.querySelector(".progress .determinate");
-							if (progr === undefined || progr === null)
-									return;
+					// Now fake the file upload, since GitHub does not handle file uploads
+					// and returns a 404
 
-								progr.style.width = progress + "%";
-							});
+					var minSteps = 6,
+					    maxSteps = 60,
+					    timeBetweenSteps = 100,
+					    bytesPerStep = 100000;
 
-							zdrop.on('dragenter', function () {
-								$('.fileuploader').addClass("active");
-							});
+					dropzone.uploadFiles = function(files) {
+					  var self = this;
+					  
+					  for (var i = 0; i < files.length; i++) {
 
-							zdrop.on('dragleave', function () {
-								$('.fileuploader').removeClass("active");			
-							});
+					    var file = files[i];
+					    log('upload file ' + file.name);
+					    //file.size
+					    //file.name;
+					    
+					    totalSteps = Math.round(Math.min(maxSteps, Math.max(minSteps, file.size / bytesPerStep)));
 
-							zdrop.on('drop', function () {
-								$('.fileuploader').removeClass("active");	
-							});
-							
-				  }
+					    for (var step = 0; step < totalSteps; step++) {
+					      var duration = timeBetweenSteps * (step + 1);
+					      setTimeout(function(file, totalSteps, step) {
+					        return function() {
+					          file.upload = {
+					            progress: 100 * (step + 1) / totalSteps,
+					            total: file.size,
+					            bytesSent: (step + 1) * file.size / totalSteps
+					          };
 
+					          self.emit('uploadprogress', file, file.upload.progress, file.upload.bytesSent);
+					          if (file.upload.progress == 100) {
+					            file.status = Dropzone.SUCCESS;
+					            self.emit("success", file, 'success', null);
+					            self.emit("complete", file);
+					            self.processQueue();
+					            //document.getElementsByClassName("dz-success-mark").style.opacity = "1";
+					          }
+					        };
+					      }(file, totalSteps, step), duration);
+					    }
+					  }
+					}
 			});
 		
 		

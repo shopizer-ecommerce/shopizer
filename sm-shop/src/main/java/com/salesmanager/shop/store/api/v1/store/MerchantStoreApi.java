@@ -30,8 +30,10 @@ import com.salesmanager.core.model.merchant.MerchantStoreCriteria;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.model.shop.PersistableMerchantStore;
+import com.salesmanager.shop.model.shop.ReadableBrand;
 import com.salesmanager.shop.model.shop.ReadableMerchantStore;
 import com.salesmanager.shop.model.shop.ReadableMerchantStoreList;
+import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.api.exception.UnauthorizedException;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.store.controller.user.facade.UserFacade;
@@ -67,17 +69,14 @@ public class MerchantStoreApi {
   private static final Logger LOGGER = LoggerFactory.getLogger(MerchantStoreApi.class);
 
   @ResponseStatus(HttpStatus.OK)
-  //@GetMapping(value = {"/store/{store}"}, produces ={ "application/json", "application/xml" })
   @GetMapping(value = {"/store/{store}"})
   @ApiOperation(httpMethod = "GET", value = "Get merchant store", notes = "",
-     response = ReadableMerchantStore.class)
+      response = ReadableMerchantStore.class)
   public @ResponseBody ReadableMerchantStore store(@PathVariable String store,
       @RequestParam(value = "lang", required = false) String lang, HttpServletRequest request,
       HttpServletResponse response) {
 
     Language l = languageUtils.getServiceLanguage(lang);
-
-
 
     ReadableMerchantStore readableStore = storeFacade.getByCode(store, l);
 
@@ -86,7 +85,6 @@ public class MerchantStoreApi {
   }
 
   @ResponseStatus(HttpStatus.OK)
-  //@GetMapping(value = {"/private/store"}, produces ={ "application/json", "application/xml" })
   @GetMapping(value = {"/private/store"})
   @ApiOperation(httpMethod = "POST", value = "Creates a new store", notes = "",
       response = ReadableMerchantStore.class)
@@ -123,7 +121,6 @@ public class MerchantStoreApi {
   }
 
   @ResponseStatus(HttpStatus.OK)
-  //@PutMapping(value = {"/private/store/{code}"}, produces ={ "application/json", "application/xml" })
   @PutMapping(value = {"/private/store/{code}"})
   @ApiOperation(httpMethod = "PUT", value = "Updates a store", notes = "",
       response = ReadableMerchantStore.class)
@@ -160,15 +157,13 @@ public class MerchantStoreApi {
       return null;
     }
   }
-  
+
   @ResponseStatus(HttpStatus.OK)
-  //@GetMapping(value = {"/private/store/{code}/marketing"}, produces ={ "application/json", "application/xml" })
   @GetMapping(value = {"/private/store/{code}/marketing"})
   @ApiOperation(httpMethod = "GET", value = "Get store branding and marketing details", notes = "",
-      response = ReadableMerchantStore.class)
-  public ResponseEntity<ReadableMerchantStore> getStoreMarketing(
-      @PathVariable String code, HttpServletRequest request,
-      HttpServletResponse response) {
+      response = ReadableBrand.class)
+  public ResponseEntity<ReadableBrand> getStoreMarketing(@PathVariable String code,
+      HttpServletRequest request, HttpServletResponse response) {
 
     try {
 
@@ -179,28 +174,18 @@ public class MerchantStoreApi {
       if (!userFacade.authorizedStore(userName, code)) {
         throw new UnauthorizedException("User " + userName + " not authorized");
       }
-      
-      //get ReadableStore
-      
-      //get MerchantStoreConfiguration
-      
-      //BuildReadableMarketing
 
-      return null;
+      ReadableBrand brand = storeFacade.getBrand(code);
+      return new ResponseEntity<ReadableBrand>(brand, HttpStatus.OK);
+
 
     } catch (Exception e) {
-      LOGGER.error("Error while updating store ", e);
-      try {
-        response.sendError(503, "Error while updating store " + e.getMessage());
-      } catch (Exception ignore) {
-      }
-
-      return null;
+      throw new ServiceRuntimeException(
+          "Exception while getting brand for store " + code + " " + e.getMessage());
     }
   }
 
   @ResponseStatus(HttpStatus.OK)
-  //@GetMapping(value = {"/private/store/unique"}, produces ={ "application/json", "application/xml" })
   @GetMapping(value = {"/private/store/unique"})
   @ApiOperation(httpMethod = "GET", value = "Check if store code already exists", notes = "",
       response = EntityExists.class)
@@ -232,7 +217,6 @@ public class MerchantStoreApi {
   }
 
   @ResponseStatus(HttpStatus.OK)
-  //@GetMapping(value = {"/private/stores"}, produces ={ "application/json", "application/xml" })
   @GetMapping(value = {"/private/stores"})
   @ApiOperation(httpMethod = "GET", value = "Check list of stores", notes = "",
       response = EntityExists.class)
@@ -249,13 +233,12 @@ public class MerchantStoreApi {
       // Principal principal = request.getUserPrincipal();
       // String userName = principal.getName();
 
-/*      Enumeration names = request.getParameterNames();
-      while (names.hasMoreElements()) {
-        // System.out.println(names.nextElement().toString());
-        String param = names.nextElement().toString();
-        String val = request.getParameter(param);
-        System.out.println("param ->" + param + " Val ->" + val);
-      }*/
+      /*
+       * Enumeration names = request.getParameterNames(); while (names.hasMoreElements()) { //
+       * System.out.println(names.nextElement().toString()); String param =
+       * names.nextElement().toString(); String val = request.getParameter(param);
+       * System.out.println("param ->" + param + " Val ->" + val); }
+       */
 
       MerchantStoreCriteria criteria = (MerchantStoreCriteria) ServiceRequestCriteriaBuilderUtils
           .buildRequest(mappingFields, request);

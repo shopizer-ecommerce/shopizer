@@ -23,6 +23,7 @@ import com.salesmanager.core.model.merchant.MerchantStoreCriteria;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.system.MerchantConfiguration;
 import com.salesmanager.core.model.system.MerchantConfigurationType;
+import com.salesmanager.shop.model.content.ReadableImage;
 import com.salesmanager.shop.model.shop.MerchantConfigEntity;
 import com.salesmanager.shop.model.shop.PersistableMerchantStore;
 import com.salesmanager.shop.model.shop.ReadableBrand;
@@ -196,8 +197,12 @@ public class StoreFacadeImpl implements StoreFacade {
         .orElseThrow(() -> new ResourceNotFoundException("Merchant store code not found"));
     
     ReadableBrand readableBrand = new ReadableBrand();
-    //TODO full image path
-    readableBrand.setLogo(mStore.getStoreLogo());
+    if(!StringUtils.isEmpty(mStore.getStoreLogo())) {
+      ReadableImage image = new ReadableImage();
+      image.setName(mStore.getStoreLogo());
+      imageUtils.buildStoreLogoFilePath(mStore);
+      readableBrand.setLogo(image);
+    }
     try {
       List<MerchantConfiguration> configurations = merchantConfigurationService.listByType(MerchantConfigurationType.SOCIAL, mStore);
       for(MerchantConfiguration config : configurations) {
