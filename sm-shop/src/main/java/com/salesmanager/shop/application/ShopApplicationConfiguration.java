@@ -16,7 +16,6 @@ import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.context.event.EventListener;
-import org.springframework.http.MediaType;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.social.connect.UsersConnectionRepository;
@@ -24,7 +23,6 @@ import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
 import org.springframework.social.facebook.security.FacebookAuthenticationService;
 import org.springframework.social.security.SocialAuthenticationServiceLocator;
 import org.springframework.social.security.SocialAuthenticationServiceRegistry;
-import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesView;
@@ -59,18 +57,6 @@ public class ShopApplicationConfiguration extends WebMvcConfigurerAdapter{
 		String workingDir = System.getProperty("user.dir");
 		System.out.println("Current working directory : " + workingDir);
 	}
-	
-	public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
-	    configurer.favorPathExtension(false).
-	    favorParameter(true).
-	    parameterName("mediaType").
-	    ignoreAcceptHeader(true).
-	    useJaf(false).
-	    defaultContentType(MediaType.APPLICATION_JSON).
-	    mediaType("xml", MediaType.APPLICATION_XML). 
-	    mediaType("json", MediaType.APPLICATION_JSON); 
-	}
-
 
 
     /**

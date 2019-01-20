@@ -10,7 +10,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.PersistableImage;
 
-public class PersistableImagePopulator extends AbstractDataPopulator<PersistableImage, ProductImage> {
+public class PersistableProductImagePopulator extends AbstractDataPopulator<PersistableImage, ProductImage> {
 
 	
 	private Product product;

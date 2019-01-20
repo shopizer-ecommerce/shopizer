@@ -1,5 +1,7 @@
 package com.salesmanager.shop.store.api.v1.store;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.security.Principal;
 import java.util.AbstractMap;
 import java.util.Map;
@@ -13,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,14 +28,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
+import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.image.ProductImage;
+import com.salesmanager.core.model.content.FileContentType;
+import com.salesmanager.core.model.content.ImageContentFile;
+import com.salesmanager.core.model.content.InputContentFile;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.merchant.MerchantStoreCriteria;
 import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.model.catalog.product.PersistableImage;
 import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.model.shop.PersistableMerchantStore;
 import com.salesmanager.shop.model.shop.ReadableBrand;
 import com.salesmanager.shop.model.shop.ReadableMerchantStore;
 import com.salesmanager.shop.model.shop.ReadableMerchantStoreList;
+import com.salesmanager.shop.populator.catalog.PersistableProductImagePopulator;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.api.exception.UnauthorizedException;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
@@ -69,7 +79,7 @@ public class MerchantStoreApi {
   private static final Logger LOGGER = LoggerFactory.getLogger(MerchantStoreApi.class);
 
   @ResponseStatus(HttpStatus.OK)
-  @GetMapping(value = {"/store/{store}"})
+  @GetMapping(value = {"/store/{store}"}, produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(httpMethod = "GET", value = "Get merchant store", notes = "",
       response = ReadableMerchantStore.class)
   public @ResponseBody ReadableMerchantStore store(@PathVariable String store,
@@ -85,7 +95,7 @@ public class MerchantStoreApi {
   }
 
   @ResponseStatus(HttpStatus.OK)
-  @GetMapping(value = {"/private/store"})
+  @GetMapping(value = {"/private/store"}, produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(httpMethod = "POST", value = "Creates a new store", notes = "",
       response = ReadableMerchantStore.class)
   public ResponseEntity<ReadableMerchantStore> create(
@@ -121,7 +131,7 @@ public class MerchantStoreApi {
   }
 
   @ResponseStatus(HttpStatus.OK)
-  @PutMapping(value = {"/private/store/{code}"})
+  @PutMapping(value = {"/private/store/{code}"}, produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(httpMethod = "PUT", value = "Updates a store", notes = "",
       response = ReadableMerchantStore.class)
   public ResponseEntity<ReadableMerchantStore> update(
@@ -159,7 +169,7 @@ public class MerchantStoreApi {
   }
 
   @ResponseStatus(HttpStatus.OK)
-  @GetMapping(value = {"/private/store/{code}/marketing"})
+  @GetMapping(value = {"/private/store/{code}/marketing"}, produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(httpMethod = "GET", value = "Get store branding and marketing details", notes = "",
       response = ReadableBrand.class)
   public ResponseEntity<ReadableBrand> getStoreMarketing(@PathVariable String code,
@@ -184,9 +194,74 @@ public class MerchantStoreApi {
           "Exception while getting brand for store " + code + " " + e.getMessage());
     }
   }
+  
+  
+  @ResponseStatus(HttpStatus.CREATED)
+  @RequestMapping( value={"/private/store/{code}/marketing/logo"}, method=RequestMethod.POST)
+  public ResponseEntity<Void> createLogo(@PathVariable String code, @Valid @RequestBody PersistableImage image, HttpServletRequest request, HttpServletResponse response) throws Exception {
+     
+    try {
+
+      // user doing action must be attached to the store being modified
+      Principal principal = request.getUserPrincipal();
+      String userName = principal.getName();
+
+      if (!userFacade.authorizedStore(userName, code)) {
+        throw new UnauthorizedException("User " + userName + " not authorized");
+      }
+
+      InputStream input = new ByteArrayInputStream(image.getBytes());
+            
+      InputContentFile cmsContentImage = new InputContentFile();
+      cmsContentImage.setFileName(image.getName());
+      cmsContentImage.setMimeType(image.getContentType());
+      cmsContentImage.setFileContentType(FileContentType.LOGO);
+      cmsContentImage.setFile( input);
+
+      storeFacade.addStoreLogo(code, cmsContentImage);
+
+      return new ResponseEntity<Void>(HttpStatus.OK);
+
+
+    } catch (Exception e) {
+      throw new ServiceRuntimeException(
+          "Exception while adding brand logo for store " + code + " " + e.getMessage());
+    } 
+
+  }
+
+  
+  @ResponseStatus(HttpStatus.OK)
+  @GetMapping(value = {"/private/store/{code}/marketing/logo"}, produces = MediaType.APPLICATION_JSON_VALUE)
+  @ApiOperation(httpMethod = "DELETE", value = "Delete store logo", notes = "",
+      response = Void.class)
+  public ResponseEntity<Void> deleteStoreLogo(@PathVariable String code,
+      HttpServletRequest request, HttpServletResponse response) {
+
+    try {
+
+      // user doing action must be attached to the store being modified
+      Principal principal = request.getUserPrincipal();
+      String userName = principal.getName();
+
+      if (!userFacade.authorizedStore(userName, code)) {
+        throw new UnauthorizedException("User " + userName + " not authorized");
+      }
+      
+      //delete store logo
+      storeFacade.deleteLogo(code);
+
+      return new ResponseEntity<Void>(HttpStatus.OK);
+
+
+    } catch (Exception e) {
+      throw new ServiceRuntimeException(
+          "Exception while getting brand for store " + code + " " + e.getMessage());
+    }
+  }
 
   @ResponseStatus(HttpStatus.OK)
-  @GetMapping(value = {"/private/store/unique"})
+  @GetMapping(value = {"/private/store/unique"}, produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(httpMethod = "GET", value = "Check if store code already exists", notes = "",
       response = EntityExists.class)
   public ResponseEntity<EntityExists> exists(@RequestParam(value = "code") String code,
@@ -217,7 +292,7 @@ public class MerchantStoreApi {
   }
 
   @ResponseStatus(HttpStatus.OK)
-  @GetMapping(value = {"/private/stores"})
+  @GetMapping(value = {"/private/stores"}, produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(httpMethod = "GET", value = "Check list of stores", notes = "",
       response = EntityExists.class)
   public ResponseEntity<ReadableMerchantStoreList> list(
@@ -278,7 +353,7 @@ public class MerchantStoreApi {
   }
 
   @ResponseStatus(HttpStatus.OK)
-  @RequestMapping(value = {"/private/store/{code}"}, method = RequestMethod.DELETE)
+  @RequestMapping(value = {"/private/store/{code}"}, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
   @ApiOperation(httpMethod = "DELETE", value = "Deletes a store", notes = "",
       response = ResponseEntity.class)
   public ResponseEntity<Void> delete(@PathVariable String code, HttpServletRequest request,

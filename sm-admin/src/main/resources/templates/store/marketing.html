@@ -33,106 +33,87 @@
 						<span th:text="#{'label.storelogo'}"></span>
 					</h3>
 				</div>
-				<div class="box-body">
-								
-									<!-- 
+				<div id="logo-box" class="box-body">
+
+					<!-- 
 									If an image is present, show image
 									 -->
-				
-								
-									
-									<!-- 
+
+
+
+					<!-- 
 									If no image present show upload
 									 -->
-									 
-				  <div id="dropzone" class="fileuploaderX center-alignX">
-				    <form class="dropzone needsclick" id="logo-upload" action="/upload">
-				      <div id="upload-label">
-				           <i class="fa fa-cloud-upload"></i>
-				       </div>
-				      <div class="" style="width:100%;text-align:center;"><span class="title" th:text="#{'message.upload.image'}"></span></div>
-				     
-				    </form>
-				  </div>
-				
+
+					<div id="dropzone" class="">
+						<form class="dropzone needsclick" id="logo-upload"
+							action="/upload">
+							<div id="upload-label">
+								<i class="fa fa-cloud-upload"></i>
+							</div>
+							<div class="" style="width: 100%; text-align: center;">
+								<span class="title" th:text="#{'message.upload.image'}"></span>
+							</div>
+
+						</form>
+					</div>
+
 				</div>
 
 			</div>
 		</div>
 		<!-- /.box -->
 
-	<div class="col-md-6">
-		<div class="box box-primary">
-			<div class="box-header">
-				<h3 class="box-title">
-					<span th:text="#{'label.marketing.social'}"></span>
-				</h3>
+		<div class="col-md-6">
+			<div class="box box-primary">
+				<div class="box-header">
+					<h3 class="box-title">
+						<span th:text="#{'label.marketing.social'}"></span>
+					</h3>
+				</div>
+				<div class="box-body">
+					<!-- Date -->
+					<div class="form-group">
+							<!-- Social networks -->
+							<div class="checkbox">
+								<label> 
+									<input class="checkTrueFalse" type="checkbox" name="facebook" id="facebook"><span
+									th:text="#{'label.configuration.facebook_page_url'}"></span>
+								</label>
+								<input class="form-control" id="facebook_page_url[value]" name="facebook_page_url[value]" >
+								<input type="hidden" class="form-control" id="facebook_page_url[value]" name="facebook_page_url[value]" >
+							</div>
+							<div class="checkbox">
+								<label> 
+									<input class="checkTrueFalse" type="checkbox" name="instagram" id="instagram"><span
+									th:text="#{'label.configuration.instagram'}"></span>
+								</label>
+								<input class="form-control" id="instagram[value]" name="instagram[value]" >
+								<input type="hidden" class="form-control" id="instagram[id]" name="instagram[id]" >
+							</div>
+							<div class="checkbox">
+								<label> 
+									<input class="checkTrueFalse" type="checkbox" name="pinterest" id="pinterest"><span
+									th:text="#{'label.configuration.pinterest'}"></span>
+								</label>
+							</div>
+							<div class="checkbox">
+								<label> 
+									<input class="checkTrueFalse" type="checkbox" name="twitter" id="twitter"><span
+									th:text="#{'label.configuration.twitter_handle'}"></span>
+								</label>
+							</div>
+
+
+					</div>
+					<!-- /.form group -->
+				</div>
+				<!-- /.box-body -->
 			</div>
-			<div class="box-body">
-				<!-- Date -->
-				<div class="form-group">
-					<label>Date:</label>
+			<!-- /.box -->
 
-					<div class="input-group date">
-						<div class="input-group-addon">
-							<i class="fa fa-calendar"></i>
-						</div>
-						<input type="text" class="form-control pull-right" id="datepicker">
-					</div>
-					<!-- /.input group -->
-				</div>
-				<!-- /.form group -->
-
-				<!-- Date range -->
-				<div class="form-group">
-					<label>Date range:</label>
-
-					<div class="input-group">
-						<div class="input-group-addon">
-							<i class="fa fa-calendar"></i>
-						</div>
-						<input type="text" class="form-control pull-right"
-							id="reservation">
-					</div>
-					<!-- /.input group -->
-				</div>
-				<!-- /.form group -->
-
-				<!-- Date and time range -->
-				<div class="form-group">
-					<label>Date and time range:</label>
-
-					<div class="input-group">
-						<div class="input-group-addon">
-							<i class="fa fa-clock-o"></i>
-						</div>
-						<input type="text" class="form-control pull-right"
-							id="reservationtime">
-					</div>
-					<!-- /.input group -->
-				</div>
-				<!-- /.form group -->
-
-				<!-- Date and time range -->
-				<div class="form-group">
-					<label>Date range button:</label>
-
-					<div class="input-group">
-						<button type="button" class="btn btn-default pull-right"
-							id="daterange-btn">
-							<span> <i class="fa fa-calendar"></i> Date range picker
-							</span> <i class="fa fa-caret-down"></i>
-						</button>
-					</div>
-				</div>
-				<!-- /.form group -->
-
-			</div>
-			<!-- /.box-body -->
 		</div>
-		<!-- /.box -->
-
-	</div> <!-- /.col (right) -->
+		<!-- /.col (right) -->
 	</div> <!-- /.row -->
 
 
@@ -146,10 +127,9 @@
 <th:block layout:fragment="script">
 
 	<script>
-	
 		Dropzone.autoDiscover = false;
 
-        Dropzone.prototype.defaultOptions.dictDefaultMessage = "";
+		Dropzone.prototype.defaultOptions.dictDefaultMessage = "";
 		//Dropzone.prototype.defaultOptions.dictFallbackMessage = "Your browser does not support drag'n'drop file uploads.";
 		//Dropzone.prototype.defaultOptions.dictFallbackText = "Please use the fallback form below to upload your files like in the olden days.";
 		//Dropzone.prototype.defaultOptions.dictFileTooBig = "File is too big ({{filesize}}MiB). Max filesize: {{maxFilesize}}MiB.";
@@ -159,117 +139,152 @@
 		//Dropzone.prototype.defaultOptions.dictCancelUploadConfirmation = "Are you sure you want to cancel this upload?";
 		//Dropzone.prototype.defaultOptions.dictRemoveFile = "Remove file";
 		//Dropzone.prototype.defaultOptions.dictMaxFilesExceeded = "You can not upload any more files.";
-		
-		$(document).ready(function(){
-			
-			
-				//read marketing
-				  
-				showLoader();
-	    		var store = STORECODE;
-	    		if('[[${code}]]'!='') {
-	    			store = '[[${code}]]';
-	    		}
-				//fetch store
-	      		var url = BACKEND + "/private/store/" + store + '/marketing?lang=' + LANGUAGE;
-	
-		    	$.ajax({
-		    	    type:"get",
-		    	    crossDomain: true,
-		    	    cache: false,
-		    	    url: url,
-		    	    dataType: "json",
-		    	    headers: {
-		    	        "Authorization": "Bearer " + TOKEN
-		    	    },
-		    	    success: function(data){
-		    	       hideLoader();	
-		    	       log(JSON.stringify(data));
 
-		    	    },
-		    	    error: function(response,textStatus,errorThrown) {
-		    	    	log(JSON.stringify(response.message));
-		    	    	error(JSON.stringify(response.message));
-		    	    	hideLoader();
-		    	    }
-		    	});
+		$(document)
+				.ready(
+						function() {
 
-				  
-				  var dropzone = new Dropzone('#logo-upload', {
-					  //previewTemplate: document.querySelector('#preview-template').innerHTML,
-					  parallelUploads: 1,
-					  thumbnailHeight: 120,
-					  thumbnailWidth: 120,
-					  maxFilesize: 1,
-					  filesizeBase: 1000,
-					  thumbnail: function(file, dataUrl) {
-					    if (file.previewElement) {
-					      log('thumbnail');
-					      file.previewElement.classList.remove("dz-file-preview");
-					      var images = file.previewElement.querySelectorAll("[data-dz-thumbnail]");
-					      for (var i = 0; i < images.length; i++) {
-					        var thumbnailElement = images[i];
-					        thumbnailElement.alt = file.name;
-					        thumbnailElement.src = dataUrl;
-					      }
-					      setTimeout(function() { file.previewElement.classList.add("dz-image-preview"); }, 1);
-					    }
-					  }
+							//read marketing
 
-					});
+							showLoader();
+							var store = STORECODE;
+							if ('[[${code}]]' != '') {
+								store = '[[${code}]]';
+							}
+							//fetch store
+							var url = BACKEND + "/private/store/" + store
+									+ '/marketing?lang=' + LANGUAGE;
 
+							$.ajax({
+								type : "get",
+								crossDomain : true,
+								cache : false,
+								url : url,
+								dataType : "json",
+								headers : {
+									"Authorization" : "Bearer " + TOKEN
+								},
+								success : function(data) {
+									
+									log(JSON.stringify(data));
+									if(data.logo!=null) {
+										var imageComponent = "<div id='logoTemplate' style='width=100%;text-align:center;'><img src='" + IMAGES_HOST + data.logo.path + "'><p><span><a id='removeImage' href='#'>Remove <i class='fa fa-times'></i></a></span></p></div>";
+										//add logo template
+										$( "#logo-box" ).prepend(imageComponent);
+										//hide upload box
+										$( "#dropzone" ).hide();
+									}
+									
+									if (Array.isArray(data.socialNetworks) || data.socialNetworks.length > 0) {
+										  // array does not exist, is not an array, or is empty
+									}
+									
+									hideLoader();
+									
 
-					// Now fake the file upload, since GitHub does not handle file uploads
-					// and returns a 404
+								},
+								error : function(response, textStatus,
+										errorThrown) {
+									log(JSON.stringify(response.message));
+									error(JSON.stringify(response.message));
+									hideLoader();
+								}
+							});
 
-					var minSteps = 6,
-					    maxSteps = 60,
-					    timeBetweenSteps = 100,
-					    bytesPerStep = 100000;
+							var dropzone = new Dropzone(
+									'#logo-upload',
+									{
+										//previewTemplate: document.querySelector('#preview-template').innerHTML,
+										parallelUploads : 1,
+										thumbnailHeight : 120,
+										thumbnailWidth : 120,
+										maxFilesize : 1,
+										filesizeBase : 1000,
+										thumbnail : function(file, dataUrl) {
+											if (file.previewElement) {
+												log('thumbnail');
+												file.previewElement.classList
+														.remove("dz-file-preview");
+												var images = file.previewElement
+														.querySelectorAll("[data-dz-thumbnail]");
+												for (var i = 0; i < images.length; i++) {
+													var thumbnailElement = images[i];
+													thumbnailElement.alt = file.name;
+													thumbnailElement.src = dataUrl;
+												}
+												setTimeout(
+														function() {
+															file.previewElement.classList
+																	.add("dz-image-preview");
+														}, 1);
+											}
+										}
 
-					dropzone.uploadFiles = function(files) {
-					  var self = this;
-					  
-					  for (var i = 0; i < files.length; i++) {
+									});
 
-					    var file = files[i];
-					    log('upload file ' + file.name);
-					    //file.size
-					    //file.name;
-					    
-					    totalSteps = Math.round(Math.min(maxSteps, Math.max(minSteps, file.size / bytesPerStep)));
+							// Now fake the file upload, since GitHub does not handle file uploads
+							// and returns a 404
 
-					    for (var step = 0; step < totalSteps; step++) {
-					      var duration = timeBetweenSteps * (step + 1);
-					      setTimeout(function(file, totalSteps, step) {
-					        return function() {
-					          file.upload = {
-					            progress: 100 * (step + 1) / totalSteps,
-					            total: file.size,
-					            bytesSent: (step + 1) * file.size / totalSteps
-					          };
+							var minSteps = 6, maxSteps = 60, timeBetweenSteps = 100, bytesPerStep = 100000;
 
-					          self.emit('uploadprogress', file, file.upload.progress, file.upload.bytesSent);
-					          if (file.upload.progress == 100) {
-					            file.status = Dropzone.SUCCESS;
-					            self.emit("success", file, 'success', null);
-					            self.emit("complete", file);
-					            self.processQueue();
-					            //document.getElementsByClassName("dz-success-mark").style.opacity = "1";
-					          }
-					        };
-					      }(file, totalSteps, step), duration);
-					    }
-					  }
-					}
-			});
-		
-		
-		
-		
-		
-	//});
+							dropzone.uploadFiles = function(files) {
+								var self = this;
 
+								for (var i = 0; i < files.length; i++) {
+
+									var file = files[i];
+									log('upload file ' + file.name);
+									//file.size
+									//file.name;
+
+									totalSteps = Math.round(Math.min(maxSteps,
+											Math.max(minSteps, file.size
+													/ bytesPerStep)));
+
+									for (var step = 0; step < totalSteps; step++) {
+										var duration = timeBetweenSteps
+												* (step + 1);
+										setTimeout(
+												function(file, totalSteps, step) {
+													return function() {
+														file.upload = {
+															progress : 100
+																	* (step + 1)
+																	/ totalSteps,
+															total : file.size,
+															bytesSent : (step + 1)
+																	* file.size
+																	/ totalSteps
+														};
+
+														self
+																.emit(
+																		'uploadprogress',
+																		file,
+																		file.upload.progress,
+																		file.upload.bytesSent);
+														if (file.upload.progress == 100) {
+															file.status = Dropzone.SUCCESS;
+															self.emit(
+																	"success",
+																	file,
+																	'success',
+																	null);
+															self.emit(
+																	"complete",
+																	file);
+															self.processQueue();
+															//document.getElementsByClassName("dz-success-mark").style.opacity = "1";
+														}
+													};
+												}(file, totalSteps, step),
+												duration);
+									}
+								}
+							}
+						});
+
+		//});
 	</script>
 
 </th:block>

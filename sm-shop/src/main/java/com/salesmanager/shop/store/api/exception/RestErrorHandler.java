@@ -1,9 +1,6 @@
 package com.salesmanager.shop.store.api.exception;
 
-import com.salesmanager.shop.store.controller.error.model.ErrorEntity;
 import java.util.Optional;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
@@ -11,20 +8,22 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
-@ResponseBody
-@Produces({MediaType.APPLICATION_JSON})
+//@ResponseBody
+//@Produces({MediaType.APPLICATION_JSON})
+@RequestMapping(produces = "application/json")
 public class RestErrorHandler {
   
     private static final Logger log = LoggerFactory.getLogger(RestErrorHandler.class);
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @ResponseBody
     public ErrorEntity handleServiceException(Exception exception) {
         log.error(exception.getMessage(), exception);
         ErrorEntity errorEntity = createErrorEntity(null, exception.getMessage(),
@@ -37,7 +36,7 @@ public class RestErrorHandler {
      */
     @ExceptionHandler(ServiceRuntimeException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @ResponseBody
     public ErrorEntity handleServiceException(ServiceRuntimeException exception) {
         log.error(exception.getErrorMessage(), exception);
         ErrorEntity errorEntity = createErrorEntity(exception.getErrorCode(), exception.getErrorMessage(),
@@ -47,7 +46,7 @@ public class RestErrorHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @ResponseBody
     public ErrorEntity handleServiceException(ResourceNotFoundException exception) {
         log.error(exception.getErrorMessage(), exception);
 
@@ -58,7 +57,7 @@ public class RestErrorHandler {
     
     @ExceptionHandler(UnauthorizedException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @ResponseBody
     public ErrorEntity handleServiceException(UnauthorizedException exception) {
         log.error(exception.getErrorMessage(), exception);
 
@@ -69,7 +68,7 @@ public class RestErrorHandler {
 
     @ExceptionHandler(RestApiException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @ResponseBody
     public ErrorEntity handleRestApiException(RestApiException exception) {
         log.error(exception.getErrorMessage(), exception);
 

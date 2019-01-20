@@ -1,6 +1,7 @@
 package com.salesmanager.shop.store.controller.store.facade;
 
 import javax.servlet.http.HttpServletRequest;
+import com.salesmanager.core.model.content.InputContentFile;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.merchant.MerchantStoreCriteria;
 import com.salesmanager.core.model.reference.language.Language;
@@ -27,6 +28,8 @@ public interface StoreFacade {
   MerchantStore getByCode(HttpServletRequest request);
 
   MerchantStore get(String code);
+  
+  MerchantStore getByCode(String code);
 
   ReadableMerchantStore getByCode(String code, Language lang);
 
@@ -70,5 +73,17 @@ public interface StoreFacade {
    * @return
    */
   ReadableBrand getBrand(String code);
+  
+  /**
+   * Delete store logo
+   */
+  void deleteLogo(String code);
+  
+  /**
+   * Add MerchantStore logo
+   * @param code
+   * @param cmsContentImage
+   */
+  void addStoreLogo(String code, InputContentFile cmsContentImage) throws Exception;
 
 }

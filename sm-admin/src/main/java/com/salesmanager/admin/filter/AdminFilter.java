@@ -3,11 +3,9 @@ package com.salesmanager.admin.filter;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,9 +14,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-
 import com.salesmanager.admin.components.security.AdminAuthenticationToken;
-import com.salesmanager.admin.model.references.Country;
 import com.salesmanager.admin.model.references.Language;
 import com.salesmanager.admin.model.web.Menu;
 import com.salesmanager.admin.utils.CacheHelper;
@@ -41,6 +37,9 @@ public class AdminFilter extends HandlerInterceptorAdapter {
 	
 	@Value("${shopizer.api.url}")
 	private String backend;
+	
+	@Value("${shopizer.images.url}")
+	private String imagesHost;
 	
 	@Value("${version.number}")
 	private String versionNumber;
@@ -119,6 +118,7 @@ public class AdminFilter extends HandlerInterceptorAdapter {
 		}
 		
 		request.setAttribute("backend", backend);
+		request.setAttribute("imagesHost", imagesHost);
 		request.setAttribute("version", versionNumber);
 
 		return true;		

@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.services.content.ContentService;
 import com.salesmanager.core.business.services.merchant.MerchantStoreService;
 import com.salesmanager.core.business.services.reference.country.CountryService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
@@ -18,6 +19,7 @@ import com.salesmanager.core.business.services.reference.zone.ZoneService;
 import com.salesmanager.core.business.services.system.MerchantConfigurationService;
 import com.salesmanager.core.constants.MeasureUnit;
 import com.salesmanager.core.model.common.GenericEntityList;
+import com.salesmanager.core.model.content.InputContentFile;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.merchant.MerchantStoreCriteria;
 import com.salesmanager.core.model.reference.language.Language;
@@ -52,6 +54,9 @@ public class StoreFacadeImpl implements StoreFacade {
 
   @Inject
   private ZoneService zoneService;
+  
+  @Inject
+  private ContentService contentService;
 
 
   @Inject
@@ -200,7 +205,7 @@ public class StoreFacadeImpl implements StoreFacade {
     if(!StringUtils.isEmpty(mStore.getStoreLogo())) {
       ReadableImage image = new ReadableImage();
       image.setName(mStore.getStoreLogo());
-      imageUtils.buildStoreLogoFilePath(mStore);
+      image.setPath(imageUtils.buildStoreLogoFilePath(mStore));
       readableBrand.setLogo(image);
     }
     try {
@@ -218,6 +223,29 @@ public class StoreFacadeImpl implements StoreFacade {
     }
     
     return readableBrand;
+  }
+
+  @Override
+  public void deleteLogo(String code) {
+    MerchantStore store = getByCode(code);
+    store.setStoreLogo(null);
+    
+  }
+
+  @Override
+  public MerchantStore getByCode(String code) {
+    MerchantStore mStore = Optional.ofNullable(get(code))
+        .orElseThrow(() -> new ResourceNotFoundException("Merchant store code not found"));
+    return mStore;
+  }
+
+  @Override
+  public void addStoreLogo(String code, InputContentFile cmsContentImage) throws Exception{
+    MerchantStore store = getByCode(code);
+    store.setStoreLogo(cmsContentImage.getFileName());
+    merchantStoreService.save(store);
+    contentService.addLogo(code, cmsContentImage);
+
   }
 
 }

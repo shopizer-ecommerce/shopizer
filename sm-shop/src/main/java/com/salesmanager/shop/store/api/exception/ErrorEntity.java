@@ -1,8 +1,5 @@
-package com.salesmanager.shop.store.controller.error.model;
+package com.salesmanager.shop.store.api.exception;
 
-//import lombok.Data;
-
-//@Data
 public class ErrorEntity {
     private String errorCode;
     private String message;

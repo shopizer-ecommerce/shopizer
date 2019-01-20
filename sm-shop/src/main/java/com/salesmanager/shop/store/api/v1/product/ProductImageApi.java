@@ -5,18 +5,15 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.image.ProductImageService;
 import com.salesmanager.core.model.catalog.product.Product;
@@ -35,7 +31,7 @@ import com.salesmanager.core.model.content.ImageContentFile;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.PersistableImage;
-import com.salesmanager.shop.populator.catalog.PersistableImagePopulator;
+import com.salesmanager.shop.populator.catalog.PersistableProductImagePopulator;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
 
@@ -137,7 +133,7 @@ public class ProductImageApi {
       * @throws Exception
       */
      @ResponseStatus(HttpStatus.CREATED)
- 	 @RequestMapping( value={"/private/products/{id}/images/v0"}, method=RequestMethod.POST)
+ 	 @RequestMapping( value={"/private/products/{id}/images"}, method=RequestMethod.POST)
      public @ResponseBody PersistableImage createImage(@PathVariable Long id, @Valid @RequestBody PersistableImage image, HttpServletRequest request, HttpServletResponse response) throws Exception {
      	
  		try {
@@ -148,7 +144,7 @@ public class ProductImageApi {
  	    	//get the product
  	    	Product product = productService.getById(id);
  	    	
- 	    	PersistableImagePopulator imagePopulator = new PersistableImagePopulator();
+ 	    	PersistableProductImagePopulator imagePopulator = new PersistableProductImagePopulator();
  	    	imagePopulator.setProduct(product);
  	    	ProductImage productImage = imagePopulator.populate(image, merchantStore, language);
  	    	
@@ -175,6 +171,7 @@ public class ProductImageApi {
  			return null;
  		}
      }
+
      
      @ResponseStatus(HttpStatus.OK)
  	 @RequestMapping( value={"/private/products/images/{id}","/auth/products/images/{id}"}, method=RequestMethod.DELETE)
