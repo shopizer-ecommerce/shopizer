@@ -77,31 +77,35 @@
 							<!-- Social networks -->
 							<div class="checkbox">
 								<label> 
-									<input class="checkTrueFalse" type="checkbox" name="facebook" id="facebook"><span
+									<input class="checkTrueFalse" type="checkbox" name="facebook_page_url" id="facebook_page_url"><span
 									th:text="#{'label.configuration.facebook_page_url'}"></span>
 								</label>
-								<input class="form-control" id="facebook_page_url[value]" name="facebook_page_url[value]" >
-								<input type="hidden" class="form-control" id="facebook_page_url[value]" name="facebook_page_url[value]" >
+								<input class="form-control" id="facebook_page_url_value" name="facebook_page_url_value_" >
+								<input type="hidden" class="form-control" id="facebook_page_url_id" name="facebook_page_url_id" >
 							</div>
 							<div class="checkbox">
 								<label> 
 									<input class="checkTrueFalse" type="checkbox" name="instagram" id="instagram"><span
 									th:text="#{'label.configuration.instagram'}"></span>
 								</label>
-								<input class="form-control" id="instagram[value]" name="instagram[value]" >
-								<input type="hidden" class="form-control" id="instagram[id]" name="instagram[id]" >
+								<input class="form-control" id="instagram_value" name="instagram_value" >
+								<input type="hidden" class="form-control" id="instagram_id" name="instagram_id" >
 							</div>
 							<div class="checkbox">
 								<label> 
 									<input class="checkTrueFalse" type="checkbox" name="pinterest" id="pinterest"><span
 									th:text="#{'label.configuration.pinterest'}"></span>
 								</label>
+								<input class="form-control" id="pinterest_value" name="pinterest_value" >
+								<input type="hidden" class="form-control" id="pinterest_id" name="pinterest_id" >
 							</div>
 							<div class="checkbox">
 								<label> 
-									<input class="checkTrueFalse" type="checkbox" name="twitter" id="twitter"><span
+									<input class="checkTrueFalse" type="checkbox" name="twitter_handle" id="twitter_handle"><span
 									th:text="#{'label.configuration.twitter_handle'}"></span>
 								</label>
+								<input class="form-control" id="twitter_handle_value" name="twitter_handle_value" >
+								<input type="hidden" class="form-control" id="twitter_handle_id" name="twitter_handle_id" >
 							</div>
 
 
@@ -140,6 +144,11 @@
 		//Dropzone.prototype.defaultOptions.dictRemoveFile = "Remove file";
 		//Dropzone.prototype.defaultOptions.dictMaxFilesExceeded = "You can not upload any more files.";
 
+		var store = STORECODE;
+		if ('[[${code}]]' != '') {
+			store = '[[${code}]]';
+		}
+		
 		$(document)
 				.ready(
 						function() {
@@ -147,10 +156,7 @@
 							//read marketing
 
 							showLoader();
-							var store = STORECODE;
-							if ('[[${code}]]' != '') {
-								store = '[[${code}]]';
-							}
+
 							//fetch store
 							var url = BACKEND + "/private/store/" + store
 									+ '/marketing?lang=' + LANGUAGE;
@@ -166,9 +172,9 @@
 								},
 								success : function(data) {
 									
-									log(JSON.stringify(data));
+									//log(JSON.stringify(data));
 									if(data.logo!=null) {
-										var imageComponent = "<div id='logoTemplate' style='width=100%;text-align:center;'><img src='" + IMAGES_HOST + data.logo.path + "'><p><span><a id='removeImage' href='#'>Remove <i class='fa fa-times'></i></a></span></p></div>";
+										var imageComponent = "<div id='logoTemplate' style='width=100%;text-align:center;' onclick='removeImage()'><img src='" + IMAGES_HOST + data.logo.path + "'><p><span><a id='removeImage' href='#'>Remove <i class='fa fa-times'></i></a></span></p></div>";
 										//add logo template
 										$( "#logo-box" ).prepend(imageComponent);
 										//hide upload box
@@ -177,11 +183,19 @@
 									
 									if (Array.isArray(data.socialNetworks) || data.socialNetworks.length > 0) {
 										  // array does not exist, is not an array, or is empty
+								          $.each(data.socialNetworks, function (i, data) {
+								        	  if(data.value!=null) {
+								        		//log(data.id + ' ' + data.key);
+								        	  	$("input[name='"+data.key+"'][type='checkbox']").prop("checked", true);
+								        	  	var keyValue = '#' + data.key+'_value';
+								        	  	var idValue = '#' + data.key+'_id';
+								        	  	$(keyValue).val(data.value);
+								        	  	$(idValue).val(data.id);
+								        	  }
+								          });
 									}
 									
 									hideLoader();
-									
-
 								},
 								error : function(response, textStatus,
 										errorThrown) {
@@ -190,6 +204,8 @@
 									hideLoader();
 								}
 							});
+							
+
 
 							var dropzone = new Dropzone(
 									'#logo-upload',
@@ -284,7 +300,34 @@
 							}
 						});
 
-		//});
+
+		function removeImage() {
+			showLoader();
+			var deleteImageurl = BACKEND + "/private/store/" + store + "/marketing/logo";
+			
+			$.ajax({
+			    type: 'DELETE',
+				crossDomain : true,
+				cache : false,
+				url : deleteImageurl,
+				dataType : "json",
+				headers : {
+					"Authorization" : "Bearer " + TOKEN
+				},
+			    success: function(result) {
+			        // Hide image
+			        $("#logoTemplate").remove();
+			        // Display upload box
+			        $( "#dropzone" ).show();
+			        hideLoader();
+			    },								
+				error : function(response, textStatus, errorThrown) {
+					log(JSON.stringify(response.message));
+					error(JSON.stringify(response.message));
+					hideLoader();
+				}
+			});
+		}
 	</script>
 
 </th:block>

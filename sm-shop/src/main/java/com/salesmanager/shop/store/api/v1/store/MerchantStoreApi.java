@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -232,7 +233,7 @@ public class MerchantStoreApi {
 
   
   @ResponseStatus(HttpStatus.OK)
-  @GetMapping(value = {"/private/store/{code}/marketing/logo"}, produces = MediaType.APPLICATION_JSON_VALUE)
+  @DeleteMapping(value = {"/private/store/{code}/marketing/logo"}, produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(httpMethod = "DELETE", value = "Delete store logo", notes = "",
       response = Void.class)
   public ResponseEntity<Void> deleteStoreLogo(@PathVariable String code,
