@@ -1,4 +1,4 @@
-package com.salesmanager.test.shop.controller.security;
+package com.salesmanager.test.shop.integration.security;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertNotNull;

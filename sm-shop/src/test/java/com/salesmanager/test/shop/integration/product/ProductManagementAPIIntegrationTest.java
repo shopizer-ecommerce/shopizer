@@ -1,4 +1,4 @@
-package com.salesmanager.test.shop.controller.product.rest;
+package com.salesmanager.test.shop.integration.product;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertNotNull;
