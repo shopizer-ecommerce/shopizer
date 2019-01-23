@@ -1,5 +1,6 @@
 package com.salesmanager.shop.store.api.v1.store;
 
+import com.google.common.collect.ImmutableMap;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.security.Principal;
@@ -25,7 +26,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
@@ -44,7 +44,6 @@ import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.api.exception.UnauthorizedException;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.store.controller.user.facade.UserFacade;
-import com.salesmanager.shop.utils.LanguageUtils;
 import com.salesmanager.shop.utils.ServiceRequestCriteriaBuilderUtils;
 import io.swagger.annotations.ApiOperation;
 
@@ -52,43 +51,28 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/api/v1")
 public class MerchantStoreApi {
 
+  private static final Logger LOGGER = LoggerFactory.getLogger(MerchantStoreApi.class);
 
+  private static final Map<String, String> MAPPING_FIELDS = ImmutableMap.<String, String>builder()
+      .put("name", "storename")
+      .put("readableAudit.user", "auditSection.modifiedBy")
+      .build();
 
   @Inject
   private StoreFacade storeFacade;
 
   @Inject
-  private LanguageUtils languageUtils;
+  private LanguageService languageService;
 
   @Inject
-  LanguageService languageService;
+  private UserFacade userFacade;
 
-  @Inject
-  UserFacade userFacade;
-
-  private static final Map<String, String> mappingFields =
-      Stream
-          .of(new AbstractMap.SimpleImmutableEntry<>("name", "storename"),
-              new AbstractMap.SimpleImmutableEntry<>("readableAudit.user",
-                  "auditSection.modifiedBy"))
-          .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(MerchantStoreApi.class);
-
-  @ResponseStatus(HttpStatus.OK)
   @GetMapping(value = {"/store/{store}"}, produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(httpMethod = "GET", value = "Get merchant store", notes = "",
       response = ReadableMerchantStore.class)
-  public ResponseEntity<ReadableMerchantStore> store(@PathVariable String store,
-      @RequestParam(value = "lang", required = false) String lang, HttpServletRequest request,
-      HttpServletResponse response) {
-
-    Language l = languageUtils.getServiceLanguage(lang);
-
-    ReadableMerchantStore readableStore = storeFacade.getByCode(store, l);
-
-
-    return new ResponseEntity<ReadableMerchantStore>(readableStore, HttpStatus.OK);
+  public ReadableMerchantStore store(@PathVariable String store,
+      @RequestParam(value = "lang", required = false) String lang) {
+    return storeFacade.getByCode(store, lang);
   }
 
   @ResponseStatus(HttpStatus.OK)
@@ -306,7 +290,7 @@ public class MerchantStoreApi {
        */
 
       MerchantStoreCriteria criteria = (MerchantStoreCriteria) ServiceRequestCriteriaBuilderUtils
-          .buildRequest(mappingFields, request);
+          .buildRequest(MAPPING_FIELDS, request);
 
       if (start != null)
         criteria.setStartIndex(start);

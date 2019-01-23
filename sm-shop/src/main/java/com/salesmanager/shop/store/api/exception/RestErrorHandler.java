@@ -1,5 +1,6 @@
 package com.salesmanager.shop.store.api.exception;
 
+import com.salesmanager.core.business.exception.ConversionException;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +42,16 @@ public class RestErrorHandler {
         log.error(exception.getErrorMessage(), exception);
         ErrorEntity errorEntity = createErrorEntity(exception.getErrorCode(), exception.getErrorMessage(),
                 exception.getLocalizedMessage());
+        return errorEntity;
+    }
+
+    @ExceptionHandler(ConversionRuntimeException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ErrorEntity handleServiceException(ConversionRuntimeException exception) {
+        log.error(exception.getErrorMessage(), exception);
+        ErrorEntity errorEntity = createErrorEntity(exception.getErrorCode(), exception.getErrorMessage(),
+            exception.getLocalizedMessage());
         return errorEntity;
     }
 
