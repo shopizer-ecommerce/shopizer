@@ -79,7 +79,7 @@ public class MerchantStoreApi {
   @GetMapping(value = {"/store/{store}"}, produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(httpMethod = "GET", value = "Get merchant store", notes = "",
       response = ReadableMerchantStore.class)
-  public @ResponseBody ReadableMerchantStore store(@PathVariable String store,
+  public ResponseEntity<ReadableMerchantStore> store(@PathVariable String store,
       @RequestParam(value = "lang", required = false) String lang, HttpServletRequest request,
       HttpServletResponse response) {
 
@@ -88,7 +88,7 @@ public class MerchantStoreApi {
     ReadableMerchantStore readableStore = storeFacade.getByCode(store, l);
 
 
-    return readableStore;
+    return new ResponseEntity<ReadableMerchantStore>(readableStore, HttpStatus.OK);
   }
 
   @ResponseStatus(HttpStatus.OK)
