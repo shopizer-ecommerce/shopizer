@@ -1,5 +1,7 @@
 package com.salesmanager.shop.store.controller.store.facade;
 
+import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;
+import com.salesmanager.shop.utils.LanguageUtils;
 import java.util.List;
 import java.util.Optional;
 import javax.inject.Inject;
@@ -58,13 +60,15 @@ public class StoreFacadeImpl implements StoreFacade {
   @Inject
   private ContentService contentService;
 
-
   @Inject
   private PersistableMerchantStorePopulator persistableMerchantStorePopulator;
 
   @Inject
   @Qualifier("img")
   private ImageFilePath imageUtils;
+
+  @Inject
+  private LanguageUtils languageUtils;
   
   private static final Logger LOG = LoggerFactory.getLogger(StoreFacadeImpl.class);
 
@@ -89,15 +93,26 @@ public class StoreFacadeImpl implements StoreFacade {
   }
 
   @Override
+  public ReadableMerchantStore getByCode(String code, String lang) {
+    Language language = getLanguage(lang);
+    return getByCode(code, language);
+  }
+
+  private Language getLanguage(String lang) {
+    return languageUtils.getServiceLanguage(lang);
+  }
+
+  @Override
   public ReadableMerchantStore getByCode(String code, Language language) {
-    
-    MerchantStore store = Optional.ofNullable(get(code))
-        .orElseThrow(() -> new ResourceNotFoundException("Merchant store code not found"));
+    MerchantStore store = getMerchantStoreByCode(code);
+    return convertMerchantStoreToReadableMerchantStore(language, store);
+  }
 
-    ReadableMerchantStorePopulator populator = new ReadableMerchantStorePopulator();
-
+  private ReadableMerchantStore convertMerchantStoreToReadableMerchantStore(Language language,
+      MerchantStore store) {
     ReadableMerchantStore readable = new ReadableMerchantStore();
 
+    ReadableMerchantStorePopulator populator = new ReadableMerchantStorePopulator();
     populator.setCountryService(countryService);
     populator.setZoneService(zoneService);
     populator.setFilePath(imageUtils);
@@ -107,13 +122,15 @@ public class StoreFacadeImpl implements StoreFacade {
      */
     try {
       readable = populator.populate(store, readable, store, language);
-      
     } catch(Exception e) {
-      LOG.error("Error while populating MerchantStore",e);
-      throw new ServiceRuntimeException("Error while populating MerchantStore " + e.getMessage());
+      throw new ConversionRuntimeException("Error while populating MerchantStore " + e.getMessage());
     }
     return readable;
+  }
 
+  private MerchantStore getMerchantStoreByCode(String code) {
+    return Optional.ofNullable(get(code))
+        .orElseThrow(() -> new ResourceNotFoundException("Merchant store code not found"));
   }
 
   @Override
@@ -142,8 +159,7 @@ public class StoreFacadeImpl implements StoreFacade {
     
     Validate.notNull(store);
     
-    MerchantStore mStore = Optional.ofNullable(get(store.getCode()))
-        .orElseThrow(() -> new ResourceNotFoundException("Merchant store code not found"));
+    MerchantStore mStore = getMerchantStoreByCode(store.getCode());
 
     store.setId(mStore.getId());
 
@@ -184,8 +200,7 @@ public class StoreFacadeImpl implements StoreFacade {
 
   @Override
   public void delete(String code) {
-    MerchantStore mStore = Optional.ofNullable(get(code))
-        .orElseThrow(() -> new ResourceNotFoundException("Merchant store code not found"));
+    MerchantStore mStore = getMerchantStoreByCode(code);
     
     try {
       merchantStoreService.delete(mStore);
@@ -198,8 +213,7 @@ public class StoreFacadeImpl implements StoreFacade {
 
   @Override
   public ReadableBrand getBrand(String code) {
-    MerchantStore mStore = Optional.ofNullable(get(code))
-        .orElseThrow(() -> new ResourceNotFoundException("Merchant store code not found"));
+    MerchantStore mStore = getMerchantStoreByCode(code);
     
     ReadableBrand readableBrand = new ReadableBrand();
     if(!StringUtils.isEmpty(mStore.getStoreLogo())) {
@@ -246,9 +260,7 @@ public class StoreFacadeImpl implements StoreFacade {
 
   @Override
   public MerchantStore getByCode(String code) {
-    MerchantStore mStore = Optional.ofNullable(get(code))
-        .orElseThrow(() -> new ResourceNotFoundException("Merchant store code not found"));
-    return mStore;
+    return getMerchantStoreByCode(code);
   }
 
   @Override

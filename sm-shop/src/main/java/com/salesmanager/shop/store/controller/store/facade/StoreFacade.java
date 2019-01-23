@@ -31,6 +31,8 @@ public interface StoreFacade {
   
   MerchantStore getByCode(String code);
 
+  ReadableMerchantStore getByCode(String code, String lang);
+
   ReadableMerchantStore getByCode(String code, Language lang);
 
   /**
