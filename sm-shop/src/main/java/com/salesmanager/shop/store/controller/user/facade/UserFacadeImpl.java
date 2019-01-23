@@ -18,6 +18,7 @@ import com.salesmanager.shop.model.security.ReadableGroup;
 import com.salesmanager.shop.model.security.ReadablePermission;
 import com.salesmanager.shop.model.user.ReadableUser;
 import com.salesmanager.shop.populator.user.ReadableUserPopulator;
+import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 
 @Service("userFacade")
 public class UserFacadeImpl implements UserFacade {
@@ -66,30 +67,34 @@ public class UserFacadeImpl implements UserFacade {
 	}
 
 	@Override
-	public boolean authorizedStore(String userName, String merchantStoreCode) throws Exception {
+	public boolean authorizedStore(String userName, String merchantStoreCode) {
 		
-		ReadableUser ruser = this.findByUserName(userName, languageService.defaultLanguage());
-		
-		
-		if(ruser==null) {//should not happen
-			throw new Exception("Error while creating store, invalid user " + userName);
-		}
-		
-		//unless superadmin
-		for(ReadableGroup group : ruser.getGroups()) {
-			if(Constants.GROUP_SUPERADMIN.equals(group.getName())) {
-				return true;
-			}
-		}
-
-		
-		boolean authorized = false; 
-		User user = userService.findByStore(ruser.getId(), merchantStoreCode);
-		if(user != null) {
-			authorized = true;
-		}
-		
-		return authorized;
+	   try {
+  		ReadableUser ruser = this.findByUserName(userName, languageService.defaultLanguage());
+  		
+  		
+  		if(ruser==null) {//should not happen
+  			throw new Exception("Error while creating store, invalid user " + userName);
+  		}
+  		
+  		//unless superadmin
+  		for(ReadableGroup group : ruser.getGroups()) {
+  			if(Constants.GROUP_SUPERADMIN.equals(group.getName())) {
+  				return true;
+  			}
+  		}
+  
+  		
+  		boolean authorized = false; 
+  		User user = userService.findByStore(ruser.getId(), merchantStoreCode);
+  		if(user != null) {
+  			authorized = true;
+  		}
+  		
+  		return authorized;
+	   } catch(Exception e) {
+	     throw new ServiceRuntimeException("Cannot authorize user " + userName + " for store " + merchantStoreCode,e.getMessage());
+	   }
 	}
 
 }

@@ -20,19 +20,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
-import com.salesmanager.core.model.catalog.product.Product;
-import com.salesmanager.core.model.catalog.product.image.ProductImage;
 import com.salesmanager.core.model.content.FileContentType;
-import com.salesmanager.core.model.content.ImageContentFile;
 import com.salesmanager.core.model.content.InputContentFile;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.merchant.MerchantStoreCriteria;
@@ -43,7 +40,6 @@ import com.salesmanager.shop.model.shop.PersistableMerchantStore;
 import com.salesmanager.shop.model.shop.ReadableBrand;
 import com.salesmanager.shop.model.shop.ReadableMerchantStore;
 import com.salesmanager.shop.model.shop.ReadableMerchantStoreList;
-import com.salesmanager.shop.populator.catalog.PersistableProductImagePopulator;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.api.exception.UnauthorizedException;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
@@ -96,7 +92,7 @@ public class MerchantStoreApi {
   }
 
   @ResponseStatus(HttpStatus.OK)
-  @GetMapping(value = {"/private/store"}, produces = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(value = {"/private/store"}, produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(httpMethod = "POST", value = "Creates a new store", notes = "",
       response = ReadableMerchantStore.class)
   public ResponseEntity<ReadableMerchantStore> create(
@@ -198,7 +194,7 @@ public class MerchantStoreApi {
   
   
   @ResponseStatus(HttpStatus.CREATED)
-  @RequestMapping( value={"/private/store/{code}/marketing/logo"}, method=RequestMethod.POST)
+  @PostMapping( value={"/private/store/{code}/marketing/logo"})
   public ResponseEntity<Void> createLogo(@PathVariable String code, @Valid @RequestBody PersistableImage image, HttpServletRequest request, HttpServletResponse response) throws Exception {
      
     try {
@@ -239,8 +235,6 @@ public class MerchantStoreApi {
   public ResponseEntity<Void> deleteStoreLogo(@PathVariable String code,
       HttpServletRequest request, HttpServletResponse response) {
 
-    try {
-
       // user doing action must be attached to the store being modified
       Principal principal = request.getUserPrincipal();
       String userName = principal.getName();
@@ -254,11 +248,6 @@ public class MerchantStoreApi {
 
       return new ResponseEntity<Void>(HttpStatus.OK);
 
-
-    } catch (Exception e) {
-      throw new ServiceRuntimeException(
-          "Exception while getting brand for store " + code + " " + e.getMessage());
-    }
   }
 
   @ResponseStatus(HttpStatus.OK)
@@ -354,7 +343,7 @@ public class MerchantStoreApi {
   }
 
   @ResponseStatus(HttpStatus.OK)
-  @RequestMapping(value = {"/private/store/{code}"}, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
+  @DeleteMapping(value = {"/private/store/{code}"})
   @ApiOperation(httpMethod = "DELETE", value = "Deletes a store", notes = "",
       response = ResponseEntity.class)
   public ResponseEntity<Void> delete(@PathVariable String code, HttpServletRequest request,
@@ -364,7 +353,9 @@ public class MerchantStoreApi {
     Principal principal = request.getUserPrincipal();
     String userName = principal.getName();
 
-    try { // TODO remove trycatch
+      if (MerchantStore.DEFAULT_STORE.equals(code.toUpperCase())) {
+        throw new ServiceRuntimeException("Cannot remove default store");
+      }
 
       if (!userFacade.authorizedStore(userName, code)) {
         // response.sendError(401, "User " + userName + " not authorized");
@@ -372,9 +363,6 @@ public class MerchantStoreApi {
         throw new UnauthorizedException("Not authorized");
       }
 
-    } catch (Exception e) {
-      // todo to be removed
-    }
 
 
     storeFacade.delete(code);

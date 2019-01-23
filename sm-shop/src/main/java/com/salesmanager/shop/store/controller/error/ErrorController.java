@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-//@ControllerAdvice
+@ControllerAdvice
 public class ErrorController {
 	
 	
@@ -29,9 +29,9 @@ public class ErrorController {
 	 * @param ex
 	 * @return
 	 */
-/*	@ExceptionHandler({org.springframework.web.HttpRequestMethodNotSupportedException.class,org.springframework.web.bind.MethodArgumentNotValidException.class})
+	@ExceptionHandler({org.springframework.web.HttpRequestMethodNotSupportedException.class,org.springframework.web.bind.MethodArgumentNotValidException.class})
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-	@Produces({MediaType.APPLICATION_JSON})*/
+	@Produces({MediaType.APPLICATION_JSON})
 	public Map<String,String> handleAPIException(Exception ex, WebRequest request) {
 
 
@@ -44,9 +44,9 @@ public class ErrorController {
  
 	}
     
-/*	@ExceptionHandler(Exception.class)
+	@ExceptionHandler(Exception.class)
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-	@Produces({MediaType.APPLICATION_JSON})*/
+	@Produces({MediaType.APPLICATION_JSON})
 	public ModelAndView handleException(Exception ex) {
 		
 		LOGGER.error("Error page controller",ex);
@@ -72,9 +72,9 @@ public class ErrorController {
 	
 
 	
-/*	@ExceptionHandler(RuntimeException.class)
+	@ExceptionHandler(RuntimeException.class)
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-	@Produces({MediaType.APPLICATION_JSON})*/
+	@Produces({MediaType.APPLICATION_JSON})
 	public ModelAndView handleRuntimeException(Exception ex) {
 		
 		LOGGER.error("Error page controller",ex);

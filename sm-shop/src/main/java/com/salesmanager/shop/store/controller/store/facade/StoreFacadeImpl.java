@@ -228,7 +228,19 @@ public class StoreFacadeImpl implements StoreFacade {
   @Override
   public void deleteLogo(String code) {
     MerchantStore store = getByCode(code);
+    String image = store.getStoreLogo();
     store.setStoreLogo(null);
+    
+    try {
+      merchantStoreService.update(store);
+      if(!StringUtils.isEmpty(image)) {
+        contentService.removeFile(store.getCode(), image);
+      }
+    } catch(Exception e) {
+      throw new ServiceRuntimeException(e.getMessage());
+    }
+    
+    
     
   }
 

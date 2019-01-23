@@ -35,7 +35,7 @@ public interface UserFacade {
 	 * @return
 	 * @throws Exception
 	 */
-	boolean authorizedStore(String userName, String merchantStoreCode) throws Exception;
+	boolean authorizedStore(String userName, String merchantStoreCode);
 	
 
 }

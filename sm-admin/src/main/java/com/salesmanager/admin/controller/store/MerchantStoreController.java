@@ -4,7 +4,7 @@ import java.security.Principal;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
@@ -26,7 +26,11 @@ public class MerchantStoreController {
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		request.setAttribute("action", "READ");
-		request.setAttribute("code", code);
+		String cd = (String)request.getAttribute("code");
+		if(!StringUtils.isBlank(code)) {
+		  cd = code;
+		}
+		request.setAttribute("code", cd);
 		request.setAttribute("addressApiKey", addressAutocompleteApiKey);
 		return "store/store";
 	}
