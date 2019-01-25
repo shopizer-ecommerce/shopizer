@@ -15,15 +15,14 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<!--<version>1.5.3.RELEASE</version> upgrading 1.5.4 	to handle potential No target ValidatorFactory set exception-->
-		<version>1.5.4.RELEASE</version>
+		<version>1.5.18.RELEASE</version>
 	</parent>
 
 
 	<properties>
 		<java.version>1.8</java.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
-   		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.target>1.8</maven.compiler.target>
 		<shopizer.version>2.3.0</shopizer.version>
 		<shopizer.search.version>2.3.0</shopizer.search.version>
 		<shopizer-canadapost.version>2.3.0</shopizer-canadapost.version>
@@ -43,6 +42,8 @@
 		<org.elasticsearch-version>5.6.12</org.elasticsearch-version>
 		<io.searchbox.jest-version>5.3.3</io.searchbox.jest-version>
 		<jackson-version>2.9.5</jackson-version>
+		<coverage.lines>.30</coverage.lines>
+		<coverage.branches>.37</coverage.branches>
 	</properties>
 
 	<dependencies>
@@ -135,8 +136,8 @@
 			<artifactId>json-simple</artifactId>
 			<version>${simple-json-version}</version>
 		</dependency>
-		
-		<!-- sm-search -->		
+
+		<!-- sm-search -->
 		<dependency>
 			<groupId>com.shopizer</groupId>
 			<artifactId>sm-search</artifactId>
@@ -151,9 +152,9 @@
 					<artifactId>jest</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency> 
-		
-		<!-- Elastic search -->				
+		</dependency>
+
+		<!-- Elastic search -->
 		<dependency>
 			<groupId>org.elasticsearch</groupId>
 			<artifactId>elasticsearch</artifactId>
@@ -167,12 +168,8 @@
 			<version>${io.searchbox.jest-version}</version>
 		</dependency>
 
-<!-- 
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>${lombok.version}</version>
-		</dependency> -->
+		<!-- <dependency> <groupId>org.projectlombok</groupId> <artifactId>lombok</artifactId> 
+			<version>${lombok.version}</version> </dependency> -->
 
 	</dependencies>
 
@@ -220,11 +217,76 @@
 		</pluginRepository>
 	</pluginRepositories>
 
-	
+
 	<dependencyManagement>
 		<dependencies>
 
 		</dependencies>
 	</dependencyManagement>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.2</version>
+
+				<executions>
+
+					<execution>
+						<id>default-prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>default-prepare-agent-integration</id>
+						<goals>
+							<goal>prepare-agent-integration</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>default-report</id>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>default-report-integration</id>
+						<goals>
+							<goal>report-integration</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>default-check</id>
+						<goals>
+							<goal>check</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<rule>
+									<element>BUNDLE</element>
+									<limits>
+										<limit>
+											<counter>LINE</counter>
+											<value>COVEREDRATIO</value>
+											<minimum>${coverage.lines}</minimum>
+										</limit>
+										<limit>
+											<counter>BRANCH</counter>
+											<value>COVEREDRATIO</value>
+											<minimum>${coverage.branches}</minimum>
+										</limit>
+									</limits>
+								</rule>
+							</rules>
+
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+
+		</plugins>
+	</build>
 
 </project>
