@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{base}">
+
+<head>
+	<title></title>
+</head>
+
+
+<span layout:fragment="breadcrumb" id="breadcrumb">
+	<h2>
+		<span class="breadcrumb-title" th:text="#{'menu.store'}" /> <small></small>
+	</h2>
+	<ol class="breadcrumb">
+		<li><a href="#"><i class="fa fa-building"></i>&nbsp;<span
+				th:text="#{'menu.home'}"></span></a></li>
+		<li class="active"><span th:text="#{'menu.cache'}"></span></li>
+	</ol>
+</span>
+
+<!-- Main row -->
+<span layout:fragment="page_content" id="page_content">
+
+    <th:block th:include="fragments/messages.html :: messages"></th:block>
+
+	<!-- end messages -->
+	<div class="box box-default">
+		<div class="box-header with-border">
+			<h3 class="box-title">
+				<span th:text="#{'label.cache.clear'}"></span>
+			</h3>
+		</div>
+		<!-- /.box-header -->
+		<div class="box-body">
+			<div class="row">
+				<div class="col-md-12">
+                    <div class="box-footer">
+                <button type="button" class="btn btn-info btn-danger">Clear Cache</button>
+              </div>
+				</div>
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- /.box-body -->
+		<!-- 		
+			<div class="box-footer">
+			footer text if required
+		</div> 
+		-->
+	</div>
+
+
+</span>
+<!-- /.span (main span) -->
+
+<!-- All actions in store to be defined here -->
+<th:block layout:fragment="script">
+
+
+</th:block>
