@@ -1,5 +1,6 @@
 Shopizer 2.3.0 (for java 1.8 +)
 -------------------
+[![last_version](https://img.shields.io/badge/last_version-v2.3.0-blue.svg?style=flat)](https://github.com/shopizer-ecommerce/shopizer/tree/2.3.0)
 [![stackoverflow](https://img.shields.io/badge/shopizer-stackoverflow-orange.svg?style=flat)](http://stackoverflow.com/questions/tagged/shopizer)
 -------------------
 
