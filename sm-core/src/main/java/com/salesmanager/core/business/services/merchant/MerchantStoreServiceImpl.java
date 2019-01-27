@@ -50,6 +50,11 @@ public class MerchantStoreServiceImpl extends SalesManagerEntityServiceImpl<Inte
 		return merchantRepository.findByCode(code);
 	}
 
+	@Override
+	public boolean existByCode(String code) {
+		return merchantRepository.existsByCode(code);
+	}
+
 
 	@Override
 	public GenericEntityList<MerchantStore> getByCriteria(MerchantStoreCriteria criteria) throws ServiceException {

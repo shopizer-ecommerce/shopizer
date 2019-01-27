@@ -14,9 +14,10 @@ public interface MerchantStoreService extends SalesManagerEntityService<Integer,
 	
 	MerchantStore getByCode(String code) throws ServiceException ;
 
+	boolean existByCode(String code);
+
 	void saveOrUpdate(MerchantStore store) throws ServiceException;
 	
 	GenericEntityList<MerchantStore> getByCriteria(MerchantStoreCriteria criteria) throws ServiceException;
-	
 
 }

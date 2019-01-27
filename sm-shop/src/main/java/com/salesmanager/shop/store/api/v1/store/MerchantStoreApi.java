@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.security.Principal;
 import java.util.Map;
+import java.util.Optional;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -44,7 +45,7 @@ import com.salesmanager.shop.utils.ServiceRequestCriteriaBuilderUtils;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping(value = "/api/v1", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 public class MerchantStoreApi {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(MerchantStoreApi.class);
@@ -63,291 +64,166 @@ public class MerchantStoreApi {
   @Inject
   private UserFacade userFacade;
 
-  @GetMapping(value = {"/store/{store}"}, produces = MediaType.APPLICATION_JSON_VALUE)
-  @ApiOperation(httpMethod = "GET", value = "Get merchant store", notes = "",
+  @GetMapping(value = {"/store/{store}"})
+  @ApiOperation(
+      httpMethod = "GET",
+      value = "Get merchant store",
+      notes = "",
       response = ReadableMerchantStore.class)
-  public ReadableMerchantStore store(@PathVariable String store,
-      @RequestParam(value = "lang", required = false) String lang) {
+  public ReadableMerchantStore store(
+      @PathVariable String store, @RequestParam(value = "lang", required = false) String lang) {
     return storeFacade.getByCode(store, lang);
   }
 
-  @ResponseStatus(HttpStatus.OK)
-  @PostMapping(value = {"/private/store"}, produces = MediaType.APPLICATION_JSON_VALUE)
-  @ApiOperation(httpMethod = "POST", value = "Creates a new store", notes = "",
+  @PostMapping(value = {"/private/store"})
+  @ApiOperation(
+      httpMethod = "POST",
+      value = "Creates a new store",
+      notes = "",
       response = ReadableMerchantStore.class)
-  public ResponseEntity<ReadableMerchantStore> create(
-      @Valid @RequestBody PersistableMerchantStore store, HttpServletRequest request,
-      HttpServletResponse response) throws Exception {
-
-
-
-    // check if store code exists
-    MerchantStore mStore = storeFacade.get(store.getCode());
-    if (mStore != null) {
-      response.sendError(503, "MerhantStore " + store.getCode() + " already exists");
-    }
-
-    try {
-
-      storeFacade.create(store);
-
-      ReadableMerchantStore readable =
-          storeFacade.getByCode(store.getCode(), languageService.defaultLanguage());
-
-      return new ResponseEntity<ReadableMerchantStore>(readable, HttpStatus.OK);
-
-    } catch (Exception e) {
-      LOGGER.error("Error while creating store ", e);
-      try {
-        response.sendError(503, "Error while creating store " + e.getMessage());
-      } catch (Exception ignore) {
-      }
-
-      return null;
-    }
+  public ReadableMerchantStore create(@Valid @RequestBody PersistableMerchantStore store) {
+    return storeFacade.create(store);
   }
 
-  @ResponseStatus(HttpStatus.OK)
-  @PutMapping(value = {"/private/store/{code}"}, produces = MediaType.APPLICATION_JSON_VALUE)
-  @ApiOperation(httpMethod = "PUT", value = "Updates a store", notes = "",
+  @PutMapping(value = {"/private/store/{code}"})
+  @ApiOperation(
+      httpMethod = "PUT",
+      value = "Updates a store",
+      notes = "",
       response = ReadableMerchantStore.class)
-  public ResponseEntity<ReadableMerchantStore> update(
-      @Valid @RequestBody PersistableMerchantStore store, HttpServletRequest request,
-      HttpServletResponse response) throws Exception {
+  public ReadableMerchantStore update(
+      @Valid @RequestBody PersistableMerchantStore store,
+      HttpServletRequest request) {
 
-
-
-    try {
-
-      // user doing action must be attached to the store being modified
-      Principal principal = request.getUserPrincipal();
-      String userName = principal.getName();
-
-      if (!userFacade.authorizedStore(userName, store.getCode())) {
-        response.sendError(401, "User " + userName + " not authorized");
-        return null;
-      }
-      storeFacade.update(store);
-
-      ReadableMerchantStore readable =
-          storeFacade.getByCode(store.getCode(), languageService.defaultLanguage());
-
-      return new ResponseEntity<ReadableMerchantStore>(readable, HttpStatus.OK);
-
-    } catch (Exception e) {
-      LOGGER.error("Error while updating store ", e);
-      try {
-        response.sendError(503, "Error while updating store " + e.getMessage());
-      } catch (Exception ignore) {
-      }
-
-      return null;
-    }
+    String userName = getUserFromRequest(request);
+    validateUserPermission(userName, store.getCode());
+    return storeFacade.update(store);
   }
 
-  @ResponseStatus(HttpStatus.OK)
-  @GetMapping(value = {"/private/store/{code}/marketing"}, produces = MediaType.APPLICATION_JSON_VALUE)
-  @ApiOperation(httpMethod = "GET", value = "Get store branding and marketing details", notes = "",
-      response = ReadableBrand.class)
-  public ResponseEntity<ReadableBrand> getStoreMarketing(@PathVariable String code,
-      HttpServletRequest request, HttpServletResponse response) {
-
-    try {
-
-      // user doing action must be attached to the store being modified
-      Principal principal = request.getUserPrincipal();
-      String userName = principal.getName();
-
-      if (!userFacade.authorizedStore(userName, code)) {
-        throw new UnauthorizedException("User " + userName + " not authorized");
-      }
-
-      ReadableBrand brand = storeFacade.getBrand(code);
-      return new ResponseEntity<ReadableBrand>(brand, HttpStatus.OK);
-
-
-    } catch (Exception e) {
-      throw new ServiceRuntimeException(
-          "Exception while getting brand for store " + code + " " + e.getMessage());
-    }
-  }
-  
-  
-  @ResponseStatus(HttpStatus.CREATED)
-  @PostMapping( value={"/private/store/{code}/marketing/logo"})
-  public ResponseEntity<Void> createLogo(@PathVariable String code, @Valid @RequestBody PersistableImage image, HttpServletRequest request, HttpServletResponse response) throws Exception {
-     
-    try {
-
-      // user doing action must be attached to the store being modified
-      Principal principal = request.getUserPrincipal();
-      String userName = principal.getName();
-
-      if (!userFacade.authorizedStore(userName, code)) {
-        throw new UnauthorizedException("User " + userName + " not authorized");
-      }
-
-      InputStream input = new ByteArrayInputStream(image.getBytes());
-            
-      InputContentFile cmsContentImage = new InputContentFile();
-      cmsContentImage.setFileName(image.getName());
-      cmsContentImage.setMimeType(image.getContentType());
-      cmsContentImage.setFileContentType(FileContentType.LOGO);
-      cmsContentImage.setFile( input);
-
-      storeFacade.addStoreLogo(code, cmsContentImage);
-
-      return new ResponseEntity<Void>(HttpStatus.OK);
-
-
-    } catch (Exception e) {
-      throw new ServiceRuntimeException(
-          "Exception while adding brand logo for store " + code + " " + e.getMessage());
-    } 
-
-  }
-
-  
-  @ResponseStatus(HttpStatus.OK)
-  @DeleteMapping(value = {"/private/store/{code}/marketing/logo"}, produces = MediaType.APPLICATION_JSON_VALUE)
-  @ApiOperation(httpMethod = "DELETE", value = "Delete store logo", notes = "",
-      response = Void.class)
-  public ResponseEntity<Void> deleteStoreLogo(@PathVariable String code,
-      HttpServletRequest request, HttpServletResponse response) {
-
-      // user doing action must be attached to the store being modified
-      Principal principal = request.getUserPrincipal();
-      String userName = principal.getName();
-
-      if (!userFacade.authorizedStore(userName, code)) {
-        throw new UnauthorizedException("User " + userName + " not authorized");
-      }
-      
-      //delete store logo
-      storeFacade.deleteLogo(code);
-
-      return new ResponseEntity<Void>(HttpStatus.OK);
-
-  }
-
-  @ResponseStatus(HttpStatus.OK)
-  @GetMapping(value = {"/private/store/unique"}, produces = MediaType.APPLICATION_JSON_VALUE)
-  @ApiOperation(httpMethod = "GET", value = "Check if store code already exists", notes = "",
-      response = EntityExists.class)
-  public ResponseEntity<EntityExists> exists(@RequestParam(value = "code") String code,
-      HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-
-
-    try {
-
-
-      MerchantStore store = storeFacade.get(code);
-
-      EntityExists exists = new EntityExists();
-      if (store != null) {
-        exists.setExists(true);
-      }
-      return new ResponseEntity<EntityExists>(exists, HttpStatus.OK);
-
-    } catch (Exception e) {
-      LOGGER.error("Error while updating store ", e);
-      try {
-        response.sendError(503, "Error while getting store " + e.getMessage());
-      } catch (Exception ignore) {
-      }
-
-      return null;
-    }
-  }
-
-  @ResponseStatus(HttpStatus.OK)
-  @GetMapping(value = {"/private/stores"}, produces = MediaType.APPLICATION_JSON_VALUE)
-  @ApiOperation(httpMethod = "GET", value = "Check list of stores", notes = "",
-      response = EntityExists.class)
-  public ResponseEntity<ReadableMerchantStoreList> list(
-      @RequestParam(value = "start", required = false) Integer start,
-      @RequestParam(value = "length", required = false) Integer count,
-      @RequestParam(value = "code", required = false) String code, HttpServletRequest request,
-      HttpServletResponse response) throws Exception {
-
-
-
-    try {
-
-      // Principal principal = request.getUserPrincipal();
-      // String userName = principal.getName();
-
-      /*
-       * Enumeration names = request.getParameterNames(); while (names.hasMoreElements()) { //
-       * System.out.println(names.nextElement().toString()); String param =
-       * names.nextElement().toString(); String val = request.getParameter(param);
-       * System.out.println("param ->" + param + " Val ->" + val); }
-       */
-
-      MerchantStoreCriteria criteria = (MerchantStoreCriteria) ServiceRequestCriteriaBuilderUtils
-          .buildRequest(MAPPING_FIELDS, request);
-
-      if (start != null)
-        criteria.setStartIndex(start);
-      if (count != null)
-        criteria.setMaxCount(count);
-      if (!StringUtils.isBlank(criteria.getSearch())) {
-        criteria.setCode(criteria.getSearch());
-        criteria.setName(criteria.getSearch());
-      }
-
-      ReadableMerchantStoreList readableList =
-          storeFacade.getByCriteria(criteria, languageService.defaultLanguage());
-      readableList.setRecordsFiltered(readableList.getTotalCount());
-      readableList.setRecordsTotal(readableList.getTotalCount());
-
-      // datatable stuff
-      String drawParam = request.getParameter("draw");
-      if (!StringUtils.isEmpty(drawParam)) {
-        readableList.setDraw(Integer.parseInt(request.getParameter("draw")));
-      }
-
-
-      return new ResponseEntity<ReadableMerchantStoreList>(readableList, HttpStatus.OK);
-
-    } catch (Exception e) {
-      LOGGER.error("Error while getting store list ", e);
-      try {
-        response.sendError(503, "Error while getting store list " + e.getMessage());
-      } catch (Exception ignore) {
-      }
-
-      return null;
-    }
-  }
-
-  @ResponseStatus(HttpStatus.OK)
-  @DeleteMapping(value = {"/private/store/{code}"})
-  @ApiOperation(httpMethod = "DELETE", value = "Deletes a store", notes = "",
-      response = ResponseEntity.class)
-  public ResponseEntity<Void> delete(@PathVariable String code, HttpServletRequest request,
-      HttpServletResponse response) {
-
+  private String getUserFromRequest(HttpServletRequest request) {
     // user doing action must be attached to the store being modified
     Principal principal = request.getUserPrincipal();
-    String userName = principal.getName();
-
-      if (MerchantStore.DEFAULT_STORE.equals(code.toUpperCase())) {
-        throw new ServiceRuntimeException("Cannot remove default store");
-      }
-
-      if (!userFacade.authorizedStore(userName, code)) {
-        // response.sendError(401, "User " + userName + " not authorized");
-        // return null;
-        throw new UnauthorizedException("Not authorized");
-      }
-
-
-
-    storeFacade.delete(code);
-    return new ResponseEntity<Void>(HttpStatus.OK);
-
+    return principal.getName();
   }
 
+  private void validateUserPermission(String userName, String code) {
+    //TODO reviewed Spring Security should be used
+    if (!userFacade.authorizedStore(userName, code)) {
+      throw new UnauthorizedException("User " + userName + " not authorized");
+    }
+  }
+
+  @GetMapping(value = {"/private/store/{code}/marketing"})
+  @ApiOperation(
+      httpMethod = "GET",
+      value = "Get store branding and marketing details",
+      notes = "",
+      response = ReadableBrand.class)
+  public ReadableBrand getStoreMarketing(@PathVariable String code, HttpServletRequest request) {
+    String userName = getUserFromRequest(request);
+    validateUserPermission(userName, code);
+    return storeFacade.getBrand(code);
+  }
+
+
+  @ResponseStatus(HttpStatus.CREATED)
+  @PostMapping( value={"/private/store/{code}/marketing/logo"})
+  public void createLogo(@PathVariable String code, @Valid @RequestBody PersistableImage image,
+      HttpServletRequest request) {
+
+      // user doing action must be attached to the store being modified
+      String userName = getUserFromRequest(request);
+      validateUserPermission(userName, code);
+
+      InputContentFile cmsContentImage = createInputContentFile(image);
+      storeFacade.addStoreLogo(code, cmsContentImage);
+  }
+
+  private InputContentFile createInputContentFile(@Valid PersistableImage image) {
+    InputStream input = new ByteArrayInputStream(image.getBytes());
+
+    InputContentFile cmsContentImage = new InputContentFile();
+    cmsContentImage.setFileName(image.getName());
+    cmsContentImage.setMimeType(image.getContentType());
+    cmsContentImage.setFileContentType(FileContentType.LOGO);
+    cmsContentImage.setFile(input);
+    return cmsContentImage;
+  }
+
+  @DeleteMapping(value = {"/private/store/{code}/marketing/logo"})
+  @ApiOperation(
+      httpMethod = "DELETE",
+      value = "Delete store logo",
+      notes = "",
+      response = Void.class)
+  public void deleteStoreLogo(
+      @PathVariable String code, HttpServletRequest request) {
+
+    // user doing action must be attached to the store being modified
+    String userName = getUserFromRequest(request);
+    validateUserPermission(userName, code);
+
+    // delete store logo
+    storeFacade.deleteLogo(code);
+  }
+
+  @GetMapping(
+      value = {"/private/store/unique"},
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  @ApiOperation(
+      httpMethod = "GET",
+      value = "Check if store code already exists",
+      notes = "",
+      response = EntityExists.class)
+  public EntityExists exists(@RequestParam(value = "code") String code) {
+    // TODO should be reviewed
+    boolean isStoreExist = storeFacade.existByCode(code);
+    return new EntityExists(isStoreExist);
+  }
+
+  @GetMapping(value = {"/private/stores"})
+  @ApiOperation(
+      httpMethod = "GET",
+      value = "Check list of stores",
+      notes = "",
+      response = ReadableMerchantStoreList.class)
+  public ReadableMerchantStoreList list(
+      @RequestParam(value = "start", required = false) Integer start,
+      @RequestParam(value = "length", required = false) Integer count,
+      @RequestParam(value = "code", required = false) String code,
+      HttpServletRequest request) {
+
+    MerchantStoreCriteria criteria = createMerchantStoreCriteria(start, count, request);
+    String drawParam = request.getParameter("draw");
+
+    return storeFacade.getByCriteria(criteria, drawParam, languageService.defaultLanguage());
+  }
+
+  private MerchantStoreCriteria createMerchantStoreCriteria(Integer start, Integer count,
+      HttpServletRequest request) {
+    MerchantStoreCriteria criteria = (MerchantStoreCriteria) ServiceRequestCriteriaBuilderUtils
+        .buildRequest(MAPPING_FIELDS, request);
+
+    Optional.ofNullable(start).ifPresent(criteria::setStartIndex);
+    Optional.ofNullable(count).ifPresent(criteria::setMaxCount);
+
+    String search = criteria.getSearch();
+    if (!StringUtils.isBlank(search)) {
+      criteria.setCode(search);
+      criteria.setName(search);
+    }
+    return criteria;
+  }
+
+  @DeleteMapping(value = {"/private/store/{code}"})
+  @ApiOperation(
+      httpMethod = "DELETE",
+      value = "Deletes a store",
+      notes = "",
+      response = ResponseEntity.class)
+  public void delete(@PathVariable String code, HttpServletRequest request) {
+    String userName = getUserFromRequest(request);
+    validateUserPermission(userName, code);
+    storeFacade.delete(code);
+  }
 }
