@@ -1,6 +1,5 @@
 package com.salesmanager.shop.admin.controller.customers;
 
-import com.salesmanager.core.business.modules.email.Email;
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.customer.attribute.CustomerAttributeService;
 import com.salesmanager.core.business.services.customer.attribute.CustomerOptionService;
@@ -28,10 +27,8 @@ import com.salesmanager.core.model.user.Group;
 import com.salesmanager.core.model.user.GroupType;
 import com.salesmanager.shop.admin.model.customer.attribute.CustomerOption;
 import com.salesmanager.shop.admin.model.customer.attribute.CustomerOptionValue;
-import com.salesmanager.shop.admin.model.userpassword.UserReset;
 import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
-import com.salesmanager.shop.constants.EmailConstants;
 import com.salesmanager.shop.populator.customer.ReadableCustomerOptionPopulator;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
 import com.salesmanager.shop.utils.EmailUtils;
@@ -634,7 +631,7 @@ public class CustomerController {
 			}
 			
 
-			CustomerList customerList = customerService.listByStore(store,criteria);
+			CustomerList customerList = customerService.getListByStore(store,criteria);
 			
 			if(customerList.getCustomers()!=null) {
 			

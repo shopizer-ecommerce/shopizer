@@ -265,7 +265,7 @@ public class CustomerRESTController {
 			return null;
 		}
 		
-		List<Customer> customers = customerService.listByStore(merchantStore);
+		List<Customer> customers = customerService.getListByStore(merchantStore);
 		List<ReadableCustomer> returnCustomers = new ArrayList<ReadableCustomer>();
 		for(Customer customer : customers) {
 

@@ -35,6 +35,8 @@ public interface StoreFacade {
 
   ReadableMerchantStore getByCode(String code, Language lang);
 
+  boolean existByCode(String code);
+
   /**
    * List MerchantStore using various criterias
    * 
@@ -43,8 +45,7 @@ public interface StoreFacade {
    * @return
    * @throws Exception
    */
-  ReadableMerchantStoreList getByCriteria(MerchantStoreCriteria criteria, Language lang)
-      throws Exception;
+  ReadableMerchantStoreList getByCriteria(MerchantStoreCriteria criteria, String drawParam, Language lang);
 
   /**
    * Creates a brand new MerchantStore
@@ -52,7 +53,7 @@ public interface StoreFacade {
    * @param store
    * @throws Exception
    */
-  void create(PersistableMerchantStore store) throws Exception;
+  ReadableMerchantStore create(PersistableMerchantStore store);
 
   /**
    * Updates an existing store
@@ -60,7 +61,7 @@ public interface StoreFacade {
    * @param store
    * @throws Exception
    */
-  void update(PersistableMerchantStore store) throws Exception;
+  ReadableMerchantStore update(PersistableMerchantStore store);
 
   /**
    * Deletes a MerchantStore based on store code
@@ -86,6 +87,6 @@ public interface StoreFacade {
    * @param code
    * @param cmsContentImage
    */
-  void addStoreLogo(String code, InputContentFile cmsContentImage) throws Exception;
+  void addStoreLogo(String code, InputContentFile cmsContentImage);
 
 }
