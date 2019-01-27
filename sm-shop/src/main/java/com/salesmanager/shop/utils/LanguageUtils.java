@@ -133,26 +133,13 @@ public class LanguageUtils {
 			String lang = request.getParameter(Constants.LANG);
 
 			if (StringUtils.isBlank(lang)) {
-				//try with HttpSession
-				language = (Language) request.getSession().getAttribute(Constants.LANGUAGE);
-				if (language == null) {
-					language = store.getDefaultLanguage();
-				}
-
 				if (language == null) {
 					language = languageService.defaultLanguage();
 				}
 			} else {
 				language = languageService.getByCode(lang);
 				if (language == null) {
-					language = (Language) request.getSession().getAttribute(Constants.LANGUAGE);
-					if (language == null) {
-						language = store.getDefaultLanguage();
-					}
-
-					if (language == null) {
-						language = languageService.defaultLanguage();
-					}
+				    language = languageService.defaultLanguage();
 				}
 			}
 

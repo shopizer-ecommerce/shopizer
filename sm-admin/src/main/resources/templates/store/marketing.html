@@ -26,7 +26,7 @@
 
 	<div class="row">
 
-		<div class="col-md-6">
+		<div class="col-md-9">
 			<div class="box box-primary">
 				<div class="box-header">
 					<h3 class="box-title">
@@ -61,10 +61,7 @@
 				</div>
 
 			</div>
-		</div>
-		<!-- /.box -->
-
-		<div class="col-md-6">
+			<!-- box -->
 			<div class="box box-primary">
 				<div class="box-header">
 					<h3 class="box-title">
@@ -108,17 +105,68 @@
 								<input type="hidden" class="form-control" id="twitter_handle_id" name="twitter_handle_id" >
 							</div>
 
-
+							<!-- /.box-body -->
+							<div class="box-footer">
+								<button type="submit" class="btn btn-primary">
+									<span th:text="#{'button.label.submit'}"></span>
+								</button>
+							</div>
 					</div>
 					<!-- /.form group -->
 				</div>
 				<!-- /.box-body -->
 			</div>
 			<!-- /.box -->
+			
+		</div>
+		<!-- /.col -->
+
+		<div class="col-md-3">
+		
+			<div class="box box-primary">
+
+	            <!-- /.box-header -->
+	            <div class="box-body">
+	              
+	              
+	              
+	              <strong><i class="fa fa-book margin-r-5"></i> Education</strong>
+				  <p class="" th:each="menuitem : ${MENU}" th:if="${#request.isUserInRole('ROLE_'+menuitem.role)} and ${menuitem.menuType} eq 'CONTEXTUALMENU' and ${#strings.contains(menuitem.code, 'store')}">
+						<a th:href="@{${menuitem.url}}">
+						</a>
+						<hr>
+				  </p>
+	              
+	
+	              <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
+	
+	              <p class="text-muted">Malibu, California</p>
+	
+	              <hr>
+	
+	              <strong><i class="fa fa-pencil margin-r-5"></i> Skills</strong>
+	
+	              <p>
+	                <span class="label label-danger">UI Design</span>
+	                <span class="label label-success">Coding</span>
+	                <span class="label label-info">Javascript</span>
+	                <span class="label label-warning">PHP</span>
+	                <span class="label label-primary">Node.js</span>
+	              </p>
+	
+	              <hr>
+	
+	              <strong><i class="fa fa-file-text-o margin-r-5"></i> Notes</strong>
+	
+	              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
+	            </div>
+	            <!-- /.box-body -->
+	          </div>
 
 		</div>
 		<!-- /.col (right) -->
 	</div> <!-- /.row -->
+
 
 
 
@@ -153,59 +201,7 @@
 				.ready(
 						function() {
 
-							//read marketing
-
-							showLoader();
-
-							//fetch store
-							var url = BACKEND + "/private/store/" + store
-									+ '/marketing?lang=' + LANGUAGE;
-
-							$.ajax({
-								type : "get",
-								crossDomain : true,
-								cache : false,
-								url : url,
-								dataType : "json",
-								headers : {
-									"Authorization" : "Bearer " + TOKEN
-								},
-								success : function(data) {
-									
-									//log(JSON.stringify(data));
-									if(data.logo!=null) {
-										var imageComponent = "<div id='logoTemplate' style='width=100%;text-align:center;' onclick='removeImage()'><img src='" + IMAGES_HOST + data.logo.path + "'><p><span><a id='removeImage' href='#'>Remove <i class='fa fa-times'></i></a></span></p></div>";
-										//add logo template
-										$( "#logo-box" ).prepend(imageComponent);
-										//hide upload box
-										$( "#dropzone" ).hide();
-									}
-									
-									if (Array.isArray(data.socialNetworks) || data.socialNetworks.length > 0) {
-										  // array does not exist, is not an array, or is empty
-								          $.each(data.socialNetworks, function (i, data) {
-								        	  if(data.value!=null) {
-								        		//log(data.id + ' ' + data.key);
-								        	  	$("input[name='"+data.key+"'][type='checkbox']").prop("checked", true);
-								        	  	var keyValue = '#' + data.key+'_value';
-								        	  	var idValue = '#' + data.key+'_id';
-								        	  	$(keyValue).val(data.value);
-								        	  	$(idValue).val(data.id);
-								        	  }
-								          });
-									}
-									
-									hideLoader();
-								},
-								error : function(response, textStatus,
-										errorThrown) {
-									log(JSON.stringify(response.message));
-									error(JSON.stringify(response.message));
-									hideLoader();
-								}
-							});
-							
-
+							loadMarketing();
 
 							var dropzone = new Dropzone(
 									'#logo-upload',
@@ -214,11 +210,10 @@
 										parallelUploads : 1,
 										thumbnailHeight : 120,
 										thumbnailWidth : 120,
-										maxFilesize : 1,
+										maxFilesize : 1,//TODO configure
 										filesizeBase : 1000,
 										thumbnail : function(file, dataUrl) {
 											if (file.previewElement) {
-												log('thumbnail');
 												file.previewElement.classList
 														.remove("dz-file-preview");
 												var images = file.previewElement
@@ -236,12 +231,7 @@
 											}
 										}
 
-									});
-
-							// Now fake the file upload, since GitHub does not handle file uploads
-							// and returns a 404
-
-							var minSteps = 6, maxSteps = 60, timeBetweenSteps = 100, bytesPerStep = 100000;
+							});
 
 							dropzone.uploadFiles = function(files) {
 								var self = this;
@@ -250,55 +240,133 @@
 
 									var file = files[i];
 									log('upload file ' + file.name);
-									//file.size
-									//file.name;
-
-									totalSteps = Math.round(Math.min(maxSteps,
-											Math.max(minSteps, file.size
-													/ bytesPerStep)));
-
-									for (var step = 0; step < totalSteps; step++) {
-										var duration = timeBetweenSteps
-												* (step + 1);
-										setTimeout(
-												function(file, totalSteps, step) {
-													return function() {
-														file.upload = {
-															progress : 100
-																	* (step + 1)
-																	/ totalSteps,
-															total : file.size,
-															bytesSent : (step + 1)
-																	* file.size
-																	/ totalSteps
-														};
-
-														self
-																.emit(
-																		'uploadprogress',
-																		file,
-																		file.upload.progress,
-																		file.upload.bytesSent);
-														if (file.upload.progress == 100) {
-															file.status = Dropzone.SUCCESS;
-															self.emit(
-																	"success",
-																	file,
-																	'success',
-																	null);
-															self.emit(
-																	"complete",
-																	file);
-															self.processQueue();
-															//document.getElementsByClassName("dz-success-mark").style.opacity = "1";
-														}
-													};
-												}(file, totalSteps, step),
-												duration);
-									}
+									addImage(file, this);
 								}
 							}
-						});
+
+							dropzone.on("queuecomplete", function () {
+							    this.removeAllFiles();
+							});
+		});
+		
+		
+		
+		function loadMarketing() {
+			showLoader();
+
+			//fetch store
+			var url = BACKEND + "/private/store/" + store
+					+ '/marketing?lang=' + LANGUAGE;
+
+			$.ajax({
+				type : "get",
+				crossDomain : true,
+				cache : false,
+				url : url,
+				dataType : "json",
+				headers : {
+					"Authorization" : "Bearer " + TOKEN
+				},
+				success : function(data) {
+					
+					log('Success loading marketing ' + JSON.stringify(data));
+					if(data.logo!=null) {
+						imageTemplate(data.logo);
+					}
+					
+					if (Array.isArray(data.socialNetworks) || data.socialNetworks.length > 0) {
+						  // array does not exist, is not an array, or is empty
+				          $.each(data.socialNetworks, function (i, data) {
+				        	  if(data.value!=null) {
+				        	  	$("input[name='"+data.key+"'][type='checkbox']").prop("checked", true);
+				        	  	var keyValue = '#' + data.key+'_value';
+				        	  	var idValue = '#' + data.key+'_id';
+				        	  	$(keyValue).val(data.value);
+				        	  	$(idValue).val(data.id);
+				        	  }
+				          });
+					}
+					
+					hideLoader();
+				},
+				error : function(response, textStatus,
+						errorThrown) {
+					log(JSON.stringify(response.message));
+					error(JSON.stringify(response.message));
+					hideLoader();
+				}
+			});
+		}
+		
+		
+		
+		function addImage(image, dropzone) {
+			
+			dropzone.emit(
+							'uploadprogress',
+							image,
+							image.upload.progress,
+							image.upload.bytesSent);
+			
+			var formData = new FormData();
+			formData.append("file", image);
+
+			showLoader();
+			var url = BACKEND + "/private/store/" + store
+			+ '/marketing/logo';
+			
+			
+		    $.ajax({
+		        type: "POST",
+		        enctype: 'multipart/form-data',
+		        url: url,
+		        data: formData,
+		        processData: false, //prevent jQuery from automatically transforming the data into a query string
+		        contentType: false,
+				headers : {
+					"Authorization" : "Bearer " + TOKEN
+				},
+		        cache: false,
+		        timeout: 600000,//TODO dynamic value
+		        success: function (data) {
+
+		            log("SUCCESS : ", data);
+
+		            image.status = Dropzone.SUCCESS;
+					dropzone.emit(
+						"success",
+						image,
+						'success',
+						null);
+					dropzone.emit(
+						"complete",
+						image);
+					dropzone.processQueue();
+					//display logo template
+					success('');
+		            hideLoader();
+		            loadMarketing();
+
+		        },
+				error : function(response, textStatus,
+						errorThrown) {
+					log(JSON.stringify(response.message));
+					error(JSON.stringify(response.message));
+					
+					//callback dropzone error
+					
+					hideLoader();
+				}
+		    });
+		}
+		
+		function imageTemplate(image) {
+			var imageComponent = "<div id='logoTemplate' style='width=100%;text-align:center;' onclick='removeImage()'><img src='" + IMAGES_HOST + image.path + "'><p><span><a id='removeImage' href='#'>[[#{label.generic.remove}]] <i class='fa fa-times'></i></a></span></p></div>";
+			//add logo template
+			$( "#logo-box" ).prepend(imageComponent);
+			//hide upload box
+			$( "#dropzone" ).hide();
+		}
 
 
 		function removeImage() {

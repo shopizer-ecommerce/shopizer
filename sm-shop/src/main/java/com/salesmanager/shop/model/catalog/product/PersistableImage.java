@@ -1,5 +1,6 @@
 package com.salesmanager.shop.model.catalog.product;
 
+import org.springframework.web.multipart.MultipartFile;
 import com.salesmanager.shop.model.entity.Entity;
 
 public class PersistableImage extends Entity {
@@ -11,7 +12,7 @@ public class PersistableImage extends Entity {
 	   private String name = null;
 	   private String path;
 
-	
+	   private MultipartFile[] files;
 	   private byte[] bytes = null;
 	   private String contentType = null;
 	   
@@ -91,5 +92,15 @@ public class PersistableImage extends Entity {
 	public void setPath(String path) {
 		this.path = path;
 	}
+
+
+  public MultipartFile[] getFiles() {
+    return files;
+  }
+
+
+  public void setFiles(MultipartFile[] files) {
+    this.files = files;
+  }
 
 }

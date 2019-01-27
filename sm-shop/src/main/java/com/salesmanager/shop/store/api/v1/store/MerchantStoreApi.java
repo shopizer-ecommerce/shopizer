@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import com.google.common.collect.ImmutableMap;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.model.content.FileContentType;
@@ -175,7 +176,7 @@ public class MerchantStoreApi {
   
   @ResponseStatus(HttpStatus.CREATED)
   @PostMapping( value={"/private/store/{code}/marketing/logo"})
-  public ResponseEntity<Void> createLogo(@PathVariable String code, @Valid @RequestBody PersistableImage image, HttpServletRequest request, HttpServletResponse response) throws Exception {
+  public ResponseEntity<Void> createLogo(@PathVariable String code, @RequestParam("file") MultipartFile uploadfile, HttpServletRequest request, HttpServletResponse response) throws Exception {
      
     try {
 
@@ -186,12 +187,18 @@ public class MerchantStoreApi {
       if (!userFacade.authorizedStore(userName, code)) {
         throw new UnauthorizedException("User " + userName + " not authorized");
       }
+      
+      if (uploadfile.isEmpty()) {
+        throw new ServiceRuntimeException(
+            "Upload file is empty");
+    }
 
-      InputStream input = new ByteArrayInputStream(image.getBytes());
+
+      InputStream input = new ByteArrayInputStream(uploadfile.getBytes());
             
       InputContentFile cmsContentImage = new InputContentFile();
-      cmsContentImage.setFileName(image.getName());
-      cmsContentImage.setMimeType(image.getContentType());
+      cmsContentImage.setFileName(uploadfile.getOriginalFilename());
+      cmsContentImage.setMimeType(uploadfile.getContentType());
       cmsContentImage.setFileContentType(FileContentType.LOGO);
       cmsContentImage.setFile( input);
 
