@@ -1,22 +1,7 @@
 package com.salesmanager.shop.store.api.v1.store;
 
-import com.google.common.collect.ImmutableMap;
-import com.salesmanager.core.business.services.reference.language.LanguageService;
-import com.salesmanager.core.model.content.FileContentType;
-import com.salesmanager.core.model.content.InputContentFile;
-import com.salesmanager.core.model.merchant.MerchantStoreCriteria;
-import com.salesmanager.shop.model.catalog.product.PersistableImage;
-import com.salesmanager.shop.model.entity.EntityExists;
-import com.salesmanager.shop.model.shop.PersistableMerchantStore;
-import com.salesmanager.shop.model.shop.ReadableBrand;
-import com.salesmanager.shop.model.shop.ReadableMerchantStore;
-import com.salesmanager.shop.model.shop.ReadableMerchantStoreList;
-import com.salesmanager.shop.store.api.exception.UnauthorizedException;
-import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
-import com.salesmanager.shop.store.controller.user.facade.UserFacade;
-import com.salesmanager.shop.utils.ServiceRequestCriteriaBuilderUtils;
-import io.swagger.annotations.ApiOperation;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.security.Principal;
 import java.util.Map;
@@ -40,6 +25,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import com.google.common.collect.ImmutableMap;
+import com.salesmanager.core.business.services.reference.language.LanguageService;
+import com.salesmanager.core.model.content.FileContentType;
+import com.salesmanager.core.model.content.InputContentFile;
+import com.salesmanager.core.model.merchant.MerchantStoreCriteria;
+import com.salesmanager.shop.model.entity.EntityExists;
+import com.salesmanager.shop.model.shop.PersistableMerchantStore;
+import com.salesmanager.shop.model.shop.ReadableBrand;
+import com.salesmanager.shop.model.shop.ReadableMerchantStore;
+import com.salesmanager.shop.model.shop.ReadableMerchantStoreList;
+import com.salesmanager.shop.store.api.exception.RestApiException;
+import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
+import com.salesmanager.shop.store.api.exception.UnauthorizedException;
+import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
+import com.salesmanager.shop.store.controller.user.facade.UserFacade;
+import com.salesmanager.shop.utils.ServiceRequestCriteriaBuilderUtils;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping(value = "/api/v1", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -125,9 +128,13 @@ public class MerchantStoreApi {
 
   @ResponseStatus(HttpStatus.CREATED)
   @PostMapping( value={"/private/store/{code}/marketing/logo"})
-  public ResponseEntity<Void> createLogo(@PathVariable String code, @RequestParam("file") MultipartFile uploadfile, HttpServletRequest request, HttpServletResponse response) throws Exception {
-     
-    try {
+  @ApiOperation(
+      httpMethod = "POST",
+      value = "Add store logo",
+      notes = "",
+      response = Void.class)
+  public ResponseEntity<Void> createLogo(@PathVariable String code, @RequestParam("file") MultipartFile uploadfile, HttpServletRequest request) {
+
 
       // user doing action must be attached to the store being modified
       Principal principal = request.getUserPrincipal();
@@ -140,21 +147,34 @@ public class MerchantStoreApi {
       if (uploadfile.isEmpty()) {
         throw new ServiceRuntimeException(
             "Upload file is empty");
-    }
+      }
 
 
-      InputContentFile cmsContentImage = createInputContentFile(image);
+      InputContentFile cmsContentImage = createInputContentFile(uploadfile);
       storeFacade.addStoreLogo(code, cmsContentImage);
+      
+      return new ResponseEntity<Void>(HttpStatus.OK);
   }
 
-  private InputContentFile createInputContentFile(@Valid PersistableImage image) {
-    InputStream input = new ByteArrayInputStream(image.getBytes());
-
-    InputContentFile cmsContentImage = new InputContentFile();
-    cmsContentImage.setFileName(image.getName());
-    cmsContentImage.setMimeType(image.getContentType());
-    cmsContentImage.setFileContentType(FileContentType.LOGO);
-    cmsContentImage.setFile(input);
+  private InputContentFile createInputContentFile(MultipartFile image) {
+    
+    InputContentFile cmsContentImage = null;
+    
+    try {
+  
+      InputStream input = new ByteArrayInputStream(image.getBytes());
+  
+      cmsContentImage = new InputContentFile();
+      cmsContentImage.setFileName(image.getName());
+      cmsContentImage.setMimeType(image.getContentType());
+      cmsContentImage.setFileContentType(FileContentType.LOGO);
+      cmsContentImage.setFile(input);
+      
+      
+    } catch(IOException ioe) {
+      throw new RestApiException(ioe);
+    }
+    
     return cmsContentImage;
   }
 
