@@ -1,5 +1,21 @@
 package com.salesmanager.shop.store.api.v1.store;
 
+import com.google.common.collect.ImmutableMap;
+import com.salesmanager.core.business.services.reference.language.LanguageService;
+import com.salesmanager.core.model.content.FileContentType;
+import com.salesmanager.core.model.content.InputContentFile;
+import com.salesmanager.core.model.merchant.MerchantStoreCriteria;
+import com.salesmanager.shop.model.catalog.product.PersistableImage;
+import com.salesmanager.shop.model.entity.EntityExists;
+import com.salesmanager.shop.model.shop.PersistableMerchantStore;
+import com.salesmanager.shop.model.shop.ReadableBrand;
+import com.salesmanager.shop.model.shop.ReadableMerchantStore;
+import com.salesmanager.shop.model.shop.ReadableMerchantStoreList;
+import com.salesmanager.shop.store.api.exception.UnauthorizedException;
+import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
+import com.salesmanager.shop.store.controller.user.facade.UserFacade;
+import com.salesmanager.shop.utils.ServiceRequestCriteriaBuilderUtils;
+import io.swagger.annotations.ApiOperation;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.security.Principal;
@@ -7,7 +23,6 @@ import java.util.Map;
 import java.util.Optional;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -25,24 +40,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import com.google.common.collect.ImmutableMap;
-import com.salesmanager.core.business.services.reference.language.LanguageService;
-import com.salesmanager.core.model.content.FileContentType;
-import com.salesmanager.core.model.content.InputContentFile;
-import com.salesmanager.core.model.merchant.MerchantStore;
-import com.salesmanager.core.model.merchant.MerchantStoreCriteria;
-import com.salesmanager.shop.model.catalog.product.PersistableImage;
-import com.salesmanager.shop.model.entity.EntityExists;
-import com.salesmanager.shop.model.shop.PersistableMerchantStore;
-import com.salesmanager.shop.model.shop.ReadableBrand;
-import com.salesmanager.shop.model.shop.ReadableMerchantStore;
-import com.salesmanager.shop.model.shop.ReadableMerchantStoreList;
-import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
-import com.salesmanager.shop.store.api.exception.UnauthorizedException;
-import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
-import com.salesmanager.shop.store.controller.user.facade.UserFacade;
-import com.salesmanager.shop.utils.ServiceRequestCriteriaBuilderUtils;
-import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping(value = "/api/v1", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)

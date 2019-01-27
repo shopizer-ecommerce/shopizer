@@ -3,6 +3,9 @@
  */
 package com.salesmanager.shop.store.controller.customer.facade;
 
+import com.salesmanager.core.model.customer.CustomerCriteria;
+import com.salesmanager.core.model.customer.CustomerList;
+import com.salesmanager.shop.populator.customer.ReadableCustomerList;
 import java.util.List;
 
 import com.salesmanager.core.business.services.customer.CustomerService;
@@ -52,7 +55,7 @@ public interface CustomerFacade
      * @param language
      * @return
      */
-    public ReadableCustomer getCustomerById(final Long id, final MerchantStore merchantStore, final Language language) throws Exception;
+    ReadableCustomer getCustomerById(final Long id, final MerchantStore merchantStore, final Language language);
     
     /**
      * Get Customer using unique username
@@ -62,8 +65,7 @@ public interface CustomerFacade
      * @return
      * @throws Exception
      */
-    ReadableCustomer getByUserName(final String userName, final MerchantStore merchantStore,
-        final Language language) throws Exception;
+    ReadableCustomer getByUserName(String userName, MerchantStore merchantStore, Language language);
     /**
      * <p>Method responsible for merging cart during authentication, 
      *     Method will perform following operations
@@ -102,7 +104,7 @@ public interface CustomerFacade
 	/*
 	 * Creates a Customer from a PersistableCustomer received from REST API
 	 */
-	void create(PersistableCustomer customer, MerchantStore store) throws Exception;
+	PersistableCustomer create(PersistableCustomer customer, MerchantStore store);
 	
 	/**
 	 * Reset customer password
@@ -119,7 +121,7 @@ public interface CustomerFacade
 	 * @param store
 	 * @throws Exception
 	 */
-	void update(PersistableCustomer customer, MerchantStore store) throws Exception;
+	PersistableCustomer update(PersistableCustomer customer, MerchantStore store);
 	
 	/**
 	 * Save or update a CustomerReview
@@ -153,6 +155,13 @@ public interface CustomerFacade
 	 * @param store
 	 * @throws Exception
 	 */
-	void optinCustomer(PersistableCustomerOptin optin, MerchantStore store) throws Exception;
+	void optinCustomer(PersistableCustomerOptin optin, MerchantStore store);
 
+  ReadableCustomer getCustomerByNick(String userName, MerchantStore merchantStore, Language language);
+
+	void deleteByNick(String nick);
+
+	void delete(Customer entity);
+
+	ReadableCustomerList getListByStore(MerchantStore store, CustomerCriteria criteria, Language language);
 }

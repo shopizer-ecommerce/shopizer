@@ -17,12 +17,13 @@ public interface CustomerService  extends SalesManagerEntityService<Long, Custom
 
 	public List<Customer> getByName(String firstName);
 
-	List<Customer> listByStore(MerchantStore store);
+	List<Customer> getListByStore(MerchantStore store);
 
 	Customer getByNick(String nick);
+
 	void saveOrUpdate(Customer customer) throws ServiceException ;
 
-	CustomerList listByStore(MerchantStore store, CustomerCriteria criteria);
+	CustomerList getListByStore(MerchantStore store, CustomerCriteria criteria);
 
 	Customer getByNick(String nick, int storeId);
 

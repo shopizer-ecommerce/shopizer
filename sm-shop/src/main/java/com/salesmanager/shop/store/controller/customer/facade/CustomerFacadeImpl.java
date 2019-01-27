@@ -3,12 +3,22 @@
  */
 package com.salesmanager.shop.store.controller.customer.facade;
 
+import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.model.customer.CustomerCriteria;
+import com.salesmanager.core.model.customer.CustomerList;
+import com.salesmanager.core.model.system.optin.CustomerOptin;
+import com.salesmanager.shop.populator.customer.ReadableCustomerList;
+import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;
+import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
+import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import javax.inject.Inject;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -284,21 +294,17 @@ public class CustomerFacadeImpl implements CustomerFacade {
   }
   
   @Override
-  public ReadableCustomer getByUserName(final String userName, final MerchantStore merchantStore,
-      final Language language) throws Exception {
+  public ReadableCustomer getByUserName(String userName, MerchantStore merchantStore, Language language) {
     Validate.notNull(userName,"Username cannot be null");
     Validate.notNull(merchantStore,"MerchantStore cannot be null");
-    Customer customerModel = customerService.getByNick(userName, merchantStore.getId());
-    if (customerModel == null) {
-      return null;
-    }
 
-    ReadableCustomer readableCustomer = new ReadableCustomer();
+    Customer customerModel = getCustomerByNickAndStoreId(userName, merchantStore);
+    return convertCustomerToReadableCustomer(customerModel, merchantStore, language);
+  }
 
-    ReadableCustomerPopulator customerPopulator = new ReadableCustomerPopulator();
-    customerPopulator.populate(customerModel, readableCustomer, merchantStore, language);
-
-    return readableCustomer;
+  private Customer getCustomerByNickAndStoreId(String userName, MerchantStore merchantStore) {
+    return Optional.ofNullable(customerService.getByNick(userName, merchantStore.getId()))
+        .orElseThrow(() -> new ResourceNotFoundException("No Customer found for ID : " + userName));
   }
 
 
@@ -413,7 +419,7 @@ public class CustomerFacadeImpl implements CustomerFacade {
     }
 
     if (CollectionUtils.isEmpty(customer.getGroups())) {
-      List<Group> groups = groupService.listGroup(GroupType.CUSTOMER);
+      List<Group> groups = getListOfGroups(GroupType.CUSTOMER);
       for (Group group : groups) {
         if (group.getGroupName().equals(Constants.GROUP_CUSTOMER)) {
           customer.getGroups().add(group);
@@ -558,18 +564,12 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
   @Override
   public ReadableCustomer getCustomerById(final Long id, final MerchantStore merchantStore,
-      final Language language) throws Exception {
-    Customer customerModel = customerService.getById(id);
-    if (customerModel == null) {
-      return null;
-    }
+      final Language language) {
 
-    ReadableCustomer readableCustomer = new ReadableCustomer();
+    Customer customerModel = Optional.ofNullable(customerService.getById(id))
+        .orElseThrow(() -> new ResourceNotFoundException("No Customer found for ID : " + id));
 
-    ReadableCustomerPopulator customerPopulator = new ReadableCustomerPopulator();
-    customerPopulator.populate(customerModel, readableCustomer, merchantStore, language);
-
-    return readableCustomer;
+    return convertCustomerToReadableCustomer(customerModel, merchantStore, language);
   }
 
 
@@ -597,37 +597,52 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
 
   @Override
-  public void create(PersistableCustomer customer, MerchantStore store) throws Exception {
+  public PersistableCustomer create(PersistableCustomer customer, MerchantStore store) {
 
-    if (this.userExist(customer.getUserName())) {
-      throw new UserAlreadyExistException("User already exist");
+    //TODO should be reviewed
+    if (userExist(customer.getUserName())) {
+      throw new ServiceRuntimeException("User already exist");
     }
 
-    Customer c = this.populate(customer, store);
+    Customer customerToPopulate = convertPersistableCustomerToCustomer(customer, store);
+    saveCustomer(customerToPopulate);
+    customer.setId(customerToPopulate.getId());
 
-    customerService.save(c);
-    customer.setId(c.getId());
-
-    this.notifyNewCustomer(customer, store, c.getDefaultLanguage());
+    notifyNewCustomer(customer, store, customerToPopulate.getDefaultLanguage());
 
     /**
      * For security reasons set empty passwords
      */
-    // customer.setEncodedPassword(null);
-    // customer.setClearPassword(null);
+    customer.setEncodedPassword(null);
+    customer.setClearPassword(null);
 
+    return customer;
   }
 
-  private boolean userExist(String userName) throws Exception {
-    boolean exist = false;
-    Customer customer = customerService.getByNick(userName);
-    if (customer != null) {
-      exist = true;
+  private void saveCustomer(Customer customerToPopulate) {
+    try{
+      customerService.save(customerToPopulate);
+    } catch (ServiceException exception) {
+      throw new ServiceRuntimeException(exception);
     }
-    return exist;
+
   }
 
-  private Customer populate(PersistableCustomer customer, MerchantStore store) throws Exception {
+  private boolean userExist(String userName) {
+    return Optional.ofNullable(customerService.getByNick(userName))
+        .isPresent();
+  }
+
+  private List<Group> getListOfGroups(GroupType groupType) {
+    try{
+      return groupService.listGroup(groupType);
+    } catch (ServiceException e) {
+      throw new ServiceRuntimeException(e);
+    }
+
+  }
+
+  private Customer convertPersistableCustomerToCustomer(PersistableCustomer customer, MerchantStore store) {
 
     Customer cust = new Customer();
 
@@ -639,9 +654,14 @@ public class CustomerFacadeImpl implements CustomerFacade {
     populator.setLanguageService(languageService);
     populator.setZoneService(zoneService);
     populator.setGroupService(groupService);
-    populator.populate(customer, cust, store, store.getDefaultLanguage());
+    try{
+      populator.populate(customer, cust, store, store.getDefaultLanguage());
+    } catch (ConversionException e) {
+      throw new ConversionRuntimeException(e);
+    }
 
-    List<Group> groups = groupService.listGroup(GroupType.CUSTOMER);
+
+    List<Group> groups = getListOfGroups(GroupType.CUSTOMER);
     cust.setGroups(groups);
 
     Locale customerLocale = LocaleUtils.getLocale(cust.getDefaultLanguage());
@@ -665,24 +685,18 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
   }
 
-  private void notifyNewCustomer(PersistableCustomer customer, MerchantStore store, Language lang)
-      throws Exception {
-
-
+  private void notifyNewCustomer(PersistableCustomer customer, MerchantStore store, Language lang) {
     Locale customerLocale = LocaleUtils.getLocale(lang);
-    emailTemplatesUtils.sendRegistrationEmail(customer, store, customerLocale,
-        (String) coreConfiguration.getProperty("SHOP_SCHEME"));
-
-
+    String shopSchema = coreConfiguration.getProperty("SHOP_SCHEME");
+    emailTemplatesUtils.sendRegistrationEmail(customer, store, customerLocale, shopSchema);
   }
 
 
   @Override
-  public void update(PersistableCustomer customer, MerchantStore store) throws Exception {
+  public PersistableCustomer update(PersistableCustomer customer, MerchantStore store) {
 
-
-    if (customer.getId() == null || customer.getId().longValue() == 0) {
-      throw new Exception("Can't update a customer with null id");
+    if (customer.getId() == null || customer.getId() == 0) {
+      throw new ServiceRuntimeException("Can't update a customer with null id");
     }
 
     Customer cust = customerService.getById(customer.getId());
@@ -696,8 +710,11 @@ public class CustomerFacadeImpl implements CustomerFacade {
     populator.setLanguageService(languageService);
     populator.setZoneService(zoneService);
     populator.setGroupService(groupService);
-    populator.populate(customer, cust, store, store.getDefaultLanguage());
-
+    try{
+      populator.populate(customer, cust, store, store.getDefaultLanguage());
+    } catch (ConversionException e) {
+      throw new ConversionRuntimeException(e);
+    }
 
     String password = customer.getClearPassword();
     if (StringUtils.isBlank(password)) {
@@ -713,10 +730,10 @@ public class CustomerFacadeImpl implements CustomerFacade {
     }
 
     customer.setEncodedPassword(encodedPassword);
-    customerService.save(cust);
+    saveCustomer(cust);
     customer.setId(cust.getId());
 
-
+    return customer;
   }
 
 
@@ -770,17 +787,11 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
 
   @Override
-  public void optinCustomer(PersistableCustomerOptin optin, MerchantStore store) throws Exception {
-    Optin optinDef = optinService.getOptinByCode(store, OptinType.NEWSLETTER.name());
-
-    if (optinDef == null) {
-      LOG.error("Optin " + OptinType.NEWSLETTER.name() + " does not exists");
-      throw new Exception("Optin newsletter does not exist");
-    }
-
+  public void optinCustomer(PersistableCustomerOptin optin, MerchantStore store) {
     // check if customer optin exists
-    com.salesmanager.core.model.system.optin.CustomerOptin customerOptin = customerOptinService
-        .findByEmailAddress(store, optin.getEmail(), OptinType.NEWSLETTER.name());
+    Optin optinDef = getOptinByCode(store);
+
+    CustomerOptin customerOptin = getCustomerOptinByEmailAddress(optin.getEmail(), store, OptinType.NEWSLETTER);
 
     if (customerOptin != null) {
       // exists update
@@ -796,8 +807,33 @@ public class CustomerFacadeImpl implements CustomerFacade {
       customerOptin.setOptin(optinDef);
       customerOptin.setMerchantStore(store);
     }
+    saveCustomerOption(customerOptin);
+  }
 
-    customerOptinService.save(customerOptin);
+  private void saveCustomerOption(CustomerOptin customerOptin) {
+    try {
+      customerOptinService.save(customerOptin);
+    } catch (ServiceException e) {
+      throw new ServiceRuntimeException(e);
+    }
+  }
+
+  private Optin getOptinByCode(MerchantStore store) {
+    try{
+      return Optional.ofNullable(optinService.getOptinByCode(store, OptinType.NEWSLETTER.name()))
+          .orElseThrow(() -> new ServiceRuntimeException("Optin newsletter does not exist"));
+    } catch (ServiceException e){
+      throw new ServiceRuntimeException(e);
+    }
+  }
+
+  private CustomerOptin getCustomerOptinByEmailAddress(String optinEmail,
+      MerchantStore store, OptinType optinType) {
+    try{
+      return customerOptinService.findByEmailAddress(store, optinEmail, optinType.name());
+    } catch (ServiceException e){
+      throw new ServiceRuntimeException(e);
+    }
 
   }
 
@@ -858,6 +894,59 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
   }
 
+  @Override
+  public ReadableCustomer getCustomerByNick(String userName, MerchantStore merchantStore,
+      Language language) {
+    Customer customer = getByNick(userName);
+    return convertCustomerToReadableCustomer(customer, merchantStore, language);
+  }
 
+  @Override
+  public void deleteByNick(String userName) {
+    Customer customer = getByNick(userName);
+    delete(customer);
+  }
 
+  private Customer getByNick(String userName) {
+    return Optional.ofNullable(customerService.getByNick(userName))
+        .orElseThrow(() -> new ResourceNotFoundException("No Customer found for ID : " + userName));
+  }
+
+  @Override
+  public void delete(Customer entity) {
+    try{
+      customerService.delete(entity);
+    } catch (ServiceException e) {
+      throw new ServiceRuntimeException(e);
+    }
+  }
+
+  @Override
+  public ReadableCustomerList getListByStore(MerchantStore store, CustomerCriteria criteria,
+      Language language) {
+    CustomerList customerList = customerService.getListByStore(store, criteria);
+    return convertCustomerListToReadableCustomerList(customerList, store, language);
+  }
+
+  private ReadableCustomerList convertCustomerListToReadableCustomerList(
+      CustomerList customerList, MerchantStore store, Language language) {
+    List<ReadableCustomer> readableCustomers = customerList.getCustomers()
+        .stream()
+        .map(customer -> convertCustomerToReadableCustomer(customer, store, language))
+        .collect(Collectors.toList());
+
+    ReadableCustomerList readableCustomerList = new ReadableCustomerList();
+    readableCustomerList.setCustomers(readableCustomers);
+    readableCustomerList.setTotalCount(customerList.getTotalCount());
+    return readableCustomerList;
+  }
+
+  private ReadableCustomer convertCustomerToReadableCustomer(Customer customer, MerchantStore merchantStore, Language language) {
+    ReadableCustomerPopulator populator = new ReadableCustomerPopulator();
+    try{
+      return populator.populate(customer, new ReadableCustomer(), merchantStore, language);
+    } catch (ConversionException e) {
+      throw new ConversionRuntimeException(e);
+    }
+  }
 }

@@ -63,12 +63,12 @@ public class CustomerServiceImpl extends SalesManagerEntityServiceImpl<Long, Cus
 	}
 	
 	@Override
-	public List<Customer> listByStore(MerchantStore store) {
+	public List<Customer> getListByStore(MerchantStore store) {
 		return customerRepository.findByStore(store.getId());
 	}
 	
 	@Override
-	public CustomerList listByStore(MerchantStore store, CustomerCriteria criteria) {
+	public CustomerList getListByStore(MerchantStore store, CustomerCriteria criteria) {
 		return customerRepository.listByStore(store,criteria);
 	}
 	
