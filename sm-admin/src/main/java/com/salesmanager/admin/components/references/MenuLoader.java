@@ -3,18 +3,16 @@ package com.salesmanager.admin.components.references;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.salesmanager.admin.model.web.Menu;
+import com.salesmanager.admin.model.web.MenuType;
 
 @Component
 public class MenuLoader {
@@ -57,6 +55,10 @@ public class MenuLoader {
 		
 		Menu m = new Menu();
 		m.setCode((String)menu.get("code"));
+		m.setMenuType(MenuType.MAINMENU.name());
+		if(menu.get("menuType") != null) {
+		  m.setMenuType(MenuType.valueOf((String)menu.get("menuType")).name());
+		}
 		
 		
 		m.setUrl((String)menu.get("url"));

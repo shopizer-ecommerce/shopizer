@@ -125,12 +125,23 @@ public class MerchantStoreApi {
 
   @ResponseStatus(HttpStatus.CREATED)
   @PostMapping( value={"/private/store/{code}/marketing/logo"})
-  public void createLogo(@PathVariable String code, @Valid @RequestBody PersistableImage image,
-      HttpServletRequest request) {
+  public ResponseEntity<Void> createLogo(@PathVariable String code, @RequestParam("file") MultipartFile uploadfile, HttpServletRequest request, HttpServletResponse response) throws Exception {
+     
+    try {
 
       // user doing action must be attached to the store being modified
-      String userName = getUserFromRequest(request);
-      validateUserPermission(userName, code);
+      Principal principal = request.getUserPrincipal();
+      String userName = principal.getName();
+
+      if (!userFacade.authorizedStore(userName, code)) {
+        throw new UnauthorizedException("User " + userName + " not authorized");
+      }
+      
+      if (uploadfile.isEmpty()) {
+        throw new ServiceRuntimeException(
+            "Upload file is empty");
+    }
+
 
       InputContentFile cmsContentImage = createInputContentFile(image);
       storeFacade.addStoreLogo(code, cmsContentImage);

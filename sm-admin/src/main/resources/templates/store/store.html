@@ -24,7 +24,9 @@
 <span layout:fragment="page_content" id="page_content">
 
     <th:block th:include="fragments/messages.html :: messages"></th:block>
-    
+    <div class="row">
+	
+	<div class="col-md-9">
     <!-- end messages -->
 	<div class="box box-default">
 		<div class="box-header with-border">
@@ -34,8 +36,7 @@
 		</div>
 		<!-- /.box-header -->
 		<div class="box-body">
-			<div class="row">
-				<div class="col-md-8">
+
 				
 					<p>
 					<i class="fa fa-building"></i> <span th:text="#{'label.store.metadata'}"></span>
@@ -122,17 +123,46 @@
 							
 						</div>
 					</form>
-				</div>
+				</div><!-- /.box -->
+			  </div>
+			</div><!--  /.col -->
+				
+			<div class="col-md-3">
+				
+					<div class="box box-primary">
+
+	            	<!-- /.box-header -->
+	            	<div class="box-body">
+		              <strong>-- Store menu --</strong>
+					  <span class="" th:each="menuitem : ${MENU}" th:if="${#request.isUserInRole('ROLE_'+menuitem.role)} and ${#strings.contains(menuitem.code, 'store')}">
+							<!-- First level menu -->
+							<span th:if="${menuitem.menuType} eq 'CONTEXTUALMENU'">
+							<p>
+							<a th:href="@{${menuitem.url}}">
+								<span th:text="#{${'menu.'+menuitem.code}}"></span>
+							</a>
+							</p>
+							<hr>
+							</span>
+							<!-- Second level menu -->
+							<span th:if="${#lists.size(menuitem.menus)} > 1" class="">
+            				<span th:each="subitem1 : ${menuitem.menus}" th:if="${#request.isUserInRole('ROLE_'+subitem1.role)} and ${subitem1.menuType} eq 'CONTEXTUALMENU'">
+            				<p>
+            				<a th:href="@{${subitem1.url}(code=${code})}">
+            					<span th:text="#{${'menu.'+subitem1.code}}"></span>
+            				</a>
+            				</p>
+            				<hr>
+            				</span>
+					  </span>
+	            	</div>
 			</div>
-			<!-- /.row -->
+				
+				
+			</div>
 		</div>
-		<!-- /.box-body -->
-		<!-- 		
-			<div class="box-footer">
-			footer text if required
-		</div> 
-		-->
-	</div>
+
+	</div><!-- end row -->
 
 
 </span>
