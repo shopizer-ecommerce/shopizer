@@ -131,29 +131,23 @@ public class MerchantStoreApi {
   @ApiOperation(
       httpMethod = "POST",
       value = "Add store logo",
-      notes = "",
-      response = Void.class)
-  public ResponseEntity<Void> createLogo(@PathVariable String code, @RequestParam("file") MultipartFile uploadfile, HttpServletRequest request) {
-
+      notes = "")
+  public void createLogo(@PathVariable String code,
+                                         @RequestParam("file") MultipartFile uploadfile,
+                                         HttpServletRequest request) {
 
       // user doing action must be attached to the store being modified
-      Principal principal = request.getUserPrincipal();
-      String userName = principal.getName();
+      String userName = getUserFromRequest(request);
 
-      if (!userFacade.authorizedStore(userName, code)) {
-        throw new UnauthorizedException("User " + userName + " not authorized");
-      }
+      validateUserPermission(userName, code);
       
       if (uploadfile.isEmpty()) {
-        throw new ServiceRuntimeException(
-            "Upload file is empty");
+        throw new RestApiException("Upload file is empty");
       }
 
 
       InputContentFile cmsContentImage = createInputContentFile(uploadfile);
       storeFacade.addStoreLogo(code, cmsContentImage);
-      
-      return new ResponseEntity<Void>(HttpStatus.OK);
   }
 
   private InputContentFile createInputContentFile(MultipartFile image) {
