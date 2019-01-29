@@ -4,9 +4,7 @@ import java.io.Serializable;
 import com.salesmanager.shop.model.entity.Entity;
 
 public class AuthenticationResponse extends Entity implements Serializable {
-  public AuthenticationResponse() {
-
-  }
+  public AuthenticationResponse() {}
 
   /**
    *
@@ -14,7 +12,7 @@ public class AuthenticationResponse extends Entity implements Serializable {
   private static final long serialVersionUID = 1L;
   private String token;
 
-  public AuthenticationResponse(final Long userId, final String token) {
+  public AuthenticationResponse(Long userId, String token) {
     this.token = token;
     super.setId(userId);
   }

@@ -53,8 +53,12 @@ public class PersistableMerchantStorePopulator extends AbstractDataPopulator<Per
 			target.setId(source.getId());
 		}
 		target.setDateBusinessSince(source.getInBusinessSince());
-		target.setSeizeunitcode(source.getDimension().name());
-		target.setWeightunitcode(source.getWeight().name());
+		if(source.getDimension()!=null) {
+		  target.setSeizeunitcode(source.getDimension().name());
+		}
+		if(source.getWeight()!=null) {
+		  target.setWeightunitcode(source.getWeight().name());
+		}
 		target.setCurrencyFormatNational(source.isCurrencyFormatNational());
 		target.setStorename(source.getName());
 		target.setStorephone(source.getPhone());

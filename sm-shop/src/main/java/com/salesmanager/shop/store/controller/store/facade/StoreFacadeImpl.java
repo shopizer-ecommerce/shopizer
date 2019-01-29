@@ -113,7 +113,11 @@ public class StoreFacadeImpl implements StoreFacade {
 
   @Override
   public boolean existByCode(String code) {
-    return merchantStoreService.existByCode(code);
+    try {
+      return merchantStoreService.getByCode(code) != null;
+    } catch (ServiceException e) {
+      throw new ServiceRuntimeException(e);
+    }
   }
 
   private ReadableMerchantStore convertMerchantStoreToReadableMerchantStore(Language language,

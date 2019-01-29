@@ -33,8 +33,6 @@ public class StateProvinceController {
 		
 	}
 	
-	//https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-addressform
-	//https://phppot.com/php/country-state-city-example-cascading-jquery-dependent-dropdown/
 	@RequestMapping("/admin/references/zones")
 	@Secured({"ROLE_STORE"})
 	public ResponseEntity<List<Zone>> stateProvinces(@RequestParam("code") String code,HttpServletRequest request) throws Exception {

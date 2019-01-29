@@ -37,7 +37,6 @@ import com.salesmanager.shop.model.shop.ReadableBrand;
 import com.salesmanager.shop.model.shop.ReadableMerchantStore;
 import com.salesmanager.shop.model.shop.ReadableMerchantStoreList;
 import com.salesmanager.shop.store.api.exception.RestApiException;
-import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.api.exception.UnauthorizedException;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.store.controller.user.facade.UserFacade;
@@ -45,7 +44,7 @@ import com.salesmanager.shop.utils.ServiceRequestCriteriaBuilderUtils;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping(value = "/api/v1", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping("/api/v1")
 public class MerchantStoreApi {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(MerchantStoreApi.class);
@@ -64,7 +63,7 @@ public class MerchantStoreApi {
   @Inject
   private UserFacade userFacade;
 
-  @GetMapping(value = {"/store/{store}"})
+  @GetMapping(value = {"/store/{store}"}, produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(
       httpMethod = "GET",
       value = "Get merchant store",
@@ -75,7 +74,8 @@ public class MerchantStoreApi {
     return storeFacade.getByCode(store, lang);
   }
 
-  @PostMapping(value = {"/private/store"})
+  @ResponseStatus(HttpStatus.OK)
+  @PostMapping(value = {"/private/store"}, produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(
       httpMethod = "POST",
       value = "Creates a new store",
@@ -85,7 +85,8 @@ public class MerchantStoreApi {
     return storeFacade.create(store);
   }
 
-  @PutMapping(value = {"/private/store/{code}"})
+  @ResponseStatus(HttpStatus.OK)
+  @PutMapping(value = {"/private/store/{code}"}, produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(
       httpMethod = "PUT",
       value = "Updates a store",
@@ -99,7 +100,8 @@ public class MerchantStoreApi {
     validateUserPermission(userName, store.getCode());
     return storeFacade.update(store);
   }
-
+  
+  
   private String getUserFromRequest(HttpServletRequest request) {
     // user doing action must be attached to the store being modified
     Principal principal = request.getUserPrincipal();
@@ -113,7 +115,8 @@ public class MerchantStoreApi {
     }
   }
 
-  @GetMapping(value = {"/private/store/{code}/marketing"})
+  @ResponseStatus(HttpStatus.OK)
+  @GetMapping(value = {"/private/store/{code}/marketing"}, produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(
       httpMethod = "GET",
       value = "Get store branding and marketing details",
@@ -124,15 +127,15 @@ public class MerchantStoreApi {
     validateUserPermission(userName, code);
     return storeFacade.getBrand(code);
   }
-
-
+  
+ 
   @ResponseStatus(HttpStatus.CREATED)
   @PostMapping( value={"/private/store/{code}/marketing/logo"})
   @ApiOperation(
       httpMethod = "POST",
       value = "Add store logo",
       notes = "")
-  public void createLogo(@PathVariable String code,
+  public void addLogo(@PathVariable String code,
                                          @RequestParam("file") MultipartFile uploadfile,
                                          HttpServletRequest request) {
 
@@ -149,6 +152,7 @@ public class MerchantStoreApi {
       InputContentFile cmsContentImage = createInputContentFile(uploadfile);
       storeFacade.addStoreLogo(code, cmsContentImage);
   }
+  
 
   private InputContentFile createInputContentFile(MultipartFile image) {
     
@@ -159,7 +163,7 @@ public class MerchantStoreApi {
       InputStream input = new ByteArrayInputStream(image.getBytes());
   
       cmsContentImage = new InputContentFile();
-      cmsContentImage.setFileName(image.getName());
+      cmsContentImage.setFileName(image.getOriginalFilename());
       cmsContentImage.setMimeType(image.getContentType());
       cmsContentImage.setFileContentType(FileContentType.LOGO);
       cmsContentImage.setFile(input);
@@ -172,6 +176,7 @@ public class MerchantStoreApi {
     return cmsContentImage;
   }
 
+  @ResponseStatus(HttpStatus.OK)
   @DeleteMapping(value = {"/private/store/{code}/marketing/logo"})
   @ApiOperation(
       httpMethod = "DELETE",
@@ -189,21 +194,23 @@ public class MerchantStoreApi {
     storeFacade.deleteLogo(code);
   }
 
-  @GetMapping(
-      value = {"/private/store/unique"},
-      produces = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseStatus(HttpStatus.OK)
+  @GetMapping(value = {"/private/store/unique"}, produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(
       httpMethod = "GET",
       value = "Check if store code already exists",
       notes = "",
       response = EntityExists.class)
-  public EntityExists exists(@RequestParam(value = "code") String code) {
+  public ResponseEntity<EntityExists> exists(@RequestParam(value = "code") String code) {
     // TODO should be reviewed
     boolean isStoreExist = storeFacade.existByCode(code);
-    return new EntityExists(isStoreExist);
+    return new ResponseEntity<EntityExists>(new EntityExists(isStoreExist), HttpStatus.OK);
   }
+  
 
-  @GetMapping(value = {"/private/stores"})
+
+  @ResponseStatus(HttpStatus.OK)
+  @GetMapping(value = {"/private/stores"}, produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(
       httpMethod = "GET",
       value = "Check list of stores",
@@ -220,7 +227,7 @@ public class MerchantStoreApi {
 
     return storeFacade.getByCriteria(criteria, drawParam, languageService.defaultLanguage());
   }
-
+  
   private MerchantStoreCriteria createMerchantStoreCriteria(Integer start, Integer count,
       HttpServletRequest request) {
     MerchantStoreCriteria criteria = (MerchantStoreCriteria) ServiceRequestCriteriaBuilderUtils
@@ -237,6 +244,7 @@ public class MerchantStoreApi {
     return criteria;
   }
 
+  @ResponseStatus(HttpStatus.OK)
   @DeleteMapping(value = {"/private/store/{code}"})
   @ApiOperation(
       httpMethod = "DELETE",
@@ -248,4 +256,5 @@ public class MerchantStoreApi {
     validateUserPermission(userName, code);
     storeFacade.delete(code);
   }
+
 }

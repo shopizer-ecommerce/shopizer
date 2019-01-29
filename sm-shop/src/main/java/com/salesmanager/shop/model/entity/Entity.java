@@ -3,6 +3,8 @@ package com.salesmanager.shop.model.entity;
 import java.io.Serializable;
 
 public class Entity implements Serializable {
+  
+    public Entity() {}
 	
 	/**
 	 * 
