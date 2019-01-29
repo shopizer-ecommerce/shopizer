@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 
 /**
@@ -76,7 +75,7 @@ public class CustomerNewsletterApi {
       @Valid @RequestBody PersistableCustomer customer,
       HttpServletRequest request,
       HttpServletResponse response) {
-    throw new NotImplementedException();
+    throw new UnsupportedOperationException();
   }
 
   @DeleteMapping("/newsletter/{email}")
@@ -87,6 +86,6 @@ public class CustomerNewsletterApi {
       response = Void.class)
   public ResponseEntity<Void> delete(
       @PathVariable String email, HttpServletRequest request, HttpServletResponse response) {
-    throw new NotImplementedException();
+    throw new UnsupportedOperationException();
   }
 }
