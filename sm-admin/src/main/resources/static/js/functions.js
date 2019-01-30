@@ -33,3 +33,27 @@
        }
        $('[data-mask]').inputmask();
    }
+   
+   function changeMenuUrlParam(className, paramName, paramValue)
+   {
+
+	   $(className).each(function() {
+		   var url = $(this).attr('href');
+	       if (url.indexOf(paramName + "=") >= 0)
+	       {
+	           var prefix = url.substring(0, url.indexOf(paramName));
+	           var suffix = url.substring(url.indexOf(paramName));
+	           suffix = suffix.substring(suffix.indexOf("=") + 1);
+	           suffix = (suffix.indexOf("&") >= 0) ? suffix.substring(suffix.indexOf("&")) : "";
+	           url = prefix + paramName + "=" + paramValue + suffix;
+	       }
+	       else
+	       {
+	       if (url.indexOf("?") < 0)
+	           url += "?" + paramName + "=" + paramValue;
+	       else
+	           url += "&" + paramName + "=" + paramValue;
+	       }
+	       $(this).attr('href',url);
+	   })
+   }

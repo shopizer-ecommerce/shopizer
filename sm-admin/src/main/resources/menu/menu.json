@@ -19,7 +19,7 @@
 	{"menu":{"code":"create-store","url":"/admin/store/create","role":"SUPERADMIN","order":1}},
 	{"menu":{"code":"store-list","url":"/admin/store/list","role":"SUPERADMIN","order":1}},
 	{"menu":{"menuType":"CONTEXTUALMENU","code":"storeBranding","url":"/admin/store/marketing.html","role":"STORE","order":1}},
-	{"menu":{"menuType":"CONTEXTUALMENU","code":"storeLanding","url":"/admin/store/storeLanding.html","role":"STORE","order":2}},
+	{"menu":{"menuType":"CONTEXTUALMENU","code":"storeLanding","url":"/admin/store/landing.html","role":"STORE","order":2}},
 	{"menu":{"menuType":"CONTEXTUALMENU","code":"store.details","url":"/admin/store","role":"STORE","order":0}}
 ]
 }},

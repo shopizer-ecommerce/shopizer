@@ -37,7 +37,6 @@
 		<!-- /.box-header -->
 		<div class="box-body">
 
-				
 					<p>
 					<i class="fa fa-building"></i> <span th:text="#{'label.store.metadata'}"></span>
 					</p>
@@ -128,34 +127,9 @@
 			</div><!--  /.col -->
 				
 			<div class="col-md-3">
-				
-					<div class="box box-primary">
-
-	            	<!-- /.box-header -->
-	            	<div class="box-body">
-		              <strong>-- Store menu --</strong>
-					  <span class="" th:each="menuitem : ${MENU}" th:if="${#request.isUserInRole('ROLE_'+menuitem.role)} and ${#strings.contains(menuitem.code, 'store')}">
-							<!-- First level menu -->
-							<span th:if="${menuitem.menuType} eq 'CONTEXTUALMENU'">
-							<p>
-							<a th:href="@{${menuitem.url}}">
-								<span th:text="#{${'menu.'+menuitem.code}}"></span>
-							</a>
-							</p>
-							<hr>
-							</span>
-							<!-- Second level menu -->
-							<span th:if="${#lists.size(menuitem.menus)} > 1" class="">
-            				<span th:each="subitem1 : ${menuitem.menus}" th:if="${#request.isUserInRole('ROLE_'+subitem1.role)} and ${subitem1.menuType} eq 'CONTEXTUALMENU'">
-            				<p>
-            				<a th:href="@{${subitem1.url}(code=${code})}">
-            					<span th:text="#{${'menu.'+subitem1.code}}"></span>
-            				</a>
-            				</p>
-            				<hr>
-            				</span>
-					  </span>
-	            	</div>
+						 <span th:replace="fragments/sideMenu.html
+      						:: sideMenu(title=#{'label.store.title'}, name=${code}, menu='store', codeParam=${code})">
+   			 			</span>
 			</div>
 				
 				
@@ -287,7 +261,7 @@
 				//add code again in case field is disabled
 				form_data.code=$('#code').val();
 
-				log(form_data);
+				//log(form_data);
 				
 				//create url
 				var url = BACKEND + "/private/store";
@@ -313,6 +287,10 @@
 		    	    	$("#action").val('READ');
 		    	    	$("#code").prop("disabled", true);
 		    	    	$('#delete').show();
+		    	    	//set menu name
+		    	    	$('#menuEntityName').html($("#code").val());
+		    	    	//change url parameter
+		    	    	changeMenuUrlParam('.menuEntityUrl','code',$("#code").val());
 		    	    	success('');
 		    	    	hideLoader();
 		    	    },
@@ -349,7 +327,6 @@
 		    	        "Authorization": "Bearer " + TOKEN
 		    	    },
 		    	    success: function(data){
-		    	    	log('success');
 		    	    	success('[[#{label.store.title}]] [' + $("#code").val() + '] [[#{label.generic.deleted}]]');
 		    	    	hideLoader();
 		    	    	//reset form
@@ -357,6 +334,10 @@
 		    	    	//becomes creat mode
 		    	    	$("#action").val('CREATE');
 		    	    	$("#code").prop("disabled", false);
+		    	    	
+		    	    	$('#menuEntityName').html('');
+		    	    	//change url parameter
+		    	    	changeMenuUrlParam('.menuEntityUrl','code','');
 		    	    	
 		    	    },
 		    	    error: function(response,textStatus,errorThrown) {
@@ -455,13 +436,13 @@
 		    })
 	  }
 
-    	function adjustCheckBoxes($input) {
+      function adjustCheckBoxes($input) {
 	    		if($input.is(':checked')) {
 	              	$input.attr('value', 'true');
 	          	 } else {
 	          		$input.attr('value', 'false');
 	          	 }
-	    }
+	   }
       
       </script>
 

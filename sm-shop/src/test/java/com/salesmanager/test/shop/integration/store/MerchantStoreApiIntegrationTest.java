@@ -41,7 +41,7 @@ public class MerchantStoreApiIntegrationTest extends ServicesTestSupport {
    * @throws Exception
    */
   @Test
-  public void getDefaultStore() throws Exception {
+  public void testGetDefaultStore() throws Exception {
       final HttpEntity<String> httpEntity = new HttpEntity<>(getHeader());
 
       final ResponseEntity<ReadableMerchantStore> response = testRestTemplate.exchange(String.format("/api/v1/store/" + MerchantStore.DEFAULT_STORE), HttpMethod.GET,
@@ -54,8 +54,12 @@ public class MerchantStoreApiIntegrationTest extends ServicesTestSupport {
       }
   }
   
+  /**
+   * Create a new store then delete it
+   * @throws Exception
+   */
   @Test
-  public void createStore() throws Exception {
+  public void testCreateStoreAndDelete() throws Exception {
       
       
       PersistableAddress address = new PersistableAddress();
@@ -87,6 +91,10 @@ public class MerchantStoreApiIntegrationTest extends ServicesTestSupport {
       }
 
       //delete store
+      ResponseEntity<Void> deleteResponse = testRestTemplate.exchange(String.format("/api/v1/private/store/" + TEST_STORE_CODE), HttpMethod.DELETE, httpEntity, Void.class);
+
+      assertThat(deleteResponse.getStatusCode(), is(HttpStatus.OK));
+
   }
   
   

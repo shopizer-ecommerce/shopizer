@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+	<span th:fragment="sideMenu (title, name, menu, codeParam)">
+			<div class="box box-primary">
+
+	            	<!-- /.box-header -->
+	            	<div class="box-body">
+		              <strong> <span th:text="${title}"></span>:&nbsp;<span id="menuEntityName" th:text="${name}"></span></strong>
+					  <ul class="" th:each="menuitem : ${MENU}" th:if="${#request.isUserInRole('ROLE_'+menuitem.role)} and ${#strings.contains(menuitem.code, 'store')}">
+							<!-- First level menu -->
+							<li th:if="${menuitem.menuType} eq 'CONTEXTUALMENU'">
+							<a class="menuEntityUrl" th:href="@{${menuitem.url}}">
+								<span th:text="#{${'menu.'+menuitem.code}}"></span>
+							</a>
+							</li>
+							<!-- Second level menu -->
+            				<li th:each="subitem1 : ${menuitem.menus}" th:if="${#lists.size(menuitem.menus)} > 1 and ${#request.isUserInRole('ROLE_'+subitem1.role)} and ${subitem1.menuType} eq 'CONTEXTUALMENU'">
+            				<a class="menuEntityUrl" th:href="@{${subitem1.url}(code=${codeParam})}">
+            					<span th:text="#{${'menu.'+subitem1.code}}"></span>
+            				</a>
+            				</li>
+					  </ul>
+	           </div>
+	</span>
+
+
+</html>

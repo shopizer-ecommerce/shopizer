@@ -50,9 +50,7 @@ public class MerchantStoreApi {
   private static final Logger LOGGER = LoggerFactory.getLogger(MerchantStoreApi.class);
 
   private static final Map<String, String> MAPPING_FIELDS = ImmutableMap.<String, String>builder()
-      .put("name", "storename")
-      .put("readableAudit.user", "auditSection.modifiedBy")
-      .build();
+      .put("name", "storename").put("readableAudit.user", "auditSection.modifiedBy").build();
 
   @Inject
   private StoreFacade storeFacade;
@@ -64,22 +62,16 @@ public class MerchantStoreApi {
   private UserFacade userFacade;
 
   @GetMapping(value = {"/store/{store}"}, produces = MediaType.APPLICATION_JSON_VALUE)
-  @ApiOperation(
-      httpMethod = "GET",
-      value = "Get merchant store",
-      notes = "",
+  @ApiOperation(httpMethod = "GET", value = "Get merchant store", notes = "",
       response = ReadableMerchantStore.class)
-  public ReadableMerchantStore store(
-      @PathVariable String store, @RequestParam(value = "lang", required = false) String lang) {
+  public ReadableMerchantStore store(@PathVariable String store,
+      @RequestParam(value = "lang", required = false) String lang) {
     return storeFacade.getByCode(store, lang);
   }
 
   @ResponseStatus(HttpStatus.OK)
   @PostMapping(value = {"/private/store"}, produces = MediaType.APPLICATION_JSON_VALUE)
-  @ApiOperation(
-      httpMethod = "POST",
-      value = "Creates a new store",
-      notes = "",
+  @ApiOperation(httpMethod = "POST", value = "Creates a new store", notes = "",
       response = ReadableMerchantStore.class)
   public ReadableMerchantStore create(@Valid @RequestBody PersistableMerchantStore store) {
     return storeFacade.create(store);
@@ -87,21 +79,17 @@ public class MerchantStoreApi {
 
   @ResponseStatus(HttpStatus.OK)
   @PutMapping(value = {"/private/store/{code}"}, produces = MediaType.APPLICATION_JSON_VALUE)
-  @ApiOperation(
-      httpMethod = "PUT",
-      value = "Updates a store",
-      notes = "",
+  @ApiOperation(httpMethod = "PUT", value = "Updates a store", notes = "",
       response = ReadableMerchantStore.class)
-  public ReadableMerchantStore update(
-      @Valid @RequestBody PersistableMerchantStore store,
+  public ReadableMerchantStore update(@Valid @RequestBody PersistableMerchantStore store,
       HttpServletRequest request) {
 
     String userName = getUserFromRequest(request);
     validateUserPermission(userName, store.getCode());
     return storeFacade.update(store);
   }
-  
-  
+
+
   private String getUserFromRequest(HttpServletRequest request) {
     // user doing action must be attached to the store being modified
     Principal principal = request.getUserPrincipal();
@@ -109,82 +97,71 @@ public class MerchantStoreApi {
   }
 
   private void validateUserPermission(String userName, String code) {
-    //TODO reviewed Spring Security should be used
+    // TODO reviewed Spring Security should be used
     if (!userFacade.authorizedStore(userName, code)) {
       throw new UnauthorizedException("User " + userName + " not authorized");
     }
   }
 
   @ResponseStatus(HttpStatus.OK)
-  @GetMapping(value = {"/private/store/{code}/marketing"}, produces = MediaType.APPLICATION_JSON_VALUE)
-  @ApiOperation(
-      httpMethod = "GET",
-      value = "Get store branding and marketing details",
-      notes = "",
+  @GetMapping(value = {"/private/store/{code}/marketing"},
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  @ApiOperation(httpMethod = "GET", value = "Get store branding and marketing details", notes = "",
       response = ReadableBrand.class)
   public ReadableBrand getStoreMarketing(@PathVariable String code, HttpServletRequest request) {
     String userName = getUserFromRequest(request);
     validateUserPermission(userName, code);
     return storeFacade.getBrand(code);
   }
-  
- 
+
+
   @ResponseStatus(HttpStatus.CREATED)
-  @PostMapping( value={"/private/store/{code}/marketing/logo"})
-  @ApiOperation(
-      httpMethod = "POST",
-      value = "Add store logo",
-      notes = "")
-  public void addLogo(@PathVariable String code,
-                                         @RequestParam("file") MultipartFile uploadfile,
-                                         HttpServletRequest request) {
+  @PostMapping(value = {"/private/store/{code}/marketing/logo"})
+  @ApiOperation(httpMethod = "POST", value = "Add store logo", notes = "")
+  public void addLogo(@PathVariable String code, @RequestParam("file") MultipartFile uploadfile,
+      HttpServletRequest request) {
 
-      // user doing action must be attached to the store being modified
-      String userName = getUserFromRequest(request);
+    // user doing action must be attached to the store being modified
+    String userName = getUserFromRequest(request);
 
-      validateUserPermission(userName, code);
-      
-      if (uploadfile.isEmpty()) {
-        throw new RestApiException("Upload file is empty");
-      }
+    validateUserPermission(userName, code);
+
+    if (uploadfile.isEmpty()) {
+      throw new RestApiException("Upload file is empty");
+    }
 
 
-      InputContentFile cmsContentImage = createInputContentFile(uploadfile);
-      storeFacade.addStoreLogo(code, cmsContentImage);
+    InputContentFile cmsContentImage = createInputContentFile(uploadfile);
+    storeFacade.addStoreLogo(code, cmsContentImage);
   }
-  
+
 
   private InputContentFile createInputContentFile(MultipartFile image) {
-    
+
     InputContentFile cmsContentImage = null;
-    
+
     try {
-  
+
       InputStream input = new ByteArrayInputStream(image.getBytes());
-  
       cmsContentImage = new InputContentFile();
       cmsContentImage.setFileName(image.getOriginalFilename());
       cmsContentImage.setMimeType(image.getContentType());
       cmsContentImage.setFileContentType(FileContentType.LOGO);
       cmsContentImage.setFile(input);
-      
-      
-    } catch(IOException ioe) {
+
+
+    } catch (IOException ioe) {
       throw new RestApiException(ioe);
     }
-    
+
     return cmsContentImage;
   }
 
   @ResponseStatus(HttpStatus.OK)
   @DeleteMapping(value = {"/private/store/{code}/marketing/logo"})
-  @ApiOperation(
-      httpMethod = "DELETE",
-      value = "Delete store logo",
-      notes = "",
+  @ApiOperation(httpMethod = "DELETE", value = "Delete store logo", notes = "",
       response = Void.class)
-  public void deleteStoreLogo(
-      @PathVariable String code, HttpServletRequest request) {
+  public void deleteStoreLogo(@PathVariable String code, HttpServletRequest request) {
 
     // user doing action must be attached to the store being modified
     String userName = getUserFromRequest(request);
@@ -196,38 +173,30 @@ public class MerchantStoreApi {
 
   @ResponseStatus(HttpStatus.OK)
   @GetMapping(value = {"/private/store/unique"}, produces = MediaType.APPLICATION_JSON_VALUE)
-  @ApiOperation(
-      httpMethod = "GET",
-      value = "Check if store code already exists",
-      notes = "",
+  @ApiOperation(httpMethod = "GET", value = "Check if store code already exists", notes = "",
       response = EntityExists.class)
   public ResponseEntity<EntityExists> exists(@RequestParam(value = "code") String code) {
-    // TODO should be reviewed
     boolean isStoreExist = storeFacade.existByCode(code);
     return new ResponseEntity<EntityExists>(new EntityExists(isStoreExist), HttpStatus.OK);
   }
-  
+
 
 
   @ResponseStatus(HttpStatus.OK)
   @GetMapping(value = {"/private/stores"}, produces = MediaType.APPLICATION_JSON_VALUE)
-  @ApiOperation(
-      httpMethod = "GET",
-      value = "Check list of stores",
-      notes = "",
+  @ApiOperation(httpMethod = "GET", value = "Check list of stores", notes = "",
       response = ReadableMerchantStoreList.class)
   public ReadableMerchantStoreList list(
       @RequestParam(value = "start", required = false) Integer start,
       @RequestParam(value = "length", required = false) Integer count,
-      @RequestParam(value = "code", required = false) String code,
-      HttpServletRequest request) {
+      @RequestParam(value = "code", required = false) String code, HttpServletRequest request) {
 
     MerchantStoreCriteria criteria = createMerchantStoreCriteria(start, count, request);
     String drawParam = request.getParameter("draw");
 
     return storeFacade.getByCriteria(criteria, drawParam, languageService.defaultLanguage());
   }
-  
+
   private MerchantStoreCriteria createMerchantStoreCriteria(Integer start, Integer count,
       HttpServletRequest request) {
     MerchantStoreCriteria criteria = (MerchantStoreCriteria) ServiceRequestCriteriaBuilderUtils
@@ -246,10 +215,7 @@ public class MerchantStoreApi {
 
   @ResponseStatus(HttpStatus.OK)
   @DeleteMapping(value = {"/private/store/{code}"})
-  @ApiOperation(
-      httpMethod = "DELETE",
-      value = "Deletes a store",
-      notes = "",
+  @ApiOperation(httpMethod = "DELETE", value = "Deletes a store", notes = "",
       response = ResponseEntity.class)
   public void delete(@PathVariable String code, HttpServletRequest request) {
     String userName = getUserFromRequest(request);
