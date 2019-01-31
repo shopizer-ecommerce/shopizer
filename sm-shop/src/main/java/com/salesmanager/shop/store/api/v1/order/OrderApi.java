@@ -14,13 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.model.customer.Customer;
@@ -36,7 +30,7 @@ import com.salesmanager.shop.store.controller.order.facade.OrderFacade;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
 
-@Controller
+@RestController
 @RequestMapping("/api/v1")
 public class OrderApi {
 	
@@ -62,8 +56,6 @@ public class OrderApi {
 	 * accept request parameter 'start' start index for count
 	 * accept request parameter 'max' maximum number count, otherwise returns all
 	 * Used for administrators
-	 * @param store
-	 * @param order
 	 * @param request
 	 * @param response
 	 * @return
@@ -176,6 +168,25 @@ public class OrderApi {
 
 		return returnList;
 	}
+
+    /**
+     * <p></p>This method returns list of all the orders for the admin.This is not bound to any specific stores and will get list of
+     * all the orders available for this instance</p>
+     * @param start
+     * @param count
+     * @return List of orders
+     * @throws Exception
+     */
+	@RequestMapping( value={"admin/orders"}, method=RequestMethod.GET)
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseBody
+    public ReadableOrderList getOrders(
+            @RequestParam(value = "start", required=false, defaultValue = "0") Integer start,
+            @RequestParam(value = "count", required=false, defaultValue = "100") Integer count, @RequestParam(value = "draw",required = false) String draw) throws Exception {
+
+
+	    return orderFacade.getReadableOrderList(start, count,draw);
+    }
 	
 	/**
 	 * Get a given order by id

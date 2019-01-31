@@ -114,8 +114,20 @@ public interface OrderFacade {
     
 	ReadableOrderList getReadableOrderList(MerchantStore store, Customer customer, int start,
 			int maxCount, Language language) throws Exception;
-	
-	
+
+
+	/**
+	 * <p>Method used to fetch all orders associated with customer customer.
+	 * It will used current customer ID to fetch all orders which has been
+	 * placed by customer for current store.</p>
+	 *
+	 * @return ReadableOrderList
+	 * @throws Exception
+	 */
+
+	ReadableOrderList getReadableOrderList(int start, int maxCount, String draw) throws Exception;
+
+
 	/**
 	 * Get a list of Order on which payment capture must be done
 	 * @param store

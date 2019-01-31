@@ -132,5 +132,65 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		
 	}
 
+	@Override
+	public OrderList getOrders(OrderCriteria criteria) {
+		OrderList orderList = new OrderList();
+		StringBuilder countBuilderSelect = new StringBuilder();
+		StringBuilder objectBuilderSelect = new StringBuilder();
+
+		String orderByCriteria = " order by o.id desc";
+
+		if(criteria.getOrderBy()!=null) {
+			if(CriteriaOrderBy.ASC.name().equals(criteria.getOrderBy().name())) {
+				orderByCriteria = " order by o.id asc";
+			}
+		}
+
+		String countBaseQuery = "select count(o) from Order as o";
+		String baseQuery = "select o from Order as o left join fetch o.orderTotal ot left join fetch o.orderProducts op left join fetch o.orderAttributes oa left join fetch op.orderAttributes opo left join fetch op.prices opp";
+		countBuilderSelect.append(countBaseQuery);
+		objectBuilderSelect.append(baseQuery);
+
+		StringBuilder objectBuilderWhere = new StringBuilder();
+		objectBuilderWhere.append(orderByCriteria);
+
+
+		//count query
+		Query countQ = em.createQuery(
+				countBuilderSelect.toString());
+
+		//object query
+		Query objectQ = em.createQuery(
+				objectBuilderSelect.toString() + objectBuilderWhere.toString());
+
+
+		Number count = (Number) countQ.getSingleResult();
+
+		orderList.setTotalCount(count.intValue());
+
+		if(count.intValue()==0)
+			return orderList;
+
+		//TO BE USED
+		int max = criteria.getMaxCount();
+		int first = criteria.getStartIndex();
+
+		objectQ.setFirstResult(first);
+
+		if(max>0) {
+			int maxCount = first + max;
+
+			if(maxCount < count.intValue()) {
+				objectQ.setMaxResults(maxCount);
+			} else {
+				objectQ.setMaxResults(count.intValue());
+			}
+		}
+
+		orderList.setOrders(objectQ.getResultList());
+
+		return orderList;
+	}
+
 
 }

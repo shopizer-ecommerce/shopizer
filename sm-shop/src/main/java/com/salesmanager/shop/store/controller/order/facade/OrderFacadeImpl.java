@@ -906,6 +906,44 @@ public class OrderFacadeImpl implements OrderFacade {
 		
 	}
 
+	@Override
+	public ReadableOrderList getReadableOrderList(int start, int maxCount,String draw) throws Exception {
+
+		OrderCriteria criteria = new OrderCriteria();
+		criteria.setStartIndex(start);
+		criteria.setMaxCount(maxCount);
+
+        OrderList orderList = orderService.getOrders(criteria);
+
+        ReadableOrderPopulator orderPopulator = new ReadableOrderPopulator();
+        List<Order> orders = orderList.getOrders();
+        ReadableOrderList returnList = new ReadableOrderList();
+
+        if(CollectionUtils.isEmpty(orders)) {
+            returnList.setTotal(0);
+            return null;
+        }
+
+        List<ReadableOrder> readableOrders = new ArrayList<ReadableOrder>();
+        for (Order order : orders) {
+            ReadableOrder readableOrder = new ReadableOrder();
+            orderPopulator.populate(order,readableOrder,null,null);
+            readableOrders.add(readableOrder);
+
+        }
+        returnList.setOrders(readableOrders);
+        returnList.setTotal(orderList.getTotalCount());
+
+        returnList.setRecordsFiltered(orderList.getTotalCount());
+        returnList.setRecordsTotal(orderList.getTotalCount());
+
+        if (StringUtils.isNotEmpty(draw)) {
+            returnList.setDraw(Integer.parseInt(draw));
+        }
+        return returnList;
+
+	}
+
 
 
 	@Override
@@ -952,7 +990,7 @@ public class OrderFacadeImpl implements OrderFacade {
         if(CollectionUtils.isEmpty( orders)){
             LOGGER.info( "Order list if empty..Returning empty list" );
             returnList.setTotal(0);
-            returnList.setMessage("No results for store code " + store);
+            //returnList.setMessage("No results for store code " + store);
             return returnList;
         }
         
@@ -1008,19 +1046,19 @@ public class OrderFacadeImpl implements OrderFacade {
 
 
     private ReadableOrderList getReadableOrderList(OrderCriteria criteria, MerchantStore store, Language language) throws Exception {
-		
+
 		OrderList orderList = orderService.listByStore(store, criteria);
-		
+
 		ReadableOrderPopulator orderPopulator = new ReadableOrderPopulator();
 		Locale locale = LocaleUtils.getLocale(language);
 		orderPopulator.setLocale(locale);
-		
+
 		List<Order> orders = orderList.getOrders();
 		ReadableOrderList returnList = new ReadableOrderList();
-		
+
 		if(CollectionUtils.isEmpty(orders)) {
 			returnList.setTotal(0);
-			returnList.setMessage("No results for store code " + store);
+			//returnList.setMessage("No results for store code " + store);
 			return null;
 		}
 
@@ -1029,14 +1067,15 @@ public class OrderFacadeImpl implements OrderFacade {
 			ReadableOrder readableOrder = new ReadableOrder();
 			orderPopulator.populate(order,readableOrder,store,language);
 			readableOrders.add(readableOrder);
-			
+
 		}
-		
+
 		returnList.setTotal(orderList.getTotalCount());
 		return this.populateOrderList(orderList, store, language);
-    	
-    	
+
+
 	}
+
 
 	@Override
 	public ReadableOrderList getReadableOrderList(MerchantStore store,
@@ -1302,7 +1341,7 @@ public class OrderFacadeImpl implements OrderFacade {
 		
 		if(CollectionUtils.isEmpty(orders)) {
 			returnList.setTotal(0);
-			returnList.setMessage("No results for store code " + store);
+			//returnList.setMessage("No results for store code " + store);
 			return null;
 		}
 
