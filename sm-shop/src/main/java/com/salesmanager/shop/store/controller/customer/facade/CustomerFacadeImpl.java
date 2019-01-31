@@ -738,51 +738,90 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
 
   @Override
-  public void saveOrUpdateCustomerReview(PersistableCustomerReview review, MerchantStore store,
-      Language language) throws Exception {
-    CustomerReview rev = new CustomerReview();
+  public PersistableCustomerReview saveOrUpdateCustomerReview(PersistableCustomerReview reviewTO, MerchantStore store,
+      Language language) {
+    CustomerReview review = convertPersistableCustomerReviewToCustomerReview(reviewTO, store, language);
+    createReview(review);
+    reviewTO.setId(review.getId());
+    return reviewTO;
+  }
 
+  private void createReview(CustomerReview review) {
+    try{
+      customerReviewService.create(review);
+    } catch (ServiceException e) {
+      throw new ServiceRuntimeException(e);
+    }
+
+  }
+
+  private CustomerReview convertPersistableCustomerReviewToCustomerReview(
+      PersistableCustomerReview review, MerchantStore store, Language language) {
     PersistableCustomerReviewPopulator populator = new PersistableCustomerReviewPopulator();
     populator.setCustomerService(customerService);
     populator.setLanguageService(languageService);
-    populator.populate(review, rev, store, language);
-
-    customerReviewService.create(rev);
-
-    review.setId(rev.getId());
-
+    try{
+      return populator.populate(review, new CustomerReview(), store, language);
+    } catch (ConversionException e) {
+      throw new ConversionRuntimeException(e);
+    }
   }
 
 
   @Override
-  public List<ReadableCustomerReview> getAllCustomerReviewsByReviewed(Customer customer,
-      MerchantStore store, Language language) throws Exception {
+  public List<ReadableCustomerReview> getAllCustomerReviewsByReviewed(Long customerId,
+      MerchantStore store, Language language) {
+
+    //customer exist
+    Customer customer = getCustomerById(customerId);
     Validate.notNull(customer, "Reviewed customer cannot be null");
 
-    List<CustomerReview> reviews = customerReviewService.getByReviewedCustomer(customer);
+    return customerReviewService.getByReviewedCustomer(customer)
+        .stream()
+        .map(
+            customerReview ->
+                convertCustomerReviewToReadableCustomerReview(customerReview, store, language))
+        .collect(Collectors.toList());
+  }
 
-    ReadableCustomerReviewPopulator populator = new ReadableCustomerReviewPopulator();
-
-
-    List<ReadableCustomerReview> customerReviews = new ArrayList<ReadableCustomerReview>();
-
-    for (CustomerReview review : reviews) {
-      ReadableCustomerReview readableReview = new ReadableCustomerReview();
-      populator.populate(review, readableReview, store, language);
-      customerReviews.add(readableReview);
+  private ReadableCustomerReview convertCustomerReviewToReadableCustomerReview(
+      CustomerReview customerReview, MerchantStore store, Language language) {
+    try{
+      ReadableCustomerReviewPopulator populator = new ReadableCustomerReviewPopulator();
+      return populator.populate(customerReview, new ReadableCustomerReview(), store, language);
+    } catch (ConversionException e){
+      throw new ConversionRuntimeException(e);
     }
+  }
 
-
-
-    return customerReviews;
+  private Customer getCustomerById(Long customerId) {
+    return Optional.ofNullable(customerService.getById(customerId))
+          .orElseThrow(() -> new ResourceNotFoundException("Customer id " + customerId + " does not exists"));
   }
 
 
   @Override
-  public void deleteCustomerReview(CustomerReview review, MerchantStore store, Language language)
-      throws Exception {
-    customerReviewService.delete(review);
+  public void deleteCustomerReview(Long customerId, Long reviewId, MerchantStore store, Language language) {
 
+    CustomerReview customerReview = getCustomerReviewById(reviewId);
+
+    if(!customerReview.getReviewedCustomer().getId().equals(customerId)) {
+      throw new ResourceNotFoundException("Customer review with id " + reviewId + " does not exist for this customer");
+    }
+    deleteCustomerReview(customerReview);
+  }
+
+  private CustomerReview getCustomerReviewById(Long reviewId) {
+    return Optional.ofNullable(customerReviewService.getById(reviewId))
+        .orElseThrow(() -> new ResourceNotFoundException("Customer review with id " + reviewId + " does not exist"));
+  }
+
+  private void deleteCustomerReview(CustomerReview review) {
+    try{
+      customerReviewService.delete(review);
+    } catch (ServiceException e) {
+      throw new ServiceRuntimeException(e);
+    }
   }
 
 
@@ -948,5 +987,52 @@ public class CustomerFacadeImpl implements CustomerFacade {
     } catch (ConversionException e) {
       throw new ConversionRuntimeException(e);
     }
+  }
+
+  @Override
+  public PersistableCustomerReview createCustomerReview(
+      Long customerId,
+      PersistableCustomerReview review,
+      MerchantStore merchantStore,
+      Language language) {
+
+    // rating already exist
+    Optional<CustomerReview> customerReview =
+        Optional.ofNullable(
+            customerReviewService.getByReviewerAndReviewed(review.getCustomerId(), customerId));
+
+    if(customerReview.isPresent()) {
+      throw new ServiceRuntimeException("A review already exist for this customer and product");
+    }
+
+    // rating maximum 5
+    if (review.getRating() > Constants.MAX_REVIEW_RATING_SCORE) {
+      throw new ServiceRuntimeException("Maximum rating score is " + Constants.MAX_REVIEW_RATING_SCORE);
+    }
+
+    review.setReviewedCustomer(customerId);
+
+    saveOrUpdateCustomerReview(review, merchantStore, language);
+
+    return review;
+  }
+
+  @Override
+  public PersistableCustomerReview updateCustomerReview(Long id, Long reviewId, PersistableCustomerReview review,
+      MerchantStore store, Language language) {
+
+    CustomerReview customerReview = getCustomerReviewById(reviewId);
+
+    if(! customerReview.getReviewedCustomer().getId().equals(id)) {
+      throw new ResourceNotFoundException("Customer review with id " + reviewId + " does not exist for this customer");
+    }
+
+    //rating maximum 5
+    if(review.getRating()>Constants.MAX_REVIEW_RATING_SCORE) {
+      throw new ServiceRuntimeException("Maximum rating score is " + Constants.MAX_REVIEW_RATING_SCORE);
+    }
+
+    review.setReviewedCustomer(id);
+    return review;
   }
 }
