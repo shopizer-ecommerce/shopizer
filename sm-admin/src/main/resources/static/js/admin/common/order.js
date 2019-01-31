@@ -1,5 +1,4 @@
 function loadOrderList(){
-    alert(TOKEN);
     //showLoader();
     var url = BACKEND + "/admin/orders";
 
