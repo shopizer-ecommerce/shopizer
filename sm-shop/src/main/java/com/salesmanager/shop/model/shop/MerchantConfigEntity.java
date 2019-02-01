@@ -12,6 +12,7 @@ public class MerchantConfigEntity extends Entity {
   private String key;
   private MerchantConfigurationType type;
   private String value;
+  private boolean active;
   public String getKey() {
     return key;
   }
@@ -29,6 +30,12 @@ public class MerchantConfigEntity extends Entity {
   }
   public void setValue(String value) {
     this.value = value;
+  }
+  public boolean isActive() {
+    return active;
+  }
+  public void setActive(boolean active) {
+    this.active = active;
   }
 
 }

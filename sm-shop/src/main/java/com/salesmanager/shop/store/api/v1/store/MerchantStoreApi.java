@@ -32,6 +32,7 @@ import com.salesmanager.core.model.content.FileContentType;
 import com.salesmanager.core.model.content.InputContentFile;
 import com.salesmanager.core.model.merchant.MerchantStoreCriteria;
 import com.salesmanager.shop.model.entity.EntityExists;
+import com.salesmanager.shop.model.shop.PersistableBrand;
 import com.salesmanager.shop.model.shop.PersistableMerchantStore;
 import com.salesmanager.shop.model.shop.ReadableBrand;
 import com.salesmanager.shop.model.shop.ReadableMerchantStore;
@@ -112,6 +113,17 @@ public class MerchantStoreApi {
     String userName = getUserFromRequest(request);
     validateUserPermission(userName, code);
     return storeFacade.getBrand(code);
+  }
+  
+  @ResponseStatus(HttpStatus.CREATED)
+  @PostMapping(value = {"/private/store/{code}/marketing"},
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  @ApiOperation(httpMethod = "POST", value = "Create store branding and marketing details", notes = "",
+      response = ReadableBrand.class)
+  public void createStoreMarketing(@PathVariable String code, @RequestBody PersistableBrand brand, HttpServletRequest request) {
+    String userName = getUserFromRequest(request);
+    validateUserPermission(userName, code);
+    storeFacade.createBrand(code, brand);
   }
 
 
