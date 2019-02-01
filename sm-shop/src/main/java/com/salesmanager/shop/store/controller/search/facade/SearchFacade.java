@@ -28,7 +28,7 @@ public interface SearchFacade {
 	 * @return
 	 * @throws Exception
 	 */
-	public SearchProductList search(MerchantStore store, Language language, SearchProductRequest searchRequest) throws Exception;
+	SearchProductList search(MerchantStore store, Language language, SearchProductRequest searchRequest);
 
 	/**
 	 * Copy sm-core search response to a simple readable format populated with corresponding products
@@ -45,5 +45,5 @@ public interface SearchFacade {
 	 * @return
 	 * @throws Exception
 	 */
-	ValueList autocompleteRequest(String query, MerchantStore store, Language language) throws Exception;
+	ValueList autocompleteRequest(String query, MerchantStore store, Language language);
 }

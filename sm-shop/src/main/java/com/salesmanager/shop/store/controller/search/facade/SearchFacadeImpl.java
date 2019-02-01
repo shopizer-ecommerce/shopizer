@@ -1,10 +1,15 @@
 package com.salesmanager.shop.store.controller.search.facade;
 
+import com.salesmanager.core.business.exception.ConversionException;
+import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;
+import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import java.util.stream.Collectors;
 import javax.inject.Inject;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -85,15 +90,23 @@ public class SearchFacadeImpl implements SearchFacade {
 	}
 
 	@Override
-	public SearchProductList search(MerchantStore store, Language language, SearchProductRequest searchRequest) throws Exception {
-
+	public SearchProductList search(MerchantStore store, Language language, SearchProductRequest searchRequest) {
 		String query = String.format(coreConfiguration.getProperty("SEARCH_QUERY"), searchRequest.getQuery());
-		SearchResponse response =  searchService.search(store, language.getCode(), query, searchRequest.getCount(), searchRequest.getStart());
-		return this.copySearchResponse(response, store, searchRequest.getStart(), searchRequest.getCount(), language);
+		SearchResponse response = search(store, language.getCode(), query, searchRequest.getCount(), searchRequest.getStart());
+		return copySearchResponse(response, store, searchRequest.getStart(), searchRequest.getCount(), language);
 	}
 
-	@Override
-	public SearchProductList copySearchResponse(SearchResponse searchResponse, MerchantStore merchantStore, int start, int count, Language language) throws Exception {
+  private SearchResponse search(
+      MerchantStore store, String languageCode, String query, Integer count, Integer start) {
+	  try{
+      return searchService.search(store, languageCode, query, count, start);
+    } catch (ServiceException e){
+	    throw new ServiceRuntimeException(e);
+    }
+  }
+
+  @Override
+	public SearchProductList copySearchResponse(SearchResponse searchResponse, MerchantStore merchantStore, int start, int count, Language language) {
 		
 		SearchProductList returnList = new SearchProductList();
 		List<SearchEntry> entries = searchResponse.getEntries();
@@ -115,18 +128,13 @@ public class SearchFacadeImpl implements SearchFacade {
 			searchCriteria.setAvailable(true);
 			
 			ProductList productList = productService.listByStore(merchantStore, language, searchCriteria);
-			
-			ReadableProductPopulator populator = new ReadableProductPopulator();
-			populator.setPricingService(pricingService);
-			populator.setimageUtils(imageUtils);
-			
-			for(Product product : productList.getProducts()) {
-				//create new proxy product
-				ReadableProduct p = populator.populate(product, new ReadableProduct(), merchantStore, language);
-				
-				returnList.getProducts().add(p);
-	
-			}
+
+      List<ReadableProduct> readableProducts = productList.getProducts()
+          .stream()
+          .map(product -> convertProductToReadableProduct(product, merchantStore, language))
+          .collect(Collectors.toList());
+
+      returnList.getProducts().addAll(readableProducts);
 			returnList.setProductCount(productList.getProducts().size());
 		}
 		
@@ -156,17 +164,12 @@ public class SearchFacadeImpl implements SearchFacade {
 				}
 				
 				List<Category> categories = categoryService.listByCodes(merchantStore, categoryCodes, language);
-				List<ReadableCategory> categoryProxies = new ArrayList<ReadableCategory>();
-				ReadableCategoryPopulator populator = new ReadableCategoryPopulator();
-				
-				for(Category category : categories) {
-					ReadableCategory categoryProxy = populator.populate(category, new ReadableCategory(), merchantStore, language);
-					Long total = productCategoryCount.get(categoryProxy.getCode());
-					if(total!=null) {
-						categoryProxy.setProductCount(total.intValue());
-					}
-					categoryProxies.add(categoryProxy);
-				}
+        List<ReadableCategory> categoryProxies = categories
+            .stream()
+            .map(category -> convertCategoryToReadableCategory(merchantStore, language,
+                productCategoryCount, category))
+            .collect(Collectors.toList());
+
 				returnList.setCategoryFacets(categoryProxies);
 			}
 			
@@ -181,22 +184,55 @@ public class SearchFacadeImpl implements SearchFacade {
 		return returnList;
 	}
 
-	@Override
-	public ValueList autocompleteRequest(String query, MerchantStore store, Language language) throws Exception {
-		
-		AutoCompleteRequest req = new AutoCompleteRequest(store.getCode(),language.getCode());
-		String q = String.format(coreConfiguration.getProperty("AUTOCOMPLETE_QUERY"), query);
-		/** formatted toJSONString because of te specific field names required in the UI **/
-		SearchKeywords keywords = searchService.searchForKeywords(req.getCollectionName(), q, AUTOCOMPLETE_ENTRIES_COUNT);
-		ValueList returnList = new ValueList();
-		returnList.setValues(keywords.getKeywords());
-		
-		return returnList;
+  private ReadableCategory convertCategoryToReadableCategory(MerchantStore merchantStore,
+      Language language, Map<String, Long> productCategoryCount, Category category) {
+    ReadableCategoryPopulator populator = new ReadableCategoryPopulator();
+	  try{
+      ReadableCategory categoryProxy = populator.populate(category, new ReadableCategory(), merchantStore, language);
+      Long total = productCategoryCount.get(categoryProxy.getCode());
+      if(total != null) {
+        categoryProxy.setProductCount(total.intValue());
+      }
+      return categoryProxy;
+    } catch (ConversionException e) {
+	    throw new ConversionRuntimeException(e);
+    }
+  }
 
-		
-		
-		
+  private ReadableProduct convertProductToReadableProduct(Product product, MerchantStore merchantStore,
+      Language language) {
+
+    ReadableProductPopulator populator = new ReadableProductPopulator();
+    populator.setPricingService(pricingService);
+    populator.setimageUtils(imageUtils);
+
+	  try{
+      return populator.populate(product, new ReadableProduct(), merchantStore, language);
+    } catch (ConversionException e) {
+	    throw new ConversionRuntimeException(e);
+    }
+  }
+
+  @Override
+	public ValueList autocompleteRequest(String query, MerchantStore store, Language language) {
+		AutoCompleteRequest req = new AutoCompleteRequest(store.getCode(),language.getCode());
+		String formattedQuery = String.format(coreConfiguration.getProperty("AUTOCOMPLETE_QUERY"), query);
+
+		/** formatted toJSONString because of te specific field names required in the UI **/
+    SearchKeywords keywords = getSearchKeywords(req, formattedQuery);
+    ValueList returnList = new ValueList();
+		returnList.setValues(keywords.getKeywords());
+		return returnList;
 	}
-	
+
+  private SearchKeywords getSearchKeywords(AutoCompleteRequest req, String query) {
+	  try{
+      return searchService.searchForKeywords(req.getCollectionName(), query, AUTOCOMPLETE_ENTRIES_COUNT);
+    } catch (ServiceException e) {
+	    throw new ServiceRuntimeException(e);
+    }
+
+  }
+
 
 }
