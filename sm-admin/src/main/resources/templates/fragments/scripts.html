@@ -58,7 +58,11 @@
         <script type="text/javascript" src="/js/admin/cache.js"></script>
     </th:block>
 	
-	
+	<th:block th:if="${page == 'order'}">
+		  <script type="text/javascript" src="/js/admin/common/order.js"></script>
+          <script th:src="@{|/webjars/datatables/1.10.19/js/jquery.dataTables.min.js|}"></script>
+        <script th:src="@{|/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js|}"></script>
+	</th:block>
 	
 	   
 </span>

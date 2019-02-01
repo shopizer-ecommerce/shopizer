@@ -10,6 +10,5 @@ import com.salesmanager.core.model.order.OrderList;
 public interface OrderRepositoryCustom {
 
 	OrderList listByStore(MerchantStore store, OrderCriteria criteria);
-
-
+	OrderList getOrders(OrderCriteria criteria);
 }

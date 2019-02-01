@@ -87,6 +87,14 @@ public interface OrderService extends SalesManagerEntityService<Long, Order> {
      */
     OrderList listByStore(MerchantStore store, OrderCriteria criteria);
 
+
+    /**
+	 * get all orders. Mainly used in the administration tool
+	 * @param criteria
+	 * @return
+	 */
+	OrderList getOrders(OrderCriteria criteria);
+
     void saveOrUpdate(Order order) throws ServiceException;
 
 	Order processOrder(Order order, Customer customer,

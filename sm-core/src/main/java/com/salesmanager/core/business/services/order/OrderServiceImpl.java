@@ -512,6 +512,11 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
         return orderRepository.listByStore(store, criteria);
     }
 
+    @Override
+    public OrderList getOrders(final OrderCriteria criteria) {
+        return orderRepository.getOrders(criteria);
+    }
+
 
     @Override
     public void saveOrUpdate(final Order order) throws ServiceException {
