@@ -130,7 +130,7 @@ public interface CustomerFacade
 	 * @param language
 	 * @throws Exception
 	 */
-	void saveOrUpdateCustomerReview(PersistableCustomerReview review, MerchantStore store, Language language) throws Exception;
+	PersistableCustomerReview saveOrUpdateCustomerReview(PersistableCustomerReview review, MerchantStore store, Language language);
 	
 	/**
 	 * List all customer reviews by reviewed
@@ -139,7 +139,7 @@ public interface CustomerFacade
 	 * @param language
 	 * @return
 	 */
-	List<ReadableCustomerReview> getAllCustomerReviewsByReviewed(Customer customer, MerchantStore store, Language language) throws Exception;
+	List<ReadableCustomerReview> getAllCustomerReviewsByReviewed(Long customerId, MerchantStore store, Language language);
 	
 	/**
 	 * Deletes a customer review
@@ -147,7 +147,7 @@ public interface CustomerFacade
 	 * @param store
 	 * @param language
 	 */
-	void deleteCustomerReview(CustomerReview review, MerchantStore store, Language language) throws Exception;
+	void deleteCustomerReview(Long customerId, Long reviewId, MerchantStore store, Language language);
 	
 	/**
 	 * Optin a customer to newsletter
@@ -164,4 +164,12 @@ public interface CustomerFacade
 	void delete(Customer entity);
 
 	ReadableCustomerList getListByStore(MerchantStore store, CustomerCriteria criteria, Language language);
+
+	PersistableCustomerReview createCustomerReview(
+      Long customerId,
+      PersistableCustomerReview review,
+      MerchantStore merchantStore,
+      Language language);
+
+	PersistableCustomerReview updateCustomerReview(Long id, Long reviewId, PersistableCustomerReview review, MerchantStore store, Language language);
 }
