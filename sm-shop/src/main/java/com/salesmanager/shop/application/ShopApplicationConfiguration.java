@@ -78,6 +78,7 @@ public class ShopApplicationConfiguration extends WebMvcConfigurerAdapter{
     public TilesViewResolver tilesViewResolver() {
         final TilesViewResolver resolver = new TilesViewResolver();
         resolver.setViewClass(TilesView.class);
+        resolver.setOrder(0);
         return resolver;
     }
 
