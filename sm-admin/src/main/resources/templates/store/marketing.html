@@ -107,7 +107,7 @@
 
 							<!-- /.box-body -->
 							<div class="box-footer">
-								<button type="submit" class="btn btn-primary">
+								<button id="socialSubmit" type="submit" class="btn btn-primary">
 									<span th:text="#{'button.label.submit'}"></span>
 								</button>
 							</div>
@@ -121,7 +121,7 @@
 		</div>
 		<!-- /.col -->
 
-		
+		<!-- side menu -->
 		<div class="col-md-3">
 						 <span th:replace="fragments/sideMenu.html
       						:: sideMenu(title=#{'label.store.title'}, name=${code}, menu='store', codeParam=${code})">
@@ -214,7 +214,7 @@
 		});
 		
 		
-		
+		/** load logo and social networks **/
 		function loadMarketing() {
 			showLoader();
 
@@ -242,7 +242,9 @@
 						  // array does not exist, is not an array, or is empty
 				          $.each(data.socialNetworks, function (i, data) {
 				        	  if(data.value!=null) {
-				        	  	$("input[name='"+data.key+"'][type='checkbox']").prop("checked", true);
+				        		if(data.active) {
+				        	  		$("input[name='"+data.key+"'][type='checkbox']").prop("checked", true);
+				        	    }
 				        	  	var keyValue = '#' + data.key+'_value';
 				        	  	var idValue = '#' + data.key+'_id';
 				        	  	$(keyValue).val(data.value);
@@ -263,7 +265,7 @@
 		}
 		
 		
-		
+		/** add store logo **/
 		function addImage(image, dropzone) {
 			
 			dropzone.emit(
@@ -360,6 +362,63 @@
 				}
 			});
 		}
+		
+		$("#socialSubmit").click(function(event){
+	    		showLoader();
+				event.preventDefault(); //prevent default action 
+				resetMessages();
+
+				//create url
+				url = BACKEND + "/private/store/" + store + "/marketing";
+				var type ='POST';
+				
+				var socials = ['facebook_page_url','instagram','pinterest','twitter_handle'];
+				var configurations = [];
+				var len = socials.length;
+				for (var i = 0; i < len; i++) {
+					var socialKey = socials[i];
+					var socialId = $('#' + socials[i] + '_id').val();
+					var socialValue = $('#' + socials[i] + '_value').val();
+					var socialChecked = false;
+					if ($('#' + socials[i]).is(':checked')) {
+						socialChecked = true;
+					}
+					configurations.push({
+				        key: socialKey,
+				        id: socialId,
+				        value: socialValue,
+				        active: socialChecked
+				    });
+				}
+				
+				var brand = new Object();
+				brand.socialNetworks = configurations;
+				
+				//log(JSON.stringify(brand));
+
+		    	 $.ajax({
+		    	    type:type,
+		    	    crossDomain: true,
+		    	    cache: false,
+		    	    data:JSON.stringify(brand),
+		    	    url: url,
+		    	    contentType : 'application/json; charset=utf-8',
+		    	    headers: {
+		    	        "Authorization": "Bearer " + TOKEN
+		    	    },
+		    	    success: function(data){
+		    	    	success('');
+		    	    	hideLoader();
+		    	    	$('#store').trigger("reset");
+	
+		    	    },
+		    	    error: function(response,textStatus,errorThrown) {
+		    	    	log('error');
+		    	    	error(JSON.stringify(response.message));
+		    	    	hideLoader();
+		    	    }
+		    	 });
+		});
 	</script>
 
 </th:block>
