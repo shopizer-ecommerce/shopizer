@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,8 +21,9 @@ import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
 
 import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequestMapping("/api/v1")
 public class MarketPlaceApi {
 	
@@ -33,34 +35,20 @@ public class MarketPlaceApi {
 	
 	@Inject
 	private LanguageUtils languageUtils;
-	
-	
-	void create() throws Exception {
-		
-	}
-	
-	/**
-	 * Get a marketplace from storeCode
-	 * returns market place details and merchant store
-	 */
-    @ResponseStatus(HttpStatus.OK)
-	@RequestMapping( value={"/private/marketplace/{store}"}, method=RequestMethod.GET)
-	@ApiOperation(httpMethod = "GET", value = "Get market place meta-data", notes = "", produces = "application/json", response = ReadableMarketPlace.class)
-    public @ResponseBody ReadableMarketPlace marketPlace(@PathVariable String store, @RequestParam(value = "lang", required=false) String lang, HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	
-    	Language l = languageUtils.getServiceLanguage(lang);
-    	
-    	ReadableMarketPlace marketPlace = marketPlaceFacade.get(store, l);
-    	
-		if(marketPlace==null) {
-			response.sendError(404,  "Marketplace not found for merchant store [" + store + "]");
-			return null;
-		}
-    	
-    	return marketPlace;
-    }
-    
 
-		
+  /** Get a marketplace from storeCode returns market place details and merchant store */
+  @GetMapping("/private/marketplace/{store}")
+  @ApiOperation(
+      httpMethod = "GET",
+      value = "Get market place meta-data",
+      notes = "",
+      produces = "application/json",
+      response = ReadableMarketPlace.class)
+  public ReadableMarketPlace marketPlace(
+      @PathVariable String store,
+      @RequestParam(value = "lang", required = false) String lang) {
 
+    Language language = languageUtils.getServiceLanguage(lang);
+    return marketPlaceFacade.get(store, language);
+  }
 }

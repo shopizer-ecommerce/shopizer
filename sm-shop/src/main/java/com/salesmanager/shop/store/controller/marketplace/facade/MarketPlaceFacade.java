@@ -21,7 +21,7 @@ public interface MarketPlaceFacade {
 	 * @return
 	 * @throws Exception
 	 */
-	ReadableMarketPlace get(String store, Language lang) throws Exception;
+	ReadableMarketPlace get(String store, Language lang) ;
 	
 	/**
 	 * Finds an optin by merchant and type
@@ -30,6 +30,6 @@ public interface MarketPlaceFacade {
 	 * @return
 	 * @throws Exception
 	 */
-	ReadableOptin findByMerchantAndType(MerchantStore store, OptinType type) throws Exception;
+	ReadableOptin findByMerchantAndType(MerchantStore store, OptinType type);
 
 }
