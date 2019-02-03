@@ -1,8 +1,12 @@
 package com.salesmanager.shop.store.controller.user.facade;
 
+import com.salesmanager.core.business.exception.ConversionException;
+import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.stream.Collectors;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
@@ -34,51 +38,77 @@ public class UserFacadeImpl implements UserFacade {
 	private LanguageService languageService;
 	
 	@Override
-	public ReadableUser findByUserName(String userName, Language lang) throws Exception {
-		
-		User user = userService.getByUserName(userName);
-		if(user == null) {
-			return null;
-		}
-		
-		ReadableUser readableUser = new ReadableUser();
-		
-		ReadableUserPopulator populator = new ReadableUserPopulator();
-		populator.populate(user, readableUser, user.getMerchantStore(), lang);
-		
-		return readableUser;
+	public ReadableUser findByUserName(String userName, Language lang) {
+		User user = getByUserName(userName);
+    return convertUserToReadableUser(lang, user);
 	}
 
-	@Override
-	public List<ReadablePermission> findPermissionsByGroups(List<Integer> ids) throws Exception {
-		
+  private ReadableUser convertUserToReadableUser(Language lang, User user) {
+    ReadableUserPopulator populator = new ReadableUserPopulator();
+    try{
+      return populator.populate(user, new ReadableUser(), user.getMerchantStore(), lang);
+    } catch (ConversionException e){
+      throw new ConversionRuntimeException(e);
+    }
+  }
 
-		List<Permission> permissions = permissionService.getPermissions(ids);
-		List<ReadablePermission> values = new ArrayList<ReadablePermission>();
-		for(Permission p : permissions) {
-			ReadablePermission rp = new ReadablePermission();
-			rp.setId(new Long(p.getId()));
-			rp.setName(p.getPermissionName());
-			values.add(rp);
-		}
-		
-		
-		return values;
+  private User getByUserName(String userName) {
+	  try{
+      return userService.getByUserName(userName);
+    } catch (ServiceException e) {
+	    throw new ServiceRuntimeException(e);
+    }
+  }
+
+  @Override
+	public ReadableUser findByUserNameWithPermissions(String userName, Language lang) {
+    ReadableUser readableUser = findByUserName(userName, lang);
+
+    /**
+     * Add permissions on top of the groups
+     */
+    List<Integer> groupIds = readableUser.getGroups()
+        .stream()
+        .map(ReadableGroup::getId)
+        .map(Long::intValue)
+        .collect(Collectors.toList());
+
+    List<ReadablePermission> permissions = findPermissionsByGroups(groupIds);
+    readableUser.setPermissions(permissions);
+
+    return readableUser;
 	}
 
-	@Override
+  @Override
+  public List<ReadablePermission> findPermissionsByGroups(List<Integer> ids) {
+    return getPermissionsByIds(ids).stream()
+        .map(permission -> convertPermissionToReadablePermission(permission))
+        .collect(Collectors.toList());
+  }
+
+  private ReadablePermission convertPermissionToReadablePermission(Permission permission) {
+    ReadablePermission readablePermission = new ReadablePermission();
+    readablePermission.setId(Long.valueOf(permission.getId()));
+    readablePermission.setName(permission.getPermissionName());
+    return readablePermission;
+  }
+
+  private List<Permission> getPermissionsByIds(List<Integer> ids) {
+    try {
+      return permissionService.getPermissions(ids);
+    } catch (ServiceException e) {
+      throw new ServiceRuntimeException(e);
+    }
+  }
+
+  @Override
 	public boolean authorizedStore(String userName, String merchantStoreCode) {
 		
 	   try {
-  		ReadableUser ruser = this.findByUserName(userName, languageService.defaultLanguage());
-  		
-  		
-  		if(ruser==null) {//should not happen
-  			throw new Exception("Error while creating store, invalid user " + userName);
-  		}
-  		
+  		ReadableUser readableUser = findByUserName(userName, languageService.defaultLanguage());
+
   		//unless superadmin
-  		for(ReadableGroup group : ruser.getGroups()) {
+  		for(ReadableGroup group : readableUser.getGroups()) {
   			if(Constants.GROUP_SUPERADMIN.equals(group.getName())) {
   				return true;
   			}
@@ -86,7 +116,7 @@ public class UserFacadeImpl implements UserFacade {
   
   		
   		boolean authorized = false; 
-  		User user = userService.findByStore(ruser.getId(), merchantStoreCode);
+  		User user = userService.findByStore(readableUser.getId(), merchantStoreCode);
   		if(user != null) {
   			authorized = true;
   		}

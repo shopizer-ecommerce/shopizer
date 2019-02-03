@@ -18,7 +18,9 @@ public interface UserFacade {
 	 * @return
 	 * @throws Exception
 	 */
-	ReadableUser findByUserName(String userName, Language lang) throws Exception;
+	ReadableUser findByUserName(String userName, Language lang) ;
+
+  ReadableUser findByUserNameWithPermissions(String userName, Language lang);
 	
 	/**
 	 * List permissions by group
@@ -26,7 +28,7 @@ public interface UserFacade {
 	 * @return
 	 * @throws Exception
 	 */
-	List<ReadablePermission> findPermissionsByGroups(List<Integer> ids) throws Exception;
+	List<ReadablePermission> findPermissionsByGroups(List<Integer> ids);
 	
 	/**
 	 * Determines if a user is authorized to perform an action on a specific store

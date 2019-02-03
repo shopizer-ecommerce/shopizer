@@ -13,6 +13,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,11 +28,12 @@ import com.salesmanager.shop.utils.EmailTemplatesUtils;
 import com.salesmanager.shop.utils.LanguageUtils;
 
 import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequestMapping("/api/v1")
 public class ContactApi {
-	
+
 	@Inject
 	private StoreFacade storeFacade;
 	
@@ -43,40 +45,22 @@ public class ContactApi {
 	
 	@Inject
 	private EmailTemplatesUtils emailTemplatesUtils;
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(ContactApi.class);
-	
-	
-	@RequestMapping( value="/contact", method=RequestMethod.POST)
-	@ResponseStatus(HttpStatus.OK)
-	@ApiOperation(httpMethod = "POST", value = "Sends an email contact us to store owner", notes = "", produces = "application/json")
-	public HttpEntity<Void> contact(@Valid @RequestBody ContactForm contact, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
+
+  @PostMapping("/contact")
+  @ApiOperation(
+      httpMethod = "POST",
+      value = "Sends an email contact us to store owner",
+      notes = "",
+      produces = "application/json")
+  public void contact(
+      @Valid @RequestBody ContactForm contact,
+      HttpServletRequest request) {
 
 		MerchantStore merchantStore = storeFacade.getByCode(request);
 		Language language = languageUtils.getRESTLanguage(request, merchantStore);
-		
-		
-		try {
-			
-			Locale locale = languageService.toLocale(language, merchantStore);
-			
-			
-	        emailTemplatesUtils.sendContactEmail(contact, merchantStore, locale, request.getContextPath());
+		Locale locale = languageService.toLocale(language, merchantStore);
 
-	        return ResponseEntity.ok().build();
-
-			
-		} catch (Exception e) {
-			LOGGER.error("Error while creating optin",e);
-			try {
-				response.sendError(503, "Error while creating optin " + e.getMessage());
-			} catch (Exception ignore) {
-			}
-			
-			return null;
-		}
-		
+		emailTemplatesUtils.sendContactEmail(contact, merchantStore, locale, request.getContextPath());
 	}
 
 }
