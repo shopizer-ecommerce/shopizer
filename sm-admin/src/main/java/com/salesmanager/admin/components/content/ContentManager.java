@@ -1161,11 +1161,14 @@ public class ContentManager {
                 ObjectMapper mapper = new ObjectMapper();
                 String json = mapper.writeValueAsString(m);
                 
+                System.out.println(json);
+                
                 String token = (String)request.getAttribute(Constants.TOKEN);
                 
                 headers.set(AUTHORIZATION, "Bearer " + token);//set bearer token
                 
                 HttpEntity<String> entity = new HttpEntity<String>(json, headers);
+                
                 RestTemplate restTemplate = new RestTemplate();
                 
                 String resourceUrl

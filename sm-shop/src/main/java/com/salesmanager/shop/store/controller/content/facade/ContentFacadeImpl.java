@@ -3,6 +3,7 @@ package com.salesmanager.shop.store.controller.content.facade;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,6 +31,7 @@ import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.utils.FilePathUtils;
 import com.salesmanager.shop.utils.ImageFilePath;
+import io.searchbox.strings.StringUtils;
 
 @Component("contentFacade")
 public class ContentFacadeImpl implements ContentFacade {
@@ -63,7 +65,9 @@ public class ContentFacadeImpl implements ContentFacade {
           .map(name -> convertToContentImage(name, store)).collect(Collectors.toList());
 
       ContentFolder contentFolder = new ContentFolder();
-      contentFolder.setPath(folder);
+      if(!StringUtils.isBlank(folder)) {
+        contentFolder.setPath(URLEncoder.encode(folder, "UTF-8"));
+      }
       contentFolder.getContent().addAll(contentImages);
       return contentFolder;
 
