@@ -401,13 +401,14 @@ public class ContentServiceImpl
 			FileContentType fileContentType) throws ServiceException {
         Assert.notNull( merchantStoreCode, "Merchant store Id can not be null" );
         
-        if(fileContentType.name().equals(FileContentType.IMAGE.name())
+        return contentFileManager.getFileNames(merchantStoreCode, fileContentType);
+        
+/*        if(fileContentType.name().equals(FileContentType.IMAGE.name())
         		|| fileContentType.name().equals(FileContentType.STATIC_FILE.name())) {
-        	//return staticContentFileManager.getFileNames(merchantStoreCode, fileContentType);
         	return contentFileManager.getFileNames(merchantStoreCode, fileContentType);
         } else {
         	return contentFileManager.getFileNames(merchantStoreCode, fileContentType);
-        }
+        }*/
 	}
 	
 	@Override

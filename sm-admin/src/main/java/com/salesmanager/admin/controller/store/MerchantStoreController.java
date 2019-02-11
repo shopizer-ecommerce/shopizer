@@ -69,7 +69,7 @@ public class MerchantStoreController {
         
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         request.setAttribute("action", "READ");
-        request.setAttribute("code", code);
+        request.setAttribute("merchant", code);
         return "store/landing";
     }
 

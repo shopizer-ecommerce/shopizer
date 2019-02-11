@@ -52,6 +52,40 @@ span.title {
   margin-left: auto;
 }
 
+/** image selector **/
+.img-selector {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #f5efef;
+    float: left;
+    margin: 15px 0;
+    border-radius: 5px;
+    box-shadow: 2px 3px 0px #e4d8d8;
+    position:relative;
+    min-height:150px;
+    max-height:150px;
+    overflow:hidden;
+}
+
+/**
+.img-selector {
+    border: 1px solid #07c;
+    box-shadow: 0 0 5px #07c;
+    outline: none;
+}
+**/
+
+.myClickState {
+  border-color: lime;
+}
+
+.img-selector img {
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+
+
 /*media queries*/
 
 @media only screen and (max-width: 601px){

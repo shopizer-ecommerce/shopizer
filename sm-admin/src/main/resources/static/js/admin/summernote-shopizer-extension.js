@@ -52,7 +52,6 @@
                 });
 
                 // create jQuery object from button instance.
-                log('Render');
                 $gallery = button.render();
                 return $gallery;
             });
@@ -70,17 +69,22 @@
 			    	    },
 			    	    success: function(data){
 			    	       hideLoader();
-			    	       log('Success');
 			    	       var template = self.template_html;
+			    	       /**
+			    	       image formatting
+			    	       **/
+			    	       //urlData = urlData + '<div class="col-md-2 img-item"><img class="col-md-12 thumbnail" src="' + 'http://localhost:8080' + contentArray[i].path + contentArray[i].name + '" alt="' + contentArray[i].name +'" /><i class=""></i></div>';
+			    	       //urlData = urlData + '<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><div class="img-selector img-item"><img src="' + 'http://localhost:8080' + contentArray[i].path + contentArray[i].name + '" alt="' + contentArray[i].name +'" /></div></div>';
 			    	       var urlData = '<div class="row">';
 			    	       var contentArray = data.content;
 			    	       for (var i=0; i < contentArray.length; i++) {
-		    	    	     urlData = urlData + '<div class="col-md-2 img-item"><img class="col-md-12 thumbnail" src="' + 'http://localhost:8080' + contentArray[i].path + contentArray[i].name + '" alt="' + contentArray[i].name +'" /><i class=""></i></div>';
+		    	    	     urlData = urlData + '<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 img-item"><a href="#"><div class="img-selector"><img src="' + 'http://localhost:8080' + contentArray[i].path + contentArray[i].name + '" alt="' + contentArray[i].name +'" width="120" /></div></a></div>';
+		    	    	   	//urlData = urlData + '<div class="col-md-2 img-item"><img class="col-md-12 thumbnail" src="' + self.image_dialog_images_url + contentArray[i].path + contentArray[i].name + '" alt="' + contentArray[i].name +'" /><i class=""></i></div>';
 		    	    	   }
 		    	    	   urlData = urlData + '<div class="row">';
                            self.setModalHtml(urlData);
                            self.$modal.modal();
-                           self.$modal.find('img').click(function(event) {
+                           self.$modal.find('.img-selector').click(function(event) {
                               log('Image clicked');
                               $(this).toggleClass(self.select_class);
                            });
@@ -133,15 +137,6 @@
                             console.error("error loading from "+self.image_dialog_images_url);
                         })
                     }
-                    self.setEvents = function()
-                    {
-                        // images click event to select image
-                        self.$modal.find('img').click(function(event)
-                        {
-                            log('Image clicked');
-                            $(this).toggleClass(self.select_class);
-                        });
-                    }
                     // set the focus to the last focused element in the editor
                     self.recoverEditorFocus = function ()
                     {
@@ -168,7 +163,6 @@
                         if ($.contains(parent, focused_element))
                         {
                             $(self.editor).data('last_focused_element', focused_element)
-                            // console.info(focused_element);
                         };
                     }
 
@@ -216,8 +210,8 @@
                 $modal.find("button#save").click(function(event)
                 {
                     
-                    log('modal button save');
-                    var $selected_img = $modal.find('.img-item img.' + self.select_class);
+                    var $selected_img = $modal.find('.selected-img >:first-child');
+                    //var $selected_img = $modal.find('.img-item img.' + self.select_class);
 
                     $modal.modal('hide')
 
@@ -226,7 +220,7 @@
                     $selected_img.each(function(index, el)
                     {
                         context.invoke('editor.pasteHTML',
-                            '<img src="' + $(this).attr('src') + '" alt="' + ($(this).attr('alt') || "") + '" />');
+                            '<img src="' + $(this).attr('src') + '" alt="' + ($(this).attr('alt') || "") + '" width="200" />');
                         $(this).removeClass(self.select_class)
                     });
                 });
@@ -251,7 +245,7 @@
                                     +'display : block;'
                                 +'}'
                                 +'.'+ this.select_class +'{'
-                                    +'background-color: #5CB85C;'
+                                    +'background-color: #F5F5F5;'
                                 +'}'
                             +'</style>');
                 this.$css.appendTo('body');

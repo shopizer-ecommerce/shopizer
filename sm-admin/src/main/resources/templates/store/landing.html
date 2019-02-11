@@ -51,7 +51,7 @@
 							</div>
 						 </div>
 						 
-						  <div class="summernote"><p>Hello World</p></div>
+						  <div class="summernote"></div>
 
 						 
 						 
@@ -82,7 +82,7 @@
 	<!-- address component -->
 	<script src="/js/admin/summernote-bs4.min.js"></script>
 	<script src="/js/admin/mustache.min.js"></script>
-	<script src="/js/admin/summernote-gallery-extension.js"></script>
+	<script src="/js/admin/summernote-shopizer-extension.js"></script>
 	
 
 	
@@ -91,27 +91,26 @@
     	
     	
     	var url = BACKEND + "/" + STORECODE + "/content/images";
+    	
+    	log('Url images ' + url);
 
         $('.summernote').summernote({
           height: 300,
           tabsize: 2,
           followingToolbar: true,
           toolbar: [
-              //['insert', ['picture', 'link', 'video', 'table', 'hr', 'gallery']],
-              ['insert', ['gallery','link', 'video', 'table', 'hr']],
-              ['font style', ['fontname', 'fontsize', 'color', 'bold', 'italic', 
-              'underline', 'strikethrough', 'clear']],
+              ['insert', ['link', 'video', 'table', 'hr']],
+              ['font style', ['fontname', 'fontsize', 'color', 'bold', 'italic', 'underline', 'strikethrough', 'clear']],
               ['paragraph style', ['style', 'ol', 'ul', 'paragraph', 'height']],
-              ['misc', ['fullscreen', 'codeview', 'undo', 'redo', 'help']]
-              ['extensions', ['gallery']],
+              ['misc', ['fullscreen', 'codeview', 'undo', 'redo', 'help']],
+              ['extensions', ['gallery']]
             ],
           callbacks :{
                onInit: function() {
-                  //$(this).data('image_dialog_images_html', '<div class="row"..');
                   $(this).data('image_dialog_images_url', url);
-                  $(this).data('image_dialog_title', "La galerie d'images");
-                  $(this).data('image_dialog_close_btn_text', "Fermer");
-                  $(this).data('image_dialog_ok_btn_text', "Ajouter");
+                  $(this).data('image_dialog_title', "[[#{label.content.images}]]");
+                  $(this).data('image_dialog_close_btn_text', "[[#{button.label.close}]]");
+                  $(this).data('image_dialog_ok_btn_text', "[[#{button.label.add}]]");
               }
           }
         });
