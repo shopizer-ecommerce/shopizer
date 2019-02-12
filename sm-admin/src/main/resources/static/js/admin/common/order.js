@@ -5,9 +5,11 @@ function loadOrderList(){
     var dataTable =  $('#ordersList').DataTable( {
         columnDefs: [{
             "defaultContent": "-",
-            "targets": "_all"
+            "targets": [2],
+            "orderable": false
         }],
         processing:true,
+        colReorder: true,
         serverSide: true,
         pages: 3,
         searchDelay: 2000,
@@ -23,16 +25,22 @@ function loadOrderList(){
         "columns": [
             { "data": "id",
                 "render": function ( data, type, row, meta ) {
-                    return '<a href="/admin/order?id=' + data + '">' + data + '</a>';
+                    return '<a href="/admin/orders/order/' + data + '">' + data + '</a>';
                 }
             },
             { "data": "orderStatus" },
             { "data": "paymentType" },
             { "data": "total.value" },
-            { "data": "datePurchased" }
+            { "data": "datePurchased",
+                render: function(data, type, row){
+                    if(type === "sort" || type === "type"){
+                        return data;
+                    }
+                    return moment(data).format("dddd D, MMMM YYYY");
+                }
+            }
         ]
     });
-
     dataTable.on( 'search.dt', function (event) {
         //log('search');
 
