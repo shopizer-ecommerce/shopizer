@@ -4,22 +4,24 @@ import com.salesmanager.shop.model.entity.ResourceUrlAccess;
 
 public class ContentPage extends ContentPath implements ResourceUrlAccess {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	private boolean isDisplayedInMenu;
-	private String slug;
-	private String code;
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
 
-	public boolean isDisplayedInMenu() {
-		return isDisplayedInMenu;
-	}
+  private boolean isDisplayedInMenu;
+  private String slug;
+  private String code;
+  private String metaDetails;
+  private String title;
 
-	public void setDisplayedInMenu(boolean isDisplayedInMenu) {
-		this.isDisplayedInMenu = isDisplayedInMenu;
-	}
+  public boolean isDisplayedInMenu() {
+    return isDisplayedInMenu;
+  }
+
+  public void setDisplayedInMenu(boolean isDisplayedInMenu) {
+    this.isDisplayedInMenu = isDisplayedInMenu;
+  }
 
   public String getSlug() {
     return slug;
@@ -35,6 +37,22 @@ public class ContentPage extends ContentPath implements ResourceUrlAccess {
 
   public void setCode(String code) {
     this.code = code;
+  }
+
+  public String getMetaDetails() {
+    return metaDetails;
+  }
+
+  public void setMetaDetails(String metaDetails) {
+    this.metaDetails = metaDetails;
+  }
+
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
   }
 
 }

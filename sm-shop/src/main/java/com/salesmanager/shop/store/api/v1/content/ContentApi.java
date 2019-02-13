@@ -31,6 +31,7 @@ import com.salesmanager.shop.model.content.ContentFolder;
 import com.salesmanager.shop.model.content.ContentName;
 import com.salesmanager.shop.model.content.ReadableContentBox;
 import com.salesmanager.shop.model.content.ReadableContentPage;
+import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.RestApiException;
 import com.salesmanager.shop.store.controller.content.facade.ContentFacade;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
@@ -77,15 +78,23 @@ public class ContentApi {
     return contentFacade.getContentBoxes(ContentType.BOX, "summary_", merchantStore, language);
   }
 
-  @GetMapping(value = "/content/pages/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "/{store}/content/pages/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(httpMethod = "GET", value = "Get page content by code for a given MerchantStore",
-      notes = "", produces = "application/json", response = List.class)
-  public ReadableContentPage page(@PathVariable("code") String code,
-      @RequestParam(name = "store", defaultValue = DEFAULT_STORE) String storeCode,
+      notes = "", produces = "application/json", response = ReadableContentPage.class)
+  public ReadableContentPage page(
+      @PathVariable("store") String store,
+      @PathVariable("code") String code,
       HttpServletRequest request) {
-    MerchantStore merchantStore = storeFacade.get(storeCode);
+    
+    MerchantStore merchantStore = storeFacade.get(store);
     Language language = languageUtils.getRESTLanguage(request, merchantStore);
-    return contentFacade.getContentPage(code, merchantStore, language);
+    ReadableContentPage page = null;
+    try {
+       page = contentFacade.getContentPage(code, merchantStore, language);
+    } catch(ResourceNotFoundException e) {
+      LOGGER.debug("Resource not found [" + code + "] for store [" + store + "]");
+    }
+    return page;
   }
 
   @GetMapping(value = "/content/boxes/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -127,6 +136,24 @@ public class ContentApi {
     String decodedPath = decodeContentPath(path);
     ContentFolder folder = contentFacade.getContentFolder(decodedPath, merchantStore);
     return folder;
+  }
+  
+  @GetMapping(value = "/{store}/content/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @ApiOperation(httpMethod = "GET", value = "Get store content based on content code", notes = "",
+  response = ContentFolder.class)
+  public ReadableContentBox content(@PathVariable  String store, @PathVariable  String code, @RequestParam(value = "path", required = false) String path,
+      HttpServletRequest request) throws Exception {
+
+    MerchantStore merchantStore = storeFacade.get(store);
+    Language language = languageUtils.getRESTLanguage(request, merchantStore);
+    ReadableContentBox content = null;
+    try {
+        content = contentFacade.getContentBox(code, merchantStore, language);
+        
+    } catch(ResourceNotFoundException e) {
+      LOGGER.debug("Resource not found [" + code + "] for store [" + store + "]");
+    }
+    return content;
   }
 
   private String decodeContentPath(String path) throws UnsupportedEncodingException {

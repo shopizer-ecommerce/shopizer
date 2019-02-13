@@ -8,6 +8,7 @@ import com.salesmanager.core.model.content.ContentType;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.content.ContentFolder;
+import com.salesmanager.shop.model.content.ReadableContent;
 import com.salesmanager.shop.model.content.ReadableContentBox;
 import com.salesmanager.shop.model.content.ReadableContentPage;
 
@@ -56,6 +57,8 @@ public interface ContentFacade {
 	 * @throws Exception
 	 */
 	ReadableContentPage getContentPage(String code, MerchantStore store, Language language);
+	
+
 	
 	/**
 	 * Returns a content box for a given code and merchant store

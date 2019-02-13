@@ -50,12 +50,7 @@
 									class="form-control" id="name" name="name" required="">
 							</div>
 						 </div>
-						 
-						  <div class="summernote"></div>
-
-						 
-						 
-							
+						 <div id="summernote"></div>	
 					</form>
 				</div><!-- /.box -->
 			  </div>
@@ -87,34 +82,67 @@
 
 	
 	<script type="text/javascript">
-    $(document).ready(function() {
-    	
-    	
-    	var url = BACKEND + "/" + STORECODE + "/content/images";
-    	
-    	log('Url images ' + url);
+    	$(document).ready(function() {
 
-        $('.summernote').summernote({
-          height: 300,
-          tabsize: 2,
-          followingToolbar: true,
-          toolbar: [
-              ['insert', ['link', 'video', 'table', 'hr']],
-              ['font style', ['fontname', 'fontsize', 'color', 'bold', 'italic', 'underline', 'strikethrough', 'clear']],
-              ['paragraph style', ['style', 'ol', 'ul', 'paragraph', 'height']],
-              ['misc', ['fullscreen', 'codeview', 'undo', 'redo', 'help']],
-              ['extensions', ['gallery']]
-            ],
-          callbacks :{
-               onInit: function() {
-                  $(this).data('image_dialog_images_url', url);
-                  $(this).data('image_dialog_title', "[[#{label.content.images}]]");
-                  $(this).data('image_dialog_close_btn_text', "[[#{button.label.close}]]");
-                  $(this).data('image_dialog_ok_btn_text', "[[#{button.label.add}]]");
-              }
-          }
-        });
-      });
+    		    //load landing page
+    			showLoader();
+
+				//fetch store content
+			    var store = STORECODE;
+	    		if('[[${code}]]'!='') {
+	    			store = '[[${code}]]';
+	    		}
+	      		var storeContentUrl = BACKEND + "/" + store + '/content/pages/LANDING_PAGE?lang=' + LANGUAGE;
+	
+		    	$.ajax({
+		    	    type:"get",
+		    	    crossDomain: true,
+		    	    cache: false,
+		    	    url: storeContentUrl,
+		    	    dataType: "json",
+		    	    headers: {
+		    	        "Authorization": "Bearer " + TOKEN
+		    	    },
+		    	    success: function(data){
+		    	       hideLoader();
+		    	       //log('Success');
+		    	       //log(data.pageContent);
+		    	       $('#summernote').summernote('code', data.pageContent);
+		    	    },
+		    	    complete: function(response, textStatus) {//response can be null
+		    	    	//log(response.status);
+		    	    	if(response.status != 200) {//can be an error
+		    	    		error(JSON.stringify(response.message));
+		    	    	}
+		    	    	hideLoader();
+		    	    }
+				});
+    	
+    	
+		    	var imagesUrl = BACKEND + "/" + STORECODE + "/content/images";
+
+		
+		        $('#summernote').summernote({
+		          height: 300,
+		          tabsize: 2,
+		          followingToolbar: true,
+		          toolbar: [
+		              ['insert', ['link', 'video', 'table', 'hr']],
+		              ['font style', ['fontname', 'fontsize', 'color', 'bold', 'italic', 'underline', 'strikethrough', 'clear']],
+		              ['paragraph style', ['style', 'ol', 'ul', 'paragraph', 'height']],
+		              ['misc', ['fullscreen', 'codeview', 'undo', 'redo', 'help']],
+		              ['extensions', ['gallery']]
+		            ],
+		          callbacks :{
+		               onInit: function() {
+		                  $(this).data('image_dialog_images_url', imagesUrl);
+		                  $(this).data('image_dialog_title', "[[#{label.content.images}]]");
+		                  $(this).data('image_dialog_close_btn_text', "[[#{button.label.close}]]");
+		                  $(this).data('image_dialog_ok_btn_text', "[[#{button.label.add}]]");
+		              }
+		          }
+		        });
+     	 });
 	</script>
 	
 

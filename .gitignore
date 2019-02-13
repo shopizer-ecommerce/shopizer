@@ -17,6 +17,8 @@ sm-shop/SALESMANAGER.lock.db
 .DS_Store
 */sm-shop/**
 .project
+sm-admin/**/rebel*.xml
+sm-shop/**/rebel*.xml
 sm-admin/.project
 sm-core-model/.project
 sm-core-modules/.project

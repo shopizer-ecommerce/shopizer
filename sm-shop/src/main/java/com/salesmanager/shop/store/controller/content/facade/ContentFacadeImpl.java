@@ -129,6 +129,8 @@ public class ContentFacadeImpl implements ContentFacade {
     }
     page.setSlug(contentDescription.get().getSeUrl());
     page.setDisplayedInMenu(content.isLinkToMenu());
+    page.setTitle(contentDescription.get().getTitle());
+    page.setMetaDetails(contentDescription.get().getMetatagDescription());
     page.setContentType(ContentType.PAGE.name());
     page.setCode(content.getCode());
     page.setPath(fileUtils.buildStaticFilePath(store, contentDescription.get().getSeUrl()));
