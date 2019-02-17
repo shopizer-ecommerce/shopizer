@@ -19,8 +19,18 @@
 <span layout:fragment="page_content" id="page_content">
 
     <th:block th:include="fragments/messages.html :: messages"></th:block>
-    
-<section class="invoice">
+    <div class="row">
+        <div class="col-md-12">
+          <!-- Custom Tabs -->
+          <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs nav-tabs-classic">
+              <li class="active nav-item"><a href="#tab_1" data-toggle="tab">Order Summary</a></li>
+              <li class="nav-item"><a href="#tab_2" data-toggle="tab">Payment & Delivery</a></li>
+              <li class="nav-item"><a href="#tab_3" data-toggle="tab">Order History</a></li>
+            </ul>
+            <div class="tab-content tabcontent-border mb-4 p-4">
+              <div class="tab-pane active" id="tab_1">
+                <section class="invoice">
       <!-- title row -->
       <div class="row">
         <div class="col-xs-12">
@@ -29,9 +39,9 @@
             <small class="pull-right">Date: 2/10/2014</small>
           </h2>
         </div>
-		  <!-- /.col -->
+          <!-- /.col -->
       </div>
-	<!-- info row -->
+                    <!-- info row -->
       <div class="row invoice-info">
         <div class="col-sm-4 invoice-col">
           From
@@ -43,7 +53,7 @@
             Email: info@shopizer.com
           </address>
         </div>
-		  <!-- /.col -->
+          <!-- /.col -->
         <div class="col-sm-4 invoice-col">
           To
           <address>
@@ -54,7 +64,7 @@
             Email: info@shopizer.com
           </address>
         </div>
-		  <!-- /.col -->
+          <!-- /.col -->
         <div class="col-sm-4 invoice-col">
           <b>Invoice #007612</b><br>
           <br>
@@ -62,11 +72,11 @@
           <b>Payment Due:</b> 2/22/2014<br>
           <b>Account:</b> 968-34567
         </div>
-		  <!-- /.col -->
+          <!-- /.col -->
       </div>
-	<!-- /.row -->
+                    <!-- /.row -->
 
-	<!-- Table row -->
+                    <!-- Table row -->
       <div class="row">
         <div class="col-xs-12 table-responsive">
           <table class="table table-striped">
@@ -111,9 +121,9 @@
             </tbody>
           </table>
         </div>
-		  <!-- /.col -->
+          <!-- /.col -->
       </div>
-	<!-- /.row -->
+                    <!-- /.row -->
 
       <div class="row">
         <!-- accepted payments column -->
@@ -126,7 +136,7 @@
             dopplr jibjab, movity jajah plickers sifteo edmodo ifttt zimbra.
           </p>
         </div>
-		  <!-- /.col -->
+          <!-- /.col -->
         <div class="col-xs-6">
           <p class="lead">Amount Due 2/22/2014</p>
 
@@ -151,11 +161,11 @@
             </tbody></table>
           </div>
         </div>
-		  <!-- /.col -->
+          <!-- /.col -->
       </div>
-	<!-- /.row -->
+                    <!-- /.row -->
 
-	<!-- this row will not appear when printing -->
+                    <!-- this row will not appear when printing -->
       <div class="row no-print">
         <div class="col-xs-12">
           <a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
@@ -167,6 +177,39 @@
         </div>
       </div>
     </section>
+              </div>
+                <!-- /.tab-pane -->
+              <div class="tab-pane" id="tab_2">
+                The European languages are members of the same family. Their separate existence is a myth.
+                For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ
+                in their grammar, their pronunciation and their most common words. Everyone realizes why a
+                new common language would be desirable: one could refuse to pay expensive translators. To
+                achieve this, it would be necessary to have uniform grammar, pronunciation and more common
+                words. If several languages coalesce, the grammar of the resulting language is more simple
+                and regular than that of the individual languages.
+              </div>
+                <!-- /.tab-pane -->
+              <div class="tab-pane" id="tab_3">
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                It has survived not only five centuries, but also the leap into electronic typesetting,
+                remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset
+                sheets containing Lorem Ipsum passages, and more recently with desktop publishing software
+                like Aldus PageMaker including versions of Lorem Ipsum.
+              </div>
+                <!-- /.tab-pane -->
+            </div>
+              <!-- /.tab-content -->
+          </div>
+            <!-- nav-tabs-custom -->
+        </div>
+        <!-- /.col -->
+
+
+        <!-- /.col -->
+      </div>
+
 
 </span>
 <!-- /.span (main span) -->
