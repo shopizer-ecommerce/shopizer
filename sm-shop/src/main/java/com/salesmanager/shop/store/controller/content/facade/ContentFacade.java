@@ -8,6 +8,7 @@ import com.salesmanager.core.model.content.ContentType;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.content.ContentFolder;
+import com.salesmanager.shop.model.content.PersistableContentPage;
 import com.salesmanager.shop.model.content.ReadableContent;
 import com.salesmanager.shop.model.content.ReadableContentBox;
 import com.salesmanager.shop.model.content.ReadableContentPage;
@@ -82,5 +83,13 @@ public interface ContentFacade {
 	List<ReadableContentBox> getContentBoxes(ContentType type, String codePrefix, MerchantStore store, Language language);
 
 	void addContentFile(ContentFile file, String merchantStoreCode);
+	
+	/**
+	 * Save content page
+	 * @param page
+	 * @param merchantStore
+	 * @param language
+	 */
+	void saveContentPage(PersistableContentPage page, MerchantStore merchantStore, Language language);
 
 }

@@ -175,6 +175,7 @@ public class StoreLandingController {
 								contentDescription = desc;
 								desc.setMetatagDescription(description.getDescription());
 								desc.setName(description.getTitle());
+								desc.setTitle(description.getTitle());
 								desc.setDescription(description.getHomePageContent());
 								desc.setMetatagKeywords(description.getKeywords());
 								

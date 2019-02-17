@@ -41,16 +41,40 @@
 					<p>
 					<i class="fa fa-building"></i> <span th:text="#{'label.store.metadata'}"></span>
 					</p>
-
+					
+					<!--  languages -->
+					<th:block th:include="fragments/language-switcher.html :: language-switcher"></th:block>
+	
+					<hr/>
 					<form role="form" id="store" data-parsley-validate="">
 						<div class="box-body">
+							<!-- Title -->
 							<div class="form-group">
-								<label for="storeName"><span
-									th:text="#{'label.storename'}"></span> *</label> <input
-									class="form-control" id="name" name="name" required="">
+								<label for="title"><span
+									th:text="#{'label.storefront.landingpage.title'}"></span>*</label> <input
+									class="form-control" id="title" name="title" required="">
 							</div>
+							<!-- Meta description -->
+							<div class="form-group">
+								<label for="metatags"><span
+									th:text="#{'label.storefront.metatags.description'}"></span></label> <textarea
+									class="form-control" id="metaDetails" name="metaDetails"></textarea>
+							</div>
+							
+							<!-- page text  -->
+							<div class="form-group">
+								<label for="metatags"><span
+									th:text="#{'label.storefront.storetext'}"></span></label>
+									<div id="summernote"></div>
+							</div>
+							
 						 </div>
-						 <div id="summernote"></div>	
+						 <div class="box-footer">
+							<button type="submit" class="btn btn-primary">
+								<span th:text="#{'button.label.submit'}"></span>
+							</button>
+							<button th:if="${code} != 'DEFAULT'" id="delete" type="button" class="btn btn-danger pull-right"><span th:text="#{'label.generic.remove'}"></span></button>
+						</div>	
 					</form>
 				</div><!-- /.box -->
 			  </div>
@@ -83,45 +107,15 @@
 	
 	<script type="text/javascript">
     	$(document).ready(function() {
-
-    		    //load landing page
-    			showLoader();
-
-				//fetch store content
-			    var store = STORECODE;
-	    		if('[[${code}]]'!='') {
-	    			store = '[[${code}]]';
-	    		}
-	      		var storeContentUrl = BACKEND + "/" + store + '/content/pages/LANDING_PAGE?lang=' + LANGUAGE;
-	
-		    	$.ajax({
-		    	    type:"get",
-		    	    crossDomain: true,
-		    	    cache: false,
-		    	    url: storeContentUrl,
-		    	    dataType: "json",
-		    	    headers: {
-		    	        "Authorization": "Bearer " + TOKEN
-		    	    },
-		    	    success: function(data){
-		    	       hideLoader();
-		    	       //log('Success');
-		    	       //log(data.pageContent);
-		    	       $('#summernote').summernote('code', data.pageContent);
-		    	    },
-		    	    complete: function(response, textStatus) {//response can be null
-		    	    	//log(response.status);
-		    	    	if(response.status != 200) {//can be an error
-		    	    		error(JSON.stringify(response.message));
-		    	    	}
-		    	    	hideLoader();
-		    	    }
-				});
-    	
-    	
+    		
+    			$("#selectLanguage"). change(function(){
+    				var selectedCountry = $(this). children("option:selected"). val();
+    				loadLandingPage(selectedCountry);
+    			});
+    		
 		    	var imagesUrl = BACKEND + "/" + STORECODE + "/content/images";
-
-		
+	
+		    	
 		        $('#summernote').summernote({
 		          height: 300,
 		          tabsize: 2,
@@ -142,7 +136,104 @@
 		              }
 		          }
 		        });
+
+    			//load merchant store
+    			loadStore();
+
      	 });
+    	
+    	function loadLandingPage(lang) {
+    		
+			showLoader();
+			log('Load landing page');
+
+			//fetch store content
+		    var store = STORECODE;
+    		if('[[${code}]]'!='') {
+    			store = '[[${code}]]';
+    		}
+      		var storeContentUrl = BACKEND + "/" + store + '/content/pages/LANDING_PAGE?lang=' + lang;
+
+	    	$.ajax({
+	    	    type:"get",
+	    	    crossDomain: true,
+	    	    cache: false,
+	    	    url: storeContentUrl,
+	    	    dataType: "json",
+	    	    headers: {
+	    	        "Authorization": "Bearer " + TOKEN
+	    	    },
+	    	    success: function(data){
+	    	       hideLoader();
+	    	       log(JSON.stringify(data));
+	    	       $('#summernote').summernote('code', data.pageContent);
+	    	       $('#title').val(data.title);
+	    	       $('#metaDetails').val(data.metaDetails);
+	    	    },
+	    	    complete: function(response, textStatus) {//response can be null
+	    	    	//log(response.status);
+	    	    	if(response.status != 200) {//can be an error
+	    	    		error(JSON.stringify(response.message));
+	    	    	}
+	    	    	hideLoader();
+	    	    }
+			});
+	
+    	}
+    	
+    	function loadStore() {
+    		
+    		log('Load STORE');
+    		showLoader();
+    		var store = STORECODE;
+    		if('[[${code}]]'!='') {
+    			store = '[[${code}]]';
+    		}
+			//fetch store
+      		var url = BACKEND + "/store/" + store + '?lang=' + LANGUAGE;
+
+	    	$.ajax({
+	    	    type:"get",
+	    	    crossDomain: true,
+	    	    cache: false,
+	    	    url: url,
+	    	    dataType: "json",
+	    	    headers: {
+	    	        "Authorization": "Bearer " + TOKEN
+	    	    },
+	    	    success: function(data){
+	    	       hideLoader();
+	    	       //display supported languages
+	    	       
+	    	       //use default language to load landing page
+	    		   //load landing page
+	    		   //set dropdown language to defaultLanguage
+	    		   
+	    		   loadLandingPage(data.defaultLanguage);
+	    	       
+	    		   var dropdown = $("#selectLanguage");
+		    	   for (var i=0; i<data.supportedLanguages.length; i++) {
+		    		   	  
+		    		   	  //build languages in javascript side
+						  var langText = languageLabel(LANGUAGE,data.supportedLanguages[i]);
+		    		      dropdown.append($("<option />").val(data.supportedLanguages[i]).text(langText));
+		    	   }
+		    	   
+		    	   $("#selectLanguage").val(data.defaultLanguage);
+
+
+
+	    	    },
+	    	    error: function(response,textStatus,errorThrown) {
+	    	    	//TODO if 403 or 401 redirect to not authorized page
+	    	    	log(JSON.stringify(response.message));
+	    	    	error(JSON.stringify(response.message));
+	    	    	hideLoader();
+	    	    }
+	    	});
+    		
+    		
+    	}
 	</script>
 	
 

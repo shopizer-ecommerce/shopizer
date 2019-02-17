@@ -8,6 +8,7 @@ public class Constants {
 	}
 	
 	public static class Cache {
+	    public final static String LANGUAGES = "LANGUAGES";
 		public final static String LANGUAGE = "LANGUAGE";
 		public final static String COUNTRY = "COUNTRY";
 		public final static String ZONE = "ZONE";

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,6 +30,7 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.content.ContentFile;
 import com.salesmanager.shop.model.content.ContentFolder;
 import com.salesmanager.shop.model.content.ContentName;
+import com.salesmanager.shop.model.content.PersistableContentPage;
 import com.salesmanager.shop.model.content.ReadableContentBox;
 import com.salesmanager.shop.model.content.ReadableContentPage;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
@@ -188,6 +190,37 @@ public class ContentApi {
     String fileUrl = contentFacade.absolutePath(merchantStore, fileName);
     return new HttpEntity<String>(fileUrl);
   }
+  
+  
+  @PostMapping(value = "/private/{code}/content/page")
+  @ResponseStatus(HttpStatus.CREATED)
+  @ApiOperation(httpMethod = "POST", value = "Create content page", notes = "",
+  response = Void.class)
+  public void createPage(@RequestBody @Valid PersistableContentPage page,
+      @PathVariable(name = "code") String storeCode,
+      HttpServletRequest request) {
+
+    MerchantStore merchantStore = storeFacade.get(storeCode);
+    Language language = languageUtils.getRESTLanguage(request, merchantStore);
+
+    contentFacade.saveContentPage(page, merchantStore, language);
+  }
+  
+  @PutMapping(value = "/private/{code}/content/page/{pageCode}")
+  @ResponseStatus(HttpStatus.OK)
+  @ApiOperation(httpMethod = "PUT", value = "Update content page", notes = "",
+  response = Void.class)
+  public void updatePage(@RequestBody @Valid PersistableContentPage page,
+      @PathVariable(name = "code") String storeCode,
+      @PathVariable(name = "pageCode") String pageCode,
+      HttpServletRequest request) {
+
+    MerchantStore merchantStore = storeFacade.get(storeCode);
+    Language language = languageUtils.getRESTLanguage(request, merchantStore);
+
+    contentFacade.saveContentPage(page, merchantStore, language);
+  }
+  
 
   /**
    * Deletes a files from CMS

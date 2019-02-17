@@ -25,6 +25,8 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.content.ContentFile;
 import com.salesmanager.shop.model.content.ContentFolder;
 import com.salesmanager.shop.model.content.ContentImage;
+import com.salesmanager.shop.model.content.ObjectContent;
+import com.salesmanager.shop.model.content.PersistableContentPage;
 import com.salesmanager.shop.model.content.ReadableContentBox;
 import com.salesmanager.shop.model.content.ReadableContentPage;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
@@ -65,7 +67,7 @@ public class ContentFacadeImpl implements ContentFacade {
           .map(name -> convertToContentImage(name, store)).collect(Collectors.toList());
 
       ContentFolder contentFolder = new ContentFolder();
-      if(!StringUtils.isBlank(folder)) {
+      if (!StringUtils.isBlank(folder)) {
         contentFolder.setPath(URLEncoder.encode(folder, "UTF-8"));
       }
       contentFolder.getContent().addAll(contentImages);
@@ -133,8 +135,71 @@ public class ContentFacadeImpl implements ContentFacade {
     page.setMetaDetails(contentDescription.get().getMetatagDescription());
     page.setContentType(ContentType.PAGE.name());
     page.setCode(content.getCode());
+    page.setId(content.getId());
     page.setPath(fileUtils.buildStaticFilePath(store, contentDescription.get().getSeUrl()));
     return page;
+  }
+
+  private Content convertContentPageToContent(MerchantStore store, Language language,
+      PersistableContentPage content) {
+    Content contentModel = new Content();
+
+    ContentDescription contentDescription = createContentDescription(store, content, language);
+    contentDescription.setContent(contentModel);
+
+    contentModel.setCode(content.getCode());
+    contentModel.setContentType(ContentType.PAGE);
+    contentModel.setMerchantStore(store);
+    contentModel.setVisible(true);
+
+    return contentModel;
+  }
+
+  private Content convertContentPageToContent(MerchantStore store, Language language,
+      Content content, PersistableContentPage contentPage) {
+
+    ContentDescription contentDescription = createContentDescription(store, contentPage, language);
+    contentDescription.setContent(content);
+
+    content.setCode(content.getCode());
+    content.setContentType(ContentType.PAGE);
+    content.setMerchantStore(store);
+    content.setVisible(true);
+
+    return content;
+  }
+
+  private ContentDescription createContentDescription(MerchantStore store, ObjectContent content,
+      Language language) {
+
+    ContentDescription contentDescription = new ContentDescription();
+    contentDescription.setLanguage(language);
+    contentDescription.setMetatagDescription(content.getMetaDetails());
+    contentDescription.setTitle(content.getTitle());
+    contentDescription.setName(content.getName());
+    contentDescription.setDescription(content.getPageContent());
+    contentDescription.setMetatagTitle(content.getTitle());
+
+    return contentDescription;
+  }
+
+  private void setContentDescriptionToContentModel(Content content,
+      ContentDescription contentDescription, Language language) {
+
+    Optional<ContentDescription> contentDescriptionModel =
+        findAppropriateContentDescription(content.getDescriptions(), language);
+
+    if (contentDescriptionModel.isPresent()) {
+      contentDescriptionModel.get()
+          .setMetatagDescription(contentDescription.getMetatagDescription());
+      contentDescriptionModel.get().setTitle(contentDescription.getTitle());
+      contentDescriptionModel.get().setName(contentDescription.getName());
+      contentDescriptionModel.get().setDescription(contentDescription.getDescription());
+      contentDescriptionModel.get().setMetatagTitle(contentDescription.getTitle());
+    } else {
+      content.getDescriptions().add(contentDescription);
+    }
+
   }
 
   @Override
@@ -244,5 +309,27 @@ public class ContentFacadeImpl implements ContentFacade {
     } catch (ServiceException e) {
       throw new ServiceRuntimeException(e);
     }
+  }
+
+  @Override
+  public void saveContentPage(PersistableContentPage page, MerchantStore merchantStore,
+      Language language) {
+    Validate.notNull(page);
+    Validate.notNull(merchantStore);
+    Validate.notNull(page.getCode());
+
+    try {
+      // check if exists
+      Content content = contentService.getByCode(page.getCode(), merchantStore, language);
+      if (content != null) {
+        content = convertContentPageToContent(merchantStore, language, content, page);
+      } else {
+        content = convertContentPageToContent(merchantStore, language, page);
+      }
+      contentService.saveOrUpdate(content);
+    } catch (Exception e) {
+      throw new ServiceRuntimeException(e);
+    }
+
   }
 }

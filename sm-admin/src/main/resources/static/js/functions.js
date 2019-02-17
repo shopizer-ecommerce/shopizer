@@ -14,13 +14,9 @@
 	}
 
    function showLoader() {
-	  //$.LoadingOverlay("show");
-      //return this;
       $('#loader').removeClass('fadeOut');
    }; 
    function hideLoader() {
-	  // $.LoadingOverlay("hide");
-	  // return this;
 	   $('#loader').addClass('fadeOut');
    }; 
    
@@ -56,4 +52,32 @@
 	       }
 	       $(this).attr('href',url);
 	   })
+   }
+   
+   function populateLanguagesCache(code) {
+			showLoader();
+  			var url = "/admin/references/languages?lang=" + code;
+		    
+  			var langs;
+  			$.getJSON(url, function (langs) {
+		        $.each(langs, function (i, langs) { 
+		        	var key = 'language_' + code + '_' + langs.code;
+		        	localStorage.setItem(key,langs.name);
+		        });
+
+		        hideLoader();
+		    })
+   }
+   
+   function languageLabel(lang, langCode) {
+	    var key = 'language_' + lang + '_' + langCode;
+	    var langCache = localStorage.getItem(key);
+	    if(!langCache) {
+	    	populateLanguagesCache(LANGUAGE);   	  
+	    } 
+	    var returnLang = langCode
+	    if(langCache) {
+	    	returnLang = langCache;
+	    } 
+	    return returnLang;
    }

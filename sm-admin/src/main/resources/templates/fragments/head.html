@@ -42,6 +42,15 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
 	<script type="text/javascript">
+	
+		//verify storage
+		if (typeof(Storage) !== "undefined") {
+			log('supports storage');
+		} else {
+			log('no storage');
+		}
+	
+	
 	    //global variables
 	    var TOKEN = '[[${token}]]';
 	    var USERNAME = '[[${userName}]]';
@@ -51,6 +60,7 @@
 	    var BACKEND = '[[${backend}]]';
 	    var IMAGES_HOST = '[[${imagesHost}]]';
 	    var LANGUAGE = '[[${defaultLanguage}]]';
+	    var languages = '[[${LANGUAGES}]]';
 	    
 	    
 	    var params = (new URL(document.location)).searchParams;
@@ -60,6 +70,14 @@
 	    	$.cookie('lang',lang);
 	    }
 	    
+	    
+	    //populate languages label cache
+	    localStorage.removeItem("languages_" + LANGUAGE);
+	    var langCache = localStorage.getItem("languages_" + LANGUAGE);
+	    if(!langCache) {
+	    	populateLanguagesCache(LANGUAGE);   	  
+	    }
+
 	    var UNIQUEMESSAGE='[[#{message.code.exist}]]';
 	    
 	</script>

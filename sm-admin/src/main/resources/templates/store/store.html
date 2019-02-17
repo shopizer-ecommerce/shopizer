@@ -220,7 +220,7 @@
 		    	       $("#defaultLanguage").val(data.defaultLanguage);
 		    	       for (var i=0; i<data.supportedLanguages.length; i++) {
 		    	    	    $("input[value='" + data.supportedLanguages[i] + "'][type='checkbox']").prop("checked", true);
-		    	    	}
+		    	       }
 		    	       $("#currency").val(data.currency);
 		    	       if(data.currencyFormatNational) {
 		    	    	   $("input[name='currencyFormatNational'][type='checkbox']").prop("checked", true);
@@ -237,6 +237,9 @@
 		    	       }
 		    	       
 		    	       maskPhone($("#country").val(), $("#phone"));
+		    	       
+		    	       //set objects in cookie
+		    	       
 
 
 		    	    },
