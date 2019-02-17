@@ -52,15 +52,12 @@ public class ContentFacadeImpl implements ContentFacade {
   @Inject
   private FilePathUtils fileUtils;
 
-  @SuppressWarnings("unused")
   @Override
   public ContentFolder getContentFolder(String folder, MerchantStore store) throws Exception {
     try {
       List<String> imageNames = Optional
           .ofNullable(contentService.getContentFilesNames(store.getCode(), FileContentType.IMAGE))
           .orElseThrow(() -> new ResourceNotFoundException("No Folder found for path : " + folder));
-
-      List<String> fileNames = null; // add files since they are bundled with images
 
       // images from CMS
       List<ContentImage> contentImages = imageNames.stream()
@@ -135,7 +132,6 @@ public class ContentFacadeImpl implements ContentFacade {
     page.setMetaDetails(contentDescription.get().getMetatagDescription());
     page.setContentType(ContentType.PAGE.name());
     page.setCode(content.getCode());
-    page.setId(content.getId());
     page.setPath(fileUtils.buildStaticFilePath(store, contentDescription.get().getSeUrl()));
     return page;
   }
@@ -159,6 +155,8 @@ public class ContentFacadeImpl implements ContentFacade {
       Content content, PersistableContentPage contentPage) {
 
     ContentDescription contentDescription = createContentDescription(store, contentPage, language);
+    setContentDescriptionToContentModel(content,contentDescription,language);
+ 
     contentDescription.setContent(content);
 
     content.setCode(content.getCode());
@@ -169,9 +167,11 @@ public class ContentFacadeImpl implements ContentFacade {
     return content;
   }
 
+  //private ContentDescription createOrUpdateContentDescription(MerchantStore store, Content contentModel, ObjectContent content,
+  //    Language language) {
   private ContentDescription createContentDescription(MerchantStore store, ObjectContent content,
       Language language) {
-
+      
     ContentDescription contentDescription = new ContentDescription();
     contentDescription.setLanguage(language);
     contentDescription.setMetatagDescription(content.getMetaDetails());
@@ -320,7 +320,7 @@ public class ContentFacadeImpl implements ContentFacade {
 
     try {
       // check if exists
-      Content content = contentService.getByCode(page.getCode(), merchantStore, language);
+      Content content = contentService.getByCode(page.getCode(), merchantStore);
       if (content != null) {
         content = convertContentPageToContent(merchantStore, language, content, page);
       } else {

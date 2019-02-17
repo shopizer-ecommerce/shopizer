@@ -10,7 +10,6 @@ public class ObjectContent extends ContentPath implements ResourceUrlAccess {
   private static final long serialVersionUID = 1L;
 
   private boolean isDisplayedInMenu;
-  private Long id;
   private String slug;
   private String code;
   private String metaDetails;
@@ -62,11 +61,6 @@ public class ObjectContent extends ContentPath implements ResourceUrlAccess {
   public void setTitle(String title) {
     this.title = title;
   }
-  public Long getId() {
-    return id;
-  }
-  public void setId(Long id) {
-    this.id = id;
-  }
+
 
 }

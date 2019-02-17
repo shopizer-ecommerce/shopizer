@@ -46,7 +46,7 @@
 					<th:block th:include="fragments/language-switcher.html :: language-switcher"></th:block>
 	
 					<hr/>
-					<form role="form" id="store" data-parsley-validate="">
+					<form role="form" id="landing" data-parsley-validate="">
 						<div class="box-body">
 							<!-- Title -->
 							<div class="form-group">
@@ -88,7 +88,7 @@
 				
 				
 			</div>
-		</div>
+
 
 	</div><!-- end row -->
 
@@ -106,14 +106,63 @@
 
 	
 	<script type="text/javascript">
+	
+	
+		var store = STORECODE;
+		if('[[${code}]]'!='') {
+			store = '[[${code}]]';
+		}
+	
     	$(document).ready(function() {
-    		
+
+	  	    	$("#landing").submit(function(event){
+	  	    		showLoader();
+					event.preventDefault(); //prevent default action 
+					resetMessages();
+					
+					var form_data = $(this).serializeJSON(); //Encode form elements for submission
+
+					//add name and code again in case field is disabled
+					form_data.code='LANDING_PAGE'
+					form_data.name='LANDING_PAGE'
+					//set content
+
+					form_data.pageContent=$('#summernote').summernote('code');
+	
+					//log(form_data);
+					
+					//create url
+					var url = BACKEND + "/private/" + store + '/content/pages/LANDING_PAGE?lang=' + $('#selectLanguage').children("option:selected"). val();
+
+			    	$.ajax({
+			    	    type:'POST',
+			    	    crossDomain: true,
+			    	    cache: false,
+			    	    url: url,
+			    	    contentType : 'application/json; charset=utf-8',
+			    	    data:JSON.stringify(form_data),
+			    	    headers: {
+			    	        "Authorization": "Bearer " + TOKEN
+			    	    },
+			    	    success: function(data){
+			    	    	success('');
+			    	    	hideLoader();
+			    	    },
+			    	    error: function(response,textStatus,errorThrown) {
+			    	    	log(JSON.stringify(response.message));
+			    	    	error(JSON.stringify(response.message));
+			    	    	hideLoader();
+			    	    }
+			    	});
+	 
+				});
+
     			$("#selectLanguage"). change(function(){
-    				var selectedCountry = $(this). children("option:selected"). val();
+    				var selectedCountry = $(this).children("option:selected"). val();
     				loadLandingPage(selectedCountry);
     			});
     		
-		    	var imagesUrl = BACKEND + "/" + STORECODE + "/content/images";
+		    	var imagesUrl = BACKEND + "/" + store + "/content/images";
 	
 		    	
 		        $('#summernote').summernote({
@@ -145,13 +194,7 @@
     	function loadLandingPage(lang) {
     		
 			showLoader();
-			log('Load landing page');
 
-			//fetch store content
-		    var store = STORECODE;
-    		if('[[${code}]]'!='') {
-    			store = '[[${code}]]';
-    		}
       		var storeContentUrl = BACKEND + "/" + store + '/content/pages/LANDING_PAGE?lang=' + lang;
 
 	    	$.ajax({
@@ -185,11 +228,7 @@
     		
     		log('Load STORE');
     		showLoader();
-    		var store = STORECODE;
-    		if('[[${code}]]'!='') {
-    			store = '[[${code}]]';
-    		}
-			//fetch store
+
       		var url = BACKEND + "/store/" + store + '?lang=' + LANGUAGE;
 
 	    	$.ajax({

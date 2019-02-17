@@ -191,33 +191,19 @@ public class ContentApi {
     return new HttpEntity<String>(fileUrl);
   }
   
-  
-  @PostMapping(value = "/private/{code}/content/page")
-  @ResponseStatus(HttpStatus.CREATED)
-  @ApiOperation(httpMethod = "POST", value = "Create content page", notes = "",
-  response = Void.class)
-  public void createPage(@RequestBody @Valid PersistableContentPage page,
-      @PathVariable(name = "code") String storeCode,
-      HttpServletRequest request) {
 
-    MerchantStore merchantStore = storeFacade.get(storeCode);
-    Language language = languageUtils.getRESTLanguage(request, merchantStore);
-
-    contentFacade.saveContentPage(page, merchantStore, language);
-  }
-  
-  @PutMapping(value = "/private/{code}/content/page/{pageCode}")
+  @PostMapping(value = "/private/{code}/content/pages/{pageCode}")
   @ResponseStatus(HttpStatus.OK)
-  @ApiOperation(httpMethod = "PUT", value = "Update content page", notes = "",
+  @ApiOperation(httpMethod = "POST", value = "Update content page", notes = "",
   response = Void.class)
-  public void updatePage(@RequestBody @Valid PersistableContentPage page,
+  public void savePage(@RequestBody @Valid PersistableContentPage page,
       @PathVariable(name = "code") String storeCode,
       @PathVariable(name = "pageCode") String pageCode,
       HttpServletRequest request) {
 
     MerchantStore merchantStore = storeFacade.get(storeCode);
     Language language = languageUtils.getRESTLanguage(request, merchantStore);
-
+    page.setCode(pageCode);
     contentFacade.saveContentPage(page, merchantStore, language);
   }
   
