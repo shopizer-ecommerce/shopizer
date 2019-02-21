@@ -148,10 +148,11 @@ public class ShoppingCartController extends AbstractController {
 			if(customerCart!=null) {
 				shoppingCart = shoppingCartFacade.getShoppingCartData( customerCart, language);
 
-
-				//TODO if shoppingCart != null ?? merge
-				//TODO maybe they have the same code
-				//TODO what if codes are different (-- merge carts, keep the latest one, delete the oldest, switch codes --)
+			} else {
+			  /**
+			   * BUG that used a previous customer cart
+			   */
+			  item.setCode(null);
 			}
 		}
 
