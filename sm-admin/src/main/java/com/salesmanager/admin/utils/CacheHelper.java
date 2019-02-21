@@ -24,6 +24,7 @@ import com.salesmanager.admin.model.references.Country;
 import com.salesmanager.admin.model.references.Currency;
 import com.salesmanager.admin.model.references.Language;
 import com.salesmanager.admin.model.references.MeasureEnum;
+import com.salesmanager.admin.model.references.Permission;
 import com.salesmanager.admin.model.references.Reference;
 import com.salesmanager.admin.model.references.Zone;
 import com.salesmanager.admin.model.web.Menu;
@@ -54,6 +55,7 @@ public class CacheHelper {
   private Cache weights;
   @SuppressWarnings("rawtypes")
   private Cache sizes;
+  private Cache permissions;
 
   @Inject
   ReferencesLoader references;
@@ -236,6 +238,28 @@ public class CacheHelper {
       country.put("currency", listCurrency);
     }
     return listCurrency;
+
+  }
+  
+  @SuppressWarnings("unchecked")
+  public List<Permission> getPermissions(Locale locale) throws Exception {
+
+
+    List<Permission> listPermissions = (List<Permission>) permissions.get("permissions");
+    if (CollectionUtils.isEmpty(listPermissions)) {
+      listPermissions = references.loadPermissions(locale);
+      Collections.sort(listPermissions, new Comparator<Permission>() {
+        @Override
+        public int compare(Permission item, Permission t1) {
+          String s1 = item.getName();
+          String s2 = t1.getName();
+          return s1.compareToIgnoreCase(s2);
+        }
+
+      });
+      permissions.put("permissions", listPermissions);
+    }
+    return listPermissions;
 
   }
 

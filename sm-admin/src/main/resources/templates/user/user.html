@@ -11,12 +11,12 @@
 
 <span layout:fragment="breadcrumb" id="breadcrumb">
 	<h2>
-		<span class="breadcrumb-title" th:text="#{'menu.store'}" /> <small></small>
+		<span class="breadcrumb-title" th:text="#{'menu.user'}" /> <small></small>
 	</h2>
 	<ol class="breadcrumb">
-		<li><a href="#"><i class="fa fa-building"></i>&nbsp;<span
+		<li><a href="#"><i class="fa fa-address-card"></i>&nbsp;<span
 				th:text="#{'menu.home'}"></span></a></li>
-		<li class="active"><span th:text="#{'menu.store'}"></span></li>
+		<li class="active"><span th:text="#{'menu.user'}"></span></li>
 	</ol>
 </span>
 
@@ -31,63 +31,36 @@
 	<div class="box box-default">
 		<div class="box-header with-border">
 			<h3 class="box-title">
-				<span th:text="#{'label.store.information'}"></span>
+				<span th:text="#{'menu.profile'}"></span>
 			</h3>
 		</div>
 		<!-- /.box-header -->
 		<div class="box-body">
 
-					<p>
-					<i class="fa fa-building"></i> <span th:text="#{'label.store.metadata'}"></span>
-					</p>
-
-					<form role="form" id="store" data-parsley-validate="">
+					<form role="form" id="user" data-parsley-validate="">
 						<div class="box-body">
 							<div class="form-group">
-								<label for="storeName"><span
-									th:text="#{'label.storename'}"></span> *</label> <input
-									class="form-control" id="name" name="name" required="">
+								<label for="firstName"><span
+									th:text="#{'label.generic.firstname'}"></span> *</label> <input
+									class="form-control" id="firstName" name="firstName" required="">
 							</div>
-							<th:block th:include="fragments/code.html :: code"></th:block>
+							<!--<th:block th:include="fragments/code.html :: code"></th:block>-->
 							<div class="form-group">
-								<label for="phone"><span th:text="#{'label.storephone'}"></span> *</label>
-								<input class="form-control" id="phone" name="phone" required="" data-mask>
+								<label for="lastName"><span th:text="#{'label.generic.lastname'}"></span> *</label>
+								<input class="form-control" id="lastName" name="lastName" required="" data-mask>
 							</div>
 							<div class="form-group">
-								<label for="email"><span
-									th:text="#{'label.storeemailaddress'}"></span> *</label> <input
-									type="email" class="form-control" id="email" name="email" data-parsley-trigger="change" required="">
+								<label for="emailAddress"><span
+									th:text="#{'label.generic.email'}"></span> *</label> <input
+									type="email" class="form-control" id="emailAddress" name="emailAddress" data-parsley-trigger="change" required="">
 							</div>
 
-							<th:block th:include="fragments/address.html :: address"></th:block>
-							<th:block th:include="fragments/languages.html :: languages"></th:block>
-							
-							
-							<div class="form-group">
-								<label for="currency"><span
-									th:text="#{'label.currency'}"></span> *</label> 
-									<select class="form-control" id="currency" name="currency"></select>
-							</div>
-							
 							<div class="checkbox">
-								<label> <input type="checkbox" class="checkTrueFalse" name="currencyFormatNational" id="currencyFormatNational"><span
-									th:text="#{'label.store.currency.format'}"></span>
+								<label> <input type="checkbox" class="checkTrueFalse" name="active" id="active"><span
+									th:text="#{'label.entity.active'}"></span>
 								</label>
-								<p class="help-block"><span
-									th:text="#{'label.store.currency.format.help'}"></span></p>
 							</div>
 							
-							<div class="form-group">
-								<label for="weight"><span
-									th:text="#{'label.store.weightunit'}"></span> *</label> 
-									<select class="form-control" id="weight" name="weight"></select>
-							</div>
-							
-							<div class="form-group">
-								<label for="size"><span
-									th:text="#{'label.store.sizeunits'}"></span> *</label> 
-									<select class="form-control" id="dimension" name="dimension"></select>
-							</div>
 							
 							<div class="form-group">
 				                <label><span
@@ -101,13 +74,9 @@
 				                </div>
 				                <!-- /.input group -->
 				            </div>
-							
-							<div class="checkbox">
-								<label> 
-									<input class="checkTrueFalse" type="checkbox" name="useCache" id="useCache"><span
-									th:text="#{'label.store.useCache'}"></span>
-								</label>
-							</div>
+				            
+							<th:block th:include="fragments/permissions.html :: permissions"></th:block>
+
 							
 							<input type="hidden" id="action" th:value="${action}"/>
 
@@ -126,7 +95,7 @@
 				
 			<div class="col-md-3">
 						 <span th:replace="fragments/sideMenu.html
-      						:: sideMenu(title=#{'label.store.title'}, name=${code}, menu='store', codeParam=${code})">
+      						:: sideMenu(title=#{'label.profile.title'}, name='TODO', menu='user', codeParam=${user})">
    			 			</span>
 			</div>
 				
@@ -144,13 +113,13 @@
 	<!-- address component -->
 	<script src="/js/address.js"></script>
 	<!-- available language -->
-	<script src="/js/languages.js"></script>
+	<script src="/js/permissions.js"></script>
 	<!-- Unique code detection -->
 	<script src="/js/uniqueCode.js"></script>
 	
 	<script type="text/javascript">
 		$(function () {
-		  $('#store').parsley().on('field:validated', function(fieldInstance) {
+		  $('#user').parsley().on('field:validated', function(fieldInstance) {
 		    var ok = $('.parsley-error').length === 0;
 		    $('.callout-warning').toggleClass('hidden', ok);
 		    if (fieldInstance.$element.is(":disabled")) {
@@ -172,15 +141,18 @@
       $(document).ready(function(){
     	  	resetMessages();
     	  	
+    	  	log('Before delete hide');
+    	  	
     	  	//hide delete button
     	  	$('#delete').hide()
 
   	    	//Date picker
-	  	    $('#inBusinessSince').datepicker({
-	  	      autoclose: true
-	  	    })
+	  	    //$('#inBusinessSince').datepicker({
+	  	    //  autoclose: true
+	  	    //})
     	  
-    	    if($("#action").val()=='READ') {
+    	    //if($("#action").val()=='READ') {
+    	    	log('Before delete show');
     	    	
     	    	$('#delete').show();
 
@@ -190,7 +162,9 @@
 	    			store = '[[${code}]]';
 	    		}
 				//fetch store
-	      		var url = BACKEND + "/store/" + store + '?lang=' + LANGUAGE;
+	      		var url = BACKEND + "/private/users/" + USERNAME;
+				
+	      		log('Before ajax');
 	
 		    	$.ajax({
 		    	    type:"get",
@@ -203,54 +177,31 @@
 		    	    },
 		    	    success: function(data){
 		    	       hideLoader();	
-		    	       //log(JSON.stringify(data));
-		    	       $("#name").val(data.name);
-		    	       $("#code").val(data.code);
-		    	       $("#code").prop("disabled", true);
-		    	       $("#phone").val(data.phone);
-		    	       $("#email").val(data.email);
-		    	       $("#address_address").val(data.address.address);
-		    	       $("#city").val(data.address.city);
-		    	       $("#country").val(data.address.country);
-		    	       zones( data.address.country, data.address.stateProvince );
-		    	       $("#postalCode").val(data.address.postalCode);
-		    	       $("#defaultLanguage").val(data.defaultLanguage);
-		    	       for (var i=0; i<data.supportedLanguages.length; i++) {
-		    	       	    $("input[value='" + data.supportedLanguages[i] + "'][type='checkbox']").prop("checked", true);
-		    	       }
-		    	       $("#currency").val(data.currency);
-		    	       if(data.currencyFormatNational) {
-		    	    	   $("input[name='currencyFormatNational'][type='checkbox']").prop("checked", true);
-		    	       }
-		    	       if(data.useCache) {
-		    	    	   $("input[name='useCache'][type='checkbox']").prop("checked", true);
-		    	       }
-		    	       $("#weight").val(data.weight);
-		    	       $("#dimension").val(data.dimension);
-		    	       if(data.inBusinessSince != null) {
-		    	    	   $("#inBusinessSince").val(data.inBusinessSince);
-		    	       } else {
-		    	    	   $('#inBusinessSince').datepicker("setDate", new Date() );
-		    	       }
-		    	       
-		    	       maskPhone($("#country").val(), $("#phone"));
-		    	       
-		    	       //set objects in cookie
-		    	       
+		    	       log('Success');
+		    	       log(JSON.stringify(data));
+		    	       $("#firstName").val(data.firstName);
+		    	       $("#lastName").val(data.lastName);
+		    	       $("#emailAddress").val(data.emailAddress);
+		    	       $("#active").val(data.active);
+		    	       var permissions = data.permissions;
+				       for (var i=0; i<permissions.length; i++) {
+				        	 $('<div class="checkbox"><label><input type="checkbox" name="permissions[]" id="permissions" required value="' + permissions[i].name + '">' + permissions[i].name + '</label></div>').appendTo('#permissions'); 
+				       }
 
 
 		    	    },
 		    	    error: function(response,textStatus,errorThrown) {
 		    	    	//TODO if 403 or 401 redirect to not authorized page
-		    	    	log(JSON.stringify(response.message));
+		    	    	log('Fail ' + response);
+		    	    	log(JSON.stringify(response));
 		    	    	error(JSON.stringify(response.message));
 		    	    	hideLoader();
 		    	    }
 		    	});
-    	    }
+    	    //}
   	    	
 	  	    //handle submit
-  	    	$("#store").submit(function(event){
+  	    	$("#user").submit(function(event){
   	    		showLoader();
 				event.preventDefault(); //prevent default action 
 				resetMessages();
@@ -296,6 +247,7 @@
 		    	    },
 		    	    error: function(response,textStatus,errorThrown) {
 		    	    	log(JSON.stringify(response.message));
+		    	    	error(response.message);
 		    	    	error(JSON.stringify(response.message));
 		    	    	hideLoader();
 		    	    }
@@ -353,86 +305,16 @@
     	    	  zones( this.value, null );
     	    	  maskPhone(this.value, $("#phone"));
     	    });
-      		
-    	    maskPhone($("#country").val(), $("#phone"));
-      		currency();
-      		weight();
-      		size();
+
       		
       });
-      
-      //load country
-      //set default country
-      //load zones from default country
-      //set default zone
-      addressComponent.BACKEND = BACKEND;
-      addressComponent.MODE = '[[${action}]]';
-      addressComponent.LANGUAGE = LANGUAGE;
-      address();//load address component
-      
-	  //keep or remoce autocomplete address
-	  var key = '[[${addressApiKey}]]'
-	  if(key == null) {
-		$('#addressAutocomplete').hide();
-	  } 
-      
-      languagesComponent.BACKEND = BACKEND;
-      languagesComponent.MODE = '[[${action}]]';
-      languagesComponent.LANGUAGE = LANGUAGE;
-      languages();//load address component
+     
+
+      permissions();//load address component
       
 	  //used by generic code component
       $("#codeTitle").html('[[#{label.storecode}]]');
 
-      
-	  //populate currency
-      function currency() {
-    	  
-			showLoader();
-			var url = "/admin/references/currency";
-		    
-			$.getJSON(url, function (data) {
-
-				$('#currency').empty();
-		        $.each(data, function (i, data) {      // bind the dropdown list using json result              
-   		             $("#currency").append($("<option></option>").val(data.code).html(data.name)); 
-		        });
-		        hideLoader();
-		    })
-
-	  }
-      
-      //populate weight
-      function weight() {
-    	  
-			showLoader();
-			var url = "/admin/references/weights";
-		    
-			$.getJSON(url, function (data) {
-
-				$('#weight').empty();
-		        $.each(data, function (i, data) {      // bind the dropdown list using json result              
- 		             $("#weight").append($("<option></option>").val(data.code).html(data.name)); 
-		        });
-		        hideLoader();
-		    })
-	  }
-      
-      //populate size
-      function size() {
-    	  
-			showLoader();
-			var url = "/admin/references/sizes";
-		    
-			$.getJSON(url, function (data) {
-
-				$('#dimension').empty();
-		        $.each(data, function (i, data) {      // bind the dropdown list using json result              
- 		             $("#dimension").append($("<option></option>").val(data.code).html(data.name)); 
-		        });
-		        hideLoader();
-		    })
-	  }
 
       function adjustCheckBoxes($input) {
 	    		if($input.is(':checked')) {

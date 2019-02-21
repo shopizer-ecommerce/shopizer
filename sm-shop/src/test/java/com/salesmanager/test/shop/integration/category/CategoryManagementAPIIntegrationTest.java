@@ -91,8 +91,6 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
         final ObjectWriter writer = new ObjectMapper().writer().withDefaultPrettyPrinter();
         final String json = writer.writeValueAsString(newCategory);
 
-        System.out.println(json);
-
         final HttpEntity<String> entity = new HttpEntity<>(json, getHeader());
 
         final ResponseEntity response = testRestTemplate.postForEntity("/api/v1/private/category", entity, PersistableCategory.class);

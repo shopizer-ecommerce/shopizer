@@ -9,11 +9,25 @@
 }},
 {
 "menu":{
+"code":"user", 
+"icon":"fa-user-circle",
+"url":"/admin/user/", 
+"role":"AUTH",
+"order":1,
+"menus":[
+	{"menu":{"code":"myprofile","url":"/admin/user","role":"AUTH","order":0}},
+	{"menu":{"code":"create-user","url":"/admin/user/create","role":"ADMIN","order":1}},
+	{"menu":{"code":"users","url":"/admin/user/list","role":"ADMIN","order":2}},
+	{"menu":{"menuType":"CONTEXTUALMENU","code":"change-password","url":"/admin/user/password","role":"AUTH","order":1}}
+]
+}},
+{
+"menu":{
 "code":"store", 
 "icon":"fa-building",
 "url":"/admin/store", 
 "role":"STORE",
-"order":1,
+"order":2,
 "menus":[
 	{"menu":{"code":"store.details","url":"/admin/store","role":"STORE","order":0}},
 	{"menu":{"code":"create-store","url":"/admin/store/create","role":"SUPERADMIN","order":1}},
@@ -21,45 +35,6 @@
 	{"menu":{"menuType":"CONTEXTUALMENU","code":"storeBranding","url":"/admin/store/marketing.html","role":"STORE","order":1}},
 	{"menu":{"menuType":"CONTEXTUALMENU","code":"storeLanding","url":"/admin/store/landing.html","role":"STORE","order":2}},
 	{"menu":{"menuType":"CONTEXTUALMENU","code":"store.details","url":"/admin/store","role":"STORE","order":0}}
-]
-}},
-{
-"menu":{
-"code":"profile", 
-"icon":"fa-user-circle",
-"url":"/admin/user/", 
-"role":"AUTH",
-"order":2,
-"menus":[
-	{"menu":{
-		"code":"user","url":"","role":"AUTH","order":0,"menus":
-		[
-			{"menu":{
-				"code":"myprofile","url":"/admin/user/profile.html","role":"AUTH","order":0
-			}},
-			{"menu":{
-				"code":"change-password","url":"/admin/user/password.html","role":"AUTH","order":1
-			}},
-			{"menu":{
-				"code":"users","url":"","role":"ADMIN","order":2
-			}},
-			{"menu":{
-				"code":"create-user","url":"","role":"ADMIN","order":3
-			}}
-		]
-		
-	}},
-	{"menu":{
-		"code":"security","url":"","role":"ADMIN","order":1,"menus":
-		[
-			{"menu":{
-				"code":"security-groups","url":"/admin/user/groups.html","role":"ADMIN","order":1
-			}},
-			{"menu":{
-				"code":"security-create-group","url":"/admin/groups/new.html","role":"ADMIN","order":2
-			}}
-		]
-	}}
 ]
 }},
 {
@@ -281,11 +256,27 @@
 }},
 {
 "menu":{
+"code":"security",
+"icon":"fa-lock", 
+"url":"/admin/cache/cacheManagement.html", 
+"role":"ADMIN",
+"order":11,
+"menus":[
+	{"menu":{
+		"code":"security-groups","url":"/admin/user/groups.html","role":"ADMIN","order":1
+	}},
+	{"menu":{
+		"code":"security-create-group","url":"/admin/groups/new.html","role":"ADMIN","order":2
+	}}
+]
+}},
+{
+"menu":{
 "code":"configuration",
 "icon":"fa-cog", 
 "url":"/admin/configuration/accounts.html", 
 "role":"ADMIN",
-"order":11,
+"order":12,
 "menus":[
 	{"menu":{
 		"code":"accounts-conf","url":"/admin/configuration/accounts.html","role":"ADMIN","order":0
