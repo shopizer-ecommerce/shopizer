@@ -26,10 +26,10 @@ public class UserApiIntegrationTest extends ServicesTestSupport {
   private TestRestTemplate testRestTemplate;
   
   @Test
-  public void getCategory() throws Exception {
+  public void getUser() throws Exception {
       final HttpEntity<String> httpEntity = new HttpEntity<>(getHeader());
 
-      final ResponseEntity<ReadableUser> response = testRestTemplate.exchange(String.format("/api/v1/private/users" + DEFAULT_USER), HttpMethod.GET,
+      final ResponseEntity<ReadableUser> response = testRestTemplate.exchange(String.format("/api/v1/private/users/" + DEFAULT_USER), HttpMethod.GET,
               httpEntity, ReadableUser.class);
       if (response.getStatusCode() != HttpStatus.OK) {
           throw new Exception(response.toString());

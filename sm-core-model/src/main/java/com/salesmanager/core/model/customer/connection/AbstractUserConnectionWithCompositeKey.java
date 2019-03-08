@@ -9,7 +9,7 @@ import com.salesmanager.core.constants.SchemaConstant;
 
 @MappedSuperclass
 @Table(name="USERCONNECTION", schema=SchemaConstant.SALESMANAGER_SCHEMA, uniqueConstraints = { @UniqueConstraint(columnNames = { "userId",
-		"providerId", "rank" }) })
+		"providerId", "userRank" }) })
 public abstract class AbstractUserConnectionWithCompositeKey extends
 		AbstractUserConnection<UserConnectionPK> {
 

@@ -82,7 +82,7 @@
         This repository uses the data source bean for obtaining database
         connection.
         
-        -->
+     -->
     
     <social:jdbc-connection-repository/>
 

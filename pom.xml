@@ -6,7 +6,7 @@
 
 	<groupId>com.shopizer</groupId>
 	<artifactId>shopizer</artifactId>
-	<version>2.3.0</version>
+	<version>2.4.0</version>
 	<packaging>pom</packaging>
 
 	<name>shopizer</name>
@@ -15,7 +15,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.4.RELEASE</version>
+		<version>1.5.18.RELEASE</version>
 	</parent>
 
 
@@ -23,10 +23,10 @@
 		<java.version>1.8</java.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<shopizer.version>2.3.0</shopizer.version>
-		<shopizer.search.version>2.3.0</shopizer.search.version>
-		<shopizer-canadapost.version>2.3.0</shopizer-canadapost.version>
-		<shopizer-shipping-distance.version>2.3.0</shopizer-shipping-distance.version>
+		<shopizer.version>2.4.0</shopizer.version>
+		<shopizer.search.version>2.4.0</shopizer.search.version>
+		<shopizer-canadapost.version>2.4.0</shopizer-canadapost.version>
+		<shopizer-shipping-distance.version>2.4.0</shopizer-shipping-distance.version>
 		<spring-vault-core-version>1.1.2.RELEASE</spring-vault-core-version>
 		<commons-collections4.version>4.0</commons-collections4.version>
 		<commons-validator.version>1.5.1</commons-validator.version>
@@ -35,13 +35,13 @@
 		<javax.el.version>2.2.4</javax.el.version>
 		<javax.servlet-api-version>3.0.1</javax.servlet-api-version>
 		<!-- external systems -->
-		<c3p0-version>0.9.5.2</c3p0-version>
+		<c3p0-version>0.9.5.3</c3p0-version>
 		<infinispan.version>6.0.2.Final</infinispan.version>
-		<mysql-jdbc-version>6.0.5</mysql-jdbc-version>
+		<mysql-jdbc-version>8.0.15</mysql-jdbc-version>
 		<simple-json-version>1.1.1</simple-json-version>
 		<org.elasticsearch-version>5.6.12</org.elasticsearch-version>
 		<io.searchbox.jest-version>5.3.3</io.searchbox.jest-version>
-		<jackson-version>2.9.5</jackson-version>
+		<jackson-version>2.9.8</jackson-version>
 		<coverage.lines>.30</coverage.lines>
 		<coverage.branches>.37</coverage.branches>
 	</properties>
@@ -168,9 +168,6 @@
 			<version>${io.searchbox.jest-version}</version>
 		</dependency>
 
-		<!-- <dependency> <groupId>org.projectlombok</groupId> <artifactId>lombok</artifactId> 
-			<version>${lombok.version}</version> </dependency> -->
-
 	</dependencies>
 
 	<modules>
@@ -178,7 +175,6 @@
 		<module>sm-core-modules</module>
 		<module>sm-core</module>
 		<module>sm-shop</module>
-		<module>sm-admin</module>
 	</modules>
 
 	<repositories>
@@ -231,7 +227,6 @@
 				<version>0.8.2</version>
 
 				<executions>
-
 					<execution>
 						<id>default-prepare-agent</id>
 						<goals>
