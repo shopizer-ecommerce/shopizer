@@ -20,7 +20,7 @@ public abstract class AbstractUserConnection<P> implements RemoteUser,
 	private Long expireTime;
 	private String imageUrl;
 	private String profileUrl;
-	private int rank;
+	private int userRank;
 	private String refreshToken;
 	private String secret;
 
@@ -74,11 +74,11 @@ public abstract class AbstractUserConnection<P> implements RemoteUser,
 	public abstract void setProviderUserId(String providerUserId);
 
 	public int getRank() {
-		return rank;
+		return userRank;
 	}
 
-	public void setRank(int rank) {
-		this.rank = rank;
+	public void setRank(int userRank) {
+		this.userRank = userRank;
 	}
 
 	public String getRefreshToken() {

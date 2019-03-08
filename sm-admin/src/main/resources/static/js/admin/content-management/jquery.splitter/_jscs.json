@@ -1,5 +1,0 @@
-{
-    "requireMultipleVarDecl": true,
-    "disallowSpacesInsideArrayBrackets": true,
-    "disallowSpacesInsideParentheses": true
-}
