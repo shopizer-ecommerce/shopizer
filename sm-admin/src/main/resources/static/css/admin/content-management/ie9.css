@@ -1,0 +1,29 @@
+.fm-container * {
+    zoom: 1;
+}
+
+.fm-container #filepath {
+    height: 27px;
+    line-height: 1.6em;
+}
+
+.fm-container #file-input-container {
+    width: 205px;
+}
+
+.fm-container #file-input-container * {
+    box-sizing: border-box;
+    -ms-box-sizing: border-box;
+}
+
+.fm-container #newfile {
+    width: 205px;
+}
+
+.fm-container .fm-uploader {
+    min-height: 32px;
+}
+
+.fm-container .search-box input {
+    width: 190px;
+}

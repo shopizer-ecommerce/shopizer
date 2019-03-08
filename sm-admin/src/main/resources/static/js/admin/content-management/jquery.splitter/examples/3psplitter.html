@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Language" content="en" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>jQuery 3-pane Splitter</title>
+<script type="text/javascript" src="../lib/jquery.js"></script>
+<script type="text/javascript" src="../splitter.js"></script>
+
+<!-- General page styles (not critical to the demos) -->
+<link rel="stylesheet" type="text/css" href="main.css" />
+
+<style type="text/css" media="all">
+html, body
+{
+	margin: 0;			/* Remove body margin/padding */
+	padding: 0;
+	overflow: hidden;	/* Remove scroll bars on browser window */
+}
+#header { padding: 1em; }
+
+#MySplitter {
+	border: 3px solid #669;
+	min-width: 500px;	/* Splitter can't be too thin ... */
+	min-height: 300px;	/* ... or too flat */
+	height: 100%;
+}
+#LeftPane {
+	width: 150px;
+	min-width: 100px;
+	max-width: 300px;
+}
+#TopPane {				/* Top nested in right pane */
+	height: 150px;		/* Initial height */
+	min-height: 75px;	/* Minimum height */
+}
+#BottomPane {
+	background: #eef;
+	min-height: 100px;
+}
+
+/* Splitbar styles; these are the default class names */
+
+.ui-state-default { background-color: #88c }
+.ui-state-hover { background-color: #bbf }
+.ui-state-highlight { background-color: #68f }
+.ui-state-error { background-color: #eaa }
+
+.splitter-pane {
+	overflow: auto;
+}
+.splitter-bar-vertical {
+	width: 6px;
+	background-image: url(img/vgrabber.gif);
+	background-repeat: no-repeat;
+	background-position: center;
+}
+.splitter-bar-vertical-docked {
+	width: 10px;
+	background-image: url(img/vdockbar-trans.gif);
+	background-repeat: no-repeat;
+	background-position: center;
+}
+.splitter-bar-horizontal {
+	height: 6px;
+	background-image: url(img/hgrabber.gif);
+	background-repeat: no-repeat;
+	background-position: center;
+}
+.splitter-bar-horizontal-docked {
+	height: 10px;
+	background-image: url(img/hdockbar-trans.gif);
+	background-repeat: no-repeat;
+	background-position: center;
+}
+.splitter-bar.ui-state-highlight {
+	opacity: 0.7;
+}
+.splitter-iframe-hide {
+	visibility: hidden;
+}
+</style>
+<script type="text/javascript">
+$().ready(function() {
+	// Vertical splitter. Set min/max/starting sizes for the left pane.
+	$("#MySplitter").splitter({
+		splitVertical: true,
+		outline: true,
+		sizeLeft: true,
+		resizeTo: window,
+		accessKey: "I"
+	});
+	// Horizontal splitter, nested in the right pane of the vertical splitter.
+	$("#RightPane").splitter({
+		splitHorizontal: true,
+		sizeTop: true,
+		accessKey: "H"
+	});
+
+});
+</script>
+</head>
+<body>
+
+<div id="header">
+<h1>3-Pane Splitter Layout</h1>
+<p>Here is a typical 3-pane layout with the splitter occupying all the area below this header.
+  The page scroll bars have been removed since all the content is inside the splitter, and the
+  splitter is anchored to the bottom of the window using an onresize event handler.</p>
+<p>
+<a href="index.html">See the splitter documentation</a>
+</p>
+</div>
+
+
+<div id="MySplitter">
+
+  <div id="LeftPane">
+		<p>This is the left pane of the 3-pane splitter. It has been limited to a range of 100 to 300 pixels wide with the minA/maxA properties of the plugin. It starts at 150 pixels wide because of the #LeftPane's width property.</p>
+		<p>Essentially, a 3-pane splitter is just a vertical splitter with a horizontal splitter nested in the right-hand side. This same technique can be used to create multiple vertical and/or horizontal splitter layouts.</p>
+  </div> <!-- #LeftPane -->
+  
+  <div id="RightPane">
+  
+	<div id="TopPane">
+		<p>This is the top-right part of the 3-pane splitter. It starts at 150 pixels because the height of #TopPane was set in the stylesheet. The stylesheet has also set <code>min-height: 75px</code> so it can't get any smaller than that.</p>
+		<p>The splitbars are keyboard-accessible. Use <kbd>Alt-Shift-I</kbd> to select the vertical splitbar, or <kbd>Alt-Shift-H</kbd>  for the horizontal one. Then use the arrow keys to move the bar. The plugin lets you specify any key for the access key, but be sure to test on all browsers in case they reserve those keystrokes.</p>
+	</div>
+	
+	<div id="BottomPane">
+		<p>This is the bottom-right part of the 3-pane splitter. It can't get any smaller than 100 pixels tall--because the stylesheet says so, that's why.</p>
+		
+		<p>Notice that the #MySplitter element is set to <code>min-width: 400px</code>, so some of the splitter will be out of sight if you try to resize the browser window too narrowly. Similarly, it has <code>min-height: 300px</code> so the splitter won't perform an impossible act--like setting itself to a negative height if window is resized above the top of the splitter!</p>
+	</div> <!-- #BottomPane -->
+	
+  </div> <!-- #RightPane -->
+  
+</div> <!-- #MySplitter -->
+
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Language" content="en" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>jQuery Horizontal Splitter</title>
+<script type="text/javascript" src="../lib/jquery.js"></script>
+<script type="text/javascript" src="../splitter.js"></script>
+
+<!-- General page styles (not critical to the demos) -->
+<link rel="stylesheet" type="text/css" href="main.css" />
+
+<style type="text/css" media="all">
+
+body {
+	padding: 1em;
+}
+
+/*
+ * Splitter container. Set this to the desired width and height
+ * of the combined left and right panes.
+ */
+#MySplitter {
+	height: 300px;
+	width: 600px;
+	border: 4px solid #cca;
+	/* No padding allowed */
+}
+/*
+ * Top element of the splitter. Use pixel units for the
+ * min-height and max-height; the splitter plugin parses them to
+ * determine the splitter movement limits. Set the height to
+ * the desired initial height of the element; the plugin changes
+ * the height of this element dynamically.
+ */
+#TopPane {
+	background: #ffe;
+	overflow: auto;
+	/* Initial/min/max height for this pane */
+	height: 100px;
+	min-height: 50px;
+	max-height: 200px;
+	/* No margin or border allowed */
+}
+/*
+ * Bottom element of the splitter; the plugin changes the top
+ * position and height of this element dynamically.
+ */
+#BottomPane {
+	background: #ffd;
+	overflow: auto;
+	/* No margin or border allowed */
+}
+/* 
+ * Splitter bar style; the .active class is added when the
+ * mouse is over the splitter or the splitter is focused
+ * via the keyboard taborder or an accessKey. 
+ */
+#MySplitter .splitter-bar-horizontal {
+	height: 6px;
+	background: #cca url(img/hgrabber.gif) no-repeat center;
+	/* No margin, border, or padding allowed */
+}
+#MySplitter .splitter-bar-horizontal.active, #MySplitter .splitter-bar-horizontal:hover {
+	background: #e88 url(img/hgrabber.gif) no-repeat center;
+}
+</style>
+<script type="text/javascript">
+$().ready(function() {
+	$("#MySplitter").splitter({
+		type: "h", 
+		sizeTop: true,	/* use height set in stylesheet */
+		accessKey: "P"
+	});
+});
+</script>
+</head>
+<body>
+<h1>jQuery Horizontal Splitter</h1>
+<p>
+<a href="index.html">See the splitter documentation</a>
+</p>
+<div id="MySplitter">
+
+	<div id="TopPane">
+		<p>This is the top part of the horizontal splitter.</p>
+		<p>Using CSS styles you can control the look of the splitter, such as its color, width, and appearance when selected. For example, the top pane on this example uses stylesheet rules to limit the height between 50 and 200 pixels.</p>
+	</div>
+	
+	<div id="BottomPane">
+		<p>This is the bottom part of the horizontal splitter. </p>
+		<p>This plugin was designed to use simple markup and require almost no work to get a basic layout. The simplest HTML markup for a horizontal splitter looks like this:</p>
+<pre>
+ &lt;div id="MySplitter"&gt;
+   &lt;div&gt; Top content goes here &lt;/div&gt;
+   &lt;div&gt; Bottom content goes here &lt;/div&gt;
+ &lt;/div&gt; 
+</pre>
+		<p>To create the splitter, put a line of code in a .ready() handler to select the MySplitter div in a jQuery object and pass it to the splitter plugin:</p>
+<pre>
+ $("#MySplitter").splitter({type: 'h'});
+</pre>
+		<p>Congratulations, you have a splitter in your document!</p>
+	</div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+{
+    "name": "contextMenu",
+    "title": "jQuery contextMenu",
+    "description": "full featured context menu handler capable of handling thousands of elements",
+    "keywords": [
+        "contextmenu",
+        "context-menu",
+        "right-click-menu",
+        "right-click",
+        "navigation",
+        "menu"
+    ],
+    "version": "git-master",
+    "author": {
+        "name": "Björn Brala (SWIS.nl)",
+        "url": "http://www.swis.nl"
+    },
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "https://github.com/jquery/jquery-color/blob/2.1.2/MIT-LICENSE.txt"
+        }
+    ],
+    "bugs": "https://github.com/swisnl/jQuery-contextMenu/issues",
+    "homepage": "http://swisnl.github.io/jQuery-contextMenu/",
+    "docs": "http://swisnl.github.io/jQuery-contextMenu/docs.html",
+    "dependencies": {
+        "jquery": ">=1.8.2"
+    }
+}
