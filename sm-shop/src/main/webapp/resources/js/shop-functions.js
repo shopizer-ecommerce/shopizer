@@ -21,7 +21,7 @@ function log(value) {
 }
 
 function showSMLoading(element) {
-	if ($.isFunction(showTemplateLoading)) {
+	if ( typeof showTemplateLoading == 'function' ) { 
 		showTemplateLoading(element);
 	} else {
 		$(element).showLoading();
@@ -30,7 +30,7 @@ function showSMLoading(element) {
 }
 
 function hideSMLoading(element) {
-	if ($.isFunction(hideTemplateLoading)) {
+	if ( typeof hideTemplateLoading == 'function' ) {
 		hideTemplateLoading(element);
 	} else {
 		$(element).hideLoading();
