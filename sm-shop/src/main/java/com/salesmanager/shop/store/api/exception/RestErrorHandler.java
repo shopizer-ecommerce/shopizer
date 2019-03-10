@@ -1,6 +1,5 @@
 package com.salesmanager.shop.store.api.exception;
 
-import com.salesmanager.core.business.exception.ConversionException;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,16 +15,16 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
 //@ResponseBody
-//@Produces({MediaType.APPLICATION_JSON})
-@RequestMapping(produces = "application/json")
+//@Produces({"application/json"})
+//@RequestMapping(produces = "application/json")
 public class RestErrorHandler {
   
     private static final Logger log = LoggerFactory.getLogger(RestErrorHandler.class);
 
+    @RequestMapping(produces = "application/json")
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ResponseBody
-    public ErrorEntity handleServiceException(Exception exception) {
+    public @ResponseBody ErrorEntity handleServiceException(Exception exception) {
         log.error(exception.getMessage(), exception);
         ErrorEntity errorEntity = createErrorEntity(null, exception.getMessage(),
                 exception.getLocalizedMessage());
@@ -35,30 +34,30 @@ public class RestErrorHandler {
     /**
      * Generic exception serviceException handler
      */
+    @RequestMapping(produces = "application/json")
     @ExceptionHandler(ServiceRuntimeException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ResponseBody
-    public ErrorEntity handleServiceException(ServiceRuntimeException exception) {
+    public @ResponseBody ErrorEntity handleServiceException(ServiceRuntimeException exception) {
         log.error(exception.getErrorMessage(), exception);
         ErrorEntity errorEntity = createErrorEntity(exception.getErrorCode(), exception.getErrorMessage(),
                 exception.getLocalizedMessage());
         return errorEntity;
     }
 
+    @RequestMapping(produces = "application/json")
     @ExceptionHandler(ConversionRuntimeException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ResponseBody
-    public ErrorEntity handleServiceException(ConversionRuntimeException exception) {
+    public @ResponseBody ErrorEntity handleServiceException(ConversionRuntimeException exception) {
         log.error(exception.getErrorMessage(), exception);
         ErrorEntity errorEntity = createErrorEntity(exception.getErrorCode(), exception.getErrorMessage(),
             exception.getLocalizedMessage());
         return errorEntity;
     }
 
+    @RequestMapping(produces = "application/json")
     @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ResponseBody
-    public ErrorEntity handleServiceException(ResourceNotFoundException exception) {
+    public @ResponseBody ErrorEntity handleServiceException(ResourceNotFoundException exception) {
         log.error(exception.getErrorMessage(), exception);
 
         ErrorEntity errorEntity = createErrorEntity(exception.getErrorCode(), exception.getErrorMessage(),
@@ -66,10 +65,10 @@ public class RestErrorHandler {
         return errorEntity;
     }
     
+    @RequestMapping(produces = "application/json")
     @ExceptionHandler(UnauthorizedException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @ResponseBody
-    public ErrorEntity handleServiceException(UnauthorizedException exception) {
+    public @ResponseBody ErrorEntity handleServiceException(UnauthorizedException exception) {
         log.error(exception.getErrorMessage(), exception);
 
         ErrorEntity errorEntity = createErrorEntity(exception.getErrorCode(), exception.getErrorMessage(),
@@ -77,10 +76,10 @@ public class RestErrorHandler {
         return errorEntity;
     }
 
+    @RequestMapping(produces = "application/json")
     @ExceptionHandler(RestApiException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ResponseBody
-    public ErrorEntity handleRestApiException(RestApiException exception) {
+    public @ResponseBody ErrorEntity handleRestApiException(RestApiException exception) {
         log.error(exception.getErrorMessage(), exception);
 
         ErrorEntity errorEntity = createErrorEntity(exception.getErrorCode(), exception.getErrorMessage(),

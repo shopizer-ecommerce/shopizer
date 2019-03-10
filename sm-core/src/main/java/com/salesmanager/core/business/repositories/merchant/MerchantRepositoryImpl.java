@@ -22,7 +22,6 @@ public class MerchantRepositoryImpl implements MerchantRepositoryCustom {
   @SuppressWarnings({"rawtypes", "unchecked"})
   @Override
   public GenericEntityList listByCriteria(MerchantStoreCriteria criteria) throws ServiceException {
-    //TODO should be reviewed
     try {
       StringBuilder req = new StringBuilder();
       req.append(

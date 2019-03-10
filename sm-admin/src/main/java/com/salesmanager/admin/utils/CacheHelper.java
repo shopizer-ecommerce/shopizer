@@ -24,7 +24,7 @@ import com.salesmanager.admin.model.references.Country;
 import com.salesmanager.admin.model.references.Currency;
 import com.salesmanager.admin.model.references.Language;
 import com.salesmanager.admin.model.references.MeasureEnum;
-import com.salesmanager.admin.model.references.Permission;
+import com.salesmanager.admin.model.references.Grouo;
 import com.salesmanager.admin.model.references.Reference;
 import com.salesmanager.admin.model.references.Zone;
 import com.salesmanager.admin.model.web.Menu;
@@ -55,7 +55,7 @@ public class CacheHelper {
   private Cache weights;
   @SuppressWarnings("rawtypes")
   private Cache sizes;
-  private Cache permissions;
+  private Cache groups;
 
   @Inject
   ReferencesLoader references;
@@ -86,6 +86,7 @@ public class CacheHelper {
     menu = cacheManager.createCache(Constants.Cache.MENU, noExpirationCacheConfiguration);
     weights = cacheManager.createCache(Constants.Cache.WEIGHT, noExpirationCacheConfiguration);
     sizes = cacheManager.createCache(Constants.Cache.SIZE, noExpirationCacheConfiguration);
+    groups = cacheManager.createCache(Constants.Cache.SIZE, noExpirationCacheConfiguration);
 
 
   }
@@ -242,24 +243,24 @@ public class CacheHelper {
   }
   
   @SuppressWarnings("unchecked")
-  public List<Permission> getPermissions(Locale locale) throws Exception {
+  public List<Grouo> getGroups(Locale locale) throws Exception {
 
 
-    List<Permission> listPermissions = (List<Permission>) permissions.get("permissions");
-    if (CollectionUtils.isEmpty(listPermissions)) {
-      listPermissions = references.loadPermissions(locale);
-      Collections.sort(listPermissions, new Comparator<Permission>() {
+    List<Grouo> listGroups = (List<Grouo>) groups.get("groups");
+    if (CollectionUtils.isEmpty(listGroups)) {
+      listGroups = references.loadPermissions(locale);
+      Collections.sort(listGroups, new Comparator<Grouo>() {
         @Override
-        public int compare(Permission item, Permission t1) {
+        public int compare(Grouo item, Grouo t1) {
           String s1 = item.getName();
           String s2 = t1.getName();
           return s1.compareToIgnoreCase(s2);
         }
 
       });
-      permissions.put("permissions", listPermissions);
+      groups.put("groups", listGroups);
     }
-    return listPermissions;
+    return listGroups;
 
   }
 

@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.salesmanager.core.model.user.User;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Long>, UserRepositoryCustom {
 
 	@Query("select u from User as u inner join fetch u.groups ug join fetch u.merchantStore um left join fetch u.defaultLanguage ul where u.adminName = ?1")
 	User findByUserName(String userName);

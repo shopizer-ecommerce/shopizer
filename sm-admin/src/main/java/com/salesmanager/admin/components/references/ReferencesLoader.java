@@ -26,7 +26,7 @@ import com.salesmanager.admin.model.references.Country;
 import com.salesmanager.admin.model.references.Currency;
 import com.salesmanager.admin.model.references.Language;
 import com.salesmanager.admin.model.references.MeasureEnum;
-import com.salesmanager.admin.model.references.Permission;
+import com.salesmanager.admin.model.references.Grouo;
 import com.salesmanager.admin.model.references.Reference;
 import com.salesmanager.admin.model.references.Zone;
 import com.salesmanager.admin.utils.Constants;
@@ -249,7 +249,7 @@ public class ReferencesLoader {
 
   }
 
-  public List<Permission> loadPermissions(Locale locale) throws Exception {
+  public List<Grouo> loadPermissions(Locale locale) throws Exception {
 
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);
@@ -261,8 +261,8 @@ public class ReferencesLoader {
     // Invoke web service
     RestTemplate restTemplate = new RestTemplate();
 
-    ResponseEntity<List<Permission>> resp = restTemplate.exchange(resourceUrl, HttpMethod.GET,
-        entity, new ParameterizedTypeReference<List<Permission>>() {});
+    ResponseEntity<List<Grouo>> resp = restTemplate.exchange(resourceUrl, HttpMethod.GET,
+        entity, new ParameterizedTypeReference<List<Grouo>>() {});
 
 
     if (!HttpStatus.OK.equals(resp.getStatusCode())) {

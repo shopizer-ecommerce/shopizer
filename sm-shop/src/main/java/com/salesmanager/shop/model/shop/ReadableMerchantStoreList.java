@@ -2,24 +2,23 @@ package com.salesmanager.shop.model.shop;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.salesmanager.shop.model.ReadableList;
 
 public class ReadableMerchantStoreList extends ReadableList {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	private List<ReadableMerchantStore> data = new ArrayList<ReadableMerchantStore>();
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
 
-	public List<ReadableMerchantStore> getData() {
-		return data;
-	}
+  private List<ReadableMerchantStore> data = new ArrayList<ReadableMerchantStore>();
 
-	public void setData(List<ReadableMerchantStore> data) {
-		this.data = data;
-	}
+  public List<ReadableMerchantStore> getData() {
+    return data;
+  }
+
+  public void setData(List<ReadableMerchantStore> data) {
+    this.data = data;
+  }
 
 }

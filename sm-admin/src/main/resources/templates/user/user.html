@@ -75,7 +75,7 @@
 				                <!-- /.input group -->
 				            </div>
 				            
-							<th:block th:include="fragments/permissions.html :: permissions"></th:block>
+							<th:block th:include="fragments/groups.html :: groups"></th:block>
 
 							
 							<input type="hidden" id="action" th:value="${action}"/>
@@ -113,7 +113,7 @@
 	<!-- address component -->
 	<script src="/js/address.js"></script>
 	<!-- available language -->
-	<script src="/js/permissions.js"></script>
+	<script src="/js/groups.js"></script>
 	<!-- Unique code detection -->
 	<script src="/js/uniqueCode.js"></script>
 	
@@ -139,7 +139,8 @@
 	
 	<script type="text/javascript">
       $(document).ready(function(){
-    	  	resetMessages();
+    	  	
+    	  resetMessages();
     	  	
     	  	log('Before delete hide');
     	  	
@@ -183,9 +184,9 @@
 		    	       $("#lastName").val(data.lastName);
 		    	       $("#emailAddress").val(data.emailAddress);
 		    	       $("#active").val(data.active);
-		    	       var permissions = data.permissions;
+		    	       var groups = data.permissions;
 				       for (var i=0; i<permissions.length; i++) {
-				        	 $('<div class="checkbox"><label><input type="checkbox" name="permissions[]" id="permissions" required value="' + permissions[i].name + '">' + permissions[i].name + '</label></div>').appendTo('#permissions'); 
+				        	 $('<div class="checkbox"><label><input type="checkbox" name="groups[]" id="groups" required value="' + groups[i].name + '">' + groups[i].name + '</label></div>').appendTo('#groups'); 
 				       }
 
 
@@ -310,7 +311,7 @@
       });
      
 
-      permissions();//load address component
+      groups();//load address component
       
 	  //used by generic code component
       $("#codeTitle").html('[[#{label.storecode}]]');

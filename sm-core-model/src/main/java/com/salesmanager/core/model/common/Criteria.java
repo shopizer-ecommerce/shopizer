@@ -9,6 +9,7 @@ public class Criteria {
 	private String name;
 	private String language;
 	private String user;
+	private String storeCode;
 
 	private CriteriaOrderBy orderBy = CriteriaOrderBy.DESC;
 	private String criteriaOrderByField;
@@ -68,6 +69,12 @@ public class Criteria {
   }
   public void setSearch(String search) {
     this.search = search;
+  }
+  public String getStoreCode() {
+    return storeCode;
+  }
+  public void setStoreCode(String storeCode) {
+    this.storeCode = storeCode;
   }
 
 

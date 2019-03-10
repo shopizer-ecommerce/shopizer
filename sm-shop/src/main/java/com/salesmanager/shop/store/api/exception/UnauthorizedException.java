@@ -6,11 +6,15 @@ public class UnauthorizedException extends GenericRuntimeException {
 
   private static final long serialVersionUID = 1L;
 
-    public UnauthorizedException(String errorCode, String message) {
-        super(errorCode, message);
-    }
+  public UnauthorizedException() {
+    super("Not authorized");
+  }
 
-    public UnauthorizedException(String message) {
-        super(ERROR_CODE, message);
-    }
+  public UnauthorizedException(String errorCode, String message) {
+    super(errorCode, message);
+  }
+
+  public UnauthorizedException(String message) {
+    super(ERROR_CODE, message);
+  }
 }
