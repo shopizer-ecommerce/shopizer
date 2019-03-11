@@ -23,6 +23,9 @@ public interface GroupRepository extends JpaRepository<Group, Integer> {
 	@Query("select distinct g from Group as g left join fetch g.permissions perms where g.id in (?1) ")
 	List<Group> findByIds(Set<Integer> groupIds);
 	
+	@Query("select distinct g from Group as g left join fetch g.permissions perms where g.name in (?1) ")
+	List<Group> findByNames(List<String> groupeNames);
+	
 	@Query("select distinct g from Group as g left join fetch g.permissions perms where g.groupType = ?1")
 	List<Group> findByType(GroupType type);
 	

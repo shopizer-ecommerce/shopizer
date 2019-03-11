@@ -1,5 +1,7 @@
 package com.salesmanager.shop.populator.user;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.apache.commons.lang.Validate;
@@ -58,20 +60,22 @@ public class PersistableUserPopulator extends AbstractDataPopulator<PersistableU
     target.setDefaultLanguage(lang);
 
     target.setMerchantStore(store);
-    target.setId(source.getId());
 
-
+    List<Group> userGroups = new ArrayList<Group>();
     for (ReadableGroup group : source.getGroups()) {
       
       Group g = null;
       try {
         g = groupService.findByName(group.getName());
+        if(g == null) {
+          throw new ConversionException("Cannot find group [" + group.getName() + "]");
+        }
       } catch (ServiceException e) {
         throw new ConversionException("Cannot find group [" + group.getName() + "]",e);
       }
-      target.getGroups().add(g);
+      userGroups.add(g);
     }
-
+    target.setGroups(userGroups);
 
 
     return target;

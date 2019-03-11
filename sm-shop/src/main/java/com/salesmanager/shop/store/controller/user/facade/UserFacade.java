@@ -70,6 +70,18 @@ public interface UserFacade {
    * @return
    */
   ReadableUserList getByCriteria(Language language,String draw,Criteria criteria);
+  
+  /**
+   * Delete user
+   * @param userName
+   */
+  void delete(String userName);
+  
+  /**
+   * Update User
+   * @param user
+   */
+  ReadableUser update(String storeCode, PersistableUser user);
 
 
 }

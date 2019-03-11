@@ -16,6 +16,7 @@ public class Constants {
 		public final static String MENU = "MENU";
 		public final static String WEIGHT = "WEIGHT";
 		public final static String SIZE = "SIZE";
+		public final static String GROUPS = "GROUPS";
 	}
 	
 	public static class User {

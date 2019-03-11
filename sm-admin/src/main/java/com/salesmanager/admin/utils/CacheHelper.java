@@ -86,7 +86,7 @@ public class CacheHelper {
     menu = cacheManager.createCache(Constants.Cache.MENU, noExpirationCacheConfiguration);
     weights = cacheManager.createCache(Constants.Cache.WEIGHT, noExpirationCacheConfiguration);
     sizes = cacheManager.createCache(Constants.Cache.SIZE, noExpirationCacheConfiguration);
-    groups = cacheManager.createCache(Constants.Cache.SIZE, noExpirationCacheConfiguration);
+    groups = cacheManager.createCache(Constants.Cache.GROUPS, noExpirationCacheConfiguration);
 
 
   }

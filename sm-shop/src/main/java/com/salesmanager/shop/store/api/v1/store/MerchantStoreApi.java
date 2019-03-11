@@ -228,7 +228,7 @@ public class MerchantStoreApi {
   @ResponseStatus(HttpStatus.OK)
   @DeleteMapping(value = {"/private/store/{code}"})
   @ApiOperation(httpMethod = "DELETE", value = "Deletes a store", notes = "",
-      response = ResponseEntity.class)
+      response = Void.class)
   public void delete(@PathVariable String code, HttpServletRequest request) {
     String userName = getUserFromRequest(request);
     validateUserPermission(userName, code);

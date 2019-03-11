@@ -13,9 +13,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -99,8 +101,10 @@ public class UserApi {
       produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(httpMethod = "POST", value = "Creates a new user", notes = "",
       response = Void.class)
-  public void create(@PathVariable Optional<String> store,
-      @Valid @RequestBody PersistableUser user, @RequestParam(name = "store",
+  public void create(
+      @PathVariable Optional<String> store,
+      @Valid @RequestBody PersistableUser user, 
+      @RequestParam(name = "store",
           defaultValue = DEFAULT_STORE, required = false) String storeCode,
       HttpServletRequest request) {
     /**
@@ -129,6 +133,25 @@ public class UserApi {
 
     userFacade.create(user, merchantStore);
   }
+  
+  @ResponseStatus(HttpStatus.OK)
+  @PutMapping(value = {"/private/{store}/user/{userName}", "/private/user/{userName}"}, produces = MediaType.APPLICATION_JSON_VALUE)
+  @ApiOperation(httpMethod = "PUT", value = "Updates a user", notes = "",
+      response = ReadableUser.class)
+  public ReadableUser update(
+      @Valid @RequestBody PersistableUser user,
+      @PathVariable Optional<String> store,
+      @PathVariable String userName,
+      @RequestParam(value = "store", required = false) String storeCode, 
+      HttpServletRequest request) {
+    
+    String storeCd = storeCode;
+    if (store.isPresent()) {
+      storeCd = store.get();
+    }
+
+    return userFacade.update(storeCd, user);
+  }
 
   @ResponseStatus(HttpStatus.OK)
   @GetMapping(value = {"/private/{store}/users/", "/private/users/"},
@@ -136,14 +159,54 @@ public class UserApi {
   @ApiOperation(httpMethod = "GET", value = "Get list of user", notes = "",
       response = ReadableUserList.class)
   public ReadableUserList list(
+      @PathVariable Optional<String> store,
       @RequestParam(value = "start", required = false) Integer start,
       @RequestParam(value = "length", required = false) Integer count,
-      @RequestParam(value = "store", required = false) String store, HttpServletRequest request) {
+      @RequestParam(value = "store", required = false) String storeCode, 
+      HttpServletRequest request) {
+    
+    String storeCd = storeCode;
+    if (store.isPresent()) {
+      storeCd = store.get();
+    }
 
     Criteria criteria = createCriteria(start, count, request);
     String drawParam = request.getParameter("draw");
 
     return userFacade.getByCriteria(languageService.defaultLanguage(), drawParam, criteria);
+  }
+  
+  @ResponseStatus(HttpStatus.OK)
+  @DeleteMapping(value = {"/private/{store}/user/{userName}", "/private/user/{userName}"})
+  @ApiOperation(httpMethod = "DELETE", value = "Deletes a user", notes = "",
+      response = Void.class)
+  public void delete(
+    @PathVariable Optional<String> store,
+    @PathVariable String userName,
+    @RequestParam(value = "store", required = false) String storeCode, 
+    HttpServletRequest request) {
+    
+    /**
+     * Must be superadmin or admin
+     */
+    String authenticatedUser = userFacade.authenticatedUser();
+    if (authenticatedUser == null) {
+      throw new UnauthorizedException();
+    }
+    
+    String storeCd = storeCode;
+    if (store.isPresent()) {
+      storeCd = store.get();
+    }
+    
+    if (!request.isUserInRole("SUPERADMIN")) {
+      userFacade.authorizedStore(authenticatedUser, storeCd);
+    }
+    
+    userFacade.authorizedGroup(authenticatedUser,
+        Stream.of("SUPERADMIN", "ADMIN").collect(Collectors.toList()));
+
+    userFacade.delete(userName);
   }
   
   private Criteria createCriteria(Integer start, Integer count,

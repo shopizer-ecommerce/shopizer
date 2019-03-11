@@ -1,8 +1,8 @@
 package com.salesmanager.shop.model.security;
 
-import com.salesmanager.shop.model.entity.Entity;
+import java.io.Serializable;
 
-public class GroupEntity extends Entity {
+public class GroupEntity implements Serializable {
 	
 	/**
 	 * 

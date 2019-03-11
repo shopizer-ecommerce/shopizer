@@ -3,7 +3,7 @@ package com.salesmanager.shop.store.controller.user.facade;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
-import javax.ws.rs.core.GenericEntity;
+import org.jsoup.helper.Validate;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.services.merchant.MerchantStoreService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.business.services.user.PermissionService;
 import com.salesmanager.core.business.services.user.UserService;
@@ -34,7 +35,9 @@ import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 
 @Service("userFacade")
 public class UserFacadeImpl implements UserFacade {
-
+  
+  @Inject
+  private MerchantStoreService merchantStoreService;
 
   @Inject
   private UserService userService;
@@ -44,14 +47,14 @@ public class UserFacadeImpl implements UserFacade {
 
   @Inject
   private LanguageService languageService;
-  
+
   @Inject
   private PersistableUserPopulator persistableUserPopulator;
 
   @Override
   public ReadableUser findByUserName(String userName, Language lang) {
     User user = getByUserName(userName);
-    if(user==null) {
+    if (user == null) {
       throw new ResourceNotFoundException("User [" + userName + "] not found");
     }
     return convertUserToReadableUser(lang, user);
@@ -65,10 +68,11 @@ public class UserFacadeImpl implements UserFacade {
       throw new ConversionRuntimeException(e);
     }
   }
-  
-  private User converPersistabletUserToUser(MerchantStore store, Language lang, PersistableUser user) {
+
+  private User converPersistabletUserToUser(MerchantStore store, Language lang,
+      User userModel, PersistableUser user) {
     try {
-      return persistableUserPopulator.populate(user, new User(), store, lang);
+      return persistableUserPopulator.populate(user, userModel, store, lang);
     } catch (ConversionException e) {
       throw new ConversionRuntimeException(e);
     }
@@ -82,21 +86,21 @@ public class UserFacadeImpl implements UserFacade {
     }
   }
 
-/*  @Override
-  public ReadableUser findByUserNameWithPermissions(String userName, Language lang) {
-    ReadableUser readableUser = findByUserName(userName, lang);
-
-    *//**
+  /*
+   * @Override public ReadableUser findByUserNameWithPermissions(String userName, Language lang) {
+   * ReadableUser readableUser = findByUserName(userName, lang);
+   * 
+   *//**
      * Add permissions on top of the groups
      *//*
-    //List<Integer> groupIds = readableUser.getGroups().stream().map(ReadableGroup::getId)
-    //    .map(Long::intValue).collect(Collectors.toList());
-
-    //List<ReadablePermission> permissions = findPermissionsByGroups(groupIds);
-    //readableUser.setPermissions(permissions);
-
-    return readableUser;
-  }*/
+       * //List<Integer> groupIds = readableUser.getGroups().stream().map(ReadableGroup::getId) //
+       * .map(Long::intValue).collect(Collectors.toList());
+       * 
+       * //List<ReadablePermission> permissions = findPermissionsByGroups(groupIds);
+       * //readableUser.setPermissions(permissions);
+       * 
+       * return readableUser; }
+       */
 
   @Override
   public List<ReadablePermission> findPermissionsByGroups(List<Integer> ids) {
@@ -152,17 +156,16 @@ public class UserFacadeImpl implements UserFacade {
   @Override
   public void authorizedGroup(String userName, List<String> groupName) {
 
-      ReadableUser readableUser = findByUserName(userName, languageService.defaultLanguage());
+    ReadableUser readableUser = findByUserName(userName, languageService.defaultLanguage());
 
-      // unless superadmin
-      for (ReadableGroup group : readableUser.getGroups()) {
-        if (groupName.contains(group.getName())) {
-          return;
-        }
+    // unless superadmin
+    for (ReadableGroup group : readableUser.getGroups()) {
+      if (groupName.contains(group.getName())) {
+        return;
       }
+    }
 
-      throw new ServiceRuntimeException(
-          "User " + userName + " not authorized");
+    throw new ServiceRuntimeException("User " + userName + " not authorized");
 
   }
 
@@ -170,17 +173,17 @@ public class UserFacadeImpl implements UserFacade {
   public String authenticatedUser() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     if (!(authentication instanceof AnonymousAuthenticationToken)) {
-        String currentUserName = authentication.getName();
-        return currentUserName;
+      String currentUserName = authentication.getName();
+      return currentUserName;
     }
     return null;
   }
 
   @Override
   public void create(PersistableUser user, MerchantStore store) {
-    // TODO Auto-generated method stub
-    User userModel = converPersistabletUserToUser(store,languageService.defaultLanguage(),user);
-    if(CollectionUtils.isEmpty(userModel.getGroups())) {
+    User userModel = new User();
+    userModel = converPersistabletUserToUser(store, languageService.defaultLanguage(), userModel, user);
+    if (CollectionUtils.isEmpty(userModel.getGroups())) {
       throw new ServiceRuntimeException(
           "No valid group groups associated with user " + user.getUserName());
     }
@@ -197,17 +200,57 @@ public class UserFacadeImpl implements UserFacade {
     try {
       ReadableUserList readableUserList = new ReadableUserList();
       GenericEntityList<User> userList = userService.listByCriteria(criteria);
-      for(User user : userList.getList()) {
-        ReadableUser readableUser = this.convertUserToReadableUser(language,user);
+      for (User user : userList.getList()) {
+        ReadableUser readableUser = this.convertUserToReadableUser(language, user);
         readableUserList.getData().add(readableUser);
       }
       readableUserList.setRecordsTotal(userList.getTotalCount());
       readableUserList.setTotalCount(readableUserList.getData().size());
       return readableUserList;
     } catch (ServiceException e) {
-      throw new ServiceRuntimeException(
-          "Cannot get users by criteria user", e);
+      throw new ServiceRuntimeException("Cannot get users by criteria user", e);
     }
+  }
+
+  @Override
+  public void delete(String userName) {
+    Validate.notNull(userName, "Username cannot be null");
+
+    try {
+      User user = userService.getByUserName(userName);
+      if (user == null) {
+        throw new ServiceRuntimeException("Cannot find user [" + userName + "]");
+      }
+      
+      //cannot delete superadmin
+      if(user.getGroups().contains(Constants.GROUP_SUPERADMIN)) {
+        throw new ServiceRuntimeException("Cannot delete superadmin user [" + userName + "]");
+      }
+      
+      userService.delete(user);
+    } catch (ServiceException e) {
+      throw new ServiceRuntimeException("Cannot find user [" + userName + "]", e);
+    }
+
+  }
+
+  @Override
+  public ReadableUser update(String storeCode, PersistableUser user) {
+    Validate.notNull(user, "User cannot be null");
+
+    try {
+      User userModel = userService.getByUserName(user.getUserName());
+      if (userModel == null) {
+        throw new ServiceRuntimeException("Cannot find user [" + user.getUserName() + "]");
+      }
+      MerchantStore store = merchantStoreService.getByCode(storeCode);
+      userModel = converPersistabletUserToUser(store, languageService.defaultLanguage(), userModel, user);
+      userService.saveOrUpdate(userModel);
+      return this.convertUserToReadableUser(languageService.defaultLanguage(), userModel);
+    } catch (ServiceException e) {
+      throw new ServiceRuntimeException("Cannot update user [" + user.getUserName() + "]", e);
+    }
+    
   }
 
 }

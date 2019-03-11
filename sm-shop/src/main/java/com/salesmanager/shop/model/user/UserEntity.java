@@ -3,7 +3,6 @@ package com.salesmanager.shop.model.user;
 import java.util.ArrayList;
 import java.util.List;
 import com.salesmanager.shop.model.security.ReadableGroup;
-import com.salesmanager.shop.model.security.ReadablePermission;
 
 public class UserEntity extends User {
 
@@ -16,7 +15,6 @@ public class UserEntity extends User {
   private String emailAddress;
   private String userName;
   private String defaultLanguage;
-  private String merchant;
   private boolean active;
 
 
@@ -69,14 +67,6 @@ public class UserEntity extends User {
 
   public void setDefaultLanguage(String defaultLanguage) {
     this.defaultLanguage = defaultLanguage;
-  }
-
-  public String getMerchant() {
-    return merchant;
-  }
-
-  public void setMerchant(String merchant) {
-    this.merchant = merchant;
   }
 
   public boolean isActive() {

@@ -151,10 +151,10 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
 			grants.add(gt);
 		}
 		
-		for(Map<String,String> p : permissions) {
-			GrantedAuthority gt = new SimpleGrantedAuthority("ROLE_"+p.get("name"));
-			grants.add(gt);
-		}
+		//for(Map<String,String> p : permissions) {
+		//	GrantedAuthority gt = new SimpleGrantedAuthority("ROLE_"+p.get("name"));
+		//	grants.add(gt);
+		//}
 
 		GrantedAuthority gta = new SimpleGrantedAuthority("ROLE_AUTH");
 		grants.add(gta);
