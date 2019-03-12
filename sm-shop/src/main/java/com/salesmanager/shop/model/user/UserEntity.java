@@ -19,7 +19,6 @@ public class UserEntity extends User {
 
 
   private List<ReadableGroup> groups = new ArrayList<ReadableGroup>();
-  //private List<ReadablePermission> permissions = new ArrayList<ReadablePermission>();
 
   public List<ReadableGroup> getGroups() {
     return groups;

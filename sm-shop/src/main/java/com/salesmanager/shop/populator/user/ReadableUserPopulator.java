@@ -52,6 +52,7 @@ public class ReadableUserPopulator extends AbstractDataPopulator<User, ReadableU
 
       ReadableGroup g = new ReadableGroup();
       g.setName(group.getGroupName());
+      g.setId(group.getId().longValue());
       target.getGroups().add(g);
     }
 

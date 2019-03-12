@@ -12,6 +12,7 @@ import com.salesmanager.core.model.user.Group;
 import com.salesmanager.core.model.user.PermissionCriteria;
 import com.salesmanager.core.model.user.PermissionList;
 import com.salesmanager.shop.model.security.ReadablePermission;
+import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 
 @Service("securityFacade")
 public class SecurityFacadeImpl implements SecurityFacade {
@@ -42,6 +43,7 @@ public class SecurityFacadeImpl implements SecurityFacade {
       criteria.setGroupIds(new HashSet(ids));
 
       PermissionList permissions = permissionService.listByCriteria(criteria);
+      throw new ServiceRuntimeException("Not implemented");
     } catch (ServiceException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();

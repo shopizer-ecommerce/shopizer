@@ -50,6 +50,10 @@
 								<input class="form-control" id="lastName" name="lastName" required="" data-mask>
 							</div>
 							<div class="form-group">
+								<label for="userName"><span th:text="#{'label.generic.username'}"></span> *</label>
+								<input class="form-control" id="userName" name="userName" required="" data-mask>
+							</div>
+							<div class="form-group">
 								<label for="emailAddress"><span
 									th:text="#{'label.generic.email'}"></span> *</label> <input
 									type="email" class="form-control" id="emailAddress" name="emailAddress" data-parsley-trigger="change" required="">
@@ -62,19 +66,8 @@
 							</div>
 							
 							
-							<div class="form-group">
-				                <label><span
-									th:text="#{'label.store.inbusinesssince'}"></span></label>
-				
-				                <div class="input-group date">
-				                  <div class="input-group-addon">
-				                    <i class="fa fa-calendar"></i>
-				                  </div>
-				                  <input type="text" class="form-control pull-right" data-date-format="yyyy-mm-dd" name="inBusinessSince" id="inBusinessSince">
-				                </div>
-				                <!-- /.input group -->
-				            </div>
-				            
+
+				            <th:block th:include="fragments/default-language.html :: default-language"></th:block>
 							<th:block th:include="fragments/groups.html :: groups"></th:block>
 
 							
@@ -112,7 +105,7 @@
 <th:block layout:fragment="script">
 	<!-- address component -->
 	<script src="/js/address.js"></script>
-	<!-- available language -->
+	<script src="/js/languages.js"></script>
 	<script src="/js/groups.js"></script>
 	<!-- Unique code detection -->
 	<script src="/js/uniqueCode.js"></script>
@@ -140,7 +133,7 @@
 	<script type="text/javascript">
       $(document).ready(function(){
     	  	
-    	  resetMessages();
+    	    resetMessages();
     	  	
     	  	log('Before delete hide');
     	  	
@@ -164,9 +157,7 @@
 	    		}
 				//fetch store
 	      		var url = BACKEND + "/private/users/" + USERNAME;
-				
-	      		log('Before ajax');
-	
+
 		    	$.ajax({
 		    	    type:"get",
 		    	    crossDomain: true,
@@ -178,16 +169,16 @@
 		    	    },
 		    	    success: function(data){
 		    	       hideLoader();	
-		    	       log('Success');
 		    	       log(JSON.stringify(data));
 		    	       $("#firstName").val(data.firstName);
 		    	       $("#lastName").val(data.lastName);
+		    	       $("#userName").val(data.userName);
 		    	       $("#emailAddress").val(data.emailAddress);
 		    	       $("#active").val(data.active);
-		    	       var groups = data.permissions;
-				       for (var i=0; i<permissions.length; i++) {
-				        	 $('<div class="checkbox"><label><input type="checkbox" name="groups[]" id="groups" required value="' + groups[i].name + '">' + groups[i].name + '</label></div>').appendTo('#groups'); 
-				       }
+		    	       var groups = data.groups;
+				       //for (var i=0; i<permissions.length; i++) {
+				       // 	 $('<div class="checkbox"><label><input type="checkbox" name="groups[]" id="groups" required value="' + groups[i].name + '">' + groups[i].name + '</label></div>').appendTo('#groups'); 
+				       //}
 
 
 		    	    },
@@ -310,7 +301,7 @@
       		
       });
      
-
+	  languages();
       groups();//load address component
       
 	  //used by generic code component

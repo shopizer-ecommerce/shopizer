@@ -63,7 +63,15 @@ public class UserFacadeImpl implements UserFacade {
   private ReadableUser convertUserToReadableUser(Language lang, User user) {
     ReadableUserPopulator populator = new ReadableUserPopulator();
     try {
-      return populator.populate(user, new ReadableUser(), user.getMerchantStore(), lang);
+      ReadableUser readableUser = new ReadableUser();
+      readableUser = populator.populate(user, readableUser, user.getMerchantStore(), lang);
+
+
+      List<Integer> groupIds = readableUser.getGroups().stream().map(ReadableGroup::getId).map(Long::intValue).collect(Collectors.toList());
+      List<ReadablePermission> permissions = findPermissionsByGroups(groupIds);
+      readableUser.setPermissions(permissions);
+      
+      return readableUser;
     } catch (ConversionException e) {
       throw new ConversionRuntimeException(e);
     }
