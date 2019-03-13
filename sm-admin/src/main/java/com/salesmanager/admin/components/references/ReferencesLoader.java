@@ -26,7 +26,7 @@ import com.salesmanager.admin.model.references.Country;
 import com.salesmanager.admin.model.references.Currency;
 import com.salesmanager.admin.model.references.Language;
 import com.salesmanager.admin.model.references.MeasureEnum;
-import com.salesmanager.admin.model.references.Grouo;
+import com.salesmanager.admin.model.references.Group;
 import com.salesmanager.admin.model.references.Reference;
 import com.salesmanager.admin.model.references.Zone;
 import com.salesmanager.admin.utils.Constants;
@@ -248,8 +248,42 @@ public class ReferencesLoader {
     return refs;
 
   }
+  
+  /**
+   * Load groups from backend
+   * Groups are grouping of permissions under a security role
+   * @param locale
+   * @return
+   * @throws Exception
+   */
+  public List<Group> loadGroups(Locale locale) throws Exception {
 
-  public List<Grouo> loadPermissions(Locale locale) throws Exception {
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(MediaType.APPLICATION_JSON);
+
+    HttpEntity<String> entity = new HttpEntity<String>(headers);
+
+    String resourceUrl = backend + "/groups";
+
+    // Invoke web service
+    RestTemplate restTemplate = new RestTemplate();
+
+    ResponseEntity<List<Group>> resp = restTemplate.exchange(resourceUrl, HttpMethod.GET,
+        entity, new ParameterizedTypeReference<List<Group>>() {});
+
+
+    if (!HttpStatus.OK.equals(resp.getStatusCode())) {
+      throw new AdminAuthenticationException(
+          "Cannot list groups [ " + resp.getStatusCode().name() + "]");
+    }
+
+
+
+    return resp.getBody();
+
+  }
+
+  public List<Group> loadPermissions(Locale locale) throws Exception {
 
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);
@@ -261,8 +295,8 @@ public class ReferencesLoader {
     // Invoke web service
     RestTemplate restTemplate = new RestTemplate();
 
-    ResponseEntity<List<Grouo>> resp = restTemplate.exchange(resourceUrl, HttpMethod.GET,
-        entity, new ParameterizedTypeReference<List<Grouo>>() {});
+    ResponseEntity<List<Group>> resp = restTemplate.exchange(resourceUrl, HttpMethod.GET,
+        entity, new ParameterizedTypeReference<List<Group>>() {});
 
 
     if (!HttpStatus.OK.equals(resp.getStatusCode())) {

@@ -11,7 +11,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.salesmanager.admin.model.references.Currency;
-import com.salesmanager.admin.model.references.Grouo;
+import com.salesmanager.admin.model.references.Group;
 import com.salesmanager.admin.model.references.MeasureEnum;
 import com.salesmanager.admin.model.references.Reference;
 import com.salesmanager.admin.utils.CacheHelper;
@@ -54,10 +54,10 @@ public class ReferencesController {
 	
     @RequestMapping("/admin/references/groups")
     @Secured({"AUTH"})
-    public ResponseEntity<List<Grouo>> groups(HttpServletRequest request) throws Exception {
+    public ResponseEntity<List<Group>> groups(HttpServletRequest request) throws Exception {
         
         Locale locale = LocaleContextHolder.getLocale();
-        return new ResponseEntity<List<Grouo>>(
+        return new ResponseEntity<List<Group>>(
             cacheHelper.getGroups(locale),
             HttpStatus.OK);
 

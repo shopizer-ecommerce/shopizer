@@ -48,10 +48,6 @@ public class AuthenticateUserApi {
     @Inject
     private JWTTokenUtil jwtTokenUtil;
 
-
-    
-
-
 	/**
 	 * Authenticate a user using username & password
 	 * @param authenticationRequest

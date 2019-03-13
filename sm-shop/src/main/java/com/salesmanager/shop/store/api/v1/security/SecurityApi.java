@@ -1,23 +1,23 @@
 package com.salesmanager.shop.store.api.v1.security;
 
 import static com.salesmanager.core.business.constants.Constants.DEFAULT_STORE;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import com.salesmanager.core.business.services.merchant.MerchantStoreService;
+import com.salesmanager.core.business.services.user.PermissionService;
 import com.salesmanager.core.model.merchant.MerchantStore;
-import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.model.user.Permission;
 import com.salesmanager.shop.model.security.ReadablePermission;
-import com.salesmanager.shop.model.user.ReadableUser;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import io.swagger.annotations.ApiOperation;
 
@@ -33,6 +33,9 @@ public class SecurityApi {
   
   @Inject
   private StoreFacade storeFacade;
+
+  @Inject
+  private PermissionService permissionService;
   
   @ResponseStatus(HttpStatus.OK)
   @GetMapping({"/private/{group}/permissions"})
@@ -49,6 +52,25 @@ public class SecurityApi {
     MerchantStore merchantStore = storeFacade.get(storeCd);
     return null;
     //return userFacade.findByUserName(name, language);
+  }
+  
+  
+  /**
+   * Permissions
+   * Requires service user authentication
+   * @return
+   */
+  @Secured("ROLE_ADMIN")
+  @GetMapping("/services/private/permissions")
+  public List<ReadablePermission> permissions() {
+    List<Permission> permissions = permissionService.list();
+    List<ReadablePermission> readablePermissions = new ArrayList<ReadablePermission>();
+    for(Permission permission : permissions) {
+      ReadablePermission readablePermission = new ReadablePermission();
+      readablePermission.setName(permission.getPermissionName());
+      readablePermissions.add(readablePermission);
+    }
+    return readablePermissions;
   }
 
 }

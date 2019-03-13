@@ -18,15 +18,7 @@ public class UserEntity extends User {
   private boolean active;
 
 
-  private List<ReadableGroup> groups = new ArrayList<ReadableGroup>();
 
-  public List<ReadableGroup> getGroups() {
-    return groups;
-  }
-
-  public void setGroups(List<ReadableGroup> groups) {
-    this.groups = groups;
-  }
 
   public String getFirstName() {
     return firstName;

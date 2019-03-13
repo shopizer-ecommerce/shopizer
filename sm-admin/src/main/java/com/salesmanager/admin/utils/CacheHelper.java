@@ -24,7 +24,7 @@ import com.salesmanager.admin.model.references.Country;
 import com.salesmanager.admin.model.references.Currency;
 import com.salesmanager.admin.model.references.Language;
 import com.salesmanager.admin.model.references.MeasureEnum;
-import com.salesmanager.admin.model.references.Grouo;
+import com.salesmanager.admin.model.references.Group;
 import com.salesmanager.admin.model.references.Reference;
 import com.salesmanager.admin.model.references.Zone;
 import com.salesmanager.admin.model.web.Menu;
@@ -55,6 +55,7 @@ public class CacheHelper {
   private Cache weights;
   @SuppressWarnings("rawtypes")
   private Cache sizes;
+  @SuppressWarnings("rawtypes")
   private Cache groups;
 
   @Inject
@@ -243,15 +244,15 @@ public class CacheHelper {
   }
   
   @SuppressWarnings("unchecked")
-  public List<Grouo> getGroups(Locale locale) throws Exception {
+  public List<Group> getGroups(Locale locale) throws Exception {
 
 
-    List<Grouo> listGroups = (List<Grouo>) groups.get("groups");
+    List<Group> listGroups = (List<Group>) groups.get("groups");
     if (CollectionUtils.isEmpty(listGroups)) {
       listGroups = references.loadPermissions(locale);
-      Collections.sort(listGroups, new Comparator<Grouo>() {
+      Collections.sort(listGroups, new Comparator<Group>() {
         @Override
-        public int compare(Grouo item, Grouo t1) {
+        public int compare(Group item, Group t1) {
           String s1 = item.getName();
           String s2 = t1.getName();
           return s1.compareToIgnoreCase(s2);

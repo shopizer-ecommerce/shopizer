@@ -16,7 +16,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.user.Group;
 import com.salesmanager.core.model.user.User;
-import com.salesmanager.shop.model.security.ReadableGroup;
+import com.salesmanager.shop.model.security.PersistableGroup;
 import com.salesmanager.shop.model.user.PersistableUser;
 
 
@@ -62,7 +62,7 @@ public class PersistableUserPopulator extends AbstractDataPopulator<PersistableU
     target.setMerchantStore(store);
 
     List<Group> userGroups = new ArrayList<Group>();
-    for (ReadableGroup group : source.getGroups()) {
+    for (PersistableGroup group : source.getGroups()) {
       
       Group g = null;
       try {

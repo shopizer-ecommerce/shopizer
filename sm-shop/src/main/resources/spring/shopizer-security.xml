@@ -136,7 +136,7 @@
 	</http>
 	
 	
-	<!-- REST services v0 -->
+	<!-- REST services v0-->
 	<http pattern="/services/**" 
 		create-session="stateless" 
 		use-expressions="true" 
@@ -144,6 +144,18 @@
 		entry-point-ref="servicesAuthenticationEntryPoint">
 	      <intercept-url pattern="/services/private/**" access="hasRole('AUTH')"/>
 	      <intercept-url pattern="/services/public/**" access="permitAll"/>
+	      <form-login authentication-success-handler-ref="servicesAuthenticationSuccessHandler" />
+	      <http-basic />
+	      <csrf disabled="true"/><!-- Spring security 4 -->
+    </http>
+    
+    <!-- service user-->
+	<http pattern="/api/v1/services/**" 
+		create-session="stateless" 
+		use-expressions="true" 
+		authentication-manager-ref="adminAuthenticationManager" 
+		entry-point-ref="servicesAuthenticationEntryPoint">
+	      <intercept-url pattern="/api/v1/services/private/**" access="hasRole('AUTH')"/>
 	      <form-login authentication-success-handler-ref="servicesAuthenticationSuccessHandler" />
 	      <http-basic />
 	      <csrf disabled="true"/><!-- Spring security 4 -->
@@ -184,6 +196,7 @@
     FB user access token
     EAABZBKVBQN2QBALvVE6RfhdzNVw3JkZCN6HDzGqeFXJJ5kOupH8EZA5PQrgO4sAOy7MfOS8pfilGtWeYlhT6eA7v5Obj02uPBq9oW9mdZC52GuTWnO18kTUKpqAx45CjZCqoKDGsPzTk0DWLkdcBDo3aDuUKW3wiFLGeRyuVmBKTmOLprOVtI7nISmb4tTsYZD
     
+    Customer authentication api
      -->
      
 	<http pattern="/api/v1/auth/**" 

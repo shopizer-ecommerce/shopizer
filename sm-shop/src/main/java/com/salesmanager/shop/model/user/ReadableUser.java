@@ -2,6 +2,7 @@ package com.salesmanager.shop.model.user;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.salesmanager.shop.model.security.ReadableGroup;
 import com.salesmanager.shop.model.security.ReadablePermission;
 
 public class ReadableUser extends UserEntity {
@@ -15,6 +16,17 @@ public class ReadableUser extends UserEntity {
   private String merchant;
 
   private List<ReadablePermission> permissions = new ArrayList<ReadablePermission>();
+  private List<ReadableGroup> groups = new ArrayList<ReadableGroup>();
+  
+  
+
+  public List<ReadableGroup> getGroups() {
+    return groups;
+  }
+
+  public void setGroups(List<ReadableGroup> groups) {
+    this.groups = groups;
+  }
   
   
   public String getLastAccess() {
