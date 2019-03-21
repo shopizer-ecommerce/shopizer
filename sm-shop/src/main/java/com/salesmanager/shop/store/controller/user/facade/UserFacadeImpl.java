@@ -19,6 +19,7 @@ import com.salesmanager.core.model.common.Criteria;
 import com.salesmanager.core.model.common.GenericEntityList;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.model.user.Group;
 import com.salesmanager.core.model.user.Permission;
 import com.salesmanager.core.model.user.User;
 import com.salesmanager.shop.constants.Constants;
@@ -251,8 +252,19 @@ public class UserFacadeImpl implements UserFacade {
       if (userModel == null) {
         throw new ServiceRuntimeException("Cannot find user [" + user.getUserName() + "]");
       }
+      List<Group> originalGroups = userModel.getGroups();
+      Group superadmin = originalGroups.stream()
+          .filter(group -> Constants.GROUP_SUPERADMIN.equals(group.getGroupName()))
+          .findAny()
+          .orElse(null);
       MerchantStore store = merchantStoreService.getByCode(storeCode);
       userModel = converPersistabletUserToUser(store, languageService.defaultLanguage(), userModel, user);
+      
+      //if superadmin set original permissions
+      if(superadmin!=null) {
+        userModel.setGroups(originalGroups);
+      }
+      
       userService.saveOrUpdate(userModel);
       return this.convertUserToReadableUser(languageService.defaultLanguage(), userModel);
     } catch (ServiceException e) {

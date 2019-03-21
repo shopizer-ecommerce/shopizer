@@ -40,9 +40,16 @@ response.setDateHeader ("Expires", -1);
 								</form>
 					
 							</div>
-							<!-- 
-							<a href="#" class="back">Forgot Your Password?</a>
-							 -->
+
+<%-- 							<a href="#" class="back"><s:message code="button.label.forgotpassword" text="Forgot Password ?" /></a>
+							<div id="cbox_info" class="checkout-form-list create-account" style="display: none;">
+								<p>Create an account by entering the information below. If you are a returning customer please login using the link at the top of the page.</p>
+											
+								<label>Account password  <span class="required">*</span></label>
+								<input id="email" name="cemail" class="required" title="An email is required" type="text" value="" style="background-color: rgb(255, 255, 204);">	
+							</div> --%>
+							
+							
 							 <!-- 
 							<br/>
 							<div class="login-title">

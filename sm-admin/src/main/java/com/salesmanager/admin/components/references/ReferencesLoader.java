@@ -1,5 +1,6 @@
 package com.salesmanager.admin.components.references;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +17,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -24,12 +26,11 @@ import com.salesmanager.admin.controller.exception.AdminAuthenticationException;
 import com.salesmanager.admin.controller.exception.RestTemplateException;
 import com.salesmanager.admin.model.references.Country;
 import com.salesmanager.admin.model.references.Currency;
+import com.salesmanager.admin.model.references.Group;
 import com.salesmanager.admin.model.references.Language;
 import com.salesmanager.admin.model.references.MeasureEnum;
-import com.salesmanager.admin.model.references.Group;
 import com.salesmanager.admin.model.references.Reference;
 import com.salesmanager.admin.model.references.Zone;
-import com.salesmanager.admin.utils.Constants;
 
 
 /**
@@ -43,6 +44,12 @@ public class ReferencesLoader {
 
   @Value("${shopizer.api.url}")
   private String backend;
+  
+  @Value("${shopizer.api.username}")
+  private String serviceUser;
+  
+  @Value("${shopizer.api.password}")
+  private String servicePassword;
 
   private static final Logger logger = LoggerFactory.getLogger(ReferencesLoader.class);
 
@@ -248,28 +255,26 @@ public class ReferencesLoader {
     return refs;
 
   }
-  
+
   /**
-   * Load groups from backend
-   * Groups are grouping of permissions under a security role
+   * Load groups from backend Groups are grouping of permissions under a security role
+   * 
    * @param locale
    * @return
    * @throws Exception
    */
   public List<Group> loadGroups(Locale locale) throws Exception {
 
-    HttpHeaders headers = new HttpHeaders();
-    headers.setContentType(MediaType.APPLICATION_JSON);
 
-    HttpEntity<String> entity = new HttpEntity<String>(headers);
+    HttpEntity<String> entity = new HttpEntity<String>(getHeader());
 
-    String resourceUrl = backend + "/groups";
+    String resourceUrl = backend + "/services/private/groups";
 
     // Invoke web service
     RestTemplate restTemplate = new RestTemplate();
 
-    ResponseEntity<List<Group>> resp = restTemplate.exchange(resourceUrl, HttpMethod.GET,
-        entity, new ParameterizedTypeReference<List<Group>>() {});
+    ResponseEntity<List<Group>> resp = restTemplate.exchange(resourceUrl, HttpMethod.GET, entity,
+        new ParameterizedTypeReference<List<Group>>() {});
 
 
     if (!HttpStatus.OK.equals(resp.getStatusCode())) {
@@ -285,18 +290,16 @@ public class ReferencesLoader {
 
   public List<Group> loadPermissions(Locale locale) throws Exception {
 
-    HttpHeaders headers = new HttpHeaders();
-    headers.setContentType(MediaType.APPLICATION_JSON);
 
-    HttpEntity<String> entity = new HttpEntity<String>(headers);
+    HttpEntity<String> entity = new HttpEntity<String>(getHeader());
 
-    String resourceUrl = backend + "/permissions";
+    String resourceUrl = backend + "/services/private/permissions";
 
     // Invoke web service
     RestTemplate restTemplate = new RestTemplate();
 
-    ResponseEntity<List<Group>> resp = restTemplate.exchange(resourceUrl, HttpMethod.GET,
-        entity, new ParameterizedTypeReference<List<Group>>() {});
+    ResponseEntity<List<Group>> resp = restTemplate.exchange(resourceUrl, HttpMethod.GET, entity,
+        new ParameterizedTypeReference<List<Group>>() {});
 
 
     if (!HttpStatus.OK.equals(resp.getStatusCode())) {
@@ -308,6 +311,18 @@ public class ReferencesLoader {
 
     return resp.getBody();
 
+  }
+
+  private HttpHeaders getHeader() {
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(MediaType.APPLICATION_JSON);
+    MediaType mediaType = new MediaType("application", "json", Charset.forName("UTF-8"));
+    headers.setContentType(mediaType);
+    //Basic Authentication
+    String authorisation =  serviceUser + ":" + servicePassword;
+    byte[] encodedAuthorisation = Base64.encode(authorisation.getBytes());
+    headers.add("Authorization", "Basic " + new String(encodedAuthorisation));
+    return headers;
   }
 
 }

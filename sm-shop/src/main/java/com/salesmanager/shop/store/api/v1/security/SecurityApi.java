@@ -14,50 +14,56 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import com.salesmanager.core.business.services.user.GroupService;
 import com.salesmanager.core.business.services.user.PermissionService;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.user.Permission;
+import com.salesmanager.shop.model.security.ReadableGroup;
 import com.salesmanager.shop.model.security.ReadablePermission;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import io.swagger.annotations.ApiOperation;
+import com.salesmanager.core.model.user.Group;
 
 
 /**
  * Api for managing security
+ * 
  * @author carlsamson
  *
  */
 @RestController
 @RequestMapping(value = "/api/v1")
 public class SecurityApi {
-  
+
   @Inject
   private StoreFacade storeFacade;
 
   @Inject
   private PermissionService permissionService;
-  
+
+  @Inject
+  private GroupService groupService;
+
   @ResponseStatus(HttpStatus.OK)
   @GetMapping({"/private/{group}/permissions"})
   @ApiOperation(httpMethod = "GET", value = "Get permissions by group", notes = "",
       produces = MediaType.APPLICATION_JSON_VALUE, response = List.class)
-  public List<ReadablePermission> listPermissions(
-      @PathVariable String group, 
-      @RequestParam(name = "store",
-          defaultValue = DEFAULT_STORE, required = false) String storeCode,
+  public List<ReadablePermission> listPermissions(@PathVariable String group,
+      @RequestParam(name = "store", defaultValue = DEFAULT_STORE,
+          required = false) String storeCode,
       HttpServletRequest request) {
-    
+
     String storeCd = storeCode;
 
     MerchantStore merchantStore = storeFacade.get(storeCd);
     return null;
-    //return userFacade.findByUserName(name, language);
+    // return userFacade.findByUserName(name, language);
   }
-  
-  
+
+
   /**
-   * Permissions
-   * Requires service user authentication
+   * Permissions Requires service user authentication
+   * 
    * @return
    */
   @Secured("ROLE_ADMIN")
@@ -65,12 +71,31 @@ public class SecurityApi {
   public List<ReadablePermission> permissions() {
     List<Permission> permissions = permissionService.list();
     List<ReadablePermission> readablePermissions = new ArrayList<ReadablePermission>();
-    for(Permission permission : permissions) {
+    for (Permission permission : permissions) {
       ReadablePermission readablePermission = new ReadablePermission();
       readablePermission.setName(permission.getPermissionName());
       readablePermissions.add(readablePermission);
     }
     return readablePermissions;
+  }
+
+  /**
+   * Load groups Requires service user authentication
+   * 
+   * @return
+   */
+  @Secured("ROLE_ADMIN")
+  @GetMapping("/services/private/groups")
+  public List<ReadableGroup> groups() {
+    List<Group> groups = groupService.list();
+    List<ReadableGroup> readableGroups = new ArrayList<ReadableGroup>();
+    for (Group group : groups) {
+      ReadableGroup readableGroup = new ReadableGroup();
+      readableGroup.setName(group.getGroupName());
+      readableGroup.setId(group.getId().longValue());
+      readableGroups.add(readableGroup);
+    }
+    return readableGroups;
   }
 
 }

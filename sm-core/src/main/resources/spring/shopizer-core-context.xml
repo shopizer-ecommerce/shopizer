@@ -39,7 +39,8 @@
   <!--   <beans:import resource="classpath:/spring/shopizer-core-rules.xml" /> -->
   <!-- search -->
   <beans:import resource="classpath:/spring/shopizer-search.xml" />
-  <!-- datasource -->
+  
+  <!-- datasource by profile -->
   <beans:beans profile="default">
   	<beans:import resource="classpath:/spring/datasource-c3p0.xml" />
   </beans:beans>
@@ -51,6 +52,9 @@
   </beans:beans>
   <beans:beans profile="aws">
   	<beans:import resource="classpath:/profiles/aws/spring/datasource-c3p0.xml" />
+  </beans:beans>
+  <beans:beans profile="cloud">
+  	<beans:import resource="classpath:/spring/datasource-c3p0.xml" />
   </beans:beans>
   
 

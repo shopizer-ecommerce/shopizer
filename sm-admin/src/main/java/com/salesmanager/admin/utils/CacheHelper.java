@@ -249,7 +249,9 @@ public class CacheHelper {
 
     List<Group> listGroups = (List<Group>) groups.get("groups");
     if (CollectionUtils.isEmpty(listGroups)) {
-      listGroups = references.loadPermissions(locale);
+      listGroups = references.loadGroups(locale);
+      //filter out superadmin
+      listGroups.removeIf(group->group.getName().equals("SUPERADMIN"));
       Collections.sort(listGroups, new Comparator<Group>() {
         @Override
         public int compare(Group item, Group t1) {

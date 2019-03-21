@@ -1,9 +1,6 @@
 package com.salesmanager.admin.model.user;
 
-import javax.validation.constraints.NotNull;
-
 import org.hibernate.validator.constraints.NotBlank;
-
 import com.salesmanager.admin.model.common.AbstractModel;
 
 public class User extends AbstractModel {

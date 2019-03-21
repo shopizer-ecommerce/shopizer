@@ -1,19 +1,20 @@
 package com.salesmanager.test.shop.controller.system.rest;
 
-import com.salesmanager.core.business.utils.ajax.AjaxResponse;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.springframework.http.*;
-import org.springframework.http.converter.FormHttpMessageConverter;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.security.crypto.codec.Base64;
-import org.springframework.web.client.RestTemplate;
-
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.Ignore;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.security.crypto.codec.Base64;
+import org.springframework.web.client.RestTemplate;
+import com.salesmanager.core.business.utils.ajax.AjaxResponse;
 
 @Ignore
 public class SystemAPITest {

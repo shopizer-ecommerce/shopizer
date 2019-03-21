@@ -53,7 +53,7 @@ public class ReferencesController {
 	}
 	
     @RequestMapping("/admin/references/groups")
-    @Secured({"AUTH"})
+    @Secured({"ROLE_ADMIN"})
     public ResponseEntity<List<Group>> groups(HttpServletRequest request) throws Exception {
         
         Locale locale = LocaleContextHolder.getLocale();

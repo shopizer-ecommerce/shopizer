@@ -75,7 +75,7 @@ public class UserApi {
   @GetMapping({"/private/{store}/users/{name}", "/private/users/{name}"})
   @ApiOperation(httpMethod = "GET", value = "Get a specific user profile", notes = "",
       produces = MediaType.APPLICATION_JSON_VALUE, response = ReadableUser.class)
-  public ReadableUser getByStore(
+  public ReadableUser get(
       @PathVariable Optional<String> store, @PathVariable String name, @RequestParam(name = "store",
           defaultValue = DEFAULT_STORE, required = false) String storeCode,
       HttpServletRequest request) {
@@ -114,7 +114,7 @@ public class UserApi {
     if (authenticatedUser == null) {
       throw new UnauthorizedException();
     }
-
+    //only admin and superadmin allowed
     userFacade.authorizedGroup(authenticatedUser,
         Stream.of("SUPERADMIN", "ADMIN").collect(Collectors.toList()));
 
