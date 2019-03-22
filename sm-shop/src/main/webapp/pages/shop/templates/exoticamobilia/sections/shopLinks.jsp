@@ -31,7 +31,20 @@
     	<!-- generic and common css file -->
     	<link href="<c:url value="/resources/css/sm.css" />" rel="stylesheet">
     	<link href="<c:url value="/resources/css/showLoading.css" />" rel="stylesheet">
-    
+
+
+		<script type="text/javascript">
+			//show overlay wait
+			function showTemplateLoading(element) {
+				$.LoadingOverlay("show");
+			}
+
+			function hideTemplateLoading(element) {
+				$.LoadingOverlay("hide", true);
+			}
+
+		</script>
+
     	<!-- ////////////// -->
     	
 
