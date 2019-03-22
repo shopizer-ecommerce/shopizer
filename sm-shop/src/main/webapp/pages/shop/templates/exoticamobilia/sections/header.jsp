@@ -37,7 +37,7 @@ $(document).ready(function() {
 				return;
 			}
 			$('#hiddenQuery').val(q);
-			var uri = '<c:url value="/shop/search/search.html"/>;
+			var url = '<c:url value="/shop/search/search.html"/>';
 			e.preventDefault();//action url will be overriden
 	        $('#hiddenSearchForm').attr('action',url).submit();
 
