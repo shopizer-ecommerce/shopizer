@@ -181,7 +181,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 			SearchResponse response = searchService.searchAutoComplete(collectionName, jsonString, entriesCount);
 			
 			SearchKeywords keywords = new SearchKeywords();
-			if(response!=null) {
+			if(response!=null && response.getInlineSearchList() != null) {
 			  keywords.setKeywords(Arrays.asList(response.getInlineSearchList()));
 			}
 			

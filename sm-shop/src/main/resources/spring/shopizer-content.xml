@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:social="http://www.springframework.org/schema/social"
+    xmlns:facebook="http://www.springframework.org/schema/social/facebook"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/social http://www.springframework.org/schema/social/spring-social.xsd
+        http://www.springframework.org/schema/social/facebook http://www.springframework.org/schema/social/spring-social-facebook.xsd">
+
+
+	<!-- 
+	local image handler
+	-->
+	<beans:bean id="img" class="com.salesmanager.shop.utils.LocalImageFilePathUtils">
+		<beans:property name="basePath" value="/static" />
+	</beans:bean>
+
+	
+    <!-- 
+    httpd image handler	
+    <beans:bean id="img" class="com.salesmanager.shop.utils.ImageFilePathUtils">
+		<beans:property name="basePath" value="http://localhost:80/images" />
+	</beans:bean> 
+	-->
+	
+	<!--
+	AWS image handler
+	-->
+	<!-- 	
+	<beans:bean id="img" class="com.salesmanager.shop.utils.AWSFilePathUtils">
+		<beans:property name="basePath" value="https://s3.ca-central-1.amazonaws.com/shopizer-demo" />
+	</beans:bean> 
+	-->
+
+
+</beans:beans>

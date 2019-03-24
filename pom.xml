@@ -24,7 +24,7 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<shopizer.version>2.4.0</shopizer.version>
-		<shopizer.search.version>2.4.0</shopizer.search.version>
+		<shopizer.search.version>2.4.1</shopizer.search.version>
 		<shopizer-canadapost.version>2.4.0</shopizer-canadapost.version>
 		<shopizer-shipping-distance.version>2.4.0</shopizer-shipping-distance.version>
 		<spring-vault-core-version>1.1.2.RELEASE</spring-vault-core-version>
