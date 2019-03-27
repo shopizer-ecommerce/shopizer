@@ -77,7 +77,7 @@ $(function(){
 								<br/>
 								<c:if test="${requestScope.CONFIGS['allowPurchaseItems'] == true}">
 								<c:if test="${product.quantity>0}">
-								<div class="form-inline">
+								<div class="store-btn form-inline">
 								<c:if test="${product.quantityOrderMaximum==-1 || product.quantityOrderMaximum>1 && not product.productVirtual}" >
 									<div class="form-group product-qty">
 										<input id="qty-productId-<c:out value="${product.id}" />" class="input-mini form-control form-control-sm" placeholder="1" type="text">

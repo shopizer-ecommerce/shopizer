@@ -11,12 +11,12 @@
 
 <span layout:fragment="breadcrumb" id="breadcrumb">
 	<h2>
-		<span class="breadcrumb-title" th:text="#{'menu.store'}" /> <small></small>
+		<span class="breadcrumb-title" th:text="#{'menu.users'}" /> <small></small>
 	</h2>
 	<ol class="breadcrumb">
-		<li><a href="#"><i class="fa fa-building"></i>&nbsp;<span
+		<li><a href="#"><i class="fa fa-address-card"></i>&nbsp;<span
 				th:text="#{'menu.home'}"></span></a></li>
-		<li class="active"><span th:text="#{'menu.store'}"></span></li>
+		<li class="active"><span th:text="#{'menu.user'}"></span></li>
 	</ol>
 </span>
 
@@ -29,7 +29,7 @@
 	<div class="box box-default">
 		<div class="box-header with-border">
 			<h3 class="box-title">
-				<span th:text="#{'label.store.information'}"></span>
+				<span th:text="#{'menu.users.bystore'(${code})}"></span>
 			</h3>
 		</div>
 		<!-- /.box-header -->
@@ -38,19 +38,23 @@
 				<div class="col-md-12">
 
 					<p>
-						<table class="table table-bordered" id="storeListTable">
+						<table class="table table-bordered" id="userListTable">
 		                    <thead>
 		                           <th><span th:text="#{'label.entity.id'}"></span></th>
-		                           <th><span th:text="#{'label.entity.code'}"></span></th>
-		                           <th><span th:text="#{'label.entity.name'}"></span></th>
-		                           <th><span th:text="#{'label.generic.createdBy'}"></span></th>
+		                           <th><span th:text="#{'label.generic.username'}"></span></th>
+		                           <th><span th:text="#{'label.generic.firstname'}"></span></th>
+		                           <th><span th:text="#{'label.generic.lastname'}"></span></th>
+		                           <th><span th:text="#{'label.generic.email'}"></span></th>
+		                           <th><span th:text="#{'button.label.update'}"></span></th>
 		                    </thead>
 		                    <tfoot>
 						        <tr>
-						           <th><span th:text="#{'label.entity.id'}"></span></th>
-						           <th><span th:text="#{'label.entity.code'}"></span></th>
-						           <th><span th:text="#{'label.entity.name'}"></span></th>
-						           <th><span th:text="#{'label.generic.createdBy'}"></span></th>
+		                           <th><span th:text="#{'label.entity.id'}"></span></th>
+		                           <th><span th:text="#{'label.generic.username'}"></span></th>
+		                           <th><span th:text="#{'label.generic.firstname'}"></span></th>
+		                           <th><span th:text="#{'label.generic.lastname'}"></span></th>
+		                           <th><span th:text="#{'label.generic.email'}"></span></th>
+		                           <th><span th:text="#{'button.label.update'}"></span></th>
 						        </tr>
 						   </tfoot>				
 		               </table>
@@ -78,10 +82,14 @@
 
 	$(document).ready(function () {
 
-		//showLoader();
-		var url = BACKEND + "/private/stores";
+		var store = STORECODE;
+	    if('[[${code}]]'!='') {
+	    	store = '[[${code}]]';
+	    }
+		
+		var url = BACKEND + "/private/" + store + "/users/";
 	
-		var dataTable =  $('#storeListTable').DataTable( {
+		var dataTable =  $('#userListTable').DataTable( {
 			columnDefs: [{
 				    "defaultContent": "-",
 				    "targets": "_all"
@@ -100,13 +108,11 @@
 			 "order": [ 0, 'desc' ],
 			 "columns": [
 				 { "data": "id" },
-				 { "data": "code",
-				   "render": function ( data, type, row, meta ) {
-					     return '<a href="/admin/store?code=' + data + '">' + data + '</a>';
-					}
-				 },
-				 { "data": "name" },
-				 { "data": "readableAudit.user" }
+				 { "data": "userName"},
+				 { "data": "firstName" },
+				 { "data": "lastName" },
+				 { "data": "emailAddress" },
+				 { "data": "lastAccess" }
 			]		
 		});
 

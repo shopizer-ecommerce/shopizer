@@ -141,12 +141,17 @@
 									</h4>
 									<jsp:include
 										page="/pages/shop/common/catalog/addToCartProduct.jsp" />
-									<div class="action-heiper">
-										<iframe
-											src="https://www.facebook.com/plugins/share_button.php?locale=${LOCALE.language}_${LOCALE.country}&href=<c:out value="${requestScope.CONFIGS['SHOP_SCHEME']}"/>%3A%2F%2F<c:out value="${requestScope.MERCHANT_STORE.domainName}"/><c:url value="/shop/${product.description.friendlyUrl}.html"/>&layout=button_count&size=large&mobile_iframe=true&appId=<c:out value="${requestScope.CONFIGS['shopizer.facebook-appid']}"/>&width=83&height=28"
-											width="100" height="28" style="border: none; overflow: hidden"
-											scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+									<!-- Facebook share button -->
+									<!--
+									<div>
+										<div class="action-heiper">
+											<iframe
+												src="https://www.facebook.com/plugins/share_button.php?locale=${LOCALE.language}_${LOCALE.country}&href=<c:out value="${requestScope.CONFIGS['SHOP_SCHEME']}"/>%3A%2F%2F<c:out value="${requestScope.MERCHANT_STORE.domainName}"/><c:url value="/shop/${product.description.friendlyUrl}.html"/>&layout=button_count&size=large&mobile_iframe=true&appId=<c:out value="${requestScope.CONFIGS['shopizer.facebook-appid']}"/>&width=83&height=28"
+												width="113" height="43" style="border: none; overflow: hidden margin=left:10px;"
+												scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+										</div>
 									</div>
+									-->
 								</div>
 							</div>
 						</div>

@@ -36,22 +36,13 @@ public class UserController {
       return "user/user";
   }
   
-/*  @RequestMapping("/admin/user/create")
-  @Secured({"ROLE_STORE"})
-  public String create(Principal principal, HttpServletRequest request, HttpServletResponse response) throws Exception {
-      
-      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-      request.setAttribute("action", "CREATE");
-      request.setAttribute("addressApiKey", addressAutocompleteApiKey);
-      return "store/store";
-  }*/
-  
-/*  @RequestMapping("/admin/user/list")
+
+  @RequestMapping("/admin/user/list")
   @Secured({"ROLE_STORE"})
   public String list(Principal principal, HttpServletRequest request, HttpServletResponse response) throws Exception {
       
       Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-      return "store/list";
-  }*/
+      return "user/list";
+  }
 
 }

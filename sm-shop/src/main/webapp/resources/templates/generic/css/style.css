@@ -1,9 +1,9 @@
 /* --------------------------------------------------
-	Template Name: Grand - eCommerce bootstrap template 
-    Template URI: http://bootexperts.com
-    Description: Digital eCommerce bootstrap template
-    Author: BootExperts
-    Author URI: http://bootexperts.com
+	Template Name: 
+    Template URI: 
+    Description: 
+    Author:
+    Author URI: 
     Version: 1.0
 	------------------------------------------------ */
 
@@ -2596,7 +2596,8 @@ ul.sinple-tab-menu li.active a{
 .product-simple-content .action-heiper {
 	border-bottom: 1px solid #dddddd;
 	margin-bottom: 30px;
-	margin-top: 30px;
+	margin-top: 20px;
+	margin-left:20px;
 	padding-bottom: 20px;
 }
 .product-simple-content .action-heiper a {

@@ -205,7 +205,7 @@ public class UserFacadeImpl implements UserFacade {
   }
 
   @Override
-  public ReadableUserList getByCriteria(Language language, String draw, Criteria criteria) {
+  public ReadableUserList getByCriteria(Language language, String drawParam, Criteria criteria) {
     try {
       ReadableUserList readableUserList = new ReadableUserList();
       GenericEntityList<User> userList = userService.listByCriteria(criteria);
@@ -215,6 +215,10 @@ public class UserFacadeImpl implements UserFacade {
       }
       readableUserList.setRecordsTotal(userList.getTotalCount());
       readableUserList.setTotalCount(readableUserList.getData().size());
+      readableUserList.setRecordsFiltered(userList.getTotalCount());
+      if (!org.apache.commons.lang3.StringUtils.isEmpty(drawParam)) {
+        readableUserList.setDraw(Integer.parseInt(drawParam));
+      }
       return readableUserList;
     } catch (ServiceException e) {
       throw new ServiceRuntimeException("Cannot get users by criteria user", e);

@@ -24,8 +24,8 @@
 		<!-- Need to use the latest milestone in order to logon with latest FB 
 			app version -->
 		<spring-social-facebook.version>3.0.0.M3</spring-social-facebook.version>
-		<guava.version>19.0</guava.version>
-		<swagger.version>2.7.0</swagger.version>
+		<guava.version>20.0</guava.version>
+		<swagger.version>2.9.2</swagger.version>
 		<coverage.lines>.04</coverage.lines>
         <coverage.branches>.01</coverage.branches>
 	</properties>

@@ -26,9 +26,9 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     try {
       StringBuilder req = new StringBuilder();
       req.append(
-          "select distinct u from User u left join fetch u.groups ug left join fetch u.defaultLanguage ud left join fetch u.merchantStore um");
+          "select distinct u from User as u left join fetch u.groups ug left join fetch u.defaultLanguage ud join fetch u.merchantStore um left join fetch ug.permissions ugp");
       StringBuilder countBuilder = new StringBuilder();
-      countBuilder.append("select count(distinct u) from User u");
+      countBuilder.append("select count(distinct u) from User as u join u.merchantStore um");
       if (!StringUtils.isBlank(criteria.getStoreCode())) {
         req.append("  where um.code=:storeCode");
         countBuilder.append(" where um.code=:storeCode");
@@ -42,6 +42,11 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
       if (criteria.getStoreCode() != null) {
         countQ.setParameter("storeCode", criteria.getStoreCode());
         q.setParameter("storeCode", criteria.getStoreCode());
+      }
+      
+      if(!StringUtils.isBlank(criteria.getCriteriaOrderByField())) {
+        req.append(" order by u." + criteria.getCriteriaOrderByField() + " "
+            + criteria.getOrderBy().name().toLowerCase());
       }
 
       Number count = (Number) countQ.getSingleResult();

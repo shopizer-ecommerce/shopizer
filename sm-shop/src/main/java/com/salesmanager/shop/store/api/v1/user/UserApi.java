@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import com.google.common.collect.ImmutableMap;
+import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.model.common.Criteria;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -37,6 +38,7 @@ import com.salesmanager.shop.store.controller.user.facade.UserFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
 import com.salesmanager.shop.utils.ServiceRequestCriteriaBuilderUtils;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 /**
  * Api for managing admin users
@@ -59,9 +61,11 @@ public class UserApi {
   
   @Inject
   private LanguageService languageService;
-  
+
+  //mapping between readable field name and backend field name
   private static final Map<String, String> MAPPING_FIELDS = ImmutableMap.<String, String>builder()
-      .put("storeCode", "storeCode").build();
+      .put("emailAddress", "adminEmail")
+      .put("userName", "adminName").build();
 
   /**
    * Get userName by merchant code and userName
@@ -102,10 +106,8 @@ public class UserApi {
   @ApiOperation(httpMethod = "POST", value = "Creates a new user", notes = "",
       response = Void.class)
   public void create(
-      @PathVariable Optional<String> store,
+      @ApiParam(name = "store", value = "Optional - Store code", required=false, defaultValue = "DEFAULT") @PathVariable Optional<String> store,
       @Valid @RequestBody PersistableUser user, 
-      @RequestParam(name = "store",
-          defaultValue = DEFAULT_STORE, required = false) String storeCode,
       HttpServletRequest request) {
     /**
      * Must be superadmin or admin
@@ -118,7 +120,7 @@ public class UserApi {
     userFacade.authorizedGroup(authenticatedUser,
         Stream.of("SUPERADMIN", "ADMIN").collect(Collectors.toList()));
 
-    String storeCd = storeCode;
+    String storeCd = Constants.DEFAULT_STORE;;
     if (store.isPresent()) {
       storeCd = store.get();
     }
@@ -154,24 +156,36 @@ public class UserApi {
   }
 
   @ResponseStatus(HttpStatus.OK)
-  @GetMapping(value = {"/private/{store}/users/", "/private/users/"},
+  @GetMapping(value = {"/private/{store}/users/","/private/users/"},
   produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(httpMethod = "GET", value = "Get list of user", notes = "",
       response = ReadableUserList.class)
   public ReadableUserList list(
-      @PathVariable Optional<String> store,
+      @ApiParam(name = "store", value = "Optional - Store code", required=false, defaultValue = "DEFAULT") @PathVariable Optional<String> store,
       @RequestParam(value = "start", required = false) Integer start,
       @RequestParam(value = "length", required = false) Integer count,
-      @RequestParam(value = "store", required = false) String storeCode, 
       HttpServletRequest request) {
     
-    String storeCd = storeCode;
-    if (store.isPresent()) {
+    String authenticatedUser = userFacade.authenticatedUser();
+    if (authenticatedUser == null) {
+      throw new UnauthorizedException();
+    }
+    
+    String storeCd = Constants.DEFAULT_STORE;
+    if(store.isPresent()) {
       storeCd = store.get();
     }
 
     Criteria criteria = createCriteria(start, count, request);
-    String drawParam = request.getParameter("draw");
+    criteria.setStoreCode(storeCd);
+    String drawParam = request.getParameter("draw");    
+    
+    if (!request.isUserInRole("SUPERADMIN")) {
+      userFacade.authorizedStore(authenticatedUser, storeCd);
+    }
+    
+    userFacade.authorizedGroup(authenticatedUser,
+        Stream.of("SUPERADMIN", "ADMIN").collect(Collectors.toList()));
 
     return userFacade.getByCriteria(languageService.defaultLanguage(), drawParam, criteria);
   }
