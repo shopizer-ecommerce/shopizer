@@ -1,8 +1,8 @@
 language: java
 
 script: 
-  -mvn clean install
-  -cd sm-shop
-  -mvn clean verify
+  - mvn clean install
+  - cd sm-shop
+  - mvn clean verify
 after_success:
   - bash <(curl -s https://codecov.io/bash)
