@@ -3,4 +3,6 @@ language: java
 script: 
   -mvn clean install
   -cd sm-shop
-  -mvn spring-boot:run
+  -mvn clean verify
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
