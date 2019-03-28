@@ -1,0 +1,6 @@
+language: java
+
+script: 
+  -mvn clean install
+  -cd sm-shop
+  -mvn spring-boot:run
