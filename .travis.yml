@@ -6,3 +6,38 @@ script:
   - mvn clean verify
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+  
+
+env:
+  global:
+    # COVERITY_SCAN_TOKEN
+    # ** specific to your project **
+    - secure: ocDbzH1frhvRuC0mjcZV6w
+
+addons:
+  coverity_scan:
+
+    # GitHub project metadata
+    # ** specific to your project **
+    project:
+      name: mopikao/shopizer
+      version: 2.4.0
+      description: Test project-1
+
+    # Where email notification of build analysis results will be sent
+    notification_email: manoraaju@gmail.com
+
+    # Commands to prepare for build_command
+    # ** likely specific to your build **
+    build_command_prepend: mvn clean install
+
+    # The command that will be added as an argument to "cov-build" to compile your project for analysis,
+    # ** likely specific to your build **
+    build_command: 
+            - cd sm-shop 
+            - mvn clean verify
+
+    # Pattern to match selecting branches that will run analysis. We recommend leaving this set to 'coverity_scan'.
+    # Take care in resource usage, and consider the build frequency allowances per
+    #   https://scan.coverity.com/faq#frequency
+    branch_pattern: coverity_scan
