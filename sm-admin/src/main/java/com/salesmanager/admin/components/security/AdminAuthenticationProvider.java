@@ -45,6 +45,44 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
 	@Value("${shopizer.api.url}")
 	private String backend;
 	
+	public String refreshAuthenticationToken(Authentication authentication) throws AuthenticationException {
+	    HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        String refreshResourceUrl
+        = backend + "/auth/refresh";
+        
+        
+        
+        //Invoke web service
+        RestTemplate restTemplate = new RestTemplate();
+        String result = null;
+
+        ResponseEntity<String> resp = null;
+        try {
+            result = restTemplate.getForObject(refreshResourceUrl, String.class);//new token
+
+        } catch(HttpClientErrorException e) {
+            if(HttpStatus.FORBIDDEN.name().equals(e.getStatusCode().name())) {
+                throw new AdminAuthenticationException("Cannot authenticate this client [Forbidden]",e.getStatusCode());
+            }
+            if(HttpStatus.NOT_FOUND.name().equals(e.getStatusCode().name())) {
+                throw new AdminAuthenticationException("Cannot authenticate this client [Not found]",e.getStatusCode());
+            }
+            logger.error("Error during authentication [" + e.getMessage() + "] [" + e.getStatusCode().name() + "]" );
+        }
+ 
+        if(!HttpStatus.OK.equals(resp.getStatusCode())) {
+            throw new AdminAuthenticationException("Cannot authenticate this client [ " + resp.getStatusCode().name() + "]");
+        }
+        
+        Map<String,String> details = (Map<String, String>) authentication.getDetails();
+        details.put(Constants.TOKEN,result);
+        
+        return result;
+
+	}
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {

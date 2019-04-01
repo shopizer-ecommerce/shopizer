@@ -51,7 +51,7 @@
 							</div>
 							<div class="form-group">
 								<label for="userName"><span th:text="#{'label.generic.username'}"></span> *</label>
-								<input class="form-control" id="userName" name="userName" required="" data-mask>
+								<input class="form-control" id="userName" name="userName" required="" data-mask readonly>
 							</div>
 							<div class="form-group">
 								<label for="emailAddress"><span
@@ -134,121 +134,112 @@
 	
 	<script type="text/javascript">
       $(document).ready(function(){
-    	  	
-    	    resetMessages();
-			
-    	  	
-    	  	//hide delete button
-    	  	$('#delete').hide()
-
-  	    	//Date picker
-	  	    //$('#inBusinessSince').datepicker({
-	  	    //  autoclose: true
-	  	    //})
     	  
-    	    //if($("#action").val()=='READ') {
-    	    	log('Before delete show');
-    	    	
-    	    	$('#delete').show();
+    	  		languages();
+          		groups();//load groups component
+    	  	
+    	    	resetMessages();
 
-	    		showLoader();
-	    		var store = STORECODE;
-	    		if('[[${code}]]'!='') {
-	    			store = '[[${code}]]';
-	    		}
-				//fetch store
-	      		var url = BACKEND + "/private/users/" + USERNAME;
+    	  		$('#delete').hide();
+    	  		var store = STORECODE;
+    			if('[[${code}]]'!='') {
+    				store = '[[${code}]]';
+    			}
+				showLoader();
+				//TODO if create 
+    	        if($("#action").val()=='READ') {
+    	    		$('#delete').show();
 
-		    	$.ajax({
-		    	    type:"get",
-		    	    crossDomain: true,
-		    	    cache: false,
-		    	    url: url,
-		    	    dataType: "json",
-		    	    headers: {
-		    	        "Authorization": "Bearer " + TOKEN
-		    	    },
-		    	    success: function(data){
-		    	       hideLoader();	
-		    	       log(JSON.stringify(data));
-		    	       $("#firstName").val(data.firstName);
-		    	       $("#lastName").val(data.lastName);
-		    	       $("#userName").val(data.userName);
-		    	       $("#emailAddress").val(data.emailAddress);
-		    	       if(data.active) {
-		    	    	   $("input[name='active'][type='checkbox']").prop("checked", true);
-		    	       }
-		    	       
-		    	       for (var i=0; i<data.groups.length; i++) {
-		    	    	    log('Group ' + data.groups[i].name);
-		    	       	    $("input[value='" + data.groups[i].name + "'][type='checkbox']").prop("checked", true);
-		    	       }
+					//fetch user
+	      			var url = BACKEND + "/private/" + store + "/users/" + USERNAME;
 
-		    	    },
-		    	    error: function(response,textStatus,errorThrown) {
-		    	    	//TODO if 403 or 401 redirect to not authorized page
-		    	    	log('Fail ' + response);
-		    	    	log(JSON.stringify(response));
-		    	    	error(JSON.stringify(response.message));
-		    	    	hideLoader();
-		    	    }
-		    	});
-    	    //}
-  	    	
-	  	    //handle submit
-  	    	$("#user").submit(function(event){
-  	    		showLoader();
-				event.preventDefault(); //prevent default action 
-				resetMessages();
-				adjustCheckBoxes($(".checkTrueFalse"));
-				
-				var form_data = $(this).serializeJSON(); //Encode form elements for submission
-				
-				//add code again in case field is disabled
-				form_data.code=$('#code').val();
+			    	$.ajax({
+			    	    type:"get",
+			    	    crossDomain: true,
+			    	    cache: false,
+			    	    url: url,
+			    	    dataType: "json",
+			    	    headers: {
+			    	        "Authorization": "Bearer " + TOKEN
+			    	    },
+			    	    success: function(data){
+			    	       hideLoader();	
+			    	       log(JSON.stringify(data));
+			    	       $("#firstName").val(data.firstName);
+			    	       $("#lastName").val(data.lastName);
+			    	       $("#userName").val(data.userName);
+			    	       $("#emailAddress").val(data.emailAddress);
+			    	       if(data.active) {
+			    	    	   $("input[name='active'][type='checkbox']").prop("checked", true);
+			    	       }
+			    	       
+			    	       for (var i=0; i<data.groups.length; i++) {
+			    	    	    log('Group ' + data.groups[i].name);
+			    	       	    $("input[value='" + data.groups[i].name + "'][type='checkbox']").prop("checked", true);
+			    	       }
+			    	       //$("#userName").prop("disabled", true);
+	
+			    	    },
+			    	    error: function(response,textStatus,errorThrown) {
+			    	    	//TODO if 403 or 401 redirect to not authorized page
+			    	    	log(JSON.stringify(response));
+			    	    	error(JSON.stringify(response.message));
+			    	    	hideLoader();
+			    	    }
+			    	});
+    	        }
+		  	    //handle submit
+	  	    	$("#user").submit(function(event){
+	  	    		showLoader();
+					event.preventDefault(); //prevent default action 
+					resetMessages();
+					adjustCheckBoxes($(".checkTrueFalse"));
+					
+					var form_data = $(this).serializeJSON(); //Encode form elements for submission
+					
+					log(form_data);
+					
+					//create url
+					var type ='POST';
+					var url = BACKEND + "/private/" + store + "/user/";
+					if($("#action").val()=='READ') {
+						url = BACKEND + "/private/" + store + "/user/" + $('#userName').val();
+						type ='PUT';
+					}
 
-				//log(form_data);
-				
-				//create url
-				var url = BACKEND + "/private/store";
-				var type ='POST';
-				
-				if($("#action").val()=='READ') {
-					url = BACKEND + "/private/store/" + $("#code").val();
-					type ='PUT';
-				}
-
-		    	 $.ajax({
-		    	    type:type,
-		    	    crossDomain: true,
-		    	    cache: false,
-		    	    url: url,
-		    	    dataType: "json",
-		    	    contentType : 'application/json; charset=utf-8',
-		    	    data:JSON.stringify(form_data),
-		    	    headers: {
-		    	        "Authorization": "Bearer " + TOKEN
-		    	    },
-		    	    success: function(data){
-		    	    	$("#action").val('READ');
-		    	    	$("#code").prop("disabled", true);
-		    	    	$('#delete').show();
-		    	    	//set menu name
-		    	    	$('#menuEntityName').html($("#code").val());
-		    	    	//change url parameter
-		    	    	changeMenuUrlParam('.menuEntityUrl','code',$("#code").val());
-		    	    	success('');
-		    	    	hideLoader();
-		    	    },
-		    	    error: function(response,textStatus,errorThrown) {
-		    	    	log(JSON.stringify(response.message));
-		    	    	error(response.message);
-		    	    	error(JSON.stringify(response.message));
-		    	    	hideLoader();
-		    	    }
-		    	});
- 
-			});
+			    	$.ajax({
+			    	    type:type,
+			    	    crossDomain: true,
+			    	    cache: false,
+			    	    url: url,
+			    	    dataType: "json",
+			    	    contentType : 'application/json; charset=utf-8',
+			    	    data:JSON.stringify(form_data),
+			    	    headers: {
+			    	        "Authorization": "Bearer " + TOKEN
+			    	    },
+			    	    success: function(data){
+			    	    	$("#action").val('READ');
+			    	    	//$("#userName").prop("disabled", true);
+			    	    	$('#delete').show();
+			    	    	//set menu name
+			    	    	$('#menuEntityName').html($("#code").val());
+			    	    	//change url parameter
+			    	    	changeMenuUrlParam('.menuEntityUrl','code',$("#userName").val());
+			    	    	refresh();
+			    	    	success('');
+			    	    	hideLoader();
+			    	    },
+			    	    error: function(response,textStatus,errorThrown) {
+			    	    	log(JSON.stringify(response.message));
+			    	    	error(response.message);
+			    	    	error(JSON.stringify(response.message));
+			    	    	hideLoader();
+			    	    }
+			    	});
+		    	
+			    	
+				});
 	  	    
   	    	$("#delete").click(function(event){
   	    		
@@ -280,7 +271,7 @@
 		    	    	$('#store').trigger("reset");
 		    	    	//becomes creat mode
 		    	    	$("#action").val('CREATE');
-		    	    	$("#code").prop("disabled", false);
+		    	    	//$("#code").prop("disabled", false);
 		    	    	
 		    	    	$('#menuEntityName').html('');
 		    	    	//change url parameter
@@ -295,17 +286,41 @@
   	    		
   	    	});
 
-      		//handle country change
-    	    $('#country').on('change', function() {
-    	    	  zones( this.value, null );
-    	    	  maskPhone(this.value, $("#phone"));
-    	    });
-
       		
       });
-     
-	  languages();
-      groups();//load groups component
+      
+      function refresh() {
+    	  
+	    	url = BACKEND + "/auth/refresh";
+	    	
+	    	$.ajax({
+	    	    type:'GET',
+	    	    crossDomain: true,
+	    	    cache: false,
+	    	    url: url,
+	    	    dataType: "json",
+	    	    contentType : 'application/json; charset=utf-8',
+	    	    headers: {
+	    	        "Authorization": "Bearer " + TOKEN
+	    	    },
+	    	    success: function(data){
+
+	    	    	log('New token ' + data);
+	    	    	
+	    	    	//change url parameter
+	    	    	//changeMenuUrlParam('.menuEntityUrl','code',$("#userName").val());
+	    	    	//success('');
+	    	    	//hideLoader();
+	    	    },
+	    	    error: function(response,textStatus,errorThrown) {
+	    	    	log(JSON.stringify(response.message));
+	    	    	error(response.message);
+	    	    	error(JSON.stringify(response.message));
+	    	    	hideLoader();
+	    	    }
+	    	});
+    	  
+      }
       
 	  //used by generic code component
       //$("#codeTitle").html('[[#{label.storecode}]]');

@@ -268,7 +268,7 @@ public class UserFacadeImpl implements UserFacade {
       if(superadmin!=null) {
         userModel.setGroups(originalGroups);
       }
-      
+      user.setPassword(userModel.getAdminPassword());
       userService.saveOrUpdate(userModel);
       return this.convertUserToReadableUser(languageService.defaultLanguage(), userModel);
     } catch (ServiceException e) {

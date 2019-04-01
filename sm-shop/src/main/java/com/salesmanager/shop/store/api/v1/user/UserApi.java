@@ -8,7 +8,6 @@ import java.util.stream.Stream;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -231,11 +230,6 @@ public class UserApi {
     Optional.ofNullable(start).ifPresent(criteria::setStartIndex);
     Optional.ofNullable(count).ifPresent(criteria::setMaxCount);
 
-    String search = criteria.getSearch();
-    if (!StringUtils.isBlank(search)) {
-      criteria.setCode(search);
-      criteria.setName(search);
-    }
     return criteria;
   }
 }

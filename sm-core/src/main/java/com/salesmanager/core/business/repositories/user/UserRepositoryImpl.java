@@ -33,20 +33,24 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
         req.append("  where um.code=:storeCode");
         countBuilder.append(" where um.code=:storeCode");
       }
+      
+      if(!StringUtils.isBlank(criteria.getCriteriaOrderByField())) {
+        req.append(" order by u." + criteria.getCriteriaOrderByField() + " "
+            + criteria.getOrderBy().name().toLowerCase());
+      }
 
       Query countQ = this.em.createQuery(countBuilder.toString());
 
       String hql = req.toString();
       Query q = this.em.createQuery(hql);
 
-      if (criteria.getStoreCode() != null) {
-        countQ.setParameter("storeCode", criteria.getStoreCode());
-        q.setParameter("storeCode", criteria.getStoreCode());
-      }
-      
-      if(!StringUtils.isBlank(criteria.getCriteriaOrderByField())) {
-        req.append(" order by u." + criteria.getCriteriaOrderByField() + " "
-            + criteria.getOrderBy().name().toLowerCase());
+      if(!StringUtils.isBlank(criteria.getSearch())) {
+        
+      } else {
+        if (criteria.getStoreCode() != null) {
+          countQ.setParameter("storeCode", criteria.getStoreCode());
+          q.setParameter("storeCode", criteria.getStoreCode());
+        }
       }
 
       Number count = (Number) countQ.getSingleResult();

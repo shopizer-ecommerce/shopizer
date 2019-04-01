@@ -114,6 +114,9 @@ public class StripePayment implements PaymentModule {
 				throw te;
 			}
 			
+			/**
+			 * this is send by stripe from tokenization ui
+			 */
 			String token = payment.getPaymentMetaData().get("stripe_token");
 			
 			if(StringUtils.isBlank(token)) {

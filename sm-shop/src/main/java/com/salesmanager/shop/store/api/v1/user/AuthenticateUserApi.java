@@ -1,6 +1,7 @@
 package com.salesmanager.shop.store.api.v1.user;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.http.auth.AuthenticationException;
@@ -93,18 +94,23 @@ public class AuthenticateUserApi {
 
     }
 
-/*    @RequestMapping(value = "/auth/refresh", method = RequestMethod.GET)
+    @RequestMapping(value = "/auth/refresh", method = RequestMethod.GET)
     public ResponseEntity<?> refreshAndGetAuthenticationToken(HttpServletRequest request) {
         String token = request.getHeader(tokenHeader);
-        String username = jwtTokenUtil.getUsernameFromToken(token);
-        JWTUser user = (JWTUser) jwtCustomerDetailsService.loadUserByUsername(username);
 
-        if (jwtTokenUtil.canTokenBeRefreshed(token, user.getLastPasswordResetDate())) {
+        if(token != null && token.contains("Bearer")) {
+          token = token.substring("Bearer ".length(),token.length());
+        }
+        
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        JWTUser user = (JWTUser) jwtAdminDetailsService.loadUserByUsername(username);
+
+        if (jwtTokenUtil.canTokenBeRefreshedWithGrace(token, user.getLastPasswordResetDate())) {
             String refreshedToken = jwtTokenUtil.refreshToken(token);
             return ResponseEntity.ok(new AuthenticationResponse(user.getId(),refreshedToken));
         } else {
             return ResponseEntity.badRequest().body(null);
         }
-    }*/
+    }
 
 }

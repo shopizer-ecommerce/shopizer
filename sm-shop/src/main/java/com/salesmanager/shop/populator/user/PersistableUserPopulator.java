@@ -5,6 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import com.salesmanager.core.business.exception.ConversionException;
@@ -46,7 +47,9 @@ public class PersistableUserPopulator extends AbstractDataPopulator<PersistableU
     target.setLastName(source.getLastName());
     target.setAdminEmail(source.getEmailAddress());
     target.setAdminName(source.getUserName());
-    target.setAdminPassword(passwordEncoder.encode(source.getPassword()));
+    if(!StringUtils.isBlank(source.getPassword())) {
+      target.setAdminPassword(passwordEncoder.encode(source.getPassword()));
+    }
     target.setActive(source.isActive());
     
     Language lang = null;

@@ -1,6 +1,7 @@
 package com.salesmanager.shop.store.security;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -85,6 +86,17 @@ public class JWTTokenUtil implements Serializable {
 	    private Boolean isCreatedBeforeLastPasswordReset(Date created, Date lastPasswordReset) {
 	        return (lastPasswordReset != null && created.before(lastPasswordReset));
 	    }
+	    
+	    private Boolean isCreatedBeforeLastPasswordResetWithGrace(Date created, Date lastPasswordReset) {
+	        return (lastPasswordReset != null && created.before(addSeconds(lastPasswordReset,40)));
+	    }
+	    
+	    private Date addSeconds(Date date, Integer seconds) {
+	      Calendar cal = Calendar.getInstance();
+	      cal.setTime(date);
+	      cal.add(Calendar.SECOND, seconds);
+	      return cal.getTime();
+	    }
 
 	    private String generateAudience(Device device) {
 	        String audience = AUDIENCE_UNKNOWN;
@@ -125,6 +137,12 @@ public class JWTTokenUtil implements Serializable {
 	                .signWith(SignatureAlgorithm.HS512, secret)
 	                .compact();
 	    }
+	    
+        public Boolean canTokenBeRefreshedWithGrace(String token, Date lastPasswordReset) {
+          final Date created = getIssuedAtDateFromToken(token);
+          return !isCreatedBeforeLastPasswordResetWithGrace(created, lastPasswordReset)
+                  && (!isTokenExpired(token) || ignoreTokenExpiration(token));
+        }	    
 
 	    public Boolean canTokenBeRefreshed(String token, Date lastPasswordReset) {
 	        final Date created = getIssuedAtDateFromToken(token);

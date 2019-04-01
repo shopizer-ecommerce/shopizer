@@ -11,7 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -19,7 +21,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
+import com.salesmanager.admin.components.security.AdminAuthenticationProvider;
 import com.salesmanager.admin.components.security.AdminAuthenticationToken;
 import com.salesmanager.admin.controller.exception.AdminAuthenticationException;
 import com.salesmanager.admin.model.common.Messages;
@@ -37,8 +39,18 @@ public class LoginController {
 	@Inject
 	private AuthenticationManager authenticationManager;
 	
+	@Inject AdminAuthenticationProvider adminAuthenticationProvider;
+	
 	@Inject
 	private Messages messages;
+	
+	@RequestMapping("/refresh")
+    @Secured({"AUTH"})
+	public ResponseEntity<String> refresh(HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
+	  Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	  String token = adminAuthenticationProvider.refreshAuthenticationToken(auth);
+	  return new ResponseEntity<String>(token, HttpStatus.OK);
+	}
 	
 	@RequestMapping("/login")
 	public String display(HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
