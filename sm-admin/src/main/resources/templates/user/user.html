@@ -222,10 +222,9 @@
 			    	    	$("#action").val('READ');
 			    	    	//$("#userName").prop("disabled", true);
 			    	    	$('#delete').show();
-			    	    	//set menu name
-			    	    	$('#menuEntityName').html($("#code").val());
 			    	    	//change url parameter
 			    	    	changeMenuUrlParam('.menuEntityUrl','code',$("#userName").val());
+			    	    	//refresh user token
 			    	    	refresh();
 			    	    	success('');
 			    	    	hideLoader();
@@ -291,22 +290,19 @@
       
       function refresh() {
     	  
-	    	url = BACKEND + "/auth/refresh";
-	    	
+	    	url = "/admin/refresh";
+	    	log(url);
+			log(TOKEN);	    	
 	    	$.ajax({
 	    	    type:'GET',
 	    	    crossDomain: true,
 	    	    cache: false,
 	    	    url: url,
-	    	    dataType: "json",
 	    	    contentType : 'application/json; charset=utf-8',
-	    	    headers: {
-	    	        "Authorization": "Bearer " + TOKEN
-	    	    },
 	    	    success: function(data){
 
 	    	    	log('New token ' + data);
-	    	    	
+	    	    	TOKEN = data;
 	    	    	//change url parameter
 	    	    	//changeMenuUrlParam('.menuEntityUrl','code',$("#userName").val());
 	    	    	//success('');

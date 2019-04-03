@@ -24,6 +24,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -46,8 +47,17 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
 	private String backend;
 	
 	public String refreshAuthenticationToken(Authentication authentication) throws AuthenticationException {
+	    
+
+	    @SuppressWarnings("unchecked")
+        Map<String, String> details = (Map<String, String>) authentication.getDetails();
+	    String token = details.get(Constants.TOKEN);
+	  
 	    HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set(AUTHORIZATION, "Bearer " + token);//set bearer token
+        
+        
 
         String refreshResourceUrl
         = backend + "/auth/refresh";
@@ -56,11 +66,20 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
         
         //Invoke web service
         RestTemplate restTemplate = new RestTemplate();
-        String result = null;
+
+        
+        HttpEntity entity = new HttpEntity(headers);
+
+
 
         ResponseEntity<String> resp = null;
+
         try {
-            result = restTemplate.getForObject(refreshResourceUrl, String.class);//new token
+          
+            resp = restTemplate.exchange(
+                refreshResourceUrl, HttpMethod.GET, entity, String.class);
+            
+            
 
         } catch(HttpClientErrorException e) {
             if(HttpStatus.FORBIDDEN.name().equals(e.getStatusCode().name())) {
@@ -76,7 +95,8 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
             throw new AdminAuthenticationException("Cannot authenticate this client [ " + resp.getStatusCode().name() + "]");
         }
         
-        Map<String,String> details = (Map<String, String>) authentication.getDetails();
+       String result =  resp.getBody();
+
         details.put(Constants.TOKEN,result);
         
         return result;
