@@ -95,7 +95,7 @@ public class AuthenticateUserApi {
     }
 
     @RequestMapping(value = "/auth/refresh", method = RequestMethod.GET)
-    public ResponseEntity<?> refreshAndGetAuthenticationToken(HttpServletRequest request) {
+    public ResponseEntity<AuthenticationResponse> refreshAndGetAuthenticationToken(HttpServletRequest request) {
         String token = request.getHeader(tokenHeader);
 
         if(token != null && token.contains("Bearer")) {

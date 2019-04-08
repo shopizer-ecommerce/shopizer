@@ -105,33 +105,11 @@
 
 <!-- All actions in store to be defined here -->
 <th:block layout:fragment="script">
-	<!-- address component -->
-	<script src="/js/address.js"></script>
-	<script src="/js/languages.js"></script>
 	<script src="/js/groups.js"></script>
 	<!-- Unique code detection -->
 	<script src="/js/uniqueCode.js"></script>
 	
-	<script type="text/javascript">
-		$(function () {
-		  $('#user').parsley().on('field:validated', function(fieldInstance) {
-		    var ok = $('.parsley-error').length === 0;
-		    $('.callout-warning').toggleClass('hidden', ok);
-		    if (fieldInstance.$element.is(":disabled")) {
-		    	$('.callout-warning').hide();
-		        fieldInstance._ui.$errorsWrapper.css('display', 'none');
-		        // set validation result to true
-		        fieldInstance.validationResult = true;
-		        return true;
-		    }
-		  })
-		  //.on('form:submit', function() {
-		    //return false; // Don't submit form for this demo
-		  //});
-		});
-	</script>
-	
-	
+
 	<script type="text/javascript">
       $(document).ready(function(){
     	  
@@ -301,12 +279,7 @@
 	    	    contentType : 'application/json; charset=utf-8',
 	    	    success: function(data){
 
-	    	    	log('New token ' + data);
 	    	    	TOKEN = data;
-	    	    	//change url parameter
-	    	    	//changeMenuUrlParam('.menuEntityUrl','code',$("#userName").val());
-	    	    	//success('');
-	    	    	//hideLoader();
 	    	    },
 	    	    error: function(response,textStatus,errorThrown) {
 	    	    	log(JSON.stringify(response.message));
@@ -317,10 +290,6 @@
 	    	});
     	  
       }
-      
-	  //used by generic code component
-      //$("#codeTitle").html('[[#{label.storecode}]]');
-
 
       function adjustCheckBoxes($input) {
 	    		if($input.is(':checked')) {

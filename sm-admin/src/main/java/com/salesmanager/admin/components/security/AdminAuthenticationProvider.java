@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,11 +23,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.salesmanager.admin.controller.exception.AdminAuthenticationException;
@@ -69,17 +66,12 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
 
         
         HttpEntity entity = new HttpEntity(headers);
-
-
-
         ResponseEntity<String> resp = null;
 
         try {
           
             resp = restTemplate.exchange(
                 refreshResourceUrl, HttpMethod.GET, entity, String.class);
-            
-            
 
         } catch(HttpClientErrorException e) {
             if(HttpStatus.FORBIDDEN.name().equals(e.getStatusCode().name())) {
@@ -96,10 +88,21 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
         }
         
        String result =  resp.getBody();
+       ObjectMapper mapper = new ObjectMapper();
+       Map<String, Object> map = new HashMap<String, Object>();
+       // convert JSON string to Map
+       try {
+           map = mapper.readValue(result, new TypeReference<Map<String, String>>(){});
+       } catch (Exception e) {
+           logger.error("Cannot parse login response body " + result, e);
+           throw new AdminAuthenticationException("Cannot refresh authentication for this user, response parsing problem [ " + result + "]");
+       }
+       
+       token = String.valueOf(map.get(Constants.TOKEN));
 
-        details.put(Constants.TOKEN,result);
-        
-        return result;
+       details.put(Constants.TOKEN,token);
+
+       return token;
 
 	}
 	

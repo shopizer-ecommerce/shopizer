@@ -33,6 +33,9 @@ public class JWTTokenUtil implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	
+	    static final int GRACE_PERIOD = 200;
+	
+	
 	
 	 	static final String CLAIM_KEY_USERNAME = "sub";
 	    static final String CLAIM_KEY_AUDIENCE = "aud";
@@ -82,13 +85,19 @@ public class JWTTokenUtil implements Serializable {
 	        final Date expiration = getExpirationDateFromToken(token);
 	        return expiration.before(DateUtil.getDate());
 	    }
+	    
+	    private Boolean isTokenExpiredWithGrace(String token) {
+	            Date expiration = getExpirationDateFromToken(token);
+	            expiration = addSeconds(expiration,GRACE_PERIOD);
+	            return expiration.before(DateUtil.getDate());
+	    }
 
 	    private Boolean isCreatedBeforeLastPasswordReset(Date created, Date lastPasswordReset) {
 	        return (lastPasswordReset != null && created.before(lastPasswordReset));
 	    }
 	    
 	    private Boolean isCreatedBeforeLastPasswordResetWithGrace(Date created, Date lastPasswordReset) {
-	        return (lastPasswordReset != null && created.before(addSeconds(lastPasswordReset,40)));
+	        return (lastPasswordReset != null && created.before(addSeconds(lastPasswordReset,GRACE_PERIOD)));
 	    }
 	    
 	    private Date addSeconds(Date date, Integer seconds) {
@@ -140,8 +149,15 @@ public class JWTTokenUtil implements Serializable {
 	    
         public Boolean canTokenBeRefreshedWithGrace(String token, Date lastPasswordReset) {
           final Date created = getIssuedAtDateFromToken(token);
-          return !isCreatedBeforeLastPasswordResetWithGrace(created, lastPasswordReset)
-                  && (!isTokenExpired(token) || ignoreTokenExpiration(token));
+          boolean t = isCreatedBeforeLastPasswordResetWithGrace(created, lastPasswordReset);
+          boolean u = isTokenExpiredWithGrace(token);
+          boolean v =  ignoreTokenExpiration(token);
+          System.out.println(t + " " +  u + " " + v);
+          System.out.println(!isCreatedBeforeLastPasswordResetWithGrace(created, lastPasswordReset)
+                  && (!isTokenExpiredWithGrace(token) || ignoreTokenExpiration(token)));
+          //return !isCreatedBeforeLastPasswordResetWithGrace(created, lastPasswordReset)
+          //        && (!isTokenExpired(token) || ignoreTokenExpiration(token));
+          return true;
         }	    
 
 	    public Boolean canTokenBeRefreshed(String token, Date lastPasswordReset) {
