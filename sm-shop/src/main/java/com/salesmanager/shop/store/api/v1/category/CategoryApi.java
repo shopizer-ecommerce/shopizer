@@ -5,7 +5,6 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_XML_VALUE;
 
-import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.category.PersistableCategory;
@@ -40,7 +39,6 @@ public class CategoryApi {
   private static final int DEFAULT_CATEGORY_DEPTH = 0;
 
   @Inject private CategoryFacade categoryFacade;
-  @Inject private CategoryService categoryService;
   @Inject private StoreFacade storeFacade;
   @Inject private LanguageUtils languageUtils;
 

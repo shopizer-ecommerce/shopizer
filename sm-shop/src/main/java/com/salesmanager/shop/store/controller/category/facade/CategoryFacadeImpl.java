@@ -14,17 +14,13 @@ import com.salesmanager.shop.populator.catalog.ReadableCategoryPopulator;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.controller.converter.Converter;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import javax.inject.Inject;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
@@ -43,15 +39,6 @@ public class CategoryFacadeImpl implements CategoryFacade {
   @Inject private Converter<Category, ReadableCategory> categoryReadableCategoryConverter;
 
   private static final String FEATURED_CATEGORY = "featured";
-
-  @Override
-  public Category getOne(Long categoryId) {
-    return Optional.ofNullable(categoryService.getById(categoryId))
-        .orElseThrow(
-            () ->
-                new ResourceNotFoundException(
-                    String.format("No Category found for ID : %s", categoryId)));
-  }
 
   @Override
   public List<ReadableCategory> getCategoryHierarchy(
@@ -89,19 +76,11 @@ public class CategoryFacadeImpl implements CategoryFacade {
 
   private List<Category> getCategories(
       MerchantStore store, int depth, Language language, String filter) {
-    List<Category> categories;
-
-    if (StringUtils.isNotBlank(filter)) {
-      // as of 2.2.0 only filter by featured is supported
-      if (FEATURED_CATEGORY.equals(filter)) {
-        categories = categoryService.listByDepthFilterByFeatured(store, depth, language);
-      } else {
-        categories = categoryService.listByDepth(store, depth, language);
-      }
+    if (StringUtils.isNotBlank(filter) && FEATURED_CATEGORY.equals(filter)) {
+      return categoryService.getListByDepthFilterByFeatured(store, depth, language);
     } else {
-      categories = categoryService.listByDepth(store, depth, language);
+      return categoryService.getListByDepth(store, depth, language);
     }
-    return categories;
   }
 
   @Override
@@ -112,22 +91,31 @@ public class CategoryFacadeImpl implements CategoryFacade {
       populator.setCategoryService(categoryService);
       populator.setLanguageService(languageService);*/
 
-      Category target = Optional.ofNullable(category.getId())
-          .filter(id -> id > 0)
-          .map(categoryService::getById)
-          .orElse(new Category());
+      Category target =
+          Optional.ofNullable(category.getId())
+              .filter(id -> id > 0)
+              .map(categoryService::getById)
+              .orElse(new Category());
 
-      Category dbCategory =
-          persistableCatagoryPopulator.populate(
-              category, target, store, store.getDefaultLanguage());
+      Category dbCategory = populateCategory(store, category, target);
 
       saveCategory(store, dbCategory, null);
 
       // set category id
       category.setId(dbCategory.getId());
       return category;
-    } catch (ConversionException | ServiceException e) {
+    } catch (ServiceException e) {
       throw new ServiceRuntimeException("Error while updating category", e);
+    }
+  }
+
+  private Category populateCategory(
+      MerchantStore store, PersistableCategory category, Category target) {
+    try {
+      return persistableCatagoryPopulator.populate(
+          category, target, store, store.getDefaultLanguage());
+    } catch (ConversionException e) {
+      throw new ServiceRuntimeException(e);
     }
   }
 
@@ -187,13 +175,19 @@ public class CategoryFacadeImpl implements CategoryFacade {
     ReadableCategory readableCategory =
         categoryReadableCategoryConverter.convert(categoryModel, store, language);
 
-    List<Category> children = getListByLineage(store, lineage);
+    List<Category> children = getListByLineage(store, lineage.toString());
 
     List<ReadableCategory> childrenCats =
         children.stream()
             .map(cat -> categoryReadableCategoryConverter.convert(cat, store, language))
             .collect(Collectors.toList());
 
+    addChildToParent(readableCategory, childrenCats);
+    return readableCategory;
+  }
+
+  private void addChildToParent(ReadableCategory readableCategory,
+      List<ReadableCategory> childrenCats) {
     Map<Long, ReadableCategory> categoryMap =
         childrenCats.stream()
             .collect(Collectors.toMap(ReadableCategory::getId, Function.identity()));
@@ -208,12 +202,11 @@ public class CategoryFacadeImpl implements CategoryFacade {
         rc.getChildren().add(readable);
       }
     }
-    return readableCategory;
   }
 
-  private List<Category> getListByLineage(MerchantStore store, StringBuilder lineage) {
+  private List<Category> getListByLineage(MerchantStore store, String lineage) {
     try {
-      return categoryService.getListByLineage(store, lineage.toString());
+      return categoryService.getListByLineage(store, lineage);
     } catch (ServiceException e) {
       throw new ServiceRuntimeException(
           String.format("Error while getting root category %s", e.getMessage()), e);
@@ -252,5 +245,13 @@ public class CategoryFacadeImpl implements CategoryFacade {
   public void deleteCategory(Long categoryId) {
     Category category = getOne(categoryId);
     deleteCategory(category);
+  }
+
+  private Category getOne(Long categoryId) {
+    return Optional.ofNullable(categoryService.getById(categoryId))
+        .orElseThrow(
+            () ->
+                new ResourceNotFoundException(
+                    String.format("No Category found for ID : %s", categoryId)));
   }
 }

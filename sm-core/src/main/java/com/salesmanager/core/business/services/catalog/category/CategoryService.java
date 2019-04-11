@@ -38,7 +38,7 @@ public interface CategoryService extends SalesManagerEntityService<Long, Categor
 
 	void saveOrUpdate(Category category) throws ServiceException;
 
-	List<Category> listByDepth(MerchantStore store, int depth);
+	List<Category> getListByDepth(MerchantStore store, int depth);
 
 	/**
 	 * Get root categories by store for a given language
@@ -47,7 +47,7 @@ public interface CategoryService extends SalesManagerEntityService<Long, Categor
 	 * @param language
 	 * @return
 	 */
-	List<Category> listByDepth(MerchantStore store, int depth, Language language);
+	List<Category> getListByDepth(MerchantStore store, int depth, Language language);
 	
 	/**
 	 * Returns category hierarchy filter by featured
@@ -56,7 +56,7 @@ public interface CategoryService extends SalesManagerEntityService<Long, Categor
 	 * @param language
 	 * @return
 	 */
-	List<Category> listByDepthFilterByFeatured(MerchantStore store, int depth, Language language);
+	List<Category> getListByDepthFilterByFeatured(MerchantStore store, int depth, Language language);
 
 	List<Category> getListByLineage(String storeCode, String lineage)
 			throws ServiceException;

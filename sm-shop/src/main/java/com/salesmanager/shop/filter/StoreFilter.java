@@ -686,7 +686,7 @@ public class StoreFilter extends HandlerInterceptorAdapter {
         new ConcurrentHashMap<String, List<ReadableCategory>>();
 
     /** returns categories with required depth, 0 = root category, 1 = root + 1 layer child ...) **/
-    List<Category> categories = categoryService.listByDepth(store, 0, language);
+    List<Category> categories = categoryService.getListByDepth(store, 0, language);
 
     ReadableCategoryPopulator readableCategoryPopulator = new ReadableCategoryPopulator();
 

@@ -352,17 +352,17 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
 	}
 	
 	@Override
-	public List<Category> listByDepth(MerchantStore store, int depth) {
+	public List<Category> getListByDepth(MerchantStore store, int depth) {
 		return categoryRepository.findByDepth(store.getId(), depth);
 	}
 	
 	@Override
-	public List<Category> listByDepth(MerchantStore store, int depth, Language language) {
+	public List<Category> getListByDepth(MerchantStore store, int depth, Language language) {
 		return categoryRepository.findByDepth(store.getId(), depth, language.getId());
 	}
 	
 	@Override
-	public List<Category> listByDepthFilterByFeatured(MerchantStore store, int depth, Language language) {
+	public List<Category> getListByDepthFilterByFeatured(MerchantStore store, int depth, Language language) {
 		return categoryRepository.findByDepthFilterByFeatured(store.getId(), depth, language.getId());
 	}
 
