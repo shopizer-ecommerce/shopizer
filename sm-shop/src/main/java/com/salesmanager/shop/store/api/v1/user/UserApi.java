@@ -143,15 +143,17 @@ public class UserApi {
       @Valid @RequestBody PersistableUser user,
       @PathVariable Optional<String> store,
       @PathVariable String userName,
-      @RequestParam(value = "store", required = false) String storeCode, 
       HttpServletRequest request) {
     
-    String storeCd = storeCode;
+    String storeCd = Constants.DEFAULT_STORE;
     if (store.isPresent()) {
       storeCd = store.get();
     }
 
-    return userFacade.update(storeCd, user);
+    String authenticatedUser = userFacade.authenticatedUser();
+    if (authenticatedUser == null)
+      throw new UnauthorizedException();
+    return userFacade.update(authenticatedUser, storeCd, user);
   }
 
   @ResponseStatus(HttpStatus.OK)

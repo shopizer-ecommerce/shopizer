@@ -106,6 +106,8 @@
 <!-- All actions in store to be defined here -->
 <th:block layout:fragment="script">
 	<script src="/js/groups.js"></script>
+	<!-- available language -->
+	<script src="/js/languages.js"></script>
 	<!-- Unique code detection -->
 	<script src="/js/uniqueCode.js"></script>
 	
@@ -155,7 +157,14 @@
 			    	    	    log('Group ' + data.groups[i].name);
 			    	       	    $("input[value='" + data.groups[i].name + "'][type='checkbox']").prop("checked", true);
 			    	       }
-			    	       //$("#userName").prop("disabled", true);
+			    	       
+			    	       if(!isAdmin(data.groups)) {
+			    	    	   $('.groups').attr("disabled", true);
+			    	    	   $('#active').attr("disabled", true);
+			    	       } 
+			    	       
+			    	       
+
 	
 			    	    },
 			    	    error: function(response,textStatus,errorThrown) {
@@ -298,6 +307,18 @@
 	          		$input.attr('value', 'false');
 	          	 }
 	   }
+      
+      
+      function isAdmin(data) {
+    	  var isAdmin = false;
+    	  $.each(data, function(i, v) {
+    	        if (v.name === "ADMIN") {
+    	        	isAdmin = true;
+    	            return false; // stops the loop
+    	        }
+    	  });
+		  return isAdmin;
+      }
       
       </script>
 

@@ -81,7 +81,7 @@ public interface UserFacade {
    * Update User
    * @param user
    */
-  ReadableUser update(String storeCode, PersistableUser user);
+  ReadableUser update(String authenticatedUser, String storeCode, PersistableUser user);
 
 
 }

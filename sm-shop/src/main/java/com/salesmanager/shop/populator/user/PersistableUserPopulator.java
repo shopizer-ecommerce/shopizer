@@ -38,6 +38,7 @@ public class PersistableUserPopulator extends AbstractDataPopulator<PersistableU
   public User populate(PersistableUser source, User target, MerchantStore store, Language language)
       throws ConversionException {
     Validate.notNull(source, "PersistableUser cannot be null");
+    Validate.notNull(store, "MerchantStore cannot be null");
 
     if (target == null) {
       target = new User();

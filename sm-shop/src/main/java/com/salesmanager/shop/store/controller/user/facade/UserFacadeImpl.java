@@ -248,7 +248,7 @@ public class UserFacadeImpl implements UserFacade {
   }
 
   @Override
-  public ReadableUser update(String storeCode, PersistableUser user) {
+  public ReadableUser update(String authenticateUser, String storeCode, PersistableUser user) {
     Validate.notNull(user, "User cannot be null");
 
     try {
@@ -256,6 +256,11 @@ public class UserFacadeImpl implements UserFacade {
       if (userModel == null) {
         throw new ServiceRuntimeException("Cannot find user [" + user.getUserName() + "]");
       }
+      User auth = userService.getByUserName(authenticateUser);
+      if (auth == null) {
+        throw new ServiceRuntimeException("Cannot find user [" + authenticateUser + "]");
+      }
+      boolean isActive = userModel.isActive();
       List<Group> originalGroups = userModel.getGroups();
       Group superadmin = originalGroups.stream()
           .filter(group -> Constants.GROUP_SUPERADMIN.equals(group.getGroupName()))
@@ -264,10 +269,22 @@ public class UserFacadeImpl implements UserFacade {
       MerchantStore store = merchantStoreService.getByCode(storeCode);
       userModel = converPersistabletUserToUser(store, languageService.defaultLanguage(), userModel, user);
       
-      //if superadmin set original permissions
+      //if superadmin set original permissions, prevent removing super admin
       if(superadmin!=null) {
         userModel.setGroups(originalGroups);
       }
+      
+      Group adminGroup = auth.getGroups().stream()
+          .filter((group) -> Constants.GROUP_SUPERADMIN.equals(group.getGroupName()) || Constants.GROUP_SUPERADMIN.equals(group.getGroupName()))
+          .findAny()
+          .orElse(null);
+      
+      if(adminGroup == null) {
+        userModel.setGroups(originalGroups);
+        userModel.setActive(isActive);
+      }
+      
+
       user.setPassword(userModel.getAdminPassword());
       userService.saveOrUpdate(userModel);
       return this.convertUserToReadableUser(languageService.defaultLanguage(), userModel);
