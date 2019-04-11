@@ -9,7 +9,9 @@ import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 import java.util.List;
 
 public interface CategoryFacade {
-	
+
+  Category getOne(Long categoryId);
+
 	/**
 	 * Returns a list of ReadableCategory ordered and built according to a given depth
 	 * @param store
@@ -25,7 +27,9 @@ public interface CategoryFacade {
 	ReadableCategory getById(MerchantStore store, Long id, Language language);
 	
 	ReadableCategory getByCode(MerchantStore store, String code, Language language) throws Exception;
-	
+
+	void deleteCategory(Long categoryId);
+
 	void deleteCategory(Category category);
 
 }

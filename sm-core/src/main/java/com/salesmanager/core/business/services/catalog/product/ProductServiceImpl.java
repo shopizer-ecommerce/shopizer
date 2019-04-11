@@ -166,7 +166,7 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		
 		//Get the category list
 		StringBuilder lineage = new StringBuilder().append(category.getLineage()).append(category.getId()).append("/");
-		List<Category> categories = categoryService.listByLineage(category.getMerchantStore(),lineage.toString());
+		List<Category> categories = categoryService.getListByLineage(category.getMerchantStore(),lineage.toString());
 		Set<Long> categoryIds = new HashSet<Long>();
 		for(Category c : categories) {
 			

@@ -314,7 +314,7 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 	    //count products by category
 		String lineage = new StringBuilder().append(book.getLineage()).toString();
 		
-		List<Category> categories = categoryService.listByLineage(store, lineage);
+		List<Category> categories = categoryService.getListByLineage(store, lineage);
 		
 		List<Long> ids = new ArrayList<Long>();
 		if(categories!=null && categories.size()>0) {

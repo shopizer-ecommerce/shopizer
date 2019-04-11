@@ -82,7 +82,7 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
 	}
 	
 	@Override
-	public Category getByLanguage(long categoryId, Language language) {
+	public Category getOneByLanguage(long categoryId, Language language) {
 		return categoryRepository.findById(categoryId, language.getId());
 	}
 	
@@ -104,18 +104,17 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
 	}
 
 	@Override
-	public List<Category> listByLineage(MerchantStore store, String lineage) throws ServiceException {
+	public List<Category> getListByLineage(MerchantStore store, String lineage) throws ServiceException {
 		try {
 			return categoryRepository.findByLineage(store.getId(), lineage);
 		} catch (Exception e) {
 			throw new ServiceException(e);
 		}
-		
-		
+
 	}
 	
 	@Override
-	public List<Category> listByLineage(String storeCode, String lineage) throws ServiceException {
+	public List<Category> getListByLineage(String storeCode, String lineage) throws ServiceException {
 		try {
 			return categoryRepository.findByLineage(storeCode, lineage);
 		} catch (Exception e) {
@@ -228,7 +227,7 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
 		//get category with lineage (subcategories)
 		StringBuilder lineage = new StringBuilder();
 		lineage.append(category.getLineage()).append(category.getId()).append(Constants.SLASH);
-		List<Category> categories = this.listByLineage(category.getMerchantStore(), lineage.toString());
+		List<Category> categories = this.getListByLineage(category.getMerchantStore(), lineage.toString());
 		
 		Category dbCategory = this.getById( category.getId() );
 		
@@ -333,7 +332,7 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
 			update(child);
 			StringBuilder childLineage = new StringBuilder();
 			childLineage.append(child.getLineage()).append(child.getId()).append("/");
-			List<Category> subCategories = listByLineage(child.getMerchantStore(),childLineage.toString());
+			List<Category> subCategories = getListByLineage(child.getMerchantStore(),childLineage.toString());
 			
 			
 			//ajust all sub categories lineages

@@ -612,7 +612,7 @@ public class ShopProductRESTController {
 				
 				String lineage = new StringBuilder().append(cat.getLineage()).append(cat.getId()).append("/").toString();
 				
-				List<Category> categories = categoryService.listByLineage(store, lineage);
+				List<Category> categories = categoryService.getListByLineage(store, lineage);
 				
 				List<Long> ids = new ArrayList<Long>();
 				if(categories!=null && categories.size()>0) {

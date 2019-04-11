@@ -846,7 +846,7 @@ public class StoreFilter extends HandlerInterceptorAdapter {
                 items.add(productItem);
               }
             } else if (item.getItemType().name().equals(BreadcrumbItemType.CATEGORY)) {
-              Category category = categoryService.getByLanguage(item.getId(), language);
+              Category category = categoryService.getOneByLanguage(item.getId(), language);
               if (category != null) {
                 BreadcrumbItem categoryItem = new BreadcrumbItem();
                 categoryItem.setId(category.getId());
