@@ -126,7 +126,7 @@ public class ProductsController {
 					StringBuilder lineage = new StringBuilder();
 					lineage.append(category.getLineage()).append(category.getId()).append("/");
 					
-					List<Category> categories = categoryService.listByLineage(store, lineage.toString());
+					List<Category> categories = categoryService.getListByLineage(store, lineage.toString());
 					
 					List<Long> categoryIds = new ArrayList<Long>();
 					
