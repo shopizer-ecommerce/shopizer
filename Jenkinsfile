@@ -40,7 +40,7 @@ pipeline {
   }
   post {
         always {
-            junit '/var/jenkins_home/workspace/Test/sm-shop/target/surefire-reports/*.xml'
+            junit '**/surefire-reports/*.xml'
         }
     }
 }
