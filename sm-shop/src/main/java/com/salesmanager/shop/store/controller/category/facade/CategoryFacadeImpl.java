@@ -1,17 +1,5 @@
 package com.salesmanager.shop.store.controller.category.facade;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
-import javax.inject.Inject;
-import org.apache.commons.lang.Validate;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
@@ -25,240 +13,245 @@ import com.salesmanager.shop.populator.catalog.PersistableCategoryPopulator;
 import com.salesmanager.shop.populator.catalog.ReadableCategoryPopulator;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
+import com.salesmanager.shop.store.controller.converter.Converter;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import javax.inject.Inject;
+import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
-
-@Service( value = "categoryFacade" )
+@Service(value = "categoryFacade")
 public class CategoryFacadeImpl implements CategoryFacade {
 
-	@Inject
-	private CategoryService categoryService;
+  @Inject private CategoryService categoryService;
 
-	@Inject
-	private LanguageService languageService;
+  @Inject private LanguageService languageService;
 
-	@Inject
-	private PersistableCategoryPopulator persistableCatagoryPopulator;
+  @Inject private PersistableCategoryPopulator persistableCatagoryPopulator;
 
-	private final static String FEATURED_CATEGORY = "featured";
+  @Inject private Converter<Category, ReadableCategory> categoryReadableCategoryConverter;
 
-	@Override
-	public List<ReadableCategory> getCategoryHierarchy(MerchantStore store,
-			int depth, Language language, String filter) {
+  private static final String FEATURED_CATEGORY = "featured";
 
-        try {
-            List<Category> categories = null;
+  @Override
+  public List<ReadableCategory> getCategoryHierarchy(
+      MerchantStore store, int depth, Language language, String filter) {
+    List<Category> categories = getCategories(store, depth, language, filter);
 
-            if (!StringUtils.isBlank(filter)) {
-                //as of 2.2.0 only filter by featured is supported
-                if (FEATURED_CATEGORY.equals(filter)) {
-                    categories = categoryService.listByDepthFilterByFeatured(store, depth, language);
-                } else {
-                    categories = categoryService.listByDepth(store, depth, language);
-                }
-            } else {
-                categories = categoryService.listByDepth(store, depth, language);
-            }
+    List<ReadableCategory> readableCategories =
+        categories.stream()
+            .filter(Category::isVisible)
+            .map(cat -> categoryReadableCategoryConverter.convert(cat, store, language))
+            .collect(Collectors.toList());
 
+    Map<Long, ReadableCategory> readableCategoryMap =
+        readableCategories.stream()
+            .collect(Collectors.toMap(ReadableCategory::getId, Function.identity()));
 
-            List<ReadableCategory> returnValues = new ArrayList<ReadableCategory>();
-
-            Map<Long, ReadableCategory> categoryMap = new ConcurrentHashMap<Long, ReadableCategory>();
-
-            ReadableCategoryPopulator categoryPopulator = new ReadableCategoryPopulator();
-
-            for (Category category : categories) {
-
-                if (category.isVisible()) {
-                    ReadableCategory readableCategory = new ReadableCategory();
-                    categoryPopulator.populate(category, readableCategory, store, language);
-
-                    returnValues.add(readableCategory);
-                    categoryMap.put(category.getId(), readableCategory);
-                }
-            }
-
-            for (ReadableCategory category : returnValues) {
-
-                if (category.isVisible()) {
-                    if (category.getParent() != null) {
-                        ReadableCategory parentCategory = categoryMap.get(category.getParent().getId());
-                        if (parentCategory != null) {
-                            parentCategory.getChildren().add(category);
-                        }
-                    }
-                }
-            }
-
-            returnValues = new ArrayList<ReadableCategory>();
-            for (Object obj : categoryMap.values()) {
-
-                ReadableCategory readableCategory = (ReadableCategory) obj;
-                if (readableCategory.getDepth() == 0) {//only from root
-                    returnValues.add(readableCategory);
-                }
-            }
-
-            Collections.sort(returnValues, new Comparator<ReadableCategory>() {
-                @Override
-                public int compare(final ReadableCategory firstCategory, final ReadableCategory secondCategory) {
-                    return firstCategory.getSortOrder() - secondCategory.getSortOrder();
-                }
+    readableCategories.stream()
+        .filter(ReadableCategory::isVisible)
+        .filter(cat -> Objects.nonNull(cat.getParent()))
+        .filter(cat -> readableCategoryMap.containsKey(cat.getParent().getId()))
+        .forEach(
+            readableCategory -> {
+              ReadableCategory parentCategory =
+                  readableCategoryMap.get(readableCategory.getParent().getId());
+              if (parentCategory != null) {
+                parentCategory.getChildren().add(readableCategory);
+              }
             });
 
-            return returnValues;
+    return readableCategoryMap.values().stream()
+        .filter(cat -> cat.getDepth() == 0)
+        .sorted(Comparator.comparing(ReadableCategory::getSortOrder))
+        .collect(Collectors.toList());
+  }
 
-        } catch (ConversionException e) {
-            throw new ServiceRuntimeException("Error while getting category", e);
-        }
-	}
+  private List<Category> getCategories(
+      MerchantStore store, int depth, Language language, String filter) {
+    if (StringUtils.isNotBlank(filter) && FEATURED_CATEGORY.equals(filter)) {
+      return categoryService.getListByDepthFilterByFeatured(store, depth, language);
+    } else {
+      return categoryService.getListByDepth(store, depth, language);
+    }
+  }
 
-	@Override
-	public PersistableCategory saveCategory(MerchantStore store, PersistableCategory category) {
-        try {
+  @Override
+  public PersistableCategory saveCategory(MerchantStore store, PersistableCategory category) {
+    try {
 
-/*		PersistableCategoryPopulator populator = new PersistableCategoryPopulator();
-		populator.setCategoryService(categoryService);
-		populator.setLanguageService(languageService);*/
+      /*		PersistableCategoryPopulator populator = new PersistableCategoryPopulator();
+      populator.setCategoryService(categoryService);
+      populator.setLanguageService(languageService);*/
 
-            Category target = null;
+      Category target =
+          Optional.ofNullable(category.getId())
+              .filter(id -> id > 0)
+              .map(categoryService::getById)
+              .orElse(new Category());
 
-            if (category.getId() != null && category.getId().longValue() > 0) {
-                target = categoryService.getById(category.getId());
-            } else {
-                target = new Category();
-            }
+      Category dbCategory = populateCategory(store, category, target);
 
-            Category dbCategory = persistableCatagoryPopulator.populate(category, target, store, store.getDefaultLanguage());
+      saveCategory(store, dbCategory, null);
 
-            this.saveCategory(store, dbCategory, null);
+      // set category id
+      category.setId(dbCategory.getId());
+      return category;
+    } catch (ServiceException e) {
+      throw new ServiceRuntimeException("Error while updating category", e);
+    }
+  }
 
-            //set category id
-            category.setId(dbCategory.getId());
-            return category;
-        } catch (ConversionException | ServiceException e) {
-            throw new ServiceRuntimeException("Error while updating category", e);
-        }
-	}
+  private Category populateCategory(
+      MerchantStore store, PersistableCategory category, Category target) {
+    try {
+      return persistableCatagoryPopulator.populate(
+          category, target, store, store.getDefaultLanguage());
+    } catch (ConversionException e) {
+      throw new ServiceRuntimeException(e);
+    }
+  }
 
-	private void saveCategory(MerchantStore store, Category c, Category parent) throws ServiceException {
+  private void saveCategory(MerchantStore store, Category category, Category parent)
+      throws ServiceException {
 
+    /**
+     * c.children1
+     *
+     * <p>children1.children1 children1.children2
+     *
+     * <p>children1.children2.children1
+     */
 
-		/**
-		c.children1
+    /** set lineage * */
+    if (parent != null) {
+      category.setParent(category);
 
-		  			children1.children1
-		  			children1.children2
+      String lineage = parent.getLineage();
+      int depth = parent.getDepth();
 
-          								children1.children2.children1
+      category.setDepth(depth + 1);
+      category.setLineage(
+          new StringBuilder().append(lineage).append(parent.getId()).append("/").toString());
+    }
 
-		**/
+    category.setMerchantStore(store);
 
-		/** set lineage **/
-		if(parent!=null) {
-			c.setParent(c);
+    // remove children
+    List<Category> children = category.getCategories();
+    category.setCategories(null);
 
-			String lineage = parent.getLineage();
-			int depth = parent.getDepth();
+    /** set parent * */
+    if (parent != null) {
+      category.setParent(parent);
+    }
 
-			c.setDepth(depth+1);
-			c.setLineage(new StringBuilder().append(lineage).append(parent.getId()).append("/").toString());
+    categoryService.saveOrUpdate(category);
 
-		}
+    if (!CollectionUtils.isEmpty(children)) {
+      parent = category;
+      for (Category sub : children) {
 
-		c.setMerchantStore(store);
+        saveCategory(store, sub, parent);
+      }
+    }
+  }
 
-		//remove children
-		List<Category> children = c.getCategories();
-		c.setCategories(null);
+  @Override
+  public ReadableCategory getById(MerchantStore store, Long id, Language language) {
+    Category categoryModel = getCategoryById(id, language);
 
-		/** set parent **/
-		if(parent!=null) {
-			c.setParent(parent);
-		}
+    StringBuilder lineage =
+        new StringBuilder().append(categoryModel.getLineage()).append(categoryModel.getId());
 
-		categoryService.saveOrUpdate(c);
+    // get children
+    ReadableCategory readableCategory =
+        categoryReadableCategoryConverter.convert(categoryModel, store, language);
 
+    List<Category> children = getListByLineage(store, lineage.toString());
 
-		if(!CollectionUtils.isEmpty(children)) {
-			parent = c;
-			for(Category sub : children) {
+    List<ReadableCategory> childrenCats =
+        children.stream()
+            .map(cat -> categoryReadableCategoryConverter.convert(cat, store, language))
+            .collect(Collectors.toList());
 
-				this.saveCategory(store, sub, parent);
+    addChildToParent(readableCategory, childrenCats);
+    return readableCategory;
+  }
 
-			}
-		}
-	}
+  private void addChildToParent(ReadableCategory readableCategory,
+      List<ReadableCategory> childrenCats) {
+    Map<Long, ReadableCategory> categoryMap =
+        childrenCats.stream()
+            .collect(Collectors.toMap(ReadableCategory::getId, Function.identity()));
+    categoryMap.put(readableCategory.getId(), readableCategory);
 
-	@Override
-	public ReadableCategory getById(MerchantStore store, Long id, Language language) {
-		Category categoryModel = Optional.ofNullable(categoryService.getByLanguage(id, language))
-				.orElseThrow(() -> new ResourceNotFoundException("Category id not found"));
+    // traverse map and add child to parent
+    for (ReadableCategory readable : childrenCats) {
 
-		StringBuilder lineage = new StringBuilder();
-		lineage.append(categoryModel.getLineage());
-		lineage.append(categoryModel.getId());
+      if (readable.getParent() != null) {
 
-        try {
-            //get children
-            List<Category> children = categoryService.listByLineage(store, lineage.toString());
+        ReadableCategory rc = categoryMap.get(readable.getParent().getId());
+        rc.getChildren().add(readable);
+      }
+    }
+  }
 
+  private List<Category> getListByLineage(MerchantStore store, String lineage) {
+    try {
+      return categoryService.getListByLineage(store, lineage);
+    } catch (ServiceException e) {
+      throw new ServiceRuntimeException(
+          String.format("Error while getting root category %s", e.getMessage()), e);
+    }
+  }
 
-            ReadableCategoryPopulator populator = new ReadableCategoryPopulator();
+  private Category getCategoryById(Long id, Language language) {
+    return Optional.ofNullable(categoryService.getOneByLanguage(id, language))
+        .orElseThrow(() -> new ResourceNotFoundException("Category id not found"));
+  }
 
+  @Override
+  public void deleteCategory(Category category) {
+    try {
+      categoryService.delete(category);
+    } catch (ServiceException e) {
+      throw new ServiceRuntimeException("Error while deleting category", e);
+    }
+  }
 
-            ReadableCategory category = populator.populate(categoryModel, new ReadableCategory(), store, language);
+  @Override
+  public ReadableCategory getByCode(MerchantStore store, String code, Language language)
+      throws Exception {
 
-            Map<Long, ReadableCategory> categoryMap = new ConcurrentHashMap<Long, ReadableCategory>();
-            List<ReadableCategory> returnValues = new ArrayList<ReadableCategory>();
-            categoryMap.put(categoryModel.getId(), category);
+    Validate.notNull(code, "category code must not be null");
+    ReadableCategoryPopulator categoryPopulator = new ReadableCategoryPopulator();
+    ReadableCategory readableCategory = new ReadableCategory();
 
+    Category category = categoryService.getByCode(store, code);
+    categoryPopulator.populate(category, readableCategory, store, language);
 
-            for (Category child : children) {
-                ReadableCategory c = new ReadableCategory();
-                populator.populate(child, c, store, language);
-                returnValues.add(c);
-                categoryMap.put(c.getId(), c);
-            }
+    return readableCategory;
+  }
 
-            //traverse map and add child to parent
-            for (ReadableCategory readable : returnValues) {
+  @Override
+  public void deleteCategory(Long categoryId) {
+    Category category = getOne(categoryId);
+    deleteCategory(category);
+  }
 
-                if (readable.getParent() != null) {
-
-                    ReadableCategory rc = categoryMap.get(readable.getParent().getId());
-                    rc.getChildren().add(readable);
-
-                }
-            }
-            return category;
-
-        } catch (ServiceException | ConversionException e) {
-            throw new ServiceRuntimeException(String.format("Error while getting root category %s", e.getMessage()), e);
-        }
-
-	}
-
-	@Override
-	public void deleteCategory(Category category) {
-	    try {
-		    categoryService.delete(category);
-        } catch (ServiceException e) {
-	        throw new ServiceRuntimeException("Error while deleting category", e);
-        }
-	}
-
-	@Override
-	public ReadableCategory getByCode(MerchantStore store, String code, Language language) throws Exception {
-
-		Validate.notNull(code,"category code must not be null");
-		ReadableCategoryPopulator categoryPopulator = new ReadableCategoryPopulator();
-		ReadableCategory readableCategory = new ReadableCategory();
-
-		Category category = categoryService.getByCode(store, code);
-		categoryPopulator.populate(category, readableCategory, store, language);
-
-		return readableCategory;
-
-	}
-
+  private Category getOne(Long categoryId) {
+    return Optional.ofNullable(categoryService.getById(categoryId))
+        .orElseThrow(
+            () ->
+                new ResourceNotFoundException(
+                    String.format("No Category found for ID : %s", categoryId)));
+  }
 }

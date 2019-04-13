@@ -146,7 +146,6 @@ public class CustomerFacadeImpl implements CustomerFacade {
   @Inject
   private ZoneService zoneService;
 
-  @SuppressWarnings("deprecation")
   @Inject
   private PasswordEncoder passwordEncoder;
 
@@ -432,7 +431,6 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
 
 
-  @SuppressWarnings("deprecation")
   public void authenticate(Customer customer, String userName, String password) throws Exception {
 
     Validate.notNull(customer, "Customer cannot be null");
@@ -664,15 +662,13 @@ public class CustomerFacadeImpl implements CustomerFacade {
     List<Group> groups = getListOfGroups(GroupType.CUSTOMER);
     cust.setGroups(groups);
 
-    Locale customerLocale = LocaleUtils.getLocale(cust.getDefaultLanguage());
-
     String password = customer.getClearPassword();
     if (StringUtils.isBlank(password)) {
       password = UserReset.generateRandomString();
       customer.setClearPassword(password);
     }
 
-    @SuppressWarnings("deprecation")
+
     String encodedPassword = passwordEncoder.encode(password);
     if (!StringUtils.isBlank(customer.getEncodedPassword())) {
       encodedPassword = customer.getEncodedPassword();
@@ -722,7 +718,7 @@ public class CustomerFacadeImpl implements CustomerFacade {
       customer.setClearPassword(password);
     }
 
-    @SuppressWarnings("deprecation")
+
     String encodedPassword = passwordEncoder.encode(password);
     if (!StringUtils.isBlank(customer.getEncodedPassword())) {
       encodedPassword = customer.getEncodedPassword();

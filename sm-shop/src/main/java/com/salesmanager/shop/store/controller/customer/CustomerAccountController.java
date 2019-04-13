@@ -41,6 +41,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -245,9 +246,10 @@ public class CustomerAccountController extends AbstractController {
     	String currentPassword = password.getCurrentPassword();
     	String encodedCurrentPassword = passwordEncoder.encode(currentPassword);
     	
-    	if(!StringUtils.equals(encodedCurrentPassword, customer.getPassword())) {
-			FieldError error = new FieldError("password","password",messages.getMessage("message.invalidpassword", locale));
-        	bindingResult.addError(error);
+    	BCryptPasswordEncoder encoder = (BCryptPasswordEncoder)passwordEncoder;
+    	if(!encoder.matches(currentPassword, customer.getPassword())) {
+          FieldError error = new FieldError("password","password",messages.getMessage("message.invalidpassword", locale));
+          bindingResult.addError(error);
     	}
 
     	

@@ -178,7 +178,7 @@ public class ShoppingCategoryController {
 		request.setAttribute(Constants.REQUEST_PAGE_INFORMATION, pageInformation);
 		
 		//TODO add to caching
-		List<Category> subCategs = categoryService.listByLineage(store, lineage);
+		List<Category> subCategs = categoryService.getListByLineage(store, lineage);
 		List<Long> subIds = new ArrayList<Long>();
 		if(subCategs!=null && subCategs.size()>0) {
 			for(Category c : subCategs) {
@@ -486,7 +486,7 @@ public class ShoppingCategoryController {
 			
 			String lineage = new StringBuilder().append(cat.getLineage()).append(cat.getId()).append("/").toString();
 			
-			List<Category> categories = categoryService.listByLineage(store, lineage);
+			List<Category> categories = categoryService.getListByLineage(store, lineage);
 			
 			List<Long> ids = new ArrayList<Long>();
 			if(categories!=null && categories.size()>0) {
@@ -626,7 +626,7 @@ public class ShoppingCategoryController {
 			
 			String lineage = new StringBuilder().append(cat.getLineage()).append(cat.getId()).append("/").toString();
 			
-			List<Category> categories = categoryService.listByLineage(store, lineage);
+			List<Category> categories = categoryService.getListByLineage(store, lineage);
 			
 			List<Long> ids = new ArrayList<Long>();
 			if(categories!=null && categories.size()>0) {
