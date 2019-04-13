@@ -16,7 +16,9 @@ pipeline {
     }
     stage('Build') {
       steps {
-        sh 'mvn build'
+        echo '******************* Maven Build Source Code *******************'
+        sh 'mvn package'
+        echo '******************* Mave Build Execution Completed *******************'
       }
     }
     
