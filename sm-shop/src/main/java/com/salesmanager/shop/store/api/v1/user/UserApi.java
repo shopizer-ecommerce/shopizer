@@ -83,10 +83,7 @@ public class UserApi {
       @RequestParam(name = "store", defaultValue = DEFAULT_STORE, required = false)
           String storeCode,
       HttpServletRequest request) {
-    String storeCd = storeCode;
-    if (store.isPresent()) {
-      storeCd = store.get();
-    }
+    String storeCd = store.orElse(null);
     MerchantStore merchantStore = storeFacade.get(storeCd);
     Language language = languageUtils.getRESTLanguage(request, merchantStore);
     return userFacade.findByUserName(name, language);
@@ -157,11 +154,7 @@ public class UserApi {
       @PathVariable String userName,
       HttpServletRequest request) {
 
-    String storeCd = Constants.DEFAULT_STORE;
-    if (store.isPresent()) {
-      storeCd = store.get();
-    }
-
+    String storeCd = store.orElse(Constants.DEFAULT_STORE);
     String authenticatedUser = userFacade.authenticatedUser();
     if (authenticatedUser == null) {
       throw new UnauthorizedException();
@@ -195,11 +188,7 @@ public class UserApi {
       throw new UnauthorizedException();
     }
 
-    String storeCd = Constants.DEFAULT_STORE;
-    if (store.isPresent()) {
-      storeCd = store.get();
-    }
-
+    String storeCd = store.orElse(Constants.DEFAULT_STORE);
     Criteria criteria = createCriteria(start, count, request);
     criteria.setStoreCode(storeCd);
     String drawParam = request.getParameter("draw");
@@ -229,10 +218,7 @@ public class UserApi {
       throw new UnauthorizedException();
     }
 
-    String storeCd = storeCode;
-    if (store.isPresent()) {
-      storeCd = store.get();
-    }
+    String storeCd = store.orElse(null);
 
     if (!request.isUserInRole("SUPERADMIN")) {
       userFacade.authorizedStore(authenticatedUser, storeCd);
