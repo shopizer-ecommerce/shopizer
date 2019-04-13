@@ -30,13 +30,16 @@
 		<!-- Device object in controller method -->
 		<mvc:argument-resolvers>
         	<bean class="org.springframework.mobile.device.DeviceWebArgumentResolver" />
+          <!--REST API resolvers TODO should be moved to java configuration in future-->
+          <bean class="com.salesmanager.shop.application.LanguageArgumentResolver" />
+          <bean class="com.salesmanager.shop.application.MerchantStoreArgumentResolver" />
     	</mvc:argument-resolvers>
-		
+
 		<mvc:message-converters >
-		
+
 		    <bean
              class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
-		
+
 	        <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter">
 	            <property name="supportedMediaTypes">
 	                <list>
@@ -55,7 +58,7 @@
 	<mvc:view-controller path="/" view-name="shop"/>
 	
 
-	<mvc:interceptors>     
+	<mvc:interceptors>
 		<!-- Changes the locale when a 'locale' request parameter is sent; e.g. /?locale=de -->    
 		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"/>
 		
