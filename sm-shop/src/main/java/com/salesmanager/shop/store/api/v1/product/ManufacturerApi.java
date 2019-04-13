@@ -29,183 +29,161 @@ import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
 
 /**
- * Manufacturer management
- * Collection, Manufacturer ...
- * @author c.samson
+ * Manufacturer management Collection, Manufacturer ...
  *
+ * @author c.samson
  */
 @Controller
 @RequestMapping("/api/v1")
 public class ManufacturerApi {
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(ManufacturerApi.class);
-	
-	@Inject
-	private StoreFacade storeFacade;
-	
-	@Inject
-	private LanguageUtils languageUtils;
-	
-	@Inject
-	private ProductFacade productFacade;
-	
-	@Inject
-	private ManufacturerService manufacturerService;
-	
-	
-	/**
-	 * Method for creating a manufacturer
-	 * @param store
-	 * @param manufacturer
-	 * @param request
-	 * @param response
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping( value="/private/manufacturers", method=RequestMethod.POST)
-	@ResponseStatus(HttpStatus.CREATED)
-	@ResponseBody
-	public PersistableManufacturer create(@Valid @RequestBody PersistableManufacturer manufacturer, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		
-		try {
-			
-			MerchantStore merchantStore = storeFacade.getByCode(request);
-			Language language = languageUtils.getRESTLanguage(request, merchantStore);	
+  private static final Logger LOGGER = LoggerFactory.getLogger(ManufacturerApi.class);
 
-			productFacade.saveOrUpdateManufacturer(manufacturer, merchantStore, language);
+  @Inject private StoreFacade storeFacade;
 
-			return manufacturer;
-			
-		} catch (Exception e) {
-			LOGGER.error("Error while creating manufacturer",e);
-			try {
-				response.sendError(503, "Error while creating manufacturer " + e.getMessage());
-			} catch (Exception ignore) {
-			}
-			
-			return null;
-		}
-		
-	}
-	
-	@RequestMapping( value="/manufacturers/{id}", method=RequestMethod.GET)
-	@ResponseStatus(HttpStatus.OK)
-	@ResponseBody
-	public ReadableManufacturer get(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+  @Inject private LanguageUtils languageUtils;
 
-		
-		try {
-			
-			MerchantStore merchantStore = storeFacade.getByCode(request);
-			Language language = languageUtils.getRESTLanguage(request, merchantStore);	
+  @Inject private ProductFacade productFacade;
 
-			ReadableManufacturer manufacturer = productFacade.getManufacturer(id, merchantStore, language);
-			
-			if(manufacturer==null) {
-				response.sendError(404, "No Manufacturer found for ID : " + id);
-			}
-			
-			return manufacturer;
+  @Inject private ManufacturerService manufacturerService;
 
-		} catch (Exception e) {
-			LOGGER.error("Error while getting manufacturer",e);
-			try {
-				response.sendError(503, "Error while getting manufacturer " + e.getMessage());
-			} catch (Exception ignore) {
-			}
-			
-			
-		}
-		
-		return null;
-		
-		
-	}
-	
-	@RequestMapping( value="/manufacturers/", method=RequestMethod.GET)
-	@ResponseStatus(HttpStatus.OK)
-	@ResponseBody
-	public List<ReadableManufacturer> getAll(HttpServletRequest request, HttpServletResponse response) throws Exception {
+  /**
+   * Method for creating a manufacturer
+   *
+   * @param manufacturer
+   * @param request
+   * @param response
+   * @return
+   * @throws Exception
+   */
+  @RequestMapping(value = "/private/manufacturers", method = RequestMethod.POST)
+  @ResponseStatus(HttpStatus.CREATED)
+  @ResponseBody
+  public PersistableManufacturer create(
+      @Valid @RequestBody PersistableManufacturer manufacturer,
+      MerchantStore merchantStore,
+      Language language,
+      HttpServletResponse response) {
 
-		
-		try {
-			
-			MerchantStore merchantStore = storeFacade.getByCode(request);
-			Language language = languageUtils.getRESTLanguage(request, merchantStore);	
+    try {
+      productFacade.saveOrUpdateManufacturer(manufacturer, merchantStore, language);
 
-			return productFacade.getAllManufacturers(merchantStore, language);
+      return manufacturer;
 
-		} catch (Exception e) {
-			LOGGER.error("Error while getting manufacturer list",e);
-			try {
-				response.sendError(503, "Error while getting manufacturer list " + e.getMessage());
-			} catch (Exception ignore) {
-			}
-			
-			
-		}
-		
-		return null;
-		
-	}
-	
-	@RequestMapping( value="/private/manufacturers/{id}", method=RequestMethod.POST)
-	@ResponseStatus(HttpStatus.OK)
-	@ResponseBody
-	public PersistableManufacturer update(@PathVariable Long id, @Valid @RequestBody PersistableManufacturer manufacturer, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    } catch (Exception e) {
+      LOGGER.error("Error while creating manufacturer", e);
+      try {
+        response.sendError(503, "Error while creating manufacturer " + e.getMessage());
+      } catch (Exception ignore) {
+      }
 
-		
-		try {
-			
-			MerchantStore merchantStore = storeFacade.getByCode(request);
-			Language language = languageUtils.getRESTLanguage(request, merchantStore);	
+      return null;
+    }
+  }
 
-			productFacade.saveOrUpdateManufacturer(manufacturer, merchantStore, language);
+  @RequestMapping(value = "/manufacturers/{id}", method = RequestMethod.GET)
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public ReadableManufacturer get(
+      @PathVariable Long id,
+      MerchantStore merchantStore,
+      Language language,
+      HttpServletResponse response) {
 
-			return manufacturer;
-			
-		} catch (Exception e) {
-			LOGGER.error("Error while creating manufacturer",e);
-			try {
-				response.sendError(503, "Error while creating manufacturer " + e.getMessage());
-			} catch (Exception ignore) {
-			}
-			
-			return null;
-		}
-		
-	}
-	
-	@RequestMapping( value="/manufacturers/{id}", method=RequestMethod.DELETE)
-	@ResponseStatus(HttpStatus.OK)
-	@ResponseBody
-	public void delete(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    try {
+      ReadableManufacturer manufacturer =
+          productFacade.getManufacturer(id, merchantStore, language);
 
-		
-		try {
-			
-			MerchantStore merchantStore = storeFacade.getByCode(request);
-			Language language = languageUtils.getRESTLanguage(request, merchantStore);
-			
-			Manufacturer manufacturer = manufacturerService.getById(id);
-					
-			if(manufacturer != null){
-				productFacade.deleteManufacturer(manufacturer, merchantStore, language);
-			}else{
-				response.sendError(404, "No Manufacturer found for ID : " + id);
-			}
+      if (manufacturer == null) {
+        response.sendError(404, "No Manufacturer found for ID : " + id);
+      }
 
-		} catch (Exception e) {
-			LOGGER.error("Error while deleting manufacturer id " + id,e);
-			try {
-				response.sendError(503, "Error while deleting manufacturer id " + id + " - " + e.getMessage());
-			} catch (Exception ignore) {
-			}
-			
-			
-		}
+      return manufacturer;
 
-	}
+    } catch (Exception e) {
+      LOGGER.error("Error while getting manufacturer", e);
+      try {
+        response.sendError(503, "Error while getting manufacturer " + e.getMessage());
+      } catch (Exception ignore) {
+      }
+    }
 
+    return null;
+  }
+
+  @RequestMapping(value = "/manufacturers/", method = RequestMethod.GET)
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public List<ReadableManufacturer> getAll(
+      MerchantStore merchantStore,
+      Language language,
+      HttpServletRequest request,
+      HttpServletResponse response) {
+
+    try {
+      return productFacade.getAllManufacturers(merchantStore, language);
+
+    } catch (Exception e) {
+      LOGGER.error("Error while getting manufacturer list", e);
+      try {
+        response.sendError(503, "Error while getting manufacturer list " + e.getMessage());
+      } catch (Exception ignore) {
+      }
+    }
+
+    return null;
+  }
+
+  @RequestMapping(value = "/private/manufacturers/{id}", method = RequestMethod.POST)
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public PersistableManufacturer update(
+      @PathVariable Long id,
+      @Valid @RequestBody PersistableManufacturer manufacturer,
+      MerchantStore merchantStore,
+      Language language,
+      HttpServletRequest request,
+      HttpServletResponse response) {
+
+    try {
+      productFacade.saveOrUpdateManufacturer(manufacturer, merchantStore, language);
+      return manufacturer;
+    } catch (Exception e) {
+      LOGGER.error("Error while creating manufacturer", e);
+      try {
+        response.sendError(503, "Error while creating manufacturer " + e.getMessage());
+      } catch (Exception ignore) {
+      }
+
+      return null;
+    }
+  }
+
+  @RequestMapping(value = "/manufacturers/{id}", method = RequestMethod.DELETE)
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public void delete(
+      @PathVariable Long id,
+      MerchantStore merchantStore,
+      Language language,
+      HttpServletResponse response) {
+
+    try {
+      Manufacturer manufacturer = manufacturerService.getById(id);
+
+      if (manufacturer != null) {
+        productFacade.deleteManufacturer(manufacturer, merchantStore, language);
+      } else {
+        response.sendError(404, "No Manufacturer found for ID : " + id);
+      }
+
+    } catch (Exception e) {
+      LOGGER.error("Error while deleting manufacturer id " + id, e);
+      try {
+        response.sendError(
+            503, "Error while deleting manufacturer id " + id + " - " + e.getMessage());
+      } catch (Exception ignore) {
+      }
+    }
+  }
 }

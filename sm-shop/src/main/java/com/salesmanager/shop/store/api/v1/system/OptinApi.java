@@ -19,28 +19,20 @@ import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
 import io.swagger.annotations.ApiOperation;
 
-
-/**
- * Optin a customer to events such s newsletter
- *
- */
+/** Optin a customer to events such s newsletter */
 @RestController
 @RequestMapping("/api/v1")
 public class OptinApi {
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(OptinApi.class);
 
-	@Inject
-	private OptinFacade optinFacade;
+  private static final Logger LOGGER = LoggerFactory.getLogger(OptinApi.class);
 
-	@Inject
-	private StoreFacade storeFacade;
-	
-	@Inject
-	private LanguageUtils languageUtils;
+  @Inject private OptinFacade optinFacade;
+
+  @Inject private StoreFacade storeFacade;
+
+  @Inject private LanguageUtils languageUtils;
 
   /** Create new optin */
-
   @PostMapping("/optin")
   @ApiOperation(
       httpMethod = "POST",
@@ -48,12 +40,7 @@ public class OptinApi {
       notes = "",
       produces = "application/json")
   public ReadableOptin create(
-      @RequestParam(name = "store", defaultValue = DEFAULT_STORE) String storeCode,
-      @Valid @RequestBody ReadableOptin optin,
-      HttpServletRequest request) {
-		MerchantStore merchantStore = storeFacade.get(storeCode);
-		Language language = languageUtils.getRESTLanguage(request, merchantStore);
-		return optinFacade.create(optin, merchantStore, language);
-	}
-
+      @Valid @RequestBody ReadableOptin optin, MerchantStore merchantStore, Language language) {
+    return optinFacade.create(optin, merchantStore, language);
+  }
 }

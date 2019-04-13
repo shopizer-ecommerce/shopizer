@@ -56,10 +56,8 @@ public class CustomerNewsletterApi {
       produces = "application/json")
   public void create(
       @Valid @RequestBody PersistableCustomerOptin optin,
-      HttpServletRequest request) {
-
-		MerchantStore merchantStore = storeFacade.getByCode(request);
-		Language language = languageUtils.getRESTLanguage(request, merchantStore);
+      MerchantStore merchantStore,
+      Language language) {
 		customerFacade.optinCustomer(optin, merchantStore);
 	}
 

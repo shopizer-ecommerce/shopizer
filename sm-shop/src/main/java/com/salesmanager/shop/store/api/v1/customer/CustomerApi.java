@@ -59,10 +59,8 @@ public class CustomerApi {
       produces = "application/json",
       response = PersistableCustomer.class)
   public PersistableCustomer create(
-      @RequestParam(name = "store", defaultValue = DEFAULT_STORE) String storeCode,
+      MerchantStore merchantStore,
       @Valid @RequestBody PersistableCustomer customer) {
-
-      MerchantStore merchantStore = storeFacade.get(storeCode);
       return customerFacade.create(customer, merchantStore);
 
   }
@@ -76,10 +74,8 @@ public class CustomerApi {
       response = PersistableCustomer.class)
   public PersistableCustomer update(
       @PathVariable String userName,
-      @RequestParam(name = "store", defaultValue = DEFAULT_STORE) String storeCode,
+      MerchantStore merchantStore,
       @Valid @RequestBody PersistableCustomer customer) {
-
-      MerchantStore merchantStore = storeFacade.get(storeCode);
       // TODO customer.setUserName
       // TODO more validation
       return customerFacade.update(customer, merchantStore);
@@ -105,14 +101,10 @@ public class CustomerApi {
    */
   @GetMapping("/private/customers")
   public ReadableCustomerList getFilteredCustomers(
-      @RequestParam(name = "store", defaultValue = DEFAULT_STORE) String storeCode,
       @RequestParam(value = "start", required = false) Integer start,
       @RequestParam(value = "count", required = false) Integer count,
-      HttpServletRequest request) {
-
-    MerchantStore merchantStore = storeFacade.get(storeCode);
-    Language language = languageUtils.getRESTLanguage(request, merchantStore);
-
+      MerchantStore merchantStore,
+      Language language) {
     CustomerCriteria customerCriteria = createCustomerCriteria(start, count);
     return customerFacade.getListByStore(merchantStore, customerCriteria, language);
   }
@@ -125,23 +117,17 @@ public class CustomerApi {
   }
 
   @GetMapping("/private/customers/{userName}")
-  public ReadableCustomer get(@RequestParam(name = "store", defaultValue = DEFAULT_STORE) String storeCode,
-      @PathVariable String userName,
-      HttpServletRequest request) {
-
-      MerchantStore merchantStore = storeFacade.get(storeCode);
-      Language language = languageUtils.getRESTLanguage(request, merchantStore);
-
+  public ReadableCustomer get(@PathVariable String userName,
+      MerchantStore merchantStore,
+      Language language) {
       return customerFacade.getByUserName(userName, merchantStore, language);
   }
 
   @GetMapping("/auth/customers/profile")
   public ReadableCustomer get(
-      @RequestParam(name = "store", defaultValue = DEFAULT_STORE) String storeCode,
+      MerchantStore merchantStore,
+      Language language,
       HttpServletRequest request) {
-    MerchantStore merchantStore = storeFacade.get(storeCode);
-    Language language = languageUtils.getRESTLanguage(request, merchantStore);
-
     Principal principal = request.getUserPrincipal();
     String userName = principal.getName();
     return customerFacade.getCustomerByNick(userName, merchantStore, language);

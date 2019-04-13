@@ -57,12 +57,7 @@ public class CategoryApi {
             response = ReadableCategory.class)
       })
   public ReadableCategory get(
-      @PathVariable(name = "id") final Long categoryId,
-      @RequestParam(name = "store", defaultValue = DEFAULT_STORE) String storeCode,
-      @RequestParam(value = "lang", required = false) String lang,
-      HttpServletRequest request) {
-    MerchantStore merchantStore = getMerchantStore(storeCode);
-    Language language = getLanguage(request, merchantStore);
+      @PathVariable(name = "id") Long categoryId, MerchantStore merchantStore, Language language) {
     return categoryFacade.getById(merchantStore, categoryId, language);
   }
 
@@ -70,8 +65,6 @@ public class CategoryApi {
    * Get all category starting from root filter can be used for filtering on fields only featured is
    * supported
    *
-   * @param lang
-   * @param request
    * @return
    */
   @GetMapping(
@@ -79,12 +72,8 @@ public class CategoryApi {
       produces = {APPLICATION_JSON_VALUE, APPLICATION_XML_VALUE})
   public List<ReadableCategory> getFiltered(
       @RequestParam(value = "filter", required = false) String filter,
-      @RequestParam(value = "lang", required = false) String lang,
-      @RequestParam(name = "store", defaultValue = DEFAULT_STORE) String storeCode,
-      HttpServletRequest request) {
-
-    MerchantStore merchantStore = getMerchantStore(storeCode);
-    Language language = getLanguage(request, merchantStore);
+      MerchantStore merchantStore,
+      Language language) {
     return categoryFacade.getCategoryHierarchy(
         merchantStore, DEFAULT_CATEGORY_DEPTH, language, filter);
   }
@@ -95,10 +84,8 @@ public class CategoryApi {
       produces = {APPLICATION_JSON_VALUE, APPLICATION_XML_VALUE})
   public PersistableCategory createCategory(
       @Valid @RequestBody PersistableCategory category,
-      @RequestParam(name = "store", defaultValue = DEFAULT_STORE) String storeCode,
-      HttpServletRequest request) {
-    MerchantStore merchantStore = getMerchantStore(storeCode);
-    getLanguage(request, merchantStore);
+      MerchantStore merchantStore,
+      Language language) {
     return categoryFacade.saveCategory(merchantStore, category);
   }
 
@@ -108,9 +95,7 @@ public class CategoryApi {
   public PersistableCategory update(
       @PathVariable Long id,
       @Valid @RequestBody PersistableCategory category,
-      @RequestParam(name = "store", defaultValue = DEFAULT_STORE) String storeCode) {
-
-    MerchantStore merchantStore = getMerchantStore(storeCode);
+      MerchantStore merchantStore) {
     return categoryFacade.saveCategory(merchantStore, category);
   }
 

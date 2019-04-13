@@ -294,8 +294,12 @@ public class ContentFacadeImpl implements ContentFacade {
     Validate.notNull(language, "Language cannot be null");
 
     try {
-      Content content = Optional.ofNullable(contentService.getByCode(code, store, language))
-          .orElseThrow(() -> new ResourceNotFoundException("No box found : " + code));
+      Content content =
+          Optional.ofNullable(contentService.getByCode(code, store, language))
+              .orElseThrow(
+                  () ->
+                      new ResourceNotFoundException(
+                          "Resource not found [" + code + "] for store [" + store.getCode() + "]"));
 
       Optional<ContentDescription> contentDescription =
           findAppropriateContentDescription(content.getDescriptions(), language);

@@ -62,7 +62,6 @@ public class CustomerReviewApi {
    *
    * @param id
    * @param review
-   * @param request
    * @return
    * @throws Exception
    */
@@ -71,37 +70,33 @@ public class CustomerReviewApi {
   public PersistableCustomerReview create(
       @PathVariable final Long id,
       @Valid @RequestBody PersistableCustomerReview review,
-      HttpServletRequest request) {
+      MerchantStore merchantStore,
+      Language language) {
+    return customerFacade.createCustomerReview(id, review, merchantStore, language);
+  }
 
-			MerchantStore merchantStore = storeFacade.getByCode(request);
-			Language language = languageUtils.getRESTLanguage(request, merchantStore);
-      return customerFacade.createCustomerReview(id, review, merchantStore, language);
-	}
-
-	@GetMapping("/customers/{id}/reviews")
+  @GetMapping("/customers/{id}/reviews")
   public List<ReadableCustomerReview> getAll(
-      @PathVariable final Long id, HttpServletRequest request) {
-			MerchantStore merchantStore = storeFacade.getByCode(request);
-			Language language = languageUtils.getRESTLanguage(request, merchantStore);	
-			return customerFacade.getAllCustomerReviewsByReviewed(id, merchantStore, language);
-	}
+      @PathVariable final Long id, MerchantStore merchantStore, Language language) {
+    return customerFacade.getAllCustomerReviewsByReviewed(id, merchantStore, language);
+  }
 
 	@PutMapping("/private/customers/{id}/reviews/{reviewid}")
   public PersistableCustomerReview update(
       @PathVariable final Long id,
       @PathVariable final Long reviewId,
       @Valid @RequestBody PersistableCustomerReview review,
-      HttpServletRequest request) {
-			MerchantStore merchantStore = storeFacade.getByCode(request);
-			Language language = languageUtils.getRESTLanguage(request, merchantStore);
+			MerchantStore merchantStore,
+			Language language) {
       return customerFacade.updateCustomerReview(id, reviewId, review, merchantStore, language);
 	}
 
-	@DeleteMapping("/private/customers/{id}/reviews/{reviewId}")
+  @DeleteMapping("/private/customers/{id}/reviews/{reviewId}")
   public void delete(
-      @PathVariable final Long id, @PathVariable final Long reviewId, HttpServletRequest request) {
-    MerchantStore merchantStore = storeFacade.getByCode(request);
-    Language language = languageUtils.getRESTLanguage(request, merchantStore);
+      @PathVariable final Long id,
+      @PathVariable final Long reviewId,
+      MerchantStore merchantStore,
+      Language language) {
     customerFacade.deleteCustomerReview(id, reviewId, merchantStore, language);
   }
 }

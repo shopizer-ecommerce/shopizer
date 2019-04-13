@@ -34,17 +34,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1")
 public class ContactApi {
 
-	@Inject
-	private StoreFacade storeFacade;
-	
-	@Inject
-	private LanguageUtils languageUtils;
-	
-	@Inject
-	private LanguageService languageService;
-	
-	@Inject
-	private EmailTemplatesUtils emailTemplatesUtils;
+  @Inject private StoreFacade storeFacade;
+
+  @Inject private LanguageUtils languageUtils;
+
+  @Inject private LanguageService languageService;
+
+  @Inject private EmailTemplatesUtils emailTemplatesUtils;
 
   @PostMapping("/contact")
   @ApiOperation(
@@ -54,13 +50,10 @@ public class ContactApi {
       produces = "application/json")
   public void contact(
       @Valid @RequestBody ContactForm contact,
+      MerchantStore merchantStore,
+      Language language,
       HttpServletRequest request) {
-
-		MerchantStore merchantStore = storeFacade.getByCode(request);
-		Language language = languageUtils.getRESTLanguage(request, merchantStore);
-		Locale locale = languageService.toLocale(language, merchantStore);
-
-		emailTemplatesUtils.sendContactEmail(contact, merchantStore, locale, request.getContextPath());
-	}
-
+    Locale locale = languageService.toLocale(language, merchantStore);
+    emailTemplatesUtils.sendContactEmail(contact, merchantStore, locale, request.getContextPath());
+  }
 }
