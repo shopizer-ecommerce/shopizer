@@ -36,7 +36,11 @@ pipeline {
             
             echo '******************* GitHub Release Completed *******************'
         }
-        
     }
   }
+  post {
+        always {
+            junit '/var/jenkins_home/workspace/Test/sm-shop/target/surefire-reports/*.xml'
+        }
+    }
 }
