@@ -42,7 +42,7 @@ pipeline {
         always {
             echo '******************* Post Compile JUnit Reports *******************'
             junit '**/surefire-reports/*.xml'
-            echo '******************* JUnit Reports Compiled *******************'
+            echo '******************* JUnit Reports Compiled to Test *******************'
         }
     }
 }
