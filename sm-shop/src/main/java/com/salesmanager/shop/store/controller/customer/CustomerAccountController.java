@@ -244,8 +244,7 @@ public class CustomerAccountController extends AbstractController {
     	}
     	
     	String currentPassword = password.getCurrentPassword();
-    	String encodedCurrentPassword = passwordEncoder.encode(currentPassword);
-    	
+
     	BCryptPasswordEncoder encoder = (BCryptPasswordEncoder)passwordEncoder;
     	if(!encoder.matches(currentPassword, customer.getPassword())) {
           FieldError error = new FieldError("password","password",messages.getMessage("message.invalidpassword", locale));

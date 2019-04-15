@@ -1,4 +1,4 @@
-FROM tomcat:8.5.15-jre8
+FROM tomcat:8.5.40-jre8
 MAINTAINER shopizerecomm
 
 VOLUME /tmp
