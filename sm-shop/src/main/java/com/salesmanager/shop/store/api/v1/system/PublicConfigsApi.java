@@ -21,23 +21,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1")
 public class PublicConfigsApi {
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(PublicConfigsApi.class);
-	
-	@Inject
-	private StoreFacade storeFacade;
-	
-	@Inject
-	private LanguageUtils languageUtils;
-	
-	@Inject
-	private MerchantConfigurationFacade configurationFacade;
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(PublicConfigsApi.class);
+
+  @Inject private StoreFacade storeFacade;
+
+  @Inject private LanguageUtils languageUtils;
+
+  @Inject private MerchantConfigurationFacade configurationFacade;
 
   /**
    * Get public set of merchant configuration --- allow online purchase --- social links
    *
-   * @param storeCode
-   * @param request
    * @return
    */
   @GetMapping("/config")
@@ -47,12 +42,7 @@ public class PublicConfigsApi {
       notes = "",
       produces = "application/json",
       response = Configs.class)
-  public Configs getConfig(
-      @RequestParam(name = "store", defaultValue = DEFAULT_STORE) String storeCode,
-      HttpServletRequest request) {
-			MerchantStore merchantStore = storeFacade.get(storeCode);
-			Language language = languageUtils.getRESTLanguage(request, merchantStore);
-      return configurationFacade.getMerchantConfig(merchantStore, language);
-	}
-
+  public Configs getConfig(MerchantStore merchantStore, Language language) {
+    return configurationFacade.getMerchantConfig(merchantStore, language);
+  }
 }

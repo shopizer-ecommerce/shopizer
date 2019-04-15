@@ -29,55 +29,45 @@ import com.salesmanager.shop.utils.LanguageUtils;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Api for searching shopizer catalog based on search term
- * when filtering products based on product attribute is required, see /api/v1/product
- * @author c.samson
+ * Api for searching shopizer catalog based on search term when filtering products based on product
+ * attribute is required, see /api/v1/product
  *
+ * @author c.samson
  */
 @RestController
 @RequestMapping("/api/v1")
 public class SearchApi {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(SearchApi.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(SearchApi.class);
 
-	@Inject
-	private SearchFacade searchFacade;
-	
-	@Inject
-	private StoreFacade storeFacade;
-	
-	@Inject
-	private LanguageUtils languageUtils;
+  @Inject private SearchFacade searchFacade;
 
-	/**
-	 * Search products from underlying elastic search
-	 *
-	 * @param searchRequest
-	 * @param lang
-	 * @param storeCode
-	 * @param request
-	 * @return
-	 */
+  @Inject private StoreFacade storeFacade;
+
+  @Inject private LanguageUtils languageUtils;
+
+  /**
+   * Search products from underlying elastic search
+   *
+   * @param searchRequest
+   * @param request
+   * @return
+   */
   @PostMapping("/search")
   public @ResponseBody SearchProductList search(
       @RequestBody SearchProductRequest searchRequest,
-      @RequestParam(value = "lang", required = false) String lang,
-      @RequestParam(name = "store", defaultValue = DEFAULT_STORE) String storeCode,
+      MerchantStore merchantStore,
+      Language language,
       HttpServletRequest request) {
-    MerchantStore merchantStore = storeFacade.get(storeCode);
-    Language language = languageUtils.getRESTLanguage(request, merchantStore);
     return searchFacade.search(merchantStore, language, searchRequest);
   }
 
   @PostMapping("/search/autocomplete")
   public @ResponseBody ValueList autocomplete(
       @RequestBody SearchProductRequest searchRequest,
-      @RequestParam(value = "lang", required = false) String lang,
-			@RequestParam(name = "store", defaultValue = DEFAULT_STORE) String storeCode,
+      MerchantStore merchantStore,
+      Language language,
       HttpServletRequest request) {
-			MerchantStore merchantStore = storeFacade.get(storeCode);
-			Language language = languageUtils.getRESTLanguage(request, merchantStore);
-			return searchFacade.autocompleteRequest(searchRequest.getQuery(), merchantStore, language);
-	}
-
+    return searchFacade.autocompleteRequest(searchRequest.getQuery(), merchantStore, language);
+  }
 }

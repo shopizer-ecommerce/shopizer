@@ -32,7 +32,6 @@ import com.salesmanager.core.constants.SchemaConstant;
 
 @Configuration
 @ComponentScan({"com.salesmanager.shop","com.salesmanager.core.business"})
-@EnableAutoConfiguration
 @Import(CoreApplicationConfiguration.class)//import sm-core configurations
 @ImportResource({"classpath:/spring/shopizer-shop-context.xml"})
 @EnableWebSecurity

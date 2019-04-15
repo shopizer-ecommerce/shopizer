@@ -55,28 +55,25 @@ public class ContentApi {
   @Inject
   private LanguageUtils languageUtils;
 
-
   @GetMapping(value = "/content/pages", produces = MediaType.APPLICATION_JSON_VALUE)
-  @ApiOperation(httpMethod = "GET", value = "Get page names created for a given MerchantStore",
-      notes = "", produces = "application/json", response = List.class)
-  public List<ReadableContentPage> getContentPages(
-      @RequestParam(name = "store", defaultValue = DEFAULT_STORE) String storeCode,
-      HttpServletRequest request) {
-
-    MerchantStore merchantStore = storeFacade.get(storeCode);
-    Language language = languageUtils.getRESTLanguage(request, merchantStore);
+  @ApiOperation(
+      httpMethod = "GET",
+      value = "Get page names created for a given MerchantStore",
+      notes = "",
+      produces = "application/json",
+      response = List.class)
+  public List<ReadableContentPage> getContentPages(MerchantStore merchantStore, Language language) {
     return contentFacade.getContentPage(merchantStore, language);
   }
 
   @GetMapping(value = "/content/summary", produces = MediaType.APPLICATION_JSON_VALUE)
-  @ApiOperation(httpMethod = "GET", value = "Get pages summary created for a given MerchantStore",
-      notes = "", produces = "application/json", response = List.class)
-  public List<ReadableContentBox> pagesSummary(
-      @RequestParam(name = "store", defaultValue = DEFAULT_STORE) String storeCode,
-      HttpServletRequest request) {
-
-    MerchantStore merchantStore = storeFacade.get(storeCode);
-    Language language = languageUtils.getRESTLanguage(request, merchantStore);
+  @ApiOperation(
+      httpMethod = "GET",
+      value = "Get pages summary created for a given MerchantStore",
+      notes = "",
+      produces = "application/json",
+      response = List.class)
+  public List<ReadableContentBox> pagesSummary(MerchantStore merchantStore, Language language) {
     return contentFacade.getContentBoxes(ContentType.BOX, "summary_", merchantStore, language);
   }
 
@@ -100,29 +97,22 @@ public class ContentApi {
   }
 
   @GetMapping(value = "/content/boxes/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
-  @ApiOperation(httpMethod = "GET",
-      value = "Get box content by code for a code and a given MerchantStore", notes = "",
-      produces = "application/json", response = List.class)
-  public ReadableContentBox box(@PathVariable("code") String code,
-      @RequestParam(name = "store", defaultValue = DEFAULT_STORE) String storeCode,
-      HttpServletRequest request) {
-
-    MerchantStore merchantStore = storeFacade.get(storeCode);
-    Language language = languageUtils.getRESTLanguage(request, merchantStore);
+  @ApiOperation(
+      httpMethod = "GET",
+      value = "Get box content by code for a code and a given MerchantStore",
+      notes = "",
+      produces = "application/json",
+      response = List.class)
+  public ReadableContentBox getBoxByCode(
+      @PathVariable("code") String code, MerchantStore merchantStore, Language language) {
     return contentFacade.getContentBox(code, merchantStore, language);
   }
 
   @GetMapping(value = "/content/folder", produces = MediaType.APPLICATION_JSON_VALUE)
   public ContentFolder folder(@RequestParam(value = "path", required = false) String path,
-      @RequestParam(name = "store", defaultValue = DEFAULT_STORE) String storeCode,
-      HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-    MerchantStore merchantStore = storeFacade.get(storeCode);
-    Language language = languageUtils.getRESTLanguage(request, merchantStore);
-
+      MerchantStore merchantStore, Language language) throws Exception {
     String decodedPath = decodeContentPath(path);
-    ContentFolder folder = contentFacade.getContentFolder(decodedPath, merchantStore);
-    return folder;
+    return contentFacade.getContentFolder(decodedPath, merchantStore);
   }
   
   
@@ -139,23 +129,20 @@ public class ContentApi {
     ContentFolder folder = contentFacade.getContentFolder(decodedPath, merchantStore);
     return folder;
   }
-  
-  @GetMapping(value = "/{store}/content/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
-  @ApiOperation(httpMethod = "GET", value = "Get store content based on content code", notes = "",
-  response = ContentFolder.class)
-  public ReadableContentBox content(@PathVariable  String store, @PathVariable  String code, @RequestParam(value = "path", required = false) String path,
-      HttpServletRequest request) throws Exception {
 
-    MerchantStore merchantStore = storeFacade.get(store);
-    Language language = languageUtils.getRESTLanguage(request, merchantStore);
-    ReadableContentBox content = null;
-    try {
-        content = contentFacade.getContentBox(code, merchantStore, language);
-        
-    } catch(ResourceNotFoundException e) {
-      LOGGER.debug("Resource not found [" + code + "] for store [" + store + "]");
-    }
-    return content;
+  @GetMapping(value = "/{store}/content/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @ApiOperation(
+      httpMethod = "GET",
+      value = "Get store content based on content code",
+      notes = "",
+      response = ContentFolder.class)
+  public ReadableContentBox content(
+      @PathVariable String code,
+      @RequestParam(value = "path", required = false) String path,
+      HttpServletRequest request,
+      MerchantStore merchantStore,
+      Language language) {
+    return contentFacade.getContentBox(code, merchantStore, language);
   }
 
   private String decodeContentPath(String path) throws UnsupportedEncodingException {
@@ -171,21 +158,13 @@ public class ContentApi {
    * Need type, name and entity
    *
    * @param file
-   * @param storeCode
-   * @param request
-   * @throws Exception
    */
   @PostMapping(value = "/private/content")
   @ResponseStatus(HttpStatus.CREATED)
   public HttpEntity<String> upload(@RequestBody @Valid ContentFile file,
-      @RequestParam(name = "store", defaultValue = DEFAULT_STORE) String storeCode,
-      HttpServletRequest request) {
-
-    MerchantStore merchantStore = storeFacade.get(storeCode);
-    Language language = languageUtils.getRESTLanguage(request, merchantStore);
-
+      MerchantStore merchantStore,
+      Language language) {
     String fileName = file.getName();
-
     contentFacade.addContentFile(file, merchantStore.getCode());
     String fileUrl = contentFacade.absolutePath(merchantStore, fileName);
     return new HttpEntity<String>(fileUrl);
@@ -197,12 +176,9 @@ public class ContentApi {
   @ApiOperation(httpMethod = "POST", value = "Update content page", notes = "",
   response = Void.class)
   public void savePage(@RequestBody @Valid PersistableContentPage page,
-      @PathVariable(name = "code") String storeCode,
-      @PathVariable(name = "pageCode") String pageCode,
-      HttpServletRequest request) {
-
-    MerchantStore merchantStore = storeFacade.get(storeCode);
-    Language language = languageUtils.getRESTLanguage(request, merchantStore);
+      MerchantStore merchantStore,
+      Language language,
+      @PathVariable(name = "pageCode") String pageCode) {
     page.setCode(pageCode);
     contentFacade.saveContentPage(page, merchantStore, language);
   }
@@ -212,16 +188,11 @@ public class ContentApi {
    * Deletes a files from CMS
    *
    * @param name
-   * @param storeCode
-   * @param request
    */
   @DeleteMapping(value = "/private/content")
   public void delete(@Valid ContentName name,
-      @RequestParam(name = "store", defaultValue = DEFAULT_STORE) String storeCode,
-      HttpServletRequest request) {
-
-    MerchantStore merchantStore = storeFacade.get(storeCode);
-    Language language = languageUtils.getRESTLanguage(request, merchantStore);
+      MerchantStore merchantStore,
+      Language language) {
     contentFacade.delete(merchantStore, name.getName(), name.getContentType());
   }
 }
