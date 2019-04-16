@@ -64,42 +64,19 @@ function loadProducts(url,divProductsContainer) {
 
 
 function searchProducts(url,divProductsContainer,q,filter) {
-	
-	//log(q);
 
 	if(q==null || q=='') {
 		return;
 	}
-	
-	var query ='\"query\":{\"query_string\":{\"fields\" : [\"name^5\", \"description\", \"tags\"], \"query\" : \"' + q + '", \"use_dis_max\" : true }}';
-	var aggregations = '\"aggregations\": {\"categories\": {\"terms\": {\"field\": \"categories\"}}}';
-	
-	
-    //category aggregations
-	//var aggregations = '\"aggregations\": {\"categories\": { \"terms\": {\"field\": \"categories\"}}}';
-    var highlights = null;
-	var queryStart = '{';
 
-	//var query = '\"query\":{\"query_string\" : {\"fields\" : [\"name^3\", \"description\", \"tags\"], \"query\" : \"' + q + '", \"use_dis_max\" : true }}';
-	if(filter!=null && filter!='') {
-		query = query + ',' + filter + '}}';
-	}
+	var query = '{"query":"'+ q + '","start":0, "count":20}';
 
-	if(aggregations!=null && aggregations!='') {
-		query = query + ',' + aggregations;
-	}
-
-	var queryEnd = '}';
-	
-	query = queryStart + query + queryEnd;
-	
-	log(query);
 
 	$.ajax({
 			cache: false,
   			type:"POST",
   			dataType:"json",
-  			url:url,
+  			url:'/api/v1/search',
   			data:query,
   			contentType:"application/json;charset=UTF-8",
 			success: function(productList) {

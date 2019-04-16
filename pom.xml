@@ -25,9 +25,11 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<shopizer.version>2.4.0</shopizer.version>
-		<shopizer.search.version>2.4.1</shopizer.search.version>
+		<shopizer.search.version>2.4.2</shopizer.search.version>
 		<shopizer-canadapost.version>2.4.0</shopizer-canadapost.version>
 		<shopizer-shipping-distance.version>2.4.0</shopizer-shipping-distance.version>
+		<org.elasticsearch-version>6.3.1</org.elasticsearch-version>
+		<io.searchbox.jest-version>6.3.1</io.searchbox.jest-version>
 		<spring-vault-core-version>1.1.2.RELEASE</spring-vault-core-version>
 		<commons-collections4.version>4.0</commons-collections4.version>
 		<commons-validator.version>1.5.1</commons-validator.version>
@@ -40,8 +42,6 @@
 		<infinispan.version>6.0.2.Final</infinispan.version>
 		<mysql-jdbc-version>5.1.47</mysql-jdbc-version>
 		<simple-json-version>1.1.1</simple-json-version>
-		<org.elasticsearch-version>5.6.12</org.elasticsearch-version>
-		<io.searchbox.jest-version>5.3.3</io.searchbox.jest-version>
 		<jackson-version>2.9.8</jackson-version>
 		<coverage.lines>.30</coverage.lines>
 		<coverage.branches>.37</coverage.branches>

@@ -255,3 +255,73 @@ Caused by: java.lang.InterruptedException: sleep interrupted
 	at java.lang.Thread.sleep(Native Method)
 	at org.h2.store.FileLock.sleep(FileLock.java:421)
 	... 23 more
+2019-04-16 08:34:54 database: opening /Users/carlsamson/Documents/dev/workspaces/master/shopizer/sm-shop/SALESMANAGER
+org.h2.message.DbException: Error opening database: "Sleep interrupted" [8000-197]
+	at org.h2.message.DbException.get(DbException.java:168)
+	at org.h2.store.FileLock.getExceptionFatal(FileLock.java:428)
+	at org.h2.store.FileLock.sleep(FileLock.java:423)
+	at org.h2.store.FileLock.lockFile(FileLock.java:323)
+	at org.h2.store.FileLock.lock(FileLock.java:108)
+	at org.h2.engine.Database.open(Database.java:674)
+	at org.h2.engine.Database.openDatabase(Database.java:286)
+	at org.h2.engine.Database.<init>(Database.java:280)
+	at org.h2.engine.Engine.openSession(Engine.java:66)
+	at org.h2.engine.Engine.openSession(Engine.java:179)
+	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:157)
+	at org.h2.engine.Engine.createSession(Engine.java:140)
+	at org.h2.engine.Engine.createSession(Engine.java:28)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:351)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:124)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:103)
+	at org.h2.Driver.connect(Driver.java:69)
+	at com.mchange.v2.c3p0.DriverManagerDataSource.getConnection(DriverManagerDataSource.java:175)
+	at com.mchange.v2.c3p0.WrapperConnectionPoolDataSource.getPooledConnection(WrapperConnectionPoolDataSource.java:220)
+	at com.mchange.v2.c3p0.WrapperConnectionPoolDataSource.getPooledConnection(WrapperConnectionPoolDataSource.java:206)
+	at com.mchange.v2.c3p0.impl.C3P0PooledConnectionPool$1PooledConnectionResourcePoolManager.acquireResource(C3P0PooledConnectionPool.java:203)
+	at com.mchange.v2.resourcepool.BasicResourcePool.doAcquire(BasicResourcePool.java:1138)
+	at com.mchange.v2.resourcepool.BasicResourcePool.doAcquireAndDecrementPendingAcquiresWithinLockOnSuccess(BasicResourcePool.java:1125)
+	at com.mchange.v2.resourcepool.BasicResourcePool.access$700(BasicResourcePool.java:44)
+	at com.mchange.v2.resourcepool.BasicResourcePool$ScatteredAcquireTask.run(BasicResourcePool.java:1870)
+	at com.mchange.v2.async.ThreadPoolAsynchronousRunner$PoolThread.run(ThreadPoolAsynchronousRunner.java:696)
+Caused by: org.h2.jdbc.JdbcSQLException: Error opening database: "Sleep interrupted" [8000-197]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:357)
+	... 26 more
+Caused by: java.lang.InterruptedException: sleep interrupted
+	at java.lang.Thread.sleep(Native Method)
+	at org.h2.store.FileLock.sleep(FileLock.java:421)
+	... 23 more
+2019-04-16 08:40:06 database: opening /Users/carlsamson/Documents/dev/workspaces/master/shopizer/sm-shop/SALESMANAGER
+org.h2.message.DbException: Error opening database: "Sleep interrupted" [8000-197]
+	at org.h2.message.DbException.get(DbException.java:168)
+	at org.h2.store.FileLock.getExceptionFatal(FileLock.java:428)
+	at org.h2.store.FileLock.sleep(FileLock.java:423)
+	at org.h2.store.FileLock.lockFile(FileLock.java:323)
+	at org.h2.store.FileLock.lock(FileLock.java:108)
+	at org.h2.engine.Database.open(Database.java:674)
+	at org.h2.engine.Database.openDatabase(Database.java:286)
+	at org.h2.engine.Database.<init>(Database.java:280)
+	at org.h2.engine.Engine.openSession(Engine.java:66)
+	at org.h2.engine.Engine.openSession(Engine.java:179)
+	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:157)
+	at org.h2.engine.Engine.createSession(Engine.java:140)
+	at org.h2.engine.Engine.createSession(Engine.java:28)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:351)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:124)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:103)
+	at org.h2.Driver.connect(Driver.java:69)
+	at com.mchange.v2.c3p0.DriverManagerDataSource.getConnection(DriverManagerDataSource.java:175)
+	at com.mchange.v2.c3p0.WrapperConnectionPoolDataSource.getPooledConnection(WrapperConnectionPoolDataSource.java:220)
+	at com.mchange.v2.c3p0.WrapperConnectionPoolDataSource.getPooledConnection(WrapperConnectionPoolDataSource.java:206)
+	at com.mchange.v2.c3p0.impl.C3P0PooledConnectionPool$1PooledConnectionResourcePoolManager.acquireResource(C3P0PooledConnectionPool.java:203)
+	at com.mchange.v2.resourcepool.BasicResourcePool.doAcquire(BasicResourcePool.java:1138)
+	at com.mchange.v2.resourcepool.BasicResourcePool.doAcquireAndDecrementPendingAcquiresWithinLockOnSuccess(BasicResourcePool.java:1125)
+	at com.mchange.v2.resourcepool.BasicResourcePool.access$700(BasicResourcePool.java:44)
+	at com.mchange.v2.resourcepool.BasicResourcePool$ScatteredAcquireTask.run(BasicResourcePool.java:1870)
+	at com.mchange.v2.async.ThreadPoolAsynchronousRunner$PoolThread.run(ThreadPoolAsynchronousRunner.java:696)
+Caused by: org.h2.jdbc.JdbcSQLException: Error opening database: "Sleep interrupted" [8000-197]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:357)
+	... 26 more
+Caused by: java.lang.InterruptedException: sleep interrupted
+	at java.lang.Thread.sleep(Native Method)
+	at org.h2.store.FileLock.sleep(FileLock.java:421)
+	... 23 more

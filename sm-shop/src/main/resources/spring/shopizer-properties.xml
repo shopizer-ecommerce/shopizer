@@ -37,7 +37,7 @@
 				<prop key="CONTEXT_PATH"></prop>
 				<prop key="URL_EXTENSION">.html</prop>
 				<!-- search query -->
-				<prop key="SEARCH_QUERY"><![CDATA[{"query":{"query_string":{"fields":["name^5","description","tags"],"query":"%s","use_dis_max":true}},"aggs":{"categories":{"terms":{"field":"categories"}}}}]]></prop>
+				<prop key="SEARCH_QUERY"><![CDATA[{"query":{"multi_match":{"query":"%s","fields":["name.analyzed","categories.analyzed","description.analyzed","manufacturer.analyzed"],"operator":"and","type":"best_fields"}},"aggregations":{"categories":{"terms":{"field": "categories"}}}}]]></prop>
 				<!-- autocomplete query -->
 				<prop key="AUTOCOMPLETE_QUERY"><![CDATA[{"size": 10,"query": {"match": {"keyword": {"query": "%s","operator":"and"}}}}]]></prop>
 				<!-- Google maps key -->

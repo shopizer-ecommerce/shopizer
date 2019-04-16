@@ -1,21 +1,8 @@
 package com.salesmanager.shop.store.api.v1.category;
 
-import static com.salesmanager.core.business.constants.Constants.DEFAULT_STORE;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_XML_VALUE;
-
-import com.salesmanager.core.model.merchant.MerchantStore;
-import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.shop.model.catalog.category.PersistableCategory;
-import com.salesmanager.shop.model.catalog.category.ReadableCategory;
-import com.salesmanager.shop.store.controller.category.facade.CategoryFacade;
-import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
-import com.salesmanager.shop.utils.LanguageUtils;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +17,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.model.catalog.category.PersistableCategory;
+import com.salesmanager.shop.model.catalog.category.ReadableCategory;
+import com.salesmanager.shop.store.controller.category.facade.CategoryFacade;
+import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
+import com.salesmanager.shop.utils.LanguageUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @Api(value = "/api/v1/category")

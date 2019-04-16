@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,6 +33,7 @@ import com.salesmanager.core.model.search.SearchKeywords;
 import com.salesmanager.core.model.search.SearchResponse;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.catalog.SearchProductList;
+import com.salesmanager.shop.model.catalog.SearchProductRequest;
 import com.salesmanager.shop.store.controller.ControllerConstants;
 import com.salesmanager.shop.store.controller.search.facade.SearchFacade;
 import com.salesmanager.shop.store.model.search.AutoCompleteRequest;
@@ -136,13 +138,21 @@ public class SearchController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/services/public/search/{store}/{language}/{start}/{max}/search.json", method=RequestMethod.POST)
+	//@RequestMapping(value="/services/public/search/{store}/{language}/{start}/{max}/search.json", method=RequestMethod.POST)
+	@RequestMapping(value="/services/public/search.json", method=RequestMethod.POST)
 	@ResponseBody
-	//public SearchProductList search(@RequestBody String json, @PathVariable String store, @PathVariable final String language, @PathVariable int start, @PathVariable int max, Model model, HttpServletRequest request, HttpServletResponse response) {
-	public SearchProductList search(@PathVariable String store, @PathVariable final String language, @PathVariable int start, @PathVariable int max, Model model, HttpServletRequest request, HttpServletResponse response) {
-		SearchProductList returnList = new SearchProductList();
-		MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
+	public SearchProductList search(
+	    @RequestBody SearchProductRequest searchRequest,
+	    Model model, 
+	    Language language, 
+	    MerchantStore store) {
+	  
+	  
+		//SearchProductList returnList = new SearchProductList();
+		//MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
 		
+		return searchFacade.search(store, language, searchRequest);
+/*		
 		String json = null;
 		
 		try {
@@ -183,7 +193,7 @@ public class SearchController {
 		
 
 		
-		return returnList;
+		return returnList;*/
 		
 	}
 	

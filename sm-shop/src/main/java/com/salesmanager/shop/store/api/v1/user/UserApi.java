@@ -1,6 +1,5 @@
 package com.salesmanager.shop.store.api.v1.user;
 
-import static com.salesmanager.core.business.constants.Constants.DEFAULT_STORE;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -80,10 +79,9 @@ public class UserApi {
   public ReadableUser get(
       @PathVariable Optional<String> store,
       @PathVariable String name,
-      @RequestParam(name = "store", defaultValue = DEFAULT_STORE, required = false)
           String storeCode,
       HttpServletRequest request) {
-    String storeCd = store.orElse(null);
+    String storeCd = store.orElse(Constants.DEFAULT_STORE);
     MerchantStore merchantStore = storeFacade.get(storeCd);
     Language language = languageUtils.getRESTLanguage(request, merchantStore);
     return userFacade.findByUserName(name, language);
@@ -209,7 +207,6 @@ public class UserApi {
   public void delete(
       @PathVariable Optional<String> store,
       @PathVariable String userName,
-      @RequestParam(value = "store", required = false) String storeCode,
       HttpServletRequest request) {
 
     /** Must be superadmin or admin */
@@ -218,7 +215,7 @@ public class UserApi {
       throw new UnauthorizedException();
     }
 
-    String storeCd = store.orElse(null);
+    String storeCd = store.orElse(Constants.DEFAULT_STORE);
 
     if (!request.isUserInRole("SUPERADMIN")) {
       userFacade.authorizedStore(authenticatedUser, storeCd);
