@@ -7,6 +7,8 @@ import com.salesmanager.shop.model.customer.optin.PersistableCustomerOptin;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 
 /**
@@ -54,10 +57,14 @@ public class CustomerNewsletterApi {
       value = "Creates a newsletter optin",
       notes = "",
       produces = "application/json")
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
+  })
   public void create(
       @Valid @RequestBody PersistableCustomerOptin optin,
-      MerchantStore merchantStore,
-      Language language) {
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language) {
 		customerFacade.optinCustomer(optin, merchantStore);
 	}
 

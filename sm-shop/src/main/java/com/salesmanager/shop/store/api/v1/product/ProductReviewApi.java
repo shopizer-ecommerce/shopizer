@@ -1,5 +1,7 @@
 package com.salesmanager.shop.store.api.v1.product;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -30,6 +32,7 @@ import com.salesmanager.shop.model.catalog.product.ReadableProductReview;
 import com.salesmanager.shop.store.controller.product.facade.ProductFacade;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
+import springfox.documentation.annotations.ApiIgnore;
 
 @Controller
 @RequestMapping("/api/v1")
@@ -57,11 +60,15 @@ public class ProductReviewApi {
       method = RequestMethod.POST)
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
   public PersistableProductReview create(
       @PathVariable final Long id,
       @Valid @RequestBody PersistableProductReview review,
-      MerchantStore merchantStore,
-      Language language,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
       HttpServletRequest request,
       HttpServletResponse response) {
 
@@ -101,10 +108,14 @@ public class ProductReviewApi {
   @RequestMapping(value = "/products/{id}/reviews", method = RequestMethod.GET)
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
   public List<ReadableProductReview> getAll(
       @PathVariable final Long id,
-      MerchantStore merchantStore,
-      Language language,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
       HttpServletResponse response) {
 
     try {
@@ -140,12 +151,16 @@ public class ProductReviewApi {
       method = RequestMethod.PUT)
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
   public PersistableProductReview update(
       @PathVariable final Long id,
       @PathVariable final Long reviewId,
       @Valid @RequestBody PersistableProductReview review,
-      MerchantStore merchantStore,
-      Language language,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
       HttpServletRequest request,
       HttpServletResponse response) {
 
@@ -192,11 +207,15 @@ public class ProductReviewApi {
       method = RequestMethod.DELETE)
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
   public void delete(
       @PathVariable final Long id,
       @PathVariable final Long reviewId,
-      MerchantStore merchantStore,
-      Language language,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
       HttpServletResponse response) {
 
     try {

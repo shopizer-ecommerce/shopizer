@@ -1,5 +1,7 @@
 package com.salesmanager.shop.store.api.v1.shoppingCart;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +29,7 @@ import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
 
 import io.swagger.annotations.ApiOperation;
+import springfox.documentation.annotations.ApiIgnore;
 
 @Controller
 @RequestMapping("/api/v1")
@@ -51,10 +54,14 @@ public class ShoppingCartApi {
           "No customer ID in scope. Add to cart for non authenticated users, as simple as {\"product\":1232,\"quantity\":1}",
       produces = "application/json",
       response = ReadableShoppingCart.class)
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
   public @ResponseBody ReadableShoppingCart addToCart(
       @Valid @RequestBody PersistableShoppingCartItem shoppingCartItem,
-      MerchantStore merchantStore,
-      Language language,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
       HttpServletResponse response) {
 
     try {
@@ -83,11 +90,15 @@ public class ShoppingCartApi {
           "No customer ID in scope. Modify cart for non authenticated users, as simple as {\"product\":1232,\"quantity\":0} for instance will remove item 1234 from cart",
       produces = "application/json",
       response = ReadableShoppingCart.class)
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
   public @ResponseBody ReadableShoppingCart modifyCart(
       @PathVariable String code,
       @Valid @RequestBody PersistableShoppingCartItem shoppingCartItem,
-      MerchantStore merchantStore,
-      Language language,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
       HttpServletResponse response) {
 
     try {
@@ -115,10 +126,14 @@ public class ShoppingCartApi {
       notes = "",
       produces = "application/json",
       response = ReadableShoppingCart.class)
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
   public @ResponseBody ReadableShoppingCart getByCode(
       @PathVariable String code,
-      MerchantStore merchantStore,
-      Language language,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
       HttpServletResponse response) {
 
     try {
@@ -150,11 +165,15 @@ public class ShoppingCartApi {
       notes = "",
       produces = "application/json",
       response = ReadableShoppingCart.class)
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
   public @ResponseBody ReadableShoppingCart addToCart(
       @PathVariable Long id,
       @Valid @RequestBody PersistableShoppingCartItem shoppingCartItem,
-      MerchantStore merchantStore,
-      Language language,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
       HttpServletResponse response) {
 
     try {
@@ -190,10 +209,14 @@ public class ShoppingCartApi {
       notes = "",
       produces = "application/json",
       response = ReadableShoppingCart.class)
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
   public @ResponseBody ReadableShoppingCart get(
       @PathVariable Long id,
-      MerchantStore merchantStore,
-      Language language,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
       HttpServletResponse response) {
 
     try {

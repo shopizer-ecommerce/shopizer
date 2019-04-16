@@ -1,5 +1,7 @@
 package com.salesmanager.shop.store.api.v1.product;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +28,7 @@ import com.salesmanager.shop.model.catalog.product.ReadableProductList;
 import com.salesmanager.shop.store.controller.items.facade.ProductItemsFacade;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * Used for product grouping such as featured items
@@ -67,10 +70,14 @@ public class ProductGroupApi {
    */
   @RequestMapping("/products/group/{code}")
   @ResponseBody
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
   public ReadableProductList getProductItemsByGroup(
       @PathVariable final String code,
-			MerchantStore merchantStore,
-			Language language,
+			@ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language,
       HttpServletResponse response)
       throws Exception {
     try {
@@ -93,11 +100,15 @@ public class ProductGroupApi {
 
   @ResponseStatus(HttpStatus.CREATED)
   @RequestMapping(value = "/private/products/{productId}/group/{code}", method = RequestMethod.POST)
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
   public @ResponseBody ReadableProductList addProductToGroup(
       @PathVariable Long productId,
       @PathVariable String code,
-      MerchantStore merchantStore,
-      Language language,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
       HttpServletResponse response) {
 
     try {
@@ -129,11 +140,15 @@ public class ProductGroupApi {
   @RequestMapping(
       value = "/private/products/{productId}/group/{code}",
       method = RequestMethod.DELETE)
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
   public @ResponseBody ReadableProductList removeProductFromCategory(
       @PathVariable Long productId,
       @PathVariable String code,
-      MerchantStore merchantStore,
-      Language language,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
       HttpServletRequest request,
       HttpServletResponse response) {
 

@@ -2,6 +2,8 @@ package com.salesmanager.shop.store.api.v1.customer;
 
 import static com.salesmanager.core.business.constants.Constants.DEFAULT_STORE;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import java.security.Principal;
 import java.util.Optional;
 import javax.inject.Inject;
@@ -31,6 +33,7 @@ import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping(value = "/api/v1", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -58,8 +61,11 @@ public class CustomerApi {
       notes = "Requires administration access",
       produces = "application/json",
       response = PersistableCustomer.class)
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT")
+  })
   public PersistableCustomer create(
-      MerchantStore merchantStore,
+      @ApiIgnore MerchantStore merchantStore,
       @Valid @RequestBody PersistableCustomer customer) {
       return customerFacade.create(customer, merchantStore);
 
@@ -72,9 +78,12 @@ public class CustomerApi {
       notes = "Requires administration access",
       produces = "application/json",
       response = PersistableCustomer.class)
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT")
+  })
   public PersistableCustomer update(
       @PathVariable String userName,
-      MerchantStore merchantStore,
+      @ApiIgnore MerchantStore merchantStore,
       @Valid @RequestBody PersistableCustomer customer) {
       // TODO customer.setUserName
       // TODO more validation
@@ -100,11 +109,15 @@ public class CustomerApi {
    * @throws Exception
    */
   @GetMapping("/private/customers")
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
+  })
   public ReadableCustomerList getFilteredCustomers(
       @RequestParam(value = "start", required = false) Integer start,
       @RequestParam(value = "count", required = false) Integer count,
-      MerchantStore merchantStore,
-      Language language) {
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language) {
     CustomerCriteria customerCriteria = createCustomerCriteria(start, count);
     return customerFacade.getListByStore(merchantStore, customerCriteria, language);
   }
@@ -117,16 +130,24 @@ public class CustomerApi {
   }
 
   @GetMapping("/private/customers/{userName}")
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
+  })
   public ReadableCustomer get(@PathVariable String userName,
-      MerchantStore merchantStore,
-      Language language) {
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language) {
       return customerFacade.getByUserName(userName, merchantStore, language);
   }
 
   @GetMapping("/auth/customers/profile")
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
+  })
   public ReadableCustomer get(
-      MerchantStore merchantStore,
-      Language language,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
       HttpServletRequest request) {
     Principal principal = request.getUserPrincipal();
     String userName = principal.getName();
