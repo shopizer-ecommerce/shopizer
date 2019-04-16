@@ -13,6 +13,8 @@ import com.salesmanager.shop.populator.customer.ReadableCustomerPopulator;
 import com.salesmanager.shop.store.controller.order.facade.OrderFacade;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import java.security.Principal;
 import java.util.List;
 import java.util.Locale;
@@ -32,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -61,12 +64,16 @@ public class OrderApi {
       method = RequestMethod.GET)
   @ResponseStatus(HttpStatus.ACCEPTED)
   @ResponseBody
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
+  })
   public ReadableOrderList listOrders(
       @PathVariable final Long id,
       @RequestParam(value = "start", required = false) Integer start,
       @RequestParam(value = "count", required = false) Integer count,
-      MerchantStore merchantStore,
-      Language language,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
       HttpServletResponse response)
       throws Exception {
 
@@ -118,11 +125,15 @@ public class OrderApi {
       method = RequestMethod.GET)
   @ResponseStatus(HttpStatus.ACCEPTED)
   @ResponseBody
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
+  })
   public ReadableOrderList listOrders(
       @RequestParam(value = "start", required = false) Integer start,
       @RequestParam(value = "count", required = false) Integer count,
-      MerchantStore merchantStore,
-      Language language,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
       HttpServletRequest request,
       HttpServletResponse response)
       throws Exception {
@@ -200,10 +211,14 @@ public class OrderApi {
       method = RequestMethod.GET)
   @ResponseStatus(HttpStatus.ACCEPTED)
   @ResponseBody
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
+  })
   public ReadableOrder getOrder(
       @PathVariable final Long id,
-      MerchantStore merchantStore,
-      Language language,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
       HttpServletRequest request,
       HttpServletResponse response)
       throws Exception {
@@ -256,11 +271,15 @@ public class OrderApi {
       method = RequestMethod.POST)
   @ResponseStatus(HttpStatus.ACCEPTED)
   @ResponseBody
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
+  })
   public PersistableOrderApi checkout(
       @PathVariable final Long id,
       @Valid @RequestBody PersistableOrderApi order,
-      MerchantStore merchantStore,
-      Language language,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
       HttpServletRequest request,
       HttpServletResponse response,
       Locale locale)

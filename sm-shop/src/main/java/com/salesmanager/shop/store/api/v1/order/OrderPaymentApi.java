@@ -1,5 +1,7 @@
 package com.salesmanager.shop.store.api.v1.order;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -44,6 +46,7 @@ import com.salesmanager.shop.populator.order.transaction.ReadableTransactionPopu
 import com.salesmanager.shop.store.controller.order.facade.OrderFacade;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
+import springfox.documentation.annotations.ApiIgnore;
 
 @Controller
 @RequestMapping("/api/v1")
@@ -71,11 +74,15 @@ public class OrderPaymentApi {
       value = {"/auth/cart/{id}/payment/init"},
       method = RequestMethod.POST)
   @ResponseBody
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
   public ReadableTransaction init(
       @Valid @RequestBody PersistablePayment payment,
       @PathVariable Long id,
-      MerchantStore merchantStore,
-      Language language,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
       HttpServletRequest request,
       HttpServletResponse response)
       throws Exception {
@@ -152,6 +159,10 @@ public class OrderPaymentApi {
       method = RequestMethod.GET)
   @ResponseStatus(HttpStatus.ACCEPTED)
   @ResponseBody
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
   public ReadableOrderList listCapturableOrders(
       @RequestParam(value = "startDate", required = false)
           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -159,8 +170,8 @@ public class OrderPaymentApi {
       @RequestParam(value = "endDate", required = false)
           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
           LocalDate endDate,
-      MerchantStore merchantStore,
-      Language language,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
       HttpServletRequest request,
       HttpServletResponse response) {
 
@@ -214,10 +225,14 @@ public class OrderPaymentApi {
       method = RequestMethod.POST)
   @ResponseStatus(HttpStatus.ACCEPTED)
   @ResponseBody
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
   public ReadableTransaction caprurePayment(
       @PathVariable Long id,
-      MerchantStore merchantStore,
-      Language language,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
       HttpServletRequest request,
       HttpServletResponse response) {
     try {

@@ -1,5 +1,7 @@
 package com.salesmanager.shop.store.api.v1.product;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -27,6 +29,7 @@ import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
 import com.salesmanager.shop.store.controller.product.facade.ProductFacade;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * Manufacturer management Collection, Manufacturer ...
@@ -59,10 +62,14 @@ public class ManufacturerApi {
   @RequestMapping(value = "/private/manufacturers", method = RequestMethod.POST)
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
   public PersistableManufacturer create(
       @Valid @RequestBody PersistableManufacturer manufacturer,
-      MerchantStore merchantStore,
-      Language language,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
       HttpServletResponse response) {
 
     try {
@@ -84,10 +91,14 @@ public class ManufacturerApi {
   @RequestMapping(value = "/manufacturers/{id}", method = RequestMethod.GET)
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
   public ReadableManufacturer get(
       @PathVariable Long id,
-      MerchantStore merchantStore,
-      Language language,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
       HttpServletResponse response) {
 
     try {
@@ -114,9 +125,13 @@ public class ManufacturerApi {
   @RequestMapping(value = "/manufacturers/", method = RequestMethod.GET)
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
   public List<ReadableManufacturer> getAll(
-      MerchantStore merchantStore,
-      Language language,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
       HttpServletRequest request,
       HttpServletResponse response) {
 
@@ -137,11 +152,15 @@ public class ManufacturerApi {
   @RequestMapping(value = "/private/manufacturers/{id}", method = RequestMethod.POST)
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
   public PersistableManufacturer update(
       @PathVariable Long id,
       @Valid @RequestBody PersistableManufacturer manufacturer,
-      MerchantStore merchantStore,
-      Language language,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
       HttpServletRequest request,
       HttpServletResponse response) {
 
@@ -162,10 +181,14 @@ public class ManufacturerApi {
   @RequestMapping(value = "/manufacturers/{id}", method = RequestMethod.DELETE)
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
   public void delete(
       @PathVariable Long id,
-      MerchantStore merchantStore,
-      Language language,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
       HttpServletResponse response) {
 
     try {

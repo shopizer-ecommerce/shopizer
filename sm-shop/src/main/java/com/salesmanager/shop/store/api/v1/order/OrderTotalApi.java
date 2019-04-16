@@ -1,5 +1,7 @@
 package com.salesmanager.shop.store.api.v1.order;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,7 @@ import com.salesmanager.shop.store.controller.shoppingCart.facade.ShoppingCartFa
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.LabelUtils;
 import com.salesmanager.shop.utils.LanguageUtils;
+import springfox.documentation.annotations.ApiIgnore;
 
 @Controller
 @RequestMapping("/api/v1")
@@ -73,11 +76,15 @@ public class OrderTotalApi {
       value = {"/auth/cart/{code}/payment"},
       method = RequestMethod.GET)
   @ResponseBody
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
   public ReadableOrderTotalSummary payment(
       @PathVariable final String code,
       @RequestParam(value = "quote", required = false) Long quote,
-      MerchantStore merchantStore,
-      Language language,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
       HttpServletRequest request,
       HttpServletResponse response) {
 
@@ -150,11 +157,15 @@ public class OrderTotalApi {
       value = {"/cart/{code}/payment"},
       method = RequestMethod.GET)
   @ResponseBody
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
   public ReadableOrderTotalSummary calculatePayment(
       @PathVariable final String code,
       @RequestParam(value = "quote", required = false) Long quote,
-      MerchantStore merchantStore,
-      Language language,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
       HttpServletResponse response) {
 
     try {

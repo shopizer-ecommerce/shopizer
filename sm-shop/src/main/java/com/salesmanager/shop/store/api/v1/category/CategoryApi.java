@@ -3,6 +3,9 @@ package com.salesmanager.shop.store.api.v1.category;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_XML_VALUE;
+
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +31,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @Api(value = "/api/v1/category")
@@ -54,8 +58,12 @@ public class CategoryApi {
             message = "List of category found",
             response = ReadableCategory.class)
       })
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
+  })
   public ReadableCategory get(
-      @PathVariable(name = "id") Long categoryId, MerchantStore merchantStore, Language language) {
+      @PathVariable(name = "id") Long categoryId, @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
     return categoryFacade.getById(merchantStore, categoryId, language);
   }
 
@@ -68,10 +76,14 @@ public class CategoryApi {
   @GetMapping(
       value = "/category",
       produces = {APPLICATION_JSON_VALUE, APPLICATION_XML_VALUE})
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
+  })
   public List<ReadableCategory> getFiltered(
       @RequestParam(value = "filter", required = false) String filter,
-      MerchantStore merchantStore,
-      Language language) {
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language) {
     return categoryFacade.getCategoryHierarchy(
         merchantStore, DEFAULT_CATEGORY_DEPTH, language, filter);
   }
@@ -80,20 +92,27 @@ public class CategoryApi {
   @PostMapping(
       value = "/private/category",
       produces = {APPLICATION_JSON_VALUE, APPLICATION_XML_VALUE})
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
+  })
   public PersistableCategory createCategory(
       @Valid @RequestBody PersistableCategory category,
-      MerchantStore merchantStore,
-      Language language) {
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language) {
     return categoryFacade.saveCategory(merchantStore, category);
   }
 
   @PutMapping(
       value = "/private/category/{id}",
       produces = {APPLICATION_JSON_VALUE, APPLICATION_XML_VALUE})
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT")
+  })
   public PersistableCategory update(
       @PathVariable Long id,
       @Valid @RequestBody PersistableCategory category,
-      MerchantStore merchantStore) {
+      @ApiIgnore MerchantStore merchantStore) {
     return categoryFacade.saveCategory(merchantStore, category);
   }
 

@@ -1,5 +1,7 @@
 package com.salesmanager.shop.store.api.v1.product;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -34,6 +36,7 @@ import com.salesmanager.shop.model.catalog.product.PersistableImage;
 import com.salesmanager.shop.populator.catalog.PersistableProductImagePopulator;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
+import springfox.documentation.annotations.ApiIgnore;
 
 @Controller
 @RequestMapping("/api/v1")
@@ -135,11 +138,15 @@ public class ProductImageApi {
   @RequestMapping(
       value = {"/private/products/{id}/images"},
       method = RequestMethod.POST)
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
   public @ResponseBody PersistableImage createImage(
       @PathVariable Long id,
       @Valid @RequestBody PersistableImage image,
-			MerchantStore merchantStore,
-			Language language,
+			@ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language,
       HttpServletRequest request,
       HttpServletResponse response) {
 

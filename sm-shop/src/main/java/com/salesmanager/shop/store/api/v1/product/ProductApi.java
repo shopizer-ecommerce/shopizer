@@ -1,5 +1,7 @@
 package com.salesmanager.shop.store.api.v1.product;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +51,7 @@ import com.salesmanager.shop.utils.ImageFilePath;
 import com.salesmanager.shop.utils.LanguageUtils;
 
 import io.swagger.annotations.ApiOperation;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * API to create, read, update and delete a Product API to create Manufacturer
@@ -87,10 +90,14 @@ public class ProductApi {
   @RequestMapping(
       value = {"/private/products", "/auth/products"},
       method = RequestMethod.POST)
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
   public @ResponseBody PersistableProduct create(
       @Valid @RequestBody PersistableProduct product,
-			MerchantStore merchantStore,
-			Language language,
+			@ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language,
       HttpServletRequest request,
       HttpServletResponse response) {
 
@@ -112,10 +119,14 @@ public class ProductApi {
   @RequestMapping(
       value = {"/private/products/{id}", "/auth/products/{id}"},
       method = RequestMethod.PUT)
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
   public @ResponseBody PersistableProduct update(
       @PathVariable Long id,
       @Valid @RequestBody PersistableProduct product,
-      MerchantStore merchantStore,
+      @ApiIgnore MerchantStore merchantStore,
       HttpServletRequest request,
       HttpServletResponse response) {
 
@@ -165,7 +176,7 @@ public class ProductApi {
    *
    * <p>try {
    *
-   * <p>MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
+   * <p>@ApiIgnore MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
    * if(merchantStore!=null) { if(!merchantStore.getCode().equals(store)) { merchantStore = null; }
    * }
    *
@@ -202,7 +213,7 @@ public class ProductApi {
    *
    * <p>try {
    *
-   * <p>MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
+   * <p>@ApiIgnore MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
    * if(merchantStore!=null) { if(!merchantStore.getCode().equals(store)) { merchantStore = null; }
    * }
    *
@@ -238,7 +249,7 @@ public class ProductApi {
    *
    * <p>try {
    *
-   * <p>MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
+   * <p>@ApiIgnore MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
    * if(merchantStore!=null) { if(!merchantStore.getCode().equals(store)) { merchantStore = null; }
    * }
    *
@@ -272,7 +283,7 @@ public class ProductApi {
    *
    * <p>try {
    *
-   * <p>MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
+   * <p>@ApiIgnore MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
    * if(merchantStore!=null) { if(!merchantStore.getCode().equals(store)) { merchantStore = null; }
    * }
    *
@@ -315,7 +326,7 @@ public class ProductApi {
   /** default routine * */
   /*
 
-  MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
+  @ApiIgnore MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
   if(merchantStore!=null) {
   	if(!merchantStore.getCode().equals(store)) {
   		merchantStore = null;
@@ -365,6 +376,10 @@ public class ProductApi {
    */
   @RequestMapping(value = "/products", method = RequestMethod.GET)
   @ResponseBody
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
   public ReadableProductList getFiltered(
       @RequestParam(value = "lang", required = false) String lang,
       @RequestParam(value = "category", required = false) Long category,
@@ -373,8 +388,8 @@ public class ProductApi {
       @RequestParam(value = "owner", required = false) Long owner,
       @RequestParam(value = "start", required = false) Integer start,
       @RequestParam(value = "count", required = false) Integer count,
-      MerchantStore merchantStore,
-      Language language,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
       HttpServletRequest request,
       HttpServletResponse response)
       throws Exception {
@@ -437,11 +452,15 @@ public class ProductApi {
    */
   @RequestMapping(value = "/products/{id}", method = RequestMethod.GET)
   @ResponseBody
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
   public ReadableProduct get(
       @PathVariable final Long id,
       @RequestParam(value = "lang", required = false) String lang,
-      MerchantStore merchantStore,
-      Language language,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
       HttpServletResponse response)
       throws Exception {
     ReadableProduct product = productFacade.getProduct(merchantStore, id, language);
@@ -463,11 +482,15 @@ public class ProductApi {
       produces = "application/json",
       response = ReadableProductPrice.class)
   @ResponseBody
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
   public ReadableProductPrice calculateVariant(
       @PathVariable final Long id,
       @RequestBody ReadableProductVariant variant,
-      MerchantStore merchantStore,
-      Language language,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
       HttpServletResponse response)
       throws Exception {
 
@@ -513,11 +536,15 @@ public class ProductApi {
         "/auth/products/{productId}/category/{categoryId}"
       },
       method = RequestMethod.POST)
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
   public @ResponseBody ReadableProduct addProductToCategory(
       @PathVariable Long productId,
       @PathVariable Long categoryId,
-      MerchantStore merchantStore,
-      Language language,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
       HttpServletResponse response)
       throws Exception {
 
@@ -545,11 +572,15 @@ public class ProductApi {
         "/auth/products/{productId}/category/{categoryId}"
       },
       method = RequestMethod.DELETE)
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
   public @ResponseBody ReadableProduct removeProductFromCategory(
       @PathVariable Long productId,
       @PathVariable Long categoryId,
-      MerchantStore merchantStore,
-      Language language,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
       HttpServletResponse response) {
 
     try {

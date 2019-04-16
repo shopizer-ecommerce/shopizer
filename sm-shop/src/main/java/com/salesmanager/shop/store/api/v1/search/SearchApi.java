@@ -1,5 +1,10 @@
 package com.salesmanager.shop.store.api.v1.search;
 
+
+import static com.salesmanager.core.business.constants.Constants.DEFAULT_STORE;
+
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
@@ -44,19 +49,27 @@ public class SearchApi {
    * @return
    */
   @PostMapping("/search")
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
   public @ResponseBody SearchProductList search(
       @RequestBody SearchProductRequest searchRequest,
-      MerchantStore merchantStore,
-      Language language,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
       HttpServletRequest request) {
     return searchFacade.search(merchantStore, language, searchRequest);
   }
 
   @PostMapping("/search/autocomplete")
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
   public @ResponseBody ValueList autocomplete(
       @RequestBody SearchProductRequest searchRequest,
-      MerchantStore merchantStore,
-      Language language,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
       HttpServletRequest request) {
     return searchFacade.autocompleteRequest(searchRequest.getQuery(), merchantStore, language);
   }

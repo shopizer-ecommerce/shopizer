@@ -1,5 +1,7 @@
 package com.salesmanager.shop.store.api.v1.system;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -29,6 +31,7 @@ import com.salesmanager.shop.utils.LanguageUtils;
 
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -48,10 +51,14 @@ public class ContactApi {
       value = "Sends an email contact us to store owner",
       notes = "",
       produces = "application/json")
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
   public void contact(
       @Valid @RequestBody ContactForm contact,
-      MerchantStore merchantStore,
-      Language language,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
       HttpServletRequest request) {
     Locale locale = languageService.toLocale(language, merchantStore);
     emailTemplatesUtils.sendContactEmail(contact, merchantStore, locale, request.getContextPath());

@@ -1,6 +1,9 @@
 package com.salesmanager.shop.store.api.v1.system;
 
 import static com.salesmanager.core.business.constants.Constants.DEFAULT_STORE;
+
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -18,6 +21,7 @@ import com.salesmanager.shop.store.controller.optin.OptinFacade;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
 import io.swagger.annotations.ApiOperation;
+import springfox.documentation.annotations.ApiIgnore;
 
 /** Optin a customer to events such s newsletter */
 @RestController
@@ -39,8 +43,13 @@ public class OptinApi {
       value = "Creates an optin event type definition",
       notes = "",
       produces = "application/json")
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
   public ReadableOptin create(
-      @Valid @RequestBody ReadableOptin optin, MerchantStore merchantStore, Language language) {
+      @Valid @RequestBody ReadableOptin optin, @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language) {
     return optinFacade.create(optin, merchantStore, language);
   }
 }
