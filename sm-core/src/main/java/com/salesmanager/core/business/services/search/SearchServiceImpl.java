@@ -254,7 +254,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 					
 					//Map<String,List<FacetEntry>> facets = response.getFacets();
 					Map<String,Facet> facets = response.getFacets();
-					if(facets!=null) {
+					if(facets!=null && facets.size() > 0) {
 						Map<String,List<SearchFacet>> searchFacets = new HashMap<String,List<SearchFacet>>();
 						for(String key : facets.keySet()) {
 							

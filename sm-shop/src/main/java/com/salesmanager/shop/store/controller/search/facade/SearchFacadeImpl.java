@@ -155,7 +155,7 @@ public class SearchFacadeImpl implements SearchFacade {
 			}
 			
 			
-			if(categoriesFacets!=null) {
+			if(!CollectionUtils.isEmpty(categoriesFacets)) {
 				List<String> categoryCodes = new ArrayList<String>();
 				Map<String,Long> productCategoryCount = new HashMap<String,Long>();
 				for(SearchFacet facet : categoriesFacets) {
@@ -164,12 +164,11 @@ public class SearchFacadeImpl implements SearchFacade {
 				}
 				
 				List<Category> categories = categoryService.listByCodes(merchantStore, categoryCodes, language);
-        List<ReadableCategory> categoryProxies = categories
-            .stream()
-            .map(category -> convertCategoryToReadableCategory(merchantStore, language,
-                productCategoryCount, category))
-            .collect(Collectors.toList());
-
+                List<ReadableCategory> categoryProxies = categories
+                    .stream()
+                    .map(category -> convertCategoryToReadableCategory(merchantStore, language,
+                        productCategoryCount, category))
+                    .collect(Collectors.toList());
 				returnList.setCategoryFacets(categoryProxies);
 			}
 			
