@@ -1,24 +1,21 @@
 package com.salesmanager.shop.store.controller.content;
 
-import com.salesmanager.core.business.services.content.ContentService;
-import com.salesmanager.core.model.content.Content;
-import com.salesmanager.core.model.content.ContentDescription;
-import com.salesmanager.core.model.merchant.MerchantStore;
-import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.shop.constants.Constants;
-import com.salesmanager.shop.model.shop.PageInformation;
-import com.salesmanager.shop.store.controller.ControllerConstants;
-
+import java.util.Locale;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Locale;
+import com.salesmanager.core.business.services.content.ContentService;
+import com.salesmanager.core.model.content.Content;
+import com.salesmanager.core.model.content.ContentDescription;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.model.shop.PageInformation;
+import com.salesmanager.shop.store.controller.ControllerConstants;
 
 @Controller
 public class ShopContentController {

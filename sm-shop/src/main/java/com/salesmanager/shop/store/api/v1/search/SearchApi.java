@@ -1,10 +1,6 @@
 package com.salesmanager.shop.store.api.v1.search;
 
 
-import static com.salesmanager.core.business.constants.Constants.DEFAULT_STORE;
-
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
@@ -22,6 +18,9 @@ import com.salesmanager.shop.model.catalog.SearchProductRequest;
 import com.salesmanager.shop.store.controller.search.facade.SearchFacade;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * Api for searching shopizer catalog based on search term when filtering products based on product
