@@ -17,13 +17,13 @@ import com.salesmanager.test.configuration.ConfigurationTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = {ConfigurationTest.class})
+@Ignore
 public class SendEmailTest extends AbstractSalesManagerCoreTestCase {
   
   @Inject
   private EmailService emailService;
   
-  //@Test
-  @Ignore
+  @Test
   public void sendEmail() throws ServiceException, Exception {
     
       MerchantStore merchant = merchantService.getByCode( MerchantStore.DEFAULT_STORE );
