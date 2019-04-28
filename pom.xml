@@ -45,7 +45,6 @@
 		<!-- jacoco coverage -->
 		<coverage.lines>.30</coverage.lines>
 		<coverage.branches>.37</coverage.branches>
-		<sonar.host.url>http://144.217.84.232:9000</sonar.host.url>
 	</properties>
 
 	<dependencies>
