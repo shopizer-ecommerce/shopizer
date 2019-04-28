@@ -6,7 +6,7 @@
 
 	<groupId>com.shopizer</groupId>
 	<artifactId>shopizer</artifactId>
-	<version>2.4.0</version>
+	<version>2.5.0</version>
 	<packaging>pom</packaging>
 
 	<name>shopizer</name>
@@ -15,8 +15,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<!-- TODO 1.5.20 -->
-		<version>1.5.18.RELEASE</version>
+		<version>1.5.20.RELEASE</version>
 	</parent>
 
 
@@ -24,10 +23,10 @@
 		<java.version>1.8</java.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<shopizer.version>2.4.0</shopizer.version>
-		<shopizer.search.version>2.4.2</shopizer.search.version>
-		<shopizer-canadapost.version>2.4.0</shopizer-canadapost.version>
-		<shopizer-shipping-distance.version>2.4.0</shopizer-shipping-distance.version>
+		<shopizer.version>2.5.0</shopizer.version>
+		<shopizer.search.version>2.5.0</shopizer.search.version>
+		<shopizer-canadapost.version>2.5.0</shopizer-canadapost.version>
+		<shopizer-shipping-distance.version>2.5.0</shopizer-shipping-distance.version>
 		<org.elasticsearch-version>6.3.1</org.elasticsearch-version>
 		<io.searchbox.jest-version>6.3.1</io.searchbox.jest-version>
 		<spring-vault-core-version>1.1.2.RELEASE</spring-vault-core-version>
@@ -38,13 +37,15 @@
 		<javax.el.version>2.2.4</javax.el.version>
 		<javax.servlet-api-version>3.0.1</javax.servlet-api-version>
 		<!-- external systems -->
-		<c3p0-version>0.9.5.3</c3p0-version>
+		<c3p0-version>0.9.5.4</c3p0-version>
 		<infinispan.version>6.0.2.Final</infinispan.version>
 		<mysql-jdbc-version>5.1.47</mysql-jdbc-version>
 		<simple-json-version>1.1.1</simple-json-version>
 		<jackson-version>2.9.8</jackson-version>
+		<!-- jacoco coverage -->
 		<coverage.lines>.30</coverage.lines>
 		<coverage.branches>.37</coverage.branches>
+		<sonar.host.url>http://144.217.84.232:9000</sonar.host.url>
 	</properties>
 
 	<dependencies>
@@ -158,11 +159,11 @@
 		</dependency>
 
 		<dependency>
-		    <groupId>mysql</groupId>
-		    <artifactId>mysql-connector-java</artifactId>
-		    <version>${mysql-jdbc-version}</version>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql-jdbc-version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>io.searchbox</groupId>
 			<artifactId>jest</artifactId>
@@ -220,9 +221,15 @@
 
 		</dependencies>
 	</dependencyManagement>
-	
+
 	<build>
 		<plugins>
+
+			<plugin>
+				<groupId>com.github.spotbugs</groupId>
+				<artifactId>spotbugs-maven-plugin</artifactId>
+				<version>3.1.8</version>
+			</plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
@@ -281,5 +288,8 @@
 			</plugin>
 		</plugins>
 	</build>
+
+
+
 
 </project>

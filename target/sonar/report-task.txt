@@ -1,0 +1,6 @@
+projectKey=com.shopizer:shopizer
+serverUrl=http://144.217.84.232:9000
+serverVersion=7.5.0.20543
+dashboardUrl=http://144.217.84.232:9000/dashboard?id=com.shopizer%3Ashopizer
+ceTaskId=AWphq_f4gXQBg4g8iswC
+ceTaskUrl=http://144.217.84.232:9000/api/ce/task?id=AWphq_f4gXQBg4g8iswC

@@ -198,7 +198,7 @@ public class CmsStaticContentFileManagerImpl
       throw new ServiceException(
           "CmsStaticContentFileManagerInfinispan has a null cacheManager.getTreeCache()");
     }
-    OutputContentFile outputStaticContentData = null;
+    OutputContentFile outputStaticContentData = new OutputContentFile();
     InputStream input = null;
     try {
 
@@ -220,7 +220,6 @@ public class CmsStaticContentFileManagerImpl
       final ByteArrayOutputStream output = new ByteArrayOutputStream();
       IOUtils.copy(input, output);
 
-      outputStaticContentData = new OutputContentFile();
       outputStaticContentData.setFile(output);
       outputStaticContentData
           .setMimeType(URLConnection.getFileNameMap().getContentTypeFor(contentFileName));
@@ -231,7 +230,7 @@ public class CmsStaticContentFileManagerImpl
       LOGGER.error("Error while fetching file for {} merchant ", merchantStoreCode);
       throw new ServiceException(e);
     }
-    return outputStaticContentData != null ? outputStaticContentData : null;
+    return outputStaticContentData;
   }
 
 
