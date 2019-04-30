@@ -97,3 +97,7 @@ span.title {
     width: 100%;
   }
 }
+
+.dropdown-menu-li-item {
+	padding:5px;
+}

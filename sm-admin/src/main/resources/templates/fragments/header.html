@@ -23,7 +23,7 @@
               <span th:text="#{'languages'}"></span>
           </a>
              <ul class="dropdown-menu">
-              <li th:each="language : ${LANGUAGE}" class="footer"><a th:href="@{'?lang=' + ${language.code}}" th:text="#{${'lang.'+language.code}}"></a></li>
+              <li class="dropdown-menu-li-item" th:each="language : ${LANGUAGE}"><a th:href="@{'?lang=' + ${language.code}}" th:text="#{${'lang.'+language.code}}"></a></li>
             </ul>
           </li>
           <!-- User Account: style can be found in dropdown.less -->
@@ -32,8 +32,8 @@
               <span class="hidden-xs" th:text="${firstName}"></span>
             </a>
              <ul class="dropdown-menu">
-              <li class="footer"><a href="/admin/user" th:text="#{menu.profile}">Profile</a></li>
-              <li class="footer"><a th:href="@{/logout}" th:text="#{button.label.logout}">Sign out</a></li>
+              <li class="dropdown-menu-li-item"><a href="/admin/user" th:text="#{menu.profile}">Profile</a></li>
+              <li class="dropdown-menu-li-item"><a th:href="@{/logout}" th:text="#{button.label.logout}">Sign out</a></li>
             </ul>
           </li>
           <!-- Control Sidebar Toggle Button -->

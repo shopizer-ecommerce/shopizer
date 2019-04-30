@@ -64,10 +64,6 @@
 									th:text="#{'label.entity.active'}"></span>
 								</label>
 							</div>
-							
-							<span th:if="${#request.isUserInRole('ROLE_SUPERADMIN')}">
-								Yes i am a superadmin !
-							</span>
 
 				            <th:block th:include="fragments/default-language.html :: default-language"></th:block>
 							<th:block th:include="fragments/groups.html :: groups"></th:block>
@@ -81,7 +77,7 @@
 							<button type="submit" class="btn btn-primary">
 								<span th:text="#{'button.label.submit'}"></span>
 							</button>
-							<button th:if="${code} != 'DEFAULT'" id="delete" type="button" class="btn btn-danger pull-right"><span th:text="#{'label.generic.remove'}"></span></button>
+							<button th:if="${#request.isUserInRole('ROLE_SUPERADMIN')}" id="delete" type="button" class="btn btn-danger pull-right"><span th:text="#{'label.generic.remove'}"></span></button>
 						</div>
 					</form>
 				</div><!-- /.box -->
@@ -117,7 +113,7 @@
     	  
     	  		languages();
           		groups();//load groups component
-    	  	
+
     	    	resetMessages();
 
     	  		$('#delete').hide();
@@ -164,7 +160,11 @@
 			    	       } 
 			    	       
 			    	       
-
+			         	   var user = '[[${userName}]]'
+			           	   if(user == $("#userName").val()) {
+			           			$("#delete").hide();
+			           			$('.groups').attr("disabled", true);
+			           	   }
 	
 			    	    },
 			    	    error: function(response,textStatus,errorThrown) {

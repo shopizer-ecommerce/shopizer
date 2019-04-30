@@ -720,4 +720,4 @@ function captureOrder(orderId){
     <div class="modal-footer">
            <button class="btn btn-primary close-modal" id="closeModal" data-dismiss="modal" aria-hidden="true"><s:message code="button.label.close" text="Close" /></button>
     </div>
-</div
+</div>

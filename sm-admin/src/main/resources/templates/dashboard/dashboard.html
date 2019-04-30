@@ -440,14 +440,14 @@
       <!-- /.span (main span) -->
       
       <!-- All actions in dashboard to be defined here -->
-      <th:block layout:fragment="script">
+ <th:block layout:fragment="script">
+ 	  <script src="/js/groups.js"></script>
       <script type="text/javascript">
       $(document).ready(function(){
     	  
     		showLoader();
-      		
-      		log("Store code " + STORECODE);
-      		log("Language " + LANGUAGE);
+    		
+    		groups();
 
       		var url = BACKEND + "/private/marketplace/" + STORECODE + '?lang=' + LANGUAGE;
 
@@ -491,11 +491,7 @@
 	    	    }
 	    	});
       		
-      		
-      		
-      		//End user summary
-      		
-      
+
       });
       </script>
-      </th:block>
+</th:block>
