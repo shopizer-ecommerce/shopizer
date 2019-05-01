@@ -58,20 +58,12 @@ import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 
 @Configuration
 @ComponentScan({"com.salesmanager.shop", "com.salesmanager.core.business"})
-@Import({
-  CoreApplicationConfiguration.class
-}) // import sm-core configurations
+@Import({CoreApplicationConfiguration.class}) // import sm-core configurations
 @ImportResource({"classpath:/spring/shopizer-shop-context.xml"})
 @EnableWebSecurity
 public class ShopApplicationConfiguration extends WebMvcConfigurerAdapter {
 
   protected final Log logger = LogFactory.getLog(getClass());
-
-  @Value("${facebook.app.id}")
-  private String facebookAppId;
-
-  @Value("${facebook.app.secret}")
-  private String facebookAppSecret;
 
   @Inject private DataSource dataSource;
 
@@ -90,7 +82,7 @@ public class ShopApplicationConfiguration extends WebMvcConfigurerAdapter {
   public TilesConfigurer tilesConfigurer() {
     TilesConfigurer tilesConfigurer = new TilesConfigurer();
     tilesConfigurer.setDefinitions(
-        new String[] {"/WEB-INF/tiles/tiles-admin.xml", "/WEB-INF/tiles/tiles-shop.xml"});
+        "/WEB-INF/tiles/tiles-admin.xml", "/WEB-INF/tiles/tiles-shop.xml");
     tilesConfigurer.setCheckRefresh(true);
     return tilesConfigurer;
   }
@@ -104,51 +96,6 @@ public class ShopApplicationConfiguration extends WebMvcConfigurerAdapter {
     return resolver;
   }
 
-  /*    @Bean
-  public ConnectionFactoryLocator connectionFactoryLocator() {
-      ConnectionFactoryRegistry registry = new ConnectionFactoryRegistry();
-
-      registry.addConnectionFactory(new FacebookConnectionFactory(
-      		facebookAppId,
-      		facebookAppSecret));
-
-      return registry;
-  }*/
-
-  @Bean
-  @Scope(value = "singleton", proxyMode = ScopedProxyMode.INTERFACES)
-  public SocialAuthenticationServiceLocator authenticationServiceLocator() {
-
-    try {
-
-      logger.debug("Creating social authenticators");
-
-      SocialAuthenticationServiceRegistry registry = new SocialAuthenticationServiceRegistry();
-      registry.addAuthenticationService(
-          new FacebookAuthenticationService(facebookAppId, facebookAppSecret));
-
-      // registry.addConnectionFactory(new
-      // FacebookConnectionFactory(environment
-      // .getProperty("facebook.clientId"), environment
-      // .getProperty("facebook.clientSecret")));
-
-      return registry;
-
-    } catch (Exception e) {
-      logger.error("Eror while creating social authenticators");
-      return null;
-    }
-  }
-
-  @Bean
-  public UsersConnectionRepository socialUsersConnectionRepository() {
-    JdbcUsersConnectionRepository conn =
-        new JdbcUsersConnectionRepository(
-            dataSource, authenticationServiceLocator(), textEncryptor);
-    conn.setTablePrefix(SchemaConstant.SALESMANAGER_SCHEMA + ".");
-    return conn;
-  }
-
   @Bean
   public DeviceHandlerMethodArgumentResolver deviceHandlerMethodArgumentResolver() {
     return new DeviceHandlerMethodArgumentResolver();
@@ -159,17 +106,6 @@ public class ShopApplicationConfiguration extends WebMvcConfigurerAdapter {
     argumentResolvers.add(deviceHandlerMethodArgumentResolver());
     argumentResolvers.add(merchantStoreArgumentResolver);
     argumentResolvers.add(languageArgumentResolver);
-  }
-
-  @Bean
-  public ByteArrayHttpMessageConverter byteArrayHttpMessageConverter() {
-    List<MediaType> supportedMediaTypes =
-        Arrays.asList(MediaType.IMAGE_JPEG, MediaType.IMAGE_GIF, MediaType.IMAGE_PNG);
-
-    ByteArrayHttpMessageConverter byteArrayHttpMessageConverter =
-        new ByteArrayHttpMessageConverter();
-    byteArrayHttpMessageConverter.setSupportedMediaTypes(supportedMediaTypes);
-    return byteArrayHttpMessageConverter;
   }
 
   @Override
@@ -205,6 +141,25 @@ public class ShopApplicationConfiguration extends WebMvcConfigurerAdapter {
     registry.addInterceptor(adminFilter()).addPathPatterns("/admin/**");
   }
 
+  @Override
+  public void configureViewResolvers(ViewResolverRegistry registry) {
+    InternalResourceViewResolver internalResourceViewResolver = new InternalResourceViewResolver();
+    internalResourceViewResolver.setPrefix("/WEB-INF/views/");
+    internalResourceViewResolver.setSuffix(".jsp");
+    registry.viewResolver(internalResourceViewResolver);
+  }
+
+  @Bean
+  public ByteArrayHttpMessageConverter byteArrayHttpMessageConverter() {
+    List<MediaType> supportedMediaTypes =
+        Arrays.asList(MediaType.IMAGE_JPEG, MediaType.IMAGE_GIF, MediaType.IMAGE_PNG);
+
+    ByteArrayHttpMessageConverter byteArrayHttpMessageConverter =
+        new ByteArrayHttpMessageConverter();
+    byteArrayHttpMessageConverter.setSupportedMediaTypes(supportedMediaTypes);
+    return byteArrayHttpMessageConverter;
+  }
+
   @Bean
   public LocaleChangeInterceptor localeChangeInterceptor() {
     return new LocaleChangeInterceptor();
@@ -232,44 +187,36 @@ public class ShopApplicationConfiguration extends WebMvcConfigurerAdapter {
     return new ConnectController(connectionFactoryLocator, connectionRepository);
   }
 
-  @Override
-  public void configureViewResolvers(ViewResolverRegistry registry) {
-    InternalResourceViewResolver internalResourceViewResolver = new InternalResourceViewResolver();
-    internalResourceViewResolver.setPrefix("/WEB-INF/views/");
-    internalResourceViewResolver.setSuffix(".jsp");
-    registry.viewResolver(internalResourceViewResolver);
+  @Bean
+  public SessionLocaleResolver localeResolver() {
+    SessionLocaleResolver slr = new SessionLocaleResolver();
+    slr.setDefaultLocale(Locale.ENGLISH);
+    return slr;
   }
 
-    @Bean
-    public SessionLocaleResolver localeResolver() {
-      SessionLocaleResolver slr = new SessionLocaleResolver();
-      slr.setDefaultLocale(Locale.ENGLISH);
-      return slr;
-    }
+  @Bean
+  public ReloadableResourceBundleMessageSource messageSource() {
+    ReloadableResourceBundleMessageSource messageSource =
+        new ReloadableResourceBundleMessageSource();
+    messageSource.setBasenames(
+        "classpath:bundles/shopizer",
+        "classpath:bundles/messages",
+        "classpath:bundles/shipping",
+        "classpath:bundles/payment");
 
-    @Bean
-    public ReloadableResourceBundleMessageSource messageSource() {
-      ReloadableResourceBundleMessageSource messageSource =
-          new ReloadableResourceBundleMessageSource();
-      messageSource.setBasenames(
-          "classpath:bundles/shopizer",
-          "classpath:bundles/messages",
-          "classpath:bundles/shipping",
-          "classpath:bundles/payment");
+    messageSource.setDefaultEncoding("UTF-8");
+    return messageSource;
+  }
 
-      messageSource.setDefaultEncoding("UTF-8");
-      return messageSource;
-    }
+  @Bean
+  public LabelUtils messages() {
+    return new LabelUtils();
+  }
 
-    @Bean
-    public LabelUtils messages() {
-      return new LabelUtils();
-    }
-
-    @Bean
-    public LocalImageFilePathUtils img() {
-      LocalImageFilePathUtils localImageFilePathUtils = new LocalImageFilePathUtils();
-      localImageFilePathUtils.setBasePath("/static");
-      return localImageFilePathUtils;
-    }
+  @Bean
+  public LocalImageFilePathUtils img() {
+    LocalImageFilePathUtils localImageFilePathUtils = new LocalImageFilePathUtils();
+    localImageFilePathUtils.setBasePath("/static");
+    return localImageFilePathUtils;
+  }
 }
