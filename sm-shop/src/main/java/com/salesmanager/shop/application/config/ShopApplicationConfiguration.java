@@ -1,9 +1,10 @@
-package com.salesmanager.shop.application;
+package com.salesmanager.shop.application.config;
+
+import static org.springframework.http.MediaType.IMAGE_GIF;
+import static org.springframework.http.MediaType.IMAGE_JPEG;
+import static org.springframework.http.MediaType.IMAGE_PNG;
 
 import com.salesmanager.core.business.configuration.CoreApplicationConfiguration;
-import com.salesmanager.core.constants.SchemaConstant;
-import com.salesmanager.shop.application.config.AsyncConfig;
-import com.salesmanager.shop.application.config.ShopizerPropertiesConfig;
 import com.salesmanager.shop.filter.AdminFilter;
 import com.salesmanager.shop.filter.CorsFilter;
 import com.salesmanager.shop.filter.StoreFilter;
@@ -16,16 +17,12 @@ import javax.inject.Inject;
 import javax.sql.DataSource;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.web.WebMvcProperties.LocaleResolver;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportResource;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.context.event.EventListener;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.http.MediaType;
@@ -33,17 +30,8 @@ import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.mobile.device.DeviceHandlerMethodArgumentResolver;
-import org.springframework.mobile.device.DeviceWebArgumentResolver;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
-import org.springframework.social.connect.ConnectionFactoryLocator;
-import org.springframework.social.connect.ConnectionRepository;
-import org.springframework.social.connect.UsersConnectionRepository;
-import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
-import org.springframework.social.connect.web.ConnectController;
-import org.springframework.social.facebook.security.FacebookAuthenticationService;
-import org.springframework.social.security.SocialAuthenticationServiceLocator;
-import org.springframework.social.security.SocialAuthenticationServiceRegistry;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -82,7 +70,8 @@ public class ShopApplicationConfiguration extends WebMvcConfigurerAdapter {
   public TilesConfigurer tilesConfigurer() {
     TilesConfigurer tilesConfigurer = new TilesConfigurer();
     tilesConfigurer.setDefinitions(
-        "/WEB-INF/tiles/tiles-admin.xml", "/WEB-INF/tiles/tiles-shop.xml");
+        "/WEB-INF/tiles/tiles-admin.xml",
+        "/WEB-INF/tiles/tiles-shop.xml");
     tilesConfigurer.setCheckRefresh(true);
     return tilesConfigurer;
   }
@@ -151,8 +140,7 @@ public class ShopApplicationConfiguration extends WebMvcConfigurerAdapter {
 
   @Bean
   public ByteArrayHttpMessageConverter byteArrayHttpMessageConverter() {
-    List<MediaType> supportedMediaTypes =
-        Arrays.asList(MediaType.IMAGE_JPEG, MediaType.IMAGE_GIF, MediaType.IMAGE_PNG);
+    List<MediaType> supportedMediaTypes = Arrays.asList(IMAGE_JPEG, IMAGE_GIF, IMAGE_PNG);
 
     ByteArrayHttpMessageConverter byteArrayHttpMessageConverter =
         new ByteArrayHttpMessageConverter();
@@ -178,13 +166,6 @@ public class ShopApplicationConfiguration extends WebMvcConfigurerAdapter {
   @Bean
   public AdminFilter adminFilter() {
     return new AdminFilter();
-  }
-
-  @Bean
-  public ConnectController connectController(
-      ConnectionFactoryLocator connectionFactoryLocator,
-      ConnectionRepository connectionRepository) {
-    return new ConnectController(connectionFactoryLocator, connectionRepository);
   }
 
   @Bean

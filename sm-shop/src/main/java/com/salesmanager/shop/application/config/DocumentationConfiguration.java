@@ -1,4 +1,4 @@
-package com.salesmanager.shop.application;
+package com.salesmanager.shop.application.config;
 
 import java.util.ArrayList;
 import java.util.Collections;

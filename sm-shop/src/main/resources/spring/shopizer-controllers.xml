@@ -31,8 +31,8 @@
 		<mvc:argument-resolvers>
         	<bean class="org.springframework.mobile.device.DeviceWebArgumentResolver" />
           <!--REST API resolvers TODO should be moved to java configuration in future-->
-          <bean class="com.salesmanager.shop.application.LanguageArgumentResolver" />
-          <bean class="com.salesmanager.shop.application.MerchantStoreArgumentResolver" />
+          <bean class="com.salesmanager.shop.application.config.LanguageArgumentResolver" />
+          <bean class="com.salesmanager.shop.application.config.MerchantStoreArgumentResolver" />
     	</mvc:argument-resolvers>
 
 		<mvc:message-converters >

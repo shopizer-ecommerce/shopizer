@@ -14,7 +14,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableAsync
 public class AsyncConfig implements AsyncConfigurer {
 
-  public static final int EXECUTOR_SERVICE_NUMBER_THREADS = 5;
+  private static final int EXECUTOR_SERVICE_NUMBER_THREADS = 5;
 
   @Override
   public Executor getAsyncExecutor() {
