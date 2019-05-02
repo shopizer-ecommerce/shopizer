@@ -8,6 +8,7 @@ import com.salesmanager.core.business.configuration.CoreApplicationConfiguration
 import com.salesmanager.shop.filter.AdminFilter;
 import com.salesmanager.shop.filter.CorsFilter;
 import com.salesmanager.shop.filter.StoreFilter;
+import com.salesmanager.shop.utils.ImageFilePath;
 import com.salesmanager.shop.utils.LabelUtils;
 import com.salesmanager.shop.utils.LocalImageFilePathUtils;
 import java.util.Arrays;
@@ -195,7 +196,7 @@ public class ShopApplicationConfiguration extends WebMvcConfigurerAdapter {
   }
 
   @Bean
-  public LocalImageFilePathUtils img() {
+  public ImageFilePath img() {
     LocalImageFilePathUtils localImageFilePathUtils = new LocalImageFilePathUtils();
     localImageFilePathUtils.setBasePath("/static");
     return localImageFilePathUtils;
