@@ -1,4 +1,4 @@
-package com.salesmanager.shop.application;
+package com.salesmanager.shop.application.config;
 
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
