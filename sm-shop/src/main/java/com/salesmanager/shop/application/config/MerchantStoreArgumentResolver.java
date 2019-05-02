@@ -1,4 +1,4 @@
-package com.salesmanager.shop.application;
+package com.salesmanager.shop.application.config;
 
 import static com.salesmanager.core.business.constants.Constants.DEFAULT_STORE;
 import static org.apache.commons.lang.StringUtils.isBlank;

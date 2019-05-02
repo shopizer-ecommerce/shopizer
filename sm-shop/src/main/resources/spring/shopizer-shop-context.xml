@@ -14,13 +14,16 @@
   	<context:annotation-config />
 	
 	<!-- controllers -->
-  	<beans:import resource="classpath:/spring/shopizer-controllers.xml" />
+	<!--deprecated, implemented in java config-->
+  	<!--<beans:import resource="classpath:/spring/shopizer-controllers.xml" />-->
   	<!-- properties -->
-  	<beans:import resource="classpath:/spring/shopizer-properties.xml" />
+	<!--deprecated, implemented in java config-->
+  	<!--<beans:import resource="classpath:/spring/shopizer-properties.xml" />-->
   	<!-- security -->
 	<beans:import resource="classpath:/spring/shopizer-security.xml" />
   	<!-- servlet-context -->
-  	<beans:import resource="classpath:/spring/shopizer-servlet-context.xml" />
+	<!--deprecated, implemented in java config-->
+  	<!--<beans:import resource="classpath:/spring/shopizer-servlet-context.xml" />-->
   	
   	  <!-- content by profile -->
 	  <beans:beans profile="default">
