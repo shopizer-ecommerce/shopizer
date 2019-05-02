@@ -26,22 +26,23 @@
   	<!--<beans:import resource="classpath:/spring/shopizer-servlet-context.xml" />-->
   	
   	  <!-- content by profile -->
-	  <beans:beans profile="default">
-	  	<beans:import resource="classpath:/spring/shopizer-content.xml" />
-	  </beans:beans>
-	  <beans:beans profile="docker">
-	  	<beans:import resource="classpath:/spring/shopizer-content.xml" />
-	  </beans:beans>
-	    <beans:beans profile="gcp">
-	  	<beans:import resource="classpath:/spring/shopizer-content.xml" />
-	  </beans:beans>
-	  <beans:beans profile="aws">
-	  	<beans:import resource="classpath:/profiles/aws/shopizer-content.xml" />
-	  </beans:beans>
-	  <beans:beans profile="cloud">
-	  	<beans:import resource="classpath:/profiles/aws/shopizer-content.xml" />
-	  </beans:beans>
-	
+	<!--deprecated, implemented in java config-->
+	  <!--<beans:beans profile="default">-->
+	  	<!--<beans:import resource="classpath:/spring/shopizer-content.xml" />-->
+	  <!--</beans:beans>-->
+	  <!--<beans:beans profile="docker">-->
+	  	<!--<beans:import resource="classpath:/spring/shopizer-content.xml" />-->
+	  <!--</beans:beans>-->
+	    <!--<beans:beans profile="gcp">-->
+	  	<!--<beans:import resource="classpath:/spring/shopizer-content.xml" />-->
+	  <!--</beans:beans>-->
+	  <!--<beans:beans profile="aws">-->
+	  	<!--<beans:import resource="classpath:/profiles/aws/shopizer-content.xml" />-->
+	  <!--</beans:beans>-->
+	  <!--<beans:beans profile="cloud">-->
+	  	<!--<beans:import resource="classpath:/profiles/aws/shopizer-content.xml" />-->
+	  <!--</beans:beans>-->
+
 	
   
 

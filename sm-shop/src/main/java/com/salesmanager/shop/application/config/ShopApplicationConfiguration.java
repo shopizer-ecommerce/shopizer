@@ -194,10 +194,4 @@ public class ShopApplicationConfiguration extends WebMvcConfigurerAdapter {
     return new LabelUtils();
   }
 
-  @Bean
-  public LocalImageFilePathUtils img() {
-    LocalImageFilePathUtils localImageFilePathUtils = new LocalImageFilePathUtils();
-    localImageFilePathUtils.setBasePath("/static");
-    return localImageFilePathUtils;
-  }
 }
