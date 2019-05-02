@@ -1,6 +1,7 @@
 package com.salesmanager.shop.application.config;
 
 import com.salesmanager.shop.utils.AWSFilePathUtils;
+import com.salesmanager.shop.utils.ImageFilePath;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +15,7 @@ public class AwsLocationImageConfig {
   private String contentUrl;
 
   @Bean
-  public AWSFilePathUtils img() {
+  public ImageFilePath img() {
     AWSFilePathUtils awsFilePathUtils = new AWSFilePathUtils();
     awsFilePathUtils.setBasePath(contentUrl);
     return awsFilePathUtils;
