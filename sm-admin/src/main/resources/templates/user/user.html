@@ -83,10 +83,10 @@
 				</div><!-- /.box -->
 			  </div>
 			</div><!--  /.col -->
-				
-			<div class="col-md-3">
+			<!-- Not displayed if principal != user -->	
+			<div id="sideMenu" class="col-md-3">
 						 <span th:replace="fragments/sideMenu.html
-      						:: sideMenu(title=#{'label.profile.title'}, name='TODO', menu='user', codeParam=${user})">
+      						:: sideMenu(title=#{'label.profile.title'}, name=${userName}, menu='user', codeParam='')">
    			 			</span>
 			</div>
 				
@@ -164,6 +164,8 @@
 			           	   if(user == $("#userName").val()) {
 			           			$("#delete").hide();
 			           			$('.groups').attr("disabled", true);
+			           	   } else {
+			           			$("#sideMenu").hide();
 			           	   }
 	
 			    	    },
@@ -322,10 +324,5 @@
       
       </script>
 
-    <!-- required for address component -->
-	<script th:if="${addressApiKey!=null}"
-		th:src="@{${'https://maps.googleapis.com/maps/api/js?key=' + addressApiKey + '&libraries=places&callback=initAutocomplete'}}"
-		async defer>
-	</script>
 
 </th:block>

@@ -56,7 +56,7 @@ public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem>
 	@Embedded
 	private AuditSection auditSection = new AuditSection();
 	
-	@Column(name="PRODUCT_ID", nullable=false)
+	@Column(name="PRODUCT_ID", nullable=false) //TODO CODE
 	private Long productId;
 	
 	@Transient

@@ -18,6 +18,7 @@
 	{"menu":{"code":"myprofile","url":"/admin/user","role":"AUTH","order":0}},
 	{"menu":{"code":"create-user","url":"/admin/user/create","role":"ADMIN","order":1}},
 	{"menu":{"code":"users","url":"/admin/user/list","role":"ADMIN","order":2}},
+	{"menu":{"menuType":"CONTEXTUALMENU","code":"myprofile","url":"/admin/user","role":"AUTH","order":0}},
 	{"menu":{"menuType":"CONTEXTUALMENU","code":"change-password","url":"/admin/user/password","role":"AUTH","order":1}}
 ]
 }},
