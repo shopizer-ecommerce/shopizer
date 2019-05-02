@@ -38,11 +38,22 @@ public class UserController {
   
 
   @RequestMapping("/admin/user/list")
-  @Secured({"ROLE_STORE"})
+  @Secured({"ROLE_ADMIN"})
   public String list(Principal principal, HttpServletRequest request, HttpServletResponse response) throws Exception {
       
       Authentication auth = SecurityContextHolder.getContext().getAuthentication();
       return "user/list";
+  }
+  
+  @RequestMapping("/admin/user/password")
+  @Secured({"AUTH"})
+  public String password(Principal principal, HttpServletRequest request, HttpServletResponse response) throws Exception {
+      
+      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+      
+      //this is for user principal only, cannot change another user's password. He has to reset it by himself
+      
+      return "user/change-password";
   }
 
 }

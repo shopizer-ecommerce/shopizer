@@ -31,7 +31,7 @@ public class OrderProduct extends SalesManagerEntity<Long, OrderProduct> {
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
 	private Long id;
 
-	@Column (name="PRODUCT_SKU")
+	@Column (name="PRODUCT_SKU") //yess !!! rename to code
 	private String sku;
 
 	@Column (name="PRODUCT_NAME" , length=64 , nullable=false)
