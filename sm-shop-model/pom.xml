@@ -3,7 +3,7 @@
   <groupId>com.shopizer</groupId>
   <artifactId>sm-shop-model</artifactId>
   <version>2.5.0</version>
-  <name>Shop model objects</name>
+  <name>sm-shop-model</name>
   
   
   	<properties>
