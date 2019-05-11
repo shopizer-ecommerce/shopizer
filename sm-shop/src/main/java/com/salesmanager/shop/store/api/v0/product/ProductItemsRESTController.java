@@ -125,7 +125,6 @@ public class ProductItemsRESTController {
 	 * @return
 	 * @throws Exception
 	 */
-	//@RequestMapping("/products/public/page/{start}/{max}/{store}/{language}/{category}.html/filter={filterType}/filter-value={filterValue}")
 	/** fixed filter **/
 	@RequestMapping("/public/products/page/{start}/{max}/{store}/{language}/manufacturer/{id}")
 	@ResponseBody

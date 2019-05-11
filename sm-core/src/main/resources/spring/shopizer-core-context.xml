@@ -56,6 +56,9 @@
   <beans:beans profile="cloud">
   	<beans:import resource="classpath:/spring/datasource-c3p0.xml" />
   </beans:beans>
+  <beans:beans profile="firebase">
+  	<beans:import resource="classpath:/spring/datasource-c3p0.xml" />
+  </beans:beans>
   
 
    

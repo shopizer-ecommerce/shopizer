@@ -6,18 +6,11 @@
 package com.salesmanager.test.common;
 
 import javax.inject.Inject;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.PricingService;

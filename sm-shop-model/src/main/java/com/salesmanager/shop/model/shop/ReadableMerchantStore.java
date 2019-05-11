@@ -45,13 +45,11 @@ public class ReadableMerchantStore extends MerchantStoreEntity implements Readab
 		this.logo = logo;
 	}
 
-	@Override
 	public void setReadableAudit(ReadableAudit audit) {
 		this.audit = audit;
 		
 	}
 
-	@Override
 	public ReadableAudit getReadableAudit() {
 		return this.audit;
 	}

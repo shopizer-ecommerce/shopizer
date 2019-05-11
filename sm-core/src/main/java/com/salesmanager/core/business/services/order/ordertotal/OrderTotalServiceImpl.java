@@ -2,13 +2,10 @@ package com.salesmanager.core.business.services.order.ordertotal;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.annotation.Resource;
 import javax.inject.Inject;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.model.catalog.product.Product;

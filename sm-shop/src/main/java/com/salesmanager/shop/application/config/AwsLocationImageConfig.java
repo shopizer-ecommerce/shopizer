@@ -11,8 +11,11 @@ import org.springframework.context.annotation.Profile;
 @Profile({"aws", "cloud"})
 public class AwsLocationImageConfig {
 
-  @Value("${contentUrl}")
+
+  @Value("${config.cms.contentUrl}")
   private String contentUrl;
+
+
 
   @Bean
   public ImageFilePath img() {

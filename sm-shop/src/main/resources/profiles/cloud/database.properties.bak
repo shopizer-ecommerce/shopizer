@@ -1,0 +1,28 @@
+##
+## db config are set through environment variables
+##
+
+
+#MYSQL
+#set in environment properties
+#db.jdbcUrl=jdbc:mysql://localhost:3306/SALESMANAGER?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8
+#db.user=root
+#db.password=password
+db.driverClass=com.mysql.jdbc.Driver
+# For mysql 8 - update driver to 8.X
+#db.driverClass=com.mysql.cj.jdbc.Driver
+hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
+
+db.show.sql=true
+db.preferredTestQuery=SELECT 1
+db.schema=SALESMANAGER
+hibernate.hbm2ddl.auto=update
+
+
+
+##
+## configuration pooling base de donn�es
+##
+db.initialPoolSize=4
+db.minPoolSize=4
+db.maxPoolSize=8

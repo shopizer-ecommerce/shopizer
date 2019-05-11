@@ -10,6 +10,7 @@
 		<version>2.5.0</version>
 	</parent>
 
+
 <!-- 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -17,6 +18,8 @@
 	</parent>
 	<version>2.5.0</version> 
 	<groupId>com.shopizer</groupId> -->
+	
+	
 
 	<name>sm-core-modules</name>
 	<artifactId>sm-core-modules</artifactId>
@@ -44,7 +47,6 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<version>2.5.0</version>
-		<shopizer.version>2.5.0</shopizer.version>
 	</properties>
 
 	<dependencies>

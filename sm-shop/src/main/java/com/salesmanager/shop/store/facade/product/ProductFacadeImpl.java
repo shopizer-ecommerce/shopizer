@@ -1,4 +1,4 @@
-package com.salesmanager.shop.store.controller.product.facade;
+package com.salesmanager.shop.store.facade.product;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -8,6 +8,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
@@ -45,10 +46,12 @@ import com.salesmanager.shop.populator.catalog.ReadableProductPopulator;
 import com.salesmanager.shop.populator.catalog.ReadableProductReviewPopulator;
 import com.salesmanager.shop.populator.manufacturer.PersistableManufacturerPopulator;
 import com.salesmanager.shop.populator.manufacturer.ReadableManufacturerPopulator;
+import com.salesmanager.shop.store.controller.product.facade.ProductFacade;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.ImageFilePath;
 
 @Service("productFacade")
+@Profile("default")
 public class ProductFacadeImpl implements ProductFacade {
 
   @Inject

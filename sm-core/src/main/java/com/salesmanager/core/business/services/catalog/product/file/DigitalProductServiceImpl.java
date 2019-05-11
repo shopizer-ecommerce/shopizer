@@ -1,10 +1,8 @@
 package com.salesmanager.core.business.services.catalog.product.file;
 
 import javax.inject.Inject;
-
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.modules.cms.content.StaticContentFileManager;
 import com.salesmanager.core.business.repositories.catalog.product.file.DigitalProductRepository;

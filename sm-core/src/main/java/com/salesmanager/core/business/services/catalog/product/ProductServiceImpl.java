@@ -12,6 +12,8 @@ import javax.inject.Inject;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.exception.ServiceException;

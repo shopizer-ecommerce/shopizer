@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 @Configuration
-@Profile({"default","docker","gcp"})
+@Profile({"default","docker","gcp","firebase"})
 public class LocalLocationImageConfig {
 
   @Bean

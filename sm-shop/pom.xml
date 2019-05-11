@@ -6,7 +6,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 
-	<parent>
+    <parent>
 		<groupId>com.shopizer</groupId>
 		<artifactId>shopizer</artifactId>
 		<version>2.5.0</version>
@@ -33,9 +33,16 @@
 	<dependencies>
 	
 		<!-- sm-core -->
-		<dependency>
+ 		<dependency>
 			<groupId>com.shopizer</groupId>
 			<artifactId>sm-core</artifactId>
+			<version>${shopizer.version}</version>
+		</dependency>
+		
+ 		
+ 		<dependency>
+			<groupId>com.shopizer</groupId>
+			<artifactId>shopizer-firebase</artifactId>
 			<version>${shopizer.version}</version>
 		</dependency>
 
@@ -43,6 +50,13 @@
 		<dependency>
 			<groupId>com.shopizer</groupId>
 			<artifactId>sm-core-model</artifactId>
+			<version>${shopizer.version}</version>
+		</dependency>
+		
+		<!-- sm-shop-model -->
+		<dependency>
+			<groupId>com.shopizer</groupId>
+			<artifactId>sm-shop-model</artifactId>
 			<version>${shopizer.version}</version>
 		</dependency>
 

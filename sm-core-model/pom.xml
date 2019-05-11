@@ -20,7 +20,6 @@
 	</parent>
 
 
-
 	<artifactId>sm-core-model</artifactId>
 	<description>sm-core-modules is used for create new external modules implementation deployed in maven.</description>
 	<packaging>jar</packaging>
