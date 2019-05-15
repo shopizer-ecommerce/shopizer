@@ -485,7 +485,7 @@ public class ShoppingCartFacadeImpl
                         //if ( shoppingCartItem.getId().longValue() != itemID.longValue() )
                     	if ( shoppingCartItem.getId().longValue() == itemID.longValue() )
                         {
-                            //shoppingCartItemSet.add( shoppingCartItem );
+       
                     		shoppingCartService.deleteShoppingCartItem(itemID);
                         }
                     }

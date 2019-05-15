@@ -308,7 +308,7 @@ public class BraintreePayment implements PaymentModule {
 		Validate.notNull(publicKey,"public_key cannot be null");
 		Validate.notNull(privateKey,"private_key cannot be null");
 		
-		String nonce = payment.getPaymentMetaData().get("nonce");
+		String nonce = payment.getPaymentMetaData().get("paymentToken");//paymentToken
 		
 	    if(StringUtils.isBlank(nonce)) {
 			IntegrationException te = new IntegrationException(
@@ -375,7 +375,7 @@ public class BraintreePayment implements PaymentModule {
         trx.setPaymentType(PaymentType.CREDITCARD);
         trx.getTransactionDetails().put("TRANSACTIONID", trxId);
         trx.getTransactionDetails().put("TRNAPPROVED", null);
-        trx.getTransactionDetails().put("TRNORDERNUMBER", result.getTransaction().getId());
+        trx.getTransactionDetails().put("TRNORDERNUMBER", trxId);
         trx.getTransactionDetails().put("MESSAGETEXT", null);
         
         return trx;

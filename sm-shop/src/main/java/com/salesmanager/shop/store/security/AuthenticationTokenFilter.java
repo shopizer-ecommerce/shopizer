@@ -1,21 +1,17 @@
 package com.salesmanager.shop.store.security;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Enumeration;
-
 import javax.inject.Inject;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import com.salesmanager.shop.store.security.common.CustomAuthenticationManager;
 
 
@@ -51,13 +47,14 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
     	if(!StringUtils.isBlank(request.getHeader("origin"))) {
     		origin = request.getHeader("origin");
     	}
+    	//in flight
     	response.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE");
     	response.setHeader("Access-Control-Allow-Origin", origin);
     	response.setHeader("Access-Control-Allow-Headers", "X-Auth-Token, Content-Type, Authorization");
     	response.setHeader("Access-Control-Allow-Credentials", "true");
 
         	
-    	//@TODO edit this
+
     	if(request.getRequestURL().toString().contains("/api/v1/auth")) {
     		//setHeader(request,response);   	
 	    	final String requestHeader = request.getHeader(this.tokenHeader);//token

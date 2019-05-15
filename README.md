@@ -94,7 +94,7 @@ Please read the instructions on how to connect to MySQL, configure an email serv
 
 Documentation available from the wiki <http://shopizer-ecommerce.github.io/shopizer/#>
 
-ChatOps <https://shopizer.slack.com>
+ChatOps <https://shopizer.slack.com>  - Join our Slack channel https://shopizer-slackin.herokuapp.com/
 
 More information is available on shopizer web site here <http://www.shopizer.com>
 

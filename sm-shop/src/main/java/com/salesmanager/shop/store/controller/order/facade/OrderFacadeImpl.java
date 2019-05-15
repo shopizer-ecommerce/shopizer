@@ -192,7 +192,7 @@ public class OrderFacadeImpl implements OrderFacade {
 		order.setOrderStatus(orderStatus);
 		
 		if(customer==null) {
-				customer = this.initEmptyCustomer(store);
+			customer = this.initEmptyCustomer(store);
 		}
 		
 		PersistableCustomer persistableCustomer = persistableCustomer(customer, store, language);

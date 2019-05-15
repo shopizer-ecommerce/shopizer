@@ -243,7 +243,7 @@ public class ShoppingOrderController extends AbstractController {
 				return "redirect:/shop/shoppingCart.html";
 	     }
 		
-	     if(order==null) {
+	     if(order==null) {//TODO
 			order = orderFacade.initializeOrder(store, customer, cart, language);
 		  }
 
