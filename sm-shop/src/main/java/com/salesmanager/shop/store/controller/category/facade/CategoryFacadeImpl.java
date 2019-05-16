@@ -87,10 +87,6 @@ public class CategoryFacadeImpl implements CategoryFacade {
   public PersistableCategory saveCategory(MerchantStore store, PersistableCategory category) {
     try {
 
-      /*		PersistableCategoryPopulator populator = new PersistableCategoryPopulator();
-      populator.setCategoryService(categoryService);
-      populator.setLanguageService(languageService);*/
-
       Category target =
           Optional.ofNullable(category.getId())
               .filter(id -> id > 0)

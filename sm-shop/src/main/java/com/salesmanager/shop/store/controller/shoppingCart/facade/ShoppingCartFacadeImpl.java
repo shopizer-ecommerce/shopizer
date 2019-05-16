@@ -482,21 +482,15 @@ public class ShoppingCartFacadeImpl
                         new HashSet<com.salesmanager.core.model.shoppingcart.ShoppingCartItem>();
                     for ( com.salesmanager.core.model.shoppingcart.ShoppingCartItem shoppingCartItem : cartModel.getLineItems() )
                     {
-                        //if ( shoppingCartItem.getId().longValue() != itemID.longValue() )
                     	if ( shoppingCartItem.getId().longValue() == itemID.longValue() )
                         {
-       
                     		shoppingCartService.deleteShoppingCartItem(itemID);
+                        } else {
+                            shoppingCartItemSet.add(shoppingCartItem);
                         }
                     }
-
-
-                    cartModel = getCartModel( cartId,store );
                     
-                    if(cartModel == null) {
-                    	return null;
-                    }
-
+                    cartModel.setLineItems(shoppingCartItemSet);
 
                     ShoppingCartDataPopulator shoppingCartDataPopulator = new ShoppingCartDataPopulator();
                     shoppingCartDataPopulator.setShoppingCartCalculationService( shoppingCartCalculationService );

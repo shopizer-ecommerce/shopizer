@@ -1,43 +1,38 @@
 package com.salesmanager.shop.store.api.v1.shoppingCart;
 
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.http.MediaType.APPLICATION_XML_VALUE;
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.shoppingcart.PersistableShoppingCartItem;
 import com.salesmanager.shop.model.shoppingcart.ReadableShoppingCart;
+import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.controller.shoppingCart.facade.ShoppingCartFacade;
-import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
-import com.salesmanager.shop.utils.LanguageUtils;
-
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import springfox.documentation.annotations.ApiIgnore;
 
 @Controller
 @RequestMapping("/api/v1")
 public class ShoppingCartApi {
-
-  @Inject private StoreFacade storeFacade;
-
-  @Inject private LanguageUtils languageUtils;
 
   @Inject private ShoppingCartFacade shoppingCartFacade;
 
@@ -85,7 +80,7 @@ public class ShoppingCartApi {
   @RequestMapping(value = "/cart/{code}", method = RequestMethod.PUT)
   @ApiOperation(
       httpMethod = "PUT",
-      value = "Modify an existing shopping cart",
+      value = "Add to an existing shopping cart",
       notes =
           "No customer ID in scope. Modify cart for non authenticated users, as simple as {\"product\":1232,\"quantity\":0} for instance will remove item 1234 from cart",
       produces = "application/json",
@@ -245,6 +240,26 @@ public class ShoppingCartApi {
       }
 
       return null;
+    }
+  }
+  
+  @DeleteMapping(
+      value = "/cart/{code}/item/{id}",
+      produces = {APPLICATION_JSON_VALUE, APPLICATION_XML_VALUE})
+  @ResponseStatus(NO_CONTENT)
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+    @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
+  public void deleteCartItem(
+      @PathVariable("code") String cartCode,
+      @PathVariable("id") Long itemId,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language) {
+    try {
+      shoppingCartFacade.removeCartItem(itemId, cartCode, merchantStore, language);
+    } catch (Exception e) {
+      throw new ServiceRuntimeException("Error while deleting shoppingcart item", e);
     }
   }
 }

@@ -129,12 +129,6 @@ public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem>
 
 
 	public void setAttributes(Set<ShoppingCartAttributeItem> attributes) {
-/*	    if(attributes==null) {
-	    	this.attributes = null;
-	    	return;
-	    }
-		this.attributes.clear();
-	    this.attributes.addAll( attributes );*/
 		this.attributes = attributes;
 	}
 
