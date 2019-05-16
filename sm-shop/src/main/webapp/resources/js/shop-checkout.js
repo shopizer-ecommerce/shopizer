@@ -254,7 +254,7 @@ function displayConfirmShipping(delivery,shippingMethod,useDistanceWindow) {
 	$('#confirm_address').remove();
 	$("#confirmShippingAddress").hide();
 	var deliveryAddress = buildMailAddress(delivery);
-	console.log('Use distance: ' + useDistanceWindow + ' lat: ' + delivery.latitude + ' lon: ' + delivery.longitude + ' postal code: ' + delivery.postalCode + ' shipping method: ' + shippingMethod);
+	//console.log('Use distance: ' + useDistanceWindow + ' lat: ' + delivery.latitude + ' lon: ' + delivery.longitude + ' postal code: ' + delivery.postalCode + ' shipping method: ' + shippingMethod);
 	
 	/**
 	* quote =! storePickup
