@@ -22,34 +22,6 @@ response.setDateHeader ("Expires", -1);
 			<sm:pageContent contentCode="bannerImage"/>
 		</c:when>
 		<c:otherwise>
-<%-- 			
-		<!-- idea of a banner -->
-		<section id="home-banner">
-			  <article>
-			    <div class="banner-text">
-			      <h2>Barn wood siding</h2>
-			      <p>Barn wood style.&nbsp;Several shades available</p>
-			      <div class="slider-button store-btn button-link">
-	      			<div class="store-btn-addtocart">
-	      				<a class="more" href="#">More details</a>
-	      			</div>
-	   			  </div>
-			    </div>
-			    <div class="image-content"><img src="/resources/templates/generic/img/carlos-place.jpg" alt="text"></div>
-			  </article>
-			  <article>
-			    <div class="banner-text">
-			      <h2>Antique beams reproduction</h2>
-			      <p>Feel free to remove or change this slider '/generic/pages/landing.jsp'</p>
-			      <div class="slider-button store-btn button-link">
-	      			<div class="store-btn-addtocart">
-	      				<a class="more" href="#">More details</a>
-	      			</div>
-	   			  </div>
-			    </div>
-			    <div class="image-content"><img src="/resources/templates/generic/img/banner-beams-resized.jpg" alt="text"></div>
-			  </article>
-			</section> --%>
 		</c:otherwise>
 		</c:choose>
 

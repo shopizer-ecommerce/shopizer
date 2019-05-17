@@ -114,13 +114,14 @@ public class MerchantStoreApi {
     validateUserPermission(userName, code);
     return storeFacade.getBrand(code);
   }
-  
+
   @ResponseStatus(HttpStatus.CREATED)
   @PostMapping(value = {"/private/store/{code}/marketing"},
       produces = MediaType.APPLICATION_JSON_VALUE)
-  @ApiOperation(httpMethod = "POST", value = "Create store branding and marketing details", notes = "",
-      response = ReadableBrand.class)
-  public void createStoreMarketing(@PathVariable String code, @RequestBody PersistableBrand brand, HttpServletRequest request) {
+  @ApiOperation(httpMethod = "POST", value = "Create store branding and marketing details",
+      notes = "", response = ReadableBrand.class)
+  public void createStoreMarketing(@PathVariable String code, @RequestBody PersistableBrand brand,
+      HttpServletRequest request) {
     String userName = getUserFromRequest(request);
     validateUserPermission(userName, code);
     storeFacade.createBrand(code, brand);
@@ -227,8 +228,7 @@ public class MerchantStoreApi {
 
   @ResponseStatus(HttpStatus.OK)
   @DeleteMapping(value = {"/private/store/{code}"})
-  @ApiOperation(httpMethod = "DELETE", value = "Deletes a store", notes = "",
-      response = Void.class)
+  @ApiOperation(httpMethod = "DELETE", value = "Deletes a store", notes = "", response = Void.class)
   public void delete(@PathVariable String code, HttpServletRequest request) {
     String userName = getUserFromRequest(request);
     validateUserPermission(userName, code);
