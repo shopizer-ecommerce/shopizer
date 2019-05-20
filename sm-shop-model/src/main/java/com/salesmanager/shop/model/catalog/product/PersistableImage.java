@@ -10,7 +10,7 @@ public class PersistableImage extends Entity {
 	   private boolean defaultImage;
 	   private int imageType = 0;
 	   private String name = null;
-	   private String path;
+	   private String path = null;
 
 	   private MultipartFile[] files;
 	   private byte[] bytes = null;

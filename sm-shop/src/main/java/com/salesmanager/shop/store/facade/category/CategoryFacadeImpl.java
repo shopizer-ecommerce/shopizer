@@ -1,19 +1,5 @@
-package com.salesmanager.shop.store.controller.category.facade;
+package com.salesmanager.shop.store.facade.category;
 
-import com.salesmanager.core.business.exception.ConversionException;
-import com.salesmanager.core.business.exception.ServiceException;
-import com.salesmanager.core.business.services.catalog.category.CategoryService;
-import com.salesmanager.core.business.services.reference.language.LanguageService;
-import com.salesmanager.core.model.catalog.category.Category;
-import com.salesmanager.core.model.merchant.MerchantStore;
-import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.shop.model.catalog.category.PersistableCategory;
-import com.salesmanager.shop.model.catalog.category.ReadableCategory;
-import com.salesmanager.shop.populator.catalog.PersistableCategoryPopulator;
-import com.salesmanager.shop.populator.catalog.ReadableCategoryPopulator;
-import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
-import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
-import com.salesmanager.shop.store.controller.converter.Converter;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +12,21 @@ import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import com.salesmanager.core.business.exception.ConversionException;
+import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.services.catalog.category.CategoryService;
+import com.salesmanager.core.business.services.reference.language.LanguageService;
+import com.salesmanager.core.model.catalog.category.Category;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.mapper.Mapper;
+import com.salesmanager.shop.model.catalog.category.PersistableCategory;
+import com.salesmanager.shop.model.catalog.category.ReadableCategory;
+import com.salesmanager.shop.populator.catalog.PersistableCategoryPopulator;
+import com.salesmanager.shop.populator.catalog.ReadableCategoryPopulator;
+import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
+import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
+import com.salesmanager.shop.store.controller.category.facade.CategoryFacade;
 
 @Service(value = "categoryFacade")
 public class CategoryFacadeImpl implements CategoryFacade {
@@ -36,7 +37,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 
   @Inject private PersistableCategoryPopulator persistableCatagoryPopulator;
 
-  @Inject private Converter<Category, ReadableCategory> categoryReadableCategoryConverter;
+  @Inject private Mapper<Category, ReadableCategory> categoryReadableCategoryConverter;
 
   private static final String FEATURED_CATEGORY = "featured";
 

@@ -1,10 +1,11 @@
-package com.salesmanager.shop.store.controller.converter;
+package com.salesmanager.shop.mapper;
 
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 
-public interface Converter<S, T> {
+public interface Mapper<S, T> {
 
   T convert(S source, MerchantStore store, Language language);
+  
 
 }

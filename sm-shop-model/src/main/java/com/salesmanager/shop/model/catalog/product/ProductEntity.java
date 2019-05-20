@@ -2,7 +2,8 @@ package com.salesmanager.shop.model.catalog.product;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-
+import java.util.Date;
+import org.springframework.format.annotation.DateTimeFormat;
 import com.salesmanager.core.model.catalog.product.ProductCondition;
 import com.salesmanager.core.model.catalog.product.RentalStatus;
 
@@ -40,6 +41,8 @@ public class ProductEntity extends Product implements Serializable {
 	private String dateAvailable;
 	private String refSku;
 	private ProductCondition condition;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date creationDate;
 	
 	/**
 	 * RENTAL additional fields

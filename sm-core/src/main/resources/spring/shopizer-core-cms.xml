@@ -94,10 +94,6 @@
 				<beans:property name="cacheManager">
 						<beans:ref bean="infinispanStaticAssetsManager" />
 				</beans:property>
-				<!--
-				<beans:property name="rootName" value="store-merchant"/>
-				<beans:property name="rootName" value="/Applications/MAMP/htdocs/bam-images"/>
-				-->
 	</beans:bean>
 	
 	
@@ -106,8 +102,6 @@
 		<beans:property name="cacheManager">
 			<beans:ref bean="infinispanDownloadsManager" /><!-- todo download file manager -->
 		</beans:property>
-		<!--<beans:property name="rootName" value="product-file"/>-->
-		<!--<beans:property name="rootName" value="/Applications/MAMP/htdocs/bam-images"/>-->
 	</beans:bean>
 	
 	<!-- Httpd -->
@@ -142,7 +136,7 @@
 	</beans:bean> -->
 
 	<!-- AWS-->
-		<beans:bean id="awsProductAssetsManager"
+	<beans:bean id="awsProductAssetsManager"
 				class="com.salesmanager.core.business.modules.cms.product.aws.S3ProductContentFileManager" factory-method="getInstance" >
 				<!-- internal implementation -->
  				<beans:property name="cmsManager">

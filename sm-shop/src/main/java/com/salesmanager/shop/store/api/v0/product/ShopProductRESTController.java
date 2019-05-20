@@ -73,9 +73,7 @@ public class ShopProductRESTController {
 	
 	@Inject
 	private ProductFacade productFacade;
-	
-	@Inject
-	private ProductItemsFacade productItemsFacade;
+
 	
 	@Inject
 	private ProductReviewService productReviewService;

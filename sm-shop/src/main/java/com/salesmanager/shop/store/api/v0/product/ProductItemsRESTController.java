@@ -1,5 +1,20 @@
 package com.salesmanager.shop.store.api.v0.product;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
@@ -24,25 +39,6 @@ import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.ImageFilePath;
 import com.salesmanager.shop.utils.LanguageUtils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
 /**
  * API to create, read, updat and delete a Product
  * API to create Manufacturer
@@ -55,39 +51,11 @@ public class ProductItemsRESTController {
 	
 	@Inject
 	private MerchantStoreService merchantStoreService;
-	
-	@Inject
-	private CategoryService categoryService;
-	
-	@Inject
-	private CustomerService customerService;
-	
-	@Inject
-	private ProductService productService;
-	
-	@Inject
-	private ProductFacade productFacade;
+
 	
 	@Inject
 	private ProductItemsFacade productItemsFacade;
-	
-	@Inject
-	private ProductReviewService productReviewService;
-	
-	@Inject
-	private PricingService pricingService;
 
-	@Inject
-	private ProductOptionService productOptionService;
-	
-	@Inject
-	private ProductOptionValueService productOptionValueService;
-	
-	@Inject
-	private TaxClassService taxClassService;
-	
-	@Inject
-	private ManufacturerService manufacturerService;
 	
 	@Inject
 	private LanguageService languageService;

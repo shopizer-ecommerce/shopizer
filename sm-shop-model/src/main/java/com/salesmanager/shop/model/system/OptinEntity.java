@@ -11,7 +11,7 @@ public class OptinEntity extends Optin {
 	
 	private Date startDate;
 	private Date endDate;
-	private String OptinType;
+	private String optinType;
 	private String store;
 	private String code;
 	private String description;
@@ -27,12 +27,6 @@ public class OptinEntity extends Optin {
 	}
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
-	}
-	public String getOptinType() {
-		return OptinType;
-	}
-	public void setOptinType(String optinType) {
-		OptinType = optinType;
 	}
 	public String getStore() {
 		return store;
@@ -52,6 +46,12 @@ public class OptinEntity extends Optin {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+  public String getOptinType() {
+    return optinType;
+  }
+  public void setOptinType(String optinType) {
+    this.optinType = optinType;
+  }
 	
 
 }

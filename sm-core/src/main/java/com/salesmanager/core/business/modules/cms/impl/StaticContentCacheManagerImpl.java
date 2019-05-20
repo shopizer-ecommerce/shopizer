@@ -3,8 +3,6 @@
  */
 package com.salesmanager.core.business.modules.cms.impl;
 
-import com.google.api.client.util.Value;
-
 /**
  * Cache manager to handle static content data in Infinispan cache. static content data can be of
  * following type
