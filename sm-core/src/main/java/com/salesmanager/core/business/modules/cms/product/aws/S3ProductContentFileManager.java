@@ -22,9 +22,7 @@ import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.modules.cms.impl.CMSManager;
-import com.salesmanager.core.business.modules.cms.product.ProductImageGet;
-import com.salesmanager.core.business.modules.cms.product.ProductImagePut;
-import com.salesmanager.core.business.modules.cms.product.ProductImageRemove;
+import com.salesmanager.core.business.modules.cms.product.ProductAssetsManager;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.file.ProductImageSize;
 import com.salesmanager.core.model.catalog.product.image.ProductImage;
@@ -39,7 +37,14 @@ import com.salesmanager.core.model.content.OutputContentFile;
  *
  */
 public class S3ProductContentFileManager
-    implements ProductImagePut, ProductImageGet, ProductImageRemove {
+    implements ProductAssetsManager {
+
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
+
 
   private static final Logger LOGGER = LoggerFactory.getLogger(S3ProductContentFileManager.class);
 
@@ -47,7 +52,7 @@ public class S3ProductContentFileManager
 
   private static S3ProductContentFileManager fileManager = null;
 
-  private static String DEFAULT_BUCKET_NAME = "shopizer";
+  private static String DEFAULT_BUCKET_NAME = "shopizer-content";
   private static String DEFAULT_REGION_NAME = "us-east-1";
   private static final String ROOT_NAME = "products";
 

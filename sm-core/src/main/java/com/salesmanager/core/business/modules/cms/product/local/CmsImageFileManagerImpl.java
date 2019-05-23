@@ -31,7 +31,6 @@ import com.salesmanager.core.model.merchant.MerchantStore;
  * @author Carl Samson
  */
 public class CmsImageFileManagerImpl
-    // implements ProductImagePut, ProductImageGet, ProductImageRemove
     implements ProductAssetsManager {
 
   /**

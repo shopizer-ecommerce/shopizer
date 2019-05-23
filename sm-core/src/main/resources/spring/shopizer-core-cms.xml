@@ -100,7 +100,7 @@
 	<!-- Product download files -->
 	<beans:bean id="defaultDownloadsManager" class="com.salesmanager.core.business.modules.cms.content.infinispan.CmsStaticContentFileManagerImpl" factory-method="getInstance">
 		<beans:property name="cacheManager">
-			<beans:ref bean="infinispanDownloadsManager" /><!-- todo download file manager -->
+			<beans:ref bean="infinispanDownloadsManager" />
 		</beans:property>
 	</beans:bean>
 	
@@ -120,20 +120,7 @@
 						<beans:ref bean="httpdAssetsManager" />
 				</beans:property>
 	</beans:bean>
-	
-	<!-- downloads files are not supported with httpd, used infinispan (default) -->
-	
-    <!-- 	
-	<beans:bean id="serverProductAssetsManager"
-				class="com.salesmanager.core.business.modules.cms.product.local.CmsImageFileManagerImpl" factory-method="getInstance" >
-				internal implementation
-				<beans:property name="cacheManager">
-						<beans:ref bean="infinispanProductAssetsManager" />
-				</beans:property>
-				TODO move to cmsManager -> location
-				<beans:property name="rootName" value="product-merchant"/>
-				<beans:property name="rootName" value="/Applications/MAMP/htdocs/bam-images"/>
-	</beans:bean> -->
+
 
 	<!-- AWS-->
 	<beans:bean id="awsProductAssetsManager"

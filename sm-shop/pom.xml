@@ -40,12 +40,14 @@
 			<version>${shopizer.version}</version>
 		</dependency>
 		
-		<!-- shopizer firebase --> 	
+		<!-- shopizer firebase -->
+		<!--
  		<dependency>
 			<groupId>com.shopizer</groupId>
 			<artifactId>shopizer-firebase</artifactId>
 			<version>${shopizer.version}</version>
 		</dependency>
+		-->
 
 		<!-- sm-core-model -->
 		<dependency>
