@@ -30,6 +30,7 @@ import com.salesmanager.shop.model.catalog.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.PersistableProductPrice;
 import com.salesmanager.shop.model.catalog.product.PersistableProductReview;
 import com.salesmanager.shop.model.catalog.product.ProductDescription;
+import com.salesmanager.shop.model.catalog.product.ProductSpecification;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.catalog.product.RentalOwner;
 import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductOption;
@@ -83,7 +84,9 @@ public class ProductManagementAPIIntegrationTest extends ServicesTestSupport {
         final ArrayList<Category> categories = new ArrayList<>();
         categories.add(cat);
         product.setCategories(categories);
-        product.setManufacturer(createManufacturer());
+        ProductSpecification specifications = new ProductSpecification();
+        specifications.setManufacturer(com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer.DEFAULT_MANUFACTURER);
+        product.setProductSpecifications(specifications);
         product.setPrice(BigDecimal.TEN);
         product.setSku("123");
         final HttpEntity<PersistableProduct> entity = new HttpEntity<>(product, getHeader());
@@ -313,11 +316,14 @@ public class ProductManagementAPIIntegrationTest extends ServicesTestSupport {
         // images.add(persistableImage);
 
         // product.setImages(images);
+        
+        ProductSpecification specifications = new ProductSpecification();
+        specifications.setHeight(new BigDecimal(20));
+        specifications.setLength(new BigDecimal(21));
+        specifications.setWeight(new BigDecimal(22));
+        specifications.setWidth(new BigDecimal(23));
 
-        product.setProductHeight(new BigDecimal(20));
-        product.setProductLength(new BigDecimal(20));
-        product.setProductWeight(new BigDecimal(20));
-        product.setProductWidth(new BigDecimal(20));
+        product.setProductSpecifications(specifications);
         product.setQuantity(5);
         product.setQuantityOrderMaximum(2);
 

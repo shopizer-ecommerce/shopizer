@@ -10,20 +10,42 @@ import java.util.List;
 
 public interface CategoryFacade {
 
-	/**
-	 * Returns a list of ReadableCategory ordered and built according to a given depth
-	 * @param store
-	 * @param depth
-	 * @param language
-	 * @return
-	 * @throws Exception
-	 */
-	List<ReadableCategory> getCategoryHierarchy(MerchantStore store, int depth, Language language, String filter);
 
+    /**
+     * Returns a list of ReadableCategory ordered and built according to a given depth
+     * @param store
+     * @param depth
+     * @param language
+     * @param filter
+     * @return List<ReadableCategory>
+     */
+	List<ReadableCategory> getCategoryHierarchy(MerchantStore store, int depth, Language language, String filter);
+	
+	/**
+	 * 
+	 * @param store
+	 * @param category
+	 * @return PersistableCategory
+	 */
 	PersistableCategory saveCategory(MerchantStore store, PersistableCategory category);
 	
+	/**
+	 * 
+	 * @param store
+	 * @param id
+	 * @param language
+	 * @return ReadableCategory
+	 */
 	ReadableCategory getById(MerchantStore store, Long id, Language language);
 	
+	/**
+	 * 
+	 * @param store
+	 * @param code
+	 * @param language
+	 * @return ReadableCategory
+	 * @throws Exception
+	 */
 	ReadableCategory getByCode(MerchantStore store, String code, Language language) throws Exception;
 
 	void deleteCategory(Long categoryId);

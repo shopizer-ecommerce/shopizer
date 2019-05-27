@@ -63,27 +63,5 @@ public class ServicesTestSupport {
 
     }
 
-    public PersistableManufacturer createManufacturer() {
-        final ManufacturerDescription description = new ManufacturerDescription();
-        description.setLanguage("en");
-        description.setName("Tag Heuer");
-        description.setFriendlyUrl("tag-watches");
-        description.setTitle("Tag Heuer");
-        final List<ManufacturerDescription> descriptions = new ArrayList<>();
-        descriptions.add(description);
-
-        final PersistableManufacturer manufacturer = new PersistableManufacturer();
-        manufacturer.setOrder(1);
-        manufacturer.setCode("MNF");
-        manufacturer.setDescriptions(descriptions);
-
-        final HttpEntity<PersistableManufacturer> entity = new HttpEntity<>(manufacturer, getHeader());
-        final ResponseEntity response = testRestTemplate.postForEntity("/api/v1/private/manufacturers?store=" + Constants.DEFAULT_STORE, entity, PersistableManufacturer.class);
-        final PersistableManufacturer manuf = (PersistableManufacturer) response.getBody();
-        assertThat(response.getStatusCode(), is(CREATED));
-        assertNotNull(manuf.getId());
-        return manuf;
-
-    }
 
 }

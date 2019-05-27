@@ -35,6 +35,8 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 public class Manufacturer extends SalesManagerEntity<Long, Manufacturer> implements Auditable {
 	private static final long serialVersionUID = 80693964563570099L;
 	
+	public static final String DEFAULT_MANUFACTURER = "DEFAULT";
+	
 	@Id
 	@Column(name = "MANUFACTURER_ID", unique=true, nullable=false)
 	@TableGenerator(name = "TABLE_GEN", table = "SM_SEQUENCER", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "MANUFACT_SEQ_NEXT_VAL")

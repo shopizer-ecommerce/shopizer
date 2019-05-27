@@ -5,11 +5,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
-
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
@@ -29,16 +27,14 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
+import com.salesmanager.shop.model.catalog.product.ProductSpecification;
 import com.salesmanager.shop.model.catalog.product.ReadableImage;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.catalog.product.RentalOwner;
-import com.salesmanager.shop.model.catalog.product.attribute.ProductAttributeValueDescription;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductAttribute;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductAttributeValue;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOption;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOptionValue;
-import com.salesmanager.shop.store.model.catalog.Attribute;
-import com.salesmanager.shop.store.model.catalog.AttributeValue;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.ImageFilePath;
 
@@ -105,10 +101,15 @@ public class ReadableProductPopulator extends
 	
 			target.setId(source.getId());
 			target.setAvailable(source.isAvailable());
-			target.setProductHeight(source.getProductHeight());
-			target.setProductLength(source.getProductLength());
-			target.setProductWeight(source.getProductWeight());
-			target.setProductWidth(source.getProductWidth());
+			
+			ProductSpecification specifications = new ProductSpecification();
+			specifications.setHeight(source.getProductHeight());
+			specifications.setLength(source.getProductLength());
+			specifications.setWeight(source.getProductWeight());
+			specifications.setWidth(source.getProductWidth());
+			target.setProductSpecifications(specifications);
+			
+
 			target.setPreOrder(source.isPreOrder());
 			target.setRefSku(source.getRefSku());
 			target.setSortOrder(source.getSortOrder());

@@ -5,6 +5,8 @@
 	<artifactId>sm-shop-model</artifactId>
 	<version>2.5.0</version>
 	<name>sm-shop-model</name>
+	<description>sm-core-modules is used for create new external modules implementation deployed in maven.</description>
+	<url>http://www.shopizer.com</url>
 
 
 	<parent>
@@ -13,14 +15,8 @@
 		<version>2.5.0</version>
 	</parent>
 
-
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>1.8</java.version>
-		<org.springframework-version>4.3.23.RELEASE</org.springframework-version>
-		<version>2.5.0</version>
-		<shopizer.version>2.5.0</shopizer.version>
-	</properties>
+	<!-- <parent> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-parent</artifactId> 
+		<version>1.5.18.RELEASE</version> </parent> <version>2.5.0</version> <groupId>com.shopizer</groupId> -->
 
 	<licenses>
 		<license>
@@ -28,7 +24,6 @@
 			<url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
 		</license>
 	</licenses>
-
 
 	<developers>
 		<developer>
@@ -38,6 +33,15 @@
 			<organizationUrl>http://www.shopizer.com</organizationUrl>
 		</developer>
 	</developers>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.8</java.version>
+		<org.springframework-version>4.3.23.RELEASE</org.springframework-version>
+		<version>2.5.0</version>
+		<shopizer.version>2.5.0</shopizer.version>
+	</properties>
+
 
 	<dependencies>
 		<!-- sm-core-model -->
@@ -71,8 +75,104 @@
 					<target>${maven.compiler.target}</target>
 				</configuration>
 			</plugin>
+			<!--OSSRH -->
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.7</version>
+				<extensions>true</extensions>
+				<configuration>
+					<serverId>ossrh</serverId>
+					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+					<autoReleaseAfterClose>true</autoReleaseAfterClose>
+				</configuration>
+			</plugin>
+			<!--OSSRH -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5.3</version>
+				<configuration>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+					<useReleaseProfile>false</useReleaseProfile>
+					<releaseProfiles>release</releaseProfiles>
+					<goals>deploy</goals>
+				</configuration>
+			</plugin>
+			<!--OSSRH -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!--OSSRH -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<configuration>
+							<additionalparam>${javadoc.opts}</additionalparam>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!--OSSRH -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.5</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
+	<!-- skips java 8 errors on javadoc created by doclint -->
+	<profiles>
+		<profile>
+			<id>doclint-java8-disable</id>
+			<activation>
+				<jdk>[1.8,)</jdk>
+			</activation>
+			<properties>
+				<javadoc.opts>-Xdoclint:none</javadoc.opts>
+			</properties>
+		</profile>
+	</profiles>
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
+
+	<scm>
+		<connection>scm:git:git://github.com:shopizer-ecommerce/shopizer-sm-core-modules.git</connection>
+		<developerConnection>scm:git:ssh://github.com:shopizer-ecommerce/shopizer-sm-core-modules.git</developerConnection>
+		<url>https://github.com/shopizer-ecommerce/shopizer-sm-core-modules</url>
+	</scm>
 
 </project>

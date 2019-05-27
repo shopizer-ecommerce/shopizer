@@ -40,6 +40,7 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.PersistableImage;
 import com.salesmanager.shop.model.catalog.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.ProductPriceEntity;
+import com.salesmanager.shop.model.catalog.product.ProductSpecification;
 import com.salesmanager.shop.utils.DateUtil;
 
 
@@ -70,15 +71,7 @@ public class PersistableProductPopulator extends
 	public Product populate(PersistableProduct source,
 			Product target, MerchantStore store, Language language)
 			throws ConversionException {
-		
-/*			Validate.notNull(manufacturerService, "Requires to set ManufacturerService");
-			Validate.notNull(languageService, "Requires to set LanguageService");
-			Validate.notNull(categoryService, "Requires to set CategoryService");
-			Validate.notNull(taxClassService, "Requires to set TaxClassService");
-			Validate.notNull(customerService, "Requires to set CustomerService");//RENTAL
-			Validate.notNull(productOptionService, "Requires to set ProductOptionService");
-			Validate.notNull(productOptionValueService, "Requires to set ProductOptionValueService");*/
-		
+
 		try {
 
 			target.setSku(source.getSku());
@@ -110,26 +103,7 @@ public class PersistableProductPopulator extends
 				target.setDateAvailable(DateUtil.getDate(source.getDateAvailable()));
 			}
 
-			if(source.getManufacturer()!=null) {
-				
-				Manufacturer manuf = null;
-				if(!StringUtils.isBlank(source.getManufacturer().getCode())) {
-					manuf = manufacturerService.getByCode(store, source.getManufacturer().getCode());
-				} else {
-					Validate.notNull(source.getManufacturer().getId(), "Requires to set manufacturer id");
-					manuf = manufacturerService.getById(source.getManufacturer().getId());
-				}
-				
-				if(manuf==null) {
-					throw new ConversionException("Invalid manufacturer id");
-				}
-				if(manuf!=null) {
-					if(manuf.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
-						throw new ConversionException("Invalid manufacturer id");
-					}
-					target.setManufacturer(manuf);
-				}
-			}
+
 			
 			target.setMerchantStore(store);
 			
@@ -168,11 +142,32 @@ public class PersistableProductPopulator extends
 				target.setDescriptions(descriptions);
 			}
 
-			//target.setType(source.getType());//not implemented yet
-			target.setProductHeight(source.getProductHeight());
-			target.setProductLength(source.getProductLength());
-			target.setProductWeight(source.getProductWeight());
-			target.setProductWidth(source.getProductWidth());
+			if(source.getProductSpecifications()!=null) {
+    			target.setProductHeight(source.getProductSpecifications().getHeight());
+    			target.setProductLength(source.getProductSpecifications().getLength());
+    			target.setProductWeight(source.getProductSpecifications().getWeight());
+    			target.setProductWidth(source.getProductSpecifications().getWidth());
+    			
+    			
+    	         if(source.getProductSpecifications().getManufacturer()!=null) {
+                   
+                   Manufacturer manuf = null;
+                   if(!StringUtils.isBlank(source.getProductSpecifications().getManufacturer())) {
+                       manuf = manufacturerService.getByCode(store, source.getProductSpecifications().getManufacturer());
+                   } 
+                   
+                   if(manuf==null) {
+                       throw new ConversionException("Invalid manufacturer id");
+                   }
+                   if(manuf!=null) {
+                       if(manuf.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
+                           throw new ConversionException("Invalid manufacturer id");
+                       }
+                       target.setManufacturer(manuf);
+                   }
+               }
+    			
+			}
 			target.setSortOrder(source.getSortOrder());
 			target.setProductVirtual(source.isProductVirtual());
 			target.setProductShipeable(source.isProductShipeable());

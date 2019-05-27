@@ -37,6 +37,7 @@ import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
 import com.salesmanager.shop.model.catalog.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.PersistableProductReview;
 import com.salesmanager.shop.model.catalog.product.ProductPriceEntity;
+import com.salesmanager.shop.model.catalog.product.ProductSpecification;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProductList;
 import com.salesmanager.shop.model.catalog.product.ReadableProductReview;
@@ -98,28 +99,32 @@ public class ProductFacadeImpl implements ProductFacade {
   public PersistableProduct saveProduct(MerchantStore store, PersistableProduct product,
       Language language) throws Exception {
 
-
-    com.salesmanager.shop.model.catalog.manufacturer.Manufacturer manufacturer =
-        product.getManufacturer();
-
-    if (manufacturer == null
-        || (manufacturer.getId() == null || manufacturer.getId().longValue() == 0)
-            && StringUtils.isBlank(manufacturer.getCode())) {
-
-      // get default manufacturer
-      Manufacturer defaultManufacturer = manufacturerService.getByCode(store, "DEFAULT");
-
-      if (defaultManufacturer != null) {
-
-        com.salesmanager.shop.model.catalog.manufacturer.Manufacturer m =
-            new com.salesmanager.shop.model.catalog.manufacturer.Manufacturer();
-        m.setId(defaultManufacturer.getId());
-        m.setCode(defaultManufacturer.getCode());
-        product.setManufacturer(m);
-
-      }
-
+    String manufacturer = Manufacturer.DEFAULT_MANUFACTURER;
+    if (product.getProductSpecifications() != null) {
+      manufacturer = product.getProductSpecifications().getManufacturer();
+    } else {
+      ProductSpecification specifications = new ProductSpecification();
+      specifications.setManufacturer(manufacturer);
     }
+
+    /*
+     * if (manufacturer == null || (manufacturer.getId() == null || manufacturer.getId().longValue()
+     * == 0) && StringUtils.isBlank(manufacturer.getCode())) {
+     * 
+     * // get default manufacturer Manufacturer defaultManufacturer =
+     * manufacturerService.getByCode(store, "DEFAULT");
+     * 
+     * if (defaultManufacturer != null) {
+     * 
+     * com.salesmanager.shop.model.catalog.manufacturer.Manufacturer m = new
+     * com.salesmanager.shop.model.catalog.manufacturer.Manufacturer();
+     * m.setId(defaultManufacturer.getId()); m.setCode(defaultManufacturer.getCode());
+     * product.setManufacturer(m);
+     * 
+     * }
+     * 
+     * }
+     */
 
     Product target = null;
     if (product.getId() != null && product.getId().longValue() > 0) {

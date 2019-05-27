@@ -76,6 +76,10 @@ public class CategoryApi {
   @GetMapping(
       value = "/category",
       produces = {APPLICATION_JSON_VALUE, APPLICATION_XML_VALUE})
+  @ApiOperation(
+      httpMethod = "GET",
+      value = "Get category hierarchy from root",
+      notes = "Does not return any product attached")
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
@@ -87,6 +91,7 @@ public class CategoryApi {
     return categoryFacade.getCategoryHierarchy(
         merchantStore, DEFAULT_CATEGORY_DEPTH, language, filter);
   }
+  
 
   /** Category creation */
   @PostMapping(

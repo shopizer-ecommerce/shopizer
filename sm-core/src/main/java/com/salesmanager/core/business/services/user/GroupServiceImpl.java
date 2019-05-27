@@ -1,5 +1,6 @@
 package com.salesmanager.core.business.services.user;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import javax.inject.Inject;
@@ -36,11 +37,13 @@ public class GroupServiceImpl extends SalesManagerEntityServiceImpl<Integer, Gro
   }
 
   public List<Group> listGroupByIds(Set<Integer> ids) throws ServiceException {
-    try {
-      return groupRepository.findByIds(ids);
-    } catch (Exception e) {
-      throw new ServiceException(e);
-    }
+
+      try {
+        return ids.isEmpty() ? new ArrayList<Group>() : groupRepository.findByIds(ids);
+      } catch (Exception e) {
+        throw new ServiceException(e);
+      }
+
   }
 
 
