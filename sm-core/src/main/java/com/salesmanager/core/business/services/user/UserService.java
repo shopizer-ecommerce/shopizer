@@ -13,6 +13,7 @@ import com.salesmanager.core.model.user.User;
 public interface UserService extends SalesManagerEntityService<Long, User> {
 
   User getByUserName(String userName) throws ServiceException;
+  User getByUserName(String userName, String storeCode) throws ServiceException;
 
   List<User> listUser() throws ServiceException;
 

@@ -63,7 +63,9 @@ public class CategoryApi {
       @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
   })
   public ReadableCategory get(
-      @PathVariable(name = "id") Long categoryId, @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
+      @PathVariable(name = "id") Long categoryId, 
+      @ApiIgnore MerchantStore merchantStore, 
+      @ApiIgnore Language language) {
     return categoryFacade.getById(merchantStore, categoryId, language);
   }
 

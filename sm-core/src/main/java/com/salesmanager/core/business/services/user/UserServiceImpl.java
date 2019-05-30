@@ -74,4 +74,10 @@ public class UserServiceImpl extends SalesManagerEntityServiceImpl<Long, User>
     return userRepository.listByCriteria(criteria);
   }
 
+
+  @Override
+  public User getByUserName(String userName, String storeCode) throws ServiceException {
+    return userRepository.findByUserName(userName, storeCode);
+  }
+
 }

@@ -23,7 +23,7 @@ public interface UserFacade {
    * @return
    * @throws Exception
    */
-  ReadableUser findByUserName(String userName, Language lang);
+  ReadableUser findByUserName(String userName, String storeCode, Language lang);
 
   /**
    * Creates a User

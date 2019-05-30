@@ -106,6 +106,12 @@ public class UserServiceLDAPImpl implements UserService {
     throw new ServiceException("Not implemented");
   }
 
+  @Override
+  public User getByUserName(String userName, String storeCode) throws ServiceException {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
 
 
 }

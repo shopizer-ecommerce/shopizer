@@ -33,10 +33,12 @@ import com.salesmanager.shop.model.user.ReadableUserList;
 import com.salesmanager.shop.store.api.exception.UnauthorizedException;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.store.controller.user.facade.UserFacade;
-import com.salesmanager.shop.utils.LanguageUtils;
 import com.salesmanager.shop.utils.ServiceRequestCriteriaBuilderUtils;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import springfox.documentation.annotations.ApiIgnore;
 
 /** Api for managing admin users */
 @RestController
@@ -48,8 +50,6 @@ public class UserApi {
   @Inject private StoreFacade storeFacade;
 
   @Inject private UserFacade userFacade;
-
-  @Inject private LanguageUtils languageUtils;
 
   @Inject private LanguageService languageService;
 
@@ -69,22 +69,23 @@ public class UserApi {
    * @return
    */
   @ResponseStatus(HttpStatus.OK)
-  @GetMapping({"/private/{store}/users/{name}", "/private/users/{name}"})
+  @GetMapping({"/private/users/{name}"})
   @ApiOperation(
       httpMethod = "GET",
       value = "Get a specific user profile",
       notes = "",
       produces = MediaType.APPLICATION_JSON_VALUE,
       response = ReadableUser.class)
-  public ReadableUser get(
-      @PathVariable Optional<String> store,
-      @PathVariable String name,
-          String storeCode,
-      HttpServletRequest request) {
-    String storeCd = store.orElse(Constants.DEFAULT_STORE);
-    MerchantStore merchantStore = storeFacade.get(storeCd);
-    Language language = languageUtils.getRESTLanguage(request, merchantStore);
-    return userFacade.findByUserName(name, language);
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+    @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
+  })
+    public ReadableUser get(
+        @ApiIgnore MerchantStore merchantStore, 
+        @ApiIgnore Language language,
+        @PathVariable String name,
+        HttpServletRequest request) {
+    return userFacade.findByUserName(name, merchantStore.getCode(), language);
   }
 
   /**

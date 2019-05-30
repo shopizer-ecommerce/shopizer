@@ -53,7 +53,15 @@ public class UserFacadeImpl implements UserFacade {
   private PersistableUserPopulator persistableUserPopulator;
 
   @Override
-  public ReadableUser findByUserName(String userName, Language lang) {
+  public ReadableUser findByUserName(String userName, String storeCode, Language lang) {
+    User user = getByUserName(userName, storeCode);
+    if (user == null) {
+      throw new ResourceNotFoundException("User [" + userName + "] not found");
+    }
+    return convertUserToReadableUser(lang, user);
+  }
+  
+  private ReadableUser findByUserName(String userName, Language lang) {
     User user = getByUserName(userName);
     if (user == null) {
       throw new ResourceNotFoundException("User [" + userName + "] not found");
@@ -90,6 +98,14 @@ public class UserFacadeImpl implements UserFacade {
   private User getByUserName(String userName) {
     try {
       return userService.getByUserName(userName);
+    } catch (ServiceException e) {
+      throw new ServiceRuntimeException(e);
+    }
+  }
+  
+  private User getByUserName(String userName, String storeCode) {
+    try {
+      return userService.getByUserName(userName, storeCode);
     } catch (ServiceException e) {
       throw new ServiceRuntimeException(e);
     }
