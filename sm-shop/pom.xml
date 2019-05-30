@@ -41,11 +41,11 @@
 		</dependency>
 		
 		<!-- shopizer firebase -->
-  		<dependency>
+<!--   		<dependency>
 			<groupId>com.shopizer</groupId>
 			<artifactId>shopizer-firebase</artifactId>
 			<version>${shopizer.version}</version>
-		</dependency>
+		</dependency> -->
 
 		<!-- sm-core-model -->
 		<dependency>
