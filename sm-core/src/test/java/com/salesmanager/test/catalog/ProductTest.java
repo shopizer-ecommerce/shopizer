@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.apache.commons.io.IOUtils;
+import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import com.salesmanager.core.business.exception.ServiceException;
@@ -42,8 +43,6 @@ import com.salesmanager.core.model.content.ImageContentFile;
 import com.salesmanager.core.model.content.OutputContentFile;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
-import junit.framework.Assert;
-
 
 
 @Ignore
@@ -51,11 +50,11 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 	
 	private static final Date date = new Date(System.currentTimeMillis());
 	
-	private final String IMAGE_FOLDER = "C:/doc/";
-	private final String IMAGE_NAME = "Hadoop.jpg";
+	private final String IMAGE_FOLDER = "/Users/carlsamson/Documents/dev/";
+	private final String IMAGE_NAME = "spring.png";
 
 	/**
-	 * This method creates multiple products using multiple catelog APIs
+	 * This method creates multiple products using multiple catalog APIs
 	 * @throws ServiceException
 	 */
 	@Test
@@ -275,35 +274,13 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 	     */
 	    productService.create(product);
 	    
+	    
+	    /**
+	     * Creates a review
+	     * TODO requires customer
+	     */
+	    //testReview(product);
 
-	    ProductReview review = new ProductReview();
-	    review.setProduct(product);
-	    review.setReviewRating(new Double(4));
-	    
-	    ProductReviewDescription reviewDescription = new ProductReviewDescription();
-	    reviewDescription.setLanguage(en);
-	    reviewDescription.setDescription("This is a product review");
-	    reviewDescription.setName("A review for you");
-	    reviewDescription.setProductReview(review);
-	    review.getDescriptions().add(reviewDescription);
-	    
-	    productReviewService.create(review);
-	    
-	    review = new ProductReview();
-	    review.setProduct(product);
-	    review.setReviewRating(new Double(5));
-	    
-	    reviewDescription = new ProductReviewDescription();
-	    reviewDescription.setLanguage(en);
-	    reviewDescription.setDescription("This is a second product review");
-	    reviewDescription.setName("A new review for you");
-	    reviewDescription.setProductReview(review);
-	    review.getDescriptions().add(reviewDescription);
-	    
-	    productReviewService.create(review);
-	    
-  
-	    
 	    List<Product> products = productService.listByStore(store);
 	    
 	    System.out.println("Total number of items " + products.size());
@@ -586,6 +563,25 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
    	 	baos =  contentFile.getFile();
    	 	baos.writeTo(outputStream);
 		
+	}
+	
+	
+	private void testReview(Product product) throws Exception {
+	  
+	     ProductReview review = new ProductReview();
+	     review.setProduct(product);
+	     review.setReviewRating(new Double(4));
+	     Language en = languageService.getByCode("en");
+	        
+	     ProductReviewDescription reviewDescription = new ProductReviewDescription();
+	     reviewDescription.setLanguage(en);
+	     reviewDescription.setDescription("This is a product review");
+	     reviewDescription.setName("A review for you");
+	     reviewDescription.setProductReview(review);
+	     review.getDescriptions().add(reviewDescription);
+	        
+	     productReviewService.create(review);
+	  
 	}
 	
 	private void testCreateRelationShip(Product product) throws Exception {

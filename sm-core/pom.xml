@@ -75,6 +75,12 @@
 			<groupId>org.kie</groupId>
 			<artifactId>kie-ci</artifactId>
 			<version>${drools.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.drools</groupId>
@@ -181,6 +187,12 @@
 		  <groupId>com.google.cloud</groupId>
 		  <artifactId>google-cloud-storage</artifactId>
 		  <version>1.74.0</version>
+		  <exclusions>
+		  	<exclusion>
+		  		<groupId>com.google.guava</groupId>
+		  		<artifactId>guava</artifactId>
+		  	</exclusion>
+		  </exclusions>
 		</dependency>
 
 
@@ -227,7 +239,15 @@
 			<artifactId>geoip2</artifactId>
 			<version>${geoip2.version}</version>
 		</dependency>
-
+		
+		<!-- google cloud storage -->
+		<!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+		<!-- Up to date for GCP storage issue -->
+		<dependency>
+		    <groupId>com.google.guava</groupId>
+		    <artifactId>guava</artifactId>
+		    <version>27.1-jre</version>
+		</dependency>
 
 
 		<!-- tests dependencies -->
@@ -242,6 +262,36 @@
 			<artifactId>h2</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>io.searchbox</groupId>
+			<artifactId>jest</artifactId>
+			<version>${io.searchbox.jest-version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.shopizer</groupId>
+			<artifactId>sm-search</artifactId>
+			<version>${shopizer.search.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.elasticsearch</groupId>
+					<artifactId>elasticsearch</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>io.searchbox</groupId>
+					<artifactId>jest</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 	</dependencies>
 
 	<build>
