@@ -1,17 +1,27 @@
 package com.salesmanager.core.business.modules.cms.product.gcp;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.channels.Channels;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import com.google.api.gax.paging.Page;
+import com.google.cloud.ReadChannel;
 import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Bucket;
 import com.google.cloud.storage.BucketInfo;
 import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.Storage.BlobListOption;
 import com.google.cloud.storage.StorageOptions;
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ServiceException;
@@ -32,6 +42,9 @@ public class GCPProductContentFileManager implements ProductAssetsManager {
   
   private static String DEFAULT_BUCKET_NAME = "shopizer-products-";
   
+  private static final Logger LOGGER = LoggerFactory.getLogger(GCPProductContentFileManager.class);
+
+  
 
   private final static String SMALL = "SMALL";
   private final static String LARGE = "LARGE";
@@ -40,6 +53,7 @@ public class GCPProductContentFileManager implements ProductAssetsManager {
    * 
    */
   private static final long serialVersionUID = 1L;
+
 
   @Override
   public OutputContentFile getProductImage(String merchantStoreCode, String productCode,
@@ -54,14 +68,42 @@ public class GCPProductContentFileManager implements ProductAssetsManager {
   @Override
   public OutputContentFile getProductImage(String merchantStoreCode, String productCode,
       String imageName, ProductImageSize size) throws ServiceException {
-    // TODO Auto-generated method stub
-    return null;
+    try {
+      Storage storage = StorageOptions.getDefaultInstance().getService();
+      
+      String bucketName = bucketName();
+      
+      if(!this.bucketExists(storage, bucketName)) {
+        return null;
+      }
+
+      Blob blob = storage.get(BlobId.of(bucketName, filePath(merchantStoreCode,productCode, size.name(), imageName)));
+
+      ReadChannel reader = blob.reader();
+      
+      InputStream inputStream = Channels.newInputStream(reader);
+      ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+      IOUtils.copy(inputStream, outputStream);
+      OutputContentFile ct = new OutputContentFile();
+      ct.setFile(outputStream);
+      ct.setFileName(blob.getName());
+
+      
+
+      return ct;
+    } catch (final Exception e) {
+      LOGGER.error("Error while getting files", e);
+      throw new ServiceException(e);
+  
+    }
+  
   }
 
   @Override
   public OutputContentFile getProductImage(ProductImage productImage) throws ServiceException {
-    // TODO Auto-generated method stub
+
     return null;
+    
   }
 
   @Override
@@ -70,42 +112,44 @@ public class GCPProductContentFileManager implements ProductAssetsManager {
     return null;
   }
 
+  /**
+   * List files
+   */
   @Override
   public List<OutputContentFile> getImages(String merchantStoreCode,
       FileContentType imageContentType) throws ServiceException {
-    //try {
-      //BlobId blobId = BlobId.of(bucketName(), "blobName");
-      //Blob blob = storage.get(blobId);
+    
+    try {
+      Storage storage = StorageOptions.getDefaultInstance().getService();
       
-/*      Storage storage = StorageOptions.getDefaultInstance().getService();
-      Blob blob = storage.get(BlobId.of(new StringBuilder().append(DEFAULT_BUCKET_NAME).append(merchantStoreCode), srcFilename));
+      String bucketName = bucketName();
       
-      String pattern = merchantStoreCode;
-      Pattern matchPattern = Pattern.compile(pattern);
-      
-      Page<Blob> blobs =
-          storage.list(
-              bucketName(), BlobListOption.prefix(prefix)
-              .currentDirectory(), BlobListOption.prefix("directory"));
-      Page<Blob> blobs =
-          storage.list(
-              bucketName(), BlobListOption.currentDirectory(), new StringBuilder().append(DEFAULT_BUCKET_NAME).append(merchantStoreCode).toString());
-      for (Blob blob : blobs.iterateAll()) {
-        if (!blob.isDirectory() && matchPattern.matcher(blob.getName()).matches()) {
-          return null;
-          //results.add(blob.getName());
-        }
+      if(!this.bucketExists(storage, bucketName)) {
+        return null;
       }
-      //for (Blob blob : blobs.iterateAll()) {
-        // do something with the blob
-      //}
-      // [END listBlobsWithDirectoryAndPrefix]
-      //return blobs;
       
-    } catch(Exception e) {
-      
-    }*/
-    return null;
+      Page<Blob> blobs =
+          storage.list(
+              bucketName, BlobListOption.currentDirectory(), BlobListOption.prefix(merchantStoreCode));
+
+      List<OutputContentFile> files = new ArrayList<OutputContentFile>();
+      for (Blob blob : blobs.iterateAll()) {
+        blob.getName();
+        ReadChannel reader = blob.reader();
+        InputStream inputStream = Channels.newInputStream(reader);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        IOUtils.copy(inputStream, outputStream);
+        OutputContentFile ct = new OutputContentFile();
+        ct.setFile(outputStream);
+        files.add(ct);
+      }
+
+      return files;
+    } catch (final Exception e) {
+      LOGGER.error("Error while getting files", e);
+      throw new ServiceException(e);
+  
+    }
   }
 
   @Override
@@ -114,16 +158,15 @@ public class GCPProductContentFileManager implements ProductAssetsManager {
     
     Storage storage = StorageOptions.getDefaultInstance().getService();
     
-    String bucketName = this.bucketName(productImage.getProduct().getMerchantStore().getCode());
+    String bucketName = bucketName();
 
-    Bucket bucket = null;
     if(!this.bucketExists(storage, bucketName)) {
-      bucket = createBucket(storage, bucketName);
+      createBucket(storage, bucketName);
     }
     
     //build filename
     StringBuilder fileName = new StringBuilder()
-        .append(filePath(productImage.getProduct().getMerchantStore().getCode(), productImage.getProduct().getSku(), contentImage))
+        .append(filePath(productImage.getProduct().getMerchantStore().getCode(), productImage.getProduct().getSku(), contentImage.getFileContentType()))
         .append(productImage.getProductImage());
     
     
@@ -131,7 +174,7 @@ public class GCPProductContentFileManager implements ProductAssetsManager {
         byte[] targetArray = IOUtils.toByteArray(contentImage.getFile());
         BlobId blobId = BlobId.of(bucketName, fileName.toString());
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(contentImage.getMimeType()).build();
-        Blob blob = storage.create(blobInfo, targetArray);
+        storage.create(blobInfo, targetArray);
       } catch (IOException ioe) {
         throw new ServiceException(ioe);
       }
@@ -141,23 +184,64 @@ public class GCPProductContentFileManager implements ProductAssetsManager {
 
   @Override
   public void removeProductImage(ProductImage productImage) throws ServiceException {
-    // TODO Auto-generated method stub
+    
+    //delete all image sizes
+    Storage storage = StorageOptions.getDefaultInstance().getService();
 
+    List<String> sizes = Arrays.asList(SMALL, LARGE);
+    for(String size : sizes) {
+      BlobId blobId = BlobId.of(bucketName(), filePath(productImage.getProduct().getMerchantStore().getCode(), productImage.getProduct().getSku(), size, productImage.getProductImage()));
+      if(blobId==null) {
+        throw new ServiceException("Image not found " + productImage.getProductImage());
+      }
+      boolean deleted = storage.delete(blobId);
+      if (!deleted) {
+        throw new ServiceException("Cannot delete image [" + productImage.getProductImage() + "]");
+      }
+    }
+  
   }
 
   @Override
   public void removeProductImages(Product product) throws ServiceException {
-    // TODO Auto-generated method stub
+
+    
+    Storage storage = StorageOptions.getDefaultInstance().getService();
+    
+    String bucketName = bucketName();
+
+    Page<Blob> blobs =
+        storage.list(
+            bucketName, BlobListOption.currentDirectory(), BlobListOption.prefix(product.getSku()));
+
+    
+    for (Blob blob : blobs.iterateAll()) {
+      // do something with the blob
+      storage.delete(blob.getBlobId());
+    }
+    
 
   }
 
   @Override
   public void removeImages(String merchantStoreCode) throws ServiceException {
-    // TODO Auto-generated method stub
+    Storage storage = StorageOptions.getDefaultInstance().getService();
+    
+    String bucketName = bucketName();
+
+    Page<Blob> blobs =
+        storage.list(
+            bucketName, BlobListOption.currentDirectory(), BlobListOption.prefix(merchantStoreCode));
+
+    
+    for (Blob blob : blobs.iterateAll()) {
+      // do something with the blob
+      storage.delete(blob.getBlobId());
+    }
 
   }
   
-  private String bucketName(String merchant) {
+  private String bucketName() {
     String bucketName = gcpAssetsManager.getRootName();
     if (StringUtils.isBlank(bucketName)) {
       bucketName = DEFAULT_BUCKET_NAME;
@@ -177,21 +261,35 @@ public class GCPProductContentFileManager implements ProductAssetsManager {
     return storage.create(BucketInfo.of(bucketName));
   }
   
-  private String filePath(String merchant, String sku, ImageContentFile contentImage) {
+  private String filePath(String merchant, String sku, FileContentType contentImage) {
       StringBuilder sb = new StringBuilder();
       sb.append("products").append(Constants.SLASH);
       sb.append(merchant)
       .append(Constants.SLASH).append(sku).append(Constants.SLASH);
 
       // small large
-      if (contentImage.getFileContentType().name().equals(FileContentType.PRODUCT.name())) {
+      if (contentImage.name().equals(FileContentType.PRODUCT.name())) {
         sb.append(SMALL);
-      } else if (contentImage.getFileContentType().name().equals(FileContentType.PRODUCTLG.name())) {
+      } else if (contentImage.name().equals(FileContentType.PRODUCTLG.name())) {
         sb.append(LARGE);
       }
 
       return sb.append(Constants.SLASH).toString();
     
   }
+  
+  private String filePath(String merchant, String sku, String size, String fileName) {
+    StringBuilder sb = new StringBuilder();
+    sb.append("products").append(Constants.SLASH);
+    sb.append(merchant)
+    .append(Constants.SLASH).append(sku).append(Constants.SLASH);
+    
+    sb.append(size);
+    sb.append(Constants.SLASH).append(fileName);
+
+    return sb.toString();
+  
+  }
+
 
 }

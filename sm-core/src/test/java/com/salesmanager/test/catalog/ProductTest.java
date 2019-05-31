@@ -1,20 +1,13 @@
 package com.salesmanager.test.catalog;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.model.catalog.category.Category;
@@ -45,13 +38,11 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 
 
-@Ignore
 public class ProductTest extends com.salesmanager.test.common.AbstractSalesManagerCoreTestCase {
 	
 	private static final Date date = new Date(System.currentTimeMillis());
 	
-	private final String IMAGE_FOLDER = "/Users/carlsamson/Documents/dev/";
-	private final String IMAGE_NAME = "spring.png";
+	private final String IMAGE_NAME = "icon.png";
 
 	/**
 	 * This method creates multiple products using multiple catalog APIs
@@ -301,17 +292,14 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 		List<Object[]> objs = categoryService.countProductsByCategories(store, ids);
 
 		for(Object[] ob : objs) {
-			
-			
 			Category c = (Category) ob[0];
-			System.out.println("Category " + c.getCode() + " has " + ob[1] + " items");
-			
+			//System.out.println("Category " + c.getCode() + " has " + ob[1] + " items");
 		}
 
 		//get manufacturer for given categories
 		List<Manufacturer> manufacturers = manufacturerService.listByProductsByCategoriesId(store, ids, en);
 	    
-		System.out.println("Number of manufacturer for all category " + manufacturers.size());
+		//System.out.println("Number of manufacturer for all category " + manufacturers.size());
 		
 		//Update product -- get first from the list
 		Product updatableProduct = products.get(0);
@@ -393,7 +381,7 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 			ProductOption option = attribute.getProductOption();
 			ProductOptionValue optionValue = attribute.getProductOptionValue();
 			
-			System.out.println("Option id " + option.getId() + " OptionValue id " + optionValue.getId());
+			//System.out.println("Option id " + option.getId() + " OptionValue id " + optionValue.getId());
 			
 			
 			
@@ -503,7 +491,10 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 		
 		ProductImage productImage = new ProductImage();
 		
-        File file1 = new File( IMAGE_FOLDER + IMAGE_NAME);
+		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+		InputStream inputStream = classloader.getResourceAsStream("img/" + IMAGE_NAME);
+		
+/*        File file1 = new File( IMAGE_FOLDER + IMAGE_NAME);
 
         if ( !file1.exists() || !file1.canRead() )
         {
@@ -511,15 +502,15 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
         }
 
         byte[] is = IOUtils.toByteArray( new FileInputStream( file1 ) );
-        ByteArrayInputStream inputStream = new ByteArrayInputStream( is );
+        ByteArrayInputStream inputStream = new ByteArrayInputStream( is );*/
         
         ImageContentFile cmsContentImage = new ImageContentFile();
-        cmsContentImage.setFileName( file1.getName() );
+        cmsContentImage.setFileName( IMAGE_NAME );
         cmsContentImage.setFile( inputStream );
         cmsContentImage.setFileContentType(FileContentType.PRODUCT);
         
 
-        productImage.setProductImage(file1.getName());
+        productImage.setProductImage(IMAGE_NAME);
         productImage.setProduct(product);
         
         //absolutely required otherwise the file is not created on disk
@@ -536,36 +527,22 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 		
 		
 		ProductImage productImage = product.getProductImage();
-		
-		//equivalent
-        //productImage = productImageService.getById(productImage.getId());
-        
+
         //get physical small image
         OutputContentFile contentFile = productImageService.getProductImage(product.getMerchantStore().getCode(), product.getSku(), productImage.getProductImage(), ProductImageSize.SMALL);
         
         Assert.assertNotNull(contentFile);
-        
-        //print small image
-  	 	OutputStream outputStream = new FileOutputStream (IMAGE_FOLDER + "productImage_small_" + contentFile.getFileName()); 
 
-   	 	ByteArrayOutputStream baos =  contentFile.getFile();
-   	 	baos.writeTo(outputStream);
-   	 	
-   	 	
    	 	//get physical original image
         contentFile = productImageService.getProductImage(product.getMerchantStore().getCode(), product.getSku(), productImage.getProductImage(), ProductImageSize.LARGE);
         
         Assert.assertNotNull(contentFile);
-        
-        //print large image
-   	 	outputStream = new FileOutputStream (IMAGE_FOLDER + "productImage_large_" + contentFile.getFileName()); 
 
-   	 	baos =  contentFile.getFile();
-   	 	baos.writeTo(outputStream);
 		
 	}
 	
 	
+	//REVIEW
 	private void testReview(Product product) throws Exception {
 	  
 	     ProductReview review = new ProductReview();

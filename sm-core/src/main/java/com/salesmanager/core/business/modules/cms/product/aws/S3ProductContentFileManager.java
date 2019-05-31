@@ -107,8 +107,6 @@ public class S3ProductContentFileManager
         }
       }
 
-
-      LOGGER.info("Product getImages");
       return files;
     } catch (final Exception e) {
       LOGGER.error("Error while getting files", e);
