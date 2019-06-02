@@ -340,8 +340,11 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 		testInsertImage(updatableProduct);
 		testViewImage(updatableProduct);
 		
+		Product refreshed = productService.getByCode("TB12345", en);
+		productService.delete(refreshed);
 		
-		updatableProduct.setDateAvailable(new java.util.Date());
+		
+/*		updatableProduct.setDateAvailable(new java.util.Date());
 		productService.create(updatableProduct);
 		
 		//go and get products again
@@ -362,7 +365,7 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 		
 		
 		//Now remove product
-		productService.delete(updatableProduct);
+		productService.delete(updatableProduct);*/
 		
 		
 	    
@@ -477,6 +480,8 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 	    product.getAttributes().add(attribute);
 	    
 	    productService.update(product);
+	    
+	   
 		
 		
 	}
@@ -519,6 +524,8 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
         product.getImages().add(productImage);
         
         productService.update(product);//saves the ProductImage entity and the file on disk
+        
+        
 		
 		
 	}

@@ -68,6 +68,7 @@ public class GCPProductContentFileManager implements ProductAssetsManager {
   @Override
   public OutputContentFile getProductImage(String merchantStoreCode, String productCode,
       String imageName, ProductImageSize size) throws ServiceException {
+    InputStream inputStream = null;
     try {
       Storage storage = StorageOptions.getDefaultInstance().getService();
       
@@ -81,7 +82,7 @@ public class GCPProductContentFileManager implements ProductAssetsManager {
 
       ReadChannel reader = blob.reader();
       
-      InputStream inputStream = Channels.newInputStream(reader);
+      inputStream = Channels.newInputStream(reader);
       ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
       IOUtils.copy(inputStream, outputStream);
       OutputContentFile ct = new OutputContentFile();
@@ -95,6 +96,13 @@ public class GCPProductContentFileManager implements ProductAssetsManager {
       LOGGER.error("Error while getting files", e);
       throw new ServiceException(e);
   
+    } finally {
+      if(inputStream!=null) {
+        try {
+          inputStream.close();
+        } catch(Exception ignore) {}
+      }
+      
     }
   
   }
@@ -119,6 +127,7 @@ public class GCPProductContentFileManager implements ProductAssetsManager {
   public List<OutputContentFile> getImages(String merchantStoreCode,
       FileContentType imageContentType) throws ServiceException {
     
+    InputStream inputStream = null;
     try {
       Storage storage = StorageOptions.getDefaultInstance().getService();
       
@@ -136,7 +145,7 @@ public class GCPProductContentFileManager implements ProductAssetsManager {
       for (Blob blob : blobs.iterateAll()) {
         blob.getName();
         ReadChannel reader = blob.reader();
-        InputStream inputStream = Channels.newInputStream(reader);
+        inputStream = Channels.newInputStream(reader);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         IOUtils.copy(inputStream, outputStream);
         OutputContentFile ct = new OutputContentFile();
@@ -149,6 +158,13 @@ public class GCPProductContentFileManager implements ProductAssetsManager {
       LOGGER.error("Error while getting files", e);
       throw new ServiceException(e);
   
+    } finally {
+      if(inputStream!=null) {
+        try {
+          inputStream.close();
+        } catch(Exception ignore) {}
+      }
+      
     }
   }
 

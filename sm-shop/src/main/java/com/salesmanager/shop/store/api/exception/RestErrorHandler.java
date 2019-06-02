@@ -14,9 +14,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
-//@ResponseBody
-//@Produces({"application/json"})
-//@RequestMapping(produces = "application/json")
 public class RestErrorHandler {
   
     private static final Logger log = LoggerFactory.getLogger(RestErrorHandler.class);

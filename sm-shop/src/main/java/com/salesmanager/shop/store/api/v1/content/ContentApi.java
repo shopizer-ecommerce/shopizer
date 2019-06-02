@@ -1,8 +1,5 @@
 package com.salesmanager.shop.store.api.v1.content;
 
-import static com.salesmanager.core.business.constants.Constants.DEFAULT_STORE;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
@@ -20,7 +17,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,6 +36,8 @@ import com.salesmanager.shop.store.api.exception.RestApiException;
 import com.salesmanager.shop.store.controller.content.facade.ContentFacade;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -64,7 +62,8 @@ public class ContentApi {
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
-  public List<ReadableContentPage> getContentPages(@ApiIgnore MerchantStore merchantStore,
+  public List<ReadableContentPage> getContentPages(
+      @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language) {
     return contentFacade.getContentPage(merchantStore, language);
   }
@@ -75,7 +74,8 @@ public class ContentApi {
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
-  public List<ReadableContentBox> pagesSummary(@ApiIgnore MerchantStore merchantStore,
+  public List<ReadableContentBox> pagesSummary(
+      @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language) {
     return contentFacade.getContentBoxes(ContentType.BOX, "summary_", merchantStore, language);
   }

@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.ws.rs.QueryParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -38,6 +39,9 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import springfox.documentation.annotations.ApiIgnore;
 
 /** Api for managing admin users */
@@ -76,6 +80,9 @@ public class UserApi {
       notes = "",
       produces = MediaType.APPLICATION_JSON_VALUE,
       response = ReadableUser.class)
+  @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", responseContainer = "User",response = ReadableUser.class),
+      @ApiResponse(code = 400, message = "Error while getting User"),
+      @ApiResponse(code = 401, message = "Login required") })
   @ApiImplicitParams({
     @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
     @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
