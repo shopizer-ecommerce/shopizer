@@ -24,6 +24,15 @@ public interface UserFacade {
    * @throws Exception
    */
   ReadableUser findByUserName(String userName, String storeCode, Language lang);
+  
+  /**
+   * Find user by id
+   * @param id
+   * @param storeCode
+   * @param lang
+   * @return
+   */
+  ReadableUser findById(Long id, String storeCode, Language lang);
 
   /**
    * Creates a User
@@ -73,15 +82,15 @@ public interface UserFacade {
   
   /**
    * Delete user
-   * @param userName
+   * @param id
    */
-  void delete(String userName);
+  void delete(Long id, String storeCode);
   
   /**
    * Update User
    * @param user
    */
-  ReadableUser update(String authenticatedUser, String storeCode, PersistableUser user);
+  ReadableUser update(Long id, String authenticatedUser, String storeCode, PersistableUser user);
 
 
 }

@@ -52,7 +52,7 @@ import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.ImageFilePath;
 
 @Service("productFacade")
-@Profile("default")
+@Profile({"default", "cloud", "gcp", "aws"})
 public class ProductFacadeImpl implements ProductFacade {
 
   @Inject

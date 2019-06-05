@@ -110,6 +110,14 @@ public class UserFacadeImpl implements UserFacade {
       throw new ServiceRuntimeException(e);
     }
   }
+  
+  private User getByUserId(Long id, String storeCode) {
+    try {
+      return userService.findByStore(id, storeCode);
+    } catch (ServiceException e) {
+      throw new ServiceRuntimeException(e);
+    }
+  }
 
   /*
    * @Override public ReadableUser findByUserNameWithPermissions(String userName, Language lang) {
@@ -242,35 +250,39 @@ public class UserFacadeImpl implements UserFacade {
   }
 
   @Override
-  public void delete(String userName) {
-    Validate.notNull(userName, "Username cannot be null");
+  public void delete(Long id, String merchant) {
+    Validate.notNull(id, "User id cannot be null");
 
     try {
-      User user = userService.getByUserName(userName);
+      User user = userService
+          .findByStore(id, merchant);
       if (user == null) {
-        throw new ServiceRuntimeException("Cannot find user [" + userName + "]");
+        throw new ServiceRuntimeException("Cannot find user [" + id + "]");
       }
       
       //cannot delete superadmin
       if(user.getGroups().contains(Constants.GROUP_SUPERADMIN)) {
-        throw new ServiceRuntimeException("Cannot delete superadmin user [" + userName + "]");
+        throw new ServiceRuntimeException("Cannot delete superadmin user [" + id + "]");
       }
       
       userService.delete(user);
     } catch (ServiceException e) {
-      throw new ServiceRuntimeException("Cannot find user [" + userName + "]", e);
+      throw new ServiceRuntimeException("Cannot find user [" + id + "]", e);
     }
 
   }
 
   @Override
-  public ReadableUser update(String authenticateUser, String storeCode, PersistableUser user) {
+  public ReadableUser update(Long id, String authenticateUser, String storeCode, PersistableUser user) {
     Validate.notNull(user, "User cannot be null");
 
     try {
       User userModel = userService.getByUserName(user.getUserName());
       if (userModel == null) {
         throw new ServiceRuntimeException("Cannot find user [" + user.getUserName() + "]");
+      }
+      if(user.getId().longValue() != id.longValue()) {
+        throw new ServiceRuntimeException("Cannot find user [" + user.getUserName() + "] id or name does not match");
       }
       User auth = userService.getByUserName(authenticateUser);
       if (auth == null) {
@@ -308,6 +320,15 @@ public class UserFacadeImpl implements UserFacade {
       throw new ServiceRuntimeException("Cannot update user [" + user.getUserName() + "]", e);
     }
     
+  }
+
+  @Override
+  public ReadableUser findById(Long id, String storeCode, Language lang) {
+    User user = getByUserId(id, storeCode);
+    if (user == null) {
+      throw new ResourceNotFoundException("User [" + id + "] not found");
+    }
+    return convertUserToReadableUser(lang, user);
   }
 
 }

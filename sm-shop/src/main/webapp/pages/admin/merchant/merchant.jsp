@@ -239,7 +239,7 @@ function callBackCheckCode(msg,code) {
 	                        <label><s:message code="label.supportedlanguages" text="Supported languages"/></label>
 	                        <div class="controls">
 
-	                        					<form:checkboxes cssClass="highlight" items="${languages}" itemValue="code" itemLabel="code" path="languages" /> 
+	                        					<form:checkboxes cssClass="highlight" items="${languages}" itemValue="id" itemLabel="code" path="languages" /> 
 	                                   			<span class="help-inline"><form:errors path="languages" cssClass="error" /></span>
 	                        </div>
 	                  </div>

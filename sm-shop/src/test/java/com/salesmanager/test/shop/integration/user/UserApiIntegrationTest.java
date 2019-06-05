@@ -20,7 +20,7 @@ import com.salesmanager.test.shop.common.ServicesTestSupport;
 @RunWith(SpringRunner.class)
 public class UserApiIntegrationTest extends ServicesTestSupport {
   
-  private static String DEFAULT_USER = "admin";
+  private static Long DEFAULT_USER_ID = 1L;
   
   @Inject
   private TestRestTemplate testRestTemplate;
@@ -29,7 +29,7 @@ public class UserApiIntegrationTest extends ServicesTestSupport {
   public void getUser() throws Exception {
       final HttpEntity<String> httpEntity = new HttpEntity<>(getHeader());
 
-      final ResponseEntity<ReadableUser> response = testRestTemplate.exchange(String.format("/api/v1/private/users/" + DEFAULT_USER), HttpMethod.GET,
+      final ResponseEntity<ReadableUser> response = testRestTemplate.exchange(String.format("/api/v1/private/users/" + DEFAULT_USER_ID), HttpMethod.GET,
               httpEntity, ReadableUser.class);
       if (response.getStatusCode() != HttpStatus.OK) {
           throw new Exception(response.toString());

@@ -7,7 +7,6 @@ import java.util.stream.Stream;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import javax.ws.rs.QueryParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -39,7 +38,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import springfox.documentation.annotations.ApiIgnore;
@@ -73,10 +71,10 @@ public class UserApi {
    * @return
    */
   @ResponseStatus(HttpStatus.OK)
-  @GetMapping({"/private/users/{name}"})
+  @GetMapping({"/private/users/{id}"})
   @ApiOperation(
       httpMethod = "GET",
-      value = "Get a specific user profile",
+      value = "Get a specific user profile by user id",
       notes = "",
       produces = MediaType.APPLICATION_JSON_VALUE,
       response = ReadableUser.class)
@@ -90,9 +88,9 @@ public class UserApi {
     public ReadableUser get(
         @ApiIgnore MerchantStore merchantStore, 
         @ApiIgnore Language language,
-        @PathVariable String name,
+        @PathVariable Long id,
         HttpServletRequest request) {
-    return userFacade.findByUserName(name, merchantStore.getCode(), language);
+    return userFacade.findById(id, merchantStore.getCode(), language);
   }
 
   /**
@@ -147,7 +145,7 @@ public class UserApi {
 
   @ResponseStatus(HttpStatus.OK)
   @PutMapping(
-      value = {"/private/{store}/user/{userName}", "/private/user/{userName}"},
+      value = {"/private/{store}/user/{id}", "/private/user/{userName}"},
       produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(
       httpMethod = "PUT",
@@ -157,7 +155,7 @@ public class UserApi {
   public ReadableUser update(
       @Valid @RequestBody PersistableUser user,
       @PathVariable Optional<String> store,
-      @PathVariable String userName,
+      @PathVariable Long id,
       HttpServletRequest request) {
 
     String storeCd = store.orElse(Constants.DEFAULT_STORE);
@@ -165,7 +163,7 @@ public class UserApi {
     if (authenticatedUser == null) {
       throw new UnauthorizedException();
     }
-    return userFacade.update(authenticatedUser, storeCd, user);
+    return userFacade.update(id, authenticatedUser, storeCd, user);
   }
 
   @ResponseStatus(HttpStatus.OK)
@@ -210,11 +208,16 @@ public class UserApi {
   }
 
   @ResponseStatus(HttpStatus.OK)
-  @DeleteMapping(value = {"/private/{store}/user/{userName}", "/private/user/{userName}"})
+  @DeleteMapping(value = {"/private/users/{id}"})
   @ApiOperation(httpMethod = "DELETE", value = "Deletes a user", notes = "", response = Void.class)
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+    @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
+  })
   public void delete(
-      @PathVariable Optional<String> store,
-      @PathVariable String userName,
+      @ApiIgnore MerchantStore merchantStore, 
+      @ApiIgnore Language language,
+      @PathVariable Long id,
       HttpServletRequest request) {
 
     /** Must be superadmin or admin */
@@ -223,16 +226,14 @@ public class UserApi {
       throw new UnauthorizedException();
     }
 
-    String storeCd = store.orElse(Constants.DEFAULT_STORE);
-
     if (!request.isUserInRole("SUPERADMIN")) {
-      userFacade.authorizedStore(authenticatedUser, storeCd);
+      userFacade.authorizedStore(authenticatedUser, merchantStore.getCode());
     }
 
     userFacade.authorizedGroup(
         authenticatedUser, Stream.of("SUPERADMIN", "ADMIN").collect(Collectors.toList()));
 
-    userFacade.delete(userName);
+    userFacade.delete(id, merchantStore.getCode());
   }
 
   private Criteria createCriteria(Integer start, Integer count, HttpServletRequest request) {

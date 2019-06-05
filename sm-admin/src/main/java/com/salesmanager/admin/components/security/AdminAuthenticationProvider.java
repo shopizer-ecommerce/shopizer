@@ -159,6 +159,7 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
 		}
 		
 		String token = String.valueOf(map.get(Constants.TOKEN));
+		String userId = String.valueOf(map.get("id"));
 		
         //get user details (Principal)
 		headers = new HttpHeaders();
@@ -170,7 +171,7 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
 	    
 	    //User details web service
 	    String profileResourceUrl
-	        = backend + "/private/users/" + name;
+	        = backend + "/private/users/" + userId;
 	        
 	    //Invoke web service
 	    restTemplate = new RestTemplate();

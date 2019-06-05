@@ -30,6 +30,8 @@ public class UserServiceImpl extends SalesManagerEntityServiceImpl<Long, User>
   public User getByUserName(String userName) throws ServiceException {
     return userRepository.findByUserName(userName);
   }
+  
+
 
   @Override
   public void delete(User user) throws ServiceException {
