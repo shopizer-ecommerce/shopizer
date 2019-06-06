@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.salesmanager.core.business.services.user.GroupService;
 import com.salesmanager.core.business.services.user.PermissionService;
 import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.user.Group;
 import com.salesmanager.core.model.user.Permission;
 import com.salesmanager.shop.model.security.ReadableGroup;
 import com.salesmanager.shop.model.security.ReadablePermission;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import io.swagger.annotations.ApiOperation;
-import com.salesmanager.core.model.user.Group;
 
 
 /**
@@ -32,7 +32,7 @@ import com.salesmanager.core.model.user.Group;
  *
  */
 @RestController
-@RequestMapping(value = "/api/v1")
+@RequestMapping(value = "/api/v1/sec")
 public class SecurityApi {
 
   @Inject
@@ -66,8 +66,7 @@ public class SecurityApi {
    * 
    * @return
    */
-  @Secured("ROLE_ADMIN")
-  @GetMapping("/services/private/permissions")
+  @GetMapping("/private/permissions")
   public List<ReadablePermission> permissions() {
     List<Permission> permissions = permissionService.list();
     List<ReadablePermission> readablePermissions = new ArrayList<ReadablePermission>();
@@ -84,8 +83,7 @@ public class SecurityApi {
    * 
    * @return
    */
-  @Secured("ROLE_ADMIN")
-  @GetMapping("/services/private/groups")
+  @GetMapping("/private/groups")
   public List<ReadableGroup> groups() {
     List<Group> groups = groupService.list();
     List<ReadableGroup> readableGroups = new ArrayList<ReadableGroup>();

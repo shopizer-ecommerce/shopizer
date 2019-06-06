@@ -267,20 +267,23 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		
 		
 		//List of original images
-		Set<ProductImage> originalProductImages = null;
+/*		Set<ProductImage> originalProductImages = null;
 		
 		if(product.getId()!=null && product.getId()>0) {
 			originalProductImages = product.getImages();
-		}
+		}*/
+		
+		//take care of product images separately
+	    Set<ProductImage> originalProductImages = new HashSet<ProductImage>(product.getImages());
+	    
+
 		
 		/** save product first **/
 		
 		if(product.getId()!=null && product.getId()>0) {
 			super.update(product);
 		} else {			
-		
 			super.create(product);
-
 		}
 
 		/**
@@ -305,18 +308,34 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 						productImageService.addProductImage(product, image, cmsContentImage);
 						newImageIds.add(image.getId());
 					} else {
-						productImageService.save(image);
-						newImageIds.add(image.getId());
+					    if(image.getId()!=null) {
+    						productImageService.save(image);
+    						newImageIds.add(image.getId());
+					    }
 					}
 				}
 			}
 			
-			//cleanup old images
+			//cleanup old and new images
 			if(originalProductImages!=null) {
 				for(ProductImage image : originalProductImages) {
-					if(!newImageIds.contains(image.getId())) {
-						productImageService.delete(image);
-					}
+				  
+                  if(image.getImage()!=null && image.getId()==null) {
+                     image.setProduct(product);
+                     
+                     InputStream inputStream = image.getImage();
+                     ImageContentFile cmsContentImage = new ImageContentFile();
+                     cmsContentImage.setFileName( image.getProductImage() );
+                     cmsContentImage.setFile( inputStream );
+                     cmsContentImage.setFileContentType(FileContentType.PRODUCT);
+
+                     productImageService.addProductImage(product, image, cmsContentImage);
+                     newImageIds.add(image.getId());
+                  } else {
+                    if(!newImageIds.contains(image.getId())) {
+                        productImageService.delete(image);
+                    } 
+                  }
 				}
 			}
 			
