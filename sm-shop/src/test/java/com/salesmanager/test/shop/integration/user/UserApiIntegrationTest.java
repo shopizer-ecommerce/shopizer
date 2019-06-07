@@ -13,14 +13,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import com.salesmanager.shop.application.ShopApplication;
+import com.salesmanager.shop.model.shop.PersistableMerchantStore;
 import com.salesmanager.shop.model.user.ReadableUser;
+import com.salesmanager.shop.model.user.UserPassword;
 import com.salesmanager.test.shop.common.ServicesTestSupport;
+import junit.framework.Assert;
 
 @SpringBootTest(classes = ShopApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 @RunWith(SpringRunner.class)
 public class UserApiIntegrationTest extends ServicesTestSupport {
   
   private static Long DEFAULT_USER_ID = 1L;
+  private static String DEFAULT_PASSWORD = "password";
+  private static String NEW_PASSWORD = "Password1";
   
   @Inject
   private TestRestTemplate testRestTemplate;
@@ -37,6 +42,40 @@ public class UserApiIntegrationTest extends ServicesTestSupport {
           final ReadableUser user = response.getBody();
           assertNotNull(user);
       }
+  }
+  
+  @Test
+  public void changePassword() throws Exception {
+      final HttpEntity<String> httpEntity = new HttpEntity<>(getHeader());
+
+      ReadableUser user = null;
+      final ResponseEntity<ReadableUser> response = testRestTemplate.exchange(String.format("/api/v1/private/users/" + DEFAULT_USER_ID), HttpMethod.GET,
+              httpEntity, ReadableUser.class);
+      if (response.getStatusCode() != HttpStatus.OK) {
+          throw new Exception(response.toString());
+      } else {
+          user = response.getBody();
+          assertNotNull(user); 
+      }
+      
+      String oldPassword = DEFAULT_PASSWORD;
+      String newPassword = NEW_PASSWORD;
+      
+      UserPassword userPassword = new UserPassword();
+      userPassword.setPassword(oldPassword);
+      userPassword.setChangePassword(newPassword);
+      
+      final HttpEntity<UserPassword> changePasswordEntity = new HttpEntity<UserPassword>(userPassword, getHeader());
+
+      
+      final ResponseEntity<Void> changePassword = testRestTemplate.exchange(String.format("/api/v1/private/user/" + DEFAULT_USER_ID + "/password"), HttpMethod.PUT, changePasswordEntity, Void.class);
+      if (changePassword.getStatusCode() != HttpStatus.OK) {
+          throw new Exception(response.toString());
+      } else {
+        assertNotNull("Password changed"); 
+      }
+      
+      
   }
   
 

@@ -8,6 +8,7 @@ import com.salesmanager.shop.model.security.ReadablePermission;
 import com.salesmanager.shop.model.user.PersistableUser;
 import com.salesmanager.shop.model.user.ReadableUser;
 import com.salesmanager.shop.model.user.ReadableUserList;
+import com.salesmanager.shop.model.user.UserPassword;
 
 /**
  * Access to all methods for managing users
@@ -91,6 +92,15 @@ public interface UserFacade {
    * @param user
    */
   ReadableUser update(Long id, String authenticatedUser, String storeCode, PersistableUser user);
+  
+  /**
+   * Change password request
+   * @param userId
+   * @param authenticatedUser
+   * @param storeCode
+   * @param changePassword
+   */
+  void changePassword(Long userId, String authenticatedUser, String storeCode, UserPassword changePassword);
 
 
 }

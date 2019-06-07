@@ -28,11 +28,13 @@ import com.salesmanager.shop.model.security.ReadablePermission;
 import com.salesmanager.shop.model.user.PersistableUser;
 import com.salesmanager.shop.model.user.ReadableUser;
 import com.salesmanager.shop.model.user.ReadableUserList;
+import com.salesmanager.shop.model.user.UserPassword;
 import com.salesmanager.shop.populator.user.PersistableUserPopulator;
 import com.salesmanager.shop.populator.user.ReadableUserPopulator;
 import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
+import com.salesmanager.shop.store.controller.security.facade.SecurityFacade;
 
 @Service("userFacade")
 public class UserFacadeImpl implements UserFacade {
@@ -51,6 +53,9 @@ public class UserFacadeImpl implements UserFacade {
 
   @Inject
   private PersistableUserPopulator persistableUserPopulator;
+  
+  @Inject 
+  private SecurityFacade securityFacade;
 
   @Override
   public ReadableUser findByUserName(String userName, String storeCode, Language lang) {
@@ -119,21 +124,6 @@ public class UserFacadeImpl implements UserFacade {
     }
   }
 
-  /*
-   * @Override public ReadableUser findByUserNameWithPermissions(String userName, Language lang) {
-   * ReadableUser readableUser = findByUserName(userName, lang);
-   * 
-   *//**
-     * Add permissions on top of the groups
-     *//*
-       * //List<Integer> groupIds = readableUser.getGroups().stream().map(ReadableGroup::getId) //
-       * .map(Long::intValue).collect(Collectors.toList());
-       * 
-       * //List<ReadablePermission> permissions = findPermissionsByGroups(groupIds);
-       * //readableUser.setPermissions(permissions);
-       * 
-       * return readableUser; }
-       */
 
   @Override
   public List<ReadablePermission> findPermissionsByGroups(List<Integer> ids) {
@@ -273,7 +263,7 @@ public class UserFacadeImpl implements UserFacade {
   }
 
   @Override
-  public ReadableUser update(Long id, String authenticateUser, String storeCode, PersistableUser user) {
+  public ReadableUser update(Long id, String authenticatedUser, String storeCode, PersistableUser user) {
     Validate.notNull(user, "User cannot be null");
 
     try {
@@ -284,9 +274,9 @@ public class UserFacadeImpl implements UserFacade {
       if(user.getId().longValue() != id.longValue()) {
         throw new ServiceRuntimeException("Cannot find user [" + user.getUserName() + "] id or name does not match");
       }
-      User auth = userService.getByUserName(authenticateUser);
+      User auth = userService.getByUserName(authenticatedUser);
       if (auth == null) {
-        throw new ServiceRuntimeException("Cannot find user [" + authenticateUser + "]");
+        throw new ServiceRuntimeException("Cannot find user [" + authenticatedUser + "]");
       }
       boolean isActive = userModel.isActive();
       List<Group> originalGroups = userModel.getGroups();
@@ -329,6 +319,59 @@ public class UserFacadeImpl implements UserFacade {
       throw new ResourceNotFoundException("User [" + id + "] not found");
     }
     return convertUserToReadableUser(lang, user);
+  }
+
+  @Override
+  public void changePassword(Long userId, String authenticatedUser, String storeCode,
+      UserPassword changePassword) {
+    
+    Validate.notNull(changePassword, "Change password request must not be null");
+    Validate.notNull(changePassword.getPassword(), "Original password request must not be null");
+    Validate.notNull(changePassword.getChangePassword(), "New password request must not be null");
+    
+    /**
+     * Only admin and superadmin can change other user password
+     */
+    User auth = null;
+    try {
+      auth = userService.getByUserName(authenticatedUser);
+
+      if (auth == null) {
+        throw new ServiceRuntimeException("Cannot find user [" + authenticatedUser + "]");
+      }
+      
+      User userModel = userService.getById(userId);
+      if (userModel == null) {
+        throw new ServiceRuntimeException("Cannot find user [" + userId + "]");
+      }
+
+      /**
+       * need to validate if actual password match
+       */
+      
+      if(!securityFacade.matchPassword(userModel.getAdminPassword(), changePassword.getPassword())) {
+        throw new ServiceRuntimeException("Actual password does not match for user [" + userId + "]");
+      }
+          
+      /**
+       * Validate new password
+       */
+      if(!securityFacade.validateUserPassword(changePassword.getChangePassword())) {
+        throw new ServiceRuntimeException("New password does not apply to format policy");
+      }
+      
+      String newPasswordEncoded = securityFacade.encodePassword(changePassword.getChangePassword());
+      userModel.setAdminPassword(newPasswordEncoded);
+      
+      userService.update(userModel);
+    
+    
+    } catch (ServiceException e) {
+      e.printStackTrace();
+    }
+    
+    
+    
   }
 
 }

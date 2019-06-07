@@ -30,6 +30,7 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.user.PersistableUser;
 import com.salesmanager.shop.model.user.ReadableUser;
 import com.salesmanager.shop.model.user.ReadableUserList;
+import com.salesmanager.shop.model.user.UserPassword;
 import com.salesmanager.shop.store.api.exception.UnauthorizedException;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.store.controller.user.facade.UserFacade;
@@ -145,25 +146,56 @@ public class UserApi {
 
   @ResponseStatus(HttpStatus.OK)
   @PutMapping(
-      value = {"/private/{store}/user/{id}", "/private/user/{userName}"},
+      value = {"/private/user/{id}"},
       produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(
       httpMethod = "PUT",
       value = "Updates a user",
       notes = "",
       response = ReadableUser.class)
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+    @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
+  })
   public ReadableUser update(
       @Valid @RequestBody PersistableUser user,
-      @PathVariable Optional<String> store,
       @PathVariable Long id,
-      HttpServletRequest request) {
+      @ApiIgnore MerchantStore merchantStore, 
+      @ApiIgnore Language language) {
 
-    String storeCd = store.orElse(Constants.DEFAULT_STORE);
+    String storeCd = merchantStore.getCode();
     String authenticatedUser = userFacade.authenticatedUser();
     if (authenticatedUser == null) {
       throw new UnauthorizedException();
     }
     return userFacade.update(id, authenticatedUser, storeCd, user);
+  }
+  
+  @ResponseStatus(HttpStatus.OK)
+  @PutMapping(
+      value = {"/private/user/{id}/password"},
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  @ApiOperation(
+      httpMethod = "PUT",
+      value = "Updates a user password",
+      notes = "",
+      response = Void.class)
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+    @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
+  })
+  public void password(
+      @Valid @RequestBody UserPassword password,
+      @PathVariable Long id,
+      @ApiIgnore MerchantStore merchantStore, 
+      @ApiIgnore Language language) {
+
+    String storeCd = merchantStore.getCode();
+    String authenticatedUser = userFacade.authenticatedUser();
+    if (authenticatedUser == null) {
+      throw new UnauthorizedException();
+    }
+    userFacade.changePassword(id, authenticatedUser, storeCd, password);
   }
 
   @ResponseStatus(HttpStatus.OK)
