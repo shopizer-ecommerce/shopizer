@@ -109,8 +109,8 @@ public class UserApi {
       httpMethod = "POST",
       value = "Creates a new user",
       notes = "",
-      response = Void.class)
-  public void create(
+      response = ReadableUser.class)
+  public ReadableUser create(
       @ApiParam(
               name = "store",
               value = "Optional - Store code",
@@ -130,7 +130,6 @@ public class UserApi {
         authenticatedUser, Stream.of("SUPERADMIN", "ADMIN").collect(Collectors.toList()));
 
     String storeCd = Constants.DEFAULT_STORE;
-    ;
     if (store.isPresent()) {
       storeCd = store.get();
     }
@@ -141,7 +140,7 @@ public class UserApi {
       userFacade.authorizedStore(authenticatedUser, storeCd);
     }
 
-    userFacade.create(user, merchantStore);
+    return userFacade.create(user, merchantStore);
   }
 
   @ResponseStatus(HttpStatus.OK)

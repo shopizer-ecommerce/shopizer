@@ -1,13 +1,5 @@
 package com.salesmanager.test.shop.common;
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.springframework.http.HttpStatus.CREATED;
-
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,11 +11,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.shop.application.ShopApplication;
-import com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription;
-import com.salesmanager.shop.model.catalog.manufacturer.PersistableManufacturer;
 import com.salesmanager.shop.model.shop.ReadableMerchantStore;
 import com.salesmanager.shop.populator.customer.ReadableCustomerList;
 import com.salesmanager.shop.store.security.AuthenticationRequest;

@@ -40,7 +40,7 @@ public interface UserFacade {
    * @param user
    * @param store
    */
-  void create(PersistableUser user, MerchantStore store);
+  ReadableUser create(PersistableUser user, MerchantStore store);
 
   /**
    * List permissions by group
