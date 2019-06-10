@@ -14,12 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import com.salesmanager.shop.application.ShopApplication;
 import com.salesmanager.shop.model.security.PersistableGroup;
-import com.salesmanager.shop.model.shop.PersistableMerchantStore;
 import com.salesmanager.shop.model.user.PersistableUser;
 import com.salesmanager.shop.model.user.ReadableUser;
 import com.salesmanager.shop.model.user.UserPassword;
 import com.salesmanager.test.shop.common.ServicesTestSupport;
-import junit.framework.Assert;
 
 @SpringBootTest(classes = ShopApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 @RunWith(SpringRunner.class)
