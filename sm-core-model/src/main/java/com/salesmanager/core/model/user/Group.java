@@ -43,8 +43,7 @@ public class Group extends SalesManagerEntity<Integer, Group> implements Auditab
 	public Group() {
 		
 	}
-	
-	//@NotEmpty
+
 	@Column (name ="GROUP_TYPE")
 	@Enumerated(value = EnumType.STRING)
 	private GroupType groupType;
@@ -57,7 +56,7 @@ public class Group extends SalesManagerEntity<Integer, Group> implements Auditab
 		this.groupName = groupName;
 	}
 	
-	@ManyToMany(mappedBy = "groups")
+	@ManyToMany(mappedBy = "groups")//TODO LAZY LOAD
 	private Set<Permission> permissions = new HashSet<Permission>();	
 	
 	public Set<Permission> getPermissions() {

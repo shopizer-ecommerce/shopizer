@@ -47,6 +47,7 @@ import com.salesmanager.shop.model.shoppingcart.ShoppingCartData;
 import com.salesmanager.shop.model.shoppingcart.ShoppingCartItem;
 import com.salesmanager.shop.populator.shoppingCart.ReadableShoppingCartPopulator;
 import com.salesmanager.shop.populator.shoppingCart.ShoppingCartDataPopulator;
+import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.ImageFilePath;
 
@@ -482,7 +483,7 @@ public class ShoppingCartFacadeImpl
                         new HashSet<com.salesmanager.core.model.shoppingcart.ShoppingCartItem>();
                     for ( com.salesmanager.core.model.shoppingcart.ShoppingCartItem shoppingCartItem : cartModel.getLineItems() )
                     {
-                    	if ( shoppingCartItem.getId().longValue() == itemID.longValue() )
+                    	if ( shoppingCartItem.getProduct().getId().longValue() == itemID.longValue() )
                         {
                     		shoppingCartService.deleteShoppingCartItem(itemID);
                         } else {
@@ -709,6 +710,60 @@ public class ShoppingCartFacadeImpl
 		return readableShoppingCart(cartModel,item,store,language);
 	}
 	
+
+	@Override
+	public void removeShoppingCartItem(String cartCode, Long productId,
+	      MerchantStore merchant, Language language) throws Exception {
+	    Validate.notNull(cartCode, "Shopping cart code must not be null");
+	    Validate.notNull(productId, "product id must not be null");
+	    Validate.notNull(merchant, "MerchantStore must not be null");
+	    
+	  
+	    //get cart
+	    ShoppingCart cart = getCartModel(cartCode, merchant);
+	    
+	    if(cart == null) {
+	      throw new ResourceNotFoundException("Cart code [ " + cartCode + " ] not found");
+	    }
+	    
+	    Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> items = new HashSet<com.salesmanager.core.model.shoppingcart.ShoppingCartItem>();
+	    com.salesmanager.core.model.shoppingcart.ShoppingCartItem deleteItem = null;
+	    for ( com.salesmanager.core.model.shoppingcart.ShoppingCartItem shoppingCartItem : cart.getLineItems() )
+        {
+            if ( shoppingCartItem.getProduct().getId().longValue() == productId.longValue() )
+            {
+                //get cart item
+                com.salesmanager.core.model.shoppingcart.ShoppingCartItem lineItem =
+                    getEntryToUpdate( shoppingCartItem.getId(), cart );
+                
+                
+                break;
+
+            } else {
+              items.add(shoppingCartItem);
+            }
+        }
+        
+        
+        cart.setLineItems(items);
+        ReadableShoppingCart readableShoppingCart = null;
+        
+        if(items.size()>0) {
+          shoppingCartService.saveOrUpdate(cart);
+          readableShoppingCart = this.getByCode(cartCode, merchant, language);
+          if(deleteItem != null) {
+            shoppingCartService.deleteShoppingCartItem(deleteItem.getId());
+          }
+          
+        } else {
+          //remove cart
+          ShoppingCart c = shoppingCartService.getByCode(cartCode, merchant);
+          shoppingCartService.delete(c);
+          readableShoppingCart = new ReadableShoppingCart();
+        }
+
+	}
+	
 	private ReadableShoppingCart readableShoppingCart(ShoppingCart cartModel, PersistableShoppingCartItem item, MerchantStore store,
 			Language language) throws Exception {
 		
@@ -770,7 +825,7 @@ public class ShoppingCartFacadeImpl
 		
 		com.salesmanager.core.model.shoppingcart.ShoppingCartItem itemModel = createCartItem(cartModel, item, store);
 
-        
+        boolean itemModified = false;
         //check if existing product
        	Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> items = cartModel.getLineItems();
        	//com.salesmanager.core.model.shoppingcart.ShoppingCartItem affectedItem = null;
@@ -787,8 +842,9 @@ public class ShoppingCartFacadeImpl
 	    				anItem.setQuantity(item.getQuantity());
 	    				newItems.add(anItem);
 	    			}
+	    			itemModified = true;
 	    		} else {
-	    			newItems.add(itemModel);
+	    			newItems.add(anItem);
 	    		}
 	    	}
 	    	
@@ -799,9 +855,14 @@ public class ShoppingCartFacadeImpl
 	    		
 	    	}
 	    	
+	    	if(!itemModified) {
+	    	  newItems.add(itemModel);
+	    	}
+	    	
 	    	if(newItems.isEmpty()) {
 	    		newItems = null;
 	    	}
+	    	
 	    	cartModel.setLineItems(newItems);
        	} else {
            	//new item
@@ -861,7 +922,7 @@ public class ShoppingCartFacadeImpl
 	}
 	
 	@Override
-	public ReadableShoppingCart addToCart(String cartCode, PersistableShoppingCartItem item, MerchantStore store,
+	public ReadableShoppingCart modifyCart(String cartCode, PersistableShoppingCartItem item, MerchantStore store,
 			Language language) throws Exception {
 
 		Validate.notNull(cartCode,"PString cart code cannot be null");
@@ -936,6 +997,7 @@ public class ShoppingCartFacadeImpl
 		return readableCart;
 		
 	}
+
 
 
 }

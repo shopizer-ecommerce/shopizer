@@ -270,11 +270,11 @@ public class UserFacadeImpl implements UserFacade {
     Validate.notNull(user, "User cannot be null");
 
     try {
-      User userModel = userService.getByUserName(user.getUserName());
+      User userModel = userService.findByStore(id, storeCode);
       if (userModel == null) {
         throw new ServiceRuntimeException("Cannot find user [" + user.getUserName() + "]");
       }
-      if(user.getId().longValue() != id.longValue()) {
+      if(userModel.getId().longValue() != id.longValue()) {
         throw new ServiceRuntimeException("Cannot find user [" + user.getUserName() + "] id or name does not match");
       }
       User auth = userService.getByUserName(authenticatedUser);

@@ -15,6 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.google.api.gax.paging.Page;
 import com.google.cloud.ReadChannel;
+import com.google.cloud.storage.Acl;
+import com.google.cloud.storage.Acl.Role;
+import com.google.cloud.storage.Acl.User;
 import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
@@ -189,8 +192,9 @@ public class GCPProductContentFileManager implements ProductAssetsManager {
       try {
         byte[] targetArray = IOUtils.toByteArray(contentImage.getFile());
         BlobId blobId = BlobId.of(bucketName, fileName.toString());
-        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(contentImage.getMimeType()).build();
+        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("image/jpeg").build();
         storage.create(blobInfo, targetArray);
+        Acl acl = storage.createAcl(blobId, Acl.of(User.ofAllUsers(), Role.READER));
       } catch (IOException ioe) {
         throw new ServiceException(ioe);
       }
@@ -206,13 +210,16 @@ public class GCPProductContentFileManager implements ProductAssetsManager {
 
     List<String> sizes = Arrays.asList(SMALL, LARGE);
     for(String size : sizes) {
-      BlobId blobId = BlobId.of(bucketName(), filePath(productImage.getProduct().getMerchantStore().getCode(), productImage.getProduct().getSku(), size, productImage.getProductImage()));
+      String filePath = filePath(productImage.getProduct().getMerchantStore().getCode(), productImage.getProduct().getSku(), size, productImage.getProductImage());
+      BlobId blobId = BlobId.of(bucketName(), filePath);
       if(blobId==null) {
-        throw new ServiceException("Image not found " + productImage.getProductImage());
+        LOGGER.info("Image path " + filePath + " does not exist");
+        return;
+        //throw new ServiceException("Image not found " + productImage.getProductImage());
       }
       boolean deleted = storage.delete(blobId);
       if (!deleted) {
-        throw new ServiceException("Cannot delete image [" + productImage.getProductImage() + "]");
+        LOGGER.error("Cannot delete image [" + productImage.getProductImage() + "]");
       }
     }
   

@@ -35,6 +35,15 @@ public interface ShoppingCartFacade {
      * Method responsible for getting shopping cart from
      * either session or from underlying DB.
      */
+    /**
+     * jsp cart methods
+     * @param customer
+     * @param store
+     * @param shoppingCartId
+     * @param language
+     * @return
+     * @throws Exception
+     */
     public ShoppingCartData getShoppingCartData(final Customer customer,final  MerchantStore store,final String shoppingCartId, Language language) throws Exception;
     public ShoppingCartData getShoppingCartData(final ShoppingCart shoppingCart, Language language) throws Exception;
     public ShoppingCartData getShoppingCartData(String code, MerchantStore store, Language lnguage) throws Exception;
@@ -69,7 +78,7 @@ public interface ShoppingCartFacade {
 	 * @return
 	 * @throws Exception
 	 */
-	ReadableShoppingCart addToCart(String cartCode, PersistableShoppingCartItem item, MerchantStore store,
+	ReadableShoppingCart modifyCart(String cartCode, PersistableShoppingCartItem item, MerchantStore store,
 			Language language) throws Exception;
 	
 	/**
@@ -82,6 +91,17 @@ public interface ShoppingCartFacade {
 	 */
 	ReadableShoppingCart addToCart(PersistableShoppingCartItem item, MerchantStore store,
 			Language language) throws Exception;
+	
+	/**
+	 * Removes a shopping cart item
+	 * @param cartCode
+	 * @param productId
+	 * @param merchant
+	 * @param language
+	 * @return
+	 * @throws Exception
+	 */
+	void removeShoppingCartItem(String cartCode, Long productId, MerchantStore merchant, Language languag) throws Exception;
 	
 	/**
 	 * Add product to ShoppingCart

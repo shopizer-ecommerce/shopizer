@@ -3,7 +3,7 @@ package com.salesmanager.shop.application.config;
 import com.salesmanager.core.business.modules.cms.impl.VendorCacheManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import java.util.Properties;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
@@ -14,6 +14,14 @@ public class ShopServletContextListener implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent servletContextEvent) {
 		logger.info("===context init===");
+		System.getenv().forEach((k, v) -> {
+		  logger.debug(k + ":" + v);
+		});
+		Properties props = System.getProperties();
+		logger.info("======");
+		props.forEach((k, v) -> {
+		  logger.debug(k + ":" + v);
+		});
 	}
 
 	@Override

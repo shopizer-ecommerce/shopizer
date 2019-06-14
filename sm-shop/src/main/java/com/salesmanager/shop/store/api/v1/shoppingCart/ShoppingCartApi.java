@@ -44,7 +44,7 @@ public class ShoppingCartApi {
   @RequestMapping(value = "/cart", method = RequestMethod.POST)
   @ApiOperation(
       httpMethod = "POST",
-      value = "Add product to shopping cart",
+      value = "Add product to shopping cart when no cart exists, this will create a new cart id",
       notes =
           "No customer ID in scope. Add to cart for non authenticated users, as simple as {\"product\":1232,\"quantity\":1}",
       produces = "application/json",
@@ -80,7 +80,7 @@ public class ShoppingCartApi {
   @RequestMapping(value = "/cart/{code}", method = RequestMethod.PUT)
   @ApiOperation(
       httpMethod = "PUT",
-      value = "Add to an existing shopping cart",
+      value = "Add to an existing shopping cart or modify an item quantity",
       notes =
           "No customer ID in scope. Modify cart for non authenticated users, as simple as {\"product\":1232,\"quantity\":0} for instance will remove item 1234 from cart",
       produces = "application/json",
@@ -98,7 +98,7 @@ public class ShoppingCartApi {
 
     try {
       ReadableShoppingCart cart =
-          shoppingCartFacade.addToCart(code, shoppingCartItem, merchantStore, language);
+          shoppingCartFacade.modifyCart(code, shoppingCartItem, merchantStore, language);
 
       return cart;
 
@@ -244,9 +244,15 @@ public class ShoppingCartApi {
   }
   
   @DeleteMapping(
-      value = "/cart/{code}/item/{id}",
+      value = "/cart/{code}/product/{id}",
       produces = {APPLICATION_JSON_VALUE, APPLICATION_XML_VALUE})
-  @ResponseStatus(NO_CONTENT)
+  @ResponseStatus(HttpStatus.OK)
+  @ApiOperation(
+      httpMethod = "DELETE",
+      value = "Remove a product from a specific cart",
+      notes = "",
+      produces = "application/json",
+      response = Void.class)
   @ApiImplicitParams({
     @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
     @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
@@ -255,11 +261,9 @@ public class ShoppingCartApi {
       @PathVariable("code") String cartCode,
       @PathVariable("id") Long itemId,
       @ApiIgnore MerchantStore merchantStore,
-      @ApiIgnore Language language) {
-    try {
-      shoppingCartFacade.removeCartItem(itemId, cartCode, merchantStore, language);
-    } catch (Exception e) {
-      throw new ServiceRuntimeException("Error while deleting shoppingcart item", e);
-    }
+      @ApiIgnore Language language) throws Exception{
+
+     shoppingCartFacade.removeShoppingCartItem(cartCode, itemId, merchantStore, language);
+
   }
 }

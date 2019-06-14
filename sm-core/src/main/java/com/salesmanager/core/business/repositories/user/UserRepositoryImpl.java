@@ -26,7 +26,8 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     try {
       StringBuilder req = new StringBuilder();
       req.append(
-          "select distinct u from User as u left join fetch u.groups ug left join fetch u.defaultLanguage ud join fetch u.merchantStore um left join fetch ug.permissions ugp");
+          //"select distinct u from User as u left join fetch u.groups ug left join fetch u.defaultLanguage ud join fetch u.merchantStore um left join fetch ug.permissions ugp");
+          "select distinct u from User as u left join fetch u.groups ug left join fetch u.defaultLanguage ud join fetch u.merchantStore um");
       StringBuilder countBuilder = new StringBuilder();
       countBuilder.append("select count(distinct u) from User as u join u.merchantStore um");
       if (!StringUtils.isBlank(criteria.getStoreCode())) {

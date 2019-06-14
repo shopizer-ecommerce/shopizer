@@ -342,31 +342,7 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 		
 		Product refreshed = productService.getByCode("TB12345", en);
 		productService.delete(refreshed);
-		
-		
-/*		updatableProduct.setDateAvailable(new java.util.Date());
-		productService.create(updatableProduct);
-		
-		//go and get products again
-		products = productService.listByStore(store);
 
-		updatableProduct = products.get(0);
-		
-		//test create, view attribute
-		testInsertAttribute(updatableProduct);
-		testViewAttribute(updatableProduct);
-		
-		//go and get products again
-		products = productService.listByStore(store);
-
-		updatableProduct = products.get(0);
-		
-		testCreateRelationShip(updatableProduct);
-		
-		
-		//Now remove product
-		productService.delete(updatableProduct);*/
-		
 		
 	    
 	}
