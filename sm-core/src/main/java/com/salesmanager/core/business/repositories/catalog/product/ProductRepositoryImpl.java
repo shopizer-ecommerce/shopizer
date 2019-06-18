@@ -13,8 +13,10 @@ import javax.persistence.Query;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.services.catalog.product.ProductServiceImpl;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.ProductCriteria;
 import com.salesmanager.core.model.catalog.product.ProductList;
@@ -26,6 +28,7 @@ import com.salesmanager.core.model.tax.taxclass.TaxClass;
 
 public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProductRepositoryImpl.class);
 	
     @PersistenceContext
     private EntityManager em;
@@ -203,7 +206,12 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     	Product p = null;
     	
     	try {
-    		p = (Product)q.getSingleResult();
+    	    List<Product> products = q.getResultList();
+    	    if(products.size()>1) {
+    	      LOGGER.error("Found multiple products for list of criterias with main criteria [" + seUrl + "]" );
+    	    }
+    		//p = (Product)q.getSingleResult();
+    	    p = products.get(0);
     	} catch(javax.persistence.NoResultException ignore) {
 
     	}

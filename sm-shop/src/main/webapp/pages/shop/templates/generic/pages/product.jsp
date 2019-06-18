@@ -184,7 +184,7 @@
 														:
 													</dt>
 													<dd>
-														<fmt:formatNumber value="${product.productWeight}"
+														<fmt:formatNumber value="${product.productSpecifications.weight}"
 															maxFractionDigits="2" />
 														&nbsp;
 														<s:message
@@ -196,7 +196,7 @@
 														:
 													</dt>
 													<dd>
-														<fmt:formatNumber value="${product.productHeight}"
+														<fmt:formatNumber value="${product.productSpecifications.height}"
 															maxFractionDigits="2" />
 														&nbsp;
 														<s:message
@@ -208,7 +208,7 @@
 														:
 													</dt>
 													<dd>
-														<fmt:formatNumber value="${product.productWidth}"
+														<fmt:formatNumber value="${product.productSpecifications.width}"
 															maxFractionDigits="2" />
 														&nbsp;
 														<s:message
@@ -220,7 +220,7 @@
 														:
 													</dt>
 													<dd>
-														<fmt:formatNumber value="${product.productLength}"
+														<fmt:formatNumber value="${product.productSpecifications.length}"
 															maxFractionDigits="2" />
 														&nbsp;
 														<s:message

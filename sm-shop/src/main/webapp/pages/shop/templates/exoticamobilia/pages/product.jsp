@@ -156,13 +156,13 @@ response.setDateHeader ("Expires", -1);
 														<p>
 															<dl class="dl-horizontal">
 																<!--<dt><s:message code="label.product.weight" text="Weight" />:</dt>
-																<dd><fmt:formatNumber value="${product.productWeight}" maxFractionDigits="2"/>&nbsp;<s:message code="label.generic.weightunit.${requestScope.MERCHANT_STORE.weightunitcode}" text="Pounds" /></dd>-->
+																<dd><fmt:formatNumber value="${product.productSpecifications.weight}" maxFractionDigits="2"/>&nbsp;<s:message code="label.generic.weightunit.${requestScope.MERCHANT_STORE.weightunitcode}" text="Pounds" /></dd>-->
 																<dt><s:message code="label.product.height" text="Height" />:</dt>
-																<dd><fmt:formatNumber value="${product.productHeight}" maxFractionDigits="2"/>&nbsp;<s:message code="label.generic.sizeunit.${requestScope.MERCHANT_STORE.seizeunitcode}" text="Inches" /></dd>
+																<dd><fmt:formatNumber value="${product.productSpecifications.height}" maxFractionDigits="2"/>&nbsp;<s:message code="label.generic.sizeunit.${requestScope.MERCHANT_STORE.seizeunitcode}" text="Inches" /></dd>
 																<dt><s:message code="label.product.width" text="Width" />:</dt>
-																<dd><fmt:formatNumber value="${product.productWidth}" maxFractionDigits="2"/>&nbsp;<s:message code="label.generic.sizeunit.${requestScope.MERCHANT_STORE.seizeunitcode}" text="Inches" /></dd>
+																<dd><fmt:formatNumber value="${product.productSpecifications.width}" maxFractionDigits="2"/>&nbsp;<s:message code="label.generic.sizeunit.${requestScope.MERCHANT_STORE.seizeunitcode}" text="Inches" /></dd>
 																<dt><s:message code="label.product.length" text="Length" />:</dt>
-																<dd><fmt:formatNumber value="${product.productLength}" maxFractionDigits="2"/>&nbsp;<s:message code="label.generic.sizeunit.${requestScope.MERCHANT_STORE.seizeunitcode}" text="Inches" /></dd>
+																<dd><fmt:formatNumber value="${product.productSpecifications.length}" maxFractionDigits="2"/>&nbsp;<s:message code="label.generic.sizeunit.${requestScope.MERCHANT_STORE.seizeunitcode}" text="Inches" /></dd>
 															</dl>
 														</p>
 														<c:if test="${product.manufacturer.code=='green' || product.manufacturer.code=='local'}">
