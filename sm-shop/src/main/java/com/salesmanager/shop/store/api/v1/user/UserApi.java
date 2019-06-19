@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +28,8 @@ import com.salesmanager.core.business.services.reference.language.LanguageServic
 import com.salesmanager.core.model.common.Criteria;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.model.entity.EntityExists;
+import com.salesmanager.shop.model.entity.UniqueEntity;
 import com.salesmanager.shop.model.user.PersistableUser;
 import com.salesmanager.shop.model.user.ReadableUser;
 import com.salesmanager.shop.model.user.ReadableUserList;
@@ -265,6 +268,20 @@ public class UserApi {
         authenticatedUser, Stream.of("SUPERADMIN", "ADMIN").collect(Collectors.toList()));
 
     userFacade.delete(id, merchantStore.getCode());
+  }
+  
+  @ResponseStatus(HttpStatus.OK)
+  @GetMapping(value = {"/private/user/unique"}, produces = MediaType.APPLICATION_JSON_VALUE)
+  @ApiOperation(httpMethod = "GET", value = "Check if username already exists", notes = "",
+      response = EntityExists.class)
+  public ResponseEntity<EntityExists> exists(
+      @ApiIgnore MerchantStore merchantStore, 
+      @ApiIgnore Language language,
+      @RequestBody UniqueEntity userName) {
+    
+    ReadableUser readableUser = userFacade.findByUserName(userName.getUnique(),merchantStore.getCode(), language);
+    boolean isUserExist = readableUser!=null?true:false;
+    return new ResponseEntity<EntityExists>(new EntityExists(isUserExist), HttpStatus.OK);
   }
 
   private Criteria createCriteria(Integer start, Integer count, HttpServletRequest request) {

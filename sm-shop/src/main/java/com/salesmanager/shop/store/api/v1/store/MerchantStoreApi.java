@@ -82,11 +82,12 @@ public class MerchantStoreApi {
   @PutMapping(value = {"/private/store/{code}"}, produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(httpMethod = "PUT", value = "Updates a store", notes = "",
       response = ReadableMerchantStore.class)
-  public ReadableMerchantStore update(@Valid @RequestBody PersistableMerchantStore store,
+  public ReadableMerchantStore update(@PathVariable String code, @Valid @RequestBody PersistableMerchantStore store,
       HttpServletRequest request) {
 
     String userName = getUserFromRequest(request);
-    validateUserPermission(userName, store.getCode());
+    validateUserPermission(userName, code);
+    store.setCode(code);
     return storeFacade.update(store);
   }
 
