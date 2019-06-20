@@ -34,6 +34,7 @@ import com.salesmanager.shop.model.user.PersistableUser;
 import com.salesmanager.shop.model.user.ReadableUser;
 import com.salesmanager.shop.model.user.ReadableUserList;
 import com.salesmanager.shop.model.user.UserPassword;
+import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.UnauthorizedException;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.store.controller.user.facade.UserFacade;
@@ -53,18 +54,18 @@ public class UserApi {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(UserApi.class);
 
-  @Inject private StoreFacade storeFacade;
+  @Inject
+  private StoreFacade storeFacade;
 
-  @Inject private UserFacade userFacade;
+  @Inject
+  private UserFacade userFacade;
 
-  @Inject private LanguageService languageService;
+  @Inject
+  private LanguageService languageService;
 
   // mapping between readable field name and backend field name
-  private static final Map<String, String> MAPPING_FIELDS =
-      ImmutableMap.<String, String>builder()
-          .put("emailAddress", "adminEmail")
-          .put("userName", "adminName")
-          .build();
+  private static final Map<String, String> MAPPING_FIELDS = ImmutableMap.<String, String>builder()
+      .put("emailAddress", "adminEmail").put("userName", "adminName").build();
 
   /**
    * Get userName by merchant code and userName
@@ -76,24 +77,18 @@ public class UserApi {
    */
   @ResponseStatus(HttpStatus.OK)
   @GetMapping({"/private/users/{id}"})
-  @ApiOperation(
-      httpMethod = "GET",
-      value = "Get a specific user profile by user id",
-      notes = "",
-      produces = MediaType.APPLICATION_JSON_VALUE,
-      response = ReadableUser.class)
-  @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", responseContainer = "User",response = ReadableUser.class),
+  @ApiOperation(httpMethod = "GET", value = "Get a specific user profile by user id", notes = "",
+      produces = MediaType.APPLICATION_JSON_VALUE, response = ReadableUser.class)
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Success", responseContainer = "User",
+          response = ReadableUser.class),
       @ApiResponse(code = 400, message = "Error while getting User"),
-      @ApiResponse(code = 401, message = "Login required") })
+      @ApiResponse(code = 401, message = "Login required")})
   @ApiImplicitParams({
-    @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
-    @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
-  })
-    public ReadableUser get(
-        @ApiIgnore MerchantStore merchantStore, 
-        @ApiIgnore Language language,
-        @PathVariable Long id,
-        HttpServletRequest request) {
+      @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")})
+  public ReadableUser get(@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language,
+      @PathVariable Long id, HttpServletRequest request) {
     return userFacade.findById(id, merchantStore.getCode(), language);
   }
 
@@ -105,32 +100,22 @@ public class UserApi {
    * @return
    */
   @ResponseStatus(HttpStatus.OK)
-  @PostMapping(
-      value = {"/private/{store}/user/", "/private/user/"},
+  @PostMapping(value = {"/private/{store}/user/", "/private/user/"},
       produces = MediaType.APPLICATION_JSON_VALUE)
-  @ApiOperation(
-      httpMethod = "POST",
-      value = "Creates a new user",
-      notes = "",
+  @ApiOperation(httpMethod = "POST", value = "Creates a new user", notes = "",
       response = ReadableUser.class)
   public ReadableUser create(
-      @ApiParam(
-              name = "store",
-              value = "Optional - Store code",
-              required = false,
-              defaultValue = "DEFAULT")
-          @PathVariable
-          Optional<String> store,
-      @Valid @RequestBody PersistableUser user,
-      HttpServletRequest request) {
+      @ApiParam(name = "store", value = "Optional - Store code", required = false,
+          defaultValue = "DEFAULT") @PathVariable Optional<String> store,
+      @Valid @RequestBody PersistableUser user, HttpServletRequest request) {
     /** Must be superadmin or admin */
     String authenticatedUser = userFacade.authenticatedUser();
     if (authenticatedUser == null) {
       throw new UnauthorizedException();
     }
     // only admin and superadmin allowed
-    userFacade.authorizedGroup(
-        authenticatedUser, Stream.of("SUPERADMIN", "ADMIN").collect(Collectors.toList()));
+    userFacade.authorizedGroup(authenticatedUser,
+        Stream.of("SUPERADMIN", "ADMIN").collect(Collectors.toList()));
 
     String storeCd = Constants.DEFAULT_STORE;
     if (store.isPresent()) {
@@ -147,23 +132,14 @@ public class UserApi {
   }
 
   @ResponseStatus(HttpStatus.OK)
-  @PutMapping(
-      value = {"/private/user/{id}"},
-      produces = MediaType.APPLICATION_JSON_VALUE)
-  @ApiOperation(
-      httpMethod = "PUT",
-      value = "Updates a user",
-      notes = "",
+  @PutMapping(value = {"/private/user/{id}"}, produces = MediaType.APPLICATION_JSON_VALUE)
+  @ApiOperation(httpMethod = "PUT", value = "Updates a user", notes = "",
       response = ReadableUser.class)
   @ApiImplicitParams({
-    @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
-    @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
-  })
-  public ReadableUser update(
-      @Valid @RequestBody PersistableUser user,
-      @PathVariable Long id,
-      @ApiIgnore MerchantStore merchantStore, 
-      @ApiIgnore Language language) {
+      @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")})
+  public ReadableUser update(@Valid @RequestBody PersistableUser user, @PathVariable Long id,
+      @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
 
     String storeCd = merchantStore.getCode();
     String authenticatedUser = userFacade.authenticatedUser();
@@ -172,25 +148,16 @@ public class UserApi {
     }
     return userFacade.update(id, authenticatedUser, storeCd, user);
   }
-  
+
   @ResponseStatus(HttpStatus.OK)
-  @PutMapping(
-      value = {"/private/user/{id}/password"},
-      produces = MediaType.APPLICATION_JSON_VALUE)
-  @ApiOperation(
-      httpMethod = "PUT",
-      value = "Updates a user password",
-      notes = "",
+  @PutMapping(value = {"/private/user/{id}/password"}, produces = MediaType.APPLICATION_JSON_VALUE)
+  @ApiOperation(httpMethod = "PUT", value = "Updates a user password", notes = "",
       response = Void.class)
   @ApiImplicitParams({
-    @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
-    @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
-  })
-  public void password(
-      @Valid @RequestBody UserPassword password,
-      @PathVariable Long id,
-      @ApiIgnore MerchantStore merchantStore, 
-      @ApiIgnore Language language) {
+      @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")})
+  public void password(@Valid @RequestBody UserPassword password, @PathVariable Long id,
+      @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
 
     String storeCd = merchantStore.getCode();
     String authenticatedUser = userFacade.authenticatedUser();
@@ -201,25 +168,15 @@ public class UserApi {
   }
 
   @ResponseStatus(HttpStatus.OK)
-  @GetMapping(
-      value = {"/private/{store}/users/", "/private/users/"},
+  @GetMapping(value = {"/private/{store}/users/", "/private/users/"},
       produces = MediaType.APPLICATION_JSON_VALUE)
-  @ApiOperation(
-      httpMethod = "GET",
-      value = "Get list of user",
-      notes = "",
+  @ApiOperation(httpMethod = "GET", value = "Get list of user", notes = "",
       response = ReadableUserList.class)
   public ReadableUserList list(
-      @ApiParam(
-              name = "store",
-              value = "Optional - Store code",
-              required = false,
-              defaultValue = "DEFAULT")
-          @PathVariable
-          Optional<String> store,
+      @ApiParam(name = "store", value = "Optional - Store code", required = false,
+          defaultValue = "DEFAULT") @PathVariable Optional<String> store,
       @RequestParam(value = "start", required = false) Integer start,
-      @RequestParam(value = "length", required = false) Integer count,
-      HttpServletRequest request) {
+      @RequestParam(value = "length", required = false) Integer count, HttpServletRequest request) {
 
     String authenticatedUser = userFacade.authenticatedUser();
     if (authenticatedUser == null) {
@@ -235,8 +192,8 @@ public class UserApi {
       userFacade.authorizedStore(authenticatedUser, storeCd);
     }
 
-    userFacade.authorizedGroup(
-        authenticatedUser, Stream.of("SUPERADMIN", "ADMIN").collect(Collectors.toList()));
+    userFacade.authorizedGroup(authenticatedUser,
+        Stream.of("SUPERADMIN", "ADMIN").collect(Collectors.toList()));
 
     return userFacade.getByCriteria(languageService.defaultLanguage(), drawParam, criteria);
   }
@@ -245,14 +202,10 @@ public class UserApi {
   @DeleteMapping(value = {"/private/users/{id}"})
   @ApiOperation(httpMethod = "DELETE", value = "Deletes a user", notes = "", response = Void.class)
   @ApiImplicitParams({
-    @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
-    @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
-  })
-  public void delete(
-      @ApiIgnore MerchantStore merchantStore, 
-      @ApiIgnore Language language,
-      @PathVariable Long id,
-      HttpServletRequest request) {
+      @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")})
+  public void delete(@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language,
+      @PathVariable Long id, HttpServletRequest request) {
 
     /** Must be superadmin or admin */
     String authenticatedUser = userFacade.authenticatedUser();
@@ -264,23 +217,27 @@ public class UserApi {
       userFacade.authorizedStore(authenticatedUser, merchantStore.getCode());
     }
 
-    userFacade.authorizedGroup(
-        authenticatedUser, Stream.of("SUPERADMIN", "ADMIN").collect(Collectors.toList()));
+    userFacade.authorizedGroup(authenticatedUser,
+        Stream.of("SUPERADMIN", "ADMIN").collect(Collectors.toList()));
 
     userFacade.delete(id, merchantStore.getCode());
   }
-  
+
   @ResponseStatus(HttpStatus.OK)
-  @GetMapping(value = {"/private/user/unique"}, produces = MediaType.APPLICATION_JSON_VALUE)
-  @ApiOperation(httpMethod = "GET", value = "Check if username already exists", notes = "",
+  @PostMapping(value = {"/private/user/unique"}, produces = MediaType.APPLICATION_JSON_VALUE)
+  @ApiOperation(httpMethod = "POST", value = "Check if username already exists", notes = "",
       response = EntityExists.class)
-  public ResponseEntity<EntityExists> exists(
-      @ApiIgnore MerchantStore merchantStore, 
-      @ApiIgnore Language language,
-      @RequestBody UniqueEntity userName) {
-    
-    ReadableUser readableUser = userFacade.findByUserName(userName.getUnique(),merchantStore.getCode(), language);
-    boolean isUserExist = readableUser!=null?true:false;
+  public ResponseEntity<EntityExists> exists(@ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language, @RequestBody UniqueEntity userName) {
+
+    boolean isUserExist = true;// default user exist
+    try {
+      // will throw an exception if not fount
+      userFacade.findByUserName(userName.getUnique(), merchantStore.getCode(), language);
+
+    } catch (ResourceNotFoundException e) {
+      isUserExist = false;
+    }
     return new ResponseEntity<EntityExists>(new EntityExists(isUserExist), HttpStatus.OK);
   }
 

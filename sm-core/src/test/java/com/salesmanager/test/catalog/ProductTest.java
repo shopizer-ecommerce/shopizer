@@ -6,7 +6,6 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import org.junit.Assert;
 import org.junit.Test;
 import com.salesmanager.core.business.exception.ServiceException;
@@ -335,6 +334,9 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 
 		updatableProduct = products.get(0);
 		
+		//test attributes
+		this.testAttributes(updatableProduct);
+		
 		
 		//test insert, view image
 		testInsertImage(updatableProduct);
@@ -346,30 +348,9 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 		
 	    
 	}
+
 	
-	
-	private void testViewAttribute(Product product) throws Exception {
-		
-		//todo fetch product
-		
-		Set<ProductAttribute> attributes = product.getAttributes();
-		
-		for(ProductAttribute attribute : attributes) {
-			
-			
-			ProductOption option = attribute.getProductOption();
-			ProductOptionValue optionValue = attribute.getProductOptionValue();
-			
-			//System.out.println("Option id " + option.getId() + " OptionValue id " + optionValue.getId());
-			
-			
-			
-		}
-		
-		
-	}
-	
-	private void testInsertAttribute(Product product) throws Exception {
+	private void testAttributes(Product product) throws Exception {
 		
 		
 		/**
@@ -381,85 +362,159 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 		Language en = languageService.getByCode("en");
 		
 	    /**
-	     * Create an option
+	     * Create size option
 	     */
-	    ProductOption option = new ProductOption();
-	    option.setMerchantStore(store);
-	    option.setCode("copy");
-	    option.setProductOptionType(ProductOptionType.Radio.name());
+	    ProductOption color = new ProductOption();
+	    color.setMerchantStore(store);
+	    color.setCode("COLOR");
+	    color.setProductOptionType(ProductOptionType.Radio.name());
 	    
 	    ProductOptionDescription optionDescription = new ProductOptionDescription();
 	    optionDescription.setLanguage(en);
-	    optionDescription.setName("Book type");
-	    optionDescription.setDescription("Offered in hard and soft copy");
-	    optionDescription.setProductOption(option);
+	    optionDescription.setName("Color");
+	    optionDescription.setDescription("Color of an item");
+	    optionDescription.setProductOption(color);
 	    
-	    option.getDescriptions().add(optionDescription);
+	    color.getDescriptions().add(optionDescription);
 	    
 	    //create option
-	    productOptionService.saveOrUpdate(option);
+	    productOptionService.saveOrUpdate(color);
+	    
+	     /**
+         * Create size option
+         */
+        ProductOption size = new ProductOption();
+        size.setMerchantStore(store);
+        size.setCode("SIZE");
+        size.setProductOptionType(ProductOptionType.Radio.name());
+        
+        ProductOptionDescription sizeDescription = new ProductOptionDescription();
+        sizeDescription.setLanguage(en);
+        sizeDescription.setName("Size");
+        sizeDescription.setDescription("Size of an item");
+        sizeDescription.setProductOption(size);
+        
+        size.getDescriptions().add(sizeDescription);
+        
+        //create option
+        productOptionService.saveOrUpdate(size);
 	    
 	    
 	    //option value
-	    ProductOptionValue soft = new ProductOptionValue();
-	    soft.setMerchantStore(store);
-	    soft.setCode("soft");
+	    ProductOptionValue red = new ProductOptionValue();
+	    red.setMerchantStore(store);
+	    red.setCode("red");
 	    
-	    ProductOptionValueDescription softDescription = new ProductOptionValueDescription();
-	    softDescription.setLanguage(en);
-	    softDescription.setName("Soft");
-	    softDescription.setDescription("Soft copy");
-	    softDescription.setProductOptionValue(soft);
+	    ProductOptionValueDescription redDescription = new ProductOptionValueDescription();
+	    redDescription.setLanguage(en);
+	    redDescription.setName("Red");
+	    redDescription.setDescription("Red color");
+	    redDescription.setProductOptionValue(red);
 	    
-	    soft.getDescriptions().add(softDescription);
+	    red.getDescriptions().add(redDescription);
 	    
 	    //create an option value
-	    productOptionValueService.saveOrUpdate(soft);
+	    productOptionValueService.saveOrUpdate(red);
 	    
 	    //another option value
-	    ProductOptionValue hard = new ProductOptionValue();
-	    hard.setMerchantStore(store);
-	    hard.setCode("hard");
+	    ProductOptionValue blue = new ProductOptionValue();
+	    blue.setMerchantStore(store);
+	    blue.setCode("blue");
 	    
-	    ProductOptionValueDescription hardDescription = new ProductOptionValueDescription();
-	    hardDescription.setLanguage(en);
-	    hardDescription.setName("Hard");
-	    hardDescription.setDescription("Hard copy");
-	    hardDescription.setProductOptionValue(hard);
+	    ProductOptionValueDescription blueDescription = new ProductOptionValueDescription();
+	    blueDescription.setLanguage(en);
+	    blueDescription.setName("Blue");
+	    blueDescription.setDescription("Color blue");
+	    blueDescription.setProductOptionValue(blue);
 	    
-	    hard.getDescriptions().add(hardDescription);
+	    blue.getDescriptions().add(blueDescription);
 
 	    //create another option value
-	    productOptionValueService.saveOrUpdate(hard);
+	    productOptionValueService.saveOrUpdate(blue);
+	    
+	    //option value
+        ProductOptionValue small = new ProductOptionValue();
+        small.setMerchantStore(store);
+        small.setCode("small");
+        
+        ProductOptionValueDescription smallDescription = new ProductOptionValueDescription();
+        smallDescription.setLanguage(en);
+        smallDescription.setName("Small");
+        smallDescription.setDescription("Small size");
+        smallDescription.setProductOptionValue(small);
+        
+        small.getDescriptions().add(smallDescription);
+        
+        //create an option value
+        productOptionValueService.saveOrUpdate(small);
+        
+        //another option value
+        ProductOptionValue medium = new ProductOptionValue();
+        medium.setMerchantStore(store);
+        medium.setCode("medium");
+        
+        ProductOptionValueDescription mediumDescription = new ProductOptionValueDescription();
+        mediumDescription.setLanguage(en);
+        mediumDescription.setName("Medium");
+        mediumDescription.setDescription("Medium size");
+        mediumDescription.setProductOptionValue(medium);
+        
+        medium.getDescriptions().add(mediumDescription);
+
+        //create another option value
+        productOptionValueService.saveOrUpdate(medium);
+        
+        
+        ProductAttribute color_blue = new ProductAttribute();
+        color_blue.setProduct(product);
+        color_blue.setProductOption(color);
+        color_blue.setAttributeDefault(true);
+        color_blue.setProductAttributePrice(new BigDecimal(0));//no price variation
+        color_blue.setProductAttributeWeight(new BigDecimal(1));//weight variation
+        color_blue.setProductOptionValue(blue);
+        
+        productAttributeService.create(color_blue);
+        
+        product.getAttributes().add(color_blue);
+        
 	    
 	    /** create attributes **/
 	    //attributes
-	    ProductAttribute attribute = new ProductAttribute();
-	    attribute.setProduct(product);
-	    attribute.setProductOption(option);
-	    attribute.setAttributeDefault(true);
-	    attribute.setProductAttributePrice(new BigDecimal(0));//no price variation
-	    attribute.setProductAttributeWeight(new BigDecimal(1));//weight variation
-	    attribute.setProductOptionValue(hard);
+	    ProductAttribute color_red = new ProductAttribute();
+	    color_red.setProduct(product);
+	    color_red.setProductOption(color);
+	    color_red.setAttributeDefault(true);
+	    color_red.setProductAttributePrice(new BigDecimal(0));//no price variation
+	    color_red.setProductAttributeWeight(new BigDecimal(1));//weight variation
+	    color_red.setProductOptionValue(red);
 	    
-	    product.getAttributes().add(attribute);
+	    productAttributeService.create(color_red);
 	    
-	    //another attribute
-	    attribute = new ProductAttribute();
-	    attribute.setProduct(product);
-	    attribute.setProductOption(option);
-	    attribute.setProductAttributePrice(new BigDecimal(0));//no price variation
-	    attribute.setProductAttributeWeight(new BigDecimal(0));//no weight variation
-	    attribute.setProductOption(option);
-	    attribute.setProductOptionValue(soft);
+	    product.getAttributes().add(color_red);
+
+
+	    ProductAttribute smallAttr = new ProductAttribute();
+	    smallAttr.setProduct(product);
+	    smallAttr.setProductOption(size);
+	    smallAttr.setAttributeDefault(true);
+	    smallAttr.setProductAttributePrice(new BigDecimal(0));//no price variation
+	    smallAttr.setProductAttributeWeight(new BigDecimal(1));//weight variation
+	    smallAttr.setProductOptionValue(small);
 	    
-	    product.getAttributes().add(attribute);
+	    productAttributeService.create(smallAttr);
+	    
+	    product.getAttributes().add(smallAttr);
 	    
 	    productService.update(product);
 	    
-	   
-		
-		
+	    /**
+	     * get options facets
+	     */
+	    
+	    List<ProductAttribute> attributes = productAttributeService.getProductAttributesByCategoryLineage(store, product.getCategories().iterator().next().getLineage());
+	    
+	    Assert.assertEquals(new Long(attributes.size()).longValue(), 3l);
+
 	}
 	
 	/**

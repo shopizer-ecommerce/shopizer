@@ -72,12 +72,8 @@ public class ProductAttributeServiceImpl extends
 	@Override
 	public void saveOrUpdate(ProductAttribute productAttribute)
 			throws ServiceException {
-		//if(productAttribute.getId()!=null && productAttribute.getId()>0) {
-		//	productAttributeRepository.update(productAttribute);
-		//} else {
 			productAttributeRepository.save(productAttribute);
-		//}
-		
+
 	}
 	
 	@Override
@@ -88,5 +84,13 @@ public class ProductAttributeServiceImpl extends
 		super.delete(attribute);
 		
 	}
+
+  @Override
+  public List<ProductAttribute> getProductAttributesByCategoryLineage(MerchantStore store,
+      String lineage) throws Exception {
+    
+    List<ProductAttribute> attributes = productAttributeRepository.findOptionsByCategoryLineage(store.getId(), lineage);
+    return attributes;
+  }
 
 }
