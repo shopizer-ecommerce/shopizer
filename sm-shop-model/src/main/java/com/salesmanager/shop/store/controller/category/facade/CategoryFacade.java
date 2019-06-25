@@ -5,7 +5,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.category.PersistableCategory;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
-
+import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductVariant;
 import java.util.List;
 
 public interface CategoryFacade {
@@ -51,5 +51,15 @@ public interface CategoryFacade {
 	void deleteCategory(Long categoryId);
 
 	void deleteCategory(Category category);
+	
+	
+	/**
+	 * List product options variations for a given category
+	 * @param categoryId
+	 * @param store
+	 * @param language
+	 * @return
+	 */
+	List<ReadableProductVariant> categoryProductVariants(Long categoryId, MerchantStore store, Language language);
 
 }

@@ -15,13 +15,16 @@ import org.springframework.util.CollectionUtils;
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
+import com.salesmanager.core.business.services.catalog.product.attribute.ProductAttributeService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.model.catalog.category.Category;
+import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
 import com.salesmanager.shop.model.catalog.category.PersistableCategory;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
+import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductVariant;
 import com.salesmanager.shop.populator.catalog.PersistableCategoryPopulator;
 import com.salesmanager.shop.populator.catalog.ReadableCategoryPopulator;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
@@ -38,6 +41,8 @@ public class CategoryFacadeImpl implements CategoryFacade {
   @Inject private PersistableCategoryPopulator persistableCatagoryPopulator;
 
   @Inject private Mapper<Category, ReadableCategory> categoryReadableCategoryConverter;
+  
+  @Inject private ProductAttributeService productAttributeService;
 
   private static final String FEATURED_CATEGORY = "featured";
 
@@ -250,5 +255,26 @@ public class CategoryFacadeImpl implements CategoryFacade {
             () ->
                 new ResourceNotFoundException(
                     String.format("No Category found for ID : %s", categoryId)));
+  }
+
+  @Override
+  public List<ReadableProductVariant> categoryProductVariants(Long categoryId, MerchantStore store,
+      Language language) {
+    Category category = categoryService.getById(categoryId);
+    
+    if (category == null) {
+      throw new ResourceNotFoundException("Category [" + categoryId + "] not found");
+    }
+    
+    try {
+      List<ProductAttribute> attributes = productAttributeService.getProductAttributesByCategoryLineage(store, category.getLineage());
+      
+      //Map
+      //ProductOption
+      //ProductOptionValue
+    } catch (Exception e) {
+      throw new ServiceRuntimeException("An error occured while retrieving ProductAttributes",e);
+    }
+    return null;
   }
 }
