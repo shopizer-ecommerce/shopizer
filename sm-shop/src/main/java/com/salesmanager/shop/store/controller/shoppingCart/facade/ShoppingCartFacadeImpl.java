@@ -751,9 +751,6 @@ public class ShoppingCartFacadeImpl
         if(items.size()>0) {
           shoppingCartService.saveOrUpdate(cart);
           readableShoppingCart = this.getByCode(cartCode, merchant, language);
-          if(deleteItem != null) {
-            shoppingCartService.deleteShoppingCartItem(deleteItem.getId());
-          }
           
         } else {
           //remove cart

@@ -276,12 +276,15 @@ public class ReadableProductPopulator extends
 								}
 								if(attr!=null) {
 									readOnlyAttributes.put(attribute.getProductOption().getId(), attr);
-									//attr.setReadOnlyValue(attrValue);
 								}
 								
 								
 								attrValue.setDefaultValue(attribute.getAttributeDefault());
-								attrValue.setId(attribute.getId());//id of the attribute
+								if(attribute.getProductOptionValue()!=null) {
+								  attrValue.setId(attribute.getProductOptionValue().getId());//id of the option value
+								} else {
+								  attrValue.setId(attribute.getId());
+								}
 								attrValue.setLang(language.getCode());
 
 
@@ -325,7 +328,7 @@ public class ReadableProductPopulator extends
 								}
 								
 								optValue.setDefaultValue(attribute.getAttributeDefault());
-								optValue.setId(attribute.getId());//id of the attribute
+								optValue.setId(attribute.getProductOptionValue().getId());
 								optValue.setLang(language.getCode());
 								if(attribute.getProductAttributePrice()!=null && attribute.getProductAttributePrice().doubleValue()>0) {
 									String formatedPrice = pricingService.getDisplayAmount(attribute.getProductAttributePrice(), store);

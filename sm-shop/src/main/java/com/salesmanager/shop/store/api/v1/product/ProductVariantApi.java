@@ -23,13 +23,11 @@ import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductAttributeService;
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.merchant.MerchantStoreService;
-import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.price.FinalPrice;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProductPrice;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductVariant;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductVariantValue;
@@ -150,78 +148,7 @@ public class ProductVariantApi {
     populator.populate(price, readablePrice, merchantStore, language);
     return readablePrice;
   }
-/*
-  @ResponseStatus(HttpStatus.CREATED)
-  @RequestMapping(
-      value = {
-        "/private/products/{productId}/category/{categoryId}",
-        "/auth/products/{productId}/category/{categoryId}"
-      },
-      method = RequestMethod.POST)
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
-  })
-  public @ResponseBody ReadableProduct addProductToCategory(
-      @PathVariable Long productId,
-      @PathVariable Long categoryId,
-      @ApiIgnore MerchantStore merchantStore,
-      @ApiIgnore Language language,
-      HttpServletResponse response)
-      throws Exception {
 
-    try {
-      // get the product
-      Product product = productService.getById(productId);
-      Category category = categoryService.getById(categoryId);
-      return productFacade.addProductToCategory(category, product, language);
-
-    } catch (Exception e) {
-      LOGGER.error("Error while adding product to category", e);
-      try {
-        response.sendError(503, "Error while adding product to category " + e.getMessage());
-      } catch (Exception ignore) {
-      }
-
-      return null;
-    }
-  }
-
-  @ResponseStatus(HttpStatus.OK)
-  @RequestMapping(
-      value = {
-        "/private/products/{productId}/category/{categoryId}",
-        "/auth/products/{productId}/category/{categoryId}"
-      },
-      method = RequestMethod.DELETE)
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
-  })
-  public @ResponseBody ReadableProduct removeProductFromCategory(
-      @PathVariable Long productId,
-      @PathVariable Long categoryId,
-      @ApiIgnore MerchantStore merchantStore,
-      @ApiIgnore Language language,
-      HttpServletResponse response) {
-
-    try {
-      // get the product
-      Product product = productService.getById(productId);
-      Category category = categoryService.getById(categoryId);
-      return productFacade.removeProductFromCategory(category, product, language);
-
-    } catch (Exception e) {
-      LOGGER.error("Error while removing product from category", e);
-      try {
-        response.sendError(503, "Error while removing product from category " + e.getMessage());
-      } catch (Exception ignore) {
-      }
-
-      return null;
-    }
-  }*/
-  
   
   @RequestMapping(value = "/category/{id}/variants", method = RequestMethod.POST)
   @ResponseStatus(HttpStatus.OK)
