@@ -1,6 +1,8 @@
 package com.salesmanager.shop.store.facade.category;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -19,6 +21,8 @@ import com.salesmanager.core.business.services.catalog.product.attribute.Product
 import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
+import com.salesmanager.core.model.catalog.product.attribute.ProductOption;
+import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValue;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
@@ -269,9 +273,24 @@ public class CategoryFacadeImpl implements CategoryFacade {
     try {
       List<ProductAttribute> attributes = productAttributeService.getProductAttributesByCategoryLineage(store, category.getLineage());
       
-      //Map
-      //ProductOption
-      //ProductOptionValue
+      /**
+      Option NAME
+        OptionValueName
+        OptionValueName
+      **/
+      Map<String, List<ProductOptionValue>> rawFacet = new HashMap<String,List<ProductOptionValue>>();
+      Map<String, ProductOption> references = new HashMap<String,ProductOption>();
+      for(ProductAttribute attr : attributes) {
+        references.put(attr.getProductOption().getCode(), attr.getProductOption());
+        List<ProductOptionValue> values = rawFacet.get(attr.getProductOption().getCode());
+        if(values == null) {
+          values = new ArrayList<ProductOptionValue>();
+        }
+        values.add(attr.getProductOptionValue());
+      }
+
+      //for each reference set Option
+      //build ReadableProductVariant
     } catch (Exception e) {
       throw new ServiceRuntimeException("An error occured while retrieving ProductAttributes",e);
     }
