@@ -27,6 +27,7 @@ import com.salesmanager.core.business.services.reference.loader.IntegrationModul
 import com.salesmanager.core.business.services.reference.loader.ZonesLoader;
 import com.salesmanager.core.business.services.reference.zone.ZoneService;
 import com.salesmanager.core.business.services.system.ModuleConfigurationService;
+import com.salesmanager.core.business.services.system.optin.OptinService;
 import com.salesmanager.core.business.services.tax.TaxClassService;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
@@ -40,6 +41,8 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.reference.zone.Zone;
 import com.salesmanager.core.model.reference.zone.ZoneDescription;
 import com.salesmanager.core.model.system.IntegrationModule;
+import com.salesmanager.core.model.system.optin.Optin;
+import com.salesmanager.core.model.system.optin.OptinType;
 import com.salesmanager.core.model.tax.taxclass.TaxClass;
 
 @Service("initializationDatabase")
@@ -83,6 +86,9 @@ public class InitializationDatabaseImpl implements InitializationDatabase {
 	
 	@Inject
 	private ModuleConfigurationService moduleConfigurationService;
+	
+	@Inject
+	private OptinService optinService;
 	
 
 	
@@ -249,6 +255,12 @@ public class InitializationDatabaseImpl implements InitializationDatabase {
 		
 		manufacturerService.create(defaultManufacturer);
 		
+	   Optin newsletter = new Optin();
+	   newsletter.setCode(OptinType.NEWSLETTER.name());
+	   newsletter.setMerchant(store);
+	   newsletter.setOptinType(OptinType.NEWSLETTER);
+	   optinService.create(newsletter);
+		
 		
 	}
 
@@ -273,7 +285,6 @@ public class InitializationDatabaseImpl implements InitializationDatabase {
 		
 		LOGGER.info(String.format("%s : Loading catalog sub references ", name));
 		
-
 		
 		ProductType productType = new ProductType();
 		productType.setCode(ProductType.GENERAL_TYPE);

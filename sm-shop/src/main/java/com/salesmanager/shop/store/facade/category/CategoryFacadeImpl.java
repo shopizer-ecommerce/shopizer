@@ -3,8 +3,10 @@ package com.salesmanager.shop.store.facade.category;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
@@ -18,7 +20,6 @@ import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductAttributeService;
-import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOption;
@@ -29,6 +30,7 @@ import com.salesmanager.shop.mapper.Mapper;
 import com.salesmanager.shop.model.catalog.category.PersistableCategory;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductVariant;
+import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductVariantValue;
 import com.salesmanager.shop.populator.catalog.PersistableCategoryPopulator;
 import com.salesmanager.shop.populator.catalog.ReadableCategoryPopulator;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
@@ -39,8 +41,6 @@ import com.salesmanager.shop.store.controller.category.facade.CategoryFacade;
 public class CategoryFacadeImpl implements CategoryFacade {
 
   @Inject private CategoryService categoryService;
-
-  @Inject private LanguageService languageService;
 
   @Inject private PersistableCategoryPopulator persistableCatagoryPopulator;
 
@@ -82,6 +82,16 @@ public class CategoryFacadeImpl implements CategoryFacade {
         .filter(cat -> cat.getDepth() == 0)
         .sorted(Comparator.comparing(ReadableCategory::getSortOrder))
         .collect(Collectors.toList());
+  }
+  
+  @Override
+  public boolean existByCode(MerchantStore store, String code) {
+    try {
+      Category c =  categoryService.getByCode(store, code);
+      return c!=null?true:false;
+    } catch (ServiceException e) {
+      throw new ServiceRuntimeException(e);
+    }
   }
 
   private List<Category> getCategories(
@@ -266,12 +276,14 @@ public class CategoryFacadeImpl implements CategoryFacade {
       Language language) {
     Category category = categoryService.getById(categoryId);
     
+    List<ReadableProductVariant> variants = new ArrayList<ReadableProductVariant>();
+    
     if (category == null) {
       throw new ResourceNotFoundException("Category [" + categoryId + "] not found");
     }
     
     try {
-      List<ProductAttribute> attributes = productAttributeService.getProductAttributesByCategoryLineage(store, category.getLineage());
+      List<ProductAttribute> attributes = productAttributeService.getProductAttributesByCategoryLineage(store, category.getLineage(), language);
       
       /**
       Option NAME
@@ -285,15 +297,36 @@ public class CategoryFacadeImpl implements CategoryFacade {
         List<ProductOptionValue> values = rawFacet.get(attr.getProductOption().getCode());
         if(values == null) {
           values = new ArrayList<ProductOptionValue>();
+          rawFacet.put(attr.getProductOption().getCode(), values);
         }
         values.add(attr.getProductOptionValue());
       }
 
       //for each reference set Option
-      //build ReadableProductVariant
+      Iterator<Entry<String, ProductOption>> it = references.entrySet().iterator();
+      while (it.hasNext()) {
+        @SuppressWarnings("rawtypes")
+        Map.Entry pair = (Map.Entry)it.next();
+        ProductOption option = (ProductOption) pair.getValue();
+        List<ProductOptionValue> values = rawFacet.get(option.getCode());
+
+        ReadableProductVariant productVariant = new ReadableProductVariant();
+        productVariant.setName(option.getDescriptionsSettoList().get(0).getName());
+        List<ReadableProductVariantValue> optionValues = new ArrayList<ReadableProductVariantValue>();
+        for(ProductOptionValue value : values) {
+          ReadableProductVariantValue v = new ReadableProductVariantValue();
+          v.setName(value.getDescriptionsSettoList().get(0).getName());
+          v.setOption(option.getId());
+          v.setValue(value.getId());
+          optionValues.add(v);
+        }
+        productVariant.setOptions(optionValues);
+        variants.add(productVariant);
+      }
+
+      return variants;
     } catch (Exception e) {
       throw new ServiceRuntimeException("An error occured while retrieving ProductAttributes",e);
     }
-    return null;
   }
 }

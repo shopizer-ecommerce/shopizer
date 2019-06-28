@@ -17,12 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
-import com.salesmanager.core.business.services.catalog.product.attribute.ProductAttributeService;
-import com.salesmanager.core.business.services.customer.CustomerService;
-import com.salesmanager.core.business.services.merchant.MerchantStoreService;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.price.FinalPrice;
@@ -33,10 +29,8 @@ import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductVari
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductVariantValue;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableSelectedProductVariant;
 import com.salesmanager.shop.populator.catalog.ReadableFinalPricePopulator;
-import com.salesmanager.shop.store.controller.product.facade.ProductFacade;
-import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
+import com.salesmanager.shop.store.controller.category.facade.CategoryFacade;
 import com.salesmanager.shop.utils.ImageFilePath;
-import com.salesmanager.shop.utils.LanguageUtils;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -51,27 +45,17 @@ import springfox.documentation.annotations.ApiIgnore;
 @RequestMapping("/api/v1")
 public class ProductVariantApi {
 
-  @Inject private MerchantStoreService merchantStoreService;
-
-  @Inject private CategoryService categoryService;
-
-  @Inject private CustomerService customerService;
 
   @Inject private PricingService pricingService;
 
-  @Inject private ProductAttributeService productAttributeService;
-
   @Inject private ProductService productService;
-
-  @Inject private ProductFacade productFacade;
+  
+  @Inject private CategoryFacade categoryFacade;
 
   @Inject
   @Qualifier("img")
   private ImageFilePath imageUtils;
 
-  @Inject private StoreFacade storeFacade;
-
-  @Inject private LanguageUtils languageUtils;
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ProductVariantApi.class);
 
@@ -127,20 +111,6 @@ public class ProductVariantApi {
       
     }
 
-/*    List<Long> longIds = new ArrayList<Long>();
-    for (ReadableProductVariantValue n : ids) {
-      longIds.add(n.getValue().longValue());
-    }
-
-    List<ProductAttribute> attributes =
-        productAttributeService.getByAttributeIds(merchantStore, product, longIds);
-
-    for (ProductAttribute attribute : attributes) {
-      if (attribute.getProduct().getId().longValue() != product.getId().longValue()) {
-        return null;
-      }
-    }*/
-
     FinalPrice price = pricingService.calculateProductPrice(product, attributes);
     ReadableProductPrice readablePrice = new ReadableProductPrice();
     ReadableFinalPricePopulator populator = new ReadableFinalPricePopulator();
@@ -150,7 +120,7 @@ public class ProductVariantApi {
   }
 
   
-  @RequestMapping(value = "/category/{id}/variants", method = RequestMethod.POST)
+  @RequestMapping(value = "/category/{id}/variants", method = RequestMethod.GET)
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(
       httpMethod = "GET",
@@ -170,7 +140,7 @@ public class ProductVariantApi {
       HttpServletResponse response)
       throws Exception {
     
-    return null;
+    return categoryFacade.categoryProductVariants(id, merchantStore, language);
     
   }
   

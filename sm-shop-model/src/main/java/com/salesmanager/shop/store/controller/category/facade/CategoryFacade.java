@@ -62,4 +62,12 @@ public interface CategoryFacade {
 	 */
 	List<ReadableProductVariant> categoryProductVariants(Long categoryId, MerchantStore store, Language language);
 
+	/**
+	 * Check if category code already exist
+	 * @param store
+	 * @param code
+	 * @return
+	 * @throws Exception
+	 */
+	boolean existByCode(MerchantStore store, String code);
 }

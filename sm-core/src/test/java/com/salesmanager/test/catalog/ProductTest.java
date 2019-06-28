@@ -511,7 +511,7 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 	     * get options facets
 	     */
 	    
-	    List<ProductAttribute> attributes = productAttributeService.getProductAttributesByCategoryLineage(store, product.getCategories().iterator().next().getLineage());
+	    List<ProductAttribute> attributes = productAttributeService.getProductAttributesByCategoryLineage(store, product.getCategories().iterator().next().getLineage(), en);
 	    
 	    Assert.assertEquals(new Long(attributes.size()).longValue(), 3l);
 

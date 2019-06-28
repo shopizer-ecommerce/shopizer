@@ -3,13 +3,13 @@ package com.salesmanager.shop.store.api.v1.category;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_XML_VALUE;
-
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,10 +24,13 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.category.PersistableCategory;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
+import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.store.controller.category.facade.CategoryFacade;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -68,6 +71,22 @@ public class CategoryApi {
       @ApiIgnore Language language) {
     return categoryFacade.getById(merchantStore, categoryId, language);
   }
+  
+  @ResponseStatus(HttpStatus.OK)
+  @GetMapping(value = {"/private/category/unique"}, produces = MediaType.APPLICATION_JSON_VALUE)
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+    @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
+  })
+  @ApiOperation(httpMethod = "GET", value = "Check if category code already exists", notes = "",
+      response = EntityExists.class)
+  public ResponseEntity<EntityExists> exists(
+      @RequestParam(value = "code") String code,
+      @ApiIgnore MerchantStore merchantStore, 
+      @ApiIgnore Language language) {
+    boolean isCategoryExist = categoryFacade.existByCode(merchantStore,code);
+    return new ResponseEntity<EntityExists>(new EntityExists(isCategoryExist), HttpStatus.OK);
+  }
 
   /**
    * Get all category starting from root filter can be used for filtering on fields only featured is
@@ -95,7 +114,6 @@ public class CategoryApi {
   }
   
 
-  /** Category creation */
   @PostMapping(
       value = "/private/category",
       produces = {APPLICATION_JSON_VALUE, APPLICATION_XML_VALUE})

@@ -28,7 +28,7 @@ public class ShoppingCartAPIIntegrationTest extends ServicesTestSupport {
     @Test
     public void addToCart() throws Exception {
       
-      assertNotNull("TOBECOMPLETED");
+        assertNotNull("TOBECOMPLETED");
 /*        final HttpEntity<String> httpEntity = new HttpEntity<>(getHeader());
 
         final ResponseEntity<List> response = testRestTemplate.exchange(String.format("/api/v1/category/"), HttpMethod.GET,

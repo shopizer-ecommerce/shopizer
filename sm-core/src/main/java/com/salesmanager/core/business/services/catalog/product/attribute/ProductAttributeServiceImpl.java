@@ -87,9 +87,9 @@ public class ProductAttributeServiceImpl extends
 
   @Override
   public List<ProductAttribute> getProductAttributesByCategoryLineage(MerchantStore store,
-      String lineage) throws Exception {
+      String lineage, Language language) throws Exception {
     
-    List<ProductAttribute> attributes = productAttributeRepository.findOptionsByCategoryLineage(store.getId(), lineage);
+    List<ProductAttribute> attributes = productAttributeRepository.findOptionsByCategoryLineage(store.getId(), lineage, language.getId());
     return attributes;
   }
 

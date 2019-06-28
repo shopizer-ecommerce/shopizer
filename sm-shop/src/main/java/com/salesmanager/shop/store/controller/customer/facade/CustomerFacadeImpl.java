@@ -856,7 +856,7 @@ public class CustomerFacadeImpl implements CustomerFacade {
   private Optin getOptinByCode(MerchantStore store) {
     try{
       return Optional.ofNullable(optinService.getOptinByCode(store, OptinType.NEWSLETTER.name()))
-          .orElseThrow(() -> new ServiceRuntimeException("Optin newsletter does not exist"));
+          .orElseThrow(() -> new ResourceNotFoundException("Optin newsletter does not exist"));
     } catch (ServiceException e){
       throw new ServiceRuntimeException(e);
     }
