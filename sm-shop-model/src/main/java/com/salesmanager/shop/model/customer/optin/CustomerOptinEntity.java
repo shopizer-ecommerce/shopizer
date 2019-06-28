@@ -10,8 +10,7 @@ public class CustomerOptinEntity extends CustomerOptin {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	@NotNull
+
 	private String firstName;
 	private String lastName;
 	@NotNull

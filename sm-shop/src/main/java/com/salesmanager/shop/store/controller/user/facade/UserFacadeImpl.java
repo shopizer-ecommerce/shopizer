@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
 import org.jsoup.helper.Validate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,6 +36,7 @@ import com.salesmanager.shop.populator.user.ReadableUserPopulator;
 import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
+import com.salesmanager.shop.store.controller.category.ShoppingCategoryController;
 import com.salesmanager.shop.store.controller.security.facade.SecurityFacade;
 
 @Service("userFacade")
@@ -56,6 +59,9 @@ public class UserFacadeImpl implements UserFacade {
   
   @Inject 
   private SecurityFacade securityFacade;
+  
+  private static final Logger LOGGER = LoggerFactory.getLogger(UserFacadeImpl.class);
+  
 
   @Override
   public ReadableUser findByUserName(String userName, String storeCode, Language lang) {
@@ -370,7 +376,8 @@ public class UserFacadeImpl implements UserFacade {
     
     
     } catch (ServiceException e) {
-      e.printStackTrace();
+      LOGGER.error("Error updating password");
+      throw new ServiceRuntimeException(e);
     }
     
     

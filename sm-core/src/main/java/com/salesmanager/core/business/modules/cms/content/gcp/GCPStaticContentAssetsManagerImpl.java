@@ -44,8 +44,7 @@ public class GCPStaticContentAssetsManagerImpl implements ContentAssetsManager {
   
   private static final Logger LOGGER =
       LoggerFactory.getLogger(GCPStaticContentAssetsManagerImpl.class);
-  
-  private static final String ROOT_NAME = "files";
+
 
   @Override
   public OutputContentFile getFile(String merchantStoreCode, FileContentType fileContentType,
@@ -72,6 +71,7 @@ public class GCPStaticContentAssetsManagerImpl implements ContentAssetsManager {
   public void addFile(String merchantStoreCode, InputContentFile inputStaticContentData)
       throws ServiceException {
   
+    LOGGER.debug("Adding file " + inputStaticContentData.getFileName());
     Storage storage = StorageOptions.getDefaultInstance().getService();
     BlobId blobId = BlobId.of("bucket", "blob_name");
     BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("text/plain").build();
