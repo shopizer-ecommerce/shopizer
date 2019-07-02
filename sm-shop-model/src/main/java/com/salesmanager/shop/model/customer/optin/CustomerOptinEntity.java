@@ -1,7 +1,7 @@
 package com.salesmanager.shop.model.customer.optin;
 
 import javax.validation.constraints.NotNull;
-
+import org.hibernate.validator.constraints.Email;
 import com.salesmanager.core.model.system.optin.CustomerOptin;
 
 public class CustomerOptinEntity extends CustomerOptin {
@@ -14,6 +14,7 @@ public class CustomerOptinEntity extends CustomerOptin {
 	private String firstName;
 	private String lastName;
 	@NotNull
+	@Email
 	private String email;
 	public String getFirstName() {
 		return firstName;

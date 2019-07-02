@@ -727,36 +727,33 @@ public class ShoppingCartFacadeImpl
 	    }
 	    
 	    Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> items = new HashSet<com.salesmanager.core.model.shoppingcart.ShoppingCartItem>();
-	    com.salesmanager.core.model.shoppingcart.ShoppingCartItem deleteItem = null;
+	    com.salesmanager.core.model.shoppingcart.ShoppingCartItem itemToDelete = null;
 	    for ( com.salesmanager.core.model.shoppingcart.ShoppingCartItem shoppingCartItem : cart.getLineItems() )
         {
             if ( shoppingCartItem.getProduct().getId().longValue() == productId.longValue() )
             {
                 //get cart item
-                com.salesmanager.core.model.shoppingcart.ShoppingCartItem lineItem =
+                itemToDelete =
                     getEntryToUpdate( shoppingCartItem.getId(), cart );
                 
                 
-                break;
+                //break;
 
             } else {
               items.add(shoppingCartItem);
             }
         }
+	    //delete item
+	    shoppingCartService.deleteShoppingCartItem(itemToDelete.getId());
         
-        
+        //remaining items
         cart.setLineItems(items);
         ReadableShoppingCart readableShoppingCart = null;
         
         if(items.size()>0) {
-          shoppingCartService.saveOrUpdate(cart);
+          shoppingCartService.saveOrUpdate(cart);//update cart with remaining items
           readableShoppingCart = this.getByCode(cartCode, merchant, language);
           
-        } else {
-          //remove cart
-          ShoppingCart c = shoppingCartService.getByCode(cartCode, merchant);
-          shoppingCartService.delete(c);
-          readableShoppingCart = new ReadableShoppingCart();
         }
 
 	}

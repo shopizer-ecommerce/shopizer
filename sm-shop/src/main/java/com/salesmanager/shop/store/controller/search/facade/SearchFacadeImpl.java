@@ -218,9 +218,13 @@ public class SearchFacadeImpl implements SearchFacade {
 		String formattedQuery = String.format(coreConfiguration.getProperty("AUTOCOMPLETE_QUERY"), query);
 
 		/** formatted toJSONString because of te specific field names required in the UI **/
-    SearchKeywords keywords = getSearchKeywords(req, formattedQuery);
+    //SearchKeywords keywords = getSearchKeywords(req, formattedQuery);
     ValueList returnList = new ValueList();
-		returnList.setValues(keywords.getKeywords());
+        returnList.getValues().add("Table");
+        returnList.getValues().add("Table with chairs");
+        returnList.getValues().add("Maplewood Table");
+        returnList.getValues().add("Night Table");
+		//returnList.setValues(keywords.getKeywords());
 		return returnList;
 	}
 

@@ -36,13 +36,7 @@ response.setDateHeader ("Expires", -1);
 				</div>
 			</div>
 	    </c:if>
-	    
-	    
-	    
-	    
-	    
-	    
-	    
+
 	    <c:if test="${requestScope.CONTENT['homeMessage']!=null}">
 	    	<div class="service-area pt-80">
 				<div class="container">
@@ -52,6 +46,48 @@ response.setDateHeader ("Expires", -1);
 		</c:if>
 
 		
+
+		<!-- Offers -->
+		<!-- Sale off -->
+		<!-- An idea of offer area -->
+		<!--
+	    <section style="margin-top:50px !important;">
+	        <div class="container">
+	            <div class="row au-row">
+	                <div class="col-md-6">
+	                    <div class="au-banner style-9 js-au-banner" style="height: 533px; background-image: url('/static/files/DEFAULT/IMAGE/banner-image-10.jpg');">
+	                        <a href="#" class="banner-image"></a>
+	                        <div class="banner-content">
+	                            <h3 class="title">
+	                                today only <span>20</span>
+	                            </h3>
+	                        </div>
+	                    </div>
+	                </div>
+	                <div class="col-md-6">
+	                    <div class="au-banner style-7 banner-medium js-au-banner" style="height: 245px; background-image: url('/static/files/DEFAULT/IMAGE/banner-image-08.jpg');">
+	                        <a href="#"></a>
+	                        <div class="banner-content text-right">
+	                            <h3 class="title">New item</h3>
+	                            <h4 class="sub-title">Punch line</h4>
+	                            <a href="#" class="banner-btn">shop now</a>
+	                        </div>
+	                    </div>
+	                    <div class="au-banner style-8 banner-medium js-au-banner " style="height: 245px; background-image: url('/static/files/DEFAULT/IMAGE/banner-image-09.jpg');">
+	                        <a href="#"></a>
+	                        <div class="banner-content">
+	                            <h3 class="title">Another item</h3>
+	                            <h4 class="sub-title">Another item punch line</h4>
+	                            <a href="#" class="banner-btn">shop now</a>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </section>
+	    -->
+	    <!--  -->
+
 
 		
 		<!-- featured items -->
