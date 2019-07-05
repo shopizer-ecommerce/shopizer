@@ -70,4 +70,12 @@ public interface CategoryFacade {
 	 * @throws Exception
 	 */
 	boolean existByCode(MerchantStore store, String code);
+	
+	/**
+	 * Move a Category from a node to another node
+	 * @param child
+	 * @param parent
+	 * @param store
+	 */
+	void move(Long child, Long parent, MerchantStore store);
 }

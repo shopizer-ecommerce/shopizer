@@ -14,12 +14,15 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductAttributeService;
+import com.salesmanager.core.business.utils.ajax.AjaxResponse;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOption;
@@ -33,6 +36,7 @@ import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductVari
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductVariantValue;
 import com.salesmanager.shop.populator.catalog.PersistableCategoryPopulator;
 import com.salesmanager.shop.populator.catalog.ReadableCategoryPopulator;
+import com.salesmanager.shop.store.api.exception.OperationNotAllowedException;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.controller.category.facade.CategoryFacade;
@@ -328,5 +332,41 @@ public class CategoryFacadeImpl implements CategoryFacade {
     } catch (Exception e) {
       throw new ServiceRuntimeException("An error occured while retrieving ProductAttributes",e);
     }
+  }
+
+  @Override
+  public void move(Long child, Long parent, MerchantStore store) {
+    
+    Validate.notNull(child, "Child category must not be null");
+    Validate.notNull(parent, "Parent category must not be null");
+    Validate.notNull(store, "Merhant must not be null");
+    try {
+
+      Category c = categoryService.getById(child);
+      Category p = categoryService.getById(parent);
+      
+      if(c.getParent().getId()==parent) {
+          return;
+      }
+      
+      if(c.getMerchantStore().getId().intValue() != store.getId().intValue()) {
+        throw new OperationNotAllowedException("Invalid identifiers for Merchant [" + c.getMerchantStore().getCode() + "]");
+      }
+      
+      if(p.getMerchantStore().getId().intValue() != store.getId().intValue()) {
+        throw new OperationNotAllowedException("Invalid identifiers for Merchant [" + c.getMerchantStore().getCode() + "]");
+      }
+
+ 
+
+      p.getAuditSection().setModifiedBy("Api");
+      categoryService.addChild(p, c);
+
+
+  } catch (Exception e) {
+    throw new ServiceRuntimeException(e);
+  }
+    
+    
   }
 }

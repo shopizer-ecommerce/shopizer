@@ -1,15 +1,12 @@
 package com.salesmanager.shop.store.controller.content.facade;
 
-import com.salesmanager.core.model.content.InputContentFile;
-import com.salesmanager.shop.model.content.ContentFile;
 import java.util.List;
-
 import com.salesmanager.core.model.content.ContentType;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.model.content.ContentFile;
 import com.salesmanager.shop.model.content.ContentFolder;
 import com.salesmanager.shop.model.content.PersistableContentPage;
-import com.salesmanager.shop.model.content.ReadableContent;
 import com.salesmanager.shop.model.content.ReadableContentBox;
 import com.salesmanager.shop.model.content.ReadableContentPage;
 

@@ -1,4 +1,4 @@
-package com.salesmanager.shop.store.controller.content.facade;
+package com.salesmanager.shop.store.facade.content;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -31,6 +31,7 @@ import com.salesmanager.shop.model.content.ReadableContentBox;
 import com.salesmanager.shop.model.content.ReadableContentPage;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
+import com.salesmanager.shop.store.controller.content.facade.ContentFacade;
 import com.salesmanager.shop.utils.FilePathUtils;
 import com.salesmanager.shop.utils.ImageFilePath;
 import io.searchbox.strings.StringUtils;
@@ -307,7 +308,7 @@ public class ContentFacadeImpl implements ContentFacade {
       ReadableContentBox box = new ReadableContentBox();
       if (contentDescription.isPresent()) {
         box.setName(contentDescription.get().getSeUrl());
-        box.setBoxContent(contentDescription.get().getDescription());
+        box.setBoxContent("<![CDATA[" + contentDescription.get().getDescription().replaceAll("\r\n", "").replaceAll("\t", "") + "]]>");
       }
       return box;
     } catch (ServiceException e) {

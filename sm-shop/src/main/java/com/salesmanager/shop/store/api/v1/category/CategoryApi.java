@@ -141,7 +141,7 @@ public class CategoryApi {
     return categoryFacade.saveCategory(merchantStore, category);
   }
   
-/*  @PutMapping(
+  @PutMapping(
       value = "/private/category/{id}/move/{parent}",
       produces = {APPLICATION_JSON_VALUE, APPLICATION_XML_VALUE})
   @ApiOperation(
@@ -155,8 +155,9 @@ public class CategoryApi {
       @PathVariable Long id,
       @PathVariable Long parent,
       @ApiIgnore MerchantStore merchantStore) {
+    categoryFacade.move(id, parent, merchantStore);
     return;
-  }*/
+  }
 
   @DeleteMapping(
       value = "/private/category/{id}",
