@@ -430,7 +430,6 @@ public class CategoryController {
 		}
 		
 		String returnString = resp.toJSONString();
-		
 		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	

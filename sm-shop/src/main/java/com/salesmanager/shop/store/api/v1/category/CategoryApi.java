@@ -140,6 +140,23 @@ public class CategoryApi {
       @ApiIgnore MerchantStore merchantStore) {
     return categoryFacade.saveCategory(merchantStore, category);
   }
+  
+/*  @PutMapping(
+      value = "/private/category/{id}/move/{parent}",
+      produces = {APPLICATION_JSON_VALUE, APPLICATION_XML_VALUE})
+  @ApiOperation(
+      httpMethod = "PUT",
+      value = "Move a category under another category",
+      notes = "Move category {id} under category {parent}")
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT")
+  })
+  public void move(
+      @PathVariable Long id,
+      @PathVariable Long parent,
+      @ApiIgnore MerchantStore merchantStore) {
+    return;
+  }*/
 
   @DeleteMapping(
       value = "/private/category/{id}",
