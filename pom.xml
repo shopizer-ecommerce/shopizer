@@ -6,7 +6,7 @@
 
 	<groupId>com.shopizer</groupId>
 	<artifactId>shopizer</artifactId>
-	<version>2.5.0</version>
+	<version>2.6.0</version>
 	<packaging>pom</packaging>
 
 	<name>shopizer</name>
@@ -23,10 +23,10 @@
 		<java.version>1.8</java.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<shopizer.version>2.5.0</shopizer.version>
-		<shopizer.search.version>2.5.0</shopizer.search.version>
-		<shopizer-canadapost.version>2.5.0</shopizer-canadapost.version>
-		<shopizer-shipping-distance.version>2.5.0</shopizer-shipping-distance.version>
+		<shopizer.version>2.6.0</shopizer.version>
+		<shopizer.search.version>2.6.0</shopizer.search.version>
+		<shopizer-canadapost.version>2.6.0</shopizer-canadapost.version>
+		<shopizer-shipping-distance.version>2.6.0</shopizer-shipping-distance.version>
 		<org.elasticsearch-version>6.3.1</org.elasticsearch-version>
 		<io.searchbox.jest-version>6.3.1</io.searchbox.jest-version>
 		<spring-vault-core-version>1.1.2.RELEASE</spring-vault-core-version>

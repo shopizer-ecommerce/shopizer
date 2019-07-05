@@ -483,7 +483,8 @@ public class ShoppingCartFacadeImpl
                         new HashSet<com.salesmanager.core.model.shoppingcart.ShoppingCartItem>();
                     for ( com.salesmanager.core.model.shoppingcart.ShoppingCartItem shoppingCartItem : cartModel.getLineItems() )
                     {
-                    	if ( shoppingCartItem.getProduct().getId().longValue() == itemID.longValue() )
+                    	//if ( shoppingCartItem.getProduct().getId().longValue() == itemID.longValue() )
+                        if(shoppingCartItem.getId().longValue() == itemID.longValue() )
                         {
                     		shoppingCartService.deleteShoppingCartItem(itemID);
                         } else {
