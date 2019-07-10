@@ -1,14 +1,9 @@
 package com.salesmanager.shop.store.controller.search;
 
-import java.io.StringWriter;
 import java.util.Locale;
-import java.util.Map;
-
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
@@ -30,7 +24,6 @@ import com.salesmanager.core.business.services.search.SearchService;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.search.SearchKeywords;
-import com.salesmanager.core.model.search.SearchResponse;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.catalog.SearchProductList;
 import com.salesmanager.shop.model.catalog.SearchProductRequest;
@@ -44,21 +37,9 @@ public class SearchController {
 	
 	@Inject
 	private MerchantStoreService merchantStoreService;
-	
-	@Inject
-	private LanguageService languageService;
-	
+
 	@Inject
 	private SearchService searchService;
-	
-	@Inject
-	private ProductService productService;
-	
-	@Inject
-	private CategoryService categoryService;
-	
-	@Inject
-	private PricingService pricingService;
 	
 	@Inject
 	private SearchFacade searchFacade;

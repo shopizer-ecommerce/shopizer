@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.repositories.catalog.category.CategoryRepository;
@@ -143,7 +144,12 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
 	public Category getByCode(MerchantStore store, String code) throws ServiceException {
 		
 		try {
-			return categoryRepository.findByCode(store.getId(), code);
+		  Category c =  categoryRepository.findByCode(store.getId(), code);
+          if(c!=null && CollectionUtils.isEmpty(c.getCategories())) {
+            c.getCategories().clear();
+            this.save(c);
+          }
+          return c;
 		} catch (Exception e) {
 			throw new ServiceException(e);
 		}
@@ -154,7 +160,12 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
 	public Category getByCode(String storeCode, String code) throws ServiceException {
 		
 		try {
-			return categoryRepository.findByCode(storeCode, code);
+			Category c = categoryRepository.findByCode(storeCode, code);
+			if(c!=null && CollectionUtils.isEmpty(c.getCategories())) {
+			  c.getCategories().clear();
+			  this.save(c);
+			}
+			return c;
 		} catch (Exception e) {
 			throw new ServiceException(e);
 		}
@@ -165,7 +176,17 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
 	@Override
 	public Category getById(Long id) {
 
-			return categoryRepository.findOne(id);
+			Category c = categoryRepository.findOne(id);
+			if(c!=null && CollectionUtils.isEmpty(c.getCategories())) {
+			  c.getCategories().clear();//open issue https://hibernate.atlassian.net/browse/HHH-9940
+			  try {
+                this.save(c);
+              } catch (ServiceException e) {
+                e.printStackTrace();
+              }
+			}
+			
+			return c;
 		
 	}
 	

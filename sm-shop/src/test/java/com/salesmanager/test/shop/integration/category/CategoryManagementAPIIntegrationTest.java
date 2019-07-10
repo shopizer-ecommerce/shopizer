@@ -67,23 +67,61 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
     @Test
     public void postCategory() throws Exception {
 
-        final PersistableCategory newCategory = new PersistableCategory();
+        PersistableCategory newCategory = new PersistableCategory();
         newCategory.setCode("javascript");
         newCategory.setSortOrder(1);
         newCategory.setVisible(true);
         newCategory.setDepth(4);
 
-        final Category parent = new Category();
+        Category parent = new Category();
 
         newCategory.setParent(parent);
 
-        final CategoryDescription description = new CategoryDescription();
+        CategoryDescription description = new CategoryDescription();
         description.setLanguage("en");
         description.setName("Javascript");
         description.setFriendlyUrl("javascript");
         description.setTitle("Javascript");
 
-        final List<CategoryDescription> descriptions = new ArrayList<>();
+        List<CategoryDescription> descriptions = new ArrayList<>();
+        descriptions.add(description);
+
+        newCategory.setDescriptions(descriptions);
+
+        final ObjectWriter writer = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        final String json = writer.writeValueAsString(newCategory);
+
+        HttpEntity<String> entity = new HttpEntity<>(json, getHeader());
+
+        ResponseEntity response = testRestTemplate.postForEntity("/api/v1/private/category", entity, PersistableCategory.class);
+        PersistableCategory cat = (PersistableCategory) response.getBody();
+        assertThat(response.getStatusCode(), is(OK));
+        assertNotNull(cat.getId());
+        
+
+               
+        
+
+    }
+    
+    @Test
+    public void putCategory() throws Exception {
+
+        //create
+        PersistableCategory newCategory = new PersistableCategory();
+        newCategory.setCode("angular");
+        newCategory.setSortOrder(1);
+        newCategory.setVisible(true);
+        newCategory.setDepth(4);
+
+
+        CategoryDescription description = new CategoryDescription();
+        description.setLanguage("en");
+        description.setName("angular");
+        description.setFriendlyUrl("angular");
+        description.setTitle("angular");
+
+        List<CategoryDescription> descriptions = new ArrayList<>();
         descriptions.add(description);
 
         newCategory.setDescriptions(descriptions);
@@ -97,6 +135,39 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
         final PersistableCategory cat = (PersistableCategory) response.getBody();
         assertThat(response.getStatusCode(), is(OK));
         assertNotNull(cat.getId());
+        
+        HttpEntity<String> httpEntity = new HttpEntity<>(getHeader());
+        
+        final ResponseEntity<ReadableCategory> readableQuery = testRestTemplate.exchange(String.format("/api/v1/category/" +  cat.getId()), HttpMethod.GET,
+            httpEntity, ReadableCategory.class);
+        
+        assertThat(readableQuery.getStatusCode(), is(OK));
+        
+        ReadableCategory readableCategory = readableQuery.getBody();
+        
+        newCategory = new PersistableCategory();
+        newCategory.setCode("angular");
+        newCategory.setVisible(true);
+        newCategory.setDepth(4);
+        newCategory.setSortOrder(2);
+        description = new CategoryDescription();
+        description.setLanguage("en");
+        description.setName("angular");
+        description.setFriendlyUrl("angular");
+        description.setTitle("angular");
+
+        descriptions = new ArrayList<>();
+        descriptions.add(description);
+
+        newCategory.setDescriptions(descriptions);
+
+        
+        HttpEntity<PersistableCategory> requestUpdate = new HttpEntity<>(newCategory, getHeader());
+        
+        ResponseEntity resp = testRestTemplate.exchange("/api/v1/private/category/" + cat.getId(), HttpMethod.PUT,   requestUpdate, Void.class);
+        assertThat(resp.getStatusCode(), is(OK));
+        
+        //update
 
     }
 
@@ -105,7 +176,7 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
 
         /** Dining room **/
         final PersistableCategory dining = new PersistableCategory();
-        dining.setCode("dining room");
+        dining.setCode("diningroom");
         dining.setSortOrder(0);
         dining.setVisible(true);
 
@@ -240,7 +311,7 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
         final ObjectWriter writer = new ObjectMapper().writer().withDefaultPrettyPrinter();
         final String json = writer.writeValueAsString(dining);
 
-        System.out.println(json);
+        //System.out.println(json);
 
         final HttpEntity<String> entity = new HttpEntity<>(json, getHeader());
 

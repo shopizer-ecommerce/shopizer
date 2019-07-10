@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
 import org.springframework.stereotype.Component;
 
 import com.salesmanager.core.business.exception.ConversionException;
@@ -52,6 +53,8 @@ public class PersistableCategoryPopulator extends
 			throws ConversionException {
 		
 		try {
+		  
+		Validate.notNull(target, "Category target cannot be null");
 
 		
 /*		Validate.notNull(categoryService, "Requires to set CategoryService");
@@ -63,9 +66,16 @@ public class PersistableCategoryPopulator extends
 		target.setVisible(source.isVisible());
 		target.setFeatured(source.isFeatured());
 		
+		//children
+		if(!CollectionUtils.isEmpty(source.getChildren())) {
+		  //no modifications to children category
+		} else {
+		  target.getCategories().clear();
+		}
+		
 		//get parent
 		
-		if(source.getParent()==null) {
+		if(source.getParent()==null || (StringUtils.isBlank(source.getParent().getCode())) || source.getParent().getId()==null) {
 
 			target.setParent(null);
 			target.setLineage("/");
@@ -111,21 +121,30 @@ public class PersistableCategoryPopulator extends
 		
 		if(!CollectionUtils.isEmpty(source.getDescriptions())) {
 			List<com.salesmanager.core.model.catalog.category.CategoryDescription> descriptions = new ArrayList<com.salesmanager.core.model.catalog.category.CategoryDescription>();
-			for(CategoryDescription description : source.getDescriptions()) {
-				com.salesmanager.core.model.catalog.category.CategoryDescription desc = new com.salesmanager.core.model.catalog.category.CategoryDescription();
-				desc.setCategory(target);
-				desc.setCategoryHighlight(description.getHighlights());
-				desc.setDescription(description.getDescription());
-				desc.setName(description.getName());
-				desc.setMetatagDescription(description.getMetaDescription());
-				desc.setMetatagTitle(description.getTitle());
-				desc.setSeUrl(description.getFriendlyUrl());
-				Language lang = languageService.getByCode(description.getLanguage());
-				if(lang==null) {
-					throw new ConversionException("Language is null for code " + description.getLanguage() + " use language ISO code [en, fr ...]");
-				}
-				desc.setLanguage(lang);
-				descriptions.add(desc);
+			if(CollectionUtils.isNotEmpty(target.getDescriptions())) {
+    			for(com.salesmanager.core.model.catalog.category.CategoryDescription description : target.getDescriptions()) {
+    			    for(CategoryDescription d : source.getDescriptions()) {
+    			        if(StringUtils.isBlank(d.getLanguage())) {
+    			          throw new ConversionException("Source category description has no language");
+    			        }
+    			        if(d.getLanguage().equals(description.getLanguage().getCode())) {
+            				description.setCategory(target);
+            				description = this.buildDescription(d, description);
+            				descriptions.add(description);
+    			        }
+    			    }
+    			}
+			  
+			} else {
+			  for(CategoryDescription d : source.getDescriptions()) {
+                com.salesmanager.core.model.catalog.category.CategoryDescription t = new com.salesmanager.core.model.catalog.category.CategoryDescription();
+               
+			    this.buildDescription(d, t);
+			    t.setCategory(target);
+			    descriptions.add(t);
+			    
+			  }
+			  
 			}
 			target.setDescriptions(descriptions);
 		}
@@ -138,6 +157,23 @@ public class PersistableCategoryPopulator extends
 			throw new ConversionException(e);
 		}
 
+	}
+	
+	private com.salesmanager.core.model.catalog.category.CategoryDescription buildDescription(com.salesmanager.shop.model.catalog.category.CategoryDescription source, com.salesmanager.core.model.catalog.category.CategoryDescription target) throws Exception {
+      //com.salesmanager.core.model.catalog.category.CategoryDescription desc = new com.salesmanager.core.model.catalog.category.CategoryDescription();
+	  target.setCategoryHighlight(source.getHighlights());
+      target.setDescription(source.getDescription());
+      target.setName(source.getName());
+      target.setMetatagDescription(source.getMetaDescription());
+      target.setMetatagTitle(source.getTitle());
+      target.setSeUrl(source.getFriendlyUrl());
+      Language lang = languageService.getByCode(source.getLanguage());
+      if(lang==null) {
+          throw new ConversionException("Language is null for code " + source.getLanguage() + " use language ISO code [en, fr ...]");
+      }
+      //description.setId(description.getId());
+      target.setLanguage(lang);
+      return target;
 	}
 
 

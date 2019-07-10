@@ -138,6 +138,7 @@ public class CategoryApi {
       @PathVariable Long id,
       @Valid @RequestBody PersistableCategory category,
       @ApiIgnore MerchantStore merchantStore) {
+    category.setId(id);
     return categoryFacade.saveCategory(merchantStore, category);
   }
   

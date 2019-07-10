@@ -90,12 +90,10 @@ public class ReadableProductPopulator extends
 			
 			Set<ProductDescription> descriptions = source.getDescriptions();
 			for(ProductDescription desc : descriptions) {
-				
 				if(desc.getLanguage()!=null && desc.getLanguage().getId().intValue() == language.getId().intValue()) {
 					description = desc;
 					break;
 				}
-				
 			}
 
 	
@@ -155,6 +153,10 @@ public class ReadableProductPopulator extends
 			
 			if(source.getDateAvailable() != null) {
 				target.setDateAvailable(DateUtil.formatDate(source.getDateAvailable()));
+			}
+			
+			if(source.getAuditSection()!=null) {
+			  target.setCreationDate(DateUtil.formatDate(source.getAuditSection().getDateCreated()));
 			}
 			
 			if(source.getProductReviewAvg()!=null) {

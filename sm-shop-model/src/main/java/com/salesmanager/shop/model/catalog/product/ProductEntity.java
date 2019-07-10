@@ -42,8 +42,7 @@ public class ProductEntity extends Product implements Serializable {
   private String dateAvailable;
   private String refSku;
   private ProductCondition condition;
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
-  private Date creationDate;
+  private String creationDate;
 
   /**
    * RENTAL additional fields
@@ -230,6 +229,13 @@ public class ProductEntity extends Product implements Serializable {
     this.productSpecifications = productSpecifications;
   }
 
+  public String getCreationDate() {
+    return creationDate;
+  }
+
+  public void setCreationDate(String creationDate) {
+    this.creationDate = creationDate;
+  }
 
 
 }
