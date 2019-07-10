@@ -70,7 +70,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
             .collect(Collectors.toMap(ReadableCategory::getId, Function.identity()));
 
     readableCategories.stream()
-        .filter(ReadableCategory::isVisible)
+        //.filter(ReadableCategory::isVisible) /**Return non visible category also **/
         .filter(cat -> Objects.nonNull(cat.getParent()))
         .filter(cat -> readableCategoryMap.containsKey(cat.getParent().getId()))
         .forEach(
