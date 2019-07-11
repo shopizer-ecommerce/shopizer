@@ -6,16 +6,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-
 import javax.inject.Inject;
-
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
-
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.repositories.catalog.product.ProductRepository;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
@@ -346,6 +341,13 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 
 
 	}
+
+  @Override
+  public Product findOne(Long id, MerchantStore merchant) {
+    Validate.notNull(merchant,"MerchantStore must not be null");
+    Validate.notNull(id,"id must not be null");
+    return productRepository.getById(id, merchant);
+  }
 
 
 }

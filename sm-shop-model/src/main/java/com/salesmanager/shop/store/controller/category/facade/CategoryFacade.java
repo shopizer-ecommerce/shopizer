@@ -19,7 +19,7 @@ public interface CategoryFacade {
      * @param filter
      * @return List<ReadableCategory>
      */
-	List<ReadableCategory> getCategoryHierarchy(MerchantStore store, int depth, Language language, String filter);
+	List<ReadableCategory> getCategoryHierarchy(MerchantStore store, int depth, Language language, List<String> filter);
 	
 	/**
 	 * 

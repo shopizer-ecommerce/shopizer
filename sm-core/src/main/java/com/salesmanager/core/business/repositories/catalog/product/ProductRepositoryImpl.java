@@ -5,18 +5,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-
 import javax.persistence.EntityManager;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.salesmanager.core.business.constants.Constants;
-import com.salesmanager.core.business.services.catalog.product.ProductServiceImpl;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.ProductCriteria;
 import com.salesmanager.core.model.catalog.product.ProductList;
@@ -32,64 +29,77 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 	
     @PersistenceContext
     private EntityManager em;
+
+    @Override
+    public Product getById(Long productId, MerchantStore store) {
+      return this.get(productId, store);
+    }
     
 	@Override
 	public Product getById(Long productId) {
-		
-		try {
-			
-
-
-			StringBuilder qs = new StringBuilder();
-			qs.append("select distinct p from Product as p ");
-			qs.append("join fetch p.availabilities pa ");
-			qs.append("join fetch p.merchantStore merch ");
-			qs.append("join fetch p.descriptions pd ");
-			
-			qs.append("left join fetch p.categories categs ");
-			qs.append("left join fetch categs.descriptions categsd ");
-			
-			qs.append("left join fetch pa.prices pap ");
-			qs.append("left join fetch pap.descriptions papd ");
-			
-			
-			//images
-			qs.append("left join fetch p.images images ");
-			//options
-			qs.append("left join fetch p.attributes pattr ");
-			qs.append("left join fetch pattr.productOption po ");
-			qs.append("left join fetch po.descriptions pod ");
-			qs.append("left join fetch pattr.productOptionValue pov ");
-			qs.append("left join fetch pov.descriptions povd ");
-			qs.append("left join fetch p.relationships pr ");
-			//other lefts
-			qs.append("left join fetch p.manufacturer manuf ");
-			qs.append("left join fetch manuf.descriptions manufd ");
-			qs.append("left join fetch p.type type ");
-			qs.append("left join fetch p.taxClass tx ");
-			
-			//RENTAL
-			qs.append("left join fetch p.owner owner ");
-			
-			qs.append("where p.id=:pid");
-	
-	
-	    	String hql = qs.toString();
-			Query q = this.em.createQuery(hql);
-	
-	    	q.setParameter("pid", productId);
-	
-	
-	    	Product p = (Product)q.getSingleResult();
-	
-	
-			return p;
-		
-		} catch(javax.persistence.NoResultException ers) {
-			return null;
-		}
-		
+	  return this.get(productId, null);
 	}
+
+	    private Product get(Long productId, MerchantStore merchant) {
+	        
+	        try {
+
+	            StringBuilder qs = new StringBuilder();
+	            qs.append("select distinct p from Product as p ");
+	            qs.append("join fetch p.availabilities pa ");
+	            qs.append("join fetch p.merchantStore merch ");
+	            qs.append("join fetch p.descriptions pd ");
+	            
+	            qs.append("left join fetch p.categories categs ");
+	            qs.append("left join fetch categs.descriptions categsd ");
+	            
+	            qs.append("left join fetch pa.prices pap ");
+	            qs.append("left join fetch pap.descriptions papd ");
+	            
+	            
+	            //images
+	            qs.append("left join fetch p.images images ");
+	            //options
+	            qs.append("left join fetch p.attributes pattr ");
+	            qs.append("left join fetch pattr.productOption po ");
+	            qs.append("left join fetch po.descriptions pod ");
+	            qs.append("left join fetch pattr.productOptionValue pov ");
+	            qs.append("left join fetch pov.descriptions povd ");
+	            qs.append("left join fetch p.relationships pr ");
+	            //other lefts
+	            qs.append("left join fetch p.manufacturer manuf ");
+	            qs.append("left join fetch manuf.descriptions manufd ");
+	            qs.append("left join fetch p.type type ");
+	            qs.append("left join fetch p.taxClass tx ");
+	            
+	            //RENTAL
+	            qs.append("left join fetch p.owner owner ");
+	            
+	            qs.append("where p.id=:pid");
+	            if(merchant!=null) {
+	              qs.append(" and merch.id=:mid");
+	            }
+	    
+	    
+	            String hql = qs.toString();
+	            Query q = this.em.createQuery(hql);
+	    
+	            q.setParameter("pid", productId);
+	            if(merchant!=null) {
+	              q.setParameter("mid", merchant.getId());
+	            }
+	    
+	    
+	            Product p = (Product)q.getSingleResult();
+	    
+	    
+	            return p;
+	        
+	        } catch(javax.persistence.NoResultException ers) {
+	            return null;
+	        }
+	        
+	    }
     
 	
 	@Override
@@ -981,5 +991,6 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		
 		
 	}
+
 	
 }

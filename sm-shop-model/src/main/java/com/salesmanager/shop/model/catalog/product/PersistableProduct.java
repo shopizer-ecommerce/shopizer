@@ -2,9 +2,7 @@ package com.salesmanager.shop.model.catalog.product;
 
 import java.io.Serializable;
 import java.util.List;
-
 import com.salesmanager.shop.model.catalog.category.Category;
-import com.salesmanager.shop.model.catalog.manufacturer.Manufacturer;
 import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductAttribute;
 
 

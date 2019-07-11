@@ -10,17 +10,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
+import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
-import com.salesmanager.core.business.services.catalog.product.attribute.ProductOptionService;
-import com.salesmanager.core.business.services.catalog.product.attribute.ProductOptionValueService;
 import com.salesmanager.core.business.services.catalog.product.manufacturer.ManufacturerService;
 import com.salesmanager.core.business.services.catalog.product.relationship.ProductRelationshipService;
 import com.salesmanager.core.business.services.catalog.product.review.ProductReviewService;
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
-import com.salesmanager.core.business.services.tax.TaxClassService;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.ProductCriteria;
@@ -34,6 +32,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.manufacturer.PersistableManufacturer;
 import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
+import com.salesmanager.shop.model.catalog.product.LightPersistableProduct;
 import com.salesmanager.shop.model.catalog.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.PersistableProductReview;
 import com.salesmanager.shop.model.catalog.product.ProductPriceEntity;
@@ -47,6 +46,7 @@ import com.salesmanager.shop.populator.catalog.ReadableProductPopulator;
 import com.salesmanager.shop.populator.catalog.ReadableProductReviewPopulator;
 import com.salesmanager.shop.populator.manufacturer.PersistableManufacturerPopulator;
 import com.salesmanager.shop.populator.manufacturer.ReadableManufacturerPopulator;
+import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.controller.product.facade.ProductFacade;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.ImageFilePath;
@@ -63,15 +63,6 @@ public class ProductFacadeImpl implements ProductFacade {
 
   @Inject
   private LanguageService languageService;
-
-  @Inject
-  private ProductOptionService productOptionService;
-
-  @Inject
-  private ProductOptionValueService productOptionValueService;
-
-  @Inject
-  private TaxClassService taxClassService;
 
   @Inject
   private ProductService productService;
@@ -97,7 +88,7 @@ public class ProductFacadeImpl implements ProductFacade {
 
   @Override
   public PersistableProduct saveProduct(MerchantStore store, PersistableProduct product,
-      Language language) throws Exception {
+      Language language) {
 
     String manufacturer = Manufacturer.DEFAULT_MANUFACTURER;
     if (product.getProductSpecifications() != null) {
@@ -107,25 +98,6 @@ public class ProductFacadeImpl implements ProductFacade {
       specifications.setManufacturer(manufacturer);
     }
 
-    /*
-     * if (manufacturer == null || (manufacturer.getId() == null || manufacturer.getId().longValue()
-     * == 0) && StringUtils.isBlank(manufacturer.getCode())) {
-     * 
-     * // get default manufacturer Manufacturer defaultManufacturer =
-     * manufacturerService.getByCode(store, "DEFAULT");
-     * 
-     * if (defaultManufacturer != null) {
-     * 
-     * com.salesmanager.shop.model.catalog.manufacturer.Manufacturer m = new
-     * com.salesmanager.shop.model.catalog.manufacturer.Manufacturer();
-     * m.setId(defaultManufacturer.getId()); m.setCode(defaultManufacturer.getCode());
-     * product.setManufacturer(m);
-     * 
-     * }
-     * 
-     * }
-     */
-
     Product target = null;
     if (product.getId() != null && product.getId().longValue() > 0) {
       target = productService.getById(product.getId());
@@ -134,13 +106,14 @@ public class ProductFacadeImpl implements ProductFacade {
     }
 
 
-    persistableProductPopulator.populate(product, target, store, language);
-
-    productService.create(target);
-
-    product.setId(target.getId());
-
-    return product;
+    try {
+      persistableProductPopulator.populate(product, target, store, language);
+      productService.create(target);
+      product.setId(target.getId());
+      return product;
+    } catch (Exception e) {
+      throw new ServiceRuntimeException(e);
+    }
 
 
   }
@@ -519,6 +492,33 @@ public class ProductFacadeImpl implements ProductFacade {
       return items;
     }
     return null;
+  }
+
+  @Override
+  public void update(Long productId, LightPersistableProduct product, MerchantStore merchant,
+      Language language) {
+    // Get product
+    Product modified = productService.findOne(productId, merchant);
+
+    // Update product with minimal set
+    modified.setAvailable(product.isAvailable());
+   
+    for (ProductAvailability availability : modified.getAvailabilities()) {
+        availability.setProductQuantity(product.getQuantity());
+        if(!StringUtils.isBlank(product.getPrice())) {
+          //set default price
+          for(ProductPrice price : availability.getPrices()) {
+            if(price.isDefaultPrice()) {
+              try {
+                price.setProductPriceAmount(pricingService.getAmount(product.getPrice()));
+              } catch (ServiceException e) {
+                throw new ServiceRuntimeException("Invalid product price format");
+              }
+            }
+          }
+        }  
+    }
+    
   }
 
 }

@@ -28,8 +28,6 @@ public interface ProductService extends SalesManagerEntityService<Long, Product>
 
 	List<Product> getProducts(List<Long> categoryIds) throws ServiceException;
 
-
-
 	ProductList listByStore(MerchantStore store, Language language,
 			ProductCriteria criteria);
 
@@ -49,6 +47,14 @@ public interface ProductService extends SalesManagerEntityService<Long, Product>
 	 * @return
 	 */
 	Product getByCode(String productCode, Language language);
+	
+	/**
+	 * Find a product for a specific merchant
+	 * @param id
+	 * @param merchant
+	 * @return
+	 */
+	Product findOne(Long id, MerchantStore merchant);
 
 	
 }

@@ -4,7 +4,7 @@
             "nGram_filter": {
                "type": "nGram",
                "min_gram": 2,
-               "max_gram": 3,
+               "max_gram": 6,
                "token_chars": [
                   "letter",
                   "digit",
@@ -30,7 +30,17 @@
                   "lowercase",
                   "asciifolding"
                ]
-            }
+            },
+            "tokenizer": {
+          	"edge_ngram_tokenizer": {
+            	"type": "edge_ngram",
+            		"min_gram": 2,
+            		"max_gram": 5,
+            		"token_chars": [
+              			"letter"
+            		]
+          		}
+         	}
          }
       }
   }

@@ -91,7 +91,7 @@ public class ProductManagementAPIIntegrationTest extends ServicesTestSupport {
         product.setSku("123");
         final HttpEntity<PersistableProduct> entity = new HttpEntity<>(product, getHeader());
 
-        final ResponseEntity<PersistableProduct> response = testRestTemplate.postForEntity("/api/v1/private/products?store=" + Constants.DEFAULT_STORE, entity, PersistableProduct.class);
+        final ResponseEntity<PersistableProduct> response = testRestTemplate.postForEntity("/api/v1/private/product?store=" + Constants.DEFAULT_STORE, entity, PersistableProduct.class);
         assertThat(response.getStatusCode(), is(CREATED));
     }
 
@@ -394,7 +394,7 @@ public class ProductManagementAPIIntegrationTest extends ServicesTestSupport {
 
         final HttpEntity<String> httpEntity = new HttpEntity<>(getHeader());
 
-        restTemplate.exchange("http://localhost:8080/sm-shop/services/rest/products/DEFAULT/en/" + testCategoryID + "/" + testProductID, HttpMethod.DELETE, httpEntity, ReadableProduct.class);
+        restTemplate.exchange("http://localhost:8080/sm-shop/services/rest/product/DEFAULT/en/" + testCategoryID + "/" + testProductID, HttpMethod.DELETE, httpEntity, ReadableProduct.class);
         System.out.println("Product " + testProductID + " Deleted.");
     }
 
