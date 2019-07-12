@@ -1,7 +1,6 @@
 package com.salesmanager.shop.store.api.v1.product;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.http.MediaType.APPLICATION_XML_VALUE;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
@@ -16,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,7 +32,6 @@ import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.ProductCriteria;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.shop.model.catalog.category.PersistableCategory;
 import com.salesmanager.shop.model.catalog.product.LightPersistableProduct;
 import com.salesmanager.shop.model.catalog.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
@@ -129,6 +126,7 @@ public class ProductApi {
     }
   }
   
+  @ResponseStatus(HttpStatus.OK)
   @PatchMapping(
       value = "/private/product/{id}",
       produces = {APPLICATION_JSON_VALUE})
@@ -142,6 +140,7 @@ public class ProductApi {
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language) {
       productFacade.update(id, product, merchantStore, language);
+      return;
 
   }
 

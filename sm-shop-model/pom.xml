@@ -7,15 +7,13 @@
 	<name>sm-shop-model</name>
 	<description>sm-shop-model contains Shopizer model objects for api</description>
 	<url>http://www.shopizer.com</url>
-
-
- 	<parent>
+  	<parent>
 		<groupId>com.shopizer</groupId>
 		<artifactId>shopizer</artifactId>
 		<version>2.6.0</version>
 	</parent>
 
-<!-- 	<parent> 
+<!--  	<parent> 
 		<groupId>org.springframework.boot</groupId> 
 		<artifactId>spring-boot-starter-parent</artifactId> 
 		<version>1.5.18.RELEASE</version> 
@@ -44,7 +42,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
 		<org.springframework-version>4.3.23.RELEASE</org.springframework-version>
-		<shopizer.version>2.5.0</shopizer.version>
+		<shopizer.version>2.6.0</shopizer.version>
 	</properties>
 
 
@@ -133,7 +131,7 @@
 				</executions>
 			</plugin> -->
 			<!--OSSRH -->
-			<!-- <plugin>
+<!-- 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-gpg-plugin</artifactId>
 				<version>1.5</version>

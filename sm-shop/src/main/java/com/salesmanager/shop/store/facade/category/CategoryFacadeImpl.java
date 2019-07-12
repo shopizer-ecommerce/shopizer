@@ -11,7 +11,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import javax.inject.Inject;
 import org.apache.commons.lang.Validate;
 import org.springframework.stereotype.Service;
@@ -50,31 +49,36 @@ public class CategoryFacadeImpl implements CategoryFacade {
   @Inject private ProductAttributeService productAttributeService;
 
   private static final String FEATURED_CATEGORY = "featured";
-  private static final String VISIBLE_CATEGORY = "vusible";
+  private static final String VISIBLE_CATEGORY = "visible";
 
   @Override
   public List<ReadableCategory> getCategoryHierarchy(
       MerchantStore store, int depth, Language language, List<String> filter) {
+
     List<Category> categories = getCategories(store, depth, language, filter);
 
-    List<ReadableCategory> readableCategories =
-        categories.stream()
-            .filter(Category::isVisible)
-            .map(cat -> categoryReadableCategoryConverter.convert(cat, store, language))
-            .collect(Collectors.toList());
+    List<ReadableCategory> readableCategories = null;
+    if(filter!=null && filter.contains(VISIBLE_CATEGORY)) {
+      readableCategories = categories.stream()
+      .filter(Category::isVisible)
+      .map(cat -> categoryReadableCategoryConverter.convert(cat, store, language))
+      .collect(Collectors.toList());
+    } else {
+      readableCategories = categories.stream()
+      .map(cat -> categoryReadableCategoryConverter.convert(cat, store, language))
+      .collect(Collectors.toList());
+    }
+
 
     Map<Long, ReadableCategory> readableCategoryMap =
         readableCategories.stream()
             .collect(Collectors.toMap(ReadableCategory::getId, Function.identity()));
 
-    Stream<ReadableCategory> stream = readableCategories.stream()
+    readableCategories.stream()
+        //.filter(ReadableCategory::isVisible)
         .filter(cat -> Objects.nonNull(cat.getParent()))
-        .filter(cat -> readableCategoryMap.containsKey(cat.getParent().getId()));
-        if(!CollectionUtils.isEmpty(filter) && filter.contains(VISIBLE_CATEGORY)) {
-          stream.filter(ReadableCategory::isVisible);
-        }
-
-        stream.forEach(
+        .filter(cat -> readableCategoryMap.containsKey(cat.getParent().getId()))
+        .forEach(
             readableCategory -> {
               ReadableCategory parentCategory =
                   readableCategoryMap.get(readableCategory.getParent().getId());
@@ -87,6 +91,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
         .filter(cat -> cat.getDepth() == 0)
         .sorted(Comparator.comparing(ReadableCategory::getSortOrder))
         .collect(Collectors.toList());
+    
   }
   
   @Override

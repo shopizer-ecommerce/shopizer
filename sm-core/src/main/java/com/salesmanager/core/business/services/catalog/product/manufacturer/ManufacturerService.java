@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityService;
+import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
 import com.salesmanager.core.model.catalog.product.manufacturer.ManufacturerDescription;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -36,5 +37,17 @@ public interface ManufacturerService extends SalesManagerEntityService<Long, Man
 	 */
 	List<Manufacturer> listByProductsByCategoriesId(MerchantStore store,
 			List<Long> ids, Language language) throws ServiceException;
+	
+	/**
+	 * List by product in category lineage
+	 * @param store
+	 * @param category
+	 * @param language
+	 * @return
+	 * @throws ServiceException
+	 */
+	List<Manufacturer> listByProductsInCategory(MerchantStore store,
+        Category category, Language language) throws ServiceException;
+
 	
 }

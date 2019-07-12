@@ -519,6 +519,12 @@ public class ProductFacadeImpl implements ProductFacade {
         }  
     }
     
+    try {
+      productService.save(modified);
+    } catch (ServiceException e) {
+      throw new ServiceRuntimeException("Cannot update product ", e);
+    }
+    
   }
 
 }

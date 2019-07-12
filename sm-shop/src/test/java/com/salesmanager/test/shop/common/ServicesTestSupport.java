@@ -1,5 +1,8 @@
 package com.salesmanager.test.shop.common;
+import java.math.BigDecimal;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,6 +16,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.shop.application.ShopApplication;
+import com.salesmanager.shop.model.catalog.category.Category;
+import com.salesmanager.shop.model.catalog.category.CategoryDescription;
+import com.salesmanager.shop.model.catalog.category.PersistableCategory;
+import com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription;
+import com.salesmanager.shop.model.catalog.manufacturer.PersistableManufacturer;
+import com.salesmanager.shop.model.catalog.product.PersistableProduct;
+import com.salesmanager.shop.model.catalog.product.ProductDescription;
+import com.salesmanager.shop.model.catalog.product.ProductSpecification;
 import com.salesmanager.shop.model.shop.ReadableMerchantStore;
 import com.salesmanager.shop.populator.customer.ReadableCustomerList;
 import com.salesmanager.shop.store.security.AuthenticationRequest;
@@ -50,6 +61,65 @@ public class ServicesTestSupport {
         return testRestTemplate.exchange("/api/v1/private/customers", HttpMethod.GET,
                 httpEntity, ReadableCustomerList.class).getBody();
 
+    }
+    
+    protected PersistableManufacturer manufacturer(String code) {
+      
+      PersistableManufacturer m = new PersistableManufacturer();
+      m.setCode(code);
+      m.setOrder(0);
+      
+      ManufacturerDescription desc = new ManufacturerDescription();
+      desc.setLanguage("en");
+      desc.setName(code);
+      
+      m.getDescriptions().add(desc);
+      
+      return m;
+      
+      
+    }
+    
+    protected PersistableCategory category(String code) {
+      
+      PersistableCategory newCategory = new PersistableCategory();
+      newCategory.setCode(code);
+      newCategory.setSortOrder(1);
+      newCategory.setVisible(true);
+      newCategory.setDepth(1);
+
+
+      CategoryDescription description = new CategoryDescription();
+      description.setLanguage("en");
+      description.setName(code);
+
+
+      List<CategoryDescription> descriptions = new ArrayList<>();
+      descriptions.add(description);
+
+      newCategory.setDescriptions(descriptions);
+      
+      return newCategory;
+      
+      
+    }
+    
+    protected PersistableProduct product(String code) {
+      
+      
+      PersistableProduct product = new PersistableProduct();
+
+      product.setPrice(BigDecimal.TEN);
+      product.setSku(code);
+      
+      ProductDescription description = new ProductDescription();
+      description.setName(code);
+      description.setLanguage("en");
+      
+      product.getDescriptions().add(description);
+      
+      return product;
+      
     }
 
 
