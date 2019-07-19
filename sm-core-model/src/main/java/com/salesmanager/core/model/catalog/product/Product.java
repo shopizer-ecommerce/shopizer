@@ -52,7 +52,7 @@ import com.salesmanager.core.model.tax.taxclass.TaxClass;
 @Table(name = "PRODUCT", schema=SchemaConstant.SALESMANAGER_SCHEMA, uniqueConstraints=
 @UniqueConstraint(columnNames = {"MERCHANT_ID", "SKU"}))
 public class Product extends SalesManagerEntity<Long, Product> implements Auditable {
-	private static final long serialVersionUID = -6228066416290007047L;
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name = "PRODUCT_ID", unique=true, nullable=false)

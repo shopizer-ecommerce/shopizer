@@ -3,10 +3,11 @@ package com.salesmanager.shop.admin.controller.categories;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
+import java.util.Set;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -107,7 +108,7 @@ public class CategoryController {
 			
 		}
 		
-		List<CategoryDescription> descriptions = new ArrayList<CategoryDescription>();
+		Set<CategoryDescription> descriptions = new HashSet<CategoryDescription>();
 		
 		for(Language l : languages) {
 			
@@ -172,7 +173,7 @@ public class CategoryController {
 			
 
 
-			List<CategoryDescription> descriptions = category.getDescriptions();
+			Set<CategoryDescription> descriptions = category.getDescriptions();
 			if(descriptions!=null) {
 				
 				for(CategoryDescription description : descriptions) {
@@ -287,7 +288,7 @@ public class CategoryController {
 				Map entry = new HashMap();
 				entry.put("categoryId", category.getId());
 				
-				CategoryDescription description = category.getDescriptions().get(0);
+				CategoryDescription description = category.getDescriptions().iterator().next();
 				
 				entry.put("name", description.getName());
 				entry.put("code", category.getCode());

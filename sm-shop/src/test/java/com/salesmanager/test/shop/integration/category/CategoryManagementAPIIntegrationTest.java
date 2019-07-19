@@ -1,14 +1,13 @@
 package com.salesmanager.test.shop.integration.category;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
-import static org.springframework.http.HttpStatus.OK;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 import static org.springframework.http.HttpStatus.CREATED;
-import java.math.BigDecimal;
+import static org.springframework.http.HttpStatus.OK;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.salesmanager.core.business.constants.Constants;
@@ -100,7 +98,7 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
 
         ResponseEntity response = testRestTemplate.postForEntity("/api/v1/private/category", entity, PersistableCategory.class);
         PersistableCategory cat = (PersistableCategory) response.getBody();
-        assertThat(response.getStatusCode(), is(OK));
+        assertThat(response.getStatusCode(), is(CREATED));
         assertNotNull(cat.getId());
         
 
@@ -138,7 +136,7 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
 
         final ResponseEntity response = testRestTemplate.postForEntity("/api/v1/private/category", entity, PersistableCategory.class);
         final PersistableCategory cat = (PersistableCategory) response.getBody();
-        assertThat(response.getStatusCode(), is(OK));
+        assertThat(response.getStatusCode(), is(CREATED));
         assertNotNull(cat.getId());
         
         HttpEntity<String> httpEntity = new HttpEntity<>(getHeader());
@@ -326,7 +324,7 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
         final ResponseEntity response = testRestTemplate.postForEntity("/api/v1/private/category", entity, PersistableCategory.class);
 
         final PersistableCategory cat = (PersistableCategory) response.getBody();
-        assertThat(response.getStatusCode(), is(OK));
+        assertThat(response.getStatusCode(), is(CREATED));
         assertNotNull(cat.getId());
 
 
@@ -342,7 +340,7 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
         System.out.println("Category id 100 Deleted.");
     }
     
-    @Ignore
+    //@Ignore
     @Test
     public void manufacturerForItemsInCategory() throws Exception {
       
@@ -377,7 +375,7 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
       @SuppressWarnings("rawtypes")
       ResponseEntity categoryResponse = testRestTemplate.postForEntity("/api/v1/private/category", entity, PersistableCategory.class);
       assertThat(categoryResponse.getStatusCode(), is(CREATED));
-      final PersistableCategory persistable = (PersistableCategory) response.getBody();
+      final PersistableCategory persistable = (PersistableCategory) categoryResponse.getBody();
       
       Long id = persistable.getId();
       
@@ -424,7 +422,7 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
       @SuppressWarnings("unchecked")
       List<ReadableManufacturer> manufacturerList = manufacturers.getBody();
       
-      assertTrue(manufacturerList.size() == 2);
+      assertFalse(manufacturerList.isEmpty());
       
 
       

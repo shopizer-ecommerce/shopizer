@@ -20,7 +20,7 @@ import com.salesmanager.core.model.common.description.Description;
 	}
 )
 public class ProductDescription extends Description {
-	private static final long serialVersionUID = -7991123535661321865L;
+	private static final long serialVersionUID = 1L;
 	
 	@ManyToOne(targetEntity = Product.class)
 	@JoinColumn(name = "PRODUCT_ID", nullable = false)

@@ -3,7 +3,9 @@ package com.salesmanager.test.order;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -118,7 +120,7 @@ public class OrderTest extends com.salesmanager.test.common.AbstractSalesManager
 	    shirtsEnglishDescription.setCategory(shirts);
 	    shirtsEnglishDescription.setLanguage(en);
 
-	    List<CategoryDescription> descriptions = new ArrayList<CategoryDescription>();
+	    Set<CategoryDescription> descriptions = new HashSet<CategoryDescription>();
 	    descriptions.add(shirtsEnglishDescription);
 
 

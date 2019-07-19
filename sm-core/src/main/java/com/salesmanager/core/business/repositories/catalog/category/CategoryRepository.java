@@ -31,6 +31,12 @@ public interface CategoryRepository extends JpaRepository<Category, Long>, Categ
 	
 	@Query("select c from Category c left join fetch c.descriptions cd join fetch cd.language cdl join fetch c.merchantStore cm where cdl.id=?2 and c.id = ?1")
 	Category findById(Long categoryId, Integer languageId);
+	
+	@Query("select c from Category c left join fetch c.descriptions cd join fetch cd.language cdl join fetch c.merchantStore cm left join fetch c.categories where cdl.code=?2 and c.id = ?1")
+	Category findById(Long categoryId, String merchant);
+	
+	@Query("select c from Category c left join fetch c.descriptions cd join fetch cd.language cdl join fetch c.merchantStore cm left join fetch c.categories where c.id = ?1")
+	Category findById(Long categoryId);
 
 	@Query("select c from Category c left join fetch c.descriptions cd join fetch cd.language cdl join fetch c.merchantStore cm where cm.code=?1 and c.code=?2")
 	public Category findByCode(String merchantStoreCode, String code);

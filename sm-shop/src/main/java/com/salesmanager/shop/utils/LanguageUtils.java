@@ -21,133 +21,141 @@ import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 
 @Component
 public class LanguageUtils {
-	
-	protected final Log logger = LogFactory.getLog(getClass());
-	
-	@Inject
-	LanguageService languageService;
-	
-	public Language getServiceLanguage(String lang) {
-		Language l = null;
-		if(!StringUtils.isBlank(lang)) {
-			try {
-				l = languageService.getByCode(lang);
-			} catch (ServiceException e) {
-				logger.error("Cannot retrieve language " + lang, e);
-			}
-		} 
-		
-		if(l==null) {
-			l = languageService.defaultLanguage();
-		}
-		
-		return l;
-	}
-	
-	/**
-	 * Determines request language based on store rules
-	 * @param request
-	 * @return
-	 */
-	public Language getRequestLanguage(HttpServletRequest request, HttpServletResponse response) {
-		
-		Locale locale = null;
-		
-		Language language = (Language) request.getSession().getAttribute(Constants.LANGUAGE);
-		MerchantStore store = (MerchantStore)request.getSession().getAttribute(Constants.MERCHANT_STORE);
-		
 
-		if(language==null) {
-			try {
-				
-					locale = LocaleContextHolder.getLocale();//should be browser locale
-				
-				
-					
-					if(store!=null) {
-						language = store.getDefaultLanguage();
-						if(language!=null) {
-							locale = languageService.toLocale(language, store);
-							if(locale!=null) {
-								LocaleContextHolder.setLocale(locale);
-							}
-							request.getSession().setAttribute(Constants.LANGUAGE, language);
-					}
-				
-					if(language==null) {
-						language = languageService.toLanguage(locale);
-						request.getSession().setAttribute(Constants.LANGUAGE, language);
-					}
-				
-				}
+  protected final Log logger = LogFactory.getLog(getClass());
 
-			} catch(Exception e) {
-				if(language==null) {
-					try {
-						language = languageService.getByCode(Constants.DEFAULT_LANGUAGE);
-					} catch(Exception ignore) {}
-				}
-			}
-		} else {
-			
-			
-			Locale localeFromContext = LocaleContextHolder.getLocale();//should be browser locale
-			if(!language.getCode().equals(localeFromContext.getLanguage())) {
-				//get locale context
-				language = languageService.toLanguage(localeFromContext);
-			}
+  private static final String ALL_LANGUALES = "_all";
 
-		}
-		
-		if(language != null) {
-			locale = languageService.toLocale(language, store);
-		} else {
-			language = languageService.toLanguage(locale);
-		}
-		
-		LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
-		if(localeResolver!=null) {
-			localeResolver.setLocale(request, response, locale);
-		}
-		response.setLocale(locale);
-		request.getSession().setAttribute(Constants.LANGUAGE, language);
+  @Inject
+  LanguageService languageService;
 
-		return language;
-	}
-	
-	/**
-	 * Should be used by rest web services
-	 * @param request
-	 * @param store
-	 * @return
-	 * @throws Exception
-	 */
-	public Language getRESTLanguage(HttpServletRequest request, MerchantStore store) {
-		
-		Validate.notNull(request,"HttpServletRequest must not be null");
-		Validate.notNull(store,"MerchantStore must not be null");
+  public Language getServiceLanguage(String lang) {
+    Language l = null;
+    if (!StringUtils.isBlank(lang)) {
+      try {
+        l = languageService.getByCode(lang);
+      } catch (ServiceException e) {
+        logger.error("Cannot retrieve language " + lang, e);
+      }
+    }
 
-		try {
-			Language language = null;
+    if (l == null) {
+      l = languageService.defaultLanguage();
+    }
 
-			String lang = request.getParameter(Constants.LANG);
+    return l;
+  }
 
-			if (StringUtils.isBlank(lang)) {
-				if (language == null) {
-					language = languageService.defaultLanguage();
-				}
-			} else {
-				language = languageService.getByCode(lang);
-				if (language == null) {
-				    language = languageService.defaultLanguage();
-				}
-			}
+  /**
+   * Determines request language based on store rules
+   * 
+   * @param request
+   * @return
+   */
+  public Language getRequestLanguage(HttpServletRequest request, HttpServletResponse response) {
 
-			return language;
+    Locale locale = null;
 
-		} catch (ServiceException e) {
-			throw new ServiceRuntimeException(e);
-		}
-	}
+    Language language = (Language) request.getSession().getAttribute(Constants.LANGUAGE);
+    MerchantStore store =
+        (MerchantStore) request.getSession().getAttribute(Constants.MERCHANT_STORE);
+
+
+    if (language == null) {
+      try {
+
+        locale = LocaleContextHolder.getLocale();// should be browser locale
+
+
+
+        if (store != null) {
+          language = store.getDefaultLanguage();
+          if (language != null) {
+            locale = languageService.toLocale(language, store);
+            if (locale != null) {
+              LocaleContextHolder.setLocale(locale);
+            }
+            request.getSession().setAttribute(Constants.LANGUAGE, language);
+          }
+
+          if (language == null) {
+            language = languageService.toLanguage(locale);
+            request.getSession().setAttribute(Constants.LANGUAGE, language);
+          }
+
+        }
+
+      } catch (Exception e) {
+        if (language == null) {
+          try {
+            language = languageService.getByCode(Constants.DEFAULT_LANGUAGE);
+          } catch (Exception ignore) {
+          }
+        }
+      }
+    } else {
+
+
+      Locale localeFromContext = LocaleContextHolder.getLocale();// should be browser locale
+      if (!language.getCode().equals(localeFromContext.getLanguage())) {
+        // get locale context
+        language = languageService.toLanguage(localeFromContext);
+      }
+
+    }
+
+    if (language != null) {
+      locale = languageService.toLocale(language, store);
+    } else {
+      language = languageService.toLanguage(locale);
+    }
+
+    LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
+    if (localeResolver != null) {
+      localeResolver.setLocale(request, response, locale);
+    }
+    response.setLocale(locale);
+    request.getSession().setAttribute(Constants.LANGUAGE, language);
+
+    return language;
+  }
+
+  /**
+   * Should be used by rest web services
+   * 
+   * @param request
+   * @param store
+   * @return
+   * @throws Exception
+   */
+  public Language getRESTLanguage(HttpServletRequest request, MerchantStore store) {
+
+    Validate.notNull(request, "HttpServletRequest must not be null");
+    Validate.notNull(store, "MerchantStore must not be null");
+
+    try {
+      Language language = null;
+
+      String lang = request.getParameter(Constants.LANG);
+
+      if (StringUtils.isBlank(lang)) {
+        if (language == null) {
+          language = languageService.defaultLanguage();
+        }
+      } else {
+        if(!ALL_LANGUALES.equals(lang)) {
+          language = languageService.getByCode(lang);
+          if (language == null) {
+            language = languageService.defaultLanguage();
+          }
+        }
+      }
+
+      return language;
+
+    } catch (ServiceException e) {
+      throw new ServiceRuntimeException(e);
+    }
+  }
 
 }

@@ -1,8 +1,9 @@
 package com.salesmanager.shop.populator.catalog;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-
+import java.util.Set;
 import javax.inject.Inject;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -120,7 +121,7 @@ public class PersistableCategoryPopulator extends
 
 		
 		if(!CollectionUtils.isEmpty(source.getDescriptions())) {
-			List<com.salesmanager.core.model.catalog.category.CategoryDescription> descriptions = new ArrayList<com.salesmanager.core.model.catalog.category.CategoryDescription>();
+			Set<com.salesmanager.core.model.catalog.category.CategoryDescription> descriptions = new HashSet<com.salesmanager.core.model.catalog.category.CategoryDescription>();
 			if(CollectionUtils.isNotEmpty(target.getDescriptions())) {
     			for(com.salesmanager.core.model.catalog.category.CategoryDescription description : target.getDescriptions()) {
     			    for(CategoryDescription d : source.getDescriptions()) {

@@ -1,25 +1,34 @@
 package com.salesmanager.shop.mapper.catalog;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.category.CategoryDescription;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
-import java.util.List;
-import java.util.Optional;
-import org.springframework.stereotype.Component;
+import com.salesmanager.shop.model.catalog.category.ReadableCategoryFull;
 
 @Component
 public class ReadableCategoryMapper implements Mapper<Category, ReadableCategory> {
+  
+  private static final Logger LOGGER = LoggerFactory.getLogger(ReadableCategoryMapper.class);
 
   @Override
   public ReadableCategory convert(Category source, MerchantStore store, Language language) {
-    ReadableCategory target = new ReadableCategory();
+    ReadableCategory target = category(language);
+    
+    feedDescription(source, language, target);
 
-    Optional<com.salesmanager.shop.model.catalog.category.CategoryDescription> categoryDescription =
+/*    Optional<com.salesmanager.shop.model.catalog.category.CategoryDescription> categoryDescription =
         getCategoryDescription(source, language, target);
-    categoryDescription.ifPresent(target::setDescription);
+    categoryDescription.ifPresent(target::setDescription);*/
 
     Optional<com.salesmanager.shop.model.catalog.category.Category> parentCategory =
         createParentCategory(source);
@@ -36,13 +45,42 @@ public class ReadableCategoryMapper implements Mapper<Category, ReadableCategory
     return target;
   }
 
-  private Optional<com.salesmanager.shop.model.catalog.category.CategoryDescription>
-      getCategoryDescription(Category source, Language language, ReadableCategory target) {
+  private void feedDescription(Category source, Language language, ReadableCategory target) {
+
+    if (language == null) {
+
+      List<com.salesmanager.shop.model.catalog.category.CategoryDescription> descriptions =
+          source.getDescriptions().stream()
+              .map(desc -> getCategoryDescription(source, language, target))
+              .filter(Optional::isPresent)
+              .map(Optional::get)
+              .collect(Collectors.toList());
+      
+      if(target instanceof ReadableCategoryFull) {
+        ((ReadableCategoryFull)target).setDescriptions(descriptions);
+      } else {
+        LOGGER.warn("Excepted ReadableCategoryFull but got ReadableCategory, descriptions won't be populated");
+      }
+
+    } else {
+      Optional<com.salesmanager.shop.model.catalog.category.CategoryDescription> categoryDescription =
+          getCategoryDescription(source, language, target);
+      categoryDescription.ifPresent(target::setDescription);
+
+      Optional<com.salesmanager.shop.model.catalog.category.Category> parentCategory =
+          createParentCategory(source);
+      parentCategory.ifPresent(target::setParent);
+    }
+
+
+  }
+
+  private Optional<com.salesmanager.shop.model.catalog.category.CategoryDescription> getCategoryDescription(
+      Category source, Language language, ReadableCategory target) {
 
     Optional<CategoryDescription> description =
         getCategoryDescription(source.getDescriptions(), source.getDescription(), language);
-    if (source.getDescriptions() != null
-        && !source.getDescriptions().isEmpty()
+    if (source.getDescriptions() != null && !source.getDescriptions().isEmpty()
         && description.isPresent()) {
       return Optional.of(convertDescription(description.get(), source));
     } else {
@@ -67,13 +105,15 @@ public class ReadableCategoryMapper implements Mapper<Category, ReadableCategory
   }
 
   private Optional<CategoryDescription> getCategoryDescription(
-      List<CategoryDescription> categoryDescriptionsLang,
-      CategoryDescription categoryDescription,
+      Set<CategoryDescription> categoryDescriptionsLang, CategoryDescription categoryDescription,
       Language language) {
-    Optional<CategoryDescription> categoryDescriptionByLang =
-        categoryDescriptionsLang.stream()
-            .filter(desc -> desc.getLanguage().getCode().equals(language.getCode()))
-            .findAny();
+    Optional<CategoryDescription> categoryDescriptionByLang = null;
+    if (language != null) {
+      categoryDescriptionByLang = categoryDescriptionsLang.stream()
+          .filter(desc -> desc.getLanguage().getCode().equals(language.getCode())).findAny();
+    } else {
+      categoryDescriptionByLang = categoryDescriptionsLang.stream().findAny();
+    }
     if (categoryDescriptionByLang.isPresent()) {
       return categoryDescriptionByLang;
     } else {
@@ -83,14 +123,22 @@ public class ReadableCategoryMapper implements Mapper<Category, ReadableCategory
 
   private Optional<com.salesmanager.shop.model.catalog.category.Category> createParentCategory(
       Category source) {
-    return Optional.ofNullable(source.getParent())
-        .map(
-            parentValue -> {
-              final com.salesmanager.shop.model.catalog.category.Category parent =
-                  new com.salesmanager.shop.model.catalog.category.Category();
-              parent.setCode(source.getParent().getCode());
-              parent.setId(source.getParent().getId());
-              return parent;
-            });
+    return Optional.ofNullable(source.getParent()).map(parentValue -> {
+      final com.salesmanager.shop.model.catalog.category.Category parent =
+          new com.salesmanager.shop.model.catalog.category.Category();
+      parent.setCode(source.getParent().getCode());
+      parent.setId(source.getParent().getId());
+      return parent;
+    });
+  }
+
+  private ReadableCategory category(Language language) {
+
+    if (language == null) {
+      return new ReadableCategoryFull();
+    } else {
+      return new ReadableCategory();
+    }
+
   }
 }

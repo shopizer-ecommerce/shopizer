@@ -22,7 +22,7 @@ import com.salesmanager.core.model.reference.language.Language;
 	}
 )
 public class CategoryDescription extends Description {
-	private static final long serialVersionUID = -3248423008455359301L;
+	private static final long serialVersionUID = 1L;
 	
 
 	@ManyToOne(targetEntity = Category.class)

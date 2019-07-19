@@ -888,8 +888,8 @@ public class ProductController {
 				Map entry = new HashMap();
 				entry.put("categoryId", category.getId());
 				
-				List<CategoryDescription> descriptions = category.getDescriptions();
-				String categoryName = category.getDescriptions().get(0).getName();
+				Set<CategoryDescription> descriptions = category.getDescriptions();
+				String categoryName = category.getDescriptions().iterator().next().getName();
 				for(CategoryDescription description : descriptions){
 					if(description.getLanguage().getCode().equals(language.getCode())) {
 						categoryName = description.getName();

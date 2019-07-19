@@ -148,21 +148,20 @@ public class AbstractSalesManagerCoreTestCase {
 	@Before
 	public void init() throws ServiceException {
 		System.out.println("**** INTO INIT ***");
-		populate();
+		if(initializationDatabase.isEmpty()) {
+		  populate();
+		}
 
 	}
 	
 	@After
 	public void close() throws ServiceException {
-
+	  System.out.println("**** AFTER ***");
+	  
 	}
 	
 	private void populate() throws ServiceException {
-		
-		
 		initializationDatabase.populate("TEST");
-		
-
 	}
 
 }

@@ -4,7 +4,6 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.OK;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -77,7 +76,7 @@ public class ProductManagementAPIIntegrationTest extends ServicesTestSupport {
         final ResponseEntity<PersistableCategory> categoryResponse = testRestTemplate.postForEntity("/api/v1/private/category?store=" + Constants.DEFAULT_STORE, categoryEntity,
                 PersistableCategory.class);
         final PersistableCategory cat = categoryResponse.getBody();
-        assertThat(categoryResponse.getStatusCode(), is(OK));
+        assertThat(categoryResponse.getStatusCode(), is(CREATED));
         assertNotNull(cat.getId());
 
         final PersistableProduct product = new PersistableProduct();

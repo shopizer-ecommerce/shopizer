@@ -21,6 +21,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.manufacturer.PersistableManufacturer;
 import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
+import com.salesmanager.shop.store.controller.manufacturer.facade.ManufacturerFacade;
 import com.salesmanager.shop.store.controller.product.facade.ProductFacade;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
@@ -47,6 +48,8 @@ public class ManufacturerApi {
   @Inject private ProductFacade productFacade;
 
   @Inject private ManufacturerService manufacturerService;
+  
+  @Inject private ManufacturerFacade manufacturerFacade;
 
   /**
    * Method for creating a manufacturer
@@ -57,7 +60,7 @@ public class ManufacturerApi {
    * @return
    * @throws Exception
    */
-  @RequestMapping(value = "/private/manufacturers", method = RequestMethod.POST)
+  @RequestMapping(value = "/private/manufacturer", method = RequestMethod.POST)
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
   @ApiImplicitParams({
@@ -147,7 +150,7 @@ public class ManufacturerApi {
     return null;
   }
 
-  @RequestMapping(value = "/private/manufacturers/{id}", method = RequestMethod.POST)
+  @RequestMapping(value = "/private/manufacturer/{id}", method = RequestMethod.POST)
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   @ApiImplicitParams({
@@ -176,7 +179,7 @@ public class ManufacturerApi {
     }
   }
 
-  @RequestMapping(value = "/manufacturers/{id}", method = RequestMethod.DELETE)
+  @RequestMapping(value = "/manufacturer/{id}", method = RequestMethod.DELETE)
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   @ApiImplicitParams({
@@ -228,9 +231,8 @@ public class ManufacturerApi {
       @ApiIgnore Language language,
       HttpServletResponse response)
       throws Exception {
-    
-    return null;
-    //return categoryFacade.categoryProductVariants(id, merchantStore, language);
+
+    return manufacturerFacade.getByProductInCategory(merchantStore, language, id);
     
   }
   

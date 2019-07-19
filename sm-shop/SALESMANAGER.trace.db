@@ -1,0 +1,27 @@
+2019-07-18 20:37:59 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "CATEGORY" not found; SQL statement:
+select * from category [42102-191]
+2019-07-18 20:43:10 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "CATEGORY" not found; SQL statement:
+select * from category [42102-191]
+2019-07-18 20:59:36 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "CATEGORY" not found; SQL statement:
+select * from CATEGORY [42102-191]
+2019-07-19 13:01:37 database: close
+java.lang.NullPointerException
+	at org.h2.index.PageDataNode.moveTo(PageDataNode.java:433)
+	at org.h2.store.PageStore.compact(PageStore.java:724)
+	at org.h2.store.PageStore.compact(PageStore.java:538)
+	at org.h2.engine.Database.closeOpenFilesAndUnlock(Database.java:1356)
+	at org.h2.engine.Database.close(Database.java:1286)
+	at org.h2.engine.Database.removeSession(Database.java:1170)
+	at org.h2.engine.Session.close(Session.java:815)
+	at org.h2.jdbc.JdbcConnection.close(JdbcConnection.java:383)
+	at net.sourceforge.squirrel_sql.fw.sql.SQLConnection._closeIntern(SQLConnection.java:174)
+	at net.sourceforge.squirrel_sql.fw.sql.SQLConnection.access$000(SQLConnection.java:48)
+	at net.sourceforge.squirrel_sql.fw.sql.SQLConnection$1.run(SQLConnection.java:123)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)

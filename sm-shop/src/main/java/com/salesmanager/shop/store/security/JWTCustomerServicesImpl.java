@@ -35,9 +35,9 @@ public class JWTCustomerServicesImpl extends AbstractCustomerServices {
 		AuditSection section = null;
 		section = customer.getAuditSection();
 		Date lastModified = null;
-		if(section != null) {
-			lastModified = section.getDateModified();
-		}
+		//if(section != null) {//does not represent password change
+		//	lastModified = section.getDateModified();
+		//}
 		
 		return new JWTUser(
         		customer.getId(),

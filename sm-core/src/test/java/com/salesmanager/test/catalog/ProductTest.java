@@ -6,6 +6,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.junit.Assert;
 import org.junit.Test;
 import com.salesmanager.core.business.exception.ServiceException;
@@ -70,7 +71,7 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 	    bookFrenchDescription.setCategory(book);
 	    bookFrenchDescription.setLanguage(fr);
 
-	    List<CategoryDescription> descriptions = new ArrayList<CategoryDescription>();
+	    Set<CategoryDescription> descriptions = new HashSet<CategoryDescription>();
 	    descriptions.add(bookEnglishDescription);
 	    descriptions.add(bookFrenchDescription);
 
@@ -92,7 +93,7 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 	    musicFrenchDescription.setCategory(music);
 	    musicFrenchDescription.setLanguage(fr);
 
-	    List<CategoryDescription> descriptions2 = new ArrayList<CategoryDescription>();
+	    Set<CategoryDescription> descriptions2 = new HashSet<CategoryDescription>();
 	    descriptions2.add(musicEnglishDescription);
 	    descriptions2.add(musicFrenchDescription);
 
@@ -114,7 +115,7 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 	    novellFrenchDescription.setCategory(novell);
 	    novellFrenchDescription.setLanguage(fr);
 
-	    List<CategoryDescription> descriptions3 = new ArrayList<CategoryDescription>();
+	    Set<CategoryDescription> descriptions3 = new HashSet<CategoryDescription>();
 	    descriptions3.add(novellEnglishDescription);
 	    descriptions3.add(novellFrenchDescription);
 
@@ -139,7 +140,7 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 	    techFrenchDescription.setCategory(tech);
 	    techFrenchDescription.setLanguage(fr);
 
-	    List<CategoryDescription> descriptions4 = new ArrayList<CategoryDescription>();
+	    Set<CategoryDescription> descriptions4 = new HashSet<CategoryDescription>();
 	    descriptions4.add(techFrenchDescription);
 	    descriptions4.add(techFrenchDescription);
 
@@ -164,7 +165,7 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 	    fictionFrenchDescription.setCategory(fiction);
 	    fictionFrenchDescription.setLanguage(fr);
 
-	    List<CategoryDescription> fictiondescriptions = new ArrayList<CategoryDescription>();
+	    Set<CategoryDescription> fictiondescriptions = new HashSet<CategoryDescription>();
 	    fictiondescriptions.add(fictionEnglishDescription);
 	    fictiondescriptions.add(fictionFrenchDescription);
 

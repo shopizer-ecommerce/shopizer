@@ -26,7 +26,7 @@ public interface ManufacturerRepository extends JpaRepository<Manufacturer, Long
 	Manufacturer findByCodeAndMerchandStore(String code, Integer storeId);
 	
 	//TODO
-	//@Query(value="select distinct manufacturer from Product as p join p.manufacturer manufacturer left join manufacturer.descriptions pmd join fetch manufacturer.merchantStore pms where pms.id = ?1 and p.id IN (select c.id from Category c where c.lineage like %?2% and pmf.language.id = ?3)")
-	@Query("select m from Manufacturer m left join m.descriptions md join fetch m.merchantStore ms where m.id=?1")
+	@Query(value="select distinct manufacturer from Product as p join p.manufacturer manufacturer left join manufacturer.descriptions pmd join fetch manufacturer.merchantStore pms where pms.id = ?1 and p.id IN (select c.id from Category c where c.lineage like %?2% and pmd.language.id = ?3)")
+	//@Query("select m from Manufacturer m left join m.descriptions md join fetch m.merchantStore ms where m.id=?1")
 	List<Manufacturer> findByProductInCategoryId(Integer storeId, String lineage, Integer languageId);
 }

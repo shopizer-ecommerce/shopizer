@@ -3,6 +3,7 @@ package com.salesmanager.test.shoppingcart;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -76,7 +77,7 @@ public class ShoppingCartTest extends com.salesmanager.test.common.AbstractSales
 	    shirtsEnglishDescription.setCategory(shirts);
 	    shirtsEnglishDescription.setLanguage(en);
 
-	    List<CategoryDescription> descriptions = new ArrayList<CategoryDescription>();
+	    Set<CategoryDescription> descriptions = new HashSet<CategoryDescription>();
 	    descriptions.add(shirtsEnglishDescription);
 
 

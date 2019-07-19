@@ -51,9 +51,9 @@ public class JWTAdminServicesImpl implements UserDetailsService{
 		AuditSection section = null;
 		section = user.getAuditSection();
 		Date lastModified = null;
-		if(section != null) {
-			lastModified = section.getDateModified();
-		}
+		//if(section != null) {//does not represent password change
+		//	lastModified = section.getDateModified();
+		//}
 		
 		return new JWTUser(
         		user.getId(),

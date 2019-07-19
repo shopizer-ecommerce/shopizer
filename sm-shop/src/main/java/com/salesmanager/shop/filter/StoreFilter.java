@@ -702,7 +702,7 @@ public class StoreFilter extends HandlerInterceptorAdapter {
           // ReadableCategory readableCategory = new ReadableCategory();
           // readableCategoryPopulator.populate(category, readableCategory, store, language);
 
-          List<CategoryDescription> descriptions = category.getDescriptions();
+          Set<CategoryDescription> descriptions = category.getDescriptions();
           for (CategoryDescription description : descriptions) {
 
             Language lang = description.getLanguage();
