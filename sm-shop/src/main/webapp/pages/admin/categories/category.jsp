@@ -72,8 +72,8 @@
 								
 				<h3>
 					<c:choose>
-						<c:when test="${category.id!=null && category.id>0}">
-								<s:message code="label.category.editcategory" text="Edit category" /> <c:out value="${category.code}"/>
+						<c:when test="${category.category.id!=null && category.category.id>0}">
+								<s:message code="label.category.editcategory" text="Edit category" /> <c:out value="${category.category.code}"/>
 						</c:when>
 						<c:otherwise>
 								<s:message code="label.category.createcategory" text="Create category" />
@@ -84,7 +84,6 @@
 				<br/>
 
 				<c:url var="categorySave" value="/admin/categories/save.html"/>
-
 
 				<form:form method="POST" commandName="category" action="${categorySave}">
 
@@ -101,11 +100,11 @@
                                    
 	                        <div class="controls">
 	                        		<s:message code="label.category.root" text="Root" var="rootVar"/>			
-	                        		<form:select path="parent.id">
+	                        		<form:select path="category.parent.id">
 	                        			<form:option value="-1" label="${rootVar}" />
-					  					<form:options items="${categories}" itemValue="id" itemLabel="descriptions[0].name"/>
+					  					<form:options items="${categories}" itemValue="category.id" itemLabel="descriptions[0].name"/>
 				       				</form:select>
-	                                <span class="help-inline"><form:errors path="parent.id" cssClass="error" /></span>
+	                                <span class="help-inline"><form:errors path="category.parent.id" cssClass="error" /></span>
 	                        </div>
 
                         </div>
@@ -115,7 +114,7 @@
 				  <div class="control-group">
                         <label><s:message code="label.entity.visible" text="Visible"/></label>
                         <div class="controls">
-                                    <form:checkbox path="visible" />
+                                    <form:checkbox path="category.visible" />
 
                         </div>
                   </div>
@@ -123,8 +122,8 @@
                   <div class="control-group">
                         <label><s:message code="label.category.code" text="Category code"/></label>
 	                        <div class="controls">
-	                        		<form:input cssClass="input-large highlight" path="code" onblur="validateCode()"/>
-	                                <span class="help-inline"><div id="checkCodeStatus" style="display:none;"></div><form:errors path="code" cssClass="error" /></span>
+	                        		<form:input cssClass="input-large highlight" path="category.code" onblur="validateCode()"/>
+	                                <span class="help-inline"><div id="checkCodeStatus" style="display:none;"></div><form:errors path="category.code" cssClass="error" /></span>
 	                        </div>
                   </div>
                   
@@ -232,12 +231,12 @@
                   <div class="control-group">
                         <label><s:message code="label.entity.order" text="Sort order"/></label>
                         <div class="controls">
-                                    <form:input id="order" cssClass="" path="sortOrder"/>
-                                    <span class="help-inline"><form:errors path="sortOrder" cssClass="error" /></span>
+                                    <form:input id="order" cssClass="" path="category.sortOrder"/>
+                                    <span class="help-inline"><form:errors path="category.sortOrder" cssClass="error" /></span>
                         </div>
                   </div>  
                   
-                  <form:hidden path="id" />
+                  <form:hidden path="category.id" />
 			
 			      <div class="form-actions">
 

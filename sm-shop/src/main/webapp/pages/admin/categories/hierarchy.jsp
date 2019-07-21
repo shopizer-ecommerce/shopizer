@@ -52,7 +52,7 @@
         								data: [
 										{categoryId:"-1", parentId:"0", Name:"<s:message code="label.category.root" text="Root" />", isFolder: true},
 										<c:forEach items="${categories}" var="category" varStatus="status">
-            								{categoryId:'<c:out value="${category.id}" />', parentId:'<c:choose><c:when test="${category.parent!=null}"><c:out value="${category.parent.id}" /></c:when><c:otherwise>-1</c:otherwise></c:choose>', Name:'<c:out value="${category.descriptions[0].name}" />', isFolder: true}
+            								{categoryId:'<c:out value="${category.category.id}" />', parentId:'<c:choose><c:when test="${category.category.parent!=null}"><c:out value="${category.category.parent.id}" /></c:when><c:otherwise>-1</c:otherwise></c:choose>', Name:'<c:out value="${category.descriptions[0].name}" />', isFolder: true}
             								<c:if test="${status.count<fn:length(categories)}">,</c:if>
             							</c:forEach>
         								]

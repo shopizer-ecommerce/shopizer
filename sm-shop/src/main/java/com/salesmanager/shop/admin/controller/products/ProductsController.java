@@ -13,6 +13,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.utils.CategoryUtils;
 import com.salesmanager.shop.utils.LabelUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -59,7 +60,9 @@ public class ProductsController {
 		
 		List<Category> categories = categoryService.listByStore(store, language);
 		
-		model.addAttribute("categories", categories);
+		List<com.salesmanager.shop.admin.model.catalog.Category> readableCategories = CategoryUtils.readableCategoryListConverter(categories, language);
+		
+		model.addAttribute("categories", readableCategories);
 		
 		return "admin-products";
 		

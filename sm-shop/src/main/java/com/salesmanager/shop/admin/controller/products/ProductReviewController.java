@@ -199,7 +199,7 @@ public class ProductReviewController {
 		
 		
 		} catch (Exception e) {
-			LOGGER.error("Error while deleting category", e);
+			LOGGER.error("Error while deleting review", e);
 			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 			resp.setErrorMessage(e);
 		}

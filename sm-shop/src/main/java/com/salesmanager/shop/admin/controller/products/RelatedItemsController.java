@@ -15,6 +15,7 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.admin.controller.ControllerConstants;
 import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.utils.CategoryUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -75,8 +76,10 @@ public class RelatedItemsController {
 		
 		
 		List<Category> categories = categoryService.listByStore(store,language);
+		List<com.salesmanager.shop.admin.model.catalog.Category> readableCategories = CategoryUtils.readableCategoryListConverter(categories, language);
+        
 		
-		model.addAttribute("categories", categories);
+		model.addAttribute("categories", readableCategories);
 		model.addAttribute("product", product);
 		return ControllerConstants.Tiles.Product.relatedItems;
 		

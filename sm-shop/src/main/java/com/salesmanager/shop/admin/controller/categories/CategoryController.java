@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -12,7 +13,6 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.reference.country.CountryService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
@@ -40,6 +39,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.utils.CategoryUtils;
 import com.salesmanager.shop.utils.LabelUtils;
 
 
@@ -92,36 +92,36 @@ public class CategoryController {
 		
 
 		List<Language> languages = store.getLanguages();
-		Category category = new Category();
+		Category category = null;
 		
 		if(categoryId!=null && categoryId!=0) {//edit mode
 			category = categoryService.getById(categoryId);
-		
-			
-			
+
 			if(category==null || category.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
 				return "catalogue-categories";
 			}
 		} else {
-			
-			category.setVisible(true);
-			
+		    category = new Category();
+			category.setVisible(true);		
 		}
 		
-		Set<CategoryDescription> descriptions = new HashSet<CategoryDescription>();
 		
+		com.salesmanager.shop.admin.model.catalog.Category adminCategory = new com.salesmanager.shop.admin.model.catalog.Category();
+		
+		
+		List<CategoryDescription> descriptions = new LinkedList<CategoryDescription>();
+		
+		
+	     List<com.salesmanager.shop.admin.model.catalog.Category> readableCategories = CategoryUtils.readableCategoryListConverter(categories, language);
+
 		for(Language l : languages) {
 			
 			CategoryDescription description = null;
 			if(category!=null) {
 				for(CategoryDescription desc : category.getDescriptions()) {
-					
-					
 					if(desc.getLanguage().getCode().equals(l.getCode())) {
 						description = desc;
 					}
-					
-					
 				}
 			}
 			
@@ -134,33 +134,35 @@ public class CategoryController {
 
 		}
 		
-		category.setDescriptions(descriptions);
+		adminCategory.setDescriptions(descriptions);
+		adminCategory.setCategory(category);
 	
 
-		
-		model.addAttribute("category", category);
-		model.addAttribute("categories", categories);
+		model.addAttribute("category", adminCategory);
+		model.addAttribute("categories", readableCategories);
 		
 
 		
 		return "catalogue-categories-category";
 	}
+
 	
 	@PreAuthorize("hasRole('PRODUCTS')")
 	@RequestMapping(value="/admin/categories/save.html", method=RequestMethod.POST)
-	public String saveCategory(@Valid @ModelAttribute("category") Category category, BindingResult result, Model model, HttpServletRequest request) throws Exception {
+	public String saveCategory(@Valid @ModelAttribute("category") com.salesmanager.shop.admin.model.catalog.Category category, BindingResult result, Model model, HttpServletRequest request) throws Exception {
 
-		Language language = (Language)request.getAttribute("LANGUAGE");
+	    model.addAttribute("category",category);
+	    Language language = (Language)request.getAttribute("LANGUAGE");
 		
 		//display menu
 		setMenu(model,request);
 		
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 
-		if(category.getId() != null && category.getId() >0) { //edit entry
+		if(category.getCategory().getId() != null && category.getCategory().getId() >0) { //edit entry
 			
 			//get from DB
-			Category currentCategory = categoryService.getById(category.getId());
+			Category currentCategory = categoryService.getById(category.getCategory().getId());
 			
 			if(currentCategory==null || currentCategory.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
 				return "catalogue-categories";
@@ -173,23 +175,25 @@ public class CategoryController {
 			
 
 
-			Set<CategoryDescription> descriptions = category.getDescriptions();
+			List<CategoryDescription> descriptions = category.getDescriptions();
 			if(descriptions!=null) {
-				
+				Set<CategoryDescription> categoryDescriptions = new HashSet<CategoryDescription>();
 				for(CategoryDescription description : descriptions) {
 					
 					String code = description.getLanguage().getCode();
 					Language l = langs.get(code);
 					description.setLanguage(l);
-					description.setCategory(category);
+					description.setCategory(category.getCategory());
+					categoryDescriptions.add(description);
 					
 					
 				}
-				
+				category.getCategory().setDescriptions(categoryDescriptions);
 			}
 			
+			
 			//save to DB
-			category.setMerchantStore(store);
+			category.getCategory().setMerchantStore(store);
 		//}
 		
 		if (result.hasErrors()) {
@@ -197,33 +201,35 @@ public class CategoryController {
 		}
 		
 		//check parent
-		if(category.getParent()!=null) {
-			if(category.getParent().getId()==-1) {//this is a root category
-				category.setParent(null);
-				category.setLineage("/");
-				category.setDepth(0);
+		if(category.getCategory().getParent()!=null) {
+			if(category.getCategory().getParent().getId()==-1) {//this is a root category
+				category.getCategory().setParent(null);
+				category.getCategory().setLineage("/");
+				category.getCategory().setDepth(0);
 			}
 		}
 		
-		category.getAuditSection().setModifiedBy(request.getRemoteUser());
-		categoryService.saveOrUpdate(category);
+		category.getCategory().getAuditSection().setModifiedBy(request.getRemoteUser());
+		categoryService.saveOrUpdate(category.getCategory());
 
 			
 		//ajust lineage and depth
-		if(category.getParent()!=null && category.getParent().getId()!=-1) { 
+		if(category.getCategory().getParent()!=null && category.getCategory().getParent().getId()!=-1) { 
 		
 			Category parent = new Category();
-			parent.setId(category.getParent().getId());
+			parent.setId(category.getCategory().getParent().getId());
 			parent.setMerchantStore(store);
 			
-			categoryService.addChild(parent, category);
+			categoryService.addChild(parent, category.getCategory());
 		
 		}
 		
 		
 		//get parent categories
 		List<Category> categories = categoryService.listByStore(store,language);
-		model.addAttribute("categories", categories);
+	    List<com.salesmanager.shop.admin.model.catalog.Category> readableCategories = CategoryUtils.readableCategoryListConverter(categories, language);
+		
+		model.addAttribute("categories", readableCategories);
 		
 
 		model.addAttribute("success","success");
@@ -327,8 +333,9 @@ public class CategoryController {
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		
 		List<Category> categories = categoryService.listByStore(store, language);
+		List<com.salesmanager.shop.admin.model.catalog.Category> readableCategories = CategoryUtils.readableCategoryListConverter(categories, language);
 		
-		model.addAttribute("categories", categories);
+		model.addAttribute("categories", readableCategories);
 		
 		return "catalogue-categories-hierarchy";
 	}

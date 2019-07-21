@@ -2,11 +2,13 @@ package com.salesmanager.core.business.services.catalog.category;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import com.salesmanager.core.business.constants.Constants;
@@ -25,6 +27,7 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
     implements CategoryService {
 
   private CategoryRepository categoryRepository;
+
 
   @PersistenceContext(unitName = "shopizerContainer")
   private EntityManager em;
@@ -164,7 +167,27 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
   @Override
   public Category getById(Long id) {
 
-          return categoryRepository.findOne(id);
+       //Category category = categoryRepository.findOne(id);
+       /**
+        * For some reasons 1 to many is broken with multiple childs
+        */
+       //categoryRepository.
+    
+    Category category = (Category)em.createQuery(
+        "select c from Category c left join fetch c.categories join fetch c.merchantStore cm where c.id = :categoryId")
+        .setParameter("categoryId", id)
+        .getSingleResult();
+    
+    @SuppressWarnings("unchecked")
+    List<CategoryDescription> descriptions = (List<CategoryDescription>)em.createQuery(
+        "select cd from CategoryDescription cd left join fetch cd.language cdl where cd.category.id = :categoryId")
+        .setParameter("categoryId", id)
+        .getResultList();
+    
+    Set<CategoryDescription> desc = new HashSet<CategoryDescription>(descriptions);
+    
+    category.setDescriptions(desc);
+    return category;
       
   }
 

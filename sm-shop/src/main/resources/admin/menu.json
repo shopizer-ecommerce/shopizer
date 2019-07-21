@@ -98,9 +98,6 @@
 			}},
 			{"menu":{
 				"code":"catalogue-categories-list","url":"/admin/categories/categories.html","role":"PRODUCTS","order":1
-			}},
-			{"menu":{
-				"code":"catalogue-categories-hierarchy","url":"/admin/categories/hierarchy.html","role":"PRODUCTS","order":2
 			}}
 		]
 	}},

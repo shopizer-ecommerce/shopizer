@@ -17,7 +17,7 @@ public class Product implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -4531526676134574984L;
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 

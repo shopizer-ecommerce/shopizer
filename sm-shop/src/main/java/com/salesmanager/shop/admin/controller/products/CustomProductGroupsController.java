@@ -15,6 +15,7 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.admin.controller.ControllerConstants;
 import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.utils.CategoryUtils;
 import com.salesmanager.shop.utils.LabelUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -247,10 +248,10 @@ public class CustomProductGroupsController {
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		
 		List<Category> categories = categoryService.listByStore(store,language);//for categories
-		
+		List<com.salesmanager.shop.admin.model.catalog.Category> readableCategories = CategoryUtils.readableCategoryListConverter(categories, language);
 		
 		model.addAttribute("group", groupCode);
-		model.addAttribute("categories", categories);
+		model.addAttribute("categories", readableCategories);
 		return ControllerConstants.Tiles.Product.customGroupsDetails;
 		
 	}

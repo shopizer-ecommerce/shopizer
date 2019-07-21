@@ -357,7 +357,7 @@ public class ContentPagesController {
 			resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
 
 		} catch (Exception e) {
-			LOGGER.error("Error while getting category", e);
+			LOGGER.error("Error while getting content", e);
 			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 			resp.setErrorMessage(e);
 		}

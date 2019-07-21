@@ -28,6 +28,7 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.tax.taxclass.TaxClass;
 import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.utils.CategoryUtils;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.LabelUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -818,9 +819,10 @@ public class ProductController {
 
 		//get parent categories
 		List<Category> categories = categoryService.listByStore(store,language);
+		List<com.salesmanager.shop.admin.model.catalog.Category> readableCategories = CategoryUtils.readableCategoryListConverter(categories, language);
 		
 		model.addAttribute("product", product);
-		model.addAttribute("categories", categories);
+		model.addAttribute("categories", readableCategories);
 		return "catalogue-product-categories";
 		
 	}
@@ -1009,8 +1011,10 @@ public class ProductController {
 		
 		productService.update(product);
 		
+		List<com.salesmanager.shop.admin.model.catalog.Category> readableCategories = CategoryUtils.readableCategoryListConverter(categories, language);
+		
 		model.addAttribute("product", product);
-		model.addAttribute("categories", categories);
+		model.addAttribute("categories", readableCategories);
 		
 		return "catalogue-product-categories";
 		

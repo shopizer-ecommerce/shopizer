@@ -135,7 +135,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 			resp.setErrorString(messages.getMessage(e.getMessageCode(),locale));
 		} catch (Exception e) {
-			LOGGER.error("Error while getting category", e);
+			LOGGER.error("Error while getting order", e);
 			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 			resp.setErrorMessage(e);
 		}
