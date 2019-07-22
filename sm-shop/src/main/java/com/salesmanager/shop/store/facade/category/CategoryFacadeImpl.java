@@ -35,6 +35,7 @@ import com.salesmanager.shop.populator.catalog.ReadableCategoryPopulator;
 import com.salesmanager.shop.store.api.exception.OperationNotAllowedException;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
+import com.salesmanager.shop.store.api.exception.UnauthorizedException;
 import com.salesmanager.shop.store.controller.category.facade.CategoryFacade;
 
 @Service(value = "categoryFacade")
@@ -199,6 +200,9 @@ public class CategoryFacadeImpl implements CategoryFacade {
       } else {// all langs
         categoryModel = getById(store, id);
       }
+      
+      if(categoryModel==null)
+        throw new ResourceNotFoundException("Categori id [" + id + "] not found");
 
       StringBuilder lineage =
           new StringBuilder().append(categoryModel.getLineage()).append(categoryModel.getId());
@@ -280,7 +284,14 @@ public class CategoryFacadeImpl implements CategoryFacade {
   private Category getById(MerchantStore store, Long id) throws Exception {
     Validate.notNull(id, "category id must not be null");
     Validate.notNull(store, "MerchantStore must not be null");
-    return categoryService.getById(store, id);
+    Category category = categoryService.getById(id);
+    if(category == null) {
+      throw new ResourceNotFoundException("Category with id [" + id + "] not found");
+    }
+    if(category.getMerchantStore().getId().intValue() != store.getId().intValue()) {
+      throw new UnauthorizedException("Unauthorized");
+    }
+    return category;
   }
 
   @Override

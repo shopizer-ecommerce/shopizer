@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>com.shopizer</groupId>
 		<artifactId>shopizer</artifactId>
-		<version>2.6.0</version>
+		<version>2.7.0</version>
 	</parent>
 
 	<artifactId>sm-core</artifactId>
@@ -25,7 +25,6 @@
 		<spring.vault.version>1.1.3.RELEASE</spring.vault.version>
 		<coverage.lines>.00</coverage.lines>
 		<coverage.branches>.00</coverage.branches>
-		<shopizer.version>2.6.0</shopizer.version>
 	</properties>
 
 	<dependencies>
