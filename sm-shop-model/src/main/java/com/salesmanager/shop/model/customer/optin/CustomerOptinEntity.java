@@ -2,7 +2,7 @@ package com.salesmanager.shop.model.customer.optin;
 
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Email;
-import com.salesmanager.core.model.system.optin.CustomerOptin;
+
 
 public class CustomerOptinEntity extends CustomerOptin {
 

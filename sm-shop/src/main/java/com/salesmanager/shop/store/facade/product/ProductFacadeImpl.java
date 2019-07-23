@@ -239,11 +239,10 @@ public class ProductFacadeImpl implements ProductFacade {
   public ReadableProductList getProductListsByCriterias(MerchantStore store, Language language,
       ProductCriteria criterias) throws Exception {
 
-
     Validate.notNull(criterias, "ProductCriteria must be set for this product");
 
+    /** This is for category **/
     if (CollectionUtils.isNotEmpty(criterias.getCategoryIds())) {
-
 
       if (criterias.getCategoryIds().size() == 1) {
 
@@ -267,8 +266,6 @@ public class ProductFacadeImpl implements ProductFacade {
           criterias.setCategoryIds(ids);
         }
       }
-
-
     }
 
     com.salesmanager.core.model.catalog.product.ProductList products =

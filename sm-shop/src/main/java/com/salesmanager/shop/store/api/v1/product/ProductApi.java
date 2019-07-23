@@ -22,11 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
-import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
-import com.salesmanager.core.business.services.catalog.product.attribute.ProductAttributeService;
-import com.salesmanager.core.business.services.customer.CustomerService;
-import com.salesmanager.core.business.services.merchant.MerchantStoreService;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.ProductCriteria;
@@ -37,9 +33,7 @@ import com.salesmanager.shop.model.catalog.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProductList;
 import com.salesmanager.shop.store.controller.product.facade.ProductFacade;
-import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.ImageFilePath;
-import com.salesmanager.shop.utils.LanguageUtils;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import springfox.documentation.annotations.ApiIgnore;
@@ -53,15 +47,8 @@ import springfox.documentation.annotations.ApiIgnore;
 @RequestMapping("/api/v1")
 public class ProductApi {
 
-  @Inject private MerchantStoreService merchantStoreService;
 
   @Inject private CategoryService categoryService;
-
-  @Inject private CustomerService customerService;
-
-  @Inject private PricingService pricingService;
-
-  @Inject private ProductAttributeService productAttributeService;
 
   @Inject private ProductService productService;
 
@@ -70,10 +57,6 @@ public class ProductApi {
   @Inject
   @Qualifier("img")
   private ImageFilePath imageUtils;
-
-  @Inject private StoreFacade storeFacade;
-
-  @Inject private LanguageUtils languageUtils;
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ProductApi.class);
 
@@ -395,8 +378,10 @@ public class ProductApi {
       throws Exception {
 
     ProductCriteria criteria = new ProductCriteria();
-    if (!StringUtils.isBlank(lang)) {
+    if (lang != null) {
       criteria.setLanguage(lang);
+    } else {
+      criteria.setLanguage(language.getCode());
     }
     if (!StringUtils.isBlank(status)) {
       criteria.setStatus(status);

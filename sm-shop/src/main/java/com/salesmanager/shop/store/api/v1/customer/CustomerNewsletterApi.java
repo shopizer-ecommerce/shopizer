@@ -38,11 +38,6 @@ public class CustomerNewsletterApi {
 	@Inject
 	private CustomerFacade customerFacade;
 
-	@Inject
-	private StoreFacade storeFacade;
-	
-	@Inject
-	private LanguageUtils languageUtils;
 
   /** Create new optin */
   @PostMapping("/newsletter")

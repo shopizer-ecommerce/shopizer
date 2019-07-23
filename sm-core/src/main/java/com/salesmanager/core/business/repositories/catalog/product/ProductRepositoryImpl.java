@@ -577,7 +577,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		}
 		
 		countBuilderSelect.append(" inner join p.descriptions pd");
-		countBuilderWhere.append(" and pd.language.id=:lang");
+		if(!criteria.getLanguage().equals("_all")) {
+		  countBuilderWhere.append(" and pd.language.code=:lang");
+	    }
 
 		if(!StringUtils.isBlank(criteria.getProductName())) {
 			countBuilderWhere.append(" and lower(pd.name) like:nm");
@@ -622,7 +624,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 				} 
 				count++;
 			}
-			countBuilderWhere.append(" and povd.language.id=:lang");
+			if(!criteria.getLanguage().equals("_all")) {
+			  countBuilderWhere.append(" and povd.language.code=:lang");
+			}
 
 		}
 		
@@ -667,7 +671,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			}
 		}
 		
-		countQ.setParameter("lang", language.getId());
+		if(!criteria.getLanguage().equals("_all")) {
+		  countQ.setParameter("lang", language.getCode());
+		}
 		
 		if(!StringUtils.isBlank(criteria.getProductName())) {
 			countQ.setParameter("nm", new StringBuilder().append("%").append(criteria.getProductName().toLowerCase()).append("%").toString());
@@ -738,7 +744,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		
 
 		qs.append(" where merch.id=:mId");
-		qs.append(" and pd.language.id=:lang");
+		if(!criteria.getLanguage().equals("_all")) {
+		  qs.append(" and pd.language.code=:lang");
+		}
 		
 		if(!CollectionUtils.isEmpty(criteria.getProductIds())) {
 			qs.append(" and p.id in (:pId)");
@@ -785,7 +793,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 				qs.append(" and povd.description like :").append("val").append(cnt).append(attributeCriteria.getAttributeCode());
 				cnt++;
 			}
-			qs.append(" and povd.language.id=:lang");
+			if(!criteria.getLanguage().equals("_all")) {
+			  qs.append(" and povd.language.code=:lang");
+			}
 
 		}
 		qs.append(" order by p.sortOrder asc");
@@ -794,8 +804,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     	String hql = qs.toString();
 		Query q = this.em.createQuery(hql);
 
-
-    	q.setParameter("lang", language.getId());
+		if(!criteria.getLanguage().equals("_all")) {
+    	  q.setParameter("lang", language.getCode());
+		}
     	q.setParameter("mId", store.getId());
     	
     	if(!CollectionUtils.isEmpty(criteria.getCategoryIds())) {
