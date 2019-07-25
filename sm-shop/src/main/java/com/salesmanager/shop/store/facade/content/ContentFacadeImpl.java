@@ -168,8 +168,7 @@ public class ContentFacadeImpl implements ContentFacade {
     return content;
   }
 
-  //private ContentDescription createOrUpdateContentDescription(MerchantStore store, Content contentModel, ObjectContent content,
-  //    Language language) {
+
   private ContentDescription createContentDescription(MerchantStore store, ObjectContent content,
       Language language) {
       
@@ -336,5 +335,13 @@ public class ContentFacadeImpl implements ContentFacade {
       throw new ServiceRuntimeException(e);
     }
 
+  }
+
+  @Override
+  public void addContentFiles(List<ContentFile> files, String merchantStoreCode) {
+    for(ContentFile file : files) {
+      addContentFile(file, merchantStoreCode);
+    }
+    
   }
 }

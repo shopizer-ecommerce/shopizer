@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import com.salesmanager.core.model.content.ContentType;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
@@ -166,12 +167,36 @@ public class ContentApi {
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
-  public HttpEntity<String> upload(@RequestBody @Valid ContentFile file,
-      @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
-    String fileName = file.getName();
-    contentFacade.addContentFile(file, merchantStore.getCode());
-    String fileUrl = contentFacade.absolutePath(merchantStore, fileName);
-    return new HttpEntity<String>(fileUrl);
+  public void upload(@RequestParam("file") MultipartFile file,
+      @ApiIgnore MerchantStore merchantStore, 
+      @ApiIgnore Language language) {
+    
+    ContentFile f = new ContentFile();
+    f.setContentType(file.getContentType());
+    f.setName(file.getName());
+    f.setFile(f.getFile());
+    
+    contentFacade.addContentFile(f, merchantStore.getCode());
+
+  }
+  
+  @PostMapping(value = "/private/files")
+  @ResponseStatus(HttpStatus.CREATED)
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
+  public void uploadMultipleFiles(@RequestParam("files") MultipartFile[] files,
+      @ApiIgnore MerchantStore merchantStore, 
+      @ApiIgnore Language language) {
+    
+    for(MultipartFile file : files) {
+      ContentFile f = new ContentFile();
+      f.setContentType(file.getContentType());
+      f.setName(file.getName());
+      f.setFile(f.getFile());
+    }
+
+    
   }
 
 

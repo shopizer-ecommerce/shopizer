@@ -82,6 +82,13 @@ public interface ContentFacade {
 	void addContentFile(ContentFile file, String merchantStoreCode);
 	
 	/**
+	 * Add multiple files
+	 * @param file
+	 * @param merchantStoreCode
+	 */
+	void addContentFiles(List<ContentFile> file, String merchantStoreCode);
+	
+	/**
 	 * Save content page
 	 * @param page
 	 * @param merchantStore

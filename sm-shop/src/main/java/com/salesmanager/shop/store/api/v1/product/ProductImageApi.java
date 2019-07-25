@@ -1,7 +1,5 @@
 package com.salesmanager.shop.store.api.v1.product;
 
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -34,8 +32,11 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.PersistableImage;
 import com.salesmanager.shop.populator.catalog.PersistableProductImagePopulator;
-import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
-import com.salesmanager.shop.utils.LanguageUtils;
+import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
+import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
+import com.salesmanager.shop.store.api.exception.UnauthorizedException;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import springfox.documentation.annotations.ApiIgnore;
 
 @Controller
@@ -44,9 +45,6 @@ public class ProductImageApi {
 
   @Inject private ProductImageService productImageService;
 
-  @Inject private StoreFacade storeFacade;
-
-  @Inject private LanguageUtils languageUtils;
 
   @Inject private ProductService productService;
 
@@ -65,12 +63,15 @@ public class ProductImageApi {
   @RequestMapping(
       value = {"/private/products/{id}/images", "/auth/products/{id}/images"},
       method = RequestMethod.POST)
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+    @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
   public void uploadImages(
       @PathVariable Long id,
       @RequestParam("files") MultipartFile[] uploadfiles,
-      HttpServletRequest request,
-      HttpServletResponse response)
-      throws Exception {
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language) {
 
     try {
 
@@ -78,8 +79,13 @@ public class ProductImageApi {
       Product product = productService.getById(id);
 
       if (product == null) {
-        response.sendError(404, "No Product found for ID : " + id);
-        return;
+        throw new ResourceNotFoundException("Product not found");
+      }
+      
+      //security validation
+      //product belongs to merchant store
+      if(product.getMerchantStore().getId().intValue() != merchantStore.getId().intValue()) {
+        throw new UnauthorizedException("Resource not authorized for this merchant");
       }
 
       boolean hasDefaultImage = false;
@@ -117,14 +123,12 @@ public class ProductImageApi {
 
     } catch (Exception e) {
       LOGGER.error("Error while creating ProductImage", e);
-      try {
-        response.sendError(503, "Error while creating ProductImage " + e.getMessage());
-      } catch (Exception ignore) {
-      }
+      throw new ServiceRuntimeException("Error while creating image");
     }
   }
 
   /**
+   * @deprecated
    * Simple way of uploading image using Base64
    *
    * @param id
@@ -146,9 +150,7 @@ public class ProductImageApi {
       @PathVariable Long id,
       @Valid @RequestBody PersistableImage image,
 			@ApiIgnore MerchantStore merchantStore,
-			@ApiIgnore Language language,
-      HttpServletRequest request,
-      HttpServletResponse response) {
+			@ApiIgnore Language language) {
 
     try {
       // get the product
@@ -173,12 +175,7 @@ public class ProductImageApi {
 
     } catch (Exception e) {
       LOGGER.error("Error while creating ProductImage", e);
-      try {
-        response.sendError(503, "Error while creating ProductImage " + e.getMessage());
-      } catch (Exception ignore) {
-      }
-
-      return null;
+      throw new ServiceRuntimeException("Exception while creating image");
     }
   }
 
