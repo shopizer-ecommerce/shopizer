@@ -577,7 +577,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		}
 		
 		countBuilderSelect.append(" inner join p.descriptions pd");
-		if(!criteria.getLanguage().equals("_all")) {
+		if(criteria.getLanguage() != null && !criteria.getLanguage().equals("_all")) {
 		  countBuilderWhere.append(" and pd.language.code=:lang");
 	    }
 
@@ -624,7 +624,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 				} 
 				count++;
 			}
-			if(!criteria.getLanguage().equals("_all")) {
+			if(criteria.getLanguage() != null && !criteria.getLanguage().equals("_all")) {
 			  countBuilderWhere.append(" and povd.language.code=:lang");
 			}
 
@@ -671,7 +671,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			}
 		}
 		
-		if(!criteria.getLanguage().equals("_all")) {
+		if(criteria.getLanguage() != null && !criteria.getLanguage().equals("_all")) {
 		  countQ.setParameter("lang", language.getCode());
 		}
 		
@@ -744,7 +744,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		
 
 		qs.append(" where merch.id=:mId");
-		if(!criteria.getLanguage().equals("_all")) {
+		if(criteria.getLanguage() != null && !criteria.getLanguage().equals("_all")) {
 		  qs.append(" and pd.language.code=:lang");
 		}
 		
@@ -793,7 +793,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 				qs.append(" and povd.description like :").append("val").append(cnt).append(attributeCriteria.getAttributeCode());
 				cnt++;
 			}
-			if(!criteria.getLanguage().equals("_all")) {
+			if(criteria.getLanguage() != null && !criteria.getLanguage().equals("_all")) {
 			  qs.append(" and povd.language.code=:lang");
 			}
 
@@ -804,7 +804,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     	String hql = qs.toString();
 		Query q = this.em.createQuery(hql);
 
-		if(!criteria.getLanguage().equals("_all")) {
+		if(criteria.getLanguage() != null && !criteria.getLanguage().equals("_all")) {
     	  q.setParameter("lang", language.getCode());
 		}
     	q.setParameter("mId", store.getId());
