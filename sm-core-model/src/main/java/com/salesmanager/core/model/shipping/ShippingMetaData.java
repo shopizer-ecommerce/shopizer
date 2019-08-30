@@ -16,6 +16,7 @@ public class ShippingMetaData {
 	private List<String> postProcessors;
 	private List<Country> shipToCountry;
 	private boolean useDistanceModule;
+	private boolean useAddressAutoComplete;
 	
 	
 	
@@ -49,5 +50,11 @@ public class ShippingMetaData {
 	public void setUseDistanceModule(boolean useDistanceModule) {
 		this.useDistanceModule = useDistanceModule;
 	}
+  public boolean isUseAddressAutoComplete() {
+    return useAddressAutoComplete;
+  }
+  public void setUseAddressAutoComplete(boolean useAddressAutoComplete) {
+    this.useAddressAutoComplete = useAddressAutoComplete;
+  }
 
 }

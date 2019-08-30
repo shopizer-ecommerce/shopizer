@@ -15,9 +15,8 @@ response.setDateHeader ("Expires", -1);
 <%@page contentType="text/html"%>
 <%@page pageEncoding="UTF-8"%>
 
-<c:if test="${shippingMetaData.useDistanceModule==true}">
-	<script src="https://maps.googleapis.com/maps/api/js?key=<sm:config configurationCode="shopizer.googlemaps_key" />"></script>
-</c:if>
+
+
 
 <!-- overrides with v2 page -->
 <c:set var="creditCardInformationsPage" value="creditCardInformations-v2" scope="request"/>
@@ -134,7 +133,16 @@ $(document).ready(function() {
 	<c:if test="${order.customer.billing.stateProvince==null || order.customer.billing.stateProvince==''}">
 		$('#billingStateList').show();           
 		$('#billingStateProvince').hide();
-		getZones('#billingStateList','#billingStateProvince','<c:out value="${order.customer.billing.country}" />','<c:out value="${order.customer.billing.zone}" />', '${requestScope.LANGUAGE.code}', validateForm); 
+		/**
+		- Which list to populate
+		- Name of the field
+		- Country code
+		- Zone
+		- Long zone name
+		- lang code
+		- callback
+		**/
+		getZones('#billingStateList','#billingStateProvince','<c:out value="${order.customer.billing.country}" />','<c:out value="${order.customer.billing.zone}" />', '<c:out value="${order.customer.billing.zone}" />', '${requestScope.LANGUAGE.code}', validateForm); 
 	</c:if>
 	
 	<c:if test="${order.customer.delivery.stateProvince!=null && order.customer.delivery.stateProvince!=''}">  
@@ -147,19 +155,19 @@ $(document).ready(function() {
 		$('#deliveryStateList').show();          
 		$('#deliveryStateProvince').hide();
 		//populate zones
-		getZones('#deliveryStateList','#deliveryStateProvince','<c:out value="${order.customer.delivery.country}" />','<c:out value="${order.customer.billing.zone}" />', '${requestScope.LANGUAGE.code}', validateForm);
+		getZones('#deliveryStateList','#deliveryStateProvince','<c:out value="${order.customer.delivery.country}" />','<c:out value="${order.customer.billing.zone}" />', '<c:out value="${order.customer.billing.zone}" />', '${requestScope.LANGUAGE.code}', validateForm);
 	</c:if>
 
 	//when the list of country changes in the billing section
 	$(".billing-country-list").change(function() {
 		//populate zones
-		getZones('#billingStateList','#billingStateProvince',$(this).val(),'<c:out value="${order.customer.billing.zone}" />', '${requestScope.LANGUAGE.code}', countryListChanged);
+		getZones('#billingStateList','#billingStateProvince',$(this).val(),'<c:out value="${order.customer.billing.zone}" />', '<c:out value="${order.customer.billing.zone}" />', '${requestScope.LANGUAGE.code}', countryListChanged);
 		setCountrySettings('billing',$(this).val());
     })
     
     //when the list of country changes in the shipping section
     $(".shipping-country-list").change(function() {
-		getZones('#deliveryStateList','#deliveryStateProvince',$(this).val(),'<c:out value="${order.customer.delivery.zone}" />', '${requestScope.LANGUAGE.code}', countryListChanged);
+		getZones('#deliveryStateList','#deliveryStateProvince',$(this).val(),'<c:out value="${order.customer.delivery.zone}" />', '<c:out value="${order.customer.delivery.zone}" />', '${requestScope.LANGUAGE.code}', countryListChanged);
 		setCountrySettings('delivery',$(this).val());
     })
 
@@ -283,11 +291,11 @@ function isCheckoutFieldValid(field) {
 		//console.log($('input[name=paymentMethodType]:checked', checkoutFormId).val());
 		//var paymentMethod = $('input[name=paymentMethodType]:checked', checkoutFormId).val();
 		var paymentType = $('input[name=paymentMethodType]').val();
-		log('PaymentType ' + paymentType);
+		//log('PaymentType ' + paymentType);
 		if(!paymentType) {
 			paymentType = '${order.paymentMethodType}';
 		}
-		log('Payment Method Type ' + paymentType);
+		//log('Payment Method Type ' + paymentType);
 		if(paymentType=='CREDITCARD') {
 			if (fieldId.indexOf("creditcard") >= 0) {
 				if(fieldId!='creditcard_card_number' || fieldId!='creditcard-card-number') {
@@ -615,11 +623,24 @@ function initPayment(paymentSelection) {
 											<span id="error-customer.billing.company" class="error"></span>
 										</div>
 									</div>
+									<c:if test="${googleMapsKey != ''}">
+									<!-- geolocate component -->
+									<div class="col-md-12">
+										<div class="checkout-form-list">
+										    
+										      <input id="addressAutocomplete"
+										             placeholder="<s:message code="message.address.enter" text="Enter your address"/>"
+										             class="required"
+										             onFocus="geolocate()"
+										             type="text"/>
+										</div>
+									</div>
+									</c:if>
 									<div class="col-md-12">
 										<div class="checkout-form-list">
 											<label><s:message code="label.generic.streetaddress" text="Street address"/> <span class="required">*</span></label>
 										    <s:message code="NotEmpty.customer.billing.address" text="Address is required" var="msgAddress"/>
-										    <form:input id="customer.billing.address" cssClass="required" path="customer.billing.address" title="${msgAddress}"/>
+										    <form:input id="customer.billing.address" cssClass="${cssClass}" path="customer.billing.address" title="${msgAddress}" disabled="${disabled}"/><!-- geo locate -->
 										    <form:errors path="customer.billing.address" cssClass="error" />
 										    <span id="error-customer.billing.address" class="error"></span>
 										</div>
@@ -628,7 +649,7 @@ function initPayment(paymentSelection) {
 										<div class="checkout-form-list">
 											<label><s:message code="label.generic.city" text="City"/> <span class="required">*</span></label>
 											<s:message code="NotEmpty.customer.billing.city" text="City is required" var="msgCity"/>
-											<form:input id="customer.billing.city" cssClass="required" path="customer.billing.city" title="${msgCity}"/>
+											<form:input id="customer.billing.city" cssClass="${cssClass}" path="customer.billing.city" title="${msgCity}" disabled="${disabled}"/>
 											<form:errors path="customer.billing.city" cssClass="error" />
 										    <span id="error-customer.billing.city" class="error"></span>
 										</div>
@@ -646,7 +667,7 @@ function initPayment(paymentSelection) {
 											<label><s:message code="label.generic.stateprovince" text="State / Province"/> <span class="required">*</span></label>										
 											<form:select cssClass="zone-list" id="billingStateList" path="customer.billing.zone"/>
 											<s:message code="NotEmpty.customer.billing.stateProvince" text="State / Province is required" var="msgStateProvince"/>
-											<form:input  class="required" id="billingStateProvince"  maxlength="100" name="billingStateProvince" path="customer.billing.stateProvince" title="${msgStateProvince}"/>
+											<form:input  class="${cssClass}" id="billingStateProvince"  maxlength="100" name="billingStateProvince" path="customer.billing.stateProvince" title="${msgStateProvince}" disabled="${disabled}"/>
 											<form:errors path="customer.billing.stateProvince" cssClass="error" />
 											<span id="error-customer.billing.stateProvince" class="error"></span>
 										</div>
@@ -655,7 +676,7 @@ function initPayment(paymentSelection) {
 										<div class="checkout-form-list">
 											<label><s:message code="label.generic.postalcode" text="Postal code"/> <span class="required">*</span></label>										
 											<s:message code="NotEmpty.customer.billing.postalCode" text="Postal code is required" var="msgPostalCode"/>
-											<form:input id="billingPostalCode" cssClass="required billing-postalCode" path="customer.billing.postalCode" title="${msgPostalCode}"/>
+											<form:input id="billingPostalCode" cssClass="${cssClass} billing-postalCode" path="customer.billing.postalCode" title="${msgPostalCode}" disabled="${disabled}"/>
 											<form:errors path="customer.billing.postalCode" cssClass="error" />
 											<span id="error-customer.billing.postalCode" class="error"></span>
 										</div>
@@ -722,6 +743,7 @@ function initPayment(paymentSelection) {
 												<form:input id="customer.delivery.company" cssClass="" path="customer.delivery.company"/>
 											</div>
 										</div>
+										<!-- geo locate -->
 										<div class="col-md-12">
 											<div class="checkout-form-list">
 												<label><s:message code="label.customer.shipping.streetaddress" text="Shipping street address"/> <span class="required">*</span></label>
@@ -1038,4 +1060,26 @@ function initPayment(paymentSelection) {
 				</div>
 			</div>
 		</div>
-		<!-- checkout-area end -->	
+		<!-- checkout-area end -->
+		
+		<!-- maps and geoloc -->
+		<c:if test="${googleMapsKey != ''}">
+		<script src="<c:url value="/resources/js/address-autocomplete.js" />"></script>
+		</c:if>
+		
+		<!-- maps api -->
+		<script>
+		
+			function googleInitialize() {
+				initAutocomplete();
+				<c:if test="${shippingMetaData.useDistanceModule==true}">	
+				initMap();
+				</c:if>	
+			}
+		
+		</script>
+		
+		<c:if test="${googleMapsKey != ''}">
+		  	  <script src="https://maps.googleapis.com/maps/api/js?key=<c:out value="${googleMapsKey}"/>&libraries=places&callback=googleInitialize"
+		        async defer></script>
+		</c:if>

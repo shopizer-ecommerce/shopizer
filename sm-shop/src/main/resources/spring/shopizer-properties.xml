@@ -17,6 +17,7 @@
 	 -->
 
 	<!-- Properties to be used accross all components of the application -->
+	<!-- **** DEPRECATED USER shopizer-properties.properties **** -->
 	<util:properties id="shopizer-properties">
     			<prop key="MULTIPLE_PRICE_AVAILABILITY">false</prop>
     			<prop key="INDEX_PRODUCTS">true</prop>

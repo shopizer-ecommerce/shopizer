@@ -27,7 +27,7 @@ $.fn.addZoneItems = function(div, data, defaultValue) {
 
 function getZones(countryCode, zoneCode, callBackFunction){
 
-	//console.log('Zone code ' + zoneCode);
+	console.log('Zone code ' + zoneCode);
 	var url = getContextPath() + '/shop/reference/provinces.html';
 	var data = 'countryCode=' + countryCode + '&lang=' + getLanguageCode();
 	

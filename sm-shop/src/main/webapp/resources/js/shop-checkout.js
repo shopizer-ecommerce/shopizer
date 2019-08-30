@@ -76,11 +76,12 @@ $.fn.serializeObject = function()
  * div list container
  * text div (shown or not)
  * selected countryCode
- * preselected value
+ * preselected short zone value
+ * preselected long zone value
  * language (en|fr...)
  * callback to invoke
  */
-function getZones(listDiv, textDiv, countryCode, defaultValue, lang, callBackFunction){
+function getZones(listDiv, textDiv, countryCode, defaultValue, defaultLongValue, lang, callBackFunction){
 	$.ajax({
 	  type: 'POST',
 	  url: getContextPath() + '/shop/reference/provinces.html',
@@ -111,10 +112,13 @@ function getZones(listDiv, textDiv, countryCode, defaultValue, lang, callBackFun
 			} else {
 				$(listDiv).hide();             
 				$(textDiv).show();
+				$(textDiv).val(defaultLongValue);
 			}
 			
 			if(callBackFunction!=null) {
-				callBackFunction();
+				if (typeof callBackFunction === "function") { 
+					callBackFunction();
+				}
 			}
 	  },
 	    error: function(xhr, textStatus, errorThrown) {
@@ -123,6 +127,8 @@ function getZones(listDiv, textDiv, countryCode, defaultValue, lang, callBackFun
 
 	});
 }
+
+
 
 function shippingQuotes(url,useDistanceWindow){
 
