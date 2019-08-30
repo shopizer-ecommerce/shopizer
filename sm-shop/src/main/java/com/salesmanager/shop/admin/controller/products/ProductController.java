@@ -593,6 +593,7 @@ public class ProductController {
 			availability.setProductStatus(pAvailability.getProductStatus());
 			availability.setRegion(pAvailability.getRegion());
 			availability.setRegionVariant(pAvailability.getRegionVariant());
+			availability.setProduct(newProduct);
 
 
 			
@@ -658,6 +659,7 @@ public class ProductController {
 			attribute.setProductOption(pAttribute.getProductOption());
 			attribute.setProductOptionSortOrder(pAttribute.getProductOptionSortOrder());
 			attribute.setProductOptionValue(pAttribute.getProductOptionValue());
+			attribute.setProduct(newProduct);
 			attributes.add(attribute);
 						
 		}
@@ -672,6 +674,7 @@ public class ProductController {
 			relationship.setCode(pRelationship.getCode());
 			relationship.setRelatedProduct(pRelationship.getRelatedProduct());
 			relationship.setStore(store);
+			relationship.setProduct(newProduct);
 			relationships.add(relationship);
 
 		}
@@ -692,6 +695,7 @@ public class ProductController {
 			description.setMetatagDescription(pDescription.getMetatagDescription());
 			description.setMetatagKeywords(pDescription.getMetatagKeywords());
 			description.setMetatagTitle(pDescription.getMetatagTitle());
+			description.setProduct(newProduct);
 			descsset.add(description);
 			desclist.add(description);
 		}
