@@ -54,6 +54,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.salesmanager.core.business.services.user.UserService;
+import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.constants.Constants;
@@ -253,9 +254,11 @@ public class FacebookCustomerAuthenticationManager extends CustomAuthenticationM
 				GrantedAuthority role = new SimpleGrantedAuthority("ROLE_" + Constants.PERMISSION_CUSTOMER_AUTHENTICATED);//required to login
 				authorities.add(role);
 				
+				Customer customer = customerFacade.getCustomerModel(c, merchantStore, language);
+				
 				registered = new CustomerDetails(
 						c.getEmailAddress(),
-						c.getEncodedPassword(),
+						customer.getPassword(),
 						authorities);
 				
 			} catch (UserAlreadyExistException e1) {

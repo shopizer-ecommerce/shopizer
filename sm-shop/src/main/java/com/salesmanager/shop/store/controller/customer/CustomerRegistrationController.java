@@ -205,7 +205,7 @@ public class CustomerRegistrationController extends AbstractController {
         try
         {
             //set user clear password
-        	customer.setClearPassword(password);
+        	customer.setPassword(password);
         	customerData = customerFacade.registerCustomer( customer, merchantStore, language );
         }
        /* catch ( CustomerRegistrationException cre )

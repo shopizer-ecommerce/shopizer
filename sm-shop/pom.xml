@@ -25,7 +25,6 @@
 			app version -->
 		<spring-social-facebook.version>3.0.0.M3</spring-social-facebook.version>
 		<guava.version>20.0</guava.version>
-		<swagger.version>2.9.2</swagger.version>
 		<coverage.lines>.04</coverage.lines>
         <coverage.branches>.01</coverage.branches>
         <org.mapstruct.version>1.3.0.Final</org.mapstruct.version>
@@ -150,18 +149,7 @@
 			<artifactId>spring-mobile-device</artifactId>
 		</dependency>
 		
-		<!-- Swagger 2 documentation -->		
-		<dependency>
-		    <groupId>io.springfox</groupId>
-		    <artifactId>springfox-swagger2</artifactId>
-		    <version>${swagger.version}</version>
-		</dependency>
-		
-		<dependency>
-		    <groupId>io.springfox</groupId>
-		    <artifactId>springfox-swagger-ui</artifactId>
-		    <version>${swagger.version}</version>
-		</dependency>
+
 
 		
 		<!-- Add Apache Tiles into the mix -->

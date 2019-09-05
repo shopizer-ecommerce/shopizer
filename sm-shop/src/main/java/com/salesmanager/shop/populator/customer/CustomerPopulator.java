@@ -3,7 +3,7 @@ package com.salesmanager.shop.populator.customer;
 
 import java.math.BigDecimal;
 import java.util.Map;
-
+import javax.inject.Inject;
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.services.customer.attribute.CustomerOptionService;
 import com.salesmanager.core.business.services.customer.attribute.CustomerOptionValueService;
@@ -29,19 +29,29 @@ import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CustomerPopulator extends
 		AbstractDataPopulator<PersistableCustomer, Customer> {
 	
 	protected static final Logger LOG=LoggerFactory.getLogger( CustomerPopulator.class );
-    private CountryService countryService;
-	private ZoneService zoneService;
-	private LanguageService languageService;
-
+    @Autowired
+	private CountryService countryService;
+    @Autowired
+    private ZoneService zoneService;
+    @Autowired
+    private LanguageService languageService;
+    @Autowired
 	private CustomerOptionService customerOptionService;
-	private CustomerOptionValueService customerOptionValueService;
-	private GroupService groupService;
-	
+    @Autowired
+    private CustomerOptionValueService customerOptionValueService;
+    @Autowired
+    private GroupService groupService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
 
@@ -52,12 +62,12 @@ public class CustomerPopulator extends
 	public Customer populate(PersistableCustomer source, Customer target,
 			MerchantStore store, Language language) throws ConversionException {
 
-		Validate.notNull(customerOptionService, "Requires to set CustomerOptionService");
+/*		Validate.notNull(customerOptionService, "Requires to set CustomerOptionService");
 		Validate.notNull(customerOptionValueService, "Requires to set CustomerOptionValueService");
 		Validate.notNull(zoneService, "Requires to set ZoneService");
 		Validate.notNull(countryService, "Requires to set CountryService");
 		Validate.notNull(languageService, "Requires to set LanguageService");
-		Validate.notNull(groupService, "Requires to set GroupService");
+		Validate.notNull(groupService, "Requires to set GroupService");*/
 
 		try {
 			
@@ -65,11 +75,15 @@ public class CustomerPopulator extends
 			    target.setId( source.getId() );
 			}
 		    
-		    
-		    if(!StringUtils.isBlank(source.getEncodedPassword())) {
+			if(!StringUtils.isBlank(source.getPassword())) {
+			  target.setPassword(passwordEncoder.encode(source.getPassword()));
+			  target.setAnonymous(false);
+			}
+			
+/*		    if(!StringUtils.isBlank(source.getEncodedPassword())) {
 				target.setPassword(source.getEncodedPassword());
 				target.setAnonymous(false);
-			}
+			}*/
 		    
 		    target.setProvider(source.getProvider());
 
@@ -244,7 +258,7 @@ public class CustomerPopulator extends
 		return new Customer();
 	}
 
-	public void setCustomerOptionService(CustomerOptionService customerOptionService) {
+/*	public void setCustomerOptionService(CustomerOptionService customerOptionService) {
 		this.customerOptionService = customerOptionService;
 	}
 
@@ -290,6 +304,6 @@ public class CustomerPopulator extends
 
 	public void setGroupService(GroupService groupService) {
 		this.groupService = groupService;
-	}
+	}*/
 
 }

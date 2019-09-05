@@ -45,6 +45,8 @@
 		<!-- jacoco coverage -->
 		<coverage.lines>.30</coverage.lines>
 		<coverage.branches>.37</coverage.branches>
+		<!-- api documentation -->
+		<swagger.version>2.9.2</swagger.version>
 	</properties>
 
 	<dependencies>
@@ -167,6 +169,19 @@
 			<groupId>io.searchbox</groupId>
 			<artifactId>jest</artifactId>
 			<version>${io.searchbox.jest-version}</version>
+		</dependency>
+		
+		<!-- Swagger 2 documentation -->		
+		<dependency>
+		    <groupId>io.springfox</groupId>
+		    <artifactId>springfox-swagger2</artifactId>
+		    <version>${swagger.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>io.springfox</groupId>
+		    <artifactId>springfox-swagger-ui</artifactId>
+		    <version>${swagger.version}</version>
 		</dependency>
 
 	</dependencies>

@@ -34,10 +34,17 @@ import com.salesmanager.shop.store.security.AuthenticationResponse;
 import com.salesmanager.shop.store.security.JWTTokenUtil;
 import com.salesmanager.shop.store.security.user.JWTUser;
 import com.salesmanager.shop.utils.LanguageUtils;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.SwaggerDefinition;
+import io.swagger.annotations.Tag;
 
 @RestController
 @RequestMapping("/api/v1")
+@Api(tags = {"Customer authentication resource (Customer Authentication Api)"})
+@SwaggerDefinition(tags = {
+    @Tag(name = "Customer authentication resource", description = "Authenticates customer, register customer and reset customer password")
+})
 public class AuthenticateCustomerApi {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticateCustomerApi.class);
@@ -90,7 +97,7 @@ public class AuthenticateCustomerApi {
                 authentication = jwtCustomerAuthenticationManager.authenticate(
                         new UsernamePasswordAuthenticationToken(
                                 customer.getUserName(),
-                                customer.getClearPassword()
+                                customer.getPassword()
                         )
                 );
                 

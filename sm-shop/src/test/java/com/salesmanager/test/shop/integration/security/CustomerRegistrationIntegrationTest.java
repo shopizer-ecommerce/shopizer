@@ -22,7 +22,7 @@ public class CustomerRegistrationIntegrationTest extends ServicesTestSupport {
         final PersistableCustomer testCustomer = new PersistableCustomer();
         testCustomer.setEmailAddress("customer1@test.com");
         testCustomer.setUserName("testCust1");
-        testCustomer.setClearPassword("clear123");
+        testCustomer.setPassword("clear123");
         testCustomer.setGender(CustomerGender.M.name());
         testCustomer.setLanguage("en");
         final Address billing = new Address();

@@ -12,20 +12,18 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-
 import javax.inject.Inject;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
-
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.exception.ServiceException;
@@ -141,26 +139,12 @@ public class OrderFacadeImpl implements OrderFacade {
 	private CoreConfiguration coreConfiguration;
 	@Inject
 	private PaymentService paymentService;
-	
-	@Inject
-	private CustomerOptionValueService customerOptionValueService;
-	
-	@Inject
-	private CustomerOptionService customerOptionService;
 
 	
-	@Inject
-	private LanguageService languageService;
+	@Autowired
+	private CustomerPopulator customerPopulator;
 	
 
-	@Inject
-	private CountryService countryService;
-	
-	@Inject
-	private GroupService   groupService;
-	
-	@Inject
-	private ZoneService zoneService;
 	
 	@Inject
 	EmailService emailService;
@@ -278,14 +262,14 @@ public class OrderFacadeImpl implements OrderFacade {
 	}
 	
 	private Customer customer(PersistableCustomer customer, MerchantStore store, Language language) throws Exception {
-		CustomerPopulator populator = new CustomerPopulator();
+/*		CustomerPopulator populator = new CustomerPopulator();
 		populator.setCountryService(countryService);
 		populator.setCustomerOptionService(customerOptionService);
 		populator.setCustomerOptionValueService(customerOptionValueService);
 		populator.setLanguageService(languageService);
 		populator.setZoneService(zoneService);
-		populator.setGroupService(groupService);
-		Customer cust = populator.populate(customer, new Customer(), store, language);
+		populator.setGroupService(groupService);*/
+		Customer cust = customerPopulator.populate(customer, new Customer(), store, language);
 		return cust;
 		
 	}

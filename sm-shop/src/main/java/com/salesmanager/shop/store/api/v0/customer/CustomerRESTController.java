@@ -31,6 +31,7 @@ import com.salesmanager.shop.utils.LocaleUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -85,6 +86,9 @@ public class CustomerRESTController {
 	
 	@Inject
 	private EmailTemplatesUtils emailTemplatesUtils;
+	
+	@Autowired
+	private CustomerPopulator customerPopulator;
 
 
 	
@@ -327,6 +331,7 @@ public class CustomerRESTController {
 	@RequestMapping( value="/private/{store}/customer", method=RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
+	@Deprecated
 	public PersistableCustomer createCustomer(@PathVariable final String store, @Valid @RequestBody PersistableCustomer customer, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
 		if(merchantStore!=null) {
@@ -347,34 +352,33 @@ public class CustomerRESTController {
 		
 		Customer cust = new Customer();
 		
-		CustomerPopulator populator = new CustomerPopulator();
+/*		CustomerPopulator populator = new CustomerPopulator();
 		populator.setCountryService(countryService);
 		populator.setCustomerOptionService(customerOptionService);
 		populator.setCustomerOptionValueService(customerOptionValueService);
 		populator.setLanguageService(languageService);
 		populator.setZoneService(zoneService);
-		populator.setGroupService(groupService);
-		populator.populate(customer, cust, merchantStore, merchantStore.getDefaultLanguage());
+		populator.setGroupService(groupService);*/
+		customerPopulator.populate(customer, cust, merchantStore, merchantStore.getDefaultLanguage());
 		
 		List<Group> groups = groupService.listGroup(GroupType.ADMIN);
 		cust.setGroups(groups);
 
 		Locale customerLocale = LocaleUtils.getLocale(cust.getDefaultLanguage());
 		
-		String password = customer.getClearPassword();
+		String password = customer.getPassword();
 		if(StringUtils.isBlank(password)) {
 			password = UserReset.generateRandomString();
-			customer.setClearPassword(password);
+			customer.setPassword(password);
 		}
 
-		@SuppressWarnings("deprecation")
+/*		@SuppressWarnings("deprecation")
 		String encodedPassword = passwordEncoder.encode(password);
 		if(!StringUtils.isBlank(customer.getEncodedPassword())) {
 			encodedPassword = customer.getEncodedPassword();
 			customer.setClearPassword("");
-		}
-		
-		customer.setEncodedPassword(encodedPassword);
+		}*/
+
 		customerService.save(cust);
 		customer.setId(cust.getId());
 		

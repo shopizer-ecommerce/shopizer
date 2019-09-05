@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -164,6 +165,9 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
   @Inject
   private CoreConfiguration coreConfiguration;
+  
+  @Autowired
+  private CustomerPopulator customerPopulator;
 
 
   @Inject
@@ -371,26 +375,25 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
     LOG.info("Starting to populate customer model from customer data");
     Customer customerModel = null;
-    CustomerPopulator populator = new CustomerPopulator();
+/*    CustomerPopulator populator = new CustomerPopulator();
     populator.setCountryService(countryService);
     populator.setCustomerOptionService(customerOptionService);
     populator.setCustomerOptionValueService(customerOptionValueService);
     populator.setLanguageService(languageService);
     populator.setLanguageService(languageService);
     populator.setZoneService(zoneService);
-    populator.setGroupService(groupService);
+    populator.setGroupService(groupService);*/
 
-
-    customerModel = populator.populate(customer, merchantStore, language);
+    customerModel = customerPopulator.populate(customer, merchantStore, language);
     // we are creating or resetting a customer
     if (StringUtils.isBlank(customerModel.getPassword())
-        && !StringUtils.isBlank(customer.getClearPassword())) {
-      customerModel.setPassword(customer.getClearPassword());
+        && !StringUtils.isBlank(customer.getPassword())) {
+      customerModel.setPassword(customer.getPassword());
     }
     // set groups
     if (!StringUtils.isBlank(customerModel.getPassword())
         && !StringUtils.isBlank(customerModel.getNick())) {
-      customerModel.setPassword(passwordEncoder.encode(customer.getClearPassword()));
+      customerModel.setPassword(passwordEncoder.encode(customer.getPassword()));
       setCustomerModelDefaultProperties(customerModel, merchantStore);
     }
 
@@ -575,7 +578,7 @@ public class CustomerFacadeImpl implements CustomerFacade {
   public Customer populateCustomerModel(Customer customerModel, PersistableCustomer customer,
       MerchantStore merchantStore, Language language) throws Exception {
     LOG.info("Starting to populate customer model from customer data");
-    CustomerPopulator populator = new CustomerPopulator();
+/*    CustomerPopulator populator = new CustomerPopulator();
     populator.setCountryService(countryService);
     populator.setCustomerOptionService(customerOptionService);
     populator.setCustomerOptionValueService(customerOptionValueService);
@@ -583,10 +586,10 @@ public class CustomerFacadeImpl implements CustomerFacade {
     populator.setLanguageService(languageService);
     populator.setGroupService(groupService);
     populator.setZoneService(zoneService);
-    populator.setGroupService(groupService);
+    populator.setGroupService(groupService);*/
 
 
-    customerModel = populator.populate(customer, customerModel, merchantStore, language);
+    customerModel = customerPopulator.populate(customer, customerModel, merchantStore, language);
 
     LOG.info("About to persist customer to database.");
     customerService.saveOrUpdate(customerModel);
@@ -611,8 +614,8 @@ public class CustomerFacadeImpl implements CustomerFacade {
     /**
      * For security reasons set empty passwords
      */
-    customer.setEncodedPassword(null);
-    customer.setClearPassword(null);
+    //customer.setEncodedPassword(null);
+    customer.setPassword(null);
 
     return customer;
   }
@@ -644,16 +647,18 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
     Customer cust = new Customer();
 
-    CustomerPopulator populator = new CustomerPopulator();
+/*    CustomerPopulator populator = new CustomerPopulator();
     populator.setCountryService(countryService);
     populator.setCustomerOptionService(customerOptionService);
     populator.setCustomerOptionValueService(customerOptionValueService);
     populator.setLanguageService(languageService);
     populator.setLanguageService(languageService);
     populator.setZoneService(zoneService);
-    populator.setGroupService(groupService);
+    populator.setGroupService(groupService);*/
+    
+    
     try{
-      populator.populate(customer, cust, store, store.getDefaultLanguage());
+      customerPopulator.populate(customer, cust, store, store.getDefaultLanguage());
     } catch (ConversionException e) {
       throw new ConversionRuntimeException(e);
     }
@@ -662,20 +667,21 @@ public class CustomerFacadeImpl implements CustomerFacade {
     List<Group> groups = getListOfGroups(GroupType.CUSTOMER);
     cust.setGroups(groups);
 
-    String password = customer.getClearPassword();
+    String password = customer.getPassword();
     if (StringUtils.isBlank(password)) {
       password = UserReset.generateRandomString();
-      customer.setClearPassword(password);
+      customer.setPassword(password);
     }
 
+    /** now encoded in populator **/
 
-    String encodedPassword = passwordEncoder.encode(password);
+/*    String encodedPassword = passwordEncoder.encode(password);
     if (!StringUtils.isBlank(customer.getEncodedPassword())) {
       encodedPassword = customer.getEncodedPassword();
       // customer.setClearPassword("");
     }
 
-    cust.setPassword(encodedPassword);
+    cust.setPassword(encodedPassword);*/
 
     return cust;
 
@@ -698,34 +704,40 @@ public class CustomerFacadeImpl implements CustomerFacade {
     Customer cust = customerService.getById(customer.getId());
 
 
-    CustomerPopulator populator = new CustomerPopulator();
+/*    CustomerPopulator populator = new CustomerPopulator();
     populator.setCountryService(countryService);
     populator.setCustomerOptionService(customerOptionService);
     populator.setCustomerOptionValueService(customerOptionValueService);
     populator.setLanguageService(languageService);
     populator.setLanguageService(languageService);
     populator.setZoneService(zoneService);
-    populator.setGroupService(groupService);
+    populator.setGroupService(groupService);*/
     try{
-      populator.populate(customer, cust, store, store.getDefaultLanguage());
+      customerPopulator.populate(customer, cust, store, store.getDefaultLanguage());
     } catch (ConversionException e) {
       throw new ConversionRuntimeException(e);
     }
 
-    String password = customer.getClearPassword();
+    String password = customer.getPassword();
     if (StringUtils.isBlank(password)) {
       password = UserReset.generateRandomString();
-      customer.setClearPassword(password);
+      customer.setPassword(password);
     }
 
+    
+    /** now encoded in populator**/
 
-    String encodedPassword = passwordEncoder.encode(password);
+/*    String encodedPassword = passwordEncoder.encode(password);
+    *//** not going into this **//*
     if (!StringUtils.isBlank(customer.getEncodedPassword())) {
       encodedPassword = customer.getEncodedPassword();
-      customer.setClearPassword("");
-    }
+      customer.setPassword("");
+    }*/
 
-    customer.setEncodedPassword(encodedPassword);
+    //customer.setEncodedPassword(encodedPassword);
+    
+    //cust.setPassword(encodedPassword);
+    
     saveCustomer(cust);
     customer.setId(cust.getId());
 

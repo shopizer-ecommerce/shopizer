@@ -1,20 +1,21 @@
 package com.salesmanager.shop.model.customer;
 
-import java.io.Serializable;
 import java.util.List;
-
 import com.salesmanager.shop.model.customer.attribute.PersistableCustomerAttribute;
 import com.salesmanager.shop.model.security.PersistableGroup;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 
 
-public class PersistableCustomer extends CustomerEntity implements Serializable {
+@ApiModel(value="Customer", description="Customer model object")
+public class PersistableCustomer extends CustomerEntity {
 
 	/**
 	 * 
 	 */
-	private String encodedPassword = null;
-	private String clearPassword = null;
+    @ApiModelProperty(notes = "Customer password")
+	private String password = null;
 	private static final long serialVersionUID = 1L;
 	private List<PersistableCustomerAttribute> attributes;
 	private List<PersistableGroup> groups;
@@ -26,17 +27,12 @@ public class PersistableCustomer extends CustomerEntity implements Serializable 
 	public List<PersistableCustomerAttribute> getAttributes() {
 		return attributes;
 	}
-	public String getEncodedPassword() {
-		return encodedPassword;
+
+	public String getPassword() {
+		return password;
 	}
-	public void setEncodedPassword(String encodedPassword) {
-		this.encodedPassword = encodedPassword;
-	}
-	public String getClearPassword() {
-		return clearPassword;
-	}
-	public void setClearPassword(String clearPassword) {
-		this.clearPassword = clearPassword;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	public List<PersistableGroup> getGroups() {
 		return groups;

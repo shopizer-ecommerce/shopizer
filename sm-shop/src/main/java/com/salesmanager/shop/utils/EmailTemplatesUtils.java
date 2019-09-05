@@ -283,7 +283,7 @@ public class EmailTemplatesUtils {
 	           templateTokens.put(EmailConstants.CUSTOMER_ACCESS_LABEL, messages.getMessage("label.customer.accessportal",customerLocale));
 	           templateTokens.put(EmailConstants.ACCESS_NOW_LABEL, messages.getMessage("label.customer.accessnow",customerLocale));
 	           templateTokens.put(EmailConstants.EMAIL_USER_NAME, customer.getUserName());
-	           templateTokens.put(EmailConstants.EMAIL_CUSTOMER_PASSWORD, customer.getClearPassword());
+	           templateTokens.put(EmailConstants.EMAIL_CUSTOMER_PASSWORD, customer.getPassword());
 
 	           //shop url
 	           String customerUrl = filePathUtils.buildStoreUri(merchantStore, contextPath);

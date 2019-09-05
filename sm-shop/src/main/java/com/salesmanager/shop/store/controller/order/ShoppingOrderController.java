@@ -502,7 +502,7 @@ public class ShoppingOrderController extends AbstractController {
         		authCustomer = customerFacade.getCustomerByUserName(auth.getName(), store);
         		//set id and authentication information
         		customer.setUserName(authCustomer.getNick());
-        		customer.setEncodedPassword(authCustomer.getPassword());
+        		//customer.setEncodedPassword(authCustomer.getPassword());
         		customer.setId(authCustomer.getId());
 	        } else {
 	        	//set customer id to null
@@ -513,7 +513,7 @@ public class ShoppingOrderController extends AbstractController {
 	        if(customer.getId()==null || customer.getId()==0) {//new customer
 	        	password = UserReset.generateRandomString();
 	        	String encodedPassword = passwordEncoder.encode(password);
-	        	customer.setEncodedPassword(encodedPassword);
+	        	//customer.setEncodedPassword(encodedPassword);
 	        }
 	        
 	        if(order.isShipToBillingAdress()) {
@@ -598,7 +598,7 @@ public class ShoppingOrderController extends AbstractController {
 		        	//send new user registration template
 					if(order.getCustomer().getId()==null || order.getCustomer().getId().longValue()==0) {
 						//send email for new customer
-						customer.setClearPassword(password);//set clear password for email
+						customer.setPassword(password);//set clear password for email
 						customer.setUserName(userName);
 						emailTemplatesUtils.sendRegistrationEmail( customer, store, locale, request.getContextPath() );
 					}

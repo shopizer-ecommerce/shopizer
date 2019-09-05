@@ -139,7 +139,7 @@ public class CustomerRESTControllerTest {
 		customer.setGender("M");
 		customer.setLanguage("en");
 		//customer.setEncodedPassword("5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8");
-		customer.setClearPassword("password");
+		customer.setPassword("password");
 		customer.setUserName("testuser");
 		
 		Address address = new Address();
