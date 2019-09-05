@@ -5,19 +5,19 @@
 	<modelVersion>4.0.0</modelVersion>
 	
 	
-<!--   	<parent>
+   	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.5.18.RELEASE</version>
 	</parent>
 	<version>2.7.0</version> 
-	<groupId>com.shopizer</groupId> -->
+	<groupId>com.shopizer</groupId>
 
- 	<parent>
+<!--   	<parent>
 		<groupId>com.shopizer</groupId>
 		<artifactId>shopizer</artifactId>
 		<version>2.7.0</version>
-	</parent>
+	</parent> --> 
 
 
 	<artifactId>sm-core-model</artifactId>
@@ -50,7 +50,7 @@
 		<commons-fileupload>1.3.3</commons-fileupload>
 		<commons-lang3.version>3.0</commons-lang3.version>
 		<commons-io.version>2.5</commons-io.version>
-		<jackson-version>2.9.9</jackson-version>
+		<jackson-version>[2.9.9.2,)</jackson-version>
 	</properties>
 
 	<dependencies>
@@ -188,9 +188,9 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin> -->
-			<!--OSSRH -->
-<!--   			<plugin>
+			</plugin>
+			OSSRH
+   			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-gpg-plugin</artifactId>
 				<version>1.5</version>
