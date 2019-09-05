@@ -33,9 +33,7 @@ public class GeneratePasswordTest extends ServicesTestSupport {
  
 
       String password ="password";
-      
       String encoded = passwordEncoder.encode(password);
-      
       System.out.println(encoded);
   }
   

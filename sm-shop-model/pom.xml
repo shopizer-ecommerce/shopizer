@@ -114,7 +114,8 @@
 					</execution>
 				</executions>
 			</plugin>
-<!-- 			<!--OSSRH -->
+			<!--OSSRH -->
+			<!--
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
