@@ -5,19 +5,19 @@
 	<modelVersion>4.0.0</modelVersion>
 	
 	
-   	<parent>
+<!--    	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.5.18.RELEASE</version>
 	</parent>
 	<version>2.7.0</version> 
-	<groupId>com.shopizer</groupId>
+	<groupId>com.shopizer</groupId> -->
 
-<!--   	<parent>
+   	<parent>
 		<groupId>com.shopizer</groupId>
 		<artifactId>shopizer</artifactId>
 		<version>2.7.0</version>
-	</parent> --> 
+	</parent> 
 
 
 	<artifactId>sm-core-model</artifactId>
@@ -50,7 +50,8 @@
 		<commons-fileupload>1.3.3</commons-fileupload>
 		<commons-lang3.version>3.0</commons-lang3.version>
 		<commons-io.version>2.5</commons-io.version>
-		<jackson-version>[2.9.9.2,)</jackson-version>
+		<jackson-version-databind>2.9.9.2</jackson-version-databind>
+		<jackson-version>2.9.9</jackson-version>
 	</properties>
 
 	<dependencies>
@@ -98,27 +99,29 @@
 		<!-- http://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-annotations</artifactId>
+			<artifactId>jackson-core</artifactId>
 			<version>${jackson-version}</version>
 		</dependency>
-		<!-- http://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-annotations</artifactId>
-			<version>${jackson-version}</version>
-		</dependency>
-		<!-- http://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+
+		<!-- Jackson JSON Processor -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
+			<version>${jackson-version-databind}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
 			<version>${jackson-version}</version>
 		</dependency>
-		<!-- http://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+
 		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>${commons-lang3.version}</version>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>${jackson-version}</version>
 		</dependency>
+
 
 		<!-- https://mvnrepository.com/artifact/org.springframework.social/ spring-social-core -->
 		<dependency>
