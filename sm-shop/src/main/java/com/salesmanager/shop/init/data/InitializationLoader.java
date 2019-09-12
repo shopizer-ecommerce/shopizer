@@ -82,17 +82,10 @@ public class InitializationLoader {
 		try {
 			
 			if (initializationDatabase.isEmpty()) {
-				//InputStream in =
-		        //        this.getClass().getClassLoader().getResourceAsStream("/permission/permission.json");
-				
-				
+
 				org.springframework.core.io.Resource permissionXML=resourceLoader.getResource("classpath:/permission/permission.json");
 				
 				InputStream xmlSource = permissionXML.getInputStream();
-				
-                //File permissionXML=resourceLoader.getResource("classpath:/permission/permission.json").getFile();
-                //StreamSource xmlSource = new StreamSource(permissionXML);
-
                 Permissions permissions= jacksonObjectMapper.readValue(xmlSource,Permissions.class);
 
 				//All default data to be created
