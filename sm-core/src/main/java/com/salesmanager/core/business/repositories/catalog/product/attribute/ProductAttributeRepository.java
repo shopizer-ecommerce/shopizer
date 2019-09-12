@@ -24,6 +24,6 @@ public interface ProductAttributeRepository extends JpaRepository<ProductAttribu
 	@Query("select distinct p from ProductAttribute p join fetch p.product pr left join fetch p.productOption po left join fetch p.productOptionValue pov left join fetch po.descriptions pod left join fetch pov.descriptions povd left join fetch po.merchantStore pom where pom.id = ?1 and pr.id = ?2 and povd.language.id = ?3")
 	List<ProductAttribute> findByProductId(Integer storeId, Long productId, Integer languageId);
 	
-	@Query(value="select distinct p from ProductAttribute p join fetch p.product pr left join fetch pr.categories prc left join fetch p.productOption po left join fetch p.productOptionValue pov left join fetch po.descriptions pod left join fetch pov.descriptions povd left join fetch po.merchantStore pom where pom.id = ?1 and prc.id IN (select c.id from Category c where c.lineage like %?2% and povd.language.id = ?3)")
+	@Query(value="select distinct p from ProductAttribute p join fetch p.product pr left join fetch pr.categories prc left join fetch p.productOption po left join fetch p.productOptionValue pov left join fetch po.descriptions pod left join fetch pov.descriptions povd left join fetch po.merchantStore pom where pom.id = ?1 and prc.id IN (select c.id from Category c where c.lineage like ?2% and povd.language.id = ?3)")
 	List<ProductAttribute> findOptionsByCategoryLineage(Integer storeId, String lineage, Integer languageId);
 }

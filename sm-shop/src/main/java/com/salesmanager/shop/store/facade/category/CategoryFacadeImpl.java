@@ -15,6 +15,7 @@ import javax.inject.Inject;
 import org.apache.commons.lang.Validate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
@@ -166,7 +167,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 
       category.setDepth(depth + 1);
       category.setLineage(
-          new StringBuilder().append(lineage).append(parent.getId()).append("/").toString());
+          new StringBuilder().append(lineage).append(Constants.SLASH).toString());//service will adjust lineage
     }
 
     category.setMerchantStore(store);
@@ -205,7 +206,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
         throw new ResourceNotFoundException("Categori id [" + id + "] not found");
 
       StringBuilder lineage =
-          new StringBuilder().append(categoryModel.getLineage()).append(categoryModel.getId());
+          new StringBuilder().append(categoryModel.getLineage());
 
 
       ReadableCategory readableCategory =

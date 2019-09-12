@@ -8,7 +8,6 @@ import java.util.Set;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import com.salesmanager.core.business.constants.Constants;
@@ -46,14 +45,16 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
   public void create(Category category) throws ServiceException {
 
     super.create(category);
-
     StringBuilder lineage = new StringBuilder();
     Category parent = category.getParent();
     if (parent != null && parent.getId() != null && parent.getId().longValue() != 0) {
-      lineage.append(parent.getLineage()).append("/").append(parent.getId());
-      category.setDepth(parent.getDepth() + 1);
+      //get parent category
+      Category p = this.getById(parent.getId());
+
+      lineage.append(p.getLineage()).append(category.getId()).append(Constants.SLASH);
+      category.setDepth(p.getDepth() + 1);
     } else {
-      lineage.append("/");
+      lineage.append("/").append(category.getId()).append(Constants.SLASH);
       category.setDepth(0);
     }
     category.setLineage(lineage.toString());
@@ -96,7 +97,7 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
 
     } else {
 
-      super.save(category);
+      this.create(category);
 
     }
 
@@ -334,7 +335,7 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
         child.setDepth(0);
         // child.setLineage(new
         // StringBuilder().append("/").append(child.getId()).append("/").toString());
-        child.setLineage("/");
+        child.setLineage(new StringBuilder().append("/").append(child.getId()).append("/").toString());
 
       } else {
 
@@ -343,12 +344,12 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
 
 
         String lineage = p.getLineage();
-        int depth = p.getDepth();// TODO sometimes null
+        int depth = p.getDepth();
 
         child.setParent(p);
         child.setDepth(depth + 1);
         child.setLineage(
-            new StringBuilder().append(lineage).append(p.getId()).append("/").toString());
+            new StringBuilder().append(lineage).append(Constants.SLASH).append(child.getId()).append(Constants.SLASH).toString());
 
 
       }

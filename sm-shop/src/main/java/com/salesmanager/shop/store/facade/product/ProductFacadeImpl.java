@@ -250,8 +250,7 @@ public class ProductFacadeImpl implements ProductFacade {
             categoryService.getById(criterias.getCategoryIds().get(0));
 
         if (category != null) {
-          String lineage = new StringBuilder().append(category.getLineage())
-              .append(category.getId()).append("/").toString();
+          String lineage = new StringBuilder().append(category.getLineage()).toString();
 
           List<com.salesmanager.core.model.catalog.category.Category> categories =
               categoryService.getListByLineage(store, lineage);

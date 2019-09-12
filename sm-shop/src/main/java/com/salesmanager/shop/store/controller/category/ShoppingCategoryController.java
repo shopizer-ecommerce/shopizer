@@ -624,7 +624,8 @@ public class ShoppingCategoryController {
 				return null;
 			}
 			
-			String lineage = new StringBuilder().append(cat.getLineage()).append(cat.getId()).append("/").toString();
+			String lineage = new StringBuilder().append(cat.getLineage()).toString();
+
 			
 			List<Category> categories = categoryService.getListByLineage(store, lineage);
 			

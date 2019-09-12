@@ -1,8 +1,7 @@
 package com.salesmanager.shop.store.api.v1.category;
 
-import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.http.MediaType.APPLICATION_XML_VALUE;
 import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -164,7 +163,7 @@ public class CategoryApi {
   @DeleteMapping(
       value = "/private/category/{id}",
       produces = {APPLICATION_JSON_VALUE})
-  @ResponseStatus(NO_CONTENT)
+  @ResponseStatus(OK)
   public void delete(@PathVariable("id") Long categoryId) {
     categoryFacade.deleteCategory(categoryId);
   }
