@@ -38,7 +38,7 @@ From the command line with Maven installed:
 	$ mvn clean install
 if Maven is not installed, use maven wrapper
        
-	$ mvmw clean install
+	$ mvnw clean install
 	
 
 Run the application from Tomcat 
@@ -65,7 +65,7 @@ Run the application from Spring boot
        $ mvn spring-boot:run
 if Maven is not installed, use maven wrapper
        
-	   $ mvmw spring-boot:run
+	   $ mvnw spring-boot:run
 
 Run the application from Spring boot in eclipse
 -------------------
