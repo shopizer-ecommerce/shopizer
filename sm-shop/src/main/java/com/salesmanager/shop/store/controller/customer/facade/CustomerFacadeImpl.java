@@ -349,7 +349,7 @@ public class CustomerFacadeImpl implements CustomerFacade {
       final MerchantStore merchantStore, Language language) throws Exception {
     LOG.info("Starting customer registration process..");
 
-    if (this.userExist(customer.getUserName())) {
+    if (userExist(customer.getUserName())) {
       throw new UserAlreadyExistException("User already exist");
     }
 
@@ -673,15 +673,6 @@ public class CustomerFacadeImpl implements CustomerFacade {
       customer.setPassword(password);
     }
 
-    /** now encoded in populator **/
-
-/*    String encodedPassword = passwordEncoder.encode(password);
-    if (!StringUtils.isBlank(customer.getEncodedPassword())) {
-      encodedPassword = customer.getEncodedPassword();
-      // customer.setClearPassword("");
-    }
-
-    cust.setPassword(encodedPassword);*/
 
     return cust;
 

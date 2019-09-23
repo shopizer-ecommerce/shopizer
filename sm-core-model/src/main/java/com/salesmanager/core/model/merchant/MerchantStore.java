@@ -2,7 +2,10 @@ package com.salesmanager.core.model.merchant;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -14,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
@@ -50,6 +54,16 @@ public class MerchantStore extends SalesManagerEntity<Integer, MerchantStore> im
 
   @Embedded
   private AuditSection auditSection = new AuditSection();
+  
+  @ManyToOne
+  @JoinColumn(name = "PARENT_ID")
+  private MerchantStore parent;
+  
+  @OneToMany(mappedBy = "parent", cascade = CascadeType.REMOVE)
+  private Set<MerchantStore> stores = new HashSet<MerchantStore>();
+  
+  @Column(name = "IS_RETAILER")
+  private Boolean retailer = false;
 
   @NotEmpty
   @Column(name = "STORE_NAME", nullable = false, length = 100)
@@ -357,6 +371,30 @@ public class MerchantStore extends SalesManagerEntity<Integer, MerchantStore> im
   public void setAuditSection(AuditSection audit) {
     this.auditSection = audit;
 
+  }
+
+  public MerchantStore getParent() {
+    return parent;
+  }
+
+  public void setParent(MerchantStore parent) {
+    this.parent = parent;
+  }
+
+  public Set<MerchantStore> getStores() {
+    return stores;
+  }
+
+  public void setStores(Set<MerchantStore> stores) {
+    this.stores = stores;
+  }
+
+  public boolean isRetailer() {
+    return retailer;
+  }
+
+  public void setRetailer(boolean retailer) {
+    this.retailer = retailer;
   }
 
 

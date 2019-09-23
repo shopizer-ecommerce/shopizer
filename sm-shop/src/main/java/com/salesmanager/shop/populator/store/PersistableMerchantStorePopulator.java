@@ -5,13 +5,14 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.drools.core.util.StringUtils;
-import org.jsoup.helper.Validate;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
 import org.springframework.stereotype.Component;
 
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.services.merchant.MerchantStoreService;
 import com.salesmanager.core.business.services.reference.country.CountryService;
 import com.salesmanager.core.business.services.reference.currency.CurrencyService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
@@ -36,6 +37,8 @@ public class PersistableMerchantStorePopulator extends AbstractDataPopulator<Per
 	private LanguageService languageService;
 	@Inject
 	private CurrencyService currencyService;
+	@Inject
+	private MerchantStoreService merchantStoreService;
 	
 	
 	@Override
@@ -64,6 +67,24 @@ public class PersistableMerchantStorePopulator extends AbstractDataPopulator<Per
 		target.setStorephone(source.getPhone());
 		target.setStoreEmailAddress(source.getEmail());
 		target.setUseCache(source.isUseCache());
+		target.setRetailer(source.isRetailer());
+		
+		//get parent store
+		if(!StringUtils.isBlank(source.getRetailerStore())) {
+		  if(source.getRetailerStore().equals(source.getCode())) {
+		    throw new ConversionException("Parent store [" + source.getRetailerStore() + "] cannot be parent of current store");
+		  }
+		  try {
+            MerchantStore parent = merchantStoreService.getByCode(source.getRetailerStore());
+            if(parent == null) {
+              throw new ConversionException("Parent store [" + source.getRetailerStore() + "] does not exist");
+            }
+            target.setParent(parent);
+          } catch (ServiceException e) {
+              throw new ConversionException(e);
+          }
+		}
+		
 		
 		try {
 			

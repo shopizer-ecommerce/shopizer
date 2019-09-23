@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.Principal;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import javax.inject.Inject;
@@ -30,7 +31,9 @@ import com.google.common.collect.ImmutableMap;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.model.content.FileContentType;
 import com.salesmanager.core.model.content.InputContentFile;
+import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.merchant.MerchantStoreCriteria;
+import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.model.shop.PersistableBrand;
 import com.salesmanager.shop.model.shop.PersistableMerchantStore;
@@ -42,7 +45,10 @@ import com.salesmanager.shop.store.api.exception.UnauthorizedException;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.store.controller.user.facade.UserFacade;
 import com.salesmanager.shop.utils.ServiceRequestCriteriaBuilderUtils;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -114,6 +120,31 @@ public class MerchantStoreApi {
     String userName = getUserFromRequest(request);
     validateUserPermission(userName, code);
     return storeFacade.getBrand(code);
+  }
+  
+  /**
+   * List child stores
+   * @param code
+   * @param request
+   * @return
+   */
+  @ResponseStatus(HttpStatus.OK)
+  @GetMapping(value = {"/private/store/children"},
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  @ApiOperation(httpMethod = "GET", value = "Get child stores", notes = "",
+      response = List.class)
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+    @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
+  public List<ReadableMerchantStore> children(
+      @ApiIgnore MerchantStore merchantStore, 
+      @ApiIgnore Language language,
+      HttpServletRequest request) {
+    
+    String userName = getUserFromRequest(request);
+    validateUserPermission(userName, merchantStore.getCode());
+    //return storeFacade.getBrand(code);
+    return null;
   }
 
   @ResponseStatus(HttpStatus.CREATED)

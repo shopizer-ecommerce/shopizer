@@ -4,6 +4,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import org.apache.commons.lang.Validate;
 import org.apache.http.auth.AuthenticationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,7 +74,7 @@ public class AuthenticateCustomerApi {
     /**
      * Create new customer for a given MerchantStore, then authenticate that customer
      */
-    @RequestMapping( value={"/customer/register"}, method=RequestMethod.POST, produces ={ "application/json", "application/xml" })
+    @RequestMapping( value={"/customer/register"}, method=RequestMethod.POST, produces ={ "application/json" })
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(httpMethod = "POST", value = "Registers a customer to the application", notes = "Used as self-served operation",response = AuthenticationResponse.class)
     @ResponseBody
@@ -81,12 +82,17 @@ public class AuthenticateCustomerApi {
 
         
         
-        try {
+        //try {
             
             MerchantStore merchantStore = storeFacade.getByCode(request);
             Language language = languageUtils.getRESTLanguage(request, merchantStore);  
             
+            //Transition
+            customer.setUserName(customer.getEmailAddress());
             
+            Validate.notNull(customer.getUserName(),"Username cannot be null");
+            Validate.notNull(customer.getBilling(),"Requires customer Country code");
+            Validate.notNull(customer.getBilling().getCountry(),"Requires customer Country code");
             
             customerFacade.registerCustomer(customer, merchantStore, language);
             
@@ -119,15 +125,15 @@ public class AuthenticateCustomerApi {
             return ResponseEntity.ok(new AuthenticationResponse(customer.getId(),token));
 
             
-        } catch (Exception e) {
-            LOGGER.error("Error while registering customer",e);
-            try {
-                response.sendError(503, "Error while registering customer " + e.getMessage());
-            } catch (Exception ignore) {
-            }
+        //} catch (Exception e) {
+         //   LOGGER.error("Error while registering customer",e);
+         //   try {
+         //       response.sendError(503, "Error while registering customer " + e.getMessage());
+         //   } catch (Exception ignore) {
+         //   }
             
-            return null;
-        }
+        //    return null;
+       // }
 
         
     }
@@ -139,7 +145,7 @@ public class AuthenticateCustomerApi {
      * @return
      * @throws AuthenticationException
      */
-    @RequestMapping(value = "/customer/login", method = RequestMethod.POST, produces ={ "application/json", "application/xml" })
+    @RequestMapping(value = "/customer/login", method = RequestMethod.POST, produces ={ "application/json" })
     @ApiOperation(httpMethod = "POST", value = "Authenticates a customer to the application", notes = "Customer can authenticate after registration, request is {\"username\":\"admin\",\"password\":\"password\"}",response = ResponseEntity.class)
     @ResponseBody
     public ResponseEntity<?> authenticate(@RequestBody @Valid AuthenticationRequest authenticationRequest, Device device) throws AuthenticationException {
@@ -179,7 +185,7 @@ public class AuthenticateCustomerApi {
         return ResponseEntity.ok(new AuthenticationResponse(userDetails.getId(),token));
     }
 
-    @RequestMapping(value = "/auth/customer/refresh", method = RequestMethod.GET, produces ={ "application/json", "application/xml" })
+    @RequestMapping(value = "/auth/customer/refresh", method = RequestMethod.GET, produces ={ "application/json" })
     public ResponseEntity<?> refreshToken(HttpServletRequest request) {
         String token = request.getHeader(tokenHeader);
         String username = jwtTokenUtil.getUsernameFromToken(token);
@@ -193,7 +199,7 @@ public class AuthenticateCustomerApi {
         }
     }
     
-    @RequestMapping(value = "/customer/password/reset", method = RequestMethod.POST, produces ={ "application/json", "application/xml" })
+    @RequestMapping(value = "/customer/password/reset", method = RequestMethod.POST, produces ={ "application/json" })
     @ApiOperation(httpMethod = "POST", value = "Sends a request to reset password", notes = "Password reset request is {\"username\":\"test@email.com\"}",response = ResponseEntity.class)
     public ResponseEntity<?> resetPassword(@RequestBody @Valid AuthenticationRequest authenticationRequest, HttpServletRequest request) {
 

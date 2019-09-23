@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.Validate;
 import org.drools.core.util.StringUtils;
 import org.slf4j.Logger;
@@ -421,6 +422,19 @@ public class StoreFacadeImpl implements StoreFacade {
       throw new ServiceRuntimeException(se);
     }
 
+  }
+
+  @Override
+  public List<ReadableMerchantStore> getChildStores(String code) {
+    try {
+      List<MerchantStore> children = merchantStoreService.listChildren(code);
+      if(!CollectionUtils.isEmpty(children)) {
+        
+      }
+    } catch (ServiceException e) {
+      throw new ServiceRuntimeException(e);
+    }
+    return null;
   }
 
 }

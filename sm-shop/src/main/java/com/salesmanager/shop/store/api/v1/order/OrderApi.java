@@ -68,7 +68,7 @@ public class OrderApi {
       @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
   })
-  public ReadableOrderList listOrders(
+  public ReadableOrderList list(
       @PathVariable final Long id,
       @RequestParam(value = "start", required = false) Integer start,
       @RequestParam(value = "count", required = false) Integer count,
@@ -129,7 +129,7 @@ public class OrderApi {
       @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
   })
-  public ReadableOrderList listOrders(
+  public ReadableOrderList list(
       @RequestParam(value = "start", required = false) Integer start,
       @RequestParam(value = "count", required = false) Integer count,
       @ApiIgnore MerchantStore merchantStore,

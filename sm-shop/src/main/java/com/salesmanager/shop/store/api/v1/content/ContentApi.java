@@ -10,7 +10,6 @@ import javax.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,13 +36,20 @@ import com.salesmanager.shop.store.api.exception.RestApiException;
 import com.salesmanager.shop.store.controller.content.facade.ContentFacade;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.SwaggerDefinition;
+import io.swagger.annotations.Tag;
 import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping(value = "/api/v1")
+@Api(tags = {"Content management resource (Content Management Api)"})
+@SwaggerDefinition(tags = {
+    @Tag(name = "Content management resource", description = "Add pages, content boxes, manage images and files")
+})
 public class ContentApi {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ContentApi.class);
@@ -57,6 +63,12 @@ public class ContentApi {
   @Inject
   private LanguageUtils languageUtils;
 
+  /**
+   * List all pages
+   * @param merchantStore
+   * @param language
+   * @return
+   */
   @GetMapping(value = "/content/pages", produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(httpMethod = "GET", value = "Get page names created for a given MerchantStore",
       notes = "", produces = "application/json", response = List.class)
@@ -80,20 +92,42 @@ public class ContentApi {
       @ApiIgnore Language language) {
     return contentFacade.getContentBoxes(ContentType.BOX, "summary_", merchantStore, language);
   }
+  
+  /**
+   * List all boxes
+   * @param merchantStore
+   * @param language
+   * @return
+   */
+  @GetMapping(value = "/content/boxes", produces = MediaType.APPLICATION_JSON_VALUE)
+  @ApiOperation(httpMethod = "GET", value = "Get pages summary created for a given MerchantStore",
+      notes = "", produces = "application/json", response = List.class)
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
+  public List<ReadableContentBox> boxes(
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language) {
+    return contentFacade.getContentBoxes(ContentType.BOX, "summary_", merchantStore, language);
+  }
 
-  @GetMapping(value = "/{store}/content/pages/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "/content/pages/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(httpMethod = "GET", value = "Get page content by code for a given MerchantStore",
       notes = "", produces = "application/json", response = ReadableContentPage.class)
-  public ReadableContentPage page(@PathVariable("store") String store,
-      @PathVariable("code") String code, HttpServletRequest request) {
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+    @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
+  public ReadableContentPage page(
+      @PathVariable("code") String code,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language) {
 
-    MerchantStore merchantStore = storeFacade.get(store);
-    Language language = languageUtils.getRESTLanguage(request, merchantStore);
+
     ReadableContentPage page = null;
     try {
       page = contentFacade.getContentPage(code, merchantStore, language);
     } catch (ResourceNotFoundException e) {
-      LOGGER.debug("Resource not found [" + code + "] for store [" + store + "]");
+      LOGGER.debug("Resource not found [" + code + "] for store [" + merchantStore + "]");
     }
     return page;
   }
@@ -121,6 +155,15 @@ public class ContentApi {
   }
 
 
+  /**
+   * TODO check usage of code
+   * @param code
+   * @param path
+   * @param request
+   * @param response
+   * @return
+   * @throws Exception
+   */
   @GetMapping(value = "/{code}/content/images", produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(httpMethod = "GET", value = "Get store content images", notes = "",
       response = ContentFolder.class)
@@ -136,6 +179,15 @@ public class ContentApi {
     return folder;
   }
 
+  /**
+   * TODO check usage of code
+   * @param code
+   * @param path
+   * @param request
+   * @param merchantStore
+   * @param language
+   * @return
+   */
   @GetMapping(value = "/{store}/content/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(httpMethod = "GET", value = "Get store content based on content code", notes = "",
       response = ContentFolder.class)
@@ -199,15 +251,23 @@ public class ContentApi {
     
   }
 
-
-  @PostMapping(value = "/private/{code}/content/pages/{pageCode}")
+  /**
+   * TODO Both languages
+   * Create content page
+   * @param page
+   * @param merchantStore
+   * @param language
+   * @param pageCode
+   */
+  @PostMapping(value = "/private/content/page")
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(httpMethod = "POST", value = "Update content page", notes = "",
       response = Void.class)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
-  public void savePage(@RequestBody @Valid PersistableContentPage page,
+  public void savePage(
+      @RequestBody @Valid PersistableContentPage page,
       @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language,
       @PathVariable(name = "pageCode") String pageCode) {
     page.setCode(pageCode);

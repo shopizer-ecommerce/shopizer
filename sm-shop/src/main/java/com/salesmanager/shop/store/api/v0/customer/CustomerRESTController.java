@@ -372,12 +372,6 @@ public class CustomerRESTController {
 			customer.setPassword(password);
 		}
 
-/*		@SuppressWarnings("deprecation")
-		String encodedPassword = passwordEncoder.encode(password);
-		if(!StringUtils.isBlank(customer.getEncodedPassword())) {
-			encodedPassword = customer.getEncodedPassword();
-			customer.setClearPassword("");
-		}*/
 
 		customerService.save(cust);
 		customer.setId(cust.getId());

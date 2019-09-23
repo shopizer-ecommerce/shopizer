@@ -1,6 +1,5 @@
 package com.salesmanager.shop.store.api.v1.shoppingCart;
 
-import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_XML_VALUE;
 import javax.inject.Inject;
@@ -23,7 +22,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.shoppingcart.PersistableShoppingCartItem;
 import com.salesmanager.shop.model.shoppingcart.ReadableShoppingCart;
-import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
+import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.controller.shoppingCart.facade.ShoppingCartFacade;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -66,8 +65,12 @@ public class ShoppingCartApi {
       return cart;
 
     } catch (Exception e) {
-      LOGGER.error("Error while adding product to cart", e);
       try {
+      if(e instanceof ResourceNotFoundException) {
+        //response.sendError(204, "Error while adding product to cart id [" + shoppingCartItem.getProduct() + "] not found or not available");
+      }
+      LOGGER.error("Error while adding product to cart", e);
+      
         response.sendError(503, "Error while adding product to cart " + e.getMessage());
       } catch (Exception ignore) {
       }

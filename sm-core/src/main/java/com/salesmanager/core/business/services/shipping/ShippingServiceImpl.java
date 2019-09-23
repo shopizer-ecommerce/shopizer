@@ -428,8 +428,8 @@ public class ShippingServiceImpl implements ShippingService {
 			Country shipCountry = delivery.getCountry();
 			
 			//a ship to country is required
-			Validate.notNull(shipCountry);
-			Validate.notNull(store.getCountry());
+			Validate.notNull(shipCountry,"Ship to Country cannot be null");
+			Validate.notNull(store.getCountry(), "Store Country canot be null");
 			
 			if(shippingType.name().equals(ShippingType.NATIONAL.name())){
 				//customer country must match store country

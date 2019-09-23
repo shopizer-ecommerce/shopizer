@@ -1,5 +1,6 @@
 package com.salesmanager.core.business.services.merchant;
 
+import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
@@ -60,6 +61,12 @@ public class MerchantStoreServiceImpl extends SalesManagerEntityServiceImpl<Inte
 	public GenericEntityList<MerchantStore> getByCriteria(MerchantStoreCriteria criteria) throws ServiceException {
 		return merchantRepository.listByCriteria(criteria);
 	}
+
+
+  @Override
+  public List<MerchantStore> listChildren(String code) throws ServiceException {
+    return merchantRepository.getByParent(code);
+  }
 
 	
 /*	@Override

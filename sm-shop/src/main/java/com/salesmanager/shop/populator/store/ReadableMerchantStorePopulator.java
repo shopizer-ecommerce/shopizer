@@ -74,6 +74,13 @@ public class ReadableMerchantStorePopulator extends
 			}
 		}
 		
+		if(source.getParent() != null) {
+		  ReadableMerchantStore parent = populate(source.getParent(),
+            new ReadableMerchantStore(), source, language);
+		  target.setParent(parent);
+		}
+		target.setRetailer(source.isRetailer());
+		
 		target.setDimension(MeasureUnit.valueOf(source.getSeizeunitcode()));
 		target.setWeight(MeasureUnit.valueOf(source.getWeightunitcode()));
 		

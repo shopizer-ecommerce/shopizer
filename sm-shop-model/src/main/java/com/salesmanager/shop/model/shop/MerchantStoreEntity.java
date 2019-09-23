@@ -30,6 +30,7 @@ public class MerchantStoreEntity implements Serializable {
 	
 	private boolean useCache;
 	private boolean currencyFormatNational;
+	private boolean retailer;
 	private MeasureUnit dimension;
 	private MeasureUnit weight;
 	private List<String> supportedLanguages;
@@ -145,5 +146,13 @@ public class MerchantStoreEntity implements Serializable {
 	public void setSupportedLanguages(List<String> supportedLanguages) {
 		this.supportedLanguages = supportedLanguages;
 	}
+
+  public boolean isRetailer() {
+    return retailer;
+  }
+
+  public void setRetailer(boolean retailer) {
+    this.retailer = retailer;
+  }
 
 }

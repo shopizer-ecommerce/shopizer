@@ -226,6 +226,7 @@ public class InitializationDatabaseImpl implements InitializationDatabase {
 		store.setStoreEmailAddress("john@test.com");
 		store.setDomainName("localhost:8080");
 		store.setStoreTemplate("generic");
+		store.setRetailer(true);
 		store.setLanguages(supportedLanguages);
 		
 		merchantService.create(store);

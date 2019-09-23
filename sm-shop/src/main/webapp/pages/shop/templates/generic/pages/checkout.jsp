@@ -709,7 +709,7 @@ function initPayment(paymentSelection) {
 											<p><s:message code="label.customer.createaccount.text" text="Create an account by entering the information below. If you are a returning customer please login using the link at the top of the page."/></p>
 											<s:message code="message.password.required" text="Password is required" var="msgPassword"/>
 											<label><s:message code="label.customer.accountpassword" text="Account password"/>  <span class="required">*</span></label>
-											<form:input id="customer.clearPassword" cssClass="required" path="customer.clearPassword" title="${msgPassword}"/>	
+											<form:input id="customer.password" cssClass="required" path="customer.password" title="${msgPassword}"/>	
 										</div>
 									</div>								
 									</sec:authorize>
