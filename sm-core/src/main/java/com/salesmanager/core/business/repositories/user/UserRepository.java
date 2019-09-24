@@ -13,7 +13,7 @@ public interface UserRepository extends JpaRepository<User, Long>, UserRepositor
 	User findByUserName(String userName);
 	
 	@Query("select distinct u from User as u left join fetch u.groups ug join fetch u.merchantStore um left join fetch u.defaultLanguage ul where u.id = ?1 and um.code = ?2")
-	User findByUserId(Long userId, String storCode);
+	User findByUserId(Long userId, String storeCode);
 	
 	@Query("select distinct u from User as u left join fetch u.groups ug join fetch u.merchantStore um left join fetch u.defaultLanguage ul where u.adminName= ?1 and um.code = ?2")
 	User findByUserName(String userName, String storeCode);
