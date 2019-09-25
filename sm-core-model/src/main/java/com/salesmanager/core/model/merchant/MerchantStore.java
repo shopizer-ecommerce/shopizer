@@ -389,11 +389,11 @@ public class MerchantStore extends SalesManagerEntity<Integer, MerchantStore> im
     this.stores = stores;
   }
 
-  public boolean isRetailer() {
+  public Boolean isRetailer() {
     return retailer;
   }
 
-  public void setRetailer(boolean retailer) {
+  public void setRetailer(Boolean retailer) {
     this.retailer = retailer;
   }
 

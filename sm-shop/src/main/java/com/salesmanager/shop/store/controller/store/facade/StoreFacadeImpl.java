@@ -1,5 +1,6 @@
 package com.salesmanager.shop.store.controller.store.facade;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -425,16 +426,30 @@ public class StoreFacadeImpl implements StoreFacade {
   }
 
   @Override
-  public List<ReadableMerchantStore> getChildStores(String code) {
+  public List<ReadableMerchantStore> getChildStores(Language language, String code) {
     try {
-      List<MerchantStore> children = merchantStoreService.listChildren(code);
-      if(!CollectionUtils.isEmpty(children)) {
-        
+      
+      //first check if store is retailer
+      MerchantStore retailer = this.getByCode(code);
+      if(retailer==null) {
+        throw new ResourceNotFoundException("Merchant [" + code + "] not found");
       }
+      
+      if(!retailer.isRetailer().booleanValue()) {
+        throw new ResourceNotFoundException("Merchant [" + code + "] not a retailer");
+      }
+
+      List<MerchantStore> children = merchantStoreService.listChildren(code);
+      List<ReadableMerchantStore> readableStores = new ArrayList<ReadableMerchantStore>();
+      if(!CollectionUtils.isEmpty(children)) {
+        for(MerchantStore store : children)
+        readableStores.add(convertMerchantStoreToReadableMerchantStore(language, store));
+      }
+      return readableStores;
     } catch (ServiceException e) {
       throw new ServiceRuntimeException(e);
     }
-    return null;
+    
   }
 
 }

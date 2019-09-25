@@ -143,8 +143,7 @@ public class MerchantStoreApi {
     
     String userName = getUserFromRequest(request);
     validateUserPermission(userName, merchantStore.getCode());
-    //return storeFacade.getBrand(code);
-    return null;
+    return storeFacade.getChildStores(language, merchantStore.getCode());
   }
 
   @ResponseStatus(HttpStatus.CREATED)

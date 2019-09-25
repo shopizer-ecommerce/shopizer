@@ -40,7 +40,7 @@ public interface StoreFacade {
    * @param code
    * @return
    */
-  List<ReadableMerchantStore> getChildStores(String code);
+  List<ReadableMerchantStore> getChildStores(Language language, String code);
 
   ReadableMerchantStore getByCode(String code, Language lang);
 
