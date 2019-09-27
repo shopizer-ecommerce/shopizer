@@ -276,7 +276,7 @@ public class UserFacadeImpl implements UserFacade {
     Validate.notNull(user, "User cannot be null");
 
     try {
-      User userModel = userService.findByStore(id, storeCode);
+      User userModel = userService.getById(id);
       if (userModel == null) {
         throw new ServiceRuntimeException("Cannot find user [" + user.getUserName() + "]");
       }
@@ -287,6 +287,12 @@ public class UserFacadeImpl implements UserFacade {
       if (auth == null) {
         throw new ServiceRuntimeException("Cannot find user [" + authenticatedUser + "]");
       }
+      User adminName = getByUserName(user.getUserName());
+      if(adminName != null) {
+        if(adminName.getId().longValue() != userModel.getId().longValue()) {
+          throw new ServiceRuntimeException("User id [" + userModel.getId() + "] does not match [" + user.getUserName() + "]");
+        }
+      }
       boolean isActive = userModel.isActive();
       List<Group> originalGroups = userModel.getGroups();
       Group superadmin = originalGroups.stream()
@@ -294,6 +300,9 @@ public class UserFacadeImpl implements UserFacade {
           .findAny()
           .orElse(null);
       MerchantStore store = merchantStoreService.getByCode(storeCode);
+      if(store == null) {
+        throw new ResourceNotFoundException("Store with code [" + storeCode + "] was not found");
+      }
       userModel = converPersistabletUserToUser(store, languageService.defaultLanguage(), userModel, user);
       
       //if superadmin set original permissions, prevent removing super admin
@@ -313,7 +322,7 @@ public class UserFacadeImpl implements UserFacade {
       
 
       user.setPassword(userModel.getAdminPassword());
-      userService.saveOrUpdate(userModel);
+      userService.update(userModel);
       return this.convertUserToReadableUser(languageService.defaultLanguage(), userModel);
     } catch (ServiceException e) {
       throw new ServiceRuntimeException("Cannot update user [" + user.getUserName() + "]", e);
@@ -331,7 +340,7 @@ public class UserFacadeImpl implements UserFacade {
   }
 
   @Override
-  public void changePassword(Long userId, String authenticatedUser, String storeCode,
+  public void changePassword(Long userId, String authenticatedUser,
       UserPassword changePassword) {
     
     Validate.notNull(changePassword, "Change password request must not be null");

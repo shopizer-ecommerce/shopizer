@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -106,7 +107,8 @@ public class UserApi {
       response = ReadableUser.class)
   public ReadableUser create(
       @ApiParam(name = "store", value = "Optional - Store code", required = false,
-          defaultValue = "DEFAULT") @PathVariable Optional<String> store,
+          defaultValue = "DEFAULT") 
+      @PathVariable Optional<String> store,
       @Valid @RequestBody PersistableUser user, HttpServletRequest request) {
     /** Must be superadmin or admin */
     String authenticatedUser = userFacade.authenticatedUser();
@@ -132,39 +134,39 @@ public class UserApi {
   }
 
   @ResponseStatus(HttpStatus.OK)
-  @PutMapping(value = {"/private/user/{id}"}, produces = MediaType.APPLICATION_JSON_VALUE)
+  @PutMapping(value = {"/private/{store}/user/{id}","/private/user/{id}"}, produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(httpMethod = "PUT", value = "Updates a user", notes = "",
       response = ReadableUser.class)
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")})
-  public ReadableUser update(@Valid @RequestBody PersistableUser user, @PathVariable Long id,
-      @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
+  public ReadableUser update(
+      @Valid @RequestBody PersistableUser user, 
+      @PathVariable Long id,
+      @ApiParam(name = "store", value = "Optional - Store code", required = false,
+      defaultValue = "DEFAULT") 
+      @PathVariable Optional<String> store
+      ) {
 
-    String storeCd = merchantStore.getCode();
-    String authenticatedUser = userFacade.authenticatedUser();
-    if (authenticatedUser == null) {
-      throw new UnauthorizedException();
+    String storeCd = Constants.DEFAULT_STORE;
+    if (store.isPresent()) {
+      storeCd = store.get();
     }
+    String authenticatedUser = userFacade.authenticatedUser();//requires user doing action
+
     return userFacade.update(id, authenticatedUser, storeCd, user);
   }
 
   @ResponseStatus(HttpStatus.OK)
-  @PutMapping(value = {"/private/user/{id}/password"}, produces = MediaType.APPLICATION_JSON_VALUE)
-  @ApiOperation(httpMethod = "PUT", value = "Updates a user password", notes = "",
+  @PatchMapping(value = {"/private/user/{id}/password"}, produces = MediaType.APPLICATION_JSON_VALUE)
+  @ApiOperation(httpMethod = "PATCH", value = "Updates a user password", notes = "",
       response = Void.class)
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")})
-  public void password(@Valid @RequestBody UserPassword password, @PathVariable Long id,
-      @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
+  public void password(
+      @Valid @RequestBody UserPassword password, 
+      @PathVariable Long id) {
 
-    String storeCd = merchantStore.getCode();
     String authenticatedUser = userFacade.authenticatedUser();
     if (authenticatedUser == null) {
       throw new UnauthorizedException();
     }
-    userFacade.changePassword(id, authenticatedUser, storeCd, password);
+    userFacade.changePassword(id, authenticatedUser, password);
   }
 
   @ResponseStatus(HttpStatus.OK)

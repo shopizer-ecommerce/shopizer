@@ -3,14 +3,10 @@
  */
 package com.salesmanager.shop.store.controller.customer.facade;
 
-import com.salesmanager.core.model.customer.CustomerCriteria;
-import com.salesmanager.core.model.customer.CustomerList;
-import com.salesmanager.shop.populator.customer.ReadableCustomerList;
 import java.util.List;
-
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.model.customer.Customer;
-import com.salesmanager.core.model.customer.review.CustomerReview;
+import com.salesmanager.core.model.customer.CustomerCriteria;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.shoppingcart.ShoppingCart;
@@ -21,6 +17,7 @@ import com.salesmanager.shop.model.customer.ReadableCustomer;
 import com.salesmanager.shop.model.customer.ReadableCustomerReview;
 import com.salesmanager.shop.model.customer.address.Address;
 import com.salesmanager.shop.model.customer.optin.PersistableCustomerOptin;
+import com.salesmanager.shop.populator.customer.ReadableCustomerList;
 
 /**
  * <p>Customer facade working as a bridge between {@link CustomerService} and Controller
@@ -28,7 +25,8 @@ import com.salesmanager.shop.model.customer.optin.PersistableCustomerOptin;
  * </p>
  *
  * @author Umesh Awasthi
- * @version 2.2.1
+ * @version 2.2.1 - 2.7.0
+ * @author carlsamson
  *
  *
  */
@@ -123,6 +121,18 @@ public interface CustomerFacade
 	 */
 	PersistableCustomer update(PersistableCustomer customer, MerchantStore store);
 	
+	PersistableCustomer update(String userName, PersistableCustomer customer, MerchantStore store);
+	
+	/**
+	 * Updates only shipping and billing addresses
+	 * @param customer
+	 * @param store
+	 * @return
+	 */
+	void updateAddress(PersistableCustomer customer, MerchantStore store);
+	
+	void updateAddress(String userName, PersistableCustomer customer, MerchantStore store);
+	
 	/**
 	 * Save or update a CustomerReview
 	 * @param review
@@ -157,9 +167,11 @@ public interface CustomerFacade
 	 */
 	void optinCustomer(PersistableCustomerOptin optin, MerchantStore store);
 
-  ReadableCustomer getCustomerByNick(String userName, MerchantStore merchantStore, Language language);
+    ReadableCustomer getCustomerByNick(String userName, MerchantStore merchantStore, Language language);
 
 	void deleteByNick(String nick);
+	
+	void deleteById(Long id);
 
 	void delete(Customer entity);
 

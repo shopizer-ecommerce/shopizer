@@ -100,7 +100,7 @@ public interface UserFacade {
    * @param storeCode
    * @param changePassword
    */
-  void changePassword(Long userId, String authenticatedUser, String storeCode, UserPassword changePassword);
+  void changePassword(Long userId, String authenticatedUser, UserPassword changePassword);
 
 
 }

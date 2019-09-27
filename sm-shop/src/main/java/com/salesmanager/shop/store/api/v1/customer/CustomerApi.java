@@ -7,9 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.model.customer.CustomerCriteria;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
@@ -25,15 +24,20 @@ import com.salesmanager.shop.model.customer.PersistableCustomer;
 import com.salesmanager.shop.model.customer.ReadableCustomer;
 import com.salesmanager.shop.populator.customer.ReadableCustomerList;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
-import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
-import com.salesmanager.shop.utils.LanguageUtils;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.SwaggerDefinition;
+import io.swagger.annotations.Tag;
 import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
-@RequestMapping(value = "/api/v1", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1")
+@Api(tags = {"Customer management resource (Customer Management Api)"})
+@SwaggerDefinition(tags = {
+    @Tag(name = "Customer management resource", description = "Manage customer addresses")
+})
 public class CustomerApi {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(CustomerApi.class);
@@ -41,14 +45,6 @@ public class CustomerApi {
   @Inject
   private CustomerFacade customerFacade;
 
-  @Inject
-  private CustomerService customerService;
-
-  @Inject
-  private StoreFacade storeFacade;
-
-  @Inject
-  private LanguageUtils languageUtils;
 
   /** Create new customer for a given MerchantStore */
   @PostMapping("/private/customer")
@@ -96,7 +92,7 @@ public class CustomerApi {
   
   
 
-  @PutMapping("/private/customer/{username}")
+  @PutMapping("/private/customer/{id}")
   @ApiOperation(
       httpMethod = "PUT",
       value = "Updates a customer",
@@ -107,21 +103,46 @@ public class CustomerApi {
       @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT")
   })
   public PersistableCustomer update(
-      @PathVariable String userName,
+      @PathVariable Long id,
       @ApiIgnore MerchantStore merchantStore,
       @Valid @RequestBody PersistableCustomer customer) {
-      // TODO customer.setUserName
-      // TODO more validation
+
+      customer.setId(id);
       return customerFacade.update(customer, merchantStore);
   }
+  
+  @PatchMapping("/private/customer/{id}/address")
+  @ApiOperation(
+      httpMethod = "PATCH",
+      value = "Updates a customer",
+      notes = "Requires administration access",
+      produces = "application/json",
+      response = Void.class)
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT")
+  })
+  public void updateAddress(
+      @PathVariable Long id,
+      @ApiIgnore MerchantStore merchantStore,
+      @RequestBody PersistableCustomer customer) {
 
-  @DeleteMapping("/private/customer/{userName}")
+      customer.setId(id);
+      customerFacade.updateAddress(customer, merchantStore);
+  }
+
+  @DeleteMapping("/private/customer/{id}")
   @ApiOperation(
       httpMethod = "DELETE",
       value = "Deletes a customer",
       notes = "Requires administration access")
-  public void delete(@PathVariable String userName) {
-    customerFacade.deleteByNick(userName);
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT")
+  })
+  public void delete(
+      @PathVariable Long id,
+      @ApiIgnore MerchantStore merchantStore
+      ) {
+    customerFacade.deleteById(id);
   }
 
   /**
@@ -154,23 +175,31 @@ public class CustomerApi {
     return customerCriteria;
   }
 
-  @GetMapping("/private/customer/{userName}")
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
-  })
-  public ReadableCustomer get(@PathVariable String userName,
-      @ApiIgnore MerchantStore merchantStore,
-      @ApiIgnore Language language) {
-      return customerFacade.getByUserName(userName, merchantStore, language);
-  }
-
-  @GetMapping("/auth/customer/profile")
+  @GetMapping("/private/customer/{id}")
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
   })
   public ReadableCustomer get(
+      @PathVariable Long id,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language) {
+      return customerFacade.getCustomerById(id, merchantStore, language);
+  }
+
+  /**
+   * Get logged in customer profile
+   * @param merchantStore
+   * @param language
+   * @param request
+   * @return
+   */
+  @GetMapping("/auth/customer/profile")
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
+  })
+  public ReadableCustomer getAuthUser(
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language,
       HttpServletRequest request) {
@@ -178,4 +207,49 @@ public class CustomerApi {
     String userName = principal.getName();
     return customerFacade.getCustomerByNick(userName, merchantStore, language);
   }
+  
+  @PatchMapping("/auth/customer/address")
+  @ApiOperation(
+      httpMethod = "PATCH",
+      value = "Updates a loged in customer address",
+      notes = "Requires authentication",
+      produces = "application/json",
+      response = Void.class)
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT")
+  })
+  public void updateAuthUserAddress(
+      @ApiIgnore MerchantStore merchantStore,
+      @RequestBody PersistableCustomer customer,
+      HttpServletRequest request) {
+      Principal principal = request.getUserPrincipal();
+      String userName = principal.getName();
+      
+
+      customerFacade.updateAddress(userName, customer, merchantStore);
+  
+  }
+  
+  @PutMapping("/auth/customer/{id}")
+  @ApiOperation(
+      httpMethod = "PUT",
+      value = "Updates a loged in customer profile",
+      notes = "Requires authentication",
+      produces = "application/json",
+      response = PersistableCustomer.class)
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT")
+  })
+  public PersistableCustomer update(
+      @ApiIgnore MerchantStore merchantStore,
+      @Valid @RequestBody PersistableCustomer customer,
+      HttpServletRequest request) {
+      
+      Principal principal = request.getUserPrincipal();
+      String userName = principal.getName();
+
+      return customerFacade.update(userName, customer, merchantStore);
+  }
+  
+  
 }

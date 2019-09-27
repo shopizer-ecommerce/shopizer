@@ -95,7 +95,8 @@ import com.salesmanager.shop.utils.LocaleUtils;
  * entry point to service layer.
  * 
  * @author Umesh Awasthi
- * @version 2.2.1
+ * @version 2.2.1, 2.8.0
+ * @modified Carl Samson
  *
  */
 
@@ -694,15 +695,6 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
     Customer cust = customerService.getById(customer.getId());
 
-
-/*    CustomerPopulator populator = new CustomerPopulator();
-    populator.setCountryService(countryService);
-    populator.setCustomerOptionService(customerOptionService);
-    populator.setCustomerOptionValueService(customerOptionValueService);
-    populator.setLanguageService(languageService);
-    populator.setLanguageService(languageService);
-    populator.setZoneService(zoneService);
-    populator.setGroupService(groupService);*/
     try{
       customerPopulator.populate(customer, cust, store, store.getDefaultLanguage());
     } catch (ConversionException e) {
@@ -1033,5 +1025,68 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
     review.setReviewedCustomer(id);
     return review;
+  }
+
+
+  @Override
+  public void deleteById(Long id) {
+    Customer customer = getCustomerById(id);
+    delete(customer);
+    
+  }
+
+
+  @Override
+  public void updateAddress(PersistableCustomer customer, MerchantStore store) {
+    Validate.notNull(customer.getBilling(), "Billing address can not be null");
+    Validate.notNull(customer.getBilling().getAddress(), "Billing address can not be null");
+    Validate.notNull(customer.getBilling().getCity(), "Billing city can not be null");
+    Validate.notNull(customer.getBilling().getPostalCode(), "Billing postal code can not be null");
+    Validate.notNull(customer.getBilling().getCountry(), "Billing country can not be null");
+    customer.getBilling().setBillingAddress(true);
+    
+    if(customer.getDelivery() == null) {
+      customer.setDelivery(customer.getBilling());
+      customer.getDelivery().setBillingAddress(false);
+    } else {
+      Validate.notNull(customer.getDelivery(), "Delivery address can not be null");
+      Validate.notNull(customer.getDelivery().getAddress(), "Delivery address can not be null");
+      Validate.notNull(customer.getDelivery().getCity(), "Delivery city can not be null");
+      Validate.notNull(customer.getDelivery().getPostalCode(), "Delivery postal code can not be null");
+      Validate.notNull(customer.getDelivery().getCountry(), "Delivery country can not be null");
+      
+    }
+    
+    try {
+      //update billing
+      updateAddress(customer.getId(), store, customer.getBilling(), store.getDefaultLanguage());
+      //update delivery
+      updateAddress(customer.getId(), store, customer.getDelivery(), store.getDefaultLanguage());
+    } catch (Exception e) {
+      throw new ServiceRuntimeException("Error while updating customer address");
+    }
+    
+
+  }
+
+
+  @Override
+  public void updateAddress(String userName, PersistableCustomer customer, MerchantStore store) {
+    
+    ReadableCustomer customerModel = getByUserName(userName, store, store.getDefaultLanguage());
+    customer.setId(customerModel.getId());
+    customer.setUserName(userName);
+    updateAddress(customer, store);
+    
+  }
+
+
+  @Override
+  public PersistableCustomer update(String userName, PersistableCustomer customer,
+      MerchantStore store) {
+    ReadableCustomer customerModel = getByUserName(userName, store, store.getDefaultLanguage());
+    customer.setId(customerModel.getId());
+    customer.setUserName(userName);
+    return this.update(customer, store);
   }
 }

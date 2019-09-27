@@ -66,21 +66,20 @@ public class PersistableUserPopulator extends AbstractDataPopulator<PersistableU
     target.setMerchantStore(store);
 
     List<Group> userGroups = new ArrayList<Group>();
+    List<String> names = new ArrayList<String>();
     for (PersistableGroup group : source.getGroups()) {
-      
-      Group g = null;
-      try {
-        g = groupService.findByName(group.getName());
-        if(g == null) {
-          throw new ConversionException("Cannot find group [" + group.getName() + "]");
-        }
-      } catch (ServiceException e) {
-        throw new ConversionException("Cannot find group [" + group.getName() + "]",e);
-      }
-      userGroups.add(g);
+      names.add(group.getName());
     }
+    try {
+      List<Group> groups = groupService.listGroupByNames(names);
+      for(Group g: groups) {
+        userGroups.add(g);
+      }
+    } catch (Exception e1) {
+      throw new ConversionException("Error while getting user groups",e1);
+    }
+    
     target.setGroups(userGroups);
-
 
     return target;
   }
