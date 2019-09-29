@@ -147,7 +147,8 @@ public class ContentFacadeImpl implements ContentFacade {
     contentModel.setCode(content.getCode());
     contentModel.setContentType(ContentType.PAGE);
     contentModel.setMerchantStore(store);
-    contentModel.setVisible(true);
+    contentModel.setLinkToMenu(content.isDisplayedInMenu());
+    contentModel.setVisible(true);//force visibe
 
     return contentModel;
   }
@@ -160,10 +161,10 @@ public class ContentFacadeImpl implements ContentFacade {
  
     contentDescription.setContent(content);
 
-    content.setCode(content.getCode());
+    content.setVisible(true);//force visibe
+    content.setLinkToMenu(contentPage.isDisplayedInMenu());
     content.setContentType(ContentType.PAGE);
     content.setMerchantStore(store);
-    content.setVisible(true);
 
     return content;
   }
@@ -177,6 +178,7 @@ public class ContentFacadeImpl implements ContentFacade {
     contentDescription.setMetatagDescription(content.getMetaDetails());
     contentDescription.setTitle(content.getTitle());
     contentDescription.setName(content.getName());
+    contentDescription.setSeUrl(content.getSlug());
     contentDescription.setDescription(content.getPageContent());
     contentDescription.setMetatagTitle(content.getTitle());
 
@@ -321,6 +323,7 @@ public class ContentFacadeImpl implements ContentFacade {
     Validate.notNull(page);
     Validate.notNull(merchantStore);
     Validate.notNull(page.getCode());
+    Validate.notNull(page.getName());
 
     try {
       // check if exists

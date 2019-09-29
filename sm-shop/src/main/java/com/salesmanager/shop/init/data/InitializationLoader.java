@@ -147,7 +147,7 @@ public class InitializationLoader {
 		String loadTestData = configuration.getProperty(ApplicationConstants.POPULATE_TEST_DATA);
 		boolean loadData =  !StringUtils.isBlank(loadTestData) && loadTestData.equals(SystemConstants.CONFIG_VALUE_TRUE);
 
-
+		//deprecated. data is now included in h2 default database file
 		if(loadData) {
 
 			SystemConfiguration configuration = systemConfigurationService.getByKey(ApplicationConstants.TEST_DATA_LOADED);
