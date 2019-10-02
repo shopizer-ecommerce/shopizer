@@ -6,6 +6,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.content.ContentFile;
 import com.salesmanager.shop.model.content.ContentFolder;
+import com.salesmanager.shop.model.content.PersistableContent;
 import com.salesmanager.shop.model.content.PersistableContentPage;
 import com.salesmanager.shop.model.content.ReadableContentBox;
 import com.salesmanager.shop.model.content.ReadableContentPage;
@@ -94,6 +95,6 @@ public interface ContentFacade {
 	 * @param merchantStore
 	 * @param language
 	 */
-	void saveContentPage(PersistableContentPage page, MerchantStore merchantStore, Language language);
+	void saveContentPage(PersistableContent page, MerchantStore merchantStore, Language language);
 
 }

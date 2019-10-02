@@ -29,6 +29,7 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.content.ContentFile;
 import com.salesmanager.shop.model.content.ContentFolder;
 import com.salesmanager.shop.model.content.ContentName;
+import com.salesmanager.shop.model.content.PersistableContent;
 import com.salesmanager.shop.model.content.PersistableContentPage;
 import com.salesmanager.shop.model.content.ReadableContentBox;
 import com.salesmanager.shop.model.content.ReadableContentPage;
@@ -36,8 +37,6 @@ import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.RestApiException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.controller.content.facade.ContentFacade;
-import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
-import com.salesmanager.shop.utils.LanguageUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -59,11 +58,6 @@ public class ContentApi {
   @Inject
   private ContentFacade contentFacade;
 
-  @Inject
-  private StoreFacade storeFacade;
-
-  @Inject
-  private LanguageUtils languageUtils;
 
   /**
    * List all pages
@@ -283,7 +277,7 @@ public class ContentApi {
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
   public void savePage(
-      @RequestBody @Valid PersistableContentPage page,
+      @RequestBody @Valid PersistableContent page,
       @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
     contentFacade.saveContentPage(page, merchantStore, language);
   }

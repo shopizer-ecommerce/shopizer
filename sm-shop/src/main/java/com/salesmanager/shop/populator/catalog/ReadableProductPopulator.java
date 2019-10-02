@@ -35,6 +35,7 @@ import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductAttr
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductAttributeValue;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOption;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOptionValue;
+import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.ImageFilePath;
 
@@ -196,6 +197,14 @@ public class ReadableProductPopulator extends
 				manufacturerEntity.setOrder(source.getManufacturer().getOrder());
 				manufacturerEntity.setCode(source.getManufacturer().getCode());
 				target.setManufacturer(manufacturerEntity);
+			}
+			
+			if(source.getType() != null) {
+			  ReadableProductType type = new ReadableProductType();
+			  type.setId(source.getType().getId());
+			  type.setCode(source.getType().getCode());
+			  type.setName(source.getType().getCode());//need name
+			  target.setType(type);
 			}
 			
 			Set<ProductImage> images = source.getImages();
