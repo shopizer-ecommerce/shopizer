@@ -1,12 +1,13 @@
 package com.salesmanager.shop.store.controller.category.facade;
 
+import java.util.List;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.category.PersistableCategory;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductVariant;
-import java.util.List;
+import com.salesmanager.shop.model.entity.ListCriteria;
 
 public interface CategoryFacade {
 
@@ -19,7 +20,7 @@ public interface CategoryFacade {
      * @param filter
      * @return List<ReadableCategory>
      */
-	List<ReadableCategory> getCategoryHierarchy(MerchantStore store, int depth, Language language, List<String> filter);
+	List<ReadableCategory> getCategoryHierarchy(MerchantStore store, ListCriteria criteria, int depth, Language language, List<String> filter);
 	
 	/**
 	 * 

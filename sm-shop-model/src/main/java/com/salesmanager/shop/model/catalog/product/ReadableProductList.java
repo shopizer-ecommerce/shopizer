@@ -2,8 +2,7 @@ package com.salesmanager.shop.model.catalog.product;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.salesmanager.shop.model.ReadableList;
+import com.salesmanager.shop.model.entity.ReadableList;
 
 public class ReadableProductList extends ReadableList {
 	

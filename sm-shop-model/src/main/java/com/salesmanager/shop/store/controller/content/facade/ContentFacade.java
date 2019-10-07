@@ -36,6 +36,13 @@ public interface ContentFacade {
 	 */
 	void delete(MerchantStore store, String fileName, String fileType);
 	
+	/**
+	 * Delete content page
+	 * @param store
+	 * @param id
+	 */
+	void deletePage(MerchantStore store, Long id);
+	
 	
 	/**
 	 * Returns page names and urls configured for a given MerchantStore

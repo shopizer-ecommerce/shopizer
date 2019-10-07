@@ -440,6 +440,11 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
     return categoryRepository.findById(category);
   }
 
+  @Override
+  public List<Category> getListByDepth(MerchantStore store, Language language, String name, int depth) {
+    return categoryRepository.find(store.getId(), depth, language.getId(), name);
+  }
+
 
 
 }

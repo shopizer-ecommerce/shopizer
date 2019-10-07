@@ -9,6 +9,7 @@ public class ReadableContentObject extends ObjectContent {
   
   private boolean isDisplayedInMenu;
   private String code;
+  private Long id;
   public boolean isDisplayedInMenu() {
     return isDisplayedInMenu;
   }
@@ -20,6 +21,12 @@ public class ReadableContentObject extends ObjectContent {
   }
   public void setCode(String code) {
     this.code = code;
+  }
+  public Long getId() {
+    return id;
+  }
+  public void setId(Long id) {
+    this.id = id;
   }
 
 }

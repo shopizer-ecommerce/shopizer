@@ -30,7 +30,6 @@ import com.salesmanager.shop.model.content.ContentFile;
 import com.salesmanager.shop.model.content.ContentFolder;
 import com.salesmanager.shop.model.content.ContentName;
 import com.salesmanager.shop.model.content.PersistableContent;
-import com.salesmanager.shop.model.content.PersistableContentPage;
 import com.salesmanager.shop.model.content.ReadableContentBox;
 import com.salesmanager.shop.model.content.ReadableContentPage;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
@@ -179,14 +178,14 @@ public class ContentApi {
     return folder;
   }
 
-  /**
+/*  *//**
    * @param code
    * @param path
    * @param request
    * @param merchantStore
    * @param language
    * @return
-   */
+   *//*
   @GetMapping(value = "/content/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(httpMethod = "GET", value = "Get store content based on content code", notes = "",
       response = ContentFolder.class)
@@ -200,7 +199,7 @@ public class ContentApi {
       @ApiIgnore MerchantStore merchantStore, 
       @ApiIgnore Language language) {
     return contentFacade.getContentBox(code, merchantStore, language);
-  }
+  }*/
 
   private String decodeContentPath(String path) throws UnsupportedEncodingException {
     try {
@@ -281,18 +280,36 @@ public class ContentApi {
       @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
     contentFacade.saveContentPage(page, merchantStore, language);
   }
-
-
+  
   /**
-   * Deletes a files from CMS
+   * Deletes a content from CMS
    *
    * @param name
    */
-  @DeleteMapping(value = "/private/content")
+  @DeleteMapping(value = "/private/content/page/{id}")
+  @ApiOperation(httpMethod = "DETETE", value = "Deletes a file from CMS", notes = "Delete a file from server",
+  response = Void.class)
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT")})
+  public void deleteContent(
+      Long id, 
+      @ApiIgnore MerchantStore merchantStore) {
+    contentFacade.deletePage(merchantStore, id);
+  }
+
+
+  /**
+   * Deletes a file from CMS
+   *
+   * @param name
+   */
+  @DeleteMapping(value = "/private/content/")
+  @ApiOperation(httpMethod = "DETETE", value = "Deletes a file from CMS", notes = "Delete a file from server",
+  response = Void.class)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
-  public void delete(
+  public void deleteFile(
       @Valid ContentName name, 
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language) {

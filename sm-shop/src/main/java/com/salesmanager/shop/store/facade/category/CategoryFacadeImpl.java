@@ -31,6 +31,7 @@ import com.salesmanager.shop.model.catalog.category.PersistableCategory;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductVariant;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductVariantValue;
+import com.salesmanager.shop.model.entity.ListCriteria;
 import com.salesmanager.shop.populator.catalog.PersistableCategoryPopulator;
 import com.salesmanager.shop.populator.catalog.ReadableCategoryPopulator;
 import com.salesmanager.shop.store.api.exception.OperationNotAllowedException;
@@ -58,10 +59,10 @@ public class CategoryFacadeImpl implements CategoryFacade {
   private static final String VISIBLE_CATEGORY = "visible";
 
   @Override
-  public List<ReadableCategory> getCategoryHierarchy(MerchantStore store, int depth,
+  public List<ReadableCategory> getCategoryHierarchy(MerchantStore store, ListCriteria criteria, int depth,
       Language language, List<String> filter) {
 
-    List<Category> categories = getCategories(store, depth, language, filter);
+    List<Category> categories = getCategories(store, criteria, depth, language, filter);
 
     List<ReadableCategory> readableCategories = null;
     if (filter != null && filter.contains(VISIBLE_CATEGORY)) {
@@ -105,12 +106,12 @@ public class CategoryFacadeImpl implements CategoryFacade {
     }
   }
 
-  private List<Category> getCategories(MerchantStore store, int depth, Language language,
+  private List<Category> getCategories(MerchantStore store, ListCriteria criteria, int depth, Language language,
       List<String> filter) {
     if (!CollectionUtils.isEmpty(filter) && filter.contains(FEATURED_CATEGORY)) {
       return categoryService.getListByDepthFilterByFeatured(store, depth, language);
     } else {
-      return categoryService.getListByDepth(store, depth, language);
+      return categoryService.getListByDepth(store, language, criteria != null ? criteria.getName(): null, depth);
     }
   }
 

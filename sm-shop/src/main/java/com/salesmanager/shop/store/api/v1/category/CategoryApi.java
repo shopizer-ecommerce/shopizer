@@ -24,6 +24,7 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.category.PersistableCategory;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 import com.salesmanager.shop.model.entity.EntityExists;
+import com.salesmanager.shop.model.entity.ListCriteria;
 import com.salesmanager.shop.store.controller.category.facade.CategoryFacade;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
@@ -107,10 +108,13 @@ public class CategoryApi {
   })
   public List<ReadableCategory> getFiltered(
       @RequestParam(value = "filter", required = false) List<String> filter,
+      @RequestParam(value = "name", required = false) String name,
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language) {
+    ListCriteria criteria = new ListCriteria();
+    criteria.setName(name);
     return categoryFacade.getCategoryHierarchy(
-        merchantStore, DEFAULT_CATEGORY_DEPTH, language, filter);
+        merchantStore, criteria, DEFAULT_CATEGORY_DEPTH, language, filter);
   }
   
   @ResponseStatus(HttpStatus.CREATED)

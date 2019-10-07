@@ -39,6 +39,8 @@ public interface CategoryService extends SalesManagerEntityService<Long, Categor
 	void saveOrUpdate(Category category) throws ServiceException;
 
 	List<Category> getListByDepth(MerchantStore store, int depth);
+	
+	List<Category> getListByDepth(MerchantStore store, Language language, String name, int depth);
 
 	/**
 	 * Get root categories by store for a given language

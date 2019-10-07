@@ -556,7 +556,7 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 
       if (objects == null) {
         // load categories
-        loadedCategories = categoryFacade.getCategoryHierarchy(store, 0, language, null);// null
+        loadedCategories = categoryFacade.getCategoryHierarchy(store, null, 0, language, null);// null
                                                                                          // filter
         objects = new ConcurrentHashMap<String, List<ReadableCategory>>();
         objects.put(language.getCode(), loadedCategories);
@@ -567,7 +567,7 @@ public class StoreFilter extends HandlerInterceptorAdapter {
       }
 
     } else {
-      loadedCategories = categoryFacade.getCategoryHierarchy(store, 0, language, null);// null
+      loadedCategories = categoryFacade.getCategoryHierarchy(store, null, 0, language, null);// null
                                                                                        // filter
     }
 

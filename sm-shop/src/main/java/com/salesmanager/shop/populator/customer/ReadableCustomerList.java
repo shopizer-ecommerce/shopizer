@@ -2,9 +2,8 @@ package com.salesmanager.shop.populator.customer;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.salesmanager.shop.model.ReadableList;
 import com.salesmanager.shop.model.customer.ReadableCustomer;
+import com.salesmanager.shop.model.entity.ReadableList;
 
 public class ReadableCustomerList extends ReadableList {
 

@@ -30,8 +30,6 @@ import com.salesmanager.core.model.catalog.product.relationship.ProductRelations
 import com.salesmanager.core.model.catalog.product.review.ProductReview;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.shop.model.catalog.manufacturer.PersistableManufacturer;
-import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
 import com.salesmanager.shop.model.catalog.product.LightPersistableProduct;
 import com.salesmanager.shop.model.catalog.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.PersistableProductReview;
@@ -44,8 +42,6 @@ import com.salesmanager.shop.populator.catalog.PersistableProductPopulator;
 import com.salesmanager.shop.populator.catalog.PersistableProductReviewPopulator;
 import com.salesmanager.shop.populator.catalog.ReadableProductPopulator;
 import com.salesmanager.shop.populator.catalog.ReadableProductReviewPopulator;
-import com.salesmanager.shop.populator.manufacturer.PersistableManufacturerPopulator;
-import com.salesmanager.shop.populator.manufacturer.ReadableManufacturerPopulator;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.controller.product.facade.ProductFacade;
 import com.salesmanager.shop.utils.DateUtil;
@@ -58,8 +54,6 @@ public class ProductFacadeImpl implements ProductFacade {
   @Inject
   private CategoryService categoryService;
 
-  @Inject
-  private ManufacturerService manufacturerService;
 
   @Inject
   private LanguageService languageService;
@@ -408,67 +402,6 @@ public class ProductFacadeImpl implements ProductFacade {
   }
 
   @Override
-  public void saveOrUpdateManufacturer(PersistableManufacturer manufacturer, MerchantStore store,
-      Language language) throws Exception {
-
-    PersistableManufacturerPopulator populator = new PersistableManufacturerPopulator();
-    populator.setLanguageService(languageService);
-
-
-    Manufacturer manuf = new Manufacturer();
-    populator.populate(manufacturer, manuf, store, language);
-
-    manufacturerService.saveOrUpdate(manuf);
-
-    manufacturer.setId(manuf.getId());
-
-  }
-
-  @Override
-  public void deleteManufacturer(Manufacturer manufacturer, MerchantStore store, Language language)
-      throws Exception {
-    manufacturerService.delete(manufacturer);
-
-  }
-
-  @Override
-  public ReadableManufacturer getManufacturer(Long id, MerchantStore store, Language language)
-      throws Exception {
-    Manufacturer manufacturer = manufacturerService.getById(id);
-
-    if (manufacturer == null) {
-      return null;
-    }
-
-    ReadableManufacturer readableManufacturer = new ReadableManufacturer();
-
-    ReadableManufacturerPopulator populator = new ReadableManufacturerPopulator();
-    populator.populate(manufacturer, readableManufacturer, store, language);
-
-
-    return readableManufacturer;
-  }
-
-  @Override
-  public List<ReadableManufacturer> getAllManufacturers(MerchantStore store, Language language)
-      throws Exception {
-
-
-    List<Manufacturer> manufacturers = manufacturerService.listByStore(store);
-    ReadableManufacturerPopulator populator = new ReadableManufacturerPopulator();
-    List<ReadableManufacturer> returnList = new ArrayList<ReadableManufacturer>();
-
-    for (Manufacturer m : manufacturers) {
-
-      ReadableManufacturer readableManufacturer = new ReadableManufacturer();
-      populator.populate(m, readableManufacturer, store, language);
-      returnList.add(readableManufacturer);
-    }
-
-    return returnList;
-  }
-
-  @Override
   public List<ReadableProduct> relatedItems(MerchantStore store, Product product, Language language)
       throws Exception {
     ReadableProductPopulator populator = new ReadableProductPopulator();
@@ -522,5 +455,6 @@ public class ProductFacadeImpl implements ProductFacade {
     }
     
   }
+
 
 }
