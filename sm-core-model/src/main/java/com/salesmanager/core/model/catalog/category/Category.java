@@ -50,8 +50,7 @@ public class Category extends SalesManagerEntity<Long, Category> implements Audi
     @Valid
     @OneToMany(mappedBy="category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<CategoryDescription> descriptions = new HashSet<CategoryDescription>();
-    //private List<CategoryDescription> descriptions = new ArrayList<CategoryDescription>();
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="MERCHANT_ID", nullable=false)
     private MerchantStore merchantStore;

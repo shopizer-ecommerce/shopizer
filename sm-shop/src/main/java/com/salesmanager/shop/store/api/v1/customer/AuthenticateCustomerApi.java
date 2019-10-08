@@ -199,6 +199,29 @@ public class AuthenticateCustomerApi {
         }
     }
     
+    @RequestMapping(value = "/customer/password", method = RequestMethod.PUT, produces ={ "application/json" })
+    @ApiOperation(httpMethod = "PUT", value = "Change customer password", notes = "Change password request object is {\"username\":\"test@email.com\"}",response = ResponseEntity.class)
+    public ResponseEntity<?> changePassword(@RequestBody @Valid AuthenticationRequest authenticationRequest, HttpServletRequest request) {
+
+        try {
+            
+            MerchantStore merchantStore = storeFacade.getByCode(request);
+            Language language = languageUtils.getRESTLanguage(request, merchantStore);
+            
+            Customer customer = customerFacade.getCustomerByUserName(authenticationRequest.getUsername(), merchantStore);
+            
+            if(customer == null){
+                return ResponseEntity.notFound().build();
+            }
+            
+            customerFacade.resetPassword(customer, merchantStore, language);            
+            return ResponseEntity.ok(Void.class);
+            
+        } catch(Exception e) {
+            return ResponseEntity.badRequest().body("Exception when reseting password "+e.getMessage());
+        }
+    }
+    
     @RequestMapping(value = "/customer/password/reset", method = RequestMethod.POST, produces ={ "application/json" })
     @ApiOperation(httpMethod = "POST", value = "Sends a request to reset password", notes = "Password reset request is {\"username\":\"test@email.com\"}",response = ResponseEntity.class)
     public ResponseEntity<?> resetPassword(@RequestBody @Valid AuthenticationRequest authenticationRequest, HttpServletRequest request) {
@@ -214,17 +237,11 @@ public class AuthenticateCustomerApi {
                 return ResponseEntity.notFound().build();
             }
             
-            
-            customerFacade.resetPassword(customer, merchantStore, language);
-            
+            customerFacade.resetPassword(customer, merchantStore, language);            
             return ResponseEntity.ok(Void.class);
             
         } catch(Exception e) {
             return ResponseEntity.badRequest().body("Exception when reseting password "+e.getMessage());
         }
-        
-        
-
     }
-
 }

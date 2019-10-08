@@ -132,9 +132,8 @@ public class ManufacturerFacadeImpl implements ManufacturerFacade {
         manufacturers = manufacturerService.listByStore(store, language);
       } else {
         readableList.setRecordsTotal(total);
-        //Page<Manufacturer> m = manufacturerService.listByStore(store, language, criteria.getName(), page, count);
-        //manufacturers = m.getContent();
-        manufacturers = manufacturerService.listByStore(store, language);
+        Page<Manufacturer> m = manufacturerService.listByStore(store, language, criteria.getName(), page, count);
+        manufacturers = m.getContent();
       }
       readableList.setRecordsTotal(manufacturers.size());
       

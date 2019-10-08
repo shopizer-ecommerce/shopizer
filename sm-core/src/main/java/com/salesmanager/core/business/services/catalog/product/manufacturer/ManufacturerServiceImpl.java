@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.repositories.catalog.product.manufacturer.ManufacturerRepository;
+import com.salesmanager.core.business.repositories.catalog.product.manufacturer.PageableManufacturerRepository;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
@@ -28,6 +29,9 @@ public class ManufacturerServiceImpl extends SalesManagerEntityServiceImpl<Long,
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ManufacturerServiceImpl.class);
 
+  @Inject
+  private PageableManufacturerRepository pageableManufacturerRepository;
+  
   private ManufacturerRepository manufacturerRepository;
 
   @Inject
@@ -113,9 +117,9 @@ public class ManufacturerServiceImpl extends SalesManagerEntityServiceImpl<Long,
   public Page<Manufacturer> listByStore(MerchantStore store, Language language, int page, int count)
       throws ServiceException {
     
-    //Pageable pageRequest = new PageRequest(page, count);
+    Pageable pageRequest = new PageRequest(page, count);
     //return manufacturerRepository.findByStore(store.getId(), language.getId(), null, pageRequest);
-    return null;
+    return pageableManufacturerRepository.findByStore(store.getId(), language.getId(), null, pageRequest);
   }
 
   @Override
@@ -127,8 +131,7 @@ public class ManufacturerServiceImpl extends SalesManagerEntityServiceImpl<Long,
   @Override
   public Page<Manufacturer> listByStore(MerchantStore store, Language language, String name,
       int page, int count) throws ServiceException {
-    //Pageable pageRequest = new PageRequest(page, count);
-    //return manufacturerRepository.findByStore(store.getId(), language.getId(), name, pageRequest);
-    return null;
+    Pageable pageRequest = new PageRequest(page, count);
+    return pageableManufacturerRepository.findByStore(store.getId(), language.getId(), name, pageRequest);
   }
 }
