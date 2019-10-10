@@ -9,7 +9,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 public interface PageableManufacturerRepository extends PagingAndSortingRepository<Manufacturer, Long> {
 
   @Query("select m from Manufacturer m left join m.descriptions md inner join m.merchantStore ms where ms.id=?1 and md.language.id=?2 and (?3 is null or md.name like %?3%)")
-  Page<Manufacturer> findByStore(Integer storeId, Integer languageId, String name, Pageable pageable);
-  
+  Page<Manufacturer> findByStore(Integer storeId, Integer languageId, String name, Pageable pageable);  
 
 }

@@ -184,4 +184,8 @@ public interface CustomerFacade
       Language language);
 
 	PersistableCustomerReview updateCustomerReview(Long id, Long reviewId, PersistableCustomerReview review, MerchantStore store, Language language);
+	
+	boolean passwordMatch(String rawPassword, Customer customer);
+	
+	void changePassword(Customer customer, String newPassword);
 }

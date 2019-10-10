@@ -135,6 +135,7 @@ public class ManufacturerFacadeImpl implements ManufacturerFacade {
         Page<Manufacturer> m = manufacturerService.listByStore(store, language, criteria.getName(), page, count);
         manufacturers = m.getContent();
       }
+      readableList.setTotalCount(total);
       readableList.setRecordsTotal(manufacturers.size());
       
       ReadableManufacturerPopulator populator = new ReadableManufacturerPopulator();

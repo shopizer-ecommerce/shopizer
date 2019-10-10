@@ -28,11 +28,13 @@ import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
+import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.store.security.AuthenticationRequest;
 import com.salesmanager.shop.store.security.AuthenticationResponse;
 import com.salesmanager.shop.store.security.JWTTokenUtil;
+import com.salesmanager.shop.store.security.PasswordRequest;
 import com.salesmanager.shop.store.security.user.JWTUser;
 import com.salesmanager.shop.utils.LanguageUtils;
 import io.swagger.annotations.Api;
@@ -224,20 +226,28 @@ public class AuthenticateCustomerApi {
     
     @RequestMapping(value = "/customer/password/reset", method = RequestMethod.POST, produces ={ "application/json" })
     @ApiOperation(httpMethod = "POST", value = "Sends a request to reset password", notes = "Password reset request is {\"username\":\"test@email.com\"}",response = ResponseEntity.class)
-    public ResponseEntity<?> resetPassword(@RequestBody @Valid AuthenticationRequest authenticationRequest, HttpServletRequest request) {
+    public ResponseEntity<?> resetPassword(@RequestBody @Valid PasswordRequest passwordRequest, HttpServletRequest request) {
 
         try {
             
             MerchantStore merchantStore = storeFacade.getByCode(request);
-            Language language = languageUtils.getRESTLanguage(request, merchantStore);
-            
-            Customer customer = customerFacade.getCustomerByUserName(authenticationRequest.getUsername(), merchantStore);
+
+            Customer customer = customerFacade.getCustomerByUserName(passwordRequest.getUsername(), merchantStore);
             
             if(customer == null){
                 return ResponseEntity.notFound().build();
             }
             
-            customerFacade.resetPassword(customer, merchantStore, language);            
+            //need to validate if password matches
+            if(!customerFacade.passwordMatch(passwordRequest.getCurrent(), customer)) {
+              throw new ResourceNotFoundException("Username or password does not match");
+            }
+            
+            if(!passwordRequest.getPassword().equals(passwordRequest.getRepeatPassword())) {
+              throw new ResourceNotFoundException("Both passwords do not match");
+            }
+            
+            customerFacade.changePassword(customer, passwordRequest.getPassword());           
             return ResponseEntity.ok(Void.class);
             
         } catch(Exception e) {

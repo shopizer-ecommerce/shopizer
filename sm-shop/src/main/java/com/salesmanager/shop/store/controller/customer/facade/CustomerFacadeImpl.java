@@ -3,14 +3,6 @@
  */
 package com.salesmanager.shop.store.controller.customer.facade;
 
-import com.salesmanager.core.business.exception.ServiceException;
-import com.salesmanager.core.model.customer.CustomerCriteria;
-import com.salesmanager.core.model.customer.CustomerList;
-import com.salesmanager.core.model.system.optin.CustomerOptin;
-import com.salesmanager.shop.populator.customer.ReadableCustomerList;
-import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;
-import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
-import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -36,10 +28,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.salesmanager.core.business.exception.ConversionException;
+import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.modules.email.Email;
 import com.salesmanager.core.business.services.customer.CustomerService;
-import com.salesmanager.core.business.services.customer.attribute.CustomerOptionService;
-import com.salesmanager.core.business.services.customer.attribute.CustomerOptionValueService;
 import com.salesmanager.core.business.services.customer.optin.CustomerOptinService;
 import com.salesmanager.core.business.services.customer.review.CustomerReviewService;
 import com.salesmanager.core.business.services.reference.country.CountryService;
@@ -52,12 +43,15 @@ import com.salesmanager.core.business.services.user.GroupService;
 import com.salesmanager.core.business.services.user.PermissionService;
 import com.salesmanager.core.business.utils.CoreConfiguration;
 import com.salesmanager.core.model.customer.Customer;
+import com.salesmanager.core.model.customer.CustomerCriteria;
+import com.salesmanager.core.model.customer.CustomerList;
 import com.salesmanager.core.model.customer.review.CustomerReview;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.country.Country;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.reference.zone.Zone;
 import com.salesmanager.core.model.shoppingcart.ShoppingCart;
+import com.salesmanager.core.model.system.optin.CustomerOptin;
 import com.salesmanager.core.model.system.optin.Optin;
 import com.salesmanager.core.model.system.optin.OptinType;
 import com.salesmanager.core.model.user.Group;
@@ -81,8 +75,12 @@ import com.salesmanager.shop.populator.customer.CustomerPopulator;
 import com.salesmanager.shop.populator.customer.PersistableCustomerBillingAddressPopulator;
 import com.salesmanager.shop.populator.customer.PersistableCustomerReviewPopulator;
 import com.salesmanager.shop.populator.customer.PersistableCustomerShippingAddressPopulator;
+import com.salesmanager.shop.populator.customer.ReadableCustomerList;
 import com.salesmanager.shop.populator.customer.ReadableCustomerPopulator;
 import com.salesmanager.shop.populator.customer.ReadableCustomerReviewPopulator;
+import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;
+import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
+import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.utils.EmailTemplatesUtils;
 import com.salesmanager.shop.utils.EmailUtils;
 import com.salesmanager.shop.utils.ImageFilePath;
@@ -125,12 +123,6 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
   @Inject
   private LanguageService languageService;
-
-  @Inject
-  private CustomerOptionValueService customerOptionValueService;
-
-  @Inject
-  private CustomerOptionService customerOptionService;
 
   @Inject
   private LabelUtils messages;
@@ -376,14 +368,6 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
     LOG.info("Starting to populate customer model from customer data");
     Customer customerModel = null;
-/*    CustomerPopulator populator = new CustomerPopulator();
-    populator.setCountryService(countryService);
-    populator.setCustomerOptionService(customerOptionService);
-    populator.setCustomerOptionValueService(customerOptionValueService);
-    populator.setLanguageService(languageService);
-    populator.setLanguageService(languageService);
-    populator.setZoneService(zoneService);
-    populator.setGroupService(groupService);*/
 
     customerModel = customerPopulator.populate(customer, merchantStore, language);
     // we are creating or resetting a customer
@@ -1088,5 +1072,24 @@ public class CustomerFacadeImpl implements CustomerFacade {
     customer.setId(customerModel.getId());
     customer.setUserName(userName);
     return this.update(customer, store);
+  }
+
+
+  @Override
+  public boolean passwordMatch(String rawPassword, Customer customer) {
+    return passwordEncoder.matches(rawPassword, customer.getPassword());
+  }
+
+
+  @Override
+  public void changePassword(Customer customer, String newPassword) {
+    String encoded = passwordEncoder.encode(newPassword);
+    customer.setPassword(encoded);
+    try {
+      customerService.update(customer);
+    } catch (ServiceException e) {
+      throw new ServiceRuntimeException("Exception while changing password", e);
+    }
+    
   }
 }

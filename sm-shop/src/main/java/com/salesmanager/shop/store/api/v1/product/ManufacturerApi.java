@@ -145,8 +145,8 @@ public class ManufacturerApi {
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language,
       @RequestParam(value = "name", required = false) String name,
-      @RequestParam(value = "page", required = false) Integer page,
-      @RequestParam(value = "count", required = false) Integer count) {
+      @RequestParam(value = "page", required = false, defaultValue="0") Integer page,
+      @RequestParam(value = "count", required = false, defaultValue="10") Integer count) {
 
       try {
         ListCriteria listCriteria = new ListCriteria();
