@@ -14,7 +14,6 @@ import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
-import com.salesmanager.core.business.services.catalog.product.manufacturer.ManufacturerService;
 import com.salesmanager.core.business.services.catalog.product.relationship.ProductRelationshipService;
 import com.salesmanager.core.business.services.catalog.product.review.ProductReviewService;
 import com.salesmanager.core.business.services.customer.CustomerService;
@@ -179,7 +178,7 @@ public class ProductFacadeImpl implements ProductFacade {
 
     populator.setPricingService(pricingService);
     populator.setimageUtils(imageUtils);
-    populator.populate(product, readableProduct, store, language);
+    readableProduct = populator.populate(product, readableProduct, store, language);
 
     return readableProduct;
   }
@@ -505,6 +504,16 @@ public class ProductFacadeImpl implements ProductFacade {
       throw new ServiceRuntimeException("Cannot update product ", e);
     }
     
+  }
+
+  @Override
+  public boolean exists(String sku, MerchantStore store) {
+    boolean exists = false;
+    Product product = productService.getByCode(sku, store.getDefaultLanguage());
+    if(product != null && product.getMerchantStore().getId().intValue() == store.getId().intValue()) {
+      exists = true;
+    }
+    return exists;
   }
 
 

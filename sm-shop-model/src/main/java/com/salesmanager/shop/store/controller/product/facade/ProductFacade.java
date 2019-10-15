@@ -175,6 +175,14 @@ public interface ProductFacade {
    */
   List<ReadableProductReview> getProductReviews(Product product, MerchantStore store,
       Language language) throws Exception;
+  
+  /**
+   * validates if product exists
+   * @param sku
+   * @param store
+   * @return
+   */
+  public boolean exists(String sku, MerchantStore store);
 
 
 

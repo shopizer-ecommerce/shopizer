@@ -155,7 +155,7 @@ public class ManufacturerApi {
   @ApiImplicitParams({
     @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT")
   })
-  @ApiOperation(httpMethod = "GET", value = "Check if category code already exists", notes = "",
+  @ApiOperation(httpMethod = "GET", value = "Check if manufacturer code already exists", notes = "",
       response = EntityExists.class)
   public ResponseEntity<EntityExists> exists(
       @RequestParam(value = "code") String code,

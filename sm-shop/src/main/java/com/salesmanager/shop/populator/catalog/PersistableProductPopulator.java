@@ -226,27 +226,54 @@ public class PersistableProductPopulator extends
 				}
 
 			} else { //create 
+			  
+			    ProductAvailability productAvailability = null;
+			    ProductPrice defaultPrice = null;
+			    if(!CollectionUtils.isEmpty(target.getAvailabilities())) {
+			      for(ProductAvailability avail : target.getAvailabilities()) {
+    			        Set<ProductPrice> prices = avail.getPrices();
+    			        for(ProductPrice p : prices) {
+    			          if(p.isDefaultPrice()) {
+    			            if(productAvailability == null) {
+    			              productAvailability = avail;
+    			              defaultPrice = p;
+    			              break;
+    			            }
+    			            p.setDefaultPrice(false);
+    			          }
+    			        }
+			      }
+			    }
 				
-				ProductAvailability productAvailability = new ProductAvailability();
+			    if(productAvailability == null) {
+			      productAvailability = new ProductAvailability();
+			      target.getAvailabilities().add(productAvailability);
+			    }
+			    
 				productAvailability.setProduct(target);
 				productAvailability.setProductQuantity(source.getQuantity());
 				productAvailability.setProductQuantityOrderMin(1);
 				productAvailability.setProductQuantityOrderMax(1);
-				
-				ProductPrice price = new ProductPrice();
-				price.setDefaultPrice(true);
-				price.setProductPriceAmount(source.getPrice());
-				price.setCode(ProductPriceEntity.DEFAULT_PRICE_CODE);
-				price.setProductAvailability(productAvailability);
-				productAvailability.getPrices().add(price);
-				target.getAvailabilities().add(productAvailability);
-				for(Language lang : languages) {
-					ProductPriceDescription ppd = new ProductPriceDescription();
-					ppd.setProductPrice(price);
-					ppd.setLanguage(lang);
-					ppd.setName(ProductPriceDescription.DEFAULT_PRICE_DESCRIPTION);
-					price.getDescriptions().add(ppd);
+
+				if(defaultPrice != null) {
+				  defaultPrice.setProductPriceAmount(source.getPrice());
+				} else {
+				    defaultPrice = new ProductPrice();
+				    defaultPrice.setDefaultPrice(true);
+				    defaultPrice.setProductPriceAmount(source.getPrice());
+				    defaultPrice.setCode(ProductPriceEntity.DEFAULT_PRICE_CODE);
+				    defaultPrice.setProductAvailability(productAvailability);
+	                productAvailability.getPrices().add(defaultPrice);
+	                for(Language lang : languages) {
+	                
+                      ProductPriceDescription ppd = new ProductPriceDescription();
+                      ppd.setProductPrice(defaultPrice);
+                      ppd.setLanguage(lang);
+                      ppd.setName(ProductPriceDescription.DEFAULT_PRICE_DESCRIPTION);
+                      defaultPrice.getDescriptions().add(ppd);
+                    }
 				}
+
 				
 				
 			}

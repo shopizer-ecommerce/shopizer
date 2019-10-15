@@ -12,7 +12,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,6 +35,7 @@ import com.salesmanager.shop.model.catalog.product.LightPersistableProduct;
 import com.salesmanager.shop.model.catalog.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProductList;
+import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.store.controller.product.facade.ProductFacade;
 import com.salesmanager.shop.utils.ImageFilePath;
 import io.swagger.annotations.Api;
@@ -469,6 +473,23 @@ public class ProductApi {
     }
 
     return product;
+  }
+  
+  @ResponseStatus(HttpStatus.OK)
+  @GetMapping(value = {"/private/product/unique"}, produces = MediaType.APPLICATION_JSON_VALUE)
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT")
+  })
+  @ApiOperation(httpMethod = "GET", value = "Check if product code already exists", notes = "",
+      response = EntityExists.class)
+  public ResponseEntity<EntityExists> exists(
+      @RequestParam(value = "code") String code,
+      @ApiIgnore MerchantStore merchantStore, 
+      @ApiIgnore Language language) {
+    
+    boolean exists = productFacade.exists(code, merchantStore);
+    return new ResponseEntity<EntityExists>(new EntityExists(exists), HttpStatus.OK);
+    
   }
 
   @ResponseStatus(HttpStatus.CREATED)
