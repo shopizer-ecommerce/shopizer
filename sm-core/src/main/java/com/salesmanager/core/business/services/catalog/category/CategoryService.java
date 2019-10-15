@@ -1,7 +1,7 @@
 package com.salesmanager.core.business.services.catalog.category;
 
 import java.util.List;
-
+import org.springframework.data.domain.Page;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityService;
 import com.salesmanager.core.model.catalog.category.Category;
@@ -40,7 +40,7 @@ public interface CategoryService extends SalesManagerEntityService<Long, Categor
 
 	List<Category> getListByDepth(MerchantStore store, int depth);
 	
-	List<Category> getListByDepth(MerchantStore store, Language language, String name, int depth);
+	Page<Category> getListByDepth(MerchantStore store, Language language, String name, int depth, int page, int count);
 
 	/**
 	 * Get root categories by store for a given language
@@ -115,6 +115,8 @@ public interface CategoryService extends SalesManagerEntityService<Long, Categor
 	 * @return
 	 */
 	Category findById(Long category);
+	
+	int count(MerchantStore store);
 
 
 	

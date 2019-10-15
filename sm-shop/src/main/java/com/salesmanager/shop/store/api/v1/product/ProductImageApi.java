@@ -13,6 +13,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -62,6 +63,7 @@ public class ProductImageApi {
   @ResponseStatus(HttpStatus.CREATED)
   @RequestMapping(
       value = {"/private/products/{id}/images", "/auth/products/{id}/images"},
+      consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
       method = RequestMethod.POST)
   @ApiImplicitParams({
     @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
@@ -69,7 +71,7 @@ public class ProductImageApi {
   })
   public void uploadImages(
       @PathVariable Long id,
-      @RequestParam("files") MultipartFile[] uploadfiles,
+      @RequestParam(value="file[]",required = true) MultipartFile[] files,
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language) {
 
@@ -77,7 +79,6 @@ public class ProductImageApi {
 
       // get the product
       Product product = productService.getById(id);
-
       if (product == null) {
         throw new ResourceNotFoundException("Product not found");
       }
@@ -101,7 +102,7 @@ public class ProductImageApi {
 
       List<ProductImage> contentImagesList = new ArrayList<ProductImage>();
 
-      for (MultipartFile multipartFile : uploadfiles) {
+      for (MultipartFile multipartFile : files) {
         if (!multipartFile.isEmpty()) {
           ProductImage productImage = new ProductImage();
           productImage.setImage(multipartFile.getInputStream());
@@ -126,18 +127,7 @@ public class ProductImageApi {
       throw new ServiceRuntimeException("Error while creating image");
     }
   }
-
-  /**
-   * @deprecated
-   * Simple way of uploading image using Base64
-   *
-   * @param id
-   * @param image
-   * @param request
-   * @param response
-   * @return
-   * @throws Exception
-   */
+/*
   @ResponseStatus(HttpStatus.CREATED)
   @RequestMapping(
       value = {"/private/products/{id}/images"},
@@ -177,7 +167,7 @@ public class ProductImageApi {
       LOGGER.error("Error while creating ProductImage", e);
       throw new ServiceRuntimeException("Exception while creating image");
     }
-  }
+  }*/
 
   @ResponseStatus(HttpStatus.OK)
   @RequestMapping(

@@ -24,6 +24,7 @@ import com.salesmanager.core.model.system.MerchantConfiguration;
 import com.salesmanager.core.model.system.MerchantConfigurationType;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
+import com.salesmanager.shop.model.catalog.category.ReadableCategoryList;
 import com.salesmanager.shop.model.customer.AnonymousCustomer;
 import com.salesmanager.shop.model.customer.address.Address;
 import com.salesmanager.shop.model.shop.Breadcrumb;
@@ -556,7 +557,8 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 
       if (objects == null) {
         // load categories
-        loadedCategories = categoryFacade.getCategoryHierarchy(store, null, 0, language, null);// null
+        ReadableCategoryList categoryList = categoryFacade.getCategoryHierarchy(store, null, 0, language, null, 0, 200);// null
+        loadedCategories = categoryList.getCategories();
                                                                                          // filter
         objects = new ConcurrentHashMap<String, List<ReadableCategory>>();
         objects.put(language.getCode(), loadedCategories);
@@ -567,8 +569,9 @@ public class StoreFilter extends HandlerInterceptorAdapter {
       }
 
     } else {
-      loadedCategories = categoryFacade.getCategoryHierarchy(store, null, 0, language, null);// null
-                                                                                       // filter
+      
+      ReadableCategoryList categoryList = categoryFacade.getCategoryHierarchy(store, null, 0, language, null, 0 , 200);// null                                                                          // filter
+      loadedCategories = categoryList.getCategories();
     }
 
     if (loadedCategories != null) {

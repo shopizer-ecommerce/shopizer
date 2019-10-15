@@ -103,6 +103,11 @@ public class ManufacturerServiceImpl extends SalesManagerEntityServiceImpl<Long,
       String code) {
     return manufacturerRepository.findByCodeAndMerchandStore(code, store.getId());
   }
+  
+  @Override
+  public Manufacturer getById(Long id) {
+    return manufacturerRepository.findOne(id);
+  }
 
   @Override
   public List<Manufacturer> listByProductsInCategory(MerchantStore store, Category category,
@@ -132,5 +137,12 @@ public class ManufacturerServiceImpl extends SalesManagerEntityServiceImpl<Long,
       int page, int count) throws ServiceException {
     Pageable pageRequest = new PageRequest(page, count);
     return pageableManufacturerRepository.findByStore(store.getId(), language.getId(), name, pageRequest);
+  }
+
+  @Override
+  public Page<Manufacturer> listByStore(MerchantStore store, String name, int page, int count)
+      throws ServiceException {
+    Pageable pageRequest = new PageRequest(page, count);
+    return pageableManufacturerRepository.findByStore(store.getId(), name, pageRequest);
   }
 }

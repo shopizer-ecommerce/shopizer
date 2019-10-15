@@ -103,15 +103,21 @@ public class ManufacturerFacadeImpl implements ManufacturerFacade {
   public ReadableManufacturer getManufacturer(Long id, MerchantStore store, Language language)
       throws Exception {
     Manufacturer manufacturer = manufacturerService.getById(id);
+    
+    
 
     if (manufacturer == null) {
-      return null;
+      throw new ResourceNotFoundException("Manufacturer [" + id + "] not found");
+    }
+    
+    if(manufacturer.getMerchantStore().getId() != store.getId()) {
+      throw new ResourceNotFoundException("Manufacturer [" + id + "] not found for store [" + store.getId() + "]");
     }
 
     ReadableManufacturer readableManufacturer = new ReadableManufacturer();
 
     ReadableManufacturerPopulator populator = new ReadableManufacturerPopulator();
-    populator.populate(manufacturer, readableManufacturer, store, language);
+    readableManufacturer = populator.populate(manufacturer, readableManufacturer, store, language);
 
 
     return readableManufacturer;
@@ -129,10 +135,19 @@ public class ManufacturerFacadeImpl implements ManufacturerFacade {
       int total = manufacturerService.count(store);
       List<Manufacturer> manufacturers = null;
       if(page == 0 && count == 0) {
-        manufacturers = manufacturerService.listByStore(store, language);
+        if(language != null) {
+          manufacturers = manufacturerService.listByStore(store, language);
+        } else {
+          manufacturers = manufacturerService.listByStore(store);
+        }
       } else {
         readableList.setRecordsTotal(total);
-        Page<Manufacturer> m = manufacturerService.listByStore(store, language, criteria.getName(), page, count);
+        Page<Manufacturer> m = null;
+        if(language != null) {
+          m = manufacturerService.listByStore(store, language, criteria.getName(), page, count);
+        } else {
+          m = manufacturerService.listByStore(store, criteria.getName(), page, count);
+        }
         manufacturers = m.getContent();
       }
       readableList.setTotalCount(total);
@@ -146,8 +161,7 @@ public class ManufacturerFacadeImpl implements ManufacturerFacade {
         populator.populate(m, readableManufacturer, store, language);
         returnList.add(readableManufacturer);
       }
-      
-       
+
       readableList.setManufacturers(returnList);
       return readableList;
       

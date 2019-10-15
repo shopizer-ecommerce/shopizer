@@ -23,6 +23,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.category.PersistableCategory;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
+import com.salesmanager.shop.model.catalog.category.ReadableCategoryList;
 import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.model.entity.ListCriteria;
 import com.salesmanager.shop.store.controller.category.facade.CategoryFacade;
@@ -106,15 +107,17 @@ public class CategoryApi {
       @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
   })
-  public List<ReadableCategory> getFiltered(
+  public ReadableCategoryList getFiltered(
       @RequestParam(value = "filter", required = false) List<String> filter,
       @RequestParam(value = "name", required = false) String name,
       @ApiIgnore MerchantStore merchantStore,
-      @ApiIgnore Language language) {
+      @ApiIgnore Language language,
+      @RequestParam(value = "page", required = false, defaultValue="0") Integer page,
+      @RequestParam(value = "count", required = false, defaultValue="10") Integer count) {
     ListCriteria criteria = new ListCriteria();
     criteria.setName(name);
     return categoryFacade.getCategoryHierarchy(
-        merchantStore, criteria, DEFAULT_CATEGORY_DEPTH, language, filter);
+        merchantStore, criteria, DEFAULT_CATEGORY_DEPTH, language, filter, page, count);
   }
   
   @ResponseStatus(HttpStatus.CREATED)

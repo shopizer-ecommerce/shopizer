@@ -6,6 +6,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.category.PersistableCategory;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
+import com.salesmanager.shop.model.catalog.category.ReadableCategoryList;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductVariant;
 import com.salesmanager.shop.model.entity.ListCriteria;
 
@@ -18,9 +19,11 @@ public interface CategoryFacade {
      * @param depth
      * @param language
      * @param filter
-     * @return List<ReadableCategory>
+     * @param page
+     * @param count
+     * @return ReadableCategoryList
      */
-	List<ReadableCategory> getCategoryHierarchy(MerchantStore store, ListCriteria criteria, int depth, Language language, List<String> filter);
+	ReadableCategoryList getCategoryHierarchy(MerchantStore store, ListCriteria criteria, int depth, Language language, List<String> filter, int page, int count);
 	
 	/**
 	 * 

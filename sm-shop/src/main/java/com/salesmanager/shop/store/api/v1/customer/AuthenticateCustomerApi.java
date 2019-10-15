@@ -201,7 +201,7 @@ public class AuthenticateCustomerApi {
         }
     }
     
-    @RequestMapping(value = "/customer/password", method = RequestMethod.PUT, produces ={ "application/json" })
+    @RequestMapping(value = "/customer/password/reset", method = RequestMethod.PUT, produces ={ "application/json" })
     @ApiOperation(httpMethod = "PUT", value = "Change customer password", notes = "Change password request object is {\"username\":\"test@email.com\"}",response = ResponseEntity.class)
     public ResponseEntity<?> changePassword(@RequestBody @Valid AuthenticationRequest authenticationRequest, HttpServletRequest request) {
 
@@ -224,7 +224,7 @@ public class AuthenticateCustomerApi {
         }
     }
     
-    @RequestMapping(value = "/customer/password/reset", method = RequestMethod.POST, produces ={ "application/json" })
+    @RequestMapping(value = "/customer/password", method = RequestMethod.POST, produces ={ "application/json" })
     @ApiOperation(httpMethod = "POST", value = "Sends a request to reset password", notes = "Password reset request is {\"username\":\"test@email.com\"}",response = ResponseEntity.class)
     public ResponseEntity<?> resetPassword(@RequestBody @Valid PasswordRequest passwordRequest, HttpServletRequest request) {
 

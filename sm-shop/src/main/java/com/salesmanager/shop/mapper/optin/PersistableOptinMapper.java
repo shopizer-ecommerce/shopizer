@@ -21,4 +21,10 @@ public class PersistableOptinMapper implements Mapper<PersistableOptin, Optin> {
     optinEntity.setMerchant(store);
     return optinEntity;
   }
+
+  @Override
+  public Optin convert(PersistableOptin source, Optin destination, MerchantStore store,
+      Language language) {
+    return destination;
+  }
 }

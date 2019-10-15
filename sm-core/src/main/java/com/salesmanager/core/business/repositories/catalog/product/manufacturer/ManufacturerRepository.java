@@ -10,13 +10,13 @@ public interface ManufacturerRepository extends JpaRepository<Manufacturer, Long
 	@Query("select count(distinct p) from Product as p where p.manufacturer.id=?1")
 	Long countByProduct(Long manufacturerId);
 	
-	@Query("select m from Manufacturer m left join m.descriptions md join fetch m.merchantStore ms where ms.id=?1 and md.language.id=?2")
+	@Query("select m from Manufacturer m left join fetch m.descriptions md join fetch m.merchantStore ms where ms.id=?1 and md.language.id=?2")
 	List<Manufacturer> findByStoreAndLanguage(Integer storeId, Integer languageId);
 	
-	@Query("select m from Manufacturer m left join m.descriptions md join fetch m.merchantStore ms where m.id=?1")
+	@Query("select m from Manufacturer m left join fetch  m.descriptions md join fetch m.merchantStore ms where m.id=?1")
 	Manufacturer findOne(Long id);
 	
-	@Query("select m from Manufacturer m left join m.descriptions md join fetch m.merchantStore ms where ms.id=?1")
+	@Query("select m from Manufacturer m left join fetch m.descriptions md join fetch m.merchantStore ms where ms.id=?1")
 	List<Manufacturer> findByStore(Integer storeId);
 	
     @Query("select m from Manufacturer m join fetch m.descriptions md join fetch m.merchantStore ms join fetch md.language mdl where ms.id=?1 and mdl.id=?2 and (?3 is null or md.name like %?3%)")

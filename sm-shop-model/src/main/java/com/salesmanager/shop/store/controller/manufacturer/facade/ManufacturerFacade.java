@@ -60,8 +60,7 @@ public interface ManufacturerFacade {
    * @return
    * @throws Exception
    */
-  ReadableManufacturerList getAllManufacturers(MerchantStore store, Language language, ListCriteria criteria, int page, int count)
-      throws Exception;
+  ReadableManufacturerList getAllManufacturers(MerchantStore store, Language language, ListCriteria criteria, int page, int count) ;
   
   /**
    * Determines if manufacturer code already exists

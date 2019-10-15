@@ -28,7 +28,6 @@ import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
 import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturerList;
 import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.model.entity.ListCriteria;
-import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.controller.manufacturer.facade.ManufacturerFacade;
 import com.salesmanager.shop.store.controller.product.facade.ProductFacade;
 import io.swagger.annotations.Api;
@@ -53,8 +52,6 @@ import springfox.documentation.annotations.ApiIgnore;
 public class ManufacturerApi {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ManufacturerApi.class);
-
-  @Inject private ProductFacade productFacade;
 
   @Inject private ManufacturerService manufacturerService;
   
@@ -148,13 +145,9 @@ public class ManufacturerApi {
       @RequestParam(value = "page", required = false, defaultValue="0") Integer page,
       @RequestParam(value = "count", required = false, defaultValue="10") Integer count) {
 
-      try {
         ListCriteria listCriteria = new ListCriteria();
         listCriteria.setName(name);
         return manufacturerFacade.getAllManufacturers(merchantStore, language, listCriteria, page, count);
-      } catch (Exception e) {
-        throw new ServiceRuntimeException(e);
-      }
   }
   
   @ResponseStatus(HttpStatus.OK)

@@ -34,8 +34,12 @@ import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProductList;
 import com.salesmanager.shop.store.controller.product.facade.ProductFacade;
 import com.salesmanager.shop.utils.ImageFilePath;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.SwaggerDefinition;
+import io.swagger.annotations.Tag;
 import springfox.documentation.annotations.ApiIgnore;
 
 /**
@@ -45,6 +49,10 @@ import springfox.documentation.annotations.ApiIgnore;
  */
 @Controller
 @RequestMapping("/api/v1")
+@Api(tags = {"Product management resource (Product Management Api)"})
+@SwaggerDefinition(tags = {
+    @Tag(name = "Product management resource", description = "Add product, edit product and delete product")
+})
 public class ProductApi {
 
 
@@ -88,6 +96,8 @@ public class ProductApi {
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
   })
+  @ApiOperation(httpMethod = "PUT", value = "Update product",
+  notes = "", produces = "application/json", response = PersistableProduct.class)
   public @ResponseBody PersistableProduct update(
       @PathVariable Long id,
       @Valid @RequestBody PersistableProduct product,
@@ -96,6 +106,7 @@ public class ProductApi {
       HttpServletResponse response) {
 
     try {
+      product.setId(id);
       productFacade.saveProduct(merchantStore, product, merchantStore.getDefaultLanguage());
       return product;
     } catch (Exception e) {
@@ -108,11 +119,13 @@ public class ProductApi {
       return null;
     }
   }
-  
+  /** updates price quantity **/
   @ResponseStatus(HttpStatus.OK)
   @PatchMapping(
       value = "/private/product/{id}",
       produces = {APPLICATION_JSON_VALUE})
+  @ApiOperation(httpMethod = "PATCH", value = "Update product inventory",
+  notes = "Updates product inventory", produces = "application/json", response = Void.class)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")

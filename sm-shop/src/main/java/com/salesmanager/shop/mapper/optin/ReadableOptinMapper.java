@@ -19,4 +19,10 @@ public class ReadableOptinMapper implements Mapper<Optin, ReadableOptin> {
     optinEntity.setOptinType(source.getOptinType().name());
     return optinEntity;
   }
+
+  @Override
+  public ReadableOptin convert(Optin source, ReadableOptin destination, MerchantStore store,
+      Language language) {
+    return destination;
+  }
 }
