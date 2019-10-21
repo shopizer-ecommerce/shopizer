@@ -68,7 +68,7 @@ public class ProductItemsFacadeImpl implements ProductItemsFacade {
 			
 		}
 		
-		productList.setTotalCount(products.getTotalCount());
+		productList.setTotalPages(products.getTotalCount());
 		
 		
 		return productList;
@@ -106,7 +106,7 @@ public class ProductItemsFacadeImpl implements ProductItemsFacade {
 			
 		}
 		
-		productList.setTotalCount(products.getTotalCount());
+		productList.setTotalPages(products.getTotalCount());
 		
 		
 		return productList;

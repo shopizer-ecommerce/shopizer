@@ -649,7 +649,7 @@ public class ShopProductRESTController {
 				
 			}
 			
-			productList.setTotalCount(products.getTotalCount());
+			productList.setTotalPages(products.getTotalCount());
 			
 			
 			return productList;

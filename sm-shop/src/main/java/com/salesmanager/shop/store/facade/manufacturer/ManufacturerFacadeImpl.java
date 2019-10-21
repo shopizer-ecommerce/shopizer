@@ -150,7 +150,7 @@ public class ManufacturerFacadeImpl implements ManufacturerFacade {
         }
         manufacturers = m.getContent();
       }
-      readableList.setTotalCount(total);
+      readableList.setTotalPages(total);
       readableList.setRecordsTotal(manufacturers.size());
       
       ReadableManufacturerPopulator populator = new ReadableManufacturerPopulator();

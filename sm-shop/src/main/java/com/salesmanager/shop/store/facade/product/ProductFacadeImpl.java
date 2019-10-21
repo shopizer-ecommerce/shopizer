@@ -330,7 +330,7 @@ public class ProductFacadeImpl implements ProductFacade {
 
     }
 
-    productList.setTotalCount(products.getTotalCount());
+    productList.setTotalPages(products.getTotalCount());
 
 
     return productList;
@@ -515,6 +515,7 @@ public class ProductFacadeImpl implements ProductFacade {
     }
     return exists;
   }
+
 
 
 }

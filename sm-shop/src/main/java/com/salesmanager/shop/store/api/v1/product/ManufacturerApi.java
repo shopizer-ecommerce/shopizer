@@ -29,7 +29,6 @@ import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturerList
 import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.model.entity.ListCriteria;
 import com.salesmanager.shop.store.controller.manufacturer.facade.ManufacturerFacade;
-import com.salesmanager.shop.store.controller.product.facade.ProductFacade;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -138,7 +137,7 @@ public class ManufacturerApi {
   })
   @ApiOperation(httpMethod = "GET", value = "List manufacturers by store", notes = "This request supports paging or not. Paging supports page number and request count",
   response = ReadableManufacturerList.class)
-  public ReadableManufacturerList getAll(
+  public ReadableManufacturerList list(
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language,
       @RequestParam(value = "name", required = false) String name,

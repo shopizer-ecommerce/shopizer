@@ -67,7 +67,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
     ReadableCategoryList returnList = new ReadableCategoryList();
     //total count
     int total = categoryService.count(store);
-    returnList.setTotalCount(total);
+    returnList.setTotalPages(total);
     if (!CollectionUtils.isEmpty(filter) && filter.contains(FEATURED_CATEGORY)) {
       categories = categoryService.getListByDepthFilterByFeatured(store, depth, language);
     } else {

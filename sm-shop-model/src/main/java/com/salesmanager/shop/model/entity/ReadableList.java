@@ -8,17 +8,17 @@ public abstract class ReadableList implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int totalCount;
+	private int totalPages;//totalPages
 	private int recordsTotal;
 	private int draw;
 	private int recordsFiltered;
 
-	public int getTotalCount() {
-		return totalCount;
+	public int getTotalPages() {
+		return totalPages;
 	}
 
-	public void setTotalCount(int totalCount) {
-		this.totalCount = totalCount;
+	public void setTotalPages(int totalCount) {
+		this.totalPages = totalCount;
 	}
 
 	public int getRecordsTotal() {

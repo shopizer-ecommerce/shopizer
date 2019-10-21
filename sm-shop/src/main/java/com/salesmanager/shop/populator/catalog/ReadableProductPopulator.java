@@ -27,7 +27,6 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
-import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturerFull;
 import com.salesmanager.shop.model.catalog.product.ProductSpecification;
 import com.salesmanager.shop.model.catalog.product.ReadableImage;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
@@ -84,7 +83,6 @@ public class ReadableProductPopulator extends
 			throws ConversionException {
 		Validate.notNull(pricingService, "Requires to set PricingService");
 		Validate.notNull(imageUtils, "Requires to set imageUtils");
-		//Validate.notNull(language, "Language cannot be null");
 		
 		try {
 		  

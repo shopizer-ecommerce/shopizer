@@ -243,7 +243,7 @@ public class StoreFacadeImpl implements StoreFacade {
   private ReadableMerchantStoreList createReadableMerchantStoreList(String drawParam, Language lang,
       GenericEntityList<MerchantStore> list, List<MerchantStore> stores) {
     ReadableMerchantStoreList merchantStoreToList = new ReadableMerchantStoreList();
-    merchantStoreToList.setTotalCount(list.getTotalCount());
+    merchantStoreToList.setTotalPages(list.getTotalCount());
 
     List<ReadableMerchantStore> readableMerchantStores =
         stores.stream().map(store -> convertMerchantStoreToReadableMerchantStore(lang, store))
@@ -251,8 +251,8 @@ public class StoreFacadeImpl implements StoreFacade {
 
     merchantStoreToList.getData().addAll(readableMerchantStores);
 
-    merchantStoreToList.setRecordsFiltered(merchantStoreToList.getTotalCount());
-    merchantStoreToList.setRecordsTotal(merchantStoreToList.getTotalCount());
+    merchantStoreToList.setRecordsFiltered(readableMerchantStores.size());
+    merchantStoreToList.setRecordsTotal(merchantStoreToList.getRecordsTotal());
 
     if (!org.apache.commons.lang3.StringUtils.isEmpty(drawParam)) {
       merchantStoreToList.setDraw(Integer.parseInt(drawParam));
@@ -435,7 +435,7 @@ public class StoreFacadeImpl implements StoreFacade {
         throw new ResourceNotFoundException("Merchant [" + code + "] not found");
       }
       
-      if(!retailer.isRetailer().booleanValue()) {
+      if(retailer.isRetailer() == null || !retailer.isRetailer().booleanValue()) {
         throw new ResourceNotFoundException("Merchant [" + code + "] not a retailer");
       }
 

@@ -237,7 +237,7 @@ public class UserFacadeImpl implements UserFacade {
         readableUserList.getData().add(readableUser);
       }
       readableUserList.setRecordsTotal(userList.getTotalCount());
-      readableUserList.setTotalCount(readableUserList.getData().size());
+      readableUserList.setTotalPages(readableUserList.getData().size());
       readableUserList.setRecordsFiltered(userList.getTotalCount());
       if (!org.apache.commons.lang3.StringUtils.isEmpty(drawParam)) {
         readableUserList.setDraw(Integer.parseInt(drawParam));

@@ -11,6 +11,7 @@ public class ReadableProductPrice implements Serializable {
 	private String originalPrice;
 	private String finalPrice;
 	private boolean discounted = false;
+	private ProductPriceDescription description;
 
 	public String getOriginalPrice() {
 		return originalPrice;
@@ -30,5 +31,11 @@ public class ReadableProductPrice implements Serializable {
 	public void setDiscounted(boolean discounted) {
 		this.discounted = discounted;
 	}
+  public ProductPriceDescription getDescription() {
+    return description;
+  }
+  public void setDescription(ProductPriceDescription description) {
+    this.description = description;
+  }
 
 }

@@ -17,10 +17,14 @@ import com.salesmanager.core.model.common.description.Description;
 		})
 	}
 )
-public class ProductPriceDescription extends Description {
-	private static final long serialVersionUID = 270521409645392808L;
+public class ProductPriceDescription extends Description {;
 	
-	public final static String DEFAULT_PRICE_DESCRIPTION = "DEFAULT";
+	/**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
+  public final static String DEFAULT_PRICE_DESCRIPTION = "DEFAULT";
 	
 	@ManyToOne(targetEntity = ProductPrice.class)
 	@JoinColumn(name = "PRODUCT_PRICE_ID", nullable = false)
