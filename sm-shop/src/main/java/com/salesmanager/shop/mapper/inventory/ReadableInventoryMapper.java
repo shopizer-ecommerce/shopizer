@@ -73,8 +73,15 @@ public class ReadableInventoryMapper implements Mapper<ProductAvailability, Read
         }
       }
       
+      if(source.getAuditSection()!=null) {
+        if(source.getAuditSection().getDateCreated()!=null) {
+          destination.setCreationDate(DateUtil.formatDate(source.getAuditSection().getDateCreated()));
+        }
+      }
+      
       List<ReadableProductPrice> prices = prices(source, store, language);
       destination.setPrices(prices);
+
 
       
     } catch (Exception e) {

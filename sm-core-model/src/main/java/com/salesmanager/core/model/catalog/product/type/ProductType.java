@@ -1,5 +1,8 @@
 package com.salesmanager.core.model.catalog.product.type;
 
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -10,9 +13,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import com.salesmanager.core.constants.SchemaConstant;
+import com.salesmanager.core.model.catalog.product.description.ProductDescription;
 import com.salesmanager.core.model.common.audit.AuditListener;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.common.audit.Auditable;
@@ -36,6 +41,9 @@ public class ProductType extends SalesManagerEntity<Long, ProductType> implement
 
   @Embedded
   private AuditSection auditSection = new AuditSection();
+  
+  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "productType")
+  private Set<ProductTypeDescription> descriptions = new HashSet<ProductTypeDescription>();
 
   @Column(name = "PRD_TYPE_CODE")
   private String code;

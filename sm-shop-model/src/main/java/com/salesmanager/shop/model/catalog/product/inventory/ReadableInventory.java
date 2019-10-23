@@ -10,6 +10,7 @@ public class ReadableInventory extends InventoryEntity {
    * 
    */
   private static final long serialVersionUID = 1L;
+  private String creationDate;
   
   private ReadableMerchantStore store;
   private List<ReadableProductPrice> prices;
@@ -24,6 +25,12 @@ public class ReadableInventory extends InventoryEntity {
   }
   public void setPrices(List<ReadableProductPrice> prices) {
     this.prices = prices;
+  }
+  public String getCreationDate() {
+    return creationDate;
+  }
+  public void setCreationDate(String creationDate) {
+    this.creationDate = creationDate;
   }
 
 }

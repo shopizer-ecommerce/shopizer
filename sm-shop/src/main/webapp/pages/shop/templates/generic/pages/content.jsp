@@ -72,7 +72,7 @@ response.setDateHeader ("Expires", -1);
 
  $(function(){
 
-	<c:if test="${productGroup!=null}">
+	<c:if test="${not empty productGroup}">
 	loadItemsProducts();
 	</c:if>
 

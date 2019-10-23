@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -22,6 +23,8 @@ import javax.validation.constraints.NotNull;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
+import com.salesmanager.core.model.common.audit.AuditSection;
+import com.salesmanager.core.model.common.audit.Auditable;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.utils.CloneUtils;
@@ -29,12 +32,15 @@ import com.salesmanager.core.utils.CloneUtils;
 
 @Entity
 @Table(name = "PRODUCT_AVAILABILITY", schema = SchemaConstant.SALESMANAGER_SCHEMA)
-public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailability> {
+public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailability> implements Auditable {
 
   /**
   * 
   */
   private static final long serialVersionUID = 1L;
+  
+  @Embedded
+  private AuditSection auditSection = new AuditSection();
 
 
   @Id
@@ -216,6 +222,17 @@ public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailab
 
   public void setOwner(String owner) {
     this.owner = owner;
+  }
+
+  @Override
+  public AuditSection getAuditSection() {
+    return auditSection;
+  }
+
+  @Override
+  public void setAuditSection(AuditSection audit) {
+    this.auditSection = audit;
+    
   }
 
 }

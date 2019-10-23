@@ -12,6 +12,8 @@ public interface ProductInventoryFacade {
   
   ReadableInventory get(Long inventoryId, MerchantStore store, Language language);
   
+  ReadableInventory get(Long productId, Long inventoryId, MerchantStore store, Language language);
+  
   ReadableInventory get(Long productId, String child, Language language);
   
   ReadableInventory add(Long productId, PersistableInventory inventory, MerchantStore store, Language language);

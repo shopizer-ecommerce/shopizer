@@ -97,6 +97,9 @@ public class ProductInventoryFacadeImpl implements ProductInventoryFacade {
     try {
 
       ProductAvailability availability = productAvailabilityService.getById(inventoryId, store);
+      if(availability == null) {
+        throw new ResourceNotFoundException("Inventory with id [" + inventoryId + "] not found");
+      }
       ReadableInventory inv = new ReadableInventory();
       inv = readableInventoryMapper.convert(availability, inv, store, language);
       return inv;
@@ -133,6 +136,9 @@ public class ProductInventoryFacadeImpl implements ProductInventoryFacade {
       ProductAvailability availability;
 
       availability = productAvailabilityService.getByStore(product, store);
+      if(availability == null) {
+        throw new ResourceNotFoundException("Inventory with not found");
+      }
       ReadableInventory inv = new ReadableInventory();
       inv = readableInventoryMapper.convert(availability, inv, store, language);
       return inv;
@@ -168,6 +174,37 @@ public class ProductInventoryFacadeImpl implements ProductInventoryFacade {
       throw new ServiceRuntimeException("Cannot create Inventory",e);
     }
 
+  }
+
+
+
+  @Override
+  public ReadableInventory get(Long productId, Long inventoryId, MerchantStore store,
+      Language language) {
+    try {
+      Product product = productService.getById(productId);
+
+      if (product == null) {
+        throw new ResourceNotFoundException("Product with id [" + productId + "] not found");
+      }
+      
+      if(product.getMerchantStore().getId().intValue() != store.getId().intValue()) {
+        throw new ResourceNotFoundException("Product with id [" + productId + "] not found for store [" + store.getCode() + "]");
+      }
+
+
+      ProductAvailability availability;
+
+      availability = productAvailabilityService.getByInventoryId(productId, inventoryId, store);
+      if(availability == null) {
+        throw new ResourceNotFoundException("Inventory with id [" + inventoryId + "] not found");
+      }
+      ReadableInventory inv = new ReadableInventory();
+      inv = readableInventoryMapper.convert(availability, inv, store, language);
+      return inv;
+    } catch (ServiceException e) {
+      throw new ServiceRuntimeException("Error while getting inventory", e);
+    }
   }
 
 }

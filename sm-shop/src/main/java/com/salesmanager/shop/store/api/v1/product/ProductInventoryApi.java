@@ -104,6 +104,27 @@ public class ProductInventoryApi {
   
   @ResponseStatus(HttpStatus.OK)
   @RequestMapping(
+      value = {"/private/product/{id}/inventory/{inventoryId}"},
+      method = RequestMethod.GET)
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
+  public @ResponseBody ReadableInventory get(
+            @PathVariable Long id,
+            @PathVariable Long invId,
+            @ApiIgnore MerchantStore merchantStore,
+            @ApiIgnore Language language,
+      HttpServletRequest request,
+      HttpServletResponse response) {
+    
+    
+      return productInventoryFacade.get(id, invId, merchantStore, language);
+
+  }
+  
+  @ResponseStatus(HttpStatus.OK)
+  @RequestMapping(
       value = {"/private/product/{id}/inventory/store/{code}"},
       method = RequestMethod.GET)
   @ApiImplicitParams({

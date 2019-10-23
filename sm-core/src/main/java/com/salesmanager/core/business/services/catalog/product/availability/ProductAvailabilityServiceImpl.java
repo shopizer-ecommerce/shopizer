@@ -89,5 +89,13 @@ public class ProductAvailabilityServiceImpl extends
   }
 
 
+  @Override
+  public ProductAvailability getByInventoryId(Long productId, Long availabilityId,
+      MerchantStore store) throws ServiceException {
+    Validate.notNull(store, "Merchant must not be null");
+    return productAvailabilityRepository.getByStore(productId, availabilityId);
+  }
+
+
 
 }

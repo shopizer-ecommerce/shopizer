@@ -17,6 +17,8 @@ public interface ProductAvailabilityService extends
 	ProductAvailability getByStore(Product product, MerchantStore store) throws ServiceException;
 	
 	ProductAvailability getById(Long availabilityId, MerchantStore store) throws ServiceException;
+	
+	ProductAvailability getByInventoryId(Long productId, Long availabilityId, MerchantStore store) throws ServiceException;
 
 	ProductAvailability getByOwner(Product product, String owner) throws ServiceException;
 	
