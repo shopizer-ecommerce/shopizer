@@ -505,7 +505,7 @@ public class ProductPriceUtils {
 
 		Set<ProductAvailability> availabilities = product.getAvailabilities();
 		for(ProductAvailability availability : availabilities) {
-			if(availability.getRegion().equals(Constants.ALL_REGIONS)) {//TODO REL 2.1 accept a region
+			if(!StringUtils.isEmpty(availability.getRegion()) && availability.getRegion().equals(Constants.ALL_REGIONS)) {//TODO REL 2.1 accept a region
 				Set<ProductPrice> prices = availability.getPrices();
 				for(ProductPrice price : prices) {
 					

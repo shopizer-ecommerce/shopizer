@@ -4,6 +4,7 @@ import java.util.Date;
 import org.jsoup.helper.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
@@ -52,7 +53,12 @@ public class PersistableInventoryMapper implements Mapper<PersistableInventory, 
     productAvailability.setAvailable(source.isAvailable());
     productAvailability.setOwner(source.getOwner());
     //productAvailability.setProductStatus();
-    productAvailability.setRegion(source.getRegion());
+    if(!StringUtils.isBlank(source.getRegion())) {
+      productAvailability.setRegion(source.getRegion());
+    } else {
+      productAvailability.setRegion(Constants.ALL_REGIONS);
+    }
+    
     productAvailability.setRegionVariant(source.getRegionVariant());
     if(!StringUtils.isBlank(source.getDateAvailable())) {
       productAvailability.setProductDateAvailable(DateUtil.getDate(source.getDateAvailable()));

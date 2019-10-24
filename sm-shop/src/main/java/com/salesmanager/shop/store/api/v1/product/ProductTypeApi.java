@@ -12,9 +12,12 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
 import com.salesmanager.shop.store.controller.product.facade.ProductTypeFacade;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.SwaggerDefinition;
+import io.swagger.annotations.Tag;
 import springfox.documentation.annotations.ApiIgnore;
 
 /**
@@ -24,6 +27,10 @@ import springfox.documentation.annotations.ApiIgnore;
  */
 @RestController
 @RequestMapping("/api/v1")
+@Api(tags = {"Product type resource (Product Type Api)"})
+@SwaggerDefinition(tags = {
+    @Tag(name = "Product type resource", description = "Manage product types")
+})
 public class ProductTypeApi {
 
 
@@ -44,6 +51,21 @@ public class ProductTypeApi {
       @ApiIgnore Language language) {
     
     return productTypeFacade.getByMerchant(merchantStore.getCode(), language);
+    
+  }
+  
+  @GetMapping(value = "/products/type/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @ApiOperation(httpMethod = "GET", value = "Get product type",
+      notes = "", produces = "application/json", response = ReadableProductType.class)
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
+  public ReadableProductType get(
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language) {
+    
+    //return productTypeFacade.getByMerchant(merchantStore.getCode(), language);
+    return null;
     
   }
 

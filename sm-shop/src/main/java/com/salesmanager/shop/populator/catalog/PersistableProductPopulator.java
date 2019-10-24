@@ -12,6 +12,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
+import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductOptionService;
@@ -193,6 +194,7 @@ public class PersistableProductPopulator extends
 					productAvailability.setId(null);
 				}*/
 				
+			    productAvailability.setRegion(Constants.ALL_REGIONS);
 				productAvailability.setProductQuantity(source.getQuantity());
 				productAvailability.setProduct(target);
 				productAvailability.setProductQuantityOrderMin(1);
@@ -254,6 +256,7 @@ public class PersistableProductPopulator extends
 				productAvailability.setProductQuantity(source.getQuantity());
 				productAvailability.setProductQuantityOrderMin(1);
 				productAvailability.setProductQuantityOrderMax(1);
+				productAvailability.setRegion(Constants.ALL_REGIONS);
 
 				if(defaultPrice != null) {
 				  defaultPrice.setProductPriceAmount(source.getPrice());

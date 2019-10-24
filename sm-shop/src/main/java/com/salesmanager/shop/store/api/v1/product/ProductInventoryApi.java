@@ -112,14 +112,14 @@ public class ProductInventoryApi {
   })
   public @ResponseBody ReadableInventory get(
             @PathVariable Long id,
-            @PathVariable Long invId,
+            @PathVariable Long inventoryId,
             @ApiIgnore MerchantStore merchantStore,
             @ApiIgnore Language language,
       HttpServletRequest request,
       HttpServletResponse response) {
     
     
-      return productInventoryFacade.get(id, invId, merchantStore, language);
+      return productInventoryFacade.get(id, inventoryId, merchantStore, language);
 
   }
   
