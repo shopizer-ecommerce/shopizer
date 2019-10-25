@@ -44,7 +44,10 @@
 				<!-- for existing applications, this property should be false -->
 				<beans:entry key="hibernate.id.new_generator_mappings"
 					value="false" />
+				<beans:entry key="hibernate.cache.use_second_level_cache" value="true"/>
+				<beans:entry key="hibernate.cache.region.factory_class" value="org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory"/>
 				<beans:entry key="hibernate.cache.provider_class" value="org.hibernate.cache.EhCacheProvider" />
+				
 				<beans:entry key="hibernate.cache.use_second_level_cache"
 					value="true" />
 

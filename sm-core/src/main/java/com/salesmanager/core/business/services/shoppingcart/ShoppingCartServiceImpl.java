@@ -334,24 +334,26 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 		List<ShoppingCartAttributeItem> removeAttributesList = new ArrayList<ShoppingCartAttributeItem>();//attributes to remove
 		//DELETE ORPHEANS MANUALLY
 		if ( (productAttributes != null && productAttributes.size() > 0) || (cartAttributes != null && cartAttributes.size() > 0)) {
-			for (ShoppingCartAttributeItem attribute : cartAttributes) {
-				long attributeId = attribute.getProductAttributeId().longValue();
-				boolean existingAttribute = false;
-				for (ProductAttribute productAttribute : productAttributes) {
-
-					if (productAttribute.getId().longValue() == attributeId) {
-						attribute.setProductAttribute(productAttribute);
-						attributesList.add(productAttribute);
-						existingAttribute = true;
-						break;
-					}
-				}
-				
-				if(!existingAttribute) {
-					removeAttributesList.add(attribute);
-				}
-
-			}
+		    if(cartAttributes!=null) {
+    			for (ShoppingCartAttributeItem attribute : cartAttributes) {
+    				long attributeId = attribute.getProductAttributeId().longValue();
+    				boolean existingAttribute = false;
+    				for (ProductAttribute productAttribute : productAttributes) {
+    
+    					if (productAttribute.getId().longValue() == attributeId) {
+    						attribute.setProductAttribute(productAttribute);
+    						attributesList.add(productAttribute);
+    						existingAttribute = true;
+    						break;
+    					}
+    				}
+    				
+    				if(!existingAttribute) {
+    					removeAttributesList.add(attribute);
+    				}
+    
+    			}
+		    }
 		}
 		
 		//cleanup orphean item

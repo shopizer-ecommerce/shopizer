@@ -4,15 +4,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+
+
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.repositories.catalog.category.CategoryRepository;
+import com.salesmanager.core.business.repositories.catalog.category.PageableCategoryRepository;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
 import com.salesmanager.core.model.catalog.category.Category;
@@ -33,6 +40,9 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
 
   @Inject
   private ProductService productService;
+  
+  @Inject
+  private PageableCategoryRepository pageableCategoryRepository;
 
 
 
@@ -384,11 +394,6 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
   }
 
   @Override
-  public List<Category> getListByDepth(MerchantStore store, int depth, Language language) {
-    return categoryRepository.findByDepth(store.getId(), depth, language.getId());
-  }
-
-  @Override
   public List<Category> getListByDepthFilterByFeatured(MerchantStore store, int depth,
       Language language) {
     return categoryRepository.findByDepthFilterByFeatured(store.getId(), depth, language.getId());
@@ -437,9 +442,28 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
 
   @Override
   public Category findById(Long category) {
-    return categoryRepository.findById(category);
+    Optional<Category> cat =  categoryRepository.findById(category);
+    if(cat.isPresent())
+    	return cat.get();
+    return null;
   }
 
+  @Override
+  public Page<Category> getListByDepth(MerchantStore store, Language language, String name,
+      int depth, int page, int count) {
+    Pageable pageRequest = PageRequest.of(page, count);
+    return pageableCategoryRepository.listByStore(store.getId(), language.getId(), name, pageRequest);
+  }
+
+  @Override
+  public List<Category> getListByDepth(MerchantStore store, int depth, Language language) {
+    return categoryRepository.find(store.getId(), depth, language.getId(), null);
+  }
+
+  @Override
+  public int count(MerchantStore store) {
+    return categoryRepository.count(store.getId());
+  }
 
 
 }

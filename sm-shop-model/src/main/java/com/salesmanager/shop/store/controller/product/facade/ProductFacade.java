@@ -10,6 +10,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.manufacturer.PersistableManufacturer;
 import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
+import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturerList;
 import com.salesmanager.shop.model.catalog.product.LightPersistableProduct;
 import com.salesmanager.shop.model.catalog.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.PersistableProductReview;
@@ -174,51 +175,16 @@ public interface ProductFacade {
    */
   List<ReadableProductReview> getProductReviews(Product product, MerchantStore store,
       Language language) throws Exception;
-
+  
   /**
-   * Creates or saves a manufacturer
-   * 
-   * @param manufacturer
+   * validates if product exists
+   * @param sku
    * @param store
-   * @param language
-   * @throws Exception
-   */
-  void saveOrUpdateManufacturer(PersistableManufacturer manufacturer, MerchantStore store,
-      Language language) throws Exception;
-
-  /**
-   * Deletes a manufacturer
-   * 
-   * @param manufacturer
-   * @param store
-   * @param language
-   * @throws Exception
-   */
-  void deleteManufacturer(Manufacturer manufacturer, MerchantStore store, Language language)
-      throws Exception;
-
-  /**
-   * Get a Manufacturer by id
-   * 
-   * @param id
-   * @param store
-   * @param language
    * @return
-   * @throws Exception
    */
-  ReadableManufacturer getManufacturer(Long id, MerchantStore store, Language language)
-      throws Exception;
+  public boolean exists(String sku, MerchantStore store);
 
-  /**
-   * Get all Manufacturer
-   * 
-   * @param store
-   * @param language
-   * @return
-   * @throws Exception
-   */
-  List<ReadableManufacturer> getAllManufacturers(MerchantStore store, Language language)
-      throws Exception;
+
 
   /**
    * Get related items

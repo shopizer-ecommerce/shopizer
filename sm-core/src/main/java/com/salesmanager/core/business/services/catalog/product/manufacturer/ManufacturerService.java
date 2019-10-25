@@ -1,7 +1,7 @@
 package com.salesmanager.core.business.services.catalog.product.manufacturer;
 
 import java.util.List;
-
+import org.springframework.data.domain.Page;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityService;
 import com.salesmanager.core.model.catalog.category.Category;
@@ -16,7 +16,11 @@ public interface ManufacturerService extends SalesManagerEntityService<Long, Man
 			throws ServiceException;
 
 	List<Manufacturer> listByStore(MerchantStore store) throws ServiceException;
+	
+	Page<Manufacturer> listByStore(MerchantStore store, Language language, int page, int count) throws ServiceException;
 
+	Page<Manufacturer> listByStore(MerchantStore store, Language language, String name, int page, int count) throws ServiceException;
+	
 	void saveOrUpdate(Manufacturer manufacturer) throws ServiceException;
 	
 	void addManufacturerDescription(Manufacturer manufacturer, ManufacturerDescription description) throws ServiceException;
@@ -48,6 +52,11 @@ public interface ManufacturerService extends SalesManagerEntityService<Long, Man
 	 */
 	List<Manufacturer> listByProductsInCategory(MerchantStore store,
         Category category, Language language) throws ServiceException;
+	
+	public Page<Manufacturer> listByStore(MerchantStore store, String name,
+	      int page, int count) throws ServiceException;
+	
+	int count(MerchantStore store);
 
 	
 }

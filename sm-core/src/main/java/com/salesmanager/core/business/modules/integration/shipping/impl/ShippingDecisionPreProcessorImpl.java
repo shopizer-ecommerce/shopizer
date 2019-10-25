@@ -2,7 +2,6 @@ package com.salesmanager.core.business.modules.integration.shipping.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -11,8 +10,6 @@ import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
-import org.drools.KnowledgeBase;
-import org.drools.runtime.StatelessKnowledgeSession;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.slf4j.Logger;
@@ -49,13 +46,18 @@ public class ShippingDecisionPreProcessorImpl implements ShippingQuotePrePostPro
 	KieContainer kieShippingDecisionContainer;
 	
 	@Override
-	public void prePostProcessShippingQuotes(ShippingQuote quote,
-			List<PackageDetails> packages, BigDecimal orderTotal,
-			Delivery delivery, ShippingOrigin origin, MerchantStore store,
+	public void prePostProcessShippingQuotes(
+			ShippingQuote quote,
+			List<PackageDetails> packages, 
+			BigDecimal orderTotal,
+			Delivery delivery, 
+			ShippingOrigin origin, 
+			MerchantStore store,
 			IntegrationConfiguration globalShippingConfiguration,
 			IntegrationModule currentModule,
 			ShippingConfiguration shippingConfiguration,
-			List<IntegrationModule> allModules, Locale locale)
+			List<IntegrationModule> allModules, 
+			Locale locale)
 			throws IntegrationException {
 		
 		

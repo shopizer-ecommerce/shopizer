@@ -35,6 +35,7 @@ public interface ShippingQuotePrePostProcessModule {
 			IntegrationConfiguration globalShippingConfiguration, 
 			IntegrationModule currentModule, 
 			ShippingConfiguration shippingConfiguration, 
-			List<IntegrationModule> allModules, Locale locale) throws IntegrationException;
+			List<IntegrationModule> allModules, 
+			Locale locale) throws IntegrationException;
 
 }

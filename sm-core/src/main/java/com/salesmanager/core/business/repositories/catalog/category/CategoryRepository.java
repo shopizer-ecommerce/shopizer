@@ -1,10 +1,10 @@
 package com.salesmanager.core.business.repositories.catalog.category;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-
 import com.salesmanager.core.model.catalog.category.Category;
 
 
@@ -36,7 +36,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long>, Categ
 	Category findById(Long categoryId, String merchant);
 	
 	@Query("select c from Category c left join fetch c.descriptions cd join fetch cd.language cdl join fetch c.merchantStore cm left join fetch c.categories where c.id = ?1")
-	Category findById(Long categoryId);
+	Optional<Category> findById(Long categoryId);
 
 	@Query("select c from Category c left join fetch c.descriptions cd join fetch cd.language cdl join fetch c.merchantStore cm where cm.code=?1 and c.code=?2")
 	public Category findByCode(String merchantStoreCode, String code);
@@ -56,6 +56,9 @@ public interface CategoryRepository extends JpaRepository<Category, Long>, Categ
 	@Query("select distinct c from Category c left join fetch c.descriptions cd join fetch cd.language cdl join fetch c.merchantStore cm where cm.id=?1 and cdl.id=?3 and c.depth >= ?2 order by c.lineage, c.sortOrder asc")
 	public List<Category> findByDepth(Integer merchantId, int depth, Integer languageId);
 	
+	@Query("select distinct c from Category c left join fetch c.descriptions cd join fetch cd.language cdl join fetch c.merchantStore cm where cm.id=?1 and cdl.id=?3 and c.depth >= ?2 and (?4 is null or cd.name like %?4%) order by c.lineage, c.sortOrder asc")
+	public List<Category> find(Integer merchantId, int depth, Integer languageId, String name);
+	
 	@Query("select distinct c from Category c left join fetch c.descriptions cd join fetch cd.language cdl join fetch c.merchantStore cm where cm.id=?1 and cdl.id=?3 and c.depth >= ?2 and c.featured=true order by c.lineage, c.sortOrder asc")
 	public List<Category> findByDepthFilterByFeatured(Integer merchantId, int depth, Integer languageId);
 
@@ -67,6 +70,9 @@ public interface CategoryRepository extends JpaRepository<Category, Long>, Categ
 	
 	@Query("select distinct c from Category c left join fetch c.descriptions cd join fetch cd.language cdl join fetch c.merchantStore cm where cm.id=?1 order by c.lineage, c.sortOrder asc")
 	public List<Category> findByStore(Integer merchantId);
+	
+	@Query("select count(distinct c) from Category as c where c.merchantStore.id=?1")
+	int count(Integer storeId);
 
 
 	

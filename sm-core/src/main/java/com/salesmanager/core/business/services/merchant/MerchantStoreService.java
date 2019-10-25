@@ -1,5 +1,6 @@
 package com.salesmanager.core.business.services.merchant;
 
+import java.util.List;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityService;
 import com.salesmanager.core.model.common.GenericEntityList;
@@ -13,6 +14,8 @@ public interface MerchantStoreService extends SalesManagerEntityService<Integer,
 			throws ServiceException;
 	
 	MerchantStore getByCode(String code) throws ServiceException ;
+	
+	List<MerchantStore> listChildren(String code) throws ServiceException;
 
 	boolean existByCode(String code);
 

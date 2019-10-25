@@ -38,8 +38,8 @@ public class CustomerEntity extends Customer implements Serializable {
 	
 	private String storeCode;
 	
-	@ApiModelProperty(notes = "Username (use email address)")
-	@NotEmpty(message="{NotEmpty.customer.userName}")
+	//@ApiModelProperty(notes = "Username (use email address)")
+	//@NotEmpty(message="{NotEmpty.customer.userName}")
 	//can be email or anything else
 	private String userName;
 	

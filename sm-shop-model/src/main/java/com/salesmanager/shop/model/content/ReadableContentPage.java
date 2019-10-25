@@ -1,6 +1,6 @@
 package com.salesmanager.shop.model.content;
 
-public class ReadableContentPage extends ObjectContent {
+public class ReadableContentPage extends ReadableContentObject {
 
 	/**
 	 * 

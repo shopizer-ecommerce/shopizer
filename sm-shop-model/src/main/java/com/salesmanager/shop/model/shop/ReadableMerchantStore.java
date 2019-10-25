@@ -18,6 +18,7 @@ public class ReadableMerchantStore extends MerchantStoreEntity implements Readab
 	private ReadableAddress address;
 	private ReadableImage logo;
 	private ReadableAudit audit;
+	private ReadableMerchantStore parent;
 
 
 
@@ -53,6 +54,14 @@ public class ReadableMerchantStore extends MerchantStoreEntity implements Readab
 	public ReadableAudit getReadableAudit() {
 		return this.audit;
 	}
+
+  public ReadableMerchantStore getParent() {
+    return parent;
+  }
+
+  public void setParent(ReadableMerchantStore parent) {
+    this.parent = parent;
+  }
 
 
 

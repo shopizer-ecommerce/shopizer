@@ -9,25 +9,16 @@ public class ObjectContent extends ContentPath implements ResourceUrlAccess {
    */
   private static final long serialVersionUID = 1L;
 
-  private boolean isDisplayedInMenu;
   private String slug;
-  private String code;
   private String metaDetails;
   private String title;
   private String pageContent;
+  private String language;
   public String getPageContent() {
       return pageContent;
   }
   public void setPageContent(String pageContent) {
       this.pageContent = pageContent;
-  }
-
-  public boolean isDisplayedInMenu() {
-    return isDisplayedInMenu;
-  }
-
-  public void setDisplayedInMenu(boolean isDisplayedInMenu) {
-    this.isDisplayedInMenu = isDisplayedInMenu;
   }
 
   public String getSlug() {
@@ -36,14 +27,6 @@ public class ObjectContent extends ContentPath implements ResourceUrlAccess {
 
   public void setSlug(String slug) {
     this.slug = slug;
-  }
-
-  public String getCode() {
-    return code;
-  }
-
-  public void setCode(String code) {
-    this.code = code;
   }
 
   public String getMetaDetails() {
@@ -60,6 +43,12 @@ public class ObjectContent extends ContentPath implements ResourceUrlAccess {
 
   public void setTitle(String title) {
     this.title = title;
+  }
+  public String getLanguage() {
+    return language;
+  }
+  public void setLanguage(String language) {
+    this.language = language;
   }
 
 
