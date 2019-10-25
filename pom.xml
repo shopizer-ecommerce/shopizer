@@ -58,11 +58,6 @@
 		<!-- <dependency> <groupId>org.springframework.vault</groupId> <artifactId>spring-vault-core</artifactId> 
 			<version>${spring-vault-core-version}</version> </dependency> -->
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-properties-migrator</artifactId>
-			<scope>runtime</scope>
-		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/javax.inject/javax.inject -->
 		<dependency>
