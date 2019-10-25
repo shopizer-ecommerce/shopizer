@@ -27,14 +27,17 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
+import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturerFull;
 import com.salesmanager.shop.model.catalog.product.ProductSpecification;
 import com.salesmanager.shop.model.catalog.product.ReadableImage;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
+import com.salesmanager.shop.model.catalog.product.ReadableProductFull;
 import com.salesmanager.shop.model.catalog.product.RentalOwner;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductAttribute;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductAttributeValue;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOption;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOptionValue;
+import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.ImageFilePath;
 
@@ -81,20 +84,27 @@ public class ReadableProductPopulator extends
 			throws ConversionException {
 		Validate.notNull(pricingService, "Requires to set PricingService");
 		Validate.notNull(imageUtils, "Requires to set imageUtils");
-		Validate.notNull(language, "Language cannot be null");
+		//Validate.notNull(language, "Language cannot be null");
 		
 		try {
-			
-
-			ProductDescription description = source.getProductDescription();
-			
-			Set<ProductDescription> descriptions = source.getDescriptions();
-			for(ProductDescription desc : descriptions) {
-				if(desc.getLanguage()!=null && desc.getLanguage().getId().intValue() == language.getId().intValue()) {
-					description = desc;
-					break;
-				}
-			}
+		  
+	        List<com.salesmanager.shop.model.catalog.product.ProductDescription> fulldescriptions = new ArrayList<com.salesmanager.shop.model.catalog.product.ProductDescription>();
+	        if(language == null) {
+	          target = new ReadableProductFull();
+	        }
+	        
+	        ProductDescription description = source.getProductDescription();
+	        
+	        if(source.getDescriptions()!=null && source.getDescriptions().size()>0) {
+	          for(ProductDescription desc : source.getDescriptions()) {
+                if(language != null && desc.getLanguage()!=null && desc.getLanguage().getId().intValue() == language.getId().intValue()) {
+                    description = desc;
+                    break;
+                } else {
+                  fulldescriptions.add(populateDescription(desc));
+                }
+              }
+	        }
 
 	
 			target.setId(source.getId());
@@ -169,8 +179,9 @@ public class ReadableProductPopulator extends
 				target.setRatingCount(source.getProductReviewCount().intValue());
 			}
 			if(description!=null) {
-				com.salesmanager.shop.model.catalog.product.ProductDescription tragetDescription = new com.salesmanager.shop.model.catalog.product.ProductDescription();
-				tragetDescription.setFriendlyUrl(description.getSeUrl());
+				//com.salesmanager.shop.model.catalog.product.ProductDescription tragetDescription = new com.salesmanager.shop.model.catalog.product.ProductDescription();
+			    com.salesmanager.shop.model.catalog.product.ProductDescription tragetDescription = populateDescription(description);
+/*				tragetDescription.setFriendlyUrl(description.getSeUrl());
 				tragetDescription.setName(description.getName());
 				tragetDescription.setId(description.getId());
 				if(!StringUtils.isBlank(description.getMetatagTitle())) {
@@ -181,7 +192,7 @@ public class ReadableProductPopulator extends
 				tragetDescription.setMetaDescription(description.getMetatagDescription());
 				tragetDescription.setDescription(description.getDescription());
 				tragetDescription.setHighlights(description.getProductHighlight());
-				tragetDescription.setLanguage(description.getLanguage().getCode());
+				tragetDescription.setLanguage(description.getLanguage().getCode());*/
 				target.setDescription(tragetDescription);
 				
 			}
@@ -196,6 +207,14 @@ public class ReadableProductPopulator extends
 				manufacturerEntity.setOrder(source.getManufacturer().getOrder());
 				manufacturerEntity.setCode(source.getManufacturer().getCode());
 				target.setManufacturer(manufacturerEntity);
+			}
+			
+			if(source.getType() != null) {
+			  ReadableProductType type = new ReadableProductType();
+			  type.setId(source.getType().getId());
+			  type.setCode(source.getType().getCode());
+			  type.setName(source.getType().getCode());//need name
+			  target.setType(type);
 			}
 			
 			Set<ProductImage> images = source.getImages();
@@ -299,7 +318,7 @@ public class ReadableProductPopulator extends
 								ProductOptionValueDescription podescription = null;
 								if(podescriptions!=null && podescriptions.size()>0) {
 									podescription = podescriptions.get(0);
-									if(descriptions.size()>1) {
+									if(podescriptions.size()>1) {
 										for(ProductOptionValueDescription optionValueDescription : podescriptions) {
 											if(optionValueDescription.getLanguage().getId().intValue()==language.getId().intValue()) {
 												podescription = optionValueDescription;
@@ -349,7 +368,7 @@ public class ReadableProductPopulator extends
 								ProductOptionValueDescription podescription = null;
 								if(podescriptions!=null && podescriptions.size()>0) {
 									podescription = podescriptions.get(0);
-									if(descriptions.size()>1) {
+									if(podescriptions.size()>1) {
 										for(ProductOptionValueDescription optionValueDescription : podescriptions) {
 											if(optionValueDescription.getLanguage().getId().intValue()==language.getId().intValue()) {
 												podescription = optionValueDescription;
@@ -420,6 +439,10 @@ public class ReadableProductPopulator extends
 					}
 				}
 			}
+			
+		     if(target instanceof ReadableProductFull) {
+		          ((ReadableProductFull)target).setDescriptions(fulldescriptions);
+		        }
 			
 			
 			return target;
@@ -501,5 +524,29 @@ public class ReadableProductPopulator extends
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+    com.salesmanager.shop.model.catalog.product.ProductDescription populateDescription(ProductDescription description) {
+      if(description == null) {
+        return null;
+      }
+     
+      com.salesmanager.shop.model.catalog.product.ProductDescription tragetDescription = new com.salesmanager.shop.model.catalog.product.ProductDescription();
+      tragetDescription.setFriendlyUrl(description.getSeUrl());
+      tragetDescription.setName(description.getName());
+      tragetDescription.setId(description.getId());
+      if(!StringUtils.isBlank(description.getMetatagTitle())) {
+          tragetDescription.setTitle(description.getMetatagTitle());
+      } else {
+          tragetDescription.setTitle(description.getName());
+      }
+      tragetDescription.setMetaDescription(description.getMetatagDescription());
+      tragetDescription.setDescription(description.getDescription());
+      tragetDescription.setHighlights(description.getProductHighlight());
+      tragetDescription.setLanguage(description.getLanguage().getCode());
+      if(description.getLanguage() != null) {
+        tragetDescription.setLanguage(description.getLanguage().getCode());
+      }
+      return tragetDescription;
+    }
 
 }

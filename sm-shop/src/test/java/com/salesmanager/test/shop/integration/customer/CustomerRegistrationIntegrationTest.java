@@ -1,4 +1,4 @@
-package com.salesmanager.test.shop.integration.security;
+package com.salesmanager.test.shop.integration.customer;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertNotNull;
@@ -19,9 +19,10 @@ public class CustomerRegistrationIntegrationTest extends ServicesTestSupport {
 
     @Test
     public void registerCustomer() {
+        
+      
         final PersistableCustomer testCustomer = new PersistableCustomer();
         testCustomer.setEmailAddress("customer1@test.com");
-        testCustomer.setUserName("testCust1");
         testCustomer.setPassword("clear123");
         testCustomer.setGender(CustomerGender.M.name());
         testCustomer.setLanguage("en");
@@ -33,13 +34,13 @@ public class CustomerRegistrationIntegrationTest extends ServicesTestSupport {
         testCustomer.setStoreCode(Constants.DEFAULT_STORE);
         final HttpEntity<PersistableCustomer> entity = new HttpEntity<>(testCustomer, getHeader());
 
-        final ResponseEntity<PersistableCustomer> response = testRestTemplate.postForEntity("/api/v1/customer/register", entity, PersistableCustomer.class);
+        final ResponseEntity<PersistableCustomer> response = testRestTemplate.postForEntity("/api/v1/auth/register", entity, PersistableCustomer.class);
         assertThat(response.getStatusCode(), is(OK));
 
         // created customer can login
-        final ResponseEntity<AuthenticationResponse> loginResponse = testRestTemplate.postForEntity("/api/v1/customer/login", new HttpEntity<>(new AuthenticationRequest("testCust1", "clear123")),
+        final ResponseEntity<AuthenticationResponse> loginResponse = testRestTemplate.postForEntity("/api/v1/auth/login", new HttpEntity<>(new AuthenticationRequest("customer1@test.com", "clear123")),
                 AuthenticationResponse.class);
-        assertThat(response.getStatusCode(), is(OK));
+        assertThat(loginResponse.getStatusCode(), is(OK));
         assertNotNull(loginResponse.getBody().getToken());
 
     }

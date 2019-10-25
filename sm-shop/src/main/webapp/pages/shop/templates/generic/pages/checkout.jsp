@@ -591,7 +591,7 @@ function initPayment(paymentSelection) {
 					<!--alert-error-->
 				
    					<c:set var="commitUrl" value="${pageContext.request.contextPath}/shop/order/commitOrder.html"/>
-   					<form:form id="checkoutForm" method="POST" enctype="multipart/form-data" commandName="order" action="${commitUrl}">
+   					<form:form id="checkoutForm" method="POST" enctype="multipart/form-data" modelAttribute="order" action="${commitUrl}">
 						<input type="hidden" id="useDistanceWindow" name="useDistanceWindow" value="<c:out value="${shippingMetaData.useDistanceModule}"/>">
 						<div class="col-lg-6 col-md-6">
 							<div class="checkbox-form">						
@@ -709,7 +709,7 @@ function initPayment(paymentSelection) {
 											<p><s:message code="label.customer.createaccount.text" text="Create an account by entering the information below. If you are a returning customer please login using the link at the top of the page."/></p>
 											<s:message code="message.password.required" text="Password is required" var="msgPassword"/>
 											<label><s:message code="label.customer.accountpassword" text="Account password"/>  <span class="required">*</span></label>
-											<form:input id="customer.clearPassword" cssClass="required" path="customer.clearPassword" title="${msgPassword}"/>	
+											<form:input id="customer.password" cssClass="required" path="customer.password" title="${msgPassword}"/>	
 										</div>
 									</div>								
 									</sec:authorize>

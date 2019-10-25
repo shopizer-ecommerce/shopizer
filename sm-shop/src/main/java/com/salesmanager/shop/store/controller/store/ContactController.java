@@ -1,5 +1,21 @@
 package com.salesmanager.shop.store.controller.store;
 
+import java.util.Locale;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import com.salesmanager.core.business.services.content.ContentService;
 import com.salesmanager.core.business.utils.CoreConfiguration;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
@@ -7,7 +23,6 @@ import com.salesmanager.core.model.content.Content;
 import com.salesmanager.core.model.content.ContentDescription;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.shop.constants.ApplicationConstants;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.shop.ContactForm;
 import com.salesmanager.shop.model.shop.PageInformation;
@@ -17,22 +32,6 @@ import com.salesmanager.shop.utils.CaptchaRequestUtils;
 import com.salesmanager.shop.utils.EmailTemplatesUtils;
 import com.salesmanager.shop.utils.LabelUtils;
 import com.salesmanager.shop.utils.LocaleUtils;
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Locale;
 
 @Controller
 public class ContactController extends AbstractController {
@@ -42,10 +41,7 @@ public class ContactController extends AbstractController {
 	
 	@Inject
 	private ContentService contentService;
-	
-	@Inject
-	private CoreConfiguration coreConfiguration;
-	
+
 	@Inject
 	private LabelUtils messages;
 	
@@ -54,6 +50,9 @@ public class ContactController extends AbstractController {
 	
 	@Inject
 	private CaptchaRequestUtils captchaRequestUtils;
+	
+    @Value("${config.recaptcha.siteKey}")
+    private String siteKeyKey;
 	
 	private final static String CONTACT_LINK = "CONTACT";
 	
@@ -70,7 +69,7 @@ public class ContactController extends AbstractController {
 		ContactForm contact = new ContactForm();
 		model.addAttribute("contact", contact);
 		
-		model.addAttribute( "recapatcha_public_key", coreConfiguration.getProperty( ApplicationConstants.RECAPTCHA_PUBLIC_KEY ) );
+		model.addAttribute( "recapatcha_public_key", siteKeyKey);
 		
 		Content content = contentService.getByCode(Constants.CONTENT_CONTACT_US, store, language);
 		ContentDescription contentDescription = null;
@@ -111,33 +110,7 @@ public class ContactController extends AbstractController {
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
 
 		try {
-			
-			//if ( StringUtils.isBlank( contact.getCaptchaResponseField() )) {
-    		//	FieldError error = new FieldError("captchaResponseField","captchaResponseField",messages.getMessage("NotEmpty.contact.captchaResponseField", locale));
-    		//	bindingResult.addError(error);
-	        //    ajaxResponse.setErrorString(bindingResult.getAllErrors().get(0).getDefaultMessage());
-	        //    ajaxResponse.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
-	        //    return ajaxResponse.toJSONString();
-			//}
 
-	        //ReCaptchaImpl reCaptcha = new ReCaptchaImpl();
-	        //reCaptcha.setPublicKey( coreConfiguration.getProperty( ApplicationConstants.RECAPTCHA_PUBLIC_KEY));
-	        //reCaptcha.setPrivateKey( coreConfiguration.getProperty( ApplicationConstants.RECAPTCHA_PRIVATE_KEY ) );
-	        
-/*	        if ( StringUtils.isNotBlank( contact.getCaptchaChallengeField() )
-	                && StringUtils.isNotBlank( contact.getCaptchaResponseField() ) )
-	            {
-	                ReCaptchaResponse reCaptchaResponse =
-	                    reCaptcha.checkAnswer( request.getRemoteAddr(), contact.getCaptchaChallengeField(),
-	                                           contact.getCaptchaResponseField() );
-	                if ( !reCaptchaResponse.isValid() )
-	                {
-	                    LOGGER.debug( "Captcha response does not matched" );
-	        			FieldError error = new FieldError("captchaChallengeField","captchaChallengeField",messages.getMessage("validaion.recaptcha.not.matched", locale));
-	        			bindingResult.addError(error);
-	                }
-
-	        }*/
 	        
 	        if(!StringUtils.isBlank(request.getParameter("g-recaptcha-response"))) {
 	        	boolean validateCaptcha = captchaRequestUtils.checkCaptcha(request.getParameter("g-recaptcha-response"));

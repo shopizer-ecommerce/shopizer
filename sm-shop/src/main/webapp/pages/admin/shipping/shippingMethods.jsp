@@ -28,7 +28,7 @@
 							<br/>
 	
 							<c:url var="saveShippingMethods" value="/admin/shipping/saveShippingMethods.html"/>
-							<form:form method="POST" commandName="configuration" action="${saveShippingMethods}">
+							<form:form method="POST" modelAttribute="configuration" action="${saveShippingMethods}">
 
       							
       								<form:errors path="*" cssClass="alert alert-error" element="div" />

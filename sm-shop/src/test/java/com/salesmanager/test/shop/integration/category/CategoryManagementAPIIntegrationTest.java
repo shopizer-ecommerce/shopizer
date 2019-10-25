@@ -26,6 +26,7 @@ import com.salesmanager.shop.model.catalog.category.Category;
 import com.salesmanager.shop.model.catalog.category.CategoryDescription;
 import com.salesmanager.shop.model.catalog.category.PersistableCategory;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
+import com.salesmanager.shop.model.catalog.category.ReadableCategoryList;
 import com.salesmanager.shop.model.catalog.manufacturer.PersistableManufacturer;
 import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
 import com.salesmanager.shop.model.catalog.product.PersistableProduct;
@@ -50,12 +51,12 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
     public void getCategory() throws Exception {
         final HttpEntity<String> httpEntity = new HttpEntity<>(getHeader());
 
-        final ResponseEntity<List> response = testRestTemplate.exchange(String.format("/api/v1/category/"), HttpMethod.GET,
-                httpEntity, List.class);
+        final ResponseEntity<ReadableCategoryList> response = testRestTemplate.exchange(String.format("/api/v1/category/"), HttpMethod.GET,
+                httpEntity, ReadableCategoryList.class);
         if (response.getStatusCode() != HttpStatus.OK) {
             throw new Exception(response.toString());
         } else {
-            final List<ReadableCategory> categories = response.getBody();
+            final List<ReadableCategory> categories = response.getBody().getCategories();
             assertNotNull(categories);
         }
     }
@@ -314,7 +315,7 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
         final HttpEntity<String> entity = new HttpEntity<>(json, getHeader());
 
         final int sizeBefore = testRestTemplate.exchange(String.format("/api/v1/category"), HttpMethod.GET,
-                new HttpEntity<>(getHeader()), List.class).getBody().size();
+                new HttpEntity<>(getHeader()), ReadableCategoryList.class).getBody().getCategories().size();
 
         final ResponseEntity response = testRestTemplate.postForEntity("/api/v1/private/category", entity, PersistableCategory.class);
 

@@ -23,7 +23,7 @@
 							<br/>
 							
 							<c:url var="saveSystemConfiguration" value="/admin/configuration/saveSystemConfiguration.html"/>
-							<form:form method="POST" commandName="configuration" action="${saveSystemConfiguration}">
+							<form:form method="POST" modelAttribute="configuration" action="${saveSystemConfiguration}">
 
       							
       								<form:errors path="*" cssClass="alert alert-error" element="div" />

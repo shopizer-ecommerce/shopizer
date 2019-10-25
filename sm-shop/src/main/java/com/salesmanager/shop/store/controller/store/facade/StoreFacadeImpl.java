@@ -1,10 +1,12 @@
 package com.salesmanager.shop.store.controller.store.facade;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.Validate;
 import org.drools.core.util.StringUtils;
 import org.slf4j.Logger;
@@ -421,6 +423,33 @@ public class StoreFacadeImpl implements StoreFacade {
       throw new ServiceRuntimeException(se);
     }
 
+  }
+
+  @Override
+  public List<ReadableMerchantStore> getChildStores(Language language, String code) {
+    try {
+      
+      //first check if store is retailer
+      MerchantStore retailer = this.getByCode(code);
+      if(retailer==null) {
+        throw new ResourceNotFoundException("Merchant [" + code + "] not found");
+      }
+      
+      if(!retailer.isRetailer().booleanValue()) {
+        throw new ResourceNotFoundException("Merchant [" + code + "] not a retailer");
+      }
+
+      List<MerchantStore> children = merchantStoreService.listChildren(code);
+      List<ReadableMerchantStore> readableStores = new ArrayList<ReadableMerchantStore>();
+      if(!CollectionUtils.isEmpty(children)) {
+        for(MerchantStore store : children)
+        readableStores.add(convertMerchantStoreToReadableMerchantStore(language, store));
+      }
+      return readableStores;
+    } catch (ServiceException e) {
+      throw new ServiceRuntimeException(e);
+    }
+    
   }
 
 }

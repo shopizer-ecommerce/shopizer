@@ -60,7 +60,7 @@ public class UserServicesImpl implements WebUserServices{
 	@Inject
 	protected GroupService   groupService;
 	
-	public final static String ROLE_PREFIX = "ROLE_";//Spring Security 4
+	public final static String ROLE_PREFIX = "ROLE_";
 	
 	
 	
@@ -124,7 +124,7 @@ public class UserServicesImpl implements WebUserServices{
 		  List<Group> groups = groupService.listGroup(GroupType.ADMIN);
 		  
 		  //creation of the super admin admin:password)
-		  com.salesmanager.core.model.user.User user = new com.salesmanager.core.model.user.User("admin",password,"admin@shopizer.com");
+		  com.salesmanager.core.model.user.User user = new com.salesmanager.core.model.user.User("admin@shopizer.com",password,"admin@shopizer.com");
 		  user.setFirstName("Administrator");
 		  user.setLastName("User");
 		  

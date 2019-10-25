@@ -114,7 +114,7 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
 				<br/><br/>
 
       					<c:url var="productSave" value="/admin/products/save.html"/>
-                        <form:form method="POST" enctype="multipart/form-data" commandName="product" action="${productSave}">
+                        <form:form method="POST" enctype="multipart/form-data" modelAttribute="product" action="${productSave}">
 
                             <form:errors path="*" cssClass="alert alert-error" element="div" />
                             <div id="store.success" class="alert alert-success" style="<c:choose><c:when test="${success!=null}">display:block;</c:when><c:otherwise>display:none;</c:otherwise></c:choose>"><s:message code="message.success" text="Request successfull"/></div>   
@@ -446,7 +446,7 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
                         
                   <c:if test="${product.product.id!=null && product.product.id>0}">      
                   <c:url var="createSimilar" value="/admin/products/product/duplicate.html"/>
-                  <form:form method="POST" enctype="multipart/form-data" commandName="product" action="${createSimilar}">
+                  <form:form method="POST" enctype="multipart/form-data" modelAttribute="product" action="${createSimilar}">
 							<input type="hidden" name="productId" value="${product.product.id}" />
 	                        <div class="form-actions">
 	                            <div class="pull-right">

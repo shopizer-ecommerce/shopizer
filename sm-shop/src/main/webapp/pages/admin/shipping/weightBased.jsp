@@ -25,7 +25,7 @@
 								<br/>
 								
 								<c:url var="addShipping" value="/admin/shipping/addCountryToRegion.html"/> 
-		                  		<form:form method="POST" commandName="customRegion" action="${addShipping}" cssClass="form-inline">
+		                  		<form:form method="POST" modelAttribute="customRegion" action="${addShipping}" cssClass="form-inline">
 				
 		                  			 		
 		                        			2- <label><s:message code="label.region" text="Region"/></label>
@@ -69,7 +69,7 @@
 								 
 								<br/><br/>
 								<c:url var="addPrice" value="/admin/shipping/weightBased/edit.html"/> 
-		                  		<form:form method="GET" commandName="customRegion" action="${addPrice}" cssClass="form-inline">
+		                  		<form:form method="GET" modelAttribute="customRegion" action="${addPrice}" cssClass="form-inline">
 				
 		                  			 		
 		                        			3- <label><s:message code="label.region" text="Region"/></label>

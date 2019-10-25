@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.salesmanager.core.business.services.reference.country.CountryService;
 import com.salesmanager.core.business.services.user.UserService;
-import com.salesmanager.core.model.common.CriteriaOrderBy;
 import com.salesmanager.core.model.merchant.MerchantStore;
-import com.salesmanager.core.model.order.OrderCriteria;
 import com.salesmanager.core.model.reference.country.Country;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.user.User;
@@ -35,7 +33,7 @@ public class AdminController {
 	UserService userService;
 	
 	@PreAuthorize("hasRole('AUTH')")
-	@RequestMapping(value={"/admin/home.html","/admin/","/admin"}, method=RequestMethod.GET)
+	@RequestMapping(value={"/admin/home.html","/admin/"}, method=RequestMethod.GET)
 	public String displayDashboard(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Language language = (Language)request.getAttribute("LANGUAGE");
 		
@@ -68,6 +66,11 @@ public class AdminController {
 		return ControllerConstants.Tiles.adminDashboard;
 	}
 	
+	@RequestMapping( value=Constants.ADMIN_URI , method=RequestMethod.GET)
+	public String displayStoreLanding(HttpServletRequest request, HttpServletResponse response) {
+
+		return "redirect:" + Constants.ADMIN_URI + Constants.SLASH;
+	}
 
 
 

@@ -82,17 +82,10 @@ public class InitializationLoader {
 		try {
 			
 			if (initializationDatabase.isEmpty()) {
-				//InputStream in =
-		        //        this.getClass().getClassLoader().getResourceAsStream("/permission/permission.json");
-				
-				
+
 				org.springframework.core.io.Resource permissionXML=resourceLoader.getResource("classpath:/permission/permission.json");
 				
 				InputStream xmlSource = permissionXML.getInputStream();
-				
-                //File permissionXML=resourceLoader.getResource("classpath:/permission/permission.json").getFile();
-                //StreamSource xmlSource = new StreamSource(permissionXML);
-
                 Permissions permissions= jacksonObjectMapper.readValue(xmlSource,Permissions.class);
 
 				//All default data to be created
@@ -154,7 +147,7 @@ public class InitializationLoader {
 		String loadTestData = configuration.getProperty(ApplicationConstants.POPULATE_TEST_DATA);
 		boolean loadData =  !StringUtils.isBlank(loadTestData) && loadTestData.equals(SystemConstants.CONFIG_VALUE_TRUE);
 
-
+		//deprecated. data is now included in h2 default database file
 		if(loadData) {
 
 			SystemConfiguration configuration = systemConfigurationService.getByKey(ApplicationConstants.TEST_DATA_LOADED);

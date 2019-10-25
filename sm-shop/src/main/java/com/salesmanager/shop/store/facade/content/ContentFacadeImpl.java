@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.content.ContentService;
+import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.model.content.Content;
 import com.salesmanager.core.model.content.ContentDescription;
 import com.salesmanager.core.model.content.ContentType;
@@ -26,7 +28,7 @@ import com.salesmanager.shop.model.content.ContentFile;
 import com.salesmanager.shop.model.content.ContentFolder;
 import com.salesmanager.shop.model.content.ContentImage;
 import com.salesmanager.shop.model.content.ObjectContent;
-import com.salesmanager.shop.model.content.PersistableContentPage;
+import com.salesmanager.shop.model.content.PersistableContent;
 import com.salesmanager.shop.model.content.ReadableContentBox;
 import com.salesmanager.shop.model.content.ReadableContentPage;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
@@ -45,6 +47,9 @@ public class ContentFacadeImpl implements ContentFacade {
 
   @Inject
   private ContentService contentService;
+  
+  @Inject
+  private LanguageService languageService;
 
   @Inject
   @Qualifier("img")
@@ -127,6 +132,7 @@ public class ContentFacadeImpl implements ContentFacade {
       page.setName(contentDescription.get().getName());
       page.setPageContent(contentDescription.get().getDescription());
     }
+    page.setId(content.getId());
     page.setSlug(contentDescription.get().getSeUrl());
     page.setDisplayedInMenu(content.isLinkToMenu());
     page.setTitle(contentDescription.get().getTitle());
@@ -138,49 +144,65 @@ public class ContentFacadeImpl implements ContentFacade {
   }
 
   private Content convertContentPageToContent(MerchantStore store, Language language,
-      PersistableContentPage content) {
+      PersistableContent content) throws ServiceException {
     Content contentModel = new Content();
 
-    ContentDescription contentDescription = createContentDescription(store, content, language);
-    contentDescription.setContent(contentModel);
+    List<ContentDescription> descriptions = createContentDescription(store, contentModel, content);
+    descriptions.stream().forEach(c -> c.setContent(contentModel));
+
 
     contentModel.setCode(content.getCode());
     contentModel.setContentType(ContentType.PAGE);
     contentModel.setMerchantStore(store);
-    contentModel.setVisible(true);
-
+    contentModel.setLinkToMenu(content.isDisplayedInMenu());
+    contentModel.setVisible(true);//force visibe
+    contentModel.setDescriptions(descriptions);
     return contentModel;
   }
 
   private Content convertContentPageToContent(MerchantStore store, Language language,
-      Content content, PersistableContentPage contentPage) {
+      Content content, PersistableContent contentPage) throws ServiceException {
+    
+    List<ContentDescription> descriptions = createContentDescription(store, content, contentPage);
+    descriptions.stream().forEach(c -> c.setContent(content));
+    content.setDescriptions(descriptions);
 
-    ContentDescription contentDescription = createContentDescription(store, contentPage, language);
-    setContentDescriptionToContentModel(content,contentDescription,language);
+    //ContentDescription contentDescription = createContentDescription(store, contentPage, language);
+    //setContentDescriptionToContentModel(content,contentDescription,language);
  
-    contentDescription.setContent(content);
+    //contentDescription.setContent(content);
 
-    content.setCode(content.getCode());
+    content.setVisible(true);//force visibe
+    content.setLinkToMenu(contentPage.isDisplayedInMenu());
     content.setContentType(ContentType.PAGE);
     content.setMerchantStore(store);
-    content.setVisible(true);
 
     return content;
   }
 
 
-  private ContentDescription createContentDescription(MerchantStore store, ObjectContent content,
-      Language language) {
+  private List<ContentDescription> createContentDescription(MerchantStore store, Content contentModel, PersistableContent content) throws ServiceException {
       
-    ContentDescription contentDescription = new ContentDescription();
-    contentDescription.setLanguage(language);
-    contentDescription.setMetatagDescription(content.getMetaDetails());
-    contentDescription.setTitle(content.getTitle());
-    contentDescription.setName(content.getName());
-    contentDescription.setDescription(content.getPageContent());
-    contentDescription.setMetatagTitle(content.getTitle());
-
-    return contentDescription;
+    if(contentModel != null) {
+      
+    }
+    List<ContentDescription> descriptions = new ArrayList<ContentDescription>();
+    for(ObjectContent objectContent : content.getDescriptions()) {
+      Language lang = languageService.getByCode(objectContent.getLanguage());
+      ContentDescription contentDescription = new ContentDescription();
+      if(contentModel != null) {
+        setContentDescriptionToContentModel(contentModel,contentDescription,lang);
+      }
+      contentDescription.setLanguage(lang);
+      contentDescription.setMetatagDescription(objectContent.getMetaDetails());
+      contentDescription.setTitle(objectContent.getTitle());
+      contentDescription.setName(objectContent.getName());
+      contentDescription.setSeUrl(objectContent.getSlug());
+      contentDescription.setDescription(objectContent.getPageContent());
+      contentDescription.setMetatagTitle(objectContent.getTitle());
+      descriptions.add(contentDescription);
+    }
+      return descriptions;
   }
 
   private void setContentDescriptionToContentModel(Content content,
@@ -190,12 +212,13 @@ public class ContentFacadeImpl implements ContentFacade {
         findAppropriateContentDescription(content.getDescriptions(), language);
 
     if (contentDescriptionModel.isPresent()) {
-      contentDescriptionModel.get()
-          .setMetatagDescription(contentDescription.getMetatagDescription());
-      contentDescriptionModel.get().setTitle(contentDescription.getTitle());
-      contentDescriptionModel.get().setName(contentDescription.getName());
-      contentDescriptionModel.get().setDescription(contentDescription.getDescription());
-      contentDescriptionModel.get().setMetatagTitle(contentDescription.getTitle());
+      contentDescription.setMetatagDescription(contentDescriptionModel.get().getMetatagDescription());
+      contentDescription.setDescription(contentDescriptionModel.get().getDescription());
+      contentDescription.setId(contentDescriptionModel.get().getId());
+      contentDescription.setAuditSection(contentDescriptionModel.get().getAuditSection());
+      contentDescription.setLanguage(contentDescriptionModel.get().getLanguage());
+      contentDescription.setTitle(contentDescriptionModel.get().getTitle());
+      contentDescription.setName(contentDescriptionModel.get().getName());
     } else {
       content.getDescriptions().add(contentDescription);
     }
@@ -316,11 +339,12 @@ public class ContentFacadeImpl implements ContentFacade {
   }
 
   @Override
-  public void saveContentPage(PersistableContentPage page, MerchantStore merchantStore,
+  public void saveContentPage(PersistableContent page, MerchantStore merchantStore,
       Language language) {
     Validate.notNull(page);
     Validate.notNull(merchantStore);
     Validate.notNull(page.getCode());
+    //Validate.notNull(page.getName());
 
     try {
       // check if exists
@@ -341,6 +365,26 @@ public class ContentFacadeImpl implements ContentFacade {
   public void addContentFiles(List<ContentFile> files, String merchantStoreCode) {
     for(ContentFile file : files) {
       addContentFile(file, merchantStoreCode);
+    }
+    
+  }
+
+  @Override
+  public void deletePage(MerchantStore store, Long id) {
+    Validate.notNull(store,"MerchantStore not null");
+    Validate.notNull(id,"Content id must not be null");
+    //select content first
+    Content content = contentService.getById(id);
+    if(content != null) {
+      if(content.getMerchantStore().getId().intValue() != store.getId().intValue()) {
+        throw new ResourceNotFoundException("No content found with id [" + id + "] for store [" + store.getCode() + "]");
+      }
+    }
+    
+    try {
+      contentService.delete(content);
+    } catch (ServiceException e) {
+      throw new ServiceRuntimeException("Exception while deleting content " + e.getMessage(),e);
     }
     
   }

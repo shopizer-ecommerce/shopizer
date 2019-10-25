@@ -12,7 +12,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,10 +35,15 @@ import com.salesmanager.shop.model.catalog.product.LightPersistableProduct;
 import com.salesmanager.shop.model.catalog.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProductList;
+import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.store.controller.product.facade.ProductFacade;
 import com.salesmanager.shop.utils.ImageFilePath;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.SwaggerDefinition;
+import io.swagger.annotations.Tag;
 import springfox.documentation.annotations.ApiIgnore;
 
 /**
@@ -45,6 +53,10 @@ import springfox.documentation.annotations.ApiIgnore;
  */
 @Controller
 @RequestMapping("/api/v1")
+@Api(tags = {"Product management resource (Product Management Api)"})
+@SwaggerDefinition(tags = {
+    @Tag(name = "Product management resource", description = "Add product, edit product and delete product")
+})
 public class ProductApi {
 
 
@@ -88,6 +100,8 @@ public class ProductApi {
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
   })
+  @ApiOperation(httpMethod = "PUT", value = "Update product",
+  notes = "", produces = "application/json", response = PersistableProduct.class)
   public @ResponseBody PersistableProduct update(
       @PathVariable Long id,
       @Valid @RequestBody PersistableProduct product,
@@ -96,6 +110,7 @@ public class ProductApi {
       HttpServletResponse response) {
 
     try {
+      product.setId(id);
       productFacade.saveProduct(merchantStore, product, merchantStore.getDefaultLanguage());
       return product;
     } catch (Exception e) {
@@ -108,11 +123,13 @@ public class ProductApi {
       return null;
     }
   }
-  
+  /** updates price quantity **/
   @ResponseStatus(HttpStatus.OK)
   @PatchMapping(
       value = "/private/product/{id}",
       produces = {APPLICATION_JSON_VALUE})
+  @ApiOperation(httpMethod = "PATCH", value = "Update product inventory",
+  notes = "Updates product inventory", produces = "application/json", response = Void.class)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
@@ -456,6 +473,23 @@ public class ProductApi {
     }
 
     return product;
+  }
+  
+  @ResponseStatus(HttpStatus.OK)
+  @GetMapping(value = {"/private/product/unique"}, produces = MediaType.APPLICATION_JSON_VALUE)
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT")
+  })
+  @ApiOperation(httpMethod = "GET", value = "Check if product code already exists", notes = "",
+      response = EntityExists.class)
+  public ResponseEntity<EntityExists> exists(
+      @RequestParam(value = "code") String code,
+      @ApiIgnore MerchantStore merchantStore, 
+      @ApiIgnore Language language) {
+    
+    boolean exists = productFacade.exists(code, merchantStore);
+    return new ResponseEntity<EntityExists>(new EntityExists(exists), HttpStatus.OK);
+    
   }
 
   @ResponseStatus(HttpStatus.CREATED)

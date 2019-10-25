@@ -6,7 +6,9 @@ import com.salesmanager.core.model.catalog.product.manufacturer.ManufacturerDesc
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
-
+import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturerFull;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class ReadableManufacturerPopulator extends AbstractDataPopulator<com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer,ReadableManufacturer>
@@ -19,15 +21,22 @@ public class ReadableManufacturerPopulator extends AbstractDataPopulator<com.sal
 	public ReadableManufacturer populate(
 			com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer source,
 			ReadableManufacturer target, MerchantStore store, Language language) throws ConversionException {
-		target.setId(source.getId());
+		
+	    List<com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription> fulldescriptions = new ArrayList<com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription>();
+	    if(language == null) {
+	      target = new ReadableManufacturerFull();
+	    }
+	    target.setId(source.getId());
 		if(source.getDescriptions()!=null && source.getDescriptions().size()>0) {
 			
 				Set<ManufacturerDescription> descriptions = source.getDescriptions();
 				ManufacturerDescription description = null;
 				for(ManufacturerDescription desc : descriptions) {
-					if(desc.getLanguage().getCode().equals(language.getCode())) {
+					if(language != null && desc.getLanguage().getCode().equals(language.getCode())) {
 						description = desc;
 						break;
+					} else {
+					  fulldescriptions.add(populateDescription(desc));
 					}
 				}
 				
@@ -36,13 +45,14 @@ public class ReadableManufacturerPopulator extends AbstractDataPopulator<com.sal
 				target.setCode(source.getCode());
 				
 				if (description != null) {
-					com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription d = new com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription();
-					d.setName(description.getName());
-					d.setDescription(description.getDescription());
-					d.setId(description.getId());
+					com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription d = populateDescription(description);
 					target.setDescription(d);
 				}
 
+		}
+		
+		if(target instanceof ReadableManufacturerFull) {
+		  ((ReadableManufacturerFull)target).setDescriptions(fulldescriptions);
 		}
 
 		return target;
@@ -52,5 +62,20 @@ public class ReadableManufacturerPopulator extends AbstractDataPopulator<com.sal
     protected ReadableManufacturer createTarget()
     {
         return null;
+    }
+    
+    com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription populateDescription(ManufacturerDescription description) {
+      if(description == null) {
+        return null;
+      }
+      com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription d = new com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription();
+      d.setName(description.getName());
+      d.setDescription(description.getDescription());
+      d.setId(description.getId());
+      d.setTitle(description.getTitle());
+      if(description.getLanguage() != null) {
+        d.setLanguage(description.getLanguage().getCode());
+      }
+      return d;
     }
 }

@@ -80,7 +80,7 @@
 				<c:url var="userSave" value="/admin/users/save.html"/>
 
 
-				<form:form method="POST" commandName="user" action="${userSave}">
+				<form:form method="POST" modelAttribute="user" action="${userSave}">
 
       							
       				<form:errors path="*" cssClass="alert alert-error" element="div" />

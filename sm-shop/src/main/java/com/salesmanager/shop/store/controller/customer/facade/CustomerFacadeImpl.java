@@ -3,14 +3,6 @@
  */
 package com.salesmanager.shop.store.controller.customer.facade;
 
-import com.salesmanager.core.business.exception.ServiceException;
-import com.salesmanager.core.model.customer.CustomerCriteria;
-import com.salesmanager.core.model.customer.CustomerList;
-import com.salesmanager.core.model.system.optin.CustomerOptin;
-import com.salesmanager.shop.populator.customer.ReadableCustomerList;
-import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;
-import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
-import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -36,10 +28,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.salesmanager.core.business.exception.ConversionException;
+import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.modules.email.Email;
 import com.salesmanager.core.business.services.customer.CustomerService;
-import com.salesmanager.core.business.services.customer.attribute.CustomerOptionService;
-import com.salesmanager.core.business.services.customer.attribute.CustomerOptionValueService;
 import com.salesmanager.core.business.services.customer.optin.CustomerOptinService;
 import com.salesmanager.core.business.services.customer.review.CustomerReviewService;
 import com.salesmanager.core.business.services.reference.country.CountryService;
@@ -52,12 +43,15 @@ import com.salesmanager.core.business.services.user.GroupService;
 import com.salesmanager.core.business.services.user.PermissionService;
 import com.salesmanager.core.business.utils.CoreConfiguration;
 import com.salesmanager.core.model.customer.Customer;
+import com.salesmanager.core.model.customer.CustomerCriteria;
+import com.salesmanager.core.model.customer.CustomerList;
 import com.salesmanager.core.model.customer.review.CustomerReview;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.country.Country;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.reference.zone.Zone;
 import com.salesmanager.core.model.shoppingcart.ShoppingCart;
+import com.salesmanager.core.model.system.optin.CustomerOptin;
 import com.salesmanager.core.model.system.optin.Optin;
 import com.salesmanager.core.model.system.optin.OptinType;
 import com.salesmanager.core.model.user.Group;
@@ -81,8 +75,12 @@ import com.salesmanager.shop.populator.customer.CustomerPopulator;
 import com.salesmanager.shop.populator.customer.PersistableCustomerBillingAddressPopulator;
 import com.salesmanager.shop.populator.customer.PersistableCustomerReviewPopulator;
 import com.salesmanager.shop.populator.customer.PersistableCustomerShippingAddressPopulator;
+import com.salesmanager.shop.populator.customer.ReadableCustomerList;
 import com.salesmanager.shop.populator.customer.ReadableCustomerPopulator;
 import com.salesmanager.shop.populator.customer.ReadableCustomerReviewPopulator;
+import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;
+import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
+import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.utils.EmailTemplatesUtils;
 import com.salesmanager.shop.utils.EmailUtils;
 import com.salesmanager.shop.utils.ImageFilePath;
@@ -95,7 +93,8 @@ import com.salesmanager.shop.utils.LocaleUtils;
  * entry point to service layer.
  * 
  * @author Umesh Awasthi
- * @version 2.2.1
+ * @version 2.2.1, 2.8.0
+ * @modified Carl Samson
  *
  */
 
@@ -126,14 +125,7 @@ public class CustomerFacadeImpl implements CustomerFacade {
   private LanguageService languageService;
 
   @Inject
-  private CustomerOptionValueService customerOptionValueService;
-
-  @Inject
-  private CustomerOptionService customerOptionService;
-
-  @Inject
   private LabelUtils messages;
-
 
   @Inject
   private CountryService countryService;
@@ -162,13 +154,11 @@ public class CustomerFacadeImpl implements CustomerFacade {
   @Inject
   private CustomerReviewService customerReviewService;
 
-
   @Inject
   private CoreConfiguration coreConfiguration;
   
   @Autowired
   private CustomerPopulator customerPopulator;
-
 
   @Inject
   private EmailUtils emailUtils;
@@ -349,7 +339,7 @@ public class CustomerFacadeImpl implements CustomerFacade {
       final MerchantStore merchantStore, Language language) throws Exception {
     LOG.info("Starting customer registration process..");
 
-    if (this.userExist(customer.getUserName())) {
+    if (userExist(customer.getUserName())) {
       throw new UserAlreadyExistException("User already exist");
     }
 
@@ -375,14 +365,6 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
     LOG.info("Starting to populate customer model from customer data");
     Customer customerModel = null;
-/*    CustomerPopulator populator = new CustomerPopulator();
-    populator.setCountryService(countryService);
-    populator.setCustomerOptionService(customerOptionService);
-    populator.setCustomerOptionValueService(customerOptionValueService);
-    populator.setLanguageService(languageService);
-    populator.setLanguageService(languageService);
-    populator.setZoneService(zoneService);
-    populator.setGroupService(groupService);*/
 
     customerModel = customerPopulator.populate(customer, merchantStore, language);
     // we are creating or resetting a customer
@@ -464,6 +446,11 @@ public class CustomerFacadeImpl implements CustomerFacade {
         new UsernamePasswordAuthenticationToken(userName, password, authorities);
 
     Authentication authentication = customerAuthenticationManager.authenticate(authenticationToken);
+    
+/*    SecurityContext sc = SecurityContextHolder.getContext();
+    sc.setAuthentication(auth);
+    HttpSession session = request.getSession(true);
+    session.setAttribute("SPRING_SECURITY_CONTEXT", sc);*/
 
     SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -673,15 +660,6 @@ public class CustomerFacadeImpl implements CustomerFacade {
       customer.setPassword(password);
     }
 
-    /** now encoded in populator **/
-
-/*    String encodedPassword = passwordEncoder.encode(password);
-    if (!StringUtils.isBlank(customer.getEncodedPassword())) {
-      encodedPassword = customer.getEncodedPassword();
-      // customer.setClearPassword("");
-    }
-
-    cust.setPassword(encodedPassword);*/
 
     return cust;
 
@@ -703,15 +681,6 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
     Customer cust = customerService.getById(customer.getId());
 
-
-/*    CustomerPopulator populator = new CustomerPopulator();
-    populator.setCountryService(countryService);
-    populator.setCustomerOptionService(customerOptionService);
-    populator.setCustomerOptionValueService(customerOptionValueService);
-    populator.setLanguageService(languageService);
-    populator.setLanguageService(languageService);
-    populator.setZoneService(zoneService);
-    populator.setGroupService(groupService);*/
     try{
       customerPopulator.populate(customer, cust, store, store.getDefaultLanguage());
     } catch (ConversionException e) {
@@ -1042,5 +1011,87 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
     review.setReviewedCustomer(id);
     return review;
+  }
+
+
+  @Override
+  public void deleteById(Long id) {
+    Customer customer = getCustomerById(id);
+    delete(customer);
+    
+  }
+
+
+  @Override
+  public void updateAddress(PersistableCustomer customer, MerchantStore store) {
+    Validate.notNull(customer.getBilling(), "Billing address can not be null");
+    Validate.notNull(customer.getBilling().getAddress(), "Billing address can not be null");
+    Validate.notNull(customer.getBilling().getCity(), "Billing city can not be null");
+    Validate.notNull(customer.getBilling().getPostalCode(), "Billing postal code can not be null");
+    Validate.notNull(customer.getBilling().getCountry(), "Billing country can not be null");
+    customer.getBilling().setBillingAddress(true);
+    
+    if(customer.getDelivery() == null) {
+      customer.setDelivery(customer.getBilling());
+      customer.getDelivery().setBillingAddress(false);
+    } else {
+      Validate.notNull(customer.getDelivery(), "Delivery address can not be null");
+      Validate.notNull(customer.getDelivery().getAddress(), "Delivery address can not be null");
+      Validate.notNull(customer.getDelivery().getCity(), "Delivery city can not be null");
+      Validate.notNull(customer.getDelivery().getPostalCode(), "Delivery postal code can not be null");
+      Validate.notNull(customer.getDelivery().getCountry(), "Delivery country can not be null");
+      
+    }
+    
+    try {
+      //update billing
+      updateAddress(customer.getId(), store, customer.getBilling(), store.getDefaultLanguage());
+      //update delivery
+      updateAddress(customer.getId(), store, customer.getDelivery(), store.getDefaultLanguage());
+    } catch (Exception e) {
+      throw new ServiceRuntimeException("Error while updating customer address");
+    }
+    
+
+  }
+
+
+  @Override
+  public void updateAddress(String userName, PersistableCustomer customer, MerchantStore store) {
+    
+    ReadableCustomer customerModel = getByUserName(userName, store, store.getDefaultLanguage());
+    customer.setId(customerModel.getId());
+    customer.setUserName(userName);
+    updateAddress(customer, store);
+    
+  }
+
+
+  @Override
+  public PersistableCustomer update(String userName, PersistableCustomer customer,
+      MerchantStore store) {
+    ReadableCustomer customerModel = getByUserName(userName, store, store.getDefaultLanguage());
+    customer.setId(customerModel.getId());
+    customer.setUserName(userName);
+    return this.update(customer, store);
+  }
+
+
+  @Override
+  public boolean passwordMatch(String rawPassword, Customer customer) {
+    return passwordEncoder.matches(rawPassword, customer.getPassword());
+  }
+
+
+  @Override
+  public void changePassword(Customer customer, String newPassword) {
+    String encoded = passwordEncoder.encode(newPassword);
+    customer.setPassword(encoded);
+    try {
+      customerService.update(customer);
+    } catch (ServiceException e) {
+      throw new ServiceRuntimeException("Exception while changing password", e);
+    }
+    
   }
 }

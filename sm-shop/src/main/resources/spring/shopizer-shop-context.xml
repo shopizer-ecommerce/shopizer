@@ -20,7 +20,8 @@
 	<!--deprecated, implemented in java config-->
   	<!--<beans:import resource="classpath:/spring/shopizer-properties.xml" />-->
   	<!-- security -->
-	<beans:import resource="classpath:/spring/shopizer-security.xml" />
+  	<!--deprecated, implemented in java config-->
+	<!--<beans:import resource="classpath:/spring/shopizer-security.xml" />-->
   	<!-- servlet-context -->
 	<!--deprecated, implemented in java config-->
   	<!--<beans:import resource="classpath:/spring/shopizer-servlet-context.xml" />-->

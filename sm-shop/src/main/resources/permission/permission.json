@@ -5,7 +5,8 @@
         "group": {
           "name": [
             "SUPERADMIN",
-            "ADMIN"
+            "ADMIN",
+            "ADMIN_RETAILER"
           ]
         }
       },
@@ -18,7 +19,8 @@
         "group": {
           "name": [
             "SUPERADMIN",
-            "ADMIN"
+            "ADMIN",
+            "ADMIN_RETAILER"
           ]
         }
       },
@@ -30,7 +32,8 @@
             "ADMIN",
             "ADMIN_CATALOGUE",
             "ADMIN_STORE",
-            "ADMIN_ORDER"
+            "ADMIN_ORDER",
+            "ADMIN_RETAILER"
           ]
         }
       },
@@ -40,7 +43,8 @@
           "name": [
             "SUPERADMIN",
             "ADMIN",
-            "ADMIN_CATALOGUE"
+            "ADMIN_CATALOGUE",
+            "ADMIN_RETAILER"
           ]
         }
       },
@@ -50,7 +54,8 @@
           "name": [
             "SUPERADMIN",
             "ADMIN",
-            "ADMIN_ORDER"
+            "ADMIN_ORDER",
+            "ADMIN_RETAILER"
           ]
         }
       },
@@ -60,7 +65,8 @@
           "name": [
             "SUPERADMIN",
             "ADMIN",
-            "ADMIN_CONTENT"
+            "ADMIN_CONTENT",
+            "ADMIN_RETAILER"
           ]
         }
       },
@@ -70,7 +76,8 @@
           "name": [
             "SUPERADMIN",
             "ADMIN",
-            "ADMIN_STORE"
+            "ADMIN_STORE",
+            "ADMIN_RETAILER"
           ]
         }
       },
@@ -80,7 +87,8 @@
           "name": [
             "SUPERADMIN",
             "ADMIN",
-            "ADMIN_STORE"
+            "ADMIN_STORE",
+            "ADMIN_RETAILER"
           ]
         }
       },
@@ -90,7 +98,8 @@
           "name": [
             "SUPERADMIN",
             "ADMIN",
-            "ADMIN_STORE"
+            "ADMIN_STORE",
+            "ADMIN_RETAILER"
           ]
         }
       },
@@ -100,7 +109,8 @@
           "name": [
             "SUPERADMIN",
             "ADMIN",
-            "ADMIN_STORE"
+            "ADMIN_STORE",
+            "ADMIN_RETAILER"
           ]
         }
       },
@@ -110,7 +120,8 @@
           "name": [
             "SUPERADMIN",
             "ADMIN",
-            "ADMIN_STORE"
+            "ADMIN_STORE",
+            "ADMIN_RETAILER"
           ]
         }
       },

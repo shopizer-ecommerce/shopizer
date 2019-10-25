@@ -140,7 +140,7 @@ function sendContact(){
 			
 			<div class="span6 col-md-7">  
 								
-                                <form:form action="#" method="POST" id="contactForm" class="form-horizontal" name="contactForm" commandName="contact">
+                                <form:form action="#" method="POST" id="contactForm" class="form-horizontal" name="contactForm" modelAttribute="contact">
                                     <div id="store.success" class="alert alert-success" style="display:none;"><s:message code="message.email.success" text="Your message has been sent"/></div>   
 	                				<div id="store.error" class="alert alert-error" style="display:none;"><s:message code="message.email.success" text="An error occurred while sending your message, pleas try again later"/></div>
                                     <form:errors id="contactForm" path="*" cssClass="alert alert-error" element="div" />

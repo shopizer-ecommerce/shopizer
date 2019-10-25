@@ -87,7 +87,7 @@ public class ShoppingOrderController extends AbstractController {
 	private static final Logger LOGGER = LoggerFactory
 	.getLogger(ShoppingOrderController.class);
 	
-	@Value("${googleMapsKey}")
+	@Value("${config.googleMapsKey}")
 	private String googleMapsKey;
 	
 	@Inject

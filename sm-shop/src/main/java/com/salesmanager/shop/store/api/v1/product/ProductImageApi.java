@@ -1,37 +1,29 @@
 package com.salesmanager.shop.store.api.v1.product;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.image.ProductImageService;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.image.ProductImage;
-import com.salesmanager.core.model.content.FileContentType;
-import com.salesmanager.core.model.content.ImageContentFile;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.shop.model.catalog.product.PersistableImage;
-import com.salesmanager.shop.populator.catalog.PersistableProductImagePopulator;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.api.exception.UnauthorizedException;
@@ -62,6 +54,7 @@ public class ProductImageApi {
   @ResponseStatus(HttpStatus.CREATED)
   @RequestMapping(
       value = {"/private/products/{id}/images", "/auth/products/{id}/images"},
+      consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
       method = RequestMethod.POST)
   @ApiImplicitParams({
     @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
@@ -69,7 +62,7 @@ public class ProductImageApi {
   })
   public void uploadImages(
       @PathVariable Long id,
-      @RequestParam("files") MultipartFile[] uploadfiles,
+      @RequestParam(value="file[]",required = true) MultipartFile[] files,
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language) {
 
@@ -77,7 +70,6 @@ public class ProductImageApi {
 
       // get the product
       Product product = productService.getById(id);
-
       if (product == null) {
         throw new ResourceNotFoundException("Product not found");
       }
@@ -101,7 +93,7 @@ public class ProductImageApi {
 
       List<ProductImage> contentImagesList = new ArrayList<ProductImage>();
 
-      for (MultipartFile multipartFile : uploadfiles) {
+      for (MultipartFile multipartFile : files) {
         if (!multipartFile.isEmpty()) {
           ProductImage productImage = new ProductImage();
           productImage.setImage(multipartFile.getInputStream());
@@ -127,57 +119,6 @@ public class ProductImageApi {
     }
   }
 
-  /**
-   * @deprecated
-   * Simple way of uploading image using Base64
-   *
-   * @param id
-   * @param image
-   * @param request
-   * @param response
-   * @return
-   * @throws Exception
-   */
-  @ResponseStatus(HttpStatus.CREATED)
-  @RequestMapping(
-      value = {"/private/products/{id}/images"},
-      method = RequestMethod.POST)
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
-  })
-  public @ResponseBody PersistableImage createImage(
-      @PathVariable Long id,
-      @Valid @RequestBody PersistableImage image,
-			@ApiIgnore MerchantStore merchantStore,
-			@ApiIgnore Language language) {
-
-    try {
-      // get the product
-      Product product = productService.getById(id);
-
-      PersistableProductImagePopulator imagePopulator = new PersistableProductImagePopulator();
-      imagePopulator.setProduct(product);
-      ProductImage productImage = imagePopulator.populate(image, merchantStore, language);
-
-      InputStream input = new ByteArrayInputStream(image.getBytes());
-
-      ImageContentFile file = new ImageContentFile();
-      file.setFile(input);
-      file.setFileContentType(FileContentType.IMAGE);
-      file.setFileName(productImage.getProductImage());
-      file.setMimeType(image.getContentType());
-
-      productImageService.addProductImage(product, productImage, file);
-      image.setId(productImage.getId());
-
-      return image;
-
-    } catch (Exception e) {
-      LOGGER.error("Error while creating ProductImage", e);
-      throw new ServiceRuntimeException("Exception while creating image");
-    }
-  }
 
   @ResponseStatus(HttpStatus.OK)
   @RequestMapping(

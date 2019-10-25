@@ -37,7 +37,7 @@ public class OptinApiIntegrationTest extends ServicesTestSupport {
       
       final ObjectWriter writer = new ObjectMapper().writer().withDefaultPrettyPrinter();
       final String json = writer.writeValueAsString(optin);
-      System.out.println(json);
+ 
       
       final HttpEntity<String> entity = new HttpEntity<>(json, getHeader());
       final ResponseEntity<PersistableOptin> response = testRestTemplate.postForEntity("/api/v1/private/optin", entity, PersistableOptin.class);

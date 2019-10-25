@@ -82,7 +82,7 @@ public class UserApiIntegrationTest extends ServicesTestSupport {
       final HttpEntity<UserPassword> changePasswordEntity = new HttpEntity<UserPassword>(userPassword, getHeader());
 
       
-      final ResponseEntity<Void> changePassword = testRestTemplate.exchange(String.format("/api/v1/private/user/" + user.getId() + "/password"), HttpMethod.PUT, changePasswordEntity, Void.class);
+      final ResponseEntity<Void> changePassword = testRestTemplate.exchange(String.format("/api/v1/private/user/" + user.getId() + "/password"), HttpMethod.PATCH, changePasswordEntity, Void.class);
       if (changePassword.getStatusCode() != HttpStatus.OK) {
           throw new Exception(response.toString());
       } else {

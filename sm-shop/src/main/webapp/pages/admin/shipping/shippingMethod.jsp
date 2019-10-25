@@ -40,7 +40,7 @@
 	                    	</c:if>
 							
 							
-							<form:form method="POST" commandName="configuration" action="${saveShippingMethod}">
+							<form:form method="POST" modelAttribute="configuration" action="${saveShippingMethod}">
 
       							
       								<form:errors path="*" cssClass="alert alert-error" element="div" />
@@ -89,7 +89,7 @@
 							
 		                  <c:if test="${configuration.active && validationError==null}">      
 		                  <c:url var="removeModule" value="/admin/shipping/deleteShippingMethod.html"/>
-		                  <form:form method="POST" enctype="multipart/form-data" commandName="code" action="${removeModule}">
+		                  <form:form method="POST" enctype="multipart/form-data" modelAttribute="code" action="${removeModule}">
 									<input type="hidden" name="code" value="${configuration.moduleCode}" />
 			                        <div class="form-actions">
 			                            <div class="pull-right">

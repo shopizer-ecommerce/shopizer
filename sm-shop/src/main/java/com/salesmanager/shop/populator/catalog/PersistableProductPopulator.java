@@ -7,14 +7,11 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import javax.inject.Inject;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
-
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductOptionService;
@@ -40,7 +37,6 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.PersistableImage;
 import com.salesmanager.shop.model.catalog.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.ProductPriceEntity;
-import com.salesmanager.shop.model.catalog.product.ProductSpecification;
 import com.salesmanager.shop.utils.DateUtil;
 
 
@@ -71,6 +67,8 @@ public class PersistableProductPopulator extends
 	public Product populate(PersistableProduct source,
 			Product target, MerchantStore store, Language language)
 			throws ConversionException {
+	  
+	    Validate.notNull(target,"Product must not be null");
 
 		try {
 
@@ -112,25 +110,32 @@ public class PersistableProductPopulator extends
 			if(!CollectionUtils.isEmpty(source.getDescriptions())) {
 				for(com.salesmanager.shop.model.catalog.product.ProductDescription description : source.getDescriptions()) {
 					
-					ProductDescription productDescription = new ProductDescription();
+				  ProductDescription productDescription = new ProductDescription();
+				  Language lang = languageService.getByCode(description.getLanguage());
+	              if(lang==null) {
+	                    throw new ConversionException("Language code " + description.getLanguage() + " is invalid, use ISO code (en, fr ...)");
+	               }
+				   if(!CollectionUtils.isEmpty(target.getDescriptions())) {
+				      for(ProductDescription desc : target.getDescriptions()) {
+				        if(desc.getLanguage().getCode().equals(description.getLanguage())) {
+				          productDescription = desc;
+				          break;
+				        }
+				      }
+				    }
+
 					productDescription.setProduct(target);
 					productDescription.setDescription(description.getDescription());
-					if(description.getId() != null && description.getId().longValue() ==0) {
+/*					if(description.getId() != null && description.getId().longValue() ==0) {
 						productDescription.setId(null);
 					} else {
 						productDescription.setId(description.getId());
-					}
-					
+					}*/
 					productDescription.setName(description.getName());
 					productDescription.setSeUrl(description.getFriendlyUrl());
 					productDescription.setMetatagKeywords(description.getKeyWords());
 					productDescription.setMetatagDescription(description.getMetaDescription());
 					productDescription.setTitle(description.getTitle());
-					
-					Language lang = languageService.getByCode(description.getLanguage());
-					if(lang==null) {
-						throw new ConversionException("Language code " + description.getLanguage() + " is invalid, use ISO code (en, fr ...)");
-					}
 					
 					languages.add(lang);
 					productDescription.setLanguage(lang);
@@ -176,10 +181,12 @@ public class PersistableProductPopulator extends
 			}
 			target.setProductReviewCount(source.getRatingCount());
 			
-			
 			if(CollectionUtils.isNotEmpty(source.getProductPrices())) {
-				
-				ProductAvailability productAvailability = new ProductAvailability();
+
+				//get product availability
+			  
+			    //create new ProductAvailability
+			    ProductAvailability productAvailability = new ProductAvailability();
 				
 /*				if(productAvailability.getId() != null && productAvailability.getId().longValue() == 0) {
 				} else {
@@ -219,32 +226,58 @@ public class PersistableProductPopulator extends
 				}
 
 			} else { //create 
+			  
+			    ProductAvailability productAvailability = null;
+			    ProductPrice defaultPrice = null;
+			    if(!CollectionUtils.isEmpty(target.getAvailabilities())) {
+			      for(ProductAvailability avail : target.getAvailabilities()) {
+    			        Set<ProductPrice> prices = avail.getPrices();
+    			        for(ProductPrice p : prices) {
+    			          if(p.isDefaultPrice()) {
+    			            if(productAvailability == null) {
+    			              productAvailability = avail;
+    			              defaultPrice = p;
+    			              break;
+    			            }
+    			            p.setDefaultPrice(false);
+    			          }
+    			        }
+			      }
+			    }
 				
-				ProductAvailability productAvailability = new ProductAvailability();
+			    if(productAvailability == null) {
+			      productAvailability = new ProductAvailability();
+			      target.getAvailabilities().add(productAvailability);
+			    }
+			    
 				productAvailability.setProduct(target);
 				productAvailability.setProductQuantity(source.getQuantity());
 				productAvailability.setProductQuantityOrderMin(1);
 				productAvailability.setProductQuantityOrderMax(1);
-				
-				ProductPrice price = new ProductPrice();
-				price.setDefaultPrice(true);
-				price.setProductPriceAmount(source.getPrice());
-				price.setCode(ProductPriceEntity.DEFAULT_PRICE_CODE);
-				price.setProductAvailability(productAvailability);
-				productAvailability.getPrices().add(price);
-				target.getAvailabilities().add(productAvailability);
-				for(Language lang : languages) {
-					ProductPriceDescription ppd = new ProductPriceDescription();
-					ppd.setProductPrice(price);
-					ppd.setLanguage(lang);
-					ppd.setName(ProductPriceDescription.DEFAULT_PRICE_DESCRIPTION);
-					price.getDescriptions().add(ppd);
+
+				if(defaultPrice != null) {
+				  defaultPrice.setProductPriceAmount(source.getPrice());
+				} else {
+				    defaultPrice = new ProductPrice();
+				    defaultPrice.setDefaultPrice(true);
+				    defaultPrice.setProductPriceAmount(source.getPrice());
+				    defaultPrice.setCode(ProductPriceEntity.DEFAULT_PRICE_CODE);
+				    defaultPrice.setProductAvailability(productAvailability);
+	                productAvailability.getPrices().add(defaultPrice);
+	                for(Language lang : languages) {
+	                
+                      ProductPriceDescription ppd = new ProductPriceDescription();
+                      ppd.setProductPrice(defaultPrice);
+                      ppd.setLanguage(lang);
+                      ppd.setName(ProductPriceDescription.DEFAULT_PRICE_DESCRIPTION);
+                      defaultPrice.getDescriptions().add(ppd);
+                    }
 				}
+
 				
 				
 			}
 
-			
 			//image
 			if(source.getImages()!=null) {
 				for(PersistableImage img : source.getImages()) {
@@ -390,7 +423,6 @@ public class PersistableProductPopulator extends
 
 	@Override
 	protected Product createTarget() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

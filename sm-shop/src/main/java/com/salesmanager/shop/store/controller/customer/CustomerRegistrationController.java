@@ -33,6 +33,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -115,6 +116,8 @@ public class CustomerRegistrationController extends AbstractController {
     @Inject
     private PricingService pricingService;
 	
+    @Value("${config.recaptcha.siteKey}")
+    private String siteKeyKey;
 
 
 
@@ -123,7 +126,7 @@ public class CustomerRegistrationController extends AbstractController {
 
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
 
-		model.addAttribute( "recapatcha_public_key", coreConfiguration.getProperty( ApplicationConstants.RECAPTCHA_PUBLIC_KEY ) );
+		model.addAttribute( "recapatcha_public_key", siteKeyKey);
 		
 		SecuredShopPersistableCustomer customer = new SecuredShopPersistableCustomer();
 		AnonymousCustomer anonymousCustomer = (AnonymousCustomer)request.getAttribute(Constants.ANONYMOUS_CUSTOMER);
@@ -153,7 +156,7 @@ public class CustomerRegistrationController extends AbstractController {
         String userName = null;
         String password = null;
         
-        model.addAttribute( "recapatcha_public_key", coreConfiguration.getProperty( ApplicationConstants.RECAPTCHA_PUBLIC_KEY ) );
+        model.addAttribute( "recapatcha_public_key", siteKeyKey);
         
         if(!StringUtils.isBlank(request.getParameter("g-recaptcha-response"))) {
         	boolean validateCaptcha = captchaRequestUtils.checkCaptcha(request.getParameter("g-recaptcha-response"));

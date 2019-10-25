@@ -3,9 +3,9 @@ package com.salesmanager.shop.store.controller.search.facade;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.search.SearchResponse;
-import com.salesmanager.shop.model.ValueList;
 import com.salesmanager.shop.model.catalog.SearchProductList;
 import com.salesmanager.shop.model.catalog.SearchProductRequest;
+import com.salesmanager.shop.model.entity.ValueList;
 
 /**
  * Different services for searching and indexing data

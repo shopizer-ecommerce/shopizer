@@ -3,8 +3,6 @@ package com.salesmanager.shop.mapper.catalog;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -77,6 +75,7 @@ public class ReadableCategoryMapper implements Mapper<Category, ReadableCategory
     desc.setDescription(description.getName());
     desc.setKeyWords(description.getMetatagKeywords());
     desc.setHighlights(description.getCategoryHighlight());
+    desc.setLanguage(description.getLanguage().getCode());
     desc.setTitle(description.getMetatagTitle());
     desc.setMetaDescription(description.getMetatagDescription());
     return desc;
@@ -102,5 +101,11 @@ public class ReadableCategoryMapper implements Mapper<Category, ReadableCategory
       return new ReadableCategory();
     }
 
+  }
+
+  @Override
+  public ReadableCategory convert(Category source, ReadableCategory destination,
+      MerchantStore store, Language language) {
+    return destination;
   }
 }

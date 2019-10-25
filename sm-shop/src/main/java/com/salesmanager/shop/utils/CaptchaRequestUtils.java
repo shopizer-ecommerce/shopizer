@@ -15,6 +15,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
@@ -40,6 +41,9 @@ public class CaptchaRequestUtils {
 	
 	private static final String SUCCESS_INDICATOR = "success";
 	
+	  @Value("${config.recaptcha.secretKey}")
+	  private String secretKey;
+	
 	public boolean checkCaptcha(String gRecaptchaResponse) throws Exception {
 
 		HttpClient client = HttpClientBuilder.create().build();
@@ -47,13 +51,9 @@ public class CaptchaRequestUtils {
 	    String url = configuration.getProperty(ApplicationConstants.RECAPTCHA_URL);;
 
         List<NameValuePair> data = new ArrayList<NameValuePair>();
-        data.add(new BasicNameValuePair("secret",  configuration.getProperty(ApplicationConstants.RECAPTCHA_PRIVATE_KEY)));
+        data.add(new BasicNameValuePair("secret",  secretKey));
         data.add(new BasicNameValuePair("response",  gRecaptchaResponse));
 
-    /* NameValuePair[] data = {
-                new NameValuePair("secret", configuration.getProperty(ApplicationConstants.RECAPTCHA_PRIVATE_KEY)),
-                new NameValuePair("response", gRecaptchaResponse)
-              };*/
 	    
 	    // Create a method instance.
         HttpPost post = new HttpPost(url);

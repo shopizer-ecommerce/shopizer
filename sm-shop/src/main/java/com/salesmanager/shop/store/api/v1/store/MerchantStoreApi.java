@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.Principal;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import javax.inject.Inject;
@@ -31,6 +32,7 @@ import com.salesmanager.core.business.services.reference.language.LanguageServic
 import com.salesmanager.core.model.content.FileContentType;
 import com.salesmanager.core.model.content.InputContentFile;
 import com.salesmanager.core.model.merchant.MerchantStoreCriteria;
+import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.model.shop.PersistableBrand;
 import com.salesmanager.shop.model.shop.PersistableMerchantStore;
@@ -42,10 +44,20 @@ import com.salesmanager.shop.store.api.exception.UnauthorizedException;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.store.controller.user.facade.UserFacade;
 import com.salesmanager.shop.utils.ServiceRequestCriteriaBuilderUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.SwaggerDefinition;
+import io.swagger.annotations.Tag;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("/api/v1")
+@Api(tags = {"Merchant and store management resource (Merchant - Store Management Api)"})
+@SwaggerDefinition(tags = {
+    @Tag(name = "Merchant and store management", description = "Edit merchants (retailers) and stores")
+})
 public class MerchantStoreApi {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(MerchantStoreApi.class);
@@ -68,6 +80,16 @@ public class MerchantStoreApi {
   public ReadableMerchantStore store(@PathVariable String store,
       @RequestParam(value = "lang", required = false) String lang) {
     return storeFacade.getByCode(store, lang);
+  }
+  
+  @GetMapping(value = {"/merchant/{store}/stores"}, produces = MediaType.APPLICATION_JSON_VALUE)
+  @ApiOperation(httpMethod = "GET", value = "Get stores attached to merchant", notes = "Merchant (retailer) can have multiple stores",
+      response = ReadableMerchantStore.class)
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
+  public List<ReadableMerchantStore> stores(@PathVariable String merchant,
+      @ApiIgnore Language language) {
+    return storeFacade.getChildStores(language, merchant);
   }
 
   @ResponseStatus(HttpStatus.OK)
@@ -114,6 +136,29 @@ public class MerchantStoreApi {
     String userName = getUserFromRequest(request);
     validateUserPermission(userName, code);
     return storeFacade.getBrand(code);
+  }
+  
+  /**
+   * List child stores
+   * @param code
+   * @param request
+   * @return
+   */
+  @ResponseStatus(HttpStatus.OK)
+  @GetMapping(value = {"/private/merchant/{merchant}/children"},
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  @ApiOperation(httpMethod = "GET", value = "Get child stores", notes = "",
+      response = List.class)
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
+  public List<ReadableMerchantStore> children(
+      @PathVariable String merchant,
+      @ApiIgnore Language language,
+      HttpServletRequest request) {
+    
+    String userName = getUserFromRequest(request);
+    validateUserPermission(userName, merchant);
+    return storeFacade.getChildStores(language, merchant);
   }
 
   @ResponseStatus(HttpStatus.CREATED)

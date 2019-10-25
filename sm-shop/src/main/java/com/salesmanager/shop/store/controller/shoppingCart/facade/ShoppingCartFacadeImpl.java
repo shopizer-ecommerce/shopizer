@@ -263,11 +263,11 @@ public class ShoppingCartFacadeImpl
 		Product product = productService.getById(shoppingCartItem.getProduct());
 
 		if (product == null) {
-			throw new Exception("Item with id " + shoppingCartItem.getProduct() + " does not exist");
+			throw new ResourceNotFoundException("Item with id " + shoppingCartItem.getProduct() + " does not exist");
 		}
 
 		if (product.getMerchantStore().getId().intValue() != store.getId().intValue()) {
-			throw new Exception("Item with id " + shoppingCartItem.getProduct() + " does not belong to merchant "
+			throw new ResourceNotFoundException("Item with id " + shoppingCartItem.getProduct() + " does not belong to merchant "
 					+ store.getId());
 		}
 		
@@ -745,7 +745,9 @@ public class ShoppingCartFacadeImpl
             }
         }
 	    //delete item
-	    shoppingCartService.deleteShoppingCartItem(itemToDelete.getId());
+	    if(itemToDelete!=null) {
+	      shoppingCartService.deleteShoppingCartItem(itemToDelete.getId());
+	    }
         
         //remaining items
         cart.setLineItems(items);
