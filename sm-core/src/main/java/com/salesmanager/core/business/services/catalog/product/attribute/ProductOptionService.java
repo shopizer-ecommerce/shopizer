@@ -1,7 +1,7 @@
 package com.salesmanager.core.business.services.catalog.product.attribute;
 
 import java.util.List;
-
+import org.springframework.data.domain.Page;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityService;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOption;
@@ -27,6 +27,8 @@ public interface ProductOptionService extends SalesManagerEntityService<Long, Pr
 	ProductOption getByCode(MerchantStore store, String optionCode);
 	
 	ProductOption getById(MerchantStore store, Long optionId);
+	
+	Page<ProductOption> getByMerchant(MerchantStore store, Language language, String name, int page, int count);
 	
 
 

@@ -18,7 +18,7 @@ public interface ProductInventoryFacade {
   
   ReadableInventory add(Long productId, PersistableInventory inventory, MerchantStore store, Language language);
   
-  //void update(Long productId, Long storeId, Language language);
+  void update(Long productId, PersistableInventory inventory, MerchantStore store, Language language);
   
   void delete(Long inventoryId, MerchantStore store);
   

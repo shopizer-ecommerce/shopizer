@@ -64,6 +64,26 @@ public class ProductInventoryApi {
   @ResponseStatus(HttpStatus.OK)
   @RequestMapping(
       value = {"/private/product/inventory/{id}"},
+      method = RequestMethod.PUT)
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
+  public @ResponseBody ReadableInventory update(
+      @Valid @RequestBody PersistableInventory inventory,
+            @ApiIgnore MerchantStore merchantStore,
+            @ApiIgnore Language language,
+      HttpServletRequest request,
+      HttpServletResponse response) {
+
+      productInventoryFacade.update(inventory.getProductId(), inventory, merchantStore, language);
+      return null;
+
+  }
+  
+  @ResponseStatus(HttpStatus.OK)
+  @RequestMapping(
+      value = {"/private/product/inventory/{id}"},
       method = RequestMethod.DELETE)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),

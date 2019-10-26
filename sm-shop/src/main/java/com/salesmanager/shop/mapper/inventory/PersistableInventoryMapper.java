@@ -1,9 +1,12 @@
 package com.salesmanager.shop.mapper.inventory;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import org.jsoup.helper.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.exception.ServiceException;
@@ -43,36 +46,42 @@ public class PersistableInventoryMapper implements Mapper<PersistableInventory, 
     
     try {
 
-    
-    ProductAvailability productAvailability = new ProductAvailability();
+    if(destination == null) {
+      destination = new ProductAvailability();
+    }
 
-    //productAvailability.setProduct(target);
-    productAvailability.setProductQuantity(source.getQuantity());
-    productAvailability.setProductQuantityOrderMin(source.getProductQuantityOrderMax());
-    productAvailability.setProductQuantityOrderMax(source.getProductQuantityOrderMin());
-    productAvailability.setAvailable(source.isAvailable());
-    productAvailability.setOwner(source.getOwner());
-    //productAvailability.setProductStatus();
+
+    destination.setProductQuantity(source.getQuantity());
+    destination.setProductQuantityOrderMin(source.getProductQuantityOrderMax());
+    destination.setProductQuantityOrderMax(source.getProductQuantityOrderMin());
+    destination.setAvailable(source.isAvailable());
+    destination.setOwner(source.getOwner());
     if(!StringUtils.isBlank(source.getRegion())) {
-      productAvailability.setRegion(source.getRegion());
+      destination.setRegion(source.getRegion());
     } else {
-      productAvailability.setRegion(Constants.ALL_REGIONS);
+      destination.setRegion(Constants.ALL_REGIONS);
     }
     
-    productAvailability.setRegionVariant(source.getRegionVariant());
+    destination.setRegionVariant(source.getRegionVariant());
     if(!StringUtils.isBlank(source.getDateAvailable())) {
-      productAvailability.setProductDateAvailable(DateUtil.getDate(source.getDateAvailable()));
+      destination.setProductDateAvailable(DateUtil.getDate(source.getDateAvailable()));
     }
-    
-    
+
     for(PersistableProductPrice priceEntity : source.getPrices()) {
       
       ProductPrice price = new ProductPrice();
       price.setId(null);
-      if(priceEntity.getId() != null && priceEntity.getId().longValue() > 0) {
-        price.setId(priceEntity.getId());
+      Set<ProductPrice> prices = new HashSet<ProductPrice>();
+      if(destination.getPrices()!=null) {
+        for(ProductPrice pp : destination.getPrices()) {
+          if(priceEntity.getId()!=null && priceEntity.getId().longValue()>0 && priceEntity.getId().longValue() == pp.getId().longValue()) {
+            price = pp;
+            price.setId(pp.getId());
+          }
+        }
       }
-      price.setProductAvailability(productAvailability);
+
+      price.setProductAvailability(destination);
       price.setDefaultPrice(priceEntity.isDefaultPrice());
       price.setProductPriceAmount(priceEntity.getOriginalPrice());
       price.setDefaultPrice(priceEntity.isDefaultPrice());
@@ -86,20 +95,32 @@ public class PersistableInventoryMapper implements Mapper<PersistableInventory, 
           Date endDate = DateUtil.getDate(priceEntity.getDiscountEndDate());
           price.setProductPriceSpecialEndDate(endDate);
       }
-      productAvailability.getPrices().add(price);
-      price.setProductAvailability(productAvailability);
+      //destination.getPrices().add(price);
+      
+      price.setProductAvailability(destination);
       
       java.util.List<com.salesmanager.shop.model.catalog.product.ProductPriceDescription> descriptions = priceEntity.getDescriptions();
       if(descriptions != null) {
+        Set<ProductPriceDescription> descs = new HashSet<ProductPriceDescription>();
         for(com.salesmanager.shop.model.catalog.product.ProductPriceDescription desc : descriptions) {
-          ProductPriceDescription description = getDescription(desc);
+          ProductPriceDescription description = null;
+          if(!CollectionUtils.isEmpty(price.getDescriptions())) {
+            for(ProductPriceDescription d : price.getDescriptions()) {
+              if(desc.getId() != null && desc.getId().longValue() > 0 && desc.getId().longValue() == d.getId().longValue()) {
+                desc.setId(d.getId());
+              }
+            }
+          }
+          description = getDescription(desc);
           description.setProductPrice(price);
-          price.getDescriptions().add(description);
+          descs.add(description);
         }
+        price.setDescriptions(descs);
       }
+      prices.add(price);
     }
     
-    return productAvailability;
+    return destination;
     
     } catch(Exception e) {
       throw new ConversionRuntimeException(e);
