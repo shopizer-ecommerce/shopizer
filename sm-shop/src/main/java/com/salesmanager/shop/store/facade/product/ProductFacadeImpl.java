@@ -29,6 +29,7 @@ import com.salesmanager.core.model.catalog.product.relationship.ProductRelations
 import com.salesmanager.core.model.catalog.product.review.ProductReview;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.catalog.product.LightPersistableProduct;
 import com.salesmanager.shop.model.catalog.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.PersistableProductReview;
@@ -294,7 +295,7 @@ public class ProductFacadeImpl implements ProductFacade {
             categoryService.getById(criterias.getCategoryIds().get(0));
 
         if (category != null) {
-          String lineage = new StringBuilder().append(category.getLineage()).toString();
+          String lineage = new StringBuilder().append(category.getLineage()).append(Constants.SLASH).toString();
 
           List<com.salesmanager.core.model.catalog.category.Category> categories =
               categoryService.getListByLineage(store, lineage);

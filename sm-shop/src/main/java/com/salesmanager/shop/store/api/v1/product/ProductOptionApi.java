@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.PersistableProduct;
+import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductOptionEntity;
+import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOptionEntity;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOptionList;
 import com.salesmanager.shop.model.catalog.product.inventory.ReadableInventoryList;
 import com.salesmanager.shop.store.controller.product.facade.ProductOptionFacade;
@@ -45,8 +47,8 @@ public class ProductOptionApi {
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
   })
-  public @ResponseBody PersistableProduct createOption(
-      @Valid @RequestBody PersistableProduct product,
+  public @ResponseBody ReadableProductOptionEntity createOption(
+      @Valid @RequestBody PersistableProductOptionEntity option,
             @ApiIgnore MerchantStore merchantStore,
             @ApiIgnore Language language,
       HttpServletRequest request,
