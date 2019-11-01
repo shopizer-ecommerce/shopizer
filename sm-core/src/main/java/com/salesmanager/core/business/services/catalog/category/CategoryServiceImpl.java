@@ -58,10 +58,10 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
       //get parent category
       Category p = this.getById(parent.getId());
 
-      lineage.append(p.getLineage()).append(category.getId()).append(Constants.SLASH);
+      lineage.append(p.getLineage()).append(category.getId());
       category.setDepth(p.getDepth() + 1);
     } else {
-      lineage.append("/").append(category.getId()).append(Constants.SLASH);
+      lineage.append("/").append(category.getId());
       category.setDepth(0);
     }
     category.setLineage(lineage.toString());

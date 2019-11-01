@@ -3,14 +3,18 @@ package com.salesmanager.shop.populator.customer;
 
 import java.math.BigDecimal;
 import java.util.Map;
-import javax.inject.Inject;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.services.customer.attribute.CustomerOptionService;
 import com.salesmanager.core.business.services.customer.attribute.CustomerOptionValueService;
 import com.salesmanager.core.business.services.reference.country.CountryService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.business.services.reference.zone.ZoneService;
-import com.salesmanager.core.business.services.user.GroupService;
 import com.salesmanager.core.business.utils.AbstractDataPopulator;
 import com.salesmanager.core.model.common.Billing;
 import com.salesmanager.core.model.common.Delivery;
@@ -25,13 +29,6 @@ import com.salesmanager.core.model.reference.zone.Zone;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
 import com.salesmanager.shop.model.customer.address.Address;
 import com.salesmanager.shop.model.customer.attribute.PersistableCustomerAttribute;
-import org.apache.commons.lang.Validate;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
 
 @Component
 public class CustomerPopulator extends
@@ -48,8 +45,6 @@ public class CustomerPopulator extends
 	private CustomerOptionService customerOptionService;
     @Autowired
     private CustomerOptionValueService customerOptionValueService;
-    @Autowired
-    private GroupService groupService;
     @Autowired
     private PasswordEncoder passwordEncoder;
 

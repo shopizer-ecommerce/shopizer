@@ -171,7 +171,7 @@ public class ShoppingCategoryController {
 		pageInformation.setPageUrl(categoryProxy.getDescription().getFriendlyUrl());
 		
 		//** retrieves category id drill down**//
-		String lineage = new StringBuilder().append(category.getLineage()).append(category.getId()).append(Constants.CATEGORY_LINEAGE_DELIMITER).toString();
+		String lineage = new StringBuilder().append(category.getLineage()).append(Constants.CATEGORY_LINEAGE_DELIMITER).toString();
 
 		
 		

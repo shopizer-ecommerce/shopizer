@@ -124,25 +124,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     	Validate.notNull(store, "MerchantStore cannot be null");
     	Validate.notNull(summary, "Order total Summary cannot be null");
     	
-    	/**
-    	 * decrement inventory
-    	 */
-    	Set<OrderProduct> products = order.getOrderProducts();
-    	for(OrderProduct orderProduct : products) {
-    		orderProduct.getProductQuantity();
-    		Product p = productService.getByCode(orderProduct.getSku(), store.getDefaultLanguage());
-    		if(p == null) 
-    			throw new ServiceException(ServiceException.EXCEPTION_INVENTORY_MISMATCH);
-    		for(ProductAvailability availability : p.getAvailabilities()) {
-    			int qty = availability.getProductQuantity();
-    			if(qty < orderProduct.getProductQuantity()) {
-    				throw new ServiceException(ServiceException.EXCEPTION_INVENTORY_MISMATCH);
-    			}
-    			qty = qty - orderProduct.getProductQuantity();
-    			availability.setProductQuantity(qty);
-    		}
-    		productService.update(p);
-    	}
+
     	
     	//first process payment
     	Transaction processTransaction = paymentService.processPayment(customer, store, payment, items, order);
@@ -163,13 +145,14 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     		
     	}
     	
-    	if(customer.getId()==null || customer.getId()==0) {
-    		customerService.create(customer);
-    	}
+        if(customer.getId()==null || customer.getId()==0) {
+          customerService.create(customer);
+        }
+      
+        order.setCustomerId(customer.getId());
+        this.create(order);
     	
-    	order.setCustomerId(customer.getId());
-    	
-    	this.create(order);
+
 
     	if(transaction!=null) {
     		transaction.setOrder(order);
@@ -188,6 +171,28 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     			transactionService.update(processTransaction);
     		}
     	}
+    	
+
+    	
+        /**
+         * decrement inventory
+         */
+        Set<OrderProduct> products = order.getOrderProducts();
+        for(OrderProduct orderProduct : products) {
+            orderProduct.getProductQuantity();
+            Product p = productService.getByCode(orderProduct.getSku(), store.getDefaultLanguage());
+            if(p == null) 
+                throw new ServiceException(ServiceException.EXCEPTION_INVENTORY_MISMATCH);
+            for(ProductAvailability availability : p.getAvailabilities()) {
+                int qty = availability.getProductQuantity();
+                if(qty < orderProduct.getProductQuantity()) {
+                    throw new ServiceException(ServiceException.EXCEPTION_INVENTORY_MISMATCH);
+                }
+                qty = qty - orderProduct.getProductQuantity();
+                availability.setProductQuantity(qty);
+            }
+            productService.update(p);
+        }
     	
     	//TODO post order processing
     	

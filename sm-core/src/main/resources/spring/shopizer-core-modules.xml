@@ -28,13 +28,13 @@
     			<beans:entry key="storePickUp" value-ref="storePickUp"/>
     			<!--
     			Requires google maps shippingDistancePreProcessor.apiKey=<YOUR KEY>
-    			in configs.properties
-    			<beans:entry key="priceByDistance" value-ref="priceByDistance"/>
-    			 -->
+    			in configs.properties-->
+    			<!-- <beans:entry key="priceByDistance" value-ref="priceByDistance"/> -->
+    			 
     			<!--
-    			This will activate drules
-    			<beans:entry key="customQuotesRules" value-ref="customShippingPriceModule"/>
-    			--><!--as defined in shopizer-core-rules-->
+    			This will activate drules-->
+    			<!-- <beans:entry key="customQuotesRules" value-ref="customShippingPriceModule"/> -->
+    			<!--as defined in shopizer-core-rules-->
     </util:map>
     
     <beans:bean id="manufacturerShippingCodeOrderTotalModule" class="com.salesmanager.core.business.modules.order.total.ManufacturerShippingCodeOrderTotalModuleImpl">

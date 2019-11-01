@@ -1,0 +1,65 @@
+<!-- <?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:drools="http://drools.org/schema/drools-spring"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+   http://drools.org/schema/drools-spring http://drools.org/schema/drools-spring.xsd
+   http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	Decision table for the the selection of a shipping method
+	from shopizer-shipping-decision-table-module
+    <drools:kbase id="shippingMethodDecisionBase">
+        <drools:resources>
+            <drools:resource type="DTABLE" source="classpath:rules/shipping-decision-rules.xls"/>
+        </drools:resources>
+    </drools:kbase>
+ 
+    <drools:ksession id="shippingMethodDecision" name="shippingMethodDecision" type="stateless" kbase="shippingMethodDecisionBase"/>
+ 
+  	concrete module for the above kbase
+  	<beans:bean id="shippingMethodDecisionProcess" class="com.salesmanager.core.business.modules.integration.shipping.impl.ShippingDecisionPreProcessorImpl">
+		<beans:property name="shippingMethodDecision" ref="shippingMethodDecision" />
+		<beans:property name="kbase" ref="shippingMethodDecisionBase" />
+	</beans:bean>
+	
+	Custom shipping price based on drool rules
+	Basic custom shipping rules
+	<drools:kbase id="shippingPriceDecisionBase">
+        <drools:resources>
+            <drools:resource type="DTABLE" source="classpath:rules/shipping-custom-rules.xls"/>
+        </drools:resources>
+    </drools:kbase>
+    
+    <drools:ksession id="shippingPriceRule" name="shippingPriceRule" type="stateless" kbase="shippingPriceDecisionBase"/>
+    
+    concrete module for the above kbase
+    <beans:bean id="customShippingPriceModule" class="com.salesmanager.core.business.modules.integration.shipping.impl.CustomShippingQuoteRules">
+		<beans:property name="shippingPriceRule" ref="shippingPriceRule" />
+		<beans:property name="kbase" ref="shippingPriceDecisionBase" />
+	</beans:bean>
+	
+		placeholder for order-total variation based on product manufacturer
+	
+	Basic Manufacturer Shipping Method rules
+	NOT USED	
+	<drools:kbase id="manufacturerShippingMethodOrderTotalBase">
+        <drools:resources>
+            <drools:resource type="DTABLE" source="classpath:rules/manufacturer-shipping-ordertotal-rules.xls"/>
+        </drools:resources>
+    </drools:kbase>
+	
+	<drools:ksession id="manufacturerShippingMethodOrderTotalDecision" name="manufacturerShippingMethodOrderTotalDecision" type="stateless" kbase="manufacturerShippingMethodOrderTotalBase"/>
+ 
+  	concrete module for the above kbase
+  	<beans:bean id="manufacturerShippingCodeOrderTotalModule" class="com.salesmanager.core.business.modules.order.total.ManufacturerShippingCodeOrderTotalModuleImpl">
+		<beans:property name="orderTotalMethodDecision" ref="manufacturerShippingMethodOrderTotalDecision" />
+		<beans:property name="kbase" ref="manufacturerShippingMethodOrderTotalBase" />
+		<beans:property name="pricingService" ref="pricingService" />
+	</beans:bean> 
+	
+	
+
+</beans:beans>
+ -->

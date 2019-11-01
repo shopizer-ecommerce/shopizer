@@ -239,6 +239,8 @@ public class ProductInventoryFacadeImpl implements ProductInventoryFacade {
         throw new ResourceNotFoundException(
             "Availability with id [" + inventory.getId() + "] not found");
       }
+      
+      inventory.setProductId(product.getId());
 
       availability = productInventoryMapper.convert(inventory, availability, store, language);
       availability.setProduct(product);

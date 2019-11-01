@@ -1,18 +1,26 @@
 package com.salesmanager.shop.store.api.v1.order;
 
+import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.customer.CustomerService;
+import com.salesmanager.core.business.services.shoppingcart.ShoppingCartService;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.Order;
 import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.model.shoppingcart.ShoppingCart;
 import com.salesmanager.shop.model.customer.ReadableCustomer;
+import com.salesmanager.shop.model.order.PersistableAnonymousOrderApi;
 import com.salesmanager.shop.model.order.PersistableOrderApi;
 import com.salesmanager.shop.model.order.ReadableOrder;
 import com.salesmanager.shop.model.order.ReadableOrderList;
 import com.salesmanager.shop.populator.customer.ReadableCustomerPopulator;
+import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
+import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
+import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
 import com.salesmanager.shop.store.controller.order.facade.OrderFacade;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
+import com.salesmanager.shop.utils.LocaleUtils;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import java.security.Principal;
@@ -23,8 +31,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import org.apache.commons.collections4.CollectionUtils;
+import org.jsoup.helper.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,13 +52,16 @@ public class OrderApi {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(OrderApi.class);
 
-  @Inject private StoreFacade storeFacade;
-
-  @Inject private LanguageUtils languageUtils;
 
   @Inject private CustomerService customerService;
 
   @Inject private OrderFacade orderFacade;
+  
+  @Inject
+  private ShoppingCartService shoppingCartService;
+  
+  @Autowired
+  private CustomerFacade customerFacade;
 
   /**
    * Get a list of orders for a given customer accept request parameter 'start' start index for
@@ -267,16 +280,16 @@ public class OrderApi {
    * @throws Exception
    */
   @RequestMapping(
-      value = {"/auth/cart/{id}/checkout"},
+      value = {"/auth/cart/{code}/checkout"},
       method = RequestMethod.POST)
-  @ResponseStatus(HttpStatus.ACCEPTED)
+  @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
   })
   public PersistableOrderApi checkout(
-      @PathVariable final Long id,
+      @PathVariable final String code,
       @Valid @RequestBody PersistableOrderApi order,
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language,
@@ -295,13 +308,21 @@ public class OrderApi {
         response.sendError(401, "Error while performing checkout customer not authorized");
         return null;
       }
+      
+      ShoppingCart cart = shoppingCartService.getByCode(code, merchantStore);
+      if (cart == null) {
+        throw new ResourceNotFoundException("Cart code " + code + " does not exist");
+      }
 
-      order.setShoppingCartId(id);
+      order.setShoppingCartId(cart.getId());
       order.setCustomerId(customer.getId());
 
       Order modelOrder = orderFacade.processOrder(order, customer, merchantStore, language, locale);
       Long orderId = modelOrder.getId();
       order.setId(orderId);
+      
+      //hash payment token
+      order.getPayment().setPaymentToken("***");
 
       return order;
 
@@ -313,5 +334,54 @@ public class OrderApi {
       }
       return null;
     }
+  }
+  
+  @RequestMapping(
+      value = {"/cart/{code}/checkout"},
+      method = RequestMethod.POST)
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
+  })
+  public PersistableOrderApi checkout(
+      @PathVariable final String code,
+      @Valid @RequestBody PersistableAnonymousOrderApi order,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language) {
+
+      Validate.notNull(order.getCustomer(), "Customer must not be null");
+      
+      ShoppingCart cart;
+      try {
+        cart = shoppingCartService.getByCode(code, merchantStore);
+        
+        if (cart == null) {
+          throw new ResourceNotFoundException("Cart code " + code + " does not exist");
+        }
+      
+        Customer customer = new Customer();
+        customer = customerFacade.populateCustomerModel(customer, order.getCustomer(), merchantStore, language);
+  
+  
+        order.setShoppingCartId(cart.getId());
+  
+        Order modelOrder = orderFacade.processOrder(order, customer, merchantStore, language, LocaleUtils.getLocale(language));
+        Long orderId = modelOrder.getId();
+        order.setId(orderId);
+        //set customer id
+        order.getCustomer().setId(modelOrder.getCustomerId());
+        
+        //hash payment token
+        order.getPayment().setPaymentToken("***");
+        
+  
+        return order;
+      
+      } catch (Exception e) {
+        throw new ServiceRuntimeException("Error during checkout " + e.getMessage(),e);
+      }
+
   }
 }

@@ -139,6 +139,8 @@ public class OrderFacadeImpl implements OrderFacade {
 	private CoreConfiguration coreConfiguration;
 	@Inject
 	private PaymentService paymentService;
+	@Autowired
+	private PersistableOrderApiPopulator persistableOrderApiPopulator;
 
 	
 	@Autowired
@@ -1162,19 +1164,12 @@ public class OrderFacadeImpl implements OrderFacade {
 	public Order processOrder(PersistableOrderApi order, Customer customer, MerchantStore store, Language language, Locale locale)
 			throws ServiceException {
 
-		PersistableOrderApiPopulator populator = new PersistableOrderApiPopulator();
-		populator.setCurrencyService(currencyService);
-		populator.setCustomerService(customerService);
-		populator.setDigitalProductService(digitalProductService);
-		populator.setProductAttributeService(productAttributeService);
-		populator.setProductService(productService);
-		populator.setShoppingCartService(shoppingCartService);
 		
 		
 		try {
 			
 			Order modelOrder = new Order();
-			populator.populate(order, modelOrder,store, language);
+			persistableOrderApiPopulator.populate(order, modelOrder,store, language);
 			
 			Long shoppingCartId = order.getShoppingCartId();
 			ShoppingCart cart = shoppingCartService.getById(shoppingCartId, store);
@@ -1303,7 +1298,9 @@ public class OrderFacadeImpl implements OrderFacade {
 			return modelOrder;
 			
 		} catch(Exception e) {
-			throw new ServiceException(e);
+	
+		      throw new ServiceException(e);
+
 		}
 
 	}

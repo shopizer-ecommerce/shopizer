@@ -45,6 +45,10 @@ public class ReadableProductPricePopulator extends
 		    if(language == null) {
 		      target = new ReadableProductPriceFull();
 		    }
+		    
+		    if(source.getId() != null && source.getId() > 0) {
+		      target.setId(source.getId());
+		    }
 			
 			FinalPrice finalPrice = pricingService.calculateProductPrice(source.getProductAvailability().getProduct());
 			

@@ -1,18 +1,14 @@
 package com.salesmanager.shop.store.api.v1.order;
 
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
-
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.order.OrderService;
@@ -43,9 +38,10 @@ import com.salesmanager.shop.model.order.transaction.PersistablePayment;
 import com.salesmanager.shop.model.order.transaction.ReadableTransaction;
 import com.salesmanager.shop.populator.order.transaction.PersistablePaymentPopulator;
 import com.salesmanager.shop.populator.order.transaction.ReadableTransactionPopulator;
+import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.controller.order.facade.OrderFacade;
-import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
-import com.salesmanager.shop.utils.LanguageUtils;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import springfox.documentation.annotations.ApiIgnore;
 
 @Controller
@@ -54,38 +50,71 @@ public class OrderPaymentApi {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(OrderPaymentApi.class);
 
-  @Inject private StoreFacade storeFacade;
+  @Inject
+  private CustomerService customerService;
 
-  @Inject private LanguageUtils languageUtils;
+  @Inject
+  private OrderService orderService;
 
-  @Inject private CustomerService customerService;
+  @Inject
+  private ShoppingCartService shoppingCartService;
 
-  @Inject private OrderService orderService;
+  @Inject
+  private PricingService pricingService;
 
-  @Inject private ShoppingCartService shoppingCartService;
+  @Inject
+  private PaymentService paymentService;
 
-  @Inject private PricingService pricingService;
+  @Inject
+  private OrderFacade orderFacade;
 
-  @Inject private PaymentService paymentService;
 
-  @Inject private OrderFacade orderFacade;
-
-  @RequestMapping(
-      value = {"/auth/cart/{id}/payment/init"},
-      method = RequestMethod.POST)
+  @RequestMapping(value = {"/cart/{code}/payment/init"}, method = RequestMethod.POST)
   @ResponseBody
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
-  })
-  public ReadableTransaction init(
-      @Valid @RequestBody PersistablePayment payment,
-      @PathVariable Long id,
-      @ApiIgnore MerchantStore merchantStore,
-      @ApiIgnore Language language,
-      HttpServletRequest request,
-      HttpServletResponse response)
-      throws Exception {
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
+  public ReadableTransaction init(@Valid @RequestBody PersistablePayment payment,
+      @PathVariable String code, @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language) throws Exception {
+
+    ShoppingCart cart = shoppingCartService.getByCode(code, merchantStore);
+    if (cart == null) {
+      throw new ResourceNotFoundException("Cart code " + code + " does not exist");
+    }
+
+
+    PersistablePaymentPopulator populator = new PersistablePaymentPopulator();
+    populator.setPricingService(pricingService);
+
+    Payment paymentModel = new Payment();
+
+    populator.populate(payment, paymentModel, merchantStore, language);
+
+    Transaction transactionModel =
+        paymentService.initTransaction(null, paymentModel, merchantStore);
+
+    ReadableTransaction transaction = new ReadableTransaction();
+    ReadableTransactionPopulator trxPopulator = new ReadableTransactionPopulator();
+    trxPopulator.setOrderService(orderService);
+    trxPopulator.setPricingService(pricingService);
+
+    trxPopulator.populate(transactionModel, transaction, merchantStore, language);
+
+    return transaction;
+
+  }
+
+
+
+  @RequestMapping(value = {"/auth/cart/{code}/payment/init"}, method = RequestMethod.POST)
+  @ResponseBody
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
+  public ReadableTransaction init(@Valid @RequestBody PersistablePayment payment,
+      @PathVariable String code, @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language,
+      HttpServletRequest request, HttpServletResponse response) throws Exception {
 
     try {
       Principal principal = request.getUserPrincipal();
@@ -98,19 +127,19 @@ public class OrderPaymentApi {
         return null;
       }
 
-      ShoppingCart cart = shoppingCartService.getById(id, merchantStore);
+      ShoppingCart cart = shoppingCartService.getByCode(code, merchantStore);
       if (cart == null) {
-        response.sendError(404, "Cart id " + id + " does not exist");
-        return null;
+
+        throw new ResourceNotFoundException("Cart code " + code + " does not exist");
       }
 
       if (cart.getCustomerId() == null) {
-        response.sendError(404, "Cart id " + id + " does not exist for exist for user " + userName);
+        response.sendError(404, "Cart code " + code + " does not exist for exist for user " + userName);
         return null;
       }
 
       if (cart.getCustomerId().longValue() != customer.getId().longValue()) {
-        response.sendError(404, "Cart id " + id + " does not exist for exist for user " + userName);
+        response.sendError(404, "Cart code " + code + " does not exist for exist for user " + userName);
         return null;
       }
 
@@ -154,26 +183,19 @@ public class OrderPaymentApi {
    * @return ReadableOrderList
    * @throws Exception
    */
-  @RequestMapping(
-      value = {"/private/orders/payment/capturable"},
-      method = RequestMethod.GET)
+  @RequestMapping(value = {"/private/orders/payment/capturable"}, method = RequestMethod.GET)
   @ResponseStatus(HttpStatus.ACCEPTED)
   @ResponseBody
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
-  })
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
   public ReadableOrderList listCapturableOrders(
-      @RequestParam(value = "startDate", required = false)
-          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-          LocalDate startDate,
-      @RequestParam(value = "endDate", required = false)
-          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-          LocalDate endDate,
-      @ApiIgnore MerchantStore merchantStore,
-      @ApiIgnore Language language,
-      HttpServletRequest request,
-      HttpServletResponse response) {
+      @RequestParam(value = "startDate",
+          required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+      @RequestParam(value = "endDate",
+          required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+      @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language,
+      HttpServletRequest request, HttpServletResponse response) {
 
     try {
 
@@ -220,21 +242,15 @@ public class OrderPaymentApi {
    * @return
    * @throws Exception
    */
-  @RequestMapping(
-      value = {"/private/orders/{id}/capture"},
-      method = RequestMethod.POST)
+  @RequestMapping(value = {"/private/orders/{id}/capture"}, method = RequestMethod.POST)
   @ResponseStatus(HttpStatus.ACCEPTED)
   @ResponseBody
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
-  })
-  public ReadableTransaction caprurePayment(
-      @PathVariable Long id,
-      @ApiIgnore MerchantStore merchantStore,
-      @ApiIgnore Language language,
-      HttpServletRequest request,
-      HttpServletResponse response) {
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
+  public ReadableTransaction caprurePayment(@PathVariable Long id,
+      @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language,
+      HttpServletRequest request, HttpServletResponse response) {
     try {
 
       // need order
@@ -249,8 +265,8 @@ public class OrderPaymentApi {
       Customer customer = customerService.getById(order.getCustomerId());
 
       if (customer == null) {
-        response.sendError(
-            404, "Order id " + id + " contains an invalid customer " + order.getCustomerId());
+        response.sendError(404,
+            "Order id " + id + " contains an invalid customer " + order.getCustomerId());
         return null;
       }
 

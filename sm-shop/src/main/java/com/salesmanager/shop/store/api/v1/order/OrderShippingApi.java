@@ -73,7 +73,7 @@ public class OrderShippingApi {
    * @throws Exception
    */
   @RequestMapping(
-      value = {"/auth/cart/{id}/shipping"},
+      value = {"/auth/cart/{code}/shipping"},
       method = RequestMethod.GET)
   @ResponseBody
   @ApiImplicitParams({
@@ -81,7 +81,7 @@ public class OrderShippingApi {
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
   })
   public ReadableShippingSummary shipping(
-      @PathVariable final Long id,
+      @PathVariable final String code,
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language,
       HttpServletRequest request,
@@ -99,18 +99,18 @@ public class OrderShippingApi {
         response.sendError(503, "Error while getting user details to calculate shipping quote");
       }
 
-      ShoppingCart cart = shoppingCartService.getById(id);
+      ShoppingCart cart = shoppingCartService.getByCode(code, merchantStore);
 
       if (cart == null) {
-        response.sendError(404, "Cart id " + id + " does not exist");
+        response.sendError(404, "Cart code " + code + " does not exist");
       }
 
       if (cart.getCustomerId() == null) {
-        response.sendError(404, "Cart id " + id + " does not exist for exist for user " + userName);
+        response.sendError(404, "Cart code " + code + " does not exist for exist for user " + userName);
       }
 
       if (cart.getCustomerId().longValue() != customer.getId().longValue()) {
-        response.sendError(404, "Cart id " + id + " does not exist for exist for user " + userName);
+        response.sendError(404, "Cart code " + code + " does not exist for exist for user " + userName);
       }
 
       ShippingQuote quote = orderFacade.getShippingQuote(customer, cart, merchantStore, language);
@@ -184,7 +184,7 @@ public class OrderShippingApi {
    * @throws Exception
    */
   @RequestMapping(
-      value = {"/cart/{id}/shipping"},
+      value = {"/cart/{code}/shipping"},
       method = RequestMethod.POST)
   @ResponseBody
   @ApiImplicitParams({
@@ -192,7 +192,7 @@ public class OrderShippingApi {
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
   })
   public ReadableShippingSummary shipping(
-      @PathVariable final Long id,
+      @PathVariable final String code,
       @RequestBody AddressLocation address,
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language,
@@ -203,10 +203,10 @@ public class OrderShippingApi {
     try {
       Locale locale = request.getLocale();
 
-      ShoppingCart cart = shoppingCartService.getById(id, merchantStore);
+      ShoppingCart cart = shoppingCartService.getByCode(code, merchantStore);
 
       if (cart == null) {
-        response.sendError(404, "Cart id " + id + " does not exist");
+        response.sendError(404, "Cart code " + code + " does not exist");
       }
 
       

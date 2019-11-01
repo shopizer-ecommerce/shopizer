@@ -89,6 +89,7 @@ response.setDateHeader ("Expires", -1);
 
  	
  	function buildProductsList(productList, divProductsContainer) {
+ 		hideSMLoading('#productsContainer');
  		log('Products-> ' + productList.products.length);
 		var productsTemplate = Hogan.compile(document.getElementById("productBoxTemplate").innerHTML);
 		var productsRendred = productsTemplate.render(productList);
@@ -97,10 +98,10 @@ response.setDateHeader ("Expires", -1);
  	}
  
 	function callBackLoadProducts(productList) {
-			
+		    hideSMLoading('#productsContainer');
 			var productQty = productList.productCount + ' <s:message code="label.search.items.found" text="item(s) found" />';
 			$('#products-qty').html(productQty);
-			$('#productsContainer').hideLoading();
+			
 
 	}
 

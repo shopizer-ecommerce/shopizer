@@ -17,7 +17,7 @@
 				distance calculation and requires google api keys to be configured belog. 
 			 -->
 			 
-			<!--<ref bean="shippingDistancePreProcessor"/>-->
+			<!-- <ref bean="shippingDistancePreProcessor"/> -->
 
 			<!-- 
 				Used drules decision tables to decide at runtime which module the system will use
@@ -26,7 +26,7 @@
 				need to be configured in resources/rules/shipping-decision-rules.xls
 			
 			 -->
-			<!--  <ref bean="shippingMethodDecisionProcess"/> -->
+			<!-- <ref bean="shippingMethodDecisionProcess"/> -->
 		</util:list>
 	
 		<!-- Calculates the distance between the origin and destination -->
@@ -53,8 +53,6 @@
 		
 		<!-- List of accepted zones for using shipping distance pre processor -->
 		<util:list id="acceptedZones" value-type="java.lang.String">
-			<value>NY</value>
-			<value>NJ</value>
 			<value>QC</value>
 			<value>ON</value>
     	</util:list>
