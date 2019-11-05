@@ -19,7 +19,6 @@ import com.salesmanager.shop.model.catalog.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductOptionEntity;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOptionEntity;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOptionList;
-import com.salesmanager.shop.model.catalog.product.inventory.ReadableInventoryList;
 import com.salesmanager.shop.store.controller.product.facade.ProductOptionFacade;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -53,11 +52,9 @@ public class ProductOptionApi {
             @ApiIgnore Language language,
       HttpServletRequest request,
       HttpServletResponse response) {
-
-      //productFacade.saveProduct(merchantStore, product, language);
-      //return product;
     
-      return null;
+    ReadableProductOptionEntity entity = productOptionFacade.saveOption(option, merchantStore, language);
+    return entity;
 
   }
   
@@ -91,18 +88,18 @@ public class ProductOptionApi {
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
   })
-  public @ResponseBody PersistableProduct updateOption(
-      @Valid @RequestBody PersistableProduct product,
+  public void updateOption(
+      @Valid @RequestBody PersistableProductOptionEntity option,
             @PathVariable Long optionId,
             @ApiIgnore MerchantStore merchantStore,
             @ApiIgnore Language language,
       HttpServletRequest request,
       HttpServletResponse response) {
-
-      //productFacade.saveProduct(merchantStore, product, language);
-      //return product;
     
-      return null;
+    
+    productOptionFacade.saveOption(option, merchantStore, language);
+    return;
+
 
   }
   
@@ -121,10 +118,8 @@ public class ProductOptionApi {
             @ApiIgnore Language language,
       HttpServletRequest request,
       HttpServletResponse response) {
-
-      //productFacade.saveProduct(merchantStore, product, language);
-      //return product;
     
+      productOptionFacade.deleteOption(optionId, merchantStore);
       return;
 
   }
@@ -183,8 +178,7 @@ public class ProductOptionApi {
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
   })
-  public @ResponseBody ReadableInventoryList options(
-            @PathVariable Long id,
+  public @ResponseBody ReadableProductOptionList options(
             @ApiIgnore MerchantStore merchantStore,
             @ApiIgnore Language language,
             @RequestParam(value = "name", required = false) String name,
@@ -192,8 +186,7 @@ public class ProductOptionApi {
             @RequestParam(value = "count", required = false, defaultValue="10") Integer count) {
     
     
-      //return productInventoryFacade.getInventory(id, merchantStore, child, language, page, count);
-    return null;
+    return productOptionFacade.options(merchantStore, language, name, page, count);
 
   }
   
@@ -214,7 +207,8 @@ public class ProductOptionApi {
             @RequestParam(value = "count", required = false, defaultValue="10") Integer count) {
     
     
-    return productOptionFacade.options(merchantStore, language, name, page, count);
+    //return productOptionFacade.options(merchantStore, language, name, page, count);
+    return null;
 
   }
 

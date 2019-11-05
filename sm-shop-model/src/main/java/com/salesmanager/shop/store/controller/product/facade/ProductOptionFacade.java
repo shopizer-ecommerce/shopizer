@@ -17,14 +17,10 @@ import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOpti
 public interface ProductOptionFacade {
   
   
-  ReadableProductOptionEntity createOption(PersistableProductOptionEntity option, MerchantStore store);
+  ReadableProductOptionEntity saveOption(PersistableProductOptionEntity option, MerchantStore store, Language language);
   
-  ReadableProductOptionValue createOptionValue(PersistableProductOptionValue optionValue, MerchantStore store);
-  
-  void updateOption(Long optionId, PersistableProductOption option, MerchantStore store);
-  
-  void updateOptionValue(Long optionValueId, PersistableProductOptionValue optionValue, MerchantStore store);
-  
+  ReadableProductOptionValue saveOptionValue(PersistableProductOptionValue optionValue, MerchantStore store, Language language);
+
   void deleteOption(Long optionId, MerchantStore store);
   
   void deleteOptionValue(Long optionValueId, MerchantStore store);
