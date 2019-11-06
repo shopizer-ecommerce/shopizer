@@ -12,8 +12,6 @@ import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import com.salesmanager.core.business.configuration.DroolsConfiguration;
 import com.salesmanager.core.model.common.Delivery;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.shipping.PackageDetails;
@@ -40,11 +38,8 @@ public class CustomShippingQuoteRules implements ShippingQuoteModule {
 	
 	//private KnowledgeBase kbase;
 	
-	//@Inject
-	//KieContainer kieShippingCustomContainer;
-	
-	@Autowired
-	private DroolsConfiguration droolsConfiguration;
+	@Inject
+	KieContainer kieShippingCustomContainer;
 
 	@Override
 	public void validateModuleConfiguration(
@@ -147,13 +142,7 @@ public class CustomShippingQuoteRules implements ShippingQuoteModule {
 		
 		LOGGER.debug("Setting input parameters " + inputParameters.toString());
 		
-        //KieSession kieSession = kieShippingCustomContainer.newKieSession();
-		KieSession kieSession = droolsConfiguration.kieShippingCustomContainerSession();
-		
-		System.out.println(droolsConfiguration.getDrlFromExcel());
-		
-		kieSession.addEventListener(new org.kie.api.event.rule.DebugAgendaEventListener());
-		kieSession.addEventListener(new org.kie.api.event.rule.DebugRuleRuntimeEventListener());
+        KieSession kieSession = kieShippingCustomContainer.newKieSession();
         kieSession.insert(inputParameters);
         kieSession.fireAllRules();
 		
@@ -178,5 +167,20 @@ public class CustomShippingQuoteRules implements ShippingQuoteModule {
 		
 	}
 
+/*	public StatelessKnowledgeSession getShippingPriceRule() {
+		return shippingPriceRule;
+	}
+
+	public void setShippingPriceRule(StatelessKnowledgeSession shippingPriceRule) {
+		this.shippingPriceRule = shippingPriceRule;
+	}
+
+	public KnowledgeBase getKbase() {
+		return kbase;
+	}
+
+	public void setKbase(KnowledgeBase kbase) {
+		this.kbase = kbase;
+	}*/
 
 }

@@ -12,7 +12,6 @@ import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 import com.salesmanager.core.model.common.Delivery;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.shipping.PackageDetails;
@@ -30,7 +29,6 @@ import com.salesmanager.core.modules.integration.shipping.model.ShippingQuotePre
  * @author carlsamson
  *
  */
-@Component("shippingMethodDecisionProcess")
 public class ShippingDecisionPreProcessorImpl implements ShippingQuotePrePostProcessModule {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ShippingDecisionPreProcessorImpl.class);
@@ -147,6 +145,21 @@ public class ShippingDecisionPreProcessorImpl implements ShippingQuotePrePostPro
 		
 	}
 
+/*	public StatelessKnowledgeSession getShippingMethodDecision() {
+		return shippingMethodDecision;
+	}
+
+	public void setShippingMethodDecision(StatelessKnowledgeSession shippingMethodDecision) {
+		this.shippingMethodDecision = shippingMethodDecision;
+	}
+
+	public KnowledgeBase getKbase() {
+		return kbase;
+	}
+
+	public void setKbase(KnowledgeBase kbase) {
+		this.kbase = kbase;
+	}*/
 
 	@Override
 	public String getModuleCode() {
