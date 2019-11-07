@@ -9,8 +9,8 @@ import com.salesmanager.core.model.catalog.product.attribute.ProductOptionDescri
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
-import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOptionEntity;
-import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOptionFull;
+import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionEntity;
+import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionFull;
 
 @Component
 public class ReadableProductOptionMapper implements Mapper<ProductOption, ReadableProductOptionEntity> {

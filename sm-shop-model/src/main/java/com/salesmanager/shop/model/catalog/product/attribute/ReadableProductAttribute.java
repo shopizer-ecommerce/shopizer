@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.salesmanager.shop.model.catalog.product.attribute.api.ProductAttributeEntity;
+
 public class ReadableProductAttribute extends ProductAttributeEntity implements Serializable {
 
 	/**

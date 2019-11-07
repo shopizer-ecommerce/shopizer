@@ -14,7 +14,7 @@ public class ProductOptionValue extends Entity implements Serializable {
 	private String code;
 	private boolean defaultValue;
 	private int sortOrder;
-	private String description;
+	private String image;
 	
 	public String getCode() {
 		return code;
@@ -34,11 +34,12 @@ public class ProductOptionValue extends Entity implements Serializable {
 	public void setSortOrder(int sortOrder) {
 		this.sortOrder = sortOrder;
 	}
-	public String getDescription() {
-		return description;
+	public String getImage() {
+		return image;
 	}
-	public void setDescription(String description) {
-		this.description = description;
+	public void setImage(String image) {
+		this.image = image;
 	}
+
 
 }

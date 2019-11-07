@@ -1,0 +1,73 @@
+package com.salesmanager.shop.mapper.catalog;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.stereotype.Component;
+
+import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValue;
+import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueDescription;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.mapper.Mapper;
+import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValueEntity;
+import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValueFull;
+
+@Component
+public class ReadableProductOptionValueMapper implements Mapper<ProductOptionValue, ReadableProductOptionValueEntity> {
+
+
+
+  @Override
+  public ReadableProductOptionValueEntity convert(ProductOptionValue source, ReadableProductOptionValueEntity destination,
+			MerchantStore store, Language language) {
+    ReadableProductOptionValueEntity readableProductOptionValue = new ReadableProductOptionValueEntity();
+    if(language == null) {
+    	readableProductOptionValue = new ReadableProductOptionValueFull();
+      List<com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription> descriptions = new ArrayList<com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription>();
+      for(ProductOptionValueDescription desc : source.getDescriptions()) {
+          com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription d = this.description(desc);
+          descriptions.add(d);
+      }
+      ((ReadableProductOptionValueFull)readableProductOptionValue).setDescriptions(descriptions);
+    } else {
+    	readableProductOptionValue = new ReadableProductOptionValueEntity();
+      if(!CollectionUtils.isEmpty(source.getDescriptions())) {
+        for(ProductOptionValueDescription desc : source.getDescriptions()) {
+          if(desc != null && desc.getLanguage()!= null && desc.getLanguage().getId() == language.getId()) {
+            com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription d = this.description(desc);
+            readableProductOptionValue.setDescription(d);
+          }
+        }
+      }
+    }
+    
+    readableProductOptionValue.setCode(source.getCode());
+    readableProductOptionValue.setId(source.getId());
+    readableProductOptionValue.setOrder(source.getProductOptionValueSortOrder());
+    readableProductOptionValue.setImage(source.getProductOptionValueImage());
+    
+    
+    return readableProductOptionValue;
+  }
+
+
+
+  com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription description(ProductOptionValueDescription description) {
+    com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription desc = new com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription();
+    desc.setDescription(description.getDescription());
+    desc.setName(description.getName());
+    desc.setId(description.getId());
+    desc.setLanguage(description.getLanguage().getCode());
+    return desc;
+  }
+
+
+@Override
+public ReadableProductOptionValueEntity convert(ProductOptionValue source, MerchantStore store, Language language) {
+    ReadableProductOptionValueEntity destination = new ReadableProductOptionValueEntity();
+    return convert(source, destination, store, language);
+}
+
+}

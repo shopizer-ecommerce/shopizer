@@ -1,6 +1,8 @@
-package com.salesmanager.shop.model.catalog.product.attribute;
+package com.salesmanager.shop.model.catalog.product.attribute.api;
 
 import java.io.Serializable;
+
+import com.salesmanager.shop.model.catalog.product.attribute.ProductAttribute;
 
 public class ProductAttributeEntity extends ProductAttribute implements Serializable {
 	

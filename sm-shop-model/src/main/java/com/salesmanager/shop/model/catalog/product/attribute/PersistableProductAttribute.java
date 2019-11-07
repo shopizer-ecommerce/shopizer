@@ -3,6 +3,8 @@ package com.salesmanager.shop.model.catalog.product.attribute;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import com.salesmanager.shop.model.catalog.product.attribute.api.ProductAttributeEntity;
+
 public class PersistableProductAttribute extends ProductAttributeEntity
 		implements Serializable {
 	

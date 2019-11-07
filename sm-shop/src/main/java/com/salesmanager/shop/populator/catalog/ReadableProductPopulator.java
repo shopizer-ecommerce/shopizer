@@ -36,6 +36,7 @@ import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductAttr
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductAttributeValue;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOption;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOptionValue;
+import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValueEntity;
 import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.ImageFilePath;
@@ -280,7 +281,7 @@ public class ReadableProductPopulator extends
 					for(ProductAttribute attribute : attributes) {
 							ReadableProductOption opt = null;
 							ReadableProductAttribute attr = null;
-							ReadableProductOptionValue optValue = new ReadableProductOptionValue();
+							ReadableProductOptionValueEntity optValue = new ReadableProductOptionValueEntity();
 							ReadableProductAttributeValue attrValue = new ReadableProductAttributeValue();
 							
 							ProductOptionValue optionValue = attribute.getProductOptionValue();
@@ -348,7 +349,9 @@ public class ReadableProductPopulator extends
 								
 								optValue.setDefaultValue(attribute.getAttributeDefault());
 								optValue.setId(attribute.getProductOptionValue().getId());
-								optValue.setLang(language.getCode());
+								com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription valueDescription = new com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription();
+								valueDescription.setLanguage(language.getCode());
+								//optValue.setLang(language.getCode());
 								if(attribute.getProductAttributePrice()!=null && attribute.getProductAttributePrice().doubleValue()>0) {
 									String formatedPrice = pricingService.getDisplayAmount(attribute.getProductAttributePrice(), store);
 									optValue.setPrice(formatedPrice);
@@ -375,8 +378,9 @@ public class ReadableProductPopulator extends
 										}
 									}
 								}
-								optValue.setName(podescription.getName());
-								optValue.setDescription(podescription.getDescription());
+								valueDescription.setName(podescription.getName());
+								valueDescription.setDescription(podescription.getDescription());
+								optValue.setDescription(valueDescription);
 								
 								if(opt!=null) {
 									opt.getOptionValues().add(optValue);
