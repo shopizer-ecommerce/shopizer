@@ -17,7 +17,7 @@
 				distance calculation and requires google api keys to be configured belog. 
 			 -->
 			 
-			<!--<ref bean="shippingDistancePreProcessor"/>-->
+			<!-- <ref bean="shippingDistancePreProcessor"/> -->
 
 			<!-- 
 				Used drules decision tables to decide at runtime which module the system will use
@@ -26,7 +26,7 @@
 				need to be configured in resources/rules/shipping-decision-rules.xls
 			
 			 -->
-			<!--<ref bean="shippingMethodDecisionProcess"/>-->
+			<!-- <ref bean="shippingMethodDecisionProcess"/> -->
 		</util:list>
 	
 		<!-- Calculates the distance between the origin and destination -->
@@ -40,11 +40,9 @@
 		
 		
 		<!-- Decides dynamicaly which method is used based on a decision table-->
-		<!--
 		<bean id="shippingMethodDecisionProcess"
 			class="com.salesmanager.core.business.modules.integration.shipping.impl.ShippingDecisionPreProcessorImpl">
 		</bean>
-		-->
 		
 		<!-- Any post process required after getting a quote -->
 		<!-- Shipping post-processors -->
