@@ -80,6 +80,32 @@ public class ProductOptionApi {
 
   }
   
+  
+  
+  @ResponseStatus(HttpStatus.OK)
+  @RequestMapping(
+      value = {"/private/product/option/{id}"},
+      method = RequestMethod.GET)
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
+  @ResponseBody
+  public ReadableProductOptionEntity getOption(
+            @PathVariable Long id,
+            @ApiIgnore MerchantStore merchantStore,
+            @ApiIgnore Language language,
+      HttpServletRequest request,
+      HttpServletResponse response) {
+    
+    
+    return productOptionFacade.getOption(id, merchantStore, language);
+
+
+
+  }
+  
+  
   @ResponseStatus(HttpStatus.OK)
   @RequestMapping(
       value = {"/private/product/option/{id}"},

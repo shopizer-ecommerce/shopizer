@@ -15,7 +15,8 @@ import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOpti
  */
 public interface ProductOptionFacade {
   
-  
+  ReadableProductOptionEntity getOption(Long optionId, MerchantStore store, Language language);
+	
   ReadableProductOptionEntity saveOption(PersistableProductOptionEntity option, MerchantStore store, Language language);
   
   ReadableProductOptionValue saveOptionValue(PersistableProductOptionValue optionValue, MerchantStore store, Language language);

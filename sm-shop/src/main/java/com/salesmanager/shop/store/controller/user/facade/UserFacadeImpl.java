@@ -210,13 +210,25 @@ public class UserFacadeImpl implements UserFacade {
 
   @Override
   public ReadableUser create(PersistableUser user, MerchantStore store) {
-    User userModel = new User();
-    userModel = converPersistabletUserToUser(store, languageService.defaultLanguage(), userModel, user);
-    if (CollectionUtils.isEmpty(userModel.getGroups())) {
-      throw new ServiceRuntimeException(
-          "No valid group groups associated with user " + user.getUserName());
-    }
+    
+	  Validate.notNull(store,  "MerchantStore must not be null");
+	  Validate.notNull(user,  "User must not be null");
+	  Validate.notNull(user.getUserName(),  "Username must not be null");
+
     try {
+    	
+     //check if user exists
+  	User tempUser = userService.getByUserName(user.getUserName(), store.getCode());
+  	if(tempUser!=null) {
+  		throw new ServiceRuntimeException("User [" + user.getUserName() + "] already exists for store [" + store.getCode() + "]");
+  	}
+  	  
+  	User userModel = new User();
+      userModel = converPersistabletUserToUser(store, languageService.defaultLanguage(), userModel, user);
+      if (CollectionUtils.isEmpty(userModel.getGroups())) {
+        throw new ServiceRuntimeException(
+            "No valid group groups associated with user " + user.getUserName());
+      }
       userService.saveOrUpdate(userModel);
       //now build returned object
       User createdUser = userService.getById(userModel.getId());

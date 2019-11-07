@@ -21,6 +21,7 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.validator.constraints.Email;
@@ -34,9 +35,15 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 
+/**
+ * User management
+ * @author carlsamson
+ *
+ */
 @Entity
 @EntityListeners(value = AuditListener.class)
-@Table(name = "USER", schema=SchemaConstant.SALESMANAGER_SCHEMA)
+@Table(name = "USER", schema=SchemaConstant.SALESMANAGER_SCHEMA, uniqueConstraints=
+	@UniqueConstraint(columnNames = {"MERCHANT_ID", "ADMIN_NAME"}))
 public class User extends SalesManagerEntity<Long, User> implements Auditable {
 	
 	
@@ -60,7 +67,7 @@ public class User extends SalesManagerEntity<Long, User> implements Auditable {
 	}
 	
 	@NotEmpty
-	@Column(name="ADMIN_NAME", length=100, unique=true)
+	@Column(name="ADMIN_NAME", length=100)
 	private String adminName;
 	
 	@ManyToMany(fetch=FetchType.LAZY, cascade = {CascadeType.REFRESH})

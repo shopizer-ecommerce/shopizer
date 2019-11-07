@@ -117,4 +117,19 @@ public class ProductOptionFacadeImpl implements ProductOptionFacade {
     return valueList;
   }
 
+@Override
+public ReadableProductOptionEntity getOption(Long optionId, MerchantStore store, Language language) {
+	
+	Validate.notNull(optionId,"Option id cannot be null");
+	Validate.notNull(store,"Store cannot be null");
+	
+	ProductOption option = productOptionService.getById(store, optionId);
+	
+	if(option == null) {
+		throw new ResourceNotFoundException("Option id [" + optionId + "] not found");
+	}
+	
+	return readableMapper.convert(option, store, language);
+}
+
 }

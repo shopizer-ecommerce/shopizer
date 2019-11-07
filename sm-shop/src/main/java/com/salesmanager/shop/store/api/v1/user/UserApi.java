@@ -170,7 +170,7 @@ public class UserApi {
   }
 
   @ResponseStatus(HttpStatus.OK)
-  @GetMapping(value = {"/private/{store}/users/", "/private/users/"},
+  @GetMapping(value = {"/private/{store}/user", "/private/user"},
       produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(httpMethod = "GET", value = "Get list of user", notes = "",
       response = ReadableUserList.class)
@@ -201,7 +201,7 @@ public class UserApi {
   }
 
   @ResponseStatus(HttpStatus.OK)
-  @DeleteMapping(value = {"/private/users/{id}"})
+  @DeleteMapping(value = {"/private/user/{id}"})
   @ApiOperation(httpMethod = "DELETE", value = "Deletes a user", notes = "", response = Void.class)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
