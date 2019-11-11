@@ -23,8 +23,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductAttribute;
 import com.salesmanager.shop.model.catalog.product.attribute.api.PersistableProductOptionEntity;
 import com.salesmanager.shop.model.catalog.product.attribute.api.PersistableProductOptionValueEntity;
+import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductAttributeEntity;
+import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductAttributeList;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionEntity;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionList;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValueEntity;
@@ -42,9 +45,9 @@ import springfox.documentation.annotations.ApiIgnore;
 
 @Controller
 @RequestMapping("/api/v1")
-@Api(tags = { "Product options / options values management resource (Product Option Management Api)" })
+@Api(tags = { "Product attributes /options / options values management resource (Product Option Management Api)" })
 @SwaggerDefinition(tags = {
-		@Tag(name = "Product options / options values management resource", description = "Edit product options and product option values") })
+		@Tag(name = "Product attributes /options / options values management resource", description = "Edit product attributes / options and product option values") })
 public class ProductOptionApi {
 
 	@Autowired
@@ -131,20 +134,20 @@ public class ProductOptionApi {
 	}
 
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = { "/private/product/option/{id}" }, method = RequestMethod.PUT)
+	@RequestMapping(value = { "/private/product/option/{optionId}" }, method = RequestMethod.PUT)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
 	public void updateOption(@Valid @RequestBody PersistableProductOptionEntity option, @PathVariable Long optionId,
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language, HttpServletRequest request,
 			HttpServletResponse response) {
-
+		option.setId(optionId);
 		productOptionFacade.saveOption(option, merchantStore, language);
 		return;
 
 	}
 
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = { "/private/product/option/{id}" }, method = RequestMethod.DELETE)
+	@RequestMapping(value = { "/private/product/option/{optionId}" }, method = RequestMethod.DELETE)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
 	public void deleteOption(@PathVariable Long optionId, @ApiIgnore MerchantStore merchantStore,
@@ -159,16 +162,19 @@ public class ProductOptionApi {
 	@RequestMapping(value = { "/private/product/option/value/{id}" }, method = RequestMethod.PUT)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public void updateOptionValue(@Valid @RequestBody PersistableProductOptionValueEntity optionValie,
+	public void updateOptionValue(
+			@PathVariable Long id,
+			@Valid @RequestBody PersistableProductOptionValueEntity optionValue,
 			@RequestParam(name = "file", required = false) MultipartFile file, @ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language, HttpServletRequest request, HttpServletResponse response) {
 
+		optionValue.setId(id);
 		Optional<MultipartFile> imageFile = Optional.empty();
 		if (file != null) {
 			imageFile = Optional.of(file);
 		}
 
-		productOptionFacade.saveOptionValue(imageFile, optionValie, merchantStore, language);
+		productOptionFacade.saveOptionValue(imageFile, optionValue, merchantStore, language);
 		return;
 
 	}
@@ -178,11 +184,11 @@ public class ProductOptionApi {
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
 	public void deleteOptionValue(
-			@PathVariable Long optionValueId,
+			@PathVariable Long id,
 			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language, HttpServletRequest request, HttpServletResponse response) {
 
-		productOptionFacade.deleteOptionValue(optionValueId, merchantStore);
+		productOptionFacade.deleteOptionValue(id, merchantStore);
 		return;
 
 	}
@@ -213,6 +219,59 @@ public class ProductOptionApi {
 			@RequestParam(value = "count", required = false, defaultValue = "10") Integer count) {
 
 		return productOptionFacade.optionValues(merchantStore, language, name, page, count);
+
+	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = { "/private/product/{id}/attributes" }, method = RequestMethod.GET)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	public @ResponseBody ReadableProductAttributeList attributes(
+			@PathVariable Long id,
+			@ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language, HttpServletRequest request, HttpServletResponse response) {
+
+		return productOptionFacade.getAttributesList(id, merchantStore, language);
+
+	}
+	
+	@ResponseStatus(HttpStatus.CREATED)
+	@RequestMapping(value = { "/private/product/{id}/attribute" }, method = RequestMethod.POST)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	public @ResponseBody ReadableProductAttributeEntity createAttribute(
+			@PathVariable Long id,
+			@Valid @RequestBody PersistableProductAttribute attribute, @ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language, HttpServletRequest request, HttpServletResponse response) {
+
+		ReadableProductAttributeEntity entity = productOptionFacade.saveAttribute(id, attribute, merchantStore, language);
+		return entity;
+
+	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = { "/private/product/{id}/attribute/{attributeId}" }, method = RequestMethod.PUT)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	public void updateAttribute(@PathVariable Long id, @Valid @RequestBody PersistableProductAttribute attribute, @PathVariable Long attributeId,
+			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language, HttpServletRequest request,
+			HttpServletResponse response) {
+
+		attribute.setId(attributeId);
+		productOptionFacade.saveAttribute(id, attribute, merchantStore, language);
+		return;
+
+	}
+
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = { "/private/product/{id}/attribute/{attributeId}" }, method = RequestMethod.DELETE)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	public void deleteAttribute(@PathVariable Long id,@PathVariable Long attributeId, @ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language, HttpServletRequest request, HttpServletResponse response) {
+
+		productOptionFacade.deleteAttribute(id, attributeId, merchantStore);
+		return;
 
 	}
 

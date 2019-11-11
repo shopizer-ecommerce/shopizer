@@ -59,18 +59,20 @@ public class PersistableProductOptionMapper implements Mapper<PersistableProduct
           ProductOptionDescription description = null;
           if(!CollectionUtils.isEmpty(destination.getDescriptions())) {
             for(ProductOptionDescription d : destination.getDescriptions()) {
-              if(!StringUtils.isBlank(desc.getLanguage()) && desc.getLanguage().equals(d.getLanguage())) {
-                desc.setId(d.getId());
-                desc.setLanguage(d.getLanguage().getCode());
-                  description = description(desc);
-                  description.setProductOption(destination);
-              }
+              if(!StringUtils.isBlank(desc.getLanguage()) && desc.getLanguage().equals(d.getLanguage().getCode())) {
+            	  d.setDescription(desc.getDescription());
+            	  d.setName(desc.getName());
+            	  d.setTitle(desc.getTitle());
+            	  description = d;
+            	  break;
+              } 
             }
-          } else {
-            description = description(desc);
-            description.setProductOption(destination);
+          } 
+          if(description == null) {
+	          description = description(desc);
+	          description.setProductOption(destination);
+	          destination.getDescriptions().add(description);
           }
-          destination.getDescriptions().add(description);
         }
       }
       

@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ConversionException;
@@ -35,6 +36,7 @@ import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.catalog.product.price.ProductPriceDescription;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.mapper.catalog.PersistableProductAttributeMapper;
 import com.salesmanager.shop.model.catalog.product.PersistableImage;
 import com.salesmanager.shop.model.catalog.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.ProductPriceEntity;
@@ -59,6 +61,8 @@ public class PersistableProductPopulator extends
 	private ProductOptionValueService productOptionValueService;
 	@Inject
 	private CustomerService customerService;
+	@Autowired
+	private PersistableProductAttributeMapper persistableProductAttributeMapper;
 
 	
 
@@ -127,11 +131,7 @@ public class PersistableProductPopulator extends
 
 					productDescription.setProduct(target);
 					productDescription.setDescription(description.getDescription());
-/*					if(description.getId() != null && description.getId().longValue() ==0) {
-						productDescription.setId(null);
-					} else {
-						productDescription.setId(description.getId());
-					}*/
+
 					productDescription.setName(description.getName());
 					productDescription.setSeUrl(description.getFriendlyUrl());
 					productDescription.setMetatagKeywords(description.getKeyWords());
@@ -188,12 +188,7 @@ public class PersistableProductPopulator extends
 			  
 			    //create new ProductAvailability
 			    ProductAvailability productAvailability = new ProductAvailability();
-				
-/*				if(productAvailability.getId() != null && productAvailability.getId().longValue() == 0) {
-				} else {
-					productAvailability.setId(null);
-				}*/
-				
+
 			    productAvailability.setRegion(Constants.ALL_REGIONS);
 				productAvailability.setProductQuantity(source.getQuantity());
 				productAvailability.setProduct(target);
@@ -296,7 +291,9 @@ public class PersistableProductPopulator extends
 			//attributes
 			if(source.getAttributes()!=null) {
 				for(com.salesmanager.shop.model.catalog.product.attribute.PersistableProductAttribute attr : source.getAttributes()) {
+					ProductAttribute attribute = persistableProductAttributeMapper.convert(attr, store, language);
 					
+					/*
 					ProductOption productOption = null;
 							
 					if(!StringUtils.isBlank(attr.getOption().getCode())) {
@@ -329,14 +326,14 @@ public class PersistableProductPopulator extends
 					if(productOptionValue.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
 						throw new ConversionException("Invalid product option value id ");
 					}
-					
-					ProductAttribute attribute = new ProductAttribute();
+*/					
+					//ProductAttribute attribute = new ProductAttribute();
 					attribute.setProduct(target);
-					attribute.setProductOption(productOption);
+/*					attribute.setProductOption(productOption);
 					attribute.setProductOptionValue(productOptionValue);
 					attribute.setProductAttributePrice(attr.getProductAttributePrice());
 					attribute.setProductAttributeWeight(attr.getProductAttributeWeight());
-					attribute.setProductAttributePrice(attr.getProductAttributePrice());
+					attribute.setProductAttributePrice(attr.getProductAttributePrice());*/
 					target.getAttributes().add(attribute);
 
 				}

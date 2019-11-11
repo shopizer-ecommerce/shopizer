@@ -1,7 +1,5 @@
 package com.salesmanager.shop.store.api.v1.product;
 
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,24 +8,27 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.salesmanager.core.business.services.catalog.product.ProductService;
-import com.salesmanager.core.business.services.catalog.product.relationship.ProductRelationshipService;
-import com.salesmanager.core.business.services.merchant.MerchantStoreService;
-import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.ReadableProductList;
 import com.salesmanager.shop.store.controller.items.facade.ProductItemsFacade;
-import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
-import com.salesmanager.shop.utils.LanguageUtils;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.SwaggerDefinition;
+import io.swagger.annotations.Tag;
 import springfox.documentation.annotations.ApiIgnore;
 
 /**
@@ -37,21 +38,14 @@ import springfox.documentation.annotations.ApiIgnore;
  */
 @Controller
 @RequestMapping("/api/v1")
+@Api(tags = { "Product groups management resource (Product Groups Management Api)" })
+@SwaggerDefinition(tags = {
+		@Tag(name = "Product groups management resource", description = "Product groups management") })
 public class ProductGroupApi {
-
-  @Inject private LanguageService languageService;
-
-  @Inject private LanguageUtils languageUtils;
 
   @Inject private ProductService productService;
 
-  @Inject private ProductRelationshipService productRelationshipService;
-
-  @Inject private MerchantStoreService merchantStoreService;
-
   @Inject private ProductItemsFacade productItemsFacade;
-
-  @Inject private StoreFacade storeFacade;
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ProductGroupApi.class);
 
@@ -68,13 +62,14 @@ public class ProductGroupApi {
    * @return
    * @throws Exception
    */
-  @RequestMapping("/products/group/{code}")
-  @ResponseBody
+  @ResponseStatus(HttpStatus.OK)
+  @GetMapping("/products/group/{code}")
+  @ApiOperation(httpMethod = "GET", value = "Get products by group code", notes = "", response = ReadableProductList.class)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
   })
-  public ReadableProductList getProductItemsByGroup(
+  public @ResponseBody ReadableProductList getProductItemsByGroup(
       @PathVariable final String code,
 			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language,
@@ -175,5 +170,22 @@ public class ProductGroupApi {
 
       return null;
     }
+  }
+  
+  @ResponseStatus(HttpStatus.OK)
+  @DeleteMapping("/products/group/{code}")
+  @ApiOperation(httpMethod = "DELETE", value = "Delete product group by group code", notes = "", response = Void.class)
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
+  public void delete(
+      @PathVariable final String code,
+	  @ApiIgnore MerchantStore merchantStore,
+	  @ApiIgnore Language language,
+      HttpServletResponse response) {
+	  
+	  productItemsFacade.deleteGroup(code, merchantStore);
+
   }
 }

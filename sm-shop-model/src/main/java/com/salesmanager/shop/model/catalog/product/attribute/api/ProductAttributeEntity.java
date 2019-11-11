@@ -10,11 +10,10 @@ public class ProductAttributeEntity extends ProductAttribute implements Serializ
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String type;
-	private String code;
 
 	private int sortOrder;
 	private boolean attributeDefault=false;
+	private boolean attributeDisplayOnly = false;
 
 
 	public void setSortOrder(int sortOrder) {
@@ -29,16 +28,12 @@ public class ProductAttributeEntity extends ProductAttribute implements Serializ
 	public boolean isAttributeDefault() {
 		return attributeDefault;
 	}
-	public String getType() {
-		return type;
+
+	public boolean isAttributeDisplayOnly() {
+		return attributeDisplayOnly;
 	}
-	public void setType(String type) {
-		this.type = type;
+	public void setAttributeDisplayOnly(boolean attributeDisplayOnly) {
+		this.attributeDisplayOnly = attributeDisplayOnly;
 	}
-	public String getCode() {
-		return code;
-	}
-	public void setCode(String code) {
-		this.code = code;
-	}
+
 }

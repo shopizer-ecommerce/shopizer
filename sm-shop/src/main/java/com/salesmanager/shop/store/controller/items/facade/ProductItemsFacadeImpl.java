@@ -10,6 +10,7 @@ import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.relationship.ProductRelationshipService;
@@ -21,6 +22,7 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProductList;
 import com.salesmanager.shop.populator.catalog.ReadableProductPopulator;
+import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.utils.ImageFilePath;
 
 @Component
@@ -169,6 +171,20 @@ public class ProductItemsFacadeImpl implements ProductItemsFacade {
 		productRelationshipService.delete(relationship);
 		
 		return listItemsByGroup(group,store,language);
+	}
+
+	@Override
+	public void deleteGroup(String group, MerchantStore store) {
+		
+		Validate.notNull(group, "Group cannot be null");
+		Validate.notNull(store, "MerchantStore cannot be null");
+		
+		try {
+			productRelationshipService.deleteGroup(store, group);
+		} catch (ServiceException e) {
+			throw new ServiceRuntimeException("Cannor delete product group",e);
+		}
+		
 	}
 
 }
