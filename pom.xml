@@ -41,7 +41,7 @@
 		<infinispan.version>6.0.2.Final</infinispan.version>
 		<mysql-jdbc-version>5.1.47</mysql-jdbc-version>
 		<simple-json-version>1.1.1</simple-json-version>
-		<jackson-version-databind>2.9.9.2</jackson-version-databind>
+		<jackson-version-databind>2.9.10.1</jackson-version-databind>
 		<jackson-version>2.9.9</jackson-version>
 		<!-- jacoco coverage -->
 		<coverage.lines>.32</coverage.lines>
