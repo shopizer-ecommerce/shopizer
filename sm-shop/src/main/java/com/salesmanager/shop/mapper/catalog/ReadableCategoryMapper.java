@@ -72,7 +72,7 @@ public class ReadableCategoryMapper implements Mapper<Category, ReadableCategory
     desc.setFriendlyUrl(description.getSeUrl());
     desc.setName(description.getName());
     desc.setId(description.getId());
-    desc.setDescription(description.getName());
+    desc.setDescription(description.getDescription());
     desc.setKeyWords(description.getMetatagKeywords());
     desc.setHighlights(description.getCategoryHighlight());
     desc.setLanguage(description.getLanguage().getCode());

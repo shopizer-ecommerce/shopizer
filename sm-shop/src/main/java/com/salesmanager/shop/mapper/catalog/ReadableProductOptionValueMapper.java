@@ -44,8 +44,12 @@ public class ReadableProductOptionValueMapper implements Mapper<ProductOptionVal
     }
     
     readableProductOptionValue.setCode(source.getCode());
-    readableProductOptionValue.setId(source.getId());
-    readableProductOptionValue.setOrder(source.getProductOptionValueSortOrder());
+    if(source.getId()!=null) {
+    	readableProductOptionValue.setId(source.getId().longValue());
+    }
+    if(source.getProductOptionValueSortOrder()!=null) {
+    	readableProductOptionValue.setOrder(source.getProductOptionValueSortOrder().intValue());
+    }
     readableProductOptionValue.setImage(source.getProductOptionValueImage());
     
     

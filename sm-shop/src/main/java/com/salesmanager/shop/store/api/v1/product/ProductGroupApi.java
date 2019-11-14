@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,6 +22,7 @@ import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.ReadableProductList;
+import com.salesmanager.shop.model.catalog.product.group.ProductGroup;
 import com.salesmanager.shop.store.controller.items.facade.ProductItemsFacade;
 
 import io.swagger.annotations.Api;
@@ -49,6 +51,26 @@ public class ProductGroupApi {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ProductGroupApi.class);
 
+  @ResponseStatus(HttpStatus.OK)
+  @GetMapping("/private/products/group")
+  @ApiOperation(httpMethod = "POST", value = "Get products by group code", notes = "", response = ProductGroup.class)
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
+  public @ResponseBody ProductGroup creteGroup(
+      @RequestBody ProductGroup group,
+			@ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language,
+      HttpServletResponse response)
+      throws Exception {
+	  
+	  productItemsFacade.createProductGroup(group, merchantStore);
+
+      return group;
+  }
+  
+  
   /**
    * Query for a product group public/products/group/{code}?lang=fr|en no lang it will take session
    * lang or default store lang code can be any code used while creating product group, defeult
@@ -139,7 +161,7 @@ public class ProductGroupApi {
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
   })
-  public @ResponseBody ReadableProductList removeProductFromCategory(
+  public @ResponseBody ReadableProductList removeProductFromGroup(
       @PathVariable Long productId,
       @PathVariable String code,
       @ApiIgnore MerchantStore merchantStore,
@@ -179,7 +201,7 @@ public class ProductGroupApi {
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
   })
-  public void delete(
+  public void deleteGroup(
       @PathVariable final String code,
 	  @ApiIgnore MerchantStore merchantStore,
 	  @ApiIgnore Language language,

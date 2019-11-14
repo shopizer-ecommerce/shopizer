@@ -29,8 +29,12 @@ public interface ProductOptionFacade {
 
   ReadableProductOptionEntity saveOption(PersistableProductOptionEntity option, MerchantStore store, Language language);
   
-  ReadableProductOptionValueEntity saveOptionValue(Optional<MultipartFile> image, PersistableProductOptionValueEntity optionValue, MerchantStore store, Language language);
+  ReadableProductOptionValueEntity saveOptionValue(PersistableProductOptionValueEntity optionValue, MerchantStore store, Language language);
 
+  void addOptionValueImage(MultipartFile image, Long optionValueId, MerchantStore store, Language language);
+  
+  void removeOptionValueImage(Long optionValueId, MerchantStore store, Language language);
+  
   boolean optionExists(String code, MerchantStore store);
   
   boolean optionValueExists(String code, MerchantStore store);

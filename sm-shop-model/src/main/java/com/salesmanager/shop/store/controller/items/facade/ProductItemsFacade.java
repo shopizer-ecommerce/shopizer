@@ -6,6 +6,7 @@ import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.ReadableProductList;
+import com.salesmanager.shop.model.catalog.product.group.ProductGroup;
 
 public interface ProductItemsFacade {
 	
@@ -17,6 +18,8 @@ public interface ProductItemsFacade {
 	 */
 	ReadableProductList listItemsByManufacturer(MerchantStore store, Language language, Long manufacturerId, int startCount, int maxCount) throws Exception;
 
+	ProductGroup createProductGroup(ProductGroup group, MerchantStore store);
+	
 	/**
 	 * List product items by id
 	 * @param store

@@ -39,7 +39,7 @@ public class ReadableCategoryPopulator extends
                 desc.setFriendlyUrl(description.getSeUrl());
                 desc.setName(description.getName());
                 desc.setId(source.getId());
-                desc.setDescription(description.getName());
+                desc.setDescription(description.getDescription());
                 desc.setKeyWords(description.getMetatagKeywords());
                 desc.setHighlights(description.getCategoryHighlight());
                 desc.setTitle(description.getMetatagTitle());

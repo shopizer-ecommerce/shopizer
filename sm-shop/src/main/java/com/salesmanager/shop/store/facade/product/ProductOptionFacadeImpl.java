@@ -21,6 +21,7 @@ import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOption;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValue;
+import com.salesmanager.core.model.content.FileContentType;
 import com.salesmanager.core.model.content.InputContentFile;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
@@ -213,8 +214,8 @@ public class ProductOptionFacadeImpl implements ProductOptionFacade {
 	}
 
 	@Override
-	public ReadableProductOptionValueEntity saveOptionValue(Optional<MultipartFile> image,
-			PersistableProductOptionValueEntity optionValue, MerchantStore store, Language language) {
+	public ReadableProductOptionValueEntity saveOptionValue(PersistableProductOptionValueEntity optionValue,
+			MerchantStore store, Language language) {
 		Validate.notNull(optionValue, "Option value code must not be null");
 		Validate.notNull(store, "Store code must not be null");
 
@@ -228,22 +229,7 @@ public class ProductOptionFacadeImpl implements ProductOptionFacade {
 		}
 
 		value = persistableOptionValueMapper.convert(optionValue, value, store, language);
-		if (image.isPresent()) {
-			try {
-				String imageName = image.get().getOriginalFilename();
-				InputStream inputStream = image.get().getInputStream();
-				InputContentFile cmsContentImage = new InputContentFile();
-				cmsContentImage.setFileName(imageName);
-				cmsContentImage.setMimeType(image.get().getContentType());
-				cmsContentImage.setFile(inputStream);
 
-				contentService.addOptionImage(store.getCode(), cmsContentImage);
-				value.setProductOptionValueImage(imageName);
-			} catch (Exception e) {
-				throw new ServiceRuntimeException("Exception while saving option value image", e);
-			}
-
-		}
 
 		try {
 			productOptionValueService.saveOrUpdate(value);
@@ -398,6 +384,66 @@ public class ProductOptionFacadeImpl implements ProductOptionFacade {
 					"An exception occured while deleting ProductAttribute [" + attributeId + "]", e);
 		}
 
+	}
+
+
+
+	@Override
+	public void addOptionValueImage(MultipartFile image, Long optionValueId,
+			MerchantStore store, Language language) {
+		
+		
+		Validate.notNull(optionValueId,"OptionValueId must not be null");
+		Validate.notNull(image,"Image must not be null");
+		//get option value
+		ProductOptionValue value = productOptionValueService.getById(store, optionValueId);
+		if(value == null) {
+			throw new ResourceNotFoundException("Product option value [" + optionValueId + "] not found");
+		}
+		
+		try {
+			String imageName = image.getOriginalFilename();
+			InputStream inputStream = image.getInputStream();
+			InputContentFile cmsContentImage = new InputContentFile();
+			cmsContentImage.setFileName(imageName);
+			cmsContentImage.setMimeType(image.getContentType());
+			cmsContentImage.setFile(inputStream);
+
+			contentService.addOptionImage(store.getCode(), cmsContentImage);
+			value.setProductOptionValueImage(imageName);
+			productOptionValueService.saveOrUpdate(value);
+		} catch (Exception e) {
+			throw new ServiceRuntimeException("Exception while adding option value image", e);
+		}
+
+
+		
+		
+		return;
+	}
+
+	@Override
+	public void removeOptionValueImage(Long optionValueId, MerchantStore store,
+			Language language) {
+		Validate.notNull(optionValueId,"OptionValueId must not be null");
+		ProductOptionValue value = productOptionValueService.getById(store, optionValueId);
+		if(value == null) {
+			throw new ResourceNotFoundException("Product option value [" + optionValueId + "] not found");
+		}
+		
+		try {
+
+			contentService.removeFile(store.getCode(), FileContentType.PROPERTY, value.getProductOptionValueImage());
+			value.setProductOptionValueImage(null);
+			productOptionValueService.saveOrUpdate(value);
+		} catch (Exception e) {
+			throw new ServiceRuntimeException("Exception while removing option value image", e);
+		}
+
+
+		
+		
+		return;
 	}
 
 }

@@ -124,7 +124,7 @@ public class PersistableCategoryPopulator extends
     			        }
     			        if(d.getLanguage().equals(description.getLanguage().getCode())) {
             				description.setCategory(target);
-            				description = this.buildDescription(d, description);
+            				description = buildDescription(d, description);
             				descriptions.add(description);
     			        }
     			    }

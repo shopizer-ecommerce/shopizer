@@ -94,18 +94,44 @@ public class ProductOptionApi {
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
 	public @ResponseBody ReadableProductOptionValueEntity createOptionValue(
-			@Valid @RequestBody PersistableProductOptionValueEntity optionValie,
-			@RequestParam(name = "file", required = false) MultipartFile file, @ApiIgnore MerchantStore merchantStore,
+			@Valid @RequestBody PersistableProductOptionValueEntity optionValue,
+			//@RequestParam(name = "file", required = false) MultipartFile file, 
+			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language, HttpServletRequest request, HttpServletResponse response) {
 
-		Optional<MultipartFile> imageFile = Optional.empty();
-		if (file != null) {
-			imageFile = Optional.of(file);
-		}
-
-		ReadableProductOptionValueEntity entity = productOptionFacade.saveOptionValue(imageFile, optionValie,
+		ReadableProductOptionValueEntity entity = productOptionFacade.saveOptionValue( optionValue,
 				merchantStore, language);
 		return entity;
+
+	}
+	
+	@ResponseStatus(HttpStatus.CREATED)
+	@RequestMapping(value = { "/private/product/option/value/{id}/image" }, method = RequestMethod.POST)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	public void addOptionValueImage(
+			@PathVariable Long id,
+			@RequestParam(name = "file", required = true) MultipartFile file, 
+			@ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language, 
+			HttpServletRequest request, HttpServletResponse response) {
+
+		productOptionFacade.addOptionValueImage(file, id, merchantStore, language);
+
+
+	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = { "/private/product/option/value/{id}/image" }, method = RequestMethod.DELETE)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	public void removeOptionValueImage(
+			@PathVariable Long id,
+			@ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language, 
+			HttpServletRequest request, HttpServletResponse response) {
+
+		productOptionFacade.removeOptionValueImage(id, merchantStore, language);
 
 	}
 
@@ -165,16 +191,11 @@ public class ProductOptionApi {
 	public void updateOptionValue(
 			@PathVariable Long id,
 			@Valid @RequestBody PersistableProductOptionValueEntity optionValue,
-			@RequestParam(name = "file", required = false) MultipartFile file, @ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language, HttpServletRequest request, HttpServletResponse response) {
 
 		optionValue.setId(id);
-		Optional<MultipartFile> imageFile = Optional.empty();
-		if (file != null) {
-			imageFile = Optional.of(file);
-		}
-
-		productOptionFacade.saveOptionValue(imageFile, optionValue, merchantStore, language);
+		productOptionFacade.saveOptionValue(optionValue, merchantStore, language);
 		return;
 
 	}
