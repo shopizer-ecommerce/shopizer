@@ -24,9 +24,9 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<shopizer.version>2.8.0</shopizer.version>
-		<shopizer.search.version>2.6.0</shopizer.search.version>
-		<shopizer-canadapost.version>2.6.0</shopizer-canadapost.version>
-		<shopizer-shipping-distance.version>2.7.0</shopizer-shipping-distance.version>
+		<shopizer.search.version>2.8.0</shopizer.search.version>
+		<shopizer-canadapost.version>2.8.0</shopizer-canadapost.version>
+		<shopizer-shipping-distance.version>2.8.0</shopizer-shipping-distance.version>
 		<org.elasticsearch-version>6.3.1</org.elasticsearch-version>
 		<io.searchbox.jest-version>6.3.1</io.searchbox.jest-version>
 		<!-- requires spring 5 -->
@@ -43,7 +43,7 @@
 		<infinispan.version>6.0.2.Final</infinispan.version>
 		<mysql-jdbc-version>5.1.47</mysql-jdbc-version>
 		<simple-json-version>1.1.1</simple-json-version>
-		<jackson-version-databind>2.9.10</jackson-version-databind>
+		<jackson-version-databind>2.9.10.1</jackson-version-databind>
 		<jackson-version>2.9.9</jackson-version>
 		<!-- jacoco coverage -->
 		<coverage.lines>.30</coverage.lines>

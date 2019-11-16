@@ -5,7 +5,7 @@ import java.util.Set;
 
 import javax.persistence.Embedded;
 
-import com.salesmanager.core.model.catalog.product.image.ProductImage;
+import com.salesmanager.core.model.catalog.catalog.Catalog;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.common.audit.Auditable;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
@@ -69,13 +69,7 @@ public class MarketPlace extends SalesManagerEntity<Long, MarketPlace> implement
 		this.store = store;
 	}
 
-	public Set<Catalog> getCatalogs() {
-		return catalogs;
-	}
 
-	public void setCatalogs(Set<Catalog> catalogs) {
-		this.catalogs = catalogs;
-	}
 
 	public String getCode() {
 		return code;
