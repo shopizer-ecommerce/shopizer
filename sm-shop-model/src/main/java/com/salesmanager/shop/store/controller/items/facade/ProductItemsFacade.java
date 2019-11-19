@@ -20,6 +20,16 @@ public interface ProductItemsFacade {
 
 	ProductGroup createProductGroup(ProductGroup group, MerchantStore store);
 	
+	List<ProductGroup> listProductGroups(MerchantStore store, Language language);
+	
+	/**
+	 * Update product group visible flag
+	 * @param code
+	 * @param group
+	 * @param store
+	 */
+	void updateProductGroup(String code, ProductGroup group, MerchantStore store);
+	
 	/**
 	 * List product items by id
 	 * @param store

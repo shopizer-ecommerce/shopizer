@@ -490,7 +490,7 @@ public class UserController {
 		List<Group> submitedGroups = user.getGroups();
 		Set<Integer> ids = new HashSet<Integer>();
 		for(Group group : submitedGroups) {
-			ids.add(Integer.parseInt(group.getGroupName()));
+			ids.add(group.getId());
 		}
 		
 

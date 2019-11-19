@@ -2,7 +2,6 @@ package com.salesmanager.shop.store.facade.product;
 
 import java.io.InputStream;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.jsoup.helper.Validate;
@@ -269,6 +268,7 @@ public class ProductOptionFacadeImpl implements ProductOptionFacade {
 		Validate.notNull(attribute, "ProductAttribute cannot be null");
 		Validate.notNull(store, "Store cannot be null");
 
+		attribute.setProductId(productId);
 		ProductAttribute attr = new ProductAttribute();
 		if (attribute.getId() != null && attribute.getId().longValue() > 0) {
 			attr = productAttributeService.getById(attribute.getId());

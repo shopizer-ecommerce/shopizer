@@ -2,7 +2,9 @@ package com.salesmanager.shop.store.controller.user.facade;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
 import javax.inject.Inject;
+
 import org.jsoup.helper.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.merchant.MerchantStoreService;
@@ -36,7 +39,7 @@ import com.salesmanager.shop.populator.user.ReadableUserPopulator;
 import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
-import com.salesmanager.shop.store.controller.category.ShoppingCategoryController;
+import com.salesmanager.shop.store.api.exception.UnauthorizedException;
 import com.salesmanager.shop.store.controller.security.facade.SecurityFacade;
 
 @Service("userFacade")
@@ -65,11 +68,13 @@ public class UserFacadeImpl implements UserFacade {
 
   @Override
   public ReadableUser findByUserName(String userName, String storeCode, Language lang) {
-    User user = getByUserName(userName, storeCode);
+	ReadableUser user = findByUserName(userName, lang);
     if (user == null) {
       throw new ResourceNotFoundException("User [" + userName + "] not found");
     }
-    return convertUserToReadableUser(lang, user);
+    
+    return user;
+
   }
   
   private ReadableUser findByUserName(String userName, Language lang) {
@@ -129,6 +134,14 @@ public class UserFacadeImpl implements UserFacade {
       throw new ServiceRuntimeException(e);
     }
   }
+  
+  private User getByUserId(Long id) {
+	    try {
+	      return userService.getById(id);
+	    } catch (Exception e) {
+	      throw new ServiceRuntimeException(e);
+	    }
+	  }
 
 
   @Override
@@ -344,10 +357,26 @@ public class UserFacadeImpl implements UserFacade {
 
   @Override
   public ReadableUser findById(Long id, String storeCode, Language lang) {
-    User user = getByUserId(id, storeCode);
+    User user = getByUserId(id);
     if (user == null) {
       throw new ResourceNotFoundException("User [" + id + "] not found");
     }
+    
+    boolean isActive = user.isActive();
+ 
+    List<Group> originalGroups = user.getGroups();
+    Group superadmin = originalGroups.stream()
+        .filter(group -> Constants.GROUP_SUPERADMIN.equals(group.getGroupName()))
+        .findAny()
+        .orElse(null);
+    
+    if(superadmin==null) {
+    	if(user.getMerchantStore().getCode().equals(storeCode)) {
+    		throw new UnauthorizedException("User [" + user.getAdminEmail() + " Not authorized");
+    	}
+    }
+
+    
     return convertUserToReadableUser(lang, user);
   }
 

@@ -194,7 +194,7 @@ public class CustomerApi {
    * @param request
    * @return
    */
-  @GetMapping("/auth/customer/profile")
+  @GetMapping("/private/customer/profile")
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")

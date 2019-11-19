@@ -25,6 +25,7 @@ import com.salesmanager.shop.model.catalog.product.ReadableProductList;
 import com.salesmanager.shop.model.catalog.product.group.ProductGroup;
 import com.salesmanager.shop.store.controller.items.facade.ProductItemsFacade;
 
+import antlr.collections.List;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -68,6 +69,42 @@ public class ProductGroupApi {
 	  productItemsFacade.createProductGroup(group, merchantStore);
 
       return group;
+  }
+  
+  @ResponseStatus(HttpStatus.OK)
+  @GetMapping("/private/products/group/{code}")
+  @ApiOperation(httpMethod = "PATCH", value = "Update product group visible flag", notes = "", response = ProductGroup.class)
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
+  public @ResponseBody ProductGroup updateGroup(
+      @RequestBody ProductGroup group,
+      @PathVariable String code,
+			@ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language,
+      HttpServletResponse response)
+      throws Exception {
+	  
+	  productItemsFacade.updateProductGroup(code, group, merchantStore);
+
+      return group;
+  }
+  
+  @GetMapping("/private/products/groups")
+  @ApiOperation(httpMethod = "GET", value = "Get products groups for a given merchant", notes = "", response = List.class)
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
+  public @ResponseBody java.util.List<ProductGroup> list(
+			@ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language,
+      HttpServletResponse response)
+      throws Exception {
+	  
+	  return productItemsFacade.listProductGroups(merchantStore, language);
+
   }
   
   

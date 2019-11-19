@@ -1,8 +1,8 @@
 package com.salesmanager.shop.model.catalog.product;
 
-import com.salesmanager.shop.model.catalog.CatalogEntity;
+import com.salesmanager.shop.model.catalog.NamedEntity;
 
-public class ProductPriceDescription extends CatalogEntity {
+public class ProductPriceDescription extends NamedEntity {
 
   /**
    * 

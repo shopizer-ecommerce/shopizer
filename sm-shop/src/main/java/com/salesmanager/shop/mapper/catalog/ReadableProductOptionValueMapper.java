@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValue;
@@ -13,11 +16,14 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValueEntity;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValueFull;
+import com.salesmanager.shop.utils.ImageFilePath;
 
 @Component
 public class ReadableProductOptionValueMapper implements Mapper<ProductOptionValue, ReadableProductOptionValueEntity> {
 
-
+  @Autowired
+  @Qualifier("img")
+  private ImageFilePath imageUtils;
 
   @Override
   public ReadableProductOptionValueEntity convert(ProductOptionValue source, ReadableProductOptionValueEntity destination,
@@ -50,8 +56,9 @@ public class ReadableProductOptionValueMapper implements Mapper<ProductOptionVal
     if(source.getProductOptionValueSortOrder()!=null) {
     	readableProductOptionValue.setOrder(source.getProductOptionValueSortOrder().intValue());
     }
-    readableProductOptionValue.setImage(source.getProductOptionValueImage());
-    
+    if(!StringUtils.isBlank(source.getProductOptionValueImage())) {
+    	readableProductOptionValue.setImage(imageUtils.buildProductPropertyImageUtils(store, source.getProductOptionValueImage()));
+    }
     
     return readableProductOptionValue;
   }

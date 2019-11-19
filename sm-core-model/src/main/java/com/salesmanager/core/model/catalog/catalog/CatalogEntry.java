@@ -1,6 +1,8 @@
 package com.salesmanager.core.model.catalog.catalog;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -12,11 +14,18 @@ import org.hibernate.annotations.Parameter;
 
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.common.audit.AuditSection;
+import com.salesmanager.core.model.common.audit.Auditable;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 
 @Entity
+@EntityListeners(value = com.salesmanager.core.model.common.audit.AuditListener.class)
 @Table(name="CATALOG_ENTRY")
-public class CatalogEntry extends SalesManagerEntity<Long, CatalogEntry> {
+public class CatalogEntry extends SalesManagerEntity<Long, CatalogEntry> implements Auditable {
+	
+	
+    @Embedded
+    private AuditSection auditSection = new AuditSection();
 	
     /**
 	 * 
@@ -79,6 +88,17 @@ public class CatalogEntry extends SalesManagerEntity<Long, CatalogEntry> {
 	@Override
 	public void setId(Long id) {
 		this.id = id;
+		
+	}
+
+	@Override
+	public AuditSection getAuditSection() {
+		return auditSection;
+	}
+
+	@Override
+	public void setAuditSection(AuditSection audit) {
+		auditSection = audit;
 		
 	}
 

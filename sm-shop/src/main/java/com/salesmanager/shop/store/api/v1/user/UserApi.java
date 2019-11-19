@@ -1,5 +1,6 @@
 package com.salesmanager.shop.store.api.v1.user;
 
+import java.security.Principal;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,6 +30,7 @@ import com.salesmanager.core.business.services.reference.language.LanguageServic
 import com.salesmanager.core.model.common.Criteria;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.model.customer.ReadableCustomer;
 import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.model.entity.UniqueEntity;
 import com.salesmanager.shop.model.user.PersistableUser;
@@ -250,5 +252,29 @@ public class UserApi {
     Optional.ofNullable(count).ifPresent(criteria::setMaxCount);
 
     return criteria;
+  }
+  
+  
+  /**
+   * Get logged in customer profile
+   * @param merchantStore
+   * @param language
+   * @param request
+   * @return
+   */
+  @GetMapping("/private/user/profile")
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
+  })
+  public ReadableUser getAuthUser(
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
+      HttpServletRequest request) {
+    Principal principal = request.getUserPrincipal();
+    String userName = principal.getName();
+    return userFacade.findByUserName(userName, merchantStore.getCode(), language);
+    
+
   }
 }

@@ -6,8 +6,10 @@ import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
+import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductOptionService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductOptionValueService;
+import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOption;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValue;
@@ -24,6 +26,8 @@ public class PersistableProductAttributeMapper implements Mapper<PersistableProd
 	private ProductOptionService productOptionService;
 	@Inject
 	private ProductOptionValueService productOptionValueService;
+	@Inject
+	private ProductService productService;
 	
 	@Override
 	public ProductAttribute convert(PersistableProductAttribute source, MerchantStore store, Language language) {
@@ -67,6 +71,14 @@ public class PersistableProductAttributeMapper implements Mapper<PersistableProd
 		
 		if(productOptionValue.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
 			throw new ConversionRuntimeException("Invalid product option value id ");
+		}
+		
+		if(source.getProductId() != null && source.getProductId().longValue() >0 ) {
+			Product p = productService.getById(source.getProductId());
+			if(p == null) {
+				throw new ConversionRuntimeException("Invalid product id ");
+			}
+			destination.setProduct(p);
 		}
 
 		

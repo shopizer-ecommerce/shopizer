@@ -77,7 +77,7 @@ public class Catalog extends SalesManagerEntity<Long, Catalog> implements Audita
     private boolean visible;
 
     
-    @Column(name="DEFAULT")
+    @Column(name="DEFAULT_CATALOG")
     private boolean defaultCatalog;
     
     @NotEmpty

@@ -2,10 +2,10 @@ package com.salesmanager.shop.model.customer.attribute;
 
 import java.io.Serializable;
 
-import com.salesmanager.shop.model.catalog.CatalogEntity;
+import com.salesmanager.shop.model.catalog.NamedEntity;
 
 
-public class CustomerOptionDescription extends CatalogEntity implements
+public class CustomerOptionDescription extends NamedEntity implements
 		Serializable {
 
 	/**

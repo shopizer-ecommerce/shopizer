@@ -23,6 +23,7 @@ import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProductList;
 import com.salesmanager.shop.model.catalog.product.group.ProductGroup;
 import com.salesmanager.shop.populator.catalog.ReadableProductPopulator;
+import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.controller.items.facade.ProductItemsFacade;
 import com.salesmanager.shop.utils.ImageFilePath;
@@ -199,6 +200,49 @@ public class ProductItemsFacadeImpl implements ProductItemsFacade {
 			throw new ServiceRuntimeException("Cannor delete product group",e);
 		}
 		return group;
+	}
+
+	@Override
+	public void updateProductGroup(String code, ProductGroup group, MerchantStore store) {
+		try {
+			List<ProductRelationship>  items = productRelationshipService.getByGroup(store, code);
+			if(CollectionUtils.isEmpty(items)) {
+				throw new ResourceNotFoundException("ProductGroup [" + code + "] not found");
+			}
+			
+			if(group.isActive()) {
+				productRelationshipService.activateGroup(store, code);
+			} else {
+				productRelationshipService.deactivateGroup(store, code);
+			}
+			
+		} catch (ServiceException e) {
+			throw new ServiceRuntimeException("Exception while updating product [" + code + "]");
+		}
+		
+	}
+
+	@Override
+	public List<ProductGroup> listProductGroups(MerchantStore store, Language language) {
+		Validate.notNull(store,"MerchantStore cannot be null");
+		
+		List<ProductRelationship> relationships = productRelationshipService.getGroups(store);
+		
+		List<ProductGroup> groups = new ArrayList<ProductGroup>();
+		
+		for(ProductRelationship relationship : relationships) {
+			
+			if(!"FEATURED_ITEM".equals(relationship.getCode())) {//do not add featured items
+				ProductGroup g = new ProductGroup();
+				g.setActive(relationship.isActive());
+				g.setCode(relationship.getCode());
+				groups.add(g);
+			
+			}
+			
+		}
+		
+		return groups;
 	}
 
 }
