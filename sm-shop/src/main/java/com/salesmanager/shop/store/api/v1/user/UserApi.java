@@ -103,15 +103,23 @@ public class UserApi {
    * @return
    */
   @ResponseStatus(HttpStatus.OK)
-  @PostMapping(value = {"/private/{store}/user/", "/private/user/"},
-      produces = MediaType.APPLICATION_JSON_VALUE)
+  //@PostMapping(value = {"/private/{store}/user/", "/private/user/"},
+  //    produces = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(value = {"/private/user/"},
+  produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(httpMethod = "POST", value = "Creates a new user", notes = "",
       response = ReadableUser.class)
+  @ApiImplicitParams({
+	    @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+	    @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
   public ReadableUser create(
-      @ApiParam(name = "store", value = "Optional - Store code", required = false,
-          defaultValue = "DEFAULT") 
-      @PathVariable Optional<String> store,
-      @Valid @RequestBody PersistableUser user, HttpServletRequest request) {
+      //@ApiParam(name = "store", value = "Optional - Store code", required = false,
+      //    defaultValue = "DEFAULT") 
+      //@PathVariable Optional<String> store,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
+      @Valid @RequestBody PersistableUser user, 
+      HttpServletRequest request) {
     /** Must be superadmin or admin */
     String authenticatedUser = userFacade.authenticatedUser();
     if (authenticatedUser == null) {
@@ -121,39 +129,45 @@ public class UserApi {
     userFacade.authorizedGroup(authenticatedUser,
         Stream.of("SUPERADMIN", "ADMIN").collect(Collectors.toList()));
 
-    String storeCd = Constants.DEFAULT_STORE;
+/*    String storeCd = Constants.DEFAULT_STORE;
     if (store.isPresent()) {
       storeCd = store.get();
-    }
-    MerchantStore merchantStore = storeFacade.get(storeCd);
+    }*/
+    MerchantStore store = storeFacade.get(merchantStore.getCode());
 
     /** if user is admin, user must be in that store */
     if (!request.isUserInRole("SUPERADMIN")) {
-      userFacade.authorizedStore(authenticatedUser, storeCd);
+      userFacade.authorizedStore(authenticatedUser, store.getCode());
     }
 
     return userFacade.create(user, merchantStore);
   }
 
   @ResponseStatus(HttpStatus.OK)
-  @PutMapping(value = {"/private/{store}/user/{id}","/private/user/{id}"}, produces = MediaType.APPLICATION_JSON_VALUE)
+  //@PutMapping(value = {"/private/{store}/user/{id}","/private/user/{id}"}, produces = MediaType.APPLICATION_JSON_VALUE)
+  @PutMapping(value = {"/private/user/{id}"}, produces = MediaType.APPLICATION_JSON_VALUE)
+  @ApiImplicitParams({
+	    @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+	    @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
   @ApiOperation(httpMethod = "PUT", value = "Updates a user", notes = "",
       response = ReadableUser.class)
   public ReadableUser update(
       @Valid @RequestBody PersistableUser user, 
       @PathVariable Long id,
-      @ApiParam(name = "store", value = "Optional - Store code", required = false,
-      defaultValue = "DEFAULT") 
-      @PathVariable Optional<String> store
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language
+      //@ApiParam(name = "store", value = "Optional - Store code", required = false,
+      //defaultValue = "DEFAULT") 
+      //@PathVariable Optional<String> store
       ) {
 
-    String storeCd = Constants.DEFAULT_STORE;
+/*    String storeCd = Constants.DEFAULT_STORE;
     if (store.isPresent()) {
       storeCd = store.get();
-    }
+    }*/
     String authenticatedUser = userFacade.authenticatedUser();//requires user doing action
 
-    return userFacade.update(id, authenticatedUser, storeCd, user);
+    return userFacade.update(id, authenticatedUser, merchantStore.getCode(), user);
   }
 
   @ResponseStatus(HttpStatus.OK)
@@ -172,13 +186,18 @@ public class UserApi {
   }
 
   @ResponseStatus(HttpStatus.OK)
-  @GetMapping(value = {"/private/{store}/user", "/private/user"},
+  @GetMapping(value = {"/private/user"},
       produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(httpMethod = "GET", value = "Get list of user", notes = "",
       response = ReadableUserList.class)
+  @ApiImplicitParams({
+	    @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+	    @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
   public ReadableUserList list(
-      @ApiParam(name = "store", value = "Optional - Store code", required = false,
-          defaultValue = "DEFAULT") @PathVariable Optional<String> store,
+      //@ApiParam(name = "store", value = "Optional - Store code", required = false,
+      //    defaultValue = "DEFAULT") @PathVariable Optional<String> store,
+	  @ApiIgnore MerchantStore merchantStore,
+	  @ApiIgnore Language language,
       @RequestParam(value = "start", required = false) Integer start,
       @RequestParam(value = "length", required = false) Integer count, HttpServletRequest request) {
 
@@ -187,13 +206,13 @@ public class UserApi {
       throw new UnauthorizedException();
     }
 
-    String storeCd = store.orElse(Constants.DEFAULT_STORE);
+    //String storeCd = store.orElse(Constants.DEFAULT_STORE);
     Criteria criteria = createCriteria(start, count, request);
-    criteria.setStoreCode(storeCd);
+    criteria.setStoreCode(merchantStore.getCode());
     String drawParam = request.getParameter("draw");
 
     if (!request.isUserInRole("SUPERADMIN")) {
-      userFacade.authorizedStore(authenticatedUser, storeCd);
+      userFacade.authorizedStore(authenticatedUser, merchantStore.getCode());
     }
 
     userFacade.authorizedGroup(authenticatedUser,

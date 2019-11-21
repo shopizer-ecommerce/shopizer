@@ -145,7 +145,7 @@ public class StoreFacadeImpl implements StoreFacade {
 
   private MerchantStore getMerchantStoreByCode(String code) {
     return Optional.ofNullable(get(code))
-        .orElseThrow(() -> new ResourceNotFoundException("Merchant store code not found"));
+        .orElseThrow(() -> new ResourceNotFoundException("Merchant store code [" + code + "] not found"));
   }
 
   @Override

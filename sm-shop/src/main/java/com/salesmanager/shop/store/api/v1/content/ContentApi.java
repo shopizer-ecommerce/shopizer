@@ -31,6 +31,7 @@ import com.salesmanager.shop.model.content.ContentFolder;
 import com.salesmanager.shop.model.content.ContentName;
 import com.salesmanager.shop.model.content.PersistableContent;
 import com.salesmanager.shop.model.content.ReadableContentBox;
+import com.salesmanager.shop.model.content.ReadableContentFull;
 import com.salesmanager.shop.model.content.ReadableContentPage;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.RestApiException;
@@ -126,6 +127,21 @@ public class ContentApi {
     }
     return page;
   }
+  
+  @GetMapping(value = "/private/content/any/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @ApiOperation(httpMethod = "GET", value = "Get page content by code for a given MerchantStore",
+      notes = "", produces = "application/json", response = ReadableContentPage.class)
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+    @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
+  public ReadableContentFull content(
+      @PathVariable("code") String code,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language) {
+
+    return contentFacade.getContent(code, merchantStore, language);
+
+  }
 
   @GetMapping(value = "/content/boxes/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(httpMethod = "GET",
@@ -178,28 +194,6 @@ public class ContentApi {
     return folder;
   }
 
-/*  *//**
-   * @param code
-   * @param path
-   * @param request
-   * @param merchantStore
-   * @param language
-   * @return
-   *//*
-  @GetMapping(value = "/content/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
-  @ApiOperation(httpMethod = "GET", value = "Get store content based on content code", notes = "",
-      response = ContentFolder.class)
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
-  public ReadableContentBox content(
-      @PathVariable String code,
-      @RequestParam(value = "path", required = false) String path, 
-      HttpServletRequest request,
-      @ApiIgnore MerchantStore merchantStore, 
-      @ApiIgnore Language language) {
-    return contentFacade.getContentBox(code, merchantStore, language);
-  }*/
 
   private String decodeContentPath(String path) throws UnsupportedEncodingException {
     try {

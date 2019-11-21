@@ -82,14 +82,15 @@ public class MerchantStoreApi {
     return storeFacade.getByCode(store, lang);
   }
   
-  @GetMapping(value = {"/merchant/{store}/stores"}, produces = MediaType.APPLICATION_JSON_VALUE)
-  @ApiOperation(httpMethod = "GET", value = "Get stores attached to merchant", notes = "Merchant (retailer) can have multiple stores",
+  @GetMapping(value = {"/merchant/{code}/stores"}, produces = MediaType.APPLICATION_JSON_VALUE)
+  @ApiOperation(httpMethod = "GET", value = "Get retailer child stores", notes = "Merchant (retailer) can have multiple stores",
       response = ReadableMerchantStore.class)
   @ApiImplicitParams({
     @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
-  public List<ReadableMerchantStore> stores(@PathVariable String merchant,
+  public List<ReadableMerchantStore> stores(
+	  @PathVariable String code,
       @ApiIgnore Language language) {
-    return storeFacade.getChildStores(language, merchant);
+    return storeFacade.getChildStores(language, code);
   }
 
   @ResponseStatus(HttpStatus.OK)

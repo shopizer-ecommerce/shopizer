@@ -9,6 +9,7 @@ import com.salesmanager.shop.model.content.ContentFolder;
 import com.salesmanager.shop.model.content.PersistableContent;
 import com.salesmanager.shop.model.content.PersistableContentPage;
 import com.salesmanager.shop.model.content.ReadableContentBox;
+import com.salesmanager.shop.model.content.ReadableContentFull;
 import com.salesmanager.shop.model.content.ReadableContentPage;
 
 /**
@@ -103,5 +104,7 @@ public interface ContentFacade {
 	 * @param language
 	 */
 	void saveContentPage(PersistableContent page, MerchantStore merchantStore, Language language);
+	
+	ReadableContentFull getContent(String code, MerchantStore store, Language language);
 
 }

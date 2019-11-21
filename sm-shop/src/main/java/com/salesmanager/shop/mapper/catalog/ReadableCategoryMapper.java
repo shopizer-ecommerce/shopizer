@@ -25,9 +25,6 @@ public class ReadableCategoryMapper implements Mapper<Category, ReadableCategory
     
     feedDescription(source, language, target);
 
-/*    Optional<com.salesmanager.shop.model.catalog.category.CategoryDescription> categoryDescription =
-        getCategoryDescription(source, language, target);
-    categoryDescription.ifPresent(target::setDescription);*/
 
     Optional<com.salesmanager.shop.model.catalog.category.Category> parentCategory =
         createParentCategory(source);

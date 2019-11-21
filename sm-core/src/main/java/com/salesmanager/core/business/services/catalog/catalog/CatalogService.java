@@ -1,7 +1,5 @@
 package com.salesmanager.core.business.services.catalog.catalog;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 
 import com.salesmanager.core.business.exception.ServiceException;
@@ -20,7 +18,7 @@ public interface CatalogService extends SalesManagerEntityService<Long, Catalog>
 	 * @return Catalog
 	 * @throws ServiceException
 	 */
-	Catalog create(MerchantStore store, String code) throws ServiceException;
+	Catalog saveOrUddate(Catalog catalog, MerchantStore store, String code) throws ServiceException;
 	
 	/**
 	 * Get a list of Catalog associated with a MarketPlace

@@ -8,12 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 import javax.inject.Inject;
+
 import org.jsoup.helper.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
+
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.content.ContentService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
@@ -30,12 +34,15 @@ import com.salesmanager.shop.model.content.ContentImage;
 import com.salesmanager.shop.model.content.ObjectContent;
 import com.salesmanager.shop.model.content.PersistableContent;
 import com.salesmanager.shop.model.content.ReadableContentBox;
+import com.salesmanager.shop.model.content.ReadableContentDescription;
+import com.salesmanager.shop.model.content.ReadableContentFull;
 import com.salesmanager.shop.model.content.ReadableContentPage;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.controller.content.facade.ContentFacade;
 import com.salesmanager.shop.utils.FilePathUtils;
 import com.salesmanager.shop.utils.ImageFilePath;
+
 import io.searchbox.strings.StringUtils;
 
 @Component("contentFacade")
@@ -142,6 +149,28 @@ public class ContentFacadeImpl implements ContentFacade {
     page.setPath(fileUtils.buildStaticFilePath(store, contentDescription.get().getSeUrl()));
     return page;
   }
+  
+  private ReadableContentFull convertContentToReadableContentFull(MerchantStore store,
+	      Language language, Content content) {
+	  ReadableContentFull contentFull = new ReadableContentFull();
+	  
+	  
+	    try {
+			List<ReadableContentDescription> descriptions = this.createReadableContentDescriptions(store, content, language);
+
+			contentFull.setDescriptions(descriptions);
+		    contentFull.setId(content.getId());
+		    contentFull.setDisplayedInMenu(content.isLinkToMenu());
+		    contentFull.setContentType(content.getContentType().name());
+		    contentFull.setCode(content.getCode());
+		    contentFull.setId(content.getId());
+
+		    return contentFull;
+	    
+		} catch (ServiceException e) {
+			throw new ServiceRuntimeException("Error while creating ReadableContentFull",e);
+		}
+	  }
 
   private Content convertContentPageToContent(MerchantStore store, Language language,
       PersistableContent content) throws ServiceException {
@@ -155,7 +184,7 @@ public class ContentFacadeImpl implements ContentFacade {
     contentModel.setContentType(ContentType.PAGE);
     contentModel.setMerchantStore(store);
     contentModel.setLinkToMenu(content.isDisplayedInMenu());
-    contentModel.setVisible(true);//force visibe
+    contentModel.setVisible(true);//force visible
     contentModel.setDescriptions(descriptions);
     return contentModel;
   }
@@ -179,6 +208,30 @@ public class ContentFacadeImpl implements ContentFacade {
 
     return content;
   }
+  
+  private List<ReadableContentDescription> createReadableContentDescriptions(MerchantStore store, Content contentModel, Language language) throws ServiceException {
+      
+	  List<ReadableContentDescription> descriptions = new ArrayList<ReadableContentDescription>();
+
+	    if(!CollectionUtils.isEmpty(contentModel.getDescriptions())) {
+	    	for(ContentDescription description : contentModel.getDescriptions()) {
+	    	  if(language != null && !language.getId().equals(description.getLanguage().getId())) {
+	    		  continue;
+	    	  }
+
+	    	  ReadableContentDescription contentDescription = new ReadableContentDescription();
+	  	      contentDescription.setLanguage(description.getLanguage().getCode());
+	  	      //contentDescription.setMetatagDescription(description.getMetatagDescription());
+	  	      contentDescription.setTitle(description.getTitle());
+	  	      contentDescription.setName(description.getName());
+	  	      contentDescription.setFriendlyUrl(description.getSeUrl());
+	  	      contentDescription.setDescription(description.getDescription());
+	  	      descriptions.add(contentDescription);
+	    	}
+	    }
+	
+	      return descriptions;
+	  }
 
 
   private List<ContentDescription> createContentDescription(MerchantStore store, Content contentModel, PersistableContent content) throws ServiceException {
@@ -388,4 +441,22 @@ public class ContentFacadeImpl implements ContentFacade {
     }
     
   }
+
+@Override
+public ReadableContentFull getContent(String code, MerchantStore store, Language language) {
+    Validate.notNull(store,"MerchantStore not null");
+    Validate.notNull(code,"Content code must not be null");
+    
+    try {
+		Content content = contentService.getByCode(code, store);
+	    if(content == null) {
+	        throw new ResourceNotFoundException("No content found with code [" + code + "] for store [" + store.getCode() + "]");
+	    }
+	    
+	    return this.convertContentToReadableContentFull(store, language, content);
+	} catch (ServiceException e) {
+		throw new ServiceRuntimeException("Error while getting content [" + code + "]",e);
+	}
+
+}
 }

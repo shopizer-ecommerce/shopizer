@@ -1,11 +1,14 @@
 package com.salesmanager.shop.mapper.catalog;
 
+import org.springframework.stereotype.Component;
+
 import com.salesmanager.core.model.catalog.catalog.Catalog;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
 import com.salesmanager.shop.model.catalog.catalog.PersistableCatalog;
 
+@Component
 public class PersistableCatalogMapper implements Mapper<PersistableCatalog, Catalog> {
 
 	@Override
