@@ -35,8 +35,7 @@ implements CatalogService {
 	}
 
 	@Override
-	public Catalog saveOrUddate(Catalog catalog, MerchantStore store, String code) throws ServiceException {
-		
+	public Catalog saveOrUddate(Catalog catalog, MerchantStore store) throws ServiceException {
 		catalogRepository.save(catalog);
 		return catalog;
 	}
@@ -52,6 +51,16 @@ implements CatalogService {
 	public void delete(Catalog catalog) throws ServiceException {
 		Validate.notNull(catalog,"Catalog must not be null");
 		catalogRepository.delete(catalog);
+	}
+
+	@Override
+	public Catalog getById(Long catalogId, MerchantStore store) {
+		return catalogRepository.findById(catalogId, store.getId());
+	}
+
+	@Override
+	public Catalog getByCode(String code, MerchantStore store) {
+		return catalogRepository.findByCode(code, store.getId());
 	}
 
 }

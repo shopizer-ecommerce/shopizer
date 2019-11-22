@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -72,7 +73,7 @@ public class ProductGroupApi {
   }
   
   @ResponseStatus(HttpStatus.OK)
-  @GetMapping("/private/products/group/{code}")
+  @PatchMapping("/private/products/group/{code}")
   @ApiOperation(httpMethod = "PATCH", value = "Update product group visible flag", notes = "", response = ProductGroup.class)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),

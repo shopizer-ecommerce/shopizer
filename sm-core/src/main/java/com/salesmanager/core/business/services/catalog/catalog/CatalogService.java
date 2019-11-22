@@ -14,11 +14,14 @@ public interface CatalogService extends SalesManagerEntityService<Long, Catalog>
 	/**
 	 * Creates a new Catalog
 	 * @param store
-	 * @param code
 	 * @return Catalog
 	 * @throws ServiceException
 	 */
-	Catalog saveOrUddate(Catalog catalog, MerchantStore store, String code) throws ServiceException;
+	Catalog saveOrUddate(Catalog catalog, MerchantStore store) throws ServiceException;
+	
+	Catalog getById(Long catalogId, MerchantStore store);
+	
+	Catalog getByCode(String code, MerchantStore store);
 	
 	/**
 	 * Get a list of Catalog associated with a MarketPlace

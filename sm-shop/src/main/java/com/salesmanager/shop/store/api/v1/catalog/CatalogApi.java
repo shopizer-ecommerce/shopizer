@@ -5,6 +5,9 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -67,13 +70,13 @@ public class CatalogApi {
       @RequestBody @Valid PersistableCatalog catalog,
       @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
     
-	  return catalogFacade.saveCatalog(catalog, merchantStore);
+	  return catalogFacade.saveCatalog(catalog, merchantStore, language);
 
   }
   
-  @PutMapping(value = "/private/catalog/{id}")
+  @PatchMapping(value = "/private/catalog/{id}")
   @ResponseStatus(HttpStatus.OK)
-  @ApiOperation(httpMethod = "PUT", value = "Update catalog", notes = "",
+  @ApiOperation(httpMethod = "PATCH", value = "Update catalog", notes = "",
       response = Void.class)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
@@ -84,21 +87,38 @@ public class CatalogApi {
       @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
     
 	  catalog.setId(id);
-	  catalogFacade.saveCatalog(catalog, merchantStore);
+	  catalogFacade.updateCatalog(id, catalog, merchantStore, language);
+
+  }
+  
+  @GetMapping(value = "/private/catalog/{id}")
+  @ResponseStatus(HttpStatus.OK)
+  @ApiOperation(httpMethod = "GET", value = "Get catalog", notes = "",
+      response = Void.class)
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
+  public ReadableCatalog getCatalog(
+	  @PathVariable Long id,
+      @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
+
+	  return catalogFacade.getCatalog(id, merchantStore, language);
+
   }
   
 
 
-/*  @DeleteMapping(value = "/private/content/")
-  @ApiOperation(httpMethod = "DETETE", value = "Deletes a file from CMS", notes = "Delete a file from server",
+  @DeleteMapping(value = "/private/catalog/{id}")
+  @ApiOperation(httpMethod = "DETETE", value = "Deletes a catalog", notes = "",
   response = Void.class)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
-  public void deleteFile(
-      @Valid ContentName name, 
+  public void deleteCatalog(
+      @PathVariable Long id,
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language) {
-    contentFacade.delete(merchantStore, name.getName(), name.getContentType());
-  }*/
+    
+	  catalogFacade.deleteCatalog(id, merchantStore, language);
+  }
 }

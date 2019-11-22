@@ -1,7 +1,5 @@
 package com.salesmanager.shop.store.api.v1.product;
 
-import java.util.Optional;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;

@@ -8,10 +8,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.common.audit.AuditSection;
@@ -20,7 +22,8 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
 
 @Entity
 @EntityListeners(value = com.salesmanager.core.model.common.audit.AuditListener.class)
-@Table(name="CATALOG_ENTRY")
+@Table(name = "CATALOG_ENTRY", schema= SchemaConstant.SALESMANAGER_SCHEMA,uniqueConstraints=
+@UniqueConstraint(columnNames = {"PRODUCT_ID", "CATEGORY_ID", "CATALOG_ID"}) )
 public class CatalogEntry extends SalesManagerEntity<Long, CatalogEntry> implements Auditable {
 	
 	
