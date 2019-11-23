@@ -1,6 +1,7 @@
 package com.salesmanager.shop.store.controller.user.facade;
 
 import java.util.List;
+
 import com.salesmanager.core.model.common.Criteria;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
@@ -79,7 +80,18 @@ public interface UserFacade {
    * @param criteria
    * @return
    */
+  @Deprecated
   ReadableUserList getByCriteria(Language language,String draw,Criteria criteria);
+  
+  /**
+   * List users
+   * @param criteria
+   * @param page
+   * @param count
+   * @param language
+   * @return
+   */
+  ReadableUserList listByCriteria (Criteria criteria, int page, int count, Language language);
   
   /**
    * Delete user
@@ -102,5 +114,6 @@ public interface UserFacade {
    */
   void changePassword(Long userId, String authenticatedUser, UserPassword changePassword);
 
+  void authorizedGroups(String authenticatedUser, PersistableUser user);
 
 }

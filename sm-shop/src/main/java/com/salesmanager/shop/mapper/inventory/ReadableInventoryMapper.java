@@ -17,7 +17,7 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
 import com.salesmanager.shop.model.catalog.product.ReadableProductPrice;
 import com.salesmanager.shop.model.catalog.product.inventory.ReadableInventory;
-import com.salesmanager.shop.model.shop.ReadableMerchantStore;
+import com.salesmanager.shop.model.store.ReadableMerchantStore;
 import com.salesmanager.shop.populator.catalog.ReadableProductPricePopulator;
 import com.salesmanager.shop.populator.store.ReadableMerchantStorePopulator;
 import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;

@@ -1,16 +1,18 @@
 package com.salesmanager.shop.store.controller.store.facade;
 
-import java.util.List;
+import java.util.Optional;
+
 import javax.servlet.http.HttpServletRequest;
+
 import com.salesmanager.core.model.content.InputContentFile;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.merchant.MerchantStoreCriteria;
 import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.shop.model.shop.PersistableBrand;
-import com.salesmanager.shop.model.shop.PersistableMerchantStore;
-import com.salesmanager.shop.model.shop.ReadableBrand;
-import com.salesmanager.shop.model.shop.ReadableMerchantStore;
-import com.salesmanager.shop.model.shop.ReadableMerchantStoreList;
+import com.salesmanager.shop.model.store.PersistableBrand;
+import com.salesmanager.shop.model.store.PersistableMerchantStore;
+import com.salesmanager.shop.model.store.ReadableBrand;
+import com.salesmanager.shop.model.store.ReadableMerchantStore;
+import com.salesmanager.shop.model.store.ReadableMerchantStoreList;
 
 /**
  * Layer between shop controllers, services and API with sm-core
@@ -35,12 +37,14 @@ public interface StoreFacade {
 
   ReadableMerchantStore getByCode(String code, String lang);
   
+  ReadableMerchantStoreList findAll(Optional<String> storeName, Language language, int page, int count);
+  
   /**
    * List child stores
    * @param code
    * @return
    */
-  List<ReadableMerchantStore> getChildStores(Language language, String code);
+  ReadableMerchantStoreList getChildStores(Language language, String code, int start, int count);
 
   ReadableMerchantStore getByCode(String code, Language lang);
 
@@ -54,7 +58,7 @@ public interface StoreFacade {
    * @return
    * @throws Exception
    */
-  ReadableMerchantStoreList getByCriteria(MerchantStoreCriteria criteria, String drawParam, Language lang);
+  ReadableMerchantStoreList getByCriteria(MerchantStoreCriteria criteria, Language lang);
 
   /**
    * Creates a brand new MerchantStore

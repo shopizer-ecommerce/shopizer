@@ -21,8 +21,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.shop.application.ShopApplication;
 import com.salesmanager.shop.model.references.PersistableAddress;
-import com.salesmanager.shop.model.shop.PersistableMerchantStore;
-import com.salesmanager.shop.model.shop.ReadableMerchantStore;
+import com.salesmanager.shop.model.store.PersistableMerchantStore;
+import com.salesmanager.shop.model.store.ReadableMerchantStore;
 import com.salesmanager.test.shop.common.ServicesTestSupport;
 
 @SpringBootTest(classes = ShopApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)

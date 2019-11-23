@@ -30,6 +30,9 @@ public class ServiceRequestCriteriaBuilderUtils {
           CriteriaOrderBy.valueOf(request.getParameter("order[0][dir]").toUpperCase()));
     }
     
+    String storeName = request.getParameter("storeName");
+    criteria.setName(storeName);
+    
     criteria.setSearch(searchParam);
 
     return criteria;

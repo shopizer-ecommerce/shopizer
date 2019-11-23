@@ -2,12 +2,13 @@ package com.salesmanager.shop.store.api.v1.user;
 
 import java.security.Principal;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -24,13 +25,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.google.common.collect.ImmutableMap;
-import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.model.common.Criteria;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.shop.model.customer.ReadableCustomer;
 import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.model.entity.UniqueEntity;
 import com.salesmanager.shop.model.user.PersistableUser;
@@ -42,10 +42,10 @@ import com.salesmanager.shop.store.api.exception.UnauthorizedException;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.store.controller.user.facade.UserFacade;
 import com.salesmanager.shop.utils.ServiceRequestCriteriaBuilderUtils;
+
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import springfox.documentation.annotations.ApiIgnore;
@@ -63,8 +63,6 @@ public class UserApi {
   @Inject
   private UserFacade userFacade;
 
-  @Inject
-  private LanguageService languageService;
 
   // mapping between readable field name and backend field name
   private static final Map<String, String> MAPPING_FIELDS = ImmutableMap.<String, String>builder()
@@ -113,9 +111,6 @@ public class UserApi {
 	    @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 	    @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
   public ReadableUser create(
-      //@ApiParam(name = "store", value = "Optional - Store code", required = false,
-      //    defaultValue = "DEFAULT") 
-      //@PathVariable Optional<String> store,
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language,
       @Valid @RequestBody PersistableUser user, 
@@ -127,18 +122,20 @@ public class UserApi {
     }
     // only admin and superadmin allowed
     userFacade.authorizedGroup(authenticatedUser,
-        Stream.of("SUPERADMIN", "ADMIN").collect(Collectors.toList()));
+        Stream.of("SUPERADMIN", "ADMIN")
+        .collect(Collectors.toList()));
+    
+    userFacade.authorizedGroups(authenticatedUser, user);
 
-/*    String storeCd = Constants.DEFAULT_STORE;
-    if (store.isPresent()) {
-      storeCd = store.get();
-    }*/
     MerchantStore store = storeFacade.get(merchantStore.getCode());
 
     /** if user is admin, user must be in that store */
     if (!request.isUserInRole("SUPERADMIN")) {
-      userFacade.authorizedStore(authenticatedUser, store.getCode());
+      if(!userFacade.authorizedStore(authenticatedUser, store.getCode())) {
+    	  throw new UnauthorizedException("Operation unauthorized for user [" + authenticatedUser + "] and store [" + merchantStore.getCode() + "]");
+      }
     }
+    
 
     return userFacade.create(user, merchantStore);
   }
@@ -156,16 +153,14 @@ public class UserApi {
       @PathVariable Long id,
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language
-      //@ApiParam(name = "store", value = "Optional - Store code", required = false,
-      //defaultValue = "DEFAULT") 
-      //@PathVariable Optional<String> store
+
       ) {
 
-/*    String storeCd = Constants.DEFAULT_STORE;
-    if (store.isPresent()) {
-      storeCd = store.get();
-    }*/
+
     String authenticatedUser = userFacade.authenticatedUser();//requires user doing action
+    
+    userFacade.authorizedGroups(authenticatedUser, user);
+
 
     return userFacade.update(id, authenticatedUser, merchantStore.getCode(), user);
   }
@@ -186,7 +181,7 @@ public class UserApi {
   }
 
   @ResponseStatus(HttpStatus.OK)
-  @GetMapping(value = {"/private/user"},
+  @GetMapping(value = {"/private/users"},
       produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(httpMethod = "GET", value = "Get list of user", notes = "",
       response = ReadableUserList.class)
@@ -194,31 +189,35 @@ public class UserApi {
 	    @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 	    @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
   public ReadableUserList list(
-      //@ApiParam(name = "store", value = "Optional - Store code", required = false,
-      //    defaultValue = "DEFAULT") @PathVariable Optional<String> store,
 	  @ApiIgnore MerchantStore merchantStore,
 	  @ApiIgnore Language language,
-      @RequestParam(value = "start", required = false) Integer start,
-      @RequestParam(value = "length", required = false) Integer count, HttpServletRequest request) {
+      @RequestParam(value = "page", required = false, defaultValue="0") Integer page,
+      @RequestParam(value = "count", required = false, defaultValue="10") Integer count,
+      HttpServletRequest request) {
+
 
     String authenticatedUser = userFacade.authenticatedUser();
     if (authenticatedUser == null) {
       throw new UnauthorizedException();
     }
 
-    //String storeCd = store.orElse(Constants.DEFAULT_STORE);
-    Criteria criteria = createCriteria(start, count, request);
+    Criteria criteria = createCriteria(request);
     criteria.setStoreCode(merchantStore.getCode());
-    String drawParam = request.getParameter("draw");
+    
+    if (request.isUserInRole("SUPERADMIN")) {
+    	criteria.setStoreCode(null);
+    }
 
     if (!request.isUserInRole("SUPERADMIN")) {
-      userFacade.authorizedStore(authenticatedUser, merchantStore.getCode());
+      if(!userFacade.authorizedStore(authenticatedUser, merchantStore.getCode())) {
+    	  throw new UnauthorizedException("Operation unauthorized for user [" + authenticatedUser + "] and store [" + merchantStore + "]");
+      }
     }
 
     userFacade.authorizedGroup(authenticatedUser,
         Stream.of("SUPERADMIN", "ADMIN").collect(Collectors.toList()));
 
-    return userFacade.getByCriteria(languageService.defaultLanguage(), drawParam, criteria);
+    return userFacade.listByCriteria(criteria, page, count, language);
   }
 
   @ResponseStatus(HttpStatus.OK)
@@ -264,15 +263,15 @@ public class UserApi {
     return new ResponseEntity<EntityExists>(new EntityExists(isUserExist), HttpStatus.OK);
   }
 
-  private Criteria createCriteria(Integer start, Integer count, HttpServletRequest request) {
+  private Criteria createCriteria(HttpServletRequest request) {
     Criteria criteria = ServiceRequestCriteriaBuilderUtils.buildRequest(MAPPING_FIELDS, request);
 
-    Optional.ofNullable(start).ifPresent(criteria::setStartIndex);
-    Optional.ofNullable(count).ifPresent(criteria::setMaxCount);
+    //Optional.ofNullable(start).ifPresent(criteria::setStartIndex);
+    //Optional.ofNullable(count).ifPresent(criteria::setMaxCount);
 
     return criteria;
   }
-  
+
   
   /**
    * Get logged in customer profile
@@ -283,16 +282,14 @@ public class UserApi {
    */
   @GetMapping("/private/user/profile")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
   })
   public ReadableUser getAuthUser(
-      @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language,
       HttpServletRequest request) {
     Principal principal = request.getUserPrincipal();
     String userName = principal.getName();
-    return userFacade.findByUserName(userName, merchantStore.getCode(), language);
+    return userFacade.findByUserName(userName, null, language);
     
 
   }

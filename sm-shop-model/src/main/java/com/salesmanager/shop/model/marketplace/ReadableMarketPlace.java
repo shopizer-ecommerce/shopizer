@@ -1,6 +1,6 @@
 package com.salesmanager.shop.model.marketplace;
 
-import com.salesmanager.shop.model.shop.ReadableMerchantStore;
+import com.salesmanager.shop.model.store.ReadableMerchantStore;
 
 public class ReadableMarketPlace extends MarketPlaceEntity {
 

@@ -2,9 +2,13 @@ package com.salesmanager.core.model.common;
 
 public class Criteria {
 	
-	
+	//legacy pagination
 	private int startIndex = 0;
 	private int maxCount = 0;
+	//new pagination
+	private int startPage = 0;
+	private int pageSize = 10;
+	private boolean legacyPagination = true;
 	private String code;
 	private String name;
 	private String language;
@@ -76,6 +80,24 @@ public class Criteria {
   public void setStoreCode(String storeCode) {
     this.storeCode = storeCode;
   }
+public int getPageSize() {
+	return pageSize;
+}
+public void setPageSize(int pageSize) {
+	this.pageSize = pageSize;
+}
+public int getStartPage() {
+	return startPage;
+}
+public void setStartPage(int startPage) {
+	this.startPage = startPage;
+}
+public boolean isLegacyPagination() {
+	return legacyPagination;
+}
+public void setLegacyPagination(boolean legacyPagination) {
+	this.legacyPagination = legacyPagination;
+}
 
 
 

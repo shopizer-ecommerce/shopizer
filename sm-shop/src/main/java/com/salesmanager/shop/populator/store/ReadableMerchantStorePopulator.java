@@ -23,7 +23,7 @@ import com.salesmanager.core.model.reference.zone.Zone;
 import com.salesmanager.shop.model.content.ReadableImage;
 import com.salesmanager.shop.model.entity.ReadableAudit;
 import com.salesmanager.shop.model.references.ReadableAddress;
-import com.salesmanager.shop.model.shop.ReadableMerchantStore;
+import com.salesmanager.shop.model.store.ReadableMerchantStore;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.ImageFilePath;
 

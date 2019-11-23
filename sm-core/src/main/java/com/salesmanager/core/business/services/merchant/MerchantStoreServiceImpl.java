@@ -1,12 +1,19 @@
 package com.salesmanager.core.business.services.merchant;
 
-import java.util.List;
+import java.util.Optional;
+
 import javax.inject.Inject;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.repositories.merchant.MerchantRepository;
+import com.salesmanager.core.business.repositories.merchant.PageableMerchantRepository;
 import com.salesmanager.core.business.services.catalog.product.type.ProductTypeService;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
 import com.salesmanager.core.model.common.GenericEntityList;
@@ -21,6 +28,9 @@ public class MerchantStoreServiceImpl extends SalesManagerEntityServiceImpl<Inte
 		
 	@Inject
 	protected ProductTypeService productTypeService;
+	
+	@Autowired
+	private PageableMerchantRepository pageableMerchantRepository;
 	
 
 	
@@ -64,9 +74,21 @@ public class MerchantStoreServiceImpl extends SalesManagerEntityServiceImpl<Inte
 
 
   @Override
-  public List<MerchantStore> listChildren(String code) throws ServiceException {
-    return merchantRepository.getByParent(code);
+  public Page<MerchantStore> listChildren(String code,int page, int count) throws ServiceException {
+	  Pageable pageRequest = new PageRequest(page, count); 
+	  return pageableMerchantRepository.listByStore(code, pageRequest);
   }
+
+
+@Override
+public Page<MerchantStore> listAll(Optional<String> storeName, int page, int count) throws ServiceException {
+	String store = null;
+	if(storeName != null && storeName.isPresent()) {
+		store = storeName.get();
+	}
+	Pageable pageRequest = new PageRequest(page, count);  
+	return pageableMerchantRepository.listAll(store, pageRequest);
+}
 
 	
 /*	@Override

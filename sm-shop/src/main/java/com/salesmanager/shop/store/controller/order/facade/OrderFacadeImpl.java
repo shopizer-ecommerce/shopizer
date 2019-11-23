@@ -923,9 +923,9 @@ public class OrderFacadeImpl implements OrderFacade {
         returnList.setRecordsFiltered(orderList.getTotalCount());
         returnList.setRecordsTotal(orderList.getTotalCount());
 
-        if (StringUtils.isNotEmpty(draw)) {
+/*        if (StringUtils.isNotEmpty(draw)) {
             returnList.setDraw(Integer.parseInt(draw));
-        }
+        }*/
         return returnList;
 
 	}

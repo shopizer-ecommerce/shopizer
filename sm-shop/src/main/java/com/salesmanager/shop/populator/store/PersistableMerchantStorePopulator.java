@@ -24,7 +24,7 @@ import com.salesmanager.core.model.reference.currency.Currency;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.reference.zone.Zone;
 import com.salesmanager.shop.model.references.PersistableAddress;
-import com.salesmanager.shop.model.shop.PersistableMerchantStore;
+import com.salesmanager.shop.model.store.PersistableMerchantStore;
 
 @Component
 public class PersistableMerchantStorePopulator extends AbstractDataPopulator<PersistableMerchantStore, MerchantStore> {

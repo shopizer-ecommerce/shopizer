@@ -10,7 +10,7 @@ public abstract class ReadableList implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int totalPages;//totalPages
 	private int recordsTotal;
-	private int draw;
+	//private int draw;
 	private int recordsFiltered;
 
 	public int getTotalPages() {
@@ -29,13 +29,13 @@ public abstract class ReadableList implements Serializable {
 		this.recordsTotal = recordsTotal;
 	}
 
-	public int getDraw() {
+/*	public int getDraw() {
 		return draw;
 	}
 
 	public void setDraw(int draw) {
 		this.draw = draw;
-	}
+	}*/
 
 	public int getRecordsFiltered() {
 		return recordsFiltered;

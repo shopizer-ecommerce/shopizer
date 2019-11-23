@@ -1,6 +1,6 @@
 package com.salesmanager.shop.model.catalog.catalog;
 
-import com.salesmanager.shop.model.shop.ReadableMerchantStore;
+import com.salesmanager.shop.model.store.ReadableMerchantStore;
 
 public class ReadableCatalog extends CatalogEntity {
 

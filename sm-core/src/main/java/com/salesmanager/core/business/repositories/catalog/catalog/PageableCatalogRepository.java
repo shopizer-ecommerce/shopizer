@@ -11,7 +11,7 @@ public interface PageableCatalogRepository extends PagingAndSortingRepository<Ca
 
 	
 	  @Query(value = "select distinct c from Catalog c join fetch c.merchantStore cm where c.id=?1 and (?2 is null or c.code like %?2%)",
-		      countQuery = "select distinct c from Catalog c join c.merchantStore cm where c.id=?1 and (?2 is null or c.code like %?2%)")
+		      countQuery = "select count(c) from Catalog c join c.merchantStore cm where c.id=?1 and (?2 is null or c.code like %?2%)")
 		  Page<Catalog> listByStore(Integer storeId, String code, Pageable pageable);
 
 	

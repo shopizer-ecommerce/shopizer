@@ -8,7 +8,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
 import com.salesmanager.shop.model.catalog.catalog.ReadableCatalog;
-import com.salesmanager.shop.model.shop.ReadableMerchantStore;
+import com.salesmanager.shop.model.store.ReadableMerchantStore;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.DateUtil;
 

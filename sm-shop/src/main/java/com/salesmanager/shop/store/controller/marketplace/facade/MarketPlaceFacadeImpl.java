@@ -16,7 +16,7 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.system.optin.Optin;
 import com.salesmanager.core.model.system.optin.OptinType;
 import com.salesmanager.shop.model.marketplace.ReadableMarketPlace;
-import com.salesmanager.shop.model.shop.ReadableMerchantStore;
+import com.salesmanager.shop.model.store.ReadableMerchantStore;
 import com.salesmanager.shop.model.system.ReadableOptin;
 import com.salesmanager.shop.populator.system.ReadableOptinPopulator;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
