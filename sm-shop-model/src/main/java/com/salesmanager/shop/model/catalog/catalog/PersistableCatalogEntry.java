@@ -1,8 +1,6 @@
 package com.salesmanager.shop.model.catalog.catalog;
 
-import com.salesmanager.shop.model.catalog.NamedEntity;
-
-public class PersistableCatalogEntry extends NamedEntity {
+public class PersistableCatalogEntry extends CetalogEntryEntity {
 
 	/**
 	 * 

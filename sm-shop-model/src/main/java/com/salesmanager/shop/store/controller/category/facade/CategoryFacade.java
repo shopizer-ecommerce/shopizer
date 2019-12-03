@@ -52,6 +52,8 @@ public interface CategoryFacade {
 	 */
 	ReadableCategory getByCode(MerchantStore store, String code, Language language) throws Exception;
 
+	Category getByCode(String code, MerchantStore store);
+	
 	void deleteCategory(Long categoryId);
 
 	void deleteCategory(Category category);

@@ -13,5 +13,8 @@ public interface CatalogRepository extends JpaRepository<Catalog, Long> {
 	
 	@Query("select c from Catalog c join fetch c.merchantStore cm where c.code=?1 and cm.id = ?2")
 	Catalog findByCode(String code, Integer merchantId);
+	
+	@Query("SELECT COUNT(c) > 0 FROM Catalog c WHERE c.code = ?1")
+	boolean existsByCode(String code);
 
 }

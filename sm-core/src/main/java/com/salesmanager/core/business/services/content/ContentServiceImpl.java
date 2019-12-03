@@ -86,10 +86,7 @@ public class ContentServiceImpl extends SalesManagerEntityServiceImpl<Long, Cont
   @Override
   public List<Content> listByType(List<ContentType> contentType, MerchantStore store)
       throws ServiceException {
-    /*
-     * List<String> contentTypes = new ArrayList<String>(); for (int i = 0; i < contentType.size();
-     * i++) { contentTypes.add(contentType.get(i).name()); }
-     */
+
 
     return contentRepository.findByTypes(contentType, store.getId());
   }
@@ -403,6 +400,20 @@ public class ContentServiceImpl extends SalesManagerEntityServiceImpl<Long, Cont
     return contentRepository.findByCodeLike(type, '%' + codeLike + '%', store.getId(),
         language.getId());
   }
+
+@Override
+public Content getById(Long id, MerchantStore store, Language language) throws ServiceException {
+
+	Content content = contentRepository.findOne(id);
+	
+	if(content != null) {
+		if(content.getMerchantStore().getId().intValue() != store.getId().intValue()) {
+			return null;
+		}
+	}
+	
+	return content;
+}
 
 
 

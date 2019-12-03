@@ -1,14 +1,17 @@
 package com.salesmanager.shop.store.controller.content.facade;
 
 import java.util.List;
+import java.util.Optional;
+
 import com.salesmanager.core.model.content.ContentType;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.content.ContentFile;
 import com.salesmanager.shop.model.content.ContentFolder;
-import com.salesmanager.shop.model.content.PersistableContent;
+import com.salesmanager.shop.model.content.PersistableContentEntity;
 import com.salesmanager.shop.model.content.PersistableContentPage;
 import com.salesmanager.shop.model.content.ReadableContentBox;
+import com.salesmanager.shop.model.content.ReadableContentEntity;
 import com.salesmanager.shop.model.content.ReadableContentFull;
 import com.salesmanager.shop.model.content.ReadableContentPage;
 
@@ -42,7 +45,7 @@ public interface ContentFacade {
 	 * @param store
 	 * @param id
 	 */
-	void deletePage(MerchantStore store, Long id);
+	void delete(MerchantStore store, Long id);
 	
 	
 	/**
@@ -103,8 +106,17 @@ public interface ContentFacade {
 	 * @param merchantStore
 	 * @param language
 	 */
-	void saveContentPage(PersistableContent page, MerchantStore merchantStore, Language language);
+	void saveContentPage(PersistableContentEntity page, MerchantStore merchantStore, Language language);
 	
 	ReadableContentFull getContent(String code, MerchantStore store, Language language);
+	
+	/**
+	 * Get all content types
+	 * @param type
+	 * @param store
+	 * @param language
+	 * @return
+	 */
+	List<ReadableContentEntity> getContents(Optional<String> type, MerchantStore store, Language language);
 
 }

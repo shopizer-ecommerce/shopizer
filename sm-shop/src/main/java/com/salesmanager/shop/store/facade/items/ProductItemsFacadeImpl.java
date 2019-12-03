@@ -193,6 +193,7 @@ public class ProductItemsFacadeImpl implements ProductItemsFacade {
 	@Override
 	public ProductGroup createProductGroup(ProductGroup group, MerchantStore store) {
 		Validate.notNull(group,"ProductGroup cannot be null");
+		Validate.notNull(group.getCode(),"ProductGroup code cannot be null");
 		Validate.notNull(store,"MerchantStore cannot be null");
 		try {
 			productRelationshipService.addGroup(store, group.getCode());

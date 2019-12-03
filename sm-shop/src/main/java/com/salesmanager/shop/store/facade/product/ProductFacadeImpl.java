@@ -517,6 +517,11 @@ public class ProductFacadeImpl implements ProductFacade {
     return exists;
   }
 
+@Override
+public Product getProduct(String sku, MerchantStore store) {
+	return productService.getByCode(sku, store.getDefaultLanguage());
+}
+
 
 
 }

@@ -17,8 +17,8 @@ public interface PageableMerchantRepository extends PagingAndSortingRepository<M
 		  Page<MerchantStore> listByStore(String code, Pageable pageable);
 	  
 	  
-	  @Query(value = "select distinct m from MerchantStore m left join fetch m.parent mp left join fetch m.country mc left join fetch m.currency mc left join fetch m.zone mz left join fetch m.defaultLanguage md left join fetch m.languages mls",
-		      countQuery = "select count(distinct m) from MerchantStore m join m.parent")
+	  @Query(value = "select distinct m from MerchantStore m left join fetch m.parent mp left join fetch m.country mc left join fetch m.currency mc left join fetch m.zone mz left join fetch m.defaultLanguage md left join fetch m.languages mls where (?1 is null or m.storename like %?1%)",
+		      countQuery = "select count(distinct m) from MerchantStore m join m.parent where (?1 is null or m.storename like %?1%)")
 		  Page<MerchantStore> listAll(String storeName, Pageable pageable);
 
 

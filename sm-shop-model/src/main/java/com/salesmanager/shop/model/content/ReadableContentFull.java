@@ -18,11 +18,11 @@ public class ReadableContentFull extends Entity {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private List<ReadableContentDescription> descriptions = new ArrayList<ReadableContentDescription>();
-	public List<ReadableContentDescription> getDescriptions() {
+	private List<ContentDescriptionEntity> descriptions = new ArrayList<ContentDescriptionEntity>();
+	public List<ContentDescriptionEntity> getDescriptions() {
 		return descriptions;
 	}
-	public void setDescriptions(List<ReadableContentDescription> descriptions) {
+	public void setDescriptions(List<ContentDescriptionEntity> descriptions) {
 		this.descriptions = descriptions;
 	}
 	public String getCode() {

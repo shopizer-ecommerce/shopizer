@@ -1,5 +1,6 @@
 package com.salesmanager.core.model.catalog.catalog;
 
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -59,6 +60,11 @@ public class CatalogEntry extends SalesManagerEntity<Long, CatalogEntry> impleme
 	@ManyToOne
 	@JoinColumn(name = "CATALOG_ID", nullable = false)
 	private Catalog catalog;
+	
+    @Column(name = "VISIBLE")
+    private boolean visible;
+	
+	
 
 	public Product getProduct() {
 		return product;
@@ -103,6 +109,14 @@ public class CatalogEntry extends SalesManagerEntity<Long, CatalogEntry> impleme
 	public void setAuditSection(AuditSection audit) {
 		auditSection = audit;
 		
+	}
+
+	public boolean isVisible() {
+		return visible;
+	}
+
+	public void setVisible(boolean visible) {
+		this.visible = visible;
 	}
 
 }

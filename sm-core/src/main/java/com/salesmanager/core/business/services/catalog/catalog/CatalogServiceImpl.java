@@ -63,4 +63,11 @@ implements CatalogService {
 		return catalogRepository.findByCode(code, store.getId());
 	}
 
+	@Override
+	public boolean existByCode(String code) {
+		return catalogRepository.existsByCode(code);
+	}
+	
+	
+
 }

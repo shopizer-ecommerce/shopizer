@@ -91,7 +91,7 @@ public class ProductRelationshipRepositoryImpl implements ProductRelationshipRep
 		qs.append("left join fetch pap.descriptions papd ");
 
 		qs.append("where pr.code=:code ");
-		qs.append("and rp.available=:available ");
+		//qs.append("and rp.available=:available ");
 		qs.append("and pr.store.id=:storeId ");
 		qs.append("and rpd.language.id=:langId");
 
@@ -103,7 +103,7 @@ public class ProductRelationshipRepositoryImpl implements ProductRelationshipRep
     	q.setParameter("code", type);
     	q.setParameter("langId", language.getId());
     	q.setParameter("storeId", store.getId());
-    	q.setParameter("available", true);
+    	//q.setParameter("available", true);
 
 
     	

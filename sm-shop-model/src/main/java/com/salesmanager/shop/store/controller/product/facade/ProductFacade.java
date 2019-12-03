@@ -46,6 +46,13 @@ public interface ProductFacade {
    */
   ReadableProduct getProduct(MerchantStore store, Long id, Language language) throws Exception;
 
+  /**
+   * 
+   * @param sku
+   * @param store
+   * @return
+   */
+  Product getProduct(String sku, MerchantStore store);
 
   /**
    * Reads a product by code

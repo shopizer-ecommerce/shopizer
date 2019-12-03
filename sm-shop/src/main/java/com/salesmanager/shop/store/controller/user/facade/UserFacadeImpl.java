@@ -210,6 +210,11 @@ public class UserFacadeImpl implements UserFacade {
 	@Override
 	public String authenticatedUser() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+		if(authentication == null) {
+			throw new UnauthorizedException("User Not authorized");
+		}
+		
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
 			String currentUserName = authentication.getName();
 			return currentUserName;

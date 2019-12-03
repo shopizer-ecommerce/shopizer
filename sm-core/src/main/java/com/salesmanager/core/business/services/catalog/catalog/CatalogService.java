@@ -35,5 +35,7 @@ public interface CatalogService extends SalesManagerEntityService<Long, Catalog>
 	 * Delete a Catalog and related objects
 	 */
 	void delete(Catalog catalog) throws ServiceException;
+	
+	boolean existByCode(String code);
 
 }

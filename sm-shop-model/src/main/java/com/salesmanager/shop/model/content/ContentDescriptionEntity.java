@@ -2,7 +2,7 @@ package com.salesmanager.shop.model.content;
 
 import com.salesmanager.shop.model.catalog.NamedEntity;
 
-public class ReadableContentDescription extends NamedEntity {
+public class ContentDescriptionEntity extends NamedEntity {
 
 	/**
 	 * 

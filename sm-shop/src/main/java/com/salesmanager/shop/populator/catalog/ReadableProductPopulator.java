@@ -10,6 +10,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
 
+import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.utils.AbstractDataPopulator;
@@ -104,6 +105,15 @@ public class ReadableProductPopulator extends
                 }
               }
 	        }
+	        
+		     if(target instanceof ReadableProductFull) {
+		          ((ReadableProductFull)target).setDescriptions(fulldescriptions);
+		      }
+		     
+		        if(language == null) {
+			          language = store.getDefaultLanguage();
+			    }
+			
 
 	
 			target.setId(source.getId());
@@ -442,10 +452,7 @@ public class ReadableProductPopulator extends
 				//}
 			}
 			
-		     if(target instanceof ReadableProductFull) {
-		          ((ReadableProductFull)target).setDescriptions(fulldescriptions);
-		        }
-			
+
 			
 			return target;
 		
@@ -454,8 +461,11 @@ public class ReadableProductPopulator extends
 		}
 	}
 	
+
+	
 	private ReadableProductOption createOption(ProductAttribute productAttribute, Language language) {
 		
+
 		ReadableProductOption option = new ReadableProductOption();
 		option.setId(productAttribute.getProductOption().getId());//attribute of the option
 		option.setType(productAttribute.getProductOption().getProductOptionType());
@@ -465,7 +475,7 @@ public class ReadableProductPopulator extends
 			description = descriptions.get(0);
 			if(descriptions.size()>1) {
 				for(ProductOptionDescription optionDescription : descriptions) {
-					if(optionDescription.getLanguage().getId().intValue()==language.getId().intValue()) {
+					if(optionDescription.getLanguage().getCode().equals(language.getCode())) {
 						description = optionDescription;
 						break;
 					}
@@ -488,6 +498,7 @@ public class ReadableProductPopulator extends
 	
 	private ReadableProductAttribute createAttribute(ProductAttribute productAttribute, Language language) {
 		
+
 		ReadableProductAttribute attr = new ReadableProductAttribute();
 		attr.setId(productAttribute.getProductOption().getId());//attribute of the option
 		attr.setType(productAttribute.getProductOption().getProductOptionType());

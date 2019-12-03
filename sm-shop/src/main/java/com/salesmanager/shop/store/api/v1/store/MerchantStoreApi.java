@@ -7,6 +7,8 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -87,7 +89,7 @@ public class MerchantStoreApi {
     return storeFacade.getByCode(code, lang);
   }
   
-  @GetMapping(value = {"/merchant/{code}/stores"}, produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = {"/private/merchant/{code}/stores"}, produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(httpMethod = "GET", value = "Get retailer child stores", notes = "Merchant (retailer) can have multiple stores",
       response = ReadableMerchantStore.class)
   @ApiImplicitParams({
@@ -97,6 +99,16 @@ public class MerchantStoreApi {
       @ApiIgnore Language language,
       @RequestParam(value = "page", required = false, defaultValue="0") Integer page,
       @RequestParam(value = "count", required = false, defaultValue="10") Integer count) {
+	  
+	  
+	    String authenticatedUser = userFacade.authenticatedUser();
+	    if (authenticatedUser == null) {
+	      throw new UnauthorizedException();
+	    }
+	    
+	    userFacade.authorizedGroup(authenticatedUser,
+	            Stream.of("SUPERADMIN","ADMIN").collect(Collectors.toList()));
+	  
     return storeFacade.getChildStores(language, code, page, count);
   }
   
@@ -117,11 +129,11 @@ public class MerchantStoreApi {
 	    if (authenticatedUser == null) {
 	      throw new UnauthorizedException();
 	    }
-
-	    if (!request.isUserInRole("SUPERADMIN")) {
-	      throw new UnauthorizedException("");
-	    }
 	    
+	    userFacade.authorizedGroup(authenticatedUser,
+	            Stream.of("SUPERADMIN").collect(Collectors.toList()));
+
+
 	  MerchantStoreCriteria criteria = createMerchantStoreCriteria(page, count, request);
 	  Optional<String> storeName = Optional.ofNullable(criteria.getName());
 	  

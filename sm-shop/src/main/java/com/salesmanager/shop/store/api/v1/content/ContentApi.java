@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
+import java.util.Optional;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,8 +32,9 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.content.ContentFile;
 import com.salesmanager.shop.model.content.ContentFolder;
 import com.salesmanager.shop.model.content.ContentName;
-import com.salesmanager.shop.model.content.PersistableContent;
+import com.salesmanager.shop.model.content.PersistableContentEntity;
 import com.salesmanager.shop.model.content.ReadableContentBox;
+import com.salesmanager.shop.model.content.ReadableContentEntity;
 import com.salesmanager.shop.model.content.ReadableContentFull;
 import com.salesmanager.shop.model.content.ReadableContentPage;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
@@ -140,6 +144,22 @@ public class ContentApi {
       @ApiIgnore Language language) {
 
     return contentFacade.getContent(code, merchantStore, language);
+
+  }
+  
+  @GetMapping(value = "/private/contents/any", produces = MediaType.APPLICATION_JSON_VALUE)
+  @ApiOperation(httpMethod = "GET", value = "Get contents (page and boc) for a given MerchantStore",
+      notes = "", produces = "application/json", response = ReadableContentPage.class)
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+    @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
+  public List<ReadableContentEntity> contents(
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language) {
+
+	  Optional<String> op 
+      = Optional.empty(); 
+    return contentFacade.getContents(op, merchantStore, language);
 
   }
 
@@ -262,17 +282,35 @@ public class ContentApi {
    * @param language
    * @param pageCode
    */
-  @PostMapping(value = "/private/content/page")
+  @PostMapping(value = "/private/content")
   @ResponseStatus(HttpStatus.OK)
-  @ApiOperation(httpMethod = "POST", value = "Create content page", notes = "In order to create a page other than store default language, append ?lang=<LANGUAGE CODE> to post request",
+  @ApiOperation(httpMethod = "POST", value = "Create content (page or box)", notes = "content type is by default BOX, when creating a page specify contentType:PAGE",
       response = Void.class)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
   public void savePage(
-      @RequestBody @Valid PersistableContent page,
+      @RequestBody @Valid 
+      PersistableContentEntity page,
       @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
-    contentFacade.saveContentPage(page, merchantStore, language);
+    
+	  contentFacade.saveContentPage(page, merchantStore, language);
+  }
+  
+  
+  @PutMapping(value = "/private/content/{id}")
+  @ResponseStatus(HttpStatus.OK)
+  @ApiOperation(httpMethod = "PUT", value = "Update content page", notes = "Updates a content page",
+      response = Void.class)
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
+  public void updatePage(
+	  @PathVariable Long id,
+      @RequestBody @Valid PersistableContentEntity page,
+      @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
+	  page.setId(id);
+	  contentFacade.saveContentPage(page, merchantStore, language);
   }
   
   /**
@@ -280,15 +318,15 @@ public class ContentApi {
    *
    * @param name
    */
-  @DeleteMapping(value = "/private/content/page/{id}")
-  @ApiOperation(httpMethod = "DETETE", value = "Deletes a file from CMS", notes = "Delete a file from server",
+  @DeleteMapping(value = "/private/content/{id}")
+  @ApiOperation(httpMethod = "DETETE", value = "Deletes a conyent from CMS", notes = "Delete a content box or page",
   response = Void.class)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT")})
   public void deleteContent(
       Long id, 
       @ApiIgnore MerchantStore merchantStore) {
-    contentFacade.deletePage(merchantStore, id);
+    contentFacade.delete(merchantStore, id);
   }
 
 

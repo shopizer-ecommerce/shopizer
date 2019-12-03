@@ -94,7 +94,7 @@ public class ProductApi {
 
   @ResponseStatus(HttpStatus.OK)
   @RequestMapping(
-      value = {"/private/product/{id}", "/auth/products/{id}"},
+      value = {"/private/product/{id}", "/auth/product/{id}"},
       method = RequestMethod.PUT)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
@@ -146,7 +146,7 @@ public class ProductApi {
 
   @ResponseStatus(HttpStatus.OK)
   @RequestMapping(
-      value = {"/private/product/{id}", "/auth/products/{id}"},
+      value = {"/private/product/{id}", "/auth/product/{id}"},
       method = RequestMethod.DELETE)
   public void delete(
       @PathVariable Long id, HttpServletRequest request, HttpServletResponse response) {

@@ -88,6 +88,7 @@ public Page<MerchantStore> listAll(Optional<String> storeName, int page, int cou
 	}
 	Pageable pageRequest = new PageRequest(page, count);  
 	return pageableMerchantRepository.listAll(store, pageRequest);
+
 }
 
 	
