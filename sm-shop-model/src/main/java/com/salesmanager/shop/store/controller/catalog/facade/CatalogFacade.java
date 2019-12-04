@@ -30,7 +30,7 @@ public interface CatalogFacade {
 	
 	ReadableCatalogList listCatalogs(Optional<String> code, MerchantStore store, Language language, int page, int count);
 	
-	ReadableCatalogEntryList listCatalogEntry(Optional<String> product, MerchantStore store, Language language, int page, int count);
+	ReadableCatalogEntryList listCatalogEntry(Optional<String> product, Long catalogId, MerchantStore store, Language language, int page, int count);
 	
 	ReadableCatalogEntry getCatalogEntry(Long id, MerchantStore store, Language language);
 	

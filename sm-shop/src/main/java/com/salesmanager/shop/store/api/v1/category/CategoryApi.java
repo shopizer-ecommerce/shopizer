@@ -35,11 +35,16 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.SwaggerDefinition;
+import io.swagger.annotations.Tag;
 import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
-@Api(value = "/api/v1/category")
 @RequestMapping(value = "/api/v1")
+@Api(tags = {"Category management resource (Category Management Api)"})
+@SwaggerDefinition(tags = {
+    @Tag(name = "Category management resource", description = "Manage category and attached products")
+})
 public class CategoryApi {
 
   private static final int DEFAULT_CATEGORY_DEPTH = 0;

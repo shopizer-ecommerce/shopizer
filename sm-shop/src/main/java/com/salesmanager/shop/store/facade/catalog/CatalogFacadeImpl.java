@@ -155,7 +155,6 @@ public class CatalogFacadeImpl implements CatalogFacade {
 	public ReadableCatalog getCatalog(Long id, MerchantStore store, Language language) {
 		Validate.notNull(id,"Catalog id cannot be null");
 		Validate.notNull(store,"MerchantStore cannot be null");
-		Validate.notNull(language,"Language cannot be null");
 		
 		Catalog c = catalogService.getById(id, store);
 		
@@ -209,9 +208,41 @@ public class CatalogFacadeImpl implements CatalogFacade {
 	}
 
 	@Override
-	public ReadableCatalogEntryList listCatalogEntry(Optional<String> product, MerchantStore store, Language language, int page, int count) {
-		// TODO Auto-generated method stub
-		return null;
+	public ReadableCatalogEntryList listCatalogEntry(Optional<String> product, Long id, MerchantStore store, Language language, int page, int count) {
+		Validate.notNull(store,"MerchantStore cannot be null");
+		String productCode = null;
+		if(product.isPresent()) {
+			productCode = product.get();
+		}
+		
+		Catalog catalog = catalogService.getById(id, store);
+		
+		if(catalog == null) {
+			throw new ResourceNotFoundException("Catalog with id [" + id + "] not found for store ["+ store.getCode() +"]");
+		}
+		
+		ReadableCatalogEntryList catalogList = new ReadableCatalogEntryList();
+		
+		try {
+			Page<CatalogEntry> entry = catalogEntryService.list(catalog, store, language, productCode, page, count);
+		
+			if(entry.getSize() == 0) {
+				return catalogList;
+			}
+			
+			List<ReadableCatalogEntry> readableList = entry.getContent().stream()
+					.map(cat -> readableCatalogEntryMapper.convert(cat, store, language))
+					.collect(Collectors.toList());
+			
+			catalogList.setCatalogEntry(readableList);
+			catalogList.setTotalPages(entry.getTotalPages());
+			catalogList.setRecordsTotal(entry.getSize());
+		
+		} catch (ServiceException e) {
+			throw new ServiceRuntimeException("Cannot get catalog entry for catalog [" + id + "] andr merchant [" + store.getCode() + "]");
+		}
+
+		return catalogList;
 	}
 
 	@Override

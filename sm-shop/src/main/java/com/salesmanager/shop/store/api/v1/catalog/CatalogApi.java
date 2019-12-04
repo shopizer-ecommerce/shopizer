@@ -28,6 +28,7 @@ import com.salesmanager.shop.model.catalog.catalog.PersistableCatalog;
 import com.salesmanager.shop.model.catalog.catalog.PersistableCatalogEntry;
 import com.salesmanager.shop.model.catalog.catalog.ReadableCatalog;
 import com.salesmanager.shop.model.catalog.catalog.ReadableCatalogEntry;
+import com.salesmanager.shop.model.catalog.catalog.ReadableCatalogEntryList;
 import com.salesmanager.shop.model.catalog.catalog.ReadableCatalogList;
 import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.store.controller.catalog.facade.CatalogFacade;
@@ -188,9 +189,33 @@ public class CatalogApi {
 
   }
   
+  @GetMapping(value = "/private/catalog/{id}/entry")
+  @ResponseStatus(HttpStatus.OK)
+  @ApiOperation(httpMethod = "GET", value = "Get catalog entry by catalog", notes = "",
+      response = ReadableCatalogEntryList.class)
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
+  public ReadableCatalogEntryList getCatalogEntry(
+	  @RequestParam(name="id") Long id,
+      @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language,
+      @RequestParam(value = "page", required = false, defaultValue="0") Integer page,
+      @RequestParam(value = "count", required = false, defaultValue="10") Integer count,
+      HttpServletRequest request) {
+
+	  return catalogFacade.listCatalogEntry(catalogEntryFilter(request), id, merchantStore, language, page, count);
+
+
+  }
+  
   private Optional<String> catalogFilter(HttpServletRequest request) {
 
 	    return Optional.ofNullable((String)request.getAttribute("code"));
-	  }
+  }
+  
+  private Optional<String> catalogEntryFilter(HttpServletRequest request) {
+
+	    return Optional.ofNullable((String)request.getAttribute("name"));
+}
   
 }

@@ -431,15 +431,20 @@ public class ReadableProductPopulator extends
 			target.setSku(source.getSku());
 	
 			FinalPrice price = pricingService.calculateProductPrice(source);
-
-			target.setFinalPrice(pricingService.getDisplayAmount(price.getFinalPrice(), store));
-			target.setPrice(price.getFinalPrice());
-			target.setOriginalPrice(pricingService.getDisplayAmount(price.getOriginalPrice(), store));
-	
-			if(price.isDiscounted()) {
-				target.setDiscounted(true);
-			}
 			
+			if(price != null) {
+
+				target.setFinalPrice(pricingService.getDisplayAmount(price.getFinalPrice(), store));
+				target.setPrice(price.getFinalPrice());
+				target.setOriginalPrice(pricingService.getDisplayAmount(price.getOriginalPrice(), store));
+				
+				if(price.isDiscounted()) {
+					target.setDiscounted(true);
+				}
+			
+			}
+	
+
 			//availability
 			for(ProductAvailability availability : source.getAvailabilities()) {
 				//if(availability.getRegion().equals(Constants.ALL_REGIONS)) {//TODO REL 2.1 accept a region
@@ -556,6 +561,7 @@ public class ReadableProductPopulator extends
       tragetDescription.setDescription(description.getDescription());
       tragetDescription.setHighlights(description.getProductHighlight());
       tragetDescription.setLanguage(description.getLanguage().getCode());
+      tragetDescription.setKeyWords(description.getMetatagKeywords());
       if(description.getLanguage() != null) {
         tragetDescription.setLanguage(description.getLanguage().getCode());
       }

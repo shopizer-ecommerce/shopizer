@@ -7,12 +7,15 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 import javax.inject.Inject;
+
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
@@ -26,8 +29,6 @@ import com.salesmanager.core.business.utils.AbstractDataPopulator;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
-import com.salesmanager.core.model.catalog.product.attribute.ProductOption;
-import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValue;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
 import com.salesmanager.core.model.catalog.product.image.ProductImage;
@@ -131,7 +132,7 @@ public class PersistableProductPopulator extends
 
 					productDescription.setProduct(target);
 					productDescription.setDescription(description.getDescription());
-
+					productDescription.setProductHighlight(description.getHighlights());
 					productDescription.setName(description.getName());
 					productDescription.setSeUrl(description.getFriendlyUrl());
 					productDescription.setMetatagKeywords(description.getKeyWords());
