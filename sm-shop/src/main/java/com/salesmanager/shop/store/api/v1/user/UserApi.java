@@ -1,6 +1,7 @@
 package com.salesmanager.shop.store.api.v1.user;
 
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -30,6 +31,7 @@ import com.google.common.collect.ImmutableMap;
 import com.salesmanager.core.model.common.Criteria;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.model.entity.UniqueEntity;
 import com.salesmanager.shop.model.user.PersistableUser;
@@ -129,7 +131,7 @@ public class UserApi {
     MerchantStore store = storeFacade.get(merchantStore.getCode());
 
     /** if user is admin, user must be in that store */
-    if (!request.isUserInRole("SUPERADMIN")) {
+    if(!userFacade.userInRoles(authenticatedUser, Arrays.asList(Constants.GROUP_SUPERADMIN))) {
       if(!userFacade.authorizedStore(authenticatedUser, store.getCode())) {
     	  throw new UnauthorizedException("Operation unauthorized for user [" + authenticatedUser + "] and store [" + merchantStore.getCode() + "]");
       }
@@ -203,11 +205,12 @@ public class UserApi {
     Criteria criteria = createCriteria(request);
     criteria.setStoreCode(merchantStore.getCode());
     
-    if (request.isUserInRole("SUPERADMIN")) {
+
+    if(userFacade.userInRoles(authenticatedUser, Arrays.asList(Constants.GROUP_SUPERADMIN))) {
     	criteria.setStoreCode(null);
     }
 
-    if (!request.isUserInRole("SUPERADMIN")) {
+    if(!userFacade.userInRoles(authenticatedUser, Arrays.asList(Constants.GROUP_SUPERADMIN))) {
       if(!userFacade.authorizedStore(authenticatedUser, merchantStore.getCode())) {
     	  throw new UnauthorizedException("Operation unauthorized for user [" + authenticatedUser + "] and store [" + merchantStore + "]");
       }
@@ -234,7 +237,7 @@ public class UserApi {
       throw new UnauthorizedException();
     }
 
-    if (!request.isUserInRole("SUPERADMIN")) {
+    if(!userFacade.userInRoles(authenticatedUser, Arrays.asList(Constants.GROUP_SUPERADMIN))) {
       userFacade.authorizedStore(authenticatedUser, merchantStore.getCode());
     }
 

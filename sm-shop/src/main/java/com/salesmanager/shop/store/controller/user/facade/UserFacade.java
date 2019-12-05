@@ -70,6 +70,14 @@ public interface UserFacade {
   void authorizedGroup(String userName, List<String> groupNames);
   
   /**
+   * Check if user is in specific list of roles
+   * @param userName
+   * @param groupNames
+   * @return
+   */
+  boolean userInRoles(String userName, List<String> groupNames);
+  
+  /**
    * Retrieve authenticated user
    * @return
    */

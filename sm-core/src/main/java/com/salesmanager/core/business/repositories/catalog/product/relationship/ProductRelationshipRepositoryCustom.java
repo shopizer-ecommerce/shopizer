@@ -21,6 +21,8 @@ public interface ProductRelationshipRepositoryCustom {
 	List<ProductRelationship> getGroups(MerchantStore store);
 
 	List<ProductRelationship> getByType(MerchantStore store, String type);
+	
+	public List<ProductRelationship> getGroupByType(MerchantStore store, String type);
 
 	List<ProductRelationship> listByProducts(Product product);
 

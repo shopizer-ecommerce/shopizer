@@ -14,7 +14,7 @@ public interface PageableUserRepository extends PagingAndSortingRepository<User,
 	  Page<User> listByStore(String store, String userName, Pageable pageable);
 	
 	  @Query(value = "select distinct u from User as u left join fetch u.groups ug left join fetch ug.permissions ugp left join fetch u.defaultLanguage ud join fetch u.merchantStore um where (?1 is null or u.adminName like %?1%)",    
-		countQuery = "select count(distinct u) from User as u join u.groups ug join ug.permissions ugp join u.merchantStore um where (?1 is null or u.adminName like %?1%)")
+		countQuery = "select count(distinct u) from User as u join u.merchantStore um where (?1 is null or u.adminName like %?1%)")
 	  Page<User> listAll(String userName, Pageable pageable);
 	
 

@@ -215,9 +215,9 @@ public class MerchantStoreApi {
   @ResponseStatus(HttpStatus.CREATED)
   @PostMapping(value = {"/private/store/{code}/marketing"},
       produces = MediaType.APPLICATION_JSON_VALUE)
-  @ApiOperation(httpMethod = "POST", value = "Create store branding and marketing details",
+  @ApiOperation(httpMethod = "POST", value = "Create or save store branding and marketing details",
       notes = "", response = ReadableBrand.class)
-  public void createStoreMarketing(@PathVariable String code, @RequestBody PersistableBrand brand,
+  public void saveStoreMarketing(@PathVariable String code, @RequestBody PersistableBrand brand,
       HttpServletRequest request) {
     String userName = getUserFromRequest(request);
     validateUserPermission(userName, code);

@@ -37,6 +37,13 @@ public class CatalogEntry extends SalesManagerEntity<Long, CatalogEntry> impleme
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	/*    @GeneratedValue(strategy = GenerationType.TABLE, 
+	generator = "TABLE_GEN")
+	@TableGenerator(name = "TABLE_GEN", 
+	table = "SM_SEQUENCER", 
+	pkColumnName = "SEQ_NAME",
+	valueColumnName = "SEQ_COUNT"
+	pkColumnValue = "CATALOG_ENT_SEQ_NEXT_VAL")*/
     @GeneratedValue(generator = "sequence-generator")
     @GenericGenerator(
       name = "sequence-generator",

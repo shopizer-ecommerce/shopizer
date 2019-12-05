@@ -63,6 +63,14 @@ public interface ProductRelationshipService extends
 	 * @return
 	 */
 	List<ProductRelationship> getGroups(MerchantStore store);
+	
+	/**
+	 * Get group by store and group name (code)
+	 * @param store
+	 * @param name
+	 * @return
+	 */
+	List<ProductRelationship> getGroupDefinition(MerchantStore store, String name);
 
 	/**
 	 * Creates a product group

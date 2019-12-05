@@ -1,6 +1,7 @@
 package com.salesmanager.shop.store.controller.user.facade;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -169,6 +170,14 @@ public class UserFacadeImpl implements UserFacade {
 	public boolean authorizedStore(String userName, String merchantStoreCode) {
 
 		try {
+			
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+			Set<String> roles = authentication.getAuthorities().stream()
+			     .map(r -> r.getAuthority()).collect(Collectors.toSet());
+			
+			
+			
 			ReadableUser readableUser = findByUserName(userName, languageService.defaultLanguage());
 
 			// unless superadmin
@@ -439,7 +448,7 @@ public class UserFacadeImpl implements UserFacade {
 					.map(user -> convertUserToReadableUser(language, user)).collect(Collectors.toList());
 
 			readableUserList.setData(readableUsers);
-			readableUserList.setRecordsTotal(userList.getSize());
+			readableUserList.setRecordsTotal(userList.getNumberOfElements());
 			readableUserList.setTotalPages(userList.getTotalPages());
 			readableUserList.setRecordsFiltered(userList.getSize());
 
@@ -479,10 +488,24 @@ public class UserFacadeImpl implements UserFacade {
 			
 			
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new ServiceRuntimeException("Error while looking for authorization",e);
 		}
 		
+
+	}
+
+	@Override
+	public boolean userInRoles(String userName, List<String> groupNames) {
+		
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+		List<String> roles = authentication.getAuthorities().stream()
+			 .filter(x -> groupNames.contains(x.getAuthority()))
+		     .map(r -> r.getAuthority()).collect(Collectors.toList());
+		
+		
+		return roles.size() > 0;
 
 	}
 

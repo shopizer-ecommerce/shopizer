@@ -143,6 +143,11 @@ public class ProductRelationshipServiceImpl extends
 		
 	}
 
+	@Override
+	public List<ProductRelationship> getGroupDefinition(MerchantStore store, String name) {
+		return productRelationshipRepository.getByGroup(store, name);
+	}
+
 
 
 }

@@ -58,6 +58,39 @@ public class ProductRelationshipRepositoryImpl implements ProductRelationshipRep
 	}
 	
 	@Override
+	public List<ProductRelationship> getGroupByType(MerchantStore store, String type) {
+
+		StringBuilder qs = new StringBuilder();
+		qs.append("select distinct pr from ProductRelationship as pr ");
+		qs.append("left join fetch pr.product p ");
+		qs.append("left join fetch pr.relatedProduct rp ");
+		qs.append("left join fetch rp.descriptions rpd ");
+
+		qs.append("where pr.code=:code ");
+		qs.append("and pr.store.id=:storeId ");
+		qs.append("and rpd.language.id=:langId");
+
+
+
+    	String hql = qs.toString();
+		Query q = em.createQuery(hql);
+
+    	q.setParameter("code", type);
+    	q.setParameter("storeId", store.getId());
+    	qs.append("and pr.store.id=:storeId ");
+
+
+    	
+    	@SuppressWarnings("unchecked")
+		List<ProductRelationship> relations =  q.getResultList();
+
+    	
+    	return relations;
+		
+
+	}
+	
+	@Override
 	public List<ProductRelationship> getByType(MerchantStore store, String type, Language language) {
 
 		StringBuilder qs = new StringBuilder();

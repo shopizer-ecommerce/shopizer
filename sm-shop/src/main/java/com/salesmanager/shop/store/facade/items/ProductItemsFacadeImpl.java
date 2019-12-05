@@ -206,7 +206,7 @@ public class ProductItemsFacadeImpl implements ProductItemsFacade {
 	@Override
 	public void updateProductGroup(String code, ProductGroup group, MerchantStore store) {
 		try {
-			List<ProductRelationship>  items = productRelationshipService.getByGroup(store, code);
+			List<ProductRelationship>  items = productRelationshipService.getGroupDefinition(store, code);
 			if(CollectionUtils.isEmpty(items)) {
 				throw new ResourceNotFoundException("ProductGroup [" + code + "] not found");
 			}
