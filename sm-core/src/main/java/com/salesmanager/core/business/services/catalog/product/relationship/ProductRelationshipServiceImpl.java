@@ -68,7 +68,7 @@ public class ProductRelationshipServiceImpl extends
 	
 	@Override
 	public void deactivateGroup(MerchantStore store, String groupName) throws ServiceException {
-		List<ProductRelationship> entities = productRelationshipRepository.getByGroup(store, groupName);
+		List<ProductRelationship> entities = getGroupDefinition(store, groupName);
 		for(ProductRelationship relation : entities) {
 			relation.setActive(false);
 			this.saveOrUpdate(relation);
@@ -77,18 +77,21 @@ public class ProductRelationshipServiceImpl extends
 	
 	@Override
 	public void activateGroup(MerchantStore store, String groupName) throws ServiceException {
-		List<ProductRelationship> entities = this.getByGroup(store, groupName);
+		List<ProductRelationship> entities = getGroupDefinition(store, groupName);
 		for(ProductRelationship relation : entities) {
 			relation.setActive(true);
 			this.saveOrUpdate(relation);
 		}
 	}
 	
-	public void delete(ProductRelationship relationship) throws ServiceException {
+	public void deleteRelationship(ProductRelationship relationship)  throws ServiceException {
 		
 		//throws detached exception so need to query first
 		relationship = this.getById(relationship.getId());
-		super.delete(relationship);
+		if(relationship != null) {
+			delete(relationship);
+		}
+		
 		
 		
 	}
@@ -146,6 +149,12 @@ public class ProductRelationshipServiceImpl extends
 	@Override
 	public List<ProductRelationship> getGroupDefinition(MerchantStore store, String name) {
 		return productRelationshipRepository.getByGroup(store, name);
+	}
+
+	@Override
+	public List<ProductRelationship> getByType(MerchantStore store, Product product, String name)
+			throws ServiceException {
+		return productRelationshipRepository.getByType(store, name, product);
 	}
 
 

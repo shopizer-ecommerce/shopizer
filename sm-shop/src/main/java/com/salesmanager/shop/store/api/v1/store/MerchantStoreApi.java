@@ -40,6 +40,7 @@ import com.salesmanager.core.model.content.InputContentFile;
 import com.salesmanager.core.model.merchant.MerchantStoreCriteria;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.entity.EntityExists;
+import com.salesmanager.shop.model.entity.ListCriteria;
 import com.salesmanager.shop.model.store.PersistableBrand;
 import com.salesmanager.shop.model.store.PersistableMerchantStore;
 import com.salesmanager.shop.model.store.ReadableBrand;
@@ -75,8 +76,6 @@ public class MerchantStoreApi {
   @Inject
   private StoreFacade storeFacade;
 
-  @Inject
-  private LanguageService languageService;
 
   @Inject
   private UserFacade userFacade;
@@ -114,7 +113,7 @@ public class MerchantStoreApi {
   
   @ResponseStatus(HttpStatus.OK)
   @GetMapping(value = {"/private/stores"}, produces = MediaType.APPLICATION_JSON_VALUE)
-  @ApiOperation(httpMethod = "GET", value = "Get list of stores", notes = "",
+  @ApiOperation(httpMethod = "GET", value = "Get list of stores. Returns all retailers and stores", notes = "",
       response = ReadableMerchantStore.class)
   @ApiImplicitParams({
 	    @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
@@ -124,7 +123,7 @@ public class MerchantStoreApi {
 	      @RequestParam(value = "count", required = false, defaultValue="10") Integer count,
 		  HttpServletRequest request) {
     
-	  //requires superadmin to see all
+	   //requires superadmin to see all
 	    String authenticatedUser = userFacade.authenticatedUser();
 	    if (authenticatedUser == null) {
 	      throw new UnauthorizedException();
@@ -135,10 +134,11 @@ public class MerchantStoreApi {
 
 
 	  MerchantStoreCriteria criteria = createMerchantStoreCriteria(page, count, request);
-	  Optional<String> storeName = Optional.ofNullable(criteria.getName());
-	  
-	  return storeFacade.findAll(storeName, language, page, count);
+
+	  return storeFacade.findAll(criteria, language, page, count);
   }
+  
+
 
   @ResponseStatus(HttpStatus.OK)
   @PostMapping(value = {"/private/store"}, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -313,14 +313,8 @@ public class MerchantStoreApi {
     MerchantStoreCriteria criteria = (MerchantStoreCriteria) ServiceRequestCriteriaBuilderUtils
         .buildRequest(MAPPING_FIELDS, request);
 
-    Optional.ofNullable(start).ifPresent(criteria::setStartIndex);
-    Optional.ofNullable(count).ifPresent(criteria::setMaxCount);
-
-    String search = criteria.getSearch();
-    if (!StringUtils.isBlank(search)) {
-      criteria.setCode(search);
-      criteria.setName(search);
-    }
+    
+    
     return criteria;
   }
 
@@ -335,9 +329,6 @@ public class MerchantStoreApi {
   
   private MerchantStoreCriteria filter(HttpServletRequest request) {
 	    Criteria criteria = ServiceRequestCriteriaBuilderUtils.buildRequest(MAPPING_FIELDS, request);
-
-	    //Optional.ofNullable(start).ifPresent(criteria::setStartIndex);
-	    //Optional.ofNullable(count).ifPresent(criteria::setMaxCount);
 
 	    return (MerchantStoreCriteria)criteria;
    }

@@ -62,7 +62,7 @@ public interface ProductItemsFacade {
 	 * @return
 	 * @throws Exception
 	 */
-	ReadableProductList addItemToGroup(Product product, String group, MerchantStore store, Language language) throws Exception;
+	ReadableProductList addItemToGroup(Product product, String group, MerchantStore store, Language language) ;
 	
 	/**
 	 * Removes a product from a group

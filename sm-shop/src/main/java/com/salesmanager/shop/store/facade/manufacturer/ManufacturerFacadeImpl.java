@@ -84,6 +84,18 @@ public class ManufacturerFacadeImpl implements ManufacturerFacade {
 
 
     Manufacturer manuf = new Manufacturer();
+    
+    if(manufacturer.getId() != null && manufacturer.getId().longValue() > 0) {
+    	manuf = manufacturerService.getById(manufacturer.getId());
+    	if(manuf == null) {
+    		throw new ResourceNotFoundException("Manufacturer with id [" + manufacturer.getId() + "] not found");
+    	}
+    	
+    	if(manuf.getMerchantStore().getId().intValue() != store.getId().intValue()) {
+    		throw new ResourceNotFoundException("Manufacturer with id [" + manufacturer.getId() + "] not found for store [" + store.getId() + "]");
+    	}
+    }
+
     populator.populate(manufacturer, manuf, store, language);
 
     manufacturerService.saveOrUpdate(manuf);
@@ -131,17 +143,20 @@ public class ManufacturerFacadeImpl implements ManufacturerFacade {
       /**
        * Is this a pageable request
        */
-      //need total count
-      int total = manufacturerService.count(store);
+     
       List<Manufacturer> manufacturers = null;
       if(page == 0 && count == 0) {
+    	//need total count
+        int total = manufacturerService.count(store);
         if(language != null) {
           manufacturers = manufacturerService.listByStore(store, language);
         } else {
           manufacturers = manufacturerService.listByStore(store);
         }
-      } else {
+
         readableList.setRecordsTotal(total);
+        readableList.setNumber(manufacturers.size());
+      } else {
         Page<Manufacturer> m = null;
         if(language != null) {
           m = manufacturerService.listByStore(store, language, criteria.getName(), page, count);
@@ -149,9 +164,11 @@ public class ManufacturerFacadeImpl implements ManufacturerFacade {
           m = manufacturerService.listByStore(store, criteria.getName(), page, count);
         }
         manufacturers = m.getContent();
+        readableList.setTotalPages(m.getTotalPages());
+        readableList.setRecordsTotal(m.getTotalElements());
+        readableList.setNumber(m.getNumber());
       }
-      readableList.setTotalPages(total);
-      readableList.setRecordsTotal(manufacturers.size());
+
       
       ReadableManufacturerPopulator populator = new ReadableManufacturerPopulator();
       List<ReadableManufacturer> returnList = new ArrayList<ReadableManufacturer>();

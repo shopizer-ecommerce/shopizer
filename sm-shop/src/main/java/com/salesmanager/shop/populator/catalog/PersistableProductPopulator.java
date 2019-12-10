@@ -22,6 +22,7 @@ import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductOptionService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductOptionValueService;
 import com.salesmanager.core.business.services.catalog.product.manufacturer.ManufacturerService;
+import com.salesmanager.core.business.services.catalog.product.type.ProductTypeService;
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.business.services.tax.TaxClassService;
@@ -35,6 +36,7 @@ import com.salesmanager.core.model.catalog.product.image.ProductImage;
 import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.catalog.product.price.ProductPriceDescription;
+import com.salesmanager.core.model.catalog.product.type.ProductType;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.catalog.PersistableProductAttributeMapper;
@@ -64,6 +66,9 @@ public class PersistableProductPopulator extends
 	private CustomerService customerService;
 	@Autowired
 	private PersistableProductAttributeMapper persistableProductAttributeMapper;
+	
+	@Autowired
+	private ProductTypeService productTypeService;
 
 	
 
@@ -89,6 +94,22 @@ public class PersistableProductPopulator extends
 			}
 			
 			target.setCondition(source.getCondition());
+			
+			
+			//PRODUCT TYPE
+			if(!StringUtils.isBlank(source.getType())) {
+				ProductType type = productTypeService.getProductType(source.getType());
+				if(type == null) {
+					throw new ConversionException("Product type [" + source.getType() + "] does not exist");
+				}
+				
+				//TODO
+				//if(type.getMerchantStore().getId().intValue() != store.getId().intValue()) {
+				//	throw new ConversionException("Product type [" + source.getType() + "] does not exist for store [" + store.getCode() + "]");
+				//}
+				
+				target.setType(type);
+			}
 			
 			
 			//RENTAL

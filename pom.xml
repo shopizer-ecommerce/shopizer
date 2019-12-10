@@ -153,6 +153,12 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		
+		<dependency>
+			<groupId>io.searchbox</groupId>
+			<artifactId>jest</artifactId>
+			<version>${io.searchbox.jest-version}</version>
+		</dependency>
 
 		<!-- Elastic search -->
 		<dependency>
@@ -167,11 +173,7 @@
 			<version>${mysql-jdbc-version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>io.searchbox</groupId>
-			<artifactId>jest</artifactId>
-			<version>${io.searchbox.jest-version}</version>
-		</dependency>
+
 			
 
 

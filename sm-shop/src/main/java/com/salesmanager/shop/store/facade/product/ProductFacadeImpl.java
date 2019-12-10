@@ -331,7 +331,12 @@ public class ProductFacadeImpl implements ProductFacade {
 
     }
 
-    productList.setTotalPages(products.getTotalCount());
+    //productList.setTotalPages(products.getTotalCount());
+    productList.setRecordsTotal(products.getTotalCount());
+    productList.setNumber(products.getTotalCount()>=criterias.getMaxCount()?products.getTotalCount():criterias.getMaxCount());
+    
+    int lastPageNumber = (int) (Math.ceil(products.getTotalCount() / criterias.getPageSize()));
+    productList.setTotalPages(lastPageNumber);
 
 
     return productList;
@@ -520,6 +525,31 @@ public class ProductFacadeImpl implements ProductFacade {
 @Override
 public Product getProduct(String sku, MerchantStore store) {
 	return productService.getByCode(sku, store.getDefaultLanguage());
+}
+
+@Override
+public void deleteProduct(Long id, MerchantStore store) {
+	
+	Validate.notNull(id, "Product id cannot be null");
+	Validate.notNull(store, "store cannot be null");
+	
+	Product p = productService.getById(id);
+	
+	if(p == null) {
+		throw new ResourceNotFoundException("Product with id [" + id + " not found");
+	}
+	
+	if(p.getMerchantStore().getId().intValue() != store.getId().intValue()) {
+		throw new ResourceNotFoundException("Product with id [" + id + " not found for store [" + store.getCode() + "]");
+	}
+	
+	try {
+		productService.delete(p);
+	} catch (ServiceException e) {
+		throw new ServiceRuntimeException("Error while deleting ptoduct with id [" + id + "]",e);
+	}
+
+	
 }
 
 

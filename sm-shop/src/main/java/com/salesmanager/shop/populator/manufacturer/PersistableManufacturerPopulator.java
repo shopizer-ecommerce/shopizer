@@ -45,10 +45,18 @@ public class PersistableManufacturerPopulator extends AbstractDataPopulator<Pers
 				Set<com.salesmanager.core.model.catalog.product.manufacturer.ManufacturerDescription> descriptions = new HashSet<com.salesmanager.core.model.catalog.product.manufacturer.ManufacturerDescription>();
 				for(ManufacturerDescription description : source.getDescriptions()) {
 					com.salesmanager.core.model.catalog.product.manufacturer.ManufacturerDescription desc = new com.salesmanager.core.model.catalog.product.manufacturer.ManufacturerDescription();
-					desc.setManufacturer(target);
 					if(desc.getId() != null && desc.getId().longValue()>0) {
 						desc.setId(description.getId());
 					}
+					if(target.getDescriptions() != null) {
+						for(com.salesmanager.core.model.catalog.product.manufacturer.ManufacturerDescription d : target.getDescriptions()) {
+							if(d.getLanguage().getCode().equals(description.getLanguage()) || desc.getId() != null && d.getId().longValue() == desc.getId().longValue()) {
+								desc = d;
+							}
+						}
+					}
+					
+					desc.setManufacturer(target);
 					desc.setDescription(description.getDescription());
 					desc.setName(description.getName());
 					Language lang = languageService.getByCode(description.getLanguage());

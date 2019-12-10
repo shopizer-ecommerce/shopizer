@@ -84,4 +84,11 @@ public interface CategoryFacade {
 	 * @param store
 	 */
 	void move(Long child, Long parent, MerchantStore store);
+	
+	/**
+	 * Set category visible or not
+	 * @param category
+	 * @param store
+	 */
+	void setVisible(PersistableCategory category, MerchantStore store);
 }

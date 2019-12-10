@@ -2,6 +2,7 @@ package com.salesmanager.shop.store.facade.items;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -23,6 +24,7 @@ import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProductList;
 import com.salesmanager.shop.model.catalog.product.group.ProductGroup;
 import com.salesmanager.shop.populator.catalog.ReadableProductPopulator;
+import com.salesmanager.shop.store.api.exception.OperationNotAllowedException;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.controller.items.facade.ProductItemsFacade;
@@ -111,9 +113,9 @@ public class ProductItemsFacadeImpl implements ProductItemsFacade {
 			
 		}
 		
-		productList.setTotalPages(products.getTotalCount());
-		
-		
+		productList.setNumber(products.getTotalCount());
+		productList.setRecordsTotal(new Long(products.getTotalCount()));
+
 		return productList;
 	}
 
@@ -139,22 +141,43 @@ public class ProductItemsFacadeImpl implements ProductItemsFacade {
 	}
 
 	@Override
-	public ReadableProductList addItemToGroup(Product product, String group, MerchantStore store, Language language)
-			throws Exception {
+	public ReadableProductList addItemToGroup(Product product, String group, MerchantStore store, Language language) {
 		
-		Validate.notNull(product,"Product muust not be null");
+		Validate.notNull(product,"Product must not be null");
 		Validate.notNull(group,"group must not be null");
+		
+		
+		//check if product is already in group
+		List<ProductRelationship> existList = null;
+		try {
+			existList = productRelationshipService.getByGroup(store, group).stream()
+			.filter(prod -> prod.getRelatedProduct() != null && (product.getId().longValue() == prod.getRelatedProduct().getId()))
+			.collect(Collectors.toList());
+		} catch (ServiceException e) {
+			throw new ServiceRuntimeException("ExceptionWhile getting product group [" + group + "]", e);
+		}
+		
+		if(existList.size()>0) {
+			throw new OperationNotAllowedException("Product with id [" + product.getId() + "] is already in the group");
+		}
+		
 		
 		ProductRelationship relationship = new ProductRelationship();
 		relationship.setActive(true);
 		relationship.setCode(group);
 		relationship.setStore(store);
 		relationship.setRelatedProduct(product);
+
+		try {
+			productRelationshipService.saveOrUpdate(relationship);
+			return listItemsByGroup(group,store,language);
+		} catch (Exception e) {
+			throw new ServiceRuntimeException("ExceptionWhile getting product group [" + group + "]", e);
+		}
 		
-		productRelationshipService.saveOrUpdate(relationship);
 		
 		
-		return listItemsByGroup(group,store,language);
+		
 	}
 
 	@Override
@@ -162,17 +185,14 @@ public class ProductItemsFacadeImpl implements ProductItemsFacade {
 			Language language) throws Exception {
 		
 		ProductRelationship relationship = null;
-		List<ProductRelationship> relationships = productRelationshipService.getByGroup(store, group);
-		
+		List<ProductRelationship> relationships = productRelationshipService.getByType(store, product, group);
+
 		for(ProductRelationship r : relationships) {
 			if(r.getRelatedProduct().getId().longValue()==product.getId().longValue()) {
-				relationship = r;
-				break;
+				productRelationshipService.delete(relationship);
 			}
 		}
-		
-		productRelationshipService.delete(relationship);
-		
+
 		return listItemsByGroup(group,store,language);
 	}
 

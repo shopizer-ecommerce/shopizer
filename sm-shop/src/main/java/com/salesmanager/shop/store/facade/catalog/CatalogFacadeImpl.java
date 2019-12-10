@@ -198,7 +198,8 @@ public class CatalogFacadeImpl implements CatalogFacade {
 			
 			catalogList.setCatalogs(readableList);
 			catalogList.setTotalPages(catalogs.getTotalPages());
-			catalogList.setRecordsTotal(catalogs.getSize());
+			catalogList.setNumber(catalogs.getNumber());
+			catalogList.setRecordsTotal(catalogs.getTotalElements());
 		
 		} catch (ServiceException e) {
 			throw new ServiceRuntimeException("Cannot get catalogs for merchant [" + store.getCode() + "]");
@@ -236,7 +237,8 @@ public class CatalogFacadeImpl implements CatalogFacade {
 			
 			catalogList.setCatalogEntry(readableList);
 			catalogList.setTotalPages(entry.getTotalPages());
-			catalogList.setRecordsTotal(entry.getSize());
+			catalogList.setRecordsTotal(entry.getTotalElements());
+			catalogList.setNumber(entry.getNumber());
 		
 		} catch (ServiceException e) {
 			throw new ServiceRuntimeException("Cannot get catalog entry for catalog [" + id + "] andr merchant [" + store.getCode() + "]");

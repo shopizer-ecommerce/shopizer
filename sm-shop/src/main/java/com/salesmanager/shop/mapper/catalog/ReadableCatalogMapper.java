@@ -36,6 +36,8 @@ public class ReadableCatalogMapper implements Mapper<Catalog, ReadableCatalog> {
 		}
 		
 		destination.setCode(source.getCode());
+		destination.setDefaultCatalog(source.isDefaultCatalog());
+		destination.setVisible(source.isVisible());
 		
 		if(source.getMerchantStore() != null) {
 			ReadableMerchantStore st = storeFacade.getByCode(source.getMerchantStore().getCode(), language);

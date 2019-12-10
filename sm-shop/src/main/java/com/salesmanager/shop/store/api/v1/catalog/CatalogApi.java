@@ -31,6 +31,7 @@ import com.salesmanager.shop.model.catalog.catalog.ReadableCatalogEntry;
 import com.salesmanager.shop.model.catalog.catalog.ReadableCatalogEntryList;
 import com.salesmanager.shop.model.catalog.catalog.ReadableCatalogList;
 import com.salesmanager.shop.model.entity.EntityExists;
+import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.controller.catalog.facade.CatalogFacade;
 
 import io.swagger.annotations.Api;
@@ -165,6 +166,15 @@ public class CatalogApi {
 	  @RequestBody @Valid PersistableCatalogEntry catalogEntry,
       @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
     
+	  
+	  
+	  ReadableCatalog c = catalogFacade.getCatalog(id, merchantStore, language);
+	  
+	  if(c == null) {
+		  throw new ResourceNotFoundException("Catalog id [" + id + "] not found");
+	  }
+	  
+	  catalogEntry.setCatalog(c.getCode());
 	  return catalogFacade.addCatalogEntry(catalogEntry, merchantStore, language);
 
 
@@ -197,8 +207,9 @@ public class CatalogApi {
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
   public ReadableCatalogEntryList getCatalogEntry(
-	  @RequestParam(name="id") Long id,
-      @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language,
+	  @PathVariable(value="id") Long id,
+      @ApiIgnore MerchantStore merchantStore, 
+      @ApiIgnore Language language,
       @RequestParam(value = "page", required = false, defaultValue="0") Integer page,
       @RequestParam(value = "count", required = false, defaultValue="10") Integer count,
       HttpServletRequest request) {

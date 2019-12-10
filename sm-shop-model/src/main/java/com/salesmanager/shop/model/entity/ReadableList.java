@@ -9,8 +9,8 @@ public abstract class ReadableList implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private int totalPages;//totalPages
-	private int recordsTotal;
-	//private int draw;
+	private int number;//number of record in current page
+	private long recordsTotal;//total number of records in db
 	private int recordsFiltered;
 
 	public int getTotalPages() {
@@ -21,21 +21,13 @@ public abstract class ReadableList implements Serializable {
 		this.totalPages = totalCount;
 	}
 
-	public int getRecordsTotal() {
+	public long getRecordsTotal() {
 		return recordsTotal;
 	}
 
-	public void setRecordsTotal(int recordsTotal) {
+	public void setRecordsTotal(long recordsTotal) {
 		this.recordsTotal = recordsTotal;
 	}
-
-/*	public int getDraw() {
-		return draw;
-	}
-
-	public void setDraw(int draw) {
-		this.draw = draw;
-	}*/
 
 	public int getRecordsFiltered() {
 		return recordsFiltered;
@@ -43,6 +35,14 @@ public abstract class ReadableList implements Serializable {
 
 	public void setRecordsFiltered(int recordsFiltered) {
 		this.recordsFiltered = recordsFiltered;
+	}
+
+	public int getNumber() {
+		return number;
+	}
+
+	public void setNumber(int number) {
+		this.number = number;
 	}
 
 }

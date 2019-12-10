@@ -91,6 +91,17 @@ public Page<MerchantStore> listAll(Optional<String> storeName, int page, int cou
 
 }
 
+
+@Override
+public Page<MerchantStore> listAllRetailers(Optional<String> storeName, int page, int count) throws ServiceException {
+	String store = null;
+	if(storeName != null && storeName.isPresent()) {
+		store = storeName.get();
+	}
+	Pageable pageRequest = new PageRequest(page, count);  
+	return pageableMerchantRepository.listAllRetailers(store, pageRequest);
+}
+
 	
 /*	@Override
 	public void delete(MerchantStore merchant) throws ServiceException {

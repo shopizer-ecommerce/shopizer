@@ -37,7 +37,7 @@ public interface StoreFacade {
 
   ReadableMerchantStore getByCode(String code, String lang);
   
-  ReadableMerchantStoreList findAll(Optional<String> storeName, Language language, int page, int count);
+  ReadableMerchantStoreList findAll(MerchantStoreCriteria criteria, Language language, int page, int count);
   
   /**
    * List child stores

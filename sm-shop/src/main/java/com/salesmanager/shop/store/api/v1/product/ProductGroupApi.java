@@ -165,12 +165,24 @@ public class ProductGroupApi {
       @ApiIgnore Language language,
       HttpServletResponse response) {
 
+	  
+	Product product = null;
     try {
       // get the product
-      Product product = productService.getById(productId);
+    	product = productService.getById(productId);
 
       if (product == null) {
         response.sendError(404, "Product not fount for id " + productId);
+        return null;
+      }
+      
+    } catch (Exception e) {
+        LOGGER.error("Error while adding product to group", e);
+        try {
+          response.sendError(503, "Error while adding product to group " + e.getMessage());
+        } catch (Exception ignore) {
+        }
+
         return null;
       }
 
@@ -179,15 +191,7 @@ public class ProductGroupApi {
 
       return list;
 
-    } catch (Exception e) {
-      LOGGER.error("Error while adding product to group", e);
-      try {
-        response.sendError(503, "Error while adding product to group " + e.getMessage());
-      } catch (Exception ignore) {
-      }
 
-      return null;
-    }
   }
 
   @ResponseStatus(HttpStatus.OK)

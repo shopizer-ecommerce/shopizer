@@ -70,13 +70,17 @@ public class CategoryFacadeImpl implements CategoryFacade {
 		returnList.setTotalPages(total);
 		if (!CollectionUtils.isEmpty(filter) && filter.contains(FEATURED_CATEGORY)) {
 			categories = categoryService.getListByDepthFilterByFeatured(store, depth, language);
+			returnList.setRecordsTotal(categories.size());
+			returnList.setNumber(categories.size());
 		} else {
 			org.springframework.data.domain.Page<Category> pageable = categoryService.getListByDepth(store, language,
 					criteria != null ? criteria.getName() : null, depth, page, count);
 			categories = pageable.getContent();
+			returnList.setRecordsTotal(pageable.getTotalElements());
+			returnList.setNumber(pageable.getNumber());
 		}
 
-		returnList.setRecordsTotal(categories.size());
+
 
 		List<ReadableCategory> readableCategories = null;
 		if (filter != null && filter.contains(VISIBLE_CATEGORY)) {
@@ -404,6 +408,19 @@ public class CategoryFacadeImpl implements CategoryFacade {
 			return categoryService.getByCode(store, code);
 		} catch (ServiceException e) {
 			throw new ServiceRuntimeException("Exception while reading category code [" + code + "]",e);
+		}
+	}
+
+	@Override
+	public void setVisible(PersistableCategory category, MerchantStore store) {
+		Validate.notNull(category, "Category must not be null");
+		Validate.notNull(store, "Store must not be null");
+		try {
+			Category c = this.getById(store, category.getId());
+			c.setVisible(category.isVisible());
+			categoryService.saveOrUpdate(c);
+		} catch (Exception e) {
+			throw new ServiceRuntimeException("Error while getting category [" + category.getId() + "]",e);
 		}
 	}
 }

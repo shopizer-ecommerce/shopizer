@@ -69,6 +69,7 @@
 	<!-- Add new templates in the list, should point to pages/shop/templates and resources/templates -->
 	<util:list id="templates" value-type="java.lang.String">
 		<value>bootstrap</value>
+		<value>december</value>
 		<value>generic</value>
 		<value>exoticamobilia</value>
     </util:list>

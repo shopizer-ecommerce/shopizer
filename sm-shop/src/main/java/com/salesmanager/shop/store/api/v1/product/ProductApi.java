@@ -148,23 +148,13 @@ public class ProductApi {
   @RequestMapping(
       value = {"/private/product/{id}", "/auth/product/{id}"},
       method = RequestMethod.DELETE)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+		@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
   public void delete(
-      @PathVariable Long id, HttpServletRequest request, HttpServletResponse response) {
+      @PathVariable Long id, 
+      @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
 
-    try {
-      Product product = productService.getById(id);
-      if (product != null) {
-        productFacade.deleteProduct(product);
-      } else {
-        response.sendError(404, "No Product found for ID : " + id);
-      }
-    } catch (Exception e) {
-      LOGGER.error("Error while deleting product", e);
-      try {
-        response.sendError(503, "Error while deleting product " + e.getMessage());
-      } catch (Exception ignore) {
-      }
-    }
+	  productFacade.deleteProduct(id, merchantStore);
   }
 
   /**

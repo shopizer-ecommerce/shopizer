@@ -108,6 +108,14 @@ public interface ProductFacade {
    * @throws Exception
    */
   void deleteProduct(Product product) throws Exception;
+  
+  /**
+   * Delete product
+   * @param id
+   * @param store
+   * @throws Exception
+   */
+  void deleteProduct(Long id, MerchantStore store);
 
 
   /**

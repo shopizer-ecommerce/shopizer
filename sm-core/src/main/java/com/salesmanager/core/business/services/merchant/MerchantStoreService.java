@@ -18,10 +18,10 @@ public interface MerchantStoreService extends SalesManagerEntityService<Integer,
 			throws ServiceException;
 	
 	MerchantStore getByCode(String code) throws ServiceException ;
-	
-	//List<MerchantStore> listChildren(String code) throws ServiceException;
-	
+
 	Page<MerchantStore> listAll(Optional<String> storeName, int page, int count) throws ServiceException;
+	
+	Page<MerchantStore> listAllRetailers(Optional<String> storeName, int page, int count) throws ServiceException;
 	
 	Page<MerchantStore> listChildren(String code, int page, int count) throws ServiceException;
 

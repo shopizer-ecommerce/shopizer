@@ -10,7 +10,6 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
 
-import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.utils.AbstractDataPopulator;
@@ -93,6 +92,10 @@ public class ReadableProductPopulator extends
 	          target = new ReadableProductFull();
 	        }
 	        
+	        if(target==null) {
+	        	target = new ReadableProduct();
+	        }
+	        
 	        ProductDescription description = source.getProductDescription();
 	        
 	        if(source.getDescriptions()!=null && source.getDescriptions().size()>0) {
@@ -115,6 +118,7 @@ public class ReadableProductPopulator extends
 			    }
 			
 
+
 	
 			target.setId(source.getId());
 			target.setAvailable(source.isAvailable());
@@ -133,6 +137,13 @@ public class ReadableProductPopulator extends
 			
 			
 			target.setCondition(source.getCondition());
+			
+			if(source.getType() != null) {
+				ReadableProductType readableType = new ReadableProductType();
+				readableType.setCode(source.getType().getCode());
+				readableType.setName(source.getType().getCode());
+				target.setType(readableType);
+			}
 			
 			
 			//RENTAL

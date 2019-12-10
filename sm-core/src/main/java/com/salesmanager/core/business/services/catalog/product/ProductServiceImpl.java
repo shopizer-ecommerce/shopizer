@@ -233,7 +233,7 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		//related - featured
 		List<ProductRelationship> relationships = productRelationshipService.listByProduct(product);
 		for(ProductRelationship relationship : relationships) {
-			productRelationshipService.delete(relationship);
+			productRelationshipService.deleteRelationship(relationship);
 		}
 		
 		super.delete(product);

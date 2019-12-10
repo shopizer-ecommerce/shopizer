@@ -58,12 +58,12 @@ public class ProductInventoryFacadeImpl implements ProductInventoryFacade {
       }
 
       ReadableInventoryList returnList = new ReadableInventoryList();
-      // count total records
-      int totalCount = productAvailabilityService.count(product);
-      returnList.setRecordsTotal(totalCount);
+
       Page<ProductAvailability> availabilities =
           productAvailabilityService.listByProduct(product, store, child, page, count);
       returnList.setTotalPages(availabilities.getTotalPages());
+      returnList.setRecordsTotal(availabilities.getTotalElements());
+      returnList.setNumber(availabilities.getNumber());
 
       for (ProductAvailability availability : availabilities) {
         ReadableInventory inv = new ReadableInventory();
@@ -238,6 +238,11 @@ public class ProductInventoryFacadeImpl implements ProductInventoryFacade {
       if (availability == null) {
         throw new ResourceNotFoundException(
             "Availability with id [" + inventory.getId() + "] not found");
+      }
+      
+      if(availability.getProduct().getId().longValue() != productId) {
+          throw new ResourceNotFoundException(
+                  "Availability with id [" + inventory.getId() + "] not found for product id [" + productId + "]");
       }
       
       inventory.setProductId(product.getId());

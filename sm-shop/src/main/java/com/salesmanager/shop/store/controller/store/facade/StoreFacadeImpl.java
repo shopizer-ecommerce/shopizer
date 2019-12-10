@@ -232,30 +232,9 @@ public class StoreFacadeImpl implements StoreFacade {
 	public ReadableMerchantStoreList getByCriteria(MerchantStoreCriteria criteria, Language lang) {
 		return  getMerchantStoresByCriteria(criteria, lang);
 
-		//List<MerchantStore> stores = entityList.getList();
-
-		//return createReadableMerchantStoreList(drawParam, lang, entityList, stores);
 	}
 
-/*	private ReadableMerchantStoreList createReadableMerchantStoreList(Language lang,
-			GenericEntityList<MerchantStore> list, List<MerchantStore> stores) {
-		ReadableMerchantStoreList merchantStoreToList = new ReadableMerchantStoreList();
-		merchantStoreToList.setTotalPages(list.getTotalCount());
 
-		List<ReadableMerchantStore> readableMerchantStores = stores.stream()
-				.map(store -> convertMerchantStoreToReadableMerchantStore(lang, store)).collect(Collectors.toList());
-
-		merchantStoreToList.getData().addAll(readableMerchantStores);
-
-		merchantStoreToList.setRecordsFiltered(readableMerchantStores.size());
-		merchantStoreToList.setRecordsTotal(merchantStoreToList.getRecordsTotal());
-
-		
-		 * if (!org.apache.commons.lang3.StringUtils.isEmpty(drawParam)) {
-		 * merchantStoreToList.setDraw(Integer.parseInt(drawParam)); }
-		 
-		return merchantStoreToList;
-	}*/
 
 	private ReadableMerchantStoreList getMerchantStoresByCriteria(MerchantStoreCriteria criteria, Language language) {
 		try {
@@ -271,6 +250,7 @@ public class StoreFacadeImpl implements StoreFacade {
 					);
 			storeList.setTotalPages(stores.getTotalPage());
 			storeList.setRecordsTotal(stores.getTotalCount());
+			storeList.setNumber(stores.getList().size());
 			
 			return storeList;
 			
@@ -458,7 +438,8 @@ public class StoreFacadeImpl implements StoreFacade {
 			readableList.setData(readableStores);
 			readableList.setRecordsFiltered(children.getSize());
 			readableList.setTotalPages(children.getTotalPages());
-			readableList.setRecordsTotal(Math.toIntExact(children.getTotalElements()));
+			readableList.setRecordsTotal(children.getTotalElements());
+			readableList.setNumber(children.getNumber());
 			
 			return readableList;
 			
@@ -478,10 +459,19 @@ public class StoreFacadeImpl implements StoreFacade {
 	}
 
 	@Override
-	public ReadableMerchantStoreList findAll(Optional<String> storeName, Language language, int page, int count) {
+	public ReadableMerchantStoreList findAll(MerchantStoreCriteria criteria, Language language, int page, int count) {
 		
 		try {
-			Page<MerchantStore> stores = merchantStoreService.listAll(storeName, page, count);
+			Page<MerchantStore> stores = null;
+			
+			Optional<String> name = Optional.ofNullable(criteria.getName());
+			
+			if(criteria.isRetailers()) {
+				stores = merchantStoreService.listAllRetailers(name, page, count);
+			} else {
+				stores = merchantStoreService.listAll(name, page, count);
+			}
+
 			List<ReadableMerchantStore> readableStores = new ArrayList<ReadableMerchantStore>();
 			ReadableMerchantStoreList readableList = new ReadableMerchantStoreList();
 			if (!CollectionUtils.isEmpty(stores.getContent())) {
@@ -491,7 +481,8 @@ public class StoreFacadeImpl implements StoreFacade {
 			readableList.setData(readableStores);
 			readableList.setRecordsFiltered(stores.getSize());
 			readableList.setTotalPages(stores.getTotalPages());
-			readableList.setRecordsTotal(Math.toIntExact(stores.getTotalElements()));
+			readableList.setRecordsTotal(stores.getTotalElements());
+			readableList.setNumber(stores.getSize());
 			
 			return readableList;
 

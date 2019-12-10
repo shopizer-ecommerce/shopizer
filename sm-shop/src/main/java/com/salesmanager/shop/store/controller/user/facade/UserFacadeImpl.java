@@ -272,7 +272,9 @@ public class UserFacadeImpl implements UserFacade {
 				readableUserList.getData().add(readableUser);
 			}
 			readableUserList.setRecordsTotal(userList.getTotalCount());
-			readableUserList.setTotalPages(readableUserList.getData().size());
+			readableUserList.setNumber(userList.getList().size());
+			readableUserList.setTotalPages(userList.getTotalPage());
+			//readableUserList.setTotalPages(readableUserList.getData().size());
 			readableUserList.setRecordsFiltered(userList.getTotalCount());
 			/*
 			 * if (!org.apache.commons.lang3.StringUtils.isEmpty(drawParam)) {
@@ -450,6 +452,7 @@ public class UserFacadeImpl implements UserFacade {
 			readableUserList.setData(readableUsers);
 			readableUserList.setRecordsTotal(userList.getNumberOfElements());
 			readableUserList.setTotalPages(userList.getTotalPages());
+			readableUserList.setNumber(userList.getNumber());
 			readableUserList.setRecordsFiltered(userList.getSize());
 
 			return readableUserList;

@@ -71,6 +71,9 @@ public class PersistableInventoryMapper implements Mapper<PersistableInventory, 
       
       ProductPrice price = new ProductPrice();
       price.setId(null);
+      if(priceEntity.getId()!=null && priceEntity.getId().longValue()>0) {
+    	  price.setId(priceEntity.getId());
+      }
       Set<ProductPrice> prices = new HashSet<ProductPrice>();
       if(destination.getPrices()!=null) {
         for(ProductPrice pp : destination.getPrices()) {
@@ -118,6 +121,7 @@ public class PersistableInventoryMapper implements Mapper<PersistableInventory, 
         price.setDescriptions(descs);
       }
       prices.add(price);
+      destination.setPrices(prices);
     }
     
     return destination;

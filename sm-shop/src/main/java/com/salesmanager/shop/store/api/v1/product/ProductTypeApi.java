@@ -46,7 +46,7 @@ public class ProductTypeApi {
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
-  public List<ReadableProductType> getContentPages(
+  public List<ReadableProductType> getTypes(
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language) {
     
