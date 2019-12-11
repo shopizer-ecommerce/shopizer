@@ -44,16 +44,22 @@ import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.store.controller.user.facade.UserFacade;
 import com.salesmanager.shop.utils.ServiceRequestCriteriaBuilderUtils;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.SwaggerDefinition;
+import io.swagger.annotations.Tag;
 import springfox.documentation.annotations.ApiIgnore;
 
 /** Api for managing admin users */
 @RestController
 @RequestMapping(value = "/api/v1")
+@Api(tags = { "User management resource (User Management Api)" })
+@SwaggerDefinition(tags = {
+		@Tag(name = "User management resource", description = "Manage administration users") })
 public class UserApi {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(UserApi.class);
@@ -291,8 +297,13 @@ public class UserApi {
       HttpServletRequest request) {
     Principal principal = request.getUserPrincipal();
     String userName = principal.getName();
-    return userFacade.findByUserName(userName, null, language);
+    ReadableUser user = userFacade.findByUserName(userName, null, language);
     
+    if(!user.isActive()) {
+    	throw new UnauthorizedException("User " + userName + " not not active");
+    }
+    
+    return user;
 
   }
 }

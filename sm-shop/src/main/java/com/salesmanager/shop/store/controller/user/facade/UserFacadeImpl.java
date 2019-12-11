@@ -375,12 +375,16 @@ public class UserFacadeImpl implements UserFacade {
 		}
 
 		boolean isActive = user.isActive();
+		
+		//user must be superadmin or admin
 
 		List<Group> originalGroups = user.getGroups();
-		Group superadmin = originalGroups.stream()
-				.filter(group -> Constants.GROUP_SUPERADMIN.equals(group.getGroupName())).findAny().orElse(null);
+		Group admin = originalGroups.stream()
+				.filter(
+						group -> Constants.GROUP_SUPERADMIN.equals(group.getGroupName()) || Constants.GROUP_ADMIN.equals(group.getGroupName())
+				 ).findAny().orElse(null);
 
-		if (superadmin == null) {
+		if (admin == null) {
 			if (user.getMerchantStore().getCode().equals(storeCode)) {
 				throw new UnauthorizedException("User [" + user.getAdminEmail() + " Not authorized");
 			}

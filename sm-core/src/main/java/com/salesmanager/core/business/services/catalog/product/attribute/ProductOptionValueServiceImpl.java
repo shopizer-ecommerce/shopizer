@@ -115,9 +115,8 @@ public class ProductOptionValueServiceImpl extends
 	public Page<ProductOptionValue> getByMerchant(MerchantStore store, Language language, String name, int page,
 			int count) {
 	    Validate.notNull(store, "MerchantStore cannot be null");
-	    Validate.notNull(language, "Language cannot be null");
 	    Pageable p = new PageRequest(page, count);
-	    return pageableProductOptionValueRepository.listOptions(store.getId(), language.getId(), name, p);
+	    return pageableProductOptionValueRepository.listOptionValues(store.getId(), name, p);
 	}
 
 

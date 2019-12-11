@@ -36,6 +36,8 @@ import com.salesmanager.shop.model.catalog.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProductList;
 import com.salesmanager.shop.model.entity.EntityExists;
+import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
+import com.salesmanager.shop.store.api.exception.UnauthorizedException;
 import com.salesmanager.shop.store.controller.product.facade.ProductFacade;
 import com.salesmanager.shop.utils.ImageFilePath;
 import io.swagger.annotations.Api;
@@ -504,7 +506,26 @@ public class ProductApi {
     try {
       // get the product
       Product product = productService.getById(productId);
+      
+      if(product == null) {
+    	  throw new ResourceNotFoundException("Product id [" + productId + "] is not found");
+      }
+      
+      if(product.getMerchantStore().getId().intValue() != merchantStore.getId().intValue()) {
+    	  throw new UnauthorizedException("Product id [" + productId + "] does not belong to store [" + merchantStore.getCode() + "]");
+      }
+
       Category category = categoryService.getById(categoryId);
+      
+      if(category == null) {
+    	  throw new ResourceNotFoundException("Category id [" + categoryId + "] is not found");
+      }
+      
+      if(category.getMerchantStore().getId().intValue() != merchantStore.getId().intValue()) {
+    	  throw new UnauthorizedException("Category id [" + categoryId + "] does not belong to store [" + merchantStore.getCode() + "]");
+      }
+      
+      
       return productFacade.addProductToCategory(category, product, language);
 
     } catch (Exception e) {
@@ -537,9 +558,26 @@ public class ProductApi {
       HttpServletResponse response) {
 
     try {
-      // get the product
-      Product product = productService.getById(productId);
-      Category category = categoryService.getById(categoryId);
+        Product product = productService.getById(productId);
+        
+        if(product == null) {
+      	  throw new ResourceNotFoundException("Product id [" + productId + "] is not found");
+        }
+        
+        if(product.getMerchantStore().getId().intValue() != merchantStore.getId().intValue()) {
+      	  throw new UnauthorizedException("Product id [" + productId + "] does not belong to store [" + merchantStore.getCode() + "]");
+        }
+
+        Category category = categoryService.getById(categoryId);
+        
+        if(category == null) {
+      	  throw new ResourceNotFoundException("Category id [" + categoryId + "] is not found");
+        }
+        
+        if(category.getMerchantStore().getId().intValue() != merchantStore.getId().intValue()) {
+      	  throw new UnauthorizedException("Category id [" + categoryId + "] does not belong to store [" + merchantStore.getCode() + "]");
+        }
+      
       return productFacade.removeProductFromCategory(category, product, language);
 
     } catch (Exception e) {

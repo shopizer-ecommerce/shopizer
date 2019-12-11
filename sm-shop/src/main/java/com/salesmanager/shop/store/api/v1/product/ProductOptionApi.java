@@ -245,12 +245,31 @@ public class ProductOptionApi {
 	@RequestMapping(value = { "/private/product/{id}/attributes" }, method = RequestMethod.GET)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	@ApiOperation(httpMethod = "GET", value = "Get product attributes", notes = "",
+    response = ReadableProductAttributeList.class)
 	public @ResponseBody ReadableProductAttributeList attributes(
 			@PathVariable Long id,
 			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language, HttpServletRequest request, HttpServletResponse response) {
 
 		return productOptionFacade.getAttributesList(id, merchantStore, language);
+
+	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = { "/private/product/{id}/attribute/{attributeId}" }, method = RequestMethod.GET)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	@ApiOperation(httpMethod = "GET", value = "Get product attributes", notes = "",
+      response = EntityExists.class)
+	public @ResponseBody ReadableProductAttributeEntity getAttribute(
+			@PathVariable Long id,
+			@PathVariable Long attributeId,
+			@ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language, HttpServletRequest request, HttpServletResponse response) {
+
+		ReadableProductAttributeEntity entity = productOptionFacade.getAttribute(id, attributeId, merchantStore, language);
+		return entity;
 
 	}
 	

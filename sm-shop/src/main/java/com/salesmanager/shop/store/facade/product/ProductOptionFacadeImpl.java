@@ -143,14 +143,14 @@ public class ProductOptionFacadeImpl implements ProductOptionFacade {
 			int count) {
 		Validate.notNull(store, "MerchantStore should not be null");
 
-		Page<ProductOptionValue> options = productOptionValueService.getByMerchant(store, language, name, page, count);
+		Page<ProductOptionValue> options = productOptionValueService.getByMerchant(store, null, name, page, count);
 		ReadableProductOptionValueList valueList = new ReadableProductOptionValueList();
 		valueList.setTotalPages(options.getTotalPages());
 		valueList.setRecordsTotal(options.getTotalElements());
 		valueList.setNumber(options.getNumber());
 
 		List<ReadableProductOptionValueEntity> values = options.getContent().stream()
-				.map(option -> readableOptionValueMapper.convert(option, store, language)).collect(Collectors.toList());
+				.map(option -> readableOptionValueMapper.convert(option, store, null)).collect(Collectors.toList());
 
 		valueList.setOptionValues(values);
 
@@ -161,14 +161,14 @@ public class ProductOptionFacadeImpl implements ProductOptionFacade {
 	public ReadableProductOptionList options(MerchantStore store, Language language, String name, int page, int count) {
 		Validate.notNull(store, "MerchantStore should not be null");
 
-		Page<ProductOption> options = productOptionService.getByMerchant(store, language, name, page, count);
+		Page<ProductOption> options = productOptionService.getByMerchant(store, null, name, page, count);
 		ReadableProductOptionList valueList = new ReadableProductOptionList();
 		valueList.setTotalPages(options.getTotalPages());
 		valueList.setRecordsTotal(options.getTotalElements());
 		valueList.setNumber(options.getNumber());
 
 		List<ReadableProductOptionEntity> values = options.getContent().stream()
-				.map(option -> readableMapper.convert(option, store, language)).collect(Collectors.toList());
+				.map(option -> readableMapper.convert(option, store, null)).collect(Collectors.toList());
 
 		valueList.setOptions(values);
 

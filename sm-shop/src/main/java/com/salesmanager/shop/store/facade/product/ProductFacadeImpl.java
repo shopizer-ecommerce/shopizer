@@ -3,6 +3,8 @@ package com.salesmanager.shop.store.facade.product;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.inject.Inject;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.Validate;
@@ -42,6 +44,7 @@ import com.salesmanager.shop.populator.catalog.PersistableProductPopulator;
 import com.salesmanager.shop.populator.catalog.PersistableProductReviewPopulator;
 import com.salesmanager.shop.populator.catalog.ReadableProductPopulator;
 import com.salesmanager.shop.populator.catalog.ReadableProductReviewPopulator;
+import com.salesmanager.shop.store.api.exception.OperationNotAllowedException;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.controller.product.facade.ProductFacade;
@@ -348,7 +351,14 @@ public class ProductFacadeImpl implements ProductFacade {
 
     Validate.notNull(category, "Category cannot be null");
     Validate.notNull(product, "Product cannot be null");
-
+    
+    //not alloweed if category already attached 
+    List<Category> assigned = product.getCategories().stream().filter(cat -> cat.getId().longValue() == category.getId().longValue()).collect(Collectors.toList());
+    
+    if(assigned.size() >0) {
+    	throw new OperationNotAllowedException("Category with id [" + category.getId() + "] already attached to product [" + product.getId() + "]");
+    }
+    
     product.getCategories().add(category);
 
     productService.update(product);

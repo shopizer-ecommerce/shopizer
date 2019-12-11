@@ -50,6 +50,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  * Servlet Filter implementation class StoreFilter
@@ -559,7 +560,10 @@ public class StoreFilter extends HandlerInterceptorAdapter {
         // load categories
         ReadableCategoryList categoryList = categoryFacade.getCategoryHierarchy(store, null, 0, language, null, 0, 200);// null
         loadedCategories = categoryList.getCategories();
-                                                                                         // filter
+        
+        //filter out invisible category
+        loadedCategories.stream().filter(cat -> cat.isVisible()==true).collect(Collectors.toList());
+                                                                                         
         objects = new ConcurrentHashMap<String, List<ReadableCategory>>();
         objects.put(language.getCode(), loadedCategories);
         webApplicationCache.putInCache(categoriesKey.toString(), objects);
