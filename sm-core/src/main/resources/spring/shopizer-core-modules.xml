@@ -29,11 +29,11 @@
     			<!--
     			Requires google maps shippingDistancePreProcessor.apiKey=<YOUR KEY>
     			in configs.properties-->
-    			<!-- <beans:entry key="priceByDistance" value-ref="priceByDistance"/> -->
+    			<beans:entry key="priceByDistance" value-ref="priceByDistance"/>
     			 
     			<!--
     			This will activate drules-->
-    			<!-- <beans:entry key="customQuotesRules" value-ref="customShippingPriceModule"/> -->
+    			<beans:entry key="customQuotesRules" value-ref="customShippingPriceModule"/>
     			<!--as defined in shopizer-core-rules-->
     </util:map>
     

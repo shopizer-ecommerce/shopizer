@@ -37,8 +37,8 @@ public class ManufacturerShippingCodeOrderTotalModuleImpl implements OrderTotalP
 	
 	//private KnowledgeBase kbase;//injected from xml file
 	
-	@Inject
-	KieContainer kieManufacturerBasedPricingContainer;
+	//@Inject
+	//KieContainer kieManufacturerBasedPricingContainer;
 	
 
 	PricingService pricingService;
@@ -74,9 +74,9 @@ public class ManufacturerShippingCodeOrderTotalModuleImpl implements OrderTotalP
 		
 		LOGGER.debug("Setting input parameters " + inputParameters.toString());
 		
-        KieSession kieSession = kieManufacturerBasedPricingContainer.newKieSession();
+/*        KieSession kieSession = kieManufacturerBasedPricingContainer.newKieSession();
         kieSession.insert(inputParameters);
-        kieSession.fireAllRules();
+        kieSession.fireAllRules();*/
 		
 		
 		//orderTotalMethodDecision.execute(inputParameters);

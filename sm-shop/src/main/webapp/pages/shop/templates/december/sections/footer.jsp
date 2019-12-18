@@ -65,11 +65,13 @@ response.setDateHeader ("Expires", -1);
 										<a href="<c:url value="/shop"/>"><s:message code="menu.home" text="Home"/></a>
 									</li>
 									<c:forEach items="${requestScope.TOP_CATEGORIES}" var="category">
+									<c:if test="${category.visible}">
 								   <li>
 	    								<a href="<c:url value="/shop/category/${category.description.friendlyUrl}.html"/><sm:breadcrumbParam categoryId="${category.id}"/>" class="current"> 
 	    									<span class="name">${category.description.name}</span>
 	    								</a>
 	    							</li> 
+	    							</c:if>
 									</c:forEach>
 								    <c:forEach items="${requestScope.CONTENT_PAGE}" var="content">
 											   <li><a href="<c:url value="/shop/pages/${content.seUrl}.html"/>" class="current">${content.name}</a></li>

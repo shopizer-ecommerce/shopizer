@@ -63,7 +63,9 @@ response.setDateHeader ("Expires", -1);
                  			 			<li>
                     					<div class="cart-img">
 										{{#image}}
-											<img src="<c:out value="${pageContext.servletContext.contextPath}" />{{image}}">
+										<a href="#" class="product-image">
+											<img class="img-responsive" src="<c:out value="${pageContext.servletContext.contextPath}" />{{image}}">
+										</a>
 										{{/image}}
 										{{^image}}
 											&nbsp
@@ -159,7 +161,87 @@ response.setDateHeader ("Expires", -1);
         $('[data-hover="dropdown"]').dropdownHover()
       })
     }(jQuery, this);
-  </script>
+ </script>
+ 
+ <script type="text/javascript">
+//***** Search code *****
+$(document).ready(function() { 
+
+    //post search form
+   $(".searchButton").click(function(e){
+			var searchQuery = $('#searchField').val();
+			var q = searchQuery;
+			if(q==null || q =='') {
+				return;
+			}
+			$('#hiddenQuery').val(q);
+			var uri = '<c:url value="/shop/search/search.html"/>';
+			e.preventDefault();//action url will be overriden
+	        $('#hiddenSearchForm').attr('action',uri).submit();
+   });
+
+   
+   
+	
+   var searchElements = new Bloodhound({
+		datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+		queryTokenizer: Bloodhound.tokenizers.whitespace,
+		<c:if test="${requestScope.CONFIGS['useDefaultSearchConfig'][requestScope.LANGUAGE.code]==true}">
+		  <c:if test="${requestScope.CONFIGS['defaultSearchConfigPath'][requestScope.LANGUAGE.code]!=null}">
+		     prefetch: '<c:out value="${requestScope.CONFIGS['defaultSearchConfigPath'][requestScope.LANGUAGE.code]}"/>',
+		  </c:if>
+	    </c:if>
+	    remote: {
+    		url: '<c:url value="/services/public/search/${requestScope.MERCHANT_STORE.code}/${requestScope.LANGUAGE.code}/autocomplete.json"/>?q=%QUERY',
+        	filter: function (parsedResponse) {
+            	// parsedResponse is the array returned from your backend
+            	console.log(parsedResponse);
+
+            	// do whatever processing you need here
+            	return JSON.parse(parsedResponse);
+        	}
+    	}
+	});
+   
+   searchElements.initialize();
+
+
+	var searchTemplate =  Hogan.compile([
+				     '<p class="suggestion-text"><font color="black">{{value}}</font></p>'
+	             ].join(''));
+	
+	
+    //full view search
+	$('#searchField.typeahead').typeahead({
+	    hint: true,
+	    highlight: true,
+	    minLength: 1
+	}, {
+		name: 'shopizer-search',
+	    displayKey: 'value',
+	    source: searchElements.ttAdapter(),
+	    templates: {
+	    	suggestion: function (data) { return searchTemplate.render(data); }
+	    }
+	});
+    
+    //responsive
+	$('#responsiveSearchField.typeahead').typeahead({
+	    hint: true,
+	    highlight: true,
+	    minLength: 1
+	}, {
+		name: 'modal-shopizer-search',
+	    displayKey: 'value',
+	    source: searchElements.ttAdapter(),
+	    templates: {
+	    	suggestion: function (data) { return searchTemplate.render(data); }
+	    }
+	});
+
+});
+
+</script>
 
 
   <!--=========-TOP_BAR============-->
@@ -239,61 +321,25 @@ response.setDateHeader ("Expires", -1);
     </div>
     <!-- end col -->
     <div class="col-sm-7 vertical-align text-center">
+
+	  <c:if test="${requestScope.CONFIGS['displaySearchBox'] == true}">
       <form>
         <div class="row grid-space-1">
-          <div class="col-sm-6">
-            <input type="text" name="keyword" class="form-control input-lg" placeholder="Search">
+          <div class="col-sm-9">
+            <input type="text" name="q" id="searchField" class="form-control input-lg typeahead" placeholder="<s:message code="label.generic.search" text="Search"/>" value="">
          </div>
           <!-- end col -->
-          <!--
           <div class="col-sm-3">
-            <select class="form-control input-lg" name="category">
-              <option value="all">All Categories</option>
-              <optgroup label="Mens">
-                <option value="shirts">Shirts</option>
-                <option value="coats-jackets">Coats & Jackets</option>
-                <option value="underwear">Underwear</option>
-                <option value="sunglasses">Sunglasses</option>
-                <option value="socks">Socks</option>
-                <option value="belts">Belts</option>
-              </optgroup>
-              <optgroup label="Womens">
-                <option value="bresses">Bresses</option>
-                <option value="t-shirts">T-shirts</option>
-                <option value="skirts">Skirts</option>
-                <option value="jeans">Jeans</option>
-                <option value="pullover">Pullover</option>
-              </optgroup>
-              <option value="kids">Kids</option>
-              <option value="fashion">Fashion</option>
-              <optgroup label="Sportwear">
-                <option value="shoes">Shoes</option>
-                <option value="bags">Bags</option>
-                <option value="pants">Pants</option>
-                <option value="swimwear">Swimwear</option>
-                <option value="bicycles">Bicycles</option>
-              </optgroup>
-              <option value="bags">Bags</option>
-              <option value="shoes">Shoes</option>
-              <option value="hoseholds">HoseHolds</option>
-              <optgroup label="Technology">
-                <option value="tv">TV</option>
-                <option value="camera">Camera</option>
-                <option value="speakers">Speakers</option>
-                <option value="mobile">Mobile</option>
-                <option value="pc">PC</option>
-              </optgroup>
-            </select>
-          </div>
-          -->
-          <!-- end col -->
-          <div class="col-sm-3">
-            <input type="submit" class="btn btn-default btn-block btn-lg" value="Search">
+            <input type="submit" class="btn btn-default btn-block btn-lg searchButton" value="<s:message code="label.generic.search" text="Search"/>">
          </div>
           <!-- end col -->
         </div>
         <!-- end row -->
       </form>
+      <form id="hiddenSearchForm" method="post" action="<c:url value="/shop/search/search.html"/>">
+			<input type="hidden" id="hiddenQuery" name="q">
+	  </form>
+      </c:if>
     </div>
     <!-- end col -->
 
@@ -319,61 +365,49 @@ response.setDateHeader ("Expires", -1);
             <!-- Collect the nav links,  -->
             <div class="collapse navbar-collapse navbar-1" style="margin-top: 0px;">            
               <ul class="nav navbar-nav">
-                <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="false">Home</a></li>
-                  
+                <li><a href="<c:url value="/shop/"/>" class="dropdown-toggle"><s:message code="menu.home" text="Home"/></a></li>
+                <!-- Categories -->
                 <li class="dropdown megaDropMenu">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="false">Shop <i class="fa fa-angle-down ml-5"></i></a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="false"><s:message code="label.shop" text="Shop"/> <i class="fa fa-angle-down ml-5"></i></a>
                   <ul class="dropdown-menu row">
-                    <li class="col-sm-3 col-xs-12">
+                    <c:set var="code" value="${category.code}"/>
+                    <c:forEach items="${requestScope.TOP_CATEGORIES}" var="category">
+                    <c:if test="${category.visible}">
+                    <li class="col-sm-2 col-xs-12" style="margin-bottom:40px;">
                       <ul class="list-unstyled">
-                        <li>Products Grid View</li>
-                        <li><a href="#">Products</a></li>
-                        <li><a href="#">Sidebar Left</a></li>
-                        <li><a href="#">Products Left</a></li>
-                     </ul>
+                        <li class="<sm:activeLink linkCode="${category.description.friendlyUrl}" activeReturnCode="active"/>"><a href="<c:url value="/shop/category/${category.description.friendlyUrl}.html"/><sm:breadcrumbParam categoryId="${category.id}"/>"><c:out value="${category.description.name}"/></a>
+                        <c:if test="${fn:length(category.children)>0}">
+								<c:forEach items="${category.children}" var="child">
+									<c:if test="${child.visible}">
+									<li style="margin-bottom:-10px;"><a href="<c:url value="/shop/category/${child.description.friendlyUrl}.html"/><sm:breadcrumbParam categoryId="${child.id}"/>"><c:out value="${child.description.name}"/></a></li>
+									</c:if>		
+								</c:forEach>
+						</c:if>
+						</li>
+                      </ul>
                     </li>
-                    <li class="col-sm-3 col-xs-12">
-                      <ul class="list-unstyled">
-                        <li>Products List View</li>
-                        <li><a href="#"> Sidebar Left</a></li>
-                        <li><a href="#">Products Left</a></li>
-                        <li><a href="#">Products Sidebar</a></li>
-                       </ul>
-                    </li>
-                    <li class="col-sm-3 col-xs-12">
-                      <ul class="list-unstyled">
-                        <li>Checkout</li>
-                        <li><a href="#">Step 1</a></li>
-                        <li><a href="#">Step 2</a></li>
-                        <li><a href="#">Step 3</a></li>
-                     </ul>
-                    </li>
-                    <li class="col-sm-3 col-xs-12">
-                        <ul class="list-unstyled">
-                        <li></li>
-                     </ul>
-                      <img src="https://lh3.googleusercontent.com/-uwagl9sPHag/WM7WQa00ynI/AAAAAAAADtA/hio87ZnTpakcchDXNrKc_wlkHEcpH6vMwCJoC/w140-h148-p-rw/profile-pic.jpg" class="img-responsive" alt="menu-img">
-                    </li>
+                    </c:if>
+                    </c:forEach>
+
+                    
                   </ul>
                 </li>
                   
                 <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="false">Page <i class="fa fa-angle-down ml-5"></i></a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="false"><s:message code="label.page" text="Page"/> <i class="fa fa-angle-down ml-5"></i></a>
                   <ul class="dropdown-menu dropdown-menu-left">
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Register</a></li>
-                    <li><a href="#">Register or Login</a></li>
-                    <li><a href="#">Login</a></li>
-                    <li><a href="#">Password Recovery</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms & Conditions</a></li>
-                    <li><a href="#">404 Not Found</a></li>
-                    <li><a href="#">Short Code</a></li>
-                    <li><a href="#">Coming Soon</a></li>
+                    <c:forEach items="${requestScope.CONTENT_PAGE}" var="content">
+	                    <c:if test="${not content.content.linkToMenu}">
+	                    	<li><a href="<c:url value="/shop/pages/${content.seUrl}.html"/>" class="current">${content.name}</a></li>
+	                    </c:if>
+                    </c:forEach>
                   </ul>
                 </li>
-                <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="false">Blog</a></li>
-                <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="false">Store</a></li>
+                <c:forEach items="${requestScope.CONTENT_PAGE}" var="content">
+                	<c:if test="${content.content.linkToMenu}">
+               			<li><a href="<c:url value="/shop/pages/${content.seUrl}.html"/>" class="current">${content.name}</a></li>
+                	</c:if>
+                </c:forEach> 
               </ul>
             </div><!-- /.navbar-collapse -->
           </div>

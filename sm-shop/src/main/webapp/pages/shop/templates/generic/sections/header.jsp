@@ -201,7 +201,6 @@ response.setDateHeader ("Expires", -1);
 										<input type="hidden" id="hiddenQuery" name="q">
 								</form>
 							</div>
-							
 
 							</c:if>
 						    <!-- Shopping cart -->

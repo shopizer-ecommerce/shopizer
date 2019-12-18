@@ -75,8 +75,6 @@ response.setDateHeader ("Expires", -1);
 
 		<tiles:insertAttribute name="header" ignore="true"/>
 	
-		<tiles:insertAttribute name="navbar" ignore="true"/>
-	
 		<tiles:insertAttribute name="body" ignore="true"/>
 	
 		<tiles:insertAttribute name="footer" ignore="true"/>

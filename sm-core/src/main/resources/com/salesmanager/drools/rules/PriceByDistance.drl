@@ -1,0 +1,21 @@
+package com.salesmanager.drools.rules;
+
+import com.salesmanager.core.business.modules.integration.shipping.impl.ShippingInputParameters;
+
+global com.salesmanager.core.business.modules.integration.shipping.impl.DecisionResponse decision;
+
+dialect  "mvel"
+
+rule "30 kilometers or less"
+    when
+        ShippingInputParameters(distance <= 30)
+    then
+        decision.setCustomPrice("75");
+end
+
+rule "50 kilometers or less"
+    when
+        ShippingInputParameters(distance <=50)
+    then
+        decision.setCustomPrice("100");
+end

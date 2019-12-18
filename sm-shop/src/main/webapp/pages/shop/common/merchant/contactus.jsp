@@ -16,9 +16,10 @@ response.setDateHeader ("Expires", -1);
 
 <!--Set google map API key -->
 <c:if test="${requestScope.CONFIGS['displayStoreAddress'] == true}">
-<script type="text/javascript"
-      src="https://maps.googleapis.com/maps/api/js?key=<sm:config configurationCode="shopizer.googlemaps_key" />&sensor=true">
-</script>
+<c:if test="${googleMapsKey != ''}">
+	<script src="https://maps.googleapis.com/maps/api/js?key=<c:out value="${googleMapsKey}"/>&libraries=places&callback=googleInitialize"
+		        async defer></script>
+</c:if>
 </c:if>
 
 <script type="text/javascript">

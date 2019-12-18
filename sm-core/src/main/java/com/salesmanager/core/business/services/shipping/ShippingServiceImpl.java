@@ -905,6 +905,9 @@ public class ShippingServiceImpl implements ShippingService {
 	public ShippingMetaData getShippingMetaData(MerchantStore store)
 			throws ServiceException {
 		
+		
+		try {
+		
 		ShippingMetaData metaData = new ShippingMetaData();
 
 		// configured country
@@ -946,6 +949,10 @@ public class ShippingServiceImpl implements ShippingService {
 		
 		
 		return metaData;
+		
+		} catch(Exception e) {
+			throw new ServiceException("Exception while getting shipping metadata ",e);
+		}
 	}
 
 	@Override

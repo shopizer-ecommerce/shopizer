@@ -234,15 +234,17 @@ function validateConfirmShipping(shopOrder,useDistanceWindow) {
 
 	if(shopOrder!=null) {
 	
-		if(shopOrder.shippingSummary.selectedShippingOption!=null) {
+		if(shopOrder.shippingSummary != null && shopOrder.shippingSummary.selectedShippingOption!=null) {
 			shippingMethod = shopOrder.shippingSummary.selectedShippingOption.shippingModuleCode;
 		}
 
 		//build address object
 
 		//displayConfirmShipping(shippingDistance,postalCode,shippingMethod);
-		var delivery = shopOrder.shippingSummary.delivery;
-		displayConfirmShipping(delivery,shippingMethod,useDistanceWindow);
+		if(shopOrder.shippingSummary != null) {
+			var delivery = shopOrder.shippingSummary.delivery;
+			displayConfirmShipping(delivery,shippingMethod,useDistanceWindow);
+		}
 	
 	}
 	

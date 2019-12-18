@@ -15,9 +15,13 @@ response.setDateHeader ("Expires", -1);
 <%@page contentType="text/html"%>
 <%@page pageEncoding="UTF-8"%>
 
-<c:if test="${shippingMetaData.useDistanceModule==true}">
-<script src="https://maps.googleapis.com/maps/api/js?key=<sm:config configurationCode="shopizer.googlemaps_key" />"></script>
+
+<c:if test="${googleMapsKey != ''}">
+	<script src="https://maps.googleapis.com/maps/api/js?key=<c:out value="${googleMapsKey}"/>&libraries=places&callback=googleInitialize"
+		        async defer></script>
 </c:if>
+
+
 
 <c:set var="creditCardInformationsPage" value="creditCardInformations" scope="request" />
 
@@ -208,7 +212,7 @@ function setPaymentModule(module) {
 
 function isCheckoutFieldValid(field) {
 	
-	console.log('Entering is checkout valid');
+	//console.log('Entering is checkout valid');
 	var validateField = true;
 	var fieldId = field.prop('id');
 	var value = field.val();
@@ -694,8 +698,10 @@ function validateConfirmShipping(shopOrder) {
 		//build address object
 
 		//displayConfirmShipping(shippingDistance,postalCode,shippingMethod);
-		var delivery = shopOrder.shippingSummary.delivery;
-		displayConfirmShipping(delivery,shippingMethod);
+		if(shopOrder.shippingSummary != null) {
+			var delivery = shopOrder.shippingSummary.delivery;
+			displayConfirmShipping(delivery,shippingMethod);
+		}
 	
 	}
 	

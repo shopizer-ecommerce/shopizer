@@ -15,21 +15,6 @@ response.setDateHeader ("Expires", -1);
 <%@page pageEncoding="UTF-8"%>
 
 
-		<header>
-		  <div class="overlay"></div>
-		  <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
-		    <source src="https://bamwood.s3.ca-central-1.amazonaws.com/carpenter.mp4" type="video/mp4">
-		  </video>
-		  <div class="container video-inner">
-		    <div class="text-center align-items-center">
-		      <div class="text-white">
-		        <h1>Wood you ?</h1>
-		        <p class="lead">Available in most stores in Canada</p>
-		      </div>
-		    </div>
-		  </div>
-		</header>
-
         <!-- home banner -->
         <!-- slider-area-start -->
 		<c:choose>

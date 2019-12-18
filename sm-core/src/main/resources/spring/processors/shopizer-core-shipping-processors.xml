@@ -8,16 +8,17 @@
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
 		<!-- Shipping pre-processors -->
+		<!-- Uncomment beans that can be part of pre process when calculating shipping quotes -->
 		<util:list id="shippingModulePreProcessors" value-type="com.salesmanager.core.business.modules.integration.shipping.model.ShippingQuotePrePostProcessModule">
 			<!-- Not configured by default, should know what is your intention before enabling -->
 			
 			<!-- 
 				Shipping distance preprocessor as indicated in its name is a module that calculates
 				the distance between shipping origin and customer shipping address. It uses google 
-				distance calculation and requires google api keys to be configured belog. 
+				distance calculation and requires google api keys to be configured below. 
 			 -->
 			 
-			<!-- <ref bean="shippingDistancePreProcessor"/> -->
+			<ref bean="shippingDistancePreProcessor"/>
 
 			<!-- 
 				Used drules decision tables to decide at runtime which module the system will use
@@ -26,17 +27,17 @@
 				need to be configured in resources/rules/shipping-decision-rules.xls
 			
 			 -->
-			<!-- <ref bean="shippingMethodDecisionProcess"/> -->
+			<ref bean="shippingMethodDecisionProcess"/>
 		</util:list>
 	
 		<!-- Calculates the distance between the origin and destination -->
 		<!-- shipping-distance-processor project -->
+		<!--
 		<bean id="shippingDistancePreProcessor"
-			class="com.shopizer.modules.shipping.distance.ShippingDistancePreProcessorImpl">
-			<!-- Google API key -->
-			<property name="apiKey" value="${shippingDistancePreProcessor.apiKey}"/>
+			class="com.salesmanager.core.business.modules.integration.shipping.impl.ShippingDistancePreProcessorImpl">	
 			<property name="allowedZonesCodes" ref="acceptedZones"/>
 		</bean>
+		-->
 		
 		
 		<!-- Decides dynamicaly which method is used based on a decision table-->
@@ -52,9 +53,11 @@
 		</util:list>
 		
 		<!-- List of accepted zones for using shipping distance pre processor -->
+		<!--
 		<util:list id="acceptedZones" value-type="java.lang.String">
 			<value>QC</value>
 			<value>ON</value>
     	</util:list>
+    	-->
 	
 </beans>

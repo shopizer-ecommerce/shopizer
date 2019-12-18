@@ -1,22 +1,16 @@
 package com.salesmanager.core.business.configuration;
 
-import org.kie.api.KieServices;
-import org.kie.api.builder.KieBuilder;
-import org.kie.api.builder.KieFileSystem;
-import org.kie.api.builder.KieModule;
-import org.kie.api.runtime.KieContainer;
-import org.kie.internal.io.ResourceFactory;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
-@Configuration
+//@Configuration
 public class DroolsConfiguration {
-
+/*
   private final static String SHIPPING_CUSTOM = "rules/shipping-custom-rules.xls";
   private final static String SHIPPING_DECISION = "rules/shipping-decision-rules.xls";
   private final static String MANUFACTURER_BASED_PRICING =
       "rules/manufacturer-shipping-ordertotal-rules.xls";
-
+  
+  private static final String RULES_PATH = "com/salesmanager/drools/rules/";
+  private KieServices kieServices=KieServices.Factory.get();
+*/
 
   /**
    * Drools containers defined here TODO used a builder utility instead of repetition
@@ -27,7 +21,7 @@ public class DroolsConfiguration {
    * 
    * @return
    */
-  @Bean
+/*  @Bean
   public KieContainer kieShippingCustomContainer() {
     KieServices kieServices = KieServices.Factory.get();
 
@@ -38,9 +32,9 @@ public class DroolsConfiguration {
     KieModule kieModule = kieBuilder.getKieModule();
 
     return kieServices.newKieContainer(kieModule.getReleaseId());
-  }
+  }*/
 
-  @Bean
+/*  @Bean
   public KieContainer kieShippingDecisionContainer() {
     KieServices kieServices = KieServices.Factory.get();
 
@@ -51,9 +45,9 @@ public class DroolsConfiguration {
     KieModule kieModule = kieBuilder.getKieModule();
 
     return kieServices.newKieContainer(kieModule.getReleaseId());
-  }
+  }*/
 
-  @Bean
+/*  @Bean
   public KieContainer kieManufacturerBasedPricingContainer() {
     KieServices kieServices = KieServices.Factory.get();
 
@@ -64,6 +58,17 @@ public class DroolsConfiguration {
     KieModule kieModule = kieBuilder.getKieModule();
 
     return kieServices.newKieContainer(kieModule.getReleaseId());
-  }
+  }*/
+  
+/*  public KieFileSystem kieFileSystem() throws IOException {
+	    KieFileSystem kieFileSystem = getKieServices().newKieFileSystem();
+	        for (Resource file : getRuleFiles()) {
+	            kieFileSystem.write(
+	              ResourceFactory.newClassPathResource(
+	              RULES_PATH + file.getFilename(), "UTF-8"));
+	        }
+	        return kieFileSystem;
+	}*/
+
 
 }

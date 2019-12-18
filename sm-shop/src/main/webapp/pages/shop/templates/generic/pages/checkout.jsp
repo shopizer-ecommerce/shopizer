@@ -1073,7 +1073,7 @@ function initPayment(paymentSelection) {
 			function googleInitialize() {
 				initAutocomplete();
 				<c:if test="${shippingMetaData.useDistanceModule==true}">	
-				initMap();
+				//initMap();
 				</c:if>	
 			}
 		

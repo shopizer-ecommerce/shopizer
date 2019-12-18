@@ -42,7 +42,7 @@
 				<!-- autocomplete query -->
 				<prop key="AUTOCOMPLETE_QUERY"><![CDATA[{"size": 10,"query": {"match": {"keyword": {"query": "%s","operator":"and"}}}}]]></prop>
 				<!-- Google maps key -->
-				<prop key="shopizer.googlemaps_key">AIzaSyB9NBFBiHKJ00SpVlRB495bTktcJE3iwNA</prop>
+				<prop key="shopizer.googlemaps_key">ANO</prop>
 				<!-- #https://www.google.com/recaptcha/admin/create -->
 				<!-- to be used with localhost -->
 				<prop key="shopizer.recapatcha_public_key">6Le3DiUUAAAAAGECVhc4zwFewu8bG-6etonJNTvD</prop>

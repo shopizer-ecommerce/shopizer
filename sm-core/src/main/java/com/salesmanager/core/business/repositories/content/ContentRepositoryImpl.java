@@ -32,6 +32,7 @@ public class ContentRepositoryImpl implements ContentRepositoryCustom {
 			qs.append("where c.contentType in (:ct) ");
 			qs.append("and cm.id =:cm ");
 			qs.append("and cd.language.id =:cl ");
+			qs.append("and c.visible=true ");
 			qs.append("order by c.sortOrder");
 
 			String hql = qs.toString();
@@ -69,6 +70,7 @@ public class ContentRepositoryImpl implements ContentRepositoryCustom {
 			qs.append("select c from Content c ");
 			qs.append("left join fetch c.descriptions cd join fetch c.merchantStore cm ");
 			qs.append("where cm.id =:cm ");
+			qs.append("and c.visible =true ");
 			qs.append("and cd.seUrl =:se ");
 
 

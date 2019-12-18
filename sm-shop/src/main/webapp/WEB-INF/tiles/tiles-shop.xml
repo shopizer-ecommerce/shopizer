@@ -79,6 +79,13 @@
   		<put-attribute name="footer" value="/pages/shop/templates/generic/sections/footer.jsp" />
   	</definition>
   	
+  	<definition name="maincart.december" template="/pages/shop/templates/december/catalogLayout.jsp">
+  	  	<put-attribute name="header" value="/pages/shop/templates/december/sections/header.jsp" />
+  	  	<put-attribute name="navbar" value="/pages/shop/templates/december/sections/navbar.jsp" />
+  		<put-attribute name="body" value="/pages/shop/templates/december/pages/cart.jsp" />
+  		<put-attribute name="footer" value="/pages/shop/templates/december/sections/footer.jsp" />
+  	</definition>
+  	
   	<!-- Contact us -->
   	<definition name="contactus.*" template="/pages/shop/templates/{1}/catalogLayout.jsp">
   	  	<put-attribute name="header" value="/pages/shop/templates/{1}/sections/header.jsp" />
@@ -108,6 +115,13 @@
   		<put-attribute name="navbar" value="/pages/shop/templates/generic/sections/navbar.jsp" />
   		<put-attribute name="body" value="/pages/shop/templates/generic/pages/register.jsp" />
   		<put-attribute name="footer" value="/pages/shop/templates/generic/sections/footer.jsp" />
+  	</definition>
+  	
+  	<definition name="register.december" template="/pages/shop/templates/december/catalogLayout.jsp">
+  	  	<put-attribute name="header" value="/pages/shop/templates/generic/december/header.jsp" />
+  		<put-attribute name="navbar" value="/pages/shop/templates/generic/december/navbar.jsp" />
+  		<put-attribute name="body" value="/pages/shop/templates/december/pages/register.jsp" />
+  		<put-attribute name="footer" value="/pages/shop/templates/december/sections/footer.jsp" />
   	</definition>
   	  	
   	<definition name="customerAccount.*" template="/pages/shop/templates/{1}/catalogLayout.jsp">
@@ -168,6 +182,13 @@
   		<put-attribute name="footer" value="/pages/shop/templates/generic/sections/footer.jsp" />
   	</definition>
   	
+  	<definition name="customerLogon.december" template="/pages/shop/templates/december/catalogLayout.jsp">
+  	  	<put-attribute name="header" value="/pages/shop/templates/december/sections/header.jsp" />
+  		<put-attribute name="navbar" value="/pages/shop/templates/december/sections/navbar.jsp" />
+  		<put-attribute name="body" value="/pages/shop/templates/december/pages/logon.jsp" />
+  		<put-attribute name="footer" value="/pages/shop/templates/december/sections/footer.jsp" />
+  	</definition>
+  	
   	<!-- One page checkout -->
   	<definition name="checkout.*" template="/pages/shop/templates/{1}/catalogLayout.jsp">
   	  	<put-attribute name="header" value="/pages/shop/templates/{1}/sections/header.jsp" />
@@ -176,12 +197,19 @@
   		<put-attribute name="footer" value="/pages/shop/templates/{1}/sections/footer.jsp" />
   	</definition>
   	
-  	<!-- Checkout for generic template -->
+  	<!-- Checkout for generic and december template -->
   	<definition name="checkout.generic" template="/pages/shop/templates/generic/catalogLayout.jsp">
   	  	<put-attribute name="header" value="/pages/shop/templates/generic/sections/header.jsp" />
   		<put-attribute name="navbar" value="/pages/shop/templates/generic/sections/navbar.jsp" />
   		<put-attribute name="body" value="/pages/shop/templates/generic/pages/checkout.jsp" />
   		<put-attribute name="footer" value="/pages/shop/templates/generic/sections/footer.jsp" />
+  	</definition>
+  	
+  	<definition name="checkout.december" template="/pages/shop/templates/december/catalogLayout.jsp">
+  	  	<put-attribute name="header" value="/pages/shop/templates/december/sections/header.jsp" />
+  		<put-attribute name="navbar" value="/pages/shop/templates/december/sections/navbar.jsp" />
+  		<put-attribute name="body" value="/pages/shop/templates/december/pages/checkout.jsp" />
+  		<put-attribute name="footer" value="/pages/shop/templates/december/sections/footer.jsp" />
   	</definition>
   	
   	<definition name="confirmation.*" template="/pages/shop/templates/{1}/catalogLayout.jsp">
