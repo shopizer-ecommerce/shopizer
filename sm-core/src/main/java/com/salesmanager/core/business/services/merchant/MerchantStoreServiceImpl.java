@@ -1,5 +1,6 @@
 package com.salesmanager.core.business.services.merchant;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.inject.Inject;
@@ -100,6 +101,13 @@ public Page<MerchantStore> listAllRetailers(Optional<String> storeName, int page
 	}
 	Pageable pageRequest = new PageRequest(page, count);  
 	return pageableMerchantRepository.listAllRetailers(store, pageRequest);
+}
+
+
+@Override
+public List<MerchantStore> findAllStoreNames() throws ServiceException {
+
+	return merchantRepository.findAllStoreNames();
 }
 
 	

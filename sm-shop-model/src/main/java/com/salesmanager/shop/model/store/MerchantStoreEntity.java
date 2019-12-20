@@ -33,7 +33,7 @@ public class MerchantStoreEntity implements Serializable {
 	private boolean retailer;
 	private MeasureUnit dimension;
 	private MeasureUnit weight;
-	private List<String> supportedLanguages;
+	
 
 	public int getId() {
 		return id;
@@ -139,13 +139,6 @@ public class MerchantStoreEntity implements Serializable {
 		this.weight = weight;
 	}
 
-	public List<String> getSupportedLanguages() {
-		return supportedLanguages;
-	}
-
-	public void setSupportedLanguages(List<String> supportedLanguages) {
-		this.supportedLanguages = supportedLanguages;
-	}
 
   public boolean isRetailer() {
     return retailer;

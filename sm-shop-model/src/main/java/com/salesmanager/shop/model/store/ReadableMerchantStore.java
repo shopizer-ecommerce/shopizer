@@ -1,7 +1,9 @@
 package com.salesmanager.shop.model.store;
 
 import java.io.Serializable;
+import java.util.List;
 
+import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.content.ReadableImage;
 import com.salesmanager.shop.model.entity.ReadableAudit;
 import com.salesmanager.shop.model.entity.ReadableAuditable;
@@ -19,6 +21,7 @@ public class ReadableMerchantStore extends MerchantStoreEntity implements Readab
 	private ReadableImage logo;
 	private ReadableAudit audit;
 	private ReadableMerchantStore parent;
+	private List<Language> supportedLanguages;
 
 
 
@@ -62,6 +65,14 @@ public class ReadableMerchantStore extends MerchantStoreEntity implements Readab
   public void setParent(ReadableMerchantStore parent) {
     this.parent = parent;
   }
+
+public List<Language> getSupportedLanguages() {
+	return supportedLanguages;
+}
+
+public void setSupportedLanguages(List<Language> supportedLanguages) {
+	this.supportedLanguages = supportedLanguages;
+}
 
 
 

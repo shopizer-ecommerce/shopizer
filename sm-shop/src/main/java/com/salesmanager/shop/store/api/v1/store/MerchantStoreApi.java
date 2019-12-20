@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -14,7 +13,6 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -33,14 +31,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.common.collect.ImmutableMap;
-import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.model.common.Criteria;
 import com.salesmanager.core.model.content.FileContentType;
 import com.salesmanager.core.model.content.InputContentFile;
 import com.salesmanager.core.model.merchant.MerchantStoreCriteria;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.entity.EntityExists;
-import com.salesmanager.shop.model.entity.ListCriteria;
 import com.salesmanager.shop.model.store.PersistableBrand;
 import com.salesmanager.shop.model.store.PersistableMerchantStore;
 import com.salesmanager.shop.model.store.ReadableBrand;
@@ -136,6 +132,16 @@ public class MerchantStoreApi {
 	  MerchantStoreCriteria criteria = createMerchantStoreCriteria(page, count, request);
 
 	  return storeFacade.findAll(criteria, language, page, count);
+  }
+  
+  @ResponseStatus(HttpStatus.OK)
+  @GetMapping(value = {"/stores"}, produces = MediaType.APPLICATION_JSON_VALUE)
+  @ApiOperation(httpMethod = "GET", value = "Get list of store names. Returns all retailers and stores", notes = "",
+      response = ReadableMerchantStore.class)
+  public List<ReadableMerchantStore> get(
+		  HttpServletRequest request) {
+
+	  return storeFacade.getMerchantStoreNames();
   }
   
 

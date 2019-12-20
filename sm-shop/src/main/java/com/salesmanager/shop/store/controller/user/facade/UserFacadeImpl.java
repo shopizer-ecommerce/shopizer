@@ -374,21 +374,6 @@ public class UserFacadeImpl implements UserFacade {
 			throw new ResourceNotFoundException("User [" + id + "] not found");
 		}
 
-		boolean isActive = user.isActive();
-		
-		//user must be superadmin or admin
-
-		List<Group> originalGroups = user.getGroups();
-		Group admin = originalGroups.stream()
-				.filter(
-						group -> Constants.GROUP_SUPERADMIN.equals(group.getGroupName()) || Constants.GROUP_ADMIN.equals(group.getGroupName())
-				 ).findAny().orElse(null);
-
-		if (admin == null) {
-			if (user.getMerchantStore().getCode().equals(storeCode)) {
-				throw new UnauthorizedException("User [" + user.getAdminEmail() + " Not authorized");
-			}
-		}
 
 		return convertUserToReadableUser(lang, user);
 	}
@@ -454,9 +439,17 @@ public class UserFacadeImpl implements UserFacade {
 					.map(user -> convertUserToReadableUser(language, user)).collect(Collectors.toList());
 
 			readableUserList.setData(readableUsers);
-			readableUserList.setRecordsTotal(userList.getNumberOfElements());
+			
+/*			System.out.println(userList.getNumber());
+			System.out.println(userList.getNumberOfElements());
+			System.out.println(userList.getSize());
+			System.out.println(userList.getTotalElements());
+			System.out.println(userList.getTotalPages());
+			*/
+			
+			readableUserList.setRecordsTotal(userList.getTotalElements());
 			readableUserList.setTotalPages(userList.getTotalPages());
-			readableUserList.setNumber(userList.getNumber());
+			readableUserList.setNumber(userList.getSize());
 			readableUserList.setRecordsFiltered(userList.getSize());
 
 			return readableUserList;

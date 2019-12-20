@@ -1,5 +1,6 @@
 package com.salesmanager.shop.store.controller.store.facade;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -108,5 +109,11 @@ public interface StoreFacade {
    * @param cmsContentImage
    */
   void addStoreLogo(String code, InputContentFile cmsContentImage);
+  
+  /**
+   * Returns store id, code and name only
+   * @return
+   */
+  List<ReadableMerchantStore> getMerchantStoreNames();
 
 }

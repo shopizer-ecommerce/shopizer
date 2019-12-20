@@ -1,5 +1,6 @@
 package com.salesmanager.core.business.services.merchant;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -17,7 +18,9 @@ public interface MerchantStoreService extends SalesManagerEntityService<Integer,
 	MerchantStore getMerchantStore(String merchantStoreCode)
 			throws ServiceException;
 	
-	MerchantStore getByCode(String code) throws ServiceException ;
+	MerchantStore getByCode(String code) throws ServiceException;
+	
+	List<MerchantStore> findAllStoreNames() throws ServiceException;
 
 	Page<MerchantStore> listAll(Optional<String> storeName, int page, int count) throws ServiceException;
 	

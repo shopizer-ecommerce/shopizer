@@ -134,8 +134,7 @@ public class StoreFacadeImpl implements StoreFacade {
 		/**
 		 * Language is not important for this conversion using default language
 		 */
-		try {
-			readable = populator.populate(store, readable, store, language);
+		try {			readable = populator.populate(store, readable, store, language);
 		} catch (Exception e) {
 			throw new ConversionRuntimeException("Error while populating MerchantStore " + e.getMessage());
 		}
@@ -490,6 +489,30 @@ public class StoreFacadeImpl implements StoreFacade {
 			throw new ServiceRuntimeException("Error while finding all merchant", e);
 		}
 
+
+	}
+	
+	private ReadableMerchantStore convertStoreName(MerchantStore store) {
+		ReadableMerchantStore convert = new ReadableMerchantStore();
+		convert.setId(store.getId());
+		convert.setCode(store.getCode());
+		convert.setName(store.getStorename());
+		return convert;
+	}
+
+	@Override
+	public List<ReadableMerchantStore> getMerchantStoreNames() {
+
+		
+		try {
+			List<ReadableMerchantStore> stores = merchantStoreService.findAllStoreNames().stream()
+			.map(s -> convertStoreName(s))
+			.collect(Collectors.toList());
+			return stores;
+		} catch (ServiceException e) {
+			throw new ServiceRuntimeException("Exception while getting store name",e);
+		}
+		
 
 	}
 

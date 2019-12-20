@@ -25,4 +25,7 @@ public interface MerchantRepository extends JpaRepository<MerchantStore, Integer
 
 	@Query("SELECT COUNT(m) > 0 FROM MerchantStore m WHERE m.code = :code")
 	boolean existsByCode(String code);
+	
+	@Query("select new com.salesmanager.core.model.merchant.MerchantStore(m.id, m.code, m.storename) from MerchantStore m")
+	List<MerchantStore> findAllStoreNames();
 }

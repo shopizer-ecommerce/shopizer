@@ -44,6 +44,13 @@ public class MerchantStore extends SalesManagerEntity<Integer, MerchantStore> im
 
 
   public final static String DEFAULT_STORE = "DEFAULT";
+  
+  public MerchantStore(Integer id, String code, String name) {
+	  this.id = id;
+	  this.code = code;
+	  this.storename = name;
+	  
+  }
 
   @Id
   @Column(name = "MERCHANT_ID", unique = true, nullable = false)
