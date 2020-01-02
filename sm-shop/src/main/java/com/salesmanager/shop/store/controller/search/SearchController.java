@@ -166,7 +166,7 @@ public class SearchController {
 			}
 
 			SearchResponse resp = searchService.search(merchantStore, language, json, max, start);
-			return searchFacade.copySearchResponse(resp, merchantStore, start, max, l);
+			return searchFacade.convertToSearchProductList(resp, merchantStore, start, max, l);
 
 		} catch (Exception e) {
 			LOGGER.error("Exception occured while querying " + json,e);

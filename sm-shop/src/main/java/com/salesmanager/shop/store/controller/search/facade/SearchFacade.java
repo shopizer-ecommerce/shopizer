@@ -35,7 +35,7 @@ public interface SearchFacade {
 	 * @param searchResponse
 	 * @return
 	 */
-	public SearchProductList copySearchResponse(SearchResponse searchResponse, MerchantStore store, int start, int count, Language language) throws Exception;
+	public SearchProductList convertToSearchProductList(SearchResponse searchResponse, MerchantStore store, int start, int count, Language language) throws Exception;
 
 	/**
 	 * List of keywords / autocompletes for a given word being typed
