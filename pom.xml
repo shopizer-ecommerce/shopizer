@@ -51,7 +51,7 @@
     <!-- requires spring 5 -->
     <!-- <spring-vault-core-version>2.1.3.RELEASE</spring-vault-core-version> -->
     <!--java utils-->
-    <guava.version>20.0</guava.version>
+    <guava.version>27.1-jre</guava.version>
     <commons-lang.version>3.5</commons-lang.version>
     <commons-io.version>2.5</commons-io.version>
     <commons-collections4.version>4.0</commons-collections4.version>
@@ -126,12 +126,6 @@
         <groupId>javax.inject</groupId>
         <artifactId>javax.inject</artifactId>
         <version>${javax.inject.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>com.google.guava</groupId>
-        <artifactId>guava</artifactId>
-        <version>${guava.version}</version>
       </dependency>
 
       <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
@@ -420,7 +414,7 @@
       <dependency>
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
-        <version>27.1-jre</version>
+        <version>${guava.version}</version>
       </dependency>
 
       <dependency>

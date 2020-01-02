@@ -36,11 +36,6 @@
       <artifactId>sm-core-modules</artifactId>
     </dependency>
 
-    <dependency>
-      <groupId>javax.mail</groupId>
-      <artifactId>javax.mail-api</artifactId>
-    </dependency>
-
     <!-- canadapost -->
     <dependency>
       <groupId>com.shopizer</groupId>
