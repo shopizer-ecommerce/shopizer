@@ -1,9 +1,11 @@
 package com.salesmanager.shop.store.controller.search.facade;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
 import org.apache.commons.collections4.CollectionUtils;
@@ -45,29 +47,29 @@ import com.salesmanager.shop.utils.ImageFilePath;
 
 @Service("searchFacade")
 public class SearchFacadeImpl implements SearchFacade {
-  
+
     private static final Logger LOGGER = LoggerFactory.getLogger(SearchFacadeImpl.class);
-	
+
 	@Inject
 	private SearchService searchService;
-	
+
 	@Inject
 	private ProductService productService;
-	
+
 	@Inject
 	private CategoryService categoryService;
-	
+
 	@Inject
 	private PricingService pricingService;
-	
+
 	@Inject
 	@Qualifier("img")
 	private ImageFilePath imageUtils;
-	
+
 	@Inject
 	private CoreConfiguration coreConfiguration;
 
-    
+
 	private final static String CATEGORY_FACET_NAME = "categories";
 	private final static String MANUFACTURER_FACET_NAME = "manufacturer";
 	private final static int AUTOCOMPLETE_ENTRIES_COUNT = 15;
@@ -80,55 +82,50 @@ public class SearchFacadeImpl implements SearchFacade {
 	@Override
 	@Async
 	public void indexAllData(MerchantStore store) throws Exception {
-		
-		
 		List<Product> products = productService.listByStore(store);
-		
+
 		for(Product product : products) {
 			searchService.index(store, product);
 		}
-		
+
 	}
 
 	@Override
 	public SearchProductList search(MerchantStore store, Language language, SearchProductRequest searchRequest) {
 		String query = String.format(coreConfiguration.getProperty("SEARCH_QUERY"), searchRequest.getQuery());
 		SearchResponse response = search(store, language.getCode(), query, searchRequest.getCount(), searchRequest.getStart());
-		return copySearchResponse(response, store, searchRequest.getStart(), searchRequest.getCount(), language);
+		return convertToSearchProductList(response, store, searchRequest.getStart(), searchRequest.getCount(), language);
 	}
 
   private SearchResponse search(
       MerchantStore store, String languageCode, String query, Integer count, Integer start) {
-	  try{
-	    LOGGER.debug("Search " + query);
-        return searchService.search(store, languageCode, query, count, start);
-    } catch (ServiceException e){
-	    throw new ServiceRuntimeException(e);
+    try {
+      LOGGER.debug("Search " + query);
+      return searchService.search(store, languageCode, query, count, start);
+    } catch (ServiceException e) {
+      throw new ServiceRuntimeException(e);
     }
   }
 
   @Override
-	public SearchProductList copySearchResponse(SearchResponse searchResponse, MerchantStore merchantStore, int start, int count, Language language) {
-		
+	public SearchProductList convertToSearchProductList(SearchResponse searchResponse, MerchantStore merchantStore, int start, int count, Language language) {
+
 		SearchProductList returnList = new SearchProductList();
 		List<SearchEntry> entries = searchResponse.getEntries();
-		
-		if(!CollectionUtils.isEmpty(entries)) {
-			List<Long> ids = new ArrayList<Long>();
-			for(SearchEntry entry : entries) {
-				IndexProduct indexedProduct = entry.getIndexProduct();
-				Long id = Long.parseLong(indexedProduct.getId());
-				
-				//No highlights	
-				ids.add(id);
-			}
-			
+
+		if(CollectionUtils.isNotEmpty(entries)) {
+      List<Long> ids =  entries.stream()
+          .map(SearchEntry::getIndexProduct)
+          .map(IndexProduct::getId)
+          .map(Long::parseLong)
+          .collect(Collectors.toList());
+
 			ProductCriteria searchCriteria = new ProductCriteria();
 			searchCriteria.setMaxCount(count);
 			searchCriteria.setStartIndex(start);
 			searchCriteria.setProductIds(ids);
 			searchCriteria.setAvailable(true);
-			
+
 			ProductList productList = productService.listByStore(merchantStore, language, searchCriteria);
 
       List<ReadableProduct> readableProducts = productList.getProducts()
@@ -139,51 +136,56 @@ public class SearchFacadeImpl implements SearchFacade {
       returnList.getProducts().addAll(readableProducts);
 			returnList.setProductCount(productList.getProducts().size());
 		}
-		
-		//Facets
-		Map<String,List<SearchFacet>> facets = searchResponse.getFacets();
-		List<SearchFacet> categoriesFacets = null;
-		List<SearchFacet> manufacturersFacets = null;
-		if(facets!=null) {
-			for(String key : facets.keySet()) {
-				//supports category and manufacturer
-				if(CATEGORY_FACET_NAME.equals(key)) {
-					categoriesFacets = facets.get(key);
-				}
-				
-				if(MANUFACTURER_FACET_NAME.equals(key)) {
-					manufacturersFacets = facets.get(key);
-				}
-			}
-			
-			
-			if(!CollectionUtils.isEmpty(categoriesFacets)) {
-				List<String> categoryCodes = new ArrayList<String>();
-				Map<String,Long> productCategoryCount = new HashMap<String,Long>();
-				for(SearchFacet facet : categoriesFacets) {
-					categoryCodes.add(facet.getName());
-					productCategoryCount.put(facet.getKey(), facet.getCount());
-				}
-				
-				List<Category> categories = categoryService.listByCodes(merchantStore, categoryCodes, language);
-                List<ReadableCategory> categoryProxies = categories
-                    .stream()
-                    .map(category -> convertCategoryToReadableCategory(merchantStore, language,
-                        productCategoryCount, category))
-                    .collect(Collectors.toList());
-				returnList.setCategoryFacets(categoryProxies);
-			}
-			
-			//todo manufacturer facets
-			if(manufacturersFacets!=null) {
-				
-			}
-			
-			
-		}
-		
-		return returnList;
+
+    // Facets
+    Map<String, List<SearchFacet>> facets =
+        Optional.ofNullable(searchResponse.getFacets()).orElse(Collections.emptyMap());
+
+    List<ReadableCategory> categoryProxies = getCategoryFacets(merchantStore, language, facets);
+    returnList.setCategoryFacets(categoryProxies);
+
+    List<SearchFacet> manufacturersFacets = facets.entrySet().stream()
+        .filter(e -> MANUFACTURER_FACET_NAME.equals(e.getKey()))
+        .findFirst()
+        .map(Entry::getValue)
+        .orElse(Collections.emptyList());
+
+    if (CollectionUtils.isNotEmpty(manufacturersFacets)) {
+      // TODO add manufacturer facets
+    }
+    return returnList;
 	}
+
+  private List<ReadableCategory> getCategoryFacets(
+      MerchantStore merchantStore, Language language, Map<String, List<SearchFacet>> facets) {
+    List<SearchFacet> categoriesFacets =
+        facets.entrySet().stream()
+            .filter(e -> CATEGORY_FACET_NAME.equals(e.getKey()))
+            .findFirst()
+            .map(Entry::getValue)
+            .orElse(Collections.emptyList());
+
+    if (CollectionUtils.isNotEmpty(categoriesFacets)) {
+
+      List<String> categoryCodes =
+          categoriesFacets.stream().map(SearchFacet::getName).collect(Collectors.toList());
+
+      Map<String, Long> productCategoryCount =
+          categoriesFacets.stream()
+              .collect(Collectors.toMap(SearchFacet::getKey, SearchFacet::getCount));
+
+      List<Category> categories =
+          categoryService.listByCodes(merchantStore, categoryCodes, language);
+      return categories.stream()
+              .map(
+                  category ->
+                      convertCategoryToReadableCategory(
+                          merchantStore, language, productCategoryCount, category))
+              .collect(Collectors.toList());
+    } else {
+      return Collections.emptyList();
+    }
+  }
 
   private ReadableCategory convertCategoryToReadableCategory(MerchantStore merchantStore,
       Language language, Map<String, Long> productCategoryCount, Category category) {
@@ -220,23 +222,20 @@ public class SearchFacadeImpl implements SearchFacade {
 		String formattedQuery = String.format(coreConfiguration.getProperty("AUTOCOMPLETE_QUERY"), query);
 
 		/** formatted toJSONString because of te specific field names required in the UI **/
-		
+
     SearchKeywords keywords = getSearchKeywords(req, formattedQuery);
     ValueList returnList = new ValueList();
-
 		returnList.setValues(keywords.getKeywords());
 		return returnList;
 	}
 
   private SearchKeywords getSearchKeywords(AutoCompleteRequest req, String query) {
-	try{
-	  LOGGER.debug("Search auto comlete " + query);
-      return searchService.searchForKeywords(req.getCollectionName(), query, AUTOCOMPLETE_ENTRIES_COUNT);
+    try {
+      LOGGER.debug("Search auto comlete " + query);
+      return searchService.searchForKeywords(
+          req.getCollectionName(), query, AUTOCOMPLETE_ENTRIES_COUNT);
     } catch (ServiceException e) {
-	    throw new ServiceRuntimeException(e);
+      throw new ServiceRuntimeException(e);
     }
-
   }
-
-
 }
