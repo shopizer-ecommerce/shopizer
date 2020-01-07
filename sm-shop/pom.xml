@@ -1,265 +1,216 @@
 <?xml version="1.0"?>
 
 <project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<modelVersion>4.0.0</modelVersion>
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-		<groupId>com.shopizer</groupId>
-		<artifactId>shopizer</artifactId>
-		<version>2.9.0</version>
-	</parent>
+  <parent>
+    <groupId>com.shopizer</groupId>
+    <artifactId>shopizer</artifactId>
+    <version>2.9.0</version>
+  </parent>
 
-	<artifactId>sm-shop</artifactId>
-	<name>sm-shop</name>
-	<url>http://www.shopizer.com</url>
+  <artifactId>sm-shop</artifactId>
+  <name>sm-shop</name>
+  <url>http://www.shopizer.com</url>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<main.basedir>${basedir}/../..</main.basedir>
-		<m2eclipse.wtp.contextRoot>/</m2eclipse.wtp.contextRoot>
-		<jwt.version>0.8.0</jwt.version>
-		<!-- Need to use the latest milestone in order to logon with latest FB 
-			app version -->
-		<spring-social-facebook.version>3.0.0.M3</spring-social-facebook.version>
-		<guava.version>20.0</guava.version>
-		<coverage.lines>.04</coverage.lines>
-        <coverage.branches>.01</coverage.branches>
-        <org.mapstruct.version>1.3.0.Final</org.mapstruct.version>
-        <!-- api documentation -->
-		<swagger.version>2.9.2</swagger.version>
-	</properties>
+  <properties>
+    <main.basedir>${basedir}/../..</main.basedir>
+    <coverage.lines>.04</coverage.lines>
+    <coverage.branches>.01</coverage.branches>
+  </properties>
 
-	<dependencies>
-	
-		<!-- sm-core -->
- 		<dependency>
-			<groupId>com.shopizer</groupId>
-			<artifactId>sm-core</artifactId>
-			<version>${shopizer.version}</version>
-		</dependency>
+  <dependencies>
 
+    <!-- sm-core -->
+    <dependency>
+      <groupId>com.shopizer</groupId>
+      <artifactId>sm-core</artifactId>
+    </dependency>
 
-		<!-- sm-core-model -->
-		<dependency>
-			<groupId>com.shopizer</groupId>
-			<artifactId>sm-core-model</artifactId>
-			<version>${shopizer.version}</version>
-		</dependency>
-		
-		<!-- sm-shop-model -->
-		<dependency>
-			<groupId>com.shopizer</groupId>
-			<artifactId>sm-shop-model</artifactId>
-			<version>${shopizer.version}</version>
-		</dependency>
+    <!-- sm-core-model -->
+    <dependency>
+      <groupId>com.shopizer</groupId>
+      <artifactId>sm-core-model</artifactId>
+    </dependency>
 
+    <!-- sm-shop-model -->
+    <dependency>
+      <groupId>com.shopizer</groupId>
+      <artifactId>sm-shop-model</artifactId>
+    </dependency>
 
-		<!-- sm-search -->
-		<dependency>
-			<groupId>com.shopizer</groupId>
-			<artifactId>sm-search</artifactId>
-			<version>${shopizer.search.version}</version>
-		</dependency>
+    <!-- sm-search -->
+    <dependency>
+      <groupId>com.shopizer</groupId>
+      <artifactId>sm-search</artifactId>
+    </dependency>
 
-    	<!--  Spring boot  -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-			<scope>provided</scope>
-        </dependency>
+    <!--  Spring boot  -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+      <scope>provided</scope>
+    </dependency>
 
- 		<dependency>
-	        <groupId>org.springframework.boot</groupId>
-	        <artifactId>spring-boot-starter-security</artifactId>
-	    </dependency>
-	    
-	    <dependency>
-        	<groupId>org.springframework.boot</groupId>
-        	<artifactId>spring-boot-starter-aop</artifactId>
-    	</dependency>
-    	
-    	<!-- Only for hot deploy, remove in prod
-    		Seems to break drools too
-    	 -->
-    	 <!--
-    	<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <optional>true</optional>
-        </dependency>
-        -->
-	    
-	    <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>${guava.version}</version>
-        </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
+    </dependency>
 
-	    
- 	    <dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-		</dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-aop</artifactId>
+    </dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.apache.tomcat.embed</groupId>
-			<artifactId>tomcat-embed-jasper</artifactId>
-			<scope>provided</scope>
-		</dependency>
-	    
-	    <dependency>
-    		<groupId>org.springframework.security</groupId>
-    		<artifactId>spring-security-taglibs</artifactId>
-		</dependency>
-		
-		
-		<!-- enables spring social -->
-		<!-- https://mvnrepository.com/artifact/org.springframework.social/spring-social-config -->
-		<dependency>
-		    <groupId>org.springframework.social</groupId>
-		    <artifactId>spring-social-config</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.springframework.social</groupId>
-			<artifactId>spring-social-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.social</groupId>
-			<artifactId>spring-social-security</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.social</groupId>
-			<artifactId>spring-social-web</artifactId>
-		</dependency>
+    <!-- Only for hot deploy, remove in prod
+      Seems to break drools too
+     -->
+    <!--
+   <dependency>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-devtools</artifactId>
+         <optional>true</optional>
+     </dependency>
+     -->
 
-		
-		<!-- Enables login with facebook, for now it is using milestone -->
-		<dependency>
-    		<groupId>org.springframework.social</groupId>
-    		<artifactId>spring-social-facebook</artifactId>
-    		<version>${spring-social-facebook.version}</version>
-		</dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <!--<version>${guava.version}</version>-->
+    </dependency>
 
 
-		<dependency>
-			<groupId>org.springframework.mobile</groupId>
-			<artifactId>spring-mobile-device</artifactId>
-		</dependency>
-		
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jstl</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-tomcat</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.tomcat.embed</groupId>
+      <artifactId>tomcat-embed-jasper</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-taglibs</artifactId>
+    </dependency>
+
+    <!-- enables spring social -->
+    <!-- https://mvnrepository.com/artifact/org.springframework.social/spring-social-config -->
+    <dependency>
+      <groupId>org.springframework.social</groupId>
+      <artifactId>spring-social-config</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.social</groupId>
+      <artifactId>spring-social-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.social</groupId>
+      <artifactId>spring-social-security</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.social</groupId>
+      <artifactId>spring-social-web</artifactId>
+    </dependency>
 
 
-		
-		<!-- Add Apache Tiles into the mix -->
-        <dependency>
-            <groupId>org.apache.tiles</groupId>
-            <artifactId>tiles-jsp</artifactId>
-            <version>3.0.4</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>servlet-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        
-        <!-- Mapstruct -->
-        <dependency>
-			<groupId>org.mapstruct</groupId>
-			<artifactId>mapstruct</artifactId>
-			<version>${org.mapstruct.version}</version>
-		</dependency>	
+    <!-- Enables login with facebook, for now it is using milestone -->
+    <dependency>
+      <groupId>org.springframework.social</groupId>
+      <artifactId>spring-social-facebook</artifactId>
+      <version>${spring-social-facebook.version}</version>
+    </dependency>
 
+    <dependency>
+      <groupId>org.springframework.mobile</groupId>
+      <artifactId>spring-mobile-device</artifactId>
+    </dependency>
 
-        <!-- H2 session -->
-        <dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-		</dependency>	
-		
-		<dependency>
-			<groupId>org.glassfish.web</groupId>
-			<artifactId>jstl-impl</artifactId>
-			<version>1.2</version>
-			<exclusions>
-				<exclusion>
-					<groupId>javax.servlet</groupId>
-					<artifactId>servlet-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.servlet.jsp</groupId>
-					<artifactId>jsp-api</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>${jwt.version}</version>
-        </dependency>
-        <!-- Swagger 2 documentation -->	
-        <dependency>
-		    <groupId>io.springfox</groupId>
-		    <artifactId>springfox-swagger2</artifactId>
-		    <version>${swagger.version}</version>
-		</dependency>
-		<dependency>
-		    <groupId>io.springfox</groupId>
-		    <artifactId>springfox-swagger-ui</artifactId>
-		    <version>${swagger.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
-	
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-			</plugin>
-			 <plugin>
-                <groupId>com.github.spotbugs</groupId>
-                <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>3.1.8</version>
-            </plugin>
-            <!-- map struct plugin -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.5.1</version> <!-- or newer version -->
-				<configuration>
-					<source>1.8</source> <!-- depending on your project -->
-					<target>1.8</target> <!-- depending on your project -->
-					<annotationProcessorPaths>
-						<path>
-							<groupId>org.mapstruct</groupId>
-							<artifactId>mapstruct-processor</artifactId>
-							<version>${org.mapstruct.version}</version>
-						</path>
-						<!-- other annotation processors -->
-					</annotationProcessorPaths>
-				</configuration>
-			</plugin>
-		</plugins>
-		<finalName>ROOT</finalName>
-	</build>
+    <!-- Add Apache Tiles into the mix -->
+    <dependency>
+      <groupId>org.apache.tiles</groupId>
+      <artifactId>tiles-jsp</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>javax.servlet</groupId>
+          <artifactId>servlet-api</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
 
-	<packaging>war</packaging>
+    <!-- Mapstruct -->
+    <dependency>
+      <groupId>org.mapstruct</groupId>
+      <artifactId>mapstruct</artifactId>
+      <!--<version>${org.mapstruct.version}</version>-->
+    </dependency>
+
+    <!-- H2 session -->
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.glassfish.web</groupId>
+      <artifactId>jstl-impl</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>javax.servlet</groupId>
+          <artifactId>servlet-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>javax.servlet.jsp</groupId>
+          <artifactId>jsp-api</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>io.jsonwebtoken</groupId>
+      <artifactId>jjwt</artifactId>
+      <!--<version>${jwt.version}</version>-->
+    </dependency>
+
+    <!-- Swagger 2 documentation -->
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger2</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger-ui</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+    <finalName>ROOT</finalName>
+  </build>
+
+  <packaging>war</packaging>
 </project>
