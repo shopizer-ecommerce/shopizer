@@ -40,6 +40,7 @@ public interface ProductService extends SalesManagerEntityService<Long, Product>
 
 	Product getBySeUrl(MerchantStore store, String seUrl, Locale locale);
 
+	Product getProductWithOnlyMerchantStoreById(Long productId);
 	/**
 	 * Get a product by sku (code) field  and the language
 	 * @param productCode

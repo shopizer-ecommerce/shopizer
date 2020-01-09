@@ -113,6 +113,11 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 	public Product getById(Long productId) {
 		return productRepository.getById(productId);
 	}
+
+	@Override
+	public Product getProductWithOnlyMerchantStoreById(Long productId) {
+		return productRepository.getProductWithOnlyMerchantStoreById(productId);
+	}
 	
 	@Override
 	public List<Product> getProducts(List<Long> categoryIds, Language language) throws ServiceException {
