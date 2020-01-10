@@ -229,7 +229,9 @@ public class CustomerPopulator extends
 			}
 			
 			if(target.getDefaultLanguage()==null) {
-				Language lang = languageService.getByCode(source.getLanguage());
+				Language lang = source.getLanguage() == null ?
+						null : languageService.getByCode(source.getLanguage());
+				
 				if(lang==null) {
 					lang = store.getDefaultLanguage();
 				}
