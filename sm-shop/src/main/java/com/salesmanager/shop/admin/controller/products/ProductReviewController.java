@@ -102,7 +102,7 @@ public class ProductReviewController {
 		
 		try {
 
-			product = productService.getById(productId);
+			product = productService.getProductWithOnlyMerchantStoreById(productId);
 
 			
 			if(product==null) {

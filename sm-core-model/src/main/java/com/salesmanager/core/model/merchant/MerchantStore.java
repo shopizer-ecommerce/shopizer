@@ -40,24 +40,26 @@ import com.salesmanager.core.utils.CloneUtils;
 @Entity
 @Table(name = "MERCHANT_STORE", schema = SchemaConstant.SALESMANAGER_SCHEMA)
 public class MerchantStore extends SalesManagerEntity<Integer, MerchantStore> implements Auditable {
-	private static final long serialVersionUID = 1L;
 
-	public final static String DEFAULT_STORE = "DEFAULT";
+  private static final long serialVersionUID = 1L;
+
+  public final static String DEFAULT_STORE = "DEFAULT";
+  
+  public MerchantStore(Integer id, String code, String name) {
+	  this.id = id;
+	  this.code = code;
+	  this.storename = name;
+	  
+  }
+
+  public MerchantStore(Integer id, String code, String name, String storeEmailAddress) {
+    this.id = id;
+    this.code = code;
+    this.storename = name;
+    this.storeEmailAddress = storeEmailAddress;
+  }
 
 
-	public MerchantStore(Integer id, String code, String name) {
-		this.id = id;
-		this.code = code;
-		this.storename = name;
-
-	}
-
-	public MerchantStore(Integer id, String code, String name, String storeEmailAddress) {
-		this.id = id;
-		this.code = code;
-		this.storename = name;
-		this.storeEmailAddress = storeEmailAddress;
-	}
 
 	@Id
 	@Column(name = "MERCHANT_ID", unique = true, nullable = false)
