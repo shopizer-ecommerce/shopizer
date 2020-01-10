@@ -11,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -24,7 +25,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 
 @Entity
 @EntityListeners(value = AuditListener.class)
-@Table(name = "LANGUAGE", schema = SchemaConstant.SALESMANAGER_SCHEMA)
+@Table(name = "LANGUAGE", schema = SchemaConstant.SALESMANAGER_SCHEMA, indexes = { @Index(name="CODE_IDX", columnList = "CODE")})
 @Cacheable
 public class Language extends SalesManagerEntity<Integer, Language> implements Auditable {
   private static final long serialVersionUID = -7676627812941330669L;
