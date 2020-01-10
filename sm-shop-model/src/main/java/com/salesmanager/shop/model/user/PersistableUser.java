@@ -7,6 +7,7 @@ import com.salesmanager.shop.model.security.PersistableGroup;
 public class PersistableUser extends UserEntity {
 
   private String password;
+  private String store;
 
   /**
    * 
@@ -30,5 +31,13 @@ public class PersistableUser extends UserEntity {
   public void setGroups(List<PersistableGroup> groups) {
     this.groups = groups;
   }
+
+public String getStore() {
+	return store;
+}
+
+public void setStore(String store) {
+	this.store = store;
+}
 
 }

@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.services.merchant.MerchantStoreService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.business.services.user.GroupService;
 import com.salesmanager.core.business.utils.AbstractDataPopulator;
@@ -29,6 +30,9 @@ public class PersistableUserPopulator extends AbstractDataPopulator<PersistableU
   
   @Inject
   private GroupService groupService;
+  
+  @Inject
+  private MerchantStoreService merchantStoreService;
   
   @Inject
   @Named("passwordEncoder")
@@ -51,6 +55,19 @@ public class PersistableUserPopulator extends AbstractDataPopulator<PersistableU
     if(!StringUtils.isBlank(source.getPassword())) {
       target.setAdminPassword(passwordEncoder.encode(source.getPassword()));
     }
+    
+    if(!StringUtils.isBlank(source.getStore())) {
+        try {
+			MerchantStore userStore = merchantStoreService.getByCode(source.getStore());
+			target.setMerchantStore(userStore);
+		} catch (ServiceException e) {
+			throw new ConversionException("Error while reading MerchantStore store [" + source.getStore() + "]",e);
+		}
+    } else {
+    	target.setMerchantStore(store);
+    }
+    
+    
     target.setActive(source.isActive());
     
     Language lang = null;
@@ -62,8 +79,6 @@ public class PersistableUserPopulator extends AbstractDataPopulator<PersistableU
 
     // set default language
     target.setDefaultLanguage(lang);
-
-    target.setMerchantStore(store);
 
     List<Group> userGroups = new ArrayList<Group>();
     List<String> names = new ArrayList<String>();

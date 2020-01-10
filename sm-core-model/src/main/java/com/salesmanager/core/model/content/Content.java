@@ -15,6 +15,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -34,8 +35,9 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 
 @Entity
 @EntityListeners(value = AuditListener.class)
-@Table(name = "CONTENT", schema= SchemaConstant.SALESMANAGER_SCHEMA,uniqueConstraints=
-    @UniqueConstraint(columnNames = {"MERCHANT_ID", "CODE"}) )
+@Table(name = "CONTENT", schema= SchemaConstant.SALESMANAGER_SCHEMA,
+indexes = { @Index(name="CODE_IDX", columnList = "CODE")},
+	uniqueConstraints = @UniqueConstraint(columnNames = {"MERCHANT_ID", "CODE"}) )
 public class Content extends SalesManagerEntity<Long, Content> implements Serializable {
 
 	

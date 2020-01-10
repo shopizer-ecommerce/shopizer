@@ -1,5 +1,6 @@
 package com.salesmanager.shop.populator.store;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -25,6 +26,7 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.reference.zone.Zone;
 import com.salesmanager.shop.model.references.PersistableAddress;
 import com.salesmanager.shop.model.store.PersistableMerchantStore;
+import com.salesmanager.shop.utils.DateUtil;
 
 @Component
 public class PersistableMerchantStorePopulator extends AbstractDataPopulator<PersistableMerchantStore, MerchantStore> {
@@ -55,7 +57,16 @@ public class PersistableMerchantStorePopulator extends AbstractDataPopulator<Per
 		if(source.getId()!=0) {
 			target.setId(source.getId());
 		}
-		target.setDateBusinessSince(source.getInBusinessSince());
+		
+		if(!StringUtils.isEmpty(source.getInBusinessSince())) {
+			try {
+				Date dt = DateUtil.getDate(source.getInBusinessSince());
+				target.setInBusinessSince(dt);
+			} catch(Exception e) {
+				throw new ConversionException("Cannot parse date [" + source.getInBusinessSince() + "]",e);
+			}
+		}
+
 		if(source.getDimension()!=null) {
 		  target.setSeizeunitcode(source.getDimension().name());
 		}

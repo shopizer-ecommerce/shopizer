@@ -123,13 +123,8 @@ public class ContentApi {
       @ApiIgnore Language language) {
 
 
-    ReadableContentPage page = null;
-    try {
-      page = contentFacade.getContentPage(code, merchantStore, language);
-    } catch (ResourceNotFoundException e) {
-      LOGGER.debug("Resource not found [" + code + "] for store [" + merchantStore + "]");
-    }
-    return page;
+      return contentFacade.getContentPage(code, merchantStore, language);
+
   }
   
   @GetMapping(value = "/private/content/any/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -143,7 +138,9 @@ public class ContentApi {
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language) {
 
-    return contentFacade.getContent(code, merchantStore, language);
+
+	      return contentFacade.getContent(code, merchantStore, language);
+ 
 
   }
   

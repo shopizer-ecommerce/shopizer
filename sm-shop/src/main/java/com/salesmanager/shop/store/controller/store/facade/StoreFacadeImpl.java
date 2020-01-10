@@ -468,6 +468,7 @@ public class StoreFacadeImpl implements StoreFacade {
 			if(criteria.isRetailers()) {
 				stores = merchantStoreService.listAllRetailers(name, page, count);
 			} else {
+
 				stores = merchantStoreService.listAll(name, page, count);
 			}
 
@@ -478,12 +479,11 @@ public class StoreFacadeImpl implements StoreFacade {
 					readableStores.add(convertMerchantStoreToReadableMerchantStore(language, store));
 			}
 			readableList.setData(readableStores);
-			readableList.setRecordsFiltered(stores.getSize());
-			readableList.setTotalPages(stores.getTotalPages());
 			readableList.setRecordsTotal(stores.getTotalElements());
+			readableList.setTotalPages(stores.getTotalPages());
 			readableList.setNumber(stores.getSize());
-			
-			return readableList;
+			readableList.setRecordsFiltered(stores.getSize());
+						return readableList;
 
 		} catch (ServiceException e) {
 			throw new ServiceRuntimeException("Error while finding all merchant", e);

@@ -13,12 +13,11 @@ import com.salesmanager.core.model.tax.taxclass.TaxClass;
 
 public interface ProductRepositoryCustom {
 	
-	
-	
-	
 
 		ProductList listByStore(MerchantStore store, Language language,
 			ProductCriteria criteria);
+		
+		Product getProductWithOnlyMerchantStoreById(Long productId);
 		
 		 Product getByFriendlyUrl(MerchantStore store,String seUrl, Locale locale);
 

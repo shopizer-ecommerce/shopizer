@@ -29,6 +29,8 @@ public interface MerchantStoreService extends SalesManagerEntityService<Integer,
 	Page<MerchantStore> listChildren(String code, int page, int count) throws ServiceException;
 
 	boolean existByCode(String code);
+	
+	List<MerchantStore> findAllStoreCodeNameEmail() throws ServiceException;
 
 	void saveOrUpdate(MerchantStore store) throws ServiceException;
 	

@@ -102,6 +102,11 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 	}
 	
 	@Override
+	public Product getProductWithOnlyMerchantStoreById(Long productId) {
+		return productRepository.getProductWithOnlyMerchantStoreById(productId);
+	}
+	
+	@Override
 	public List<Product> getProducts(List<Long> categoryIds) throws ServiceException {
 		
 		@SuppressWarnings({ "unchecked", "rawtypes" })

@@ -41,9 +41,6 @@ public class ReferencesApi {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ReferencesApi.class);
 
-  @Inject private LanguageService languageService;
-
-  @Inject private CountryService countryService;
 
   @Inject private StoreFacade storeFacade;
 

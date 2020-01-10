@@ -27,6 +27,13 @@ public interface ProductService extends SalesManagerEntityService<Long, Product>
 	List<Product> getProductsForLocale(Category category, Language language, Locale locale) throws ServiceException;
 
 	List<Product> getProducts(List<Long> categoryIds) throws ServiceException;
+	
+	/**
+	 * Get a product with only MerchantStore object
+	 * @param productId
+	 * @return
+	 */
+	Product getProductWithOnlyMerchantStoreById(Long productId);
 
 	ProductList listByStore(MerchantStore store, Language language,
 			ProductCriteria criteria);
