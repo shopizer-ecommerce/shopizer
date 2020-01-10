@@ -110,8 +110,12 @@ public List<MerchantStore> findAllStoreNames() throws ServiceException {
 	return merchantRepository.findAllStoreNames();
 }
 
-	
-/*	@Override
+	@Override
+	public List<MerchantStore> findAllStoreCodeNameEmail() throws ServiceException {
+		return merchantRepository.findAllStoreCodeNameEmail();
+	}
+
+	/*	@Override
 	public void delete(MerchantStore merchant) throws ServiceException {
 		
 		merchant = this.getById(merchant.getId());

@@ -28,4 +28,7 @@ public interface MerchantRepository extends JpaRepository<MerchantStore, Integer
 	
 	@Query("select new com.salesmanager.core.model.merchant.MerchantStore(m.id, m.code, m.storename) from MerchantStore m")
 	List<MerchantStore> findAllStoreNames();
+
+	@Query("select new com.salesmanager.core.model.merchant.MerchantStore(m.id, m.code, m.storename, m.storeEmailAddress) from MerchantStore m")
+	List<MerchantStore> findAllStoreCodeNameEmail();
 }
