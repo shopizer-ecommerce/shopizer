@@ -5,10 +5,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-import javax.persistence.EntityManager;
-import javax.persistence.NonUniqueResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.*;
+
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -40,7 +38,23 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 	  return this.get(productId, null);
 	}
 
-	    private Product get(Long productId, MerchantStore merchant) {
+	@Override
+	public Product getProductWithOnlyMerchantStoreById(Long productId) {
+		final String hql = "select distinct p from Product as p " +
+				"join fetch p.merchantStore merch " +
+				"where p.id=:pid";
+
+		final Query q = this.em.createQuery(hql);
+		q.setParameter("pid", productId);
+
+		try {
+			return (Product)q.getSingleResult();
+		} catch (NoResultException ignored) {
+			return null;
+		}
+  }
+
+	private Product get(Long productId, MerchantStore merchant) {
 	        
 	        try {
 
