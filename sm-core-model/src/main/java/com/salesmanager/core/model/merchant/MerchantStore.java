@@ -52,6 +52,13 @@ public class MerchantStore extends SalesManagerEntity<Integer, MerchantStore> im
 	  
   }
 
+  public MerchantStore(Integer id, String code, String name, String storeEmailAddress) {
+    this.id = id;
+    this.code = code;
+    this.storename = name;
+    this.storeEmailAddress = storeEmailAddress;
+  }
+
   @Id
   @Column(name = "MERCHANT_ID", unique = true, nullable = false)
   @TableGenerator(name = "TABLE_GEN", table = "SM_SEQUENCER", pkColumnName = "SEQ_NAME",

@@ -22,6 +22,8 @@ public interface MerchantStoreService extends SalesManagerEntityService<Integer,
 	
 	List<MerchantStore> findAllStoreNames() throws ServiceException;
 
+	List<MerchantStore> findAllStoreCodeNameEmail() throws ServiceException;
+
 	Page<MerchantStore> listAll(Optional<String> storeName, int page, int count) throws ServiceException;
 	
 	Page<MerchantStore> listAllRetailers(Optional<String> storeName, int page, int count) throws ServiceException;

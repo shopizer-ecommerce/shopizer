@@ -104,7 +104,7 @@ public class MerchantStoreController {
 
 		try {
 
-			List<MerchantStore> stores = merchantStoreService.list();
+			List<MerchantStore> stores = merchantStoreService.findAllStoreCodeNameEmail();
 
 			for (MerchantStore store : stores) {
 
