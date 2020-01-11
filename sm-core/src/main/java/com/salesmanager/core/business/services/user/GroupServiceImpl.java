@@ -58,5 +58,9 @@ public class GroupServiceImpl extends SalesManagerEntityServiceImpl<Integer, Gro
     return groupRepository.findByNames(names);
   }
 
+  @Override
+  public List<Group> findAllGroupNameType() throws ServiceException {
+    return groupRepository.findAllGroupNameType();
+  }
 
 }

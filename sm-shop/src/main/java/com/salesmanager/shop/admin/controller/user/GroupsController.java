@@ -254,7 +254,7 @@ public class GroupsController {
 		AjaxResponse resp = new AjaxResponse();
 		try {
 
-				List<Group> groups = groupService.list();
+				List<Group> groups = groupService.findAllGroupNameType();
 
 				for(Group group : groups) {
 					Map entry = new HashMap();

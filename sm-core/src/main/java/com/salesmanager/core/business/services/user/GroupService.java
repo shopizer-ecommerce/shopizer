@@ -15,6 +15,7 @@ public interface GroupService extends SalesManagerEntityService<Integer, Group> 
 	List<Group> listGroup(GroupType groupType) throws ServiceException;
 	List<Group> listGroupByIds(Set<Integer> ids) throws ServiceException;
 	List<Group> listGroupByNames(List<String> names) throws ServiceException;
+	List<Group> findAllGroupNameType() throws ServiceException;
 	Group findByName(String groupName) throws ServiceException;
 
 }

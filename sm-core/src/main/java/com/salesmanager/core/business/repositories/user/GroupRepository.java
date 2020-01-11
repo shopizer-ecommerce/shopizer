@@ -31,4 +31,7 @@ public interface GroupRepository extends JpaRepository<Group, Integer> {
 	
 	@Query("select g from Group as g left join fetch g.permissions perms where g.groupName =?1")
 	Group findByGroupName(String name);
+
+	@Query("select new com.salesmanager.core.model.user.Group(g.id, g.groupName, g.groupType) from Group g")
+	List<Group> findAllGroupNameType();
 }
