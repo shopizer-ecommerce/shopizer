@@ -14,13 +14,7 @@ response.setDateHeader ("Expires", -1);
 <%@page contentType="text/html"%>
 <%@page pageEncoding="UTF-8"%>
 
-<!--Set google map API key -->
-<c:if test="${requestScope.CONFIGS['displayStoreAddress'] == true}">
-<c:if test="${googleMapsKey != ''}">
-	<script src="https://maps.googleapis.com/maps/api/js?key=<c:out value="${googleMapsKey}"/>&libraries=places&callback=googleInitialize"
-		        async defer></script>
-</c:if>
-</c:if>
+
 
 <script type="text/javascript">
 
@@ -185,7 +179,7 @@ function sendContact(){
 									</div>
 
 									<div class="form-actions">
-										<input id="submitContact" type="button" value="<s:message code="label.generic.send" text="Send"/>" name="register" class="btn btn-large">
+										<input id="submitContact" type="button" value="<s:message code="label.generic.send" text="Send"/>" name="register" class="btn btn-default login-btn btn-large">
 									</div>
 									</fieldset>
 			</form:form>
@@ -193,7 +187,7 @@ function sendContact(){
 
 <!-- CUSTOM CONTENT --> 
 			<div class="row-fluid common-row" style="margin-top:30px;">
-					<div class="contactMapCanvas" id="map_canvas" style="width:600px; height:300px"></div>
+					<div class="contactMapCanvas" id="map_canvas" style="width:600px; height:400px"></div>
 			</div>
 
 
@@ -228,35 +222,41 @@ function sendContact(){
 <!-- GOOGLE MAP -->  
 <c:if test="${requestScope.CONFIGS['displayStoreAddress'] == true}">
 
-
-
-
 <script>
 
 var address = '<c:out value="${requestScope.MERCHANT_STORE.storeaddress}"/> <c:out value="${requestScope.MERCHANT_STORE.storecity}"/> <c:out value="${requestScope.MERCHANT_STORE.zone.code}"/> <c:out value="${requestScope.MERCHANT_STORE.storepostalcode}"/>';
+function googleInitialize() {
 
-if(address!=null) {
-	geocoder = new google.maps.Geocoder();
-		var mapOptions = {
-  			zoom: 10,
-  			mapTypeId: google.maps.MapTypeId.ROADMAP
-		}
-		map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
-
-		geocoder.geocode( { 'address': address}, function(results, status) {
-  			if (status == google.maps.GeocoderStatus.OK) {
-    			map.setCenter(results[0].geometry.location);
-    			var marker = new google.maps.Marker({
-        				map: map,
-        				position: results[0].geometry.location
-    			});
- 			} else {
-    			alert("Geocode was not successful for the following reason: " + status);
-  			}
-		});
+	if(address!=null) {
+		geocoder = new google.maps.Geocoder();
+			var mapOptions = {
+	  			zoom: 10,
+	  			mapTypeId: google.maps.MapTypeId.ROADMAP
+			}
+			map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+	
+			geocoder.geocode( { 'address': address}, function(results, status) {
+	  			if (status == google.maps.GeocoderStatus.OK) {
+	    			map.setCenter(results[0].geometry.location);
+	    			var marker = new google.maps.Marker({
+	        				map: map,
+	        				position: results[0].geometry.location
+	    			});
+	 			} else {
+	    			alert("Geocode was not successful for the following reason: " + status);
+	  			}
+			});
+	}
 }
 
 </script>
+
+<!--Set google map API key -->
+<c:if test="${requestScope.CONFIGS['displayStoreAddress'] == true}">
+<c:if test="${googleMapsKey != ''}">
+	<script src="https://maps.googleapis.com/maps/api/js?key=<c:out value="${googleMapsKey}"/>&libraries=places&callback=googleInitialize" async defer></script>
+</c:if>
+</c:if>
 
 </c:if>
  </div>

@@ -1,9 +1,11 @@
 package com.salesmanager.shop.store.controller.store;
 
 import java.util.Locale;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,8 +18,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.salesmanager.core.business.services.content.ContentService;
-import com.salesmanager.core.business.utils.CoreConfiguration;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
 import com.salesmanager.core.model.content.Content;
 import com.salesmanager.core.model.content.ContentDescription;
@@ -39,6 +41,12 @@ public class ContactController extends AbstractController {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(ContactController.class);
 	
+	@Value("${config.googleMapsKey}")
+	private String googleMapsKey;
+	
+    @Value("${config.recaptcha.siteKey}")
+    private String siteKeyKey;
+	
 	@Inject
 	private ContentService contentService;
 
@@ -51,16 +59,16 @@ public class ContactController extends AbstractController {
 	@Inject
 	private CaptchaRequestUtils captchaRequestUtils;
 	
-    @Value("${config.recaptcha.siteKey}")
-    private String siteKeyKey;
 	
 	private final static String CONTACT_LINK = "CONTACT";
 	
 	
 	@RequestMapping("/shop/store/contactus.html")
-	public String displayContact(Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
+	public String display(Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
 		
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
+		
+		model.addAttribute("googleMapsKey",googleMapsKey);
 		
 		request.setAttribute(Constants.LINK_CODE, CONTACT_LINK);
 

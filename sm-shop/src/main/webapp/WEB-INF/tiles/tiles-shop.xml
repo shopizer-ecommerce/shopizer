@@ -118,8 +118,8 @@
   	</definition>
   	
   	<definition name="register.december" template="/pages/shop/templates/december/catalogLayout.jsp">
-  	  	<put-attribute name="header" value="/pages/shop/templates/generic/december/header.jsp" />
-  		<put-attribute name="navbar" value="/pages/shop/templates/generic/december/navbar.jsp" />
+  	  	<put-attribute name="header" value="/pages/shop/templates/december/sections/header.jsp" />
+  		<put-attribute name="navbar" value="/pages/shop/templates/december/sections/navbar.jsp" />
   		<put-attribute name="body" value="/pages/shop/templates/december/pages/register.jsp" />
   		<put-attribute name="footer" value="/pages/shop/templates/december/sections/footer.jsp" />
   	</definition>

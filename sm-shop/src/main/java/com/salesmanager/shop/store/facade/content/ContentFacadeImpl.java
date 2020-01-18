@@ -322,11 +322,17 @@ public class ContentFacadeImpl implements ContentFacade {
 
 		Validate.notNull(code, "Content code cannot be null");
 		Validate.notNull(store, "MerchantStore cannot be null");
-		Validate.notNull(language, "Language cannot be null");
 
 		try {
-			Content content = Optional.ofNullable(contentService.getByCode(code, store, language))
-					.orElseThrow(() -> new ResourceNotFoundException("No page found : " + code));
+			Content content = null;
+			
+			if(language == null) {
+				Optional.ofNullable(contentService.getByCode(code, store))
+				.orElseThrow(() -> new ResourceNotFoundException("No page found : " + code));
+			} else {
+				Optional.ofNullable(contentService.getByCode(code, store, language))
+				.orElseThrow(() -> new ResourceNotFoundException("No page found : " + code));
+			}
 
 			return convertContentToReadableContentPage(store, language, content);
 

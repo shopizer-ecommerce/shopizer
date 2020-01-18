@@ -363,7 +363,7 @@ $(document).ready(function() {
             </div>
         
             <!-- Collect the nav links,  -->
-            <div class="collapse navbar-collapse navbar-1" style="margin-top: 0px;">            
+            <div class="collapse navbar-collapse navbar-1" style="margin-top: 5px;">            
               <ul class="nav navbar-nav">
                 <li><a href="<c:url value="/shop/"/>" class="dropdown-toggle"><s:message code="menu.home" text="Home"/></a></li>
                 <!-- Categories -->

@@ -1,34 +1,15 @@
 package com.salesmanager.shop.store.controller.customer;
 
-import com.salesmanager.core.business.exception.ConversionException;
-import com.salesmanager.core.business.exception.ServiceException;
-import com.salesmanager.core.business.services.catalog.product.PricingService;
-import com.salesmanager.core.business.services.reference.country.CountryService;
-import com.salesmanager.core.business.services.reference.language.LanguageService;
-import com.salesmanager.core.business.services.reference.zone.ZoneService;
-import com.salesmanager.core.business.services.shoppingcart.ShoppingCartCalculationService;
-import com.salesmanager.core.business.services.system.EmailService;
-import com.salesmanager.core.business.utils.CoreConfiguration;
-import com.salesmanager.core.model.customer.Customer;
-import com.salesmanager.core.model.merchant.MerchantStore;
-import com.salesmanager.core.model.reference.country.Country;
-import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.core.model.reference.zone.Zone;
-import com.salesmanager.core.model.shoppingcart.ShoppingCart;
-import com.salesmanager.shop.constants.ApplicationConstants;
-import com.salesmanager.shop.constants.Constants;
-import com.salesmanager.shop.model.customer.AnonymousCustomer;
-import com.salesmanager.shop.model.customer.CustomerEntity;
-import com.salesmanager.shop.model.customer.SecuredShopPersistableCustomer;
-import com.salesmanager.shop.model.shoppingcart.ShoppingCartData;
-import com.salesmanager.shop.populator.shoppingCart.ShoppingCartDataPopulator;
-import com.salesmanager.shop.store.controller.AbstractController;
-import com.salesmanager.shop.store.controller.ControllerConstants;
-import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
-import com.salesmanager.shop.utils.CaptchaRequestUtils;
-import com.salesmanager.shop.utils.EmailTemplatesUtils;
-import com.salesmanager.shop.utils.ImageFilePath;
-import com.salesmanager.shop.utils.LabelUtils;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+
+import javax.inject.Inject;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,14 +26,34 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.inject.Inject;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
+import com.salesmanager.core.business.exception.ConversionException;
+import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.services.reference.country.CountryService;
+import com.salesmanager.core.business.services.reference.language.LanguageService;
+import com.salesmanager.core.business.services.reference.zone.ZoneService;
+import com.salesmanager.core.business.services.shoppingcart.ShoppingCartCalculationService;
+import com.salesmanager.core.business.services.system.EmailService;
+import com.salesmanager.core.business.utils.CoreConfiguration;
+import com.salesmanager.core.model.customer.Customer;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.country.Country;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.model.reference.zone.Zone;
+import com.salesmanager.core.model.shoppingcart.ShoppingCart;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.model.customer.AnonymousCustomer;
+import com.salesmanager.shop.model.customer.CustomerEntity;
+import com.salesmanager.shop.model.customer.SecuredShopPersistableCustomer;
+import com.salesmanager.shop.model.shoppingcart.ShoppingCartData;
+import com.salesmanager.shop.populator.shoppingCart.ShoppingCartDataPopulator;
+import com.salesmanager.shop.store.controller.AbstractController;
+import com.salesmanager.shop.store.controller.ControllerConstants;
+import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
+import com.salesmanager.shop.utils.CaptchaRequestUtils;
+import com.salesmanager.shop.utils.EmailTemplatesUtils;
+import com.salesmanager.shop.utils.ImageFilePath;
+import com.salesmanager.shop.utils.LabelUtils;
 
 //import com.salesmanager.core.business.customer.CustomerRegistrationException;
 
@@ -62,7 +63,7 @@ import java.util.Locale;
  *
  */
 
-@SuppressWarnings( "deprecation" )
+
 // http://stackoverflow.com/questions/17444258/how-to-use-new-passwordencoder-from-spring-security
 @Controller
 @RequestMapping("/shop/customer")
