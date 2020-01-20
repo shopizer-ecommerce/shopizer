@@ -80,7 +80,29 @@ response.setDateHeader ("Expires", -1);
 		<tiles:insertAttribute name="footer" ignore="true"/>
 
 	<jsp:include page="/pages/shop/templates/december/sections/jsLinks.jsp" />
-
+     
+    <!-- Cookie policy --> 
+    <!-- https://www.osano.com/cookieconsent/download/ -->
+	<script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+	<script>
+	window.cookieconsent.initialise({
+	  "palette": {
+	    "popup": {
+	      "background": "#eaf7f7",
+	      "text": "#5c7291"
+	    },
+	    "button": {
+	      "background": "#56cbdb",
+	      "text": "#555555"
+	    }
+	  },
+	  "content": {
+		    "message": "<c:out value="${cookie.policy.text}" default="This website uses cookies to ensure you get the best experience on our website."/>",
+		    "href": "/shop/pages/cookiepolicy"
+	   }
+	});
+	</script>
+     
  	</body>
  
  </html>

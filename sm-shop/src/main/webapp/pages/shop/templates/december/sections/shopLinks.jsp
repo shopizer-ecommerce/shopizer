@@ -40,6 +40,9 @@
     	<link href="<c:url value="/resources/css/sm.css" />" rel="stylesheet">
     	<link href="<c:url value="/resources/css/showLoading.css" />" rel="stylesheet">
     	
+    	<!-- cookie consent -->
+    	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
+    	
     	
     	<script type="text/javascript">
 	    	//show overlay wait

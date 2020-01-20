@@ -43,49 +43,6 @@ response.setDateHeader ("Expires", -1);
 			</div>
 		</c:if>
 
-		
-
-		<!-- Offers -->
-		<!-- Sale off -->
-		<!-- An idea of offer area -->
-		<!--
-	    <section style="margin-top:50px !important;">
-	        <div class="container">
-	            <div class="row au-row">
-	                <div class="col-md-6">
-	                    <div class="au-banner style-9 js-au-banner" style="height: 533px; background-image: url('/static/files/DEFAULT/IMAGE/banner-image-10.jpg');">
-	                        <a href="#" class="banner-image"></a>
-	                        <div class="banner-content">
-	                            <h3 class="title">
-	                                today only <span>20</span>
-	                            </h3>
-	                        </div>
-	                    </div>
-	                </div>
-	                <div class="col-md-6">
-	                    <div class="au-banner style-7 banner-medium js-au-banner" style="height: 245px; background-image: url('/static/files/DEFAULT/IMAGE/banner-image-08.jpg');">
-	                        <a href="#"></a>
-	                        <div class="banner-content text-right">
-	                            <h3 class="title">New item</h3>
-	                            <h4 class="sub-title">Punch line</h4>
-	                            <a href="#" class="banner-btn">shop now</a>
-	                        </div>
-	                    </div>
-	                    <div class="au-banner style-8 banner-medium js-au-banner " style="height: 245px; background-image: url('/static/files/DEFAULT/IMAGE/banner-image-09.jpg');">
-	                        <a href="#"></a>
-	                        <div class="banner-content">
-	                            <h3 class="title">Another item</h3>
-	                            <h4 class="sub-title">Another item punch line</h4>
-	                            <a href="#" class="banner-btn">shop now</a>
-	                        </div>
-	                    </div>
-	                </div>
-	            </div>
-	        </div>
-	    </section>
-	    -->
-	    <!--  -->
-
 
 		
 		<!-- featured items -->
@@ -126,32 +83,8 @@ response.setDateHeader ("Expires", -1);
 		
 
 		
-		<!-- signup box -->
-		<!-- purchase-progress-area-end -->
-		<!-- contact-area-start -->
-		<!--
-		<div class="contact-area ptb-40">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mar_b-30">
-						<div class="contuct-info text-center">
-							<h4>Sign up for news & offers!</h4>
-							<p>You may safely unsubscribe at any time</p>
-						</div>
-					</div>
-					<div class="col-lg-6 col-md-8 col-sm-12 col-lg-offset-1 col-xs-12">
-						<div class="search-box">
-							<form action="#">
-								<input type="email" placeholder="Enter your email address"/>
-								<button><span class="lnr lnr-envelope"></span></button>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		-->
-		<!-- contact-area-end -->
+
+	<!-- contact-area-end -->
 		
 	<!-- load products -->	
 	<script>

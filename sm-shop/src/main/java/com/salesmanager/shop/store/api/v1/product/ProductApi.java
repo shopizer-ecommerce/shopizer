@@ -442,9 +442,9 @@ public class ProductApi {
    * @param response
    * @return ReadableProduct
    * @throws Exception
-   *     <p>/api/v1/product/123
+   *     <p>/api/v1/products/123
    */
-  @RequestMapping(value = "/product/{id}", method = RequestMethod.GET)
+  @RequestMapping(value = "/products/{id}", method = RequestMethod.GET)
   @ResponseBody
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
