@@ -126,6 +126,22 @@ public class ContentApi {
 
   }
   
+  @GetMapping(value = "/content/pages/name/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @ApiOperation(httpMethod = "GET", value = "Get page content by code for a given MerchantStore",
+      notes = "", produces = "application/json", response = ReadableContentPage.class)
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+    @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
+  public ReadableContentPage pageByName(
+      @PathVariable("name") String name,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language) {
+
+
+      return contentFacade.getContentPageByName(name, merchantStore, language);
+
+  }
+  
   @GetMapping(value = "/private/content/any/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(httpMethod = "GET", value = "Get page content by code for a given MerchantStore",
       notes = "", produces = "application/json", response = ReadableContentPage.class)

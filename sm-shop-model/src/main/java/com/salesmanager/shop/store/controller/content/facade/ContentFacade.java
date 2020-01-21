@@ -68,6 +68,15 @@ public interface ContentFacade {
 	 */
 	ReadableContentPage getContentPage(String code, MerchantStore store, Language language);
 	
+	/**
+	 * Returns page by name
+	 * @param name
+	 * @param store
+	 * @param language
+	 * @return
+	 * @throws Exception
+	 */
+	ReadableContentPage getContentPageByName(String name, MerchantStore store, Language language);
 
 	
 	/**

@@ -110,7 +110,7 @@ response.setDateHeader ("Expires", -1);
 
             <div class="container">
             	<div class="row">
-						<div id="shop" class="col-md-12">
+						<div id="shop" class="col-md-12" style="margin-top:10px;">
 							<c:out value="${content.description}" escapeXml="false"/>
 						</div>
 				</div>

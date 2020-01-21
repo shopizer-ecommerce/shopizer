@@ -29,13 +29,12 @@ import com.salesmanager.core.model.content.FileContentType;
 import com.salesmanager.core.model.content.InputContentFile;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.model.content.ContentDescriptionEntity;
 import com.salesmanager.shop.model.content.ContentFile;
 import com.salesmanager.shop.model.content.ContentFolder;
 import com.salesmanager.shop.model.content.ContentImage;
 import com.salesmanager.shop.model.content.PersistableContentEntity;
-import com.salesmanager.shop.model.content.ContentDescriptionEntity;
 import com.salesmanager.shop.model.content.ReadableContentBox;
-import com.salesmanager.shop.model.content.ContentDescriptionEntity;
 import com.salesmanager.shop.model.content.ReadableContentEntity;
 import com.salesmanager.shop.model.content.ReadableContentFull;
 import com.salesmanager.shop.model.content.ReadableContentPage;
@@ -130,15 +129,16 @@ public class ContentFacadeImpl implements ContentFacade {
 
 	private ReadableContentPage convertContentToReadableContentPage(MerchantStore store, Language language,
 			Content content) {
-		ReadableContentPage page = new ReadableContentPage();
+		//ReadableContentPage page = new ReadableContentPage();
 		Optional<ContentDescription> contentDescription = findAppropriateContentDescription(content.getDescriptions(),
 				language);
 
 		if (contentDescription.isPresent()) {
-			page.setName(contentDescription.get().getName());
-			page.setPageContent(contentDescription.get().getDescription());
+			/*page.setName(contentDescription.get().getName());
+			page.setPageContent(contentDescription.get().getDescription());*/
+			return this.contentDescriptionToReadableContent(store, content, contentDescription.get());
 		}
-		page.setId(content.getId());
+/*		page.setId(content.getId());
 		page.setSlug(contentDescription.get().getSeUrl());
 		page.setDisplayedInMenu(content.isLinkToMenu());
 		page.setTitle(contentDescription.get().getTitle());
@@ -146,7 +146,29 @@ public class ContentFacadeImpl implements ContentFacade {
 		page.setContentType(ContentType.PAGE.name());
 		page.setCode(content.getCode());
 		page.setPath(fileUtils.buildStaticFilePath(store.getCode(), contentDescription.get().getSeUrl()));
+		return page;*/
+		return null;
+	}
+	
+	private ReadableContentPage contentDescriptionToReadableContent(MerchantStore store, Content content, ContentDescription contentDescription) {
+		
+		ReadableContentPage page = new ReadableContentPage();
+
+
+		page.setName(contentDescription.getName());
+		page.setPageContent(contentDescription.getDescription());
+
+		page.setId(content.getId());
+		page.setSlug(contentDescription.getSeUrl());
+		page.setDisplayedInMenu(content.isLinkToMenu());
+		page.setTitle(contentDescription.getTitle());
+		page.setMetaDetails(contentDescription.getMetatagDescription());
+		page.setContentType(ContentType.PAGE.name());
+		page.setCode(content.getCode());
+		page.setPath(fileUtils.buildStaticFilePath(store.getCode(), contentDescription.getSeUrl()));
 		return page;
+		
+		
 	}
 
 	private ReadableContentFull convertContentToReadableContentFull(MerchantStore store, Language language,
@@ -327,10 +349,10 @@ public class ContentFacadeImpl implements ContentFacade {
 			Content content = null;
 			
 			if(language == null) {
-				Optional.ofNullable(contentService.getByCode(code, store))
+				content = Optional.ofNullable(contentService.getByCode(code, store))
 				.orElseThrow(() -> new ResourceNotFoundException("No page found : " + code));
 			} else {
-				Optional.ofNullable(contentService.getByCode(code, store, language))
+				content = Optional.ofNullable(contentService.getByCode(code, store, language))
 				.orElseThrow(() -> new ResourceNotFoundException("No page found : " + code));
 			}
 
@@ -526,5 +548,24 @@ public class ContentFacadeImpl implements ContentFacade {
 			throw new ServiceRuntimeException("Exception while getting contents", e);
 		}
 
+	}
+
+	@Override
+	public ReadableContentPage getContentPageByName(String name, MerchantStore store, Language language) {
+		Validate.notNull(name, "Content name cannot be null");
+		Validate.notNull(store, "MerchantStore cannot be null");
+		Validate.notNull(language, "Language cannot be null");
+
+		try {
+	
+			
+			ContentDescription contentDescription = Optional.ofNullable(contentService.getBySeUrl(store, name))
+					.orElseThrow(() -> new ResourceNotFoundException("No page found : " + name));
+
+			return this.contentDescriptionToReadableContent(store, contentDescription.getContent(), contentDescription);
+
+		} catch (Exception e) {
+			throw new ServiceRuntimeException("Error while getting page " + e.getMessage(), e);
+		}
 	}
 }

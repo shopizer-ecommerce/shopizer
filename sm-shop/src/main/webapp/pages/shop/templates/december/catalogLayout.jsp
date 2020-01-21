@@ -92,8 +92,8 @@ response.setDateHeader ("Expires", -1);
 	      "text": "#5c7291"
 	    },
 	    "button": {
-	      "background": "#56cbdb",
-	      "text": "#555555"
+            "background": "#555555",
+            "text": "#ffffff"
 	    }
 	  },
 	  "content": {
