@@ -55,12 +55,12 @@
 														</c:when>
 														<c:otherwise>
 															<a href="javascript:;"
-																" class="detailsThumbImg thumbImg thumbnail image-link"
+																" class="detailsThumbImg thumbImg thumbnail image-link" 
 																imgId="im-<c:out value="${thumbnail.id}"/>"
 																title="<c:out value="${product.description.name}"/>"
 																rel="<c:url value="${thumbnail.externalUrl}"/>"><img
 																src="${thumbnail.externalUrl}"
-																alt="<c:url value="${product.description.name}"/>"></a>
+																alt="<c:url value="${product.description.name}"/>" style="border:0 !important;"></a>
 														</c:otherwise>
 													</c:choose>
 												</div>
