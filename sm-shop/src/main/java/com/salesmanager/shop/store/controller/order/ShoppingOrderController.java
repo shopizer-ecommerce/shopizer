@@ -9,6 +9,7 @@ import com.salesmanager.core.business.services.order.OrderService;
 import com.salesmanager.core.business.services.order.orderproduct.OrderProductDownloadService;
 import com.salesmanager.core.business.services.payments.PaymentService;
 import com.salesmanager.core.business.services.reference.country.CountryService;
+import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.business.services.reference.zone.ZoneService;
 import com.salesmanager.core.business.services.shipping.ShippingService;
 import com.salesmanager.core.business.services.shoppingcart.ShoppingCartService;
@@ -104,6 +105,9 @@ public class ShoppingOrderController extends AbstractController {
 	
 	@Inject
 	private ShippingService shippingService;
+	
+	@Inject
+	private LanguageService languageService;
 	
 	@Inject
 	private OrderService orderService;
@@ -529,6 +533,9 @@ public class ShoppingOrderController extends AbstractController {
 					customerFacade.setCustomerModelDefaultProperties(modelCustomer, store);
 					userName = modelCustomer.getNick();
 					LOGGER.debug( "About to persist volatile customer to database." );
+					if(modelCustomer.getDefaultLanguage() == null) {
+						modelCustomer.setDefaultLanguage(languageService.toLanguage(locale));
+					}
 			        customerService.saveOrUpdate( modelCustomer );
 				} else {//use existing customer
 					modelCustomer = customerFacade.populateCustomerModel(authCustomer, customer, store, language);

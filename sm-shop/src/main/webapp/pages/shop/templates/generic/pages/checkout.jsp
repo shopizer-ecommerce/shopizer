@@ -398,12 +398,26 @@ function bindActions() {
 			shippingQuotes(shippingQuotesUrl,useDistanceWindow);
 		}
      });
+    
+    if ($("#billingPostalCode").is(":-webkit-autofill")) 
+    {    
+		if (!$('#shipToDeliveryAddress').is(':checked')) {
+			shippingQuotes(shippingQuotesUrl,useDistanceWindow);
+		}
+    }
 	
      $("input[id=deliveryPostalCode]").on('blur input', function() {
 		if ($('#shipToDeliveryAddress').is(':checked')) {
 			shippingQuotes(shippingQuotesUrl,useDistanceWindow);
 		}
      });
+     
+     if ($("#deliveryPostalCode").is(":-webkit-autofill")) 
+     {    
+		if ($('#shipToDeliveryAddress').is(':checked')) {
+			shippingQuotes(shippingQuotesUrl,useDistanceWindow);
+		}
+     }
      
      $(".paymentMethodSelected").click(function() { 
     	 var paymentClicked = $(this).attr("name");
