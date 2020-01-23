@@ -462,9 +462,9 @@ function bindActions() {
 			initPayment('PAYPAL');
 		}
 		else if(paymentSelection.indexOf('stripe') >= 0) {
-			log('Stripe ');
 			//$('#paymentMethodType').val('CREDITCARD');
 			$('#paymentMethodType').attr("value", 'CREDITCARD');
+			log('Init stripe');
 			initStripePayment();
 		}
 		else if(paymentSelection.indexOf('braintree') >= 0) {
