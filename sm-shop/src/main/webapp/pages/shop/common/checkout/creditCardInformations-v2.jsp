@@ -26,6 +26,19 @@ response.setDateHeader ("Expires", -1);
 		
 				var img = '<img src="<c:url value="/resources/img/cvv.jpg"/>" width="180">';
 				var ccValid = false;
+				
+				function basicCardValidation() {
+					if($('#creditcard_card_holder').val()==='') {
+						return false;
+					}
+					if($('#creditcard_card_number').val()==='') {
+						return false;
+					}
+					if($('#creditcard_card_cvv').val()==='') {
+						return false;
+					}
+					return true;
+				}
 		
 		
 				$(document).ready(function() {
@@ -43,6 +56,13 @@ response.setDateHeader ("Expires", -1);
 										validCreditCardNumber(creditCardDiv, result);
 									} else {
 										invalidCreditCardNumber(creditCardDiv);
+									}
+									if(result.card_type.name==='amex') {//cvv 4 digits
+										$('#creditcard_card_cvv').attr('maxlength','4');
+										$('#creditcard_card_cvv').attr('pattern','\d{4}');
+									} else {//cvv 3 digits
+										$('#creditcard_card_cvv').attr('maxlength','3');
+										$('#creditcard_card_cvv').attr('pattern','\d{3}');
 									}
 							} else {
 								invalidCreditCardNumber(creditCardDiv);

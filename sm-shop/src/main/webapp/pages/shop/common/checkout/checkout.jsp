@@ -141,6 +141,17 @@ function isFormValid() {
 				valid = false;
 			}
 		}
+		
+		//validate basic card at the end
+		if(valid) {
+			if ( typeof basicCardValidation == 'function' ) { 
+				firstErrorMessage = 'Credit card information invalid';
+				valid = basicCardValidation();
+			}
+		}
+		
+		
+		
 		if($(this).hasClass('email')) {	
 			var emailValid = validateEmail($(this).val());
 			//console.log('Email is valid ? ' + emailValid);

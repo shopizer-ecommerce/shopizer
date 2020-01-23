@@ -105,7 +105,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     @Override
     public Order processOrder(Order order, Customer customer, List<ShoppingCartItem> items, OrderTotalSummary summary, Payment payment, MerchantStore store) throws ServiceException {
     	
-    	return this.process(order, customer, items, summary, payment, null, store);
+    	return process(order, customer, items, summary, payment, null, store);
     }
     
     @Override
@@ -177,6 +177,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
         /**
          * decrement inventory
          */
+    	LOGGER.debug( "Update inventory" );
         Set<OrderProduct> products = order.getOrderProducts();
         for(OrderProduct orderProduct : products) {
             orderProduct.getProductQuantity();
@@ -194,7 +195,11 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
             productService.update(p);
         }
     	
-    	//TODO post order processing
+        /**
+         * TODO
+         * Add possibility to perform additional tasks 
+         * once order is completed
+         */
     	
 
     	

@@ -305,7 +305,7 @@ public class OrderFacadeImpl implements OrderFacade {
 	public Order processOrder(ShopOrder order, Customer customer, Transaction transaction, MerchantStore store,
 			Language language) throws ServiceException {
 				
-		return this.processOrderModel(order, customer, transaction, store, language);
+		return processOrderModel(order, customer, transaction, store, language);
 
 	}
 	
@@ -361,6 +361,7 @@ public class OrderFacadeImpl implements OrderFacade {
 					throw new ServiceException(ServiceException.EXCEPTION_INVENTORY_MISMATCH);
 				}
 				
+				LOGGER.debug( "Validate inventory" );
 				for(ProductAvailability availability : product.getAvailabilities()) {
 					if (availability.getRegion().equals(Constants.ALL_REGIONS)) {
 		    			int qty = availability.getProductQuantity();
@@ -433,9 +434,7 @@ public class OrderFacadeImpl implements OrderFacade {
 			
 			
 			if(PaymentType.CREDITCARD.name().equals(paymentType)) {
-				
-				
-				
+
 				payment = new CreditCardPayment();
 				((CreditCardPayment)payment).setCardOwner(order.getPayment().get("creditcard_card_holder"));
 				((CreditCardPayment)payment).setCredidCardValidationNumber(order.getPayment().get("creditcard_card_cvv"));

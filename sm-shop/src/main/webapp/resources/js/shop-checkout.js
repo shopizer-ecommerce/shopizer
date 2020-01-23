@@ -139,7 +139,7 @@ function shippingQuotes(url,useDistanceWindow){
 	
 	//log('Checked ? ' + $('#shipToDeliveryAddress').is(':checked'));
 	if ($('#shipToDeliveryAddress').is(':checked')) {
-		log('It is checked');
+		//log('It is checked');
 		data.shipToBillingAdress = false;
 		log(data);
 	}

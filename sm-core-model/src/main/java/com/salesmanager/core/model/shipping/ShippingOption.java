@@ -35,7 +35,7 @@ public class ShippingOption implements Serializable {
 
 	public BigDecimal getOptionPrice() {
 		
-		if(!StringUtils.isBlank(this.getOptionPriceText())) {
+		if(optionPrice == null && !StringUtils.isBlank(this.getOptionPriceText())) {//if price text only is available, try to parse it
 			try {
 				this.optionPrice = new BigDecimal(this.getOptionPriceText());
 			} catch(Exception e) {

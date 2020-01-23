@@ -545,7 +545,7 @@ public class ShoppingOrderController extends AbstractController {
 			}
 	        
            
-	        
+			LOGGER.debug( "About to save transaction" );
 	        Order modelOrder = null;
 	        Transaction initialTransaction = (Transaction)super.getSessionAttribute(Constants.INIT_TRANSACTION_KEY, request);
 	        if(initialTransaction!=null) {
@@ -558,8 +558,10 @@ public class ShoppingOrderController extends AbstractController {
 	        super.setSessionAttribute(Constants.ORDER_ID, modelOrder.getId(), request);
 	        //set a unique token for confirmation
 	        super.setSessionAttribute(Constants.ORDER_ID_TOKEN, modelOrder.getId(), request);
+	        LOGGER.debug( "Transaction ended and order saved" );
 	        
-
+	        
+	        LOGGER.debug( "Remove cart" );
 			//get cart
 			String cartCode = super.getSessionAttribute(Constants.SHOPPING_CART, request);
 			if(StringUtils.isNotBlank(cartCode)) {
@@ -582,7 +584,7 @@ public class ShoppingOrderController extends AbstractController {
 	        
 	        
 	        
-
+	        LOGGER.debug( "Refresh customer" );
 	        try {
 		        //refresh customer --
 	        	modelCustomer = customerFacade.getCustomerByUserName(modelCustomer.getNick(), store);
@@ -767,7 +769,7 @@ public class ShoppingOrderController extends AbstractController {
 								moduleName.append("module.shipping.").append(shipOption.getShippingModuleCode());
 										
 										
-								String carrier = messages.getMessage(moduleName.toString(),locale);		
+								String carrier = messages.getMessage(moduleName.toString(),new String[]{store.getStorename()},locale);		
 										
 								shipOption.setDescription(carrier);
 								
@@ -898,7 +900,7 @@ public class ShoppingOrderController extends AbstractController {
 		        }
 		        
 		        @SuppressWarnings("unused")
-				Order modelOrder = this.commitOrder(order, request, locale);
+				Order modelOrder = commitOrder(order, request, locale);
 
 	        
 			} catch(ServiceException se) {

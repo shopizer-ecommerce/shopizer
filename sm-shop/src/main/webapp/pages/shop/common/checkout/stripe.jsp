@@ -28,13 +28,12 @@ response.setDateHeader ("Expires", -1);
 						    
 						    try {
 
-						    // Disable the submit button to prevent repeated clicks
-						    $form.find('button').prop('disabled', true);
+						    	// Disable the submit button to prevent repeated clicks
+						    	$form.find('button').prop('disabled', true);
 
-						    Stripe.card.createToken($form, stripeResponseHandler);
+						    	Stripe.card.createToken($form, stripeResponseHandler);
 						    
-						    }
-						    catch(err) {
+						    } catch(err) {
 						    	hideSMLoading('#pageContainer');
 						    	//log(err.message);
 						    	showResponseErrorMessage(err.message);

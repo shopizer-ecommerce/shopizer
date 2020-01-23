@@ -239,6 +239,14 @@ function isFormValid() {
 		}
 	});
 	
+	//validate basic card at the end
+	if(valid) {
+		if ( typeof basicCardValidation == 'function' ) { 
+			firstErrorMessage = 'Credit card information invalid';
+			valid = basicCardValidation();
+		}
+	}
+	
 
 	//console.log('Form is valid ? ' + valid);
 	if(valid==false) {//disable submit button
@@ -398,12 +406,6 @@ function bindActions() {
 		}
      });
     
-     if ($("#billingPostalCode").is(":-webkit-autofill")) 
-     {    
-		if (!$('#shipToDeliveryAddress').is(':checked')) {
-			shippingQuotes(shippingQuotesUrl,useDistanceWindow);
-		}
-     }
 	
      $("input[id=deliveryPostalCode]").on('blur input', function() {
 		if ($('#shipToDeliveryAddress').is(':checked')) {
@@ -411,12 +413,12 @@ function bindActions() {
 		}
      });
      
-     if ($("#deliveryPostalCode").is(":-webkit-autofill")) 
-     {    
-		if ($('#shipToDeliveryAddress').is(':checked')) {
-			shippingQuotes(shippingQuotesUrl,useDistanceWindow);
-		}
-     }
+     $("#customer.emailAddress").on('blur input', function() {
+ 		if (!$('#shipToDeliveryAddress').is(':checked')) {
+ 			shippingQuotes(shippingQuotesUrl,useDistanceWindow);
+ 		}
+      });
+   
      
      $(".paymentMethodSelected").click(function() { 
     	 var paymentClicked = $(this).attr("name");
@@ -443,6 +445,7 @@ function bindActions() {
 		
 		//confirm shipping
 		if(formValid) {
+				log('Form valid ? ' + formValid);
 				//validateConfirmShipping(response);
 				if($('#confirm_address')) {
 					//add confirm address section to shipping
