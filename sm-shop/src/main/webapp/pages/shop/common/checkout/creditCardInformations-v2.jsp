@@ -122,7 +122,8 @@ response.setDateHeader ("Expires", -1);
 					<div class="checkout-form-list">
 						<label for="cardNumber"><s:message
 								code="label.payment.creditcard.cardowner"
-								text="Card Holder's Name" /><span class="required">*</span></label>
+								text="Card Holder's Name" /><span class="required">*</span>		
+						</label>
 						<s:message code="NotEmpty.order.creditcard.name"
 							text="Credit card holder's name is required"
 							var="msgCardHolderName" />
@@ -138,7 +139,11 @@ response.setDateHeader ("Expires", -1);
 				<div class="col-md-12">
 					<div class="checkout-form-list">
 						<label class="control-label"><s:message
-								code="label.payment.creditcard.cardnumber" text="Card number" /><span class="required">*</span></label>
+								code="label.payment.creditcard.cardnumber" text="Card number" /><span class="required">*</span>
+						<c:if test="${requestScope.CONFIGS['testMode']==true}">
+						<p><strong>For testing payment use card number 5555555555554444 and any cvv 3 digits</strong></p>
+						</c:if>
+						</label>
 						<div class="input-group">
 							<s:message code="NotEmpty.order.creditcard.number"
 								text="A valid credit card number is required"

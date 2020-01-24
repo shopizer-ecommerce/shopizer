@@ -250,6 +250,7 @@ $(document).ready(function() {
       <c:if test="${requestScope.CONFIGS['displayContactUs']==true}">
       <ul class="list-inline pull-left hidden-sm hidden-xs">
         <li><span class="text-primary"><s:message code="label.store.question" text="Have a question?" /></span>&nbsp;<abbr title="Phone"><s:message code="label.generic.phone" text="Phone" /></abbr>: <span itemprop="telephone"><c:out value="${requestScope.MERCHANT_STORE.storephone}"/></span></li>
+        <c:if test="${requestScope.CONFIGS['testMode']==true}"><li><h4>[TEST MODE]</h4></li></c:if>
       </ul>
       </c:if>
       <ul class="topBarNav pull-right">

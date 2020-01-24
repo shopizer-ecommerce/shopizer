@@ -242,7 +242,7 @@ function isFormValid() {
 	//validate basic card at the end
 	if(valid) {
 		if ( typeof basicCardValidation == 'function' ) { 
-			firstErrorMessage = '<s:message code="message.creditcard.invalid" text="Invalid email address" default="Credit card information invalid"/>';
+			firstErrorMessage = '<s:message code="message.creditcard.invalid" text="Credit card information invalid"/>';
 			valid = basicCardValidation();
 		}
 	}
