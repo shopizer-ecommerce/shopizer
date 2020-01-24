@@ -495,7 +495,8 @@ function bindActions() {
 
 function submitForm() {
 	log('Checkout ');
-	$('#pageContainer').hideLoading();
+	hideSMLoading('#pageContainer');
+	log('After hide loading ');
 	$('#checkoutForm').submit();
 }
 

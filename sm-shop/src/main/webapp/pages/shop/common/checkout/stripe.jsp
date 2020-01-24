@@ -24,20 +24,15 @@ response.setDateHeader ("Expires", -1);
 				  
 				  function initStripePayment() {
 					  
-					 	    console.log('In stripe init method');
-
 						    var $form = $('#checkoutForm');
 						    
 						    try {
 
 						    	// Disable the submit button to prevent repeated clicks
 						    	$form.find('button').prop('disabled', true);
-						    	
-						    	console.log('Before token');
 
 						    	Stripe.card.createToken($form, stripeResponseHandler);
-						    	
-						    	console.log('After token');
+
 						    
 						    } catch(err) {
 						    	
@@ -52,13 +47,11 @@ response.setDateHeader ("Expires", -1);
 				  function stripeResponseHandler(status, response) {
 					  var $form = $('#checkoutForm');
 					  
-					  log('Stripe response');
-
 					  if (response.error) {
 					    // Show the errors on the form
 					    var orderValidationMessage = getOrderValidationMessage(response.error.code);
 					    
-					    log('Validation message ' + orderValidationMessage);
+					    //log('Validation message ' + orderValidationMessage);
 					    
 					    if(orderValidationMessage == '') {
 					    	orderValidationMessage = error.message;
@@ -75,8 +68,6 @@ response.setDateHeader ("Expires", -1);
 					    $('#creditcard_card_number').val('');
 					    //log(tokenField);
 					    // and submit
-					    
-					    log('Payment Submit');
 					    
 					    //$form.get(0).submit();
 					    submitForm();
