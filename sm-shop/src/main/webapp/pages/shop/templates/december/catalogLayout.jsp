@@ -97,7 +97,7 @@ response.setDateHeader ("Expires", -1);
 	    }
 	  },
 	  "content": {
-		    "message": "<c:out value="${cookie.policy.text}" default="This website uses cookies to ensure you get the best experience on our website."/>",
+		    "message": "<c:out value="${message.cookie.policy}" default="This website uses cookies to ensure you get the best experience on our website."/>",
 		    "href": "/shop/pages/terms-and-policy.html"
 	   }
 	});
