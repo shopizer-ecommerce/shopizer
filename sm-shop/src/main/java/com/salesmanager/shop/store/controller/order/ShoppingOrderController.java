@@ -498,14 +498,11 @@ public class ShoppingOrderController extends AbstractController {
 			String userName = null;
 			String password = null;
 			
-			LOGGER.info("Getting customer informations");
-			
 			PersistableCustomer customer = order.getCustomer();
 			
 	        /** set username and password to persistable object **/
 			LOGGER.info("Set username and password to customer");
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			LOGGER.info("After getting authentication");
 			Customer authCustomer = null;
         	if(auth != null &&
 	        		 request.isUserInRole("AUTH_CUSTOMER")) {
@@ -516,7 +513,6 @@ public class ShoppingOrderController extends AbstractController {
         		//customer.setEncodedPassword(authCustomer.getPassword());
         		customer.setId(authCustomer.getId());
 	        } else {
-	        	LOGGER.info("Customer not authenticated");
 	        	//set customer id to null
 	        	customer.setId(null);
 	        }
@@ -528,7 +524,6 @@ public class ShoppingOrderController extends AbstractController {
 	        	String encodedPassword = passwordEncoder.encode(password);
 	        	//customer.setEncodedPassword(encodedPassword);
 	        }
-	        LOGGER.info("Password generated");
 	        
 	        if(order.isShipToBillingAdress()) {
 	        	customer.setDelivery(customer.getBilling());
@@ -539,7 +534,6 @@ public class ShoppingOrderController extends AbstractController {
 			Customer modelCustomer = null;
 			try {//set groups
 				if(authCustomer==null) {//not authenticated, create a new volatile user
-					LOGGER.info("Before getting model");
 					modelCustomer = customerFacade.getCustomerModel(customer, store, language);
 					customerFacade.setCustomerModelDefaultProperties(modelCustomer, store);
 					userName = modelCustomer.getNick();
@@ -805,8 +799,6 @@ public class ShoppingOrderController extends AbstractController {
 						
 						}
 						
-						LOGGER.info("Looking at delivery address");
-						
 						if(quote.getDeliveryAddress()!=null) {
 							ReadableCustomerDeliveryAddressPopulator addressPopulator = new ReadableCustomerDeliveryAddressPopulator();
 							addressPopulator.setCountryService(countryService);
@@ -815,8 +807,6 @@ public class ShoppingOrderController extends AbstractController {
 							addressPopulator.populate(quote.getDeliveryAddress(), deliveryAddress,  store, language);
 							model.addAttribute("deliveryAddress", deliveryAddress);
 						}
-						
-						LOGGER.info("After building delivery address");
 
 				}
 				
@@ -824,7 +814,6 @@ public class ShoppingOrderController extends AbstractController {
 				model.addAttribute("paymentMethods", paymentMethods);
 				
 				if(quote!=null) {
-					LOGGER.info("Getting shipping country");
 					List<Country> shippingCountriesList = orderFacade.getShipToCountry(store, language);
 					model.addAttribute("countries", shippingCountriesList);
 				} else {
