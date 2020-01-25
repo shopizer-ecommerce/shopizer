@@ -562,7 +562,7 @@ public class CustomerFacadeImpl implements CustomerFacade {
   @Override
   public Customer populateCustomerModel(Customer customerModel, PersistableCustomer customer,
       MerchantStore merchantStore, Language language) throws Exception {
-    LOG.info("Starting to populate customer model from customer data");
+      LOG.info("Starting to populate customer model from customer data");
 /*    CustomerPopulator populator = new CustomerPopulator();
     populator.setCountryService(countryService);
     populator.setCustomerOptionService(customerOptionService);

@@ -498,39 +498,48 @@ public class ShoppingOrderController extends AbstractController {
 			String userName = null;
 			String password = null;
 			
+			LOGGER.info("Getting customer informations");
+			
 			PersistableCustomer customer = order.getCustomer();
 			
 	        /** set username and password to persistable object **/
+			LOGGER.info("Set username and password to customer");
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			LOGGER.info("After getting authentication");
 			Customer authCustomer = null;
         	if(auth != null &&
 	        		 request.isUserInRole("AUTH_CUSTOMER")) {
+        		LOGGER.info("Customer authenticated");
         		authCustomer = customerFacade.getCustomerByUserName(auth.getName(), store);
         		//set id and authentication information
         		customer.setUserName(authCustomer.getNick());
         		//customer.setEncodedPassword(authCustomer.getPassword());
         		customer.setId(authCustomer.getId());
 	        } else {
+	        	LOGGER.info("Customer not authenticated");
 	        	//set customer id to null
 	        	customer.setId(null);
 	        }
 		
 	        //if the customer is new, generate a password
+        	LOGGER.info("New customer generate password");
 	        if(customer.getId()==null || customer.getId()==0) {//new customer
 	        	password = UserReset.generateRandomString();
 	        	String encodedPassword = passwordEncoder.encode(password);
 	        	//customer.setEncodedPassword(encodedPassword);
 	        }
+	        LOGGER.info("Password generated");
 	        
 	        if(order.isShipToBillingAdress()) {
 	        	customer.setDelivery(customer.getBilling());
 	        }
 	        
 
-
+	        LOGGER.info("Before creating new volatile");
 			Customer modelCustomer = null;
 			try {//set groups
 				if(authCustomer==null) {//not authenticated, create a new volatile user
+					LOGGER.info("Before getting model");
 					modelCustomer = customerFacade.getCustomerModel(customer, store, language);
 					customerFacade.setCustomerModelDefaultProperties(modelCustomer, store);
 					userName = modelCustomer.getNick();
@@ -540,6 +549,7 @@ public class ShoppingOrderController extends AbstractController {
 					}
 			        customerService.saveOrUpdate( modelCustomer );
 				} else {//use existing customer
+					LOGGER.info("Populate customer model");
 					modelCustomer = customerFacade.populateCustomerModel(authCustomer, customer, store, language);
 				}
 			} catch(Exception e) {
