@@ -316,7 +316,7 @@ public class ShoppingOrderController extends AbstractController {
 								String optionName = messages.getMessage(optionCodeBuilder.toString(),locale);
 								shipOption.setOptionName(optionName);
 							} catch(Exception e) {//label not found
-								LOGGER.warn("No shipping code found for " + optionCodeBuilder.toString());
+								LOGGER.warn("displayCheckout No shipping code found for " + optionCodeBuilder.toString());
 							}
 						}
 
@@ -488,6 +488,8 @@ public class ShoppingOrderController extends AbstractController {
 	
 	private Order commitOrder(ShopOrder order, HttpServletRequest request, Locale locale) throws Exception, ServiceException {
 		
+		
+			LOGGER.info("Entering comitOrder");
 		
 			MerchantStore store = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
 			Language language = (Language)request.getAttribute("LANGUAGE");
@@ -765,6 +767,8 @@ public class ShoppingOrderController extends AbstractController {
 							
 							for(ShippingOption shipOption : options) {
 								
+								LOGGER.info("Looking at shipping option " + shipOption.getOptionCode());
+								
 								StringBuilder moduleName = new StringBuilder();
 								moduleName.append("module.shipping.").append(shipOption.getShippingModuleCode());
 										
@@ -783,13 +787,15 @@ public class ShoppingOrderController extends AbstractController {
 										String optionName = messages.getMessage(optionCodeBuilder.toString(),locale);
 										shipOption.setOptionName(optionName);
 									} catch(Exception e) {//label not found
-										LOGGER.warn("No shipping code found for " + optionCodeBuilder.toString());
+										LOGGER.warn("commitOrder No shipping code found for " + optionCodeBuilder.toString());
 									}
 								}
 
 							}
 						
 						}
+						
+						LOGGER.info("Looking at delivery address");
 						
 						if(quote.getDeliveryAddress()!=null) {
 							ReadableCustomerDeliveryAddressPopulator addressPopulator = new ReadableCustomerDeliveryAddressPopulator();
@@ -799,6 +805,8 @@ public class ShoppingOrderController extends AbstractController {
 							addressPopulator.populate(quote.getDeliveryAddress(), deliveryAddress,  store, language);
 							model.addAttribute("deliveryAddress", deliveryAddress);
 						}
+						
+						LOGGER.info("After building delivery address");
 
 				}
 				
@@ -806,6 +814,7 @@ public class ShoppingOrderController extends AbstractController {
 				model.addAttribute("paymentMethods", paymentMethods);
 				
 				if(quote!=null) {
+					LOGGER.info("Getting shipping country");
 					List<Country> shippingCountriesList = orderFacade.getShipToCountry(store, language);
 					model.addAttribute("countries", shippingCountriesList);
 				} else {
@@ -1067,7 +1076,7 @@ public class ShoppingOrderController extends AbstractController {
 									String optionName = messages.getMessage(optionCodeBuilder.toString(),locale);
 									shipOption.setOptionName(optionName);
 								} catch(Exception e) {//label not found
-									LOGGER.warn("No shipping code found for " + optionCodeBuilder.toString());
+									LOGGER.warn("calculateShipping No shipping code found for " + optionCodeBuilder.toString());
 								}
 							}
 
@@ -1248,7 +1257,7 @@ public class ShoppingOrderController extends AbstractController {
 										String optionName = messages.getMessage(optionCodeBuilder.toString(),locale);
 										shipOption.setOptionName(optionName);
 									} catch(Exception e) {//label not found
-										LOGGER.warn("No shipping code found for " + optionCodeBuilder.toString());
+										LOGGER.warn("calculateOrderTotal No shipping code found for " + optionCodeBuilder.toString());
 									}
 								}
 							}
