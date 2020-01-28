@@ -11,8 +11,8 @@ public class ReadableCategory extends CategoryEntity implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private CategoryDescription description;//one category based on language
-	//private ReadableCategory parent;
 	private int productCount;
+	private String store;
 	private List<ReadableCategory> children = new ArrayList<ReadableCategory>();
 	
 	
@@ -34,6 +34,12 @@ public class ReadableCategory extends CategoryEntity implements Serializable {
 	}
 	public void setChildren(List<ReadableCategory> children) {
 		this.children = children;
+	}
+	public String getStore() {
+		return store;
+	}
+	public void setStore(String store) {
+		this.store = store;
 	}
 
 }
