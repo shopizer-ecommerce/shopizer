@@ -48,8 +48,8 @@
     <beans:beans profile="gcp">
   	<beans:import resource="classpath:/spring/datasource-c3p0.xml" />
   </beans:beans>
-  <beans:beans profile="aws">
-  	<beans:import resource="classpath:/profiles/aws/spring/datasource-c3p0.xml" />
+  <beans:beans profile="mysql">
+  	<beans:import resource="classpath:/spring/datasource-c3p0.xml" />
   </beans:beans>
   <beans:beans profile="cloud">
   	<beans:import resource="classpath:/spring/datasource-c3p0.xml" />

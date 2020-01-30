@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
-@ControllerAdvice
+@ControllerAdvice("com.salesmanager.shop.store.api")
 public class RestErrorHandler {
   
     private static final Logger log = LoggerFactory.getLogger(RestErrorHandler.class);

@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 @Configuration
-@Profile({"aws", "cloud"})
+@Profile({"aws", "cloud", "mysql"})
 public class AwsLocationImageConfig {
 
 
