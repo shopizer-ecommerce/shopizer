@@ -39,7 +39,7 @@ To build the application:
 From the command line with Maven installed:
 
 	$ cd shopizer
-	$ mvmw clean install
+	$ mvnw clean install
 	
 
 Run the application from Tomcat 
@@ -63,7 +63,7 @@ Run the application from Spring boot
 -------------------
 
        $ cd sm-shop 
-	   $ mvmw spring-boot:run
+       $ mvnw spring-boot:run
 
 Run the application from Spring boot in eclipse
 -------------------
