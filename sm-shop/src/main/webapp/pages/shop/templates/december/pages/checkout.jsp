@@ -369,6 +369,10 @@ function resetErrorMessage() {
 	
 }
 
+function shippingQuote() {
+	shippingQuotes(shippingQuotesUrl,useDistanceWindow);
+}
+
 
 
 //different form actions
@@ -1077,7 +1081,7 @@ function initPayment(paymentSelection) {
 		</div>
 		<!-- checkout-area end -->
 		
-		<!-- maps and geoloc -->
+		<!-- maps and geoloc, places -->
 		<c:if test="${googleMapsKey != ''}">
 		<script src="<c:url value="/resources/js/address-autocomplete.js" />"></script>
 		</c:if>

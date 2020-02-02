@@ -71,7 +71,7 @@
 	                        		<div class="control-group">
                         				<label><s:message code="label.emailconfig.password" text="Password"/></label>
                         				<div class="controls">
-											<form:password cssClass="input-large" path="password" />
+											<form:password cssClass="input-large" path="password" showPassword="true"/>
                         				</div>
 	                                	<span class="help-inline"><form:errors path="password" cssClass="error" /></span>
 	                        		</div>	

@@ -307,11 +307,12 @@ public class EmailTemplatesUtils {
 		
 	}
 	
+	@Async
 	public void sendContactEmail(
 			ContactForm contact, MerchantStore merchantStore,
 				Locale storeLocale, String contextPath) {
 			   /** issue with putting that elsewhere **/ 
-		       LOGGER.info( "Sending welcome email to customer" );
+		       LOGGER.info( "Sending email to store owner" );
 		       try {
 
 		           Map<String, String> templateTokens = emailUtils.createEmailObjectsMap(contextPath, merchantStore, messages, storeLocale);
@@ -329,9 +330,11 @@ public class EmailTemplatesUtils {
 
 
 		           Email email = new Email();
-		           email.setFrom(merchantStore.getStorename());
-		           email.setFromEmail(contact.getEmail());
+		           email.setFrom(contact.getName());
+		           //since shopizer sends email to store email, sender is store email
+		           email.setFromEmail(merchantStore.getStoreEmailAddress());
 		           email.setSubject(messages.getMessage("email.contact.title",storeLocale));
+		           //contact has to be delivered to store owner, receiver is store email
 		           email.setTo(merchantStore.getStoreEmailAddress());
 		           email.setTemplateName(EmailConstants.EMAIL_CONTACT_TMPL);
 		           email.setTemplateTokens(templateTokens);

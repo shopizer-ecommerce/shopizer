@@ -24,7 +24,6 @@ var placeForm = {
 function initAutocomplete() {
     // Create the autocomplete object, restricting the search to geographical
     // location types.
-	//console.log('Init autocomplete');
     autocomplete = new google.maps.places.Autocomplete(
         /** @type {!HTMLInputElement} */(document.getElementById('addressAutocomplete')),
         {types: ['geocode']});
@@ -67,6 +66,7 @@ function fillInAddress() {
     var streetField = '';
     var country = '';
     var zone = '';
+    var postal = '';
     var longProvinceName = '';
     if(place.address_components!=null) {
         for (var i = 0; i < place.address_components.length; i++) {
@@ -74,7 +74,6 @@ function fillInAddress() {
           if (addressType == 'administrative_area_level_1') {
         	  var newVal = place.address_components[i]['long_name'];
         	  longProvinceName = newVal;
-        	  //console.log('LPN ' + newVal);
           }
           //content can vary from geolocation
           if (placeForm[addressType]) {
@@ -87,6 +86,10 @@ function fillInAddress() {
             	} 
             	if(addressType == 'route') {
             		street = val;
+            		continue;
+            	} 
+            	if(addressType == 'postal_code') {
+            		postal = val;
             		continue;
             	} 
             	if(addressType == 'country') {
@@ -113,6 +116,13 @@ function fillInAddress() {
     
     getZones('#billingStateList','#billingStateProvince',country,zone,longProvinceName,getLanguageCode(),null);
 
+    if(postal != '') {
+    	 //new quote
+    	document.getElementById('billingPostalCode').value = postal;
+    	if (typeof shippingQuote === "function") {
+    	    shippingQuote();
+    	}
+    }
 
   }
 

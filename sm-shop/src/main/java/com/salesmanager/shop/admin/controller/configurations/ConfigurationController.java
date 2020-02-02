@@ -41,6 +41,8 @@ public class ConfigurationController {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConfigurationController.class);
 	
+	private static final String DEFAULT_PASSWORD = "*****";
+	
 	@Inject
 	private MerchantConfigurationService merchantConfigurationService;
 	
@@ -161,7 +163,8 @@ public class ConfigurationController {
 			emailConfig.setHost(env.getProperty("mailSender.host"));
 			emailConfig.setPort(env.getProperty("mailSender.port}"));
 			emailConfig.setUsername(env.getProperty("mailSender.username"));
-			emailConfig.setPassword(env.getProperty("mailSender.password"));
+			//emailConfig.setPassword(env.getProperty("mailSender.password"));
+			emailConfig.setPassword(DEFAULT_PASSWORD);
 			emailConfig.setSmtpAuth(Boolean.parseBoolean(env.getProperty("mailSender.mail.smtp.auth")));
 			emailConfig.setStarttls(Boolean.parseBoolean(env.getProperty("mail.smtp.starttls.enable")));
 		}
@@ -185,7 +188,12 @@ public class ConfigurationController {
 		emailConfig.setHost(config.getHost());
 		emailConfig.setPort(config.getPort());
 		emailConfig.setUsername(config.getUsername());
-		emailConfig.setPassword(config.getPassword());
+		emailConfig.setPassword(emailConfig.getPassword());
+		if(!StringUtils.isBlank(config.getPassword())) {
+			if(!config.getPassword().equals(DEFAULT_PASSWORD)) {
+				emailConfig.setPassword(config.getPassword());
+			}
+		}
 		emailConfig.setSmtpAuth(config.isSmtpAuth());
 		emailConfig.setStarttls(config.isStarttls());
 		

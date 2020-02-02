@@ -372,6 +372,10 @@ function resetErrorMessage() {
 	
 }
 
+function shippingQuote() {
+	shippingQuotes(shippingQuotesUrl,useDistanceWindow);
+}
+
 
 
 //different form actions

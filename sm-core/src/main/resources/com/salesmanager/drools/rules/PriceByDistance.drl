@@ -6,16 +6,16 @@ global com.salesmanager.core.business.modules.integration.shipping.impl.Decision
 
 dialect  "mvel"
 
-rule "30 kilometers or less"
+rule "530 kilometers or less"
     when
-        ShippingInputParameters(distance <= 30)
+        ShippingInputParameters(distance <= 530)
     then
         decision.setCustomPrice("75");
 end
 
-rule "50 kilometers or less"
+rule "3550 kilometers or less"
     when
-        ShippingInputParameters(distance <=50)
+        ShippingInputParameters(distance <=3550)
     then
-        decision.setCustomPrice("100");
+        decision.setCustomPrice("120");
 end

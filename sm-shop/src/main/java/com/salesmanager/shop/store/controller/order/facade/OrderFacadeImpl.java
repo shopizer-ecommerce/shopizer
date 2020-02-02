@@ -37,11 +37,9 @@ import com.salesmanager.core.business.services.catalog.product.file.DigitalProdu
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.order.OrderService;
 import com.salesmanager.core.business.services.payments.PaymentService;
-import com.salesmanager.core.business.services.reference.currency.CurrencyService;
 import com.salesmanager.core.business.services.shipping.ShippingQuoteService;
 import com.salesmanager.core.business.services.shipping.ShippingService;
 import com.salesmanager.core.business.services.shoppingcart.ShoppingCartService;
-import com.salesmanager.core.business.services.system.EmailService;
 import com.salesmanager.core.business.utils.CoreConfiguration;
 import com.salesmanager.core.business.utils.CreditCardUtils;
 import com.salesmanager.core.model.catalog.product.Product;
@@ -119,8 +117,6 @@ public class OrderFacadeImpl implements OrderFacade {
 	@Inject
 	private DigitalProductService digitalProductService;
 	@Inject
-	private CustomerService customerService;
-	@Inject
 	private ShippingService shippingService;
 	@Inject
 	private CustomerFacade customerFacade;
@@ -128,8 +124,6 @@ public class OrderFacadeImpl implements OrderFacade {
 	private PricingService pricingService;
 	@Inject
 	private ShoppingCartFacade shoppingCartFacade;
-	@Inject
-	private CurrencyService currencyService;
 	@Inject
 	private ShippingQuoteService shippingQuoteService;
 	@Inject
@@ -143,11 +137,6 @@ public class OrderFacadeImpl implements OrderFacade {
 	@Autowired
 	private CustomerPopulator customerPopulator;
 	
-
-	
-	@Inject
-	EmailService emailService;
-
 	
 	@Inject
 	private EmailTemplatesUtils emailTemplatesUtils;
