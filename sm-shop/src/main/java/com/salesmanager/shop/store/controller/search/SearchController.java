@@ -1,9 +1,11 @@
 package com.salesmanager.shop.store.controller.search;
 
 import java.util.Locale;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,11 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.salesmanager.core.business.services.catalog.category.CategoryService;
-import com.salesmanager.core.business.services.catalog.product.PricingService;
-import com.salesmanager.core.business.services.catalog.product.ProductService;
+
 import com.salesmanager.core.business.services.merchant.MerchantStoreService;
-import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.business.services.search.SearchService;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
@@ -93,7 +92,7 @@ public class SearchController {
 			
 			AutoCompleteRequest req = new AutoCompleteRequest(store,language);
 			/** formatted toJSONString because of te specific field names required in the UI **/
-			SearchKeywords keywords = searchService.searchForKeywords(req.getCollectionName(), req.toJSONString(query), AUTOCOMPLETE_ENTRIES_COUNT);
+			SearchKeywords keywords = searchService.searchForKeywords(req.getCollectionName(), query, AUTOCOMPLETE_ENTRIES_COUNT);
 			return keywords.toJSONString();
 
 			
@@ -127,54 +126,9 @@ public class SearchController {
 	    Model model, 
 	    Language language, 
 	    MerchantStore store) {
-	  
-	  
-		//SearchProductList returnList = new SearchProductList();
-		//MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
-		
+
 		return searchFacade.search(store, language, searchRequest);
-/*		
-		String json = null;
-		
-		try {
-			
-			StringWriter writer = new StringWriter();
-			IOUtils.copy(request.getInputStream(), writer, "UTF-8");
-			json = writer.toString();
-			
-			Map<String,Language> langs = languageService.getLanguagesMap();
-			
-			if(merchantStore!=null) {
-				if(!merchantStore.getCode().equals(store)) {
-					merchantStore = null; //reset for the current request
-				}
-			}
-			
-			if(merchantStore== null) {
-				merchantStore = merchantStoreService.getByCode(store);
-			}
-			
-			if(merchantStore==null) {
-				LOGGER.error("Merchant store is null for code " + store);
-				response.sendError(503, "Merchant store is null for code " + store);//TODO localized message
-				return null;
-			}
-			
-			Language l = langs.get(language);
-			if(l==null) {
-				l = languageService.getByCode(Constants.DEFAULT_LANGUAGE);
-			}
 
-			SearchResponse resp = searchService.search(merchantStore, language, json, max, start);
-			return searchFacade.convertToSearchProductList(resp, merchantStore, start, max, l);
-
-		} catch (Exception e) {
-			LOGGER.error("Exception occured while querying " + json,e);
-		}
-		
-
-		
-		return returnList;*/
 		
 	}
 	

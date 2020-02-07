@@ -3,6 +3,8 @@ package com.salesmanager.shop.mapper.inventory;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.helper.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,7 +23,6 @@ import com.salesmanager.shop.model.catalog.product.PersistableProductPrice;
 import com.salesmanager.shop.model.catalog.product.inventory.PersistableInventory;
 import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;
 import com.salesmanager.shop.utils.DateUtil;
-import io.searchbox.strings.StringUtils;
 
 @Component
 public class PersistableInventoryMapper implements Mapper<PersistableInventory, ProductAvailability> {

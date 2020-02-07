@@ -1,0 +1,18 @@
+ {
+ 	"analysis": {
+ 		"filter": {
+ 			"french_stop": {
+ 				"type": "stop",
+ 				"stopwords": "_french_"
+ 			}
+ 		},
+ 		"analyzer": {
+ 			"rebuilt_stop": {
+ 				"tokenizer": "lowercase",
+ 				"filter": [
+ 					"french_stop"
+ 				]
+ 			}
+ 		}
+ 	}
+ }

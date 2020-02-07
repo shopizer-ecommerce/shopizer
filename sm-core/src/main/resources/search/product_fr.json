@@ -1,5 +1,4 @@
 {
-	"product_fr": {
 		"properties": {
 			"name": {
 				"type": "keyword",
@@ -10,6 +9,15 @@
 						"search_analyzer": "nameAnalyzer"
 					}
 				}
+			},
+			"sku": {
+				"type": "keyword"
+			},
+			"store": {
+				"type": "keyword"
+			},
+			"lang": {
+				"type": "keyword"
 			},
 			"categories": {
 				"type": "keyword",
@@ -48,5 +56,4 @@
 				"type": "float"
 			}
 		}
-	}
 }

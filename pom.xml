@@ -43,11 +43,10 @@
 
     <!--shopizer version-->
     <shopizer.version>2.10.0</shopizer.version>
-    <shopizer.search.version>2.9.0</shopizer.search.version>
+    <shopizer.search.version>2.10.0</shopizer.search.version>
     <shopizer-canadapost.version>2.9.0</shopizer-canadapost.version>
 
-    <org.elasticsearch-version>6.3.1</org.elasticsearch-version>
-    <io.searchbox.jest-version>6.3.1</io.searchbox.jest-version>
+    <org.elasticsearch-version>7.5.2</org.elasticsearch-version>
     <guava.version>27.1-jre</guava.version>
     <commons-lang.version>3.5</commons-lang.version>
     <commons-io.version>2.5</commons-io.version>
@@ -524,11 +523,6 @@
           <artifactId>jest</artifactId>
         </exclusion>
       </exclusions>
-    </dependency>
-
-    <dependency>
-      <groupId>io.searchbox</groupId>
-      <artifactId>jest</artifactId>
     </dependency>
 
     <!-- Elastic search -->

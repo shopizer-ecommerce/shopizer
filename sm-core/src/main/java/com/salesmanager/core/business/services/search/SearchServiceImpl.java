@@ -143,7 +143,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 			
 			String jsonString = index.toJSONString();
 			try {
-				searchService.index(jsonString, collectionName.toString(), new StringBuilder().append(PRODUCT_INDEX_NAME).append(UNDERSCORE).append(description.getLanguage().getCode()).toString());
+				searchService.index(jsonString, collectionName.toString());
 			} catch (Exception e) {
 				throw new ServiceException("Cannot index product id [" + product.getId() + "], " + e.getMessage() ,e);
 			}
@@ -164,7 +164,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 			collectionName.append(PRODUCT_INDEX_NAME).append(UNDERSCORE).append(description.getLanguage().getCode()).append(UNDERSCORE).append(store.getCode().toLowerCase());
 
 			try {
-				searchService.deleteObject(collectionName.toString(), new StringBuilder().append(PRODUCT_INDEX_NAME).append(UNDERSCORE).append(description.getLanguage().getCode()).toString(), String.valueOf(product.getId()));
+				searchService.deleteObject(collectionName.toString(), String.valueOf(product.getId()));
 			} catch (Exception e) {
 				LOGGER.error("Cannot delete index for product id [" + product.getId() + "], ",e);
 			}
@@ -173,12 +173,12 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 	}
 	
 
-	public SearchKeywords searchForKeywords(String collectionName, String jsonString, int entriesCount) throws ServiceException {
+	public SearchKeywords searchForKeywords(String collectionName, String word, int entriesCount) throws ServiceException {
 		
      		
 		try {
 
-			SearchResponse response = searchService.searchAutoComplete(collectionName, jsonString, entriesCount);
+			SearchResponse response = searchService.searchAutoComplete(collectionName, word, entriesCount);
 			
 			SearchKeywords keywords = new SearchKeywords();
 			if(response!=null && response.getInlineSearchList() != null) {
@@ -188,7 +188,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 			return keywords;
 			
 		} catch (Exception e) {
-			LOGGER.error("Error while searching keywords " + jsonString,e);
+			LOGGER.error("Error while searching keywords " + word,e);
 			throw new ServiceException(e);
 		}
 
@@ -196,7 +196,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 	}
 	
 
-	public com.salesmanager.core.model.search.SearchResponse search(MerchantStore store, String languageCode, String jsonString, int entriesCount, int startIndex) throws ServiceException {
+	public com.salesmanager.core.model.search.SearchResponse search(MerchantStore store, String languageCode, String term, int entriesCount, int startIndex) throws ServiceException {
 		
 
 		try {
@@ -209,7 +209,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 			request.addCollection(collectionName.toString());
 			request.setSize(entriesCount);
 			request.setStart(startIndex);
-			request.setJson(jsonString);
+			request.setMatch(term);
 			
 			SearchResponse response = searchService.search(request);
 			
@@ -231,8 +231,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 						//Map<String,Object> metaEntries = hit.getMetaEntries();
 						Map<String,Object> metaEntries = hit.getItem();
 						IndexProduct indexProduct = new IndexProduct();
-						//Map sourceEntries = (Map)metaEntries.get("source");
-						
+
 						indexProduct.setDescription((String)metaEntries.get("description"));
 						indexProduct.setHighlight((String)metaEntries.get("highlight"));
 						indexProduct.setId((String)metaEntries.get("id"));
@@ -295,7 +294,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 			
 			
 		} catch (Exception e) {
-			LOGGER.error("Error while searching keywords " + jsonString,e);
+			LOGGER.error("Error while searching keywords " + term,e);
 			throw new ServiceException(e);
 		}
 		

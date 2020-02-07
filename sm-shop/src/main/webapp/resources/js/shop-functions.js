@@ -69,7 +69,7 @@ function searchProducts(url,divProductsContainer,q,filter) {
 		return;
 	}
 
-	var query = '{"query":"'+ q + '","start":0, "count":20}';
+	//var query = '{"query":"'+ q + '","start":0, "count":20}';
 
 
 	$.ajax({
@@ -77,7 +77,7 @@ function searchProducts(url,divProductsContainer,q,filter) {
   			type:"POST",
   			dataType:"json",
   			url:'/api/v1/search',
-  			data:query,
+  			data:q,
   			contentType:"application/json;charset=UTF-8",
 			success: function(productList) {
 				callBackSearchProducts(productList);

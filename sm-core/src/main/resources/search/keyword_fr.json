@@ -1,11 +1,10 @@
 {
-    "keyword_fr": {
         "properties": {
             "keyword": {
-                "type":     "text",
-            	"analyzer": "nGram_analyzer",
-            	"search_analyzer": "whitespace_analyzer"
+                "type":"completion"
+            },
+            "original": {
+                "type":"keyword"
             }
         }
-    }
 }
