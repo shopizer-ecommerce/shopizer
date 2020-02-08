@@ -69,7 +69,7 @@ function searchProducts(url,divProductsContainer,q,filter) {
 		return;
 	}
 
-	//var query = '{"query":"'+ q + '","start":0, "count":20}';
+	var query = '{"query":"'+ q + '","start":0, "count":25}';
 
 
 	$.ajax({
@@ -77,14 +77,14 @@ function searchProducts(url,divProductsContainer,q,filter) {
   			type:"POST",
   			dataType:"json",
   			url:'/api/v1/search',
-  			data:q,
+  			data:query,
   			contentType:"application/json;charset=UTF-8",
 			success: function(productList) {
 				callBackSearchProducts(productList);
 			},
 			error: function(jqXHR,textStatus,errorThrown) { 
 				$(divProductsContainer).hideLoading();
-				alert('Error ' + jqXHR + "-" + textStatus + "-" + errorThrown);
+				log('Error ' + jqXHR + "-" + textStatus + "-" + errorThrown);
 			}
 			
 	});

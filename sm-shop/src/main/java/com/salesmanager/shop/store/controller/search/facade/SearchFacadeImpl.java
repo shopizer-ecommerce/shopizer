@@ -67,9 +67,6 @@ public class SearchFacadeImpl implements SearchFacade {
 	@Qualifier("img")
 	private ImageFilePath imageUtils;
 
-	@Inject
-	private CoreConfiguration coreConfiguration;
-
 	private final static String CATEGORY_FACET_NAME = "categories";
 	private final static String MANUFACTURER_FACET_NAME = "manufacturer";
 	private final static int AUTOCOMPLETE_ENTRIES_COUNT = 15;
@@ -91,7 +88,6 @@ public class SearchFacadeImpl implements SearchFacade {
 
 	@Override
 	public SearchProductList search(MerchantStore store, Language language, SearchProductRequest searchRequest) {
-		//String query = String.format(coreConfiguration.getProperty("SEARCH_QUERY"), searchRequest.getQuery());
 		SearchResponse response = search(store, language.getCode(), searchRequest.getQuery(), searchRequest.getCount(),
 				searchRequest.getStart());
 		return convertToSearchProductList(response, store, searchRequest.getStart(), searchRequest.getCount(),

@@ -106,19 +106,13 @@ public class SearchController {
 
 	
 	/**
-	 * Displays the search result page
-	 * @param json
-	 * @param store
-	 * @param language
-	 * @param start
-	 * @param max
+	 * Search results page
+	 * @param searchRequest
 	 * @param model
-	 * @param request
-	 * @param response
+	 * @param language
+	 * @param store
 	 * @return
-	 * @throws Exception
 	 */
-	//@RequestMapping(value="/services/public/search/{store}/{language}/{start}/{max}/search.json", method=RequestMethod.POST)
 	@RequestMapping(value="/services/public/search.json", method=RequestMethod.POST)
 	@ResponseBody
 	public SearchProductList search(
