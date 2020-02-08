@@ -161,7 +161,7 @@
 		<property name="collectionName" value="keyword_en_default"/>
 		<property name="indexName" value="keyword_en"/>
 		<property name="createOnIndexName" value="product_en_*"/>
-		<property name="mappingFileName" value="search/keyword.json"/>
+		<property name="mappingFileName" value="search/keyword_en.json"/>
 		<property name="settingsFileName" value="search/settings_keyword_en.json"/>
 		<property name="fields">
 			<list>
