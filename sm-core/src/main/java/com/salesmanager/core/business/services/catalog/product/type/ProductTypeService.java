@@ -4,10 +4,8 @@ import java.util.List;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityService;
 import com.salesmanager.core.model.catalog.product.type.ProductType;
-<<<<<<< HEAD
 import com.salesmanager.core.model.merchant.MerchantStore;
-=======
->>>>>>> origin/sb2.2
+
 import com.salesmanager.core.model.reference.language.Language;
 
 public interface ProductTypeService extends SalesManagerEntityService<Long, ProductType> {
@@ -15,10 +13,7 @@ public interface ProductTypeService extends SalesManagerEntityService<Long, Prod
 	ProductType getProductType(String productTypeCode) throws ServiceException;
 	
 	List<ProductType> getByMerchant(String merchant, Language language) throws ServiceException;
-<<<<<<< HEAD
-
     public List<ProductType> getByMerchant(MerchantStore store, Language language) throws ServiceException;
-=======
->>>>>>> origin/sb2.2
+
 
 }

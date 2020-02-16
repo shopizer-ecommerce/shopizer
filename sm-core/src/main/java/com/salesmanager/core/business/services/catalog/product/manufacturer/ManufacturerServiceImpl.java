@@ -10,10 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-<<<<<<< HEAD
-=======
 import org.springframework.data.domain.Sort;
->>>>>>> origin/sb2.2
 import org.springframework.stereotype.Service;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.repositories.catalog.product.manufacturer.ManufacturerRepository;
@@ -125,12 +122,8 @@ public class ManufacturerServiceImpl extends SalesManagerEntityServiceImpl<Long,
   @Override
   public Page<Manufacturer> listByStore(MerchantStore store, Language language, int page, int count)
       throws ServiceException {
-    
-<<<<<<< HEAD
-    Pageable pageRequest = new PageRequest(page, count);
-=======
+
     Pageable pageRequest = PageRequest.of(page, count);
->>>>>>> origin/sb2.2
     return pageableManufacturerRepository.findByStore(store.getId(), language.getId(), null, pageRequest);
   }
 
@@ -143,22 +136,16 @@ public class ManufacturerServiceImpl extends SalesManagerEntityServiceImpl<Long,
   @Override
   public Page<Manufacturer> listByStore(MerchantStore store, Language language, String name,
       int page, int count) throws ServiceException {
-<<<<<<< HEAD
-    Pageable pageRequest = new PageRequest(page, count);
-=======
+
     Pageable pageRequest = PageRequest.of(page, count);
->>>>>>> origin/sb2.2
     return pageableManufacturerRepository.findByStore(store.getId(), language.getId(), name, pageRequest);
   }
 
   @Override
   public Page<Manufacturer> listByStore(MerchantStore store, String name, int page, int count)
       throws ServiceException {
-<<<<<<< HEAD
-    Pageable pageRequest = new PageRequest(page, count);
-=======
+
     Pageable pageRequest = PageRequest.of(page, count);
->>>>>>> origin/sb2.2
     return pageableManufacturerRepository.findByStore(store.getId(), name, pageRequest);
   }
 }

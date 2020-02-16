@@ -67,7 +67,7 @@ public class MerchantStoreServiceImpl extends SalesManagerEntityServiceImpl<Inte
 
 	@Override
 	public Page<MerchantStore> listChildren(String code, int page, int count) throws ServiceException {
-		Pageable pageRequest = new PageRequest(page, count);
+		Pageable pageRequest = PageRequest.of(page, count);
 		return pageableMerchantRepository.listByStore(code, pageRequest);
 	}
 
@@ -77,7 +77,7 @@ public class MerchantStoreServiceImpl extends SalesManagerEntityServiceImpl<Inte
 		if (storeName != null && storeName.isPresent()) {
 			store = storeName.get();
 		}
-		Pageable pageRequest = new PageRequest(page, count);
+		Pageable pageRequest = PageRequest.of(page, count);
 		return pageableMerchantRepository.listAll(store, pageRequest);
 
 	}
@@ -94,7 +94,7 @@ public class MerchantStoreServiceImpl extends SalesManagerEntityServiceImpl<Inte
 		if (storeName != null && storeName.isPresent()) {
 			store = storeName.get();
 		}
-		Pageable pageRequest = new PageRequest(page, count);
+		Pageable pageRequest = PageRequest.of(page, count);
 		return pageableMerchantRepository.listAllRetailers(store, pageRequest);
 
 	}

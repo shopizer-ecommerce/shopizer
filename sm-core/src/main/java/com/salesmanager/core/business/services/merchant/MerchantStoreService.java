@@ -1,14 +1,10 @@
 package com.salesmanager.core.business.services.merchant;
 
 import java.util.List;
-<<<<<<< HEAD
-import java.util.Optional;
 
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 
-
-=======
->>>>>>> origin/sb2.2
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityService;
 import com.salesmanager.core.model.common.GenericEntityList;

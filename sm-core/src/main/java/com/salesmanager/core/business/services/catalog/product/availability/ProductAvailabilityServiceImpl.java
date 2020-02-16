@@ -69,7 +69,7 @@ public class ProductAvailabilityServiceImpl extends
       int page, int count) throws ServiceException {
     Validate.notNull(product, "Product cannot be null");
     Validate.notNull(store, "MercantStore cannot be null");
-    Pageable pageRequest = new PageRequest(page, count);
+    Pageable pageRequest = PageRequest.of(page, count);
     return pageableProductAvailabilityRepository.listByStore(product.getId(), store.getId(), child,
         pageRequest);
   }
