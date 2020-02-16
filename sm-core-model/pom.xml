@@ -68,10 +68,10 @@
     </dependency>
 
     <!-- http://mvnrepository.com/artifact/org.hibernate/hibernate-validator -->
-    <dependency>
+<!--     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-validator</artifactId>
-    </dependency>
+    </dependency> -->
 
     <!-- http://mvnrepository.com/artifact/commons-io/commons-io -->
     <dependency>
@@ -85,11 +85,6 @@
       <artifactId>commons-fileupload</artifactId>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/org.springframework.social/ spring-social-core -->
-    <dependency>
-      <groupId>org.springframework.social</groupId>
-      <artifactId>spring-social-core</artifactId>
-    </dependency>
 
   </dependencies>
 

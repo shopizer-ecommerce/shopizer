@@ -9,6 +9,7 @@ import javax.persistence.Embeddable;
  * @author carlsamson
  *
  */
+@Deprecated
 @Embeddable
 public class UserConnectionPK implements Serializable {
 	/**

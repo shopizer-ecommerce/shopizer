@@ -7,6 +7,7 @@ import javax.persistence.UniqueConstraint;
 
 import com.salesmanager.core.constants.SchemaConstant;
 
+@Deprecated
 @MappedSuperclass
 @Table(name="USERCONNECTION", schema=SchemaConstant.SALESMANAGER_SCHEMA, uniqueConstraints = { @UniqueConstraint(columnNames = { "userId",
 		"providerId", "userRank" }) })

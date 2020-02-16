@@ -2,6 +2,7 @@ package com.salesmanager.core.model.customer.connection;
 
 import javax.persistence.Entity;
 
+@Deprecated
 @Entity
 public class UserConnection extends AbstractUserConnectionWithCompositeKey {
 

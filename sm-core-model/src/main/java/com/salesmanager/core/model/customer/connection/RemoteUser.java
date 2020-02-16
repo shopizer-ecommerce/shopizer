@@ -1,8 +1,9 @@
 package com.salesmanager.core.model.customer.connection;
 
-import org.springframework.social.UserIdSource;
+//import org.springframework.social.UserIdSource;
 
-public interface RemoteUser extends UserIdSource{
+@Deprecated
+public interface RemoteUser { //extends UserIdSource{
 
 	public String getUserId();
 	

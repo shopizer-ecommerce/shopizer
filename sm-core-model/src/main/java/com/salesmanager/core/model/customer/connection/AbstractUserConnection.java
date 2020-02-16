@@ -5,7 +5,7 @@ import java.io.Serializable;
 import javax.persistence.MappedSuperclass;
 
 
-
+@Deprecated
 @MappedSuperclass
 public abstract class AbstractUserConnection<P> implements RemoteUser,
 		Serializable {

@@ -1,7 +1,6 @@
 package com.salesmanager.shop.model.store;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
@@ -139,21 +138,5 @@ public class MerchantStoreEntity implements Serializable {
 		this.weight = weight;
 	}
 
-
-  public boolean isRetailer() {
-    return retailer;
-  }
-
-  public void setRetailer(boolean retailer) {
-    this.retailer = retailer;
-  }
-
-  public boolean isRetailer() {
-    return retailer;
-  }
-
-  public void setRetailer(boolean retailer) {
-    this.retailer = retailer;
-  }
 
 }

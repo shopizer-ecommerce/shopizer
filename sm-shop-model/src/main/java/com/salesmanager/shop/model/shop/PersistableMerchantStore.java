@@ -1,6 +1,7 @@
 package com.salesmanager.shop.model.shop;
 
 import com.salesmanager.shop.model.references.PersistableAddress;
+import com.salesmanager.shop.model.store.MerchantStoreEntity;
 
 public class PersistableMerchantStore extends MerchantStoreEntity {
 	
