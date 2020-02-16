@@ -60,7 +60,7 @@ public class UserServicesImpl implements WebUserServices{
 	@Inject
 	protected GroupService   groupService;
 	
-	public final static String ROLE_PREFIX = "ROLE_";//Spring Security 4
+	public final static String ROLE_PREFIX = "ROLE_";
 	
 	
 	

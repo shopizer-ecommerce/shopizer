@@ -8,7 +8,11 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.content.ContentFile;
 import com.salesmanager.shop.model.content.ContentFolder;
+<<<<<<< HEAD
 import com.salesmanager.shop.model.content.PersistableContentEntity;
+=======
+import com.salesmanager.shop.model.content.PersistableContent;
+>>>>>>> origin/sb2.2
 import com.salesmanager.shop.model.content.PersistableContentPage;
 import com.salesmanager.shop.model.content.ReadableContentBox;
 import com.salesmanager.shop.model.content.ReadableContentEntity;
@@ -45,7 +49,11 @@ public interface ContentFacade {
 	 * @param store
 	 * @param id
 	 */
+<<<<<<< HEAD
 	void delete(MerchantStore store, Long id);
+=======
+	void deletePage(MerchantStore store, Long id);
+>>>>>>> origin/sb2.2
 	
 	
 	/**
@@ -115,6 +123,7 @@ public interface ContentFacade {
 	 * @param merchantStore
 	 * @param language
 	 */
+<<<<<<< HEAD
 	void saveContentPage(PersistableContentEntity page, MerchantStore merchantStore, Language language);
 	
 	ReadableContentFull getContent(String code, MerchantStore store, Language language);
@@ -127,5 +136,8 @@ public interface ContentFacade {
 	 * @return
 	 */
 	List<ReadableContentEntity> getContents(Optional<String> type, MerchantStore store, Language language);
+=======
+	void saveContentPage(PersistableContent page, MerchantStore merchantStore, Language language);
+>>>>>>> origin/sb2.2
 
 }

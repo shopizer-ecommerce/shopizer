@@ -24,8 +24,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.Pattern;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import com.salesmanager.core.constants.MeasureUnit;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.common.audit.AuditSection;
@@ -402,6 +402,7 @@ public class MerchantStore extends SalesManagerEntity<Integer, MerchantStore> im
 	public Boolean isRetailer() {
 		return retailer;
 	}
+
 
 	public void setRetailer(Boolean retailer) {
 		this.retailer = retailer;

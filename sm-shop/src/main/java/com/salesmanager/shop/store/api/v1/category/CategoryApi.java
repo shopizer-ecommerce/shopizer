@@ -34,6 +34,7 @@ import com.salesmanager.shop.model.catalog.category.ReadableCategoryList;
 import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.model.entity.ListCriteria;
 import com.salesmanager.shop.store.api.exception.UnauthorizedException;
+
 import com.salesmanager.shop.store.controller.category.facade.CategoryFacade;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.store.controller.user.facade.UserFacade;
@@ -60,10 +61,6 @@ public class CategoryApi {
 
 	@Inject
 	private CategoryFacade categoryFacade;
-	@Inject
-	private StoreFacade storeFacade;
-	@Inject
-	private LanguageUtils languageUtils;
 
 	@Inject
 	private UserFacade userFacade;

@@ -31,7 +31,7 @@
 								<c:url var="shippingConfigurationSave" value="/admin/shipping/saveShippingConfiguration.html"/>
 
 
-								<form:form method="POST" commandName="configuration" action="${shippingConfigurationSave}">
+								<form:form method="POST" modelAttribute="configuration" action="${shippingConfigurationSave}">
 
       							
       								<form:errors path="*" cssClass="alert alert-error" element="div" />

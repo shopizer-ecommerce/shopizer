@@ -126,17 +126,6 @@ public class AuthenticateCustomerApi {
             // Return the token
             return ResponseEntity.ok(new AuthenticationResponse(customer.getId(),token));
 
-            
-        //} catch (Exception e) {
-         //   LOGGER.error("Error while registering customer",e);
-         //   try {
-         //       response.sendError(503, "Error while registering customer " + e.getMessage());
-         //   } catch (Exception ignore) {
-         //   }
-            
-        //    return null;
-       // }
-
         
     }
 
@@ -201,9 +190,11 @@ public class AuthenticateCustomerApi {
         }
     }
     
+
     @RequestMapping(value = "/customer/password/reset", method = RequestMethod.PUT, produces ={ "application/json" })
     @ApiOperation(httpMethod = "POST", value = "Change customer password", notes = "Change password request object is {\"username\":\"test@email.com\"}",response = ResponseEntity.class)
     public ResponseEntity<?> resetPassword(@RequestBody @Valid AuthenticationRequest authenticationRequest, HttpServletRequest request) {
+
 
         try {
             
@@ -224,9 +215,11 @@ public class AuthenticateCustomerApi {
         }
     }
     
+
     @RequestMapping(value = "/customer/password", method = RequestMethod.POST, produces ={ "application/json" })
     @ApiOperation(httpMethod = "PUT", value = "Sends a request to reset password", notes = "Password reset request is {\"username\":\"test@email.com\"}",response = ResponseEntity.class)
     public ResponseEntity<?> changePassword(@RequestBody @Valid PasswordRequest passwordRequest, HttpServletRequest request) {
+
 
         try {
             

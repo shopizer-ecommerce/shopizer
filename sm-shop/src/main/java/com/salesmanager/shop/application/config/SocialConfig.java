@@ -1,10 +1,13 @@
 package com.salesmanager.shop.application.config;
 
 import com.salesmanager.core.constants.SchemaConstant;
+import com.salesmanager.shop.store.security.user.FacebookSocialUserDetailsService;
+
 import javax.inject.Inject;
 import javax.sql.DataSource;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,15 +27,16 @@ import org.springframework.social.connect.web.ConnectController;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 import org.springframework.social.facebook.security.FacebookAuthenticationService;
 import org.springframework.social.security.AuthenticationNameUserIdSource;
+import org.springframework.social.security.SocialAuthenticationProvider;
 import org.springframework.social.security.SocialAuthenticationServiceLocator;
 import org.springframework.social.security.SocialAuthenticationServiceRegistry;
 
-@Configuration
-@EnableSocial
-public class SocialConfig implements SocialConfigurer {
+//@Configuration
+//@EnableSocial
+public class SocialConfig {// implements SocialConfigurer {
 
   private static final Log logger = LogFactory.getLog(SocialConfig.class);
-
+/*
   @Inject private DataSource dataSource;
 
   @Inject private TextEncryptor textEncryptor;
@@ -42,6 +46,9 @@ public class SocialConfig implements SocialConfigurer {
 
   @Value("${facebook.app.secret}")
   private String facebookAppSecret;
+  
+  @Autowired
+  private FacebookSocialUserDetailsService facebookSocialUserDetailsService;
 
   @Bean
   @Scope(value = "singleton", proxyMode = ScopedProxyMode.INTERFACES)
@@ -85,6 +92,12 @@ public class SocialConfig implements SocialConfigurer {
       ConnectionFactoryLocator connectionFactoryLocator) {
     return socialUsersConnectionRepository();
   }
+  
+  
+  @Bean
+  public SocialAuthenticationProvider socialAuthenticationProvider() {
+      return new SocialAuthenticationProvider(socialUsersConnectionRepository(), facebookSocialUserDetailsService);
+  }
 
   @Bean
   public UsersConnectionRepository socialUsersConnectionRepository() {
@@ -100,5 +113,5 @@ public class SocialConfig implements SocialConfigurer {
       ConnectionFactoryLocator connectionFactoryLocator,
       ConnectionRepository connectionRepository) {
     return new ConnectController(connectionFactoryLocator, connectionRepository);
-  }
+  }*/
 }

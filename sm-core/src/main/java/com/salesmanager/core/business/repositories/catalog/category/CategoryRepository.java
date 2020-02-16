@@ -1,8 +1,11 @@
 package com.salesmanager.core.business.repositories.catalog.category;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+
 import com.salesmanager.core.model.catalog.category.Category;
 
 
@@ -34,7 +37,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long>, Categ
 	Category findById(Long categoryId, String merchant);
 	
 	@Query("select c from Category c left join fetch c.descriptions cd join fetch cd.language cdl join fetch c.merchantStore cm left join fetch c.categories where c.id = ?1")
-	Category findById(Long categoryId);
+	Optional<Category> findById(Long categoryId);
 
 	@Query("select c from Category c left join fetch c.descriptions cd join fetch cd.language cdl join fetch c.merchantStore cm where cm.code=?1 and c.code=?2")
 	public Category findByCode(String merchantStoreCode, String code);

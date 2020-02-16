@@ -1,6 +1,5 @@
 package com.salesmanager.shop.store.security.manager;
 
-import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,8 +8,6 @@ import java.util.List;
 import java.util.Set;
 
 import javax.inject.Inject;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -26,7 +23,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.social.UserIdSource;
@@ -47,18 +43,15 @@ import org.springframework.social.security.SocialUserDetails;
 import org.springframework.social.security.provider.SocialAuthenticationService;
 import org.springframework.social.support.URIBuilder;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.salesmanager.core.business.services.user.UserService;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.constants.Constants;
-import com.salesmanager.shop.model.customer.CustomerEntity;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
 import com.salesmanager.shop.model.customer.UserAlreadyExistException;
 import com.salesmanager.shop.model.customer.address.Address;
@@ -68,14 +61,18 @@ import com.salesmanager.shop.store.security.common.CustomAuthenticationManager;
 import com.salesmanager.shop.store.security.user.CustomerDetails;
 import com.salesmanager.shop.utils.LanguageUtils;
 
+/**
+ * New solution to be in place
+ * @author dur9213
+ *
+ */
 
-
-@Component("facebookCustomerAuthenticationManager")
-public class FacebookCustomerAuthenticationManager extends CustomAuthenticationManager {
+//@Component("facebookCustomerAuthenticationManager")
+public class FacebookCustomerAuthenticationManager {// extends CustomAuthenticationManager {
 	
 	protected final Log logger = LogFactory.getLog(getClass());
 	
-	@Value("${facebook.app.access_token}")
+/*	@Value("${facebook.app.access_token}")
 	private String access_token;
 
 	private static final String providerId = "facebook";
@@ -90,22 +87,22 @@ public class FacebookCustomerAuthenticationManager extends CustomAuthenticationM
 	private StoreFacade storeFacade;
 	
 	@Inject
-	private LanguageUtils languageUtils;
+	private LanguageUtils languageUtils;*/
 	
 	//@Inject
 	//private UserService service;
 
-	@Inject
-	private SocialAuthenticationServiceLocator authenticationServiceLocator;
+	//@Inject
+	//private SocialAuthenticationServiceLocator authenticationServiceLocator;
 	//private ConnectionFactoryLocator connectionFactoryLocator;
 	
-	@Inject
+/*	@Inject
 	private UsersConnectionRepository socialUsersConnectionRepository;
 	private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
 	private UserIdSource userIdSource = new org.springframework.social.security.AuthenticationNameUserIdSource();
-	private SimpleUrlAuthenticationFailureHandler delegateAuthenticationFailureHandler;
-	
-	/** Entry point of facebook authentication, requires FB <token> **/
+	private SimpleUrlAuthenticationFailureHandler delegateAuthenticationFailureHandler;*/
+/*	
+	*//** Entry point of facebook authentication, requires FB <token> **//*
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException, Exception {
 
@@ -122,11 +119,11 @@ public class FacebookCustomerAuthenticationManager extends CustomAuthenticationM
 	}
 
 
-/*	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
+	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authResult) throws IOException, ServletException {
 		// --> //super.successfulAuthentication(request, response, chain, authResult);
 		chain.doFilter(request, response);
-	}*/
+	}
 
 	@Deprecated
 	protected boolean requiresAuthentication(HttpServletRequest request, HttpServletResponse response) {
@@ -328,7 +325,7 @@ public class FacebookCustomerAuthenticationManager extends CustomAuthenticationM
 
 		return customer;
 	}
-	
+	*/
 	
 
 }

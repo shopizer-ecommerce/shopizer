@@ -87,7 +87,7 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
 				<c:url var="saveProductPrice" value="/admin/products/price/save.html"/>
 
 
-				<form:form method="POST" commandName="price" action="${saveProductPrice}">
+				<form:form method="POST" modelAttribute="price" action="${saveProductPrice}">
 
       							
       				<form:errors path="*" cssClass="alert alert-error" element="div" />

@@ -85,7 +85,7 @@
 
 				<c:url var="categorySave" value="/admin/categories/save.html"/>
 
-				<form:form method="POST" commandName="category" action="${categorySave}">
+				<form:form method="POST" modelAttribute="category" action="${categorySave}">
 
       							
       				<form:errors path="*" cssClass="alert alert-error" element="div" />

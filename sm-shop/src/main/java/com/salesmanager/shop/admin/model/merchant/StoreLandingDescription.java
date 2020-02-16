@@ -4,7 +4,7 @@ import com.salesmanager.core.model.reference.language.Language;
 
 import java.io.Serializable;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.NotEmpty;
 
 public class StoreLandingDescription implements Serializable {
 	

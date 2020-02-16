@@ -7,9 +7,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import javax.inject.Inject;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
@@ -17,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.salesmanager.core.business.constants.Constants;
+
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductOptionService;
@@ -153,7 +152,9 @@ public class PersistableProductPopulator extends
 
 					productDescription.setProduct(target);
 					productDescription.setDescription(description.getDescription());
+
 					productDescription.setProductHighlight(description.getHighlights());
+
 					productDescription.setName(description.getName());
 					productDescription.setSeUrl(description.getFriendlyUrl());
 					productDescription.setMetatagKeywords(description.getKeyWords());
@@ -212,6 +213,7 @@ public class PersistableProductPopulator extends
 			    ProductAvailability productAvailability = new ProductAvailability();
 
 			    productAvailability.setRegion(Constants.ALL_REGIONS);
+
 				productAvailability.setProductQuantity(source.getQuantity());
 				productAvailability.setProduct(target);
 				productAvailability.setProductQuantityOrderMin(1);
@@ -274,6 +276,7 @@ public class PersistableProductPopulator extends
 				productAvailability.setProductQuantityOrderMin(1);
 				productAvailability.setProductQuantityOrderMax(1);
 				productAvailability.setRegion(Constants.ALL_REGIONS);
+
 
 				if(defaultPrice != null) {
 				  defaultPrice.setProductPriceAmount(source.getPrice());

@@ -118,7 +118,7 @@
 								
 				<c:url var="manufacturerSave" value="/admin/catalogue/manufacturer/save.html"/>
  
-				<form:form method="POST" commandName="manufacturer" action="${manufacturerSave}">
+				<form:form method="POST" modelAttribute="manufacturer" action="${manufacturerSave}">
 
       				<form:hidden path="manufacturer.id" /> 			
       				

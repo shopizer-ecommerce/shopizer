@@ -17,8 +17,7 @@ import org.springframework.security.web.authentication.SavedRequestAwareAuthenti
 import com.salesmanager.core.business.services.user.UserService;
 import com.salesmanager.core.model.user.User;
 
-public abstract class AbstractAuthenticatinSuccessHandler extends
-SavedRequestAwareAuthenticationSuccessHandler {
+public abstract class AbstractAuthenticatinSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 	
 	abstract protected void redirectAfterSuccess(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	

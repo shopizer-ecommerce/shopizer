@@ -27,7 +27,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.annotations.Cascade;
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.NotEmpty;
 
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.category.Category;

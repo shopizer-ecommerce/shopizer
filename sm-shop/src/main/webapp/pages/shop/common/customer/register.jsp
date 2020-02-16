@@ -89,7 +89,7 @@ function isFormValid() {
 	<div id="main-content" class="container clearfix row-fluid">
 			<div id="registrationError"  class="alert alert-warning common-row" style="display:none;"></div>
 			<div class="span7 col-md-7 no-padding">
-				<form:form method="post" action="${register_url}" id="registrationForm" class="form-horizontal" commandName="customer">
+				<form:form method="post" action="${register_url}" id="registrationForm" class="form-horizontal" modelAttribute="customer">
 					<form:errors path="*" cssClass="alert alert-error alert-danger form-group" element="div" />
 					<fieldset>
 						<div class="control-group form-group">

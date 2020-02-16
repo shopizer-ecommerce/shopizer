@@ -2,7 +2,6 @@ package com.salesmanager.shop.store.controller.store.facade;
 
 import java.util.List;
 import java.util.Optional;
-
 import javax.servlet.http.HttpServletRequest;
 
 import com.salesmanager.core.model.content.InputContentFile;
@@ -37,15 +36,16 @@ public interface StoreFacade {
   MerchantStore getByCode(String code);
 
   ReadableMerchantStore getByCode(String code, String lang);
-  
+
   ReadableMerchantStoreList findAll(MerchantStoreCriteria criteria, Language language, int page, int count);
-  
+
   /**
    * List child stores
    * @param code
    * @return
    */
   ReadableMerchantStoreList getChildStores(Language language, String code, int start, int count);
+
 
   ReadableMerchantStore getByCode(String code, Language lang);
 

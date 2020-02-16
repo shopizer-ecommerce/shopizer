@@ -54,7 +54,7 @@ public class ProductTypeApi {
     
   }
   
-  @GetMapping(value = "/products/type/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
+/*  @GetMapping(value = "/products/type/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(httpMethod = "GET", value = "Get product type",
       notes = "", produces = "application/json", response = ReadableProductType.class)
   @ApiImplicitParams({
@@ -67,7 +67,8 @@ public class ProductTypeApi {
     //return productTypeFacade.getByMerchant(merchantStore.getCode(), language);
     return null;
     
-  }
+  }*/
+
 
 
 }

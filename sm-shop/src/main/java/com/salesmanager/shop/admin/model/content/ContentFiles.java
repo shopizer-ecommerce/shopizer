@@ -3,7 +3,7 @@
  */
 package com.salesmanager.shop.admin.model.content;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;

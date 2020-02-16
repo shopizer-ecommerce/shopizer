@@ -55,6 +55,7 @@ import com.salesmanager.shop.utils.EmailTemplatesUtils;
 import com.salesmanager.shop.utils.ImageFilePath;
 import com.salesmanager.shop.utils.LabelUtils;
 
+
 //import com.salesmanager.core.business.customer.CustomerRegistrationException;
 
 /**
@@ -70,10 +71,7 @@ import com.salesmanager.shop.utils.LabelUtils;
 public class CustomerRegistrationController extends AbstractController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(CustomerRegistrationController.class);
-    
-    
-	@Inject
-	private CoreConfiguration coreConfiguration;
+
 
 	@Inject
 	private LanguageService languageService;
@@ -86,8 +84,6 @@ public class CustomerRegistrationController extends AbstractController {
 	@Inject
 	private ZoneService zoneService;
 
-	@Inject
-	private PasswordEncoder passwordEncoder;
 
 	@Inject
 	EmailService emailService;
@@ -97,9 +93,7 @@ public class CustomerRegistrationController extends AbstractController {
 	
 	@Inject
 	private CustomerFacade customerFacade;
-	
-	@Inject
-    private AuthenticationManager customerAuthenticationManager;
+
 	
 	@Inject
 	private EmailTemplatesUtils emailTemplatesUtils;

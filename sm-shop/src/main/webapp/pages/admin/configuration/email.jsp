@@ -29,7 +29,7 @@
 								
 
 							<c:url var="saveEmailConfiguration" value="/admin/configuration/saveEmailConfiguration.html"/>
-							<form:form method="POST" commandName="configuration" action="${saveEmailConfiguration}">
+							<form:form method="POST" modelAttribute="configuration" action="${saveEmailConfiguration}">
 
       							
       								<form:errors path="*" cssClass="alert alert-error" element="div" />

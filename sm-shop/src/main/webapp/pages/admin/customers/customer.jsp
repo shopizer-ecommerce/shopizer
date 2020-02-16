@@ -395,7 +395,7 @@ function setCredentials(customerId, userName, password){
 				<c:url var="saveCustomer" value="/admin/customers/save.html"/>
 
 
-				<form:form method="POST" commandName="customer" action="${saveCustomer}">
+				<form:form method="POST" modelAttribute="customer" action="${saveCustomer}">
 				
 					<form:errors id="customer.error" path="*" cssClass="alert alert-error" element="div" />
 					<div id="customerError" class="alert alert-error" style="display:none;"></div>

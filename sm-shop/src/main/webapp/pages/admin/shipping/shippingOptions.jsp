@@ -109,7 +109,7 @@ $(document).ready(function() {
 								
 
 							<c:url var="saveShippingOptions" value="/admin/shipping/saveShippingOptions.html"/>
-							<form:form method="POST" commandName="configuration" action="${saveShippingOptions}">
+							<form:form method="POST" modelAttribute="configuration" action="${saveShippingOptions}">
 
       							
       								<form:errors path="*" cssClass="alert alert-error" element="div" />

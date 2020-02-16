@@ -34,11 +34,12 @@ public class CustomerRegistrationIntegrationTest extends ServicesTestSupport {
         testCustomer.setStoreCode(Constants.DEFAULT_STORE);
         final HttpEntity<PersistableCustomer> entity = new HttpEntity<>(testCustomer, getHeader());
 
-        final ResponseEntity<PersistableCustomer> response = testRestTemplate.postForEntity("/api/v1/customer/register", entity, PersistableCustomer.class);
+        final ResponseEntity<PersistableCustomer> response = testRestTemplate.postForEntity("/api/v1/auth/register", entity, PersistableCustomer.class);
         assertThat(response.getStatusCode(), is(OK));
 
         // created customer can login
-        final ResponseEntity<AuthenticationResponse> loginResponse = testRestTemplate.postForEntity("/api/v1/customer/login", new HttpEntity<>(new AuthenticationRequest("customer1@test.com", "clear123")),
+
+        final ResponseEntity<AuthenticationResponse> loginResponse = testRestTemplate.postForEntity("/api/v1/auth/login", new HttpEntity<>(new AuthenticationRequest("customer1@test.com", "clear123")),
                 AuthenticationResponse.class);
         assertThat(loginResponse.getStatusCode(), is(OK));
         assertNotNull(loginResponse.getBody().getToken());

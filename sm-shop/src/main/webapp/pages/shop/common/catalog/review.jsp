@@ -86,7 +86,7 @@ response.setDateHeader ("Expires", -1);
 							<c:otherwise>
 
 						<c:url var="submitReview" value="/shop/customer/review/submit.html"/>
-					    <form:form method="POST" commandName="review" action="${submitReview}">
+					    <form:form method="POST" modelAttribute="review" action="${submitReview}">
 					        <form:errors path="*" cssClass="alert alert-error alert-danger" element="div" />
 					    	<fieldset>
 					    	<form:hidden id="rating" path="rating"/>

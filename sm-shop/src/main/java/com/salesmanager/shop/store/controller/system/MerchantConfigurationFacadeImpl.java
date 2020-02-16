@@ -8,6 +8,7 @@ import java.util.Optional;
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,6 +22,7 @@ import com.salesmanager.core.model.system.MerchantConfiguration;
 import com.salesmanager.shop.model.system.Configs;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.controller.order.ShoppingOrderController;
+
 
 @Service
 public class MerchantConfigurationFacadeImpl implements MerchantConfigurationFacade {

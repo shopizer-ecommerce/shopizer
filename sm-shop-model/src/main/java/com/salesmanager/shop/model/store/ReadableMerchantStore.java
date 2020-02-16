@@ -21,7 +21,10 @@ public class ReadableMerchantStore extends MerchantStoreEntity implements Readab
 	private ReadableImage logo;
 	private ReadableAudit audit;
 	private ReadableMerchantStore parent;
+<<<<<<< HEAD:sm-shop-model/src/main/java/com/salesmanager/shop/model/store/ReadableMerchantStore.java
 	private List<Language> supportedLanguages;
+=======
+>>>>>>> origin/sb2.2:sm-shop-model/src/main/java/com/salesmanager/shop/model/shop/ReadableMerchantStore.java
 
 
 
@@ -66,6 +69,7 @@ public class ReadableMerchantStore extends MerchantStoreEntity implements Readab
     this.parent = parent;
   }
 
+<<<<<<< HEAD:sm-shop-model/src/main/java/com/salesmanager/shop/model/store/ReadableMerchantStore.java
 public List<Language> getSupportedLanguages() {
 	return supportedLanguages;
 }
@@ -74,6 +78,8 @@ public void setSupportedLanguages(List<Language> supportedLanguages) {
 	this.supportedLanguages = supportedLanguages;
 }
 
+=======
+>>>>>>> origin/sb2.2:sm-shop-model/src/main/java/com/salesmanager/shop/model/shop/ReadableMerchantStore.java
 
 
 }

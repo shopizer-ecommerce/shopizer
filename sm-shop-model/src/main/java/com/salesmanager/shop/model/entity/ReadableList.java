@@ -8,25 +8,33 @@ public abstract class ReadableList implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int totalPages;//totalPages
-	private int number;//number of record in current page
-	private long recordsTotal;//total number of records in db
+	private int totalCount;
+	private int recordsTotal;
+	private int draw;
 	private int recordsFiltered;
 
-	public int getTotalPages() {
-		return totalPages;
+	public int getTotalCount() {
+		return totalCount;
 	}
 
-	public void setTotalPages(int totalCount) {
-		this.totalPages = totalCount;
+	public void setTotalCount(int totalCount) {
+		this.totalCount = totalCount;
 	}
 
-	public long getRecordsTotal() {
+	public int getRecordsTotal() {
 		return recordsTotal;
 	}
 
-	public void setRecordsTotal(long recordsTotal) {
+	public void setRecordsTotal(int recordsTotal) {
 		this.recordsTotal = recordsTotal;
+	}
+
+	public int getDraw() {
+		return draw;
+	}
+
+	public void setDraw(int draw) {
+		this.draw = draw;
 	}
 
 	public int getRecordsFiltered() {
@@ -35,14 +43,6 @@ public abstract class ReadableList implements Serializable {
 
 	public void setRecordsFiltered(int recordsFiltered) {
 		this.recordsFiltered = recordsFiltered;
-	}
-
-	public int getNumber() {
-		return number;
-	}
-
-	public void setNumber(int number) {
-		this.number = number;
 	}
 
 }

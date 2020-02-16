@@ -4,16 +4,13 @@ import static org.springframework.http.MediaType.IMAGE_GIF;
 import static org.springframework.http.MediaType.IMAGE_JPEG;
 import static org.springframework.http.MediaType.IMAGE_PNG;
 
-import com.salesmanager.core.business.configuration.CoreApplicationConfiguration;
-import com.salesmanager.shop.filter.AdminFilter;
-import com.salesmanager.shop.filter.CorsFilter;
-import com.salesmanager.shop.filter.StoreFilter;
-import com.salesmanager.shop.utils.LabelUtils;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+
 import javax.inject.Inject;
 import javax.sql.DataSource;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -31,12 +28,11 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.mobile.device.DeviceHandlerMethodArgumentResolver;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -44,19 +40,24 @@ import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesView;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 
+import com.salesmanager.core.business.configuration.CoreApplicationConfiguration;
+import com.salesmanager.shop.filter.AdminFilter;
+import com.salesmanager.shop.filter.CorsFilter;
+import com.salesmanager.shop.filter.StoreFilter;
+import com.salesmanager.shop.store.security.AuthenticationTokenFilter;
+import com.salesmanager.shop.utils.LabelUtils;
+
 @Configuration
 @ComponentScan({"com.salesmanager.shop", "com.salesmanager.core.business"})
 @ServletComponentScan
 @Import({CoreApplicationConfiguration.class}) // import sm-core configurations
 @ImportResource({"classpath:/spring/shopizer-shop-context.xml"})
 @EnableWebSecurity
-public class ShopApplicationConfiguration extends WebMvcConfigurerAdapter {
+public class ShopApplicationConfiguration implements WebMvcConfigurer {
 
   protected final Log logger = LogFactory.getLog(getClass());
 
-  @Inject private DataSource dataSource;
 
-  @Inject private TextEncryptor textEncryptor;
   @Inject private MerchantStoreArgumentResolver merchantStoreArgumentResolver;
   @Inject private LanguageArgumentResolver languageArgumentResolver;
 
@@ -85,6 +86,8 @@ public class ShopApplicationConfiguration extends WebMvcConfigurerAdapter {
     resolver.setOrder(0);
     return resolver;
   }
+  
+
 
   @Bean
   public DeviceHandlerMethodArgumentResolver deviceHandlerMethodArgumentResolver() {

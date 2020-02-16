@@ -28,6 +28,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
+import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturerFull;
 import com.salesmanager.shop.model.catalog.product.ProductSpecification;
 import com.salesmanager.shop.model.catalog.product.ReadableImage;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
@@ -37,6 +38,7 @@ import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductAttr
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductAttributeValue;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOption;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValueEntity;
+
 import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.ImageFilePath;
@@ -84,6 +86,7 @@ public class ReadableProductPopulator extends
 			throws ConversionException {
 		Validate.notNull(pricingService, "Requires to set PricingService");
 		Validate.notNull(imageUtils, "Requires to set imageUtils");
+
 		
 		try {
 		  
@@ -91,11 +94,11 @@ public class ReadableProductPopulator extends
 	        if(language == null) {
 	          target = new ReadableProductFull();
 	        }
-	        
+
 	        if(target==null) {
 	        	target = new ReadableProduct();
 	        }
-	        
+
 	        ProductDescription description = source.getProductDescription();
 	        
 	        if(source.getDescriptions()!=null && source.getDescriptions().size()>0) {
@@ -116,7 +119,6 @@ public class ReadableProductPopulator extends
 		        if(language == null) {
 			          language = store.getDefaultLanguage();
 			    }
-			
 
 
 	
@@ -467,7 +469,10 @@ public class ReadableProductPopulator extends
 					}
 				//}
 			}
-			
+
+		     if(target instanceof ReadableProductFull) {
+		          ((ReadableProductFull)target).setDescriptions(fulldescriptions);
+		      }
 
 			
 			return target;
@@ -573,6 +578,7 @@ public class ReadableProductPopulator extends
       tragetDescription.setHighlights(description.getProductHighlight());
       tragetDescription.setLanguage(description.getLanguage().getCode());
       tragetDescription.setKeyWords(description.getMetatagKeywords());
+
       if(description.getLanguage() != null) {
         tragetDescription.setLanguage(description.getLanguage().getCode());
       }
