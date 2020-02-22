@@ -16,9 +16,7 @@ response.setDateHeader ("Expires", -1);
 
 		<script src="<c:url value="/resources/js/jquery.creditCardValidator.js" />"></script>
 		
-		<script>$.ajax({url: "<c:url value="/shop/reference/creditCardDates.html"/>",type: "GET",success: function(data){populateData($('#creditCardYears'), data, '${order.payment['creditcard_card_expirationyear']}');	}})</script>
-		<script>$.ajax({url: "<c:url value="/shop/reference/monthsOfYear.html"/>",type: "GET",success: function(data){populateData($('#creditCardDays'),data, '${order.payment['creditcard_card_expirationmonth']}');	}})</script>
-		
+
 		<script type="text/javascript">
 		
 				var img = '<img src="<c:url value="/resources/img/cvv.jpg"/>" width="180">';
@@ -133,3 +131,7 @@ response.setDateHeader ("Expires", -1);
           </div>
 
 		<input type="hidden" name="payment['creditcard_card_type']" id="creditcard_type" value="" />
+		
+		<script>$.ajax({url: "<c:url value="/shop/reference/creditCardDates.html"/>",type: "GET",success: function(data){populateData($('#creditCardYears'), data, '${order.payment['creditcard_card_expirationyear']}');	}})</script>
+		<script>$.ajax({url: "<c:url value="/shop/reference/monthsOfYear.html"/>",type: "GET",success: function(data){populateData($('#creditCardDays'),data, '${order.payment['creditcard_card_expirationmonth']}');	}})</script>
+		

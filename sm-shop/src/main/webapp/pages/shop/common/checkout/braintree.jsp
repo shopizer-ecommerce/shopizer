@@ -81,9 +81,6 @@ function populateData(div, data, defaultValue) {
 
 			<script src="<c:url value="/resources/js/jquery.creditCardValidator.js" />"></script>
 		
-			<script>$.ajax({url: "<c:url value="/shop/reference/creditCardDates.html"/>",type: "GET",success: function(data){populateData($('#expiration-year-select'), data, '${order.payment['creditcard_card_expirationyear']}');	}})</script>
-			<script>$.ajax({url: "<c:url value="/shop/reference/monthsOfYear.html"/>",type: "GET",success: function(data){populateData($('#expiration-month-select'),data, '${order.payment['creditcard_card_expirationmonth']}');	}})</script>
-		
 
 			<script src="https://js.braintreegateway.com/web/3.27.0/js/client.min.js"></script>  
 			<script src="https://js.braintreegateway.com/web/3.27.0/js/hosted-fields.min.js"></script>
@@ -392,5 +389,9 @@ function populateData(div, data, defaultValue) {
                <jsp:include page="/pages/shop/common/checkout/selectedPayment.jsp" />
             </div>
           </div>
-        
+    
+   			<script>$.ajax({url: "<c:url value="/shop/reference/creditCardDates.html"/>",type: "GET",success: function(data){populateData($('#expiration-year-select'), data, '${order.payment['creditcard_card_expirationyear']}');	}})</script>
+			<script>$.ajax({url: "<c:url value="/shop/reference/monthsOfYear.html"/>",type: "GET",success: function(data){populateData($('#expiration-month-select'),data, '${order.payment['creditcard_card_expirationmonth']}');	}})</script>
+		
+       
 		 

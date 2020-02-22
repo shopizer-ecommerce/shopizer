@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+
 import javax.inject.Inject;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
-import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.internal.io.ResourceFactory;
 import org.slf4j.Logger;
@@ -37,6 +38,9 @@ public class ShippingDecisionPreProcessorImpl implements ShippingQuotePrePostPro
 	private static final Logger LOGGER = LoggerFactory.getLogger(ShippingDecisionPreProcessorImpl.class);
 	
 	private final static String MODULE_CODE = "shippingDecisionModule";
+	
+	@Inject
+	private DroolsBeanFactory droolsBeanFactory;
 	
 	//private StatelessKnowledgeSession shippingMethodDecision;
 	
@@ -134,7 +138,7 @@ public class ShippingDecisionPreProcessorImpl implements ShippingQuotePrePostPro
 		 * New code
 		 */
 		
-		KieSession kieSession=new DroolsBeanFactory().getKieSession(ResourceFactory.newClassPathResource("com/salesmanager/drools/rules/ShippingDecision.drl"));
+		KieSession kieSession=droolsBeanFactory.getKieSession(ResourceFactory.newClassPathResource("com/salesmanager/drools/rules/ShippingDecision.drl"));
 		
 		DecisionResponse resp = new DecisionResponse();
 		

@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="/WEB-INF/shopizer-tags.tld" prefix="sm" %> 
 
 <%@ page session="false" %>
 
@@ -24,8 +25,17 @@
 		<link href="<c:url value="/resources/templates/december/css/linearicons-icon-font.min.css" />" rel="stylesheet" type="text/css">
 		<link href="<c:url value="/resources/templates/december/css/font-awesome.min.css" />" rel="stylesheet" type="text/css">
 
+		<!-- favico -->
+		<!-- favico -->
+		<c:choose>
+		<c:when test="${requestScope.CONTENT['favicon']!=null}">
+			<sm:pageContent contentCode="favicon"/>
+		</c:when>
+		<c:otherwise>
+			<link rel="icon" href="<c:url value="/resources/templates/december/img/favicon.ico"/>"> 
+		</c:otherwise>
+		</c:choose> 
 		
-		<link rel="icon" href="<c:url value="/resources/templates/december/img/favicon.ico"/>"> 
 		
 		<!--  Theme -->
 

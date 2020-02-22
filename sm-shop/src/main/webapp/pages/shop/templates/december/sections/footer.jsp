@@ -47,32 +47,15 @@ response.setDateHeader ("Expires", -1);
 							       </c:if>
 							   </ul>
 						   </c:if>
-
 						</div>
 					</div>
-					<!--<div class="col-lg-2 col-md-3 hidden-sm col-xs-12 mar_b-30">-->
-					<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mar_b-30">
+					<div class="col-lg-2 col-md-3 hidden-sm col-xs-12 mar_b-30">
 						<div class="footer-wrapper">
-						    <!--
-							<div class="footer-title">
-								<a href="#"><h3>useful links</h3></a>
-							</div>
-							-->
 							<div class="footer-wrapper">
-								<c:if test="${not empty  requestScope.TOP_CATEGORIES}">
 								<ul class="usefull-link">
 									<li class="<sm:activeLink linkCode="HOME" activeReturnCode="active"/>">
 										<a href="<c:url value="/shop"/>"><s:message code="menu.home" text="Home"/></a>
 									</li>
-									<c:forEach items="${requestScope.TOP_CATEGORIES}" var="category">
-									<c:if test="${category.visible}">
-								   <li>
-	    								<a href="<c:url value="/shop/category/${category.description.friendlyUrl}.html"/><sm:breadcrumbParam categoryId="${category.id}"/>" class="current"> 
-	    									<span class="name">${category.description.name}</span>
-	    								</a>
-	    							</li> 
-	    							</c:if>
-									</c:forEach>
 								    <c:forEach items="${requestScope.CONTENT_PAGE}" var="content">
 											   <li><a href="<c:url value="/shop/pages/${content.seUrl}.html"/>" class="current">${content.name}</a></li>
 									</c:forEach>
@@ -102,10 +85,32 @@ response.setDateHeader ("Expires", -1);
 												</sec:authorize>
 									</c:if>
 								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-2 col-md-3 hidden-sm col-xs-12 mar_b-30">
+						<div class="footer-wrapper">
+							<div class="footer-title">
+								<a href="#"><h3><s:message code="menu.catalogue-products" text="Products"/></h3></a>
+							</div>
+							<div class="footer-wrapper">
+								<c:if test="${not empty  requestScope.TOP_CATEGORIES}">
+								<ul class="usefull-link">
+									<c:forEach items="${requestScope.TOP_CATEGORIES}" var="category">
+									<c:if test="${category.visible}">
+								   <li>
+	    								<a href="<c:url value="/shop/category/${category.description.friendlyUrl}.html"/><sm:breadcrumbParam categoryId="${category.id}"/>" class="current"> 
+	    									<span class="name">${category.description.name}</span>
+	    								</a>
+	    							</li> 
+	    							</c:if>
+									</c:forEach>
+								</ul>
 								</c:if>
 							</div>
 						</div>
 					</div>
+					
 					<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 						<div class="footer-wrapper">
 						<c:if test="${requestScope.CONTENT['footerImage']!=null}">
