@@ -73,10 +73,7 @@ public class ShoppingCategoryController {
 	
 	@Inject
 	private ManufacturerService manufacturerService;
-	
-	@Inject
-	private LabelUtils messages;
-	
+
 	@Inject
 	private BreadcrumbsUtils breadcrumbsUtils;
 	
@@ -135,10 +132,7 @@ public class ShoppingCategoryController {
 	private String displayCategory(final String friendlyUrl, final String ref, Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
 
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
-		
-		
-		
-		
+
 		//get category
 		Category category = categoryService.getBySeUrl(store, friendlyUrl);
 		

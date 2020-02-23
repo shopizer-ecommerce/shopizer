@@ -44,7 +44,7 @@
     <!--shopizer version-->
     <shopizer.version>2.10.0</shopizer.version>
     <shopizer.search.version>2.10.0</shopizer.search.version>
-    <shopizer-canadapost.version>2.9.0</shopizer-canadapost.version>
+    <shopizer-canadapost.version>2.10.0</shopizer-canadapost.version>
 
     <org.elasticsearch-version>7.5.2</org.elasticsearch-version>
     <guava.version>27.1-jre</guava.version>
