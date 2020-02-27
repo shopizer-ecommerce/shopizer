@@ -8,8 +8,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.inject.Inject;
+
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
@@ -18,6 +20,7 @@ import org.json.simple.JSONValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.salesmanager.core.business.constants.ShippingConstants;
 import com.salesmanager.core.business.exception.ServiceException;
@@ -28,7 +31,6 @@ import com.salesmanager.core.business.services.reference.loader.ConfigurationMod
 import com.salesmanager.core.business.services.system.MerchantConfigurationService;
 import com.salesmanager.core.business.services.system.MerchantLogService;
 import com.salesmanager.core.business.services.system.ModuleConfigurationService;
-import com.salesmanager.core.business.utils.CoreConfiguration;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.common.Delivery;
 import com.salesmanager.core.model.merchant.MerchantStore;

@@ -204,7 +204,7 @@ public class CategoryController {
 		if(category.getCategory().getParent()!=null) {
 			if(category.getCategory().getParent().getId()==-1) {//this is a root category
 				category.getCategory().setParent(null);
-				category.getCategory().setLineage(new StringBuilder().append("/").append(category.getCategory().getId()).toString());
+				category.getCategory().setLineage(new StringBuilder().append("/").append(category.getCategory().getId()).append("/").toString());
 				category.getCategory().setDepth(0);
 			}
 		}

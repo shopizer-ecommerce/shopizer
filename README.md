@@ -64,7 +64,7 @@ Run the application from Spring boot
 -------------------
 
        $ cd sm-shop
-	   $ mvnw spring-boot:run
+       $ mvnw spring-boot:run
 
 Run the application from Spring boot in eclipse
 -------------------

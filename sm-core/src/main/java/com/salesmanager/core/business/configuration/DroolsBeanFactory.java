@@ -18,21 +18,30 @@ import org.kie.internal.builder.DecisionTableConfiguration;
 import org.kie.internal.builder.DecisionTableInputType;
 import org.kie.internal.builder.KnowledgeBuilderFactory;
 import org.kie.internal.io.ResourceFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DroolsBeanFactory {
+	
+	
+	@Value("${config.shipping.rule.priceByDistance}")
+	private String priceByDistance;
+	
+	@Value("${config.shipping.rule.shippingModuleDecision}")
+	private String shippingDecision;
 	
 
     private static final String RULES_PATH = "com/salesmanager/drools/rules/";
-    private KieServices kieServices=KieServices.Factory.get();
+    private KieServices kieServices = KieServices.Factory.get();
 
     private  KieFileSystem getKieFileSystem() throws IOException{
         KieFileSystem kieFileSystem = kieServices.newKieFileSystem();
-        List<String> rules=Arrays.asList("PriceByDistance.drl","ShippingDecision.xls");
+        List<String> rules=Arrays.asList(priceByDistance,shippingDecision);
         for(String rule:rules){
             kieFileSystem.write(ResourceFactory.newClassPathResource(rule));
         }
         return kieFileSystem;
-
     }
 
     public KieContainer getKieContainer() throws IOException {
@@ -61,8 +70,8 @@ public class DroolsBeanFactory {
         getKieRepository();
         KieFileSystem kieFileSystem = kieServices.newKieFileSystem();
 
-        kieFileSystem.write(ResourceFactory.newClassPathResource("com/salesmanager/drools/rules/PriceByDistance.drl"));
-        kieFileSystem.write(ResourceFactory.newClassPathResource("com/salesmanager/drools/rules/ShippingDecision.drl"));
+        kieFileSystem.write(ResourceFactory.newClassPathResource(RULES_PATH + priceByDistance));
+        kieFileSystem.write(ResourceFactory.newClassPathResource(RULES_PATH + shippingDecision));
         
         KieBuilder kb = kieServices.newKieBuilder(kieFileSystem);
         kb.buildAll();
@@ -78,7 +87,7 @@ public class DroolsBeanFactory {
         KieFileSystem kieFileSystem = kieServices.newKieFileSystem()
             .write(dt);
 
-        KieBuilder kieBuilder = kieServices.newKieBuilder(kieFileSystem)
+       KieBuilder kieBuilder = kieServices.newKieBuilder(kieFileSystem)
             .buildAll();
 
         KieRepository kieRepository = kieServices.getRepository();

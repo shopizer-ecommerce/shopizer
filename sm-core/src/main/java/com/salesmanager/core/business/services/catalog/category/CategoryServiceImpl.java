@@ -31,21 +31,50 @@ import com.salesmanager.core.model.reference.language.Language;
 @Service("categoryService")
 public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Category> implements CategoryService {
 
-	private CategoryRepository categoryRepository;
 
-	@Inject
-	private ProductService productService;
+  private CategoryRepository categoryRepository;
 
-	@Inject
-	private PageableCategoryRepository pageableCategoryRepository;
+  @Inject
+  private ProductService productService;
+  
+  @Inject
+  private PageableCategoryRepository pageableCategoryRepository;
 
-	@Inject
-	private CategoryDescriptionRepository categoryDescriptionRepository;
 
-	@Inject
-	public CategoryServiceImpl(CategoryRepository categoryRepository) {
-		super(categoryRepository);
-		this.categoryRepository = categoryRepository;
+
+  @Inject
+  public CategoryServiceImpl(CategoryRepository categoryRepository) {
+    super(categoryRepository);
+    this.categoryRepository = categoryRepository;
+  }
+
+  public void create(Category category) throws ServiceException {
+
+    super.create(category);
+    StringBuilder lineage = new StringBuilder();
+    Category parent = category.getParent();
+    if (parent != null && parent.getId() != null && parent.getId().longValue() != 0) {
+      //get parent category
+      Category p = this.getById(parent.getId());
+
+      lineage.append(p.getLineage()).append(category.getId()).append("/");
+      category.setDepth(p.getDepth() + 1);
+    } else {
+      lineage.append("/").append(category.getId()).append("/");
+      category.setDepth(0);
+    }
+    category.setLineage(lineage.toString());
+    super.update(category);
+
+
+  }
+
+  @Override
+  public List<Object[]> countProductsByCategories(MerchantStore store, List<Long> categoryIds)
+      throws ServiceException {
+
+    return categoryRepository.countProductsByCategories(store, categoryIds);
+
 	}
 
 	public void create(Category category) throws ServiceException {

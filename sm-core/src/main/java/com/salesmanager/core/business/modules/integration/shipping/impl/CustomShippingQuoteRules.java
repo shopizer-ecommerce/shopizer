@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+
 import javax.inject.Inject;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
-import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.internal.io.ResourceFactory;
 import org.slf4j.Logger;
@@ -33,6 +34,9 @@ import com.salesmanager.core.modules.integration.shipping.model.ShippingQuoteMod
 public class CustomShippingQuoteRules implements ShippingQuoteModule {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(CustomShippingQuoteRules.class);
+	
+	@Inject
+	private DroolsBeanFactory droolsBeanFactory;
 	
 	
 	//private StatelessKnowledgeSession shippingPriceRule;
@@ -146,7 +150,7 @@ public class CustomShippingQuoteRules implements ShippingQuoteModule {
 		LOGGER.debug("Setting input parameters " + inputParameters.toString());
 		
 		
-		KieSession kieSession=new DroolsBeanFactory().getKieSession(ResourceFactory.newClassPathResource("com/salesmanager/drools/rules/PriceByDistance.drl"));
+		KieSession kieSession=droolsBeanFactory.getKieSession(ResourceFactory.newClassPathResource("com/salesmanager/drools/rules/PriceByDistance.drl"));
 		
 		DecisionResponse resp = new DecisionResponse();
 		

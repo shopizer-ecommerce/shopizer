@@ -175,7 +175,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 			int depth = parent.getDepth();
 
 			category.setDepth(depth + 1);
-			category.setLineage(new StringBuilder().append(lineage).append(Constants.SLASH).toString());// service
+			category.setLineage(new StringBuilder().append(lineage).toString());// service
 																										// will
 																										// adjust
 																										// lineage
