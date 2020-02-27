@@ -149,7 +149,6 @@ public class AbstractSalesManagerCoreTestCase {
 	
 	@Before
 	public void init() throws ServiceException {
-		System.out.println("**** INTO INIT ***");
 		if(initializationDatabase.isEmpty()) {
 		  populate();
 		}
@@ -158,8 +157,7 @@ public class AbstractSalesManagerCoreTestCase {
 	
 	@After
 	public void close() throws ServiceException {
-	  System.out.println("**** AFTER ***");
-	  
+
 	}
 	
 	private void populate() throws ServiceException {

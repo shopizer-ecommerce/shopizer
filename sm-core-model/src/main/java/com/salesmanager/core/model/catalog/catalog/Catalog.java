@@ -12,12 +12,13 @@ import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import javax.persistence.UniqueConstraint;
 import javax.validation.Valid;
 
@@ -55,23 +56,16 @@ public class Catalog extends SalesManagerEntity<Long, Catalog> implements Audita
     private static final long serialVersionUID = 1L;
     
     @Id
-/*    @GeneratedValue(strategy = GenerationType.TABLE, 
+    @GeneratedValue(strategy = GenerationType.TABLE, 
     	generator = "TABLE_GEN")
   	@TableGenerator(name = "TABLE_GEN", 
     	table = "SM_SEQUENCER", 
     	pkColumnName = "SEQ_NAME",
-    	valueColumnName = "SEQ_COUNT"
-    	pkColumnValue = "CATALOG_SEQ_NEXT_VAL")*/
-    @GeneratedValue(generator = "sequence-generator")
-    @GenericGenerator(
-      name = "sequence-generator",
-      strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
-      parameters = {
-        @Parameter(name = "SEQ_NAME", value = "CATALOG_SEQ_NEXT_VAL"),
-        @Parameter(name = "INITIAL_VALUE", value = "4"),
-        @Parameter(name = "INCREMENT_SIZE", value = "1")
-        }
-    )
+    	valueColumnName = "SEQ_COUNT",
+    	pkColumnValue = "CATALOG_SEQ_NEXT_VAL",
+    	allocationSize = SchemaConstant.DESCRIPTION_ID_ALLOCATION_SIZE, 
+    	initialValue = SchemaConstant.DESCRIPTION_ID_START_VALUE
+  		)
     private Long id;
 
     @Embedded

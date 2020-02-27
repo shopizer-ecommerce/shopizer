@@ -37,7 +37,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.mobile.device.Device;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -109,7 +108,7 @@ public class ShoppingOrderPaymentController extends AbstractController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value={"/order/payment/{action}/{paymentmethod}.html"}, method=RequestMethod.POST)
-	public @ResponseBody String paymentAction(@Valid @ModelAttribute(value="order") ShopOrder order, @PathVariable String action, @PathVariable String paymentmethod, Device device, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
+	public @ResponseBody String paymentAction(@Valid @ModelAttribute(value="order") ShopOrder order, @PathVariable String action, @PathVariable String paymentmethod,  HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
 		
 		
 		
@@ -176,26 +175,12 @@ public class ShoppingOrderPaymentController extends AbstractController {
 						transactionService.create(transaction);
 						
 						super.setSessionAttribute(Constants.INIT_TRANSACTION_KEY, transaction, request);
-						
-						//https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout-mobile&token=tokenValueReturnedFromSetExpressCheckoutCall
-						//For Desktop use
-						//https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=tokenValueReturnedFromSetExpressCheckoutCall
-						
+
 						StringBuilder urlAppender = new StringBuilder();
 						
-						if(device!=null) {
-							if(device.isNormal()) {
-								urlAppender.append(coreConfiguration.getProperty("PAYPAL_EXPRESSCHECKOUT_REGULAR"));
-							}
-							if(device.isTablet()) {
-								urlAppender.append(coreConfiguration.getProperty("PAYPAL_EXPRESSCHECKOUT_REGULAR"));
-							}
-							if(device.isMobile()) {
-								urlAppender.append(coreConfiguration.getProperty("PAYPAL_EXPRESSCHECKOUT_MOBILE"));
-							}
-						} else {
-							urlAppender.append(coreConfiguration.getProperty("PAYPAL_EXPRESSCHECKOUT_REGULAR"));
-						}
+
+						urlAppender.append(coreConfiguration.getProperty("PAYPAL_EXPRESSCHECKOUT_REGULAR"));
+
 						
 						urlAppender.append(transaction.getTransactionDetails().get("TOKEN"));
 						

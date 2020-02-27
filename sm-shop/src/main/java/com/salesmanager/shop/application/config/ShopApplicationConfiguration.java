@@ -8,9 +8,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-import javax.inject.Inject;
-import javax.sql.DataSource;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -26,9 +23,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.mobile.device.DeviceHandlerMethodArgumentResolver;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
@@ -44,7 +39,6 @@ import com.salesmanager.core.business.configuration.CoreApplicationConfiguration
 import com.salesmanager.shop.filter.AdminFilter;
 import com.salesmanager.shop.filter.CorsFilter;
 import com.salesmanager.shop.filter.StoreFilter;
-import com.salesmanager.shop.store.security.AuthenticationTokenFilter;
 import com.salesmanager.shop.utils.LabelUtils;
 
 @Configuration
@@ -56,10 +50,6 @@ import com.salesmanager.shop.utils.LabelUtils;
 public class ShopApplicationConfiguration implements WebMvcConfigurer {
 
   protected final Log logger = LogFactory.getLog(getClass());
-
-
-  @Inject private MerchantStoreArgumentResolver merchantStoreArgumentResolver;
-  @Inject private LanguageArgumentResolver languageArgumentResolver;
 
   @EventListener(ApplicationReadyEvent.class)
   public void applicationReadyCode() {
@@ -89,17 +79,6 @@ public class ShopApplicationConfiguration implements WebMvcConfigurer {
   
 
 
-  @Bean
-  public DeviceHandlerMethodArgumentResolver deviceHandlerMethodArgumentResolver() {
-    return new DeviceHandlerMethodArgumentResolver();
-  }
-
-  @Override
-  public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-    argumentResolvers.add(deviceHandlerMethodArgumentResolver());
-    argumentResolvers.add(merchantStoreArgumentResolver);
-    argumentResolvers.add(languageArgumentResolver);
-  }
 
   @Override
   public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {

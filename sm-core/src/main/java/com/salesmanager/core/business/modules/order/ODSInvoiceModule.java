@@ -1,47 +1,18 @@
 package com.salesmanager.core.business.modules.order;
 
-import java.awt.Graphics2D;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.jopendocument.dom.OOUtils;
-import org.jopendocument.dom.spreadsheet.Sheet;
-import org.jopendocument.dom.spreadsheet.SpreadSheet;
-import org.jopendocument.model.OpenDocument;
-import org.jopendocument.renderer.ODTRenderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.pdf.PdfContentByte;
-import com.itextpdf.text.pdf.PdfDocument;
-import com.itextpdf.text.pdf.PdfTemplate;
-import com.itextpdf.text.pdf.PdfWriter;
-import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.services.reference.country.CountryService;
 import com.salesmanager.core.business.services.reference.zone.ZoneService;
 import com.salesmanager.core.business.utils.ProductPriceUtils;
-import com.salesmanager.core.business.utils.ProductUtils;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.Order;
-import com.salesmanager.core.model.order.OrderTotal;
-import com.salesmanager.core.model.order.orderproduct.OrderProduct;
-import com.salesmanager.core.model.reference.country.Country;
 import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.core.model.reference.zone.Zone;
 
 
 
@@ -70,9 +41,16 @@ public class ODSInvoiceModule implements InvoiceModule {
 	
 	@Inject
 	private ProductPriceUtils priceUtil;
+
+	@Deprecated
+	@Override
+	public ByteArrayOutputStream createInvoice(MerchantStore store, Order order, Language language) throws Exception {
+		// TODO Auto-generated method stub
+		throw new Exception("Not implemented");
+	}
 	
 
-	@Override
+/*	@Override
 	public ByteArrayOutputStream createInvoice(MerchantStore store, Order order, Language language) throws Exception {
 		
 		
@@ -405,5 +383,5 @@ public class ODSInvoiceModule implements InvoiceModule {
 		
 
 	}
-
+*/
 }

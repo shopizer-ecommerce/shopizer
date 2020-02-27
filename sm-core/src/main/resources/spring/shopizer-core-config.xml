@@ -17,10 +17,12 @@
 
 
 	<context:annotation-config />
-	<!-- repositories -->
+	
+	
+	<!--
 	<repositories base-package="com.salesmanager.core.business.repositories" />
 
-	<!-- JPA and transactions -->
+	JPA and transactions
 	<tx:annotation-driven />
 
 	<beans:bean id="entityManagerFactory" name="shopizerContainer"
@@ -41,7 +43,7 @@
 				<beans:entry key="hibernate.default_schema" value="${db.schema}" />
 				<beans:entry key="hibernate.hbm2ddl.auto" value="${hibernate.hbm2ddl.auto}" />
 				<beans:entry key="hibernate.show_sql" value="${db.show.sql}" />
-				<!-- for existing applications, this property should be false -->
+				for existing applications, this property should be false
 				<beans:entry key="hibernate.id.new_generator_mappings"
 					value="false" />
 				<beans:entry key="hibernate.cache.use_second_level_cache" value="true"/>
@@ -51,20 +53,20 @@
 				<beans:entry key="hibernate.cache.use_second_level_cache"
 					value="true" />
 
-				<!-- character set -->
+				character set
 				<beans:entry key="hibernate.connection.CharSet" value="utf8" />
 				<beans:entry key="hibernate.connection.characterEncoding"
 					value="utf8" />
 				<beans:entry key="hibernate.connection.useUnicode"
 					value="true" />
 
-				<!-- Uncomment the following 2 lines to generate shopizer sql schema 
+				Uncomment the following 2 lines to generate shopizer sql schema 
 					when the application is built. Remove the schema.sql file once generated, 
 					otherwise it will try to create it twice in the test database (table already 
-					exist... -->
-				<!-- <beans:entry key="javax.persistence.schema-generation.scripts.action" 
+					exist...
+				<beans:entry key="javax.persistence.schema-generation.scripts.action" 
 					value="create" /> <beans:entry key="javax.persistence.schema-generation.scripts.create-target" 
-					value="src/test/resources/schema.sql" /> -->
+					value="src/test/resources/schema.sql" />
 			</util:map>
 		</beans:property>
 
@@ -74,16 +76,18 @@
 		</beans:property>
 	</beans:bean>
 
-	<!-- Configure the transaction manager bean -->
+	Configure the transaction manager bean
 	<beans:bean id="transactionManager"
 		class="org.springframework.orm.jpa.JpaTransactionManager">
 		<beans:property name="entityManagerFactory" ref="entityManagerFactory" />
 	</beans:bean>
 
-	<!-- Enable annotation driven transaction management -->
+	Enable annotation driven transaction management
 	<tx:annotation-driven />
 
-	<aop:config>
+ -->
+ 
+ 	<aop:config>
 		<aop:pointcut id="txPointCutDef"
 			expression="this(com.salesmanager.core.business.services.common.generic.TransactionalAspectAwareService)" />
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCutDef" />
@@ -101,7 +105,6 @@
 
 	<beans:bean id="persistenceExceptionTranslationPostProcessor"
 		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
-
 
 	<!-- in sm-shop -->
 	<beans:bean id="coreConfiguration"

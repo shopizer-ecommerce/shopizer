@@ -259,20 +259,7 @@
 			<password-encoder ref="passwordEncoder" hash="bcrypt"/>
 		</authentication-provider>
 	</authentication-manager>
-	
-	<!-- Facebook authentication -->
-	<authentication-manager id="facebookAuthenticationManager">
-		<authentication-provider
-			ref="socialAuthenticationProvider" />
-	</authentication-manager>
 
-	<!-- Configures the social authentication provider which processes authentication 
-		requests made by using social authentication service (FB). -->
-	<beans:bean id="socialAuthenticationProvider"
-		class="org.springframework.social.security.SocialAuthenticationProvider">
-		<beans:constructor-arg index="0" ref="socialUsersConnectionRepository" />
-		<beans:constructor-arg index="1" ref="facebookSocialUserDetailsService" />
-	</beans:bean>
 	
 	
 	<!-- OK -->

@@ -24,10 +24,10 @@ import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.annotations.Cascade;
-import javax.validation.constraints.NotEmpty;
 
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.category.Category;
@@ -56,7 +56,12 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 
 	@Id
 	@Column(name = "PRODUCT_ID", unique=true, nullable=false)
-	@TableGenerator(name = "TABLE_GEN", table = "SM_SEQUENCER", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "PRODUCT_SEQ_NEXT_VAL")
+	@TableGenerator(
+		 name = "TABLE_GEN", 
+		 table = "SM_SEQUENCER", 
+		 pkColumnName = "SEQ_NAME", 
+		 valueColumnName = "SEQ_COUNT", 
+		 pkColumnValue = "PRODUCT_SEQ_NEXT_VAL")
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
 	private Long id;
 

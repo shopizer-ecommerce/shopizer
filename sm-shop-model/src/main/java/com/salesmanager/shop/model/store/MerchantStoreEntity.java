@@ -138,5 +138,13 @@ public class MerchantStoreEntity implements Serializable {
 		this.weight = weight;
 	}
 
+	public boolean isRetailer() {
+		return retailer;
+	}
+
+	public void setRetailer(boolean retailer) {
+		this.retailer = retailer;
+	}
+
 
 }

@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mobile.device.Device;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -42,6 +41,7 @@ public class JWTTokenUtil implements Serializable {
 	    static final String CLAIM_KEY_CREATED = "iat";
 
 	    static final String AUDIENCE_UNKNOWN = "unknown";
+	    static final String AUDIENCE_API = "api";
 	    static final String AUDIENCE_WEB = "web";
 	    static final String AUDIENCE_MOBILE = "mobile";
 	    static final String AUDIENCE_TABLET = "tablet";
@@ -107,18 +107,8 @@ public class JWTTokenUtil implements Serializable {
 	      return cal.getTime();
 	    }
 
-	    private String generateAudience(Device device) {
-	        String audience = AUDIENCE_UNKNOWN;
-	        if(device != null) {
-		        if (device.isNormal()) {
-		            audience = AUDIENCE_WEB;
-		        } else if (device.isTablet()) {
-		            audience = AUDIENCE_TABLET;
-		        } else if (device.isMobile()) {
-		            audience = AUDIENCE_MOBILE;
-		        }
-	        }
-	        return audience;
+	    private String generateAudience() {
+	        return AUDIENCE_API;
 	    }
 
 	    private Boolean ignoreTokenExpiration(String token) {
@@ -126,9 +116,9 @@ public class JWTTokenUtil implements Serializable {
 	        return (AUDIENCE_TABLET.equals(audience) || AUDIENCE_MOBILE.equals(audience));
 	    }
 
-	    public String generateToken(UserDetails userDetails, Device device) {
+	    public String generateToken(UserDetails userDetails) {
 	        Map<String, Object> claims = new HashMap<>();
-	        return doGenerateToken(claims, userDetails.getUsername(), generateAudience(device));
+	        return doGenerateToken(claims, userDetails.getUsername(), generateAudience());
 	    }
 
 	    private String doGenerateToken(Map<String, Object> claims, String subject, String audience) {

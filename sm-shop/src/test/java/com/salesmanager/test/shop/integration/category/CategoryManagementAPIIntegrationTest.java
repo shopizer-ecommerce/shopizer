@@ -129,7 +129,7 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
         final String json = writer.writeValueAsString(newCategory);
 
         final HttpEntity<String> entity = new HttpEntity<>(json, getHeader());
-
+        //create category
         final ResponseEntity response = testRestTemplate.postForEntity("/api/v1/private/category", entity, PersistableCategory.class);
         final PersistableCategory cat = (PersistableCategory) response.getBody();
         assertThat(response.getStatusCode(), is(CREATED));

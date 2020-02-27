@@ -51,7 +51,7 @@ public class ManufacturerFacadeImpl implements ManufacturerFacade {
     Validate.notNull(language, "Language cannot be null");
     Validate.notNull(categoryId,"Category id cannot be null");
     
-    Category category = categoryService.getById(categoryId);
+    Category category = categoryService.getById(categoryId, store.getId());
     
     if(category == null) {
       throw new ResourceNotFoundException("Category with id [" + categoryId + "] not found");

@@ -374,7 +374,7 @@ public class PersistableProductPopulator extends
 						c = categoryService.getByCode(store, categ.getCode());
 					} else {
 						Validate.notNull(categ.getId(), "Category id nust not be null");
-						c = categoryService.getById(categ.getId());
+						c = categoryService.getById(categ.getId(), store.getId());
 					}
 					
 					if(c==null) {

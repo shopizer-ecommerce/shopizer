@@ -237,7 +237,7 @@ public class ShoppingCategoryController {
 		ReadableCategory parentProxy  = null;
 
 		if(category.getParent()!=null) {
-			Category parent = categoryService.getById(category.getParent().getId());
+			Category parent = categoryService.getById(category.getParent().getId(), store.getId());
 			parentProxy = populator.populate(parent, new ReadableCategory(), store, language);
 		}
 		

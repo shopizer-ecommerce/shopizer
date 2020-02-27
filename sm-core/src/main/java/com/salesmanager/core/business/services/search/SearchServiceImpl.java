@@ -12,6 +12,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.google.gson.JsonNull;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import com.salesmanager.core.business.constants.Constants;
@@ -232,12 +233,27 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 						Map<String,Object> metaEntries = hit.getItem();
 						IndexProduct indexProduct = new IndexProduct();
 
-						indexProduct.setDescription((String)metaEntries.get("description"));
-						indexProduct.setHighlight((String)metaEntries.get("highlight"));
+						Object desc = metaEntries.get("description");
+						if(desc instanceof JsonNull == false) {
+							indexProduct.setDescription((String)metaEntries.get("description"));
+						}
+						
+						Object hl = metaEntries.get("highlight");
+						if(hl instanceof JsonNull == false) {
+							indexProduct.setHighlight((String)metaEntries.get("highlight"));
+						}
 						indexProduct.setId((String)metaEntries.get("id"));
 						indexProduct.setLang((String)metaEntries.get("lang"));
-						indexProduct.setName(((String)metaEntries.get("name")));
-						indexProduct.setManufacturer(((String)metaEntries.get("manufacturer")));
+						
+						Object nm = metaEntries.get("name");
+						if(nm instanceof JsonNull == false) {
+							indexProduct.setName(((String)metaEntries.get("name")));
+						}
+						
+						Object mf = metaEntries.get("manufacturer");
+						if(mf instanceof JsonNull == false) {
+							indexProduct.setManufacturer(((String)metaEntries.get("manufacturer")));
+						}
 						indexProduct.setPrice(Double.valueOf(((String)metaEntries.get("price"))));
 						indexProduct.setStore(((String)metaEntries.get("store")));
 						entry.setIndexProduct(indexProduct);

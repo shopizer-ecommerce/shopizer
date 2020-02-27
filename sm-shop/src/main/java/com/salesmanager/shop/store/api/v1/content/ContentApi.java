@@ -335,7 +335,7 @@ public class ContentApi {
    * @param name
    */
   @DeleteMapping(value = "/private/content/{id}")
-  @ApiOperation(httpMethod = "DETETE", value = "Deletes a content from CMS", notes = "Delete a content box or page",
+  @ApiOperation(httpMethod = "DELETE", value = "Deletes a content from CMS", notes = "Delete a content box or page",
   response = Void.class)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT")})
@@ -351,7 +351,7 @@ public class ContentApi {
    * @param name
    *//*
   @DeleteMapping(value = "/private/content/page/{id}")
-  @ApiOperation(httpMethod = "DETETE", value = "Deletes a file from CMS", notes = "Delete a file from server",
+  @ApiOperation(httpMethod = "DELETE", value = "Deletes a file from CMS", notes = "Delete a file from server",
   response = Void.class)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT")})
@@ -368,7 +368,7 @@ public class ContentApi {
    * @param name
    */
   @DeleteMapping(value = "/private/content/")
-  @ApiOperation(httpMethod = "DETETE", value = "Deletes a file from CMS", notes = "Delete a file from server",
+  @ApiOperation(httpMethod = "DELETE", value = "Deletes a file from CMS", notes = "Delete a file from server",
   response = Void.class)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),

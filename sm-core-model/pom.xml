@@ -67,11 +67,6 @@
       <artifactId>spring-webmvc</artifactId>
     </dependency>
 
-    <!-- http://mvnrepository.com/artifact/org.hibernate/hibernate-validator -->
-<!--     <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-validator</artifactId>
-    </dependency> -->
 
     <!-- http://mvnrepository.com/artifact/commons-io/commons-io -->
     <dependency>
