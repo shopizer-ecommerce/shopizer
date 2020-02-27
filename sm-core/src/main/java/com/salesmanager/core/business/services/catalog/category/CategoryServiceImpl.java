@@ -39,6 +39,9 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
   
   @Inject
   private PageableCategoryRepository pageableCategoryRepository;
+  
+  @Inject
+  private CategoryDescriptionRepository categoryDescriptionRepository;
 
 
 
@@ -77,33 +80,6 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
 
 	}
 
-	public void create(Category category) throws ServiceException {
-
-		super.create(category);
-		StringBuilder lineage = new StringBuilder();
-		Category parent = category.getParent();
-		if (parent != null && parent.getId() != null && parent.getId().longValue() != 0) {
-			// get parent category
-			Category p = getById(parent.getId(), category.getMerchantStore().getId());
-
-			lineage.append(p.getLineage()).append(category.getId());
-			category.setDepth(p.getDepth() + 1);
-		} else {
-			lineage.append("/").append(category.getId());
-			category.setDepth(0);
-		}
-		category.setLineage(lineage.toString());
-		super.update(category);
-
-	}
-
-	@Override
-	public List<Object[]> countProductsByCategories(MerchantStore store, List<Long> categoryIds)
-			throws ServiceException {
-
-		return categoryRepository.countProductsByCategories(store, categoryIds);
-
-	}
 
 	@Override
 	public List<Category> listByCodes(MerchantStore store, List<String> codes, Language language) {
