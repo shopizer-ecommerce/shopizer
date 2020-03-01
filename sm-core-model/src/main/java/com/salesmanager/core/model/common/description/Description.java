@@ -18,6 +18,7 @@ import javax.persistence.TableGenerator;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.model.common.audit.AuditListener;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.common.audit.Auditable;
@@ -35,6 +36,7 @@ public class Description implements Auditable, Serializable {
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
 	private Long id;
 	
+	@JsonIgnore
 	@Embedded
 	private AuditSection auditSection = new AuditSection();
 	

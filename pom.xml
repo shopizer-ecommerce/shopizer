@@ -483,12 +483,13 @@
       <artifactId>ehcache</artifactId>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/com.mchange/c3p0 -->
+
+
+	<!--https://mvnrepository.com/artifact/com.mchange/c3p0-->
     <dependency>
       <groupId>com.mchange</groupId>
       <artifactId>c3p0</artifactId>
     </dependency>
-    <!-- end c3po -->
 
 
     <!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->

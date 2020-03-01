@@ -33,6 +33,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.product.review.ProductReview;
 import com.salesmanager.core.model.common.Billing;
@@ -111,6 +112,7 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 	@OneToMany(mappedBy = "customer", targetEntity = ProductReview.class)
 	private List<ProductReview> reviews = new ArrayList<ProductReview>();
 	
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="MERCHANT_ID", nullable=false)
 	private MerchantStore merchantStore;
@@ -123,7 +125,7 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 	@Embedded
 	private Billing billing = null;
 	
-	
+	@JsonIgnore
 	@ManyToMany(fetch=FetchType.LAZY, cascade = {CascadeType.REFRESH})
 	@JoinTable(name = "CUSTOMER_GROUP", schema=SchemaConstant.SALESMANAGER_SCHEMA, joinColumns = { 
 			@JoinColumn(name = "CUSTOMER_ID", nullable = false, updatable = false) }

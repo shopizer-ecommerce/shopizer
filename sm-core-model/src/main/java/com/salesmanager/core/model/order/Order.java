@@ -27,6 +27,7 @@ import javax.validation.Valid;
 import org.hibernate.annotations.OrderBy;
 import org.hibernate.annotations.Type;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.common.Billing;
 import com.salesmanager.core.model.common.Delivery;
@@ -134,7 +135,7 @@ public class Order extends SalesManagerEntity<Long, Order> {
 	private Locale locale; 
 	
 
-
+	@JsonIgnore
 	@ManyToOne(targetEntity = MerchantStore.class)
 	@JoinColumn(name="MERCHANTID")
 	private MerchantStore merchant;

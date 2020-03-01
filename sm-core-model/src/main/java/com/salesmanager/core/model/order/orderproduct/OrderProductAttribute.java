@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 
 @Entity
@@ -35,6 +36,7 @@ public class OrderProductAttribute implements Serializable {
 	@Column ( name= "PRODUCT_ATTRIBUTE_WEIGHT" , precision=15 , scale=4 )
 	private java.math.BigDecimal productAttributeWeight;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "ORDER_PRODUCT_ID", nullable = false)
 	private OrderProduct orderProduct;

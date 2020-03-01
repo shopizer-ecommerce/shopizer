@@ -18,6 +18,7 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 import com.salesmanager.core.model.reference.geozone.GeoZone;
@@ -39,6 +40,7 @@ public class Country extends SalesManagerEntity<Integer, Country> {
 	@OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
 	private Set<CountryDescription> descriptions = new HashSet<CountryDescription>();
 
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "country")
 	private Set<Zone> zones = new HashSet<Zone>();
 	

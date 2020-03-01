@@ -16,6 +16,7 @@ import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 
 @Entity
@@ -30,6 +31,7 @@ public class OrderProductPrice implements Serializable {
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
 	private Long id;
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "ORDER_PRODUCT_ID", nullable = false)
 	private OrderProduct orderProduct;

@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 import com.salesmanager.core.model.reference.country.Country;
@@ -32,6 +33,7 @@ public class GeoZone extends SalesManagerEntity<Long, GeoZone> {
 	@OneToMany(mappedBy = "geoZone", cascade = CascadeType.ALL)
 	private List<GeoZoneDescription> descriptions = new ArrayList<GeoZoneDescription>();
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "geoZone", targetEntity = Country.class)
 	private List<Country> countries = new ArrayList<Country>();
 	

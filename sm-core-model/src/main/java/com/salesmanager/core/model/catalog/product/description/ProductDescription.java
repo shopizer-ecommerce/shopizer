@@ -7,6 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.common.description.Description;
@@ -22,6 +23,7 @@ import com.salesmanager.core.model.common.description.Description;
 public class ProductDescription extends Description {
 	private static final long serialVersionUID = 1L;
 	
+	@JsonIgnore
 	@ManyToOne(targetEntity = Product.class)
 	@JoinColumn(name = "PRODUCT_ID", nullable = false)
 	private Product product;

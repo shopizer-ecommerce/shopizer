@@ -6,6 +6,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.model.common.description.Description;
 import com.salesmanager.core.model.reference.language.Language;
 
@@ -18,8 +19,9 @@ import com.salesmanager.core.model.reference.language.Language;
 	}
 )
 public class ZoneDescription extends Description {
-	private static final long serialVersionUID = 6448836326562270923L;
+	private static final long serialVersionUID = 1L;
 	
+	@JsonIgnore
 	@ManyToOne(targetEntity = Zone.class)
 	@JoinColumn(name = "ZONE_ID", nullable = false)
 	private Zone zone;

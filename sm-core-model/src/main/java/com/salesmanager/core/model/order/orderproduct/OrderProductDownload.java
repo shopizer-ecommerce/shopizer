@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 
@@ -28,6 +29,7 @@ public class OrderProductDownload extends SalesManagerEntity<Long, OrderProductD
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
 	private Long id;
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "ORDER_PRODUCT_ID", nullable = false)
 	private OrderProduct orderProduct; 

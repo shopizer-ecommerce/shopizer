@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 import com.salesmanager.core.model.order.Order;
@@ -43,7 +44,7 @@ public class OrderProduct extends SalesManagerEntity<Long, OrderProduct> {
 	@Column (name="ONETIME_CHARGE" , nullable=false )
 	private BigDecimal oneTimeCharge;
 
-
+	@JsonIgnore
 	@ManyToOne(targetEntity = Order.class)
 	@JoinColumn(name = "ORDER_ID", nullable = false)
 	private Order order;

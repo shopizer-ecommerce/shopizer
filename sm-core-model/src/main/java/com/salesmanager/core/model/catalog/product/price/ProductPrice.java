@@ -25,6 +25,7 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
@@ -72,7 +73,7 @@ public class ProductPrice extends SalesManagerEntity<Long, ProductPrice> {
 	@Column(name = "PRODUCT_PRICE_SPECIAL_AMOUNT")
 	private BigDecimal productPriceSpecialAmount;
 	
-
+	@JsonIgnore
 	@ManyToOne(targetEntity = ProductAvailability.class)
 	@JoinColumn(name = "PRODUCT_AVAIL_ID", nullable = false)
 	private ProductAvailability productAvailability;

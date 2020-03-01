@@ -16,6 +16,7 @@ import javax.persistence.TableGenerator;
 
 import org.hibernate.annotations.Type;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 
@@ -64,6 +65,7 @@ public class OrderTotal extends SalesManagerEntity<Long, OrderTotal> {
 	@Column (name ="SORT_ORDER", nullable=false)
 	private int sortOrder;
 	
+	@JsonIgnore
 	@ManyToOne(targetEntity = Order.class)
 	@JoinColumn(name = "ORDER_ID", nullable=false)
 	private Order order;
