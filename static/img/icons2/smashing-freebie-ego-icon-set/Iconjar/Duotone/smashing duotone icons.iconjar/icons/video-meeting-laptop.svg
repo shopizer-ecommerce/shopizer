@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <title>video-meeting-laptop</title>
+  <g id="Icons-DuoTone">
+    <polygon points="20.5 5.5 23.5 6.5 23.5 2.5 20.5 3.5 20.5 1.5 13.5 1.5 13.5 7.5 2.5 7.5 2.5 20.5 0.5 20.5 3.5 23.5 20 23.5 22.5 20.5 20.5 20.5 20.5 7.5 20.5 5.5" fill="#fff"/>
+    <polygon points="13.5 4.5 13.5 7.5 20.5 7.5 20.5 5.5 23.5 6.5 23.5 4.5 13.5 4.5" fill="#cce7ff"/>
+    <polygon points="14.5 11.833 14.5 15 11.5 16.5 9.455 15.477 2.5 20.5 6.5 20.5 6.5 19 11.5 17.5 16.5 19 16.5 20.5 20.5 20.5 20.5 7.5 14.5 11.833" fill="#cce7ff"/>
+    <polygon points="14.5 15 11.5 16.5 8.5 15 8.5 11 11.5 9.5 14.5 11 14.5 15" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="16.5 20.5 16.5 19 11.5 17.5 6.5 19 6.5 20.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="10.5 7.5 2.5 7.5 2.5 20.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="20.5" y1="20.5" x2="20.5" y2="10.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="0.5 20.5 9.469 20.5 11.5 21.5 13.563 20.5 22.5 20.5 20 23.5 3.5 23.5 0.5 20.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="14.5 12.5 11 12.5 8.5 11 11.5 9.5 14.5 11 14.5 12.5" fill="#cce7ff"/>
+    <polygon points="14.5 12.5 11 12.5 8.5 11 11.5 9.5 14.5 11 14.5 12.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="23.5 2.5 20.5 3.5 20.5 1.5 13.5 1.5 13.5 7.5 20.5 7.5 20.5 5.5 23.5 6.5 23.5 2.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <g id="Frames-24px">
+    <rect width="24" height="24" fill="none"/>
+  </g>
+</svg>

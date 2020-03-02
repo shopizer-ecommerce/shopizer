@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <title>user-chat-1</title>
+  <g id="Duotone">
+    <polygon points="23.5 8.5 18 8.5 15.5 11 15.5 8.5 13.5 8.5 13.5 0.5 23.5 0.5 23.5 8.5" fill="#fff"/>
+    <polygon points="11.5 15 7.5 16.5 3.5 15 3.5 9.5 7.5 8 11.5 9.5 11.5 15" fill="#fff"/>
+    <polyline points="14.5 23.5 14.5 19 7.5 17.5 0.5 19 0.5 23.5" fill="#fff"/>
+    <polygon points="13.5 7 13.5 8.5 15.5 8.5 15.5 11 18 8.5 23.5 8.5 23.5 7 13.5 7" fill="#cce7ff"/>
+    <polygon points="11.5 11.5 7 11.5 3.5 9.5 7.5 8 11.5 9.5 11.5 11.5" fill="#cce7ff"/>
+    <line x1="15.5" y1="3.5" x2="21.5" y2="3.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="15.5" y1="5.5" x2="19.5" y2="5.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="23.5 8.5 18 8.5 15.5 11 15.5 8.5 13.5 8.5 13.5 0.5 23.5 0.5 23.5 8.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="11.5 15 7.5 16.5 3.5 15 3.5 9.5 7.5 8 11.5 9.5 11.5 15" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="14.5 23.5 14.5 19 7.5 17.5 0.5 19 0.5 23.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="7.5" y1="19.5" x2="7.5" y2="23.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="11.5 11.5 7 11.5 3.5 9.5 7.5 8 11.5 9.5 11.5 11.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="10" y1="22.5" x2="12" y2="22.5" fill="none" stroke="#cce7ff" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <g id="Frames-24px">
+    <rect width="24" height="24" fill="none"/>
+  </g>
+</svg>

@@ -1,186 +1,67 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <script>
+      document.write("<base href='"+ window.location.protocol +'//' + window.location.host + window.location.pathname + "' >");
+    </script>
 
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- disable caching -->
+    <meta http-equiv="cache-control" content="max-age=0" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+    <meta http-equiv="pragma" content="no-cache" />
 
-  <meta charset="utf-8">
+    <title>Shopizer</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="<%= htmlWebpackPlugin.files.publicPath %>static/img/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="<%= htmlWebpackPlugin.files.publicPath %>static/img/icons/favicon-16x16.png">
+    <!--[if IE]><link rel="shortcut icon" href="/static/img/icons/favicon.ico"><![endif]-->
+    <!-- Add to home screen for Android and modern mobile browsers -->
+    <link rel="manifest" href="<%= htmlWebpackPlugin.files.publicPath %>static/manifest.json">
+    <meta name="theme-color" content="#4DBA87">
+    <!-- Add to home screen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="playbook">
+    <link rel="apple-touch-icon" href="<%= htmlWebpackPlugin.files.publicPath %>static/img/icons/apple-touch-icon-152x152.png">
+    <link rel="mask-icon" href="<%= htmlWebpackPlugin.files.publicPath %>static/img/icons/safari-pinned-tab.svg" color="#4DBA87">
+    <!-- Add to home screen for Windows -->
+    <meta name="msapplication-TileImage" content="<%= htmlWebpackPlugin.files.publicPath %>static/img/icons/msapplication-icon-144x144.png">
+    <meta name="msapplication-TileColor" content="#000000">
+    <% for (var chunk of webpack.chunks) {
+        for (var file of chunk.files) {
+          if (file.match(/\.(js|css)$/)) { %>
+    <link rel="<%= chunk.initial?'preload':'prefetch' %>" href="<%= htmlWebpackPlugin.files.publicPath + file %>" as="<%= file.match(/\.css$/)?'style':'script' %>"><% }}} %>
+    <script>
+      if (location.protocol == 'http:' && location.hostname !== 'localhost') {
+        location.href = location.href.replace(/^http:/, 'https:')
+      }
 
+var req = new XMLHttpRequest();
+req.overrideMimeType("application/json");
+req.open('GET', 'https://api.github.com/repos/shopizer-ecommerce/shopizer', true);
+req.onload  = function() {
+   var jsonResponse = JSON.parse(req.responseText);
+   version = 'v.' + jsonResponse.default_branch;
+   console.log(version);
+   document.getElementById('ghBranchVersion').innerHTML=version;
+};
+req.send(null);
 
-
-	<!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
-	<!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
-	<meta name="description" content="Java open source shopping cart | E-commerce content management" />
-	<meta name="keywords" content="Java open source shopping cart, java e-commerce, java shopping cart, responsive e-commerce, java open source, free Java shopping cart" />
-	<meta name="author" content="Shopizer" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes">
-       <link href="stylesheets/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
-       <link href="stylesheets/layout.css" rel="stylesheet" type="text/css" media="all" />
-	<link href="stylesheets/technical.css" rel="stylesheet" type="text/css" media="all" />
-	<link href="stylesheets/table.css" rel="stylesheet" type="text/css" media="all" /> 
-
-
-	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
-
-	<link href="stylesheets/docum.css" rel="stylesheet" type="text/css" />
-
-
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-
-<script>
-
-
-
-
-</script>
-
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-    <title>Shopizer documentation</title>
+    </script>
   </head>
-
   <body>
-    <header>
-
-
-    	<div class="container">
-			<div class="row">
-				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-					<figure class="logo"><a href="/"><img src="images/logo.png" alt=""></a></figure>
-				</div>
-				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-					
-					<div class="dwnload">
-						<a class="download" href="https://github.com/shopizer-ecommerce/shopizer" class="button1">Download</a>
-					</div>
-					
-
-				</div>
-			</div>
-	</div>
-
-
-    </header>
-
-</div>
-
-<div class="container">
-
-<div class="col-lg-12 clm1" style="padding-top:20px;">
-	<h2 style="padding-bottom:10px;">
-	Shopizer documentation
-	</h2>
-	<hr class="half-margins">
-</div>
-
-
-
-  <div class="col-sm-3">
-    <div class="sidebar-nav">
-      <div class="navbar navbar-default" role="navigation">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <span class="visible-xs navbar-brand">Sidebar menu</span>
-        </div>
-        <div class="navbar-collapse collapse sidebar-navbar-collapse">
-          <ul class="nav navbar-nav">
-		    <li class="active"><a href="#" onClick="loadContent('http://shopizer-ecommerce.github.io/shopizer/articles/index.html')">Home</a></li>
-			<li><a href="#" onClick="loadContent('http://shopizer-ecommerce.github.io/shopizer/articles/features.html')">Features</a></li>
-            <li><a href="#" onClick="loadContent('http://shopizer-ecommerce.github.io/shopizer/articles/getting-started.html')">Getting started</a></li>
-            <li><a href="#" onClick="loadContent('http://shopizer-ecommerce.github.io/shopizer/articles/software-requirements.html')">Software requirements</a></li>
-			<li><a href="#" onClick="loadContent('http://shopizer-ecommerce.github.io/shopizer/articles/get-shopizer.html')">Get Shopizer</a></li>
-			<li><a href="#" onClick="loadContent('http://shopizer-ecommerce.github.io/shopizer/articles/build-shopizer.html')">Build Shopizer</a></li>
-			<li><a href="#" onClick="loadContent('http://shopizer-ecommerce.github.io/shopizer/articles/configuration.html')">Configure Shopizer</a></li>
-            <!--
-			<li><a href="#" onClick="loadContent('http://shopizer-ecommerce.github.io/shopizer/articles/javadoc/help-doc.html')">Configure Shopizer</a></li>
-			
-			<li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Shopizer entity <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">References</a></li>
-                <li><a href="#">Merchant</a></li>
-                <li><a href="#">Product</a></li>
-				<!--
-                <li class="divider"></li>
-                <li class="dropdown-header">Nav header</li>
-				-->
-				<!--
-                <li><a href="#">Category</a></li>
-                <li><a href="#">Customer</a></li>
-				<li><a href="#">Order</a></li>
-              </ul>
-            </li>
-			-->
-			<!--
-            <li><a href="#">Menu Item 4</a></li>
-            <li><a href="#">Reviews <span class="badge">1,118</span></a></li>
-			-->
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </div>
-  </div>
-
-
-
-<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-
-
-	<div id="content">
-
-	</div>
-
-</div>
-
-
-
-
-</div>
-
-
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-   <script src="javascripts/bootstrap-min.js"></script>
-
-
-
-<script>
-
-
-
-$(document).ready( function() {
-
-     // ### get latest branch
-     var githubAPI = "https://api.github.com/repos/shopizer-ecommerce/shopizer";
-
-     $.getJSON( githubAPI, {
-        format: "json"
-     }).done(function( data ) {
-      //console.log('Branch ' + data.default_branch);
-      $('.ghBranchVersion').html('v. ' + data.default_branch);
-      $('.dockerVersion').html(data.default_branch);
-      });
-
-     $("#content").load("http://shopizer-ecommerce.github.io/shopizer/articles/index.html");
-});
-
-function loadContent(src) {
-	 $("#content").load(src);
-}
-
-</script>
-
-
-
-
+    <noscript>
+      This is your fallback content in case JavaScript fails to load.
+    </noscript>
+    <div id="app"></div>
+    <!-- Todo: only include in production -->
+    <%= htmlWebpackPlugin.options.serviceWorkerLoader %>
+    <!-- built files will be auto injected -->
   </body>
+
 </html>

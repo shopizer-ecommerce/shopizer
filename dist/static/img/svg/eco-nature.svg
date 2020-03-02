@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <title>eco-nature</title>
+  <g id="Duotone">
+    <polygon points="8.5 18.5 8.5 14.5 7.5 14.5 5 18.5 3.5 18.5 3.5 17.5 0.5 17.5 0.5 23.5 3.5 23.5 3.5 22.5 9 22.5 17 20.5 18.5 18.5 8.5 18.5" fill="#fff"/>
+    <polygon points="20 11 16.5 10.5 16 7 19.257 3.5 21.5 3.5 23.5 2 23.5 8 20 11" fill="#fff"/>
+    <polygon points="7 12 11.514 11.514 12 7 8 2.5 5.5 2.5 2.5 0.5 2.5 8 7 12" fill="#fff"/>
+    <rect x="0.5" y="19.5" width="3" height="4" fill="#cce7ff"/>
+    <polygon points="16.5 10.5 20 11 23.5 8 23.5 3.5 16.5 10.5" fill="#cce7ff"/>
+    <polygon points="6.882 6.882 2.5 2.264 2.5 8 7 12 11.514 11.514 11.514 11.514 6.882 6.882" fill="#cce7ff"/>
+    <polyline points="3.5 22.5 9 22.5 17 20.5 18.5 18.5 8.5 18.5 8.5 14.5 7.5 14.5 5 18.5 3.5 18.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="0.5" y="17.5" width="3" height="6" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="13.5" y1="13.5" x2="19.965" y2="7.035" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="20 11 16.5 10.5 16 7 19.257 3.5 21.5 3.5 23.5 2 23.5 8 20 11" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="6.882 6.882 13.5 13.5 13.5 16.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="7 12 11.514 11.514 12 7 8 2.5 5.5 2.5 2.5 0.5 2.5 8 7 12" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <g id="Frames-24px">
+    <rect width="24" height="24" fill="none"/>
+  </g>
+</svg>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <title>movie-film-1</title>
+  <g id="Duotone">
+    <polygon points="20.5 18 10.5 23.5 0.5 18 0.5 7 10.5 1.5 20.5 7 20.5 18" fill="#fff"/>
+    <path d="M11.468,11.968,12,12.5,10.5,14l-.968-.968L.5,18l10,5.5,10-5.5V7ZM12.5,19.25l-2,1.25-2-1.25v-2l2-1.25,2,1.25Zm4.75-4.75h-2L14,12.5l1.25-2h2l1.25,2Z" fill="#cce7ff"/>
+    <line x1="10.5" y1="23.5" x2="16.5" y2="23.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="8.5 5.75 10.5 4.5 12.5 5.75 12.5 7.75 10.5 9 8.5 7.75 8.5 5.75" fill="none" stroke="#1078ff" stroke-linejoin="round"/>
+    <polygon points="3.75 14.5 2.5 12.5 3.75 10.5 5.75 10.5 7 12.5 5.75 14.5 3.75 14.5" fill="none" stroke="#1078ff" stroke-linejoin="round"/>
+    <polygon points="8.5 17.25 10.5 16 12.5 17.25 12.5 19.25 10.5 20.5 8.5 19.25 8.5 17.25" fill="none" stroke="#1078ff" stroke-linejoin="round"/>
+    <polygon points="15.25 14.5 14 12.5 15.25 10.5 17.25 10.5 18.5 12.5 17.25 14.5 15.25 14.5" fill="none" stroke="#1078ff" stroke-linejoin="round"/>
+    <rect x="9.439" y="11.439" width="2.121" height="2.121" transform="translate(-5.763 11.086) rotate(-45)" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="18.5" y1="23.5" x2="19.5" y2="23.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="21.5" y1="23.5" x2="22.5" y2="23.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="20.5 18 10.5 23.5 0.5 18 0.5 7 10.5 1.5 20.5 7 20.5 18" fill="none" stroke="#1078ff" stroke-linejoin="round"/>
+  </g>
+  <g id="Frames-24px">
+    <rect width="24" height="24" fill="none"/>
+  </g>
+</svg>

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <title>lamp-5</title>
+  <g id="Duotone">
+    <polygon points="21.5 12.5 1.5 12.5 7 0.5 16 0.5 21.5 12.5" fill="#fff"/>
+    <polygon points="15 20.5 8 20.5 5 23.5 18 23.5 15 20.5" fill="#fff"/>
+    <rect x="15.439" y="15.939" width="2.121" height="2.121" transform="translate(-7.188 16.646) rotate(-45)" fill="#cce7ff"/>
+    <polygon points="21.5 12.5 11.5 12.5 11.5 0.5 16 0.5 21.5 12.5" fill="#cce7ff"/>
+    <polygon points="6.5 22 5 23.5 18 23.5 16.5 22 6.5 22" fill="#cce7ff"/>
+    <g>
+      <polygon points="21.5 12.5 1.5 12.5 7 0.5 16 0.5 21.5 12.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+      <line x1="11.5" y1="12.5" x2="11.5" y2="20.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+      <polygon points="15 20.5 8 20.5 5 23.5 18 23.5 15 20.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+      <line x1="16.5" y1="12.5" x2="16.5" y2="15.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="15.439" y="15.939" width="2.121" height="2.121" transform="translate(-7.188 16.646) rotate(-45)" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </g>
+  <g id="Frames-24px">
+    <rect width="24" height="24" fill="none"/>
+  </g>
+</svg>

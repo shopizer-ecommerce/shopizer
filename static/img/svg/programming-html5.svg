@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 21.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#FFFFFF;}
+	.st1{fill:#CCE7FF;}
+	.st2{fill:none;stroke:#1078FF;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st3{fill:none;stroke:#1078FF;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st4{fill:none;stroke:#1078FF;stroke-linecap:round;stroke-miterlimit:10;}
+	.st5{fill:none;}
+</style>
+<g id="Duotone">
+	<polygon class="st0" points="20.5,20.5 12,23.5 3.5,20.5 0.5,0.5 23.5,0.5 	"/>
+	<polygon class="st1" points="12,0.5 23.5,0.5 20.5,20.5 12,23.5 	"/>
+	<g>
+		<polyline class="st2" points="17.5,4.5 6.5,4.5 7.5,10.5 16.5,10.5 15.5,17.5 12,18.5 8.5,17.5 8,14.5 		"/>
+		<polygon class="st2" points="20.5,20.5 12,23.5 3.5,20.5 0.5,0.5 23.5,0.5 		"/>
+	</g>
+</g>
+<g id="Frames-24px">
+	<rect class="st5" width="24" height="24"/>
+</g>
+</svg>
