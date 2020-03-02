@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <title>shopping-cart-user-1</title>
+  <g id="Duotone">
+    <polygon points="21.5 6 19 7.5 16.5 6 16.5 3 19 1.5 21.5 3 21.5 6" fill="#fff"/>
+    <path d="M20.5,8.5h-9L17,12l-2.5,6.5H22l-1.2-8Z" fill="#fff"/>
+    <polygon points="9.783 12.5 0.5 12.5 0.5 16.5 8.203 18.041 9.783 12.5" fill="#fff"/>
+    <polygon points="0.5 14.5 0.5 16.5 8.203 18.041 8.742 16.148 0.5 14.5" fill="#cce7ff"/>
+    <polygon points="21 18.5 22 23.5 18.5 20 14.5 23.5 16.5 18.5 21 18.5" fill="#cce7ff"/>
+    <polygon points="19 1.5 17.824 2.206 17.824 2.206 19.5 5 21.5 5.667 21.5 3 19 1.5" fill="#cce7ff"/>
+    <g>
+      <polyline points="17.824 2.206 19.5 5 21.5 5.667" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline points="1.5 20.5 7.5 20.5 10.5 10" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M2,22a.2.2,0,0,0-.141.059l-.8.8a.2.2,0,0,0,0,.283l.8.8a.2.2,0,0,0,.283,0l.8-.8a.2.2,0,0,0,0-.283l-.8-.8A.2.2,0,0,0,2,22Z" fill="#1078ff"/>
+      <path d="M7,22a.2.2,0,0,0-.141.059l-.8.8a.2.2,0,0,0,0,.283l.8.8a.2.2,0,0,0,.283,0l.8-.8a.2.2,0,0,0,0-.283l-.8-.8A.2.2,0,0,0,7,22Z" fill="#1078ff"/>
+      <polyline points="21 18.5 22 23.5 18.5 20 14.5 23.5 16.5 18.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+      <polygon points="21.5 6 19 7.5 16.5 6 16.5 3 19 1.5 21.5 3 21.5 6" fill="none" stroke="#1078ff" stroke-linejoin="round"/>
+      <path d="M20.5,8.5h-9L17,12l-2.5,6.5H22l-1.2-8Z" fill="none" stroke="#1078ff" stroke-linejoin="round"/>
+      <polyline points="9.783 12.5 0.5 12.5 0.5 16.5 8.203 18.041" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </g>
+  <g id="Frames-24px">
+    <rect width="24" height="24" fill="none"/>
+  </g>
+</svg>

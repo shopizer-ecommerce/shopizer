@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <title>circus-1</title>
+  <g id="Duotone">
+    <polyline points="7 16.5 4.75 16.5 7 16.5 12.098 15.475 14 15 18 16 22 18.5 19.5 12.917 19 11 22 9.5 22.5 6.5 20.5 6 19 4 15.375 4.813 6.531 9.234 3 11 1.5 13.5 2 16.5 0.5 21 4 18 4.75 16.5" fill="#fff"/>
+    <polygon points="19 4 17 1.5 14.5 0.5 14.5 3.5 12 5 13 7 12 9.5 14 10.5 13.5 13.5 16 13 18 14 19 11 17 7.5 19 4" fill="#cce7ff"/>
+    <polygon points="3 5 1.5 3.5 1.5 1.5 3.5 3 3 5" fill="#cce7ff"/>
+    <polygon points="19 4 17 1.5 14.5 0.5 14.5 3.5 12 5 13 7 12 9.5 14 10.5 13.5 13.5 16 13 18 14 19 11 17 7.5 19 4" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="19 4 20.5 6 22.5 6.5 22 9.5 19 11" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="6.531 9.234 3 11 1.5 13.5 2 16.5 0.5 21 4 18 6 14" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="3 11 0.5 10 3 5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="3 5 1.5 3.5 1.5 1.5 3.5 3 3 5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="13.5 17 11.5 19.5 8.5 15 8.5 7 11.5 2.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="19.5" y1="7.5" x2="19.5" y2="8.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="11.5" y1="19.5" x2="11.5" y2="23.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="9.5" y1="23.5" x2="13.5" y2="23.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="20 14 22 18.5 18 16 14 15 12 15.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="11" y1="7" x2="12.6" y2="6.2" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="4.75" y1="16.5" x2="7" y2="16.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-miterlimit="10"/>
+  </g>
+  <g id="Frames-24px">
+    <rect width="24" height="24" fill="none"/>
+  </g>
+</svg>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <title>brain-user</title>
+  <g id="Duotone">
+    <polygon points="16.5 23.5 16.5 21 21.5 16 21.5 5.5 6.5 5.5 6.5 7 2.5 14.5 5.5 14.5 5.5 16.5 8.5 16.5 5.5 19 6.5 21.5 9.5 21.5 9.5 23.5 16.5 23.5" fill="#fff"/>
+    <polygon points="7.5 5.5 7.5 3 9.5 2 11.5 3 11.5 1.5 14 0.5 16.5 1.5 16.5 3 18.5 2 20.5 3 20.5 5.5 7.5 5.5" fill="#cce7ff"/>
+    <g>
+      <polyline points="7.5 5.5 7.5 3 9.5 2 11.5 3 11.5 1.5 14 0.5 16.5 1.5 16.5 3 18.5 2 20.5 3 20.5 5.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+      <line x1="9.5" y1="9.5" x2="9.5" y2="10.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline points="16.5 23.5 16.5 21 21.5 16 21.5 5.5 6.5 5.5 6.5 7 2.5 14.5 5.5 14.5 5.5 16.5 8.5 16.5 5.5 19 6.5 21.5 9.5 21.5 9.5 23.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline points="15.5 9.5 17.5 9.5 17.5 12 16 14" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </g>
+  <g id="Frames-24px">
+    <rect width="24" height="24" fill="none"/>
+  </g>
+</svg>

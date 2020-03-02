@@ -1,0 +1,27 @@
+{
+  "name": "markdown-it-deflist",
+  "main": "dist/markdown-it-deflist.js",
+  "homepage": "https://github.com/markdown-it/markdown-it-deflist",
+  "description": "<dl> tag for markdown-it markdown parser.",
+  "keywords": [
+    "markdown-it-plugin",
+    "markdown-it",
+    "markdown",
+    "definition list"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "benchmark",
+    "bower_components",
+    "coverage",
+    "demo",
+    "docs",
+    "lib",
+    "node_modules",
+    "support",
+    "test",
+    "Makefile",
+    "index*"
+  ]
+}

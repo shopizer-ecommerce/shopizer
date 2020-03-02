@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <title>football</title>
+  <g id="Duotone">
+    <path d="M11.5,1.5,3.722,4.722.5,12.5l3.222,7.778L11.5,23.5l7.778-3.222L22.5,12.5,19.278,4.722,11.5,1.5Z" fill="#fff"/>
+    <polygon points="8.492 17.5 6.622 11.379 11.513 7.815 16.404 11.379 14.536 17.5 8.492 17.5" fill="#cce7ff"/>
+    <polygon points="8.376 2.794 11.513 4.134 14.637 2.8 11.5 1.5 8.376 2.794" fill="#cce7ff"/>
+    <polygon points="22.236 13.136 19.424 9.9 19.777 5.905 22.5 12.5 22.236 13.136" fill="#cce7ff"/>
+    <polygon points="20.06 18.391 16.404 19.233 14.631 22.203 19.278 20.278 20.06 18.391" fill="#cce7ff"/>
+    <polygon points="0.764 13.136 3.576 9.9 3.223 5.905 0.5 12.5 0.764 13.136" fill="#cce7ff"/>
+    <polygon points="2.94 18.391 6.596 19.233 8.369 22.203 3.722 20.278 2.94 18.391" fill="#cce7ff"/>
+    <path d="M11.5,1.5,3.722,4.722.5,12.5l3.222,7.778L11.5,23.5l7.778-3.222L22.5,12.5,19.278,4.722,11.5,1.5Z" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="8.492 17.5 6.622 11.379 11.513 7.815 16.404 11.379 14.536 17.5 8.492 17.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="3.244 5.875 3.6 9.902 0.772 13.157" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="2.938 18.386 6.623 19.235 8.406 22.218" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="20.06 18.391 16.404 19.233 14.631 22.203 19.278 20.278 20.06 18.391" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="11.513 7.815 11.513 4.134 14.637 2.8 19.278 4.722 19.777 5.905 19.424 9.9 16.404 11.379 11.513 7.815" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="14.536" y1="17.5" x2="16.404" y2="19.233" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="8.492" y1="17.5" x2="6.623" y2="19.235" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="3.6" y1="9.902" x2="6.622" y2="11.379" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="8.376 2.794 11.513 4.134 14.637 2.8 11.5 1.5 8.376 2.794" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="22.236 13.136 19.424 9.9 19.777 5.905 22.5 12.5 22.236 13.136" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <g id="Frames-24px">
+    <rect width="24" height="24" fill="none"/>
+  </g>
+</svg>

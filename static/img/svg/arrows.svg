@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <title>arrows</title>
+  <g id="Duotone">
+    <polygon points="6.5 6.5 6.5 3 0.5 0.5 3 6.5 6.5 6.5" fill="#fff"/>
+    <polygon points="19 14.5 16 16 14.5 19 19 23.49 20.5 20.5 23.49 19 19 14.5" fill="#fff"/>
+    <polygon points="17.49 6.5 17.49 3 23.49 0.5 20.99 6.5 17.49 6.5" fill="#fff"/>
+    <polygon points="4.99 14.5 7.99 16 9.49 19 4.99 23.49 3.49 20.5 0.5 19 4.99 14.5" fill="#fff"/>
+    <g>
+      <polygon points="6.5 6.5 6.5 3 0.5 0.5 6.5 6.5" fill="#cce7ff"/>
+      <polygon points="20.5 20.5 23.49 19 19 14.5 16 16 20.5 20.5" fill="#cce7ff"/>
+      <polygon points="23.49 0.5 20.99 6.5 17.49 6.5 23.49 0.5" fill="#cce7ff"/>
+      <polygon points="7.99 16 9.49 19 4.99 23.49 3.49 20.5 7.99 16" fill="#cce7ff"/>
+    </g>
+    <polygon points="6.5 6.5 6.5 3 0.5 0.5 3 6.5 6.5 6.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="6.5" y1="6.5" x2="20.5" y2="20.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="15.819" y1="20.316" x2="16.61" y2="18.732" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="17.234" y1="21.728" x2="18.024" y2="20.146" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="19 14.5 16 16 14.5 19 19 23.49 20.5 20.5 23.49 19 19 14.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="20.316" y1="15.819" x2="18.732" y2="16.61" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="21.728" y1="17.234" x2="20.146" y2="18.024" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="17.49 6.5 17.49 3 23.49 0.5 20.99 6.5 17.49 6.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="17.49" y1="6.5" x2="3.49" y2="20.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="8.171" y1="20.316" x2="7.38" y2="18.732" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="6.756" y1="21.728" x2="5.966" y2="20.146" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="4.99 14.5 7.99 16 9.49 19 4.99 23.49 3.49 20.5 0.5 19 4.99 14.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="3.674" y1="15.819" x2="5.258" y2="16.61" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="2.262" y1="17.234" x2="3.844" y2="18.024" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <g id="Frames-24px">
+    <rect width="24" height="24" fill="none"/>
+  </g>
+</svg>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <title>smiley-wink</title>
+  <g id="Duotone">
+    <polygon points="22.5 17.75 12 23.5 1.5 17.75 1.5 6.25 12 0.5 22.5 6.25 22.5 17.75" fill="#fff"/>
+    <polygon points="20 16.5 12 21 4 16.5 1.5 17.75 12 23.5 22.5 17.75 20 16.5" fill="#cce7ff"/>
+    <polyline points="19 14.5 12 18.5 5 14.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="14 9.5 16 8 18 9.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="22.5 17.75 12 23.5 1.5 17.75 1.5 6.25 12 0.5 22.5 6.25 22.5 17.75" fill="none" stroke="#1078ff" stroke-linejoin="round"/>
+    <rect x="6.586" y="7.336" width="2.828" height="2.828" transform="translate(8.53 -3.094) rotate(45)" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <g id="Frames-24px">
+    <rect width="24" height="24" fill="none"/>
+  </g>
+</svg>

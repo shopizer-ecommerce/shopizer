@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <title>badge-1</title>
+  <g id="Duotone">
+    <polygon points="17.5 6.722 17.5 3.5 14.278 3.5 12 1 9.722 3.5 6.5 3.5 6.5 6.722 4 9 6.5 11.278 6.5 14.5 8.5 14.5 6.5 23 12 19.5 17.5 23 15.5 14.5 17.5 14.5 17.5 11.278 20 9 17.5 6.722" fill="#fff"/>
+    <path d="M12,5,8.5,7v4L12,13l3.5-2V7Zm0,5.5L10.5,9,12,7.5,13.5,9Z" fill="#cce7ff"/>
+    <polygon points="14.278 14.5 12 17 12 19.5 17.5 23 15.5 14.5 14.278 14.5" fill="#cce7ff"/>
+    <polyline points="8.5 14.5 6.5 23 12 19.5 17.5 23 15.5 14.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="17.5 11.278 20 9 17.5 6.722 17.5 3.5 14.278 3.5 12 1 9.722 3.5 6.5 3.5 6.5 6.722 4 9 6.5 11.278 6.5 14.5 9.722 14.5 12 17 14.278 14.5 17.5 14.5 17.5 11.278" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="8.5 7 12 5 15.5 7 15.5 11 12 13 8.5 11 8.5 7" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="10.939" y="7.939" width="2.121" height="2.121" transform="translate(-2.849 11.121) rotate(-45)" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <g id="Frames-24px">
+    <rect width="24" height="24" fill="none"/>
+  </g>
+</svg>

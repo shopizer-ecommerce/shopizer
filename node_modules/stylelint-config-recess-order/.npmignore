@@ -1,0 +1,36 @@
+# OS FILES ============================================================
+.DS_Store
+.DS_Store?
+.AppleDouble
+.LSOverride
+Desktop.ini
+
+## THUMBNAILS
+._*
+ehthumbs.db
+Thumbs.db
+
+## EXTERNAL DISKS
+.Spotlight-V100
+.Trashes
+
+## TEMP FILES
+*.swo
+*.swp
+*.tmp
+*~
+
+## PACKAGES
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+
+# DEPENDENCIES ========================================================
+node_modules/
+bower_components/

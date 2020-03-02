@@ -1,0 +1,38 @@
+
+export class List extends Array {
+  empty () {
+    this.splice(0, this.length)
+
+    return this
+  }
+
+  add (...items) {
+    this.push(...items)
+
+    return this
+  }
+
+  remove (item) {
+    const index = this.indexOf(item)
+
+    if (index === -1) {
+      return this
+    }
+
+    this.splice(index, 1)
+
+    return this
+  }
+
+  removeAll (item) {
+    while (this.includes(item)) {
+      this.remove(item)
+    }
+
+    return this
+  }
+
+  top () {
+    return this[this.length - 1]
+  }
+}

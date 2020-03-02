@@ -1,0 +1,8 @@
+#!/bin/bash
+
+cd example/webpack
+yarn install
+cd -
+
+yarn install
+yarn build

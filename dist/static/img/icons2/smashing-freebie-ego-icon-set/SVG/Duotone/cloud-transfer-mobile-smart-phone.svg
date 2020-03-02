@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <title>cloud-transfer-mobile-smart-phone</title>
+  <g id="Duotone">
+    <polygon points="21 4.5 19.5 4.5 17.5 0.5 14 0.5 12.5 2.5 9.5 2.5 6.5 7 9.5 10.5 20.5 10.5 22.5 8 21 4.5" fill="#fff"/>
+    <rect x="0.5" y="12.5" width="7" height="11" fill="#fff"/>
+    <polygon points="7.5 20.5 0.5 20.5 7.5 12.5 7.5 20.5" fill="#cce7ff"/>
+    <polygon points="6.5 7 8.5 7 10 8.5 20 8.5 20.5 8 22.5 8 20.5 10.5 9.5 10.5 6.5 7" fill="#cce7ff"/>
+    <polygon points="21 4.5 19.5 4.5 17.5 0.5 14 0.5 12.5 2.5 9.5 2.5 6.5 7 9.5 10.5 20.5 10.5 22.5 8 21 4.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="16.5" y1="4.5" x2="19.5" y2="4.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="0.5" y="12.5" width="7" height="11" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="0.5" y1="20.5" x2="7.5" y2="20.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="3.5" y1="14.5" x2="4.5" y2="14.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <g>
+      <polyline points="14 20.5 20.5 20.5 20.5 14" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline points="16 22.5 14 20.5 16 18.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline points="18.5 16 20.5 14 22.5 16" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </g>
+  <g id="Frames-24px">
+    <rect width="24" height="24" fill="none"/>
+  </g>
+</svg>

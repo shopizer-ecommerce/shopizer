@@ -1,0 +1,27 @@
+{
+  "name": "markdown-it-footnote",
+  "main": "dist/markdown-it-footnote.js",
+  "homepage": "https://github.com/markdown-it/markdown-it-footnote",
+  "description": "Footnotes for markdown-it markdown parser.",
+  "keywords": [
+    "markdown-it-plugin",
+    "markdown-it",
+    "markdown",
+    "footnotes"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "benchmark",
+    "bower_components",
+    "coverage",
+    "demo",
+    "docs",
+    "lib",
+    "node_modules",
+    "support",
+    "test",
+    "Makefile",
+    "index*"
+  ]
+}

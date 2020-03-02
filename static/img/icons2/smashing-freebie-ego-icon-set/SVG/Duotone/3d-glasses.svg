@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <title>3d-glasses</title>
+  <g id="Duotone">
+    <polyline points="17.714 11.5 19.5 6.5 0.5 6.5 3 13.5 7.5 13.5 10 9.5 11.25 11.5" fill="#fff"/>
+    <rect x="9.5" y="13.5" width="13" height="10" fill="#fff"/>
+    <rect x="9.5" y="18.5" width="13" height="5" fill="#cce7ff"/>
+    <polygon points="3 13.5 7.5 13.5 10 9.5 11.25 11.5 17.714 11.5 19.5 6.5 10 6.5 3 13.5" fill="#cce7ff"/>
+    <polyline points="0.5 6.5 5.25 1.5 7.5 1.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="19.5 6.5 14.75 1.5 12.5 1.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="9.5" y="13.5" width="13" height="10" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="19.5 21.5 17.5 21.5 17.5 15.5 19.5 15.5 20.5 18.5 19.5 21.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="11.5 21.5 14.5 21.5 15 20 14 18.5 15 17 14.5 15.5 11.5 15.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="12.5" y1="18.5" x2="14" y2="18.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="17.714 11.5 19.5 6.5 0.5 6.5 3 13.5 7.5 13.5 10 9.5 11.25 11.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <g id="Frames-24px">
+    <rect width="24" height="24" fill="none"/>
+  </g>
+</svg>

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <title>day-cloud-2</title>
+  <g id="Duotone">
+    <polygon points="21 17.501 18.5 17.501 16 12.501 12 12.501 9.5 15.501 6 15.501 2.5 20.001 6 23.501 20 23.501 22.5 21.001 21 17.501" fill="#fff"/>
+    <polygon points="4.5 7.733 7.5 6.001 10.5 7.733 10.5 11.269 7.5 13.001 4.5 11.269 4.5 7.733" fill="#fff"/>
+    <polygon points="10.5 7.733 4.5 11.269 7.5 13.001 10.5 11.269 10.5 7.733" fill="#cce7ff"/>
+    <polygon points="6 23.501 2.5 20.001 5.5 20.001 7 21.501 18.75 21.501 20 20.501 19 19.001 21 17.501 22.5 21.001 20 23.501 6 23.501" fill="#cce7ff"/>
+    <polygon points="21 17.501 18.5 17.501 16 12.501 12 12.501 9.5 15.501 6 15.501 2.5 20.001 6 23.501 20 23.501 22.5 21.001 21 17.501" fill="none" stroke="#1078ff" stroke-linejoin="round"/>
+    <line x1="15.5" y1="17.501" x2="18.5" y2="17.501" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="7.5" y1="3.501" x2="7.5" y2="1.501" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="11.086" y1="5.086" x2="12.5" y2="3.672" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="3.914" y1="5.086" x2="2.5" y2="3.672" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="3.914" y1="14.086" x2="2.5" y2="15.501" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="0.5" y1="9.501" x2="2.5" y2="9.501" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="12.5" y1="9.501" x2="14.5" y2="9.501" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="4.5 7.733 7.5 6.001 10.5 7.733 10.5 11.269 7.5 13.001 4.5 11.269 4.5 7.733" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <g id="Frames-24px">
+    <rect width="24" height="24" fill="none"/>
+  </g>
+</svg>

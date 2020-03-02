@@ -1,0 +1,11 @@
+sudo: false
+
+git:
+  depth: 1
+
+branches:
+  only:
+    - master
+    - /^greenkeeper/.*$/
+
+language: node_js

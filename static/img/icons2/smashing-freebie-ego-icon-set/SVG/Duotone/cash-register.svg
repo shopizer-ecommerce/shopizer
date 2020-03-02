@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <title>cash-register-1</title>
+  <g id="Duotone">
+    <polygon points="22 19.5 20 6.5 18.5 6.5 18.5 0.5 17 2 15.5 0.5 14 2 12.5 0.5 12.5 6.5 4 6.5 2 19.5 0.5 19.5 0.5 23.5 23.5 23.5 23.5 19.5 22 19.5" fill="#fff"/>
+    <polygon points="2.385 17 2 19.5 22 19.5 21.615 17 2.385 17" fill="#cce7ff"/>
+    <rect x="0.5" y="21.5" width="23" height="2" fill="#cce7ff"/>
+    <line x1="9.5" y1="8.5" x2="5.5" y2="11.5" fill="#cce7ff"/>
+    <g>
+      <polygon points="5.5 11.5 9.5 11.5 9.5 8.5 5.5 11.5" fill="#cce7ff"/>
+      <line x1="7" y1="14.5" x2="8" y2="14.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+      <line x1="10" y1="14.5" x2="11" y2="14.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+      <line x1="13" y1="14.5" x2="14" y2="14.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+      <line x1="16" y1="14.5" x2="17" y2="14.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+      <line x1="5.5" y1="16.5" x2="6.5" y2="16.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+      <line x1="8.5" y1="16.5" x2="9.5" y2="16.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+      <line x1="11.5" y1="16.5" x2="12.5" y2="16.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+      <line x1="14.5" y1="16.5" x2="15.5" y2="16.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+      <line x1="17.5" y1="16.5" x2="18.5" y2="16.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+      <line x1="14.5" y1="4.5" x2="16.5" y2="4.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+      <line x1="14.5" y1="6.5" x2="16.5" y2="6.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+      <line x1="14.5" y1="8.5" x2="15" y2="8.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="5.5" y="8.5" width="4" height="3" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+      <line x1="10.5" y1="21.5" x2="13.5" y2="21.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="0.5" y="19.5" width="23" height="4" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+      <polygon points="18.5 0.5 17 2 15.5 0.5 14 2 12.5 0.5 12.5 10.5 18.5 10.5 18.5 0.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline points="12.5 6.5 4 6.5 2 19.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline points="22 19.5 20 6.5 18.5 6.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </g>
+  <g id="Frames-24px">
+    <rect width="24" height="24" fill="none"/>
+  </g>
+</svg>

@@ -1,0 +1,27 @@
+{
+  "name": "markdown-it-mark",
+  "main": "dist/markdown-it-mark.js",
+  "homepage": "https://github.com/markdown-it/markdown-it-mark",
+  "description": "<mark> tag for markdown-it markdown parser.",
+  "keywords": [
+    "markdown-it-plugin",
+    "markdown-it",
+    "markdown",
+    "mark"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "benchmark",
+    "bower_components",
+    "coverage",
+    "demo",
+    "docs",
+    "lib",
+    "node_modules",
+    "support",
+    "test",
+    "Makefile",
+    "index*"
+  ]
+}

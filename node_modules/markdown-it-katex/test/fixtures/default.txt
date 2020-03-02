@@ -1,0 +1,223 @@
+
+Simple inline math
+.
+$1+1 = 2$
+.
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">1+1 = 2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="base textstyle uncramped"><span class="mord mathrm">1</span><span class="mbin">+</span><span class="mord mathrm">1</span><span class="mrel">=</span><span class="mord mathrm">2</span></span></span></span></p>
+.
+
+Simple block math
+.
+$$1+1 = 2$$
+.
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">1+1 = 2
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord mathrm">1</span><span class="mbin">+</span><span class="mord mathrm">1</span><span class="mrel">=</span><span class="mord mathrm">2</span></span></span></span></span></p>
+.
+
+No whitespace before and after is fine
+.
+foo$1+1 = 2$bar
+.
+<p>foo<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">1+1 = 2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="base textstyle uncramped"><span class="mord mathrm">1</span><span class="mbin">+</span><span class="mord mathrm">1</span><span class="mrel">=</span><span class="mord mathrm">2</span></span></span></span>bar</p>
+.
+
+Even when it starts with a negative sign
+.
+foo$-1+1 = 2$bar
+.
+<p>foo<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>−</mo><mn>1</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">-1+1 = 2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="base textstyle uncramped"><span class="mord">−</span><span class="mord mathrm">1</span><span class="mbin">+</span><span class="mord mathrm">1</span><span class="mrel">=</span><span class="mord mathrm">2</span></span></span></span>bar</p>
+.
+
+Shouldn't render empty content
+.
+aaa $$ bbb
+.
+<p>aaa $$ bbb</p>
+.
+
+Should require a closing delimiter
+.
+aaa $5.99 bbb
+.
+<p>aaa $5.99 bbb</p>
+.
+
+Paragraph break in inline math is not allowed
+.
+foo $1+1
+
+= 2$ bar
+.
+<p>foo $1+1</p>
+<p>= 2$ bar</p>
+.
+
+Inline math with apparent markup should not be processed
+.
+foo $1 *i* 1$ bar
+.
+<p>foo <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>∗</mo><mi>i</mi><mo>∗</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">1 *i* 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.65952em;"></span><span class="strut bottom" style="height:0.65952em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathrm">1</span><span class="mbin">∗</span><span class="mord mathit">i</span><span class="mbin">∗</span><span class="mord mathrm">1</span></span></span></span> bar</p>
+.
+
+Block math can be indented up to 3 spaces
+.
+   $$
+   1+1 = 2
+   $$
+.
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">1+1 = 2
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord mathrm">1</span><span class="mbin">+</span><span class="mord mathrm">1</span><span class="mrel">=</span><span class="mord mathrm">2</span></span></span></span></span></p>
+.
+
+But 4 means a code block
+.
+    $$
+    1+1 = 2
+    $$
+.
+<pre><code>$$
+1+1 = 2
+$$
+</code></pre>
+.
+
+
+Multiline inline math
+.
+foo $1 + 1
+= 2$ bar
+.
+<p>foo <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">1 + 1
+= 2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="base textstyle uncramped"><span class="mord mathrm">1</span><span class="mbin">+</span><span class="mord mathrm">1</span><span class="mrel">=</span><span class="mord mathrm">2</span></span></span></span> bar</p>
+.
+
+
+Multiline display math
+.
+$$
+
+  1
++ 1
+
+= 2
+
+$$
+.
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">
+  1
++ 1
+
+= 2
+
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord mathrm">1</span><span class="mbin">+</span><span class="mord mathrm">1</span><span class="mrel">=</span><span class="mord mathrm">2</span></span></span></span></span></p>
+.
+
+Text can immediately follow inline math
+.
+$n$-th order
+.
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.43056em;"></span><span class="strut bottom" style="height:0.43056em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit">n</span></span></span></span>-th order</p>
+.
+
+
+Display math self-closes at the end of document
+.
+$$
+1+1 = 2
+.
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">1+1 = 2
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord mathrm">1</span><span class="mbin">+</span><span class="mord mathrm">1</span><span class="mrel">=</span><span class="mord mathrm">2</span></span></span></span></span></p>
+.
+
+
+Display and inline math can appear in lists
+.
+* $1+1 = 2$
+* $$
+  1+1 = 2
+  $$
+.
+<ul>
+<li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">1+1 = 2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="base textstyle uncramped"><span class="mord mathrm">1</span><span class="mbin">+</span><span class="mord mathrm">1</span><span class="mrel">=</span><span class="mord mathrm">2</span></span></span></span></li>
+<li>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">1+1 = 2
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord mathrm">1</span><span class="mbin">+</span><span class="mord mathrm">1</span><span class="mrel">=</span><span class="mord mathrm">2</span></span></span></span></span></p>
+</li>
+</ul>
+.
+
+Display math can be written in one line
+.
+$$1+1 = 2$$
+.
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">1+1 = 2
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord mathrm">1</span><span class="mbin">+</span><span class="mord mathrm">1</span><span class="mrel">=</span><span class="mord mathrm">2</span></span></span></span></span></p>
+.
+
+Or on multiple lines with expression starting and ending on delimited lines
+.
+$$[
+[1, 2]
+[3, 4]
+]$$
+.
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mo>[</mo><mn>1</mn><mo separator="true">,</mo><mn>2</mn><mo>]</mo><mo>[</mo><mn>3</mn><mo separator="true">,</mo><mn>4</mn><mo>]</mo><mo>]</mo></mrow><annotation encoding="application/x-tex">[
+[1, 2]
+[3, 4]
+]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base displaystyle textstyle uncramped"><span class="mopen">[</span><span class="mopen">[</span><span class="mord mathrm">1</span><span class="mpunct">,</span><span class="mord mathrm">2</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathrm">3</span><span class="mpunct">,</span><span class="mord mathrm">4</span><span class="mclose">]</span><span class="mclose">]</span></span></span></span></span></p>
+.
+
+Escaped delimiters should not render math
+.
+Foo \$1$ bar
+\$\$
+1
+\$\$
+.
+<p>Foo $1$ bar
+$$
+1
+$$</p>
+.
+
+Numbers can not follow closing inline math
+.
+Thus, $20,000 and USD$30,000 won't parse as math.
+.
+<p>Thus, $20,000 and USD$30,000 won't parse as math.</p>
+.
+
+Require non whitespace to right of opening inline math
+.
+For some Europeans, it is 2$ for a can of soda, not 1$.
+.
+<p>For some Europeans, it is 2$ for a can of soda, not 1$.</p>
+.
+
+Require non whitespace to left of closing inline math.
+.
+I will give you $20 today, if you give me more $ tomorrow.
+.
+<p>I will give you $20 today, if you give me more $ tomorrow.</p>
+.
+
+Inline blockmath is not (currently) registered.
+.
+It's well know that $$1 + 1 = 3$$ for sufficiently large 1.
+.
+<p>It's well know that $$1 + 1 = 3$$ for sufficiently large 1.</p>
+.
+
+Escaped delimiters in math mode
+.
+Money adds: $\$X + \$Y = \$Z$.
+.
+<p>Money adds: <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">$</mi><mi>X</mi><mo>+</mo><mi mathvariant="normal">$</mi><mi>Y</mi><mo>=</mo><mi mathvariant="normal">$</mi><mi>Z</mi></mrow><annotation encoding="application/x-tex">\$X + \$Y = \$Z</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:0.83333em;vertical-align:-0.08333em;"></span><span class="base textstyle uncramped"><span class="mord mathrm">$</span><span class="mord mathit" style="margin-right:0.07847em;">X</span><span class="mbin">+</span><span class="mord mathrm">$</span><span class="mord mathit" style="margin-right:0.22222em;">Y</span><span class="mrel">=</span><span class="mord mathrm">$</span><span class="mord mathit" style="margin-right:0.07153em;">Z</span></span></span></span>.</p>
+.
+
+Multiple escaped delimiters in math module
+.
+Weird-o: $\displaystyle{\begin{pmatrix} \$ & 1\\\$ \end{pmatrix}}$.
+.
+<p>Weird-o: <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow><mo fence="true">(</mo><mtable><mtr><mtd><mrow><mi mathvariant="normal">$</mi></mrow></mtd><mtd><mrow><mn>1</mn></mrow></mtd></mtr><mtr><mtd><mrow><mi mathvariant="normal">$</mi></mrow></mtd></mtr></mtable><mo fence="true">)</mo></mrow></mrow></mstyle></mrow><annotation encoding="application/x-tex">\displaystyle{\begin{pmatrix} \$ &amp; 1\\\$ \end{pmatrix}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.45em;"></span><span class="strut bottom" style="height:2.40003em;vertical-align:-0.95003em;"></span><span class="base textstyle uncramped"><span class="reset-textstyle displaystyle textstyle uncramped"><span class="mord displaystyle textstyle uncramped"><span class="minner displaystyle textstyle uncramped"><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;"><span class="delimsizing size3">(</span></span><span class="mord"><span class="mtable"><span class="col-align-c"><span class="vlist"><span style="top:-0.6099999999999999em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord displaystyle textstyle uncramped"><span class="mord mathrm">$</span></span></span><span style="top:0.5900000000000003em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord displaystyle textstyle uncramped"><span class="mord mathrm">$</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="arraycolsep" style="width:0.5em;"></span><span class="arraycolsep" style="width:0.5em;"></span><span class="col-align-c"><span class="vlist"><span style="top:-0.6099999999999999em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord displaystyle textstyle uncramped"><span class="mord mathrm">1</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;"><span class="delimsizing size3">)</span></span></span></span></span></span></span></span>.</p>
+.

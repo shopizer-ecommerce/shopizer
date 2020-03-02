@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <title>windmill-paper</title>
+  <g id="Duotone">
+    <polygon points="16.25 7.75 22.5 1.5 13 1.5 6.75 7.75 0.5 1.5 0.5 11 6.75 17.25 0.5 23.5 10 23.5 16.25 17.25 22.5 23.5 22.5 14 16.25 7.75" fill="#fff"/>
+    <polygon points="11.5 12.5 11.5 3 13 1.5 22.5 1.5 11.5 12.5" fill="#cce7ff"/>
+    <polygon points="11.5 12.5 21 12.5 22.5 14 22.5 23.5 11.5 12.5" fill="#cce7ff"/>
+    <polygon points="11.5 12.5 11.5 22 10 23.5 0.5 23.5 11.5 12.5" fill="#cce7ff"/>
+    <polygon points="11.5 12.5 2 12.5 0.5 11 0.5 1.5 11.5 12.5" fill="#cce7ff"/>
+    <polyline points="6.75 7.75 13 1.5 22.5 1.5 11.5 12.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="16.25 7.75 22.5 14 22.5 23.5 11.5 12.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="16.25 17.25 10 23.5 0.5 23.5 11.5 12.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="6.75 17.25 0.5 11 0.5 1.5 11.5 12.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="11.5" y1="22" x2="11.5" y2="3" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="2" y1="12.5" x2="21" y2="12.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <g id="Frames-24px">
+    <rect width="24" height="24" fill="none"/>
+  </g>
+</svg>

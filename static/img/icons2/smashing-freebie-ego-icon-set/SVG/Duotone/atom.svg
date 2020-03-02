@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <title>atom-1</title>
+  <g id="Duotone">
+    <polygon points="11.5 6.5 6.5 9.5 6.5 14.5 11.5 17.5 16.5 14.5 16.5 9.5 11.5 6.5" fill="#fff"/>
+    <polygon points="13.5 13 11.5 14.25 9.5 13 9.5 11 11.5 9.75 13.5 11 13.5 13" fill="#cce7ff"/>
+    <g>
+      <polygon points="13.5 13 11.5 14.25 9.5 13 9.5 11 11.5 9.75 13.5 11 13.5 13" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+      <polygon points="14 3 11.5 0.5 9 3 6.5 9.5 6.5 14.5 9 21 11.5 23.5 14 21 16.5 14.5 16.5 9.5 14 3" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+      <polygon points="6.5 14.5 11.5 17.5 18.073 19.084 21.716 17.675 20.744 14.276 16.5 9.5 11.5 6.5 4.926 4.916 1.284 6.325 2.255 9.724 6.5 14.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+      <polygon points="16.5 14.5 11.5 17.5 4.926 19.084 1.284 17.675 2.255 14.276 6.5 9.5 11.5 6.5 18.073 4.916 21.716 6.325 20.744 9.724 16.5 14.5" fill="none" stroke="#1078ff" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </g>
+  <g id="Frames-24px">
+    <rect width="24" height="24" fill="none"/>
+  </g>
+</svg>
