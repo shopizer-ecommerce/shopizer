@@ -1,9 +1,0 @@
-#!/usr/bin/env node
-
-/*!
- * selenium
- * Copyright(c) 2011 Didit <developers@didit.com>
- * MIT Licensed
- */
-
-require('../lib/runner/app');
