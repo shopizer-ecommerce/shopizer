@@ -45,7 +45,7 @@ import org.springframework.web.servlet.view.tiles3.TilesView;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 
 @Configuration
-@ComponentScan({"com.salesmanager.shop", "com.salesmanager.core.business"})
+@ComponentScan({"com.salesmanager.shop"})
 @ServletComponentScan
 @Import({CoreApplicationConfiguration.class}) // import sm-core configurations
 @ImportResource({"classpath:/spring/shopizer-shop-context.xml"})
@@ -63,7 +63,7 @@ public class ShopApplicationConfiguration extends WebMvcConfigurerAdapter {
   @EventListener(ApplicationReadyEvent.class)
   public void applicationReadyCode() {
     String workingDir = System.getProperty("user.dir");
-    System.out.println("Current working directory : " + workingDir);
+    //System.out.println("Current working directory : " + workingDir);
   }
 
   /** Configure TilesConfigurer. */

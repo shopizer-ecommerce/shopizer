@@ -16,7 +16,7 @@ public abstract class CacheManagerImpl implements CacheManager {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(CacheManagerImpl.class);
 
-  private static final String LOCATION_PROPERTIES = "location";
+  //private static final String LOCATION_PROPERTIES = "location";
 
   protected String location = null;
 
@@ -38,28 +38,35 @@ public abstract class CacheManagerImpl implements CacheManager {
         LOGGER.error("CacheManager is null");
         return;
       }
-
-
-      // final EmbeddedCacheManager manager = new DefaultCacheManager();
-      final PersistenceConfigurationBuilder persistConfig =
-          new ConfigurationBuilder().persistence();
-      persistConfig.passivation(false);
-      final SingleFileStoreConfigurationBuilder fileStore =
-          new SingleFileStoreConfigurationBuilder(persistConfig).location(location);
-      fileStore.invocationBatching().enable();
-      fileStore.eviction().maxEntries(15);
-      fileStore.eviction().strategy(EvictionStrategy.LRU);
-      fileStore.jmxStatistics().disable();
-      final Configuration config = persistConfig.addStore(fileStore).build();
-      config.compatibility().enabled();
+      
+      TreeCacheFactory f = null;
+      
+      
+/*      @SuppressWarnings("rawtypes")
+      Cache c = manager.getManager().getCache(namedCache);
+      
+      if(c != null) {
+    	  f = new TreeCacheFactory();
+    	  treeCache = f.createTreeCache(c);
+    	  //this.treeCache = (TreeCache)c;
+    	  return;
+      }*/
+      
+      
+      Configuration config = new ConfigurationBuilder()
+    		   .persistence().passivation(false)
+    		   .addSingleFileStore()
+    		   .location(location).async().enable()
+    		   .preload(false).shared(false)
+    		   .invocationBatching().enable()
+    		   .build();
+      
       manager.getManager().defineConfiguration(namedCache, config);
 
       final Cache<String, String> cache = manager.getManager().getCache(namedCache);
-
-
-      TreeCacheFactory f = new TreeCacheFactory();
+      
+      f = new TreeCacheFactory();
       treeCache = f.createTreeCache(cache);
-
       cache.start();
 
       LOGGER.debug("CMS started");

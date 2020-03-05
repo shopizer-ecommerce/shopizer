@@ -1,3 +1,4 @@
+<!--
 <?xml version="1.0" encoding="UTF-8"?>
 
 <infinispan xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -15,7 +16,6 @@
 
 	<namedCache name="StoreRepository">
 		<invocationBatching enabled="true"/>
-		<!-- disable jmx in prod -->
 		<jmxStatistics enabled="false"/>
 		<persistence passivation="false">		
 			  
@@ -38,7 +38,6 @@
 	
 	<namedCache name="FilesRepository">
 		 <invocationBatching enabled="true"/>
-		 <!-- disable jmx in prod -->
 		 <jmxStatistics enabled="true"/>
 	     <persistence passivation="false">
 	          <store class="org.infinispan.persistence.file.SingleFileStore" fetchPersistentState="false"
@@ -59,4 +58,6 @@
 	
 
 </infinispan>
+-->
+
 

@@ -60,7 +60,8 @@
     <javax.el.version>2.2.4</javax.el.version>
     <javax.servlet-api-version>3.0.1</javax.servlet-api-version>
     <javax.annotation>1.3.2</javax.annotation>
-    <infinispan.version>6.0.2.Final</infinispan.version>
+    <infinispan.version>9.4.18.Final</infinispan.version>
+    <infinispan.tree.version>9.4.18.Final</infinispan.tree.version>
     <mysql-jdbc-version>5.1.47</mysql-jdbc-version>
     <simple-json-version>1.1.1</simple-json-version>
     <jackson-version-databind>2.9.10.1</jackson-version-databind>
@@ -293,14 +294,8 @@
 
       <dependency>
         <groupId>org.infinispan</groupId>
-        <artifactId>infinispan-cachestore-jdbc</artifactId>
-        <version>${infinispan.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.infinispan</groupId>
         <artifactId>infinispan-tree</artifactId>
-        <version>${infinispan.version}</version>
+        <version>${infinispan.tree.version}</version>
       </dependency>
 
       <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-collections4 -->
