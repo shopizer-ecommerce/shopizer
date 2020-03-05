@@ -24,19 +24,43 @@ import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.Order;
 
+/*
+ 
+ This order processor indexes Order to elasticSearch
+ This is will result as a time based event searchable from Kibana
+  
+ Saves orders in orders-<STORE_CODE> index
+  
+ For this we need elasticsearch host and port from properties file
+  
+ Before starting Shopizer start elasticsearch and insert new pipeline for setting timestamp
+ 
+	PUT /_ingest/pipeline/timestamp
+	{
+		"description": "Creates a timestamp when a document is initially indexed",
+		"processors": [{
+			"set": {
+				"field": "_source.timestamp",
+				"value": "{{_ingest.timestamp}}"
+			}
+		}]
+	}
+	
+	//add index wildcard orders followed with asterisk
+	PUT orders*\/_settings
+	{
+	  "index.default_pipeline": "timestamp"
+	}
+ 
+ @author carlsamson
 
-/**
- * This order processor indexes Order to elasticSearch
- * This is will result as a time based event searchable from Kibana
- * 
- * For this we need elasticsearch host and port
- * @author carlsamson
- *
  */
 @Component("indexOrderProcessor")
 public class IndexOrderProcessor implements OrderProcessor {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(IndexOrderProcessor.class);
+	
+	private static final String INDEX_NAME = "orders-";
 	
 	@Value("${elasticsearch.server.host}")
 	private List<String> hosts;
@@ -49,27 +73,38 @@ public class IndexOrderProcessor implements OrderProcessor {
 
 	@Override
 	public void processOrder(Order order, Customer customer, MerchantStore store) {
+		process(order, customer, store);
+	}
+	
+	/**
+	 * TODO migrate to
+	 * ExecutorService threadpool = Executors.newCachedThreadPool();
+	 * @param order
+	 * @param customer
+	 * @param store
+	 */
+	@Async
+	private void process(Order order, Customer customer, MerchantStore store)  {
 		try {
 			RestHighLevelClient client = client();
-						
-			IndexRequest request = new IndexRequest("orders");
 			
 			ObjectMapper mapper = new ObjectMapper();
-			mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-			
+			mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);			
 			OrderMapping m = new OrderMapping(order, customer);
-			
 			String json = mapper.writeValueAsString(m);
-			request.source(json, XContentType.JSON);
 			
-		    request.id(String.valueOf(order.getId()));
-		    request.source(json, XContentType.JSON);
-		    
-		    IndexResponse response = client.index(request, RequestOptions.DEFAULT);
+			String indexName = new StringBuilder().append(INDEX_NAME).append(store.getCode()).toString();
+
+	        
+	        IndexRequest indexRequest = new IndexRequest(indexName);
+	        indexRequest.id(String.valueOf(order.getId()));
+	        indexRequest.source(json, XContentType.JSON);
+
+		    IndexResponse response = client.index(indexRequest, RequestOptions.DEFAULT);
 		    
 		    if(response.getResult() != DocWriteResponse.Result.CREATED && response.getResult() != DocWriteResponse.Result.UPDATED) {
 		    	LOGGER.error(
-		          "An error occured while indexing an order document " + json + " " + response.getResult().name());
+		          "An error occured while indexing an order document " + order.getId() + " " + response.getResult().name());
 		    }
 
 			client.close();
@@ -87,20 +122,14 @@ public class IndexOrderProcessor implements OrderProcessor {
 		
 		return client;
 
-
 	}
-	
 	
 	class OrderMapping {
 		private Order order;
 		private Customer customer;
-		private Long id;
-		private String merchant;
 		OrderMapping(Order order, Customer customer) {
 			this.order = order;
 			this.customer = customer;
-			this.id = order.getId();
-			this.merchant = order.getMerchant().getCode();
 		}
 		public Order getOrder() {
 			return order;
@@ -108,12 +137,8 @@ public class IndexOrderProcessor implements OrderProcessor {
 		public Customer getCustomer() {
 			return customer;
 		}
-		public Long getId() {
-			return id;
-		}
-		public String getMerchant() {
-			return merchant;
-		}
+
 	}
+	
 
 }

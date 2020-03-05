@@ -59,6 +59,7 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
 	private Long id;
 	
+	@JsonIgnore
 	@Embedded
 	private AuditSection auditSection = new AuditSection();
 	
