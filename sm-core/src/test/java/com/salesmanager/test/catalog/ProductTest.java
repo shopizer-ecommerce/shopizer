@@ -530,16 +530,7 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 		
 		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
 		InputStream inputStream = classloader.getResourceAsStream("img/" + IMAGE_NAME);
-		
-/*        File file1 = new File( IMAGE_FOLDER + IMAGE_NAME);
 
-        if ( !file1.exists() || !file1.canRead() )
-        {
-            throw new ServiceException( "Can't read" + file1.getAbsolutePath() );
-        }
-
-        byte[] is = IOUtils.toByteArray( new FileInputStream( file1 ) );
-        ByteArrayInputStream inputStream = new ByteArrayInputStream( is );*/
         
         ImageContentFile cmsContentImage = new ImageContentFile();
         cmsContentImage.setFileName( IMAGE_NAME );

@@ -56,6 +56,7 @@ public abstract class CacheManagerImpl implements CacheManager {
       Configuration config = new ConfigurationBuilder()
     		   .persistence().passivation(false)
     		   .addSingleFileStore()
+    		   .segmented(false)
     		   .location(location).async().enable()
     		   .preload(false).shared(false)
     		   .invocationBatching().enable()
