@@ -8,6 +8,7 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.UniqueConstraint;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.common.description.Description;
 
@@ -25,6 +26,7 @@ import com.salesmanager.core.model.common.description.Description;
 public class CustomerOptionValueDescription extends Description {
 	private static final long serialVersionUID = 1L;
 	
+	@JsonIgnore
 	@ManyToOne(targetEntity = CustomerOptionValue.class)
 	@JoinColumn(name = "CUSTOMER_OPT_VAL_ID")
 	private CustomerOptionValue customerOptionValue;

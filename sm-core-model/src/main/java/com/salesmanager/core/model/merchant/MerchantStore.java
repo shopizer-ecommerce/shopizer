@@ -24,8 +24,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.Pattern;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.MeasureUnit;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.common.audit.AuditSection;
@@ -70,10 +73,12 @@ public class MerchantStore extends SalesManagerEntity<Integer, MerchantStore> im
 	@Embedded
 	private AuditSection auditSection = new AuditSection();
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "PARENT_ID")
 	private MerchantStore parent;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "parent", cascade = CascadeType.REMOVE)
 	private Set<MerchantStore> stores = new HashSet<MerchantStore>();
 

@@ -352,7 +352,7 @@ $(document).ready(function() {
 </div>
     
     
-<nav class="navbar navbar-main navbar-default" role="navigation" style="opacity: 1;">
+	<nav class="navbar navbar-main navbar-default" role="navigation" style="opacity: 1;">
           <div class="container">
             <!-- Brand and toggle -->
             <div class="navbar-header">
@@ -370,7 +370,7 @@ $(document).ready(function() {
                 <li><a href="<c:url value="/shop/"/>" class="dropdown-toggle"><s:message code="menu.home" text="Home"/></a></li>
                 <!-- languages -->
                 <c:if test="${fn:length(requestScope.MERCHANT_STORE.languages) > 1}">
-			    <li class="dropdown">
+			    <li class="dropdown" class="langMenu">
 			            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="false"><s:message code="llabel.generic.language" text="Language"/> <i class="fa fa-angle-down ml-5"></i></a>
 			            <ul class="dropdown-menu dropdown-menu-left">
 			            <c:forEach items="${requestScope.MERCHANT_STORE.languages}" var="language">

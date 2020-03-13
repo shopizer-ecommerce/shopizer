@@ -23,6 +23,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.common.audit.AuditListener;
@@ -66,6 +67,7 @@ public class ProductReview extends SalesManagerEntity<Long, ProductReview> imple
 	@Column(name = "STATUS")
 	private Integer status;
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="CUSTOMERS_ID")
 	private Customer customer;

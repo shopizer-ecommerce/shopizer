@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.UniqueConstraint;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
@@ -26,7 +27,7 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
 	}
 )
 public class CustomerAttribute extends SalesManagerEntity<Long, CustomerAttribute> {
-	private static final long serialVersionUID = -6537491946539803265L;
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@Column(name = "CUSTOMER_ATTRIBUTE_ID", unique=true, nullable=false)
@@ -47,7 +48,7 @@ public class CustomerAttribute extends SalesManagerEntity<Long, CustomerAttribut
 	@Column(name="CUSTOMER_ATTR_TXT_VAL")
 	private String textValue;
 
-
+	@JsonIgnore
 	@ManyToOne(targetEntity = Customer.class)
 	@JoinColumn(name = "CUSTOMER_ID", nullable = false)
 	private Customer customer;

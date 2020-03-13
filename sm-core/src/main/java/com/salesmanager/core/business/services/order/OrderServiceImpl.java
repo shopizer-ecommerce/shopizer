@@ -15,10 +15,12 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.modules.order.InvoiceModule;
+import com.salesmanager.core.business.modules.order.OrderProcessor;
 import com.salesmanager.core.business.repositories.order.OrderRepository;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
@@ -87,6 +89,12 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     @Inject
     private OrderTotalService orderTotalService;
 
+    @Autowired
+    private List<OrderProcessor> orderPreProcessors;
+    
+    @Autowired
+    private List<OrderProcessor> orderPostProcessors;
+    
     private final OrderRepository orderRepository;
 
     @Inject
@@ -125,6 +133,12 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     	Validate.notNull(summary, "Order total Summary cannot be null");
     	
 
+    	/**
+    	 * Invoke all pre-processors
+    	 */
+    	//orderPreProcessors.stream().map(p -> {p.processOrder(order, customer, store); return p;});
+    	
+
     	
     	//first process payment
     	Transaction processTransaction = paymentService.processPayment(customer, store, payment, items, order);
@@ -151,8 +165,6 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
       
         order.setCustomerId(customer.getId());
         this.create(order);
-    	
-
 
     	if(transaction!=null) {
     		transaction.setOrder(order);
@@ -171,9 +183,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     			transactionService.update(processTransaction);
     		}
     	}
-    	
 
-    	
         /**
          * decrement inventory
          */
@@ -194,18 +204,16 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
             }
             productService.update(p);
         }
-    	
-        /**
-         * TODO
-         * Add possibility to perform additional tasks 
-         * once order is completed
-         */
-    	
 
-    	
+        
+        /**
+         * Invoke all post processors
+         */
+        orderPostProcessors.stream()
+        .forEach(process-> process.processOrder(order, customer, store));
+        //.map(p -> {p.processOrder(order, customer, store); return p;});
+
     	return order;
-    	
-    	
     }
 
     private OrderTotalSummary caculateOrder(OrderSummary summary, Customer customer, final MerchantStore store, final Language language) throws Exception {

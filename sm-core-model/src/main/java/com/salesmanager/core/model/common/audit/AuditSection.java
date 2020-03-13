@@ -8,6 +8,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import com.salesmanager.core.utils.CloneUtils;
 
+
 @Embeddable
 public class AuditSection implements Serializable {
 

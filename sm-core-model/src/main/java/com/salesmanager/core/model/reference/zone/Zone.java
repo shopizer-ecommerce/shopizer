@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 import com.salesmanager.core.model.reference.country.Country;
@@ -34,6 +36,7 @@ public class Zone extends SalesManagerEntity<Long, Zone> {
   @OneToMany(mappedBy = "zone", cascade = CascadeType.ALL)
   private List<ZoneDescription> descriptions = new ArrayList<ZoneDescription>();
 
+  @JsonIgnore
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "COUNTRY_ID", nullable = false)
   private Country country;

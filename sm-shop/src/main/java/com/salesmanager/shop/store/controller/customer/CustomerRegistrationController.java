@@ -206,15 +206,7 @@ public class CustomerRegistrationController extends AbstractController {
         	customer.setPassword(password);
         	customerData = customerFacade.registerCustomer( customer, merchantStore, language );
         }
-       /* catch ( CustomerRegistrationException cre )
-        {
-            LOGGER.error( "Error while registering customer.. ", cre);
-        	ObjectError error = new ObjectError("registration",messages.getMessage("registration.failed", locale));
-        	bindingResult.addError(error);
-            StringBuilder template =
-                            new StringBuilder().append( ControllerConstants.Tiles.Customer.register ).append( "." ).append( merchantStore.getStoreTemplate() );
-             return template.toString();
-        }*/
+
         catch ( Exception e )
         {
             LOGGER.error( "Error while registering customer.. ", e);

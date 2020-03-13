@@ -8,6 +8,7 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.UniqueConstraint;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.common.description.Description;
 import com.salesmanager.core.model.reference.language.Language;
@@ -25,6 +26,7 @@ import com.salesmanager.core.model.reference.language.Language;
 public class CountryDescription extends Description {
 	private static final long serialVersionUID = 1L;
 	
+	@JsonIgnore
 	@ManyToOne(targetEntity = Country.class)
 	@JoinColumn(name = "COUNTRY_ID", nullable = false)
 	private Country country;

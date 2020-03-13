@@ -16,6 +16,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.common.audit.AuditListener;
 import com.salesmanager.core.model.common.audit.AuditSection;
@@ -38,19 +40,23 @@ public class Language extends SalesManagerEntity<Integer, Language> implements A
       valueColumnName = "SEQ_COUNT", pkColumnValue = "LANG_SEQ_NEXT_VAL")
   @GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
   private Integer id;
-
+  
+  @JsonIgnore
   @Embedded
   private AuditSection auditSection = new AuditSection();
 
   @Column(name = "CODE", nullable = false)
   private String code;
 
+  @JsonIgnore
   @Column(name = "SORT_ORDER")
   private Integer sortOrder;
 
+  @JsonIgnore
   @OneToMany(mappedBy = "defaultLanguage", targetEntity = MerchantStore.class)
   private List<MerchantStore> storesDefaultLanguage;
 
+  @JsonIgnore
   @ManyToMany(mappedBy = "languages", targetEntity = MerchantStore.class, fetch = FetchType.LAZY)
   private List<MerchantStore> stores = new ArrayList<MerchantStore>();
 

@@ -21,6 +21,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import com.salesmanager.core.constants.SchemaConstant;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.common.audit.AuditSection;
@@ -50,7 +51,7 @@ public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailab
   @GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
   private Long id;
 
-
+  @JsonIgnore
   @ManyToOne(targetEntity = Product.class)
   @JoinColumn(name = "PRODUCT_ID", nullable = false)
   private Product product;

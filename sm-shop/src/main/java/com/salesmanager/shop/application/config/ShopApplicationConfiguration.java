@@ -42,7 +42,7 @@ import com.salesmanager.shop.filter.StoreFilter;
 import com.salesmanager.shop.utils.LabelUtils;
 
 @Configuration
-@ComponentScan({"com.salesmanager.shop", "com.salesmanager.core.business"})
+@ComponentScan({"com.salesmanager.shop"})
 @ServletComponentScan
 @Import({CoreApplicationConfiguration.class}) // import sm-core configurations
 @ImportResource({"classpath:/spring/shopizer-shop-context.xml"})
@@ -54,7 +54,7 @@ public class ShopApplicationConfiguration implements WebMvcConfigurer {
   @EventListener(ApplicationReadyEvent.class)
   public void applicationReadyCode() {
     String workingDir = System.getProperty("user.dir");
-    System.out.println("Current working directory : " + workingDir);
+    //System.out.println("Current working directory : " + workingDir);
   }
 
   /** Configure TilesConfigurer. */
