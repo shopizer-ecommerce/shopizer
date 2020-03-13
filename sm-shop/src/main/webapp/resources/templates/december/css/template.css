@@ -253,42 +253,23 @@ Setup
 
 /** large **/
 @media (min-width: 502px) {
-	#searchField {
-	}
+	#searchField {}
 	
-
-	/**
-	.typeahead,
-	.tt-query,
-	.tt-hint {
-	  z-index:10000 !important;
-
+	.langMenu {
+		display:none;
 	}
-	
-	.tt-dropdown-menu {
-	}
-	**/
+
 }
 
 /** small **/
 @media (max-width:501px) {
 	
-	#searchField {
-	}
+	#searchField {}
 	
-	/**
-
-	.typeahead,
-	.tt-query,
-	.tt-hint {
-	  z-index:10000 !important;
-
+	.langMenu {
+		display:block;
 	}
-	
-	.tt-dropdown-menu {
-  		z-index:1000000 !important;
-	}
-	**/
+
 	
 }
 

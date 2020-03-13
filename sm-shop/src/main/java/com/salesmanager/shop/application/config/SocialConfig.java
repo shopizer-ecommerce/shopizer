@@ -27,6 +27,7 @@ import org.springframework.social.security.AuthenticationNameUserIdSource;
 import org.springframework.social.security.SocialAuthenticationServiceLocator;
 import org.springframework.social.security.SocialAuthenticationServiceRegistry;
 
+@Deprecated
 @Configuration
 @EnableSocial
 public class SocialConfig implements SocialConfigurer {
