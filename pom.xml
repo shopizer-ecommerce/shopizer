@@ -64,7 +64,7 @@
     <infinispan.tree.version>9.4.18.Final</infinispan.tree.version>
     <mysql-jdbc-version>5.1.47</mysql-jdbc-version>
     <simple-json-version>1.1.1</simple-json-version>
-    <jackson-version-databind>2.9.10.1</jackson-version-databind>
+    <jackson-version-databind>2.9.10.3</jackson-version-databind>
     <jackson-version>2.9.9</jackson-version>
     <geoip2.version>2.7.0</geoip2.version>
     <drools.version>7.20.0.Final</drools.version>
