@@ -35,8 +35,8 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
     @Inject
     private CustomAuthenticationManager jwtCustomAdminAuthenticationManager;
 
-    @Inject
-    private CustomAuthenticationManager facebookCustomerAuthenticationManager;
+    //@Inject
+    //private CustomAuthenticationManager facebookCustomerAuthenticationManager;
     
 
     @Override
@@ -66,7 +66,7 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
 	
 		        } else if(requestHeader != null && requestHeader.startsWith(FACEBOOK_TOKEN)) {
 		        	//Facebook
-		        	facebookCustomerAuthenticationManager.authenticateRequest(request, response);
+		        	//facebookCustomerAuthenticationManager.authenticateRequest(request, response);
 		        } else {
 		        	LOGGER.warn("couldn't find any authorization token, will ignore the header");
 		        }

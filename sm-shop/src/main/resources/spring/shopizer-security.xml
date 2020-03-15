@@ -14,33 +14,39 @@
 
 	<global-method-security secured-annotations="enabled" jsr250-annotations="enabled" pre-post-annotations="enabled"/>
 
+    <!-- OK -->
 	<beans:bean id="customerFacade" class="com.salesmanager.shop.store.controller.customer.facade.CustomerFacadeImpl">
 	</beans:bean>
 	
+	<!-- OK -->
 	<!-- JDBC Customer details -->
 	<beans:bean id="customerDetailsService"
 		class="com.salesmanager.shop.store.security.CustomerServicesImpl">
 	</beans:bean>
 	
+	<!-- OK -->
 	<beans:bean id="jwtCustomerDetailsService"
 		class="com.salesmanager.shop.store.security.JWTCustomerServicesImpl">
 	</beans:bean>
 	
+	<!-- OK -->
 	 <beans:bean id="jwtUserDetailsService"
 		class="com.salesmanager.shop.store.security.admin.JWTAdminServicesImpl">
 	</beans:bean>
 	
-
+    <!-- OK -->
 	<!-- JDBC User details -->
 	<beans:bean id="userDetailsService"
 		class="com.salesmanager.shop.admin.security.UserServicesImpl">
 	</beans:bean>
 
+	<!-- OK -->
 	<beans:bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
 	    <!-- strength 4 to 31 -->
 		<beans:constructor-arg value="11"/>
 	</beans:bean>
 	
+	<!--OK -->
 	<beans:bean id="adminAccessDenied"
 		class="com.salesmanager.shop.utils.AdminAccessDeniedHandler">
 		<beans:property name="accessDeniedUrl" value="/admin/denied.html" />
@@ -48,20 +54,21 @@
 
 	
 	<!-- updates last user logon timestamp -->
+	<!-- OK -->
 	<beans:bean id="userAuthenticationSuccessHandler" class="com.salesmanager.shop.admin.security.UserAuthenticationSuccessHandler">
 	</beans:bean>
 	
+	<!-- OK -->
 	<beans:bean id="servicesAuthenticationSuccessHandler" class="com.salesmanager.shop.store.security.ServicesAuthenticationSuccessHandler">
 	</beans:bean>
 	
-	<beans:bean id="servicesAuthenticationEntryPoint" class="com.salesmanager.shop.store.security.ServicesAuthenticationEntryPoint">
-	</beans:bean>
+
 	
 	<!-- spring security 4 -->
 	<http pattern="/resources/**" security="none" /><!-- remove css and other static resources -->
 	<http pattern="/layout/**" security="none" /><!-- remove css and other static resources -->
 	
-	
+	<!-- OK -->
 	<http pattern="/admin/**" 
 		auto-config="true" 
 		use-expressions="true"
@@ -104,7 +111,7 @@
 	</http>
 	
 
-	
+	<!-- OK -->
 	<http pattern="/shop/**" 
 		auto-config="true" 
 		use-expressions="true"
@@ -135,7 +142,7 @@
 		<csrf disabled="true"/><!-- Spring security 4 -->
 	</http>
 	
-	
+	<!-- OK-->
 	<!-- REST services v0-->
 	<http pattern="/services/**" 
 		create-session="stateless" 
@@ -149,6 +156,7 @@
 	      <csrf disabled="true"/><!-- Spring security 4 -->
     </http>
     
+    <!-- OK-->
     <!-- service user-->
 	<http pattern="/api/v1/services/**" 
 		create-session="stateless" 
@@ -161,6 +169,7 @@
 	      <csrf disabled="true"/><!-- Spring security 4 -->
     </http>
     
+    <!-- OK-->
     <!-- REST services v1 for Admin REALM -->
     <http pattern="/api/v1/private/**" 
 		create-session="stateless" 
@@ -176,7 +185,7 @@
 	      <csrf disabled="true"/>
     </http>
    
-
+   <!-- OK -->
    <!-- 
    https://stackoverflow.com/questions/40286549/spring-boot-security-cors
     -->
@@ -216,61 +225,57 @@
 	      <csrf disabled="true"/>
     </http>
 
-	
+	<!-- OK -->
 	<beans:bean id="authenticationTokenFilter"
 		class="com.salesmanager.shop.store.security.AuthenticationTokenFilter">
 	</beans:bean>
 
+    <!-- OK -->
 	<authentication-manager id="adminAuthenticationManager">
 		<authentication-provider user-service-ref="userDetailsService">
-			<password-encoder ref="passwordEncoder" hash="sha"/>
+			<password-encoder ref="passwordEncoder" hash="bcrypt"/>
 		</authentication-provider>
 	</authentication-manager>
 	
+	<!-- OK -->
 	<authentication-manager id="customerAuthenticationManager">
 		<authentication-provider user-service-ref="customerDetailsService">
-			<password-encoder ref="passwordEncoder" hash="sha"/>
+			<password-encoder ref="passwordEncoder" hash="bcrypt"/>
 		</authentication-provider>
 	</authentication-manager>
 
+    <!-- OK -->
 	<!-- Authenticates API -->
  	<authentication-manager id="jwtCustomerAuthenticationManager">
 		<authentication-provider user-service-ref="jwtCustomerDetailsService">
-			<password-encoder ref="passwordEncoder" hash="sha"/>
+			<password-encoder ref="passwordEncoder" hash="bcrypt"/>
 		</authentication-provider>
 	</authentication-manager>
 	
-			<!-- Authenticates admin API -->
+	<!-- OK -->
+	<!-- Authenticates admin API -->
  	<authentication-manager id="jwtAdminAuthenticationManager">
 		<authentication-provider user-service-ref="jwtUserDetailsService">
-			<password-encoder ref="passwordEncoder" hash="sha"/>
+			<password-encoder ref="passwordEncoder" hash="bcrypt"/>
 		</authentication-provider>
 	</authentication-manager>
-	
-	<!-- Facebook authentication -->
-	<authentication-manager id="facebookAuthenticationManager">
-		<authentication-provider
-			ref="socialAuthenticationProvider" />
-	</authentication-manager>
 
-	<!-- Configures the social authentication provider which processes authentication 
-		requests made by using social authentication service (FB). -->
-	<beans:bean id="socialAuthenticationProvider"
-		class="org.springframework.social.security.SocialAuthenticationProvider">
-		<beans:constructor-arg index="0" ref="socialUsersConnectionRepository" />
-		<beans:constructor-arg index="1" ref="facebookSocialUserDetailsService" />
-	</beans:bean>
 	
 	
-	
+	<!-- OK -->
 	<beans:bean id="adminAuthenticationEntryPoint"
   		class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint">
      	<beans:property name="realmName" value="admin-realm" />
 	</beans:bean>
 	
+	<!-- OK -->
 	<beans:bean id="shopAuthenticationEntryPoint"
   		class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint">
      	<beans:property name="realmName" value="shop-realm" />
+	</beans:bean>
+	
+	<!-- OK -->
+	<beans:bean id="servicesAuthenticationEntryPoint" class="com.salesmanager.shop.store.security.ServicesAuthenticationEntryPoint">
 	</beans:bean>
 
 	<!-- This bean encrypts the authorization details of the connection. In 

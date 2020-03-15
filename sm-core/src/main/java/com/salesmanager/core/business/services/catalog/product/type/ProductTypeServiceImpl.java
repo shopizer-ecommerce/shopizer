@@ -8,6 +8,7 @@ import com.salesmanager.core.business.repositories.catalog.product.type.ProductT
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
 import com.salesmanager.core.model.catalog.product.type.ProductType;
 import com.salesmanager.core.model.merchant.MerchantStore;
+
 import com.salesmanager.core.model.reference.language.Language;
 
 @Service("productTypeService")
@@ -29,7 +30,7 @@ public class ProductTypeServiceImpl extends SalesManagerEntityServiceImpl<Long, 
 		return productTypeRepository.findByCode(productTypeCode);
 		
 	}
-	
+
     @Override
     public List<ProductType> getByMerchant(String merchant, Language language) throws ServiceException {
       return productTypeRepository.findAll();
@@ -42,6 +43,7 @@ public class ProductTypeServiceImpl extends SalesManagerEntityServiceImpl<Long, 
     // TODO Auto-generated method stub
     return null;
   }
+
 
 
 

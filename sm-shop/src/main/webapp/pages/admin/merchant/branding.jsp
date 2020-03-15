@@ -98,7 +98,7 @@
 				<br/>
 				<br/>
 				<c:url var="saveTemplate" value="/admin/store/saveTemplate.html" />
-				<form:form method="POST" enctype="multipart/form-data" commandName="store" action="${saveTemplate}">
+				<form:form method="POST" enctype="multipart/form-data" modelAttribute="store" action="${saveTemplate}">
 
 
 				

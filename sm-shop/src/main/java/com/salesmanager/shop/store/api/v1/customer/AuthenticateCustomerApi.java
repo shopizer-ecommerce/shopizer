@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mobile.device.Device;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -80,7 +79,7 @@ public class AuthenticateCustomerApi {
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(httpMethod = "POST", value = "Registers a customer to the application", notes = "Used as self-served operation",response = AuthenticationResponse.class)
     @ResponseBody
-    public ResponseEntity<?> register(@Valid @RequestBody PersistableCustomer customer, HttpServletRequest request, HttpServletResponse response, Device device) throws Exception {
+    public ResponseEntity<?> register(@Valid @RequestBody PersistableCustomer customer, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         
         
@@ -121,21 +120,10 @@ public class AuthenticateCustomerApi {
 
             // Reload password post-security so we can generate token
             final JWTUser userDetails = (JWTUser)jwtCustomerDetailsService.loadUserByUsername(customer.getUserName());
-            final String token = jwtTokenUtil.generateToken(userDetails, device);
+            final String token = jwtTokenUtil.generateToken(userDetails);
 
             // Return the token
             return ResponseEntity.ok(new AuthenticationResponse(customer.getId(),token));
-
-            
-        //} catch (Exception e) {
-         //   LOGGER.error("Error while registering customer",e);
-         //   try {
-         //       response.sendError(503, "Error while registering customer " + e.getMessage());
-         //   } catch (Exception ignore) {
-         //   }
-            
-        //    return null;
-       // }
 
         
     }
@@ -150,7 +138,7 @@ public class AuthenticateCustomerApi {
     @RequestMapping(value = "/customer/login", method = RequestMethod.POST, produces ={ "application/json" })
     @ApiOperation(httpMethod = "POST", value = "Authenticates a customer to the application", notes = "Customer can authenticate after registration, request is {\"username\":\"admin\",\"password\":\"password\"}",response = ResponseEntity.class)
     @ResponseBody
-    public ResponseEntity<?> authenticate(@RequestBody @Valid AuthenticationRequest authenticationRequest, Device device) throws AuthenticationException {
+    public ResponseEntity<?> authenticate(@RequestBody @Valid AuthenticationRequest authenticationRequest) throws AuthenticationException {
 
         // Perform the security
         Authentication authentication = null;
@@ -181,7 +169,7 @@ public class AuthenticateCustomerApi {
         // todo create one for social
         final JWTUser userDetails = (JWTUser)jwtCustomerDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         
-        final String token = jwtTokenUtil.generateToken(userDetails, device);
+        final String token = jwtTokenUtil.generateToken(userDetails);
 
         // Return the token
         return ResponseEntity.ok(new AuthenticationResponse(userDetails.getId(),token));
@@ -201,9 +189,11 @@ public class AuthenticateCustomerApi {
         }
     }
     
+
     @RequestMapping(value = "/customer/password/reset", method = RequestMethod.PUT, produces ={ "application/json" })
     @ApiOperation(httpMethod = "POST", value = "Change customer password", notes = "Change password request object is {\"username\":\"test@email.com\"}",response = ResponseEntity.class)
     public ResponseEntity<?> resetPassword(@RequestBody @Valid AuthenticationRequest authenticationRequest, HttpServletRequest request) {
+
 
         try {
             
@@ -224,9 +214,11 @@ public class AuthenticateCustomerApi {
         }
     }
     
+
     @RequestMapping(value = "/customer/password", method = RequestMethod.POST, produces ={ "application/json" })
     @ApiOperation(httpMethod = "PUT", value = "Sends a request to reset password", notes = "Password reset request is {\"username\":\"test@email.com\"}",response = ResponseEntity.class)
     public ResponseEntity<?> changePassword(@RequestBody @Valid PasswordRequest passwordRequest, HttpServletRequest request) {
+
 
         try {
             

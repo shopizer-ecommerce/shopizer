@@ -109,7 +109,7 @@ function checkReadOnlyAttribute(optionId){
 				<c:url var="attributeSave" value="/admin/attributes/attribute/save.html"/>
 
 
-				<form:form method="POST" commandName="attribute" action="${attributeSave}">
+				<form:form method="POST" modelAttribute="attribute" action="${attributeSave}">
 
       							
       				<form:errors path="*" cssClass="alert alert-error" element="div" />

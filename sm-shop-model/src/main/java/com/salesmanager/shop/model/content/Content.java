@@ -1,7 +1,7 @@
 package com.salesmanager.shop.model.content;
 
 import java.io.Serializable;
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.NotEmpty;
 
 public abstract class Content implements Serializable {
 

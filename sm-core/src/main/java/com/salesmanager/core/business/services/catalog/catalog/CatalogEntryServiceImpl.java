@@ -42,7 +42,7 @@ implements CatalogEntryService {
 	@Override
 	public Page<CatalogEntry> list(Catalog catalog, MerchantStore store, Language language, String name, int page,
 			int count) throws ServiceException {
-		Pageable pageRequest = new PageRequest(page, count);
+		Pageable pageRequest = PageRequest.of(page, count);
 		return pageableCatalogEntryRepository.listByCatalog(catalog.getId(), store.getId(), language.getId(), name, pageRequest);
 
 	}

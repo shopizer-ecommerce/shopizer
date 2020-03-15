@@ -41,7 +41,7 @@ public class ConfigurationController {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConfigurationController.class);
 	
-	private static final String DEFAULT_PASSWORD = "*****";
+	private static final String P_MASK = "*****";
 	
 	@Inject
 	private MerchantConfigurationService merchantConfigurationService;
@@ -164,7 +164,7 @@ public class ConfigurationController {
 			emailConfig.setPort(env.getProperty("mailSender.port}"));
 			emailConfig.setUsername(env.getProperty("mailSender.username"));
 			//emailConfig.setPassword(env.getProperty("mailSender.password"));
-			emailConfig.setPassword(DEFAULT_PASSWORD);
+			emailConfig.setPassword(P_MASK);
 			emailConfig.setSmtpAuth(Boolean.parseBoolean(env.getProperty("mailSender.mail.smtp.auth")));
 			emailConfig.setStarttls(Boolean.parseBoolean(env.getProperty("mail.smtp.starttls.enable")));
 		}
@@ -190,7 +190,7 @@ public class ConfigurationController {
 		emailConfig.setUsername(config.getUsername());
 		emailConfig.setPassword(emailConfig.getPassword());
 		if(!StringUtils.isBlank(config.getPassword())) {
-			if(!config.getPassword().equals(DEFAULT_PASSWORD)) {
+			if(!config.getPassword().equals(P_MASK)) {
 				emailConfig.setPassword(config.getPassword());
 			}
 		}

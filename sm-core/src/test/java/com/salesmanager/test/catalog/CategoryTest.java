@@ -55,7 +55,7 @@ public class CategoryTest extends com.salesmanager.test.common.AbstractSalesMana
 	    
 	    Long bookId = materingstuff.getId();
 	    
-	    Category fetchedBook = categoryService.getById(bookId);
+	    Category fetchedBook = categoryService.getById(bookId, store.getId());
 	    Assert.assertTrue(2 == fetchedBook.getDescriptions().size());
 
 	}

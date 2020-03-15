@@ -81,7 +81,7 @@ public class PersistableCategoryPopulator extends
 			if(!StringUtils.isBlank(source.getParent().getCode())) {
 				 parent = categoryService.getByCode(store.getCode(), source.getParent().getCode());
 			} else if(source.getParent().getId()!=null) {
-				 parent = categoryService.getById(source.getParent().getId());
+				 parent = categoryService.getById(source.getParent().getId(), store.getId());
 			} else {
 				throw new ConversionException("Category parent needs at least an id or a code for reference");
 			}

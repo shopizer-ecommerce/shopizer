@@ -6,11 +6,14 @@
 package com.salesmanager.test.common;
 
 import javax.inject.Inject;
+
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
@@ -39,7 +42,6 @@ import com.salesmanager.core.business.services.reference.language.LanguageServic
 import com.salesmanager.core.business.services.reference.zone.ZoneService;
 import com.salesmanager.core.business.services.shoppingcart.ShoppingCartService;
 import com.salesmanager.core.business.services.system.EmailService;
-import com.salesmanager.core.business.utils.ProductPriceUtils;
 import com.salesmanager.test.configuration.ConfigurationTest;
 
 
@@ -50,6 +52,7 @@ import com.salesmanager.test.configuration.ConfigurationTest;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes=ConfigurationTest.class)
+@Ignore
 public class AbstractSalesManagerCoreTestCase {
 
 	
@@ -68,10 +71,6 @@ public class AbstractSalesManagerCoreTestCase {
 	
 	@Inject
 	protected PricingService pricingService;
-	
-	@Inject
-	private ProductPriceUtils priceUtil;
-
 	
 	@Inject
 	protected ProductPriceService productPriceService;
@@ -147,7 +146,6 @@ public class AbstractSalesManagerCoreTestCase {
 	
 	@Before
 	public void init() throws ServiceException {
-		System.out.println("**** INTO INIT ***");
 		if(initializationDatabase.isEmpty()) {
 		  populate();
 		}
@@ -156,8 +154,7 @@ public class AbstractSalesManagerCoreTestCase {
 	
 	@After
 	public void close() throws ServiceException {
-	  System.out.println("**** AFTER ***");
-	  
+
 	}
 	
 	private void populate() throws ServiceException {

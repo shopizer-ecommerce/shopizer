@@ -19,7 +19,7 @@ public interface PageableCatalogEntryRepository extends PagingAndSortingReposito
 	  		+ "where cl.id=?1 and "
 	  		+ "clm.id=?2 and "
 	  		+ "cpd.language.id=?3 and (?4 is null or cpd.name like %?4%)",
-		      countQuery = "select  count(c) from CatalogEntry c join c.product cp join c.category cc join c.catalog cl join cl.merchantStore clm join cp.descriptions cpd where cl.id=?1 and cpd.language.id=?3 and (?4 is null or cpd.name like %?4%)")
+		      countQuery = "select  count(c) from CatalogEntry c join c.product cp join c.category cc join c.catalog cl join cl.merchantStore clm join cp.descriptions cpd where cl.id=?1 and clm.id=?2 and cpd.language.id=?3 and (?4 is null or cpd.name like %?4%)")
 		  Page<CatalogEntry> listByCatalog(Long catalogId, Integer storeId, Integer languageId, String name, Pageable pageable);
 
 	

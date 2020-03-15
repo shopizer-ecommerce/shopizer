@@ -43,7 +43,7 @@ implements CatalogService {
 	@Override
 	public Page<Catalog> getCatalogs(MerchantStore store, Language language, String name, int page, int count)
 			throws ServiceException {
-		Pageable pageRequest = new PageRequest(page, count);
+		Pageable pageRequest = PageRequest.of(page, count);
 		return pageableCatalogRepository.listByStore(store.getId(), name, pageRequest);
 	}
 

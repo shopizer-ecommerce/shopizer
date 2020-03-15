@@ -2,7 +2,7 @@ package com.salesmanager.shop.model.catalog;
 
 import java.io.Serializable;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.NotEmpty;
 
 /**
  * Search product request

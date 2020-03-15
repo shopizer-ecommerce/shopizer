@@ -7,7 +7,7 @@
   <parent>
     <groupId>com.shopizer</groupId>
     <artifactId>shopizer</artifactId>
-    <version>2.10.0</version>
+    <version>2.11.0</version>
   </parent>
 
   <name>sm-core-modules</name>
@@ -136,5 +136,4 @@
             </plugin>-->
     </plugins>
   </build>
-
 </project>

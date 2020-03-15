@@ -54,7 +54,7 @@ public interface CategoryFacade {
 
 	Category getByCode(String code, MerchantStore store);
 	
-	void deleteCategory(Long categoryId);
+	void deleteCategory(Long categoryId, MerchantStore store);
 
 	void deleteCategory(Category category);
 	

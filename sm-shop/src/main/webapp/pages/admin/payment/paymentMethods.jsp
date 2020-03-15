@@ -33,7 +33,7 @@
 
 							
 							<c:url var="savePaymentMethods" value="/admin/payments/savePaymentMethods.html"/>
-							<form:form method="POST" commandName="configuration" action="${savePaymentMethods}">
+							<form:form method="POST" modelAttribute="configuration" action="${savePaymentMethods}">
 
       							
       								<form:errors path="*" cssClass="alert alert-error" element="div" />

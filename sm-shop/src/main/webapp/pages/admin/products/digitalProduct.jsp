@@ -70,7 +70,7 @@
 				<br/><br/>
 		
 				<c:url var="saveProductFile" value="/admin/products/product/saveDigitalProduct.html" />
-				<form:form method="POST" enctype="multipart/form-data" commandName="productFiles" action="${saveProductFile}">
+				<form:form method="POST" enctype="multipart/form-data" modelAttribute="productFiles" action="${saveProductFile}">
 
 					<form:errors path="*" cssClass="alert alert-error" element="div" />
 					<div id="store.success" class="alert alert-success"

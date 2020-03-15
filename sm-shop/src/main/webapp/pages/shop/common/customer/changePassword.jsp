@@ -91,7 +91,7 @@ function resetGlobalErrors() {
 				<div id="store.success" class="alert alert-success" style="<c:choose><c:when test="${success!=null}">display:block;</c:when><c:otherwise>display:none;</c:otherwise></c:choose>"><s:message code="message.success" text="Request successfull"/></div>
 				<c:url var="changePassword" value="/shop/customer/changePassword.html"/>
 				<div id="formError"  class="alert alert-warning" style="display:none;"></div>
-				<form:form method="post" action="${changePassword}" id="changePasswordForm" commandName="password">
+				<form:form method="post" action="${changePassword}" id="changePasswordForm" modelAttribute="password">
 					   <form:errors path="*" cssClass="alert alert-error" element="div" />
 						<div class="control-group form-group">
 							<label class="required control-label" for="currentPassword"><s:message code="label.customer.currentpassword" text="Current password"/></label>

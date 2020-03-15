@@ -97,7 +97,7 @@ public class UserServiceImpl extends SalesManagerEntityServiceImpl<Long, User>
 @Override
 public Page<User> listByCriteria(Criteria criteria, int page, int count) throws ServiceException {
 	
-	Pageable pageRequest = new PageRequest(page, count);
+	Pageable pageRequest = PageRequest.of(page, count);
 	Page<User> users = null;
 	if(StringUtils.isBlank(criteria.getStoreCode())) {
 		

@@ -4,9 +4,11 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.common.description.Description;
 import com.salesmanager.core.model.reference.language.Language;
 
@@ -18,6 +20,8 @@ import com.salesmanager.core.model.reference.language.Language;
 		})
 	}
 )
+@TableGenerator(name = "description_gen", table = "SM_SEQUENCER", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "zone_description_seq", allocationSize = SchemaConstant.DESCRIPTION_ID_ALLOCATION_SIZE, initialValue = SchemaConstant.DESCRIPTION_ID_START_VALUE)
+//@SequenceGenerator(name = "description_gen", sequenceName = "zone_description_seq", allocationSize = SchemaConstant.DESCRIPTION_ID_SEQUENCE_START)
 public class ZoneDescription extends Description {
 	private static final long serialVersionUID = 1L;
 	

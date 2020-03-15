@@ -33,7 +33,7 @@
 				<c:url var="saveProductGrop" value="/admin/products/groups/save.html"/>
 
 
-				<form:form method="POST" commandName="group" action="${saveProductGrop}">
+				<form:form method="POST" modelAttribute="group" action="${saveProductGrop}">
 
       							
       				<form:errors path="*" cssClass="alert alert-error" element="div" />

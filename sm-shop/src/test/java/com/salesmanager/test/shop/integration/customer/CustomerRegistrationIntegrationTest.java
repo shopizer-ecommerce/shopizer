@@ -38,6 +38,7 @@ public class CustomerRegistrationIntegrationTest extends ServicesTestSupport {
         assertThat(response.getStatusCode(), is(OK));
 
         // created customer can login
+
         final ResponseEntity<AuthenticationResponse> loginResponse = testRestTemplate.postForEntity("/api/v1/customer/login", new HttpEntity<>(new AuthenticationRequest("customer1@test.com", "clear123")),
                 AuthenticationResponse.class);
         assertThat(loginResponse.getStatusCode(), is(OK));

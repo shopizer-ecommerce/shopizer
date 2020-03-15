@@ -47,7 +47,6 @@ import com.salesmanager.shop.store.api.exception.UnauthorizedException;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.store.controller.user.facade.UserFacade;
 import com.salesmanager.shop.utils.ServiceRequestCriteriaBuilderUtils;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -143,7 +142,6 @@ public class MerchantStoreApi {
 
 	  return storeFacade.getMerchantStoreNames();
   }
-  
 
 
   @ResponseStatus(HttpStatus.OK)
@@ -297,23 +295,6 @@ public class MerchantStoreApi {
   }
 
 
-
-/*  @ResponseStatus(HttpStatus.OK)
-  @GetMapping(value = {"/private/stores"}, produces = MediaType.APPLICATION_JSON_VALUE)
-  @ApiOperation(httpMethod = "GET", value = "Check list of stores", notes = "",
-      response = ReadableMerchantStoreList.class)
-  public ReadableMerchantStoreList list(
-      @RequestParam(value = "start", required = false) Integer start,
-      @RequestParam(value = "length", required = false) Integer count,
-      HttpServletRequest request) {
-
-    MerchantStoreCriteria criteria = createMerchantStoreCriteria(start, count, request);
-
-
-    return storeFacade
-    		.getByCriteria(criteria, drawParam, languageService.defaultLanguage());
-  }*/
-
   private MerchantStoreCriteria createMerchantStoreCriteria(Integer start, Integer count,
       HttpServletRequest request) {
     MerchantStoreCriteria criteria = (MerchantStoreCriteria) ServiceRequestCriteriaBuilderUtils
@@ -335,7 +316,6 @@ public class MerchantStoreApi {
   
   private MerchantStoreCriteria filter(HttpServletRequest request) {
 	    Criteria criteria = ServiceRequestCriteriaBuilderUtils.buildRequest(MAPPING_FIELDS, request);
-
 	    return (MerchantStoreCriteria)criteria;
    }
 

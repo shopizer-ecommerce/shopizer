@@ -36,7 +36,7 @@ public class IntegrationModule extends SalesManagerEntity<Long, IntegrationModul
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -357523134800965997L;
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name = "MODULE_CONF_ID")

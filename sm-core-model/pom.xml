@@ -7,7 +7,7 @@
   <parent>
     <groupId>com.shopizer</groupId>
     <artifactId>shopizer</artifactId>
-    <version>2.10.0</version>
+    <version>2.11.0</version>
   </parent>
 
   <artifactId>sm-core-model</artifactId>
@@ -67,11 +67,6 @@
       <artifactId>spring-webmvc</artifactId>
     </dependency>
 
-    <!-- http://mvnrepository.com/artifact/org.hibernate/hibernate-validator -->
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-validator</artifactId>
-    </dependency>
 
     <!-- http://mvnrepository.com/artifact/commons-io/commons-io -->
     <dependency>
@@ -156,5 +151,4 @@
             </plugin>-->
     </plugins>
   </build>
-
 </project>

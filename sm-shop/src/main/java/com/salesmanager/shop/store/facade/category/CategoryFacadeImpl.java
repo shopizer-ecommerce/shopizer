@@ -130,11 +130,13 @@ public class CategoryFacadeImpl implements CategoryFacade {
 		try {
 
 			Long categoryId = category.getId();
-			Category target = Optional.ofNullable(categoryId).filter(id -> id > 0).map(categoryService::findById)
+			Category target = Optional.ofNullable(categoryId)
+					.filter(merchant -> store !=null)
+					.filter(id -> id > 0)
+					.map(categoryService::getById)
 					.orElse(new Category());
 
 			Category dbCategory = populateCategory(store, category, target);
-
 			saveCategory(store, dbCategory, null);
 
 			// set category id
@@ -183,7 +185,9 @@ public class CategoryFacadeImpl implements CategoryFacade {
 
 		// remove children
 		List<Category> children = category.getCategories();
-		category.setCategories(null);
+		List<Category> saveAfter = children.stream().filter(c -> c.getId() == null || c.getId().longValue()==0).collect(Collectors.toList());
+		List<Category> saveNow = children.stream().filter(c -> c.getId() != null && c.getId().longValue()>0).collect(Collectors.toList());
+		category.setCategories(saveNow);
 
 		/** set parent * */
 		if (parent != null) {
@@ -191,14 +195,24 @@ public class CategoryFacadeImpl implements CategoryFacade {
 		}
 
 		categoryService.saveOrUpdate(category);
-
-		if (!CollectionUtils.isEmpty(children)) {
+		
+		if (!CollectionUtils.isEmpty(saveAfter)) {
 			parent = category;
-			for (Category sub : children) {
-
-				saveCategory(store, sub, parent);
+			for(Category c: saveAfter) {
+				if(c.getId() == null || c.getId().longValue()==0) {
+					for (Category sub : children) {
+						saveCategory(store, sub, parent);
+					}
+				}
 			}
 		}
+
+/*		if (!CollectionUtils.isEmpty(children)) {
+			parent = category;
+			for (Category sub : children) {
+				saveCategory(store, sub, parent);
+			}
+		}*/
 	}
 
 	@Override
@@ -289,7 +303,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 	private Category getById(MerchantStore store, Long id) throws Exception {
 		Validate.notNull(id, "category id must not be null");
 		Validate.notNull(store, "MerchantStore must not be null");
-		Category category = categoryService.getById(id);
+		Category category = categoryService.getById(id, store.getId());
 		if (category == null) {
 			throw new ResourceNotFoundException("Category with id [" + id + "] not found");
 		}
@@ -300,12 +314,12 @@ public class CategoryFacadeImpl implements CategoryFacade {
 	}
 
 	@Override
-	public void deleteCategory(Long categoryId) {
-		Category category = getOne(categoryId);
+	public void deleteCategory(Long categoryId, MerchantStore store) {
+		Category category = getOne(categoryId, store.getId());
 		deleteCategory(category);
 	}
 
-	private Category getOne(Long categoryId) {
+	private Category getOne(Long categoryId, int storeId) {
 		return Optional.ofNullable(categoryService.getById(categoryId)).orElseThrow(
 				() -> new ResourceNotFoundException(String.format("No Category found for ID : %s", categoryId)));
 	}
@@ -313,7 +327,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 	@Override
 	public List<ReadableProductVariant> categoryProductVariants(Long categoryId, MerchantStore store,
 			Language language) {
-		Category category = categoryService.getById(categoryId);
+		Category category = categoryService.getById(categoryId, store.getId());
 
 		List<ReadableProductVariant> variants = new ArrayList<ReadableProductVariant>();
 
@@ -376,8 +390,8 @@ public class CategoryFacadeImpl implements CategoryFacade {
 		Validate.notNull(store, "Merhant must not be null");
 		try {
 
-			Category c = categoryService.getById(child);
-			Category p = categoryService.getById(parent);
+			Category c = categoryService.getById(child, store.getId());
+			Category p = categoryService.getById(parent, store.getId());
 
 			if (c.getParent().getId() == parent) {
 				return;

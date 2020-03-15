@@ -323,7 +323,7 @@
 					<div class="row">
 						<div id="controls">
 
-							<form method="post" id="logonForm" class="form-horizontal" action="<c:url value="/login"/>">
+							<form method="post" id="logonForm" class="form-horizontal" action="<c:url value="/admin/performUserLogin"/>">
 								<div class="control-group">
 									<label class="control-label" for="inputUser">
 										<s:message code="label.username" text="Username" />

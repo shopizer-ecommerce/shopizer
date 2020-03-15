@@ -85,4 +85,5 @@ public class ReadableManufacturerPopulator extends
     }
     return d;
   }
+
 }

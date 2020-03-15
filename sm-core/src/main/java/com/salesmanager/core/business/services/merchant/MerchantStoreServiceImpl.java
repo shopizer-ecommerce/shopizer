@@ -67,7 +67,7 @@ public class MerchantStoreServiceImpl extends SalesManagerEntityServiceImpl<Inte
 
 	@Override
 	public Page<MerchantStore> listChildren(String code, int page, int count) throws ServiceException {
-		Pageable pageRequest = new PageRequest(page, count);
+		Pageable pageRequest = PageRequest.of(page, count);
 		return pageableMerchantRepository.listByStore(code, pageRequest);
 	}
 
@@ -77,7 +77,7 @@ public class MerchantStoreServiceImpl extends SalesManagerEntityServiceImpl<Inte
 		if (storeName != null && storeName.isPresent()) {
 			store = storeName.get();
 		}
-		Pageable pageRequest = new PageRequest(page, count);
+		Pageable pageRequest = PageRequest.of(page, count);
 		return pageableMerchantRepository.listAll(store, pageRequest);
 
 	}
@@ -94,7 +94,7 @@ public class MerchantStoreServiceImpl extends SalesManagerEntityServiceImpl<Inte
 		if (storeName != null && storeName.isPresent()) {
 			store = storeName.get();
 		}
-		Pageable pageRequest = new PageRequest(page, count);
+		Pageable pageRequest = PageRequest.of(page, count);
 		return pageableMerchantRepository.listAllRetailers(store, pageRequest);
 
 	}
@@ -103,72 +103,5 @@ public class MerchantStoreServiceImpl extends SalesManagerEntityServiceImpl<Inte
 	public List<MerchantStore> findAllStoreNames() throws ServiceException {
 		return merchantRepository.findAllStoreNames();
 	}
-
-	/*	@Override
-	public void delete(MerchantStore merchant) throws ServiceException {
-		
-		merchant = this.getById(merchant.getId());
-		
-		
-		//reference
-		List<Manufacturer> manufacturers = manufacturerService.listByStore(merchant);
-		for(Manufacturer manufacturer : manufacturers) {
-			manufacturerService.delete(manufacturer);
-		}
-		
-		List<MerchantConfiguration> configurations = merchantConfigurationService.listByStore(merchant);
-		for(MerchantConfiguration configuration : configurations) {
-			merchantConfigurationService.delete(configuration);
-		}
-	}
-
-	@Override
-	public List<MerchantStore> findAllStoreNames() throws ServiceException {
-
-		return merchantRepository.findAllStoreNames();
-	}
-
-	/*
-	 * @Override public void delete(MerchantStore merchant) throws
-	 * ServiceException {
-	 * 
-	 * merchant = this.getById(merchant.getId());
-	 * 
-	 * 
-	 * //reference List<Manufacturer> manufacturers =
-	 * manufacturerService.listByStore(merchant); for(Manufacturer manufacturer
-	 * : manufacturers) { manufacturerService.delete(manufacturer); }
-	 * 
-	 * List<MerchantConfiguration> configurations =
-	 * merchantConfigurationService.listByStore(merchant);
-	 * for(MerchantConfiguration configuration : configurations) {
-	 * merchantConfigurationService.delete(configuration); }
-	 * 
-	 * 
-	 * //TODO taxService List<TaxClass> taxClasses =
-	 * taxClassService.listByStore(merchant); for(TaxClass taxClass :
-	 * taxClasses) { taxClassService.delete(taxClass); }
-	 * 
-	 * //content contentService.removeFiles(merchant.getCode()); //TODO
-	 * staticContentService.removeImages
-	 * 
-	 * //category / product List<Category> categories =
-	 * categoryService.listByStore(merchant); for(Category category :
-	 * categories) { categoryService.delete(category); }
-	 * 
-	 * //users List<User> users = userService.listByStore(merchant); for(User
-	 * user : users) { userService.delete(user); }
-	 * 
-	 * //customers List<Customer> customers =
-	 * customerService.listByStore(merchant); for(Customer customer : customers)
-	 * { customerService.delete(customer); }
-	 * 
-	 * //orders List<Order> orders = orderService.listByStore(merchant);
-	 * for(Order order : orders) { orderService.delete(order); }
-	 * 
-	 * super.delete(merchant);
-	 * 
-	 * }
-	 */
 
 }

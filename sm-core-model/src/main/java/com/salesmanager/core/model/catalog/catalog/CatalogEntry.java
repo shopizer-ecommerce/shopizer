@@ -5,10 +5,12 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -37,23 +39,16 @@ public class CatalogEntry extends SalesManagerEntity<Long, CatalogEntry> impleme
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	/*    @GeneratedValue(strategy = GenerationType.TABLE, 
+	@GeneratedValue(strategy = GenerationType.TABLE, 
 	generator = "TABLE_GEN")
+	
 	@TableGenerator(name = "TABLE_GEN", 
 	table = "SM_SEQUENCER", 
 	pkColumnName = "SEQ_NAME",
-	valueColumnName = "SEQ_COUNT"
-	pkColumnValue = "CATALOG_ENT_SEQ_NEXT_VAL")*/
-    @GeneratedValue(generator = "sequence-generator")
-    @GenericGenerator(
-      name = "sequence-generator",
-      strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
-      parameters = {
-        @Parameter(name = "SEQ_NAME", value = "CATALOG_ENT_SEQ_NEXT_VAL"),
-        @Parameter(name = "INITIAL_VALUE", value = "4"),
-        @Parameter(name = "INCREMENT_SIZE", value = "1")
-        }
-    )
+	valueColumnName = "SEQ_COUNT",
+	allocationSize = SchemaConstant.DESCRIPTION_ID_ALLOCATION_SIZE, 
+	initialValue = SchemaConstant.DESCRIPTION_ID_START_VALUE,
+	pkColumnValue = "CATALOG_ENT_SEQ_NEXT_VAL")
 	private Long id;
 	
     @ManyToOne

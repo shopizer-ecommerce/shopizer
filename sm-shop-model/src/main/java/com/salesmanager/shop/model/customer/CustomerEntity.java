@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 import javax.validation.Valid;
 
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
 import com.salesmanager.shop.model.customer.address.Address;
 import io.swagger.annotations.ApiModelProperty;

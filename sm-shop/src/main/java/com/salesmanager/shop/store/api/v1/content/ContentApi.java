@@ -33,6 +33,7 @@ import com.salesmanager.shop.model.content.ContentFile;
 import com.salesmanager.shop.model.content.ContentFolder;
 import com.salesmanager.shop.model.content.ContentName;
 import com.salesmanager.shop.model.content.PersistableContentEntity;
+
 import com.salesmanager.shop.model.content.ReadableContentBox;
 import com.salesmanager.shop.model.content.ReadableContentEntity;
 import com.salesmanager.shop.model.content.ReadableContentFull;
@@ -285,6 +286,7 @@ public class ContentApi {
         throw new ServiceRuntimeException("Error while getting file bytes");
       }
     }
+
   }
 
   /**
@@ -313,10 +315,12 @@ public class ContentApi {
   @PutMapping(value = "/private/content/{id}")
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(httpMethod = "PUT", value = "Update content page", notes = "Updates a content page",
+
       response = Void.class)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
+
   public void updatePage(
 	  @PathVariable Long id,
       @RequestBody @Valid PersistableContentEntity page,
@@ -331,7 +335,7 @@ public class ContentApi {
    * @param name
    */
   @DeleteMapping(value = "/private/content/{id}")
-  @ApiOperation(httpMethod = "DETETE", value = "Deletes a conyent from CMS", notes = "Delete a content box or page",
+  @ApiOperation(httpMethod = "DELETE", value = "Deletes a content from CMS", notes = "Delete a content box or page",
   response = Void.class)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT")})
@@ -340,6 +344,22 @@ public class ContentApi {
       @ApiIgnore MerchantStore merchantStore) {
     contentFacade.delete(merchantStore, id);
   }
+  
+/*  *//**
+   * Deletes a content from CMS
+   *
+   * @param name
+   *//*
+  @DeleteMapping(value = "/private/content/page/{id}")
+  @ApiOperation(httpMethod = "DELETE", value = "Deletes a file from CMS", notes = "Delete a file from server",
+  response = Void.class)
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT")})
+  public void deleteFile(
+      Long id, 
+      @ApiIgnore MerchantStore merchantStore) {
+    contentFacade.deletePage(merchantStore, id);
+  }*/
 
 
   /**
@@ -348,7 +368,7 @@ public class ContentApi {
    * @param name
    */
   @DeleteMapping(value = "/private/content/")
-  @ApiOperation(httpMethod = "DETETE", value = "Deletes a file from CMS", notes = "Delete a file from server",
+  @ApiOperation(httpMethod = "DELETE", value = "Deletes a file from CMS", notes = "Delete a file from server",
   response = Void.class)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),

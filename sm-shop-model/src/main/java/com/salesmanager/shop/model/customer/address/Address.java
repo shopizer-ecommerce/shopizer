@@ -2,7 +2,7 @@ package com.salesmanager.shop.model.customer.address;
 
 import java.io.Serializable;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.NotEmpty;
 import io.swagger.annotations.ApiModelProperty;
 
 /**

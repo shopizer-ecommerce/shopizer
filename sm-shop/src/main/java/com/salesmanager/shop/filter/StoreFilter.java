@@ -560,10 +560,10 @@ public class StoreFilter extends HandlerInterceptorAdapter {
         // load categories
         ReadableCategoryList categoryList = categoryFacade.getCategoryHierarchy(store, null, 0, language, null, 0, 200);// null
         loadedCategories = categoryList.getCategories();
-        
+
         //filter out invisible category
         loadedCategories.stream().filter(cat -> cat.isVisible()==true).collect(Collectors.toList());
-                                                                                         
+
         objects = new ConcurrentHashMap<String, List<ReadableCategory>>();
         objects.put(language.getCode(), loadedCategories);
         webApplicationCache.putInCache(categoriesKey.toString(), objects);
