@@ -1,24 +1,13 @@
 package com.salesmanager.shop.store.api.v1.system;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.core.MediaType;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import com.salesmanager.core.business.exception.ServiceException;
+
 import com.salesmanager.core.business.services.system.ModuleConfigurationService;
-import com.salesmanager.core.business.utils.ajax.AjaxResponse;
-import com.salesmanager.shop.model.entity.ReadableEntity;
-import com.salesmanager.shop.store.api.exception.RestApiException;
-import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/api/v1/system")
