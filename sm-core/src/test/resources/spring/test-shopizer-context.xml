@@ -24,12 +24,14 @@
   <beans:import resource="classpath:/spring/shopizer-core-context.xml" />
 
 
+  <!--
   <beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
     <beans:property name="driverClassName" value="${db.driverClass}" />
     <beans:property name="url" value="${db.jdbcUrl}" />
     <beans:property name="username" value="${db.user}" />
     <beans:property name="password" value="${db.password}" />
   </beans:bean>
+  -->
 
 
   <context:component-scan base-package="com.salesmanager.test" />

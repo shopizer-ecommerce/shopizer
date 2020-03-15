@@ -38,25 +38,6 @@
   <!-- search -->
   <beans:import resource="classpath:/spring/shopizer-search.xml" />
   
-  <!-- datasource by profile -->
-  <beans:beans profile="default">
-  	<beans:import resource="classpath:/spring/datasource-c3p0.xml" />
-  </beans:beans>
-  <beans:beans profile="docker">
-  	<beans:import resource="classpath:/spring/datasource-c3p0.xml" />
-  </beans:beans>
-    <beans:beans profile="gcp">
-  	<beans:import resource="classpath:/spring/datasource-c3p0.xml" />
-  </beans:beans>
-  <beans:beans profile="mysql">
-  	<beans:import resource="classpath:/spring/datasource-c3p0.xml" />
-  </beans:beans>
-  <beans:beans profile="cloud">
-  	<beans:import resource="classpath:/spring/datasource-c3p0.xml" />
-  </beans:beans>
-  <beans:beans profile="firebase">
-  	<beans:import resource="classpath:/spring/datasource-c3p0.xml" />
-  </beans:beans>
   
 
 </beans:beans>

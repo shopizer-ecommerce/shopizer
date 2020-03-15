@@ -74,7 +74,9 @@
 		<google-client-maps-services-version>0.1.6</google-client-maps-services-version>
 		<jwt.version>0.8.0</jwt.version>
 		<!-- external systems -->
+		<!--
 		<c3p0-version>0.9.5.4</c3p0-version>
+		-->
 		
 
 		<!-- api documentation -->
@@ -196,11 +198,13 @@
 			</dependency>
 
 			<!-- https://mvnrepository.com/artifact/com.mchange/c3p0 -->
+			<!--
 			<dependency>
 				<groupId>com.mchange</groupId>
 				<artifactId>c3p0</artifactId>
 				<version>${c3p0-version}</version>
 			</dependency>
+			-->
 			<!-- end c3po -->
 
 			<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
@@ -463,10 +467,12 @@
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.mchange/c3p0 -->
+		<!--
 		<dependency>
 			<groupId>com.mchange</groupId>
 			<artifactId>c3p0</artifactId>
 		</dependency>
+		-->
 		<!-- end c3po -->
 
 
@@ -492,14 +498,6 @@
 		<dependency>
 			<groupId>com.shopizer</groupId>
 			<artifactId>sm-search</artifactId>
-			<!-- 			
-			<exclusions>
-				<exclusion>
-					<groupId>org.elasticsearch</groupId>
-					<artifactId>elasticsearch</artifactId>
-				</exclusion>
-			</exclusions> 
-			-->
 		</dependency>
 
 		<!-- Elastic search -->

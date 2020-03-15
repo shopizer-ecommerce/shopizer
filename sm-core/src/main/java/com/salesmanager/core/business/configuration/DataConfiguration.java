@@ -2,32 +2,23 @@ package com.salesmanager.core.business.configuration;
 
 import java.util.Properties;
 
-
 import javax.persistence.EntityManagerFactory;
-import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
+
+import com.zaxxer.hikari.HikariDataSource;
 
 
 @Configuration
-@EnableJpaRepositories(basePackages = "com.salesmanager.core.business.repositories")
-@EnableTransactionManagement
 public class DataConfiguration {
-	
-    //@Autowired
-    //private Environment env;
-    
+
 	/**
 	 * Datasource
 	 */
@@ -42,6 +33,7 @@ public class DataConfiguration {
     
     @Value("${db.password}")
     private String password;
+
     
     /**
      * Other connection properties
@@ -61,16 +53,32 @@ public class DataConfiguration {
     
     @Value("${db.schema}")
     private String schema;
+    
+    @Value("${db.preferredTestQuery}")
+    private String testQuery;
+    
+    @Value("${db.minPoolSize}")
+    private int minPoolSize;
+    
+    @Value("${db.maxPoolSize}")
+    private int maxPoolSize;
 
-	@Bean
-	public DataSource dataSource() {
-		final DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setDriverClassName(driverClassName);
-		dataSource.setUrl(url);
-		dataSource.setUsername(user);
-		dataSource.setPassword(password);
-		return dataSource;
-	}
+    @Bean
+    public HikariDataSource dataSource() {
+    	HikariDataSource dataSource = DataSourceBuilder.create().type(HikariDataSource.class)
+    	.driverClassName(driverClassName)
+    	.url(url)
+    	.username(user)
+    	.password(password)
+    	.build();
+    	
+    	/** Datasource config **/
+    	dataSource.setIdleTimeout(minPoolSize);
+    	dataSource.setMaximumPoolSize(maxPoolSize);
+    	dataSource.setConnectionTestQuery(testQuery);
+    	
+    	return dataSource;
+    }
 
 	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {

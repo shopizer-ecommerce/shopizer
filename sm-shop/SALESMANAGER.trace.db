@@ -57,3 +57,33 @@ update SALESMANAGER.CATEGORY set LINEAGE = "/1" where CATEGORY_ID = 1 [42122-191
 	at net.sourceforge.squirrel_sql.client.session.SQLExecuterTask.run(SQLExecuterTask.java:212)
 	at net.sourceforge.squirrel_sql.fw.util.TaskExecuter.run(TaskExecuter.java:82)
 	at java.lang.Thread.run(Thread.java:745)
+2020-03-13 14:55:00 database: close
+org.h2.message.DbException: IO Exception: "java.io.EOFException"; "/Users/carlsamson/Documents/dev/workspaces/merge-master-sb2/shopizer/sm-shop/SALESMANAGER.h2.db" [90031-191]
+	at org.h2.message.DbException.get(DbException.java:168)
+	at org.h2.message.DbException.convertIOException(DbException.java:330)
+	at org.h2.store.FileStore.readFully(FileStore.java:275)
+	at org.h2.store.PageStore.readPage(PageStore.java:1325)
+	at org.h2.store.PageStore.getPage(PageStore.java:749)
+	at org.h2.store.PageStreamTrunk$Iterator.next(PageStreamTrunk.java:251)
+	at org.h2.store.PageLog.free(PageLog.java:213)
+	at org.h2.store.PageStore.compact(PageStore.java:498)
+	at org.h2.engine.Database.closeOpenFilesAndUnlock(Database.java:1356)
+	at org.h2.engine.Database.close(Database.java:1286)
+	at org.h2.engine.Database.removeSession(Database.java:1170)
+	at org.h2.engine.Session.close(Session.java:815)
+	at org.h2.jdbc.JdbcConnection.close(JdbcConnection.java:383)
+	at net.sourceforge.squirrel_sql.fw.sql.SQLConnection._closeIntern(SQLConnection.java:174)
+	at net.sourceforge.squirrel_sql.fw.sql.SQLConnection.access$000(SQLConnection.java:48)
+	at net.sourceforge.squirrel_sql.fw.sql.SQLConnection$1.run(SQLConnection.java:123)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: org.h2.jdbc.JdbcSQLException: IO Exception: "java.io.EOFException"; "/Users/carlsamson/Documents/dev/workspaces/merge-master-sb2/shopizer/sm-shop/SALESMANAGER.h2.db" [90031-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	... 21 more
+Caused by: java.io.EOFException
+	at org.h2.store.fs.FileUtils.readFully(FileUtils.java:358)
+	at org.h2.store.FileStore.readFully(FileStore.java:273)
+	... 18 more

@@ -6,12 +6,14 @@
 package com.salesmanager.test.common;
 
 import javax.inject.Inject;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
@@ -40,7 +42,6 @@ import com.salesmanager.core.business.services.reference.language.LanguageServic
 import com.salesmanager.core.business.services.reference.zone.ZoneService;
 import com.salesmanager.core.business.services.shoppingcart.ShoppingCartService;
 import com.salesmanager.core.business.services.system.EmailService;
-import com.salesmanager.core.business.utils.ProductPriceUtils;
 import com.salesmanager.test.configuration.ConfigurationTest;
 
 
@@ -70,10 +71,6 @@ public class AbstractSalesManagerCoreTestCase {
 	
 	@Inject
 	protected PricingService pricingService;
-	
-	@Inject
-	private ProductPriceUtils priceUtil;
-
 	
 	@Inject
 	protected ProductPriceService productPriceService;
