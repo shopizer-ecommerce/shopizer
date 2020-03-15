@@ -25,7 +25,7 @@ import io.swagger.annotations.Tag;
 public class HealthApi {
 	
 	/**
-	 * Simple ping api
+	 * Simple alive / ping endpoint
 	 */
 	@GetMapping(value = "/health/ping")
 	@ResponseStatus(HttpStatus.OK)
