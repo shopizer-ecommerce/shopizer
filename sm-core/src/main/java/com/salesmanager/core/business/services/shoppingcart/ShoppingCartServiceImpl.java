@@ -23,6 +23,7 @@ import com.salesmanager.core.business.services.common.generic.SalesManagerEntity
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.price.FinalPrice;
+import com.salesmanager.core.model.common.UserContext;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.shipping.ShippingProduct;
@@ -90,12 +91,31 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 	 * Save or update a {@link ShoppingCart} for a given customer
 	 */
 	@Override
-	public void saveOrUpdate(final ShoppingCart shoppingCart) throws ServiceException {
+	public void saveOrUpdate(ShoppingCart shoppingCart) throws ServiceException {
+		
+		Validate.notNull(shoppingCart, "ShoppingCart must not be null");
+		
+		
+		try {
+			UserContext userContext = UserContext.getCurrentInstance();
+			if(userContext!=null) {
+				shoppingCart.setIpAddress(userContext.getIpAddress());
+			}
+		} catch(Exception s) {
+			LOGGER.error("Cannot add ip address to shopping cart ", s);
+		}
+		
+		
 		if (shoppingCart.getId() == null || shoppingCart.getId().longValue() == 0) {
 			super.create(shoppingCart);
 		} else {
 			super.update(shoppingCart);
 		}
+		
+		/**
+		 * TODO log cart for analytics
+		 */
+		
 	}
 
 	/**

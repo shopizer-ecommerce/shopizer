@@ -74,6 +74,9 @@ public class ShoppingCart extends SalesManagerEntity<Long, ShoppingCart> impleme
 	@Column(name = "CUSTOMER_ID", nullable = true)
 	private Long customerId;
 	
+	@Column (name ="IP_ADDRESS")
+	private String ipAddress;
+
 	@Transient
 	private boolean obsolete = false;//when all items are obsolete
     
@@ -126,7 +129,6 @@ public class ShoppingCart extends SalesManagerEntity<Long, ShoppingCart> impleme
         this.shoppingCartCode = shoppingCartCode;
     }
 
-
 	public void setCustomerId(Long customerId) {
 		this.customerId = customerId;
 	}
@@ -141,6 +143,14 @@ public class ShoppingCart extends SalesManagerEntity<Long, ShoppingCart> impleme
 
 	public MerchantStore getMerchantStore() {
 		return merchantStore;
+	}
+
+	public String getIpAddress() {
+		return ipAddress;
+	}
+
+	public void setIpAddress(String ipAddress) {
+		this.ipAddress = ipAddress;
 	}
 
 

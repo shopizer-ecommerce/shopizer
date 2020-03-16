@@ -12,7 +12,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import com.salesmanager.core.model.common.UserContext;
 import com.salesmanager.shop.store.security.common.CustomAuthenticationManager;
+import com.salesmanager.shop.utils.GeoLocationUtils;
 
 
 public class AuthenticationTokenFilter extends OncePerRequestFilter {
@@ -35,10 +38,6 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
     @Inject
     private CustomAuthenticationManager jwtCustomAdminAuthenticationManager;
 
-    //@Inject
-    //private CustomAuthenticationManager facebookCustomerAuthenticationManager;
-    
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         
@@ -53,7 +52,17 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
     	response.setHeader("Access-Control-Allow-Headers", "X-Auth-Token, Content-Type, Authorization");
     	response.setHeader("Access-Control-Allow-Credentials", "true");
 
-        	
+    	try {
+    		
+    		String ipAddress = GeoLocationUtils.getClientIpAddress(request);
+    		
+    		UserContext userContext = UserContext.create();
+    		userContext.setIpAddress(ipAddress);
+    		
+    	} catch(Exception s) {
+    		LOGGER.error("Error while getting ip address ", s);
+    	}
+
 
     	if(request.getRequestURL().toString().contains("/api/v1/auth")) {
     		//setHeader(request,response);   	
@@ -102,47 +111,24 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
     	}
 
         chain.doFilter(request, response);
+        postFilter(request, response, chain);
     }
     
-/*    private void setHeader(HttpServletRequest request, HttpServletResponse response) {
-    	
     
-
+    private void postFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
     	
-    	String origin = request.getHeader("origin");
-    	if(StringUtils.isBlank(origin)) {
-    		origin = "*";
-    	}
-    	response.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE");
-    	response.setHeader("Access-Control-Allow-Origin", origin);
-    	
-    	*//**
-    	 * Simplify options
-    	 *//*
-    	
-    	if("options".equalsIgnoreCase(request.getMethod())) {
-    		try {
-                ((HttpServletResponse) response).setStatus(200);
-                byte[]  b = "".getBytes();
-                response.getOutputStream().write(b);
-                return;
-    		} catch(Exception e) {
-    			e.printStackTrace();
+    	try {
+    		
+    		UserContext userContext = UserContext.getCurrentInstance();
+    		if(userContext!=null) {
+    			userContext.close();
     		}
-
+    		
+    	} catch(Exception s) {
+    		LOGGER.error("Error while getting ip address ", s);
     	}
-
-    	response.setHeader("Access-Control-Allow-Headers", "X-Auth-Token, Content-Type, Authorization");
-    	response.setHeader("Access-Control-Allow-Credentials", "true");
-	
     	
-    }*/
-    
-    private byte[] restOptionsResponseBytes() throws IOException {
-        String serialized = "{\"status\":200}";
-        return serialized.getBytes();
     }
-
 
 
 }
