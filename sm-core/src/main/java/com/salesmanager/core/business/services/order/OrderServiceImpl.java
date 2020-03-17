@@ -121,7 +121,8 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     	return this.process(order, customer, items, summary, payment, transaction, store);
     }
     
-    private Order process(Order order, Customer customer, List<ShoppingCartItem> items, OrderTotalSummary summary, Payment payment, Transaction transaction, MerchantStore store) throws ServiceException {
+    @SuppressWarnings("unchecked")
+	private Order process(Order order, Customer customer, List<ShoppingCartItem> items, OrderTotalSummary summary, Payment payment, Transaction transaction, MerchantStore store) throws ServiceException {
     	
     	
     	Validate.notNull(order, "Order cannot be null");
@@ -217,9 +218,8 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
          * Invoke all post processors
          */
         orderPostProcessors.stream()
-        .forEach(process-> process.processOrder(order, customer, store));
-        //.map(p -> {p.processOrder(order, customer, store); return p;});
-
+        .forEach(process-> process.process(order, customer, store));
+        
     	return order;
     }
 
