@@ -892,7 +892,7 @@ public class OrderFacadeImpl implements OrderFacade {
 
         if(CollectionUtils.isEmpty(orders)) {
             returnList.setTotal(0);
-            return null;
+            return returnList;
         }
 
         List<ReadableOrder> readableOrders = new ArrayList<ReadableOrder>();
@@ -908,9 +908,7 @@ public class OrderFacadeImpl implements OrderFacade {
         returnList.setRecordsFiltered(orderList.getTotalCount());
         returnList.setRecordsTotal(orderList.getTotalCount());
 
-/*        if (StringUtils.isNotEmpty(draw)) {
-            returnList.setDraw(Integer.parseInt(draw));
-        }*/
+
         return returnList;
 
 	}
