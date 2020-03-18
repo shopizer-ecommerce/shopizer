@@ -98,13 +98,6 @@
 			<artifactId>spring-security-taglibs</artifactId>
 		</dependency>
 
-		<!-- Enables login with facebook, for now it is using milestone -->
-<!-- 		<dependency>
-			<groupId>org.springframework.social</groupId>
-			<artifactId>spring-social-facebook</artifactId>
-			<version>${spring-social-facebook.version}</version>
-		</dependency> -->
-
 		<!-- Add Apache Tiles into the mix -->
 		<dependency>
 			<groupId>org.apache.tiles</groupId>
