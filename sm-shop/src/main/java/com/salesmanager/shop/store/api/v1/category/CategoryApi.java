@@ -110,8 +110,10 @@ public class CategoryApi {
 	@PostMapping(value = "/private/category", produces = { APPLICATION_JSON_VALUE })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
-	public PersistableCategory create(@Valid @RequestBody PersistableCategory category,
-			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
+	public PersistableCategory create(
+			@Valid @RequestBody PersistableCategory category,
+			@ApiIgnore MerchantStore merchantStore, 
+			@ApiIgnore Language language) {
 
 		// superadmin, admin and admin_catalogue
 		String authenticatedUser = userFacade.authenticatedUser();

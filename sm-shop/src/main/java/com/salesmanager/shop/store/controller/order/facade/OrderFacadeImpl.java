@@ -92,6 +92,7 @@ import com.salesmanager.shop.populator.order.ReadableOrderProductPopulator;
 import com.salesmanager.shop.populator.order.ShoppingCartItemPopulator;
 import com.salesmanager.shop.populator.order.transaction.PersistablePaymentPopulator;
 import com.salesmanager.shop.populator.order.transaction.ReadableTransactionPopulator;
+import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
 import com.salesmanager.shop.store.controller.shoppingCart.facade.ShoppingCartFacade;
 import com.salesmanager.shop.utils.EmailTemplatesUtils;
@@ -878,38 +879,43 @@ public class OrderFacadeImpl implements OrderFacade {
 	}
 
 	@Override
-	public ReadableOrderList getReadableOrderList(int start, int maxCount,String draw) throws Exception {
+	public ReadableOrderList getReadableOrderList(int start, int maxCount, MerchantStore store) {
 
-		OrderCriteria criteria = new OrderCriteria();
-		criteria.setStartIndex(start);
-		criteria.setMaxCount(maxCount);
-
-        OrderList orderList = orderService.getOrders(criteria);
-
-        ReadableOrderPopulator orderPopulator = new ReadableOrderPopulator();
-        List<Order> orders = orderList.getOrders();
-        ReadableOrderList returnList = new ReadableOrderList();
-
-        if(CollectionUtils.isEmpty(orders)) {
-            returnList.setTotal(0);
-            return returnList;
-        }
-
-        List<ReadableOrder> readableOrders = new ArrayList<ReadableOrder>();
-        for (Order order : orders) {
-            ReadableOrder readableOrder = new ReadableOrder();
-            orderPopulator.populate(order,readableOrder,null,null);
-            readableOrders.add(readableOrder);
-
-        }
-        returnList.setOrders(readableOrders);
-        returnList.setTotal(orderList.getTotalCount());
-
-        returnList.setRecordsFiltered(orderList.getTotalCount());
-        returnList.setRecordsTotal(orderList.getTotalCount());
-
-
-        return returnList;
+		try {
+			OrderCriteria criteria = new OrderCriteria();
+			criteria.setStartIndex(start);
+			criteria.setMaxCount(maxCount);
+	
+	        OrderList orderList = orderService.getOrders(criteria);
+	
+	        ReadableOrderPopulator orderPopulator = new ReadableOrderPopulator();
+	        List<Order> orders = orderList.getOrders();
+	        ReadableOrderList returnList = new ReadableOrderList();
+	
+	        if(CollectionUtils.isEmpty(orders)) {
+	            returnList.setTotal(0);
+	            return returnList;
+	        }
+	
+	        List<ReadableOrder> readableOrders = new ArrayList<ReadableOrder>();
+	        for (Order order : orders) {
+	            ReadableOrder readableOrder = new ReadableOrder();
+	            orderPopulator.populate(order,readableOrder,null,null);
+	            readableOrders.add(readableOrder);
+	
+	        }
+	        returnList.setOrders(readableOrders);
+	        returnList.setTotal(orderList.getTotalCount());
+	
+	        returnList.setRecordsFiltered(orderList.getTotalCount());
+	        returnList.setRecordsTotal(orderList.getTotalCount());
+	
+	
+	        return returnList;
+        
+		} catch (Exception e) {
+			throw new ServiceRuntimeException("Error while getting orders", e);
+		}
 
 	}
 
