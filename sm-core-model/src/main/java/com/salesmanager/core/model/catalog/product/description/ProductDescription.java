@@ -6,6 +6,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.persistence.Index;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
@@ -18,7 +19,8 @@ import com.salesmanager.core.model.common.description.Description;
 			"PRODUCT_ID",
 			"LANGUAGE_ID"
 		})
-	}
+	},
+	indexes = {@Index(name = "PRODUCT_DESCRIPTION_SEF_URL", columnList = "SEF_URL")}
 )
 public class ProductDescription extends Description {
 	private static final long serialVersionUID = 1L;
