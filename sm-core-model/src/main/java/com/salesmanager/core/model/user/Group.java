@@ -12,6 +12,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
@@ -27,7 +28,9 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
 
 @Entity
 @EntityListeners(value = AuditListener.class)
-@Table(name = "SM_GROUP", schema=SchemaConstant.SALESMANAGER_SCHEMA)
+@Table(name = "SM_GROUP",
+	schema=SchemaConstant.SALESMANAGER_SCHEMA,
+	indexes = {@Index(name = "SM_GROUP_GROUP_TYPE", columnList = "GROUP_TYPE")})
 public class Group extends SalesManagerEntity<Integer, Group> implements Auditable {
 
 	/**
