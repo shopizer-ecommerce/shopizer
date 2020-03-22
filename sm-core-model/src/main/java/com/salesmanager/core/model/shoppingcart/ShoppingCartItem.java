@@ -22,6 +22,7 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.price.FinalPrice;
@@ -45,6 +46,7 @@ public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem>
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
 	private Long id;
 	
+	@JsonIgnore
 	@ManyToOne(targetEntity = ShoppingCart.class)
 	@JoinColumn(name = "SHP_CART_ID", nullable = false)
 	private ShoppingCart shoppingCart;
@@ -59,6 +61,7 @@ public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem>
 	@Column(name="PRODUCT_ID", nullable=false) //TODO CODE
 	private Long productId;
 	
+	@JsonIgnore
 	@Transient
 	private boolean productVirtual;
 
@@ -66,19 +69,23 @@ public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem>
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "shoppingCartItem")
 	private Set<ShoppingCartAttributeItem> attributes = new HashSet<ShoppingCartAttributeItem>();
 	
+	@JsonIgnore
 	@Transient
 	private BigDecimal itemPrice;//item final price including all rebates
 	
+	@JsonIgnore
 	@Transient
 	private BigDecimal subTotal;//item final price * quantity
 	
+	@JsonIgnore
 	@Transient
 	private FinalPrice finalPrice;//contains price details (raw prices)
 	
-
+	@JsonIgnore
 	@Transient
 	private Product product;
 	
+	@JsonIgnore
 	@Transient
 	private boolean obsolete = false;
 

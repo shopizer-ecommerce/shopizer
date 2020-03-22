@@ -88,12 +88,6 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     @Inject
     private OrderTotalService orderTotalService;
 
-    //@Autowired
-    //private List<OrderProcessor> orderPreProcessors;
-    
-    @Autowired
-    private List<OrderProcessor> orderPostProcessors;
-    
     private final OrderRepository orderRepository;
 
     @Inject
@@ -139,13 +133,6 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     			order.setIpAddress(ipAddress);
     		}
     	}
-    	
-
-    	/**
-    	 * Invoke all pre-processors
-    	 */
-    	//orderPreProcessors.stream().map(p -> {p.processOrder(order, customer, store); return p;});
-    	
 
     	
     	//first process payment
@@ -213,12 +200,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
             productService.update(p);
         }
 
-        
-        /**
-         * Invoke all post processors
-         */
-        orderPostProcessors.stream()
-        .forEach(process-> process.process(order, customer, store));
+
         
     	return order;
     }

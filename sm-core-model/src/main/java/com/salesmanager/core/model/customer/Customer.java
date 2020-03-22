@@ -86,7 +86,7 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 	@Column(name="CUSTOMER_COMPANY", length=100)
 	private String company;
 	
-
+	@JsonIgnore
 	@Column(name="CUSTOMER_PASSWORD", length=60)
 	private String password;
 
@@ -143,12 +143,15 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 	})
 	private List<Group> groups = new ArrayList<Group>();
 	
+	@JsonIgnore
 	@Transient
 	private String showCustomerStateList;
 	
+	@JsonIgnore
 	@Transient
 	private String showBillingStateList;
 	
+	@JsonIgnore
 	@Transient
 	private String showDeliveryStateList;
 	

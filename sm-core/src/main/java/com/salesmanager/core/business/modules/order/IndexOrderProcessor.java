@@ -54,7 +54,7 @@ public class IndexOrderProcessor extends IndexEntityProcessor implements OrderPr
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(IndexOrderProcessor.class);
 	
-	private static final String INDEX_NAME = "orders-";
+
 
 
 	/**
@@ -65,16 +65,16 @@ public class IndexOrderProcessor extends IndexEntityProcessor implements OrderPr
 	 * @param store
 	 */
 	@Async
-	private void process(Order order, Customer customer, MerchantStore store)  {
+	private void process(String event, Order order, Customer customer, MerchantStore store)  {
 		try {
 			RestHighLevelClient client = client();
 			
 			ObjectMapper mapper = new ObjectMapper();
 			mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);			
-			OrderMapping m = new OrderMapping(order, customer);
+			Mapping m = new Mapping("order", event, order, customer);
 			String json = mapper.writeValueAsString(m);
 			
-			String indexName = new StringBuilder().append(INDEX_NAME).append(store.getCode()).toString();
+			String indexName = new StringBuilder().append(INDEX_NAME).append(store.getCode().toLowerCase()).toString();
 
 	        
 	        IndexRequest indexRequest = new IndexRequest(indexName);
@@ -97,30 +97,15 @@ public class IndexOrderProcessor extends IndexEntityProcessor implements OrderPr
 	
 
 	
-	class OrderMapping {
-		private Order order;
-		private Customer customer;
-		OrderMapping(Order order, Customer customer) {
-			this.order = order;
-			this.customer = customer;
-		}
-		public Order getOrder() {
-			return order;
-		}
-		public Customer getCustomer() {
-			return customer;
-		}
-	}
-
 	@Override
-	public void process(Object entity, MerchantStore store) {
-		this.process(entity, new Customer(), store);
+	public void process(String event, Object entity, MerchantStore store) {
+		this.process(event, entity, new Customer(), store);
 		
 	}
 
 	@Override
-	public void process(Object entity, Customer customer, MerchantStore store) {
-		this.process((Order)entity, customer, store);
+	public void process(String event, Object entity, Customer customer, MerchantStore store) {
+		this.process(event, (Order)entity, customer, store);
 		
 	}
 	

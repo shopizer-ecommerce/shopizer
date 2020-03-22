@@ -33,6 +33,7 @@ public class Zone extends SalesManagerEntity<Long, Zone> {
   @GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
   private Long id;
 
+  @JsonIgnore
   @OneToMany(mappedBy = "zone", cascade = CascadeType.ALL)
   private List<ZoneDescription> descriptions = new ArrayList<ZoneDescription>();
 

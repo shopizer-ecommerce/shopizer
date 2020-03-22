@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.common.audit.AuditListener;
@@ -43,11 +44,12 @@ public class ShoppingCartAttributeItem extends SalesManagerEntity<Long, Shopping
 	@Column(name="PRODUCT_ATTR_ID", nullable=false)
 	private Long productAttributeId;
 	
+	@JsonIgnore
 	@Transient
 	private ProductAttribute productAttribute;
 	
 
-	
+	@JsonIgnore
 	@ManyToOne(targetEntity = ShoppingCartItem.class)
 	@JoinColumn(name = "SHP_CART_ITEM_ID", nullable = false)
 	private ShoppingCartItem shoppingCartItem;

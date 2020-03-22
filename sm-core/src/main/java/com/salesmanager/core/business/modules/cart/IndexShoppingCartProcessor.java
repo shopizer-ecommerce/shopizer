@@ -24,32 +24,27 @@ public class IndexShoppingCartProcessor extends IndexEntityProcessor implements 
 	
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(IndexOrderProcessor.class);
-	
-	private static final String INDEX_NAME = "carts-";
-	
-
 
 	@Override
-	public void process(Object entity, MerchantStore store) {
-		this.process(entity, new Customer(), store);
+	public void process(String event, Object entity, MerchantStore store) {
+		this.process(event, entity, new Customer(), store);
 
 	}
 
 	@Async
 	@Override
-	public void process(Object entity, Customer customer, MerchantStore store) {
+	public void process(String event, Object entity, Customer customer, MerchantStore store) {
 		
 		ShoppingCart cart = (ShoppingCart)entity;
 		try {
 			RestHighLevelClient client = client();
-			
-			
+
 			ObjectMapper mapper = new ObjectMapper();
 			mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);			
-			ShoppingCartMapping m = new ShoppingCartMapping(cart, customer);
+			Mapping m = new Mapping("cart", event, cart, customer);
 			String json = mapper.writeValueAsString(m);
 			
-			String indexName = new StringBuilder().append(INDEX_NAME).append(store.getCode()).toString();
+			String indexName = new StringBuilder().append(INDEX_NAME).append(store.getCode().toLowerCase()).toString();
 
 	        
 	        IndexRequest indexRequest = new IndexRequest(indexName);
@@ -69,20 +64,6 @@ public class IndexShoppingCartProcessor extends IndexEntityProcessor implements 
 		}
 
 	}
-	
-	class ShoppingCartMapping {
-		private ShoppingCart cart;
-		private Customer customer;
-		ShoppingCartMapping(ShoppingCart cart, Customer customer) {
-			this.cart = cart;
-			this.customer = customer;
-		}
-		public ShoppingCart getCart() {
-			return cart;
-		}
-		public Customer getCustomer() {
-			return customer;
-		}
-	}
+
 
 }

@@ -18,6 +18,7 @@ import javax.persistence.TableGenerator;
 
 import javax.validation.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.common.audit.AuditListener;
 import com.salesmanager.core.model.common.audit.AuditSection;
@@ -33,7 +34,7 @@ public class Group extends SalesManagerEntity<Integer, Group> implements Auditab
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3786127652573709701L;
+	private static final long serialVersionUID = 1L;
 	@Id
 	@Column(name = "GROUP_ID", unique=true, nullable=false)
 	@TableGenerator(name = "TABLE_GEN", table = "SM_SEQUENCER", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "GROUP_SEQ_NEXT_VAL")
@@ -56,6 +57,7 @@ public class Group extends SalesManagerEntity<Integer, Group> implements Auditab
 		this.groupName = groupName;
 	}
 	
+	@JsonIgnore
 	@ManyToMany(mappedBy = "groups")//TODO LAZY LOAD
 	private Set<Permission> permissions = new HashSet<Permission>();	
 	

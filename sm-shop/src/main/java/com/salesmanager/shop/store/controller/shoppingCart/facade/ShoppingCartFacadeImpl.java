@@ -81,7 +81,7 @@ public class ShoppingCartFacadeImpl
 
     @Inject
     private ProductAttributeService productAttributeService;
-    
+
 	@Inject
 	@Qualifier("img")
 	private ImageFilePath imageUtils;
@@ -176,6 +176,7 @@ public class ShoppingCartFacadeImpl
         shoppingCartDataPopulator.setShoppingCartCalculationService( shoppingCartCalculationService );
         shoppingCartDataPopulator.setPricingService( pricingService );
         shoppingCartDataPopulator.setimageUtils(imageUtils);
+
 
         return shoppingCartDataPopulator.populate( cartModel, store, language );
     }
@@ -467,7 +468,8 @@ public class ShoppingCartFacadeImpl
         return shoppingCartDataPopulator.populate( shoppingCartModel, merchantStore, language );
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public ShoppingCartData removeCartItem( final Long itemID, final String cartId ,final MerchantStore store,final Language language )
         throws Exception
     {
@@ -494,11 +496,14 @@ public class ShoppingCartFacadeImpl
                     
                     cartModel.setLineItems(shoppingCartItemSet);
 
+
                     ShoppingCartDataPopulator shoppingCartDataPopulator = new ShoppingCartDataPopulator();
                     shoppingCartDataPopulator.setShoppingCartCalculationService( shoppingCartCalculationService );
                     shoppingCartDataPopulator.setPricingService( pricingService );
                     shoppingCartDataPopulator.setimageUtils(imageUtils);
                     return shoppingCartDataPopulator.populate( cartModel, store, language );
+                    
+
                 }
             }
         }
@@ -549,7 +554,8 @@ public class ShoppingCartFacadeImpl
         return null;
     }
     
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public ShoppingCartData updateCartItems( final List<ShoppingCartItem> shoppingCartItems, final MerchantStore store, final Language language )
             throws Exception
         {
@@ -596,6 +602,8 @@ public class ShoppingCartFacadeImpl
     		
     		cartModel.setLineItems(cartItems);
     		shoppingCartService.saveOrUpdate( cartModel );
+
+    		
             LOG.info( "Cart entry updated with desired quantity" );
             ShoppingCartDataPopulator shoppingCartDataPopulator = new ShoppingCartDataPopulator();
             shoppingCartDataPopulator.setShoppingCartCalculationService( shoppingCartCalculationService );
@@ -712,6 +720,7 @@ public class ShoppingCartFacadeImpl
 	}
 	
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void removeShoppingCartItem(String cartCode, Long productId,
 	      MerchantStore merchant, Language language) throws Exception {
@@ -751,6 +760,7 @@ public class ShoppingCartFacadeImpl
         
         //remaining items
         cart.setLineItems(items);
+
         ReadableShoppingCart readableShoppingCart = null;
         
         if(items.size()>0) {

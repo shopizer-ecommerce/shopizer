@@ -40,7 +40,7 @@ public class ProcessConfiguration {
 	@Bean
 	public List<OrderProcessor> orderPostProcessors() {
 		List<OrderProcessor> processors = new ArrayList<OrderProcessor>();
-		processors.add(indexOrderProcessor);
+		//processors.add(indexOrderProcessor);
 		return processors;
 	}
 	
@@ -51,7 +51,7 @@ public class ProcessConfiguration {
 	@Bean
 	public List<ShoppingCartProcessor> shoppingCartPostProcessors() {
 		List<ShoppingCartProcessor> processors = new ArrayList<ShoppingCartProcessor>();
-		//processors.add();
+		//processors.add(shippingCartProcessor);
 		return processors;
 	}
 
