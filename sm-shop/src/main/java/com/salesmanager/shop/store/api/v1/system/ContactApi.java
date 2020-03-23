@@ -49,6 +49,6 @@ public class ContactApi {
       HttpServletRequest request) {
     Locale locale = languageService.toLocale(language, merchantStore);
     emailTemplatesUtils.sendContactEmail(contact, merchantStore, locale, request.getContextPath());
-    return ResponseEntity.ok("contact form sent");
+    return ResponseEntity.ok("{\"message\"=\"contact form sent\"");
   }
 }

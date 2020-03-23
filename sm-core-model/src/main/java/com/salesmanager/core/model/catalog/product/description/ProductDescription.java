@@ -2,9 +2,9 @@ package com.salesmanager.core.model.catalog.product.description;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.UniqueConstraint;
@@ -15,24 +15,20 @@ import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.common.description.Description;
 
 @Entity
-@Table(name = "PRODUCT_DESCRIPTION", schema=SchemaConstant.SALESMANAGER_SCHEMA, uniqueConstraints={
-	@UniqueConstraint(columnNames={
-			"PRODUCT_ID",
-			"LANGUAGE_ID"
-		})
-	}
-)
+@Table(name = "PRODUCT_DESCRIPTION", 
+		schema = SchemaConstant.SALESMANAGER_SCHEMA, 
+		uniqueConstraints = {@UniqueConstraint(columnNames = { "PRODUCT_ID", "LANGUAGE_ID" })},
+		indexes = {@Index(name = "PRODUCT_DESCRIPTION_SEF_URL", columnList = "SEF_URL")})
 
 @TableGenerator(name = "description_gen", table = "SM_SEQUENCER", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "product_description_seq", allocationSize = SchemaConstant.DESCRIPTION_ID_ALLOCATION_SIZE, initialValue = SchemaConstant.DESCRIPTION_ID_START_VALUE)
-//@SequenceGenerator(name = "description_gen", sequenceName = "product_description_seq", allocationSize = SchemaConstant.DESCRIPTION_ID_SEQUENCE_START)
 public class ProductDescription extends Description {
 	private static final long serialVersionUID = 1L;
-	
+
 	@JsonIgnore
 	@ManyToOne(targetEntity = Product.class)
 	@JoinColumn(name = "PRODUCT_ID", nullable = false)
 	private Product product;
-	
+
 	@Column(name = "PRODUCT_HIGHLIGHT")
 	private String productHighlight;
 
