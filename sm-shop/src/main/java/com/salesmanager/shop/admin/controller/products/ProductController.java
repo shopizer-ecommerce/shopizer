@@ -284,6 +284,19 @@ public class ProductController {
 		model.addAttribute("productTypes", productTypes);
 		model.addAttribute("taxClasses", taxClasses);
 		
+		boolean productAlreadyExists = false;
+		if (!StringUtils.isBlank(product.getProduct().getSku())) {
+			try {
+				Product productByCode = productService.getByCode(product.getProduct().getSku(),language);
+				productAlreadyExists = productByCode != null;
+				
+				if(productAlreadyExists) throw new Exception();
+				} catch (Exception e) {
+				ObjectError error = new ObjectError("product.sku",messages.getMessage("message.sku.exists", locale));
+				result.addError(error);
+			}
+		}
+		
 		//validate price
 		BigDecimal submitedPrice = null;
 		try {
