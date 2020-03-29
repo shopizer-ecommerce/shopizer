@@ -7,4 +7,7 @@ Release changes in version 2.11.0
 - Spring security java configuration
 - JPA / Hibernate java configuration
 
+Issues:
+- #409
+
 

@@ -122,6 +122,7 @@
         </executions>
       </plugin>
       <!--OSSRH -->
+            <!--
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
@@ -134,8 +135,8 @@
           </execution>
         </executions>
       </plugin>
-      <!-- OSSRH -->
-      			<!--<plugin>
+
+      		<plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-gpg-plugin</artifactId>
               <version>1.5</version>
@@ -148,7 +149,8 @@
                   </goals>
                 </execution>
               </executions>
-            </plugin>-->
+            </plugin>
+    -->
     </plugins>
   </build>
 </project>

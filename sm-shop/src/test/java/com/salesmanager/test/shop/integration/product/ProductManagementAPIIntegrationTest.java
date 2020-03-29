@@ -4,12 +4,14 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.springframework.http.HttpStatus.CREATED;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.http.HttpEntity;
@@ -17,6 +19,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.salesmanager.core.business.constants.Constants;
@@ -49,8 +52,11 @@ public class ProductManagementAPIIntegrationTest extends ServicesTestSupport {
 
     @Test
     public void createProductWithCategory() throws Exception {
+    	
+    	//ReadableProduct product = readyToWorkProduct();
+    	//assertNotNull(product);
 
-        final PersistableCategory newCategory = new PersistableCategory();
+       final PersistableCategory newCategory = new PersistableCategory();
         newCategory.setCode("test-cat");
         newCategory.setSortOrder(1);
         newCategory.setVisible(true);

@@ -141,6 +141,7 @@ public class ShoppingCartFacadeImpl
         com.salesmanager.core.model.shoppingcart.ShoppingCartItem shoppingCartItem =
             createCartItem( cartModel, item, store );
         
+        
         boolean duplicateFound = false;
         if(CollectionUtils.isEmpty(item.getShoppingCartAttributes())) {//increment quantity
         	//get duplicate item from the cart
@@ -158,9 +159,10 @@ public class ShoppingCartFacadeImpl
         			}
         		}
         	}
-        } 
+        }
         
         if(!duplicateFound) {
+        	//shoppingCartItem.getAttributes().stream().forEach(a -> {a.setProductAttributeId(productAttributeId);});
         	cartModel.getLineItems().add( shoppingCartItem );
         }
         
@@ -468,7 +470,6 @@ public class ShoppingCartFacadeImpl
         return shoppingCartDataPopulator.populate( shoppingCartModel, merchantStore, language );
     }
 
-    @SuppressWarnings("unchecked")
 	@Override
     public ShoppingCartData removeCartItem( final Long itemID, final String cartId ,final MerchantStore store,final Language language )
         throws Exception
@@ -485,7 +486,6 @@ public class ShoppingCartFacadeImpl
                         new HashSet<com.salesmanager.core.model.shoppingcart.ShoppingCartItem>();
                     for ( com.salesmanager.core.model.shoppingcart.ShoppingCartItem shoppingCartItem : cartModel.getLineItems() )
                     {
-                    	//if ( shoppingCartItem.getProduct().getId().longValue() == itemID.longValue() )
                         if(shoppingCartItem.getId().longValue() == itemID.longValue() )
                         {
                     		shoppingCartService.deleteShoppingCartItem(itemID);
@@ -759,15 +759,16 @@ public class ShoppingCartFacadeImpl
 	    }
         
         //remaining items
-        cart.setLineItems(items);
+	    if(items.size()>0) {
+	    	cart.setLineItems(items);
+	    } else {
+	    	cart.getLineItems().clear();
+	    }
 
-        ReadableShoppingCart readableShoppingCart = null;
-        
-        if(items.size()>0) {
+        //if(items.size()>0) {
           shoppingCartService.saveOrUpdate(cart);//update cart with remaining items
-          readableShoppingCart = this.getByCode(cartCode, merchant, language);
-          
-        }
+          //ReadableShoppingCart readableShoppingCart = this.getByCode(cartCode, merchant, language);
+        //}
 
 	}
 	

@@ -1,18 +1,14 @@
 package com.salesmanager.test.shoppingcart;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
-import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.category.CategoryDescription;
 import com.salesmanager.core.model.catalog.product.Product;
@@ -47,7 +43,6 @@ import com.salesmanager.core.model.shoppingcart.ShoppingCartItem;
  * @author Carl Samson
  *
  */
-@Ignore
 public class ShoppingCartTest extends com.salesmanager.test.common.AbstractSalesManagerCoreTestCase {
 	
 
@@ -235,9 +230,7 @@ public class ShoppingCartTest extends com.salesmanager.test.common.AbstractSales
 	    item.setShoppingCart(shoppingCart);
 	    
 	    FinalPrice price = pricingService.calculateProductPrice(product);
-	    
-	    //FinalPrice price = productPriceUtil.getFinalPrice(product);
-	    
+
 	    item.setItemPrice(price.getFinalPrice());
 	    item.setQuantity(1);
 	    
@@ -246,47 +239,27 @@ public class ShoppingCartTest extends com.salesmanager.test.common.AbstractSales
 	    item.getAttributes().add(attributeItem);
 	    
 	    shoppingCart.getLineItems().add(item);
+
 	    
-	    
-	    System.out.println("Before create cart");
-	    
+	    //create cart
 	    shoppingCartService.create(shoppingCart);
-	    
-	    
-	    /** Now modify product definition **/
-	    
-	    System.out.println("Before getting product");
-	    
-	    Product retrievedProduct = productService.getById(product.getId());
-	    
-	    Set<ProductAttribute> attributes = retrievedProduct.getAttributes();
-	    
-	    Assert.assertNotNull(attributes);
-	    
-	    for(ProductAttribute attr : attributes) {
-	    	productAttributeService.delete(attr);
-	    }
-	    
-	    
+
 	    
 	    /** Retrieve cart **/
-	    
-	    System.out.println("Before getting cart");
-	    
+
 	    ShoppingCart retrievedCart = shoppingCartService.getByCode(cartCode.toString(), store);
 	    
 	    Assert.assertNotNull(retrievedCart);
 	    
+	    /** Delete cart **/
+	    shoppingCartService.delete(retrievedCart);
 	    
-	    Product deletedProduct = productService.getById(product.getId());
+	    /** Check if cart has been deleted **/
+	    retrievedCart = shoppingCartService.getByCode(cartCode.toString(), store);
 	    
-	    productService.delete(deletedProduct);
+	    Assert.assertNull(retrievedCart);
 	    
-	    
-	    //TODO delete product
-	    //expect shopping cart to be deleted since no products are attached
-	    
-  
+
 
 	}
 	

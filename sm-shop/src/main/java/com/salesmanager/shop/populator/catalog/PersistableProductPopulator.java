@@ -218,6 +218,7 @@ public class PersistableProductPopulator extends
 				productAvailability.setProduct(target);
 				productAvailability.setProductQuantityOrderMin(1);
 				productAvailability.setProductQuantityOrderMax(1);
+				productAvailability.setAvailable(Boolean.valueOf(target.isAvailable()));
 				
 				for(ProductPriceEntity priceEntity : source.getProductPrices()) {
 					
@@ -276,6 +277,7 @@ public class PersistableProductPopulator extends
 				productAvailability.setProductQuantityOrderMin(1);
 				productAvailability.setProductQuantityOrderMax(1);
 				productAvailability.setRegion(Constants.ALL_REGIONS);
+				productAvailability.setAvailable(Boolean.valueOf(target.isAvailable()));
 
 
 				if(defaultPrice != null) {

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -558,7 +559,28 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 	@Override
 	@Transactional
 	public void deleteShoppingCartItem(Long id) {
-		shoppingCartItemRepository.deleteById(id);
+		
+		
+		ShoppingCartItem item = shoppingCartItemRepository.findOne(id);
+		if(item != null) {
+			
+			
+			if(item.getAttributes() != null) {
+				item.getAttributes().stream().forEach(a -> {shoppingCartAttributeItemRepository.deleteById(a.getId());});
+				item.getAttributes().clear();
+			}
+			
+			
+			//refresh
+			item = shoppingCartItemRepository.findOne(id);
+
+			//delete
+			shoppingCartItemRepository.deleteById(id);
+			
+			
+		}
+		
+
 	}
 
 }
