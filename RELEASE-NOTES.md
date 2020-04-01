@@ -1,7 +1,7 @@
 Release changes in version 2.11.0
 
 
-- Spring boot 2.2.4 RELEASE
+- Spring boot 2.2.5 RELEASE
 - Hikari datasource/pool
 - C3PO removal
 - Spring security java configuration
@@ -9,5 +9,7 @@ Release changes in version 2.11.0
 
 Issues:
 - #409
-
+- #402
+- #400
+- #373
 
