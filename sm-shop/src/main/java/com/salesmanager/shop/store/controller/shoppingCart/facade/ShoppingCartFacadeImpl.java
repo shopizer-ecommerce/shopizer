@@ -912,7 +912,7 @@ public class ShoppingCartFacadeImpl
 		
 		Validate.notNull(customer,"Customer cannot be null");
 		Validate.notNull(customer.getId(),"Customer.id cannot be null or empty");
-		
+		if(item.getQuantity() < 1) item.setQuantity(1);
 		//Check if customer has an existing shopping cart
 		ShoppingCart cartModel = shoppingCartService.getByCustomer(customer);
 		
