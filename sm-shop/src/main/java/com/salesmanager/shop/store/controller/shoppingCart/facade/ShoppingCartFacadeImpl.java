@@ -108,7 +108,7 @@ public class ShoppingCartFacadeImpl
     {
 
         ShoppingCart cartModel = null;
-        
+        if(item.getQuantity() < 1) item.setQuantity(1);
         /**
          * Sometimes a user logs in and a shopping cart is present in db (shoppingCartData
          * but ui has no cookie with shopping cart code so the cart code will have
@@ -216,7 +216,7 @@ public class ShoppingCartFacadeImpl
         }
         	
         for(ProductAvailability availability : availabilities) {
-        	if(availability.getProductQuantity() == null || availability.getProductQuantity().intValue() ==0) {
+        	if(availability.getProductQuantity() == null || availability.getProductQuantity().intValue() <= 0) {
                 throw new Exception( "Item with id " + product.getId() + " is not available");
         	}
         }
@@ -288,7 +288,7 @@ public class ShoppingCartFacadeImpl
         }
         	
         for(ProductAvailability availability : availabilities) {
-        	if(availability.getProductQuantity() == null || availability.getProductQuantity().intValue() ==0) {
+        	if(availability.getProductQuantity() == null || availability.getProductQuantity().intValue() <= 0) {
                 throw new Exception( "Item with id " + product.getId() + " is not available");
         	}
         }
@@ -554,8 +554,7 @@ public class ShoppingCartFacadeImpl
         return null;
     }
     
-    @SuppressWarnings("unchecked")
-	@Override
+    @Override
     public ShoppingCartData updateCartItems( final List<ShoppingCartItem> shoppingCartItems, final MerchantStore store, final Language language )
             throws Exception
         {
@@ -720,7 +719,6 @@ public class ShoppingCartFacadeImpl
 	}
 	
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void removeShoppingCartItem(String cartCode, Long productId,
 	      MerchantStore merchant, Language language) throws Exception {
@@ -914,7 +912,7 @@ public class ShoppingCartFacadeImpl
 		
 		Validate.notNull(customer,"Customer cannot be null");
 		Validate.notNull(customer.getId(),"Customer.id cannot be null or empty");
-		
+		if(item.getQuantity() < 1) item.setQuantity(1);
 		//Check if customer has an existing shopping cart
 		ShoppingCart cartModel = shoppingCartService.getByCustomer(customer);
 		
