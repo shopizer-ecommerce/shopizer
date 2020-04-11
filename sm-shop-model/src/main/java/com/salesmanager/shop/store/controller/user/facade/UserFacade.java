@@ -5,6 +5,7 @@ import java.util.List;
 import com.salesmanager.core.model.common.Criteria;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.model.user.UserCriteria;
 import com.salesmanager.shop.model.security.ReadablePermission;
 import com.salesmanager.shop.model.user.PersistableUser;
 import com.salesmanager.shop.model.user.ReadableUser;
@@ -99,7 +100,7 @@ public interface UserFacade {
    * @param language
    * @return
    */
-  ReadableUserList listByCriteria (Criteria criteria, int page, int count, Language language);
+  ReadableUserList listByCriteria (UserCriteria criteria, int page, int count, Language language);
   
   /**
    * Delete user
@@ -123,5 +124,12 @@ public interface UserFacade {
   void changePassword(Long userId, String authenticatedUser, UserPassword changePassword);
 
   void authorizedGroups(String authenticatedUser, PersistableUser user);
+  
+  /**
+   * Update user enable / disabled flag
+   * @param store
+   * @param user
+   */
+  void updateEnabled(MerchantStore store, PersistableUser user);
 
 }

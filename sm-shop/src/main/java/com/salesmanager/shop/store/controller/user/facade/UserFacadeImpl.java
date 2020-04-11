@@ -29,6 +29,7 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.user.Group;
 import com.salesmanager.core.model.user.Permission;
 import com.salesmanager.core.model.user.User;
+import com.salesmanager.core.model.user.UserCriteria;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.security.PersistableGroup;
 import com.salesmanager.shop.model.security.ReadableGroup;
@@ -429,7 +430,7 @@ public class UserFacadeImpl implements UserFacade {
 	}
 
 	@Override
-	public ReadableUserList listByCriteria(Criteria criteria, int page, int count, Language language) {
+	public ReadableUserList listByCriteria(UserCriteria criteria, int page, int count, Language language) {
 		try {
 			ReadableUserList readableUserList = new ReadableUserList();
 			// filtering by userName is not in this implementation
@@ -507,6 +508,28 @@ public class UserFacadeImpl implements UserFacade {
 		
 		return roles.size() > 0;
 
+	}
+
+	@Override
+	public void updateEnabled(MerchantStore store, PersistableUser user) {
+		Validate.notNull(user, "User cannot be null");
+		Validate.notNull(store, "MerchantStore cannot be null");
+		Validate.notNull(user.getId(), "User.id cannot be null");
+		
+		try {
+			User modelUser = userService.findByStore(user.getId(), store.getCode());
+			
+			if(modelUser == null) {
+				throw new ResourceNotFoundException("User with id [" + user.getId() + "] not found for store [" + store.getCode() + "]");
+			}
+			
+			modelUser.setActive(user.isActive());
+			userService.saveOrUpdate(modelUser);
+			
+		} catch (ServiceException e) {
+			throw new ServiceRuntimeException("Error while updating user enable flag",e);
+		}
+		
 	}
 
 

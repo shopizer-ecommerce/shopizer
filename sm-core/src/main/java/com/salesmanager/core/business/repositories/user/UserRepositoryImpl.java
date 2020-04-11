@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.utils.RepositoryHelper;
 import com.salesmanager.core.model.common.Criteria;
 import com.salesmanager.core.model.common.GenericEntityList;
 import com.salesmanager.core.model.user.User;
@@ -23,10 +24,16 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
   @SuppressWarnings("unchecked")
   @Override
   public GenericEntityList<User> listByCriteria(Criteria criteria) throws ServiceException {
+	  
+	/**
+	 * Name like
+	 * email like  
+	 */
+	  
+	 
     try {
       StringBuilder req = new StringBuilder();
       req.append(
-          //"select distinct u from User as u left join fetch u.groups ug left join fetch u.defaultLanguage ud join fetch u.merchantStore um left join fetch ug.permissions ugp");
           "select distinct u from User as u left join fetch u.groups ug left join fetch u.defaultLanguage ud join fetch u.merchantStore um");
       StringBuilder countBuilder = new StringBuilder();
       countBuilder.append("select count(distinct u) from User as u join u.merchantStore um");
@@ -59,16 +66,25 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
       @SuppressWarnings("rawtypes")
       GenericEntityList entityList = new GenericEntityList();
       entityList.setTotalCount(count.intValue());
-
-      if (criteria.getMaxCount() > 0) {
-
-        q.setFirstResult(criteria.getStartIndex());
-        if (criteria.getMaxCount() < count.intValue()) {
-          q.setMaxResults(criteria.getMaxCount());
-        } else {
-          q.setMaxResults(count.intValue());
-        }
-      }
+      
+      /**
+       * Configure pagination using setMaxResults and setFirstResult method
+       */
+      
+      q = RepositoryHelper.paginateQuery(q, count, entityList, criteria);
+      
+/*      if(criteria.isLegacyPagination()) {
+	      if (criteria.getMaxCount() > 0) {
+	        q.setFirstResult(criteria.getStartIndex());
+	        if (criteria.getMaxCount() < count.intValue()) {
+	          q.setMaxResults(criteria.getMaxCount());
+	        } else {
+	          q.setMaxResults(count.intValue());
+	        }
+	      }
+      } else {
+    	  
+      }*/
 
       List<User> users = q.getResultList();
       entityList.setList(users);

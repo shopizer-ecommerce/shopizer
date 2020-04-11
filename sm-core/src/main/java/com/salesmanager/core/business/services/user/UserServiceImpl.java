@@ -17,6 +17,7 @@ import com.salesmanager.core.model.common.Criteria;
 import com.salesmanager.core.model.common.GenericEntityList;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.user.User;
+import com.salesmanager.core.model.user.UserCriteria;
 
 
 
@@ -95,16 +96,14 @@ public class UserServiceImpl extends SalesManagerEntityServiceImpl<Long, User>
 
 
 @Override
-public Page<User> listByCriteria(Criteria criteria, int page, int count) throws ServiceException {
+public Page<User> listByCriteria(UserCriteria criteria, int page, int count) throws ServiceException {
 	
 	Pageable pageRequest = PageRequest.of(page, count);
 	Page<User> users = null;
 	if(StringUtils.isBlank(criteria.getStoreCode())) {
-		
-		users = pageableUserRepository.listAll(criteria.getUser(), pageRequest);
+		users = pageableUserRepository.listAll(criteria.getAdminEmail(), pageRequest);
 	} else {
-
-		users = pageableUserRepository.listByStore(criteria.getStoreCode(), criteria.getUser(), pageRequest);
+		users = pageableUserRepository.listByStore(criteria.getStoreCode(), criteria.getAdminEmail(), pageRequest);
 	}
 	
 	

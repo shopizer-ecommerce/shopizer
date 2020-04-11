@@ -88,7 +88,7 @@ public class MerchantStoreApi {
       response = ReadableMerchantStore.class)
   @ApiImplicitParams({
     @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
-  public ReadableMerchantStoreList stores(
+  public ReadableMerchantStoreList list(
 	  @PathVariable String code,
       @ApiIgnore Language language,
       @RequestParam(value = "page", required = false, defaultValue="0") Integer page,

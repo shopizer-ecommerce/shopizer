@@ -10,6 +10,7 @@ import com.salesmanager.core.model.common.Criteria;
 import com.salesmanager.core.model.common.GenericEntityList;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.user.User;
+import com.salesmanager.core.model.user.UserCriteria;
 
 
 
@@ -35,7 +36,7 @@ public interface UserService extends SalesManagerEntityService<Long, User> {
   @Deprecated
   GenericEntityList<User> listByCriteria(Criteria criteria) throws ServiceException;
   
-  Page<User> listByCriteria(Criteria criteria, int page, int count) throws ServiceException;
+  Page<User> listByCriteria(UserCriteria criteria, int page, int count) throws ServiceException;
 
 
 
