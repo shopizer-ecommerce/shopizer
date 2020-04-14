@@ -6,7 +6,7 @@
 	http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
 	http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security.xsd">
-	
+
 	<!--
 	https://github.com/sunilpulugula/SpringSecuritySocialLoginExample
 	-->
@@ -17,23 +17,23 @@
     <!-- OK -->
 	<beans:bean id="customerFacade" class="com.salesmanager.shop.store.controller.customer.facade.CustomerFacadeImpl">
 	</beans:bean>
-	
+
 	<!-- OK -->
 	<!-- JDBC Customer details -->
 	<beans:bean id="customerDetailsService"
 		class="com.salesmanager.shop.store.security.CustomerServicesImpl">
 	</beans:bean>
-	
+
 	<!-- OK -->
 	<beans:bean id="jwtCustomerDetailsService"
 		class="com.salesmanager.shop.store.security.JWTCustomerServicesImpl">
 	</beans:bean>
-	
+
 	<!-- OK -->
 	 <beans:bean id="jwtUserDetailsService"
 		class="com.salesmanager.shop.store.security.admin.JWTAdminServicesImpl">
 	</beans:bean>
-	
+
     <!-- OK -->
 	<!-- JDBC User details -->
 	<beans:bean id="userDetailsService"
@@ -45,32 +45,32 @@
 	    <!-- strength 4 to 31 -->
 		<beans:constructor-arg value="11"/>
 	</beans:bean>
-	
+
 	<!--OK -->
 	<beans:bean id="adminAccessDenied"
 		class="com.salesmanager.shop.utils.AdminAccessDeniedHandler">
 		<beans:property name="accessDeniedUrl" value="/admin/denied.html" />
 	</beans:bean>
 
-	
+
 	<!-- updates last user logon timestamp -->
 	<!-- OK -->
 	<beans:bean id="userAuthenticationSuccessHandler" class="com.salesmanager.shop.admin.security.UserAuthenticationSuccessHandler">
 	</beans:bean>
-	
+
 	<!-- OK -->
 	<beans:bean id="servicesAuthenticationSuccessHandler" class="com.salesmanager.shop.store.security.ServicesAuthenticationSuccessHandler">
 	</beans:bean>
-	
 
-	
+
+
 	<!-- spring security 4 -->
 	<http pattern="/resources/**" security="none" /><!-- remove css and other static resources -->
 	<http pattern="/layout/**" security="none" /><!-- remove css and other static resources -->
-	
+
 	<!-- OK -->
-	<http pattern="/admin/**" 
-		auto-config="true" 
+	<http pattern="/admin/**"
+		auto-config="true"
 		use-expressions="true"
 		authentication-manager-ref="adminAuthenticationManager">
 		<!-- Shopizer logon page -->
@@ -79,45 +79,45 @@
 		<intercept-url pattern="/admin/denied.html" access="permitAll" />
 		<intercept-url pattern="/admin/unauthorized.html" access="permitAll" />
 		<intercept-url pattern="/admin/users/resetPassword.html*" access="permitAll" />
-		<intercept-url pattern="/admin/users/resetPasswordSecurityQtn.html*" access="permitAll" /> 
- 		
- 		
- 		
+		<intercept-url pattern="/admin/users/resetPasswordSecurityQtn.html*" access="permitAll" />
+
+
+
  		<intercept-url pattern="/admin" access="hasRole('AUTH')" />
 		<intercept-url pattern="/admin/" access="hasRole('AUTH')" />
 		<intercept-url pattern="/admin/*.html*" access="hasRole('AUTH')" />
 		<intercept-url pattern="/admin/*/*.html*" access="hasRole('AUTH')" />
 		<intercept-url pattern="/admin/*/*/*.html*" access="hasRole('AUTH')" />
-		
-		
 
-			
+
+
+
 		<form-login login-page="/admin/logon.html"
-					username-parameter="username" 
-					password-parameter="password" 
-					login-processing-url="/login" 
+					username-parameter="username"
+					password-parameter="password"
+					login-processing-url="/login"
 					authentication-success-handler-ref="userAuthenticationSuccessHandler"
-					authentication-failure-url="/admin/logon.html?login_error=true" 
+					authentication-failure-url="/admin/logon.html?login_error=true"
 		/>
-			
-			
-		<logout invalidate-session="true" 
-			logout-success-url="/admin/home.html" 
+
+
+		<logout invalidate-session="true"
+			logout-success-url="/admin/home.html"
 			logout-url="/admin/logout" />
-			
+
 		<csrf disabled="true"/><!-- Spring security 4 -->
-			
+
 		<access-denied-handler ref="adminAccessDenied"/>
 	</http>
-	
+
 
 	<!-- OK -->
-	<http pattern="/shop/**" 
-		auto-config="true" 
+	<http pattern="/shop/**"
+		auto-config="true"
 		use-expressions="true"
-		entry-point-ref="shopAuthenticationEntryPoint"  
+		entry-point-ref="shopAuthenticationEntryPoint"
 		authentication-manager-ref="customerAuthenticationManager">
-		
+
 		<intercept-url pattern="/shop" access="permitAll" />
 		<intercept-url pattern="/shop/" access="permitAll" />
 		<intercept-url pattern="/shop/**" access="permitAll" />
@@ -133,21 +133,23 @@
 		<intercept-url pattern="/shop/customer/*/*.html*" access="hasRole('AUTH_CUSTOMER')" />
 		<intercept-url pattern="/shop/customer/*/*/*.html*" access="hasRole('AUTH_CUSTOMER')" />
 
-			
-		<logout invalidate-session="false" 
-			logout-success-url="/shop/" 
+
+		<logout invalidate-session="false"
+			logout-success-url="/shop/"
 			logout-url="/shop/customer/logout" />
 		<access-denied-handler error-page="/shop/"/>
-		
-		<csrf disabled="true"/><!-- Spring security 4 -->
+		<headers>
+					<header name="X-Content-Security-Policy" value="default-src 'self'"/>
+		</headers>
+
 	</http>
-	
+
 	<!-- OK-->
 	<!-- REST services v0-->
-	<http pattern="/services/**" 
-		create-session="stateless" 
-		use-expressions="true" 
-		authentication-manager-ref="adminAuthenticationManager" 
+	<http pattern="/services/**"
+		create-session="stateless"
+		use-expressions="true"
+		authentication-manager-ref="adminAuthenticationManager"
 		entry-point-ref="servicesAuthenticationEntryPoint">
 	      <intercept-url pattern="/services/private/**" access="hasRole('AUTH')"/>
 	      <intercept-url pattern="/services/public/**" access="permitAll"/>
@@ -155,26 +157,26 @@
 	      <http-basic />
 	      <csrf disabled="true"/><!-- Spring security 4 -->
     </http>
-    
+
     <!-- OK-->
     <!-- service user-->
-	<http pattern="/api/v1/services/**" 
-		create-session="stateless" 
-		use-expressions="true" 
-		authentication-manager-ref="adminAuthenticationManager" 
+	<http pattern="/api/v1/services/**"
+		create-session="stateless"
+		use-expressions="true"
+		authentication-manager-ref="adminAuthenticationManager"
 		entry-point-ref="servicesAuthenticationEntryPoint">
 	      <intercept-url pattern="/api/v1/services/private/**" access="hasRole('AUTH')"/>
 	      <form-login authentication-success-handler-ref="servicesAuthenticationSuccessHandler" />
 	      <http-basic />
 	      <csrf disabled="true"/><!-- Spring security 4 -->
     </http>
-    
+
     <!-- OK-->
     <!-- REST services v1 for Admin REALM -->
-    <http pattern="/api/v1/private/**" 
-		create-session="stateless" 
+    <http pattern="/api/v1/private/**"
+		create-session="stateless"
 		use-expressions="true"
-		authentication-manager-ref="jwtAdminAuthenticationManager" 
+		authentication-manager-ref="jwtAdminAuthenticationManager"
 		entry-point-ref="servicesAuthenticationEntryPoint">
 		  <form-login authentication-success-handler-ref="userAuthenticationSuccessHandler" />
 		  <intercept-url pattern="/api/v1/private/login" access="permitAll" />
@@ -184,40 +186,40 @@
 	      <custom-filter ref="authenticationTokenFilter" before="FORM_LOGIN_FILTER"/>
 	      <csrf disabled="true"/>
     </http>
-   
+
    <!-- OK -->
-   <!-- 
+   <!--
    https://stackoverflow.com/questions/40286549/spring-boot-security-cors
     -->
     <!-- REST services v1 for Customer REALM -->
     <!-- http://www.gauravbytes.com/2017/03/spring-security-digest-authentication.html
-    
+
     https://www.toptal.com/java/rest-security-with-jwt-spring-security-and-java
     https://github.com/szerhusenBC/jwt-spring-security-demo
-    
+
     FB
     https://github.com/ozgengunay/FBSpringSocialRESTAuth
-    
+
     App access token
     https://developers.facebook.com/tools/access_token/
-    
+
 
     FB user access token
     EAABZBKVBQN2QBALvVE6RfhdzNVw3JkZCN6HDzGqeFXJJ5kOupH8EZA5PQrgO4sAOy7MfOS8pfilGtWeYlhT6eA7v5Obj02uPBq9oW9mdZC52GuTWnO18kTUKpqAx45CjZCqoKDGsPzTk0DWLkdcBDo3aDuUKW3wiFLGeRyuVmBKTmOLprOVtI7nISmb4tTsYZD
-    
+
     Customer authentication api
      -->
-     
-	<http pattern="/api/v1/auth/**" 
-			create-session="stateless" 
-			use-expressions="true" 
+
+	<http pattern="/api/v1/auth/**"
+			create-session="stateless"
+			use-expressions="true"
 			authentication-manager-ref="jwtCustomerAuthenticationManager"
 			entry-point-ref="restAuthenticationEntryPoint">
-		  
+
 		  <intercept-url pattern="/api/v1/auth/register" access="permitAll" />
 		  <intercept-url pattern="/api/v1/auth/login" access="permitAll" />
 		  <intercept-url pattern="/api/v1/auth/refresh" access="permitAll" />
-		  <intercept-url pattern="/api/v1/auth/**" method="OPTIONS" access="permitAll"/>		
+		  <intercept-url pattern="/api/v1/auth/**" method="OPTIONS" access="permitAll"/>
 	      <intercept-url pattern="/api/v1/auth/**" access="hasRole('AUTH_CUSTOMER')"/>
 
 	      <custom-filter ref="authenticationTokenFilter" before="FORM_LOGIN_FILTER"/>
@@ -236,7 +238,7 @@
 			<password-encoder ref="passwordEncoder" hash="bcrypt"/>
 		</authentication-provider>
 	</authentication-manager>
-	
+
 	<!-- OK -->
 	<authentication-manager id="customerAuthenticationManager">
 		<authentication-provider user-service-ref="customerDetailsService">
@@ -251,7 +253,7 @@
 			<password-encoder ref="passwordEncoder" hash="bcrypt"/>
 		</authentication-provider>
 	</authentication-manager>
-	
+
 	<!-- OK -->
 	<!-- Authenticates admin API -->
  	<authentication-manager id="jwtAdminAuthenticationManager">
@@ -260,26 +262,26 @@
 		</authentication-provider>
 	</authentication-manager>
 
-	
-	
+
+
 	<!-- OK -->
 	<beans:bean id="adminAuthenticationEntryPoint"
   		class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint">
      	<beans:property name="realmName" value="admin-realm" />
 	</beans:bean>
-	
+
 	<!-- OK -->
 	<beans:bean id="shopAuthenticationEntryPoint"
   		class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint">
      	<beans:property name="realmName" value="shop-realm" />
 	</beans:bean>
-	
+
 	<!-- OK -->
 	<beans:bean id="servicesAuthenticationEntryPoint" class="com.salesmanager.shop.store.security.ServicesAuthenticationEntryPoint">
 	</beans:bean>
 
-	<!-- This bean encrypts the authorization details of the connection. In 
-		our example, the authorization details are stored as plain text. DO NOT USE 
+	<!-- This bean encrypts the authorization details of the connection. In
+		our example, the authorization details are stored as plain text. DO NOT USE
 		THIS IN PRODUCTION. -->
 	<beans:bean id="textEncryptor" class="org.springframework.security.crypto.encrypt.Encryptors"
 		factory-method="noOpText" />
