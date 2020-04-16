@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.inject.Inject;
 
+import org.jsoup.helper.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -103,5 +104,76 @@ public class MerchantStoreServiceImpl extends SalesManagerEntityServiceImpl<Inte
 	public List<MerchantStore> findAllStoreNames() throws ServiceException {
 		return merchantRepository.findAllStoreNames();
 	}
+
+	@Override
+	public MerchantStore getParent(String code) throws ServiceException {
+		Validate.notNull(code, "MerchantStore code cannot be null");
+
+		
+		//get it
+		MerchantStore storeModel = this.getByCode(code);
+		
+		if(storeModel == null) {
+			throw new ServiceException("Store with code [" + code + "] is not found");
+		}
+		
+		if(storeModel.isRetailer() && storeModel.getParent() == null) {
+			return storeModel;
+		}
+		
+		if(storeModel.getParent() == null) {
+			return storeModel;
+		}
+	
+		return merchantRepository.getById(storeModel.getParent().getId());
+	}
+
+
+	@Override
+	public List<MerchantStore> findAllStoreNames(String code) throws ServiceException {
+		return merchantRepository.findAllStoreNames(code);
+	}
+
+	/**
+	 * Store might be alone (known as retailer)
+	 * A retailer can have multiple child attached
+	 * 
+	 * This method from a store code is able to retrieve parent and childs.
+	 * Method can also filter on storeName
+	 */
+	@Override
+	public Page<MerchantStore> listByGroup(Optional<String> storeName, String code, int page, int count) throws ServiceException {
+		
+		String name = null;
+		if (storeName != null && storeName.isPresent()) {
+			name = storeName.get();
+		}
+
+		
+		MerchantStore store = getByCode(code);//if exist
+		Optional<Integer> id = Optional.ofNullable(store.getId());
+
+		
+		Pageable pageRequest = PageRequest.of(page, count);
+		
+		
+		Page<MerchantStore> stores = pageableMerchantRepository.listByGroup(code, id.get(), name, pageRequest);
+		return stores;
+		
+		
+	}
+
+	@Override
+	public boolean isStoreInGroup(String code) throws ServiceException{
+		
+		MerchantStore store = getByCode(code);//if exist
+		Optional<Integer> id = Optional.ofNullable(store.getId());
+		
+		List<MerchantStore> stores = merchantRepository.listByGroup(code, id.get());
+		
+		
+		return stores.size() > 0;
+	}
+
 
 }

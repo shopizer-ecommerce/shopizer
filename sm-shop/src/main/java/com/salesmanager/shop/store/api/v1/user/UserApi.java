@@ -103,7 +103,7 @@ public class UserApi {
 			throw new UnauthorizedException();
 		}
 		// only admin and superadmin allowed
-		userFacade.authorizedGroup(authenticatedUser, Stream.of("SUPERADMIN", "ADMIN").collect(Collectors.toList()));
+		userFacade.authorizedGroup(authenticatedUser, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()));
 
 		return userFacade.findById(id, merchantStore.getCode(), language);
 	}
@@ -128,7 +128,7 @@ public class UserApi {
 			throw new UnauthorizedException();
 		}
 		// only admin and superadmin allowed
-		userFacade.authorizedGroup(authenticatedUser, Stream.of("SUPERADMIN", "ADMIN").collect(Collectors.toList()));
+		userFacade.authorizedGroup(authenticatedUser, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()));
 
 		userFacade.authorizedGroups(authenticatedUser, user);
 
@@ -195,15 +195,6 @@ public class UserApi {
 		}
 
 
-/*		  java.util.ArrayList<String> parameterNames = new java.util.ArrayList<String>(); java.util.Enumeration enumeration =
-		  request.getParameterNames(); 
-		  while (enumeration.hasMoreElements()) {
-			  String parameterName = (String) enumeration.nextElement();
-			  System.out.println(parameterName); 
-			  String parameterValue = request.getParameter(parameterName);
-			  System.out.println(parameterValue); 
-		 }*/
-
 		UserCriteria criteria = (UserCriteria) this.createCriteria(request);
 		criteria.setStoreCode(merchantStore.getCode());
 
@@ -218,7 +209,7 @@ public class UserApi {
 			}
 		}
 
-		userFacade.authorizedGroup(authenticatedUser, Stream.of("SUPERADMIN", "ADMIN").collect(Collectors.toList()));
+		userFacade.authorizedGroup(authenticatedUser, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()));
 
 		return userFacade.listByCriteria(criteria, page, count, language);
 	}
@@ -261,7 +252,7 @@ public class UserApi {
 			userFacade.authorizedStore(authenticatedUser, merchantStore.getCode());
 		}
 
-		userFacade.authorizedGroup(authenticatedUser, Stream.of("SUPERADMIN", "ADMIN").collect(Collectors.toList()));
+		userFacade.authorizedGroup(authenticatedUser, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()));
 
 		userFacade.delete(id, merchantStore.getCode());
 	}

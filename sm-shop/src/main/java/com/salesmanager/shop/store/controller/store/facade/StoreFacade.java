@@ -118,6 +118,6 @@ public interface StoreFacade {
 	 * 
 	 * @return
 	 */
-	List<ReadableMerchantStore> getMerchantStoreNames();
+	List<ReadableMerchantStore> getMerchantStoreNames(MerchantStoreCriteria criteria);
 
 }

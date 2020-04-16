@@ -1,6 +1,7 @@
 package com.salesmanager.shop.store.controller.user.facade;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -192,6 +193,20 @@ public class UserFacadeImpl implements UserFacade {
 			User user = userService.findByStore(readableUser.getId(), merchantStoreCode);
 			if (user != null) {
 				authorized = true;
+			} else {
+				user = userService.getByUserName(userName);
+			}
+			
+			if(user != null && !authorized) {
+
+				//get parent
+				MerchantStore store = merchantStoreService.getParent(merchantStoreCode);
+
+				//user can be in parent
+				MerchantStore st = user.getMerchantStore();
+				if(store != null &&  st.getCode().equals(store.getCode())) {
+					authorized = true;
+				}
 			}
 
 			return authorized;
@@ -277,10 +292,7 @@ public class UserFacadeImpl implements UserFacade {
 			readableUserList.setTotalPages(userList.getTotalPage());
 			//readableUserList.setTotalPages(readableUserList.getData().size());
 			readableUserList.setRecordsFiltered(userList.getTotalCount());
-			/*
-			 * if (!org.apache.commons.lang3.StringUtils.isEmpty(drawParam)) {
-			 * readableUserList.setDraw(Integer.parseInt(drawParam)); }
-			 */
+
 			return readableUserList;
 		} catch (ServiceException e) {
 			throw new ServiceRuntimeException("Cannot get users by criteria user", e);
@@ -434,7 +446,27 @@ public class UserFacadeImpl implements UserFacade {
 		try {
 			ReadableUserList readableUserList = new ReadableUserList();
 			// filtering by userName is not in this implementation
-			Page<User> userList = userService.listByCriteria(criteria, page, count);
+			
+			
+			Page<User> userList = null;
+			
+			Optional<String> storeCode = Optional.ofNullable(criteria.getStoreCode());
+			if(storeCode.isPresent()) {
+				//get store
+				MerchantStore store = merchantStoreService.getByCode(storeCode.get());
+				if(store.isRetailer()) {
+					//get group stores
+					List<MerchantStore> stores = merchantStoreService.findAllStoreNames(store.getCode());
+					List<Integer> intList = stores.stream().map(s -> s.getId()).collect(Collectors.toList());
+					criteria.setStoreIds(intList);
+					//search over store list
+					criteria.setStoreCode(null);
+				}
+			} 
+			
+			
+			userList = userService.listByCriteria(criteria, page, count);
+			
 
 			List<ReadableUser> readableUsers = userList.getContent().stream()
 					.map(user -> convertUserToReadableUser(language, user)).collect(Collectors.toList());
