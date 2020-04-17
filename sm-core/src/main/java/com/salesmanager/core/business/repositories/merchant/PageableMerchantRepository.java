@@ -71,9 +71,9 @@ public interface PageableMerchantRepository extends PagingAndSortingRepository<M
 	  		*/
 	  		@Query(
 			  value = "select * from MERCHANT_STORE m "
-			  		+ "where m.STORE_CODE = ?1 or ?2 is null or m.PARENT_ID = ?2 "
+			  		+ "where (m.STORE_CODE = ?1 or (?2 is null or m.PARENT_ID = ?2)) "
 			  		+ "and (?3 is null or m.STORE_NAME like %?3%)",
-			  countQuery = "select count(*) from MERCHANT_STORE m where m.STORE_CODE = ?1 or ?2 is null or m.PARENT_ID = ?2 and (?3 is null or m.STORE_NAME like %?3%)", 
+			  countQuery = "select count(*) from MERCHANT_STORE m where (m.STORE_CODE = ?1 or (?2 is null or m.PARENT_ID = ?2)) and (?3 is null or m.STORE_NAME like %?3%)", 
 			  nativeQuery = true)
 			  Page<MerchantStore> listByGroup(String storeCode, Integer id, String storeName, Pageable pageable);
 	 
