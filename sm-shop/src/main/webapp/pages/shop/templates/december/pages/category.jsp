@@ -219,7 +219,6 @@ response.setDateHeader ("Expires", -1);
 					</div>
 			  </div>
 			  </c:if>
-			  <jsp:include page="/pages/shop/templates/exoticamobilia/sections/breadcrumb.jsp" />
 			  </header>
 
 			  
@@ -230,7 +229,7 @@ response.setDateHeader ("Expires", -1);
 			  </c:if>
 			  
 
-			<div class="bedroom-all-product-area ptb-80">
+			<div class="bedroom-all-product-area ptb-80" style="padding-top:10px;">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">

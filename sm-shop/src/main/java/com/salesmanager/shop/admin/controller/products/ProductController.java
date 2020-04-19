@@ -285,7 +285,7 @@ public class ProductController {
 		model.addAttribute("taxClasses", taxClasses);
 		
 		boolean productAlreadyExists = false;
-		if (!StringUtils.isBlank(product.getProduct().getSku())) {
+		if (!StringUtils.isBlank(product.getProduct().getSku()) && (product.getProduct().getId() == null || product.getProduct().getId().longValue() == 0)) {
 			try {
 				Product productByCode = productService.getByCode(product.getProduct().getSku(),language);
 				productAlreadyExists = productByCode != null;

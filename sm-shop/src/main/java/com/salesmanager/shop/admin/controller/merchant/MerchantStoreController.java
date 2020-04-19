@@ -22,6 +22,8 @@ import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.constants.EmailConstants;
 import com.salesmanager.shop.utils.*;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -175,6 +177,14 @@ public class MerchantStoreController {
 		Language language = (Language) request.getAttribute("LANGUAGE");
 		List<Language> languages = languageService.getLanguages();
 		List<Currency> currencies = currencyService.list();
+		if (CollectionUtils.isNotEmpty(currencies)) {
+			  Collections.sort(currencies, new Comparator<Currency>() {
+			      @Override
+			      public int compare(final Currency object1, final Currency object2) {
+			          return object1.getName().compareTo(object2.getName());
+			      }
+			  });
+			}
 		Date dt = store.getInBusinessSince();
 		if (dt != null) {
 			store.setDateBusinessSince(DateUtil.formatDate(dt));
