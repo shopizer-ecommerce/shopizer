@@ -35,7 +35,6 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.user.UserCriteria;
 import com.salesmanager.shop.constants.Constants;
-import com.salesmanager.shop.model.catalog.category.PersistableCategory;
 import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.model.entity.UniqueEntity;
 import com.salesmanager.shop.model.user.PersistableUser;

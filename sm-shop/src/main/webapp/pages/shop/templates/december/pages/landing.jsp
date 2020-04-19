@@ -14,6 +14,15 @@ response.setDateHeader ("Expires", -1);
 <%@page contentType="text/html"%>
 <%@page pageEncoding="UTF-8"%>
 
+	    <c:if test="${requestScope.CONTENT['heroSlider']!=null}">
+	    	 <!-- slider section -->
+	    	 <section class="slider">
+          		<div class="flexslider" id="heroSlider">
+			    	<sm:pageContent contentCode="heroSlider"/>
+       			</div>
+    		</section>
+		</c:if>
+
 
         <!-- home banner -->
         <!-- slider-area-start -->

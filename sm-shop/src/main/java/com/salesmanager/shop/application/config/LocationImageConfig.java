@@ -17,6 +17,9 @@ public class LocationImageConfig {
   
   @Value("${config.cms.method}")
   private String method;
+  
+  @Value("${config.cms.static.path}")
+  private String staticPath;
 
   @Bean
   public ImageFilePath img() {
@@ -28,7 +31,7 @@ public class LocationImageConfig {
 
 	} else {
 	    LocalImageFilePathUtils localImageFilePathUtils = new LocalImageFilePathUtils();
-	    localImageFilePathUtils.setBasePath("/static");
+	    localImageFilePathUtils.setBasePath(staticPath);
 	    return localImageFilePathUtils;
 	}
 	  

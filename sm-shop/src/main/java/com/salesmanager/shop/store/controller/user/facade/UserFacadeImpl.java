@@ -1,5 +1,6 @@
 package com.salesmanager.shop.store.controller.user.facade;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -466,10 +467,16 @@ public class UserFacadeImpl implements UserFacade {
 			
 			
 			userList = userService.listByCriteria(criteria, page, count);
-			
-
-			List<ReadableUser> readableUsers = userList.getContent().stream()
-					.map(user -> convertUserToReadableUser(language, user)).collect(Collectors.toList());
+			List<ReadableUser> readableUsers = new ArrayList<ReadableUser>();
+			if(userList != null) {
+				readableUsers = userList.getContent().stream()
+						.map(user -> convertUserToReadableUser(language, user)).collect(Collectors.toList());
+				
+				readableUserList.setRecordsTotal(userList.getTotalElements());
+				readableUserList.setTotalPages(userList.getTotalPages());
+				readableUserList.setNumber(userList.getSize());
+				readableUserList.setRecordsFiltered(userList.getSize());
+			}
 
 			readableUserList.setData(readableUsers);
 			
@@ -480,10 +487,7 @@ public class UserFacadeImpl implements UserFacade {
 			System.out.println(userList.getTotalPages());
 			*/
 			
-			readableUserList.setRecordsTotal(userList.getTotalElements());
-			readableUserList.setTotalPages(userList.getTotalPages());
-			readableUserList.setNumber(userList.getSize());
-			readableUserList.setRecordsFiltered(userList.getSize());
+
 
 			return readableUserList;
 		} catch (ServiceException e) {

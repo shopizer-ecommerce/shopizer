@@ -34,7 +34,12 @@
 		<c:otherwise>
 			<link rel="icon" href="<c:url value="/resources/templates/december/img/favicon.ico"/>"> 
 		</c:otherwise>
-		</c:choose> 
+		</c:choose>
+		
+		<c:if test="${requestScope.CONTENT['heroSlider']!=null}">
+		    <link rel="stylesheet" href="/resources/css/flexslider.css" type="text/css" media="screen" />
+    		<link rel="stylesheet" href="/resources/templates/december/css/header.css">
+		</c:if>
 		
 		
 		<!--  Theme -->
