@@ -400,8 +400,10 @@ $(document).ready(function() {
                   </ul>
                 </li>
                   
+                <c:if test="${requestScope.CONFIGS['displayPagesMenu']==true}">
                 <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="false"><s:message code="label.page" text="Page"/> <i class="fa fa-angle-down ml-5"></i></a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="false">
+                  <s:message code="label.page" text="Page"/> <i class="fa fa-angle-down ml-5"></i></a>
                   <ul class="dropdown-menu dropdown-menu-left">
                     <c:forEach items="${requestScope.CONTENT_PAGE}" var="content">
 	                    <c:if test="${not content.content.linkToMenu}">
@@ -410,6 +412,7 @@ $(document).ready(function() {
                     </c:forEach>
                   </ul>
                 </li>
+                </c:if>
                 <c:forEach items="${requestScope.CONTENT_PAGE}" var="content">
                 	<c:if test="${content.content.linkToMenu}">
                			<li><a href="<c:url value="/shop/pages/${content.seUrl}.html"/>" class="current">${content.name}</a></li>

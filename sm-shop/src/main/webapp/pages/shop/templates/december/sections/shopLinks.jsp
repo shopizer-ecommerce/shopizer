@@ -36,10 +36,6 @@
 		</c:otherwise>
 		</c:choose>
 		
-		<c:if test="${requestScope.CONTENT['heroSlider']!=null}">
-		    <link rel="stylesheet" href="/resources/css/flexslider.css" type="text/css" media="screen" />
-    		<link rel="stylesheet" href="/resources/templates/december/css/header.css">
-		</c:if>
 		
 		
 		<!--  Theme -->
@@ -54,6 +50,11 @@
     	<!-- december and common css file -->
     	<link href="<c:url value="/resources/css/sm.css" />" rel="stylesheet">
     	<link href="<c:url value="/resources/css/showLoading.css" />" rel="stylesheet">
+    	
+    	<c:if test="${requestScope.CONTENT['heroSlider']!=null}">
+		    <link rel="stylesheet" href="/resources/css/flexslider.css" type="text/css" media="screen" />
+    		<link rel="stylesheet" href="/resources/templates/december/css/header.css">
+		</c:if>
     	
     	<!-- cookie consent -->
     	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />

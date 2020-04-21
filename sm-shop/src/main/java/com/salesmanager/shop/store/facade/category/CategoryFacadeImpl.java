@@ -11,15 +11,18 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
 import javax.inject.Inject;
+
 import org.apache.commons.lang.Validate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import com.salesmanager.core.business.constants.Constants;
+
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductAttributeService;
+import com.salesmanager.core.business.services.merchant.MerchantStoreService;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOption;
@@ -46,6 +49,9 @@ public class CategoryFacadeImpl implements CategoryFacade {
 
 	@Inject
 	private CategoryService categoryService;
+	
+	@Inject
+	private MerchantStoreService merchantStoreService;
 
 	@Inject
 	private PersistableCategoryPopulator persistableCatagoryPopulator;
@@ -62,56 +68,69 @@ public class CategoryFacadeImpl implements CategoryFacade {
 	@Override
 	public ReadableCategoryList getCategoryHierarchy(MerchantStore store, ListCriteria criteria, int depth,
 			Language language, List<String> filter, int page, int count) {
+		
+		Validate.notNull(store,"MerchantStore can not be null");
 
-		List<Category> categories = null;
-		ReadableCategoryList returnList = new ReadableCategoryList();
-		// total count
-		int total = categoryService.count(store);
-		returnList.setTotalPages(total);
-		if (!CollectionUtils.isEmpty(filter) && filter.contains(FEATURED_CATEGORY)) {
-			categories = categoryService.getListByDepthFilterByFeatured(store, depth, language);
-			returnList.setRecordsTotal(categories.size());
-			returnList.setNumber(categories.size());
-		} else {
-			org.springframework.data.domain.Page<Category> pageable = categoryService.getListByDepth(store, language,
-					criteria != null ? criteria.getName() : null, depth, page, count);
-			categories = pageable.getContent();
-			returnList.setRecordsTotal(pageable.getTotalElements());
-			returnList.setNumber(pageable.getNumber());
+		
+		//get parent store
+		try {
+			
+			MerchantStore parent = merchantStoreService.getParent(store.getCode());
+
+
+			List<Category> categories = null;
+			ReadableCategoryList returnList = new ReadableCategoryList();
+			// total count
+			int total = categoryService.count(parent);
+			returnList.setTotalPages(total);
+			if (!CollectionUtils.isEmpty(filter) && filter.contains(FEATURED_CATEGORY)) {
+				categories = categoryService.getListByDepthFilterByFeatured(parent, depth, language);
+				returnList.setRecordsTotal(categories.size());
+				returnList.setNumber(categories.size());
+			} else {
+				org.springframework.data.domain.Page<Category> pageable = categoryService.getListByDepth(parent, language,
+						criteria != null ? criteria.getName() : null, depth, page, count);
+				categories = pageable.getContent();
+				returnList.setRecordsTotal(pageable.getTotalElements());
+				returnList.setNumber(pageable.getNumber());
+			}
+	
+	
+	
+			List<ReadableCategory> readableCategories = null;
+			if (filter != null && filter.contains(VISIBLE_CATEGORY)) {
+				readableCategories = categories.stream().filter(Category::isVisible)
+						.map(cat -> categoryReadableCategoryConverter.convert(cat, store, language))
+						.collect(Collectors.toList());
+			} else {
+				readableCategories = categories.stream()
+						.map(cat -> categoryReadableCategoryConverter.convert(cat, store, language))
+						.collect(Collectors.toList());
+			}
+	
+			Map<Long, ReadableCategory> readableCategoryMap = readableCategories.stream()
+					.collect(Collectors.toMap(ReadableCategory::getId, Function.identity()));
+	
+			readableCategories.stream()
+					// .filter(ReadableCategory::isVisible)
+					.filter(cat -> Objects.nonNull(cat.getParent()))
+					.filter(cat -> readableCategoryMap.containsKey(cat.getParent().getId())).forEach(readableCategory -> {
+						ReadableCategory parentCategory = readableCategoryMap.get(readableCategory.getParent().getId());
+						if (parentCategory != null) {
+							parentCategory.getChildren().add(readableCategory);
+						}
+					});
+	
+			List<ReadableCategory> filteredList = readableCategoryMap.values().stream().filter(cat -> cat.getDepth() == 0)
+					.sorted(Comparator.comparing(ReadableCategory::getSortOrder)).collect(Collectors.toList());
+	
+			returnList.setCategories(filteredList);
+	
+			return returnList;
+		
+		} catch (ServiceException e) {
+			throw new ServiceRuntimeException(e);
 		}
-
-
-
-		List<ReadableCategory> readableCategories = null;
-		if (filter != null && filter.contains(VISIBLE_CATEGORY)) {
-			readableCategories = categories.stream().filter(Category::isVisible)
-					.map(cat -> categoryReadableCategoryConverter.convert(cat, store, language))
-					.collect(Collectors.toList());
-		} else {
-			readableCategories = categories.stream()
-					.map(cat -> categoryReadableCategoryConverter.convert(cat, store, language))
-					.collect(Collectors.toList());
-		}
-
-		Map<Long, ReadableCategory> readableCategoryMap = readableCategories.stream()
-				.collect(Collectors.toMap(ReadableCategory::getId, Function.identity()));
-
-		readableCategories.stream()
-				// .filter(ReadableCategory::isVisible)
-				.filter(cat -> Objects.nonNull(cat.getParent()))
-				.filter(cat -> readableCategoryMap.containsKey(cat.getParent().getId())).forEach(readableCategory -> {
-					ReadableCategory parentCategory = readableCategoryMap.get(readableCategory.getParent().getId());
-					if (parentCategory != null) {
-						parentCategory.getChildren().add(readableCategory);
-					}
-				});
-
-		List<ReadableCategory> filteredList = readableCategoryMap.values().stream().filter(cat -> cat.getDepth() == 0)
-				.sorted(Comparator.comparing(ReadableCategory::getSortOrder)).collect(Collectors.toList());
-
-		returnList.setCategories(filteredList);
-
-		return returnList;
 
 	}
 

@@ -89,6 +89,14 @@
 	                        				</div>
 	                  				   </div>
 	                  				   
+	                  				   <div class="control-group">
+	                        				<label><s:message code="label.store.displaypagesmenu" text="Display pages menu" /></label>
+	                        				<div class="controls">
+	                        					<form:checkbox path="displayPagesMenu" /> 
+	                                   			<span class="help-inline"></span>
+	                        				</div>
+	                  				   </div>
+	                  				   
 	                  				   <c:forEach items="${store.languages}" var="language">
 	                  				   
 	                  				   <div class="control-group">
