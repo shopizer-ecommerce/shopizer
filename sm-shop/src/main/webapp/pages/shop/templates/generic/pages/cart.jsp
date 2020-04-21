@@ -170,7 +170,7 @@
 															</td>
 															<td width="10%"
 																data-th="<s:message code="label.quantity" text="Quantity"/>">
-																<input type="number"
+																<input type="tel"
 																class="input-small quantity text-center"
 																value="${shoppingCartItem.quantity}" name="quantity"
 																id="${shoppingCartItem.id}"
