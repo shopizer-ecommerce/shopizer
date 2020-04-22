@@ -249,7 +249,7 @@ $(document).ready(function() {
     <div class="container">
       <c:if test="${requestScope.CONFIGS['displayContactUs']==true}">
       <ul class="list-inline pull-left hidden-sm hidden-xs">
-        <li><span class="text-primary"><s:message code="label.store.question" text="Have a question?" /></span>&nbsp;<abbr title="Email"><s:message code="label.generic.email" text="Email" /></abbr>: <span itemprop="email"><c:out value="${requestScope.MERCHANT_STORE.storeEmailAddress}"/></span>&nbsp;<abbr title="Phone"><s:message code="label.generic.phone" text="Phone" /></abbr>: <span itemprop="telephone"><c:out value="${requestScope.MERCHANT_STORE.storephone}"/></span></li>
+        <li><span class="text-primary"><s:message code="label.store.question" text="Have a question?" /></span>&nbsp;&nbsp;&nbsp;<abbr title="Email"><s:message code="label.generic.email" text="Email" /></abbr>: <span itemprop="email"><a class="store-name" style="color:#000;" href="mailto:<c:out value="${requestScope.MERCHANT_STORE.storeEmailAddress}"/>"><strong><c:out value="${requestScope.MERCHANT_STORE.storeEmailAddress}"/></strong></a></span>&nbsp;&nbsp;&nbsp;<abbr title="Phone"><s:message code="label.generic.phone" text="Phone" /></abbr>: <span itemprop="telephone"><a class="store-name" style="color:#000;" href="tel:<c:out value="${requestScope.MERCHANT_STORE.storephone}"/>"><strong><c:out value="${requestScope.MERCHANT_STORE.storephone}"/></strong></a></span></li>
         <c:if test="${requestScope.CONFIGS['testMode']==true}"><li><h4>[TEST MODE]</h4></li></c:if>
       </ul>
       </c:if>

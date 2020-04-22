@@ -117,7 +117,7 @@ public class MerchantStoreServiceImpl extends SalesManagerEntityServiceImpl<Inte
 			throw new ServiceException("Store with code [" + code + "] is not found");
 		}
 		
-		if(storeModel.isRetailer() && storeModel.getParent() == null) {
+		if(storeModel.isRetailer() != null && storeModel.isRetailer() && storeModel.getParent() == null) {
 			return storeModel;
 		}
 		

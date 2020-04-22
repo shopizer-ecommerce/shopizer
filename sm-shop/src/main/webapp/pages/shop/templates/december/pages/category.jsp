@@ -219,6 +219,7 @@ response.setDateHeader ("Expires", -1);
 					</div>
 			  </div>
 			  </c:if>
+			  <jsp:include page="/pages/shop/templates/exoticamobilia/sections/breadcrumb.jsp" />
 			  </header>
 
 			  
