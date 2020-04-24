@@ -34,16 +34,16 @@ response.setDateHeader ("Expires", -1);
 							<c:if test="${requestScope.CONFIGS['facebook_page_url'] != null || requestScope.CONFIGS['twitter_handle'] != null || requestScope.CONFIGS['pinterest'] != null || requestScope.CONFIGS['instagram'] != null}">
 							   <ul class="footer-social">
 							       <c:if test="${requestScope.CONFIGS['twitter_handle'] != null}">
-								   <li class="twitter"><a target="_blank" href="<c:out value="${requestScope.CONFIGS['twitter_handle']}"/>"><i class="fa fa-twitter"></i></a></li>
+								   <li class="twitter"><a target="_blank" href="<c:out value="${requestScope.CONFIGS['twitter_handle']}"/>"><i class="fa fa-twitter fa-3x"></i></a></li>
 								   </c:if>
 								   <c:if test="${requestScope.CONFIGS['facebook_page_url'] != null}">
-								   <li class="facebook"><a target="_blank" href="<c:out value="${requestScope.CONFIGS['facebook_page_url']}"/>"><i class="fa fa-facebook"></i></a></li>
+								   <li class="facebook"><a target="_blank" href="<c:out value="${requestScope.CONFIGS['facebook_page_url']}"/>"><i class="fa fa-facebook-square fa-3x"></i></a></li>
 								   </c:if>
 								   <c:if test="${requestScope.CONFIGS['pinterest'] != null}">
-								   <li class="pinterest"><a target="_blank" href="<c:out value="${requestScope.CONFIGS['pinterest']}"/>"><i class="fa fa-pinterest"></i></a></li>
+								   <li class="pinterest"><a target="_blank" href="<c:out value="${requestScope.CONFIGS['pinterest']}"/>"><i class="fa fa-pinterest fa-3x"></i></a></li>
 								   </c:if>
 								   <c:if test="${requestScope.CONFIGS['instagram'] != null}">
-							   	   <li class="instagram"><a target="_blank" href="<c:out value="${requestScope.CONFIGS['instagram']}"/>"><i class="fa fa-instagram"></i></a></li>
+							   	   <li class="instagram"><a target="_blank" href="<c:out value="${requestScope.CONFIGS['instagram']}"/>"><i class="fa fa-instagram fa-3x"></i></a></li>
 							       </c:if>
 							   </ul>
 						   </c:if>
