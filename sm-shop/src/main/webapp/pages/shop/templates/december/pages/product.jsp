@@ -26,6 +26,9 @@
 	<div class="all-hyperion-page">
 		<div class="container">
 			<div class="row">
+				<div style="margin-top:20px;">
+				<jsp:include page="/pages/shop/templates/exoticamobilia/sections/breadcrumb.jsp" />
+				</div>
 				<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
 					<!-- product-simple-area-start -->
 					<div class="product-simple-area ptb-80 ptb-40-md ptb-20-xs"
@@ -167,10 +170,6 @@
 												class="fa fa-file-text-o pr-5"></i> <s:message
 													code="label.productedit.productdesc"
 													text="Product description" /></a></li>
-										<li><a href="#reviews" data-toggle="tab"><i
-												class="fa fa-star pr-5"></i> <s:message
-													code="label.product.customer.reviews"
-													text="Customer reviews" /></a></li>
 									</ul>
 									<!-- Tab panes -->
 									<div class="tab-content">
@@ -230,6 +229,29 @@
 												</dl>
 											</div>
 										</div>
+									</div>
+								</div>
+							</div>
+							<!-- fin product info -->
+						</div>
+						<!--fin col 9 -->
+					</div>
+				</div>
+				
+				<!-- product-simple-area-end -->
+				<div class="product-info-detailed pb-80 ptb-40-md ptb-20-xs">
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="product-info-tab">
+									<!-- Nav tabs -->
+									<ul class="product-info-tab-menu" role="tablist">
+										<li class="active"><a href="#reviews" data-toggle="tab"><i
+												class="fa fa-star pr-5"></i> <s:message
+													code="label.product.customer.reviews"
+													text="Customer reviews" /></a></li>
+									</ul>
+									<!-- Tab panes -->
+									<div class="tab-content">
 										<div class="tab-pane" id="reviews">
 											<div class="customer-review-top">
 												<h4>
@@ -243,14 +265,15 @@
 									</div>
 								</div>
 							</div>
-							<!-- fin product info -->
 						</div>
 						<!--fin col 9 -->
 					</div>
 				</div>
+				
+				
+				<!-- customer review -->
 
 				<!-- Related items -->
-
 				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
 					<c:if test="${relatedProducts!=null}">
 						<div

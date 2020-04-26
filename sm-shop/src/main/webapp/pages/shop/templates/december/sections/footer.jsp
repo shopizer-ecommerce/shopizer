@@ -128,18 +128,19 @@ response.setDateHeader ("Expires", -1);
 		<div class="copyright-area">
 			<div class="container">
 				<div class="row">
-					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mar_b-30">
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mar_b-30">
 						<div class="copyright text-left">
 							<p><sm:storeCopy/>&nbsp;-&nbsp;<s:message code="label.generic.providedby" /> <a href="http://www.shopizer.com" class="footer-href" target="_blank">Shopizer</a></p>
 						</div>
 					</div>
-					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 						<c:if test="${requestScope.CONFIGS['allowPurchaseItems'] == true}">
 						<div class="copyright-img text-right">
 							<img src="/resources/img/payment/icons/MasterCard.png" width="50" alt="" />&nbsp;<img src="/resources/img/payment/icons/Visa.png" width="50" alt="" />&nbsp;<img src="/resources/img/payment/icons/AmericanExpress.png" width="50" alt="" />&nbsp;<img src="/resources/img/payment/icons/PayPal.png" width="50" alt="" />
 						</div>
 						</c:if>
 					</div>
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12"></div>
 				</div>
 			</div>
 		</div>

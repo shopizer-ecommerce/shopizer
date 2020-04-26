@@ -1,5 +1,29 @@
 package com.salesmanager.shop.store.controller.category;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
@@ -27,24 +51,7 @@ import com.salesmanager.shop.store.model.filter.QueryFilter;
 import com.salesmanager.shop.store.model.filter.QueryFilterType;
 import com.salesmanager.shop.utils.BreadcrumbsUtils;
 import com.salesmanager.shop.utils.ImageFilePath;
-import com.salesmanager.shop.utils.LabelUtils;
 import com.salesmanager.shop.utils.PageBuilderUtils;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.math.BigDecimal;
-import java.util.*;
 
 
 
@@ -132,6 +139,9 @@ public class ShoppingCategoryController {
 	private String displayCategory(final String friendlyUrl, final String ref, Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
 
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
+		
+		//set ref as request attribute
+		request.setAttribute("ref", ref);
 
 		//get category
 		Category category = categoryService.getBySeUrl(store, friendlyUrl);
@@ -436,12 +446,9 @@ public class ShoppingCategoryController {
 	 * @return
 	 * @throws Exception
 	 **/
-	////TODO : services/public/DEFAULT/products/category/MYCATEGORY?lang=fr
 	@RequestMapping("/services/public/products/{store}/{language}/{category}")
 	@ResponseBody
 	public ProductList getProducts(@PathVariable final String store, @PathVariable final String language, @PathVariable final String category, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-		//http://localhost:8080/sm-shop/services/public/products/DEFAULT/en/book
 
 		try {
 
@@ -590,6 +597,12 @@ public class ShoppingCategoryController {
 
 			MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
 			List<BigDecimal> prices = new ArrayList<BigDecimal>();
+			String ref = "";
+			
+			if(request.getParameter("ref") != null) {
+				ref = request.getParameter("ref");
+			}
+			request.setAttribute("ref", ref);
 			
 			Map<String,Language> langs = languageService.getLanguagesMap();
 			
