@@ -90,7 +90,7 @@
 							<div class="col-lg-7 col-md-5 col-sm-5 col-xs-12">
 								<div class="product-simple-content">
 									<div class="sinple-c-title">
-										<h3>${product.description.name}</h3>
+										<h1>${product.description.name}</h1>
 									</div>
 									<div class="checkbox">
 										<span><i class="fa fa-check-square" aria-hidden="true"></i>

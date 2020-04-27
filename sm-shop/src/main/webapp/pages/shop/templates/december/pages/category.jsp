@@ -216,7 +216,7 @@ response.setDateHeader ("Expires", -1);
 			  <c:if test="${category.description.name!=null}">
 			  <div class="fixed-image section dark-translucent-bg parallax-bg-3">
 					<div class="container">
-					<h2 class="shop-banner-title lead"><c:out value="${category.description.name}"/></h2>
+						<h1 class="shop-banner-title lead"><c:out value="${category.description.name}"/></h1>
 					</div>
 			  </div>
 			  </c:if>

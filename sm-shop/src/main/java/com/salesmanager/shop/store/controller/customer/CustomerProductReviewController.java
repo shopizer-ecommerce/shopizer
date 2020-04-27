@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -171,6 +172,8 @@ public class CustomerProductReviewController extends AbstractController {
 	    	FieldError error = new FieldError("rating","rating",messages.getMessage("NotEmpty.review.rating", locale, "Product rating is required"));
 			bindingResult.addError(error);
 	    }
+	    
+	    review.setDescription(StringEscapeUtils.escapeHtml4(review.getDescription()));
 	    
 
 	    
