@@ -33,7 +33,7 @@ public class AdminController {
 	UserService userService;
 	
 	@PreAuthorize("hasRole('AUTH')")
-	@RequestMapping(value={"/admin/home.html","/admin/","/admin"}, method=RequestMethod.GET)
+	@RequestMapping(value={"/admin/home.html","/admin/"}, method=RequestMethod.GET)
 	public String displayDashboard(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Language language = (Language)request.getAttribute("LANGUAGE");
 		
@@ -66,6 +66,11 @@ public class AdminController {
 		return ControllerConstants.Tiles.adminDashboard;
 	}
 	
+	@RequestMapping( value=Constants.ADMIN_URI , method=RequestMethod.GET)
+	public String displayStoreLanding(HttpServletRequest request, HttpServletResponse response) {
+
+		return "redirect:" + Constants.ADMIN_URI + Constants.SLASH;
+	}
 
 
 

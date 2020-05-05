@@ -37,6 +37,7 @@ public class Country extends SalesManagerEntity<Integer, Country> {
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
 	private Integer id;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
 	private Set<CountryDescription> descriptions = new HashSet<CountryDescription>();
 

@@ -73,15 +73,9 @@ public class ShopProductController {
 	
 	@Inject
 	private ProductReviewService productReviewService;
-	
-	@Inject
-	private LabelUtils messages;
-	
+
 	@Inject
 	private CacheUtils cache;
-	
-	@Inject
-	private CategoryService categoryService;
 	
 	@Inject
 	private BreadcrumbsUtils breadcrumbsUtils;
@@ -108,6 +102,7 @@ public class ShopProductController {
 	public String displayProductWithReference(@PathVariable final String friendlyUrl, @PathVariable final String ref, Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
 		return display(ref, friendlyUrl, model, request, response, locale);
 	}
+
 	
 
 	/**

@@ -95,7 +95,7 @@ public class CategoryController {
 		Category category = null;
 		
 		if(categoryId!=null && categoryId!=0) {//edit mode
-			category = categoryService.getById(categoryId);
+			category = categoryService.getById(categoryId, store.getId());
 
 			if(category==null || category.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
 				return "catalogue-categories";
@@ -162,7 +162,7 @@ public class CategoryController {
 		if(category.getCategory().getId() != null && category.getCategory().getId() >0) { //edit entry
 			
 			//get from DB
-			Category currentCategory = categoryService.getById(category.getCategory().getId());
+			Category currentCategory = categoryService.getById(category.getCategory().getId(), store.getId());
 			
 			if(currentCategory==null || currentCategory.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
 				return "catalogue-categories";
@@ -354,7 +354,7 @@ public class CategoryController {
 			
 			Long id = Long.parseLong(sid);
 			
-			Category category = categoryService.getById(id);
+			Category category = categoryService.getById(id, store.getId());
 			
 			if(category==null || category.getMerchantStore().getId().intValue() !=store.getId().intValue() ) {
 
@@ -399,8 +399,8 @@ public class CategoryController {
 			Long parentId = Long.parseLong(parentid);
 			Long childId = Long.parseLong(childid);
 			
-			Category child = categoryService.getById(childId);
-			Category parent = categoryService.getById(parentId);
+			Category child = categoryService.getById(childId, store.getId());
+			Category parent = categoryService.getById(parentId, store.getId());
 			
 			if(child.getParent().getId()==parentId) {
 				resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);

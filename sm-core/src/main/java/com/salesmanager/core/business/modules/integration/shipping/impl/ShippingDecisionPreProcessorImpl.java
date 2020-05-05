@@ -50,13 +50,18 @@ public class ShippingDecisionPreProcessorImpl implements ShippingQuotePrePostPro
 	//KieContainer kieShippingDecisionContainer;
 	
 	@Override
-	public void prePostProcessShippingQuotes(ShippingQuote quote,
-			List<PackageDetails> packages, BigDecimal orderTotal,
-			Delivery delivery, ShippingOrigin origin, MerchantStore store,
+	public void prePostProcessShippingQuotes(
+			ShippingQuote quote,
+			List<PackageDetails> packages, 
+			BigDecimal orderTotal,
+			Delivery delivery, 
+			ShippingOrigin origin, 
+			MerchantStore store,
 			IntegrationConfiguration globalShippingConfiguration,
 			IntegrationModule currentModule,
 			ShippingConfiguration shippingConfiguration,
-			List<IntegrationModule> allModules, Locale locale)
+			List<IntegrationModule> allModules, 
+			Locale locale)
 			throws IntegrationException {
 		
 		

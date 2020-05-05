@@ -81,7 +81,7 @@ public class ShoppingCartFacadeImpl
 
     @Inject
     private ProductAttributeService productAttributeService;
-    
+
 	@Inject
 	@Qualifier("img")
 	private ImageFilePath imageUtils;
@@ -141,6 +141,7 @@ public class ShoppingCartFacadeImpl
         com.salesmanager.core.model.shoppingcart.ShoppingCartItem shoppingCartItem =
             createCartItem( cartModel, item, store );
         
+        
         boolean duplicateFound = false;
         if(CollectionUtils.isEmpty(item.getShoppingCartAttributes())) {//increment quantity
         	//get duplicate item from the cart
@@ -158,9 +159,10 @@ public class ShoppingCartFacadeImpl
         			}
         		}
         	}
-        } 
+        }
         
         if(!duplicateFound) {
+        	//shoppingCartItem.getAttributes().stream().forEach(a -> {a.setProductAttributeId(productAttributeId);});
         	cartModel.getLineItems().add( shoppingCartItem );
         }
         
@@ -176,6 +178,7 @@ public class ShoppingCartFacadeImpl
         shoppingCartDataPopulator.setShoppingCartCalculationService( shoppingCartCalculationService );
         shoppingCartDataPopulator.setPricingService( pricingService );
         shoppingCartDataPopulator.setimageUtils(imageUtils);
+
 
         return shoppingCartDataPopulator.populate( cartModel, store, language );
     }
@@ -467,7 +470,7 @@ public class ShoppingCartFacadeImpl
         return shoppingCartDataPopulator.populate( shoppingCartModel, merchantStore, language );
     }
 
-    @Override
+	@Override
     public ShoppingCartData removeCartItem( final Long itemID, final String cartId ,final MerchantStore store,final Language language )
         throws Exception
     {
@@ -483,7 +486,6 @@ public class ShoppingCartFacadeImpl
                         new HashSet<com.salesmanager.core.model.shoppingcart.ShoppingCartItem>();
                     for ( com.salesmanager.core.model.shoppingcart.ShoppingCartItem shoppingCartItem : cartModel.getLineItems() )
                     {
-                    	//if ( shoppingCartItem.getProduct().getId().longValue() == itemID.longValue() )
                         if(shoppingCartItem.getId().longValue() == itemID.longValue() )
                         {
                     		shoppingCartService.deleteShoppingCartItem(itemID);
@@ -494,11 +496,14 @@ public class ShoppingCartFacadeImpl
                     
                     cartModel.setLineItems(shoppingCartItemSet);
 
+
                     ShoppingCartDataPopulator shoppingCartDataPopulator = new ShoppingCartDataPopulator();
                     shoppingCartDataPopulator.setShoppingCartCalculationService( shoppingCartCalculationService );
                     shoppingCartDataPopulator.setPricingService( pricingService );
                     shoppingCartDataPopulator.setimageUtils(imageUtils);
                     return shoppingCartDataPopulator.populate( cartModel, store, language );
+                    
+
                 }
             }
         }
@@ -549,7 +554,8 @@ public class ShoppingCartFacadeImpl
         return null;
     }
     
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public ShoppingCartData updateCartItems( final List<ShoppingCartItem> shoppingCartItems, final MerchantStore store, final Language language )
             throws Exception
         {
@@ -596,6 +602,8 @@ public class ShoppingCartFacadeImpl
     		
     		cartModel.setLineItems(cartItems);
     		shoppingCartService.saveOrUpdate( cartModel );
+
+    		
             LOG.info( "Cart entry updated with desired quantity" );
             ShoppingCartDataPopulator shoppingCartDataPopulator = new ShoppingCartDataPopulator();
             shoppingCartDataPopulator.setShoppingCartCalculationService( shoppingCartCalculationService );
@@ -712,6 +720,7 @@ public class ShoppingCartFacadeImpl
 	}
 	
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void removeShoppingCartItem(String cartCode, Long productId,
 	      MerchantStore merchant, Language language) throws Exception {
@@ -750,14 +759,16 @@ public class ShoppingCartFacadeImpl
 	    }
         
         //remaining items
-        cart.setLineItems(items);
-        ReadableShoppingCart readableShoppingCart = null;
-        
-        if(items.size()>0) {
+	    if(items.size()>0) {
+	    	cart.setLineItems(items);
+	    } else {
+	    	cart.getLineItems().clear();
+	    }
+
+        //if(items.size()>0) {
           shoppingCartService.saveOrUpdate(cart);//update cart with remaining items
-          readableShoppingCart = this.getByCode(cartCode, merchant, language);
-          
-        }
+          //ReadableShoppingCart readableShoppingCart = this.getByCode(cartCode, merchant, language);
+        //}
 
 	}
 	

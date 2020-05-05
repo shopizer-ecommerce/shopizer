@@ -13,10 +13,12 @@ import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.repositories.user.PageableUserRepository;
 import com.salesmanager.core.business.repositories.user.UserRepository;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
+import com.salesmanager.core.business.services.merchant.MerchantStoreService;
 import com.salesmanager.core.model.common.Criteria;
 import com.salesmanager.core.model.common.GenericEntityList;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.user.User;
+import com.salesmanager.core.model.user.UserCriteria;
 
 
 
@@ -25,6 +27,9 @@ public class UserServiceImpl extends SalesManagerEntityServiceImpl<Long, User>
 
 
   private UserRepository userRepository;
+  
+  @Autowired
+  private MerchantStoreService merchantStoreService;
   
   @Autowired
   private PageableUserRepository pageableUserRepository;
@@ -78,7 +83,18 @@ public class UserServiceImpl extends SalesManagerEntityServiceImpl<Long, User>
 
   @Override
   public User findByStore(Long userId, String storeCode) throws ServiceException {
-    return userRepository.findByUserAndStore(userId, storeCode);
+    
+	  
+	  User user =  userRepository.findOne(userId);
+	  
+	  //store must be in lineage
+	  boolean isFound = merchantStoreService.isStoreInGroup(storeCode);
+	  
+	  if(isFound)
+		  return user;
+
+	  return null;
+  
   }
 
 
@@ -95,16 +111,16 @@ public class UserServiceImpl extends SalesManagerEntityServiceImpl<Long, User>
 
 
 @Override
-public Page<User> listByCriteria(Criteria criteria, int page, int count) throws ServiceException {
+public Page<User> listByCriteria(UserCriteria criteria, int page, int count) throws ServiceException {
 	
-	Pageable pageRequest = new PageRequest(page, count);
+	Pageable pageRequest = PageRequest.of(page, count);
 	Page<User> users = null;
-	if(StringUtils.isBlank(criteria.getStoreCode())) {
-		
-		users = pageableUserRepository.listAll(criteria.getUser(), pageRequest);
-	} else {
-
-		users = pageableUserRepository.listByStore(criteria.getStoreCode(), criteria.getUser(), pageRequest);
+	if(criteria.getStoreIds() != null) {//search within a predefined list of stores
+		users = pageableUserRepository.listByStoreIds(criteria.getStoreIds(), criteria.getAdminEmail(), pageRequest);
+	} else if(StringUtils.isBlank(criteria.getStoreCode())) {//search for a specific store
+		users = pageableUserRepository.listAll(criteria.getAdminEmail(), pageRequest);
+	} else if(criteria.getStoreIds() != null) {//full search
+		users = pageableUserRepository.listByStore(criteria.getStoreCode(), criteria.getAdminEmail(), pageRequest);
 	}
 	
 	

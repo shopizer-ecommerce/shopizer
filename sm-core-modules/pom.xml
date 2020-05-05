@@ -7,7 +7,7 @@
   <parent>
     <groupId>com.shopizer</groupId>
     <artifactId>shopizer</artifactId>
-    <version>2.10.0</version>
+    <version>2.12.0</version>
   </parent>
 
   <name>sm-core-modules</name>
@@ -107,7 +107,8 @@
         </executions>
       </plugin>
       <!--OSSRH -->
-      <!-- 			<plugin>
+      		<!--
+      		<plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-javadoc-plugin</artifactId>
               <executions>
@@ -132,8 +133,8 @@
                   </goals>
                 </execution>
               </executions>
-            </plugin> -->
+            </plugin>
+            -->
     </plugins>
   </build>
-
 </project>

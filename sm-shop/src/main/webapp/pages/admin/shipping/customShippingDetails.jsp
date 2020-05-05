@@ -74,7 +74,7 @@ $(document).ready(function() {
 								<br/>
 
 								<c:url var="addPrice" value="/admin/shipping/weightBased/addPrice.html"/>
-								<form:form method="POST" commandName="customQuote" action="${addPrice}">
+								<form:form method="POST" modelAttribute="customQuote" action="${addPrice}">
 
       							
       								<form:errors path="*" cssClass="alert alert-error" element="div" />
@@ -127,7 +127,7 @@ $(document).ready(function() {
 			      				
 			      				<br/><br/>
 			      				<c:url var="removeRegion" value="/admin/shipping/weightBased/deleteRegion.html"/>
-		                  		<form:form method="POST" enctype="multipart/form-data" commandName="region" action="${removeRegion}">
+		                  		<form:form method="POST" enctype="multipart/form-data" modelAttribute="region" action="${removeRegion}">
 									<input type="hidden" name="customRegionName" value="${customRegion.customRegionName}" />
 			                        <div class="form-actions">
 			                            <div class="pull-right">

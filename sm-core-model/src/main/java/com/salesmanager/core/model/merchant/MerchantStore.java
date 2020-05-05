@@ -24,8 +24,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.Pattern;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.MeasureUnit;
@@ -108,10 +109,12 @@ public class MerchantStore extends SalesManagerEntity<Integer, MerchantStore> im
 	@Column(name = "STORE_POSTAL_CODE", length = 15)
 	private String storepostalcode;
 
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Country.class)
 	@JoinColumn(name = "COUNTRY_ID", nullable = false, updatable = true)
 	private Country country;
 
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Zone.class)
 	@JoinColumn(name = "ZONE_ID", nullable = true, updatable = true)
 	private Zone zone;
@@ -132,10 +135,12 @@ public class MerchantStore extends SalesManagerEntity<Integer, MerchantStore> im
 	@Transient
 	private String dateBusinessSince;
 
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Language.class)
 	@JoinColumn(name = "LANGUAGE_ID", nullable = false)
 	private Language defaultLanguage;
 
+	@JsonIgnore
 	@NotEmpty
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "MERCHANT_LANGUAGE")
@@ -153,6 +158,7 @@ public class MerchantStore extends SalesManagerEntity<Integer, MerchantStore> im
 	@Column(name = "DOMAIN_NAME", length = 80)
 	private String domainName;
 
+	@JsonIgnore
 	@Column(name = "CONTINUESHOPPINGURL", length = 150)
 	private String continueshoppingurl;
 
@@ -161,9 +167,11 @@ public class MerchantStore extends SalesManagerEntity<Integer, MerchantStore> im
 	@Column(name = "STORE_EMAIL", length = 60, nullable = false)
 	private String storeEmailAddress;
 
+	@JsonIgnore
 	@Column(name = "STORE_LOGO", length = 100)
 	private String storeLogo;
 
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Currency.class)
 	@JoinColumn(name = "CURRENCY_ID", nullable = false)
 	private Currency currency;
@@ -406,6 +414,7 @@ public class MerchantStore extends SalesManagerEntity<Integer, MerchantStore> im
 	public Boolean isRetailer() {
 		return retailer;
 	}
+
 
 	public void setRetailer(Boolean retailer) {
 		this.retailer = retailer;

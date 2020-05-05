@@ -1,12 +1,9 @@
 package com.salesmanager.core.business.modules.order;
 
 
-import com.salesmanager.core.model.customer.Customer;
-import com.salesmanager.core.model.merchant.MerchantStore;
-import com.salesmanager.core.model.order.Order;
+import com.salesmanager.core.business.modules.common.FunctionProcessor;
 
-public interface OrderProcessor {
-	
-	public void processOrder(Order order, Customer customer, MerchantStore store);
+@SuppressWarnings("rawtypes")
+public interface OrderProcessor extends FunctionProcessor {
 
 }

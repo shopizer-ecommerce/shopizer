@@ -4,15 +4,21 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+
 import javax.inject.Inject;
+
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.modules.cart.ShoppingCartProcessor;
 import com.salesmanager.core.business.repositories.shoppingcart.ShoppingCartAttributeRepository;
 import com.salesmanager.core.business.repositories.shoppingcart.ShoppingCartItemRepository;
 import com.salesmanager.core.business.repositories.shoppingcart.ShoppingCartRepository;
@@ -23,6 +29,7 @@ import com.salesmanager.core.business.services.common.generic.SalesManagerEntity
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.price.FinalPrice;
+import com.salesmanager.core.model.common.UserContext;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.shipping.ShippingProduct;
@@ -50,7 +57,6 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 
 	@Inject
 	private ProductAttributeService productAttributeService;
-	
 
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ShoppingCartServiceImpl.class);
@@ -89,13 +95,32 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 	/**
 	 * Save or update a {@link ShoppingCart} for a given customer
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public void saveOrUpdate(final ShoppingCart shoppingCart) throws ServiceException {
+	public void saveOrUpdate(ShoppingCart shoppingCart) throws ServiceException {
+		
+		Validate.notNull(shoppingCart, "ShoppingCart must not be null");
+		Validate.notNull(shoppingCart.getMerchantStore(), "ShoppingCart.merchantStore must not be null");
+		
+		
+		try {
+			UserContext userContext = UserContext.getCurrentInstance();
+			if(userContext!=null) {
+				shoppingCart.setIpAddress(userContext.getIpAddress());
+			}
+		} catch(Exception s) {
+			LOGGER.error("Cannot add ip address to shopping cart ", s);
+		}
+		
+		
 		if (shoppingCart.getId() == null || shoppingCart.getId().longValue() == 0) {
 			super.create(shoppingCart);
 		} else {
 			super.update(shoppingCart);
 		}
+		
+
+		
 	}
 
 	/**
@@ -281,25 +306,6 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 		Validate.notNull(product.getMerchantStore(), "Product.merchantStore should not be null");
 
 		ShoppingCartItem item = new ShoppingCartItem(product);
-
-		// Set<ProductAttribute> productAttributes = product.getAttributes();
-		// Set<ShoppingCartAttributeItem> attributesList = new
-		// HashSet<ShoppingCartAttributeItem>();
-		// if(!CollectionUtils.isEmpty(productAttributes)) {
-
-		// for(ProductAttribute productAttribute : productAttributes) {
-		// ShoppingCartAttributeItem attributeItem = new
-		// ShoppingCartAttributeItem();
-		// attributeItem.setShoppingCartItem(item);
-		// attributeItem.setProductAttribute(productAttribute);
-		// attributeItem.setProductAttributeId(productAttribute.getId());
-		// attributesList.add(attributeItem);
-
-		// }
-
-		// item.setAttributes(attributesList);
-		// }
-
 		item.setProductVirtual(product.isProductVirtual());
 
 		// set item price
@@ -553,7 +559,28 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 	@Override
 	@Transactional
 	public void deleteShoppingCartItem(Long id) {
-		shoppingCartItemRepository.deleteById(id);
+		
+		
+		ShoppingCartItem item = shoppingCartItemRepository.findOne(id);
+		if(item != null) {
+			
+			
+			if(item.getAttributes() != null) {
+				item.getAttributes().stream().forEach(a -> {shoppingCartAttributeItemRepository.deleteById(a.getId());});
+				item.getAttributes().clear();
+			}
+			
+			
+			//refresh
+			item = shoppingCartItemRepository.findOne(id);
+
+			//delete
+			shoppingCartItemRepository.deleteById(id);
+			
+			
+		}
+		
+
 	}
 
 }

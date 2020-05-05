@@ -23,7 +23,7 @@ public class AuditSection implements Serializable {
   @Column(name = "DATE_MODIFIED")
   private Date dateModified;
 
-  @Column(name = "UPDT_ID", length = 20)
+  @Column(name = "UPDT_ID", length = 60)
   private String modifiedBy;
 
   public AuditSection() {}

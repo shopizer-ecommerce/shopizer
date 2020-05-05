@@ -51,7 +51,7 @@ $(document).ready(function() {
 				<c:url var="optionSave" value="/admin/customers/options/save.html"/>
 
 
-				<form:form method="POST" commandName="option" action="${optionSave}">
+				<form:form method="POST" modelAttribute="option" action="${optionSave}">
 
       							
       				<form:errors path="*" cssClass="alert alert-error" element="div" />

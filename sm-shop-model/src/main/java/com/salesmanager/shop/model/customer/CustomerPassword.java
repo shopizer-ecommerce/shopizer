@@ -2,7 +2,7 @@ package com.salesmanager.shop.model.customer;
 
 import java.io.Serializable;
 import javax.validation.constraints.Size;
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.NotEmpty;
 import com.salesmanager.shop.validation.FieldMatch;
 
 @FieldMatch.List({

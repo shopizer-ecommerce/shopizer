@@ -399,7 +399,7 @@ function captureOrder(orderId){
 			  <br/>
  	       	 	
 	     <c:url var="orderSave" value="/admin/orders/save.html"/>
-         <form:form method="POST" enctype="multipart/form-data" commandName="order" action="${orderSave}">
+         <form:form method="POST" enctype="multipart/form-data" modelAttribute="order" action="${orderSave}">
 	   
                 <form:errors path="*" cssClass="alert alert-error" element="div" />
 	                <div id="store.success" class="alert alert-success" style="<c:choose><c:when test="${success!=null}">display:block;</c:when><c:otherwise>display:none;</c:otherwise></c:choose>"><s:message code="message.success" text="Request successfull"/></div>   

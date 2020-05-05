@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.salesmanager.core.business.services.content.ContentService;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
 import com.salesmanager.core.model.content.Content;
@@ -40,13 +39,13 @@ public class ContactController extends AbstractController {
 	
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(ContactController.class);
-	
+
 	@Value("${config.googleMapsKey}")
 	private String googleMapsKey;
 	
     @Value("${config.recaptcha.siteKey}")
     private String siteKeyKey;
-	
+
 	@Inject
 	private ContentService contentService;
 
@@ -58,7 +57,7 @@ public class ContactController extends AbstractController {
 	
 	@Inject
 	private CaptchaRequestUtils captchaRequestUtils;
-	
+
 	
 	private final static String CONTACT_LINK = "CONTACT";
 	

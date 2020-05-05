@@ -35,7 +35,7 @@
 							<c:url var="savePaymentMethod" value="/admin/payments/savePaymentMethod.html"/>
 							
 							
-							<form:form method="POST" commandName="configuration" action="${savePaymentMethod}">
+							<form:form method="POST" modelAttribute="configuration" action="${savePaymentMethod}">
 
       							
       								<form:errors path="*" cssClass="alert alert-error" element="div" />
@@ -91,7 +91,7 @@
 							
 		                  <c:if test="${configuration.active && validationError==null}">      
 		                  <c:url var="removeModule" value="/admin/payments/deletePaymentMethod.html"/>
-		                  <form:form method="POST" enctype="multipart/form-data" commandName="code" action="${removeModule}">
+		                  <form:form method="POST" enctype="multipart/form-data" modelAttribute="code" action="${removeModule}">
 									<input type="hidden" name="code" value="${configuration.moduleCode}" />
 			                        <div class="form-actions">
 			                            <div class="pull-right">

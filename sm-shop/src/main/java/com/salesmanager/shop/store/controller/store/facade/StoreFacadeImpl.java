@@ -462,18 +462,24 @@ public class StoreFacadeImpl implements StoreFacade {
 		
 		try {
 			Page<MerchantStore> stores = null;
-			
-			Optional<String> name = Optional.ofNullable(criteria.getName());
-			
-			if(criteria.isRetailers()) {
-				stores = merchantStoreService.listAllRetailers(name, page, count);
-			} else {
-
-				stores = merchantStoreService.listAll(name, page, count);
-			}
-
 			List<ReadableMerchantStore> readableStores = new ArrayList<ReadableMerchantStore>();
 			ReadableMerchantStoreList readableList = new ReadableMerchantStoreList();
+			
+			Optional<String> code = Optional.ofNullable(criteria.getStoreCode());
+			Optional<String> name = Optional.ofNullable(criteria.getName());
+			if(code.isPresent()) {
+				
+				stores = merchantStoreService.listByGroup(name, code.get(), page, count);
+
+			} else {
+				if(criteria.isRetailers()) {
+					stores = merchantStoreService.listAllRetailers(name, page, count);
+				} else {
+					stores = merchantStoreService.listAll(name, page, count);
+				}
+			}
+
+
 			if (!CollectionUtils.isEmpty(stores.getContent())) {
 				for (MerchantStore store : stores)
 					readableStores.add(convertMerchantStoreToReadableMerchantStore(language, store));
@@ -501,13 +507,26 @@ public class StoreFacadeImpl implements StoreFacade {
 	}
 
 	@Override
-	public List<ReadableMerchantStore> getMerchantStoreNames() {
-
+	public List<ReadableMerchantStore> getMerchantStoreNames(MerchantStoreCriteria criteria) {
+		Validate.notNull(criteria, "MerchantStoreCriteria must not be null");
 		
 		try {
-			List<ReadableMerchantStore> stores = merchantStoreService.findAllStoreNames().stream()
-			.map(s -> convertStoreName(s))
-			.collect(Collectors.toList());
+			
+			List<ReadableMerchantStore> stores = null;
+			Optional<String> code = Optional.ofNullable(criteria.getStoreCode());
+			
+			if(code.isPresent()) {
+				
+				stores = merchantStoreService.findAllStoreNames(code.get()).stream()
+						.map(s -> convertStoreName(s))
+						.collect(Collectors.toList());
+			} else {
+				stores = merchantStoreService.findAllStoreNames().stream()
+						.map(s -> convertStoreName(s))
+						.collect(Collectors.toList());
+			}
+			
+			
 			return stores;
 		} catch (ServiceException e) {
 			throw new ServiceRuntimeException("Exception while getting store name",e);

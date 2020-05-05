@@ -51,7 +51,7 @@ public class ManufacturerFacadeImpl implements ManufacturerFacade {
     Validate.notNull(language, "Language cannot be null");
     Validate.notNull(categoryId,"Category id cannot be null");
     
-    Category category = categoryService.getById(categoryId);
+    Category category = categoryService.getById(categoryId, store.getId());
     
     if(category == null) {
       throw new ResourceNotFoundException("Category with id [" + categoryId + "] not found");
@@ -84,7 +84,7 @@ public class ManufacturerFacadeImpl implements ManufacturerFacade {
 
 
     Manufacturer manuf = new Manufacturer();
-    
+  
     if(manufacturer.getId() != null && manufacturer.getId().longValue() > 0) {
     	manuf = manufacturerService.getById(manufacturer.getId());
     	if(manuf == null) {
@@ -143,20 +143,21 @@ public class ManufacturerFacadeImpl implements ManufacturerFacade {
       /**
        * Is this a pageable request
        */
-     
+
       List<Manufacturer> manufacturers = null;
       if(page == 0 && count == 0) {
     	//need total count
         int total = manufacturerService.count(store);
+
         if(language != null) {
           manufacturers = manufacturerService.listByStore(store, language);
         } else {
           manufacturers = manufacturerService.listByStore(store);
         }
-
         readableList.setRecordsTotal(total);
         readableList.setNumber(manufacturers.size());
       } else {
+
         Page<Manufacturer> m = null;
         if(language != null) {
           m = manufacturerService.listByStore(store, language, criteria.getName(), page, count);

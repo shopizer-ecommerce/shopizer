@@ -11,14 +11,7 @@ import com.salesmanager.shop.model.catalog.manufacturer.Manufacturer;
 
 
 
-/**
- * To be used when working with shopizer servlet for managing images
- * 	<beans:bean id="img" class="com.salesmanager.shop.utils.LocalImageFilePathUtils">
-		<beans:property name="basePath" value="/static" />
-	</beans:bean>
- * @author c.samson
- *
- */
+
 @Component
 public class LocalImageFilePathUtils extends AbstractimageFilePath{
 	

@@ -284,7 +284,6 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 		List<Long> ids = new ArrayList<Long>();
 		if(categories!=null && categories.size()>0) {
 			for(Category c : categories) {
-				System.out.println("Contains category " + c.getCode());
 				ids.add(c.getId());
 			}
 		} 

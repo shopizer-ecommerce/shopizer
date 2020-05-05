@@ -35,9 +35,7 @@ import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.model.entity.ListCriteria;
 import com.salesmanager.shop.store.api.exception.UnauthorizedException;
 import com.salesmanager.shop.store.controller.category.facade.CategoryFacade;
-import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.store.controller.user.facade.UserFacade;
-import com.salesmanager.shop.utils.LanguageUtils;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -60,10 +58,6 @@ public class CategoryApi {
 
 	@Inject
 	private CategoryFacade categoryFacade;
-	@Inject
-	private StoreFacade storeFacade;
-	@Inject
-	private LanguageUtils languageUtils;
 
 	@Inject
 	private UserFacade userFacade;
@@ -101,11 +95,14 @@ public class CategoryApi {
 	@ApiOperation(httpMethod = "GET", value = "Get category hierarchy from root. Supports filtering FEATURED_CATEGORIES and VISIBLE ONLY by adding ?filter=[featured] or ?filter=[visible] or ? filter=[featured,visible", notes = "Does not return any product attached")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
-	public ReadableCategoryList getFiltered(@RequestParam(value = "filter", required = false) List<String> filter,
-			@RequestParam(value = "name", required = false) String name, @ApiIgnore MerchantStore merchantStore,
+	public ReadableCategoryList list(@RequestParam(value = "filter", required = false) List<String> filter,
+			@RequestParam(value = "name", required = false) String name, 
+			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language,
 			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
 			@RequestParam(value = "count", required = false, defaultValue = "10") Integer count) {
+		
+		
 		ListCriteria criteria = new ListCriteria();
 		criteria.setName(name);
 		return categoryFacade.getCategoryHierarchy(merchantStore, criteria, DEFAULT_CATEGORY_DEPTH, language, filter,
@@ -116,8 +113,10 @@ public class CategoryApi {
 	@PostMapping(value = "/private/category", produces = { APPLICATION_JSON_VALUE })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
-	public PersistableCategory createCategory(@Valid @RequestBody PersistableCategory category,
-			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
+	public PersistableCategory create(
+			@Valid @RequestBody PersistableCategory category,
+			@ApiIgnore MerchantStore merchantStore, 
+			@ApiIgnore Language language) {
 
 		// superadmin, admin and admin_catalogue
 		String authenticatedUser = userFacade.authenticatedUser();
@@ -185,7 +184,7 @@ public class CategoryApi {
 
 	@DeleteMapping(value = "/private/category/{id}", produces = { APPLICATION_JSON_VALUE })
 	@ResponseStatus(OK)
-	public void delete(@PathVariable("id") Long categoryId) {
+	public void delete(@PathVariable("id") Long categoryId, @ApiIgnore MerchantStore merchantStore) {
 		
 		// superadmin, admin and admin_catalogue
 		String authenticatedUser = userFacade.authenticatedUser();
@@ -196,7 +195,7 @@ public class CategoryApi {
 		userFacade.authorizedGroup(authenticatedUser, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN, Constants.GROUP_ADMIN_CATALOGUE, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()));
 
 		
-		categoryFacade.deleteCategory(categoryId);
+		categoryFacade.deleteCategory(categoryId, merchantStore);
 	}
 
 }

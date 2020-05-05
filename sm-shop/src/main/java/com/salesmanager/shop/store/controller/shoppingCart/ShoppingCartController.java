@@ -97,19 +97,7 @@ public class ShoppingCartController extends AbstractController {
 	private ProductService productService;
 
 	@Inject
-	private ProductAttributeService productAttributeService;
-
-	@Inject
-	private PricingService pricingService;
-
-	@Inject
-	private OrderService orderService;
-
-	@Inject
 	private ShoppingCartService shoppingCartService;
-
-	@Inject
-	private ProductPriceUtils productPriceUtils;
 
 	@Inject
 	private ShoppingCartFacade shoppingCartFacade;

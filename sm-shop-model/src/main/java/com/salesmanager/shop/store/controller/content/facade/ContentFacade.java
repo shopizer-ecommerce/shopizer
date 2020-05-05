@@ -9,6 +9,7 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.content.ContentFile;
 import com.salesmanager.shop.model.content.ContentFolder;
 import com.salesmanager.shop.model.content.PersistableContentEntity;
+
 import com.salesmanager.shop.model.content.PersistableContentPage;
 import com.salesmanager.shop.model.content.ReadableContentBox;
 import com.salesmanager.shop.model.content.ReadableContentEntity;
@@ -46,6 +47,7 @@ public interface ContentFacade {
 	 * @param id
 	 */
 	void delete(MerchantStore store, Long id);
+
 	
 	
 	/**
@@ -127,5 +129,6 @@ public interface ContentFacade {
 	 * @return
 	 */
 	List<ReadableContentEntity> getContents(Optional<String> type, MerchantStore store, Language language);
+
 
 }

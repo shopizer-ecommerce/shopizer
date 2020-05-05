@@ -27,7 +27,7 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
 @EntityListeners(value = AuditListener.class)
 @Table(name = "SYSTEM_CONFIGURATION", schema= SchemaConstant.SALESMANAGER_SCHEMA)
 public class SystemConfiguration extends SalesManagerEntity<Long, SystemConfiguration> implements Serializable, Auditable {
-	private static final long serialVersionUID = 6831573162350751684L;
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@Column(name = "SYSTEM_CONFIG_ID")

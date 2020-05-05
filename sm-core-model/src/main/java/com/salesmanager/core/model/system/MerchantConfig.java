@@ -23,6 +23,7 @@ public class MerchantConfig implements Serializable, JSONAware {
 	private boolean displayStoreAddress = false;
 	private boolean displayAddToCartOnFeaturedItems = false;
 	private boolean displayCustomerAgreement = false;
+	private boolean displayPagesMenu = true;
 	private boolean allowPurchaseItems = true;
 	private boolean displaySearchBox = true;
 	private boolean testMode = false;
@@ -40,6 +41,7 @@ public class MerchantConfig implements Serializable, JSONAware {
 		data.put("displayContactUs", this.isDisplayContactUs());
 		data.put("displayStoreAddress", this.isDisplayStoreAddress());
 		data.put("displayAddToCartOnFeaturedItems", this.isDisplayAddToCartOnFeaturedItems());
+		data.put("displayPagesMenu", this.isDisplayPagesMenu());
 		data.put("displayCustomerAgreement", this.isDisplayCustomerAgreement());
 		data.put("allowPurchaseItems", this.isAllowPurchaseItems());
 		data.put("displaySearchBox", this.displaySearchBox);
@@ -159,6 +161,14 @@ public class MerchantConfig implements Serializable, JSONAware {
 
 	public void setDebugMode(boolean debugMode) {
 		this.debugMode = debugMode;
+	}
+
+	public boolean isDisplayPagesMenu() {
+		return displayPagesMenu;
+	}
+
+	public void setDisplayPagesMenu(boolean displayPagesMenu) {
+		this.displayPagesMenu = displayPagesMenu;
 	}
 
 }

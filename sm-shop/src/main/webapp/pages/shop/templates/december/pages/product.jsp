@@ -26,10 +26,12 @@
 	<div class="all-hyperion-page">
 		<div class="container">
 			<div class="row">
+				<div style="margin-top:20px;">
+				<jsp:include page="/pages/shop/templates/exoticamobilia/sections/breadcrumb.jsp" />
+				</div>
 				<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
 					<!-- product-simple-area-start -->
-					<div class="product-simple-area ptb-80 ptb-40-md ptb-20-xs"
-						style="padding-top: 40px !important;">
+					<div class="product-simple-area ptb-80 ptb-40-md ptb-20-xs">
 						<div class="row">
 							<div class="col-lg-5 col-md-7 col-sm-7 col-xs-12">
 								<div class="tab-content">
@@ -87,7 +89,7 @@
 							<div class="col-lg-7 col-md-5 col-sm-5 col-xs-12">
 								<div class="product-simple-content">
 									<div class="sinple-c-title">
-										<h3>${product.description.name}</h3>
+										<h1>${product.description.name}</h1>
 									</div>
 									<div class="checkbox">
 										<span><i class="fa fa-check-square" aria-hidden="true"></i>
@@ -141,17 +143,6 @@
 									</h4>
 									<jsp:include
 										page="/pages/shop/common/catalog/addToCartProduct.jsp" />
-									<!-- Facebook share button -->
-									<!--
-									<div>
-										<div class="action-heiper">
-											<iframe
-												src="https://www.facebook.com/plugins/share_button.php?locale=${LOCALE.language}_${LOCALE.country}&href=<c:out value="${requestScope.CONFIGS['SHOP_SCHEME']}"/>%3A%2F%2F<c:out value="${requestScope.MERCHANT_STORE.domainName}"/><c:url value="/shop/${product.description.friendlyUrl}.html"/>&layout=button_count&size=large&mobile_iframe=true&appId=<c:out value="${requestScope.CONFIGS['shopizer.facebook-appid']}"/>&width=83&height=28"
-												width="113" height="43" style="border: none; overflow: hidden margin=left:10px;"
-												scrolling="no" frameborder="0" allowTransparency="true"></iframe>
-										</div>
-									</div>
-									-->
 								</div>
 							</div>
 						</div>
@@ -163,14 +154,11 @@
 								<div class="product-info-tab">
 									<!-- Nav tabs -->
 									<ul class="product-info-tab-menu" role="tablist">
-										<li class="active"><a href="#details" data-toggle="tab"><i
-												class="fa fa-file-text-o pr-5"></i> <s:message
+										<li class="active"><a href="#details"><i
+												class="fa fa-file-text-o pr-5"></i> 
+													<s:message
 													code="label.productedit.productdesc"
 													text="Product description" /></a></li>
-										<li><a href="#reviews" data-toggle="tab"><i
-												class="fa fa-star pr-5"></i> <s:message
-													code="label.product.customer.reviews"
-													text="Customer reviews" /></a></li>
 									</ul>
 									<!-- Tab panes -->
 									<div class="tab-content">
@@ -230,6 +218,29 @@
 												</dl>
 											</div>
 										</div>
+									</div>
+								</div>
+							</div>
+							<!-- fin product info -->
+						</div>
+						<!--fin col 9 -->
+					</div>
+				
+				<!-- product-simple-area-end -->
+				
+ 				<div class="product-info-detailed pb-80 ptb-40-md ptb-20-xs">
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="product-info-tab">
+									<!-- Nav tabs -->
+									<ul class="product-info-tab-menu" role="tablist">
+										<li class="active"><a href="#reviews" data-toggle="tab"><i
+												class="fa fa-star pr-5"></i> <s:message
+													code="label.product.customer.reviews"
+													text="Customer reviews" /></a></li>
+									</ul>
+									<!-- Tab panes -->
+									<div class="tab-content">
 										<div class="tab-pane" id="reviews">
 											<div class="customer-review-top">
 												<h4>
@@ -243,14 +254,14 @@
 									</div>
 								</div>
 							</div>
-							<!-- fin product info -->
 						</div>
 						<!--fin col 9 -->
 					</div>
-				</div>
+				
+				
+				<!-- customer review -->
 
 				<!-- Related items -->
-
 				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
 					<c:if test="${relatedProducts!=null}">
 						<div
@@ -287,7 +298,6 @@
 			</div>
 		</div>
 	</div>
-</div>
 </div>
 </div>
 

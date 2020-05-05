@@ -14,9 +14,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.TableGenerator;
+import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.annotations.Type;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.model.common.audit.AuditListener;
@@ -28,12 +28,13 @@ import com.salesmanager.core.model.reference.language.Language;
 @EntityListeners(value = AuditListener.class)
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Description implements Auditable, Serializable {
-	private static final long serialVersionUID = -4335863941736710046L;
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@Column(name = "DESCRIPTION_ID")
-	@TableGenerator(name = "TABLE_GEN", table = "SM_SEQUENCER", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "DESCRIPTION_SEQ_NEXT_VAL")
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
+	//@TableGenerator(name = "TABLE_GEN", table = "SM_SEQUENCER", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "DESCRIPTION_SEQ_NEXT_VAL")
+	//@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "description_gen")
 	private Long id;
 	
 	@JsonIgnore

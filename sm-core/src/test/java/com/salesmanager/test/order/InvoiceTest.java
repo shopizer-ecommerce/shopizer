@@ -1,69 +1,6 @@
 package com.salesmanager.test.order;
 
-import java.awt.Graphics2D;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.math.BigDecimal;
-import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
-import javax.inject.Inject;
-
-import org.apache.commons.lang3.StringUtils;
-import org.jopendocument.dom.OOUtils;
-import org.jopendocument.dom.spreadsheet.Sheet;
-import org.jopendocument.dom.spreadsheet.SpreadSheet;
-import org.jopendocument.model.OpenDocument;
-import org.jopendocument.renderer.ODTRenderer;
-import org.junit.Assert;
 import org.junit.Ignore;
-import org.junit.Test;
-
-import com.itextpdf.text.Document;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.pdf.PdfContentByte;
-import com.itextpdf.text.pdf.PdfDocument;
-import com.itextpdf.text.pdf.PdfTemplate;
-import com.itextpdf.text.pdf.PdfWriter;
-import com.salesmanager.core.business.constants.Constants;
-import com.salesmanager.core.business.exception.ServiceException;
-import com.salesmanager.core.business.utils.ProductPriceUtils;
-import com.salesmanager.core.model.catalog.product.Product;
-import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
-import com.salesmanager.core.model.catalog.product.attribute.ProductOption;
-import com.salesmanager.core.model.catalog.product.attribute.ProductOptionDescription;
-import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValue;
-import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueDescription;
-import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
-import com.salesmanager.core.model.catalog.product.description.ProductDescription;
-import com.salesmanager.core.model.catalog.product.price.ProductPrice;
-import com.salesmanager.core.model.catalog.product.price.ProductPriceDescription;
-import com.salesmanager.core.model.catalog.product.type.ProductType;
-import com.salesmanager.core.model.common.Billing;
-import com.salesmanager.core.model.common.Delivery;
-import com.salesmanager.core.model.customer.Customer;
-import com.salesmanager.core.model.customer.CustomerGender;
-import com.salesmanager.core.model.merchant.MerchantStore;
-import com.salesmanager.core.model.order.Order;
-import com.salesmanager.core.model.order.OrderTotal;
-import com.salesmanager.core.model.order.orderproduct.OrderProduct;
-import com.salesmanager.core.model.order.orderproduct.OrderProductAttribute;
-import com.salesmanager.core.model.order.orderproduct.OrderProductDownload;
-import com.salesmanager.core.model.order.orderproduct.OrderProductPrice;
-import com.salesmanager.core.model.order.orderstatus.OrderStatus;
-import com.salesmanager.core.model.order.orderstatus.OrderStatusHistory;
-import com.salesmanager.core.model.payments.PaymentType;
-import com.salesmanager.core.model.reference.country.Country;
-import com.salesmanager.core.model.reference.currency.Currency;
-import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.core.model.reference.zone.Zone;
 
 
 /**
@@ -73,11 +10,11 @@ import com.salesmanager.core.model.reference.zone.Zone;
  */
 @Ignore
 public class InvoiceTest extends com.salesmanager.test.common.AbstractSalesManagerCoreTestCase {
-	
+/*	
 	@Inject
 	ProductPriceUtils priceUtil;
 
-	//@Test
+
 	@Ignore
 	public void createInvoice() throws ServiceException {
 		
@@ -90,10 +27,10 @@ public class InvoiceTest extends com.salesmanager.test.common.AbstractSalesManag
 	    Language en = languageService.getByCode("en");
 	    
 	    
-	    /**
+	    *//**
 	     * 1) Create an order
 	     * 
-	     */
+	     *//*
 	    
 	    //1.1 create a product
 	    
@@ -379,9 +316,9 @@ public class InvoiceTest extends com.salesmanager.test.common.AbstractSalesManag
 		
 		order = orderService.getById(order.getId());
 		
-		/**
+		*//**
 		 * 2 Create an invoice
-		 */
+		 *//*
 		try {
 			URL resource = getClass().getResource("/templates/invoice/invoice.ods");
 			File file = new File(resource.toURI());
@@ -698,7 +635,7 @@ public class InvoiceTest extends com.salesmanager.test.common.AbstractSalesManag
 		}
 		
 		
-	}
+	}*/
 	
 	
 

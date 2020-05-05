@@ -836,20 +836,8 @@ Setup
   font-weight: 400;
 }
 
-.au-banner .banner-content .banner-btn {
-  display: inline-block;
-  padding: 3px 16px;
-  background-color: #555555;
-  font-size: 13px;
-  line-height: 1.8461538462;
-  color: #ffffff;
-  font-weight: 400;
-  text-transform: uppercase;
-  -webkit-transition: all 0.3s ease 0s;
-  -o-transition: all 0.3s ease 0s;
-  -moz-transition: all 0.3s ease 0s;
-  transition: all 0.3s ease 0s;
-}
+
+
 
 .au-banner .banner-image img {
   width: 100%;

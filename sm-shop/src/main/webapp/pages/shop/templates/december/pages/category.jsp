@@ -32,7 +32,7 @@ response.setDateHeader ("Expires", -1);
 
  $(function(){
 	
-	/** specific to this template ***/
+	/** specific to this template, productBoxTemplate is in catalogLayout.jsp ***/
 	var tpl = $('#productBoxTemplate').text();
 	tpl = tpl.replace("COLUMN-SIZE", "4");//size of the div
 	$('#productBoxTemplate').text(tpl);
@@ -94,11 +94,7 @@ response.setDateHeader ("Expires", -1);
 
 		  // clone applications to get a second collection
 		  data = $('#hiddenProductsContainer').clone();
-		  
-		  //console.log('Data');
-		  //console.log(data);
-		  
-		  
+
 		  listedData = data.find('.product');
 		  
 		  //console.log('Listed Data');
@@ -161,6 +157,11 @@ response.setDateHeader ("Expires", -1);
  		if(filter!=null) {
  			url = url + '/filter=' + filter + '/filter-value=' + filterValue +'';
  		}
+ 		
+ 		<% if(request.getAttribute("ref") != null) { %>
+ 			url = url + '?ref=<%=request.getAttribute("ref")%>';
+ 		<%}%>
+ 		
  		loadProducts(url,'#productsContainer');
 
  	}
@@ -177,7 +178,7 @@ response.setDateHeader ("Expires", -1);
  	}
  	
  	function buildProductsList(productList, divProductsContainer) {
- 		log('Products-> ' + productList.products.length);
+ 		//log('Products-> ' + productList.products.length);
 		var productsTemplate = Hogan.compile(document.getElementById("productBoxTemplate").innerHTML);
 		var productsRendred = productsTemplate.render(productList);
 		$('#productsContainer').append(productsRendred);
@@ -215,7 +216,7 @@ response.setDateHeader ("Expires", -1);
 			  <c:if test="${category.description.name!=null}">
 			  <div class="fixed-image section dark-translucent-bg parallax-bg-3">
 					<div class="container">
-					<h2 class="shop-banner-title lead"><c:out value="${category.description.name}"/></h2>
+						<h1 class="shop-banner-title lead"><c:out value="${category.description.name}"/></h1>
 					</div>
 			  </div>
 			  </c:if>
@@ -230,7 +231,7 @@ response.setDateHeader ("Expires", -1);
 			  </c:if>
 			  
 
-			<div class="bedroom-all-product-area ptb-80">
+			<div class="bedroom-all-product-area ptb-80" style="padding-top:10px;">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">

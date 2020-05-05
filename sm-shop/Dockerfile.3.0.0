@@ -1,0 +1,17 @@
+FROM openjdk:8-jdk-alpine
+MAINTAINER shopizerecomm
+
+VOLUME /tmp
+
+
+ADD ./SALESMANAGER.h2.db .
+COPY ./files/ .
+
+ARG JAR_FILE=target/shopizer.jar
+RUN echo "Oh dang look at that $JAR_FILE"
+COPY ${JAR_FILE} app.jar
+ENV JAVA_OPTS="-Xmx1024m"
+#ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom" "-jar","/app.jar"]
+CMD exec java -jar /app.jar
+EXPOSE 8080
+

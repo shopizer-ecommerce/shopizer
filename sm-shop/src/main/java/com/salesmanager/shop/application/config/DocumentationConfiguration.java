@@ -1,5 +1,9 @@
 package com.salesmanager.shop.application.config;
 
+import static io.swagger.models.auth.In.HEADER;
+import static java.util.Collections.singletonList;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -27,12 +31,6 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
-import springfox.documentation.builders.ResponseMessageBuilder;
-
-import static io.swagger.models.auth.In.HEADER;
-import static java.util.Collections.singletonList;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static springfox.documentation.spi.DocumentationType.SWAGGER_2;
 
 @Configuration
 @EnableSwagger2

@@ -9,6 +9,7 @@ import com.salesmanager.core.model.common.Criteria;
 import com.salesmanager.core.model.common.GenericEntityList;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.user.User;
+import com.salesmanager.core.model.user.UserCriteria;
 
 public class UserServiceLDAPImpl implements UserService {
 
@@ -109,7 +110,7 @@ public class UserServiceLDAPImpl implements UserService {
 	}
 
 	@Override
-	public Page<User> listByCriteria(Criteria criteria, int page, int count) throws ServiceException {
+	public Page<User> listByCriteria(UserCriteria criteria, int page, int count) throws ServiceException {
 		// TODO Auto-generated method stub
 		return null;
 	}

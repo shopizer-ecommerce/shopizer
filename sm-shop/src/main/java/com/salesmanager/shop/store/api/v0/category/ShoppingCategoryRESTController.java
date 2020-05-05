@@ -178,20 +178,6 @@ public class ShoppingCategoryRESTController {
 	}
 	
 
-	
-	/**
-	 * Deletes a category for a given MerchantStore
-	 */
-	@RequestMapping( value="/private/{store}/category/{id}", method=RequestMethod.DELETE)
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteCategory(@PathVariable final String store, @PathVariable Long id, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		Category category = categoryService.getById(id);
-		if(category != null && category.getMerchantStore().getCode().equalsIgnoreCase(store)){
-			categoryService.delete(category);
-		}else{
-			response.sendError(404, "No Category found for ID : " + id);
-		}
-	}
 
 	
 	

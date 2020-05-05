@@ -40,7 +40,7 @@ $(document).ready(function() {
 
 				<c:url var="createOptionSet"
 					value="/admin/customers/optionsset/save.html" />
-				<form:form method="POST" commandName="optionSet"
+				<form:form method="POST" modelAttribute="optionSet"
 					action="${createOptionSet}" cssClass="form-inline">
 
 

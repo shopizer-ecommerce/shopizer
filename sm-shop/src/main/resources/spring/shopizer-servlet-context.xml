@@ -53,46 +53,6 @@
 	</beans:bean>
 
 	
-    <!-- 
-    httpd image handler	
-    <beans:bean id="img" class="com.salesmanager.shop.utils.ImageFilePathUtils">
-		<beans:property name="basePath" value="http://localhost:80/images" />
-	</beans:bean> 
-	-->
-	
-	<!--
-	AWS image handler
-	-->
-	<!-- 	
-	<beans:bean id="img" class="com.salesmanager.shop.utils.AWSFilePathUtils">
-		<beans:property name="basePath" value="https://s3.ca-central-1.amazonaws.com/shopizer-demo" />
-	</beans:bean> 
-	-->
-	
-	
 
-	<!--
-        Configures FB and Twitter support.
-     -->
-    <facebook:config app-id="${facebook.app.id}" app-secret="${facebook.app.secret}"/>
-
-    <!--
-        Configures the connection repository. This application uses JDBC
-        connection repository which saves connection details to database.
-        This repository uses the data source bean for obtaining database
-        connection.
-        
-     -->
-    
-    <social:jdbc-connection-repository/>
-
-    <!--
-        This bean manages the connection flow between the account provider and
-        the example application.
-    	-->
-    
-    
-    <beans:bean id="connectController" class="org.springframework.social.connect.web.ConnectController"
-          autowire="constructor"/>
 
 </beans:beans>

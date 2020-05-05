@@ -28,8 +28,7 @@
 			<div class="row">
 				<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
 					<!-- product-simple-area-start -->
-					<div class="product-simple-area ptb-80 ptb-40-md ptb-20-xs"
-						style="padding-top: 40px !important;">
+					<div class="product-simple-area ptb-80 ptb-40-md ptb-20-xs">
 						<div class="row">
 							<div class="col-lg-5 col-md-7 col-sm-7 col-xs-12">
 								<div class="tab-content">

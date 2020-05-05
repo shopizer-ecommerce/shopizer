@@ -7,11 +7,10 @@ VOLUME /tmp
 #RUN apt-get update && apt-get install -y mysql-client
 #RUN apt-get update && apt-get install -y vim
 
-#RUN apt-get update && \
-#    apt-get install -y \
-#    	mysql-client \
-#    	vim \
-#    && apt-get clean
+RUN apt-get update && \
+    apt-get install -y \
+    	vim \
+    && apt-get clean
 
 
 # Delete existing ROOT folder

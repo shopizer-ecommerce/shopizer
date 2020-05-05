@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 import javax.inject.Inject;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +34,7 @@ import com.salesmanager.core.business.services.tax.TaxService;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.price.FinalPrice;
+import com.salesmanager.core.model.common.UserContext;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.Order;
@@ -56,9 +58,6 @@ import com.salesmanager.core.model.shipping.ShippingConfiguration;
 import com.salesmanager.core.model.shoppingcart.ShoppingCart;
 import com.salesmanager.core.model.shoppingcart.ShoppingCartItem;
 import com.salesmanager.core.model.tax.TaxItem;
-
-
-
 
 @Service("orderService")
 public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order> implements OrderService {
@@ -89,12 +88,6 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     @Inject
     private OrderTotalService orderTotalService;
 
-    @Autowired
-    private List<OrderProcessor> orderPreProcessors;
-    
-    @Autowired
-    private List<OrderProcessor> orderPostProcessors;
-    
     private final OrderRepository orderRepository;
 
     @Inject
@@ -122,7 +115,8 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     	return this.process(order, customer, items, summary, payment, transaction, store);
     }
     
-    private Order process(Order order, Customer customer, List<ShoppingCartItem> items, OrderTotalSummary summary, Payment payment, Transaction transaction, MerchantStore store) throws ServiceException {
+    @SuppressWarnings("unchecked")
+	private Order process(Order order, Customer customer, List<ShoppingCartItem> items, OrderTotalSummary summary, Payment payment, Transaction transaction, MerchantStore store) throws ServiceException {
     	
     	
     	Validate.notNull(order, "Order cannot be null");
@@ -132,12 +126,13 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     	Validate.notNull(store, "MerchantStore cannot be null");
     	Validate.notNull(summary, "Order total Summary cannot be null");
     	
-
-    	/**
-    	 * Invoke all pre-processors
-    	 */
-    	//orderPreProcessors.stream().map(p -> {p.processOrder(order, customer, store); return p;});
-    	
+    	UserContext context = UserContext.getCurrentInstance();
+    	if(context != null) {
+    		String ipAddress = context.getIpAddress();
+    		if(!StringUtils.isBlank(ipAddress)) {
+    			order.setIpAddress(ipAddress);
+    		}
+    	}
 
     	
     	//first process payment
@@ -205,14 +200,8 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
             productService.update(p);
         }
 
-        
-        /**
-         * Invoke all post processors
-         */
-        orderPostProcessors.stream()
-        .forEach(process-> process.processOrder(order, customer, store));
-        //.map(p -> {p.processOrder(order, customer, store); return p;});
 
+        
     	return order;
     }
 

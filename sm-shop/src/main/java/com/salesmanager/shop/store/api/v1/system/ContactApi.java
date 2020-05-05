@@ -6,6 +6,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,13 +43,13 @@ public class ContactApi {
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
   })
-  public ResponseEntity<String> contact(
+  public ResponseEntity<Void> contact(
       @Valid @RequestBody ContactForm contact,
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language,
       HttpServletRequest request) {
     Locale locale = languageService.toLocale(language, merchantStore);
     emailTemplatesUtils.sendContactEmail(contact, merchantStore, locale, request.getContextPath());
-    return ResponseEntity.ok("contact form sent");
+    return new ResponseEntity<Void>(HttpStatus.OK);
   }
 }

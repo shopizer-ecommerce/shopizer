@@ -40,6 +40,8 @@ public interface CategoryService extends SalesManagerEntityService<Long, Categor
 
 	List<Category> getListByDepth(MerchantStore store, int depth);
 	
+	Category getById(Long id, int merchantId);
+	
 	Page<Category> getListByDepth(MerchantStore store, Language language, String name, int depth, int page, int count);
 
 	/**

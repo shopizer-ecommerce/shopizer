@@ -23,7 +23,7 @@
 							<br/>
 							
 							<c:url var="saveSystemConfiguration" value="/admin/configuration/saveSystemConfiguration.html"/>
-							<form:form method="POST" commandName="configuration" action="${saveSystemConfiguration}">
+							<form:form method="POST" modelAttribute="configuration" action="${saveSystemConfiguration}">
 
       							
       								<form:errors path="*" cssClass="alert alert-error" element="div" />
@@ -85,6 +85,14 @@
 	                        				<label><s:message code="label.store.displaysearchbox" text="Display search box" /></label>
 	                        				<div class="controls">
 	                        					<form:checkbox path="displaySearchBox" /> 
+	                                   			<span class="help-inline"></span>
+	                        				</div>
+	                  				   </div>
+	                  				   
+	                  				   <div class="control-group">
+	                        				<label><s:message code="label.store.displaypagesmenu" text="Display pages menu" /></label>
+	                        				<div class="controls">
+	                        					<form:checkbox path="displayPagesMenu" /> 
 	                                   			<span class="help-inline"></span>
 	                        				</div>
 	                  				   </div>

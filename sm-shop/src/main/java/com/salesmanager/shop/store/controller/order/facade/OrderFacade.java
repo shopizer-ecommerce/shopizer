@@ -125,7 +125,7 @@ public interface OrderFacade {
 	 * @throws Exception
 	 */
 
-	ReadableOrderList getReadableOrderList(int start, int maxCount, String draw) throws Exception;
+	ReadableOrderList getReadableOrderList(int start, int maxCount, MerchantStore store);
 
 
 	/**

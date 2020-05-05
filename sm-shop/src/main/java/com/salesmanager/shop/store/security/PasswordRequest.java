@@ -1,6 +1,6 @@
 package com.salesmanager.shop.store.security;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.NotEmpty;
 
 public class PasswordRequest extends AuthenticationRequest {
 

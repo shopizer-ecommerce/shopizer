@@ -1,13 +1,17 @@
 package com.salesmanager.core.business.repositories.merchant;
 
 import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.utils.RepositoryHelper;
 import com.salesmanager.core.model.common.GenericEntityList;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.merchant.MerchantStoreCriteria;
@@ -18,6 +22,7 @@ public class MerchantRepositoryImpl implements MerchantRepositoryCustom {
   private EntityManager em;
 
   private static final Logger LOGGER = LoggerFactory.getLogger(MerchantRepositoryImpl.class);
+  
 
   @SuppressWarnings({"rawtypes", "unchecked"})
   @Override
@@ -71,8 +76,10 @@ public class MerchantRepositoryImpl implements MerchantRepositoryCustom {
 
       GenericEntityList entityList = new GenericEntityList();
       entityList.setTotalCount(count.intValue());
+      
+      q = RepositoryHelper.paginateQuery(q, count, entityList, criteria);
 
-      if(criteria.isLegacyPagination()) {
+/*      if(criteria.isLegacyPagination()) {
 	      if (criteria.getMaxCount() > 0) {
 	        q.setFirstResult(criteria.getStartIndex());
 	        if (criteria.getMaxCount() < count.intValue()) {
@@ -86,7 +93,7 @@ public class MerchantRepositoryImpl implements MerchantRepositoryCustom {
     	  q.setMaxResults(criteria.getPageSize());
     	  int lastPageNumber = (int) ((count.intValue() / criteria.getPageSize()) + 1);
     	  entityList.setTotalPage(lastPageNumber);
-      }
+      }*/
 
       List<MerchantStore> stores = q.getResultList();
       entityList.setList(stores);

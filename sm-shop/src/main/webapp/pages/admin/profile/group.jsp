@@ -37,7 +37,7 @@
 				<c:url var="groupSave" value="/admin/group/save.html" />
 
 
-				<form:form method="POST" commandName="group" action="${groupSave}">
+				<form:form method="POST" modelAttribute="group" action="${groupSave}">
 
 
 					<form:errors path="*" cssClass="alert alert-error" element="div" />

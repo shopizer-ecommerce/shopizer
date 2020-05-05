@@ -141,7 +141,7 @@ public class CatalogApi {
 
 
   @DeleteMapping(value = "/private/catalog/{id}")
-  @ApiOperation(httpMethod = "DETETE", value = "Deletes a catalog", notes = "",
+  @ApiOperation(httpMethod = "DELETE", value = "Deletes a catalog", notes = "",
   response = Void.class)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),

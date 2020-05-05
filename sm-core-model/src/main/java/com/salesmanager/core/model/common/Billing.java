@@ -6,7 +6,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.NotEmpty;
 
 import com.salesmanager.core.model.reference.country.Country;
 import com.salesmanager.core.model.reference.zone.Zone;

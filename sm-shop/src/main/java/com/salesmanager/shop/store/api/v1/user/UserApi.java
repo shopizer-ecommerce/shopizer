@@ -1,5 +1,7 @@
 package com.salesmanager.shop.store.api.v1.user;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 import java.security.Principal;
 import java.util.Arrays;
 import java.util.Map;
@@ -31,6 +33,7 @@ import com.google.common.collect.ImmutableMap;
 import com.salesmanager.core.model.common.Criteria;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.model.user.UserCriteria;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.model.entity.UniqueEntity;
@@ -39,6 +42,7 @@ import com.salesmanager.shop.model.user.ReadableUser;
 import com.salesmanager.shop.model.user.ReadableUserList;
 import com.salesmanager.shop.model.user.UserPassword;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
+import com.salesmanager.shop.store.api.exception.RestApiException;
 import com.salesmanager.shop.store.api.exception.UnauthorizedException;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.store.controller.user.facade.UserFacade;
@@ -71,7 +75,7 @@ public class UserApi {
 
 	// mapping between readable field name and backend field name
 	private static final Map<String, String> MAPPING_FIELDS = ImmutableMap.<String, String>builder()
-			.put("emailAddress", "adminEmail").put("userName", "adminName").build();
+			.put("emailAddress", "adminEmail").put("active", "active").build();
 
 	/**
 	 * Get userName by merchant code and userName
@@ -98,7 +102,7 @@ public class UserApi {
 			throw new UnauthorizedException();
 		}
 		// only admin and superadmin allowed
-		userFacade.authorizedGroup(authenticatedUser, Stream.of("SUPERADMIN", "ADMIN").collect(Collectors.toList()));
+		userFacade.authorizedGroup(authenticatedUser, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()));
 
 		return userFacade.findById(id, merchantStore.getCode(), language);
 	}
@@ -123,7 +127,7 @@ public class UserApi {
 			throw new UnauthorizedException();
 		}
 		// only admin and superadmin allowed
-		userFacade.authorizedGroup(authenticatedUser, Stream.of("SUPERADMIN", "ADMIN").collect(Collectors.toList()));
+		userFacade.authorizedGroup(authenticatedUser, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()));
 
 		userFacade.authorizedGroups(authenticatedUser, user);
 
@@ -181,7 +185,7 @@ public class UserApi {
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
 	public ReadableUserList list(@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language,
 			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-			@RequestParam(value = "count", required = false, defaultValue = "10") Integer count,
+			@RequestParam(value = "count", required = false, defaultValue = "20") Integer count,
 			HttpServletRequest request) {
 
 		String authenticatedUser = userFacade.authenticatedUser();
@@ -189,7 +193,8 @@ public class UserApi {
 			throw new UnauthorizedException();
 		}
 
-		Criteria criteria = createCriteria(request);
+
+		UserCriteria criteria = (UserCriteria) this.createCriteria(request);
 		criteria.setStoreCode(merchantStore.getCode());
 
 		if (userFacade.userInRoles(authenticatedUser, Arrays.asList(Constants.GROUP_SUPERADMIN))) {
@@ -203,9 +208,29 @@ public class UserApi {
 			}
 		}
 
-		userFacade.authorizedGroup(authenticatedUser, Stream.of("SUPERADMIN", "ADMIN").collect(Collectors.toList()));
+		userFacade.authorizedGroup(authenticatedUser, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()));
 
 		return userFacade.listByCriteria(criteria, page, count, language);
+	}
+	
+	@PatchMapping(value = "/private/user/{id}/enabled", produces = { APPLICATION_JSON_VALUE })
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT") })
+	public void updateEnabled(
+			@PathVariable Long id, 
+			@Valid @RequestBody PersistableUser user,
+			@ApiIgnore MerchantStore merchantStore
+			) {
+		
+		// superadmin, admin and retail_admin
+		String authenticatedUser = userFacade.authenticatedUser();
+		if (authenticatedUser == null) {
+			throw new UnauthorizedException();
+		}
+
+		userFacade.authorizedGroup(authenticatedUser, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()));
+
+		user.setId(id);
+		userFacade.updateEnabled(merchantStore, user);
 	}
 
 	@ResponseStatus(HttpStatus.OK)
@@ -226,7 +251,7 @@ public class UserApi {
 			userFacade.authorizedStore(authenticatedUser, merchantStore.getCode());
 		}
 
-		userFacade.authorizedGroup(authenticatedUser, Stream.of("SUPERADMIN", "ADMIN").collect(Collectors.toList()));
+		userFacade.authorizedGroup(authenticatedUser, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()));
 
 		userFacade.delete(id, merchantStore.getCode());
 	}
@@ -249,12 +274,22 @@ public class UserApi {
 	}
 
 	private Criteria createCriteria(HttpServletRequest request) {
-		Criteria criteria = ServiceRequestCriteriaBuilderUtils.buildRequest(MAPPING_FIELDS, request);
+		// Criteria criteria =
+		// ServiceRequestCriteriaBuilderUtils.buildRequest(MAPPING_FIELDS,
+		// request);
+		// criteria.setLegacyPagination(false);
+
+		try {
+			return ServiceRequestCriteriaBuilderUtils.buildRequestCriterias(new UserCriteria(), MAPPING_FIELDS,
+					request);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			throw new RestApiException("Error while binding request parameters");
+		}
 
 		// Optional.ofNullable(start).ifPresent(criteria::setStartIndex);
 		// Optional.ofNullable(count).ifPresent(criteria::setMaxCount);
 
-		return criteria;
 	}
 
 	/**

@@ -127,7 +127,6 @@ public class CustomerFacadeImpl implements CustomerFacade {
   @Inject
   private LabelUtils messages;
 
-
   @Inject
   private CountryService countryService;
 
@@ -155,13 +154,11 @@ public class CustomerFacadeImpl implements CustomerFacade {
   @Inject
   private CustomerReviewService customerReviewService;
 
-
   @Inject
   private CoreConfiguration coreConfiguration;
   
   @Autowired
   private CustomerPopulator customerPopulator;
-
 
   @Inject
   private EmailUtils emailUtils;
@@ -449,6 +446,11 @@ public class CustomerFacadeImpl implements CustomerFacade {
         new UsernamePasswordAuthenticationToken(userName, password, authorities);
 
     Authentication authentication = customerAuthenticationManager.authenticate(authenticationToken);
+    
+/*    SecurityContext sc = SecurityContextHolder.getContext();
+    sc.setAuthentication(auth);
+    HttpSession session = request.getSession(true);
+    session.setAttribute("SPRING_SECURITY_CONTEXT", sc);*/
 
     SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -632,16 +634,6 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
     Customer cust = new Customer();
 
-/*    CustomerPopulator populator = new CustomerPopulator();
-    populator.setCountryService(countryService);
-    populator.setCustomerOptionService(customerOptionService);
-    populator.setCustomerOptionValueService(customerOptionValueService);
-    populator.setLanguageService(languageService);
-    populator.setLanguageService(languageService);
-    populator.setZoneService(zoneService);
-    populator.setGroupService(groupService);*/
-    
-    
     try{
       customerPopulator.populate(customer, cust, store, store.getDefaultLanguage());
     } catch (ConversionException e) {
@@ -691,20 +683,6 @@ public class CustomerFacadeImpl implements CustomerFacade {
       customer.setPassword(password);
     }
 
-    
-    /** now encoded in populator**/
-
-/*    String encodedPassword = passwordEncoder.encode(password);
-    *//** not going into this **//*
-    if (!StringUtils.isBlank(customer.getEncodedPassword())) {
-      encodedPassword = customer.getEncodedPassword();
-      customer.setPassword("");
-    }*/
-
-    //customer.setEncodedPassword(encodedPassword);
-    
-    //cust.setPassword(encodedPassword);
-    
     saveCustomer(cust);
     customer.setId(cust.getId());
 
@@ -1027,6 +1005,7 @@ public class CustomerFacadeImpl implements CustomerFacade {
     Validate.notNull(customer.getBilling().getCity(), "Billing city can not be null");
     Validate.notNull(customer.getBilling().getPostalCode(), "Billing postal code can not be null");
     Validate.notNull(customer.getBilling().getCountryCode(), "Billing country can not be null");
+
     customer.getBilling().setBillingAddress(true);
     
     if(customer.getDelivery() == null) {
@@ -1038,6 +1017,7 @@ public class CustomerFacadeImpl implements CustomerFacade {
       Validate.notNull(customer.getDelivery().getCity(), "Delivery city can not be null");
       Validate.notNull(customer.getDelivery().getPostalCode(), "Delivery postal code can not be null");
       Validate.notNull(customer.getDelivery().getCountryCode(), "Delivery country can not be null");
+
       
     }
     

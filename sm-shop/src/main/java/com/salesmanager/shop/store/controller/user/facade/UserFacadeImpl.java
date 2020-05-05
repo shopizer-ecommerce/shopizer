@@ -1,6 +1,8 @@
 package com.salesmanager.shop.store.controller.user.facade;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -29,6 +31,7 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.user.Group;
 import com.salesmanager.core.model.user.Permission;
 import com.salesmanager.core.model.user.User;
+import com.salesmanager.core.model.user.UserCriteria;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.security.PersistableGroup;
 import com.salesmanager.shop.model.security.ReadableGroup;
@@ -191,6 +194,20 @@ public class UserFacadeImpl implements UserFacade {
 			User user = userService.findByStore(readableUser.getId(), merchantStoreCode);
 			if (user != null) {
 				authorized = true;
+			} else {
+				user = userService.getByUserName(userName);
+			}
+			
+			if(user != null && !authorized) {
+
+				//get parent
+				MerchantStore store = merchantStoreService.getParent(merchantStoreCode);
+
+				//user can be in parent
+				MerchantStore st = user.getMerchantStore();
+				if(store != null &&  st.getCode().equals(store.getCode())) {
+					authorized = true;
+				}
 			}
 
 			return authorized;
@@ -276,10 +293,7 @@ public class UserFacadeImpl implements UserFacade {
 			readableUserList.setTotalPages(userList.getTotalPage());
 			//readableUserList.setTotalPages(readableUserList.getData().size());
 			readableUserList.setRecordsFiltered(userList.getTotalCount());
-			/*
-			 * if (!org.apache.commons.lang3.StringUtils.isEmpty(drawParam)) {
-			 * readableUserList.setDraw(Integer.parseInt(drawParam)); }
-			 */
+
 			return readableUserList;
 		} catch (ServiceException e) {
 			throw new ServiceRuntimeException("Cannot get users by criteria user", e);
@@ -429,14 +443,40 @@ public class UserFacadeImpl implements UserFacade {
 	}
 
 	@Override
-	public ReadableUserList listByCriteria(Criteria criteria, int page, int count, Language language) {
+	public ReadableUserList listByCriteria(UserCriteria criteria, int page, int count, Language language) {
 		try {
 			ReadableUserList readableUserList = new ReadableUserList();
 			// filtering by userName is not in this implementation
-			Page<User> userList = userService.listByCriteria(criteria, page, count);
-
-			List<ReadableUser> readableUsers = userList.getContent().stream()
-					.map(user -> convertUserToReadableUser(language, user)).collect(Collectors.toList());
+			
+			
+			Page<User> userList = null;
+			
+			Optional<String> storeCode = Optional.ofNullable(criteria.getStoreCode());
+			if(storeCode.isPresent()) {
+				//get store
+				MerchantStore store = merchantStoreService.getByCode(storeCode.get());
+				if(store.isRetailer()) {
+					//get group stores
+					List<MerchantStore> stores = merchantStoreService.findAllStoreNames(store.getCode());
+					List<Integer> intList = stores.stream().map(s -> s.getId()).collect(Collectors.toList());
+					criteria.setStoreIds(intList);
+					//search over store list
+					criteria.setStoreCode(null);
+				}
+			} 
+			
+			
+			userList = userService.listByCriteria(criteria, page, count);
+			List<ReadableUser> readableUsers = new ArrayList<ReadableUser>();
+			if(userList != null) {
+				readableUsers = userList.getContent().stream()
+						.map(user -> convertUserToReadableUser(language, user)).collect(Collectors.toList());
+				
+				readableUserList.setRecordsTotal(userList.getTotalElements());
+				readableUserList.setTotalPages(userList.getTotalPages());
+				readableUserList.setNumber(userList.getSize());
+				readableUserList.setRecordsFiltered(userList.getSize());
+			}
 
 			readableUserList.setData(readableUsers);
 			
@@ -447,10 +487,7 @@ public class UserFacadeImpl implements UserFacade {
 			System.out.println(userList.getTotalPages());
 			*/
 			
-			readableUserList.setRecordsTotal(userList.getTotalElements());
-			readableUserList.setTotalPages(userList.getTotalPages());
-			readableUserList.setNumber(userList.getSize());
-			readableUserList.setRecordsFiltered(userList.getSize());
+
 
 			return readableUserList;
 		} catch (ServiceException e) {
@@ -508,5 +545,28 @@ public class UserFacadeImpl implements UserFacade {
 		return roles.size() > 0;
 
 	}
+
+	@Override
+	public void updateEnabled(MerchantStore store, PersistableUser user) {
+		Validate.notNull(user, "User cannot be null");
+		Validate.notNull(store, "MerchantStore cannot be null");
+		Validate.notNull(user.getId(), "User.id cannot be null");
+		
+		try {
+			User modelUser = userService.findByStore(user.getId(), store.getCode());
+			
+			if(modelUser == null) {
+				throw new ResourceNotFoundException("User with id [" + user.getId() + "] not found for store [" + store.getCode() + "]");
+			}
+			
+			modelUser.setActive(user.isActive());
+			userService.saveOrUpdate(modelUser);
+			
+		} catch (ServiceException e) {
+			throw new ServiceRuntimeException("Error while updating user enable flag",e);
+		}
+		
+	}
+
 
 }

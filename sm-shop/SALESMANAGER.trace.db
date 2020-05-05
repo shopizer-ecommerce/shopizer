@@ -1,0 +1,59 @@
+2020-03-13 11:47:54 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SALESMANAHER" not found; SQL statement:
+select * from SALESMANAHER.CETAGORIES [90079-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.Parser.getSchema(Parser.java:666)
+	at org.h2.command.Parser.getSchema(Parser.java:673)
+	at org.h2.command.Parser.readTableFilter(Parser.java:1203)
+	at org.h2.command.Parser.parseSelectSimpleFromPart(Parser.java:1884)
+	at org.h2.command.Parser.parseSelectSimple(Parser.java:2032)
+	at org.h2.command.Parser.parseSelectSub(Parser.java:1878)
+	at org.h2.command.Parser.parseSelectUnion(Parser.java:1699)
+	at org.h2.command.Parser.parseSelect(Parser.java:1687)
+	at org.h2.command.Parser.parsePrepared(Parser.java:443)
+	at org.h2.command.Parser.parse(Parser.java:315)
+	at org.h2.command.Parser.parse(Parser.java:287)
+	at org.h2.command.Parser.prepareCommand(Parser.java:252)
+	at org.h2.engine.Session.prepareLocal(Session.java:560)
+	at org.h2.engine.Session.prepareCommand(Session.java:501)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1188)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:170)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at net.sourceforge.squirrel_sql.client.session.StatementWrapper.execute(StatementWrapper.java:165)
+	at net.sourceforge.squirrel_sql.client.session.SQLExecuterTask.processQuery(SQLExecuterTask.java:369)
+	at net.sourceforge.squirrel_sql.client.session.SQLExecuterTask.run(SQLExecuterTask.java:212)
+	at net.sourceforge.squirrel_sql.fw.util.TaskExecuter.run(TaskExecuter.java:82)
+	at java.lang.Thread.run(Thread.java:745)
+2020-03-13 11:48:06 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "CETAGORIES" not found; SQL statement:
+select * from SALESMANAGER.CETAGORIES [42102-191]
+2020-03-13 11:48:15 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "CETEGORIES" not found; SQL statement:
+select * from SALESMANAGER.CETEGORIES [42102-191]
+2020-03-13 11:48:24 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "CATEGORIES" not found; SQL statement:
+select * from SALESMANAGER.CATEGORIES [42102-191]
+2020-03-13 11:48:25 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "CATEGORIES" not found; SQL statement:
+select * from SALESMANAGER.CATEGORIES [42102-191]
+2020-03-13 11:49:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Column "/1" not found; SQL statement:
+update SALESMANAGER.CATEGORY set LINEAGE = "/1" where CATEGORY_ID = 1 [42122-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:147)
+	at org.h2.command.dml.Update.prepare(Update.java:192)
+	at org.h2.command.Parser.prepareCommand(Parser.java:257)
+	at org.h2.engine.Session.prepareLocal(Session.java:560)
+	at org.h2.engine.Session.prepareCommand(Session.java:501)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1188)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:170)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at net.sourceforge.squirrel_sql.client.session.StatementWrapper.execute(StatementWrapper.java:165)
+	at net.sourceforge.squirrel_sql.client.session.SQLExecuterTask.processQuery(SQLExecuterTask.java:369)
+	at net.sourceforge.squirrel_sql.client.session.SQLExecuterTask.run(SQLExecuterTask.java:212)
+	at net.sourceforge.squirrel_sql.fw.util.TaskExecuter.run(TaskExecuter.java:82)
+	at java.lang.Thread.run(Thread.java:745)

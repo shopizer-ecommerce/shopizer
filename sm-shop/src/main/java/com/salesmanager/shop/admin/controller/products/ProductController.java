@@ -284,6 +284,19 @@ public class ProductController {
 		model.addAttribute("productTypes", productTypes);
 		model.addAttribute("taxClasses", taxClasses);
 		
+		boolean productAlreadyExists = false;
+		if (!StringUtils.isBlank(product.getProduct().getSku()) && (product.getProduct().getId() == null || product.getProduct().getId().longValue() == 0)) {
+			try {
+				Product productByCode = productService.getByCode(product.getProduct().getSku(),language);
+				productAlreadyExists = productByCode != null;
+
+				if(productAlreadyExists) throw new Exception();
+				} catch (Exception e) {
+				ObjectError error = new ObjectError("product.sku",messages.getMessage("message.sku.exists", locale));
+				result.addError(error);
+			}
+		}
+		
 		//validate price
 		BigDecimal submitedPrice = null;
 		try {
@@ -730,7 +743,7 @@ public class ProductController {
 		
 		Set<Category> categories = dbProduct.getCategories();
 		for(Category category : categories) {
-			Category categoryCopy = categoryService.getById(category.getId());
+			Category categoryCopy = categoryService.getById(category.getId(), store.getId());
 			newProduct.getCategories().add(categoryCopy);
 			productService.update(newProduct);
 		}
@@ -939,7 +952,7 @@ public class ProductController {
 			Long categoryId = Long.parseLong(sCategoryid);
 			Long productId = Long.parseLong(sProductId);
 			
-			Category category = categoryService.getById(categoryId);
+			Category category = categoryService.getById(categoryId, store.getId());
 			Product product = productService.getById(productId);
 			
 			if(category==null || category.getMerchantStore().getId()!=store.getId()) {
@@ -1001,7 +1014,7 @@ public class ProductController {
 		//get parent categories
 		List<Category> categories = categoryService.listByStore(store,language);
 		
-		Category category = categoryService.getById(categoryId);
+		Category category = categoryService.getById(categoryId, store.getId());
 		
 		if(category==null) {
 			return "redirect:/admin/products/products.html";

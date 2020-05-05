@@ -39,7 +39,7 @@
 				<c:url var="savePassword" value="/admin/users/savePassword.html"/>
 
 
-				<form:form method="POST" commandName="password" action="${savePassword}">
+				<form:form method="POST" modelAttribute="password" action="${savePassword}">
 
       							
       				<form:errors path="*" cssClass="alert alert-error" element="div" />

@@ -1,6 +1,7 @@
 package com.salesmanager.core.business.services.shipping;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.inject.Inject;
 
@@ -46,7 +47,8 @@ public class ShippingQuoteServiceImpl extends SalesManagerEntityServiceImpl<Long
 		
 		Validate.notNull(quoteId,"quoteId must not be null");
 		
-		Quote q = shippingQuoteRepository.findOne(quoteId);
+		Quote q = shippingQuoteRepository.getOne(quoteId);
+
 		
 		ShippingSummary quote = null;
 		

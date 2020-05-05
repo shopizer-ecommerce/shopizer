@@ -196,10 +196,9 @@ $(document).ready(function() {
     		url: '<c:url value="/services/public/search/${requestScope.MERCHANT_STORE.code}/${requestScope.LANGUAGE.code}/autocomplete.json"/>?q=%QUERY',
         	filter: function (parsedResponse) {
             	// parsedResponse is the array returned from your backend
-            	console.log(parsedResponse);
+            	//console.log(parsedResponse);
+            	return parsedResponse;
 
-            	// do whatever processing you need here
-            	return JSON.parse(parsedResponse);
         	}
     	}
 	});
@@ -250,7 +249,7 @@ $(document).ready(function() {
     <div class="container">
       <c:if test="${requestScope.CONFIGS['displayContactUs']==true}">
       <ul class="list-inline pull-left hidden-sm hidden-xs">
-        <li><span class="text-primary"><s:message code="label.store.question" text="Have a question?" /></span>&nbsp;<abbr title="Phone"><s:message code="label.generic.phone" text="Phone" /></abbr>: <span itemprop="telephone"><c:out value="${requestScope.MERCHANT_STORE.storephone}"/></span></li>
+        <li><span class="text-primary"><s:message code="label.store.question" text="Have a question?" /></span>&nbsp;&nbsp;&nbsp;<abbr title="Email"><s:message code="label.generic.email" text="Email" /></abbr>: <span itemprop="email"><a class="store-name" style="color:#000;" href="mailto:<c:out value="${requestScope.MERCHANT_STORE.storeEmailAddress}"/>"><strong><c:out value="${requestScope.MERCHANT_STORE.storeEmailAddress}"/></strong></a></span>&nbsp;&nbsp;&nbsp;<abbr title="Phone"><s:message code="label.generic.phone" text="Phone" /></abbr>: <span itemprop="telephone"><a class="store-name" style="color:#000;" href="tel:<c:out value="${requestScope.MERCHANT_STORE.storephone}"/>"><strong><c:out value="${requestScope.MERCHANT_STORE.storephone}"/></strong></a></span></li>
         <c:if test="${requestScope.CONFIGS['testMode']==true}"><li><h4>[TEST MODE]</h4></li></c:if>
       </ul>
       </c:if>
@@ -352,7 +351,7 @@ $(document).ready(function() {
 </div>
     
     
-<nav class="navbar navbar-main navbar-default" role="navigation" style="opacity: 1;">
+	<nav class="navbar navbar-main navbar-default" role="navigation" style="opacity: 1;">
           <div class="container">
             <!-- Brand and toggle -->
             <div class="navbar-header">
@@ -368,19 +367,6 @@ $(document).ready(function() {
             <div class="collapse navbar-collapse navbar-1" style="margin-top: 5px;">            
               <ul class="nav navbar-nav">
                 <li><a href="<c:url value="/shop/"/>" class="dropdown-toggle"><s:message code="menu.home" text="Home"/></a></li>
-                <!-- languages -->
-                <c:if test="${fn:length(requestScope.MERCHANT_STORE.languages) > 1}">
-			    <li class="dropdown">
-			            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="false"><s:message code="llabel.generic.language" text="Language"/> <i class="fa fa-angle-down ml-5"></i></a>
-			            <ul class="dropdown-menu dropdown-menu-left">
-			            <c:forEach items="${requestScope.MERCHANT_STORE.languages}" var="language">
-				            <c:if test="${requestScope.LANGUAGE.code ne language.code}">
-								<li><a href="<c:url value="/shop?locale=${language.code}"/>"><s:message code="lang.${language.code}" text="${language.code}" /></a></li>
-							</c:if>
-						</c:forEach>
-			           </ul>
-			    </li>
-		        </c:if>
                 <!-- Categories -->
                 <!-- mega menu style -->
                 <!--<li class="dropdown megaDropMenu">-->
@@ -414,8 +400,10 @@ $(document).ready(function() {
                   </ul>
                 </li>
                   
+                <c:if test="${requestScope.CONFIGS['displayPagesMenu']==true}">
                 <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="false"><s:message code="label.page" text="Page"/> <i class="fa fa-angle-down ml-5"></i></a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="false">
+                  <s:message code="label.page" text="Page"/> <i class="fa fa-angle-down ml-5"></i></a>
                   <ul class="dropdown-menu dropdown-menu-left">
                     <c:forEach items="${requestScope.CONTENT_PAGE}" var="content">
 	                    <c:if test="${not content.content.linkToMenu}">
@@ -424,6 +412,7 @@ $(document).ready(function() {
                     </c:forEach>
                   </ul>
                 </li>
+                </c:if>
                 <c:forEach items="${requestScope.CONTENT_PAGE}" var="content">
                 	<c:if test="${content.content.linkToMenu}">
                			<li><a href="<c:url value="/shop/pages/${content.seUrl}.html"/>" class="current">${content.name}</a></li>
