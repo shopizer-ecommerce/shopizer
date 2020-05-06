@@ -3,15 +3,14 @@ package com.salesmanager.shop.model.catalog.catalog;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 
-public class ReadableCatalogEntry extends CetalogEntryEntity {
+public class ReadableCatalogEntry extends CatalogEntryEntity {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+
 	private String creationDate;
 	private ReadableProduct product;
 	private ReadableCategory category;
+
 	public String getCreationDate() {
 		return creationDate;
 	}

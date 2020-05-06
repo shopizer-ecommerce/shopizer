@@ -1,13 +1,12 @@
 package com.salesmanager.shop.model.catalog.catalog;
 
-public class PersistableCatalogEntry extends CetalogEntryEntity {
+public class PersistableCatalogEntry extends CatalogEntryEntity {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+
 	private String productCode;
 	private String categoryCode;
+
 	public String getProductCode() {
 		return productCode;
 	}
