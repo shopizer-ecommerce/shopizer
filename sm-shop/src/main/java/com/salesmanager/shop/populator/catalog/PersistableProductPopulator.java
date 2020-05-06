@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import javax.inject.Inject;
 import org.apache.commons.collections4.CollectionUtils;
@@ -212,6 +213,7 @@ public class PersistableProductPopulator extends
 			    //create new ProductAvailability
 			    ProductAvailability productAvailability = new ProductAvailability();
 
+			    //todo now support for specific regions
 			    productAvailability.setRegion(Constants.ALL_REGIONS);
 
 				productAvailability.setProductQuantity(source.getQuantity());
@@ -220,7 +222,7 @@ public class PersistableProductPopulator extends
 				productAvailability.setProductQuantityOrderMax(1);
 				productAvailability.setAvailable(Boolean.valueOf(target.isAvailable()));
 				
-				for(ProductPriceEntity priceEntity : source.getProductPrices()) {
+				for(com.salesmanager.shop.model.catalog.product.PersistableProductPrice priceEntity : source.getProductPrices()) {
 					
 					ProductPrice price = new ProductPrice();
 					price.setProductAvailability(productAvailability);
@@ -243,6 +245,12 @@ public class PersistableProductPopulator extends
 						ppd.setProductPrice(price);
 						ppd.setLanguage(lang);
 						ppd.setName(ProductPriceDescription.DEFAULT_PRICE_DESCRIPTION);
+						
+						//price appender
+						Optional<com.salesmanager.shop.model.catalog.product.ProductPriceDescription> description = priceEntity.getDescriptions().stream().filter(d -> d.getLanguage()!= null && d.getLanguage().equals(lang.getCode())).findFirst();
+						if(description.isPresent()) {
+							ppd.setPriceAppender(description.get().getPriceAppender());
+						}
 						price.getDescriptions().add(ppd);
 					}
 				}

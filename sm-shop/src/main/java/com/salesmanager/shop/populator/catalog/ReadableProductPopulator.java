@@ -3,6 +3,7 @@ package com.salesmanager.shop.populator.catalog;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -24,21 +25,22 @@ import com.salesmanager.core.model.catalog.product.description.ProductDescriptio
 import com.salesmanager.core.model.catalog.product.image.ProductImage;
 import com.salesmanager.core.model.catalog.product.manufacturer.ManufacturerDescription;
 import com.salesmanager.core.model.catalog.product.price.FinalPrice;
+import com.salesmanager.core.model.catalog.product.price.ProductPrice;
+import com.salesmanager.core.model.catalog.product.price.ProductPriceDescription;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
-import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturerFull;
 import com.salesmanager.shop.model.catalog.product.ProductSpecification;
 import com.salesmanager.shop.model.catalog.product.ReadableImage;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProductFull;
+import com.salesmanager.shop.model.catalog.product.ReadableProductPrice;
 import com.salesmanager.shop.model.catalog.product.RentalOwner;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductAttribute;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductAttributeValue;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOption;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValueEntity;
-
 import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.ImageFilePath;
@@ -56,29 +58,17 @@ public class ReadableProductPopulator extends
 		return imageUtils;
 	}
 
-
-
-
 	public void setimageUtils(ImageFilePath imageUtils) {
 		this.imageUtils = imageUtils;
 	}
-
-
-
 
 	public PricingService getPricingService() {
 		return pricingService;
 	}
 
-
-
-
 	public void setPricingService(PricingService pricingService) {
 		this.pricingService = pricingService;
 	}
-
-
-
 
 	@Override
 	public ReadableProduct populate(Product source,
@@ -120,7 +110,7 @@ public class ReadableProductPopulator extends
 			          language = store.getDefaultLanguage();
 			    }
 
-
+		   final Language lang = language;
 	
 			target.setId(source.getId());
 			target.setAvailable(source.isAvailable());
@@ -201,20 +191,7 @@ public class ReadableProductPopulator extends
 				target.setRatingCount(source.getProductReviewCount().intValue());
 			}
 			if(description!=null) {
-				//com.salesmanager.shop.model.catalog.product.ProductDescription tragetDescription = new com.salesmanager.shop.model.catalog.product.ProductDescription();
 			    com.salesmanager.shop.model.catalog.product.ProductDescription tragetDescription = populateDescription(description);
-/*				tragetDescription.setFriendlyUrl(description.getSeUrl());
-				tragetDescription.setName(description.getName());
-				tragetDescription.setId(description.getId());
-				if(!StringUtils.isBlank(description.getMetatagTitle())) {
-					tragetDescription.setTitle(description.getMetatagTitle());
-				} else {
-					tragetDescription.setTitle(description.getName());
-				}
-				tragetDescription.setMetaDescription(description.getMetatagDescription());
-				tragetDescription.setDescription(description.getDescription());
-				tragetDescription.setHighlights(description.getProductHighlight());
-				tragetDescription.setLanguage(description.getLanguage().getCode());*/
 				target.setDescription(tragetDescription);
 				
 			}
@@ -372,6 +349,7 @@ public class ReadableProductPopulator extends
 								
 								optValue.setDefaultValue(attribute.getAttributeDefault());
 								optValue.setId(attribute.getProductOptionValue().getId());
+								optValue.setCode(attribute.getProductOptionValue().getCode());
 								com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription valueDescription = new com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription();
 								valueDescription.setLanguage(language.getCode());
 								//optValue.setLang(language.getCode());
@@ -440,6 +418,20 @@ public class ReadableProductPopulator extends
 			
 			//target.setVisible(isVisible);
 			
+			//availability
+			ProductAvailability availability = null;
+			for(ProductAvailability a : source.getAvailabilities()) {
+				//if(availability.getRegion().equals(Constants.ALL_REGIONS)) {//TODO REL 2.1 accept a region
+					availability = a;
+					target.setQuantity(availability.getProductQuantity());
+					target.setQuantityOrderMaximum(availability.getProductQuantityOrderMax());
+					target.setQuantityOrderMinimum(availability.getProductQuantityOrderMin());
+					if(availability.getProductQuantity().intValue() > 0 && target.isAvailable()) {
+							target.setCanBePurchased(true);
+					}
+				//}
+			}
+			
 	
 			target.setSku(source.getSku());
 	
@@ -454,21 +446,40 @@ public class ReadableProductPopulator extends
 				if(price.isDiscounted()) {
 					target.setDiscounted(true);
 				}
+				
+				//price appender
+				if(availability != null) {
+					Set<ProductPrice> prices = availability.getPrices();
+					if(!CollectionUtils.isEmpty(prices)) {
+						ReadableProductPrice readableProductPrice = new ReadableProductPrice();
+						readableProductPrice.setDiscounted(target.isDiscounted());
+						readableProductPrice.setFinalPrice(target.getFinalPrice());
+						readableProductPrice.setOriginalPrice(target.getOriginalPrice());
+						
+						Optional<ProductPrice> pr = prices.stream().filter(p -> p.getCode().equals(ProductPrice.DEFAULT_PRICE_CODE))
+								.findFirst();
+						
+						target.setProductPrice(readableProductPrice);
+						
+						if(pr.isPresent()) {
+							readableProductPrice.setId(pr.get().getId());
+							Optional<ProductPriceDescription> d = pr.get().getDescriptions().stream().filter(desc -> desc.getLanguage().getCode().equals(lang.getCode())).findFirst();
+							if(d.isPresent()) {
+								com.salesmanager.shop.model.catalog.product.ProductPriceDescription priceDescription = new com.salesmanager.shop.model.catalog.product.ProductPriceDescription();
+								priceDescription.setLanguage(language.getCode());
+								priceDescription.setId(d.get().getId());
+								priceDescription.setPriceAppender(d.get().getPriceAppender());
+								readableProductPrice.setDescription(priceDescription);
+							}
+						}
+
+					}
+				}
 			
 			}
 	
 
-			//availability
-			for(ProductAvailability availability : source.getAvailabilities()) {
-				//if(availability.getRegion().equals(Constants.ALL_REGIONS)) {//TODO REL 2.1 accept a region
-					target.setQuantity(availability.getProductQuantity());
-					target.setQuantityOrderMaximum(availability.getProductQuantityOrderMax());
-					target.setQuantityOrderMinimum(availability.getProductQuantityOrderMin());
-					if(availability.getProductQuantity().intValue() > 0 && target.isAvailable()) {
-							target.setCanBePurchased(true);
-					}
-				//}
-			}
+
 
 		     if(target instanceof ReadableProductFull) {
 		          ((ReadableProductFull)target).setDescriptions(fulldescriptions);
@@ -490,6 +501,7 @@ public class ReadableProductPopulator extends
 		ReadableProductOption option = new ReadableProductOption();
 		option.setId(productAttribute.getProductOption().getId());//attribute of the option
 		option.setType(productAttribute.getProductOption().getProductOptionType());
+		option.setCode(productAttribute.getProductOption().getCode());
 		List<ProductOptionDescription> descriptions = productAttribute.getProductOption().getDescriptionsSettoList();
 		ProductOptionDescription description = null;
 		if(descriptions!=null && descriptions.size()>0) {

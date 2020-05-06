@@ -125,7 +125,8 @@
 												content="${requestScope.MERCHANT_STORE.storename}" />
 											<meta itemprop="currency"
 												content="<c:out value="${requestScope.MERCHANT_STORE.currency.code}" />" />
-											<span id="productPrice" class="price"> <c:choose>
+											<span id="productPrice" class="price"> 
+												<c:choose>
 													<c:when test="${product.discounted}">
 														<del>
 															<c:out value="${product.originalPrice}" />
@@ -141,6 +142,7 @@
 										</span>
 										</span>
 									</h4>
+									<c:if test="${product.productPrice.description!=null}"><strong><c:out value="${product.productPrice.description.priceAppender}"/></strong></c:if>
 									<jsp:include
 										page="/pages/shop/common/catalog/addToCartProduct.jsp" />
 								</div>

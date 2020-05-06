@@ -30,12 +30,12 @@ $(function(){
 
 
 								<!-- leave the form id as is -->
-								<form id="input-<c:out value="${product.id}" />">
+								<form class="options-form" id="input-<c:out value="${product.id}" />">
 								<!-- select options -->
 								<c:if test="${options!=null && not product.productVirtual}">
 									<c:forEach items="${options}" var="option" varStatus="status">
 										<div class="control-group form-group"> 
-	                        				<label><strong><c:out value="${option.name}"/></strong></label>
+	                        				<strong><label><strong><c:out value="${option.name}"/></strong></label></strong>
 	                        				<div class="controls">	       							
 											<c:choose>
 												<c:when test="${option.type=='select'}">

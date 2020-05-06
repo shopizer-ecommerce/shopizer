@@ -138,6 +138,7 @@
 										</span>
 										</span>
 									</h4>
+									<c:if test="${product.productPrice.description!=null}"><strong><c:out value="${product.productPrice.description.priceAppender}"/></strong></c:if>
 									<jsp:include
 										page="/pages/shop/common/catalog/addToCartProduct.jsp" />
 									<!-- Facebook share button -->
