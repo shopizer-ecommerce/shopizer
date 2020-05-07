@@ -1,13 +1,13 @@
 openapi: 3.0.1
 info:
-  title: Api Documentation
-  description: Api Documentation
+  title: Shopizer Api Documentation
+  description: Shopizer Api Documentation
   termsOfService: urn:tos
   contact: {}
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0
-  version: "1.0"
+  version: "2.12.0"
 servers:
 - url: http://localhost:8080/
 tags:
@@ -3070,6 +3070,7 @@ paths:
       - name: id
         in: path
         description: id
+        required: true
         schema:
           type: integer
           format: int64
@@ -7271,55 +7272,55 @@ components:
           type: integer
         message:
           type: string
-    File:
-      title: File
-      type: object
-      properties:
-        absolute:
-          type: boolean
-        absoluteFile:
-          $ref: '#/components/schemas/File'
-        absolutePath:
-          type: string
-        canonicalFile:
-          $ref: '#/components/schemas/File'
-        canonicalPath:
-          type: string
-        directory:
-          type: boolean
-        executable:
-          type: boolean
-        file:
-          type: boolean
-        freeSpace:
-          type: integer
-          format: int64
-        hidden:
-          type: boolean
-        lastModified:
-          type: integer
-          format: int64
-        name:
-          type: string
-        parent:
-          type: string
-        parentFile:
-          $ref: '#/components/schemas/File'
-        path:
-          type: string
-        readable:
-          type: boolean
-        totalSpace:
-          type: integer
-          format: int64
-        usableSpace:
-          type: integer
-          format: int64
-        writable:
-          type: boolean
-    InputStream:
-      title: InputStream
-      type: object
+#    File:
+#      title: File
+#      type: object
+#      properties:
+#        absolute:
+#          type: boolean
+#        absoluteFile:
+#          $ref: '#/components/schemas/File'
+#        absolutePath:
+#          type: string
+#        canonicalFile:
+#          $ref: '#/components/schemas/File'
+#        canonicalPath:
+#          type: string
+#        directory:
+#          type: boolean
+#        executable:
+#          type: boolean
+#        file:
+#          type: boolean
+#        freeSpace:
+#          type: integer
+#          format: int64
+#        hidden:
+#          type: boolean
+#        lastModified:
+#          type: integer
+#          format: int64
+#        name:
+#          type: string
+#        parent:
+#          type: string
+#        parentFile:
+#          $ref: '#/components/schemas/File'
+#        path:
+#          type: string
+#        readable:
+#          type: boolean
+#        totalSpace:
+#          type: integer
+#          format: int64
+#        usableSpace:
+#          type: integer
+#          format: int64
+#        writable:
+#          type: boolean
+#    InputStream:
+#      title: InputStream
+#      type: object
     Language:
       title: Language
       type: object
@@ -8373,73 +8374,73 @@ components:
         totalPages:
           type: integer
           format: int32
-    ReadableContentBox:
-      title: ReadableContentBox
-      type: object
-      properties:
-        boxContent:
-          type: string
-        code:
-          type: string
-        contentType:
-          type: string
-        displayedInMenu:
-          type: boolean
-        id:
-          type: integer
-          format: int64
-        image:
-          type: string
-        language:
-          type: string
-        metaDetails:
-          type: string
-        name:
-          type: string
-        pageContent:
-          type: string
-        path:
-          type: string
-        slug:
-          type: string
-        title:
-          type: string
-    ReadableContentEntity:
-      title: ReadableContentEntity
-      type: object
-      properties:
-        code:
-          type: string
-        contentType:
-          type: string
-        description:
-          $ref: '#/components/schemas/ContentDescriptionEntity'
-        displayedInMenu:
-          type: boolean
-        id:
-          type: integer
-          format: int64
-        visible:
-          type: boolean
-    ReadableContentFull:
-      title: ReadableContentFull
-      type: object
-      properties:
-        code:
-          type: string
-        contentType:
-          type: string
-        descriptions:
-          type: array
-          items:
-            $ref: '#/components/schemas/ContentDescriptionEntity'
-        displayedInMenu:
-          type: boolean
-        id:
-          type: integer
-          format: int64
-        visible:
-          type: boolean
+#    ReadableContentBox:
+#      title: ReadableContentBox
+#      type: object
+#      properties:
+#        boxContent:
+#          type: string
+#        code:
+#          type: string
+#        contentType:
+#          type: string
+#        displayedInMenu:
+#          type: boolean
+#        id:
+#          type: integer
+#          format: int64
+#        image:
+#          type: string
+#        language:
+#          type: string
+#        metaDetails:
+#          type: string
+#        name:
+#          type: string
+#        pageContent:
+#          type: string
+#        path:
+#          type: string
+#        slug:
+#          type: string
+#        title:
+#          type: string
+#    ReadableContentEntity:
+#      title: ReadableContentEntity
+#      type: object
+#      properties:
+#        code:
+#          type: string
+#        contentType:
+#          type: string
+#        description:
+#          $ref: '#/components/schemas/ContentDescriptionEntity'
+#        displayedInMenu:
+#          type: boolean
+#        id:
+#          type: integer
+#          format: int64
+#        visible:
+#          type: boolean
+#    ReadableContentFull:
+#      title: ReadableContentFull
+#      type: object
+#      properties:
+#        code:
+#          type: string
+#        contentType:
+#          type: string
+#        descriptions:
+#          type: array
+#          items:
+#            $ref: '#/components/schemas/ContentDescriptionEntity'
+#        displayedInMenu:
+#          type: boolean
+#        id:
+#          type: integer
+#          format: int64
+#        visible:
+#          type: boolean
     ReadableContentPage:
       title: ReadableContentPage
       type: object
@@ -8795,26 +8796,26 @@ components:
           - LB
           - CM
           - IN
-    ReadableMerchantStoreList:
-      title: ReadableMerchantStoreList
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReadableMerchantStore'
-        number:
-          type: integer
-          format: int32
-        recordsFiltered:
-          type: integer
-          format: int32
-        recordsTotal:
-          type: integer
-          format: int64
-        totalPages:
-          type: integer
-          format: int32
+#    ReadableMerchantStoreList:
+#      title: ReadableMerchantStoreList
+#      type: object
+#      properties:
+#        data:
+#          type: array
+#          items:
+#            $ref: '#/components/schemas/ReadableMerchantStore'
+#        number:
+#          type: integer
+#          format: int32
+#        recordsFiltered:
+#          type: integer
+#          format: int32
+#        recordsTotal:
+#          type: integer
+#          format: int64
+#        totalPages:
+#          type: integer
+#          format: int32
     ReadableOptin:
       title: ReadableOptin
       type: object
@@ -9379,16 +9380,16 @@ components:
           format: int64
         name:
           type: string
-    ReadableProductVariant:
-      title: ReadableProductVariant
-      type: object
-      properties:
-        name:
-          type: string
-        options:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReadableProductVariantValue'
+#    ReadableProductVariant:
+#      title: ReadableProductVariant
+#      type: object
+#      properties:
+#        name:
+#          type: string
+#        options:
+#          type: array
+#          items:
+#            $ref: '#/components/schemas/ReadableProductVariantValue'
     ReadableProductVariantValue:
       title: ReadableProductVariantValue
       type: object
@@ -9936,45 +9937,45 @@ components:
             enum:
             - LB
             - KG
-    URI:
-      title: URI
-      type: object
-      properties:
-        absolute:
-          type: boolean
-        authority:
-          type: string
-        fragment:
-          type: string
-        host:
-          type: string
-        opaque:
-          type: boolean
-        path:
-          type: string
-        port:
-          type: integer
-          format: int32
-        query:
-          type: string
-        rawAuthority:
-          type: string
-        rawFragment:
-          type: string
-        rawPath:
-          type: string
-        rawQuery:
-          type: string
-        rawSchemeSpecificPart:
-          type: string
-        rawUserInfo:
-          type: string
-        scheme:
-          type: string
-        schemeSpecificPart:
-          type: string
-        userInfo:
-          type: string
+#    URI:
+#      title: URI
+#      type: object
+#      properties:
+#        absolute:
+#          type: boolean
+#        authority:
+#          type: string
+#        fragment:
+#          type: string
+#        host:
+#          type: string
+#        opaque:
+#          type: boolean
+#        path:
+#          type: string
+#        port:
+#          type: integer
+#          format: int32
+#        query:
+#          type: string
+#        rawAuthority:
+#          type: string
+#        rawFragment:
+#          type: string
+#        rawPath:
+#          type: string
+#        rawQuery:
+#          type: string
+#        rawSchemeSpecificPart:
+#          type: string
+#        rawUserInfo:
+#          type: string
+#        scheme:
+#          type: string
+#        schemeSpecificPart:
+#          type: string
+#        userInfo:
+#          type: string
 #    URL:
 #      title: URL
 #      type: object

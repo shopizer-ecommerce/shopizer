@@ -11,9 +11,12 @@
 		<version>2.12.0</version>
 	</parent>
 
-	<artifactId>sm-shop</artifactId>
 	<name>sm-shop</name>
+	<description>Shopizer Shop</description>
 	<url>http://www.shopizer.com</url>
+
+	<artifactId>sm-shop</artifactId>
+	<packaging>war</packaging>
 
 	<properties>
 		<main.basedir>${basedir}/../..</main.basedir>
@@ -58,14 +61,14 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
-		
+
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 
 		<!-- Only for hot deploy, remove in prod Seems to break drools too -->
-		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-devtools</artifactId> 
+		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-devtools</artifactId>
 			<optional>true</optional> </dependency> -->
 
 		<dependency>
@@ -175,5 +178,88 @@
 		<finalName>ROOT</finalName>
 	</build>
 
-	<packaging>war</packaging>
+	<profiles>
+		<profile>
+			<id>api-generation</id>
+			<activation>
+				<property>
+					<name>generateApi</name>
+					<value>true</value>
+				</property>
+			</activation>
+
+			<dependencies>
+				<dependency>
+					<groupId>org.openapitools</groupId>
+					<artifactId>jackson-databind-nullable</artifactId>
+					<version>0.2.1</version>
+				</dependency>
+			</dependencies>
+
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-dependency-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>copy-openapi-dependencies</id>
+								<goals>
+									<goal>unpack-dependencies</goal>
+								</goals>
+								<phase>generate-sources</phase>
+								<configuration>
+									<includeArtifactIds>sm-shop-model</includeArtifactIds>
+									<includes>**/api/openapi*.yaml</includes>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.openapitools</groupId>
+						<artifactId>openapi-generator-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>generate-rest-server</id>
+								<goals>
+									<goal>generate</goal>
+								</goals>
+								<configuration>
+									<inputSpec>${project.build.directory}/dependency/api/openapi.yaml</inputSpec>
+									<configurationFile>${project.build.directory}/dependency/api/openapi-configuration.yaml</configurationFile>
+									<generatorName>spring</generatorName>
+									<apiPackage>com.salesmanager.shop.store.api</apiPackage>
+									<modelPackage>com.salesmanager.shop.store.api.model</modelPackage>
+									<supportingFilesToGenerate>ApiUtil.java,OpenAPIDocumentationConfig.java</supportingFilesToGenerate>
+									<skipValidateSpec>false</skipValidateSpec>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-jar-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>package-as-jar</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+								<configuration>
+									<finalName>${project.artifactId}-${project.version}</finalName>
+									<classifier>api</classifier>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
 </project>
+
+
+
+
+
