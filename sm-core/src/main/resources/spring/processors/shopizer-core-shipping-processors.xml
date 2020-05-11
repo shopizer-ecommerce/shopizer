@@ -29,15 +29,7 @@
 			 -->
 			<ref bean="shippingMethodDecisionProcess"/>
 		</util:list>
-	
-		<!-- Calculates the distance between the origin and destination -->
-		<!-- shipping-distance-processor project -->
-		<!--
-		<bean id="shippingDistancePreProcessor"
-			class="com.salesmanager.core.business.modules.integration.shipping.impl.ShippingDistancePreProcessorImpl">	
-			<property name="allowedZonesCodes" ref="acceptedZones"/>
-		</bean>
-		-->
+
 		
 		
 		<!-- Decides dynamicaly which method is used based on a decision table-->
@@ -51,13 +43,6 @@
 			<!-- Not configured by default, should be configured to be used -->
 			<ref bean="storePickUp"/><!-- defined in core-modules -->
 		</util:list>
-		
-		<!-- List of accepted zones for using shipping distance pre processor -->
-		<!--
-		<util:list id="acceptedZones" value-type="java.lang.String">
-			<value>QC</value>
-			<value>ON</value>
-    	</util:list>
-    	-->
+
 	
 </beans>

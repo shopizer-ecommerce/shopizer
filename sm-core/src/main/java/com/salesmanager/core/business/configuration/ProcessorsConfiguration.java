@@ -10,15 +10,25 @@ import org.springframework.context.annotation.Configuration;
 
 import com.salesmanager.core.business.modules.cart.ShoppingCartProcessor;
 import com.salesmanager.core.business.modules.order.OrderProcessor;
+import com.salesmanager.core.business.modules.order.total.PromoCodeCalculatorModule;
+import com.salesmanager.core.modules.order.total.OrderTotalPostProcessorModule;
 
 /**
  * Pre and post processors triggered during certain actions such as
- * order processing and shopping cart manipulation
+ * order processing and shopping cart processing
+ * 
+ * 2 types of processors
+ * - functions processors
+ * 		Triggered during defined simple events - ex add to cart checkout
+ * 
+ * - calculation processors
+ * 		Triggered during shopping cart and order total calculation
+ * 
  * @author carlsamson
  *
  */
 @Configuration
-public class ProcessConfiguration {
+public class ProcessorsConfiguration {
 	
 	@Inject
 	private OrderProcessor indexOrderProcessor;
@@ -26,9 +36,12 @@ public class ProcessConfiguration {
 	@Inject
 	private ShoppingCartProcessor shippingCartProcessor;
 	
+	@Inject
+	private PromoCodeCalculatorModule promoCodeCalculatorModule;
+
 	
 	/**
-	 * Order processors
+	 * Order function processors
 	 * @return
 	 */
 	@Bean
@@ -45,7 +58,7 @@ public class ProcessConfiguration {
 	}
 	
 	/**
-	 * ShoppingCart processor
+	 * ShoppingCart function processor
 	 * @return
 	 */
 	@Bean
@@ -53,6 +66,21 @@ public class ProcessConfiguration {
 		List<ShoppingCartProcessor> processors = new ArrayList<ShoppingCartProcessor>();
 		//processors.add(shippingCartProcessor);
 		return processors;
+	}
+	
+	
+	/**
+	 * Calculate processors
+	 * @return
+	 */
+	@Bean
+	public List<OrderTotalPostProcessorModule> orderTotalsPostProcessors() {
+		
+		List<OrderTotalPostProcessorModule> processors = new ArrayList<OrderTotalPostProcessorModule>();
+		///processors.add(new com.salesmanager.core.business.modules.order.total.ManufacturerShippingCodeOrderTotalModuleImpl());
+		processors.add(promoCodeCalculatorModule);
+		return processors;
+		
 	}
 
 }

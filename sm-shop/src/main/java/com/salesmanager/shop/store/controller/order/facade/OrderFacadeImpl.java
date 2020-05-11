@@ -1,6 +1,10 @@
 package com.salesmanager.shop.store.controller.order.facade;
 
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -185,7 +189,7 @@ public class OrderFacadeImpl implements OrderFacade {
 		
 
 		Customer customer = customerFacade.getCustomerModel(order.getCustomer(), store, language);
-		OrderTotalSummary summary = this.calculateOrderTotal(store, customer, order, language);
+		OrderTotalSummary summary = calculateOrderTotal(store, customer, order, language);
 		this.setOrderTotals(order, summary);
 		return summary;
 	}
@@ -229,6 +233,30 @@ public class OrderFacadeImpl implements OrderFacade {
 			if(o.getShippingSummary()!=null) {
 				summary.setShippingSummary(o.getShippingSummary());
 			}
+			
+			if(!StringUtils.isBlank(o.getCartCode())) {
+				
+				ShoppingCart shoppingCart = shoppingCartFacade.getShoppingCartModel(o.getCartCode(), store);
+			
+				//promo code
+		    	if(!StringUtils.isBlank(shoppingCart.getPromoCode())) {
+		    		Date promoDateAdded = shoppingCart.getPromoAdded();//promo valid 1 day
+		    		Instant instant = promoDateAdded.toInstant();
+		    		ZonedDateTime zdt = instant.atZone(ZoneId.systemDefault());
+		    		LocalDate date = zdt.toLocalDate();
+		    		//date added < date + 1 day
+		    		LocalDate tomorrow = LocalDate.now().plusDays(1);
+		    		if(date.isBefore(tomorrow)) {
+		    			summary.setPromoCode(shoppingCart.getPromoCode());
+		    		} else {
+		    			//clear promo
+		    			shoppingCart.setPromoCode(null);
+		    			shoppingCartService.saveOrUpdate(shoppingCart);
+		    		}
+		    	} 
+	    	
+			}
+			
 			orderTotalSummary = orderService.caculateOrderTotal(summary, customer, store, language);
 		} else {
 			//need Set of ShoppingCartItem

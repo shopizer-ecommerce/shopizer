@@ -49,53 +49,70 @@
 
 		<!-- Unavailables -->
 		<c:if test="${fn:length(cart.unavailables) gt 0}">
-			<div class="row">
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<div id="store.error" class="alert alert-error"
-						style="display: block;">
-						<s:message code="message.error.shoppingcart.unavailables"
-							text="Some of the item in your shopping cart are as of today unavailable for purchase. Those items will be removed from your shopping cart when the order form is displayed. If you are interested in purchasing this item, please send use a message with the item number, we will get back to you as soon as possible with an update on the availability of the item." />
-					</div>
-					<table>
-						<c:forEach items="${cart.unavailables}" var="unavailable"
-							varStatus="itemStatus">
-
-							<c:if test="${itemStatus.index eq 0}">
-								<thead>
-									<tr>
-										<th colspan="2" width="65%">&nbsp;</th>
-										<th colspan="1" width="35%">&nbsp;</th>
-									</tr>
-								</thead>
-								<tbody>
-							</c:if>
-
-
-							<tr>
-								<td width="20%"><c:if test="${unavailable.image!=null}">
-										<img width="60" src="<c:url value="${unavailable.image}"/>">
-									</c:if></td>
-
-								<td style="border-left: none;"><strong>${unavailable.name}</strong>
-									<c:if test="${fn:length(unavailable.shoppingCartAttributes)>0}">
-										<br />
-										<ul>
-											<c:forEach items="${unavailable.shoppingCartAttributes}"
-												var="option">
-												<li>${option.optionName}-${option.optionValue}</li>
+						<div class="cart-main-area ptb-40">
+							<div class="container">
+								<div class="row">
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<div id="store.error" class="alert alert-error"
+											style="display: block;">
+											<s:message code="message.error.shoppingcart.unavailables"
+												text="Some of the item in your shopping cart are as of today unavailable for purchase. Those items will be removed from your shopping cart when the order form is displayed. If you are interested in purchasing this item, please send use a message with the item number, we will get back to you as soon as possible with an update on the availability of the item." />
+										</div>
+										<table style="width:50%;">
+											<c:forEach items="${cart.unavailables}" var="unavailable"
+												varStatus="itemStatus">
+					
+												<c:if test="${itemStatus.index eq 0}">
+													<thead>
+														<tr>
+															<th colspan="2" width="70%">&nbsp;</th>
+															<th colspan="1" width="30%">&nbsp;</th>
+														</tr>
+													</thead>
+													<tbody>
+												</c:if>
+					
+												<form:form action="${updateShoppingCartItemUrl}"
+														id="unavailableCartLineitem_${unavailable.id}">
+												<tr>
+													<td><c:if test="${unavailable.image!=null}">
+															<img width="60" src="<c:url value="${unavailable.image}"/>">
+														</c:if></td>
+					
+													<td style="border-left: none;"><strong>${unavailable.name}</strong>
+														<c:if test="${fn:length(unavailable.shoppingCartAttributes)>0}">
+															<br />
+															<ul>
+																<c:forEach items="${unavailable.shoppingCartAttributes}"
+																	var="option">
+																	<li>${option.optionName}-${option.optionValue}</li>
+																</c:forEach>
+															</ul>
+														</c:if> <br /> <s:message code="label.quantity" text="Quantity" />:
+														<c:out value="${unavailable.quantity}" /> <br /> <s:message
+															code="label.generic.price" text="Price" />: <c:out
+															value="${unavailable.price}" /></td>
+													<td>
+													
+															<div class="cart-del">
+																	<a href="#" class="cart-close removeProductIcon"
+																		style="clear: both !important;"
+																		onclick="javascript:updateUnavailableLineItem('${unavailable.id}','${removeShoppingCartItemUrl}'); return false;">
+																		<i class="fa fa-times"></i>
+																	</a> <input type="hidden" name="lineItemId" id="lineItemId"
+																		value="${unavailable.id}" />
+															</div>
+													
+													</td>
+					
+												</tr>
+												</form:form>
 											</c:forEach>
-										</ul>
-									</c:if> <br /> <s:message code="label.quantity" text="Quantity" />:
-									<c:out value="${unavailable.quantity}" /> <br /> <s:message
-										code="label.generic.price" text="Price" />: <c:out
-										value="${unavailable.price}" /></td>
-								<td>&nbsp;</td>
-
-							</tr>
-						</c:forEach>
-					</table>
-
-				</div>
+										</table>
+					
+									</div>
+							</div>
+					</div>
 			</div>
 		</c:if>
 		<c:choose>
@@ -110,8 +127,8 @@
 									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 										<div class="table-content table-responsive">
 											<!-- 
-							Shopping cart has to be id=mainartTable
-							 -->
+											Shopping cart has to be id=mainartTable
+							 				-->
 											<table id="mainCartTable"
 												class="table table-hover table-condensed">
 												<c:forEach items="${cart.shoppingCartItems}"

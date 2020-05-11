@@ -1,12 +1,12 @@
 package com.salesmanager.core.business.modules.order.total;
 
 import java.math.BigDecimal;
-import javax.inject.Inject;
+
 import org.apache.commons.lang.Validate;
-import org.kie.api.runtime.KieContainer;
-import org.kie.api.runtime.KieSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.model.catalog.product.Product;
@@ -26,6 +26,7 @@ import com.salesmanager.core.modules.order.total.OrderTotalPostProcessorModule;
  * @author carlsamson
  *
  */
+@Component
 public class ManufacturerShippingCodeOrderTotalModuleImpl implements OrderTotalPostProcessorModule {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ManufacturerShippingCodeOrderTotalModuleImpl.class);

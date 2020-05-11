@@ -3,6 +3,10 @@ package com.salesmanager.core.business.services.order;
 import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -10,6 +14,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+
 import javax.inject.Inject;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -30,6 +36,7 @@ import com.salesmanager.core.business.services.order.ordertotal.OrderTotalServic
 import com.salesmanager.core.business.services.payments.PaymentService;
 import com.salesmanager.core.business.services.payments.TransactionService;
 import com.salesmanager.core.business.services.shipping.ShippingService;
+import com.salesmanager.core.business.services.shoppingcart.ShoppingCartService;
 import com.salesmanager.core.business.services.tax.TaxService;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
@@ -83,6 +90,9 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     private CustomerService customerService;
     
     @Inject
+    private ShoppingCartService shoppingCartService;
+    
+    @Inject
     private TransactionService transactionService;
     
     @Inject
@@ -115,7 +125,6 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     	return this.process(order, customer, items, summary, payment, transaction, store);
     }
     
-    @SuppressWarnings("unchecked")
 	private Order process(Order order, Customer customer, List<ShoppingCartItem> items, OrderTotalSummary summary, Payment payment, Transaction transaction, MerchantStore store) throws ServiceException {
     	
     	
@@ -240,7 +249,6 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
                             if(itemSubTotal==null) {
                                 itemSubTotal = new OrderTotal();
                                 itemSubTotal.setModule(Constants.OT_ITEM_PRICE_MODULE_CODE);
-                                //itemSubTotal.setText(Constants.OT_ITEM_PRICE_MODULE_CODE);
                                 itemSubTotal.setTitle(Constants.OT_ITEM_PRICE_MODULE_CODE);
                                 itemSubTotal.setOrderTotalCode(price.getProductPrice().getCode());
                                 itemSubTotal.setOrderTotalType(OrderTotalType.PRODUCT);
@@ -263,11 +271,14 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
                     }
                 }
             }
-
         }
         
         //only in order page, otherwise invokes too many processing
-        if(OrderSummaryType.ORDERTOTAL.name().equals(summary.getOrderSummaryType().name())) {
+        if(
+        		OrderSummaryType.ORDERTOTAL.name().equals(summary.getOrderSummaryType().name()) ||
+        		OrderSummaryType.SHOPPINGCART.name().equals(summary.getOrderSummaryType().name())
+        		
+        		) {
 
 	        //Post processing order total variation modules for sub total calculation - drools, custom modules
 	        //may affect the sub total
@@ -418,17 +429,35 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
 
     }
 
-    private OrderTotalSummary caculateShoppingCart( final ShoppingCart shoppingCart, final Customer customer, final MerchantStore store, final Language language) throws Exception {
+    private OrderTotalSummary caculateShoppingCart( ShoppingCart shoppingCart, final Customer customer, final MerchantStore store, final Language language) throws Exception {
 
 
     	OrderSummary orderSummary = new OrderSummary();
     	orderSummary.setOrderSummaryType(OrderSummaryType.SHOPPINGCART);
     	
-    	List<ShoppingCartItem> itemsSet = new ArrayList<ShoppingCartItem>(shoppingCart.getLineItems());
-    	orderSummary.setProducts(itemsSet);
+    	if(!StringUtils.isBlank(shoppingCart.getPromoCode())) {
+    		Date promoDateAdded = shoppingCart.getPromoAdded();//promo valid 1 day
+    		Instant instant = promoDateAdded.toInstant();
+    		ZonedDateTime zdt = instant.atZone(ZoneId.systemDefault());
+    		LocalDate date = zdt.toLocalDate();
+    		//date added < date + 1 day
+    		LocalDate tomorrow = LocalDate.now().plusDays(1);
+    		if(date.isBefore(tomorrow)) {
+    			orderSummary.setPromoCode(shoppingCart.getPromoCode());
+    		} else {
+    			//clear promo
+    			shoppingCart.setPromoCode(null);
+    			shoppingCartService.saveOrUpdate(shoppingCart);
+    		}
+    	}    	
+    	
+    	List<ShoppingCartItem> itemList = new ArrayList<ShoppingCartItem>(shoppingCart.getLineItems());
+    	//filter out unavailable
+    	itemList = itemList.stream().filter(p -> p.getProduct().isAvailable()).collect(Collectors.toList());
+    	orderSummary.setProducts(itemList);
     	
     	
-    	return this.caculateOrder(orderSummary, customer, store, language);
+    	return caculateOrder(orderSummary, customer, store, language);
 
     }
 

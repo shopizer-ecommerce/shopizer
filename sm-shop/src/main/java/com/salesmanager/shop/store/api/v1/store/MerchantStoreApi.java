@@ -32,7 +32,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.common.collect.ImmutableMap;
-import com.salesmanager.core.model.common.Criteria;
 import com.salesmanager.core.model.content.FileContentType;
 import com.salesmanager.core.model.content.InputContentFile;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -153,6 +152,16 @@ public class MerchantStoreApi {
 		List<ReadableMerchantStore> stores = storeFacade.getMerchantStoreNames(criteria);
 		
 		return stores;
+	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@GetMapping(value = { "/store/languages" }, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ApiOperation(httpMethod = "GET", value = "Get list of store supported languages.", notes = "", response = ReadableMerchantStore.class)
+	public List<Language> supportedLanguages(
+			@ApiIgnore MerchantStore merchantStore,
+			HttpServletRequest request) {
+
+		return storeFacade.supportedLanguages(merchantStore);
 	}
 
 	@ResponseStatus(HttpStatus.OK)

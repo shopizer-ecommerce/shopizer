@@ -38,7 +38,6 @@ import com.salesmanager.shop.store.security.admin.JWTAdminServicesImpl;
 public class MultipleEntryPointsSecurityConfig {
 
 	private static final String API_V1 = "/api/v1";
-	//private static final String API_V0 = "/api/v0";
 
 	@Bean
 	public AuthenticationTokenFilter authenticationTokenFilter() {

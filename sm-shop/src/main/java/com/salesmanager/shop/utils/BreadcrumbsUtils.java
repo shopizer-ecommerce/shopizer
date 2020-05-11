@@ -48,9 +48,7 @@ public class BreadcrumbsUtils {
 		List<BreadcrumbItem> items = new ArrayList<BreadcrumbItem>();
 		items.add(home);
 		
-		//if(!StringUtils.isBlank(refContent)) {
 
-			//List<String> categoryIds = parseBreadCrumb(refContent);
 			List<String> categoryIds = parseCategoryLineage(categoryClicked.getLineage());
 			List<Long> ids = new ArrayList<Long>();
 			for(String c : categoryIds) {
@@ -72,10 +70,6 @@ public class BreadcrumbsUtils {
 			}
 			
 			breadCrumb.setUrlRefContent(buildBreadCrumb(ids));
-			
-		//}
-		
-
 
 		breadCrumb.setBreadCrumbs(items);
 		breadCrumb.setItemType(BreadcrumbItemType.CATEGORY);
@@ -146,7 +140,8 @@ public class BreadcrumbsUtils {
 		/** c:1,2,3 **/
 		String[] categoryComa = refContent.split(":");
 		String[] categoryIds = categoryComa[1].split(",");
-		return new LinkedList(Arrays.asList(categoryIds));
+		String last = Arrays.asList(categoryIds).stream().reduce((first, second) -> second).get();
+		return Arrays.asList(last);
 		
 		
 	}

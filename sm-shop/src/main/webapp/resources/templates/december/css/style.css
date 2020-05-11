@@ -3490,3 +3490,8 @@ p.checkout-coupon input[type=submit]{
 #creditcard_card_image img {
 	max-width:none;
 }
+
+.responsive {
+  width: 100%;
+  height: auto;
+}

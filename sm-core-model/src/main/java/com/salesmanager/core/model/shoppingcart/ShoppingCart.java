@@ -3,6 +3,7 @@
  */
 package com.salesmanager.core.model.shoppingcart;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,6 +22,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import com.salesmanager.core.constants.SchemaConstant;
@@ -75,6 +78,13 @@ public class ShoppingCart extends SalesManagerEntity<Long, ShoppingCart> impleme
 	
 	@Column (name ="IP_ADDRESS")
 	private String ipAddress;
+	
+	@Column (name ="PROMO_CODE")
+	private String promoCode;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "PROMO_ADDED")
+	private Date promoAdded;
 
 	@Transient
 	private boolean obsolete = false;//when all items are obsolete
@@ -87,7 +97,6 @@ public class ShoppingCart extends SalesManagerEntity<Long, ShoppingCart> impleme
 	@Override
 	public void setAuditSection(AuditSection audit) {
 		this.auditSection = audit;
-		
 	}
 	
 	@Override
@@ -100,7 +109,6 @@ public class ShoppingCart extends SalesManagerEntity<Long, ShoppingCart> impleme
 		this.id = id;
 		
 	}
-	
 
 	public boolean isObsolete() {
 		return obsolete;
@@ -152,6 +160,22 @@ public class ShoppingCart extends SalesManagerEntity<Long, ShoppingCart> impleme
 		this.ipAddress = ipAddress;
 	}
 
+
+	public String getPromoCode() {
+		return promoCode;
+	}
+
+	public void setPromoCode(String promoCode) {
+		this.promoCode = promoCode;
+	}
+
+	public Date getPromoAdded() {
+		return promoAdded;
+	}
+
+	public void setPromoAdded(Date promoAdded) {
+		this.promoAdded = promoAdded;
+	}
 
 
 }

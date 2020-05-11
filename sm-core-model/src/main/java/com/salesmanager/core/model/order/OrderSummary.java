@@ -20,9 +20,10 @@ public class OrderSummary implements Serializable {
 	/**
 	 * 
 	 */
-	private OrderSummaryType orderSummaryType = OrderSummaryType.ORDERTOTAL;
 	private static final long serialVersionUID = 1L;
+	private OrderSummaryType orderSummaryType = OrderSummaryType.ORDERTOTAL;
 	private ShippingSummary shippingSummary;
+	private String promoCode;
 	private List<ShoppingCartItem> products = new ArrayList<ShoppingCartItem>();
 
 	public void setProducts(List<ShoppingCartItem> products) {
@@ -42,6 +43,12 @@ public class OrderSummary implements Serializable {
 	}
 	public void setOrderSummaryType(OrderSummaryType orderSummaryType) {
 		this.orderSummaryType = orderSummaryType;
+	}
+	public String getPromoCode() {
+		return promoCode;
+	}
+	public void setPromoCode(String promoCode) {
+		this.promoCode = promoCode;
 	}
 
 }

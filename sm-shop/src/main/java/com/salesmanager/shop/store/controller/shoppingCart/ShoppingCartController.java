@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -22,12 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
-import com.salesmanager.core.business.services.catalog.product.attribute.ProductAttributeService;
-import com.salesmanager.core.business.services.order.OrderService;
 import com.salesmanager.core.business.services.shoppingcart.ShoppingCartService;
-import com.salesmanager.core.business.utils.ProductPriceUtils;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.customer.Customer;
@@ -197,8 +194,6 @@ public class ShoppingCartController extends AbstractController {
 
 	}
 
-
-
 	/**
 	 * Retrieves a Shopping cart from the database (regular shopping cart)
 	 * @param model
@@ -212,8 +207,12 @@ public class ShoppingCartController extends AbstractController {
         throws Exception
     {
 
+    	return this.shoppingCart(model, request, response, locale);
+    }
+    
+    private String shoppingCart( final Model model, final HttpServletRequest request, final HttpServletResponse response, final Locale locale ) throws Exception {
+
         LOG.debug( "Starting to calculate shopping cart..." );
-        
         Language language = (Language)request.getAttribute(Constants.LANGUAGE);
         
         
@@ -263,20 +262,13 @@ public class ShoppingCartController extends AbstractController {
         }
         shoppingCart.setShoppingCartItems(availables);
         shoppingCart.setUnavailables(unavailables);
-        
-
 
         model.addAttribute( "cart", shoppingCart );
-        
-        
-        
-        
 
         /** template **/
         StringBuilder template =
             new StringBuilder().append( ControllerConstants.Tiles.ShoppingCart.shoppingCart ).append( "." ).append( store.getStoreTemplate() );
         return template.toString();
-
     }
     
     
@@ -349,19 +341,14 @@ public class ShoppingCartController extends AbstractController {
 
 
 		//Looks in the HttpSession to see if a customer is logged in
-
 		//get any shopping cart for this user
 
 		//** need to check if the item has property, similar items may exist but with different properties
 		//String attributes = request.getParameter("attribute");//attributes id are sent as 1|2|5|
 		//this will help with hte removal of the appropriate item
-
 		//remove the item shoppingCartService.create
-
 		//create JSON representation of the shopping cart
-
 		//return the JSON structure in AjaxResponse
-
 		//store the shopping cart in the http session
 
 	    MerchantStore store = getSessionAttribute(Constants.MERCHANT_STORE, request);
@@ -408,9 +395,7 @@ public class ShoppingCartController extends AbstractController {
 	public @ResponseBody String updateShoppingCartItem( @RequestBody final ShoppingCartItem[] shoppingCartItems, final HttpServletRequest request, final  HttpServletResponse response)  {
 
 		AjaxResponse ajaxResponse = new AjaxResponse();
-		
-		
-		
+
 	    MerchantStore store = getSessionAttribute(Constants.MERCHANT_STORE, request);
 	    Language language = (Language)request.getAttribute(Constants.LANGUAGE);
 
@@ -421,9 +406,13 @@ public class ShoppingCartController extends AbstractController {
         	return "redirect:/shop";
         }
         
+        /** if a promo code is captured **/
+        String pCode = request.getParameter("promoCode");
+        Optional<String> promoCode = Optional.ofNullable(pCode);
+        
         try {
         	List<ShoppingCartItem> items = Arrays.asList(shoppingCartItems);
-			ShoppingCartData shoppingCart = shoppingCartFacade.updateCartItems(items, store, language);
+			ShoppingCartData shoppingCart = shoppingCartFacade.updateCartItems(promoCode, items, store, language);
 			ajaxResponse.setStatus(AjaxResponse.RESPONSE_STATUS_SUCCESS);
 
 		} catch (Exception e) {
@@ -431,8 +420,7 @@ public class ShoppingCartController extends AbstractController {
 			ajaxResponse.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 		}
 
-        	return ajaxResponse.toJSONString();
-
+        return ajaxResponse.toJSONString();
 
 	}
 

@@ -400,7 +400,8 @@ public class ShoppingOrderController extends AbstractController {
 		//readable shopping cart items for order summary box
         ShoppingCartData shoppingCart = shoppingCartFacade.getShoppingCartData(cart, language);
         model.addAttribute( "cart", shoppingCart );
-		//TODO filter here
+		
+        order.setCartCode(shoppingCart.getCode());
 
 
 		//order total
@@ -411,10 +412,10 @@ public class ShoppingOrderController extends AbstractController {
 
 		//display hacks
 		if(!StringUtils.isBlank(googleMapsKey)) {
-		  model.addAttribute("disabled","true");
+		  model.addAttribute("fieldDisabled","true");
 		  model.addAttribute("cssClass","");
 		} else {
-		  model.addAttribute("disabled","false");
+		  model.addAttribute("fieldDisabled","false");
 		  model.addAttribute("cssClass","required");
 		}
 		
@@ -1147,6 +1148,8 @@ public class ShoppingOrderController extends AbstractController {
 			//set list of shopping cart items for core price calculation
 			List<ShoppingCartItem> items = new ArrayList<ShoppingCartItem>(cart.getLineItems());
 			order.setShoppingCartItems(items);
+			order.setCartCode(cart.getShoppingCartCode());
+
 			
 			OrderTotalSummary orderTotalSummary = orderFacade.calculateOrderTotal(store, order, language);
 			super.setSessionAttribute(Constants.ORDER_SUMMARY, orderTotalSummary, request);
@@ -1295,6 +1298,7 @@ public class ShoppingOrderController extends AbstractController {
 			//set list of shopping cart items for core price calculation
 			List<ShoppingCartItem> items = new ArrayList<ShoppingCartItem>(cart.getLineItems());
 			order.setShoppingCartItems(items);
+			order.setCartCode(shoppingCartCode);
 			
 			//order total calculation
 			OrderTotalSummary orderTotalSummary = orderFacade.calculateOrderTotal(store, order, language);
