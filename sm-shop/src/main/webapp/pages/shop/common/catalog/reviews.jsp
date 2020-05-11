@@ -14,6 +14,7 @@ response.setDateHeader ("Expires", -1);
 
 <%@page contentType="text/html"%>
 <%@page pageEncoding="UTF-8"%>
+
 								
 										<sec:authorize access="!hasRole('AUTH_CUSTOMER') and fullyAuthenticated">
 											<!-- no dual login -->

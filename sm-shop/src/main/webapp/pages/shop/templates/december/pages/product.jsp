@@ -242,7 +242,7 @@
 													text="Customer reviews" /></a></li>
 									</ul>
 									<!-- Tab panes -->
-									<div class="tab-content">
+									<div>
 										<div class="tab-pane" id="reviews">
 											<div class="customer-review-top">
 												<h4>
