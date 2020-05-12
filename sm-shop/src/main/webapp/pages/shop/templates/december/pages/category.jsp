@@ -174,6 +174,8 @@ response.setDateHeader ("Expires", -1);
 		var productsRendred = productsTemplate.render(productList);
 		$('#productsContainer').append(productsRendred);
 		$('#hiddenProductsContainer').append(productsRendred);
+		setProductRating(productList.products);
+		/**
 		for (var i = 0; i < productList.products.length; i++) {
 			
 			var id = productList.products[i].id;
@@ -189,6 +191,7 @@ response.setDateHeader ("Expires", -1);
 			$('#productRating_' + id).css('width','auto');
 
 		}
+		**/
 		initBindings();
  	}
  

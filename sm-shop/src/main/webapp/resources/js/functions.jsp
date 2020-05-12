@@ -53,6 +53,7 @@ function setProductRating(productList) {
 			path : '<c:url value="/resources/img/stars/"/>',
 			score: val.ratingCount
 		});
+	    $(pId).css('width','auto');
 	 });
 }
 
