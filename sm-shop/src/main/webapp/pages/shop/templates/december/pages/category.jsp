@@ -175,23 +175,7 @@ response.setDateHeader ("Expires", -1);
 		$('#productsContainer').append(productsRendred);
 		$('#hiddenProductsContainer').append(productsRendred);
 		setProductRating(productList.products);
-		/**
-		for (var i = 0; i < productList.products.length; i++) {
-			
-			var id = productList.products[i].id;
-			console.log('Starred id ' + id);
 
-			$('#productRating_' + id).raty({ 
-				readOnly: true, 
-				half: true,
-				path : '<c:url value="/resources/img/stars/"/>',
-				score: productList.products[i].rating
-			});
-			//override star css
-			$('#productRating_' + id).css('width','auto');
-
-		}
-		**/
 		initBindings();
  	}
  

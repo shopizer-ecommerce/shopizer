@@ -73,8 +73,6 @@
 		<drools.version>7.20.0.Final</drools.version>
 		<google-client-maps-services-version>0.1.6</google-client-maps-services-version>
 		<jwt.version>0.8.0</jwt.version>
-		<!-- external systems -->
-		<!-- <c3p0-version>0.9.5.4</c3p0-version> -->
 
 
 		<!-- api documentation -->
