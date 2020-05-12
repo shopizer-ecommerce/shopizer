@@ -51,7 +51,7 @@ response.setDateHeader ("Expires", -1);
 								</div>
 								<div class="product-content text-center">
 									<a class="listing-product-name" href="<c:url value="/shop/product/" />{{description.friendlyUrl}}.html/ref=<c:out value="${requestScope.ref}"/>"><h3 itemprop="name">{{description.name}}</h3></a>
-									<!--<span class="text-center width-100"><div class="stars" id="productRating_{{id}}"></div></span>-->
+									<div class="stars" id="productRating_{{id}}"></div>
 									<h4>
 										{{#discounted}}<del>{{originalPrice}}</del>&nbsp;<span itemprop="price" class="specialPrice">{{finalPrice}}</span>{{/discounted}}
 										{{^discounted}}<span itemprop="price">{{finalPrice}}</span>{{/discounted}}

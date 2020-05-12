@@ -23,6 +23,7 @@
     
     <script src="<c:url value="/resources/templates/december/js/jquery.magnific-popup.min.js" />"></script>
     <script src="<c:url value="/resources/templates/december/js/plugins.js" />"></script>
+    <script src="<c:url value="/resources/templates/december/js/starr.js" />"></script>
 
     
     

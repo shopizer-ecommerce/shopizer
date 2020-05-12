@@ -18,9 +18,6 @@ response.setDateHeader ("Expires", -1);
  <script src="<c:url value="/resources/js/jquery.quicksand.js" />"></script>
  <script src="<c:url value="/resources/js/jquery-sort-filter-plugin.js" />"></script>
  <script src="<c:url value="/resources/js/jquery.alphanumeric.pack.js" />"></script>
- 
-
-
 
  <!-- don't change that script except max_oroducts -->
  <script>
@@ -109,9 +106,7 @@ response.setDateHeader ("Expires", -1);
 				  minimumPrice = '0';
 			  }
 			  filteredData = listedData.filter(function() {
-				 
-				   //log('Item price ' + $(this).attr('item-price'));
-			  
+
 				   var price = parseFloat($(this).attr('item-price'));
 				   if(maximumPrice != '') {
 					   return price >= parseFloat(minimumPrice) && price <= parseFloat(maximumPrice); 
@@ -121,11 +116,7 @@ response.setDateHeader ("Expires", -1);
 				   
 			  }); 
 		  } 
-		  
-		  //console.log('After filtered Data');
-		  //console.log(filteredData);
 
-		  
 		  if(attribute!='item-order') {	
 		  
 		  	$sortedData = filteredData.sorted({
@@ -178,11 +169,26 @@ response.setDateHeader ("Expires", -1);
  	}
  	
  	function buildProductsList(productList, divProductsContainer) {
- 		//log('Products-> ' + productList.products.length);
+ 		log('Products-> ' + JSON.stringify(productList));
 		var productsTemplate = Hogan.compile(document.getElementById("productBoxTemplate").innerHTML);
 		var productsRendred = productsTemplate.render(productList);
 		$('#productsContainer').append(productsRendred);
 		$('#hiddenProductsContainer').append(productsRendred);
+		for (var i = 0; i < productList.products.length; i++) {
+			
+			var id = productList.products[i].id;
+			console.log('Starred id ' + id);
+
+			$('#productRating_' + id).raty({ 
+				readOnly: true, 
+				half: true,
+				path : '<c:url value="/resources/img/stars/"/>',
+				score: productList.products[i].rating
+			});
+			//override star css
+			$('#productRating_' + id).css('width','auto');
+
+		}
 		initBindings();
  	}
  
