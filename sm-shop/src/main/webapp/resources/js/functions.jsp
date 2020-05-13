@@ -51,7 +51,7 @@ function setProductRating(productList) {
 			readOnly: true,
 			half: true,
 			path : '<c:url value="/resources/img/stars/"/>',
-			score: val.ratingCount
+			score: val.rating
 		});
 	    $(pId).css('width','auto');
 	 });
