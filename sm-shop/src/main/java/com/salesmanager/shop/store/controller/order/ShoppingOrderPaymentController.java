@@ -1,6 +1,7 @@
 package com.salesmanager.shop.store.controller.order;
 
 import com.salesmanager.core.business.modules.integration.payment.impl.PayPalExpressCheckoutPayment;
+import com.salesmanager.core.business.modules.integration.payment.impl.Stripe3Payment;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.customer.attribute.CustomerOptionService;
@@ -159,15 +160,9 @@ public class ShoppingOrderPaymentController extends AbstractController {
 				order.setShippingSummary(summary);
 			}
 
-
-			
 			if(action.equals(INIT_ACTION)) {
 				if(paymentmethod.equals("PAYPAL")) {
-					try {
-						
-
-					
-						PaymentModule module = paymentService.getPaymentModule("paypal-express-checkout");
+					try {						PaymentModule module = paymentService.getPaymentModule("paypal-express-checkout");
 						PayPalExpressCheckoutPayment p = (PayPalExpressCheckoutPayment)module;
 						PaypalPayment payment = new PaypalPayment();
 						payment.setCurrency(store.getCurrency());
@@ -201,8 +196,29 @@ public class ShoppingOrderPaymentController extends AbstractController {
 					} catch(Exception e) {
 						ajaxResponse.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 					}
-							
-					
+				}
+				else if(paymentmethod.equals("stripe3")) {
+					try {
+
+						PaymentModule module = paymentService.getPaymentModule(paymentmethod);
+						Stripe3Payment p = (Stripe3Payment)module;
+
+						PaypalPayment payment = new PaypalPayment();
+						payment.setCurrency(store.getCurrency());
+						Transaction transaction = p.initTransaction(store, null, orderTotalSummary.getTotal(), null, config, integrationModule);
+
+						transactionService.create(transaction);
+
+						super.setSessionAttribute(Constants.INIT_TRANSACTION_KEY, transaction, request);
+						//keep order in session when user comes back from pp
+						super.setSessionAttribute(Constants.ORDER, order, request);
+
+						ajaxResponse.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
+						ajaxResponse.setDataMap(transaction.getTransactionDetails());
+
+					} catch(Exception e) {
+						ajaxResponse.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
+					}
 				}
 			}
 		

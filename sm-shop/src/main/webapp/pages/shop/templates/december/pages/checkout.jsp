@@ -465,6 +465,12 @@ function bindActions() {
 			$('#paymentMethodType').attr("value", 'PAYPAL');
 			initPayment('PAYPAL');
 		}
+		else if(paymentSelection.indexOf('stripe3') >= 0) {
+			//$('#paymentMethodType').val('CREDITCARD');
+			$('#paymentMethodType').attr("value", 'CREDITCARD');
+			log('Init stripe3');
+			initStripePayment3();
+		}
 		else if(paymentSelection.indexOf('stripe') >= 0) {
 			//$('#paymentMethodType').val('CREDITCARD');
 			$('#paymentMethodType').attr("value", 'CREDITCARD');
@@ -1010,7 +1016,7 @@ function initPayment(paymentSelection) {
 													<!-- exception for stripe, braintree... which has it's own page -->
 													<c:choose>
 														<c:when
-															test="${(paymentMethod.paymentMethodCode=='stripe') or (paymentMethod.paymentMethodCode=='braintree')}">
+															test="${(paymentMethod.paymentMethodCode=='stripe') or (paymentMethod.paymentMethodCode=='braintree') or (paymentMethod.paymentMethodCode=='stripe3')}">
 															<c:set var="pageName"
 																value="${fn:toLowerCase(paymentMethod.paymentMethodCode)}" />
 														</c:when>
