@@ -78,7 +78,7 @@ run as Java Application
 
 Access the deployed web application at: http://localhost:8080/
 
-Acces the admin section at: http://localhost:8080/admin
+Access the admin section at: http://localhost:8080/admin
 
 username : admin@shopizer.com
 
