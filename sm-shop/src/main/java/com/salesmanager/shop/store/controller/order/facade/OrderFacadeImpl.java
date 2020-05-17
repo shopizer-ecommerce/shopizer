@@ -823,9 +823,6 @@ public class OrderFacadeImpl implements OrderFacade {
 			
 			String paymentType = order.getPaymentMethodType();
 			
-			if(!shoppingCartService.isFreeShoppingCart(order.getShoppingCartItems()) && paymentType==null) {
-				
-			}
 			
 			//validate payment
 			if(paymentType==null) {

@@ -2,7 +2,7 @@ package com.salesmanager.shop.model.catalog.catalog;
 
 import com.salesmanager.shop.model.entity.Entity;
 
-public class CetalogEntryEntity extends Entity  {
+public class CatalogEntryEntity extends Entity  {
 
 	/**
 	 * 

@@ -114,6 +114,7 @@ public class ReadableProductPopulator extends
 	
 			target.setId(source.getId());
 			target.setAvailable(source.isAvailable());
+			target.setProductShipeable(source.isProductShipeable());
 			
 			ProductSpecification specifications = new ProductSpecification();
 			specifications.setHeight(source.getProductHeight());
@@ -421,6 +422,7 @@ public class ReadableProductPopulator extends
 			//availability
 			ProductAvailability availability = null;
 			for(ProductAvailability a : source.getAvailabilities()) {
+				//TODO validate region
 				//if(availability.getRegion().equals(Constants.ALL_REGIONS)) {//TODO REL 2.1 accept a region
 					availability = a;
 					target.setQuantity(availability.getProductQuantity());

@@ -42,7 +42,7 @@ public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailab
   
   @Embedded
   private AuditSection auditSection = new AuditSection();
-
+  
 
   @Id
   @Column(name = "PRODUCT_AVAIL_ID", unique = true, nullable = false)
@@ -115,6 +115,12 @@ public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailab
   }
 
   public ProductAvailability() {}
+  
+  public ProductAvailability(Product product, MerchantStore store) {
+	  this.product = product;
+	  this.merchantStore = store;
+  }
+
 
   public Integer getProductQuantity() {
     return productQuantity;

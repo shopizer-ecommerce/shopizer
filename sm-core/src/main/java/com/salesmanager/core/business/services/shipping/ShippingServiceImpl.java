@@ -567,14 +567,14 @@ public class ShippingServiceImpl implements ShippingService {
 				shippingOptions = shippingQuoteModule.getShippingQuotes(shippingQuote, packages, orderTotal, delivery, shippingOrigin, store, configuration, shippingModule, shippingConfiguration, locale);
 			} catch(Exception e) {
 				LOGGER.error("Error while calculating shipping : " + e.getMessage(), e);
-				merchantLogService.save(
+/*				merchantLogService.save(
 						new MerchantLog(store,
 								"Can't process " + shippingModule.getModule()
 								+ " -> "
 								+ e.getMessage()));
 				shippingQuote.setQuoteError(e.getMessage());
 				shippingQuote.setShippingReturnCode(ShippingQuote.ERROR);
-				return shippingQuote;
+				return shippingQuote;*/
 			}
 			
 			if(shippingOptions==null && !StringUtils.isBlank(delivery.getPostalCode())) {

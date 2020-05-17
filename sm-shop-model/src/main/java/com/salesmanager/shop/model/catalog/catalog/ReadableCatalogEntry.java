@@ -3,7 +3,7 @@ package com.salesmanager.shop.model.catalog.catalog;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 
-public class ReadableCatalogEntry extends CetalogEntryEntity {
+public class ReadableCatalogEntry extends CatalogEntryEntity {
 
 	/**
 	 * 

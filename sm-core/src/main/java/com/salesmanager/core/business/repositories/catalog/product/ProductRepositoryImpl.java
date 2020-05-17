@@ -35,12 +35,12 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
 	@Override
 	public Product getById(Long productId, MerchantStore store) {
-		return this.get(productId, store);
+		return get(productId, store);
 	}
 
 	@Override
 	public Product getById(Long productId) {
-		return this.get(productId, null);
+		return get(productId, null);
 	}
 
 
@@ -383,7 +383,6 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
 		qs.append("join fetch p.descriptions pd ");
 		qs.append("join fetch p.categories categs ");
-
 		qs.append("left join fetch pap.descriptions papd ");
 
 		// images
