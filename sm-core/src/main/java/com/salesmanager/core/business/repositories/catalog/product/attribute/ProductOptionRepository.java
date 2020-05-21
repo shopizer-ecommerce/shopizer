@@ -15,7 +15,7 @@ public interface ProductOptionRepository extends JpaRepository<ProductOption, Lo
 	@Query("select p from ProductOption p join fetch p.merchantStore pm left join fetch p.descriptions pd where p.id = ?2 and pm.id = ?1")
 	ProductOption findOne(Integer storeId, Long id);
 	
-	@Query("select distinct p from ProductOption p join fetch p.merchantStore pm left join fetch p.descriptions pd where pm.id = ?1 and pd.language.id = ?2")
+	@Query("select p from ProductOption p join fetch p.merchantStore pm left join fetch p.descriptions pd where pm.id = ?1 and pd.language.id = ?2")
 	List<ProductOption> findByStoreId(Integer storeId, Integer languageId);
 	
 	@Query("select p from ProductOption p join fetch p.merchantStore pm left join fetch p.descriptions pd where pm.id = ?1 and pd.name like %?2% and pd.language.id = ?3")
@@ -24,7 +24,7 @@ public interface ProductOptionRepository extends JpaRepository<ProductOption, Lo
 	@Query("select p from ProductOption p join fetch p.merchantStore pm left join fetch p.descriptions pd where pm.id = ?1 and p.code = ?2")
 	public ProductOption findByCode(Integer storeId, String optionCode);
 	
-	@Query("select distinct p from ProductOption p join fetch p.merchantStore pm left join fetch p.descriptions pd where pm.id = ?1 and p.code = ?2 and p.readOnly = ?3")
+	@Query("select p from ProductOption p join fetch p.merchantStore pm left join fetch p.descriptions pd where pm.id = ?1 and p.code = ?2 and p.readOnly = ?3")
 	public List<ProductOption> findByReadOnly(Integer storeId, Integer languageId, boolean readOnly);
 	
 
