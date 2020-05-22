@@ -23,6 +23,7 @@ import javax.validation.constraints.NotNull;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.attribute.ProductVariant;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.common.audit.Auditable;
@@ -30,216 +31,222 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.utils.CloneUtils;
 
-
 @Entity
 @Table(name = "PRODUCT_AVAILABILITY", schema = SchemaConstant.SALESMANAGER_SCHEMA)
 public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailability> implements Auditable {
 
-  /**
-  * 
-  */
-  private static final long serialVersionUID = 1L;
-  
-  @Embedded
-  private AuditSection auditSection = new AuditSection();
-  
+	/**
+	* 
+	*/
+	private static final long serialVersionUID = 1L;
 
-  @Id
-  @Column(name = "PRODUCT_AVAIL_ID", unique = true, nullable = false)
-  @TableGenerator(name = "TABLE_GEN", table = "SM_SEQUENCER", pkColumnName = "SEQ_NAME",
-      valueColumnName = "SEQ_COUNT", pkColumnValue = "PRODUCT_AVAIL_SEQ_NEXT_VAL")
-  @GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
-  private Long id;
+	@Embedded
+	private AuditSection auditSection = new AuditSection();
 
-  @JsonIgnore
-  @ManyToOne(targetEntity = Product.class)
-  @JoinColumn(name = "PRODUCT_ID", nullable = false)
-  private Product product;
+	@Id
+	@Column(name = "PRODUCT_AVAIL_ID", unique = true, nullable = false)
+	@TableGenerator(name = "TABLE_GEN", table = "SM_SEQUENCER", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "PRODUCT_AVAIL_SEQ_NEXT_VAL")
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
+	private Long id;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "MERCHANT_ID", nullable = true)
-  private MerchantStore merchantStore;
+	@JsonIgnore
+	@ManyToOne(targetEntity = Product.class)
+	@JoinColumn(name = "PRODUCT_ID", nullable = false)
+	private Product product;
 
-  @NotNull
-  @Column(name = "QUANTITY")
-  private Integer productQuantity = 0;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "MERCHANT_ID", nullable = true)
+	private MerchantStore merchantStore;
 
-  @Temporal(TemporalType.DATE)
-  @Column(name = "DATE_AVAILABLE")
-  private Date productDateAvailable;
+	@NotNull
+	@Column(name = "QUANTITY")
+	private Integer productQuantity = 0;
 
-  @Column(name = "REGION")
-  private String region = SchemaConstant.ALL_REGIONS;
+	@Temporal(TemporalType.DATE)
+	@Column(name = "DATE_AVAILABLE")
+	private Date productDateAvailable;
 
-  @Column(name = "REGION_VARIANT")
-  private String regionVariant;
+	@Column(name = "REGION")
+	private String region = SchemaConstant.ALL_REGIONS;
 
-  @Column(name = "OWNER")
-  private String owner;
+	@Column(name = "REGION_VARIANT")
+	private String regionVariant;
 
-  @Column(name = "STATUS")
-  private boolean productStatus = true;
+	@Column(name = "OWNER")
+	private String owner;
 
-  @Column(name = "FREE_SHIPPING")
-  private boolean productIsAlwaysFreeShipping;
+	@Column(name = "STATUS")
+	private boolean productStatus = true;
 
-  @Column(name = "AVAILABLE")
-  private Boolean available;
+	@Column(name = "FREE_SHIPPING")
+	private boolean productIsAlwaysFreeShipping;
 
-  public Boolean getAvailable() {
-    return available;
-  }
-
-  public void setAvailable(Boolean available) {
-    this.available = available;
-  }
-
-  @Column(name = "QUANTITY_ORD_MIN")
-  private Integer productQuantityOrderMin = 0;
-
-  @Column(name = "QUANTITY_ORD_MAX")
-  private Integer productQuantityOrderMax = 0;
-
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "productAvailability", cascade = CascadeType.ALL)
-  private Set<ProductPrice> prices = new HashSet<ProductPrice>();
-
-  @Transient
-  public ProductPrice defaultPrice() {
-
-    for (ProductPrice price : prices) {
-      if (price.isDefaultPrice()) {
-        return price;
-      }
-    }
-    return new ProductPrice();
-  }
-
-  public ProductAvailability() {}
-  
-  public ProductAvailability(Product product, MerchantStore store) {
-	  this.product = product;
-	  this.merchantStore = store;
-  }
+	@Column(name = "AVAILABLE")
+	private Boolean available;
 
 
-  public Integer getProductQuantity() {
-    return productQuantity;
-  }
+	@Column(name = "QUANTITY_ORD_MIN")
+	private Integer productQuantityOrderMin = 0;
 
-  public void setProductQuantity(Integer productQuantity) {
-    this.productQuantity = productQuantity;
-  }
+	@Column(name = "QUANTITY_ORD_MAX")
+	private Integer productQuantityOrderMax = 0;
 
-  public Date getProductDateAvailable() {
-    return CloneUtils.clone(productDateAvailable);
-  }
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "productAvailability", cascade = CascadeType.ALL)
+	private Set<ProductPrice> prices = new HashSet<ProductPrice>();
 
-  public void setProductDateAvailable(Date productDateAvailable) {
-    this.productDateAvailable = CloneUtils.clone(productDateAvailable);
-  }
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "productAvailability", cascade = CascadeType.ALL)
+	private Set<ProductVariant> variants = new HashSet<ProductVariant>();
 
-  public String getRegion() {
-    return region;
-  }
+	@Transient
+	public ProductPrice defaultPrice() {
 
-  public void setRegion(String region) {
-    this.region = region;
-  }
+		for (ProductPrice price : prices) {
+			if (price.isDefaultPrice()) {
+				return price;
+			}
+		}
+		return new ProductPrice();
+	}
 
-  public String getRegionVariant() {
-    return regionVariant;
-  }
+	public ProductAvailability() {
+	}
 
-  public void setRegionVariant(String regionVariant) {
-    this.regionVariant = regionVariant;
-  }
+	public ProductAvailability(Product product, MerchantStore store) {
+		this.product = product;
+		this.merchantStore = store;
+	}
 
-  public boolean getProductStatus() {
-    return productStatus;
-  }
+	public Integer getProductQuantity() {
+		return productQuantity;
+	}
 
-  public void setProductStatus(boolean productStatus) {
-    this.productStatus = productStatus;
-  }
+	public void setProductQuantity(Integer productQuantity) {
+		this.productQuantity = productQuantity;
+	}
 
-  public boolean getProductIsAlwaysFreeShipping() {
-    return productIsAlwaysFreeShipping;
-  }
+	public Date getProductDateAvailable() {
+		return CloneUtils.clone(productDateAvailable);
+	}
 
-  public void setProductIsAlwaysFreeShipping(boolean productIsAlwaysFreeShipping) {
-    this.productIsAlwaysFreeShipping = productIsAlwaysFreeShipping;
-  }
+	public void setProductDateAvailable(Date productDateAvailable) {
+		this.productDateAvailable = CloneUtils.clone(productDateAvailable);
+	}
 
-  public Integer getProductQuantityOrderMin() {
-    return productQuantityOrderMin;
-  }
+	public String getRegion() {
+		return region;
+	}
 
-  public void setProductQuantityOrderMin(Integer productQuantityOrderMin) {
-    this.productQuantityOrderMin = productQuantityOrderMin;
-  }
+	public void setRegion(String region) {
+		this.region = region;
+	}
 
-  public Integer getProductQuantityOrderMax() {
-    return productQuantityOrderMax;
-  }
+	public String getRegionVariant() {
+		return regionVariant;
+	}
 
-  public void setProductQuantityOrderMax(Integer productQuantityOrderMax) {
-    this.productQuantityOrderMax = productQuantityOrderMax;
-  }
+	public void setRegionVariant(String regionVariant) {
+		this.regionVariant = regionVariant;
+	}
 
+	public boolean getProductStatus() {
+		return productStatus;
+	}
 
-  @Override
-  public Long getId() {
-    return id;
-  }
+	public void setProductStatus(boolean productStatus) {
+		this.productStatus = productStatus;
+	}
 
-  @Override
-  public void setId(Long id) {
-    this.id = id;
-  }
+	public boolean getProductIsAlwaysFreeShipping() {
+		return productIsAlwaysFreeShipping;
+	}
 
-  public Product getProduct() {
-    return product;
-  }
+	public void setProductIsAlwaysFreeShipping(boolean productIsAlwaysFreeShipping) {
+		this.productIsAlwaysFreeShipping = productIsAlwaysFreeShipping;
+	}
 
-  public void setProduct(Product product) {
-    this.product = product;
-  }
+	public Integer getProductQuantityOrderMin() {
+		return productQuantityOrderMin;
+	}
 
+	public void setProductQuantityOrderMin(Integer productQuantityOrderMin) {
+		this.productQuantityOrderMin = productQuantityOrderMin;
+	}
 
+	public Integer getProductQuantityOrderMax() {
+		return productQuantityOrderMax;
+	}
 
-  public Set<ProductPrice> getPrices() {
-    return prices;
-  }
+	public void setProductQuantityOrderMax(Integer productQuantityOrderMax) {
+		this.productQuantityOrderMax = productQuantityOrderMax;
+	}
 
-  public void setPrices(Set<ProductPrice> prices) {
-    this.prices = prices;
-  }
+	@Override
+	public Long getId() {
+		return id;
+	}
 
-  public MerchantStore getMerchantStore() {
-    return merchantStore;
-  }
+	@Override
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-  public void setMerchantStore(MerchantStore merchantStore) {
-    this.merchantStore = merchantStore;
-  }
+	public Product getProduct() {
+		return product;
+	}
 
-  public String getOwner() {
-    return owner;
-  }
+	public void setProduct(Product product) {
+		this.product = product;
+	}
 
-  public void setOwner(String owner) {
-    this.owner = owner;
-  }
+	public Set<ProductPrice> getPrices() {
+		return prices;
+	}
 
-  @Override
-  public AuditSection getAuditSection() {
-    return auditSection;
-  }
+	public void setPrices(Set<ProductPrice> prices) {
+		this.prices = prices;
+	}
 
-  @Override
-  public void setAuditSection(AuditSection audit) {
-    this.auditSection = audit;
-    
-  }
+	public MerchantStore getMerchantStore() {
+		return merchantStore;
+	}
+
+	public void setMerchantStore(MerchantStore merchantStore) {
+		this.merchantStore = merchantStore;
+	}
+
+	public String getOwner() {
+		return owner;
+	}
+
+	public void setOwner(String owner) {
+		this.owner = owner;
+	}
+
+	@Override
+	public AuditSection getAuditSection() {
+		return auditSection;
+	}
+
+	@Override
+	public void setAuditSection(AuditSection audit) {
+		this.auditSection = audit;
+
+	}
+
+	public Set<ProductVariant> getVariants() {
+		return variants;
+	}
+
+	public void setVariants(Set<ProductVariant> variants) {
+		this.variants = variants;
+	}
+	
+	public Boolean getAvailable() {
+		return available;
+	}
+
+	public void setAvailable(Boolean available) {
+		this.available = available;
+	}
 
 }

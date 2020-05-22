@@ -24,13 +24,13 @@ import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.merchant.MerchantStoreService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
-import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.catalog.category.PersistableCategory;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 import com.salesmanager.shop.store.controller.category.facade.CategoryFacade;
+import com.salesmanager.shop.utils.LanguageUtils;
 
 /**
  * Rest services for category management
@@ -40,18 +40,13 @@ import com.salesmanager.shop.store.controller.category.facade.CategoryFacade;
 @Controller
 @RequestMapping("/services")
 public class ShoppingCategoryRESTController {
-	
-	@Inject
-	private LanguageService languageService;
+
 	
 	@Inject
 	private MerchantStoreService merchantStoreService;
 	
 	@Inject
-	private CategoryService categoryService;
-	
-	@Inject
-	private ProductService productService;
+	private LanguageUtils languageUtils;
 	
 	@Inject
 	private CategoryFacade categoryFacade;
@@ -88,6 +83,10 @@ public class ShoppingCategoryRESTController {
 				return null;
 			}
 			
+			
+			Language language = languageUtils.getRequestLanguage(request, response);
+			
+			/**
 			Language language = merchantStore.getDefaultLanguage();
 			
 			Map<String,Language> langs = languageService.getLanguagesMap();
@@ -103,6 +102,7 @@ public class ShoppingCategoryRESTController {
 			if(language==null) {
 				language = merchantStore.getDefaultLanguage();
 			}
+			**/
 			
 			
 			/** end default routine **/
@@ -129,53 +129,6 @@ public class ShoppingCategoryRESTController {
 	}
 	
 
-	
-	
-	/**
-	 * Create new category for a given MerchantStore
-	 */
-	@RequestMapping( value="/private/{store}/category", method=RequestMethod.POST)
-	@ResponseStatus(HttpStatus.CREATED)
-	@ResponseBody
-	public PersistableCategory createCategory(@PathVariable final String store, @Valid @RequestBody PersistableCategory category, HttpServletRequest request, HttpServletResponse response) {
-		
-		
-		try {
-
-
-			MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
-			if(merchantStore!=null) {
-				if(!merchantStore.getCode().equals(store)) {
-					merchantStore = null;
-				}
-			}
-			
-			if(merchantStore== null) {
-				merchantStore = merchantStoreService.getByCode(store);
-			}
-			
-			if(merchantStore==null) {
-				LOGGER.error("Merchant store is null for code " + store);
-				response.sendError(503, "Merchant store is null for code " + store);
-				return null;
-			}
-			
-			categoryFacade.saveCategory(merchantStore, category);
-
-			
-			category.setId(category.getId());
-
-			return category;
-		
-		} catch (Exception e) {
-			LOGGER.error("Error while saving category",e);
-			try {
-				response.sendError(503, "Error while saving category " + e.getMessage());
-			} catch (Exception ignore) {
-			}
-			return null;
-		}
-	}
 	
 
 
