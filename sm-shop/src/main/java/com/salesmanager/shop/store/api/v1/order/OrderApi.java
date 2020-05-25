@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.shoppingcart.ShoppingCartService;
 import com.salesmanager.core.model.customer.Customer;
@@ -49,12 +48,19 @@ import com.salesmanager.shop.store.controller.order.facade.OrderFacade;
 import com.salesmanager.shop.store.controller.user.facade.UserFacade;
 import com.salesmanager.shop.utils.LocaleUtils;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.SwaggerDefinition;
+import io.swagger.annotations.Tag;
 import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("/api/v1")
+@Api(tags = {"Order management resource (Order Management Api)"})
+@SwaggerDefinition(tags = {
+    @Tag(name = "Order management resource", description = "Manage orders")
+})
 public class OrderApi {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(OrderApi.class);
@@ -139,9 +145,11 @@ public class OrderApi {
 	@RequestMapping(value = { "/auth/orders" }, method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	@ResponseBody
-	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
-	public ReadableOrderList list(@RequestParam(value = "start", required = false) Integer start,
+	public ReadableOrderList list(
+			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "count", required = false) Integer count, @ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -155,8 +163,8 @@ public class OrderApi {
 			return null;
 		}
 
-		if (start == null) {
-			start = new Integer(0);
+		if (page == null) {
+			page = new Integer(0);
 		}
 		if (count == null) {
 			count = new Integer(100);
@@ -166,7 +174,7 @@ public class OrderApi {
 		ReadableCustomerPopulator customerPopulator = new ReadableCustomerPopulator();
 		customerPopulator.populate(customer, readableCustomer, merchantStore, language);
 
-		ReadableOrderList returnList = orderFacade.getReadableOrderList(merchantStore, customer, start, count,
+		ReadableOrderList returnList = orderFacade.getReadableOrderList(merchantStore, customer, page, count,
 				language);
 
 		if (returnList == null) {
@@ -197,23 +205,21 @@ public class OrderApi {
       method = RequestMethod.GET)
   @ResponseStatus(HttpStatus.ACCEPTED)
   @ResponseBody
-  public ReadableOrderList getOrders(
-      @RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
-      @RequestParam(value = "count", required = false, defaultValue = "100") Integer count,
+  public ReadableOrderList listAll(
+      @RequestParam(value = "count", required = false, defaultValue = "0") Integer count,
+      @RequestParam(value = "page", required = false, defaultValue = "100") Integer page,
 		@ApiIgnore MerchantStore merchantStore, 
 		@ApiIgnore Language language) {
 
 
-			// superadmin, admin and admin_catalogue
+			// superadmin, admin and admin_order
 			String authenticatedUser = userFacade.authenticatedUser();
 			if (authenticatedUser == null) {
 				throw new UnauthorizedException();
 			}
-	
+			
 			userFacade.authorizedGroup(authenticatedUser, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN, Constants.GROUP_ADMIN_ORDER, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()));
-	  
-		  
-			return orderFacade.getReadableOrderList(start, count, merchantStore);
+			return orderFacade.getReadableOrderList(count, page, merchantStore);
 		
 
   }

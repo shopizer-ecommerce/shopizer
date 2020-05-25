@@ -6,7 +6,9 @@ import javax.persistence.Query;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.salesmanager.core.business.utils.RepositoryHelper;
 import com.salesmanager.core.model.common.CriteriaOrderBy;
+import com.salesmanager.core.model.common.GenericEntityList;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.OrderCriteria;
 import com.salesmanager.core.model.order.OrderList;
@@ -166,26 +168,25 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 
 		Number count = (Number) countQ.getSingleResult();
 
-		orderList.setTotalCount(count.intValue());
+		//orderList.setTotalCount(count.intValue());
 
 		if(count.intValue()==0)
 			return orderList;
 
 		//TO BE USED
-		int max = criteria.getMaxCount();
-		int first = criteria.getStartIndex();
+		//int max = criteria.getMaxCount();
+		//int first = criteria.getStartIndex();
+		
+	    @SuppressWarnings("rawtypes")
+		GenericEntityList entityList = new GenericEntityList();
+	    entityList.setTotalCount(count.intValue());
+		
+		objectQ = RepositoryHelper.paginateQuery(objectQ, count, entityList, criteria);
+		
+		//TODO use GenericEntityList
 
-		objectQ.setFirstResult(first);
-
-		if(max>0) {
-			int maxCount = first + max;
-
-			if(maxCount < count.intValue()) {
-				objectQ.setMaxResults(maxCount);
-			} else {
-				objectQ.setMaxResults(count.intValue());
-			}
-		}
+		orderList.setTotalCount(entityList.getTotalCount());
+		orderList.setTotalPages(entityList.getTotalPages());
 
 		orderList.setOrders(objectQ.getResultList());
 

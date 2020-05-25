@@ -65,6 +65,10 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 	private Product get(Long productId, MerchantStore merchant) {
 
 		try {
+			
+			Integer merchantId = null;
+			Integer parentId = null;
+			List<Integer> ids = new ArrayList<Integer>();
 
 			StringBuilder qs = new StringBuilder();
 			/*qs.append("select distinct p from Product as p ");
@@ -100,15 +104,30 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
 			qs.append("where p.id=:pid");
 			if (merchant != null) {
-				qs.append(" and merch.id=:mid");
+				merchantId = merchant.getId();
+				ids.add(merchantId);
+				if(merchant.getParent()!=null) {
+					parentId = merchant.getParent().getId();
+					ids.add(parentId);
+				}
+			}
+			
+			if(merchantId != null) {
+				//qs.append(" and merch.id=:mid");
+				qs.append(" and merch.id in (:mid)");
 			}
 
 			String hql = qs.toString();
 			Query q = this.em.createQuery(hql);
 
 			q.setParameter("pid", productId);
-			if (merchant != null) {
-				q.setParameter("mid", merchant.getId());
+			//if (merchant != null) {
+				//q.setParameter("mid", merchant.getId());
+			//}
+			
+			if(merchantId != null) {
+				//q.setParameter("mid", merchant.getId());
+				q.setParameter("mid", ids);
 			}
 
 			Product p = (Product) q.getSingleResult();

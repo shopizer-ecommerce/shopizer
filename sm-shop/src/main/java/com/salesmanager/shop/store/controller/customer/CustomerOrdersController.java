@@ -39,13 +39,7 @@ import java.util.List;
 @Controller
 @RequestMapping(Constants.SHOP_URI + "/customer")
 public class CustomerOrdersController extends AbstractController {
-	
-    @Inject
-	private MerchantStoreService merchantStoreService;
-    
-    @Inject
-    private LanguageService languageService;
-    
+
     @Inject
     private OrderFacade orderFacade;
     
@@ -86,7 +80,7 @@ public class CustomerOrdersController extends AbstractController {
         
         model.addAttribute( "customerOrders", readable);
         if(readable!=null) {
-        	model.addAttribute( "paginationData", calculatePaginaionData(paginaionData,Constants.MAX_ORDERS_PAGE, readable.getTotal()));
+        	model.addAttribute( "paginationData", calculatePaginaionData(paginaionData,Constants.MAX_ORDERS_PAGE, readable.getNumber()));
         } else {
         	model.addAttribute( "paginationData", null);
         }

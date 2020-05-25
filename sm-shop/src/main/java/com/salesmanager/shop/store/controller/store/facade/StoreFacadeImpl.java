@@ -248,7 +248,7 @@ public class StoreFacadeImpl implements StoreFacade {
 					.map(s -> convertMerchantStoreToReadableMerchantStore(language, s))
 			        .collect(Collectors.toList())
 					);
-			storeList.setTotalPages(stores.getTotalPage());
+			storeList.setTotalPages(stores.getTotalPages());
 			storeList.setRecordsTotal(stores.getTotalCount());
 			storeList.setNumber(stores.getList().size());
 			

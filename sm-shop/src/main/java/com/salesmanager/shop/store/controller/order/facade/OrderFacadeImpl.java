@@ -874,12 +874,7 @@ public class OrderFacadeImpl implements OrderFacade {
 
 			}
 			
-			
-			
 
-      
-	        
-        
 		} catch(ServiceException se) {
 			LOGGER.error("Error while commiting order",se);
 			throw se;
@@ -907,9 +902,10 @@ public class OrderFacadeImpl implements OrderFacade {
 
 		try {
 			OrderCriteria criteria = new OrderCriteria();
-			criteria.setStartIndex(start);
-			criteria.setMaxCount(maxCount);
-	
+			criteria.setStartPage(start);
+			criteria.setPageSize(maxCount);
+			criteria.setLegacyPagination(false);
+
 	        OrderList orderList = orderService.getOrders(criteria);
 	
 	        ReadableOrderPopulator orderPopulator = new ReadableOrderPopulator();
@@ -917,7 +913,7 @@ public class OrderFacadeImpl implements OrderFacade {
 	        ReadableOrderList returnList = new ReadableOrderList();
 	
 	        if(CollectionUtils.isEmpty(orders)) {
-	            returnList.setTotal(0);
+	            returnList.setRecordsTotal(0);
 	            return returnList;
 	        }
 	
@@ -929,10 +925,15 @@ public class OrderFacadeImpl implements OrderFacade {
 	
 	        }
 	        returnList.setOrders(readableOrders);
-	        returnList.setTotal(orderList.getTotalCount());
-	
-	        returnList.setRecordsFiltered(orderList.getTotalCount());
+	        
+	        //returnList.setTotal(orderList.getTotalCount());
+	        //returnList.setRecordsFiltered(orderList.getTotalCount());
+	        //returnList.setRecordsTotal(orderList.getTotalCount());
+	        
 	        returnList.setRecordsTotal(orderList.getTotalCount());
+	        returnList.setTotalPages(orderList.getTotalPages());
+	        returnList.setNumber(orderList.getOrders().size());
+	        returnList.setRecordsFiltered(orderList.getOrders().size());
 	
 	
 	        return returnList;
@@ -988,7 +989,7 @@ public class OrderFacadeImpl implements OrderFacade {
         ReadableOrderList returnList = new ReadableOrderList();
         if(CollectionUtils.isEmpty( orders)){
             LOGGER.info( "Order list if empty..Returning empty list" );
-            returnList.setTotal(0);
+            returnList.setRecordsTotal(0);
             //returnList.setMessage("No results for store code " + store);
             return returnList;
         }
@@ -1014,7 +1015,6 @@ public class OrderFacadeImpl implements OrderFacade {
             
         }
         
-        returnList.setTotal(orderList.getTotalCount());
         returnList.setOrders( readableOrders );
         return returnList;
        
@@ -1056,7 +1056,7 @@ public class OrderFacadeImpl implements OrderFacade {
 		ReadableOrderList returnList = new ReadableOrderList();
 
 		if(CollectionUtils.isEmpty(orders)) {
-			returnList.setTotal(0);
+			 returnList.setRecordsTotal(0);
 			//returnList.setMessage("No results for store code " + store);
 			return null;
 		}
@@ -1069,7 +1069,7 @@ public class OrderFacadeImpl implements OrderFacade {
 
 		}
 
-		returnList.setTotal(orderList.getTotalCount());
+		returnList.setRecordsTotal(orderList.getTotalCount());
 		return this.populateOrderList(orderList, store, language);
 
 
@@ -1334,7 +1334,7 @@ public class OrderFacadeImpl implements OrderFacade {
 		ReadableOrderList returnList = new ReadableOrderList();
 		
 		if(CollectionUtils.isEmpty(orders)) {
-			returnList.setTotal(0);
+			returnList.setRecordsTotal(0);
 			//returnList.setMessage("No results for store code " + store);
 			return null;
 		}
@@ -1347,7 +1347,7 @@ public class OrderFacadeImpl implements OrderFacade {
 			
 		}
 		
-		returnList.setTotal(orders.size());
+		returnList.setRecordsTotal(orders.size());
 		returnList.setOrders(readableOrders);
 
 		return returnList;
