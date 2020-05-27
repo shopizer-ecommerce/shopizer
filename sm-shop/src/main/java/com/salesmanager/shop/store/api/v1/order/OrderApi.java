@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.helper.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,9 +32,9 @@ import com.salesmanager.core.business.services.shoppingcart.ShoppingCartService;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.Order;
+import com.salesmanager.core.model.order.OrderCriteria;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.shoppingcart.ShoppingCart;
-import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.customer.ReadableCustomer;
 import com.salesmanager.shop.model.order.PersistableAnonymousOrderApi;
 import com.salesmanager.shop.model.order.PersistableOrderApi;
@@ -42,11 +43,12 @@ import com.salesmanager.shop.model.order.ReadableOrderList;
 import com.salesmanager.shop.populator.customer.ReadableCustomerPopulator;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
-import com.salesmanager.shop.store.api.exception.UnauthorizedException;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
 import com.salesmanager.shop.store.controller.order.facade.OrderFacade;
 import com.salesmanager.shop.store.controller.user.facade.UserFacade;
+import com.salesmanager.shop.utils.AuthorizationUtils;
 import com.salesmanager.shop.utils.LocaleUtils;
+import com.salesmanager.shop.constants.Constants;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -79,6 +81,9 @@ public class OrderApi {
 
 	@Inject
 	private UserFacade userFacade;
+	
+	@Inject
+	private AuthorizationUtils authorizationUtils;
 
 	/**
 	 * Get a list of orders for a given customer accept request parameter
@@ -208,18 +213,38 @@ public class OrderApi {
   public ReadableOrderList listAll(
       @RequestParam(value = "count", required = false, defaultValue = "0") Integer count,
       @RequestParam(value = "page", required = false, defaultValue = "100") Integer page,
+      @RequestParam(value = "name", required = false) String name,
 		@ApiIgnore MerchantStore merchantStore, 
 		@ApiIgnore Language language) {
 
 
-			// superadmin, admin and admin_order
+/*			// superadmin, admin and admin_order
 			String authenticatedUser = userFacade.authenticatedUser();
 			if (authenticatedUser == null) {
 				throw new UnauthorizedException();
+			}*/
+			
+			OrderCriteria orderCriteria = new OrderCriteria();
+			orderCriteria.setPageSize(count);
+			orderCriteria.setStartPage(page);
+			
+			if(!StringUtils.isBlank(name)) {
+				orderCriteria.setCustomerName(name);
 			}
 			
-			userFacade.authorizedGroup(authenticatedUser, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN, Constants.GROUP_ADMIN_ORDER, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()));
-			return orderFacade.getReadableOrderList(count, page, merchantStore);
+			String user = authorizationUtils.authenticatedUser();
+			authorizationUtils.authorizeUser(user, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN, Constants.GROUP_ADMIN_ORDER, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()), merchantStore);
+
+			
+			//userFacade.authorizedGroup(authenticatedUser, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN, Constants.GROUP_ADMIN_ORDER, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()));
+			
+/*			if (!userFacade.userInRoles(authenticatedUser, Arrays.asList(Constants.GROUP_SUPERADMIN))) {
+				orderCriteria.setStoreCode(merchantStore.getCode());
+			}*/
+			
+			
+			
+			return orderFacade.getReadableOrderList(orderCriteria, merchantStore);
 		
 
   }

@@ -4,7 +4,14 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.salesmanager.core.business.exception.ConversionException;
+import com.salesmanager.core.business.services.reference.country.CountryService;
+import com.salesmanager.core.business.services.reference.zone.ZoneService;
 import com.salesmanager.core.business.utils.AbstractDataPopulator;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.Order;
@@ -15,9 +22,25 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.customer.ReadableDelivery;
 import com.salesmanager.shop.model.customer.address.Address;
 import com.salesmanager.shop.model.order.ReadableOrder;
+import com.salesmanager.shop.model.store.ReadableMerchantStore;
 
+import org.springframework.beans.factory.annotation.Qualifier;
+import com.salesmanager.shop.populator.store.ReadableMerchantStorePopulator;
+import com.salesmanager.shop.utils.ImageFilePath;
+
+@Component
 public class ReadableOrderPopulator extends
 		AbstractDataPopulator<Order, ReadableOrder> {
+	
+	@Autowired
+	private CountryService countryService;
+	@Autowired
+	private ZoneService zoneService;
+	
+	@Autowired
+	@Qualifier("img")
+	private ImageFilePath filePath;
+
 
 	@Override
 	public ReadableOrder populate(Order source, ReadableOrder target,
@@ -34,6 +57,15 @@ public class ReadableOrderPopulator extends
 		target.setPaymentType(source.getPaymentType());
 		target.setPaymentModule(source.getPaymentModuleCode());
 		target.setShippingModule(source.getShippingModuleCode());
+		
+		if(source.getMerchant()!=null) {
+			ReadableMerchantStorePopulator merchantPopulator = new ReadableMerchantStorePopulator();
+			merchantPopulator.setCountryService(countryService);
+			merchantPopulator.setFilePath(filePath);
+			merchantPopulator.setZoneService(zoneService);
+			ReadableMerchantStore readableStore = merchantPopulator.populate(source.getMerchant(), null, store, source.getMerchant().getDefaultLanguage());
+			target.setStore(readableStore);
+		}
 		
 		
 		if(source.getCustomerAgreement()!=null) {

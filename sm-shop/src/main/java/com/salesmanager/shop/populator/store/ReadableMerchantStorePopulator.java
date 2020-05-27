@@ -50,6 +50,10 @@ public class ReadableMerchantStorePopulator extends
 		Validate.notNull(countryService,"Must use setter for countryService");
 		Validate.notNull(zoneService,"Must use setter for zoneService");
 		
+		if(target == null) {
+			target = new ReadableMerchantStore();
+		}
+		
 		target.setId(source.getId());
 		target.setCode(source.getCode());
 		if(source.getDefaultLanguage() != null) {

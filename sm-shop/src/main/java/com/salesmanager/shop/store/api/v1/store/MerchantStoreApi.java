@@ -135,7 +135,7 @@ public class MerchantStoreApi {
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping(value = { "/stores" }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(httpMethod = "GET", value = "Get list of store names. Returns all retailers and stores", notes = "", response = ReadableMerchantStore.class)
-	public List<ReadableMerchantStore> get(
+	public List<ReadableMerchantStore> list(
 			@ApiIgnore MerchantStore merchantStore,
 			HttpServletRequest request) {
 		

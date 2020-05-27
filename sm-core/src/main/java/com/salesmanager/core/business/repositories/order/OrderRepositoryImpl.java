@@ -149,13 +149,29 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		}
 
 		String countBaseQuery = "select count(o) from Order as o";
-		String baseQuery = "select o from Order as o left join fetch o.orderTotal ot left join fetch o.orderProducts op left join fetch o.orderAttributes oa left join fetch op.orderAttributes opo left join fetch op.prices opp";
+		String baseQuery = "select o from Order as o left join fetch o.merchant om left join fetch o.orderTotal ot left join fetch o.orderProducts op left join fetch o.orderAttributes oa left join fetch op.orderAttributes opo left join fetch op.prices opp";
 		countBuilderSelect.append(countBaseQuery);
 		objectBuilderSelect.append(baseQuery);
 
 		StringBuilder objectBuilderWhere = new StringBuilder();
+		
+		if(!StringUtils.isEmpty(criteria.getStoreCode())) {
+			String storeQuery =" where om.code=:mCode";;
+			objectBuilderWhere.append(storeQuery);
+			countBuilderSelect.append(storeQuery);
+		}
+		
+		if(!StringUtils.isEmpty(criteria.getCustomerName())) {
+			String appender = " and";
+			if(StringUtils.isEmpty(criteria.getStoreCode())) {
+				appender = " where";
+			}
+			String nameQuery = appender + " o.billing.firstName like:name or o.billing.lastName like:name";
+			objectBuilderWhere.append(nameQuery);
+			countBuilderSelect.append(nameQuery);
+		}
+	
 		objectBuilderWhere.append(orderByCriteria);
-
 
 		//count query
 		Query countQ = em.createQuery(
@@ -164,19 +180,23 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		//object query
 		Query objectQ = em.createQuery(
 				objectBuilderSelect.toString() + objectBuilderWhere.toString());
+		
+		if(!StringUtils.isEmpty(criteria.getCustomerName())) {
+			countQ.setParameter("name", criteria.getCustomerName());
+			objectQ.setParameter("name", criteria.getCustomerName());
+		}
+		
+		if(!StringUtils.isEmpty(criteria.getStoreCode())) {
+			countQ.setParameter("mCode", criteria.getStoreCode());
+			objectQ.setParameter("mCode", criteria.getStoreCode());
+		}
 
 
 		Number count = (Number) countQ.getSingleResult();
 
-		//orderList.setTotalCount(count.intValue());
-
 		if(count.intValue()==0)
 			return orderList;
 
-		//TO BE USED
-		//int max = criteria.getMaxCount();
-		//int first = criteria.getStartIndex();
-		
 	    @SuppressWarnings("rawtypes")
 		GenericEntityList entityList = new GenericEntityList();
 	    entityList.setTotalCount(count.intValue());

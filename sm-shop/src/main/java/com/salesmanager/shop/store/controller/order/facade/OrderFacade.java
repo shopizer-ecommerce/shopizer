@@ -11,6 +11,7 @@ import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.Order;
+import com.salesmanager.core.model.order.OrderCriteria;
 import com.salesmanager.core.model.order.OrderTotalSummary;
 import com.salesmanager.core.model.payments.Transaction;
 import com.salesmanager.core.model.reference.country.Country;
@@ -125,7 +126,7 @@ public interface OrderFacade {
 	 * @throws Exception
 	 */
 
-	ReadableOrderList getReadableOrderList(int start, int maxCount, MerchantStore store);
+	ReadableOrderList getReadableOrderList(OrderCriteria criteria, MerchantStore store);
 
 
 	/**

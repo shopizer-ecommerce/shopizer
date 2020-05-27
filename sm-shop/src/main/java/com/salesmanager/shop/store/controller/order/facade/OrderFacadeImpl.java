@@ -134,8 +134,12 @@ public class OrderFacadeImpl implements OrderFacade {
 	private CoreConfiguration coreConfiguration;
 	@Inject
 	private PaymentService paymentService;
+	
 	@Autowired
 	private PersistableOrderApiPopulator persistableOrderApiPopulator;
+	
+	@Autowired
+	private ReadableOrderPopulator readableOrderPopulator;
 
 	
 	@Autowired
@@ -145,9 +149,7 @@ public class OrderFacadeImpl implements OrderFacade {
 	@Inject
 	private EmailTemplatesUtils emailTemplatesUtils;
 
-	
 
-	
 	@Inject
 	private LabelUtils messages;
 	
@@ -898,17 +900,14 @@ public class OrderFacadeImpl implements OrderFacade {
 	}
 
 	@Override
-	public ReadableOrderList getReadableOrderList(int start, int maxCount, MerchantStore store) {
+	public ReadableOrderList getReadableOrderList(OrderCriteria criteria, MerchantStore store) {
 
 		try {
-			OrderCriteria criteria = new OrderCriteria();
-			criteria.setStartPage(start);
-			criteria.setPageSize(maxCount);
 			criteria.setLegacyPagination(false);
 
 	        OrderList orderList = orderService.getOrders(criteria);
 	
-	        ReadableOrderPopulator orderPopulator = new ReadableOrderPopulator();
+	        //ReadableOrderPopulator orderPopulator = new ReadableOrderPopulator();
 	        List<Order> orders = orderList.getOrders();
 	        ReadableOrderList returnList = new ReadableOrderList();
 	
@@ -920,7 +919,7 @@ public class OrderFacadeImpl implements OrderFacade {
 	        List<ReadableOrder> readableOrders = new ArrayList<ReadableOrder>();
 	        for (Order order : orders) {
 	            ReadableOrder readableOrder = new ReadableOrder();
-	            orderPopulator.populate(order,readableOrder,null,null);
+	            readableOrderPopulator.populate(order,readableOrder,null,null);
 	            readableOrders.add(readableOrder);
 	
 	        }
@@ -994,16 +993,16 @@ public class OrderFacadeImpl implements OrderFacade {
             return returnList;
         }
         
-        ReadableOrderPopulator orderPopulator = new ReadableOrderPopulator();
+        //ReadableOrderPopulator orderPopulator = new ReadableOrderPopulator();
         Locale locale = LocaleUtils.getLocale(language);
-        orderPopulator.setLocale(locale);
+        readableOrderPopulator.setLocale(locale);
         
         List<ReadableOrder> readableOrders = new ArrayList<ReadableOrder>();
         for (Order order : orders) {
             ReadableOrder readableOrder = new ReadableOrder();
             try
             {
-                orderPopulator.populate(order,readableOrder,store,language);
+            	readableOrderPopulator.populate(order,readableOrder,store,language);
                 setOrderProductList(order,locale,store,language,readableOrder);
             }
             catch ( ConversionException ex )
@@ -1048,9 +1047,9 @@ public class OrderFacadeImpl implements OrderFacade {
 
 		OrderList orderList = orderService.listByStore(store, criteria);
 
-		ReadableOrderPopulator orderPopulator = new ReadableOrderPopulator();
+		//ReadableOrderPopulator orderPopulator = new ReadableOrderPopulator();
 		Locale locale = LocaleUtils.getLocale(language);
-		orderPopulator.setLocale(locale);
+		readableOrderPopulator.setLocale(locale);
 
 		List<Order> orders = orderList.getOrders();
 		ReadableOrderList returnList = new ReadableOrderList();
@@ -1064,7 +1063,7 @@ public class OrderFacadeImpl implements OrderFacade {
 		List<ReadableOrder> readableOrders = new ArrayList<ReadableOrder>();
 		for (Order order : orders) {
 			ReadableOrder readableOrder = new ReadableOrder();
-			orderPopulator.populate(order,readableOrder,store,language);
+			readableOrderPopulator.populate(order,readableOrder,store,language);
 			readableOrders.add(readableOrder);
 
 		}
@@ -1112,8 +1111,8 @@ public class OrderFacadeImpl implements OrderFacade {
 			}
 		}
 		
-		ReadableOrderPopulator orderPopulator = new ReadableOrderPopulator();
-		orderPopulator.populate(modelOrder, readableOrder,  store, language);
+		//ReadableOrderPopulator orderPopulator = new ReadableOrderPopulator();
+		readableOrderPopulator.populate(modelOrder, readableOrder,  store, language);
 		
 		//order products
 		List<ReadableOrderProduct> orderProducts = new ArrayList<ReadableOrderProduct>();
@@ -1327,9 +1326,9 @@ public class OrderFacadeImpl implements OrderFacade {
 		//get all transactions for the given date
 		List<Order> orders = orderService.getCapturableOrders(store, startDate, endDate);
 		
-		ReadableOrderPopulator orderPopulator = new ReadableOrderPopulator();
+		//ReadableOrderPopulator orderPopulator = new ReadableOrderPopulator();
 		Locale locale = LocaleUtils.getLocale(language);
-		orderPopulator.setLocale(locale);
+		readableOrderPopulator.setLocale(locale);
 
 		ReadableOrderList returnList = new ReadableOrderList();
 		
@@ -1342,7 +1341,7 @@ public class OrderFacadeImpl implements OrderFacade {
 		List<ReadableOrder> readableOrders = new ArrayList<ReadableOrder>();
 		for (Order order : orders) {
 			ReadableOrder readableOrder = new ReadableOrder();
-			orderPopulator.populate(order,readableOrder,store,language);
+			readableOrderPopulator.populate(order,readableOrder,store,language);
 			readableOrders.add(readableOrder);
 			
 		}

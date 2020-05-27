@@ -5,6 +5,7 @@ import com.salesmanager.shop.model.customer.ReadableCustomer;
 import com.salesmanager.shop.model.customer.ReadableDelivery;
 import com.salesmanager.shop.model.customer.address.Address;
 import com.salesmanager.shop.model.order.total.OrderTotal;
+import com.salesmanager.shop.model.store.ReadableMerchantStore;
 
 import java.io.Serializable;
 import java.util.List;
@@ -22,6 +23,7 @@ public class ReadableOrder extends OrderEntity implements Serializable {
 	
 	private Address billing;
 	private ReadableDelivery delivery;
+	private ReadableMerchantStore store;
 	
 	
 	
@@ -76,6 +78,13 @@ public class ReadableOrder extends OrderEntity implements Serializable {
 	}
 	public void setDelivery(ReadableDelivery delivery) {
 		this.delivery = delivery;
+	}
+
+	public ReadableMerchantStore getStore() {
+		return store;
+	}
+	public void setStore(ReadableMerchantStore store) {
+		this.store = store;
 	}
 
 	private OrderTotal total;
