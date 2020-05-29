@@ -83,11 +83,6 @@ public class InitializationLoader {
 			
 			if (initializationDatabase.isEmpty()) {
 
-				org.springframework.core.io.Resource permissionXML=resourceLoader.getResource("classpath:/permission/permission.json");
-				
-				InputStream xmlSource = permissionXML.getInputStream();
-                Permissions permissions= jacksonObjectMapper.readValue(xmlSource,Permissions.class);
-
 				//All default data to be created
 				
 				LOGGER.info(String.format("%s : Shopizer database is empty, populate it....", "sm-shop"));
@@ -95,33 +90,6 @@ public class InitializationLoader {
 				 initializationDatabase.populate("sm-shop");
 				
 				 MerchantStore store = merchantService.getByCode(MerchantStore.DEFAULT_STORE);
-				
-				 //security groups and permissions
-
-                Map<String, Group> groupMap = new HashMap<String,Group>();
-                if(CollectionUtils.isNotEmpty(permissions.getShopPermission())){
-
-                    for(ShopPermission shopPermission : permissions.getShopPermission()){
-
-                        Permission permission = new Permission(shopPermission.getType());
-
-                        for(String groupName: shopPermission.getShopGroup().getName()){
-                            if(groupMap.get(groupName) == null){
-                                Group group = new Group(groupName);
-                                group.setGroupType(GroupType.ADMIN);
-                                groupService.create(group);
-                                groupMap.put(groupName,group);
-                                permission.getGroups().add(group);
-                            }
-                            else{
-                                permission.getGroups().add(groupMap.get(groupName)) ;
-                            }
-                            permissionService.create( permission);
-                        }
-
-
-                    }
-                }
 
                   userDetailsService.createDefaultAdmin();
                   MerchantConfig config = new MerchantConfig();
