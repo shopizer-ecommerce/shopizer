@@ -99,7 +99,7 @@ public interface OrderFacade {
 	 * @return
 	 * @throws Exception
 	 */
-	ReadableOrder getReadableOrder(Long orderId, MerchantStore store, Language language) throws Exception;
+	ReadableOrder getReadableOrder(Long orderId, MerchantStore store, Language language);
 	
 
 	/**

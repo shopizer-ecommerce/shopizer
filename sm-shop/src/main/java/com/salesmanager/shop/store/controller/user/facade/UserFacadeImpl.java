@@ -156,7 +156,7 @@ public class UserFacadeImpl implements UserFacade {
 
 	private ReadablePermission convertPermissionToReadablePermission(Permission permission) {
 		ReadablePermission readablePermission = new ReadablePermission();
-		readablePermission.setId(Long.valueOf(permission.getId()));
+		readablePermission.setId(permission.getId());
 		readablePermission.setName(permission.getPermissionName());
 		return readablePermission;
 	}

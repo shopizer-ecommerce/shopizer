@@ -160,11 +160,11 @@ public class CustomerApi {
       @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
   })
   public ReadableCustomerList list(
-      @RequestParam(value = "start", required = false) Integer start,
+      @RequestParam(value = "page", required = false) Integer page,
       @RequestParam(value = "count", required = false) Integer count,
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language) {
-    CustomerCriteria customerCriteria = createCustomerCriteria(start, count);
+    CustomerCriteria customerCriteria = createCustomerCriteria(page, count);
     return customerFacade.getListByStore(merchantStore, customerCriteria, language);
   }
 

@@ -38,7 +38,7 @@ import io.swagger.annotations.Tag;
  */
 @RestController
 @RequestMapping(value = "/api/v1/sec")
-@Api(tags = { "Groups and permissions Api)" })
+@Api(tags = { "Groups and permissions Api" })
 @SwaggerDefinition(tags = {
 		@Tag(name = "List of supported groups and permissions", description = "List groups and attached permissions for reference") })
 public class SecurityApi {
@@ -71,6 +71,7 @@ public class SecurityApi {
 		for (Permission permission : permissions) {
 			ReadablePermission readablePermission = new ReadablePermission();
 			readablePermission.setName(permission.getPermissionName());
+			readablePermission.setId(permission.getId());
 			readablePermissions.add(readablePermission);
 		}
 		return readablePermissions;
@@ -90,6 +91,7 @@ public class SecurityApi {
 		for (Permission permission : permissions) {
 			ReadablePermission readablePermission = new ReadablePermission();
 			readablePermission.setName(permission.getPermissionName());
+			readablePermission.setId(permission.getId());
 			readablePermissions.add(readablePermission);
 		}
 		return readablePermissions;
