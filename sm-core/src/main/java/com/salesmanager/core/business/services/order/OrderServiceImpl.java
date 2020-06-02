@@ -17,17 +17,17 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
+
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.modules.order.InvoiceModule;
-import com.salesmanager.core.business.modules.order.OrderProcessor;
 import com.salesmanager.core.business.repositories.order.OrderRepository;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
@@ -545,20 +545,15 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     }
 
     @Override
-    public Order getOrder(final Long orderId ) {
-        return getById(orderId);
+    public Order getOrder(final Long orderId, MerchantStore store ) {
+    	Validate.notNull(orderId, "Order id cannot be null");
+    	Validate.notNull(store, "Store cannot be null");
+        return orderRepository.findOne(orderId, store.getId());
     }
 
 
-
-/*    @Override
-    public List<Order> listByStore(final MerchantStore merchantStore) {
-        return listByField(Order_.merchant, merchantStore);
-    }*/
-
     @Override
     public OrderList listByStore(final MerchantStore store, final OrderCriteria criteria) {
-
         return orderRepository.listByStore(store, criteria);
     }
 

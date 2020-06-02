@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -84,6 +85,7 @@ import com.salesmanager.shop.model.order.ReadableOrder;
 import com.salesmanager.shop.model.order.ReadableOrderList;
 import com.salesmanager.shop.model.order.ReadableOrderProduct;
 import com.salesmanager.shop.model.order.ShopOrder;
+import com.salesmanager.shop.model.order.history.ReadableOrderStatusHistory;
 import com.salesmanager.shop.model.order.total.OrderTotal;
 import com.salesmanager.shop.model.order.transaction.ReadableTransaction;
 import com.salesmanager.shop.populator.customer.CustomerPopulator;
@@ -99,6 +101,7 @@ import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
 import com.salesmanager.shop.store.controller.shoppingCart.facade.ShoppingCartFacade;
+import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.EmailTemplatesUtils;
 import com.salesmanager.shop.utils.ImageFilePath;
 import com.salesmanager.shop.utils.LabelUtils;
@@ -1080,13 +1083,13 @@ public class OrderFacadeImpl implements OrderFacade {
 		criteria.setStartIndex(start);
 		criteria.setMaxCount(maxCount);
 
-		return this.getReadableOrderList(criteria, store, language);
+		return getReadableOrderList(criteria, store, language);
 	}
 
 	@Override
 	public ReadableOrder getReadableOrder(Long orderId, MerchantStore store, Language language) {
-
-		Order modelOrder = orderService.getById(orderId);
+		Validate.notNull(store, "MerchantStore cannot be null");
+		Order modelOrder = orderService.getOrder(orderId, store);
 		if (modelOrder == null) {
 			throw new ResourceNotFoundException("Order not found with id " + orderId);
 		}
@@ -1355,6 +1358,31 @@ public class OrderFacadeImpl implements OrderFacade {
 
 		return transaction;
 
+	}
+
+	@Override
+	public List<ReadableOrderStatusHistory> getReadableOrderHistory(Long orderId, MerchantStore store,
+			Language language) {
+		
+		Order order = orderService.getOrder(orderId, store);
+		if(order==null) {
+			throw new ResourceNotFoundException("Order id [" + orderId + "] not found for merchand [" + store.getId() + "]" );
+		}
+		
+		Set<OrderStatusHistory> historyList = order.getOrderHistory();
+		List<ReadableOrderStatusHistory> returnList = historyList.stream().map(f -> mapToReadbleOrderStatusHistory(f)).collect(Collectors.toList());
+		return returnList;
+	}
+	
+	ReadableOrderStatusHistory mapToReadbleOrderStatusHistory(OrderStatusHistory source) {
+		ReadableOrderStatusHistory readable = new ReadableOrderStatusHistory();
+		readable.setComments(source.getComments());
+		readable.setDate(DateUtil.formatLongDate(source.getDateAdded()));
+		readable.setId(source.getId());
+		readable.setOrderId(source.getOrder().getId());
+		readable.setOrderStatus(source.getStatus().name());
+		
+		return readable;
 	}
 
 }

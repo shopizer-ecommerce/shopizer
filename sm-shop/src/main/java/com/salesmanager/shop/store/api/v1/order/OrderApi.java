@@ -35,6 +35,7 @@ import com.salesmanager.core.model.order.Order;
 import com.salesmanager.core.model.order.OrderCriteria;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.shoppingcart.ShoppingCart;
+import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.customer.ReadableCustomer;
 import com.salesmanager.shop.model.order.PersistableAnonymousOrderApi;
 import com.salesmanager.shop.model.order.PersistableOrderApi;
@@ -45,10 +46,8 @@ import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
 import com.salesmanager.shop.store.controller.order.facade.OrderFacade;
-import com.salesmanager.shop.store.controller.user.facade.UserFacade;
 import com.salesmanager.shop.utils.AuthorizationUtils;
 import com.salesmanager.shop.utils.LocaleUtils;
-import com.salesmanager.shop.constants.Constants;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -90,7 +89,7 @@ public class OrderApi {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = { "/private/orders/customers/{id}" }, method = RequestMethod.GET)
-	@ResponseStatus(HttpStatus.ACCEPTED)
+	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
@@ -143,7 +142,7 @@ public class OrderApi {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = { "/auth/orders" }, method = RequestMethod.GET)
-	@ResponseStatus(HttpStatus.ACCEPTED)
+	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
@@ -198,7 +197,7 @@ public class OrderApi {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = { "private/orders" }, method = RequestMethod.GET)
-	@ResponseStatus(HttpStatus.ACCEPTED)
+	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	public ReadableOrderList listAll(
 			@RequestParam(value = "count", required = false, defaultValue = "50") Integer count,
@@ -230,12 +229,17 @@ public class OrderApi {
 	 * @return
 	 */
 	@RequestMapping(value = { "/private/orders/{id}" }, method = RequestMethod.GET)
-	@ResponseStatus(HttpStatus.ACCEPTED)
+	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
 	public ReadableOrder get(@PathVariable final Long id, @ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
+		
+		String user = authorizationUtils.authenticatedUser();
+		authorizationUtils.authorizeUser(user, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN,
+				Constants.GROUP_ADMIN_ORDER, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()), merchantStore);
+
 
 		ReadableOrder order = orderFacade.getReadableOrder(id, merchantStore, language);
 
@@ -252,7 +256,7 @@ public class OrderApi {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = { "/auth/orders/{id}" }, method = RequestMethod.GET)
-	@ResponseStatus(HttpStatus.ACCEPTED)
+	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })

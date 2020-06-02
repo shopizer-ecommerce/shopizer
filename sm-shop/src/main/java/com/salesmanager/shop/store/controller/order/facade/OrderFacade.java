@@ -25,6 +25,7 @@ import com.salesmanager.shop.model.order.PersistableOrderApi;
 import com.salesmanager.shop.model.order.ReadableOrder;
 import com.salesmanager.shop.model.order.ReadableOrderList;
 import com.salesmanager.shop.model.order.ShopOrder;
+import com.salesmanager.shop.model.order.history.ReadableOrderStatusHistory;
 import com.salesmanager.shop.model.order.transaction.ReadableTransaction;
 
 
@@ -100,6 +101,15 @@ public interface OrderFacade {
 	 * @throws Exception
 	 */
 	ReadableOrder getReadableOrder(Long orderId, MerchantStore store, Language language);
+	
+	/**
+	 * List of orderstatus history
+	 * @param orderId
+	 * @param store
+	 * @param language
+	 * @return
+	 */
+	List<ReadableOrderStatusHistory> getReadableOrderHistory(Long orderId, MerchantStore store, Language language);
 	
 
 	/**
