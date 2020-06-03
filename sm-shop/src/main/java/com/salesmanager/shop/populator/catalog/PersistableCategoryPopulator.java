@@ -20,7 +20,7 @@ import com.salesmanager.shop.model.catalog.category.PersistableCategory;
 @Component
 public class PersistableCategoryPopulator extends
 		AbstractDataPopulator<PersistableCategory, Category> {
-	
+
 	@Inject
 	private CategoryService categoryService;
 	@Inject
@@ -48,34 +48,34 @@ public class PersistableCategoryPopulator extends
 	public Category populate(PersistableCategory source, Category target,
 			MerchantStore store, Language language)
 			throws ConversionException {
-		
+
 		try {
-		  
+
 		Validate.notNull(target, "Category target cannot be null");
 
-		
+
 /*		Validate.notNull(categoryService, "Requires to set CategoryService");
 		Validate.notNull(languageService, "Requires to set LanguageService");*/
-		
+
 		target.setMerchantStore(store);
 		target.setCode(source.getCode());
 		target.setSortOrder(source.getSortOrder());
 		target.setVisible(source.isVisible());
 		target.setFeatured(source.isFeatured());
-		
+
 		//children
 		if(!CollectionUtils.isEmpty(source.getChildren())) {
 		  //no modifications to children category
 		} else {
 		  target.getCategories().clear();
 		}
-		
+
 		//get parent
-		
+
 		if(source.getParent()==null || (StringUtils.isBlank(source.getParent().getCode())) || source.getParent().getId()==null) {
-
 			target.setParent(null);
-
+			target.setDepth(0);
+			target.setLineage(new StringBuilder().append("/").append(source.getId()).append("/").toString());
 		} else {
 			Category parent = null;
 			if(!StringUtils.isBlank(source.getParent().getCode())) {
@@ -88,32 +88,32 @@ public class PersistableCategoryPopulator extends
 			if(parent !=null && parent.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
 				throw new ConversionException("Store id does not belong to specified parent id");
 			}
-			
+
 			if(parent!=null) {
 				target.setParent(parent);
-				
+
 				String lineage = parent.getLineage();
 				int depth = parent.getDepth();
-	
+
 				target.setDepth(depth+1);
 				target.setLineage(new StringBuilder().append(lineage).append(parent.getId()).append("/").toString());
 			}
 
 		}
-		
-		
+
+
 		if(!CollectionUtils.isEmpty(source.getChildren())) {
-			
+
 			for(PersistableCategory cat : source.getChildren()) {
-				
+
 				Category persistCategory = this.populate(cat, new Category(), store, language);
 				target.getCategories().add(persistCategory);
-				
+
 			}
-			
+
 		}
 
-		
+
 		if(!CollectionUtils.isEmpty(source.getDescriptions())) {
 			Set<com.salesmanager.core.model.catalog.category.CategoryDescription> descriptions = new HashSet<com.salesmanager.core.model.catalog.category.CategoryDescription>();
 			if(CollectionUtils.isNotEmpty(target.getDescriptions())) {
@@ -129,31 +129,31 @@ public class PersistableCategoryPopulator extends
     			        }
     			    }
     			}
-			  
+
 			} else {
 			  for(CategoryDescription d : source.getDescriptions()) {
                 com.salesmanager.core.model.catalog.category.CategoryDescription t = new com.salesmanager.core.model.catalog.category.CategoryDescription();
-               
+
 			    this.buildDescription(d, t);
 			    t.setCategory(target);
 			    descriptions.add(t);
-			    
+
 			  }
-			  
+
 			}
 			target.setDescriptions(descriptions);
 		}
-	
-		
+
+
 		return target;
-		
-		
+
+
 		} catch(Exception e) {
 			throw new ConversionException(e);
 		}
 
 	}
-	
+
 	private com.salesmanager.core.model.catalog.category.CategoryDescription buildDescription(com.salesmanager.shop.model.catalog.category.CategoryDescription source, com.salesmanager.core.model.catalog.category.CategoryDescription target) throws Exception {
       //com.salesmanager.core.model.catalog.category.CategoryDescription desc = new com.salesmanager.core.model.catalog.category.CategoryDescription();
 	  target.setCategoryHighlight(source.getHighlights());
