@@ -5,10 +5,12 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.order.OrderService;
@@ -28,18 +31,18 @@ import com.salesmanager.core.business.services.payments.PaymentService;
 import com.salesmanager.core.business.services.shoppingcart.ShoppingCartService;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
-import com.salesmanager.core.model.order.Order;
 import com.salesmanager.core.model.payments.Payment;
 import com.salesmanager.core.model.payments.Transaction;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.shoppingcart.ShoppingCart;
-import com.salesmanager.shop.model.order.ReadableOrderList;
 import com.salesmanager.shop.model.order.transaction.PersistablePayment;
 import com.salesmanager.shop.model.order.transaction.ReadableTransaction;
+import com.salesmanager.shop.model.order.v0.ReadableOrderList;
 import com.salesmanager.shop.populator.order.transaction.PersistablePaymentPopulator;
 import com.salesmanager.shop.populator.order.transaction.ReadableTransactionPopulator;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.controller.order.facade.OrderFacade;
+
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import springfox.documentation.annotations.ApiIgnore;
@@ -171,6 +174,17 @@ public class OrderPaymentApi {
       return null;
     }
   }
+  
+  @RequestMapping(value = {"/private/orders/{id}/payment/nextTransaction"}, method = RequestMethod.GET)
+  @ResponseStatus(HttpStatus.ACCEPTED)
+  @ResponseBody
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
+  public void listCapturableOrders() {
+		  
+  }
+  
 
   /**
    * An order can be pre-authorized but un captured. This metho returns all order subject to be
@@ -243,15 +257,14 @@ public class OrderPaymentApi {
    * @throws Exception
    */
   @RequestMapping(value = {"/private/orders/{id}/capture"}, method = RequestMethod.POST)
-  @ResponseStatus(HttpStatus.ACCEPTED)
+  @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
-  public ReadableTransaction caprurePayment(@PathVariable Long id,
-      @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language,
-      HttpServletRequest request, HttpServletResponse response) {
-    try {
+  public ReadableTransaction capturePayment(@PathVariable Long id,
+      @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
+/*    try {
 
       // need order
       Order order = orderService.getById(id);
@@ -282,6 +295,45 @@ public class OrderPaymentApi {
       } catch (Exception ignore) {
       }
       return null;
-    }
+    }*/
+	  
+	  return null;
+  }
+  
+  /**
+   * Refund payment
+   * @param id
+   * @param merchantStore
+   * @param language
+   * @return
+   */
+  @RequestMapping(value = {"/private/orders/{id}/refund"}, method = RequestMethod.POST)
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
+  public ReadableTransaction refundPayment(@PathVariable Long id,
+      @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
+	  return null;
+  }
+  
+  
+  /**
+   * Capture payment
+   * @param id
+   * @param merchantStore
+   * @param language
+   * @return
+   */
+  @RequestMapping(value = {"/private/orders/{id}/authorize"}, method = RequestMethod.POST)
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
+  public ReadableTransaction authorizePayment(@PathVariable Long id,
+      @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
+	  return null;
   }
 }

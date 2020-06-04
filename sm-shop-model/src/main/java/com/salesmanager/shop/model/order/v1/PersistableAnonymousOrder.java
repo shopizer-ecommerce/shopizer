@@ -1,8 +1,8 @@
-package com.salesmanager.shop.model.order;
+package com.salesmanager.shop.model.order.v1;
 
 import com.salesmanager.shop.model.customer.PersistableCustomer;
 
-public class PersistableAnonymousOrderApi extends PersistableOrderApi {
+public class PersistableAnonymousOrder extends PersistableOrder {
 
   /**
    * 

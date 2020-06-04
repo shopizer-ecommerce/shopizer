@@ -1,9 +1,9 @@
-package com.salesmanager.shop.model.order;
+package com.salesmanager.shop.model.order.v0;
 
 import java.io.Serializable;
 import java.util.List;
+
 import com.salesmanager.shop.model.entity.ReadableList;
-import com.salesmanager.shop.model.entity.ServiceEntity;
 
 
 public class ReadableOrderList extends ReadableList implements Serializable {

@@ -20,13 +20,13 @@ import com.salesmanager.core.model.shipping.ShippingQuote;
 import com.salesmanager.core.model.shipping.ShippingSummary;
 import com.salesmanager.core.model.shoppingcart.ShoppingCart;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
-import com.salesmanager.shop.model.order.PersistableOrder;
-import com.salesmanager.shop.model.order.PersistableOrderApi;
-import com.salesmanager.shop.model.order.ReadableOrder;
-import com.salesmanager.shop.model.order.ReadableOrderList;
 import com.salesmanager.shop.model.order.ShopOrder;
+import com.salesmanager.shop.model.order.history.PersistableOrderStatusHistory;
 import com.salesmanager.shop.model.order.history.ReadableOrderStatusHistory;
 import com.salesmanager.shop.model.order.transaction.ReadableTransaction;
+import com.salesmanager.shop.model.order.v1.PersistableOrder;
+import com.salesmanager.shop.model.order.v1.ReadableOrder;
+import com.salesmanager.shop.model.order.v1.ReadableOrderList;
 
 
 public interface OrderFacade {
@@ -36,14 +36,14 @@ public interface OrderFacade {
 	/** used in website **/
 	OrderTotalSummary calculateOrderTotal(MerchantStore store, ShopOrder order, Language language) throws Exception;
 	/** used in the API **/
-	OrderTotalSummary calculateOrderTotal(MerchantStore store, PersistableOrder order, Language language) throws Exception;
+	OrderTotalSummary calculateOrderTotal(MerchantStore store, com.salesmanager.shop.model.order.v0.PersistableOrder order, Language language) throws Exception;
 
 	/** process a valid order **/
 	Order processOrder(ShopOrder order, Customer customer, MerchantStore store, Language language) throws ServiceException;
 	/** process a valid order against an initial transaction **/
 	Order processOrder(ShopOrder order, Customer customer, Transaction transaction, MerchantStore store, Language language) throws ServiceException;
 	/** process a valid order submitted from the API **/
-	Order processOrder(PersistableOrderApi order, Customer customer, MerchantStore store, Language language, Locale locale) throws ServiceException;
+	Order processOrder(com.salesmanager.shop.model.order.v1.PersistableOrder order, Customer customer, MerchantStore store, Language language, Locale locale) throws ServiceException;
 
 	
 	
@@ -64,7 +64,7 @@ public interface OrderFacade {
 	ShippingQuote getShippingQuote(PersistableCustomer customer, ShoppingCart cart, ShopOrder order,
 			MerchantStore store, Language language) throws Exception;
 	
-	ShippingQuote getShippingQuote(Customer customer, ShoppingCart cart, PersistableOrder order,
+	ShippingQuote getShippingQuote(Customer customer, ShoppingCart cart, com.salesmanager.shop.model.order.v0.PersistableOrder order,
 			MerchantStore store, Language language) throws Exception;
 	
 	ShippingQuote getShippingQuote(Customer customer, ShoppingCart cart,
@@ -100,7 +100,7 @@ public interface OrderFacade {
 	 * @return
 	 * @throws Exception
 	 */
-	ReadableOrder getReadableOrder(Long orderId, MerchantStore store, Language language);
+	com.salesmanager.shop.model.order.v0.ReadableOrder getReadableOrder(Long orderId, MerchantStore store, Language language);
 	
 	/**
 	 * List of orderstatus history
@@ -123,7 +123,7 @@ public interface OrderFacade {
      * @throws Exception
      */
     
-	ReadableOrderList getReadableOrderList(MerchantStore store, Customer customer, int start,
+	com.salesmanager.shop.model.order.v0.ReadableOrderList getReadableOrderList(MerchantStore store, Customer customer, int start,
 			int maxCount, Language language) throws Exception;
 
 
@@ -136,7 +136,7 @@ public interface OrderFacade {
 	 * @throws Exception
 	 */
 
-	ReadableOrderList getReadableOrderList(OrderCriteria criteria, MerchantStore store);
+	com.salesmanager.shop.model.order.v0.ReadableOrderList getReadableOrderList(OrderCriteria criteria, MerchantStore store);
 
 
 	/**
@@ -148,7 +148,7 @@ public interface OrderFacade {
 	 * @return
 	 * @throws Exception
 	 */
-	ReadableOrderList getCapturableOrderList(MerchantStore store, Date startDate, Date endDate,
+	com.salesmanager.shop.model.order.v0.ReadableOrderList getCapturableOrderList(MerchantStore store, Date startDate, Date endDate,
 			Language language) throws Exception;
 	
 	/**
@@ -172,6 +172,24 @@ public interface OrderFacade {
 	 * @return
 	 * @throws Exception
 	 */
-	ReadableOrderList getReadableOrderList(MerchantStore store, int start,
+	com.salesmanager.shop.model.order.v0.ReadableOrderList getReadableOrderList(MerchantStore store, int start,
 			int maxCount, Language language) throws Exception;
+	
+	/**
+	 * Adds a status to an order status history
+	 * @param status
+	 * @param id
+	 * @param store
+	 */
+	void createOrderStatus(PersistableOrderStatusHistory status, Long id, MerchantStore store);
+	
+	/**
+	 * Updates order customer
+	 * Only updates customer information from the order
+	 * It won't update customer object from Customer entity
+	 * @param orderId
+	 * @param customer
+	 * @param store
+	 */
+	void updateOrderCustomre(Long orderId, PersistableCustomer customer, MerchantStore store);
 }

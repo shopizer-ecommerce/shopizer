@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.salesmanager.shop.model.order.shipping.ReadableShippingSummary;
 import com.salesmanager.shop.model.order.total.ReadableOrderTotal;
+import com.salesmanager.shop.model.order.v0.ReadableOrder;
 
 public class ReadableShopOrder extends ReadableOrder implements Serializable {
 

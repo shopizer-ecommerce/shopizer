@@ -1,9 +1,11 @@
-package com.salesmanager.shop.model.order;
+package com.salesmanager.shop.model.order.v0;
 
 import java.io.Serializable;
 import java.util.List;
 
 import com.salesmanager.shop.model.customer.PersistableCustomer;
+import com.salesmanager.shop.model.order.OrderEntity;
+import com.salesmanager.shop.model.order.PersistableOrderProduct;
 
 
 public class PersistableOrder extends OrderEntity implements Serializable {

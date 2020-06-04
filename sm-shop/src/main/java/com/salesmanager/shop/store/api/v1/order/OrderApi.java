@@ -36,11 +36,12 @@ import com.salesmanager.core.model.order.OrderCriteria;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.shoppingcart.ShoppingCart;
 import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.model.customer.PersistableCustomer;
 import com.salesmanager.shop.model.customer.ReadableCustomer;
-import com.salesmanager.shop.model.order.PersistableAnonymousOrderApi;
-import com.salesmanager.shop.model.order.PersistableOrderApi;
-import com.salesmanager.shop.model.order.ReadableOrder;
-import com.salesmanager.shop.model.order.ReadableOrderList;
+import com.salesmanager.shop.model.order.v0.ReadableOrder;
+import com.salesmanager.shop.model.order.v0.ReadableOrderList;
+import com.salesmanager.shop.model.order.v1.PersistableAnonymousOrder;
+import com.salesmanager.shop.model.order.v1.PersistableOrder;
 import com.salesmanager.shop.populator.customer.ReadableCustomerPopulator;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
@@ -311,7 +312,7 @@ public class OrderApi {
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
-	public PersistableOrderApi checkout(@PathVariable final String code, @Valid @RequestBody PersistableOrderApi order,
+	public PersistableOrder checkout(@PathVariable final String code, @Valid @RequestBody PersistableOrder order,
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language, HttpServletRequest request,
 			HttpServletResponse response, Locale locale) throws Exception {
 
@@ -358,8 +359,8 @@ public class OrderApi {
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
-	public PersistableOrderApi checkout(@PathVariable final String code,
-			@Valid @RequestBody PersistableAnonymousOrderApi order, @ApiIgnore MerchantStore merchantStore,
+	public PersistableOrder checkout(@PathVariable final String code,
+			@Valid @RequestBody PersistableAnonymousOrder order, @ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
 
 		Validate.notNull(order.getCustomer(), "Customer must not be null");
@@ -386,12 +387,33 @@ public class OrderApi {
 
 			// hash payment token
 			order.getPayment().setPaymentToken("***");
-
 			return order;
 
 		} catch (Exception e) {
 			throw new ServiceRuntimeException("Error during checkout " + e.getMessage(), e);
 		}
 
+	}
+	
+	@RequestMapping(value = { "/orders/{id}/customer" }, method = RequestMethod.PATCH)
+	@ResponseStatus(HttpStatus.OK)
+	@ResponseBody
+	@ApiImplicitParams({ 
+			@ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
+	public void updateOrderCustomer(
+			@PathVariable final Long id,
+			@Valid @RequestBody PersistableCustomer orderCustomer, 
+			@ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language) {
+		
+		String user = authorizationUtils.authenticatedUser();
+		authorizationUtils.authorizeUser(user, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN,
+				Constants.GROUP_ADMIN_ORDER, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()), merchantStore);
+
+		
+		orderFacade.updateOrderCustomre(id, orderCustomer, merchantStore);
+		return;
+		
 	}
 }

@@ -1,9 +1,11 @@
-package com.salesmanager.shop.model.order;
+package com.salesmanager.shop.model.order.v0;
 
 import com.salesmanager.core.model.reference.currency.Currency;
 import com.salesmanager.shop.model.customer.ReadableCustomer;
 import com.salesmanager.shop.model.customer.ReadableDelivery;
 import com.salesmanager.shop.model.customer.address.Address;
+import com.salesmanager.shop.model.order.OrderEntity;
+import com.salesmanager.shop.model.order.ReadableOrderProduct;
 import com.salesmanager.shop.model.order.total.OrderTotal;
 import com.salesmanager.shop.model.store.ReadableMerchantStore;
 

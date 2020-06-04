@@ -1,4 +1,4 @@
-package com.salesmanager.shop.model.order;
+package com.salesmanager.shop.model.order.v1;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.shop.model.order.transaction.PersistablePayment;
@@ -9,7 +9,7 @@ import com.salesmanager.shop.model.order.transaction.PersistablePayment;
  * @author c.samson
  *
  */
-public class PersistableOrderApi extends OrderApi {
+public class PersistableOrder extends Order {
 
 	/**
 	 * 

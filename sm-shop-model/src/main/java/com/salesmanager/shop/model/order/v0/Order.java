@@ -1,4 +1,4 @@
-package com.salesmanager.shop.model.order;
+package com.salesmanager.shop.model.order.v0;
 
 import java.io.Serializable;
 

@@ -1,13 +1,14 @@
-package com.salesmanager.shop.model.order;
+package com.salesmanager.shop.model.order.v1;
 
 import java.util.List;
 
 import com.salesmanager.core.model.shipping.ShippingOption;
 import com.salesmanager.shop.model.customer.ReadableDelivery;
+import com.salesmanager.shop.model.order.ReadableOrderProduct;
 import com.salesmanager.shop.model.order.total.ReadableTotal;
 import com.salesmanager.shop.model.order.transaction.ReadablePayment;
 
-public class ReadableOrderApi extends OrderApi {
+public class ReadableOrder extends Order {
 
 	/**
 	 * 
