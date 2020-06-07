@@ -28,7 +28,7 @@
     
     
     <script src="<c:url value="/resources/templates/december/js/main.js" />"></script>
-  
+    <script src="<c:url value="/resources/templates/december/js/toastr.js" />"></script>
     
     
     <!-- required common scripts for shopizer -->

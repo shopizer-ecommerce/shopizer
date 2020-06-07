@@ -488,8 +488,22 @@ public class OrderFacadeImpl implements OrderFacade {
 				
 				payment = new com.salesmanager.core.model.payments.PaypalPayment();
 				
-				((com.salesmanager.core.model.payments.PaypalPayment)payment).setPayerId(transaction.getTransactionDetails().get("PAYERID"));
-				((com.salesmanager.core.model.payments.PaypalPayment)payment).setPaymentToken(transaction.getTransactionDetails().get("TOKEN"));
+				// Setting PAYTM Gateway Reponse to Log the Payment Detailed Reponse
+				Map<String,String> payTMPymtMetaData = new HashMap<String,String>();
+				
+				payTMPymtMetaData.put("BANKTXNID", transaction.getTransactionDetails().get("BANKTXNID"));
+				payTMPymtMetaData.put("ORDERID", transaction.getTransactionDetails().get("ORDERID"));
+				payTMPymtMetaData.put("PAYMENTMODE", transaction.getTransactionDetails().get("PAYMENTMODE"));
+				payTMPymtMetaData.put("RESPCODE", transaction.getTransactionDetails().get("RESPCODE"));
+				payTMPymtMetaData.put("STATUS", transaction.getTransactionDetails().get("STATUS"));
+				payTMPymtMetaData.put("TXNAMOUNT", transaction.getTransactionDetails().get("TXNAMOUNT"));
+				payTMPymtMetaData.put("TXNDATE", transaction.getTransactionDetails().get("TXNDATE"));
+				payTMPymtMetaData.put("TXNID", transaction.getTransactionDetails().get("TXNID"));
+				
+				payment.setPaymentMetaData(payTMPymtMetaData);
+				
+//				((com.salesmanager.core.model.payments.PaypalPayment)payment).setPayerId(transaction.getTransactionDetails().get("PAYERID"));
+//				((com.salesmanager.core.model.payments.PaypalPayment)payment).setPaymentToken(transaction.getTransactionDetails().get("TOKEN"));
 				
 				
 			}

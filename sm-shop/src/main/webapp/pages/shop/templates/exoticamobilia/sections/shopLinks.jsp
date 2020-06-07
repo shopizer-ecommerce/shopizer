@@ -27,7 +27,8 @@
 		
 		<link href="<c:url value="/resources/templates/exoticamobilia/css/dark_gray.css" />" rel="stylesheet" type="text/css">
 
-    
+         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css"/>
+		 
     	<!-- generic and common css file -->
     	<link href="<c:url value="/resources/css/sm.css" />" rel="stylesheet">
     	<link href="<c:url value="/resources/css/showLoading.css" />" rel="stylesheet">

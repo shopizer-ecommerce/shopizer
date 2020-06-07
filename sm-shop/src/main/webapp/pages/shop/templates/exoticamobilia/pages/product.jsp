@@ -239,7 +239,7 @@ response.setDateHeader ("Expires", -1);
 		$(function () {
 			
 			$('.popup-img').magnificPopup({type:'image'});
-		
+		    
 		
 		    $('.thumbImg').click(function(){
 		    	var igId = $(this).attr('imgId');

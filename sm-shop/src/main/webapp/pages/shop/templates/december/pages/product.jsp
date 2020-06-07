@@ -305,7 +305,7 @@
 		        $("#largeImg").html("<img src='" + url + "' /><a href='" + url + "' data-mfp-src='" + url + "' class='popup-img overlay' title='" + name + "'><i class='fa fa-search-plus'></i></a>");
 		        //re bind action
 		        $('.popup-img').magnificPopup({type:'image'});
-		    })
+		    });
 		    
 		})
 		

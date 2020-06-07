@@ -101,6 +101,7 @@ response.setDateHeader ("Expires", -1);
 		    "href": "/shop/pages/terms-and-policy.html"
 	   }
 	});
+	
 	</script>
      
  	</body>

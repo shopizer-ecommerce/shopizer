@@ -1,0 +1,15 @@
+paytm.payment:
+  sandbox:
+    merchantId: iLyQaO72401127805534
+    merchantKey: jgIlgvlr@RvC_9Dl
+    channelId: WEB
+    website: WEBSTAGING
+    industryTypeId: Retail
+    paytmUrl:  https://securegw-stage.paytm.in/order/process
+    callbackUrl: http://192.168.1.38:8080/shop/paytm/pgresponse
+    details:
+      MID: iLyQaO72401127805534
+      CHANNEL_ID: WEB
+      INDUSTRY_TYPE_ID: Retail
+      WEBSITE: WEBSTAGING
+      CALLBACK_URL: http://192.168.1.38:8080/shop/paytm/pgresponse

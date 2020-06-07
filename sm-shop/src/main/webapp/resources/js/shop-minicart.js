@@ -31,9 +31,11 @@
 	}
 	
 	function initBindings() {
-				
+		toastr.options.timeOut = 500; 		
 		/** add to cart **/
 		$(".addToCart").click(function(){
+		   $("html, body").animate({ scrollTop: 0 }, "slow");
+			toastr.success('Item Added to Bag');
 			addToCart($(this).attr("productId"));
 	    });
 		

@@ -17,7 +17,7 @@ public class Constants {
 
   public final static String TEST_ENVIRONMENT = "TEST";
   public final static String PRODUCTION_ENVIRONMENT = "PROD";
-  public final static String SHOP_URI = "/shop";
+  public final static String SHOP_URI = "shop";
 
   public static final String ALL_REGIONS = "*";
 

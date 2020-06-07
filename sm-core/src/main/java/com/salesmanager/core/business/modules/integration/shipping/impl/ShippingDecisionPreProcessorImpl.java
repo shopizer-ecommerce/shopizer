@@ -108,13 +108,14 @@ public class ShippingDecisionPreProcessorImpl implements ShippingQuotePrePostPro
 		if(delivery.getZone()!=null) {
 			inputParameters.setProvince(delivery.getZone().getCode());
 		} else {
-			inputParameters.setProvince(delivery.getState());
+			//inputParameters.setProvince(delivery.getState());
+			inputParameters.setProvince("MP");
 		}
 		//inputParameters.setModuleName(currentModule.getCode());
 		
-		if(delivery.getZone().getCode()!=null) {
-			inputParameters.setProvince(delivery.getZone().getCode());
-		}
+//		if(delivery.getZone().getCode()!=null) {
+//			inputParameters.setProvince(delivery.getZone().getCode());
+//		}
 		
 		if(size!=null) {
 			inputParameters.setSize((long)size.doubleValue());
@@ -138,17 +139,17 @@ public class ShippingDecisionPreProcessorImpl implements ShippingQuotePrePostPro
 		 * New code
 		 */
 		
-		KieSession kieSession=droolsBeanFactory.getKieSession(ResourceFactory.newClassPathResource("com/salesmanager/drools/rules/ShippingDecision.drl"));
-		
-		DecisionResponse resp = new DecisionResponse();
-		
-        kieSession.insert(inputParameters);
-        kieSession.setGlobal("decision",resp);
-        kieSession.fireAllRules();
-        //System.out.println(resp.getModuleName());
-        inputParameters.setModuleName(resp.getModuleName());
-
-		LOGGER.debug("Using shipping nodule " + inputParameters.getModuleName());
+//		KieSession kieSession=droolsBeanFactory.getKieSession(ResourceFactory.newClassPathResource("com/salesmanager/drools/rules/PriceByDistance2.drl"));
+//		
+//		DecisionResponse resp = new DecisionResponse();
+//		
+//        kieSession.insert(inputParameters);
+//        kieSession.setGlobal("decision",resp);
+//        kieSession.fireAllRules();
+//        //System.out.println(resp.getModuleName());
+//        inputParameters.setModuleName(resp.getModuleName());
+//
+//		LOGGER.debug("Using shipping nodule " + inputParameters.getModuleName());
 		
 		if(!StringUtils.isBlank(inputParameters.getModuleName())) {
 			for(IntegrationModule toBeUsed : allModules) {

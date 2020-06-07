@@ -1,6 +1,7 @@
 package com.salesmanager.core.business.modules.integration.shipping.impl;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -101,16 +102,20 @@ public class PriceByDistanceShippingQuoteRules implements ShippingQuoteModule {
 			quote.setShippingOptions(options);
 		}
 		
-		BigDecimal price = null;
-		BigDecimal total = null;
+		BigDecimal shipDistanceMultiplier = new BigDecimal(5);
+		BigDecimal finalPrice = new BigDecimal(distance).multiply(shipDistanceMultiplier);
+		System.out.println("####### Temporary Fix for Shipping Calculation");
+		BigDecimal total = finalPrice.setScale(0, RoundingMode.HALF_UP); 
 		
-		if(distance<=20) {
-			price = new BigDecimal(69);//TODO from the admin
-			total = new BigDecimal(distance).multiply(price);
-		} else {
-			price = new BigDecimal(3);//TODO from the admin
-			total = new BigDecimal(distance).multiply(price);
-		}
+		
+		
+//		if(distance<=20) {
+//			price = new BigDecimal(69);//TODO from the admin
+//			total = new BigDecimal(distance).multiply(price);
+//		} else {
+//			price = new BigDecimal(3);//TODO from the admin
+//			total = new BigDecimal(distance).multiply(price);
+//		}
 		
 		
 

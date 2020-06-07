@@ -37,6 +37,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.mobile.device.Device;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -98,6 +101,11 @@ public class ShoppingOrderPaymentController extends AbstractController {
 	
 	@Inject
 	private CoreConfiguration coreConfiguration;
+	
+
+	@Autowired
+	private Environment env;
+	
 	
 	/**
 	 * Recalculates shipping and tax following a change in country or province
@@ -181,33 +189,37 @@ public class ShoppingOrderPaymentController extends AbstractController {
 						//For Desktop use
 						//https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=tokenValueReturnedFromSetExpressCheckoutCall
 						
-						StringBuilder urlAppender = new StringBuilder();
+						String payTMRedirectURL = env.getProperty("paytm.redirect.url");
 						
-						if(device!=null) {
-							if(device.isNormal()) {
-								urlAppender.append(coreConfiguration.getProperty("PAYPAL_EXPRESSCHECKOUT_REGULAR"));
-							}
-							if(device.isTablet()) {
-								urlAppender.append(coreConfiguration.getProperty("PAYPAL_EXPRESSCHECKOUT_REGULAR"));
-							}
-							if(device.isMobile()) {
-								urlAppender.append(coreConfiguration.getProperty("PAYPAL_EXPRESSCHECKOUT_MOBILE"));
-							}
-						} else {
-							urlAppender.append(coreConfiguration.getProperty("PAYPAL_EXPRESSCHECKOUT_REGULAR"));
-						}
+						StringBuilder urlAppender = new StringBuilder(payTMRedirectURL);
 						
-						urlAppender.append(transaction.getTransactionDetails().get("TOKEN"));
+//						if(device!=null) {
+//							if(device.isNormal()) {
+//								urlAppender.append(coreConfiguration.getProperty("PAYPAL_EXPRESSCHECKOUT_REGULAR"));
+//							}
+//							if(device.isTablet()) {
+//								urlAppender.append(coreConfiguration.getProperty("PAYPAL_EXPRESSCHECKOUT_REGULAR"));
+//							}
+//							if(device.isMobile()) {
+//								urlAppender.append(coreConfiguration.getProperty("PAYPAL_EXPRESSCHECKOUT_MOBILE"));
+//							}
+//						} else {
+//							urlAppender.append(coreConfiguration.getProperty("PAYPAL_EXPRESSCHECKOUT_REGULAR"));
+//						}
+					
+						
+						urlAppender.append("/"+transaction.getTransactionDetails().get("ORDER_UID")+"/"+transaction.getAmount() +"/"+transaction.getTransactionDetails().get("ORDER_UID"));
+						
+						ajaxResponse.addEntry("url", urlAppender.toString());
 						
 						
-						
-						if(config.getEnvironment().equals(com.salesmanager.core.business.constants.Constants.PRODUCTION_ENVIRONMENT)) {
-							StringBuilder url = new StringBuilder().append(coreConfiguration.getProperty("PAYPAL_EXPRESSCHECKOUT_PRODUCTION")).append(urlAppender.toString());
-							ajaxResponse.addEntry("url", url.toString());
-						} else {
-							StringBuilder url = new StringBuilder().append(coreConfiguration.getProperty("PAYPAL_EXPRESSCHECKOUT_SANDBOX")).append(urlAppender.toString());
-							ajaxResponse.addEntry("url", url.toString());
-						}
+//						if(config.getEnvironment().equals(com.salesmanager.core.business.constants.Constants.PRODUCTION_ENVIRONMENT)) {
+//							StringBuilder url = new StringBuilder().append(coreConfiguration.getProperty("PAYPAL_EXPRESSCHECKOUT_PRODUCTION")).append(urlAppender.toString());
+//							ajaxResponse.addEntry("url", url.toString());
+//						} else {
+//							StringBuilder url = new StringBuilder().append(coreConfiguration.getProperty("PAYPAL_EXPRESSCHECKOUT_SANDBOX")).append(urlAppender.toString());
+//							ajaxResponse.addEntry("url", url.toString());
+//						}
 
 						//keep order in session when user comes back from pp
 						super.setSessionAttribute(Constants.ORDER, order, request);

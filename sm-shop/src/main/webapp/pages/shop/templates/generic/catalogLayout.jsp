@@ -82,6 +82,7 @@ response.setDateHeader ("Expires", -1);
 		<tiles:insertAttribute name="footer" ignore="true"/>
 
 	<jsp:include page="/pages/shop/templates/generic/sections/jsLinks.jsp" />
+	
 
  	</body>
  

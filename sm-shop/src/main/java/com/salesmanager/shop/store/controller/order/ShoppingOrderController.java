@@ -425,6 +425,11 @@ public class ShoppingOrderController extends AbstractController {
 	@RequestMapping("/commitPreAuthorized.html")
 	public String commitPreAuthorizedOrder(Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
 		
+		@SuppressWarnings("unchecked")
+		TreeMap<String, String> parameters = (TreeMap<String, String>)request.getAttribute("parameters");
+		//  Map<String, String[]> mapData = request.getParameterMap();
+		  System.out.println("Paytm parameters "+ parameters);
+		  
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
 		Language language = (Language)request.getAttribute("LANGUAGE");
 		ShopOrder order = super.getSessionAttribute(Constants.ORDER, request);
@@ -472,7 +477,7 @@ public class ShoppingOrderController extends AbstractController {
 			order.setOrderTotalSummary(totalSummary);
 			
 			//already validated, proceed with commit
-			Order orderModel = this.commitOrder(order, request, locale);
+			Order orderModel = this.commitOrder(order, request, locale,null);
 			super.setSessionAttribute(Constants.ORDER_ID, orderModel.getId(), request);
 			
 			return "redirect:/shop/order/confirmation.html";
@@ -486,7 +491,89 @@ public class ShoppingOrderController extends AbstractController {
 	}
 	
 	
-	private Order commitOrder(ShopOrder order, HttpServletRequest request, Locale locale) throws Exception, ServiceException {
+	@RequestMapping("/commitPayTMAuthorized/{BANKTXNID}/{ORDERID}/{PAYMENTMODE}/{RESPCODE}/{STATUS}/{TXNAMOUNT}/{TXNDATE}/{TXNID}")
+	public String commitPayTMAuthorized(
+			@PathVariable("BANKTXNID") String BANKTXNID,
+    		@PathVariable("ORDERID") String ORDERID,
+    		@PathVariable("PAYMENTMODE") String PAYMENTMODE,
+			@PathVariable("RESPCODE") String RESPCODE,
+			@PathVariable("STATUS") String STATUS,
+			@PathVariable("TXNAMOUNT") String TXNAMOUNT,
+			@PathVariable("TXNDATE") String TXNDATE,
+			@PathVariable("TXNID") String TXNID,Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
+		
+	
+		  
+		MerchantStore store = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
+		Language language = (Language)request.getAttribute("LANGUAGE");
+		ShopOrder order = super.getSessionAttribute(Constants.ORDER, request);
+		if(order==null) {
+			StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Pages.timeout).append(".").append(store.getStoreTemplate());
+			return template.toString();	
+		}
+		model.addAttribute("googleMapsKey",googleMapsKey);
+	      //display hacks
+        if(!StringUtils.isBlank(googleMapsKey)) {
+          model.addAttribute("disabled","true");
+          model.addAttribute("cssClass","");
+        } else {
+          model.addAttribute("disabled","false");
+          model.addAttribute("cssClass","required");
+        }
+		
+		@SuppressWarnings("unchecked")
+		Map<String, Object> configs = (Map<String, Object>) request.getAttribute(Constants.REQUEST_CONFIGS);
+		
+		if(configs!=null && configs.containsKey(Constants.DEBUG_MODE)) {
+			Boolean debugMode = (Boolean) configs.get(Constants.DEBUG_MODE);
+			if(debugMode) {
+				try {
+					ObjectMapper mapper = new ObjectMapper();
+					String jsonInString = mapper.writeValueAsString(order);
+					LOGGER.debug("Commit pre-authorized order -> " + jsonInString);
+				} catch(Exception de) {
+					LOGGER.error(de.getMessage());
+				}
+			}
+		}
+
+		
+		try {
+			
+			OrderTotalSummary totalSummary = super.getSessionAttribute(Constants.ORDER_SUMMARY, request);
+			
+			if(totalSummary==null) {
+				totalSummary = orderFacade.calculateOrderTotal(store, order, language);
+				super.setSessionAttribute(Constants.ORDER_SUMMARY, totalSummary, request);
+			}
+			
+			
+			order.setOrderTotalSummary(totalSummary);
+			
+			//already validated, proceed with commit
+			Map<String,String> paymentResponseDetails = new HashMap<String,String>();
+			paymentResponseDetails.put("BANKTXNID", BANKTXNID);
+			paymentResponseDetails.put("ORDERID", ORDERID);
+			paymentResponseDetails.put("PAYMENTMODE", PAYMENTMODE);
+			paymentResponseDetails.put("RESPCODE", RESPCODE);
+			paymentResponseDetails.put("STATUS", STATUS);
+			paymentResponseDetails.put("TXNAMOUNT", TXNAMOUNT);
+			paymentResponseDetails.put("TXNDATE", TXNDATE);
+			paymentResponseDetails.put("TXNID", TXNID);
+			Order orderModel = this.commitOrder(order, request, locale,paymentResponseDetails);
+			super.setSessionAttribute(Constants.ORDER_ID, orderModel.getId(), request);
+			
+			return "redirect:/shop/order/confirmation.html";
+			
+		} catch(Exception e) {
+			LOGGER.error("Error while commiting order",e);
+			throw e;		
+			
+		}
+
+	}
+	
+	private Order commitOrder(ShopOrder order, HttpServletRequest request, Locale locale,Map<String,String> payTMtransactionDetails) throws Exception, ServiceException {
 		
 		
 			LOGGER.info("Entering comitOrder");
@@ -555,6 +642,17 @@ public class ShoppingOrderController extends AbstractController {
 	        Order modelOrder = null;
 	        Transaction initialTransaction = (Transaction)super.getSessionAttribute(Constants.INIT_TRANSACTION_KEY, request);
 	        if(initialTransaction!=null) {
+	        	if(payTMtransactionDetails != null) {
+	        		initialTransaction.getTransactionDetails().put("BANKTXNID",payTMtransactionDetails.get("BANKTXNID"));
+	        		initialTransaction.getTransactionDetails().put("ORDERID",payTMtransactionDetails.get("ORDERID"));
+	        		initialTransaction.getTransactionDetails().put("PAYMENTMODE",payTMtransactionDetails.get("PAYMENTMODE"));
+	        		initialTransaction.getTransactionDetails().put("RESPCODE",payTMtransactionDetails.get("RESPCODE"));
+	        		initialTransaction.getTransactionDetails().put("STATUS",payTMtransactionDetails.get("STATUS"));
+	        		initialTransaction.getTransactionDetails().put("TXNAMOUNT",payTMtransactionDetails.get("TXNAMOUNT"));
+	        		initialTransaction.getTransactionDetails().put("TXNDATE",payTMtransactionDetails.get("TXNDATE"));
+	        		initialTransaction.getTransactionDetails().put("TXNID",payTMtransactionDetails.get("TXNID"));
+	        	}
+	        	
 	        	modelOrder=orderFacade.processOrder(order, modelCustomer, initialTransaction, store, language);
 	        } else {
 	        	modelOrder=orderFacade.processOrder(order, modelCustomer, store, language);
@@ -908,7 +1006,7 @@ public class ShoppingOrderController extends AbstractController {
 		        }
 		        
 		        @SuppressWarnings("unused")
-				Order modelOrder = commitOrder(order, request, locale);
+				Order modelOrder = commitOrder(order, request, locale,null);
 
 	        
 			} catch(ServiceException se) {

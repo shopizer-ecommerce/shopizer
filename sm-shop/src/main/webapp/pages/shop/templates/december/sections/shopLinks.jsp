@@ -53,6 +53,9 @@
     	<!-- cookie consent -->
     	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
     	
+		<!-- toastr content -->
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
+		
     	
     	<script type="text/javascript">
 	    	//show overlay wait
