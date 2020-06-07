@@ -203,6 +203,7 @@ public class InitializationDatabaseImpl implements InitializationDatabase {
 		  
 		  .addGroup("ADMIN_RETAILER", GroupType.ADMIN)
 		  .addPermission(permissionKeys.get("AUTH"))
+		  .addPermission(permissionKeys.get("ADMIN"))
 		  .addPermission(permissionKeys.get("PRODUCTS"))
 		  .addPermission(permissionKeys.get("ORDER"))
 		  .addPermission(permissionKeys.get("CONTENT"))
@@ -222,15 +223,19 @@ public class InitializationDatabaseImpl implements InitializationDatabase {
 		  .addPermission(permissionKeys.get("SHIPPING"))
 		  
 		  .addGroup("ADMIN_CATALOGUE", GroupType.ADMIN)
+		  .addPermission(permissionKeys.get("AUTH"))
 		  .addPermission(permissionKeys.get("PRODUCTS"))
 		  
 		  .addGroup("ADMIN_ORDER", GroupType.ADMIN)
+		  .addPermission(permissionKeys.get("AUTH"))
 		  .addPermission(permissionKeys.get("ORDER"))
 		  
 		  .addGroup("ADMIN_CONTENT", GroupType.ADMIN)
+		  .addPermission(permissionKeys.get("AUTH"))
 		  .addPermission(permissionKeys.get("CONTENT"))
 		  
 		  .addGroup("CUSTOMER", GroupType.CUSTOMER)
+		  .addPermission(permissionKeys.get("AUTH"))
 		  .addPermission(permissionKeys.get("AUTH_CUSTOMER"));
 		  
 		  for(Group g : groupBuilder.build()) {

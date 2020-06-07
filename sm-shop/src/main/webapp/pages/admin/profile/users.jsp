@@ -30,7 +30,7 @@
 								 <c:set var="entityId" value="userId" scope="request"/>
 								 <c:set var="componentTitleKey" value="menu.users" scope="request"/>
 								 <c:set var="gridHeader" value="/pages/admin/profile/users-gridHeader.jsp" scope="request"/>
-								 <sec:authorize access="hasRole('STORE_ADMIN') and fullyAuthenticated">
+								 <sec:authorize access="hasRole('ADMIN') and fullyAuthenticated">
 								 <c:set var="canRemoveEntry" value="true" scope="request"/>
 								 </sec:authorize>
 

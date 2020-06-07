@@ -340,7 +340,7 @@ public class TaxRatesController {
 			
 
 			/**
-			 * In order to remove a User the logged in must be STORE_ADMIN
+			 * In order to remove a User the logged in must be ADMIN
 			 * or SUPER_USER
 			 */
 			

@@ -84,7 +84,7 @@ public class MerchantStoreController {
 
 	private final static String NEW_STORE_TMPL = "email_template_new_store.ftl";
 
-	@PreAuthorize("hasRole('STORE_ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@RequestMapping(value = "/admin/store/list.html", method = RequestMethod.GET)
 	public String displayStores(Model model, HttpServletRequest request, HttpServletResponse response, Locale locale)
 			throws Exception {
@@ -93,7 +93,7 @@ public class MerchantStoreController {
 		return ControllerConstants.Tiles.Store.stores;
 	}
 
-	@PreAuthorize("hasRole('STORE_ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@RequestMapping(value = "/admin/store/paging.html", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> pageStores(HttpServletRequest request, HttpServletResponse response) {
 
@@ -403,7 +403,7 @@ public class MerchantStoreController {
 		return new ResponseEntity<String>(returnString, httpHeaders, HttpStatus.OK);
 	}
 
-	@PreAuthorize("hasRole('STORE_ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@RequestMapping(value = "/admin/store/remove.html", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> removeMerchantStore(HttpServletRequest request, Locale locale)
 			throws Exception {

@@ -1443,7 +1443,7 @@ public class OrderFacadeImpl implements OrderFacade {
 		orderService.saveOrUpdate(modelOrder);
 		
 		} catch(Exception e) {
-			throw new ServiceRuntimeException("An error occured while updating orderc customre", e);
+			throw new ServiceRuntimeException("An error occured while updating order customer", e);
 		}
 
 	}

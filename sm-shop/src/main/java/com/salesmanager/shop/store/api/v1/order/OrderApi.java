@@ -197,7 +197,7 @@ public class OrderApi {
 	 * @return List of orders
 	 * @throws Exception
 	 */
-	@RequestMapping(value = { "private/orders" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/private/orders" }, method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	public ReadableOrderList listAll(
@@ -395,7 +395,7 @@ public class OrderApi {
 
 	}
 	
-	@RequestMapping(value = { "/orders/{id}/customer" }, method = RequestMethod.PATCH)
+	@RequestMapping(value = { "/private/orders/{id}/customer" }, method = RequestMethod.PATCH)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	@ApiImplicitParams({ 
