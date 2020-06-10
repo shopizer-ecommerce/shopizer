@@ -29,7 +29,6 @@ import com.salesmanager.core.business.services.reference.country.CountryService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.business.services.reference.loader.ConfigurationModulesLoader;
 import com.salesmanager.core.business.services.system.MerchantConfigurationService;
-import com.salesmanager.core.business.services.system.MerchantLogService;
 import com.salesmanager.core.business.services.system.ModuleConfigurationService;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.common.Delivery;
@@ -53,7 +52,6 @@ import com.salesmanager.core.model.system.CustomIntegrationConfiguration;
 import com.salesmanager.core.model.system.IntegrationConfiguration;
 import com.salesmanager.core.model.system.IntegrationModule;
 import com.salesmanager.core.model.system.MerchantConfiguration;
-import com.salesmanager.core.model.system.MerchantLog;
 import com.salesmanager.core.modules.integration.IntegrationException;
 import com.salesmanager.core.modules.integration.shipping.model.Packaging;
 import com.salesmanager.core.modules.integration.shipping.model.ShippingQuoteModule;
@@ -94,10 +92,7 @@ public class ShippingServiceImpl implements ShippingService {
 	
 	@Inject
 	private Encryption encryption;
-	
-	@Inject
-	private MerchantLogService merchantLogService;
-	
+
 	@Inject
 	private ShippingOriginService shippingOriginService;
 	

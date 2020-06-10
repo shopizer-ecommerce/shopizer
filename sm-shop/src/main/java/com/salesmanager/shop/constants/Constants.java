@@ -50,6 +50,7 @@ public class Constants {
 	public final static String GROUP_ADMIN_ORDER = "ADMIN_ORDER";
 	public final static String GROUP_ADMIN_RETAIL = "ADMIN_RETAIL";
 	public final static String GROUP_CUSTOMER = "CUSTOMER";
+	public final static String GROUP_SHIPPING = "SHIPPING";
 	public final static String ANONYMOUS_CUSTOMER = "ANONYMOUS_CUSTOMER";
 
 

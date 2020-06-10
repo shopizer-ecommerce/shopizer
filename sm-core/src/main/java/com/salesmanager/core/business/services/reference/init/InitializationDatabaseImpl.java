@@ -52,9 +52,6 @@ public class InitializationDatabaseImpl implements InitializationDatabase {
 	private static final Logger LOGGER = LoggerFactory.getLogger(InitializationDatabaseImpl.class);
 	
 
-	
-
-	
 	@Inject
 	private ZoneService zoneService;
 	
