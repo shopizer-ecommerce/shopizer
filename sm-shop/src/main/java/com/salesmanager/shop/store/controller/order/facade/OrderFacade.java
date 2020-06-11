@@ -14,6 +14,7 @@ import com.salesmanager.core.model.order.Order;
 import com.salesmanager.core.model.order.OrderCriteria;
 import com.salesmanager.core.model.order.OrderTotalSummary;
 import com.salesmanager.core.model.payments.Transaction;
+import com.salesmanager.core.model.payments.TransactionType;
 import com.salesmanager.core.model.reference.country.Country;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.shipping.ShippingQuote;
@@ -24,9 +25,6 @@ import com.salesmanager.shop.model.order.ShopOrder;
 import com.salesmanager.shop.model.order.history.PersistableOrderStatusHistory;
 import com.salesmanager.shop.model.order.history.ReadableOrderStatusHistory;
 import com.salesmanager.shop.model.order.transaction.ReadableTransaction;
-import com.salesmanager.shop.model.order.v1.PersistableOrder;
-import com.salesmanager.shop.model.order.v1.ReadableOrder;
-import com.salesmanager.shop.model.order.v1.ReadableOrderList;
 
 
 public interface OrderFacade {
@@ -162,6 +160,10 @@ public interface OrderFacade {
 	 */
 	ReadableTransaction captureOrder(MerchantStore store, Order order, Customer customer, Language language) throws Exception;
 	
+	/**
+	 * Returns next TransactionType expected if any.
+	 */
+	TransactionType nextTransaction(Long orderId, MerchantStore store);
 	
 	/**
 	 * Get orders for a given store

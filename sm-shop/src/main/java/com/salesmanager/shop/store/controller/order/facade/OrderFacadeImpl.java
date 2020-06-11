@@ -41,6 +41,7 @@ import com.salesmanager.core.business.services.catalog.product.attribute.Product
 import com.salesmanager.core.business.services.catalog.product.file.DigitalProductService;
 import com.salesmanager.core.business.services.order.OrderService;
 import com.salesmanager.core.business.services.payments.PaymentService;
+import com.salesmanager.core.business.services.payments.TransactionService;
 import com.salesmanager.core.business.services.reference.country.CountryService;
 import com.salesmanager.core.business.services.reference.zone.ZoneService;
 import com.salesmanager.core.business.services.shipping.ShippingQuoteService;
@@ -69,6 +70,7 @@ import com.salesmanager.core.model.payments.CreditCardType;
 import com.salesmanager.core.model.payments.Payment;
 import com.salesmanager.core.model.payments.PaymentType;
 import com.salesmanager.core.model.payments.Transaction;
+import com.salesmanager.core.model.payments.TransactionType;
 import com.salesmanager.core.model.reference.country.Country;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.shipping.ShippingProduct;
@@ -148,6 +150,9 @@ public class OrderFacadeImpl implements OrderFacade {
 
 	@Autowired
 	private CustomerPopulator customerPopulator;
+	
+	@Autowired
+	private TransactionService transactionService;
 
 	@Inject
 	private EmailTemplatesUtils emailTemplatesUtils;
@@ -1488,6 +1493,39 @@ public class OrderFacadeImpl implements OrderFacade {
         target.setState(source.getBilstateOther());
         
         return target;
+	}
+
+	@Override
+	public TransactionType nextTransaction(Long orderId, MerchantStore store) {
+
+		try {
+			
+			Order modelOrder = orderService.getOrder(orderId, store);
+
+			if(modelOrder == null) {
+				throw new ResourceNotFoundException("Order id [" + orderId + "] not found for store [" + store.getCode() + "]");
+			}
+			
+			Transaction last = transactionService.lastTransaction(modelOrder, store);
+			
+			if(last.getTransactionType().name().equals(TransactionType.AUTHORIZE.name())) {
+				return TransactionType.CAPTURE;
+			} else if(last.getTransactionType().name().equals(TransactionType.AUTHORIZECAPTURE.name())) {
+				return TransactionType.REFUND;
+			} else if(last.getTransactionType().name().equals(TransactionType.CAPTURE.name())) {
+				return TransactionType.REFUND;
+			} else if(last.getTransactionType().name().equals(TransactionType.REFUND.name())) {
+				return TransactionType.OK;
+			} else {
+				return TransactionType.OK;
+			}
+
+			
+		} catch(Exception e) {
+			throw new ServiceRuntimeException("Error while getting last transaction for order [" + orderId + "]",e);
+		}
+		
+
 	}
 
 }

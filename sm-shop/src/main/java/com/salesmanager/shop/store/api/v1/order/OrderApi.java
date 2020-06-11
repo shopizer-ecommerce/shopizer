@@ -234,7 +234,9 @@ public class OrderApi {
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
-	public ReadableOrder get(@PathVariable final Long id, @ApiIgnore MerchantStore merchantStore,
+	public ReadableOrder get(
+			@PathVariable final Long id, 
+			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
 		
 		String user = authorizationUtils.authenticatedUser();
