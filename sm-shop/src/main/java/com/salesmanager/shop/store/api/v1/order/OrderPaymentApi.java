@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -197,6 +198,27 @@ public class OrderPaymentApi {
 
 		TransactionType transactionType = orderFacade.nextTransaction(id, merchantStore);
 		return "{\"transactionType\":\"" + transactionType.name() + "\"}";
+
+	}
+	
+	@RequestMapping(value = { "/private/orders/{id}/payment/transactions" }, method = RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
+
+	@ResponseBody
+	@ApiImplicitParams({ 
+		    @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	public List<ReadableTransaction> listTransactions(
+			@PathVariable final Long id, 
+			@ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language) {
+
+		String user = authorizationUtils.authenticatedUser();
+		authorizationUtils.authorizeUser(user, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN,
+				Constants.GROUP_ADMIN_ORDER, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()), merchantStore);
+
+
+		return orderFacade.listTransactions(id, merchantStore);
 
 	}
 

@@ -194,4 +194,6 @@ public interface OrderFacade {
 	 * @param store
 	 */
 	void updateOrderCustomre(Long orderId, PersistableCustomer customer, MerchantStore store);
+	
+	List<ReadableTransaction> listTransactions (Long orderId, MerchantStore store);
 }

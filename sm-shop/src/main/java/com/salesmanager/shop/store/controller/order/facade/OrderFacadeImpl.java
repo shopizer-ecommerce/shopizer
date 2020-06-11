@@ -1528,4 +1528,41 @@ public class OrderFacadeImpl implements OrderFacade {
 
 	}
 
+	@Override
+	public List<ReadableTransaction> listTransactions(Long orderId, MerchantStore store) {
+		Validate.notNull(orderId, "orderId must not be null");
+		Validate.notNull(store, "MerchantStore must not be null");
+		List<ReadableTransaction> trx = new ArrayList<ReadableTransaction>();
+		try {
+			Order modelOrder = orderService.getOrder(orderId, store);
+			
+			if(modelOrder == null) {
+				throw new ResourceNotFoundException("Order id [" + orderId + "] not found for store [" + store.getCode() + "]");
+			}
+			
+			List<Transaction> transactions = transactionService.listTransactions(modelOrder);
+			
+			ReadableTransaction transaction = null;
+			ReadableTransactionPopulator trxPopulator = null;
+			
+			for(Transaction tr : transactions) {
+				transaction = new ReadableTransaction();
+				trxPopulator = new ReadableTransactionPopulator();
+				
+				trxPopulator.setOrderService(orderService);
+				trxPopulator.setPricingService(pricingService);
+				
+				trxPopulator.populate(tr, transaction, store, store.getDefaultLanguage());
+				trx.add(transaction);
+			}
+
+			return trx;
+
+		} catch(Exception e) {
+			LOGGER.error("Error while getting transactions for order [" + orderId + "] and store code [" + store.getCode() + "]");
+			throw new ServiceRuntimeException("Error while getting transactions for order [" + orderId + "] and store code [" + store.getCode() + "]");
+		}
+
+	}
+
 }
