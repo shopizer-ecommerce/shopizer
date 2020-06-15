@@ -34,8 +34,6 @@ public class ExpeditionApi {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ExpeditionApi.class);
 
-	
-	
 	@Autowired
 	private AuthorizationUtils authorizationUtils;
 	

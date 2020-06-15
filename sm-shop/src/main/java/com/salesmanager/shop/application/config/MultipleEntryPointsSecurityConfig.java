@@ -285,7 +285,8 @@ public class MultipleEntryPointsSecurityConfig {
 		@Bean("jwtAdminAuthenticationManager")
 		@Override
 		public AuthenticationManager authenticationManagerBean() throws Exception {
-			return super.authenticationManagerBean();
+			AuthenticationManager mgr = super.authenticationManagerBean();
+			return mgr;
 		}
 		
 		
