@@ -148,7 +148,7 @@ public class StoreFacadeImpl implements StoreFacade {
 	}
 
 	@Override
-	public ReadableMerchantStore create(PersistableMerchantStore store) {
+	public void create(PersistableMerchantStore store) {
 
 		Validate.notNull(store, "PersistableMerchantStore must not be null");
 		Validate.notNull(store.getCode(), "PersistableMerchantStore.code must not be null");
@@ -162,8 +162,8 @@ public class StoreFacadeImpl implements StoreFacade {
 		MerchantStore mStore = convertPersistableMerchantStoreToMerchantStore(store, languageService.defaultLanguage());
 		createMerchantStore(mStore);
 
-		ReadableMerchantStore storeTO = getByCode(store.getCode(), languageService.defaultLanguage());
-		return storeTO;
+		//ReadableMerchantStore storeTO = getByCode(store.getCode(), languageService.defaultLanguage());
+
 	}
 
 	private void createMerchantStore(MerchantStore mStore) {
@@ -191,7 +191,7 @@ public class StoreFacadeImpl implements StoreFacade {
 	}
 
 	@Override
-	public ReadableMerchantStore update(PersistableMerchantStore store) {
+	public void update(PersistableMerchantStore store) {
 
 		Validate.notNull(store);
 
@@ -200,8 +200,7 @@ public class StoreFacadeImpl implements StoreFacade {
 
 		updateMerchantStore(mStore);
 
-		ReadableMerchantStore storeTO = getByCode(store.getCode(), languageService.defaultLanguage());
-		return storeTO;
+		//ReadableMerchantStore storeTO = getByCode(store.getCode(), languageService.defaultLanguage());
 	}
 
 	private void updateMerchantStore(MerchantStore mStore) {
