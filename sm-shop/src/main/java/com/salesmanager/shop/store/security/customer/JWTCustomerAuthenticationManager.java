@@ -1,4 +1,4 @@
-package com.salesmanager.shop.store.security.manager;
+package com.salesmanager.shop.store.security.customer;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;

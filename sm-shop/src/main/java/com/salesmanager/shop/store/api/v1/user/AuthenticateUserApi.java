@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -65,6 +66,7 @@ public class AuthenticateUserApi {
     @RequestMapping(value = "/private/login", method = RequestMethod.POST)
     public ResponseEntity<?> authenticate(@RequestBody @Valid AuthenticationRequest authenticationRequest) throws AuthenticationException {
 
+    	//TODO SET STORE in flow
         // Perform the security
     	Authentication authentication = null;
     	try {
@@ -80,6 +82,9 @@ public class AuthenticateUserApi {
 
     		
     	} catch(Exception e) {
+    		if(e instanceof BadCredentialsException) {
+    			return new ResponseEntity<>("{\"message\":\"Bad credentials\"}",HttpStatus.UNAUTHORIZED);
+    		}
     		LOGGER.error("Error during authentication " + e.getMessage());
     		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     	}

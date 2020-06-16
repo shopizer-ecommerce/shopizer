@@ -1,4 +1,4 @@
-package com.salesmanager.shop.store.security;
+package com.salesmanager.shop.store.security.customer;
 
 import java.util.Collection;
 import java.util.Date;
@@ -14,6 +14,7 @@ import com.salesmanager.core.business.services.user.GroupService;
 import com.salesmanager.core.business.services.user.PermissionService;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.customer.Customer;
+import com.salesmanager.shop.store.security.AbstractCustomerServices;
 import com.salesmanager.shop.store.security.user.JWTUser;
 
 

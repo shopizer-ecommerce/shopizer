@@ -26,6 +26,7 @@ import com.salesmanager.shop.store.security.AuthenticationTokenFilter;
 import com.salesmanager.shop.store.security.ServicesAuthenticationSuccessHandler;
 import com.salesmanager.shop.store.security.admin.JWTAdminAuthenticationProvider;
 import com.salesmanager.shop.store.security.admin.JWTAdminServicesImpl;
+import com.salesmanager.shop.store.security.customer.JWTCustomerAuthenticationProvider;
 
 /**
  * Main entry point for security - admin - customer - auth - private - services
@@ -274,7 +275,7 @@ public class MultipleEntryPointsSecurityConfig {
 	 */
 	@Configuration
 	@Order(5)
-	public static class ApiConfigurationAdapter extends WebSecurityConfigurerAdapter {
+	public static class UserApiConfigurationAdapter extends WebSecurityConfigurerAdapter {
 
 		@Autowired
 		private AuthenticationTokenFilter authenticationTokenFilter;
@@ -291,7 +292,7 @@ public class MultipleEntryPointsSecurityConfig {
 		
 		
 
-		public ApiConfigurationAdapter() {
+		public UserApiConfigurationAdapter() {
 			super();
 		}
 
@@ -392,6 +393,13 @@ public class MultipleEntryPointsSecurityConfig {
 					.addFilterAfter(authenticationTokenFilter, BasicAuthenticationFilter.class);
 
 		}
+		
+	    @Bean
+	    public AuthenticationProvider authenticationProvider() {
+	    	JWTCustomerAuthenticationProvider provider = new JWTCustomerAuthenticationProvider();
+	        provider.setUserDetailsService(jwtCustomerDetailsService);
+	        return provider;
+	    }
 
 		@Bean
 		public AuthenticationEntryPoint apiCustomerAuthenticationEntryPoint() {
