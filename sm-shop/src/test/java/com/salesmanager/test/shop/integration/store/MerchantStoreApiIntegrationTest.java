@@ -81,14 +81,9 @@ public class MerchantStoreApiIntegrationTest extends ServicesTestSupport {
       
       final HttpEntity<PersistableMerchantStore> httpEntity = new HttpEntity<PersistableMerchantStore>(createdStore, getHeader());
 
-      ResponseEntity<ReadableMerchantStore> response = testRestTemplate.exchange(String.format("/api/v1/private/store/"), HttpMethod.POST, httpEntity, ReadableMerchantStore.class);
+      ResponseEntity<Void> response = testRestTemplate.exchange(String.format("/api/v1/private/store/"), HttpMethod.POST, httpEntity, Void.class);
 
-      if (response.getStatusCode() != HttpStatus.OK) {
-          throw new Exception(response.toString());
-      } else {
-          final ReadableMerchantStore store = response.getBody();
-          assertNotNull(store);
-      }
+      assertThat(response.getStatusCode(), is(HttpStatus.OK));
 
       //delete store
       ResponseEntity<Void> deleteResponse = testRestTemplate.exchange(String.format("/api/v1/private/store/" + TEST_STORE_CODE), HttpMethod.DELETE, httpEntity, Void.class);
