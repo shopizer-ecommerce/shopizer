@@ -308,10 +308,6 @@ public class MerchantStoreApi {
 		storeFacade.delete(code);
 	}
 
-/*	private MerchantStoreCriteria filter(HttpServletRequest request) {
-		Criteria criteria = ServiceRequestCriteriaBuilderUtils.buildRequest(MAPPING_FIELDS, request);
-		return (MerchantStoreCriteria) criteria;
-	}*/
 	
 	private MerchantStoreCriteria createMerchantStoreCriteria(HttpServletRequest request) {
 		try {

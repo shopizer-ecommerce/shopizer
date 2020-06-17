@@ -188,7 +188,7 @@ public class OrderApi {
 	}
 
 	/**
-	 * This method returns list of all the orders for the admin.This is not
+	 * This method returns list of all the orders for a store.This is not
 	 * bound to any specific stores and will get list of all the orders
 	 * available for this instance
 	 *
@@ -203,7 +203,8 @@ public class OrderApi {
 	public ReadableOrderList listAll(
 			@RequestParam(value = "count", required = false, defaultValue = "50") Integer count,
 			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-			@RequestParam(value = "name", required = false) String name, @ApiIgnore MerchantStore merchantStore,
+			@RequestParam(value = "name", required = false) String name, 
+			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
 
 		OrderCriteria orderCriteria = new OrderCriteria();
