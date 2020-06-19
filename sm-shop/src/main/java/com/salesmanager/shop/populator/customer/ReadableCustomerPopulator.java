@@ -86,6 +86,7 @@ public class ReadableCustomerPopulator extends
 			for(CustomerAttribute attribute : source.getAttributes()) {
 				ReadableCustomerAttribute readableAttribute = new ReadableCustomerAttribute();
 				readableAttribute.setId(attribute.getId());
+				readableAttribute.setTextValue(attribute.getTextValue());
 				ReadableCustomerOption option = new ReadableCustomerOption();
 				option.setId(attribute.getCustomerOption().getId());
 				option.setCode(attribute.getCustomerOption().getCode());
