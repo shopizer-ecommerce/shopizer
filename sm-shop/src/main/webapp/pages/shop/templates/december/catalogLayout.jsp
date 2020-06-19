@@ -9,6 +9,7 @@ response.setDateHeader ("Expires", -1);
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="/WEB-INF/shopizer-tags.tld" prefix="sm"%>
  
 <%@page contentType="text/html"%>
 <%@page pageEncoding="UTF-8"%>
@@ -43,14 +44,14 @@ response.setDateHeader ("Expires", -1);
                         <div itemscope itemtype="http://schema.org/Enumeration" class="col-md-COLUMN-SIZE col-sm-6 col-xs-12 product" item-order="{{sortOrder}}" item-name="{{description.name}}" item-price="{{price}}" data-id="{{id}}">
 								<div class="thumbnail product-img" style="border:none !important;">
                                     {{#image}}
-									<a href="<c:url value="/shop/product/" />{{description.friendlyUrl}}.html">
+									<a href="<c:url value="/shop/product/" />{{description.friendlyUrl}}.html/ref=<c:out value="${requestScope.ref}"/>">
 										<img src="<c:url value=""/>{{image.imageUrl}}" alt="" />
 									</a>
 									{{/image}}
 								</div>
 								<div class="product-content text-center">
-									<a class="listing-product-name" href="<c:url value="/shop/product/" />{{description.friendlyUrl}}.html"><h3 itemprop="name">{{description.name}}</h3></a>
-									<!--<span class="text-center width-100"><div class="stars" id="productRating_{{id}}"></div></span>-->
+									<a class="listing-product-name" href="<c:url value="/shop/product/" />{{description.friendlyUrl}}.html/ref=<c:out value="${requestScope.ref}"/>"><h3 itemprop="name">{{description.name}}</h3></a>
+									<div class="stars" id="productRating_{{id}}"></div>
 									<h4>
 										{{#discounted}}<del>{{originalPrice}}</del>&nbsp;<span itemprop="price" class="specialPrice">{{finalPrice}}</span>{{/discounted}}
 										{{^discounted}}<span itemprop="price">{{finalPrice}}</span>{{/discounted}}
@@ -84,25 +85,30 @@ response.setDateHeader ("Expires", -1);
     <!-- Cookie policy --> 
     <!-- https://www.osano.com/cookieconsent/download/ -->
 	<script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
-	<script>
-	window.cookieconsent.initialise({
-	  "palette": {
-	    "popup": {
-	      "background": "#eaf7f7",
-	      "text": "#5c7291"
-	    },
-	    "button": {
-            "background": "#555555",
-            "text": "#ffffff"
-	    }
-	  },
-	  "content": {
-		    "message": "<c:out value="${message.cookie.policy}" default="This website uses cookies to ensure you get the best experience on our website."/>",
-		    "href": "/shop/pages/terms-and-policy.html"
-	   }
-	});
-	</script>
-     
+			<script>
+			window.cookieconsent.initialise({
+			  "palette": {
+			    "popup": {
+			      "background": "#eaf7f7",
+			      "text": "#5c7291"
+			    },
+			    "button": {
+		            "background": "#555555",
+		            "text": "#ffffff"
+			    }
+			  },
+			  "position": "top",
+			  "content": {
+				    "message": "<c:out value="${message.cookie.policy}" default="This website uses cookies to ensure you get the best experience on our website."/>",
+				    "href": "/shop/pages/terms-and-policy.html"
+			   }
+			});
+	 </script>
+	
+
+	    <c:if test="${requestScope.CONTENT['beforeCloseBody']!=null}">
+			<sm:pageContent contentCode="beforeCloseBody"/>
+		</c:if>
  	</body>
  
  </html>

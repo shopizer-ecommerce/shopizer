@@ -64,7 +64,7 @@ public class GroupsController {
 
 
 
-	@PreAuthorize("hasRole('STORE_ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@RequestMapping(value = "/admin/groups/editGroup.html", method = RequestMethod.GET)
 	public String displayGroup(@RequestParam("id") Integer groupId, Model model,
 			Locale locale, HttpServletRequest request, HttpServletResponse response)
@@ -98,7 +98,7 @@ public class GroupsController {
 		return "admin-user-group";
 	}
 	
-	@PreAuthorize("hasRole('STORE_ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@RequestMapping(value = "/admin/groups/delete.html", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> delete(Model model,
 			Locale locale, HttpServletRequest request, HttpServletResponse response)
@@ -157,7 +157,7 @@ public class GroupsController {
 		
 	}
 	
-	@PreAuthorize("hasRole('STORE_ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@RequestMapping(value = "/admin/group/save.html", method = RequestMethod.POST)
 	public String save(@Valid @ModelAttribute("group") GroupDetails group, BindingResult result, Locale locale, Model model,
 			HttpServletRequest request, HttpServletResponse response)
@@ -204,7 +204,7 @@ public class GroupsController {
 		return "admin-user-group";
 	}
 	
-	@PreAuthorize("hasRole('STORE_ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@RequestMapping(value = "/admin/groups/new.html", method = RequestMethod.GET)
 	public String displayGroup(Model model,
 			HttpServletRequest request, HttpServletResponse response)
@@ -232,7 +232,7 @@ public class GroupsController {
 
 
 
-	@PreAuthorize("hasRole('STORE_ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@RequestMapping(value = "/admin/groups/groups.html", method = RequestMethod.GET)
 	public String displayGroups(Model model, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
@@ -245,7 +245,7 @@ public class GroupsController {
 	}
 
 	
-	@PreAuthorize("hasRole('STORE_ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@RequestMapping(value = "/admin/groups/paging.html", method = RequestMethod.POST)
 	public @ResponseBody
 	ResponseEntity<String> pageGroups(HttpServletRequest request,

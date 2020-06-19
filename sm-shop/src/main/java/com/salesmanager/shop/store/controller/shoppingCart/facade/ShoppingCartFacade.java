@@ -13,6 +13,7 @@ import com.salesmanager.shop.model.shoppingcart.ShoppingCartData;
 import com.salesmanager.shop.model.shoppingcart.ShoppingCartItem;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * </p>Shopping cart Facade which provide abstraction layer between
@@ -37,6 +38,7 @@ public interface ShoppingCartFacade {
      */
     /**
      * jsp cart methods
+     * @param supportPromoCode
      * @param customer
      * @param store
      * @param shoppingCartId
@@ -47,10 +49,11 @@ public interface ShoppingCartFacade {
     public ShoppingCartData getShoppingCartData(final Customer customer,final  MerchantStore store,final String shoppingCartId, Language language) throws Exception;
     public ShoppingCartData getShoppingCartData(final ShoppingCart shoppingCart, Language language) throws Exception;
     public ShoppingCartData getShoppingCartData(String code, MerchantStore store, Language lnguage) throws Exception;
+    
     public ShoppingCartData removeCartItem(final Long itemID, final String cartId,final MerchantStore store,final Language language ) throws Exception;
     public ShoppingCartData updateCartItem(final Long itemID, final String cartId, final long quantity,final MerchantStore store,Language language ) throws Exception;
     public void deleteShoppingCart(final Long id, final MerchantStore store) throws Exception;
-	ShoppingCartData updateCartItems(List<ShoppingCartItem> shoppingCartItems,
+	ShoppingCartData updateCartItems(Optional<String> promoCode, List<ShoppingCartItem> shoppingCartItems,
 			MerchantStore store, Language language) throws Exception;
 	public ShoppingCart getShoppingCartModel(final String shoppingCartCode, MerchantStore store) throws Exception;
 	public ShoppingCart getShoppingCartModel(Long id, MerchantStore store) throws Exception;

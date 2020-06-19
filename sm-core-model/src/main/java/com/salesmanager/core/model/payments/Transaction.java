@@ -135,6 +135,10 @@ public class Transaction extends SalesManagerEntity<Long, Transaction> implement
 	public TransactionType getTransactionType() {
 		return transactionType;
 	}
+	
+	public String getTransactionTypeName() {
+		return this.getTransactionType()!=null?this.getTransactionType().name():"";
+	}
 
 	public void setTransactionType(TransactionType transactionType) {
 		this.transactionType = transactionType;

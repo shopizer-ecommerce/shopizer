@@ -36,7 +36,7 @@ import springfox.documentation.annotations.ApiIgnore;
 @RequestMapping(value = "/api/v1")
 @Api(tags = {"Customer management resource (Customer Management Api)"})
 @SwaggerDefinition(tags = {
-    @Tag(name = "Customer management resource", description = "Manage customer addresses")
+    @Tag(name = "Customer management resource", description = "Manage customers")
 })
 public class CustomerApi {
 
@@ -159,12 +159,12 @@ public class CustomerApi {
       @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
   })
-  public ReadableCustomerList getFilteredCustomers(
-      @RequestParam(value = "start", required = false) Integer start,
+  public ReadableCustomerList list(
+      @RequestParam(value = "page", required = false) Integer page,
       @RequestParam(value = "count", required = false) Integer count,
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language) {
-    CustomerCriteria customerCriteria = createCustomerCriteria(start, count);
+    CustomerCriteria customerCriteria = createCustomerCriteria(page, count);
     return customerFacade.getListByStore(merchantStore, customerCriteria, language);
   }
 

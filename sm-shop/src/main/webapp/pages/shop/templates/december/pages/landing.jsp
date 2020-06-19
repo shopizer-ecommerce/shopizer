@@ -16,7 +16,7 @@ response.setDateHeader ("Expires", -1);
 
 	    <c:if test="${requestScope.CONTENT['heroSlider']!=null}">
 	    	 <!-- slider section -->
-	    	 <section class="slider">
+	    	 <section class="slider" style="border-top: 1px solid rgba(0, 0, 0, 0.08);">
           		<div class="flexslider" id="heroSlider">
 			    	<sm:pageContent contentCode="heroSlider"/>
        			</div>

@@ -183,6 +183,7 @@ public class ReadableShoppingCartPopulator extends AbstractDataPopulator<Shoppin
             		ReadableOrderTotal total = new ReadableOrderTotal();
             		total.setCode(t.getOrderTotalCode());
             		total.setValue(t.getValue());
+            		total.setText(t.getText());
             		totals.add(total);
             	}
             	target.setTotals(totals);

@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 /**
@@ -97,7 +98,7 @@ public class ShoppingCartDataPopulator extends AbstractDataPopulator<ShoppingCar
             if(items!=null) {
                 shoppingCartItemsList=new ArrayList<ShoppingCartItem>();
                 for(com.salesmanager.core.model.shoppingcart.ShoppingCartItem item : items) {
-
+                	
                     ShoppingCartItem shoppingCartItem = new ShoppingCartItem();
                     shoppingCartItem.setCode(cart.getCode());
                     shoppingCartItem.setProductCode(item.getProduct().getSku());
@@ -177,7 +178,7 @@ public class ShoppingCartDataPopulator extends AbstractDataPopulator<ShoppingCar
             OrderSummary summary = new OrderSummary();
             List<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> productsList = new ArrayList<com.salesmanager.core.model.shoppingcart.ShoppingCartItem>();
             productsList.addAll(shoppingCart.getLineItems());
-            summary.setProducts(productsList);
+            summary.setProducts(productsList.stream().filter(p -> p.getProduct().isAvailable()).collect(Collectors.toList()));
             OrderTotalSummary orderSummary = shoppingCartCalculationService.calculate(shoppingCart,store, language );
 
             if(CollectionUtils.isNotEmpty(orderSummary.getTotals())) {
@@ -185,6 +186,7 @@ public class ShoppingCartDataPopulator extends AbstractDataPopulator<ShoppingCar
             	for(com.salesmanager.core.model.order.OrderTotal t : orderSummary.getTotals()) {
             		OrderTotal total = new OrderTotal();
             		total.setCode(t.getOrderTotalCode());
+            		total.setText(t.getText());
             		total.setValue(t.getValue());
             		totals.add(total);
             	}

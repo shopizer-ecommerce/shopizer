@@ -34,6 +34,8 @@ public interface StoreFacade {
 	MerchantStore get(String code);
 
 	MerchantStore getByCode(String code);
+	
+	List<Language> supportedLanguages(MerchantStore store);
 
 	ReadableMerchantStore getByCode(String code, String lang);
 
@@ -67,7 +69,8 @@ public interface StoreFacade {
 	 * @param store
 	 * @throws Exception
 	 */
-	ReadableMerchantStore create(PersistableMerchantStore store);
+	//ReadableMerchantStore create(PersistableMerchantStore store);
+	void create(PersistableMerchantStore store);
 
 	/**
 	 * Updates an existing store
@@ -75,7 +78,8 @@ public interface StoreFacade {
 	 * @param store
 	 * @throws Exception
 	 */
-	ReadableMerchantStore update(PersistableMerchantStore store);
+	//ReadableMerchantStore update(PersistableMerchantStore store);
+	void update(PersistableMerchantStore store);
 
 	/**
 	 * Deletes a MerchantStore based on store code

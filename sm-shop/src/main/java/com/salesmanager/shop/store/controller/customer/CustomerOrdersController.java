@@ -8,9 +8,9 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.orderproduct.OrderProductDownload;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.constants.Constants;
-import com.salesmanager.shop.model.order.ReadableOrder;
-import com.salesmanager.shop.model.order.ReadableOrderList;
 import com.salesmanager.shop.model.order.ReadableOrderProductDownload;
+import com.salesmanager.shop.model.order.v0.ReadableOrder;
+import com.salesmanager.shop.model.order.v0.ReadableOrderList;
 import com.salesmanager.shop.populator.order.ReadableOrderProductDownloadPopulator;
 import com.salesmanager.shop.store.controller.AbstractController;
 import com.salesmanager.shop.store.controller.ControllerConstants;
@@ -39,13 +39,7 @@ import java.util.List;
 @Controller
 @RequestMapping(Constants.SHOP_URI + "/customer")
 public class CustomerOrdersController extends AbstractController {
-	
-    @Inject
-	private MerchantStoreService merchantStoreService;
-    
-    @Inject
-    private LanguageService languageService;
-    
+
     @Inject
     private OrderFacade orderFacade;
     
@@ -86,7 +80,7 @@ public class CustomerOrdersController extends AbstractController {
         
         model.addAttribute( "customerOrders", readable);
         if(readable!=null) {
-        	model.addAttribute( "paginationData", calculatePaginaionData(paginaionData,Constants.MAX_ORDERS_PAGE, readable.getTotal()));
+        	model.addAttribute( "paginationData", calculatePaginaionData(paginaionData,Constants.MAX_ORDERS_PAGE, readable.getNumber()));
         } else {
         	model.addAttribute( "paginationData", null);
         }

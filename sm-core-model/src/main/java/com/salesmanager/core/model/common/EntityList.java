@@ -10,7 +10,7 @@ public class EntityList implements Serializable {
 	 */
 	private static final long serialVersionUID = 6135941880202635567L;
 	private int totalCount;
-	private int totalPage;
+	private int totalPages;
 	
 	public int getTotalCount() {
 		return totalCount;
@@ -18,11 +18,11 @@ public class EntityList implements Serializable {
 	public void setTotalCount(int totalCount) {
 		this.totalCount = totalCount;
 	}
-	public int getTotalPage() {
-		return totalPage;
+	public int getTotalPages() {
+		return totalPages == 0 ? totalPages+1:totalPages;
 	}
-	public void setTotalPage(int totalPage) {
-		this.totalPage = totalPage;
+	public void setTotalPages(int totalPage) {
+		this.totalPages = totalPage;
 	}
 
 }

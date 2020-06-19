@@ -205,10 +205,14 @@ function updateCart(cartDiv) {
 		}
 		//update cart
 		json_data = JSON.stringify(items);
-
+		var promoCode = $('#promoCode').val();
+		var url = getContextPath() + '/shop/cart/updateShoppingCartItem.html';
+		if(promoCode != null) {
+			url = url + '?promoCode=' + promoCode;
+		}
 		$.ajax({  
 			 type: 'POST',  
-			 url: getContextPath() + '/shop/cart/updateShoppingCartItem.html',
+			 url: url,
 			 data: json_data,
 			 contentType: 'application/json;charset=utf-8',
 			 dataType: 'json', 

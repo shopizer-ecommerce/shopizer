@@ -410,11 +410,11 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 
 	}
 
-	@Override
+/*	@Override
 	public boolean isFreeShoppingCart(final ShoppingCart cart) throws ServiceException {
-		/**
+		*//**
 		 * Determines if products are free
-		 */
+		 *//*
 		Set<ShoppingCartItem> items = cart.getLineItems();
 		for (ShoppingCartItem item : items) {
 			Product product = item.getProduct();
@@ -426,9 +426,9 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 
 		return true;
 
-	}
+	}*/
 
-	@Override
+/*	@Override
 	public boolean requiresShipping(final ShoppingCart cart) throws ServiceException {
 
 		Validate.notNull(cart, "Shopping cart cannot be null");
@@ -444,7 +444,7 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 
 		return requiresShipping;
 
-	}
+	}*/
 
 	@Override
 	public void removeShoppingCart(final ShoppingCart cart) throws ServiceException {
@@ -548,13 +548,13 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 		return shoppingCartItemsSet;
 	}
 
-	@Override
+/*	@Override
 	public boolean isFreeShoppingCart(List<ShoppingCartItem> items) throws ServiceException {
 		ShoppingCart cart = new ShoppingCart();
 		Set<ShoppingCartItem> cartItems = new HashSet<ShoppingCartItem>(items);
 		cart.setLineItems(cartItems);
 		return this.isFreeShoppingCart(cart);
-	}
+	}*/
 
 	@Override
 	@Transactional

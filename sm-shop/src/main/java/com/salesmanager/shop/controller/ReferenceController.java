@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -141,7 +142,7 @@ public class ReferenceController {
 		} catch (ServiceException e) {
 			LOGGER.error("Error while looking up country " + countryCode);
 		}
-		return countryCode;
+		return StringEscapeUtils.escapeHtml4(countryCode);
 	}
 	
 	@RequestMapping(value="/shop/reference/zoneName")
@@ -163,7 +164,7 @@ public class ReferenceController {
 		} catch (ServiceException e) {
 			LOGGER.error("Error while looking up zone " + zoneCode);
 		}
-		return zoneCode;
+		return StringEscapeUtils.escapeHtml4(zoneCode);
 	}
 	
 	@SuppressWarnings("unchecked")

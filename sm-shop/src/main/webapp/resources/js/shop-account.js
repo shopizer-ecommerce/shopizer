@@ -2,7 +2,7 @@
  
 
 	$(function(){
-		log('Check for customer account');
+		//log('Check for customer account');
 		if(supportsCustomerLogin()) {
 			if($('#customerNotLoggedInAccountTemplate')) {
 				var customerNotLoggedInTemplate = Hogan.compile(document.getElementById("customerNotLoggedInAccountTemplate").innerHTML);
@@ -17,7 +17,7 @@
 	
 	function initUserAccount() {
 		var userName = getUserName();
-		log('userName ' + userName);
+		//log('userName ' + userName);
 		if(userName!=null) {
 			displayUserAccount(userName);
 		}

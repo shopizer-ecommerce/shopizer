@@ -1,6 +1,7 @@
 package com.salesmanager.shop.store.controller.store.facade;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -147,7 +148,7 @@ public class StoreFacadeImpl implements StoreFacade {
 	}
 
 	@Override
-	public ReadableMerchantStore create(PersistableMerchantStore store) {
+	public void create(PersistableMerchantStore store) {
 
 		Validate.notNull(store, "PersistableMerchantStore must not be null");
 		Validate.notNull(store.getCode(), "PersistableMerchantStore.code must not be null");
@@ -161,8 +162,8 @@ public class StoreFacadeImpl implements StoreFacade {
 		MerchantStore mStore = convertPersistableMerchantStoreToMerchantStore(store, languageService.defaultLanguage());
 		createMerchantStore(mStore);
 
-		ReadableMerchantStore storeTO = getByCode(store.getCode(), languageService.defaultLanguage());
-		return storeTO;
+		//ReadableMerchantStore storeTO = getByCode(store.getCode(), languageService.defaultLanguage());
+
 	}
 
 	private void createMerchantStore(MerchantStore mStore) {
@@ -190,7 +191,7 @@ public class StoreFacadeImpl implements StoreFacade {
 	}
 
 	@Override
-	public ReadableMerchantStore update(PersistableMerchantStore store) {
+	public void update(PersistableMerchantStore store) {
 
 		Validate.notNull(store);
 
@@ -199,8 +200,7 @@ public class StoreFacadeImpl implements StoreFacade {
 
 		updateMerchantStore(mStore);
 
-		ReadableMerchantStore storeTO = getByCode(store.getCode(), languageService.defaultLanguage());
-		return storeTO;
+		//ReadableMerchantStore storeTO = getByCode(store.getCode(), languageService.defaultLanguage());
 	}
 
 	private void updateMerchantStore(MerchantStore mStore) {
@@ -247,7 +247,7 @@ public class StoreFacadeImpl implements StoreFacade {
 					.map(s -> convertMerchantStoreToReadableMerchantStore(language, s))
 			        .collect(Collectors.toList())
 					);
-			storeList.setTotalPages(stores.getTotalPage());
+			storeList.setTotalPages(stores.getTotalPages());
 			storeList.setRecordsTotal(stores.getTotalCount());
 			storeList.setNumber(stores.getList().size());
 			
@@ -533,6 +533,30 @@ public class StoreFacadeImpl implements StoreFacade {
 		}
 		
 
+	}
+
+	@Override
+	public List<Language> supportedLanguages(MerchantStore store) {
+		
+		Validate.notNull(store, "MerchantStore cannot be null");
+		Validate.notNull(store.getClass(), "MerchantStore code cannot be null");
+		
+		if(!CollectionUtils.isEmpty(store.getLanguages())) {
+			return store.getLanguages();
+		}
+		
+		//refresh
+		try {
+			store = merchantStoreService.getByCode(store.getCode());
+		} catch (ServiceException e) {
+			throw new ServiceRuntimeException("An exception occured when getting store [" + store.getCode() + "]");
+		}
+		
+		if(store!=null) {
+			return store.getLanguages();
+		}
+		
+		return Collections.emptyList();
 	}
 
 }

@@ -76,7 +76,7 @@ public interface OrderService extends SalesManagerEntityService<Long, Order> {
     ByteArrayOutputStream generateInvoice(MerchantStore store, Order order,
                                           Language language) throws ServiceException;
 
-    Order getOrder(Long id);
+    Order getOrder(Long id, MerchantStore store);
 
     
     /**

@@ -12,10 +12,10 @@
 			 Using decision tables to calculate potential
 			 discounts according to items, shipping etc...
 		-->
-		<util:list id="orderTotalsPostProcessors" value-type="com.salesmanager.core.modules.order.total.OrderTotalPostProcessorModule">
-			<!-- From rules -->
+<!-- 		<util:list id="orderTotalsPostProcessors" value-type="com.salesmanager.core.modules.order.total.OrderTotalPostProcessorModule">
+			From rules
 			<ref bean="manufacturerShippingCodeOrderTotalModule"/>
-		</util:list>
+		</util:list> -->
 	
 
 

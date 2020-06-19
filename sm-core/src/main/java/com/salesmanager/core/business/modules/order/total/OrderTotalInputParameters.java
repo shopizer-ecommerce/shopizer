@@ -1,5 +1,7 @@
 package com.salesmanager.core.business.modules.order.total;
 
+import java.util.Date;
+
 /**
  * Input itm to be added to drules engine
  * @author carlsamson
@@ -15,6 +17,8 @@ public class OrderTotalInputParameters {
 	private String itemManufacturerCode;
 	private String itemCategoryCode;
 	private String shippingMethod;
+	private String promoCode;
+	private Date date = new Date();
 	
 	//might add variation based on other objects such as Customer
 	
@@ -53,6 +57,18 @@ public class OrderTotalInputParameters {
 	}
 	public void setShippingMethod(String shippingMethod) {
 		this.shippingMethod = shippingMethod;
+	}
+	public String getPromoCode() {
+		return promoCode;
+	}
+	public void setPromoCode(String promoCode) {
+		this.promoCode = promoCode;
+	}
+	public Date getDate() {
+		return date;
+	}
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 	

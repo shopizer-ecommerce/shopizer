@@ -152,8 +152,7 @@ public class ProductFacadeImpl implements ProductFacade {
 	@Override
 	public ReadableProduct getProduct(MerchantStore store, Long id, Language language) throws Exception {
 
-		Product product = productService.getById(id);
-
+		Product product = productService.findOne(id, store);
 		if (product == null) {
 			throw new ResourceNotFoundException("Product [" + id + "] not found");
 		}
@@ -163,9 +162,7 @@ public class ProductFacadeImpl implements ProductFacade {
 		}
 
 		ReadableProduct readableProduct = new ReadableProduct();
-
 		ReadableProductPopulator populator = new ReadableProductPopulator();
-
 		populator.setPricingService(pricingService);
 		populator.setimageUtils(imageUtils);
 		readableProduct = populator.populate(product, readableProduct, store, language);

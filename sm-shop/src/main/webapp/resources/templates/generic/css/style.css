@@ -2555,7 +2555,7 @@ ul.sinple-tab-menu li.active a{
 .product-simple-content > h4 {
 	font-size: 30px;
 	font-weight: 800;
-	margin-bottom: 29px;
+	margin-bottom: 5px;
 }
 .product-simple-content .quick-add-to-cart {
     overflow: hidden;
@@ -2565,6 +2565,11 @@ ul.sinple-tab-menu li.active a{
 	margin-right: 10px;
 	margin-top: 8px;
 }
+
+.options-form {
+	margin-top:20px;
+}
+
 .quick-add-to-cart .single_add_to_cart_button.hyper-page {
 	background: #333333 none repeat scroll 0 0;
 	border: medium none;
@@ -3483,4 +3488,9 @@ p.checkout-coupon input[type=submit]{
 
 #creditcard_card_image img {
 	max-width:none;
+}
+
+.responsive {
+  width: 100%;
+  height: auto;
 }

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.helper.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,35 +27,40 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.shoppingcart.ShoppingCartService;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.Order;
+import com.salesmanager.core.model.order.OrderCriteria;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.shoppingcart.ShoppingCart;
 import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.model.customer.PersistableCustomer;
 import com.salesmanager.shop.model.customer.ReadableCustomer;
-import com.salesmanager.shop.model.order.PersistableAnonymousOrderApi;
-import com.salesmanager.shop.model.order.PersistableOrderApi;
-import com.salesmanager.shop.model.order.ReadableOrder;
-import com.salesmanager.shop.model.order.ReadableOrderList;
+import com.salesmanager.shop.model.order.v0.ReadableOrder;
+import com.salesmanager.shop.model.order.v0.ReadableOrderList;
+import com.salesmanager.shop.model.order.v1.PersistableAnonymousOrder;
+import com.salesmanager.shop.model.order.v1.PersistableOrder;
 import com.salesmanager.shop.populator.customer.ReadableCustomerPopulator;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
-import com.salesmanager.shop.store.api.exception.UnauthorizedException;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
 import com.salesmanager.shop.store.controller.order.facade.OrderFacade;
-import com.salesmanager.shop.store.controller.user.facade.UserFacade;
+import com.salesmanager.shop.utils.AuthorizationUtils;
 import com.salesmanager.shop.utils.LocaleUtils;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.SwaggerDefinition;
+import io.swagger.annotations.Tag;
 import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("/api/v1")
+@Api(tags = { "Order management resource (Order Management Api)" })
+@SwaggerDefinition(tags = { @Tag(name = "Order management resource", description = "Manage orders") })
 public class OrderApi {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(OrderApi.class);
@@ -72,7 +78,7 @@ public class OrderApi {
 	private CustomerFacade customerFacade;
 
 	@Inject
-	private UserFacade userFacade;
+	private AuthorizationUtils authorizationUtils;
 
 	/**
 	 * Get a list of orders for a given customer accept request parameter
@@ -84,7 +90,7 @@ public class OrderApi {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = { "/private/orders/customers/{id}" }, method = RequestMethod.GET)
-	@ResponseStatus(HttpStatus.ACCEPTED)
+	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
@@ -137,11 +143,11 @@ public class OrderApi {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = { "/auth/orders" }, method = RequestMethod.GET)
-	@ResponseStatus(HttpStatus.ACCEPTED)
+	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
-	public ReadableOrderList list(@RequestParam(value = "start", required = false) Integer start,
+	public ReadableOrderList list(@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "count", required = false) Integer count, @ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -157,8 +163,8 @@ public class OrderApi {
 			return null;
 		}
 
-		if (start == null) {
-			start = new Integer(0);
+		if (page == null) {
+			page = new Integer(0);
 		}
 		if (count == null) {
 			count = new Integer(100);
@@ -168,8 +174,7 @@ public class OrderApi {
 		ReadableCustomerPopulator customerPopulator = new ReadableCustomerPopulator();
 		customerPopulator.populate(customer, readableCustomer, merchantStore, language);
 
-		ReadableOrderList returnList = orderFacade.getReadableOrderList(merchantStore, customer, start, count,
-				language);
+		ReadableOrderList returnList = orderFacade.getReadableOrderList(merchantStore, customer, page, count, language);
 
 		if (returnList == null) {
 			returnList = new ReadableOrderList();
@@ -185,7 +190,7 @@ public class OrderApi {
 	}
 
 	/**
-	 * This method returns list of all the orders for the admin.This is not
+	 * This method returns list of all the orders for a store.This is not
 	 * bound to any specific stores and will get list of all the orders
 	 * available for this instance
 	 *
@@ -194,90 +199,108 @@ public class OrderApi {
 	 * @return List of orders
 	 * @throws Exception
 	 */
-	@RequestMapping(
-      value = {"private/orders"},
-      method = RequestMethod.GET)
-  @ResponseStatus(HttpStatus.ACCEPTED)
-  @ResponseBody
-  public ReadableOrderList getOrders(
-      @RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
-      @RequestParam(value = "count", required = false, defaultValue = "100") Integer count,
-		@ApiIgnore MerchantStore merchantStore, 
-		@ApiIgnore Language language) {
+	@RequestMapping(value = { "/private/orders" }, method = RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
+	@ResponseBody
+	public ReadableOrderList listAll(
+			@RequestParam(value = "count", required = false, defaultValue = "50") Integer count,
+			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+			@RequestParam(value = "name", required = false) String name, 
+			@ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language) {
 
+		OrderCriteria orderCriteria = new OrderCriteria();
+		orderCriteria.setPageSize(count);
+		orderCriteria.setStartPage(page);
 
-			// superadmin, admin and admin_catalogue
-			String authenticatedUser = userFacade.authenticatedUser();
-			if (authenticatedUser == null) {
-				throw new UnauthorizedException();
-			}
-	
-			userFacade.authorizedGroup(authenticatedUser, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN, Constants.GROUP_ADMIN_ORDER, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()));
-	  
-		  
-			return orderFacade.getReadableOrderList(start, count, merchantStore);
+		if (!StringUtils.isBlank(name)) {
+			orderCriteria.setCustomerName(name);
+		}
+
+		String user = authorizationUtils.authenticatedUser();
+		authorizationUtils.authorizeUser(user, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN,
+				Constants.GROUP_ADMIN_ORDER, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()), merchantStore);
+
+		return orderFacade.getReadableOrderList(orderCriteria, merchantStore);
+
+	}
+
+	/**
+	 * Order details
+	 * @param id
+	 * @param merchantStore
+	 * @param language
+	 * @return
+	 */
+	@RequestMapping(value = { "/private/orders/{id}" }, method = RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
+	@ResponseBody
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
+	public ReadableOrder get(
+			@PathVariable final Long id, 
+			@ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language) {
 		
+		String user = authorizationUtils.authenticatedUser();
+		authorizationUtils.authorizeUser(user, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN,
+				Constants.GROUP_ADMIN_ORDER, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()), merchantStore);
 
-  }
 
-  /**
-   * Get a given order by id
-   *
-   * @param id
-   * @param request
-   * @param response
-   * @return
-   * @throws Exception
-   */
-  @RequestMapping(
-      value = {"/auth/orders/{id}"},
-      method = RequestMethod.GET)
-  @ResponseStatus(HttpStatus.ACCEPTED)
-  @ResponseBody
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
-  })
-  public ReadableOrder getOrder(
-      @PathVariable final Long id,
-      @ApiIgnore MerchantStore merchantStore,
-      @ApiIgnore Language language,
-      HttpServletRequest request,
-      HttpServletResponse response)
-      throws Exception {
-    Principal principal = request.getUserPrincipal();
-    String userName = principal.getName();
+		ReadableOrder order = orderFacade.getReadableOrder(id, merchantStore, language);
 
-    Customer customer = customerService.getByNick(userName);
+		return order;
+	}
 
-    if (customer == null) {
-      response.sendError(401, "Error while performing checkout customer not authorized");
-      return null;
-    }
+	/**
+	 * Get a given order by id
+	 *
+	 * @param id
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = { "/auth/orders/{id}" }, method = RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
+	@ResponseBody
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
+	public ReadableOrder getOrder(@PathVariable final Long id, @ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Principal principal = request.getUserPrincipal();
+		String userName = principal.getName();
 
-    ReadableOrder order = orderFacade.getReadableOrder(id, merchantStore, language);
+		Customer customer = customerService.getByNick(userName);
 
-    if (order == null) {
-      LOGGER.error("Order is null for id " + id);
-      response.sendError(404, "Order is null for id " + id);
-      return null;
-    }
+		if (customer == null) {
+			response.sendError(401, "Error while performing checkout customer not authorized");
+			return null;
+		}
 
-    if (order.getCustomer() == null) {
-      LOGGER.error("Order is null for customer " + principal);
-      response.sendError(404, "Order is null for customer " + principal);
-      return null;
-    }
+		ReadableOrder order = orderFacade.getReadableOrder(id, merchantStore, language);
 
-    if (order.getCustomer().getId() != null
-        && order.getCustomer().getId().longValue() != customer.getId().longValue()) {
-      LOGGER.error("Order is null for customer " + principal);
-      response.sendError(404, "Order is null for customer " + principal);
-      return null;
-    }
+		if (order == null) {
+			LOGGER.error("Order is null for id " + id);
+			response.sendError(404, "Order is null for id " + id);
+			return null;
+		}
 
-    return order;
-  }
+		if (order.getCustomer() == null) {
+			LOGGER.error("Order is null for customer " + principal);
+			response.sendError(404, "Order is null for customer " + principal);
+			return null;
+		}
+
+		if (order.getCustomer().getId() != null
+				&& order.getCustomer().getId().longValue() != customer.getId().longValue()) {
+			LOGGER.error("Order is null for customer " + principal);
+			response.sendError(404, "Order is null for customer " + principal);
+			return null;
+		}
+
+		return order;
+	}
 
 	/**
 	 * Action for performing a checkout on a given shopping cart
@@ -294,7 +317,7 @@ public class OrderApi {
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
-	public PersistableOrderApi checkout(@PathVariable final String code, @Valid @RequestBody PersistableOrderApi order,
+	public PersistableOrder checkout(@PathVariable final String code, @Valid @RequestBody PersistableOrder order,
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language, HttpServletRequest request,
 			HttpServletResponse response, Locale locale) throws Exception {
 
@@ -341,8 +364,8 @@ public class OrderApi {
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
-	public PersistableOrderApi checkout(@PathVariable final String code,
-			@Valid @RequestBody PersistableAnonymousOrderApi order, @ApiIgnore MerchantStore merchantStore,
+	public PersistableOrder checkout(@PathVariable final String code,
+			@Valid @RequestBody PersistableAnonymousOrder order, @ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
 
 		Validate.notNull(order.getCustomer(), "Customer must not be null");
@@ -369,12 +392,33 @@ public class OrderApi {
 
 			// hash payment token
 			order.getPayment().setPaymentToken("***");
-
 			return order;
 
 		} catch (Exception e) {
 			throw new ServiceRuntimeException("Error during checkout " + e.getMessage(), e);
 		}
 
+	}
+	
+	@RequestMapping(value = { "/private/orders/{id}/customer" }, method = RequestMethod.PATCH)
+	@ResponseStatus(HttpStatus.OK)
+	@ResponseBody
+	@ApiImplicitParams({ 
+			@ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
+	public void updateOrderCustomer(
+			@PathVariable final Long id,
+			@Valid @RequestBody PersistableCustomer orderCustomer, 
+			@ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language) {
+		
+		String user = authorizationUtils.authenticatedUser();
+		authorizationUtils.authorizeUser(user, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN,
+				Constants.GROUP_ADMIN_ORDER, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()), merchantStore);
+
+		
+		orderFacade.updateOrderCustomre(id, orderCustomer, merchantStore);
+		return;
+		
 	}
 }

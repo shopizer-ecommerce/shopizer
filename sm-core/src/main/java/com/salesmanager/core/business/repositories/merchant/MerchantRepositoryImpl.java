@@ -79,21 +79,6 @@ public class MerchantRepositoryImpl implements MerchantRepositoryCustom {
       
       q = RepositoryHelper.paginateQuery(q, count, entityList, criteria);
 
-/*      if(criteria.isLegacyPagination()) {
-	      if (criteria.getMaxCount() > 0) {
-	        q.setFirstResult(criteria.getStartIndex());
-	        if (criteria.getMaxCount() < count.intValue()) {
-	          q.setMaxResults(criteria.getMaxCount());
-	        } else {
-	          q.setMaxResults(count.intValue());
-	        }
-	      }
-      } else {
-    	  q.setFirstResult((criteria.getStartPage()-1) * criteria.getPageSize()); 
-    	  q.setMaxResults(criteria.getPageSize());
-    	  int lastPageNumber = (int) ((count.intValue() / criteria.getPageSize()) + 1);
-    	  entityList.setTotalPage(lastPageNumber);
-      }*/
 
       List<MerchantStore> stores = q.getResultList();
       entityList.setList(stores);

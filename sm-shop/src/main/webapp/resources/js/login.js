@@ -25,7 +25,7 @@
         });
         
         $("#genericLogin-button").click(function(e) {
-        	log('Calling genericLogin');
+        	//log('Calling genericLogin');
         	e.preventDefault();
         	e.stopPropagation();
         	genericLogin();
@@ -96,7 +96,7 @@
     	var userName = $('#signin_userName').val();
     	var password = $('#signin_password').val();
     	var storeCode = $('#signin_storeCode').val();
-    	log('username ' + userName + ' password ' + password + ' storeCode ' + storeCode);
+    	//log('username ' + userName + ' password ' + password + ' storeCode ' + storeCode);
     	if(userName=='' || password=='') {
     		 errorMessage = errMessageDiv + getLoginErrorLabel() + '</div>';
     		 $(errorMessage).prependTo('#login-form');

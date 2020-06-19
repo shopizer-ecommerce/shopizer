@@ -18,9 +18,6 @@ response.setDateHeader ("Expires", -1);
  <script src="<c:url value="/resources/js/jquery.quicksand.js" />"></script>
  <script src="<c:url value="/resources/js/jquery-sort-filter-plugin.js" />"></script>
  <script src="<c:url value="/resources/js/jquery.alphanumeric.pack.js" />"></script>
- 
-
-
 
  <!-- don't change that script except max_oroducts -->
  <script>
@@ -32,7 +29,7 @@ response.setDateHeader ("Expires", -1);
 
  $(function(){
 	
-	/** specific to this template ***/
+	/** specific to this template, productBoxTemplate is in catalogLayout.jsp ***/
 	var tpl = $('#productBoxTemplate').text();
 	tpl = tpl.replace("COLUMN-SIZE", "4");//size of the div
 	$('#productBoxTemplate').text(tpl);
@@ -94,11 +91,7 @@ response.setDateHeader ("Expires", -1);
 
 		  // clone applications to get a second collection
 		  data = $('#hiddenProductsContainer').clone();
-		  
-		  //console.log('Data');
-		  //console.log(data);
-		  
-		  
+
 		  listedData = data.find('.product');
 		  
 		  //console.log('Listed Data');
@@ -113,9 +106,7 @@ response.setDateHeader ("Expires", -1);
 				  minimumPrice = '0';
 			  }
 			  filteredData = listedData.filter(function() {
-				 
-				   //log('Item price ' + $(this).attr('item-price'));
-			  
+
 				   var price = parseFloat($(this).attr('item-price'));
 				   if(maximumPrice != '') {
 					   return price >= parseFloat(minimumPrice) && price <= parseFloat(maximumPrice); 
@@ -125,11 +116,7 @@ response.setDateHeader ("Expires", -1);
 				   
 			  }); 
 		  } 
-		  
-		  //console.log('After filtered Data');
-		  //console.log(filteredData);
 
-		  
 		  if(attribute!='item-order') {	
 		  
 		  	$sortedData = filteredData.sorted({
@@ -161,6 +148,11 @@ response.setDateHeader ("Expires", -1);
  		if(filter!=null) {
  			url = url + '/filter=' + filter + '/filter-value=' + filterValue +'';
  		}
+ 		
+ 		<% if(request.getAttribute("ref") != null) { %>
+ 			url = url + '?ref=<%=request.getAttribute("ref")%>';
+ 		<%}%>
+ 		
  		loadProducts(url,'#productsContainer');
 
  	}
@@ -177,11 +169,12 @@ response.setDateHeader ("Expires", -1);
  	}
  	
  	function buildProductsList(productList, divProductsContainer) {
- 		log('Products-> ' + productList.products.length);
+ 		//log('Products-> ' + JSON.stringify(productList));
 		var productsTemplate = Hogan.compile(document.getElementById("productBoxTemplate").innerHTML);
 		var productsRendred = productsTemplate.render(productList);
 		$('#productsContainer').append(productsRendred);
 		$('#hiddenProductsContainer').append(productsRendred);
+		setProductRating(productList.products);
 		initBindings();
  	}
  
@@ -215,10 +208,11 @@ response.setDateHeader ("Expires", -1);
 			  <c:if test="${category.description.name!=null}">
 			  <div class="fixed-image section dark-translucent-bg parallax-bg-3">
 					<div class="container">
-					<h2 class="shop-banner-title lead"><c:out value="${category.description.name}"/></h2>
+						<h1 class="shop-banner-title lead"><c:out value="${category.description.name}"/></h1>
 					</div>
 			  </div>
 			  </c:if>
+			  <jsp:include page="/pages/shop/templates/exoticamobilia/sections/breadcrumb.jsp" />
 			  </header>
 
 			  

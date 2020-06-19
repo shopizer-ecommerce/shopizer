@@ -110,11 +110,12 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 	private Date dateAvailable = new Date();
 	
 	
-	@Column(name="AVAILABLE")
-	private boolean available = true;
+	@Column(name = "AVAILABLE", columnDefinition = "boolean default true", nullable = false)
+	private Boolean available = true;
 	
-	@Column(name="PREORDER")
-	private boolean preOrder = false;
+
+	@Column(name = "PREORDER", columnDefinition = "boolean default false", nullable = false)
+	private Boolean preOrder = false;
 	
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH})
@@ -129,14 +130,14 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 	@JoinColumn(name="TAX_CLASS_ID", nullable=true)
 	private TaxClass taxClass;
 
-	@Column(name = "PRODUCT_VIRTUAL")
+	@Column(name = "PRODUCT_VIRTUAL", columnDefinition = "boolean default false", nullable = false)
 	private boolean productVirtual = false;
 	
-	@Column(name = "PRODUCT_SHIP")
-	private boolean productShipeable = false;
+	@Column(name = "PRODUCT_SHIP", columnDefinition = "boolean default false", nullable = false)
+	private Boolean productShipeable = false;
 
 
-	@Column(name = "PRODUCT_FREE")
+	@Column(name = "PRODUCT_FREE", columnDefinition = "boolean default false", nullable = false)
 	private boolean productIsFree;
 
 	@Column(name = "PRODUCT_LENGTH")
@@ -436,19 +437,19 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 
 
 
-	public void setAvailable(boolean available) {
+	public void setAvailable(Boolean available) {
 		this.available = available;
 	}
 
 	public boolean isAvailable() {
-		return available;
+		return available != null ? available.booleanValue():false;
 	}
 	
 	public boolean isProductShipeable() {
-		return productShipeable;
+		return productShipeable != null ? productShipeable.booleanValue():false;
 	}
 
-	public void setProductShipeable(boolean productShipeable) {
+	public void setProductShipeable(Boolean productShipeable) {
 		this.productShipeable = productShipeable;
 	}
 

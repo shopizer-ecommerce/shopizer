@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.inject.Inject;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
@@ -60,7 +62,7 @@ public class OrderTotalServiceImpl implements OrderTotalService {
 					}
 					
 					//if product is null it will be catched when invoking the module
-					orderTotal.setText(product.getProductDescription().getName());
+					orderTotal.setText(StringUtils.isNoneBlank(orderTotal.getText())?orderTotal.getText():product.getProductDescription().getName());
 					variation.getVariations().add(orderTotal);	
 				}
 			}

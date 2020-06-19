@@ -100,7 +100,7 @@ public class ContentApi {
    * @return
    */
   @GetMapping(value = "/content/boxes", produces = MediaType.APPLICATION_JSON_VALUE)
-  @ApiOperation(httpMethod = "GET", value = "Get pages summary created for a given MerchantStore",
+  @ApiOperation(httpMethod = "GET", value = "Get boxes for a given MerchantStore",
       notes = "", produces = "application/json", response = List.class)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
@@ -161,7 +161,7 @@ public class ContentApi {
   }
   
   @GetMapping(value = "/private/contents/any", produces = MediaType.APPLICATION_JSON_VALUE)
-  @ApiOperation(httpMethod = "GET", value = "Get contents (page and boc) for a given MerchantStore",
+  @ApiOperation(httpMethod = "GET", value = "Get contents (page and box) for a given MerchantStore",
       notes = "", produces = "application/json", response = ReadableContentPage.class)
   @ApiImplicitParams({
     @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),

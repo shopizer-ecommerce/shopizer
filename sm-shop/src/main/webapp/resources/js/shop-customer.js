@@ -77,25 +77,7 @@
 }
  
  function setCountrySettings(prefix, countryCode) {
-		//add masks to your country
-		//console.log('Apply mask ' + countryCode);
-		
-		var phoneSelector = '.' + prefix + '-phone';
-		var postalCodeSelector = '.' + prefix + '-postalCode';
-		
-		if(countryCode=='CA') {//mask for canada
-			$(phoneSelector).mask("?(999) 999-9999");
-			$(postalCodeSelector).mask("?*** ***");
-			return;
-		}
-		if(countryCode=='US') {// mask for united states
-			$(phoneSelector).mask("?(999) 999-9999");
-			$(postalCodeSelector).mask("?99999");
-			return;
-		}
-		
-		$(phoneSelector).unmask();
-		$(postalCodeSelector).unmask();
+
 
 		
 }

@@ -34,16 +34,16 @@ response.setDateHeader ("Expires", -1);
 							<c:if test="${requestScope.CONFIGS['facebook_page_url'] != null || requestScope.CONFIGS['twitter_handle'] != null || requestScope.CONFIGS['pinterest'] != null || requestScope.CONFIGS['instagram'] != null}">
 							   <ul class="footer-social">
 							       <c:if test="${requestScope.CONFIGS['twitter_handle'] != null}">
-								   <li class="twitter"><a target="_blank" href="<c:out value="${requestScope.CONFIGS['twitter_handle']}"/>"><i class="fa fa-twitter"></i></a></li>
+								   <li class="twitter"><a target="_blank" href="<c:out value="${requestScope.CONFIGS['twitter_handle']}"/>"><i class="fa fa-twitter fa-2x"></i></a></li>
 								   </c:if>
 								   <c:if test="${requestScope.CONFIGS['facebook_page_url'] != null}">
-								   <li class="facebook"><a target="_blank" href="<c:out value="${requestScope.CONFIGS['facebook_page_url']}"/>"><i class="fa fa-facebook"></i></a></li>
+								   <li class="facebook"><a target="_blank" href="<c:out value="${requestScope.CONFIGS['facebook_page_url']}"/>"><i class="fa fa-facebook-square fa-2x"></i></a></li>
 								   </c:if>
 								   <c:if test="${requestScope.CONFIGS['pinterest'] != null}">
-								   <li class="pinterest"><a target="_blank" href="<c:out value="${requestScope.CONFIGS['pinterest']}"/>"><i class="fa fa-pinterest"></i></a></li>
+								   <li class="pinterest"><a target="_blank" href="<c:out value="${requestScope.CONFIGS['pinterest']}"/>"><i class="fa fa-pinterest fa-2x"></i></a></li>
 								   </c:if>
 								   <c:if test="${requestScope.CONFIGS['instagram'] != null}">
-							   	   <li class="instagram"><a target="_blank" href="<c:out value="${requestScope.CONFIGS['instagram']}"/>"><i class="fa fa-instagram"></i></a></li>
+							   	   <li class="instagram"><a target="_blank" href="<c:out value="${requestScope.CONFIGS['instagram']}"/>"><i class="fa fa-instagram fa-2x"></i></a></li>
 							       </c:if>
 							   </ul>
 						   </c:if>
@@ -128,18 +128,19 @@ response.setDateHeader ("Expires", -1);
 		<div class="copyright-area">
 			<div class="container">
 				<div class="row">
-					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mar_b-30">
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mar_b-30">
 						<div class="copyright text-left">
 							<p><sm:storeCopy/>&nbsp;-&nbsp;<s:message code="label.generic.providedby" /> <a href="http://www.shopizer.com" class="footer-href" target="_blank">Shopizer</a></p>
 						</div>
 					</div>
-					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 						<c:if test="${requestScope.CONFIGS['allowPurchaseItems'] == true}">
 						<div class="copyright-img text-right">
 							<img src="/resources/img/payment/icons/MasterCard.png" width="50" alt="" />&nbsp;<img src="/resources/img/payment/icons/Visa.png" width="50" alt="" />&nbsp;<img src="/resources/img/payment/icons/AmericanExpress.png" width="50" alt="" />&nbsp;<img src="/resources/img/payment/icons/PayPal.png" width="50" alt="" />
 						</div>
 						</c:if>
 					</div>
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12"></div>
 				</div>
 			</div>
 		</div>

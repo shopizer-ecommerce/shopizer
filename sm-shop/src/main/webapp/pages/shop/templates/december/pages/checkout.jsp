@@ -20,8 +20,6 @@ response.setDateHeader ("Expires", -1);
 
 <!-- overrides with v2 page -->
 <c:set var="creditCardInformationsPage" value="creditCardInformations-v2" scope="request"/>
-<!-- phone number mask -->
-<script src="<c:url value="/resources/js/jquery.maskedinput.min.js" />"></script>
 <!-- generic checkout script -->
 <script src="<c:url value="/resources/js/shop-checkout.js" />"></script>
 
@@ -449,7 +447,7 @@ function bindActions() {
 		
 		//confirm shipping
 		if(formValid) {
-				log('Form valid ? ' + formValid);
+				//log('Form valid ? ' + formValid);
 				//validateConfirmShipping(response);
 				if($('#confirm_address')) {
 					//add confirm address section to shipping
@@ -665,7 +663,7 @@ function initPayment(paymentSelection) {
 										<div class="checkout-form-list">
 											<label><s:message code="label.generic.streetaddress" text="Street address"/> <span class="required">*</span></label>
 										    <s:message code="NotEmpty.customer.billing.address" text="Address is required" var="msgAddress"/>
-										    <form:input id="customer.billing.address" cssClass="${cssClass}" path="customer.billing.address" title="${msgAddress}" disabled="${disabled}"/><!-- geo locate -->
+										    <form:input id="customer.billing.address" cssClass="${cssClass}" path="customer.billing.address" title="${msgAddress}" disabled="${fieldDisabled}"/><!-- geo locate -->
 										    <form:errors path="customer.billing.address" cssClass="error" />
 										    <span id="error-customer.billing.address" class="error"></span>
 										</div>
@@ -674,7 +672,7 @@ function initPayment(paymentSelection) {
 										<div class="checkout-form-list">
 											<label><s:message code="label.generic.city" text="City"/> <span class="required">*</span></label>
 											<s:message code="NotEmpty.customer.billing.city" text="City is required" var="msgCity"/>
-											<form:input id="customer.billing.city" cssClass="${cssClass}" path="customer.billing.city" title="${msgCity}" disabled="${disabled}"/>
+											<form:input id="customer.billing.city" cssClass="${cssClass}" path="customer.billing.city" title="${msgCity}" disabled="${fieldDisabled}"/>
 											<form:errors path="customer.billing.city" cssClass="error" />
 										    <span id="error-customer.billing.city" class="error"></span>
 										</div>
@@ -692,7 +690,7 @@ function initPayment(paymentSelection) {
 											<label><s:message code="label.generic.stateprovince" text="State / Province"/> <span class="required">*</span></label>										
 											<form:select cssClass="zone-list" id="billingStateList" path="customer.billing.zone"/>
 											<s:message code="NotEmpty.customer.billing.stateProvince" text="State / Province is required" var="msgStateProvince"/>
-											<form:input  class="${cssClass}" id="billingStateProvince"  maxlength="100" name="billingStateProvince" path="customer.billing.stateProvince" title="${msgStateProvince}" disabled="${disabled}"/>
+											<form:input  class="${cssClass}" id="billingStateProvince"  maxlength="100" name="billingStateProvince" path="customer.billing.stateProvince" title="${msgStateProvince}" disabled="${fieldDisabled}"/>
 											<form:errors path="customer.billing.stateProvince" cssClass="error" />
 											<span id="error-customer.billing.stateProvince" class="error"></span>
 										</div>
@@ -701,7 +699,7 @@ function initPayment(paymentSelection) {
 										<div class="checkout-form-list">
 											<label><s:message code="label.generic.postalcode" text="Postal code"/> <span class="required">*</span></label>										
 											<s:message code="NotEmpty.customer.billing.postalCode" text="Postal code is required" var="msgPostalCode"/>
-											<form:input id="billingPostalCode" cssClass="${cssClass} billing-postalCode" path="customer.billing.postalCode" title="${msgPostalCode}" disabled="${disabled}"/>
+											<form:input id="billingPostalCode" cssClass="${cssClass} billing-postalCode" path="customer.billing.postalCode" title="${msgPostalCode}"/>
 											<form:errors path="customer.billing.postalCode" cssClass="error" />
 											<span id="error-customer.billing.postalCode" class="error"></span>
 										</div>

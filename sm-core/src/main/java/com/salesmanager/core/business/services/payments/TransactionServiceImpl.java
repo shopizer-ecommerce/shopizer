@@ -2,8 +2,12 @@ package com.salesmanager.core.business.services.payments;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -14,6 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.repositories.payments.TransactionRepository;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
+import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.Order;
 import com.salesmanager.core.model.payments.Transaction;
 import com.salesmanager.core.model.payments.TransactionType;
@@ -65,6 +70,53 @@ public class TransactionServiceImpl  extends SalesManagerEntityServiceImpl<Long,
 		
 		return transactions;
 	}
+	
+	/**
+	 * Authorize
+	 * AuthorizeAndCapture
+	 * Capture
+	 * Refund
+	 * 
+	 * Check transactions
+	 * next transaction flow is
+	 * Build map of transactions map
+	 * filter get last from date
+	 * get last transaction type
+	 * verify which step transaction it if
+	 * check if target transaction is in transaction map we are in trouble...
+	 * 
+	 */
+	public Transaction lastTransaction(Order order, MerchantStore store) throws ServiceException {
+		
+		List<Transaction> transactions = transactionRepository.findByOrder(order.getId());
+		//ObjectMapper mapper = new ObjectMapper();
+		
+		//TODO order by date
+	    TreeMap<String, Transaction> map = transactions.stream()
+	    	      .collect(
+
+	    	    		  Collectors.toMap(
+	    	    				  Transaction::getTransactionTypeName, transaction -> transaction,(o1, o2) -> o1, TreeMap::new)
+	    	    		  
+	    	    		  
+	    	    		  );
+	    
+		  
+	    
+		//get last transaction
+	    Entry<String,Transaction> last = map.lastEntry();
+	    
+	    String currentStep = last.getKey();
+	    
+	    System.out.println("Current step " + currentStep);
+	    
+	    //find next step
+	    
+	    return last.getValue();
+	    
+
+
+	}
 
 	@Override
 	public Transaction getCapturableTransaction(Order order)
@@ -103,7 +155,6 @@ public class TransactionServiceImpl  extends SalesManagerEntityServiceImpl<Long,
 		Map<String,Transaction> finalTransactions = new HashMap<String,Transaction>();
 		Transaction finalTransaction = null;
 		for(Transaction transaction : transactions) {
-			//System.out.println("Transaction type " + transaction.getTransactionType().name());
 			if(transaction.getTransactionType().name().equals(TransactionType.AUTHORIZECAPTURE.name())) {
 				finalTransactions.put(TransactionType.AUTHORIZECAPTURE.name(),transaction);
 				continue;

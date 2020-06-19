@@ -9,6 +9,8 @@ response.setDateHeader ("Expires", -1);
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="/WEB-INF/shopizer-tags.tld" prefix="sm"%>
+ 
  
 <%@page contentType="text/html"%>
 <%@page pageEncoding="UTF-8"%>
@@ -50,7 +52,7 @@ response.setDateHeader ("Expires", -1);
 								</div>
 								<div class="product-content text-center">
 									<a class="listing-product-name" href="<c:url value="/shop/product/" />{{description.friendlyUrl}}.html"><h3 itemprop="name">{{description.name}}</h3></a>
-									<!--<span class="text-center width-100"><div class="stars" id="productRating_{{id}}"></div></span>-->
+									<!--<span class="text-center"><div class="stars" id="productRating_{{id}}"></div></span>-->
 									<h4>
 										{{#discounted}}<del>{{originalPrice}}</del>&nbsp;<span itemprop="price" class="specialPrice">{{finalPrice}}</span>{{/discounted}}
 										{{^discounted}}<span itemprop="price">{{finalPrice}}</span>{{/discounted}}
@@ -81,7 +83,11 @@ response.setDateHeader ("Expires", -1);
 	
 		<tiles:insertAttribute name="footer" ignore="true"/>
 
-	<jsp:include page="/pages/shop/templates/generic/sections/jsLinks.jsp" />
+		<jsp:include page="/pages/shop/templates/generic/sections/jsLinks.jsp" />
+		
+		<c:if test="${requestScope.CONTENT['beforeCloseBody']!=null}">
+			<sm:pageContent contentCode="beforeCloseBody"/>
+		</c:if>
 
  	</body>
  

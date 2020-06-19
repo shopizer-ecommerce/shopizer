@@ -15,6 +15,7 @@ import javax.persistence.TableGenerator;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
@@ -30,7 +31,7 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
 	}
 )
 public class ProductAttribute extends SalesManagerEntity<Long, ProductAttribute> {
-	private static final long serialVersionUID = -6537491946539803265L;
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@Column(name = "PRODUCT_ATTRIBUTE_ID", unique=true, nullable=false)
@@ -112,6 +113,7 @@ public class ProductAttribute extends SalesManagerEntity<Long, ProductAttribute>
 		this.attributePrice = attributePrice;
 	}
 
+	@JsonIgnore
 	@ManyToOne(targetEntity = Product.class)
 	@JoinColumn(name = "PRODUCT_ID", nullable = false)
 	private Product product;

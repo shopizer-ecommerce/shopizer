@@ -8,6 +8,7 @@ import com.salesmanager.core.model.order.OrderTotalSummary;
 import com.salesmanager.core.model.shipping.ShippingOption;
 import com.salesmanager.core.model.shipping.ShippingSummary;
 import com.salesmanager.core.model.shoppingcart.ShoppingCartItem;
+import com.salesmanager.shop.model.order.v0.PersistableOrder;
 
 
 /**
@@ -22,6 +23,7 @@ public class ShopOrder extends PersistableOrder implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private List<ShoppingCartItem> shoppingCartItems;//overrides parent API list of shoppingcartitem
+	private String cartCode = null;
 
 	private OrderTotalSummary orderTotalSummary;//The order total displayed to the end user. That object will be used when committing the order
 	
@@ -87,6 +89,12 @@ public class ShopOrder extends PersistableOrder implements Serializable {
 	}
 	public void setDefaultPaymentMethodCode(String defaultPaymentMethodCode) {
 		this.defaultPaymentMethodCode = defaultPaymentMethodCode;
+	}
+	public String getCartCode() {
+		return cartCode;
+	}
+	public void setCartCode(String cartCode) {
+		this.cartCode = cartCode;
 	}
 
 

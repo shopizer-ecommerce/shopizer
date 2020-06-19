@@ -40,6 +40,9 @@ public class ShoppingCartItem extends ShopEntity implements Serializable {
 		this.price = price;
 	}
 	public int getQuantity() {
+		if(quantity <= 0) {
+			quantity = 1;
+		}
 		return quantity;
 	}
 	public void setQuantity(int quantity) {

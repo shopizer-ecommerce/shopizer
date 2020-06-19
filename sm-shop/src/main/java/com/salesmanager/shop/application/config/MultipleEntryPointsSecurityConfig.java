@@ -26,6 +26,7 @@ import com.salesmanager.shop.store.security.AuthenticationTokenFilter;
 import com.salesmanager.shop.store.security.ServicesAuthenticationSuccessHandler;
 import com.salesmanager.shop.store.security.admin.JWTAdminAuthenticationProvider;
 import com.salesmanager.shop.store.security.admin.JWTAdminServicesImpl;
+import com.salesmanager.shop.store.security.customer.JWTCustomerAuthenticationProvider;
 
 /**
  * Main entry point for security - admin - customer - auth - private - services
@@ -38,7 +39,6 @@ import com.salesmanager.shop.store.security.admin.JWTAdminServicesImpl;
 public class MultipleEntryPointsSecurityConfig {
 
 	private static final String API_V1 = "/api/v1";
-	//private static final String API_V0 = "/api/v0";
 
 	@Bean
 	public AuthenticationTokenFilter authenticationTokenFilter() {
@@ -275,7 +275,7 @@ public class MultipleEntryPointsSecurityConfig {
 	 */
 	@Configuration
 	@Order(5)
-	public static class ApiConfigurationAdapter extends WebSecurityConfigurerAdapter {
+	public static class UserApiConfigurationAdapter extends WebSecurityConfigurerAdapter {
 
 		@Autowired
 		private AuthenticationTokenFilter authenticationTokenFilter;
@@ -286,12 +286,13 @@ public class MultipleEntryPointsSecurityConfig {
 		@Bean("jwtAdminAuthenticationManager")
 		@Override
 		public AuthenticationManager authenticationManagerBean() throws Exception {
-			return super.authenticationManagerBean();
+			AuthenticationManager mgr = super.authenticationManagerBean();
+			return mgr;
 		}
 		
 		
 
-		public ApiConfigurationAdapter() {
+		public UserApiConfigurationAdapter() {
 			super();
 		}
 
@@ -392,6 +393,13 @@ public class MultipleEntryPointsSecurityConfig {
 					.addFilterAfter(authenticationTokenFilter, BasicAuthenticationFilter.class);
 
 		}
+		
+	    @Bean
+	    public AuthenticationProvider authenticationProvider() {
+	    	JWTCustomerAuthenticationProvider provider = new JWTCustomerAuthenticationProvider();
+	        provider.setUserDetailsService(jwtCustomerDetailsService);
+	        return provider;
+	    }
 
 		@Bean
 		public AuthenticationEntryPoint apiCustomerAuthenticationEntryPoint() {

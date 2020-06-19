@@ -18,7 +18,6 @@ public class RepositoryHelper {
 
 		if (entityList == null) {
 			entityList = new GenericEntityList();
-			entityList.setTotalCount(count.intValue());
 		}
 
 		if (criteria.isLegacyPagination()) {
@@ -31,10 +30,12 @@ public class RepositoryHelper {
 				}
 			}
 		} else {
-			q.setFirstResult((criteria.getStartPage() - 1) * criteria.getPageSize());
+			int firstResult = ((criteria.getStartPage()==0?criteria.getStartPage()+1:criteria.getStartPage()) - 1) * criteria.getPageSize();
+			q.setFirstResult(firstResult);
 			q.setMaxResults(criteria.getPageSize());
 			int lastPageNumber = (int) ((count.intValue() / criteria.getPageSize()) + 1);
-			entityList.setTotalPage(lastPageNumber);
+			entityList.setTotalPages(lastPageNumber);
+			entityList.setTotalCount(count.intValue());
 		}
 
 		return q;

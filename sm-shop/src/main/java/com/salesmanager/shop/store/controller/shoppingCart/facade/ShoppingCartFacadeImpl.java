@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -386,7 +387,7 @@ public class ShoppingCartFacadeImpl
     }
 
     @Override
-    public ShoppingCartData getShoppingCartData( final Customer customer, final MerchantStore store,
+    public ShoppingCartData getShoppingCartData(final Customer customer, final MerchantStore store,
                                                  final String shoppingCartId, Language language)
         throws Exception
     {
@@ -397,7 +398,6 @@ public class ShoppingCartFacadeImpl
             if ( customer != null )
             {
                 LOG.info( "Reteriving customer shopping cart..." );
-
                 cart = shoppingCartService.getShoppingCart( customer );
 
             }
@@ -410,6 +410,7 @@ public class ShoppingCartFacadeImpl
                 }
 
             }
+
         }
         catch ( ServiceException ex )
         {
@@ -555,9 +556,10 @@ public class ShoppingCartFacadeImpl
         return null;
     }
     
-    @SuppressWarnings("unchecked")
+
+    //TODO promoCode request parameter
 	@Override
-    public ShoppingCartData updateCartItems( final List<ShoppingCartItem> shoppingCartItems, final MerchantStore store, final Language language )
+    public ShoppingCartData updateCartItems( Optional<String> promoCode, final List<ShoppingCartItem> shoppingCartItems, final MerchantStore store, final Language language )
             throws Exception
         {
     	
@@ -595,10 +597,13 @@ public class ShoppingCartFacadeImpl
                     
 
                 cartItems.add(entryToUpdate);
-    			
-    			
-    			
-    			
+
+    		}
+    		
+    		cartModel.setPromoCode(null);
+    		if(promoCode.isPresent()) {
+    			cartModel.setPromoCode(promoCode.get());
+    			cartModel.setPromoAdded(new Date());
     		}
     		
     		cartModel.setLineItems(cartItems);
@@ -721,7 +726,7 @@ public class ShoppingCartFacadeImpl
 	}
 	
 
-	@SuppressWarnings("unchecked")
+
 	@Override
 	public void removeShoppingCartItem(String cartCode, Long productId,
 	      MerchantStore merchant, Language language) throws Exception {

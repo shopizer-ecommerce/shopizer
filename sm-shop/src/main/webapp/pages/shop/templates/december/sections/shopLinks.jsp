@@ -24,6 +24,7 @@
 		<link href="<c:url value="/resources/templates/december/css/owl.carousel.css" />" rel="stylesheet" type="text/css">
 		<link href="<c:url value="/resources/templates/december/css/linearicons-icon-font.min.css" />" rel="stylesheet" type="text/css">
 		<link href="<c:url value="/resources/templates/december/css/font-awesome.min.css" />" rel="stylesheet" type="text/css">
+		<link href="<c:url value="/resources/templates/december/css/starr.css" />" rel="stylesheet" type="text/css">
 
 		<!-- favico -->
 		<!-- favico -->

@@ -126,6 +126,15 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
                                           <form:input cssClass="input-large highlight" id="name${counter.index}" path="descriptions[${counter.index}].name"/>
                                           <span class="help-inline"><form:errors path="descriptions[${counter.index}].name" cssClass="error" /></span>
                               </div>
+                       </div>
+                       
+                       <div class="control-group">
+
+                              <label><s:message code="label.product.price.appender" text="Product price appender"/> (<c:out value="${description.language.code}"/>)</label>
+                              <div class="controls">
+                                          <form:input cssClass="input-large highlight" id="priceAppender${counter.index}" path="descriptions[${counter.index}].priceAppender"/>
+                                          <span class="help-inline"><form:errors path="descriptions[${counter.index}].priceAppender" cssClass="error" /></span>
+                              </div>
                        </div>	
 					
 					   <form:hidden path="descriptions[${counter.index}].language.id" />

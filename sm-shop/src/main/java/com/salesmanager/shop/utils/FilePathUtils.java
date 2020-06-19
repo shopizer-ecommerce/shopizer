@@ -122,15 +122,13 @@ public class FilePathUtils {
 	public String buildStoreUri(MerchantStore store, HttpServletRequest request) {
 		return buildBaseUrl(request, store);
 	}
-
+	
+	
+	/**
+	 *\/<contextPath>
+	 */
 	public String buildStoreUri(MerchantStore store, String contextPath) {
-		String path = normalizePath(contextPath);
-		String scheme = coreConfiguration.getProperty(SHOP_SCHEME, HTTP_VALUE);
-		String domainName = getDomainName(store.getDomainName());
-		return scheme
-				+ DOUBLE_SLASH
-				+ domainName
-				+ path;
+		return normalizePath(contextPath);
 	}
 
 	public String buildRelativeStoreUri(HttpServletRequest request, MerchantStore store) {

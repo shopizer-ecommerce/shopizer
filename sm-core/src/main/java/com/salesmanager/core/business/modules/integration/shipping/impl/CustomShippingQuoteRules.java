@@ -37,16 +37,8 @@ public class CustomShippingQuoteRules implements ShippingQuoteModule {
 	
 	@Inject
 	private DroolsBeanFactory droolsBeanFactory;
-	
-	
-	//private StatelessKnowledgeSession shippingPriceRule;
-	
+
 	public final static String MODULE_CODE = "customQuotesRules";
-	
-	//private KnowledgeBase kbase;
-	
-	//@Inject
-	//KieContainer kieShippingCustomContainer;
 
 	@Override
 	public void validateModuleConfiguration(

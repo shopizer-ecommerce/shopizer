@@ -37,9 +37,12 @@
 
     </util:map>
     
+    <!-- deprecated - now in ProcessorConfiguration -->
+<!--     Discounts processors processors (defined in  shopizer-core-ordertotal-processors.xml)
     <beans:bean id="manufacturerShippingCodeOrderTotalModule" class="com.salesmanager.core.business.modules.order.total.ManufacturerShippingCodeOrderTotalModuleImpl">
 		<beans:property name="pricingService" ref="pricingService" />
 	</beans:bean>
+	End discount processors -->
     
     <!--  Payment integration modules -->
 	<util:map id="paymentModules" map-class="java.util.HashMap" key-type="java.lang.String" value-type="com.salesmanager.core.business.modules.integration.payment.model.PaymentModule">

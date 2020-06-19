@@ -24,7 +24,7 @@ public class Permissions implements Serializable
     private List<ShopPermission> shopPermission = null;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-    private final static long serialVersionUID = 8484447758224382575L;
+    private final static long serialVersionUID = 1L;
 
     @JsonProperty("permission")
     public List<ShopPermission> getShopPermission() {
