@@ -5,6 +5,7 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.references.PersistableAddress;
 import com.salesmanager.shop.model.references.ReadableAddress;
 import com.salesmanager.shop.model.shipping.ExpeditionConfiguration;
+import com.salesmanager.shop.model.shipping.ShippingConfiguration;
 
 public interface ShippingFacade {
 	
@@ -14,6 +15,9 @@ public interface ShippingFacade {
 	
 	ReadableAddress getShippingOrigin(MerchantStore store);
 	void saveShippingOrigin(PersistableAddress address, MerchantStore store);
+	
+	ShippingConfiguration getShippingConfiguration(MerchantStore store);
+	void setShippingConfiguration(ShippingConfiguration configuration, MerchantStore store);
 
 
 }

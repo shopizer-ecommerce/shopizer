@@ -552,14 +552,15 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     }
 
 
+    /** legacy **/
     @Override
     public OrderList listByStore(final MerchantStore store, final OrderCriteria criteria) {
         return orderRepository.listByStore(store, criteria);
     }
 
     @Override
-    public OrderList getOrders(final OrderCriteria criteria) {
-        return orderRepository.getOrders(criteria);
+    public OrderList getOrders(final OrderCriteria criteria, MerchantStore store) {
+        return orderRepository.getOrders(store, criteria);
     }
 
 

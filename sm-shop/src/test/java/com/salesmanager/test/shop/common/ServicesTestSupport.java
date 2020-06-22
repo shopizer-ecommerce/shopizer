@@ -31,6 +31,8 @@ import com.salesmanager.shop.model.catalog.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.ProductDescription;
 import com.salesmanager.shop.model.catalog.product.ProductSpecification;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
+import com.salesmanager.shop.model.shoppingcart.PersistableShoppingCartItem;
+import com.salesmanager.shop.model.shoppingcart.ReadableShoppingCart;
 import com.salesmanager.shop.model.store.ReadableMerchantStore;
 import com.salesmanager.shop.populator.customer.ReadableCustomerList;
 import com.salesmanager.shop.store.security.AuthenticationRequest;
@@ -129,7 +131,7 @@ public class ServicesTestSupport {
       
     }
     
-    protected ReadableProduct readyToWorkProduct(String code) {
+    protected ReadableProduct sampleProduct(String code) {
     	
         final PersistableCategory newCategory = new PersistableCategory();
         newCategory.setCode(code);
@@ -191,6 +193,25 @@ public class ServicesTestSupport {
         assertThat(readableProduct.getStatusCode(), is(OK));
 
         return readableProduct.getBody();
+    }
+    
+    protected ReadableShoppingCart sampleCart() {
+    	
+    	
+    	ReadableProduct product = sampleProduct("sampleCart");
+    	assertNotNull(product);
+
+        PersistableShoppingCartItem cartItem = new PersistableShoppingCartItem();
+        cartItem.setProduct(product.getId());
+        cartItem.setQuantity(1);
+
+        final HttpEntity<PersistableShoppingCartItem> cartEntity = new HttpEntity<>(cartItem, getHeader());
+        final ResponseEntity<ReadableShoppingCart> response = testRestTemplate.postForEntity(String.format("/api/v1/cart/"), cartEntity, ReadableShoppingCart.class);
+        
+        assertNotNull(response);
+        assertThat(response.getStatusCode(), is(CREATED));
+    	
+    	return response.getBody();
     }
 
 

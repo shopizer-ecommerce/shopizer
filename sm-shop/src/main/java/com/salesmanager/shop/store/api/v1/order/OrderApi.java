@@ -200,10 +200,13 @@ public class OrderApi {
 	@RequestMapping(value = { "/private/orders" }, method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
-	public ReadableOrderList listAll(
+	public ReadableOrderList list(
 			@RequestParam(value = "count", required = false, defaultValue = "50") Integer count,
 			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-			@RequestParam(value = "name", required = false) String name, 
+			@RequestParam(value = "name", required = false) String name,
+			@RequestParam(value = "id", required = false) Long id,
+			@RequestParam(value = "status", required = false) String status,
+			@RequestParam(value = "phone", required = false) String phone,
 			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
 
@@ -211,9 +214,11 @@ public class OrderApi {
 		orderCriteria.setPageSize(count);
 		orderCriteria.setStartPage(page);
 
-		if (!StringUtils.isBlank(name)) {
-			orderCriteria.setCustomerName(name);
-		}
+		orderCriteria.setCustomerName(name);
+		orderCriteria.setCustomerPhone(phone);
+		orderCriteria.setStatus(status);
+		orderCriteria.setId(id);
+
 
 		String user = authorizationUtils.authenticatedUser();
 		authorizationUtils.authorizeUser(user, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN,
@@ -362,8 +367,10 @@ public class OrderApi {
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
-	public PersistableOrder checkout(@PathVariable final String code,
-			@Valid @RequestBody PersistableAnonymousOrder order, @ApiIgnore MerchantStore merchantStore,
+	public PersistableOrder checkout(
+			@PathVariable final String code,
+			@Valid @RequestBody PersistableAnonymousOrder order, 
+			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
 
 		Validate.notNull(order.getCustomer(), "Customer must not be null");

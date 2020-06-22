@@ -20,6 +20,9 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
     @PersistenceContext
     private EntityManager em;
     
+    /**
+     * @deprecated
+     */
 	@SuppressWarnings("unchecked")
 	@Override
 	public OrderList listByStore(MerchantStore store, OrderCriteria criteria) {
@@ -135,7 +138,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 	}
 
 	@Override
-	public OrderList getOrders(OrderCriteria criteria) {
+	public OrderList getOrders(MerchantStore store, OrderCriteria criteria) {
 		OrderList orderList = new OrderList();
 		StringBuilder countBuilderSelect = new StringBuilder();
 		StringBuilder objectBuilderSelect = new StringBuilder();
@@ -154,19 +157,34 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		objectBuilderSelect.append(baseQuery);
 
 		StringBuilder objectBuilderWhere = new StringBuilder();
-		
-		if(!StringUtils.isEmpty(criteria.getStoreCode())) {
-			String storeQuery =" where om.code=:mCode";;
-			objectBuilderWhere.append(storeQuery);
-			countBuilderSelect.append(storeQuery);
-		}
+
+		String storeQuery =" where om.code=:mCode";;
+		objectBuilderWhere.append(storeQuery);
+		countBuilderSelect.append(storeQuery);
 		
 		if(!StringUtils.isEmpty(criteria.getCustomerName())) {
-			String appender = " and";
-			if(StringUtils.isEmpty(criteria.getStoreCode())) {
-				appender = " where";
-			}
-			String nameQuery = appender + " o.billing.firstName like:name or o.billing.lastName like:name";
+			String nameQuery =  " and o.billing.firstName like:name or o.billing.lastName like:name";
+			objectBuilderWhere.append(nameQuery);
+			countBuilderSelect.append(nameQuery);
+		}
+		
+		//id
+		if(criteria.getId() != null) {
+			String nameQuery =  " and o.id like:id";
+			objectBuilderWhere.append(nameQuery);
+			countBuilderSelect.append(nameQuery);
+		}
+		
+		//phone
+		if(!StringUtils.isEmpty(criteria.getCustomerPhone())) {
+			String nameQuery =  " and o.billing.telephone like:phone or o.delivery.telephone like:phone";
+			objectBuilderWhere.append(nameQuery);
+			countBuilderSelect.append(nameQuery);
+		}
+		
+		//status
+		if(!StringUtils.isEmpty(criteria.getStatus())) {
+			String nameQuery =  " and o.status like:status";
 			objectBuilderWhere.append(nameQuery);
 			countBuilderSelect.append(nameQuery);
 		}
@@ -186,10 +204,27 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 			objectQ.setParameter("name", criteria.getCustomerName());
 		}
 		
-		if(!StringUtils.isEmpty(criteria.getStoreCode())) {
-			countQ.setParameter("mCode", criteria.getStoreCode());
-			objectQ.setParameter("mCode", criteria.getStoreCode());
+		//id
+		if(criteria.getId() != null) {
+			countQ.setParameter("id", criteria.getId());
+			objectQ.setParameter("id", criteria.getId());
 		}
+		
+		//phone
+		if(!StringUtils.isEmpty(criteria.getCustomerPhone())) {
+			countQ.setParameter("phone", criteria.getCustomerPhone());
+			objectQ.setParameter("phone", criteria.getCustomerPhone());
+		}
+		
+		//status
+		if(!StringUtils.isEmpty(criteria.getStatus())) {
+			countQ.setParameter("status", criteria.getStatus());
+			objectQ.setParameter("phone", criteria.getStatus());
+		}
+		
+
+		countQ.setParameter("mCode", store.getCode());
+		objectQ.setParameter("mCode", store.getCode());
 
 
 		Number count = (Number) countQ.getSingleResult();
