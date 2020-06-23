@@ -138,7 +138,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 	}
 
 	@Override
-	public OrderList getOrders(MerchantStore store, OrderCriteria criteria) {
+	public OrderList listOrders(MerchantStore store, OrderCriteria criteria) {
 		OrderList orderList = new OrderList();
 		StringBuilder countBuilderSelect = new StringBuilder();
 		StringBuilder objectBuilderSelect = new StringBuilder();
@@ -164,6 +164,12 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		
 		if(!StringUtils.isEmpty(criteria.getCustomerName())) {
 			String nameQuery =  " and o.billing.firstName like:name or o.billing.lastName like:name";
+			objectBuilderWhere.append(nameQuery);
+			countBuilderSelect.append(nameQuery);
+		}
+		
+		if(!StringUtils.isEmpty(criteria.getEmail())) {
+			String nameQuery =  " and o.customerEmailAddress like:email";
 			objectBuilderWhere.append(nameQuery);
 			countBuilderSelect.append(nameQuery);
 		}
@@ -199,9 +205,16 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		Query objectQ = em.createQuery(
 				objectBuilderSelect.toString() + objectBuilderWhere.toString());
 		
+		//customer name
 		if(!StringUtils.isEmpty(criteria.getCustomerName())) {
 			countQ.setParameter("name", criteria.getCustomerName());
 			objectQ.setParameter("name", criteria.getCustomerName());
+		}
+		
+		//email
+		if(!StringUtils.isEmpty(criteria.getEmail())) {
+			countQ.setParameter("email", criteria.getEmail());
+			objectQ.setParameter("email", criteria.getEmail());			
 		}
 		
 		//id

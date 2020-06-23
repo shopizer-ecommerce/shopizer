@@ -560,7 +560,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
 
     @Override
     public OrderList getOrders(final OrderCriteria criteria, MerchantStore store) {
-        return orderRepository.getOrders(store, criteria);
+        return orderRepository.listOrders(store, criteria);
     }
 
 

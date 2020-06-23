@@ -10,6 +10,7 @@ public class OrderCriteria extends Criteria {
 	private Long id = null;
 	private String paymentMethod;
 	private Long customerId;
+	private String email;
 	public void setPaymentMethod(String paymentMethod) {
 		this.paymentMethod = paymentMethod;
 	}
@@ -47,6 +48,12 @@ public class OrderCriteria extends Criteria {
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
 	}
    
 	

@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.jsoup.helper.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,6 +78,8 @@ public class OrderApi {
 
 	@Inject
 	private AuthorizationUtils authorizationUtils;
+	
+	private static final String DEFAULT_ORDER_LIST_COUNT = "25";
 
 	/**
 	 * Get a list of orders for a given customer accept request parameter
@@ -201,12 +202,13 @@ public class OrderApi {
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	public ReadableOrderList list(
-			@RequestParam(value = "count", required = false, defaultValue = "50") Integer count,
+			@RequestParam(value = "count", required = false, defaultValue = DEFAULT_ORDER_LIST_COUNT) Integer count,
 			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
 			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "id", required = false) Long id,
 			@RequestParam(value = "status", required = false) String status,
 			@RequestParam(value = "phone", required = false) String phone,
+			@RequestParam(value = "email", required = false) String email,
 			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
 
@@ -217,6 +219,7 @@ public class OrderApi {
 		orderCriteria.setCustomerName(name);
 		orderCriteria.setCustomerPhone(phone);
 		orderCriteria.setStatus(status);
+		orderCriteria.setEmail(email);
 		orderCriteria.setId(id);
 
 
