@@ -13,6 +13,7 @@ import com.salesmanager.shop.model.customer.attribute.CustomerOptionValueDescrip
 import com.salesmanager.shop.model.customer.attribute.ReadableCustomerAttribute;
 import com.salesmanager.shop.model.customer.attribute.ReadableCustomerOption;
 import com.salesmanager.shop.model.customer.attribute.ReadableCustomerOptionValue;
+import org.apache.commons.lang3.StringUtils;
 
 public class ReadableCustomerPopulator extends
 		AbstractDataPopulator<Customer, ReadableCustomer> {
@@ -33,6 +34,23 @@ public class ReadableCustomerPopulator extends
 			target.setId(source.getId());
 		}
 		target.setEmailAddress(source.getEmailAddress());
+
+		if (StringUtils.isNotEmpty(source.getNick())) {
+			target.setUserName(source.getNick());
+		}
+
+		if (source.getDefaultLanguage()!= null) {
+			target.setLanguage(source.getDefaultLanguage().getCode());
+		}
+
+		if (source.getGender()!= null) {
+			target.setGender(source.getGender().name());
+		}
+
+		if (StringUtils.isNotEmpty(source.getProvider())) {
+			target.setProvider(source.getProvider());
+		}
+
 		if(source.getBilling()!=null) {
 			Address address = new Address();
 			address.setAddress(source.getBilling().getAddress());
