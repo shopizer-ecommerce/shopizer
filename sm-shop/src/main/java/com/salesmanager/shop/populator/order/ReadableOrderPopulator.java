@@ -19,6 +19,7 @@ import com.salesmanager.core.model.order.OrderTotal;
 import com.salesmanager.core.model.order.OrderTotalType;
 import com.salesmanager.core.model.order.attributes.OrderAttribute;
 import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.model.customer.ReadableBilling;
 import com.salesmanager.shop.model.customer.ReadableDelivery;
 import com.salesmanager.shop.model.customer.address.Address;
 import com.salesmanager.shop.model.order.v0.ReadableOrder;
@@ -80,7 +81,8 @@ public class ReadableOrderPopulator extends
 		
 		
 		if(source.getBilling()!=null) {
-			Address address = new Address();
+			ReadableBilling address = new ReadableBilling();
+			address.setEmail(source.getCustomerEmailAddress());
 			address.setCity(source.getBilling().getCity());
 			address.setAddress(source.getBilling().getAddress());
 			address.setCompany(source.getBilling().getCompany());
