@@ -16,7 +16,7 @@ response.setDateHeader ("Expires", -1);
 
 
           <div class="control-group">
-            <label class="control-label"><s:message code="label.payment.paypal.usepaypal" text="Use PayPal"/></label>
+            <label class="control-label"><s:message code="label.payment.paypal.usepaypal" text="Use PayTM"/></label>
             <div class="controls">
                <jsp:include page="/pages/shop/common/checkout/selectedPayment.jsp" />
             </div>
@@ -27,6 +27,8 @@ response.setDateHeader ("Expires", -1);
 		 	<a href="https://www.paypal.com/webapps/mpp/paypal-popup" title="How PayPal Works" onclick="javascript:window.open('https://www.paypal.com/webapps/mpp/paypal-popup','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;"><img src="https://www.paypalobjects.com/webstatic/mktg/logo/AM_mc_vs_dc_ae.jpg" width="200" border="0" alt="PayPal Acceptance Mark"></a>
 		 	-->
 		 
-		 	<!-- PayPal Logo -->
-		 	<table border="0" cellpadding="10" cellspacing="0" align="center"><tr><td align="center"></td></tr><tr><td align="center"><a href="https://www.paypal.com/webapps/mpp/paypal-popup" title="How PayPal Works" onclick="javascript:window.open('https://www.paypal.com/webapps/mpp/paypal-popup','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;"><img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_74x46.jpg" border="0" alt="PayPal Logo"></a></td></tr></table><!-- PayPal Logo -->
+		 	<!-- PayTM 
+		 	<table border="0" cellpadding="10" cellspacing="0" align="center"><tr><td align="center"></td></tr><tr><td align="center"><a href="https://blog.paytm.com/how-to-use-paytm-5613fda6956b" title="How PayTM Works" onclick="javascript:window.open('https://blog.paytm.com/how-to-use-paytm-5613fda6956b','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;"><img src="https://upload.wikimedia.org/wikipedia/commons/4/42/Paytm_logo.png" border="0" alt="PayPal Logo"></a></td></tr></table> PayPal Logo -->
+			
+			<table border="0" cellpadding="10" cellspacing="0" align="center"><tr><td align="center"></td></tr><tr><td align="center"><a href="https://blog.paytm.com/how-to-use-paytm-5613fda6956b" title="How PayTM Works" onclick="javascript:window.open('https://blog.paytm.com/how-to-use-paytm-5613fda6956b','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;"><img src="<c:url value="/resources/img/paytm_logo.jpg"/>"  border="0" alt="PayPal Logo"></a></td></tr></table>
 		 </div>

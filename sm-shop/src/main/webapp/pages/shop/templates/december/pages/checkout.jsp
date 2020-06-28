@@ -965,12 +965,25 @@ function initPayment(paymentSelection) {
 											name="${paymentMethod.paymentMethodCode}"
 											aria-controls="#${paymentMethod.paymentType}" role="tab"
 											data-toggle="tab"> 
-
+											<c:choose>
+													<c:when
+														test="${paymentMethod.paymentMethodCode=='moneyorder'}">
+														<h5>Cash On Delivery</h5>
+													</c:when>
+													<c:when
+														test="${paymentMethod.paymentMethodCode=='paypal-express-checkout'}">
+														<h5>PayTM</h5>
+													</c:when>
+													<c:otherwise>
 														<h5>
 															<s:message
 																code="payment.type.${paymentMethod.paymentType}"
 																text="Payment method type [payment.type.${paymentMethod.paymentType}] not defined in payment.properties" />
 														</h5>
+													</c:otherwise>
+												</c:choose>
+
+
 
 										</a>
 										</li>
@@ -1095,6 +1108,27 @@ function initPayment(paymentSelection) {
 				//initMap();
 				</c:if>	
 			}
+			
+				$( function() {
+					
+					 var prefix = 'Bhopal, Madhya Pradesh, ';
+		          
+				$('#addressAutocomplete').on('input',function(){
+				var str = $('#addressAutocomplete').val();
+				if(str.indexOf(prefix) == 0) {
+					// string already started with prefix
+					return;
+				} else {
+					if (prefix.indexOf(str) >= 0) {
+						// string is part of prefix
+						$('#addressAutocomplete').val(prefix);
+					} else {
+						$('#addressAutocomplete').val(prefix+str);
+					}
+				}
+			   });
+			
+			});
 		
 		</script>
 		

@@ -97,11 +97,16 @@ public class PaymentController extends AbstractController{
 	                } else {
 	                    result = "Payment Failed";
 	                    
-	                    redirectURL = "redirect:" + Constants.SHOP_URI + "/order/checkout.html";
-	                    updatedredirectURL.append(redirectURL);
+	                    redirectURL = "redirect:" + Constants.SHOP_URI + "/order/failedPayment";
+	                    updatedredirectURL.append(redirectURL).
+	                    append("/").append(parameters.get("RESPCODE"));
 	                }
 	            } else {
 	                result = "Checksum mismatched";
+	                
+	                redirectURL = "redirect:" + Constants.SHOP_URI + "/order/failedPayment";
+                    updatedredirectURL.append(redirectURL).
+                    append("/").append(parameters.get("RESPCODE"));
 	            }
 	        } catch (Exception e) {
 	            result = e.toString();
