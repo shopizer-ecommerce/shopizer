@@ -1,6 +1,7 @@
 package com.salesmanager.shop.model.order.v0;
 
 import com.salesmanager.core.model.reference.currency.Currency;
+import com.salesmanager.shop.model.customer.ReadableBilling;
 import com.salesmanager.shop.model.customer.ReadableCustomer;
 import com.salesmanager.shop.model.customer.ReadableDelivery;
 import com.salesmanager.shop.model.customer.address.Address;
@@ -23,7 +24,7 @@ public class ReadableOrder extends OrderEntity implements Serializable {
 	private List<ReadableOrderProduct> products;
 	private Currency currencyModel;
 	
-	private Address billing;
+	private ReadableBilling billing;
 	private ReadableDelivery delivery;
 	private ReadableMerchantStore store;
 	
@@ -68,10 +69,10 @@ public class ReadableOrder extends OrderEntity implements Serializable {
 		this.currencyModel = currencyModel;
 	}
 
-	public Address getBilling() {
+	public ReadableBilling getBilling() {
 		return billing;
 	}
-	public void setBilling(Address billing) {
+	public void setBilling(ReadableBilling billing) {
 		this.billing = billing;
 	}
 

@@ -387,4 +387,16 @@ public class S3StaticContentAssetsManagerImpl implements ContentAssetsManager {
     this.cmsManager = cmsManager;
   }
 
+@Override
+public void addFolder(String merchantStoreCode, String folderName, String parent) throws ServiceException {
+	// TODO Auto-generated method stub
+	
+}
+
+@Override
+public void removeFolder(String merchantStoreCode, String folderName) throws ServiceException {
+	// TODO Auto-generated method stub
+	
+}
+
 }
