@@ -151,14 +151,16 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 			}
 		}
 
-		String countBaseQuery = "select count(o) from Order as o";
-		String baseQuery = "select o from Order as o left join fetch o.merchant om left join fetch o.orderTotal ot left join fetch o.orderProducts op left join fetch o.orderAttributes oa left join fetch op.orderAttributes opo left join fetch op.prices opp";
+		
+		String baseQuery = "select o from Order as o left join fetch o.orderTotal ot left join fetch o.orderProducts op left join fetch o.orderAttributes oa left join fetch op.orderAttributes opo left join fetch op.prices opp";
+		String countBaseQuery = "select count(o) from Order as o join o.orderTotal ot join o.orderProducts op join o.orderAttributes oa join op.orderAttributes opo join op.prices opp";
+		
 		countBuilderSelect.append(countBaseQuery);
 		objectBuilderSelect.append(baseQuery);
 
 		StringBuilder objectBuilderWhere = new StringBuilder();
 
-		String storeQuery =" where om.code=:mCode";;
+		String storeQuery =" where o.merchant.code=:mCode";;
 		objectBuilderWhere.append(storeQuery);
 		countBuilderSelect.append(storeQuery);
 		
