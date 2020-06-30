@@ -35,12 +35,12 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
 	@Override
 	public Product getById(Long productId, MerchantStore store) {
-		return this.get(productId, store);
+		return get(productId, store);
 	}
 
 	@Override
 	public Product getById(Long productId) {
-		return this.get(productId, null);
+		return get(productId, null);
 	}
 
 
@@ -65,9 +65,13 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 	private Product get(Long productId, MerchantStore merchant) {
 
 		try {
+			
+			Integer merchantId = null;
+			Integer parentId = null;
+			List<Integer> ids = new ArrayList<Integer>();
 
 			StringBuilder qs = new StringBuilder();
-			qs.append("select distinct p from Product as p ");
+			/*qs.append("select distinct p from Product as p ");
 			qs.append("join fetch p.availabilities pa ");
 			qs.append("join fetch p.merchantStore merch ");
 			qs.append("join fetch p.descriptions pd ");
@@ -94,19 +98,36 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			qs.append("left join fetch p.taxClass tx ");
 
 			// RENTAL
-			qs.append("left join fetch p.owner owner ");
+			qs.append("left join fetch p.owner owner ");*/
+			
+			qs.append(productQuery());
 
 			qs.append("where p.id=:pid");
 			if (merchant != null) {
-				qs.append(" and merch.id=:mid");
+				merchantId = merchant.getId();
+				ids.add(merchantId);
+				if(merchant.getParent()!=null) {
+					parentId = merchant.getParent().getId();
+					ids.add(parentId);
+				}
+			}
+			
+			if(merchantId != null) {
+				//qs.append(" and merch.id=:mid");
+				qs.append(" and merch.id in (:mid)");
 			}
 
 			String hql = qs.toString();
 			Query q = this.em.createQuery(hql);
 
 			q.setParameter("pid", productId);
-			if (merchant != null) {
-				q.setParameter("mid", merchant.getId());
+			//if (merchant != null) {
+				//q.setParameter("mid", merchant.getId());
+			//}
+			
+			if(merchantId != null) {
+				//q.setParameter("mid", merchant.getId());
+				q.setParameter("mid", ids);
 			}
 
 			Product p = (Product) q.getSingleResult();
@@ -383,7 +404,6 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
 		qs.append("join fetch p.descriptions pd ");
 		qs.append("join fetch p.categories categs ");
-
 		qs.append("left join fetch pap.descriptions papd ");
 
 		// images
@@ -939,6 +959,46 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
 		return products;
 
+	}
+	
+	private String productQuery() {
+		StringBuilder qs = new StringBuilder();
+		qs.append("select distinct p from Product as p ");
+		qs.append("join fetch p.availabilities pa ");
+		qs.append("join fetch p.merchantStore merch ");
+		qs.append("join fetch p.descriptions pd ");
+
+		qs.append("left join fetch p.categories categs ");
+		qs.append("left join fetch categs.descriptions categsd ");
+
+		qs.append("left join fetch pa.prices pap ");
+		qs.append("left join fetch pap.descriptions papd ");
+
+		// images
+		qs.append("left join fetch p.images images ");
+		// options
+		qs.append("left join fetch p.attributes pattr ");
+		qs.append("left join fetch pattr.productOption po ");
+		qs.append("left join fetch po.descriptions pod ");
+		qs.append("left join fetch pattr.productOptionValue pov ");
+		qs.append("left join fetch pov.descriptions povd ");
+		
+		//relations
+		qs.append("left join fetch p.relationships pr ");
+		
+		// variants
+		qs.append("left join fetch pa.variants pav ");
+		qs.append("left join fetch pav.attribute pavattr ");
+		
+		// other lefts
+		qs.append("left join fetch p.manufacturer manuf ");
+		qs.append("left join fetch manuf.descriptions manufd ");
+		qs.append("left join fetch p.type type ");
+		qs.append("left join fetch p.taxClass tx ");
+
+		// RENTAL
+		qs.append("left join fetch p.owner owner ");
+		return qs.toString();
 	}
 
 }

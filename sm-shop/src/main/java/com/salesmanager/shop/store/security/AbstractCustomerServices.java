@@ -84,10 +84,6 @@ public abstract class AbstractCustomerServices implements UserDetailsService{
 			}
 			
 
-			
-
-		
-		
 		} catch (ServiceException e) {
 			LOGGER.error("Exception while querrying customer",e);
 			throw new SecurityDataAccessException("Cannot authenticate customer",e);

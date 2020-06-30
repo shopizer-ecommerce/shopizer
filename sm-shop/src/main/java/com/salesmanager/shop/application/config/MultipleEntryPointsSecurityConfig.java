@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,6 +27,7 @@ import com.salesmanager.shop.store.security.AuthenticationTokenFilter;
 import com.salesmanager.shop.store.security.ServicesAuthenticationSuccessHandler;
 import com.salesmanager.shop.store.security.admin.JWTAdminAuthenticationProvider;
 import com.salesmanager.shop.store.security.admin.JWTAdminServicesImpl;
+import com.salesmanager.shop.store.security.customer.JWTCustomerAuthenticationProvider;
 
 /**
  * Main entry point for security - admin - customer - auth - private - services
@@ -110,8 +112,11 @@ public class MultipleEntryPointsSecurityConfig {
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			http
+			.sessionManagement()
+			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			.and()
 			.antMatcher("/shop/**")
-			.csrf().disable()
+			.csrf().disable()			
 			.authorizeRequests()
 					.antMatchers("/shop/").permitAll()
 					.antMatchers("/shop/**").permitAll()
@@ -274,7 +279,7 @@ public class MultipleEntryPointsSecurityConfig {
 	 */
 	@Configuration
 	@Order(5)
-	public static class ApiConfigurationAdapter extends WebSecurityConfigurerAdapter {
+	public static class UserApiConfigurationAdapter extends WebSecurityConfigurerAdapter {
 
 		@Autowired
 		private AuthenticationTokenFilter authenticationTokenFilter;
@@ -285,12 +290,13 @@ public class MultipleEntryPointsSecurityConfig {
 		@Bean("jwtAdminAuthenticationManager")
 		@Override
 		public AuthenticationManager authenticationManagerBean() throws Exception {
-			return super.authenticationManagerBean();
+			AuthenticationManager mgr = super.authenticationManagerBean();
+			return mgr;
 		}
 		
 		
 
-		public ApiConfigurationAdapter() {
+		public UserApiConfigurationAdapter() {
 			super();
 		}
 
@@ -391,6 +397,13 @@ public class MultipleEntryPointsSecurityConfig {
 					.addFilterAfter(authenticationTokenFilter, BasicAuthenticationFilter.class);
 
 		}
+		
+	    @Bean
+	    public AuthenticationProvider authenticationProvider() {
+	    	JWTCustomerAuthenticationProvider provider = new JWTCustomerAuthenticationProvider();
+	        provider.setUserDetailsService(jwtCustomerDetailsService);
+	        return provider;
+	    }
 
 		@Bean
 		public AuthenticationEntryPoint apiCustomerAuthenticationEntryPoint() {

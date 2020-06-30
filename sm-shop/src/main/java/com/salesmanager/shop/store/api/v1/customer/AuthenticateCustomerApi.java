@@ -140,6 +140,7 @@ public class AuthenticateCustomerApi {
     @ResponseBody
     public ResponseEntity<?> authenticate(@RequestBody @Valid AuthenticationRequest authenticationRequest) throws AuthenticationException {
 
+    	//TODO SET STORE in flow
         // Perform the security
         Authentication authentication = null;
         try {
@@ -154,7 +155,7 @@ public class AuthenticateCustomerApi {
                 );
 
         } catch(BadCredentialsException unn) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        	return new ResponseEntity<>("{\"message\":\"Bad credentials\"}",HttpStatus.UNAUTHORIZED);
         } catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

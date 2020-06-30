@@ -21,8 +21,6 @@ response.setDateHeader ("Expires", -1);
 <!-- overrides with v2 page -->
 <c:set var="creditCardInformationsPage" value="creditCardInformations-v2" scope="request"/>
 
-<!-- phone number mask -->
-<script src="<c:url value="/resources/js/jquery.maskedinput.min.js" />"></script>
 <!-- generic checkout script -->
 <script src="<c:url value="/resources/js/shop-checkout.js" />"></script>
 

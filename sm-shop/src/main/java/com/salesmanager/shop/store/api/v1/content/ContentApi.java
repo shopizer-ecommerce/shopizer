@@ -100,7 +100,7 @@ public class ContentApi {
    * @return
    */
   @GetMapping(value = "/content/boxes", produces = MediaType.APPLICATION_JSON_VALUE)
-  @ApiOperation(httpMethod = "GET", value = "Get pages summary created for a given MerchantStore",
+  @ApiOperation(httpMethod = "GET", value = "Get boxes for a given MerchantStore",
       notes = "", produces = "application/json", response = List.class)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
@@ -161,7 +161,7 @@ public class ContentApi {
   }
   
   @GetMapping(value = "/private/contents/any", produces = MediaType.APPLICATION_JSON_VALUE)
-  @ApiOperation(httpMethod = "GET", value = "Get contents (page and boc) for a given MerchantStore",
+  @ApiOperation(httpMethod = "GET", value = "Get contents (page and box) for a given MerchantStore",
       notes = "", produces = "application/json", response = ReadableContentPage.class)
   @ApiImplicitParams({
     @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
@@ -190,6 +190,14 @@ public class ContentApi {
     return contentFacade.getContentBox(code, merchantStore, language);
   }
 
+  /**
+   * TODO
+   * @param path
+   * @param merchantStore
+   * @param language
+   * @return
+   * @throws Exception
+   */
   @GetMapping(value = "/content/folder", produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
@@ -198,6 +206,28 @@ public class ContentApi {
       @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) throws Exception {
     String decodedPath = decodeContentPath(path);
     return contentFacade.getContentFolder(decodedPath, merchantStore);
+  }
+  
+  /**
+   * TODO
+   * @param parent
+   * @param folder
+   * @param merchantStore
+   * @param language
+   */
+  @DeleteMapping(value = "/content/folder", produces = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseStatus(HttpStatus.CREATED)
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
+  public void addFolder(
+	  @RequestParam String parent,
+	  @RequestParam String folder,
+      @ApiIgnore MerchantStore merchantStore, 
+      @ApiIgnore Language language) {
+    
+
+
   }
 
 

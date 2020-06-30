@@ -1,27 +1,20 @@
 package com.salesmanager.shop.admin.controller.user;
 
-import com.salesmanager.core.business.exception.ServiceException;
-import com.salesmanager.core.business.modules.email.Email;
-import com.salesmanager.core.business.services.merchant.MerchantStoreService;
-import com.salesmanager.core.business.services.reference.country.CountryService;
-import com.salesmanager.core.business.services.reference.language.LanguageService;
-import com.salesmanager.core.business.services.system.EmailService;
-import com.salesmanager.core.business.services.user.GroupService;
-import com.salesmanager.core.business.services.user.UserService;
-import com.salesmanager.core.business.utils.ajax.AjaxResponse;
-import com.salesmanager.core.model.merchant.MerchantStore;
-import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.core.model.user.Group;
-import com.salesmanager.core.model.user.GroupType;
-import com.salesmanager.core.model.user.User;
-import com.salesmanager.shop.admin.controller.ControllerConstants;
-import com.salesmanager.shop.admin.model.secutity.Password;
-import com.salesmanager.shop.admin.model.userpassword.UserReset;
-import com.salesmanager.shop.admin.model.web.Menu;
-import com.salesmanager.shop.admin.security.SecurityQuestion;
-import com.salesmanager.shop.constants.Constants;
-import com.salesmanager.shop.constants.EmailConstants;
-import com.salesmanager.shop.utils.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,13 +33,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-import java.util.*;
+import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.modules.email.Email;
+import com.salesmanager.core.business.services.merchant.MerchantStoreService;
+import com.salesmanager.core.business.services.reference.language.LanguageService;
+import com.salesmanager.core.business.services.system.EmailService;
+import com.salesmanager.core.business.services.user.GroupService;
+import com.salesmanager.core.business.services.user.UserService;
+import com.salesmanager.core.business.utils.ajax.AjaxResponse;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.model.user.Group;
+import com.salesmanager.core.model.user.GroupType;
+import com.salesmanager.core.model.user.User;
+import com.salesmanager.shop.admin.controller.ControllerConstants;
+import com.salesmanager.shop.admin.model.secutity.Password;
+import com.salesmanager.shop.admin.model.userpassword.UserReset;
+import com.salesmanager.shop.admin.model.web.Menu;
+import com.salesmanager.shop.admin.security.SecurityQuestion;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.constants.EmailConstants;
+import com.salesmanager.shop.utils.EmailUtils;
+import com.salesmanager.shop.utils.FilePathUtils;
+import com.salesmanager.shop.utils.LabelUtils;
+import com.salesmanager.shop.utils.LocaleUtils;
+import com.salesmanager.shop.utils.UserUtils;
 
 @Controller
 public class UserController {
@@ -61,10 +72,7 @@ public class UserController {
 
 	@Inject
 	private GroupService groupService;
-	
-	@Inject
-	private CountryService countryService;
-	
+
 	@Inject
 	private EmailService emailService;
 	
@@ -90,7 +98,7 @@ public class UserController {
 	private final static String RESET_PASSWORD_TPL = "email_template_password_reset_user.ftl";	
 	private final static String NEW_USER_TMPL = "email_template_new_user.ftl";
 	
-	@PreAuthorize("hasRole('STORE_ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@RequestMapping(value="/admin/users/list.html", method=RequestMethod.GET)
 	public String displayUsers(Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
 
@@ -106,7 +114,7 @@ public class UserController {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	@PreAuthorize("hasRole('STORE_ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@RequestMapping(value = "/admin/users/paging.html", method = RequestMethod.POST)
 	public @ResponseBody
 	ResponseEntity<String> pageUsers(HttpServletRequest request,
@@ -234,7 +242,7 @@ public class UserController {
 		return ControllerConstants.Tiles.User.password;
 	}
 	
-	@PreAuthorize("hasRole('STORE_ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@RequestMapping(value="/admin/users/createUser.html", method=RequestMethod.GET)
 	public String displayUserCreate(Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
 		return displayUser(null,model,request,response,locale);
@@ -645,7 +653,7 @@ public class UserController {
 			User user = userService.getById(userId);
 			
 			/**
-			 * In order to remove a User the logged in ser must be STORE_ADMIN
+			 * In order to remove a User the logged in ser must be ADMIN
 			 * or SUPER_USER
 			 */
 			

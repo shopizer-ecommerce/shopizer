@@ -376,22 +376,18 @@ $(document).ready(function() {
                     <c:set var="code" value="${category.code}"/>
                     <c:forEach items="${requestScope.TOP_CATEGORIES}" var="category">
                     <c:if test="${category.visible}">
-                    <!-- mega menu style -->
-                    <!--<li class="col-sm-2 col-xs-12" style="margin-bottom:40px;">-->
                     <li>
-                      <!-- mega menu style -->
-                      <!--<ul class="list-unstyled">-->
-                        <li class="<sm:activeLink linkCode="${category.description.friendlyUrl}" activeReturnCode="active"/>"><a href="<c:url value="/shop/category/${category.description.friendlyUrl}.html"/><sm:breadcrumbParam categoryId="${category.id}"/>"><c:out value="${category.description.name}"/></a>
+                        <li class="<c:if test="${fn:length(category.children)>0}">dropdown-submenu</c:if> <sm:activeLink linkCode="${category.description.friendlyUrl}" activeReturnCode="active"/>"><a href="<c:url value="/shop/category/${category.description.friendlyUrl}.html"/><sm:breadcrumbParam categoryId="${category.id}"/>"><c:out value="${category.description.name}"/></a>
                         <c:if test="${fn:length(category.children)>0}">
+                        		<ul class="dropdown-menu">
 								<c:forEach items="${category.children}" var="child">
 									<c:if test="${child.visible}">
-									<li style="margin-bottom:-10px;"><a href="<c:url value="/shop/category/${child.description.friendlyUrl}.html"/><sm:breadcrumbParam categoryId="${child.id}"/>"><c:out value="${child.description.name}"/></a></li>
+									<li><a href="<c:url value="/shop/category/${child.description.friendlyUrl}.html"/><sm:breadcrumbParam categoryId="${child.id}"/>"><c:out value="${child.description.name}"/></a></li>
 									</c:if>		
 								</c:forEach>
+								</ul>
 						</c:if>
 						</li>
-					  <!-- mega menu style -->
-                      <!--</ul>-->
                     </li>
                     </c:if>
                     </c:forEach>

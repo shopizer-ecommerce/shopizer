@@ -119,7 +119,9 @@ public class UserApi {
 	@ApiOperation(httpMethod = "POST", value = "Creates a new user", notes = "", response = ReadableUser.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public ReadableUser create(@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language,
+	public ReadableUser create(
+			@ApiIgnore MerchantStore merchantStore, 
+			@ApiIgnore Language language,
 			@Valid @RequestBody PersistableUser user, HttpServletRequest request) {
 		/** Must be superadmin or admin */
 		String authenticatedUser = userFacade.authenticatedUser();
@@ -129,13 +131,13 @@ public class UserApi {
 		// only admin and superadmin allowed
 		userFacade.authorizedGroup(authenticatedUser, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()));
 
-		userFacade.authorizedGroups(authenticatedUser, user);
+		//userFacade.authorizedGroups(authenticatedUser, user);
 
-		MerchantStore store = storeFacade.get(merchantStore.getCode());
+		//MerchantStore store = storeFacade.get(merchantStore.getCode());
 
 		/** if user is admin, user must be in that store */
 		if (!userFacade.userInRoles(authenticatedUser, Arrays.asList(Constants.GROUP_SUPERADMIN))) {
-			if (!userFacade.authorizedStore(authenticatedUser, store.getCode())) {
+			if (!userFacade.authorizedStore(authenticatedUser, merchantStore.getCode())) {
 				throw new UnauthorizedException("Operation unauthorized for user [" + authenticatedUser
 						+ "] and store [" + merchantStore.getCode() + "]");
 			}

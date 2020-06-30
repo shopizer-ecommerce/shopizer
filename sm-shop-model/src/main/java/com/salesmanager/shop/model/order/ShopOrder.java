@@ -8,6 +8,7 @@ import com.salesmanager.core.model.order.OrderTotalSummary;
 import com.salesmanager.core.model.shipping.ShippingOption;
 import com.salesmanager.core.model.shipping.ShippingSummary;
 import com.salesmanager.core.model.shoppingcart.ShoppingCartItem;
+import com.salesmanager.shop.model.order.v0.PersistableOrder;
 
 
 /**

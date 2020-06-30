@@ -135,7 +135,7 @@ public class MerchantStoreApi {
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping(value = { "/stores" }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(httpMethod = "GET", value = "Get list of store names. Returns all retailers and stores", notes = "", response = ReadableMerchantStore.class)
-	public List<ReadableMerchantStore> get(
+	public List<ReadableMerchantStore> list(
 			@ApiIgnore MerchantStore merchantStore,
 			HttpServletRequest request) {
 		
@@ -167,20 +167,20 @@ public class MerchantStoreApi {
 	@ResponseStatus(HttpStatus.OK)
 	@PostMapping(value = { "/private/store" }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(httpMethod = "POST", value = "Creates a new store", notes = "", response = ReadableMerchantStore.class)
-	public ReadableMerchantStore create(@Valid @RequestBody PersistableMerchantStore store) {
-		return storeFacade.create(store);
+	public void create(@Valid @RequestBody PersistableMerchantStore store) {
+		storeFacade.create(store);
 	}
 
 	@ResponseStatus(HttpStatus.OK)
 	@PutMapping(value = { "/private/store/{code}" }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(httpMethod = "PUT", value = "Updates a store", notes = "", response = ReadableMerchantStore.class)
-	public ReadableMerchantStore update(@PathVariable String code, @Valid @RequestBody PersistableMerchantStore store,
+	public void update(@PathVariable String code, @Valid @RequestBody PersistableMerchantStore store,
 			HttpServletRequest request) {
 
 		String userName = getUserFromRequest(request);
 		validateUserPermission(userName, code);
 		store.setCode(code);
-		return storeFacade.update(store);
+		storeFacade.update(store);
 	}
 
 	private String getUserFromRequest(HttpServletRequest request) {
@@ -308,10 +308,6 @@ public class MerchantStoreApi {
 		storeFacade.delete(code);
 	}
 
-/*	private MerchantStoreCriteria filter(HttpServletRequest request) {
-		Criteria criteria = ServiceRequestCriteriaBuilderUtils.buildRequest(MAPPING_FIELDS, request);
-		return (MerchantStoreCriteria) criteria;
-	}*/
 	
 	private MerchantStoreCriteria createMerchantStoreCriteria(HttpServletRequest request) {
 		try {

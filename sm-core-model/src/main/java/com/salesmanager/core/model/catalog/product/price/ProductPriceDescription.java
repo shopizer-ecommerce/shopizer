@@ -9,6 +9,7 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.UniqueConstraint;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.common.description.Description;
 
@@ -31,6 +32,7 @@ public class ProductPriceDescription extends Description {;
 
   public final static String DEFAULT_PRICE_DESCRIPTION = "DEFAULT";
 	
+    @JsonIgnore
 	@ManyToOne(targetEntity = ProductPrice.class)
 	@JoinColumn(name = "PRODUCT_PRICE_ID", nullable = false)
 	private ProductPrice productPrice;

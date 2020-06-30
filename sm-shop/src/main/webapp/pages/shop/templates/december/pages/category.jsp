@@ -169,13 +169,12 @@ response.setDateHeader ("Expires", -1);
  	}
  	
  	function buildProductsList(productList, divProductsContainer) {
- 		log('Products-> ' + JSON.stringify(productList));
+ 		//log('Products-> ' + JSON.stringify(productList));
 		var productsTemplate = Hogan.compile(document.getElementById("productBoxTemplate").innerHTML);
 		var productsRendred = productsTemplate.render(productList);
 		$('#productsContainer').append(productsRendred);
 		$('#hiddenProductsContainer').append(productsRendred);
 		setProductRating(productList.products);
-
 		initBindings();
  	}
  

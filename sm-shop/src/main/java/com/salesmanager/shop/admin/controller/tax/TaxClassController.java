@@ -195,7 +195,7 @@ public class TaxClassController {
 			
 
 			/**
-			 * In order to remove a User the logged in ser must be STORE_ADMIN
+			 * In order to remove a User the logged in ser must be ADMIN
 			 * or SUPER_USER
 			 */
 			

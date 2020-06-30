@@ -20,8 +20,6 @@ response.setDateHeader ("Expires", -1);
 
 <!-- overrides with v2 page -->
 <c:set var="creditCardInformationsPage" value="creditCardInformations-v2" scope="request"/>
-<!-- phone number mask -->
-<script src="<c:url value="/resources/js/jquery.maskedinput.min.js" />"></script>
 <!-- generic checkout script -->
 <script src="<c:url value="/resources/js/shop-checkout.js" />"></script>
 
@@ -695,7 +693,7 @@ function initPayment(paymentSelection) {
 										<div class="checkout-form-list">
 											<label><s:message code="label.generic.postalcode" text="Postal code"/> <span class="required">*</span></label>										
 											<s:message code="NotEmpty.customer.billing.postalCode" text="Postal code is required" var="msgPostalCode"/>
-											<form:input id="billingPostalCode" cssClass="${cssClass} billing-postalCode" path="customer.billing.postalCode" title="${msgPostalCode}" disabled="${fieldDisabled}"/>
+											<form:input id="billingPostalCode" cssClass="${cssClass} billing-postalCode" path="customer.billing.postalCode" title="${msgPostalCode}"/>
 											<form:errors path="customer.billing.postalCode" cssClass="error" />
 											<span id="error-customer.billing.postalCode" class="error"></span>
 										</div>

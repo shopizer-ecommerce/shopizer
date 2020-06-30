@@ -3,21 +3,27 @@ package com.salesmanager.core.model.user;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
 import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.annotations.Cascade;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
@@ -59,7 +65,14 @@ public class Group extends SalesManagerEntity<Integer, Group> implements Auditab
 	}
 
 	@JsonIgnore
-	@ManyToMany(mappedBy = "groups") // TODO LAZY LOAD
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+        })
+        @JoinTable(name = "PERMISSION_GROUP",
+            joinColumns = @JoinColumn(name = "GROUP_ID"),
+            inverseJoinColumns = @JoinColumn(name = "PERMISSION_ID")
+        )
 	private Set<Permission> permissions = new HashSet<Permission>();
 
 	public Set<Permission> getPermissions() {

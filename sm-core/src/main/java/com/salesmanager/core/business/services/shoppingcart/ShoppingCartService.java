@@ -40,9 +40,9 @@ public interface ShoppingCartService extends SalesManagerEntityService<Long, Sho
 	 * @return
 	 * @throws ServiceException
 	 */
-	boolean isFreeShoppingCart(ShoppingCart cart) throws ServiceException;
+	//boolean isFreeShoppingCart(ShoppingCart cart) throws ServiceException;
 
-	boolean isFreeShoppingCart(List<ShoppingCartItem> items) throws ServiceException;
+	//boolean isFreeShoppingCart(List<ShoppingCartItem> items) throws ServiceException;
 
 	/**
 	 * Populates a ShoppingCartItem from a Product and attributes if any
@@ -75,7 +75,7 @@ public interface ShoppingCartService extends SalesManagerEntityService<Long, Sho
 	 * @return
 	 * @throws ServiceException
 	 */
-	boolean requiresShipping(ShoppingCart cart) throws ServiceException;
+	//boolean requiresShipping(ShoppingCart cart) throws ServiceException;
 	
 	/**
 	 * Removes a shopping cart item

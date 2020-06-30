@@ -105,7 +105,6 @@ public class Order extends SalesManagerEntity<Long, Order> {
 	@Column (name ="PAYMENT_MODULE_CODE")
 	private String paymentModuleCode;
 	
-	
 	@Column (name ="SHIPPING_MODULE_CODE")
 	private String shippingModuleCode;
 	

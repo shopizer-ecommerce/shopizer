@@ -248,13 +248,13 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 	
 	@Override
 	public void create(Product product) throws ServiceException {
-		this.saveOrUpdate(product);
+		saveOrUpdate(product);
 		searchService.index(product.getMerchantStore(), product);
 	}
 	
 	@Override
 	public void update(Product product) throws ServiceException {
-		this.saveOrUpdate(product);
+		saveOrUpdate(product);
 		searchService.index(product.getMerchantStore(), product);
 	}
 	
@@ -264,20 +264,10 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		Validate.notNull(product,"product cannot be null");
 		Validate.notNull(product.getAvailabilities(),"product must have at least one availability");
 		Validate.notEmpty(product.getAvailabilities(),"product must have at least one availability");
-		
-		
-		//List of original images
-/*		Set<ProductImage> originalProductImages = null;
-		
-		if(product.getId()!=null && product.getId()>0) {
-			originalProductImages = product.getImages();
-		}*/
-		
+
 		//take care of product images separately
 	    Set<ProductImage> originalProductImages = new HashSet<ProductImage>(product.getImages());
-	    
 
-		
 		/** save product first **/
 		
 		if(product.getId()!=null && product.getId()>0) {
