@@ -57,6 +57,12 @@
 		<beans:property name="removeFile">
 				<beans:ref bean="${config.cms.method}ContentAssetsManager" />
 		</beans:property>
+		<beans:property name="addFolder">
+				<beans:ref bean="${config.cms.method}ContentAssetsManager" />
+		</beans:property>
+		<beans:property name="removeFolder">
+				<beans:ref bean="${config.cms.method}ContentAssetsManager" />
+		</beans:property>
 	</beans:bean>
 
 	<!-- Product downloads -->

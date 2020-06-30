@@ -38,7 +38,7 @@ public class ShoppingCartAPIIntegrationTest extends ServicesTestSupport {
     @Test
     public void addToCart() throws Exception {
       
-    	ReadableProduct product = super.readyToWorkProduct("addToCart");
+    	ReadableProduct product = sampleProduct("addToCart");
     	assertNotNull(product);
 
         PersistableShoppingCartItem cartItem = new PersistableShoppingCartItem();

@@ -51,9 +51,10 @@ public class ShippingFacadeImpl implements ShippingFacade {
 		ExpeditionConfiguration expeditionConfiguration = new ExpeditionConfiguration();
 		try {
 			
-			ShippingConfiguration config = shippingService.getShippingConfiguration(store);
+			ShippingConfiguration config = getDbConfig(store);
 			if(config!=null) {
 				expeditionConfiguration.setIternationalShipping(config.getShipType()!=null && config.getShipType().equals(ShippingType.INTERNATIONAL.name())?true:false);
+				expeditionConfiguration.setTaxOnShipping(config.isTaxOnShipping());
 			}
 			
 			List<String> countries = shippingService.getSupportedCountries(store);
@@ -81,11 +82,8 @@ public class ShippingFacadeImpl implements ShippingFacade {
 		try {
 			
 			//get original configuration
-			ShippingConfiguration config = shippingService.getShippingConfiguration(store);
-			if(config==null) {
-				config = new ShippingConfiguration();
-				config.setShippingType(ShippingType.INTERNATIONAL);
-			}
+			ShippingConfiguration config = getDbConfig(store);
+			config.setTaxOnShipping(expedition.isTaxOnShipping());
 			config.setShippingType(expedition.isIternationalShipping()?ShippingType.INTERNATIONAL:ShippingType.NATIONAL);
 			shippingService.saveShippingConfiguration(config, store);
 			
@@ -153,6 +151,43 @@ public class ShippingFacadeImpl implements ShippingFacade {
 		}
 
 
+	}
+
+	@Override
+	public com.salesmanager.shop.model.shipping.ShippingConfiguration getShippingConfiguration(MerchantStore store) {
+		Validate.notNull(store, "MerchantStore cannot be null");
+		ShippingConfiguration dbConfig = this.getDbConfig(store);
+		
+		com.salesmanager.shop.model.shipping.ShippingConfiguration conf = new com.salesmanager.shop.model.shipping.ShippingConfiguration();
+
+		return null;
+	}
+
+	@Override
+	public void setShippingConfiguration(com.salesmanager.shop.model.shipping.ShippingConfiguration configuration,
+			MerchantStore store) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	private ShippingConfiguration getDbConfig(MerchantStore store) {
+		
+		
+		try {
+			
+			//get original configuration
+			ShippingConfiguration config = shippingService.getShippingConfiguration(store);
+			if(config==null) {
+				config = new ShippingConfiguration();
+				config.setShippingType(ShippingType.INTERNATIONAL);
+			}
+
+			return config;
+		} catch (ServiceException e) {
+			LOGGER.error("Error while getting expedition configuration", e);
+			throw new ServiceRuntimeException("Error while getting Expedition configuration for store[" + store.getCode() + "]", e);
+		}
+		
 	}
 
 }

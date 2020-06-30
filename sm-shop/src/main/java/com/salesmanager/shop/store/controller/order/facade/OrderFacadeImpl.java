@@ -927,10 +927,8 @@ public class OrderFacadeImpl implements OrderFacade {
 		try {
 			criteria.setLegacyPagination(false);
 
-			OrderList orderList = orderService.getOrders(criteria);
+			OrderList orderList = orderService.getOrders(criteria, store);
 
-			// ReadableOrderPopulator orderPopulator = new
-			// ReadableOrderPopulator();
 			List<Order> orders = orderList.getOrders();
 			com.salesmanager.shop.model.order.v0.ReadableOrderList returnList = new com.salesmanager.shop.model.order.v0.ReadableOrderList();
 
@@ -947,10 +945,6 @@ public class OrderFacadeImpl implements OrderFacade {
 
 			}
 			returnList.setOrders(readableOrders);
-
-			// returnList.setTotal(orderList.getTotalCount());
-			// returnList.setRecordsFiltered(orderList.getTotalCount());
-			// returnList.setRecordsTotal(orderList.getTotalCount());
 
 			returnList.setRecordsTotal(orderList.getTotalCount());
 			returnList.setTotalPages(orderList.getTotalPages());

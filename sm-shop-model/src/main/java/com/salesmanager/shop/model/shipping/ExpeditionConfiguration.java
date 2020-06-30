@@ -6,6 +6,7 @@ import java.util.List;
 public class ExpeditionConfiguration {
 	
 	private boolean iternationalShipping = false;
+	private boolean taxOnShipping = false;
 	private List<String> shipToCountry = new ArrayList<String>();
 
 	public boolean isIternationalShipping() {
@@ -22,6 +23,14 @@ public class ExpeditionConfiguration {
 
 	public void setShipToCountry(List<String> shipToCountry) {
 		this.shipToCountry = shipToCountry;
+	}
+
+	public boolean isTaxOnShipping() {
+		return taxOnShipping;
+	}
+
+	public void setTaxOnShipping(boolean taxOnShipping) {
+		this.taxOnShipping = taxOnShipping;
 	}
 
 }

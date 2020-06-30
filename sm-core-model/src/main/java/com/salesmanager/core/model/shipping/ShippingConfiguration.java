@@ -29,6 +29,7 @@ public class ShippingConfiguration implements JSONAware {
 	//free shipping
 	private boolean freeShippingEnabled = false;
 	private BigDecimal orderTotalFreeShipping = null;
+
 	
 	
 	private BigDecimal handlingFees = null;
