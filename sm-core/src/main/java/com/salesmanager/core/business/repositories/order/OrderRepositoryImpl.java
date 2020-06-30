@@ -153,7 +153,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 
 		
 		String baseQuery = "select o from Order as o left join fetch o.orderTotal ot left join fetch o.orderProducts op left join fetch o.orderAttributes oa left join fetch op.orderAttributes opo left join fetch op.prices opp";
-		String countBaseQuery = "select count(o) from Order as o join o.orderTotal ot join o.orderProducts op join o.orderAttributes oa join op.orderAttributes opo join op.prices opp";
+		String countBaseQuery = "select count(o) from Order as o";
 		
 		countBuilderSelect.append(countBaseQuery);
 		objectBuilderSelect.append(baseQuery);
@@ -178,7 +178,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		
 		//id
 		if(criteria.getId() != null) {
-			String nameQuery =  " and o.id like:id";
+			String nameQuery =  " and str(o.id) like:id";
 			objectBuilderWhere.append(nameQuery);
 			countBuilderSelect.append(nameQuery);
 		}
@@ -209,32 +209,32 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		
 		//customer name
 		if(!StringUtils.isEmpty(criteria.getCustomerName())) {
-			countQ.setParameter("name", criteria.getCustomerName());
-			objectQ.setParameter("name", criteria.getCustomerName());
+			countQ.setParameter("name", like(criteria.getCustomerName()));
+			objectQ.setParameter("name", like(criteria.getCustomerName()));
 		}
 		
 		//email
 		if(!StringUtils.isEmpty(criteria.getEmail())) {
-			countQ.setParameter("email", criteria.getEmail());
-			objectQ.setParameter("email", criteria.getEmail());			
+			countQ.setParameter("email", like(criteria.getEmail()));
+			objectQ.setParameter("email", like(criteria.getEmail()));			
 		}
 		
 		//id
 		if(criteria.getId() != null) {
-			countQ.setParameter("id", criteria.getId());
-			objectQ.setParameter("id", criteria.getId());
+			countQ.setParameter("id", like(String.valueOf(criteria.getId())));
+			objectQ.setParameter("id", like(String.valueOf(criteria.getId())));
 		}
 		
 		//phone
 		if(!StringUtils.isEmpty(criteria.getCustomerPhone())) {
-			countQ.setParameter("phone", criteria.getCustomerPhone());
-			objectQ.setParameter("phone", criteria.getCustomerPhone());
+			countQ.setParameter("phone", like(criteria.getCustomerPhone()));
+			objectQ.setParameter("phone", like(criteria.getCustomerPhone()));
 		}
 		
 		//status
 		if(!StringUtils.isEmpty(criteria.getStatus())) {
-			countQ.setParameter("status", criteria.getStatus());
-			objectQ.setParameter("phone", criteria.getStatus());
+			countQ.setParameter("status", like(criteria.getStatus()));
+			objectQ.setParameter("status", like(criteria.getStatus()));
 		}
 		
 
@@ -261,6 +261,10 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		orderList.setOrders(objectQ.getResultList());
 
 		return orderList;
+	}
+	
+	private String like(String q) {
+		return '%' + q + '%';
 	}
 
 
