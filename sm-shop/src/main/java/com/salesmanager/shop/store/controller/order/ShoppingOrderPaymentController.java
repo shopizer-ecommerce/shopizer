@@ -1,7 +1,31 @@
 package com.salesmanager.shop.store.controller.order;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.Validate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.salesmanager.core.business.modules.integration.payment.impl.PayPalExpressCheckoutPayment;
-import com.salesmanager.core.business.modules.integration.payment.impl.Stripe3Payment;
+//import com.salesmanager.core.business.modules.integration.payment.impl.Stripe3Payment;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.customer.attribute.CustomerOptionService;
@@ -31,18 +55,6 @@ import com.salesmanager.shop.store.controller.AbstractController;
 import com.salesmanager.shop.store.controller.order.facade.OrderFacade;
 import com.salesmanager.shop.store.controller.shoppingCart.facade.ShoppingCartFacade;
 import com.salesmanager.shop.utils.LabelUtils;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.Validate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.web.bind.annotation.*;
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-import java.util.*;
 
 @Controller
 @RequestMapping(Constants.SHOP_URI)
@@ -162,7 +174,8 @@ public class ShoppingOrderPaymentController extends AbstractController {
 
 			if(action.equals(INIT_ACTION)) {
 				if(paymentmethod.equals("PAYPAL")) {
-					try {						PaymentModule module = paymentService.getPaymentModule("paypal-express-checkout");
+					try {						
+						PaymentModule module = paymentService.getPaymentModule("paypal-express-checkout");
 						PayPalExpressCheckoutPayment p = (PayPalExpressCheckoutPayment)module;
 						PaypalPayment payment = new PaypalPayment();
 						payment.setCurrency(store.getCurrency());
@@ -198,7 +211,8 @@ public class ShoppingOrderPaymentController extends AbstractController {
 					}
 				}
 				else if(paymentmethod.equals("stripe3")) {
-					try {
+					//TODO add when stripe 2 is back
+/*					try {
 
 						PaymentModule module = paymentService.getPaymentModule(paymentmethod);
 						Stripe3Payment p = (Stripe3Payment)module;
@@ -218,7 +232,7 @@ public class ShoppingOrderPaymentController extends AbstractController {
 
 					} catch(Exception e) {
 						ajaxResponse.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
-					}
+					}*/
 				}
 			}
 		
