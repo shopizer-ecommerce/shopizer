@@ -179,6 +179,9 @@ public class AuthenticateCustomerApi {
     @RequestMapping(value = "/auth/customer/refresh", method = RequestMethod.GET, produces ={ "application/json" })
     public ResponseEntity<?> refreshToken(HttpServletRequest request) {
         String token = request.getHeader(tokenHeader);
+
+        System.out.println("--------------------- TOKEN : " + token);
+
         String username = jwtTokenUtil.getUsernameFromToken(token);
         JWTUser user = (JWTUser) jwtCustomerDetailsService.loadUserByUsername(username);
 

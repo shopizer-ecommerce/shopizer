@@ -258,9 +258,10 @@ public class ShoppingCartTest extends com.salesmanager.test.common.AbstractSales
 	    retrievedCart = shoppingCartService.getByCode(cartCode.toString(), store);
 	    
 	    Assert.assertNull(retrievedCart);
+
+		// Clean up for other tests
+	    categoryService.delete(shirts);
 	    
-
-
 	}
 	
 

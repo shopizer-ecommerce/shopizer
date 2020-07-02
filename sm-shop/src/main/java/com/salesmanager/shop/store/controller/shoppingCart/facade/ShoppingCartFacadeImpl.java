@@ -267,6 +267,7 @@ public class ShoppingCartFacadeImpl
 		Product product = productService.getById(shoppingCartItem.getProduct());
 
 		if (product == null) {
+		    System.out.println("----------------------- Item with id " + shoppingCartItem.getProduct() + " does not exist");
 			throw new ResourceNotFoundException("Item with id " + shoppingCartItem.getProduct() + " does not exist");
 		}
 

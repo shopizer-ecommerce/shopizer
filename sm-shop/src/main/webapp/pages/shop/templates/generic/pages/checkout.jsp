@@ -464,6 +464,12 @@ function bindActions() {
 			$('#paymentMethodType').attr("value", 'PAYPAL');
 			initPayment('PAYPAL');
 		}
+		else if(paymentSelection.indexOf('stripe3') >= 0) {
+			//$('#paymentMethodType').val('CREDITCARD');
+			$('#paymentMethodType').attr("value", 'CREDITCARD');
+			log('Init stripe3');
+			initStripePayment3();
+		}
 		else if(paymentSelection.indexOf('stripe') >= 0) {
 			log('Stripe ');
 			//$('#paymentMethodType').val('CREDITCARD');

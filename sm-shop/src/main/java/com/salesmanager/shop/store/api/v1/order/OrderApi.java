@@ -155,6 +155,8 @@ public class OrderApi {
 		Principal principal = request.getUserPrincipal();
 		String userName = principal.getName();
 
+		System.out.println("who os the username ? " + userName);
+
 		Customer customer = customerService.getByNick(userName);
 
 		if (customer == null) {

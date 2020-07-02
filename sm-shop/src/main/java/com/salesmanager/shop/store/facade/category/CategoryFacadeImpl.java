@@ -14,7 +14,10 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
+import com.salesmanager.shop.store.api.v1.category.CategoryApi;
 import org.apache.commons.lang.Validate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -49,7 +52,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 
 	@Inject
 	private CategoryService categoryService;
-	
+
 	@Inject
 	private MerchantStoreService merchantStoreService;
 
@@ -68,13 +71,13 @@ public class CategoryFacadeImpl implements CategoryFacade {
 	@Override
 	public ReadableCategoryList getCategoryHierarchy(MerchantStore store, ListCriteria criteria, int depth,
 			Language language, List<String> filter, int page, int count) {
-		
+
 		Validate.notNull(store,"MerchantStore can not be null");
 
-		
+
 		//get parent store
 		try {
-			
+
 			MerchantStore parent = merchantStoreService.getParent(store.getCode());
 
 
@@ -93,9 +96,9 @@ public class CategoryFacadeImpl implements CategoryFacade {
 				returnList.setTotalPages(pageable.getTotalPages());
 				returnList.setNumber(categories.size());
 			}
-	
-	
-	
+
+
+
 			List<ReadableCategory> readableCategories = null;
 			if (filter != null && filter.contains(VISIBLE_CATEGORY)) {
 				readableCategories = categories.stream().filter(Category::isVisible)
@@ -106,10 +109,10 @@ public class CategoryFacadeImpl implements CategoryFacade {
 						.map(cat -> categoryReadableCategoryConverter.convert(cat, store, language))
 						.collect(Collectors.toList());
 			}
-	
+
 			Map<Long, ReadableCategory> readableCategoryMap = readableCategories.stream()
 					.collect(Collectors.toMap(ReadableCategory::getId, Function.identity()));
-	
+
 			readableCategories.stream()
 					// .filter(ReadableCategory::isVisible)
 					.filter(cat -> Objects.nonNull(cat.getParent()))
@@ -119,14 +122,14 @@ public class CategoryFacadeImpl implements CategoryFacade {
 							parentCategory.getChildren().add(readableCategory);
 						}
 					});
-	
+
 			List<ReadableCategory> filteredList = readableCategoryMap.values().stream().filter(cat -> cat.getDepth() == 0)
 					.sorted(Comparator.comparing(ReadableCategory::getSortOrder)).collect(Collectors.toList());
-	
+
 			returnList.setCategories(filteredList);
-	
+
 			return returnList;
-		
+
 		} catch (ServiceException e) {
 			throw new ServiceRuntimeException(e);
 		}
@@ -213,7 +216,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 		}
 
 		categoryService.saveOrUpdate(category);
-		
+
 		if (!CollectionUtils.isEmpty(saveAfter)) {
 			parent = category;
 			for(Category c: saveAfter) {
@@ -411,7 +414,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 			Category c = categoryService.getById(child, store.getId());
 			Category p = categoryService.getById(parent, store.getId());
 
-			if (c.getParent().getId() == parent) {
+			if (c.getParent() != null && c.getParent().getId() == parent) {
 				return;
 			}
 

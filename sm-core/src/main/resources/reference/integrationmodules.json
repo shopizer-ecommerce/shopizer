@@ -89,7 +89,18 @@
 		"code": "stripe",
 		"type":"creditcard",
 		"version":"",
-		"regions": ["US","CA","GB","AU","FI","DK","IE","NO","SE"],
+		"regions": ["US","CA","GB","AU","FI","DK","IE","NO","SE","ES","PT"],
+		"image":"stripe.png",
+		"configuration":[{"env":"TEST","scheme":"https","host":"www.stripe.com","port":"443","uri":"/"},{"env":"PROD","scheme":"https","host":"www.stripe.com","port":"443","uri":"/"}]
+
+	},
+
+	{
+		"module": "PAYMENT",
+		"code": "stripe3",
+		"type":"creditcard",
+		"version":"",
+		"regions": ["US","CA","GB","AU","FI","DK","IE","NO","SE","ES","PT"],
 		"image":"stripe.png",
 		"configuration":[{"env":"TEST","scheme":"https","host":"www.stripe.com","port":"443","uri":"/"},{"env":"PROD","scheme":"https","host":"www.stripe.com","port":"443","uri":"/"}]
 

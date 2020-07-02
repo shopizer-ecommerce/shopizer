@@ -58,6 +58,9 @@ public class CategoryTest extends com.salesmanager.test.common.AbstractSalesMana
 	    Category fetchedBook = categoryService.getById(bookId, store.getId());
 	    Assert.assertTrue(2 == fetchedBook.getDescriptions().size());
 
+	    // Clean up for other tests
+	    categoryService.delete(materingstuff);
+
 	}
 
 
