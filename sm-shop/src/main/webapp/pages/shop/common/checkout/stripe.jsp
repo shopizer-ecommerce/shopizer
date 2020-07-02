@@ -103,7 +103,6 @@ response.setDateHeader ("Expires", -1);
 
 
           <div class="control-group">
-              AAAAAAAAAAA Stripe 1  ${cart.getCode()}
             <label class="control-label"><s:message code="label.payment.creditcard.usecredicard" text="Use Credit Card"/></label>
             <div class="controls">
                <jsp:include page="/pages/shop/common/checkout/selectedPayment.jsp" />
