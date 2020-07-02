@@ -194,11 +194,6 @@
 		</dependency>
 
 
-		<!-- Invoices -->
-		<!-- <dependency> <groupId>com.itextpdf</groupId> <artifactId>itextpdf</artifactId> 
-			</dependency> <dependency> <groupId>org.jopendocument</groupId> <artifactId>jOpenDocument</artifactId> 
-			</dependency> -->
-
 		<!-- https://mvnrepository.com/artifact/com.maxmind.geoip2/geoip2 -->
 		<dependency>
 			<groupId>com.maxmind.geoip2</groupId>

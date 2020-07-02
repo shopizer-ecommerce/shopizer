@@ -357,10 +357,13 @@ response.setDateHeader ("Expires", -1);
 
 		}); 
 		
-		
+		function isEmpty(val){
+            return (val === undefined || val == null || val.length <= 0) ? true : false;
+        }
+
 		function checkCode(code, id, url) {
 			
-
+             if(isEmpty(code))  return ;
 			
 			$.ajax({
 					type: 'POST',
