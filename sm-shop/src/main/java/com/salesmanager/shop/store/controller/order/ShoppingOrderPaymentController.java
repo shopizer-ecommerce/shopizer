@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.salesmanager.core.business.modules.integration.payment.impl.PayPalExpressCheckoutPayment;
-//import com.salesmanager.core.business.modules.integration.payment.impl.Stripe3Payment;
+import com.salesmanager.core.business.modules.integration.payment.impl.Stripe3Payment;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.customer.attribute.CustomerOptionService;
@@ -211,8 +211,7 @@ public class ShoppingOrderPaymentController extends AbstractController {
 					}
 				}
 				else if(paymentmethod.equals("stripe3")) {
-					//TODO add when stripe 2 is back
-/*					try {
+					try {
 
 						PaymentModule module = paymentService.getPaymentModule(paymentmethod);
 						Stripe3Payment p = (Stripe3Payment)module;
@@ -232,7 +231,7 @@ public class ShoppingOrderPaymentController extends AbstractController {
 
 					} catch(Exception e) {
 						ajaxResponse.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
-					}*/
+					}
 				}
 			}
 		
