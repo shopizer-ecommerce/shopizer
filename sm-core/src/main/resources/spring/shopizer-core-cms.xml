@@ -63,6 +63,9 @@
 		<beans:property name="removeFolder">
 				<beans:ref bean="${config.cms.method}ContentAssetsManager" />
 		</beans:property>
+		<beans:property name="listFolder">
+				<beans:ref bean="${config.cms.method}ContentAssetsManager" />
+		</beans:property>
 	</beans:bean>
 
 	<!-- Product downloads -->
