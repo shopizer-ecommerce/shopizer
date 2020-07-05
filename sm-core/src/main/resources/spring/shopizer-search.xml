@@ -110,6 +110,7 @@
 			<list>
 				<!-- rename -->
 				<ref bean="keywordindex_en" />
+				<ref bean="keywordindex_es" />
 				<ref bean="keywordindex_fr" />
 			</list>
 		</property>
@@ -120,6 +121,7 @@
 			<list>
 				<!-- rename -->
 				<ref bean="productindex_en" />
+				<ref bean="productindex_es" />
 				<ref bean="productindex_fr" />
 			</list>
 		</property>
@@ -149,11 +151,23 @@
 		<property name="settingsFileName" value="search/settings_product_fr.json" />
 	</bean>
 
+	<!-- product_es -->
+	<bean id="productindex_es" class="com.shopizer.search.utils.IndexConfiguration">
+		<!-- remove -->
+		<property name="collectionName" value="product_es" />
+		<property name="indexName" value="product_es" />
+		<property name="mappingFileName" value="search/product_es.json" />
+		<!-- not necessary, only to define index and search rules -->
+		<property name="settingsFileName" value="search/settings_product_es.json" />
+	</bean>
+
+
 	<bean id="keyword" class="com.shopizer.search.services.worker.KeywordIndexerImpl">
 		<property name="indexConfigurations">
 			<list>
 				<!-- rename -->
 				<ref bean="keywordindex_en" />
+				<ref bean="keywordindex_es" />
 				<ref bean="keywordindex_fr" />
 			</list>
 		</property>
@@ -192,6 +206,22 @@
 		</property>
 	</bean>
 
+	<!-- keywordindex_es_ -->
+	<bean id="keywordindex_es" class="com.shopizer.search.utils.CustomIndexConfiguration">
+		<!-- rename or remove -->
+		<property name="collectionName" value="keyword_es" />
+		<property name="indexName" value="keyword_es" /><!-- TBR -->
+		<property name="createOnIndexName" value="product_es_*" /><!--
+			TBD -->
+		<property name="mappingFileName" value="search/keyword_es.json" />
+		<property name="settingsFileName" value="search/settings_keyword_es.json" />
+		<property name="fields">
+			<list>
+				<ref bean="field1" />
+				<ref bean="field2" />
+			</list>
+		</property>
+	</bean>
 
 	<!-- supported field types List, Integer, Double, Boolean, String -->
 	<bean id="field1" class="com.shopizer.search.utils.CustomIndexFieldConfiguration">
