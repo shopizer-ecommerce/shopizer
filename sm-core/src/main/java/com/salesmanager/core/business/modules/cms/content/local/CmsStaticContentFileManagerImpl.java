@@ -94,8 +94,8 @@ public class CmsStaticContentFileManagerImpl implements ContentAssetsManager {
 	 * 
 	 */
 	@Override
-	public void addFile(final String merchantStoreCode, Optional<String> folderPath, final InputContentFile inputStaticContentData)
-			throws ServiceException {
+	public void addFile(final String merchantStoreCode, Optional<String> folderPath,
+			final InputContentFile inputStaticContentData) throws ServiceException {
 		/*
 		 * if ( cacheManager.getTreeCache() == null ) { LOGGER.error(
 		 * "Unable to find cacheManager.getTreeCache() in Infinispan.." ); throw
@@ -177,8 +177,8 @@ public class CmsStaticContentFileManagerImpl implements ContentAssetsManager {
 	 * @see StaticContentCacheAttribute
 	 */
 	@Override
-	public void addFiles(final String merchantStoreCode, Optional<String> folderPath, final List<InputContentFile> inputStaticContentDataList)
-			throws ServiceException {
+	public void addFiles(final String merchantStoreCode, Optional<String> folderPath,
+			final List<InputContentFile> inputStaticContentDataList) throws ServiceException {
 		/*
 		 * if ( cacheManager.getTreeCache() == null ) { LOGGER.error(
 		 * "Unable to find cacheManager.getTreeCache() in Infinispan.." ); throw
@@ -248,16 +248,16 @@ public class CmsStaticContentFileManagerImpl implements ContentAssetsManager {
 	 * @throws ServiceException
 	 */
 	@Override
-	public OutputContentFile getFile(final String merchantStoreCode, Optional<String> folderPath, final FileContentType fileContentType,
-			final String contentFileName) throws ServiceException {
+	public OutputContentFile getFile(final String merchantStoreCode, Optional<String> folderPath,
+			final FileContentType fileContentType, final String contentFileName) throws ServiceException {
 
 		throw new ServiceException("Not implemented for httpd image manager");
 
 	}
 
 	@Override
-	public List<OutputContentFile> getFiles(final String merchantStoreCode, Optional<String> folderPath, final FileContentType staticContentType)
-			throws ServiceException {
+	public List<OutputContentFile> getFiles(final String merchantStoreCode, Optional<String> folderPath,
+			final FileContentType staticContentType) throws ServiceException {
 
 		throw new ServiceException("Not implemented for httpd image manager");
 
@@ -317,8 +317,8 @@ public class CmsStaticContentFileManagerImpl implements ContentAssetsManager {
 	 * @throws ServiceException
 	 */
 	@Override
-	public List<String> getFileNames(final String merchantStoreCode, Optional<String> folderPath, final FileContentType staticContentType)
-			throws ServiceException {
+	public List<String> getFileNames(final String merchantStoreCode, Optional<String> folderPath,
+			final FileContentType staticContentType) throws ServiceException {
 
 		try {
 
@@ -397,21 +397,23 @@ public class CmsStaticContentFileManagerImpl implements ContentAssetsManager {
 	}
 
 	@Override
-	public void addFolder(String merchantStoreCode, String folderName, Optional<String> folderPath) throws ServiceException {
+	public void addFolder(String merchantStoreCode, String folderName, Optional<String> folderPath)
+			throws ServiceException {
 
-		String rootPath = this.buildRootPath();
-		Path confDir = Paths.get(rootPath);
+
 		try {
-			this.createDirectoryIfNorExist(confDir);
 
-			// node path
+			Path merchantPath = this.buildMerchantPath(merchantStoreCode);
+			
 			StringBuilder nodePath = new StringBuilder();
-			nodePath.append(rootPath).append(merchantStoreCode);
-			Path merchantPath = Paths.get(nodePath.toString());
-			this.createDirectoryIfNorExist(merchantPath);
-
-			// file path
-			nodePath.append(Constants.SLASH).append(folderName).append(Constants.SLASH);
+			if(folderPath.isPresent()) {
+				nodePath
+				.append(merchantPath.toString())
+				.append(Constants.SLASH).append(folderPath.get()).append(Constants.SLASH);
+			}
+			// add folder
+			nodePath.append(folderName);
+			
 			Path dirPath = Paths.get(nodePath.toString());
 			this.createDirectoryIfNorExist(dirPath);
 
@@ -421,25 +423,46 @@ public class CmsStaticContentFileManagerImpl implements ContentAssetsManager {
 		}
 
 	}
+	
+	private Path buildMerchantPath(String merchantCode) throws IOException {
+		
+		String rootPath = this.buildRootPath();
+		Path confDir = Paths.get(rootPath);
+		
+		// node path
+		StringBuilder nodePath = new StringBuilder();
+		nodePath
+		.append(confDir.toString())
+		.append(rootPath).append(merchantCode);
+		Path merchantPath = Paths.get(nodePath.toString());
+		this.createDirectoryIfNorExist(merchantPath);
+		
+		return merchantPath;
+		
+	}
 
 	@Override
 	public void removeFolder(String merchantStoreCode, String folderName, Optional<String> folderPath)
-			      throws ServiceException {
-		
-		String rootPath = this.buildRootPath();
+			throws ServiceException {
+
+		//String rootPath = this.buildRootPath();
 		try {
-
-			// node path
+			
+			Path merchantPath = this.buildMerchantPath(merchantStoreCode);
 			StringBuilder nodePath = new StringBuilder();
-			nodePath.append(rootPath).append(merchantStoreCode);
-			Path merchantPath = Paths.get(nodePath.toString());
-
-			// file path
-			nodePath.append(Constants.SLASH).append(folderName).append(Constants.SLASH);
-			Path path = Paths.get(merchantPath.toString());
-
-			Files.deleteIfExists(path);
-
+			nodePath.append(merchantPath.toString()).append(Constants.SLASH);
+			if(folderPath.isPresent()) {
+				nodePath.append(folderPath.get()).append(Constants.SLASH);
+			}
+			
+			nodePath.append(folderName);
+			
+			Path longPath = Paths.get(nodePath.toString());
+			
+			if (Files.exists(longPath)) {
+				Files.delete(longPath);
+			}
+			
 		} catch (IOException e) {
 			LOGGER.error("Error while creating fiolder for {} merchant ", merchantStoreCode);
 			throw new ServiceException(e);

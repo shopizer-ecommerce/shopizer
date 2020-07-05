@@ -19,6 +19,8 @@ import org.infinispan.tree.Fqn;
 import org.infinispan.tree.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.modules.cms.content.ContentAssetsManager;
 import com.salesmanager.core.business.modules.cms.impl.CMSManager;
@@ -422,9 +424,38 @@ public class CmsStaticContentFileManagerImpl
 		return rootName;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void addFolder(String merchantStoreCode, String folderName, Optional<String> path) throws ServiceException {
-		// TODO Auto-generated method stub
+		
+		
+		String nodePath = this.getNodePath(merchantStoreCode, FileContentType.IMAGE);
+		
+		StringBuilder appender = new StringBuilder();
+		appender.append(nodePath).append(Constants.SLASH);
+		
+		if(path.isPresent()) {
+			appender.append(path.get());
+		}
+		
+		
+		//Put logic in a method
+		
+		Fqn folderFqn = Fqn.fromString(appender.toString());
+
+		Node<String, Object> nd = cacheManager.getTreeCache().getRoot().getChild(folderFqn);
+
+		if (nd == null) {
+
+			cacheManager.getTreeCache().getRoot().addChild(folderFqn);
+			nd = cacheManager.getTreeCache().getRoot().getChild(folderFqn);
+
+		}
+		
+		appender.append(Constants.SLASH).append(folderName);
+		
+		Fqn newFolderFqn = Fqn.fromString(appender.toString());
+		cacheManager.getTreeCache().getRoot().addChild(newFolderFqn);
 
 	}
 
