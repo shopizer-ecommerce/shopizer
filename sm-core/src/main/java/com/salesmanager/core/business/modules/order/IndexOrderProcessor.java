@@ -93,7 +93,7 @@ public class IndexOrderProcessor implements OrderProcessor {
 			OrderMapping m = new OrderMapping(order, customer);
 			String json = mapper.writeValueAsString(m);
 			
-			String indexName = new StringBuilder().append(INDEX_NAME).append(store.getCode()).toString();
+			String indexName = new StringBuilder().append(INDEX_NAME).append(store.getCode().toLowerCase()).toString();
 
 	        
 	        IndexRequest indexRequest = new IndexRequest(indexName);
