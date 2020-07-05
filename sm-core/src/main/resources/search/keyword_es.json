@@ -1,0 +1,10 @@
+{
+        "properties": {
+            "keyword": {
+                "type":"completion"
+            },
+            "original": {
+                "type":"keyword"
+            }
+        }
+}

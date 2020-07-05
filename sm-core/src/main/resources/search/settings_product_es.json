@@ -1,0 +1,17 @@
+  {"analysis": {
+		"filter": {
+			"spanishStopWords": {
+				"type": "stop",
+				"stopwords": "_spanish_"
+			}
+		},
+		"analyzer": {
+			"nameAnalyzer": {
+				"tokenizer": "standard",
+				"filter": [
+					"lowercase",
+					"spanishStopWords"
+				]
+			}
+		}
+	}}

@@ -1,0 +1,59 @@
+{
+		"properties": {
+			"name": {
+				"type": "keyword",
+				"fields": {
+					"analyzed": {
+						"type": "text",
+						"analyzer": "nameAnalyzer",
+						"search_analyzer": "nameAnalyzer"
+					}
+				}
+			},
+			"sku": {
+				"type": "keyword"
+			},
+			"store": {
+				"type": "keyword"
+			},
+			"lang": {
+				"type": "keyword"
+			},
+			"categories": {
+				"type": "keyword",
+				"fields": {
+					"analyzed": {
+						"type": "text",
+						"analyzer": "nameAnalyzer",
+						"search_analyzer": "nameAnalyzer"
+					}
+				}
+			},
+			"manufacturer": {
+				"type": "keyword",
+				"fields": {
+					"analyzed": {
+						"type": "text",
+						"analyzer": "nameAnalyzer",
+						"search_analyzer": "nameAnalyzer"
+					}
+				}
+			},
+			"description": {
+				"type": "keyword",
+				"fields": {
+					"analyzed": {
+						"type": "text",
+						"analyzer": "nameAnalyzer",
+						"search_analyzer": "nameAnalyzer"
+					}
+				}
+			},
+			"tags": {
+				"type": "keyword"
+			},
+			"price": {
+				"type": "float"
+			}
+		}
+}
