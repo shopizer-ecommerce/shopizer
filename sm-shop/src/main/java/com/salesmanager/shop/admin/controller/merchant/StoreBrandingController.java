@@ -97,7 +97,7 @@ public class StoreBrandingController {
 	 */
 	@PreAuthorize("hasRole('STORE')")
 	@RequestMapping(value="/admin/store/saveBranding.html", method=RequestMethod.POST)
-	public String saveStoreBranding(@RequestParam("file") MultipartFile file, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String saveStoreBranding(@RequestParam(value = "file" ,required = false) MultipartFile file, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		setMenu(model,request);
 
