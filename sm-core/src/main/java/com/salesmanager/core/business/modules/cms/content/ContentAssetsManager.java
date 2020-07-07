@@ -4,6 +4,6 @@ import java.io.Serializable;
 import com.salesmanager.core.business.modules.cms.common.AssetsManager;
 
 public interface ContentAssetsManager
-    extends AssetsManager, FileGet, FilePut, FileRemove, FolderPut, FolderRemove, Serializable {
+    extends AssetsManager, FileGet, FilePut, FileRemove, FolderPut, FolderList, FolderRemove, Serializable {
 
 }

@@ -1,5 +1,7 @@
 package com.salesmanager.core.business.services.catalog.product.file;
 
+import java.util.Optional;
+
 import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -47,7 +49,10 @@ public class DigitalProductServiceImpl extends SalesManagerEntityServiceImpl<Lon
 			Assert.notNull(product.getMerchantStore(),"Product.merchantStore cannot be null");
 			this.saveOrUpdate(digitalProduct);
 			
-			productDownloadsFileManager.addFile(product.getMerchantStore().getCode(), inputFile);
+		    String path = null;
+		    
+			
+			productDownloadsFileManager.addFile(product.getMerchantStore().getCode(), Optional.of(path), inputFile);
 			
 			product.setProductVirtual(true);
 			productService.update(product);
@@ -80,7 +85,10 @@ public class DigitalProductServiceImpl extends SalesManagerEntityServiceImpl<Lon
 		//refresh file
 		digitalProduct = this.getById(digitalProduct.getId());
 		super.delete(digitalProduct);
-		productDownloadsFileManager.removeFile(digitalProduct.getProduct().getMerchantStore().getCode(), FileContentType.PRODUCT, digitalProduct.getProductFileName());
+		
+		String path = null;
+
+		productDownloadsFileManager.removeFile(digitalProduct.getProduct().getMerchantStore().getCode(), FileContentType.PRODUCT, digitalProduct.getProductFileName(), Optional.of(path));
 		digitalProduct.getProduct().setProductVirtual(false);
 		productService.update(digitalProduct.getProduct());
 	}

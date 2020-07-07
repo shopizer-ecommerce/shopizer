@@ -12,6 +12,8 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import javax.annotation.PostConstruct;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -92,8 +94,8 @@ public class CmsStaticContentFileManagerImpl implements ContentAssetsManager {
 	 * 
 	 */
 	@Override
-	public void addFile(final String merchantStoreCode, final InputContentFile inputStaticContentData)
-			throws ServiceException {
+	public void addFile(final String merchantStoreCode, Optional<String> folderPath,
+			final InputContentFile inputStaticContentData) throws ServiceException {
 		/*
 		 * if ( cacheManager.getTreeCache() == null ) { LOGGER.error(
 		 * "Unable to find cacheManager.getTreeCache() in Infinispan.." ); throw
@@ -119,8 +121,8 @@ public class CmsStaticContentFileManagerImpl implements ContentAssetsManager {
 					.append(Constants.SLASH);
 			Path dirPath = Paths.get(nodePath.toString());
 			this.createDirectoryIfNorExist(dirPath);
-			
-			//folder path
+
+			// folder path
 
 			// file creation
 			nodePath.append(inputStaticContentData.getFileName());
@@ -175,8 +177,8 @@ public class CmsStaticContentFileManagerImpl implements ContentAssetsManager {
 	 * @see StaticContentCacheAttribute
 	 */
 	@Override
-	public void addFiles(final String merchantStoreCode, final List<InputContentFile> inputStaticContentDataList)
-			throws ServiceException {
+	public void addFiles(final String merchantStoreCode, Optional<String> folderPath,
+			final List<InputContentFile> inputStaticContentDataList) throws ServiceException {
 		/*
 		 * if ( cacheManager.getTreeCache() == null ) { LOGGER.error(
 		 * "Unable to find cacheManager.getTreeCache() in Infinispan.." ); throw
@@ -246,16 +248,16 @@ public class CmsStaticContentFileManagerImpl implements ContentAssetsManager {
 	 * @throws ServiceException
 	 */
 	@Override
-	public OutputContentFile getFile(final String merchantStoreCode, final FileContentType fileContentType,
-			final String contentFileName) throws ServiceException {
+	public OutputContentFile getFile(final String merchantStoreCode, Optional<String> folderPath,
+			final FileContentType fileContentType, final String contentFileName) throws ServiceException {
 
 		throw new ServiceException("Not implemented for httpd image manager");
 
 	}
 
 	@Override
-	public List<OutputContentFile> getFiles(final String merchantStoreCode, final FileContentType staticContentType)
-			throws ServiceException {
+	public List<OutputContentFile> getFiles(final String merchantStoreCode, Optional<String> folderPath,
+			final FileContentType staticContentType) throws ServiceException {
 
 		throw new ServiceException("Not implemented for httpd image manager");
 
@@ -263,7 +265,7 @@ public class CmsStaticContentFileManagerImpl implements ContentAssetsManager {
 
 	@Override
 	public void removeFile(final String merchantStoreCode, final FileContentType staticContentType,
-			final String fileName) throws ServiceException {
+			final String fileName, Optional<String> folderPath) throws ServiceException {
 
 		try {
 
@@ -286,7 +288,7 @@ public class CmsStaticContentFileManagerImpl implements ContentAssetsManager {
 	 * Removes the data in a given merchant node
 	 */
 	@Override
-	public void removeFiles(final String merchantStoreCode) throws ServiceException {
+	public void removeFiles(final String merchantStoreCode, Optional<String> folderPath) throws ServiceException {
 
 		LOGGER.debug("Removing all images for {} merchant ", merchantStoreCode);
 
@@ -315,8 +317,8 @@ public class CmsStaticContentFileManagerImpl implements ContentAssetsManager {
 	 * @throws ServiceException
 	 */
 	@Override
-	public List<String> getFileNames(final String merchantStoreCode, final FileContentType staticContentType)
-			throws ServiceException {
+	public List<String> getFileNames(final String merchantStoreCode, Optional<String> folderPath,
+			final FileContentType staticContentType) throws ServiceException {
 
 		try {
 
@@ -395,26 +397,72 @@ public class CmsStaticContentFileManagerImpl implements ContentAssetsManager {
 	}
 
 	@Override
-	public void addFolder(String merchantStoreCode, String folderName, String parent) throws ServiceException {
+	public void addFolder(String merchantStoreCode, String folderName, Optional<String> folderPath)
+			throws ServiceException {
+
+
+		try {
+
+			Path merchantPath = this.buildMerchantPath(merchantStoreCode);
+			
+			StringBuilder nodePath = new StringBuilder();
+			if(folderPath.isPresent()) {
+				nodePath
+				.append(merchantPath.toString())
+				.append(Constants.SLASH).append(folderPath.get()).append(Constants.SLASH);
+			}
+			// add folder
+			nodePath.append(folderName);
+			
+			Path dirPath = Paths.get(nodePath.toString());
+			this.createDirectoryIfNorExist(dirPath);
+
+		} catch (IOException e) {
+			LOGGER.error("Error while creating fiolder for {} merchant ", merchantStoreCode);
+			throw new ServiceException(e);
+		}
+
+	}
+	
+	private Path buildMerchantPath(String merchantCode) throws IOException {
 		
 		String rootPath = this.buildRootPath();
 		Path confDir = Paths.get(rootPath);
-		try {
-			this.createDirectoryIfNorExist(confDir);
-
-
-			// node path
-			StringBuilder nodePath = new StringBuilder();
-			nodePath.append(rootPath).append(merchantStoreCode);
-			Path merchantPath = Paths.get(nodePath.toString());
-			this.createDirectoryIfNorExist(merchantPath);
-	
-			// file path
-			nodePath.append(Constants.SLASH).append(folderName)
-					.append(Constants.SLASH);
-			Path dirPath = Paths.get(nodePath.toString());
-			this.createDirectoryIfNorExist(dirPath);
 		
+		// node path
+		StringBuilder nodePath = new StringBuilder();
+		nodePath
+		.append(confDir.toString())
+		.append(rootPath).append(merchantCode);
+		Path merchantPath = Paths.get(nodePath.toString());
+		this.createDirectoryIfNorExist(merchantPath);
+		
+		return merchantPath;
+		
+	}
+
+	@Override
+	public void removeFolder(String merchantStoreCode, String folderName, Optional<String> folderPath)
+			throws ServiceException {
+
+		//String rootPath = this.buildRootPath();
+		try {
+			
+			Path merchantPath = this.buildMerchantPath(merchantStoreCode);
+			StringBuilder nodePath = new StringBuilder();
+			nodePath.append(merchantPath.toString()).append(Constants.SLASH);
+			if(folderPath.isPresent()) {
+				nodePath.append(folderPath.get()).append(Constants.SLASH);
+			}
+			
+			nodePath.append(folderName);
+			
+			Path longPath = Paths.get(nodePath.toString());
+			
+			if (Files.exists(longPath)) {
+				Files.delete(longPath);
+			}
+			
 		} catch (IOException e) {
 			LOGGER.error("Error while creating fiolder for {} merchant ", merchantStoreCode);
 			throw new ServiceException(e);
@@ -423,30 +471,9 @@ public class CmsStaticContentFileManagerImpl implements ContentAssetsManager {
 	}
 
 	@Override
-	public void removeFolder(String merchantStoreCode, String folderName) throws ServiceException {
-		
-		String rootPath = this.buildRootPath();
-		try {
-
-			// node path
-			StringBuilder nodePath = new StringBuilder();
-			nodePath.append(rootPath).append(merchantStoreCode);
-			Path merchantPath = Paths.get(nodePath.toString());
-
-			// file path
-			nodePath.append(Constants.SLASH).append(folderName)
-					.append(Constants.SLASH);
-			Path path = Paths.get(merchantPath.toString());
-
-			Files.deleteIfExists(path);
-			
-			
-		
-		} catch (IOException e) {
-			LOGGER.error("Error while creating fiolder for {} merchant ", merchantStoreCode);
-			throw new ServiceException(e);
-		}
-
+	public List<String> listFolders(String merchantStoreCode, Optional<String> folderPath) throws ServiceException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

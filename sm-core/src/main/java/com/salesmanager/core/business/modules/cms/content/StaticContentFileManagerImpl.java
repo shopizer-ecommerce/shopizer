@@ -4,6 +4,8 @@
 package com.salesmanager.core.business.modules.cms.content;
 
 import java.util.List;
+import java.util.Optional;
+
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.modules.cms.content.infinispan.CmsStaticContentFileManagerImpl;
 import com.salesmanager.core.model.content.FileContentType;
@@ -25,11 +27,12 @@ public class StaticContentFileManagerImpl extends StaticContentFileManager {
 	private FileRemove removeFile;
 	private FolderRemove removeFolder;
 	private FolderPut addFolder;
+	private FolderList listFolder;
 
 	@Override
-	public void addFile(final String merchantStoreCode, final InputContentFile inputStaticContentData)
+	public void addFile(final String merchantStoreCode, Optional<String> path, final InputContentFile inputStaticContentData)
 			throws ServiceException {
-		uploadFile.addFile(merchantStoreCode, inputStaticContentData);
+		uploadFile.addFile(merchantStoreCode, path, inputStaticContentData);
 
 	}
 
@@ -46,39 +49,39 @@ public class StaticContentFileManagerImpl extends StaticContentFileManager {
 	 * @throws ServiceException
 	 */
 	@Override
-	public void addFiles(final String merchantStoreCode, final List<InputContentFile> inputStaticContentDataList)
+	public void addFiles(final String merchantStoreCode, Optional<String> path, final List<InputContentFile> inputStaticContentDataList)
 			throws ServiceException {
-		uploadFile.addFiles(merchantStoreCode, inputStaticContentDataList);
+		uploadFile.addFiles(merchantStoreCode, path, inputStaticContentDataList);
 	}
 
 	@Override
 	public void removeFile(final String merchantStoreCode, final FileContentType staticContentType,
-			final String fileName) throws ServiceException {
-		removeFile.removeFile(merchantStoreCode, staticContentType, fileName);
+			final String fileName, Optional<String> path) throws ServiceException {
+		removeFile.removeFile(merchantStoreCode, staticContentType, fileName, path);
 
 	}
 
 	@Override
-	public OutputContentFile getFile(String merchantStoreCode, FileContentType fileContentType, String contentName)
+	public OutputContentFile getFile(String merchantStoreCode, Optional<String> path, FileContentType fileContentType, String contentName)
 			throws ServiceException {
-		return getFile.getFile(merchantStoreCode, fileContentType, contentName);
+		return getFile.getFile(merchantStoreCode, path, fileContentType, contentName);
 	}
 
 	@Override
-	public List<String> getFileNames(String merchantStoreCode, FileContentType fileContentType)
+	public List<String> getFileNames(String merchantStoreCode, Optional<String> path, FileContentType fileContentType)
 			throws ServiceException {
-		return getFile.getFileNames(merchantStoreCode, fileContentType);
+		return getFile.getFileNames(merchantStoreCode, path, fileContentType);
 	}
 
 	@Override
-	public List<OutputContentFile> getFiles(String merchantStoreCode, FileContentType fileContentType)
+	public List<OutputContentFile> getFiles(String merchantStoreCode, Optional<String> path, FileContentType fileContentType)
 			throws ServiceException {
-		return getFile.getFiles(merchantStoreCode, fileContentType);
+		return getFile.getFiles(merchantStoreCode, path, fileContentType);
 	}
 
 	@Override
-	public void removeFiles(String merchantStoreCode) throws ServiceException {
-		removeFile.removeFiles(merchantStoreCode);
+	public void removeFiles(String merchantStoreCode, Optional<String> path) throws ServiceException {
+		removeFile.removeFiles(merchantStoreCode, path);
 	}
 
 	public void setRemoveFile(FileRemove removeFile) {
@@ -106,14 +109,14 @@ public class StaticContentFileManagerImpl extends StaticContentFileManager {
 	}
 
 	@Override
-	public void removeFolder(String merchantStoreCode, String folder) throws ServiceException {
-		// TODO Auto-generated method stub
+	public void removeFolder(String merchantStoreCode, String folderName, Optional<String> path) throws ServiceException {
+		this.removeFolder.removeFolder(merchantStoreCode, folderName, path);
 
 	}
 
 	@Override
-	public void addFolder(String merchantStoreCode, String folderName, String parent) throws ServiceException {
-
+	public void addFolder(String merchantStoreCode, String folderName, Optional<String> path) throws ServiceException {
+		addFolder.addFolder(merchantStoreCode, folderName, path);
 	}
 
 	public FolderRemove getRemoveFolder() {
@@ -130,6 +133,19 @@ public class StaticContentFileManagerImpl extends StaticContentFileManager {
 
 	public void setAddFolder(FolderPut addFolder) {
 		this.addFolder = addFolder;
+	}
+
+	@Override
+	public List<String> listFolders(String merchantStoreCode, Optional<String> path) throws ServiceException {
+		return this.listFolder.listFolders(merchantStoreCode, path);
+	}
+
+	public FolderList getListFolder() {
+		return listFolder;
+	}
+
+	public void setListFolder(FolderList listFolder) {
+		this.listFolder = listFolder;
 	}
 
 }

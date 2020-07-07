@@ -1,6 +1,7 @@
 package com.salesmanager.core.business.services.content;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityService;
@@ -167,5 +168,11 @@ public interface ContentService
 	 * @return
 	 */
 	List<Content> getByCodeLike(ContentType type, String codeLike, MerchantStore store, Language language);
+	
+	void addFolder(MerchantStore store, Optional<String> path, String folderName) throws ServiceException ;
+	
+	List<String> listFolders(MerchantStore store, Optional<String> path) throws ServiceException ;
+	
+	void removeFolder(MerchantStore store, Optional<String> path, String folderName) throws ServiceException ;
 
 }
