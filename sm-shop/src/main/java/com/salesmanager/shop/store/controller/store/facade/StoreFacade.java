@@ -39,6 +39,8 @@ public interface StoreFacade {
 
 	ReadableMerchantStore getByCode(String code, String lang);
 
+	ReadableMerchantStore getFullByCode(String code, String lang);
+
 	ReadableMerchantStoreList findAll(MerchantStoreCriteria criteria, Language language, int page, int count);
 
 	/**
@@ -50,6 +52,8 @@ public interface StoreFacade {
 	ReadableMerchantStoreList getChildStores(Language language, String code, int start, int count);
 
 	ReadableMerchantStore getByCode(String code, Language lang);
+
+	ReadableMerchantStore getFullByCode(String code, Language language);
 
 	boolean existByCode(String code);
 
