@@ -112,9 +112,9 @@ public class MultipleEntryPointsSecurityConfig {
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			http
-			//.sessionManagement()
-			//.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-			//.and()
+			.sessionManagement()
+			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			.and()
 			.antMatcher("/shop/**")
 			.csrf().disable()			
 			.authorizeRequests()

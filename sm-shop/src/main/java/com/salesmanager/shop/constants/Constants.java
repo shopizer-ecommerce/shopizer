@@ -2,6 +2,8 @@ package com.salesmanager.shop.constants;
 
 public class Constants {
 	
+	public final static String DEFAULT_TEMPLATE = "december";
+	
 	public final static String SLASH = "/";
 	public final static String BLANK = "";
 	public final static String EQUALS = "=";
