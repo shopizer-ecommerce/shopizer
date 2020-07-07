@@ -146,6 +146,9 @@ public class PersistableMerchantStorePopulator extends AbstractDataPopulator<Per
 				throw new ConversionException(e);
 			}
 		}
+
+		if (StringUtils.isNotEmpty(source.getTemplate()))
+			target.setStoreTemplate(source.getTemplate());
 		
 		return target;
 	}
