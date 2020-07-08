@@ -147,8 +147,6 @@ response.setDateHeader ("Expires", -1);
 
                     } else {
                         showSMLoading('#pageContainer');
-                        // console.log("ALLLLLLL ISSSSSSS GOOOODDDDDDDDDDDD " + JSON.stringify(response));
-
                         // response contains id and card, which contains additional card details
                         var paymentItentId = response.paymentIntent.id;
                         // Insert the token into the form so it gets submitted to the server
@@ -173,7 +171,6 @@ response.setDateHeader ("Expires", -1);
 
           <div class="control-group">
             <label class="control-label"><s:message code="label.payment.creditcard.usecredicard" text="Use Credit Card"/></label>
-               <%-- AAAAAAAAAAA Stripe 3 ${cart.getCode()} --%>
             <div class="controls">
                <jsp:include page="/pages/shop/common/checkout/selectedPayment.jsp" />
             </div>
