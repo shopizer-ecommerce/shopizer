@@ -7,6 +7,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+
+import com.salesmanager.shop.populator.store.ReadableMerchantStorePopulatorWithDetails;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.Validate;
 import org.drools.core.util.StringUtils;
@@ -105,6 +107,12 @@ public class StoreFacadeImpl implements StoreFacade {
 		return getByCode(code, language);
 	}
 
+	@Override
+	public ReadableMerchantStore getFullByCode(String code, String lang) {
+		Language language = getLanguage(lang);
+		return getFullByCode(code, language);
+	}
+
 	private Language getLanguage(String lang) {
 		return languageUtils.getServiceLanguage(lang);
 	}
@@ -113,6 +121,12 @@ public class StoreFacadeImpl implements StoreFacade {
 	public ReadableMerchantStore getByCode(String code, Language language) {
 		MerchantStore store = getMerchantStoreByCode(code);
 		return convertMerchantStoreToReadableMerchantStore(language, store);
+	}
+
+	@Override
+	public ReadableMerchantStore getFullByCode(String code, Language language) {
+		MerchantStore store = getMerchantStoreByCode(code);
+		return convertMerchantStoreToReadableMerchantStoreWithFullDetails(language, store);
 	}
 
 	@Override
@@ -136,6 +150,25 @@ public class StoreFacadeImpl implements StoreFacade {
 		 * Language is not important for this conversion using default language
 		 */
 		try {			readable = populator.populate(store, readable, store, language);
+		} catch (Exception e) {
+			throw new ConversionRuntimeException("Error while populating MerchantStore " + e.getMessage());
+		}
+		return readable;
+	}
+
+	private ReadableMerchantStore convertMerchantStoreToReadableMerchantStoreWithFullDetails(Language language, MerchantStore store) {
+		ReadableMerchantStore readable = new ReadableMerchantStore();
+
+		ReadableMerchantStorePopulatorWithDetails populator = new ReadableMerchantStorePopulatorWithDetails();
+		populator.setCountryService(countryService);
+		populator.setZoneService(zoneService);
+		populator.setFilePath(imageUtils);
+
+		/**
+		 * Language is not important for this conversion using default language
+		 */
+		try {
+			readable = populator.populate(store, readable, store, language);
 		} catch (Exception e) {
 			throw new ConversionRuntimeException("Error while populating MerchantStore " + e.getMessage());
 		}
