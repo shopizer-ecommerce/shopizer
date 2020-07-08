@@ -45,7 +45,6 @@ import com.salesmanager.shop.utils.LabelUtils;
 @ComponentScan({"com.salesmanager.shop"})
 @ServletComponentScan
 @Import({CoreApplicationConfiguration.class}) // import sm-core configurations
-@ImportResource({"classpath:/spring/shopizer-shop-context.xml"})
 @EnableWebSecurity
 public class ShopApplicationConfiguration implements WebMvcConfigurer {
 
