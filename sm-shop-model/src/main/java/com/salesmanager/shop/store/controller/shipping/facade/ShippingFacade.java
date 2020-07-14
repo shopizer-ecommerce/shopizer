@@ -1,11 +1,13 @@
 package com.salesmanager.shop.store.controller.shipping.facade;
 
+import java.util.List;
+
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.model.shipping.PackageDetails;
 import com.salesmanager.shop.model.references.PersistableAddress;
 import com.salesmanager.shop.model.references.ReadableAddress;
 import com.salesmanager.shop.model.shipping.ExpeditionConfiguration;
-import com.salesmanager.shop.model.shipping.ShippingConfiguration;
 
 public interface ShippingFacade {
 	
@@ -16,8 +18,18 @@ public interface ShippingFacade {
 	ReadableAddress getShippingOrigin(MerchantStore store);
 	void saveShippingOrigin(PersistableAddress address, MerchantStore store);
 	
-	ShippingConfiguration getShippingConfiguration(MerchantStore store);
-	void setShippingConfiguration(ShippingConfiguration configuration, MerchantStore store);
+
+	void createPackage(PackageDetails packaging, MerchantStore store);
+	
+	PackageDetails getPackage(String code, MerchantStore store);
+	
+	List<PackageDetails> listPackages(MerchantStore store);
+	
+	void updatePackage(String code, PackageDetails packaging, MerchantStore store);
+	
+	void deletePackage(String code, MerchantStore store);
+	
+	
 
 
 }

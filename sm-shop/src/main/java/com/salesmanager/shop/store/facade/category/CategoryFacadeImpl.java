@@ -14,10 +14,7 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import com.salesmanager.shop.store.api.v1.category.CategoryApi;
 import org.apache.commons.lang.Validate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 

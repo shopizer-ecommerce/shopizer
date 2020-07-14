@@ -493,7 +493,7 @@ public class ShippingServiceImpl implements ShippingService {
 			
 			//calculate order total
 			BigDecimal orderTotal = calculateOrderTotal(products,store);
-			List<PackageDetails> packages = this.getPackagesDetails(products, store);
+			List<PackageDetails> packages = getPackagesDetails(products, store);
 			
 			//free shipping ?
 			boolean freeShipping = false;

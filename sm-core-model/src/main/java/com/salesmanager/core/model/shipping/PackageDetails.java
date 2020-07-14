@@ -2,6 +2,7 @@ package com.salesmanager.core.model.shipping;
 
 public class PackageDetails {
 	
+	private String code;
 	private double shippingWeight;
 	private double shippingMaxWeight;
 	private double shippingLength;
@@ -9,6 +10,8 @@ public class PackageDetails {
 	private double shippingWidth;
 	private int shippingQuantity;
 	private int treshold;
+	private String type; //BOX, ITEM
+	
 	
 	private String itemName = "";
 	
@@ -60,6 +63,18 @@ public class PackageDetails {
 	}
 	public void setTreshold(int treshold) {
 		this.treshold = treshold;
+	}
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }

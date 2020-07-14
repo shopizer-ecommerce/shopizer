@@ -19,12 +19,15 @@ import com.salesmanager.core.business.services.shipping.ShippingService;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.reference.zone.Zone;
+import com.salesmanager.core.model.shipping.PackageDetails;
 import com.salesmanager.core.model.shipping.ShippingConfiguration;
 import com.salesmanager.core.model.shipping.ShippingOrigin;
+import com.salesmanager.core.model.shipping.ShippingPackageType;
 import com.salesmanager.core.model.shipping.ShippingType;
 import com.salesmanager.shop.model.references.PersistableAddress;
 import com.salesmanager.shop.model.references.ReadableAddress;
 import com.salesmanager.shop.model.shipping.ExpeditionConfiguration;
+import com.salesmanager.shop.store.api.exception.OperationNotAllowedException;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 
@@ -58,8 +61,7 @@ public class ShippingFacadeImpl implements ShippingFacade {
 			}
 			
 			List<String> countries = shippingService.getSupportedCountries(store);
-			
-			
+
 			if(!CollectionUtils.isEmpty(countries)) {
 				
 				List<String> countryCode = countries.stream()
@@ -85,7 +87,7 @@ public class ShippingFacadeImpl implements ShippingFacade {
 			ShippingConfiguration config = getDbConfig(store);
 			config.setTaxOnShipping(expedition.isTaxOnShipping());
 			config.setShippingType(expedition.isIternationalShipping()?ShippingType.INTERNATIONAL:ShippingType.NATIONAL);
-			shippingService.saveShippingConfiguration(config, store);
+			this.saveShippingConfiguration(config, store);
 			
 			shippingService.setSupportedCountries(store, expedition.getShipToCountry());
 
@@ -95,6 +97,15 @@ public class ShippingFacadeImpl implements ShippingFacade {
 			throw new ServiceRuntimeException("Error while getting Expedition configuration for store[" + store.getCode() + "]", e);
 		}
 
+	}
+	
+	private void saveShippingConfiguration(ShippingConfiguration config, MerchantStore store) throws ServiceRuntimeException {
+		try {
+			shippingService.saveShippingConfiguration(config, store);
+		} catch (ServiceException e) {
+			LOGGER.error("Error while saving shipping configuration", e);
+			throw new ServiceRuntimeException("Error while saving shipping configuration for store [" + store.getCode() + "]", e);
+		}
 	}
 
 	@Override
@@ -153,28 +164,9 @@ public class ShippingFacadeImpl implements ShippingFacade {
 
 	}
 
-	@Override
-	public com.salesmanager.shop.model.shipping.ShippingConfiguration getShippingConfiguration(MerchantStore store) {
-		Validate.notNull(store, "MerchantStore cannot be null");
-		ShippingConfiguration dbConfig = this.getDbConfig(store);
-		
-		com.salesmanager.shop.model.shipping.ShippingConfiguration conf = new com.salesmanager.shop.model.shipping.ShippingConfiguration();
-
-		return null;
-	}
-
-	@Override
-	public void setShippingConfiguration(com.salesmanager.shop.model.shipping.ShippingConfiguration configuration,
-			MerchantStore store) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 	private ShippingConfiguration getDbConfig(MerchantStore store) {
-		
-		
+
 		try {
-			
 			//get original configuration
 			ShippingConfiguration config = shippingService.getShippingConfiguration(store);
 			if(config==null) {
@@ -188,6 +180,154 @@ public class ShippingFacadeImpl implements ShippingFacade {
 			throw new ServiceRuntimeException("Error while getting Expedition configuration for store[" + store.getCode() + "]", e);
 		}
 		
+	}
+
+	@Override
+	public void createPackage(PackageDetails packaging, MerchantStore store) {
+		Validate.notNull(store, "MerchantStore cannot be null");
+		Validate.notNull(packaging, "PackageDetails cannot be null");
+		ShippingConfiguration config = getDbConfig(store);
+		
+		if(this.packageExists(config, packaging)) {
+			throw new OperationNotAllowedException("Package with unique code [" + packaging.getCode() + "] already exist");
+		}
+		
+		com.salesmanager.core.model.shipping.Package pack = toPackage(packaging);
+		
+		
+		//need to check if code exists
+		config.getPackages().add(pack);
+		this.saveShippingConfiguration(config, store);
+	
+	}
+	
+	private boolean packageExists(ShippingConfiguration configuration, PackageDetails packageDetails) {
+		
+		Validate.notNull(configuration,"ShippingConfiguration cannot be null");
+		Validate.notNull(packageDetails, "PackageDetails cannot be null");
+		Validate.notEmpty(packageDetails.getCode(), "PackageDetails code cannot be empty");
+		
+		List<com.salesmanager.core.model.shipping.Package> packages = configuration.getPackages().stream().filter(p -> p.getCode().equalsIgnoreCase(packageDetails.getCode())).collect(Collectors.toList());
+		
+		if(packages.isEmpty()) {
+			return false;
+		} else {
+			return true;
+		}
+		
+		
+	}
+	
+	private com.salesmanager.core.model.shipping.Package packageDetails(ShippingConfiguration configuration, String code) {
+		
+		Validate.notNull(configuration,"ShippingConfiguration cannot be null");
+		Validate.notNull(code, "PackageDetails code cannot be null");
+
+		List<com.salesmanager.core.model.shipping.Package> packages = configuration.getPackages().stream().filter(p -> p.getCode().equalsIgnoreCase(code)).collect(Collectors.toList());
+		
+		if(!packages.isEmpty()) {
+			return packages.get(0);
+		} else {
+			return null;
+		}
+
+		
+	}
+
+	@Override
+	public PackageDetails getPackage(String code, MerchantStore store) {
+		Validate.notNull(store, "MerchantStore cannot be null");
+		Validate.notEmpty(code,"Packaging unique code cannot be empty");
+		
+		ShippingConfiguration config = getDbConfig(store);
+		
+		com.salesmanager.core.model.shipping.Package p = this.packageDetails(config, code);
+		
+		if(p == null) {
+			throw new ResourceNotFoundException("Package with unique code [" + code + "] not found");
+		}
+		
+		return toPackageDetails(p);
+	}
+
+	@Override
+	public List<PackageDetails> listPackages(MerchantStore store) {
+		Validate.notNull(store, "MerchantStore cannot be null");
+		ShippingConfiguration config = getDbConfig(store);
+		
+		return config.getPackages().stream().map(p -> this.toPackageDetails(p)).collect(Collectors.toList());
+
+	}
+
+	@Override
+	public void updatePackage(String code, PackageDetails packaging, MerchantStore store) {
+		Validate.notNull(store, "MerchantStore cannot be null");
+		Validate.notNull(packaging, "PackageDetails cannot be null");
+		Validate.notEmpty(code,"Packaging unique code cannot be empty");
+		
+		ShippingConfiguration config = getDbConfig(store);
+		
+		com.salesmanager.core.model.shipping.Package p = this.packageDetails(config, code);
+		
+		if(p == null) {
+			throw new ResourceNotFoundException("Package with unique code [" + packaging.getCode() + "] not found");
+		}
+		
+		com.salesmanager.core.model.shipping.Package pack = toPackage(packaging);
+		pack.setCode(code);
+		
+		//need to check if code exists
+		config.getPackages().add(pack);
+		this.saveShippingConfiguration(config, store);
+		
+	}
+
+	@Override
+	public void deletePackage(String code, MerchantStore store) {
+		
+		Validate.notNull(store, "MerchantStore cannot be null");
+		Validate.notEmpty(code,"Packaging unique code cannot be empty");
+		
+		ShippingConfiguration config = getDbConfig(store);
+		
+		List<com.salesmanager.core.model.shipping.Package> packages = config.getPackages();
+		
+		List<com.salesmanager.core.model.shipping.Package> packList = config.getPackages().stream().filter(p -> p.getCode().equalsIgnoreCase(code)).collect(Collectors.toList());
+		
+		if(!packList.isEmpty()) {
+			packages.removeAll(packList);
+			config.setPackages(packages);
+			this.saveShippingConfiguration(config, store);
+		} 
+		
+	}
+	
+	private PackageDetails toPackageDetails(com.salesmanager.core.model.shipping.Package pack) {
+		PackageDetails details = new PackageDetails();
+		details.setCode(pack.getCode());
+		details.setShippingHeight(pack.getBoxHeight());
+		details.setShippingLength(pack.getBoxLength());
+		details.setShippingMaxWeight(pack.getMaxWeight());
+		//details.setShippingQuantity(pack.getShippingQuantity());
+		details.setShippingWeight(pack.getBoxWeight());
+		details.setShippingWidth(pack.getBoxWidth());
+		details.setTreshold(pack.getTreshold());
+		details.setType(pack.getShipPackageType().name());
+		return details;
+	}
+	
+	private com.salesmanager.core.model.shipping.Package toPackage(PackageDetails pack) {
+		com.salesmanager.core.model.shipping.Package details = new com.salesmanager.core.model.shipping.Package();
+		details.setCode(pack.getCode());
+		details.setBoxHeight(pack.getShippingHeight());
+		details.setBoxLength(pack.getShippingLength());
+		details.setMaxWeight(pack.getShippingMaxWeight());
+		//details.setShippingQuantity(pack.getShippingQuantity());
+		details.setBoxWeight(pack.getShippingWeight());
+		details.setBoxWidth(pack.getShippingWidth());
+		details.setTreshold(pack.getTreshold());
+		details.setShipPackageType(ShippingPackageType.valueOf(pack.getType()));
+		return details;
 	}
 
 }

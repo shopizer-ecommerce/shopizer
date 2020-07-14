@@ -1,7 +1,10 @@
 package com.salesmanager.core.model.shipping;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONAware;
 import org.json.simple.JSONObject;
 
@@ -29,6 +32,8 @@ public class ShippingConfiguration implements JSONAware {
 	//free shipping
 	private boolean freeShippingEnabled = false;
 	private BigDecimal orderTotalFreeShipping = null;
+	
+	private List<Package> packages = new ArrayList<Package>();
 
 	
 	
@@ -200,7 +205,31 @@ public class ShippingConfiguration implements JSONAware {
 		data.put("taxOnShipping", this.taxOnShipping);
 		
 		
+		JSONArray jsonArray = new JSONArray();
+
+		for(Package p : this.getPackages()) {
+			jsonArray.add(transformPackage(p));
+		}
+		
+		data.put("packages", jsonArray);
+		
+		
 		return data.toJSONString();
+	}
+	
+	@SuppressWarnings("unchecked")
+	private JSONObject transformPackage(Package p) {
+		JSONObject data = new JSONObject();
+		data.put("boxWidth", p.getBoxWidth());
+		data.put("boxHeight", p.getBoxHeight());
+		data.put("boxLength", p.getBoxLength());
+		data.put("boxWeight", p.getBoxWeight());
+		data.put("maxWeight", p.getMaxWeight());
+		data.put("treshold", p.getTreshold());
+		data.put("code", p.getCode());
+		data.put("shipPackageType", p.getShipPackageType().name());
+		data.put("defaultPackaging", p.isDefaultPackaging());
+		return data;
 	}
 
 
@@ -348,6 +377,16 @@ public class ShippingConfiguration implements JSONAware {
 	}
 
 
+	public List<Package> getPackages() {
+		return packages;
+	}
+
+
+	public void setPackages(List<Package> packages) {
+		this.packages = packages;
+	}
+
+
 
 
 
@@ -358,3 +397,5 @@ public class ShippingConfiguration implements JSONAware {
 
 
 }
+
+

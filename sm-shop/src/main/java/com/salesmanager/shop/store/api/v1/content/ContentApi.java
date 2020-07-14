@@ -1,15 +1,19 @@
 package com.salesmanager.shop.store.api.v1.content;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,14 +30,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.salesmanager.core.model.content.ContentType;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.model.content.Content;
 import com.salesmanager.shop.model.content.ContentFile;
 import com.salesmanager.shop.model.content.ContentFolder;
 import com.salesmanager.shop.model.content.ContentName;
 import com.salesmanager.shop.model.content.PersistableContentEntity;
-
 import com.salesmanager.shop.model.content.ReadableContentBox;
 import com.salesmanager.shop.model.content.ReadableContentEntity;
 import com.salesmanager.shop.model.content.ReadableContentFull;
@@ -41,6 +46,7 @@ import com.salesmanager.shop.model.content.ReadableContentPage;
 import com.salesmanager.shop.store.api.exception.RestApiException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.controller.content.facade.ContentFacade;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -58,6 +64,8 @@ import springfox.documentation.annotations.ApiIgnore;
 public class ContentApi {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ContentApi.class);
+  
+  private static final String NULL_PATH = "NULL";
 
   @Inject
   private ContentFacade contentFacade;
@@ -208,6 +216,58 @@ public class ContentApi {
     return contentFacade.getContentFolder(decodedPath, merchantStore);
   }
   
+  
+  /**
+   * Works with ng-file-man client
+   * @param path
+   * @param merchantStore
+   * @param language
+   * @return
+   * @throws Exception
+   */
+  @GetMapping(value = "/content/list", produces = MediaType.APPLICATION_JSON_VALUE)
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
+  public List<ImageFile> listImages(
+	  @RequestParam(value = "parentPath", required = false) String path,
+      @ApiIgnore MerchantStore merchantStore, 
+      @ApiIgnore Language language) throws Exception {
+	  
+    
+	  String decodedPath = decodeContentPath(path);
+
+	  ContentFolder  folder =  contentFacade.getContentFolder(decodedPath, merchantStore);
+	  List<ImageFile> files =  folder.getContent()
+			  .stream().map(x ->convertToImageFile(x)).collect(Collectors.toList());
+
+	  return files;
+  }
+  
+  private ImageFile convertToImageFile(Content content) {
+	  ImageFile f = new ImageFile();
+	  f.setDir(false);
+	  f.setId(UUID.randomUUID().toString());
+	  f.setName(content.getName());
+	  f.setUrl(content.getName());
+	  f.setPath("/");
+	  f.setSize("12");
+	  return f;
+  }
+  
+  private ImageFile convertToFolder(String folder) {
+	  ImageFile f = new ImageFile();
+	  f.setDir(true);
+	  f.setId(UUID.randomUUID().toString());
+	  f.setName(folder);
+	  f.setUrl(folder);
+	  f.setPath("/");
+	  f.setSize("0");
+	  return f;
+  }
+  
+  
+  
   /**
    * TODO
    * @param parent
@@ -260,7 +320,7 @@ public class ContentApi {
 
   private String decodeContentPath(String path) throws UnsupportedEncodingException {
     try {
-      return StringUtils.isBlank(path) ? path : URLDecoder.decode(path, "UTF-8");
+      return StringUtils.isBlank(path) || path.contains("/images") ? "/" : URLDecoder.decode(path, "UTF-8");
     } catch (UnsupportedEncodingException e) {
       throw new RestApiException(e);
     }
@@ -408,5 +468,55 @@ public class ContentApi {
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language) {
     contentFacade.delete(merchantStore, name.getName(), name.getContentType());
+  }
+  
+  class ImageFile implements Serializable {
+	
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getSize() {
+		return size;
+	}
+	public void setSize(String size) {
+		this.size = size;
+	}
+	public boolean isDir() {
+		return dir;
+	}
+	public void setDir(boolean dir) {
+		this.dir = dir;
+	}
+	public String getPath() {
+		return path;
+	}
+	public void setPath(String path) {
+		this.path = path;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String url;
+	private String name;
+	private String size;
+	private boolean dir;
+	private String path;
+	private String id;
   }
 }
