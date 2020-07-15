@@ -3,6 +3,7 @@ package com.salesmanager.core.model.catalog.product.availability;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -20,8 +21,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
-import com.salesmanager.core.constants.SchemaConstant;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.attribute.ProductVariant;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
@@ -248,5 +250,4 @@ public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailab
 	public void setAvailable(Boolean available) {
 		this.available = available;
 	}
-
 }

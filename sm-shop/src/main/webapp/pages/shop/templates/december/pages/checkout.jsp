@@ -459,39 +459,32 @@ function bindActions() {
 		log('Selection-> ' + paymentSelection);
 		if(paymentSelection.indexOf('paypal') >= 0 || paymentSelection.indexOf('PAYPAL') >= 0) {
 
-			//$('#paymentMethodType').val('PAYPAL');
 			$('#paymentMethodType').attr("value", 'PAYPAL');
 			initPayment('PAYPAL');
 		}
 		else if(paymentSelection.indexOf('stripe3') >= 0) {
-			//$('#paymentMethodType').val('CREDITCARD');
 			$('#paymentMethodType').attr("value", 'CREDITCARD');
 			log('Init stripe3');
 			initStripePayment3();
 		}
 		else if(paymentSelection.indexOf('stripe') >= 0) {
-			//$('#paymentMethodType').val('CREDITCARD');
 			$('#paymentMethodType').attr("value", 'CREDITCARD');
 			log('Init stripe');
 			initStripePayment();
 		}
 		else if(paymentSelection.indexOf('braintree') >= 0) {
 			log('Braintree ' + $('input[name=paymentMethodType]').val());
-			//$('#paymentMethodType').val('CREDITCARD');
 			$('#paymentMethodType').attr("value", 'CREDITCARD');
 			log('Payment method type -> ' + $('input[name=paymentMethodType]').val());
 			initBraintreePayment();
 		}
 		else if(paymentSelection.indexOf('moneyorder') >= 0) {
 			log('Money order ' + $('input[name=paymentMethodType]').val());
-			//$('#paymentMethodType').val('CREDITCARD');
 			$('#paymentMethodType').attr("value", 'MONEYORDER');
 			log('Payment method type -> ' + $('input[name=paymentMethodType]').val());
 			submitForm();
 		}
 		else if(paymentSelection.indexOf('beanstream') >= 0) {
-			//log('Beanstream ');
-			//$('#paymentMethodType').val('CREDITCARD');
 			$('#paymentMethodType').attr("value", 'CREDITCARD');
 			submitForm();
 		} else {

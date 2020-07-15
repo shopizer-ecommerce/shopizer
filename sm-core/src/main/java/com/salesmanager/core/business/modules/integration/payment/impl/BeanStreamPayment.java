@@ -281,7 +281,7 @@ public class BeanStreamPayment implements PaymentModule {
 			&ordAddress1=378 Du Languedoc
 			&ordCity=Boucherville
 			&ordProvince=QC
-			&ordPostalCode=J4B8J9
+			&ordPostalCode=J3B8J1
 			&ordCountry=CA
 			&ordPhoneNumber=(444) 555-6666
 			&ordEmailAddress=test@yahoo.com

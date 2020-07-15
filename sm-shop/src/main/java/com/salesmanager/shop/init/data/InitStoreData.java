@@ -832,18 +832,18 @@ public class InitStoreData implements InitData {
 //		    delivery.setCountryCode(canada.getIsoCode());
 		    delivery.setFirstName("Leonardo" );
 		    delivery.setLastName("DiCaprio" );
-		    delivery.setPostalCode("J4B-8J9" );
+		    delivery.setPostalCode("J1B-8J6" );
 		    delivery.setZone(zone);	    
 		    
 		    Billing billing = new Billing();
-		    billing.setAddress("358 Du Languadoc");
+		    billing.setAddress("350 Du Languadoc");
 		    billing.setCity("Boucherville");
 		    billing.setCompany("CSTI Consulting");
 		    billing.setCountry(canada);
 //		    billing.setCountryCode(canada.getIsoCode());
 		    billing.setFirstName("Leonardo" );
 		    billing.setLastName("DiCaprio" );
-		    billing.setPostalCode("J4B-8J9");
+		    billing.setPostalCode("J1B-8J6");
 		    billing.setZone(zone);
 		    
 		    customer.setBilling(billing);
