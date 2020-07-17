@@ -151,7 +151,7 @@ public class InitStoreData implements InitData {
 		Zone zone = zoneService.getByCode("QC");
 		
 		//create a merchant
-		MerchantStore store = merchantService.getMerchantStore(MerchantStore.DEFAULT_STORE);
+		MerchantStore store = merchantService.getByCode(MerchantStore.DEFAULT_STORE);
 		ProductType generalType = productTypeService.getProductType(ProductType.GENERAL_TYPE);
 		
 		

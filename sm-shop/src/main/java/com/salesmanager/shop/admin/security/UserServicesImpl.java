@@ -117,7 +117,7 @@ public class UserServicesImpl implements WebUserServices{
 		
 		  //TODO create all groups and permissions
 		
-		  MerchantStore store = merchantStoreService.getMerchantStore(MerchantStore.DEFAULT_STORE);
+		  MerchantStore store = merchantStoreService.getByCode(MerchantStore.DEFAULT_STORE);
 
 		  String password = passwordEncoder.encode(DEFAULT_INITIAL_PASSWORD);
 		  

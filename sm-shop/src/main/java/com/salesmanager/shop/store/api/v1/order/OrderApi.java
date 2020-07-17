@@ -213,6 +213,10 @@ public class OrderApi {
 			@RequestParam(value = "email", required = false) String email,
 			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
+		
+		
+		//long startTime = System.nanoTime();
+
 
 		OrderCriteria orderCriteria = new OrderCriteria();
 		orderCriteria.setPageSize(count);
@@ -229,7 +233,18 @@ public class OrderApi {
 		authorizationUtils.authorizeUser(user, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN,
 				Constants.GROUP_ADMIN_ORDER, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()), merchantStore);
 
-		return orderFacade.getReadableOrderList(orderCriteria, merchantStore);
+		ReadableOrderList orders = orderFacade.getReadableOrderList(orderCriteria, merchantStore);
+		
+		/**
+		long endTime = System.nanoTime();
+		
+		long timeElapsed = endTime - startTime;
+
+		System.out.println("Execution time in milliseconds : " +
+								timeElapsed / 1000000);
+								**/
+		
+		return orders;
 
 	}
 

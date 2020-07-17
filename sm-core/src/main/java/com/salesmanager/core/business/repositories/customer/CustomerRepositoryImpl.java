@@ -27,7 +27,7 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
 		StringBuilder objectBuilderSelect = new StringBuilder();
 		
 		String baseCountQuery = "select count(c) from Customer as c";
-		String baseQuery = "select c from Customer as c";
+		String baseQuery = "select c from Customer as c  left join fetch c.delivery.country left join fetch c.delivery.zone left join fetch c.billing.country left join fetch c.billing.zone";
 		countBuilderSelect.append(baseCountQuery);
 		objectBuilderSelect.append(baseQuery);
 		

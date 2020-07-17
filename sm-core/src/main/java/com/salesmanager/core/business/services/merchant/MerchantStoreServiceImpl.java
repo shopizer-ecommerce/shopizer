@@ -39,9 +39,9 @@ public class MerchantStoreServiceImpl extends SalesManagerEntityServiceImpl<Inte
 		this.merchantRepository = merchantRepository;
 	}
 
-	public MerchantStore getMerchantStore(String merchantStoreCode) throws ServiceException {
-		return merchantRepository.findByCode(merchantStoreCode);
-	}
+	//public MerchantStore getMerchantStore(String merchantStoreCode) throws ServiceException {
+	//	return merchantRepository.findByCode(merchantStoreCode);
+	//}
 
 	@Override
 	public void saveOrUpdate(MerchantStore store) throws ServiceException {

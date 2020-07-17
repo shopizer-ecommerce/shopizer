@@ -354,7 +354,7 @@ public class MerchantStoreController {
 
 		}
 
-		sessionStore = merchantStoreService.getMerchantStore(sessionStore.getCode());
+		sessionStore = merchantStoreService.getByCode(sessionStore.getCode());
 
 		// update session store
 		request.getSession().setAttribute(Constants.ADMIN_STORE, sessionStore);

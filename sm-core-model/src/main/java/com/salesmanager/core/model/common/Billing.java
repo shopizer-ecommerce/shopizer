@@ -50,12 +50,12 @@ public class Billing {
 	private String latitude;
 
 
-	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Country.class)
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Country.class)
 	@JoinColumn(name="BILLING_COUNTRY_ID", nullable=false)
 	private Country country;
 	
 	
-	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Zone.class)
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Zone.class)
 	@JoinColumn(name="BILLING_ZONE_ID", nullable=true)
 	private Zone zone;
 
