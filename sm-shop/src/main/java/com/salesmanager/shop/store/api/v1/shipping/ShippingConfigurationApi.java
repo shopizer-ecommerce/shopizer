@@ -108,7 +108,7 @@ public class ShippingConfigurationApi {
 	@RequestMapping(value = { "/private/shipping/package/{code}" }, method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public PackageDetails getPackage(
-			@RequestParam String code,
+			@PathVariable String code,
 			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
 
@@ -117,7 +117,8 @@ public class ShippingConfigurationApi {
 		authorizationUtils.authorizeUser(user, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN,
 				Constants.GROUP_SHIPPING, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()), merchantStore);
 
-		return shippingFacade.getPackage(code, merchantStore);
+		return shippingFacade.
+				getPackage(code, merchantStore);
 		
 
 
@@ -145,7 +146,7 @@ public class ShippingConfigurationApi {
 	//edit packaging
 	@ApiOperation(httpMethod = "PUT", value = "Edit package specification",
 		      notes = "", produces = "application/json", response = Void.class)
-	@RequestMapping(value = { "/private/shipping/package{code}" }, method = RequestMethod.PUT)
+	@RequestMapping(value = { "/private/shipping/package/{code}" }, method = RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.OK)
 	public void updatePackage(
 			@PathVariable String code,
@@ -165,7 +166,7 @@ public class ShippingConfigurationApi {
 	//delete packaging
 	@ApiOperation(httpMethod = "DELETE", value = "Delete a package specification",
 		      notes = "", produces = "application/json", response = Void.class)
-	@RequestMapping(value = { "/private/shipping/package{code}" }, method = RequestMethod.DELETE)
+	@RequestMapping(value = { "/private/shipping/package/{code}" }, method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.OK)
 	public void deletePackage(
 			@PathVariable String code,

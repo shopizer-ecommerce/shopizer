@@ -121,7 +121,9 @@ public class ShippingFacadeImpl implements ShippingFacade {
 		address.setAddress(o.getAddress());
 		address.setCity(o.getCity());
 		address.setPostalCode(o.getPostalCode());
-		address.setCountry(o.getCountry().getIsoCode());
+		if(o.getCountry()!=null) {
+			address.setCountry(o.getCountry().getIsoCode());
+		}
 		Zone z = o.getZone();
 		if(z != null) {
 			address.setStateProvince(z.getCode());

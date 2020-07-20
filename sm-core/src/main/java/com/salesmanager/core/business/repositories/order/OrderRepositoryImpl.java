@@ -191,11 +191,11 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		}
 		
 		//status
-		if(!StringUtils.isEmpty(criteria.getStatus())) {
+/*		if(!StringUtils.isEmpty(criteria.getStatus())) {
 			String nameQuery =  " and o.status like:status";
 			objectBuilderWhere.append(nameQuery);
 			countBuilderSelect.append(nameQuery);
-		}
+		}*/
 	
 		objectBuilderWhere.append(orderByCriteria);
 
@@ -233,8 +233,8 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		
 		//status
 		if(!StringUtils.isEmpty(criteria.getStatus())) {
-			countQ.setParameter("status", like(criteria.getStatus()));
-			objectQ.setParameter("status", like(criteria.getStatus()));
+			countQ.setParameter("status", criteria.getStatus().toUpperCase());
+			objectQ.setParameter("status", criteria.getStatus().toUpperCase());
 		}
 		
 
