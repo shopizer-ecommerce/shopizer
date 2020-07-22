@@ -432,5 +432,10 @@ public class CmsStaticContentFileManagerImpl
     return rootName;
   }
 
+  @Override
+  public CMSManager getCmsManager() {
+    return null;
+  }
+
 
 }

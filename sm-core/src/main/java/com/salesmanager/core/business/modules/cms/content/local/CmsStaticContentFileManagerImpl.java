@@ -417,6 +417,10 @@ public class CmsStaticContentFileManagerImpl implements ContentAssetsManager {
     this.cacheManager = cacheManager;
   }
 
+  @Override
+  public CMSManager getCmsManager() {
+    return null;
+  }
 
 
 }

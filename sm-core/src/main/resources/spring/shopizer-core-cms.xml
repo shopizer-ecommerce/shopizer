@@ -62,13 +62,13 @@
 	<!-- Product downloads -->
 	<beans:bean id="productDownloadsFileManager" class="com.salesmanager.core.business.modules.cms.content.StaticContentFileManagerImpl">
 		<beans:property name="uploadFile">
-				<beans:ref bean="defaultDownloadsManager" />
+				<beans:ref bean="${config.cms.method}DownloadsManager" />
 		</beans:property>
 		<beans:property name="getFile">
-			<beans:ref bean="defaultDownloadsManager" />
+			<beans:ref bean="${config.cms.method}DownloadsManager" />
 		</beans:property>
 		<beans:property name="removeFile">
-			<beans:ref bean="defaultDownloadsManager" />
+			<beans:ref bean="${config.cms.method}DownloadsManager" />
 		</beans:property>
 	</beans:bean>
 	
