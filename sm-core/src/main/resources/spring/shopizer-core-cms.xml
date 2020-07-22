@@ -100,7 +100,7 @@
 	<!-- Product download files -->
 	<beans:bean id="defaultDownloadsManager" class="com.salesmanager.core.business.modules.cms.content.infinispan.CmsStaticContentFileManagerImpl" factory-method="getInstance">
 		<beans:property name="cacheManager">
-			<beans:ref bean="infinispanDownloadsManager" />
+			<beans:ref bean="downloadsManager" />
 		</beans:property>
 	</beans:bean>
 	
@@ -121,6 +121,13 @@
 				</beans:property>
 	</beans:bean>
 
+	<beans:bean id="httpdDownloadsManager"
+				class="com.salesmanager.core.business.modules.cms.content.local.CmsStaticContentFileManagerImpl" factory-method="getInstance" >
+				<beans:property name="cacheManager">
+						<beans:ref bean="downloadsManager" />
+				</beans:property>
+	</beans:bean>
+
 
 	<!-- AWS-->
 	<beans:bean id="awsProductAssetsManager"
@@ -135,6 +142,13 @@
 				class="com.salesmanager.core.business.modules.cms.content.aws.S3StaticContentAssetsManagerImpl" factory-method="getInstance" >
  				<beans:property name="cmsManager">
 						<beans:ref bean="awsAssetsManager" />
+				</beans:property>
+	</beans:bean>
+
+	<beans:bean id="awsDownloadsManager"
+				class="com.salesmanager.core.business.modules.cms.content.aws.S3StaticContentAssetsManagerImpl" factory-method="getInstance" >
+ 				<beans:property name="cmsManager">
+						<beans:ref bean="downloadsManager" />
 				</beans:property>
 	</beans:bean>
 	
@@ -161,8 +175,8 @@
 		<beans:constructor-arg value="store-merchant"/><!-- root -->
 	</beans:bean>
 	
-	<!-- Infinispan downloads-->
-	<beans:bean id="infinispanDownloadsManager"
+	<!-- downloads-->
+	<beans:bean id="downloadsManager"
 				class="com.salesmanager.core.business.modules.cms.impl.DownloadCacheManagerImpl">
 				<beans:constructor-arg value="${config.cms.store.location}"/><!-- location -->
 				<beans:constructor-arg value="product-file"/><!-- root -->
