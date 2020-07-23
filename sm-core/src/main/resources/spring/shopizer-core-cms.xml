@@ -124,7 +124,7 @@
 	<beans:bean id="httpdDownloadsManager"
 				class="com.salesmanager.core.business.modules.cms.content.local.CmsStaticContentFileManagerImpl" factory-method="getInstance" >
 				<beans:property name="cacheManager">
-						<beans:ref bean="downloadsManager" />
+						<beans:ref bean="httpdAssetsManager" />
 				</beans:property>
 	</beans:bean>
 
@@ -148,7 +148,7 @@
 	<beans:bean id="awsDownloadsManager"
 				class="com.salesmanager.core.business.modules.cms.content.aws.S3StaticContentAssetsManagerImpl" factory-method="getInstance" >
  				<beans:property name="cmsManager">
-						<beans:ref bean="downloadsManager" />
+						<beans:ref bean="awsAssetsManager" />
 				</beans:property>
 	</beans:bean>
 	
