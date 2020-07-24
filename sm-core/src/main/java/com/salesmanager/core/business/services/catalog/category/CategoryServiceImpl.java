@@ -93,7 +93,7 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
 
 	@Override
 	public Category getOneByLanguage(long categoryId, Language language) {
-		return categoryRepository.findById(categoryId, language.getId());
+		return categoryRepository.findByIdAndLanguage(categoryId, language.getId());
 	}
 
 	@Override
@@ -173,7 +173,7 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
 	@Override
 	public Category getById(Long id, int merchantId) {
 
-		Category category = categoryRepository.findById(id, merchantId);
+		Category category = categoryRepository.findByIdAndStore(id, merchantId);
 
 		List<CategoryDescription> descriptions = categoryDescriptionRepository.listByCategoryId(id);
 
