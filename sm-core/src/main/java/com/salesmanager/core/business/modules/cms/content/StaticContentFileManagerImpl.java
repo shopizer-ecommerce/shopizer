@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.modules.cms.content.infinispan.CmsStaticContentFileManagerImpl;
+import com.salesmanager.core.business.modules.cms.impl.CMSManager;
 import com.salesmanager.core.model.content.FileContentType;
 import com.salesmanager.core.model.content.InputContentFile;
 import com.salesmanager.core.model.content.OutputContentFile;
@@ -146,6 +147,12 @@ public class StaticContentFileManagerImpl extends StaticContentFileManager {
 
 	public void setListFolder(FolderList listFolder) {
 		this.listFolder = listFolder;
+	}
+
+	@Override
+	public CMSManager getCmsManager() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

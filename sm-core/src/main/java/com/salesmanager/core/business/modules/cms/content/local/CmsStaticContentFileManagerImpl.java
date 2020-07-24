@@ -476,4 +476,9 @@ public class CmsStaticContentFileManagerImpl implements ContentAssetsManager {
 		return null;
 	}
 
+	@Override
+	public CMSManager getCmsManager() {
+	  return null;
+	}
+
 }
