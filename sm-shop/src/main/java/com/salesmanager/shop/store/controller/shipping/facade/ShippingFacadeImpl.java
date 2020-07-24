@@ -279,7 +279,10 @@ public class ShippingFacadeImpl implements ShippingFacade {
 		pack.setCode(code);
 		
 		//need to check if code exists
-		config.getPackages().add(pack);
+		List<com.salesmanager.core.model.shipping.Package> packs = config.getPackages().stream().filter(pa -> !pa.getCode().equals(code)).collect(Collectors.toList());
+		packs.add(pack);
+		
+		config.setPackages(packs);
 		this.saveShippingConfiguration(config, store);
 		
 	}

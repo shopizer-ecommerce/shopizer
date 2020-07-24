@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
+import org.assertj.core.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -66,7 +68,7 @@ public class ContentApi {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ContentApi.class);
 
-	private static final String NULL_PATH = "NULL";
+	private static final String DEFAULT_PATH = "/";
 
 	@Inject
 	private ContentFacade contentFacade;
@@ -201,22 +203,28 @@ public class ContentApi {
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) throws Exception {
 
 		String decodedPath = decodeContentPath(path);
+		
+/*		if(DEFAULT_PATH.equals(decodedPath)) {
+			List<ImageFile> files = new ArrayList<ImageFile>();
+			files.add(this.convertToFolder(decodedPath));
+			return files;
+		}*/
 
 		ContentFolder folder = contentFacade.getContentFolder(decodedPath, merchantStore);
-		List<ImageFile> files = folder.getContent().stream().map(x -> convertToImageFile(x))
+		List<ImageFile> files = folder.getContent().stream().map(x -> convertToImageFile(merchantStore, x))
 				.collect(Collectors.toList());
 
 		return files;
 	}
 
-	private ImageFile convertToImageFile(Content content) {
+	private ImageFile convertToImageFile(MerchantStore store, Content content) {
 		ImageFile f = new ImageFile();
 		f.setDir(false);
-		f.setId(UUID.randomUUID().toString());
+		f.setId(imageUtils.buildStaticImageUtils(store, content.getName()));
 		f.setName(content.getName());
-		f.setUrl(content.getName());
-		f.setPath("/");
-		f.setSize("12");
+		f.setUrl(imageUtils.buildStaticImageUtils(store, content.getName()));
+		f.setPath("image.png");
+		f.setSize(null);
 		return f;
 	}
 
@@ -224,10 +232,9 @@ public class ContentApi {
 		ImageFile f = new ImageFile();
 		f.setDir(true);
 		f.setId(UUID.randomUUID().toString());
-		f.setName(folder);
-		f.setUrl(folder);
-		f.setPath("/");
-		f.setSize("0");
+		f.setName(DEFAULT_PATH + "images");
+		f.setUrl(DEFAULT_PATH + "images");
+		f.setPath(DEFAULT_PATH + "images");
 		return f;
 	}
 
@@ -271,7 +278,7 @@ public class ContentApi {
 
 	private String decodeContentPath(String path) throws UnsupportedEncodingException {
 		try {
-			return StringUtils.isBlank(path) || path.contains("/images") ? "/" : URLDecoder.decode(path, "UTF-8");
+			return StringUtils.isBlank(path) || path.contains("/images") ? "/" : URLDecoder.decode(path.replaceAll(",",""), "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			throw new RestApiException(e);
 		}

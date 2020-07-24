@@ -422,4 +422,9 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
 		return categoryRepository.count(store.getId());
 	}
 
+	@Override
+	public Category getById(Long categoryid, int merchantId, int language) {
+		return categoryRepository.findById(merchantId, categoryid, language);
+	}
+
 }
