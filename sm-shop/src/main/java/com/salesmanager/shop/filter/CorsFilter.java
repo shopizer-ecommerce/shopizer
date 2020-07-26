@@ -36,7 +36,7 @@ public class CorsFilter extends HandlerInterceptorAdapter {
         	}
 	
 	        httpResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE, PATCH");
-        	httpResponse.setHeader("Access-Control-Allow-Headers", "X-Auth-Token, Content-Type, Authorization");
+        	httpResponse.setHeader("Access-Control-Allow-Headers", "X-Auth-Token, Content-Type, Authorization, Cache-Control, X-Requested-With");
         	httpResponse.setHeader("Access-Control-Allow-Origin", origin);
 	        
         	return true;

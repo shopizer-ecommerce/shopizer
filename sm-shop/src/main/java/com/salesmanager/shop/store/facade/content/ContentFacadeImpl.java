@@ -27,6 +27,7 @@ import com.salesmanager.core.model.content.ContentDescription;
 import com.salesmanager.core.model.content.ContentType;
 import com.salesmanager.core.model.content.FileContentType;
 import com.salesmanager.core.model.content.InputContentFile;
+import com.salesmanager.core.model.content.OutputContentFile;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.content.ContentDescriptionEntity;
@@ -403,8 +404,8 @@ public class ContentFacadeImpl implements ContentFacade {
 
 	private FileContentType getFileContentType(String type) {
 		FileContentType fileType = FileContentType.STATIC_FILE;
-		if (type.equals("image")) {
-			fileType = FileContentType.IMAGE;
+		if (type.equals("image")) {//for now we consider this route from api only
+			fileType = FileContentType.API_IMAGE;
 		}
 		return fileType;
 	}
@@ -568,6 +569,29 @@ public class ContentFacadeImpl implements ContentFacade {
 		} catch (Exception e) {
 			throw new ServiceRuntimeException("Error while getting page " + e.getMessage(), e);
 		}
+	}
+
+	@Override
+	public void renameFile(MerchantStore store, FileContentType fileType, String originalName, String newName) {
+		Optional<String> path = Optional.ofNullable(null);
+		try {
+			contentService.renameFile(store.getCode(), fileType, path, originalName, newName);
+		} catch (ServiceException e) {
+			throw new ServiceRuntimeException("Error while renaming file " + e.getMessage(), e);
+		}
+		
+	}
+
+	@Override
+	public OutputContentFile download(MerchantStore store, FileContentType fileType, String fileName) {
+		
+		try {
+			return contentService.getContentFile(store.getCode(), fileType, fileName);
+		} catch (ServiceException e) {
+			throw new ServiceRuntimeException("Error while downloading file " + e.getMessage(), e);
+		}
+		
+
 	}
 
 }

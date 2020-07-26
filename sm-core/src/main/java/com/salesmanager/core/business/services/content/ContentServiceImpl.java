@@ -1,5 +1,9 @@
 package com.salesmanager.core.business.services.content;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URLConnection;
 import java.util.List;
 import java.util.Optional;
@@ -7,6 +11,7 @@ import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -142,6 +147,12 @@ public class ContentServiceImpl extends SalesManagerEntityServiceImpl<Long, Cont
 
 		if (contentFile.getFileContentType().name().equals(FileContentType.IMAGE.name())
 				|| contentFile.getFileContentType().name().equals(FileContentType.STATIC_FILE.name())) {
+			addFile(merchantStoreCode, contentFile);
+		} else if(contentFile.getFileContentType().name().equals(FileContentType.API_IMAGE.name())) {
+			contentFile.setFileContentType(FileContentType.IMAGE);
+			addImage(merchantStoreCode, contentFile);
+		} else if(contentFile.getFileContentType().name().equals(FileContentType.API_FILE.name())) {
+			contentFile.setFileContentType(FileContentType.STATIC_FILE);
 			addFile(merchantStoreCode, contentFile);
 		} else {
 			addImage(merchantStoreCode, contentFile);
@@ -320,9 +331,6 @@ public class ContentServiceImpl extends SalesManagerEntityServiceImpl<Long, Cont
 		Optional<String> path = Optional.ofNullable(p);
 
 		contentFileManager.removeFiles(merchantStoreCode, path);
-
-		// staticContentFileManager.removeFiles(merchantStoreCode);
-
 	}
 
 	/**
@@ -351,7 +359,6 @@ public class ContentServiceImpl extends SalesManagerEntityServiceImpl<Long, Cont
 		if (fileContentType.name().equals(FileContentType.IMAGE.name())
 				|| fileContentType.name().equals(FileContentType.STATIC_FILE.name())) {
 			return contentFileManager.getFile(merchantStoreCode, path, fileContentType, fileName);
-
 		} else {
 			return contentFileManager.getFile(merchantStoreCode, path, fileContentType, fileName);
 		}
@@ -443,8 +450,6 @@ public class ContentServiceImpl extends SalesManagerEntityServiceImpl<Long, Cont
 				throw new ServiceException("Path format [" + path.get() + "] not a valid directory format");
 			}
 		}
-		
-
 		contentFileManager.addFolder(store.getCode(), folderName, path);
 
 
@@ -469,6 +474,33 @@ public class ContentServiceImpl extends SalesManagerEntityServiceImpl<Long, Cont
 	public boolean isValidLinuxDirectory(String path) {
 	    Pattern linuxDirectoryPattern = Pattern.compile("^/|(/[a-zA-Z0-9_-]+)+$");
 	     return path != null && !path.trim().isEmpty() && linuxDirectoryPattern.matcher( path ).matches();
+	}
+
+	@Override
+	public void renameFile(String merchantStoreCode, FileContentType fileContentType, Optional<String> path,
+			String originalName, String newName) throws ServiceException{
+
+		OutputContentFile file = contentFileManager.getFile(merchantStoreCode, path, fileContentType, originalName);
+		
+		if(file == null) {
+			throw new ServiceException("File name [" + originalName + "] not found for merchant [" + merchantStoreCode +"]");
+		}
+		
+		ByteArrayOutputStream os = file.getFile();
+		InputStream is = new ByteArrayInputStream(os.toByteArray());
+		
+		//remove file
+		contentFileManager.removeFile(merchantStoreCode, fileContentType, originalName, path);
+		
+		//recreate file
+		InputContentFile inputFile = new InputContentFile();
+		inputFile.setFileContentType(fileContentType);
+		inputFile.setFileName(newName);
+		inputFile.setMimeType(file.getMimeType());
+		inputFile.setFile(is);
+		
+		contentFileManager.addFile(merchantStoreCode, path, inputFile);
+	
 	}
 
 }

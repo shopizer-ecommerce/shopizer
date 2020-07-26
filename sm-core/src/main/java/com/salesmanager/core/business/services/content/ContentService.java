@@ -101,6 +101,15 @@ public interface ContentService
     public void removeFiles( String merchantStoreCode ) throws ServiceException;
     
     /**
+     * Rename file
+     * @param merchantStoreCode
+     * @param path
+     * @param originalName
+     * @param newName
+     */
+    public void renameFile( String merchantStoreCode, FileContentType fileContentType, Optional<String> path, String originalName, String newName) throws ServiceException;
+    
+    /**
      * Method responsible for fetching particular content image for a given merchant store. Requested image will be
      * search in Infinispan tree cache and OutputContentImage will be sent, in case no image is found null will
      * returned.

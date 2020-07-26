@@ -30,9 +30,9 @@ public class StaticContentFileManagerImpl extends StaticContentFileManager {
 	private FolderList listFolder;
 
 	@Override
-	public void addFile(final String merchantStoreCode, Optional<String> path, final InputContentFile inputStaticContentData)
+	public void addFile(final String merchantStoreCode, Optional<String> path, final InputContentFile inputContentFile)
 			throws ServiceException {
-		uploadFile.addFile(merchantStoreCode, path, inputStaticContentData);
+		uploadFile.addFile(merchantStoreCode, path, inputContentFile);
 
 	}
 

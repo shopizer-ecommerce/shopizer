@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import com.salesmanager.core.model.content.ContentType;
+import com.salesmanager.core.model.content.FileContentType;
+import com.salesmanager.core.model.content.OutputContentFile;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.content.ContentFile;
@@ -130,5 +132,22 @@ public interface ContentFacade {
 	 */
 	List<ReadableContentEntity> getContents(Optional<String> type, MerchantStore store, Language language);
 
+	/**
+	 * Rename file
+	 * @param store
+	 * @param fileType
+	 * @param originalName
+	 * @param newName
+	 */
+	void renameFile(MerchantStore store, FileContentType fileType, String originalName, String newName);
+	
+	/**
+	 * Download file
+	 * @param store
+	 * @param fileType
+	 * @param fileName
+	 * @return
+	 */
+	OutputContentFile download(MerchantStore store, FileContentType fileType, String fileName);
 
 }
