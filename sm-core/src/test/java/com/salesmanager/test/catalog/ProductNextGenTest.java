@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.*;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -20,6 +21,7 @@ import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOption;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionDescription;
+import com.salesmanager.core.model.catalog.product.attribute.ProductOptionSet;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionType;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValue;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueDescription;
@@ -43,6 +45,8 @@ public class ProductNextGenTest extends com.salesmanager.test.common.AbstractSal
 	private ProductOptionValue nineHalf = null;
 	private ProductOptionValue ten = null;
 	private ProductOption size = null;
+	
+	private ProductOptionSet possibleSizes;
 	
 	
 
@@ -128,6 +132,13 @@ public class ProductNextGenTest extends com.salesmanager.test.common.AbstractSal
 	    // --- add attributes to the product (size)
 	    createOptions(summerShoes);
 	    
+	    // --- options set
+	    /**
+	     * Option Set facilitates product attributes creation for redundant product creation
+	     * it offers a list of possible options and options values administrator can create in order
+	     * to easily create attributes 
+	     */
+	    createOptionsSet(store);
 	    
 	    // --- create attributes (available options)
 	    /**
@@ -212,7 +223,6 @@ public class ProductNextGenTest extends com.salesmanager.test.common.AbstractSal
 	    //ObjectMapper mapper = new ObjectMapper();
 	    //Converting the Object to JSONString
 	    //String jsonString = mapper.writeValueAsString(summerShoes);
-	    
 	    //System.out.println(jsonString);
 	    
 	    Product p = productService.getById(summerShoes.getId());
@@ -222,8 +232,26 @@ public class ProductNextGenTest extends com.salesmanager.test.common.AbstractSal
 	    assertThat(avs, not(empty()));
 	    
 
+	}
+	
+	private void createOptionsSet(MerchantStore store) throws Exception {
 		
-	    
+		//add a set of option / values for major sizes
+		possibleSizes = new ProductOptionSet();
+		possibleSizes.setCode("majorSizes");
+		possibleSizes.setStore(store);
+		possibleSizes.setOption(size);
+		
+		
+		List<ProductOptionValue> values = new ArrayList<ProductOptionValue>();
+		values.add(nine);
+		values.add(ten);
+		
+		possibleSizes.setValues(values);
+		
+
+		productOptionSetService.create(possibleSizes);
+		
 	}
 	
 	/**

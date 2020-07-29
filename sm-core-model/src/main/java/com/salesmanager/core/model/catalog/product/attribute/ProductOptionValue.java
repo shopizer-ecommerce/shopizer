@@ -34,7 +34,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 @Table(name="PRODUCT_OPTION_VALUE", schema=SchemaConstant.SALESMANAGER_SCHEMA, indexes = { @Index(name="PRD_OPTION_VAL_CODE_IDX", columnList = "PRODUCT_OPTION_VAL_CODE")}, uniqueConstraints=
 	@UniqueConstraint(columnNames = {"MERCHANT_ID", "PRODUCT_OPTION_VAL_CODE"}))
 public class ProductOptionValue extends SalesManagerEntity<Long, ProductOptionValue> {
-	private static final long serialVersionUID = 3736085877929910891L;
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name="PRODUCT_OPTION_VALUE_ID")
