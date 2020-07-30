@@ -12,6 +12,7 @@ import com.salesmanager.core.model.common.GenericEntityList;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.OrderCriteria;
 import com.salesmanager.core.model.order.OrderList;
+import com.salesmanager.core.model.order.orderstatus.OrderStatus;
 
 
 public class OrderRepositoryImpl implements OrderRepositoryCustom {
@@ -191,11 +192,11 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		}
 		
 		//status
-/*		if(!StringUtils.isEmpty(criteria.getStatus())) {
-			String nameQuery =  " and o.status like:status";
+		if(!StringUtils.isEmpty(criteria.getStatus())) {
+			String nameQuery =  " and o.status =:status";
 			objectBuilderWhere.append(nameQuery);
 			countBuilderSelect.append(nameQuery);
-		}*/
+		}
 	
 		objectBuilderWhere.append(orderByCriteria);
 
@@ -233,8 +234,8 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		
 		//status
 		if(!StringUtils.isEmpty(criteria.getStatus())) {
-			countQ.setParameter("status", criteria.getStatus().toUpperCase());
-			objectQ.setParameter("status", criteria.getStatus().toUpperCase());
+			countQ.setParameter("status", OrderStatus.valueOf(criteria.getStatus().toUpperCase()));
+			objectQ.setParameter("status", OrderStatus.valueOf(criteria.getStatus().toUpperCase()));
 		}
 		
 
