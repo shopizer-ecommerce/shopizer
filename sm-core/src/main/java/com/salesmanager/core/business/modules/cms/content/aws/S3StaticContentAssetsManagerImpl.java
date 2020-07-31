@@ -22,7 +22,6 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
-import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.modules.cms.content.ContentAssetsManager;
 import com.salesmanager.core.business.modules.cms.impl.CMSManager;
@@ -38,19 +37,10 @@ import com.salesmanager.core.model.content.OutputContentFile;
  */
 public class S3StaticContentAssetsManagerImpl implements ContentAssetsManager {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-
-	private static final char UNIX_SEPARATOR = '/';
-	private static final char WINDOWS_SEPARATOR = '\\';
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(S3StaticContentAssetsManagerImpl.class);
 
-	private static String DEFAULT_BUCKET_NAME = "shopizer";
-	private static String DEFAULT_REGION_NAME = "us-east-1";
-	private static final String ROOT_NAME = "files";
 	private static S3StaticContentAssetsManagerImpl fileManager = null;
 
 	private CMSManager cmsManager;
@@ -75,14 +65,9 @@ public class S3StaticContentAssetsManagerImpl implements ContentAssetsManager {
 			final AmazonS3 s3 = s3Client();
 
 			S3Object o = s3.getObject(bucketName, nodePath(merchantStoreCode, fileContentType) + contentName);
-			byte[] byteArray = IOUtils.toByteArray(o.getObjectContent());
-			ByteArrayOutputStream baos = new ByteArrayOutputStream(byteArray.length);
-			baos.write(byteArray, 0, byteArray.length);
-			OutputContentFile ct = new OutputContentFile();
-			ct.setFile(baos);
 
 			LOGGER.info("Content getFile");
-			return ct;
+			return getOutputContentFile(IOUtils.toByteArray(o.getObjectContent()));
 		} catch (final Exception e) {
 			LOGGER.error("Error while getting file", e);
 			throw new ServiceException(e);
@@ -300,68 +285,12 @@ public class S3StaticContentAssetsManagerImpl implements ContentAssetsManager {
 		return s3;
 	}
 
-	private String bucketName() {
-		String bucketName = getCmsManager().getRootName();
-		if (StringUtils.isBlank(bucketName)) {
-			bucketName = DEFAULT_BUCKET_NAME;
-		}
-		return bucketName;
-	}
-
-	public static String getName(String filename) {
-		if (filename == null) {
-			return null;
-		}
-		int index = indexOfLastSeparator(filename);
-		return filename.substring(index + 1);
-	}
-
-	public static int indexOfLastSeparator(String filename) {
-		if (filename == null) {
-			return -1;
-		}
-		int lastUnixPos = filename.lastIndexOf(UNIX_SEPARATOR);
-		int lastWindowsPos = filename.lastIndexOf(WINDOWS_SEPARATOR);
-		return Math.max(lastUnixPos, lastWindowsPos);
-	}
-
 	private String regionName() {
 		String regionName = getCmsManager().getLocation();
 		if (StringUtils.isBlank(regionName)) {
 			regionName = DEFAULT_REGION_NAME;
 		}
 		return regionName;
-	}
-
-	@SuppressWarnings("static-access")
-	private String nodePath(String store, FileContentType type) {
-
-		StringBuilder builder = new StringBuilder();
-		String root = nodePath(store);
-		builder.append(root);
-		if (type != null && !type.IMAGE.name().equals(type.name()) && !type.STATIC_FILE.name().equals(type.name())) {
-			builder.append(type.name()).append(Constants.SLASH);
-		}
-
-		return builder.toString();
-
-	}
-
-	private String nodePath(String store) {
-
-		StringBuilder builder = new StringBuilder();
-		builder.append(ROOT_NAME).append(Constants.SLASH).append(store).append(Constants.SLASH);
-		return builder.toString();
-
-	}
-
-	private boolean isInsideSubFolder(String key) {
-		int c = StringUtils.countMatches(key, Constants.SLASH);
-		if (c > 2) {
-			return true;
-		}
-
-		return false;
 	}
 
 	public CMSManager getCmsManager() {

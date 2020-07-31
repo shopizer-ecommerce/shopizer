@@ -471,4 +471,9 @@ public class CmsStaticContentFileManagerImpl
 		return null;
 	}
 
+	@Override
+	public CMSManager getCmsManager() {
+    	return null;
+  	}
+
 }
