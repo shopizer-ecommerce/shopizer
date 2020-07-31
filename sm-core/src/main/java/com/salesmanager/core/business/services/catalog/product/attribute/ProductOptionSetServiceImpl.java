@@ -35,16 +35,15 @@ public class ProductOptionSetServiceImpl extends
 	}
 
 
-	//@Override
-	//public void saveOrUpdate(ProductOptionSet entity) throws ServiceException {
-	//	productOptionSetRepository.save(entity);
-	//}
+	@Override
+	public ProductOptionSet getById(MerchantStore store, Long optionSetId, Language lang) {
+		return productOptionSetRepository.findOne(store.getId(), optionSetId, lang.getId());
+	}
 
 
 	@Override
-	public ProductOptionSet getById(MerchantStore store, Long optionId, Language lang) {
-		// TODO Auto-generated method stub
-		return productOptionSetRepository.findOne(store.getId(), optionId, lang.getId());
+	public ProductOptionSet getCode(MerchantStore store, String code) {
+		return productOptionSetRepository.findByCode(store.getId(), code);
 	}
 
 

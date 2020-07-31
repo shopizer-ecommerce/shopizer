@@ -14,10 +14,8 @@ public interface ProductOptionSetService extends SalesManagerEntityService<Long,
 			throws ServiceException;
 
 
-	//void saveOrUpdate(ProductOptionSet entity) throws ServiceException;
-
-	
 	ProductOptionSet getById(MerchantStore store, Long optionId, Language lang);
+	ProductOptionSet getCode(MerchantStore store, String code);
 
 
 }

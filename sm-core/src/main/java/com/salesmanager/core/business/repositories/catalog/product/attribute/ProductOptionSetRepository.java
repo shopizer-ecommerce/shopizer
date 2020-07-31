@@ -14,5 +14,8 @@ public interface ProductOptionSetRepository extends JpaRepository<ProductOptionS
 	
 	@Query("select p from ProductOptionSet p join fetch p.store pm left join fetch p.option po left join fetch po.descriptions pod left join fetch p.values pv left join fetch pv.descriptions pvd where pm.id = ?1 and pod.language.id = ?2 and pvd.language.id = ?2")
 	List<ProductOptionSet> findByStore(Integer storeId, Integer language);
+	
+	@Query("select p from ProductOptionSet p join fetch p.store pm left join fetch p.option po left join fetch po.descriptions pod left join fetch p.values pv left join fetch pv.descriptions pvd where pm.id = ?1 and p.code = ?2")
+	ProductOptionSet findByCode(Integer storeId, String code);
 
 }
