@@ -16,6 +16,7 @@ import com.salesmanager.shop.mapper.catalog.PersistableProductOptionSetMapper;
 import com.salesmanager.shop.mapper.catalog.ReadableProductOptionSetMapper;
 import com.salesmanager.shop.model.catalog.product.attribute.optionset.PersistableProductOptionSet;
 import com.salesmanager.shop.model.catalog.product.attribute.optionset.ReadableProductOptionSet;
+import com.salesmanager.shop.store.api.exception.OperationNotAllowedException;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.controller.product.facade.ProductOptionSetFacade;
@@ -68,6 +69,11 @@ public class ProductOptionSetFacadeImpl implements ProductOptionSetFacade {
 		Validate.notNull(store, "MerchantStore cannot be null");
 		Validate.notNull(language, "Language cannot be null");
 		Validate.notNull(optionSet, "PersistableProductOptionSet cannot be null");
+		
+		if(this.exists(optionSet.getCode(), store)) {
+			throw new OperationNotAllowedException("Option set with code [" + optionSet.getCode() + "] already exist");
+		}
+		
 		ProductOptionSet opt = persistableProductOptionSetMapper.convert(optionSet, store, language);
 		try {
 			opt.setStore(store);
@@ -124,7 +130,7 @@ public class ProductOptionSetFacadeImpl implements ProductOptionSetFacade {
 		Validate.notNull(store, "MerchantStore cannot be null");
 		Validate.notNull(code, "code cannot be null");
 		ProductOptionSet optionSet =  productOptionSetService.getCode(store, code);
-		if(optionSet == null) {
+		if(optionSet != null) {
 			return true;
 		}
 		

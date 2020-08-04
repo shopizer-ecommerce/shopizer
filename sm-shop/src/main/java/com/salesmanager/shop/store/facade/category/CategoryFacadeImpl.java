@@ -410,6 +410,14 @@ public class CategoryFacadeImpl implements CategoryFacade {
 
 			Category c = categoryService.getById(child, store.getId());
 			Category p = categoryService.getById(parent, store.getId());
+			
+			if(c == null) {
+				throw new ResourceNotFoundException("Category with id [" + child + "] for store [" + store.getCode() + "]");
+			}
+			
+			if(p == null) {
+				throw new ResourceNotFoundException("Category with id [" + parent + "] for store [" + store.getCode() + "]");
+			}
 
 			if (c.getParent() != null && c.getParent().getId() == parent) {
 				return;
@@ -427,7 +435,10 @@ public class CategoryFacadeImpl implements CategoryFacade {
 
 			p.getAuditSection().setModifiedBy("Api");
 			categoryService.addChild(p, c);
-
+		} catch (ResourceNotFoundException re) {
+			throw re;
+		} catch (OperationNotAllowedException oe) {
+			throw oe;
 		} catch (Exception e) {
 			throw new ServiceRuntimeException(e);
 		}

@@ -1,7 +1,7 @@
 package com.salesmanager.shop.store.api.v1.product;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.shop.model.catalog.product.attribute.api.PersistableProductOptionEntity;
-import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionList;
 import com.salesmanager.shop.model.catalog.product.attribute.optionset.PersistableProductOptionSet;
 import com.salesmanager.shop.model.catalog.product.attribute.optionset.ReadableProductOptionSet;
 import com.salesmanager.shop.model.entity.EntityExists;
@@ -88,48 +86,47 @@ public class ProductOptionSetApi {
 	}
 
 
-	//@ResponseStatus(HttpStatus.OK)
-	//@RequestMapping(value = { "/private/product/option/{optionId}" }, method = RequestMethod.PUT)
-	//@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-	//		@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public void update(@Valid @RequestBody PersistableProductOptionEntity option, @PathVariable Long optionId,
-			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language, HttpServletRequest request,
-			HttpServletResponse response) {
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = { "/private/product/option/set/{id}" }, method = RequestMethod.PUT)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	public void update(
+			@Valid @RequestBody PersistableProductOptionSet option, 
+			@PathVariable Long id,
+			@ApiIgnore MerchantStore merchantStore, 
+			@ApiIgnore Language language) {
 		
-		//option.setId(optionId);
-		//productOptionFacade.saveOption(option, merchantStore, language);
-		//return;
+		option.setId(id);
+		productOptionSetFacade.update(id, option, merchantStore, language);
 
 	}
 
 
-	//@ResponseStatus(HttpStatus.OK)
-	//@RequestMapping(value = { "/private/product/option/value/{id}" }, method = RequestMethod.DELETE)
-	//@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-	//		@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = { "/private/product/option/set/{id}" }, method = RequestMethod.DELETE)
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
 	public void delete(
 			@PathVariable Long id,
 			@ApiIgnore MerchantStore merchantStore,
-			@ApiIgnore Language language, HttpServletRequest request, HttpServletResponse response) {
+			@ApiIgnore Language language) {
 
-		//productOptionFacade.deleteOptionValue(id, merchantStore);
-		//return;
+		productOptionSetFacade.delete(id, merchantStore);
 
 	}
 
-	//@ResponseStatus(HttpStatus.OK)
-	//@RequestMapping(value = { "/private/product/options" }, method = RequestMethod.GET)
-	//@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-	//		@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public @ResponseBody ReadableProductOptionList list(
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = { "/private/product/option/set" }, method = RequestMethod.GET)
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	public @ResponseBody List<ReadableProductOptionSet> list(
 			@ApiIgnore MerchantStore merchantStore,
-			@ApiIgnore Language language, @RequestParam(value = "name", required = false) String name,
-			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-			@RequestParam(value = "count", required = false, defaultValue = "10") Integer count) {
+			@ApiIgnore Language language) {
 
-		//return productOptionFacade.options(merchantStore, language, name, page, count);
-		return null;
-
+		return productOptionSetFacade.list(merchantStore, language);
+		
 	}
 
 }

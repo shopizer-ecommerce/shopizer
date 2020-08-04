@@ -174,6 +174,10 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
 	public Category getById(Long id, int merchantId) {
 
 		Category category = categoryRepository.findByIdAndStore(id, merchantId);
+		
+		if(category == null) {
+			return null;
+		}
 
 		List<CategoryDescription> descriptions = categoryDescriptionRepository.listByCategoryId(id);
 

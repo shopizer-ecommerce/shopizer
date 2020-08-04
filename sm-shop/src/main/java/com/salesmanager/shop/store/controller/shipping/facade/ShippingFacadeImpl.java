@@ -119,6 +119,7 @@ public class ShippingFacadeImpl implements ShippingFacade {
 		
 		ReadableAddress address = new ReadableAddress();
 		address.setAddress(o.getAddress());
+		address.setActive(o.isActive());
 		address.setCity(o.getCity());
 		address.setPostalCode(o.getPostalCode());
 		if(o.getCountry()!=null) {
@@ -147,6 +148,7 @@ public class ShippingFacadeImpl implements ShippingFacade {
 			o.setCity(address.getCity());
 			o.setCountry(countryService.getByCode(address.getCountry()));
 			o.setMerchantStore(store);
+			o.setActive(address.isActive());
 			o.setPostalCode(address.getPostalCode());
 			
 			Zone zone = zoneService.getByCode(address.getStateProvince());
