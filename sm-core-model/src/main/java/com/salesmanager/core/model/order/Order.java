@@ -89,6 +89,9 @@ public class Order extends SalesManagerEntity<Long, Order> {
 
 	@Column (name ="IP_ADDRESS")
 	private String ipAddress;
+	
+	@Column(name = "CART_CODE", unique=true, nullable=false)
+	private String shoppingCartCode;
 
 	@Column (name ="CHANNEL")
 	@Enumerated(value = EnumType.STRING)
@@ -393,6 +396,14 @@ public class Order extends SalesManagerEntity<Long, Order> {
 
 	public void setOrderAttributes(Set<OrderAttribute> orderAttributes) {
 		this.orderAttributes = orderAttributes;
+	}
+	
+	public String getShoppingCartCode() {
+		return shoppingCartCode;
+	}
+
+	public void setShoppingCartCode(String shoppingCartCode) {
+		this.shoppingCartCode = shoppingCartCode;
 	}
 
 }

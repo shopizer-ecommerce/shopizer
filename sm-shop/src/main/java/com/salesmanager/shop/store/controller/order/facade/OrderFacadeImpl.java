@@ -376,8 +376,13 @@ public class OrderFacadeImpl implements OrderFacade {
 			orderProductPopulator.setDigitalProductService(digitalProductService);
 			orderProductPopulator.setProductAttributeService(productAttributeService);
 			orderProductPopulator.setProductService(productService);
+			String shoppingCartCode = null;
 
 			for (ShoppingCartItem item : shoppingCartItems) {
+				
+				if(shoppingCartCode == null && item.getShoppingCart()!=null) {
+					shoppingCartCode = item.getShoppingCart().getShoppingCartCode();
+				}
 
 				/**
 				 * Before processing order quantity of item must be > 0
@@ -533,6 +538,7 @@ public class OrderFacadeImpl implements OrderFacade {
 
 			}
 
+			modelOrder.setShoppingCartCode(shoppingCartCode);
 			modelOrder.setPaymentModuleCode(order.getPaymentModule());
 			payment.setModuleName(order.getPaymentModule());
 
@@ -1276,8 +1282,9 @@ public class OrderFacadeImpl implements OrderFacade {
 			Payment paymentModel = new Payment();
 			paymentPopulator.populate(order.getPayment(), paymentModel, store, language);
 
+			modelOrder.setShoppingCartCode(cart.getShoppingCartCode());
 			modelOrder = orderService.processOrder(modelOrder, customer, items, orderTotalSummary, paymentModel, store);
-
+			
 			// delete cart
 			try {
 				shoppingCartFacade.deleteShoppingCart(cart.getShoppingCartCode(), store);

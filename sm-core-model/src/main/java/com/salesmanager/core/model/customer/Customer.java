@@ -27,6 +27,7 @@ import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import javax.validation.Valid;
 
 import org.hibernate.annotations.Cascade;
@@ -48,9 +49,13 @@ import com.salesmanager.core.model.user.Group;
 import com.salesmanager.core.utils.CloneUtils;
 
 @Entity
-@Table(name = "CUSTOMER", schema=SchemaConstant.SALESMANAGER_SCHEMA)
+@Table(name = "CUSTOMER", 
+	schema=SchemaConstant.SALESMANAGER_SCHEMA,
+			uniqueConstraints=@UniqueConstraint(columnNames = {"MERCHANT_ID", "CUSTOMER_EMAIL_ADDRESS"})
+	
+		)
 public class Customer extends SalesManagerEntity<Long, Customer> implements Auditable {
-	private static final long serialVersionUID = -6966934116557219193L;
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@Column(name = "CUSTOMER_ID", unique=true, nullable=false)
