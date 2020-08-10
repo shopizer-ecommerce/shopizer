@@ -649,7 +649,6 @@ function initPayment(paymentSelection) {
 										    
 										      <input id="addressAutocomplete"
 										             placeholder="<s:message code="message.address.enter" text="Enter your address"/>"
-										             class="required"
 										             onFocus="geolocate()"
 										             type="text"/>
 										</div>

@@ -404,13 +404,16 @@ public class ShoppingOrderController extends AbstractController {
 		super.setSessionAttribute(Constants.ORDER_SUMMARY, orderTotalSummary, request);
 
 		//display hacks
-		if(!StringUtils.isBlank(googleMapsKey)) {
-		  model.addAttribute("disabled","true");
-		  model.addAttribute("cssClass","");
-		} else {
-		  model.addAttribute("disabled","false");
-		  model.addAttribute("cssClass","required");
-		}
+//		if(!StringUtils.isBlank(googleMapsKey)) {
+//		  model.addAttribute("disabled","true");
+//		  model.addAttribute("cssClass","");
+//		} else {
+//		  model.addAttribute("disabled","false");
+//		  model.addAttribute("cssClass","required");
+//		}
+		
+		 model.addAttribute("disabled","false");
+		model.addAttribute("cssClass","required");
 		
 		model.addAttribute("order",order);
 		model.addAttribute("paymentMethods", paymentMethods);

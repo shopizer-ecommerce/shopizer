@@ -112,7 +112,13 @@ function fillInAddress() {
   	  streetField = streetField + street;
     }
     
-    document.getElementById('customer.billing.address').value = streetField;
+   // document.getElementById('customer.billing.address').value = streetField;
+    var steetAddress ='';
+    var address1 = (place.address_components[0] && place.address_components[0].short_name || '');
+    var address2 =(place.address_components[1] && place.address_components[1].short_name || '');
+    var address3 = (place.address_components[2] && place.address_components[2].short_name || '');
+    steetAddress = address1.concat(', ',address2,', ',address3);
+    document.getElementById('customer.billing.address').value = steetAddress;
     
     getZones('#billingStateList','#billingStateProvince',country,zone,longProvinceName,getLanguageCode(),null);
 

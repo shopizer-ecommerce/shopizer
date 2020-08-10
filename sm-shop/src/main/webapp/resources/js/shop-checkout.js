@@ -274,7 +274,7 @@ function displayConfirmShipping(delivery,shippingMethod,useDistanceWindow) {
 	* If distance is configured and has been set in the quote
 	* confirm the shipping address on a Map
 	**/
-	if(useDistanceWindow) {
+	setTimeout(function() { if(useDistanceWindow) {
 		/**
 		* Requires a shipping quote (response.shippingSummary)
 		* and no order form validation error
@@ -311,7 +311,8 @@ function displayConfirmShipping(delivery,shippingMethod,useDistanceWindow) {
 				$("#confirmShippingAddress").show();
 			}
 		}
-	}	
+	}
+  },2000);	
 }
 
 function bindCalculateShipping() {
