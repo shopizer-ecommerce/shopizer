@@ -90,7 +90,7 @@ public class Order extends SalesManagerEntity<Long, Order> {
 	@Column (name ="IP_ADDRESS")
 	private String ipAddress;
 	
-	@Column(name = "CART_CODE", unique=true, nullable=false)
+	@Column(name = "CART_CODE", nullable=true)
 	private String shoppingCartCode;
 
 	@Column (name ="CHANNEL")
