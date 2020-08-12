@@ -285,15 +285,7 @@ public class OrderFacadeImpl implements OrderFacade {
 	}
 
 	private Customer customer(PersistableCustomer customer, MerchantStore store, Language language) throws Exception {
-		/*
-		 * CustomerPopulator populator = new CustomerPopulator();
-		 * populator.setCountryService(countryService);
-		 * populator.setCustomerOptionService(customerOptionService);
-		 * populator.setCustomerOptionValueService(customerOptionValueService);
-		 * populator.setLanguageService(languageService);
-		 * populator.setZoneService(zoneService);
-		 * populator.setGroupService(groupService);
-		 */
+
 		Customer cust = customerPopulator.populate(customer, new Customer(), store, language);
 		return cust;
 
@@ -322,7 +314,7 @@ public class OrderFacadeImpl implements OrderFacade {
 	public Order processOrder(ShopOrder order, Customer customer, MerchantStore store, Language language)
 			throws ServiceException {
 
-		return this.processOrderModel(order, customer, null, store, language);
+		return processOrderModel(order, customer, null, store, language);
 
 	}
 
@@ -1285,9 +1277,10 @@ public class OrderFacadeImpl implements OrderFacade {
 			modelOrder.setShoppingCartCode(cart.getShoppingCartCode());
 			modelOrder = orderService.processOrder(modelOrder, customer, items, orderTotalSummary, paymentModel, store);
 			
-			// delete cart
+			// update cart
 			try {
-				shoppingCartFacade.deleteShoppingCart(cart.getShoppingCartCode(), store);
+				cart.setOrderId(modelOrder.getId());
+				shoppingCartFacade.saveOrUpdateShoppingCart(cart);
 			} catch (Exception e) {
 				LOGGER.error("Cannot delete cart " + cart.getId(), e);
 			}

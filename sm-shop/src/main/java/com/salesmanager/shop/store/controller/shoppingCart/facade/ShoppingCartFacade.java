@@ -137,4 +137,15 @@ public interface ShoppingCartFacade {
 	 * @throws Exception
 	 */
 	ReadableShoppingCart getByCode(String code, MerchantStore store, Language language) throws Exception;
+	
+	
+	/**
+	 * Set an order id to a shopping cart
+	 * @param code
+	 * @param orderId
+	 * @param store
+	 * @throws Exception
+	 */
+	void setOrderId(String code, Long orderId, MerchantStore store) throws Exception;
+
 }

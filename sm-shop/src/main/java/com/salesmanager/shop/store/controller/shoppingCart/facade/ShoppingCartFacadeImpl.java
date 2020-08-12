@@ -1012,6 +1012,18 @@ public class ShoppingCartFacadeImpl
 		
 	}
 
+	@Override
+	public void setOrderId(String code, Long orderId, MerchantStore store) throws Exception {
+		ShoppingCart cart = this.getShoppingCartModel(code, store);
+		if(cart == null) {
+			LOG.warn("Shopping cart with code [" + code + "] not found, expected to find a cart to set order id [" + orderId + "]");
+		} else {
+			cart.setOrderId(orderId);
+		}
+		saveOrUpdateShoppingCart(cart);
+
+	}
+
 
 
 }

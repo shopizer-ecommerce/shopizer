@@ -76,6 +76,9 @@ public class ShoppingCart extends SalesManagerEntity<Long, ShoppingCart> impleme
 	@Column(name = "CUSTOMER_ID", nullable = true)
 	private Long customerId;
 	
+	@Column(name = "ORDER_ID", nullable = true)
+	private Long orderId;
+
 	@Column (name ="IP_ADDRESS")
 	private String ipAddress;
 	
@@ -175,6 +178,14 @@ public class ShoppingCart extends SalesManagerEntity<Long, ShoppingCart> impleme
 
 	public void setPromoAdded(Date promoAdded) {
 		this.promoAdded = promoAdded;
+	}
+	
+	public Long getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(Long orderId) {
+		this.orderId = orderId;
 	}
 
 

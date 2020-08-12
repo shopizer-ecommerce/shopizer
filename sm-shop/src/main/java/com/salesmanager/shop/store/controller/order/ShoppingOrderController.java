@@ -587,9 +587,9 @@ public class ShoppingOrderController extends AbstractController {
 			String cartCode = super.getSessionAttribute(Constants.SHOPPING_CART, request);
 			if(StringUtils.isNotBlank(cartCode)) {
 				try {
-					shoppingCartFacade.deleteShoppingCart(cartCode, store);
+					shoppingCartFacade.setOrderId(cartCode, modelOrder.getId(), store);
 				} catch(Exception e) {
-					LOGGER.error("Cannot delete cart " + cartCode, e);
+					LOGGER.error("Cannot update cart " + cartCode, e);
 					throw new ServiceException(e);
 				}
 			}
