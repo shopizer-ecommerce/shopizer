@@ -32,6 +32,7 @@ import com.salesmanager.core.business.services.system.MerchantConfigurationServi
 import com.salesmanager.core.business.services.system.ModuleConfigurationService;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.common.Delivery;
+import com.salesmanager.core.model.common.UserContext;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.country.Country;
 import com.salesmanager.core.model.reference.language.Language;
@@ -680,6 +681,11 @@ public class ShippingServiceImpl implements ShippingService {
 					postProcessor.prePostProcessShippingQuotes(shippingQuote, packages, orderTotal, delivery, shippingOrigin, store, integrationConfiguration, module, shippingConfiguration, shippingMethods, locale);
 				}
 			}
+			String ipAddress = null;
+	    	UserContext context = UserContext.getCurrentInstance();
+	    	if(context != null) {
+	    		ipAddress = context.getIpAddress();
+	    	}
 			
 			if(shippingQuote!=null && CollectionUtils.isNotEmpty(shippingQuote.getShippingOptions())) {
 				//save SHIPPING OPTIONS
@@ -690,6 +696,9 @@ public class ShippingServiceImpl implements ShippingService {
 					Quote q = new Quote();
 					q.setCartId(shoppingCartId);
 					q.setDelivery(delivery);
+					if(!StringUtils.isBlank(ipAddress)) {
+						q.setIpAddress(ipAddress);
+					}
 					if(!StringUtils.isBlank(option.getEstimatedNumberOfDays())) {
 						try {
 							q.setEstimatedNumberOfDays(new Integer(option.getEstimatedNumberOfDays()));

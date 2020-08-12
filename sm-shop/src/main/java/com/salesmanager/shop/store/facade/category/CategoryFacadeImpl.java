@@ -406,15 +406,24 @@ public class CategoryFacadeImpl implements CategoryFacade {
 		Validate.notNull(child, "Child category must not be null");
 		Validate.notNull(parent, "Parent category must not be null");
 		Validate.notNull(store, "Merhant must not be null");
+		
+		
 		try {
 
 			Category c = categoryService.getById(child, store.getId());
-			Category p = categoryService.getById(parent, store.getId());
-			
+
 			if(c == null) {
 				throw new ResourceNotFoundException("Category with id [" + child + "] for store [" + store.getCode() + "]");
 			}
 			
+			if(parent.longValue()==-1) {
+				categoryService.addChild(null, c);
+				return;
+				
+			}
+
+			Category p = categoryService.getById(parent, store.getId());
+
 			if(p == null) {
 				throw new ResourceNotFoundException("Category with id [" + parent + "] for store [" + store.getCode() + "]");
 			}

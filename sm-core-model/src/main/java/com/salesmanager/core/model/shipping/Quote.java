@@ -81,7 +81,9 @@ public class Quote extends SalesManagerEntity<Long, Quote> {
 	@Column(name = "FREE_SHIPPING")
 	private boolean freeShipping;
 	
-
+	@Column (name ="IP_ADDRESS")
+	private String ipAddress;
+	
 	@Embedded
 	private Delivery delivery = null;
 
@@ -206,6 +208,14 @@ public class Quote extends SalesManagerEntity<Long, Quote> {
 
 	public void setCartId(Long cartId) {
 		this.cartId = cartId;
+	}
+
+	public String getIpAddress() {
+		return ipAddress;
+	}
+
+	public void setIpAddress(String ipAddress) {
+		this.ipAddress = ipAddress;
 	}
 	
 
