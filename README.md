@@ -1,3 +1,6 @@
+------------------------------------------------------------------------
+English
+------------------------------------------------------------------------
 Shopizer (for java 1.8 +)
 -------------------
 
@@ -103,5 +106,117 @@ More information is available on shopizer web site here <http://www.shopizer.com
 If you have interest in giving feedback or for participating to Shopizer project in any way
 Feel to use the contact form <http://www.shopizer.com/contact.html> and share your email address
 so we can send an invite to our Slack channel
+
+
+
+------------------------------------------------------------------------
+FRENCH
+------------------------------------------------------------------------
+
+Shopizer (pour java 1.8 +)
+-------------------
+
+[![last_version](https://img.shields.io/badge/last_version-v2.12.0-blue.svg?style=flat)](https://github.com/shopizer-ecommerce/shopizer/tree/2.12.0)
+[![Official site](https://img.shields.io/website-up-down-green-red/https/shields.io.svg?label=official%20site)](http://www.shopizer.com/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/shopizerecomm/shopizer.svg)](https://hub.docker.com/r/shopizerecomm/shopizer)
+[![stackoverflow](https://img.shields.io/badge/shopizer-stackoverflow-orange.svg?style=flat)](http://stackoverflow.com/questions/tagged/shopizer)
+
+
+Logiciel de commerce électronique open source Java
+
+- Panier
+- Catalogue
+- Chercher
+- Check-out
+- Administration
+- API REST
+
+Voir la démo (jsp):
+-------------------
+http://aws-demo.shopizer.com:8080/
+
+Voir la démo (angulaire):
+-------------------
+Bientôt disponible
+
+
+Obtenez le code:
+-------------------
+Clonez le référentiel:
+     
+	 $ git clone git://github.com/shopizer-ecommerce/shopizer.git
+
+Si c'est la première fois que vous utilisez Github, consultez  http://help.github.com to learn the basics.
+
+ Vous pouvez également télécharger le fichier zip contenant le code depuis https://github.com/shopizer-ecommerce/shopizer 
+
+Pour créer l'application:
+-------------------	
+Depuis la ligne de commande:
+
+	$ cd shopizer
+	$ mvnw clean install
+	
+
+Exécutez l'application depuis Tomcat
+-------------------
+copier sm-shop / target / ROOT.war vers tomcat ou tout autre répertoire de déploiement du serveur d'applications
+
+Augmenter l'espace du tas à 1024 m （Heap spaca)
+
+### Configuration de l'espace de tas dans Tomcat (Heap spaca):
+
+
+Si vous utilisez Tomcat, modifiez catalina.bat pour les utilisateurs Windows ou catalina.sh pour les utilisateurs Linux / Mac
+
+	sous Windows
+	set JAVA_OPTS="-Xms1024m -Xmx1024m -XX:MaxPermSize=256m" 
+	
+	sous Linux / Mac
+	export JAVA_OPTS="-Xms1024m -Xmx1024m -XX:MaxPermSize=256m" 
+
+Exécutez l'application à partir de Spring Boot
+-------------------
+
+       $ cd sm-shop
+       $ mvnw spring-boot:run
+
+Exécutez l'application à partir de Spring Boot dans eclipse
+-------------------
+
+Faites un clic droit sur com.salesmanager.shop.application.ShopApplication
+
+exécuter en tant qu'application Java
+
+### Accédez à l'application:
+-------------------
+
+Accédez à l'application Web déployée à l'adresse: http: // localhost: 8080 /
+
+Accédez à la section d'administration à l'adresse: http: // localhost: 8080 / admin
+
+nom d'utilisateur: admin@shopizer.com
+
+mot de passe: password
+
+Les instructions ci-dessus vous permettront d'exécuter l'application avec les paramètres et configurations par défaut.
+Veuillez lire les instructions pour vous connecter à MySQL, configurer un serveur de messagerie et configurer d'autres sous-systèmes
+
+
+### Documentation:
+-------------------
+
+Documentation disponible sur le wiki <http://shopizer-ecommerce.github.io/shopizer/#>
+
+ChatOps <https://shopizer.slack.com> - Rejoignez notre chaîne Slack https://shopizer-slackin.herokuapp.com/
+
+Plus d'informations sont disponibles sur le site Web de Shopizer ici <http://www.shopizer.com>
+
+### Participation:
+-------------------
+
+Si vous souhaitez donner votre avis ou participer de quelque manière que ce soit au projet Shopizer
+N'hésitez pas à utiliser le formulaire de contact <http://www.shopizer.com/contact.html> et à partager votre adresse email
+afin que nous puissions envoyer une invitation sur notre chaîne Slack
 
 
