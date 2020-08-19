@@ -18,10 +18,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.utils.RepositoryHelper;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.ProductCriteria;
 import com.salesmanager.core.model.catalog.product.ProductList;
 import com.salesmanager.core.model.catalog.product.attribute.AttributeCriteria;
+import com.salesmanager.core.model.common.GenericEntityList;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.tax.taxclass.TaxClass;
@@ -836,16 +838,13 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			q.setParameter("nm", new StringBuilder().append("%").append(criteria.getProductName().toLowerCase())
 					.append("%").toString());
 		}
+		
+	    @SuppressWarnings("rawtypes")
+	    GenericEntityList entityList = new GenericEntityList();
+	    entityList.setTotalCount(count.intValue());
+		
+		q = RepositoryHelper.paginateQuery(q, count, entityList, criteria);
 
-		if (criteria.getMaxCount() > 0) {
-
-			q.setFirstResult(criteria.getStartIndex());
-			if (criteria.getMaxCount() < count.intValue()) {
-				q.setMaxResults(criteria.getMaxCount());
-			} else {
-				q.setMaxResults(count.intValue());
-			}
-		}
 
 		@SuppressWarnings("unchecked")
 		List<Product> products = q.getResultList();

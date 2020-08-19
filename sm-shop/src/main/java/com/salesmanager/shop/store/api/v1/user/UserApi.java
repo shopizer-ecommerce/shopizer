@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -67,15 +68,9 @@ public class UserApi {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserApi.class);
 
-	@Inject
-	private StoreFacade storeFacade;
 
 	@Inject
 	private UserFacade userFacade;
-
-	// mapping between readable field name and backend field name
-	private static final Map<String, String> MAPPING_FIELDS = ImmutableMap.<String, String>builder()
-			.put("emailAddress", "adminEmail").put("active", "active").build();
 
 	/**
 	 * Get userName by merchant code and userName
@@ -183,20 +178,26 @@ public class UserApi {
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping(value = { "/private/users" }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(httpMethod = "GET", value = "Get list of user", notes = "", response = ReadableUserList.class)
-	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public ReadableUserList list(@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language,
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+		@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	public ReadableUserList list(
+			@ApiIgnore MerchantStore merchantStore, 
+			@ApiIgnore Language language,
 			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
 			@RequestParam(value = "count", required = false, defaultValue = "20") Integer count,
-			HttpServletRequest request) {
+			@RequestParam(value = "emailAddress", required = false) String emailAddress) {
 
 		String authenticatedUser = userFacade.authenticatedUser();
 		if (authenticatedUser == null) {
 			throw new UnauthorizedException();
 		}
 
-
-		UserCriteria criteria = (UserCriteria) this.createCriteria(request);
+		UserCriteria criteria = new UserCriteria();
+		if(!StringUtils.isBlank(emailAddress)) {
+			criteria.setAdminEmail(emailAddress);
+		}
+		
 		criteria.setStoreCode(merchantStore.getCode());
 
 		if (userFacade.userInRoles(authenticatedUser, Arrays.asList(Constants.GROUP_SUPERADMIN))) {
@@ -273,25 +274,6 @@ public class UserApi {
 			isUserExist = false;
 		}
 		return new ResponseEntity<EntityExists>(new EntityExists(isUserExist), HttpStatus.OK);
-	}
-
-	private Criteria createCriteria(HttpServletRequest request) {
-		// Criteria criteria =
-		// ServiceRequestCriteriaBuilderUtils.buildRequest(MAPPING_FIELDS,
-		// request);
-		// criteria.setLegacyPagination(false);
-
-		try {
-			return ServiceRequestCriteriaBuilderUtils.buildRequestCriterias(new UserCriteria(), MAPPING_FIELDS,
-					request);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			throw new RestApiException("Error while binding request parameters");
-		}
-
-		// Optional.ofNullable(start).ifPresent(criteria::setStartIndex);
-		// Optional.ofNullable(count).ifPresent(criteria::setMaxCount);
-
 	}
 
 	/**

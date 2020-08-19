@@ -379,9 +379,11 @@ public class ProductApi {
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
   })
-  public ReadableProductList getFiltered(
+  public ReadableProductList list(
       @RequestParam(value = "lang", required = false) String lang,
       @RequestParam(value = "category", required = false) Long category,
+      @RequestParam(value = "name", required = false) String name,
+      @RequestParam(value = "sku", required = false) String sku,
       @RequestParam(value = "manufacturer", required = false) Long manufacturer,
       @RequestParam(value = "status", required = false) String status,
       @RequestParam(value = "owner", required = false) Long owner,
@@ -418,8 +420,17 @@ public class ProductApi {
     if (start != null) {
       criteria.setStartIndex(start);
     }
+    
     if (count != null) {
       criteria.setMaxCount(count);
+    }
+    
+    if(!StringUtils.isBlank(name)) {
+    	criteria.setProductName(name);
+    }
+    
+    if(!StringUtils.isBlank(sku)) {
+    	criteria.setCode(sku);
     }
 
     // TODO

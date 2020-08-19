@@ -1,5 +1,7 @@
 package com.salesmanager.shop.mapper.catalog;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -42,11 +44,15 @@ public class ReadableProductOptionSetMapper implements Mapper<ProductOptionSet, 
 		
 		destination.setOption(this.option(source.getOption(), store, language));
 		
+		List<Long> ids = new ArrayList<Long>();
+
 		if(!CollectionUtils.isEmpty(source.getValues())) {
-			List<ReadableProductOptionValue> values = source.getValues().stream().map(val -> optionValue(val, store, language)).collect(Collectors.toList());
+			List<ReadableProductOptionValue> values = source.getValues().stream().map(val -> optionValue(ids, val, store, language)).collect(Collectors.toList());
 			destination.setValues(values);
+			destination.getValues().removeAll(Collections.singleton(null));
 		}
 
+		
 		return destination;
 	}
 	
@@ -66,16 +72,21 @@ public class ReadableProductOptionSetMapper implements Mapper<ProductOptionSet, 
 		return opt;
 	}
 	
-	private ReadableProductOptionValue optionValue (ProductOptionValue optionValue, MerchantStore store, Language language) {
-		ReadableProductOptionValue value = new ReadableProductOptionValue();
-		value.setCode(optionValue.getCode());
-		value.setId(optionValue.getId());
-		ProductOptionValueDescription desc = this.optionValueDescription(optionValue.getDescriptions(), language);
-		if(desc!=null) {
-			value.setName(desc.getName());
-		}
+	private ReadableProductOptionValue optionValue (List<Long> ids, ProductOptionValue optionValue, MerchantStore store, Language language) {
 		
-		return value;
+		if(!ids.contains(optionValue.getId())) {
+			ReadableProductOptionValue value = new ReadableProductOptionValue();
+			value.setCode(optionValue.getCode());
+			value.setId(optionValue.getId());
+			ProductOptionValueDescription desc = optionValueDescription(optionValue.getDescriptions(), language);
+			if(desc!=null) {
+				value.setName(desc.getName());
+			}
+			ids.add(optionValue.getId());
+			return value;
+		} else {
+			return null;
+		}
 	}
 	
 	private ProductOptionDescription optionDescription(Set<ProductOptionDescription> descriptions, Language lang) {

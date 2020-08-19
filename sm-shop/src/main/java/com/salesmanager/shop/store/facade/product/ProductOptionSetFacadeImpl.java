@@ -96,6 +96,7 @@ public class ProductOptionSetFacadeImpl implements ProductOptionSetFacade {
 		}
 		
 		optionSet.setId(id);
+		optionSet.setCode(opt.getCode());
 		ProductOptionSet model = persistableProductOptionSetMapper.convert(optionSet, store, language);
 		try {
 			model.setStore(store);
