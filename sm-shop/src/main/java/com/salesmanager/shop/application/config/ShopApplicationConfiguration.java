@@ -32,6 +32,8 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.mobile.device.DeviceHandlerMethodArgumentResolver;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
+import org.springframework.security.web.firewall.HttpFirewall;
+import org.springframework.security.web.firewall.StrictHttpFirewall;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -84,6 +86,14 @@ public class ShopApplicationConfiguration extends WebMvcConfigurerAdapter {
     resolver.setViewClass(TilesView.class);
     resolver.setOrder(0);
     return resolver;
+  }
+  
+  @Bean
+  public HttpFirewall allowUrlEncodedSlashHttpFirewall() {
+      StrictHttpFirewall firewall = new StrictHttpFirewall();
+      firewall.setAllowUrlEncodedSlash(true);
+      firewall.setAllowSemicolon(true);
+      return firewall;
   }
 
   @Bean

@@ -6,10 +6,10 @@ paytm.payment:
     website: WEBSTAGING
     industryTypeId: Retail
     paytmUrl:  https://securegw-stage.paytm.in/order/process
-    callbackUrl: http://35.244.5.236:8080/shop/paytm/pgresponse
+    callbackUrl: http://localhost:8080/shop/paytm/pgresponse
     details:
       MID: iLyQaO72401127805534
       CHANNEL_ID: WEB
       INDUSTRY_TYPE_ID: Retail
       WEBSITE: WEBSTAGING
-      CALLBACK_URL: http://35.244.5.236:8080/shop/paytm/pgresponse
+      CALLBACK_URL: http://localhost:8080/shop/paytm/pgresponse

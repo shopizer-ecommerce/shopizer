@@ -190,8 +190,10 @@ $(document).ready(function() {
 	shippingMethod='<c:out value="${shippingQuote.shippingModuleCode}"/>';
 	</c:if>
 	
-
-	
+    // Intention is to hide Ship Address & Use Common Fields for Billing/Shipping 
+	//$('#shippingAddressdiv').hide();
+	//$("#shipToDeliveryAddress").prop("checked", false);
+	//$("#shipToDeliveryAddress").hide();
 	//console.log(address);
 	displayConfirmShipping(address,shippingMethod,useDistanceWindow);
 	
@@ -733,7 +735,7 @@ function initPayment(paymentSelection) {
 									</sec:authorize>
 								</div>
 								<c:if test="${shippingQuote!=null}">
-								<div class="different-address">
+								<div id ="shippingAddressdiv" class="different-address">
 										<div class="ship-different-title">
 											<h3>
 												<label><s:message code="label.customer.shipping.shipdifferentaddress" text="Ship to a different address?"/></label>

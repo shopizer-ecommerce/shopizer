@@ -72,6 +72,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.*;
 
@@ -787,7 +788,17 @@ public class ShoppingOrderController extends AbstractController {
 			@PathVariable("TXNID") String TXNID,Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
 		
 	
-		  
+		
+		HttpSession session = request.getSession();
+	        String sessionId = session.getId();
+		    LOGGER.info("SESSIONID  commitPayTMAuthorized ######,{}", sessionId);
+		Enumeration<String> attributeNames = session.getAttributeNames();
+		while (attributeNames.hasMoreElements()) {
+		    String name = attributeNames.nextElement();
+		    
+		    LOGGER.info("session commitPayTMAuthorized keys ######,{}", name);
+		}
+		
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
 		Language language = (Language)request.getAttribute("LANGUAGE");
 		ShopOrder order = super.getSessionAttribute(Constants.ORDER, request);
@@ -1033,6 +1044,8 @@ public class ShoppingOrderController extends AbstractController {
 	@RequestMapping("/commitOrder.html")
 	public String commitOrder(@CookieValue("cart") String cookie, @Valid @ModelAttribute(value="order") ShopOrder order, BindingResult bindingResult, Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
 
+		LOGGER.info("ShopOrder payondelivery,  {}",order);
+		
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
 		Language language = (Language)request.getAttribute("LANGUAGE");
 		//validate if session has expired
