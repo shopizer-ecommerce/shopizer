@@ -218,7 +218,8 @@ public class ProductOptionApi {
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
 	public @ResponseBody ReadableProductOptionList options(
 			@ApiIgnore MerchantStore merchantStore,
-			@ApiIgnore Language language, @RequestParam(value = "name", required = false) String name,
+			@ApiIgnore Language language, 
+			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
 			@RequestParam(value = "count", required = false, defaultValue = "10") Integer count) {
 

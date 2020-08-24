@@ -67,18 +67,13 @@ public class ContentApi {
 	@Qualifier("img")
 	private ImageFilePath imageUtils;
 
-	/**
-	 * List all pages
-	 * 
-	 * @param merchantStore
-	 * @param language
-	 * @return
-	 */
-	@GetMapping(value = "/content/pages", produces = MediaType.APPLICATION_JSON_VALUE)
+	
+	@GetMapping(value = {"/private/content/pages", "/content/pages"}, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(httpMethod = "GET", value = "Get page names created for a given MerchantStore", notes = "", produces = "application/json", response = List.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public List<ReadableContentPage> getContentPages(@ApiIgnore MerchantStore merchantStore,
+	public List<ReadableContentPage> pages(
+			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
 		return contentFacade.getContentPage(merchantStore, language);
 	}
@@ -98,13 +93,14 @@ public class ContentApi {
 	 * @param language
 	 * @return
 	 */
-	@GetMapping(value = "/content/boxes", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = {"/content/boxes","/private/content/boxes"}, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(httpMethod = "GET", value = "Get boxes for a given MerchantStore", notes = "", produces = "application/json", response = List.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
 	public List<ReadableContentBox> boxes(@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
 		return contentFacade.getContentBoxes(ContentType.BOX, "summary_", merchantStore, language);
 	}
+
 
 	@GetMapping(value = "/content/pages/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(httpMethod = "GET", value = "Get page content by code for a given MerchantStore", notes = "", produces = "application/json", response = ReadableContentPage.class)

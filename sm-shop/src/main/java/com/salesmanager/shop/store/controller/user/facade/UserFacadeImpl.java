@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.helper.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +51,8 @@ import com.salesmanager.shop.store.controller.security.facade.SecurityFacade;
 
 @Service("userFacade")
 public class UserFacadeImpl implements UserFacade {
+	
+	private static final String PRIVATE_PATH = "/private/";
 
 	@Inject
 	private MerchantStoreService merchantStoreService;
@@ -169,6 +172,7 @@ public class UserFacadeImpl implements UserFacade {
 		}
 	}
 
+	@Deprecated
 	@Override
 	public boolean authorizedStore(String userName, String merchantStoreCode) {
 
@@ -566,6 +570,72 @@ public class UserFacadeImpl implements UserFacade {
 			throw new ServiceRuntimeException("Error while updating user enable flag",e);
 		}
 		
+	}
+
+	@Override
+	public boolean authorizeStore(MerchantStore store, String path) {
+		
+		Validate.notNull(store, "MerchantStore cannot be null");
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+
+		if(!StringUtils.isBlank(path) && path.contains(PRIVATE_PATH)) {
+
+			try {
+				
+				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+				String currentPrincipalName = authentication.getName();
+				
+				System.out.println("Principal " + currentPrincipalName);
+				
+				ReadableUser readableUser = findByUserName(currentPrincipalName, languageService.defaultLanguage());
+				
+				if(readableUser==null) {
+					return false;
+				}
+				
+				
+				//current user match;
+				String merchant = readableUser.getMerchant();
+				
+				if(store.getCode().equalsIgnoreCase(merchant)) {
+					return true;
+				}
+				
+				Set<String> roles = authentication.getAuthorities().stream()
+				     .map(r -> r.getAuthority()).collect(Collectors.toSet());
+
+				//is superadmin
+				for (ReadableGroup group : readableUser.getGroups()) {
+					if (Constants.GROUP_SUPERADMIN.equals(group.getName())) {
+						return true;
+					}
+				}
+				
+				
+				boolean authorized = false;
+
+				//user store can be parent and requested store is child 
+				//get parent
+				MerchantStore parent = merchantStoreService.getParent(merchant);
+	
+				//user can be in parent
+				if(parent != null &&  parent.getCode().equals(store.getCode())) {
+					authorized = true;
+				}
+				
+				//else false
+				return authorized;
+			} catch (Exception e) {
+				throw new ServiceRuntimeException("Cannot authorize user " + authentication.getPrincipal().toString() + " for store " + store.getCode(),
+						e.getMessage());
+			}
+		
+		}
+
+		
+		
+		return true;
 	}
 
 

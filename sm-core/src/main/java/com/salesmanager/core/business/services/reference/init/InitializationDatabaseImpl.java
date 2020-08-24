@@ -296,7 +296,9 @@ public class InitializationDatabaseImpl implements InitializationDatabase {
 
     		  Map<String,Zone> zonesMap = new HashMap<String,Zone>();
     		  zonesMap = zonesLoader.loadZones("reference/zoneconfig.json");
-              
+    		  
+    		  this.addZonesToDb(zonesMap);
+/*              
               for (Map.Entry<String, Zone> entry : zonesMap.entrySet()) {
             	    String key = entry.getKey();
             	    Zone value = entry.getValue();
@@ -314,7 +316,20 @@ public class InitializationDatabaseImpl implements InitializationDatabase {
             	    	description.setZone(value);
             	    	zoneService.addDescription(value, description);
             	    }
-              }
+              }*/
+              
+              //lookup additional zones
+              //iterate configured languages
+      		  LOGGER.info("Populating additional zones");
+
+              //load reference/zones/* (zone config for additional country)
+              //example in.json and in-fr.son
+              //will load es zones and use a specific file for french es zones
+      		  List<Map<String, Zone>> loadIndividualZones = zonesLoader.loadIndividualZones();
+      		  
+      		loadIndividualZones.stream().forEach(z -> {
+					addZonesToDb(z);
+			});
 
   		} catch (Exception e) {
   		    
@@ -323,6 +338,38 @@ public class InitializationDatabaseImpl implements InitializationDatabase {
 
 	}
 
+	
+	private void addZonesToDb(Map<String,Zone> zonesMap) throws RuntimeException {
+		
+		try {
+		
+	        for (Map.Entry<String, Zone> entry : zonesMap.entrySet()) {
+	    	    String key = entry.getKey();
+	    	    Zone value = entry.getValue();
+
+	    	    if(value.getDescriptions()==null) {
+	    	    	LOGGER.warn("This zone " + key + " has no descriptions");
+	    	    	continue;
+	    	    }
+	    	    
+	    	    List<ZoneDescription> zoneDescriptions = value.getDescriptions();
+	    	    value.setDescriptons(null);
+	
+	    	    zoneService.create(value);
+	    	    
+	    	    for(ZoneDescription description : zoneDescriptions) {
+	    	    	description.setZone(value);
+	    	    	zoneService.addDescription(value, description);
+	    	    }
+	        }
+        
+		}catch(Exception e) {
+			LOGGER.error("An error occured while loading zones",e);
+			
+		}
+		
+	}
+	
 	private void createLanguages() throws ServiceException {
 		LOGGER.info(String.format("%s : Populating Languages ", name));
 		for(String code : SchemaConstant.LANGUAGE_ISO_CODE) {

@@ -118,6 +118,26 @@ public class ManufacturerApi {
 		return null;
 	}
 
+	
+	@RequestMapping(value = "/private/manufacturers/", method = RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
+	@ResponseBody
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	@ApiOperation(httpMethod = "GET", value = "List manufacturers by store", notes = "This request supports paging or not. Paging supports page number and request count", response = ReadableManufacturerList.class)
+	public ReadableManufacturerList listByStore(
+			@ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language,
+			@RequestParam(value = "name", required = false) String name,
+			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+			@RequestParam(value = "count", required = false, defaultValue = "10") Integer count) {
+
+		ListCriteria listCriteria = new ListCriteria();
+		listCriteria.setName(name);
+		return manufacturerFacade.listByStore(merchantStore, language, listCriteria, page, count);
+	}
+	
+	
 	@RequestMapping(value = "/manufacturers/", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody

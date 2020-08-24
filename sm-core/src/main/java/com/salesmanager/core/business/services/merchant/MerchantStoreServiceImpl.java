@@ -45,14 +45,11 @@ public class MerchantStoreServiceImpl extends SalesManagerEntityServiceImpl<Inte
 
 	@Override
 	public void saveOrUpdate(MerchantStore store) throws ServiceException {
-
 		super.save(store);
-
 	}
 
 	@Override
 	public MerchantStore getByCode(String code) throws ServiceException {
-
 		return merchantRepository.findByCode(code);
 	}
 

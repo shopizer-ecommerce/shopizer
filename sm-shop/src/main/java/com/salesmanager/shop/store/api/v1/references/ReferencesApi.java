@@ -72,7 +72,7 @@ public class ReferencesApi {
   @GetMapping("/country")
   public List<ReadableCountry> getCountry(HttpServletRequest request) {
     MerchantStore merchantStore = storeFacade.getByCode(request);
-    Language lang = languageUtils.getRESTLanguage(request, merchantStore);
+    Language lang = languageUtils.getRESTLanguage(request);
     return countryFacade.getListCountryZones(lang, merchantStore);
   }
 
@@ -80,7 +80,7 @@ public class ReferencesApi {
   public List<ReadableZone> getZones(
       @RequestParam("code") String code, HttpServletRequest request) {
     MerchantStore merchantStore = storeFacade.getByCode(request);
-    Language lang = languageUtils.getRESTLanguage(request, merchantStore);
+    Language lang = languageUtils.getRESTLanguage(request);
     return zoneFacade.getZones(code, lang, merchantStore);
   }
 

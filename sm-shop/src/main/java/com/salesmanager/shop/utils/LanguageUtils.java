@@ -129,10 +129,9 @@ public class LanguageUtils {
    * @return
    * @throws Exception
    */
-  public Language getRESTLanguage(HttpServletRequest request, MerchantStore store) {
+  public Language getRESTLanguage(HttpServletRequest request) {
 
     Validate.notNull(request, "HttpServletRequest must not be null");
-    Validate.notNull(store, "MerchantStore must not be null");
 
     try {
       Language language = null;

@@ -63,6 +63,14 @@ public interface UserFacade {
    */
   boolean authorizedStore(String userName, String merchantStoreCode);
   
+  
+  /**
+   * Method to be used in argument resolver.
+   * @param store
+   * @return
+   */
+  boolean authorizeStore(MerchantStore store, String path);
+  
   /**
    * Determines if a user is in a specific group
    * @param userName

@@ -86,7 +86,7 @@ public class AuthenticateCustomerApi {
         //try {
             
             MerchantStore merchantStore = storeFacade.getByCode(request);
-            Language language = languageUtils.getRESTLanguage(request, merchantStore);  
+            Language language = languageUtils.getRESTLanguage(request);  
             
             //Transition
             customer.setUserName(customer.getEmailAddress());
@@ -202,7 +202,7 @@ public class AuthenticateCustomerApi {
         try {
             
             MerchantStore merchantStore = storeFacade.getByCode(request);
-            Language language = languageUtils.getRESTLanguage(request, merchantStore);
+            Language language = languageUtils.getRESTLanguage(request);
             
             Customer customer = customerFacade.getCustomerByUserName(authenticationRequest.getUsername(), merchantStore);
             
