@@ -135,7 +135,7 @@ Voir la démo (jsp):
 -------------------
 http://aws-demo.shopizer.com:8080/
 
-Voir la démo (angulaire):
+Voir la démo (angular):
 -------------------
 Bientôt disponible
 
@@ -162,9 +162,9 @@ Exécutez l'application depuis Tomcat
 -------------------
 copier sm-shop / target / ROOT.war vers tomcat ou tout autre répertoire de déploiement du serveur d'applications
 
-Augmenter l'espace du tas à 1024 m （Heap spaca)
+Augmenter l'espace du tas à 1024 m （Heap space)
 
-### Configuration de l'espace de tas dans Tomcat (Heap spaca):
+### Configuration de l'espace de tas dans Tomcat (Heap space):
 
 
 Si vous utilisez Tomcat, modifiez catalina.bat pour les utilisateurs Windows ou catalina.sh pour les utilisateurs Linux / Mac
