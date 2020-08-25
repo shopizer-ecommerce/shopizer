@@ -16,36 +16,41 @@ public class ProductTypeServiceImpl extends SalesManagerEntityServiceImpl<Long, 
 		implements ProductTypeService {
 
 	private ProductTypeRepository productTypeRepository;
-	
+
 	@Inject
-	public ProductTypeServiceImpl(
-			ProductTypeRepository productTypeRepository) {
-			super(productTypeRepository);
-			this.productTypeRepository = productTypeRepository;
+	public ProductTypeServiceImpl(ProductTypeRepository productTypeRepository) {
+		super(productTypeRepository);
+		this.productTypeRepository = productTypeRepository;
 	}
-	
+
 	@Override
 	public ProductType getProductType(String productTypeCode) throws ServiceException {
-		
+
 		return productTypeRepository.findByCode(productTypeCode);
-		
+
 	}
 
-    @Override
-    public List<ProductType> getByMerchant(String merchant, Language language) throws ServiceException {
-      return productTypeRepository.findAll();
-    }
+	@Override
+	public List<ProductType> getByMerchant(String merchant, Language language) throws ServiceException {
+		return productTypeRepository.findAll();
+	}
 
+	@Override
+	public List<ProductType> getByMerchant(MerchantStore store, Language language) throws ServiceException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-  @Override
-  public List<ProductType> getByMerchant(MerchantStore store, Language language)
-      throws ServiceException {
-    // TODO Auto-generated method stub
-    return null;
-  }
+	@Override
+	public ProductType getByCode(String code, MerchantStore store, Language language) throws ServiceException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
+	@Override
+	public void update(String code, MerchantStore store, ProductType type) throws ServiceException {
+		// TODO Auto-generated method stub
 
-
-
+	}
 
 }
