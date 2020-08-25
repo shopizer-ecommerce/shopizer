@@ -205,7 +205,7 @@ public class ShoppingOrderPaymentController extends AbstractController {
 						PaypalPayment payment = new PaypalPayment();
 						payment.setCurrency(store.getCurrency());
 						Transaction transaction = p.initPaypalTransaction(store, cartItems, orderTotalSummary, payment, config, integrationModule);
-						transactionService.create(transaction);
+						
 						
 						super.setSessionAttribute(Constants.INIT_TRANSACTION_KEY, transaction, request);
 						
@@ -244,6 +244,12 @@ public class ShoppingOrderPaymentController extends AbstractController {
 						Order modelOrder = commitOrder(order,request,locale,null);
 						Long orderId =  modelOrder.getId();
 						LOGGER.info("Model Order Id {} ",orderId);
+						
+						// Initialize the transaction set for Payment Start
+						transaction.setOrder(modelOrder);
+						transaction.getTransactionDetails().put("ORDERID", orderId.toString());
+						
+						transactionService.create(transaction);
 						
 						urlAppender.append("/"+transaction.getTransactionDetails().get("ORDER_UID")+"/"+transaction.getAmount() +"/"+orderId);
 						

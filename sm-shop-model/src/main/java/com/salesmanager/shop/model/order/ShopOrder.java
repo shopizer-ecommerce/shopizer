@@ -17,6 +17,7 @@ import com.salesmanager.core.model.shoppingcart.ShoppingCartItem;
  */
 public class ShopOrder extends PersistableOrder implements Serializable {
 
+	
 	/**
 	 * 
 	 */
@@ -87,6 +88,29 @@ public class ShopOrder extends PersistableOrder implements Serializable {
 	}
 	public void setDefaultPaymentMethodCode(String defaultPaymentMethodCode) {
 		this.defaultPaymentMethodCode = defaultPaymentMethodCode;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("ShopOrder [shoppingCartItems=");
+		builder.append(shoppingCartItems);
+		builder.append(", orderTotalSummary=");
+		builder.append(orderTotalSummary);
+		builder.append(", shippingSummary=");
+		builder.append(shippingSummary);
+		builder.append(", selectedShippingOption=");
+		builder.append(selectedShippingOption);
+		builder.append(", defaultPaymentMethodCode=");
+		builder.append(defaultPaymentMethodCode);
+		builder.append(", paymentMethodType=");
+		builder.append(paymentMethodType);
+		builder.append(", payment=");
+		builder.append(payment);
+		builder.append(", errorMessage=");
+		builder.append(errorMessage);
+		builder.append("]");
+		return builder.toString();
 	}
 
 

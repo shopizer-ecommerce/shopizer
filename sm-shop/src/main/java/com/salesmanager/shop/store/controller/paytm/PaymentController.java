@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.order.OrderService;
+import com.salesmanager.core.business.services.payments.TransactionService;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.Order;
@@ -13,6 +14,7 @@ import com.salesmanager.core.model.order.orderproduct.OrderProductDownload;
 import com.salesmanager.core.model.order.orderstatus.OrderStatus;
 import com.salesmanager.core.model.payments.PaymentType;
 import com.salesmanager.core.model.payments.Transaction;
+import com.salesmanager.core.model.payments.TransactionType;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.admin.model.userpassword.UserReset;
 import com.salesmanager.shop.constants.Constants;
@@ -22,6 +24,8 @@ import com.salesmanager.shop.store.controller.AbstractController;
 import com.salesmanager.shop.store.controller.order.ShoppingOrderPaymentController;
 import com.salesmanager.shop.utils.EmailTemplatesUtils;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
@@ -67,6 +71,9 @@ public class PaymentController extends AbstractController{
 	private OrderService orderService;
     @Inject
     private CustomerService customerService;
+    
+    @Inject
+    private TransactionService transactionService;
 	
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(PaymentController.class);
@@ -139,7 +146,7 @@ public class PaymentController extends AbstractController{
 	                    redirectURL = "redirect:/shop/order/confirmation.html";
 	                    updatedredirectURL.append(redirectURL);
 	                    Long orderID = Long.parseLong(parameters.get("ORDERID"));
-	                    finalizeOrder(orderID,request,Locale.getDefault(),null);
+	                    finalizeOrder(orderID,request,Locale.getDefault(),parameters);
 //	                    append("/").append(parameters.get("BANKTXNID")).
 //	                    append("/").append(parameters.get("ORDERID")).
 //	                    append("/").append(parameters.get("PAYMENTMODE")).
@@ -217,6 +224,33 @@ public class PaymentController extends AbstractController{
 
 			// Call Finder Methods to get access to Entitie Orders & Customer
 			LOGGER.debug("About to save transaction");
+			Transaction payTMTransaction = new  Transaction();
+			payTMTransaction.setOrder(modelOrder);
+	      
+	        	if(payTMtransactionDetails != null) {
+	        		payTMTransaction.getTransactionDetails().put("BANKTXNID",payTMtransactionDetails.get("BANKTXNID"));
+	        		payTMTransaction.getTransactionDetails().put("ORDERID",payTMtransactionDetails.get("ORDERID"));
+	        		payTMTransaction.getTransactionDetails().put("PAYMENTMODE",payTMtransactionDetails.get("PAYMENTMODE"));
+	        		payTMTransaction.getTransactionDetails().put("RESPCODE",payTMtransactionDetails.get("RESPCODE"));
+	        		payTMTransaction.getTransactionDetails().put("STATUS",payTMtransactionDetails.get("STATUS"));
+	        		payTMTransaction.getTransactionDetails().put("TXNAMOUNT",payTMtransactionDetails.get("TXNAMOUNT"));
+	        		payTMTransaction.getTransactionDetails().put("TXNDATE",payTMtransactionDetails.get("TXNDATE"));
+	        		payTMTransaction.getTransactionDetails().put("TXNID",payTMtransactionDetails.get("TXNID"));
+	        		
+	        		payTMTransaction.setAmount(new BigDecimal(payTMtransactionDetails.get("TXNAMOUNT")));
+	        		payTMTransaction.setPaymentType(PaymentType.PAYTM);
+	        		payTMTransaction.setTransactionType(TransactionType.AUTHORIZECAPTURE);
+	        		payTMTransaction.setTransactionDate(new Date());
+	        		
+	        		//parse JSON string
+	        		String transactionDetails = payTMTransaction.toJSONString();
+	        		if(!StringUtils.isBlank(transactionDetails)) {
+	        			payTMTransaction.setDetails(transactionDetails);
+	        		}
+	        		
+	        	}
+			
+	       	transactionService.save(payTMTransaction);
 
 			// save order id in session
 			super.setSessionAttribute(Constants.ORDER_ID, orderId, request);

@@ -295,7 +295,7 @@ public class PayPalExpressCheckoutPayment implements PaymentModule {
 			//transaction.setOrder(order);
 			transaction.setTransactionDate(new Date());
 			transaction.setTransactionType(TransactionType.INIT);
-			transaction.setPaymentType(PaymentType.PAYPAL);
+			transaction.setPaymentType(PaymentType.PAYTM);
 			transaction.getTransactionDetails().put("ORDER_UID", transactionUID.toString());
 			
 			

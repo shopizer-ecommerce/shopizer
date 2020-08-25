@@ -49,6 +49,7 @@ import com.salesmanager.core.model.order.orderproduct.OrderProduct;
 import com.salesmanager.core.model.order.orderstatus.OrderStatus;
 import com.salesmanager.core.model.order.orderstatus.OrderStatusHistory;
 import com.salesmanager.core.model.payments.Payment;
+import com.salesmanager.core.model.payments.PaymentType;
 import com.salesmanager.core.model.payments.Transaction;
 import com.salesmanager.core.model.payments.TransactionType;
 import com.salesmanager.core.model.reference.language.Language;
@@ -141,7 +142,11 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
 
     	
     	//first process payment
-    	Transaction processTransaction = paymentService.processPayment(customer, store, payment, items, order);
+    	Transaction processTransaction = null ;
+    	
+    	if(PaymentType.PAYPAL.name().equals(payment.getPaymentType())) {    	
+    	paymentService.processPayment(customer, store, payment, items, order);
+    	}
     	
     	if(order.getOrderHistory()==null || order.getOrderHistory().size()==0 || order.getStatus()==null) {
     		OrderStatus status = order.getStatus();
