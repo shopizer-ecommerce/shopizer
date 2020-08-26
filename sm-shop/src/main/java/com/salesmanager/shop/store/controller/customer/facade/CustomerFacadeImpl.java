@@ -501,7 +501,7 @@ public class CustomerFacadeImpl implements CustomerFacade {
       throw new Exception("customer with given id does not exists");
 
     }
-    if (address.isBillingAddress()) {
+   // if (address.isBillingAddress()) {
       LOG.info("updating customer billing address..");
       PersistableCustomerBillingAddressPopulator billingAddressPopulator =
           new PersistableCustomerBillingAddressPopulator();
@@ -520,7 +520,7 @@ public class CustomerFacadeImpl implements CustomerFacade {
         customerModel.getBilling().setZone(null);
       }
 
-    } else {
+   // } else {
       LOG.info("updating customer shipping address..");
       PersistableCustomerShippingAddressPopulator shippingAddressPopulator =
           new PersistableCustomerShippingAddressPopulator();
@@ -540,7 +540,7 @@ public class CustomerFacadeImpl implements CustomerFacade {
         customerModel.getDelivery().setZone(null);
       }
 
-    }
+   // }
 
 
     // same update address with customer model

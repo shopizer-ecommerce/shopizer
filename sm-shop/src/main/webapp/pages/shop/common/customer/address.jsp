@@ -77,7 +77,7 @@ function addShippingAddress(formId){
 					</c:if>
 				</div>
 				<br/>
-				<div class="checkout-box">
+				<!-- <div class="checkout-box">
 					<span class="box-title">
 						<p class="p-title">
 							<s:message
@@ -126,7 +126,7 @@ function addShippingAddress(formId){
 							</form:form>
 				    </c:if>
 
-			 </div>
+			 </div> -->
 			 </div>
 			 <div class="span4 col-md-4">
 			 	<jsp:include page="/pages/shop/common/customer/customerProfileMenu.jsp" />

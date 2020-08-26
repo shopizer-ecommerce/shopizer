@@ -193,7 +193,7 @@ $(document).ready(function() {
     // Intention is to hide Ship Address & Use Common Fields for Billing/Shipping 
 	//$('#shippingAddressdiv').hide();
 	//$("#shipToDeliveryAddress").prop("checked", false);
-	//$("#shipToDeliveryAddress").hide();
+	$("#shipToDeliveryAddress").hide();
 	//console.log(address);
 	displayConfirmShipping(address,shippingMethod,useDistanceWindow);
 	
