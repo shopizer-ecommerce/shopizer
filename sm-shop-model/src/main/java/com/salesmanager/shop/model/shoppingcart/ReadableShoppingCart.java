@@ -26,6 +26,7 @@ public class ReadableShoppingCart extends ShoppingCartEntity {
 	private BigDecimal total;
 	private String displayTotal;
 	private int quantity;
+	private Long order;
 	
 	List<ReadableShoppingCartItem> products = new ArrayList<ReadableShoppingCartItem>();
 	List<ReadableOrderTotal> totals;
@@ -136,6 +137,18 @@ public class ReadableShoppingCart extends ShoppingCartEntity {
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+
+
+
+	public Long getOrder() {
+		return order;
+	}
+
+
+
+	public void setOrder(Long order) {
+		this.order = order;
 	}
 
 

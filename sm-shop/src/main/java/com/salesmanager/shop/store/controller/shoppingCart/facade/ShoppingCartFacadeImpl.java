@@ -426,7 +426,7 @@ public class ShoppingCartFacadeImpl
         }
         
         //if cart has been completed return null
-        if(cart.getOrderId() != null) {
+        if(cart.getOrderId() != null && cart.getOrderId().longValue() > 0) {
         	return null;
         }
 

@@ -200,6 +200,10 @@ public class ReadableShoppingCartPopulator extends AbstractDataPopulator<Shoppin
             target.setQuantity(cartQuantity);
             target.setId(source.getId());
             
+            if(source.getOrderId() != null) {
+            	target.setOrder(source.getOrderId());
+            }
+            
             
     	} catch(Exception e) {
     		throw new ConversionException(e);

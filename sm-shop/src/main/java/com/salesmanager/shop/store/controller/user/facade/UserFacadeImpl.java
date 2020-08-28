@@ -385,16 +385,6 @@ public class UserFacadeImpl implements UserFacade {
 
 	}
 
-	@Override
-	public ReadableUser findById(Long id, String storeCode, Language lang) {
-		User user = getByUserId(id);
-		if (user == null) {
-			throw new ResourceNotFoundException("User [" + id + "] not found");
-		}
-
-
-		return convertUserToReadableUser(lang, user);
-	}
 
 	@Override
 	public void changePassword(Long userId, String authenticatedUser, UserPassword changePassword) {
@@ -636,6 +626,20 @@ public class UserFacadeImpl implements UserFacade {
 		
 		
 		return true;
+	}
+
+	@Override
+	public ReadableUser findById(Long id, MerchantStore store, Language lang) {
+		Validate.notNull(store, "MerchantStore cannot be null");
+		
+		User user = userService.getById(id, store);
+		if (user == null) {
+			throw new ResourceNotFoundException("User [" + id + "] not found");
+		}
+
+
+		return convertUserToReadableUser(lang, user);
+
 	}
 
 

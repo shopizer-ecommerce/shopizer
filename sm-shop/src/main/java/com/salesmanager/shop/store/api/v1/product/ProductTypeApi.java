@@ -7,10 +7,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
+import com.salesmanager.shop.model.catalog.product.type.ReadableProductTypeList;
 import com.salesmanager.shop.store.controller.product.facade.ProductTypeFacade;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -46,11 +48,15 @@ public class ProductTypeApi {
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
-  public List<ReadableProductType> getTypes(
+  public ReadableProductTypeList getTypes(
+	  @RequestParam(name="count", defaultValue="10") int count,
+	  @RequestParam(name="page", defaultValue="0") int page,
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language) {
+	  
+	  return productTypeFacade.getByMerchant(merchantStore, language, count, page);
     
-    return productTypeFacade.getByMerchant(merchantStore, language);
+
     
   }
   

@@ -1,15 +1,14 @@
 package com.salesmanager.shop.store.controller.product.facade;
 
-import java.util.List;
-
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.type.PersistableProductType;
 import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
+import com.salesmanager.shop.model.catalog.product.type.ReadableProductTypeList;
 
 public interface ProductTypeFacade {
   
-  List<ReadableProductType> getByMerchant(MerchantStore store, Language language);
+  ReadableProductTypeList getByMerchant(MerchantStore store, Language language, int count, int page);
   
   ReadableProductType get(MerchantStore store, String code, Language language);
   

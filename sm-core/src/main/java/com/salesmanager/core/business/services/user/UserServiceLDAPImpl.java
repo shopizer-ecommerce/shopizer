@@ -114,4 +114,10 @@ public class UserServiceLDAPImpl implements UserService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public User getById(Long id, MerchantStore store) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

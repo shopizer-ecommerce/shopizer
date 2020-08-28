@@ -31,11 +31,11 @@ public interface UserFacade {
   /**
    * Find user by id
    * @param id
-   * @param storeCode
+   * @param merchant
    * @param lang
    * @return
    */
-  ReadableUser findById(Long id, String storeCode, Language lang);
+  ReadableUser findById(Long id, MerchantStore store, Language lang);
 
   /**
    * Creates a User

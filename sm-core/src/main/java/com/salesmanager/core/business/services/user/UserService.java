@@ -20,6 +20,8 @@ public interface UserService extends SalesManagerEntityService<Long, User> {
   User getByUserName(String userName, String storeCode) throws ServiceException;
 
   List<User> listUser() throws ServiceException;
+  
+  User getById(Long id, MerchantStore store);
 
   /**
    * Create or update a User

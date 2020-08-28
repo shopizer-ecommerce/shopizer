@@ -4,7 +4,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import java.security.Principal;
 import java.util.Arrays;
-import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -30,8 +29,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.common.collect.ImmutableMap;
-import com.salesmanager.core.model.common.Criteria;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.user.UserCriteria;
@@ -43,11 +40,8 @@ import com.salesmanager.shop.model.user.ReadableUser;
 import com.salesmanager.shop.model.user.ReadableUserList;
 import com.salesmanager.shop.model.user.UserPassword;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
-import com.salesmanager.shop.store.api.exception.RestApiException;
 import com.salesmanager.shop.store.api.exception.UnauthorizedException;
-import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.store.controller.user.facade.UserFacade;
-import com.salesmanager.shop.utils.ServiceRequestCriteriaBuilderUtils;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -99,7 +93,7 @@ public class UserApi {
 		// only admin and superadmin allowed
 		userFacade.authorizedGroup(authenticatedUser, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()));
 
-		return userFacade.findById(id, merchantStore.getCode(), language);
+		return userFacade.findById(id, merchantStore, language);
 	}
 
 	/**
@@ -142,8 +136,6 @@ public class UserApi {
 	}
 
 	@ResponseStatus(HttpStatus.OK)
-	// @PutMapping(value = {"/private/{store}/user/{id}","/private/user/{id}"},
-	// produces = MediaType.APPLICATION_JSON_VALUE)
 	@PutMapping(value = { "/private/user/{id}" }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
@@ -200,10 +192,6 @@ public class UserApi {
 		
 		criteria.setStoreCode(merchantStore.getCode());
 
-		if (userFacade.userInRoles(authenticatedUser, Arrays.asList(Constants.GROUP_SUPERADMIN))) {
-			criteria.setStoreCode(null);
-		}
-
 		if (!userFacade.userInRoles(authenticatedUser, Arrays.asList(Constants.GROUP_SUPERADMIN))) {
 			if (!userFacade.authorizedStore(authenticatedUser, merchantStore.getCode())) {
 				throw new UnauthorizedException("Operation unauthorized for user [" + authenticatedUser
@@ -212,7 +200,6 @@ public class UserApi {
 		}
 
 		userFacade.authorizedGroup(authenticatedUser, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()));
-
 		return userFacade.listByCriteria(criteria, page, count, language);
 	}
 	
