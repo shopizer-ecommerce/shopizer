@@ -109,9 +109,10 @@ public class PaymentController extends AbstractController{
 	        
 	        parameters.put("MOBILE_NO", env.getProperty("paytm.mobile"));
 	        parameters.put("EMAIL", env.getProperty("paytm.email"));
-	        parameters.put("ORDER_ID", orderId);
+	        parameters.put("ORDER_ID", orderId+"_"+customerId);
 	        parameters.put("TXN_AMOUNT", transactionAmount);
 	        parameters.put("CUST_ID", customerId);
+	        
 	       
 	        String checkSum = getCheckSum(parameters);
 	        parameters.put("CHECKSUMHASH", checkSum);
@@ -145,7 +146,9 @@ public class PaymentController extends AbstractController{
 	                   // redirectURL = "redirect:" + Constants.SHOP_URI + "/order/commitPayTMAuthorized";
 	                    redirectURL = "redirect:/shop/order/confirmation.html";
 	                    updatedredirectURL.append(redirectURL);
-	                    Long orderID = Long.parseLong(parameters.get("ORDERID"));
+	                    String responseOrderID = parameters.get("ORDERID");
+	                    String[] extractOrderId = responseOrderID.split("\\_");
+	                    Long orderID = Long.parseLong(extractOrderId[0]);
 	                    finalizeOrder(orderID,request,Locale.getDefault(),parameters);
 //	                    append("/").append(parameters.get("BANKTXNID")).
 //	                    append("/").append(parameters.get("ORDERID")).
