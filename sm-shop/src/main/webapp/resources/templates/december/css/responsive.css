@@ -322,7 +322,7 @@ a.shopnow {
 /*==================================
 	Home page 1   
 ====================================*/	
-.container {width:300px}
+.container {min-width:300px}
 .sticky {
   animation: 0s ease 0s normal none 1 running none;
   position: static;
