@@ -233,6 +233,13 @@ Setup
 	.slider-button {
 		display:none;
 	}
+	.topBar {
+	    font-size: 26px !important;
+    	margin-top: 12px;
+    }
+    .margin-none {
+    	margin: 0 !important
+    }
 }
 
 @media (max-width: 460px) {
@@ -1135,6 +1142,18 @@ fieldset[disabled] .twitter-typeahead .tt-input {
   .au-banner.style-8 .banner-content {
     left: 310px;
   }
+  .padding-0 {
+  	padding: 0 !important	
+  }
+  .hide-xs {
+  	display: block !important
+  }
+  .border {
+  	border: 1px solid #e5e0e0
+  }
+  .hide-xs {
+  	display: none
+  }
 }
 
 @media (max-width: 575px) {
@@ -1393,7 +1412,9 @@ fieldset[disabled] .twitter-typeahead .tt-input {
     }
 
 @media (max-width: 767px){
-
+.container-big {
+	
+}
 div[class^="col-"] {
     margin-bottom: 30px;
 }

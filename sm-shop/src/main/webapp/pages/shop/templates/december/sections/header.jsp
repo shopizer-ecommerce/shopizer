@@ -273,8 +273,8 @@ $(document).ready(function() {
         </c:if>
         <c:if test="${requestScope.CONFIGS['allowPurchaseItems'] == true}">	
         	<li class="dropdown">
-        		<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="false"> <i class="fa fa-shopping-basket mr-5"></i> <span class="hidden-xs">
-                                <s:message code="label.cart" text="Shopping cart"/><sup class="text-primary">(<span id="miniCartSummary"></span>)</sup>
+        		<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="false"> <i class="fa fa-shopping-basket mr-5"></i><sup class="text-primary">(<span id="miniCartSummary"></span>)</sup> <span class="hidden-xs">
+                                <s:message code="label.cart" text="Shopping cart"/>
                                 <i class="fa fa-angle-down ml-5"></i>
                             	</span>
                 </a>
