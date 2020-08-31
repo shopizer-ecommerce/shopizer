@@ -13,6 +13,15 @@ public class ProductTypeEntity extends Entity implements Serializable {
 
 	private String code;
 	private String name;
+	boolean allowAddToCart;
+
+	public boolean isAllowAddToCart() {
+		return allowAddToCart;
+	}
+
+	public void setAllowAddToCart(boolean allowAddToCart) {
+		this.allowAddToCart = allowAddToCart;
+	}
 
 	public String getCode() {
 		return code;

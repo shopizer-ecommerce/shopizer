@@ -1,6 +1,6 @@
 package com.salesmanager.core.business.services.catalog.product.type;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityService;
@@ -12,8 +12,7 @@ public interface ProductTypeService extends SalesManagerEntityService<Long, Prod
 
 	ProductType getProductType(String productTypeCode) throws ServiceException;
 	
-	List<ProductType> getByMerchant(String merchant, Language language) throws ServiceException;
-    List<ProductType> getByMerchant(MerchantStore store, Language language) throws ServiceException;
+	Page<ProductType> getByMerchant(MerchantStore store, Language language, int page, int count) throws ServiceException;
     ProductType getByCode(String code, MerchantStore store, Language language) throws ServiceException;
     void update(String code, MerchantStore store, ProductType type) throws ServiceException;
 
