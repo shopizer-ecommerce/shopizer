@@ -16,7 +16,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.event.EventListener;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.http.MediaType;
@@ -45,7 +44,6 @@ import com.salesmanager.shop.utils.LabelUtils;
 @ComponentScan({"com.salesmanager.shop"})
 @ServletComponentScan
 @Import({CoreApplicationConfiguration.class}) // import sm-core configurations
-@ImportResource({"classpath:/spring/shopizer-shop-context.xml"})
 @EnableWebSecurity
 public class ShopApplicationConfiguration implements WebMvcConfigurer {
 
@@ -54,7 +52,7 @@ public class ShopApplicationConfiguration implements WebMvcConfigurer {
   @EventListener(ApplicationReadyEvent.class)
   public void applicationReadyCode() {
     String workingDir = System.getProperty("user.dir");
-    //System.out.println("Current working directory : " + workingDir);
+    logger.info("Current working directory : " + workingDir);
   }
 
   /** Configure TilesConfigurer. */
