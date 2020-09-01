@@ -32,23 +32,20 @@ public class ProductTypeServiceImpl extends SalesManagerEntityServiceImpl<Long, 
 	}
 
 	@Override
-	public ProductType getProductType(String productTypeCode) throws ServiceException {
-
-		return productTypeRepository.findByCode(productTypeCode);
-
-	}
-
-
-
-	@Override
 	public ProductType getByCode(String code, MerchantStore store, Language language) throws ServiceException {
-		// TODO Auto-generated method stub
-		return null;
+		return productTypeRepository.findByCode(code, store.getId());
 	}
 
 	@Override
 	public void update(String code, MerchantStore store, ProductType type) throws ServiceException {
-		// TODO Auto-generated method stub
+		productTypeRepository.save(type);
+
+	}
+	
+	@Override
+	public ProductType getProductType(String productTypeCode) {
+
+		return productTypeRepository.findByCode(productTypeCode);
 
 	}
 
@@ -56,6 +53,11 @@ public class ProductTypeServiceImpl extends SalesManagerEntityServiceImpl<Long, 
 	public Page<ProductType> getByMerchant(MerchantStore store, Language language, int page, int count) throws ServiceException {
 		Pageable pageRequest = PageRequest.of(page, count);
 		return pageableProductTypeRepository.listByStore(store.getId(), pageRequest);
+	}
+
+	@Override
+	public ProductType getById(Long id, MerchantStore store, Language language) throws ServiceException {
+		return productTypeRepository.findById(id, store.getId(), language.getId());
 	}
 
 }

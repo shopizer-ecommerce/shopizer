@@ -93,8 +93,10 @@ public class ProductTypeApi {
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language) {
     
-    //return productTypeFacade.get(merchantStore, code, language);
-	  return null;
+	  Long id = productTypeFacade.save(type, merchantStore, language);
+	  Entity entity = new Entity();
+	  entity.setId(id);
+	  return entity;
     
   }
   
@@ -109,8 +111,8 @@ public class ProductTypeApi {
 	  @PathVariable Long id,
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language) {
-    
-    //return productTypeFacade.get(merchantStore, code, language);
+	  
+	  productTypeFacade.update(type, id, merchantStore, language);
     
   }
   
@@ -124,9 +126,9 @@ public class ProductTypeApi {
 	  @PathVariable Long id,
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language) {
-    
-    //return productTypeFacade.get(merchantStore, code, language);
-    
+	  
+	  productTypeFacade.delete(id, merchantStore, language);
+
   }
 
 

@@ -107,15 +107,14 @@ public class ProductTypeFacadeImpl implements ProductTypeFacade {
 	}
 
 	@Override
-	public void update(PersistableProductType type, String code, MerchantStore store, Language language) {
+	public void update(PersistableProductType type, Long id, MerchantStore store, Language language) {
 		Validate.notNull(type,"ProductType cannot be null");
 		Validate.notNull(store,"MerchantStore cannot be null");
-		Validate.notNull(code,"code cannot be empty");
+		Validate.notNull(id,"id cannot be empty");
 		
 		try {
 			
-			ProductType t = productTypeService.getByCode(code, store, language);
-						
+			ProductType t = productTypeService.getById(id, store, language);		
 			if(t == null) {
 				throw new ResourceNotFoundException(
 						"Product type [" + type.getCode() + "] does not exist for store [" + store.getCode() + "]");
@@ -135,8 +134,25 @@ public class ProductTypeFacadeImpl implements ProductTypeFacade {
 	}
 
 	@Override
-	public void delete(String code, MerchantStore store) {
-		// TODO Auto-generated method stub
+	public void delete(Long id, MerchantStore store, Language language) {
+		Validate.notNull(store,"MerchantStore cannot be null");
+		Validate.notNull(id,"id cannot be empty");
+		
+		try {
+			
+			ProductType t = productTypeService.getById(id, store, language);		
+			if(t == null) {
+				throw new ResourceNotFoundException(
+						"Product type [" + id + "] does not exist for store [" + store.getCode() + "]");
+			}
+			
+			productTypeService.delete(t);
+
+
+		} catch(Exception e) {
+			throw new ServiceRuntimeException(
+					"An exception occured while saving product type",e);
+		}
 
 	}
 

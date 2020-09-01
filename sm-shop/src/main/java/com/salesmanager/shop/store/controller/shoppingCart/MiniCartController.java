@@ -50,7 +50,7 @@ public class MiniCartController extends AbstractController{
 			if(cart!=null) {
 				request.getSession().setAttribute(Constants.SHOPPING_CART, cart.getCode());
 			}
-			if(cart==null) {
+			else {
 				request.getSession().removeAttribute(Constants.SHOPPING_CART);//make sure there is no cart here
 				cart = new ShoppingCartData();//create an empty cart
 			}

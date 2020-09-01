@@ -98,16 +98,11 @@ public class PersistableProductPopulator extends
 			
 			//PRODUCT TYPE
 			if(!StringUtils.isBlank(source.getType())) {
-				ProductType type = productTypeService.getProductType(source.getType());
+				ProductType type = productTypeService.getByCode(source.getType(), store, language);
 				if(type == null) {
 					throw new ConversionException("Product type [" + source.getType() + "] does not exist");
 				}
-				
-				//TODO
-				//if(type.getMerchantStore().getId().intValue() != store.getId().intValue()) {
-				//	throw new ConversionException("Product type [" + source.getType() + "] does not exist for store [" + store.getCode() + "]");
-				//}
-				
+
 				target.setType(type);
 			}
 			
