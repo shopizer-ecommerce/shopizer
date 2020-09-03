@@ -1,10 +1,9 @@
 package com.salesmanager.shop.model.catalog.category;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReadableCategory extends CategoryEntity implements Serializable {
+public class ReadableCategory extends CategoryEntity {
 
 	/**
 	 * 

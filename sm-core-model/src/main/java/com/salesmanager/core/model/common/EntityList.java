@@ -8,7 +8,7 @@ public class EntityList implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 6135941880202635567L;
+	private static final long serialVersionUID = 1L;
 	private int totalCount;
 	private int totalPages;
 	
