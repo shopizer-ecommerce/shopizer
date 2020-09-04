@@ -312,7 +312,7 @@
 			<dependency>
 				<groupId>com.amazonaws</groupId>
 				<artifactId>aws-java-sdk-ses</artifactId>
-				<version>1.11.538</version>
+				<version>1.11.841</version>
 			</dependency>
 
 			<!-- google cloud storage -->
