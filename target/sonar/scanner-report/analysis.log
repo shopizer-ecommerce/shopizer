@@ -1,0 +1,183 @@
+SonarCloud plugins:
+  - SonarCSS 1.2.0.1325 (cssfamily)
+  - SonarPLSQL 3.4.1.2576 (plsql)
+  - SonarScala 1.7.0.883 (sonarscala)
+  - C# Code Quality and Security 8.12.0.21095 (csharp)
+  - Vulnerability Analysis 8.5.0-M2.3931 (security)
+  - Java Code Quality and Security 6.7.0.23054 (java)
+  - SonarHTML 3.2.0.2082 (web)
+  - SonarFlex 2.5.1.1831 (flex)
+  - SonarXML 2.0.1.2020 (xml)
+  - VB.NET Code Quality and Security 8.12.0.21095 (vbnet)
+  - SonarSwift 4.2.2.77 (swift)
+  - CFamily Code Quality and Security 6.12.0.20255 (cpp)
+  - Python Code Quality and Security 3.1.0.7619 (python)
+  - JaCoCo 1.1.0.898 (jacoco)
+  - Mercurial 1.1.2 (scmmercurial)
+  - SonarGo 1.7.0.883 (go)
+  - SonarKotlin 1.7.0.883 (kotlin)
+  - SonarTSQL 1.4.0.3334 (tsql)
+  - SonarApex 1.7.0.883 (sonarapex)
+  - JavaScript/TypeScript Code Quality and Security 6.3.0.12464 (javascript)
+  - SonarRuby 1.7.0.883 (ruby)
+  - Vulnerability Rules for C# 8.5.0-M2.3931 (securitycsharpfrontend)
+  - Vulnerability Rules for Java 8.5.0-M2.3931 (securityjavafrontend)
+  - License for SonarLint 8.0.0.11719 (license)
+  - COBOL Code Quality 4.5.1.4460 (cobol)
+  - Vulnerability Rules for Python 8.5.0-M2.3931 (securitypythonfrontend)
+  - Git 1.12.0.2034 (scmgit)
+  - PHP Code Quality and Security 3.9.0.6331 (php)
+  - SonarABAP 3.8.0.2034 (abap)
+  - Vulnerability Rules for PHP 8.5.0-M2.3931 (securityphpfrontend)
+Global server settings:
+  - email.from=noreply@sonarcloud.io
+  - email.fromName=SonarCloud
+  - email.prefix=[SonarCloud]
+  - sonar.auth.bitbucket.enabled=true
+  - sonar.auth.microsoft.enabled=true
+  - sonar.core.id=1BD809FA-AWHW8ct9-T_TB3XqouNu
+  - sonar.core.serverBaseURL=https://sonarcloud.io
+  - sonar.core.startTime=2020-09-04T14:41:19+0200
+  - sonar.dbcleaner.weeksBeforeDeletingAllSnapshots=480
+  - sonar.dbcleaner.weeksBeforeKeepingOnlyOneSnapshotByMonth=4
+  - sonar.dbcleaner.weeksBeforeKeepingOnlyOneSnapshotByWeek=1
+  - sonar.feature_flag.bbc_code_reports.enabled=true
+  - sonar.leak.period=30
+  - sonar.lf.enableGravatar=true
+  - sonar.lf.logoWidthPx=105
+  - sonar.organizations.anyoneCanCreate=true
+  - sonar.organizations.createPersonalOrg=true
+  - sonar.plsql.file.suffixes=sql,tab,pkb
+  - sonar.tsql.file.suffixes=.tsql
+Project server settings:
+Project scanner properties:
+  - sonar.host.url=https://sonarcloud.io
+  - sonar.inclusions=src/main/java/**
+  - sonar.java.libraries=/Users/carlsamson/.m2/repository/javax/inject/javax.inject/1/javax.inject-1.jar,/Users/carlsamson/.m2/repository/javax/validation/validation-api/2.0.1.Final/validation-api-2.0.1.Final.jar,/Users/carlsamson/.m2/repository/org/apache/commons/commons-lang3/3.5/commons-lang3-3.5.jar,/Users/carlsamson/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.10.2/jackson-databind-2.10.2.jar,/Users/carlsamson/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.10.2/jackson-core-2.10.2.jar,/Users/carlsamson/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.10.2/jackson-annotations-2.10.2.jar,/Users/carlsamson/.m2/repository/net/sf/ehcache/ehcache/2.10.6/ehcache-2.10.6.jar,/Users/carlsamson/.m2/repository/org/slf4j/slf4j-api/1.7.30/slf4j-api-1.7.30.jar,/Users/carlsamson/.m2/repository/javax/mail/javax.mail-api/1.6.2/javax.mail-api-1.6.2.jar,/Users/carlsamson/.m2/repository/javax/mail/mail/1.4.7/mail-1.4.7.jar,/Users/carlsamson/.m2/repository/javax/activation/activation...
+  - sonar.java.source=1.8
+  - sonar.java.target=1.8
+  - sonar.java.test.libraries=/Users/carlsamson/.m2/repository/javax/inject/javax.inject/1/javax.inject-1.jar,/Users/carlsamson/.m2/repository/javax/validation/validation-api/2.0.1.Final/validation-api-2.0.1.Final.jar,/Users/carlsamson/.m2/repository/org/apache/commons/commons-lang3/3.5/commons-lang3-3.5.jar,/Users/carlsamson/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.10.2/jackson-databind-2.10.2.jar,/Users/carlsamson/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.10.2/jackson-core-2.10.2.jar,/Users/carlsamson/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.10.2/jackson-annotations-2.10.2.jar,/Users/carlsamson/.m2/repository/net/sf/ehcache/ehcache/2.10.6/ehcache-2.10.6.jar,/Users/carlsamson/.m2/repository/org/slf4j/slf4j-api/1.7.30/slf4j-api-1.7.30.jar,/Users/carlsamson/.m2/repository/javax/mail/javax.mail-api/1.6.2/javax.mail-api-1.6.2.jar,/Users/carlsamson/.m2/repository/javax/mail/mail/1.4.7/mail-1.4.7.jar,/Users/carlsamson/.m2/repository/javax/activation/activation...
+  - sonar.libraries=/Users/carlsamson/.m2/repository/javax/inject/javax.inject/1/javax.inject-1.jar,/Users/carlsamson/.m2/repository/javax/validation/validation-api/2.0.1.Final/validation-api-2.0.1.Final.jar,/Users/carlsamson/.m2/repository/org/apache/commons/commons-lang3/3.5/commons-lang3-3.5.jar,/Users/carlsamson/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.10.2/jackson-databind-2.10.2.jar,/Users/carlsamson/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.10.2/jackson-core-2.10.2.jar,/Users/carlsamson/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.10.2/jackson-annotations-2.10.2.jar,/Users/carlsamson/.m2/repository/net/sf/ehcache/ehcache/2.10.6/ehcache-2.10.6.jar,/Users/carlsamson/.m2/repository/org/slf4j/slf4j-api/1.7.30/slf4j-api-1.7.30.jar,/Users/carlsamson/.m2/repository/javax/mail/javax.mail-api/1.6.2/javax.mail-api-1.6.2.jar,/Users/carlsamson/.m2/repository/javax/mail/mail/1.4.7/mail-1.4.7.jar,/Users/carlsamson/.m2/repository/javax/activation/activation...
+  - sonar.links.ci=
+  - sonar.links.homepage=http://ww.shopizer.com
+  - sonar.links.issue=
+  - sonar.links.scm=https://github.com/spring-projects/spring-boot/spring-boot-starter-parent/shopizer
+  - sonar.links.scm_dev=
+  - sonar.login=******
+  - sonar.maven.projectDependencies=[{"k":"javax.inject:javax.inject","v":"1","s":"compile","d":[]},{"k":"javax.validation:validation-api","v":"2.0.1.Final","s":"compile","d":[]},{"k":"org.apache.commons:commons-lang3","v":"3.5","s":"compile","d":[]},{"k":"com.fasterxml.jackson.core:jackson-databind","v":"2.10.2","s":"compile","d":[]},{"k":"com.fasterxml.jackson.core:jackson-core","v":"2.10.2","s":"compile","d":[]},{"k":"com.fasterxml.jackson.core:jackson-annotations","v":"2.10.2","s":"compile","d":[]},{"k":"net.sf.ehcache:ehcache","v":"2.10.6","s":"compile","d":[{"k":"org.slf4j:slf4j-api","v":"1.7.30","s":"compile","d":[]}]},{"k":"javax.mail:javax.mail-api","v":"1.6.2","s":"compile","d":[]},{"k":"javax.mail:mail","v":"1.4.7","s":"compile","d":[{"k":"javax.activation:activation","v":"1.1","s":"compile","d":[]}]},{"k":"com.googlecode.json-simple:json-simple","v":"1.1.1","s":"compile","d":[{"k":"junit:junit","v":"4.12","s":"compile","d":[{"k":"org.hamcrest:hamcrest-core","v":"2.1","s":"compile","d":[{"k":"org.hamcrest:h...
+  - sonar.moduleKey=com.shopizer:shopizer
+  - sonar.modules=com.shopizer:sm-core-model,com.shopizer:sm-core-modules,com.shopizer:sm-core,com.shopizer:sm-shop-model,com.shopizer:sm-shop
+  - sonar.mojoUseRunner=true
+  - sonar.organization=shopizer-ecommerce-github
+  - sonar.projectBaseDir=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer
+  - sonar.projectBuildDir=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/target
+  - sonar.projectDescription=Parent pom providing dependency and plugin management for applications
+		built with Maven
+  - sonar.projectKey=com.shopizer:shopizer
+  - sonar.projectName=shopizer
+  - sonar.projectVersion=2.13.0
+  - sonar.scanner.app=ScannerMaven
+  - sonar.scanner.appVersion=3.3.0.603/3.3.9
+  - sonar.sourceEncoding=UTF-8
+  - sonar.sources=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/.
+  - sonar.verbose=true
+  - sonar.working.directory=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/target/sonar
+Scanner properties of module: com.shopizer:sm-core-model
+  - sonar.binaries=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-core-model/target/classes
+  - sonar.groovy.binaries=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-core-model/target/classes
+  - sonar.java.binaries=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-core-model/target/classes
+  - sonar.java.libraries=/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/2.2.7.RELEASE/spring-boot-starter-data-jpa-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-aop/2.2.7.RELEASE/spring-boot-starter-aop-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter/2.2.7.RELEASE/spring-boot-starter-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot/2.2.7.RELEASE/spring-boot-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/2.2.7.RELEASE/spring-boot-autoconfigure-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-logging/2.2.7.RELEASE/spring-boot-starter-logging-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/ch/qos/logback/logback-classic/1.2.3/logback-classic-1.2.3.jar,/Users/carlsamson/.m2/repository/ch/qos/logback/logback-core/1.2.3/logback-core-1.2...
+  - sonar.java.test.libraries=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-core-model/target/classes,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/2.2.7.RELEASE/spring-boot-starter-data-jpa-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-aop/2.2.7.RELEASE/spring-boot-starter-aop-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter/2.2.7.RELEASE/spring-boot-starter-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot/2.2.7.RELEASE/spring-boot-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/2.2.7.RELEASE/spring-boot-autoconfigure-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-logging/2.2.7.RELEASE/spring-boot-starter-logging-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/ch/qos/logback/logback-classic/1.2.3/logback-classic-1...
+  - sonar.libraries=/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/2.2.7.RELEASE/spring-boot-starter-data-jpa-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-aop/2.2.7.RELEASE/spring-boot-starter-aop-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter/2.2.7.RELEASE/spring-boot-starter-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot/2.2.7.RELEASE/spring-boot-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/2.2.7.RELEASE/spring-boot-autoconfigure-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-logging/2.2.7.RELEASE/spring-boot-starter-logging-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/ch/qos/logback/logback-classic/1.2.3/logback-classic-1.2.3.jar,/Users/carlsamson/.m2/repository/ch/qos/logback/logback-core/1.2.3/logback-core-1.2...
+  - sonar.links.homepage=http://www.shopizer.com
+  - sonar.links.scm=https://github.com/shopizer-ecommerce/shopizer-sm-core-model
+  - sonar.links.scm_dev=scm:git:ssh://github.com:shopizer-ecommerce/shopizer-sm-core-model.git
+  - sonar.maven.projectDependencies=[{"k":"org.springframework.boot:spring-boot-starter-data-jpa","v":"2.2.7.RELEASE","s":"compile","d":[{"k":"org.springframework.boot:spring-boot-starter-aop","v":"2.2.7.RELEASE","s":"compile","d":[{"k":"org.springframework.boot:spring-boot-starter","v":"2.2.7.RELEASE","s":"compile","d":[{"k":"org.springframework.boot:spring-boot","v":"2.2.7.RELEASE","s":"compile","d":[]},{"k":"org.springframework.boot:spring-boot-autoconfigure","v":"2.2.7.RELEASE","s":"compile","d":[]},{"k":"org.springframework.boot:spring-boot-starter-logging","v":"2.2.7.RELEASE","s":"compile","d":[{"k":"ch.qos.logback:logback-classic","v":"1.2.3","s":"compile","d":[{"k":"ch.qos.logback:logback-core","v":"1.2.3","s":"compile","d":[]}]},{"k":"org.apache.logging.log4j:log4j-to-slf4j","v":"2.12.1","s":"compile","d":[]},{"k":"org.slf4j:jul-to-slf4j","v":"1.7.30","s":"compile","d":[]}]},{"k":"jakarta.annotation:jakarta.annotation-api","v":"1.3.5","s":"compile","d":[]}]},{"k":"org.aspectj:aspectjweaver","v":"1.9.5","s":"c...
+  - sonar.moduleKey=com.shopizer:sm-core-model
+  - sonar.projectBaseDir=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-core-model
+  - sonar.projectBuildDir=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-core-model/target
+  - sonar.projectDescription=sm-core-modules is used for create new external modules implementation deployed in
+    maven.
+  - sonar.projectKey=com.shopizer:sm-core-model
+  - sonar.projectName=sm-core-model
+  - sonar.sources=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-core-model/.
+  - sonar.working.directory=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-core-model/target/sonar
+Scanner properties of module: com.shopizer:sm-shop-model
+  - sonar.binaries=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-shop-model/target/classes
+  - sonar.groovy.binaries=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-shop-model/target/classes
+  - sonar.java.binaries=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-shop-model/target/classes
+  - sonar.java.libraries=/Users/carlsamson/.m2/repository/com/shopizer/sm-core-model/2.13.0/sm-core-model-2.13.0.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/2.2.7.RELEASE/spring-boot-starter-data-jpa-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-aop/2.2.7.RELEASE/spring-boot-starter-aop-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter/2.2.7.RELEASE/spring-boot-starter-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot/2.2.7.RELEASE/spring-boot-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/2.2.7.RELEASE/spring-boot-autoconfigure-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-logging/2.2.7.RELEASE/spring-boot-starter-logging-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/ch/qos/logback/logback-classic/1.2.3/logback-classic-1...
+  - sonar.java.test.libraries=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-shop-model/target/classes,/Users/carlsamson/.m2/repository/com/shopizer/sm-core-model/2.13.0/sm-core-model-2.13.0.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/2.2.7.RELEASE/spring-boot-starter-data-jpa-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-aop/2.2.7.RELEASE/spring-boot-starter-aop-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter/2.2.7.RELEASE/spring-boot-starter-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot/2.2.7.RELEASE/spring-boot-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/2.2.7.RELEASE/spring-boot-autoconfigure-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-logging/2.2.7.RELEASE/spring-boot-starter-logging-2.2.7.RELEASE...
+  - sonar.libraries=/Users/carlsamson/.m2/repository/com/shopizer/sm-core-model/2.13.0/sm-core-model-2.13.0.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/2.2.7.RELEASE/spring-boot-starter-data-jpa-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-aop/2.2.7.RELEASE/spring-boot-starter-aop-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter/2.2.7.RELEASE/spring-boot-starter-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot/2.2.7.RELEASE/spring-boot-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/2.2.7.RELEASE/spring-boot-autoconfigure-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-logging/2.2.7.RELEASE/spring-boot-starter-logging-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/ch/qos/logback/logback-classic/1.2.3/logback-classic-1...
+  - sonar.links.homepage=http://www.shopizer.com
+  - sonar.links.scm=https://github.com/shopizer-ecommerce/shopizer-sm-shop-model
+  - sonar.links.scm_dev=scm:git:ssh://github.com:shopizer-ecommerce/shopizer-sm-shop-model.git
+  - sonar.maven.projectDependencies=[{"k":"com.shopizer:sm-core-model","v":"2.13.0","s":"compile","d":[{"k":"org.springframework.boot:spring-boot-starter-data-jpa","v":"2.2.7.RELEASE","s":"compile","d":[{"k":"org.springframework.boot:spring-boot-starter-aop","v":"2.2.7.RELEASE","s":"compile","d":[{"k":"org.springframework.boot:spring-boot-starter","v":"2.2.7.RELEASE","s":"compile","d":[{"k":"org.springframework.boot:spring-boot","v":"2.2.7.RELEASE","s":"compile","d":[]},{"k":"org.springframework.boot:spring-boot-autoconfigure","v":"2.2.7.RELEASE","s":"compile","d":[]},{"k":"org.springframework.boot:spring-boot-starter-logging","v":"2.2.7.RELEASE","s":"compile","d":[{"k":"ch.qos.logback:logback-classic","v":"1.2.3","s":"compile","d":[{"k":"ch.qos.logback:logback-core","v":"1.2.3","s":"compile","d":[]}]},{"k":"org.apache.logging.log4j:log4j-to-slf4j","v":"2.12.1","s":"compile","d":[]},{"k":"org.slf4j:jul-to-slf4j","v":"1.7.30","s":"compile","d":[]}]},{"k":"jakarta.annotation:jakarta.annotation-api","v":"1.3.5","s":"comp...
+  - sonar.moduleKey=com.shopizer:sm-shop-model
+  - sonar.projectBaseDir=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-shop-model
+  - sonar.projectBuildDir=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-shop-model/target
+  - sonar.projectDescription=sm-shop-model contains Shopizer model objects for api
+  - sonar.projectKey=com.shopizer:sm-shop-model
+  - sonar.projectName=sm-shop-model
+  - sonar.sources=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-shop-model/.
+  - sonar.working.directory=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-shop-model/target/sonar
+Scanner properties of module: com.shopizer:sm-core
+  - sonar.binaries=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-core/target/classes
+  - sonar.groovy.binaries=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-core/target/classes
+  - sonar.java.binaries=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-core/target/classes
+  - sonar.java.libraries=/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/2.2.7.RELEASE/spring-boot-starter-data-jpa-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-aop/2.2.7.RELEASE/spring-boot-starter-aop-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/spring-aop/5.2.6.RELEASE/spring-aop-5.2.6.RELEASE.jar,/Users/carlsamson/.m2/repository/org/aspectj/aspectjweaver/1.9.5/aspectjweaver-1.9.5.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/2.2.7.RELEASE/spring-boot-starter-jdbc-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/com/zaxxer/HikariCP/3.4.3/HikariCP-3.4.3.jar,/Users/carlsamson/.m2/repository/org/springframework/spring-jdbc/5.2.6.RELEASE/spring-jdbc-5.2.6.RELEASE.jar,/Users/carlsamson/.m2/repository/jakarta/persistence/jakarta.persistence-api/2.2.3/jakarta.persistence-api-2.2.3.jar,/Users/carlsamson/.m2/repository/jakarta/transaction/jakarta.transactio...
+  - sonar.java.test.binaries=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-core/target/test-classes
+  - sonar.java.test.libraries=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-core/target/classes,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/2.2.7.RELEASE/spring-boot-starter-data-jpa-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-aop/2.2.7.RELEASE/spring-boot-starter-aop-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/spring-aop/5.2.6.RELEASE/spring-aop-5.2.6.RELEASE.jar,/Users/carlsamson/.m2/repository/org/aspectj/aspectjweaver/1.9.5/aspectjweaver-1.9.5.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/2.2.7.RELEASE/spring-boot-starter-jdbc-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/com/zaxxer/HikariCP/3.4.3/HikariCP-3.4.3.jar,/Users/carlsamson/.m2/repository/org/springframework/spring-jdbc/5.2.6.RELEASE/spring-jdbc-5.2.6.RELEASE.jar,/Users/carlsamson/.m2/repository/jakarta/persistence/jakarta.persistence-api/2.2.3/jakarta.persistence...
+  - sonar.junit.reportsPath=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-core/target/surefire-reports
+  - sonar.libraries=/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/2.2.7.RELEASE/spring-boot-starter-data-jpa-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-aop/2.2.7.RELEASE/spring-boot-starter-aop-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/spring-aop/5.2.6.RELEASE/spring-aop-5.2.6.RELEASE.jar,/Users/carlsamson/.m2/repository/org/aspectj/aspectjweaver/1.9.5/aspectjweaver-1.9.5.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/2.2.7.RELEASE/spring-boot-starter-jdbc-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/com/zaxxer/HikariCP/3.4.3/HikariCP-3.4.3.jar,/Users/carlsamson/.m2/repository/org/springframework/spring-jdbc/5.2.6.RELEASE/spring-jdbc-5.2.6.RELEASE.jar,/Users/carlsamson/.m2/repository/jakarta/persistence/jakarta.persistence-api/2.2.3/jakarta.persistence-api-2.2.3.jar,/Users/carlsamson/.m2/repository/jakarta/transaction/jakarta.transactio...
+  - sonar.links.homepage=http://www.shopizer.com
+  - sonar.links.scm=https://github.com/spring-projects/spring-boot/spring-boot-starter-parent/shopizer/sm-core
+  - sonar.maven.projectDependencies=[{"k":"org.springframework.boot:spring-boot-starter-data-jpa","v":"2.2.7.RELEASE","s":"compile","d":[{"k":"org.springframework.boot:spring-boot-starter-aop","v":"2.2.7.RELEASE","s":"compile","d":[{"k":"org.springframework:spring-aop","v":"5.2.6.RELEASE","s":"compile","d":[]},{"k":"org.aspectj:aspectjweaver","v":"1.9.5","s":"compile","d":[]}]},{"k":"org.springframework.boot:spring-boot-starter-jdbc","v":"2.2.7.RELEASE","s":"compile","d":[{"k":"com.zaxxer:HikariCP","v":"3.4.3","s":"compile","d":[]},{"k":"org.springframework:spring-jdbc","v":"5.2.6.RELEASE","s":"compile","d":[]}]},{"k":"jakarta.persistence:jakarta.persistence-api","v":"2.2.3","s":"compile","d":[]},{"k":"jakarta.transaction:jakarta.transaction-api","v":"1.3.3","s":"compile","d":[]},{"k":"org.hibernate:hibernate-core","v":"5.4.15.Final","s":"compile","d":[{"k":"org.javassist:javassist","v":"3.24.0-GA","s":"compile","d":[]},{"k":"net.bytebuddy:byte-buddy","v":"1.10.10","s":"compile","d":[]},{"k":"antlr:antlr","v":"2.7.7",...
+  - sonar.moduleKey=com.shopizer:sm-core
+  - sonar.projectBaseDir=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-core
+  - sonar.projectBuildDir=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-core/target
+  - sonar.projectKey=com.shopizer:sm-core
+  - sonar.projectName=sm-core
+  - sonar.sources=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-core/.
+  - sonar.tests=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-core/src/test/java
+  - sonar.working.directory=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-core/target/sonar
+Scanner properties of module: com.shopizer:sm-shop
+  - sonar.binaries=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-shop/target/classes
+  - sonar.groovy.binaries=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-shop/target/classes
+  - sonar.java.binaries=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-shop/target/classes
+  - sonar.java.libraries=/Users/carlsamson/.m2/repository/com/shopizer/sm-core/2.13.0/sm-core-2.13.0.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/2.2.7.RELEASE/spring-boot-starter-data-jpa-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/2.2.7.RELEASE/spring-boot-starter-jdbc-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/com/zaxxer/HikariCP/3.4.3/HikariCP-3.4.3.jar,/Users/carlsamson/.m2/repository/jakarta/persistence/jakarta.persistence-api/2.2.3/jakarta.persistence-api-2.2.3.jar,/Users/carlsamson/.m2/repository/jakarta/transaction/jakarta.transaction-api/1.3.3/jakarta.transaction-api-1.3.3.jar,/Users/carlsamson/.m2/repository/org/hibernate/hibernate-core/5.4.15.Final/hibernate-core-5.4.15.Final.jar,/Users/carlsamson/.m2/repository/org/javassist/javassist/3.24.0-GA/javassist-3.24.0-GA.jar,/Users/carlsamson/.m2/repository/antlr/antlr/2.7.7/antlr-2.7.7.jar,/Users/carlsamson/.m2/repository/org/jboss/jandex/2....
+  - sonar.java.test.binaries=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-shop/target/test-classes
+  - sonar.java.test.libraries=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-shop/target/classes,/Users/carlsamson/.m2/repository/com/shopizer/sm-core/2.13.0/sm-core-2.13.0.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/2.2.7.RELEASE/spring-boot-starter-data-jpa-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/2.2.7.RELEASE/spring-boot-starter-jdbc-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/com/zaxxer/HikariCP/3.4.3/HikariCP-3.4.3.jar,/Users/carlsamson/.m2/repository/jakarta/persistence/jakarta.persistence-api/2.2.3/jakarta.persistence-api-2.2.3.jar,/Users/carlsamson/.m2/repository/jakarta/transaction/jakarta.transaction-api/1.3.3/jakarta.transaction-api-1.3.3.jar,/Users/carlsamson/.m2/repository/org/hibernate/hibernate-core/5.4.15.Final/hibernate-core-5.4.15.Final.jar,/Users/carlsamson/.m2/repository/org/javassist/javassist/3.24.0-GA/javassist-3.24.0-GA.jar,/Users/carlsamson/.m2/repository/...
+  - sonar.junit.reportsPath=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-shop/target/surefire-reports
+  - sonar.libraries=/Users/carlsamson/.m2/repository/com/shopizer/sm-core/2.13.0/sm-core-2.13.0.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/2.2.7.RELEASE/spring-boot-starter-data-jpa-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/2.2.7.RELEASE/spring-boot-starter-jdbc-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/com/zaxxer/HikariCP/3.4.3/HikariCP-3.4.3.jar,/Users/carlsamson/.m2/repository/jakarta/persistence/jakarta.persistence-api/2.2.3/jakarta.persistence-api-2.2.3.jar,/Users/carlsamson/.m2/repository/jakarta/transaction/jakarta.transaction-api/1.3.3/jakarta.transaction-api-1.3.3.jar,/Users/carlsamson/.m2/repository/org/hibernate/hibernate-core/5.4.15.Final/hibernate-core-5.4.15.Final.jar,/Users/carlsamson/.m2/repository/org/javassist/javassist/3.24.0-GA/javassist-3.24.0-GA.jar,/Users/carlsamson/.m2/repository/antlr/antlr/2.7.7/antlr-2.7.7.jar,/Users/carlsamson/.m2/repository/org/jboss/jandex/2....
+  - sonar.links.homepage=http://www.shopizer.com
+  - sonar.links.scm=https://github.com/spring-projects/spring-boot/spring-boot-starter-parent/shopizer/sm-shop
+  - sonar.maven.projectDependencies=[{"k":"com.shopizer:sm-core","v":"2.13.0","s":"compile","d":[{"k":"org.springframework.boot:spring-boot-starter-data-jpa","v":"2.2.7.RELEASE","s":"compile","d":[{"k":"org.springframework.boot:spring-boot-starter-jdbc","v":"2.2.7.RELEASE","s":"compile","d":[{"k":"com.zaxxer:HikariCP","v":"3.4.3","s":"compile","d":[]}]},{"k":"jakarta.persistence:jakarta.persistence-api","v":"2.2.3","s":"compile","d":[]},{"k":"jakarta.transaction:jakarta.transaction-api","v":"1.3.3","s":"compile","d":[]},{"k":"org.hibernate:hibernate-core","v":"5.4.15.Final","s":"compile","d":[{"k":"org.javassist:javassist","v":"3.24.0-GA","s":"compile","d":[]},{"k":"net.bytebuddy:byte-buddy","v":"1.10.10","s":"compile","d":[]},{"k":"antlr:antlr","v":"2.7.7","s":"compile","d":[]},{"k":"org.jboss:jandex","v":"2.1.3.Final","s":"compile","d":[]},{"k":"org.dom4j:dom4j","v":"2.1.3","s":"compile","d":[]},{"k":"org.hibernate.common:hibernate-commons-annotations","v":"5.1.0.Final","s":"compile","d":[]},{"k":"org.glassfish.jaxb...
+  - sonar.moduleKey=com.shopizer:sm-shop
+  - sonar.projectBaseDir=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-shop
+  - sonar.projectBuildDir=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-shop/target
+  - sonar.projectKey=com.shopizer:sm-shop
+  - sonar.projectName=sm-shop
+  - sonar.sources=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-shop/.
+  - sonar.tests=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-shop/src/test/java
+  - sonar.working.directory=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-shop/target/sonar
+Scanner properties of module: com.shopizer:sm-core-modules
+  - sonar.binaries=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-core-modules/target/classes
+  - sonar.groovy.binaries=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-core-modules/target/classes
+  - sonar.java.binaries=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-core-modules/target/classes
+  - sonar.java.libraries=/Users/carlsamson/.m2/repository/com/shopizer/sm-core-model/2.13.0/sm-core-model-2.13.0.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/2.2.7.RELEASE/spring-boot-starter-data-jpa-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-aop/2.2.7.RELEASE/spring-boot-starter-aop-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter/2.2.7.RELEASE/spring-boot-starter-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot/2.2.7.RELEASE/spring-boot-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/2.2.7.RELEASE/spring-boot-autoconfigure-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-logging/2.2.7.RELEASE/spring-boot-starter-logging-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/ch/qos/logback/logback-classic/1.2.3/logback-classic-1...
+  - sonar.java.test.libraries=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-core-modules/target/classes,/Users/carlsamson/.m2/repository/com/shopizer/sm-core-model/2.13.0/sm-core-model-2.13.0.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/2.2.7.RELEASE/spring-boot-starter-data-jpa-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-aop/2.2.7.RELEASE/spring-boot-starter-aop-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter/2.2.7.RELEASE/spring-boot-starter-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot/2.2.7.RELEASE/spring-boot-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/2.2.7.RELEASE/spring-boot-autoconfigure-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-logging/2.2.7.RELEASE/spring-boot-starter-logging-2.2.7.RELEA...
+  - sonar.libraries=/Users/carlsamson/.m2/repository/com/shopizer/sm-core-model/2.13.0/sm-core-model-2.13.0.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/2.2.7.RELEASE/spring-boot-starter-data-jpa-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-aop/2.2.7.RELEASE/spring-boot-starter-aop-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter/2.2.7.RELEASE/spring-boot-starter-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot/2.2.7.RELEASE/spring-boot-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/2.2.7.RELEASE/spring-boot-autoconfigure-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/org/springframework/boot/spring-boot-starter-logging/2.2.7.RELEASE/spring-boot-starter-logging-2.2.7.RELEASE.jar,/Users/carlsamson/.m2/repository/ch/qos/logback/logback-classic/1.2.3/logback-classic-1...
+  - sonar.links.homepage=http://www.shopizer.com
+  - sonar.links.scm=https://github.com/shopizer-ecommerce/shopizer-sm-core-modules
+  - sonar.links.scm_dev=scm:git:ssh://github.com:shopizer-ecommerce/shopizer-sm-core-modules.git
+  - sonar.maven.projectDependencies=[{"k":"com.shopizer:sm-core-model","v":"2.13.0","s":"compile","d":[{"k":"org.springframework.boot:spring-boot-starter-data-jpa","v":"2.2.7.RELEASE","s":"compile","d":[{"k":"org.springframework.boot:spring-boot-starter-aop","v":"2.2.7.RELEASE","s":"compile","d":[{"k":"org.springframework.boot:spring-boot-starter","v":"2.2.7.RELEASE","s":"compile","d":[{"k":"org.springframework.boot:spring-boot","v":"2.2.7.RELEASE","s":"compile","d":[]},{"k":"org.springframework.boot:spring-boot-autoconfigure","v":"2.2.7.RELEASE","s":"compile","d":[]},{"k":"org.springframework.boot:spring-boot-starter-logging","v":"2.2.7.RELEASE","s":"compile","d":[{"k":"ch.qos.logback:logback-classic","v":"1.2.3","s":"compile","d":[{"k":"ch.qos.logback:logback-core","v":"1.2.3","s":"compile","d":[]}]},{"k":"org.apache.logging.log4j:log4j-to-slf4j","v":"2.12.1","s":"compile","d":[]},{"k":"org.slf4j:jul-to-slf4j","v":"1.7.30","s":"compile","d":[]}]},{"k":"jakarta.annotation:jakarta.annotation-api","v":"1.3.5","s":"comp...
+  - sonar.moduleKey=com.shopizer:sm-core-modules
+  - sonar.projectBaseDir=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-core-modules
+  - sonar.projectBuildDir=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-core-modules/target
+  - sonar.projectDescription=sm-core-modules is used for create new external modules implementation deployed in
+    maven.
+  - sonar.projectKey=com.shopizer:sm-core-modules
+  - sonar.projectName=sm-core-modules
+  - sonar.sources=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-core-modules/.
+  - sonar.working.directory=/Users/carlsamson/Documents/dev/workspaces/master-new/shopizer/sm-core-modules/target/sonar
