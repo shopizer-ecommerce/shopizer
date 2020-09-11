@@ -49,13 +49,13 @@ public class ProductTypeApi {
   private static final Logger LOGGER = LoggerFactory.getLogger(ProductTypeApi.class);
   
   
-  @GetMapping(value = "/products/types", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "/private/products/types", produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(httpMethod = "GET", value = "Get product types list",
       notes = "", produces = "application/json", response = List.class)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
-  public ReadableProductTypeList getTypes(
+  public ReadableProductTypeList list(
 	  @RequestParam(name="count", defaultValue="10") int count,
 	  @RequestParam(name="page", defaultValue="0") int page,
       @ApiIgnore MerchantStore merchantStore,
@@ -67,7 +67,7 @@ public class ProductTypeApi {
     
   }
   
-  @GetMapping(value = "/products/type/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "/private/products/type/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(httpMethod = "GET", value = "Get product type",
       notes = "", produces = "application/json", response = ReadableProductType.class)
   @ApiImplicitParams({

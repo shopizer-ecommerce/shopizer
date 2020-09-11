@@ -666,10 +666,9 @@ public class OrderFacadeImpl implements OrderFacade {
 	@Override
 	public ShippingSummary getShippingSummary(ShippingQuote quote, MerchantStore store, Language language) {
 
-		ShippingSummary summary = null;
+		ShippingSummary summary = new ShippingSummary();
 		if (quote.getSelectedShippingOption() != null) {
-
-			summary = new ShippingSummary();
+			summary.setShippingQuote(true);
 			summary.setFreeShipping(quote.isFreeShipping());
 			summary.setTaxOnShipping(quote.isApplyTaxOnShipping());
 			summary.setHandling(quote.getHandlingFees());
@@ -679,9 +678,7 @@ public class OrderFacadeImpl implements OrderFacade {
 			summary.setShippingOptionCode(quote.getSelectedShippingOption().getOptionCode());
 
 			if (quote.getDeliveryAddress() != null) {
-
 				summary.setDeliveryAddress(quote.getDeliveryAddress());
-
 			}
 
 		}

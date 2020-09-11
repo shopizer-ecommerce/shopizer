@@ -23,6 +23,7 @@ public class ShippingSummary implements Serializable {
 	private String shippingOptionCode;
 	private boolean freeShipping;
 	private boolean taxOnShipping;
+	private boolean shippingQuote;
 	
 	private Delivery deliveryAddress;
 	
@@ -74,6 +75,12 @@ public class ShippingSummary implements Serializable {
 	}
 	public void setShippingOptionCode(String shippingOptionCode) {
 		this.shippingOptionCode = shippingOptionCode;
+	}
+	public boolean isShippingQuote() {
+		return shippingQuote;
+	}
+	public void setShippingQuote(boolean shippingQuote) {
+		this.shippingQuote = shippingQuote;
 	}
 
 }

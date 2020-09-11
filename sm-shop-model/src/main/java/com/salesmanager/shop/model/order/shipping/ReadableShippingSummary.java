@@ -22,6 +22,7 @@ public class ReadableShippingSummary implements Serializable {
 	private String shippingOption;
 	private boolean freeShipping;
 	private boolean taxOnShipping;
+	private boolean shippingQuote;
 	private String shippingText;
 	private String handlingText;
 	private ReadableDelivery delivery;
@@ -108,6 +109,12 @@ public class ReadableShippingSummary implements Serializable {
 	}
 	public void setDelivery(ReadableDelivery delivery) {
 		this.delivery = delivery;
+	}
+	public boolean isShippingQuote() {
+		return shippingQuote;
+	}
+	public void setShippingQuote(boolean shippingQuote) {
+		this.shippingQuote = shippingQuote;
 	}
 
 }

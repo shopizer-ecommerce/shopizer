@@ -22,9 +22,11 @@ public class ReadableShippingSummaryPopulator extends
 			Language language) throws ConversionException {
 		
 		Validate.notNull(pricingService,"PricingService must be set");
+		Validate.notNull(source,"ShippingSummary cannot be null");
 	
 		try {
 			
+			target.setShippingQuote(source.isShippingQuote());
 			target.setFreeShipping(source.isFreeShipping());
 			target.setHandling(source.getHandling());
 			target.setShipping(source.getShipping());
