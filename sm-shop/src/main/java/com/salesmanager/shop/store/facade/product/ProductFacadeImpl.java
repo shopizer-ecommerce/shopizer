@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
+
+import com.salesmanager.shop.utils.LocaleUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
@@ -134,13 +136,13 @@ public class ProductFacadeImpl implements ProductFacade {
 		 * product.getProductSpecifications().getManufacturer(); } else {
 		 * ProductSpecification specifications = new ProductSpecification();
 		 * specifications.setManufacturer(manufacturer); }
-		 * 
+		 *
 		 * Product target = null; if (product.getId() != null &&
 		 * product.getId().longValue() > 0) { target =
 		 * productService.getById(product.getId()); } else { target = new
 		 * Product(); }
-		 * 
-		 * 
+		 *
+		 *
 		 * try { persistableProductPopulator.populate(product, target, store,
 		 * language); productService.create(target);
 		 * product.setId(target.getId()); return product; } catch (Exception e)
@@ -532,6 +534,26 @@ public class ProductFacadeImpl implements ProductFacade {
 			throw new ServiceRuntimeException("Error while deleting ptoduct with id [" + id + "]", e);
 		}
 
+	}
+
+	@Override
+	public ReadableProduct getProductBySeUrl(MerchantStore store, String friendlyUrl, Language language) throws Exception {
+
+		Product product = productService.getBySeUrl(store, friendlyUrl, LocaleUtils.getLocale(language));
+
+		if (product == null) {
+			return null;
+		}
+
+		ReadableProduct readableProduct = new ReadableProduct();
+
+		ReadableProductPopulator populator = new ReadableProductPopulator();
+
+		populator.setPricingService(pricingService);
+		populator.setimageUtils(imageUtils);
+		populator.populate(product, readableProduct, store, language);
+
+		return readableProduct;
 	}
 
 }
