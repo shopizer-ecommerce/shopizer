@@ -96,7 +96,8 @@ public class ProductTypeFacadeImpl implements ProductTypeFacade {
 			}
 			
 			ProductType model = persistableProductTypeMapper.convert(type, store, language);
-			productTypeService.create(model);
+			model.setMerchantStore(store);
+			productTypeService.saveOrUpdate(model);
 			return model.getId();
 
 		} catch(Exception e) {
@@ -124,7 +125,7 @@ public class ProductTypeFacadeImpl implements ProductTypeFacade {
 			type.setCode(t.getCode());
 			
 			ProductType model = persistableProductTypeMapper.convert(type, store, language);
-			productTypeService.update(model);
+			productTypeService.saveOrUpdate(model);
 
 		} catch(Exception e) {
 			throw new ServiceRuntimeException(
@@ -161,7 +162,7 @@ public class ProductTypeFacadeImpl implements ProductTypeFacade {
 		ProductType t;
 		try {
 			t = productTypeService.getByCode(code, store, language);
-		} catch (ServiceException e) {
+	    } catch (ServiceException e) {
 			throw new RuntimeException("An exception occured while getting product type [" + code + "] for merchant store [" + store.getCode() +"]",e);
 		}			
 		if(t != null) {
@@ -169,5 +170,6 @@ public class ProductTypeFacadeImpl implements ProductTypeFacade {
 		}
 		return false;
 	}
+
 
 }
