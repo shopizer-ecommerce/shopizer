@@ -13,9 +13,6 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.UniqueConstraint;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
-
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.Product;
@@ -65,8 +62,6 @@ public class CatalogEntry extends SalesManagerEntity<Long, CatalogEntry> impleme
 	
     @Column(name = "VISIBLE")
     private boolean visible;
-	
-	
 
 	public Product getProduct() {
 		return product;

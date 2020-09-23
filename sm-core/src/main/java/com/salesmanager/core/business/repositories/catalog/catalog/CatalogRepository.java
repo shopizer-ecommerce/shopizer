@@ -8,7 +8,7 @@ import com.salesmanager.core.model.catalog.catalog.Catalog;
 public interface CatalogRepository extends JpaRepository<Catalog, Long> {
 	
 	
-	@Query("select c from Catalog c join fetch c.merchantStore cm where c.id=?1 and cm.id = ?2")
+	@Query("select c from Catalog c left join fetch c.entry ce join fetch c.merchantStore cm where c.id=?1 and cm.id = ?2")
 	Catalog findById(Long catalogId, Integer merchantId);
 	
 	@Query("select c from Catalog c join fetch c.merchantStore cm where c.code=?1 and cm.id = ?2")

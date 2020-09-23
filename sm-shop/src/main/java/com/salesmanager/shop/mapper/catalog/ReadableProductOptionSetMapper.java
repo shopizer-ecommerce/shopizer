@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.jsoup.helper.Validate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.salesmanager.core.model.catalog.product.attribute.ProductOption;
@@ -15,16 +16,22 @@ import com.salesmanager.core.model.catalog.product.attribute.ProductOptionDescri
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionSet;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValue;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueDescription;
+import com.salesmanager.core.model.catalog.product.type.ProductType;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOption;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOptionValue;
 import com.salesmanager.shop.model.catalog.product.attribute.optionset.ReadableProductOptionSet;
+import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
 
 @Component
 public class ReadableProductOptionSetMapper implements Mapper<ProductOptionSet, ReadableProductOptionSet> {
  
+	
+	@Autowired
+	private ReadableProductTypeMapper readableProductTypeMapper;
+	
 	@Override
 	public ReadableProductOptionSet convert(ProductOptionSet source, MerchantStore store, Language language) {
 		ReadableProductOptionSet optionSource = new ReadableProductOptionSet();
@@ -50,6 +57,11 @@ public class ReadableProductOptionSetMapper implements Mapper<ProductOptionSet, 
 			List<ReadableProductOptionValue> values = source.getValues().stream().map(val -> optionValue(ids, val, store, language)).collect(Collectors.toList());
 			destination.setValues(values);
 			destination.getValues().removeAll(Collections.singleton(null));
+		}
+		
+		if(!CollectionUtils.isEmpty(source.getProductTypes())) {
+			List<ReadableProductType> types = source.getProductTypes().stream().map( t -> this.productType(t, store, language)).collect(Collectors.toList());
+			destination.setProductTypes(types);
 		}
 
 		
@@ -95,6 +107,10 @@ public class ReadableProductOptionSetMapper implements Mapper<ProductOptionSet, 
 	
 	private ProductOptionValueDescription optionValueDescription(Set<ProductOptionValueDescription> descriptions, Language lang) {
 		return descriptions.stream().filter(desc-> desc.getLanguage().getCode().equals(lang.getCode())).findAny().orElse(null);
+	}
+	
+	private ReadableProductType productType(ProductType type, MerchantStore store, Language language) {
+		return readableProductTypeMapper.convert(type, store, language);
 	}
 
 }

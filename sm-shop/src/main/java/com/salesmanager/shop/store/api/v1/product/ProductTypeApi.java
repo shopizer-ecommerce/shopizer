@@ -70,18 +70,18 @@ public class ProductTypeApi {
     
   }
   
-  @GetMapping(value = "/private/products/type/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "/private/products/type/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(httpMethod = "GET", value = "Get product type",
       notes = "", produces = "application/json", response = ReadableProductType.class)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
   public ReadableProductType get(
-	  @PathVariable String code,
+	  @PathVariable Long id,
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language) {
     
-    return productTypeFacade.get(merchantStore, code, language);
+    return productTypeFacade.get(merchantStore, id, language);
     
   }
   

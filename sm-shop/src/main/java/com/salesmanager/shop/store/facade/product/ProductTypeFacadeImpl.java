@@ -60,23 +60,23 @@ public class ProductTypeFacadeImpl implements ProductTypeFacade {
 	}
 
 	@Override
-	public ReadableProductType get(MerchantStore store, String code, Language language) {
+	public ReadableProductType get(MerchantStore store, Long id, Language language) {
 		
 		Validate.notNull(store, "MerchantStore cannot be null");
-		Validate.notNull(code, "ProductType code cannot be empty");
+		Validate.notNull(id, "ProductType code cannot be empty");
 		try {
 			
-			ProductType type = productTypeService.getByCode(code, store, language);
+			ProductType type = productTypeService.getById(id, store, language);
 			ReadableProductType readableType = readableProductTypeMapper.convert(type, store, language);
 			if(readableType == null) {
-				throw new ResourceNotFoundException("Product type [" + code + "] not found for store [" + store.getCode() + "]");
+				throw new ResourceNotFoundException("Product type [" + id + "] not found for store [" + store.getCode() + "]");
 			}
 			
 			return readableType;
 			
 		} catch(Exception e) {
 			throw new ServiceRuntimeException(
-					"An exception occured while getting product type [" + code + "] not found for store [" + store.getCode() + "]", e);
+					"An exception occured while getting product type [" + id + "] not found for store [" + store.getCode() + "]", e);
 		}
 
 	}

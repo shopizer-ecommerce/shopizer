@@ -10,7 +10,7 @@ public interface ProductTypeFacade {
   
   ReadableProductTypeList getByMerchant(MerchantStore store, Language language, int count, int page);
   
-  ReadableProductType get(MerchantStore store, String code, Language language);
+  ReadableProductType get(MerchantStore store, Long id, Language language);
   
   Long save(PersistableProductType type, MerchantStore store, Language language);
   
