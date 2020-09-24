@@ -22,7 +22,7 @@ import com.salesmanager.core.model.common.description.Description;
 
 @TableGenerator(name = "description_gen", table = "SM_SEQUENCER", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "product_option_value_description_seq", allocationSize = SchemaConstant.DESCRIPTION_ID_ALLOCATION_SIZE, initialValue = SchemaConstant.DESCRIPTION_ID_START_VALUE)
 public class ProductOptionValueDescription extends Description {
-	private static final long serialVersionUID = 7402155175956813576L;
+	private static final long serialVersionUID = 1L;
 	
 	@JsonIgnore
 	@ManyToOne(targetEntity = ProductOptionValue.class)

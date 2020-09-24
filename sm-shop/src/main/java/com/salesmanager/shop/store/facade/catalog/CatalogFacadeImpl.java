@@ -312,7 +312,7 @@ public class CatalogFacadeImpl implements CatalogFacade {
 
 	@Override
 	public boolean uniqueCatalog(String code, MerchantStore store) {
-		return catalogService.existByCode(code);
+		return catalogService.existByCode(code, store);
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.salesmanager.shop.mapper.catalog;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -48,6 +49,10 @@ public class ReadableCatalogMapper implements Mapper<Catalog, ReadableCatalog> {
 		
 		if(source.getAuditSection()!=null) {
 			destination.setCreationDate(DateUtil.formatDate(source.getAuditSection().getDateCreated()));
+		}
+		
+		if(!CollectionUtils.isEmpty(source.getEntry())) {
+			//build catalog tree
 		}
 		
 		return destination;

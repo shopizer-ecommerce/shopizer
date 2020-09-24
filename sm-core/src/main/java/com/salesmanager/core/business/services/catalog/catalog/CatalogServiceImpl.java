@@ -64,8 +64,8 @@ implements CatalogService {
 	}
 
 	@Override
-	public boolean existByCode(String code) {
-		return catalogRepository.existsByCode(code);
+	public boolean existByCode(String code, MerchantStore store) {
+		return catalogRepository.existsByCode(code, store.getId());
 	}
 	
 	
