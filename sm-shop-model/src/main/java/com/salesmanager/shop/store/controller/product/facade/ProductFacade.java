@@ -27,7 +27,7 @@ public interface ProductFacade {
    */
   PersistableProduct saveProduct(MerchantStore store, PersistableProduct product,
       Language language);
-  
+
   /**
    * Update minimal product details
    * @param product
@@ -38,7 +38,7 @@ public interface ProductFacade {
 
   /**
    * Get a Product by id and store
-   * 
+   *
    * @param store
    * @param id
    * @param language
@@ -48,7 +48,7 @@ public interface ProductFacade {
   ReadableProduct getProduct(MerchantStore store, Long id, Language language) throws Exception;
 
   /**
-   * 
+   *
    * @param sku
    * @param store
    * @return
@@ -57,7 +57,7 @@ public interface ProductFacade {
 
   /**
    * Reads a product by code
-   * 
+   *
    * @param store
    * @param uniqueCode
    * @param language
@@ -69,7 +69,7 @@ public interface ProductFacade {
 
   /**
    * Get a product by sku and store
-   * 
+   *
    * @param store
    * @param sku
    * @param language
@@ -79,8 +79,19 @@ public interface ProductFacade {
   ReadableProduct getProduct(MerchantStore store, String sku, Language language) throws Exception;
 
   /**
+   * Get a Product by friendlyUrl (slug), store and language
+   *
+   * @param store
+   * @param friendlyUrl
+   * @param language
+   * @return
+   * @throws Exception
+   */
+  ReadableProduct getProductBySeUrl(MerchantStore store, String friendlyUrl, Language language) throws Exception;
+
+  /**
    * Sets a new price to an existing product
-   * 
+   *
    * @param product
    * @param price
    * @param language
@@ -92,7 +103,7 @@ public interface ProductFacade {
 
   /**
    * Sets a new price to an existing product
-   * 
+   *
    * @param product
    * @param quantity
    * @param language
@@ -104,12 +115,12 @@ public interface ProductFacade {
 
   /**
    * Deletes a product for a given product id
-   * 
+   *
    * @param product
    * @throws Exception
    */
   void deleteProduct(Product product) throws Exception;
-  
+
   /**
    * Delete product
    * @param id
@@ -121,7 +132,7 @@ public interface ProductFacade {
 
   /**
    * Filters a list of product based on criteria
-   * 
+   *
    * @param store
    * @param language
    * @param criterias
@@ -134,7 +145,7 @@ public interface ProductFacade {
 
   /**
    * Adds a product to a category
-   * 
+   *
    * @param category
    * @param product
    * @return
@@ -145,7 +156,7 @@ public interface ProductFacade {
 
   /**
    * Removes item from a category
-   * 
+   *
    * @param category
    * @param product
    * @param language
@@ -158,7 +169,7 @@ public interface ProductFacade {
 
   /**
    * Saves or updates a Product review
-   * 
+   *
    * @param review
    * @param language
    * @throws Exception
@@ -168,7 +179,7 @@ public interface ProductFacade {
 
   /**
    * Deletes a product review
-   * 
+   *
    * @param review
    * @param store
    * @param language
@@ -178,7 +189,7 @@ public interface ProductFacade {
 
   /**
    * Get reviews for a given product
-   * 
+   *
    * @param product
    * @param store
    * @param language
@@ -187,7 +198,7 @@ public interface ProductFacade {
    */
   List<ReadableProductReview> getProductReviews(Product product, MerchantStore store,
       Language language) throws Exception;
-  
+
   /**
    * validates if product exists
    * @param sku
@@ -200,7 +211,7 @@ public interface ProductFacade {
 
   /**
    * Get related items
-   * 
+   *
    * @param store
    * @param product
    * @param language
