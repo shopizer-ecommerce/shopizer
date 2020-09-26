@@ -174,6 +174,10 @@ public class ShoppingCartDataPopulator extends AbstractDataPopulator<ShoppingCar
             if(CollectionUtils.isNotEmpty(shoppingCartItemsList)){
                 cart.setShoppingCartItems(shoppingCartItemsList);
             }
+            
+            if(shoppingCart.getOrderId() != null) {
+            	cart.setOrderId(shoppingCart.getOrderId());
+            }
 
             OrderSummary summary = new OrderSummary();
             List<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> productsList = new ArrayList<com.salesmanager.core.model.shoppingcart.ShoppingCartItem>();

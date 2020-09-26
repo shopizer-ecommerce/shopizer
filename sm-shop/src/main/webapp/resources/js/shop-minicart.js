@@ -9,7 +9,7 @@
 	
 	function initMiniCart() {
 		var cartCode = getCartCode();
-		console.log(' Cart code ' + cartCode);
+		//console.log(' Cart code ' + cartCode);
 		if(cartCode!=null) {
 			miniCart(cartCode);
 		} else {
@@ -251,7 +251,7 @@ function miniCart(cartCode){
 			 
 		 },
 		 success: function(miniCart) {
-			    //log('Success ' + JSON.stringify(miniCart));
+			    log('Success --> ' + JSON.stringify(miniCart));
 			    cleanupMiniCart();
 			 	miniCartSummary(miniCart);
 			 	fullCart(miniCart);

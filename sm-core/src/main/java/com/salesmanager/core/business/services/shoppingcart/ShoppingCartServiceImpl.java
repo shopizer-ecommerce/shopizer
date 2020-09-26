@@ -4,7 +4,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -74,14 +76,25 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 
 		try {
 
-			ShoppingCart shoppingCart = shoppingCartRepository.findByCustomer(customer.getId());
-			getPopulatedShoppingCart(shoppingCart);
-			if (shoppingCart != null && shoppingCart.isObsolete()) {
-				delete(shoppingCart);
-				return null;
-			} else {
-				return shoppingCart;
+			List<ShoppingCart> shoppingCarts = shoppingCartRepository.findByCustomer(customer.getId());
+			
+			//elect valid shopping cart
+			List<ShoppingCart> validCart = shoppingCarts.stream()
+					.filter((cart) -> cart.getOrderId()==null)
+					.collect(Collectors.toList());
+			
+			ShoppingCart shoppingCart = null;
+			
+			if(!org.apache.commons.collections.CollectionUtils.isEmpty(validCart)) {
+				shoppingCart = validCart.get(0);
+				getPopulatedShoppingCart(shoppingCart);
+				if (shoppingCart != null && shoppingCart.isObsolete()) {
+					delete(shoppingCart);
+					shoppingCart = null;
+				}
 			}
+			
+			return shoppingCart;
 
 		} catch (Exception e) {
 			throw new ServiceException(e);
@@ -92,7 +105,6 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 	/**
 	 * Save or update a {@link ShoppingCart} for a given customer
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void saveOrUpdate(ShoppingCart shoppingCart) throws ServiceException {
 		
@@ -223,12 +235,12 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 		}
 	}
 
-	@Override
+/*	@Override
 	@Transactional
 	public ShoppingCart getByCustomer(final Customer customer) throws ServiceException {
 
 		try {
-			ShoppingCart shoppingCart = shoppingCartRepository.findByCustomer(customer.getId());
+			List<ShoppingCart> shoppingCart = shoppingCartRepository.findByCustomer(customer.getId());
 			if (shoppingCart == null) {
 				return null;
 			}
@@ -237,7 +249,7 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 		} catch (Exception e) {
 			throw new ServiceException(e);
 		}
-	}
+	}*/
 
 	@Transactional(noRollbackFor = { org.springframework.dao.EmptyResultDataAccessException.class })
 	private ShoppingCart getPopulatedShoppingCart(final ShoppingCart shoppingCart) throws Exception {
@@ -266,14 +278,8 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 				}
 
 				// shoppingCart.setLineItems(shoppingCartItems);
-				boolean refreshCart = false;
 				Set<ShoppingCartItem> refreshedItems = new HashSet<ShoppingCartItem>();
 				for (ShoppingCartItem item : items) {
-/*					if (!item.isObsolete()) {
-						refreshedItems.add(item);
-					} else {
-						refreshCart = true;
-					}*/
 					refreshedItems.add(item);
 				}
 

@@ -427,7 +427,12 @@ public class ShoppingCartFacadeImpl
         
         //if cart has been completed return null
         if(cart.getOrderId() != null && cart.getOrderId().longValue() > 0) {
-        	return null;
+            if ( StringUtils.isNotBlank( shoppingCartId ) && !(shoppingCartId.equals(cart.getShoppingCartCode())))
+            {
+                cart = shoppingCartService.getByCode( shoppingCartId, store );
+            } else {
+            	return null;
+            }
         }
 
         LOG.info( "Cart model found." );
@@ -464,9 +469,12 @@ public class ShoppingCartFacadeImpl
     }
 
     //@Override
-    public ShoppingCartData getShoppingCartData( final ShoppingCart shoppingCartModel, Language language)
+    public ShoppingCartData getShoppingCartData( ShoppingCart shoppingCartModel, Language language)
         throws Exception
     {
+    	
+    	Validate.notNull(shoppingCartModel, "Shopping Cart cannot be null");
+    	
 
         ShoppingCartDataPopulator shoppingCartDataPopulator = new ShoppingCartDataPopulator();
         shoppingCartDataPopulator.setShoppingCartCalculationService( shoppingCartCalculationService );
@@ -652,6 +660,7 @@ public class ShoppingCartFacadeImpl
 		try {
 			ShoppingCart cartModel = shoppingCartService.getByCode( code, store );
 			if(cartModel!=null) {
+				
 				ShoppingCartData cart = getShoppingCartData(cartModel, language);
 				return cart;
 			}
@@ -675,7 +684,7 @@ public class ShoppingCartFacadeImpl
 	@Override
 	public ShoppingCart getShoppingCartModel(Customer customer,
 			MerchantStore store) throws Exception {
-		return shoppingCartService.getByCustomer(customer);
+		return shoppingCartService.getShoppingCart(customer);
 	}
 
 	@Override
@@ -691,7 +700,7 @@ public class ShoppingCartFacadeImpl
 		Validate.notNull(customer.getId(),"Customer.id cannot be null or empty");
 		
 		//Check if customer has an existing shopping cart
-		ShoppingCart cartModel = shoppingCartService.getByCustomer(customer);
+		ShoppingCart cartModel = shoppingCartService.getShoppingCart(customer);
 		
 		if(cartModel == null) {
 			return null;
@@ -927,7 +936,7 @@ public class ShoppingCartFacadeImpl
 		Validate.notNull(customer.getId(),"Customer.id cannot be null or empty");
 		
 		//Check if customer has an existing shopping cart
-		ShoppingCart cartModel = shoppingCartService.getByCustomer(customer);
+		ShoppingCart cartModel = shoppingCartService.getShoppingCart(customer);
 		
 		//if cart does not exist create a new one
 		if(cartModel==null) {

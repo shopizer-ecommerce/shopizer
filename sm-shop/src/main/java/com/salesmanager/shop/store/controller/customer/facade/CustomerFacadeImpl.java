@@ -211,7 +211,7 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
     LOG.debug("Starting merge cart process");
     if (customerModel != null) {
-      ShoppingCart customerCart = shoppingCartService.getByCustomer(customerModel);
+      ShoppingCart customerCart = shoppingCartService.getShoppingCart(customerModel);
       if (StringUtils.isNotBlank(sessionShoppingCartId)) {
         ShoppingCart sessionShoppingCart =
             shoppingCartService.getByCode(sessionShoppingCartId, store);
