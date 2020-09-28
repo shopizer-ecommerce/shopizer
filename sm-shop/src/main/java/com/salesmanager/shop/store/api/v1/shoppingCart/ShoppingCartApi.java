@@ -1,21 +1,5 @@
 package com.salesmanager.shop.store.api.v1.shoppingCart;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.http.MediaType.APPLICATION_XML_VALUE;
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -27,7 +11,27 @@ import com.salesmanager.shop.store.controller.shoppingCart.facade.ShoppingCartFa
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import springfox.documentation.annotations.ApiIgnore;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.http.MediaType.APPLICATION_XML_VALUE;
 
 @Controller
 @RequestMapping("/api/v1")
@@ -70,7 +74,7 @@ public class ShoppingCartApi {
         //response.sendError(204, "Error while adding product to cart id [" + shoppingCartItem.getProduct() + "] not found or not available");
       }
       LOGGER.error("Error while adding product to cart", e);
-      
+
         response.sendError(503, "Error while adding product to cart " + e.getMessage());
       } catch (Exception ignore) {
       }
@@ -245,28 +249,32 @@ public class ShoppingCartApi {
       return null;
     }
   }
-  
+
   @DeleteMapping(
       value = "/cart/{code}/product/{id}",
       produces = {APPLICATION_JSON_VALUE, APPLICATION_XML_VALUE})
-  @ResponseStatus(HttpStatus.OK)
   @ApiOperation(
       httpMethod = "DELETE",
       value = "Remove a product from a specific cart",
-      notes = "",
+      notes = "If body set to true returns remaining cart in body, empty cart gives empty body. If body set to false no body ",
       produces = "application/json",
-      response = Void.class)
+      response = ReadableShoppingCart.class)
   @ApiImplicitParams({
     @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-    @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+    @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en"),
+    @ApiImplicitParam(name = "body", dataType = "boolean", defaultValue = "false"),
   })
-  public void deleteCartItem(
+  public ResponseEntity<ReadableShoppingCart> deleteCartItem(
       @PathVariable("code") String cartCode,
       @PathVariable("id") Long itemId,
       @ApiIgnore MerchantStore merchantStore,
-      @ApiIgnore Language language) throws Exception{
+      @ApiIgnore Language language,
+      @RequestParam(defaultValue = "false") boolean body) throws Exception{
 
-     shoppingCartFacade.removeShoppingCartItem(cartCode, itemId, merchantStore, language);
-
+      ReadableShoppingCart updatedCart =  shoppingCartFacade.removeShoppingCartItem(cartCode, itemId, merchantStore, language, body);
+      if(body) {
+        return new ResponseEntity<>(updatedCart, HttpStatus.OK);
+      }
+      return new ResponseEntity<>(updatedCart, HttpStatus.NO_CONTENT);
   }
 }
