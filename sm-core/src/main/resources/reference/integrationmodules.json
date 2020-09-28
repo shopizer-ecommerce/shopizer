@@ -115,16 +115,6 @@
 		"image":"braintree.jpg",
 		"configuration":[{"env":"TEST","scheme":"https","host":"NOTREQUIRED","port":"NOTREQUIRED","uri":"NOTREQUIRED"},{"env":"PROD","scheme":"https","host":"NOTREQUIRED","port":"NOTREQUIRED","uri":"NOTREQUIRED"}]
 
-	},
-	{
-		"module": "PAYMENT",
-		"code": "klarnacheckout",
-		"type":"creditcard",
-		"version":"",
-		"regions": ["NO","SE"],
-		"image":"klarna.png",
-		"configuration":[{"env":"TEST","scheme":"https","host":"NOTREQUIRED","port":"NOTREQUIRED","uri":"NOTREQUIRED"},{"env":"PROD","scheme":"https","host":"NOTREQUIRED","port":"NOTREQUIRED","uri":"NOTREQUIRED"}]
-
 	}
 
 ]
