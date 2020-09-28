@@ -83,40 +83,37 @@ public class ShoppingCartApi {
     }
   }
 
-  @ResponseStatus(HttpStatus.CREATED)
   @RequestMapping(value = "/cart/{code}", method = RequestMethod.PUT)
   @ApiOperation(
-      httpMethod = "PUT",
-      value = "Add to an existing shopping cart or modify an item quantity",
-      notes =
-          "No customer ID in scope. Modify cart for non authenticated users, as simple as {\"product\":1232,\"quantity\":0} for instance will remove item 1234 from cart",
-      produces = "application/json",
-      response = ReadableShoppingCart.class)
+          httpMethod = "PUT",
+          value = "Add to an existing shopping cart or modify an item quantity",
+          notes =
+                  "No customer ID in scope. Modify cart for non authenticated users, as simple as {\"product\":1232,\"quantity\":0} for instance will remove item 1234 from cart",
+          produces = "application/json",
+          response = ReadableShoppingCart.class)
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+          @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+          @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
   })
-  public @ResponseBody ReadableShoppingCart modifyCart(
-      @PathVariable String code,
-      @Valid @RequestBody PersistableShoppingCartItem shoppingCartItem,
-      @ApiIgnore MerchantStore merchantStore,
-      @ApiIgnore Language language,
-      HttpServletResponse response) {
+  public ResponseEntity<ReadableShoppingCart> modifyCart(
+          @PathVariable String code,
+          @Valid @RequestBody PersistableShoppingCartItem shoppingCartItem,
+          @ApiIgnore MerchantStore merchantStore,
+          @ApiIgnore Language language,
+          HttpServletResponse response) {
 
     try {
       ReadableShoppingCart cart =
-          shoppingCartFacade.modifyCart(code, shoppingCartItem, merchantStore, language);
+              shoppingCartFacade.modifyCart(code, shoppingCartItem, merchantStore, language);
 
-      return cart;
+      return new ResponseEntity<>(cart, HttpStatus.CREATED);
 
-    } catch (Exception e) {
-      LOGGER.error("Error while modyfing cart " + code + " ", e);
-      try {
-        response.sendError(503, "Error while modyfing cart " + code + " " + e.getMessage());
-      } catch (Exception ignore) {
-      }
+    } catch (IllegalArgumentException e) {
+      LOGGER.error("Cart or item not found " + code + " : " + shoppingCartItem.getProduct(), e);
+      return new ResponseEntity("Cart or Item not found " + code + " : " + shoppingCartItem.getProduct(), HttpStatus.NOT_FOUND);
 
-      return null;
+    } catch (Exception ignore) {
+      return new ResponseEntity("Error while modifying cart " + code + " " + ignore.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 

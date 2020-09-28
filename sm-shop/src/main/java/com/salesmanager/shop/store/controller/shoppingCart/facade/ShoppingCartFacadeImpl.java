@@ -941,20 +941,20 @@ public class ShoppingCartFacadeImpl
 		return readableShoppingCart(cartModel,item,store,language);
 	}
 
-	@Override
-	public ReadableShoppingCart modifyCart(String cartCode, PersistableShoppingCartItem item, MerchantStore store,
-			Language language) throws Exception {
+    @Override
+    public ReadableShoppingCart modifyCart(String cartCode, PersistableShoppingCartItem item, MerchantStore store,
+                                           Language language) throws Exception {
 
-		Validate.notNull(cartCode,"PString cart code cannot be null");
-		Validate.notNull(item,"PersistableShoppingCartItem cannot be null");
+        Validate.notNull(cartCode, "String cart code cannot be null");
+        Validate.notNull(item, "PersistableShoppingCartItem cannot be null");
 
-		ShoppingCart cartModel = this.getCartModel(cartCode, store);
+        ShoppingCart cartModel = this.getCartModel(cartCode, store);
+        if (cartModel == null) {
+            throw new IllegalArgumentException("Cart code not valid");
+        }
 
-
-		return modifyCart(cartModel,item, store, language);
-
-
-	}
+        return modifyCart(cartModel, item, store, language);
+    }
 
 	private void saveShoppingCart(ShoppingCart shoppingCart) throws Exception {
 		shoppingCartService.save(shoppingCart);
