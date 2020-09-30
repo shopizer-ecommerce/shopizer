@@ -69,7 +69,7 @@ public class Catalog extends SalesManagerEntity<Long, Catalog> implements Audita
     
     @Valid
     @OneToMany(mappedBy="catalog", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<CatalogEntry> entry = new HashSet<CatalogEntry>();
+    private Set<CatalogCategoryEntry> entry = new HashSet<CatalogCategoryEntry>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="MERCHANT_ID", nullable=false)
@@ -150,11 +150,11 @@ public class Catalog extends SalesManagerEntity<Long, Catalog> implements Audita
         this.merchantStore = merchantStore;
     }
 
-	public Set<CatalogEntry> getEntry() {
+	public Set<CatalogCategoryEntry> getEntry() {
 		return entry;
 	}
 
-	public void setEntry(Set<CatalogEntry> entry) {
+	public void setEntry(Set<CatalogCategoryEntry> entry) {
 		this.entry = entry;
 	}
 

@@ -607,6 +607,7 @@ public class UserFacadeImpl implements UserFacade {
 
 				//user store can be parent and requested store is child 
 				//get parent
+				//TODO CACHE
 				MerchantStore parent = merchantStoreService.getParent(merchant);
 	
 				//user can be in parent

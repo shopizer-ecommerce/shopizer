@@ -1,6 +1,6 @@
 package com.salesmanager.shop.model.catalog.catalog;
 
-public class PersistableCatalogEntry extends CatalogEntryEntity {
+public class PersistableCatalogCategoryEntry extends CatalogEntryEntity {
 
 	/**
 	 * 

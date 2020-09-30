@@ -25,10 +25,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.catalog.PersistableCatalog;
-import com.salesmanager.shop.model.catalog.catalog.PersistableCatalogEntry;
+import com.salesmanager.shop.model.catalog.catalog.PersistableCatalogCategoryEntry;
 import com.salesmanager.shop.model.catalog.catalog.ReadableCatalog;
-import com.salesmanager.shop.model.catalog.catalog.ReadableCatalogEntry;
-import com.salesmanager.shop.model.catalog.catalog.ReadableCatalogEntryList;
+import com.salesmanager.shop.model.catalog.catalog.ReadableCatalogCategoryEntry;
+import com.salesmanager.shop.model.catalog.catalog.ReadableCatalogCategoryEntryList;
 import com.salesmanager.shop.model.catalog.catalog.ReadableCatalogList;
 import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
@@ -157,13 +157,13 @@ public class CatalogApi {
   @PostMapping(value = "/private/catalog/{id}")
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(httpMethod = "POST", value = "Add catalog entry to catalog", notes = "",
-      response = ReadableCatalogEntry.class)
+      response = ReadableCatalogCategoryEntry.class)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
-  public ReadableCatalogEntry addCatalogEntry(
+  public ReadableCatalogCategoryEntry addCatalogEntry(
       @PathVariable Long id,
-	  @RequestBody @Valid PersistableCatalogEntry catalogEntry,
+	  @RequestBody @Valid PersistableCatalogCategoryEntry catalogEntry,
       @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
     
 	  
@@ -202,11 +202,11 @@ public class CatalogApi {
   @GetMapping(value = "/private/catalog/{id}/entry")
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(httpMethod = "GET", value = "Get catalog entry by catalog", notes = "",
-      response = ReadableCatalogEntryList.class)
+      response = ReadableCatalogCategoryEntryList.class)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
-  public ReadableCatalogEntryList getCatalogEntry(
+  public ReadableCatalogCategoryEntryList getCatalogEntry(
 	  @PathVariable(value="id") Long id,
       @ApiIgnore MerchantStore merchantStore, 
       @ApiIgnore Language language,

@@ -6,10 +6,10 @@ import com.salesmanager.core.model.catalog.catalog.Catalog;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.catalog.PersistableCatalog;
-import com.salesmanager.shop.model.catalog.catalog.PersistableCatalogEntry;
+import com.salesmanager.shop.model.catalog.catalog.PersistableCatalogCategoryEntry;
 import com.salesmanager.shop.model.catalog.catalog.ReadableCatalog;
-import com.salesmanager.shop.model.catalog.catalog.ReadableCatalogEntry;
-import com.salesmanager.shop.model.catalog.catalog.ReadableCatalogEntryList;
+import com.salesmanager.shop.model.catalog.catalog.ReadableCatalogCategoryEntry;
+import com.salesmanager.shop.model.catalog.catalog.ReadableCatalogCategoryEntryList;
 import com.salesmanager.shop.model.catalog.catalog.ReadableCatalogList;
 
 public interface CatalogFacade {
@@ -30,11 +30,11 @@ public interface CatalogFacade {
 	
 	ReadableCatalogList listCatalogs(Optional<String> code, MerchantStore store, Language language, int page, int count);
 	
-	ReadableCatalogEntryList listCatalogEntry(Optional<String> product, Long catalogId, MerchantStore store, Language language, int page, int count);
+	ReadableCatalogCategoryEntryList listCatalogEntry(Optional<String> product, Long catalogId, MerchantStore store, Language language, int page, int count);
 	
-	ReadableCatalogEntry getCatalogEntry(Long id, MerchantStore store, Language language);
+	ReadableCatalogCategoryEntry getCatalogEntry(Long id, MerchantStore store, Language language);
 	
-	ReadableCatalogEntry addCatalogEntry(PersistableCatalogEntry entry, MerchantStore store, Language language);
+	ReadableCatalogCategoryEntry addCatalogEntry(PersistableCatalogCategoryEntry entry, MerchantStore store, Language language);
 	
 	void removeCatalogEntry(Long catalogId, Long catalogEntryId, MerchantStore store, Language language);
 

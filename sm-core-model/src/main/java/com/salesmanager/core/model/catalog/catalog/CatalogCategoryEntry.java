@@ -15,7 +15,6 @@ import javax.persistence.UniqueConstraint;
 
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.category.Category;
-import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.common.audit.Auditable;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
@@ -23,8 +22,8 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
 @Entity
 @EntityListeners(value = com.salesmanager.core.model.common.audit.AuditListener.class)
 @Table(name = "CATALOG_ENTRY", schema= SchemaConstant.SALESMANAGER_SCHEMA,uniqueConstraints=
-@UniqueConstraint(columnNames = {"PRODUCT_ID", "CATEGORY_ID", "CATALOG_ID"}) )
-public class CatalogEntry extends SalesManagerEntity<Long, CatalogEntry> implements Auditable {
+@UniqueConstraint(columnNames = {"CATEGORY_ID", "CATALOG_ID"}) )
+public class CatalogCategoryEntry extends SalesManagerEntity<Long, CatalogCategoryEntry> implements Auditable {
 	
 	
     @Embedded
@@ -47,10 +46,6 @@ public class CatalogEntry extends SalesManagerEntity<Long, CatalogEntry> impleme
 	initialValue = SchemaConstant.DESCRIPTION_ID_START_VALUE,
 	pkColumnValue = "CATALOG_ENT_SEQ_NEXT_VAL")
 	private Long id;
-	
-    @ManyToOne
-    @JoinColumn(name = "PRODUCT_ID", nullable = false)
-    Product product;
  
     @ManyToOne
     @JoinColumn(name = "CATEGORY_ID", nullable = false)
@@ -60,16 +55,10 @@ public class CatalogEntry extends SalesManagerEntity<Long, CatalogEntry> impleme
 	@JoinColumn(name = "CATALOG_ID", nullable = false)
 	private Catalog catalog;
 	
+	//TODO d products ????
+	
     @Column(name = "VISIBLE")
     private boolean visible;
-
-	public Product getProduct() {
-		return product;
-	}
-
-	public void setProduct(Product product) {
-		this.product = product;
-	}
 
 	public Category getCategory() {
 		return category;

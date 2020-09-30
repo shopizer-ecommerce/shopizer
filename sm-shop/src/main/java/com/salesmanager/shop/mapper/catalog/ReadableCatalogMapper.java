@@ -1,14 +1,19 @@
 package com.salesmanager.shop.mapper.catalog;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.salesmanager.core.model.catalog.catalog.Catalog;
+import com.salesmanager.core.model.catalog.catalog.CatalogCategoryEntry;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
 import com.salesmanager.shop.model.catalog.catalog.ReadableCatalog;
+import com.salesmanager.shop.model.catalog.catalog.ReadableCatalogCategoryEntry;
 import com.salesmanager.shop.model.store.ReadableMerchantStore;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.DateUtil;
@@ -16,8 +21,11 @@ import com.salesmanager.shop.utils.DateUtil;
 @Component
 public class ReadableCatalogMapper implements Mapper<Catalog, ReadableCatalog> {
 	
-	  @Autowired
-	  private StoreFacade storeFacade;
+	@Autowired
+	private StoreFacade storeFacade;
+	
+	@Autowired
+	private ReadableCatalogEntryMapper readableCatalogEntryMapper;
 
 	@Override
 	public ReadableCatalog convert(Catalog source, MerchantStore store, Language language) {
@@ -53,10 +61,16 @@ public class ReadableCatalogMapper implements Mapper<Catalog, ReadableCatalog> {
 		
 		if(!CollectionUtils.isEmpty(source.getEntry())) {
 			//build catalog tree
+			List<ReadableCatalogCategoryEntry> entries = source.getEntry().stream().map(e -> catalogEntry(e, store, language)).collect(Collectors.toList());
+			destination.setEntry(entries);
 		}
 		
 		return destination;
 		
+	}
+	
+	private ReadableCatalogCategoryEntry catalogEntry(CatalogCategoryEntry entry, MerchantStore store, Language language) {
+		return readableCatalogEntryMapper.convert(entry, store, language);
 	}
 
 }

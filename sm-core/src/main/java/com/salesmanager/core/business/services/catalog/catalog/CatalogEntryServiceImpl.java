@@ -13,12 +13,12 @@ import com.salesmanager.core.business.repositories.catalog.catalog.CatalogEntryR
 import com.salesmanager.core.business.repositories.catalog.catalog.PageableCatalogEntryRepository;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
 import com.salesmanager.core.model.catalog.catalog.Catalog;
-import com.salesmanager.core.model.catalog.catalog.CatalogEntry;
+import com.salesmanager.core.model.catalog.catalog.CatalogCategoryEntry;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 
 @Service("catalogEntryService")
-public class CatalogEntryServiceImpl extends SalesManagerEntityServiceImpl<Long, CatalogEntry> 
+public class CatalogEntryServiceImpl extends SalesManagerEntityServiceImpl<Long, CatalogCategoryEntry> 
 implements CatalogEntryService {
 	
 	@Autowired
@@ -33,14 +33,14 @@ implements CatalogEntryService {
 	}
 
 	@Override
-	public void add(CatalogEntry entry, Catalog catalog) throws ServiceException {
+	public void add(CatalogCategoryEntry entry, Catalog catalog) throws ServiceException {
 		entry.setCatalog(catalog);
 		catalogEntryRepository.save(entry);
 	}
 
 
 	@Override
-	public Page<CatalogEntry> list(Catalog catalog, MerchantStore store, Language language, String name, int page,
+	public Page<CatalogCategoryEntry> list(Catalog catalog, MerchantStore store, Language language, String name, int page,
 			int count) throws ServiceException {
 		Pageable pageRequest = PageRequest.of(page, count);
 		return pageableCatalogEntryRepository.listByCatalog(catalog.getId(), store.getId(), language.getId(), name, pageRequest);
@@ -48,7 +48,7 @@ implements CatalogEntryService {
 	}
 
 	@Override
-	public void remove(CatalogEntry catalogEntry) throws ServiceException {
+	public void remove(CatalogCategoryEntry catalogEntry) throws ServiceException {
 		catalogEntryRepository.delete(catalogEntry);
 		
 	}

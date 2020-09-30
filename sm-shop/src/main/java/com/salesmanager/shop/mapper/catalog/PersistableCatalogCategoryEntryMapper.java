@@ -5,20 +5,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.salesmanager.core.model.catalog.catalog.Catalog;
-import com.salesmanager.core.model.catalog.catalog.CatalogEntry;
+import com.salesmanager.core.model.catalog.catalog.CatalogCategoryEntry;
 import com.salesmanager.core.model.catalog.category.Category;
-import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
-import com.salesmanager.shop.model.catalog.catalog.PersistableCatalogEntry;
+import com.salesmanager.shop.model.catalog.catalog.PersistableCatalogCategoryEntry;
 import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;
 import com.salesmanager.shop.store.controller.catalog.facade.CatalogFacade;
 import com.salesmanager.shop.store.controller.category.facade.CategoryFacade;
 import com.salesmanager.shop.store.controller.product.facade.ProductFacade;
 
 @Component
-public class PersistableCatalogEntryMapper implements Mapper<PersistableCatalogEntry, CatalogEntry> {
+public class PersistableCatalogCategoryEntryMapper implements Mapper<PersistableCatalogCategoryEntry, CatalogCategoryEntry> {
 
 	@Autowired
 	private ProductFacade productFacade;
@@ -31,13 +30,13 @@ public class PersistableCatalogEntryMapper implements Mapper<PersistableCatalogE
 	
 	
 	@Override
-	public CatalogEntry convert(PersistableCatalogEntry source, MerchantStore store, Language language) {
-		CatalogEntry destination = new CatalogEntry();
+	public CatalogCategoryEntry convert(PersistableCatalogCategoryEntry source, MerchantStore store, Language language) {
+		CatalogCategoryEntry destination = new CatalogCategoryEntry();
 		return this.convert(source, destination, store, language);
 	}
 
 	@Override
-	public CatalogEntry convert(PersistableCatalogEntry source, CatalogEntry destination, MerchantStore store,
+	public CatalogCategoryEntry convert(PersistableCatalogCategoryEntry source, CatalogCategoryEntry destination, MerchantStore store,
 			Language language) {
 		Validate.notNull(source, "CatalogEntry must not be null");
 		Validate.notNull(store, "MerchantStore must not be null");
@@ -48,7 +47,7 @@ public class PersistableCatalogEntryMapper implements Mapper<PersistableCatalogE
 		
 		
 		if(destination == null) {
-			destination = new CatalogEntry();
+			destination = new CatalogCategoryEntry();
 			
 		}
 		destination.setId(source.getId());
@@ -66,12 +65,12 @@ public class PersistableCatalogEntryMapper implements Mapper<PersistableCatalogE
 			
 			destination.setCatalog(catalogModel);
 
-			Product productModel = productFacade.getProduct(source.getProductCode(), store);
+/*			Product productModel = productFacade.getProduct(source.getProductCode(), store);
 			if(productModel == null) {
 				throw new ConversionRuntimeException("Error while converting CatalogEntry product [" + source.getProductCode() + "] not found");
-			}
+			}*/
 
-			destination.setProduct(productModel);
+			//destination.setProduct(productModel);
 			
 			Category categoryModel = categoryFacade.getByCode(source.getCategoryCode(), store);
 			if(categoryModel == null) {

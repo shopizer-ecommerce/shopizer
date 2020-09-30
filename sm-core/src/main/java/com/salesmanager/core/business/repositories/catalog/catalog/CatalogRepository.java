@@ -11,14 +11,14 @@ public interface CatalogRepository extends JpaRepository<Catalog, Long> {
 	@Query("select c from Catalog c "
 			+ "join c.merchantStore cm "
 			+ "left join fetch c.entry ce "
-			+ "left join fetch ce.product cep "
+			//+ "left join fetch ce.product cep "
 			+ "left join fetch ce.category cec where c.id=?1 and cm.id = ?2")
 	Catalog findById(Long catalogId, Integer merchantId);
 	
 	@Query("select c from Catalog c "
 			+ "join c.merchantStore cm "
 			+ "left join fetch c.entry ce "
-			+ "left join fetch ce.product cep "
+			//+ "left join fetch ce.product cep "
 			+ "left join fetch ce.category cec where c.code=?1 and cm.id = ?2")
 	Catalog findByCode(String code, Integer merchantId);
 	

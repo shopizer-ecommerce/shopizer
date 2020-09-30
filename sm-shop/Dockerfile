@@ -3,6 +3,7 @@ MAINTAINER shopizerecomm
 
 VOLUME /tmp
 
+# Next image will be based on multi stage https://www.nclouds.com/blog/reduce-docker-image-size-better-caching-faster-build-deploy/
 # Diagnose and analyze potential db connection issue and log files
 #RUN apt-get update && apt-get install -y mysql-client
 #RUN apt-get update && apt-get install -y vim
