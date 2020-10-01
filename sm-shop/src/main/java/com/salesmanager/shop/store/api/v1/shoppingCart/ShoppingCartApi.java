@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,6 +30,8 @@ import springfox.documentation.annotations.ApiIgnore;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+
+import java.util.Arrays;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_XML_VALUE;
@@ -71,7 +74,7 @@ public class ShoppingCartApi {
     } catch (Exception e) {
       try {
       if(e instanceof ResourceNotFoundException) {
-        //response.sendError(204, "Error while adding product to cart id [" + shoppingCartItem.getProduct() + "] not found or not available");
+        //response.sendError(204, "Error while adding product to cart id [" + shoppingCartItems.getProduct() + "] not found or not available");
       }
       LOGGER.error("Error while adding product to cart", e);
 
@@ -106,11 +109,48 @@ public class ShoppingCartApi {
       ReadableShoppingCart cart =
               shoppingCartFacade.modifyCart(code, shoppingCartItem, merchantStore, language);
 
+      if(cart == null) {
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+      }
+
       return new ResponseEntity<>(cart, HttpStatus.CREATED);
 
     } catch (IllegalArgumentException e) {
       LOGGER.error("Cart or item not found " + code + " : " + shoppingCartItem.getProduct(), e);
       return new ResponseEntity("Cart or Item not found " + code + " : " + shoppingCartItem.getProduct(), HttpStatus.NOT_FOUND);
+
+    } catch (Exception ignore) {
+      return new ResponseEntity("Error while modifying cart " + code + " " + ignore.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @PostMapping(value = "/cart/{code}/multi", consumes = {"application/json"}, produces = {"application/json"})
+  @ApiOperation(
+          httpMethod = "POST",
+          value = "Add to an existing shopping cart or modify an item quantity",
+          notes =
+                  "No customer ID in scope. Modify cart for non authenticated users, as simple as {\"product\":1232,\"quantity\":0} for instance will remove item 1234 from cart",
+          produces = "application/json",
+          response = ReadableShoppingCart.class)
+  @ApiImplicitParams({
+          @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+          @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
+  public ResponseEntity<ReadableShoppingCart> modifyCart(
+          @PathVariable String code,
+          @Valid @RequestBody PersistableShoppingCartItem[] shoppingCartItems,
+          @ApiIgnore MerchantStore merchantStore,
+          @ApiIgnore Language language) {
+
+    try {
+      ReadableShoppingCart cart =
+              shoppingCartFacade.modifyCartMulti(code, Arrays.asList(shoppingCartItems), merchantStore, language);
+
+      return new ResponseEntity<>(cart, HttpStatus.CREATED);
+
+    } catch (IllegalArgumentException e) {
+      LOGGER.error("Cart or item not found " + code + " : " + shoppingCartItems, e);
+      return new ResponseEntity("Cart or Item not found " + code + " : " + shoppingCartItems, HttpStatus.NOT_FOUND);
 
     } catch (Exception ignore) {
       return new ResponseEntity("Error while modifying cart " + code + " " + ignore.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

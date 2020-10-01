@@ -17,20 +17,20 @@ import com.salesmanager.shop.model.order.PersistableOrderProduct;
 
 public class ShoppingCartItemPopulator extends
 		AbstractDataPopulator<PersistableOrderProduct, ShoppingCartItem> {
-	
+
 
 	private ProductService productService;
 	private ProductAttributeService productAttributeService;
 	private ShoppingCartService shoppingCartService;
 
 	@Override
-	public ShoppingCartItem populate(PersistableOrderProduct source,
-			ShoppingCartItem target, MerchantStore store, Language language)
+	public ShoppingCartItem populate(PersistableOrderProduct source, /** TODO: Fix, target not used possible future bug ! **/ShoppingCartItem target,
+									 MerchantStore store, Language language)
 			throws ConversionException {
 		Validate.notNull(productService, "Requires to set productService");
 		Validate.notNull(productAttributeService, "Requires to set productAttributeService");
 		Validate.notNull(shoppingCartService, "Requires to set shoppingCartService");
-		
+
 		Product product = productService.getById(source.getProduct().getId());
 		if(source.getAttributes()!=null) {
 
@@ -45,13 +45,13 @@ public class ShoppingCartItemPopulator extends
 				product.getAttributes().add(attribute);
 			}
 		}
-		
+
 		try {
 			return shoppingCartService.populateShoppingCartItem(product);
 		} catch (ServiceException e) {
 			throw new ConversionException(e);
 		}
-		
+
 	}
 
 	@Override

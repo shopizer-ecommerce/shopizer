@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
@@ -332,6 +333,88 @@ public class ShoppingCartFacadeImpl
 		return item;
 
 	}
+
+    //used for api
+    private List<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> createCartItems(ShoppingCart cartModel,
+                                                                                     List<PersistableShoppingCartItem> shoppingCartItems,
+                                                                                           MerchantStore store) throws Exception {
+
+        List<Long> productIds = shoppingCartItems.stream().map(s -> Long.valueOf(s.getProduct())).collect(Collectors.toList());
+
+        List<Product> products = productService.getProductsByIds(productIds);
+
+        if (products == null || products.size() != shoppingCartItems.size()) {
+            LOG.warn("----------------------- Items with in id-list " + productIds + " does not exist");
+            throw new ResourceNotFoundException("Item with id " + productIds + " does not exist");
+        }
+
+        List<Product> wrongStoreProducts = products.stream().filter(p -> p.getMerchantStore().getId() != store.getId()).collect(Collectors.toList());
+        if (wrongStoreProducts.size() > 0) {
+            throw new ResourceNotFoundException("One or more of the items with id's " + wrongStoreProducts.stream().map(s -> Long.valueOf(s.getId())).collect(Collectors.toList()) + " does not belong to merchant "
+                    + store.getId());
+        }
+
+        List<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> items = new ArrayList<>();
+
+        for (Product p: products) {
+            com.salesmanager.core.model.shoppingcart.ShoppingCartItem item = shoppingCartService.populateShoppingCartItem(p);
+            Optional<PersistableShoppingCartItem> oShoppingCartItem = shoppingCartItems.stream().filter(i -> i.getProduct() == p.getId()).findFirst();
+            if(!oShoppingCartItem.isPresent()) {
+                // Should never happen if not something is updated in realtime or user has item in local storage and add it long time after to cart!
+                LOG.warn("Missing shoppingCartItem for product " + p.getSku() + " ( " + p.getId() + " )");
+                continue;
+            }
+            PersistableShoppingCartItem shoppingCartItem = oShoppingCartItem.get();
+            item.setQuantity(shoppingCartItem.getQuantity());
+            item.setShoppingCart(cartModel);
+
+            /**
+             * Check if product is available
+             * Check if product quantity is 0
+             * Check if date available <= now
+             */
+            if(!p.isAvailable()) {
+                throw new Exception( "Item with id " + p.getId() + " is not available");
+            }
+
+            Set<ProductAvailability> availabilities = p.getAvailabilities();
+            if(availabilities == null) {
+                throw new Exception( "Item with id " + p.getId() + " is not properly configured" );
+            }
+
+            for(ProductAvailability availability : availabilities) {
+                if(availability.getProductQuantity() == null || availability.getProductQuantity().intValue() ==0) {
+                    throw new Exception( "Item with id " + p.getId() + " is not available");
+                }
+            }
+
+            if(!DateUtil.dateBeforeEqualsDate(p.getDateAvailable(), new Date())) {
+                throw new Exception( "Item with id " + p.getId() + " is not available");
+            }
+            // end qty & availablility checks
+
+            //set attributes
+            List<com.salesmanager.shop.model.catalog.product.attribute.ProductAttribute> attributes = shoppingCartItem.getAttributes();
+            if (!CollectionUtils.isEmpty(attributes)) {
+                for(com.salesmanager.shop.model.catalog.product.attribute.ProductAttribute attribute : attributes) {
+
+                    ProductAttribute productAttribute = productAttributeService.getById(attribute.getId());
+
+                    if (productAttribute != null
+                            && productAttribute.getProduct().getId().longValue() == p.getId().longValue()) {
+
+                        com.salesmanager.core.model.shoppingcart.ShoppingCartAttributeItem attributeItem = new com.salesmanager.core.model.shoppingcart.ShoppingCartAttributeItem(
+                                item, productAttribute);
+
+                        item.addAttributes(attributeItem);
+                    }
+                }
+            }
+            items.add(item);
+        }
+
+        return items;
+    }
 
 
     @Override
@@ -848,13 +931,13 @@ public class ShoppingCartFacadeImpl
         boolean itemModified = false;
         //check if existing product
        	Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> items = cartModel.getLineItems();
-       	//com.salesmanager.core.model.shoppingcart.ShoppingCartItem affectedItem = null;
        	if(!CollectionUtils.isEmpty(items)) {
        		Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> newItems = new HashSet<com.salesmanager.core.model.shoppingcart.ShoppingCartItem>();
        		Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> removeItems = new HashSet<com.salesmanager.core.model.shoppingcart.ShoppingCartItem>();
 	    	for(com.salesmanager.core.model.shoppingcart.ShoppingCartItem anItem : items) {//take care of existing product
 	    		if(itemModel.getProduct().getId().longValue() == anItem.getProduct().getId()) {
-	    			if(item.getQuantity()==0) {//left aside item to be removed
+	    			if(item.getQuantity()==0) {
+	    			    //left aside item to be removed
 	    				//don't add it to new list of item
 	    				removeItems.add(anItem);
 	    			} else {
@@ -920,6 +1003,86 @@ public class ShoppingCartFacadeImpl
 
 	}
 
+
+    /**
+     * Update cart based on the Items coming in with cartItems,
+     * Items not in incoming will not be affected,
+     * Items with Qty set to 0 will be removed from cart
+     *
+     * @param cartModel
+     * @param cartItems
+     * @param store
+     * @param language
+     * @return
+     * @throws Exception
+     */
+    private ReadableShoppingCart modifyCartMulti(ShoppingCart cartModel, List<PersistableShoppingCartItem> cartItems, MerchantStore store,
+                                                 Language language) throws Exception {
+
+
+        List<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> inCartItemList = createCartItems(cartModel, cartItems, store);
+
+        int itemUpdatedCnt = 0;
+
+        Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> existingItems = cartModel.getLineItems();
+        // loop over incoming items since they drive changes
+        for (com.salesmanager.core.model.shoppingcart.ShoppingCartItem newItemValue : inCartItemList) {
+
+            // check that item exist in persisted cart
+            Optional<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> oOldItem =
+                    existingItems.stream().filter(i -> i.getProductId().intValue() == newItemValue.getProductId().intValue()).findFirst();
+
+            if (oOldItem.isPresent()) {
+                // update of existing cartItem
+                com.salesmanager.core.model.shoppingcart.ShoppingCartItem oldCartItem = oOldItem.get();
+                if (oldCartItem.getQuantity().intValue() == newItemValue.getQuantity()) {
+                    // this is unchanged
+                    continue;
+                }
+                if (newItemValue.getQuantity() == 0) {
+                    // remove from cart
+                    shoppingCartService.deleteShoppingCartItem(oldCartItem.getId());
+                    cartModel.getLineItems().remove(oldCartItem);
+                    ++itemUpdatedCnt;
+                    continue;
+                }
+                // update qty
+                oldCartItem.setQuantity(newItemValue.getQuantity());
+                ++itemUpdatedCnt;
+            } else {
+                // addition of new item
+                cartModel.getLineItems().add(newItemValue);
+                ++itemUpdatedCnt;
+            }
+        }
+        // at the moment we expect that some change have been done
+        saveShoppingCart(cartModel);
+
+        //refresh cart
+        cartModel = shoppingCartService.getById(cartModel.getId(), store);
+
+        if (cartModel == null) {
+            return null;
+        }
+
+        shoppingCartCalculationService.calculate(cartModel, store, language);
+
+        ReadableShoppingCartPopulator readableShoppingCart = new ReadableShoppingCartPopulator();
+
+        readableShoppingCart.setImageUtils(imageUtils);
+        readableShoppingCart.setPricingService(pricingService);
+        readableShoppingCart.setProductAttributeService(productAttributeService);
+        readableShoppingCart.setShoppingCartCalculationService(shoppingCartCalculationService);
+
+        ReadableShoppingCart readableCart = new ReadableShoppingCart();
+
+        readableShoppingCart.populate(cartModel, readableCart, store, language);
+
+
+        return readableCart;
+
+    }
+
 	@Override
 	public ReadableShoppingCart addToCart(Customer customer, PersistableShoppingCartItem item, MerchantStore store,
 			Language language) throws Exception {
@@ -943,20 +1106,34 @@ public class ShoppingCartFacadeImpl
 
     @Override
     public ReadableShoppingCart modifyCart(String cartCode, PersistableShoppingCartItem item, MerchantStore store,
-                                           Language language) throws Exception {
+                                                Language language) throws Exception {
 
         Validate.notNull(cartCode, "String cart code cannot be null");
         Validate.notNull(item, "PersistableShoppingCartItem cannot be null");
 
         ShoppingCart cartModel = this.getCartModel(cartCode, store);
         if (cartModel == null) {
-            throw new IllegalArgumentException("Cart code not valid");
+            return null;
+            // throw new IllegalArgumentException("Cart code not valid");
         }
 
         return modifyCart(cartModel, item, store, language);
     }
 
-	private void saveShoppingCart(ShoppingCart shoppingCart) throws Exception {
+    @Override
+    public ReadableShoppingCart modifyCartMulti(String cartCode, List<PersistableShoppingCartItem> items, MerchantStore store, Language language) throws Exception {
+        Validate.notNull(cartCode, "String cart code cannot be null");
+        Validate.notNull(items, "PersistableShoppingCartItem cannot be null");
+
+        ShoppingCart cartModel = this.getCartModel(cartCode, store);
+        if (cartModel == null) {
+            throw new IllegalArgumentException("Cart code not valid");
+        }
+
+        return modifyCartMulti(cartModel, items, store, language);
+    }
+
+    private void saveShoppingCart(ShoppingCart shoppingCart) throws Exception {
 		shoppingCartService.save(shoppingCart);
 	}
 

@@ -6,7 +6,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.inject.Inject;
+
+import org.apache.commons.collections.ListUtils;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,44 +45,44 @@ import com.salesmanager.core.model.tax.taxclass.TaxClass;
 
 @Service("productService")
 public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Product> implements ProductService {
-	
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProductServiceImpl.class);
-	
+
 	ProductRepository productRepository;
-	
+
 	@Inject
 	CategoryService categoryService;
-	
+
 	@Inject
 	ProductAvailabilityService productAvailabilityService;
-	
+
 	@Inject
 	ProductPriceService productPriceService;
 
 	@Inject
 	ProductOptionService productOptionService;
-	
+
 	@Inject
 	ProductOptionValueService productOptionValueService;
-	
+
 	@Inject
 	ProductAttributeService productAttributeService;
-	
+
 	@Inject
 	ProductRelationshipService productRelationshipService;
-	
+
 	@Inject
 	SearchService searchService;
-	
+
 	@Inject
 	ProductImageService productImageService;
-	
+
 	@Inject
 	CoreConfiguration configuration;
-	
+
 	@Inject
 	ProductReviewService productReviewService;
-	
+
 	@Inject
 	public ProductServiceImpl(ProductRepository productRepository) {
 		super(productRepository);
@@ -89,27 +92,33 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 	@Override
 	public void addProductDescription(Product product, ProductDescription description)
 			throws ServiceException {
-		
-		
+
+
 		if(product.getDescriptions()==null) {
 			product.setDescriptions(new HashSet<ProductDescription>());
 		}
-		
+
 		product.getDescriptions().add(description);
 		description.setProduct(product);
 		update(product);
 		searchService.index(product.getMerchantStore(), product);
 	}
-	
+
 	@Override
 	public List<Product> getProducts(List<Long> categoryIds) throws ServiceException {
-		
+
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		Set ids = new HashSet(categoryIds);
 		return productRepository.getProductsListByCategories(ids);
-		
+
 	}
-	
+
+	@Override
+	public List<Product> getProductsByIds(List<Long> productIds) throws ServiceException {
+		Set<Long> idSet = productIds.stream().collect(Collectors.toSet());
+		return productRepository.getProductsListByIds(idSet);
+	}
+
 	public Product getById(Long productId) {
 		return productRepository.getById(productId);
 	}
@@ -118,16 +127,16 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 	public Product getProductWithOnlyMerchantStoreById(Long productId) {
 		return productRepository.getProductWithOnlyMerchantStoreById(productId);
 	}
-	
+
 	@Override
 	public List<Product> getProducts(List<Long> categoryIds, Language language) throws ServiceException {
-		
+
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		Set<Long> ids = new HashSet(categoryIds);
 		return productRepository.getProductsListByCategories(ids, language);
-		
+
 	}
-	
+
 
 
 	@Override
@@ -139,7 +148,7 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		}
 		return null;
 	}
-	
+
 	@Override
 	public Product getBySeUrl(MerchantStore store, String seUrl, Locale locale) {
 		return productRepository.getByFriendlyUrl(store, seUrl, locale);
@@ -161,57 +170,57 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 	@Override
 	public List<Product> getProductsForLocale(Category category,
 			Language language, Locale locale) throws ServiceException {
-		
+
 		if(category==null) {
 			throw new ServiceException("The category is null");
 		}
-		
+
 		//Get the category list
 		StringBuilder lineage = new StringBuilder().append(category.getLineage()).append(category.getId()).append("/");
 		List<Category> categories = categoryService.getListByLineage(category.getMerchantStore(),lineage.toString());
 		Set<Long> categoryIds = new HashSet<Long>();
 		for(Category c : categories) {
-			
+
 			categoryIds.add(c.getId());
-			
+
 		}
-		
+
 		categoryIds.add(category.getId());
-		
+
 		//Get products
 		List<Product> products = productRepository.getProductsForLocale(category.getMerchantStore(), categoryIds, language, locale);
-		
+
 		//Filter availability
-		
+
 		return products;
 	}
-	
+
 	@Override
 	public ProductList listByStore(MerchantStore store,
 			Language language, ProductCriteria criteria) {
-		
+
 		return productRepository.listByStore(store, language, criteria);
 	}
-	
+
 	@Override
 	public List<Product> listByStore(MerchantStore store) {
-		
+
 		return productRepository.listByStore(store);
 	}
-	
+
 	@Override
 	public List<Product> listByTaxClass(TaxClass taxClass) {
 		return productRepository.listByTaxClass(taxClass);
 	}
-	
+
 	@Override
 	public Product getByCode(String productCode, Language language) {
 		return productRepository.getByCode(productCode, language);
 	}
-		
 
 
-	
+
+
 
 	@Override
 	public void delete(Product product) throws ServiceException {
@@ -220,44 +229,44 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		Validate.notNull(product.getMerchantStore(), "MerchantStore cannot be null in product");
 		product = this.getById(product.getId());//Prevents detached entity error
 		product.setCategories(null);
-		
+
 		Set<ProductImage> images = product.getImages();
-		
+
 		for(ProductImage image : images) {
 			productImageService.removeProductImage(image);
 		}
-		
+
 		product.setImages(null);
-		
+
 		//delete reviews
 		List<ProductReview> reviews = productReviewService.getByProductNoCustomers(product);
 		for(ProductReview review : reviews) {
 			productReviewService.delete(review);
 		}
-		
+
 		//related - featured
 		List<ProductRelationship> relationships = productRelationshipService.listByProduct(product);
 		for(ProductRelationship relationship : relationships) {
 			productRelationshipService.deleteRelationship(relationship);
 		}
-		
+
 		super.delete(product);
 		searchService.deleteIndex(product.getMerchantStore(), product);
-		
+
 	}
-	
+
 	@Override
 	public void create(Product product) throws ServiceException {
 		saveOrUpdate(product);
 		searchService.index(product.getMerchantStore(), product);
 	}
-	
+
 	@Override
 	public void update(Product product) throws ServiceException {
 		saveOrUpdate(product);
 		searchService.index(product.getMerchantStore(), product);
 	}
-	
+
 
 	private void saveOrUpdate(Product product) throws ServiceException {
 		LOGGER.debug("Save or update product ");
@@ -269,10 +278,10 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 	    Set<ProductImage> originalProductImages = new HashSet<ProductImage>(product.getImages());
 
 		/** save product first **/
-		
+
 		if(product.getId()!=null && product.getId()>0) {
 			super.update(product);
-		} else {			
+		} else {
 			super.create(product);
 		}
 
@@ -281,14 +290,14 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		 */
 		List<Long> newImageIds = new ArrayList<Long>();
 		Set<ProductImage> images = product.getImages();
-		
+
 		try {
-			
+
 			if(images!=null && images.size()>0) {
 				for(ProductImage image : images) {
 					if(image.getImage()!=null && (image.getId()==null || image.getId()==0L)) {
 						image.setProduct(product);
-						
+
 				        InputStream inputStream = image.getImage();
 				        ImageContentFile cmsContentImage = new ImageContentFile();
 				        cmsContentImage.setFileName( image.getProductImage() );
@@ -305,14 +314,14 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 					}
 				}
 			}
-			
+
 			//cleanup old and new images
 			if(originalProductImages!=null) {
 				for(ProductImage image : originalProductImages) {
-				  
+
                   if(image.getImage()!=null && image.getId()==null) {
                      image.setProduct(product);
-                     
+
                      InputStream inputStream = image.getImage();
                      ImageContentFile cmsContentImage = new ImageContentFile();
                      cmsContentImage.setFileName( image.getProductImage() );
@@ -324,15 +333,15 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
                   } else {
                     if(!newImageIds.contains(image.getId())) {
                         productImageService.delete(image);
-                    } 
+                    }
                   }
 				}
 			}
-			
+
 		} catch(Exception e) {
 			LOGGER.error("Cannot save images " + e.getMessage());
 		}
-		
+
 
 
 	}

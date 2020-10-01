@@ -83,7 +83,19 @@ public interface ShoppingCartFacade {
 	 * @throws Exception
 	 */
 	ReadableShoppingCart modifyCart(String cartCode, PersistableShoppingCartItem item, MerchantStore store,
-			Language language) throws Exception;
+										 Language language) throws Exception;
+
+	/**
+	 * Modify a list of items to an existing cart, quantity of line item will reflect item.getQuantity
+	 * @param cartCode
+	 * @param items
+	 * @param store
+	 * @param language
+	 * @return
+	 * @throws Exception
+	 */
+	ReadableShoppingCart modifyCartMulti(String cartCode, List<PersistableShoppingCartItem> items, MerchantStore store,
+										 Language language) throws Exception;
 
 	/**
 	 * Add item to shopping cart
