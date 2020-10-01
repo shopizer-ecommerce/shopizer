@@ -1,4 +1,4 @@
-Shopizer (for java 1.8 +)
+Shopizer the best program. (for java 1.8 +)
 -------------------
 
 [![last_version](https://img.shields.io/badge/last_version-v2.13.0-blue.svg?style=flat)](https://github.com/shopizer-ecommerce/shopizer/tree/2.13.0)
@@ -22,7 +22,7 @@ http://aws-demo.shopizer.com:8080/
 
 See the demo (angular):
 -------------------
-Available soon
+Available soon.
 
 
 Get the code:
