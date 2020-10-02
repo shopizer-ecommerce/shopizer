@@ -33,7 +33,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 @Table(name = "MANUFACTURER", schema=SchemaConstant.SALESMANAGER_SCHEMA, uniqueConstraints=
 @UniqueConstraint(columnNames = {"MERCHANT_ID", "CODE"}) )
 public class Manufacturer extends SalesManagerEntity<Long, Manufacturer> implements Auditable {
-	private static final long serialVersionUID = 80693964563570099L;
+	private static final long serialVersionUID = 1L;
 	
 	public static final String DEFAULT_MANUFACTURER = "DEFAULT";
 	

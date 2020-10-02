@@ -5,12 +5,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-import com.salesmanager.core.model.catalog.catalog.CatalogEntry;
+import com.salesmanager.core.model.catalog.catalog.CatalogCategoryEntry;
 
-public interface PageableCatalogEntryRepository extends PagingAndSortingRepository<CatalogEntry, Long> {
+public interface PageableCatalogEntryRepository extends PagingAndSortingRepository<CatalogCategoryEntry, Long> {
 
 	
-	  @Query(value = "select distinct c from CatalogEntry c join fetch c.product cp "
+/*	  @Query(value = "select distinct c from CatalogEntry c join fetch c.product cp "
 	  		+ "join fetch c.category cc "
 	  		+ "join fetch c.catalog cl "
 	  		+ "join fetch cl.merchantStore clm "
@@ -19,8 +19,17 @@ public interface PageableCatalogEntryRepository extends PagingAndSortingReposito
 	  		+ "where cl.id=?1 and "
 	  		+ "clm.id=?2 and "
 	  		+ "cpd.language.id=?3 and (?4 is null or cpd.name like %?4%)",
-		      countQuery = "select  count(c) from CatalogEntry c join c.product cp join c.category cc join c.catalog cl join cl.merchantStore clm join cp.descriptions cpd where cl.id=?1 and clm.id=?2 and cpd.language.id=?3 and (?4 is null or cpd.name like %?4%)")
-		  Page<CatalogEntry> listByCatalog(Long catalogId, Integer storeId, Integer languageId, String name, Pageable pageable);
+		      countQuery = "select  count(c) from CatalogEntry c join c.product cp join c.category cc join c.catalog cl join cl.merchantStore clm join cp.descriptions cpd where cl.id=?1 and clm.id=?2 and cpd.language.id=?3 and (?4 is null or cpd.name like %?4%)")*/
+	  @Query(value = "select distinct c from CatalogCategoryEntry c  "
+		  		+ "join fetch c.category cc "
+		  		+ "join fetch c.catalog cl "
+		  		+ "join fetch cl.merchantStore clm "
+		  		+ "left join fetch cc.descriptions ccd "
+		  		+ "where cl.id=?1 and "
+		  		+ "clm.id=?2 and "
+		  		+ "ccd.language.id=?3",
+			      countQuery = "select  count(c) from CatalogCategoryEntry c join c.category cc join c.catalog cl join cl.merchantStore clm join cc.descriptions ccd where cl.id=?1 and clm.id=?2 and ccd.language.id=?3")
+		  Page<CatalogCategoryEntry> listByCatalog(Long catalogId, Integer storeId, Integer languageId, String name, Pageable pageable);
 
 	
 }

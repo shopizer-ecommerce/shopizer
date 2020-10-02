@@ -15,6 +15,8 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
 
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
@@ -41,7 +43,6 @@ import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.shoppingcart.ShoppingCart;
-import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.shoppingcart.CartModificationException;
 import com.salesmanager.shop.model.shoppingcart.PersistableShoppingCartItem;
 import com.salesmanager.shop.model.shoppingcart.ReadableShoppingCart;
@@ -50,7 +51,6 @@ import com.salesmanager.shop.model.shoppingcart.ShoppingCartData;
 import com.salesmanager.shop.model.shoppingcart.ShoppingCartItem;
 import com.salesmanager.shop.populator.shoppingCart.ReadableShoppingCartPopulator;
 import com.salesmanager.shop.populator.shoppingCart.ShoppingCartDataPopulator;
-import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.ImageFilePath;
 
@@ -511,7 +511,12 @@ public class ShoppingCartFacadeImpl
 
         //if cart has been completed return null
         if(cart.getOrderId() != null && cart.getOrderId().longValue() > 0) {
-        	return null;
+            if ( StringUtils.isNotBlank( shoppingCartId ) && !(shoppingCartId.equals(cart.getShoppingCartCode())))
+            {
+                cart = shoppingCartService.getByCode( shoppingCartId, store );
+            } else {
+            	return null;
+            }
         }
 
         LOG.info( "Cart model found." );
@@ -548,9 +553,12 @@ public class ShoppingCartFacadeImpl
     }
 
     //@Override
-    public ShoppingCartData getShoppingCartData( final ShoppingCart shoppingCartModel, Language language)
+    public ShoppingCartData getShoppingCartData( ShoppingCart shoppingCartModel, Language language)
         throws Exception
     {
+
+    	Validate.notNull(shoppingCartModel, "Shopping Cart cannot be null");
+
 
         ShoppingCartDataPopulator shoppingCartDataPopulator = new ShoppingCartDataPopulator();
         shoppingCartDataPopulator.setShoppingCartCalculationService( shoppingCartCalculationService );
@@ -736,6 +744,7 @@ public class ShoppingCartFacadeImpl
 		try {
 			ShoppingCart cartModel = shoppingCartService.getByCode( code, store );
 			if(cartModel!=null) {
+
 				ShoppingCartData cart = getShoppingCartData(cartModel, language);
 				return cart;
 			}
@@ -759,7 +768,7 @@ public class ShoppingCartFacadeImpl
 	@Override
 	public ShoppingCart getShoppingCartModel(Customer customer,
 			MerchantStore store) throws Exception {
-		return shoppingCartService.getByCustomer(customer);
+		return shoppingCartService.getShoppingCart(customer);
 	}
 
 	@Override
@@ -775,8 +784,13 @@ public class ShoppingCartFacadeImpl
 		Validate.notNull(customer.getId(),"Customer.id cannot be null or empty");
 
 		//Check if customer has an existing shopping cart
-		ShoppingCart cartModel = shoppingCartService.getByCustomer(customer);
+//<<<<<<< HEAD
+//		ShoppingCart cartModel = shoppingCartService.getByCustomer(customer);
+//
+//=======
+		ShoppingCart cartModel = shoppingCartService.getShoppingCart(customer);
 
+//>>>>>>> a4f3b1d8db7306e0d96181047259e705b3edcf85
 		if(cartModel == null) {
 			return null;
 		}
@@ -1091,8 +1105,13 @@ public class ShoppingCartFacadeImpl
 		Validate.notNull(customer.getId(),"Customer.id cannot be null or empty");
 
 		//Check if customer has an existing shopping cart
-		ShoppingCart cartModel = shoppingCartService.getByCustomer(customer);
+//<<<<<<< HEAD
+//		ShoppingCart cartModel = shoppingCartService.getByCustomer(customer);
+//
+//=======
+		ShoppingCart cartModel = shoppingCartService.getShoppingCart(customer);
 
+//>>>>>>> a4f3b1d8db7306e0d96181047259e705b3edcf85
 		//if cart does not exist create a new one
 		if(cartModel==null) {
 			cartModel = new ShoppingCart();

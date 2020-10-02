@@ -13,18 +13,18 @@ import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.catalog.CatalogEntryService;
 import com.salesmanager.core.business.services.catalog.catalog.CatalogService;
 import com.salesmanager.core.model.catalog.catalog.Catalog;
-import com.salesmanager.core.model.catalog.catalog.CatalogEntry;
+import com.salesmanager.core.model.catalog.catalog.CatalogCategoryEntry;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.shop.mapper.catalog.PersistableCatalogEntryMapper;
+import com.salesmanager.shop.mapper.catalog.PersistableCatalogCategoryEntryMapper;
 import com.salesmanager.shop.mapper.catalog.PersistableCatalogMapper;
 import com.salesmanager.shop.mapper.catalog.ReadableCatalogEntryMapper;
 import com.salesmanager.shop.mapper.catalog.ReadableCatalogMapper;
 import com.salesmanager.shop.model.catalog.catalog.PersistableCatalog;
-import com.salesmanager.shop.model.catalog.catalog.PersistableCatalogEntry;
+import com.salesmanager.shop.model.catalog.catalog.PersistableCatalogCategoryEntry;
 import com.salesmanager.shop.model.catalog.catalog.ReadableCatalog;
-import com.salesmanager.shop.model.catalog.catalog.ReadableCatalogEntry;
-import com.salesmanager.shop.model.catalog.catalog.ReadableCatalogEntryList;
+import com.salesmanager.shop.model.catalog.catalog.ReadableCatalogCategoryEntry;
+import com.salesmanager.shop.model.catalog.catalog.ReadableCatalogCategoryEntryList;
 import com.salesmanager.shop.model.catalog.catalog.ReadableCatalogList;
 import com.salesmanager.shop.store.api.exception.OperationNotAllowedException;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
@@ -48,7 +48,7 @@ public class CatalogFacadeImpl implements CatalogFacade {
 	private ReadableCatalogMapper readableCatalogMapper;
 	
 	@Autowired
-	private PersistableCatalogEntryMapper persistableCatalogEntryMapper;
+	private PersistableCatalogCategoryEntryMapper persistableCatalogEntryMapper;
 	
 	@Autowired
 	private ReadableCatalogEntryMapper readableCatalogEntryMapper;
@@ -209,7 +209,7 @@ public class CatalogFacadeImpl implements CatalogFacade {
 	}
 
 	@Override
-	public ReadableCatalogEntryList listCatalogEntry(Optional<String> product, Long id, MerchantStore store, Language language, int page, int count) {
+	public ReadableCatalogCategoryEntryList listCatalogEntry(Optional<String> product, Long id, MerchantStore store, Language language, int page, int count) {
 		Validate.notNull(store,"MerchantStore cannot be null");
 		String productCode = null;
 		if(product.isPresent()) {
@@ -222,16 +222,16 @@ public class CatalogFacadeImpl implements CatalogFacade {
 			throw new ResourceNotFoundException("Catalog with id [" + id + "] not found for store ["+ store.getCode() +"]");
 		}
 		
-		ReadableCatalogEntryList catalogList = new ReadableCatalogEntryList();
+		ReadableCatalogCategoryEntryList catalogList = new ReadableCatalogCategoryEntryList();
 		
 		try {
-			Page<CatalogEntry> entry = catalogEntryService.list(catalog, store, language, productCode, page, count);
+			Page<CatalogCategoryEntry> entry = catalogEntryService.list(catalog, store, language, productCode, page, count);
 		
 			if(entry.getSize() == 0) {
 				return catalogList;
 			}
 			
-			List<ReadableCatalogEntry> readableList = entry.getContent().stream()
+			List<ReadableCatalogCategoryEntry> readableList = entry.getContent().stream()
 					.map(cat -> readableCatalogEntryMapper.convert(cat, store, language))
 					.collect(Collectors.toList());
 			
@@ -248,8 +248,8 @@ public class CatalogFacadeImpl implements CatalogFacade {
 	}
 
 	@Override
-	public ReadableCatalogEntry getCatalogEntry(Long id, MerchantStore store, Language language) {
-		CatalogEntry entry = catalogEntryService.getById(id);
+	public ReadableCatalogCategoryEntry getCatalogEntry(Long id, MerchantStore store, Language language) {
+		CatalogCategoryEntry entry = catalogEntryService.getById(id);
 		if(entry == null) {
 			throw new ResourceNotFoundException("catalog entry [" + id + "] not found");
 		}
@@ -258,12 +258,12 @@ public class CatalogFacadeImpl implements CatalogFacade {
 			throw new ResourceNotFoundException("catalog entry [" + id + "] not found");
 		}
 		
-		ReadableCatalogEntry readable = readableCatalogEntryMapper.convert(entry, store, language);
+		ReadableCatalogCategoryEntry readable = readableCatalogEntryMapper.convert(entry, store, language);
 		return readable;
 	}
 
 	@Override
-	public ReadableCatalogEntry addCatalogEntry(PersistableCatalogEntry entry, MerchantStore store, Language language) {
+	public ReadableCatalogCategoryEntry addCatalogEntry(PersistableCatalogCategoryEntry entry, MerchantStore store, Language language) {
 		
 		Validate.notNull(entry,"PersistableCatalogEntry cannot be null");
 		Validate.notNull(entry.getCatalog(),"CatalogEntry.catalog cannot be null");
@@ -275,7 +275,7 @@ public class CatalogFacadeImpl implements CatalogFacade {
 			throw new ResourceNotFoundException("catalog [" + entry.getCatalog() + "] not found");
 		}
 		
-		CatalogEntry catalogEntryModel = persistableCatalogEntryMapper.convert(entry, store, language);
+		CatalogCategoryEntry catalogEntryModel = persistableCatalogEntryMapper.convert(entry, store, language);
 		
 		try {
 			catalogEntryService.add(catalogEntryModel, catalog);
@@ -289,7 +289,7 @@ public class CatalogFacadeImpl implements CatalogFacade {
 
 	@Override
 	public void removeCatalogEntry(Long catalogId, Long catalogEntryId, MerchantStore store, Language language) {
-		CatalogEntry entry = catalogEntryService.getById(catalogEntryId);
+		CatalogCategoryEntry entry = catalogEntryService.getById(catalogEntryId);
 		if(entry == null) {
 			throw new ResourceNotFoundException("catalog entry [" + catalogEntryId + "] not found");
 		}
@@ -312,7 +312,7 @@ public class CatalogFacadeImpl implements CatalogFacade {
 
 	@Override
 	public boolean uniqueCatalog(String code, MerchantStore store) {
-		return catalogService.existByCode(code);
+		return catalogService.existByCode(code, store);
 	}
 
 }

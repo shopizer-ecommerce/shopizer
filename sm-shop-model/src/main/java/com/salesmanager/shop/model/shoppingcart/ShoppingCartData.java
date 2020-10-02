@@ -23,6 +23,7 @@ public class ShoppingCartData extends ShopEntity implements Serializable {
 	private int quantity;
 	private String total;
 	private String subTotal;
+	private Long orderId;
 	
 	private List<OrderTotal> totals;//calculated from OrderTotalSummary
 	private List<ShoppingCartItem> shoppingCartItems;
@@ -76,6 +77,12 @@ public class ShoppingCartData extends ShopEntity implements Serializable {
 	}
 	public void setUnavailables(List<ShoppingCartItem> unavailables) {
 		this.unavailables = unavailables;
+	}
+	public Long getOrderId() {
+		return orderId;
+	}
+	public void setOrderId(Long orderId) {
+		this.orderId = orderId;
 	}
 
 

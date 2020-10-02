@@ -131,6 +131,9 @@ public class MultipleEntryPointsSecurityConfig {
 					.logout()
 					.logoutUrl("/shop/customer/logout")
 					.logoutSuccessUrl("/shop/")
+					.invalidateHttpSession(true)
+					.deleteCookies("JSESSIONID")
+
 					.invalidateHttpSession(false)
 					.and()
 					.exceptionHandling().accessDeniedPage("/shop/");

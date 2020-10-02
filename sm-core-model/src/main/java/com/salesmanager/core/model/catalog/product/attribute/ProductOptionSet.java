@@ -1,7 +1,9 @@
 package com.salesmanager.core.model.catalog.product.attribute;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,6 +22,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
 import com.salesmanager.core.constants.SchemaConstant;
+import com.salesmanager.core.model.catalog.product.type.ProductType;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 import com.salesmanager.core.model.merchant.MerchantStore;
 
@@ -63,6 +66,10 @@ public class ProductOptionSet extends SalesManagerEntity<Long, ProductOptionSet>
 	@ManyToMany(fetch = FetchType.LAZY, targetEntity=ProductOptionValue.class)
 	@JoinTable(name = "PRODUCT_OPT_SET_OPT_VALUE")
 	private List<ProductOptionValue> values = new ArrayList<ProductOptionValue>();
+	
+	@ManyToMany(fetch = FetchType.LAZY, targetEntity=ProductType.class)
+	@JoinTable(name = "PRODUCT_OPT_SET_PRD_TYPE")
+	private Set<ProductType> productTypes = new HashSet<ProductType>();
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="MERCHANT_ID", nullable=false)
@@ -109,6 +116,13 @@ public class ProductOptionSet extends SalesManagerEntity<Long, ProductOptionSet>
 	}
 	public void setOptionDisplayOnly(boolean optionDisplayOnly) {
 		this.optionDisplayOnly = optionDisplayOnly;
+	}
+	
+	public Set<ProductType> getProductTypes() {
+		return productTypes;
+	}
+	public void setProductTypes(Set<ProductType> productTypes) {
+		this.productTypes = productTypes;
 	}
 
 }

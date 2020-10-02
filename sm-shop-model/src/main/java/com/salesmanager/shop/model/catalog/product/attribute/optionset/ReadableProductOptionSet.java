@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOption;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOptionValue;
+import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
 
 public class ReadableProductOptionSet extends ProductOptionSetEntity {
 
@@ -14,6 +15,7 @@ public class ReadableProductOptionSet extends ProductOptionSetEntity {
 	
 	private ReadableProductOption option;
 	private List<ReadableProductOptionValue> values;
+	private List<ReadableProductType> productTypes;
 	
 	public ReadableProductOption getOption() {
 		return option;
@@ -26,6 +28,12 @@ public class ReadableProductOptionSet extends ProductOptionSetEntity {
 	}
 	public void setValues(List<ReadableProductOptionValue> values) {
 		this.values = values;
+	}
+	public List<ReadableProductType> getProductTypes() {
+		return productTypes;
+	}
+	public void setProductTypes(List<ReadableProductType> productTypes) {
+		this.productTypes = productTypes;
 	}
 
 }

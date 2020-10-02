@@ -4,7 +4,9 @@ import java.util.List;
 import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +22,7 @@ import com.salesmanager.shop.model.catalog.product.type.PersistableProductType;
 import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
 import com.salesmanager.shop.model.catalog.product.type.ReadableProductTypeList;
 import com.salesmanager.shop.model.entity.Entity;
+import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.store.controller.product.facade.ProductTypeFacade;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -67,18 +70,35 @@ public class ProductTypeApi {
     
   }
   
-  @GetMapping(value = "/private/products/type/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "/private/products/type/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(httpMethod = "GET", value = "Get product type",
       notes = "", produces = "application/json", response = ReadableProductType.class)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
   public ReadableProductType get(
-	  @PathVariable String code,
+	  @PathVariable Long id,
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language) {
     
-    return productTypeFacade.get(merchantStore, code, language);
+    return productTypeFacade.get(merchantStore, id, language);
+    
+  }
+  
+  @GetMapping(value = "/private/products/type/unique", produces = MediaType.APPLICATION_JSON_VALUE)
+  @ApiOperation(httpMethod = "GET", value = "Get product type",
+      notes = "", produces = "application/json", response = ReadableProductType.class)
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
+  public ResponseEntity<EntityExists> exists(
+	  @RequestParam String code,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language) {
+	  
+	  boolean exists = productTypeFacade.exists(code, merchantStore, language);
+	  return new ResponseEntity<EntityExists>(new EntityExists(exists), HttpStatus.OK);
+
     
   }
   

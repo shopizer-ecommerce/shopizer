@@ -6,7 +6,7 @@
 
 	<groupId>com.shopizer</groupId>
 	<artifactId>shopizer</artifactId>
-	<version>2.13.0</version>
+	<version>2.14.0</version>
 	<packaging>pom</packaging>
 
 	<name>shopizer</name>
@@ -22,7 +22,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.2.7.RELEASE</version>
+		<version>2.3.3.RELEASE</version>
 	</parent>
 
 	<modules>
@@ -44,7 +44,7 @@
 		<m2eclipse.wtp.contextRoot>/</m2eclipse.wtp.contextRoot>
 
 		<!--shopizer version -->
-		<shopizer.version>2.13.0</shopizer.version>
+		<shopizer.version>2.14.0</shopizer.version>
 		<shopizer.search.version>2.11.1</shopizer.search.version>
 		<shopizer-canadapost.version>2.11.0</shopizer-canadapost.version>
 

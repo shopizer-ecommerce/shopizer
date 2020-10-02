@@ -1,5 +1,7 @@
 package com.salesmanager.core.business.services.catalog.product.type;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,9 +46,7 @@ public class ProductTypeServiceImpl extends SalesManagerEntityServiceImpl<Long, 
 	
 	@Override
 	public ProductType getProductType(String productTypeCode) {
-
 		return productTypeRepository.findByCode(productTypeCode);
-
 	}
 
 	@Override
@@ -59,5 +59,21 @@ public class ProductTypeServiceImpl extends SalesManagerEntityServiceImpl<Long, 
 	public ProductType getById(Long id, MerchantStore store, Language language) throws ServiceException {
 		return productTypeRepository.findById(id, store.getId(), language.getId());
 	}
+
+	@Override
+	public void saveOrUpdate(ProductType productType) throws ServiceException {
+		if(productType.getId()!=null && productType.getId().longValue() > 0) {
+			this.update(productType);
+		} else {
+			this.update(productType);
+		}
+	}
+
+	@Override
+	public List<ProductType> listProductTypes(List<Long> ids, MerchantStore store, Language language)
+			throws ServiceException {
+		return productTypeRepository.findByIds(ids, store.getId(), language.getId());
+	}
+
 
 }

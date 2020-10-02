@@ -47,5 +47,11 @@ public class ProductOptionSetServiceImpl extends
 	}
 
 
+	@Override
+	public List<ProductOptionSet> getByProductType(Long productTypeId, MerchantStore store, Language lang) {
+		return productOptionSetRepository.findByProductType(productTypeId, store.getId(), lang.getId());
+	}
+
+
 
 }

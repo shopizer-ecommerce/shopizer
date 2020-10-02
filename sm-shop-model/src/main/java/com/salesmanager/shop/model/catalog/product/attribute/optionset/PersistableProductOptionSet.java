@@ -10,7 +10,9 @@ public class PersistableProductOptionSet extends ProductOptionSetEntity{
 	 */
 	private static final long serialVersionUID = 1L;
 	private List<Long> optionValues;
+	private List<Long> productTypes;
 	private Long option;
+	
 	public List<Long> getOptionValues() {
 		return optionValues;
 	}
@@ -22,6 +24,12 @@ public class PersistableProductOptionSet extends ProductOptionSetEntity{
 	}
 	public void setOption(Long option) {
 		this.option = option;
+	}
+	public List<Long> getProductTypes() {
+		return productTypes;
+	}
+	public void setProductTypes(List<Long> productTypes) {
+		this.productTypes = productTypes;
 	}
 
 	

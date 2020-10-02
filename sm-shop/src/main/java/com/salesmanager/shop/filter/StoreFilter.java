@@ -203,6 +203,9 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 						request.removeAttribute(Constants.CUSTOMER);
 					}
 				}
+				
+				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+				
 				request.setAttribute(Constants.CUSTOMER, customer);
 			}
 
