@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.model.catalog.catalog.CatalogCategoryEntry;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -12,20 +11,19 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
 import com.salesmanager.shop.model.catalog.catalog.ReadableCatalogCategoryEntry;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
-import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.populator.catalog.ReadableProductPopulator;
 import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;
 import com.salesmanager.shop.utils.ImageFilePath;
 
 @Component
-public class ReadableCatalogEntryMapper implements Mapper<CatalogCategoryEntry, ReadableCatalogCategoryEntry> {
+public class ReadableCatalogCategoryEntryMapper implements Mapper<CatalogCategoryEntry, ReadableCatalogCategoryEntry> {
 	
 	
 	@Autowired
 	private ReadableCategoryMapper readableCategoryMapper;
 	
-	@Autowired
-	private PricingService pricingService;
+	//@Autowired
+	//private PricingService pricingService;
 	
 	@Autowired
 	@Qualifier("img")
@@ -46,9 +44,9 @@ public class ReadableCatalogEntryMapper implements Mapper<CatalogCategoryEntry, 
 		
 		try {
 			
-			ReadableProductPopulator readableProductPopulator = new ReadableProductPopulator();
-			readableProductPopulator.setimageUtils(imageUtils);
-			readableProductPopulator.setPricingService(pricingService);
+			//ReadableProductPopulator readableProductPopulator = new ReadableProductPopulator();
+			//readableProductPopulator.setimageUtils(imageUtils);
+			//readableProductPopulator.setPricingService(pricingService);
 			
 			//ReadableProduct readableProduct = readableProductPopulator.populate(source.getProduct(), store, language);
 			ReadableCategory readableCategory = readableCategoryMapper.convert(source.getCategory(), store, language);

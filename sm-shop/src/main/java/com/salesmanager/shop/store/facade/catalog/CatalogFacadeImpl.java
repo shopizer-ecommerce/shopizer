@@ -18,7 +18,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.catalog.PersistableCatalogCategoryEntryMapper;
 import com.salesmanager.shop.mapper.catalog.PersistableCatalogMapper;
-import com.salesmanager.shop.mapper.catalog.ReadableCatalogEntryMapper;
+import com.salesmanager.shop.mapper.catalog.ReadableCatalogCategoryEntryMapper;
 import com.salesmanager.shop.mapper.catalog.ReadableCatalogMapper;
 import com.salesmanager.shop.model.catalog.catalog.PersistableCatalog;
 import com.salesmanager.shop.model.catalog.catalog.PersistableCatalogCategoryEntry;
@@ -51,7 +51,7 @@ public class CatalogFacadeImpl implements CatalogFacade {
 	private PersistableCatalogCategoryEntryMapper persistableCatalogEntryMapper;
 	
 	@Autowired
-	private ReadableCatalogEntryMapper readableCatalogEntryMapper;
+	private ReadableCatalogCategoryEntryMapper readableCatalogEntryMapper;
 
 
 	@Override
