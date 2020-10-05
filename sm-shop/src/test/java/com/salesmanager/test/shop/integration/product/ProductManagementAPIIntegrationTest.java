@@ -14,16 +14,21 @@ import java.util.List;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionType;
+import com.salesmanager.shop.application.ShopApplication;
 import com.salesmanager.shop.model.catalog.category.Category;
 import com.salesmanager.shop.model.catalog.category.CategoryDescription;
 import com.salesmanager.shop.model.catalog.category.PersistableCategory;
@@ -41,6 +46,8 @@ import com.salesmanager.shop.model.catalog.product.attribute.ProductOptionDescri
 import com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription;
 import com.salesmanager.test.shop.common.ServicesTestSupport;
 
+@SpringBootTest(classes = ShopApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
+@RunWith(SpringRunner.class)
 public class ProductManagementAPIIntegrationTest extends ServicesTestSupport {
 
     private RestTemplate restTemplate;
