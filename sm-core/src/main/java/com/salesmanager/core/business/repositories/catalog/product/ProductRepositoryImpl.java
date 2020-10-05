@@ -67,7 +67,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 	private Product get(Long productId, MerchantStore merchant) {
 
 		try {
-			
+
 			Integer merchantId = null;
 			Integer parentId = null;
 			List<Integer> ids = new ArrayList<Integer>();
@@ -101,7 +101,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
 			// RENTAL
 			qs.append("left join fetch p.owner owner ");*/
-			
+
 			qs.append(productQuery());
 
 			qs.append("where p.id=:pid");
@@ -113,7 +113,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 					ids.add(parentId);
 				}
 			}
-			
+
 			if(merchantId != null) {
 				//qs.append(" and merch.id=:mid");
 				qs.append(" and merch.id in (:mid)");
@@ -126,7 +126,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			//if (merchant != null) {
 				//q.setParameter("mid", merchant.getId());
 			//}
-			
+
 			if(merchantId != null) {
 				//q.setParameter("mid", merchant.getId());
 				q.setParameter("mid", ids);
@@ -448,6 +448,22 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
 	}
 
+	@Override
+	public List<Product> getProductsListByIds(Set<Long> productds) {
+		StringBuilder qs = new StringBuilder();
+		qs.append(productQuery());
+		qs.append("where p.id in (:pid) ");
+		qs.append("and p.available=true and p.dateAvailable<=:dt ");
+
+		String hql = qs.toString();
+		Query q = this.em.createQuery(hql);
+
+		q.setParameter("pid", productds);
+		q.setParameter("dt", new Date());
+
+		return q.getResultList();
+	}
+
 	/**
 	 * This query is used for category listings. All collections are not fully
 	 * loaded, only the required objects so the listing page can display
@@ -547,7 +563,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
 	/**
 	 * This query is used for filtering products based on criterias
-	 * 
+	 *
 	 * @param store
 	 * @param first
 	 * @param max
@@ -838,11 +854,11 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			q.setParameter("nm", new StringBuilder().append("%").append(criteria.getProductName().toLowerCase())
 					.append("%").toString());
 		}
-		
+
 	    @SuppressWarnings("rawtypes")
 	    GenericEntityList entityList = new GenericEntityList();
 	    entityList.setTotalCount(count.intValue());
-		
+
 		q = RepositoryHelper.paginateQuery(q, count, entityList, criteria);
 
 
@@ -959,7 +975,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		return products;
 
 	}
-	
+
 	private String productQuery() {
 		StringBuilder qs = new StringBuilder();
 		qs.append("select distinct p from Product as p ");
@@ -981,14 +997,14 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		qs.append("left join fetch po.descriptions pod ");
 		qs.append("left join fetch pattr.productOptionValue pov ");
 		qs.append("left join fetch pov.descriptions povd ");
-		
+
 		//relations
 		qs.append("left join fetch p.relationships pr ");
-		
+
 		// variants
 		qs.append("left join fetch pa.variants pav ");
 		qs.append("left join fetch pav.attribute pavattr ");
-		
+
 		// other lefts
 		qs.append("left join fetch p.manufacturer manuf ");
 		qs.append("left join fetch manuf.descriptions manufd ");

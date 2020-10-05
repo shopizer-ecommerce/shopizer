@@ -45,7 +45,7 @@ public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem>
 	@TableGenerator(name = "TABLE_GEN", table = "SM_SEQUENCER", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "SHP_CRT_ITM_SEQ_NEXT_VAL")
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
 	private Long id;
-	
+
 	@JsonIgnore
 	@ManyToOne(targetEntity = ShoppingCart.class)
 	@JoinColumn(name = "SHP_CART_ID", nullable = false)
@@ -57,33 +57,33 @@ public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem>
 
 	@Embedded
 	private AuditSection auditSection = new AuditSection();
-	
+
 	@Column(name="PRODUCT_ID", nullable=false) //TODO CODE
 	private Long productId;
-	
+
 	@JsonIgnore
 	@Transient
 	private boolean productVirtual;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "shoppingCartItem")
 	private Set<ShoppingCartAttributeItem> attributes = new HashSet<ShoppingCartAttributeItem>();
-	
+
 	@JsonIgnore
 	@Transient
 	private BigDecimal itemPrice;//item final price including all rebates
-	
+
 	@JsonIgnore
 	@Transient
 	private BigDecimal subTotal;//item final price * quantity
-	
+
 	@JsonIgnore
 	@Transient
 	private FinalPrice finalPrice;//contains price details (raw prices)
-	
+
 	@JsonIgnore
 	@Transient
 	private Product product;
-	
+
 	@JsonIgnore
 	@Transient
 	private boolean obsolete = false;
@@ -92,22 +92,20 @@ public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem>
 
 
 	public ShoppingCartItem(ShoppingCart shoppingCart, Product product) {
-		this.product = product;
-		this.productId = product.getId();
-		this.quantity = 1;
+		this(product);
 		this.shoppingCart = shoppingCart;
-		
 	}
-	
+
 	public ShoppingCartItem(Product product) {
 		this.product = product;
 		this.productId = product.getId();
 		this.quantity = 1;
-
+		this.productVirtual = product.isProductVirtual();
 	}
-	
+
+	/** remove usage to limit possibility to implement bugs, would use constructors above to make sure all needed attributes are set correctly **/
+	@Deprecated
 	public ShoppingCartItem() {
-		
 	}
 
 	@Override
@@ -118,7 +116,7 @@ public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem>
 	@Override
 	public void setAuditSection(AuditSection audit) {
 		this.auditSection = audit;
-		
+
 	}
 
 	@Override
@@ -129,7 +127,7 @@ public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem>
 	@Override
 	public void setId(Long id) {
 		this.id = id;
-		
+
 	}
 
 
@@ -183,12 +181,12 @@ public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem>
 	public Product getProduct() {
 		return product;
 	}
-	
+
 	public void addAttributes(ShoppingCartAttributeItem shoppingCartAttributeItem)
 	{
 	    this.attributes.add(shoppingCartAttributeItem);
 	}
-	
+
 	public void removeAttributes(ShoppingCartAttributeItem shoppingCartAttributeItem)
 	{
 	    this.attributes.remove(shoppingCartAttributeItem);
@@ -213,7 +211,7 @@ public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem>
 	public FinalPrice getFinalPrice() {
 		return finalPrice;
 	}
-	
+
 	public boolean isObsolete() {
 		return obsolete;
 	}
@@ -221,7 +219,7 @@ public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem>
 	public void setObsolete(boolean obsolete) {
 		this.obsolete = obsolete;
 	}
-	
+
 
 	public boolean isProductVirtual() {
 		return productVirtual;

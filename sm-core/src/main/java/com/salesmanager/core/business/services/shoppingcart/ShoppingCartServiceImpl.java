@@ -47,10 +47,10 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 
 	@Inject
 	private ShoppingCartItemRepository shoppingCartItemRepository;
-	
+
 	@Inject
 	private ShoppingCartAttributeRepository shoppingCartAttributeItemRepository;
-	
+
 	@Inject
 	private PricingService pricingService;
 
@@ -107,11 +107,11 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 	 */
 	@Override
 	public void saveOrUpdate(ShoppingCart shoppingCart) throws ServiceException {
-		
+
 		Validate.notNull(shoppingCart, "ShoppingCart must not be null");
 		Validate.notNull(shoppingCart.getMerchantStore(), "ShoppingCart.merchantStore must not be null");
-		
-		
+
+
 		try {
 			UserContext userContext = UserContext.getCurrentInstance();
 			if(userContext!=null) {
@@ -120,16 +120,16 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 		} catch(Exception s) {
 			LOGGER.error("Cannot add ip address to shopping cart ", s);
 		}
-		
-		
+
+
 		if (shoppingCart.getId() == null || shoppingCart.getId().longValue() == 0) {
 			super.create(shoppingCart);
 		} else {
 			super.update(shoppingCart);
 		}
-		
 
-		
+
+
 	}
 
 	/**
@@ -274,7 +274,7 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 					LOGGER.debug("Obsolete item ? " + item.isObsolete());
 					if (item.isObsolete()) {
 						cartIsObsolete = true;
-					} 
+					}
 				}
 
 				// shoppingCart.setLineItems(shoppingCartItems);
@@ -309,7 +309,6 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 		Validate.notNull(product.getMerchantStore(), "Product.merchantStore should not be null");
 
 		ShoppingCartItem item = new ShoppingCartItem(product);
-		item.setProductVirtual(product.isProductVirtual());
 
 		// set item price
 		FinalPrice price = pricingService.calculateProductPrice(product);
@@ -348,7 +347,7 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
     				long attributeId = attribute.getProductAttributeId().longValue();
     				boolean existingAttribute = false;
     				for (ProductAttribute productAttribute : productAttributes) {
-    
+
     					if (productAttribute.getId().longValue() == attributeId) {
     						attribute.setProductAttribute(productAttribute);
     						attributesList.add(productAttribute);
@@ -356,28 +355,28 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
     						break;
     					}
     				}
-    				
+
     				if(!existingAttribute) {
     					removeAttributesList.add(attribute);
     				}
-    
+
     			}
 		    }
 		}
-		
+
 		//cleanup orphean item
 		if(CollectionUtils.isNotEmpty(removeAttributesList)) {
 			for(ShoppingCartAttributeItem attr : removeAttributesList) {
 				shoppingCartAttributeItemRepository.delete(attr);
 			}
 		}
-		
+
 		//cleanup detached attributes
 		if(CollectionUtils.isEmpty(attributesList)) {
 			item.setAttributes(null);
 		}
-		
-		
+
+
 
 		// set item price
 		FinalPrice price = pricingService.calculateProductPrice(product, attributesList);
@@ -562,27 +561,27 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 	@Override
 	@Transactional
 	public void deleteShoppingCartItem(Long id) {
-		
-		
+
+
 		ShoppingCartItem item = shoppingCartItemRepository.findOne(id);
 		if(item != null) {
-			
-			
+
+
 			if(item.getAttributes() != null) {
 				item.getAttributes().stream().forEach(a -> {shoppingCartAttributeItemRepository.deleteById(a.getId());});
 				item.getAttributes().clear();
 			}
-			
-			
+
+
 			//refresh
 			item = shoppingCartItemRepository.findOne(id);
 
 			//delete
 			shoppingCartItemRepository.deleteById(id);
-			
-			
+
+
 		}
-		
+
 
 	}
 
