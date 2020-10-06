@@ -62,7 +62,7 @@ public class ProductImageApi {
   })
   public void uploadImages(
       @PathVariable Long id,
-      @RequestParam(value="file[]",required = true) MultipartFile[] files,
+      @RequestParam(value="file",required = true) MultipartFile[] files,
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language) {
 
