@@ -225,7 +225,10 @@ function sendContact(){
 <script>
 
 var address = '<c:out value="${requestScope.MERCHANT_STORE.storeaddress}"/> <c:out value="${requestScope.MERCHANT_STORE.storecity}"/> <c:out value="${requestScope.MERCHANT_STORE.zone.code}"/> <c:out value="${requestScope.MERCHANT_STORE.storepostalcode}"/>';
+
 function googleInitialize() {
+	
+	
 
 	if(address!=null) {
 		geocoder = new google.maps.Geocoder();

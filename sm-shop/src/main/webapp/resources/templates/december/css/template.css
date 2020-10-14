@@ -60,6 +60,7 @@ section.products-grid .product .thumbnail {
 
 section.products-grid .product .thumbnail img {
 	margin-top:20px;
+	height: -webkit-fill-available;
 }
 
 .category-products {
@@ -180,7 +181,16 @@ Setup
     text-decoration: none;	
 }
 
-
+.buyNow{
+    float: left;
+    background-color: #555555;
+    color: white;
+    padding: 0 1.3em;
+    font-size: 1.0em;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    line-height: 42px;
+    text-decoration: none;	
+}
 
 .store-btn{
   min-width: 2em;
@@ -1154,6 +1164,14 @@ fieldset[disabled] .twitter-typeahead .tt-input {
   .hide-xs {
   	display: none
   }
+  section.products-grid .product .thumbnail img {
+	width: 300px;
+	height: 300px;
+  }
+  .product-content {
+  	margin-top: 33px;
+  }
+  
 }
 
 @media (max-width: 575px) {

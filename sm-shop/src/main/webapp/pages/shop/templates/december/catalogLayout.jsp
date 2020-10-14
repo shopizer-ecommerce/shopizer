@@ -55,7 +55,7 @@ response.setDateHeader ("Expires", -1);
 										{{#discounted}}<del>{{originalPrice}}</del>&nbsp;<span itemprop="price" class="specialPrice">{{finalPrice}}</span>{{/discounted}}
 										{{^discounted}}<span itemprop="price">{{finalPrice}}</span>{{/discounted}}
 									</h4>
-									<c:if test="${requestScope.CONFIGS['allowPurchaseItems'] == true}">
+									<c:if test="${requestScope.CONFIGS['displayAddToCartOnFeaturedItems'] == true}">
 									<div class="store-btn">
       									<div class="store-btn-addtocart"><a class="addToCart" href="javascript:void(0)" productId="{{id}}"><s:message code="button.label.addToCart" text="Add to cart"/></a></div>
    									</div>

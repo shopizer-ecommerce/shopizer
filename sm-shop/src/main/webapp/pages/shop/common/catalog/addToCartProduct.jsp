@@ -35,7 +35,7 @@ $(function(){
 								<c:if test="${options!=null && not product.productVirtual}">
 									<c:forEach items="${options}" var="option" varStatus="status">
 										<div class="control-group form-group"> 
-	                        				<label><strong><c:out value="${option.name}"/></strong></label>
+	                        				<label><strong>Choose : <c:out value="${option.name}"/></strong></label>
 	                        				<div class="controls">	       							
 											<c:choose>
 												<c:when test="${option.type=='select'}">
@@ -51,7 +51,7 @@ $(function(){
 															<img src="<c:url value="${optionValue.image}"/>" height="40">
 														</c:if>
 														<input type="radio" class="attribute" id="${status.index}" name="${status.index}" value="<c:out value="${optionValue.id}"/>" <c:if test="${optionValue.defaultAttribute==true}"> checked="checked" </c:if> />
-														<c:out value="${optionValue.name}"/><c:if test="${optionValue.price!=null}">&nbsp; (<c:out value="${optionValue.price}"/>)</c:if><br/>
+														<c:out value="${optionValue.name}"/><c:if test="${optionValue.price!=null}">&nbsp;</c:if><br/>
 													</c:forEach>
 												</c:when>
 												<c:when test="${option.type=='text'}">

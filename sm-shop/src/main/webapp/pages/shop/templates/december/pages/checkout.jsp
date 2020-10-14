@@ -239,6 +239,18 @@ function isFormValid() {
 				}
 			}
 		}
+		
+		if($(this).hasClass('phone')) {	
+			var phoneValid = validatePhone($(this).val());
+			console.log('phone is valid ? ' + phoneValid);
+			if(!phoneValid) {
+				if(firstErrorMessage==null) {
+					firstErrorMessage = 'Invalid phone Number';
+					valid = false;
+				}
+			}
+		}
+		
 	});
 	
 	//validate basic card at the end
@@ -586,7 +598,7 @@ function initPayment(paymentSelection) {
 						<div class="coupon-accordion">
 							<!-- ACCORDION START -->
 							<sec:authorize access="!hasRole('AUTH_CUSTOMER') and !fullyAuthenticated">
-								<p class="muted common-row"><a href="<c:url value="/shop/customer/customLogon.html"/>"><s:message code="label.checkout.logon" text="Logon or signup to simplify the online purchase process!"/></a></p>
+								<p class="muted common-row"><a href="<c:url value="/shop/customer/customLogon.html"/>"><b><s:message code="label.checkout.logon" text="Logon or signup to simplify online purchase!"/></b></a></p>
 							</sec:authorize>					
 						</div>
 					</div>
@@ -705,7 +717,7 @@ function initPayment(paymentSelection) {
 										<div class="checkout-form-list">
 											<label><s:message code="label.generic.email" text="Email address"/> <span class="required">*</span></label>										
 											<s:message code="NotEmpty.customer.emailAddress" text="Email address is required" var="msgEmail"/> 
-										    <form:input id="customer.emailAddress" cssClass="required" path="customer.emailAddress" title="${msgEmail}"/>
+										    <form:input id="customer.emailAddress" cssClass="required email" path="customer.emailAddress" title="${msgEmail}"/>
 										    <form:errors path="customer.emailAddress" cssClass="error" />
 											<span id="error-customer.emailAddress" class="error"></span>
 										</div>
@@ -714,12 +726,12 @@ function initPayment(paymentSelection) {
 										<div class="checkout-form-list">
 											<label><s:message code="label.generic.phone" text="Phone number"/>  <span class="required">*</span></label>										
 											<s:message code="NotEmpty.customer.billing.phone" text="Phone number is required" var="msgPhone"/>
-										    <form:input id="customer.billing.phone" cssClass="required" path="customer.billing.phone" title="${msgPhone}"/>
+										    <form:input id="customer.billing.phone" cssClass="required phone" path="customer.billing.phone" title="${msgPhone}"/>
 										    <form:errors path="customer.billing.phone" cssClass="error" />
 											<span id="error-customer.billing.phone" class="error"></span>
 										</div>
 									</div>
-									<sec:authorize access="!hasRole('AUTH_CUSTOMER') and !fullyAuthenticated">
+								<%--	<sec:authorize access="!hasRole('AUTH_CUSTOMER') and !fullyAuthenticated">
 									<div class="col-md-12">
 										<div class="checkout-form-list create-acc">	
 											<input id="cbox" type="checkbox" />
@@ -732,16 +744,16 @@ function initPayment(paymentSelection) {
 											<form:input id="customer.password" cssClass="required" path="customer.password" title="${msgPassword}"/>	
 										</div>
 									</div>								
-									</sec:authorize>
+									</sec:authorize> --%>
 								</div>
 								<c:if test="${shippingQuote!=null}">
 								<div id ="shippingAddressdiv" class="different-address">
-										<div class="ship-different-title">
+									<!-- 	<div class="ship-different-title">
 											<h3>
 												<label><s:message code="label.customer.shipping.shipdifferentaddress" text="Ship to a different address?"/></label>
 												<form:checkbox path="shipToDeliveryAddress" id="shipToDeliveryAddress"/>
 											</h3>
-										</div>
+										</div> -->
 									<div id="ship-box-info" class="row">
 										<div class="col-md-6">
 											<div class="checkout-form-list">

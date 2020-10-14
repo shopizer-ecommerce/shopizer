@@ -58,7 +58,7 @@ h1, h2, h3, h4, h5, h6 {
     line-height: 1.35;
 	margin:0px;
 }
-a {transition: all 0.3s ease 0s;text-decoration:none;color:#333}
+a {transition: all 0.3s ease 0s;text-decoration:none;color:firebrick}
 a:hover {
 	/**color: #C2A773;**/
 	text-decoration: none;

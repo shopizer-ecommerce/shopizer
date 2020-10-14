@@ -16,9 +16,13 @@
 
 
 <!-- requires functions.jsp -->
+<!-- maps and geoloc, places -->
+		
+<script src="<c:url value="/resources/js/address-autocomplete.js" />"></script>
 <script src="<c:url value="/resources/js/jquery.maskedinput.min.js" />"></script>
 <script src="<c:url value="/resources/js/shop-customer.js" />"></script>
 <script src="<c:url value="/resources/js/address.js" />"></script>
+
 
 
 
@@ -26,18 +30,35 @@
 
 $(document).ready(function() {
 	//triggers form validation
+	
 	isFormValid();
 	$("input[type='text']").on("change keyup paste", function(){
 		isFormValid();
 	});
 	//apply mask
-	setCountrySettings('customer',$('#customer_country').val());
+	//setCountrySettings('customer',$('#customer_country').val());
 	//populate zones combo
-	getZones($('#customer_country').val(),'<c:out value="${address.zone}" />',isFormValid);
+	/* getZones($('#customer_country').val(),'<c:out value="${address.zone}" />',isFormValid);
 	$("#customer_country").change(function() {
 			getZones($(this).val(),'<c:out value="${address.zone}" />',isFormValid);
 			setCountrySettings('customer',$('#customer_country').val());
-	})
+	}); */
+	
+	var prefix = 'Bhopal, Madhya Pradesh, ';
+				$('#addressAutocomplete').on('input',function(){
+				var str = $('#addressAutocomplete').val();
+				if(str.indexOf(prefix) == 0) {
+					// string already started with prefix
+					return;
+				} else {
+					if (prefix.indexOf(str) >= 0) {
+						// string is part of prefix
+						$('#addressAutocomplete').val(prefix);
+					} else {
+						$('#addressAutocomplete').val(prefix+str);
+					}
+				}
+			   });
 	
 	
 });
@@ -68,6 +89,9 @@ function isFormValid() {
 	}
 }
 
+			function googleInitialize() {
+				initAutocomplete();
+			}
 </script>
 
 <c:url var="updateAddress" value="/shop/customer/updateAddress.html"/>
@@ -117,6 +141,22 @@ function isFormValid() {
 		                                <span class="help-inline"><form:errors path="lastName" cssClass="error" /></span>
 		                        </div>
 		                </div>
+						
+					
+									<!-- geolocate component -->
+									<div class="control-group form-group">
+										<label>Enter your Address</label>
+										<div class="controls">
+		              		
+										<input id="addressAutocomplete"
+										             placeholder="<s:message code="message.address.enter" text="Enter your address"/>"
+										             onFocus="geolocate()"
+										             class="input-large form-control form-control-md"
+										              maxlength="150"
+										             type="text"/>
+										</div>
+									</div>
+					
 
 					   <div class="control-group form-group">
 						<label><s:message code="label.customer.companyname" text="Company"/></label>
@@ -131,7 +171,7 @@ function isFormValid() {
 			            <div class="controls">
 			            	
 			            	<s:message code="NotEmpty.customer.address2" text="Address is required" var="msgAddress"/>
-				 			<form:input  cssClass="input-large required form-control form-control-md"  maxlength="256"  path="address" title="${msgAddress}"/>		 				
+				 			<form:input id = "customer.billing.address" cssClass="input-large required form-control form-control-md"  maxlength="256"  path="address" title="${msgAddress}"/>		 				
 			            </div>
 			            </div>
 			            
@@ -140,14 +180,14 @@ function isFormValid() {
 			            <div class="controls">
 			            	
 			            	<s:message code="NotEmpty.customer.city" text="City is required" var="msgCity"/>
-				 			<form:input  cssClass="input-large required form-control form-control-md"  maxlength="100" path="city" title="${msgCity}"/>
+				 			<form:input id ="customer.billing.city" cssClass="input-large required form-control form-control-md"  maxlength="100" path="city" title="${msgCity}"/>
 			            </div>
 		            	</div>
 		            
  	 		            <div class="control-group form-group">
 	                        <label><s:message code="label.customer.country" text="Country"/></label>
 	                        <div class="controls"> 				       							
-	       							<form:select cssClass="billing-country-list form-control form-control-lg" path="country" id="customer_country">
+	       							<form:select cssClass="billing-country-list form-control form-control-lg" path="country" id="customer.billing.country">
 		  								<form:options items="${countries}" itemValue="isoCode" itemLabel="name"/>
 	       							</form:select>
                                  	<span class="help-inline"><form:errors path="country" cssClass="error" /></span>
@@ -156,12 +196,12 @@ function isFormValid() {
 	                 
 	                    <div class="control-group form-group"> 
 	                        <label><s:message code="label.customer.zone" text="State / Province"/></label>
-	                        <div class="controls">		       							
-	       							<form:select cssClass="billing-zone-list form-control form-control-lg" path="zone" id="customer_zones"/>
+	                         <div class="controls">		       							
 	       							<s:message code="NotEmpty.customer.stateProvince" text="State / Province is required" var="msgStateProvince"/>
-                      				<form:input  class="input-large required form-control form-control-md" id="hidden_zones" maxlength="100"  name="stateProvince" path="stateProvince" title="${msgStateProvince}" />		       							
+                      				<form:input  class="input-large required form-control form-control-md" path="zone" id="customer.billing.billingStateProvince" maxlength="100"  name="stateProvince" value = "MP"  readonly="readonly" title="${msgStateProvince}" />		       							
                                  	<span class="help-inline"><form:errors path="zone" cssClass="error" /></span>
-	                        </div>
+	                        </div> 
+	                        
 	                    </div>  
 	                  
 	                  <div class="control-group form-group">
@@ -200,3 +240,8 @@ function isFormValid() {
 			 	</div>
 			</div>
 		</div>
+		
+		
+		  	  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCFmw__KScNHAtQ_E2q35gajbZRlf1FUb8&libraries=places&callback=googleInitialize"
+		        async defer></script>
+		
