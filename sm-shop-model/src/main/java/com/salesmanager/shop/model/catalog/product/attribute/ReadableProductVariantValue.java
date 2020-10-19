@@ -9,6 +9,7 @@ public class ReadableProductVariantValue implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private String name;
+	private String description;
 	private Long option;//option id
 	private Long value;//option value id
 	
@@ -47,6 +48,18 @@ public class ReadableProductVariantValue implements Serializable {
   public void setName(String name) {
     this.name = name;
   }
+
+
+
+public String getDescription() {
+	return description;
+}
+
+
+
+public void setDescription(String description) {
+	this.description = description;
+}
 
 
 

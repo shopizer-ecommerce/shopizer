@@ -195,8 +195,6 @@ public class StoreFacadeImpl implements StoreFacade {
 		MerchantStore mStore = convertPersistableMerchantStoreToMerchantStore(store, languageService.defaultLanguage());
 		createMerchantStore(mStore);
 
-		//ReadableMerchantStore storeTO = getByCode(store.getCode(), languageService.defaultLanguage());
-
 	}
 
 	private void createMerchantStore(MerchantStore mStore) {
@@ -233,7 +231,6 @@ public class StoreFacadeImpl implements StoreFacade {
 
 		updateMerchantStore(mStore);
 
-		//ReadableMerchantStore storeTO = getByCode(store.getCode(), languageService.defaultLanguage());
 	}
 
 	private void updateMerchantStore(MerchantStore mStore) {
@@ -548,6 +545,8 @@ public class StoreFacadeImpl implements StoreFacade {
 			List<ReadableMerchantStore> stores = null;
 			Optional<String> code = Optional.ofNullable(criteria.getStoreCode());
 			
+			
+			//TODO Pageable
 			if(code.isPresent()) {
 				
 				stores = merchantStoreService.findAllStoreNames(code.get()).stream()

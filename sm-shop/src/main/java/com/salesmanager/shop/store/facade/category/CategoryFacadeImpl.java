@@ -26,7 +26,9 @@ import com.salesmanager.core.business.services.merchant.MerchantStoreService;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOption;
+import com.salesmanager.core.model.catalog.product.attribute.ProductOptionDescription;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValue;
+import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueDescription;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
@@ -381,17 +383,27 @@ public class CategoryFacadeImpl implements CategoryFacade {
 				List<ProductOptionValue> values = rawFacet.get(option.getCode());
 
 				ReadableProductVariant productVariant = new ReadableProductVariant();
-				productVariant.setName(option.getDescriptionsSettoList().get(0).getName());
-				List<ReadableProductVariantValue> optionValues = new ArrayList<ReadableProductVariantValue>();
-				for (ProductOptionValue value : values) {
-					ReadableProductVariantValue v = new ReadableProductVariantValue();
-					v.setName(value.getDescriptionsSettoList().get(0).getName());
-					v.setOption(option.getId());
-					v.setValue(value.getId());
-					optionValues.add(v);
+				Optional<ProductOptionDescription>  optionDescription = option.getDescriptions().stream().filter(o -> o.getLanguage().getId() == language.getId()).findFirst();
+				if(optionDescription.isPresent()) {
+					productVariant.setName(optionDescription.get().getName());
+					productVariant.setId(optionDescription.get().getId());
+					List<ReadableProductVariantValue> optionValues = new ArrayList<ReadableProductVariantValue>();
+					for (ProductOptionValue value : values) {
+						Optional<ProductOptionValueDescription>  optionValueDescription = value.getDescriptions().stream().filter(o -> o.getLanguage().getId() == language.getId()).findFirst();
+						ReadableProductVariantValue v = new ReadableProductVariantValue();
+						v.setName(value.getDescriptionsSettoList().get(0).getName());
+						v.setDescription(value.getDescriptionsSettoList().get(0).getDescription());
+						if(optionValueDescription.isPresent()) {
+							v.setName(optionValueDescription.get().getName());
+							v.setDescription(optionValueDescription.get().getDescription());
+						}
+						v.setOption(option.getId());
+						v.setValue(value.getId());
+						optionValues.add(v);
+					}
+					productVariant.setOptions(optionValues);
+					variants.add(productVariant);
 				}
-				productVariant.setOptions(optionValues);
-				variants.add(productVariant);
 			}
 
 			return variants;

@@ -1,7 +1,7 @@
 Shopizer (for java 1.8 +)
 -------------------
 
-[![last_version](https://img.shields.io/badge/last_version-v2.13.0-blue.svg?style=flat)](https://github.com/shopizer-ecommerce/shopizer/tree/2.13.0)
+[![last_version](https://img.shields.io/badge/last_version-v2.14.0-blue.svg?style=flat)](https://github.com/shopizer-ecommerce/shopizer/tree/2.14.0)
 [![Official site](https://img.shields.io/website-up-down-green-red/https/shields.io.svg?label=official%20site)](http://www.shopizer.com/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/shopizerecomm/shopizer.svg)](https://hub.docker.com/r/shopizerecomm/shopizer)
 [![stackoverflow](https://img.shields.io/badge/shopizer-stackoverflow-orange.svg?style=flat)](http://stackoverflow.com/questions/tagged/shopizer)
@@ -72,6 +72,12 @@ Run the application from Spring boot in eclipse
 Right click on com.salesmanager.shop.application.ShopApplication
 
 run as Java Application
+
+Run Docker image with working demo
+-------------------
+
+	docker run -p 80:8080 shopizerecomm/shopizer:latest
+
 
 ### Access the application:
 -------------------

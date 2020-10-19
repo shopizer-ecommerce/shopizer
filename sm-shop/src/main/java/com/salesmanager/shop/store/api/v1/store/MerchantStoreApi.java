@@ -96,7 +96,6 @@ public class MerchantStoreApi {
 		}
 
 		userFacade.authorizedGroup(authenticatedUser, Stream.of("SUPERADMIN", "ADMIN_RETAILER").collect(Collectors.toList()));
-
 		return storeFacade.getFullByCode(code, language);
 	}
 
@@ -151,6 +150,8 @@ public class MerchantStoreApi {
 
 		return storeFacade.findAll(criteria, language, page, count);
 	}
+	
+
 
 	/**
 	 * List of store names
@@ -159,25 +160,37 @@ public class MerchantStoreApi {
 	 * @return
 	 */
 	@ResponseStatus(HttpStatus.OK)
-	@GetMapping(value = { "/stores" }, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = { "/private/stores/names" }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(httpMethod = "GET", value = "Get list of store names. Returns all retailers and stores", notes = "", response = ReadableMerchantStore.class)
 	public List<ReadableMerchantStore> list(
 			@ApiIgnore MerchantStore merchantStore,
-			HttpServletRequest request) {
+			@ApiIgnore Language language,
+			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+			@RequestParam(value = "count", required = false, defaultValue = "10") Integer count,
+			HttpServletRequest request
+			) {
 		
-		
-		MerchantStoreCriteria criteria = new MerchantStoreCriteria();
-		
-		if(merchantStore != null) {
-			if(com.salesmanager.core.business.constants.Constants.DEFAULT_STORE.equals(merchantStore.getCode())) {
-				criteria.setStoreCode(null);
-			} else {
-				criteria.setStoreCode(merchantStore.getCode());
-			}
+		String authenticatedUser = userFacade.authenticatedUser();
+		if (authenticatedUser == null) {
+			throw new UnauthorizedException();
 		}
-		List<ReadableMerchantStore> stores = storeFacade.getMerchantStoreNames(criteria);
+
+		// requires superadmin, admin and admin retail to see all
+		userFacade.authorizedGroup(authenticatedUser,
+				Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN_RETAIL)
+						.collect(Collectors.toList()));
+
+		MerchantStoreCriteria criteria = createMerchantStoreCriteria(request);
 		
-		return stores;
+		if (userFacade.userInRoles(authenticatedUser, Arrays.asList(Constants.GROUP_SUPERADMIN))) {
+			criteria.setStoreCode(null);
+		} else {
+			criteria.setStoreCode(merchantStore.getCode());
+		}
+
+		ReadableMerchantStoreList list = storeFacade.findAll(criteria, language, page, count);
+		return list.getData();
+
 	}
 	
 	@ResponseStatus(HttpStatus.OK)

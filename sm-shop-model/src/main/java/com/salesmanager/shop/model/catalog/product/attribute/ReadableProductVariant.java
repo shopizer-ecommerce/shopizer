@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReadableProductVariant implements Serializable {
+import com.salesmanager.shop.model.entity.Entity;
+
+public class ReadableProductVariant extends Entity implements Serializable {
 
   /**
    * 
