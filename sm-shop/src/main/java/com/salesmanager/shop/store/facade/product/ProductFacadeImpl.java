@@ -1,6 +1,7 @@
 package com.salesmanager.shop.store.facade.product;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -301,7 +302,10 @@ public class ProductFacadeImpl implements ProductFacade {
 
 		com.salesmanager.core.model.catalog.product.ProductList products = productService.listByStore(store, language,
 				criterias);
-
+		
+		List<Product> prds = products.getProducts().stream().sorted(Comparator.comparing(Product::getSortOrder)).collect(Collectors.toList());
+		products.setProducts(prds);
+		
 		ReadableProductPopulator populator = new ReadableProductPopulator();
 		populator.setPricingService(pricingService);
 		populator.setimageUtils(imageUtils);

@@ -1,6 +1,7 @@
 package com.salesmanager.shop.store.facade.items;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -134,6 +135,9 @@ public class ProductItemsFacadeImpl implements ProductItemsFacade {
 			}
 			
 			ReadableProductList list = listItemsByIds(store, language, ids, 0, 0);
+			List<ReadableProduct> prds = list.getProducts().stream().sorted(Comparator.comparing(ReadableProduct::getSortOrder)).collect(Collectors.toList());
+			list.setProducts(prds);
+			list.setTotalPages(1);//no paging
 			return list;
 		}
 		
