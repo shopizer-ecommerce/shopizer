@@ -48,8 +48,8 @@
 		<shopizer.search.version>2.11.1</shopizer.search.version>
 		<shopizer-canadapost.version>2.11.0</shopizer-canadapost.version>
 
-		<elasticsearch.version>7.5.2</elasticsearch.version>
-		<guava.version>27.1-jre</guava.version>
+		<elasticsearch.version>7.9.2</elasticsearch.version>
+		<guava.version>30.0-android</guava.version>
 		<commons-lang.version>3.5</commons-lang.version>
 		<commons-io.version>2.5</commons-io.version>
 		<commons-collections4.version>4.1</commons-collections4.version>
@@ -76,7 +76,7 @@
 
 
 		<!-- api documentation -->
-		<swagger.version>2.9.2</swagger.version>
+		<swagger.version>2.10.0</swagger.version>
 
 		<!-- jacoco coverage -->
 		<coverage.lines>.30</coverage.lines>
