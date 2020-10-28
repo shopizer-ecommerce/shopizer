@@ -380,7 +380,7 @@ public class DefaultPackagingImpl implements Packaging {
 					detail.setShippingWeight(w.doubleValue());
 					detail.setShippingWidth(wd
 							.doubleValue());
-					detail.setShippingQuantity(shippingProduct.getQuantity());
+					detail.setShippingQuantity(1);//issue seperate shipping
 					String description = "item";
 					if(product.getDescriptions().size()>0) {
 						description = product.getDescriptions().iterator().next().getName();
