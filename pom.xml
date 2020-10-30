@@ -66,6 +66,8 @@
 		<infinispan.version>9.4.18.Final</infinispan.version>
 		<infinispan.tree.version>9.4.18.Final</infinispan.tree.version>
 		<mysql-jdbc-version>8.0.21</mysql-jdbc-version>
+		<oracle.version>18.3.0.0</oracle.version>
+		<postgresql.version>42.2.18</postgresql.version>
 		<simple-json-version>1.1.1</simple-json-version>
 		<jackson-version-databind>2.10.2</jackson-version-databind>
 		<jackson-version>2.10.2</jackson-version>
@@ -92,8 +94,6 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-web</artifactId>
 			</dependency>
-
-
 			<dependency>
 				<groupId>com.shopizer</groupId>
 				<artifactId>sm-core</artifactId>
@@ -218,6 +218,27 @@
 				<artifactId>mysql-connector-java</artifactId>
 				<version>${mysql-jdbc-version}</version>
 			</dependency>
+
+			<!-- For connecting to oracle
+			<dependency> 
+				<groupId>com.oracle.database.jdbc</groupId> 
+				<artifactId>ojdbc8</artifactId> 
+				<version>${oracle.version}</version> 
+			</dependency> 
+			-->
+
+			<!-- For connecting to postgresql -->
+			<!--
+			<dependency>
+				<groupId>org.postgresql</groupId>
+				<artifactId>postgresql</artifactId>
+				<version>${postgresql.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+			-->
+
+
+
 
 			<!-- Google Map API -->
 			<dependency>
@@ -462,8 +483,8 @@
 			<artifactId>json-simple</artifactId>
 			<exclusions>
 				<exclusion>
-						<groupId>junit</groupId>
-						<artifactId>junit</artifactId>
+					<groupId>junit</groupId>
+					<artifactId>junit</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -485,6 +506,22 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
+
+		<!-- oracle
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc8</artifactId>
+		</dependency>
+		-->
+		
+		<!--  postgres 
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+		</dependency>
+		-->
+
+
 	</dependencies>
 
 	<repositories>
@@ -525,36 +562,19 @@
 
 	<build>
 		<plugins>
-		
-		
-		
-			<!--
-			<plugin>
-			<groupId>org.sonarsource.scanner.maven</groupId>
-			<artifactId>sonar-maven-plugin</artifactId>
-			<version>3.3.0.603</version>
-			<executions>
-			<execution>
-			<phase>verify</phase>
-			<goals>
-			<goal>sonar</goal>
-			</goals>
-			</execution>
-			</executions>
-			</plugin>
-			-->
-			
+
+
+
+			<!-- <plugin> <groupId>org.sonarsource.scanner.maven</groupId> <artifactId>sonar-maven-plugin</artifactId> 
+				<version>3.3.0.603</version> <executions> <execution> <phase>verify</phase> 
+				<goals> <goal>sonar</goal> </goals> </execution> </executions> </plugin> -->
+
 			<!-- sonar -->
-			<!--
-		   <plugin>
-				<groupId>org.sonarsource.scanner.maven</groupId>
-				<artifactId>sonar-maven-plugin</artifactId>
-				<version>3.6.0.1398</version>
-			</plugin>
-			-->
-		    
-		
-		
+			<!-- <plugin> <groupId>org.sonarsource.scanner.maven</groupId> <artifactId>sonar-maven-plugin</artifactId> 
+				<version>3.6.0.1398</version> </plugin> -->
+
+
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -615,34 +635,12 @@
 				</executions>
 			</plugin>
 			<!--OSSRH -->
-			<!--
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-javadocs</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-gpg-plugin</artifactId>
-				<version>1.5</version>
-				<executions>
-					<execution>
-						<id>sign-artifacts</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>sign</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			-->
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-javadoc-plugin</artifactId> 
+				<executions> <execution> <id>attach-javadocs</id> <goals> <goal>jar</goal> 
+				</goals> </execution> </executions> </plugin> <plugin> <groupId>org.apache.maven.plugins</groupId> 
+				<artifactId>maven-gpg-plugin</artifactId> <version>1.5</version> <executions> 
+				<execution> <id>sign-artifacts</id> <phase>verify</phase> <goals> <goal>sign</goal> 
+				</goals> </execution> </executions> </plugin> -->
 
 			<plugin>
 				<groupId>org.jacoco</groupId>

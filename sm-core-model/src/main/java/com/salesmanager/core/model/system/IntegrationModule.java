@@ -53,8 +53,7 @@ public class IntegrationModule extends SalesManagerEntity<Long, IntegrationModul
 	@Column(name = "REGIONS")
 	private String regions;
 
-	@Column(name = "CONFIGURATION")
-	@Type(type = "org.hibernate.type.TextType")
+	@Column(name = "CONFIGURATION", length=4000)
 	private String configuration;
 
 	@Column(name = "DETAILS")

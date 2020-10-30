@@ -42,7 +42,7 @@ import com.salesmanager.core.model.reference.language.Language;
  */
 @Entity
 @EntityListeners(value = AuditListener.class)
-@Table(name = "USER", schema=SchemaConstant.SALESMANAGER_SCHEMA, uniqueConstraints=
+@Table(name = "USERS", schema=SchemaConstant.SALESMANAGER_SCHEMA, uniqueConstraints=
 	@UniqueConstraint(columnNames = {"MERCHANT_ID", "ADMIN_NAME"}))
 public class User extends SalesManagerEntity<Long, User> implements Auditable {
 	
