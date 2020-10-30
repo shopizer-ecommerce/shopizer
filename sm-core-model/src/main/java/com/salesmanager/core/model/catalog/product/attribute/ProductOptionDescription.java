@@ -8,8 +8,6 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.UniqueConstraint;
 
-import org.hibernate.annotations.Type;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.common.description.Description;
@@ -31,8 +29,7 @@ public class ProductOptionDescription extends Description {
 	@JoinColumn(name = "PRODUCT_OPTION_ID", nullable = false)
 	private ProductOption productOption;
 	
-	@Column(name="PRODUCT_OPTION_COMMENT")
-	@Type(type = "org.hibernate.type.TextType")
+	@Column(name="PRODUCT_OPTION_COMMENT", length=4000)
 	private String productOptionComment;
 	
 	public ProductOptionDescription() {
