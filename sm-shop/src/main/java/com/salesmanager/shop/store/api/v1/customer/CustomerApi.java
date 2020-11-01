@@ -57,39 +57,13 @@ public class CustomerApi {
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT")
   })
-  public PersistableCustomer create(
+  public ReadableCustomer create(
       @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
       @Valid @RequestBody PersistableCustomer customer) {
-      return customerFacade.create(customer, merchantStore);
+      return customerFacade.create(customer, merchantStore, language);
 
   }
-  
-/*  *//**
-   * Update authenticated customer adresses
-   * @param userName
-   * @param merchantStore
-   * @param customer
-   * @return
-   *//*
-  @PutMapping("/auth/customer/{id}")
-  @ApiOperation(
-      httpMethod = "PUT",
-      value = "Updates a customer",
-      produces = "application/json",
-      response = PersistableCustomer.class)
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT")
-  })
-  public PersistableCustomer update(
-      @PathVariable String userName,
-      @ApiIgnore MerchantStore merchantStore,
-      @Valid @RequestBody PersistableCustomer customer) {
-      // TODO customer.setUserName
-      // TODO more validation
-      return customerFacade.update(customer, merchantStore);
-  }*/
-  
-  
   
 
   @PutMapping("/private/customer/{id}")

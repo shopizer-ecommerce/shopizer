@@ -93,9 +93,7 @@ public class InitializationDatabaseImpl implements InitializationDatabase {
 	
 	@Inject
 	protected PermissionService   permissionService;
-	
 
-	
 	private String name;
 	
 	public boolean isEmpty() {

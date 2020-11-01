@@ -9,6 +9,7 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -50,9 +51,10 @@ public class CountryServiceImpl extends SalesManagerEntityServiceImpl<Integer, C
 	}
 	
 	@Override
+	@Cacheable("countriesMap")
 	public Map<String,Country> getCountriesMap(Language language) throws ServiceException {
 		
-		List<Country> countries = this.getCountries(language);
+		List<Country> countries = getCountries(language);
 		
 		Map<String,Country> returnMap = new LinkedHashMap<String,Country>();
 		
@@ -87,9 +89,6 @@ public class CountryServiceImpl extends SalesManagerEntityServiceImpl<Integer, C
 		try {
 
 			countries = (List<Country>) cache.getFromCache("COUNTRIES_" + language.getCode());
-
-		
-		
 			if(countries==null) {
 			
 				countries = countryRepository.listByLanguage(language.getId());

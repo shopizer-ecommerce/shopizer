@@ -7,6 +7,8 @@ import javax.inject.Inject;
 
 import org.jsoup.helper.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -39,16 +41,14 @@ public class MerchantStoreServiceImpl extends SalesManagerEntityServiceImpl<Inte
 		this.merchantRepository = merchantRepository;
 	}
 
-	//public MerchantStore getMerchantStore(String merchantStoreCode) throws ServiceException {
-	//	return merchantRepository.findByCode(merchantStoreCode);
-	//}
-
 	@Override
+	@CacheEvict(value="store", allEntries=true)
 	public void saveOrUpdate(MerchantStore store) throws ServiceException {
 		super.save(store);
 	}
 
 	@Override
+	@Cacheable("store")
 	public MerchantStore getByCode(String code) throws ServiceException {
 		return merchantRepository.findByCode(code);
 	}

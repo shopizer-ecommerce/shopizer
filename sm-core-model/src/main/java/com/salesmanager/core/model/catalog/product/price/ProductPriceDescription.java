@@ -4,7 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.UniqueConstraint;
@@ -14,7 +13,8 @@ import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.common.description.Description;
 
 @Entity
-@Table(name="PRODUCT_PRICE_DESCRIPTION", schema=SchemaConstant.SALESMANAGER_SCHEMA, uniqueConstraints={
+@Table(name="PRODUCT_PRICE_DESCRIPTION", schema=SchemaConstant.SALESMANAGER_SCHEMA,
+uniqueConstraints={
 		@UniqueConstraint(columnNames={
 			"PRODUCT_PRICE_ID",
 			"LANGUAGE_ID"

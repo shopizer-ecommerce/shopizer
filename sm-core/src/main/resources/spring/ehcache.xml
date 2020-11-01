@@ -23,5 +23,12 @@
            timeToIdleSeconds="1200"
            timeToLiveSeconds="1200"
            memoryStoreEvictionPolicy="LFU" />
+           
+     <cache name="store" maxElementsInMemory="1000" eternal="false"
+    	overflowToDisk="false" memoryStoreEvictionPolicy="LFU" />
+    	
+     <cache name="countriesMap" maxElementsInMemory="500" eternal="false"
+    	overflowToDisk="false" memoryStoreEvictionPolicy="LFU" />
+
 
 </ehcache>

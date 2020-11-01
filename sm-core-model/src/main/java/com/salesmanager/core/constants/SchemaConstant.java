@@ -11,7 +11,7 @@ public class SchemaConstant {
 	 * Languages iso codes
 	 * 
 	 */
-	//public static final String[] LANGUAGE_ISO_CODE = {"en", "fr", "ru", "es"};
+	//public static final String[] LANGUAGE_ISO_CODE = {"en", "fr", "ru", "es", "ar"};
 	public static final String[] LANGUAGE_ISO_CODE = {"en", "fr", "es"};
 	
 	public final static int DESCRIPTION_ID_ALLOCATION_SIZE = 1;

@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -446,11 +447,6 @@ public class CustomerFacadeImpl implements CustomerFacade {
         new UsernamePasswordAuthenticationToken(userName, password, authorities);
 
     Authentication authentication = customerAuthenticationManager.authenticate(authenticationToken);
-    
-/*    SecurityContext sc = SecurityContextHolder.getContext();
-    sc.setAuthentication(auth);
-    HttpSession session = request.getSession(true);
-    session.setAttribute("SPRING_SECURITY_CONTEXT", sc);*/
 
     SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -565,15 +561,6 @@ public class CustomerFacadeImpl implements CustomerFacade {
   public Customer populateCustomerModel(Customer customerModel, PersistableCustomer customer,
       MerchantStore merchantStore, Language language) throws Exception {
       LOG.info("Starting to populate customer model from customer data");
-/*    CustomerPopulator populator = new CustomerPopulator();
-    populator.setCountryService(countryService);
-    populator.setCustomerOptionService(customerOptionService);
-    populator.setCustomerOptionValueService(customerOptionValueService);
-    populator.setLanguageService(languageService);
-    populator.setLanguageService(languageService);
-    populator.setGroupService(groupService);
-    populator.setZoneService(zoneService);
-    populator.setGroupService(groupService);*/
 
 
     customerModel = customerPopulator.populate(customer, customerModel, merchantStore, language);
@@ -585,26 +572,32 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
 
   @Override
-  public PersistableCustomer create(PersistableCustomer customer, MerchantStore store) {
+  public ReadableCustomer create(PersistableCustomer customer, MerchantStore store, Language language) {
 
-    //TODO should be reviewed
+	Validate.notNull(customer, "Customer cannot be null");
+	Validate.notNull(customer.getEmailAddress(), "Customer email address is required");
+
+	//set customer user name
+	customer.setUserName(customer.getEmailAddress());
     if (userExist(customer.getUserName())) {
       throw new ServiceRuntimeException("User already exist");
     }
+    //end user exists
 
     Customer customerToPopulate = convertPersistableCustomerToCustomer(customer, store);
+    try {
+		setCustomerModelDefaultProperties(customerToPopulate, store);
+	} catch (Exception e) {
+		throw new ServiceRuntimeException("Cannot set default customer properties",e);
+	}
     saveCustomer(customerToPopulate);
     customer.setId(customerToPopulate.getId());
 
     notifyNewCustomer(customer, store, customerToPopulate.getDefaultLanguage());
+    //convert to readable
+    return convertCustomerToReadableCustomer(customerToPopulate, store, language);
+    
 
-    /**
-     * For security reasons set empty passwords
-     */
-    //customer.setEncodedPassword(null);
-    customer.setPassword(null);
-
-    return customer;
   }
 
   private void saveCustomer(Customer customerToPopulate) {
@@ -655,10 +648,16 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
   }
 
+  @Async
   private void notifyNewCustomer(PersistableCustomer customer, MerchantStore store, Language lang) {
-    Locale customerLocale = LocaleUtils.getLocale(lang);
+		System.out.println("Customer notification");
+		long startTime = System.nanoTime();
+	Locale customerLocale = LocaleUtils.getLocale(lang);
     String shopSchema = coreConfiguration.getProperty("SHOP_SCHEME");
     emailTemplatesUtils.sendRegistrationEmail(customer, store, customerLocale, shopSchema);
+    long endTime = System.nanoTime();
+    long duration = (endTime - startTime)/1000;
+    System.out.println("End Notification " + duration);
   }
 
 
