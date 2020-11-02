@@ -59,7 +59,7 @@ public class MerchantStoreApiIntegrationTest extends ServicesTestSupport {
    * @throws Exception
    */
   @Test
-  public void testCreateStoreAndDelete() throws Exception {
+  public void testCreateStore() throws Exception {
       
       
       PersistableAddress address = new PersistableAddress();
@@ -84,11 +84,6 @@ public class MerchantStoreApiIntegrationTest extends ServicesTestSupport {
       ResponseEntity<Void> response = testRestTemplate.exchange(String.format("/api/v1/private/store/"), HttpMethod.POST, httpEntity, Void.class);
 
       assertThat(response.getStatusCode(), is(HttpStatus.OK));
-
-      //delete store
-      ResponseEntity<Void> deleteResponse = testRestTemplate.exchange(String.format("/api/v1/private/store/" + TEST_STORE_CODE), HttpMethod.DELETE, httpEntity, Void.class);
-
-      assertThat(deleteResponse.getStatusCode(), is(HttpStatus.OK));
 
   }
   
