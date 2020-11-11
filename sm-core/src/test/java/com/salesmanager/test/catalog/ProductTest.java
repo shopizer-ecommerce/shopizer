@@ -291,7 +291,7 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 		List<Object[]> objs = categoryService.countProductsByCategories(store, ids);
 
 		for(Object[] ob : objs) {
-			Category c = (Category) ob[0];
+			Long c = (Long) ob[0];
 			//System.out.println("Category " + c.getCode() + " has " + ob[1] + " items");
 		}
 
