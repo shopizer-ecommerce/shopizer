@@ -15,5 +15,6 @@ public interface TaxClassService extends SalesManagerEntityService<Long, TaxClas
 
 	TaxClass getByCode(String code, MerchantStore store)
 			throws ServiceException;
+	
 
 }

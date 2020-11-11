@@ -19,8 +19,6 @@ import com.salesmanager.shop.store.controller.product.facade.ProductFacade;
 @Component
 public class PersistableCatalogCategoryEntryMapper implements Mapper<PersistableCatalogCategoryEntry, CatalogCategoryEntry> {
 
-	@Autowired
-	private ProductFacade productFacade;
 	
 	@Autowired
 	private CategoryFacade categoryFacade;

@@ -81,7 +81,6 @@ public class TaxRatesController {
 		List<Language> languages = store.getLanguages();
 		
 		for(Language l : languages) {
-			
 			TaxRateDescription taxRateDescription = new TaxRateDescription();
 			taxRateDescription.setLanguage(l);
 			taxRate.getDescriptions().add(taxRateDescription);
@@ -89,7 +88,6 @@ public class TaxRatesController {
 		
 		taxRate.setMerchantStore(store);
 		taxRate.setCountry(store.getCountry());
-		
 		
 		List<TaxRate> taxRates = taxRateService.listByStore(store);
 		List<TaxClass> taxClasses = taxClassService.listByStore(store);

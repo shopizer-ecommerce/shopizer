@@ -43,7 +43,7 @@ public class TaxClassServiceImpl extends SalesManagerEntityServiceImpl<Long, Tax
 	@Override
 	public void delete(TaxClass taxClass) throws ServiceException {
 		
-		TaxClass t = this.getById(taxClass.getId());
+		TaxClass t = getById(taxClass.getId());
 		super.delete(t);
 		
 	}
@@ -52,6 +52,7 @@ public class TaxClassServiceImpl extends SalesManagerEntityServiceImpl<Long, Tax
 	public TaxClass getById(Long id) {
 		return taxClassRepository.getOne(id);
 	}
+
 	
 
 }

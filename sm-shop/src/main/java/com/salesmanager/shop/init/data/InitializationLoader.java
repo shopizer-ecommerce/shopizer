@@ -40,8 +40,8 @@ public class InitializationLoader {
 	@Inject
 	private InitializationDatabase initializationDatabase;
 	
-	@Inject
-	private InitData initData;
+	//@Inject
+	//private InitData initData;
 	
 	@Inject
 	private SystemConfigurationService systemConfigurationService;
@@ -90,47 +90,15 @@ public class InitializationLoader {
 				  
 				  merchantConfigurationService.saveMerchantConfig(config, store);
 
-				  loadData();
 
 			}
 			
 		} catch (Exception e) {
 			LOGGER.error("Error in the init method",e);
 		}
-		
-
-		
+			
 	}
-	
-	private void loadData() throws ServiceException {
-		
-		String loadTestData = configuration.getProperty(ApplicationConstants.POPULATE_TEST_DATA);
-		boolean loadData =  !StringUtils.isBlank(loadTestData) && loadTestData.equals(SystemConstants.CONFIG_VALUE_TRUE);
 
-		//deprecated. data is now included in h2 default database file
-		if(loadData) {
-
-			SystemConfiguration configuration = systemConfigurationService.getByKey(ApplicationConstants.TEST_DATA_LOADED);
-
-			if(configuration!=null) {
-					if(configuration.getKey().equals(ApplicationConstants.TEST_DATA_LOADED)) {
-						if(configuration.getValue().equals(SystemConstants.CONFIG_VALUE_TRUE)) {
-							return;
-						}
-					}
-			}
-
-			initData.initInitialData();
-
-			configuration = new SystemConfiguration();
-			configuration.getAuditSection().setModifiedBy(SystemConstants.SYSTEM_USER);
-			configuration.setKey(ApplicationConstants.TEST_DATA_LOADED);
-			configuration.setValue(SystemConstants.CONFIG_VALUE_TRUE);
-			systemConfigurationService.create(configuration);
-
-
-		}
-	}
 
 
 

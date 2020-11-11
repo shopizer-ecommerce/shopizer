@@ -18,7 +18,7 @@ import com.salesmanager.test.shop.common.ServicesTestSupport;
  * @author carlsamson
  *
  */
-@Ignore
+//@Ignore
 @SpringBootTest(classes = ShopApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 @RunWith(SpringRunner.class)
 public class GeneratePasswordTest extends ServicesTestSupport {
