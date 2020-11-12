@@ -75,5 +75,9 @@ public abstract class SalesManagerEntityServiceImpl<K extends Serializable & Com
 	public Long count() {
 		return repository.count();
 	}
+	
+	protected E saveAndFlush(E entity) {
+		return repository.saveAndFlush(entity);
+	}
 
 }

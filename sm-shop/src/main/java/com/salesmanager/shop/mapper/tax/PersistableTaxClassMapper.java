@@ -18,6 +18,7 @@ public class PersistableTaxClassMapper implements Mapper<PersistableTaxClass, Ta
 		Validate.notNull(store, "MerchantStore cannot be null");
 		TaxClass taxClass = new TaxClass();
 		taxClass.setMerchantStore(store);
+		taxClass.setTitle(source.getName());
 		taxClass.setId(source.getId());
 		return this.convert(source, taxClass, store, language);
 	}
@@ -33,6 +34,7 @@ public class PersistableTaxClassMapper implements Mapper<PersistableTaxClass, Ta
 			destination.setId(source.getId());
 		}
 		destination.setMerchantStore(store);
+		destination.setTitle(source.getName());
 		
 		return destination;
 	}

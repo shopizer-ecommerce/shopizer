@@ -53,7 +53,7 @@ public class CustomerApi {
       value = "Creates a customer",
       notes = "Requires administration access",
       produces = "application/json",
-      response = PersistableCustomer.class)
+      response = ReadableCustomer.class)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT")
   })

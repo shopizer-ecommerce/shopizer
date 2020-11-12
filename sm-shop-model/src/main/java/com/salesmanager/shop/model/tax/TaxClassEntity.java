@@ -1,5 +1,7 @@
 package com.salesmanager.shop.model.tax;
 
+import javax.validation.constraints.Size;
+
 import com.salesmanager.shop.model.entity.Entity;
 
 public class TaxClassEntity extends Entity {
@@ -8,6 +10,7 @@ public class TaxClassEntity extends Entity {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	@Size(min = 1, max = 10)
 	private String code;
 	private String name;
 	private String store;

@@ -61,12 +61,14 @@ public class ProductTypeServiceImpl extends SalesManagerEntityServiceImpl<Long, 
 	}
 
 	@Override
-	public void saveOrUpdate(ProductType productType) throws ServiceException {
+	public ProductType saveOrUpdate(ProductType productType) throws ServiceException {
 		if(productType.getId()!=null && productType.getId().longValue() > 0) {
 			this.update(productType);
 		} else {
-			this.update(productType);
+			productType = super.saveAndFlush(productType);
 		}
+		
+		return productType;
 	}
 
 	@Override
