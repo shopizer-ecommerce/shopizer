@@ -44,6 +44,7 @@ import com.salesmanager.shop.model.user.UserPassword;
 import com.salesmanager.shop.populator.user.PersistableUserPopulator;
 import com.salesmanager.shop.populator.user.ReadableUserPopulator;
 import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;
+import com.salesmanager.shop.store.api.exception.OperationNotAllowedException;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.api.exception.UnauthorizedException;
@@ -327,8 +328,9 @@ public class UserFacadeImpl implements UserFacade {
 	}
 
 	@Override
-	public ReadableUser update(Long id, String authenticatedUser, String storeCode, PersistableUser user) {
+	public ReadableUser update(Long id, String authenticatedUser, MerchantStore store, PersistableUser user) {
 		Validate.notNull(user, "User cannot be null");
+		Validate.notNull(store, "store cannot be null");
 
 		try {
 			User userModel = userService.getById(id);
@@ -354,10 +356,35 @@ public class UserFacadeImpl implements UserFacade {
 			List<Group> originalGroups = userModel.getGroups();
 			Group superadmin = originalGroups.stream()
 					.filter(group -> Constants.GROUP_SUPERADMIN.equals(group.getGroupName())).findAny().orElse(null);
-			MerchantStore store = merchantStoreService.getByCode(storeCode);
-			if (store == null) {
-				throw new ResourceNotFoundException("Store with code [" + storeCode + "] was not found");
+			
+
+			
+			//changing store ? 
+			/**
+			 * Can't change self store
+			 * Only admin and superadmin can change another user store
+			 */
+			
+			//i'm i editing my own profile ?
+			if(authenticatedUser.equals(adminName)) {
+				
+				if(!userModel.getMerchantStore().getCode().equals(store.getCode())) {
+					throw new OperationNotAllowedException("User [" + adminName + "] cannot change owning store");
+				}
+				
+			} else {
+				//i am an admin or super admin
+				Group adminOrSuperadmin = originalGroups.stream()
+						.filter(group -> (
+								Constants.GROUP_SUPERADMIN.equals(group.getGroupName()) || Constants.ADMIN_USER.equals(group.getGroupName())|| Constants.ADMIN_STORE.equals(group.getGroupName()
+										))).findAny().orElse(null);
+				
+				if(!userModel.getMerchantStore().getCode().equals(store.getCode()) && adminOrSuperadmin == null) {
+					throw new OperationNotAllowedException("User [" + adminName + "] cannot change owning store");
+				}
+				
 			}
+
 			userModel = converPersistabletUserToUser(store, languageService.defaultLanguage(), userModel, user);
 
 			// if superadmin set original permissions, prevent removing super

@@ -152,7 +152,7 @@ public class UserApi {
 
 		userFacade.authorizedGroups(authenticatedUser, user);
 
-		return userFacade.update(id, authenticatedUser, merchantStore.getCode(), user);
+		return userFacade.update(id, authenticatedUser, merchantStore, user);
 	}
 
 	@ResponseStatus(HttpStatus.OK)

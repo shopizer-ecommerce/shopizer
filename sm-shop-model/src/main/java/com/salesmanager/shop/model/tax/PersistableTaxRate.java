@@ -14,6 +14,7 @@ public class PersistableTaxRate extends TaxRateEntity {
 	private String store;
 	private String zone;
 	private String country;
+	private String taxClass;
 	private List<TaxRateDescription> descriptions;
 	public BigDecimal getRate() {
 		return rate;
@@ -44,5 +45,11 @@ public class PersistableTaxRate extends TaxRateEntity {
 	}
 	public void setDescriptions(List<TaxRateDescription> descriptions) {
 		this.descriptions = descriptions;
+	}
+	public String getTaxClass() {
+		return taxClass;
+	}
+	public void setTaxClass(String taxClass) {
+		this.taxClass = taxClass;
 	}
 }

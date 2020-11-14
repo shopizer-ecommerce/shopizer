@@ -1,6 +1,8 @@
 package com.salesmanager.shop.store.api.v1.shipping;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -180,5 +182,24 @@ public class ShippingConfigurationApi {
 		shippingFacade.deletePackage(code, merchantStore);
 
 	}
+	
+	//Module configuration
+	/**
+	 *    private String moduleCode;
+		  private boolean active;
+		  private boolean defaultSelected;
+		  private Map<String, String> integrationKeys = new HashMap<String, String>();
+		  private Map<String, List<String>> integrationOptions = new HashMap<String, List<String>>();
+		  private String environment;
+		  
+		  moduleCode:CODE,
+		  active:true,
+		  defaultSelected:false,
+		  environment: "TEST",
+		  integrationKeys {
+		  	"key":"value",
+		  	"anotherkey":"anothervalue"...
+		  }
+	 */
 
 }
