@@ -64,7 +64,7 @@ public class TaxFacadeImpl implements TaxFacade {
 		try {
 			
 			
-			if(this.uniqueTaxClass(taxClass.getCode(), store, language)) {
+			if(this.existsTaxClass(taxClass.getCode(), store, language)) {
 				throw new OperationNotAllowedException("Tax class [" + taxClass.getCode() + "] already exist for store [" + store.getCode() + "]");
 			}
 
@@ -181,7 +181,7 @@ public class TaxFacadeImpl implements TaxFacade {
 	}
 	
 	@Override
-	public boolean uniqueTaxClass(String code, MerchantStore store, Language language) {
+	public boolean existsTaxClass(String code, MerchantStore store, Language language) {
 		try {
 			boolean exist = taxClassService.exists(code, store);
 			return exist;
@@ -314,7 +314,7 @@ public class TaxFacadeImpl implements TaxFacade {
 	}
 
 	@Override
-	public boolean uniqueTaxRate(String code, MerchantStore store, Language language) {
+	public boolean existsTaxRate(String code, MerchantStore store, Language language) {
 
 		Validate.notNull(code,"TaxRate code cannot be null");
 		Validate.notNull(store,"MerchantStore cannot be null");
@@ -325,7 +325,6 @@ public class TaxFacadeImpl implements TaxFacade {
 			return false;
 		}
 		return true;
-		//return rate != null ? false:true;
 	}
 
 	@Override

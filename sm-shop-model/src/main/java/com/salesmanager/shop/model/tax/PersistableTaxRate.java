@@ -1,6 +1,7 @@
 package com.salesmanager.shop.model.tax;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PersistableTaxRate extends TaxRateEntity {
@@ -15,7 +16,8 @@ public class PersistableTaxRate extends TaxRateEntity {
 	private String zone;
 	private String country;
 	private String taxClass;
-	private List<TaxRateDescription> descriptions;
+	private List<TaxRateDescription> descriptions = new ArrayList<TaxRateDescription>();
+	
 	public BigDecimal getRate() {
 		return rate;
 	}

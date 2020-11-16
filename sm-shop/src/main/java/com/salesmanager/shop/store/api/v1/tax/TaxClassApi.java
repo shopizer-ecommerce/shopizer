@@ -71,7 +71,7 @@ public class TaxClassApi {
 	public ResponseEntity<EntityExists> exists(@RequestParam String code, @ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
 
-		boolean exists = taxFacade.uniqueTaxClass(code, merchantStore, language);
+		boolean exists = taxFacade.existsTaxClass(code, merchantStore, language);
 		return new ResponseEntity<EntityExists>(new EntityExists(exists), HttpStatus.OK);
 
 	}
