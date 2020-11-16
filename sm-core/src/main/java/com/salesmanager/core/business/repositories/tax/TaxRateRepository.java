@@ -18,6 +18,9 @@ public interface TaxRateRepository extends JpaRepository<TaxRate, Long> {
 	@Query("select t from TaxRate t join fetch t.taxClass join fetch t.merchantStore tm join fetch t.country left join fetch t.zone left join fetch t.descriptions td left join t.parent where tm.id=?1 and t.code=?2")
 	TaxRate findByStoreAndCode(Integer id, String code);
 	
+	@Query("select t from TaxRate t join fetch t.taxClass join fetch t.merchantStore tm join fetch t.country left join fetch t.zone left join fetch t.descriptions td left join t.parent where tm.id=?1 and t.id=?2")
+	TaxRate findByStoreAndId(Integer store, Long id);
+	
 	@Query("select t from TaxRate t join fetch t.taxClass join fetch t.merchantStore tm join fetch t.country left join fetch t.zone left join fetch t.descriptions td left join t.parent where t.id=?1")
 	TaxRate findOne(Long id);
 	

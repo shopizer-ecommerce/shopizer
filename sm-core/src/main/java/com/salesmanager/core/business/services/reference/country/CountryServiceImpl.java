@@ -39,6 +39,7 @@ public class CountryServiceImpl extends SalesManagerEntityServiceImpl<Integer, C
 		this.countryRepository = countryRepository;
 	}
 	
+	@Cacheable("countrByCode")
 	public Country getByCode(String code) throws ServiceException {
 		return countryRepository.findByIsoCode(code);
 	}

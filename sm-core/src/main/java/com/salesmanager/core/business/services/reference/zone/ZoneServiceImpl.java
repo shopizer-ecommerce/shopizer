@@ -43,6 +43,7 @@ public class ZoneServiceImpl extends SalesManagerEntityServiceImpl<Long, Zone> i
 	}
 
 	@Override
+	@Cacheable("zoneByCode")
 	public Zone getByCode(String code) {
 		return zoneRepository.findByCode(code);
 	}

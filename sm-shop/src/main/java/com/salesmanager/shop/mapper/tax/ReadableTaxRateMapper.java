@@ -32,7 +32,7 @@ public class ReadableTaxRateMapper implements Mapper<TaxRate, ReadableTaxRate> {
 		destination.setId(source.getId());
 		destination.setCountry(source.getCountry().getIsoCode());
 		destination.setZone(source.getZone().getCode());
-		destination.setRate(source.getRateText());
+		destination.setRate(source.getTaxRate().toString());
 		destination.setCode(source.getCode());
 		destination.setPriority(source.getTaxPriority());
 		Optional<ReadableTaxRateDescription> description = this.convertDescription(source.getDescriptions(), language);
@@ -60,6 +60,8 @@ public class ReadableTaxRateMapper implements Mapper<TaxRate, ReadableTaxRate> {
 		ReadableTaxRateDescription d = new ReadableTaxRateDescription();
 		d.setDescription(desc.getDescription());
 		d.setName(desc.getName());
+		d.setLanguage(desc.getLanguage().getCode());
+		d.setDescription(desc.getDescription());
 		d.setId(desc.getId());
 		d.setTitle(desc.getTitle());
 		return d;

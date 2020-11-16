@@ -25,9 +25,14 @@ public interface TaxRateService extends SalesManagerEntityService<Long, TaxRate>
 
 	 TaxRate getByCode(String code, MerchantStore store)
 			throws ServiceException;
+	 
+	 TaxRate getById(Long id, MerchantStore store)
+				throws ServiceException;
 
 	List<TaxRate> listByStore(MerchantStore store, Language language)
 			throws ServiceException;
+
+	TaxRate saveOrUpdate(TaxRate taxRate) throws ServiceException;
 	
 	
 

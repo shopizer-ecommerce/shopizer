@@ -1,5 +1,8 @@
 package com.salesmanager.test.shop.integration.tax;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -8,17 +11,11 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
-import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.shop.application.ShopApplication;
 import com.salesmanager.shop.model.entity.Entity;
 import com.salesmanager.shop.model.entity.EntityExists;
-import com.salesmanager.shop.model.entity.ReadableEntityList;
-import com.salesmanager.shop.model.store.ReadableMerchantStore;
 import com.salesmanager.shop.model.tax.PersistableTaxClass;
-import com.salesmanager.shop.model.tax.ReadableTaxClass;
 import com.salesmanager.test.shop.common.ServicesTestSupport;
 
 @SpringBootTest(classes = ShopApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -46,12 +43,11 @@ public class TaxClassIntegrationTest extends ServicesTestSupport {
         final HttpEntity<String> httpEntity = new HttpEntity<>(getHeader());
         
         //tax class exists
-        /**
         final ResponseEntity<EntityExists> exists = testRestTemplate.exchange(String.format("/api/v1/private/tax/class/unique?code=" + taxClass.getCode()), HttpMethod.GET,
                 httpEntity, EntityExists.class);
 
         assertTrue(exists.getBody().isExists());
-        **/
+
 
         /**
         //list 1 taxClass
