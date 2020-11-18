@@ -47,7 +47,7 @@ import com.salesmanager.core.model.reference.language.Language;
 public class User extends SalesManagerEntity<Long, User> implements Auditable {
 	
 	
-	private static final long serialVersionUID = 5401059537544058710L;
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@Column(name = "USER_ID", unique=true, nullable=false)

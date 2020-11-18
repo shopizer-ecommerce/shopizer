@@ -120,10 +120,6 @@ public class UserApi {
 		// only admin and superadmin allowed
 		userFacade.authorizedGroup(authenticatedUser, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()));
 
-		//userFacade.authorizedGroups(authenticatedUser, user);
-
-		//MerchantStore store = storeFacade.get(merchantStore.getCode());
-
 		/** if user is admin, user must be in that store */
 		if (!userFacade.userInRoles(authenticatedUser, Arrays.asList(Constants.GROUP_SUPERADMIN))) {
 			if (!userFacade.authorizedStore(authenticatedUser, merchantStore.getCode())) {
