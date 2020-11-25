@@ -1,9 +1,5 @@
 package com.salesmanager.shop.store.api.v1.user;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -20,10 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.user.PersistableUser;
 import com.salesmanager.shop.model.user.ReadableUser;
-import com.salesmanager.shop.store.api.exception.UnauthorizedException;
+import com.salesmanager.shop.model.user.UserNameEntity;
 import com.salesmanager.shop.store.controller.user.facade.UserFacade;
 
 import io.swagger.annotations.Api;
@@ -47,6 +42,14 @@ public class ResetUserPasswordApi {
 	@Inject
 	private UserFacade userFacade;
 	
+	
+	/**
+	 * Request a reset password token
+	 * @param merchantStore
+	 * @param language
+	 * @param user
+	 * @param request
+	 */
 	@ResponseStatus(HttpStatus.OK)
 	@PostMapping(value = { "/user/password/reset/request" }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(httpMethod = "POST", value = "Launch user password reset flow", notes = "", response = ReadableUser.class)
@@ -55,24 +58,41 @@ public class ResetUserPasswordApi {
 	public void passwordResetRequest(
 			@ApiIgnore MerchantStore merchantStore, 
 			@ApiIgnore Language language,
-			@Valid @RequestBody PersistableUser user, HttpServletRequest request) {
+			@Valid @RequestBody UserNameEntity user, HttpServletRequest request) {
 
 		/**
 		 * User sends username (unique in the system)
-		 * System retrieves user
+		 * 
+		 * UserNameEntity will be the following
+		 * {
+		 *   userName: "test@test.com"
+		 * }
+		 * 
+		 * The system retrieves user using userName (username is unique)
 		 * if user exists, system sends an email with reset password link
 		 * 
-		 * email link
-		 * - Saved as a new column in User
-		 * - Expiration date of the link
+		 * How to retrieve a User from userName
 		 * 
-		 * link contains
-		 * - Encrypted string
+		 * userFacade.findByUserName
 		 * 
-		 * Request
-		 * - Decrypt link
-		 * - Validate link and email
-		 * - Send email to user with reset password link
+		 * How to send an email
+		 * 
+		 * 
+		 * How to generate a token
+		 * 
+		 * Generate random token
+		 * 
+		 * Calculate token expiration date
+		 * 
+		 * Now + 48 hours
+		 * 
+		 * How to update User in the database with token
+		 * 
+		 * user.setPasswordToken
+		 * 
+		 * Needs to use UserFacade to save to the database
+		 * 
+		 * All of this done in the facade
 		 */
 		
 
@@ -89,7 +109,12 @@ public class ResetUserPasswordApi {
 			@Valid @RequestBody PersistableUser user, HttpServletRequest request) {
 
 		/**
-		 * Reset password
+		 * Receives reset token
+		 * Needs to validate if user found from token
+		 * Needs to validate if token has expired
+		 * 
+		 * If no problem void is returned otherwise throw OperationNotAllowed
+		 * All of this in UserFacade
 		 */
 		
 
