@@ -42,6 +42,9 @@ public class ResetUserPasswordApi {
 	@Inject
 	private UserFacade userFacade;
 	
+	//flow example
+	//https://stackabuse.com/spring-security-forgot-password-functionality/#disqus_thread
+	
 	
 	/**
 	 * Request a reset password token
