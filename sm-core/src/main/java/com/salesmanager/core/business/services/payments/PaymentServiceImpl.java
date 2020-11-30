@@ -50,10 +50,7 @@ import com.salesmanager.core.modules.utils.Encryption;
 @Service("paymentService")
 public class PaymentServiceImpl implements PaymentService {
 	
-	
 
-	private final static String PAYMENT_MODULES = "PAYMENT";
-	
 	@Inject
 	private MerchantConfigurationService merchantConfigurationService;
 	
@@ -79,7 +76,7 @@ public class PaymentServiceImpl implements PaymentService {
 	@Override
 	public List<IntegrationModule> getPaymentMethods(MerchantStore store) throws ServiceException {
 		
-		List<IntegrationModule> modules =  moduleConfigurationService.getIntegrationModules(PAYMENT_MODULES);
+		List<IntegrationModule> modules =  moduleConfigurationService.getIntegrationModules(Constants.PAYMENT_MODULES);
 		List<IntegrationModule> returnModules = new ArrayList<IntegrationModule>();
 		
 		for(IntegrationModule module : modules) {
@@ -185,7 +182,7 @@ public class PaymentServiceImpl implements PaymentService {
 		try {
 		
 			Map<String,IntegrationConfiguration> modules = new HashMap<String,IntegrationConfiguration>();
-			MerchantConfiguration merchantConfiguration = merchantConfigurationService.getMerchantConfiguration(PAYMENT_MODULES, store);
+			MerchantConfiguration merchantConfiguration = merchantConfigurationService.getMerchantConfiguration(Constants.PAYMENT_MODULES, store);
 			if(merchantConfiguration!=null) {
 				
 				if(!StringUtils.isBlank(merchantConfiguration.getValue())) {
@@ -222,7 +219,7 @@ public class PaymentServiceImpl implements PaymentService {
 		
 		try {
 			Map<String,IntegrationConfiguration> modules = new HashMap<String,IntegrationConfiguration>();
-			MerchantConfiguration merchantConfiguration = merchantConfigurationService.getMerchantConfiguration(PAYMENT_MODULES, store);
+			MerchantConfiguration merchantConfiguration = merchantConfigurationService.getMerchantConfiguration(Constants.PAYMENT_MODULES, store);
 			if(merchantConfiguration!=null) {
 				if(!StringUtils.isBlank(merchantConfiguration.getValue())) {
 					
@@ -233,7 +230,7 @@ public class PaymentServiceImpl implements PaymentService {
 			} else {
 				merchantConfiguration = new MerchantConfiguration();
 				merchantConfiguration.setMerchantStore(store);
-				merchantConfiguration.setKey(PAYMENT_MODULES);
+				merchantConfiguration.setKey(Constants.PAYMENT_MODULES);
 			}
 			modules.put(configuration.getModuleCode(), configuration);
 			
@@ -256,7 +253,7 @@ public class PaymentServiceImpl implements PaymentService {
 
 		try {
 			Map<String,IntegrationConfiguration> modules = new HashMap<String,IntegrationConfiguration>();
-			MerchantConfiguration merchantConfiguration = merchantConfigurationService.getMerchantConfiguration(PAYMENT_MODULES, store);
+			MerchantConfiguration merchantConfiguration = merchantConfigurationService.getMerchantConfiguration(Constants.PAYMENT_MODULES, store);
 			if(merchantConfiguration!=null) {
 
 				if(!StringUtils.isBlank(merchantConfiguration.getValue())) {
