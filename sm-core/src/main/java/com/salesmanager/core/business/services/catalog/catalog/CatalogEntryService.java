@@ -12,10 +12,10 @@ import com.salesmanager.core.model.reference.language.Language;
 public interface CatalogEntryService extends SalesManagerEntityService<Long, CatalogCategoryEntry> {
 	
 	
-	void add (CatalogCategoryEntry entry, Catalog catalog) throws ServiceException;
+	void add (CatalogCategoryEntry entry, Catalog catalog);
 	
 	void remove (CatalogCategoryEntry catalogEntry) throws ServiceException;
 	
-	Page<CatalogCategoryEntry> list(Catalog catalog, MerchantStore store, Language language, String name, int page, int count) throws ServiceException;
+	Page<CatalogCategoryEntry> list(Catalog catalog, MerchantStore store, Language language, String name, int page, int count);
 
 }

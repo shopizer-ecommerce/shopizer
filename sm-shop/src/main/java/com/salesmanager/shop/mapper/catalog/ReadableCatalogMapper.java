@@ -1,26 +1,21 @@
 package com.salesmanager.shop.mapper.catalog;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.salesmanager.core.model.catalog.catalog.Catalog;
-import com.salesmanager.core.model.catalog.catalog.CatalogCategoryEntry;
 import com.salesmanager.core.model.catalog.category.Category;
+import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
 import com.salesmanager.shop.model.catalog.catalog.ReadableCatalog;
-import com.salesmanager.shop.model.catalog.catalog.ReadableCatalogCategoryEntry;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 import com.salesmanager.shop.model.store.ReadableMerchantStore;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.DateUtil;
+import org.apache.commons.collections.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.*;
 
 @Component
 public class ReadableCatalogMapper implements Mapper<Catalog, ReadableCatalog> {
@@ -45,42 +40,46 @@ public class ReadableCatalogMapper implements Mapper<Catalog, ReadableCatalog> {
 			destination = new ReadableCatalog();
 		}
 		
-		if(source.getId()!=null && source.getId().longValue() >0) {
+		if(isPositive(source.getId())) {
 			destination.setId(source.getId());
 		}
 		
 		destination.setCode(source.getCode());
 		destination.setDefaultCatalog(source.isDefaultCatalog());
 		destination.setVisible(source.isVisible());
-		
-		if(source.getMerchantStore() != null) {
-			ReadableMerchantStore st = storeFacade.getByCode(source.getMerchantStore().getCode(), language);
-			destination.setStore(st);
-		}
+
+		Optional<ReadableMerchantStore> readableStore = Optional.ofNullable(source.getMerchantStore())
+				.map(MerchantStore::getCode)
+				.map(code -> storeFacade.getByCode(code, language));
+		readableStore.ifPresent(destination::setStore);
 		
 		destination.setDefaultCatalog(source.isDefaultCatalog());
+
+		Optional<String> formattedCreationDate = Optional.ofNullable(source.getAuditSection())
+				.map(AuditSection::getDateCreated)
+				.map(DateUtil::formatDate);
+		formattedCreationDate.ifPresent(destination::setCreationDate);
 		
-		if(source.getAuditSection()!=null) {
-			destination.setCreationDate(DateUtil.formatDate(source.getAuditSection().getDateCreated()));
-		}
-		
-		if(!CollectionUtils.isEmpty(source.getEntry())) {
+		if(CollectionUtils.isNotEmpty(source.getEntry())) {
 			
 			//hierarchy temp object
 			Map<Long, ReadableCategory> hierarchy = new HashMap<Long, ReadableCategory>();
-			Map<Long, ReadableCategory> processed = new HashMap<Long, ReadableCategory>();
-			
-			source.getEntry().stream().forEach(entry -> {
-				processCategory(entry.getCategory(), store, language, hierarchy, processed);
+
+			source.getEntry().forEach(entry -> {
+				processCategory(entry.getCategory(), store, language, hierarchy, new HashMap<>());
 			});
 			
-			destination.setCategory(hierarchy.values().stream().collect(Collectors.toList()));
+			destination.setCategory(new ArrayList<>(hierarchy.values()));
 		}
 		
 		return destination;
 		
 	}
-	
+
+	private boolean isPositive(Long id) {
+		return Objects.nonNull(id) && id > 0;
+	}
+
 	/**
 	 * B
 	 * 	1
@@ -96,7 +95,8 @@ public class ReadableCatalogMapper implements Mapper<Catalog, ReadableCatalog> {
 	 * @param language
 	 * @param hierarchy
 	 */
-	
+
+	//TODO it needs to cover by unit tests
 	private void processCategory(Category c, MerchantStore store, Language language, Map<Long, ReadableCategory> hierarchy, Map<Long, ReadableCategory> processed ) {
 		
 		//build category hierarchy
@@ -104,36 +104,29 @@ public class ReadableCatalogMapper implements Mapper<Catalog, ReadableCatalog> {
 		ReadableCategory rc = null;
 		ReadableCategory rp = null;
 		
-		if(! CollectionUtils.isEmpty(c.getCategories())) {
+		if(CollectionUtils.isNotEmpty(c.getCategories())) {
 			c.getCategories().stream().forEach(element -> {
-				this.processCategory(element, store, language, hierarchy, processed);
+				processCategory(element, store, language, hierarchy, processed);
 			});
 		}
 
-		if(c.getParent() != null) {
-			rp = hierarchy.get(c.getParent().getId());
-			if(rp == null) {
-				rp = this.toReadableCategory(c.getParent(), store, language, processed);
-				hierarchy.put(c.getParent().getId(), rp);
-			}
+		Category parent = c.getParent();
+		if(Objects.nonNull(parent)) {
+			rp = hierarchy.computeIfAbsent(parent.getId(), i -> toReadableCategory(c.getParent(), store, language, processed));
 		}
 
-		rc =  this.toReadableCategory(c, store, language, processed);
-		if(rp != null) {
+		rc = toReadableCategory(c, store, language, processed);
+		if(Objects.nonNull(rp)) {
 			rp.getChildren().add(rc);
 		} else {
 			hierarchy.put(c.getId(), rc);
 		}
 
 	}
-	
-	private ReadableCategory toReadableCategory (Category c, MerchantStore store, Language lang, Map<Long, ReadableCategory> processed) {
-		if(processed.get(c.getId()) != null) {
-			return processed.get(c.getId());
-		}
-		ReadableCategory readable =  readableCategoryMapper.convert(c, store, lang);
-		processed.put(readable.getId(), readable);
-		return readable;
+
+	private ReadableCategory toReadableCategory(Category c, MerchantStore store, Language lang, Map<Long, ReadableCategory> processed) {
+		Long id = c.getId();
+		return processed.computeIfAbsent(id, it -> readableCategoryMapper.convert(c, store, lang));
 	}
 
 }

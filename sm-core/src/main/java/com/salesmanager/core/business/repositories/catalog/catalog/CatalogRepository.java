@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.salesmanager.core.model.catalog.catalog.Catalog;
 
+import java.util.Optional;
+
 public interface CatalogRepository extends JpaRepository<Catalog, Long> {
 	
 	
@@ -13,14 +15,14 @@ public interface CatalogRepository extends JpaRepository<Catalog, Long> {
 			+ "left join fetch c.entry ce "
 			//+ "left join fetch ce.product cep "
 			+ "left join fetch ce.category cec where c.id=?1 and cm.id = ?2")
-	Catalog findById(Long catalogId, Integer merchantId);
+	Optional<Catalog> findById(Long catalogId, Integer merchantId);
 	
 	@Query("select c from Catalog c "
 			+ "join c.merchantStore cm "
 			+ "left join fetch c.entry ce "
 			//+ "left join fetch ce.product cep "
 			+ "left join fetch ce.category cec where c.code=?1 and cm.id = ?2")
-	Catalog findByCode(String code, Integer merchantId);
+	Optional<Catalog> findByCode(String code, Integer merchantId);
 	
 	@Query("SELECT COUNT(c) > 0 FROM Catalog c "
 			+ "join c.merchantStore cm  "
