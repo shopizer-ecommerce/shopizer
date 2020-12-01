@@ -5,6 +5,7 @@ public class IntegrationModuleEntity {
 
 	private String code;
 	private boolean active;
+	private boolean configured;
 	private String image;
 
 	public String getCode() {
@@ -24,6 +25,12 @@ public class IntegrationModuleEntity {
 	}
 	public void setImage(String image) {
 		this.image = image;
+	}
+	public boolean isConfigured() {
+		return configured;
+	}
+	public void setConfigured(boolean configured) {
+		this.configured = configured;
 	}
 
 }
