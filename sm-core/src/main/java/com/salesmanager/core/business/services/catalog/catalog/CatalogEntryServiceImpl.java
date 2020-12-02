@@ -33,7 +33,7 @@ implements CatalogEntryService {
 	}
 
 	@Override
-	public void add(CatalogCategoryEntry entry, Catalog catalog) throws ServiceException {
+	public void add(CatalogCategoryEntry entry, Catalog catalog) {
 		entry.setCatalog(catalog);
 		catalogEntryRepository.save(entry);
 	}
@@ -41,7 +41,7 @@ implements CatalogEntryService {
 
 	@Override
 	public Page<CatalogCategoryEntry> list(Catalog catalog, MerchantStore store, Language language, String name, int page,
-			int count) throws ServiceException {
+			int count) {
 		Pageable pageRequest = PageRequest.of(page, count);
 		return pageableCatalogEntryRepository.listByCatalog(catalog.getId(), store.getId(), language.getId(), name, pageRequest);
 

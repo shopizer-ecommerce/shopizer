@@ -15,6 +15,8 @@ import com.salesmanager.shop.populator.catalog.ReadableProductPopulator;
 import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;
 import com.salesmanager.shop.utils.ImageFilePath;
 
+import java.util.Optional;
+
 @Component
 public class ReadableCatalogCategoryEntryMapper implements Mapper<CatalogCategoryEntry, ReadableCatalogCategoryEntry> {
 	
@@ -38,32 +40,26 @@ public class ReadableCatalogCategoryEntryMapper implements Mapper<CatalogCategor
 	@Override
 	public ReadableCatalogCategoryEntry convert(CatalogCategoryEntry source, ReadableCatalogCategoryEntry destination, MerchantStore store,
 			Language language) {
-		if(destination == null) {
-			destination = new ReadableCatalogCategoryEntry();
-		}
+		ReadableCatalogCategoryEntry convertedDestination = Optional.ofNullable(destination)
+				.orElse(new ReadableCatalogCategoryEntry());
 		
 		try {
-			
 			//ReadableProductPopulator readableProductPopulator = new ReadableProductPopulator();
 			//readableProductPopulator.setimageUtils(imageUtils);
 			//readableProductPopulator.setPricingService(pricingService);
 			
 			//ReadableProduct readableProduct = readableProductPopulator.populate(source.getProduct(), store, language);
 			ReadableCategory readableCategory = readableCategoryMapper.convert(source.getCategory(), store, language);
-			
-			destination.setCatalog(source.getCatalog().getCode());
-			
-			destination.setId(source.getId());
-			destination.setVisible(source.isVisible());
-			destination.setCategory(readableCategory);
+
+			convertedDestination.setCatalog(source.getCatalog().getCode());
+
+			convertedDestination.setId(source.getId());
+			convertedDestination.setVisible(source.isVisible());
+			convertedDestination.setCategory(readableCategory);
 			//destination.setProduct(readableProduct);
-			return destination;
-			
+			return convertedDestination;
 		} catch (Exception e) {
 			throw new ConversionRuntimeException("Error while creating ReadableCatalogEntry", e);
 		}
-		
-
 	}
-
 }
