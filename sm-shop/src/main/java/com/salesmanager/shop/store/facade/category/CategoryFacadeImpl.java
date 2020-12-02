@@ -320,6 +320,18 @@ public class CategoryFacadeImpl implements CategoryFacade {
 		return readableCategory;
 	}
 
+	@Override
+	public ReadableCategory getCategoryByFriendlyUrl(MerchantStore store, String friendlyUrl, Language language) throws Exception {
+		Validate.notNull(friendlyUrl, "Category search friendly URL must not be null");
+		ReadableCategoryPopulator categoryPopulator = new ReadableCategoryPopulator();
+		ReadableCategory readableCategory = new ReadableCategory();
+
+		Category category = categoryService.getBySeUrl(store, friendlyUrl);
+		categoryPopulator.populate(category, readableCategory, store, language);
+
+		return readableCategory;
+	}
+
 	private Category getById(MerchantStore store, Long id) throws Exception {
 		Validate.notNull(id, "category id must not be null");
 		Validate.notNull(store, "MerchantStore must not be null");
@@ -418,8 +430,8 @@ public class CategoryFacadeImpl implements CategoryFacade {
 		Validate.notNull(child, "Child category must not be null");
 		Validate.notNull(parent, "Parent category must not be null");
 		Validate.notNull(store, "Merhant must not be null");
-		
-		
+
+
 		try {
 
 			Category c = categoryService.getById(child, store.getId());
@@ -427,11 +439,11 @@ public class CategoryFacadeImpl implements CategoryFacade {
 			if(c == null) {
 				throw new ResourceNotFoundException("Category with id [" + child + "] for store [" + store.getCode() + "]");
 			}
-			
+
 			if(parent.longValue()==-1) {
 				categoryService.addChild(null, c);
 				return;
-				
+
 			}
 
 			Category p = categoryService.getById(parent, store.getId());
