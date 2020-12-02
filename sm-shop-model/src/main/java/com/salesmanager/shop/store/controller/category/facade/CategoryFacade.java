@@ -60,7 +60,7 @@ public interface CategoryFacade {
 	 * @param language
 	 * @return
 	 */
-	ReadableCategory getCategoryBySeUrl(MerchantStore merchantStore, String friendlyUrl, Language language) throws Exception;
+	ReadableCategory getCategoryByFriendlyUrl(MerchantStore merchantStore, String friendlyUrl, Language language) throws Exception;
 
 	Category getByCode(String code, MerchantStore store);
 

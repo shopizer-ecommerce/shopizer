@@ -321,8 +321,8 @@ public class CategoryFacadeImpl implements CategoryFacade {
 	}
 
 	@Override
-	public ReadableCategory getCategoryBySeUrl(MerchantStore store, String friendlyUrl, Language language) throws Exception {
-		Validate.notNull(friendlyUrl, "Category search frienfly URL must not be null");
+	public ReadableCategory getCategoryByFriendlyUrl(MerchantStore store, String friendlyUrl, Language language) throws Exception {
+		Validate.notNull(friendlyUrl, "Category search friendly URL must not be null");
 		ReadableCategoryPopulator categoryPopulator = new ReadableCategoryPopulator();
 		ReadableCategory readableCategory = new ReadableCategory();
 

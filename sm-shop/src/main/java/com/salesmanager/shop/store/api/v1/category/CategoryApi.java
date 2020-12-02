@@ -86,7 +86,7 @@ public class CategoryApi {
 								@PathVariable(name = "friendlyUrl") String friendlyUrl,
 								@ApiIgnore MerchantStore merchantStore,
 								@ApiIgnore Language language) throws Exception {
-		ReadableCategory category = categoryFacade.getCategoryBySeUrl(merchantStore, friendlyUrl, language);
+		ReadableCategory category = categoryFacade.getCategoryByFriendlyUrl(merchantStore, friendlyUrl, language);
 		return category;
 	}
 
