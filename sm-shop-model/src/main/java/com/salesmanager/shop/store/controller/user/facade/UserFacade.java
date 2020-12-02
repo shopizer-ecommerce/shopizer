@@ -29,6 +29,13 @@ public interface UserFacade {
   ReadableUser findByUserName(String userName, String storeCode, Language lang);
   
   /**
+   * Find user by userName
+   * @param userName
+   * @return
+   */
+  ReadableUser findByUserName(String userName);
+  
+  /**
    * Find user by id
    * @param id
    * @param merchant

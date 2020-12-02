@@ -25,7 +25,6 @@ public class IntegrationConfiguration implements JSONAware {
   private String moduleCode;
   private boolean active;
   private boolean defaultSelected;
-  // private boolean customModule;
   private Map<String, String> integrationKeys = new HashMap<String, String>();
   private Map<String, List<String>> integrationOptions = new HashMap<String, List<String>>();
   private String environment;
@@ -69,10 +68,7 @@ public class IntegrationConfiguration implements JSONAware {
     returnString.append(",");
     returnString.append("\"defaultSelected\"").append(":").append(this.isDefaultSelected());
     returnString.append(",");
-    // returnString.append("\"customModule\"").append(":").append(this.isCustomModule());
-    // returnString.append(",");
     returnString.append("\"environment\"").append(":\"").append(this.getEnvironment()).append("\"");
-    // returnString.append("}");
     return returnString.toString();
 
   }

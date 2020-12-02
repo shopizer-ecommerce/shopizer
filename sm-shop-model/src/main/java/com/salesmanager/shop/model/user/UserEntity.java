@@ -1,10 +1,6 @@
 package com.salesmanager.shop.model.user;
 
-import java.util.ArrayList;
-import java.util.List;
-import com.salesmanager.shop.model.security.ReadableGroup;
-
-public class UserEntity extends User {
+public class UserEntity extends UserNameEntity {
 
   /**
    * 
@@ -13,7 +9,6 @@ public class UserEntity extends User {
   private String firstName;
   private String lastName;
   private String emailAddress;
-  private String userName;
   private String defaultLanguage;
   private boolean active;
 
@@ -44,13 +39,6 @@ public class UserEntity extends User {
     this.emailAddress = emailAddress;
   }
 
-  public String getUserName() {
-    return userName;
-  }
-
-  public void setUserName(String userName) {
-    this.userName = userName;
-  }
 
   public String getDefaultLanguage() {
     return defaultLanguage;

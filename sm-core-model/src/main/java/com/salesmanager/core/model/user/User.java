@@ -143,6 +143,13 @@ public class User extends SalesManagerEntity<Long, User> implements Auditable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "LOGIN_ACCESS")
 	private Date loginTime;
+	
+	@Column(name="PASSWORD_TOKEN")
+	private String resetPasswordToken;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "EXPIRED_P_TOKEN")
+	private Date tokenPasswordExpiration;
 
 	@Override
 	public Long getId() {
@@ -299,6 +306,22 @@ public class User extends SalesManagerEntity<Long, User> implements Auditable {
 
 	public Date getLoginTime() {
 		return loginTime;
+	}
+
+	public String getResetPasswordToken() {
+		return resetPasswordToken;
+	}
+
+	public void setResetPasswordToken(String resetPasswordToken) {
+		this.resetPasswordToken = resetPasswordToken;
+	}
+
+	public Date getTokenPasswordExpiration() {
+		return tokenPasswordExpiration;
+	}
+
+	public void setTokenPasswordExpiration(Date tokenPasswordExpiration) {
+		this.tokenPasswordExpiration = tokenPasswordExpiration;
 	}
 	
 

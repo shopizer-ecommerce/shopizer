@@ -39,6 +39,8 @@ public interface UserService extends SalesManagerEntityService<Long, User> {
   GenericEntityList<User> listByCriteria(Criteria criteria) throws ServiceException;
   
   Page<User> listByCriteria(UserCriteria criteria, int page, int count) throws ServiceException;
+  
+  User findByResetPasswordToken (String userName, String token, MerchantStore store) throws ServiceException;
 
 
 

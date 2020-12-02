@@ -670,5 +670,24 @@ public class UserFacadeImpl implements UserFacade {
 
 	}
 
+	@Override
+	public ReadableUser findByUserName(String userName) {
+		Validate.notNull(userName, "userName cannot be null");
+		User user;
+		try {
+			user = userService.getByUserName(userName);
+			if (user == null) {
+				throw new ResourceNotFoundException("User [" + userName + "] not found");
+			}
+			
+			return this.convertUserToReadableUser(user.getDefaultLanguage(), user);
+			
+		} catch (ServiceException e) {
+			throw new ServiceRuntimeException("Error while getting user [" + userName+ "]",
+					e);
+		}
+
+	}
+
 
 }

@@ -1,14 +1,5 @@
-Tag changes in version 2.15.0
+Tag changes in version 2.16.0
 
-Arabic translation [thanks to ialibrahim]
-Support for Oracle database *
-Support for Postgres database *
-
-
-** 	
-when running against an existing schema, please run this command
-
-ALTER TABLE `SALESMANAGER`.`USER` 
-RENAME TO  `SALESMANAGER`.`USERS` ;
+Spring boot 2.3.6
 
 
