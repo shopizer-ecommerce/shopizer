@@ -16,12 +16,12 @@ import com.salesmanager.core.model.content.OutputContentFile;
  */
 public interface FileGet {
 
-  public OutputContentFile getFile(final String merchantStoreCode, Optional<String> path, FileContentType fileContentType,
+  OutputContentFile getFile(final String merchantStoreCode, Optional<String> path, FileContentType fileContentType,
       String contentName) throws ServiceException;
 
-  public List<String> getFileNames(final String merchantStoreCode, Optional<String> path, FileContentType fileContentType)
+  List<String> getFileNames(final String merchantStoreCode, Optional<String> path, FileContentType fileContentType)
       throws ServiceException;
 
-  public List<OutputContentFile> getFiles(final String merchantStoreCode,
+  List<OutputContentFile> getFiles(final String merchantStoreCode,
 		  Optional<String> path, FileContentType fileContentType) throws ServiceException;
 }

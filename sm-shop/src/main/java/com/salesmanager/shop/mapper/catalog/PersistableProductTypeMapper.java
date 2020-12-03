@@ -16,12 +16,12 @@ public class PersistableProductTypeMapper implements Mapper<PersistableProductTy
 	@Override
 	public ProductType convert(PersistableProductType source, MerchantStore store, Language language) {
 		ProductType type = new ProductType();
-		return this.convert(source, type, store, language);
+		return this.merge(source, type, store, language);
 	}
 
 	@Override
-	public ProductType convert(PersistableProductType source, ProductType destination, MerchantStore store,
-			Language language) {
+	public ProductType merge(PersistableProductType source, ProductType destination, MerchantStore store,
+							 Language language) {
 		Validate.notNull(destination, "ReadableProductType cannot be null");
 		destination.setId(source.getId());
 		destination.setCode(source.getCode());

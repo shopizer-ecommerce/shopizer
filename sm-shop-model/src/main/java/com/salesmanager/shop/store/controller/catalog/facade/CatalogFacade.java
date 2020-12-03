@@ -4,6 +4,7 @@ import com.salesmanager.core.model.catalog.catalog.Catalog;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.catalog.*;
+import com.salesmanager.shop.model.entity.ReadableEntityList;
 
 import java.util.Optional;
 
@@ -23,9 +24,9 @@ public interface CatalogFacade {
 
     ReadableCatalog getCatalog(Long id, MerchantStore store, Language language);
 
-    ReadableEntryList<ReadableCatalog> getListCatalogs(Optional<String> code, MerchantStore store, Language language, int page, int count);
+    ReadableEntityList<ReadableCatalog> getListCatalogs(Optional<String> code, MerchantStore store, Language language, int page, int count);
 
-    ReadableEntryList<ReadableCatalogCategoryEntry> listCatalogEntry(Optional<String> product, Long catalogId, MerchantStore store, Language language, int page, int count);
+    ReadableEntityList<ReadableCatalogCategoryEntry> listCatalogEntry(Optional<String> product, Long catalogId, MerchantStore store, Language language, int page, int count);
 
     ReadableCatalogCategoryEntry getCatalogEntry(Long id, MerchantStore store, Language language);
 

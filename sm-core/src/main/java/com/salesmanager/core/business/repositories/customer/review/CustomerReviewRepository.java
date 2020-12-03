@@ -9,7 +9,7 @@ import com.salesmanager.core.model.customer.review.CustomerReview;
 
 public interface CustomerReviewRepository extends JpaRepository<CustomerReview, Long> {
 	
-	static String customerQuery = ""
+	String customerQuery = ""
 			+ "select distinct r from CustomerReview r join fetch "
 			+ "r.customer rc "
 			//+ "join fetch rc.attributes rca left join "

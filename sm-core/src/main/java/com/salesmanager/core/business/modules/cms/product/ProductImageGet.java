@@ -19,15 +19,15 @@ public interface ProductImageGet extends ImageGet {
    * @return
    * @throws ServiceException
    */
-  public OutputContentFile getProductImage(final String merchantStoreCode, final String productCode,
+  OutputContentFile getProductImage(final String merchantStoreCode, final String productCode,
       final String imageName) throws ServiceException;
 
-  public OutputContentFile getProductImage(final String merchantStoreCode, final String productCode,
+  OutputContentFile getProductImage(final String merchantStoreCode, final String productCode,
       final String imageName, final ProductImageSize size) throws ServiceException;
 
-  public OutputContentFile getProductImage(ProductImage productImage) throws ServiceException;
+  OutputContentFile getProductImage(ProductImage productImage) throws ServiceException;
 
-  public List<OutputContentFile> getImages(Product product) throws ServiceException;
+  List<OutputContentFile> getImages(Product product) throws ServiceException;
 
 
 }

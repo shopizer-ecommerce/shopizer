@@ -30,7 +30,7 @@ public interface ShoppingCartCalculationService {
 	 * @param language
 	 * @throws ServiceException
 	 */
-	public OrderTotalSummary calculate(final ShoppingCart cartModel, final Customer customer, final MerchantStore store,
+	OrderTotalSummary calculate(final ShoppingCart cartModel, final Customer customer, final MerchantStore store,
 			final Language language) throws ServiceException;
 
 	/**
@@ -43,6 +43,6 @@ public interface ShoppingCartCalculationService {
 	 * @param language
 	 * @throws ServiceException
 	 */
-	public OrderTotalSummary calculate(final ShoppingCart cartModel, final MerchantStore store, final Language language)
+	OrderTotalSummary calculate(final ShoppingCart cartModel, final MerchantStore store, final Language language)
 			throws ServiceException;
 }

@@ -88,8 +88,8 @@ public class ReadableCategoryMapper implements Mapper<Category, ReadableCategory
   }
 
   @Override
-  public ReadableCategory convert(Category source, ReadableCategory destination,
-      MerchantStore store, Language language) {
+  public ReadableCategory merge(Category source, ReadableCategory destination,
+                                MerchantStore store, Language language) {
     return destination;
   }
 }

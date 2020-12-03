@@ -2,6 +2,7 @@ package com.salesmanager.core.business.services.catalog.product;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityService;
@@ -17,6 +18,8 @@ import com.salesmanager.core.model.tax.taxclass.TaxClass;
 
 
 public interface ProductService extends SalesManagerEntityService<Long, Product> {
+
+	Optional<Product> retrieveById(Long id);
 
 	void addProductDescription(Product product, ProductDescription description) throws ServiceException;
 

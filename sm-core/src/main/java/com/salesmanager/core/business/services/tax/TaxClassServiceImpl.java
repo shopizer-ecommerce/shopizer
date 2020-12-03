@@ -59,13 +59,13 @@ public class TaxClassServiceImpl extends SalesManagerEntityServiceImpl<Long, Tax
 		Validate.notNull(code, "TaxClass code cannot be empty");
 		Validate.notNull(store, "MerchantStore cannot be null");
 		
-		return taxClassRepository.findByStoreAndCode(store.getId(), code) != null ? true:false;
+		return taxClassRepository.findByStoreAndCode(store.getId(), code) != null;
 
 	}
 	
 	@Override
 	public TaxClass saveOrUpdate(TaxClass taxClass) throws ServiceException {
-		if(taxClass.getId()!=null && taxClass.getId().longValue() > 0) {
+		if(taxClass.getId()!=null && taxClass.getId() > 0) {
 			this.update(taxClass);
 		} else {
 			taxClass = super.saveAndFlush(taxClass);

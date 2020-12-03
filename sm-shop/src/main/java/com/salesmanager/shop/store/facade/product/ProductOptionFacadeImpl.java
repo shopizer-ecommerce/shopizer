@@ -94,7 +94,7 @@ public class ProductOptionFacadeImpl implements ProductOptionFacade {
 			}
 		}
 
-		optionModel = persistableeMapper.convert(option, optionModel, store, language);
+		optionModel = persistableeMapper.merge(option, optionModel, store, language);
 		try {
 			productOptionService.saveOrUpdate(optionModel);
 		} catch (ServiceException e) {
@@ -229,7 +229,7 @@ public class ProductOptionFacadeImpl implements ProductOptionFacade {
 			}
 		}
 
-		value = persistableOptionValueMapper.convert(optionValue, value, store, language);
+		value = persistableOptionValueMapper.merge(optionValue, value, store, language);
 
 
 		try {
@@ -242,7 +242,7 @@ public class ProductOptionFacadeImpl implements ProductOptionFacade {
 
 		// convert to readable
 		ReadableProductOptionValueEntity readableProductOptionValue = new ReadableProductOptionValueEntity();
-		readableProductOptionValue = readableOptionValueMapper.convert(optValue, readableProductOptionValue, store,
+		readableProductOptionValue = readableOptionValueMapper.merge(optValue, readableProductOptionValue, store,
 				language);
 
 		return readableProductOptionValue;
@@ -284,7 +284,7 @@ public class ProductOptionFacadeImpl implements ProductOptionFacade {
 			}
 		}
 
-		attr = persistableProductAttributeMapper.convert(attribute, attr, store, language);
+		attr = persistableProductAttributeMapper.merge(attribute, attr, store, language);
 
 		try {
 			productAttributeService.saveOrUpdate(attr);

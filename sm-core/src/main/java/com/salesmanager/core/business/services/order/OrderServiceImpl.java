@@ -534,8 +534,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
         Validate.notNull(order.getOrderTotal(),"Order totals cannot be null");
 
         try {
-            ByteArrayOutputStream stream = invoiceModule.createInvoice(store, order, language);
-            return stream;
+            return invoiceModule.createInvoice(store, order, language);
         } catch(Exception e) {
             throw new ServiceException(e);
         }

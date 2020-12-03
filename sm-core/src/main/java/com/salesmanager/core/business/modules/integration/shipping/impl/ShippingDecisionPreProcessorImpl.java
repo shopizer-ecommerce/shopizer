@@ -91,7 +91,7 @@ public class ShippingDecisionPreProcessorImpl implements ShippingQuotePrePostPro
 		for(PackageDetails pack : packages) {
 			weight = weight + pack.getShippingWeight();
 			Double tmpVolume = pack.getShippingHeight() * pack.getShippingLength() * pack.getShippingWidth();
-			if(volume == null || tmpVolume.doubleValue() > volume.doubleValue()) { //take the largest volume
+			if(volume == null || tmpVolume > volume) { //take the largest volume
 				volume = tmpVolume;
 			} 
 			//largest size
@@ -99,9 +99,9 @@ public class ShippingDecisionPreProcessorImpl implements ShippingQuotePrePostPro
 			sizeList.add(pack.getShippingHeight());
 			sizeList.add(pack.getShippingLength());
 			sizeList.add(pack.getShippingWidth());
-			Double maxSize = (Double)Collections.max(sizeList);
-			if(size==null || maxSize.doubleValue() > size.doubleValue()) {
-				size = maxSize.doubleValue();
+			Double maxSize = Collections.max(sizeList);
+			if(size==null || maxSize > size) {
+				size = maxSize;
 			}
 		}
 		
@@ -123,7 +123,7 @@ public class ShippingDecisionPreProcessorImpl implements ShippingQuotePrePostPro
 		}
 		
 		if(distance!=null) {
-			double ddistance = distance.doubleValue();
+			double ddistance = distance;
 			long ldistance = (long)ddistance;
 			inputParameters.setDistance(ldistance);
 		}

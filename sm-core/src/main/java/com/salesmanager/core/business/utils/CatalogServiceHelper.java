@@ -47,7 +47,7 @@ public class CatalogServiceHelper {
 				
 				Set<ProductOptionValueDescription> spovd = pov.getDescriptions();
 				if(spovd!=null) {
-					Set<ProductOptionValueDescription> povdDescriptions = new HashSet();
+					Set<ProductOptionValueDescription> povdDescriptions = new HashSet<>();
 					for(ProductOptionValueDescription povd : spovd) {
 						if(povd.getLanguage().getId()==language) {
 							povdDescriptions.add(povd);

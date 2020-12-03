@@ -41,7 +41,7 @@ public class PersistableProductOptionSetMapper implements Mapper<PersistableProd
 		
 		
 		ProductOptionSet optionSet = new ProductOptionSet();
-		return this.convert(source, optionSet, store, language);
+		return this.merge(source, optionSet, store, language);
 
 	}
 
@@ -50,8 +50,8 @@ public class PersistableProductOptionSetMapper implements Mapper<PersistableProd
 	}
 	
 	@Override
-	public ProductOptionSet convert(PersistableProductOptionSet source, ProductOptionSet destination,
-			MerchantStore store, Language language) {
+	public ProductOptionSet merge(PersistableProductOptionSet source, ProductOptionSet destination,
+								  MerchantStore store, Language language) {
 		Validate.notNull(destination, "ProductOptionSet must not be null");
 		
 		destination.setId(source.getId());

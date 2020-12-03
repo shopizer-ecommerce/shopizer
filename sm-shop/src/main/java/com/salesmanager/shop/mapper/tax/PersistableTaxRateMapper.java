@@ -37,11 +37,11 @@ public class PersistableTaxRateMapper implements Mapper<PersistableTaxRate, TaxR
 	@Override
 	public TaxRate convert(PersistableTaxRate source, MerchantStore store, Language language) {
 		TaxRate rate = new TaxRate();
-		return this.convert(source, rate, store, language);
+		return this.merge(source, rate, store, language);
 	}
 
 	@Override
-	public TaxRate convert(PersistableTaxRate source, TaxRate destination, MerchantStore store, Language language) {
+	public TaxRate merge(PersistableTaxRate source, TaxRate destination, MerchantStore store, Language language) {
 		Validate.notNull(destination, "destination TaxRate cannot be null");
 		Validate.notNull(source, "source TaxRate cannot be null");
 		try {

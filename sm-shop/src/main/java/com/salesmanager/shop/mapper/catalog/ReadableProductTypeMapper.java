@@ -15,12 +15,12 @@ public class ReadableProductTypeMapper implements Mapper<ProductType, ReadablePr
 	@Override
 	public ReadableProductType convert(ProductType source, MerchantStore store, Language language) {
 		ReadableProductType type = new ReadableProductType();
-		return this.convert(source, type, store, language);
+		return this.merge(source, type, store, language);
 	}
 
 	@Override
-	public ReadableProductType convert(ProductType source, ReadableProductType destination, MerchantStore store,
-			Language language) {
+	public ReadableProductType merge(ProductType source, ReadableProductType destination, MerchantStore store,
+									 Language language) {
 		Validate.notNull(source, "ProductType cannot be null");
 		Validate.notNull(destination, "ReadableProductType cannot be null");
 		destination.setId(source.getId());

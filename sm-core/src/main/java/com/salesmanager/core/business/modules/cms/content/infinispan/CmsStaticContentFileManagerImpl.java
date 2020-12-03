@@ -65,7 +65,7 @@ public class CmsStaticContentFileManagerImpl
 	@PostConstruct
 	void init() {
 
-		this.rootName = ((CMSManager) cacheManager).getRootName();
+		this.rootName = cacheManager.getRootName();
 		LOGGER.info("init " + getClass().getName() + " setting root" + this.rootName);
 
 	}
@@ -405,7 +405,7 @@ public class CmsStaticContentFileManagerImpl
 
 			if (objectNode.getKeys().isEmpty()) {
 				LOGGER.warn("Unable to find content attribute for given merchant");
-				return Collections.<String>emptyList();
+				return Collections.emptyList();
 			}
 			return new ArrayList<String>(objectNode.getKeys());
 
@@ -433,10 +433,8 @@ public class CmsStaticContentFileManagerImpl
 		
 		StringBuilder appender = new StringBuilder();
 		appender.append(nodePath).append(Constants.SLASH);
-		
-		if(path.isPresent()) {
-			appender.append(path.get());
-		}
+
+		path.ifPresent(appender::append);
 		
 		
 		//Put logic in a method

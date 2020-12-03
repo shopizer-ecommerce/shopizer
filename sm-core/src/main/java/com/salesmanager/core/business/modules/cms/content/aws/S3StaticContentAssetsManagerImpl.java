@@ -272,7 +272,8 @@ public class S3StaticContentAssetsManagerImpl implements ContentAssetsManager {
 	private AmazonS3 s3Client() {
 		String region = regionName();
 		LOGGER.debug("AWS CMS Using region " + region);
-		AmazonS3 s3 = AmazonS3ClientBuilder.standard().withRegion(region) // The
+
+		return AmazonS3ClientBuilder.standard().withRegion(region) // The
 																			// first
 																			// region
 																			// to
@@ -281,8 +282,6 @@ public class S3StaticContentAssetsManagerImpl implements ContentAssetsManager {
 																			// request
 																			// against
 				.build();
-
-		return s3;
 	}
 
 	private String regionName() {

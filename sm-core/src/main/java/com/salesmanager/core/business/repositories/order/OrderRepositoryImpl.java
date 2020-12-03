@@ -124,11 +124,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
     	if(max>0) {
     			int maxCount = first + max;
 
-    			if(maxCount < count.intValue()) {
-    				objectQ.setMaxResults(maxCount);
-    			} else {
-    				objectQ.setMaxResults(count.intValue());
-    			}
+			objectQ.setMaxResults(Math.min(maxCount, count.intValue()));
     	}
 		
     	orderList.setOrders(objectQ.getResultList());
@@ -161,7 +157,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 
 		StringBuilder objectBuilderWhere = new StringBuilder();
 
-		String storeQuery =" where o.merchant.code=:mCode";;
+		String storeQuery =" where o.merchant.code=:mCode";
 		objectBuilderWhere.append(storeQuery);
 		countBuilderSelect.append(storeQuery);
 		

@@ -1,11 +1,5 @@
 package com.salesmanager.core.business.services.catalog.product.availability;
 
-import javax.inject.Inject;
-import org.apache.commons.lang3.Validate;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.repositories.catalog.product.availability.PageableProductAvailabilityRepository;
 import com.salesmanager.core.business.repositories.catalog.product.availability.ProductAvailabilityRepository;
@@ -13,6 +7,15 @@ import com.salesmanager.core.business.services.common.generic.SalesManagerEntity
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.merchant.MerchantStore;
+import org.apache.commons.lang3.Validate;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import javax.inject.Inject;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service("productAvailabilityService")
 public class ProductAvailabilityServiceImpl extends
@@ -34,26 +37,26 @@ public class ProductAvailabilityServiceImpl extends
 
   @Override
   public void saveOrUpdate(ProductAvailability availability) throws ServiceException {
-
-    if (availability.getId() != null && availability.getId() > 0) {
-      this.update(availability);
+    if (isPositive(availability.getId())) {
+      update(availability);
     } else {
-      this.create(availability);
+      create(availability);
     }
-
   }
 
+  private boolean isPositive(Long id) {
+    return Objects.nonNull(id) && id > 0;
+  }
 
 
   /**
    * Returns inventory of a child store
    */
   @Override
-  public ProductAvailability getByStore(Product product, MerchantStore store)
-      throws ServiceException {
+  public Optional<ProductAvailability> getByStore(Product product, MerchantStore store) {
     Validate.notNull(product, "Product cannot be null");
     Validate.notNull(store, "MerchantStore cannot be null");
-    return productAvailabilityRepository.getByStore(product.getId(), store.getCode());
+    return Optional.ofNullable(productAvailabilityRepository.getByStore(product.getId(), store.getCode()));
   }
 
 
@@ -66,7 +69,7 @@ public class ProductAvailabilityServiceImpl extends
 
   @Override
   public Page<ProductAvailability> listByProduct(Product product, MerchantStore store, String child,
-      int page, int count) throws ServiceException {
+      int page, int count) {
     Validate.notNull(product, "Product cannot be null");
     Validate.notNull(store, "MercantStore cannot be null");
     Pageable pageRequest = PageRequest.of(page, count);
@@ -82,18 +85,17 @@ public class ProductAvailabilityServiceImpl extends
 
 
   @Override
-  public ProductAvailability getById(Long availabilityId, MerchantStore store)
-      throws ServiceException {
+  public Optional<ProductAvailability> getById(Long availabilityId, MerchantStore store) {
     Validate.notNull(store, "Merchant must not be null");
-    return productAvailabilityRepository.getById(availabilityId);
+    return Optional.ofNullable(productAvailabilityRepository.getById(availabilityId));
   }
 
 
   @Override
-  public ProductAvailability getByInventoryId(Long productId, Long availabilityId,
-      MerchantStore store) throws ServiceException {
+  public Optional<ProductAvailability> getByInventoryId(Long productId, Long availabilityId,
+      MerchantStore store) {
     Validate.notNull(store, "Merchant must not be null");
-    return productAvailabilityRepository.getByStore(productId, availabilityId);
+    return Optional.ofNullable(productAvailabilityRepository.getByStore(productId, availabilityId));
   }
 
 

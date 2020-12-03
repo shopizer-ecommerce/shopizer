@@ -22,8 +22,8 @@ public class ReadableTaxClassMapper implements Mapper<TaxClass, ReadableTaxClass
 	}
 
 	@Override
-	public ReadableTaxClass convert(TaxClass source, ReadableTaxClass destination, MerchantStore store,
-			Language language) {
+	public ReadableTaxClass merge(TaxClass source, ReadableTaxClass destination, MerchantStore store,
+								  Language language) {
 		destination.setId(source.getId());
 		destination.setCode(source.getCode());
 		destination.setName(source.getTitle());

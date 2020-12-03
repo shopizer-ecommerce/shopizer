@@ -19,14 +19,12 @@ public interface ProductOptionValueRepository extends JpaRepository<ProductOptio
 	List<ProductOptionValue> findByStoreId(Integer storeId, Integer languageId);
 	
 	@Query("select p from ProductOptionValue p join fetch p.merchantStore pm left join fetch p.descriptions pd where pm.id = ?1 and p.code = ?2")
-	public ProductOptionValue findByCode(Integer storeId, String optionValueCode);
+	ProductOptionValue findByCode(Integer storeId, String optionValueCode);
 	
 	@Query("select p from ProductOptionValue p join fetch p.merchantStore pm left join fetch p.descriptions pd where pm.id = ?1 and pd.name like %?2% and pd.language.id = ?3")
-	public List<ProductOptionValue> findByName(Integer storeId, String name, Integer languageId);
-	
-	
+	List<ProductOptionValue> findByName(Integer storeId, String name, Integer languageId);
+
 	@Query("select distinct p from ProductOptionValue p join fetch p.merchantStore pm left join fetch p.descriptions pd where pm.id = ?1 and pd.language.id = ?2 and p.productOptionDisplayOnly = ?3")
-	public List<ProductOptionValue> findByReadOnly(Integer storeId, Integer languageId, boolean readOnly);
-	
+	List<ProductOptionValue> findByReadOnly(Integer storeId, Integer languageId, boolean readOnly);
 
 }

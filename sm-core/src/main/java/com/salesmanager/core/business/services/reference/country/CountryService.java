@@ -11,11 +11,11 @@ import com.salesmanager.core.model.reference.language.Language;
 
 public interface CountryService extends SalesManagerEntityService<Integer, Country> {
 
-	public Country getByCode(String code) throws ServiceException;
+	Country getByCode(String code) throws ServiceException;
 	
-	public void addCountryDescription(Country country, CountryDescription description) throws ServiceException;
+	void addCountryDescription(Country country, CountryDescription description) throws ServiceException;
 
-	public List<Country> getCountries(Language language) throws ServiceException;
+	List<Country> getCountries(Language language) throws ServiceException;
 
 	Map<String, Country> getCountriesMap(Language language)
 			throws ServiceException;

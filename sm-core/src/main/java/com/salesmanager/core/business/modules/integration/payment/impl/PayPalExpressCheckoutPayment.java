@@ -336,7 +336,7 @@ public class PayPalExpressCheckoutPayment implements PaymentModule {
 			
 			
 			Validate.notNull(transaction,"Transaction cannot be null");
-			Validate.notNull((String)transaction.getTransactionDetails().get("TRANSACTIONID"), "Transaction details must contain a TRANSACTIONID");
+			Validate.notNull(transaction.getTransactionDetails().get("TRANSACTIONID"), "Transaction details must contain a TRANSACTIONID");
 			Validate.notNull(order,"Order must not be null");
 			Validate.notNull(order.getCurrency(),"Order nust contain Currency object");
 			
@@ -556,7 +556,7 @@ public class PayPalExpressCheckoutPayment implements PaymentModule {
 			
 			
 			Validate.notNull(capturableTransaction,"Transaction cannot be null");
-			Validate.notNull((String)capturableTransaction.getTransactionDetails().get("TRANSACTIONID"), "Transaction details must contain a TRANSACTIONID");
+			Validate.notNull(capturableTransaction.getTransactionDetails().get("TRANSACTIONID"), "Transaction details must contain a TRANSACTIONID");
 			Validate.notNull(order,"Order must not be null");
 			Validate.notNull(order.getCurrency(),"Order nust contain Currency object");
 			
@@ -588,7 +588,7 @@ public class PayPalExpressCheckoutPayment implements PaymentModule {
 				// Authorization ID - Authorization identification number of the
 				// payment you want to capture. This is the transaction ID
 				DoCaptureRequestType doCaptureRequest = new DoCaptureRequestType(
-						(String)capturableTransaction.getTransactionDetails().get("TRANSACTIONID"), amount, CompleteCodeType.NOTCOMPLETE);
+						capturableTransaction.getTransactionDetails().get("TRANSACTIONID"), amount, CompleteCodeType.NOTCOMPLETE);
 
 				doCaptureReq.setDoCaptureRequest(doCaptureRequest);
 
@@ -642,7 +642,7 @@ public class PayPalExpressCheckoutPayment implements PaymentModule {
 			 newTransaction.setTransactionType(TransactionType.CAPTURE);
 			 newTransaction.setPaymentType(PaymentType.PAYPAL);
 			 newTransaction.getTransactionDetails().put("AUTHORIZATIONID", doCaptureResponse.getDoCaptureResponseDetails().getAuthorizationID());
-			 newTransaction.getTransactionDetails().put("TRANSACTIONID", (String)capturableTransaction.getTransactionDetails().get("TRANSACTIONID"));
+			 newTransaction.getTransactionDetails().put("TRANSACTIONID", capturableTransaction.getTransactionDetails().get("TRANSACTIONID"));
 
 			return newTransaction;
 			

@@ -33,7 +33,7 @@ public class ProductPriceServiceImpl extends SalesManagerEntityServiceImpl<Long,
 	@Override
 	public void saveOrUpdate(ProductPrice price) throws ServiceException {
 		
-		if(price.getId()!=null && price.getId().longValue() > 0) {
+		if(price.getId()!=null && price.getId() > 0) {
 			this.update(price);
 		} else {
 			

@@ -67,8 +67,7 @@ public class CustomWeightBasedShippingQuote implements ShippingQuoteModule {
 				String value = configuration.getValue();
 				ObjectMapper mapper = new ObjectMapper();
 				try {
-					CustomShippingQuotesConfiguration config = mapper.readValue(value, CustomShippingQuotesConfiguration.class);
-					return config;
+					return mapper.readValue(value, CustomShippingQuotesConfiguration.class);
 				} catch(Exception e) {
 					throw new ServiceException("Cannot parse json string " + value);
 				}

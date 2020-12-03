@@ -205,7 +205,7 @@ public class USPSShippingQuote implements ShippingQuoteModule {
 			Map<String, ModuleConfig> moduleConfigsMap = module.getModuleConfigs();
 			for(String key : moduleConfigsMap.keySet()) {
 				
-				ModuleConfig moduleConfig = (ModuleConfig)moduleConfigsMap.get(key);
+				ModuleConfig moduleConfig = moduleConfigsMap.get(key);
 				if(moduleConfig.getEnv().equals(env)) {
 					host = moduleConfig.getHost();
 					protocol = moduleConfig.getScheme();
@@ -421,7 +421,7 @@ public class USPSShippingQuote implements ShippingQuoteModule {
 			}
 
 			StringBuilder xmlbuffer = new StringBuilder().append(xmlheader.toString()).append(
-					xmldatabuffer.toString()).append(xmlfooter.toString());
+					xmldatabuffer.toString()).append(xmlfooter);
 
 			LOGGER.debug("USPS QUOTE REQUEST " + xmlbuffer.toString());
 			//HttpClient client = new HttpClient();
@@ -442,22 +442,16 @@ public class USPSShippingQuote implements ShippingQuoteModule {
 			// StringRequestEntity(xmlbuffer.toString(),"text/plain","UTF-8");
 			// httpget.setRequestEntity(entity);
 
-            ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
-
-                @Override
-                public String handleResponse(
-                        final HttpResponse response) throws ClientProtocolException, IOException {
-                    int status = response.getStatusLine().getStatusCode();
-                    if (status >= 200 && status < 300) {
-                        HttpEntity entity = response.getEntity();
-                        return entity != null ? EntityUtils.toString(entity) : null;
-                    } else {
-                    	LOGGER.error("Communication Error with ups quote " + status);
-        				throw new ClientProtocolException("UPS quote communication error " + status);
-                    }
-                }
-
-            };
+            ResponseHandler<String> responseHandler = response -> {
+				int status = response.getStatusLine().getStatusCode();
+				if (status >= 200 && status < 300) {
+					HttpEntity entity = response.getEntity();
+					return entity != null ? EntityUtils.toString(entity) : null;
+				} else {
+					LOGGER.error("Communication Error with ups quote " + status);
+					throw new ClientProtocolException("UPS quote communication error " + status);
+				}
+			};
 
             String data = httpclient.execute(httpget, responseHandler);
 /*			int result = client.executeMethod(httpget);

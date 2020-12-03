@@ -61,7 +61,7 @@ public class ProductImageSizeUtils {
 			boolean higherQuality) {
 		int type = (img.getTransparency() == Transparency.OPAQUE) ? BufferedImage.TYPE_INT_RGB
 				: BufferedImage.TYPE_INT_ARGB;
-		BufferedImage ret = (BufferedImage) img;
+		BufferedImage ret = img;
 		int w, h;
 		if (higherQuality) {
 			// Use multi-step technique: start with original size, then

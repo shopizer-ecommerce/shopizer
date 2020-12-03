@@ -272,12 +272,10 @@ public class S3ProductContentFileManager
    */
   private AmazonS3 s3Client() {
 
-    AmazonS3 s3 = AmazonS3ClientBuilder.standard().withRegion(regionName()) // The first region to
+    return AmazonS3ClientBuilder.standard().withRegion(regionName()) // The first region to
                                                                             // try your request
                                                                             // against
         .build();
-
-    return s3;
   }
 
   private String bucketName() {

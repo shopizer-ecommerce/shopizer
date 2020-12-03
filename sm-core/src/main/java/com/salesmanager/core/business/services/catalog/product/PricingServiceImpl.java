@@ -63,8 +63,7 @@ public class PricingServiceImpl implements PricingService {
 	@Override
 	public String getDisplayAmount(BigDecimal amount, MerchantStore store) throws ServiceException {
 		try {
-			String price= priceUtil.getStoreFormatedAmountWithCurrency(store,amount);
-			return price;
+			return priceUtil.getStoreFormatedAmountWithCurrency(store,amount);
 		} catch (Exception e) {
 			LOGGER.error("An error occured when trying to format an amount " + amount.toString());
 			throw new ServiceException(e);
@@ -75,8 +74,7 @@ public class PricingServiceImpl implements PricingService {
 	public String getDisplayAmount(BigDecimal amount, Locale locale,
 			Currency currency, MerchantStore store) throws ServiceException {
 		try {
-			String price= priceUtil.getFormatedAmountWithCurrency(locale, currency, amount);
-			return price;
+			return priceUtil.getFormatedAmountWithCurrency(locale, currency, amount);
 		} catch (Exception e) {
 			LOGGER.error("An error occured when trying to format an amunt " + amount.toString() + " using locale " + locale.toString() + " and currency " + currency.toString());
 			throw new ServiceException(e);
@@ -87,8 +85,7 @@ public class PricingServiceImpl implements PricingService {
 	public String getStringAmount(BigDecimal amount, MerchantStore store)
 			throws ServiceException {
 		try {
-			String price = priceUtil.getAdminFormatedAmount(store, amount);
-			return price;
+			return priceUtil.getAdminFormatedAmount(store, amount);
 		} catch (Exception e) {
 			LOGGER.error("An error occured when trying to format an amount " + amount.toString());
 			throw new ServiceException(e);

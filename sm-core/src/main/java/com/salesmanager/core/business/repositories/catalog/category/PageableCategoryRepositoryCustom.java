@@ -8,6 +8,6 @@ import com.salesmanager.core.model.catalog.category.Category;
 
 public interface PageableCategoryRepositoryCustom {
 	
-	public Page<Category> listByStore(Integer storeId, Integer languageId, String name, Pageable pageable);
+	Page<Category> listByStore(Integer storeId, Integer languageId, String name, Pageable pageable);
 
 }

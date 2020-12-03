@@ -34,7 +34,7 @@ public final class EncryptionImpl implements Encryption {
 		cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivSpec);
 		byte[] inpbytes = value.getBytes();
 		byte[] encrypted = cipher.doFinal(inpbytes);
-		return new String(bytesToHex(encrypted));
+		return bytesToHex(encrypted);
 		
 		
 	}
@@ -67,12 +67,12 @@ public final class EncryptionImpl implements Encryption {
 		} else {
 			int len = data.length;
 			String str = "";
-			for (int i = 0; i < len; i++) {
-				if ((data[i] & 0xFF) < 16) {
+			for (byte datum : data) {
+				if ((datum & 0xFF) < 16) {
 					str = str + "0"
-							+ java.lang.Integer.toHexString(data[i] & 0xFF);
+							+ Integer.toHexString(datum & 0xFF);
 				} else {
-					str = str + java.lang.Integer.toHexString(data[i] & 0xFF);
+					str = str + Integer.toHexString(datum & 0xFF);
 				}
 
 			}

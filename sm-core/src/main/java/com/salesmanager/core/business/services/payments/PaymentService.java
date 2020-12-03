@@ -19,9 +19,7 @@ import com.salesmanager.core.modules.integration.payment.model.PaymentModule;
 
 public interface PaymentService {
 
-
-
-	public List<IntegrationModule> getPaymentMethods(MerchantStore store)
+	List<IntegrationModule> getPaymentMethods(MerchantStore store)
 			throws ServiceException;
 
 	Map<String, IntegrationConfiguration> getPaymentModulesConfigured(

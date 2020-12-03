@@ -277,13 +277,9 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 							List<com.shopizer.search.services.Entry> ent = f.getEntries();
 							
 							//List<FacetEntry> f = facets.get(key);
-							
-							List<SearchFacet> fs = searchFacets.get(key);
-							if(fs==null) {
-								fs = new ArrayList<SearchFacet>();
-								searchFacets.put(key, fs);
-							}
-		
+
+							List<SearchFacet> fs = searchFacets.computeIfAbsent(key, k -> new ArrayList<>());
+
 							for(com.shopizer.search.services.Entry facetEntry : ent) {
 							
 								SearchFacet searchFacet = new SearchFacet();

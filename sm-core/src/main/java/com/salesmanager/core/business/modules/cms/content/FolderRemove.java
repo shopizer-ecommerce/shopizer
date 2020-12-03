@@ -9,7 +9,7 @@ import com.salesmanager.core.business.exception.ServiceException;
 
 
 public interface FolderRemove {
-  public void removeFolder(final String merchantStoreCode, String folderName, Optional<String> folderPath)
+  void removeFolder(final String merchantStoreCode, String folderName, Optional<String> folderPath)
       throws ServiceException;
 
 }

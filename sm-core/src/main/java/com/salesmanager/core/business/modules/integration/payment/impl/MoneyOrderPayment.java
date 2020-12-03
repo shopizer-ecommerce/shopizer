@@ -43,13 +43,7 @@ public class MoneyOrderPayment implements PaymentModule {
 			IntegrationException ex = new IntegrationException(IntegrationException.ERROR_VALIDATION_SAVE);
 			ex.setErrorFields(errorFields);
 			throw ex;
-			
 		}
-		
-		
-		
-			return;
-
 	}
 
 	@Override

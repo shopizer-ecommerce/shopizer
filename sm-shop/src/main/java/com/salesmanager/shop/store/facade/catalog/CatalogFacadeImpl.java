@@ -7,11 +7,15 @@ import com.salesmanager.core.model.catalog.catalog.Catalog;
 import com.salesmanager.core.model.catalog.catalog.CatalogCategoryEntry;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.shop.mapper.catalog.PersistableCatalogCategoryEntryMapper;
+import com.salesmanager.shop.mapper.Mapper;
 import com.salesmanager.shop.mapper.catalog.PersistableCatalogMapper;
 import com.salesmanager.shop.mapper.catalog.ReadableCatalogCategoryEntryMapper;
 import com.salesmanager.shop.mapper.catalog.ReadableCatalogMapper;
-import com.salesmanager.shop.model.catalog.catalog.*;
+import com.salesmanager.shop.model.catalog.catalog.PersistableCatalog;
+import com.salesmanager.shop.model.catalog.catalog.PersistableCatalogCategoryEntry;
+import com.salesmanager.shop.model.catalog.catalog.ReadableCatalog;
+import com.salesmanager.shop.model.catalog.catalog.ReadableCatalogCategoryEntry;
+import com.salesmanager.shop.model.entity.ReadableEntityList;
 import com.salesmanager.shop.store.api.exception.OperationNotAllowedException;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
@@ -25,6 +29,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static com.salesmanager.shop.util.ReadableEntityUtil.createReadableList;
 
 @Service("catalogFacade")
 public class CatalogFacadeImpl implements CatalogFacade {
@@ -43,7 +49,7 @@ public class CatalogFacadeImpl implements CatalogFacade {
     private ReadableCatalogMapper readableCatalogMapper;
 
     @Autowired
-    private PersistableCatalogCategoryEntryMapper persistableCatalogEntryMapper;
+    private Mapper<PersistableCatalogCategoryEntry, CatalogCategoryEntry> persistableCatalogEntryMapper;
 
     @Autowired
     private ReadableCatalogCategoryEntryMapper readableCatalogEntryMapper;
@@ -139,48 +145,39 @@ public class CatalogFacadeImpl implements CatalogFacade {
     }
 
     @Override
-    public ReadableEntryList<ReadableCatalog> getListCatalogs(Optional<String> code, MerchantStore store, Language language, int page, int count) {
+    public ReadableEntityList<ReadableCatalog> getListCatalogs(Optional<String> code, MerchantStore store, Language language, int page, int count) {
         Validate.notNull(store, "MerchantStore cannot be null");
 
         String catalogCode = code.orElse(null);
         Page<Catalog> catalogs = catalogService.getCatalogs(store, language, catalogCode, page, count);
         if (catalogs.isEmpty()) {
-            return new ReadableEntryList<>();
+            return new ReadableEntityList<>();
         }
 
         List<ReadableCatalog> readableList = catalogs.getContent().stream()
                 .map(cat -> readableCatalogMapper.convert(cat, store, language))
                 .collect(Collectors.toList());
-        return createReadableEntity(catalogs, readableList);
+        return createReadableList(catalogs, readableList);
     }
 
     @Override
-    public ReadableEntryList<ReadableCatalogCategoryEntry> listCatalogEntry(Optional<String> product, Long id, MerchantStore store, Language language, int page, int count) {
+    public ReadableEntityList<ReadableCatalogCategoryEntry> listCatalogEntry(Optional<String> product, Long id, MerchantStore store, Language language, int page, int count) {
         Validate.notNull(store, "MerchantStore cannot be null");
 
         String productCode = product.orElse(null);
         Catalog catalog = catalogService.getById(id, store)
                 .orElseThrow(() -> new ResourceNotFoundException("Catalog with id [" + id + "] not found for store [" + store.getCode() + "]"));
 
-        Page<CatalogCategoryEntry> entry = catalogEntryService.list(catalog, store, language, productCode, page, count);
+        Page<CatalogCategoryEntry> entries = catalogEntryService.list(catalog, store, language, productCode, page, count);
 
-        if (entry.isEmpty()) {
-            return new ReadableEntryList<>();
+        if (entries.isEmpty()) {
+            return new ReadableEntityList<>();
         }
 
-        List<ReadableCatalogCategoryEntry> readableList = entry.getContent().stream()
+        List<ReadableCatalogCategoryEntry> readableList = entries.getContent().stream()
                 .map(cat -> readableCatalogEntryMapper.convert(cat, store, language))
                 .collect(Collectors.toList());
-        return createReadableEntity(entry, readableList);
-    }
-
-    private <T, R> ReadableEntryList<T> createReadableEntity(Page<R> entry, List<T> readableList) {
-        ReadableEntryList<T> catalogList = new ReadableEntryList<>();
-        catalogList.setCatalogEntry(readableList);
-        catalogList.setTotalPages(entry.getTotalPages());
-        catalogList.setRecordsTotal(entry.getTotalElements());
-        catalogList.setNumber(entry.getNumber());
-        return catalogList;
+        return createReadableList(entries, readableList);
     }
 
     @Override
@@ -193,9 +190,7 @@ public class CatalogFacadeImpl implements CatalogFacade {
         if (entry.getCatalog().getMerchantStore().getId().intValue() != store.getId().intValue()) {
             throw new ResourceNotFoundException("catalog entry [" + id + "] not found");
         }
-
-        ReadableCatalogCategoryEntry readable = readableCatalogEntryMapper.convert(entry, store, language);
-        return readable;
+        return readableCatalogEntryMapper.convert(entry, store, language);
     }
 
     @Override

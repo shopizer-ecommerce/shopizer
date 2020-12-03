@@ -14,7 +14,6 @@ import com.salesmanager.shop.model.catalog.catalog.PersistableCatalogCategoryEnt
 import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;
 import com.salesmanager.shop.store.controller.catalog.facade.CatalogFacade;
 import com.salesmanager.shop.store.controller.category.facade.CategoryFacade;
-import com.salesmanager.shop.store.controller.product.facade.ProductFacade;
 
 @Component
 public class PersistableCatalogCategoryEntryMapper implements Mapper<PersistableCatalogCategoryEntry, CatalogCategoryEntry> {
@@ -30,12 +29,12 @@ public class PersistableCatalogCategoryEntryMapper implements Mapper<Persistable
 	@Override
 	public CatalogCategoryEntry convert(PersistableCatalogCategoryEntry source, MerchantStore store, Language language) {
 		CatalogCategoryEntry destination = new CatalogCategoryEntry();
-		return this.convert(source, destination, store, language);
+		return this.merge(source, destination, store, language);
 	}
 
 	@Override
-	public CatalogCategoryEntry convert(PersistableCatalogCategoryEntry source, CatalogCategoryEntry destination, MerchantStore store,
-			Language language) {
+	public CatalogCategoryEntry merge(PersistableCatalogCategoryEntry source, CatalogCategoryEntry destination, MerchantStore store,
+									  Language language) {
 		Validate.notNull(source, "CatalogEntry must not be null");
 		Validate.notNull(store, "MerchantStore must not be null");
 		Validate.notNull(source.getProductCode(), "ProductCode must not be null");

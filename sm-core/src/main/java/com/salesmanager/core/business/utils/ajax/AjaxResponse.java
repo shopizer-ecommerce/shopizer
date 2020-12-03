@@ -19,9 +19,9 @@ public class AjaxResponse implements JSONAware {
 	public final static int CODE_ALREADY_EXIST=9998;
 	
 	private int status;
-	private List<Map<String,String>> data = new ArrayList<Map<String,String>>();
-	private Map<String,String> dataMap = new HashMap<String,String>();
-	private Map<String,String> validationMessages = new HashMap<String,String>();
+	private List<Map<String,String>> data = new ArrayList<>();
+	private Map<String,String> dataMap = new HashMap<>();
+	private Map<String,String> validationMessages = new HashMap<>();
 	public Map<String, String> getValidationMessages() {
 		return validationMessages;
 	}

@@ -26,8 +26,8 @@ public class ReadableProductOptionValueMapper implements Mapper<ProductOptionVal
   private ImageFilePath imageUtils;
 
   @Override
-  public ReadableProductOptionValueEntity convert(ProductOptionValue source, ReadableProductOptionValueEntity destination,
-			MerchantStore store, Language language) {
+  public ReadableProductOptionValueEntity merge(ProductOptionValue source, ReadableProductOptionValueEntity destination,
+                                                MerchantStore store, Language language) {
     ReadableProductOptionValueEntity readableProductOptionValue = new ReadableProductOptionValueEntity();
     if(language == null) {
     	readableProductOptionValue = new ReadableProductOptionValueFull();
@@ -78,7 +78,7 @@ public class ReadableProductOptionValueMapper implements Mapper<ProductOptionVal
 @Override
 public ReadableProductOptionValueEntity convert(ProductOptionValue source, MerchantStore store, Language language) {
     ReadableProductOptionValueEntity destination = new ReadableProductOptionValueEntity();
-    return convert(source, destination, store, language);
+    return merge(source, destination, store, language);
 }
 
 }

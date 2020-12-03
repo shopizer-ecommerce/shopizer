@@ -1,16 +1,13 @@
 package com.salesmanager.core.business.repositories.catalog.category;
 
-import java.util.Optional;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-
+import com.salesmanager.core.model.catalog.category.Category;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
-import com.salesmanager.core.model.catalog.category.Category;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
 TODO CATEGORY.listByStore
@@ -44,11 +41,10 @@ public class PageableCategoryRepositoryImpl implements PageableCategoryRepositor
 	  query.setParameter(3, name == null ? "" : name);
 	  query.setMaxResults(pageable.getPageSize());
 	  query.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
-	  Page<Category> page = (Page<Category>) new PageImpl<Category>(
-	          query.getResultList(),
-	          pageable,
-	          countQueryResult.getMaxResults());
-	  return page;
+		return new PageImpl<Category>(
+				query.getResultList(),
+				pageable,
+				countQueryResult.getMaxResults());
 	}
 
 }

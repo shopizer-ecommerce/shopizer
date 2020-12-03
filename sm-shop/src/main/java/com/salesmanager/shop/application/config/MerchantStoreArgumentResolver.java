@@ -1,10 +1,11 @@
 package com.salesmanager.shop.application.config;
 
-import static com.salesmanager.core.business.constants.Constants.DEFAULT_STORE;
-import static org.apache.commons.lang.StringUtils.isBlank;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
+import com.salesmanager.shop.store.controller.user.facade.UserFacade;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -13,15 +14,22 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import com.salesmanager.core.model.merchant.MerchantStore;
-import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
-import com.salesmanager.shop.store.controller.user.facade.UserFacade;
+import javax.servlet.http.HttpServletRequest;
+
+import java.util.Optional;
+
+import static com.salesmanager.core.business.constants.Constants.DEFAULT_STORE;
+import static org.apache.commons.lang.StringUtils.isBlank;
+import static org.apache.commons.lang.StringUtils.isNotBlank;
 
 @Component
 public class MerchantStoreArgumentResolver implements HandlerMethodArgumentResolver {
 
-  @Autowired private StoreFacade storeFacade;
-  
+    private static final Logger LOGGER = LoggerFactory.getLogger(MerchantStoreArgumentResolver.class);
+    public static final String REQUEST_PARAMATER_STORE = "store";
+
+    @Autowired private StoreFacade storeFacade;
+
   @Autowired private UserFacade userFacade;
 
   @Override
@@ -37,19 +45,18 @@ public class MerchantStoreArgumentResolver implements HandlerMethodArgumentResol
       NativeWebRequest webRequest,
       WebDataBinderFactory binderFactory)
       throws Exception {
-    String store = webRequest.getParameter("store");
-    String storeValue = isBlank(store) ? DEFAULT_STORE : store;
+    String storeValue = Optional.ofNullable(webRequest.getParameter(REQUEST_PARAMATER_STORE))
+      .filter(StringUtils::isNotBlank)
+      .orElse(DEFAULT_STORE);
     //todo get from cache
     MerchantStore storeModel =  storeFacade.get(storeValue);
-    
+
     HttpServletRequest httpServletRequest = webRequest.getNativeRequest(HttpServletRequest.class);
-    
-    boolean authorized = false;
 
     //TODO required filter
     //authorize request
-    authorized = userFacade.authorizeStore(storeModel, httpServletRequest.getRequestURI());
-    System.out.println("is request authorized " + authorized + " for " + httpServletRequest.getRequestURI() + " and store " + storeModel.getCode());
+      boolean authorized = userFacade.authorizeStore(storeModel, httpServletRequest.getRequestURI());
+    LOGGER.debug("is request authorized {} for {} and store {}", authorized, httpServletRequest.getRequestURI(), storeModel.getCode());
     return storeModel;
   }
 }

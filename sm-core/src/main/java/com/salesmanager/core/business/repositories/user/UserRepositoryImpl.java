@@ -53,7 +53,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
       Query q = this.em.createQuery(hql);
 
       if(!StringUtils.isBlank(criteria.getSearch())) {
-        
+        //TODO
       } else {
         if (criteria.getStoreCode() != null) {
           countQ.setParameter("storeCode", criteria.getStoreCode());

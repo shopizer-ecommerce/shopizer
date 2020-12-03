@@ -56,7 +56,7 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
     super.create(category);
     StringBuilder lineage = new StringBuilder();
     Category parent = category.getParent();
-    if (parent != null && parent.getId() != null && parent.getId().longValue() != 0) {
+    if (parent != null && parent.getId() != null && parent.getId() != 0) {
       //get parent category
       Category p = this.getById(parent.getId());
 
@@ -341,7 +341,7 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
 			// ajust all sub categories lineages
 			if (subCategories != null && subCategories.size() > 0) {
 				for (Category subCategory : subCategories) {
-					if (child.getId() != subCategory.getId()) {
+					if (!child.getId().equals(subCategory.getId())) {
 						addChild(child, subCategory);
 					}
 				}
@@ -402,9 +402,7 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
 	@Override
 	public Category findById(Long category) {
 		Optional<Category> cat = categoryRepository.findById(category);
-		if (cat.isPresent())
-			return cat.get();
-		return null;
+		return cat.orElse(null);
 	}
 
 	@Override

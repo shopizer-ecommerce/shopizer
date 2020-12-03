@@ -65,7 +65,7 @@ public interface ShoppingCartService extends SalesManagerEntityService<Long, Sho
 	 * @return {@link ShoppingCart} merged Shopping Cart
 	 * @throws Exception
 	 */
-	public ShoppingCart mergeShoppingCarts(final ShoppingCart userShoppingCart, final ShoppingCart sessionCart,
+	ShoppingCart mergeShoppingCarts(final ShoppingCart userShoppingCart, final ShoppingCart sessionCart,
 			final MerchantStore store) throws Exception;
 
 	/**

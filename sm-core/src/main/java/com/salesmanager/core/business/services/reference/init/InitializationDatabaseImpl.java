@@ -325,9 +325,7 @@ public class InitializationDatabaseImpl implements InitializationDatabase {
               //will load es zones and use a specific file for french es zones
       		  List<Map<String, Zone>> loadIndividualZones = zonesLoader.loadIndividualZones();
       		  
-      		loadIndividualZones.stream().forEach(z -> {
-					addZonesToDb(z);
-			});
+      		loadIndividualZones.forEach(this::addZonesToDb);
 
   		} catch (Exception e) {
   		    

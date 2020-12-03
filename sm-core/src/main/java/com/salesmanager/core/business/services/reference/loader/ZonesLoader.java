@@ -3,6 +3,7 @@ package com.salesmanager.core.business.services.reference.loader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -136,8 +137,7 @@ public class ZonesLoader {
 
 
 	private InputStream loadFileContent(String fileName) throws Exception {
-		InputStream in = this.getClass().getClassLoader().getResourceAsStream("classpath:/reference/zones/" + fileName);
-		return in;
+		return this.getClass().getClassLoader().getResourceAsStream("classpath:/reference/zones/" + fileName);
 	}
 
 	public Map<String, Zone> loadZones(String jsonFilePath) throws Exception {
@@ -240,18 +240,17 @@ public class ZonesLoader {
 			Map<String, Country> countriesMap, Map<String, Zone> zonesMap, Map<String, String> zonesMark,
 			Map<String, String> list) {
 
-		Map<String, String> e = list;
-		String zoneCode = e.get("zoneCode");
+		String zoneCode = list.get("zoneCode");
 		ZoneDescription zoneDescription = new ZoneDescription();
 		zoneDescription.setLanguage(l);
-		zoneDescription.setName(e.get("zoneName"));
+		zoneDescription.setName(list.get("zoneName"));
 		Zone zone = null;
 		List<ZoneDescription> descriptions = null;
 		if (!zonesMap.containsKey(zoneCode)) {
 			zone = new Zone();
-			Country country = countriesMap.get(e.get("countryCode"));
+			Country country = countriesMap.get(list.get("countryCode"));
 			if (country == null) {
-				LOGGER.warn("Country is null for " + zoneCode + " and country code " + e.get("countryCode"));
+				LOGGER.warn("Country is null for " + zoneCode + " and country code " + list.get("countryCode"));
 				return;
 			}
 			zone.setCountry(country);
@@ -280,14 +279,10 @@ public class ZonesLoader {
 	}
 
 	private List<Resource> geZoneFiles(String path) throws IOException {
-		
-		List<Resource> files = new ArrayList<Resource>();
 		Resource[] resources =resourceResolver.getResources(PATH);
-		
-		for(int i = 0; i< resources.length; i++) {
-			files.add(resources[i]);
-		}
-		
+
+		List<Resource> files = new ArrayList<>();
+		Collections.addAll(files, resources);
 		return files;
 
 	}

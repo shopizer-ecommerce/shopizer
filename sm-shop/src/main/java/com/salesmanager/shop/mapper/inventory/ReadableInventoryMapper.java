@@ -39,12 +39,12 @@ public class ReadableInventoryMapper implements Mapper<ProductAvailability, Read
   public ReadableInventory convert(ProductAvailability source, MerchantStore store,
       Language language) {
     ReadableInventory availability = new ReadableInventory();
-    return this.convert(source, availability, store, language);
+    return this.merge(source, availability, store, language);
   }
 
   @Override
-  public ReadableInventory convert(ProductAvailability source, ReadableInventory destination,
-      MerchantStore store, Language language) {
+  public ReadableInventory merge(ProductAvailability source, ReadableInventory destination,
+                                 MerchantStore store, Language language) {
     Validate.notNull(destination, "Destination Product availability cannot be null");
     Validate.notNull(source, "Source Product availability cannot be null");
 

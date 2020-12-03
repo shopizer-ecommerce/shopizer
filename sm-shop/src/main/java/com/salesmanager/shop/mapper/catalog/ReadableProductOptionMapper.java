@@ -19,13 +19,13 @@ public class ReadableProductOptionMapper implements Mapper<ProductOption, Readab
   public ReadableProductOptionEntity convert(ProductOption source, MerchantStore store,
       Language language) {
     ReadableProductOptionEntity destination = new ReadableProductOptionEntity();
-    return convert(source, destination, store, language);
+    return merge(source, destination, store, language);
   }
 
 
   @Override
-  public ReadableProductOptionEntity convert(ProductOption source,
-      ReadableProductOptionEntity destination, MerchantStore store, Language language) {
+  public ReadableProductOptionEntity merge(ProductOption source,
+                                           ReadableProductOptionEntity destination, MerchantStore store, Language language) {
     ReadableProductOptionEntity readableProductOption = new ReadableProductOptionEntity();
     if(language == null) {
       readableProductOption = new ReadableProductOptionFull();

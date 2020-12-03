@@ -35,12 +35,12 @@ public class ReadableProductOptionSetMapper implements Mapper<ProductOptionSet, 
 	@Override
 	public ReadableProductOptionSet convert(ProductOptionSet source, MerchantStore store, Language language) {
 		ReadableProductOptionSet optionSource = new ReadableProductOptionSet();
-		return convert(source, optionSource, store, language);
+		return merge(source, optionSource, store, language);
 	}
 
 	@Override
-	public ReadableProductOptionSet convert(ProductOptionSet source, ReadableProductOptionSet destination,
-			MerchantStore store, Language language) {
+	public ReadableProductOptionSet merge(ProductOptionSet source, ReadableProductOptionSet destination,
+										  MerchantStore store, Language language) {
 		Validate.notNull(source,"ProductOptionSet must not be null");
 		Validate.notNull(destination,"ReadableProductOptionSet must not be null");
 		

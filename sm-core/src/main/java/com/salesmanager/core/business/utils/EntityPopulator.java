@@ -13,6 +13,6 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 public interface EntityPopulator<Source,Target>
 {
 
-    public Target populateToEntity(Source source, Target target, MerchantStore store)  throws ConversionException;
-    public Target populateToEntity(Source source) throws ConversionException;
+    Target populateToEntity(Source source, Target target, MerchantStore store)  throws ConversionException;
+    Target populateToEntity(Source source) throws ConversionException;
 }

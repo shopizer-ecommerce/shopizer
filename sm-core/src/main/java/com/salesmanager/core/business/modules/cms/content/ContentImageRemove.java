@@ -9,7 +9,7 @@ public interface ContentImageRemove extends ImageRemove {
 
 
 
-  public void removeImage(final String merchantStoreCode, final FileContentType imageContentType,
+  void removeImage(final String merchantStoreCode, final FileContentType imageContentType,
       final String imageName) throws ServiceException;
 
 }

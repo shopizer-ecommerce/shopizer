@@ -132,11 +132,7 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
     	if(max>0) {
     			int maxCount = first + max;
 
-    			if(maxCount < count.intValue()) {
-    				objectQ.setMaxResults(maxCount);
-    			} else {
-    				objectQ.setMaxResults(count.intValue());
-    			}
+			objectQ.setMaxResults(Math.min(maxCount, count.intValue()));
     	}
 		
 		customerList.setCustomers(objectQ.getResultList());
