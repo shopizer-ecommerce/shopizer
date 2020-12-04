@@ -64,7 +64,7 @@ public class CustomerApi {
       return customerFacade.create(customer, merchantStore, language);
 
   }
-  
+
 
   @PutMapping("/private/customer/{id}")
   @ApiOperation(
@@ -84,7 +84,7 @@ public class CustomerApi {
       customer.setId(id);
       return customerFacade.update(customer, merchantStore);
   }
-  
+
   @PatchMapping("/private/customer/{id}/address")
   @ApiOperation(
       httpMethod = "PATCH",
@@ -168,7 +168,7 @@ public class CustomerApi {
    * @param request
    * @return
    */
-  @GetMapping("/private/customer/profile")
+  @GetMapping({"/private/customer/profile", "/auth/customer/profile"})
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
@@ -181,7 +181,7 @@ public class CustomerApi {
     String userName = principal.getName();
     return customerFacade.getCustomerByNick(userName, merchantStore, language);
   }
-  
+
   @PatchMapping("/auth/customer/address")
   @ApiOperation(
       httpMethod = "PATCH",
@@ -198,12 +198,12 @@ public class CustomerApi {
       HttpServletRequest request) {
       Principal principal = request.getUserPrincipal();
       String userName = principal.getName();
-      
+
 
       customerFacade.updateAddress(userName, customer, merchantStore);
-  
+
   }
-  
+
   @PutMapping("/auth/customer/{id}")
   @ApiOperation(
       httpMethod = "PUT",
@@ -218,12 +218,12 @@ public class CustomerApi {
       @ApiIgnore MerchantStore merchantStore,
       @Valid @RequestBody PersistableCustomer customer,
       HttpServletRequest request) {
-      
+
       Principal principal = request.getUserPrincipal();
       String userName = principal.getName();
 
       return customerFacade.update(userName, customer, merchantStore);
   }
-  
-  
+
+
 }
