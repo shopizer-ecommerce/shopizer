@@ -78,7 +78,7 @@ public class OrderApi {
 
 	@Inject
 	private AuthorizationUtils authorizationUtils;
-	
+
 	private static final String DEFAULT_ORDER_LIST_COUNT = "25";
 
 	/**
@@ -213,8 +213,8 @@ public class OrderApi {
 			@RequestParam(value = "email", required = false) String email,
 			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
-		
-		
+
+
 		//long startTime = System.nanoTime();
 
 
@@ -234,16 +234,16 @@ public class OrderApi {
 				Constants.GROUP_ADMIN_ORDER, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()), merchantStore);
 
 		ReadableOrderList orders = orderFacade.getReadableOrderList(orderCriteria, merchantStore);
-		
+
 		/**
 		long endTime = System.nanoTime();
-		
+
 		long timeElapsed = endTime - startTime;
 
 		System.out.println("Execution time in milliseconds : " +
 								timeElapsed / 1000000);
 								**/
-		
+
 		return orders;
 
 	}
@@ -261,10 +261,10 @@ public class OrderApi {
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
 	public ReadableOrder get(
-			@PathVariable final Long id, 
+			@PathVariable final Long id,
 			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
-		
+
 		String user = authorizationUtils.authenticatedUser();
 		authorizationUtils.authorizeUser(user, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN,
 				Constants.GROUP_ADMIN_ORDER, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()), merchantStore);
@@ -389,7 +389,7 @@ public class OrderApi {
 			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
 	public PersistableOrder checkout(
 			@PathVariable final String code,
-			@Valid @RequestBody PersistableAnonymousOrder order, 
+			@Valid @RequestBody PersistableAnonymousOrder order,
 			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
 
@@ -403,7 +403,14 @@ public class OrderApi {
 				throw new ResourceNotFoundException("Cart code " + code + " does not exist");
 			}
 
-			Customer customer = new Customer();
+			// If we have an existing customer profile we reuse it
+			Customer customer = customerService.getByEmail(order.getCustomer().getEmailAddress());
+
+			if(customer == null) {
+				// this is a new customer
+				customer = new Customer();
+			}
+			// Let's populate / update customer model object
 			customer = customerFacade.populateCustomerModel(customer, order.getCustomer(), merchantStore, language);
 
 			order.setShoppingCartId(cart.getId());
@@ -424,26 +431,26 @@ public class OrderApi {
 		}
 
 	}
-	
+
 	@RequestMapping(value = { "/private/orders/{id}/customer" }, method = RequestMethod.PATCH)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
-	@ApiImplicitParams({ 
+	@ApiImplicitParams({
 			@ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
 	public void updateOrderCustomer(
 			@PathVariable final Long id,
-			@Valid @RequestBody PersistableCustomer orderCustomer, 
+			@Valid @RequestBody PersistableCustomer orderCustomer,
 			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
-		
+
 		String user = authorizationUtils.authenticatedUser();
 		authorizationUtils.authorizeUser(user, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN,
 				Constants.GROUP_ADMIN_ORDER, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()), merchantStore);
 
-		
+
 		orderFacade.updateOrderCustomre(id, orderCustomer, merchantStore);
 		return;
-		
+
 	}
 }
