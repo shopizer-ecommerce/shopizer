@@ -4,14 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.model.catalog.catalog.CatalogCategoryEntry;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
 import com.salesmanager.shop.model.catalog.catalog.ReadableCatalogCategoryEntry;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
-import com.salesmanager.shop.populator.catalog.ReadableProductPopulator;
 import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;
 import com.salesmanager.shop.utils.ImageFilePath;
 
@@ -34,12 +32,12 @@ public class ReadableCatalogCategoryEntryMapper implements Mapper<CatalogCategor
 	@Override
 	public ReadableCatalogCategoryEntry convert(CatalogCategoryEntry source, MerchantStore store, Language language) {
 		ReadableCatalogCategoryEntry destination = new ReadableCatalogCategoryEntry();
-		return convert(source, destination, store, language);
+		return merge(source, destination, store, language);
 	}
 
 	@Override
-	public ReadableCatalogCategoryEntry convert(CatalogCategoryEntry source, ReadableCatalogCategoryEntry destination, MerchantStore store,
-			Language language) {
+	public ReadableCatalogCategoryEntry merge(CatalogCategoryEntry source, ReadableCatalogCategoryEntry destination, MerchantStore store,
+											  Language language) {
 		ReadableCatalogCategoryEntry convertedDestination = Optional.ofNullable(destination)
 				.orElse(new ReadableCatalogCategoryEntry());
 		

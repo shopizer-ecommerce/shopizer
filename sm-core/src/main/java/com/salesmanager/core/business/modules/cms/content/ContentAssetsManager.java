@@ -58,12 +58,8 @@ public interface ContentAssetsManager extends AssetsManager, FileGet, FilePut, F
 
     default boolean isInsideSubFolder(String key) {
         int c = StringUtils.countMatches(key, Constants.SLASH);
-        if (c > 2) {
-          return true;
-        }
-    
-        return false;
-      }
+        return c > 2;
+    }
 
       default String getName(String filename) {
         if (filename == null) {

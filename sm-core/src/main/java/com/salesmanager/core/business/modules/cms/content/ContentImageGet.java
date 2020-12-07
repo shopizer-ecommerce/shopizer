@@ -8,10 +8,10 @@ import com.salesmanager.core.model.content.OutputContentFile;
 
 public interface ContentImageGet extends ImageGet {
 
-  public OutputContentFile getImage(final String merchantStoreCode, String imageName,
+  OutputContentFile getImage(final String merchantStoreCode, String imageName,
       FileContentType imageContentType) throws ServiceException;
 
-  public List<String> getImageNames(final String merchantStoreCode,
+  List<String> getImageNames(final String merchantStoreCode,
       FileContentType imageContentType) throws ServiceException;
 
 }

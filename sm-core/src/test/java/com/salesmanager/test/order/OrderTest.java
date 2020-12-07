@@ -1,14 +1,5 @@
 package com.salesmanager.test.order;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.model.catalog.category.Category;
@@ -49,6 +40,14 @@ import com.salesmanager.core.model.reference.country.Country;
 import com.salesmanager.core.model.reference.currency.Currency;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.reference.zone.Zone;
+import org.junit.Assert;
+import org.junit.Ignore;
+import org.junit.Test;
+
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Ignore
@@ -290,7 +289,7 @@ public class OrderTest extends com.salesmanager.test.common.AbstractSalesManager
 		order.setMerchant(merchant);
 		order.setLastModified(new Date());
 		order.setCurrencyValue(new BigDecimal(1));//no price variation because of the currency
-		order.setCustomerId(new Long(1) );
+		order.setCustomerId(1L);
 		order.setDelivery(delivery);
 		order.setIpAddress("ipAddress" );
 		order.setMerchant(merchant);
@@ -393,7 +392,7 @@ public class OrderTest extends com.salesmanager.test.common.AbstractSalesManager
 
 		
 		Assert.assertNotNull(ordserList);
-		Assert.assertTrue("Merchant Orders are null." , ordserList.getOrders() != null);
+		Assert.assertNotNull("Merchant Orders are null.", ordserList.getOrders());
 		Assert.assertTrue("Merchant Orders count is not one." , (ordserList.getOrders() != null && ordserList.getOrders().size() == 1) );
 	}
 	

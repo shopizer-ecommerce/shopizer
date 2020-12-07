@@ -15,7 +15,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 
 public interface CustomerService  extends SalesManagerEntityService<Long, Customer> {
 
-	public List<Customer> getByName(String firstName);
+	List<Customer> getByName(String firstName);
 
 	List<Customer> getListByStore(MerchantStore store);
 

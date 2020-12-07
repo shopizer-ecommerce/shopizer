@@ -24,7 +24,7 @@ public interface FilePut {
    * @param inputStaticContentData
    * @throws ServiceException
    */
-  public void addFile(final String merchantStoreCode, Optional<String> path, InputContentFile inputStaticContentData)
+  void addFile(final String merchantStoreCode, Optional<String> path, InputContentFile inputStaticContentData)
       throws ServiceException;
 
   /**
@@ -34,6 +34,6 @@ public interface FilePut {
    * @param inputStaticContentDataList
    * @throws ServiceException
    */
-  public void addFiles(final String merchantStoreCode,
+  void addFiles(final String merchantStoreCode,
       Optional<String> path, List<InputContentFile> inputStaticContentDataList) throws ServiceException;
 }

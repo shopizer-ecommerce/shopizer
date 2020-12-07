@@ -46,15 +46,13 @@ public class ProcessorsConfiguration {
 	 */
 	@Bean
 	public List<OrderProcessor> orderPreProcessors() {
-		List<OrderProcessor> processors = new ArrayList<OrderProcessor>();
-		return processors;
+		return new ArrayList<OrderProcessor>();
 	}
 	
 	@Bean
 	public List<OrderProcessor> orderPostProcessors() {
-		List<OrderProcessor> processors = new ArrayList<OrderProcessor>();
 		//processors.add(indexOrderProcessor);
-		return processors;
+		return new ArrayList<OrderProcessor>();
 	}
 	
 	/**
@@ -63,9 +61,8 @@ public class ProcessorsConfiguration {
 	 */
 	@Bean
 	public List<ShoppingCartProcessor> shoppingCartPostProcessors() {
-		List<ShoppingCartProcessor> processors = new ArrayList<ShoppingCartProcessor>();
 		//processors.add(shippingCartProcessor);
-		return processors;
+		return new ArrayList<ShoppingCartProcessor>();
 	}
 	
 	

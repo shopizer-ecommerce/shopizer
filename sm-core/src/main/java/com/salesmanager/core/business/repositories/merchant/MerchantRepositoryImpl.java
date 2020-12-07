@@ -50,8 +50,8 @@ public class MerchantRepositoryImpl implements MerchantRepositoryCustom {
       }
 
       if (!StringUtils.isBlank(criteria.getCriteriaOrderByField())) {
-        req.append(" order by m." + criteria.getCriteriaOrderByField() + " "
-            + criteria.getOrderBy().name().toLowerCase());
+        req.append(" order by m.").append(criteria.getCriteriaOrderByField()).append(" ")
+                .append(criteria.getOrderBy().name().toLowerCase());
       }
 
       Query countQ = this.em.createQuery(countBuilder.toString());
@@ -67,9 +67,6 @@ public class MerchantRepositoryImpl implements MerchantRepositoryCustom {
         countQ.setParameter("name", "%" + criteria.getCode().toLowerCase() + "%");
         q.setParameter("name", "%" + criteria.getCode().toLowerCase() + "%");
       }
-      if (criteria.getUser() != null) {
-      }
-
 
 
       Number count = (Number) countQ.getSingleResult();

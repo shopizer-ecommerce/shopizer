@@ -2,12 +2,15 @@ package com.salesmanager.core.business.services.shipping;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
@@ -156,7 +159,7 @@ public class ShippingServiceImpl implements ShippingService {
 	public CustomIntegrationConfiguration getCustomShippingConfiguration(String moduleCode, MerchantStore store) throws ServiceException {
 
 		
-		ShippingQuoteModule quoteModule = (ShippingQuoteModule)shippingModules.get(moduleCode);
+		ShippingQuoteModule quoteModule = shippingModules.get(moduleCode);
 		if(quoteModule==null) {
 			return null;
 		}
@@ -185,7 +188,7 @@ public class ShippingServiceImpl implements ShippingService {
 	public void saveCustomShippingConfiguration(String moduleCode, CustomIntegrationConfiguration shippingConfiguration, MerchantStore store) throws ServiceException {
 		
 		
-		ShippingQuoteModule quoteModule = (ShippingQuoteModule)shippingModules.get(moduleCode);
+		ShippingQuoteModule quoteModule = shippingModules.get(moduleCode);
 		if(quoteModule==null) {
 			throw new ServiceException("Shipping module " + moduleCode + " does not exist");
 		}
@@ -602,7 +605,7 @@ public class ShippingServiceImpl implements ShippingService {
 						String countryName = delivery.getCountry().getName();
 						if(countryName == null) {
 							Map<String,Country> deliveryCountries = countryService.getCountriesMap(language);
-							Country dCountry = (Country)deliveryCountries.get(delivery.getCountry().getIsoCode());
+							Country dCountry = deliveryCountries.get(delivery.getCountry().getIsoCode());
 							if(dCountry!=null) {
 								countryName = dCountry.getName();
 							} else {
@@ -701,7 +704,7 @@ public class ShippingServiceImpl implements ShippingService {
 					}
 					if(!StringUtils.isBlank(option.getEstimatedNumberOfDays())) {
 						try {
-							q.setEstimatedNumberOfDays(new Integer(option.getEstimatedNumberOfDays()));
+							q.setEstimatedNumberOfDays(Integer.valueOf(option.getEstimatedNumberOfDays()));
 						} catch(Exception e) {
 							LOGGER.error("Cannot cast to integer " + option.getEstimatedNumberOfDays());
 						}
@@ -764,10 +767,8 @@ public class ShippingServiceImpl implements ShippingService {
 
 				Object objRegions=JSONValue.parse(countries); 
 				JSONArray arrayRegions=(JSONArray)objRegions;
-				@SuppressWarnings("rawtypes")
-				Iterator i = arrayRegions.iterator();
-				while(i.hasNext()) {
-					supportedCountries.add((String)i.next());
+				for (Object arrayRegion : arrayRegions) {
+					supportedCountries.add((String) arrayRegion);
 				}
 			}
 			
@@ -807,10 +808,8 @@ public class ShippingServiceImpl implements ShippingService {
 
 					Object objRegions=JSONValue.parse(countries); 
 					JSONArray arrayRegions=(JSONArray)objRegions;
-					@SuppressWarnings("rawtypes")
-					Iterator i = arrayRegions.iterator();
-					while(i.hasNext()) {
-						supportedCountries.add((String)i.next());
+					for (Object arrayRegion : arrayRegions) {
+						supportedCountries.add((String) arrayRegion);
 					}
 				}
 				
@@ -921,14 +920,9 @@ public class ShippingServiceImpl implements ShippingService {
 		metaData.setShipToCountry(countries);
 		
 		// configured modules
-		Map<String,IntegrationConfiguration> modules = getShippingModulesConfigured(store);
-		List<String> moduleKeys = new ArrayList<String>();
-		if(modules!=null) {
-			for(String key : modules.keySet()) {
-				moduleKeys.add(key);
-			}
-		}
-		metaData.setModules(moduleKeys);
+		Map<String,IntegrationConfiguration> modules = Optional.ofNullable(getShippingModulesConfigured(store))
+				.orElse(Collections.emptyMap());
+		metaData.setModules(new ArrayList<>(modules.keySet()));
 		
 		// pre processors
 		List<ShippingQuotePrePostProcessModule> preProcessors = this.shippingModulePreProcessors;

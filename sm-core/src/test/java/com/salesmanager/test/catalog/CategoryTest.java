@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.salesmanager.core.business.exception.ServiceException;
@@ -12,8 +13,6 @@ import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.category.CategoryDescription;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
-
-import junit.framework.Assert;
 
 
 public class CategoryTest extends com.salesmanager.test.common.AbstractSalesManagerCoreTestCase {
@@ -56,7 +55,7 @@ public class CategoryTest extends com.salesmanager.test.common.AbstractSalesMana
 	    Long bookId = materingstuff.getId();
 	    
 	    Category fetchedBook = categoryService.getById(bookId, store.getId());
-	    Assert.assertTrue(2 == fetchedBook.getDescriptions().size());
+		Assert.assertEquals(2, fetchedBook.getDescriptions().size());
 
 	    // Clean up for other tests
 	    categoryService.delete(materingstuff);

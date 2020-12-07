@@ -152,10 +152,9 @@ public class MerchantStoreServiceImpl extends SalesManagerEntityServiceImpl<Inte
 
 		
 		Pageable pageRequest = PageRequest.of(page, count);
-		
-		
-		Page<MerchantStore> stores = pageableMerchantRepository.listByGroup(code, id.get(), name, pageRequest);
-		return stores;
+
+
+		return pageableMerchantRepository.listByGroup(code, id.get(), name, pageRequest);
 		
 		
 	}

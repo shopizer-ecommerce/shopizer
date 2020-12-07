@@ -19,14 +19,10 @@ public class CreditCardUtils {
 		String prefix = clearcardnumber.substring(0, 4);
 		String suffix = clearcardnumber.substring(length - 4);
 
-		StringBuffer mask = new StringBuffer();
-		mask.append(prefix).append("XXXXXXXXXX").append(suffix);
-
-		return mask.toString();
+		return new StringBuilder()
+				.append(prefix)
+				.append("XXXXXXXXXX")
+				.append(suffix)
+				.toString();
 	}
-
-	
-
-
-
 }

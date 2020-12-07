@@ -207,7 +207,7 @@ public class PaymentServiceImpl implements PaymentService {
 		try {
 			
 			String moduleCode = configuration.getModuleCode();
-			PaymentModule module = (PaymentModule)paymentModules.get(moduleCode);
+			PaymentModule module = paymentModules.get(moduleCode);
 			if(module==null) {
 				throw new ServiceException("Payment module " + moduleCode + " does not exist");
 			}
@@ -372,7 +372,7 @@ public class PaymentServiceImpl implements PaymentService {
 		
 		if(transactionType == TransactionType.AUTHORIZECAPTURE)  {
 			order.setStatus(OrderStatus.ORDERED);
-			if(payment.getPaymentType().name()!=PaymentType.MONEYORDER.name()) {
+			if(!payment.getPaymentType().name().equals(PaymentType.MONEYORDER.name())) {
 				order.setStatus(OrderStatus.PROCESSED);
 			}
 		}
@@ -562,20 +562,17 @@ public class PaymentServiceImpl implements PaymentService {
 			Integer.parseInt(month);
 			Integer.parseInt(date);
 		} catch (NumberFormatException nfe) {
-			ServiceException ex = new ServiceException(ServiceException.EXCEPTION_VALIDATION,"Invalid date format","messages.error.creditcard.dateformat");
-			throw ex;
+			throw new ServiceException(ServiceException.EXCEPTION_VALIDATION,"Invalid date format","messages.error.creditcard.dateformat");
 		}
 		
 		if (StringUtils.isBlank(number)) {
-			ServiceException ex = new ServiceException(ServiceException.EXCEPTION_VALIDATION,"Invalid card number","messages.error.creditcard.number");
-			throw ex;
+			throw new ServiceException(ServiceException.EXCEPTION_VALIDATION,"Invalid card number","messages.error.creditcard.number");
 		}
 		
 		Matcher m = Pattern.compile("[^\\d\\s.-]").matcher(number);
 		
 		if (m.find()) {
-			ServiceException ex = new ServiceException(ServiceException.EXCEPTION_VALIDATION,"Invalid card number","messages.error.creditcard.number");
-			throw ex;
+			throw new ServiceException(ServiceException.EXCEPTION_VALIDATION,"Invalid card number","messages.error.creditcard.number");
 		}
 		
 		Matcher matcher = Pattern.compile("[\\s.-]").matcher(number);
@@ -590,13 +587,11 @@ public class PaymentServiceImpl implements PaymentService {
 		int monthNow = cal.get(java.util.Calendar.MONTH) + 1;
 		int yearNow = cal.get(java.util.Calendar.YEAR);
 		if (yearNow > y) {
-			ServiceException ex = new ServiceException(ServiceException.EXCEPTION_VALIDATION,"Invalid date format","messages.error.creditcard.dateformat");
-			throw ex;
+			throw new ServiceException(ServiceException.EXCEPTION_VALIDATION,"Invalid date format","messages.error.creditcard.dateformat");
 		}
 		// OK, change implementation
 		if (yearNow == y && monthNow > m) {
-			ServiceException ex = new ServiceException(ServiceException.EXCEPTION_VALIDATION,"Invalid date format","messages.error.creditcard.dateformat");
-			throw ex;
+			throw new ServiceException(ServiceException.EXCEPTION_VALIDATION,"Invalid date format","messages.error.creditcard.dateformat");
 		}
 	
 	}
@@ -616,16 +611,14 @@ public class PaymentServiceImpl implements PaymentService {
 			if (number.length() != 16
 					|| Integer.parseInt(number.substring(0, 2)) < 51
 					|| Integer.parseInt(number.substring(0, 2)) > 55) {
-				ServiceException ex = new ServiceException(ServiceException.EXCEPTION_VALIDATION,"Invalid card number","messages.error.creditcard.number");
-				throw ex;
+				throw new ServiceException(ServiceException.EXCEPTION_VALIDATION,"Invalid card number","messages.error.creditcard.number");
 			}
 		}
 		
 		if(CreditCardType.VISA.equals(creditCard.name())) {
 			if ((number.length() != 13 && number.length() != 16)
 					|| Integer.parseInt(number.substring(0, 1)) != 4) {
-				ServiceException ex = new ServiceException(ServiceException.EXCEPTION_VALIDATION,"Invalid card number","messages.error.creditcard.number");
-				throw ex;
+				throw new ServiceException(ServiceException.EXCEPTION_VALIDATION,"Invalid card number","messages.error.creditcard.number");
 			}
 		}
 		
@@ -633,8 +626,7 @@ public class PaymentServiceImpl implements PaymentService {
 			if (number.length() != 15
 					|| (Integer.parseInt(number.substring(0, 2)) != 34 && Integer
 							.parseInt(number.substring(0, 2)) != 37)) {
-				ServiceException ex = new ServiceException(ServiceException.EXCEPTION_VALIDATION,"Invalid card number","messages.error.creditcard.number");
-				throw ex;
+				throw new ServiceException(ServiceException.EXCEPTION_VALIDATION,"Invalid card number","messages.error.creditcard.number");
 			}
 		}
 		
@@ -644,16 +636,14 @@ public class PaymentServiceImpl implements PaymentService {
 							.parseInt(number.substring(0, 2)) != 38)
 							&& Integer.parseInt(number.substring(0, 3)) < 300 || Integer
 							.parseInt(number.substring(0, 3)) > 305)) {
-				ServiceException ex = new ServiceException(ServiceException.EXCEPTION_VALIDATION,"Invalid card number","messages.error.creditcard.number");
-				throw ex;
+				throw new ServiceException(ServiceException.EXCEPTION_VALIDATION,"Invalid card number","messages.error.creditcard.number");
 			}
 		}
 		
 		if(CreditCardType.DISCOVERY.equals(creditCard.name())) {
 			if (number.length() != 16
 					|| Integer.parseInt(number.substring(0, 5)) != 6011) {
-				ServiceException ex = new ServiceException(ServiceException.EXCEPTION_VALIDATION,"Invalid card number","messages.error.creditcard.number");
-				throw ex;
+				throw new ServiceException(ServiceException.EXCEPTION_VALIDATION,"Invalid card number","messages.error.creditcard.number");
 			}
 		}
 
@@ -682,13 +672,13 @@ public class PaymentServiceImpl implements PaymentService {
 			if (number[i] > 9)
 				number[i] -= 9;
 		}
-	
-		for (int i = 0; i < number.length; i++)
-			total += number[i];
+
+		for (int j : number) {
+			total += j;
+		}
 	
 		if (total % 10 != 0) {
-			ServiceException ex = new ServiceException(ServiceException.EXCEPTION_VALIDATION,"Invalid card number","messages.error.creditcard.number");
-			throw ex;
+			throw new ServiceException(ServiceException.EXCEPTION_VALIDATION,"Invalid card number","messages.error.creditcard.number");
 		}
 	
 	}
@@ -728,10 +718,8 @@ public class PaymentServiceImpl implements PaymentService {
 		}
 		
 		IntegrationModule integrationModule = getPaymentMethodByCode(store,payment.getModuleName());
-		
-		Transaction transaction = module.initTransaction(store, customer, amount, payment, configuration, integrationModule);
 
-		return transaction;
+		return module.initTransaction(store, customer, amount, payment, configuration, integrationModule);
 	}
 
 	@Override

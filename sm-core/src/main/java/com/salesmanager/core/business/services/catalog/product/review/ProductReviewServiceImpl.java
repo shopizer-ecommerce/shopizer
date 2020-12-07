@@ -83,7 +83,7 @@ public class ProductReviewServiceImpl extends
 		totalRating = totalRating.add(new BigDecimal(review.getReviewRating()));
 		
 		count = count + 1;
-		double avg = totalRating.doubleValue() / count.intValue();
+		double avg = totalRating.doubleValue() / count;
 		
 		product.setProductReviewAvg(new BigDecimal(avg));
 		product.setProductReviewCount(count);

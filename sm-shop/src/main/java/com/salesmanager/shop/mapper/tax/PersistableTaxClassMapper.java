@@ -20,11 +20,11 @@ public class PersistableTaxClassMapper implements Mapper<PersistableTaxClass, Ta
 		taxClass.setMerchantStore(store);
 		taxClass.setTitle(source.getName());
 		taxClass.setId(source.getId());
-		return this.convert(source, taxClass, store, language);
+		return this.merge(source, taxClass, store, language);
 	}
 
 	@Override
-	public TaxClass convert(PersistableTaxClass source, TaxClass destination, MerchantStore store, Language language) {
+	public TaxClass merge(PersistableTaxClass source, TaxClass destination, MerchantStore store, Language language) {
 		Validate.notNull(source, "PersistableTaxClass cannot be null");
 		Validate.notNull(destination, "TaxClass cannot be null");
 		Validate.notNull(store, "MerchantStore cannot be null");

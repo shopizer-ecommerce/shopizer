@@ -3,6 +3,8 @@ package com.salesmanager.shop.store.api.v1.product;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+
+import com.salesmanager.shop.model.entity.ReadableEntityList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,13 +54,8 @@ public class ProductInventoryApi {
   public @ResponseBody ReadableInventory create(
       @Valid @RequestBody PersistableInventory inventory,
             @ApiIgnore MerchantStore merchantStore,
-            @ApiIgnore Language language,
-      HttpServletRequest request,
-      HttpServletResponse response) {
-
-      ReadableInventory returnObject = productInventoryFacade.add(inventory.getProductId(), inventory, merchantStore, language);
-      return returnObject;
-
+            @ApiIgnore Language language) {
+    return productInventoryFacade.add(inventory.getProductId(), inventory, merchantStore, language);
   }
   
   @ResponseStatus(HttpStatus.OK)
@@ -111,7 +108,8 @@ public class ProductInventoryApi {
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
   })
-  public @ResponseBody ReadableInventoryList get(
+  public @ResponseBody
+  ReadableEntityList<ReadableInventory> get(
             @PathVariable Long id,
             @ApiIgnore MerchantStore merchantStore,
             @ApiIgnore Language language,

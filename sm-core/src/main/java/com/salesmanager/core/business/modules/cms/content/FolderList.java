@@ -7,7 +7,7 @@ import com.salesmanager.core.business.exception.ServiceException;
 
 public interface FolderList {
 	
-	  public List<String> listFolders(final String merchantStoreCode, Optional<String> path)
+	  List<String> listFolders(final String merchantStoreCode, Optional<String> path)
 		      throws ServiceException;
 
 }

@@ -9,5 +9,5 @@ import com.salesmanager.core.model.system.MerchantLog;
 
 public interface MerchantLogRepository extends JpaRepository<MerchantLog, Long> {
 
-	public List<MerchantLog> findByStore(MerchantStore store);
+	List<MerchantLog> findByStore(MerchantStore store);
 }

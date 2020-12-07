@@ -2,8 +2,12 @@ package com.salesmanager.shop.store.api.v1.catalog;
 
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.shop.model.catalog.catalog.*;
+import com.salesmanager.shop.model.catalog.catalog.PersistableCatalog;
+import com.salesmanager.shop.model.catalog.catalog.PersistableCatalogCategoryEntry;
+import com.salesmanager.shop.model.catalog.catalog.ReadableCatalog;
+import com.salesmanager.shop.model.catalog.catalog.ReadableCatalogCategoryEntry;
 import com.salesmanager.shop.model.entity.EntityExists;
+import com.salesmanager.shop.model.entity.ReadableEntityList;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.controller.catalog.facade.CatalogFacade;
 import io.swagger.annotations.*;
@@ -37,11 +41,11 @@ public class CatalogApi {
   @GetMapping(value = "/private/catalogs")
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(httpMethod = "GET", value = "Get catalogs by merchant", notes = "",
-      response = ReadableEntryList.class)
+      response = ReadableEntityList.class)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
-  public ReadableEntryList<ReadableCatalog> getCatalogs(
+  public ReadableEntityList<ReadableCatalog> getCatalogs(
       @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language,
       @RequestParam(value = "page", required = false, defaultValue="0") Integer page,
       @RequestParam(value = "count", required = false, defaultValue="10") Integer count,
@@ -181,11 +185,11 @@ public class CatalogApi {
   @GetMapping(value = "/private/catalog/{id}/entry")
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(httpMethod = "GET", value = "Get catalog entry by catalog", notes = "",
-      response = ReadableEntryList.class)
+      response = ReadableEntityList.class)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
-  public ReadableEntryList<ReadableCatalogCategoryEntry> getCatalogEntry(
+  public ReadableEntityList<ReadableCatalogCategoryEntry> getCatalogEntry(
 	  @PathVariable(value="id") Long id,
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language,

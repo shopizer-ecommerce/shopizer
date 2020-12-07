@@ -18,7 +18,7 @@ public interface FolderPut {
    * @param path
    * @throws ServiceException
    */
-  public void addFolder(final String merchantStoreCode, String folderName, Optional<String> path)
+  void addFolder(final String merchantStoreCode, String folderName, Optional<String> path)
       throws ServiceException;
 
 }

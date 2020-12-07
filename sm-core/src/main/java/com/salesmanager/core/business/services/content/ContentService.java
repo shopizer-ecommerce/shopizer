@@ -32,10 +32,10 @@ public interface ContentService
     extends SalesManagerEntityService<Long, Content>
 {
 
-    public List<Content> listByType( ContentType contentType, MerchantStore store, Language language )
+    List<Content> listByType( ContentType contentType, MerchantStore store, Language language )
         throws ServiceException;
 
-    public List<Content> listByType( List<ContentType> contentType, MerchantStore store, Language language )
+    List<Content> listByType( List<ContentType> contentType, MerchantStore store, Language language )
         throws ServiceException;
 
     Content getByCode( String code, MerchantStore store )
@@ -81,7 +81,7 @@ public interface ContentService
      * @param merchantStoreCode merchant store code
      * @throws ServiceException
      */
-    public void removeFile( String merchantStoreCode, FileContentType fileContentType, String fileName) throws ServiceException;
+    void removeFile( String merchantStoreCode, FileContentType fileContentType, String fileName) throws ServiceException;
     
     /**
      * Removes static file
@@ -89,7 +89,7 @@ public interface ContentService
      * @param storeCode
      * @param filename
      */
-    public void removeFile(String storeCode, String filename) throws ServiceException;
+    void removeFile(String storeCode, String filename) throws ServiceException;
     
     /**
      * Method to remove all images for a given merchant.It will take merchant store as an input and will
@@ -98,7 +98,7 @@ public interface ContentService
      * @param merchantStoreCode
      * @throws ServiceException
      */
-    public void removeFiles( String merchantStoreCode ) throws ServiceException;
+    void removeFiles( String merchantStoreCode ) throws ServiceException;
     
     /**
      * Rename file
@@ -107,7 +107,7 @@ public interface ContentService
      * @param originalName
      * @param newName
      */
-    public void renameFile( String merchantStoreCode, FileContentType fileContentType, Optional<String> path, String originalName, String newName) throws ServiceException;
+    void renameFile( String merchantStoreCode, FileContentType fileContentType, Optional<String> path, String originalName, String newName) throws ServiceException;
     
     /**
      * Method responsible for fetching particular content image for a given merchant store. Requested image will be
@@ -119,7 +119,7 @@ public interface ContentService
      * @return {@link OutputContentImage}
      * @throws ServiceException
      */
-    public OutputContentFile getContentFile( String merchantStoreCode, FileContentType fileContentType, String fileName )
+    OutputContentFile getContentFile( String merchantStoreCode, FileContentType fileContentType, String fileName )
         throws ServiceException;
     
     
@@ -130,7 +130,7 @@ public interface ContentService
      * @return list of {@link OutputContentImage}
      * @throws ServiceException
      */
-    public List<OutputContentFile> getContentFiles( String merchantStoreCode, FileContentType fileContentType )
+    List<OutputContentFile> getContentFiles( String merchantStoreCode, FileContentType fileContentType )
                     throws ServiceException;
 
 	

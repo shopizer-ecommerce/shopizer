@@ -1,19 +1,5 @@
 package com.salesmanager.core.business.services.catalog.product;
 
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
-import java.util.stream.Collectors;
-import javax.inject.Inject;
-
-import org.apache.commons.collections.ListUtils;
-import org.apache.commons.lang3.Validate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.repositories.catalog.product.ProductRepository;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
@@ -42,6 +28,20 @@ import com.salesmanager.core.model.content.ImageContentFile;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.tax.taxclass.TaxClass;
+import org.apache.commons.lang3.Validate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import javax.inject.Inject;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service("productService")
 public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Product> implements ProductService {
@@ -87,6 +87,11 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 	public ProductServiceImpl(ProductRepository productRepository) {
 		super(productRepository);
 		this.productRepository = productRepository;
+	}
+
+	@Override
+	public Optional<Product> retrieveById(Long id) {
+		return Optional.ofNullable(getById(id));
 	}
 
 	@Override
@@ -188,11 +193,10 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		categoryIds.add(category.getId());
 
 		//Get products
-		List<Product> products = productRepository.getProductsForLocale(category.getMerchantStore(), categoryIds, language, locale);
 
 		//Filter availability
 
-		return products;
+		return productRepository.getProductsForLocale(category.getMerchantStore(), categoryIds, language, locale);
 	}
 
 	@Override

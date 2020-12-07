@@ -30,12 +30,12 @@ public class ReadableCatalogMapper implements Mapper<Catalog, ReadableCatalog> {
 	@Override
 	public ReadableCatalog convert(Catalog source, MerchantStore store, Language language) {
 		ReadableCatalog destination = new ReadableCatalog();
-		return convert(source, destination, store, language);
+		return merge(source, destination, store, language);
 	}
 
 	@Override
-	public ReadableCatalog convert(Catalog source, ReadableCatalog destination, MerchantStore store,
-			Language language) {
+	public ReadableCatalog merge(Catalog source, ReadableCatalog destination, MerchantStore store,
+								 Language language) {
 		if(destination == null) {
 			destination = new ReadableCatalog();
 		}

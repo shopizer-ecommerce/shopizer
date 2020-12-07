@@ -32,12 +32,12 @@ public class PersistableProductAttributeMapper implements Mapper<PersistableProd
 	@Override
 	public ProductAttribute convert(PersistableProductAttribute source, MerchantStore store, Language language) {
 		ProductAttribute attribute = new ProductAttribute();
-		return convert(source,attribute,store,language);
+		return merge(source,attribute,store,language);
 	}
 
 	@Override
-	public ProductAttribute convert(PersistableProductAttribute source, ProductAttribute destination,
-			MerchantStore store, Language language) {
+	public ProductAttribute merge(PersistableProductAttribute source, ProductAttribute destination,
+								  MerchantStore store, Language language) {
 
 		
 		ProductOption productOption = null;

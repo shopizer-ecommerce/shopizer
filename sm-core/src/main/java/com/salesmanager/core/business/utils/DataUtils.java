@@ -13,11 +13,7 @@ public class DataUtils {
 	 * @return
 	 */
 	public static String trimPostalCode(String postalCode) {
-
-		String pc = postalCode.replaceAll("[^a-zA-Z0-9]", "");
-
-		return pc;
-
+		return postalCode.replaceAll("[^a-zA-Z0-9]", "");
 	}
 	
 	

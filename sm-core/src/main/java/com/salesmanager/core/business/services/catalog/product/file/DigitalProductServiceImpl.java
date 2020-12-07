@@ -99,7 +99,7 @@ public class DigitalProductServiceImpl extends SalesManagerEntityServiceImpl<Lon
 		
 		Assert.notNull(digitalProduct,"DigitalProduct cannot be null");
 		Assert.notNull(digitalProduct.getProduct(),"DigitalProduct.product cannot be null");
-		if(digitalProduct.getId()==null || digitalProduct.getId().longValue()==0) {
+		if(digitalProduct.getId()==null || digitalProduct.getId() ==0) {
 			super.save(digitalProduct);
 		} else {
 			super.create(digitalProduct);

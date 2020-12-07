@@ -39,8 +39,8 @@ public class PersistableProductOptionValueMapper
 	}
 
 	@Override
-	public ProductOptionValue convert(PersistableProductOptionValueEntity source, ProductOptionValue destination,
-			MerchantStore store, Language language) {
+	public ProductOptionValue merge(PersistableProductOptionValueEntity source, ProductOptionValue destination,
+									MerchantStore store, Language language) {
 		if (destination == null) {
 			destination = new ProductOptionValue();
 		}
@@ -92,7 +92,7 @@ public class PersistableProductOptionValueMapper
 	public ProductOptionValue convert(PersistableProductOptionValueEntity source, MerchantStore store,
 			Language language) {
 		ProductOptionValue destination = new ProductOptionValue();
-		return convert(source, destination, store, language);
+		return merge(source, destination, store, language);
 	}
 
 

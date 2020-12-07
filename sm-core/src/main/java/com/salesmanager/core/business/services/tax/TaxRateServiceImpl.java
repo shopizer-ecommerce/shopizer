@@ -66,7 +66,7 @@ public class TaxRateServiceImpl extends SalesManagerEntityServiceImpl<Long, TaxR
 	
 	@Override
 	public TaxRate saveOrUpdate(TaxRate taxRate) throws ServiceException {
-		if(taxRate.getId()!=null && taxRate.getId().longValue() > 0) {
+		if(taxRate.getId()!=null && taxRate.getId() > 0) {
 			this.update(taxRate);
 		} else {
 			taxRate = super.saveAndFlush(taxRate);

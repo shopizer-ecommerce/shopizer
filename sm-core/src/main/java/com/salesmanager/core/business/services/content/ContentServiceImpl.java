@@ -356,12 +356,7 @@ public class ContentServiceImpl extends SalesManagerEntityServiceImpl<Long, Cont
 		String p = null;
 		Optional<String> path = Optional.ofNullable(p);
 
-		if (fileContentType.name().equals(FileContentType.IMAGE.name())
-				|| fileContentType.name().equals(FileContentType.STATIC_FILE.name())) {
-			return contentFileManager.getFile(merchantStoreCode, path, fileContentType, fileName);
-		} else {
-			return contentFileManager.getFile(merchantStoreCode, path, fileContentType, fileName);
-		}
+		return contentFileManager.getFile(merchantStoreCode, path, fileContentType, fileName);
 
 	}
 

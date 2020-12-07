@@ -512,7 +512,7 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 	     */
 	    
 	    List<ProductAttribute> attributes = productAttributeService.getProductAttributesByCategoryLineage(store, product.getCategories().iterator().next().getLineage(), en);
-	    Assert.assertTrue(new Long(attributes.size()).longValue() > 0);
+	    Assert.assertTrue((long) attributes.size() > 0);
 
 	}
 	
@@ -575,7 +575,7 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 	  
 	     ProductReview review = new ProductReview();
 	     review.setProduct(product);
-	     review.setReviewRating(new Double(4));
+	     review.setReviewRating(4d);
 	     Language en = languageService.getByCode("en");
 	        
 	     ProductReviewDescription reviewDescription = new ProductReviewDescription();

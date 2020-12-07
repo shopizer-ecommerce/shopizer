@@ -73,7 +73,7 @@ public class CmsImageFileManagerImpl implements ProductAssetsManager {
   @PostConstruct
   void init() {
 
-    this.rootName = ((CMSManager) cacheManager).getRootName();
+    this.rootName = cacheManager.getRootName();
     LOGGER.info("init " + getClass().getName() + " setting root" + this.rootName);
 
   }
@@ -327,11 +327,8 @@ public class CmsImageFileManagerImpl implements ProductAssetsManager {
 
       Set<Node<String, Object>> childs = merchantNode.getChildren();
 
-      Iterator<Node<String, Object>> iterator = childs.iterator();
       // TODO image sizes
-      while (iterator.hasNext()) {
-
-        Node<String, Object> node = iterator.next();
+      for (Node<String, Object> node : childs) {
 
         for (String key : node.getKeys()) {
 

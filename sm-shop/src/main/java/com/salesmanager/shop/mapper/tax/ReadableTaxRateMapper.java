@@ -20,13 +20,13 @@ public class ReadableTaxRateMapper implements Mapper<TaxRate, ReadableTaxRate> {
 	@Override
 	public ReadableTaxRate convert(TaxRate source, MerchantStore store, Language language) {
 		ReadableTaxRate taxRate = new ReadableTaxRate();
-		return this.convert(source, taxRate, store, language);
+		return this.merge(source, taxRate, store, language);
 
 	}
 
 	@Override
-	public ReadableTaxRate convert(TaxRate source, ReadableTaxRate destination, MerchantStore store,
-			Language language) {
+	public ReadableTaxRate merge(TaxRate source, ReadableTaxRate destination, MerchantStore store,
+								 Language language) {
 		Validate.notNull(destination, "destination TaxRate cannot be null");
 		Validate.notNull(source, "source TaxRate cannot be null");
 		destination.setId(source.getId());

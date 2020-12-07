@@ -110,12 +110,10 @@ public class BeanStreamPayment implements PaymentModule {
 				messageString.append("trnID=").append(trnID);
 				
 				LOGGER.debug("REQUEST SENT TO BEANSTREAM -> " + messageString.toString());
-		
 
 
-				Transaction response = this.sendTransaction(null, store, messageString.toString(), "PAC", TransactionType.CAPTURE, PaymentType.CREDITCARD, order.getTotal(), configuration, module);
-				
-				return response;
+
+				return sendTransaction(null, store, messageString.toString(), "PAC", TransactionType.CAPTURE, PaymentType.CREDITCARD, order.getTotal(), configuration, module);
 				
 			} catch(Exception e) {
 				
@@ -161,21 +159,18 @@ public class BeanStreamPayment implements PaymentModule {
 				bSandbox = true;
 			}
 
-			String server = "";
-
-
 			ModuleConfig configs = module.getModuleConfigs().get("PROD");
 
-			if (bSandbox == true) {
+			if (bSandbox) {
 				configs = module.getModuleConfigs().get("TEST");
 			} 
 			
 			if(configs==null) {
 				throw new IntegrationException("Module not configured for TEST or PROD");
 			}
-			
 
-			server = new StringBuffer().append(
+
+			String server = new StringBuffer().append(
 					
 					configs.getScheme()).append("://")
 					.append(configs.getHost())
@@ -211,15 +206,13 @@ public class BeanStreamPayment implements PaymentModule {
 			
 		
 			
-			URL postURL = new URL(server.toString());
+			URL postURL = new URL(server);
 			conn = (HttpURLConnection) postURL.openConnection();
-			
 
 
-			
-			Transaction response = this.sendTransaction(null, store, messageString.toString(), "R", TransactionType.REFUND, PaymentType.CREDITCARD, amount, configuration, module);
-			
-			return response;
+
+
+			return sendTransaction(null, store, messageString.toString(), "R", TransactionType.REFUND, PaymentType.CREDITCARD, amount, configuration, module);
 			
 		} catch(Exception e) {
 			
@@ -314,7 +307,7 @@ public class BeanStreamPayment implements PaymentModule {
 			
 			ModuleConfig configs = module.getModuleConfigs().get("PROD");
 
-			if (bSandbox == true) {
+			if (bSandbox) {
 				configs = module.getModuleConfigs().get("TEST");
 			} 
 			
@@ -333,7 +326,7 @@ public class BeanStreamPayment implements PaymentModule {
 			
 	
 			
-			URL postURL = new URL(server.toString());
+			URL postURL = new URL(server);
 			conn = (HttpURLConnection) postURL.openConnection();
 			
 
@@ -379,9 +372,9 @@ public class BeanStreamPayment implements PaymentModule {
 			//check
 			//trnApproved=1&trnId=10003067&messageId=1&messageText=Approved&trnOrderNumber=E40089&authCode=TEST&errorType=N&errorFields=
 
-			String transactionApproved = (String)nvp.get("TRNAPPROVED");
-			String transactionId = (String)nvp.get("TRNID");
-			String messageId = (String)nvp.get("MESSAGEID");
+			String transactionApproved = nvp.get("TRNAPPROVED");
+			String transactionId = nvp.get("TRNID");
+			String messageId = nvp.get("MESSAGEID");
 			String messageText = (String)nvp.get("MESSAGETEXT");
 			String orderId = (String)nvp.get("TRNORDERNUMBER");
 			String authCode = (String)nvp.get("AUTHCODE");
@@ -477,20 +470,18 @@ public class BeanStreamPayment implements PaymentModule {
 			bSandbox = true;
 		}
 
-		String server = "";
-
 		ModuleConfig configs = module.getModuleConfigs().get("PROD");
 
-		if (bSandbox == true) {
+		if (bSandbox) {
 			configs = module.getModuleConfigs().get("TEST");
 		} 
 		
 		if(configs==null) {
 			throw new IntegrationException("Module not configured for TEST or PROD");
 		}
-		
 
-		server = new StringBuffer().append(
+
+		String server = new StringBuffer().append(
 				
 				configs.getScheme()).append("://")
 				.append(configs.getHost())
@@ -594,7 +585,7 @@ public class BeanStreamPayment implements PaymentModule {
 		
 		
 
-			StringBuffer messageLogString = new StringBuffer();
+			StringBuilder messageLogString = new StringBuilder();
 			
 			
 			messageLogString.append("requestType=BACKEND&");
@@ -629,16 +620,12 @@ public class BeanStreamPayment implements PaymentModule {
 			LOGGER.debug("REQUEST SENT TO BEANSTREAM -> " + messageLogString.toString());
 
 			
-			URL postURL = new URL(server.toString());
+			URL postURL = new URL(server);
 			conn = (HttpURLConnection) postURL.openConnection();
-			
-
-			
-			Transaction response = this.sendTransaction(orderNumber, store, messageString.toString(), transactionType, type, payment.getPaymentType(), amount, configuration, module);
-			
-			return response;
 
 
+
+			return sendTransaction(orderNumber, store, messageString.toString(), transactionType, type, payment.getPaymentType(), amount, configuration, module);
 			
 		} catch(Exception e) {
 			
@@ -682,7 +669,7 @@ public class BeanStreamPayment implements PaymentModule {
 		
 	}
 
-	private Map formatUrlResponse(String payload) throws Exception {
+	private Map<String,String> formatUrlResponse(String payload) throws Exception {
 		HashMap<String,String> nvp = new HashMap<String,String> ();
 		StringTokenizer stTok = new StringTokenizer(payload, "&");
 		while (stTok.hasMoreTokens()) {

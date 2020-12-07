@@ -73,8 +73,8 @@ public class ReadableManufacturerMapper implements Mapper<Manufacturer, Readable
   }
 
   @Override
-  public ReadableManufacturer convert(Manufacturer source, ReadableManufacturer destination,
-      MerchantStore store, Language language) {
+  public ReadableManufacturer merge(Manufacturer source, ReadableManufacturer destination,
+                                    MerchantStore store, Language language) {
     return destination;
   }
 

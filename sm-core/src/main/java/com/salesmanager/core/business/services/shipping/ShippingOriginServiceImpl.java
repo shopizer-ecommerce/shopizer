@@ -32,8 +32,7 @@ public class ShippingOriginServiceImpl extends SalesManagerEntityServiceImpl<Lon
 	@Override
 	public ShippingOrigin getByStore(MerchantStore store) {
 		// TODO Auto-generated method stub
-		ShippingOrigin origin = shippingOriginRepository.findByStore(store.getId());
-		return origin;
+		return shippingOriginRepository.findByStore(store.getId());
 	}
 	
 

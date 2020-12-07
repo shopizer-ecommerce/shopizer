@@ -300,7 +300,7 @@ public class TaxFacadeImpl implements TaxFacade {
 
 		TaxRate model = taxRateById(id, store, language);
 		
-		model = persistableTaxRateMapper.convert(taxRate, model, store, language);
+		model = persistableTaxRateMapper.merge(taxRate, model, store, language);
 		
 		try {
 			model = taxRateService.saveOrUpdate(model);

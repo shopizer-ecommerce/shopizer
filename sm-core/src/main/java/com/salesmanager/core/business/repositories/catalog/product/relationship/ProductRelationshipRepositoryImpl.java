@@ -223,11 +223,9 @@ public class ProductRelationshipRepositoryImpl implements ProductRelationshipRep
     			relationMap.put(relationship.getCode(), relationship);
     		}
     	}
-    	
-    	List<ProductRelationship> returnList = new ArrayList<ProductRelationship>(relationMap.values());
 
-    	
-    	return returnList;
+
+		return new ArrayList<>(relationMap.values());
 		
 
 	}

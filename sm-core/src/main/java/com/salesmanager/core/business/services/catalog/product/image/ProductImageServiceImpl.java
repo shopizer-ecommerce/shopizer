@@ -154,17 +154,14 @@ public class ProductImageServiceImpl extends SalesManagerEntityServiceImpl<Long,
 		
 		pi.setProductImage(imageName);
 		pi.setProduct(productImage.getProduct());
-		
-		OutputContentFile outputImage = productFileManager.getProductImage(pi);
-		
-		return outputImage;
+
+		return productFileManager.getProductImage(pi);
 		
 	}
 	
 	@Override
 	public OutputContentFile getProductImage(final String storeCode, final String productCode, final String fileName, final ProductImageSize size) throws ServiceException {
-		OutputContentFile outputImage = productFileManager.getProductImage(storeCode, productCode, fileName, size);
-		return outputImage;
+		return productFileManager.getProductImage(storeCode, productCode, fileName, size);
 		
 	}
 	

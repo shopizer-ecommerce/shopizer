@@ -37,11 +37,11 @@ public class IntegrationModulesLoader {
             
             @SuppressWarnings("rawtypes")
 			Map[] objects = mapper.readValue(in, Map[].class);
-            
-            for(int i = 0; i < objects.length; i++) {
-            	
-            	modules.add(this.loadModule(objects[i]));
-            }
+
+			for (Map object : objects) {
+
+				modules.add(this.loadModule(object));
+			}
             
             return modules;
 
@@ -77,7 +77,7 @@ public class IntegrationModulesLoader {
 	    			b = (Boolean)object.get("customModule");
 	    		} else {
 	    			try {
-	    				b = new Boolean((String)object.get("customModule"));
+	    				b = Boolean.valueOf((String) object.get("customModule"));
 	    			} catch(Exception e) {
 	    				LOGGER.error("Cannot cast " + o.getClass() + " tp a boolean value");
 	    			}
@@ -134,10 +134,10 @@ public class IntegrationModulesLoader {
 	        		config.setPort((String)values.get("port"));
 	        		config.setUri((String)values.get("uri"));
 	        		config.setEnv((String)values.get("env"));
-	        		if((String)values.get("config1")!=null) {
+	        		if(values.get("config1") !=null) {
 	        			config.setConfig1((String)values.get("config1"));
 	        		}
-	        		if((String)values.get("config2")!=null) {
+	        		if(values.get("config2") !=null) {
 	        			config.setConfig2((String)values.get("config2"));
 	        		}
 	        		

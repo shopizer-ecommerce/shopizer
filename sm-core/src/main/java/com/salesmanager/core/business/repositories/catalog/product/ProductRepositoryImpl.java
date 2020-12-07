@@ -132,9 +132,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 				q.setParameter("mid", ids);
 			}
 
-			Product p = (Product) q.getSingleResult();
-
-			return p;
+			return (Product) q.getSingleResult();
 
 		} catch (javax.persistence.NoResultException ers) {
 			return null;
@@ -187,9 +185,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			q.setParameter("code", productCode);
 			q.setParameter("lang", language.getId());
 
-			Product p = (Product) q.getSingleResult();
-
-			return p;
+			return (Product) q.getSingleResult();
 
 		} catch (javax.persistence.NoResultException ers) {
 			return null;
@@ -199,7 +195,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
 	public Product getByFriendlyUrl(MerchantStore store, String seUrl, Locale locale) {
 
-		List regionList = new ArrayList();
+		List<String> regionList = new ArrayList<>();
 		regionList.add("*");
 		regionList.add(locale.getCountry());
 
@@ -322,7 +318,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		if (results.isEmpty())
 			return null;
 		else if (results.size() == 1)
-			return (Product) results.get(0);
+			return results.get(0);
 		throw new NonUniqueResultException();
 
 	}
@@ -547,11 +543,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		if (max > 0) {
 			int maxCount = first + max;
 
-			if (maxCount < count.intValue()) {
-				q.setMaxResults(maxCount);
-			} else {
-				q.setMaxResults(count.intValue());
-			}
+			q.setMaxResults(Math.min(maxCount, count.intValue()));
 		}
 
 		List<Product> products = q.getResultList();
@@ -639,7 +631,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		}
 
 		if (criteria.getAvailable() != null) {
-			if (criteria.getAvailable().booleanValue()) {
+			if (criteria.getAvailable()) {
 				countBuilderWhere.append(" and p.available=true and p.dateAvailable<=:dt");
 			} else {
 				countBuilderWhere.append(" and p.available=false or p.dateAvailable>:dt");
@@ -763,7 +755,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		}
 
 		if (criteria.getAvailable() != null) {
-			if (criteria.getAvailable().booleanValue()) {
+			if (criteria.getAvailable()) {
 				qs.append(" and p.available=true and p.dateAvailable<=:dt");
 			} else {
 				qs.append(" and p.available=false and p.dateAvailable>:dt");

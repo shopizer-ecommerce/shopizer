@@ -33,10 +33,10 @@ public interface ShippingService {
 	 * @return
 	 * @throws ServiceException
 	 */
-	public  List<String> getSupportedCountries(MerchantStore store)
+	List<String> getSupportedCountries(MerchantStore store)
 			throws ServiceException;
 
-	public  void setSupportedCountries(MerchantStore store,
+	void setSupportedCountries(MerchantStore store,
 			List<String> countryCodes) throws ServiceException;
 
 	/**
@@ -45,7 +45,7 @@ public interface ShippingService {
 	 * @return
 	 * @throws ServiceException
 	 */
-	public List<IntegrationModule> getShippingMethods(MerchantStore store)
+	List<IntegrationModule> getShippingMethods(MerchantStore store)
 			throws ServiceException;
 
 	
