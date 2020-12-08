@@ -21,7 +21,7 @@ workflows:
       - unit-tests
 
 jobs:
-    - unit-tests
-    steps:
-      - checkout
-      - run: shopizer tests
+  - unit-tests
+  steps:
+    - checkout
+    - run: shopizer tests
