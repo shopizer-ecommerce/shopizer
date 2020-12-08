@@ -154,7 +154,7 @@ public class OrderTotalApi {
    * @return
    */
   @RequestMapping(
-      value = {"/cart/{id}/total"},
+      value = {"/cart/{code}/total"},
       method = RequestMethod.GET)
   @ResponseBody
   @ApiImplicitParams({
@@ -162,18 +162,18 @@ public class OrderTotalApi {
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
   })
   public ReadableOrderTotalSummary calculatePayment(
-      @PathVariable final Long id,
+      @PathVariable final String code,
       @RequestParam(value = "quote", required = false) Long quote,
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language,
       HttpServletResponse response) {
 
     try {
-      ShoppingCart shoppingCart = shoppingCartFacade.getShoppingCartModel(id, merchantStore);
+      ShoppingCart shoppingCart = shoppingCartFacade.getShoppingCartModel(code, merchantStore);
 
       if (shoppingCart == null) {
 
-        response.sendError(404, "Cart code " + id + " does not exist");
+        response.sendError(404, "Cart code " + code + " does not exist");
 
         return null;
       }

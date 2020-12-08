@@ -1,16 +1,13 @@
 package com.salesmanager.shop.store.api.v1.shoppingCart;
 
-import com.salesmanager.core.business.services.customer.CustomerService;
-import com.salesmanager.core.model.customer.Customer;
-import com.salesmanager.core.model.merchant.MerchantStore;
-import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.shop.model.shoppingcart.PersistableShoppingCartItem;
-import com.salesmanager.shop.model.shoppingcart.ReadableShoppingCart;
-import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
-import com.salesmanager.shop.store.controller.shoppingCart.facade.ShoppingCartFacade;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
+import java.util.Arrays;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -25,19 +22,31 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
+import com.salesmanager.core.business.services.customer.CustomerService;
+import com.salesmanager.core.model.customer.Customer;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.model.shoppingcart.PersistableShoppingCartItem;
+import com.salesmanager.shop.model.shoppingcart.ReadableShoppingCart;
+import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
+import com.salesmanager.shop.store.controller.shoppingCart.facade.ShoppingCartFacade;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.SwaggerDefinition;
+import io.swagger.annotations.Tag;
 import springfox.documentation.annotations.ApiIgnore;
 
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
-import java.util.Arrays;
-
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.http.MediaType.APPLICATION_XML_VALUE;
 
 @Controller
 @RequestMapping("/api/v1")
+@Api(tags = {"Shopping cart api"})
+@SwaggerDefinition(tags = {
+    @Tag(name = "Shopping cart resource", description = "Add, remove and retrieve shopping carts")
+})
 public class ShoppingCartApi {
 
   @Inject private ShoppingCartFacade shoppingCartFacade;
@@ -289,7 +298,7 @@ public class ShoppingCartApi {
 
   @DeleteMapping(
       value = "/cart/{code}/product/{id}",
-      produces = {APPLICATION_JSON_VALUE, APPLICATION_XML_VALUE})
+      produces = {APPLICATION_JSON_VALUE})
   @ApiOperation(
       httpMethod = "DELETE",
       value = "Remove a product from a specific cart",

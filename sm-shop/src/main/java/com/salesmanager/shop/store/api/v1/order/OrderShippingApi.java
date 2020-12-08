@@ -3,9 +3,11 @@ package com.salesmanager.shop.store.api.v1.order;
 import java.security.Principal;
 import java.util.List;
 import java.util.Locale;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -16,10 +18,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.reference.country.CountryService;
-import com.salesmanager.core.business.services.shoppingcart.ShoppingCartService;
 import com.salesmanager.core.model.common.Delivery;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -33,7 +35,9 @@ import com.salesmanager.shop.model.customer.address.AddressLocation;
 import com.salesmanager.shop.model.order.shipping.ReadableShippingSummary;
 import com.salesmanager.shop.populator.order.ReadableShippingSummaryPopulator;
 import com.salesmanager.shop.store.controller.order.facade.OrderFacade;
+import com.salesmanager.shop.store.controller.shoppingCart.facade.ShoppingCartFacade;
 import com.salesmanager.shop.utils.LabelUtils;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -55,7 +59,7 @@ public class OrderShippingApi {
 
   @Inject private OrderFacade orderFacade;
 
-  @Inject private ShoppingCartService shoppingCartService;
+  @Inject private ShoppingCartFacade shoppingCartFacade;
 
   @Inject private LabelUtils messages;
 
@@ -99,7 +103,7 @@ public class OrderShippingApi {
         response.sendError(503, "Error while getting user details to calculate shipping quote");
       }
 
-      ShoppingCart cart = shoppingCartService.getByCode(code, merchantStore);
+      ShoppingCart cart = shoppingCartFacade.getShoppingCartModel(code, merchantStore);
 
       if (cart == null) {
         response.sendError(404, "Cart code " + code + " does not exist");
@@ -192,7 +196,7 @@ public class OrderShippingApi {
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
   })
   public ReadableShippingSummary shipping(
-      @PathVariable final Long id,
+      @PathVariable final String code,
       @RequestBody AddressLocation address,
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language,
@@ -203,10 +207,10 @@ public class OrderShippingApi {
     try {
       Locale locale = request.getLocale();
 
-      ShoppingCart cart = shoppingCartService.getById(id, merchantStore);
+      ShoppingCart cart = shoppingCartFacade.getShoppingCartModel(code, merchantStore);
 
       if (cart == null) {
-        response.sendError(404, "Cart id " + id + " does not exist");
+        response.sendError(404, "Cart id " + code + " does not exist");
       }
 
       
