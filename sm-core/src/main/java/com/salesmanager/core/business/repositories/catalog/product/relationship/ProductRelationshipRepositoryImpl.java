@@ -266,7 +266,7 @@ public class ProductRelationshipRepositoryImpl implements ProductRelationshipRep
 	public List<ProductRelationship> listByProducts(Product product) {
 
 		StringBuilder qs = new StringBuilder();
-		qs.append("select pr from ProductRelationship as pr ");
+		qs.append("select distinct pr from ProductRelationship as pr ");
 		qs.append("left join fetch pr.product p ");
 		qs.append("left join fetch pr.relatedProduct rp ");
 		qs.append("left join fetch rp.attributes pattr ");
