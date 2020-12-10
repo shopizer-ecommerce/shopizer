@@ -21,13 +21,21 @@ working_directory: ~/shopizer
 
 jobs:
   build:
-    executor: shopizer-ci
     steps:
       - checkout
       - run: echo "this is the build job"
+  test:
+    requires:
+      - build
+    executor: shopizer-ci
+    steps:
+      - checkout
+      - run: shopizer tests
+
 
 
 workflows:
   build_and_test:
     jobs:
       - build
+      - test
