@@ -152,7 +152,7 @@ public class ShopApplicationConfiguration implements WebMvcConfigurer {
   @Bean
   public SessionLocaleResolver localeResolver() {
     SessionLocaleResolver slr = new SessionLocaleResolver();
-    slr.setDefaultLocale(Locale.ENGLISH);
+    slr.setDefaultLocale(Locale.getDefault());
     return slr;
   }
 
