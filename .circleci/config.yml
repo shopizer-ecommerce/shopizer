@@ -9,7 +9,7 @@ version: 2.1
 executors:
   shopizer-ci:
     docker:
-      - image: hub.docker.com/repository/docker/shopizerecomm/ci
+      - image: shopizerecomm/ci:latest
         auth:
           username: shopizerecomm
           password: $DOCKERHUB_PASSWORD  
