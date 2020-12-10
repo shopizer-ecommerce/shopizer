@@ -7,7 +7,7 @@
 version: 2.1
 
 executors:
-  shopizer-build:
+  shopizer-ci:
     docker:
       - image: hub.docker.com/repository/docker/shopizerecomm/ci
         auth:
@@ -17,9 +17,17 @@ executors:
 
 working_directory: ~/shopizer
 
+
+
 jobs:
-  unit-tests:
-    executor: shopizer-build
+  build:
+    executor: shopizer-ci
     steps:
       - checkout
-      - run: shopizer tests
+      - run: echo "this is the build job"
+
+
+workflows:
+  build_and_test:
+    jobs:
+      - build
