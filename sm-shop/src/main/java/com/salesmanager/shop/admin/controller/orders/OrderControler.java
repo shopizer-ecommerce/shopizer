@@ -5,11 +5,13 @@ import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.order.OrderService;
 import com.salesmanager.core.business.services.order.orderproduct.OrderProductDownloadService;
+import com.salesmanager.core.business.services.order.orderstatushistory.OrderStatusHistoryService;
 import com.salesmanager.core.business.services.payments.PaymentService;
 import com.salesmanager.core.business.services.payments.TransactionService;
 import com.salesmanager.core.business.services.reference.country.CountryService;
 import com.salesmanager.core.business.services.reference.zone.ZoneService;
 import com.salesmanager.core.business.services.system.EmailService;
+import com.salesmanager.core.business.utils.CoreConfiguration;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.Order;
@@ -31,6 +33,7 @@ import com.salesmanager.shop.utils.EmailUtils;
 import com.salesmanager.shop.utils.LabelUtils;
 import com.salesmanager.shop.utils.LocaleUtils;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -93,9 +96,15 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 	
 	@Inject
 	OrderProductDownloadService orderProdctDownloadService;
+
+	@Inject
+	private OrderStatusHistoryService orderStatusHistoryService;
+
+	@Inject
+	private CoreConfiguration coreConfiguration;
 	
 	private final static String ORDER_STATUS_TMPL = "email_template_order_status.ftl";
-	
+
 
 	@PreAuthorize("hasRole('ORDER')")
 	@RequestMapping(value="/admin/orders/editOrder.html", method=RequestMethod.GET)
@@ -205,7 +214,8 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 	@PreAuthorize("hasRole('ORDER')")
 	@RequestMapping(value="/admin/orders/save.html", method=RequestMethod.POST)
 	public String saveOrder(@Valid @ModelAttribute("order") com.salesmanager.shop.admin.model.orders.Order entityOrder, BindingResult result, Model model, HttpServletRequest request, Locale locale) throws Exception {
-		
+		boolean statusOrCommentsChanged = false;
+		OrderStatusHistory orderStatusHistory = new OrderStatusHistory();
 		String email_regEx = "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}\\b";
 		Pattern pattern = Pattern.compile(email_regEx);
 		
@@ -285,7 +295,12 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		
 		com.salesmanager.core.model.order.Order newOrder = orderService.getById(entityOrder.getOrder().getId() );
 		
-		
+		//If there was a status changed by Admin, we notify the customer
+		if(BooleanUtils.toBoolean(coreConfiguration.getProperty("MAIL_SEND_ORDER_UPDATES"))
+				&&  (newOrder.getStatus() != null && !newOrder.getStatus().equals(entityOrder.getOrder().getStatus()))) {
+			statusOrCommentsChanged = true;
+			addStatusChangedHistory(entityOrder, locale, orderStatusHistory, newOrder);
+		}
 		//get capturable
 		if(newOrder.getPaymentType().name() != PaymentType.MONEYORDER.name()) {
 			Transaction capturableTransaction = transactionService.getCapturableTransaction(newOrder);
@@ -315,7 +330,6 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		/*	"admin-orders-edit";  */
 		}
 		
-		OrderStatusHistory orderStatusHistory = new OrderStatusHistory();		
 
 
 
@@ -346,6 +360,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 			orderStatusHistory.setOrder(newOrder);
 			newOrder.getOrderHistory().add( orderStatusHistory );
 			entityOrder.setOrderHistoryComment( "" );
+			statusOrCommentsChanged = true;
 		}		
 		
 		newOrder.setDelivery( entityOrder.getOrder().getDelivery() );
@@ -398,7 +413,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		 * 
 		 * **/
 		
-		if(StringUtils.isBlank(entityOrder.getOrderHistoryComment())) {
+		if(statusOrCommentsChanged) {
 		
 			try {
 				
@@ -413,7 +428,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 				StringBuilder customerName = new StringBuilder();
 				customerName.append(newOrder.getBilling().getFirstName()).append(" ").append(newOrder.getBilling().getLastName());
 				
-				
+
 				Map<String, String> templateTokens = emailUtils.createEmailObjectsMap(request.getContextPath(), store, messages, customerLocale);
 				templateTokens.put(EmailConstants.EMAIL_CUSTOMER_NAME, customerName.toString());
 				templateTokens.put(EmailConstants.EMAIL_TEXT_ORDER_NUMBER, messages.getMessage("email.order.confirmation", new String[]{String.valueOf(newOrder.getId())}, customerLocale));
@@ -421,7 +436,13 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 				templateTokens.put(EmailConstants.EMAIL_TEXT_STATUS_COMMENTS, messages.getMessage("email.order.comments", new String[]{entityOrder.getOrderHistoryComment()}, customerLocale));
 				templateTokens.put(EmailConstants.EMAIL_TEXT_DATE_UPDATED, messages.getMessage("email.order.updated", new String[]{DateUtil.formatDate(new Date())}, customerLocale));
 
-				
+
+				if(BooleanUtils.toBoolean(coreConfiguration.getProperty("MAIL_SEND_ORDER_UPDATES"))) {
+					//This allows to send every order status update or comments from admin to the customer
+					addStatusUpdatedInfo(entityOrder, customer, customerLocale, templateTokens);
+				}
+
+
 				Email email = new Email();
 				email.setFrom(store.getStorename());
 				email.setFromEmail(store.getStoreEmailAddress());
@@ -429,11 +450,11 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 				email.setTo(entityOrder.getOrder().getCustomerEmailAddress());
 				email.setTemplateName(ORDER_STATUS_TMPL);
 				email.setTemplateTokens(templateTokens);
-	
-	
-				
+
+
+
 				emailService.sendHtmlEmail(store, email);
-			
+
 			} catch (Exception e) {
 				LOGGER.error("Cannot send email to customer",e);
 			}
@@ -445,6 +466,48 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		
 		return  ControllerConstants.Tiles.Order.ordersEdit;
 	    /*	"admin-orders-edit";  */
+	}
+
+	private void addStatusUpdatedInfo(com.salesmanager.shop.admin.model.orders.Order entityOrder, Customer customer, Locale customerLocale, Map<String, String> templateTokens) {
+		OrderStatusHistory lastHistory = getOrderStatusHistory(entityOrder, customerLocale);
+		String hi = messages.getMessage("label.generic.hi", customerLocale);
+		if (StringUtils.isNotEmpty(lastHistory.getComments())) {
+			templateTokens.put(EmailConstants.EMAIL_TEXT_STATUS_COMMENTS, messages.getMessage("email.order.comments", new String[]{lastHistory.getComments()}, customerLocale));
+		}
+		String[] statusMessageText = {String.valueOf(entityOrder.getOrder().getId()), DateUtil.formatDate(entityOrder.getOrder().getDatePurchased())};
+		String status = messages.getMessage("label.order." + entityOrder.getOrder().getStatus().name(), customerLocale, entityOrder.getOrder().getStatus().name());
+		String[] statusMessage = {DateUtil.formatDate(lastHistory.getDateAdded()), status};
+		if (customer != null) {
+			templateTokens.put(EmailConstants.EMAIL_CUSTOMER_FIRSTNAME, customer.getBilling().getFirstName());
+			templateTokens.put(EmailConstants.EMAIL_CUSTOMER_LASTNAME, customer.getBilling().getLastName());
+		}
+		templateTokens.put(EmailConstants.LABEL_HI, hi);
+		templateTokens.put(EmailConstants.EMAIL_ORDER_STATUS_TEXT, messages.getMessage("email.order.statustext", statusMessageText, customerLocale));
+		templateTokens.put(EmailConstants.EMAIL_ORDER_STATUS, messages.getMessage("email.order.status", statusMessage, customerLocale));
+	}
+
+	private OrderStatusHistory getOrderStatusHistory(com.salesmanager.shop.admin.model.orders.Order entityOrder, Locale customerLocale) {
+		OrderStatusHistory lastHistory = null;
+		List<OrderStatusHistory> lastHistories = orderStatusHistoryService.findByOrder(entityOrder.getOrder());
+		if(CollectionUtils.isEmpty(lastHistories)) {
+			lastHistory = new OrderStatusHistory();
+			lastHistory.setComments(messages.getMessage("label.order.PROCESSING", customerLocale));
+			lastHistory.setDateAdded(new Date());
+		} else {
+			lastHistory = lastHistories.get(0);
+		}
+		return lastHistory;
+	}
+
+	private void addStatusChangedHistory(com.salesmanager.shop.admin.model.orders.Order entityOrder, Locale locale,
+										 OrderStatusHistory orderStatusHistory, Order newOrder) {
+		orderStatusHistory.setComments( messages.getMessage("email.order.status.changed",
+				new String[] {newOrder.getStatus().name(), entityOrder.getOrder().getStatus().name()}, locale));
+		orderStatusHistory.setCustomerNotified(1);
+		orderStatusHistory.setStatus(entityOrder.getOrder().getStatus());
+		orderStatusHistory.setDateAdded(new Date() );
+		orderStatusHistory.setOrder(newOrder);
+		newOrder.getOrderHistory().add(orderStatusHistory);
 	}
 
 	private void setMenu(Model model, HttpServletRequest request) throws Exception {
