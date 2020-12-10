@@ -101,7 +101,7 @@ public class TaxClassApi {
 	}
 	
 	@GetMapping("/private/tax/class/{code}")
-	@ApiOperation(httpMethod = "Get", value = "Get a taxClass by code", notes = "Requires administration access", produces = "application/json", response = Void.class)
+	@ApiOperation(httpMethod = "GET", value = "Get a taxClass by code", notes = "Requires administration access", produces = "application/json", response = Void.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT") })
 	public ReadableTaxClass get(@ApiIgnore MerchantStore merchantStore, @PathVariable String code, @ApiIgnore Language language) {
 
