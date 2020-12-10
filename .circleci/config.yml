@@ -4,24 +4,22 @@
 #
 
 
-docker:
-  - image: hub.docker.com/repository/docker/shopizerecomm/ci
-    auth:
-      username: shopizerecomm
-      password: $DOCKERHUB_PASSWORD
+version: 2.1
 
-version: 2
-working_directory: ~/repo
+executors:
+  shopizer-build:
+    docker:
+      - image: hub.docker.com/repository/docker/shopizerecomm/ci
+        auth:
+          username: shopizerecomm
+          password: $DOCKERHUB_PASSWORD  
 
 
-workflows:
-  version: 2
-  test-build-and-release:
-    jobs:
-      - unit-tests
+working_directory: ~/shopizer
 
 jobs:
   unit-tests:
-  steps:
-    - checkout
-    - run: shopizer tests
+    executor: shopizer-build
+    steps:
+      - checkout
+      - run: shopizer tests
