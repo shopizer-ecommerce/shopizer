@@ -32,7 +32,7 @@ jobs:
       - checkout
       - run: echo "this is the build job"
       - run: ls -al
-      - run: tests
+      - command: tests
   #test:
   #  docker:
   #    - image: shopizerecomm/ci:latest
