@@ -4,35 +4,43 @@
 #
 
 
+#version: 2.1
+
+#executors:
+#  shopizer-ci:
+#    docker:
+#      - image: shopizerecomm/ci:latest
+#        auth:
+#          username: shopizerecomm
+#          password: $DOCKERHUB_PASSWORD  
+
+
+#working_directory: ~/shopizer
+
 version: 2.1
 
-executors:
-  shopizer-ci:
+# Define the jobs we want to run for this project
+jobs:
+  build:
     docker:
       - image: shopizerecomm/ci:latest
         auth:
           username: shopizerecomm
           password: $DOCKERHUB_PASSWORD  
-
-
-working_directory: ~/shopizer
-
-
-
-jobs:
-  build:
     steps:
       - checkout
       - run: echo "this is the build job"
   test:
-    #executor: shopizer-ci
+    docker:
+      - image: shopizerecomm/ci:latest
+        auth:
+          username: shopizerecomm
+          password: $DOCKERHUB_PASSWORD  
     steps:
       - checkout
       - run: echo "this is the test job"
-      #- run: shopizer tests
 
-
-
+# Orchestrate our job run sequence
 workflows:
   build_and_test:
     jobs:
@@ -40,3 +48,26 @@ workflows:
       - test:
           requires:
             - build
+
+
+#jobs:
+#  build:
+#    steps:
+#      - checkout
+#      - run: echo "this is the build job"
+#  test:
+    #executor: shopizer-ci
+#    steps:
+#      - checkout
+#      - run: echo "this is the test job"
+      #- run: shopizer tests
+
+
+
+#workflows:
+#  build_and_test:
+#    jobs:
+#      - build
+#      - test:
+#          requires:
+#            - build
