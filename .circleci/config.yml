@@ -31,7 +31,7 @@ jobs:
       - checkout
       - run: echo "this is the build job"
       - run: ls -al
-      - run: shopizer tests
+      - run: | shopizer.sh tests
   #test:
   #  docker:
   #    - image: shopizerecomm/ci:latest
