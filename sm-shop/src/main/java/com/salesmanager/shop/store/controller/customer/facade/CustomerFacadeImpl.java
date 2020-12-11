@@ -103,7 +103,7 @@ import com.salesmanager.shop.utils.LocaleUtils;
 public class CustomerFacadeImpl implements CustomerFacade {
 
   private static final Logger LOG = LoggerFactory.getLogger(CustomerFacadeImpl.class);
-  private final static int USERNAME_LENGTH = 6;
+  public final static int USERNAME_LENGTH = 6;
 
   private final static String RESET_PASSWORD_TPL = "email_template_password_reset_customer.ftl";
 
