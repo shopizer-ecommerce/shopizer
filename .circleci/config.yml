@@ -25,11 +25,11 @@ jobs:
       - checkout
       - run: echo "this is the build job"
   test:
-    executor: shopizer-ci
+    #executor: shopizer-ci
     steps:
       - checkout
       - run: echo "this is the test job"
-      - run: shopizer tests
+      #- run: shopizer tests
 
 
 
