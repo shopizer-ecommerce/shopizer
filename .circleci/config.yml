@@ -6,13 +6,13 @@
 
 #version: 2.1
 
-#executors:
-#  shopizer-ci:
-#    docker:
-#      - image: shopizerecomm/ci:latest
-#        auth:
-#          username: shopizerecomm
-#          password: $DOCKERHUB_PASSWORD  
+executors:
+  shopizer-ci:
+    docker:
+      - image: shopizerecomm/ci:latest
+        auth:
+          username: shopizerecomm
+          password: $DOCKERHUB_PASSWORD  
 
 
 #working_directory: ~/shopizer
@@ -22,11 +22,12 @@ version: 2.1
 # Define the jobs we want to run for this project
 jobs:
   build:
-    docker:
-      - image: shopizerecomm/ci:latest
-        auth:
-          username: shopizerecomm
-          password: $DOCKERHUB_PASSWORD  
+    #docker:
+    #  - image: shopizerecomm/ci:latest
+    #    auth:
+    #      username: shopizerecomm
+    #      password: $DOCKERHUB_PASSWORD  
+    executor: shopizer-ci
     steps:
       - checkout
       - run: echo "this is the build job"
