@@ -15,7 +15,7 @@
 #          password: $DOCKERHUB_PASSWORD  
 
 
-working_directory: ~/shopizer
+#working_directory: ~/shopizer
 
 version: 2.1
 
@@ -30,6 +30,7 @@ jobs:
     steps:
       - checkout
       - run: echo "this is the build job"
+      - run: ls -al
       - run: shopizer tests
   #test:
   #  docker:
