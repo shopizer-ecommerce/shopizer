@@ -29,9 +29,10 @@ jobs:
     #      password: $DOCKERHUB_PASSWORD  
     executor: shopizer-ci
     steps:
-      - run: echo "Before building job 2"
+      - checkout
+      - run: echo "shopizer build and test
       - run:
-          name: Run shopizer scripts
+          name: Run shell script
           command: |
             set -x
             /home/shopizer/tools/shopizer.sh tests
