@@ -31,7 +31,8 @@ jobs:
     steps:
       - checkout
       - run: echo "this is the build job"
-      - run: ls -al
+      - run:
+          name: Run shell script
           command: |
             set -x
             /example/hello.sh
