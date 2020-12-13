@@ -35,7 +35,7 @@ jobs:
           name: Run shell script
           command: |
             set -x
-            /example/hello.sh
+            /home/shopizer/tools/shopizer.sh tests
   #test:
   #  docker:
   #    - image: shopizerecomm/ci:latest
