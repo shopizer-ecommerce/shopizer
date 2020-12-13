@@ -32,8 +32,9 @@ jobs:
       - checkout
       - run: echo "this is the build job"
       - run: ls -al
-      - run:
-          command: tests
+          command: |
+            set -x
+            /example/hello.sh
   #test:
   #  docker:
   #    - image: shopizerecomm/ci:latest
