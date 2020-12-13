@@ -1,19 +1,21 @@
 package com.salesmanager.shop.store.controller.product.facade;
 
 import java.util.List;
+
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.ProductCriteria;
 import com.salesmanager.core.model.catalog.product.review.ProductReview;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
-
 import com.salesmanager.shop.model.catalog.product.LightPersistableProduct;
 import com.salesmanager.shop.model.catalog.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.PersistableProductReview;
 import com.salesmanager.shop.model.catalog.product.ProductPriceEntity;
+import com.salesmanager.shop.model.catalog.product.ProductPriceRequest;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProductList;
+import com.salesmanager.shop.model.catalog.product.ReadableProductPrice;
 import com.salesmanager.shop.model.catalog.product.ReadableProductReview;
 
 public interface ProductFacade {
@@ -220,5 +222,16 @@ public interface ProductFacade {
    */
   List<ReadableProduct> relatedItems(MerchantStore store, Product product, Language language)
       throws Exception;
+  
+  
+  /**
+   * Calculate product price based on specific product options
+   * @param id
+   * @param priceRequest
+   * @param store
+   * @param language
+   * @return
+   */
+  ReadableProductPrice getProductPrice(Long id, ProductPriceRequest priceRequest, MerchantStore store, Language language);
 
 }

@@ -37,8 +37,10 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.LightPersistableProduct;
 import com.salesmanager.shop.model.catalog.product.PersistableProduct;
+import com.salesmanager.shop.model.catalog.product.ProductPriceRequest;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProductList;
+import com.salesmanager.shop.model.catalog.product.ReadableProductPrice;
 import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.UnauthorizedException;
@@ -62,9 +64,9 @@ import springfox.documentation.annotations.ApiIgnore;
  */
 @Controller
 @RequestMapping("/api/v1")
-@Api(tags = {"Product management resource (Product Management Api)"})
+@Api(tags = {"Product display and management resource (Product display and Management Api)"})
 @SwaggerDefinition(tags = {
-    @Tag(name = "Product management resource", description = "Add product, edit product and delete product")
+    @Tag(name = "Product management resource", description = "View product, Add product, edit product and delete product")
 })
 public class ProductApi {
 
@@ -487,6 +489,30 @@ public class ProductApi {
 
     return product;
   }
+  
+  
+  @RequestMapping(value = "/product/{id}/price", method = RequestMethod.POST)
+  @ApiOperation(httpMethod = "POST", value = "Calculate product price with variants", notes = "Product price calculation from variamts")
+  @ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Price calculated", response = ReadableProductPrice.class) })
+  @ResponseBody
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
+  public ReadableProductPrice price(
+      @PathVariable final Long id,
+      @RequestBody ProductPriceRequest variants,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language) {
+    
+	  
+	  return productFacade.getProductPrice(id, variants, merchantStore, language);
+
+    
+
+    
+  }
 
   /**
    * API for getting a product
@@ -498,7 +524,7 @@ public class ProductApi {
    * @throws Exception
    *     <p>/api/v1/products/123
    */
-  @RequestMapping(value = "/products/slug/{friendlyUrl}", method = RequestMethod.GET)
+  @RequestMapping(value = {"/products/slug/{friendlyUrl}","/products/friendly/{friendlyUrl}"}, method = RequestMethod.GET)
   @ApiOperation(httpMethod = "GET", value = "Get a product by friendlyUrl (slug)", notes = "For administration and shop purpose. Specifying ?merchant is " +
           "required otherwise it falls back to DEFAULT")
   @ApiResponses(value = {

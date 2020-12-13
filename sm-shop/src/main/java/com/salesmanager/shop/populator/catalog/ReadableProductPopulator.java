@@ -349,7 +349,8 @@ public class ReadableProductPopulator extends
 								}
 								
 								optValue.setDefaultValue(attribute.getAttributeDefault());
-								optValue.setId(attribute.getProductOptionValue().getId());
+								//optValue.setId(attribute.getProductOptionValue().getId());
+								optValue.setId(attribute.getId());
 								optValue.setCode(attribute.getProductOptionValue().getCode());
 								com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription valueDescription = new com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription();
 								valueDescription.setLanguage(language.getCode());
