@@ -30,7 +30,7 @@ jobs:
     executor: shopizer-ci
     steps:
       - checkout
-      - run: echo "this is the build job"
+      - run: echo "this is the build job 2"
       - run:
           name: Run shell script
           command: |
