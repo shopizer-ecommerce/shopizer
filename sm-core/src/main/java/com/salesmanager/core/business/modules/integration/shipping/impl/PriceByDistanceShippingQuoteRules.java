@@ -103,11 +103,15 @@ public class PriceByDistanceShippingQuoteRules implements ShippingQuoteModule {
 		BigDecimal price = null;
 		
 		if(distance<=20) {
-			price = new BigDecimal(69);//TODO from the admin
+			price = new BigDecimal(2);//TODO from the admin
 		} else {
 			price = new BigDecimal(3);//TODO from the admin
 		}
 		BigDecimal total = new BigDecimal(distance).multiply(price);
+		
+		if(distance < 1) { //minimum 1 unit
+			distance = 1D;
+		}
 
 
 		ShippingOption shippingOption = new ShippingOption();
