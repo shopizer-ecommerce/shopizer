@@ -660,7 +660,7 @@ public class ShopProductRESTController {
 				
 			}
 			
-			productList.setTotalPages(products.getTotalCount());
+			productList.setTotalPages(Math.toIntExact(products.getTotalCount()));
 			
 			
 			return productList;

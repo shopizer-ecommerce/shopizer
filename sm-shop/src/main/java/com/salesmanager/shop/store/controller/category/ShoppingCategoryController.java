@@ -684,7 +684,7 @@ public class ShoppingCategoryController {
 		    });
 			
 			
-			productList.setProductCount(products.getTotalCount());
+			productList.setProductCount(Math.toIntExact(products.getTotalCount()));
 			
 			if(CollectionUtils.isNotEmpty(prices)) {
 				BigDecimal minPrice = (BigDecimal)Collections.min(prices);

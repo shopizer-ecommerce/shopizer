@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityService;
 import com.salesmanager.core.model.catalog.category.Category;
@@ -11,6 +13,7 @@ import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.ProductCriteria;
 import com.salesmanager.core.model.catalog.product.ProductList;
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
+import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.tax.taxclass.TaxClass;
@@ -42,6 +45,19 @@ public interface ProductService extends SalesManagerEntityService<Long, Product>
 
 	ProductList listByStore(MerchantStore store, Language language,
 			ProductCriteria criteria);
+	
+	
+	/**
+	 * List using Page interface in order to unify all page requests (since 2.16.0) 
+	 * @param store
+	 * @param language
+	 * @param criteria
+	 * @param page
+	 * @param count
+	 * @return
+	 */
+	Page<Product> listByStore(MerchantStore store, Language language,
+			ProductCriteria criteria, int page, int count);
 
 	List<Product> listByStore(MerchantStore store);
 

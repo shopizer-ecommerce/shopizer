@@ -31,6 +31,10 @@ import com.salesmanager.core.model.tax.taxclass.TaxClass;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -95,11 +99,9 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 	}
 
 	@Override
-	public void addProductDescription(Product product, ProductDescription description)
-			throws ServiceException {
+	public void addProductDescription(Product product, ProductDescription description) throws ServiceException {
 
-
-		if(product.getDescriptions()==null) {
+		if (product.getDescriptions() == null) {
 			product.setDescriptions(new HashSet<ProductDescription>());
 		}
 
@@ -142,8 +144,6 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 
 	}
 
-
-
 	@Override
 	public ProductDescription getProductDescription(Product product, Language language) {
 		for (ProductDescription description : product.getDescriptions()) {
@@ -160,10 +160,9 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 	}
 
 	@Override
-	public Product getProductForLocale(long productId, Language language, Locale locale)
-			throws ServiceException {
-		Product product =  productRepository.getProductForLocale(productId, language, locale);
-		if(product==null) {
+	public Product getProductForLocale(long productId, Language language, Locale locale) throws ServiceException {
+		Product product = productRepository.getProductForLocale(productId, language, locale);
+		if (product == null) {
 			return null;
 		}
 
@@ -173,18 +172,18 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 	}
 
 	@Override
-	public List<Product> getProductsForLocale(Category category,
-			Language language, Locale locale) throws ServiceException {
+	public List<Product> getProductsForLocale(Category category, Language language, Locale locale)
+			throws ServiceException {
 
-		if(category==null) {
+		if (category == null) {
 			throw new ServiceException("The category is null");
 		}
 
-		//Get the category list
+		// Get the category list
 		StringBuilder lineage = new StringBuilder().append(category.getLineage()).append(category.getId()).append("/");
-		List<Category> categories = categoryService.getListByLineage(category.getMerchantStore(),lineage.toString());
+		List<Category> categories = categoryService.getListByLineage(category.getMerchantStore(), lineage.toString());
 		Set<Long> categoryIds = new HashSet<Long>();
-		for(Category c : categories) {
+		for (Category c : categories) {
 
 			categoryIds.add(c.getId());
 
@@ -192,16 +191,15 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 
 		categoryIds.add(category.getId());
 
-		//Get products
+		// Get products
 
-		//Filter availability
+		// Filter availability
 
 		return productRepository.getProductsForLocale(category.getMerchantStore(), categoryIds, language, locale);
 	}
 
 	@Override
-	public ProductList listByStore(MerchantStore store,
-			Language language, ProductCriteria criteria) {
+	public ProductList listByStore(MerchantStore store, Language language, ProductCriteria criteria) {
 
 		return productRepository.listByStore(store, language, criteria);
 	}
@@ -222,35 +220,32 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		return productRepository.getByCode(productCode, language);
 	}
 
-
-
-
-
 	@Override
 	public void delete(Product product) throws ServiceException {
 		LOGGER.debug("Deleting product");
 		Validate.notNull(product, "Product cannot be null");
 		Validate.notNull(product.getMerchantStore(), "MerchantStore cannot be null in product");
-		product = this.getById(product.getId());//Prevents detached entity error
+		product = this.getById(product.getId());// Prevents detached entity
+												// error
 		product.setCategories(null);
 
 		Set<ProductImage> images = product.getImages();
 
-		for(ProductImage image : images) {
+		for (ProductImage image : images) {
 			productImageService.removeProductImage(image);
 		}
 
 		product.setImages(null);
 
-		//delete reviews
+		// delete reviews
 		List<ProductReview> reviews = productReviewService.getByProductNoCustomers(product);
-		for(ProductReview review : reviews) {
+		for (ProductReview review : reviews) {
 			productReviewService.delete(review);
 		}
 
-		//related - featured
+		// related - featured
 		List<ProductRelationship> relationships = productRelationshipService.listByProduct(product);
-		for(ProductRelationship relationship : relationships) {
+		for (ProductRelationship relationship : relationships) {
 			productRelationshipService.deleteRelationship(relationship);
 		}
 
@@ -271,19 +266,18 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		searchService.index(product.getMerchantStore(), product);
 	}
 
-
 	private void saveOrUpdate(Product product) throws ServiceException {
 		LOGGER.debug("Save or update product ");
-		Validate.notNull(product,"product cannot be null");
-		Validate.notNull(product.getAvailabilities(),"product must have at least one availability");
-		Validate.notEmpty(product.getAvailabilities(),"product must have at least one availability");
+		Validate.notNull(product, "product cannot be null");
+		Validate.notNull(product.getAvailabilities(), "product must have at least one availability");
+		Validate.notEmpty(product.getAvailabilities(), "product must have at least one availability");
 
-		//take care of product images separately
-	    Set<ProductImage> originalProductImages = new HashSet<ProductImage>(product.getImages());
+		// take care of product images separately
+		Set<ProductImage> originalProductImages = new HashSet<ProductImage>(product.getImages());
 
 		/** save product first **/
 
-		if(product.getId()!=null && product.getId()>0) {
+		if (product.getId() != null && product.getId() > 0) {
 			super.update(product);
 		} else {
 			super.create(product);
@@ -297,65 +291,78 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 
 		try {
 
-			if(images!=null && images.size()>0) {
-				for(ProductImage image : images) {
-					if(image.getImage()!=null && (image.getId()==null || image.getId()==0L)) {
+			if (images != null && images.size() > 0) {
+				for (ProductImage image : images) {
+					if (image.getImage() != null && (image.getId() == null || image.getId() == 0L)) {
 						image.setProduct(product);
 
-				        InputStream inputStream = image.getImage();
-				        ImageContentFile cmsContentImage = new ImageContentFile();
-				        cmsContentImage.setFileName( image.getProductImage() );
-				        cmsContentImage.setFile( inputStream );
-				        cmsContentImage.setFileContentType(FileContentType.PRODUCT);
+						InputStream inputStream = image.getImage();
+						ImageContentFile cmsContentImage = new ImageContentFile();
+						cmsContentImage.setFileName(image.getProductImage());
+						cmsContentImage.setFile(inputStream);
+						cmsContentImage.setFileContentType(FileContentType.PRODUCT);
 
 						productImageService.addProductImage(product, image, cmsContentImage);
 						newImageIds.add(image.getId());
 					} else {
-					    if(image.getId()!=null) {
-    						productImageService.save(image);
-    						newImageIds.add(image.getId());
-					    }
+						if (image.getId() != null) {
+							productImageService.save(image);
+							newImageIds.add(image.getId());
+						}
 					}
 				}
 			}
 
-			//cleanup old and new images
-			if(originalProductImages!=null) {
-				for(ProductImage image : originalProductImages) {
+			// cleanup old and new images
+			if (originalProductImages != null) {
+				for (ProductImage image : originalProductImages) {
 
-                  if(image.getImage()!=null && image.getId()==null) {
-                     image.setProduct(product);
+					if (image.getImage() != null && image.getId() == null) {
+						image.setProduct(product);
 
-                     InputStream inputStream = image.getImage();
-                     ImageContentFile cmsContentImage = new ImageContentFile();
-                     cmsContentImage.setFileName( image.getProductImage() );
-                     cmsContentImage.setFile( inputStream );
-                     cmsContentImage.setFileContentType(FileContentType.PRODUCT);
+						InputStream inputStream = image.getImage();
+						ImageContentFile cmsContentImage = new ImageContentFile();
+						cmsContentImage.setFileName(image.getProductImage());
+						cmsContentImage.setFile(inputStream);
+						cmsContentImage.setFileContentType(FileContentType.PRODUCT);
 
-                     productImageService.addProductImage(product, image, cmsContentImage);
-                     newImageIds.add(image.getId());
-                  } else {
-                    if(!newImageIds.contains(image.getId())) {
-                        productImageService.delete(image);
-                    }
-                  }
+						productImageService.addProductImage(product, image, cmsContentImage);
+						newImageIds.add(image.getId());
+					} else {
+						if (!newImageIds.contains(image.getId())) {
+							productImageService.delete(image);
+						}
+					}
 				}
 			}
 
-		} catch(Exception e) {
+		} catch (Exception e) {
 			LOGGER.error("Cannot save images " + e.getMessage());
 		}
 
-
-
 	}
 
-  @Override
-  public Product findOne(Long id, MerchantStore merchant) {
-    Validate.notNull(merchant,"MerchantStore must not be null");
-    Validate.notNull(id,"id must not be null");
-    return productRepository.getById(id, merchant);
-  }
+	@Override
+	public Product findOne(Long id, MerchantStore merchant) {
+		Validate.notNull(merchant, "MerchantStore must not be null");
+		Validate.notNull(id, "id must not be null");
+		return productRepository.getById(id, merchant);
+	}
+
+	@Override
+	public Page<Product> listByStore(MerchantStore store, Language language, ProductCriteria criteria, int page,
+			int count) {
+		
+		//Pageable pageRequest = PageRequest.of(page, count);
+		criteria.setPageSize(page);
+		criteria.setPageSize(count);
+		
+		ProductList productList = productRepository.listByStore(store, language, criteria);
+		
+		//PageImpl p = new PageImpl(productList.getProducts(),productList.getTotalCount());
+		
+		return null;
+	}
 
 
 }
