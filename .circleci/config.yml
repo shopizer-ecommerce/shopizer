@@ -4,7 +4,10 @@
 #
 
 
-#version: 2.1
+version: 2.1
+
+orbs:
+  slack: circleci/slack@3.4.2
 
 executors:
   shopizer-ci:
@@ -15,9 +18,7 @@ executors:
           password: $DOCKERHUB_PASSWORD  
 
 
-#working_directory: ~/shopizer
 
-version: 2.1
 
 # Define the jobs we want to run for this project
 jobs:
@@ -38,14 +39,28 @@ jobs:
           ls -al
           cd sm-shop
           docker build . -t shopizerecomm/shopizer:latest
-          docker login -u shopizerecomm -p $DOCKERHUB_PASSWORD
+          docker build . -t shopizerecomm/shopizer:latest
+  deploy:
+    machine: true
+    steps:
+       - checkout
+       # start proprietary DB using private Docker image
+       # with credentials stored in the UI
+       - run: |
+           echo "push docker" | docker build . -t shopizerecomm/shopizer:latest
 
+       # build the application image
+       - run: docker build . -t shopizerecomm/shopizer:latest
+
+       # deploy the image
+       - run: docker push shopizerecomm/shopizer:latest
 
 # Orchestrate our job run sequence
 workflows:
-  build_and_test_and_depploy:
+  build_and_deploy:
     jobs:
       - build
+      - deploy
 
 #jobs:
 #  build:
