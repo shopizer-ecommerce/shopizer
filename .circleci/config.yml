@@ -26,7 +26,7 @@ jobs:
     executor: shopizer-ci
     steps:
       - checkout
-      - run: echo "shopizer build and test (1)"
+      - run: echo "shopizer build and test (2)"
       - run:
           name: Run shell script
           command: |
@@ -47,10 +47,7 @@ jobs:
        # start proprietary DB using private Docker image
        # with credentials stored in the UI
        - run: |
-           echo "push docker" | docker build . -t shopizerecomm/shopizer:latest
-
-       # build the application image
-       - run: cd sm-shop | docker build . -t shopizerecomm/shopizer:latest
+           docker login -u shopizerecomm  -p $DOCKERHUB_PASSWORD  | ls -al | echo "build docker" | cd sm-shop | ls -al | docker build . -t shopizerecomm/shopizer:latest
 
        # deploy the image
        - run: docker push shopizerecomm/shopizer:latest
