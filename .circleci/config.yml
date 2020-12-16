@@ -32,14 +32,14 @@ jobs:
           command: |
             set -x
             /home/shopizer/tools/shopizer.sh tests
-      - run:
-          name: Install Docker client
-          command: apk add docker-cli
-      - run: |
-          ls -al
-          cd sm-shop
-          docker build . -t shopizerecomm/shopizer:latest
-          docker build . -t shopizerecomm/shopizer:latest
+      #- run:
+      #    name: Install Docker client
+      #    command: apk add docker-cli
+      #- run: |
+      #    ls -al
+      #    cd sm-shop
+      #    docker build . -t shopizerecomm/shopizer:latest
+      #    docker build . -t shopizerecomm/shopizer:latest
   deploy:
     machine: true
     steps:
@@ -50,7 +50,7 @@ jobs:
            echo "push docker" | docker build . -t shopizerecomm/shopizer:latest
 
        # build the application image
-       - run: docker build . -t shopizerecomm/shopizer:latest
+       - run: cd sm-shop | docker build . -t shopizerecomm/shopizer:latest
 
        # deploy the image
        - run: docker push shopizerecomm/shopizer:latest
