@@ -35,6 +35,8 @@ jobs:
           name: Install Docker client
           command: apk add docker-cli
       - run: |
+          ls -al
+          cd sm-shop
           docker build . -t shopizerecomm/shopizer:latest
           docker login -u shopizerecomm -p $DOCKERHUB_PASSWORD
 
