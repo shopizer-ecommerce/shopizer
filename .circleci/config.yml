@@ -31,21 +31,19 @@ jobs:
           command: |
             set -x
             /home/shopizer/tools/shopizer.sh tests
-  deploy: 
-    steps:
-      - checkout
-      - setup_remote_docker
+      - run:
+          name: Install Docker client
+          command: apk add docker-cli
       - run: |
           docker build . -t shopizerecomm/shopizer:latest
           docker login -u shopizerecomm -p $DOCKERHUB_PASSWORD
+
 
 # Orchestrate our job run sequence
 workflows:
   build_and_test_and_depploy:
     jobs:
       - build
-      - deploy
-
 
 #jobs:
 #  build:
