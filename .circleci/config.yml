@@ -49,13 +49,11 @@ jobs:
        - run: |
            ls -al
        - run: |
-           cd sm-shop
-       - run: |
-           ls -al
+           cat sh-shop/Dockerfile
        - run: |
            docker login -u shopizerecomm -p $DOCKERHUB_PASSWORD
        - run: |
-           docker build . -t shopizerecomm/shopizer:latest
+           (cd sm-shop && docker build . -t shopizerecomm/shopizer:latest)
        - run: |
            docker push shopizerecomm/shopizer:latest
 
