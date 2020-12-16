@@ -49,7 +49,7 @@ jobs:
        - run: |
            ls -al
        - run: |
-           cat sh-shop/Dockerfile
+           cat sm-shop/Dockerfile
        - run: |
            docker login -u shopizerecomm -p $DOCKERHUB_PASSWORD
        - run: |
