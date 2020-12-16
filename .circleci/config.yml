@@ -49,7 +49,15 @@ jobs:
        - run: |
            ls -al
        - run: |
-            docker login --username shopizerecomm --password-stdin < "$DOCKERHUB_PASSWORD" 
+           cd sm-shop
+       - run: |
+           ls -al
+       - run: |
+           docker login -u shopizerecomm -p $DOCKERHUB_PASSWORD
+       - run: |
+           docker build . -t shopizerecomm/shopizer:latest
+       - run: |
+           docker push shopizerecomm/shopizer:latest
 
        #- run: |
        #    docker login -u shopizerecomm  -p $DOCKERHUB_PASSWORD  | ls -al | echo "build docker" | cd sm-shop | ls -al | docker build . -t shopizerecomm/shopizer:latest
