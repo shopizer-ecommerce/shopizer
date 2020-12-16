@@ -34,13 +34,10 @@ jobs:
   deploy: 
     steps:
       - checkout
-      - setup_remote_docker:
-          version: 19.03.13
-          docker_layer_caching: true
-
-      run: |
-        docker build . -t shopizerecomm/shopizer:latest
-        docker login -u shopizerecomm -p $DOCKERHUB_PASSWORD
+      - setup_remote_docker
+      - run: |
+          docker build . -t shopizerecomm/shopizer:latest
+          docker login -u shopizerecomm -p $DOCKERHUB_PASSWORD
 
 # Orchestrate our job run sequence
 workflows:
