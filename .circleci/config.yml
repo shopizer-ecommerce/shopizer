@@ -47,10 +47,15 @@ jobs:
        # start proprietary DB using private Docker image
        # with credentials stored in the UI
        - run: |
-           docker login -u shopizerecomm  -p $DOCKERHUB_PASSWORD  | ls -al | echo "build docker" | cd sm-shop | ls -al | docker build . -t shopizerecomm/shopizer:latest
+           ls -al
+       - run: |
+            docker login --username shopizerecomm --password-stdin < "$DOCKERHUB_PASSWORD" 
 
+       #- run: |
+       #    docker login -u shopizerecomm  -p $DOCKERHUB_PASSWORD  | ls -al | echo "build docker" | cd sm-shop | ls -al | docker build . -t shopizerecomm/shopizer:latest
+       
        # deploy the image
-       - run: docker push shopizerecomm/shopizer:latest
+       #- run: docker push shopizerecomm/shopizer:latest
 
 # Orchestrate our job run sequence
 workflows:
