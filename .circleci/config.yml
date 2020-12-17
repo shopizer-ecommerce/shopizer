@@ -16,8 +16,8 @@ executors:
         auth:
           username: shopizerecomm
           password: $DOCKERHUB_PASSWORD  
-
-
+      
+working_directory: /tmp
 
 
 # Define the jobs we want to run for this project
