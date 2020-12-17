@@ -33,7 +33,7 @@ jobs:
             set -x
             /home/shopizer/tools/shopizer.sh tests
       - persist_to_workspace:
-          root: /tmp/workspace
+          root: workspace
           paths:
             - sm-shop/*
       #- run:
