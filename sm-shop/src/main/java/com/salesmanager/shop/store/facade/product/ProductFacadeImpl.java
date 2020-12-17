@@ -13,6 +13,7 @@ import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.exception.ServiceException;
@@ -309,18 +310,22 @@ public class ProductFacadeImpl implements ProductFacade {
 			}
 		}
 
-		com.salesmanager.core.model.catalog.product.ProductList products = productService.listByStore(store, language,
-				criterias);
+		//com.salesmanager.core.model.catalog.product.ProductList products = productService.listByStore(store, language,
+		//		criterias);
 		
-		List<Product> prds = products.getProducts().stream().sorted(Comparator.comparing(Product::getSortOrder)).collect(Collectors.toList());
-		products.setProducts(prds);
+		Page<Product> modelProductList = productService.listByStore(store, language, criterias, criterias.getStartPage(), criterias.getPageSize());
+		
+		List<Product> products = modelProductList.getContent();
+		
+		List<Product> prds = products.stream().sorted(Comparator.comparing(Product::getSortOrder)).collect(Collectors.toList());
+		products = prds;
 		
 		ReadableProductPopulator populator = new ReadableProductPopulator();
 		populator.setPricingService(pricingService);
 		populator.setimageUtils(imageUtils);
 
 		ReadableProductList productList = new ReadableProductList();
-		for (Product product : products.getProducts()) {
+		for (Product product : products) {
 
 			// create new proxy product
 			ReadableProduct readProduct = populator.populate(product, new ReadableProduct(), store, language);
@@ -329,12 +334,11 @@ public class ProductFacadeImpl implements ProductFacade {
 		}
 
 		// productList.setTotalPages(products.getTotalCount());
-		productList.setRecordsTotal(products.getTotalCount());
-		productList.setNumber(Math.toIntExact(products.getTotalCount()) >= criterias.getMaxCount() ? Math.toIntExact(products.getTotalCount())
-				: criterias.getMaxCount());
+		productList.setRecordsTotal(modelProductList.getTotalElements());
+		productList.setNumber(modelProductList.getSize());
 
-		int lastPageNumber = (int) (Math.ceil(products.getTotalCount() / criterias.getPageSize()));
-		productList.setTotalPages(lastPageNumber);
+		//int lastPageNumber = (int) (Math.ceil(products.getTotalCount() / criterias.getPageSize()));
+		productList.setTotalPages(modelProductList.getTotalPages());
 
 		return productList;
 	}

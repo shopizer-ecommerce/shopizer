@@ -389,8 +389,8 @@ public class ProductApi {
       @RequestParam(value = "manufacturer", required = false) Long manufacturer,
       @RequestParam(value = "status", required = false) String status,
       @RequestParam(value = "owner", required = false) Long owner,
-      @RequestParam(value = "page", required = false) Integer page,
-      @RequestParam(value = "count", required = false) Integer count,
+      @RequestParam(value = "page", required = false) Integer page,//current page 0 .. n allowing navigation
+      @RequestParam(value = "count", required = false) Integer count,//count per page
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language,
       HttpServletRequest request,
@@ -400,7 +400,6 @@ public class ProductApi {
     ProductCriteria criteria = new ProductCriteria();
     
     //do not use legacy pagination anymore
-    criteria.setLegacyPagination(false);
     if (lang != null) {
       criteria.setLanguage(lang);
     } else {
@@ -461,7 +460,7 @@ public class ProductApi {
    * API for getting a product
    *
    * @param id
-   * @param lang ?lang=fr|en
+   * @param lang ?lang=fr|en|...
    * @param response
    * @return ReadableProduct
    * @throws Exception

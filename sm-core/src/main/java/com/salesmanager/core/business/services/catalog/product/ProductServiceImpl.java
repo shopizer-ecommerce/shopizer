@@ -1,5 +1,6 @@
 package com.salesmanager.core.business.services.catalog.product;
 
+
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -15,6 +16,9 @@ import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.exception.ServiceException;
@@ -355,12 +359,16 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		//Pageable pageRequest = PageRequest.of(page, count);
 		criteria.setPageSize(page);
 		criteria.setPageSize(count);
+		criteria.setLegacyPagination(false);
 		
 		ProductList productList = productRepository.listByStore(store, language, criteria);
 		
-		//PageImpl p = new PageImpl(productList.getProducts(),productList.getTotalCount());
+		PageRequest pageRequest = PageRequest.of(page, count);
 		
-		return null;
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		Page<Product> p = new PageImpl(productList.getProducts(),pageRequest, productList.getTotalCount());
+		
+		return p;
 	}
 
 

@@ -32,6 +32,10 @@ jobs:
           command: |
             set -x
             /home/shopizer/tools/shopizer.sh tests
+      - persist_to_workspace:
+          root: /tmp/workspace
+          paths:
+            - sm-shop/*
       #- run:
       #    name: Install Docker client
       #    command: apk add docker-cli
@@ -43,17 +47,16 @@ jobs:
   deploy:
     machine: true
     steps:
-       - checkout
+       - attach_workspace:
+          at: /tmp/workspace
        # start proprietary DB using private Docker image
        # with credentials stored in the UI
        - run: |
            ls -al
        - run: |
-           cat sm-shop/Dockerfile
-       - run: |
            docker login -u shopizerecomm -p $DOCKERHUB_PASSWORD
        - run: |
-           (cd sm-shop && docker build . -t shopizerecomm/shopizer:latest)
+           docker build . -t shopizerecomm/shopizer:latest
        - run: |
            docker push shopizerecomm/shopizer:latest
 
