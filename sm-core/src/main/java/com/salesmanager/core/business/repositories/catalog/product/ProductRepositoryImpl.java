@@ -609,23 +609,31 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			countBuilderWhere.append(" and owner.id = :ownerid");
 		}
 
-		if (!CollectionUtils.isEmpty(criteria.getAttributeCriteria())) {
+		//attribute or option values
+		if (CollectionUtils.isNotEmpty(criteria.getAttributeCriteria()) || CollectionUtils.isNotEmpty(criteria.getOptionValueIds())) {
 
 			countBuilderSelect.append(" INNER JOIN p.attributes pattr");
 			countBuilderSelect.append(" INNER JOIN pattr.productOption po");
 			countBuilderSelect.append(" INNER JOIN pattr.productOptionValue pov ");
 			countBuilderSelect.append(" INNER JOIN pov.descriptions povd ");
-			int count = 0;
-			for (AttributeCriteria attributeCriteria : criteria.getAttributeCriteria()) {
-				if (count == 0) {
-					countBuilderWhere.append(" and po.code =:").append(attributeCriteria.getAttributeCode());
-					countBuilderWhere.append(" and povd.description like :").append("val").append(count)
-							.append(attributeCriteria.getAttributeCode());
+			
+			if(CollectionUtils.isNotEmpty(criteria.getAttributeCriteria())) {
+				int count = 0;
+				for (AttributeCriteria attributeCriteria : criteria.getAttributeCriteria()) {
+					if (count == 0) {
+						countBuilderWhere.append(" and po.code =:").append(attributeCriteria.getAttributeCode());
+						countBuilderWhere.append(" and povd.description like :").append("val").append(count)
+								.append(attributeCriteria.getAttributeCode());
+					}
+					count++;
 				}
-				count++;
+				if (criteria.getLanguage() != null && !criteria.getLanguage().equals("_all")) {
+					countBuilderWhere.append(" and povd.language.code=:lang");
+				}
 			}
-			if (criteria.getLanguage() != null && !criteria.getLanguage().equals("_all")) {
-				countBuilderWhere.append(" and povd.language.code=:lang");
+			
+			if(CollectionUtils.isNotEmpty(criteria.getOptionValueIds())) {
+				countBuilderWhere.append(" and pov.id in (:povid)");
 			}
 
 		}
@@ -644,6 +652,10 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
 		if (!CollectionUtils.isEmpty(criteria.getCategoryIds())) {
 			countQ.setParameter("cid", criteria.getCategoryIds());
+		}
+		
+		if(CollectionUtils.isNotEmpty(criteria.getOptionValueIds())) {
+			countQ.setParameter("povid", criteria.getOptionValueIds());
 		}
 
 		if (criteria.getAvailable() != null) {
@@ -750,6 +762,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			qs.append(" and categs.id in (:cid)");
 		}
 
+
 		if (criteria.getManufacturerId() != null) {
 			qs.append(" and manuf.id = :manufid");
 		}
@@ -792,6 +805,12 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			}
 
 		}
+		
+		
+		if(CollectionUtils.isNotEmpty(criteria.getOptionValueIds())) {
+			qs.append(" and pov.id in (:povid)");
+		}
+		
 		qs.append(" order by p.sortOrder asc");
 
 		String hql = qs.toString();
@@ -804,6 +823,10 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
 		if (!CollectionUtils.isEmpty(criteria.getCategoryIds())) {
 			q.setParameter("cid", criteria.getCategoryIds());
+		}
+		
+		if (CollectionUtils.isNotEmpty(criteria.getOptionValueIds())) {
+			q.setParameter("povid", criteria.getOptionValueIds());
 		}
 
 		if (!CollectionUtils.isEmpty(criteria.getProductIds())) {

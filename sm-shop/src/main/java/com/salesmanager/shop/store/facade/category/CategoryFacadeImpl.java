@@ -399,10 +399,12 @@ public class CategoryFacadeImpl implements CategoryFacade {
 				if(optionDescription.isPresent()) {
 					productVariant.setName(optionDescription.get().getName());
 					productVariant.setId(optionDescription.get().getId());
+					productVariant.setCode(optionDescription.get().getProductOption().getCode());
 					List<ReadableProductVariantValue> optionValues = new ArrayList<ReadableProductVariantValue>();
 					for (ProductOptionValue value : values) {
 						Optional<ProductOptionValueDescription>  optionValueDescription = value.getDescriptions().stream().filter(o -> o.getLanguage().getId() == language.getId()).findFirst();
 						ReadableProductVariantValue v = new ReadableProductVariantValue();
+						v.setCode(value.getCode());
 						v.setName(value.getDescriptionsSettoList().get(0).getName());
 						v.setDescription(value.getDescriptionsSettoList().get(0).getDescription());
 						if(optionValueDescription.isPresent()) {
@@ -413,7 +415,13 @@ public class CategoryFacadeImpl implements CategoryFacade {
 						v.setValue(value.getId());
 						optionValues.add(v);
 					}
-					productVariant.setOptions(optionValues);
+					
+					//sort by name
+					// remove duplicates
+					List<ReadableProductVariantValue> readableValues = optionValues.stream().distinct().collect(Collectors.toList());
+					readableValues.sort(Comparator.comparing(ReadableProductVariantValue::getName));
+					
+					productVariant.setOptions(readableValues);
 					variants.add(productVariant);
 				}
 			}

@@ -31,9 +31,13 @@ import com.salesmanager.shop.model.catalog.product.attribute.ReadableSelectedPro
 import com.salesmanager.shop.populator.catalog.ReadableFinalPricePopulator;
 import com.salesmanager.shop.store.controller.category.facade.CategoryFacade;
 import com.salesmanager.shop.utils.ImageFilePath;
+
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.SwaggerDefinition;
+import io.swagger.annotations.Tag;
 import springfox.documentation.annotations.ApiIgnore;
 
 /**
@@ -43,6 +47,10 @@ import springfox.documentation.annotations.ApiIgnore;
  */
 @Controller
 @RequestMapping("/api/v1")
+@Api(tags = {"Product variant resource (Product variant Api)"})
+@SwaggerDefinition(tags = {
+    @Tag(name = "Product variant resource", description = "List variation of products by different grouping")
+})
 public class ProductVariantApi {
 
 
@@ -64,7 +72,7 @@ public class ProductVariantApi {
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(
       httpMethod = "POST",
-      value = "Get product price variation based on selected options",
+      value = "Get product price variation based on selected product",
       notes = "",
       produces = "application/json",
       response = ReadableProductPrice.class)

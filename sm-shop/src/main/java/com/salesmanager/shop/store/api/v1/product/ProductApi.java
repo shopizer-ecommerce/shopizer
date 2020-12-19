@@ -3,6 +3,7 @@ package com.salesmanager.shop.store.api.v1.product;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -387,6 +389,7 @@ public class ProductApi {
       @RequestParam(value = "name", required = false) String name,
       @RequestParam(value = "sku", required = false) String sku,
       @RequestParam(value = "manufacturer", required = false) Long manufacturer,
+      @RequestParam(value = "optionValues", required = false) List<Long> optionValueIds,
       @RequestParam(value = "status", required = false) String status,
       @RequestParam(value = "owner", required = false) Long owner,
       @RequestParam(value = "page", required = false) Integer page,//current page 0 .. n allowing navigation
@@ -415,6 +418,10 @@ public class ProductApi {
     }
     if (manufacturer != null) {
       criteria.setManufacturerId(manufacturer);
+    }
+    
+    if(CollectionUtils.isNotEmpty(optionValueIds)) {
+    	criteria.setOptionValueIds(optionValueIds);
     }
 
     if (owner != null) {

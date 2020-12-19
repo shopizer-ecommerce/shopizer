@@ -17,6 +17,7 @@ public class ProductCriteria extends Criteria {
 	private List<Long> categoryIds;
 	private List<String> availabilities;
 	private List<Long> productIds;
+	private List<Long> optionValueIds;
 	
 	private String status;
 	
@@ -95,6 +96,14 @@ public class ProductCriteria extends Criteria {
 
 	public void setOwnerId(Long ownerId) {
 		this.ownerId = ownerId;
+	}
+
+	public List<Long> getOptionValueIds() {
+		return optionValueIds;
+	}
+
+	public void setOptionValueIds(List<Long> optionValueIds) {
+		this.optionValueIds = optionValueIds;
 	}
 
 

@@ -103,9 +103,6 @@ public class ShoppingOrderController extends AbstractController {
 	
 	@Inject
 	private ShoppingCartFacade shoppingCartFacade;
-	
-    @Inject
-    private ShoppingCartService shoppingCartService;
 
 	@Inject
 	private PaymentService paymentService;

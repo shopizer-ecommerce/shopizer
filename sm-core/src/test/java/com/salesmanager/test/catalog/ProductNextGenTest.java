@@ -1,7 +1,7 @@
 package com.salesmanager.test.catalog;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 import java.math.BigDecimal;
@@ -11,13 +11,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.junit.Test;
+import org.springframework.data.domain.Page;
 
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.category.CategoryDescription;
 import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.ProductCriteria;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOption;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionDescription;
@@ -217,9 +220,7 @@ public class ProductNextGenTest extends com.salesmanager.test.common.AbstractSal
 	     * Create product
 	     */
 	    productService.create(summerShoes);
-	    
-	    //System.out.println(summerShoes.getId());
-	    
+
 	    //ObjectMapper mapper = new ObjectMapper();
 	    //Converting the Object to JSONString
 	    //String jsonString = mapper.writeValueAsString(summerShoes);
@@ -230,6 +231,27 @@ public class ProductNextGenTest extends com.salesmanager.test.common.AbstractSal
 	    
 	    List<ProductAvailability> avs = p.getAvailabilities().stream().filter(a -> !a.getVariants().isEmpty()).collect(Collectors.toList());
 	    assertThat(avs, not(empty()));
+	    
+	    //test product list service
+	    
+	    //list products per category
+	    //list 5 items
+	    ProductCriteria productCriteria = new ProductCriteria();
+	    productCriteria.setCategoryIds(Stream.of(shoes.getId())
+	    	      .collect(Collectors.toList()));
+	    
+	    Page<Product> listByCategory = productService.listByStore(store, en, productCriteria, 0, 5);
+	    List<Product> productsByCategory = listByCategory.getContent();
+	    assertThat(productsByCategory,  not(empty()));
+	    
+	    //list products per color attribute
+	    Page<Product> listByOptionValue = productService.listByStore(store, en, productCriteria, 0, 5);
+	    productCriteria = new ProductCriteria();
+	    productCriteria.setOptionValueIds(Stream.of(nineHalf.getId())
+	    	      .collect(Collectors.toList()));
+	    List<Product> productsByOption = listByOptionValue.getContent();
+	    assertThat(productsByOption,  not(empty()));
+	    
 	    
 
 	}
