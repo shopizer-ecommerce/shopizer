@@ -100,7 +100,8 @@ function isFormValid() {
 								<h3><s:message code="label.register.personal.information" text="Personal information"/></h3>
 							</div>
 							<div class="login-form">
-								<form:form method="post" action="${register_url}" id="registrationForm" modelAttribute="customer">
+								<form:form method="post" action="${register_url}" id="registrationForm" modelAttribute="customer"
+										   enctype="application/x-www-form-urlencoded" acceptCharset="utf-8">
 									<form:errors path="*" cssClass="alert alert-error alert-danger form-group" element="div" />
 									<div class="form-group login-page">
 										<label for="firstName"><s:message code="label.generic.firstname" text="First Name"/> <span>*</span></label>
