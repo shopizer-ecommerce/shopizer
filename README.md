@@ -73,6 +73,13 @@ Right click on com.salesmanager.shop.application.ShopApplication
 
 run as Java Application
 
+Run the application from Spring boot in IntelliJ
+-------------------
+
+In Run/Debug Configurations, set to the option Working directory the path of the sm-shop project
+
+run ShopApplication
+
 Run Docker image with working demo
 -------------------
 
