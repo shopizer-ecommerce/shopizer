@@ -41,6 +41,7 @@ public class GeneratePasswordTest extends ServicesTestSupport {
       String password ="password";
       String encoded = passwordEncoder.encode(password);
       LOGGER.info(encoded);
+      System.out.println(encoded);
       //To comply with sonarlint rule java:S2699
       Assert.assertNotNull(encoded);
   }

@@ -11,6 +11,7 @@ import java.util.Locale;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -38,6 +39,7 @@ import com.salesmanager.core.business.configuration.CoreApplicationConfiguration
 import com.salesmanager.shop.filter.AdminFilter;
 import com.salesmanager.shop.filter.CorsFilter;
 import com.salesmanager.shop.filter.StoreFilter;
+import com.salesmanager.shop.filter.XssFilter;
 import com.salesmanager.shop.utils.LabelUtils;
 
 @Configuration
@@ -76,7 +78,16 @@ public class ShopApplicationConfiguration implements WebMvcConfigurer {
   }
   
 
-
+/*  @Bean
+  public FilterRegistrationBean<XssFilter> croseSiteFilter(){
+      FilterRegistrationBean<XssFilter> registrationBean 
+        = new FilterRegistrationBean<>();
+          
+      registrationBean.setFilter(new XssFilter());
+      registrationBean.addUrlPatterns("/*");
+          
+      return registrationBean;    
+  }*/
 
   @Override
   public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
