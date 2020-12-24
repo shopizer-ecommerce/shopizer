@@ -23,6 +23,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.HtmlUtils;
 
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
@@ -112,9 +113,7 @@ public class ShoppingCategoryController {
 	 */
 	@RequestMapping("/shop/category/{friendlyUrl}.html/ref={ref}")
 	public String displayCategoryWithReference(@PathVariable final String friendlyUrl, @PathVariable final String ref, Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
-		
-		
-		
+
 		return this.displayCategory(friendlyUrl,ref,model,request,response,locale);
 	}
 	
@@ -141,7 +140,11 @@ public class ShoppingCategoryController {
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
 		
 		//set ref as request attribute
-		request.setAttribute("ref", ref);
+		String encoded = HtmlUtils.htmlEscape(ref);
+		if(!encoded.equals(ref)) {//possible xss
+			throw new Exception("Wrong input");
+		}
+		request.setAttribute("ref", encoded);
 
 		//get category
 		Category category = categoryService.getBySeUrl(store, friendlyUrl);

@@ -1,5 +1,7 @@
 package com.salesmanager.shop.filter;
 
+import java.util.Enumeration;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
@@ -13,18 +15,17 @@ import org.springframework.web.util.HtmlUtils;
 public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
 
 	public XssHttpServletRequestWrapper(HttpServletRequest request) {
-		super(request);
+		super(request);	
+		
 	}
 	
 
 	 
 	 @Override
 	    public String getHeader(String name) {
-	        //logger.info("Ineader .. parameter .......");
 	        String value = super.getHeader(name);
 	        if (value == null)
 	            return null;
-	        //logger.info("Ineader RequestWrapper ........... value ....");
 	        return cleanXSS(value);
 	    }
 	 

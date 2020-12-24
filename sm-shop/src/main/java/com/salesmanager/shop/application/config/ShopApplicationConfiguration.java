@@ -78,7 +78,7 @@ public class ShopApplicationConfiguration implements WebMvcConfigurer {
   }
   
 
-/*  @Bean
+  @Bean
   public FilterRegistrationBean<XssFilter> croseSiteFilter(){
       FilterRegistrationBean<XssFilter> registrationBean 
         = new FilterRegistrationBean<>();
@@ -87,7 +87,7 @@ public class ShopApplicationConfiguration implements WebMvcConfigurer {
       registrationBean.addUrlPatterns("/*");
           
       return registrationBean;    
-  }*/
+  }
 
   @Override
   public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {

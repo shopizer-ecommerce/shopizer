@@ -16,8 +16,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 
-//@Component
-//@Order(5) //after other defined filters
+@Component
+@Order(0)
 public class XssFilter implements Filter {
 
 	 /**
@@ -30,49 +30,16 @@ public class XssFilter implements Filter {
 	  LOGGER.debug("(XssFilter) initialize");
 	 }
 
-/*	 @Override
-	 public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-	   throws IOException, ServletException {
-	  XssHttpServletRequestWrapper xssRequest =
-	    new XssHttpServletRequestWrapper((HttpServletRequest) request);
-	  chain.doFilter(xssRequest, response);
-	 }*/
-	 
-
-/*	 protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-	 		FilterChain filterChain) throws ServletException, IOException {
-
-	 	filterChain.doFilter(new XssHttpServletRequestWrapper(request) {
-
-
-	 	}, new HttpServletResponseWrapper(response));
-	 }*/
 	 
 	 @Override
 	 public void doFilter(ServletRequest srequest, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 
-/*	 		HttpServletRequest request = (HttpServletRequest) srequest;
-	 		//final String realIp = request.getHeader(X_FORWARDED_FOR);
-
-	 		//if (realIp != null) {
-	 			filterChain.doFilter(new XssHttpServletRequestWrapper(request) {
-	 				*//**
-	 				public String getRemoteAddr() {
-	 					return realIp;
-	 				}
-
-	 				public String getRemoteHost() {
-	 					return realIp;
-	 				}
-	 				**//*
-	 			}, response);
-
-	 			return;
-	 		//}
-
-*/
+	 		HttpServletRequest request = (HttpServletRequest) srequest;
+	 		filterChain.doFilter(new XssHttpServletRequestWrapper(request) {}, response);
 
 	 }
+
+
 
 	 @Override
 	 public void destroy() {
