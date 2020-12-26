@@ -3,7 +3,7 @@ package com.salesmanager.shop.store.facade.product;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,5 +1,15 @@
 package com.salesmanager.shop.mapper.catalog;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+
+import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.salesmanager.core.model.catalog.catalog.Catalog;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.common.audit.AuditSection;
@@ -11,11 +21,6 @@ import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 import com.salesmanager.shop.model.store.ReadableMerchantStore;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.utils.DateUtil;
-import org.apache.commons.collections.CollectionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.util.*;
 
 @Component
 public class ReadableCatalogMapper implements Mapper<Catalog, ReadableCatalog> {

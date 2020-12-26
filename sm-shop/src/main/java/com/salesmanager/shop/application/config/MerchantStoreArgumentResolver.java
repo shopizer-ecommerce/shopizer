@@ -1,9 +1,12 @@
 package com.salesmanager.shop.application.config;
 
-import com.salesmanager.core.model.merchant.MerchantStore;
-import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
-import com.salesmanager.shop.store.controller.user.facade.UserFacade;
-import org.apache.commons.lang.StringUtils;
+import static com.salesmanager.core.business.constants.Constants.DEFAULT_STORE;
+
+import java.util.Optional;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +17,9 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import javax.servlet.http.HttpServletRequest;
-
-import java.util.Optional;
-
-import static com.salesmanager.core.business.constants.Constants.DEFAULT_STORE;
-import static org.apache.commons.lang.StringUtils.isBlank;
-import static org.apache.commons.lang.StringUtils.isNotBlank;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
+import com.salesmanager.shop.store.controller.user.facade.UserFacade;
 
 @Component
 public class MerchantStoreArgumentResolver implements HandlerMethodArgumentResolver {

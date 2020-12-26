@@ -3,8 +3,8 @@ package com.salesmanager.core.business.modules.order.total;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
 import org.kie.api.runtime.KieSession;
 import org.kie.internal.io.ResourceFactory;
 import org.springframework.beans.factory.annotation.Autowired;

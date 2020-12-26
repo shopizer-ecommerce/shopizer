@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.salesmanager.shop.populator.store.ReadableMerchantStorePopulatorWithDetails;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 import org.drools.core.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -2,8 +2,8 @@ package com.salesmanager.shop.mapper.catalog;
 
 import javax.inject.Inject;
 
-import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
 import org.springframework.stereotype.Component;
 
 import com.salesmanager.core.business.services.catalog.product.ProductService;

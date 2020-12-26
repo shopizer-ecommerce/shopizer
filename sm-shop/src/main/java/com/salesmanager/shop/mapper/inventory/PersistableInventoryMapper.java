@@ -1,13 +1,21 @@
 package com.salesmanager.shop.mapper.inventory;
 
-import java.util.*;
+import static com.salesmanager.core.business.utils.NumberUtils.isPositive;
 
-import com.salesmanager.core.business.utils.NumberUtils;
-import org.apache.commons.collections.CollectionUtils;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.helper.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.exception.ServiceException;
@@ -22,8 +30,6 @@ import com.salesmanager.shop.model.catalog.product.PersistableProductPrice;
 import com.salesmanager.shop.model.catalog.product.inventory.PersistableInventory;
 import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;
 import com.salesmanager.shop.utils.DateUtil;
-
-import static com.salesmanager.core.business.utils.NumberUtils.isPositive;
 
 @Component
 public class PersistableInventoryMapper implements Mapper<PersistableInventory, ProductAvailability> {
@@ -119,7 +125,7 @@ public class PersistableInventoryMapper implements Mapper<PersistableInventory, 
     Set<ProductPriceDescription> descs = new HashSet<ProductPriceDescription>();
     for(com.salesmanager.shop.model.catalog.product.ProductPriceDescription desc : descriptions) {
       ProductPriceDescription description = null;
-      if(org.apache.commons.collections.CollectionUtils.isNotEmpty(price.getDescriptions())) {
+      if(CollectionUtils.isNotEmpty(price.getDescriptions())) {
         for(ProductPriceDescription d : price.getDescriptions()) {
           if(isPositive(desc.getId()) && desc.getId().equals(d.getId())) {
             desc.setId(d.getId());

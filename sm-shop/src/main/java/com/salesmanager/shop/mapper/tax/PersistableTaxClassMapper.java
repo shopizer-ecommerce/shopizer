@@ -1,6 +1,6 @@
 package com.salesmanager.shop.mapper.tax;
 
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 import org.springframework.stereotype.Component;
 
 import com.salesmanager.core.model.merchant.MerchantStore;
