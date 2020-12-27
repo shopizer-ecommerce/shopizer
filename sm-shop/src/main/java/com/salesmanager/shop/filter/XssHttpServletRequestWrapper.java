@@ -5,6 +5,7 @@ import java.util.Enumeration;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
+import com.salesmanager.shop.validation.SanitizeUtils;
 import org.springframework.web.util.HtmlUtils;
 
 /**
@@ -68,7 +69,7 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
 	        //value = value.replaceAll("<script>", "");
 	        //value = value.replaceAll("</script>", "");
 	        logger.info("OutnXSS RequestWrapper ........ value ......." + value);*/
-	        return HtmlUtils.htmlEscape(value);
+	        return SanitizeUtils.getSafeString(value);
 	    }
 
 }
