@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-@ControllerAdvice("com.salesmanager.shop.controller")
+@ControllerAdvice("com.salesmanager.shop.store.controller")
 public class ShopErrorController {
 	
 	

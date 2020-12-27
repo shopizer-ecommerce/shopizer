@@ -55,6 +55,7 @@
 			<artifactId>shopizer-shipping-canadapost-module</artifactId>
 			<version>${shopizer-canadapost.version}</version>
 		</dependency>
+		
 		<!-- Upcoming Way -->
 		<!--
 		<dependency>

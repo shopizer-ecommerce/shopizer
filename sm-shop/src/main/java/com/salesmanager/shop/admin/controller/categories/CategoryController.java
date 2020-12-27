@@ -287,7 +287,7 @@ public class CategoryController {
             Optional<Category> parent = Optional.ofNullable(categoryService.getById(parentId, store.getId()));
             if(child.isPresent()&& child.get().getParent().getId().equals(parentId)) {
                 resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
-                String returnString = resp.toJSONString();
+                //String returnString = resp.toJSONString();
             }
             if(parentId!=1) {
                 if(isValid(store, child, parent)) {

@@ -142,7 +142,7 @@ public class ShoppingCategoryController {
 		//set ref as request attribute
 		String encoded = HtmlUtils.htmlEscape(ref);
 		if(!encoded.equals(ref)) {//possible xss
-			throw new Exception("Wrong input");
+			throw new Exception("Wrong input parameter");
 		}
 		request.setAttribute("ref", encoded);
 

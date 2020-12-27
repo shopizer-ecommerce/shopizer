@@ -10,13 +10,15 @@
 		<version>2.16.0</version>
 	</parent>
 
+
+
 	<artifactId>sm-core-model</artifactId>
 	<description>sm-core-modules is used for create new external modules implementation deployed in
-    maven.
-  </description>
-	<packaging>jar</packaging>
+    	maven.</description>
 	<name>sm-core-model</name>
 	<url>http://www.shopizer.com</url>
+
+
 
 	<scm>
 		<connection>scm:git:git://github.com:shopizer-ecommerce/shopizer-sm-core-model.git</connection>
@@ -121,9 +123,8 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!--OSSRH -->
-			<!--
-			<plugin>
+
+<!-- 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<executions>
@@ -148,8 +149,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
-			-->
+			</plugin> -->
 		</plugins>
 	</build>
 </project>
