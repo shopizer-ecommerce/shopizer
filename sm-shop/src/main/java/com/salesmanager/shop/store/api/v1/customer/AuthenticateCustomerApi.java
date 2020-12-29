@@ -180,8 +180,6 @@ public class AuthenticateCustomerApi {
     public ResponseEntity<?> refreshToken(HttpServletRequest request) {
         String token = request.getHeader(tokenHeader);
 
-        System.out.println("--------------------- TOKEN : " + token);
-
         String username = jwtTokenUtil.getUsernameFromToken(token);
         JWTUser user = (JWTUser) jwtCustomerDetailsService.loadUserByUsername(username);
 
@@ -219,7 +217,7 @@ public class AuthenticateCustomerApi {
     }
     
 
-    @RequestMapping(value = "/customer/password", method = RequestMethod.POST, produces ={ "application/json" })
+    @RequestMapping(value = "/auth/customer/password", method = RequestMethod.POST, produces ={ "application/json" })
     @ApiOperation(httpMethod = "PUT", value = "Sends a request to reset password", notes = "Password reset request is {\"username\":\"test@email.com\"}",response = ResponseEntity.class)
     public ResponseEntity<?> changePassword(@RequestBody @Valid PasswordRequest passwordRequest, HttpServletRequest request) {
 

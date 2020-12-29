@@ -140,9 +140,10 @@ public class ShoppingCategoryController {
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
 		
 		//set ref as request attribute
+		//String encoded = HtmlUtils.htmlEscape(ref, com.salesmanager.core.business.constants.Constants.UTF_8.displayName());
 		String encoded = HtmlUtils.htmlEscape(ref);
 		if(!encoded.equals(ref)) {//possible xss
-			throw new Exception("Wrong input parameter");
+			throw new Exception("Wrong input parameter [" + ref + "]");
 		}
 		request.setAttribute("ref", encoded);
 
