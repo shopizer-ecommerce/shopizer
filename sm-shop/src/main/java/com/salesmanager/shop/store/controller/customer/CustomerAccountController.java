@@ -501,7 +501,8 @@ public class CustomerAccountController extends AbstractController {
     
     
 	@PreAuthorize("hasRole('AUTH_CUSTOMER')")
-    @RequestMapping(value="/updateAddress.html", method={RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value="/updateAddress.html", method={RequestMethod.GET,RequestMethod.POST},
+			consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE+";charset=UTF-8")
     public String updateCustomerAddress(@Valid
                                         @ModelAttribute("address") Address address,BindingResult bindingResult,final Model model, final HttpServletRequest request,
                               @RequestParam(value = "billingAddress", required = false) Boolean billingAddress) throws Exception {

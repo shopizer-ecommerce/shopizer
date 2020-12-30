@@ -93,7 +93,8 @@ function isFormValid() {
 					</span>
 					<div id="store.success" class="alert alert-success" style="<c:choose><c:when test="${success!=null}">display:block;</c:when><c:otherwise>display:none;</c:otherwise></c:choose>"><s:message code="message.success" text="Request successfull"/></div>
 					<div id="formError"  class="alert alert-warning" style="display:none;"></div>
-					<form:form method="POST" id="changeAddressForm" modelAttribute="address" action="${updateAddress}">
+					<form:form method="POST" id="changeAddressForm" modelAttribute="address" action="${updateAddress}"
+							   enctype="application/x-www-form-urlencoded" acceptCharset="utf-8">
 				         <!-- TODO REMOVE -->
 				         <input type="hidden" name="customerId" value="${customerId}">
 				         <input type="hidden" name="billingAddress" value="${address.billingAddress}">

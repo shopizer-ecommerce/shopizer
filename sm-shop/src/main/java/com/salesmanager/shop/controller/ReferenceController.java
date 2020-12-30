@@ -13,6 +13,7 @@ import com.salesmanager.core.model.reference.zone.Zone;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.LanguageUtils;
+import com.salesmanager.shop.validation.SanitizeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +26,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.apache.commons.lang3.StringEscapeUtils;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -142,7 +142,7 @@ public class ReferenceController {
 		} catch (ServiceException e) {
 			LOGGER.error("Error while looking up country " + countryCode);
 		}
-		return StringEscapeUtils.escapeHtml4(countryCode);
+		return SanitizeUtils.getSafeString(countryCode);
 	}
 	
 	@RequestMapping(value="/shop/reference/zoneName")
@@ -164,7 +164,7 @@ public class ReferenceController {
 		} catch (ServiceException e) {
 			LOGGER.error("Error while looking up zone " + zoneCode);
 		}
-		return StringEscapeUtils.escapeHtml4(zoneCode);
+		return SanitizeUtils.getSafeString(zoneCode);
 	}
 	
 	@SuppressWarnings("unchecked")

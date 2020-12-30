@@ -941,7 +941,8 @@ $(document).ready(function() {
 	</sec:authorize>
 
    <c:set var="commitUrl" value="${pageContext.request.contextPath}/shop/order/commitOrder.html"/>
-   <form:form id="checkoutForm" method="POST" enctype="multipart/form-data" modelAttribute="order" action="${commitUrl}">
+   <form:form id="checkoutForm" method="POST" enctype="application/x-www-form-urlencoded" modelAttribute="order"
+			  action="${commitUrl}" acceptCharset="utf-8">
 	   
 
 		<div class="row-fluid common-row" id="checkout">

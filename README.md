@@ -86,6 +86,14 @@ Run Docker image with working demo
 
 	docker run -p 80:8080 shopizerecomm/shopizer:latest
 
+Spanish and other special characters lenguages
+------------------\
+In order to register properly characters like á, ñ, and others non english letters; you must add your locale plus 
+this parameters to JVM
+
+    -Djavax.servlet.request.encoding=UTF-8 -Dfile.encoding=UTF-8
+
+
 
 ### Access the application:
 -------------------
