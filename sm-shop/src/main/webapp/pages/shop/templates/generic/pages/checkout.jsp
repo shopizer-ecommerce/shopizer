@@ -615,7 +615,7 @@ function initPayment(paymentSelection) {
 					<!--alert-error-->
 				
    					<c:set var="commitUrl" value="${pageContext.request.contextPath}/shop/order/commitOrder.html"/>
-   					<form:form id="checkoutForm" method="POST" enctype="multipart/form-data" modelAttribute="order" action="${commitUrl}">
+   					<form:form autocomplete="off" id="checkoutForm" method="POST" enctype="multipart/form-data" modelAttribute="order" action="${commitUrl}">
 						<input type="hidden" id="useDistanceWindow" name="useDistanceWindow" value="<c:out value="${shippingMetaData.useDistanceModule}"/>">
 						<div class="col-lg-6 col-md-6">
 							<div class="checkbox-form">						
@@ -648,7 +648,7 @@ function initPayment(paymentSelection) {
 										</div>
 									</div>
 									<c:if test="${googleMapsKey != ''}">
-									<!-- geolocate component -->
+									<!-- geolocate component  -->
 									<div class="col-md-12">
 										<div class="checkout-form-list">
 										    

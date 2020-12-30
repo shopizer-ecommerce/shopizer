@@ -116,7 +116,7 @@ public class CustomShippingQuoteRules implements ShippingQuoteModule {
 		inputParameters.setProvince("*");
 		inputParameters.setModuleName(module.getCode());
 		
-		if(delivery.getZone().getCode()!=null) {
+		if(delivery.getZone() != null && delivery.getZone().getCode()!=null) {
 			inputParameters.setProvince(delivery.getZone().getCode());
 		}
 		

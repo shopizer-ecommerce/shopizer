@@ -58,8 +58,8 @@ import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("/api/v1")
-@Api(tags = { "Order management resource (Order Management Api)" })
-@SwaggerDefinition(tags = { @Tag(name = "Order management resource", description = "Manage orders") })
+@Api(tags = { "Ordering api (Order Flow Api)" })
+@SwaggerDefinition(tags = { @Tag(name = "Order flow resource", description = "Manage orders (create, list, get)") })
 public class OrderApi {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(OrderApi.class);
@@ -340,8 +340,12 @@ public class OrderApi {
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
-	public PersistableOrder checkout(@PathVariable final String code, @Valid @RequestBody PersistableOrder order,
-			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language, HttpServletRequest request,
+	public PersistableOrder checkout(
+			@PathVariable final String code, 
+			@Valid @RequestBody PersistableOrder order,
+			@ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language, 
+			HttpServletRequest request,
 			HttpServletResponse response, Locale locale) throws Exception {
 
 		try {

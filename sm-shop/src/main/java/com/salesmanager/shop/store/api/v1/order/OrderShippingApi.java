@@ -266,7 +266,7 @@ public class OrderShippingApi {
               optionCodeBuilder
                   .append("module.shipping.")
                   .append(shipOption.getShippingModuleCode());
-              String optionName = messages.getMessage(optionCodeBuilder.toString(), locale);
+              String optionName = messages.getMessage(optionCodeBuilder.toString(), new String[]{merchantStore.getStorename()},locale);
               shipOption.setOptionName(optionName);
             } catch (Exception e) { // label not found
               LOGGER.warn("No shipping code found for " + optionCodeBuilder.toString());
