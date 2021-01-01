@@ -12,8 +12,9 @@ function validateEmail($email) {
 
 
 function validatePhone($phone) {
-	  var phoneReg = /^[0]?[789]\d{9}$/;
-	  if ( $phone.length > 0 && phoneReg.test($phone)) 
+	//  var phoneReg = /^[0]?[789]\d{9}$/;
+	  var phoneReg = /^\+[0-9\s\-\(\)]+$/;
+	  if ( $phone.length === 13  && phoneReg.test($phone)) 
 	  {
 	    return true;
 	  } else {

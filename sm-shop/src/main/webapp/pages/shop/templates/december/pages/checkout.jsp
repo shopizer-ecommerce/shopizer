@@ -25,6 +25,27 @@ response.setDateHeader ("Expires", -1);
 <!-- generic checkout script -->
 <script src="<c:url value="/resources/js/shop-checkout.js" />"></script>
 
+	<!-- Import and configure the Firebase SDK -->
+		<!-- These scripts are made available when the app is served or deployed on Firebase Hosting -->
+		<!-- If you do not serve/host your project using Firebase Hosting see https://firebase.google.com/docs/web/setup -->
+		
+		<script src="https://www.gstatic.com/firebasejs/7.23.0/firebase-app.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/7.23.0/firebase-auth.js"></script>
+		<script>
+		  // Your web app's Firebase configuration
+		  var firebaseConfig = {
+		    apiKey: "AIzaSyBs3_FCA2Ll7WWgZXMgBH-RYqixMT_U2eY",
+		    authDomain: "my-project-1502947393384.firebaseapp.com",
+		    databaseURL: "https://my-project-1502947393384.firebaseio.com",
+		    projectId: "my-project-1502947393384",
+		    storageBucket: "my-project-1502947393384.appspot.com",
+		    messagingSenderId: "534483946889",
+		    appId: "1:534483946889:web:7751e9df0df4ba2d0c6558"
+		  };
+		  // Initialize Firebase
+		  firebase.initializeApp(firebaseConfig);
+		</script>
+		<script src="<c:url value="/resources/js/otphelper.js" />"></script>
 <!-- 
 Templates definition
  -->
@@ -89,7 +110,9 @@ var useDistanceWindow = <c:out value="${shippingMetaData.useDistanceModule}"/>;
 
 $(document).ready(function() {
 	
-	
+	console.log('About to logout from Firebase');
+	onSignOutClick();
+	console.log('Logged Out from Firebase');
 	//logic for initialyzing the form, needs to be maintained
 	
 	//form displaying shipping address
@@ -261,8 +284,7 @@ function isFormValid() {
 		}
 	}
 	
-
-	//console.log('Form is valid ? ' + valid);
+   
 	if(valid==false) {//disable submit button
 		if(firstErrorMessage!=null) {
 			$(formErrorMessageId).addClass('alert-error alert-danger');
@@ -455,6 +477,9 @@ function bindActions() {
     //final order submission button
 	$("#submitOrder").click(function(e) {
 		e.preventDefault();//do not submit form
+		 var firebaseUserSignedIn = updateSignedInUserStatusUI();
+		 console.log('Sign In status for Firebase user ' + firebaseUserSignedIn);
+		if (firebaseUserSignedIn) {
 		formValid = isFormValid();
 		resetErrorMessage();
 		setCountrySettings('billing',$('.billing-country-list').val());
@@ -508,6 +533,14 @@ function bindActions() {
 			//submit form
 			submitForm();	
 		}
+	 } else {
+		 $('#submitOrder').addClass('btn-disabled');
+		 $('#submitOrder').prop('disabled', true);
+		 $("html, body").animate({ scrollTop: 0 }, "slow");
+		 toastr.error('Mobile OTP Verification is not complete');
+		 console.log('User has not completeted OTP verification');
+		 
+	 }	
     });
 }
 
@@ -723,13 +756,31 @@ function initPayment(paymentSelection) {
 										</div>
 									</div>
 									<div class="col-md-6">
-										<div class="checkout-form-list">
+										<div  id="sign-in-form" class="checkout-form-list">
 											<label><s:message code="label.generic.phone" text="Phone number"/>  <span class="required">*</span></label>										
 											<s:message code="NotEmpty.customer.billing.phone" text="Phone number is required" var="msgPhone"/>
-										    <form:input id="customer.billing.phone" cssClass="required phone" path="customer.billing.phone" title="${msgPhone}"/>
+										    <form:input id="phone-number" cssClass="required phone" placeholder="+91xxxxxxxxxx" path="customer.billing.phone" title="${msgPhone}"/>
 										    <form:errors path="customer.billing.phone" cssClass="error" />
 											<span id="error-customer.billing.phone" class="error"></span>
+											<div><br></div>
+											<button disabled class="blinkstyle btn btn-default btn-large" id="sign-in-button">Verify via OTP</button>
+											<button class="btn btn-default btn-large" id="sign-out-button">Sign-Out</button>
 										</div>
+									</div>
+									<div class="col-md-6">
+										<div id="verification-code-form">
+											<!-- Input to enter the verification code -->
+											<div class="controls">
+											  <input class="form-control form-control-md" placeholder="Enter 6 digit OTP" type="text" id="verification-code">
+											  
+											</div>
+
+											<!-- Button that triggers code verification -->
+											<br>
+											<button class="blinkstyle btn btn-default btn-large" id="verify-code-button">Enter OTP Code</button>
+											<!-- Button to cancel code verification -->
+											<button class="blinkstyle btn btn-default btn-large" id="cancel-verify-code-button">Cancel</button>
+										  </div>
 									</div>
 								<%--	<sec:authorize access="!hasRole('AUTH_CUSTOMER') and !fullyAuthenticated">
 									<div class="col-md-12">
@@ -1125,6 +1176,8 @@ function initPayment(paymentSelection) {
 				$( function() {
 					
 					 var prefix = 'Bhopal, Madhya Pradesh, ';
+					 var isdPrefix ='+91';
+					 
 		          
 				$('#addressAutocomplete').on('input',function(){
 				var str = $('#addressAutocomplete').val();
@@ -1140,6 +1193,21 @@ function initPayment(paymentSelection) {
 					}
 				}
 			   });
+				
+				$('#phone-number').on('input',function(){
+					var pstr = $('#phone-number').val();
+					if(pstr.indexOf(isdPrefix) == 0) {
+						// string already started with isdPrefix
+						return;
+					} else {
+						if (prefix.indexOf(pstr) >= 0) {
+							// string is part of isdPrefix
+							$('#phone-number').val(isdPrefix);
+						} else {
+							$('#phone-number').val(isdPrefix+pstr);
+						}
+					}
+				   });
 			
 			});
 		
@@ -1149,3 +1217,4 @@ function initPayment(paymentSelection) {
 		  	  <script src="https://maps.googleapis.com/maps/api/js?key=<c:out value="${googleMapsKey}"/>&libraries=places&callback=googleInitialize"
 		        async defer></script>
 		</c:if>
+	

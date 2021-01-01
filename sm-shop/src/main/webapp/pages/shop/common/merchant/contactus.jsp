@@ -31,6 +31,9 @@ $(document).ready(function() {
 	
     $("#submitContact").click(function() {
     	sendContact();
+		console.log('About to logout from Firebase');
+		onSignOutClick();
+		console.log('Logged Out from Firebase');
     });
 
 });
@@ -148,6 +151,7 @@ function sendContact(){
 										   <form:errors path="name" cssClass="error" />
                                         </div>
                                     </div>
+										
                                     <div class="control-group form-group">
                                         <label for="inputEmail" class="control-label"><s:message code="label.generic.email" text="Email address"/></label>
                                         <div class="controls">
@@ -168,7 +172,7 @@ function sendContact(){
                                             <form:textarea path="comment" cssClass="span8 required form-control form-control-md" rows="10" id="comment"/>
                                         </div>
                                     </div>
-									<div class="control-group form-group">
+									<!-- <div class="control-group form-group">
 										<div class="controls">
 											
 											<script src="https://www.google.com/recaptcha/api.js?hl=<c:out value="${requestScope.LANGUAGE.code}"/>" async defer></script>
@@ -176,7 +180,32 @@ function sendContact(){
 											<div class="g-recaptcha" data-sitekey="<c:out value="${recapatcha_public_key}"/>"></div>
 
 										</div>
-									</div>
+									</div> -->
+                                    <div class="control-group form-group">
+                                        <label for="inputEmail" class="control-label">Enter your phone number</label>
+                                        <div class="controls">
+                                            <div id ="sign-in-form">
+											<input  class="required form-control form-control-md" type="text" pattern="\+[0-9\s\-\(\)]+" id="phone-number" oninvalid="setCustomValidity('Please use +91XXXXXXXXXX format ')" />
+                                            <button disabled class="btn btn-default btn-large" id="sign-in-button">Verify (Not a Bot)</button>
+											<button class="btn btn-default btn-large" id="sign-out-button">Sign-Out</button>
+											</div>
+											
+										   <div id="verification-code-form">
+											<!-- Input to enter the verification code -->
+											<div class="controls">
+											  <input class="form-control form-control-md" type="text" id="verification-code">
+											  
+											</div>
+
+											<!-- Button that triggers code verification -->
+											
+											<button class="btn btn-default btn-large" id="verify-code-button">Enter OTP Code</button>
+											<!-- Button to cancel code verification -->
+											<button class="btn btn-default btn-large" id="cancel-verify-code-button">Cancel</button>
+										  </div>
+                                        </div>
+                                    </div>
+									
 
 									<div class="form-actions">
 										<input id="submitContact" type="button" value="<s:message code="label.generic.send" text="Send"/>" name="register" class="btn btn-default login-btn btn-large">
@@ -262,5 +291,27 @@ function googleInitialize() {
 </c:if>
 
 </c:if>
+<!-- Import and configure the Firebase SDK -->
+<!-- These scripts are made available when the app is served or deployed on Firebase Hosting -->
+<!-- If you do not serve/host your project using Firebase Hosting see https://firebase.google.com/docs/web/setup -->
+
+<script src="https://www.gstatic.com/firebasejs/7.23.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.23.0/firebase-auth.js"></script>
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyBs3_FCA2Ll7WWgZXMgBH-RYqixMT_U2eY",
+    authDomain: "my-project-1502947393384.firebaseapp.com",
+    databaseURL: "https://my-project-1502947393384.firebaseio.com",
+    projectId: "my-project-1502947393384",
+    storageBucket: "my-project-1502947393384.appspot.com",
+    messagingSenderId: "534483946889",
+    appId: "1:534483946889:web:7751e9df0df4ba2d0c6558"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+</script>
+<script src="<c:url value="/resources/js/otphelper.js" />"></script>
+
  </div>
  </div>

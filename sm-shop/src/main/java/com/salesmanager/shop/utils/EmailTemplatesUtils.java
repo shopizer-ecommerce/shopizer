@@ -11,6 +11,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.Order;
 import com.salesmanager.core.model.order.OrderTotal;
 import com.salesmanager.core.model.order.orderproduct.OrderProduct;
+import com.salesmanager.core.model.order.orderproduct.OrderProductAttribute;
 import com.salesmanager.core.model.order.orderstatus.OrderStatusHistory;
 import com.salesmanager.core.model.reference.country.Country;
 import com.salesmanager.core.model.reference.language.Language;
@@ -26,11 +27,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import javax.inject.Inject;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 
 @Component
@@ -162,8 +165,16 @@ public class EmailTemplatesUtils {
 		    	   orderTable.append(TABLE);
 		    	   for(OrderProduct product : order.getOrderProducts()) {
 		    		   //Product productModel = productService.getByCode(product.getSku(), language);
+		    		   Set<OrderProductAttribute> productAttributeSet =  product.getOrderAttributes();
 		    		   orderTable.append(TR);
-			    		   orderTable.append(TD).append(product.getProductName()).append(" - ").append(product.getSku()).append(CLOSING_TD);
+		    		   	   orderTable.append(TD).append(product.getProductName()).append(" - ").append(product.getSku());
+		    		   	   if (! CollectionUtils.isEmpty(productAttributeSet)) {
+		    		   		LOGGER.info( "Appending Product Attributes in email" );
+		    		   		   for(OrderProductAttribute opa : productAttributeSet) {
+		    		   	   	orderTable.append(LINE_BREAK).append(opa.getProductAttributeName()).append(": ").append(opa.getProductAttributeValueName());
+		    		   		   }
+		    		   	   }
+		    		   	   orderTable.append(CLOSING_TD);
 		    		   	   orderTable.append(TD).append(messages.getMessage("label.quantity", customerLocale)).append(": ").append(product.getProductQuantity()).append(CLOSING_TD);
 	    		   		   orderTable.append(TD).append(pricingService.getDisplayAmount(product.getOneTimeCharge(), merchantStore)).append(CLOSING_TD);
     		   		   orderTable.append(CLOSING_TR);
