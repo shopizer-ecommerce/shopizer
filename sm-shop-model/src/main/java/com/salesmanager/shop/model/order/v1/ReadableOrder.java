@@ -19,7 +19,7 @@ public class ReadableOrder extends Order {
 	
 	private ReadableBilling billing;
 	private ReadableDelivery delivery;
-	private ShippingOption shippingOption;
+	private ShippingOption shippingOption;               
 	private ReadablePayment payment;
 	private ReadableTotal total;
 	private List<ReadableOrderProduct> products;

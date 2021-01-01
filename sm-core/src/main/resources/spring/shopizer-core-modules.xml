@@ -53,8 +53,7 @@
 	</util:map>
 
 	<!-- Shipping -->
-	<beans:bean id="canadapost"
-		class="com.shopizer.modules.shipping.canadapost.CanadaPostQuoteModule" /><!--shopizer-shipping-canadapost-module -->
+	<!-- Moving to com.salesmanager.core.business.configuration.ModulesConfiguration -->
 	<beans:bean id="usps"
 		class="com.salesmanager.core.business.modules.integration.shipping.impl.USPSShippingQuote" />
 	<beans:bean id="ups"

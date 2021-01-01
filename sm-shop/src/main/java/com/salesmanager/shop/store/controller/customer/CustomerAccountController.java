@@ -60,7 +60,7 @@ import com.salesmanager.shop.populator.customer.ReadableCustomerPopulator;
 import com.salesmanager.shop.store.controller.AbstractController;
 import com.salesmanager.shop.store.controller.ControllerConstants;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
-import com.salesmanager.shop.store.controller.order.facade.OrderFacade;
+import com.salesmanager.shop.store.controller.order.facade.v1.OrderFacade;
 import com.salesmanager.shop.utils.EmailTemplatesUtils;
 import com.salesmanager.shop.utils.LabelUtils;
 import com.salesmanager.shop.utils.LanguageUtils;

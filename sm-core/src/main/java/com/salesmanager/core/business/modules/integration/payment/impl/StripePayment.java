@@ -267,7 +267,7 @@ public class StripePayment implements PaymentModule {
 		
 		String token = payment.getPaymentMetaData().get("stripe_token");
 		if(StringUtils.isBlank(token)) { //possibly from api
-		  token = payment.getPaymentMetaData().get("paymentToken");
+		  token = payment.getPaymentMetaData().get("paymentToken");//from api
 		}
 		
 		if(StringUtils.isBlank(token)) {

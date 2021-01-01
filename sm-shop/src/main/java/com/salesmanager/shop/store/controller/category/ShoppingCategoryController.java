@@ -23,7 +23,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.util.HtmlUtils;
 
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
@@ -53,6 +52,7 @@ import com.salesmanager.shop.store.model.filter.QueryFilterType;
 import com.salesmanager.shop.utils.BreadcrumbsUtils;
 import com.salesmanager.shop.utils.ImageFilePath;
 import com.salesmanager.shop.utils.PageBuilderUtils;
+import com.salesmanager.shop.utils.SanitizeUtils;
 
 
 
@@ -140,8 +140,7 @@ public class ShoppingCategoryController {
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
 		
 		//set ref as request attribute
-		//String encoded = HtmlUtils.htmlEscape(ref, com.salesmanager.core.business.constants.Constants.UTF_8.displayName());
-		String encoded = HtmlUtils.htmlEscape(ref);
+		String encoded = SanitizeUtils.getSafeString(ref);
 		if(!encoded.equals(ref)) {//possible xss
 			throw new Exception("Wrong input parameter [" + ref + "]");
 		}

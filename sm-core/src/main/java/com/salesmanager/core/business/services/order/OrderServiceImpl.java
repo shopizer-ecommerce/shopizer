@@ -201,7 +201,8 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
             for(ProductAvailability availability : p.getAvailabilities()) {
                 int qty = availability.getProductQuantity();
                 if(qty < orderProduct.getProductQuantity()) {
-                    throw new ServiceException(ServiceException.EXCEPTION_INVENTORY_MISMATCH);
+                    //throw new ServiceException(ServiceException.EXCEPTION_INVENTORY_MISMATCH);
+                	LOGGER.error("APP-BACKEND [" + ServiceException.EXCEPTION_INVENTORY_MISMATCH + "]");
                 }
                 qty = qty - orderProduct.getProductQuantity();
                 availability.setProductQuantity(qty);
