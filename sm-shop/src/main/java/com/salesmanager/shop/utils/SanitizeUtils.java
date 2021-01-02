@@ -8,7 +8,10 @@ import org.apache.commons.lang3.StringUtils;
 
 public class SanitizeUtils {
 
-    private static List<Character> blackList = Arrays.asList(';','%', '&', '=', '|', '/', '*', '+', '_',
+	/**
+	 * should not contain /
+	 */
+    private static List<Character> blackList = Arrays.asList(';','%', '&', '=', '|', '*', '+', '_',
             '^', '%','$','(', ')', '{', '}', '<', '>', '[',
             ']', '`', '\'', '~','\\', '?', ',');
 
