@@ -37,6 +37,7 @@ public class FilePathUtils {
 	private static final String DOUBLE_SLASH = "://";
 	private static final String CONTEXT_PATH = "CONTEXT_PATH";
 	private static final String HTTP_VALUE = "http";
+	public static final String X_FORWARDED_HOST = "X-Forwarded-Host";
 
 	@Inject private CoreConfiguration coreConfiguration;
 
@@ -193,5 +194,27 @@ public class FilePathUtils {
 				+ DOUBLE_SLASH
 				+ domainName
 				+ contextPath;
+	}
+
+	/**
+	 * Requires web server headers to build image URL for social media sharing.<br/>
+	 *
+	 * Nginx configuration example:
+	 * <pre>
+	 *     proxy_set_header X-Forwarded-Proto $scheme;
+	 *     proxy_set_header X-Forwarded-Host $scheme://$host;
+	 *     proxy_set_header X-Forwarded-Server $host;</pre>
+	 * @param merchantStore
+	 * @param request
+	 * @return
+	 */
+	public String buildStoreForwardedUri(MerchantStore merchantStore, HttpServletRequest request) {
+		String uri;
+		if(StringUtils.isNotEmpty(request.getHeader(X_FORWARDED_HOST))) {
+			uri = request.getHeader(X_FORWARDED_HOST);
+		} else {
+			uri = buildStoreUri(merchantStore, request);
+		}
+		return uri;
 	}
 }
