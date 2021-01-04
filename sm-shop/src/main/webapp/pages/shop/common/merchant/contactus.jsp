@@ -300,7 +300,7 @@ function googleInitialize() {
 <script>
   // Your web app's Firebase configuration
   var firebaseConfig = {
-    apiKey: "AIzaSyBs3_FCA2Ll7WWgZXMgBH-RYqixMT_U2eY",
+    apiKey: "XXXXXXXXXXXXXXXXXXXXXXXX",
     authDomain: "my-project-1502947393384.firebaseapp.com",
     databaseURL: "https://my-project-1502947393384.firebaseio.com",
     projectId: "my-project-1502947393384",
