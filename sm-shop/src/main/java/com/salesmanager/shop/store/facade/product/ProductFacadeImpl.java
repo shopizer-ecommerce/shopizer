@@ -313,7 +313,7 @@ public class ProductFacadeImpl implements ProductFacade {
 		//com.salesmanager.core.model.catalog.product.ProductList products = productService.listByStore(store, language,
 		//		criterias);
 		
-		Page<Product> modelProductList = productService.listByStore(store, language, criterias, criterias.getStartPage(), criterias.getPageSize());
+		Page<Product> modelProductList = productService.listByStore(store, language, criterias, criterias.getStartPage(), criterias.getMaxCount());
 		
 		List<Product> products = modelProductList.getContent();
 		

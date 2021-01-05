@@ -84,7 +84,9 @@ public class ShopApplicationConfiguration implements WebMvcConfigurer {
         = new FilterRegistrationBean<>();
           
       registrationBean.setFilter(new XssFilter());
-      registrationBean.addUrlPatterns("/*");
+      registrationBean.addUrlPatterns("/shop/**");
+      registrationBean.addUrlPatterns("/api/**");
+      registrationBean.addUrlPatterns("/customer/**");
           
       return registrationBean;    
   }

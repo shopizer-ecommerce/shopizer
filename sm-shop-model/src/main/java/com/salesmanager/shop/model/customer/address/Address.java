@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import javax.validation.constraints.NotEmpty;
 import io.swagger.annotations.ApiModelProperty;
-import org.apache.commons.lang3.StringEscapeUtils;
+
 
 /**
  * Customer or someone address
@@ -55,11 +55,11 @@ public class Address extends AddressLocation implements Serializable {
 
 
 	public void setStateProvince(String stateProvince) {
-		this.stateProvince = StringEscapeUtils.escapeHtml4(stateProvince);
+		this.stateProvince = stateProvince;
 	}
 
 	public void setCountry(String country) {
-		this.country = StringEscapeUtils.escapeHtml4(country);
+		this.country = country;
 	}
 
 
@@ -69,7 +69,7 @@ public class Address extends AddressLocation implements Serializable {
 	}
 
 	public void setCompany(String company) {
-		this.company = StringEscapeUtils.escapeHtml4(company);
+		this.company = company;
 	}
 
 	public String getAddress() {
@@ -77,7 +77,7 @@ public class Address extends AddressLocation implements Serializable {
 	}
 
 	public void setAddress(String address) {
-		this.address = StringEscapeUtils.escapeHtml4(address);
+		this.address = address;
 	}
 
 	public String getCity() {
@@ -85,7 +85,7 @@ public class Address extends AddressLocation implements Serializable {
 	}
 
 	public void setCity(String city) {
-		this.city = StringEscapeUtils.escapeHtml4(city);
+		this.city = city;
 	}
 
 
@@ -99,7 +99,7 @@ public class Address extends AddressLocation implements Serializable {
 	}
 
 	public void setZone(String zone) {
-		this.zone = StringEscapeUtils.escapeHtml4(zone);
+		this.zone = zone;
 	}
 
 	public String getZone() {
@@ -107,7 +107,7 @@ public class Address extends AddressLocation implements Serializable {
 	}
 
 	public void setPhone(String phone) {
-		this.phone = StringEscapeUtils.escapeHtml4(phone);
+		this.phone = phone;
 	}
 
 	public String getPhone() {
@@ -119,7 +119,7 @@ public class Address extends AddressLocation implements Serializable {
 	}
 
 	public void setFirstName(String firstName) {
-		this.firstName = StringEscapeUtils.escapeHtml4(firstName);
+		this.firstName = firstName;
 	}
 
 	public String getLastName() {
@@ -127,7 +127,7 @@ public class Address extends AddressLocation implements Serializable {
 	}
 
 	public void setLastName(String lastName) {
-		this.lastName = StringEscapeUtils.escapeHtml4(lastName);
+		this.lastName = lastName;
 	}
 
     public boolean isBillingAddress()
@@ -147,7 +147,7 @@ public class Address extends AddressLocation implements Serializable {
 
     public void setBilstateOther( String bilstateOther )
     {
-        this.bilstateOther = StringEscapeUtils.escapeHtml4(bilstateOther);
+        this.bilstateOther = bilstateOther;
     }
 
 	public String getLatitude() {
@@ -155,7 +155,7 @@ public class Address extends AddressLocation implements Serializable {
 	}
 
 	public void setLatitude(String latitude) {
-		this.latitude = StringEscapeUtils.escapeHtml4(latitude);
+		this.latitude = latitude;
 	}
 
 	public String getLongitude() {
@@ -163,7 +163,7 @@ public class Address extends AddressLocation implements Serializable {
 	}
 
 	public void setLongitude(String longitude) {
-		this.longitude = StringEscapeUtils.escapeHtml4(longitude);
+		this.longitude = longitude;
 	}
 
 }

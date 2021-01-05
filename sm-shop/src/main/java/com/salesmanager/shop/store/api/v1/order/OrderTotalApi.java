@@ -30,12 +30,20 @@ import com.salesmanager.shop.model.order.ReadableOrderTotalSummary;
 import com.salesmanager.shop.populator.order.ReadableOrderSummaryPopulator;
 import com.salesmanager.shop.store.controller.shoppingCart.facade.ShoppingCartFacade;
 import com.salesmanager.shop.utils.LabelUtils;
+
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.SwaggerDefinition;
+import io.swagger.annotations.Tag;
 import springfox.documentation.annotations.ApiIgnore;
 
 @Controller
 @RequestMapping("/api/v1")
+@Api(tags = {"Order Total calculation for a given shopping cart (Order Total Api)"})
+@SwaggerDefinition(tags = {
+    @Tag(name = "Order Total resource", description = "Calculates order total for a giben shopping cart")
+})
 public class OrderTotalApi {
 
   @Inject private ShoppingCartFacade shoppingCartFacade;

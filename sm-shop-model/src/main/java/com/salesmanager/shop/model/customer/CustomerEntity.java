@@ -3,13 +3,12 @@ package com.salesmanager.shop.model.customer;
 import java.io.Serializable;
 
 import javax.validation.Valid;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 import com.salesmanager.shop.model.customer.address.Address;
+
 import io.swagger.annotations.ApiModelProperty;
-import org.apache.commons.lang3.StringEscapeUtils;
 
 public class CustomerEntity extends Customer implements Serializable {
 
@@ -48,7 +47,7 @@ public class CustomerEntity extends Customer implements Serializable {
 	private int ratingCount;
 	
 	public void setUserName(final String userName) {
-		this.userName = StringEscapeUtils.escapeHtml4(userName);
+		this.userName = userName;
 	}
 
 	public String getUserName() {
@@ -57,7 +56,7 @@ public class CustomerEntity extends Customer implements Serializable {
 
 
 	public void setStoreCode(final String storeCode) {
-		this.storeCode = StringEscapeUtils.escapeHtml4(storeCode);
+		this.storeCode = storeCode;
 	}
 
 
@@ -67,7 +66,7 @@ public class CustomerEntity extends Customer implements Serializable {
 
 
 	public void setEmailAddress(final String emailAddress) {
-		this.emailAddress = StringEscapeUtils.escapeHtml4(emailAddress);
+		this.emailAddress = emailAddress;
 	}
 	
 
@@ -77,7 +76,7 @@ public class CustomerEntity extends Customer implements Serializable {
 
 
 	public void setLanguage(final String language) {
-		this.language = StringEscapeUtils.escapeHtml4(language);
+		this.language = language;
 	}
 	public String getLanguage() {
 		return language;
@@ -97,7 +96,7 @@ public class CustomerEntity extends Customer implements Serializable {
 		this.delivery = delivery;
 	}
 	public void setGender(final String gender) {
-		this.gender = StringEscapeUtils.escapeHtml4(gender);
+		this.gender = gender;
 	}
 	public String getGender() {
 		return gender;
@@ -110,7 +109,7 @@ public class CustomerEntity extends Customer implements Serializable {
 
 
 	public void setFirstName(String firstName) {
-		this.firstName = StringEscapeUtils.escapeHtml4(firstName);
+		this.firstName = firstName;
 	}
 
 
@@ -120,7 +119,7 @@ public class CustomerEntity extends Customer implements Serializable {
 
 
 	public void setLastName(String lastName) {
-		this.lastName = StringEscapeUtils.escapeHtml4(lastName);
+		this.lastName = lastName;
 	}
 
 
@@ -145,7 +144,7 @@ public class CustomerEntity extends Customer implements Serializable {
 	}
 
 	public void setProvider(String provider) {
-		this.provider = StringEscapeUtils.escapeHtml4(provider);
+		this.provider = provider;
 	}
 
 

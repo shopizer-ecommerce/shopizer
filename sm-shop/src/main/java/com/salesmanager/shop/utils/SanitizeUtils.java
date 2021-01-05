@@ -13,7 +13,7 @@ public class SanitizeUtils {
 	 */
     private static List<Character> blackList = Arrays.asList(';','%', '&', '=', '|', '*', '+', '_',
             '^', '%','$','(', ')', '{', '}', '<', '>', '[',
-            ']', '`', '\'', '~','\\', '?', ',');
+            ']', '`', '\'', '~','\\', '?');
 
     private SanitizeUtils() {
         //Utility class

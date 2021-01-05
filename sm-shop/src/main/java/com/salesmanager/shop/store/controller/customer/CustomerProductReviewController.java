@@ -23,6 +23,8 @@ import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.ImageFilePath;
 import com.salesmanager.shop.utils.LabelUtils;
+import com.salesmanager.shop.utils.SanitizeUtils;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -170,7 +172,7 @@ public class CustomerProductReviewController extends AbstractController {
 			bindingResult.addError(error);
 		}
 
-		review.setDescription(StringEscapeUtils.escapeHtml4(review.getDescription()));
+		review.setDescription(SanitizeUtils.getSafeString(review.getDescription()));
 
 		ReadableProduct readableProduct = new ReadableProduct();
 		ReadableProductPopulator readableProductPopulator = new ReadableProductPopulator();
