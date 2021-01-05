@@ -12,6 +12,8 @@ public class PageInformation implements Serializable {
 	private String pageDescription;
 	private String pageKeywords;
 	private String pageUrl;
+	private String pageImageUrl;
+
 	public String getPageTitle() {
 		return pageTitle;
 	}
@@ -37,4 +39,11 @@ public class PageInformation implements Serializable {
 		return pageUrl;
 	}
 
+	public String getPageImageUrl() {
+		return pageImageUrl;
+	}
+
+	public void setPageImageUrl(String pageImageUrl) {
+		this.pageImageUrl = pageImageUrl;
+	}
 }

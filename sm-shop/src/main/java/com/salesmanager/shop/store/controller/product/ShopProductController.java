@@ -15,6 +15,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.salesmanager.shop.utils.FilePathUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -96,6 +97,9 @@ public class ShopProductController {
 	@Inject
 	@Qualifier("img")
 	private ImageFilePath imageUtils;
+
+	@Inject
+	private FilePathUtils filePathUtils;
 	
 	private static final Logger LOG = LoggerFactory.getLogger(ShopProductController.class);
 	
@@ -159,6 +163,12 @@ public class ShopProductController {
 		pageInformation.setPageKeywords(productProxy.getDescription().getKeyWords());
 		pageInformation.setPageTitle(productProxy.getDescription().getTitle());
 		pageInformation.setPageUrl(productProxy.getDescription().getFriendlyUrl());
+		if(productProxy.getImage()!=null) {
+			MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
+			StringBuilder imageUrl = new StringBuilder(filePathUtils.buildStoreForwardedUri(merchantStore, request));
+			imageUrl.append(productProxy.getImage().getImageUrl());
+			pageInformation.setPageImageUrl(imageUrl.toString());
+		}
 		
 		request.setAttribute(Constants.REQUEST_PAGE_INFORMATION, pageInformation);
 		
