@@ -1,9 +1,5 @@
 package com.salesmanager.shop.application.config;
 
-import static org.springframework.http.MediaType.IMAGE_GIF;
-import static org.springframework.http.MediaType.IMAGE_JPEG;
-import static org.springframework.http.MediaType.IMAGE_PNG;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -41,6 +37,8 @@ import com.salesmanager.shop.filter.CorsFilter;
 import com.salesmanager.shop.filter.StoreFilter;
 import com.salesmanager.shop.filter.XssFilter;
 import com.salesmanager.shop.utils.LabelUtils;
+
+import static org.springframework.http.MediaType.*;
 
 @Configuration
 @ComponentScan({"com.salesmanager.shop"})
@@ -132,7 +130,7 @@ public class ShopApplicationConfiguration implements WebMvcConfigurer {
 
   @Bean
   public ByteArrayHttpMessageConverter byteArrayHttpMessageConverter() {
-    List<MediaType> supportedMediaTypes = Arrays.asList(IMAGE_JPEG, IMAGE_GIF, IMAGE_PNG);
+    List<MediaType> supportedMediaTypes = Arrays.asList(IMAGE_JPEG, IMAGE_GIF, IMAGE_PNG, APPLICATION_OCTET_STREAM);
 
     ByteArrayHttpMessageConverter byteArrayHttpMessageConverter =
         new ByteArrayHttpMessageConverter();
