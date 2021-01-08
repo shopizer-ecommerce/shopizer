@@ -16,7 +16,10 @@ import javax.inject.Inject;
 import javax.persistence.NoResultException;
 
 import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
+import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
+
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
@@ -28,6 +31,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
@@ -269,7 +273,6 @@ public class ShoppingCartFacadeImpl
 		Product product = productService.getById(shoppingCartItem.getProduct());
 
 		if (product == null) {
-		    System.out.println("----------------------- Item with id " + shoppingCartItem.getProduct() + " does not exist");
 			throw new ResourceNotFoundException("Item with id " + shoppingCartItem.getProduct() + " does not exist");
 		}
 
@@ -784,13 +787,8 @@ public class ShoppingCartFacadeImpl
 		Validate.notNull(customer.getId(),"Customer.id cannot be null or empty");
 
 		//Check if customer has an existing shopping cart
-//<<<<<<< HEAD
-//		ShoppingCart cartModel = shoppingCartService.getByCustomer(customer);
-//
-//=======
 		ShoppingCart cartModel = shoppingCartService.getShoppingCart(customer);
 
-//>>>>>>> a4f3b1d8db7306e0d96181047259e705b3edcf85
 		if(cartModel == null) {
 			return null;
 		}
@@ -814,7 +812,7 @@ public class ShoppingCartFacadeImpl
 
 	@Override
 	public ReadableShoppingCart addToCart(PersistableShoppingCartItem item, MerchantStore store,
-			Language language) throws Exception {
+			Language language) {
 
 		Validate.notNull(item,"PersistableShoppingCartItem cannot be null");
 
@@ -825,7 +823,15 @@ public class ShoppingCartFacadeImpl
 		cartModel.setShoppingCartCode(uniqueShoppingCartCode());
 
 
-		return readableShoppingCart(cartModel,item,store,language);
+		try {
+			return readableShoppingCart(cartModel,item,store,language);
+		} catch (Exception e) {
+			if(e instanceof ResourceNotFoundException) {
+				throw (ResourceNotFoundException)e;
+			} else {
+				throw new ServiceRuntimeException(e);
+			}
+		}
 	}
 
 
@@ -929,6 +935,27 @@ public class ShoppingCartFacadeImpl
         ReadableShoppingCart readableCart = new  ReadableShoppingCart();
 
         readableShoppingCart.populate(cartModel, readableCart,  store, language);
+
+
+		return readableCart;
+
+	}
+	
+	@Override
+	public ReadableShoppingCart readableCart(ShoppingCart cart, MerchantStore store, Language language) {
+        ReadableShoppingCartPopulator readableShoppingCart = new ReadableShoppingCartPopulator();
+
+        readableShoppingCart.setImageUtils(imageUtils);
+        readableShoppingCart.setPricingService(pricingService);
+        readableShoppingCart.setProductAttributeService(productAttributeService);
+        readableShoppingCart.setShoppingCartCalculationService(shoppingCartCalculationService);
+
+        ReadableShoppingCart readableCart = new  ReadableShoppingCart();
+        try {
+			readableShoppingCart.populate(cart, readableCart,  store, language);
+		} catch (ConversionException e) {
+			throw new ConversionRuntimeException(e);
+		}
 
 
 		return readableCart;
@@ -1130,10 +1157,9 @@ public class ShoppingCartFacadeImpl
         Validate.notNull(cartCode, "String cart code cannot be null");
         Validate.notNull(item, "PersistableShoppingCartItem cannot be null");
 
-        ShoppingCart cartModel = this.getCartModel(cartCode, store);
+        ShoppingCart cartModel = getCartModel(cartCode, store);
         if (cartModel == null) {
-            return null;
-            // throw new IllegalArgumentException("Cart code not valid");
+        	throw new ResourceNotFoundException("Cart code [" + cartCode + "] not found");
         }
 
         return modifyCart(cartModel, item, store, language);

@@ -102,11 +102,9 @@ public interface ShoppingCartFacade {
 	 * @param item
 	 * @param store
 	 * @param language
-	 * @return
-	 * @throws Exception
 	 */
 	ReadableShoppingCart addToCart(PersistableShoppingCartItem item, MerchantStore store,
-			Language language) throws Exception;
+			Language language);
 
 	/**
 	 * Removes a shopping cart item
@@ -162,5 +160,15 @@ public interface ShoppingCartFacade {
 	 * @throws Exception
 	 */
 	void setOrderId(String code, Long orderId, MerchantStore store) throws Exception;
+	
+	
+	/**
+	 * Transform cart model to readable cart
+	 * @param cart
+	 * @param store
+	 * @param language
+	 * @return
+	 */
+	ReadableShoppingCart readableCart(ShoppingCart cart, MerchantStore store, Language language);
 
 }

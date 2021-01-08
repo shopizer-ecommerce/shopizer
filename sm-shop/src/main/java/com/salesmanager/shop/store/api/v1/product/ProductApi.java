@@ -428,7 +428,7 @@ public class ProductApi {
     }
 
     if (page != null) {
-      criteria.setStartIndex(page);
+      criteria.setStartPage(page);
     }
 
     if (count != null) {

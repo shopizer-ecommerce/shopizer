@@ -335,9 +335,8 @@ public class ProductFacadeImpl implements ProductFacade {
 
 		// productList.setTotalPages(products.getTotalCount());
 		productList.setRecordsTotal(modelProductList.getTotalElements());
-		productList.setNumber(modelProductList.getSize());
+		productList.setNumber(productList.getProducts().size());
 
-		//int lastPageNumber = (int) (Math.ceil(products.getTotalCount() / criterias.getPageSize()));
 		productList.setTotalPages(modelProductList.getTotalPages());
 
 		return productList;
