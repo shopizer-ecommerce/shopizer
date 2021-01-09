@@ -177,6 +177,15 @@
 			<version>${commons-rng-simple.version}</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.owasp.antisamy/antisamy -->
+		<!-- xss filter complement -->
+		<dependency>
+			<groupId>org.owasp.antisamy</groupId>
+			<artifactId>antisamy</artifactId>
+			<version>1.5.11</version>
+		</dependency>
+
+
 	</dependencies>
 
 	<build>
