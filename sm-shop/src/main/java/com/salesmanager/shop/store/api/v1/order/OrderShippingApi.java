@@ -220,8 +220,7 @@ public class OrderShippingApi {
       Country c = countryService.getByCode(address.getCountryCode());
       
       if(c==null) {
-        response.sendError(503, "Error while getting shipping quote, Country code " + address.getCountryCode() + " not found");
-        return null;
+    	c = merchantStore.getCountry();
       }
       addr.setCountry(c);
 

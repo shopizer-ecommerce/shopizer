@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -1147,10 +1148,16 @@ public class OrderFacadeImpl implements OrderFacade {
 		}
 
 		Delivery delivery = new Delivery();
+		Billing billing = new Billing();
+		//default value
+		billing.setCountry(store.getCountry());
+
 
 		// adjust shipping and billing
 		if (customer.getDelivery() == null || StringUtils.isBlank(customer.getDelivery().getPostalCode())) {
-			Billing billing = customer.getBilling();
+			if(customer.getBilling()!=null) {
+				billing = customer.getBilling();
+			}
 			delivery.setAddress(billing.getAddress());
 			delivery.setCity(billing.getCity());
 			delivery.setCompany(billing.getCompany());
@@ -1170,8 +1177,15 @@ public class OrderFacadeImpl implements OrderFacade {
 	@Override
 	public Order processOrder(com.salesmanager.shop.model.order.v1.PersistableOrder order, Customer customer,
 			MerchantStore store, Language language, Locale locale) throws ServiceException {
+		
+		Validate.notNull(order, "Order cannot be null");
+		Validate.notNull(customer, "Customer cannot be null");
+		Validate.notNull(store, "MerchantStore cannot be null");
+		Validate.notNull(language, "Language cannot be null");
+		Validate.notNull(locale, "Locale cannot be null");
 
 		try {
+
 
 			Order modelOrder = new Order();
 			persistableOrderApiPopulator.populate(order, modelOrder, store, language);
@@ -1313,6 +1327,27 @@ public class OrderFacadeImpl implements OrderFacade {
 
 		}
 
+	}
+	
+	@Async
+	private void notify(Order order, Customer customer, MerchantStore store, Language language, Locale locale) throws Exception {
+		
+		// send order confirmation email to customer
+		emailTemplatesUtils.sendOrderEmail(customer.getEmailAddress(), customer, order, locale,
+				language, store, coreConfiguration.getProperty("CONTEXT_PATH"));
+
+		if (orderService.hasDownloadFiles(order)) {
+			emailTemplatesUtils.sendOrderDownloadEmail(customer, order, store, locale,
+					coreConfiguration.getProperty("CONTEXT_PATH"));
+		}
+		
+		// send customer credentials
+
+		// send order confirmation email to merchant
+		emailTemplatesUtils.sendOrderEmail(store.getStoreEmailAddress(), customer, order, locale,
+				language, store, coreConfiguration.getProperty("CONTEXT_PATH"));
+		
+		
 	}
 
 	@Override

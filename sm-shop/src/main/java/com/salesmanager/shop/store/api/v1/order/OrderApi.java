@@ -35,7 +35,6 @@ import com.salesmanager.core.model.order.Order;
 import com.salesmanager.core.model.order.OrderCriteria;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.shoppingcart.ShoppingCart;
-import com.salesmanager.core.modules.integration.IntegrationException;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
 import com.salesmanager.shop.model.customer.ReadableCustomer;
@@ -45,10 +44,13 @@ import com.salesmanager.shop.model.order.v1.PersistableAnonymousOrder;
 import com.salesmanager.shop.model.order.v1.PersistableOrder;
 import com.salesmanager.shop.model.order.v1.ReadableOrderConfirmation;
 import com.salesmanager.shop.populator.customer.ReadableCustomerPopulator;
+import com.salesmanager.shop.store.api.exception.GenericRuntimeException;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
 import com.salesmanager.shop.store.controller.order.facade.OrderFacade;
+import com.salesmanager.shop.store.security.services.CredentialsException;
+import com.salesmanager.shop.store.security.services.CredentialsService;
 import com.salesmanager.shop.utils.AuthorizationUtils;
 import com.salesmanager.shop.utils.LocaleUtils;
 
@@ -84,6 +86,9 @@ public class OrderApi {
 
 	@Inject
 	private AuthorizationUtils authorizationUtils;
+	
+	@Inject
+	private CredentialsService credentialsService;
 	
 	private static final String DEFAULT_ORDER_LIST_COUNT = "25";
 
@@ -392,6 +397,14 @@ public class OrderApi {
 		}
 	}
 
+	/**
+	 * Main checkout resource that will complete the order flow
+	 * @param code
+	 * @param order
+	 * @param merchantStore
+	 * @param language
+	 * @return
+	 */
 	@RequestMapping(value = { "/cart/{code}/checkout" }, method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
@@ -405,12 +418,19 @@ public class OrderApi {
 
 		Validate.notNull(order.getCustomer(), "Customer must not be null");
 
+
 		ShoppingCart cart;
 		try {
 			cart = shoppingCartService.getByCode(code, merchantStore);
 
 			if (cart == null) {
 				throw new ResourceNotFoundException("Cart code " + code + " does not exist");
+			}
+			
+			//security password validation
+			PersistableCustomer presistableCustomer = order.getCustomer();
+			if(!StringUtils.isBlank(presistableCustomer.getPassword())) { //validate customer password
+				credentialsService.validateCredentials(presistableCustomer.getPassword(), presistableCustomer.getRepeatPassword(), merchantStore, language);
 			}
 
 			Customer customer = new Customer();
@@ -430,6 +450,9 @@ public class OrderApi {
 			
 
 		} catch (Exception e) {
+			if(e instanceof CredentialsException) {
+				throw new GenericRuntimeException("412","Credentials creation Failed [" + e.getMessage() + "]");
+			}
 			String message = e.getMessage();
 			if(StringUtils.isBlank(message)) {//exception type
 				message = "APP-BACKEND";

@@ -27,6 +27,8 @@ import com.salesmanager.shop.store.security.ServicesAuthenticationSuccessHandler
 import com.salesmanager.shop.store.security.admin.JWTAdminAuthenticationProvider;
 import com.salesmanager.shop.store.security.admin.JWTAdminServicesImpl;
 import com.salesmanager.shop.store.security.customer.JWTCustomerAuthenticationProvider;
+import com.salesmanager.shop.store.security.services.CredentialsService;
+import com.salesmanager.shop.store.security.services.CredentialsServiceImpl;
 
 /**
  * Main entry point for security - admin - customer - auth - private - services
@@ -43,6 +45,11 @@ public class MultipleEntryPointsSecurityConfig {
 	@Bean
 	public AuthenticationTokenFilter authenticationTokenFilter() {
 		return new AuthenticationTokenFilter();
+	}
+	
+	@Bean
+	public CredentialsService credentialsService() {
+		return new CredentialsServiceImpl();
 	}
 
 	@Bean
