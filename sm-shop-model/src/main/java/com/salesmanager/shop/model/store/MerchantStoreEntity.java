@@ -24,6 +24,7 @@ public class MerchantStoreEntity implements Serializable {
 	private String inBusinessSince;
 	@NotNull
 	private String email;
+	@NotNull
 	private String phone;
 	private String template;
 	

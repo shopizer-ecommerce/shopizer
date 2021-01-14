@@ -199,7 +199,7 @@ public class StoreFacadeImpl implements StoreFacade {
 
 	private void createMerchantStore(MerchantStore mStore) {
 		try {
-			merchantStoreService.create(mStore);
+			merchantStoreService.saveOrUpdate(mStore);
 		} catch (ServiceException e) {
 			throw new ServiceRuntimeException(e);
 		}

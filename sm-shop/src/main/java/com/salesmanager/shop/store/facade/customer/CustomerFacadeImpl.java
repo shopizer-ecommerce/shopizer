@@ -1,4 +1,4 @@
-package com.salesmanager.shop.store.facade;
+package com.salesmanager.shop.store.facade.customer;
 
 import java.security.Principal;
 

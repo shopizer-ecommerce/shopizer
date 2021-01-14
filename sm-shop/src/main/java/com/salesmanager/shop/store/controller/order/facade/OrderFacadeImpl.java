@@ -328,6 +328,16 @@ public class OrderFacadeImpl implements OrderFacade {
 
 	}
 
+	/**
+	 * Commit an order
+	 * @param order
+	 * @param customer
+	 * @param transaction
+	 * @param store
+	 * @param language
+	 * @return
+	 * @throws ServiceException
+	 */
 	private Order processOrderModel(ShopOrder order, Customer customer, Transaction transaction, MerchantStore store,
 			Language language) throws ServiceException {
 
@@ -448,10 +458,7 @@ public class OrderFacadeImpl implements OrderFacade {
 			payment.setCurrency(modelOrder.getCurrency());
 
 			if (order.getPayment() != null && order.getPayment().get("paymentToken") != null) {// set
-																								// any
-																								// tokenization
-																								// payment
-																								// token
+																				// token
 				String paymentToken = order.getPayment().get("paymentToken");
 				Map<String, String> paymentMetaData = new HashMap<String, String>();
 				payment.setPaymentMetaData(paymentMetaData);
@@ -560,6 +567,10 @@ public class OrderFacadeImpl implements OrderFacade {
 		order.setDelivery(customer.getDelivery());
 		order.setCustomerEmailAddress(customer.getEmailAddress());
 		order.setCustomerId(customer.getId());
+		//set username
+		if(! customer.isAnonymous() && !StringUtils.isBlank(customer.getPassword())) {
+			customer.setNick(customer.getEmailAddress());
+		}
 
 	}
 
@@ -1174,6 +1185,9 @@ public class OrderFacadeImpl implements OrderFacade {
 		return quote;
 	}
 
+	/**
+	 * Process order from api
+	 */
 	@Override
 	public Order processOrder(com.salesmanager.shop.model.order.v1.PersistableOrder order, Customer customer,
 			MerchantStore store, Language language, Locale locale) throws ServiceException {
@@ -1287,6 +1301,12 @@ public class OrderFacadeImpl implements OrderFacade {
 			paymentPopulator.populate(order.getPayment(), paymentModel, store, language);
 
 			modelOrder.setShoppingCartCode(cart.getShoppingCartCode());
+			
+			//lookup existing customer
+			//if customer exist then do not create new customer
+			//customer.setCustomerExists(true); //marked as exist
+			
+			//order service
 			modelOrder = orderService.processOrder(modelOrder, customer, items, orderTotalSummary, paymentModel, store);
 			
 			// update cart
@@ -1297,6 +1317,7 @@ public class OrderFacadeImpl implements OrderFacade {
 				LOGGER.error("Cannot delete cart " + cart.getId(), e);
 			}
 
+			//email management
 			if ("true".equals(coreConfiguration.getProperty("ORDER_EMAIL_API"))) {
 				// send email
 				try {

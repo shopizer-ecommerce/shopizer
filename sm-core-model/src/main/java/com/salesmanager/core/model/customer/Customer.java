@@ -29,10 +29,10 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.Valid;
-
-import org.hibernate.annotations.Cascade;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.annotations.Cascade;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
@@ -50,10 +50,8 @@ import com.salesmanager.core.utils.CloneUtils;
 
 @Entity
 @Table(name = "CUSTOMER", 
-	schema=SchemaConstant.SALESMANAGER_SCHEMA,
-			uniqueConstraints=@UniqueConstraint(columnNames = {"MERCHANT_ID", "CUSTOMER_EMAIL_ADDRESS"})
-	
-		)
+	schema=SchemaConstant.SALESMANAGER_SCHEMA, uniqueConstraints=
+			@UniqueConstraint(columnNames = {"MERCHANT_ID", "CUSTOMER_NICK"}))
 public class Customer extends SalesManagerEntity<Long, Customer> implements Auditable {
 	private static final long serialVersionUID = 1L;
 	
@@ -86,7 +84,7 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 	private String emailAddress;
 	
 	@Column(name="CUSTOMER_NICK", length=96)
-	private String nick;
+	private String nick;// unique username per store
 
 	@Column(name="CUSTOMER_COMPANY", length=100)
 	private String company;
@@ -159,8 +157,7 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 	@JsonIgnore
 	@Transient
 	private String showDeliveryStateList;
-	
-	
+
 	public Customer() {
 	}
 

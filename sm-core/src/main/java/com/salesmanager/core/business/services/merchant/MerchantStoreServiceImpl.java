@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import org.jsoup.helper.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -42,13 +43,13 @@ public class MerchantStoreServiceImpl extends SalesManagerEntityServiceImpl<Inte
 	}
 
 	@Override
-	@CacheEvict(value="store", allEntries=true)
+	@CacheEvict(value="store", key="#store.code")
 	public void saveOrUpdate(MerchantStore store) throws ServiceException {
 		super.save(store);
 	}
 
 	@Override
-	@Cacheable("store")
+	@Cacheable(value = "store")
 	public MerchantStore getByCode(String code) throws ServiceException {
 		return merchantRepository.findByCode(code);
 	}

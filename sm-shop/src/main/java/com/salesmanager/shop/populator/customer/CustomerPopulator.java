@@ -65,6 +65,7 @@ public class CustomerPopulator extends
 
 			if(!StringUtils.isBlank(source.getPassword())) {
 			  target.setPassword(passwordEncoder.encode(source.getPassword()));
+			  target.setNick(source.getUserName());
 			  target.setAnonymous(false);
 			}
 
@@ -83,7 +84,7 @@ public class CustomerPopulator extends
 		    target.setProvider(source.getProvider());
 
 			target.setEmailAddress(source.getEmailAddress());
-			target.setNick(source.getUserName());
+			
 			if(source.getGender()!=null && target.getGender()==null) {
 				target.setGender( com.salesmanager.core.model.customer.CustomerGender.valueOf( source.getGender() ) );
 			}
