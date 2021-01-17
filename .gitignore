@@ -31,3 +31,5 @@ sm-shop/src/main/resources/database.properties
 .DS_Store
 
 .mvnw/*.jar
+sm-shop/SALESMANAGER.*
+sm-shop/files
