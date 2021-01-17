@@ -163,9 +163,7 @@ public class InitializationLoader {
 		Map<Long, String> images = new HashMap<>();
 		images.put(1l, "image3.jpg");
 		images.put(2l, "image1.jpg");
-		images.put(2l, "image4.jpg");
 		images.put(3l, "image4.1.jpg");
-		images.put(3l, "image4.jpg");
 		images.put(4l, "image9.jpg");
 		images.put(5l, "image7.jpg");
 		images.put(6l, "image5.jpg");
@@ -173,7 +171,16 @@ public class InitializationLoader {
 		images.put(8l, "image6.jpg");
 		images.put(9l, "image11.jpg");
 		images.put(10l, "image2.jpg");
+		loadImagesFromMap(store, images);
 
+		//This products has two images
+		images.clear();
+		images.put(2l, "image4.jpg");
+		images.put(3l, "image4.jpg");
+		loadImagesFromMap(store, images);
+	}
+
+	private void loadImagesFromMap(MerchantStore store, Map<Long, String> images) throws IOException, ServiceException {
 		for (Long id : images.keySet()) {
 			Product product = productService.findOne(id, store);
 			ProductImage productImage = new ProductImage();
@@ -190,8 +197,6 @@ public class InitializationLoader {
 			cmsContentImage.setFileContentType(FileContentType.PRODUCT);
 			productFileManager.addProductImage(productImage, cmsContentImage);
 		}
-
-
 	}
 
 	private void loadLogo(MerchantStore store) throws IOException, ServiceException {
