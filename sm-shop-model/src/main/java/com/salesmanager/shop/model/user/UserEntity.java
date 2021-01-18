@@ -1,6 +1,6 @@
 package com.salesmanager.shop.model.user;
 
-public class UserEntity extends UserNameEntity {
+public class UserEntity extends User {
 
   /**
    * 
@@ -10,6 +10,7 @@ public class UserEntity extends UserNameEntity {
   private String lastName;
   private String emailAddress;
   private String defaultLanguage;
+  private String userName;
   private boolean active;
 
 
@@ -55,6 +56,14 @@ public class UserEntity extends UserNameEntity {
   public void setActive(boolean active) {
     this.active = active;
   }
+
+public String getUserName() {
+	return userName;
+}
+
+public void setUserName(String userName) {
+	this.userName = userName;
+}
 
 
 }

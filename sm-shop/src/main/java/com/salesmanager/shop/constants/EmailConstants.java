@@ -76,6 +76,8 @@ public class EmailConstants {
 	public final static String CUSTOMER_ACCESS_LABEL = "CUSTOMER_ACCESS_LABEL";
 	public final static String CUSTOMER_ACCESS_URL = "CUSTOMER_ACCESS_URL";
 	public final static String ACCESS_NOW_LABEL = "ACCESS_NOW_LABEL";
+	public final static String LABEL_LINK_TITLE = "LABEL_LINK_TITLE";
+	public final static String LABEL_LINK = "LABEL_LINK";
 	
 	public static final String EMAIL_CUSTOMER_TPL = "email_template_customer.ftl";
 	public static final String EMAIL_ORDER_TPL = "email_template_checkout.ftl";

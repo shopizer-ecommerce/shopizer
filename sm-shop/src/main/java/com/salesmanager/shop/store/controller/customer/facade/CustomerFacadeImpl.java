@@ -1003,13 +1003,10 @@ public class CustomerFacadeImpl implements CustomerFacade {
     Validate.notNull(customer.getBilling().getAddress(), "Billing address can not be null");
     Validate.notNull(customer.getBilling().getCity(), "Billing city can not be null");
     Validate.notNull(customer.getBilling().getPostalCode(), "Billing postal code can not be null");
-    Validate.notNull(customer.getBilling().getCountryCode(), "Billing country can not be null");
+    Validate.notNull(customer.getBilling().getCountry(), "Billing country can not be null");
 
-    customer.getBilling().setBillingAddress(true);
-    
     if(customer.getDelivery() == null) {
       customer.setDelivery(customer.getBilling());
-      customer.getDelivery().setBillingAddress(false);
     } else {
       Validate.notNull(customer.getDelivery(), "Delivery address can not be null");
       Validate.notNull(customer.getDelivery().getAddress(), "Delivery address can not be null");
@@ -1022,8 +1019,10 @@ public class CustomerFacadeImpl implements CustomerFacade {
     
     try {
       //update billing
+      customer.getBilling().setBillingAddress(true);
       updateAddress(customer.getId(), store, customer.getBilling(), store.getDefaultLanguage());
       //update delivery
+      customer.getDelivery().setBillingAddress(false);
       updateAddress(customer.getId(), store, customer.getDelivery(), store.getDefaultLanguage());
     } catch (Exception e) {
       throw new ServiceRuntimeException("Error while updating customer address");

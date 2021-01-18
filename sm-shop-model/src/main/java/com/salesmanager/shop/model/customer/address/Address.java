@@ -130,7 +130,7 @@ public class Address extends AddressLocation implements Serializable {
 		this.lastName = lastName;
 	}
 
-    public boolean isBillingAddress()
+   public boolean isBillingAddress()
     {
         return billingAddress;
     }

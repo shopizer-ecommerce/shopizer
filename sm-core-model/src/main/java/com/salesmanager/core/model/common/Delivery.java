@@ -16,14 +16,8 @@ public class Delivery {
 	@Column (name ="DELIVERY_LAST_NAME", length=64)
 	private String lastName;
 
-
-
-
 	@Column (name ="DELIVERY_FIRST_NAME", length=64)
 	private String firstName;
-
-	
-
 
 	@Column (name ="DELIVERY_COMPANY", length=100)
 	private String company;
@@ -54,8 +48,6 @@ public class Delivery {
 	
 	@Transient
 	private String latitude = null;
-	
-
 
 	@Transient
 	private String longitude = null;

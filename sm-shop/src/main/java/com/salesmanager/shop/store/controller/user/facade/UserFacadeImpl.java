@@ -689,5 +689,50 @@ public class UserFacadeImpl implements UserFacade {
 
 	}
 
+	@Override
+	public void sendResetPasswordEmail(ReadableUser user, MerchantStore store, Language language) {
+		Validate.notNull(user,"ReadableUser is required");
+		Validate.notNull(store,"MerchantStore is required");
+		Validate.notNull(language,"Language is required");
+		
+		//user already exist ?
+		
+		/**
+		 * User sends username (unique in the system)
+		 * 
+		 * UserNameEntity will be the following
+		 * {
+		 *   userName: "test@test.com"
+		 * }
+		 * 
+		 * The system retrieves user using userName (username is unique)
+		 * if user exists, system sends an email with reset password link
+		 * 
+		 * How to retrieve a User from userName
+		 * 
+		 * userFacade.findByUserName
+		 * 
+		 * How to send an email
+		 * 
+		 * 
+		 * How to generate a token
+		 * 
+		 * Generate random token
+		 * 
+		 * Calculate token expiration date
+		 * 
+		 * Now + 48 hours
+		 * 
+		 * How to update User in the database with token
+		 * 
+		 * user.setPasswordToken
+		 * 
+		 * Needs to use UserFacade to save to the database
+		 * 
+		 * All of this done in the facade
+		 */
+		
+	}
+
 
 }

@@ -1,4 +1,4 @@
-package com.salesmanager.shop.store.api.v1.user;
+package com.salesmanager.shop.store.api.v1.customer;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +19,6 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.user.PersistableUser;
 import com.salesmanager.shop.model.user.ReadableUser;
 import com.salesmanager.shop.model.user.UserNameEntity;
-import com.salesmanager.shop.store.controller.user.facade.UserFacade;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -31,16 +30,16 @@ import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping(value = "/api/v1")
-@Api(tags = { "Customer password reset resource (Customer password reset Api)" })
-@SwaggerDefinition(tags = { @Tag(name = "Customer password reset resource", description = "Customer password reset") })
-public class ResetUserPasswordApi {
+@Api(tags = { "User password management resource (User password Management Api)" })
+@SwaggerDefinition(tags = { @Tag(name = "User password management resource", description = "User password management") })
+public class ResetCustomerPasswordApi {
 	
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(ResetUserPasswordApi.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ResetCustomerPasswordApi.class);
 
 
 	@Inject
-	private UserFacade userFacade;
+	private com.salesmanager.shop.store.controller.customer.facade.v1.CustomerFacade customerFacade;
 	
 	//flow example
 	//https://stackabuse.com/spring-security-forgot-password-functionality/#disqus_thread
@@ -54,23 +53,26 @@ public class ResetUserPasswordApi {
 	 * @param request
 	 */
 	@ResponseStatus(HttpStatus.OK)
-	@PostMapping(value = { "/user/password/reset/request" }, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ApiOperation(httpMethod = "POST", value = "Launch user password reset flow", notes = "", response = ReadableUser.class)
+	@PostMapping(value = { "/customer/password/reset/request" }, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ApiOperation(httpMethod = "POST", value = "Launch customer password reset flow", notes = "", response = ReadableUser.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
 	public void passwordResetRequest(
 			@ApiIgnore MerchantStore merchantStore, 
 			@ApiIgnore Language language,
-			@Valid @RequestBody UserNameEntity user, HttpServletRequest request) {
-
+			@Valid @RequestBody UserNameEntity user, 
+			HttpServletRequest request) {
+		
+		
+		customerFacade.requestPasswordReset(user.getUserName(), request.getContextPath(), merchantStore, language);
 
 		
 
 	}
 	
 	@ResponseStatus(HttpStatus.OK)
-	@PostMapping(value = { "/user/password/reset" }, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ApiOperation(httpMethod = "POST", value = "Launch user password reset flow", notes = "", response = ReadableUser.class)
+	@PostMapping(value = { "/customer/{store}/reset/{token}" }, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ApiOperation(httpMethod = "POST", value = "Validate customer password reset token", notes = "", response = ReadableUser.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
 	public void passwordReset(

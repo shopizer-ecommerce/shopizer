@@ -1,6 +1,5 @@
 package com.salesmanager.shop.utils;
 
-import static com.salesmanager.shop.constants.ApplicationConstants.SHOP_SCHEME;
 import static com.salesmanager.shop.constants.Constants.ADMIN_URI;
 import static com.salesmanager.shop.constants.Constants.BLANK;
 import static com.salesmanager.shop.constants.Constants.CATEGORY_URI;
@@ -36,7 +35,6 @@ public class FilePathUtils {
 	private static final String DOWNLOADS = "/downloads/";
 	private static final String DOUBLE_SLASH = "://";
 	private static final String CONTEXT_PATH = "CONTEXT_PATH";
-	private static final String HTTP_VALUE = "http";
 	public static final String X_FORWARDED_HOST = "X-Forwarded-Host";
 
 	@Inject private CoreConfiguration coreConfiguration;
@@ -108,10 +106,9 @@ public class FilePathUtils {
 					+ SLASH
 					+ fileName;
 		} else {
-			String scheme = coreConfiguration.getProperty("SHOP_SCHEME", HTTP_SCHEME);
+			String scheme = this.getScheme(store);
 			return scheme
-					+ DOUBLE_SLASH
-					+ store.getDomainName()
+					+ SLASH
 					+ coreConfiguration.getProperty("CONTEXT_PATH")
 					+ buildStaticFilePath(store.getCode(), fileName);
 		}
@@ -185,15 +182,31 @@ public class FilePathUtils {
 			return domainName;
 		}
 	}
+	
+	private String getScheme(MerchantStore store) {
+		String baseScheme = store.getDomainName();
+		String scheme = coreConfiguration.getProperty("SHOP_SCHEME");
+		if(!StringUtils.isBlank(scheme)) {
+			baseScheme = new StringBuilder().append(coreConfiguration.getProperty("SHOP_SCHEME", "http")).append(DOUBLE_SLASH)
+			.append(getDomainName(store.getDomainName())).toString();
+		}
+		return baseScheme;
+	}
 
 	private String buildBaseUrl(HttpServletRequest request, MerchantStore store) {
 		String contextPath = normalizePath(request.getContextPath());
-		String scheme = coreConfiguration.getProperty(SHOP_SCHEME, HTTP_VALUE);
-		String domainName = getDomainName(store.getDomainName());
+		String scheme = getScheme(store);
 		return scheme
 				+ DOUBLE_SLASH
-				+ domainName
 				+ contextPath;
+	}
+	
+	public String buildBaseUrl(String contextPath, MerchantStore store) {
+		String normalizePath = normalizePath(contextPath);
+		String scheme = getScheme(store);
+		return scheme
+				+ DOUBLE_SLASH
+				+ normalizePath;
 	}
 
 	/**

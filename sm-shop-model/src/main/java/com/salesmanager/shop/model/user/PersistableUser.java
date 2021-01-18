@@ -6,38 +6,56 @@ import com.salesmanager.shop.model.security.PersistableGroup;
 
 public class PersistableUser extends UserEntity {
 
-  private String password;
-  private String store;
+	private String password;
+	private String store;
+	private String userName;
+	private boolean active;
 
-  /**
-   * 
-   */
-  private static final long serialVersionUID = 1L;
-  
-  private List<PersistableGroup> groups = new ArrayList<PersistableGroup>();
+	public String getUserName() {
+		return userName;
+	}
 
-  public String getPassword() {
-    return password;
-  }
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
-  public void setPassword(String password) {
-    this.password = password;
-  }
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-  public List<PersistableGroup> getGroups() {
-    return groups;
-  }
+	private List<PersistableGroup> groups = new ArrayList<PersistableGroup>();
 
-  public void setGroups(List<PersistableGroup> groups) {
-    this.groups = groups;
-  }
+	public String getPassword() {
+		return password;
+	}
 
-public String getStore() {
-	return store;
-}
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-public void setStore(String store) {
-	this.store = store;
-}
+	public List<PersistableGroup> getGroups() {
+		return groups;
+	}
+
+	public void setGroups(List<PersistableGroup> groups) {
+		this.groups = groups;
+	}
+
+	public String getStore() {
+		return store;
+	}
+
+	public void setStore(String store) {
+		this.store = store;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
 
 }

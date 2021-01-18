@@ -93,6 +93,15 @@ public interface UserFacade {
    */
   boolean userInRoles(String userName, List<String> groupNames);
   
+  
+  /**
+   * Sends reset password email
+   * @param user
+   * @param store
+   * @param language
+   */
+  void sendResetPasswordEmail(ReadableUser user, MerchantStore store, Language language);
+  
   /**
    * Retrieve authenticated user
    * @return

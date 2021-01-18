@@ -38,6 +38,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.product.review.ProductReview;
 import com.salesmanager.core.model.common.Billing;
+import com.salesmanager.core.model.common.CredentialsReset;
 import com.salesmanager.core.model.common.Delivery;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.common.audit.Auditable;
@@ -93,7 +94,6 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 	@Column(name="CUSTOMER_PASSWORD", length=60)
 	private String password;
 
-	
 	@Column(name="CUSTOMER_ANONYMOUS")
 	private boolean anonymous;
 	
@@ -111,7 +111,6 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 	@JoinColumn(name = "LANGUAGE_ID", nullable=false)
 	private Language defaultLanguage;
 	
-
 
 	@OneToMany(mappedBy = "customer", targetEntity = ProductReview.class)
 	private List<ProductReview> reviews = new ArrayList<ProductReview>();
@@ -157,6 +156,10 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 	@JsonIgnore
 	@Transient
 	private String showDeliveryStateList;
+	
+	@Valid
+	@Embedded
+	private CredentialsReset credentialsResetRequest = null;
 
 	public Customer() {
 	}
@@ -343,6 +346,14 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 
 	public void setProvider(String provider) {
 		this.provider = provider;
+	}
+
+	public CredentialsReset getCredentialsResetRequest() {
+		return credentialsResetRequest;
+	}
+
+	public void setCredentialsResetRequest(CredentialsReset credentialsResetRequest) {
+		this.credentialsResetRequest = credentialsResetRequest;
 	}
 	
 }
