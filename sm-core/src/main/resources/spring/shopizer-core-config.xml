@@ -85,6 +85,8 @@
 			class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 			<beans:property name="ignoreUnresolvablePlaceholders"
 				value="false" />
+			<!-- Eases database credentials in develop mode-->
+			<beans:property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
 			<beans:property name="locations">
 				<beans:list>
 					<beans:value>classpath:database.properties</beans:value>
