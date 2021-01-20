@@ -205,7 +205,7 @@ public class FilePathUtils {
 		String normalizePath = normalizePath(contextPath);
 		String scheme = getScheme(store);
 		return scheme
-				+ DOUBLE_SLASH
+				+ SLASH
 				+ normalizePath;
 	}
 

@@ -156,8 +156,7 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 	@JsonIgnore
 	@Transient
 	private String showDeliveryStateList;
-	
-	@Valid
+
 	@Embedded
 	private CredentialsReset credentialsResetRequest = null;
 

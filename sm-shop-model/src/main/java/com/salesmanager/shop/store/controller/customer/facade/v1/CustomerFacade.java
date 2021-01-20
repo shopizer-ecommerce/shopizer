@@ -25,6 +25,15 @@ public interface CustomerFacade {
 	 * @param token
 	 * @param store
 	 */
-	void validatePasswordRequestToken(String token, String store);
+	void verifyPasswordRequestToken(String token, String store);
+	
+	
+	/**
+	 * Reset password
+	 * @param password
+	 * @param token
+	 * @param store
+	 */
+	void resetPassword(String password, String token, String store);
 
 }

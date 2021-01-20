@@ -191,7 +191,7 @@ public class AuthenticateCustomerApi {
         }
     }
     
-
+    @Deprecated //see ResetCustomerPasswordApi
     @RequestMapping(value = "/customer/password/reset", method = RequestMethod.PUT, produces ={ "application/json" })
     @ApiOperation(httpMethod = "POST", value = "Change customer password", notes = "Change password request object is {\"username\":\"test@email.com\"}",response = ResponseEntity.class)
     public ResponseEntity<?> resetPassword(@RequestBody @Valid AuthenticationRequest authenticationRequest, HttpServletRequest request) {

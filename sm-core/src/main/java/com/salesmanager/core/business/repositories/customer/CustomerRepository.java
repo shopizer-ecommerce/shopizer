@@ -37,6 +37,42 @@ public interface CustomerRepository extends JpaRepository<Customer, Long>, Custo
 			+ "where c.nick = ?1 and cm.id = ?2")
 	Customer findByNick(String nick, int storeId);
 	
+	@Query("select c from Customer c "
+			+ "join fetch c.merchantStore cm "
+			+ "left join fetch c.defaultLanguage cl "
+			+ "left join fetch c.attributes ca "
+			+ "left join fetch ca.customerOption cao "
+			+ "left join fetch ca.customerOptionValue cav "
+			+ "left join fetch cao.descriptions caod "
+			+ "left join fetch cav.descriptions  "
+			+ "left join fetch c.groups  "
+			+ "left join fetch c.delivery cd "
+			+ "left join fetch c.billing cb "
+			+ "left join fetch cd.country "
+			+ "left join fetch cd.zone "
+			+ "left join fetch cb.country "
+			+ "left join fetch cb.zone "
+			+ "where c.nick = ?1 and cm.code = ?2")
+	Customer findByNick(String nick, String store);
+	
+	@Query("select c from Customer c "
+			+ "join fetch c.merchantStore cm "
+			+ "left join fetch c.defaultLanguage cl "
+			+ "left join fetch c.attributes ca "
+			+ "left join fetch ca.customerOption cao "
+			+ "left join fetch ca.customerOptionValue cav "
+			+ "left join fetch cao.descriptions caod "
+			+ "left join fetch cav.descriptions  "
+			+ "left join fetch c.groups  "
+			+ "left join fetch c.delivery cd "
+			+ "left join fetch c.billing cb "
+			+ "left join fetch cd.country "
+			+ "left join fetch cd.zone "
+			+ "left join fetch cb.country "
+			+ "left join fetch cb.zone "
+			+ "where c.credentialsResetRequest.credentialsRequest = ?1 and cm.code = ?2")
+	Customer findByResetPasswordToken(String token, String store);
+	
 	@Query("select distinct c from Customer c join fetch c.merchantStore cm left join fetch c.defaultLanguage cl left join fetch c.attributes ca left join fetch ca.customerOption cao left join fetch ca.customerOptionValue cav left join fetch cao.descriptions caod left join fetch cav.descriptions left join fetch c.groups  where cm.id = ?1")
 	List<Customer> findByStore(int storeId);
 	

@@ -31,8 +31,8 @@ import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping(value = "/api/v1")
-@Api(tags = { "Customer password reset resource (Customer password reset Api)" })
-@SwaggerDefinition(tags = { @Tag(name = "Customer password reset resource", description = "Customer password reset") })
+@Api(tags = { "User password reset resource (Customer password reset Api)" })
+@SwaggerDefinition(tags = { @Tag(name = "User password reset resource", description = "User password reset") })
 public class ResetUserPasswordApi {
 	
 	
@@ -41,11 +41,7 @@ public class ResetUserPasswordApi {
 
 	@Inject
 	private UserFacade userFacade;
-	
-	//flow example
-	//https://stackabuse.com/spring-security-forgot-password-functionality/#disqus_thread
-	
-	
+
 	/**
 	 * Request a reset password token
 	 * @param merchantStore
