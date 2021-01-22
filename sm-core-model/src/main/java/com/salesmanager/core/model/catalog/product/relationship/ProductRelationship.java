@@ -20,7 +20,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 @Entity
 @Table(name = "PRODUCT_RELATIONSHIP", schema=SchemaConstant.SALESMANAGER_SCHEMA)
 public class ProductRelationship extends SalesManagerEntity<Long, ProductRelationship> implements Serializable {
-	private static final long serialVersionUID = -9045331138054246299L;
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@Column(name = "PRODUCT_RELATIONSHIP_ID", unique=true, nullable=false)

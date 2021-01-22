@@ -102,8 +102,6 @@ public class Manufacturer extends SalesManagerEntity<Long, Manufacturer> impleme
 		this.descriptions = descriptions;
 	}
 
-
-
 	public MerchantStore getMerchantStore() {
 		return merchantStore;
 	}

@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.shop.model.user.ReadableUser;
 import com.salesmanager.shop.store.api.exception.RestApiException;
 import com.salesmanager.shop.store.security.PasswordRequest;
 import com.salesmanager.shop.store.security.ResetPasswordRequest;
@@ -101,7 +99,7 @@ public class ResetCustomerPasswordApi {
 			throw new RestApiException("400", "Password don't match");
 		}
 
-		if (passwordRequest.getPassword().equals(passwordRequest.getRepeatPassword())) {
+		if (!passwordRequest.getPassword().equals(passwordRequest.getRepeatPassword())) {
 			throw new RestApiException("400", "Password don't match");
 		}
 

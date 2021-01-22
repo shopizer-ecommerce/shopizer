@@ -42,7 +42,7 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
 		}
 )
 public class ProductReview extends SalesManagerEntity<Long, ProductReview> implements Auditable {
-	private static final long serialVersionUID = -7509351278087554383L;
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name = "PRODUCT_REVIEW_ID", unique=true, nullable=false)
