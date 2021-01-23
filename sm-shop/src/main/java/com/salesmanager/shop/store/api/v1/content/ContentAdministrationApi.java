@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.salesmanager.core.model.content.FileContentType;
-import com.salesmanager.core.model.content.OutputContentFile;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.content.Content;
@@ -110,7 +109,7 @@ public class ContentAdministrationApi {
 	
 	
 	/**
-	 * works with file manager
+	 * works with file manager (javascript client)
 	 * @param files
 	 * @param merchantStore
 	 * @param language
@@ -161,7 +160,8 @@ public class ContentAdministrationApi {
 	    
 			//OutputContentFile file = contentFacade.download(merchantStore, FileContentType.IMAGE, fileName);
 			//return file.getFile().toByteArray();
-			return "https://s3.ca-central-1.amazonaws.com/shopizer-carl/files/DEFAULT/85.jpg";
+			//return "https://s3.ca-central-1.amazonaws.com/shopizer-carl/files/DEFAULT/85.jpg";
+			return null;
 		} catch (Exception e) {
 			//throw new ServiceRuntimeException("Error while getting file bytes");
 			LOGGER.error("Error when renaming file",e);

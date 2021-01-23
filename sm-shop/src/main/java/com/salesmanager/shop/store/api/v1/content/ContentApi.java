@@ -82,7 +82,9 @@ public class ContentApi {
 	@ApiOperation(httpMethod = "GET", value = "Get pages summary created for a given MerchantStore. Content summary is a content bux having code summary.", notes = "", produces = "application/json", response = List.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public List<ReadableContentBox> pagesSummary(@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
+	public List<ReadableContentBox> pagesSummary(
+			@ApiIgnore MerchantStore merchantStore, 
+			@ApiIgnore Language language) {
 		return contentFacade.getContentBoxes(ContentType.BOX, "summary_", merchantStore, language);
 	}
 
@@ -97,7 +99,9 @@ public class ContentApi {
 	@ApiOperation(httpMethod = "GET", value = "Get boxes for a given MerchantStore", notes = "", produces = "application/json", response = List.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public List<ReadableContentBox> boxes(@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
+	public List<ReadableContentBox> boxes(
+			@ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language) {
 		return contentFacade.getContentBoxes(ContentType.BOX, "summary_", merchantStore, language);
 	}
 

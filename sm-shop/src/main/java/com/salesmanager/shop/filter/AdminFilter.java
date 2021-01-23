@@ -37,10 +37,7 @@ public class AdminFilter extends HandlerInterceptorAdapter {
 	
 	@Inject
 	private UserService userService;
-	
-	@Inject
-	private LanguageService languageService;
-	
+
 	@Inject
 	private CacheUtils cache;
 	
@@ -105,8 +102,6 @@ public class AdminFilter extends HandlerInterceptorAdapter {
 		
 		
 		Language language = languageUtils.getRequestLanguage(request, response);
-		
-		//Language language = (Language) request.getSession().getAttribute("LANGUAGE");
 
 		if(language==null) {
 			
@@ -173,8 +168,6 @@ public class AdminFilter extends HandlerInterceptorAdapter {
 
 		request.setAttribute("MENULIST", list);
 
-		
-		
 		request.setAttribute("MENUMAP", menus);
 		response.setCharacterEncoding("UTF-8");
 		
