@@ -26,8 +26,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.tax.taxrate.TaxRate;
 
 @Entity
-@Table(name = "TAX_CLASS", schema = SchemaConstant.SALESMANAGER_SCHEMA,
-
+@Table(name = "TAX_CLASS",
 indexes = { @Index(name="TAX_CLASS_CODE_IDX",columnList = "TAX_CLASS_CODE")},
 uniqueConstraints=
     @UniqueConstraint(columnNames = {"MERCHANT_ID", "TAX_CLASS_CODE"}) )

@@ -32,7 +32,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 
 
 @Entity
-@Table(name="CUSTOMER_OPTION_VALUE", schema=SchemaConstant.SALESMANAGER_SCHEMA, indexes = { @Index(name="CUST_OPT_VAL_CODE_IDX",columnList = "CUSTOMER_OPT_VAL_CODE")}, uniqueConstraints=
+@Table(name="CUSTOMER_OPTION_VALUE", indexes = { @Index(name="CUST_OPT_VAL_CODE_IDX",columnList = "CUSTOMER_OPT_VAL_CODE")}, uniqueConstraints=
 	@UniqueConstraint(columnNames = {"MERCHANT_ID", "CUSTOMER_OPT_VAL_CODE"}))
 public class CustomerOptionValue extends SalesManagerEntity<Long, CustomerOptionValue> {
 	private static final long serialVersionUID = 3736085877929910891L;

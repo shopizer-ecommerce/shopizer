@@ -9,23 +9,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-/**
-TODO CATEGORY.listByStore
-
-db.jdbcUrl=jdbc:postgresql://localhost:5432/SALESMANAGER
-db.user=
-db.password=
-db.driverClass=org.postgresql.Driver
-hibernate.dialect=org.hibernate.dialect.PostgreSQL10Dialect
-
-<dependency>
-    <groupId>org.postgresql</groupId>
-    <artifactId>postgresql</artifactId>
-    <version>42.2.14</version>
-    <scope>provided</scope>
-</dependency>
-
-**/
 
 public class PageableCategoryRepositoryImpl implements PageableCategoryRepositoryCustom {
 

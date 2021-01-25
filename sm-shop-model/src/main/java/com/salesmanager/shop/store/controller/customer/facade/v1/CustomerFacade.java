@@ -35,5 +35,13 @@ public interface CustomerFacade {
 	 * @param store
 	 */
 	void resetPassword(String password, String token, String store);
+	
+	/**
+	 * Check if customer exist
+	 * @param userName
+	 * @param store
+	 * @return
+	 */
+	boolean customerExists(String userName, MerchantStore store);
 
 }

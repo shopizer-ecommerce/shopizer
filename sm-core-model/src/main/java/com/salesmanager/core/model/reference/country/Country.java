@@ -25,7 +25,7 @@ import com.salesmanager.core.model.reference.geozone.GeoZone;
 import com.salesmanager.core.model.reference.zone.Zone;
 
 @Entity
-@Table(name = "COUNTRY", schema=SchemaConstant.SALESMANAGER_SCHEMA)
+@Table(name = "COUNTRY")
 @Cacheable
 public class Country extends SalesManagerEntity<Integer, Country> {
 	private static final long serialVersionUID = -7388011537255588035L;

@@ -12,7 +12,7 @@ import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.common.description.Description;
 
 @Entity
-@Table(name = "PRODUCT_OPTION_VALUE_DESCRIPTION", schema=SchemaConstant.SALESMANAGER_SCHEMA, uniqueConstraints={
+@Table(name = "PRODUCT_OPTION_VALUE_DESCRIPTION", uniqueConstraints={
 	@UniqueConstraint(columnNames={
 			"PRODUCT_OPTION_VALUE_ID",
 			"LANGUAGE_ID"

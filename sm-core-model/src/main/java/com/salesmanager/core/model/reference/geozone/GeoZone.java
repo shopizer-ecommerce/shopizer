@@ -19,7 +19,7 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
 import com.salesmanager.core.model.reference.country.Country;
 
 @Entity
-@Table(name = "GEOZONE", schema=SchemaConstant.SALESMANAGER_SCHEMA)
+@Table(name = "GEOZONE")
 // TODO : create DAO / Service
 public class GeoZone extends SalesManagerEntity<Long, GeoZone> {
 	private static final long serialVersionUID = -5992008645857938825L;

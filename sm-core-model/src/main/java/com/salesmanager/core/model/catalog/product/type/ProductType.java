@@ -27,7 +27,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 
 @Entity
 @EntityListeners(value = AuditListener.class)
-@Table(name = "PRODUCT_TYPE", schema = SchemaConstant.SALESMANAGER_SCHEMA)
+@Table(name = "PRODUCT_TYPE")
 public class ProductType extends SalesManagerEntity<Long, ProductType> implements Auditable {
   private static final long serialVersionUID = 1L;
 

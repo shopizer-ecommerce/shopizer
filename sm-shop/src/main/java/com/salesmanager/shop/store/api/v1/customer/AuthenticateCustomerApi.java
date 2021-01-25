@@ -8,6 +8,7 @@ import org.apache.commons.lang3.Validate;
 import org.apache.http.auth.AuthenticationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,7 @@ import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
+import com.salesmanager.shop.store.api.exception.GenericRuntimeException;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
@@ -37,9 +39,12 @@ import com.salesmanager.shop.store.security.PasswordRequest;
 import com.salesmanager.shop.store.security.user.JWTUser;
 import com.salesmanager.shop.utils.LanguageUtils;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.SwaggerDefinition;
 import io.swagger.annotations.Tag;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -72,24 +77,30 @@ public class AuthenticateCustomerApi {
     @Inject
     private LanguageUtils languageUtils;
     
+	@Autowired
+	private CustomerFacade customerFacadev1; //v1 version
+    
     /**
      * Create new customer for a given MerchantStore, then authenticate that customer
      */
     @RequestMapping( value={"/customer/register"}, method=RequestMethod.POST, produces ={ "application/json" })
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(httpMethod = "POST", value = "Registers a customer to the application", notes = "Used as self-served operation",response = AuthenticationResponse.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+		@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
     @ResponseBody
-    public ResponseEntity<?> register(@Valid @RequestBody PersistableCustomer customer, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ResponseEntity<?> register(
+    		@Valid @RequestBody PersistableCustomer customer, 
+			@ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language) throws Exception {
 
-        
-        
-        //try {
-            
-            MerchantStore merchantStore = storeFacade.getByCode(request);
-            Language language = languageUtils.getRESTLanguage(request);  
-            
-            //Transition
+
             customer.setUserName(customer.getEmailAddress());
+            
+			if(customerFacadev1.checkIfUserExists(customer.getUserName(),  merchantStore)) {
+				//409 Conflict
+				throw new GenericRuntimeException("409", "Customer with email [" + customer.getEmailAddress() + "] is already registered");
+			}
             
             Validate.notNull(customer.getUserName(),"Username cannot be null");
             Validate.notNull(customer.getBilling(),"Requires customer Country code");

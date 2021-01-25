@@ -13,7 +13,7 @@ import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.common.description.Description;
 
 @Entity
-@Table(name="PRODUCT_IMAGE_DESCRIPTION", schema=SchemaConstant.SALESMANAGER_SCHEMA, uniqueConstraints={
+@Table(name="PRODUCT_IMAGE_DESCRIPTION", uniqueConstraints={
 		@UniqueConstraint(columnNames={
 			"PRODUCT_IMAGE_ID",
 			"LANGUAGE_ID"

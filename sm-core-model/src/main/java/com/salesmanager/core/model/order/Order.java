@@ -43,7 +43,7 @@ import com.salesmanager.core.model.reference.currency.Currency;
 import com.salesmanager.core.utils.CloneUtils;
 
 @Entity
-@Table (name="ORDERS", schema = SchemaConstant.SALESMANAGER_SCHEMA)
+@Table (name="ORDERS")
 public class Order extends SalesManagerEntity<Long, Order> {
 	
 	

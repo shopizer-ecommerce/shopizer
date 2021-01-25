@@ -35,7 +35,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 
 @Entity
 @EntityListeners(value = AuditListener.class)
-@Table(name = "CONTENT", schema= SchemaConstant.SALESMANAGER_SCHEMA,
+@Table(name = "CONTENT",
 indexes = { @Index(name="CODE_IDX", columnList = "CODE")},
 	uniqueConstraints = @UniqueConstraint(columnNames = {"MERCHANT_ID", "CODE"}) )
 public class Content extends SalesManagerEntity<Long, Content> implements Serializable {

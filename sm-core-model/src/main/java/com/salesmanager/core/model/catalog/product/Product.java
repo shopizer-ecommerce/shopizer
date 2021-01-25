@@ -49,7 +49,7 @@ import com.salesmanager.core.model.tax.taxclass.TaxClass;
 
 @Entity
 @EntityListeners(value = AuditListener.class)
-@Table(name = "PRODUCT", schema=SchemaConstant.SALESMANAGER_SCHEMA, uniqueConstraints=
+@Table(name = "PRODUCT", uniqueConstraints=
 @UniqueConstraint(columnNames = {"MERCHANT_ID", "SKU"}))
 public class Product extends SalesManagerEntity<Long, Product> implements Auditable {
 	private static final long serialVersionUID = 1L;
@@ -89,7 +89,7 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 	private MerchantStore merchantStore;
 	
 	@ManyToMany(fetch=FetchType.LAZY, cascade = {CascadeType.REFRESH})
-	@JoinTable(name = "PRODUCT_CATEGORY", schema=SchemaConstant.SALESMANAGER_SCHEMA, joinColumns = { 
+	@JoinTable(name = "PRODUCT_CATEGORY", joinColumns = { 
 			@JoinColumn(name = "PRODUCT_ID", nullable = false, updatable = false) }
 			, 
 			inverseJoinColumns = { @JoinColumn(name = "CATEGORY_ID", 

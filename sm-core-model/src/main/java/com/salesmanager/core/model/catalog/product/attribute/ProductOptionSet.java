@@ -33,7 +33,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
  *
  */
 @Entity
-@Table(name="PRODUCT_OPTION_SET", schema=SchemaConstant.SALESMANAGER_SCHEMA,
+@Table(name="PRODUCT_OPTION_SET",
 uniqueConstraints={
 		@UniqueConstraint(columnNames={
 				"MERCHANT_ID",

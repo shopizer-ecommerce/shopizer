@@ -6,7 +6,7 @@ import com.salesmanager.core.model.reference.language.Language;
 
 
 /*@Entity
-@Table(name="CATEGORY_DESCRIPTION", schema=SchemaConstant.SALESMANAGER_SCHEMA,uniqueConstraints={
+@Table(name="CATEGORY_DESCRIPTION",uniqueConstraints={
 		@UniqueConstraint(columnNames={
 			"CATEGORY_ID",
 			"LANGUAGE_ID"

@@ -30,7 +30,7 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
 
 @Entity
 @EntityListeners(value = AuditListener.class)
-@Table(name = "SM_GROUP", schema = SchemaConstant.SALESMANAGER_SCHEMA, indexes = {
+@Table(name = "SM_GROUP", indexes = {
 		@Index(name = "SM_GROUP_GROUP_TYPE", columnList = "GROUP_TYPE") })
 public class Group extends SalesManagerEntity<Integer, Group> implements Auditable {
 

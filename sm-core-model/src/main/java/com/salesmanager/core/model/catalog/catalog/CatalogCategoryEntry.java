@@ -21,7 +21,7 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
 
 @Entity
 @EntityListeners(value = com.salesmanager.core.model.common.audit.AuditListener.class)
-@Table(name = "CATALOG_ENTRY", schema= SchemaConstant.SALESMANAGER_SCHEMA,uniqueConstraints=
+@Table(name = "CATALOG_ENTRY",uniqueConstraints=
 @UniqueConstraint(columnNames = {"CATEGORY_ID", "CATALOG_ID"}) )
 public class CatalogCategoryEntry extends SalesManagerEntity<Long, CatalogCategoryEntry> implements Auditable {
 	

@@ -23,7 +23,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 
 @Entity
 @EntityListeners(value = AuditListener.class)
-@Table(name = "MERCHANT_LOG", schema= SchemaConstant.SALESMANAGER_SCHEMA)
+@Table(name = "MERCHANT_LOG")
 public class MerchantLog extends SalesManagerEntity<Long, MerchantLog> implements Serializable {
 
 	

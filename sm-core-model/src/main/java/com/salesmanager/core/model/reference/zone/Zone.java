@@ -22,7 +22,7 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
 import com.salesmanager.core.model.reference.country.Country;
 
 @Entity
-@Table(name = "ZONE", schema = SchemaConstant.SALESMANAGER_SCHEMA)
+@Table(name = "ZONE")
 public class Zone extends SalesManagerEntity<Long, Zone> {
   private static final long serialVersionUID = 1L;
 

@@ -21,7 +21,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.utils.CloneUtils;
 
 @Entity
-@Table (name="FILE_HISTORY", schema=SchemaConstant.SALESMANAGER_SCHEMA, uniqueConstraints={
+@Table (name="FILE_HISTORY", uniqueConstraints={
 		@UniqueConstraint(
 			columnNames={
 				"MERCHANT_ID",

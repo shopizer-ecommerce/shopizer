@@ -34,7 +34,7 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
 
 @Entity
 @EntityListeners(value = AuditListener.class)
-@Table(name = "SHOPPING_CART_ITEM", schema=SchemaConstant.SALESMANAGER_SCHEMA)
+@Table(name = "SHOPPING_CART_ITEM")
 public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem> implements Auditable, Serializable {
 
 

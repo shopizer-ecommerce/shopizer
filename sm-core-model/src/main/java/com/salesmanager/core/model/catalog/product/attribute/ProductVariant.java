@@ -21,7 +21,7 @@ import com.salesmanager.core.model.common.audit.Auditable;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 
 @Entity
-@Table(name="PRODUCT_VARIANT", schema=SchemaConstant.SALESMANAGER_SCHEMA, uniqueConstraints=
+@Table(name="PRODUCT_VARIANT", uniqueConstraints=
 	@UniqueConstraint(columnNames = {"PRODUCT_VARIANT_ID"}))
 public class ProductVariant extends SalesManagerEntity<Long, ProductVariant> implements Auditable {
 	

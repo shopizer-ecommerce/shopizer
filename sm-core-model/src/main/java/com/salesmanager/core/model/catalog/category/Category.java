@@ -31,7 +31,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 
 @Entity
 @EntityListeners(value = com.salesmanager.core.model.common.audit.AuditListener.class)
-@Table(name = "CATEGORY", schema= SchemaConstant.SALESMANAGER_SCHEMA,uniqueConstraints=
+@Table(name = "CATEGORY",uniqueConstraints=
     @UniqueConstraint(columnNames = {"MERCHANT_ID", "CODE"}) )
 
 

@@ -46,7 +46,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 
 @Entity
 @EntityListeners(value = com.salesmanager.core.model.common.audit.AuditListener.class)
-@Table(name = "CATALOG", schema=SchemaConstant.SALESMANAGER_SCHEMA,
+@Table(name = "CATALOG",
 uniqueConstraints=@UniqueConstraint(columnNames = {"MERCHANT_ID", "CODE"}))
 public class Catalog extends SalesManagerEntity<Long, Catalog> implements Auditable {
     private static final long serialVersionUID = 1L;

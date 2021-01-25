@@ -43,7 +43,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
  */
 @Entity
 @EntityListeners(value = AuditListener.class)
-@Table(name = "SHOPPING_CART", schema=SchemaConstant.SALESMANAGER_SCHEMA, indexes= { @Index(name = "SHP_CART_CODE_IDX", columnList = "SHP_CART_CODE"), @Index(name = "SHP_CART_CUSTOMER_IDX", columnList = "CUSTOMER_ID")})
+@Table(name = "SHOPPING_CART", indexes= { @Index(name = "SHP_CART_CODE_IDX", columnList = "SHP_CART_CODE"), @Index(name = "SHP_CART_CUSTOMER_IDX", columnList = "CUSTOMER_ID")})
 public class ShoppingCart extends SalesManagerEntity<Long, ShoppingCart> implements Auditable{
 
 	

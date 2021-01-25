@@ -26,7 +26,7 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
  */
 
 @Entity
-@Table (name="SHIPPING_QUOTE" , schema=SchemaConstant.SALESMANAGER_SCHEMA)
+@Table (name="SHIPPING_QUOTE" )
 public class Quote extends SalesManagerEntity<Long, Quote> {
 
 	/**

@@ -15,7 +15,7 @@ import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 
 @Entity
-@Table(name = "CURRENCY", schema = SchemaConstant.SALESMANAGER_SCHEMA)
+@Table(name = "CURRENCY")
 @Cacheable
 public class Currency extends SalesManagerEntity<Long, Currency> implements Serializable {
 	private static final long serialVersionUID = -999926410367685145L;

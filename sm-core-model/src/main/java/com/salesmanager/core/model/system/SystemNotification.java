@@ -30,7 +30,7 @@ import com.salesmanager.core.model.user.User;
 @Entity
 @EntityListeners(value = AuditListener.class)
 
-@Table(name = "SYSTEM_NOTIFICATION", schema= SchemaConstant.SALESMANAGER_SCHEMA,uniqueConstraints=
+@Table(name = "SYSTEM_NOTIFICATION",uniqueConstraints=
     @UniqueConstraint(columnNames = {"MERCHANT_ID", "CONFIG_KEY"}) )
 public class SystemNotification extends SalesManagerEntity<Long, SystemNotification> implements Serializable, Auditable {
 

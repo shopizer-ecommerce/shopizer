@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -242,6 +243,12 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
 		return customer;
 
+	}
+
+	@Override
+	public boolean customerExists(String userName, MerchantStore store) {
+	    return Optional.ofNullable(customerService.getByNick(userName, store.getId()))
+	            .isPresent();
 	}
 
 }

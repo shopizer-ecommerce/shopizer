@@ -51,7 +51,7 @@ import com.salesmanager.core.utils.CloneUtils;
 
 @Entity
 @Table(name = "CUSTOMER", 
-	schema=SchemaConstant.SALESMANAGER_SCHEMA, uniqueConstraints=
+	 uniqueConstraints=
 			@UniqueConstraint(columnNames = {"MERCHANT_ID", "CUSTOMER_NICK"}))
 public class Customer extends SalesManagerEntity<Long, Customer> implements Auditable {
 	private static final long serialVersionUID = 1L;
@@ -130,7 +130,7 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 	
 	@JsonIgnore
 	@ManyToMany(fetch=FetchType.LAZY, cascade = {CascadeType.REFRESH})
-	@JoinTable(name = "CUSTOMER_GROUP", schema=SchemaConstant.SALESMANAGER_SCHEMA, joinColumns = { 
+	@JoinTable(name = "CUSTOMER_GROUP", joinColumns = { 
 			@JoinColumn(name = "CUSTOMER_ID", nullable = false, updatable = false) }
 			, 
 			inverseJoinColumns = { @JoinColumn(name = "GROUP_ID", 

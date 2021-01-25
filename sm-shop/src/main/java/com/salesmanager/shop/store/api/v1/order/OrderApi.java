@@ -83,6 +83,9 @@ public class OrderApi {
 
 	@Autowired
 	private CustomerFacade customerFacade;
+	
+	@Autowired
+	private CustomerFacade customerFacadev1; //v1 version
 
 	@Inject
 	private AuthorizationUtils authorizationUtils;
@@ -423,8 +426,13 @@ public class OrderApi {
 			customer = customerFacade.populateCustomerModel(customer, order.getCustomer(), merchantStore, language);
 
 			if(!StringUtils.isBlank(presistableCustomer.getPassword())) { 
+				//check if customer already exist
 				customer.setAnonymous(false);
 				customer.setNick(customer.getEmailAddress()); //username
+				if(customerFacadev1.checkIfUserExists(customer.getNick(),  merchantStore)) {
+					//409 Conflict
+					throw new GenericRuntimeException("409", "Customer with email [" + customer.getEmailAddress() + "] is already registered");
+				}
 			}
 			
 			

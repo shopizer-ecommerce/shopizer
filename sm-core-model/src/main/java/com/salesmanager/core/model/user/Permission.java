@@ -23,7 +23,7 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
 
 @Entity
 @EntityListeners(value = AuditListener.class)
-@Table(name = "PERMISSION", schema=SchemaConstant.SALESMANAGER_SCHEMA)
+@Table(name = "PERMISSION")
 public class Permission extends SalesManagerEntity<Integer, Permission> implements Auditable {
 
 	

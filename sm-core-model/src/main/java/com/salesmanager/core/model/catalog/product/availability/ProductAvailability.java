@@ -34,7 +34,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.utils.CloneUtils;
 
 @Entity
-@Table(name = "PRODUCT_AVAILABILITY", schema = SchemaConstant.SALESMANAGER_SCHEMA)
+@Table(name = "PRODUCT_AVAILABILITY")
 public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailability> implements Auditable {
 
 	/**

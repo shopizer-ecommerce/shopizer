@@ -15,8 +15,7 @@ import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.common.description.Description;
 
 @Entity
-@Table(name = "PRODUCT_DESCRIPTION", 
-		schema = SchemaConstant.SALESMANAGER_SCHEMA, 
+@Table(name = "PRODUCT_DESCRIPTION",  
 		uniqueConstraints = {@UniqueConstraint(columnNames = { "PRODUCT_ID", "LANGUAGE_ID" })},
 		indexes = {@Index(name = "PRODUCT_DESCRIPTION_SEF_URL", columnList = "SEF_URL")})
 

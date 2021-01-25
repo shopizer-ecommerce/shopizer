@@ -27,7 +27,7 @@ import com.salesmanager.core.model.common.description.Description;
 import com.salesmanager.core.model.reference.language.Language;
 
 @Entity
-@Table(name = "CUSTOMER_REVIEW_DESCRIPTION", schema = SchemaConstant.SALESMANAGER_SCHEMA, uniqueConstraints={
+@Table(name = "CUSTOMER_REVIEW_DESCRIPTION", uniqueConstraints={
 	@UniqueConstraint(columnNames={
 		"CUSTOMER_REVIEW_ID",
 		"LANGUAGE_ID"

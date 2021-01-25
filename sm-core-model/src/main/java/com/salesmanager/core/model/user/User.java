@@ -42,7 +42,7 @@ import com.salesmanager.core.model.reference.language.Language;
  */
 @Entity
 @EntityListeners(value = AuditListener.class)
-@Table(name = "USERS", schema=SchemaConstant.SALESMANAGER_SCHEMA, uniqueConstraints=
+@Table(name = "USERS", uniqueConstraints=
 	@UniqueConstraint(columnNames = {"MERCHANT_ID", "ADMIN_NAME"}))
 public class User extends SalesManagerEntity<Long, User> implements Auditable {
 	
@@ -71,7 +71,7 @@ public class User extends SalesManagerEntity<Long, User> implements Auditable {
 	private String adminName;
 	
 	@ManyToMany(fetch=FetchType.LAZY, cascade = {CascadeType.REFRESH})
-	@JoinTable(name = "USER_GROUP", schema=SchemaConstant.SALESMANAGER_SCHEMA, joinColumns = { 
+	@JoinTable(name = "USER_GROUP", joinColumns = { 
 			@JoinColumn(name = "USER_ID", nullable = false, updatable = false) }
 			, 
 			inverseJoinColumns = { @JoinColumn(name = "GROUP_ID", 
