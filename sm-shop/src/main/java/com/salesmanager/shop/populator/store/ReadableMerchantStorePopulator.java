@@ -8,11 +8,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.reference.country.CountryService;
+import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.business.services.reference.zone.ZoneService;
 import com.salesmanager.core.business.utils.AbstractDataPopulator;
 import com.salesmanager.core.constants.MeasureUnit;
@@ -32,14 +36,21 @@ import com.salesmanager.shop.utils.ImageFilePath;
  * @author carlsamson
  *
  */
+@Component
 public class ReadableMerchantStorePopulator extends
 		AbstractDataPopulator<MerchantStore, ReadableMerchantStore> {
 	
 	protected final Log logger = LogFactory.getLog(getClass());
 	
+	@Autowired
 	private CountryService countryService;
+	@Autowired
 	private ZoneService zoneService;
+	@Autowired
+	@Qualifier("img")
 	private ImageFilePath filePath;
+	@Autowired
+	private LanguageService languageService;
 
 
 
@@ -144,7 +155,13 @@ public class ReadableMerchantStorePopulator extends
 		if(!CollectionUtils.isEmpty(source.getLanguages())) {
 			List<Language> supported = new ArrayList<Language>();
 			for(Language lang : source.getLanguages()) {
-				supported.add(lang);
+				try {
+					Language langObject = languageService.getLanguagesMap().get(lang.getCode());
+					supported.add(langObject);
+				} catch (ServiceException e) {
+					logger.error("Cannot get Language [" + lang.getId() + "]");
+				}
+				
 			}
 			target.setSupportedLanguages(supported);
 		}
@@ -170,7 +187,7 @@ public class ReadableMerchantStorePopulator extends
 		return null;
 	}
 	
-	public CountryService getCountryService() {
+/*	public CountryService getCountryService() {
 		return countryService;
 	}
 
@@ -192,7 +209,7 @@ public class ReadableMerchantStorePopulator extends
 
 	public void setFilePath(ImageFilePath filePath) {
 		this.filePath = filePath;
-	}
+	}*/
 
 
 }

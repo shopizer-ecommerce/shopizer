@@ -5,18 +5,20 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
-import com.salesmanager.shop.populator.store.ReadableMerchantStorePopulatorWithDetails;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.Validate;
 import org.drools.core.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.content.ContentService;
@@ -61,12 +63,6 @@ public class StoreFacadeImpl implements StoreFacade {
 	private LanguageService languageService;
 
 	@Inject
-	private CountryService countryService;
-
-	@Inject
-	private ZoneService zoneService;
-
-	@Inject
 	private ContentService contentService;
 
 	@Inject
@@ -78,6 +74,9 @@ public class StoreFacadeImpl implements StoreFacade {
 
 	@Inject
 	private LanguageUtils languageUtils;
+	
+	@Autowired
+	private ReadableMerchantStorePopulator readableMerchantStorePopulator;
 
 	private static final Logger LOG = LoggerFactory.getLogger(StoreFacadeImpl.class);
 
@@ -141,15 +140,16 @@ public class StoreFacadeImpl implements StoreFacade {
 	private ReadableMerchantStore convertMerchantStoreToReadableMerchantStore(Language language, MerchantStore store) {
 		ReadableMerchantStore readable = new ReadableMerchantStore();
 
-		ReadableMerchantStorePopulator populator = new ReadableMerchantStorePopulator();
+/*		ReadableMerchantStorePopulator populator = new ReadableMerchantStorePopulator();
 		populator.setCountryService(countryService);
 		populator.setZoneService(zoneService);
-		populator.setFilePath(imageUtils);
+		populator.setFilePath(imageUtils);*/
 
 		/**
 		 * Language is not important for this conversion using default language
 		 */
-		try {			readable = populator.populate(store, readable, store, language);
+		try {			
+			readableMerchantStorePopulator.populate(store, readable, store, language);
 		} catch (Exception e) {
 			throw new ConversionRuntimeException("Error while populating MerchantStore " + e.getMessage());
 		}
@@ -159,16 +159,16 @@ public class StoreFacadeImpl implements StoreFacade {
 	private ReadableMerchantStore convertMerchantStoreToReadableMerchantStoreWithFullDetails(Language language, MerchantStore store) {
 		ReadableMerchantStore readable = new ReadableMerchantStore();
 
-		ReadableMerchantStorePopulatorWithDetails populator = new ReadableMerchantStorePopulatorWithDetails();
+/*		ReadableMerchantStorePopulatorWithDetails populator = new ReadableMerchantStorePopulatorWithDetails();
 		populator.setCountryService(countryService);
 		populator.setZoneService(zoneService);
-		populator.setFilePath(imageUtils);
+		populator.setFilePath(imageUtils);*/
 
 		/**
 		 * Language is not important for this conversion using default language
 		 */
 		try {
-			readable = populator.populate(store, readable, store, language);
+			readableMerchantStorePopulator.populate(store, readable, store, language);
 		} catch (Exception e) {
 			throw new ConversionRuntimeException("Error while populating MerchantStore " + e.getMessage());
 		}

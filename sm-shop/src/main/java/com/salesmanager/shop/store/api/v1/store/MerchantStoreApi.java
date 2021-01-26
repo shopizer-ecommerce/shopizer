@@ -80,7 +80,9 @@ public class MerchantStoreApi {
 	@ApiOperation(httpMethod = "GET", value = "Get merchant store", notes = "", response = ReadableMerchantStore.class)
 	public ReadableMerchantStore store(@PathVariable String code,
 			@RequestParam(value = "lang", required = false) String lang) {
-		return storeFacade.getByCode(code, lang);
+		//return storeFacade.getByCode(code, lang);
+		ReadableMerchantStore readable =  storeFacade.getByCode(code, lang);
+		return readable;
 	}
 
 	@GetMapping(value = { "/private/store/{code}" }, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -148,7 +150,9 @@ public class MerchantStoreApi {
 			criteria.setStoreCode(merchantStore.getCode());
 		}
 
-		return storeFacade.findAll(criteria, language, page, count);
+		//return storeFacade.findAll(criteria, language, page, count);
+		ReadableMerchantStoreList readable = storeFacade.findAll(criteria, language, page, count);
+		return readable;
 	}
 	
 

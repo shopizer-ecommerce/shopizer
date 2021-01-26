@@ -41,6 +41,9 @@ public class ReadableOrderPopulator extends
 	@Autowired
 	@Qualifier("img")
 	private ImageFilePath filePath;
+	
+	@Autowired
+	private ReadableMerchantStorePopulator readableMerchantStorePopulator;
 
 
 	@Override
@@ -60,11 +63,12 @@ public class ReadableOrderPopulator extends
 		target.setShippingModule(source.getShippingModuleCode());
 		
 		if(source.getMerchant()!=null) {
-			ReadableMerchantStorePopulator merchantPopulator = new ReadableMerchantStorePopulator();
+/*			ReadableMerchantStorePopulator merchantPopulator = new ReadableMerchantStorePopulator();
 			merchantPopulator.setCountryService(countryService);
 			merchantPopulator.setFilePath(filePath);
-			merchantPopulator.setZoneService(zoneService);
-			ReadableMerchantStore readableStore = merchantPopulator.populate(source.getMerchant(), null, store, source.getMerchant().getDefaultLanguage());
+			merchantPopulator.setZoneService(zoneService);*/
+			ReadableMerchantStore readableStore = 
+			readableMerchantStorePopulator.populate(source.getMerchant(), null, store, source.getMerchant().getDefaultLanguage());
 			target.setStore(readableStore);
 		}
 		

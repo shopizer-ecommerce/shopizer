@@ -33,6 +33,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.shoppingcart.PersistableShoppingCartItem;
 import com.salesmanager.shop.model.shoppingcart.ReadableShoppingCart;
+import com.salesmanager.shop.store.api.exception.OperationNotAllowedException;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.controller.customer.facade.v1.CustomerFacade;
@@ -64,6 +65,9 @@ public class ShoppingCartApi {
 
 	@Autowired
 	private CustomerFacade customerFacadev1;
+	
+	@Autowired
+	private com.salesmanager.shop.store.controller.customer.facade.CustomerFacade customerFacade;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ShoppingCartApi.class);
 
@@ -162,6 +166,7 @@ public class ShoppingCartApi {
 		}
 	}
 
+	@Deprecated
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value = "/customers/{id}/cart", method = RequestMethod.POST)
 	@ApiOperation(httpMethod = "POST", value = "Add product to a specific customer shopping cart", notes = "", produces = "application/json", response = ReadableShoppingCart.class)
@@ -170,32 +175,12 @@ public class ShoppingCartApi {
 	public @ResponseBody ReadableShoppingCart addToCart(@PathVariable Long id,
 			@Valid @RequestBody PersistableShoppingCartItem shoppingCartItem, @ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language, HttpServletResponse response) {
+		
+		throw new OperationNotAllowedException("API is no more supported. Authenticate customer first then get customer cart");
 
-		try {
-			// lookup customer
-			Customer customer = customerService.getById(id);
-
-			if (customer == null) {
-				response.sendError(404, "No Customer found for ID : " + id);
-				return null;
-			}
-
-			ReadableShoppingCart cart = shoppingCartFacade.addToCart(customer, shoppingCartItem, merchantStore,
-					language);
-
-			return cart;
-
-		} catch (Exception e) {
-			LOGGER.error("Error while adding product to cart", e);
-			try {
-				response.sendError(503, "Error while adding product to cart " + e.getMessage());
-			} catch (Exception ignore) {
-			}
-
-			return null;
-		}
 	}
 
+	@Deprecated
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "/auth/customer/{id}/cart", method = RequestMethod.GET)
 	@ApiOperation(httpMethod = "GET", value = "Get a shopping cart by customer id. Customer must be authenticated", notes = "", produces = "application/json", response = ReadableShoppingCart.class)
@@ -222,6 +207,41 @@ public class ShoppingCartApi {
 
 		if (readableCart == null) {
 			throw new ResourceNotFoundException("No cart found for customerid [" + id + "]");
+		}
+
+		return readableCart;
+
+	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "/auth/customer/cart", method = RequestMethod.GET)
+	@ApiOperation(httpMethod = "GET", value = "Get a shopping cart by authenticated customer", notes = "", produces = "application/json", response = ReadableShoppingCart.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	public @ResponseBody ReadableShoppingCart getByCustomer(
+			@RequestParam Optional<String> cart, // cart code
+			@ApiIgnore MerchantStore merchantStore, 
+			@ApiIgnore Language language, 
+			HttpServletRequest request,
+			HttpServletResponse response) {
+
+		Principal principal = request.getUserPrincipal();
+		Customer customer = null;
+		try {
+			customer = customerFacade.getCustomerByUserName(principal.getName(), merchantStore);
+		} catch (Exception e) {
+			throw new ServiceRuntimeException("Exception while getting customer [ " + principal.getName() + "]");
+		}
+		
+		if (customer == null) {
+			throw new ResourceNotFoundException("No Customer found for principal[" + principal.getName() + "]");
+		}
+		
+		customerFacadev1.authorize(customer, principal);
+		ReadableShoppingCart readableCart = shoppingCartFacadev1.get(cart, customer.getId(), merchantStore, language);
+
+		if (readableCart == null) {
+			throw new ResourceNotFoundException("No cart found for customer [" + principal.getName() + "]");
 		}
 
 		return readableCart;
