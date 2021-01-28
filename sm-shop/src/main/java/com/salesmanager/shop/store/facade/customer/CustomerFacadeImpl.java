@@ -82,7 +82,7 @@ public class CustomerFacadeImpl implements CustomerFacade {
 		Validate.notNull(customer, "Customer cannot be null");
 		Validate.notNull(principal, "Principal cannot be null");
 
-		if (!principal.getName().equals(customer.getEmailAddress())) {
+		if (!principal.getName().equals(customer.getNick())) {
 			throw new UnauthorizedException(
 					"User [" + principal.getName() + "] unauthorized for customer [" + customer.getId() + "]");
 		}
