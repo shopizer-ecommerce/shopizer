@@ -6,6 +6,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
+import org.springframework.validation.annotation.Validated;
+
 import com.salesmanager.shop.model.customer.address.Address;
 
 import io.swagger.annotations.ApiModelProperty;

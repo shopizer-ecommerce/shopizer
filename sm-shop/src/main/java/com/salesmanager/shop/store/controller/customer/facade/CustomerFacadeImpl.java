@@ -1020,6 +1020,13 @@ public class CustomerFacadeImpl implements CustomerFacade {
     try {
       //update billing
       customer.getBilling().setBillingAddress(true);
+      if(customer.getBilling()!=null) {
+    	  Validate.notNull(customer.getBilling(), "Customer billing address cannot be null");
+    	  Validate.notNull(customer.getBilling().getFirstName(), "Customer billing first name cannot be null");
+    	  Validate.notNull(customer.getBilling().getLastName(), "Customer billing last name cannot be null");
+    	  Validate.notNull(customer.getBilling().getCountry(), "Customer billing country cannot be null");
+      }
+      
       updateAddress(customer.getId(), store, customer.getBilling(), store.getDefaultLanguage());
       //update delivery
       customer.getDelivery().setBillingAddress(false);
