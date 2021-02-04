@@ -23,7 +23,7 @@ public class ProductRelationshipRepositoryImpl implements ProductRelationshipRep
           + "and pr.store.id=:storeId "
           + "and p.id=:id "
           + "and rpd.language.id=:langId";
-  public static final String HQL_GET_BY_PRODUCT_ID_AND_CODE_AVAILABLE =
+  private static final String HQL_GET_BY_PRODUCT_ID_AND_CODE_AVAILABLE =
       "select distinct pr from ProductRelationship as pr "
           + "left join fetch pr.product p "
           + "left join fetch pr.relatedProduct rp "
@@ -44,7 +44,7 @@ public class ProductRelationshipRepositoryImpl implements ProductRelationshipRep
           + "where pr.code=:code "
           + "and rp.available=:available "
           + "and p.id=:pId";
-  public static final String HQL_GET_PRODUCTS_BY_PRODUCT_ID =
+  private static final String HQL_GET_PRODUCTS_BY_PRODUCT_ID =
       "select distinct pr from ProductRelationship as pr "
           + "left join fetch pr.product p "
           + "left join fetch pr.relatedProduct rp "
@@ -54,14 +54,14 @@ public class ProductRelationshipRepositoryImpl implements ProductRelationshipRep
           + "left join fetch rp.descriptions rpd "
           + "where p.id=:id"
           + " or rp.id=:id";
-  public static final String HQL_GET_PRODUCT_BY_CODE_AND_STORE_ID =
+  private static final String HQL_GET_PRODUCT_BY_CODE_AND_STORE_ID =
       "select distinct pr from ProductRelationship as pr "
           + "left join fetch pr.product p "
           + "join fetch pr.relatedProduct rp "
           + "left join fetch rp.descriptions rpd "
           + "where pr.code=:code "
           + "and pr.store.id=:storeId ";
-  public static final String HQL_GET_PRODUCT_BY_CODE_AND_STORE_ID_AND_LANG_ID =
+  private static final String HQL_GET_PRODUCT_BY_CODE_AND_STORE_ID_AND_LANG_ID =
       "select distinct pr from ProductRelationship as pr "
           + "left join fetch pr.product p "
           + "join fetch pr.relatedProduct rp "
@@ -85,7 +85,7 @@ public class ProductRelationshipRepositoryImpl implements ProductRelationshipRep
           + "where pr.code=:code "
           + "and pr.store.id=:storeId "
           + "and rpd.language.id=:langId";
-  public static final String HQL_GET_GROUP_BY_CODE_AND_STORE_ID =
+  private static final String HQL_GET_GROUP_BY_CODE_AND_STORE_ID =
       "select distinct pr from ProductRelationship as pr "
           + "left join fetch pr.product p "
           + "left join fetch pr.relatedProduct rp "
@@ -105,11 +105,11 @@ public class ProductRelationshipRepositoryImpl implements ProductRelationshipRep
           + "left join fetch rp.type type "
           + "where pr.code=:code "
           + "and pr.store.id=:storeId ";
-  public static final String HQL_GET_PRODUCT_RELATIONSHIP_BY_STORE_ID =
+  private static final String HQL_GET_PRODUCT_RELATIONSHIP_BY_STORE_ID =
       "select distinct pr from ProductRelationship as pr "
           + "where pr.store.id=:store "
           + "and pr.product=null";
-  public static final String HQL_GET_PRODUCT_RELATIONSHIP_BY_CODE_AND_STORE_ID =
+  private static final String HQL_GET_PRODUCT_RELATIONSHIP_BY_CODE_AND_STORE_ID =
       "select distinct pr from ProductRelationship as pr "
           + "left join fetch pr.product p "
           + "left join fetch pr.relatedProduct rp "
