@@ -1,347 +1,202 @@
 package com.salesmanager.core.business.repositories.catalog.product.relationship;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-
+import com.google.api.client.util.Lists;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.relationship.ProductRelationship;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 
 public class ProductRelationshipRepositoryImpl implements ProductRelationshipRepositoryCustom {
 
-	
-    @PersistenceContext
-    private EntityManager em;
-    
-	@Override
-	public List<ProductRelationship> getByType(MerchantStore store, String type, Product product, Language language) {
-
-		StringBuilder qs = new StringBuilder();
-		qs.append("select distinct pr from ProductRelationship as pr ");
-		qs.append("left join fetch pr.product p ");
-		qs.append("join fetch pr.relatedProduct rp ");
-		qs.append("left join fetch rp.descriptions rpd ");
-
-		qs.append("where pr.code=:code ");
-		qs.append("and pr.store.id=:storeId ");
-		qs.append("and p.id=:id ");
-		qs.append("and rpd.language.id=:langId");
-
-
-
-    	String hql = qs.toString();
-		Query q = em.createQuery(hql);
-
-    	q.setParameter("code", type);
-    	q.setParameter("id", product.getId());
-    	q.setParameter("storeId", store.getId());
-    	qs.append("and pr.store.id=:storeId ");
-    	q.setParameter("langId", language.getId());
-
-
-    	
-    	@SuppressWarnings("unchecked")
-		List<ProductRelationship> relations =  q.getResultList();
-
-    	
-    	return relations;
-		
-
-	}
-	
-	@Override
-	public List<ProductRelationship> getGroupByType(MerchantStore store, String type) {
-
-		StringBuilder qs = new StringBuilder();
-		qs.append("select distinct pr from ProductRelationship as pr ");
-		qs.append("left join fetch pr.product p ");
-		qs.append("left join fetch pr.relatedProduct rp ");
-		qs.append("left join fetch rp.descriptions rpd ");
-
-		qs.append("where pr.code=:code ");
-		qs.append("and pr.store.id=:storeId ");
-		qs.append("and rpd.language.id=:langId");
-
-
-
-    	String hql = qs.toString();
-		Query q = em.createQuery(hql);
-
-    	q.setParameter("code", type);
-    	q.setParameter("storeId", store.getId());
-    	qs.append("and pr.store.id=:storeId ");
-
-
-    	
-    	@SuppressWarnings("unchecked")
-		List<ProductRelationship> relations =  q.getResultList();
-
-    	
-    	return relations;
-		
-
-	}
-	
-	@Override
-	public List<ProductRelationship> getByType(MerchantStore store, String type, Language language) {
-
-		StringBuilder qs = new StringBuilder();
-		qs.append("select distinct pr from ProductRelationship as pr ");
-		qs.append("left join fetch pr.product p ");
-		qs.append("join fetch pr.relatedProduct rp ");
-		
-		
-		
-		
-		//options
-		qs.append("left join fetch rp.attributes pattr ");
-		qs.append("left join fetch pattr.productOption po ");
-		qs.append("left join fetch po.descriptions pod ");
-		qs.append("left join fetch pattr.productOptionValue pov ");
-		qs.append("left join fetch pov.descriptions povd ");
-
-			
-		
-		qs.append("left join fetch rp.categories rpc ");
-		qs.append("left join fetch rpc.descriptions rpcd ");
-		qs.append("left join fetch rp.descriptions rpd ");
-		qs.append("left join fetch rp.owner rpo ");
-		qs.append("left join fetch rp.images pd ");
-		qs.append("left join fetch rp.merchantStore rpm ");
-		qs.append("left join fetch rpm.currency rpmc ");
-		qs.append("left join fetch rp.availabilities pa ");
-		qs.append("left join fetch rp.manufacturer m ");
-		qs.append("left join fetch m.descriptions md ");
-		qs.append("left join fetch pa.prices pap ");
-		qs.append("left join fetch pap.descriptions papd ");
-
-		qs.append("where pr.code=:code ");
-		//qs.append("and rp.available=:available ");
-		qs.append("and pr.store.id=:storeId ");
-		qs.append("and rpd.language.id=:langId");
-
-
-
-    	String hql = qs.toString();
-		Query q = em.createQuery(hql);
-
-    	q.setParameter("code", type);
-    	q.setParameter("langId", language.getId());
-    	q.setParameter("storeId", store.getId());
-    	//q.setParameter("available", true);
-
-
-    	
-    	@SuppressWarnings("unchecked")
-		List<ProductRelationship> relations =  q.getResultList();
-
-    	
-    	return relations;
-		
-
-	}
-	
-	@Override
-	public List<ProductRelationship> getByGroup(MerchantStore store, String group) {
-	
-		StringBuilder qs = new StringBuilder();
-		qs.append("select distinct pr from ProductRelationship as pr ");
-		qs.append("left join fetch pr.product p ");
-		qs.append("left join fetch pr.relatedProduct rp ");
-		
-		qs.append("left join fetch rp.attributes pattr ");
-		qs.append("left join fetch rp.categories rpc ");
-		qs.append("left join fetch rpc.descriptions rpcd ");
-		qs.append("left join fetch rp.descriptions rpd ");
-		qs.append("left join fetch rp.owner rpo ");
-		qs.append("left join fetch rp.images pd ");
-		qs.append("left join fetch rp.merchantStore rpm ");
-		qs.append("left join fetch rpm.currency rpmc ");
-		qs.append("left join fetch rp.availabilities pa ");
-		qs.append("left join fetch pa.prices pap ");
-		qs.append("left join fetch pap.descriptions papd ");
-		qs.append("left join fetch rp.manufacturer manuf ");
-		qs.append("left join fetch manuf.descriptions manufd ");
-		qs.append("left join fetch rp.type type ");
-
-		qs.append("where pr.code=:code ");
-		qs.append("and pr.store.id=:storeId ");
-
-
-
-
-    	String hql = qs.toString();
-		Query q = em.createQuery(hql);
-
-    	q.setParameter("code", group);
-    	q.setParameter("storeId", store.getId());
-
-
-
-    	
-    	@SuppressWarnings("unchecked")
-		List<ProductRelationship> relations =  q.getResultList();
-
-    	
-    	return relations;
-		
-
-	}
-	
-	@Override
-	public List<ProductRelationship> getGroups(MerchantStore store) {
-
-		StringBuilder qs = new StringBuilder();
-		qs.append("select distinct pr from ProductRelationship as pr ");
-		qs.append("where pr.store.id=:store ");
-		
-		qs.append("and pr.product=null");
-
-
-
-    	String hql = qs.toString();
-		Query q = em.createQuery(hql);
-
-    	q.setParameter("store", store.getId());
-
-
-    	
-    	@SuppressWarnings("unchecked")
-		List<ProductRelationship> relations =  q.getResultList();
-    	
-    	Map<String,ProductRelationship> relationMap = new HashMap<String,ProductRelationship>();
-    	for(ProductRelationship relationship : relations) {
-    		if(!relationMap.containsKey(relationship.getCode())) {
-    			relationMap.put(relationship.getCode(), relationship);
-    		}
-    	}
-
-
-		return new ArrayList<>(relationMap.values());
-		
-
-	}
-	
-	
-	@Override
-	public List<ProductRelationship> getByType(MerchantStore store, String type) {
-
-		StringBuilder qs = new StringBuilder();
-		qs.append("select distinct pr from ProductRelationship as pr ");
-		qs.append("left join fetch pr.product p ");
-		qs.append("join fetch pr.relatedProduct rp ");
-		qs.append("left join fetch rp.descriptions rpd ");
-
-		qs.append("where pr.code=:code ");
-		qs.append("and pr.store.id=:storeId ");
-
-
-
-
-    	String hql = qs.toString();
-		Query q = em.createQuery(hql);
-
-    	q.setParameter("code", type);
-    	q.setParameter("storeId", store.getId());
-
-
-    	@SuppressWarnings("unchecked")
-		List<ProductRelationship> relations =  q.getResultList();
-
-    	
-    	return relations;
-		
-
-	}
-	
-	@Override
-	public List<ProductRelationship> listByProducts(Product product) {
-
-		StringBuilder qs = new StringBuilder();
-		qs.append("select distinct pr from ProductRelationship as pr ");
-		qs.append("left join fetch pr.product p ");
-		qs.append("left join fetch pr.relatedProduct rp ");
-		qs.append("left join fetch rp.attributes pattr ");
-		qs.append("left join fetch rp.categories rpc ");
-		qs.append("left join fetch p.descriptions pd ");
-		qs.append("left join fetch rp.descriptions rpd ");
-
-		qs.append("where p.id=:id");
-		qs.append(" or rp.id=:id");
-
-
-
-
-    	String hql = qs.toString();
-		Query q = em.createQuery(hql);
-
-    	q.setParameter("id", product.getId());
-
-
-    	@SuppressWarnings("unchecked")
-		List<ProductRelationship> relations =  q.getResultList();
-
-    	
-    	return relations;
-		
-
-	}
-	
-	@Override
-	public List<ProductRelationship> getByType(MerchantStore store, String type, Product product) {
-		
-		StringBuilder qs = new StringBuilder();
-		
-		qs.append("select distinct pr from ProductRelationship as pr ");
-		qs.append("left join fetch pr.product p ");
-		qs.append("left join fetch pr.relatedProduct rp ");
-		
-		qs.append("left join fetch rp.attributes pattr ");
-		qs.append("left join fetch rp.categories rpc ");
-		qs.append("left join fetch rpc.descriptions rpcd ");
-		qs.append("left join fetch rp.descriptions rpd ");
-		qs.append("left join fetch rp.owner rpo ");
-		qs.append("left join fetch rp.images pd ");
-		qs.append("left join fetch rp.merchantStore rpm ");
-		qs.append("left join fetch rpm.currency rpmc ");
-		qs.append("left join fetch rp.availabilities pa ");
-		qs.append("left join fetch pa.prices pap ");
-		qs.append("left join fetch pap.descriptions papd ");
-		
-		qs.append("left join fetch rp.manufacturer manuf ");
-		qs.append("left join fetch manuf.descriptions manufd ");
-		qs.append("left join fetch rp.type type ");
-
-		qs.append("where pr.code=:code ");
-		qs.append("and rp.available=:available ");
-		qs.append("and p.id=:pId");
-
-
-
-
-    	String hql = qs.toString();
-		Query q = em.createQuery(hql);
-
-    	q.setParameter("code", type);
-    	q.setParameter("available", true);
-    	q.setParameter("pId", product.getId());
-
-
-		@SuppressWarnings("unchecked")
-		List<ProductRelationship> relations =  q.getResultList();
-
-    	
-    	return relations;
-		
-
-	}
-
+  private static final String HQL_GET_BY_CODE_AND_STORE_ID_AND_PRODUCT_ID =
+      "select distinct pr from ProductRelationship as pr "
+          + "left join fetch pr.product p "
+          + "join fetch pr.relatedProduct rp "
+          + "left join fetch rp.descriptions rpd "
+          + "where pr.code=:code "
+          + "and pr.store.id=:storeId "
+          + "and p.id=:id "
+          + "and rpd.language.id=:langId";
+  public static final String HQL_GET_BY_PRODUCT_ID_AND_CODE_AVAILABLE =
+      "select distinct pr from ProductRelationship as pr "
+          + "left join fetch pr.product p "
+          + "left join fetch pr.relatedProduct rp "
+          + "left join fetch rp.attributes pattr "
+          + "left join fetch rp.categories rpc "
+          + "left join fetch rpc.descriptions rpcd "
+          + "left join fetch rp.descriptions rpd "
+          + "left join fetch rp.owner rpo "
+          + "left join fetch rp.images pd "
+          + "left join fetch rp.merchantStore rpm "
+          + "left join fetch rpm.currency rpmc "
+          + "left join fetch rp.availabilities pa "
+          + "left join fetch pa.prices pap "
+          + "left join fetch pap.descriptions papd "
+          + "left join fetch rp.manufacturer manuf "
+          + "left join fetch manuf.descriptions manufd "
+          + "left join fetch rp.type type "
+          + "where pr.code=:code "
+          + "and rp.available=:available "
+          + "and p.id=:pId";
+  public static final String HQL_GET_PRODUCTS_BY_PRODUCT_ID =
+      "select distinct pr from ProductRelationship as pr "
+          + "left join fetch pr.product p "
+          + "left join fetch pr.relatedProduct rp "
+          + "left join fetch rp.attributes pattr "
+          + "left join fetch rp.categories rpc "
+          + "left join fetch p.descriptions pd "
+          + "left join fetch rp.descriptions rpd "
+          + "where p.id=:id"
+          + " or rp.id=:id";
+  public static final String HQL_GET_PRODUCT_BY_CODE_AND_STORE_ID =
+      "select distinct pr from ProductRelationship as pr "
+          + "left join fetch pr.product p "
+          + "join fetch pr.relatedProduct rp "
+          + "left join fetch rp.descriptions rpd "
+          + "where pr.code=:code "
+          + "and pr.store.id=:storeId ";
+  public static final String HQL_GET_PRODUCT_BY_CODE_AND_STORE_ID_AND_LANG_ID =
+      "select distinct pr from ProductRelationship as pr "
+          + "left join fetch pr.product p "
+          + "join fetch pr.relatedProduct rp "
+          + "left join fetch rp.attributes pattr "
+          + "left join fetch pattr.productOption po "
+          + "left join fetch po.descriptions pod "
+          + "left join fetch pattr.productOptionValue pov "
+          + "left join fetch pov.descriptions povd "
+          + "left join fetch rp.categories rpc "
+          + "left join fetch rpc.descriptions rpcd "
+          + "left join fetch rp.descriptions rpd "
+          + "left join fetch rp.owner rpo "
+          + "left join fetch rp.images pd "
+          + "left join fetch rp.merchantStore rpm "
+          + "left join fetch rpm.currency rpmc "
+          + "left join fetch rp.availabilities pa "
+          + "left join fetch rp.manufacturer m "
+          + "left join fetch m.descriptions md "
+          + "left join fetch pa.prices pap "
+          + "left join fetch pap.descriptions papd "
+          + "where pr.code=:code "
+          + "and pr.store.id=:storeId "
+          + "and rpd.language.id=:langId";
+  public static final String HQL_GET_GROUP_BY_CODE_AND_STORE_ID =
+      "select distinct pr from ProductRelationship as pr "
+          + "left join fetch pr.product p "
+          + "left join fetch pr.relatedProduct rp "
+          + "left join fetch rp.attributes pattr "
+          + "left join fetch rp.categories rpc "
+          + "left join fetch rpc.descriptions rpcd "
+          + "left join fetch rp.descriptions rpd "
+          + "left join fetch rp.owner rpo "
+          + "left join fetch rp.images pd "
+          + "left join fetch rp.merchantStore rpm "
+          + "left join fetch rpm.currency rpmc "
+          + "left join fetch rp.availabilities pa "
+          + "left join fetch pa.prices pap "
+          + "left join fetch pap.descriptions papd "
+          + "left join fetch rp.manufacturer manuf "
+          + "left join fetch manuf.descriptions manufd "
+          + "left join fetch rp.type type "
+          + "where pr.code=:code "
+          + "and pr.store.id=:storeId ";
+  public static final String HQL_GET_PRODUCT_RELATIONSHIP_BY_STORE_ID =
+      "select distinct pr from ProductRelationship as pr "
+          + "where pr.store.id=:store "
+          + "and pr.product=null";
+  public static final String HQL_GET_PRODUCT_RELATIONSHIP_BY_CODE_AND_STORE_ID =
+      "select distinct pr from ProductRelationship as pr "
+          + "left join fetch pr.product p "
+          + "left join fetch pr.relatedProduct rp "
+          + "left join fetch rp.descriptions rpd "
+          + "where pr.code=:code "
+          + "and pr.store.id=:storeId "
+          + "and rpd.language.id=:langId";
+
+  @PersistenceContext
+  private EntityManager entityManager;
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public List<ProductRelationship> getByType(MerchantStore store, String type, Product product,
+      Language language) {
+    return entityManager.createQuery(HQL_GET_BY_CODE_AND_STORE_ID_AND_PRODUCT_ID)
+        .setParameter("code", type)
+        .setParameter("id", product.getId())
+        .setParameter("storeId", store.getId())
+        .setParameter("langId", language.getId())
+        .getResultList();
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public List<ProductRelationship> getGroupByType(MerchantStore store, String type) {
+    return entityManager.createQuery(HQL_GET_PRODUCT_RELATIONSHIP_BY_CODE_AND_STORE_ID)
+        .setParameter("code", type)
+        .setParameter("storeId", store.getId())
+        .getResultList();
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public List<ProductRelationship> getByType(MerchantStore store, String type, Language language) {
+    return entityManager.createQuery(HQL_GET_PRODUCT_BY_CODE_AND_STORE_ID_AND_LANG_ID)
+        .setParameter("code", type)
+        .setParameter("langId", language.getId())
+        .setParameter("storeId", store.getId())
+        .getResultList();
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public List<ProductRelationship> getByGroup(MerchantStore store, String group) {
+    return entityManager.createQuery(HQL_GET_GROUP_BY_CODE_AND_STORE_ID)
+        .setParameter("code", group)
+        .setParameter("storeId", store.getId())
+        .getResultList();
+  }
+
+  @Override
+  public List<ProductRelationship> getGroups(MerchantStore store) {
+    @SuppressWarnings("unchecked")
+    List<ProductRelationship> relations = entityManager.createQuery(HQL_GET_PRODUCT_RELATIONSHIP_BY_STORE_ID)
+        .setParameter("store", store.getId())
+        .getResultList();
+    Map<String, ProductRelationship> relationMap = relations.stream()
+        .collect(Collectors.toMap(ProductRelationship::getCode, p -> p, (p, q) -> p));
+    return Lists.newArrayList(relationMap.values());
+  }
+
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public List<ProductRelationship> getByType(MerchantStore store, String type) {
+    return entityManager.createQuery(HQL_GET_PRODUCT_BY_CODE_AND_STORE_ID)
+        .setParameter("code", type)
+        .setParameter("storeId", store.getId())
+        .getResultList();
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public List<ProductRelationship> listByProducts(Product product) {
+    return entityManager.createQuery(HQL_GET_PRODUCTS_BY_PRODUCT_ID)
+        .setParameter("id", product.getId())
+        .getResultList();
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public List<ProductRelationship> getByType(MerchantStore store, String type, Product product) {
+    return entityManager.createQuery(HQL_GET_BY_PRODUCT_ID_AND_CODE_AVAILABLE)
+        .setParameter("code", type)
+        .setParameter("available", true)
+        .setParameter("pId", product.getId())
+        .getResultList();
+  }
 }
