@@ -1022,7 +1022,8 @@ public class ShoppingOrderController extends AbstractController {
 			ReadableShopOrderPopulator populator = new ReadableShopOrderPopulator();
 			populator.populate(order, readableOrder, store, language);
 			
-			boolean requiresShipping = false;;
+
+			/**
 	        for(com.salesmanager.core.model.shoppingcart.ShoppingCartItem item : cartItems) {
 	        	
 	        	Long id = item.getProduct().getId();
@@ -1031,12 +1032,11 @@ public class ShoppingOrderController extends AbstractController {
 					requiresShipping = true;
 				}
 	        }
-			
+	        **/
+
 			/** shipping **/
 			ShippingQuote quote = null;
-			if(requiresShipping) {
-				quote = orderFacade.getShippingQuote(order.getCustomer(), cart, order, store, language);
-			}
+			quote = orderFacade.getShippingQuote(order.getCustomer(), cart, order, store, language);
 
 			if(quote!=null) {
 				String shippingReturnCode = quote.getShippingReturnCode();

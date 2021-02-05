@@ -43,9 +43,7 @@ public class SanitizeUtils {
     public static String getSafeString(String value) {
 
 		try {
-			
-			System.out.println("XSS value " + value);
-			
+
 			if(policy == null) {
 				throw new ServiceRuntimeException("Error in " + SanitizeUtils.class.getName() + " html sanitize utils is null");		}
 

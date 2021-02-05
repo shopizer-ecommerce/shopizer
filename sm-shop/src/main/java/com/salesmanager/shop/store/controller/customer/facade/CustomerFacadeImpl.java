@@ -1008,25 +1008,25 @@ public class CustomerFacadeImpl implements CustomerFacade {
     if(customer.getDelivery() == null) {
       customer.setDelivery(customer.getBilling());
     } else {
-      Validate.notNull(customer.getDelivery(), "Delivery address can not be null");
-      Validate.notNull(customer.getDelivery().getAddress(), "Delivery address can not be null");
-      Validate.notNull(customer.getDelivery().getCity(), "Delivery city can not be null");
-      Validate.notNull(customer.getDelivery().getPostalCode(), "Delivery postal code can not be null");
-      Validate.notNull(customer.getDelivery().getCountryCode(), "Delivery country can not be null");
 
-      
+      if(StringUtils.isBlank(customer.getDelivery().getAddress())) {
+    	  customer.getDelivery().setAddress(customer.getBilling().getAddress());
+      }
+      if(StringUtils.isBlank(customer.getDelivery().getCity())) {
+    	  customer.getDelivery().setAddress(customer.getBilling().getCity());
+      }
+      if(StringUtils.isBlank(customer.getDelivery().getPostalCode())) {
+    	  customer.getDelivery().setAddress(customer.getBilling().getPostalCode());
+      }
+      if(StringUtils.isBlank(customer.getDelivery().getCountryCode())) {
+    	  customer.getDelivery().setAddress(customer.getBilling().getCountryCode());
+      }
     }
     
     try {
       //update billing
       customer.getBilling().setBillingAddress(true);
-      if(customer.getBilling()!=null) {
-    	  Validate.notNull(customer.getBilling(), "Customer billing address cannot be null");
-    	  Validate.notNull(customer.getBilling().getFirstName(), "Customer billing first name cannot be null");
-    	  Validate.notNull(customer.getBilling().getLastName(), "Customer billing last name cannot be null");
-    	  Validate.notNull(customer.getBilling().getCountry(), "Customer billing country cannot be null");
-      }
-      
+
       updateAddress(customer.getId(), store, customer.getBilling(), store.getDefaultLanguage());
       //update delivery
       customer.getDelivery().setBillingAddress(false);
