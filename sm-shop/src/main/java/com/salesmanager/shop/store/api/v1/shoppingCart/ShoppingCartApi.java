@@ -78,12 +78,8 @@ public class ShoppingCartApi {
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
 	public @ResponseBody ReadableShoppingCart addToCart(
 			@Valid @RequestBody PersistableShoppingCartItem shoppingCartItem, @ApiIgnore MerchantStore merchantStore,
-			@ApiIgnore Language language, HttpServletResponse response) {
-
-		ReadableShoppingCart cart = shoppingCartFacade.addToCart(shoppingCartItem, merchantStore, language);
-
-		return cart;
-
+			@ApiIgnore Language language) {
+		return shoppingCartFacade.addToCart(shoppingCartItem, merchantStore, language);
 	}
 
 	@RequestMapping(value = "/cart/{code}", method = RequestMethod.PUT)
