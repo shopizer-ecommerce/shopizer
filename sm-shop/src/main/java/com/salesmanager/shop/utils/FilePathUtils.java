@@ -95,9 +95,9 @@ public class FilePathUtils {
 	 * Or example: /<shopScheme>://<domainName>/<contextPath>/files/<storeCode>/
 	 */
 	public String buildStaticFileAbsolutePath(MerchantStore store, String fileName) {
-		if (StringUtils.isNotBlank(imageUtils.getBasePath())
-				&& imageUtils.getBasePath().startsWith(HTTP_SCHEME)) {
-			return imageUtils.getBasePath()
+		if (StringUtils.isNotBlank(imageUtils.getBasePath(store))
+				&& imageUtils.getBasePath(store).startsWith(HTTP_SCHEME)) {
+			return imageUtils.getBasePath(store)
 					+ FILES_URI
 					+ SLASH
 					+ store.getCode()
@@ -185,11 +185,13 @@ public class FilePathUtils {
 	
 	private String getScheme(MerchantStore store) {
 		String baseScheme = store.getDomainName();
+		//no more necessary
 		String scheme = coreConfiguration.getProperty("SHOP_SCHEME");
 		if(!StringUtils.isBlank(scheme)) {
 			baseScheme = new StringBuilder().append(coreConfiguration.getProperty("SHOP_SCHEME", "http")).append(DOUBLE_SLASH)
 			.append(getDomainName(store.getDomainName())).toString();
 		}
+		//end no more
 		return baseScheme;
 	}
 

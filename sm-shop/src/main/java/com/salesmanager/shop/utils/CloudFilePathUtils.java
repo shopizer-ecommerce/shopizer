@@ -13,7 +13,8 @@ public class CloudFilePathUtils extends AbstractimageFilePath {
 	private String basePath = Constants.STATIC_URI;
 
 	@Override
-	public String getBasePath() {
+	public String getBasePath(MerchantStore store) {
+		//store has no incidence, basepath drives the url
 		return basePath;
 	}
 
@@ -35,7 +36,7 @@ public class CloudFilePathUtils extends AbstractimageFilePath {
 	 */
 	@Override
 	public String buildStaticImageUtils(MerchantStore store, String imageName) {
-		StringBuilder imgName = new StringBuilder().append(getBasePath()).append(Constants.FILES_URI).append(Constants.SLASH).append(store.getCode()).append(Constants.SLASH);
+		StringBuilder imgName = new StringBuilder().append(getBasePath(store)).append(Constants.FILES_URI).append(Constants.SLASH).append(store.getCode()).append(Constants.SLASH);
 				if(!StringUtils.isBlank(imageName)) {
 					imgName.append(imageName);
 				}
@@ -52,7 +53,7 @@ public class CloudFilePathUtils extends AbstractimageFilePath {
 	 */
 	@Override
 	public String buildStaticImageUtils(MerchantStore store, String type, String imageName) {
-		StringBuilder imgName = new StringBuilder().append(getBasePath()).append(Constants.FILES_URI).append(Constants.SLASH).append(store.getCode()).append(Constants.SLASH);
+		StringBuilder imgName = new StringBuilder().append(getBasePath(store)).append(Constants.FILES_URI).append(Constants.SLASH).append(store.getCode()).append(Constants.SLASH);
 		if(type!=null && !FileContentType.IMAGE.name().equals(type)) {
 			imgName.append(type).append(Constants.SLASH);
 		}

@@ -2,6 +2,7 @@ package com.salesmanager.shop.utils;
 
 import org.springframework.stereotype.Component;
 
+import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.shop.constants.Constants;
 
 /**
@@ -18,7 +19,7 @@ public class ImageFilePathUtils extends AbstractimageFilePath{
 	private String basePath = Constants.STATIC_URI;
 
 	@Override
-	public String getBasePath() {
+	public String getBasePath(MerchantStore store) {
 		return basePath;
 	}
 

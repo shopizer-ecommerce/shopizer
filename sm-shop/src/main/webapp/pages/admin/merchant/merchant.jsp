@@ -313,9 +313,6 @@ function callBackCheckCode(msg,code) {
 	                  <div class="control-group">
 	                        <label><s:message code="label.store.baseurl" text="Store base url"/></label>
 	                        <div class="controls">
-	                                    <span class="add-on">
-											http://
-										</span>
 										<form:input cssClass="input-medium highlight" path="domainName" />
 	                                    <span class="help-inline"><form:errors path="domainName" cssClass="error" /></span>
 	                        </div>

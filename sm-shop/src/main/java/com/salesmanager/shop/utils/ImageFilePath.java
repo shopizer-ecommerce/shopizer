@@ -13,7 +13,7 @@ public interface ImageFilePath {
 	public String getContextPath();
 	
 	
-	public String getBasePath();
+	public String getBasePath(MerchantStore store);
 
 	/**
 	 * Builds a static content image file path that can be used by image servlet
