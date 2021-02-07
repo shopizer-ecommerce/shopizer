@@ -659,6 +659,27 @@ public class CustomerFacadeImpl implements CustomerFacade {
     long duration = (endTime - startTime)/1000;
     System.out.println("End Notification " + duration);
   }
+  
+  
+  private PersistableCustomer updateAuthCustomer(PersistableCustomer customer, MerchantStore store) {
+
+	    if (customer.getId() == null || customer.getId() == 0) {
+	      throw new ServiceRuntimeException("Can't update a customer with null id");
+	    }
+
+	    Customer cust = customerService.getById(customer.getId());
+
+	    try{
+	      customerPopulator.populate(customer, cust, store, store.getDefaultLanguage());
+	    } catch (ConversionException e) {
+	      throw new ConversionRuntimeException(e);
+	    }
+
+	    saveCustomer(cust);
+	    customer.setId(cust.getId());
+
+	    return customer;
+	  }
 
 
   @Override
@@ -1056,7 +1077,7 @@ public class CustomerFacadeImpl implements CustomerFacade {
     ReadableCustomer customerModel = getByUserName(userName, store, store.getDefaultLanguage());
     customer.setId(customerModel.getId());
     customer.setUserName(userName);
-    return this.update(customer, store);
+    return updateAuthCustomer(customer, store);
   }
 
 

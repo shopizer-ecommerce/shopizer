@@ -82,7 +82,6 @@ public class CustomerPopulator extends
 			}
 
 		    target.setProvider(source.getProvider());
-
 			target.setEmailAddress(source.getEmailAddress());
 			
 			if(source.getGender()!=null && target.getGender()==null) {

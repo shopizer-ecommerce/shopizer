@@ -17,12 +17,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.customer.CustomerCriteria;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
 import com.salesmanager.shop.model.customer.ReadableCustomer;
 import com.salesmanager.shop.populator.customer.ReadableCustomerList;
+import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
+import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -144,8 +148,8 @@ public class CustomerApi {
 
 	}
 
-	@PutMapping("/auth/customer/{id}")
-	@ApiOperation(httpMethod = "PUT", value = "Updates a loged in customer profile", notes = "Requires authentication", produces = "application/json", response = PersistableCustomer.class)
+	@PatchMapping("/auth/customer/")
+	@ApiOperation(httpMethod = "PATCH", value = "Updates a loged in customer profile", notes = "Requires authentication", produces = "application/json", response = PersistableCustomer.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT") })
 	public PersistableCustomer update(@ApiIgnore MerchantStore merchantStore,
 			@Valid @RequestBody PersistableCustomer customer, HttpServletRequest request) {
@@ -154,6 +158,29 @@ public class CustomerApi {
 		String userName = principal.getName();
 
 		return customerFacade.update(userName, customer, merchantStore);
+	}
+	
+	@DeleteMapping("/auth/customer/")
+	@ApiOperation(httpMethod = "DELETE", value = "Deletes a loged in customer profile", notes = "Requires authentication", produces = "application/json", response = Void.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT") })
+	public void delete(@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language,
+			HttpServletRequest request) {
+
+		Principal principal = request.getUserPrincipal();
+		String userName = principal.getName();
+		
+		Customer customer;
+		try {
+			customer = customerFacade.getCustomerByUserName(userName, merchantStore);
+			if(customer == null) {
+				throw new ResourceNotFoundException("Customer [" + userName + "] not found");
+			}
+			customerFacade.delete(customer);
+		} catch (Exception e) {
+			throw new ServiceRuntimeException("An error occured while deleting customer ["+userName+"]");
+		}
+		
+
 	}
 
 }
