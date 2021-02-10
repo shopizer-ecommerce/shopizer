@@ -1328,19 +1328,9 @@ public class OrderFacadeImpl implements OrderFacade {
 			if ("true".equals(coreConfiguration.getProperty("ORDER_EMAIL_API"))) {
 				// send email
 				try {
+					
+					notify(modelOrder, customer, store, language, locale);
 
-					// send order confirmation email to customer
-					emailTemplatesUtils.sendOrderEmail(customer.getEmailAddress(), customer, modelOrder, locale,
-							language, store, coreConfiguration.getProperty("CONTEXT_PATH"));
-
-					if (orderService.hasDownloadFiles(modelOrder)) {
-						emailTemplatesUtils.sendOrderDownloadEmail(customer, modelOrder, store, locale,
-								coreConfiguration.getProperty("CONTEXT_PATH"));
-					}
-
-					// send order confirmation email to merchant
-					emailTemplatesUtils.sendOrderEmail(store.getStoreEmailAddress(), customer, modelOrder, locale,
-							language, store, coreConfiguration.getProperty("CONTEXT_PATH"));
 
 				} catch (Exception e) {
 					LOGGER.error("Cannot send order confirmation email", e);

@@ -476,13 +476,15 @@ public class UserFacadeImpl implements UserFacade {
 			if(storeCode.isPresent()) {
 				//get store
 				MerchantStore store = merchantStoreService.getByCode(storeCode.get());
-				if(store.isRetailer()) {
-					//get group stores
-					List<MerchantStore> stores = merchantStoreService.findAllStoreNames(store.getCode());
-					List<Integer> intList = stores.stream().map(s -> s.getId()).collect(Collectors.toList());
-					criteria.setStoreIds(intList);
-					//search over store list
-					criteria.setStoreCode(null);
+				if(store != null && (store.isRetailer() != null)) {
+					if(store.isRetailer().booleanValue())   {
+						//get group stores
+						List<MerchantStore> stores = merchantStoreService.findAllStoreNames(store.getCode());
+						List<Integer> intList = stores.stream().map(s -> s.getId()).collect(Collectors.toList());
+						criteria.setStoreIds(intList);
+						//search over store list
+						criteria.setStoreCode(null);
+					}
 				}
 			} 
 			

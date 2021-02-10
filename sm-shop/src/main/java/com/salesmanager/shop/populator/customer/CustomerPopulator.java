@@ -69,20 +69,27 @@ public class CustomerPopulator extends
 			  target.setAnonymous(false);
 			}
 
-			target.setBilling(new Billing());
-			if (!StringUtils.isEmpty(source.getFirstName())) {
-				target.getBilling().setFirstName(
-						source.getFirstName()
-				);
-			}
-			if (!StringUtils.isEmpty(source.getLastName())) {
-				target.getBilling().setLastName(
-						source.getLastName()
-				);
+			if(source.getBilling() != null) {
+				target.setBilling(new Billing());
+				if (!StringUtils.isEmpty(source.getFirstName())) {
+					target.getBilling().setFirstName(
+							source.getFirstName()
+					);
+				}
+				if (!StringUtils.isEmpty(source.getLastName())) {
+					target.getBilling().setLastName(
+							source.getLastName()
+					);
+				}
 			}
 
-		    target.setProvider(source.getProvider());
-			target.setEmailAddress(source.getEmailAddress());
+			if(!StringUtils.isBlank(source.getProvider())) {
+				target.setProvider(source.getProvider());
+			}
+			
+			if(!StringUtils.isBlank(source.getEmailAddress())) {
+				target.setEmailAddress(source.getEmailAddress());
+			}
 			
 			if(source.getGender()!=null && target.getGender()==null) {
 				target.setGender( com.salesmanager.core.model.customer.CustomerGender.valueOf( source.getGender() ) );
@@ -177,11 +184,13 @@ public class CustomerPopulator extends
 				target.setDelivery(delivery);
 			}
 			
-			if(source.getRating() != null) {
+			if(source.getRating() != null && source.getRating().doubleValue() > 0) {
 				target.setCustomerReviewAvg(new BigDecimal(source.getRating().doubleValue()));
 			}
 			
-			target.setCustomerReviewCount(source.getRatingCount());
+			if(source.getRatingCount() > 0) {
+				target.setCustomerReviewCount(source.getRatingCount());
+			}
 
 			
 			if(target.getDelivery() ==null && source.getDelivery()!=null){

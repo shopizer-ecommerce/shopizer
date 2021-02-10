@@ -6,6 +6,9 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.salesmanager.core.utils.CloneUtils;
 
 
@@ -49,6 +52,11 @@ public class AuditSection implements Serializable {
   }
 
   public void setModifiedBy(String modifiedBy) {
+	  if(!StringUtils.isBlank(modifiedBy)) {//TODO
+		  if(modifiedBy.length()>20) {
+			  modifiedBy = modifiedBy.substring(0, 20);
+		  }
+	  }
     this.modifiedBy = modifiedBy;
   }
 }

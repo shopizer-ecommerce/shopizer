@@ -1020,12 +1020,15 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
   @Override
   public void updateAddress(PersistableCustomer customer, MerchantStore store) {
-    Validate.notNull(customer.getBilling(), "Billing address can not be null");
-    Validate.notNull(customer.getBilling().getAddress(), "Billing address can not be null");
-    Validate.notNull(customer.getBilling().getCity(), "Billing city can not be null");
-    Validate.notNull(customer.getBilling().getPostalCode(), "Billing postal code can not be null");
-    Validate.notNull(customer.getBilling().getCountry(), "Billing country can not be null");
 
+
+    if(customer.getBilling() != null) {
+        Validate.notNull(customer.getBilling(), "Billing address can not be null");
+        Validate.notNull(customer.getBilling().getAddress(), "Billing address can not be null");
+        Validate.notNull(customer.getBilling().getCity(), "Billing city can not be null");
+        Validate.notNull(customer.getBilling().getPostalCode(), "Billing postal code can not be null");
+        Validate.notNull(customer.getBilling().getCountry(), "Billing country can not be null");
+    }
     if(customer.getDelivery() == null) {
       customer.setDelivery(customer.getBilling());
     } else {
@@ -1040,18 +1043,24 @@ public class CustomerFacadeImpl implements CustomerFacade {
     	  customer.getDelivery().setAddress(customer.getBilling().getPostalCode());
       }
       if(StringUtils.isBlank(customer.getDelivery().getCountryCode())) {
-    	  customer.getDelivery().setAddress(customer.getBilling().getCountryCode());
+    	  customer.getDelivery().setAddress(customer.getDelivery().getCountryCode());
       }
     }
     
     try {
       //update billing
-      customer.getBilling().setBillingAddress(true);
+      if(customer.getBilling() != null) {
+    	  customer.getBilling().setBillingAddress(true);
+    	  updateAddress(customer.getId(), store, customer.getBilling(), store.getDefaultLanguage());
+      }
 
-      updateAddress(customer.getId(), store, customer.getBilling(), store.getDefaultLanguage());
+      
       //update delivery
-      customer.getDelivery().setBillingAddress(false);
-      updateAddress(customer.getId(), store, customer.getDelivery(), store.getDefaultLanguage());
+      if(customer.getDelivery() != null) {
+    	  customer.getDelivery().setBillingAddress(false);
+          updateAddress(customer.getId(), store, customer.getDelivery(), store.getDefaultLanguage());
+      }
+
     } catch (Exception e) {
       throw new ServiceRuntimeException("Error while updating customer address");
     }

@@ -112,7 +112,7 @@ public class UserServiceImpl extends SalesManagerEntityServiceImpl<Long, User> i
 																	// specific
 																	// store
 			users = pageableUserRepository.listAll(criteria.getAdminEmail(), pageRequest);
-		} else if (criteria.getStoreIds() != null) {// full search
+		} else if (criteria.getStoreCode() != null) {// store code
 			users = pageableUserRepository.listByStore(criteria.getStoreCode(), criteria.getAdminEmail(), pageRequest);
 		}
 
