@@ -1304,8 +1304,9 @@ public class OrderFacadeImpl implements OrderFacade {
 			
 			//lookup existing customer
 			//if customer exist then do not set authentication for this customer and send an instructions email
+			/** **/
 			if(!StringUtils.isBlank(customer.getNick()) && !customer.isAnonymous()) {
-				if(customerFacade.checkIfUserExists(customer.getNick(), store)) {
+				if(order.getCustomerId() == null && (customerFacade.checkIfUserExists(customer.getNick(), store))) {
 					customer.setAnonymous(true);
 					customer.setNick(null);
 					//send email instructions

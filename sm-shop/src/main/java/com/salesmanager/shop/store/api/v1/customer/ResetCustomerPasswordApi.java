@@ -64,6 +64,14 @@ public class ResetCustomerPasswordApi {
 
 	}
 
+	/**
+	 * Verify a password token
+	 * @param store
+	 * @param token
+	 * @param merchantStore
+	 * @param language
+	 * @param request
+	 */
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping(value = { "/customer/{store}/reset/{token}" }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(httpMethod = "GET", value = "Validate customer password reset token", notes = "", response = Void.class)
@@ -84,6 +92,15 @@ public class ResetCustomerPasswordApi {
 
 	}
 
+	/**
+	 * Change password
+	 * @param passwordRequest
+	 * @param store
+	 * @param token
+	 * @param merchantStore
+	 * @param language
+	 * @param request
+	 */
 	@RequestMapping(value = "/customer/{store}/password/{token}", method = RequestMethod.POST, produces = {
 			"application/json" })
 	@ApiOperation(httpMethod = "POST", value = "Change customer password", response = Void.class)

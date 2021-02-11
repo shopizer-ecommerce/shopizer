@@ -62,9 +62,9 @@ public class ReadableOrder extends OrderEntity implements Serializable {
 		this.products = products;
 	}
 
-	public Currency getCurrencyModel() {
-		return currencyModel;
-	}
+	//public Currency getCurrencyModel() {
+	//	return currencyModel;
+	//}
 	public void setCurrencyModel(Currency currencyModel) {
 		this.currencyModel = currencyModel;
 	}
