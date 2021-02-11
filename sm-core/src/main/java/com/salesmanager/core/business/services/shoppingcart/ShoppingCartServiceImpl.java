@@ -479,22 +479,24 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 				item.setQuantity(shoppingCartItem.getQuantity());
 				item.setShoppingCart(cartModel);
 
-				List<ShoppingCartAttributeItem> cartAttributes = new ArrayList<ShoppingCartAttributeItem>(
-						shoppingCartItem.getAttributes());
-				if (CollectionUtils.isNotEmpty(cartAttributes)) {
-					for (ShoppingCartAttributeItem shoppingCartAttributeItem : cartAttributes) {
-						ProductAttribute productAttribute = productAttributeService
-								.getById(shoppingCartAttributeItem.getId());
-						if (productAttribute != null
-								&& productAttribute.getProduct().getId().longValue() == product.getId().longValue()) {
-
-							ShoppingCartAttributeItem attributeItem = new ShoppingCartAttributeItem(item,
-									productAttribute);
-							if (shoppingCartAttributeItem.getId() > 0) {
-								attributeItem.setId(shoppingCartAttributeItem.getId());
+				List<ShoppingCartAttributeItem> cartAttributes = new ArrayList<ShoppingCartAttributeItem>();
+				if(shoppingCartItem != null && !CollectionUtils.isEmpty(shoppingCartItem.getAttributes())) {
+					cartAttributes.addAll(shoppingCartItem.getAttributes());
+					if (CollectionUtils.isNotEmpty(cartAttributes)) {
+						for (ShoppingCartAttributeItem shoppingCartAttributeItem : cartAttributes) {
+							ProductAttribute productAttribute = productAttributeService
+									.getById(shoppingCartAttributeItem.getId());
+							if (productAttribute != null
+									&& productAttribute.getProduct().getId().longValue() == product.getId().longValue()) {
+	
+								ShoppingCartAttributeItem attributeItem = new ShoppingCartAttributeItem(item,
+										productAttribute);
+								if (shoppingCartAttributeItem.getId() > 0) {
+									attributeItem.setId(shoppingCartAttributeItem.getId());
+								}
+								item.addAttributes(attributeItem);
+	
 							}
-							item.addAttributes(attributeItem);
-
 						}
 					}
 				}
