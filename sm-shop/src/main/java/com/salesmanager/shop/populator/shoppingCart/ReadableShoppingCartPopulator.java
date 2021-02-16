@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -16,6 +17,7 @@ import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductAttributeService;
@@ -28,6 +30,7 @@ import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValue;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueDescription;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.OrderSummary;
+import com.salesmanager.core.model.order.OrderTotal;
 import com.salesmanager.core.model.order.OrderTotalSummary;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.shoppingcart.ShoppingCart;
@@ -197,11 +200,19 @@ public class ReadableShoppingCartPopulator extends AbstractDataPopulator<Shoppin
             
             OrderTotalSummary orderSummary = shoppingCartCalculationService.calculate(source, store, language );
             
-            //TODO
-            //if(!orderSummary.getTotals().stream().filter(t -> t.get))
-            //detect promo code or not
+
     
             if(CollectionUtils.isNotEmpty(orderSummary.getTotals())) {
+            	
+            	if( orderSummary.getTotals().stream()
+            			.filter(t -> Constants.OT_DISCOUNT_TITLE.equals(t.getOrderTotalCode()))
+            			.count() == 0) {
+            		//no promo coupon applied
+            		target.setPromoCode(null);
+            		
+            	}
+            	
+            	
             	List<ReadableOrderTotal> totals = new ArrayList<ReadableOrderTotal>();
             	for(com.salesmanager.core.model.order.OrderTotal t : orderSummary.getTotals()) {
             		ReadableOrderTotal total = new ReadableOrderTotal();

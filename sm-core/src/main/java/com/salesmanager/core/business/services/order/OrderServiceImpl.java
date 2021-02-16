@@ -306,7 +306,6 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
         orderTotalSubTotal.setOrderTotalType(OrderTotalType.SUBTOTAL);
         orderTotalSubTotal.setOrderTotalCode("order.total.subtotal");
         orderTotalSubTotal.setTitle(Constants.OT_SUBTOTAL_MODULE_CODE);
-        //orderTotalSubTotal.setText("order.total.subtotal");
         orderTotalSubTotal.setSortOrder(5);
         orderTotalSubTotal.setValue(subTotal);
         
@@ -322,7 +321,6 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
 	            shippingSubTotal.setOrderTotalType(OrderTotalType.SHIPPING);
 	            shippingSubTotal.setOrderTotalCode("order.total.shipping");
 	            shippingSubTotal.setTitle(Constants.OT_SHIPPING_MODULE_CODE);
-	            //shippingSubTotal.setText("order.total.shipping");
 	            shippingSubTotal.setSortOrder(100);
 	
 	            orderTotals.add(shippingSubTotal);
