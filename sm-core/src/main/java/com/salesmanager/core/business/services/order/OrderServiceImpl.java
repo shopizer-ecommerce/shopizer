@@ -438,6 +438,9 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     	
     	if(!StringUtils.isBlank(shoppingCart.getPromoCode())) {
     		Date promoDateAdded = shoppingCart.getPromoAdded();//promo valid 1 day
+    		if(promoDateAdded == null) {
+    			promoDateAdded = new Date();
+    		}
     		Instant instant = promoDateAdded.toInstant();
     		ZonedDateTime zdt = instant.atZone(ZoneId.systemDefault());
     		LocalDate date = zdt.toLocalDate();

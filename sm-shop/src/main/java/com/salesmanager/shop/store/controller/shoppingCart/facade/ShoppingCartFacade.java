@@ -84,6 +84,18 @@ public interface ShoppingCartFacade {
 	 */
 	ReadableShoppingCart modifyCart(String cartCode, PersistableShoppingCartItem item, MerchantStore store,
 										 Language language) throws Exception;
+	
+	/**
+	 * Adds a promo code / coupon code to an existing code
+	 * @param cartCode
+	 * @param promo
+	 * @param store
+	 * @param language
+	 * @return
+	 * @throws Exception
+	 */
+	ReadableShoppingCart modifyCart(String cartCode, String promo, MerchantStore store,
+			 Language language) throws Exception;
 
 	/**
 	 * Modify a list of items to an existing cart, quantity of line item will reflect item.getQuantity

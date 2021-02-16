@@ -3,6 +3,10 @@
  */
 package com.salesmanager.shop.store.controller.shoppingCart.facade;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -14,11 +18,6 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
-
-import com.salesmanager.shop.constants.Constants;
-import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;
-import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
-import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -45,8 +44,10 @@ import com.salesmanager.core.model.catalog.product.availability.ProductAvailabil
 import com.salesmanager.core.model.catalog.product.price.FinalPrice;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.order.OrderTotalSummary;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.shoppingcart.ShoppingCart;
+import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.shoppingcart.CartModificationException;
 import com.salesmanager.shop.model.shoppingcart.PersistableShoppingCartItem;
 import com.salesmanager.shop.model.shoppingcart.ReadableShoppingCart;
@@ -55,12 +56,16 @@ import com.salesmanager.shop.model.shoppingcart.ShoppingCartData;
 import com.salesmanager.shop.model.shoppingcart.ShoppingCartItem;
 import com.salesmanager.shop.populator.shoppingCart.ReadableShoppingCartPopulator;
 import com.salesmanager.shop.populator.shoppingCart.ShoppingCartDataPopulator;
+import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;
+import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
+import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.ImageFilePath;
 
 /**
  * @author Umesh Awasthi
- * @version 1.0
+ * @author Carl Samson
+ * @version 2.0
  * @since 1.0
  */
 @Service( value = "shoppingCartFacade" )
@@ -821,6 +826,11 @@ public class ShoppingCartFacadeImpl
 		ShoppingCart cartModel = new ShoppingCart();
 		cartModel.setMerchantStore(store);
 		cartModel.setShoppingCartCode(uniqueShoppingCartCode());
+		
+		if(!StringUtils.isBlank(item.getPromoCode())) {
+			cartModel.setPromoCode(item.getPromoCode());
+			cartModel.setPromoAdded(new Date());
+		}
 
 
 		try {
@@ -1016,6 +1026,12 @@ public class ShoppingCartFacadeImpl
        	}
 
        	//if cart items are null just return cart with no items
+       	
+       	//promo code added to the cart but no promo cart exists
+		if(!StringUtils.isBlank(item.getPromoCode()) && StringUtils.isBlank(cartModel.getPromoCode())) {
+			cartModel.setPromoCode(item.getPromoCode());
+			cartModel.setPromoAdded(new Date());
+		}
 
         saveShoppingCart( cartModel );
 
@@ -1105,9 +1121,9 @@ public class ShoppingCartFacadeImpl
         if (cartModel == null) {
             return null;
         }
+        
 
         shoppingCartCalculationService.calculate(cartModel, store, language);
-
         ReadableShoppingCartPopulator readableShoppingCart = new ReadableShoppingCartPopulator();
 
         readableShoppingCart.setImageUtils(imageUtils);
@@ -1131,14 +1147,8 @@ public class ShoppingCartFacadeImpl
 		Validate.notNull(customer,"Customer cannot be null");
 		Validate.notNull(customer.getId(),"Customer.id cannot be null or empty");
 
-		//Check if customer has an existing shopping cart
-//<<<<<<< HEAD
-//		ShoppingCart cartModel = shoppingCartService.getByCustomer(customer);
-//
-//=======
 		ShoppingCart cartModel = shoppingCartService.getShoppingCart(customer);
 
-//>>>>>>> a4f3b1d8db7306e0d96181047259e705b3edcf85
 		//if cart does not exist create a new one
 		if(cartModel==null) {
 			cartModel = new ShoppingCart();
@@ -1227,11 +1237,26 @@ public class ShoppingCartFacadeImpl
 	        ReadableShoppingCartPopulator readableShoppingCart = new ReadableShoppingCartPopulator();
 
 	        readableShoppingCart.setImageUtils(imageUtils);
+ 
 	        readableShoppingCart.setPricingService(pricingService);
 	        readableShoppingCart.setProductAttributeService(productAttributeService);
 	        readableShoppingCart.setShoppingCartCalculationService(shoppingCartCalculationService);
 
 	        readableCart = readableShoppingCart.populate(cart, null,  store, language);
+	    	if(!StringUtils.isBlank(cart.getPromoCode())) {
+	    		Date promoDateAdded = cart.getPromoAdded();//promo valid 1 day
+	    		if(promoDateAdded == null) {
+	    			promoDateAdded = new Date();
+	    		}
+	    		Instant instant = promoDateAdded.toInstant();
+	    		ZonedDateTime zdt = instant.atZone(ZoneId.systemDefault());
+	    		LocalDate date = zdt.toLocalDate();
+	    		//date added < date + 1 day
+	    		LocalDate tomorrow = LocalDate.now().plusDays(1);
+	    		if(date.isBefore(tomorrow)) {
+	    			readableCart.setPromoCode(cart.getPromoCode());
+	    		} 
+	    	}
 
 
 		}
@@ -1249,6 +1274,30 @@ public class ShoppingCartFacadeImpl
 			cart.setOrderId(orderId);
 		}
 		saveOrUpdateShoppingCart(cart);
+
+	}
+
+	@Override
+	public ReadableShoppingCart modifyCart(String cartCode, String promo, MerchantStore store, Language language)
+			throws Exception {
+		
+		ShoppingCart cart = shoppingCartService.getByCode(cartCode, store);
+
+		cart.setPromoCode(promo);
+		cart.setPromoAdded(new Date());
+		
+		shoppingCartService.save(cart);
+
+
+        ReadableShoppingCartPopulator readableShoppingCart = new ReadableShoppingCartPopulator();
+
+        readableShoppingCart.setImageUtils(imageUtils);
+        readableShoppingCart.setPricingService(pricingService);
+        readableShoppingCart.setProductAttributeService(productAttributeService);
+        readableShoppingCart.setShoppingCartCalculationService(shoppingCartCalculationService);
+
+        //will calculate everything
+        return readableShoppingCart.populate(cart, null, store, language);
 
 	}
 

@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -72,7 +73,7 @@ public class ShoppingCartApi {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ShoppingCartApi.class);
 
 	@ResponseStatus(HttpStatus.CREATED)
-	@RequestMapping(value = "/cart", method = RequestMethod.POST)
+	@PostMapping(value = "/cart")
 	@ApiOperation(httpMethod = "POST", value = "Add product to shopping cart when no cart exists, this will create a new cart id", notes = "No customer ID in scope. Add to cart for non authenticated users, as simple as {\"product\":1232,\"quantity\":1}", produces = "application/json", response = ReadableShoppingCart.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
@@ -83,7 +84,7 @@ public class ShoppingCartApi {
 		return shoppingCartFacade.addToCart(shoppingCartItem, merchantStore, language);
 	}
 
-	@RequestMapping(value = "/cart/{code}", method = RequestMethod.PUT)
+	@PutMapping(value = "/cart/{code}")
 	@ApiOperation(httpMethod = "PUT", value = "Add to an existing shopping cart or modify an item quantity", notes = "No customer ID in scope. Modify cart for non authenticated users, as simple as {\"product\":1232,\"quantity\":0} for instance will remove item 1234 from cart", produces = "application/json", response = ReadableShoppingCart.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
@@ -112,6 +113,38 @@ public class ShoppingCartApi {
 
 		} 
 	}
+	
+
+	@PostMapping(value = "/cart/{code}/promo/{promo}")
+	@ApiOperation(httpMethod = "POST", value = "Add promo / coupon to an existing cart", produces = "application/json", response = ReadableShoppingCart.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	public ResponseEntity<ReadableShoppingCart> modifyCart(
+			@PathVariable String code,
+			@PathVariable String promo,
+			@ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language, 
+			HttpServletResponse response) {
+
+		try {
+			ReadableShoppingCart cart = shoppingCartFacade.modifyCart(code, promo, merchantStore, language);
+
+			if (cart == null) {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+
+			return new ResponseEntity<>(cart, HttpStatus.CREATED);
+
+		} catch (Exception e) {
+			if(e instanceof ResourceNotFoundException) {
+				throw (ResourceNotFoundException)e;
+			} else {
+				throw new ServiceRuntimeException(e);
+			}
+
+		} 
+	}
+
 
 	@PostMapping(value = "/cart/{code}/multi", consumes = { "application/json" }, produces = { "application/json" })
 	@ApiOperation(httpMethod = "POST", value = "Add to an existing shopping cart or modify an item quantity", notes = "No customer ID in scope. Modify cart for non authenticated users, as simple as {\"product\":1232,\"quantity\":0} for instance will remove item 1234 from cart", produces = "application/json", response = ReadableShoppingCart.class)

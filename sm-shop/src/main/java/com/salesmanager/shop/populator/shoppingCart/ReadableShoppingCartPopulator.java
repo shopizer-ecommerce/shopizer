@@ -1,11 +1,17 @@
 package com.salesmanager.shop.populator.shoppingCart;
 
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,6 +68,20 @@ public class ReadableShoppingCartPopulator extends AbstractDataPopulator<Shoppin
     	int cartQuantity = 0;
     	
     	target.setCustomer(source.getCustomerId());
+    	if(!StringUtils.isBlank(source.getPromoCode())) {
+    		Date promoDateAdded = source.getPromoAdded();//promo valid 1 day
+    		if(promoDateAdded == null) {
+    			promoDateAdded = new Date();
+    		}
+    		Instant instant = promoDateAdded.toInstant();
+    		ZonedDateTime zdt = instant.atZone(ZoneId.systemDefault());
+    		LocalDate date = zdt.toLocalDate();
+    		//date added < date + 1 day
+    		LocalDate tomorrow = LocalDate.now().plusDays(1);
+    		if(date.isBefore(tomorrow)) {
+    			target.setPromoCode(source.getPromoCode());
+    		}
+    	}
     	
     	try {
     	
@@ -176,7 +196,11 @@ public class ReadableShoppingCartPopulator extends AbstractDataPopulator<Shoppin
             //OrdetTotalSummary contains all calculations
             
             OrderTotalSummary orderSummary = shoppingCartCalculationService.calculate(source, store, language );
-
+            
+            //TODO
+            //if(!orderSummary.getTotals().stream().filter(t -> t.get))
+            //detect promo code or not
+    
             if(CollectionUtils.isNotEmpty(orderSummary.getTotals())) {
             	List<ReadableOrderTotal> totals = new ArrayList<ReadableOrderTotal>();
             	for(com.salesmanager.core.model.order.OrderTotal t : orderSummary.getTotals()) {
