@@ -1,9 +1,13 @@
-package com.salesmanager.shop.store.controller.user.facade;
+package com.salesmanager.shop.store.facade.user;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -12,21 +16,29 @@ import org.apache.commons.lang3.StringUtils;
 import org.jsoup.helper.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.modules.email.Email;
 import com.salesmanager.core.business.services.merchant.MerchantStoreService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
+import com.salesmanager.core.business.services.system.EmailService;
 import com.salesmanager.core.business.services.user.PermissionService;
 import com.salesmanager.core.business.services.user.UserService;
+import com.salesmanager.core.model.common.CredentialsReset;
 import com.salesmanager.core.model.common.Criteria;
 import com.salesmanager.core.model.common.GenericEntityList;
+import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.user.Group;
@@ -34,6 +46,7 @@ import com.salesmanager.core.model.user.Permission;
 import com.salesmanager.core.model.user.User;
 import com.salesmanager.core.model.user.UserCriteria;
 import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.constants.EmailConstants;
 import com.salesmanager.shop.model.security.PersistableGroup;
 import com.salesmanager.shop.model.security.ReadableGroup;
 import com.salesmanager.shop.model.security.ReadablePermission;
@@ -44,16 +57,31 @@ import com.salesmanager.shop.model.user.UserPassword;
 import com.salesmanager.shop.populator.user.PersistableUserPopulator;
 import com.salesmanager.shop.populator.user.ReadableUserPopulator;
 import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;
+import com.salesmanager.shop.store.api.exception.GenericRuntimeException;
 import com.salesmanager.shop.store.api.exception.OperationNotAllowedException;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.api.exception.UnauthorizedException;
 import com.salesmanager.shop.store.controller.security.facade.SecurityFacade;
+import com.salesmanager.shop.store.controller.user.facade.UserFacade;
+import com.salesmanager.shop.utils.DateUtil;
+import com.salesmanager.shop.utils.EmailUtils;
+import com.salesmanager.shop.utils.FilePathUtils;
+import com.salesmanager.shop.utils.ImageFilePath;
+import com.salesmanager.shop.utils.LabelUtils;
 
 @Service("userFacade")
 public class UserFacadeImpl implements UserFacade {
-	
+
 	private static final String PRIVATE_PATH = "/private/";
+
+	private static final String resetUserLink = "user/%s/reset/%s"; // front
+
+	private static final String ACCOUNT_PASSWORD_RESET_TPL = "email_template_password_reset_request_user.ftl";
+
+	private static final String RESET_PASSWORD_LINK = "RESET_PASSWORD_LINK";
+
+	private static final String RESET_PASSWORD_TEXT = "RESET_PASSWORD_TEXT";
 
 	@Inject
 	private MerchantStoreService merchantStoreService;
@@ -72,6 +100,28 @@ public class UserFacadeImpl implements UserFacade {
 
 	@Inject
 	private SecurityFacade securityFacade;
+
+	@Autowired
+	private FilePathUtils filePathUtils;
+
+	@Autowired
+	private LanguageService lamguageService;
+
+	@Autowired
+	private EmailUtils emailUtils;
+
+	@Autowired
+	private EmailService emailService;
+
+	@Autowired
+	@Qualifier("img")
+	private ImageFilePath imageUtils;
+
+	@Inject
+	private LabelUtils messages;
+
+	@Inject
+	private PasswordEncoder passwordEncoder;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserFacadeImpl.class);
 
@@ -178,14 +228,12 @@ public class UserFacadeImpl implements UserFacade {
 	public boolean authorizedStore(String userName, String merchantStoreCode) {
 
 		try {
-			
+
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-			Set<String> roles = authentication.getAuthorities().stream()
-			     .map(r -> r.getAuthority()).collect(Collectors.toSet());
-			
-			
-			
+			Set<String> roles = authentication.getAuthorities().stream().map(r -> r.getAuthority())
+					.collect(Collectors.toSet());
+
 			ReadableUser readableUser = findByUserName(userName, languageService.defaultLanguage());
 
 			// unless superadmin
@@ -202,15 +250,15 @@ public class UserFacadeImpl implements UserFacade {
 			} else {
 				user = userService.getByUserName(userName);
 			}
-			
-			if(user != null && !authorized) {
 
-				//get parent
+			if (user != null && !authorized) {
+
+				// get parent
 				MerchantStore store = merchantStoreService.getParent(merchantStoreCode);
 
-				//user can be in parent
+				// user can be in parent
 				MerchantStore st = user.getMerchantStore();
-				if(store != null &&  st.getCode().equals(store.getCode())) {
+				if (store != null && st.getCode().equals(store.getCode())) {
 					authorized = true;
 				}
 			}
@@ -241,11 +289,11 @@ public class UserFacadeImpl implements UserFacade {
 	@Override
 	public String authenticatedUser() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		
-		if(authentication == null) {
+
+		if (authentication == null) {
 			throw new UnauthorizedException("User Not authorized");
 		}
-		
+
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
 			String currentUserName = authentication.getName();
 			return currentUserName;
@@ -296,7 +344,7 @@ public class UserFacadeImpl implements UserFacade {
 			readableUserList.setRecordsTotal(userList.getTotalCount());
 			readableUserList.setNumber(userList.getList().size());
 			readableUserList.setTotalPages(userList.getTotalPages());
-			//readableUserList.setTotalPages(readableUserList.getData().size());
+			// readableUserList.setTotalPages(readableUserList.getData().size());
 			readableUserList.setRecordsFiltered(Math.toIntExact(userList.getTotalCount()));
 
 			return readableUserList;
@@ -356,33 +404,32 @@ public class UserFacadeImpl implements UserFacade {
 			List<Group> originalGroups = userModel.getGroups();
 			Group superadmin = originalGroups.stream()
 					.filter(group -> Constants.GROUP_SUPERADMIN.equals(group.getGroupName())).findAny().orElse(null);
-			
 
-			
-			//changing store ? 
+			// changing store ?
 			/**
-			 * Can't change self store
-			 * Only admin and superadmin can change another user store
+			 * Can't change self store Only admin and superadmin can change
+			 * another user store
 			 */
-			
-			//i'm i editing my own profile ?
-			if(authenticatedUser.equals(adminName)) {
-				
-				if(!userModel.getMerchantStore().getCode().equals(store.getCode())) {
+
+			// i'm i editing my own profile ?
+			if (authenticatedUser.equals(adminName)) {
+
+				if (!userModel.getMerchantStore().getCode().equals(store.getCode())) {
 					throw new OperationNotAllowedException("User [" + adminName + "] cannot change owning store");
 				}
-				
+
 			} else {
-				//i am an admin or super admin
+				// i am an admin or super admin
 				Group adminOrSuperadmin = originalGroups.stream()
-						.filter(group -> (
-								Constants.GROUP_SUPERADMIN.equals(group.getGroupName()) || Constants.ADMIN_USER.equals(group.getGroupName())|| Constants.ADMIN_STORE.equals(group.getGroupName()
-										))).findAny().orElse(null);
-				
-				if(!userModel.getMerchantStore().getCode().equals(store.getCode()) && adminOrSuperadmin == null) {
+						.filter(group -> (Constants.GROUP_SUPERADMIN.equals(group.getGroupName())
+								|| Constants.ADMIN_USER.equals(group.getGroupName())
+								|| Constants.ADMIN_STORE.equals(group.getGroupName())))
+						.findAny().orElse(null);
+
+				if (!userModel.getMerchantStore().getCode().equals(store.getCode()) && adminOrSuperadmin == null) {
 					throw new OperationNotAllowedException("User [" + adminName + "] cannot change owning store");
 				}
-				
+
 			}
 
 			userModel = converPersistabletUserToUser(store, languageService.defaultLanguage(), userModel, user);
@@ -411,7 +458,6 @@ public class UserFacadeImpl implements UserFacade {
 		}
 
 	}
-
 
 	@Override
 	public void changePassword(Long userId, String authenticatedUser, UserPassword changePassword) {
@@ -468,33 +514,31 @@ public class UserFacadeImpl implements UserFacade {
 		try {
 			ReadableUserList readableUserList = new ReadableUserList();
 			// filtering by userName is not in this implementation
-			
-			
+
 			Page<User> userList = null;
-			
+
 			Optional<String> storeCode = Optional.ofNullable(criteria.getStoreCode());
-			if(storeCode.isPresent()) {
-				//get store
+			if (storeCode.isPresent()) {
+				// get store
 				MerchantStore store = merchantStoreService.getByCode(storeCode.get());
-				if(store != null && (store.isRetailer() != null)) {
-					if(store.isRetailer().booleanValue())   {
-						//get group stores
+				if (store != null && (store.isRetailer() != null)) {
+					if (store.isRetailer().booleanValue()) {
+						// get group stores
 						List<MerchantStore> stores = merchantStoreService.findAllStoreNames(store.getCode());
 						List<Integer> intList = stores.stream().map(s -> s.getId()).collect(Collectors.toList());
 						criteria.setStoreIds(intList);
-						//search over store list
+						// search over store list
 						criteria.setStoreCode(null);
 					}
 				}
-			} 
-			
-			
+			}
+
 			userList = userService.listByCriteria(criteria, page, count);
 			List<ReadableUser> readableUsers = new ArrayList<ReadableUser>();
-			if(userList != null) {
-				readableUsers = userList.getContent().stream()
-						.map(user -> convertUserToReadableUser(language, user)).collect(Collectors.toList());
-				
+			if (userList != null) {
+				readableUsers = userList.getContent().stream().map(user -> convertUserToReadableUser(language, user))
+						.collect(Collectors.toList());
+
 				readableUserList.setRecordsTotal(userList.getTotalElements());
 				readableUserList.setTotalPages(userList.getTotalPages());
 				readableUserList.setNumber(userList.getSize());
@@ -502,15 +546,14 @@ public class UserFacadeImpl implements UserFacade {
 			}
 
 			readableUserList.setData(readableUsers);
-			
-/*			System.out.println(userList.getNumber());
-			System.out.println(userList.getNumberOfElements());
-			System.out.println(userList.getSize());
-			System.out.println(userList.getTotalElements());
-			System.out.println(userList.getTotalPages());
-			*/
-			
 
+			/*
+			 * System.out.println(userList.getNumber());
+			 * System.out.println(userList.getNumberOfElements());
+			 * System.out.println(userList.getSize());
+			 * System.out.println(userList.getTotalElements());
+			 * System.out.println(userList.getTotalPages());
+			 */
 
 			return readableUserList;
 		} catch (ServiceException e) {
@@ -522,49 +565,42 @@ public class UserFacadeImpl implements UserFacade {
 	public void authorizedGroups(String authenticatedUser, PersistableUser user) {
 		Validate.notNull(authenticatedUser, "Required authenticated user");
 		Validate.notNull(user, "Required persistable user");
-		
-		
+
 		try {
 			User currentUser = userService.getByUserName(authenticatedUser);
-			
+
 			boolean isSuperAdmin = false;
-			
-			for(Group g : currentUser.getGroups()) {
-				if(g.getGroupName().equals("SUPERADMIN")) {
+
+			for (Group g : currentUser.getGroups()) {
+				if (g.getGroupName().equals("SUPERADMIN")) {
 					isSuperAdmin = true;
 					break;
 				}
-					
+
 			}
-			
-			for(PersistableGroup g : user.getGroups()) {
-				if(g.getName().equals("SUPERADMIN")) {
-					if(!isSuperAdmin) {
+
+			for (PersistableGroup g : user.getGroups()) {
+				if (g.getName().equals("SUPERADMIN")) {
+					if (!isSuperAdmin) {
 						throw new UnauthorizedException("Superadmin group not allowed");
 					}
 				}
 			}
-			
-			
-			
+
 		} catch (ServiceException e) {
-			throw new ServiceRuntimeException("Error while looking for authorization",e);
+			throw new ServiceRuntimeException("Error while looking for authorization", e);
 		}
-		
 
 	}
 
 	@Override
 	public boolean userInRoles(String userName, List<String> groupNames) {
-		
-		
+
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-		List<String> roles = authentication.getAuthorities().stream()
-			 .filter(x -> groupNames.contains(x.getAuthority()))
-		     .map(r -> r.getAuthority()).collect(Collectors.toList());
-		
-		
+		List<String> roles = authentication.getAuthorities().stream().filter(x -> groupNames.contains(x.getAuthority()))
+				.map(r -> r.getAuthority()).collect(Collectors.toList());
+
 		return roles.size() > 0;
 
 	}
@@ -574,99 +610,94 @@ public class UserFacadeImpl implements UserFacade {
 		Validate.notNull(user, "User cannot be null");
 		Validate.notNull(store, "MerchantStore cannot be null");
 		Validate.notNull(user.getId(), "User.id cannot be null");
-		
+
 		try {
 			User modelUser = userService.findByStore(user.getId(), store.getCode());
-			
-			if(modelUser == null) {
-				throw new ResourceNotFoundException("User with id [" + user.getId() + "] not found for store [" + store.getCode() + "]");
+
+			if (modelUser == null) {
+				throw new ResourceNotFoundException(
+						"User with id [" + user.getId() + "] not found for store [" + store.getCode() + "]");
 			}
-			
+
 			modelUser.setActive(user.isActive());
 			userService.saveOrUpdate(modelUser);
-			
+
 		} catch (ServiceException e) {
-			throw new ServiceRuntimeException("Error while updating user enable flag",e);
+			throw new ServiceRuntimeException("Error while updating user enable flag", e);
 		}
-		
+
 	}
 
 	@Override
 	public boolean authorizeStore(MerchantStore store, String path) {
-		
+
 		Validate.notNull(store, "MerchantStore cannot be null");
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		
 
-		if(!StringUtils.isBlank(path) && path.contains(PRIVATE_PATH)) {
+		if (!StringUtils.isBlank(path) && path.contains(PRIVATE_PATH)) {
 
 			try {
-				
+
 				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 				String currentPrincipalName = authentication.getName();
-				
+
 				System.out.println("Principal " + currentPrincipalName);
-				
+
 				ReadableUser readableUser = findByUserName(currentPrincipalName, languageService.defaultLanguage());
-				
-				if(readableUser==null) {
+
+				if (readableUser == null) {
 					return false;
 				}
-				
-				
-				//current user match;
+
+				// current user match;
 				String merchant = readableUser.getMerchant();
-				
-				if(store.getCode().equalsIgnoreCase(merchant)) {
+
+				if (store.getCode().equalsIgnoreCase(merchant)) {
 					return true;
 				}
-				
-				Set<String> roles = authentication.getAuthorities().stream()
-				     .map(r -> r.getAuthority()).collect(Collectors.toSet());
 
-				//is superadmin
+				Set<String> roles = authentication.getAuthorities().stream().map(r -> r.getAuthority())
+						.collect(Collectors.toSet());
+
+				// is superadmin
 				for (ReadableGroup group : readableUser.getGroups()) {
 					if (Constants.GROUP_SUPERADMIN.equals(group.getName())) {
 						return true;
 					}
 				}
-				
-				
+
 				boolean authorized = false;
 
-				//user store can be parent and requested store is child 
-				//get parent
-				//TODO CACHE
+				// user store can be parent and requested store is child
+				// get parent
+				// TODO CACHE
 				MerchantStore parent = merchantStoreService.getParent(merchant);
-	
-				//user can be in parent
-				if(parent != null &&  parent.getCode().equals(store.getCode())) {
+
+				// user can be in parent
+				if (parent != null && parent.getCode().equals(store.getCode())) {
 					authorized = true;
 				}
-				
-				//else false
+
+				// else false
 				return authorized;
 			} catch (Exception e) {
-				throw new ServiceRuntimeException("Cannot authorize user " + authentication.getPrincipal().toString() + " for store " + store.getCode(),
-						e.getMessage());
+				throw new ServiceRuntimeException("Cannot authorize user " + authentication.getPrincipal().toString()
+						+ " for store " + store.getCode(), e.getMessage());
 			}
-		
+
 		}
 
-		
-		
 		return true;
 	}
 
 	@Override
 	public ReadableUser findById(Long id, MerchantStore store, Language lang) {
 		Validate.notNull(store, "MerchantStore cannot be null");
-		
+
 		User user = userService.getById(id, store);
 		if (user == null) {
 			throw new ResourceNotFoundException("User [" + id + "] not found");
 		}
-
 
 		return convertUserToReadableUser(lang, user);
 
@@ -681,34 +712,30 @@ public class UserFacadeImpl implements UserFacade {
 			if (user == null) {
 				throw new ResourceNotFoundException("User [" + userName + "] not found");
 			}
-			
+
 			return this.convertUserToReadableUser(user.getDefaultLanguage(), user);
-			
+
 		} catch (ServiceException e) {
-			throw new ServiceRuntimeException("Error while getting user [" + userName+ "]",
-					e);
+			throw new ServiceRuntimeException("Error while getting user [" + userName + "]", e);
 		}
 
 	}
 
 	@Override
 	public void sendResetPasswordEmail(ReadableUser user, MerchantStore store, Language language) {
-		Validate.notNull(user,"ReadableUser is required");
-		Validate.notNull(store,"MerchantStore is required");
-		Validate.notNull(language,"Language is required");
-		
-		//user already exist ?
-		
+		Validate.notNull(user, "ReadableUser is required");
+		Validate.notNull(store, "MerchantStore is required");
+		Validate.notNull(language, "Language is required");
+
+		// user already exist ?
+
 		/**
 		 * User sends username (unique in the system)
 		 * 
-		 * UserNameEntity will be the following
-		 * {
-		 *   userName: "test@test.com"
-		 * }
+		 * UserNameEntity will be the following { userName: "test@test.com" }
 		 * 
-		 * The system retrieves user using userName (username is unique)
-		 * if user exists, system sends an email with reset password link
+		 * The system retrieves user using userName (username is unique) if user
+		 * exists, system sends an email with reset password link
 		 * 
 		 * How to retrieve a User from userName
 		 * 
@@ -733,7 +760,135 @@ public class UserFacadeImpl implements UserFacade {
 		 * 
 		 * All of this done in the facade
 		 */
+
+	}
+
+	@Override
+	public void requestPasswordReset(String userName, String userContextPath, MerchantStore store, Language language) {
+		try {
+			// get user by user name
+			User user = userService.getByUserName(userName, store.getCode());
+
+			if (user == null) {
+				throw new ResourceNotFoundException(
+						"User [" + userName + "] not found for store [" + store.getCode() + "]");
+			}
+
+			// generates unique token
+			String token = UUID.randomUUID().toString();
+
+			Date expiry = DateUtil.addDaysToCurrentDate(2);
+
+			CredentialsReset credsRequest = new CredentialsReset();
+			credsRequest.setCredentialsRequest(token);
+			credsRequest.setCredentialsRequestExpiry(expiry);
+			user.setCredentialsResetRequest(credsRequest);
+
+			userService.saveOrUpdate(user);
+
+			// reset password link
+			// this will build http | https ://domain/contextPath
+			String baseUrl = filePathUtils.buildBaseUrl(userContextPath, store);
+
+			// need to add link to controller receiving user reset password
+			// request
+			String customerResetLink = new StringBuilder().append(baseUrl)
+					.append(String.format(resetUserLink, store.getCode(), token)).toString();
+
+			resetPasswordRequest(user, customerResetLink, store, lamguageService.toLocale(language, store));
+
+		} catch (Exception e) {
+			throw new ServiceRuntimeException("Error while executing resetPassword request", e);
+		}
+
+	}
+
+	@Override
+	public void verifyPasswordRequestToken(String token, String store) {
+		Validate.notNull(token, "ResetPassword token cannot be null");
+		Validate.notNull(store, "Store code cannot be null");
+
+		verifyUserLink(token, store);
+		return;
+	}
+
+	@Override
+	public void resetPassword(String password, String token, String store) {
+		Validate.notNull(token, "ResetPassword token cannot be null");
+		Validate.notNull(store, "Store code cannot be null");
+		Validate.notNull(password, "New password cannot be null");
+
+		User user = verifyUserLink(token, store);// reverify
+		user.setAdminPassword(passwordEncoder.encode(password));
 		
+		try {
+			userService.save(user);
+		} catch (ServiceException e) {
+			throw new ServiceRuntimeException("Error while saving user",e);
+		}
+
+	}
+	
+	private User verifyUserLink(String token, String store) {
+
+		User user = null;
+		try {
+			user = userService.getByPasswordResetToken(store, token);
+			if (user == null) {
+				throw new ResourceNotFoundException(
+						"Customer not fount for store [" + store + "] and token [" + token + "]");
+			}
+
+		} catch (Exception e) {
+			throw new ServiceRuntimeException("Cannot verify customer token", e);
+		}
+
+		Date tokenExpiry = user.getCredentialsResetRequest().getCredentialsRequestExpiry();
+
+		if (tokenExpiry == null) {
+			throw new GenericRuntimeException("No expiry date configured for token [" + token + "]");
+		}
+
+		if (!DateUtil.dateBeforeEqualsDate(new Date(), tokenExpiry)) {
+			throw new GenericRuntimeException("Ttoken [" + token + "] has expired");
+		}
+
+		return user;
+
+	}
+	
+
+	@Async
+	private void resetPasswordRequest(User user, String resetLink, MerchantStore store, Locale locale)
+			throws Exception {
+		try {
+
+
+			Map<String, String> templateTokens = emailUtils.createEmailObjectsMap(imageUtils.getContextPath(), store,
+					messages, locale);
+			templateTokens.put(EmailConstants.LABEL_HI, messages.getMessage("label.generic.hi", locale));
+			templateTokens.put(EmailConstants.EMAIL_USER_FIRSTNAME, user.getFirstName());
+			templateTokens.put(RESET_PASSWORD_LINK, resetLink);
+			templateTokens.put(RESET_PASSWORD_TEXT,
+					messages.getMessage("email.reset.password.text", new String[] { store.getStorename() }, locale));
+			templateTokens.put(EmailConstants.LABEL_LINK_TITLE,
+					messages.getMessage("email.link.reset.password.title", locale));
+			templateTokens.put(EmailConstants.LABEL_LINK, messages.getMessage("email.link", locale));
+
+
+			Email email = new Email();
+			email.setFrom(store.getStorename());
+			email.setFromEmail(store.getStoreEmailAddress());
+			email.setSubject(messages.getMessage("email.link.reset.password.title", locale));
+			email.setTo(user.getAdminEmail());
+			email.setTemplateName(ACCOUNT_PASSWORD_RESET_TPL);
+			email.setTemplateTokens(templateTokens);
+
+			emailService.sendHtmlEmail(store, email);
+
+		} catch (Exception e) {
+			throw new Exception("Cannot send email to customer", e);
+		}
 	}
 
 

@@ -155,5 +155,30 @@ public interface UserFacade {
    * @param user
    */
   void updateEnabled(MerchantStore store, PersistableUser user);
+  
+	/**
+	 * 
+	 * Forgot password functionality
+	 * @param userName
+	 * @param store
+	 * @param language
+	 */
+	void requestPasswordReset(String userName, String userContextPath, MerchantStore store, Language language);
+	
+	/**
+	 * Validates if a password request is valid
+	 * @param token
+	 * @param store
+	 */
+	void verifyPasswordRequestToken(String token, String store);
+	
+	
+	/**
+	 * Reset password
+	 * @param password
+	 * @param token
+	 * @param store
+	 */
+	void resetPassword(String password, String token, String store);
 
 }

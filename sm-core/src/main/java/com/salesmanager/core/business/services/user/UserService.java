@@ -22,6 +22,8 @@ public interface UserService extends SalesManagerEntityService<Long, User> {
   List<User> listUser() throws ServiceException;
   
   User getById(Long id, MerchantStore store);
+  
+  User getByPasswordResetToken(String storeCode, String token);
 
   /**
    * Create or update a User

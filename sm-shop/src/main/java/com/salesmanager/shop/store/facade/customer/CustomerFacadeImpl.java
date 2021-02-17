@@ -16,6 +16,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.modules.email.Email;
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
@@ -121,8 +122,6 @@ public class CustomerFacadeImpl implements CustomerFacade {
 			// need to add link to controller receiving user reset password
 			// request
 			String customerResetLink = new StringBuilder().append(baseUrl)
-					// .append(String.format(resetCustomerLink,
-					// store.getCode())).append(token).toString();
 					.append(String.format(resetCustomerLink, store.getCode(), token)).toString();
 
 			resetPasswordRequest(customer, customerResetLink, store, lamguageService.toLocale(language, store));
@@ -214,6 +213,11 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
 		Customer customer = verifyCustomerLink(token, store);// reverify
 		customer.setPassword(passwordEncoder.encode(password));
+		try {
+			customerService.save(customer);
+		} catch (ServiceException e) {
+			throw new ServiceRuntimeException("Error while saving customer",e);
+		}
 
 	}
 

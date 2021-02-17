@@ -28,6 +28,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 import com.salesmanager.core.constants.SchemaConstant;
+import com.salesmanager.core.model.common.CredentialsReset;
 import com.salesmanager.core.model.common.audit.AuditListener;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.common.audit.Auditable;
@@ -144,12 +145,23 @@ public class User extends SalesManagerEntity<Long, User> implements Auditable {
 	@Column(name = "LOGIN_ACCESS")
 	private Date loginTime;
 	
-	@Column(name="PASSWORD_TOKEN")
+	@Embedded
+	private CredentialsReset credentialsResetRequest = null;
+	
+/*	@Column(name="PASSWORD_TOKEN")
 	private String resetPasswordToken;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EXPIRED_P_TOKEN")
-	private Date tokenPasswordExpiration;
+	private Date tokenPasswordExpiration;*/
+
+	public CredentialsReset getCredentialsResetRequest() {
+		return credentialsResetRequest;
+	}
+
+	public void setCredentialsResetRequest(CredentialsReset credentialsResetRequest) {
+		this.credentialsResetRequest = credentialsResetRequest;
+	}
 
 	@Override
 	public Long getId() {
@@ -308,7 +320,7 @@ public class User extends SalesManagerEntity<Long, User> implements Auditable {
 		return loginTime;
 	}
 
-	public String getResetPasswordToken() {
+/*	public String getResetPasswordToken() {
 		return resetPasswordToken;
 	}
 
@@ -322,7 +334,7 @@ public class User extends SalesManagerEntity<Long, User> implements Auditable {
 
 	public void setTokenPasswordExpiration(Date tokenPasswordExpiration) {
 		this.tokenPasswordExpiration = tokenPasswordExpiration;
-	}
+	}*/
 	
 
 }
