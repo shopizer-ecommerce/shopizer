@@ -28,7 +28,9 @@ import com.salesmanager.core.model.system.IntegrationModule;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.references.PersistableAddress;
 import com.salesmanager.shop.model.references.ReadableAddress;
-import com.salesmanager.shop.model.system.IntegrationModuleEntity;
+import com.salesmanager.shop.model.system.IntegrationModuleConfiguration;
+import com.salesmanager.shop.model.system.IntegrationModuleSummaryEntity;
+import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.controller.shipping.facade.ShippingFacade;
 import com.salesmanager.shop.utils.AuthorizationUtils;
@@ -212,7 +214,7 @@ public class ShippingConfigurationApi {
 	  @ApiImplicitParams({
 	      @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT")
 	  })
-	  public List<IntegrationModuleEntity> paymentModules(
+	  public List<IntegrationModuleSummaryEntity> paymentModules(
 	      @ApiIgnore MerchantStore merchantStore,
 	      @ApiIgnore Language language) {
 
@@ -231,10 +233,61 @@ public class ShippingConfigurationApi {
 
 	  }
 	  
-	  private IntegrationModuleEntity integrationModule(IntegrationModule module, Map<String,IntegrationConfiguration> configuredModules) {
+	  /**
+	   * Get merchant shipping module details
+	   * @param code
+	   * @param merchantStore
+	   * @param language
+	   * @return
+	   */
+	  @GetMapping("/private/modules/shipping/{code}")
+	  @ApiOperation(
+	      httpMethod = "GET",
+	      value = "Shipping module by code",
+	      produces = "application/json",
+	      response = List.class)
+	  @ApiImplicitParams({
+	      @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT")
+	  })
+	  public IntegrationModuleConfiguration paymentModule(
+		  @PathVariable String code,
+	      @ApiIgnore MerchantStore merchantStore,
+	      @ApiIgnore Language language) {
+
+		  try {
+
+			  //configured modules
+			  Map<String,IntegrationConfiguration> configuredModules = shippingService.getShippingModulesConfigured(merchantStore);
+			  IntegrationConfiguration config = configuredModules.get(code);
+			  if(config == null) {
+				  throw new ResourceNotFoundException("Shipping module [" + code + "] not found");
+			  }
+			  
+			  /**
+			   * Build return object
+			   * for now this is a read copy
+			   */
+			  
+			  IntegrationModuleConfiguration returnConfig = new IntegrationModuleConfiguration();
+			  returnConfig.setActive(config.isActive());
+			  returnConfig.setDefaultSelected(config.isDefaultSelected());
+			  returnConfig.setCode(code);
+			  returnConfig.setIntegrationKeys(config.getIntegrationKeys());
+			  returnConfig.setIntegrationOptions(config.getIntegrationOptions());
+			  
+			  return returnConfig;
+
+			} catch (ServiceException e) {
+				LOGGER.error("Error getting shipping module [" + code + "]", e);
+				throw new ServiceRuntimeException("Error getting shipping module [" + code + "]", e);
+			}
+
+	  }
+	  
+	  private IntegrationModuleSummaryEntity integrationModule(IntegrationModule module, Map<String,IntegrationConfiguration> configuredModules) {
 		  
-		  IntegrationModuleEntity readable = null;
-		  readable = new IntegrationModuleEntity();
+		  IntegrationModuleSummaryEntity readable = null;
+		  readable = new IntegrationModuleSummaryEntity();
 		  
 		  readable.setCode(module.getCode());
 		  readable.setImage(module.getImage());

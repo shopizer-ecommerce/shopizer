@@ -139,7 +139,7 @@ public class MerchantStoreApi {
 
 		// requires superadmin, admin and admin retail to see all
 		userFacade.authorizedGroup(authenticatedUser,
-				Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN_RETAIL)
+				Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN, Constants.GROUP_ADMIN_RETAIL)
 						.collect(Collectors.toList()));
 
 		MerchantStoreCriteria criteria = createMerchantStoreCriteria(request);
@@ -181,7 +181,7 @@ public class MerchantStoreApi {
 
 		// requires superadmin, admin and admin retail to see all
 		userFacade.authorizedGroup(authenticatedUser,
-				Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN_RETAIL)
+				Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN, Constants.GROUP_ADMIN_RETAIL)
 						.collect(Collectors.toList()));
 
 		MerchantStoreCriteria criteria = createMerchantStoreCriteria(request);

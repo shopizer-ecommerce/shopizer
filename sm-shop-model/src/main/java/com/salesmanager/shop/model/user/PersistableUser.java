@@ -7,6 +7,7 @@ import com.salesmanager.shop.model.security.PersistableGroup;
 public class PersistableUser extends UserEntity {
 
 	private String password;
+	private String repeatPassword;
 	private String store;
 	private String userName;
 	private boolean active;
@@ -56,6 +57,14 @@ public class PersistableUser extends UserEntity {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	public String getRepeatPassword() {
+		return repeatPassword;
+	}
+
+	public void setRepeatPassword(String repeatPassword) {
+		this.repeatPassword = repeatPassword;
 	}
 
 }
