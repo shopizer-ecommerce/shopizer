@@ -107,6 +107,7 @@ public interface ContentFacade {
 
 	ReadableEntityList<ReadableContentBox> getContentBoxes(ContentType type, MerchantStore store, Language language, int start, int count);
 
+	ReadableContentBox manageContentBox(String code, MerchantStore store, Language language);
 	
 	void addContentFile(ContentFile file, String merchantStoreCode);
 	

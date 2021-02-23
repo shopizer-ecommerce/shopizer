@@ -160,6 +160,16 @@ public class ContentApi {
 		return contentFacade.getContents(op, merchantStore, language);
 
 	}
+	
+	
+	@GetMapping(value = "/private/content/boxes/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ApiOperation(httpMethod = "GET", value = "Manage box content by code for a code and a given MerchantStore", notes = "", produces = "application/json", response = List.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	public ReadableContentBox manageBoxByCode(@PathVariable("code") String code, @ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language) {
+		return contentFacade.manageContentBox(code, merchantStore, language);
+	}
 
 	@GetMapping(value = "/content/boxes/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(httpMethod = "GET", value = "Get box content by code for a code and a given MerchantStore", notes = "", produces = "application/json", response = List.class)
