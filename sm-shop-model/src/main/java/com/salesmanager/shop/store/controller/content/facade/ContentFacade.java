@@ -13,7 +13,8 @@ import com.salesmanager.shop.model.content.ContentFolder;
 import com.salesmanager.shop.model.content.PersistableContentEntity;
 
 import com.salesmanager.shop.model.content.PersistableContentPage;
-import com.salesmanager.shop.model.content.ReadableContentBox;
+import com.salesmanager.shop.model.content.box.ReadableContentBox;
+import com.salesmanager.shop.model.entity.ReadableEntityList;
 import com.salesmanager.shop.model.content.ReadableContentEntity;
 import com.salesmanager.shop.model.content.ReadableContentFull;
 import com.salesmanager.shop.model.content.ReadableContentPage;
@@ -102,8 +103,11 @@ public interface ContentFacade {
 	 * @return
 	 * @throws Exception
 	 */
-	List<ReadableContentBox> getContentBoxes(ContentType type, String codePrefix, MerchantStore store, Language language);
+	ReadableEntityList<ReadableContentBox> getContentBoxes(ContentType type, String codePrefix, MerchantStore store, Language language, int start, int count);
 
+	ReadableEntityList<ReadableContentBox> getContentBoxes(ContentType type, MerchantStore store, Language language, int start, int count);
+
+	
 	void addContentFile(ContentFile file, String merchantStoreCode);
 	
 	/**

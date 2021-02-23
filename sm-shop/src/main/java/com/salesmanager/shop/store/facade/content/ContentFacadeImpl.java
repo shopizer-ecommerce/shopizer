@@ -16,6 +16,7 @@ import org.jsoup.helper.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -30,12 +31,15 @@ import com.salesmanager.core.model.content.InputContentFile;
 import com.salesmanager.core.model.content.OutputContentFile;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.model.catalog.NamedEntity;
 import com.salesmanager.shop.model.content.ContentDescriptionEntity;
 import com.salesmanager.shop.model.content.ContentFile;
 import com.salesmanager.shop.model.content.ContentFolder;
 import com.salesmanager.shop.model.content.ContentImage;
 import com.salesmanager.shop.model.content.PersistableContentEntity;
-import com.salesmanager.shop.model.content.ReadableContentBox;
+import com.salesmanager.shop.model.content.box.ReadableContentBox;
+import com.salesmanager.shop.model.content.box.ReadableContentBoxFull;
+import com.salesmanager.shop.model.entity.ReadableEntityList;
 import com.salesmanager.shop.model.content.ReadableContentEntity;
 import com.salesmanager.shop.model.content.ReadableContentFull;
 import com.salesmanager.shop.model.content.ReadableContentPage;
@@ -366,16 +370,55 @@ public class ContentFacadeImpl implements ContentFacade {
 	}
 
 	@Override
-	public List<ReadableContentBox> getContentBoxes(ContentType type, String codePrefix, MerchantStore store,
-			Language language) {
+	public ReadableEntityList<ReadableContentBox> getContentBoxes(ContentType type, String codePrefix, MerchantStore store,
+			Language language, int page, int count) {
 
 		Validate.notNull(codePrefix, "content code prefix cannot be null");
 		Validate.notNull(store, "MerchantStore cannot be null");
 		Validate.notNull(language, "Language cannot be null");
 
-		return contentService.getByCodeLike(type, codePrefix, store, language).stream()
+/*		return contentService.getByCodeLike(type, codePrefix, store, language).stream()
+				.map(content -> convertContentToReadableContentBox(store, language, content))
+				.collect(Collectors.toList());*/
+		
+		return null;
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public ReadableEntityList<ReadableContentBox> getContentBoxes(ContentType type, MerchantStore store,
+			Language language, int page, int count) {
+
+		Validate.notNull(store, "MerchantStore cannot be null");
+
+		ReadableEntityList items = new ReadableEntityList();
+		Page<Content> contentBoxes;
+		try {
+			contentBoxes = contentService
+					.listByType(type, store, page, count);
+
+		
+		items.setTotalPages(contentBoxes.getTotalPages());
+		items.setNumber(contentBoxes.getContent().size());
+		items.setRecordsTotal(contentBoxes.getNumberOfElements());
+				
+				
+		List<ReadableContentBox> boxes = contentBoxes.getContent().stream()
 				.map(content -> convertContentToReadableContentBox(store, language, content))
 				.collect(Collectors.toList());
+		
+		items.setItems(boxes);
+		
+		return items;
+		
+		} catch (ServiceException e) {
+			throw new ServiceRuntimeException("Exception while getting content ", e);
+		}
+		
+		
+		
+		
+		
 	}
 
 	@Override
@@ -409,10 +452,51 @@ public class ContentFacadeImpl implements ContentFacade {
 		}
 		return fileType;
 	}
-
+	
 	private ReadableContentBox convertContentToReadableContentBox(MerchantStore store, Language language,
 			Content content) {
-		ReadableContentBox box = new ReadableContentBox();
+		if(language != null) {
+			ReadableContentBox box = new ReadableContentBox();
+			Optional<ContentDescription> contentDescription = findAppropriateContentDescription(content.getDescriptions(),
+					language);
+			if (contentDescription.isPresent()) {
+				com.salesmanager.shop.model.content.common.ContentDescription desc = this.contentDescription(contentDescription.get());
+				box.setDescription(desc);
+			}
+			box.setCode(content.getCode());
+			box.setId(content.getId());
+			box.setVisible(content.isVisible());
+			return box;
+		} else {
+			ReadableContentBoxFull box = new ReadableContentBoxFull();
+			List<com.salesmanager.shop.model.content.common.ContentDescription> descriptions = content.getDescriptions().stream().map(d -> this.contentDescription(d)).collect(Collectors.toList());
+			box.setDescriptions(descriptions);
+			box.setCode(content.getCode());
+			box.setId(content.getId());
+			box.setVisible(content.isVisible());
+			return box;
+		}
+		//TODO revide this
+		//String staticImageFilePath = imageUtils.buildStaticImageUtils(store, content.getCode() + ".jpg");
+		//box.setImage(staticImageFilePath);
+		
+	}
+	
+	private com.salesmanager.shop.model.content.common.ContentDescription contentDescription(ContentDescription description) {
+		Validate.notNull(description, "ContentDescription cannot be null");
+		com.salesmanager.shop.model.content.common.ContentDescription desc = new com.salesmanager.shop.model.content.common.ContentDescription();
+		desc.setDescription(description.getDescription());
+		desc.setName(description.getName());
+		desc.setTitle(description.getTitle());
+		desc.setFriendlyUrl(description.getSeUrl());
+		desc.setId(description.getId());
+		desc.setLanguage(description.getLanguage().getCode());
+		return desc;
+	}
+
+	private ReadableContentBox convertContentToReadableLegacyContentBox(MerchantStore store, Language language,
+			Content content) {
+/*		ReadableContentBox box = new ReadableContentBox();
 		Optional<ContentDescription> contentDescription = findAppropriateContentDescription(content.getDescriptions(),
 				language);
 		if (contentDescription.isPresent()) {
@@ -421,7 +505,9 @@ public class ContentFacadeImpl implements ContentFacade {
 		}
 		String staticImageFilePath = imageUtils.buildStaticImageUtils(store, content.getCode() + ".jpg");
 		box.setImage(staticImageFilePath);
-		return box;
+		return box;*/
+		
+		return null;
 	}
 
 	private Optional<ContentDescription> findAppropriateContentDescription(List<ContentDescription> contentDescriptions,
@@ -446,10 +532,11 @@ public class ContentFacadeImpl implements ContentFacade {
 
 			ReadableContentBox box = new ReadableContentBox();
 			if (contentDescription.isPresent()) {
-				box.setName(contentDescription.get().getSeUrl());
-				box.setBoxContent("<![CDATA["
-						+ contentDescription.get().getDescription().replaceAll("\r\n", "").replaceAll("\t", "")
+				com.salesmanager.shop.model.content.common.ContentDescription desc = this.contentDescription(contentDescription.get());
+				desc.setDescription("<![CDATA["
+						+ desc.getDescription().replaceAll("\r\n", "").replaceAll("\t", "")
 						+ "]]>");
+				box.setDescription(desc);
 			}
 			return box;
 		} catch (ServiceException e) {

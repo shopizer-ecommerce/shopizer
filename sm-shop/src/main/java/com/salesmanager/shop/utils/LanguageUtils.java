@@ -150,7 +150,8 @@ public class LanguageUtils {
           }
         }
       }
-
+      
+      //if language is null then underlying facade must load all languages
       return language;
 
     } catch (ServiceException e) {

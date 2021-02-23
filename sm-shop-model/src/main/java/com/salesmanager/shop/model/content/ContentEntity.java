@@ -3,6 +3,7 @@ package com.salesmanager.shop.model.content;
 import com.salesmanager.core.model.content.ContentType;
 import com.salesmanager.shop.model.entity.Entity;
 
+@Deprecated
 public class ContentEntity extends Entity {
 	
 	  private static final long serialVersionUID = 1L;

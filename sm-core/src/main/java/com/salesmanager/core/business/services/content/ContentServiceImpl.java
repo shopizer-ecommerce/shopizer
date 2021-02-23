@@ -13,12 +13,17 @@ import javax.inject.Inject;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.modules.cms.content.StaticContentFileManager;
 import com.salesmanager.core.business.repositories.content.ContentRepository;
+import com.salesmanager.core.business.repositories.content.PageContentRepository;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
 import com.salesmanager.core.model.content.Content;
 import com.salesmanager.core.model.content.ContentDescription;
@@ -35,6 +40,10 @@ public class ContentServiceImpl extends SalesManagerEntityServiceImpl<Long, Cont
 	private static final Logger LOG = LoggerFactory.getLogger(ContentServiceImpl.class);
 
 	private final ContentRepository contentRepository;
+	
+	@Autowired
+	private PageContentRepository pageContentRepository;
+	
 
 	@Inject
 	StaticContentFileManager contentFileManager;
@@ -495,6 +504,20 @@ public class ContentServiceImpl extends SalesManagerEntityServiceImpl<Long, Cont
 		
 		contentFileManager.addFile(merchantStoreCode, path, inputFile);
 	
+	}
+
+	@Override
+	public Page<Content> listByType(ContentType contentType, MerchantStore store, int page, int count)
+			throws ServiceException {
+		Pageable pageRequest = PageRequest.of(page, count);
+		return pageContentRepository.findByContentType(contentType, store.getId(), pageRequest);
+	}
+
+	@Override
+	public Page<Content> listByType(ContentType contentType, MerchantStore store, Language language, int page,
+			int count) throws ServiceException {
+		Pageable pageRequest = PageRequest.of(page, count);
+		return pageContentRepository.findByContentType(contentType, store.getId(), language.getId(), pageRequest);
 	}
 
 }

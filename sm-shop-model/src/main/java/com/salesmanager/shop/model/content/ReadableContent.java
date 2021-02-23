@@ -5,6 +5,7 @@ package com.salesmanager.shop.model.content;
  * @author carlsamson
  *
  */
+@Deprecated
 public class ReadableContent extends Content {
   
   /**

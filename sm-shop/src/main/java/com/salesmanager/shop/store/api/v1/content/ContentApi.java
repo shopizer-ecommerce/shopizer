@@ -33,7 +33,8 @@ import com.salesmanager.shop.model.content.ContentFile;
 import com.salesmanager.shop.model.content.ContentFolder;
 import com.salesmanager.shop.model.content.ContentName;
 import com.salesmanager.shop.model.content.PersistableContentEntity;
-import com.salesmanager.shop.model.content.ReadableContentBox;
+import com.salesmanager.shop.model.content.box.ReadableContentBox;
+import com.salesmanager.shop.model.entity.ReadableEntityList;
 import com.salesmanager.shop.model.content.ReadableContentEntity;
 import com.salesmanager.shop.model.content.ReadableContentFull;
 import com.salesmanager.shop.model.content.ReadableContentPage;
@@ -78,6 +79,7 @@ public class ContentApi {
 		return contentFacade.getContentPage(merchantStore, language);
 	}
 
+	@Deprecated
 	@GetMapping(value = "/content/summary", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(httpMethod = "GET", value = "Get pages summary created for a given MerchantStore. Content summary is a content bux having code summary.", notes = "", produces = "application/json", response = List.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
@@ -85,7 +87,8 @@ public class ContentApi {
 	public List<ReadableContentBox> pagesSummary(
 			@ApiIgnore MerchantStore merchantStore, 
 			@ApiIgnore Language language) {
-		return contentFacade.getContentBoxes(ContentType.BOX, "summary_", merchantStore, language);
+		//return contentFacade.getContentBoxes(ContentType.BOX, "summary_", merchantStore, language);
+		return null;
 	}
 
 	/**
@@ -99,13 +102,18 @@ public class ContentApi {
 	@ApiOperation(httpMethod = "GET", value = "Get boxes for a given MerchantStore", notes = "", produces = "application/json", response = List.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public List<ReadableContentBox> boxes(
+	public ReadableEntityList<ReadableContentBox> boxes(
 			@ApiIgnore MerchantStore merchantStore,
-			@ApiIgnore Language language) {
-		return contentFacade.getContentBoxes(ContentType.BOX, "summary_", merchantStore, language);
+			@ApiIgnore Language language,
+			int page,
+			int count
+			) {
+		return contentFacade.getContentBoxes(ContentType.BOX, merchantStore, language, page, count);
+				//.getContentBoxes(ContentType.BOX, "summary_", merchantStore, language);
 	}
 
 
+	@Deprecated
 	@GetMapping(value = "/content/pages/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(httpMethod = "GET", value = "Get page content by code for a given MerchantStore", notes = "", produces = "application/json", response = ReadableContentPage.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
@@ -117,6 +125,7 @@ public class ContentApi {
 
 	}
 
+	@Deprecated
 	@GetMapping(value = "/content/pages/name/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(httpMethod = "GET", value = "Get page content by code for a given MerchantStore", notes = "", produces = "application/json", response = ReadableContentPage.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
@@ -128,6 +137,7 @@ public class ContentApi {
 
 	}
 
+	@Deprecated
 	@GetMapping(value = "/private/content/any/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(httpMethod = "GET", value = "Get page content by code for a given MerchantStore", notes = "", produces = "application/json", response = ReadableContentPage.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
@@ -139,6 +149,7 @@ public class ContentApi {
 
 	}
 
+	@Deprecated
 	@GetMapping(value = "/private/contents/any", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(httpMethod = "GET", value = "Get contents (page and box) for a given MerchantStore", notes = "", produces = "application/json", response = ReadableContentPage.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),

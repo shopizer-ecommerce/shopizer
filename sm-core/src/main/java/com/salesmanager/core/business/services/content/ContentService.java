@@ -3,6 +3,8 @@ package com.salesmanager.core.business.services.content;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityService;
 import com.salesmanager.core.model.content.Content;
@@ -15,9 +17,6 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 
 
-
-
-
 /**
  * 
  * Interface defining methods responsible for CMSContentService.
@@ -26,6 +25,7 @@ import com.salesmanager.core.model.reference.language.Language;
  * <li>Get,Save,Update Content data for given merchant store</li>
  *  
  * @author Umesh Awasthhi
+ * @author Carl Samson
  *
  */
 public interface ContentService
@@ -158,6 +158,12 @@ public interface ContentService
 
 
 	List<Content> listByType(List<ContentType> contentType, MerchantStore store)
+			throws ServiceException;
+	
+	Page<Content> listByType(ContentType contentType, MerchantStore store, int page, int count)
+			throws ServiceException;
+	
+	Page<Content> listByType(ContentType contentType, MerchantStore store, Language language, int page, int count)
 			throws ServiceException;
 
 	List<ContentDescription> listNameByType(List<ContentType> contentType,

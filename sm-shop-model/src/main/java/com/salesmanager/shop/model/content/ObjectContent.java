@@ -2,6 +2,7 @@ package com.salesmanager.shop.model.content;
 
 import com.salesmanager.shop.model.entity.ResourceUrlAccess;
 
+@Deprecated
 public class ObjectContent extends ContentPath implements ResourceUrlAccess {
 
   /**
