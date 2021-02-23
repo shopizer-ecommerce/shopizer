@@ -33,6 +33,8 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.NamedEntity;
 import com.salesmanager.shop.model.content.ContentDescriptionEntity;
+import com.salesmanager.shop.model.content.page.ReadableContentPage;
+import com.salesmanager.shop.model.content.page.ReadableContentPageFull;
 import com.salesmanager.shop.model.content.ContentFile;
 import com.salesmanager.shop.model.content.ContentFolder;
 import com.salesmanager.shop.model.content.ContentImage;
@@ -42,7 +44,6 @@ import com.salesmanager.shop.model.content.box.ReadableContentBoxFull;
 import com.salesmanager.shop.model.entity.ReadableEntityList;
 import com.salesmanager.shop.model.content.ReadableContentEntity;
 import com.salesmanager.shop.model.content.ReadableContentFull;
-import com.salesmanager.shop.model.content.ReadableContentPage;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.controller.content.facade.ContentFacade;
@@ -119,56 +120,55 @@ public class ContentFacadeImpl implements ContentFacade {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<ReadableContentPage> getContentPage(MerchantStore store, Language language) {
+	public ReadableEntityList<ReadableContentPage> getContentPages(MerchantStore store, Language language, int page, int count) {
 		Validate.notNull(store, "MerchantStore cannot be null");
-		Validate.notNull(language, "Language cannot be null");
 
+		@SuppressWarnings("rawtypes")
+		ReadableEntityList items = new ReadableEntityList();
+		Page<Content> contentPages;
 		try {
-			return contentService.listByType(ContentType.PAGE, store, language).stream().filter(Content::isVisible)
-					.map(content -> convertContentToReadableContentPage(store, language, content))
-					.collect(Collectors.toList());
+			contentPages = contentService
+					.listByType(ContentType.PAGE, store, page, count);
+
+		
+		items.setTotalPages(contentPages.getTotalPages());
+		items.setNumber(contentPages.getContent().size());
+		items.setRecordsTotal(contentPages.getNumberOfElements());
+				
+				
+		List<ReadableContentBox> boxes = contentPages.getContent().stream()
+				.map(content -> convertContentToReadableContentBox(store, language, content))
+				.collect(Collectors.toList());
+		
+		items.setItems(boxes);
+		return items;
+		
 		} catch (ServiceException e) {
-			throw new ServiceRuntimeException("Error while getting content " + e.getMessage(), e);
+			throw new ServiceRuntimeException("Exception while getting content ", e);
 		}
+
+
 	}
 
-	private ReadableContentPage convertContentToReadableContentPage(MerchantStore store, Language language,
-			Content content) {
-		//ReadableContentPage page = new ReadableContentPage();
-		Optional<ContentDescription> contentDescription = findAppropriateContentDescription(content.getDescriptions(),
-				language);
 
-		if (contentDescription.isPresent()) {
-			/*page.setName(contentDescription.get().getName());
-			page.setPageContent(contentDescription.get().getDescription());*/
-			return this.contentDescriptionToReadableContent(store, content, contentDescription.get());
-		}
-/*		page.setId(content.getId());
-		page.setSlug(contentDescription.get().getSeUrl());
-		page.setDisplayedInMenu(content.isLinkToMenu());
-		page.setTitle(contentDescription.get().getTitle());
-		page.setMetaDetails(contentDescription.get().getMetatagDescription());
-		page.setContentType(ContentType.PAGE.name());
-		page.setCode(content.getCode());
-		page.setPath(fileUtils.buildStaticFilePath(store.getCode(), contentDescription.get().getSeUrl()));
-		return page;*/
-		return null;
-	}
 	
 	private ReadableContentPage contentDescriptionToReadableContent(MerchantStore store, Content content, ContentDescription contentDescription) {
 		
 		ReadableContentPage page = new ReadableContentPage();
+		
+		ContentDescription desc = new ContentDescription();
 
 
-		page.setName(contentDescription.getName());
-		page.setPageContent(contentDescription.getDescription());
+		desc.setName(contentDescription.getName());
+		desc.setDescription(contentDescription.getDescription());
 
 		page.setId(content.getId());
-		page.setSlug(contentDescription.getSeUrl());
+		desc.setSeUrl(contentDescription.getSeUrl());
 		page.setDisplayedInMenu(content.isLinkToMenu());
-		page.setTitle(contentDescription.getTitle());
-		page.setMetaDetails(contentDescription.getMetatagDescription());
+		desc.setTitle(contentDescription.getTitle());
+		desc.setMetatagDescription(contentDescription.getMetatagDescription());
 		page.setContentType(ContentType.PAGE.name());
 		page.setCode(content.getCode());
 		page.setPath(fileUtils.buildStaticFilePath(store.getCode(), contentDescription.getSeUrl()));
@@ -414,10 +414,7 @@ public class ContentFacadeImpl implements ContentFacade {
 		} catch (ServiceException e) {
 			throw new ServiceRuntimeException("Exception while getting content ", e);
 		}
-		
-		
-		
-		
+
 		
 	}
 
@@ -476,10 +473,35 @@ public class ContentFacadeImpl implements ContentFacade {
 			box.setVisible(content.isVisible());
 			return box;
 		}
-		//TODO revide this
+		//TODO revise this
 		//String staticImageFilePath = imageUtils.buildStaticImageUtils(store, content.getCode() + ".jpg");
 		//box.setImage(staticImageFilePath);
-		
+	}
+	
+	private ReadableContentPage convertContentToReadableContentPage(MerchantStore store, Language language,
+			Content content) {
+		if(language != null) {
+			ReadableContentPage page = new ReadableContentPage();
+			Optional<ContentDescription> contentDescription = findAppropriateContentDescription(content.getDescriptions(),
+					language);
+			if (contentDescription.isPresent()) {
+				com.salesmanager.shop.model.content.common.ContentDescription desc = this.contentDescription(contentDescription.get());
+				page.setDescription(desc);
+			}
+			page.setCode(content.getCode());
+			page.setId(content.getId());
+			page.setVisible(content.isVisible());
+			return page;
+		} else {
+			ReadableContentPageFull page = new ReadableContentPageFull();
+			List<com.salesmanager.shop.model.content.common.ContentDescription> descriptions = content.getDescriptions().stream().map(d -> this.contentDescription(d)).collect(Collectors.toList());
+			page.setDescriptions(descriptions);
+			page.setCode(content.getCode());
+			page.setId(content.getId());
+			page.setVisible(content.isVisible());
+			return page;
+		}
+
 	}
 	
 	private com.salesmanager.shop.model.content.common.ContentDescription contentDescription(ContentDescription description) {

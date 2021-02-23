@@ -33,11 +33,11 @@ import com.salesmanager.shop.model.content.ContentFile;
 import com.salesmanager.shop.model.content.ContentFolder;
 import com.salesmanager.shop.model.content.ContentName;
 import com.salesmanager.shop.model.content.PersistableContentEntity;
-import com.salesmanager.shop.model.content.box.ReadableContentBox;
-import com.salesmanager.shop.model.entity.ReadableEntityList;
 import com.salesmanager.shop.model.content.ReadableContentEntity;
 import com.salesmanager.shop.model.content.ReadableContentFull;
-import com.salesmanager.shop.model.content.ReadableContentPage;
+import com.salesmanager.shop.model.content.box.ReadableContentBox;
+import com.salesmanager.shop.model.content.page.ReadableContentPage;
+import com.salesmanager.shop.model.entity.ReadableEntityList;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.controller.content.facade.ContentFacade;
 import com.salesmanager.shop.utils.ImageFilePath;
@@ -73,10 +73,13 @@ public class ContentApi {
 	@ApiOperation(httpMethod = "GET", value = "Get page names created for a given MerchantStore", notes = "", produces = "application/json", response = List.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public List<ReadableContentPage> pages(
+	public ReadableEntityList<ReadableContentPage> pages(
 			@ApiIgnore MerchantStore merchantStore,
-			@ApiIgnore Language language) {
-		return contentFacade.getContentPage(merchantStore, language);
+			@ApiIgnore Language language,
+			int page,
+			int count) {
+		return contentFacade
+				.getContentPages(merchantStore, language, page, count);
 	}
 
 	@Deprecated
@@ -109,11 +112,9 @@ public class ContentApi {
 			int count
 			) {
 		return contentFacade.getContentBoxes(ContentType.BOX, merchantStore, language, page, count);
-				//.getContentBoxes(ContentType.BOX, "summary_", merchantStore, language);
 	}
 
 
-	@Deprecated
 	@GetMapping(value = "/content/pages/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(httpMethod = "GET", value = "Get page content by code for a given MerchantStore", notes = "", produces = "application/json", response = ReadableContentPage.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
@@ -125,7 +126,6 @@ public class ContentApi {
 
 	}
 
-	@Deprecated
 	@GetMapping(value = "/content/pages/name/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(httpMethod = "GET", value = "Get page content by code for a given MerchantStore", notes = "", produces = "application/json", response = ReadableContentPage.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),

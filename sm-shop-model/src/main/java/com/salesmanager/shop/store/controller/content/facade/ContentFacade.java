@@ -17,7 +17,7 @@ import com.salesmanager.shop.model.content.box.ReadableContentBox;
 import com.salesmanager.shop.model.entity.ReadableEntityList;
 import com.salesmanager.shop.model.content.ReadableContentEntity;
 import com.salesmanager.shop.model.content.ReadableContentFull;
-import com.salesmanager.shop.model.content.ReadableContentPage;
+import com.salesmanager.shop.model.content.page.ReadableContentPage;
 
 /**
  * Images and files management
@@ -60,7 +60,7 @@ public interface ContentFacade {
 	 * @return
 	 * @throws Exception
 	 */
-	List<ReadableContentPage> getContentPage(MerchantStore store, Language language);
+	ReadableEntityList<ReadableContentPage> getContentPages(MerchantStore store, Language language, int page, int count);
 	
 	
 	/**
@@ -126,6 +126,7 @@ public interface ContentFacade {
 	 */
 	void saveContentPage(PersistableContentEntity page, MerchantStore merchantStore, Language language);
 	
+	@Deprecated
 	ReadableContentFull getContent(String code, MerchantStore store, Language language);
 	
 	/**
