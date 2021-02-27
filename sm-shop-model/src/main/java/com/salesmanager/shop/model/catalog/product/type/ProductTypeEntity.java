@@ -12,7 +12,7 @@ public class ProductTypeEntity extends Entity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String code;
-	private String name;
+	private boolean visible;
 	boolean allowAddToCart;
 
 	public boolean isAllowAddToCart() {
@@ -31,12 +31,13 @@ public class ProductTypeEntity extends Entity implements Serializable {
 		this.code = code;
 	}
 
-	public String getName() {
-		return name;
+	public boolean isVisible() {
+		return visible;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setVisible(boolean visible) {
+		this.visible = visible;
 	}
+
 
 }

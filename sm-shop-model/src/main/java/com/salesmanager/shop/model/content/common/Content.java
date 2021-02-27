@@ -11,7 +11,7 @@ public class Content extends Entity {
 	private String code;
 	private boolean visible;
 	private String contentType;
-	private ContentDescription description ;
+	
 
 	public String getCode() {
 		return code;
@@ -37,12 +37,5 @@ public class Content extends Entity {
 		this.contentType = contentType;
 	}
 
-	public ContentDescription getDescription() {
-		return description;
-	}
-
-	public void setDescription(ContentDescription description) {
-		this.description = description;
-	}
 
 }

@@ -18,7 +18,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
-import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.common.audit.AuditListener;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.common.audit.Auditable;
@@ -109,6 +108,14 @@ public class ProductType extends SalesManagerEntity<Long, ProductType> implement
   public void setMerchantStore(MerchantStore merchantStore) {
     this.merchantStore = merchantStore;
   }
+
+public Set<ProductTypeDescription> getDescriptions() {
+	return descriptions;
+}
+
+public void setDescriptions(Set<ProductTypeDescription> descriptions) {
+	this.descriptions = descriptions;
+}
 
 
 }

@@ -27,6 +27,7 @@ import com.salesmanager.core.model.catalog.product.manufacturer.ManufacturerDesc
 import com.salesmanager.core.model.catalog.product.price.FinalPrice;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.catalog.product.price.ProductPriceDescription;
+import com.salesmanager.core.model.catalog.product.type.ProductType;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
@@ -41,6 +42,7 @@ import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductAttr
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductAttributeValue;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOption;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValueEntity;
+import com.salesmanager.shop.model.catalog.product.type.ProductTypeDescription;
 import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.ImageFilePath;
@@ -132,10 +134,7 @@ public class ReadableProductPopulator extends
 			target.setCondition(source.getCondition());
 			
 			if(source.getType() != null) {
-				ReadableProductType readableType = new ReadableProductType();
-				readableType.setCode(source.getType().getCode());
-				readableType.setName(source.getType().getCode());
-				target.setType(readableType);
+				target.setType(this.type(source.getType(), language));
 			}
 			
 			
@@ -209,13 +208,13 @@ public class ReadableProductPopulator extends
 				target.setManufacturer(manufacturerEntity);
 			}
 			
-			if(source.getType() != null) {
+/*			if(source.getType() != null) {
 			  ReadableProductType type = new ReadableProductType();
 			  type.setId(source.getType().getId());
 			  type.setCode(source.getType().getCode());
 			  type.setName(source.getType().getCode());//need name
 			  target.setType(type);
-			}
+			}*/
 			
 			Set<ProductImage> images = source.getImages();
 			if(images!=null && images.size()>0) {
@@ -530,6 +529,31 @@ public class ReadableProductPopulator extends
 		
 		return option;
 		
+	}
+	
+	private ReadableProductType type (ProductType type, Language language) {
+		ReadableProductType readableType = new ReadableProductType();
+		readableType.setCode(type.getCode());
+		readableType.setId(type.getId());
+
+		if(!CollectionUtils.isEmpty(type.getDescriptions())) {
+			Optional<ProductTypeDescription> desc = type.getDescriptions().stream().filter(t -> t.getLanguage().getCode().equals(language.getCode()))
+			.map(d -> typeDescription(d)).findFirst();
+			if(desc.isPresent()) {
+				readableType.setDescription(desc.get());
+			}
+		}
+		
+		return readableType;
+	}
+	
+	private ProductTypeDescription typeDescription(com.salesmanager.core.model.catalog.product.type.ProductTypeDescription description) {
+		ProductTypeDescription desc = new ProductTypeDescription();
+		desc.setId(description.getId());
+		desc.setName(description.getName());
+		desc.setDescription(description.getDescription());
+		desc.setLanguage(description.getLanguage().getCode());
+		return desc;
 	}
 	
 	private ReadableProductAttribute createAttribute(ProductAttribute productAttribute, Language language) {

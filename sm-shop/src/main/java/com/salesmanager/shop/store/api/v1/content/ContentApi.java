@@ -68,7 +68,14 @@ public class ContentApi {
 	@Qualifier("img")
 	private ImageFilePath imageUtils;
 
-	
+	/**
+	 * List content pages
+	 * @param merchantStore
+	 * @param language
+	 * @param page
+	 * @param count
+	 * @return
+	 */
 	@GetMapping(value = {"/private/content/pages", "/content/pages"}, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(httpMethod = "GET", value = "Get page names created for a given MerchantStore", notes = "", produces = "application/json", response = List.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
@@ -114,7 +121,13 @@ public class ContentApi {
 		return contentFacade.getContentBoxes(ContentType.BOX, merchantStore, language, page, count);
 	}
 
-
+	/**
+	 * List specific content box
+	 * @param code
+	 * @param merchantStore
+	 * @param language
+	 * @return
+	 */
 	@GetMapping(value = "/content/pages/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(httpMethod = "GET", value = "Get page content by code for a given MerchantStore", notes = "", produces = "application/json", response = ReadableContentPage.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
@@ -126,6 +139,13 @@ public class ContentApi {
 
 	}
 
+	/**
+	 * Get content page by name
+	 * @param name
+	 * @param merchantStore
+	 * @param language
+	 * @return
+	 */
 	@GetMapping(value = "/content/pages/name/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(httpMethod = "GET", value = "Get page content by code for a given MerchantStore", notes = "", produces = "application/json", response = ReadableContentPage.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
@@ -135,6 +155,28 @@ public class ContentApi {
 
 		return contentFacade.getContentPageByName(name, merchantStore, language);
 
+	}
+	
+	/**
+	 * Create content box
+	 * 
+	 * @param page
+	 * @param merchantStore
+	 * @param language
+	 * @param pageCode
+	 */
+	@PostMapping(value = "/private/content/box")
+	@ResponseStatus(HttpStatus.CREATED)
+	@ApiOperation(httpMethod = "POST", value = "Create content box", notes = "", response = Void.class)
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+		@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	public void savePage(
+			@RequestBody @Valid PersistableContentEntity page, 
+			@ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language) {
+
+		contentFacade.saveContentPage(page, merchantStore, language);
 	}
 
 	@Deprecated
@@ -272,24 +314,6 @@ public class ContentApi {
 
 	}
 
-	/**
-	 * Create content page
-	 * 
-	 * @param page
-	 * @param merchantStore
-	 * @param language
-	 * @param pageCode
-	 */
-	@PostMapping(value = "/private/content")
-	@ResponseStatus(HttpStatus.OK)
-	@ApiOperation(httpMethod = "POST", value = "Create content (page or box)", notes = "content type is by default BOX, when creating a page specify contentType:PAGE", response = Void.class)
-	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public void savePage(@RequestBody @Valid PersistableContentEntity page, @ApiIgnore MerchantStore merchantStore,
-			@ApiIgnore Language language) {
-
-		contentFacade.saveContentPage(page, merchantStore, language);
-	}
 	
 
 	@PutMapping(value = "/private/content/{id}")
