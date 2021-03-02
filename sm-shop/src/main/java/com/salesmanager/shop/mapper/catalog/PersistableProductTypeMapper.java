@@ -47,7 +47,7 @@ public class PersistableProductTypeMapper implements Mapper<PersistableProductTy
 		if(!CollectionUtils.isEmpty(type.getDescriptions())) {
 			List<com.salesmanager.core.model.catalog.product.type.ProductTypeDescription> descriptions = type.getDescriptions().stream().map(d -> {
 				try {
-					return this.typeDescription(d);
+					return this.typeDescription(d, typeModel);
 				} catch (ServiceException e) {
 					throw new ConversionRuntimeException("Exception occured while converting type", e);
 				}
@@ -57,12 +57,13 @@ public class PersistableProductTypeMapper implements Mapper<PersistableProductTy
 		return typeModel;
 	}
 	
-	private com.salesmanager.core.model.catalog.product.type.ProductTypeDescription typeDescription(ProductTypeDescription description) throws ServiceException {
+	private com.salesmanager.core.model.catalog.product.type.ProductTypeDescription typeDescription(ProductTypeDescription description, ProductType typeModel) throws ServiceException {
 		com.salesmanager.core.model.catalog.product.type.ProductTypeDescription desc = new com.salesmanager.core.model.catalog.product.type.ProductTypeDescription();
 		desc.setId(description.getId());
 		desc.setName(description.getName());
 		desc.setDescription(description.getDescription());
 		desc.setLanguage(languageService.getByCode(description.getLanguage()));
+		desc.setProductType(typeModel);
 		return desc;
 	}
 

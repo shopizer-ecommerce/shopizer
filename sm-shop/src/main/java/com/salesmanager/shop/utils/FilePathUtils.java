@@ -166,7 +166,7 @@ public class FilePathUtils {
 	}
 
 	public String validUrl(final String url) {
-		if (!url.startsWith(HTTP) && !url.startsWith(HTTP)) {
+		if (!StringUtils.isBlank(url) && !url.startsWith(HTTP) && !url.startsWith(HTTP)) {
 			return HTTPS + url;
 		}
 		return url;

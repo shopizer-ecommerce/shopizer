@@ -11,7 +11,7 @@ public interface PageableProductTypeRepository extends PagingAndSortingRepositor
 	
 	
 	@Query(value = "select distinct p from ProductType p left join fetch p.descriptions pd left join fetch p.merchantStore pm where pm.id=?1",
-		 countQuery = "select  count(c) from ProductType p left join p.merchantStore pm where pm.id = ?1")
+		 countQuery = "select count(p) from ProductType p left join p.merchantStore pm where pm.id = ?1")
 	Page<ProductType> listByStore(Integer storeId, Pageable pageable);
 
 }
