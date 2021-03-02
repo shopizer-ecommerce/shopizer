@@ -246,9 +246,16 @@ public class PayPalExpressCheckoutPayment implements PaymentModule {
 				.append(store.getDomainName()).toString();
 			}
 			
-			StringBuilder RETURN_URL = new StringBuilder().append(
-					baseScheme).append("/")
-					.append(coreConfiguration.getProperty("CONTEXT_PATH", "sm-shop"));
+			
+			
+			StringBuilder RETURN_URL = new StringBuilder();
+			RETURN_URL.append(
+					baseScheme);
+			
+			if(!StringUtils.isBlank(baseScheme) && !baseScheme.endsWith(Constants.SLASH)) {
+				RETURN_URL.append(Constants.SLASH);
+			}
+			RETURN_URL.append(coreConfiguration.getProperty("CONTEXT_PATH", "sm-shop"));
 					
 
 
