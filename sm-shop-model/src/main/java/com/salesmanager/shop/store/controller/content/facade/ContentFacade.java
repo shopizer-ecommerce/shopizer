@@ -13,6 +13,7 @@ import com.salesmanager.shop.model.content.ContentFolder;
 import com.salesmanager.shop.model.content.PersistableContentEntity;
 import com.salesmanager.shop.model.content.box.PersistableContentBox;
 import com.salesmanager.shop.model.content.box.ReadableContentBox;
+import com.salesmanager.shop.model.entity.Entity;
 import com.salesmanager.shop.model.entity.ReadableEntityList;
 import com.salesmanager.shop.model.content.ReadableContentEntity;
 import com.salesmanager.shop.model.content.ReadableContentFull;
@@ -119,20 +120,27 @@ public interface ContentFacade {
 	void addContentFiles(List<ContentFile> file, String merchantStoreCode);
 	
 	/**
-	 * Save content page
+	 * Creates content page
 	 * @param page
 	 * @param merchantStore
 	 * @param language
 	 */
-	void saveContentPage(PersistableContentPage page, MerchantStore merchantStore, Language language);
+	Long saveContentPage(PersistableContentPage page, MerchantStore merchantStore, Language language);
+	
+	void updateContentPage(Long id, PersistableContentPage page, MerchantStore merchantStore, Language language);
+	
+	void deleteContent(Long id, MerchantStore merchantStore);
 	
 	/**
-	 * Save content box
+	 * Creates content box
 	 * @param box
 	 * @param merchantStore
 	 * @param language
 	 */
-	void saveContentBox(PersistableContentBox box, MerchantStore merchantStore, Language language);
+	Long saveContentBox(PersistableContentBox box, MerchantStore merchantStore, Language language);
+	
+	void updateContentBox(Long id, PersistableContentBox box, MerchantStore merchantStore, Language language);
+
 	
 	@Deprecated
 	ReadableContentFull getContent(String code, MerchantStore store, Language language);

@@ -87,7 +87,7 @@ public class ProductTypeApi {
 	@ApiOperation(httpMethod = "POST", value = "Create product type", notes = "", produces = "application/json", response = Entity.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public Entity post(@RequestBody PersistableProductType type, @ApiIgnore MerchantStore merchantStore,
+	public Entity create(@RequestBody PersistableProductType type, @ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
 
 		Long id = productTypeFacade.save(type, merchantStore, language);
@@ -101,7 +101,7 @@ public class ProductTypeApi {
 	@ApiOperation(httpMethod = "PUT", value = "Update product type", notes = "", produces = "application/json", response = Void.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public void put(@RequestBody PersistableProductType type, @PathVariable Long id,
+	public void update(@RequestBody PersistableProductType type, @PathVariable Long id,
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
 
 		productTypeFacade.update(type, id, merchantStore, language);

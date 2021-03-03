@@ -68,6 +68,7 @@ public interface UserFacade {
    * @return
    * @throws Exception
    */
+  @Deprecated
   boolean authorizedStore(String userName, String merchantStoreCode);
   
   

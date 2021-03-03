@@ -49,6 +49,9 @@ public interface ContentService
     
     Content getById( Long id, MerchantStore store, Language language )
             throws ServiceException;
+    
+    Content getById( Long id, MerchantStore store)
+            throws ServiceException;
 
     /**
      * Method responsible for storing content file for given Store.Files for given merchant store will be stored in

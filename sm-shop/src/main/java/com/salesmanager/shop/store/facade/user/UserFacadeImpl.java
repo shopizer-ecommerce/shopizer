@@ -38,7 +38,6 @@ import com.salesmanager.core.business.services.user.UserService;
 import com.salesmanager.core.model.common.CredentialsReset;
 import com.salesmanager.core.model.common.Criteria;
 import com.salesmanager.core.model.common.GenericEntityList;
-import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.user.Group;
@@ -223,7 +222,6 @@ public class UserFacadeImpl implements UserFacade {
 		}
 	}
 
-	@Deprecated
 	@Override
 	public boolean authorizedStore(String userName, String merchantStoreCode) {
 
@@ -638,10 +636,9 @@ public class UserFacadeImpl implements UserFacade {
 
 			try {
 
-				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 				String currentPrincipalName = authentication.getName();
 
-				System.out.println("Principal " + currentPrincipalName);
+				LOGGER.info("Principal " + currentPrincipalName);
 
 				ReadableUser readableUser = findByUserName(currentPrincipalName, languageService.defaultLanguage());
 
@@ -652,6 +649,7 @@ public class UserFacadeImpl implements UserFacade {
 				// current user match;
 				String merchant = readableUser.getMerchant();
 
+				//user store is store request param
 				if (store.getCode().equalsIgnoreCase(merchant)) {
 					return true;
 				}
@@ -681,7 +679,7 @@ public class UserFacadeImpl implements UserFacade {
 				// else false
 				return authorized;
 			} catch (Exception e) {
-				throw new ServiceRuntimeException("Cannot authorize user " + authentication.getPrincipal().toString()
+				throw new UnauthorizedException("Cannot authorize user " + authentication.getPrincipal().toString()
 						+ " for store " + store.getCode(), e.getMessage());
 			}
 

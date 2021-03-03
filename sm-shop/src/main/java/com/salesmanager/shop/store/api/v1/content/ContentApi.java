@@ -39,6 +39,7 @@ import com.salesmanager.shop.model.content.box.PersistableContentBox;
 import com.salesmanager.shop.model.content.box.ReadableContentBox;
 import com.salesmanager.shop.model.content.page.PersistableContentPage;
 import com.salesmanager.shop.model.content.page.ReadableContentPage;
+import com.salesmanager.shop.model.entity.Entity;
 import com.salesmanager.shop.model.entity.ReadableEntityList;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.controller.content.facade.ContentFacade;
@@ -169,26 +170,96 @@ public class ContentApi {
 	 */
 	@PostMapping(value = "/private/content/box")
 	@ResponseStatus(HttpStatus.CREATED)
-	@ApiOperation(httpMethod = "POST", value = "Create content box", notes = "", response = Void.class)
+	@ApiOperation(httpMethod = "POST", value = "Create content box", notes = "", response = Entity.class)
 	@ApiImplicitParams({ 
 		@ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 		@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public void saveBox(
+	public Entity createBox(
 			@RequestBody @Valid PersistableContentBox box, 
 			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
 
-		contentFacade.saveContentBox(box, merchantStore, language);
+		Long id = contentFacade.saveContentBox(box, merchantStore, language);
+		Entity entity = new Entity();
+		entity.setId(id);
+		return entity;
 	}
 	
+	/**
+	 * Create content page
+	 * @param page
+	 * @param merchantStore
+	 * @param language
+	 */
 	@PostMapping(value = "/private/content/page")
 	@ResponseStatus(HttpStatus.CREATED)
-	@ApiOperation(httpMethod = "POST", value = "Create content box", notes = "", response = Void.class)
+	@ApiOperation(httpMethod = "POST", value = "Create content page", notes = "", response = Entity.class)
 	@ApiImplicitParams({ 
 		@ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 		@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public void savePage(
+	public Entity createPage(
 			@RequestBody @Valid PersistableContentPage page, 
+			@ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language) {
+
+		Long id = contentFacade.saveContentPage(page, merchantStore, language);
+		Entity entity = new Entity();
+		entity.setId(id);
+		return entity;
+	}
+	
+	
+	/**
+	 * Delete content page
+	 * @param id
+	 * @param merchantStore
+	 * @param language
+	 */
+	@DeleteMapping(value = "/private/content/page/{id}")
+	@ResponseStatus(HttpStatus.OK)
+	@ApiOperation(httpMethod = "DELETE", value = "Delete content page", notes = "", response = Void.class)
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+		@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	public void deletePage(
+			@PathVariable Long id,
+			@ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language) {
+
+		contentFacade.delete(merchantStore, id);
+
+	}
+	
+	/**
+	 * Delete content box
+	 * @param id
+	 * @param merchantStore
+	 * @param language
+	 */
+	@DeleteMapping(value = "/private/box/page/{id}")
+	@ResponseStatus(HttpStatus.OK)
+	@ApiOperation(httpMethod = "DELETE", value = "Delete content box", notes = "", response = Void.class)
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+		@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	public void deleteBox(
+			@PathVariable Long id,
+			@ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language) {
+
+		contentFacade.delete(merchantStore, id);
+
+	}
+	
+	@PutMapping(value = "/private/content/page/{id}")
+	@ResponseStatus(HttpStatus.OK)
+	@ApiOperation(httpMethod = "PUT", value = "Update content page", notes = "", response = Void.class)
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+		@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	public void updatePage(
+			@RequestBody @Valid PersistableContentPage page,
+			@PathVariable Long id,
 			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
 

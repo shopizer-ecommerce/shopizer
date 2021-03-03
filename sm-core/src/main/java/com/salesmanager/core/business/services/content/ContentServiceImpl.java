@@ -442,6 +442,19 @@ public class ContentServiceImpl extends SalesManagerEntityServiceImpl<Long, Cont
 
 		return content;
 	}
+	
+	public Content getById(Long id, MerchantStore store) throws ServiceException {
+
+		Content content = contentRepository.findOne(id);
+
+		if (content != null) {
+			if (content.getMerchantStore().getId().intValue() != store.getId().intValue()) {
+				return null;
+			}
+		}
+
+		return content;
+	}
 
 	@Override
 	public void addFolder(MerchantStore store, Optional<String> path, String folderName) throws ServiceException {
