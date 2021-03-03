@@ -11,12 +11,12 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.content.ContentFile;
 import com.salesmanager.shop.model.content.ContentFolder;
 import com.salesmanager.shop.model.content.PersistableContentEntity;
-
-import com.salesmanager.shop.model.content.PersistableContentPage;
+import com.salesmanager.shop.model.content.box.PersistableContentBox;
 import com.salesmanager.shop.model.content.box.ReadableContentBox;
 import com.salesmanager.shop.model.entity.ReadableEntityList;
 import com.salesmanager.shop.model.content.ReadableContentEntity;
 import com.salesmanager.shop.model.content.ReadableContentFull;
+import com.salesmanager.shop.model.content.page.PersistableContentPage;
 import com.salesmanager.shop.model.content.page.ReadableContentPage;
 
 /**
@@ -124,7 +124,15 @@ public interface ContentFacade {
 	 * @param merchantStore
 	 * @param language
 	 */
-	void saveContentPage(PersistableContentEntity page, MerchantStore merchantStore, Language language);
+	void saveContentPage(PersistableContentPage page, MerchantStore merchantStore, Language language);
+	
+	/**
+	 * Save content box
+	 * @param box
+	 * @param merchantStore
+	 * @param language
+	 */
+	void saveContentBox(PersistableContentBox box, MerchantStore merchantStore, Language language);
 	
 	@Deprecated
 	ReadableContentFull getContent(String code, MerchantStore store, Language language);

@@ -35,7 +35,9 @@ import com.salesmanager.shop.model.content.ContentName;
 import com.salesmanager.shop.model.content.PersistableContentEntity;
 import com.salesmanager.shop.model.content.ReadableContentEntity;
 import com.salesmanager.shop.model.content.ReadableContentFull;
+import com.salesmanager.shop.model.content.box.PersistableContentBox;
 import com.salesmanager.shop.model.content.box.ReadableContentBox;
+import com.salesmanager.shop.model.content.page.PersistableContentPage;
 import com.salesmanager.shop.model.content.page.ReadableContentPage;
 import com.salesmanager.shop.model.entity.ReadableEntityList;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
@@ -171,8 +173,22 @@ public class ContentApi {
 	@ApiImplicitParams({ 
 		@ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 		@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	public void saveBox(
+			@RequestBody @Valid PersistableContentBox box, 
+			@ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language) {
+
+		contentFacade.saveContentBox(box, merchantStore, language);
+	}
+	
+	@PostMapping(value = "/private/content/page")
+	@ResponseStatus(HttpStatus.CREATED)
+	@ApiOperation(httpMethod = "POST", value = "Create content box", notes = "", response = Void.class)
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+		@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
 	public void savePage(
-			@RequestBody @Valid PersistableContentEntity page, 
+			@RequestBody @Valid PersistableContentPage page, 
 			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
 
@@ -315,7 +331,7 @@ public class ContentApi {
 	}
 
 	
-
+	@Deprecated
 	@PutMapping(value = "/private/content/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(httpMethod = "PUT", value = "Update content page", notes = "Updates a content page",
@@ -327,7 +343,7 @@ public class ContentApi {
 	public void updatePage(@PathVariable Long id, @RequestBody @Valid PersistableContentEntity page,
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
 		page.setId(id);
-		contentFacade.saveContentPage(page, merchantStore, language);
+		//contentFacade.saveContentPage(page, merchantStore, language);
 	}
 
 	/**
