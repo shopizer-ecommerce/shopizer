@@ -236,7 +236,7 @@ public class ContentApi {
 	 * @param merchantStore
 	 * @param language
 	 */
-	@DeleteMapping(value = "/private/box/page/{id}")
+	@DeleteMapping(value = "/private/content/box/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(httpMethod = "DELETE", value = "Delete content box", notes = "", response = Void.class)
 	@ApiImplicitParams({ 
@@ -263,7 +263,22 @@ public class ContentApi {
 			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
 
-		contentFacade.saveContentPage(page, merchantStore, language);
+		contentFacade.updateContentPage(id, page, merchantStore, language);
+	}
+	
+	@PutMapping(value = "/private/content/box/{id}")
+	@ResponseStatus(HttpStatus.OK)
+	@ApiOperation(httpMethod = "PUT", value = "Update content box", notes = "", response = Void.class)
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+		@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	public void updateBox(
+			@RequestBody @Valid PersistableContentBox box,
+			@PathVariable Long id,
+			@ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language) {
+
+		contentFacade.updateContentBox(id, box, merchantStore, language);
 	}
 
 	@Deprecated
@@ -422,6 +437,7 @@ public class ContentApi {
 	 *
 	 * @param name
 	 */
+	@Deprecated
 	@DeleteMapping(value = "/private/content/{id}")
 	@ApiOperation(httpMethod = "DELETE", value = "Deletes a content from CMS", notes = "Delete a content box or page", response = Void.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT") })

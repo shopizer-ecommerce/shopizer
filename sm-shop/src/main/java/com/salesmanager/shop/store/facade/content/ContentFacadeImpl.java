@@ -225,9 +225,6 @@ public class ContentFacadeImpl implements ContentFacade {
 		}
 
 		List<ContentDescription> descriptions = buildDescriptions(contentModel, content.getDescriptions());
-		for(ContentDescription cd : descriptions) {
-			cd.setContent(contentModel);
-		}
 		contentModel.setCode(content.getCode());
 		contentModel.setContentType(ContentType.PAGE);
 		contentModel.setMerchantStore(store);
@@ -356,12 +353,34 @@ public class ContentFacadeImpl implements ContentFacade {
 		for (com.salesmanager.shop.model.content.common.ContentDescription objectContent : persistableDescriptions) {
 			Language lang = languageService.getByCode(objectContent.getLanguage());
 			Validate.notNull(lang, "language cannot be null");
-			ContentDescription contentDescription = new ContentDescription();
-			if (contentModel != null) {
-				setContentDescriptionToContentModel(contentModel, contentDescription, lang);
+			ContentDescription contentDescription = null;
+			if(!CollectionUtils.isEmpty(contentModel.getDescriptions())) {
+				for(ContentDescription descriptionModel : contentModel.getDescriptions()) {
+					if(descriptionModel.getLanguage().getCode().equals(lang.getCode())) {
+						contentDescription = descriptionModel;
+						break;
+					}
+				}
 			}
+			
+			if(contentDescription == null) {
+				contentDescription = new ContentDescription();
+			}
+			
+			//if (contentModel != null) {
+			//	setContentDescriptionToContentModel(contentModel, contentDescription, lang);
+			//}
+			contentDescription.setMetatagDescription(objectContent.getMetaDescription());
+			contentDescription.setTitle(objectContent.getTitle());
+			contentDescription.setName(objectContent.getName());
+			contentDescription.setSeUrl(objectContent.getFriendlyUrl());
+			contentDescription.setDescription(objectContent.getDescription());
+			contentDescription.setMetatagTitle(objectContent.getTitle());
+			contentDescription.setContent(contentModel);
 			contentDescription.setLanguage(lang);
-			contentDescription.setId(objectContent.getId());
+			descriptions.add(contentDescription);
+			//contentDescription.setId(objectContent.getId());
+			/**
 			contentDescription.setMetatagDescription(objectContent.getMetaDescription());
 			contentDescription.setTitle(objectContent.getTitle());
 			contentDescription.setName(objectContent.getName());
@@ -369,6 +388,7 @@ public class ContentFacadeImpl implements ContentFacade {
 			contentDescription.setDescription(objectContent.getDescription());
 			contentDescription.setMetatagTitle(objectContent.getTitle());
 			descriptions.add(contentDescription);
+			**/
 		}
 		return descriptions;
 	}
@@ -387,9 +407,7 @@ public class ContentFacadeImpl implements ContentFacade {
 			contentDescription.setLanguage(contentDescriptionModel.get().getLanguage());
 			contentDescription.setTitle(contentDescriptionModel.get().getTitle());
 			contentDescription.setName(contentDescriptionModel.get().getName());
-		} else {
-			content.getDescriptions().add(contentDescription);
-		}
+		} 
 
 	}
 
@@ -811,7 +829,7 @@ public class ContentFacadeImpl implements ContentFacade {
 						+ merchantStore.getCode() + "]");
 			}
 
-			page .setId(id);
+			page.setId(id);
 			content = convertContentPageToContent(merchantStore, content, page);
 			contentService.saveOrUpdate(content);
 
