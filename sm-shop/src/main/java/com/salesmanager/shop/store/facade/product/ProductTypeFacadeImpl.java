@@ -27,10 +27,10 @@ public class ProductTypeFacadeImpl implements ProductTypeFacade {
 
 	@Autowired
 	private ProductTypeService productTypeService;
-	
+
 	@Autowired
 	private ReadableProductTypeMapper readableProductTypeMapper;
-	
+
 	@Autowired
 	private PersistableProductTypeMapper persistableProductTypeMapper;
 
@@ -41,7 +41,7 @@ public class ProductTypeFacadeImpl implements ProductTypeFacade {
 		ReadableProductTypeList returnList = new ReadableProductTypeList();
 
 		try {
-			
+
 			Page<ProductType> types = productTypeService.getByMerchant(store, language, page, count);
 
 			if(types != null) {
@@ -61,19 +61,19 @@ public class ProductTypeFacadeImpl implements ProductTypeFacade {
 
 	@Override
 	public ReadableProductType get(MerchantStore store, Long id, Language language) {
-		
+
 		Validate.notNull(store, "MerchantStore cannot be null");
 		Validate.notNull(id, "ProductType code cannot be empty");
 		try {
-			
+
 			ProductType type = productTypeService.getById(id, store, language);
 			ReadableProductType readableType = readableProductTypeMapper.convert(type, store, language);
 			if(readableType == null) {
 				throw new ResourceNotFoundException("Product type [" + id + "] not found for store [" + store.getCode() + "]");
 			}
-			
+
 			return readableType;
-			
+
 		} catch(Exception e) {
 			throw new ServiceRuntimeException(
 					"An exception occured while getting product type [" + id + "] not found for store [" + store.getCode() + "]", e);
@@ -83,22 +83,22 @@ public class ProductTypeFacadeImpl implements ProductTypeFacade {
 
 	@Override
 	public Long save(PersistableProductType type, MerchantStore store, Language language) {
-		
+
 		Validate.notNull(type,"ProductType cannot be null");
 		Validate.notNull(store,"MerchantStore cannot be null");
 		Validate.notNull(type.getCode(),"ProductType code cannot be empty");
-		
+
 		try {
-						
+
 			if(this.exists(type.getCode(), store, language)) {
 				throw new OperationNotAllowedException(
 						"Product type [" + type.getCode() + "] already exist for store [" + store.getCode() + "]");
 			}
-			
+
 			ProductType model = persistableProductTypeMapper.convert(type, store, language);
 			model.setMerchantStore(store);
-			productTypeService.saveOrUpdate(model);
-			return model.getId();
+			ProductType saved = productTypeService.saveOrUpdate(model);
+			return saved.getId();
 
 		} catch(Exception e) {
 			throw new ServiceRuntimeException(
@@ -112,18 +112,18 @@ public class ProductTypeFacadeImpl implements ProductTypeFacade {
 		Validate.notNull(type,"ProductType cannot be null");
 		Validate.notNull(store,"MerchantStore cannot be null");
 		Validate.notNull(id,"id cannot be empty");
-		
+
 		try {
-			
-			ProductType t = productTypeService.getById(id, store, language);		
+
+			ProductType t = productTypeService.getById(id, store, language);
 			if(t == null) {
 				throw new ResourceNotFoundException(
 						"Product type [" + type.getCode() + "] does not exist for store [" + store.getCode() + "]");
 			}
-			
+
 			type.setId(t.getId());
 			type.setCode(t.getCode());
-			
+
 			ProductType model = persistableProductTypeMapper.convert(type, store, language);
 			productTypeService.saveOrUpdate(model);
 
@@ -138,15 +138,15 @@ public class ProductTypeFacadeImpl implements ProductTypeFacade {
 	public void delete(Long id, MerchantStore store, Language language) {
 		Validate.notNull(store,"MerchantStore cannot be null");
 		Validate.notNull(id,"id cannot be empty");
-		
+
 		try {
-			
-			ProductType t = productTypeService.getById(id, store, language);		
+
+			ProductType t = productTypeService.getById(id, store, language);
 			if(t == null) {
 				throw new ResourceNotFoundException(
 						"Product type [" + id + "] does not exist for store [" + store.getCode() + "]");
 			}
-			
+
 			productTypeService.delete(t);
 
 
@@ -164,7 +164,7 @@ public class ProductTypeFacadeImpl implements ProductTypeFacade {
 			t = productTypeService.getByCode(code, store, language);
 	    } catch (ServiceException e) {
 			throw new RuntimeException("An exception occured while getting product type [" + code + "] for merchant store [" + store.getCode() +"]",e);
-		}			
+		}
 		if(t != null) {
 			return true;
 		}
