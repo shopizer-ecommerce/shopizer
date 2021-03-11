@@ -12,6 +12,7 @@ import static com.salesmanager.shop.constants.Constants.SLASH;
 import static com.salesmanager.shop.constants.Constants.STATIC_URI;
 import static com.salesmanager.shop.constants.Constants.URL_EXTENSION;
 
+import java.net.URL;
 import java.util.Properties;
 
 import javax.annotation.Resource;
@@ -208,5 +209,18 @@ public class FilePathUtils {
 			uri = buildStoreUri(merchantStore, request);
 		}
 		return uri;
+	}
+	
+	public boolean isValidURL(String urlString)
+	{
+	    try
+	    {
+	        URL url = new URL(urlString);
+	        url.toURI();
+	        return true;
+	    } catch (Exception exception)
+	    {
+	        return false;
+	    }
 	}
 }

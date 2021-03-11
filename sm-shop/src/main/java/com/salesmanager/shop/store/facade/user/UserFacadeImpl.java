@@ -763,6 +763,10 @@ public class UserFacadeImpl implements UserFacade {
 
 	@Override
 	public void requestPasswordReset(String userName, String userContextPath, MerchantStore store, Language language) {
+		
+		Validate.notNull(userName, "Username cannot be empty");
+		Validate.notNull(userContextPath, "Return url cannot be empty");
+		
 		try {
 			// get user by user name
 			User user = userService.getByUserName(userName, store.getCode());
@@ -786,11 +790,15 @@ public class UserFacadeImpl implements UserFacade {
 
 			// reset password link
 			// this will build http | https ://domain/contextPath
-			String baseUrl = filePathUtils.buildBaseUrl(userContextPath, store);
+			String baseUrl = userContextPath; 
+			if(!filePathUtils.isValidURL(baseUrl)) {
+				throw new ServiceRuntimeException("Request url [" + baseUrl + "] is invalid");
+			}
 
 			// need to add link to controller receiving user reset password
 			// request
 			String customerResetLink = new StringBuilder().append(baseUrl)
+					.append(Constants.SLASH)
 					.append(String.format(resetUserLink, store.getCode(), token)).toString();
 
 			resetPasswordRequest(user, customerResetLink, store, lamguageService.toLocale(language, store));

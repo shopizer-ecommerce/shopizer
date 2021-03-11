@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.user.ReadableUser;
-import com.salesmanager.shop.model.user.UserNameEntity;
 import com.salesmanager.shop.store.api.exception.RestApiException;
 import com.salesmanager.shop.store.controller.user.facade.UserFacade;
 import com.salesmanager.shop.store.security.PasswordRequest;
+import com.salesmanager.shop.store.security.ResetPasswordRequest;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -62,10 +62,10 @@ public class ResetUserPasswordApi {
 	public void passwordResetRequest(
 			@ApiIgnore MerchantStore merchantStore, 
 			@ApiIgnore Language language,
-			@Valid @RequestBody UserNameEntity user, HttpServletRequest request) {
+			@Valid @RequestBody ResetPasswordRequest user, HttpServletRequest request) {
 
 
-		userFacade.requestPasswordReset(user.getUserName(), request.getContextPath(), merchantStore, language);
+		userFacade.requestPasswordReset(user.getUsername(), user.getReturnUrl(), merchantStore, language);
 
 	}
 	
