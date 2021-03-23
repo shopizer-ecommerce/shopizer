@@ -16,7 +16,7 @@ import com.salesmanager.core.utils.CloneUtils;
 public class AuditSection implements Serializable {
 
 
-  private static final long serialVersionUID = -1934446958975060889L;
+  private static final long serialVersionUID = 1L;
 
   @Temporal(TemporalType.TIMESTAMP)
   @Column(name = "DATE_CREATED")

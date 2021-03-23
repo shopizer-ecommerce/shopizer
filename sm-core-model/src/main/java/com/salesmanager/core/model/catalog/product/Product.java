@@ -29,7 +29,6 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.annotations.Cascade;
 
-import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;

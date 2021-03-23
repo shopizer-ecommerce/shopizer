@@ -71,7 +71,7 @@ public class PaymentApi {
 			// configured modules
 			Map<String, IntegrationConfiguration> configuredModules = paymentService
 					.getPaymentModulesConfigured(merchantStore);
-			return modules.stream().map(m -> this.integrationModule(m, configuredModules)).collect(Collectors.toList());
+			return modules.stream().map(m -> integrationModule(m, configuredModules)).collect(Collectors.toList());
 
 		} catch (ServiceException e) {
 			LOGGER.error("Error getting payment modules", e);
@@ -176,6 +176,9 @@ public class PaymentApi {
 		readable.setImage(module.getImage());
 		if (configuredModules.containsKey(module.getCode())) {
 			readable.setConfigured(true);
+			if(configuredModules.get(module.getCode()).isActive()) {
+				readable.setActive(true);
+			}
 		}
 		return readable;
 

@@ -182,7 +182,7 @@ public class ShippingConfigurationApi {
 			// configured modules
 			Map<String, IntegrationConfiguration> configuredModules = shippingService
 					.getShippingModulesConfigured(merchantStore);
-			return modules.stream().map(m -> this.integrationModule(m, configuredModules)).collect(Collectors.toList());
+			return modules.stream().map(m -> integrationModule(m, configuredModules)).collect(Collectors.toList());
 
 		} catch (ServiceException e) {
 			LOGGER.error("Error getting shipping modules", e);
@@ -290,6 +290,9 @@ public class ShippingConfigurationApi {
 		if (configuredModules.containsKey(module.getCode())) {
 			IntegrationConfiguration conf = configuredModules.get(module.getCode());
 			readable.setConfigured(true);
+			if(conf.isActive()) {
+				readable.setActive(true);
+			}
 		}
 		return readable;
 
