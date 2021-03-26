@@ -69,7 +69,8 @@ import springfox.documentation.annotations.ApiIgnore;
 @SwaggerDefinition(tags = {
     @Tag(name = "Product management resource", description = "View product, Add product, edit product and delete product")
 })
-public class ProductApi {
+public class
+ProductApi {
 
 
   @Inject private CategoryService categoryService;
@@ -107,12 +108,12 @@ public class ProductApi {
   @ResponseStatus(HttpStatus.OK)
   @RequestMapping(
       value = {"/private/product/{id}", "/auth/product/{id}"},
-      method = RequestMethod.POST)
+      method = RequestMethod.PUT)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
   })
-  @ApiOperation(httpMethod = "POST", value = "Update product",
+  @ApiOperation(httpMethod = "PUT", value = "Update product",
   notes = "", produces = "application/json", response = PersistableProduct.class)
   public @ResponseBody PersistableProduct update(
       @PathVariable Long id,
