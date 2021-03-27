@@ -16,8 +16,10 @@ public interface ProductTypeService extends SalesManagerEntityService<Long, Prod
 	Page<ProductType> getByMerchant(MerchantStore store, Language language, int page, int count) throws ServiceException;
     ProductType getByCode(String code, MerchantStore store, Language language) throws ServiceException;
     ProductType getById(Long id, MerchantStore store, Language language) throws ServiceException;
+    ProductType getById(Long id, MerchantStore store) throws ServiceException;
     void update(String code, MerchantStore store, ProductType type) throws ServiceException;
     ProductType saveOrUpdate(ProductType productType) throws ServiceException;
     List<ProductType> listProductTypes(List<Long> ids, MerchantStore store, Language language) throws ServiceException;
+    
 
 }

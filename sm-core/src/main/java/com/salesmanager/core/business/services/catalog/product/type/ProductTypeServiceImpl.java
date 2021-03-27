@@ -77,5 +77,10 @@ public class ProductTypeServiceImpl extends SalesManagerEntityServiceImpl<Long, 
 		return productTypeRepository.findByIds(ids, store.getId(), language.getId());
 	}
 
+	@Override
+	public ProductType getById(Long id, MerchantStore store) throws ServiceException {
+		return productTypeRepository.findById(id, store.getId());
+	}
+
 
 }

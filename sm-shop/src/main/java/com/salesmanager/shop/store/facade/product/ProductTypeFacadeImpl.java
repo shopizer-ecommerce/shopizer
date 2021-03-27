@@ -66,11 +66,19 @@ public class ProductTypeFacadeImpl implements ProductTypeFacade {
 		Validate.notNull(id, "ProductType code cannot be empty");
 		try {
 
-			ProductType type = productTypeService.getById(id, store, language);
-			ReadableProductType readableType = readableProductTypeMapper.convert(type, store, language);
-			if(readableType == null) {
+			ProductType type = null;
+			if(language == null) {
+				type = productTypeService.getById(id, store);
+			} else {
+				type = productTypeService.getById(id, store, language);
+			}
+			
+			if(type == null) {
 				throw new ResourceNotFoundException("Product type [" + id + "] not found for store [" + store.getCode() + "]");
 			}
+					
+			ReadableProductType readableType = readableProductTypeMapper.convert(type, store, language);
+
 
 			return readableType;
 
@@ -124,7 +132,8 @@ public class ProductTypeFacadeImpl implements ProductTypeFacade {
 			type.setId(t.getId());
 			type.setCode(t.getCode());
 
-			ProductType model = persistableProductTypeMapper.convert(type, store, language);
+			ProductType model = persistableProductTypeMapper.merge(type, t, store, language);
+			model.setMerchantStore(store);
 			productTypeService.saveOrUpdate(model);
 
 		} catch(Exception e) {

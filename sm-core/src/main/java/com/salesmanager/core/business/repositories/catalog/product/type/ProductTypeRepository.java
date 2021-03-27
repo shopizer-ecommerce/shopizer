@@ -18,6 +18,9 @@ public interface ProductTypeRepository extends JpaRepository<ProductType, Long> 
 	@Query(value = "select p from ProductType p left join fetch p.descriptions pd left join fetch p.merchantStore pm where p.id=?1 and (pm is null or pm.id=?2)")
 	ProductType findById(Long id, Integer store, int language);
 	
+	@Query(value = "select p from ProductType p left join fetch p.descriptions pd left join fetch p.merchantStore pm where p.id=?1 and (pm is null or pm.id=?2)")
+	ProductType findById(Long id, Integer store);
+	
 	@Query(value = "select p from ProductType p left join fetch p.descriptions pd join fetch p.merchantStore pm where p.id in ?1 and (pm is null or pm.id=?2)")
 	List<ProductType> findByIds(List<Long> id, Integer store, int language);
 

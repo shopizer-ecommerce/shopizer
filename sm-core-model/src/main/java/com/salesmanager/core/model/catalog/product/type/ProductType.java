@@ -50,6 +50,9 @@ public class ProductType extends SalesManagerEntity<Long, ProductType> implement
 
   @Column(name = "PRD_TYPE_ADD_TO_CART")
   private Boolean allowAddToCart;
+  
+  @Column(name = "PRD_TYPE_VISIBLE")
+  private Boolean visible;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "MERCHANT_ID", nullable = true)
@@ -115,6 +118,14 @@ public Set<ProductTypeDescription> getDescriptions() {
 
 public void setDescriptions(Set<ProductTypeDescription> descriptions) {
 	this.descriptions = descriptions;
+}
+
+public Boolean getVisible() {
+	return visible;
+}
+
+public void setVisible(Boolean visible) {
+	this.visible = visible;
 }
 
 

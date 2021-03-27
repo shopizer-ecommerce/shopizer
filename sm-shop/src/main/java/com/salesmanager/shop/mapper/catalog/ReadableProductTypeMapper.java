@@ -1,6 +1,8 @@
 package com.salesmanager.shop.mapper.catalog;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.Validate;
@@ -12,6 +14,7 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
 import com.salesmanager.shop.model.catalog.product.type.ProductTypeDescription;
 import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
+import com.salesmanager.shop.model.catalog.product.type.ReadableProductTypeFull;
 
 @Component
 public class ReadableProductTypeMapper implements Mapper<ProductType, ReadableProductType> {
@@ -31,17 +34,30 @@ public class ReadableProductTypeMapper implements Mapper<ProductType, ReadablePr
 	}
 	
 	private ReadableProductType type (ProductType type, Language language) {
-		ReadableProductType readableType = new ReadableProductType();
+		ReadableProductType readableType = null;
+
+
+		if(language != null) {
+			readableType = new ReadableProductType();
+			if(!CollectionUtils.isEmpty(type.getDescriptions())) {
+				Optional<ProductTypeDescription> desc = type.getDescriptions().stream().filter(t -> t.getLanguage().getCode().equals(language.getCode()))
+				.map(d -> typeDescription(d)).findFirst();
+				if(desc.isPresent()) {
+					readableType.setDescription(desc.get());
+				}
+			}
+		} else {
+			
+			readableType = new ReadableProductTypeFull();
+			List<ProductTypeDescription> descriptions = type.getDescriptions().stream().map(t -> this.typeDescription(t)).collect(Collectors.toList());
+			((ReadableProductTypeFull)readableType).setDescriptions(descriptions);
+			
+		}
+		
 		readableType.setCode(type.getCode());
 		readableType.setId(type.getId());
-
-		if(!CollectionUtils.isEmpty(type.getDescriptions())) {
-			Optional<ProductTypeDescription> desc = type.getDescriptions().stream().filter(t -> t.getLanguage().getCode().equals(language.getCode()))
-			.map(d -> typeDescription(d)).findFirst();
-			if(desc.isPresent()) {
-				readableType.setDescription(desc.get());
-			}
-		}
+		readableType.setVisible(type.getVisible() != null && type.getVisible().booleanValue() ? true:false);
+		readableType.setAllowAddToCart(type.getAllowAddToCart() != null && type.getAllowAddToCart().booleanValue() ? true:false);
 		
 		return readableType;
 	}
