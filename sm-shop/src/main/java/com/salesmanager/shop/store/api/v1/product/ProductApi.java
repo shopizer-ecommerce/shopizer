@@ -69,7 +69,8 @@ import springfox.documentation.annotations.ApiIgnore;
 @SwaggerDefinition(tags = {
     @Tag(name = "Product management resource", description = "View product, Add product, edit product and delete product")
 })
-public class ProductApi {
+public class
+ProductApi {
 
 
   @Inject private CategoryService categoryService;
@@ -122,9 +123,14 @@ public class ProductApi {
       HttpServletResponse response) {
 
     try {
-      product.setId(id);
-      productFacade.saveProduct(merchantStore, product, merchantStore.getDefaultLanguage());
-      return product;
+      // Make sure we have consistency in this request
+      if(!id.equals(product.getId())) {
+        response.sendError( 400, "Error url id does not match object id");
+        return null;
+      }
+
+      PersistableProduct saved = productFacade.saveProduct(merchantStore, product, merchantStore.getDefaultLanguage());
+      return saved;
     } catch (Exception e) {
       LOGGER.error("Error while updating product", e);
       try {
@@ -400,7 +406,7 @@ public class ProductApi {
       throws Exception {
 
     ProductCriteria criteria = new ProductCriteria();
-    
+
     //do not use legacy pagination anymore
     if (lang != null) {
       criteria.setLanguage(lang);
@@ -418,7 +424,7 @@ public class ProductApi {
     if (manufacturer != null) {
       criteria.setManufacturerId(manufacturer);
     }
-    
+
     if(CollectionUtils.isNotEmpty(optionValueIds)) {
     	criteria.setOptionValueIds(optionValueIds);
     }
@@ -497,8 +503,8 @@ public class ProductApi {
 
     return product;
   }
-  
-  
+
+
   @RequestMapping(value = "/product/{id}/price", method = RequestMethod.POST)
   @ApiOperation(httpMethod = "POST", value = "Calculate product price with variants", notes = "Product price calculation from variamts")
   @ApiResponses(value = {
@@ -513,13 +519,13 @@ public class ProductApi {
       @RequestBody ProductPriceRequest variants,
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language) {
-    
-	  
+
+
 	  return productFacade.getProductPrice(id, variants, merchantStore, language);
 
-    
 
-    
+
+
   }
 
   /**
