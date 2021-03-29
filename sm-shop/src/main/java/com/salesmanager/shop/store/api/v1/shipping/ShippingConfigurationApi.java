@@ -2,6 +2,7 @@ package com.salesmanager.shop.store.api.v1.shipping;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -202,31 +203,38 @@ public class ShippingConfigurationApi {
 	@GetMapping("/private/modules/shipping/{code}")
 	@ApiOperation(httpMethod = "GET", value = "Shipping module by code", produces = "application/json", response = List.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT") })
-	public IntegrationModuleConfiguration shippingModule(@PathVariable String code,
+	public IntegrationConfiguration shippingModule(@PathVariable String code,
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
 
 		try {
 
 			// configured modules
-			Map<String, IntegrationConfiguration> configuredModules = shippingService
-					.getShippingModulesConfigured(merchantStore);
-			IntegrationConfiguration config = configuredModules.get(code);
-			if (config == null) {
+			List<IntegrationModule> modules = 
+					shippingService
+					.getShippingMethods(merchantStore);
+			
+			//check if exist
+			Optional<IntegrationModule> checkIfExist = modules.stream().filter(m -> m.getCode().equals(code)).findAny();
+			
+			if(!checkIfExist.isPresent()) {
 				throw new ResourceNotFoundException("Shipping module [" + code + "] not found");
+			}
+			
+			IntegrationConfiguration config = shippingService.getShippingConfiguration(code, merchantStore);
+			if (config == null) {
+				config = new IntegrationConfiguration();
 			}
 
 			/**
 			 * Build return object for now this is a read copy
 			 */
 
-			IntegrationModuleConfiguration returnConfig = new IntegrationModuleConfiguration();
-			returnConfig.setActive(config.isActive());
-			returnConfig.setDefaultSelected(config.isDefaultSelected());
-			returnConfig.setCode(code);
-			returnConfig.setIntegrationKeys(config.getIntegrationKeys());
-			returnConfig.setIntegrationOptions(config.getIntegrationOptions());
+			config.setActive(config.isActive());
+			config.setDefaultSelected(config.isDefaultSelected());
+			config.setIntegrationKeys(config.getIntegrationKeys());
+			config.setIntegrationOptions(config.getIntegrationOptions());
 
-			return returnConfig;
+			return config;
 
 		} catch (ServiceException e) {
 			LOGGER.error("Error getting shipping module [" + code + "]", e);

@@ -105,6 +105,7 @@ public class PaymentApi {
 			
 			if(integrationConfiguration == null) {
 				integrationConfiguration = new IntegrationConfiguration();
+				integrationConfiguration.setModuleCode(configuration.getCode());
 			}
 
 
@@ -112,7 +113,7 @@ public class PaymentApi {
 			integrationConfiguration.setDefaultSelected(configuration.isDefaultSelected());
 			integrationConfiguration.setIntegrationKeys(configuration.getIntegrationKeys());
 			integrationConfiguration.setIntegrationOptions(configuration.getIntegrationOptions());
-			
+
 			
 			paymentService.savePaymentModuleConfiguration(integrationConfiguration, merchantStore);
 		} catch (ServiceException e) {

@@ -47,11 +47,10 @@ public class CatalogApi {
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")})
   public ReadableEntityList<ReadableCatalog> getCatalogs(
       @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language,
+      Optional<String> code,
       @RequestParam(value = "page", required = false, defaultValue="0") Integer page,
-      @RequestParam(value = "count", required = false, defaultValue="10") Integer count,
-      HttpServletRequest request) {
+      @RequestParam(value = "count", required = false, defaultValue="10") Integer count) {
 
-      Optional<String> code = catalogFilter(request);
       return catalogFacade.getListCatalogs(code, merchantStore, language, page, count);
 
   }
