@@ -152,7 +152,7 @@ public class OrderFacadeImpl implements OrderFacade {
 
 	@Autowired
 	private CustomerPopulator customerPopulator;
-	
+
 	@Autowired
 	private TransactionService transactionService;
 
@@ -383,7 +383,7 @@ public class OrderFacadeImpl implements OrderFacade {
 			String shoppingCartCode = null;
 
 			for (ShoppingCartItem item : shoppingCartItems) {
-				
+
 				if(shoppingCartCode == null && item.getShoppingCart()!=null) {
 					shoppingCartCode = item.getShoppingCart().getShoppingCartCode();
 				}
@@ -1191,7 +1191,7 @@ public class OrderFacadeImpl implements OrderFacade {
 	@Override
 	public Order processOrder(com.salesmanager.shop.model.order.v1.PersistableOrder order, Customer customer,
 			MerchantStore store, Language language, Locale locale) throws ServiceException {
-		
+
 		Validate.notNull(order, "Order cannot be null");
 		Validate.notNull(customer, "Customer cannot be null");
 		Validate.notNull(store, "MerchantStore cannot be null");
@@ -1275,12 +1275,12 @@ public class OrderFacadeImpl implements OrderFacade {
 			String submitedAmount = order.getPayment().getAmount();
 
 			BigDecimal calculatedAmount = orderTotalSummary.getTotal();
-			String strCalculatedTotal = pricingService.getStringAmount(calculatedAmount, store);
+			String strCalculatedTotal = calculatedAmount.toPlainString();
 
 			// compare both prices
 			if (!submitedAmount.equals(strCalculatedTotal)) {
 				throw new ConversionException("Payment.amount does not match what the system has calculated "
-						+ strCalculatedTotal + " please recalculate the order and submit again");
+						+ strCalculatedTotal + " (received " + submitedAmount + ") please recalculate the order and submit again");
 			}
 
 			modelOrder.setTotal(calculatedAmount);
@@ -1301,7 +1301,7 @@ public class OrderFacadeImpl implements OrderFacade {
 			paymentPopulator.populate(order.getPayment(), paymentModel, store, language);
 
 			modelOrder.setShoppingCartCode(cart.getShoppingCartCode());
-			
+
 			//lookup existing customer
 			//if customer exist then do not set authentication for this customer and send an instructions email
 			/** **/
@@ -1312,11 +1312,11 @@ public class OrderFacadeImpl implements OrderFacade {
 					//send email instructions
 				}
 			}
-			
-			
+
+
 			//order service
 			modelOrder = orderService.processOrder(modelOrder, customer, items, orderTotalSummary, paymentModel, store);
-			
+
 			// update cart
 			try {
 				cart.setOrderId(modelOrder.getId());
@@ -1329,7 +1329,7 @@ public class OrderFacadeImpl implements OrderFacade {
 			if ("true".equals(coreConfiguration.getProperty("ORDER_EMAIL_API"))) {
 				// send email
 				try {
-					
+
 					notify(modelOrder, customer, store, language, locale);
 
 
@@ -1347,10 +1347,10 @@ public class OrderFacadeImpl implements OrderFacade {
 		}
 
 	}
-	
+
 	@Async
 	private void notify(Order order, Customer customer, MerchantStore store, Language language, Locale locale) throws Exception {
-		
+
 		// send order confirmation email to customer
 		emailTemplatesUtils.sendOrderEmail(customer.getEmailAddress(), customer, order, locale,
 				language, store, coreConfiguration.getProperty("CONTEXT_PATH"));
@@ -1359,14 +1359,14 @@ public class OrderFacadeImpl implements OrderFacade {
 			emailTemplatesUtils.sendOrderDownloadEmail(customer, order, store, locale,
 					coreConfiguration.getProperty("CONTEXT_PATH"));
 		}
-		
+
 		// send customer credentials
 
 		// send order confirmation email to merchant
 		emailTemplatesUtils.sendOrderEmail(store.getStoreEmailAddress(), customer, order, locale,
 				language, store, coreConfiguration.getProperty("CONTEXT_PATH"));
-		
-		
+
+
 	}
 
 	@Override
@@ -1476,29 +1476,29 @@ public class OrderFacadeImpl implements OrderFacade {
 	@Override
 	public void updateOrderCustomre(Long orderId, PersistableCustomer customer, MerchantStore store) {
 		// TODO Auto-generated method stub
-		
+
 		try {
-		
+
 		//get order by order id
 		Order modelOrder = orderService.getOrder(orderId, store);
-		
+
 		if(modelOrder == null) {
 			throw new ResourceNotFoundException("Order id [" + orderId + "] not found for store [" + store.getCode() + "]");
 		}
-		
+
 		//set customer information
 		modelOrder.setCustomerEmailAddress(customer.getEmailAddress());
 		modelOrder.setBilling(this.convertBilling(customer.getBilling()));
 		modelOrder.setDelivery(this.convertDelivery(customer.getDelivery()));
-		
+
 		orderService.saveOrUpdate(modelOrder);
-		
+
 		} catch(Exception e) {
 			throw new ServiceRuntimeException("An error occured while updating order customer", e);
 		}
 
 	}
-	
+
 	private Billing convertBilling(Address source) throws ServiceException {
 		Billing target = new Billing();
         target.setCity(source.getCity());
@@ -1511,15 +1511,15 @@ public class OrderFacadeImpl implements OrderFacade {
         if(source.getCountry()!=null) {
         	target.setCountry(countryService.getByCode(source.getCountry()));
         }
-        
+
         if(source.getZone()!=null) {
             target.setZone(zoneService.getByCode(source.getZone()));
         }
         target.setState(source.getBilstateOther());
-        
+
         return target;
 	}
-	
+
 	private Delivery convertDelivery(Address source) throws ServiceException {
 		Delivery target = new Delivery();
         target.setCity(source.getCity());
@@ -1532,12 +1532,12 @@ public class OrderFacadeImpl implements OrderFacade {
         if(source.getCountry()!=null) {
         	target.setCountry(countryService.getByCode(source.getCountry()));
         }
-        
+
         if(source.getZone()!=null) {
             target.setZone(zoneService.getByCode(source.getZone()));
         }
         target.setState(source.getBilstateOther());
-        
+
         return target;
 	}
 
@@ -1545,15 +1545,15 @@ public class OrderFacadeImpl implements OrderFacade {
 	public TransactionType nextTransaction(Long orderId, MerchantStore store) {
 
 		try {
-			
+
 			Order modelOrder = orderService.getOrder(orderId, store);
 
 			if(modelOrder == null) {
 				throw new ResourceNotFoundException("Order id [" + orderId + "] not found for store [" + store.getCode() + "]");
 			}
-			
+
 			Transaction last = transactionService.lastTransaction(modelOrder, store);
-			
+
 			if(last.getTransactionType().name().equals(TransactionType.AUTHORIZE.name())) {
 				return TransactionType.CAPTURE;
 			} else if(last.getTransactionType().name().equals(TransactionType.AUTHORIZECAPTURE.name())) {
@@ -1566,11 +1566,11 @@ public class OrderFacadeImpl implements OrderFacade {
 				return TransactionType.OK;
 			}
 
-			
+
 		} catch(Exception e) {
 			throw new ServiceRuntimeException("Error while getting last transaction for order [" + orderId + "]",e);
 		}
-		
+
 
 	}
 
@@ -1581,23 +1581,23 @@ public class OrderFacadeImpl implements OrderFacade {
 		List<ReadableTransaction> trx = new ArrayList<ReadableTransaction>();
 		try {
 			Order modelOrder = orderService.getOrder(orderId, store);
-			
+
 			if(modelOrder == null) {
 				throw new ResourceNotFoundException("Order id [" + orderId + "] not found for store [" + store.getCode() + "]");
 			}
-			
+
 			List<Transaction> transactions = transactionService.listTransactions(modelOrder);
-			
+
 			ReadableTransaction transaction = null;
 			ReadableTransactionPopulator trxPopulator = null;
-			
+
 			for(Transaction tr : transactions) {
 				transaction = new ReadableTransaction();
 				trxPopulator = new ReadableTransactionPopulator();
-				
+
 				trxPopulator.setOrderService(orderService);
 				trxPopulator.setPricingService(pricingService);
-				
+
 				trxPopulator.populate(tr, transaction, store, store.getDefaultLanguage());
 				trx.add(transaction);
 			}
