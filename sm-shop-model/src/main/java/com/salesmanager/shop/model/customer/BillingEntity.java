@@ -1,6 +1,5 @@
 package com.salesmanager.shop.model.customer;
 
-import javax.persistence.Transient;
 
 import com.salesmanager.shop.model.customer.address.Address;
 
@@ -12,11 +11,9 @@ public class BillingEntity extends Address {
 	private static final long serialVersionUID = 1L;
 	
 	private String email;
-	
-	@Transient
+
 	private String countryName;
-	
-	@Transient
+
 	private String provinceName;
 
 	public String getCountryName() {

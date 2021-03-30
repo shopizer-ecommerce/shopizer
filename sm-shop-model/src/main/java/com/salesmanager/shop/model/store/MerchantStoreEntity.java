@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import javax.validation.constraints.NotNull;
 
-import com.salesmanager.core.constants.MeasureUnit;
+import com.salesmanager.shop.model.references.MeasureUnit;
 
 public class MerchantStoreEntity implements Serializable {
 	
