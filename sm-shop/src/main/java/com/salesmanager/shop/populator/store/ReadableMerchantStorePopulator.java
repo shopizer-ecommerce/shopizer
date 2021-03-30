@@ -27,6 +27,7 @@ import com.salesmanager.shop.model.content.ReadableImage;
 import com.salesmanager.shop.model.entity.ReadableAudit;
 import com.salesmanager.shop.model.references.MeasureUnit;
 import com.salesmanager.shop.model.references.ReadableAddress;
+import com.salesmanager.shop.model.references.WeightUnit;
 import com.salesmanager.shop.model.store.ReadableMerchantStore;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.ImageFilePath;
@@ -103,7 +104,7 @@ public class ReadableMerchantStorePopulator extends
 		
 		
 		target.setDimension(MeasureUnit.valueOf(source.getSeizeunitcode()));
-		target.setWeight(MeasureUnit.valueOf(source.getWeightunitcode()));
+		target.setWeight(WeightUnit.valueOf(source.getWeightunitcode()));
 		
 		if(source.getZone()!=null) {
 			address.setStateProvince(source.getZone().getCode());
