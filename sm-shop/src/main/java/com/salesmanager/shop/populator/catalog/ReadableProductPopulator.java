@@ -129,27 +129,12 @@ public class ReadableProductPopulator extends
 			target.setPreOrder(source.isPreOrder());
 			target.setRefSku(source.getRefSku());
 			target.setSortOrder(source.getSortOrder());
-			
-			
-			target.setCondition(source.getCondition());
+
 			
 			if(source.getType() != null) {
 				target.setType(this.type(source.getType(), language));
 			}
-			
-			
-			//RENTAL
-			if(source.getRentalDuration()!=null) {
-				target.setRentalDuration(source.getRentalDuration());
-			}
-			if(source.getRentalPeriod()!=null) {
-				target.setRentalPeriod(source.getRentalPeriod());
-			}
-			target.setRentalStatus(source.getRentalStatus());
-			
-			/**
-			 * END RENTAL
-			 */
+
 			
 			if(source.getOwner() != null) {
 				RentalOwner owner = new RentalOwner();

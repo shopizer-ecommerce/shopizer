@@ -3,11 +3,11 @@ package com.salesmanager.shop.model.store;
 import java.io.Serializable;
 import java.util.List;
 
-import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.content.ReadableImage;
 import com.salesmanager.shop.model.entity.ReadableAudit;
 import com.salesmanager.shop.model.entity.ReadableAuditable;
 import com.salesmanager.shop.model.references.ReadableAddress;
+import com.salesmanager.shop.model.references.ReadableLanguage;
 
 public class ReadableMerchantStore extends MerchantStoreEntity implements ReadableAuditable, Serializable {
 
@@ -22,7 +22,7 @@ public class ReadableMerchantStore extends MerchantStoreEntity implements Readab
 	private ReadableAudit audit;
 	private ReadableMerchantStore parent;
 
-	private List<Language> supportedLanguages;
+	private List<ReadableLanguage> supportedLanguages;
 
 	public String getCurrentUserLanguage() {
 		return currentUserLanguage;
@@ -65,12 +65,13 @@ public class ReadableMerchantStore extends MerchantStoreEntity implements Readab
 		this.parent = parent;
 	}
 
-	public List<Language> getSupportedLanguages() {
+	public List<ReadableLanguage> getSupportedLanguages() {
 		return supportedLanguages;
 	}
 
-	public void setSupportedLanguages(List<Language> supportedLanguages) {
+	public void setSupportedLanguages(List<ReadableLanguage> supportedLanguages) {
 		this.supportedLanguages = supportedLanguages;
 	}
+
 
 }

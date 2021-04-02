@@ -27,6 +27,7 @@ import com.salesmanager.shop.model.content.ReadableImage;
 import com.salesmanager.shop.model.entity.ReadableAudit;
 import com.salesmanager.shop.model.references.MeasureUnit;
 import com.salesmanager.shop.model.references.ReadableAddress;
+import com.salesmanager.shop.model.references.ReadableLanguage;
 import com.salesmanager.shop.model.references.WeightUnit;
 import com.salesmanager.shop.model.store.ReadableMerchantStore;
 import com.salesmanager.shop.utils.DateUtil;
@@ -140,25 +141,19 @@ public class ReadableMerchantStorePopulator extends
 		target.setId(source.getId());
 		target.setInBusinessSince(DateUtil.formatDate(source.getInBusinessSince()));
 		target.setUseCache(source.isUseCache());
-		
-		
-/*		List<Language> languages = source.getLanguages();
-		if(!CollectionUtils.isEmpty(languages)) {
-			
-			List<String> langs = new ArrayList<String>();
-			for(Language lang : languages) {
-				langs.add(lang.getCode());
-			}
-			
-			//target.setSupportedLanguages(langs);
-		}*/
-		
+
 		if(!CollectionUtils.isEmpty(source.getLanguages())) {
-			List<Language> supported = new ArrayList<Language>();
+			List<ReadableLanguage> supported = new ArrayList<ReadableLanguage>();
 			for(Language lang : source.getLanguages()) {
 				try {
 					Language langObject = languageService.getLanguagesMap().get(lang.getCode());
-					supported.add(langObject);
+					if(langObject != null) {
+						ReadableLanguage l = new ReadableLanguage();
+						l.setId(langObject.getId());
+						l.setCode(langObject.getCode());
+						supported.add(l);
+					}
+					
 				} catch (ServiceException e) {
 					logger.error("Cannot get Language [" + lang.getId() + "]");
 				}
@@ -187,30 +182,6 @@ public class ReadableMerchantStorePopulator extends
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-/*	public CountryService getCountryService() {
-		return countryService;
-	}
-
-	public void setCountryService(CountryService countryService) {
-		this.countryService = countryService;
-	}
-
-	public ZoneService getZoneService() {
-		return zoneService;
-	}
-
-	public void setZoneService(ZoneService zoneService) {
-		this.zoneService = zoneService;
-	}
-
-	public ImageFilePath getFilePath() {
-		return filePath;
-	}
-
-	public void setFilePath(ImageFilePath filePath) {
-		this.filePath = filePath;
-	}*/
 
 
 }

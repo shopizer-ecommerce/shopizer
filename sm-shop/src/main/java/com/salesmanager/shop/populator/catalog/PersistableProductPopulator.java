@@ -93,9 +93,7 @@ public class PersistableProductPopulator extends
 			} else {
 				target.setId(source.getId());
 			}
-			
-			target.setCondition(source.getCondition());
-			
+
 			
 			//PRODUCT TYPE
 			if(!StringUtils.isBlank(source.getType())) {
@@ -108,12 +106,6 @@ public class PersistableProductPopulator extends
 			}
 			
 			
-			//RENTAL
-			target.setRentalDuration(source.getRentalDuration());
-			target.setRentalStatus(source.getRentalStatus());
-			target.setRentalPeriod(source.getRentalPeriod());
-			
-			/** end RENTAL **/
 			
 			if(source.getOwner()!=null && source.getOwner().getId()!=null) {
 				com.salesmanager.core.model.customer.Customer owner = customerService.getById(source.getOwner().getId());
