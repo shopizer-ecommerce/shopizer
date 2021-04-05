@@ -21,7 +21,6 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
-import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.product.type.ProductType;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 import com.salesmanager.core.model.merchant.MerchantStore;

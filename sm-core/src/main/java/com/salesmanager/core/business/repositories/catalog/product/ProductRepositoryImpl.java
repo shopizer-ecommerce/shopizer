@@ -1017,8 +1017,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		qs.append("left join fetch p.relationships pr ");
 
 		// variants
-		qs.append("left join fetch pa.variants pav ");
-		qs.append("left join fetch pav.attribute pavattr ");
+		//qs.append("left join fetch pa.variants pav ");
+		//qs.append("left join fetch pav.attribute pavattr ");
 
 		// other lefts
 		qs.append("left join fetch p.manufacturer manuf ");

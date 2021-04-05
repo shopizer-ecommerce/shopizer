@@ -21,12 +21,15 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.product.Product;
-import com.salesmanager.core.model.catalog.product.attribute.ProductVariant;
+import com.salesmanager.core.model.catalog.product.ProductDimensions;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
+import com.salesmanager.core.model.catalog.product.variation.ProductVariation;
+import com.salesmanager.core.model.catalog.product.variation.ProductVariationImage;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.common.audit.Auditable;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
@@ -59,6 +62,13 @@ public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailab
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "MERCHANT_ID", nullable = true)
 	private MerchantStore merchantStore;
+	
+	@Pattern(regexp="^[a-zA-Z0-9_]*$")
+	@Column(name = "SKU", nullable = true)
+	private String sku;
+
+	@Embedded
+	private ProductDimensions dimensions;
 
 	@NotNull
 	@Column(name = "QUANTITY")
@@ -86,7 +96,6 @@ public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailab
 	@Column(name = "AVAILABLE")
 	private Boolean available;
 
-
 	@Column(name = "QUANTITY_ORD_MIN")
 	private Integer productQuantityOrderMin = 0;
 
@@ -95,13 +104,19 @@ public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailab
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "productAvailability", cascade = CascadeType.ALL)
 	private Set<ProductPrice> prices = new HashSet<ProductPrice>();
-
+	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "productAvailability", cascade = CascadeType.ALL)
-	private Set<ProductVariant> variants = new HashSet<ProductVariant>();
+	private Set<ProductVariation> variations = new HashSet<ProductVariation>();
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "productAvailability", cascade = CascadeType.ALL)
+	private Set<ProductVariationImage> images = new HashSet<ProductVariationImage>();
+
+	//revised with ProductVariation
+	//@OneToMany(fetch = FetchType.LAZY, mappedBy = "productAvailability", cascade = CascadeType.ALL)
+	//private Set<ProductVariant> variants = new HashSet<ProductVariant>();
 
 	@Transient
 	public ProductPrice defaultPrice() {
-
 		for (ProductPrice price : prices) {
 			if (price.isDefaultPrice()) {
 				return price;
@@ -235,19 +250,43 @@ public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailab
 
 	}
 
-	public Set<ProductVariant> getVariants() {
-		return variants;
-	}
-
-	public void setVariants(Set<ProductVariant> variants) {
-		this.variants = variants;
-	}
-	
 	public Boolean getAvailable() {
 		return available;
 	}
 
 	public void setAvailable(Boolean available) {
 		this.available = available;
+	}
+
+	public String getSku() {
+		return sku;
+	}
+
+	public void setSku(String sku) {
+		this.sku = sku;
+	}
+
+	public ProductDimensions getDimensions() {
+		return dimensions;
+	}
+
+	public void setDimensions(ProductDimensions dimensions) {
+		this.dimensions = dimensions;
+	}
+
+	public Set<ProductVariation> getVariations() {
+		return variations;
+	}
+
+	public void setVariations(Set<ProductVariation> variations) {
+		this.variations = variations;
+	}
+
+	public Set<ProductVariationImage> getImages() {
+		return images;
+	}
+
+	public void setImages(Set<ProductVariationImage> images) {
+		this.images = images;
 	}
 }

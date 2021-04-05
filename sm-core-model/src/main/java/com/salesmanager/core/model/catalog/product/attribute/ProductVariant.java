@@ -46,31 +46,27 @@ public class ProductVariant extends SalesManagerEntity<Long, ProductVariant> imp
 	@Column(name="PRODUCT_AQUANTITY")
 	private Integer productQuantity = 0;
 	
-	@JsonIgnore
+/*	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="PRODUCT_AVAIL_ID", nullable=false)
-	private ProductAvailability productAvailability;
+	private ProductAvailability productAvailability;*/
 	
 	
 	@Override
 	public AuditSection getAuditSection() {
-		// TODO Auto-generated method stub
 		return auditSection;
 	}
 	@Override
 	public void setAuditSection(AuditSection audit) {
-		// TODO Auto-generated method stub
 		this.auditSection = audit;
 		
 	}
 	@Override
 	public Long getId() {
-		// TODO Auto-generated method stub
 		return this.id;
 	}
 	@Override
 	public void setId(Long id) {
-		// TODO Auto-generated method stub
 		this.id = id;
 		
 	}
@@ -86,11 +82,6 @@ public class ProductVariant extends SalesManagerEntity<Long, ProductVariant> imp
 	public void setProductQuantity(Integer productQuantity) {
 		this.productQuantity = productQuantity;
 	}
-	public ProductAvailability getProductAvailability() {
-		return productAvailability;
-	}
-	public void setProductAvailability(ProductAvailability productAvailability) {
-		this.productAvailability = productAvailability;
-	}
+
 
 }

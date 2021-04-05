@@ -21,12 +21,10 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
-import javax.validation.constraints.NotEmpty;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 import com.salesmanager.core.utils.CloneUtils;
