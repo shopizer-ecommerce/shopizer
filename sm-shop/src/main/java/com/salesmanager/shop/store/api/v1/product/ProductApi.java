@@ -391,6 +391,7 @@ ProductApi {
   public ReadableProductList list(
       @RequestParam(value = "lang", required = false) String lang,
       @RequestParam(value = "category", required = false) Long category,
+      @RequestParam(value = "slug", required = false) String slug,
       @RequestParam(value = "name", required = false) String name,
       @RequestParam(value = "sku", required = false) String sku,
       @RequestParam(value = "manufacturer", required = false) Long manufacturer,
@@ -416,11 +417,19 @@ ProductApi {
     if (!StringUtils.isBlank(status)) {
       criteria.setStatus(status);
     }
+
+    List<Long> categoryIds = new ArrayList<Long>();
+    if (!StringUtils.isBlank(slug)) {
+      Category bySeUrl = categoryService.getBySeUrl(merchantStore, slug);
+      categoryIds.add(bySeUrl.getId());
+    }
     if (category != null) {
-      List<Long> categoryIds = new ArrayList<Long>();
       categoryIds.add(category);
+    }
+    if(categoryIds.size() > 0) {
       criteria.setCategoryIds(categoryIds);
     }
+
     if (manufacturer != null) {
       criteria.setManufacturerId(manufacturer);
     }
