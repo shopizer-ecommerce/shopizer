@@ -13,6 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -23,8 +25,11 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import org.hibernate.annotations.Cascade;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
+import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.ProductDimensions;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
@@ -105,7 +110,23 @@ public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailab
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "productAvailability", cascade = CascadeType.ALL)
 	private Set<ProductPrice> prices = new HashSet<ProductPrice>();
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "productAvailability", cascade = CascadeType.ALL)
+	//@OneToMany(fetch = FetchType.LAZY, mappedBy = "productAvailability", cascade = CascadeType.ALL)
+	//private Set<ProductVariation> variations = new HashSet<ProductVariation>();
+	
+	@ManyToMany(fetch=FetchType.LAZY, cascade = {CascadeType.REFRESH})
+	@JoinTable(name = "AVAILABILITY_VARIATION", joinColumns = { 
+			@JoinColumn(name = "PRODUCT_AVAIL_ID", nullable = false, updatable = false) }
+			, 
+			inverseJoinColumns = { @JoinColumn(name = "PRODUCT_VARIANTION_ID", 
+					nullable = false, updatable = false) }
+	)
+	@Cascade({
+		org.hibernate.annotations.CascadeType.DETACH,
+		org.hibernate.annotations.CascadeType.LOCK,
+		org.hibernate.annotations.CascadeType.REFRESH,
+		org.hibernate.annotations.CascadeType.REPLICATE
+		
+	})
 	private Set<ProductVariation> variations = new HashSet<ProductVariation>();
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "productAvailability", cascade = CascadeType.ALL)
@@ -274,19 +295,19 @@ public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailab
 		this.dimensions = dimensions;
 	}
 
-	public Set<ProductVariation> getVariations() {
-		return variations;
-	}
-
-	public void setVariations(Set<ProductVariation> variations) {
-		this.variations = variations;
-	}
-
 	public Set<ProductVariationImage> getImages() {
 		return images;
 	}
 
 	public void setImages(Set<ProductVariationImage> images) {
 		this.images = images;
+	}
+
+	public Set<ProductVariation> getVariations() {
+		return variations;
+	}
+
+	public void setVariations(Set<ProductVariation> variations) {
+		this.variations = variations;
 	}
 }

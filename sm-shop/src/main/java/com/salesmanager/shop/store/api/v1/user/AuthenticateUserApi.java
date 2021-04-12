@@ -80,7 +80,6 @@ public class AuthenticateUserApi {
                         )
                 );
 
-    		
     	} catch(Exception e) {
     		if(e instanceof BadCredentialsException) {
     			return new ResponseEntity<>("{\"message\":\"Bad credentials\"}",HttpStatus.UNAUTHORIZED);

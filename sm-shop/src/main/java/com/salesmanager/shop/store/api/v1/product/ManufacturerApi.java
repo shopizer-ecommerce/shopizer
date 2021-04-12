@@ -219,7 +219,7 @@ public class ManufacturerApi {
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public List<ReadableManufacturer> manufacturerList(@PathVariable final Long id, // category
+	public List<ReadableManufacturer> list(@PathVariable final Long id, // category
 																					// id
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language, HttpServletResponse response)
 			throws Exception {

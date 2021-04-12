@@ -59,7 +59,7 @@ import io.swagger.annotations.Tag;
 import springfox.documentation.annotations.ApiIgnore;
 
 /**
- * API to create, read, update and delete a Product API to create Manufacturer
+ * API to create, read, update and delete a Product API.
  *
  * @author Carl Samson
  */

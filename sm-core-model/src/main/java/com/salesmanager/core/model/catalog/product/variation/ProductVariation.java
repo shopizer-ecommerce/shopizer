@@ -13,10 +13,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotEmpty;
 
 import com.salesmanager.core.model.catalog.product.attribute.ProductOption;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValue;
-import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.common.audit.AuditListener;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.common.audit.Auditable;
@@ -65,9 +65,14 @@ public class ProductVariation extends SalesManagerEntity<Long, ProductVariation>
 	@JoinColumn(name="OPTION_VALUE_ID", nullable=false)
 	private ProductOptionValue productOptionValue;
 	
-	@ManyToOne(targetEntity = ProductAvailability.class)
+    @NotEmpty
+    @Column(name="CODE", length=100, nullable=false)
+    private String code;
+
+	
+/*	@ManyToOne(targetEntity = ProductAvailability.class)
 	@JoinColumn(name = "PRODUCT_AVAIL_ID", nullable = false)
-	private ProductAvailability productAvailability;
+	private ProductAvailability productAvailability;*/
 	
 	@Override
 	public AuditSection getAuditSection() {
@@ -115,12 +120,13 @@ public class ProductVariation extends SalesManagerEntity<Long, ProductVariation>
 		this.productOptionValue = productOptionValue;
 	}
 
-	public ProductAvailability getProductAvailability() {
-		return productAvailability;
+	public String getCode() {
+		return code;
 	}
 
-	public void setProductAvailability(ProductAvailability productAvailability) {
-		this.productAvailability = productAvailability;
+	public void setCode(String code) {
+		this.code = code;
 	}
+
 
 }
