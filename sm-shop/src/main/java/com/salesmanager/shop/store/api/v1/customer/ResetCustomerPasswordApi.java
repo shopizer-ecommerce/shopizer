@@ -58,9 +58,9 @@ public class ResetCustomerPasswordApi {
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
 	public void passwordResetRequest(@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language,
-			@Valid @RequestBody ResetPasswordRequest customer, HttpServletRequest request) {
+			@Valid @RequestBody ResetPasswordRequest customer) {
 
-		customerFacade.requestPasswordReset(customer.getUsername(), request.getContextPath(), merchantStore, language);
+		customerFacade.requestPasswordReset(customer.getUsername(), customer.getReturnUrl(), merchantStore, language);
 
 	}
 
@@ -78,7 +78,7 @@ public class ResetCustomerPasswordApi {
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
 	public void passwordResetVerify(@PathVariable String store, @PathVariable String token,
-			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language, HttpServletRequest request) {
+			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
 
 		/**
 		 * Receives reset token Needs to validate if user found from token Needs

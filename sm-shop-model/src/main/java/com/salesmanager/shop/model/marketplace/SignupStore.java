@@ -37,8 +37,17 @@ public class SignupStore implements Serializable {
 	@NotEmpty
 	private String country;
 	
+	@NotEmpty
+	private String returnUrl;
 	
 	
+	
+	public String getReturnUrl() {
+		return returnUrl;
+	}
+	public void setReturnUrl(String returnUrl) {
+		this.returnUrl = returnUrl;
+	}
 	public String getFirstName() {
 		return firstName;
 	}
