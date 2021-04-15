@@ -192,6 +192,48 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		}
 
 	}
+	
+	@Override
+	public Product getByCode(String productCode, MerchantStore store) {
+
+		try {
+
+			StringBuilder qs = new StringBuilder();
+			qs.append("select distinct p from Product as p ");
+			qs.append("join fetch p.descriptions pd ");
+			qs.append("join fetch p.merchantStore pm ");
+
+			qs.append("left join fetch p.categories categs ");
+			qs.append("left join fetch categs.descriptions categsd ");
+
+			// options
+			qs.append("left join fetch p.attributes pattr ");
+			qs.append("left join fetch pattr.productOption po ");
+			qs.append("left join fetch po.descriptions pod ");
+			qs.append("left join fetch pattr.productOptionValue pov ");
+			qs.append("left join fetch pov.descriptions povd ");
+			qs.append("left join fetch p.relationships pr ");
+			// other lefts
+			qs.append("left join fetch p.manufacturer manuf ");
+			qs.append("left join fetch manuf.descriptions manufd ");
+			qs.append("left join fetch p.type type ");
+
+
+			qs.append("where p.sku=:code and pm.id=:id");
+
+			String hql = qs.toString();
+			Query q = this.em.createQuery(hql);
+
+			q.setParameter("code", productCode);
+			q.setParameter("id", store.getId());
+
+			return (Product) q.getSingleResult();
+
+		} catch (javax.persistence.NoResultException ers) {
+			return null;
+		}
+
+	}
 
 	public Product getByFriendlyUrl(MerchantStore store, String seUrl, Locale locale) {
 

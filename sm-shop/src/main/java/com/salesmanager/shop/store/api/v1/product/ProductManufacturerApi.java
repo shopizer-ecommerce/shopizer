@@ -47,9 +47,9 @@ import springfox.documentation.annotations.ApiIgnore;
 @Api(tags = { "Manufacturer / Brand management resource (Manufacturer / Brand Management Api)" })
 @SwaggerDefinition(tags = {
 		@Tag(name = "Manufacturer / Brand Management Api", description = "Edit Manufacturer / Brand") })
-public class ManufacturerApi {
+public class ProductManufacturerApi {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ManufacturerApi.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ProductManufacturerApi.class);
 
 	@Inject
 	private ManufacturerService manufacturerService;

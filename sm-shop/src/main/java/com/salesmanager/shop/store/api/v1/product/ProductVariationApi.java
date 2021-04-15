@@ -34,7 +34,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 @Controller
 @RequestMapping("/api/v1")
-@Api(tags = {"Product variation api"})
+@Api(tags = {"Product variation api - options and option value used for creating a product instance"})
 @SwaggerDefinition(tags = {
     @Tag(name = "Product variation resource", description = "Manage product variation")
 })

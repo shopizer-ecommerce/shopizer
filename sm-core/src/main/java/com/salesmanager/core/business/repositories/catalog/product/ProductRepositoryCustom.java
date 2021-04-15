@@ -39,6 +39,8 @@ public interface ProductRepositoryCustom {
 		Product getById(Long productId, MerchantStore merchant);
 
 		Product getByCode(String productCode, Language language);
+		
+		Product getByCode(String productCode, MerchantStore store);
 
 		List<Product> getProductsForLocale(MerchantStore store,
 				Set<Long> categoryIds, Language language, Locale locale);

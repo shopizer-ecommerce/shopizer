@@ -75,6 +75,8 @@ public interface ProductService extends SalesManagerEntityService<Long, Product>
 	 * @return
 	 */
 	Product getByCode(String productCode, Language language);
+	
+	Product getByCode(String productCode, MerchantStore merchant);
 
 	/**
 	 * Find a product for a specific merchant

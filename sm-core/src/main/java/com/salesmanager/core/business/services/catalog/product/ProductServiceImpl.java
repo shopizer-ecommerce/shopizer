@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.exception.ServiceException;
@@ -370,6 +369,12 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		
 		return p;
 	}
+
+	@Override
+	public Product getByCode(String productCode, MerchantStore merchant) {
+		return productRepository.getByCode(productCode, merchant);
+	}
+
 
 
 }
