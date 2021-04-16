@@ -46,6 +46,7 @@ import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProductList;
 import com.salesmanager.shop.model.catalog.product.ReadableProductPrice;
 import com.salesmanager.shop.model.catalog.product.product.definition.PersistableProductDefinition;
+import com.salesmanager.shop.model.catalog.product.product.definition.ReadableProductDefinition;
 import com.salesmanager.shop.model.entity.Entity;
 import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
@@ -456,12 +457,14 @@ public class ProductApi {
 	 */
 
 	@ResponseStatus(HttpStatus.CREATED)
-	@PostMapping(value = { "/v2/private/product" })
+	@PostMapping(value = { "/v2/private/product/definition" })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
 	public @ResponseBody Entity createV2(@Valid @RequestBody PersistableProductDefinition product,
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
 
+		//make sure product id is null
+		product.setId(null);
 		Long id = productDefinitionFacade.saveProductDefinition(merchantStore, product, language);
 		Entity returnEntity = new Entity();
 		returnEntity.setId(id);
@@ -470,7 +473,7 @@ public class ProductApi {
 	}
 
 	@ResponseStatus(HttpStatus.OK)
-	@PutMapping(value = { "/v2/private/product/{id}" })
+	@PutMapping(value = { "/v2/private/product/definition/{id}" })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
 	public void updateV2(@PathVariable Long id, @Valid @RequestBody PersistableProductDefinition product,
@@ -481,12 +484,13 @@ public class ProductApi {
 	}
 
 	@ResponseStatus(HttpStatus.OK)
-	@GetMapping(value = { "/v2/private/product/{id}" })
+	@GetMapping(value = { "/v2/private/product/definition/{id}" })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public void getV2(@PathVariable Long id, @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
+	public ReadableProductDefinition getV2(@PathVariable Long id, @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
 
-		//productDefinitionFacade.update(id, product, merchantStore, language);
+		ReadableProductDefinition def = productDefinitionFacade.getProduct(merchantStore, id, language);
+		return def;
 
 	}
 }

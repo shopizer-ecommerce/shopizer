@@ -40,7 +40,7 @@ import com.salesmanager.shop.store.security.services.CredentialsServiceImpl;
 @EnableWebSecurity
 public class MultipleEntryPointsSecurityConfig {
 
-	private static final String API_V1 = "/api/v1";
+	private static final String API_VERSION = "/api/v*";
 
 	@Bean
 	public AuthenticationTokenFilter authenticationTokenFilter() {
@@ -325,12 +325,12 @@ public class MultipleEntryPointsSecurityConfig {
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			http
-					.antMatcher(API_V1 + "/private/**")
+					.antMatcher(API_VERSION + "/private/**")
 					.authorizeRequests()
-					.antMatchers(API_V1 + "/private/login*").permitAll()
-					.antMatchers(API_V1 + "/private/refresh").permitAll()
-					.antMatchers(HttpMethod.OPTIONS, API_V1 + "/private/**").permitAll()
-					.antMatchers(API_V1 + "/private/**").hasRole("AUTH")
+					.antMatchers(API_VERSION + "/private/login*").permitAll()
+					.antMatchers(API_VERSION + "/private/refresh").permitAll()
+					.antMatchers(HttpMethod.OPTIONS, API_VERSION + "/private/**").permitAll()
+					.antMatchers(API_VERSION + "/private/**").hasRole("AUTH")
 					.anyRequest().authenticated()
 					.and()
 					.httpBasic().authenticationEntryPoint(apiAdminAuthenticationEntryPoint())
@@ -393,13 +393,13 @@ public class MultipleEntryPointsSecurityConfig {
 		protected void configure(HttpSecurity http) throws Exception {
 			http
 			
-				.antMatcher(API_V1 + "/auth/**")
+				.antMatcher(API_VERSION + "/auth/**")
 				.authorizeRequests()
-					.antMatchers(API_V1 + "/auth/refresh").permitAll()
-					.antMatchers(API_V1 + "/auth/login").permitAll()
-					.antMatchers(API_V1 + "/auth/register").permitAll()
-					.antMatchers(HttpMethod.OPTIONS, API_V1 + "/auth/**").permitAll()
-					.antMatchers(API_V1 + "/auth/**")
+					.antMatchers(API_VERSION + "/auth/refresh").permitAll()
+					.antMatchers(API_VERSION + "/auth/login").permitAll()
+					.antMatchers(API_VERSION + "/auth/register").permitAll()
+					.antMatchers(HttpMethod.OPTIONS, API_VERSION + "/auth/**").permitAll()
+					.antMatchers(API_VERSION + "/auth/**")
 					.hasRole("AUTH_CUSTOMER").anyRequest().authenticated()
 					.and()
 					.httpBasic()

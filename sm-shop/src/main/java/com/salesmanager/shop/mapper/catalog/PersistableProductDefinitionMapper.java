@@ -12,6 +12,7 @@ import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.type.ProductTypeService;
@@ -19,11 +20,15 @@ import com.salesmanager.core.business.services.reference.language.LanguageServic
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
+import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
+import com.salesmanager.core.model.catalog.product.price.ProductPrice;
+import com.salesmanager.core.model.catalog.product.price.ProductPriceDescription;
 import com.salesmanager.core.model.catalog.product.type.ProductType;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
+import com.salesmanager.shop.model.catalog.product.ProductPriceEntity;
 import com.salesmanager.shop.model.catalog.product.product.definition.PersistableProductDefinition;
 import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;
 import com.salesmanager.shop.utils.DateUtil;
@@ -130,65 +135,59 @@ public class PersistableProductDefinitionMapper implements Mapper<PersistablePro
 			}
 			destination.setProductReviewCount(source.getRatingCount());
 			
-/*			if(CollectionUtils.isNotEmpty(source.getProductPrices())) {
+			/**
+			 * Product definition
+			 */
+			ProductAvailability productAvailability = null;
+		    ProductPrice defaultPrice = null;
+		    if(!CollectionUtils.isEmpty(destination.getAvailabilities())) {
+		      for(ProductAvailability avail : destination.getAvailabilities()) {
+			        Set<ProductPrice> prices = avail.getPrices();
+			        for(ProductPrice p : prices) {
+			          if(p.isDefaultPrice()) {
+			            if(productAvailability == null) {
+			              productAvailability = avail;
+			              defaultPrice = p;
+			              break;
+			            }
+			            p.setDefaultPrice(false);
+			          }
+			        }
+		      }
+		    }
+			
+		    if(productAvailability == null) { //create with default values
+		      productAvailability = new ProductAvailability(destination, store);
+		      destination.getAvailabilities().add(productAvailability);
+		      
+		      productAvailability.setProductQuantity(1);
+			  productAvailability.setProductQuantityOrderMin(1);
+			  productAvailability.setProductQuantityOrderMax(1);
+			  productAvailability.setRegion(Constants.ALL_REGIONS);
+			  productAvailability.setAvailable(Boolean.valueOf(destination.isAvailable()));
+		    }
 
 
 
-			} else { //create 
-			  
-			    ProductAvailability productAvailability = null;
-			    ProductPrice defaultPrice = null;
-			    if(!CollectionUtils.isEmpty(destination.getAvailabilities())) {
-			      for(ProductAvailability avail : destination.getAvailabilities()) {
-    			        Set<ProductPrice> prices = avail.getPrices();
-    			        for(ProductPrice p : prices) {
-    			          if(p.isDefaultPrice()) {
-    			            if(productAvailability == null) {
-    			              productAvailability = avail;
-    			              defaultPrice = p;
-    			              break;
-    			            }
-    			            p.setDefaultPrice(false);
-    			          }
-    			        }
-			      }
-			    }
-				
-			    if(productAvailability == null) {
-			      productAvailability = new ProductAvailability(destination, store);
-			      destination.getAvailabilities().add(productAvailability);
-			    }
 
-				productAvailability.setProductQuantity(source.getQuantity());
-				productAvailability.setProductQuantityOrderMin(1);
-				productAvailability.setProductQuantityOrderMax(1);
-				productAvailability.setRegion(Constants.ALL_REGIONS);
-				productAvailability.setAvailable(Boolean.valueOf(destination.isAvailable()));
+			if(defaultPrice == null) {
 
-
-				if(defaultPrice != null) {
-				  defaultPrice.setProductPriceAmount(source.getPrice());
-				} else {
-				    defaultPrice = new ProductPrice();
-				    defaultPrice.setDefaultPrice(true);
-				    defaultPrice.setProductPriceAmount(source.getPrice());
-				    defaultPrice.setCode(ProductPriceEntity.DEFAULT_PRICE_CODE);
-				    defaultPrice.setProductAvailability(productAvailability);
-	                productAvailability.getPrices().add(defaultPrice);
-	                for(Language lang : languages) {
-	                
-                      ProductPriceDescription ppd = new ProductPriceDescription();
-                      ppd.setProductPrice(defaultPrice);
-                      ppd.setLanguage(lang);
-                      ppd.setName(ProductPriceDescription.DEFAULT_PRICE_DESCRIPTION);
-                      defaultPrice.getDescriptions().add(ppd);
-                    }
-				}
-
-				
-				
-			}*/
-
+			    defaultPrice = new ProductPrice();
+			    defaultPrice.setDefaultPrice(true);
+			    defaultPrice.setProductPriceAmount(new BigDecimal(0));
+			    defaultPrice.setCode(ProductPriceEntity.DEFAULT_PRICE_CODE);
+			    defaultPrice.setProductAvailability(productAvailability);
+                productAvailability.getPrices().add(defaultPrice);
+                for(Language lang : languages) {
+                
+                  ProductPriceDescription ppd = new ProductPriceDescription();
+                  ppd.setProductPrice(defaultPrice);
+                  ppd.setLanguage(lang);
+                  ppd.setName(ProductPriceDescription.DEFAULT_PRICE_DESCRIPTION);
+                  defaultPrice.getDescriptions().add(ppd);
+                }
+			}
+			
 			
 			//attributes
 			if(source.getProperties()!=null) {

@@ -22,6 +22,7 @@ import com.salesmanager.shop.mapper.catalog.PersistableProductDefinitionMapper;
 import com.salesmanager.shop.mapper.catalog.ReadableProductDefinitionMapper;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.catalog.product.product.definition.PersistableProductDefinition;
+import com.salesmanager.shop.model.catalog.product.product.definition.ReadableProductDefinition;
 import com.salesmanager.shop.model.catalog.product.product.definition.ReadableProductDefinitionFull;
 import com.salesmanager.shop.populator.catalog.ReadableProductPopulator;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
@@ -101,21 +102,17 @@ public class ProductDefinitionFacadeImpl implements ProductDefinitionFacade {
 	}
 
 	@Override
-	public ReadableProductDefinitionFull getProduct(MerchantStore store, Long id, Language language) {
-		// TODO Auto-generated method stub
-		return null;
+	public ReadableProductDefinition getProduct(MerchantStore store, Long id, Language language) {
+		Product product = productService.findOne(id, store);
+		return readableProductDefinitionMapper.convert(product, store, language);
 	}
 
 	@Override
-	public ReadableProductDefinitionFull getProductByCode(MerchantStore store, String uniqueCode, Language language) {
+	public ReadableProductDefinition getProductByCode(MerchantStore store, String uniqueCode, Language language) {
 		
 		Product product = productService.getByCode(uniqueCode, store);
+		return readableProductDefinitionMapper.convert(product, store, language);
 
-		readableProductDefinitionMapper.convert(product, store, language);
-
-
-
-		return null;
 	}
 
 }

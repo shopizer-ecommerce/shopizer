@@ -109,10 +109,7 @@ public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailab
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "productAvailability", cascade = CascadeType.ALL)
 	private Set<ProductPrice> prices = new HashSet<ProductPrice>();
-	
-	//@OneToMany(fetch = FetchType.LAZY, mappedBy = "productAvailability", cascade = CascadeType.ALL)
-	//private Set<ProductVariation> variations = new HashSet<ProductVariation>();
-	
+
 	@ManyToMany(fetch=FetchType.LAZY, cascade = {CascadeType.REFRESH})
 	@JoinTable(name = "AVAILABILITY_VARIATION", joinColumns = { 
 			@JoinColumn(name = "PRODUCT_AVAIL_ID", nullable = false, updatable = false) }
@@ -131,10 +128,6 @@ public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailab
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "productAvailability", cascade = CascadeType.ALL)
 	private Set<ProductVariationImage> images = new HashSet<ProductVariationImage>();
-
-	//revised with ProductVariation
-	//@OneToMany(fetch = FetchType.LAZY, mappedBy = "productAvailability", cascade = CascadeType.ALL)
-	//private Set<ProductVariant> variants = new HashSet<ProductVariant>();
 
 	@Transient
 	public ProductPrice defaultPrice() {

@@ -1,16 +1,37 @@
 package com.salesmanager.shop.mapper.catalog;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.helper.Validate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.description.ProductDescription;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
+import com.salesmanager.shop.model.catalog.category.ReadableCategory;
+import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
 import com.salesmanager.shop.model.catalog.product.product.definition.ReadableProductDefinition;
+import com.salesmanager.shop.model.catalog.product.product.definition.ReadableProductDefinitionFull;
+import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
 
 @Component
 public class ReadableProductDefinitionMapper implements Mapper<Product, ReadableProductDefinition> {
+
+	@Autowired
+	private ReadableCategoryMapper readableCategoryMapper;
+
+	@Autowired
+	private ReadableProductTypeMapper readableProductTypeMapper;
+
+	@Autowired
+	private ReadableManufacturerMapper readableManufacturerMapper;
 
 	@Override
 	public ReadableProductDefinition convert(Product source, MerchantStore store, Language language) {
@@ -23,13 +44,104 @@ public class ReadableProductDefinitionMapper implements Mapper<Product, Readable
 			Language language) {
 		Validate.notNull(source, "Product cannot be null");
 		Validate.notNull(destination, "Product destination cannot be null");
-		
-		if(language == null) {
-			
+
+		ReadableProductDefinition returnDestination = destination;
+		if (language == null) {
+			returnDestination = new ReadableProductDefinitionFull();
 		}
-		
-		
-		return destination;
+
+		List<com.salesmanager.shop.model.catalog.product.ProductDescription> fulldescriptions = new ArrayList<com.salesmanager.shop.model.catalog.product.ProductDescription>();
+
+		returnDestination.setIdentifier(source.getSku());
+		returnDestination.setId(source.getId());
+		returnDestination.setVisible(source.isAvailable());
+
+		ProductDescription description = null;
+		if (source.getDescriptions() != null && source.getDescriptions().size() > 0) {
+			for (ProductDescription desc : source.getDescriptions()) {
+				if (language != null && desc.getLanguage() != null
+						&& desc.getLanguage().getId().intValue() == language.getId().intValue()) {
+					description = desc;
+					break;
+				} else {
+					fulldescriptions.add(populateDescription(desc));
+				}
+			}
+		}
+
+		if (source.getProductReviewAvg() != null) {
+			double avg = source.getProductReviewAvg().doubleValue();
+			double rating = Math.round(avg * 2) / 2.0f;
+			returnDestination.setRating(rating);
+		}
+
+		if (source.getProductReviewCount() != null) {
+			returnDestination.setRatingCount(source.getProductReviewCount().intValue());
+		}
+		if (description != null) {
+			com.salesmanager.shop.model.catalog.product.ProductDescription tragetDescription = populateDescription(
+					description);
+			returnDestination.setDescription(tragetDescription);
+
+		}
+
+		if (source.getManufacturer() != null) {
+
+			ReadableManufacturer manufacturer = readableManufacturerMapper.convert(source.getManufacturer(), store,
+					language);
+			returnDestination.setManufacturer(manufacturer);
+		}
+
+		if (!CollectionUtils.isEmpty(source.getCategories())) {
+
+			List<ReadableCategory> categoryList = new ArrayList<ReadableCategory>();
+
+			for (Category category : source.getCategories()) {
+
+				ReadableCategory readableCategory = readableCategoryMapper.convert(category, store, language);
+				;
+				categoryList.add(readableCategory);
+
+			}
+			returnDestination.setCategories(categoryList);
+		}
+
+		if (source.getType() != null) {
+			ReadableProductType readableType = readableProductTypeMapper.convert(source.getType(), store, language);
+			returnDestination.setType(readableType);
+		}
+
+		if (returnDestination instanceof ReadableProductDefinitionFull) {
+			((ReadableProductDefinitionFull) returnDestination).setDescriptions(fulldescriptions);
+		}
+
+		return returnDestination;
+	}
+
+	com.salesmanager.shop.model.catalog.product.ProductDescription populateDescription(ProductDescription description) {
+		if (description == null) {
+			return null;
+		}
+
+		com.salesmanager.shop.model.catalog.product.ProductDescription tragetDescription = new com.salesmanager.shop.model.catalog.product.ProductDescription();
+		tragetDescription.setFriendlyUrl(description.getSeUrl());
+		tragetDescription.setName(description.getName());
+		tragetDescription.setId(description.getId());
+		if (!StringUtils.isBlank(description.getMetatagTitle())) {
+			tragetDescription.setTitle(description.getMetatagTitle());
+		} else {
+			tragetDescription.setTitle(description.getName());
+		}
+		tragetDescription.setMetaDescription(description.getMetatagDescription());
+		tragetDescription.setDescription(description.getDescription());
+		tragetDescription.setHighlights(description.getProductHighlight());
+		tragetDescription.setLanguage(description.getLanguage().getCode());
+		tragetDescription.setKeyWords(description.getMetatagKeywords());
+
+		if (description.getLanguage() != null) {
+			tragetDescription.setLanguage(description.getLanguage().getCode());
+		}
+		return tragetDescription;
 	}
 
 }
