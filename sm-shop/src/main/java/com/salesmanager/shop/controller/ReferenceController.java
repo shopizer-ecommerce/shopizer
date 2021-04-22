@@ -66,7 +66,7 @@ public class ReferenceController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value={"/admin/reference/provinces.html","/shop/reference/provinces.html"}, method=RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> getProvinces(HttpServletRequest request, HttpServletResponse response) {
-		
+		System.out.println("changes");
 		String countryCode = request.getParameter("countryCode");
 		String lang = request.getParameter("lang");
 		LOGGER.debug("Province Country Code " + countryCode);
