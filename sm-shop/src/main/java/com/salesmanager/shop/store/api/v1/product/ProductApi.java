@@ -463,7 +463,7 @@ public class ProductApi {
 	public @ResponseBody Entity createV2(@Valid @RequestBody PersistableProductDefinition product,
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
 
-		//make sure product id is null
+		// make sure product id is null
 		product.setId(null);
 		Long id = productDefinitionFacade.saveProductDefinition(merchantStore, product, language);
 		Entity returnEntity = new Entity();
@@ -487,7 +487,8 @@ public class ProductApi {
 	@GetMapping(value = { "/v2/private/product/definition/{id}" })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public ReadableProductDefinition getV2(@PathVariable Long id, @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
+	public ReadableProductDefinition getV2(@PathVariable Long id, @ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language) {
 
 		ReadableProductDefinition def = productDefinitionFacade.getProduct(merchantStore, id, language);
 		return def;

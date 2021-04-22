@@ -1,6 +1,7 @@
 package com.salesmanager.shop.model.catalog.product;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
@@ -21,11 +22,11 @@ public class ReadableProduct extends ProductEntity implements Serializable {
 	private String originalPrice = null;
 	private boolean discounted = false;
 	private ReadableImage image;
-	private List<ReadableImage> images;
+	private List<ReadableImage> images = new ArrayList<ReadableImage>();
 	private ReadableManufacturer manufacturer;
-	private List<ReadableProductAttribute> attributes;
-	private List<ReadableProductOption> options;
-	private List<ReadableCategory> categories;
+	private List<ReadableProductAttribute> attributes = new ArrayList<ReadableProductAttribute>();
+	private List<ReadableProductOption> options = new ArrayList<ReadableProductOption>();
+	private List<ReadableCategory> categories = new ArrayList<ReadableCategory>();
 	private ReadableProductType type;
 	private boolean canBePurchased = false;
 
