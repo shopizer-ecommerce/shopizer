@@ -34,8 +34,12 @@ public interface ManufacturerRepository extends JpaRepository<Manufacturer, Long
 	@Query("select count(distinct m) from Manufacturer as m where m.merchantStore.id=?1")
 	int count(Integer storeId);
 	
-	//TODO
-	@Query(value="select distinct manufacturer from Product as p join p.manufacturer manufacturer left join manufacturer.descriptions pmd join fetch manufacturer.merchantStore pms where pms.id = ?1 and p.id IN (select c.id from Category c where c.lineage like %?2% and pmd.language.id = ?3)")
-	//@Query("select m from Manufacturer m left join m.descriptions md join fetch m.merchantStore ms where m.id=?1")
+	@Query(value="select distinct manufacturer from Product as p "
+			+ "join p.manufacturer manufacturer "
+			+ "left join manufacturer.descriptions pmd "
+			+ "join fetch manufacturer.merchantStore pms "
+			+ "join p.categories pc "
+			+ "where pms.id = ?1 "
+			+ "and pc.id IN (select c.id from Category c where c.lineage like %?2% and pmd.language.id = ?3)")
 	List<Manufacturer> findByProductInCategoryId(Integer storeId, String lineage, Integer languageId);
 }

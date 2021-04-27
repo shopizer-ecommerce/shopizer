@@ -1,6 +1,7 @@
 package com.salesmanager.shop.store.facade.manufacturer;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
@@ -65,6 +66,12 @@ public class ManufacturerFacadeImpl implements ManufacturerFacade {
       List<Manufacturer> manufacturers = manufacturerService.listByProductsInCategory(store, category, language);
       
       List<ReadableManufacturer> manufacturersList = manufacturers.stream()
+    	.sorted(new Comparator<Manufacturer>() {
+    	            @Override
+    	            public int compare(final Manufacturer object1, final Manufacturer object2) {
+    	                return object1.getCode().compareTo(object2.getCode());
+    	            }
+    	 })
         .map(manuf -> readableManufacturerConverter.convert(manuf, store, language))
         .collect(Collectors.toList());
       
