@@ -389,7 +389,8 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 			Long id = Long.parseLong(sId);
 			
 
-			Order dbOrder = orderService.getById(id);
+			Order dbOrder = orderService.getOrder(id, store);
+					//.getById(id);
 
 			if(dbOrder==null) {
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
