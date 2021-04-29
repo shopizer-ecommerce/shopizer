@@ -10,6 +10,7 @@ public class ReadableProductVariantValue implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private String code;
+	private int order;
 	private String description;
 	private Long option;// option id
 	private Long value;// option value id
@@ -89,6 +90,14 @@ public class ReadableProductVariantValue implements Serializable {
 		} else if (!option.equals(other.option))
 			return false;
 		return true;
+	}
+
+	public int getOrder() {
+		return order;
+	}
+
+	public void setOrder(int order) {
+		this.order = order;
 	}
 
 }

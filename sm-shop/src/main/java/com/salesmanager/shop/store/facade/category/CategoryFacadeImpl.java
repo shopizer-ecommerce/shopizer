@@ -374,16 +374,31 @@ public class CategoryFacadeImpl implements CategoryFacade {
 			/**
 			 * Option NAME OptionValueName OptionValueName
 			 **/
-			Map<String, List<ProductOptionValue>> rawFacet = new HashMap<String, List<ProductOptionValue>>();
+			Map<String, List<com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValue>> rawFacet = new HashMap<String, List<com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValue>>();
 			Map<String, ProductOption> references = new HashMap<String, ProductOption>();
 			for (ProductAttribute attr : attributes) {
 				references.put(attr.getProductOption().getCode(), attr.getProductOption());
-				List<ProductOptionValue> values = rawFacet.get(attr.getProductOption().getCode());
+				List<com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValue> values = rawFacet.get(attr.getProductOption().getCode());
 				if (values == null) {
-					values = new ArrayList<ProductOptionValue>();
+					values = new ArrayList<com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValue>();
 					rawFacet.put(attr.getProductOption().getCode(), values);
 				}
-				values.add(attr.getProductOptionValue());
+				
+				if(attr.getProductOptionValue() != null) {
+					Optional<ProductOptionValueDescription> desc = attr.getProductOptionValue().getDescriptions()
+					.stream().filter(o -> o.getLanguage().getId() == language.getId()).findFirst();
+					
+					com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValue val = new com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValue();
+					val.setCode(attr.getProductOption().getCode());
+					String order = attr.getAttributeSortOrder();
+					val.setSortOrder(order == null ? attr.getId().intValue(): Integer.parseInt(attr.getAttributeSortOrder()));
+					if(desc.isPresent()) {
+						val.setName(desc.get().getName());
+					} else {
+						val.setName(attr.getProductOption().getCode());
+					}
+					values.add(val);
+				}
 			}
 
 			// for each reference set Option
@@ -392,7 +407,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 				@SuppressWarnings("rawtypes")
 				Map.Entry pair = (Map.Entry) it.next();
 				ProductOption option = (ProductOption) pair.getValue();
-				List<ProductOptionValue> values = rawFacet.get(option.getCode());
+				List<com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValue> values = rawFacet.get(option.getCode());
 
 				ReadableProductVariant productVariant = new ReadableProductVariant();
 				Optional<ProductOptionDescription>  optionDescription = option.getDescriptions().stream().filter(o -> o.getLanguage().getId() == language.getId()).findFirst();
@@ -401,30 +416,38 @@ public class CategoryFacadeImpl implements CategoryFacade {
 					productVariant.setId(optionDescription.get().getId());
 					productVariant.setCode(optionDescription.get().getProductOption().getCode());
 					List<ReadableProductVariantValue> optionValues = new ArrayList<ReadableProductVariantValue>();
-					for (ProductOptionValue value : values) {
-						Optional<ProductOptionValueDescription>  optionValueDescription = value.getDescriptions().stream().filter(o -> o.getLanguage().getId() == language.getId()).findFirst();
+					for (com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValue value : values) {
 						ReadableProductVariantValue v = new ReadableProductVariantValue();
 						v.setCode(value.getCode());
-						v.setName(value.getDescriptionsSettoList().get(0).getName());
-						v.setDescription(value.getDescriptionsSettoList().get(0).getDescription());
-						if(optionValueDescription.isPresent()) {
-							v.setName(optionValueDescription.get().getName());
-							v.setDescription(optionValueDescription.get().getDescription());
-						}
+						v.setName(value.getName());
+						v.setDescription(value.getName());
 						v.setOption(option.getId());
 						v.setValue(value.getId());
+						v.setOrder(option.getProductOptionSortOrder());
 						optionValues.add(v);
 					}
 					
+				    Comparator<ReadableProductVariantValue> orderComparator
+				      = Comparator.comparingInt(ReadableProductVariantValue::getOrder);
+				    
+				    //Arrays.sort(employees, employeeSalaryComparator);
+					
+				    List<ReadableProductVariantValue> readableValues = optionValues.stream()
+				    			.sorted(orderComparator)
+				    	    	.collect(Collectors.toList());
+				    	        
+
+					
 					//sort by name
 					// remove duplicates
-					List<ReadableProductVariantValue> readableValues = optionValues.stream().distinct().collect(Collectors.toList());
+					readableValues = optionValues.stream().distinct().collect(Collectors.toList());
 					readableValues.sort(Comparator.comparing(ReadableProductVariantValue::getName));
 					
 					productVariant.setOptions(readableValues);
 					variants.add(productVariant);
 				}
 			}
+
 
 			return variants;
 		} catch (Exception e) {
