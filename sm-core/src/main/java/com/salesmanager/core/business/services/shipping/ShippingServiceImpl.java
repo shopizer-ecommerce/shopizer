@@ -679,7 +679,9 @@ public class ShippingServiceImpl implements ShippingService {
 					}
 					
 					IntegrationModule module = postProcessModule;
-					postProcessor.prePostProcessShippingQuotes(shippingQuote, packages, orderTotal, delivery, shippingOrigin, store, integrationConfiguration, module, shippingConfiguration, shippingMethods, locale);
+					if(integrationConfiguration != null) {
+						postProcessor.prePostProcessShippingQuotes(shippingQuote, packages, orderTotal, delivery, shippingOrigin, store, integrationConfiguration, module, shippingConfiguration, shippingMethods, locale);
+					}
 				}
 			}
 			String ipAddress = null;

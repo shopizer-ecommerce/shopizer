@@ -169,11 +169,11 @@ public class OrderTotalApi {
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
   })
-  public ReadableOrderTotalSummary calculatePayment(
+  public ReadableOrderTotalSummary calculateTotal(
       @PathVariable final String code,
       @RequestParam(value = "quote", required = false) Long quote,
       @ApiIgnore MerchantStore merchantStore,
-      @ApiIgnore Language language,
+      @ApiIgnore Language language,//possible postal code, province and country
       HttpServletResponse response) {
 
     try {

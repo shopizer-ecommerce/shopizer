@@ -344,7 +344,7 @@ public class DefaultPackagingImpl implements Packaging {
 			}
 			if (attributes != null && attributes.size() > 0) {
 				for(ProductAttribute attribute : attributes) {
-					if(attribute.getAttributeAdditionalWeight()!=null) {
+					if(attribute.getAttributeAdditionalWeight()!=null && attribute.getProductAttributeWeight() !=null) {
 						w = w.add(attribute.getProductAttributeWeight());
 					}
 				}

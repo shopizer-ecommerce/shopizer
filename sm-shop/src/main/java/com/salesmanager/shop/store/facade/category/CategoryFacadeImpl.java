@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -66,6 +67,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 
 	private static final String FEATURED_CATEGORY = "featured";
 	private static final String VISIBLE_CATEGORY = "visible";
+	private static final String ADMIN_CATEGORY = "admin";
 
 	@Override
 	public ReadableCategoryList getCategoryHierarchy(MerchantStore store, ListCriteria criteria, int depth,
@@ -121,12 +123,23 @@ public class CategoryFacadeImpl implements CategoryFacade {
 							parentCategory.getChildren().add(readableCategory);
 						}
 					});
+			
+			List<ReadableCategory> filteredList = readableCategoryMap.values().stream().collect(Collectors.toList());
 
-			List<ReadableCategory> filteredList = readableCategoryMap.values().stream().filter(cat -> cat.getDepth() == 0)
-					.sorted(Comparator.comparing(ReadableCategory::getSortOrder)).collect(Collectors.toList());
-
+			//execute only if not admin filtered
+			if(!CollectionUtils.isEmpty(filter) && !filter.contains(ADMIN_CATEGORY)) {
+				filteredList = readableCategoryMap.values().stream().filter(cat -> cat.getDepth() == 0)
+						.sorted(Comparator.comparing(ReadableCategory::getSortOrder)).collect(Collectors.toList());
+				
+				returnList.setNumber(filteredList.size());
+				
+			
+			}
+			
 			returnList.setCategories(filteredList);
 
+			
+			
 			return returnList;
 
 		} catch (ServiceException e) {
