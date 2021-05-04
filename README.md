@@ -10,6 +10,7 @@ Shopizer (for java 1.8 +)
 
 Java open source e-commerce software
 
+- Headless commerce
 - Shopping cart
 - Catalogue
 - Search
@@ -21,7 +22,7 @@ See the demo (jsp):
 -------------------
 http://aws-demo.shopizer.com:8080/
 
-See the demo (angular):
+See the demo (React):
 -------------------
 Available soon
 
