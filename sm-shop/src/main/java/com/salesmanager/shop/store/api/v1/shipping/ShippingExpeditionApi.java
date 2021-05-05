@@ -28,7 +28,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("/api/v1")
-@Api(tags = { "Shipping - Expedition management resource (Shipping Management Api)" })
+@Api(tags = { "Shipping - Expedition management resource (Shipping Management Api) - ship to country" })
 @SwaggerDefinition(tags = { @Tag(name = "Shipping - Expedition management resource", description = "Manage shipping expedition") })
 public class ShippingExpeditionApi {
 	

@@ -15,6 +15,8 @@ import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.constants.Constants;
@@ -49,6 +51,9 @@ import com.salesmanager.core.modules.utils.Encryption;
 
 @Service("paymentService")
 public class PaymentServiceImpl implements PaymentService {
+	
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(PaymentServiceImpl.class);
 	
 
 	@Inject
@@ -327,6 +332,14 @@ public class PaymentServiceImpl implements PaymentService {
 		if(sTransactionType==null) {
 			sTransactionType = TransactionType.AUTHORIZECAPTURE.name();
 		}
+		
+		try {
+			TransactionType.valueOf(sTransactionType);
+		} catch(IllegalArgumentException ie) {
+			LOGGER.warn("Transaction type " + sTransactionType + " does noe exist, using default AUTHORIZECAPTURE");
+			sTransactionType = "AUTHORIZECAPTURE";
+		}
+
 		
 
 		if(sTransactionType.equals(TransactionType.AUTHORIZE.name())) {
