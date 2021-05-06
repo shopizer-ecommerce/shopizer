@@ -127,13 +127,12 @@ public class CategoryFacadeImpl implements CategoryFacade {
 			List<ReadableCategory> filteredList = readableCategoryMap.values().stream().collect(Collectors.toList());
 
 			//execute only if not admin filtered
-			if(!CollectionUtils.isEmpty(filter) && !filter.contains(ADMIN_CATEGORY)) {
-				filteredList = readableCategoryMap.values().stream().filter(cat -> cat.getDepth() == 0)
+			if(filter == null || (filter!=null && !filter.contains(ADMIN_CATEGORY))) {
+					filteredList = readableCategoryMap.values().stream().filter(cat -> cat.getDepth() == 0)
 						.sorted(Comparator.comparing(ReadableCategory::getSortOrder)).collect(Collectors.toList());
 				
-				returnList.setNumber(filteredList.size());
-				
-			
+					returnList.setNumber(filteredList.size());
+
 			}
 			
 			returnList.setCategories(filteredList);

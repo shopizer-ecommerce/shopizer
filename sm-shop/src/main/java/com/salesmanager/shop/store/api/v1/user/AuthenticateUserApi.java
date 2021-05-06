@@ -37,7 +37,7 @@ import io.swagger.annotations.Tag;
  */
 @Controller
 @RequestMapping("/api/v1")
-@Api(tags = { "User authentication api Api" })
+@Api(tags = { "User authentication Api" })
 @SwaggerDefinition(tags = {
 		@Tag(name = "User authentication resource", description = "Login for administrator users") })
 public class AuthenticateUserApi {
