@@ -54,6 +54,7 @@ public class UserApiIntegrationTest extends ServicesTestSupport {
       newUser.setLastName("User");
       newUser.setUserName("test@test.com");
       newUser.setPassword(CREATED_PASSWORD);
+      newUser.setRepeatPassword(CREATED_PASSWORD);
       
       PersistableGroup g = new PersistableGroup();
       g.setName("ADMIN");
@@ -74,6 +75,7 @@ public class UserApiIntegrationTest extends ServicesTestSupport {
       
       String oldPassword = CREATED_PASSWORD;
       String newPassword = NEW_CREATED_PASSWORD;
+      String repeatPassword = newPassword;
       
       UserPassword userPassword = new UserPassword();
       userPassword.setPassword(oldPassword);

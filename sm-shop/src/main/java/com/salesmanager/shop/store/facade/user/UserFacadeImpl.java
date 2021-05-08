@@ -314,12 +314,29 @@ public class UserFacadeImpl implements UserFacade {
 				throw new ServiceRuntimeException(
 						"User [" + user.getUserName() + "] already exists for store [" + store.getCode() + "]");
 			}
+			
+			/**
+			 * validate password
+			 */
+			if (!securityFacade.matchRawPasswords(user.getPassword(), user.getRepeatPassword())) {
+				throw new ServiceRuntimeException("Passwords dos not match, make sure password and repeat password are equals");
+			}
+
+			/**
+			 * Validate new password
+			 */
+			if (!securityFacade.validateUserPassword(user.getPassword())) {
+				throw new ServiceRuntimeException("New password does not apply to format policy");
+			}
+
+			String newPasswordEncoded = securityFacade.encodePassword(user.getPassword());
 
 			User userModel = new User();
 			userModel = converPersistabletUserToUser(store, languageService.defaultLanguage(), userModel, user);
 			if (CollectionUtils.isEmpty(userModel.getGroups())) {
 				throw new ServiceRuntimeException("No valid group groups associated with user " + user.getUserName());
 			}
+			userModel.setAdminPassword(newPasswordEncoded);
 			userService.saveOrUpdate(userModel);
 			// now build returned object
 			User createdUser = userService.getById(userModel.getId());
