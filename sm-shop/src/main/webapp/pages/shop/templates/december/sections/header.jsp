@@ -261,7 +261,7 @@ $(document).ready(function() {
             <ul class="dropdown-menu w-100" role="menu">
             <c:forEach items="${requestScope.MERCHANT_STORE.languages}" var="language">
 	            <c:if test="${requestScope.LANGUAGE.code ne language.code}">
-					<a href="<c:url value="/shop?locale=${language.code}"/>"><s:message code="lang.${language.code}" text="${language.code}" /></a>
+			    		<a href="<c:url value="${requestScope['javax.servlet.forward.request_uri']}?locale=${language.code}"/>"><s:message code="lang.${language.code}" text="${language.code}" /></a>
 				</c:if>
 			</c:forEach>
           </ul>
