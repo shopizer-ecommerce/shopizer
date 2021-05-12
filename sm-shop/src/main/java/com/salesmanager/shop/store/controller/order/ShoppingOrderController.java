@@ -202,6 +202,11 @@ public class ShoppingOrderController extends AbstractController {
 	    
 	    //Filter items, delete unavailable
         Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> availables = new HashSet<ShoppingCartItem>();
+		
+	if(cart == null) {
+            return "redirect:/shop/cart/shoppingCart.html";
+        }		
+		
         //Take out items no more available
         Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> items = cart.getLineItems();
         for(com.salesmanager.core.model.shoppingcart.ShoppingCartItem item : items) {
