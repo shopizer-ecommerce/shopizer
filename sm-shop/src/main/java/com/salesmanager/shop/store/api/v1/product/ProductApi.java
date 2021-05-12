@@ -72,7 +72,7 @@ import springfox.documentation.annotations.ApiIgnore;
  */
 @Controller
 @RequestMapping("/api")
-@Api(tags = { "Product display and management resource (Product display and Management Api)" })
+@Api(tags = { "Product display and management resource (Product display and Management Api. Serves api v1 and v2 with backward compatibility)" })
 @SwaggerDefinition(tags = {
 		@Tag(name = "Product management resource", description = "View product, Add product, edit product and delete product") })
 public class ProductApi {
@@ -487,7 +487,9 @@ public class ProductApi {
 	@GetMapping(value = { "/v2/private/product/definition/{id}" })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public ReadableProductDefinition getV2(@PathVariable Long id, @ApiIgnore MerchantStore merchantStore,
+	public @ResponseBody ReadableProductDefinition getV2(
+			@PathVariable Long id, 
+			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
 
 		ReadableProductDefinition def = productDefinitionFacade.getProduct(merchantStore, id, language);

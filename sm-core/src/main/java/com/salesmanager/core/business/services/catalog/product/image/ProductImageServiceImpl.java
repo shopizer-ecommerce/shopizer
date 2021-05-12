@@ -3,12 +3,15 @@ package com.salesmanager.core.business.services.catalog.product.image;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.modules.cms.product.ProductFileManager;
@@ -21,6 +24,7 @@ import com.salesmanager.core.model.catalog.product.image.ProductImageDescription
 import com.salesmanager.core.model.content.FileContentType;
 import com.salesmanager.core.model.content.ImageContentFile;
 import com.salesmanager.core.model.content.OutputContentFile;
+import com.salesmanager.core.model.merchant.MerchantStore;
 
 @Service("productImage")
 public class ProductImageServiceImpl extends SalesManagerEntityServiceImpl<Long, ProductImage> 
@@ -41,7 +45,6 @@ public class ProductImageServiceImpl extends SalesManagerEntityServiceImpl<Long,
 	
 	
 	public ProductImage getById(Long id) {
-		
 		
 		return productImageRepository.findOne(id);
 	}
@@ -86,8 +89,6 @@ public class ProductImageServiceImpl extends SalesManagerEntityServiceImpl<Long,
 			
 			Assert.notNull(inputImage.getFile(),"ImageContentFile.file cannot be null");
 
-
-			
 			productFileManager.addProductImage(productImage, inputImage);
 	
 			//insert ProductImage
@@ -178,9 +179,24 @@ public class ProductImageServiceImpl extends SalesManagerEntityServiceImpl<Long,
 		}
 		
 		ProductImage p = this.getById(productImage.getId());
-		
-		
+
 		this.delete(p);
 		
+	}
+
+
+	@Override
+	public Optional<ProductImage> getProductImage(String imageName, Long productId, MerchantStore store) {
+		
+		
+		Optional<ProductImage> image = Optional.empty();
+		
+		List<ProductImage> images = productImageRepository.finByName(productId, store.getCode(), imageName);
+		if(!CollectionUtils.isEmpty(images)) {
+			List<ProductImage> imgs = images.stream().filter(i -> i.getProductImage().equals(imageName)).collect(Collectors.toList());
+			image = Optional.of(imgs.get(0));
+		}
+		
+		return image;
 	}
 }

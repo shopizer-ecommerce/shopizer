@@ -2,6 +2,9 @@ package com.salesmanager.shop.store.security;
 
 import java.io.IOException;
 import java.util.Enumeration;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.inject.Inject;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -30,6 +33,11 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
     private final static String BEARER_TOKEN ="Bearer ";
     
     private final static String FACEBOOK_TOKEN ="FB ";
+    
+    //private final static String privateApiPatternString = "/api/v*/private";
+    
+    //private final static Pattern pattern = Pattern.compile(privateApiPatternString);
+    
 
     
     @Inject
@@ -62,9 +70,11 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
     	} catch(Exception s) {
     		LOGGER.error("Error while getting ip address ", s);
     	}
+    	
+    	String requestUrl = request.getRequestURL().toString();
 
 
-    	if(request.getRequestURL().toString().contains("/api/v1/auth")) {
+    	if(requestUrl.contains("/api/v1/auth")) {
     		//setHeader(request,response);   	
 	    	final String requestHeader = request.getHeader(this.tokenHeader);//token
 	    	
@@ -84,15 +94,16 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
 	    		throw new ServletException(e);
 	    	}
     	}
+ 
     	
-    	if(request.getRequestURL().toString().contains("/api/v1/private")) {
+    	if(requestUrl.contains("/api/v1/private") || requestUrl.contains("/api/v2/private")) {
     		
     		//setHeader(request,response);  
     		
     		Enumeration<String> headers = request.getHeaderNames();
-    		while(headers.hasMoreElements()) {
-    			LOGGER.debug(headers.nextElement());
-    		}
+    		//while(headers.hasMoreElements()) {
+    			//LOGGER.debug(headers.nextElement());
+    		//}
 
 	    	final String requestHeader = request.getHeader(this.tokenHeader);//token
 	    	

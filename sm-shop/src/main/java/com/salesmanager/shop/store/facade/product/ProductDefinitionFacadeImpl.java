@@ -98,7 +98,8 @@ public class ProductDefinitionFacadeImpl implements ProductDefinitionFacade {
 	@Override
 	public void update(Long id, PersistableProductDefinition product, MerchantStore merchant,
 			Language language) {
-		this.update(id, product, merchant, language);
+		product.setId(id);
+		this.saveProductDefinition(merchant, product, language);
 	}
 
 	@Override

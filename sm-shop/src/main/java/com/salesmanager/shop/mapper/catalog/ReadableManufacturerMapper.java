@@ -16,7 +16,9 @@ public class ReadableManufacturerMapper implements Mapper<Manufacturer, Readable
   @Override
   public ReadableManufacturer convert(Manufacturer source, MerchantStore store, Language language) {
 
-
+	if(language == null) {
+		language = store.getDefaultLanguage();
+	}
     ReadableManufacturer target = new ReadableManufacturer();
 
     Optional<com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription> description =
