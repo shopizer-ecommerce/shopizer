@@ -2,24 +2,30 @@ package com.salesmanager.shop.mapper.catalog;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.jsoup.helper.Validate;
+import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
+import com.salesmanager.core.model.catalog.product.image.ProductImage;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
+import com.salesmanager.shop.model.catalog.product.ReadableImage;
 import com.salesmanager.shop.model.catalog.product.product.definition.ReadableProductDefinition;
 import com.salesmanager.shop.model.catalog.product.product.definition.ReadableProductDefinitionFull;
 import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
+import com.salesmanager.shop.utils.ImageFilePath;
 
 @Component
 public class ReadableProductDefinitionMapper implements Mapper<Product, ReadableProductDefinition> {
@@ -32,6 +38,10 @@ public class ReadableProductDefinitionMapper implements Mapper<Product, Readable
 
 	@Autowired
 	private ReadableManufacturerMapper readableManufacturerMapper;
+	
+	@Autowired
+	@Qualifier("img")
+	private ImageFilePath imageUtils;
 
 	@Override
 	public ReadableProductDefinition convert(Product source, MerchantStore store, Language language) {
@@ -86,20 +96,15 @@ public class ReadableProductDefinitionMapper implements Mapper<Product, Readable
 		}
 
 		if (source.getManufacturer() != null) {
-
 			ReadableManufacturer manufacturer = readableManufacturerMapper.convert(source.getManufacturer(), store,
 					language);
 			returnDestination.setManufacturer(manufacturer);
 		}
 
 		if (!CollectionUtils.isEmpty(source.getCategories())) {
-
 			List<ReadableCategory> categoryList = new ArrayList<ReadableCategory>();
-
 			for (Category category : source.getCategories()) {
-
 				ReadableCategory readableCategory = readableCategoryMapper.convert(category, store, language);
-				;
 				categoryList.add(readableCategory);
 
 			}
@@ -110,15 +115,49 @@ public class ReadableProductDefinitionMapper implements Mapper<Product, Readable
 			ReadableProductType readableType = readableProductTypeMapper.convert(source.getType(), store, language);
 			returnDestination.setType(readableType);
 		}
+		
+		//images
+		Set<ProductImage> images = source.getImages();
+		if(CollectionUtils.isNotEmpty(images)) {
+
+			List<ReadableImage> imageList = images.stream().map(i -> this.convertImage(source, i, store)).collect(Collectors.toList());
+			returnDestination.setImages(imageList);
+		}
 
 		if (returnDestination instanceof ReadableProductDefinitionFull) {
 			((ReadableProductDefinitionFull) returnDestination).setDescriptions(fulldescriptions);
 		}
+		
 
 		return returnDestination;
 	}
+	
+	private ReadableImage convertImage(Product product, ProductImage image, MerchantStore store) {
+		ReadableImage prdImage = new ReadableImage();
+		prdImage.setImageName(image.getProductImage());
+		prdImage.setDefaultImage(image.isDefaultImage());
 
-	com.salesmanager.shop.model.catalog.product.ProductDescription populateDescription(ProductDescription description) {
+		StringBuilder imgPath = new StringBuilder();
+		imgPath.append(imageUtils.getContextPath()).append(imageUtils.buildProductImageUtils(store, product.getSku(), image.getProductImage()));
+
+		prdImage.setImageUrl(imgPath.toString());
+		prdImage.setId(image.getId());
+		prdImage.setImageType(image.getImageType());
+		if(image.getProductImageUrl()!=null){
+			prdImage.setExternalUrl(image.getProductImageUrl());
+		}
+		if(image.getImageType()==1 && image.getProductImageUrl()!=null) {//video
+			prdImage.setVideoUrl(image.getProductImageUrl());
+		}
+		
+		if(prdImage.isDefaultImage()) {
+			prdImage.setDefaultImage(true);
+		}
+		
+		return prdImage;
+	}
+
+	private com.salesmanager.shop.model.catalog.product.ProductDescription populateDescription(ProductDescription description) {
 		if (description == null) {
 			return null;
 		}

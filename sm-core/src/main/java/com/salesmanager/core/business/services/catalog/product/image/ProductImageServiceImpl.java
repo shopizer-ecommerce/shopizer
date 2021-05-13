@@ -186,15 +186,14 @@ public class ProductImageServiceImpl extends SalesManagerEntityServiceImpl<Long,
 
 
 	@Override
-	public Optional<ProductImage> getProductImage(String imageName, Long productId, MerchantStore store) {
+	public Optional<ProductImage> getProductImage(Long imageId, Long productId, MerchantStore store) {
 		
 		
 		Optional<ProductImage> image = Optional.empty();
 		
-		List<ProductImage> images = productImageRepository.finByName(productId, store.getCode(), imageName);
-		if(!CollectionUtils.isEmpty(images)) {
-			List<ProductImage> imgs = images.stream().filter(i -> i.getProductImage().equals(imageName)).collect(Collectors.toList());
-			image = Optional.of(imgs.get(0));
+		ProductImage img = productImageRepository.finById(imageId, productId, store.getCode());
+		if(img!=null) {
+			image = Optional.of(img);
 		}
 		
 		return image;

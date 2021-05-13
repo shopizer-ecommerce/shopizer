@@ -52,7 +52,7 @@ public interface ProductImageService extends SalesManagerEntityService<Long, Pro
 	 * @param store
 	 * @return
 	 */
-	Optional<ProductImage> getProductImage(String imageName, Long productId, MerchantStore store);
+	Optional<ProductImage> getProductImage(Long imageId, Long productId, MerchantStore store);
 
 	void removeProductImage(ProductImage productImage) throws ServiceException;
 

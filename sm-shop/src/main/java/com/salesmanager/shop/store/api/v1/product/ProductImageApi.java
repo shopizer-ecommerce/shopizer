@@ -156,21 +156,22 @@ public class ProductImageApi {
   
   @ResponseStatus(HttpStatus.OK)
   @RequestMapping(
-      value = {"/private/products/{id}/images"},
+      value = {"/private/products/{id}/image/{imageId}"},
       method = RequestMethod.DELETE)
   public void deleteImage(
-	  @PathVariable Long productId,
+	  @PathVariable Long id,
+	  @PathVariable Long imageId,
       @Valid NameEntity imageName,
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language) {
 
     try {
-      Optional<ProductImage> productImage = productImageService.getProductImage(imageName.getName(), productId, merchantStore);
+      Optional<ProductImage> productImage = productImageService.getProductImage(imageId, id, merchantStore);
 
       if (productImage.isPresent()) {
         productImageService.delete(productImage.get());
       } else {
-    	throw new ResourceNotFoundException("Product image [" + imageName.getName() + "] not found for product id [" + productId + "] and merchant [" + merchantStore.getCode() + "]");
+    	throw new ResourceNotFoundException("Product image [" + imageName.getName() + "] not found for product id [" + id + "] and merchant [" + merchantStore.getCode() + "]");
       }
 
     } catch (Exception e) {

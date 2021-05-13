@@ -6,6 +6,7 @@ import java.util.List;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
 import com.salesmanager.shop.model.catalog.product.ProductDescription;
+import com.salesmanager.shop.model.catalog.product.ReadableImage;
 import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductAttribute;
 import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
 
@@ -20,6 +21,9 @@ public class ReadableProductDefinition extends ProductDefinition {
 	private ReadableManufacturer manufacturer;
 	private ProductDescription description = null;
 	private List<PersistableProductAttribute> properties = new ArrayList<PersistableProductAttribute>();
+	private List<ReadableImage> images = new ArrayList<ReadableImage>();
+	
+	
 	public ReadableProductType getType() {
 		return type;
 	}
@@ -49,6 +53,12 @@ public class ReadableProductDefinition extends ProductDefinition {
 	}
 	public void setDescription(ProductDescription description) {
 		this.description = description;
+	}
+	public List<ReadableImage> getImages() {
+		return images;
+	}
+	public void setImages(List<ReadableImage> images) {
+		this.images = images;
 	}
 
 

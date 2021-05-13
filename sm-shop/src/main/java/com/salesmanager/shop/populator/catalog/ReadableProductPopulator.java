@@ -125,17 +125,14 @@ public class ReadableProductPopulator extends
 			specifications.setWidth(source.getProductWidth());
 			target.setProductSpecifications(specifications);
 			
-
 			target.setPreOrder(source.isPreOrder());
 			target.setRefSku(source.getRefSku());
 			target.setSortOrder(source.getSortOrder());
 
-			
 			if(source.getType() != null) {
 				target.setType(this.type(source.getType(), language));
 			}
 
-			
 			if(source.getOwner() != null) {
 				RentalOwner owner = new RentalOwner();
 				owner.setId(source.getOwner().getId());
