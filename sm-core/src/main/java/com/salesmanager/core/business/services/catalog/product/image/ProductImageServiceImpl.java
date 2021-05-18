@@ -177,9 +177,7 @@ public class ProductImageServiceImpl extends SalesManagerEntityServiceImpl<Long,
 		if(!StringUtils.isBlank(productImage.getProductImage())) {
 			productFileManager.removeProductImage(productImage);//managed internally
 		}
-		
 		ProductImage p = this.getById(productImage.getId());
-
 		this.delete(p);
 		
 	}

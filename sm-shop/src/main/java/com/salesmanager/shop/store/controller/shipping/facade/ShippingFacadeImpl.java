@@ -1,5 +1,6 @@
 package com.salesmanager.shop.store.controller.shipping.facade;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,12 +12,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.reference.country.CountryService;
 import com.salesmanager.core.business.services.reference.zone.ZoneService;
 import com.salesmanager.core.business.services.shipping.ShippingOriginService;
 import com.salesmanager.core.business.services.shipping.ShippingService;
 import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.country.Country;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.reference.zone.Zone;
 import com.salesmanager.core.model.shipping.PackageDetails;
@@ -26,7 +29,10 @@ import com.salesmanager.core.model.shipping.ShippingPackageType;
 import com.salesmanager.core.model.shipping.ShippingType;
 import com.salesmanager.shop.model.references.PersistableAddress;
 import com.salesmanager.shop.model.references.ReadableAddress;
+import com.salesmanager.shop.model.references.ReadableCountry;
 import com.salesmanager.shop.model.shipping.ExpeditionConfiguration;
+import com.salesmanager.shop.populator.references.ReadableCountryPopulator;
+import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;
 import com.salesmanager.shop.store.api.exception.OperationNotAllowedException;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
@@ -47,6 +53,8 @@ public class ShippingFacadeImpl implements ShippingFacade {
 	
 	@Autowired
 	ZoneService zoneService;
+	
+	
 
 
 	@Override
@@ -335,6 +343,45 @@ public class ShippingFacadeImpl implements ShippingFacade {
 		details.setTreshold(pack.getTreshold());
 		details.setShipPackageType(ShippingPackageType.valueOf(pack.getType()));
 		return details;
+	}
+
+	@Override
+	public List<ReadableCountry> shipToCountry(MerchantStore store, Language language) {
+		
+		
+		try {
+			List<Country> countries  = shippingService.getShipToCountryList(store, language);
+			
+			List<ReadableCountry> countryList = new ArrayList<ReadableCountry>();
+
+			if(!CollectionUtils.isEmpty(countries)) {
+				
+				countryList = countries.stream()
+				        .map(c -> {
+							try {
+								return convert(c, store, language);
+							} catch (ConversionException e) {
+								throw new ConversionRuntimeException("Error converting Country to readable country,e");
+							}
+						})
+						.sorted(Comparator.comparing(ReadableCountry::getName))
+						.collect(Collectors.toList());
+
+			}
+			
+			return countryList;
+		} catch (Exception e) {
+			throw new ServiceRuntimeException("Error getting shipping country", e);
+		}
+
+		
+		
+		
+	}
+	
+	ReadableCountry convert(Country country, MerchantStore store, Language lang) throws ConversionException {
+		ReadableCountryPopulator countryPopulator = new ReadableCountryPopulator();
+		return countryPopulator.populate(country, store, lang);
 	}
 
 }

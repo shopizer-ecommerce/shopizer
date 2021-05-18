@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.web.multipart.MultipartException;
+import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
-@ControllerAdvice("com.salesmanager.shop.store.api")
+@ControllerAdvice({"com.salesmanager.shop.store.api","org.apache.tomcat.util.http.fileupload.impl"})
 public class RestErrorHandler {
   
     private static final Logger log = LoggerFactory.getLogger(RestErrorHandler.class);
@@ -26,6 +29,16 @@ public class RestErrorHandler {
         ErrorEntity errorEntity = createErrorEntity(null, exception.getMessage(),
                 exception.getLocalizedMessage());
         return errorEntity;
+    }
+    
+    @ExceptionHandler({MultipartException.class,FileSizeLimitExceededException.class,MaxUploadSizeExceededException.class,java.lang.IllegalStateException.class})
+    @ResponseStatus(HttpStatus.PAYLOAD_TOO_LARGE)
+    public @ResponseBody ErrorEntity handleImagesUploadException(Exception exception) {
+    	log.warn(exception.getMessage());
+        ErrorEntity errorEntity = createErrorEntity(exception.getMessage(), exception.getMessage(),
+                exception.getLocalizedMessage());
+        return errorEntity;
+
     }
 
     /**

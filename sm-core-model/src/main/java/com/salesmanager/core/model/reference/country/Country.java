@@ -28,7 +28,7 @@ import com.salesmanager.core.model.reference.zone.Zone;
 @Table(name = "COUNTRY")
 @Cacheable
 public class Country extends SalesManagerEntity<Integer, Country> {
-	private static final long serialVersionUID = -7388011537255588035L;
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name="COUNTRY_ID")

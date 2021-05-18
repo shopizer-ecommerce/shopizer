@@ -1,5 +1,6 @@
 package com.salesmanager.shop.store.api.v1.product;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -64,11 +65,11 @@ public class ProductImageApi {
     @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
     @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
   })
-  public void uploadImages(
+  public void uploadImages (
       @PathVariable Long id,
       @RequestParam(value="file",required = true) MultipartFile[] files,
       @ApiIgnore MerchantStore merchantStore,
-      @ApiIgnore Language language) {
+      @ApiIgnore Language language) throws IOException {
 
     try {
 
