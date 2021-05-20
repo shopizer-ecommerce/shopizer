@@ -520,13 +520,7 @@ public class ContentFacadeImpl implements ContentFacade {
 			Content content) {
 		if (language != null) {
 			ReadableContentBox box = new ReadableContentBox();
-			Optional<ContentDescription> contentDescription = findAppropriateContentDescription(
-					content.getDescriptions(), language);
-			if (contentDescription.isPresent()) {
-				com.salesmanager.shop.model.content.common.ContentDescription desc = this
-						.contentDescription(contentDescription.get());
-				box.setDescription(desc);
-			}
+			this.setDescription(content, box, language);
 			box.setCode(content.getCode());
 			box.setId(content.getId());
 			box.setVisible(content.isVisible());
@@ -535,6 +529,7 @@ public class ContentFacadeImpl implements ContentFacade {
 			ReadableContentBoxFull box = new ReadableContentBoxFull();
 			List<com.salesmanager.shop.model.content.common.ContentDescription> descriptions = content.getDescriptions()
 					.stream().map(d -> this.contentDescription(d)).collect(Collectors.toList());
+			this.setDescription(content, box, store.getDefaultLanguage());
 			box.setDescriptions(descriptions);
 			box.setCode(content.getCode());
 			box.setId(content.getId());
@@ -545,6 +540,18 @@ public class ContentFacadeImpl implements ContentFacade {
 		// String staticImageFilePath = imageUtils.buildStaticImageUtils(store,
 		// content.getCode() + ".jpg");
 		// box.setImage(staticImageFilePath);
+	}
+	
+	private void setDescription(Content content, ReadableContentBox box, Language lang) {
+		
+		Optional<ContentDescription> contentDescription = findAppropriateContentDescription(
+				content.getDescriptions(), lang);
+		if (contentDescription.isPresent()) {
+			com.salesmanager.shop.model.content.common.ContentDescription desc = this
+					.contentDescription(contentDescription.get());
+			box.setDescription(desc);
+		}
+		
 	}
 
 	private ReadableContentPage convertContentToReadableContentPage(MerchantStore store, Language language,

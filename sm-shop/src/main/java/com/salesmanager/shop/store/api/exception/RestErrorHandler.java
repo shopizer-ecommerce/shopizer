@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartException;
 import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
-@ControllerAdvice({"com.salesmanager.shop.store.api","org.apache.tomcat.util.http.fileupload.impl"})
+@ControllerAdvice({"com.salesmanager.shop.store.api"})
 public class RestErrorHandler {
   
     private static final Logger log = LoggerFactory.getLogger(RestErrorHandler.class);
