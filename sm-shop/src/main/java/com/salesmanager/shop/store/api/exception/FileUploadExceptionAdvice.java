@@ -14,17 +14,7 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 @ControllerAdvice
 public class FileUploadExceptionAdvice {
 	
-/*    @ExceptionHandler(MaxUploadSizeExceededException.class)
-    public ModelAndView handleMaxSizeException(
-      MaxUploadSizeExceededException exc, 
-      HttpServletRequest request,
-      HttpServletResponse response) {
- 
-        ModelAndView modelAndView = new ModelAndView("file");
-        modelAndView.getModel().put("message", "File too large!");
-        return modelAndView;
-    }*/
-	
+
 	private static final Logger log = LoggerFactory.getLogger(FileUploadExceptionAdvice.class);
     
     @ExceptionHandler(MaxUploadSizeExceededException.class)
