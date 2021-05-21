@@ -622,12 +622,26 @@ public class ContentFacadeImpl implements ContentFacade {
 	public ReadableContentBox getContentBox(String code, MerchantStore store, Language language) {
 		Validate.notNull(code, "Content code cannot be null");
 		Validate.notNull(store, "MerchantStore cannot be null");
-		Validate.notNull(language, "Language cannot be null");
 
 		try {
-			Content content = Optional.ofNullable(contentService.getByCode(code, store, language))
-					.orElseThrow(() -> new ResourceNotFoundException(
-							"Resource not found [" + code + "] for store [" + store.getCode() + "]"));
+			Content content = null;
+			
+			if(language != null) {
+				
+				content = 	Optional.ofNullable(contentService.getByCode(code, store, language))
+						.orElseThrow(() -> new ResourceNotFoundException(
+								"Resource not found [" + code + "] for store [" + store.getCode() + "]"));
+			} else {
+				
+				
+				
+				content = 	Optional.ofNullable(contentService.getByCode(code, store))
+						.orElseThrow(() -> new ResourceNotFoundException(
+								"Resource not found [" + code + "] for store [" + store.getCode() + "]"));
+				
+			}
+					
+
 
 			Optional<ContentDescription> contentDescription = findAppropriateContentDescription(
 					content.getDescriptions(), language);
@@ -803,22 +817,7 @@ public class ContentFacadeImpl implements ContentFacade {
 
 	}
 
-	@Override
-	public ReadableContentBox manageContentBox(String code, MerchantStore store, Language language) {
-		Validate.notNull(code, "Content code cannot be null");
-		Validate.notNull(store, "MerchantStore cannot be null");
 
-		try {
-			Content content = Optional.ofNullable(contentService.getByCode(code, store, language))
-					.orElseThrow(() -> new ResourceNotFoundException(
-							"Resource not found [" + code + "] for store [" + store.getCode() + "]"));
-
-			return convertContentToReadableContentBox(store, language, content);
-
-		} catch (ServiceException e) {
-			throw new ServiceRuntimeException(e);
-		}
-	}
 
 	@Override
 	public void updateContentPage(Long id, PersistableContentPage page, MerchantStore merchantStore,

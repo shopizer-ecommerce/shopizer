@@ -313,7 +313,7 @@ public class ContentApi {
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
 	public ReadableContentBox manageBoxByCode(@PathVariable("code") String code, @ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
-		return contentFacade.manageContentBox(code, merchantStore, language);
+		return contentFacade.getContentBox(code, merchantStore, language);
 	}
 
 	@GetMapping(value = "/content/boxes/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
