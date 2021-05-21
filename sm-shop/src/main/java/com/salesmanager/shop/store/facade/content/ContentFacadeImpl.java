@@ -586,7 +586,7 @@ public class ContentFacadeImpl implements ContentFacade {
 			ContentDescription description) {
 		Validate.notNull(description, "ContentDescription cannot be null");
 		com.salesmanager.shop.model.content.common.ContentDescription desc = new com.salesmanager.shop.model.content.common.ContentDescription();
-		desc.setDescription(description.getDescription());
+		desc.setDescription(description.getDescription());//return description as is
 		desc.setName(description.getName());
 		desc.setTitle(description.getTitle());
 		desc.setFriendlyUrl(description.getSeUrl());
@@ -625,39 +625,67 @@ public class ContentFacadeImpl implements ContentFacade {
 
 		try {
 			Content content = null;
+			ReadableContentBox box = new ReadableContentBox();
 			
 			if(language != null) {
 				
 				content = 	Optional.ofNullable(contentService.getByCode(code, store, language))
 						.orElseThrow(() -> new ResourceNotFoundException(
 								"Resource not found [" + code + "] for store [" + store.getCode() + "]"));
+				
+				Optional<ContentDescription> contentDescription = findAppropriateContentDescription(
+						content.getDescriptions(), language);
+
+				if (contentDescription.isPresent()) {
+					com.salesmanager.shop.model.content.common.ContentDescription desc = this
+							.contentDescription(contentDescription.get());//return cdata description
+					desc.setDescription(this.fixContentDescription(desc.getDescription()));
+					box.setDescription(desc);
+				}
+				
+				return box;
+				
 			} else {
-				
-				
-				
+
 				content = 	Optional.ofNullable(contentService.getByCode(code, store))
 						.orElseThrow(() -> new ResourceNotFoundException(
 								"Resource not found [" + code + "] for store [" + store.getCode() + "]"));
 				
+				ReadableContentBoxFull full = new ReadableContentBoxFull(); //all languages
+				
+				List<com.salesmanager.shop.model.content.common.ContentDescription> descriptions = content.getDescriptions()
+						.stream().map(d -> this.contentDescription(d)).collect(Collectors.toList());
+				
+				Optional<ContentDescription> contentDescription = findAppropriateContentDescription(
+						content.getDescriptions(), store.getDefaultLanguage());
+				
+				if(contentDescription.isPresent()) {
+					com.salesmanager.shop.model.content.common.ContentDescription desc = this
+							.contentDescription(contentDescription.get());
+					full.setDescription(desc);
+				}
+				
+				
+				full.setDescriptions(descriptions);
+				full.setCode(content.getCode());
+				full.setId(content.getId());
+				full.setVisible(content.isVisible());
+				
+				return full;
+				
 			}
 					
 
-
-			Optional<ContentDescription> contentDescription = findAppropriateContentDescription(
-					content.getDescriptions(), language);
-
-			ReadableContentBox box = new ReadableContentBox();
-			if (contentDescription.isPresent()) {
-				com.salesmanager.shop.model.content.common.ContentDescription desc = this
-						.contentDescription(contentDescription.get());
-				desc.setDescription(
-						"<![CDATA[" + desc.getDescription().replaceAll("\r\n", "").replaceAll("\t", "") + "]]>");
-				box.setDescription(desc);
-			}
-			return box;
 		} catch (ServiceException e) {
 			throw new ServiceRuntimeException(e);
 		}
+	}
+	
+	private String fixContentDescription(String description) {
+		Validate.notNull(description, "description cannot be empty");
+		return "<![CDATA[" + description.replaceAll("\r\n", "").replaceAll("\t", "") + "]]>";
+		
+		
 	}
 
 	@Override
