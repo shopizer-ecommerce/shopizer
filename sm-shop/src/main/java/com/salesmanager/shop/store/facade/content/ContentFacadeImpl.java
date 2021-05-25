@@ -656,6 +656,7 @@ public class ContentFacadeImpl implements ContentFacade {
 				List<com.salesmanager.shop.model.content.common.ContentDescription> descriptions = content.getDescriptions()
 						.stream().map(d -> this.contentDescription(d)).collect(Collectors.toList());
 				
+				/**
 				Optional<ContentDescription> contentDescription = findAppropriateContentDescription(
 						content.getDescriptions(), store.getDefaultLanguage());
 				
@@ -664,6 +665,7 @@ public class ContentFacadeImpl implements ContentFacade {
 							.contentDescription(contentDescription.get());
 					full.setDescription(desc);
 				}
+				**/
 				
 				
 				full.setDescriptions(descriptions);
@@ -918,6 +920,11 @@ public class ContentFacadeImpl implements ContentFacade {
 			throw new ServiceRuntimeException(e);
 		}
 
+	}
+
+	@Override
+	public boolean codeExist(String code, String type, MerchantStore store) {
+		return contentService.exists(code, ContentType.valueOf(type), store);
 	}
 
 }

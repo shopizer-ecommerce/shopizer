@@ -43,6 +43,8 @@ public interface ContentService
 
     void saveOrUpdate( Content content )
         throws ServiceException;
+    
+    boolean exists (String code, ContentType type, MerchantStore store);
 
     Content getByCode( String code, MerchantStore store, Language language )
         throws ServiceException;

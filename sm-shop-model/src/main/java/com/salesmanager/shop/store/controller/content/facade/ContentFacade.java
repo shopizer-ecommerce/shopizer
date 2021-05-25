@@ -6,14 +6,15 @@ import java.util.Optional;
 import com.salesmanager.core.model.content.ContentType;
 import com.salesmanager.core.model.content.FileContentType;
 import com.salesmanager.core.model.content.OutputContentFile;
+
+//TODO above deprecation, use shop model instead of core model
+
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.content.ContentFile;
 import com.salesmanager.shop.model.content.ContentFolder;
-import com.salesmanager.shop.model.content.PersistableContentEntity;
 import com.salesmanager.shop.model.content.box.PersistableContentBox;
 import com.salesmanager.shop.model.content.box.ReadableContentBox;
-import com.salesmanager.shop.model.entity.Entity;
 import com.salesmanager.shop.model.entity.ReadableEntityList;
 import com.salesmanager.shop.model.content.ReadableContentEntity;
 import com.salesmanager.shop.model.content.ReadableContentFull;
@@ -97,6 +98,15 @@ public interface ContentFacade {
 	
 	
 	/**
+	 * @param code
+	 * @param type
+	 * @param store
+	 * @return
+	 */
+	boolean codeExist(String code, String type, MerchantStore store);
+	
+	
+	/**
 	 * Returns content boxes created with code prefix
 	 * for example return boxes with code starting with <code>_
 	 * @param store
@@ -108,8 +118,6 @@ public interface ContentFacade {
 
 	ReadableEntityList<ReadableContentBox> getContentBoxes(ContentType type, MerchantStore store, Language language, int start, int count);
 
-	//ReadableContentBox manageContentBox(String code, MerchantStore store, Language language);
-	
 	void addContentFile(ContentFile file, String merchantStoreCode);
 	
 	/**
