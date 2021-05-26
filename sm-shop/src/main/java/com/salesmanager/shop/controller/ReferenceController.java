@@ -67,6 +67,7 @@ public class ReferenceController {
 	@RequestMapping(value={"/admin/reference/provinces.html","/shop/reference/provinces.html"}, method=RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> getProvinces(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("changes");
+		System.out.println("Code label");
 		String countryCode = request.getParameter("countryCode");
 		String lang = request.getParameter("lang");
 		LOGGER.debug("Province Country Code " + countryCode);
@@ -167,6 +168,7 @@ public class ReferenceController {
 			LOGGER.error("Error while looking up zone " + zoneCode);
 		}
 		return SanitizeUtils.getSafeString(zoneCode);
+		System.out.println("Code label");
 	}
 	
 	@SuppressWarnings("unchecked")
