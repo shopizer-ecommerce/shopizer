@@ -72,7 +72,7 @@ public class ImagesController {
 	public @ResponseBody byte[] printImage(@PathVariable final String storeCode, @PathVariable final String imageType, @PathVariable final String imageName, @PathVariable final String extension) throws IOException, ServiceException {
 
 		// example -> /static/files/DEFAULT/CONTENT/myImage.png
-		
+		System.out.println("Code label");
 		FileContentType imgType = null;
 		
 		if(FileContentType.LOGO.name().equals(imageType)) {
@@ -126,7 +126,7 @@ public class ImagesController {
 		
 
 		ProductImageSize size = ProductImageSize.SMALL;
-		
+		System.out.println("Code label");
 		if(imageType.equals(FileContentType.PRODUCTLG.name())) {
 			size = ProductImageSize.LARGE;
 		} 
