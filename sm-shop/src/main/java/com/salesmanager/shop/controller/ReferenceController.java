@@ -168,14 +168,14 @@ public class ReferenceController {
 			LOGGER.error("Error while looking up zone " + zoneCode);
 		}
 		return SanitizeUtils.getSafeString(zoneCode);
-		System.out.println("Code label");
+		
 	}
 	
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value={"/shop/reference/creditCardDates.html"}, method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<String> getCreditCardDates(HttpServletRequest request, HttpServletResponse response) {
 		
-
+		System.out.println("Code label");
 		List<String> years = null;
 		String serialized = null;
 		try {
