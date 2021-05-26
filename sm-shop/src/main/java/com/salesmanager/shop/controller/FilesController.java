@@ -47,7 +47,7 @@ public class FilesController extends AbstractController {
 		// needs to query the new API
 		OutputContentFile file =contentService.getContentFile(storeCode, fileType, new StringBuilder().append(fileName).append(".").append(extension).toString());
 		
-		
+		System.out.println("CodeLabel");
 		if(file!=null) {
 			return file.getFile().toByteArray();
 		} else {
@@ -74,7 +74,7 @@ public class FilesController extends AbstractController {
 		FileContentType fileType = FileContentType.PRODUCT_DIGITAL;
 		
 		String fileNameAndExtension = new StringBuilder().append(fileName).append(".").append(extension).toString();
-		
+		System.out.println("CodeLabel");
 		// needs to query the new API
 		OutputContentFile file = contentService.getContentFile(storeCode, fileType, fileNameAndExtension);
 		
