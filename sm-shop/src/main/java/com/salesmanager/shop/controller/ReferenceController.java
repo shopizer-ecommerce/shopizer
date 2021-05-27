@@ -68,6 +68,9 @@ public class ReferenceController {
 	public @ResponseBody ResponseEntity<String> getProvinces(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("changes");
 		System.out.println("Code label");
+		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
 		String countryCode = request.getParameter("countryCode");
 		String lang = request.getParameter("lang");
 		LOGGER.debug("Province Country Code " + countryCode);
