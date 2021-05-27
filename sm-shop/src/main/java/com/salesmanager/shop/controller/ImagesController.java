@@ -124,7 +124,9 @@ public class ImagesController {
 		 * 
 		 */
 		
-
+		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
 		ProductImageSize size = ProductImageSize.SMALL;
 		System.out.println("Code label");
 		if(imageType.equals(FileContentType.PRODUCTLG.name())) {
@@ -224,7 +226,9 @@ public class ImagesController {
 		 * List of possible imageType
 		 * 
 		 */
-		
+		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
 
 		ProductImageSize size = ProductImageSize.LARGE;
 		
