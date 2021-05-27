@@ -48,6 +48,11 @@ public class FilesController extends AbstractController {
 		OutputContentFile file =contentService.getContentFile(storeCode, fileType, new StringBuilder().append(fileName).append(".").append(extension).toString());
 		
 		System.out.println("CodeLabel");
+		
+		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
+		
 		if(file!=null) {
 			return file.getFile().toByteArray();
 		} else {
