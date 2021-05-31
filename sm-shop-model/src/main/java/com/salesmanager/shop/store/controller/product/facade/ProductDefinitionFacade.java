@@ -4,7 +4,6 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.product.definition.PersistableProductDefinition;
 import com.salesmanager.shop.model.catalog.product.product.definition.ReadableProductDefinition;
-import com.salesmanager.shop.model.catalog.product.product.definition.ReadableProductDefinitionFull;
 
 public interface ProductDefinitionFacade {
 

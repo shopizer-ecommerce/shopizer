@@ -25,6 +25,7 @@ import com.salesmanager.shop.model.catalog.product.ReadableImage;
 import com.salesmanager.shop.model.catalog.product.product.definition.ReadableProductDefinition;
 import com.salesmanager.shop.model.catalog.product.product.definition.ReadableProductDefinitionFull;
 import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
+import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.ImageFilePath;
 
 @Component
@@ -65,6 +66,7 @@ public class ReadableProductDefinitionMapper implements Mapper<Product, Readable
 		returnDestination.setIdentifier(source.getSku());
 		returnDestination.setId(source.getId());
 		returnDestination.setVisible(source.isAvailable());
+		returnDestination.setDateAvailable(DateUtil.formatDate(source.getDateAvailable()));
 
 		ProductDescription description = null;
 		if (source.getDescriptions() != null && source.getDescriptions().size() > 0) {

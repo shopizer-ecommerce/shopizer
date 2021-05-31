@@ -54,7 +54,7 @@ public class DateUtil {
 	public static String formatDate(Date dt) {
 
 		if (dt == null)
-			return null;
+			dt = new Date();
 		SimpleDateFormat format = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT);
 		return format.format(dt);
 

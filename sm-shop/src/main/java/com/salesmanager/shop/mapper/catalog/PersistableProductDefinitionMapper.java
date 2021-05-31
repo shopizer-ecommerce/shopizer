@@ -2,6 +2,7 @@ package com.salesmanager.shop.mapper.catalog;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -9,12 +10,14 @@ import java.util.Set;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
+import org.drools.core.util.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
+import com.salesmanager.core.business.services.catalog.product.manufacturer.ManufacturerService;
 import com.salesmanager.core.business.services.catalog.product.type.ProductTypeService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.model.catalog.category.Category;
@@ -22,6 +25,7 @@ import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
+import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.catalog.product.price.ProductPriceDescription;
 import com.salesmanager.core.model.catalog.product.type.ProductType;
@@ -45,6 +49,10 @@ public class PersistableProductDefinitionMapper implements Mapper<PersistablePro
 	
 	@Autowired
 	private ProductTypeService productTypeService;
+	
+	@Autowired
+	private ManufacturerService manufacturerService;
+	
 	@Override
 	public Product convert(PersistableProductDefinition source, MerchantStore store, Language language) {
 		Product product = new Product();
@@ -63,11 +71,22 @@ public class PersistableProductDefinitionMapper implements Mapper<PersistablePro
 
 			destination.setSku(source.getIdentifier());
 			destination.setAvailable(source.isVisible());
+			destination.setDateAvailable(new Date());
+
 			destination.setRefSku(source.getIdentifier());
 			if(source.getId() != null && source.getId().longValue()==0) {
 				destination.setId(null);
 			} else {
 				destination.setId(source.getId());
+			}
+			
+			//MANUFACTURER
+			if(!StringUtils.isBlank(source.getManufacturer())) {
+				Manufacturer manufacturer = manufacturerService.getByCode(store, source.getManufacturer());
+				if(manufacturer == null) {
+					throw new ConversionException("Manufacturer [" + source.getManufacturer() + "] does not exist");
+				}
+				destination.setManufacturer(manufacturer);
 			}
 
 			
