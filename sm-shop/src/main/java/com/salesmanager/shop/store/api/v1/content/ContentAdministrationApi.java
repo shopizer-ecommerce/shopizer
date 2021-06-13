@@ -10,9 +10,11 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -36,6 +38,7 @@ import com.salesmanager.shop.model.content.ContentFolder;
 import com.salesmanager.shop.store.api.exception.RestApiException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.controller.content.facade.ContentFacade;
+import com.salesmanager.shop.utils.FileNameUtils;
 import com.salesmanager.shop.utils.ImageFilePath;
 
 import io.swagger.annotations.ApiImplicitParam;
@@ -59,6 +62,9 @@ public class ContentAdministrationApi {
 
 	@Inject
 	private ContentFacade contentFacade;
+	
+	@Autowired
+	private FileNameUtils fileNameUtils;
 	
 	
 	@Inject
@@ -129,6 +135,13 @@ public class ContentAdministrationApi {
 			@RequestParam(value = "qqtotalparts", required = false) Integer qqtotalparts,
 			@ApiIgnore MerchantStore merchantStore, 
 			@ApiIgnore Language language) {
+		
+		    if(!fileNameUtils.validFileName(qqfilename)) {
+				FileStatus fs = new FileStatus();
+				fs.setError("Invalid filename");
+				fs.setSuccess(false);
+				return fs;
+		    }
 
 			ContentFile cf = new ContentFile();
 			cf.setContentType(qqfile.getContentType());
