@@ -37,6 +37,17 @@ If this is your first time using Github, review http://help.github.com to learn 
 
 You can also download the zip file containing the code from https://github.com/shopizer-ecommerce/shopizer 
 
+## Contributing
+
+Contributions are always welcome😁!
+
+- Fork the Project🍴
+- Make Changes
+- Push your commits to the forked repo
+- Make a Pull Request
+- Kindly wait for it to be merged
+- Buy yourself a ☕ if it's merged🎉
+
 To build the application:
 -------------------	
 From the command line:
