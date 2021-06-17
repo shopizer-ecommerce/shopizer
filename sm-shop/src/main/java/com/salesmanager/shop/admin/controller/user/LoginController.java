@@ -17,11 +17,7 @@ public class LoginController {
 
 	@RequestMapping(value="/admin/logon.html", method=RequestMethod.GET)
 	public String displayLogin(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-		//WEB-INF/views/admin/logon.jsp
 		return "admin/logon";
-		
-		
 	}
 	
 

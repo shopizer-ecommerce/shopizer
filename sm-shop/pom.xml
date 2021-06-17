@@ -70,7 +70,6 @@
 			<artifactId>guava</artifactId>
 		</dependency>
 
-
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
@@ -99,18 +98,6 @@
 			<artifactId>spring-security-taglibs</artifactId>
 		</dependency>
 
-		<!-- Add Apache Tiles into the mix -->
-		<dependency>
-			<groupId>org.apache.tiles</groupId>
-			<artifactId>tiles-jsp</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>javax.servlet</groupId>
-					<artifactId>servlet-api</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
 		<!-- https://mvnrepository.com/artifact/commons-collections/commons-collections -->
 		<!-- For Tiles -->
 		<dependency>
@@ -118,7 +105,6 @@
 			<artifactId>commons-collections</artifactId>
 			<version>3.2.2</version>
 		</dependency>
-
 
 		<!-- Mapstruct -->
 		<dependency>
@@ -191,9 +177,6 @@
 			<artifactId>passay</artifactId>
 			<version>1.6.0</version>
 		</dependency>
-
-
-
 	</dependencies>
 
 	<build>
