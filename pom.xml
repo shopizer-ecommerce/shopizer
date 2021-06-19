@@ -194,13 +194,6 @@
 				<version>${jackson-version}</version>
 			</dependency>
 
-			<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
-			<dependency>
-				<groupId>javax.mail</groupId>
-				<artifactId>mail</artifactId>
-				<version>1.4.7</version>
-			</dependency>
-
 			<!-- http://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
 			<dependency>
 				<groupId>com.googlecode.json-simple</groupId>
@@ -472,12 +465,13 @@
 			<artifactId>javax.mail-api</artifactId>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+		<!-- https://mvnrepository.com/artifact/com.sun.mail/javax.mail -->
 		<dependency>
-			<groupId>javax.mail</groupId>
-			<artifactId>mail</artifactId>
+		    <groupId>com.sun.mail</groupId>
+		    <artifactId>javax.mail</artifactId>
+		    <version>1.6.2</version>
 		</dependency>
-
+		
 		<!-- http://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
 		<dependency>
 			<groupId>com.googlecode.json-simple</groupId>
