@@ -63,7 +63,7 @@ import com.salesmanager.shop.utils.LanguageUtils;
  *
  * @see
  *
- *  javascript re-creates the shopping cart div item (div id shoppingcart) (see webapp\pages\shop\templates\bootstrap\sections\header.jsp)
+ *  javascript re-creates the shopping cart div item (div id shoppingcart)
  * The javascript set the shopping cart code in the cookie
  *
  * Display a page

@@ -17,18 +17,15 @@ public class LoginController {
 
 	@RequestMapping(value="/admin/logon.html", method=RequestMethod.GET)
 	public String displayLogin(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-		//WEB-INF/views/admin/logon.jsp
+
 		return "admin/logon";
-		
-		
+
 	}
 	
 
 	@RequestMapping(value="/admin/denied.html", method=RequestMethod.GET)
 	public String displayDenied(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-		
+
 		//logoff the user
 	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	    if (auth != null){    
@@ -37,8 +34,7 @@ public class LoginController {
 	    }
 		
 		return "admin/logon";
-		
-		
+
 	}
 	
 	@RequestMapping(value="/admin/unauthorized.html", method=RequestMethod.GET)

@@ -105,7 +105,6 @@ public class MultipleEntryPointsSecurityConfig {
 			web.ignoring().antMatchers("/error");
 			web.ignoring().antMatchers("/resources/**");
 			web.ignoring().antMatchers("/static/**");
-			web.ignoring().antMatchers("/WEB-INF/**");
 			web.ignoring().antMatchers("/services/public/**");
 		}
 

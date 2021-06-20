@@ -55,27 +55,6 @@ public class ShopApplicationConfiguration implements WebMvcConfigurer {
     logger.info("Current working directory : " + workingDir);
   }
 
-  /** Configure TilesConfigurer. */
-  @Bean
-  public TilesConfigurer tilesConfigurer() {
-    TilesConfigurer tilesConfigurer = new TilesConfigurer();
-    tilesConfigurer.setDefinitions(
-        "/WEB-INF/tiles/tiles-admin.xml",
-        "/WEB-INF/tiles/tiles-shop.xml");
-    tilesConfigurer.setCheckRefresh(true);
-    return tilesConfigurer;
-  }
-
-  /** Configure ViewResolvers to deliver preferred views. */
-  @Bean
-  public TilesViewResolver tilesViewResolver() {
-    final TilesViewResolver resolver = new TilesViewResolver();
-    resolver.setViewClass(TilesView.class);
-    resolver.setOrder(0);
-    return resolver;
-  }
-  
-
   @Bean
   public FilterRegistrationBean<XssFilter> croseSiteFilter(){
       FilterRegistrationBean<XssFilter> registrationBean 
@@ -120,14 +99,6 @@ public class ShopApplicationConfiguration implements WebMvcConfigurer {
 
     // admin panel filter
     registry.addInterceptor(adminFilter()).addPathPatterns("/admin/**");
-  }
-
-  @Override
-  public void configureViewResolvers(ViewResolverRegistry registry) {
-    InternalResourceViewResolver internalResourceViewResolver = new InternalResourceViewResolver();
-    internalResourceViewResolver.setPrefix("/WEB-INF/views/");
-    internalResourceViewResolver.setSuffix(".jsp");
-    registry.viewResolver(internalResourceViewResolver);
   }
 
   @Bean

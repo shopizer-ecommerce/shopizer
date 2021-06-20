@@ -99,18 +99,6 @@
 			<artifactId>spring-security-taglibs</artifactId>
 		</dependency>
 
-		<!-- Add Apache Tiles into the mix -->
-		<dependency>
-			<groupId>org.apache.tiles</groupId>
-			<artifactId>tiles-jsp</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>javax.servlet</groupId>
-					<artifactId>servlet-api</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
 		<!-- https://mvnrepository.com/artifact/commons-collections/commons-collections -->
 		<!-- For Tiles -->
 		<dependency>
@@ -118,7 +106,6 @@
 			<artifactId>commons-collections</artifactId>
 			<version>3.2.2</version>
 		</dependency>
-
 
 		<!-- Mapstruct -->
 		<dependency>
@@ -130,21 +117,6 @@
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.glassfish.web</groupId>
-			<artifactId>jstl-impl</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>javax.servlet</groupId>
-					<artifactId>servlet-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.servlet.jsp</groupId>
-					<artifactId>jsp-api</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -191,8 +163,6 @@
 			<artifactId>passay</artifactId>
 			<version>1.6.0</version>
 		</dependency>
-
-
 
 	</dependencies>
 
