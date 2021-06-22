@@ -118,8 +118,6 @@
 				<version>${shopizer.version}</version>
 			</dependency>
 
-
-
 			<!-- https://mvnrepository.com/artifact/javax.inject/javax.inject -->
 			<dependency>
 				<groupId>javax.inject</groupId>
@@ -135,38 +133,9 @@
 			</dependency>
 
 			<dependency>
-				<groupId>org.apache.tiles</groupId>
-				<artifactId>tiles-jsp</artifactId>
-				<version>3.0.4</version>
-				<exclusions>
-					<exclusion>
-						<groupId>javax.servlet</groupId>
-						<artifactId>servlet-api</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-
-
-			<dependency>
 				<groupId>org.mapstruct</groupId>
 				<artifactId>mapstruct</artifactId>
 				<version>${org.mapstruct.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.glassfish.web</groupId>
-				<artifactId>jstl-impl</artifactId>
-				<version>1.2</version>
-				<exclusions>
-					<exclusion>
-						<groupId>javax.servlet</groupId>
-						<artifactId>servlet-api</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>javax.servlet.jsp</groupId>
-						<artifactId>jsp-api</artifactId>
-					</exclusion>
-				</exclusions>
 			</dependency>
 
 			<dependency>
@@ -230,9 +199,6 @@
 			<!-- For connecting to postgresql -->
 			<!-- <dependency> <groupId>org.postgresql</groupId> <artifactId>postgresql</artifactId> 
 				<version>${postgresql.version}</version> <scope>runtime</scope> </dependency> -->
-
-
-
 
 			<!-- Google Map API -->
 			<dependency>

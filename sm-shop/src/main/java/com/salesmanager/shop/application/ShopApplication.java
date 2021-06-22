@@ -8,17 +8,10 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 
 
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
-public class ShopApplication extends SpringBootServletInitializer {
-	
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(ShopApplication.class);
-    }
-	
+public class ShopApplication {
+
     public static void main(String[] args) {
         SpringApplication.run(ShopApplication.class, args);
     }
-    
-    
 
 }
