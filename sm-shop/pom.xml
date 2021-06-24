@@ -176,5 +176,5 @@
 		<finalName>ROOT</finalName>
 	</build>
 
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 </project>
