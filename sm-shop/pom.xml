@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>com.shopizer</groupId>
 		<artifactId>shopizer</artifactId>
-		<version>3.0.0.BETA</version>
+		<version>3.0.0</version>
 	</parent>
 
 	<artifactId>sm-shop</artifactId>
@@ -70,11 +70,12 @@
 			<artifactId>guava</artifactId>
 		</dependency>
 
-
+		<!--
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 		</dependency>
+		-->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -173,7 +174,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
-		<finalName>ROOT</finalName>
+		<finalName>shopizer</finalName>
 	</build>
 
 	<packaging>jar</packaging>
