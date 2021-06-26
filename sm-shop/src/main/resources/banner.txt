@@ -6,4 +6,4 @@
 \____/ |_| |_| \___/ | .__/ |_|/___| \___||_|   
                      | |                        
                      |_|                        
-[based on Spring Boot version ${spring-boot.version}]
+Shopizer ${application-version} [based on Spring Boot version ${spring-boot.version}]

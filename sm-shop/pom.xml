@@ -16,7 +16,6 @@
 	<url>http://www.shopizer.com</url>
 
 	<properties>
-		<main.basedir>${basedir}/../..</main.basedir>
 		<coverage.lines>.04</coverage.lines>
 		<coverage.branches>.01</coverage.branches>
 		<commons-rng-simple.version>1.3</commons-rng-simple.version>
@@ -70,13 +69,6 @@
 			<artifactId>guava</artifactId>
 		</dependency>
 
-		<!--
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-		</dependency>
-		-->
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
@@ -95,10 +87,12 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<!--
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-taglibs</artifactId>
 		</dependency>
+		-->
 
 		<!-- https://mvnrepository.com/artifact/commons-collections/commons-collections -->
 		<!-- For Tiles -->

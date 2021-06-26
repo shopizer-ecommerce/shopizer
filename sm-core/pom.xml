@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>com.shopizer</groupId>
 		<artifactId>shopizer</artifactId>
-		<version>3.0.0.BETA</version>
+		<version>3.0.0</version>
 	</parent>
 
 	<artifactId>sm-core</artifactId>

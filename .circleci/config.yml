@@ -2,8 +2,6 @@
 #
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
-
-
 version: 2.1
 
 orbs:
@@ -56,15 +54,9 @@ jobs:
        - run: |
            docker login -u shopizerecomm -p $DOCKERHUB_PASSWORD
        - run: |
-           (cd sm-shop && docker build . -t shopizerecomm/shopizer:latest)
+           (cd sm-shop && mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=shopizerecomm/shopizer:3.0.0)
        - run: |
-           docker push shopizerecomm/shopizer:latest
-
-       #- run: |
-       #    docker login -u shopizerecomm  -p $DOCKERHUB_PASSWORD  | ls -al | echo "build docker" | cd sm-shop | ls -al | docker build . -t shopizerecomm/shopizer:latest
-       
-       # deploy the image
-       #- run: docker push shopizerecomm/shopizer:latest
+           docker push shopizerecomm/shopizer:3.0.0
 
 # Orchestrate our job run sequence
 workflows:
@@ -74,26 +66,3 @@ workflows:
       - deploy:
           requires:
             - build
-
-
-#jobs:
-#  build:
-#    steps:
-#      - checkout
-#      - run: echo "this is the build job"
-#  test:
-    #executor: shopizer-ci
-#    steps:
-#      - checkout
-#      - run: echo "this is the test job"
-      #- run: shopizer tests
-
-
-
-#workflows:
-#  build_and_test:
-#    jobs:
-#      - build
-#      - test:
-#          requires:
-#            - build
