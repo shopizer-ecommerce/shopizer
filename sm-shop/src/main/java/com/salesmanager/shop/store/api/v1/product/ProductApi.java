@@ -72,9 +72,9 @@ import springfox.documentation.annotations.ApiIgnore;
  */
 @Controller
 @RequestMapping("/api")
-@Api(tags = { "Product display and management resource (Product display and Management Api. Serves api v1 and v2 with backward compatibility)" })
+@Api(tags = { "Product display and management resource (Product display and Management Api such as adding a product to category. Serves api v1 and v2 with backward compatibility)" })
 @SwaggerDefinition(tags = {
-		@Tag(name = "Product management resource", description = "View product, Add product, edit product and delete product") })
+		@Tag(name = "Product management resource, add product to category", description = "View product, Add product, edit product and delete product") })
 public class ProductApi {
 
 	@Inject
