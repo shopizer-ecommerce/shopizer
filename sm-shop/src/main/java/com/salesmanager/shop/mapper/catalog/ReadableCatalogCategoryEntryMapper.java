@@ -22,9 +22,6 @@ public class ReadableCatalogCategoryEntryMapper implements Mapper<CatalogCategor
 	@Autowired
 	private ReadableCategoryMapper readableCategoryMapper;
 	
-	//@Autowired
-	//private PricingService pricingService;
-	
 	@Autowired
 	@Qualifier("img")
 	private ImageFilePath imageUtils;

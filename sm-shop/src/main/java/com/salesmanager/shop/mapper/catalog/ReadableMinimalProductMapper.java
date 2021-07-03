@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.jsoup.helper.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.salesmanager.core.business.exception.ServiceException;
@@ -31,7 +32,9 @@ public class ReadableMinimalProductMapper implements Mapper<Product, ReadableMin
 	@Autowired
 	private PricingService pricingService;
 
+	
 	@Autowired
+	@Qualifier("img")
 	private ImageFilePath imageUtils;
 
 	@Override
