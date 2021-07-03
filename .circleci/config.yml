@@ -42,13 +42,14 @@ jobs:
        # start proprietary DB using private Docker image
        # with credentials stored in the UI
        - run: |
-           cd sm-shop
        - run: |
            ls -al
+           working_directory: ./sm-shop
        - run: |
            docker login -u shopizerecomm -p $DOCKERHUB_PASSWORD
        - run: |
            (./mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=shopizerecomm/shopizer:3.0.0)
+           working_directory: ./sm-shop
        - run: |
            docker push shopizerecomm/shopizer:3.0.0
 
