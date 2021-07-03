@@ -34,14 +34,6 @@ jobs:
           root: .
           paths:
             - sm-shop/*
-      #- run:
-      #    name: Install Docker client
-      #    command: apk add docker-cli
-      #- run: |
-      #    ls -al
-      #    cd sm-shop
-      #    docker build . -t shopizerecomm/shopizer:latest
-      #    docker build . -t shopizerecomm/shopizer:latest
   deploy:
     machine: true
     steps:
@@ -54,7 +46,7 @@ jobs:
        - run: |
            docker login -u shopizerecomm -p $DOCKERHUB_PASSWORD
        - run: |
-           (cd sm-shop && mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=shopizerecomm/shopizer:3.0.0)
+           (./mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=shopizerecomm/shopizer:3.0.0)
        - run: |
            docker push shopizerecomm/shopizer:3.0.0
 
