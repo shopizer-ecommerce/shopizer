@@ -31,7 +31,7 @@ jobs:
             set -x
             /home/shopizer/tools/shopizer.sh tests
       - persist_to_workspace:
-          root: ~/
+          root: .
           paths:
             - sm-shop/*
   deploy:
@@ -41,6 +41,8 @@ jobs:
           at: .
        # start proprietary DB using private Docker image
        # with credentials stored in the UI
+       - run: |
+	   cd sm-shop
        - run: |
            ls -al
        - run: |
