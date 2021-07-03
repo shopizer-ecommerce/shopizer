@@ -31,7 +31,7 @@ jobs:
             set -x
             /home/shopizer/tools/shopizer.sh tests
       - persist_to_workspace:
-          root: .
+          root: ~/
           paths:
             - sm-shop/*
   deploy:
@@ -46,7 +46,7 @@ jobs:
        - run: |
            docker login -u shopizerecomm -p $DOCKERHUB_PASSWORD
        - run: |
-           (./sm-shop/mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=shopizerecomm/shopizer:3.0.0)
+           (./mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=shopizerecomm/shopizer:3.0.0)
        - run: |
            docker push shopizerecomm/shopizer:3.0.0
 
