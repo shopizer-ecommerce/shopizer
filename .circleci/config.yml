@@ -30,10 +30,16 @@ jobs:
           command: |
             set -x
             /home/shopizer/tools/shopizer.sh tests
-      - persist_to_workspace:
-          root: .
-          paths:
-            - ./*
+      - run:
+          name: list files in repo
+          command: ls -al
+          working_directory: .
+      - run: |
+          docker login -u shopizerecomm -p $DOCKERHUB_PASSWORD
+      #- persist_to_workspace:
+      #    root: .
+      #    paths:
+      #      - ./*
   deploy:
     machine: true
     steps:
@@ -64,6 +70,6 @@ workflows:
   build_and_deploy:
     jobs:
       - build
-      - deploy:
-          requires:
-            - build
+      #- deploy:
+      #    requires:
+      #      - build
