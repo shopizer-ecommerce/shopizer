@@ -33,7 +33,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - sm-shop/*
+            - ./*
   deploy:
     machine: true
     steps:
@@ -44,7 +44,7 @@ jobs:
        - run:
            name: list files in sm-shop
            command: ls -al
-           working_directory: ./sm-shop
+           working_directory: .
        - run: |
            docker login -u shopizerecomm -p $DOCKERHUB_PASSWORD
        - run:
