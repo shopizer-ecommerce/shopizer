@@ -34,6 +34,9 @@ jobs:
           name: list files in repo
           command: ls -al
           working_directory: .
+      - setup_remote_docker:
+          version: 19.03.13
+          docker_layer_caching: true
       - run: |
           docker login -u shopizerecomm -p $DOCKERHUB_PASSWORD
       #- persist_to_workspace:
