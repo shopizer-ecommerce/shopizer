@@ -42,8 +42,12 @@ jobs:
        # start proprietary DB using private Docker image
        # with credentials stored in the UI
        - run:
-           name: list files in sm-shop
+           name: list files in repo
            command: ls -al
+           working_directory: .
+       - run:
+           name: build project
+           command: ./mvnw clean install
            working_directory: .
        - run: |
            docker login -u shopizerecomm -p $DOCKERHUB_PASSWORD
