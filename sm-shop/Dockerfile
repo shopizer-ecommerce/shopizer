@@ -1,5 +1,4 @@
-FROM adoptopenjdk/opendjdk11:latest
-EXPOSE 8080
-ARG JAR_FILE=target/sm-shop.jar
-ADD ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+FROM adoptopenjdk/openjdk11-openj9:latest
+RUN mkdir /opt/app
+COPY sm-shop.jar /opt/app
+CMD ["java", "-jar", "/opt/app/sm-shop.jar"]
