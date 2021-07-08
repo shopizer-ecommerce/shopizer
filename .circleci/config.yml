@@ -64,6 +64,6 @@ workflows:
   build_and_deploy:
     jobs:
       - build
-      #- deploy:
-      #    requires:
-      #      - build
+      - deploy:
+          requires:
+            - build
