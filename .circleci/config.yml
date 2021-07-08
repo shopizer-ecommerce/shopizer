@@ -49,7 +49,7 @@ jobs:
            docker login -u shopizerecomm -p $DOCKERHUB_PASSWORD
        - run:
            name: build image
-           command: (cd sm-shop && docker build . -t shopizerecomm/shopizer:latest)
+           command: (docker build . -t shopizerecomm/shopizer:3.0.0)
            working_directory: ./sm-shop
        - run:
            name: push image
