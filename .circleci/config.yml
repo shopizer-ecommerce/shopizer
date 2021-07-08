@@ -30,19 +30,10 @@ jobs:
           command: |
             set -x
             /home/shopizer/tools/shopizer.sh tests
-      - run:
-          name: list files in repo
-          command: ls -al
-          working_directory: .
-      - setup_remote_docker:
-          version: 19.03.13
-          docker_layer_caching: false
-      - run: |
-          docker login -u shopizerecomm -p $DOCKERHUB_PASSWORD
-      #- persist_to_workspace:
-      #    root: .
-      #    paths:
-      #      - ./*
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ./*
   deploy:
     machine: true
     steps:
