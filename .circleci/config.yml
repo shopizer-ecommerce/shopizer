@@ -45,10 +45,10 @@ jobs:
            name: list files in repo
            command: ls -al
            working_directory: .
-       #- run:
-       #    name: build project
-       #    command: ./mvnw clean install
-       #    working_directory: .
+       - run:
+           name: build project
+           command: ./mvnw -Dmaven.test.skip=true package
+           working_directory: .
        - run: |
            docker login -u shopizerecomm -p $DOCKERHUB_PASSWORD
        - run:
