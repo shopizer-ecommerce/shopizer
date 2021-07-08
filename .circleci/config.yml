@@ -33,7 +33,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - ./*
+            - ./sm-shop
   deploy:
     machine: true
     steps:
@@ -45,15 +45,11 @@ jobs:
            name: list files in repo
            command: ls -al
            working_directory: .
-       - run:
-           name: build project
-           command: ./mvnw -Dmaven.test.skip=true package
-           working_directory: .
        - run: |
            docker login -u shopizerecomm -p $DOCKERHUB_PASSWORD
        - run:
            name: build image
-           command: (./mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=shopizerecomm/shopizer:3.0.0)
+           command: (cd sm-shop && docker build . -t shopizerecomm/shopizer:latest)
            working_directory: ./sm-shop
        - run:
            name: push image
