@@ -49,6 +49,10 @@ jobs:
            name: list files in shop
            command: ls -al
            working_directory: ./sm-shop
+       - run:
+           name: list files in shop
+           command: ls -al
+           working_directory: ./sm-shop/target
        - run: |
            docker login -u shopizerecomm -p $DOCKERHUB_PASSWORD
        - run:
