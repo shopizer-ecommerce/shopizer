@@ -50,7 +50,7 @@ jobs:
            command: ls -al
            working_directory: ./sm-shop
        - run:
-           name: list files in shop
+           name: list files in shop/target
            command: ls -al
            working_directory: ./sm-shop/target
        - run: |
