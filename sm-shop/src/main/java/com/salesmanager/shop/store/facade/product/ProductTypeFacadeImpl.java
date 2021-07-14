@@ -180,5 +180,23 @@ public class ProductTypeFacadeImpl implements ProductTypeFacade {
 		return false;
 	}
 
+	@Override
+	public ReadableProductType get(MerchantStore store, String code, Language language) {
+		ProductType t;
+		try {
+			t = productTypeService.getByCode(code, store, language);
+	    } catch (ServiceException e) {
+			throw new RuntimeException("An exception occured while getting product type [" + code + "] for merchant store [" + store.getCode() +"]",e);
+		}
+
+		if(t == null) {
+			throw new ResourceNotFoundException("Product type [" + code + "] not found for merchant [" + store.getCode() + "]");
+		}
+		
+		ReadableProductType readableType = readableProductTypeMapper.convert(t, store, language);
+		return readableType;
+
+	}
+
 
 }
