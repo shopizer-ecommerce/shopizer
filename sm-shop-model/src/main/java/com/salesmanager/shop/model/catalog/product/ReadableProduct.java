@@ -8,6 +8,7 @@ import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductAttribute;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOption;
+import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductProperty;
 import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
 
 public class ReadableProduct extends ProductEntity implements Serializable {
@@ -26,6 +27,7 @@ public class ReadableProduct extends ProductEntity implements Serializable {
 	private ReadableManufacturer manufacturer;
 	private List<ReadableProductAttribute> attributes = new ArrayList<ReadableProductAttribute>();
 	private List<ReadableProductOption> options = new ArrayList<ReadableProductOption>();
+	private List<ReadableProductProperty> properties = new ArrayList<ReadableProductProperty>();
 	private List<ReadableCategory> categories = new ArrayList<ReadableCategory>();
 	private ReadableProductType type;
 	private boolean canBePurchased = false;
@@ -144,5 +146,14 @@ public class ReadableProduct extends ProductEntity implements Serializable {
 	public void setProductPrice(ReadableProductPrice productPrice) {
 		this.productPrice = productPrice;
 	}
+
+	public List<ReadableProductProperty> getProperties() {
+		return properties;
+	}
+
+	public void setProperties(List<ReadableProductProperty> properties) {
+		this.properties = properties;
+	}
+
 
 }

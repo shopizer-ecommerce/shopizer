@@ -99,7 +99,7 @@ public class ProductApi {
 	@RequestMapping(value = { "/v1/private/product", "/auth/products" }, // private
 																			// for
 																			// api
-																			// //auth
+																			// auth
 																			// for
 																			// user
 																			// adding

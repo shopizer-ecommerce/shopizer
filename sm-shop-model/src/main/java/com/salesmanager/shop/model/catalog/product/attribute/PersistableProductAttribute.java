@@ -12,7 +12,7 @@ public class PersistableProductAttribute extends ProductAttributeEntity
 	private BigDecimal productAttributePrice;
 	private Long productId;
 	
-	private ProductOption option;
+	private ProductPropertyOption option;
 	private ProductOptionValue optionValue;
 	public void setOptionValue(ProductOptionValue optionValue) {
 		this.optionValue = optionValue;
@@ -20,10 +20,10 @@ public class PersistableProductAttribute extends ProductAttributeEntity
 	public ProductOptionValue getOptionValue() {
 		return optionValue;
 	}
-	public void setOption(ProductOption option) {
+	public void setOption(ProductPropertyOption option) {
 		this.option = option;
 	}
-	public ProductOption getOption() {
+	public ProductPropertyOption getOption() {
 		return option;
 	}
 

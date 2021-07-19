@@ -41,6 +41,9 @@ import com.salesmanager.shop.model.catalog.product.RentalOwner;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductAttribute;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductAttributeValue;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOption;
+import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOptionValue;
+import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductProperty;
+import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductPropertyValue;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValueEntity;
 import com.salesmanager.shop.model.catalog.product.type.ProductTypeDescription;
 import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
@@ -255,7 +258,8 @@ public class ReadableProductPopulator extends
 				
 
 				//split read only and options
-				Map<Long,ReadableProductAttribute> readOnlyAttributes = null;
+				//Map<Long,ReadableProductAttribute> readOnlyAttributes = null;
+				Map<Long,ReadableProductProperty> properties = null;
 				Map<Long,ReadableProductOption> selectableOptions = null;
 				
 				if(!CollectionUtils.isEmpty(attributes)) {
@@ -263,12 +267,15 @@ public class ReadableProductPopulator extends
 					for(ProductAttribute attribute : attributes) {
 							ReadableProductOption opt = null;
 							ReadableProductAttribute attr = null;
+							ReadableProductProperty property = null;
+							ReadableProductPropertyValue propertyValue = null;
 							ReadableProductOptionValueEntity optValue = new ReadableProductOptionValueEntity();
 							ReadableProductAttributeValue attrValue = new ReadableProductAttributeValue();
 							
 							ProductOptionValue optionValue = attribute.getProductOptionValue();
 							
-							if(attribute.getAttributeDisplayOnly()) {//read only attribute
+							if(attribute.getAttributeDisplayOnly()) {//read only attribute = property
+								/*
 								if(readOnlyAttributes==null) {
 									readOnlyAttributes = new TreeMap<Long,ReadableProductAttribute>();
 								}
@@ -314,7 +321,76 @@ public class ReadableProductPopulator extends
 								if(attr!=null) {
 									attr.getAttributeValues().add(attrValue);
 								}
+*/			
 								
+
+								//if(properties==null) {
+								//	properties = new TreeMap<Long,ReadableProductProperty>();
+								//}
+								//property = properties.get(attribute.getProductOption().getId());
+								//if(property==null) {
+								property = createProperty(attribute, language);
+								
+								ReadableProductOption readableOption = new ReadableProductOption(); //that is the property
+								ReadableProductPropertyValue readableOptionValue = new ReadableProductPropertyValue();
+								
+								readableOption.setCode(attribute.getProductOption().getCode());
+								readableOption.setId(attribute.getProductOption().getId());
+								
+								Set<ProductOptionDescription> podescriptions = attribute.getProductOption().getDescriptions();
+								if(podescriptions!=null && podescriptions.size()>0) {
+									for(ProductOptionDescription optionDescription : podescriptions) {
+										if(optionDescription.getLanguage().getCode().equals(language.getCode())) {
+											readableOption.setName(optionDescription.getName());
+										}
+									}
+								}
+								
+								property.setProperty(readableOption);
+								
+								Set<ProductOptionValueDescription> povdescriptions = attribute.getProductOptionValue().getDescriptions();
+								readableOptionValue.setId(attribute.getProductOptionValue().getId());
+								if(povdescriptions!=null && povdescriptions.size()>0) {
+									for(ProductOptionValueDescription optionValueDescription : povdescriptions) {
+										if(optionValueDescription.getLanguage().getCode().equals(language.getCode())) {
+											readableOptionValue.setName(optionValueDescription.getName());
+										}
+									}
+								}
+								
+								property.setPropertyValue(readableOptionValue);
+								
+								
+								//} else{
+								//	properties.put(attribute.getProductOption().getId(), property);
+								//}
+								
+/*								propertyValue.setCode(attribute.getProductOptionValue().getCode());
+								propertyValue.setId(attribute.getProductOptionValue().getId());
+	
+
+								propertyValue.setSortOrder(0);
+								if(attribute.getProductOptionSortOrder()!=null) {
+									propertyValue.setSortOrder(attribute.getProductOptionSortOrder().intValue());
+								}
+								
+								List<ProductOptionValueDescription> podescriptions = optionValue.getDescriptionsSettoList();
+								if(podescriptions!=null && podescriptions.size()>0) {
+									for(ProductOptionValueDescription optionValueDescription : podescriptions) {
+										com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription desc = new com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription();
+										desc.setId(optionValueDescription.getId());
+										desc.setName(optionValueDescription.getName());
+										propertyValue.getValues().add(desc);
+									}
+								}
+								
+								property.setPropertyValue(propertyValue);*/
+								
+								//if(attr!=null) {
+								//	attr.getAttributeValues().add(attrValue);
+								//}
+								target.getProperties().add(property);
+
 								
 							} else {//selectable option
 								
@@ -567,6 +643,37 @@ public class ReadableProductPopulator extends
 		attr.setCode(productAttribute.getProductOption().getCode());
 
 		
+		return attr;
+		
+	}
+	
+	private ReadableProductProperty createProperty(ProductAttribute productAttribute, Language language) {
+		
+
+		ReadableProductProperty attr = new ReadableProductProperty();
+		attr.setId(productAttribute.getProductOption().getId());//attribute of the option
+		attr.setType(productAttribute.getProductOption().getProductOptionType());
+		
+		
+		
+		
+		List<ProductOptionDescription> descriptions = productAttribute.getProductOption().getDescriptionsSettoList();
+		
+		ReadableProductPropertyValue propertyValue = new ReadableProductPropertyValue();
+		
+		
+		if(descriptions!=null && descriptions.size()>0) {
+			for(ProductOptionDescription optionDescription : descriptions) {
+				com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription productOptionValueDescription = new com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription();
+				productOptionValueDescription.setId(optionDescription.getId());
+				productOptionValueDescription.setLanguage(optionDescription.getLanguage().getCode());
+				productOptionValueDescription.setName(optionDescription.getName());
+				propertyValue.getValues().add(productOptionValueDescription);
+
+			}
+		}
+
+		attr.setCode(productAttribute.getProductOption().getCode());
 		return attr;
 		
 	}

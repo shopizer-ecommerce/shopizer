@@ -1,5 +1,7 @@
 package com.salesmanager.shop.store.api.v1.product;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -30,6 +32,8 @@ import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProduct
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionList;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValueEntity;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValueList;
+import com.salesmanager.shop.model.entity.CodeEntity;
+import com.salesmanager.shop.model.entity.Entity;
 import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.store.controller.product.facade.ProductOptionFacade;
 
@@ -95,7 +99,9 @@ public class ProductOptionApi {
 			@Valid @RequestBody PersistableProductOptionValueEntity optionValue,
 			//@RequestParam(name = "file", required = false) MultipartFile file, 
 			@ApiIgnore MerchantStore merchantStore,
-			@ApiIgnore Language language, HttpServletRequest request, HttpServletResponse response) {
+			@ApiIgnore Language language, 
+			HttpServletRequest request, 
+			HttpServletResponse response) {
 
 		ReadableProductOptionValueEntity entity = productOptionFacade.saveOptionValue( optionValue,
 				merchantStore, language);
@@ -278,13 +284,45 @@ public class ProductOptionApi {
 	@RequestMapping(value = { "/private/product/{id}/attribute" }, method = RequestMethod.POST)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public @ResponseBody ReadableProductAttributeEntity createAttribute(
+	public @ResponseBody Entity createAttribute(
 			@PathVariable Long id,
-			@Valid @RequestBody PersistableProductAttribute attribute, @ApiIgnore MerchantStore merchantStore,
-			@ApiIgnore Language language, HttpServletRequest request, HttpServletResponse response) {
+			@Valid @RequestBody PersistableProductAttribute attribute, 
+			@ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language, 
+			HttpServletRequest request, 
+			HttpServletResponse response) {
 
-		ReadableProductAttributeEntity entity = productOptionFacade.saveAttribute(id, attribute, merchantStore, language);
+		ReadableProductAttributeEntity attributeEntity = productOptionFacade.saveAttribute(id, attribute, merchantStore, language);
+
+		Entity entity = new Entity();
+		entity.setId(attributeEntity.getId());
 		return entity;
+
+
+	}
+	
+	/**
+	 * Create multiple attributes
+	 * @param id
+	 * @param attributeId
+	 * @param merchantStore
+	 * @param language
+	 * @param request
+	 * @param response
+	 */
+	@ResponseStatus(HttpStatus.CREATED)
+	@RequestMapping(value = { "/private/product/{id}/attributes" }, method = RequestMethod.POST)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	@ApiOperation(httpMethod = "POST", value = "Saves multiple attributes", produces = "application/json", response = CodeEntity.class)
+	public List<CodeEntity> createAttributes(
+			@PathVariable Long id,
+			@Valid @RequestBody List<PersistableProductAttribute> attributes, 
+			@ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language) {
+		
+		
+		return productOptionFacade.createAttributes(attributes, id, merchantStore);
 
 	}
 	
@@ -301,6 +339,8 @@ public class ProductOptionApi {
 		return;
 
 	}
+	
+
 
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = { "/private/product/{id}/attribute/{attributeId}" }, method = RequestMethod.DELETE)

@@ -1,5 +1,7 @@
 package com.salesmanager.shop.store.controller.product.facade;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -13,6 +15,7 @@ import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProduct
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionList;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValueEntity;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValueList;
+import com.salesmanager.shop.model.entity.CodeEntity;
 
 
 /*
@@ -28,6 +31,9 @@ public interface ProductOptionFacade {
   
   ReadableProductOptionValueEntity saveOptionValue(PersistableProductOptionValueEntity optionValue, MerchantStore store, Language language);
 
+  List<CodeEntity> createAttributes(List<PersistableProductAttribute> attributes, Long productId, MerchantStore store);
+  void updateAttributes(List<PersistableProductAttribute> attributes, Long productId, MerchantStore store);
+  
   void addOptionValueImage(MultipartFile image, Long optionValueId, MerchantStore store, Language language);
   
   void removeOptionValueImage(Long optionValueId, MerchantStore store, Language language);
