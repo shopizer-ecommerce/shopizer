@@ -12,6 +12,8 @@ public interface ProductTypeFacade {
   
   ReadableProductType get(MerchantStore store, Long id, Language language);
   
+  ReadableProductType get(MerchantStore store, String code, Language language);
+  
   Long save(PersistableProductType type, MerchantStore store, Language language);
   
   void update(PersistableProductType type, Long id, MerchantStore store, Language language);

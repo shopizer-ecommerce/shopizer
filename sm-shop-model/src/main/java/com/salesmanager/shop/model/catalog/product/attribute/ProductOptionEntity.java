@@ -2,7 +2,7 @@ package com.salesmanager.shop.model.catalog.product.attribute;
 
 import java.io.Serializable;
 
-public class ProductOptionEntity extends ProductOption implements Serializable {
+public class ProductOptionEntity extends ProductPropertyOption implements Serializable {
 
 	/**
 	 * 

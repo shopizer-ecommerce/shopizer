@@ -39,6 +39,7 @@ import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProduct
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionList;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValueEntity;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValueList;
+import com.salesmanager.shop.model.entity.CodeEntity;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.controller.product.facade.ProductOptionFacade;
@@ -324,22 +325,28 @@ public class ProductOptionFacadeImpl implements ProductOptionFacade {
 
 		return readable;
 	}
+	
+	private Product product(long id, MerchantStore store) {
+		Product product = productService.getById(id);
+
+		if (product == null) {
+			throw new ResourceNotFoundException("Productnot found for id [" + id + "]");
+		}
+
+		if (product.getMerchantStore().getId().intValue() != store.getId().intValue()) {
+			throw new ResourceNotFoundException(
+					"Productnot found id [" + id + "] for store [" + store.getCode() + "]");
+		}
+		
+		return product;
+	}
 
 	@Override
 	public ReadableProductAttributeList getAttributesList(Long productId, MerchantStore store, Language language) {
 
 		try {
 
-			Product product = productService.getById(productId);
-
-			if (product == null) {
-				throw new ResourceNotFoundException("Productnot found for id [" + productId + "]");
-			}
-
-			if (product.getMerchantStore().getId().intValue() != store.getId().intValue()) {
-				throw new ResourceNotFoundException(
-						"Productnot found id [" + productId + "] for store [" + store.getCode() + "]");
-			}
+			Product product = this.product(productId, store);
 
 			List<ProductAttribute> attributes = productAttributeService.getByProductId(store, product, language);
 			ReadableProductAttributeList attrList = new ReadableProductAttributeList();
@@ -443,10 +450,47 @@ public class ProductOptionFacadeImpl implements ProductOptionFacade {
 			throw new ServiceRuntimeException("Exception while removing option value image", e);
 		}
 
-
-		
-		
 		return;
+	}
+
+	@Override
+	public List<CodeEntity> createAttributes(List<PersistableProductAttribute> attributes, Long productId,
+			MerchantStore store) {
+		Validate.notNull(productId,"Product id must not be null");
+		Validate.notNull(store,"Merchant cannot be null");
+
+		//convert to model
+		
+		List<ProductAttribute> modelAttributes = attributes.stream().map(attr -> persistableProductAttributeMapper.convert(attr, store, null)).collect(Collectors.toList());
+		
+		try {
+			productAttributeService.saveAll(modelAttributes);
+		
+			//save to a product
+			Product product = this.product(productId, store);
+			product.getAttributes().addAll(modelAttributes);
+		
+		
+			productService.save(product);
+		} catch (ServiceException e) {
+			throw new ServiceRuntimeException("Exception while saving product with attributes", e);
+		}
+		
+		return modelAttributes.stream().map(e -> codeEntity(e)).collect(Collectors.toList());
+
+	}
+	
+	private CodeEntity codeEntity(ProductAttribute attr) {
+		CodeEntity entity = new CodeEntity();
+		entity.setId(attr.getId());
+		entity.setCode(attr.getProductOption().getCode());
+		return entity;
+	}
+
+	@Override
+	public void updateAttributes(List<PersistableProductAttribute> attributes, Long productId, MerchantStore store) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

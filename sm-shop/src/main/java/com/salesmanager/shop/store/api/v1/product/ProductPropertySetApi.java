@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -35,16 +36,16 @@ import springfox.documentation.annotations.ApiIgnore;
 
 @Controller
 @RequestMapping("/api/v1")
-@Api(tags = { "Product options set /options / options values regroupment management resource (Product Options Set Management Api)" })
+@Api(tags = { "Product property set regroupment management resource (Product Options Set Management Api)" })
 @SwaggerDefinition(tags = {
-		@Tag(name = "Product options set /options / options values regroupment management resource", description = "Edit product option set") })
-public class ProductOptionSetApi {
+		@Tag(name = "Product property set regroupment management resource resource", description = "Edit product property set") })
+public class ProductPropertySetApi {
 
 	@Autowired
 	private ProductOptionSetFacade productOptionSetFacade;
 
 	@ResponseStatus(HttpStatus.CREATED)
-	@RequestMapping(value = { "/private/product/option/set" }, method = RequestMethod.POST)
+	@RequestMapping(value = { "/private/product/property/set" }, method = RequestMethod.POST)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
 	public void create(
@@ -57,7 +58,7 @@ public class ProductOptionSetApi {
 	}
 
 	@ResponseStatus(HttpStatus.OK)
-	@GetMapping(value = { "/private/product/option/set/unique" }, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = { "/private/product/property/set/unique" }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
 	@ApiOperation(httpMethod = "GET", value = "Check if option set code already exists", notes = "", response = EntityExists.class)
@@ -72,7 +73,7 @@ public class ProductOptionSetApi {
 
 
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = { "/private/product/option/set/{id}" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/private/product/property/set/{id}" }, method = RequestMethod.GET)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
 	@ResponseBody
@@ -87,7 +88,7 @@ public class ProductOptionSetApi {
 
 
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = { "/private/product/option/set/{id}" }, method = RequestMethod.PUT)
+	@RequestMapping(value = { "/private/product/property/set/{id}" }, method = RequestMethod.PUT)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
 	public void update(
@@ -103,7 +104,7 @@ public class ProductOptionSetApi {
 
 
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = { "/private/product/option/set/{id}" }, method = RequestMethod.DELETE)
+	@RequestMapping(value = { "/private/product/property/set/{id}" }, method = RequestMethod.DELETE)
 	@ApiImplicitParams({ 
 		@ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
@@ -116,17 +117,31 @@ public class ProductOptionSetApi {
 
 	}
 
+	/**
+	 * Get property set by store
+	 * filter by product type
+	 * @param merchantStore
+	 * @param language
+	 * @return
+	 */
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = { "/private/product/option/set" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/private/product/property/set" }, method = RequestMethod.GET)
 	@ApiImplicitParams({ 
 		@ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
 	public @ResponseBody List<ReadableProductOptionSet> list(
 			@ApiIgnore MerchantStore merchantStore,
-			@ApiIgnore Language language) {
+			@ApiIgnore Language language,
+			@RequestParam(value = "productType", required = false) String type) {
 
-		return productOptionSetFacade.list(merchantStore, language);
+		if(!StringUtils.isBlank(type)) {
+			return productOptionSetFacade.list(merchantStore, language, type);
+		} else {
+			return productOptionSetFacade.list(merchantStore, language);
+		}
+		
 		
 	}
+	
 
 }

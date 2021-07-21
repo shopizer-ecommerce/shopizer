@@ -4,7 +4,7 @@ import java.io.Serializable;
 import com.salesmanager.shop.model.entity.Entity;
 
 
-public class ProductOption extends Entity implements Serializable {
+public class ProductPropertyOption extends Entity implements Serializable {
 
   /**
    * 
