@@ -1,5 +1,6 @@
 package com.salesmanager.shop.model.catalog.product.product.definition;
 
+import com.salesmanager.shop.model.catalog.product.ProductSpecification;
 import com.salesmanager.shop.model.entity.Entity;
 
 /**
@@ -14,17 +15,23 @@ public class ProductDefinition extends Entity {
 	 */
 	private static final long serialVersionUID = 1L;
 	private boolean visible = true;
-	private Double rating = 0D;
-	private int ratingCount;
+	private boolean shipeable = true;
+	private boolean virtual = true;
+	//private Double rating = 0D;
+	//private int ratingCount;
 	private String dateAvailable;
 	private String identifier;
+	private ProductSpecification productSpecifications;
+	private int sortOrder;
+	private int quantity;
+	
 	public boolean isVisible() {
 		return visible;
 	}
 	public void setVisible(boolean visible) {
 		this.visible = visible;
 	}
-	public Double getRating() {
+/*	public Double getRating() {
 		return rating;
 	}
 	public void setRating(Double rating) {
@@ -35,7 +42,7 @@ public class ProductDefinition extends Entity {
 	}
 	public void setRatingCount(int ratingCount) {
 		this.ratingCount = ratingCount;
-	}
+	}*/
 	public String getDateAvailable() {
 		return dateAvailable;
 	}
@@ -48,5 +55,36 @@ public class ProductDefinition extends Entity {
 	public void setIdentifier(String identifier) {
 		this.identifier = identifier;
 	}
+	public ProductSpecification getProductSpecifications() {
+		return productSpecifications;
+	}
+	public void setProductSpecifications(ProductSpecification productSpecifications) {
+		this.productSpecifications = productSpecifications;
+	}
+	public int getSortOrder() {
+		return sortOrder;
+	}
+	public void setSortOrder(int sortOrder) {
+		this.sortOrder = sortOrder;
+	}
+	public boolean isShipeable() {
+		return shipeable;
+	}
+	public void setShipeable(boolean shipeable) {
+		this.shipeable = shipeable;
+	}
+	public boolean isVirtual() {
+		return virtual;
+	}
+	public void setVirtual(boolean virtual) {
+		this.virtual = virtual;
+	}
+	public int getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
 
 }

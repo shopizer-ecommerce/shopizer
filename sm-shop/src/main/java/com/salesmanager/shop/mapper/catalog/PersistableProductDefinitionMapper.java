@@ -10,7 +10,6 @@ import java.util.Set;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
-import org.drools.core.util.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -149,10 +148,10 @@ public class PersistableProductDefinitionMapper implements Mapper<PersistablePro
 				destination.setDescriptions(descriptions);
 			}
 
-			if(source.getRating() != null) {
-				destination.setProductReviewAvg(new BigDecimal(source.getRating()));
-			}
-			destination.setProductReviewCount(source.getRatingCount());
+			//if(source.getRating() != null) {
+			//	destination.setProductReviewAvg(new BigDecimal(source.getRating()));
+			//}
+			//destination.setProductReviewCount(source.getRatingCount());
 			
 			/**
 			 * Product definition
@@ -169,7 +168,7 @@ public class PersistableProductDefinitionMapper implements Mapper<PersistablePro
 			              defaultPrice = p;
 			              break;
 			            }
-			            p.setDefaultPrice(false);
+			            //p.setDefaultPrice(false);
 			          }
 			        }
 		      }
@@ -179,7 +178,7 @@ public class PersistableProductDefinitionMapper implements Mapper<PersistablePro
 		      productAvailability = new ProductAvailability(destination, store);
 		      destination.getAvailabilities().add(productAvailability);
 		      
-		      productAvailability.setProductQuantity(1);
+		      productAvailability.setProductQuantity(source.getQuantity());
 			  productAvailability.setProductQuantityOrderMin(1);
 			  productAvailability.setProductQuantityOrderMax(1);
 			  productAvailability.setRegion(Constants.ALL_REGIONS);
@@ -193,7 +192,7 @@ public class PersistableProductDefinitionMapper implements Mapper<PersistablePro
 
 			    defaultPrice = new ProductPrice();
 			    defaultPrice.setDefaultPrice(true);
-			    defaultPrice.setProductPriceAmount(new BigDecimal(0));
+			    defaultPrice.setProductPriceAmount(source.getPrice());
 			    defaultPrice.setCode(ProductPriceEntity.DEFAULT_PRICE_CODE);
 			    defaultPrice.setProductAvailability(productAvailability);
                 productAvailability.getPrices().add(defaultPrice);
@@ -206,6 +205,36 @@ public class PersistableProductDefinitionMapper implements Mapper<PersistablePro
                   defaultPrice.getDescriptions().add(ppd);
                 }
 			}
+			
+			if(source.getProductSpecifications()!=null) {
+				destination.setProductHeight(source.getProductSpecifications().getHeight());
+				destination.setProductLength(source.getProductSpecifications().getLength());
+				destination.setProductWeight(source.getProductSpecifications().getWeight());
+				destination.setProductWidth(source.getProductSpecifications().getWidth());
+    			
+    			
+    	         if(source.getProductSpecifications().getManufacturer()!=null) {
+                   
+                   Manufacturer manuf = null;
+                   if(!StringUtils.isBlank(source.getProductSpecifications().getManufacturer())) {
+                       manuf = manufacturerService.getByCode(store, source.getProductSpecifications().getManufacturer());
+                   } 
+                   
+                   if(manuf==null) {
+                       throw new ConversionException("Invalid manufacturer id");
+                   }
+                   if(manuf!=null) {
+                       if(manuf.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
+                           throw new ConversionException("Invalid manufacturer id");
+                       }
+                       destination.setManufacturer(manuf);
+                   }
+               }
+    			
+			}
+			destination.setSortOrder(source.getSortOrder());
+			destination.setProductVirtual(source.isVirtual());
+			destination.setProductShipeable(source.isShipeable());
 			
 			
 			//attributes

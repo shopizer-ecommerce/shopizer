@@ -12,19 +12,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
 import com.salesmanager.core.model.catalog.product.image.ProductImage;
+import com.salesmanager.core.model.catalog.product.price.FinalPrice;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
+import com.salesmanager.shop.model.catalog.product.ProductSpecification;
 import com.salesmanager.shop.model.catalog.product.ReadableImage;
 import com.salesmanager.shop.model.catalog.product.product.definition.ReadableProductDefinition;
 import com.salesmanager.shop.model.catalog.product.product.definition.ReadableProductDefinitionFull;
 import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
+import com.salesmanager.shop.model.references.DimensionUnitOfMeasure;
+import com.salesmanager.shop.model.references.WeightUnitOfMeasure;
+import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.ImageFilePath;
 
@@ -39,6 +47,9 @@ public class ReadableProductDefinitionMapper implements Mapper<Product, Readable
 
 	@Autowired
 	private ReadableManufacturerMapper readableManufacturerMapper;
+	
+	@Autowired
+	private PricingService pricingService;
 	
 	@Autowired
 	@Qualifier("img")
@@ -81,7 +92,7 @@ public class ReadableProductDefinitionMapper implements Mapper<Product, Readable
 			}
 		}
 
-		if (source.getProductReviewAvg() != null) {
+/*		if (source.getProductReviewAvg() != null) {
 			double avg = source.getProductReviewAvg().doubleValue();
 			double rating = Math.round(avg * 2) / 2.0f;
 			returnDestination.setRating(rating);
@@ -89,7 +100,8 @@ public class ReadableProductDefinitionMapper implements Mapper<Product, Readable
 
 		if (source.getProductReviewCount() != null) {
 			returnDestination.setRatingCount(source.getProductReviewCount().intValue());
-		}
+		}*/
+		
 		if (description != null) {
 			com.salesmanager.shop.model.catalog.product.ProductDescription tragetDescription = populateDescription(
 					description);
@@ -112,11 +124,27 @@ public class ReadableProductDefinitionMapper implements Mapper<Product, Readable
 			}
 			returnDestination.setCategories(categoryList);
 		}
+		
+		
+		ProductSpecification specifications = new ProductSpecification();
+		specifications.setHeight(source.getProductHeight());
+		specifications.setLength(source.getProductLength());
+		specifications.setWeight(source.getProductWeight());
+		specifications.setWidth(source.getProductWidth());
+		if(!StringUtils.isBlank(store.getSeizeunitcode())) {
+			specifications.setDimensionUnitOfMeasure(DimensionUnitOfMeasure.valueOf(store.getSeizeunitcode().toLowerCase()));
+		}
+		if(!StringUtils.isBlank(store.getWeightunitcode())) {
+			specifications.setWeightUnitOfMeasure(WeightUnitOfMeasure.valueOf(store.getWeightunitcode().toLowerCase()));
+		}
+		returnDestination.setProductSpecifications(specifications);
 
 		if (source.getType() != null) {
 			ReadableProductType readableType = readableProductTypeMapper.convert(source.getType(), store, language);
 			returnDestination.setType(readableType);
 		}
+		
+		returnDestination.setSortOrder(source.getSortOrder());
 		
 		//images
 		Set<ProductImage> images = source.getImages();
@@ -125,10 +153,31 @@ public class ReadableProductDefinitionMapper implements Mapper<Product, Readable
 			List<ReadableImage> imageList = images.stream().map(i -> this.convertImage(source, i, store)).collect(Collectors.toList());
 			returnDestination.setImages(imageList);
 		}
+		
+		//quantity
+		ProductAvailability availability = null;
+		for(ProductAvailability a : source.getAvailabilities()) {
+				availability = a;
+				returnDestination.setQuantity(availability.getProductQuantity() == null ? 1:availability.getProductQuantity());
+		}
+		
+		FinalPrice price = null;
+		try {
+			price = pricingService.calculateProductPrice(source);
+		} catch (ServiceException e) {
+			throw new ConversionRuntimeException("Unable to get product price", e);
+		}
+		
+		if(price != null) {
+
+			returnDestination.setPrice(price.getStringPrice());
+		}
 
 		if (returnDestination instanceof ReadableProductDefinitionFull) {
 			((ReadableProductDefinitionFull) returnDestination).setDescriptions(fulldescriptions);
 		}
+		
+
 		
 
 		return returnDestination;
