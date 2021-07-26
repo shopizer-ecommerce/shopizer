@@ -236,8 +236,6 @@ public class StoreFacadeImpl implements StoreFacade {
 	private void updateMerchantStore(MerchantStore mStore) {
 		try {
 			merchantStoreService.update(mStore);
-			MerchantStore refreshed = merchantStoreService.getByCode(mStore.getCode());
-			System.out.println("Done");
 		} catch (ServiceException e) {
 			throw new ServiceRuntimeException(e);
 		}

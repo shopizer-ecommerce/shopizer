@@ -58,10 +58,12 @@ public class PersistableProductAttributeMapper implements Mapper<PersistableProd
 		if(!StringUtils.isBlank(source.getOptionValue().getCode())) {
 			productOptionValue = productOptionValueService.getByCode(store, source.getOptionValue().getCode());
 		} else {
-			productOptionValue = productOptionValueService.getById(source.getOptionValue().getId());
+			if(source.getProductId() != null && source.getId().longValue()>0) {
+				productOptionValue = productOptionValueService.getById(source.getOptionValue().getId());
+			}
 		}
 		
-		if(productOptionValue==null) {
+		if(productOptionValue==null && ! source.isAttributeDisplayOnly()) {
 			throw new ConversionRuntimeException("Product option value id " + source.getOptionValue().getId() + " does not exist");
 		}
 		
@@ -69,7 +71,7 @@ public class PersistableProductAttributeMapper implements Mapper<PersistableProd
 			throw new ConversionRuntimeException("Invalid product option id ");
 		}
 		
-		if(productOptionValue.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
+		if(productOptionValue!=null && productOptionValue.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
 			throw new ConversionRuntimeException("Invalid product option value id ");
 		}
 		
@@ -87,6 +89,13 @@ public class PersistableProductAttributeMapper implements Mapper<PersistableProd
 		} else {
 			destination.setId(null);
 		}
+		
+		if(productOptionValue==null && ! source.isAttributeDisplayOnly()) {
+			productOptionValue = new ProductOptionValue();
+			//productOptionValue.getDescriptions().stream().
+		}
+		
+		
 		destination.setProductOption(productOption);
 		destination.setProductOptionValue(productOptionValue);
 		destination.setProductAttributePrice(source.getProductAttributePrice());

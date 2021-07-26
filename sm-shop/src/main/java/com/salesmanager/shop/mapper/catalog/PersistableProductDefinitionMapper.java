@@ -166,6 +166,9 @@ public class PersistableProductDefinitionMapper implements Mapper<PersistablePro
 			            if(productAvailability == null) {
 			              productAvailability = avail;
 			              defaultPrice = p;
+			              productAvailability.setProductQuantity(source.getQuantity());
+			              productAvailability.setProductStatus(source.isCanBePurchased());
+			              p.setProductPriceAmount(source.getPrice());
 			              break;
 			            }
 			            //p.setDefaultPrice(false);
@@ -183,6 +186,7 @@ public class PersistableProductDefinitionMapper implements Mapper<PersistablePro
 			  productAvailability.setProductQuantityOrderMax(1);
 			  productAvailability.setRegion(Constants.ALL_REGIONS);
 			  productAvailability.setAvailable(Boolean.valueOf(destination.isAvailable()));
+			  productAvailability.setProductStatus(source.isCanBePurchased());
 		    }
 
 

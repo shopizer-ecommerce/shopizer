@@ -17,6 +17,7 @@ public class ProductDefinition extends Entity {
 	private boolean visible = true;
 	private boolean shipeable = true;
 	private boolean virtual = true;
+	private boolean canBePurchased = true;
 	//private Double rating = 0D;
 	//private int ratingCount;
 	private String dateAvailable;
@@ -84,6 +85,12 @@ public class ProductDefinition extends Entity {
 	}
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+	public boolean isCanBePurchased() {
+		return canBePurchased;
+	}
+	public void setCanBePurchased(boolean canBePurchased) {
+		this.canBePurchased = canBePurchased;
 	}
 
 
