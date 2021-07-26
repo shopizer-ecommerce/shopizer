@@ -191,9 +191,9 @@ exécuter en tant qu'application Java
 ### Accédez à l'application:
 -------------------
 
-Accédez à l'application Web déployée à l'adresse: http: // localhost: 8080 /
+Accédez à l'application Web déployée à l'adresse: http: //localhost:8080/
 
-Accédez à la section d'administration à l'adresse: http: // localhost: 8080 / admin
+Accédez à la section d'administration à l'adresse: http://localhost: 8080/admin
 
 nom d'utilisateur: admin@shopizer.com
 
@@ -220,3 +220,4 @@ N'hésitez pas à utiliser le formulaire de contact <http://www.shopizer.com/con
 afin que nous puissions envoyer une invitation sur notre chaîne Slack
 
 
+### for assignment purpose only please ignore thank you
