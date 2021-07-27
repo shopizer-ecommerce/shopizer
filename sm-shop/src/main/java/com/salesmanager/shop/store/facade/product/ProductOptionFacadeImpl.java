@@ -31,6 +31,7 @@ import com.salesmanager.shop.mapper.catalog.ReadableProductAttributeMapper;
 import com.salesmanager.shop.mapper.catalog.ReadableProductOptionMapper;
 import com.salesmanager.shop.mapper.catalog.ReadableProductOptionValueMapper;
 import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductAttribute;
+import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductOptionValue;
 import com.salesmanager.shop.model.catalog.product.attribute.api.PersistableProductOptionEntity;
 import com.salesmanager.shop.model.catalog.product.attribute.api.PersistableProductOptionValueEntity;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductAttributeEntity;
@@ -216,7 +217,7 @@ public class ProductOptionFacadeImpl implements ProductOptionFacade {
 	}
 
 	@Override
-	public ReadableProductOptionValueEntity saveOptionValue(PersistableProductOptionValueEntity optionValue,
+	public ReadableProductOptionValueEntity saveOptionValue(PersistableProductOptionValue optionValue,
 			MerchantStore store, Language language) {
 		Validate.notNull(optionValue, "Option value code must not be null");
 		Validate.notNull(store, "Store code must not be null");

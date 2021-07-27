@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductAttribute;
+import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductOptionValue;
 import com.salesmanager.shop.model.catalog.product.attribute.api.PersistableProductOptionEntity;
 import com.salesmanager.shop.model.catalog.product.attribute.api.PersistableProductOptionValueEntity;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductAttributeEntity;
@@ -96,7 +97,7 @@ public class ProductOptionApi {
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
 	public @ResponseBody ReadableProductOptionValueEntity createOptionValue(
-			@Valid @RequestBody PersistableProductOptionValueEntity optionValue,
+			@Valid @RequestBody PersistableProductOptionValue optionValue,
 			//@RequestParam(name = "file", required = false) MultipartFile file, 
 			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language, 
@@ -194,7 +195,7 @@ public class ProductOptionApi {
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
 	public void updateOptionValue(
 			@PathVariable Long id,
-			@Valid @RequestBody PersistableProductOptionValueEntity optionValue,
+			@Valid @RequestBody PersistableProductOptionValue optionValue,
 			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language, HttpServletRequest request, HttpServletResponse response) {
 
