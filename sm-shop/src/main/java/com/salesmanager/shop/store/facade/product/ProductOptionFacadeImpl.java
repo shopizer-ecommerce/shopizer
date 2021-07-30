@@ -270,6 +270,8 @@ public class ProductOptionFacadeImpl implements ProductOptionFacade {
 			MerchantStore store, Language language) {
 		Validate.notNull(productId, "Product id cannot be null");
 		Validate.notNull(attribute, "ProductAttribute cannot be null");
+		Validate.notNull(attribute.getOption(), "ProductAttribute option cannot be null");
+		Validate.notNull(attribute.getOptionValue(), "ProductAttribute option value cannot be null");
 		Validate.notNull(store, "Store cannot be null");
 
 		attribute.setProductId(productId);
@@ -349,7 +351,12 @@ public class ProductOptionFacadeImpl implements ProductOptionFacade {
 
 			Product product = this.product(productId, store);
 
-			List<ProductAttribute> attributes = productAttributeService.getByProductId(store, product, language);
+			List<ProductAttribute> attributes = null;
+			if(language != null) {
+				attributes = productAttributeService.getByProductId(store, product, language);
+			} else {
+				attributes = productAttributeService.getByProductId(store, product);
+			}
 			ReadableProductAttributeList attrList = new ReadableProductAttributeList();
 			attrList.setRecordsTotal(attributes.size());
 			attrList.setNumber(attributes.size());

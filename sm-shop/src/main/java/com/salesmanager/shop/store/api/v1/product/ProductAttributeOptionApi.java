@@ -26,7 +26,6 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductAttribute;
 import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductOptionValue;
 import com.salesmanager.shop.model.catalog.product.attribute.api.PersistableProductOptionEntity;
-import com.salesmanager.shop.model.catalog.product.attribute.api.PersistableProductOptionValueEntity;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductAttributeEntity;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductAttributeList;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionEntity;
@@ -48,10 +47,10 @@ import springfox.documentation.annotations.ApiIgnore;
 
 @Controller
 @RequestMapping("/api/v1")
-@Api(tags = { "Product attributes /options / options values management resource (Product Option Management Api)" })
+@Api(tags = { "Product attributes and (options / options) values management resource (Product Option Management Api)" })
 @SwaggerDefinition(tags = {
-		@Tag(name = "Product attributes /options / options values management resource", description = "Edit product attributes / options and product option values") })
-public class ProductOptionApi {
+		@Tag(name = "Product attributes and (options / options) values management resource", description = "Edit product attributes / options and product option values") })
+public class ProductAttributeOptionApi {
 
 	@Autowired
 	private ProductOptionFacade productOptionFacade;

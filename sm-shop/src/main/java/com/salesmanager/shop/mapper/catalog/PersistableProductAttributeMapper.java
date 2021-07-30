@@ -67,7 +67,7 @@ public class PersistableProductAttributeMapper implements Mapper<PersistableProd
 		
 		if(!StringUtils.isBlank(source.getOptionValue().getCode())) {
 			productOptionValue = productOptionValueService.getByCode(store, source.getOptionValue().getCode());
-		} else if(source.getProductId() != null && source.getId().longValue()>0) {
+		} else if(source.getProductId() != null && source.getOptionValue().getId().longValue()>0) {
 			productOptionValue = productOptionValueService.getById(source.getOptionValue().getId());
 		} else {
 			//ProductOption value is text

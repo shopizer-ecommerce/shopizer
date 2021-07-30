@@ -91,4 +91,9 @@ public class ProductAttributeServiceImpl extends
 	  return productAttributeRepository.findOptionsByCategoryLineage(store.getId(), lineage, language.getId());
   }
 
+@Override
+public List<ProductAttribute> getByProductId(MerchantStore store, Product product) throws ServiceException {
+	return productAttributeRepository.findByProductId(store.getId(), product.getId());
+}
+
 }
