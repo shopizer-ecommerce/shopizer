@@ -171,7 +171,6 @@ public class PersistableProductDefinitionMapper implements Mapper<PersistablePro
 			              p.setProductPriceAmount(source.getPrice());
 			              break;
 			            }
-			            //p.setDefaultPrice(false);
 			          }
 			        }
 		      }
