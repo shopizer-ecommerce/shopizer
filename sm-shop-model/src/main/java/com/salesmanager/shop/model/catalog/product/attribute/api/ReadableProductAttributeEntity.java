@@ -9,6 +9,7 @@ public class ReadableProductAttributeEntity extends ProductAttributeEntity {
 	
 	private String productAttributeWeight;
 	private String productAttributePrice;
+	private String productAttributeUnformattedPrice;
 	
 	private ReadableProductOptionEntity option;
 	private ReadableProductOptionValueEntity optionValue;
@@ -35,6 +36,12 @@ public class ReadableProductAttributeEntity extends ProductAttributeEntity {
 	}
 	public void setOptionValue(ReadableProductOptionValueEntity optionValue) {
 		this.optionValue = optionValue;
+	}
+	public String getProductAttributeUnformattedPrice() {
+		return productAttributeUnformattedPrice;
+	}
+	public void setProductAttributeUnformattedPrice(String productAttributeUnformattedPrice) {
+		this.productAttributeUnformattedPrice = productAttributeUnformattedPrice;
 	}
 
 

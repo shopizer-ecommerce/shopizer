@@ -1,5 +1,6 @@
 package com.salesmanager.shop.model.catalog.product.product.definition;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class PersistableProductDefinition extends ProductDefinition {
 	private List<Category> categories = new ArrayList<Category>();
 	private String type;
 	private String manufacturer;
+	private BigDecimal price;
 	public List<ProductDescription> getDescriptions() {
 		return descriptions;
 	}
@@ -48,6 +50,12 @@ public class PersistableProductDefinition extends ProductDefinition {
 	}
 	public void setManufacturer(String manufacturer) {
 		this.manufacturer = manufacturer;
+	}
+	public BigDecimal getPrice() {
+		return price;
+	}
+	public void setPrice(BigDecimal price) {
+		this.price = price;
 	}
 
 }

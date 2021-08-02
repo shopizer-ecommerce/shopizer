@@ -22,6 +22,7 @@ public class FinalPrice implements Serializable {
 	private BigDecimal finalPrice = null;//final price discount or not
 	private boolean discounted = false;
 	private int discountPercent = 0;
+	private String stringPrice;
 	
 	private Date discountEndDate = null;
 	
@@ -102,6 +103,14 @@ public class FinalPrice implements Serializable {
 
 	public ProductPrice getProductPrice() {
 		return productPrice;
+	}
+
+	public String getStringPrice() {
+		return stringPrice;
+	}
+
+	public void setStringPrice(String stringPrice) {
+		this.stringPrice = stringPrice;
 	}
 
 }

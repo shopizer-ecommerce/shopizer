@@ -41,7 +41,6 @@ import com.salesmanager.shop.model.catalog.product.RentalOwner;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductAttribute;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductAttributeValue;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOption;
-import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOptionValue;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductProperty;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductPropertyValue;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValueEntity;
@@ -166,15 +165,15 @@ public class ReadableProductPopulator extends
 			  target.setCreationDate(DateUtil.formatDate(source.getAuditSection().getDateCreated()));
 			}
 			
-			if(source.getProductReviewAvg()!=null) {
+/*			if(source.getProductReviewAvg()!=null) {
 				double avg = source.getProductReviewAvg().doubleValue();
 				double rating = Math.round(avg * 2) / 2.0f;
 				target.setRating(rating);
-			}
+			}*/
 			target.setProductVirtual(source.getProductVirtual());
-			if(source.getProductReviewCount()!=null) {
+/*			if(source.getProductReviewCount()!=null) {
 				target.setRatingCount(source.getProductReviewCount().intValue());
-			}
+			}*/
 			if(description!=null) {
 			    com.salesmanager.shop.model.catalog.product.ProductDescription tragetDescription = populateDescription(description);
 				target.setDescription(tragetDescription);

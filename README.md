@@ -119,4 +119,38 @@ If you have interest in giving feedback or for participating to Shopizer project
 Feel to use the contact form <http://www.shopizer.com/contact.html> and share your email address
 so we can send an invite to our Slack channel
 
+### How to Contribute:
+-------------------
+Fork the repository to your GitHub account
 
+Clone from fork repository
+-------------------
+
+       $ git clone https://github.com/yourusername/shopizer.git
+
+Build application according to steps provided above
+
+Synchronize lastest version with the upstream
+-------------------
+
+       $ git remote add upstream https://github.com/yourusername/shopizer.git
+	   $ git pull upstream 2.17.0
+
+Create new branch in your repository
+-------------------
+
+	   $ git checkout -b branch-name
+
+
+Check your branch status before commit to the branch
+-------------------
+
+	   $ git status 
+	   $ git commit 
+
+Push changes to GitHub
+-------------------
+
+	   $ git push -u origin HEAD
+
+Create Pull request and Wait for review 

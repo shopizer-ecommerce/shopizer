@@ -31,6 +31,7 @@ import com.salesmanager.shop.mapper.catalog.ReadableProductAttributeMapper;
 import com.salesmanager.shop.mapper.catalog.ReadableProductOptionMapper;
 import com.salesmanager.shop.mapper.catalog.ReadableProductOptionValueMapper;
 import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductAttribute;
+import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductOptionValue;
 import com.salesmanager.shop.model.catalog.product.attribute.api.PersistableProductOptionEntity;
 import com.salesmanager.shop.model.catalog.product.attribute.api.PersistableProductOptionValueEntity;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductAttributeEntity;
@@ -216,7 +217,7 @@ public class ProductOptionFacadeImpl implements ProductOptionFacade {
 	}
 
 	@Override
-	public ReadableProductOptionValueEntity saveOptionValue(PersistableProductOptionValueEntity optionValue,
+	public ReadableProductOptionValueEntity saveOptionValue(PersistableProductOptionValue optionValue,
 			MerchantStore store, Language language) {
 		Validate.notNull(optionValue, "Option value code must not be null");
 		Validate.notNull(store, "Store code must not be null");
@@ -269,6 +270,8 @@ public class ProductOptionFacadeImpl implements ProductOptionFacade {
 			MerchantStore store, Language language) {
 		Validate.notNull(productId, "Product id cannot be null");
 		Validate.notNull(attribute, "ProductAttribute cannot be null");
+		Validate.notNull(attribute.getOption(), "ProductAttribute option cannot be null");
+		Validate.notNull(attribute.getOptionValue(), "ProductAttribute option value cannot be null");
 		Validate.notNull(store, "Store cannot be null");
 
 		attribute.setProductId(productId);
@@ -348,7 +351,12 @@ public class ProductOptionFacadeImpl implements ProductOptionFacade {
 
 			Product product = this.product(productId, store);
 
-			List<ProductAttribute> attributes = productAttributeService.getByProductId(store, product, language);
+			List<ProductAttribute> attributes = null;
+			if(language != null) {
+				attributes = productAttributeService.getByProductId(store, product, language);
+			} else {
+				attributes = productAttributeService.getByProductId(store, product);
+			}
 			ReadableProductAttributeList attrList = new ReadableProductAttributeList();
 			attrList.setRecordsTotal(attributes.size());
 			attrList.setNumber(attributes.size());

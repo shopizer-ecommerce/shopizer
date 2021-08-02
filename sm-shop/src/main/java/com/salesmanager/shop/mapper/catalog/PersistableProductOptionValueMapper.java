@@ -12,12 +12,13 @@ import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueD
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
+import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductOptionValue;
 import com.salesmanager.shop.model.catalog.product.attribute.api.PersistableProductOptionValueEntity;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 
 @Component
 public class PersistableProductOptionValueMapper
-		implements Mapper<PersistableProductOptionValueEntity, ProductOptionValue> {
+		implements Mapper<PersistableProductOptionValue, ProductOptionValue> {
 
 	@Autowired
 	private LanguageService languageService;
@@ -39,13 +40,19 @@ public class PersistableProductOptionValueMapper
 	}
 
 	@Override
-	public ProductOptionValue merge(PersistableProductOptionValueEntity source, ProductOptionValue destination,
+	public ProductOptionValue merge(PersistableProductOptionValue source, ProductOptionValue destination,
 									MerchantStore store, Language language) {
 		if (destination == null) {
 			destination = new ProductOptionValue();
 		}
 
 		try {
+			
+			if(StringUtils.isBlank(source.getCode())) {
+				if(!StringUtils.isBlank(destination.getCode())) {
+					source.setCode(destination.getCode());
+				}
+			}
 
 			if (!CollectionUtils.isEmpty(source.getDescriptions())) {
 				for (com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription desc : source
@@ -89,7 +96,7 @@ public class PersistableProductOptionValueMapper
 	}
 
 	@Override
-	public ProductOptionValue convert(PersistableProductOptionValueEntity source, MerchantStore store,
+	public ProductOptionValue convert(PersistableProductOptionValue source, MerchantStore store,
 			Language language) {
 		ProductOptionValue destination = new ProductOptionValue();
 		return merge(source, destination, store, language);
