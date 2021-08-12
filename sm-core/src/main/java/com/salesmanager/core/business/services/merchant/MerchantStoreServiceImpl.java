@@ -42,13 +42,16 @@ public class MerchantStoreServiceImpl extends SalesManagerEntityServiceImpl<Inte
 	}
 
 	@Override
-	@CacheEvict(value="store", key="#store.code")
+	//@CacheEvict(value="store", key="#store.code")
 	public void saveOrUpdate(MerchantStore store) throws ServiceException {
 		super.save(store);
 	}
 
 	@Override
-	@Cacheable(value = "store")
+	/**
+	 * cache moved in facades
+	 */
+	//@Cacheable(value = "store")
 	public MerchantStore getByCode(String code) throws ServiceException {
 		return merchantRepository.findByCode(code);
 	}

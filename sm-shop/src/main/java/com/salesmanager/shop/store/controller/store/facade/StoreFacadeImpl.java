@@ -92,7 +92,8 @@ public class StoreFacadeImpl implements StoreFacade {
 	@Override
 	public MerchantStore get(String code) {
 		try {
-			return merchantStoreService.getByCode(code);
+			MerchantStore store = merchantStoreService.getByCode(code);
+			return store;
 		} catch (ServiceException e) {
 			LOG.error("Error while getting MerchantStore", e);
 			throw new ServiceRuntimeException(e);
@@ -140,11 +141,6 @@ public class StoreFacadeImpl implements StoreFacade {
 	private ReadableMerchantStore convertMerchantStoreToReadableMerchantStore(Language language, MerchantStore store) {
 		ReadableMerchantStore readable = new ReadableMerchantStore();
 
-/*		ReadableMerchantStorePopulator populator = new ReadableMerchantStorePopulator();
-		populator.setCountryService(countryService);
-		populator.setZoneService(zoneService);
-		populator.setFilePath(imageUtils);*/
-
 		/**
 		 * Language is not important for this conversion using default language
 		 */
@@ -159,10 +155,6 @@ public class StoreFacadeImpl implements StoreFacade {
 	private ReadableMerchantStore convertMerchantStoreToReadableMerchantStoreWithFullDetails(Language language, MerchantStore store) {
 		ReadableMerchantStore readable = new ReadableMerchantStore();
 
-/*		ReadableMerchantStorePopulatorWithDetails populator = new ReadableMerchantStorePopulatorWithDetails();
-		populator.setCountryService(countryService);
-		populator.setZoneService(zoneService);
-		populator.setFilePath(imageUtils);*/
 
 		/**
 		 * Language is not important for this conversion using default language
