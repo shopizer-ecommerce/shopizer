@@ -154,6 +154,10 @@ public class ProductOptionSetFacadeImpl implements ProductOptionSetFacade {
 
 		// find product type by id
 		ReadableProductType readable = productTypeFacade.get(store, type, language);
+		
+		if(readable == null) {
+			throw new ResourceNotFoundException("Can't fing product type [" + type + "] fpr merchand [" + store.getCode() +"]");
+		}
 
 		List<ProductOptionSet> optionSets = productOptionSetService.getByProductType(readable.getId(), store, language);
 		return optionSets.stream().map(opt -> this.convert(opt, store, language)).collect(Collectors.toList());
