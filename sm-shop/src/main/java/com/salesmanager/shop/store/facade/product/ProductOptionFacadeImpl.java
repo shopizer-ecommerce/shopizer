@@ -33,7 +33,6 @@ import com.salesmanager.shop.mapper.catalog.ReadableProductOptionValueMapper;
 import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductAttribute;
 import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductOptionValue;
 import com.salesmanager.shop.model.catalog.product.attribute.api.PersistableProductOptionEntity;
-import com.salesmanager.shop.model.catalog.product.attribute.api.PersistableProductOptionValueEntity;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductAttributeEntity;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductAttributeList;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionEntity;
