@@ -31,6 +31,9 @@ public class PersistableProductOptionValueMapper
 		desc.setId(null);
 		desc.setDescription(description.getDescription());
 		desc.setName(description.getName());
+		if(StringUtils.isBlank(desc.getName())) {
+			desc.setName(description.getDescription());
+		}
 		if (description.getId() != null && description.getId().longValue() > 0) {
 			desc.setId(description.getId());
 		}
@@ -66,6 +69,9 @@ public class PersistableProductOptionValueMapper
 				            	  d.setDescription(desc.getDescription());
 				            	  d.setName(desc.getName());
 				            	  d.setTitle(desc.getTitle());
+				            	  if(StringUtils.isBlank(d.getName())) {
+				            		  d.setName(d.getDescription());
+				            	  }
 				            	  description = d;
 				            	  break;
 

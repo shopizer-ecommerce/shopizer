@@ -191,14 +191,14 @@ public class ProductApi {
 			@RequestParam(value = "optionValues", required = false) List<Long> optionValueIds,
 			@RequestParam(value = "status", required = false) String status,
 			@RequestParam(value = "owner", required = false) Long owner,
-			@RequestParam(value = "page", required = false) Integer page, // current
+			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page, // current
 																			// page
 																			// 0
 																			// ..
 																			// n
 																			// allowing
 																			// navigation
-			@RequestParam(value = "count", required = false) Integer count, // count
+			@RequestParam(value = "count", required = false, defaultValue = "100") Integer count, // count
 																			// per
 																			// page
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language, HttpServletRequest request,
