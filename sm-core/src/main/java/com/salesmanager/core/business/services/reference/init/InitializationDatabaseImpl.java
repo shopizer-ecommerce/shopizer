@@ -380,9 +380,9 @@ public class InitializationDatabaseImpl implements InitializationDatabase {
 		Date date = new Date(System.currentTimeMillis());
 		
 		Language en = languageService.getByCode("en");
-		Country ca = countryService.getByCode("CA");
-		Currency currency = currencyService.getByCode("CAD");
-		Zone qc = zoneService.getByCode("QC");
+		Country ca = countryService.getByCode("IN");
+		Currency currency = currencyService.getByCode("INR");
+		Zone qc = zoneService.getByCode("TamilNadu");
 		
 		List<Language> supportedLanguages = new ArrayList<Language>();
 		supportedLanguages.add(en);
