@@ -144,6 +144,8 @@
  				<beans:property name="cmsManager">
 						<beans:ref bean="awsAssetsManager" />
 				</beans:property>
+				<beans:property name="accessKey" value="${AWS_ACCESS_KEY_ID}"/>    
+        		<beans:property name="secretKey" value="${AWS_SECRETE_ACCESS_KEY}"/>
 	</beans:bean>
 	
 	 <beans:bean id="awsContentAssetsManager"
@@ -151,6 +153,9 @@
  				<beans:property name="cmsManager">
 						<beans:ref bean="awsAssetsManager" />
 				</beans:property>
+				<beans:property name="accessKey" value="${AWS_ACCESS_KEY_ID}"/>    
+        		<beans:property name="secretKey" value="${AWS_SECRETE_ACCESS_KEY}"/>
+				
 	</beans:bean>
 	
 	<beans:bean id="awsDownloadsManager"
@@ -158,6 +163,8 @@
  				<beans:property name="cmsManager">
 						<beans:ref bean="awsAssetsManager" />
 				</beans:property>
+				<beans:property name="accessKey" value="${AWS_ACCESS_KEY_ID}"/>    
+        		<beans:property name="secretKey" value="${AWS_SECRETE_ACCESS_KEY}"/>
 	</beans:bean>
 
 	<!--  end of CMS implementation for static content data -->

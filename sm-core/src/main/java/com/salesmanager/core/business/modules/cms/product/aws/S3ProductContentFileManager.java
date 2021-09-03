@@ -8,6 +8,9 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
@@ -62,6 +65,10 @@ public class S3ProductContentFileManager
 
   private final static String SMALL = "SMALL";
   private final static String LARGE = "LARGE";
+  
+  private String secretKey;
+  private String accessKey;
+  
 
   private CMSManager cmsManager;
 
@@ -272,9 +279,11 @@ public class S3ProductContentFileManager
    */
   private AmazonS3 s3Client() {
 
+	final BasicAWSCredentials basicAWSCredentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
     return AmazonS3ClientBuilder.standard().withRegion(regionName()) // The first region to
                                                                             // try your request
                                                                             // against
+    		.withCredentials(new AWSStaticCredentialsProvider(basicAWSCredentials))
         .build();
   }
 
@@ -357,6 +366,24 @@ public class S3ProductContentFileManager
   public void setCmsManager(CMSManager cmsManager) {
     this.cmsManager = cmsManager;
   }
+
+	public String getSecretKey() {
+		return secretKey;
+	}
+
+	public void setSecretKey(String secretKey) {
+		this.secretKey = secretKey;
+	}
+
+	public String getAccessKey() {
+		return accessKey;
+	}
+
+	public void setAccessKey(String accessKey) {
+		this.accessKey = accessKey;
+	}
+  
+  
 
 
 }

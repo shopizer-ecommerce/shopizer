@@ -11,6 +11,9 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
@@ -44,6 +47,9 @@ public class S3StaticContentAssetsManagerImpl implements ContentAssetsManager {
 	private static S3StaticContentAssetsManagerImpl fileManager = null;
 
 	private CMSManager cmsManager;
+	
+	private String secretKey;
+	private String accessKey;
 
 	public static S3StaticContentAssetsManagerImpl getInstance() {
 
@@ -63,6 +69,7 @@ public class S3StaticContentAssetsManagerImpl implements ContentAssetsManager {
 			String bucketName = bucketName();
 
 			final AmazonS3 s3 = s3Client();
+			
 
 			S3Object o = s3.getObject(bucketName, nodePath(merchantStoreCode, fileContentType) + contentName);
 
@@ -272,7 +279,7 @@ public class S3StaticContentAssetsManagerImpl implements ContentAssetsManager {
 	private AmazonS3 s3Client() {
 		String region = regionName();
 		LOGGER.debug("AWS CMS Using region " + region);
-
+		 final BasicAWSCredentials basicAWSCredentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
 		return AmazonS3ClientBuilder.standard().withRegion(region) // The
 																			// first
 																			// region
@@ -281,6 +288,7 @@ public class S3StaticContentAssetsManagerImpl implements ContentAssetsManager {
 																			// your
 																			// request
 																			// against
+				.withCredentials(new AWSStaticCredentialsProvider(basicAWSCredentials))
 				.build();
 	}
 
@@ -298,6 +306,22 @@ public class S3StaticContentAssetsManagerImpl implements ContentAssetsManager {
 
 	public void setCmsManager(CMSManager cmsManager) {
 		this.cmsManager = cmsManager;
+	}
+
+	public String getSecretKey() {
+		return secretKey;
+	}
+
+	public void setSecretKey(String secretKey) {
+		this.secretKey = secretKey;
+	}
+
+	public String getAccessKey() {
+		return accessKey;
+	}
+
+	public void setAccessKey(String accessKey) {
+		this.accessKey = accessKey;
 	}
 
 	@Override
