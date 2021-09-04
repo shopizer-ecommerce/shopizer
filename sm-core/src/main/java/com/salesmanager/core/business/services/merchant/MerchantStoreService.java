@@ -14,9 +14,6 @@ import com.salesmanager.core.model.merchant.MerchantStoreCriteria;
 public interface MerchantStoreService extends SalesManagerEntityService<Integer, MerchantStore>{
 	
 
-	MerchantStore getMerchantStore(String merchantStoreCode)
-			throws ServiceException;
-
 	MerchantStore getByCode(String code) throws ServiceException;
 	
 	MerchantStore getParent(String code) throws ServiceException;

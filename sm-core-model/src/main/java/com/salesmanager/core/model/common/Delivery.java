@@ -16,14 +16,8 @@ public class Delivery {
 	@Column (name ="DELIVERY_LAST_NAME", length=64)
 	private String lastName;
 
-
-
-
 	@Column (name ="DELIVERY_FIRST_NAME", length=64)
 	private String firstName;
-
-	
-
 
 	@Column (name ="DELIVERY_COMPANY", length=100)
 	private String company;
@@ -43,19 +37,17 @@ public class Delivery {
 	@Column(name="DELIVERY_TELEPHONE", length=32)
 	private String telephone;
 	
-	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Country.class)
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Country.class)
 	@JoinColumn(name="DELIVERY_COUNTRY_ID", nullable=true)
 	private Country country;
 	
 
-	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Zone.class)
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Zone.class)
 	@JoinColumn(name="DELIVERY_ZONE_ID", nullable=true)
 	private Zone zone;
 	
 	@Transient
 	private String latitude = null;
-	
-
 
 	@Transient
 	private String longitude = null;

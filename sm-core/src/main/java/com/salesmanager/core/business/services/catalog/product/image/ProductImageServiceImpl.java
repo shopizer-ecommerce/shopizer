@@ -3,12 +3,15 @@ package com.salesmanager.core.business.services.catalog.product.image;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.modules.cms.product.ProductFileManager;
@@ -21,6 +24,7 @@ import com.salesmanager.core.model.catalog.product.image.ProductImageDescription
 import com.salesmanager.core.model.content.FileContentType;
 import com.salesmanager.core.model.content.ImageContentFile;
 import com.salesmanager.core.model.content.OutputContentFile;
+import com.salesmanager.core.model.merchant.MerchantStore;
 
 @Service("productImage")
 public class ProductImageServiceImpl extends SalesManagerEntityServiceImpl<Long, ProductImage> 
@@ -41,7 +45,6 @@ public class ProductImageServiceImpl extends SalesManagerEntityServiceImpl<Long,
 	
 	
 	public ProductImage getById(Long id) {
-		
 		
 		return productImageRepository.findOne(id);
 	}
@@ -86,8 +89,6 @@ public class ProductImageServiceImpl extends SalesManagerEntityServiceImpl<Long,
 			
 			Assert.notNull(inputImage.getFile(),"ImageContentFile.file cannot be null");
 
-
-			
 			productFileManager.addProductImage(productImage, inputImage);
 	
 			//insert ProductImage
@@ -154,17 +155,14 @@ public class ProductImageServiceImpl extends SalesManagerEntityServiceImpl<Long,
 		
 		pi.setProductImage(imageName);
 		pi.setProduct(productImage.getProduct());
-		
-		OutputContentFile outputImage = productFileManager.getProductImage(pi);
-		
-		return outputImage;
+
+		return productFileManager.getProductImage(pi);
 		
 	}
 	
 	@Override
 	public OutputContentFile getProductImage(final String storeCode, final String productCode, final String fileName, final ProductImageSize size) throws ServiceException {
-		OutputContentFile outputImage = productFileManager.getProductImage(storeCode, productCode, fileName, size);
-		return outputImage;
+		return productFileManager.getProductImage(storeCode, productCode, fileName, size);
 		
 	}
 	
@@ -179,11 +177,23 @@ public class ProductImageServiceImpl extends SalesManagerEntityServiceImpl<Long,
 		if(!StringUtils.isBlank(productImage.getProductImage())) {
 			productFileManager.removeProductImage(productImage);//managed internally
 		}
-		
 		ProductImage p = this.getById(productImage.getId());
-		
-		
 		this.delete(p);
 		
+	}
+
+
+	@Override
+	public Optional<ProductImage> getProductImage(Long imageId, Long productId, MerchantStore store) {
+		
+		
+		Optional<ProductImage> image = Optional.empty();
+		
+		ProductImage img = productImageRepository.finById(imageId, productId, store.getCode());
+		if(img!=null) {
+			image = Optional.of(img);
+		}
+		
+		return image;
 	}
 }

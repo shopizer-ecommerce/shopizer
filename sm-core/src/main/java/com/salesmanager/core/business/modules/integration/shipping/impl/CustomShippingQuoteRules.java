@@ -94,17 +94,17 @@ public class CustomShippingQuoteRules implements ShippingQuoteModule {
 		for(PackageDetails pack : packages) {
 			weight = weight + pack.getShippingWeight();
 			Double tmpVolume = pack.getShippingHeight() * pack.getShippingLength() * pack.getShippingWidth();
-			if(volume == null || tmpVolume.doubleValue() > volume.doubleValue()) { //take the largest volume
+			if(volume == null || tmpVolume > volume) { //take the largest volume
 				volume = tmpVolume;
 			} 
 			//largest size
 			List<Double> sizeList = new ArrayList<Double>();
 			sizeList.add(pack.getShippingHeight());
-			sizeList.add(pack.getShippingWeight());
+			sizeList.add(pack.getShippingWidth());
 			sizeList.add(pack.getShippingLength());
-			Double maxSize = (Double)Collections.max(sizeList);
-			if(size==null || maxSize.doubleValue() > size.doubleValue()) {
-				size = maxSize.doubleValue();
+			Double maxSize = Collections.max(sizeList);
+			if(size==null || maxSize > size) {
+				size = maxSize;
 			}
 		}
 		
@@ -116,12 +116,12 @@ public class CustomShippingQuoteRules implements ShippingQuoteModule {
 		inputParameters.setProvince("*");
 		inputParameters.setModuleName(module.getCode());
 		
-		if(delivery.getZone().getCode()!=null) {
+		if(delivery.getZone() != null && delivery.getZone().getCode()!=null) {
 			inputParameters.setProvince(delivery.getZone().getCode());
 		}
 		
 		if(distance!=null) {
-			double ddistance = distance.doubleValue();
+			double ddistance = distance;
 			long ldistance = (long)ddistance;
 			inputParameters.setDistance(ldistance);
 		}

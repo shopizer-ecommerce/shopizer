@@ -6,11 +6,11 @@
 
 	<groupId>com.shopizer</groupId>
 	<artifactId>shopizer</artifactId>
-	<version>2.12.0</version>
+	<version>2.17.0</version>
 	<packaging>pom</packaging>
 
 	<name>shopizer</name>
-	<url>http://maven.apache.org</url>
+	<url>http://ww.shopizer.com</url>
 
 	<licenses>
 		<license>
@@ -22,7 +22,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.2.6.RELEASE</version>
+		<version>2.3.6.RELEASE</version>
 	</parent>
 
 	<modules>
@@ -38,39 +38,40 @@
 
 		<!--java version -->
 		<java.version>1.8</java.version>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
 		<!-- eclipse stuff -->
 		<m2eclipse.wtp.contextRoot>/</m2eclipse.wtp.contextRoot>
 
 		<!--shopizer version -->
-		<shopizer.version>2.12.0</shopizer.version>
+		<shopizer.version>2.17.0</shopizer.version>
 		<shopizer.search.version>2.11.1</shopizer.search.version>
-		<shopizer-canadapost.version>2.11.0</shopizer-canadapost.version>
+		<shopizer-canadapost.version>2.15.0</shopizer-canadapost.version>
 
 		<elasticsearch.version>7.5.2</elasticsearch.version>
 		<guava.version>27.1-jre</guava.version>
 		<commons-lang.version>3.5</commons-lang.version>
-		<commons-io.version>2.5</commons-io.version>
-		<commons-collections4.version>4.0</commons-collections4.version>
+		<commons-io.version>2.7</commons-io.version>
+		<commons-collections4.version>4.1</commons-collections4.version>
 		<commons-validator.version>1.5.1</commons-validator.version>
 		<commons-fileupload>1.3.3</commons-fileupload>
 		<org.mapstruct.version>1.3.0.Final</org.mapstruct.version>
 
 		<org.apache.httpcomponent.version>4.5.2</org.apache.httpcomponent.version>
 		<javax.inject.version>1</javax.inject.version>
-		<hibernate-ehcache.version>5.4.12.Final</hibernate-ehcache.version>
 		<javax.el.version>2.2.4</javax.el.version>
 		<javax.servlet-api-version>3.0.1</javax.servlet-api-version>
 		<javax.annotation>1.3.2</javax.annotation>
 		<infinispan.version>9.4.18.Final</infinispan.version>
 		<infinispan.tree.version>9.4.18.Final</infinispan.tree.version>
-		<mysql-jdbc-version>5.1.47</mysql-jdbc-version>
+		<mysql-jdbc-version>8.0.21</mysql-jdbc-version>
+		<oracle.version>18.3.0.0</oracle.version>
+		<postgresql.version>42.2.18</postgresql.version>
 		<simple-json-version>1.1.1</simple-json-version>
 		<jackson-version-databind>2.10.2</jackson-version-databind>
 		<jackson-version>2.10.2</jackson-version>
 		<geoip2.version>2.7.0</geoip2.version>
-		<drools.version>7.20.0.Final</drools.version>
+		<drools.version>7.32.0.Final</drools.version>
 		<google-client-maps-services-version>0.1.6</google-client-maps-services-version>
 		<jwt.version>0.8.0</jwt.version>
 
@@ -91,9 +92,17 @@
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-web</artifactId>
+				<exclusions>
+					<exclusion>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-starter-logging</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
-
-
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-cache</artifactId>
+			</dependency>
 			<dependency>
 				<groupId>com.shopizer</groupId>
 				<artifactId>sm-core</artifactId>
@@ -172,8 +181,6 @@
 				<version>${jwt.version}</version>
 			</dependency>
 
-			<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
-
 			<!-- Jackson JSON Processor -->
 			<dependency>
 				<groupId>com.fasterxml.jackson.core</groupId>
@@ -192,11 +199,6 @@
 				<artifactId>jackson-annotations</artifactId>
 				<version>${jackson-version}</version>
 			</dependency>
-
-			<!-- https://mvnrepository.com/artifact/com.mchange/c3p0 -->
-			<!-- <dependency> <groupId>com.mchange</groupId> <artifactId>c3p0</artifactId> 
-				<version>${c3p0-version}</version> </dependency> -->
-			<!-- end c3po -->
 
 			<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
 			<dependency>
@@ -225,6 +227,18 @@
 				<artifactId>mysql-connector-java</artifactId>
 				<version>${mysql-jdbc-version}</version>
 			</dependency>
+
+			<!-- For connecting to oracle -->
+			<!-- <dependency> <groupId>com.oracle.database.jdbc</groupId> <artifactId>ojdbc8</artifactId> 
+				<version>${oracle.version}</version> </dependency> -->
+
+
+			<!-- For connecting to postgresql -->
+			<!-- <dependency> <groupId>org.postgresql</groupId> <artifactId>postgresql</artifactId> 
+				<version>${postgresql.version}</version> <scope>runtime</scope> </dependency> -->
+
+
+
 
 			<!-- Google Map API -->
 			<dependency>
@@ -312,14 +326,14 @@
 			<dependency>
 				<groupId>com.amazonaws</groupId>
 				<artifactId>aws-java-sdk-s3</artifactId>
-				<version>1.11.538</version>
+				<version>1.11.640</version>
 			</dependency>
 
 			<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-ses -->
 			<dependency>
 				<groupId>com.amazonaws</groupId>
 				<artifactId>aws-java-sdk-ses</artifactId>
-				<version>1.11.538</version>
+				<version>1.11.640</version>
 			</dependency>
 
 			<!-- google cloud storage -->
@@ -349,7 +363,7 @@
 			<dependency>
 				<groupId>com.stripe</groupId>
 				<artifactId>stripe-java</artifactId>
-				<version>1.33.0</version>
+				<version>19.5.0</version>
 			</dependency>
 
 			<!-- Braintree -->
@@ -358,12 +372,6 @@
 				<artifactId>braintree-java</artifactId>
 				<version>2.73.0</version>
 			</dependency>
-
-
-			<!-- Invoices -->
-			<!-- <dependency> <groupId>com.itextpdf</groupId> <artifactId>itextpdf</artifactId> 
-				<version>5.5.6</version> </dependency> <dependency> <groupId>org.jopendocument</groupId> 
-				<artifactId>jOpenDocument</artifactId> <version>1.3</version> </dependency> -->
 
 			<!-- https://mvnrepository.com/artifact/com.maxmind.geoip2/geoip2 -->
 			<dependency>
@@ -417,6 +425,13 @@
 
 	<!--general dependencies -->
 	<dependencies>
+
+		<!-- sm-search -->
+		<dependency>
+			<groupId>com.shopizer</groupId>
+			<artifactId>sm-search</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>javax.inject</groupId>
 			<artifactId>javax.inject</artifactId>
@@ -457,12 +472,6 @@
 			<artifactId>ehcache</artifactId>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/com.mchange/c3p0 -->
-		<!-- <dependency> <groupId>com.mchange</groupId> <artifactId>c3p0</artifactId> 
-			</dependency> -->
-		<!-- end c3po -->
-
-
 		<!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
 		<dependency>
 			<groupId>javax.mail</groupId>
@@ -479,12 +488,12 @@
 		<dependency>
 			<groupId>com.googlecode.json-simple</groupId>
 			<artifactId>json-simple</artifactId>
-		</dependency>
-
-		<!-- sm-search -->
-		<dependency>
-			<groupId>com.shopizer</groupId>
-			<artifactId>sm-search</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>junit</groupId>
+					<artifactId>junit</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- Elastic search -->
@@ -498,6 +507,16 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
+
+		<!-- oracle -->
+		<!-- <dependency> <groupId>com.oracle</groupId> <artifactId>ojdbc8</artifactId> 
+			<version>${oracle.version}</version> </dependency> -->
+
+
+		<!-- postgres <dependency> <groupId>org.postgresql</groupId> <artifactId>postgresql</artifactId> 
+			</dependency> -->
+
+
 	</dependencies>
 
 	<repositories>
@@ -538,10 +557,10 @@
 
 	<build>
 		<plugins>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.5.1</version>
 				<configuration>
 					<source>${maven.compiler.source}</source>
 					<target>${maven.compiler.target}</target>
@@ -599,91 +618,14 @@
 				</executions>
 			</plugin>
 			<!--OSSRH -->
-			<!--
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-javadocs</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-gpg-plugin</artifactId>
-				<version>1.5</version>
-				<executions>
-					<execution>
-						<id>sign-artifacts</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>sign</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			-->
 
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.3</version>
-				<executions>
-					<execution>
-						<id>default-prepare-agent</id>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>default-prepare-agent-integration</id>
-						<goals>
-							<goal>prepare-agent-integration</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>default-report</id>
-						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>default-report-integration</id>
-						<goals>
-							<goal>report-integration</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>default-check</id>
-						<goals>
-							<goal>check</goal>
-						</goals>
-						<configuration>
-							<rules>
-								<rule>
-									<element>BUNDLE</element>
-									<limits>
-										<limit>
-											<counter>LINE</counter>
-											<value>COVEREDRATIO</value>
-											<minimum>${coverage.lines}</minimum>
-										</limit>
-										<limit>
-											<counter>BRANCH</counter>
-											<value>COVEREDRATIO</value>
-											<minimum>${coverage.branches}</minimum>
-										</limit>
-									</limits>
-								</rule>
-							</rules>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-javadoc-plugin</artifactId> 
+				<executions> <execution> <id>attach-javadocs</id> <goals> <goal>jar</goal> 
+				</goals> </execution> </executions> </plugin> <plugin> <groupId>org.apache.maven.plugins</groupId> 
+				<artifactId>maven-gpg-plugin</artifactId> <version>1.5</version> <executions> 
+				<execution> <id>sign-artifacts</id> <phase>verify</phase> <goals> <goal>sign</goal> 
+				</goals> </execution> </executions> </plugin> -->
+
 		</plugins>
 	</build>
 </project>

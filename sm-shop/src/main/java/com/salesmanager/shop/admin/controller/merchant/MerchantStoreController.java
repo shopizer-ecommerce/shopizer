@@ -1,5 +1,37 @@
 package com.salesmanager.shop.admin.controller.merchant;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.salesmanager.core.business.modules.email.Email;
 import com.salesmanager.core.business.services.merchant.MerchantStoreService;
 import com.salesmanager.core.business.services.reference.country.CountryService;
@@ -21,31 +53,12 @@ import com.salesmanager.shop.admin.model.reference.Weight;
 import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.constants.EmailConstants;
-import com.salesmanager.shop.utils.*;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-import java.util.*;
+import com.salesmanager.shop.utils.DateUtil;
+import com.salesmanager.shop.utils.EmailUtils;
+import com.salesmanager.shop.utils.FilePathUtils;
+import com.salesmanager.shop.utils.LabelUtils;
+import com.salesmanager.shop.utils.LocaleUtils;
+import com.salesmanager.shop.utils.UserUtils;
 
 @Controller
 public class MerchantStoreController {
@@ -84,7 +97,7 @@ public class MerchantStoreController {
 
 	private final static String NEW_STORE_TMPL = "email_template_new_store.ftl";
 
-	@PreAuthorize("hasRole('STORE_ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@RequestMapping(value = "/admin/store/list.html", method = RequestMethod.GET)
 	public String displayStores(Model model, HttpServletRequest request, HttpServletResponse response, Locale locale)
 			throws Exception {
@@ -93,7 +106,7 @@ public class MerchantStoreController {
 		return ControllerConstants.Tiles.Store.stores;
 	}
 
-	@PreAuthorize("hasRole('STORE_ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@RequestMapping(value = "/admin/store/paging.html", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> pageStores(HttpServletRequest request, HttpServletResponse response) {
 
@@ -354,7 +367,7 @@ public class MerchantStoreController {
 
 		}
 
-		sessionStore = merchantStoreService.getMerchantStore(sessionStore.getCode());
+		sessionStore = merchantStoreService.getByCode(sessionStore.getCode());
 
 		// update session store
 		request.getSession().setAttribute(Constants.ADMIN_STORE, sessionStore);
@@ -403,7 +416,7 @@ public class MerchantStoreController {
 		return new ResponseEntity<String>(returnString, httpHeaders, HttpStatus.OK);
 	}
 
-	@PreAuthorize("hasRole('STORE_ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@RequestMapping(value = "/admin/store/remove.html", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> removeMerchantStore(HttpServletRequest request, Locale locale)
 			throws Exception {

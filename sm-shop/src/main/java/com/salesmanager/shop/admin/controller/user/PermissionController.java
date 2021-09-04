@@ -50,7 +50,7 @@ public class PermissionController {
 
 
 
-	@PreAuthorize("hasRole('STORE_ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@RequestMapping(value = "/admin/permissions/permissions.html", method = RequestMethod.GET)
 	public String displayPermissions(Model model, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
@@ -62,7 +62,7 @@ public class PermissionController {
 	}
 
 	@SuppressWarnings("unchecked")
-	@PreAuthorize("hasRole('STORE_ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@RequestMapping(value = "/admin/permissions/paging.html", method = RequestMethod.POST)
 	public @ResponseBody
 	ResponseEntity<String> pagePermissions(HttpServletRequest request,

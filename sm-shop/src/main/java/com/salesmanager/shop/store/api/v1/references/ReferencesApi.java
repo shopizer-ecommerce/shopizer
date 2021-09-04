@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.salesmanager.core.business.services.reference.country.CountryService;
-import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.currency.Currency;
 import com.salesmanager.core.model.reference.language.Language;
@@ -74,7 +72,7 @@ public class ReferencesApi {
   @GetMapping("/country")
   public List<ReadableCountry> getCountry(HttpServletRequest request) {
     MerchantStore merchantStore = storeFacade.getByCode(request);
-    Language lang = languageUtils.getRESTLanguage(request, merchantStore);
+    Language lang = languageUtils.getRESTLanguage(request);
     return countryFacade.getListCountryZones(lang, merchantStore);
   }
 
@@ -82,7 +80,7 @@ public class ReferencesApi {
   public List<ReadableZone> getZones(
       @RequestParam("code") String code, HttpServletRequest request) {
     MerchantStore merchantStore = storeFacade.getByCode(request);
-    Language lang = languageUtils.getRESTLanguage(request, merchantStore);
+    Language lang = languageUtils.getRESTLanguage(request);
     return zoneFacade.getZones(code, lang, merchantStore);
   }
 

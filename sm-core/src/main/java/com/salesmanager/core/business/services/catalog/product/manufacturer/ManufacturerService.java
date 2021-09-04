@@ -53,7 +53,7 @@ public interface ManufacturerService extends SalesManagerEntityService<Long, Man
 	List<Manufacturer> listByProductsInCategory(MerchantStore store,
         Category category, Language language) throws ServiceException;
 	
-	public Page<Manufacturer> listByStore(MerchantStore store, String name,
+	Page<Manufacturer> listByStore(MerchantStore store, String name,
 	      int page, int count) throws ServiceException;
 	
 	int count(MerchantStore store);

@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -21,9 +20,6 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.UniqueConstraint;
 import javax.validation.Valid;
-
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
 import javax.validation.constraints.NotEmpty;
 
 import com.salesmanager.core.constants.SchemaConstant;
@@ -50,7 +46,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 
 @Entity
 @EntityListeners(value = com.salesmanager.core.model.common.audit.AuditListener.class)
-@Table(name = "CATALOG", schema=SchemaConstant.SALESMANAGER_SCHEMA,
+@Table(name = "CATALOG",
 uniqueConstraints=@UniqueConstraint(columnNames = {"MERCHANT_ID", "CODE"}))
 public class Catalog extends SalesManagerEntity<Long, Catalog> implements Auditable {
     private static final long serialVersionUID = 1L;
@@ -72,8 +68,8 @@ public class Catalog extends SalesManagerEntity<Long, Catalog> implements Audita
     private AuditSection auditSection = new AuditSection();
     
     @Valid
-    @OneToMany(mappedBy="category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<CatalogEntry> entry = new HashSet<CatalogEntry>();
+    @OneToMany(mappedBy="catalog", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<CatalogCategoryEntry> entry = new HashSet<CatalogCategoryEntry>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="MERCHANT_ID", nullable=false)
@@ -82,53 +78,16 @@ public class Catalog extends SalesManagerEntity<Long, Catalog> implements Audita
 
     @Column(name = "VISIBLE")
     private boolean visible;
-
     
     @Column(name="DEFAULT_CATALOG")
     private boolean defaultCatalog;
     
     @NotEmpty
     @Column(name="CODE", length=100, nullable=false)
-    
-    //@NotEmpty
-    //(name="CODE", length=100, nullable=false)
     private String code;
-
-//@Entity
-//@EntityListeners(value = com.salesmanager.core.model.common.audit.AuditListener.class)
-//@Table(name = "CATALOG", schema= SchemaConstant.SALESMANAGER_SCHEMA,uniqueConstraints=
-//    @UniqueConstraint(columnNames = {"MERCHANT_ID", "CODE"}) )
-
-
-//public class Catalog extends SalesManagerEntity<Long, Catalog> implements Auditable {
-//    private static final long serialVersionUID = 1L;
-    
-    //@Id
-    //@Column(name = "CATEGORY_ID", unique=true, nullable=false)
-    //@TableGenerator(name = "TABLE_GEN", table = "SM_SEQUENCER", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "CATALOG_SEQ_NEXT_VAL")
-    //@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
-    //private Long id;
-
-    //@Embedded
-    //private AuditSection auditSection = new AuditSection();
-
-    //@ManyToOne(fetch = FetchType.LAZY)
-    //@JoinColumn(name="MERCHANT_ID", nullable=false)
-    //private MerchantStore merchantStore;
-
 
     @Column(name = "SORT_ORDER")
     private Integer sortOrder = 0;
-
-
-    //@Column(name = "VISIBLE")
-    //private boolean visible;
-
-    
-    //@Column(name="DEFAULT")
-    //private boolean defaultCatalog;
-    
-
 
     public String getCode() {
         return code;
@@ -191,11 +150,11 @@ public class Catalog extends SalesManagerEntity<Long, Catalog> implements Audita
         this.merchantStore = merchantStore;
     }
 
-	public Set<CatalogEntry> getEntry() {
+	public Set<CatalogCategoryEntry> getEntry() {
 		return entry;
 	}
 
-	public void setEntry(Set<CatalogEntry> entry) {
+	public void setEntry(Set<CatalogCategoryEntry> entry) {
 		this.entry = entry;
 	}
 

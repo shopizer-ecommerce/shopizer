@@ -3,6 +3,7 @@ package com.salesmanager.core.business.modules.common;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -16,6 +17,8 @@ import org.springframework.beans.factory.annotation.Value;
 
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
+
+import static org.apache.commons.lang3.BooleanUtils.isTrue;
 
 public class IndexEntityProcessor {
 	
@@ -41,7 +44,7 @@ public class IndexEntityProcessor {
 	private String password;
 	
 	protected RestHighLevelClient client() throws Exception {
-		
+
 		List<HttpHost> nodes = getHosts().stream().map(m -> new HttpHost(m, getPort(), getProtocol())).collect(Collectors.toList());
 		RestClientBuilder builder = RestClient.builder(nodes.toArray(new HttpHost[nodes.size()]));
 		
@@ -50,20 +53,12 @@ public class IndexEntityProcessor {
             new UsernamePasswordCredentials(user,
             		password));
 		
-        if (securityEnabled != null
-                && securityEnabled.booleanValue()) {
-              builder.setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
-                @Override
-                public HttpAsyncClientBuilder customizeHttpClient(
-                    HttpAsyncClientBuilder httpClientBuilder) {
-                  return httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
-                }
-              });
+        if (isTrue(securityEnabled)) {
+              builder.setHttpClientConfigCallback(httpClientBuilder ->
+					  httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider));
         }
 
-		RestHighLevelClient client = new RestHighLevelClient(builder);		
-		return client;
-
+		return new RestHighLevelClient(builder);
 	}
 	
 	protected class Mapping {

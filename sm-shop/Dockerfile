@@ -1,31 +1,20 @@
-FROM tomcat:8.5.40-jre8
-MAINTAINER shopizerecomm
+FROM openjdk:8
+COPY ./target/ROOT.war /usr/src/project/
+ADD ./SALESMANAGER.h2.db /usr/src/project/
+COPY ./files/ /usr/src/project/files/
+WORKDIR /usr/src/project
 
-VOLUME /tmp
+FROM tomcat:9.0.10-jre8
 
-# Diagnose and analyze potential db connection issue and log files
-#RUN apt-get update && apt-get install -y mysql-client
-#RUN apt-get update && apt-get install -y vim
-
-RUN apt-get update && \
-    apt-get install -y \
-    	vim \
-    && apt-get clean
-
-
-# Delete existing ROOT folder
-RUN rm -rf /usr/local/tomcat/webapps/ROOT
-
+RUN rm -rf /usr/local/tomcat/webapps/*
 RUN mkdir -p /usr/local/tomcat/files
 
-ADD ./target/ROOT.war /usr/local/tomcat/webapps/
-ADD ./SALESMANAGER.h2.db /usr/local/tomcat/
-COPY ./files/ /usr/local/tomcat/files/
-RUN ls -la /usr/local/tomcat/files/*
+COPY --from=0 /usr/src/project/ROOT.war /usr/local/tomcat/webapps/ROOT.war
+COPY --from=0 /usr/src/project/SALESMANAGER.h2.db /usr/local/tomcat/
+COPY --from=0 /usr/src/project/files/ /usr/local/tomcat/files/
 
 ENV JAVA_OPTS="-Xmx1024m"
 
 CMD ["catalina.sh", "run"]
 
 EXPOSE 8080
-

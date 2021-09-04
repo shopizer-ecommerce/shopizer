@@ -26,7 +26,6 @@ public class ProductPriceServiceImpl extends SalesManagerEntityServiceImpl<Long,
 	public void addDescription(ProductPrice price,
 			ProductPriceDescription description) throws ServiceException {
 		price.getDescriptions().add(description);
-		//description.setPrice(price);
 		update(price);
 	}
 	
@@ -34,7 +33,7 @@ public class ProductPriceServiceImpl extends SalesManagerEntityServiceImpl<Long,
 	@Override
 	public void saveOrUpdate(ProductPrice price) throws ServiceException {
 		
-		if(price.getId()!=null && price.getId()>0) {
+		if(price.getId()!=null && price.getId() > 0) {
 			this.update(price);
 		} else {
 			

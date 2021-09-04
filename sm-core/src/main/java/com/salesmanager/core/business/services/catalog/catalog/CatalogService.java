@@ -8,6 +8,8 @@ import com.salesmanager.core.model.catalog.catalog.Catalog;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 
+import java.util.Optional;
+
 public interface CatalogService extends SalesManagerEntityService<Long, Catalog> {
 	
 	
@@ -17,11 +19,11 @@ public interface CatalogService extends SalesManagerEntityService<Long, Catalog>
 	 * @return Catalog
 	 * @throws ServiceException
 	 */
-	Catalog saveOrUddate(Catalog catalog, MerchantStore store) throws ServiceException;
-	
-	Catalog getById(Long catalogId, MerchantStore store);
-	
-	Catalog getByCode(String code, MerchantStore store);
+	Catalog saveOrUpdate(Catalog catalog, MerchantStore store);
+
+	Optional<Catalog> getById(Long catalogId, MerchantStore store);
+
+	Optional<Catalog> getByCode(String code, MerchantStore store);
 	
 	/**
 	 * Get a list of Catalog associated with a MarketPlace
@@ -29,13 +31,13 @@ public interface CatalogService extends SalesManagerEntityService<Long, Catalog>
 	 * @return List<Catalog>
 	 * @throws ServiceException
 	 */
-	Page<Catalog> getCatalogs(MerchantStore store, Language language, String name, int page, int count) throws ServiceException; 
+	Page<Catalog> getCatalogs(MerchantStore store, Language language, String name, int page, int count);
 	
 	/**
 	 * Delete a Catalog and related objects
 	 */
 	void delete(Catalog catalog) throws ServiceException;
 	
-	boolean existByCode(String code);
+	boolean existByCode(String code, MerchantStore store);
 
 }

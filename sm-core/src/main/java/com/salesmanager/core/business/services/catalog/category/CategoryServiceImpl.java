@@ -56,7 +56,7 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
     super.create(category);
     StringBuilder lineage = new StringBuilder();
     Category parent = category.getParent();
-    if (parent != null && parent.getId() != null && parent.getId().longValue() != 0) {
+    if (parent != null && parent.getId() != null && parent.getId() != 0) {
       //get parent category
       Category p = this.getById(parent.getId());
 
@@ -93,7 +93,7 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
 
 	@Override
 	public Category getOneByLanguage(long categoryId, Language language) {
-		return categoryRepository.findById(categoryId, language.getId());
+		return categoryRepository.findByIdAndLanguage(categoryId, language.getId());
 	}
 
 	@Override
@@ -173,7 +173,11 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
 	@Override
 	public Category getById(Long id, int merchantId) {
 
-		Category category = categoryRepository.findById(id, merchantId);
+		Category category = categoryRepository.findByIdAndStore(id, merchantId);
+		
+		if(category == null) {
+			return null;
+		}
 
 		List<CategoryDescription> descriptions = categoryDescriptionRepository.listByCategoryId(id);
 
@@ -337,7 +341,7 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
 			// ajust all sub categories lineages
 			if (subCategories != null && subCategories.size() > 0) {
 				for (Category subCategory : subCategories) {
-					if (child.getId() != subCategory.getId()) {
+					if (!child.getId().equals(subCategory.getId())) {
 						addChild(child, subCategory);
 					}
 				}
@@ -398,9 +402,7 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
 	@Override
 	public Category findById(Long category) {
 		Optional<Category> cat = categoryRepository.findById(category);
-		if (cat.isPresent())
-			return cat.get();
-		return null;
+		return cat.orElse(null);
 	}
 
 	@Override
@@ -420,6 +422,11 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
 	@Override
 	public int count(MerchantStore store) {
 		return categoryRepository.count(store.getId());
+	}
+
+	@Override
+	public Category getById(Long categoryid, int merchantId, int language) {
+		return categoryRepository.findById(merchantId, categoryid, language);
 	}
 
 }

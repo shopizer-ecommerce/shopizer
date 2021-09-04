@@ -20,6 +20,7 @@ import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductAttributeService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductOptionService;
+import com.salesmanager.core.business.services.catalog.product.attribute.ProductOptionSetService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductOptionValueService;
 import com.salesmanager.core.business.services.catalog.product.availability.ProductAvailabilityService;
 import com.salesmanager.core.business.services.catalog.product.image.ProductImageService;
@@ -80,6 +81,9 @@ public class AbstractSalesManagerCoreTestCase {
 	
 	@Inject
 	protected ProductOptionService productOptionService;
+	
+	@Inject
+	protected ProductOptionSetService productOptionSetService;
 	
 	@Inject
 	protected ProductOptionValueService productOptionValueService;

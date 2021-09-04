@@ -10,6 +10,7 @@ public class ReadableContentObject extends ObjectContent {
   private boolean isDisplayedInMenu;
   private String code;
   private Long id;
+  
   public boolean isDisplayedInMenu() {
     return isDisplayedInMenu;
   }

@@ -18,11 +18,12 @@ import com.salesmanager.core.model.order.Order;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
-import com.salesmanager.shop.model.order.PersistableOrder;
-import com.salesmanager.shop.model.order.ReadableOrderList;
+import com.salesmanager.shop.model.order.v0.PersistableOrder;
+import com.salesmanager.shop.model.order.v0.ReadableOrderList;
 import com.salesmanager.shop.populator.customer.CustomerPopulator;
 import com.salesmanager.shop.populator.order.PersistableOrderPopulator;
 import com.salesmanager.shop.store.controller.order.facade.OrderFacade;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

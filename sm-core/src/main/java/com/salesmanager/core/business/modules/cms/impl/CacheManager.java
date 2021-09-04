@@ -5,9 +5,9 @@ import org.infinispan.tree.TreeCache;
 
 public interface CacheManager extends CMSManager {
 
-  public EmbeddedCacheManager getManager();
+  EmbeddedCacheManager getManager();
 
   @SuppressWarnings("rawtypes")
-  public TreeCache getTreeCache();
+  TreeCache getTreeCache();
 
 }

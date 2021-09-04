@@ -22,7 +22,6 @@ public class CategoryUtils {
     
     
     readableCategory.setDescriptions(descriptions);
-    
     return readableCategory;
   }
   

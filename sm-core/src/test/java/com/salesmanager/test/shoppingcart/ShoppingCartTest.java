@@ -153,7 +153,7 @@ public class ShoppingCartTest extends com.salesmanager.test.common.AbstractSales
 	    product.setProductHeight(new BigDecimal(4));
 	    product.setProductLength(new BigDecimal(3));
 	    product.setProductWidth(new BigDecimal(1));
-	    product.setSku("TB12345");
+	    product.setSku("XABC12");
 	    product.setManufacturer(addidas);
 	    product.setType(generalType);
 	    product.setMerchantStore(store);
@@ -258,9 +258,10 @@ public class ShoppingCartTest extends com.salesmanager.test.common.AbstractSales
 	    retrievedCart = shoppingCartService.getByCode(cartCode.toString(), store);
 	    
 	    Assert.assertNull(retrievedCart);
+
+		// Clean up for other tests
+	    categoryService.delete(shirts);
 	    
-
-
 	}
 	
 

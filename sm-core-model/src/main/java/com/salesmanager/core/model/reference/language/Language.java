@@ -27,7 +27,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 
 @Entity
 @EntityListeners(value = AuditListener.class)
-@Table(name = "LANGUAGE", schema = SchemaConstant.SALESMANAGER_SCHEMA, indexes = { @Index(name="CODE_IDX2", columnList = "CODE")})
+@Table(name = "LANGUAGE", indexes = { @Index(name="CODE_IDX2", columnList = "CODE")})
 @Cacheable
 public class Language extends SalesManagerEntity<Integer, Language> implements Auditable {
   private static final long serialVersionUID = 1L;

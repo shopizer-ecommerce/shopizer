@@ -1,7 +1,6 @@
 package com.salesmanager.core.business.modules.integration.shipping.impl;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.math.BigDecimal;
@@ -12,10 +11,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.digester.Digester;
-import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpPost;
@@ -135,7 +133,7 @@ public class UPSShippingQuote implements ShippingQuoteModule {
 		if(StringUtils.isBlank(delivery.getPostalCode())) {
 			return null;
 		}
-		
+
 		BigDecimal total = orderTotal;
 
 		if (packages == null) {
@@ -189,7 +187,7 @@ public class UPSShippingQuote implements ShippingQuoteModule {
 			Map<String, ModuleConfig> moduleConfigsMap = module.getModuleConfigs();
 			for(String key : moduleConfigsMap.keySet()) {
 				
-				ModuleConfig moduleConfig = (ModuleConfig)moduleConfigsMap.get(key);
+				ModuleConfig moduleConfig = moduleConfigsMap.get(key);
 				if(moduleConfig.getEnv().equals(env)) {
 					host = moduleConfig.getHost();
 					protocol = moduleConfig.getScheme();
@@ -226,7 +224,7 @@ public class UPSShippingQuote implements ShippingQuoteModule {
 			}
 
 			String xml = "<?xml version=\"1.0\"?><RatingServiceSelectionRequest><Request><TransactionReference><CustomerContext>Shopizer</CustomerContext><XpciVersion>1.0001</XpciVersion></TransactionReference><RequestAction>Rate</RequestAction><RequestOption>Shop</RequestOption></Request>";
-			StringBuffer xmldatabuffer = new StringBuffer();
+			StringBuilder xmldatabuffer = new StringBuilder();
 
 			/**
 			 * <Shipment>
@@ -389,22 +387,16 @@ public class UPSShippingQuote implements ShippingQuoteModule {
 			//		xmlbuffer.toString(), "text/plain", "UTF-8");
 			httppost.setEntity(entity);
             // Create a custom response handler
-            ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
-
-                @Override
-                public String handleResponse(
-                        final HttpResponse response) throws ClientProtocolException, IOException {
-                    int status = response.getStatusLine().getStatusCode();
-                    if (status >= 200 && status < 300) {
-                        HttpEntity entity = response.getEntity();
-                        return entity != null ? EntityUtils.toString(entity) : null;
-                    } else {
-                    	LOGGER.error("Communication Error with ups quote " + status);
-        				throw new ClientProtocolException("UPS quote communication error " + status);
-                    }
-                }
-
-            };
+            ResponseHandler<String> responseHandler = response -> {
+				int status = response.getStatusLine().getStatusCode();
+				if (status >= 200 && status < 300) {
+					HttpEntity entity1 = response.getEntity();
+					return entity1 != null ? EntityUtils.toString(entity1) : null;
+				} else {
+					LOGGER.error("Communication Error with ups quote " + status);
+					throw new ClientProtocolException("UPS quote communication error " + status);
+				}
+			};
 			String data = httpclient.execute(httppost, responseHandler);
 
 			//int result = response.getStatusLine().getStatusCode();

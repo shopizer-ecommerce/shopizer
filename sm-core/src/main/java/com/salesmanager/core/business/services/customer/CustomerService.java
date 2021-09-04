@@ -15,7 +15,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 
 public interface CustomerService  extends SalesManagerEntityService<Long, Customer> {
 
-	public List<Customer> getByName(String firstName);
+	List<Customer> getByName(String firstName);
 
 	List<Customer> getListByStore(MerchantStore store);
 
@@ -26,6 +26,15 @@ public interface CustomerService  extends SalesManagerEntityService<Long, Custom
 	CustomerList getListByStore(MerchantStore store, CustomerCriteria criteria);
 
 	Customer getByNick(String nick, int storeId);
+	Customer getByNick(String nick, String code);
+	
+	/**
+	 * Password reset token
+	 * @param storeCode
+	 * @param token
+	 * @return
+	 */
+	Customer getByPasswordResetToken(String storeCode, String token);
 
 	/**
 	 * Return an {@link com.salesmanager.core.business.common.model.Address} object from the client IP address. Uses underlying GeoLocation module

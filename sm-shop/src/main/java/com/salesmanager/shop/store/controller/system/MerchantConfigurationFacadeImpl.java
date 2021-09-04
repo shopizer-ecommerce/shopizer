@@ -29,10 +29,10 @@ public class MerchantConfigurationFacadeImpl implements MerchantConfigurationFac
 
   private static final Logger LOGGER = LoggerFactory
       .getLogger(MerchantConfigurationFacadeImpl.class);
-  
+
   @Inject
   private MerchantConfigurationService merchantConfigurationService;
-  
+
   @Value("${config.displayShipping}")
   private String displayShipping;
 
@@ -45,6 +45,11 @@ public class MerchantConfigurationFacadeImpl implements MerchantConfigurationFac
     readableConfig.setAllowOnlinePurchase(configs.isAllowPurchaseItems());
     readableConfig.setDisplaySearchBox(configs.isDisplaySearchBox());
     readableConfig.setDisplayContactUs(configs.isDisplayContactUs());
+
+    readableConfig.setDisplayCustomerSection(configs.isDisplayCustomerSection());
+    readableConfig.setDisplayAddToCartOnFeaturedItems(configs.isDisplayAddToCartOnFeaturedItems());
+    readableConfig.setDisplayCustomerAgreement(configs.isDisplayCustomerAgreement());
+    readableConfig.setDisplayPagesMenu(configs.isDisplayPagesMenu());
 
     Optional<String> facebookConfigValue = getConfigValue(KEY_FACEBOOK_PAGE_URL, merchantStore);
     facebookConfigValue.ifPresent(readableConfig::setFacebook);

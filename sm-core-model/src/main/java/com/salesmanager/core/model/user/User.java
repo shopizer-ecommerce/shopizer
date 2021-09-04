@@ -28,6 +28,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 import com.salesmanager.core.constants.SchemaConstant;
+import com.salesmanager.core.model.common.CredentialsReset;
 import com.salesmanager.core.model.common.audit.AuditListener;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.common.audit.Auditable;
@@ -42,12 +43,12 @@ import com.salesmanager.core.model.reference.language.Language;
  */
 @Entity
 @EntityListeners(value = AuditListener.class)
-@Table(name = "USER", schema=SchemaConstant.SALESMANAGER_SCHEMA, uniqueConstraints=
+@Table(name = "USERS", uniqueConstraints=
 	@UniqueConstraint(columnNames = {"MERCHANT_ID", "ADMIN_NAME"}))
 public class User extends SalesManagerEntity<Long, User> implements Auditable {
 	
 	
-	private static final long serialVersionUID = 5401059537544058710L;
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@Column(name = "USER_ID", unique=true, nullable=false)
@@ -71,7 +72,7 @@ public class User extends SalesManagerEntity<Long, User> implements Auditable {
 	private String adminName;
 	
 	@ManyToMany(fetch=FetchType.LAZY, cascade = {CascadeType.REFRESH})
-	@JoinTable(name = "USER_GROUP", schema=SchemaConstant.SALESMANAGER_SCHEMA, joinColumns = { 
+	@JoinTable(name = "USER_GROUP", joinColumns = { 
 			@JoinColumn(name = "USER_ID", nullable = false, updatable = false) }
 			, 
 			inverseJoinColumns = { @JoinColumn(name = "GROUP_ID", 
@@ -143,6 +144,24 @@ public class User extends SalesManagerEntity<Long, User> implements Auditable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "LOGIN_ACCESS")
 	private Date loginTime;
+	
+	@Embedded
+	private CredentialsReset credentialsResetRequest = null;
+	
+/*	@Column(name="PASSWORD_TOKEN")
+	private String resetPasswordToken;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "EXPIRED_P_TOKEN")
+	private Date tokenPasswordExpiration;*/
+
+	public CredentialsReset getCredentialsResetRequest() {
+		return credentialsResetRequest;
+	}
+
+	public void setCredentialsResetRequest(CredentialsReset credentialsResetRequest) {
+		this.credentialsResetRequest = credentialsResetRequest;
+	}
 
 	@Override
 	public Long getId() {
@@ -300,6 +319,22 @@ public class User extends SalesManagerEntity<Long, User> implements Auditable {
 	public Date getLoginTime() {
 		return loginTime;
 	}
+
+/*	public String getResetPasswordToken() {
+		return resetPasswordToken;
+	}
+
+	public void setResetPasswordToken(String resetPasswordToken) {
+		this.resetPasswordToken = resetPasswordToken;
+	}
+
+	public Date getTokenPasswordExpiration() {
+		return tokenPasswordExpiration;
+	}
+
+	public void setTokenPasswordExpiration(Date tokenPasswordExpiration) {
+		this.tokenPasswordExpiration = tokenPasswordExpiration;
+	}*/
 	
 
 }

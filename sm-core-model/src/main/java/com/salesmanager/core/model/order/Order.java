@@ -28,7 +28,6 @@ import org.hibernate.annotations.OrderBy;
 import org.hibernate.annotations.Type;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.common.Billing;
 import com.salesmanager.core.model.common.Delivery;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
@@ -43,7 +42,7 @@ import com.salesmanager.core.model.reference.currency.Currency;
 import com.salesmanager.core.utils.CloneUtils;
 
 @Entity
-@Table (name="ORDERS", schema = SchemaConstant.SALESMANAGER_SCHEMA)
+@Table (name="ORDERS")
 public class Order extends SalesManagerEntity<Long, Order> {
 	
 	
@@ -89,6 +88,9 @@ public class Order extends SalesManagerEntity<Long, Order> {
 
 	@Column (name ="IP_ADDRESS")
 	private String ipAddress;
+	
+	@Column(name = "CART_CODE", nullable=true)
+	private String shoppingCartCode;
 
 	@Column (name ="CHANNEL")
 	@Enumerated(value = EnumType.STRING)
@@ -104,7 +106,6 @@ public class Order extends SalesManagerEntity<Long, Order> {
 	
 	@Column (name ="PAYMENT_MODULE_CODE")
 	private String paymentModuleCode;
-	
 	
 	@Column (name ="SHIPPING_MODULE_CODE")
 	private String shippingModuleCode;
@@ -394,6 +395,14 @@ public class Order extends SalesManagerEntity<Long, Order> {
 
 	public void setOrderAttributes(Set<OrderAttribute> orderAttributes) {
 		this.orderAttributes = orderAttributes;
+	}
+	
+	public String getShoppingCartCode() {
+		return shoppingCartCode;
+	}
+
+	public void setShoppingCartCode(String shoppingCartCode) {
+		this.shoppingCartCode = shoppingCartCode;
 	}
 
 }

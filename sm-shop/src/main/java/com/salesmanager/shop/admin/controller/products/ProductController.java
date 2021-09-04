@@ -1014,7 +1014,7 @@ public class ProductController {
 		//get parent categories
 		List<Category> categories = categoryService.listByStore(store,language);
 		
-		Category category = categoryService.getById(categoryId, store.getId());
+		Category category = categoryService.getById(categoryId, store.getId(), language.getId());
 		
 		if(category==null) {
 			return "redirect:/admin/products/products.html";

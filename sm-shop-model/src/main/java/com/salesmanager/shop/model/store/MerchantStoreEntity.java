@@ -4,7 +4,8 @@ import java.io.Serializable;
 
 import javax.validation.constraints.NotNull;
 
-import com.salesmanager.core.constants.MeasureUnit;
+import com.salesmanager.shop.model.references.MeasureUnit;
+import com.salesmanager.shop.model.references.WeightUnit;
 
 public class MerchantStoreEntity implements Serializable {
 	
@@ -24,6 +25,7 @@ public class MerchantStoreEntity implements Serializable {
 	private String inBusinessSince;
 	@NotNull
 	private String email;
+	@NotNull
 	private String phone;
 	private String template;
 	
@@ -31,7 +33,7 @@ public class MerchantStoreEntity implements Serializable {
 	private boolean currencyFormatNational;
 	private boolean retailer;
 	private MeasureUnit dimension;
-	private MeasureUnit weight;
+	private WeightUnit weight;
 	
 
 	public int getId() {
@@ -130,11 +132,11 @@ public class MerchantStoreEntity implements Serializable {
 		this.dimension = dimension;
 	}
 
-	public MeasureUnit getWeight() {
+	public WeightUnit getWeight() {
 		return weight;
 	}
 
-	public void setWeight(MeasureUnit weight) {
+	public void setWeight(WeightUnit weight) {
 		this.weight = weight;
 	}
 

@@ -8,15 +8,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+
 import javax.inject.Inject;
+
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.salesmanager.core.business.constants.Constants;
-
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductOptionService;
@@ -92,32 +93,19 @@ public class PersistableProductPopulator extends
 			} else {
 				target.setId(source.getId());
 			}
-			
-			target.setCondition(source.getCondition());
-			
+
 			
 			//PRODUCT TYPE
 			if(!StringUtils.isBlank(source.getType())) {
-				ProductType type = productTypeService.getProductType(source.getType());
+				ProductType type = productTypeService.getByCode(source.getType(), store, language);
 				if(type == null) {
 					throw new ConversionException("Product type [" + source.getType() + "] does not exist");
 				}
-				
-				//TODO
-				//if(type.getMerchantStore().getId().intValue() != store.getId().intValue()) {
-				//	throw new ConversionException("Product type [" + source.getType() + "] does not exist for store [" + store.getCode() + "]");
-				//}
-				
+
 				target.setType(type);
 			}
 			
 			
-			//RENTAL
-			target.setRentalDuration(source.getRentalDuration());
-			target.setRentalStatus(source.getRentalStatus());
-			target.setRentalPeriod(source.getRentalPeriod());
-			
-			/** end RENTAL **/
 			
 			if(source.getOwner()!=null && source.getOwner().getId()!=null) {
 				com.salesmanager.core.model.customer.Customer owner = customerService.getById(source.getOwner().getId());
@@ -211,13 +199,12 @@ public class PersistableProductPopulator extends
 				//get product availability
 			  
 			    //create new ProductAvailability
-			    ProductAvailability productAvailability = new ProductAvailability();
+			    ProductAvailability productAvailability = new ProductAvailability(target, store);
 
 			    //todo now support for specific regions
 			    productAvailability.setRegion(Constants.ALL_REGIONS);
 
 				productAvailability.setProductQuantity(source.getQuantity());
-				productAvailability.setProduct(target);
 				productAvailability.setProductQuantityOrderMin(1);
 				productAvailability.setProductQuantityOrderMax(1);
 				productAvailability.setAvailable(Boolean.valueOf(target.isAvailable()));
@@ -276,11 +263,10 @@ public class PersistableProductPopulator extends
 			    }
 				
 			    if(productAvailability == null) {
-			      productAvailability = new ProductAvailability();
+			      productAvailability = new ProductAvailability(target, store);
 			      target.getAvailabilities().add(productAvailability);
 			    }
-			    
-				productAvailability.setProduct(target);
+
 				productAvailability.setProductQuantity(source.getQuantity());
 				productAvailability.setProductQuantityOrderMin(1);
 				productAvailability.setProductQuantityOrderMax(1);
@@ -328,47 +314,7 @@ public class PersistableProductPopulator extends
 				for(com.salesmanager.shop.model.catalog.product.attribute.PersistableProductAttribute attr : source.getAttributes()) {
 					ProductAttribute attribute = persistableProductAttributeMapper.convert(attr, store, language);
 					
-					/*
-					ProductOption productOption = null;
-							
-					if(!StringUtils.isBlank(attr.getOption().getCode())) {
-						productOption = productOptionService.getByCode(store, attr.getOption().getCode());
-					} else {
-						Validate.notNull(attr.getOption().getId(),"Product option id is null");
-						productOption = productOptionService.getById(attr.getOption().getId());
-					}
-
-					if(productOption==null) {
-						throw new ConversionException("Product option id " + attr.getOption().getId() + " does not exist");
-					}
-					
-					ProductOptionValue productOptionValue = null;
-					
-					if(!StringUtils.isBlank(attr.getOptionValue().getCode())) {
-						productOptionValue = productOptionValueService.getByCode(store, attr.getOptionValue().getCode());
-					} else {
-						productOptionValue = productOptionValueService.getById(attr.getOptionValue().getId());
-					}
-					
-					if(productOptionValue==null) {
-						throw new ConversionException("Product option value id " + attr.getOptionValue().getId() + " does not exist");
-					}
-					
-					if(productOption.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
-						throw new ConversionException("Invalid product option id ");
-					}
-					
-					if(productOptionValue.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
-						throw new ConversionException("Invalid product option value id ");
-					}
-*/					
-					//ProductAttribute attribute = new ProductAttribute();
 					attribute.setProduct(target);
-/*					attribute.setProductOption(productOption);
-					attribute.setProductOptionValue(productOptionValue);
-					attribute.setProductAttributePrice(attr.getProductAttributePrice());
-					attribute.setProductAttributeWeight(attr.getProductAttributeWeight());
-					attribute.setProductAttributePrice(attr.getProductAttributePrice());*/
 					target.getAttributes().add(attribute);
 
 				}

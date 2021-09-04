@@ -14,11 +14,11 @@ public class PersistableCatalogMapper implements Mapper<PersistableCatalog, Cata
 	@Override
 	public Catalog convert(PersistableCatalog source, MerchantStore store, Language language) {
 		Catalog c = new Catalog();
-		return this.convert(source, c, store, language);
+		return this.merge(source, c, store, language);
 	}
 
 	@Override
-	public Catalog convert(PersistableCatalog source, Catalog destination, MerchantStore store, Language language) {
+	public Catalog merge(PersistableCatalog source, Catalog destination, MerchantStore store, Language language) {
 		
 		
 		destination.setCode(source.getCode());

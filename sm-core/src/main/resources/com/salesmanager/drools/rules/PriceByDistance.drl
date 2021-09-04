@@ -17,5 +17,5 @@ rule "3550 kilometers or less"
     when
         ShippingInputParameters(distance <=3550)
     then
-        decision.setCustomPrice("120");
+        decision.setCustomPrice("140");
 end

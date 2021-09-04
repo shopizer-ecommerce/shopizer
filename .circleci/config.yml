@@ -2,43 +2,98 @@
 #
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
-version: 2
+
+
+version: 2.1
+
+orbs:
+  slack: circleci/slack@3.4.2
+
+executors:
+  shopizer-ci:
+    docker:
+      - image: shopizerecomm/ci:latest
+        auth:
+          username: shopizerecomm
+          password: $DOCKERHUB_PASSWORD  
+      
+working_directory: /tmp
+
+
+# Define the jobs we want to run for this project
 jobs:
   build:
-    branches:
-      only:
-        - master
-    docker:
-      # specify the version you desire here
-      - image: circleci/openjdk:8-jdk
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
-
-    working_directory: ~/repo
-
-    environment:
-      # Customize the JVM maximum heap limit
-      MAVEN_OPTS: -Xmx3200m
-
+    executor: shopizer-ci
     steps:
       - checkout
-
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "pom.xml" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-
-      - run: mvn dependency:go-offline
-
-      - save_cache:
+      - run: echo "shopizer build and test (1)"
+      - run:
+          name: Run shell script
+          command: |
+            set -x
+            /home/shopizer/tools/shopizer.sh tests
+      - persist_to_workspace:
+          root: .
           paths:
-            - ~/.m2
-          key: v1-dependencies-{{ checksum "pom.xml" }}
+            - sm-shop/*
+      #- run:
+      #    name: Install Docker client
+      #    command: apk add docker-cli
+      #- run: |
+      #    ls -al
+      #    cd sm-shop
+      #    docker build . -t shopizerecomm/shopizer:latest
+      #    docker build . -t shopizerecomm/shopizer:latest
+  deploy:
+    machine: true
+    steps:
+       - attach_workspace:
+          at: .
+       # start proprietary DB using private Docker image
+       # with credentials stored in the UI
+       - run: |
+           ls -al
+       - run: |
+           docker login -u shopizerecomm -p $DOCKERHUB_PASSWORD
+       - run: |
+           (cd sm-shop && docker build . -t shopizerecomm/shopizer:latest)
+       - run: |
+           docker push shopizerecomm/shopizer:latest
 
-      # run tests!
-      - run: mvn integration-test
+       #- run: |
+       #    docker login -u shopizerecomm  -p $DOCKERHUB_PASSWORD  | ls -al | echo "build docker" | cd sm-shop | ls -al | docker build . -t shopizerecomm/shopizer:latest
+       
+       # deploy the image
+       #- run: docker push shopizerecomm/shopizer:latest
+
+# Orchestrate our job run sequence
+workflows:
+  build_and_deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+
+
+#jobs:
+#  build:
+#    steps:
+#      - checkout
+#      - run: echo "this is the build job"
+#  test:
+    #executor: shopizer-ci
+#    steps:
+#      - checkout
+#      - run: echo "this is the test job"
+      #- run: shopizer tests
+
+
+
+#workflows:
+#  build_and_test:
+#    jobs:
+#      - build
+#      - test:
+#          requires:
+#            - build

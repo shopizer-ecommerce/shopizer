@@ -29,7 +29,6 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.annotations.Cascade;
 
-import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
@@ -49,7 +48,7 @@ import com.salesmanager.core.model.tax.taxclass.TaxClass;
 
 @Entity
 @EntityListeners(value = AuditListener.class)
-@Table(name = "PRODUCT", schema=SchemaConstant.SALESMANAGER_SCHEMA, uniqueConstraints=
+@Table(name = "PRODUCT", uniqueConstraints=
 @UniqueConstraint(columnNames = {"MERCHANT_ID", "SKU"}))
 public class Product extends SalesManagerEntity<Long, Product> implements Auditable {
 	private static final long serialVersionUID = 1L;
@@ -71,7 +70,6 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "product")
 	private Set<ProductDescription> descriptions = new HashSet<ProductDescription>();
 	
-
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="product")
 	private Set<ProductAvailability> availabilities = new HashSet<ProductAvailability>();
 
@@ -90,7 +88,7 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 	private MerchantStore merchantStore;
 	
 	@ManyToMany(fetch=FetchType.LAZY, cascade = {CascadeType.REFRESH})
-	@JoinTable(name = "PRODUCT_CATEGORY", schema=SchemaConstant.SALESMANAGER_SCHEMA, joinColumns = { 
+	@JoinTable(name = "PRODUCT_CATEGORY", joinColumns = { 
 			@JoinColumn(name = "PRODUCT_ID", nullable = false, updatable = false) }
 			, 
 			inverseJoinColumns = { @JoinColumn(name = "CATEGORY_ID", 
@@ -110,10 +108,11 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 	private Date dateAvailable = new Date();
 	
 	
-	@Column(name="AVAILABLE")
+	@Column(name = "AVAILABLE")
 	private boolean available = true;
 	
-	@Column(name="PREORDER")
+
+	@Column(name = "PREORDER")
 	private boolean preOrder = false;
 	
 
@@ -134,7 +133,6 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 	
 	@Column(name = "PRODUCT_SHIP")
 	private boolean productShipeable = false;
-
 
 	@Column(name = "PRODUCT_FREE")
 	private boolean productIsFree;
@@ -436,7 +434,7 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 
 
 
-	public void setAvailable(boolean available) {
+	public void setAvailable(Boolean available) {
 		this.available = available;
 	}
 
@@ -448,7 +446,7 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 		return productShipeable;
 	}
 
-	public void setProductShipeable(boolean productShipeable) {
+	public void setProductShipeable(Boolean productShipeable) {
 		this.productShipeable = productShipeable;
 	}
 

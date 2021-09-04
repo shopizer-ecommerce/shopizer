@@ -4,7 +4,7 @@ package com.salesmanager.core.business.services.customer.optin;
 
 import javax.inject.Inject;
 
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.exception.ServiceException;

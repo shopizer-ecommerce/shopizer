@@ -24,26 +24,26 @@ public interface CategoryFacade {
      * @return ReadableCategoryList
      */
 	ReadableCategoryList getCategoryHierarchy(MerchantStore store, ListCriteria criteria, int depth, Language language, List<String> filter, int page, int count);
-	
+
 	/**
-	 * 
+	 *
 	 * @param store
 	 * @param category
 	 * @return PersistableCategory
 	 */
 	PersistableCategory saveCategory(MerchantStore store, PersistableCategory category);
-	
+
 	/**
-	 * 
+	 *
 	 * @param store
 	 * @param id
 	 * @param language
 	 * @return ReadableCategory
 	 */
 	ReadableCategory getById(MerchantStore store, Long id, Language language);
-	
+
 	/**
-	 * 
+	 *
 	 * @param store
 	 * @param code
 	 * @param language
@@ -52,13 +52,23 @@ public interface CategoryFacade {
 	 */
 	ReadableCategory getByCode(MerchantStore store, String code, Language language) throws Exception;
 
+	/**
+	 * Get a Category by the Search Engine friendly URL slug
+	 *
+	 * @param merchantStore
+	 * @param friendlyUrl
+	 * @param language
+	 * @return
+	 */
+	ReadableCategory getCategoryByFriendlyUrl(MerchantStore merchantStore, String friendlyUrl, Language language) throws Exception;
+
 	Category getByCode(String code, MerchantStore store);
-	
+
 	void deleteCategory(Long categoryId, MerchantStore store);
 
 	void deleteCategory(Category category);
-	
-	
+
+
 	/**
 	 * List product options variations for a given category
 	 * @param categoryId
@@ -76,7 +86,7 @@ public interface CategoryFacade {
 	 * @throws Exception
 	 */
 	boolean existByCode(MerchantStore store, String code);
-	
+
 	/**
 	 * Move a Category from a node to another node
 	 * @param child
@@ -84,7 +94,7 @@ public interface CategoryFacade {
 	 * @param store
 	 */
 	void move(Long child, Long parent, MerchantStore store);
-	
+
 	/**
 	 * Set category visible or not
 	 * @param category

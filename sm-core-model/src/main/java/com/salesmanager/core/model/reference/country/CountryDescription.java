@@ -14,7 +14,7 @@ import com.salesmanager.core.model.common.description.Description;
 import com.salesmanager.core.model.reference.language.Language;
 
 @Entity
-@Table(name = "COUNTRY_DESCRIPTION", schema=SchemaConstant.SALESMANAGER_SCHEMA, uniqueConstraints={
+@Table(name = "COUNTRY_DESCRIPTION", uniqueConstraints={
 	@UniqueConstraint(columnNames={
 			"COUNTRY_ID",
 			"LANGUAGE_ID"

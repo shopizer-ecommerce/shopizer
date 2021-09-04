@@ -1,6 +1,7 @@
 package com.salesmanager.core.business.services.catalog.product.image;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityService;
@@ -9,6 +10,7 @@ import com.salesmanager.core.model.catalog.product.file.ProductImageSize;
 import com.salesmanager.core.model.catalog.product.image.ProductImage;
 import com.salesmanager.core.model.content.ImageContentFile;
 import com.salesmanager.core.model.content.OutputContentFile;
+import com.salesmanager.core.model.merchant.MerchantStore;
 
 
 public interface ProductImageService extends SalesManagerEntityService<Long, ProductImage> {
@@ -42,6 +44,15 @@ public interface ProductImageService extends SalesManagerEntityService<Long, Pro
 	 */
 	List<OutputContentFile> getProductImages(Product product)
 			throws ServiceException;
+	
+	/**
+	 * Get a product image by name for a given product id
+	 * @param imageName
+	 * @param productId
+	 * @param store
+	 * @return
+	 */
+	Optional<ProductImage> getProductImage(Long imageId, Long productId, MerchantStore store);
 
 	void removeProductImage(ProductImage productImage) throws ServiceException;
 

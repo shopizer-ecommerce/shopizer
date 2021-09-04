@@ -32,7 +32,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
  */
 @Entity
 @EntityListeners(value = AuditListener.class)
-@Table(name = "MERCHANT_CONFIGURATION", schema = SchemaConstant.SALESMANAGER_SCHEMA,
+@Table(name = "MERCHANT_CONFIGURATION",
     uniqueConstraints = @UniqueConstraint(columnNames = {"MERCHANT_ID", "CONFIG_KEY"}))
 public class MerchantConfiguration extends SalesManagerEntity<Long, MerchantConfiguration>
     implements Serializable, Auditable {

@@ -27,7 +27,7 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
 		StringBuilder objectBuilderSelect = new StringBuilder();
 		
 		String baseCountQuery = "select count(c) from Customer as c";
-		String baseQuery = "select c from Customer as c";
+		String baseQuery = "select c from Customer as c  left join fetch c.delivery.country left join fetch c.delivery.zone left join fetch c.billing.country left join fetch c.billing.zone";
 		countBuilderSelect.append(baseCountQuery);
 		objectBuilderSelect.append(baseQuery);
 		
@@ -132,11 +132,7 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
     	if(max>0) {
     			int maxCount = first + max;
 
-    			if(maxCount < count.intValue()) {
-    				objectQ.setMaxResults(maxCount);
-    			} else {
-    				objectQ.setMaxResults(count.intValue());
-    			}
+			objectQ.setMaxResults(Math.min(maxCount, count.intValue()));
     	}
 		
 		customerList.setCustomers(objectQ.getResultList());

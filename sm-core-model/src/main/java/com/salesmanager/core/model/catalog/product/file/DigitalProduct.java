@@ -22,7 +22,7 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
  *
  */
 @Entity
-@Table(name = "PRODUCT_DIGITAL", schema=SchemaConstant.SALESMANAGER_SCHEMA, uniqueConstraints=
+@Table(name = "PRODUCT_DIGITAL", uniqueConstraints=
 	@UniqueConstraint(columnNames = {"PRODUCT_ID", "FILE_NAME"}))
 public class DigitalProduct extends SalesManagerEntity<Long, DigitalProduct> {
 

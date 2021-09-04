@@ -1,8 +1,7 @@
 package com.salesmanager.shop.admin.model.userpassword;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.util.Random;
+import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.simple.RandomSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,18 +40,11 @@ public class UserReset
   private static int getRandomNumber()
   {
     int randomInt = 0;
-    Random randomGenerator;
-    try {
-      randomGenerator = SecureRandom.getInstanceStrong();
-      randomInt = randomGenerator.nextInt(CHAR_LIST.length());
-      if (randomInt - 1 == -1) {
-        return randomInt;
-      }
-    } catch (NoSuchAlgorithmException e) {
-      LOGGER.error("Error while generating error", e);
-    }
 
-    return randomInt - 1;
+      UniformRandomProvider randomGenerator = RandomSource.create(RandomSource.MT);
+      randomInt = randomGenerator.nextInt(CHAR_LIST.length());
+
+    return randomInt;
   }
 
   

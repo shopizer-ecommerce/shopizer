@@ -71,9 +71,8 @@ public class ModuleConfigurationServiceImpl extends
 					if(regions!=null) {
 						Object objRegions=JSONValue.parse(regions); 
 						JSONArray arrayRegions=(JSONArray)objRegions;
-						Iterator i = arrayRegions.iterator();
-						while(i.hasNext()) {
-							mod.getRegionsSet().add((String)i.next());
+						for (Object arrayRegion : arrayRegions) {
+							mod.getRegionsSet().add((String) arrayRegion);
 						}
 					}
 					
@@ -99,29 +98,27 @@ public class ModuleConfigurationServiceImpl extends
 						JSONArray arrayConfigs=(JSONArray)objConfigs;
 						
 						Map<String,ModuleConfig> moduleConfigs = new HashMap<String,ModuleConfig>();
-						
-						Iterator i = arrayConfigs.iterator();
-						while(i.hasNext()) {
-							
-							Map values = (Map)i.next();
-							String env = (String)values.get("env");
-		            		ModuleConfig config = new ModuleConfig();
-		            		config.setScheme((String)values.get("scheme"));
-		            		config.setHost((String)values.get("host"));
-		            		config.setPort((String)values.get("port"));
-		            		config.setUri((String)values.get("uri"));
-		            		config.setEnv((String)values.get("env"));
-		            		if((String)values.get("config1")!=null) {
-		            			config.setConfig1((String)values.get("config1"));
-		            		}
-		            		if((String)values.get("config2")!=null) {
-		            			config.setConfig1((String)values.get("config2"));
-		            		}
-		            		
-		            		moduleConfigs.put(env, config);
-		            		
-		            		
-							
+
+						for (Object arrayConfig : arrayConfigs) {
+
+							Map values = (Map) arrayConfig;
+							String env = (String) values.get("env");
+							ModuleConfig config = new ModuleConfig();
+							config.setScheme((String) values.get("scheme"));
+							config.setHost((String) values.get("host"));
+							config.setPort((String) values.get("port"));
+							config.setUri((String) values.get("uri"));
+							config.setEnv((String) values.get("env"));
+							if (values.get("config1") != null) {
+								config.setConfig1((String) values.get("config1"));
+							}
+							if (values.get("config2") != null) {
+								config.setConfig1((String) values.get("config2"));
+							}
+
+							moduleConfigs.put(env, config);
+
+
 						}
 						
 						mod.setModuleConfigs(moduleConfigs);

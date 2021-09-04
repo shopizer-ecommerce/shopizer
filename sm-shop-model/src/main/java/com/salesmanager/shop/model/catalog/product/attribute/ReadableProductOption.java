@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValueEntity;
 
-public class ReadableProductOption extends ProductOption {
+public class ReadableProductOption extends ProductPropertyOption {
 
 	/**
 	 * 

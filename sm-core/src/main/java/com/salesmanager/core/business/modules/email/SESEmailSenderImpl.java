@@ -78,7 +78,7 @@ public class SESEmailSenderImpl implements EmailModule {
 
     freemarkerMailConfiguration.setClassForTemplateLoading(DefaultEmailSenderImpl.class, "/");
     Template htmlTemplate = freemarkerMailConfiguration.getTemplate(new StringBuilder(TEMPLATE_PATH)
-        .append("").append("/").append(email.getTemplateName()).toString());
+            .append("/").append(email.getTemplateName()).toString());
     final StringWriter htmlWriter = new StringWriter();
     try {
       htmlTemplate.process(email.getTemplateTokens(), htmlWriter);
@@ -86,8 +86,7 @@ public class SESEmailSenderImpl implements EmailModule {
       throw new MailPreparationException("Can't generate HTML mail", e);
     }
 
-    String html = htmlWriter.toString();
-    return html;
+    return htmlWriter.toString();
 
   }
 

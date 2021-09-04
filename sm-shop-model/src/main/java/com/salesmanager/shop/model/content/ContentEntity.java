@@ -1,13 +1,13 @@
 package com.salesmanager.shop.model.content;
 
-import com.salesmanager.core.model.content.ContentType;
 import com.salesmanager.shop.model.entity.Entity;
 
+@Deprecated
 public class ContentEntity extends Entity {
 	
 	  private static final long serialVersionUID = 1L;
 	  private String code;
-	  private String contentType = ContentType.BOX.name();
+	  private String contentType = "BOX";
 	  private boolean isDisplayedInMenu;
 	  private boolean visible;
 	public String getCode() {

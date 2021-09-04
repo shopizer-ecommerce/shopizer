@@ -110,6 +110,16 @@ public class CustomerServiceImpl extends SalesManagerEntityServiceImpl<Long, Cus
 		customerRepository.delete(customer);
 
 	}
+
+	@Override
+	public Customer getByNick(String nick, String code) {
+		return customerRepository.findByNick(nick, code);
+	}
+
+	@Override
+	public Customer getByPasswordResetToken(String storeCode, String token) {
+		return customerRepository.findByResetPasswordToken(token, storeCode);
+	}
 	
 
 }

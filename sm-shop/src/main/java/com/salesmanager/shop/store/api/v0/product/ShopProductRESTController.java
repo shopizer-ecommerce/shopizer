@@ -1,5 +1,29 @@
 package com.salesmanager.shop.store.api.v0.product;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
@@ -19,7 +43,11 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.catalog.manufacturer.PersistableManufacturer;
-import com.salesmanager.shop.model.catalog.product.*;
+import com.salesmanager.shop.model.catalog.product.PersistableProduct;
+import com.salesmanager.shop.model.catalog.product.PersistableProductReview;
+import com.salesmanager.shop.model.catalog.product.ProductPriceEntity;
+import com.salesmanager.shop.model.catalog.product.ReadableProduct;
+import com.salesmanager.shop.model.catalog.product.ReadableProductList;
 import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductOption;
 import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductOptionValue;
 import com.salesmanager.shop.populator.catalog.PersistableProductOptionPopulator;
@@ -27,27 +55,10 @@ import com.salesmanager.shop.populator.catalog.PersistableProductOptionValuePopu
 import com.salesmanager.shop.populator.catalog.PersistableProductReviewPopulator;
 import com.salesmanager.shop.populator.catalog.ReadableProductPopulator;
 import com.salesmanager.shop.populator.manufacturer.PersistableManufacturerPopulator;
-import com.salesmanager.shop.store.controller.items.facade.ProductItemsFacade;
 import com.salesmanager.shop.store.controller.product.facade.ProductFacade;
 import com.salesmanager.shop.store.model.filter.QueryFilter;
 import com.salesmanager.shop.store.model.filter.QueryFilterType;
 import com.salesmanager.shop.utils.ImageFilePath;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * API to create, read, update and delete a Product
@@ -649,7 +660,7 @@ public class ShopProductRESTController {
 				
 			}
 			
-			productList.setTotalPages(products.getTotalCount());
+			productList.setTotalPages(Math.toIntExact(products.getTotalCount()));
 			
 			
 			return productList;

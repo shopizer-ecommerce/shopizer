@@ -2,9 +2,9 @@ package com.salesmanager.shop.store.api.v1.customer;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import org.apache.commons.lang.Validate;
+
+import org.apache.commons.lang3.Validate;
 import org.apache.http.auth.AuthenticationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,10 +23,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
+import com.salesmanager.shop.store.api.exception.GenericRuntimeException;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
@@ -36,10 +38,14 @@ import com.salesmanager.shop.store.security.JWTTokenUtil;
 import com.salesmanager.shop.store.security.PasswordRequest;
 import com.salesmanager.shop.store.security.user.JWTUser;
 import com.salesmanager.shop.utils.LanguageUtils;
+
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.SwaggerDefinition;
 import io.swagger.annotations.Tag;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -71,25 +77,28 @@ public class AuthenticateCustomerApi {
     
     @Inject
     private LanguageUtils languageUtils;
-    
+
     /**
      * Create new customer for a given MerchantStore, then authenticate that customer
      */
     @RequestMapping( value={"/customer/register"}, method=RequestMethod.POST, produces ={ "application/json" })
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(httpMethod = "POST", value = "Registers a customer to the application", notes = "Used as self-served operation",response = AuthenticationResponse.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+		@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
     @ResponseBody
-    public ResponseEntity<?> register(@Valid @RequestBody PersistableCustomer customer, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ResponseEntity<?> register(
+    		@Valid @RequestBody PersistableCustomer customer, 
+			@ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language) throws Exception {
 
-        
-        
-        //try {
-            
-            MerchantStore merchantStore = storeFacade.getByCode(request);
-            Language language = languageUtils.getRESTLanguage(request, merchantStore);  
-            
-            //Transition
+
             customer.setUserName(customer.getEmailAddress());
+            
+			if(customerFacade.checkIfUserExists(customer.getUserName(),  merchantStore)) {
+				//409 Conflict
+				throw new GenericRuntimeException("409", "Customer with email [" + customer.getEmailAddress() + "] is already registered");
+			}
             
             Validate.notNull(customer.getUserName(),"Username cannot be null");
             Validate.notNull(customer.getBilling(),"Requires customer Country code");
@@ -140,6 +149,7 @@ public class AuthenticateCustomerApi {
     @ResponseBody
     public ResponseEntity<?> authenticate(@RequestBody @Valid AuthenticationRequest authenticationRequest) throws AuthenticationException {
 
+    	//TODO SET STORE in flow
         // Perform the security
         Authentication authentication = null;
         try {
@@ -154,7 +164,7 @@ public class AuthenticateCustomerApi {
                 );
 
         } catch(BadCredentialsException unn) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        	return new ResponseEntity<>("{\"message\":\"Bad credentials\"}",HttpStatus.UNAUTHORIZED);
         } catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -178,6 +188,7 @@ public class AuthenticateCustomerApi {
     @RequestMapping(value = "/auth/customer/refresh", method = RequestMethod.GET, produces ={ "application/json" })
     public ResponseEntity<?> refreshToken(HttpServletRequest request) {
         String token = request.getHeader(tokenHeader);
+
         String username = jwtTokenUtil.getUsernameFromToken(token);
         JWTUser user = (JWTUser) jwtCustomerDetailsService.loadUserByUsername(username);
 
@@ -189,7 +200,7 @@ public class AuthenticateCustomerApi {
         }
     }
     
-
+    @Deprecated //see ResetCustomerPasswordApi
     @RequestMapping(value = "/customer/password/reset", method = RequestMethod.PUT, produces ={ "application/json" })
     @ApiOperation(httpMethod = "POST", value = "Change customer password", notes = "Change password request object is {\"username\":\"test@email.com\"}",response = ResponseEntity.class)
     public ResponseEntity<?> resetPassword(@RequestBody @Valid AuthenticationRequest authenticationRequest, HttpServletRequest request) {
@@ -198,7 +209,7 @@ public class AuthenticateCustomerApi {
         try {
             
             MerchantStore merchantStore = storeFacade.getByCode(request);
-            Language language = languageUtils.getRESTLanguage(request, merchantStore);
+            Language language = languageUtils.getRESTLanguage(request);
             
             Customer customer = customerFacade.getCustomerByUserName(authenticationRequest.getUsername(), merchantStore);
             
@@ -215,7 +226,7 @@ public class AuthenticateCustomerApi {
     }
     
 
-    @RequestMapping(value = "/customer/password", method = RequestMethod.POST, produces ={ "application/json" })
+    @RequestMapping(value = "/auth/customer/password", method = RequestMethod.POST, produces ={ "application/json" })
     @ApiOperation(httpMethod = "PUT", value = "Sends a request to reset password", notes = "Password reset request is {\"username\":\"test@email.com\"}",response = ResponseEntity.class)
     public ResponseEntity<?> changePassword(@RequestBody @Valid PasswordRequest passwordRequest, HttpServletRequest request) {
 

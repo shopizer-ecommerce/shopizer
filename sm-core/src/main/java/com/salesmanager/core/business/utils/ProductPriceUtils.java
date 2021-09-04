@@ -163,6 +163,8 @@ public class ProductPriceUtils {
 				finalPrice.setOriginalPrice(op);
 			}
 		}
+		
+		finalPrice.setStringPrice(this.getStringAmount(finalPrice.getFinalPrice()));
 
 		return finalPrice;
 
@@ -188,11 +190,24 @@ public class ProductPriceUtils {
 		if(amount==null) {
 			return "";
 		}
-		
-		NumberFormat nf = null;
 
-			
-		nf = NumberFormat.getInstance(Constants.DEFAULT_LOCALE);
+		NumberFormat nf = NumberFormat.getInstance(Constants.DEFAULT_LOCALE);
+
+		nf.setMaximumFractionDigits(Integer.parseInt(Character
+					.toString(DECIMALCOUNT)));
+		nf.setMinimumFractionDigits(Integer.parseInt(Character
+					.toString(DECIMALCOUNT)));
+
+		return nf.format(amount);
+	}
+	
+	public String getStringAmount(BigDecimal amount) {
+		
+		if(amount==null) {
+			return "";
+		}
+
+		NumberFormat nf = NumberFormat.getInstance(Constants.DEFAULT_LOCALE);
 
 		nf.setMaximumFractionDigits(Integer.parseInt(Character
 					.toString(DECIMALCOUNT)));
@@ -258,12 +273,7 @@ public class ProductPriceUtils {
 		}
 
 		Currency curr = currency.getCurrency();
-
-
-		
-		NumberFormat currencyInstance = null;
-
-		currencyInstance = NumberFormat.getCurrencyInstance(locale);
+		NumberFormat currencyInstance = NumberFormat.getCurrencyInstance(locale);
 		currencyInstance.setCurrency(curr);
 	    return currencyInstance.format(amount.doubleValue());
 		
@@ -330,9 +340,7 @@ public class ProductPriceUtils {
 		nf.setCurrency(curr);
 
 
-		String stringNumber = nf.format(amount);
-		
-		return stringNumber;
+		return nf.format(amount);
 	}
 
 	/**
@@ -382,7 +390,7 @@ public class ProductPriceUtils {
 		 * 
 		 * Should be able to parse to Integer
 		 */
-		StringBuffer newAmount = new StringBuffer();
+		StringBuilder newAmount = new StringBuilder();
 		for (int i = 0; i < amount.length(); i++) {
 			if (amount.charAt(i) != DECIMALPOINT
 					&& amount.charAt(i) != THOUSANDPOINT) {
@@ -415,7 +423,7 @@ public class ProductPriceUtils {
 
 		} else {
 			//TODO should not go this path in this current release
-			StringBuffer pat = new StringBuffer();
+			StringBuilder pat = new StringBuilder();
 
 			if (!StringUtils.isBlank(Character.toString(THOUSANDPOINT))) {
 				pat.append("\\d{1,3}(" + THOUSANDPOINT + "?\\d{3})*");
@@ -435,9 +443,8 @@ public class ProductPriceUtils {
 				}
 
 				BigDecimalValidator validator = CurrencyValidator.getInstance();
-				BigDecimal bdamount = validator.validate(amount, locale);
 
-				return bdamount;
+				return validator.validate(amount, locale);
 			} else {
 				throw new Exception("Cannot parse " + amount);
 			}
@@ -486,20 +493,14 @@ public class ProductPriceUtils {
 	}
 	
 	private boolean matchPositiveInteger(String amount) {
-
 		Pattern pattern = Pattern.compile("^[+]?\\d*$");
 		Matcher matcher = pattern.matcher(amount);
-		if (matcher.matches()) {
-			return true;
-
-		} else {
-			return false;
-		}
+		return matcher.matches();
 	}
 	
 	private FinalPrice calculateFinalPrice(Product product) {
 
-		FinalPrice finalPrice = null;;
+		FinalPrice finalPrice = null;
 		List<FinalPrice> otherPrices = null;
 		
 

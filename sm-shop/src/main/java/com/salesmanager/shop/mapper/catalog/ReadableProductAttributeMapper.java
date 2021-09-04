@@ -30,12 +30,12 @@ public class ReadableProductAttributeMapper implements Mapper<ProductAttribute, 
 	@Override
 	public ReadableProductAttributeEntity convert(ProductAttribute source, MerchantStore store, Language language) {
 		ReadableProductAttributeEntity productAttribute = new ReadableProductAttributeEntity();
-		return convert(source, productAttribute, store, language);
+		return merge(source, productAttribute, store, language);
 	}
 
 	@Override
-	public ReadableProductAttributeEntity convert(ProductAttribute source, ReadableProductAttributeEntity destination,
-			MerchantStore store, Language language) {
+	public ReadableProductAttributeEntity merge(ProductAttribute source, ReadableProductAttributeEntity destination,
+												MerchantStore store, Language language) {
 
 		ReadableProductAttributeEntity attr = new ReadableProductAttributeEntity();
 		if(destination !=null) {
@@ -48,6 +48,7 @@ public class ReadableProductAttributeMapper implements Mapper<ProductAttribute, 
 				String formatedPrice;
 				formatedPrice = pricingService.getDisplayAmount(source.getProductAttributePrice(), store);
 				attr.setProductAttributePrice(formatedPrice);
+				attr.setProductAttributeUnformattedPrice(pricingService.getStringAmount(source.getProductAttributePrice(), store));
 			}
 			
 			attr.setProductAttributeWeight(source.getAttributeAdditionalWeight());

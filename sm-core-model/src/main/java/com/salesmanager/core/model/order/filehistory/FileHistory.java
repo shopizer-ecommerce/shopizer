@@ -16,12 +16,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
-import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.utils.CloneUtils;
 
 @Entity
-@Table (name="FILE_HISTORY", schema=SchemaConstant.SALESMANAGER_SCHEMA, uniqueConstraints={
+@Table (name="FILE_HISTORY", uniqueConstraints={
 		@UniqueConstraint(
 			columnNames={
 				"MERCHANT_ID",

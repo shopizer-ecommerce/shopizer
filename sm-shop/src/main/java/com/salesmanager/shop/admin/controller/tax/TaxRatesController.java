@@ -81,7 +81,6 @@ public class TaxRatesController {
 		List<Language> languages = store.getLanguages();
 		
 		for(Language l : languages) {
-			
 			TaxRateDescription taxRateDescription = new TaxRateDescription();
 			taxRateDescription.setLanguage(l);
 			taxRate.getDescriptions().add(taxRateDescription);
@@ -89,7 +88,6 @@ public class TaxRatesController {
 		
 		taxRate.setMerchantStore(store);
 		taxRate.setCountry(store.getCountry());
-		
 		
 		List<TaxRate> taxRates = taxRateService.listByStore(store);
 		List<TaxClass> taxClasses = taxClassService.listByStore(store);
@@ -340,7 +338,7 @@ public class TaxRatesController {
 			
 
 			/**
-			 * In order to remove a User the logged in must be STORE_ADMIN
+			 * In order to remove a User the logged in must be ADMIN
 			 * or SUPER_USER
 			 */
 			

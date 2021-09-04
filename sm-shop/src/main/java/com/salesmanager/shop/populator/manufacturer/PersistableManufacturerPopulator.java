@@ -1,6 +1,12 @@
 
 package com.salesmanager.shop.populator.manufacturer;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.Validate;
+
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.business.utils.AbstractDataPopulator;
@@ -9,11 +15,6 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription;
 import com.salesmanager.shop.model.catalog.manufacturer.PersistableManufacturer;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang.Validate;
-
-import java.util.HashSet;
-import java.util.Set;
 
 
 /**

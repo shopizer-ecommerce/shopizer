@@ -2,8 +2,6 @@ package com.salesmanager.shop.model.catalog.product;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import com.salesmanager.core.model.catalog.product.ProductCondition;
-import com.salesmanager.core.model.catalog.product.RentalStatus;
 
 /**
  * A product entity is used by services API to populate or retrieve a Product
@@ -40,7 +38,6 @@ public class ProductEntity extends Product implements Serializable {
 	private int sortOrder;
 	private String dateAvailable;
 	private String refSku;
-	private ProductCondition condition;
 	private String creationDate;
 
 	/**
@@ -51,7 +48,6 @@ public class ProductEntity extends Product implements Serializable {
 
 	private int rentalDuration;
 	private int rentalPeriod;
-	private RentalStatus rentalStatus;
 
 	/**
 	 * End RENTAL fields
@@ -187,28 +183,12 @@ public class ProductEntity extends Product implements Serializable {
 		this.visible = visible;
 	}
 
-	public ProductCondition getCondition() {
-		return condition;
-	}
-
-	public void setCondition(ProductCondition condition) {
-		this.condition = condition;
-	}
-
 	public int getRentalDuration() {
 		return rentalDuration;
 	}
 
 	public void setRentalDuration(int rentalDuration) {
 		this.rentalDuration = rentalDuration;
-	}
-
-	public RentalStatus getRentalStatus() {
-		return rentalStatus;
-	}
-
-	public void setRentalStatus(RentalStatus rentalStatus) {
-		this.rentalStatus = rentalStatus;
 	}
 
 	public int getRentalPeriod() {

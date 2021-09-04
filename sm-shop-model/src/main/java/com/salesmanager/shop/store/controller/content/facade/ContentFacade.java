@@ -4,17 +4,22 @@ import java.util.List;
 import java.util.Optional;
 
 import com.salesmanager.core.model.content.ContentType;
+import com.salesmanager.core.model.content.FileContentType;
+import com.salesmanager.core.model.content.OutputContentFile;
+
+//TODO above deprecation, use shop model instead of core model
+
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.content.ContentFile;
 import com.salesmanager.shop.model.content.ContentFolder;
-import com.salesmanager.shop.model.content.PersistableContentEntity;
-
-import com.salesmanager.shop.model.content.PersistableContentPage;
-import com.salesmanager.shop.model.content.ReadableContentBox;
+import com.salesmanager.shop.model.content.box.PersistableContentBox;
+import com.salesmanager.shop.model.content.box.ReadableContentBox;
+import com.salesmanager.shop.model.entity.ReadableEntityList;
 import com.salesmanager.shop.model.content.ReadableContentEntity;
 import com.salesmanager.shop.model.content.ReadableContentFull;
-import com.salesmanager.shop.model.content.ReadableContentPage;
+import com.salesmanager.shop.model.content.page.PersistableContentPage;
+import com.salesmanager.shop.model.content.page.ReadableContentPage;
 
 /**
  * Images and files management
@@ -57,7 +62,7 @@ public interface ContentFacade {
 	 * @return
 	 * @throws Exception
 	 */
-	List<ReadableContentPage> getContentPage(MerchantStore store, Language language);
+	ReadableEntityList<ReadableContentPage> getContentPages(MerchantStore store, Language language, int page, int count);
 	
 	
 	/**
@@ -93,6 +98,15 @@ public interface ContentFacade {
 	
 	
 	/**
+	 * @param code
+	 * @param type
+	 * @param store
+	 * @return
+	 */
+	boolean codeExist(String code, String type, MerchantStore store);
+	
+	
+	/**
 	 * Returns content boxes created with code prefix
 	 * for example return boxes with code starting with <code>_
 	 * @param store
@@ -100,7 +114,9 @@ public interface ContentFacade {
 	 * @return
 	 * @throws Exception
 	 */
-	List<ReadableContentBox> getContentBoxes(ContentType type, String codePrefix, MerchantStore store, Language language);
+	ReadableEntityList<ReadableContentBox> getContentBoxes(ContentType type, String codePrefix, MerchantStore store, Language language, int start, int count);
+
+	ReadableEntityList<ReadableContentBox> getContentBoxes(ContentType type, MerchantStore store, Language language, int start, int count);
 
 	void addContentFile(ContentFile file, String merchantStoreCode);
 	
@@ -112,13 +128,29 @@ public interface ContentFacade {
 	void addContentFiles(List<ContentFile> file, String merchantStoreCode);
 	
 	/**
-	 * Save content page
+	 * Creates content page
 	 * @param page
 	 * @param merchantStore
 	 * @param language
 	 */
-	void saveContentPage(PersistableContentEntity page, MerchantStore merchantStore, Language language);
+	Long saveContentPage(PersistableContentPage page, MerchantStore merchantStore, Language language);
 	
+	void updateContentPage(Long id, PersistableContentPage page, MerchantStore merchantStore, Language language);
+	
+	void deleteContent(Long id, MerchantStore merchantStore);
+	
+	/**
+	 * Creates content box
+	 * @param box
+	 * @param merchantStore
+	 * @param language
+	 */
+	Long saveContentBox(PersistableContentBox box, MerchantStore merchantStore, Language language);
+	
+	void updateContentBox(Long id, PersistableContentBox box, MerchantStore merchantStore, Language language);
+
+	
+	@Deprecated
 	ReadableContentFull getContent(String code, MerchantStore store, Language language);
 	
 	/**
@@ -130,5 +162,22 @@ public interface ContentFacade {
 	 */
 	List<ReadableContentEntity> getContents(Optional<String> type, MerchantStore store, Language language);
 
+	/**
+	 * Rename file
+	 * @param store
+	 * @param fileType
+	 * @param originalName
+	 * @param newName
+	 */
+	void renameFile(MerchantStore store, FileContentType fileType, String originalName, String newName);
+	
+	/**
+	 * Download file
+	 * @param store
+	 * @param fileType
+	 * @param fileName
+	 * @return
+	 */
+	OutputContentFile download(MerchantStore store, FileContentType fileType, String fileName);
 
 }

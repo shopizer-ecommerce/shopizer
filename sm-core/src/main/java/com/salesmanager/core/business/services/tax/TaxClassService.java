@@ -9,11 +9,16 @@ import com.salesmanager.core.model.tax.taxclass.TaxClass;
 
 public interface TaxClassService extends SalesManagerEntityService<Long, TaxClass> {
 
-	public List<TaxClass> listByStore(MerchantStore store) throws ServiceException;
+	List<TaxClass> listByStore(MerchantStore store) throws ServiceException;
 
 	TaxClass getByCode(String code) throws ServiceException;
 
 	TaxClass getByCode(String code, MerchantStore store)
 			throws ServiceException;
+	
+	boolean exists(String code, MerchantStore store) throws ServiceException;
+	
+	TaxClass saveOrUpdate(TaxClass taxClass) throws ServiceException;
+	
 
 }

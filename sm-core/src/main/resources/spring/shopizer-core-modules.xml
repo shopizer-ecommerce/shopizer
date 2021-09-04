@@ -1,11 +1,8 @@
 <beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns="http://www.springframework.org/schema/data/jpa"
-  xmlns:util="http://www.springframework.org/schema/util"
-  xmlns:context="http://www.springframework.org/schema/context"
-  xmlns:aop="http://www.springframework.org/schema/aop"
-  xmlns:tx="http://www.springframework.org/schema/tx"
-  xsi:schemaLocation="http://www.springframework.org/schema/beans
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.springframework.org/schema/data/jpa"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans.xsd
     http://www.springframework.org/schema/tx 
     http://www.springframework.org/schema/tx/spring-tx.xsd
@@ -16,100 +13,103 @@
     http://www.springframework.org/schema/context
     http://www.springframework.org/schema/context/spring-context.xsd
     http://www.springframework.org/schema/data/jpa
-    http://www.springframework.org/schema/data/jpa/spring-jpa.xsd"> 
+    http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
 	<!-- Shipping integration modules -->
 
-	<util:map id="shippingModules" map-class="java.util.HashMap" key-type="java.lang.String" value-type="com.salesmanager.core.business.modules.integration.shipping.model.ShippingQuoteModule">
-    			<beans:entry key="canadapost" value-ref="canadapost"/>
-    			<beans:entry key="usps" value-ref="usps"/>
-    			<beans:entry key="ups" value-ref="ups"/>
-    			<beans:entry key="weightBased" value-ref="weightBased"/>
-    			<beans:entry key="storePickUp" value-ref="storePickUp"/>
-    			<!--
-    			Requires google maps shippingDistancePreProcessor.apiKey=<YOUR KEY>
-    			in configs.properties-->
-    			<beans:entry key="priceByDistance" value-ref="priceByDistance"/>
-    			 
-    			<!--
-    			This will activate drules-->
-    			<beans:entry key="customQuotesRules" value-ref="customShippingPriceModule"/>
+	<util:map id="shippingModules" map-class="java.util.HashMap"
+		key-type="java.lang.String"
+		value-type="com.salesmanager.core.business.modules.integration.shipping.model.ShippingQuoteModule">
+		<beans:entry key="canadapost" value-ref="canadapost" />
+		<beans:entry key="usps" value-ref="usps" />
+		<beans:entry key="ups" value-ref="ups" />
+		<beans:entry key="weightBased" value-ref="weightBased" />
+		<beans:entry key="storePickUp" value-ref="storePickUp" />
+		<!-- Requires google maps shippingDistancePreProcessor.apiKey=<YOUR KEY> 
+			in configs.properties -->
+		<beans:entry key="priceByDistance" value-ref="priceByDistance" />
 
-    </util:map>
-    
-    <!-- deprecated - now in ProcessorConfiguration -->
-<!--     Discounts processors processors (defined in  shopizer-core-ordertotal-processors.xml)
-    <beans:bean id="manufacturerShippingCodeOrderTotalModule" class="com.salesmanager.core.business.modules.order.total.ManufacturerShippingCodeOrderTotalModuleImpl">
-		<beans:property name="pricingService" ref="pricingService" />
-	</beans:bean>
-	End discount processors -->
-    
-    <!--  Payment integration modules -->
-	<util:map id="paymentModules" map-class="java.util.HashMap" key-type="java.lang.String" value-type="com.salesmanager.core.business.modules.integration.payment.model.PaymentModule">
-    			<beans:entry key="beanstream" value-ref="beanstream"/>
-    			<beans:entry key="paypal-express-checkout" value-ref="paypal-ec"/>
-    			<beans:entry key="moneyorder" value-ref="moneyorder"/>
-    			<beans:entry key="stripe" value-ref="stripe"/>
-    			<beans:entry key="braintree" value-ref="braintree"/>
-    </util:map>
+		<!-- This will activate drules -->
+		<beans:entry key="customQuotesRules" value-ref="customShippingPriceModule" />
+
+	</util:map>
+
+	<!-- deprecated - now in ProcessorConfiguration -->
+	<!-- Discounts processors processors (defined in shopizer-core-ordertotal-processors.xml) 
+		<beans:bean id="manufacturerShippingCodeOrderTotalModule" class="com.salesmanager.core.business.modules.order.total.ManufacturerShippingCodeOrderTotalModuleImpl"> 
+		<beans:property name="pricingService" ref="pricingService" /> </beans:bean> 
+		End discount processors -->
+
+	<!-- Payment integration modules -->
+	<util:map id="paymentModules" map-class="java.util.HashMap"
+		key-type="java.lang.String"
+		value-type="com.salesmanager.core.business.modules.integration.payment.model.PaymentModule">
+		<beans:entry key="beanstream" value-ref="beanstream" />
+		<beans:entry key="paypal-express-checkout" value-ref="paypal-ec" />
+		<beans:entry key="moneyorder" value-ref="moneyorder" />
+		<beans:entry key="stripe" value-ref="stripe" />
+		<beans:entry key="stripe3" value-ref="stripe3" />
+		<beans:entry key="braintree" value-ref="braintree" />
+	</util:map>
 
 	<!-- Shipping -->
-	<beans:bean id="canadapost"
-		class="com.shopizer.modules.shipping.canadapost.CanadaPostQuoteModule"/><!--shopizer-shipping-canadapost-module-->
+	<!-- Moving to com.salesmanager.core.business.configuration.ModulesConfiguration -->
 	<beans:bean id="usps"
-		class="com.salesmanager.core.business.modules.integration.shipping.impl.USPSShippingQuote"/>
+		class="com.salesmanager.core.business.modules.integration.shipping.impl.USPSShippingQuote" />
 	<beans:bean id="ups"
-		class="com.salesmanager.core.business.modules.integration.shipping.impl.UPSShippingQuote"/>
+		class="com.salesmanager.core.business.modules.integration.shipping.impl.UPSShippingQuote" />
 	<beans:bean id="weightBased"
-		class="com.salesmanager.core.business.modules.integration.shipping.impl.CustomWeightBasedShippingQuote"/>
+		class="com.salesmanager.core.business.modules.integration.shipping.impl.CustomWeightBasedShippingQuote" />
 	<beans:bean id="priceByDistance"
-		class="com.salesmanager.core.business.modules.integration.shipping.impl.PriceByDistanceShippingQuoteRules"/>
+		class="com.salesmanager.core.business.modules.integration.shipping.impl.PriceByDistanceShippingQuoteRules" />
 	<beans:bean id="storePickUp"
-		class="com.salesmanager.core.business.modules.integration.shipping.impl.StorePickupShippingQuote"/>
+		class="com.salesmanager.core.business.modules.integration.shipping.impl.StorePickupShippingQuote" />
 	<beans:bean id="customShippingPriceModule"
-		class="com.salesmanager.core.business.modules.integration.shipping.impl.CustomShippingQuoteRules"/>
-	
-	
-	<!--Default packaging-->
+		class="com.salesmanager.core.business.modules.integration.shipping.impl.CustomShippingQuoteRules" />
+
+
+	<!--Default packaging -->
 	<beans:bean id="boxPackaging"
-		class="com.salesmanager.core.business.modules.integration.shipping.impl.DefaultPackagingImpl"/>
-	
-	<!-- 
-	Payment -->
+		class="com.salesmanager.core.business.modules.integration.shipping.impl.DefaultPackagingImpl" />
+
+	<!-- Payment -->
 	<beans:bean id="beanstream"
-		class="com.salesmanager.core.business.modules.integration.payment.impl.BeanStreamPayment"/>
+		class="com.salesmanager.core.business.modules.integration.payment.impl.BeanStreamPayment" />
 	<beans:bean id="moneyorder"
-		class="com.salesmanager.core.business.modules.integration.payment.impl.MoneyOrderPayment"/>
+		class="com.salesmanager.core.business.modules.integration.payment.impl.MoneyOrderPayment" />
 	<beans:bean id="paypal-ec"
-		class="com.salesmanager.core.business.modules.integration.payment.impl.PayPalExpressCheckoutPayment"/>
+		class="com.salesmanager.core.business.modules.integration.payment.impl.PayPalExpressCheckoutPayment" />
 	<beans:bean id="stripe"
-		class="com.salesmanager.core.business.modules.integration.payment.impl.StripePayment"/>
+		class="com.salesmanager.core.business.modules.integration.payment.impl.StripePayment" />
+	<beans:bean id="stripe3"
+		class="com.salesmanager.core.business.modules.integration.payment.impl.Stripe3Payment" />
 	<beans:bean id="braintree"
-		class="com.salesmanager.core.business.modules.integration.payment.impl.BraintreePayment"/>
+		class="com.salesmanager.core.business.modules.integration.payment.impl.BraintreePayment" />
 
 
 
- 	<!--Encryption-->
+	<!--Encryption -->
 	<beans:bean id="encryption"
 		class="com.salesmanager.core.business.modules.utils.EncryptionImpl">
-		<beans:property name="secretKey" ref="secretKey"/>
+		<beans:property name="secretKey" ref="secretKey" />
 	</beans:bean>
-	
-	<!--Geo Location-->
+
+	<!--Geo Location -->
 	<beans:bean id="geoLocation"
 		class="com.salesmanager.core.business.modules.utils.GeoLocationImpl">
 	</beans:bean>
-	
+
 	<!-- Invoices -->
 	<beans:bean id="invoiceModule"
-				class="com.salesmanager.core.business.modules.order.ODSInvoiceModule" >
+		class="com.salesmanager.core.business.modules.order.ODSInvoiceModule">
 	</beans:bean>
- 
+
 	<!-- Email -->
-	<beans:bean id="freemarkerMailConfiguration" class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
-                 <!-- Uses HTML with templates and freemarker template engine -->
-                 <beans:property name="templateLoaderPath" value="classpath:/templates/email"/>
-    </beans:bean>
+	<beans:bean id="freemarkerMailConfiguration"
+		class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
+		<!-- Uses HTML with templates and freemarker template engine -->
+		<beans:property name="templateLoaderPath" value="classpath:/templates/email" />
+	</beans:bean>
 
 
 	<beans:bean id="mailSender"
@@ -127,7 +127,7 @@
 		<beans:property name="password">
 			<beans:value>${mailSender.password}</beans:value>
 		</beans:property>
-		
+
 		<beans:property name="javaMailProperties">
 			<beans:props>
 				<beans:prop key="mail.smtp.auth">${mailSender.mail.smtp.auth}</beans:prop>
@@ -135,7 +135,7 @@
 			</beans:props>
 		</beans:property>
 	</beans:bean>
- 	<!-- End email -->
- 
+	<!-- End email -->
+
 
 </beans:beans>

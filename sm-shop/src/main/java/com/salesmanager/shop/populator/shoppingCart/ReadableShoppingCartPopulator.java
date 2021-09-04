@@ -1,15 +1,23 @@
 package com.salesmanager.shop.populator.shoppingCart;
 
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductAttributeService;
@@ -22,6 +30,7 @@ import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValue;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueDescription;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.OrderSummary;
+import com.salesmanager.core.model.order.OrderTotal;
 import com.salesmanager.core.model.order.OrderTotalSummary;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.shoppingcart.ShoppingCart;
@@ -62,6 +71,20 @@ public class ReadableShoppingCartPopulator extends AbstractDataPopulator<Shoppin
     	int cartQuantity = 0;
     	
     	target.setCustomer(source.getCustomerId());
+    	if(!StringUtils.isBlank(source.getPromoCode())) {
+    		Date promoDateAdded = source.getPromoAdded();//promo valid 1 day
+    		if(promoDateAdded == null) {
+    			promoDateAdded = new Date();
+    		}
+    		Instant instant = promoDateAdded.toInstant();
+    		ZonedDateTime zdt = instant.atZone(ZoneId.systemDefault());
+    		LocalDate date = zdt.toLocalDate();
+    		//date added < date + 1 day
+    		LocalDate tomorrow = LocalDate.now().plusDays(1);
+    		if(date.isBefore(tomorrow)) {
+    			target.setPromoCode(source.getPromoCode());
+    		}
+    	}
     	
     	try {
     	
@@ -176,8 +199,20 @@ public class ReadableShoppingCartPopulator extends AbstractDataPopulator<Shoppin
             //OrdetTotalSummary contains all calculations
             
             OrderTotalSummary orderSummary = shoppingCartCalculationService.calculate(source, store, language );
+            
 
+    
             if(CollectionUtils.isNotEmpty(orderSummary.getTotals())) {
+            	
+            	if( orderSummary.getTotals().stream()
+            			.filter(t -> Constants.OT_DISCOUNT_TITLE.equals(t.getOrderTotalCode()))
+            			.count() == 0) {
+            		//no promo coupon applied
+            		target.setPromoCode(null);
+            		
+            	}
+            	
+            	
             	List<ReadableOrderTotal> totals = new ArrayList<ReadableOrderTotal>();
             	for(com.salesmanager.core.model.order.OrderTotal t : orderSummary.getTotals()) {
             		ReadableOrderTotal total = new ReadableOrderTotal();
@@ -199,6 +234,10 @@ public class ReadableShoppingCartPopulator extends AbstractDataPopulator<Shoppin
             
             target.setQuantity(cartQuantity);
             target.setId(source.getId());
+            
+            if(source.getOrderId() != null) {
+            	target.setOrder(source.getOrderId());
+            }
             
             
     	} catch(Exception e) {

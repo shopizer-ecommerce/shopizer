@@ -5,17 +5,14 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import com.salesmanager.core.business.exception.ConversionException;
-import com.salesmanager.core.business.services.catalog.product.ProductService;
-import com.salesmanager.core.business.services.catalog.product.attribute.ProductAttributeService;
-import com.salesmanager.core.business.services.catalog.product.file.DigitalProductService;
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.reference.currency.CurrencyService;
-import com.salesmanager.core.business.services.shoppingcart.ShoppingCartService;
 import com.salesmanager.core.business.utils.AbstractDataPopulator;
 import com.salesmanager.core.model.common.Billing;
 import com.salesmanager.core.model.common.Delivery;
@@ -30,13 +27,13 @@ import com.salesmanager.core.model.payments.PaymentType;
 import com.salesmanager.core.model.reference.currency.Currency;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
-import com.salesmanager.shop.model.order.PersistableAnonymousOrderApi;
-import com.salesmanager.shop.model.order.PersistableOrderApi;
+import com.salesmanager.shop.model.order.v1.PersistableAnonymousOrder;
+import com.salesmanager.shop.model.order.v1.PersistableOrder;
 import com.salesmanager.shop.populator.customer.CustomerPopulator;
 import com.salesmanager.shop.utils.LocaleUtils;
 
 @Component
-public class PersistableOrderApiPopulator extends AbstractDataPopulator<PersistableOrderApi, Order> {
+public class PersistableOrderApiPopulator extends AbstractDataPopulator<PersistableOrder, Order> {
 
 	@Autowired
 	private CurrencyService currencyService;
@@ -59,7 +56,7 @@ public class PersistableOrderApiPopulator extends AbstractDataPopulator<Persista
 
 
 	@Override
-	public Order populate(PersistableOrderApi source, Order target, MerchantStore store, Language language)
+	public Order populate(PersistableOrder source, Order target, MerchantStore store, Language language)
 			throws ConversionException {
 		
 
@@ -105,8 +102,8 @@ public class PersistableOrderApiPopulator extends AbstractDataPopulator<Persista
 			  target.setCustomerId(customerId);
 			
 			} else {
-			  if(source instanceof PersistableAnonymousOrderApi) {
-			    PersistableCustomer persistableCustomer = ((PersistableAnonymousOrderApi)source).getCustomer();
+			  if(source instanceof PersistableAnonymousOrder) {
+			    PersistableCustomer persistableCustomer = ((PersistableAnonymousOrder)source).getCustomer();
 			    customer = new Customer();
 			    customer = customerPopulator.populate(persistableCustomer, customer, store, language);
 			  } else {

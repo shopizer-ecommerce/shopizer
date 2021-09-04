@@ -8,13 +8,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -52,6 +52,7 @@ import com.salesmanager.shop.store.model.filter.QueryFilterType;
 import com.salesmanager.shop.utils.BreadcrumbsUtils;
 import com.salesmanager.shop.utils.ImageFilePath;
 import com.salesmanager.shop.utils.PageBuilderUtils;
+import com.salesmanager.shop.utils.SanitizeUtils;
 
 
 
@@ -112,9 +113,7 @@ public class ShoppingCategoryController {
 	 */
 	@RequestMapping("/shop/category/{friendlyUrl}.html/ref={ref}")
 	public String displayCategoryWithReference(@PathVariable final String friendlyUrl, @PathVariable final String ref, Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
-		
-		
-		
+
 		return this.displayCategory(friendlyUrl,ref,model,request,response,locale);
 	}
 	
@@ -141,7 +140,11 @@ public class ShoppingCategoryController {
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
 		
 		//set ref as request attribute
-		request.setAttribute("ref", ref);
+		String encoded = SanitizeUtils.getSafeRequestParamString(ref);
+		if(!encoded.equals(ref)) {//possible xss
+			throw new Exception("Wrong input parameter [" + ref + "]");
+		}
+		request.setAttribute("ref", encoded);
 
 		//get category
 		Category category = categoryService.getBySeUrl(store, friendlyUrl);
@@ -181,17 +184,8 @@ public class ShoppingCategoryController {
 		
 		request.setAttribute(Constants.REQUEST_PAGE_INFORMATION, pageInformation);
 		
-		//TODO add to caching
-		List<Category> subCategs = categoryService.getListByLineage(store, lineage);
-		List<Long> subIds = new ArrayList<Long>();
-		if(subCategs!=null && subCategs.size()>0) {
-			for(Category c : subCategs) {
-				if(c.isVisible()) {
-					subIds.add(c.getId());
-				}
-			}
-		}
-		subIds.add(category.getId());
+		List<Category> categs = categoryService.getListByLineage(store, lineage);
+		categs.add(category);
 
 
 		StringBuilder subCategoriesCacheKey = new StringBuilder();
@@ -222,7 +216,7 @@ public class ShoppingCategoryController {
 				//Boolean missedContent = (Boolean)cache.getFromCache(subCategoriesMissed.toString());
 
 				//if(missedContent==null) {
-					countProductsByCategories = getProductsByCategory(store, category, lineage, subIds);
+				    countProductsByCategories = getProductsByCategory(store, categs);
 					subCategories = getSubCategories(store,category,countProductsByCategories,language,locale);
 					
 					if(subCategories!=null) {
@@ -233,7 +227,7 @@ public class ShoppingCategoryController {
 				//}
 			}
 		} else {
-			countProductsByCategories = getProductsByCategory(store, category, lineage, subIds);
+			countProductsByCategories = getProductsByCategory(store, categs);
 			subCategories = getSubCategories(store,category,countProductsByCategories,language,locale);
 		}
 
@@ -247,7 +241,7 @@ public class ShoppingCategoryController {
 		
 		
 		//** List of manufacturers **//
-		List<ReadableManufacturer> manufacturerList = getManufacturersByProductAndCategory(store,category,subIds,language);
+		List<ReadableManufacturer> manufacturerList = getManufacturersByProductAndCategory(store,category,categs,language);
 
 		model.addAttribute("manufacturers", manufacturerList);
 		model.addAttribute("parent", parentProxy);
@@ -266,9 +260,13 @@ public class ShoppingCategoryController {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private List<ReadableManufacturer> getManufacturersByProductAndCategory(MerchantStore store, Category category, List<Long> subCategoryIds, Language language) throws Exception {
+	private List<ReadableManufacturer> getManufacturersByProductAndCategory(MerchantStore store, Category category, List<Category> categories, Language language) throws Exception {
 
 		List<ReadableManufacturer> manufacturerList = null;
+		
+		List<Long> subCategoryIds = 
+				categories.stream().map(Category::getId).collect(Collectors.toList());
+		
 		/** List of manufacturers **/
 		if(subCategoryIds!=null && subCategoryIds.size()>0) {
 			
@@ -325,38 +323,33 @@ public class ShoppingCategoryController {
 		return manufacturerList;
 	}
 	
-	private Map<Long,Long> getProductsByCategory(MerchantStore store, Category category, String lineage, List<Long> subIds) throws Exception {
+	
+	/**
+	 * Returns category id with number of products
+	 * @param store
+	 * @param category
+	 * @param lineage
+	 * @param subIds
+	 * @return
+	 * @throws Exception
+	 */
+	private Map<Long,Long> getProductsByCategory(MerchantStore store, List<Category> categories) throws Exception {
 
-		if(subIds.isEmpty()) {
+		if(categories.isEmpty()) {
 			return null;
 		}
+		
+		List<Long> ids = categories.stream().map(Category::getId).collect(Collectors.toList());
 
-		List<Object[]> countProductsByCategories = categoryService.countProductsByCategories(store, subIds);
+		List<Object[]> countProductsByCategories = categoryService.countProductsByCategories(store, ids);
 		Map<Long, Long> countByCategories = new HashMap<Long,Long>();
 		
 		for(Object[] counts : countProductsByCategories) {
-			Category c = (Category)counts[0];
-			if(c.getParent()!=null) {
-				if(c.getParent().getId()==category.getId()) {
-					countByCategories.put(c.getId(), (Long)counts[1]);
-				} else {
-					//get lineage
-					String lin = c.getLineage();
-					String[] categoryPath = lin.split(Constants.CATEGORY_LINEAGE_DELIMITER);
-					for(int i=0 ; i<categoryPath.length; i++) {
-						String sId = categoryPath[i];
-						if(!StringUtils.isBlank(sId)) {
-								Long count = countByCategories.get(Long.parseLong(sId));
-								if(count!=null) {
-									count = count + (Long)counts[1];
-									countByCategories.put(Long.parseLong(sId), count);
-								}
-						}
-					}
-				}
-			}
+			Long id = (Long)counts[0];
+			Long qty = (Long)counts[1];
+			countByCategories.put(id, qty);
 		}
-		
+
 		return countByCategories;
 		
 	}
@@ -373,7 +366,6 @@ public class ShoppingCategoryController {
 		
 		for(Category sub : subCategories) {
 			ReadableCategory cProxy  = populator.populate(sub, new ReadableCategory(), store, language);
-			//com.salesmanager.web.entity.catalog.Category cProxy =  catalogUtils.buildProxyCategory(sub, store, locale);
 			if(productCount!=null) {
 				Long total = productCount.get(cProxy.getId());
 				if(total!=null) {
@@ -695,7 +687,7 @@ public class ShoppingCategoryController {
 		    });
 			
 			
-			productList.setProductCount(products.getTotalCount());
+			productList.setProductCount(Math.toIntExact(products.getTotalCount()));
 			
 			if(CollectionUtils.isNotEmpty(prices)) {
 				BigDecimal minPrice = (BigDecimal)Collections.min(prices);

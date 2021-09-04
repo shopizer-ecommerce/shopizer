@@ -17,17 +17,17 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
+
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.modules.order.InvoiceModule;
-import com.salesmanager.core.business.modules.order.OrderProcessor;
 import com.salesmanager.core.business.repositories.order.OrderRepository;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
@@ -122,7 +122,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     @Override
     public Order processOrder(Order order, Customer customer, List<ShoppingCartItem> items, OrderTotalSummary summary, Payment payment, Transaction transaction, MerchantStore store) throws ServiceException {
     	
-    	return this.process(order, customer, items, summary, payment, transaction, store);
+    	return process(order, customer, items, summary, payment, transaction, store);
     }
     
 	private Order process(Order order, Customer customer, List<ShoppingCartItem> items, OrderTotalSummary summary, Payment payment, Transaction transaction, MerchantStore store) throws ServiceException {
@@ -201,7 +201,8 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
             for(ProductAvailability availability : p.getAvailabilities()) {
                 int qty = availability.getProductQuantity();
                 if(qty < orderProduct.getProductQuantity()) {
-                    throw new ServiceException(ServiceException.EXCEPTION_INVENTORY_MISMATCH);
+                    //throw new ServiceException(ServiceException.EXCEPTION_INVENTORY_MISMATCH);
+                	LOGGER.error("APP-BACKEND [" + ServiceException.EXCEPTION_INVENTORY_MISMATCH + "]");
                 }
                 qty = qty - orderProduct.getProductQuantity();
                 availability.setProductQuantity(qty);
@@ -305,7 +306,6 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
         orderTotalSubTotal.setOrderTotalType(OrderTotalType.SUBTOTAL);
         orderTotalSubTotal.setOrderTotalCode("order.total.subtotal");
         orderTotalSubTotal.setTitle(Constants.OT_SUBTOTAL_MODULE_CODE);
-        //orderTotalSubTotal.setText("order.total.subtotal");
         orderTotalSubTotal.setSortOrder(5);
         orderTotalSubTotal.setValue(subTotal);
         
@@ -321,7 +321,6 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
 	            shippingSubTotal.setOrderTotalType(OrderTotalType.SHIPPING);
 	            shippingSubTotal.setOrderTotalCode("order.total.shipping");
 	            shippingSubTotal.setTitle(Constants.OT_SHIPPING_MODULE_CODE);
-	            //shippingSubTotal.setText("order.total.shipping");
 	            shippingSubTotal.setSortOrder(100);
 	
 	            orderTotals.add(shippingSubTotal);
@@ -437,6 +436,9 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     	
     	if(!StringUtils.isBlank(shoppingCart.getPromoCode())) {
     		Date promoDateAdded = shoppingCart.getPromoAdded();//promo valid 1 day
+    		if(promoDateAdded == null) {
+    			promoDateAdded = new Date();
+    		}
     		Instant instant = promoDateAdded.toInstant();
     		ZonedDateTime zdt = instant.atZone(ZoneId.systemDefault());
     		LocalDate date = zdt.toLocalDate();
@@ -534,8 +536,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
         Validate.notNull(order.getOrderTotal(),"Order totals cannot be null");
 
         try {
-            ByteArrayOutputStream stream = invoiceModule.createInvoice(store, order, language);
-            return stream;
+            return invoiceModule.createInvoice(store, order, language);
         } catch(Exception e) {
             throw new ServiceException(e);
         }
@@ -545,26 +546,22 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     }
 
     @Override
-    public Order getOrder(final Long orderId ) {
-        return getById(orderId);
+    public Order getOrder(final Long orderId, MerchantStore store ) {
+    	Validate.notNull(orderId, "Order id cannot be null");
+    	Validate.notNull(store, "Store cannot be null");
+        return orderRepository.findOne(orderId, store.getId());
     }
 
 
-
-/*    @Override
-    public List<Order> listByStore(final MerchantStore merchantStore) {
-        return listByField(Order_.merchant, merchantStore);
-    }*/
-
+    /** legacy **/
     @Override
     public OrderList listByStore(final MerchantStore store, final OrderCriteria criteria) {
-
         return orderRepository.listByStore(store, criteria);
     }
 
     @Override
-    public OrderList getOrders(final OrderCriteria criteria) {
-        return orderRepository.getOrders(criteria);
+    public OrderList getOrders(final OrderCriteria criteria, MerchantStore store) {
+        return orderRepository.listOrders(store, criteria);
     }
 
 

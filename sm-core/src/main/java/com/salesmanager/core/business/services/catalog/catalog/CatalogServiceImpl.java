@@ -17,6 +17,8 @@ import com.salesmanager.core.model.catalog.catalog.Catalog;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 
+import java.util.Optional;
+
 @Service("catalogService")
 public class CatalogServiceImpl 
 extends SalesManagerEntityServiceImpl<Long, Catalog> 
@@ -35,14 +37,13 @@ implements CatalogService {
 	}
 
 	@Override
-	public Catalog saveOrUddate(Catalog catalog, MerchantStore store) throws ServiceException {
+	public Catalog saveOrUpdate(Catalog catalog, MerchantStore store) {
 		catalogRepository.save(catalog);
 		return catalog;
 	}
 
 	@Override
-	public Page<Catalog> getCatalogs(MerchantStore store, Language language, String name, int page, int count)
-			throws ServiceException {
+	public Page<Catalog> getCatalogs(MerchantStore store, Language language, String name, int page, int count) {
 		Pageable pageRequest = PageRequest.of(page, count);
 		return pageableCatalogRepository.listByStore(store.getId(), name, pageRequest);
 	}
@@ -54,18 +55,18 @@ implements CatalogService {
 	}
 
 	@Override
-	public Catalog getById(Long catalogId, MerchantStore store) {
+	public Optional<Catalog> getById(Long catalogId, MerchantStore store) {
 		return catalogRepository.findById(catalogId, store.getId());
 	}
 
 	@Override
-	public Catalog getByCode(String code, MerchantStore store) {
+	public Optional<Catalog> getByCode(String code, MerchantStore store) {
 		return catalogRepository.findByCode(code, store.getId());
 	}
 
 	@Override
-	public boolean existByCode(String code) {
-		return catalogRepository.existsByCode(code);
+	public boolean existByCode(String code, MerchantStore store) {
+		return catalogRepository.existsByCode(code, store.getId());
 	}
 	
 	

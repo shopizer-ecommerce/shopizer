@@ -16,6 +16,9 @@ public class ResetPasswordRequest implements Serializable {
 	 */
 	@NotEmpty(message="{NotEmpty.customer.userName}")
     private String username;
+	
+	
+	private String returnUrl;
     
 
 
@@ -34,5 +37,13 @@ public class ResetPasswordRequest implements Serializable {
     public void setUsername(String username) {
         this.username = username;
     }
+
+	public String getReturnUrl() {
+		return returnUrl;
+	}
+
+	public void setReturnUrl(String returnUrl) {
+		this.returnUrl = returnUrl;
+	}
 
 }

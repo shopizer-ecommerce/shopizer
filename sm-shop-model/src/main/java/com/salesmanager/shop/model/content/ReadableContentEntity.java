@@ -1,5 +1,6 @@
 package com.salesmanager.shop.model.content;
 
+@Deprecated
 public class ReadableContentEntity extends ContentEntity {
 	
 	/**

@@ -5,16 +5,20 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 import org.drools.core.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.content.ContentService;
@@ -59,12 +63,6 @@ public class StoreFacadeImpl implements StoreFacade {
 	private LanguageService languageService;
 
 	@Inject
-	private CountryService countryService;
-
-	@Inject
-	private ZoneService zoneService;
-
-	@Inject
 	private ContentService contentService;
 
 	@Inject
@@ -76,6 +74,9 @@ public class StoreFacadeImpl implements StoreFacade {
 
 	@Inject
 	private LanguageUtils languageUtils;
+	
+	@Autowired
+	private ReadableMerchantStorePopulator readableMerchantStorePopulator;
 
 	private static final Logger LOG = LoggerFactory.getLogger(StoreFacadeImpl.class);
 
@@ -91,7 +92,8 @@ public class StoreFacadeImpl implements StoreFacade {
 	@Override
 	public MerchantStore get(String code) {
 		try {
-			return merchantStoreService.getByCode(code);
+			MerchantStore store = merchantStoreService.getByCode(code);
+			return store;
 		} catch (ServiceException e) {
 			LOG.error("Error while getting MerchantStore", e);
 			throw new ServiceRuntimeException(e);
@@ -105,6 +107,12 @@ public class StoreFacadeImpl implements StoreFacade {
 		return getByCode(code, language);
 	}
 
+	@Override
+	public ReadableMerchantStore getFullByCode(String code, String lang) {
+		Language language = getLanguage(lang);
+		return getFullByCode(code, language);
+	}
+
 	private Language getLanguage(String lang) {
 		return languageUtils.getServiceLanguage(lang);
 	}
@@ -113,6 +121,12 @@ public class StoreFacadeImpl implements StoreFacade {
 	public ReadableMerchantStore getByCode(String code, Language language) {
 		MerchantStore store = getMerchantStoreByCode(code);
 		return convertMerchantStoreToReadableMerchantStore(language, store);
+	}
+
+	@Override
+	public ReadableMerchantStore getFullByCode(String code, Language language) {
+		MerchantStore store = getMerchantStoreByCode(code);
+		return convertMerchantStoreToReadableMerchantStoreWithFullDetails(language, store);
 	}
 
 	@Override
@@ -127,15 +141,26 @@ public class StoreFacadeImpl implements StoreFacade {
 	private ReadableMerchantStore convertMerchantStoreToReadableMerchantStore(Language language, MerchantStore store) {
 		ReadableMerchantStore readable = new ReadableMerchantStore();
 
-		ReadableMerchantStorePopulator populator = new ReadableMerchantStorePopulator();
-		populator.setCountryService(countryService);
-		populator.setZoneService(zoneService);
-		populator.setFilePath(imageUtils);
+		/**
+		 * Language is not important for this conversion using default language
+		 */
+		try {			
+			readableMerchantStorePopulator.populate(store, readable, store, language);
+		} catch (Exception e) {
+			throw new ConversionRuntimeException("Error while populating MerchantStore " + e.getMessage());
+		}
+		return readable;
+	}
+
+	private ReadableMerchantStore convertMerchantStoreToReadableMerchantStoreWithFullDetails(Language language, MerchantStore store) {
+		ReadableMerchantStore readable = new ReadableMerchantStore();
+
 
 		/**
 		 * Language is not important for this conversion using default language
 		 */
-		try {			readable = populator.populate(store, readable, store, language);
+		try {
+			readableMerchantStorePopulator.populate(store, readable, store, language);
 		} catch (Exception e) {
 			throw new ConversionRuntimeException("Error while populating MerchantStore " + e.getMessage());
 		}
@@ -148,7 +173,7 @@ public class StoreFacadeImpl implements StoreFacade {
 	}
 
 	@Override
-	public ReadableMerchantStore create(PersistableMerchantStore store) {
+	public void create(PersistableMerchantStore store) {
 
 		Validate.notNull(store, "PersistableMerchantStore must not be null");
 		Validate.notNull(store.getCode(), "PersistableMerchantStore.code must not be null");
@@ -162,13 +187,11 @@ public class StoreFacadeImpl implements StoreFacade {
 		MerchantStore mStore = convertPersistableMerchantStoreToMerchantStore(store, languageService.defaultLanguage());
 		createMerchantStore(mStore);
 
-		ReadableMerchantStore storeTO = getByCode(store.getCode(), languageService.defaultLanguage());
-		return storeTO;
 	}
 
 	private void createMerchantStore(MerchantStore mStore) {
 		try {
-			merchantStoreService.create(mStore);
+			merchantStoreService.saveOrUpdate(mStore);
 		} catch (ServiceException e) {
 			throw new ServiceRuntimeException(e);
 		}
@@ -191,7 +214,7 @@ public class StoreFacadeImpl implements StoreFacade {
 	}
 
 	@Override
-	public ReadableMerchantStore update(PersistableMerchantStore store) {
+	public void update(PersistableMerchantStore store) {
 
 		Validate.notNull(store);
 
@@ -200,8 +223,6 @@ public class StoreFacadeImpl implements StoreFacade {
 
 		updateMerchantStore(mStore);
 
-		ReadableMerchantStore storeTO = getByCode(store.getCode(), languageService.defaultLanguage());
-		return storeTO;
 	}
 
 	private void updateMerchantStore(MerchantStore mStore) {
@@ -248,7 +269,7 @@ public class StoreFacadeImpl implements StoreFacade {
 					.map(s -> convertMerchantStoreToReadableMerchantStore(language, s))
 			        .collect(Collectors.toList())
 					);
-			storeList.setTotalPages(stores.getTotalPage());
+			storeList.setTotalPages(stores.getTotalPages());
 			storeList.setRecordsTotal(stores.getTotalCount());
 			storeList.setNumber(stores.getList().size());
 			
@@ -516,6 +537,8 @@ public class StoreFacadeImpl implements StoreFacade {
 			List<ReadableMerchantStore> stores = null;
 			Optional<String> code = Optional.ofNullable(criteria.getStoreCode());
 			
+			
+			//TODO Pageable
 			if(code.isPresent()) {
 				
 				stores = merchantStoreService.findAllStoreNames(code.get()).stream()

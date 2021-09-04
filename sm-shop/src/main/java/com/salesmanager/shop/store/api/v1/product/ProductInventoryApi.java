@@ -3,6 +3,7 @@ package com.salesmanager.shop.store.api.v1.product;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +16,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.inventory.PersistableInventory;
 import com.salesmanager.shop.model.catalog.product.inventory.ReadableInventory;
-import com.salesmanager.shop.model.catalog.product.inventory.ReadableInventoryList;
+import com.salesmanager.shop.model.entity.ReadableEntityList;
 import com.salesmanager.shop.store.controller.product.facade.ProductInventoryFacade;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -52,13 +55,8 @@ public class ProductInventoryApi {
   public @ResponseBody ReadableInventory create(
       @Valid @RequestBody PersistableInventory inventory,
             @ApiIgnore MerchantStore merchantStore,
-            @ApiIgnore Language language,
-      HttpServletRequest request,
-      HttpServletResponse response) {
-
-      ReadableInventory returnObject = productInventoryFacade.add(inventory.getProductId(), inventory, merchantStore, language);
-      return returnObject;
-
+            @ApiIgnore Language language) {
+    return productInventoryFacade.add(inventory.getProductId(), inventory, merchantStore, language);
   }
   
   @ResponseStatus(HttpStatus.OK)
@@ -111,7 +109,8 @@ public class ProductInventoryApi {
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
   })
-  public @ResponseBody ReadableInventoryList get(
+  public @ResponseBody
+  ReadableEntityList<ReadableInventory> get(
             @PathVariable Long id,
             @ApiIgnore MerchantStore merchantStore,
             @ApiIgnore Language language,

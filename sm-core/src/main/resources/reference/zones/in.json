@@ -1,0 +1,140 @@
+{
+  "*":[
+	{
+		"zoneCode": "AndhraPradesh",
+		"zoneName": "Andhra Pradesh",
+		"countryCode": "IN"
+	},
+	{
+		"zoneCode": "ArunachalPradesh",
+		"zoneName": "Arunachal Pradesh",
+		"countryCode": "IN"
+	},
+	{
+		"zoneCode": "Assam",
+		"zoneName": "Assam",
+		"countryCode": "IN"
+	},
+	{
+		"zoneCode": "Bihar",
+		"zoneName": "Bihar",
+		"countryCode": "IN"
+	},
+	{
+		"zoneCode": "Chhattisgarh",
+		"zoneName": "Chhattisgarh",
+		"countryCode": "IN"
+	},
+	{
+		"zoneCode": "Goa",
+		"zoneName": "Goa",
+		"countryCode": "IN"
+	},
+	{
+		"zoneCode": "Gujarat",
+		"zoneName": "Gujarat",
+		"countryCode": "IN"
+	},
+	{
+		"zoneCode": "Haryana",
+		"zoneName": "Haryana",
+		"countryCode": "IN"
+	},
+	{
+		"zoneCode": "HimachalPradesh",
+		"zoneName": "Himachal Pradesh",
+		"countryCode": "IN"
+	},
+	{
+		"zoneCode": "Jharkhand",
+		"zoneName": "Jharkhand",
+		"countryCode": "IN"
+	},
+	{
+		"zoneCode": "Karnataka",
+		"zoneName": "Karnataka",
+		"countryCode": "IN"
+	},
+	{
+		"zoneCode": "Kerala",
+		"zoneName": "Kerala",
+		"countryCode": "IN"
+	},
+	{
+		"zoneCode": "MadhyaPradesh",
+		"zoneName": "Madhya Pradesh",
+		"countryCode": "IN"
+	},
+	{
+		"zoneCode": "Maharashtra",
+		"zoneName": "Maharashtra",
+		"countryCode": "IN"
+	},
+	{
+		"zoneCode": "Manipur",
+		"zoneName": "Manipur",
+		"countryCode": "IN"
+	},
+	{
+		"zoneCode": "Meghalaya",
+		"zoneName": "Meghalaya",
+		"countryCode": "IN"
+	},
+	{
+		"zoneCode": "Mizoram",
+		"zoneName": "Mizoram",
+		"countryCode": "IN"
+	},
+	{
+		"zoneCode": "Nagaland",
+		"zoneName": "Nagaland",
+		"countryCode": "IN"
+	},
+	{
+		"zoneCode": "Odisha",
+		"zoneName": "Odisha",
+		"countryCode": "IN"
+	},
+	{
+		"zoneCode": "Punjab",
+		"zoneName": "Punjab",
+		"countryCode": "IN"
+	},
+	{
+		"zoneCode": "Rajasthan",
+		"zoneName": "Rajasthan",
+		"countryCode": "IN"
+	},
+	{
+		"zoneCode": "Sikkim",
+		"zoneName": "Sikkim",
+		"countryCode": "IN"
+	},
+	{
+		"zoneCode": "TamilNadu",
+		"zoneName": "Tamil Nadu",
+		"countryCode": "IN"
+	},
+	{
+		"zoneCode": "Telangana",
+		"zoneName": "Telangana",
+		"countryCode": "IN"
+	},
+	{
+		"zoneCode": "Tripura",
+		"zoneName": "Tripura",
+		"countryCode": "IN"
+	},
+	{
+		"zoneCode": "Uttarakhand",
+		"zoneName": "Uttarakhand",
+		"countryCode": "IN"
+	},
+	{
+		"zoneCode": "WestBengal",
+		"zoneName": "West Bengal",
+		"countryCode": "IN"
+	}
+
+  ] 
+}

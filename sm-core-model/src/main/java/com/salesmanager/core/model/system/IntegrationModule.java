@@ -28,7 +28,7 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
 
 @Entity
 @EntityListeners(value = AuditListener.class)
-@Table(name = "MODULE_CONFIGURATION", schema = SchemaConstant.SALESMANAGER_SCHEMA, indexes = {
+@Table(name = "MODULE_CONFIGURATION", indexes = {
 		@Index(name = "MODULE_CONFIGURATION_MODULE", columnList = "MODULE") })
 
 public class IntegrationModule extends SalesManagerEntity<Long, IntegrationModule> implements Serializable, Auditable {
@@ -53,8 +53,7 @@ public class IntegrationModule extends SalesManagerEntity<Long, IntegrationModul
 	@Column(name = "REGIONS")
 	private String regions;
 
-	@Column(name = "CONFIGURATION")
-	@Type(type = "org.hibernate.type.TextType")
+	@Column(name = "CONFIGURATION", length=4000)
 	private String configuration;
 
 	@Column(name = "DETAILS")

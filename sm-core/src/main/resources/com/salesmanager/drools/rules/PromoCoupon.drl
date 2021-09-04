@@ -9,8 +9,8 @@ dialect  "mvel"
 
 rule "Bam0520"
     when
-        OrderTotalInputParameters(promoCode == 'Bam0520')
-        OrderTotalInputParameters(date < "31-May-2020")
+        OrderTotalInputParameters(promoCode == 'Test1234')
+        OrderTotalInputParameters(date < "31-Oct-2025")
     then
         total.setDiscount(0.10);
 end

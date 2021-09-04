@@ -18,14 +18,13 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Transient;
 
-import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 
 @Entity
-@Table(name = "PRODUCT_IMAGE", schema=SchemaConstant.SALESMANAGER_SCHEMA)
+@Table(name = "PRODUCT_IMAGE")
 public class ProductImage extends SalesManagerEntity<Long, ProductImage> {
-	private static final long serialVersionUID = 247514890386076337L;
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@Column(name = "PRODUCT_IMAGE_ID")

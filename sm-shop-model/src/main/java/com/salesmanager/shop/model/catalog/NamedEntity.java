@@ -18,6 +18,8 @@ public abstract class NamedEntity extends ShopEntity implements Serializable {
 	private String highlights;
 	private String metaDescription;
 	private String title;
+	
+	
 	public String getName() {
 		return name;
 	}

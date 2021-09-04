@@ -20,6 +20,10 @@ public interface UserService extends SalesManagerEntityService<Long, User> {
   User getByUserName(String userName, String storeCode) throws ServiceException;
 
   List<User> listUser() throws ServiceException;
+  
+  User getById(Long id, MerchantStore store);
+  
+  User getByPasswordResetToken(String storeCode, String token);
 
   /**
    * Create or update a User
@@ -37,6 +41,8 @@ public interface UserService extends SalesManagerEntityService<Long, User> {
   GenericEntityList<User> listByCriteria(Criteria criteria) throws ServiceException;
   
   Page<User> listByCriteria(UserCriteria criteria, int page, int count) throws ServiceException;
+  
+  User findByResetPasswordToken (String userName, String token, MerchantStore store) throws ServiceException;
 
 
 

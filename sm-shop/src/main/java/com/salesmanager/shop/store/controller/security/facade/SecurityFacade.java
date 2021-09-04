@@ -33,4 +33,12 @@ public interface SecurityFacade {
    * @return
    */
   public boolean matchPassword(String modelPassword, String newPassword);
+  
+  /**
+   * 
+   * @param password
+   * @param repeatPassword
+   * @return
+   */
+  public boolean matchRawPasswords(String password, String repeatPassword);
 }

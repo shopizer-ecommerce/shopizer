@@ -62,16 +62,35 @@ public class CustomerPopulator extends
 			if(source.getId() !=null && source.getId()>0){
 			    target.setId( source.getId() );
 			}
-		    
+
 			if(!StringUtils.isBlank(source.getPassword())) {
 			  target.setPassword(passwordEncoder.encode(source.getPassword()));
+			  target.setNick(source.getUserName());
 			  target.setAnonymous(false);
 			}
 
-		    target.setProvider(source.getProvider());
+			if(source.getBilling() != null) {
+				target.setBilling(new Billing());
+				if (!StringUtils.isEmpty(source.getFirstName())) {
+					target.getBilling().setFirstName(
+							source.getFirstName()
+					);
+				}
+				if (!StringUtils.isEmpty(source.getLastName())) {
+					target.getBilling().setLastName(
+							source.getLastName()
+					);
+				}
+			}
 
-			target.setEmailAddress(source.getEmailAddress());
-			target.setNick(source.getUserName());
+			if(!StringUtils.isBlank(source.getProvider())) {
+				target.setProvider(source.getProvider());
+			}
+			
+			if(!StringUtils.isBlank(source.getEmailAddress())) {
+				target.setEmailAddress(source.getEmailAddress());
+			}
+			
 			if(source.getGender()!=null && target.getGender()==null) {
 				target.setGender( com.salesmanager.core.model.customer.CustomerGender.valueOf( source.getGender() ) );
 			}
@@ -86,13 +105,15 @@ public class CustomerPopulator extends
 
 			Address sourceBilling = source.getBilling();
 			if(sourceBilling!=null) {
-				Billing billing = new Billing();
+				Billing billing = target.getBilling();
 				billing.setAddress(sourceBilling.getAddress());
 				billing.setCity(sourceBilling.getCity());
 				billing.setCompany(sourceBilling.getCompany());
 				//billing.setCountry(country);
-				billing.setFirstName(sourceBilling.getFirstName());
-				billing.setLastName(sourceBilling.getLastName());
+				if (!StringUtils.isEmpty(sourceBilling.getFirstName()))
+					billing.setFirstName(sourceBilling.getFirstName());
+				if (!StringUtils.isEmpty(sourceBilling.getLastName()))
+					billing.setLastName(sourceBilling.getLastName());
 				billing.setTelephone(sourceBilling.getPhone());
 				billing.setPostalCode(sourceBilling.getPostalCode());
 				billing.setState(sourceBilling.getStateProvince());
@@ -113,7 +134,7 @@ public class CustomerPopulator extends
 					Zone zoneDescription = zones.get(zone.getCode());
 					billing.setZone(zoneDescription);
 				}
-				target.setBilling(billing);
+				// target.setBilling(billing);
 
 			}
 			if(target.getBilling() ==null && source.getBilling()!=null){
@@ -163,11 +184,13 @@ public class CustomerPopulator extends
 				target.setDelivery(delivery);
 			}
 			
-			if(source.getRating() != null) {
+			if(source.getRating() != null && source.getRating().doubleValue() > 0) {
 				target.setCustomerReviewAvg(new BigDecimal(source.getRating().doubleValue()));
 			}
 			
-			target.setCustomerReviewCount(source.getRatingCount());
+			if(source.getRatingCount() > 0) {
+				target.setCustomerReviewCount(source.getRatingCount());
+			}
 
 			
 			if(target.getDelivery() ==null && source.getDelivery()!=null){

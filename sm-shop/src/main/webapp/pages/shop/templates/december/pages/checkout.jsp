@@ -20,8 +20,6 @@ response.setDateHeader ("Expires", -1);
 
 <!-- overrides with v2 page -->
 <c:set var="creditCardInformationsPage" value="creditCardInformations-v2" scope="request"/>
-<!-- phone number mask -->
-<script src="<c:url value="/resources/js/jquery.maskedinput.min.js" />"></script>
 <!-- generic checkout script -->
 <script src="<c:url value="/resources/js/shop-checkout.js" />"></script>
 
@@ -461,33 +459,32 @@ function bindActions() {
 		log('Selection-> ' + paymentSelection);
 		if(paymentSelection.indexOf('paypal') >= 0 || paymentSelection.indexOf('PAYPAL') >= 0) {
 
-			//$('#paymentMethodType').val('PAYPAL');
 			$('#paymentMethodType').attr("value", 'PAYPAL');
 			initPayment('PAYPAL');
 		}
+		else if(paymentSelection.indexOf('stripe3') >= 0) {
+			$('#paymentMethodType').attr("value", 'CREDITCARD');
+			log('Init stripe3');
+			initStripePayment3();
+		}
 		else if(paymentSelection.indexOf('stripe') >= 0) {
-			//$('#paymentMethodType').val('CREDITCARD');
 			$('#paymentMethodType').attr("value", 'CREDITCARD');
 			log('Init stripe');
 			initStripePayment();
 		}
 		else if(paymentSelection.indexOf('braintree') >= 0) {
 			log('Braintree ' + $('input[name=paymentMethodType]').val());
-			//$('#paymentMethodType').val('CREDITCARD');
 			$('#paymentMethodType').attr("value", 'CREDITCARD');
 			log('Payment method type -> ' + $('input[name=paymentMethodType]').val());
 			initBraintreePayment();
 		}
 		else if(paymentSelection.indexOf('moneyorder') >= 0) {
 			log('Money order ' + $('input[name=paymentMethodType]').val());
-			//$('#paymentMethodType').val('CREDITCARD');
 			$('#paymentMethodType').attr("value", 'MONEYORDER');
 			log('Payment method type -> ' + $('input[name=paymentMethodType]').val());
 			submitForm();
 		}
 		else if(paymentSelection.indexOf('beanstream') >= 0) {
-			//log('Beanstream ');
-			//$('#paymentMethodType').val('CREDITCARD');
 			$('#paymentMethodType').attr("value", 'CREDITCARD');
 			submitForm();
 		} else {
@@ -695,7 +692,7 @@ function initPayment(paymentSelection) {
 										<div class="checkout-form-list">
 											<label><s:message code="label.generic.postalcode" text="Postal code"/> <span class="required">*</span></label>										
 											<s:message code="NotEmpty.customer.billing.postalCode" text="Postal code is required" var="msgPostalCode"/>
-											<form:input id="billingPostalCode" cssClass="${cssClass} billing-postalCode" path="customer.billing.postalCode" title="${msgPostalCode}" disabled="${fieldDisabled}"/>
+											<form:input id="billingPostalCode" cssClass="${cssClass} billing-postalCode" path="customer.billing.postalCode" title="${msgPostalCode}"/>
 											<form:errors path="customer.billing.postalCode" cssClass="error" />
 											<span id="error-customer.billing.postalCode" class="error"></span>
 										</div>
@@ -1010,7 +1007,7 @@ function initPayment(paymentSelection) {
 													<!-- exception for stripe, braintree... which has it's own page -->
 													<c:choose>
 														<c:when
-															test="${(paymentMethod.paymentMethodCode=='stripe') or (paymentMethod.paymentMethodCode=='braintree')}">
+															test="${(paymentMethod.paymentMethodCode=='stripe') or (paymentMethod.paymentMethodCode=='braintree') or (paymentMethod.paymentMethodCode=='stripe3')}">
 															<c:set var="pageName"
 																value="${fn:toLowerCase(paymentMethod.paymentMethodCode)}" />
 														</c:when>

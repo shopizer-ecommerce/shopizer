@@ -12,12 +12,13 @@ import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueD
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
+import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductOptionValue;
 import com.salesmanager.shop.model.catalog.product.attribute.api.PersistableProductOptionValueEntity;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 
 @Component
 public class PersistableProductOptionValueMapper
-		implements Mapper<PersistableProductOptionValueEntity, ProductOptionValue> {
+		implements Mapper<PersistableProductOptionValue, ProductOptionValue> {
 
 	@Autowired
 	private LanguageService languageService;
@@ -30,6 +31,9 @@ public class PersistableProductOptionValueMapper
 		desc.setId(null);
 		desc.setDescription(description.getDescription());
 		desc.setName(description.getName());
+		if(StringUtils.isBlank(desc.getName())) {
+			desc.setName(description.getDescription());
+		}
 		if (description.getId() != null && description.getId().longValue() > 0) {
 			desc.setId(description.getId());
 		}
@@ -39,13 +43,19 @@ public class PersistableProductOptionValueMapper
 	}
 
 	@Override
-	public ProductOptionValue convert(PersistableProductOptionValueEntity source, ProductOptionValue destination,
-			MerchantStore store, Language language) {
+	public ProductOptionValue merge(PersistableProductOptionValue source, ProductOptionValue destination,
+									MerchantStore store, Language language) {
 		if (destination == null) {
 			destination = new ProductOptionValue();
 		}
 
 		try {
+			
+			if(StringUtils.isBlank(source.getCode())) {
+				if(!StringUtils.isBlank(destination.getCode())) {
+					source.setCode(destination.getCode());
+				}
+			}
 
 			if (!CollectionUtils.isEmpty(source.getDescriptions())) {
 				for (com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription desc : source
@@ -59,6 +69,9 @@ public class PersistableProductOptionValueMapper
 				            	  d.setDescription(desc.getDescription());
 				            	  d.setName(desc.getName());
 				            	  d.setTitle(desc.getTitle());
+				            	  if(StringUtils.isBlank(d.getName())) {
+				            		  d.setName(d.getDescription());
+				            	  }
 				            	  description = d;
 				            	  break;
 
@@ -89,10 +102,10 @@ public class PersistableProductOptionValueMapper
 	}
 
 	@Override
-	public ProductOptionValue convert(PersistableProductOptionValueEntity source, MerchantStore store,
+	public ProductOptionValue convert(PersistableProductOptionValue source, MerchantStore store,
 			Language language) {
 		ProductOptionValue destination = new ProductOptionValue();
-		return convert(source, destination, store, language);
+		return merge(source, destination, store, language);
 	}
 
 

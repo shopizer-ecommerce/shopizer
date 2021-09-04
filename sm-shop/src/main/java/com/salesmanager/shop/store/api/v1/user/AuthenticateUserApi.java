@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,6 +26,10 @@ import com.salesmanager.shop.store.security.AuthenticationResponse;
 import com.salesmanager.shop.store.security.JWTTokenUtil;
 import com.salesmanager.shop.store.security.user.JWTUser;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.SwaggerDefinition;
+import io.swagger.annotations.Tag;
+
 /**
  * Authenticates a User (Administration purpose)
  * @author c.samson
@@ -32,6 +37,9 @@ import com.salesmanager.shop.store.security.user.JWTUser;
  */
 @Controller
 @RequestMapping("/api/v1")
+@Api(tags = { "User authentication Api" })
+@SwaggerDefinition(tags = {
+		@Tag(name = "User authentication resource", description = "Login for administrator users") })
 public class AuthenticateUserApi {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticateUserApi.class);
@@ -58,6 +66,7 @@ public class AuthenticateUserApi {
     @RequestMapping(value = "/private/login", method = RequestMethod.POST)
     public ResponseEntity<?> authenticate(@RequestBody @Valid AuthenticationRequest authenticationRequest) throws AuthenticationException {
 
+    	//TODO SET STORE in flow
         // Perform the security
     	Authentication authentication = null;
     	try {
@@ -71,8 +80,10 @@ public class AuthenticateUserApi {
                         )
                 );
 
-    		
     	} catch(Exception e) {
+    		if(e instanceof BadCredentialsException) {
+    			return new ResponseEntity<>("{\"message\":\"Bad credentials\"}",HttpStatus.UNAUTHORIZED);
+    		}
     		LOGGER.error("Error during authentication " + e.getMessage());
     		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     	}

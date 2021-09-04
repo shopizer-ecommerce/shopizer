@@ -5,16 +5,24 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.springframework.http.HttpStatus.OK;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.junit4.SpringRunner;
+
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.model.customer.CustomerGender;
+import com.salesmanager.shop.application.ShopApplication;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
 import com.salesmanager.shop.model.customer.address.Address;
 import com.salesmanager.shop.store.security.AuthenticationRequest;
 import com.salesmanager.shop.store.security.AuthenticationResponse;
 import com.salesmanager.test.shop.common.ServicesTestSupport;
 
+@SpringBootTest(classes = ShopApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
+@RunWith(SpringRunner.class)
 public class CustomerRegistrationIntegrationTest extends ServicesTestSupport {
 
     @Test

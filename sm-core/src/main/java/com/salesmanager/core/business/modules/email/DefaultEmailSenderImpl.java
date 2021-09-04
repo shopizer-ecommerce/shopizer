@@ -83,7 +83,7 @@ public class DefaultEmailSenderImpl implements EmailModule {
         BodyPart textPart = new MimeBodyPart();
         freemarkerMailConfiguration.setClassForTemplateLoading(DefaultEmailSenderImpl.class, "/");
         Template textTemplate = freemarkerMailConfiguration.getTemplate(
-            new StringBuilder(TEMPLATE_PATH).append("").append("/").append(tmpl).toString());
+            new StringBuilder(TEMPLATE_PATH).append("/").append(tmpl).toString());
         final StringWriter textWriter = new StringWriter();
         try {
           textTemplate.process(templateTokens, textWriter);
@@ -116,7 +116,7 @@ public class DefaultEmailSenderImpl implements EmailModule {
         BodyPart htmlPage = new MimeBodyPart();
         freemarkerMailConfiguration.setClassForTemplateLoading(DefaultEmailSenderImpl.class, "/");
         Template htmlTemplate = freemarkerMailConfiguration.getTemplate(
-            new StringBuilder(TEMPLATE_PATH).append("").append("/").append(tmpl).toString());
+            new StringBuilder(TEMPLATE_PATH).append("/").append(tmpl).toString());
         final StringWriter htmlWriter = new StringWriter();
         try {
           htmlTemplate.process(templateTokens, htmlWriter);

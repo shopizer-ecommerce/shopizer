@@ -1,13 +1,13 @@
 package com.salesmanager.shop.populator.order;
 
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 
-import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.exception.ConversionException;
+import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.utils.AbstractDataPopulator;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.shipping.ShippingSummary;
-import com.salesmanager.core.business.utils.AbstractDataPopulator;
 import com.salesmanager.shop.model.customer.ReadableDelivery;
 import com.salesmanager.shop.model.order.shipping.ReadableShippingSummary;
 
@@ -22,9 +22,11 @@ public class ReadableShippingSummaryPopulator extends
 			Language language) throws ConversionException {
 		
 		Validate.notNull(pricingService,"PricingService must be set");
+		Validate.notNull(source,"ShippingSummary cannot be null");
 	
 		try {
 			
+			target.setShippingQuote(source.isShippingQuote());
 			target.setFreeShipping(source.isFreeShipping());
 			target.setHandling(source.getHandling());
 			target.setShipping(source.getShipping());

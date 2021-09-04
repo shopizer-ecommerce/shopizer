@@ -5,10 +5,11 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.inventory.PersistableInventory;
 import com.salesmanager.shop.model.catalog.product.inventory.ReadableInventory;
 import com.salesmanager.shop.model.catalog.product.inventory.ReadableInventoryList;
+import com.salesmanager.shop.model.entity.ReadableEntityList;
 
 public interface ProductInventoryFacade {
 
-  ReadableInventoryList getInventory(Long productId, MerchantStore store, String child, Language language, int page, int count);
+  ReadableEntityList<ReadableInventory> getInventory(Long productId, MerchantStore store, String child, Language language, int page, int count);
   
   ReadableInventory get(Long inventoryId, MerchantStore store, Language language);
   

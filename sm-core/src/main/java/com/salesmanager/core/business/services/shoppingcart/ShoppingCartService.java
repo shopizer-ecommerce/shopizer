@@ -21,7 +21,7 @@ public interface ShoppingCartService extends SalesManagerEntityService<Long, Sho
 
 	ShoppingCart getByCode(String code, MerchantStore store) throws ServiceException;
 
-	ShoppingCart getByCustomer(Customer customer) throws ServiceException;
+	//ShoppingCart getByCustomer(Customer customer) throws ServiceException;
 
 	/**
 	 * Creates a list of ShippingProduct based on the ShoppingCart if items are
@@ -40,9 +40,9 @@ public interface ShoppingCartService extends SalesManagerEntityService<Long, Sho
 	 * @return
 	 * @throws ServiceException
 	 */
-	boolean isFreeShoppingCart(ShoppingCart cart) throws ServiceException;
+	//boolean isFreeShoppingCart(ShoppingCart cart) throws ServiceException;
 
-	boolean isFreeShoppingCart(List<ShoppingCartItem> items) throws ServiceException;
+	//boolean isFreeShoppingCart(List<ShoppingCartItem> items) throws ServiceException;
 
 	/**
 	 * Populates a ShoppingCartItem from a Product and attributes if any
@@ -65,7 +65,7 @@ public interface ShoppingCartService extends SalesManagerEntityService<Long, Sho
 	 * @return {@link ShoppingCart} merged Shopping Cart
 	 * @throws Exception
 	 */
-	public ShoppingCart mergeShoppingCarts(final ShoppingCart userShoppingCart, final ShoppingCart sessionCart,
+	ShoppingCart mergeShoppingCarts(final ShoppingCart userShoppingCart, final ShoppingCart sessionCart,
 			final MerchantStore store) throws Exception;
 
 	/**
@@ -75,7 +75,7 @@ public interface ShoppingCartService extends SalesManagerEntityService<Long, Sho
 	 * @return
 	 * @throws ServiceException
 	 */
-	boolean requiresShipping(ShoppingCart cart) throws ServiceException;
+	//boolean requiresShipping(ShoppingCart cart) throws ServiceException;
 	
 	/**
 	 * Removes a shopping cart item

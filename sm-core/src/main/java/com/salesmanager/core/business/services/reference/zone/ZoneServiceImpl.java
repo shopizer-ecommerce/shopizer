@@ -7,9 +7,10 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.constants.Constants;
@@ -42,6 +43,7 @@ public class ZoneServiceImpl extends SalesManagerEntityServiceImpl<Long, Zone> i
 	}
 
 	@Override
+	@Cacheable("zoneByCode")
 	public Zone getByCode(String code) {
 		return zoneRepository.findByCode(code);
 	}

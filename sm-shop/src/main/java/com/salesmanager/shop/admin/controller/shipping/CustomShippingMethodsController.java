@@ -19,6 +19,7 @@ import com.salesmanager.shop.admin.controller.ControllerConstants;
 import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.utils.LabelUtils;
+import com.salesmanager.shop.utils.MerchantUtils;
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -564,7 +565,7 @@ public class CustomShippingMethodsController {
 		List<CustomShippingQuotesRegion> regions = customConfiguration.getRegions();
 		
 		try {
-			BigDecimal price = new BigDecimal(customQuote.getPriceText());
+			BigDecimal price = MerchantUtils.getBigDecimal(customQuote.getPriceText());
 			customQuote.setPrice(price);
 		} catch(Exception e) {
 			ObjectError error = new ObjectError("priceText",messages.getMessage("message.invalid.price", locale));

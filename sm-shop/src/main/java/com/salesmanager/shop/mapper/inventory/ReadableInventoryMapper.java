@@ -3,13 +3,13 @@ package com.salesmanager.shop.mapper.inventory;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.jsoup.helper.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
-import com.salesmanager.core.business.services.reference.country.CountryService;
-import com.salesmanager.core.business.services.reference.zone.ZoneService;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -27,24 +27,21 @@ import com.salesmanager.shop.utils.DateUtil;
 public class ReadableInventoryMapper implements Mapper<ProductAvailability, ReadableInventory> {
 
   @Autowired
-  private CountryService countryService;
-
-  @Autowired
-  private ZoneService zoneService;
+  private PricingService pricingService;
   
   @Autowired
-  private PricingService pricingService;
+  private ReadableMerchantStorePopulator readableMerchantStorePopulator;
 
   @Override
   public ReadableInventory convert(ProductAvailability source, MerchantStore store,
       Language language) {
     ReadableInventory availability = new ReadableInventory();
-    return this.convert(source, availability, store, language);
+    return this.merge(source, availability, store, language);
   }
 
   @Override
-  public ReadableInventory convert(ProductAvailability source, ReadableInventory destination,
-      MerchantStore store, Language language) {
+  public ReadableInventory merge(ProductAvailability source, ReadableInventory destination,
+                                 MerchantStore store, Language language) {
     Validate.notNull(destination, "Destination Product availability cannot be null");
     Validate.notNull(source, "Source Product availability cannot be null");
 
@@ -98,10 +95,10 @@ public class ReadableInventoryMapper implements Mapper<ProductAvailability, Read
     if(language == null) {
       language = store.getDefaultLanguage();
     }
-    ReadableMerchantStorePopulator populator = new ReadableMerchantStorePopulator();
+/*    ReadableMerchantStorePopulator populator = new ReadableMerchantStorePopulator();
     populator.setCountryService(countryService);
-    populator.setZoneService(zoneService);
-    return populator.populate(store, new ReadableMerchantStore(), store, language);
+    populator.setZoneService(zoneService);*/
+    return readableMerchantStorePopulator.populate(store, new ReadableMerchantStore(), store, language);
   }
   
   private List<ReadableProductPrice> prices(ProductAvailability source, MerchantStore store, Language language) throws ConversionException {

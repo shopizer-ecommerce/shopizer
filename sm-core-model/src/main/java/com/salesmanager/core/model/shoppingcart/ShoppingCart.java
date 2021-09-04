@@ -43,7 +43,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
  */
 @Entity
 @EntityListeners(value = AuditListener.class)
-@Table(name = "SHOPPING_CART", schema=SchemaConstant.SALESMANAGER_SCHEMA, indexes= { @Index(name = "SHP_CART_CODE_IDX", columnList = "SHP_CART_CODE"), @Index(name = "SHP_CART_CUSTOMER_IDX", columnList = "CUSTOMER_ID")})
+@Table(name = "SHOPPING_CART", indexes= { @Index(name = "SHP_CART_CODE_IDX", columnList = "SHP_CART_CODE"), @Index(name = "SHP_CART_CUSTOMER_IDX", columnList = "CUSTOMER_ID")})
 public class ShoppingCart extends SalesManagerEntity<Long, ShoppingCart> implements Auditable{
 
 	
@@ -76,6 +76,9 @@ public class ShoppingCart extends SalesManagerEntity<Long, ShoppingCart> impleme
 	@Column(name = "CUSTOMER_ID", nullable = true)
 	private Long customerId;
 	
+	@Column(name = "ORDER_ID", nullable = true)
+	private Long orderId;
+
 	@Column (name ="IP_ADDRESS")
 	private String ipAddress;
 	
@@ -175,6 +178,14 @@ public class ShoppingCart extends SalesManagerEntity<Long, ShoppingCart> impleme
 
 	public void setPromoAdded(Date promoAdded) {
 		this.promoAdded = promoAdded;
+	}
+	
+	public Long getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(Long orderId) {
+		this.orderId = orderId;
 	}
 
 

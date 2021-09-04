@@ -1,11 +1,15 @@
 package com.salesmanager.shop.store.api.v1.product;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +28,7 @@ import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.image.ProductImage;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.model.entity.NameEntity;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.api.exception.UnauthorizedException;
@@ -60,11 +65,11 @@ public class ProductImageApi {
     @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
     @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
   })
-  public void uploadImages(
+  public void uploadImages (
       @PathVariable Long id,
-      @RequestParam(value="file[]",required = true) MultipartFile[] files,
+      @RequestParam(value="file",required = true) MultipartFile[] files,
       @ApiIgnore MerchantStore merchantStore,
-      @ApiIgnore Language language) {
+      @ApiIgnore Language language) throws IOException {
 
     try {
 
@@ -125,14 +130,17 @@ public class ProductImageApi {
       value = {"/private/products/images/{id}", "/auth/products/images/{id}"},
       method = RequestMethod.DELETE)
   public void deleteImage(
-      @PathVariable Long id, HttpServletRequest request, HttpServletResponse response)
+      @PathVariable Long id, 
+      HttpServletRequest request, 
+      HttpServletResponse response)
       throws Exception {
 
     try {
       ProductImage productImage = productImageService.getById(id);
 
       if (productImage != null) {
-        productImageService.delete(productImage);
+        productImageService
+        .delete(productImage);
       } else {
         response.sendError(404, "No ProductImage found for ID : " + id);
       }
@@ -143,6 +151,33 @@ public class ProductImageApi {
         response.sendError(503, "Error while deleting ProductImage " + e.getMessage());
       } catch (Exception ignore) {
       }
+    }
+  }
+  
+  
+  @ResponseStatus(HttpStatus.OK)
+  @RequestMapping(
+      value = {"/private/products/{id}/image/{imageId}"},
+      method = RequestMethod.DELETE)
+  public void deleteImage(
+	  @PathVariable Long id,
+	  @PathVariable Long imageId,
+      @Valid NameEntity imageName,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language) {
+
+    try {
+      Optional<ProductImage> productImage = productImageService.getProductImage(imageId, id, merchantStore);
+
+      if (productImage.isPresent()) {
+        productImageService.delete(productImage.get());
+      } else {
+    	throw new ResourceNotFoundException("Product image [" + imageName.getName() + "] not found for product id [" + id + "] and merchant [" + merchantStore.getCode() + "]");
+      }
+
+    } catch (Exception e) {
+      LOGGER.error("Error while deleting ProductImage", e);
+      throw new ServiceRuntimeException("ProductImage [" + imageName.getName() + "] cannot be deleted");
     }
   }
 }

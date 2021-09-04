@@ -41,13 +41,13 @@ public class PersistableProductOptionMapper implements Mapper<PersistableProduct
   public ProductOption convert(PersistableProductOptionEntity source, MerchantStore store,
       Language language) {
     ProductOption destination = new ProductOption();
-    return convert(source, destination, store, language);
+    return merge(source, destination, store, language);
   }
 
 
   @Override
-  public ProductOption convert(PersistableProductOptionEntity source, ProductOption destination,
-      MerchantStore store, Language language) {
+  public ProductOption merge(PersistableProductOptionEntity source, ProductOption destination,
+                             MerchantStore store, Language language) {
     if(destination == null) {
       destination = new ProductOption();
     }

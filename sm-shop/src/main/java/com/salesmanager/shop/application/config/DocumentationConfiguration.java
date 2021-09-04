@@ -9,13 +9,18 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import springfox.documentation.RequestHandler;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.builders.ResponseMessageBuilder;
 import springfox.documentation.schema.ModelRef;
@@ -58,7 +63,7 @@ public class DocumentationConfiguration {
 		consumes.add("application/json");
 
 		return new Docket(DocumentationType.SWAGGER_2).select()
-				.apis(RequestHandlerSelectors.basePackage("com.salesmanager.shop.store.api.v1")).build()
+				.apis(requestHandlers()).build()
 				.securitySchemes(Collections.singletonList(new ApiKey("JWT", AUTHORIZATION, HEADER.name())))
 		        .securityContexts(singletonList(
 		            SecurityContext.builder()
@@ -73,6 +78,16 @@ public class DocumentationConfiguration {
 		        )
 				.produces(produces).consumes(consumes).globalResponseMessage(RequestMethod.GET, getMessages)
 	            .globalResponseMessage(RequestMethod.GET, getMessages);
+
+	}
+	
+	final Predicate<RequestHandler> requestHandlers() {
+		
+		   Set<Predicate<RequestHandler>> matchers = new HashSet<Predicate<RequestHandler>>();
+		   matchers.add(RequestHandlerSelectors.basePackage("com.salesmanager.shop.store.api.v1"));
+		   matchers.add(RequestHandlerSelectors.basePackage("com.salesmanager.shop.store.api.v2"));
+		   
+		   return Predicates.or(matchers);
 
 	}
 

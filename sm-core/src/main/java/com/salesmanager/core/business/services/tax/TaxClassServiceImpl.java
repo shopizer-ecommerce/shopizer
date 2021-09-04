@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.jsoup.helper.Validate;
 import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.exception.ServiceException;
@@ -43,7 +44,7 @@ public class TaxClassServiceImpl extends SalesManagerEntityServiceImpl<Long, Tax
 	@Override
 	public void delete(TaxClass taxClass) throws ServiceException {
 		
-		TaxClass t = this.getById(taxClass.getId());
+		TaxClass t = getById(taxClass.getId());
 		super.delete(t);
 		
 	}
@@ -52,6 +53,26 @@ public class TaxClassServiceImpl extends SalesManagerEntityServiceImpl<Long, Tax
 	public TaxClass getById(Long id) {
 		return taxClassRepository.getOne(id);
 	}
+
+	@Override
+	public boolean exists(String code, MerchantStore store) throws ServiceException {
+		Validate.notNull(code, "TaxClass code cannot be empty");
+		Validate.notNull(store, "MerchantStore cannot be null");
+		
+		return taxClassRepository.findByStoreAndCode(store.getId(), code) != null;
+
+	}
+	
+	@Override
+	public TaxClass saveOrUpdate(TaxClass taxClass) throws ServiceException {
+		if(taxClass.getId()!=null && taxClass.getId() > 0) {
+			this.update(taxClass);
+		} else {
+			taxClass = super.saveAndFlush(taxClass);
+		}
+		return taxClass;
+	}
+
 	
 
 }

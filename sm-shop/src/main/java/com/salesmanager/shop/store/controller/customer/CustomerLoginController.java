@@ -1,5 +1,22 @@
 package com.salesmanager.shop.store.controller.customer;
 
+import javax.inject.Inject;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.shoppingcart.ShoppingCartCalculationService;
@@ -16,19 +33,6 @@ import com.salesmanager.shop.populator.shoppingCart.ShoppingCartDataPopulator;
 import com.salesmanager.shop.store.controller.AbstractController;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
 import com.salesmanager.shop.utils.ImageFilePath;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
-import javax.inject.Inject;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * Custom Spring Security authentication
@@ -38,10 +42,7 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 @RequestMapping("/shop/customer")
 public class CustomerLoginController extends AbstractController {
-	
-	@Inject
-    private AuthenticationManager customerAuthenticationManager;
-	
+
 
     @Inject
     private  CustomerFacade customerFacade;
@@ -127,7 +128,7 @@ public class CustomerLoginController extends AbstractController {
 	            
             } else {
 
-	            ShoppingCart cartModel = shoppingCartService.getByCustomer(customerModel);
+	            ShoppingCart cartModel = shoppingCartService.getShoppingCart(customerModel);
 	            if(cartModel!=null) {
 	                jsonObject.addEntry( Constants.SHOPPING_CART, cartModel.getShoppingCartCode());
 	                request.getSession().setAttribute(Constants.SHOPPING_CART, cartModel.getShoppingCartCode());

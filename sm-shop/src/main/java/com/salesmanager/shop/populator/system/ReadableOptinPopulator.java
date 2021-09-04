@@ -1,6 +1,6 @@
 package com.salesmanager.shop.populator.system;
 
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.utils.AbstractDataPopulator;

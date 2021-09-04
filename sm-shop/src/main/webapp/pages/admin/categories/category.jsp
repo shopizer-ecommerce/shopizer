@@ -86,6 +86,13 @@
                         </div>
                   </div>
                   <div class="control-group">
+                        <label><s:message code="label.entity.featured" text="Featured category"/></label>
+                        <div class="controls">
+                                    <form:checkbox path="category.featured" />
+
+                        </div>
+                  </div>
+                  <div class="control-group">
                         <label><s:message code="label.category.code" text="Category code"/></label>
 	                        <div class="controls">
 	                        		<form:input cssClass="input-large highlight" id="code" path="category.code" onblur="validateCode(this)"/>

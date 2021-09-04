@@ -22,7 +22,7 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
 import com.salesmanager.core.model.order.Order;
 
 @Entity
-@Table (name="ORDER_PRODUCT" , schema=SchemaConstant.SALESMANAGER_SCHEMA)
+@Table (name="ORDER_PRODUCT" )
 public class OrderProduct extends SalesManagerEntity<Long, OrderProduct> {
 	private static final long serialVersionUID = 176131742783954627L;
 	

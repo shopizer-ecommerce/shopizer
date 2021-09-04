@@ -64,9 +64,27 @@ response.setDateHeader ("Expires", -1);
 								</div>
 						</div>
 			{{/products}}
-    </script>            
-                
- 	</head>
+    </script>
+
+	<c:if test="${requestScope.PAGE_INFORMATION.pageImageUrl!=null}">
+		<!-- open graph metatag -->
+		 <meta property="og:site_name" content="${requestScope.MERCHANT_STORE.storename}"/>
+		 <meta property="og:type" content="article"/>
+		 <meta property="og:title" content="${requestScope.PAGE_INFORMATION.pageTitle}"/>
+		 <meta property="og:url" content="${requestScope.PAGE_INFORMATION.pageUrl}"/>
+		 <meta property="og:description" content="${requestScope.PAGE_INFORMATION.pageDescription}"/>
+		 <meta property="og:image" content="${requestScope.PAGE_INFORMATION.pageImageUrl}"/>
+
+		 <!-- twitter vcard metatags -->
+		 <meta name="twitter:card" content="summary_large_image"/>
+		 <meta name="twitter:site" content="${requestScope.MERCHANT_STORE.storename}"/>
+		 <meta name="twitter:title" content="${requestScope.PAGE_INFORMATION.pageTitle}"/>
+		 <meta name="twitter:url" content="${requestScope.PAGE_INFORMATION.pageUrl}"/>
+		 <meta name="twitter:description" content="${requestScope.PAGE_INFORMATION.pageDescription}"/>
+		 <meta name="twitter:image" content="${requestScope.PAGE_INFORMATION.pageImageUrl}"/>
+	</c:if>
+
+	 </head>
  
  	<body>
  	

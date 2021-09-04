@@ -1,9 +1,5 @@
 package com.salesmanager.shop.application.config;
 
-import static org.springframework.http.MediaType.IMAGE_GIF;
-import static org.springframework.http.MediaType.IMAGE_JPEG;
-import static org.springframework.http.MediaType.IMAGE_PNG;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -11,12 +7,12 @@ import java.util.Locale;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.event.EventListener;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.http.MediaType;
@@ -39,13 +35,15 @@ import com.salesmanager.core.business.configuration.CoreApplicationConfiguration
 import com.salesmanager.shop.filter.AdminFilter;
 import com.salesmanager.shop.filter.CorsFilter;
 import com.salesmanager.shop.filter.StoreFilter;
+import com.salesmanager.shop.filter.XssFilter;
 import com.salesmanager.shop.utils.LabelUtils;
+
+import static org.springframework.http.MediaType.*;
 
 @Configuration
 @ComponentScan({"com.salesmanager.shop"})
 @ServletComponentScan
 @Import({CoreApplicationConfiguration.class}) // import sm-core configurations
-@ImportResource({"classpath:/spring/shopizer-shop-context.xml"})
 @EnableWebSecurity
 public class ShopApplicationConfiguration implements WebMvcConfigurer {
 
@@ -54,7 +52,7 @@ public class ShopApplicationConfiguration implements WebMvcConfigurer {
   @EventListener(ApplicationReadyEvent.class)
   public void applicationReadyCode() {
     String workingDir = System.getProperty("user.dir");
-    //System.out.println("Current working directory : " + workingDir);
+    logger.info("Current working directory : " + workingDir);
   }
 
   /** Configure TilesConfigurer. */
@@ -78,7 +76,18 @@ public class ShopApplicationConfiguration implements WebMvcConfigurer {
   }
   
 
-
+  @Bean
+  public FilterRegistrationBean<XssFilter> croseSiteFilter(){
+      FilterRegistrationBean<XssFilter> registrationBean 
+        = new FilterRegistrationBean<>();
+          
+      registrationBean.setFilter(new XssFilter());
+      registrationBean.addUrlPatterns("/shop/**");
+      registrationBean.addUrlPatterns("/api/**");
+      registrationBean.addUrlPatterns("/customer/**");
+          
+      return registrationBean;    
+  }
 
   @Override
   public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
@@ -123,7 +132,7 @@ public class ShopApplicationConfiguration implements WebMvcConfigurer {
 
   @Bean
   public ByteArrayHttpMessageConverter byteArrayHttpMessageConverter() {
-    List<MediaType> supportedMediaTypes = Arrays.asList(IMAGE_JPEG, IMAGE_GIF, IMAGE_PNG);
+    List<MediaType> supportedMediaTypes = Arrays.asList(IMAGE_JPEG, IMAGE_GIF, IMAGE_PNG, APPLICATION_OCTET_STREAM);
 
     ByteArrayHttpMessageConverter byteArrayHttpMessageConverter =
         new ByteArrayHttpMessageConverter();
@@ -154,7 +163,7 @@ public class ShopApplicationConfiguration implements WebMvcConfigurer {
   @Bean
   public SessionLocaleResolver localeResolver() {
     SessionLocaleResolver slr = new SessionLocaleResolver();
-    slr.setDefaultLocale(Locale.ENGLISH);
+    slr.setDefaultLocale(Locale.getDefault());
     return slr;
   }
 

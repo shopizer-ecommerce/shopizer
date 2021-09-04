@@ -163,7 +163,7 @@ public class ProductsController {
 			}
 			
 			ProductList productList = productService.listByStore(store, language, criteria);
-			resp.setEndRow(productList.getTotalCount());
+			resp.setEndRow(Math.toIntExact(productList.getTotalCount()));
 			resp.setStartRow(startRow);
 			List<Product> plist = productList.getProducts();
 			

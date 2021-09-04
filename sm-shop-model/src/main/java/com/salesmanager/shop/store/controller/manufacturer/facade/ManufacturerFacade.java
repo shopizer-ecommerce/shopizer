@@ -63,6 +63,17 @@ public interface ManufacturerFacade {
   ReadableManufacturerList getAllManufacturers(MerchantStore store, Language language, ListCriteria criteria, int page, int count) ;
   
   /**
+   * List manufacturers by a specific store
+   * @param store
+   * @param language
+   * @param criteria
+   * @param page
+   * @param count
+   * @return
+   */
+  ReadableManufacturerList listByStore(MerchantStore store, Language language, ListCriteria criteria, int page, int count) ;
+  
+  /**
    * Determines if manufacturer code already exists
    * @param store
    * @param manufacturerCode

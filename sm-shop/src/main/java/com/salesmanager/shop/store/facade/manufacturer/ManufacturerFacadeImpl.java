@@ -1,6 +1,7 @@
 package com.salesmanager.shop.store.facade.manufacturer;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
@@ -65,6 +66,12 @@ public class ManufacturerFacadeImpl implements ManufacturerFacade {
       List<Manufacturer> manufacturers = manufacturerService.listByProductsInCategory(store, category, language);
       
       List<ReadableManufacturer> manufacturersList = manufacturers.stream()
+    	.sorted(new Comparator<Manufacturer>() {
+    	            @Override
+    	            public int compare(final Manufacturer object1, final Manufacturer object2) {
+    	                return object1.getCode().compareTo(object2.getCode());
+    	            }
+    	 })
         .map(manuf -> readableManufacturerConverter.convert(manuf, store, language))
         .collect(Collectors.toList());
       
@@ -200,6 +207,50 @@ public class ManufacturerFacadeImpl implements ManufacturerFacade {
     }
     return exists;
   }
+
+@Override
+public ReadableManufacturerList listByStore(MerchantStore store, Language language, ListCriteria criteria, int page,
+		int count) {
+	
+	ReadableManufacturerList readableList = new ReadableManufacturerList();
+
+    try {
+        /**
+         * Is this a pageable request
+         */
+
+        List<Manufacturer> manufacturers = null;
+
+        Page<Manufacturer> m = null;
+        if(language != null) {
+            m = manufacturerService.listByStore(store, language, criteria.getName(), page, count);
+        } else {
+            m = manufacturerService.listByStore(store, criteria.getName(), page, count);
+        }
+        manufacturers = m.getContent();
+        readableList.setTotalPages(m.getTotalPages());
+        readableList.setRecordsTotal(m.getTotalElements());
+        readableList.setNumber(m.getNumber());
+
+
+        
+        ReadableManufacturerPopulator populator = new ReadableManufacturerPopulator();
+        List<ReadableManufacturer> returnList = new ArrayList<ReadableManufacturer>();
+    
+        for (Manufacturer mf : manufacturers) {
+          ReadableManufacturer readableManufacturer = new ReadableManufacturer();
+          populator.populate(mf, readableManufacturer, store, language);
+          returnList.add(readableManufacturer);
+        }
+
+        readableList.setManufacturers(returnList);
+        return readableList;
+        
+      } catch (Exception e) {
+        throw new ServiceRuntimeException("Error while get manufacturers",e);
+      }
+	
+}
 
 
 }

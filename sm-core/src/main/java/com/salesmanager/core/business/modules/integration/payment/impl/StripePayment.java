@@ -6,11 +6,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.inject.Inject;
-import org.apache.commons.lang.Validate;
+
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.salesmanager.core.business.utils.ProductPriceUtils;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -25,7 +28,7 @@ import com.salesmanager.core.model.system.IntegrationModule;
 import com.salesmanager.core.modules.integration.IntegrationException;
 import com.salesmanager.core.modules.integration.payment.model.PaymentModule;
 import com.stripe.Stripe;
-import com.stripe.exception.APIConnectionException;
+// import com.stripe.exception.APIConnectionException;
 import com.stripe.exception.AuthenticationException;
 import com.stripe.exception.CardException;
 import com.stripe.exception.InvalidRequestException;
@@ -106,7 +109,7 @@ public class StripePayment implements PaymentModule {
 			List<ShoppingCartItem> items, BigDecimal amount, Payment payment,
 			IntegrationConfiguration configuration, IntegrationModule module)
 			throws IntegrationException {
-		
+
 		Transaction transaction = new Transaction();
 		try {
 			
@@ -250,7 +253,7 @@ public class StripePayment implements PaymentModule {
 			List<ShoppingCartItem> items, BigDecimal amount, Payment payment,
 			IntegrationConfiguration configuration, IntegrationModule module)
 			throws IntegrationException {
-		
+
 		String apiKey = configuration.getIntegrationKeys().get("secretKey");
 
 		if(payment.getPaymentMetaData()==null || StringUtils.isBlank(apiKey)) {
@@ -264,7 +267,7 @@ public class StripePayment implements PaymentModule {
 		
 		String token = payment.getPaymentMetaData().get("stripe_token");
 		if(StringUtils.isBlank(token)) { //possibly from api
-		  token = payment.getPaymentMetaData().get("paymentToken");
+		  token = payment.getPaymentMetaData().get("paymentToken");//from api
 		}
 		
 		if(StringUtils.isBlank(token)) {
@@ -332,7 +335,7 @@ public class StripePayment implements PaymentModule {
 			IntegrationConfiguration configuration, IntegrationModule module)
 			throws IntegrationException {
 		
-		
+
 		
 		String apiKey = configuration.getIntegrationKeys().get("secretKey");
 
@@ -360,13 +363,14 @@ public class StripePayment implements PaymentModule {
 			
 			String strAmount = String.valueOf(amnt);
 			strAmount = strAmount.replace(".","");
-			
-			Map params = new HashMap();
-			//TODO amount
-			params.put("amount", strAmount);
+
 			Charge ch = Charge.retrieve(trnID);
-			Refund re = ch.getRefunds().create(params);
-			
+
+			Map<String, Object> params = new HashMap<>();
+			params.put("charge", ch.getId());
+			params.put("amount", strAmount);
+			Refund re = Refund.create(params);
+
 			transaction = new Transaction();
 			transaction.setAmount(order.getTotal());
 			transaction.setOrder(order);
@@ -515,7 +519,7 @@ public class StripePayment implements PaymentModule {
 		te.setErrorCode(IntegrationException.TRANSACTION_EXCEPTION);
 		return te;
 		
-	} else if (ex instanceof APIConnectionException) {
+	} /*else if (ex instanceof APIConnectionException) { // DEPRECATED THIS EXCEPTION TYPE
 		LOGGER.error("API connection error with stripe", ex.getMessage());
 		APIConnectionException e = (APIConnectionException)ex;
 		  // Network communication with Stripe failed
@@ -525,7 +529,7 @@ public class StripePayment implements PaymentModule {
 		te.setMessageCode("message.payment.error");
 		te.setErrorCode(IntegrationException.TRANSACTION_EXCEPTION);
 		return te;
-	} else if (ex instanceof StripeException) {
+	} */else if (ex instanceof StripeException) {
 		LOGGER.error("Error with stripe", ex.getMessage());
 		StripeException e = (StripeException)ex;
 		  // Display a very generic error to the user, and maybe send

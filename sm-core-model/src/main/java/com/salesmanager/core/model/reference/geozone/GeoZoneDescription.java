@@ -12,7 +12,7 @@ import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.common.description.Description;
 
 @Entity
-@Table(name="GEOZONE_DESCRIPTION", schema=SchemaConstant.SALESMANAGER_SCHEMA, uniqueConstraints={
+@Table(name="GEOZONE_DESCRIPTION", uniqueConstraints={
 		@UniqueConstraint(columnNames={
 			"GEOZONE_ID",
 			"LANGUAGE_ID"

@@ -20,7 +20,7 @@ import com.salesmanager.core.model.order.Order;
  *
  */
 @Entity
-@Table (name="ORDER_ATTRIBUTE" , schema=SchemaConstant.SALESMANAGER_SCHEMA)
+@Table (name="ORDER_ATTRIBUTE" )
 public class OrderAttribute extends SalesManagerEntity<Long, OrderAttribute> {
 	
 	/**

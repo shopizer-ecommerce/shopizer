@@ -42,6 +42,8 @@ public interface CategoryService extends SalesManagerEntityService<Long, Categor
 	
 	Category getById(Long id, int merchantId);
 	
+	Category getById(Long categoryid, int merchantId, int language);
+	
 	Page<Category> getListByDepth(MerchantStore store, Language language, String name, int depth, int page, int count);
 
 	/**
@@ -77,9 +79,9 @@ public interface CategoryService extends SalesManagerEntityService<Long, Categor
 
 	/**
 	 * Returns a list by category containing the category code and the number of products
-	 * 1->obj[0] = book
+	 * 1->obj[0] = 1
 	 *    obj[1] = 150
-	 * 2->obj[0] = novell
+	 * 2->obj[0] = 2
 	 *    obj[1] = 35
 	 *   ...
 	 * @param store

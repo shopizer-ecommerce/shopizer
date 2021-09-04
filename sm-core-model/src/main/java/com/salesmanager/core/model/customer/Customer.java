@@ -27,16 +27,18 @@ import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import javax.validation.Valid;
-
-import org.hibernate.annotations.Cascade;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.annotations.Cascade;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.product.review.ProductReview;
 import com.salesmanager.core.model.common.Billing;
+import com.salesmanager.core.model.common.CredentialsReset;
 import com.salesmanager.core.model.common.Delivery;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.common.audit.Auditable;
@@ -48,9 +50,11 @@ import com.salesmanager.core.model.user.Group;
 import com.salesmanager.core.utils.CloneUtils;
 
 @Entity
-@Table(name = "CUSTOMER", schema=SchemaConstant.SALESMANAGER_SCHEMA)
+@Table(name = "CUSTOMER", 
+	 uniqueConstraints=
+			@UniqueConstraint(columnNames = {"MERCHANT_ID", "CUSTOMER_NICK"}))
 public class Customer extends SalesManagerEntity<Long, Customer> implements Auditable {
-	private static final long serialVersionUID = -6966934116557219193L;
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@Column(name = "CUSTOMER_ID", unique=true, nullable=false)
@@ -81,7 +85,7 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 	private String emailAddress;
 	
 	@Column(name="CUSTOMER_NICK", length=96)
-	private String nick;
+	private String nick;// unique username per store
 
 	@Column(name="CUSTOMER_COMPANY", length=100)
 	private String company;
@@ -90,7 +94,6 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 	@Column(name="CUSTOMER_PASSWORD", length=60)
 	private String password;
 
-	
 	@Column(name="CUSTOMER_ANONYMOUS")
 	private boolean anonymous;
 	
@@ -108,7 +111,6 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 	@JoinColumn(name = "LANGUAGE_ID", nullable=false)
 	private Language defaultLanguage;
 	
-
 
 	@OneToMany(mappedBy = "customer", targetEntity = ProductReview.class)
 	private List<ProductReview> reviews = new ArrayList<ProductReview>();
@@ -128,7 +130,7 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 	
 	@JsonIgnore
 	@ManyToMany(fetch=FetchType.LAZY, cascade = {CascadeType.REFRESH})
-	@JoinTable(name = "CUSTOMER_GROUP", schema=SchemaConstant.SALESMANAGER_SCHEMA, joinColumns = { 
+	@JoinTable(name = "CUSTOMER_GROUP", joinColumns = { 
 			@JoinColumn(name = "CUSTOMER_ID", nullable = false, updatable = false) }
 			, 
 			inverseJoinColumns = { @JoinColumn(name = "GROUP_ID", 
@@ -154,8 +156,10 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 	@JsonIgnore
 	@Transient
 	private String showDeliveryStateList;
-	
-	
+
+	@Embedded
+	private CredentialsReset credentialsResetRequest = null;
+
 	public Customer() {
 	}
 
@@ -341,6 +345,14 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 
 	public void setProvider(String provider) {
 		this.provider = provider;
+	}
+
+	public CredentialsReset getCredentialsResetRequest() {
+		return credentialsResetRequest;
+	}
+
+	public void setCredentialsResetRequest(CredentialsReset credentialsResetRequest) {
+		this.credentialsResetRequest = credentialsResetRequest;
 	}
 	
 }

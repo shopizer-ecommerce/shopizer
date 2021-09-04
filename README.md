@@ -4,14 +4,16 @@ English
 Shopizer (for java 1.8 +)
 -------------------
 
-[![last_version](https://img.shields.io/badge/last_version-v2.12.0-blue.svg?style=flat)](https://github.com/shopizer-ecommerce/shopizer/tree/2.12.0)
+[![last_version](https://img.shields.io/badge/last_version-v2.17.0-blue.svg?style=flat)](https://github.com/shopizer-ecommerce/shopizer/tree/2.17.0)
 [![Official site](https://img.shields.io/website-up-down-green-red/https/shields.io.svg?label=official%20site)](http://www.shopizer.com/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/shopizerecomm/shopizer.svg)](https://hub.docker.com/r/shopizerecomm/shopizer)
 [![stackoverflow](https://img.shields.io/badge/shopizer-stackoverflow-orange.svg?style=flat)](http://stackoverflow.com/questions/tagged/shopizer)
+[![CircleCI](https://circleci.com/gh/shopizer-ecommerce/shopizer.svg?style=svg)](https://circleci.com/gh/shopizer-ecommerce/shopizer)
 
 
 Java open source e-commerce software
 
+- Headless commerce
 - Shopping cart
 - Catalogue
 - Search
@@ -23,7 +25,7 @@ See the demo (jsp):
 -------------------
 http://aws-demo.shopizer.com:8080/
 
-See the demo (angular):
+See the demo (React):
 -------------------
 Available soon
 
@@ -76,6 +78,19 @@ Right click on com.salesmanager.shop.application.ShopApplication
 
 run as Java Application
 
+Run the application from Spring boot in IntelliJ
+-------------------
+
+In Run/Debug Configurations, set to the option Working directory the path of the sm-shop project
+
+run ShopApplication
+
+Run Docker image with working demo
+-------------------
+
+	docker run -p 80:8080 shopizerecomm/shopizer:latest
+
+
 ### Access the application:
 -------------------
 
@@ -94,7 +109,7 @@ Please read the instructions on how to connect to MySQL, configure an email serv
 ### Documentation:
 -------------------
 
-Documentation available from the wiki <http://shopizer-ecommerce.github.io/shopizer/#>
+Documentation available <http://documentation.shopizer.com>
 
 ChatOps <https://shopizer.slack.com>  - Join our Slack channel https://shopizer-slackin.herokuapp.com/
 
@@ -106,6 +121,40 @@ More information is available on shopizer web site here <http://www.shopizer.com
 If you have interest in giving feedback or for participating to Shopizer project in any way
 Feel to use the contact form <http://www.shopizer.com/contact.html> and share your email address
 so we can send an invite to our Slack channel
+
+### How to Contribute:
+-------------------
+Fork the repository to your GitHub account
+
+Clone from fork repository
+-------------------
+
+       $ git clone https://github.com/yourusername/shopizer.git
+
+Build application according to steps provided above
+
+Synchronize lastest version with the upstream
+-------------------
+
+       $ git remote add upstream https://github.com/yourusername/shopizer.git
+	   $ git pull upstream 2.17.0
+
+Create new branch in your repository
+-------------------
+
+	   $ git checkout -b branch-name
+
+
+Check your branch status before commit to the branch
+-------------------
+
+	   $ git status 
+	   $ git commit 
+
+Push changes to GitHub
+-------------------
+
+	   $ git push -u origin HEAD
 
 
 
@@ -328,9 +377,4 @@ ChatOps <https://shopizer.slack.com> - 加入我们的 Slack 频道 https://shop
 如果您有兴趣提供反馈或以任何方式参与 Shopizer 项目
 请使用联系表 <http://www.shopizer.com/contact.html> 并分享您的电子邮件地址
 这样我们就可以邀请您进入我们的 Slack 频道
-
-
-
-
-
 

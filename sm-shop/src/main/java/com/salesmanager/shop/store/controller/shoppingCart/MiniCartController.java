@@ -50,7 +50,7 @@ public class MiniCartController extends AbstractController{
 			if(cart!=null) {
 				request.getSession().setAttribute(Constants.SHOPPING_CART, cart.getCode());
 			}
-			if(cart==null) {
+			else {
 				request.getSession().removeAttribute(Constants.SHOPPING_CART);//make sure there is no cart here
 				cart = new ShoppingCartData();//create an empty cart
 			}
@@ -71,9 +71,11 @@ public class MiniCartController extends AbstractController{
 		Language language = (Language)request.getAttribute(Constants.LANGUAGE);
 		MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
 		ShoppingCartData cart =  shoppingCartFacade.getShoppingCartData(null, merchantStore, shoppingCartCode, language);
+		
 		if(cart==null) {
 			return null;
 		}
+		
 		ShoppingCartData shoppingCartData=shoppingCartFacade.removeCartItem(lineItemId, cart.getCode(), merchantStore,language);
 		
 	    if(shoppingCartData==null) {
@@ -85,7 +87,6 @@ public class MiniCartController extends AbstractController{
 			request.getSession().removeAttribute(Constants.SHOPPING_CART);
 			return null;
 		}
-		
 		
 		request.getSession().setAttribute(Constants.SHOPPING_CART, cart.getCode());
 		

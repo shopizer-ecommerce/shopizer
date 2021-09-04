@@ -1,8 +1,8 @@
 package com.salesmanager.shop.mapper.catalog;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -21,11 +21,28 @@ public class ReadableCategoryMapper implements Mapper<Category, ReadableCategory
 
   @Override
   public ReadableCategory convert(Category source, MerchantStore store, Language language) {
-    ReadableCategory target = category(language);
-    
-    feedDescription(source, language, target);
 
+    if (Objects.isNull(language)) {
+      ReadableCategoryFull target = new ReadableCategoryFull();
+      List<com.salesmanager.shop.model.catalog.category.CategoryDescription> descriptions = source.getDescriptions().stream()
+              .map(this::convertDescription)
+              .collect(Collectors.toList());
+      target.setDescriptions(descriptions);
+      fillReadableCategory(target, source);
+      return target;
+    } else {
+      ReadableCategory target = new ReadableCategory();
+      Optional<com.salesmanager.shop.model.catalog.category.CategoryDescription> description = source.getDescriptions().stream()
+              .filter(d -> language.getId().equals(d.getLanguage().getId()))
+              .map(this::convertDescription)
+              .findAny();
+      description.ifPresent(target::setDescription);
+      fillReadableCategory(target, source);
+      return target;
+    }
+  }
 
+  private void fillReadableCategory(ReadableCategory target, Category source) {
     Optional<com.salesmanager.shop.model.catalog.category.Category> parentCategory =
         createParentCategory(source);
     parentCategory.ifPresent(target::setParent);
@@ -39,28 +56,7 @@ public class ReadableCategoryMapper implements Mapper<Category, ReadableCategory
     target.setSortOrder(source.getSortOrder());
     target.setVisible(source.isVisible());
     target.setFeatured(source.isFeatured());
-    return target;
   }
-
-  private void feedDescription(Category source, Language language, ReadableCategory target) {
-    List<com.salesmanager.shop.model.catalog.category.CategoryDescription> descriptions = new ArrayList<com.salesmanager.shop.model.catalog.category.CategoryDescription>();
-    for(CategoryDescription description : source.getDescriptions()) {
-      if (language == null) {
-        descriptions.add(convertDescription(description));
-      } else {
-        if(language.getId().intValue()==description.getLanguage().getId().intValue()) {
-          target.setDescription(convertDescription(description));
-        }
-      }
-    }
-    
-    
-    if(target instanceof ReadableCategoryFull) {
-      ((ReadableCategoryFull)target).setDescriptions(descriptions);
-    }
-
-  }
-
 
   private com.salesmanager.shop.model.catalog.category.CategoryDescription convertDescription(
       CategoryDescription description) {
@@ -91,19 +87,9 @@ public class ReadableCategoryMapper implements Mapper<Category, ReadableCategory
     });
   }
 
-  private ReadableCategory category(Language language) {
-
-    if (language == null) {
-      return new ReadableCategoryFull();
-    } else {
-      return new ReadableCategory();
-    }
-
-  }
-
   @Override
-  public ReadableCategory convert(Category source, ReadableCategory destination,
-      MerchantStore store, Language language) {
+  public ReadableCategory merge(Category source, ReadableCategory destination,
+                                MerchantStore store, Language language) {
     return destination;
   }
 }

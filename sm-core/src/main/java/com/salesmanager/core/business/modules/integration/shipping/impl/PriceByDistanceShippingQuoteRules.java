@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
@@ -75,13 +76,11 @@ public class PriceByDistanceShippingQuoteRules implements ShippingQuoteModule {
 		}
 
 		Double distance = null;
-		
-		if(quote!=null) {
-			//look if distance has been calculated
-			if(quote.getQuoteInformations()!=null) {
-				if(quote.getQuoteInformations().containsKey(Constants.DISTANCE_KEY)) {
-					distance = (Double)quote.getQuoteInformations().get(Constants.DISTANCE_KEY);
-				}
+
+		//look if distance has been calculated
+		if (Objects.nonNull(quote) && Objects.nonNull(quote.getQuoteInformations())) {
+			if (quote.getQuoteInformations().containsKey(Constants.DISTANCE_KEY)) {
+				distance = (Double) quote.getQuoteInformations().get(Constants.DISTANCE_KEY);
 			}
 		}
 		
@@ -97,22 +96,22 @@ public class PriceByDistanceShippingQuoteRules implements ShippingQuoteModule {
 		List<ShippingOption> options = quote.getShippingOptions();
 		
 		if(options == null) {
-			options = new ArrayList<ShippingOption>();
+			options = new ArrayList<>();
 			quote.setShippingOptions(options);
 		}
 		
 		BigDecimal price = null;
-		BigDecimal total = null;
 		
 		if(distance<=20) {
-			price = new BigDecimal(69);//TODO from the admin
-			total = new BigDecimal(distance).multiply(price);
+			price = new BigDecimal(2);//TODO from the admin
 		} else {
 			price = new BigDecimal(3);//TODO from the admin
-			total = new BigDecimal(distance).multiply(price);
 		}
+		BigDecimal total = new BigDecimal(distance).multiply(price);
 		
-		
+		if(distance < 1) { //minimum 1 unit
+			distance = 1D;
+		}
 
 
 		ShippingOption shippingOption = new ShippingOption();

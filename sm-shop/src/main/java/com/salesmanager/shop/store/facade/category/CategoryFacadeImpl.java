@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -26,7 +26,8 @@ import com.salesmanager.core.business.services.merchant.MerchantStoreService;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOption;
-import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValue;
+import com.salesmanager.core.model.catalog.product.attribute.ProductOptionDescription;
+import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueDescription;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
@@ -49,7 +50,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 
 	@Inject
 	private CategoryService categoryService;
-	
+
 	@Inject
 	private MerchantStoreService merchantStoreService;
 
@@ -64,39 +65,39 @@ public class CategoryFacadeImpl implements CategoryFacade {
 
 	private static final String FEATURED_CATEGORY = "featured";
 	private static final String VISIBLE_CATEGORY = "visible";
+	private static final String ADMIN_CATEGORY = "admin";
 
 	@Override
 	public ReadableCategoryList getCategoryHierarchy(MerchantStore store, ListCriteria criteria, int depth,
 			Language language, List<String> filter, int page, int count) {
-		
+
 		Validate.notNull(store,"MerchantStore can not be null");
 
-		
+
 		//get parent store
 		try {
-			
+
 			MerchantStore parent = merchantStoreService.getParent(store.getCode());
 
 
 			List<Category> categories = null;
 			ReadableCategoryList returnList = new ReadableCategoryList();
-			// total count
-			int total = categoryService.count(parent);
-			returnList.setTotalPages(total);
 			if (!CollectionUtils.isEmpty(filter) && filter.contains(FEATURED_CATEGORY)) {
 				categories = categoryService.getListByDepthFilterByFeatured(parent, depth, language);
 				returnList.setRecordsTotal(categories.size());
 				returnList.setNumber(categories.size());
+				returnList.setTotalPages(1);
 			} else {
 				org.springframework.data.domain.Page<Category> pageable = categoryService.getListByDepth(parent, language,
 						criteria != null ? criteria.getName() : null, depth, page, count);
 				categories = pageable.getContent();
 				returnList.setRecordsTotal(pageable.getTotalElements());
-				returnList.setNumber(pageable.getNumber());
+				returnList.setTotalPages(pageable.getTotalPages());
+				returnList.setNumber(categories.size());
 			}
-	
-	
-	
+
+
+
 			List<ReadableCategory> readableCategories = null;
 			if (filter != null && filter.contains(VISIBLE_CATEGORY)) {
 				readableCategories = categories.stream().filter(Category::isVisible)
@@ -107,10 +108,10 @@ public class CategoryFacadeImpl implements CategoryFacade {
 						.map(cat -> categoryReadableCategoryConverter.convert(cat, store, language))
 						.collect(Collectors.toList());
 			}
-	
+
 			Map<Long, ReadableCategory> readableCategoryMap = readableCategories.stream()
 					.collect(Collectors.toMap(ReadableCategory::getId, Function.identity()));
-	
+
 			readableCategories.stream()
 					// .filter(ReadableCategory::isVisible)
 					.filter(cat -> Objects.nonNull(cat.getParent()))
@@ -120,14 +121,24 @@ public class CategoryFacadeImpl implements CategoryFacade {
 							parentCategory.getChildren().add(readableCategory);
 						}
 					});
-	
-			List<ReadableCategory> filteredList = readableCategoryMap.values().stream().filter(cat -> cat.getDepth() == 0)
-					.sorted(Comparator.comparing(ReadableCategory::getSortOrder)).collect(Collectors.toList());
-	
+			
+			List<ReadableCategory> filteredList = readableCategoryMap.values().stream().collect(Collectors.toList());
+
+			//execute only if not admin filtered
+			if(filter == null || (filter!=null && !filter.contains(ADMIN_CATEGORY))) {
+					filteredList = readableCategoryMap.values().stream().filter(cat -> cat.getDepth() == 0)
+						.sorted(Comparator.comparing(ReadableCategory::getSortOrder)).collect(Collectors.toList());
+				
+					returnList.setNumber(filteredList.size());
+
+			}
+			
 			returnList.setCategories(filteredList);
-	
+
+			
+			
 			return returnList;
-		
+
 		} catch (ServiceException e) {
 			throw new ServiceRuntimeException(e);
 		}
@@ -214,7 +225,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 		}
 
 		categoryService.saveOrUpdate(category);
-		
+
 		if (!CollectionUtils.isEmpty(saveAfter)) {
 			parent = category;
 			for(Category c: saveAfter) {
@@ -319,6 +330,18 @@ public class CategoryFacadeImpl implements CategoryFacade {
 		return readableCategory;
 	}
 
+	@Override
+	public ReadableCategory getCategoryByFriendlyUrl(MerchantStore store, String friendlyUrl, Language language) throws Exception {
+		Validate.notNull(friendlyUrl, "Category search friendly URL must not be null");
+		ReadableCategoryPopulator categoryPopulator = new ReadableCategoryPopulator();
+		ReadableCategory readableCategory = new ReadableCategory();
+
+		Category category = categoryService.getBySeUrl(store, friendlyUrl);
+		categoryPopulator.populate(category, readableCategory, store, language);
+
+		return readableCategory;
+	}
+
 	private Category getById(MerchantStore store, Long id) throws Exception {
 		Validate.notNull(id, "category id must not be null");
 		Validate.notNull(store, "MerchantStore must not be null");
@@ -361,16 +384,31 @@ public class CategoryFacadeImpl implements CategoryFacade {
 			/**
 			 * Option NAME OptionValueName OptionValueName
 			 **/
-			Map<String, List<ProductOptionValue>> rawFacet = new HashMap<String, List<ProductOptionValue>>();
+			Map<String, List<com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValue>> rawFacet = new HashMap<String, List<com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValue>>();
 			Map<String, ProductOption> references = new HashMap<String, ProductOption>();
 			for (ProductAttribute attr : attributes) {
 				references.put(attr.getProductOption().getCode(), attr.getProductOption());
-				List<ProductOptionValue> values = rawFacet.get(attr.getProductOption().getCode());
+				List<com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValue> values = rawFacet.get(attr.getProductOption().getCode());
 				if (values == null) {
-					values = new ArrayList<ProductOptionValue>();
+					values = new ArrayList<com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValue>();
 					rawFacet.put(attr.getProductOption().getCode(), values);
 				}
-				values.add(attr.getProductOptionValue());
+				
+				if(attr.getProductOptionValue() != null) {
+					Optional<ProductOptionValueDescription> desc = attr.getProductOptionValue().getDescriptions()
+					.stream().filter(o -> o.getLanguage().getId() == language.getId()).findFirst();
+					
+					com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValue val = new com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValue();
+					val.setCode(attr.getProductOption().getCode());
+					String order = attr.getAttributeSortOrder();
+					val.setSortOrder(order == null ? attr.getId().intValue(): Integer.parseInt(attr.getAttributeSortOrder()));
+					if(desc.isPresent()) {
+						val.setName(desc.get().getName());
+					} else {
+						val.setName(attr.getProductOption().getCode());
+					}
+					values.add(val);
+				}
 			}
 
 			// for each reference set Option
@@ -379,21 +417,47 @@ public class CategoryFacadeImpl implements CategoryFacade {
 				@SuppressWarnings("rawtypes")
 				Map.Entry pair = (Map.Entry) it.next();
 				ProductOption option = (ProductOption) pair.getValue();
-				List<ProductOptionValue> values = rawFacet.get(option.getCode());
+				List<com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValue> values = rawFacet.get(option.getCode());
 
 				ReadableProductVariant productVariant = new ReadableProductVariant();
-				productVariant.setName(option.getDescriptionsSettoList().get(0).getName());
-				List<ReadableProductVariantValue> optionValues = new ArrayList<ReadableProductVariantValue>();
-				for (ProductOptionValue value : values) {
-					ReadableProductVariantValue v = new ReadableProductVariantValue();
-					v.setName(value.getDescriptionsSettoList().get(0).getName());
-					v.setOption(option.getId());
-					v.setValue(value.getId());
-					optionValues.add(v);
+				Optional<ProductOptionDescription>  optionDescription = option.getDescriptions().stream().filter(o -> o.getLanguage().getId() == language.getId()).findFirst();
+				if(optionDescription.isPresent()) {
+					productVariant.setName(optionDescription.get().getName());
+					productVariant.setId(optionDescription.get().getId());
+					productVariant.setCode(optionDescription.get().getProductOption().getCode());
+					List<ReadableProductVariantValue> optionValues = new ArrayList<ReadableProductVariantValue>();
+					for (com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValue value : values) {
+						ReadableProductVariantValue v = new ReadableProductVariantValue();
+						v.setCode(value.getCode());
+						v.setName(value.getName());
+						v.setDescription(value.getName());
+						v.setOption(option.getId());
+						v.setValue(value.getId());
+						v.setOrder(option.getProductOptionSortOrder());
+						optionValues.add(v);
+					}
+					
+				    Comparator<ReadableProductVariantValue> orderComparator
+				      = Comparator.comparingInt(ReadableProductVariantValue::getOrder);
+				    
+				    //Arrays.sort(employees, employeeSalaryComparator);
+					
+				    List<ReadableProductVariantValue> readableValues = optionValues.stream()
+				    			.sorted(orderComparator)
+				    	    	.collect(Collectors.toList());
+				    	        
+
+					
+					//sort by name
+					// remove duplicates
+					readableValues = optionValues.stream().distinct().collect(Collectors.toList());
+					readableValues.sort(Comparator.comparing(ReadableProductVariantValue::getName));
+					
+					productVariant.setOptions(readableValues);
+					variants.add(productVariant);
 				}
-				productVariant.setOptions(optionValues);
-				variants.add(productVariant);
 			}
+
 
 			return variants;
 		} catch (Exception e) {
@@ -407,12 +471,29 @@ public class CategoryFacadeImpl implements CategoryFacade {
 		Validate.notNull(child, "Child category must not be null");
 		Validate.notNull(parent, "Parent category must not be null");
 		Validate.notNull(store, "Merhant must not be null");
+
+
 		try {
 
 			Category c = categoryService.getById(child, store.getId());
+
+			if(c == null) {
+				throw new ResourceNotFoundException("Category with id [" + child + "] for store [" + store.getCode() + "]");
+			}
+
+			if(parent.longValue()==-1) {
+				categoryService.addChild(null, c);
+				return;
+
+			}
+
 			Category p = categoryService.getById(parent, store.getId());
 
-			if (c.getParent().getId() == parent) {
+			if(p == null) {
+				throw new ResourceNotFoundException("Category with id [" + parent + "] for store [" + store.getCode() + "]");
+			}
+
+			if (c.getParent() != null && c.getParent().getId() == parent) {
 				return;
 			}
 
@@ -428,7 +509,10 @@ public class CategoryFacadeImpl implements CategoryFacade {
 
 			p.getAuditSection().setModifiedBy("Api");
 			categoryService.addChild(p, c);
-
+		} catch (ResourceNotFoundException re) {
+			throw re;
+		} catch (OperationNotAllowedException oe) {
+			throw oe;
 		} catch (Exception e) {
 			throw new ServiceRuntimeException(e);
 		}

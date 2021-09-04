@@ -102,7 +102,7 @@ public interface CustomerFacade
 	/*
 	 * Creates a Customer from a PersistableCustomer received from REST API
 	 */
-	PersistableCustomer create(PersistableCustomer customer, MerchantStore store);
+	ReadableCustomer create(PersistableCustomer customer, MerchantStore store, Language language);
 	
 	/**
 	 * Reset customer password

@@ -102,8 +102,8 @@ public class ProductImageCropUtils {
 		cropAreaHeight = specificationsHeight;
 		
 		
-		double factorWidth = new Integer(width).doubleValue() / new Integer(specificationsWidth).doubleValue();
-		double factorHeight = new Integer(height).doubleValue() / new Integer(specificationsHeight).doubleValue();
+		double factorWidth = Integer.valueOf(width).doubleValue() / Integer.valueOf(specificationsWidth).doubleValue();
+		double factorHeight = Integer.valueOf(height).doubleValue() / Integer.valueOf(specificationsHeight).doubleValue();
 
 		double factor = factorWidth;
 		
@@ -190,10 +190,8 @@ public class ProductImageCropUtils {
 
 			//Now get the subImage using the value of clip.
 
-			BufferedImage clippedImg = originalFile.getSubimage(clip.x, clip.y, clip.width, clip.height); 
-			
 
-			return clippedImg;
+		return originalFile.getSubimage(clip.x, clip.y, clip.width, clip.height);
 
 		
 		

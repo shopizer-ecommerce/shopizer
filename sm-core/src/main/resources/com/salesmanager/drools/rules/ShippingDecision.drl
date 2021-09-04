@@ -8,8 +8,8 @@ dialect  "mvel"
 
 rule "Shipping decision Canada Post"
     when
-        ShippingInputParameters(weight < 65)
-        ShippingInputParameters(size < 75)
+        ShippingInputParameters(weight < 62)
+        ShippingInputParameters(size < 66)
         ShippingInputParameters(country == "CA")
     then
         decision.setModuleName("canadapost");
@@ -17,7 +17,7 @@ end
 
 rule "Shipping decision Home Delivery"
     when
-        ShippingInputParameters(weight > 65 || size > 75)
+        ShippingInputParameters(weight > 62 || size > 66)
         ShippingInputParameters(country == "CA")
         ShippingInputParameters(province == "QC")
     then

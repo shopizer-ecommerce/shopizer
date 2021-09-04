@@ -26,6 +26,9 @@ import com.salesmanager.shop.store.security.AuthenticationTokenFilter;
 import com.salesmanager.shop.store.security.ServicesAuthenticationSuccessHandler;
 import com.salesmanager.shop.store.security.admin.JWTAdminAuthenticationProvider;
 import com.salesmanager.shop.store.security.admin.JWTAdminServicesImpl;
+import com.salesmanager.shop.store.security.customer.JWTCustomerAuthenticationProvider;
+import com.salesmanager.shop.store.security.services.CredentialsService;
+import com.salesmanager.shop.store.security.services.CredentialsServiceImpl;
 
 /**
  * Main entry point for security - admin - customer - auth - private - services
@@ -37,11 +40,16 @@ import com.salesmanager.shop.store.security.admin.JWTAdminServicesImpl;
 @EnableWebSecurity
 public class MultipleEntryPointsSecurityConfig {
 
-	private static final String API_V1 = "/api/v1";
+	private static final String API_VERSION = "/api/v*";
 
 	@Bean
 	public AuthenticationTokenFilter authenticationTokenFilter() {
 		return new AuthenticationTokenFilter();
+	}
+	
+	@Bean
+	public CredentialsService credentialsService() {
+		return new CredentialsServiceImpl();
 	}
 
 	@Bean
@@ -111,7 +119,7 @@ public class MultipleEntryPointsSecurityConfig {
 		protected void configure(HttpSecurity http) throws Exception {
 			http
 			.antMatcher("/shop/**")
-			.csrf().disable()
+			.csrf().disable()			
 			.authorizeRequests()
 					.antMatchers("/shop/").permitAll()
 					.antMatchers("/shop/**").permitAll()
@@ -129,6 +137,9 @@ public class MultipleEntryPointsSecurityConfig {
 					.logout()
 					.logoutUrl("/shop/customer/logout")
 					.logoutSuccessUrl("/shop/")
+					.invalidateHttpSession(true)
+					.deleteCookies("JSESSIONID")
+
 					.invalidateHttpSession(false)
 					.and()
 					.exceptionHandling().accessDeniedPage("/shop/");
@@ -274,7 +285,7 @@ public class MultipleEntryPointsSecurityConfig {
 	 */
 	@Configuration
 	@Order(5)
-	public static class ApiConfigurationAdapter extends WebSecurityConfigurerAdapter {
+	public static class UserApiConfigurationAdapter extends WebSecurityConfigurerAdapter {
 
 		@Autowired
 		private AuthenticationTokenFilter authenticationTokenFilter;
@@ -285,12 +296,13 @@ public class MultipleEntryPointsSecurityConfig {
 		@Bean("jwtAdminAuthenticationManager")
 		@Override
 		public AuthenticationManager authenticationManagerBean() throws Exception {
-			return super.authenticationManagerBean();
+			AuthenticationManager mgr = super.authenticationManagerBean();
+			return mgr;
 		}
 		
 		
 
-		public ApiConfigurationAdapter() {
+		public UserApiConfigurationAdapter() {
 			super();
 		}
 
@@ -306,15 +318,19 @@ public class MultipleEntryPointsSecurityConfig {
 			web.ignoring().antMatchers("/swagger-ui.html");
 		}
 
+		
+		/**
+		 * Admin user api
+		 */
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			http
-					.antMatcher(API_V1 + "/private/**")
+					.antMatcher(API_VERSION + "/private/**")
 					.authorizeRequests()
-					.antMatchers(API_V1 + "/private/login*").permitAll()
-					.antMatchers(API_V1 + "/private/refresh").permitAll()
-					.antMatchers(HttpMethod.OPTIONS, API_V1 + "/private/**").permitAll()
-					.antMatchers(API_V1 + "/private/**").hasRole("AUTH")
+					.antMatchers(API_VERSION + "/private/login*").permitAll()
+					.antMatchers(API_VERSION + "/private/refresh").permitAll()
+					.antMatchers(HttpMethod.OPTIONS, API_VERSION + "/private/**").permitAll()
+					.antMatchers(API_VERSION + "/private/**").hasRole("AUTH")
 					.anyRequest().authenticated()
 					.and()
 					.httpBasic().authenticationEntryPoint(apiAdminAuthenticationEntryPoint())
@@ -377,13 +393,13 @@ public class MultipleEntryPointsSecurityConfig {
 		protected void configure(HttpSecurity http) throws Exception {
 			http
 			
-				.antMatcher(API_V1 + "/auth/**")
+				.antMatcher(API_VERSION + "/auth/**")
 				.authorizeRequests()
-					.antMatchers(API_V1 + "/auth/refresh").permitAll()
-					.antMatchers(API_V1 + "/auth/login").permitAll()
-					.antMatchers(API_V1 + "/auth/register").permitAll()
-					.antMatchers(HttpMethod.OPTIONS, API_V1 + "/auth/**").permitAll()
-					.antMatchers(API_V1 + "/auth/**")
+					.antMatchers(API_VERSION + "/auth/refresh").permitAll()
+					.antMatchers(API_VERSION + "/auth/login").permitAll()
+					.antMatchers(API_VERSION + "/auth/register").permitAll()
+					.antMatchers(HttpMethod.OPTIONS, API_VERSION + "/auth/**").permitAll()
+					.antMatchers(API_VERSION + "/auth/**")
 					.hasRole("AUTH_CUSTOMER").anyRequest().authenticated()
 					.and()
 					.httpBasic()
@@ -391,6 +407,13 @@ public class MultipleEntryPointsSecurityConfig {
 					.addFilterAfter(authenticationTokenFilter, BasicAuthenticationFilter.class);
 
 		}
+		
+	    @Bean
+	    public AuthenticationProvider authenticationProvider() {
+	    	JWTCustomerAuthenticationProvider provider = new JWTCustomerAuthenticationProvider();
+	        provider.setUserDetailsService(jwtCustomerDetailsService);
+	        return provider;
+	    }
 
 		@Bean
 		public AuthenticationEntryPoint apiCustomerAuthenticationEntryPoint() {

@@ -162,6 +162,10 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 			if (store == null) {
 				store = setMerchantStoreInSession(request, MerchantStore.DEFAULT_STORE);
 			}
+			
+			if(StringUtils.isBlank(store.getStoreTemplate())) {
+				store.setStoreTemplate(Constants.DEFAULT_TEMPLATE);
+			}
 			request.setAttribute(Constants.MERCHANT_STORE, store);
 			
 			
@@ -199,6 +203,9 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 						request.removeAttribute(Constants.CUSTOMER);
 					}
 				}
+				
+				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+				
 				request.setAttribute(Constants.CUSTOMER, customer);
 			}
 

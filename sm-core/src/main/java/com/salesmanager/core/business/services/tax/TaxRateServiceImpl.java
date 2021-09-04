@@ -49,23 +49,34 @@ public class TaxRateServiceImpl extends SalesManagerEntityServiceImpl<Long, TaxR
 	
 	@Override
 	public List<TaxRate> listByCountryZoneAndTaxClass(Country country, Zone zone, TaxClass taxClass, MerchantStore store, Language language) throws ServiceException {
-		//return taxRateDao.listByCountryZoneAndTaxClass(country, zone, taxClass, store, language);
 		return taxRateRepository.findByMerchantAndZoneAndCountryAndLanguage(store.getId(), zone.getId(), country.getId(), language.getId());
 	}
 	
 	@Override
 	public List<TaxRate> listByCountryStateProvinceAndTaxClass(Country country, String stateProvince, TaxClass taxClass, MerchantStore store, Language language) throws ServiceException {
-		//return taxRateDao.listByCountryStateProvinceAndTaxClass(country, stateProvince, taxClass, store, language);
 		return taxRateRepository.findByMerchantAndProvinceAndCountryAndLanguage(store.getId(), stateProvince, country.getId(), language.getId());
 	}
 	
 	@Override
 	public void delete(TaxRate taxRate) throws ServiceException {
 		
-		//TaxRate t = this.getById(taxRate.getId());
-		//super.delete(t);
 		taxRateRepository.delete(taxRate);
 		
+	}
+	
+	@Override
+	public TaxRate saveOrUpdate(TaxRate taxRate) throws ServiceException {
+		if(taxRate.getId()!=null && taxRate.getId() > 0) {
+			this.update(taxRate);
+		} else {
+			taxRate = super.saveAndFlush(taxRate);
+		}
+		return taxRate;
+	}
+
+	@Override
+	public TaxRate getById(Long id, MerchantStore store) throws ServiceException {
+		return taxRateRepository.findByStoreAndId(store.getId(), id);
 	}
 		
 

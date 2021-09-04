@@ -1,6 +1,9 @@
 package com.salesmanager.core.business.services.content;
 
 import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.domain.Page;
 
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityService;
@@ -14,9 +17,6 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 
 
-
-
-
 /**
  * 
  * Interface defining methods responsible for CMSContentService.
@@ -25,16 +25,17 @@ import com.salesmanager.core.model.reference.language.Language;
  * <li>Get,Save,Update Content data for given merchant store</li>
  *  
  * @author Umesh Awasthhi
+ * @author Carl Samson
  *
  */
 public interface ContentService
     extends SalesManagerEntityService<Long, Content>
 {
 
-    public List<Content> listByType( ContentType contentType, MerchantStore store, Language language )
+    List<Content> listByType( ContentType contentType, MerchantStore store, Language language )
         throws ServiceException;
 
-    public List<Content> listByType( List<ContentType> contentType, MerchantStore store, Language language )
+    List<Content> listByType( List<ContentType> contentType, MerchantStore store, Language language )
         throws ServiceException;
 
     Content getByCode( String code, MerchantStore store )
@@ -42,11 +43,16 @@ public interface ContentService
 
     void saveOrUpdate( Content content )
         throws ServiceException;
+    
+    boolean exists (String code, ContentType type, MerchantStore store);
 
     Content getByCode( String code, MerchantStore store, Language language )
         throws ServiceException;
     
     Content getById( Long id, MerchantStore store, Language language )
+            throws ServiceException;
+    
+    Content getById( Long id, MerchantStore store)
             throws ServiceException;
 
     /**
@@ -80,7 +86,7 @@ public interface ContentService
      * @param merchantStoreCode merchant store code
      * @throws ServiceException
      */
-    public void removeFile( String merchantStoreCode, FileContentType fileContentType, String fileName) throws ServiceException;
+    void removeFile( String merchantStoreCode, FileContentType fileContentType, String fileName) throws ServiceException;
     
     /**
      * Removes static file
@@ -88,7 +94,7 @@ public interface ContentService
      * @param storeCode
      * @param filename
      */
-    public void removeFile(String storeCode, String filename) throws ServiceException;
+    void removeFile(String storeCode, String filename) throws ServiceException;
     
     /**
      * Method to remove all images for a given merchant.It will take merchant store as an input and will
@@ -97,7 +103,16 @@ public interface ContentService
      * @param merchantStoreCode
      * @throws ServiceException
      */
-    public void removeFiles( String merchantStoreCode ) throws ServiceException;
+    void removeFiles( String merchantStoreCode ) throws ServiceException;
+    
+    /**
+     * Rename file
+     * @param merchantStoreCode
+     * @param path
+     * @param originalName
+     * @param newName
+     */
+    void renameFile( String merchantStoreCode, FileContentType fileContentType, Optional<String> path, String originalName, String newName) throws ServiceException;
     
     /**
      * Method responsible for fetching particular content image for a given merchant store. Requested image will be
@@ -109,7 +124,7 @@ public interface ContentService
      * @return {@link OutputContentImage}
      * @throws ServiceException
      */
-    public OutputContentFile getContentFile( String merchantStoreCode, FileContentType fileContentType, String fileName )
+    OutputContentFile getContentFile( String merchantStoreCode, FileContentType fileContentType, String fileName )
         throws ServiceException;
     
     
@@ -120,7 +135,7 @@ public interface ContentService
      * @return list of {@link OutputContentImage}
      * @throws ServiceException
      */
-    public List<OutputContentFile> getContentFiles( String merchantStoreCode, FileContentType fileContentType )
+    List<OutputContentFile> getContentFiles( String merchantStoreCode, FileContentType fileContentType )
                     throws ServiceException;
 
 	
@@ -149,6 +164,12 @@ public interface ContentService
 
 	List<Content> listByType(List<ContentType> contentType, MerchantStore store)
 			throws ServiceException;
+	
+	Page<Content> listByType(ContentType contentType, MerchantStore store, int page, int count)
+			throws ServiceException;
+	
+	Page<Content> listByType(ContentType contentType, MerchantStore store, Language language, int page, int count)
+			throws ServiceException;
 
 	List<ContentDescription> listNameByType(List<ContentType> contentType,
 			MerchantStore store, Language language) throws ServiceException;
@@ -167,5 +188,11 @@ public interface ContentService
 	 * @return
 	 */
 	List<Content> getByCodeLike(ContentType type, String codeLike, MerchantStore store, Language language);
+	
+	void addFolder(MerchantStore store, Optional<String> path, String folderName) throws ServiceException ;
+	
+	List<String> listFolders(MerchantStore store, Optional<String> path) throws ServiceException ;
+	
+	void removeFolder(MerchantStore store, Optional<String> path, String folderName) throws ServiceException ;
 
 }

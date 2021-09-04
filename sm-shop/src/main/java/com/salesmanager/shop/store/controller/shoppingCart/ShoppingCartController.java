@@ -129,8 +129,15 @@ public class ShoppingCartController extends AbstractController {
 
 
 		if(customer != null) {
-			com.salesmanager.core.model.shoppingcart.ShoppingCart customerCart = shoppingCartService.getByCustomer(customer);
+			com.salesmanager.core.model.shoppingcart.ShoppingCart customerCart = shoppingCartService.getShoppingCart(customer);
 			if(customerCart!=null) {
+				
+				//if this cart has been fulfilled create a new cart
+				if(customerCart.getOrderId() != null && customerCart.getOrderId().longValue() > 0) {
+					customerCart = shoppingCartFacade.createCartModel(null, store, customer);
+					item.setCode(customerCart.getShoppingCartCode());//set new shopping cart code to item
+				}
+
 				shoppingCart = shoppingCartFacade.getShoppingCartData( customerCart, language);
 
 			} else {
@@ -145,6 +152,12 @@ public class ShoppingCartController extends AbstractController {
 		if(shoppingCart==null && !StringUtils.isBlank(item.getCode())) {
 			shoppingCart = shoppingCartFacade.getShoppingCartData(item.getCode(), store, language);
 		}
+		
+		if(shoppingCart!=null) {
+			if(shoppingCart.getOrderId() != null && shoppingCart.getOrderId().longValue() >0) {//has been ordered, can't continue to use
+				shoppingCart = null;
+			}
+		}
 
 
 		//if shoppingCart is null create a new one
@@ -152,9 +165,10 @@ public class ShoppingCartController extends AbstractController {
 			shoppingCart = new ShoppingCartData();
 			String code = UUID.randomUUID().toString().replaceAll("-", "");
 			shoppingCart.setCode(code);
+			item.setCode(code);
 		}
 
-		shoppingCart=shoppingCartFacade.addItemsToShoppingCart( shoppingCart, item, store,language,customer );
+		shoppingCart=shoppingCartFacade.addItemsToShoppingCart( shoppingCart, item, store, language, customer );
 		request.getSession().setAttribute(Constants.SHOPPING_CART, shoppingCart.getCode());
 
 

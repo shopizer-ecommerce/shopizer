@@ -9,6 +9,10 @@ public class EntityExists implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private boolean exists = false;
+	
+	public EntityExists() {
+		
+	}
 
 	public EntityExists(boolean exists) {
 		this.exists = exists;

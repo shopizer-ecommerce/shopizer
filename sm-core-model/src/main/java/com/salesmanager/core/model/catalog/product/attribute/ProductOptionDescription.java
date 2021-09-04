@@ -4,18 +4,16 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.UniqueConstraint;
 
-import org.hibernate.annotations.Type;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.common.description.Description;
 
 @Entity
-@Table(name="PRODUCT_OPTION_DESC", schema=SchemaConstant.SALESMANAGER_SCHEMA, uniqueConstraints={
+@Table(name="PRODUCT_OPTION_DESC", uniqueConstraints={
 	@UniqueConstraint(columnNames={
 			"PRODUCT_OPTION_ID",
 			"LANGUAGE_ID"
@@ -23,16 +21,15 @@ import com.salesmanager.core.model.common.description.Description;
 	}
 )
 @TableGenerator(name = "description_gen", table = "SM_SEQUENCER", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "product_option_description_seq", allocationSize = SchemaConstant.DESCRIPTION_ID_ALLOCATION_SIZE, initialValue = SchemaConstant.DESCRIPTION_ID_START_VALUE)
-//@SequenceGenerator(name = "description_gen", sequenceName = "product_option_description_seq", allocationSize = SchemaConstant.DESCRIPTION_ID_SEQUENCE_START)
 public class ProductOptionDescription extends Description {
-	private static final long serialVersionUID = -3158504904707188465L;
+	private static final long serialVersionUID = 1L;
 	
+	@JsonIgnore
 	@ManyToOne(targetEntity = ProductOption.class)
 	@JoinColumn(name = "PRODUCT_OPTION_ID", nullable = false)
 	private ProductOption productOption;
 	
-	@Column(name="PRODUCT_OPTION_COMMENT")
-	@Type(type = "org.hibernate.type.TextType")
+	@Column(name="PRODUCT_OPTION_COMMENT", length=4000)
 	private String productOptionComment;
 	
 	public ProductOptionDescription() {

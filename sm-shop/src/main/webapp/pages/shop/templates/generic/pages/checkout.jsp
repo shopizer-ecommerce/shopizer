@@ -21,8 +21,6 @@ response.setDateHeader ("Expires", -1);
 <!-- overrides with v2 page -->
 <c:set var="creditCardInformationsPage" value="creditCardInformations-v2" scope="request"/>
 
-<!-- phone number mask -->
-<script src="<c:url value="/resources/js/jquery.maskedinput.min.js" />"></script>
 <!-- generic checkout script -->
 <script src="<c:url value="/resources/js/shop-checkout.js" />"></script>
 
@@ -466,6 +464,12 @@ function bindActions() {
 			$('#paymentMethodType').attr("value", 'PAYPAL');
 			initPayment('PAYPAL');
 		}
+		else if(paymentSelection.indexOf('stripe3') >= 0) {
+			//$('#paymentMethodType').val('CREDITCARD');
+			$('#paymentMethodType').attr("value", 'CREDITCARD');
+			log('Init stripe3');
+			initStripePayment3();
+		}
 		else if(paymentSelection.indexOf('stripe') >= 0) {
 			log('Stripe ');
 			//$('#paymentMethodType').val('CREDITCARD');
@@ -611,7 +615,7 @@ function initPayment(paymentSelection) {
 					<!--alert-error-->
 				
    					<c:set var="commitUrl" value="${pageContext.request.contextPath}/shop/order/commitOrder.html"/>
-   					<form:form id="checkoutForm" method="POST" enctype="multipart/form-data" modelAttribute="order" action="${commitUrl}">
+   					<form:form autocomplete="off" id="checkoutForm" method="POST" enctype="multipart/form-data" modelAttribute="order" action="${commitUrl}">
 						<input type="hidden" id="useDistanceWindow" name="useDistanceWindow" value="<c:out value="${shippingMetaData.useDistanceModule}"/>">
 						<div class="col-lg-6 col-md-6">
 							<div class="checkbox-form">						
@@ -644,7 +648,7 @@ function initPayment(paymentSelection) {
 										</div>
 									</div>
 									<c:if test="${googleMapsKey != ''}">
-									<!-- geolocate component -->
+									<!-- geolocate component  -->
 									<div class="col-md-12">
 										<div class="checkout-form-list">
 										    

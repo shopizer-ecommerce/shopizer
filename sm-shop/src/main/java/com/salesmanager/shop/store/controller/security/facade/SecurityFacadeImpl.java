@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.inject.Inject;
+
+import org.jsoup.helper.Validate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.salesmanager.core.business.exception.ServiceException;
@@ -20,7 +22,6 @@ import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 @Service("securityFacade")
 public class SecurityFacadeImpl implements SecurityFacade {
   
-  //private static final String USER_PASSWORD_PATTERN = "((?=.*[a-z])(?=.*\\d)(?=.*[A-Z])(?=.*[@#$%!]).{6,12})";
   private static final String USER_PASSWORD_PATTERN = "((?=.*[a-z])(?=.*\\d)(?=.*[A-Z]).{6,12})";
   
   private Pattern userPasswordPattern = Pattern.compile(USER_PASSWORD_PATTERN);
@@ -41,9 +42,6 @@ public class SecurityFacadeImpl implements SecurityFacade {
     List<Group> userGroups = null;
     try {
       userGroups = groupService.listGroupByNames(groups);
-
-
-      // TODO if groups == null
 
       List<Integer> ids = new ArrayList<Integer>();
       for (Group g : userGroups) {
@@ -74,10 +72,21 @@ public class SecurityFacadeImpl implements SecurityFacade {
     return passwordEncoder.encode(password);
   }
 
+  /**
+   * Match non encoded to encoded
+   * Don't use this as a simple raw password check
+   */
   @Override
   public boolean matchPassword(String modelPassword, String newPassword) {
     return passwordEncoder.matches(newPassword, modelPassword);
   }
+
+@Override
+public boolean matchRawPasswords(String password, String repeatPassword) {
+	Validate.notNull(password,"password is null");
+	Validate.notNull(repeatPassword,"repeat password is null");
+	return password.equals(repeatPassword);
+}
   
   
 

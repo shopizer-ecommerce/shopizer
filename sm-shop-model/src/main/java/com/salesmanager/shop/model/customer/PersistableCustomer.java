@@ -16,6 +16,7 @@ public class PersistableCustomer extends CustomerEntity {
 	 */
     @ApiModelProperty(notes = "Customer password")
 	private String password = null;
+    private String repeatPassword = null;
 	private static final long serialVersionUID = 1L;
 	private List<PersistableCustomerAttribute> attributes;
 	private List<PersistableGroup> groups;
@@ -39,6 +40,12 @@ public class PersistableCustomer extends CustomerEntity {
 	}
 	public void setGroups(List<PersistableGroup> groups) {
 		this.groups = groups;
+	}
+	public String getRepeatPassword() {
+		return repeatPassword;
+	}
+	public void setRepeatPassword(String repeatPassword) {
+		this.repeatPassword = repeatPassword;
 	}
 	
 

@@ -32,7 +32,7 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
 
 @Entity
 @EntityListeners(value = AuditListener.class)
-@Table(name = "CUSTOMER_REVIEW", schema=SchemaConstant.SALESMANAGER_SCHEMA, uniqueConstraints={
+@Table(name = "CUSTOMER_REVIEW", uniqueConstraints={
 		@UniqueConstraint(columnNames={
 				"CUSTOMERS_ID",
 				"REVIEWED_CUSTOMER_ID"

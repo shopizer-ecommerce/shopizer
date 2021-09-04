@@ -16,7 +16,9 @@ public class ReadableManufacturerMapper implements Mapper<Manufacturer, Readable
   @Override
   public ReadableManufacturer convert(Manufacturer source, MerchantStore store, Language language) {
 
-
+	if(language == null) {
+		language = store.getDefaultLanguage();
+	}
     ReadableManufacturer target = new ReadableManufacturer();
 
     Optional<com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription> description =
@@ -26,6 +28,11 @@ public class ReadableManufacturerMapper implements Mapper<Manufacturer, Readable
     target.setCode(source.getCode());
     target.setId(source.getId());
     target.setOrder(source.getOrder());
+    Optional<com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription> desc = this.getDescription(source, language, target);
+    if(description.isPresent()) {
+    	target.setDescription(desc.get());
+    }
+    
 
     return target;
   }
@@ -60,15 +67,16 @@ public class ReadableManufacturerMapper implements Mapper<Manufacturer, Readable
         new com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription();
 
     desc.setFriendlyUrl(description.getUrl());
-    desc.setId(source.getId());
-    desc.setDescription(description.getName());
+    desc.setId(description.getId());
+    desc.setLanguage(description.getLanguage().getCode());
+    desc.setName(description.getName());
     desc.setDescription(description.getDescription());
     return desc;
   }
 
   @Override
-  public ReadableManufacturer convert(Manufacturer source, ReadableManufacturer destination,
-      MerchantStore store, Language language) {
+  public ReadableManufacturer merge(Manufacturer source, ReadableManufacturer destination,
+                                    MerchantStore store, Language language) {
     return destination;
   }
 

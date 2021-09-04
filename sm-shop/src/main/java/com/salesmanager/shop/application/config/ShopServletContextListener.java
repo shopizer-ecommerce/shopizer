@@ -18,7 +18,6 @@ public class ShopServletContextListener implements ServletContextListener {
 		  logger.debug(k + ":" + v);
 		});
 		Properties props = System.getProperties();
-		logger.info("======");
 		props.forEach((k, v) -> {
 		  logger.debug(k + ":" + v);
 		});

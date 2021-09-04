@@ -19,13 +19,20 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.shop.ContactForm;
 import com.salesmanager.shop.utils.EmailTemplatesUtils;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.SwaggerDefinition;
+import io.swagger.annotations.Tag;
 import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("/api/v1")
+@Api(tags = {"Contact form api"})
+@SwaggerDefinition(tags = {
+    @Tag(name = "Contact store resource", description = "Contact form")
+})
 public class ContactApi {
 
 

@@ -23,5 +23,21 @@
            timeToIdleSeconds="1200"
            timeToLiveSeconds="1200"
            memoryStoreEvictionPolicy="LFU" />
+           
+     <cache name="store" maxElementsInMemory="1000" eternal="false"
+    	overflowToDisk="false" memoryStoreEvictionPolicy="LFU" />
+    	
+     <cache name="countriesMap" maxElementsInMemory="500" eternal="false"
+    	overflowToDisk="false" memoryStoreEvictionPolicy="LFU" />
+    	           
+     <cache name="countrByCode" maxElementsInMemory="300" eternal="false"
+    	overflowToDisk="false" memoryStoreEvictionPolicy="LFU" />
+    	
+     <cache name="zoneByCode" maxElementsInMemory="800" eternal="false"
+    	overflowToDisk="false" memoryStoreEvictionPolicy="LFU" />
+    	
+     <cache name="languageByCode" maxElementsInMemory="50" eternal="false"
+    	overflowToDisk="false" memoryStoreEvictionPolicy="LFU" />
+
 
 </ehcache>

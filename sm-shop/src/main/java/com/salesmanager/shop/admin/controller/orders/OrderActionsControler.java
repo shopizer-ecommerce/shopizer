@@ -249,7 +249,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 		Long id = Long.parseLong(sId);
 		
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
-		Order order = orderService.getById(id);
+		Order order = orderService.getOrder(id, store);
 		
 		if(order.getMerchant().getId().intValue()!=store.getId().intValue()) {
 			throw new Exception("Invalid order");
@@ -312,7 +312,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 			Long id = Long.parseLong(sId);
 			
 
-			Order dbOrder = orderService.getById(id);
+			Order dbOrder = orderService.getOrder(id, store);
 
 			if(dbOrder==null) {
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
@@ -389,7 +389,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 			Long id = Long.parseLong(sId);
 			
 
-			Order dbOrder = orderService.getById(id);
+			Order dbOrder = orderService.getOrder(id, store);
 
 			if(dbOrder==null) {
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);

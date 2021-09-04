@@ -13,6 +13,8 @@ import com.salesmanager.core.model.reference.zone.Zone;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.LanguageUtils;
+import com.salesmanager.shop.utils.SanitizeUtils;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -164,7 +166,7 @@ public class ReferenceController {
 		} catch (ServiceException e) {
 			LOGGER.error("Error while looking up zone " + zoneCode);
 		}
-		return StringEscapeUtils.escapeHtml4(zoneCode);
+		return SanitizeUtils.getSafeString(zoneCode);
 	}
 	
 	@SuppressWarnings("unchecked")

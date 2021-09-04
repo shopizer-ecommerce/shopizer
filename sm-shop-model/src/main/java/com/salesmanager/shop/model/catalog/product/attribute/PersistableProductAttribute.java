@@ -12,18 +12,14 @@ public class PersistableProductAttribute extends ProductAttributeEntity
 	private BigDecimal productAttributePrice;
 	private Long productId;
 	
-	private ProductOption option;
-	private ProductOptionValue optionValue;
-	public void setOptionValue(ProductOptionValue optionValue) {
-		this.optionValue = optionValue;
-	}
-	public ProductOptionValue getOptionValue() {
-		return optionValue;
-	}
-	public void setOption(ProductOption option) {
+	private ProductPropertyOption option;
+	private PersistableProductOptionValue optionValue;
+
+
+	public void setOption(ProductPropertyOption option) {
 		this.option = option;
 	}
-	public ProductOption getOption() {
+	public ProductPropertyOption getOption() {
 		return option;
 	}
 
@@ -48,6 +44,12 @@ public class PersistableProductAttribute extends ProductAttributeEntity
 	}
 	public void setProductId(Long productId) {
 		this.productId = productId;
+	}
+	public PersistableProductOptionValue getOptionValue() {
+		return optionValue;
+	}
+	public void setOptionValue(PersistableProductOptionValue optionValue) {
+		this.optionValue = optionValue;
 	}
 
 }

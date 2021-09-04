@@ -13,7 +13,6 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.TableGenerator;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.annotations.Type;
@@ -32,8 +31,6 @@ public class Description implements Auditable, Serializable {
 	
 	@Id
 	@Column(name = "DESCRIPTION_ID")
-	//@TableGenerator(name = "TABLE_GEN", table = "SM_SEQUENCER", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "DESCRIPTION_SEQ_NEXT_VAL")
-	//@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "description_gen")
 	private Long id;
 	

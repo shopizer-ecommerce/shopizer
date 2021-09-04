@@ -15,6 +15,14 @@ public class Address implements Serializable {
 	private String address;
 	private String postalCode;
 	private String city;
+	
+	private boolean active = true;
+	public boolean isActive() {
+		return active;
+	}
+	public void setActive(boolean active) {
+		this.active = active;
+	}
 
 	public String getCountry() {
 		return country;

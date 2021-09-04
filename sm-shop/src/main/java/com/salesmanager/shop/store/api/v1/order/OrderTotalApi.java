@@ -30,12 +30,20 @@ import com.salesmanager.shop.model.order.ReadableOrderTotalSummary;
 import com.salesmanager.shop.populator.order.ReadableOrderSummaryPopulator;
 import com.salesmanager.shop.store.controller.shoppingCart.facade.ShoppingCartFacade;
 import com.salesmanager.shop.utils.LabelUtils;
+
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.SwaggerDefinition;
+import io.swagger.annotations.Tag;
 import springfox.documentation.annotations.ApiIgnore;
 
 @Controller
 @RequestMapping("/api/v1")
+@Api(tags = {"Order Total calculation for a given shopping cart (Order Total Api)"})
+@SwaggerDefinition(tags = {
+    @Tag(name = "Order Total resource", description = "Calculates order total for a giben shopping cart")
+})
 public class OrderTotalApi {
 
   @Inject private ShoppingCartFacade shoppingCartFacade;
@@ -154,26 +162,26 @@ public class OrderTotalApi {
    * @return
    */
   @RequestMapping(
-      value = {"/cart/{id}/total"},
+      value = {"/cart/{code}/total"},
       method = RequestMethod.GET)
   @ResponseBody
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
   })
-  public ReadableOrderTotalSummary calculatePayment(
-      @PathVariable final Long id,
+  public ReadableOrderTotalSummary calculateTotal(
+      @PathVariable final String code,
       @RequestParam(value = "quote", required = false) Long quote,
       @ApiIgnore MerchantStore merchantStore,
-      @ApiIgnore Language language,
+      @ApiIgnore Language language,//possible postal code, province and country
       HttpServletResponse response) {
 
     try {
-      ShoppingCart shoppingCart = shoppingCartFacade.getShoppingCartModel(id, merchantStore);
+      ShoppingCart shoppingCart = shoppingCartFacade.getShoppingCartModel(code, merchantStore);
 
       if (shoppingCart == null) {
 
-        response.sendError(404, "Cart code " + id + " does not exist");
+        response.sendError(404, "Cart code " + code + " does not exist");
 
         return null;
       }

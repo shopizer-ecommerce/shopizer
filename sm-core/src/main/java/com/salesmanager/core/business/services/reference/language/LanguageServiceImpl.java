@@ -9,6 +9,7 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.constants.Constants;
@@ -44,6 +45,7 @@ public class LanguageServiceImpl extends SalesManagerEntityServiceImpl<Integer, 
 	
 	
 	@Override
+	@Cacheable("languageByCode")
 	public Language getByCode(String code) throws ServiceException {
 		return languageRepository.findByCode(code);
 	}
@@ -70,15 +72,16 @@ public class LanguageServiceImpl extends SalesManagerEntityServiceImpl<Integer, 
 	
 	@Override
 	public Language toLanguage(Locale locale) {
-		
+		Language language = null;
 		try {
-			Language lang = getLanguagesMap().get(locale.getLanguage());
-			return lang;
+			language = getLanguagesMap().get(locale.getLanguage());
 		} catch (Exception e) {
 			LOGGER.error("Cannot convert locale " + locale.getLanguage() + " to language");
 		}
-		
-		return new Language(Constants.DEFAULT_LANGUAGE);
+		if(language == null) {
+			language = new Language(Constants.DEFAULT_LANGUAGE);
+		}
+		return language;
 
 	}
 	

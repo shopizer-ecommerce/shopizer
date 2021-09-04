@@ -51,19 +51,14 @@ public class DroolsBeanFactory {
         kb.buildAll();
 
         KieModule kieModule = kb.getKieModule();
-        KieContainer kContainer = kieServices.newKieContainer(kieModule.getReleaseId());
 
-        return kContainer;
+        return kieServices.newKieContainer(kieModule.getReleaseId());
 
     }
 
     private void getKieRepository() {
         final KieRepository kieRepository = kieServices.getRepository();
-        kieRepository.addKieModule(new KieModule() {
-                        public ReleaseId getReleaseId() {
-                return kieRepository.getDefaultReleaseId();
-            }
-        });
+        kieRepository.addKieModule(kieRepository::getDefaultReleaseId);
     }
 
     public KieSession getKieSession(){
@@ -96,9 +91,7 @@ public class DroolsBeanFactory {
 
         KieContainer kieContainer = kieServices.newKieContainer(krDefaultReleaseId);
 
-        KieSession ksession = kieContainer.newKieSession();
-
-        return ksession;
+        return kieContainer.newKieSession();
     }
 
     /*
@@ -113,9 +106,7 @@ public class DroolsBeanFactory {
 
         DecisionTableProviderImpl decisionTableProvider = new DecisionTableProviderImpl();
 
-        String drl = decisionTableProvider.loadFromResource(dt, null);
-
-        return drl;
+        return decisionTableProvider.loadFromResource(dt, null);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.salesmanager.core.business.constants;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Currency;
 import java.util.Locale;
 
@@ -12,8 +13,8 @@ import java.util.Locale;
  */
 public class Constants {
 
-  public static final Charset ISO_8859_1 = Charset.forName("ISO-8859-1");
-  public static final Charset UTF_8 = Charset.forName("UTF-8");
+  public static final Charset ISO_8859_1 = StandardCharsets.ISO_8859_1;
+  public static final Charset UTF_8 = StandardCharsets.UTF_8;
 
   public final static String TEST_ENVIRONMENT = "TEST";
   public final static String PRODUCTION_ENVIRONMENT = "PROD";
@@ -46,5 +47,7 @@ public class Constants {
 
   public final static Locale DEFAULT_LOCALE = Locale.US;
   public final static Currency DEFAULT_CURRENCY = Currency.getInstance(Locale.US);
+  
+  public final static String PAYMENT_MODULES = "PAYMENT";
 
 }

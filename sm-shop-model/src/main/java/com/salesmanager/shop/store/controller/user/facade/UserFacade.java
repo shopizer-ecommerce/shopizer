@@ -29,13 +29,20 @@ public interface UserFacade {
   ReadableUser findByUserName(String userName, String storeCode, Language lang);
   
   /**
+   * Find user by userName
+   * @param userName
+   * @return
+   */
+  ReadableUser findByUserName(String userName);
+  
+  /**
    * Find user by id
    * @param id
-   * @param storeCode
+   * @param merchant
    * @param lang
    * @return
    */
-  ReadableUser findById(Long id, String storeCode, Language lang);
+  ReadableUser findById(Long id, MerchantStore store, Language lang);
 
   /**
    * Creates a User
@@ -63,6 +70,14 @@ public interface UserFacade {
    */
   boolean authorizedStore(String userName, String merchantStoreCode);
   
+  
+  /**
+   * Method to be used in argument resolver.
+   * @param store
+   * @return
+   */
+  boolean authorizeStore(MerchantStore store, String path);
+  
   /**
    * Determines if a user is in a specific group
    * @param userName
@@ -77,6 +92,15 @@ public interface UserFacade {
    * @return
    */
   boolean userInRoles(String userName, List<String> groupNames);
+  
+  
+  /**
+   * Sends reset password email
+   * @param user
+   * @param store
+   * @param language
+   */
+  void sendResetPasswordEmail(ReadableUser user, MerchantStore store, Language language);
   
   /**
    * Retrieve authenticated user
@@ -112,7 +136,7 @@ public interface UserFacade {
    * Update User
    * @param user
    */
-  ReadableUser update(Long id, String authenticatedUser, String storeCode, PersistableUser user);
+  ReadableUser update(Long id, String authenticatedUser, MerchantStore store, PersistableUser user);
   
   /**
    * Change password request
@@ -131,5 +155,30 @@ public interface UserFacade {
    * @param user
    */
   void updateEnabled(MerchantStore store, PersistableUser user);
+  
+	/**
+	 * 
+	 * Forgot password functionality
+	 * @param userName
+	 * @param store
+	 * @param language
+	 */
+	void requestPasswordReset(String userName, String userContextPath, MerchantStore store, Language language);
+	
+	/**
+	 * Validates if a password request is valid
+	 * @param token
+	 * @param store
+	 */
+	void verifyPasswordRequestToken(String token, String store);
+	
+	
+	/**
+	 * Reset password
+	 * @param password
+	 * @param token
+	 * @param store
+	 */
+	void resetPassword(String password, String token, String store);
 
 }

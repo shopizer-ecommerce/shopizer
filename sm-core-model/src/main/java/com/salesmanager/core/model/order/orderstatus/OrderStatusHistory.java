@@ -25,7 +25,7 @@ import com.salesmanager.core.model.order.Order;
 import com.salesmanager.core.utils.CloneUtils;
 
 @Entity
-@Table (name="ORDER_STATUS_HISTORY" , schema=SchemaConstant.SALESMANAGER_SCHEMA)
+@Table (name="ORDER_STATUS_HISTORY" )
 public class OrderStatusHistory implements Serializable {
 	private static final long serialVersionUID = 3438730310126102187L;
 	

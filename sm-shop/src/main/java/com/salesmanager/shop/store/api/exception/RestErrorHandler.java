@@ -1,6 +1,7 @@
 package com.salesmanager.shop.store.api.exception;
 
 import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
-@ControllerAdvice("com.salesmanager.shop.store.api")
+@ControllerAdvice({"com.salesmanager.shop.store.api"})
 public class RestErrorHandler {
   
     private static final Logger log = LoggerFactory.getLogger(RestErrorHandler.class);
@@ -27,6 +28,7 @@ public class RestErrorHandler {
                 exception.getLocalizedMessage());
         return errorEntity;
     }
+
 
     /**
      * Generic exception serviceException handler

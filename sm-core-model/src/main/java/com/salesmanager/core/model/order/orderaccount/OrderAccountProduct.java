@@ -21,7 +21,7 @@ import com.salesmanager.core.model.order.orderproduct.OrderProduct;
 import com.salesmanager.core.utils.CloneUtils;
 
 @Entity
-@Table (name="ORDER_ACCOUNT_PRODUCT", schema=SchemaConstant.SALESMANAGER_SCHEMA )
+@Table (name="ORDER_ACCOUNT_PRODUCT" )
 public class OrderAccountProduct implements Serializable {
 	private static final long serialVersionUID = -7437197293537758668L;
 

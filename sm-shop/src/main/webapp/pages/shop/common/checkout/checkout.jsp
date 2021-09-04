@@ -203,7 +203,10 @@ function setPaymentModule(module) {
 	}
 	else if(module.indexOf('stripe') >= 0) {
 		$('#paymentMethodType').val('CREDITCARD');
-	}		
+	}
+	else if(module.indexOf('stripe3') >= 0) {
+		$('#paymentMethodType').val('CREDITCARD');
+	}
 	else if(module.indexOf('beanstream') >= 0) {
 		$('#paymentMethodType').val('CREDITCARD');
 	}
@@ -379,25 +382,7 @@ function getZones(listDiv, textDiv, countryCode, defaultValue, callBackFunction)
 
 
 function setCountrySettings(prefix, countryCode) {
-	//add masks to your country
-	//console.log('Apply mask ' + countryCode);
-	
-	var phoneSelector = '.' + prefix + '-phone';
-	var postalCodeSelector = '.' + prefix + '-postalCode';
-	
-	if(countryCode=='CA') {//mask for canada
-		$(phoneSelector).mask("?(999) 999-9999");
-		$(postalCodeSelector).mask("?*** ***");
-		return;
-	}
-	if(countryCode=='US') {// mask for united states
-		$(phoneSelector).mask("?(999) 999-9999");
-		$(postalCodeSelector).mask("?99999");
-		return;
-	}
-	
-	$(phoneSelector).unmask();
-	$(postalCodeSelector).unmask();
+
 
 	
 }
@@ -492,6 +477,11 @@ function bindActions() {
 			//console.log('PP ');
 			$('#paymentMethodType').val('PAYPAL');
 			initPayment('PAYPAL');
+		}
+		else if(paymentSelection.indexOf('stripe3') >= 0) {
+			//console.log('Stripe ');
+			$('#paymentMethodType').val('CREDITCARD');
+			initStripePayment3();
 		}
 		else if(paymentSelection.indexOf('stripe') >= 0) {
 			//console.log('Stripe ');
@@ -1379,7 +1369,7 @@ $(document).ready(function() {
 													    			
 													    			<!-- exception for stripe which has it's own page -->
 													    			<c:choose>
-													    				<c:when test="${(paymentMethod.paymentMethodCode=='stripe') or (paymentMethod.paymentMethodCode=='braintree')}">
+													    				<c:when test="${(paymentMethod.paymentMethodCode=='stripe') or (paymentMethod.paymentMethodCode=='braintree') or (paymentMethod.paymentMethodCode=='stripe3')}">
 													    					<c:set var="pageName" value="${fn:toLowerCase(paymentMethod.paymentMethodCode)}" />
 													    				</c:when>
 													    				<c:otherwise>

@@ -30,10 +30,10 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 
 @Entity
 @EntityListeners(value = AuditListener.class)
-@Table(name = "MANUFACTURER", schema=SchemaConstant.SALESMANAGER_SCHEMA, uniqueConstraints=
+@Table(name = "MANUFACTURER", uniqueConstraints=
 @UniqueConstraint(columnNames = {"MERCHANT_ID", "CODE"}) )
 public class Manufacturer extends SalesManagerEntity<Long, Manufacturer> implements Auditable {
-	private static final long serialVersionUID = 80693964563570099L;
+	private static final long serialVersionUID = 1L;
 	
 	public static final String DEFAULT_MANUFACTURER = "DEFAULT";
 	
@@ -101,8 +101,6 @@ public class Manufacturer extends SalesManagerEntity<Long, Manufacturer> impleme
 	public void setDescriptions(Set<ManufacturerDescription> descriptions) {
 		this.descriptions = descriptions;
 	}
-
-
 
 	public MerchantStore getMerchantStore() {
 		return merchantStore;

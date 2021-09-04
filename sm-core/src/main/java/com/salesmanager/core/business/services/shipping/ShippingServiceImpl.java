@@ -2,12 +2,13 @@ package com.salesmanager.core.business.services.shipping;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
@@ -29,10 +30,10 @@ import com.salesmanager.core.business.services.reference.country.CountryService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.business.services.reference.loader.ConfigurationModulesLoader;
 import com.salesmanager.core.business.services.system.MerchantConfigurationService;
-import com.salesmanager.core.business.services.system.MerchantLogService;
 import com.salesmanager.core.business.services.system.ModuleConfigurationService;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.common.Delivery;
+import com.salesmanager.core.model.common.UserContext;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.country.Country;
 import com.salesmanager.core.model.reference.language.Language;
@@ -53,7 +54,6 @@ import com.salesmanager.core.model.system.CustomIntegrationConfiguration;
 import com.salesmanager.core.model.system.IntegrationConfiguration;
 import com.salesmanager.core.model.system.IntegrationModule;
 import com.salesmanager.core.model.system.MerchantConfiguration;
-import com.salesmanager.core.model.system.MerchantLog;
 import com.salesmanager.core.modules.integration.IntegrationException;
 import com.salesmanager.core.modules.integration.shipping.model.Packaging;
 import com.salesmanager.core.modules.integration.shipping.model.ShippingQuoteModule;
@@ -94,10 +94,7 @@ public class ShippingServiceImpl implements ShippingService {
 	
 	@Inject
 	private Encryption encryption;
-	
-	@Inject
-	private MerchantLogService merchantLogService;
-	
+
 	@Inject
 	private ShippingOriginService shippingOriginService;
 	
@@ -160,7 +157,7 @@ public class ShippingServiceImpl implements ShippingService {
 	public CustomIntegrationConfiguration getCustomShippingConfiguration(String moduleCode, MerchantStore store) throws ServiceException {
 
 		
-		ShippingQuoteModule quoteModule = (ShippingQuoteModule)shippingModules.get(moduleCode);
+		ShippingQuoteModule quoteModule = shippingModules.get(moduleCode);
 		if(quoteModule==null) {
 			return null;
 		}
@@ -189,7 +186,7 @@ public class ShippingServiceImpl implements ShippingService {
 	public void saveCustomShippingConfiguration(String moduleCode, CustomIntegrationConfiguration shippingConfiguration, MerchantStore store) throws ServiceException {
 		
 		
-		ShippingQuoteModule quoteModule = (ShippingQuoteModule)shippingModules.get(moduleCode);
+		ShippingQuoteModule quoteModule = shippingModules.get(moduleCode);
 		if(quoteModule==null) {
 			throw new ServiceException("Shipping module " + moduleCode + " does not exist");
 		}
@@ -498,7 +495,7 @@ public class ShippingServiceImpl implements ShippingService {
 			
 			//calculate order total
 			BigDecimal orderTotal = calculateOrderTotal(products,store);
-			List<PackageDetails> packages = this.getPackagesDetails(products, store);
+			List<PackageDetails> packages = getPackagesDetails(products, store);
 			
 			//free shipping ?
 			boolean freeShipping = false;
@@ -567,14 +564,14 @@ public class ShippingServiceImpl implements ShippingService {
 				shippingOptions = shippingQuoteModule.getShippingQuotes(shippingQuote, packages, orderTotal, delivery, shippingOrigin, store, configuration, shippingModule, shippingConfiguration, locale);
 			} catch(Exception e) {
 				LOGGER.error("Error while calculating shipping : " + e.getMessage(), e);
-				merchantLogService.save(
+/*				merchantLogService.save(
 						new MerchantLog(store,
 								"Can't process " + shippingModule.getModule()
 								+ " -> "
 								+ e.getMessage()));
 				shippingQuote.setQuoteError(e.getMessage());
 				shippingQuote.setShippingReturnCode(ShippingQuote.ERROR);
-				return shippingQuote;
+				return shippingQuote;*/
 			}
 			
 			if(shippingOptions==null && !StringUtils.isBlank(delivery.getPostalCode())) {
@@ -606,7 +603,7 @@ public class ShippingServiceImpl implements ShippingService {
 						String countryName = delivery.getCountry().getName();
 						if(countryName == null) {
 							Map<String,Country> deliveryCountries = countryService.getCountriesMap(language);
-							Country dCountry = (Country)deliveryCountries.get(delivery.getCountry().getIsoCode());
+							Country dCountry = deliveryCountries.get(delivery.getCountry().getIsoCode());
 							if(dCountry!=null) {
 								countryName = dCountry.getName();
 							} else {
@@ -682,9 +679,16 @@ public class ShippingServiceImpl implements ShippingService {
 					}
 					
 					IntegrationModule module = postProcessModule;
-					postProcessor.prePostProcessShippingQuotes(shippingQuote, packages, orderTotal, delivery, shippingOrigin, store, integrationConfiguration, module, shippingConfiguration, shippingMethods, locale);
+					if(integrationConfiguration != null) {
+						postProcessor.prePostProcessShippingQuotes(shippingQuote, packages, orderTotal, delivery, shippingOrigin, store, integrationConfiguration, module, shippingConfiguration, shippingMethods, locale);
+					}
 				}
 			}
+			String ipAddress = null;
+	    	UserContext context = UserContext.getCurrentInstance();
+	    	if(context != null) {
+	    		ipAddress = context.getIpAddress();
+	    	}
 			
 			if(shippingQuote!=null && CollectionUtils.isNotEmpty(shippingQuote.getShippingOptions())) {
 				//save SHIPPING OPTIONS
@@ -695,9 +699,12 @@ public class ShippingServiceImpl implements ShippingService {
 					Quote q = new Quote();
 					q.setCartId(shoppingCartId);
 					q.setDelivery(delivery);
+					if(!StringUtils.isBlank(ipAddress)) {
+						q.setIpAddress(ipAddress);
+					}
 					if(!StringUtils.isBlank(option.getEstimatedNumberOfDays())) {
 						try {
-							q.setEstimatedNumberOfDays(new Integer(option.getEstimatedNumberOfDays()));
+							q.setEstimatedNumberOfDays(Integer.valueOf(option.getEstimatedNumberOfDays()));
 						} catch(Exception e) {
 							LOGGER.error("Cannot cast to integer " + option.getEstimatedNumberOfDays());
 						}
@@ -760,10 +767,8 @@ public class ShippingServiceImpl implements ShippingService {
 
 				Object objRegions=JSONValue.parse(countries); 
 				JSONArray arrayRegions=(JSONArray)objRegions;
-				@SuppressWarnings("rawtypes")
-				Iterator i = arrayRegions.iterator();
-				while(i.hasNext()) {
-					supportedCountries.add((String)i.next());
+				for (Object arrayRegion : arrayRegions) {
+					supportedCountries.add((String) arrayRegion);
 				}
 			}
 			
@@ -803,10 +808,8 @@ public class ShippingServiceImpl implements ShippingService {
 
 					Object objRegions=JSONValue.parse(countries); 
 					JSONArray arrayRegions=(JSONArray)objRegions;
-					@SuppressWarnings("rawtypes")
-					Iterator i = arrayRegions.iterator();
-					while(i.hasNext()) {
-						supportedCountries.add((String)i.next());
+					for (Object arrayRegion : arrayRegions) {
+						supportedCountries.add((String) arrayRegion);
 					}
 				}
 				
@@ -917,14 +920,9 @@ public class ShippingServiceImpl implements ShippingService {
 		metaData.setShipToCountry(countries);
 		
 		// configured modules
-		Map<String,IntegrationConfiguration> modules = getShippingModulesConfigured(store);
-		List<String> moduleKeys = new ArrayList<String>();
-		if(modules!=null) {
-			for(String key : modules.keySet()) {
-				moduleKeys.add(key);
-			}
-		}
-		metaData.setModules(moduleKeys);
+		Map<String,IntegrationConfiguration> modules = Optional.ofNullable(getShippingModulesConfigured(store))
+				.orElse(Collections.emptyMap());
+		metaData.setModules(new ArrayList<>(modules.keySet()));
 		
 		// pre processors
 		List<ShippingQuotePrePostProcessModule> preProcessors = this.shippingModulePreProcessors;

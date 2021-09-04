@@ -39,6 +39,8 @@ public interface StoreFacade {
 
 	ReadableMerchantStore getByCode(String code, String lang);
 
+	ReadableMerchantStore getFullByCode(String code, String lang);
+
 	ReadableMerchantStoreList findAll(MerchantStoreCriteria criteria, Language language, int page, int count);
 
 	/**
@@ -50,6 +52,8 @@ public interface StoreFacade {
 	ReadableMerchantStoreList getChildStores(Language language, String code, int start, int count);
 
 	ReadableMerchantStore getByCode(String code, Language lang);
+
+	ReadableMerchantStore getFullByCode(String code, Language language);
 
 	boolean existByCode(String code);
 
@@ -69,7 +73,8 @@ public interface StoreFacade {
 	 * @param store
 	 * @throws Exception
 	 */
-	ReadableMerchantStore create(PersistableMerchantStore store);
+	//ReadableMerchantStore create(PersistableMerchantStore store);
+	void create(PersistableMerchantStore store);
 
 	/**
 	 * Updates an existing store
@@ -77,7 +82,8 @@ public interface StoreFacade {
 	 * @param store
 	 * @throws Exception
 	 */
-	ReadableMerchantStore update(PersistableMerchantStore store);
+	//ReadableMerchantStore update(PersistableMerchantStore store);
+	void update(PersistableMerchantStore store);
 
 	/**
 	 * Deletes a MerchantStore based on store code

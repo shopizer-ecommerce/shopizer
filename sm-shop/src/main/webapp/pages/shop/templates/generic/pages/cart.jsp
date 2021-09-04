@@ -187,7 +187,7 @@
 															</td>
 															<td width="10%"
 																data-th="<s:message code="label.quantity" text="Quantity"/>">
-																<input type="tel"
+																<input type="number" min="1"
 																class="input-small quantity text-center"
 																value="${shoppingCartItem.quantity}" name="quantity"
 																id="${shoppingCartItem.id}"
@@ -315,5 +315,14 @@
 		$('#checkoutButton').click(function(e) {
 			location.href = '<c:url value="/shop/order/checkout.html"/>';
 		});
+		
+		var number = document.querySelector(".quantity");
+		number.onkeydown = function(e) {
+			if(!((e.keyCode > 95 && e.keyCode < 106)
+					|| (e.keyCode > 47 && e.keyCode < 58)
+					|| e.keyCode == 8)) {
+				return false;
+			}
+		}
 	});
 </script>

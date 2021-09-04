@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.salesmanager.shop.model.entity.Entity;
 
+@Deprecated
 public class ReadableContentFull extends Entity {
 	
 	private String code;

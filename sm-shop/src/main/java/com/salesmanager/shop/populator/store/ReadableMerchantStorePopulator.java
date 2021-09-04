@@ -4,25 +4,31 @@ package com.salesmanager.shop.populator.store;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.reference.country.CountryService;
+import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.business.services.reference.zone.ZoneService;
 import com.salesmanager.core.business.utils.AbstractDataPopulator;
-import com.salesmanager.core.constants.MeasureUnit;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.country.Country;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.reference.zone.Zone;
 import com.salesmanager.shop.model.content.ReadableImage;
 import com.salesmanager.shop.model.entity.ReadableAudit;
+import com.salesmanager.shop.model.references.MeasureUnit;
 import com.salesmanager.shop.model.references.ReadableAddress;
+import com.salesmanager.shop.model.references.ReadableLanguage;
+import com.salesmanager.shop.model.references.WeightUnit;
 import com.salesmanager.shop.model.store.ReadableMerchantStore;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.ImageFilePath;
@@ -32,14 +38,21 @@ import com.salesmanager.shop.utils.ImageFilePath;
  * @author carlsamson
  *
  */
+@Component
 public class ReadableMerchantStorePopulator extends
 		AbstractDataPopulator<MerchantStore, ReadableMerchantStore> {
 	
 	protected final Log logger = LogFactory.getLog(getClass());
 	
+	@Autowired
 	private CountryService countryService;
+	@Autowired
 	private ZoneService zoneService;
+	@Autowired
+	@Qualifier("img")
 	private ImageFilePath filePath;
+	@Autowired
+	private LanguageService languageService;
 
 
 
@@ -49,6 +62,10 @@ public class ReadableMerchantStorePopulator extends
 			throws ConversionException {
 		Validate.notNull(countryService,"Must use setter for countryService");
 		Validate.notNull(zoneService,"Must use setter for zoneService");
+		
+		if(target == null) {
+			target = new ReadableMerchantStore();
+		}
 		
 		target.setId(source.getId());
 		target.setCode(source.getCode());
@@ -88,7 +105,7 @@ public class ReadableMerchantStorePopulator extends
 		
 		
 		target.setDimension(MeasureUnit.valueOf(source.getSeizeunitcode()));
-		target.setWeight(MeasureUnit.valueOf(source.getWeightunitcode()));
+		target.setWeight(WeightUnit.valueOf(source.getWeightunitcode()));
 		
 		if(source.getZone()!=null) {
 			address.setStateProvince(source.getZone().getCode());
@@ -124,23 +141,23 @@ public class ReadableMerchantStorePopulator extends
 		target.setId(source.getId());
 		target.setInBusinessSince(DateUtil.formatDate(source.getInBusinessSince()));
 		target.setUseCache(source.isUseCache());
-		
-		
-/*		List<Language> languages = source.getLanguages();
-		if(!CollectionUtils.isEmpty(languages)) {
-			
-			List<String> langs = new ArrayList<String>();
-			for(Language lang : languages) {
-				langs.add(lang.getCode());
-			}
-			
-			//target.setSupportedLanguages(langs);
-		}*/
-		
+
 		if(!CollectionUtils.isEmpty(source.getLanguages())) {
-			List<Language> supported = new ArrayList<Language>();
+			List<ReadableLanguage> supported = new ArrayList<ReadableLanguage>();
 			for(Language lang : source.getLanguages()) {
-				supported.add(lang);
+				try {
+					Language langObject = languageService.getLanguagesMap().get(lang.getCode());
+					if(langObject != null) {
+						ReadableLanguage l = new ReadableLanguage();
+						l.setId(langObject.getId());
+						l.setCode(langObject.getCode());
+						supported.add(l);
+					}
+					
+				} catch (ServiceException e) {
+					logger.error("Cannot get Language [" + lang.getId() + "]");
+				}
+				
 			}
 			target.setSupportedLanguages(supported);
 		}
@@ -164,30 +181,6 @@ public class ReadableMerchantStorePopulator extends
 	protected ReadableMerchantStore createTarget() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-	
-	public CountryService getCountryService() {
-		return countryService;
-	}
-
-	public void setCountryService(CountryService countryService) {
-		this.countryService = countryService;
-	}
-
-	public ZoneService getZoneService() {
-		return zoneService;
-	}
-
-	public void setZoneService(ZoneService zoneService) {
-		this.zoneService = zoneService;
-	}
-
-	public ImageFilePath getFilePath() {
-		return filePath;
-	}
-
-	public void setFilePath(ImageFilePath filePath) {
-		this.filePath = filePath;
 	}
 
 

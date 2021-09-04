@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityService;
+import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.Order;
 import com.salesmanager.core.model.payments.Transaction;
 
@@ -26,6 +27,8 @@ public interface TransactionService extends SalesManagerEntityService<Long, Tran
 	List<Transaction> listTransactions(Order order) throws ServiceException;
 	
 	List<Transaction> listTransactions(Date startDate, Date endDate) throws ServiceException;
+	
+	Transaction lastTransaction(Order order, MerchantStore store) throws ServiceException;
 
 
 

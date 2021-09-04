@@ -14,14 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -46,6 +45,7 @@ import com.salesmanager.core.business.services.reference.zone.ZoneService;
 import com.salesmanager.core.business.services.shipping.ShippingService;
 import com.salesmanager.core.business.services.shoppingcart.ShoppingCartService;
 import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.price.FinalPrice;
 import com.salesmanager.core.model.common.Billing;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -103,9 +103,6 @@ public class ShoppingOrderController extends AbstractController {
 	
 	@Inject
 	private ShoppingCartFacade shoppingCartFacade;
-	
-    @Inject
-    private ShoppingCartService shoppingCartService;
 
 	@Inject
 	private PaymentService paymentService;
@@ -143,8 +140,8 @@ public class ShoppingOrderController extends AbstractController {
 	@Inject
 	private ProductService productService;
 	
-	@Inject
-	private PasswordEncoder passwordEncoder;
+	//@Inject
+	//private PasswordEncoder passwordEncoder;
 
 	@Inject
 	private EmailTemplatesUtils emailTemplatesUtils;
@@ -200,8 +197,16 @@ public class ShoppingOrderController extends AbstractController {
 				cart=shoppingCartFacade.getShoppingCartModel(customer, store);
 	    }
 	    boolean allAvailables = true;
+	    boolean requiresShipping = false;
+	    boolean freeShoppingCart = true;
+	    
 	    //Filter items, delete unavailable
         Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> availables = new HashSet<ShoppingCartItem>();
+		
+	if(cart == null) {
+            return "redirect:/shop/cart/shoppingCart.html";
+        }		
+		
         //Take out items no more available
         Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> items = cart.getLineItems();
         for(com.salesmanager.core.model.shoppingcart.ShoppingCartItem item : items) {
@@ -213,6 +218,13 @@ public class ShoppingOrderController extends AbstractController {
         	} else {
         		allAvailables = false;
         	}
+			FinalPrice finalPrice = pricingService.calculateProductPrice(p);
+			if (finalPrice.getFinalPrice().longValue() > 0) {
+				freeShoppingCart = false;
+			}
+			if (p.isProductShipeable()) {
+				requiresShipping = true;
+			}
         }
         cart.setLineItems(availables);
 
@@ -263,9 +275,6 @@ public class ShoppingOrderController extends AbstractController {
 			order = orderFacade.initializeOrder(store, customer, cart, language);
 		  }
 
-		boolean freeShoppingCart = shoppingCartService.isFreeShoppingCart(cart);
-		boolean requiresShipping = shoppingCartService.requiresShipping(cart);
-		
 		/**
 		 * hook for displaying or not delivery address configuration
 		 */
@@ -580,9 +589,9 @@ public class ShoppingOrderController extends AbstractController {
 			String cartCode = super.getSessionAttribute(Constants.SHOPPING_CART, request);
 			if(StringUtils.isNotBlank(cartCode)) {
 				try {
-					shoppingCartFacade.deleteShoppingCart(cartCode, store);
+					shoppingCartFacade.setOrderId(cartCode, modelOrder.getId(), store);
 				} catch(Exception e) {
-					LOGGER.error("Cannot delete cart " + cartCode, e);
+					LOGGER.error("Cannot update cart " + cartCode, e);
 					throw new ServiceException(e);
 				}
 			}
@@ -728,14 +737,26 @@ public class ShoppingOrderController extends AbstractController {
 				//readable shopping cart items for order summary box
 		        ShoppingCartData shoppingCart = shoppingCartFacade.getShoppingCartData(cart, language);
 		        model.addAttribute( "cart", shoppingCart );
+		        
+		        boolean freeShoppingCart = true;
 
 				Set<ShoppingCartItem> items = cart.getLineItems();
 				List<ShoppingCartItem> cartItems = new ArrayList<ShoppingCartItem>(items);
 				order.setShoppingCartItems(cartItems);
+				
+		        for(com.salesmanager.core.model.shoppingcart.ShoppingCartItem item : items) {
+		        	
+		        	Long id = item.getProduct().getId();
+		        	Product p = productService.getById(id);
+					FinalPrice finalPrice = pricingService.calculateProductPrice(p);
+					if (finalPrice.getFinalPrice().longValue() > 0) {
+						freeShoppingCart = false;
+					}
+		        }
 
 				//get payment methods
 				List<PaymentMethod> paymentMethods = paymentService.getAcceptedPaymentMethods(store);
-				boolean freeShoppingCart = shoppingCartService.isFreeShoppingCart(cart);
+				
 
 				//not free and no payment methods
 				if(CollectionUtils.isEmpty(paymentMethods) && !freeShoppingCart) {
@@ -954,9 +975,6 @@ public class ShoppingOrderController extends AbstractController {
 
 	        //redirect to completd
 	        return "redirect:/shop/order/confirmation.html";
-	  
-			
-
 
 		
 	}
@@ -1003,19 +1021,27 @@ public class ShoppingOrderController extends AbstractController {
 
 			//re-generate cart
 			com.salesmanager.core.model.shoppingcart.ShoppingCart cart = shoppingCartFacade.getShoppingCartModel(shoppingCartCode, store);
-	
+			Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> cartItems = cart.getLineItems();	
 			
 			
 			ReadableShopOrderPopulator populator = new ReadableShopOrderPopulator();
 			populator.populate(order, readableOrder, store, language);
 			
-			boolean requiresShipping = shoppingCartService.requiresShipping(cart);
-			
+
+			/**
+	        for(com.salesmanager.core.model.shoppingcart.ShoppingCartItem item : cartItems) {
+	        	
+	        	Long id = item.getProduct().getId();
+	        	Product p = productService.getById(id);
+				if (p.isProductShipeable()) {
+					requiresShipping = true;
+				}
+	        }
+	        **/
+
 			/** shipping **/
 			ShippingQuote quote = null;
-			if(requiresShipping) {
-				quote = orderFacade.getShippingQuote(order.getCustomer(), cart, order, store, language);
-			}
+			quote = orderFacade.getShippingQuote(order.getCustomer(), cart, order, store, language);
 
 			if(quote!=null) {
 				String shippingReturnCode = quote.getShippingReturnCode();

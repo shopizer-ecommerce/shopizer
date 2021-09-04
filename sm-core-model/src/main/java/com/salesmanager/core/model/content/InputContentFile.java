@@ -10,6 +10,7 @@ public class InputContentFile extends StaticContentFile implements Serializable
     private static final long serialVersionUID = 1L;
    
     private InputStream file;
+    private String path;
    
     
     public InputStream getFile()
@@ -20,6 +21,12 @@ public class InputContentFile extends StaticContentFile implements Serializable
     {
         this.file = file;
     }
+	public String getPath() {
+		return path;
+	}
+	public void setPath(String path) {
+		this.path = path;
+	}
    
     
     

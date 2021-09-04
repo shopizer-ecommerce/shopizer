@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 
 @Entity
-@Table (name="ORDER_PRODUCT_PRICE" , schema=SchemaConstant.SALESMANAGER_SCHEMA)
+@Table (name="ORDER_PRODUCT_PRICE" )
 public class OrderProductPrice implements Serializable {
 	private static final long serialVersionUID = 3734737890163564311L;
 

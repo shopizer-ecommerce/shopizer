@@ -1,5 +1,13 @@
 package com.salesmanager.shop.populator.order;
 
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
+
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductAttributeService;
@@ -22,17 +30,10 @@ import com.salesmanager.core.model.reference.currency.Currency;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.reference.zone.Zone;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
-import com.salesmanager.shop.model.order.PersistableOrder;
 import com.salesmanager.shop.model.order.PersistableOrderProduct;
 import com.salesmanager.shop.model.order.total.OrderTotal;
+import com.salesmanager.shop.model.order.v0.PersistableOrder;
 import com.salesmanager.shop.utils.LocaleUtils;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang.Validate;
-import org.apache.commons.lang3.StringUtils;
-
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
 
 public class PersistableOrderPopulator extends
 		AbstractDataPopulator<PersistableOrder, Order> {

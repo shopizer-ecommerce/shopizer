@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.salesmanager.shop.admin.controller;
 
 /**

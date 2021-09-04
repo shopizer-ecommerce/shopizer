@@ -7,6 +7,8 @@ import java.nio.channels.Channels;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -25,6 +27,8 @@ import com.google.cloud.storage.Bucket;
 import com.google.cloud.storage.BucketInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.Storage.BlobListOption;
+import com.google.cloud.storage.Storage.BucketField;
+import com.google.cloud.storage.Storage.BucketGetOption;
 import com.google.cloud.storage.StorageOptions;
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ServiceException;
@@ -43,7 +47,7 @@ public class GCPProductContentFileManager implements ProductAssetsManager {
   @Autowired 
   private CMSManager gcpAssetsManager;
   
-  private static String DEFAULT_BUCKET_NAME = "shopizer-products-";
+  private static String DEFAULT_BUCKET_NAME = "shopizer";
   
   private static final Logger LOGGER = LoggerFactory.getLogger(GCPProductContentFileManager.class);
 
@@ -273,7 +277,7 @@ public class GCPProductContentFileManager implements ProductAssetsManager {
   }
   
   private boolean bucketExists(Storage storage, String bucketName) {
-    Bucket bucket = storage.get(bucketName);
+    Bucket bucket = storage.get(bucketName, BucketGetOption.fields(BucketField.NAME));
     if (bucket == null || !bucket.exists()) {
       return false;
     }

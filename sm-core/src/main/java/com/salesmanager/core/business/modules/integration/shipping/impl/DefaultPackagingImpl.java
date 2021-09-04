@@ -58,11 +58,11 @@ public class DefaultPackagingImpl implements Packaging {
 			throw new ServiceException("ShippingConfiguration not found for merchant " + store.getCode());
 		}
 		
-		width = new Double(shippingConfiguration.getBoxWidth()).doubleValue();
-		length = new Double(shippingConfiguration.getBoxLength()).doubleValue();
-		height = new Double(shippingConfiguration.getBoxHeight()).doubleValue();
-		weight = new Double(shippingConfiguration.getBoxWeight()).doubleValue();
-		maxweight = new Double(shippingConfiguration.getMaxWeight()).doubleValue();
+		width = (double) shippingConfiguration.getBoxWidth();
+		length = (double) shippingConfiguration.getBoxLength();
+		height = (double) shippingConfiguration.getBoxHeight();
+		weight = shippingConfiguration.getBoxWeight();
+		maxweight = shippingConfiguration.getMaxWeight();
 		
 
 
@@ -344,7 +344,7 @@ public class DefaultPackagingImpl implements Packaging {
 			}
 			if (attributes != null && attributes.size() > 0) {
 				for(ProductAttribute attribute : attributes) {
-					if(attribute.getAttributeAdditionalWeight()!=null) {
+					if(attribute.getAttributeAdditionalWeight()!=null && attribute.getProductAttributeWeight() !=null) {
 						w = w.add(attribute.getProductAttributeWeight());
 					}
 				}
@@ -380,7 +380,7 @@ public class DefaultPackagingImpl implements Packaging {
 					detail.setShippingWeight(w.doubleValue());
 					detail.setShippingWidth(wd
 							.doubleValue());
-					detail.setShippingQuantity(shippingProduct.getQuantity());
+					detail.setShippingQuantity(1);//issue seperate shipping
 					String description = "item";
 					if(product.getDescriptions().size()>0) {
 						description = product.getDescriptions().iterator().next().getName();

@@ -20,7 +20,7 @@ import com.salesmanager.core.model.reference.country.Country;
 import com.salesmanager.core.model.reference.zone.Zone;
 
 @Entity
-@Table(name = "SHIPING_ORIGIN", schema=SchemaConstant.SALESMANAGER_SCHEMA)
+@Table(name = "SHIPING_ORIGIN")
 public class ShippingOrigin extends SalesManagerEntity<Long, ShippingOrigin> {
 
 	

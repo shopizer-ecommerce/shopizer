@@ -2,9 +2,12 @@ package com.salesmanager.shop.model.catalog.product.attribute;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
-public class ReadableProductVariant implements Serializable {
+import com.salesmanager.shop.model.entity.Entity;
+
+public class ReadableProductVariant extends Entity implements Serializable {
 
   /**
    * 
@@ -12,6 +15,7 @@ public class ReadableProductVariant implements Serializable {
   private static final long serialVersionUID = 1L;
   //option name
   private String name;
+  private String code;
   private List<ReadableProductVariantValue> options = new ArrayList<ReadableProductVariantValue>();
 
   public List<ReadableProductVariantValue> getOptions() {
@@ -29,6 +33,14 @@ public class ReadableProductVariant implements Serializable {
   public void setName(String name) {
     this.name = name;
   }
+
+public String getCode() {
+	return code;
+}
+
+public void setCode(String code) {
+	this.code = code;
+}
 
 
 

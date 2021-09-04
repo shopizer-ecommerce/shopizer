@@ -18,7 +18,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
-import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.common.audit.AuditListener;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.common.audit.Auditable;
@@ -27,9 +26,9 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 
 @Entity
 @EntityListeners(value = AuditListener.class)
-@Table(name = "PRODUCT_TYPE", schema = SchemaConstant.SALESMANAGER_SCHEMA)
+@Table(name = "PRODUCT_TYPE")
 public class ProductType extends SalesManagerEntity<Long, ProductType> implements Auditable {
-  private static final long serialVersionUID = 65541494628227593L;
+  private static final long serialVersionUID = 1L;
 
   public final static String GENERAL_TYPE = "GENERAL";
 
@@ -51,6 +50,9 @@ public class ProductType extends SalesManagerEntity<Long, ProductType> implement
 
   @Column(name = "PRD_TYPE_ADD_TO_CART")
   private Boolean allowAddToCart;
+  
+  @Column(name = "PRD_TYPE_VISIBLE")
+  private Boolean visible;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "MERCHANT_ID", nullable = true)
@@ -109,6 +111,22 @@ public class ProductType extends SalesManagerEntity<Long, ProductType> implement
   public void setMerchantStore(MerchantStore merchantStore) {
     this.merchantStore = merchantStore;
   }
+
+public Set<ProductTypeDescription> getDescriptions() {
+	return descriptions;
+}
+
+public void setDescriptions(Set<ProductTypeDescription> descriptions) {
+	this.descriptions = descriptions;
+}
+
+public Boolean getVisible() {
+	return visible;
+}
+
+public void setVisible(Boolean visible) {
+	this.visible = visible;
+}
 
 
 }

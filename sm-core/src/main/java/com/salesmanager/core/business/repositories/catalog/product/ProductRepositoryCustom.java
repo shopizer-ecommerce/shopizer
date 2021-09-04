@@ -12,19 +12,21 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.tax.taxclass.TaxClass;
 
 public interface ProductRepositoryCustom {
-	
+
 
 		ProductList listByStore(MerchantStore store, Language language,
 			ProductCriteria criteria);
-		
+
 		Product getProductWithOnlyMerchantStoreById(Long productId);
-		
+
 		 Product getByFriendlyUrl(MerchantStore store,String seUrl, Locale locale);
 
 		List<Product> getProductsListByCategories(@SuppressWarnings("rawtypes") Set categoryIds);
 
 		List<Product> getProductsListByCategories(Set<Long> categoryIds,
 				Language language);
+
+		List<Product> getProductsListByIds(Set<Long> productIds);
 
 		List<Product> listByTaxClass(TaxClass taxClass);
 
@@ -37,6 +39,8 @@ public interface ProductRepositoryCustom {
 		Product getById(Long productId, MerchantStore merchant);
 
 		Product getByCode(String productCode, Language language);
+		
+		Product getByCode(String productCode, MerchantStore store);
 
 		List<Product> getProductsForLocale(MerchantStore store,
 				Set<Long> categoryIds, Language language, Locale locale);
