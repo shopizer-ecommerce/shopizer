@@ -73,6 +73,10 @@ public class ImagesController {
 
 		// example -> /static/files/DEFAULT/CONTENT/myImage.png
 		System.out.println("Code label");
+		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
+		
 		FileContentType imgType = null;
 		
 		if(FileContentType.LOGO.name().equals(imageType)) {
@@ -174,6 +178,9 @@ public class ImagesController {
 		 * List of possible imageType
 		 * 
 		 */
+		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
 		
 		
 		ProductImageSize size = ProductImageSize.SMALL;
