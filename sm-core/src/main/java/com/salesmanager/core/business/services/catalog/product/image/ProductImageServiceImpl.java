@@ -27,9 +27,9 @@ import com.salesmanager.core.model.content.OutputContentFile;
 import com.salesmanager.core.model.merchant.MerchantStore;
 
 @Service("productImage")
-public class ProductImageServiceImpl extends SalesManagerEntityServiceImpl<Long, ProductImage> 
+public class ProductImageServiceImpl extends SalesManagerEntityServiceImpl<Long, ProductImage>
 	implements ProductImageService {
-	
+
 	private ProductImageRepository productImageRepository;
 
 	@Inject
@@ -37,65 +37,62 @@ public class ProductImageServiceImpl extends SalesManagerEntityServiceImpl<Long,
 		super(productImageRepository);
 		this.productImageRepository = productImageRepository;
 	}
-	
+
 	@Inject
 	private ProductFileManager productFileManager;
-	
 
-	
-	
+
+
+
 	public ProductImage getById(Long id) {
-		
+
 		return productImageRepository.findOne(id);
 	}
-	
-	
+
+
 	@Override
 	public void addProductImages(Product product, List<ProductImage> productImages) throws ServiceException {
-		
+
 		try {
 			for(ProductImage productImage : productImages) {
-				
+
 				Assert.notNull(productImage.getImage());
-				
+
 		        InputStream inputStream = productImage.getImage();
 		        ImageContentFile cmsContentImage = new ImageContentFile();
 		        cmsContentImage.setFileName( productImage.getProductImage() );
 		        cmsContentImage.setFile( inputStream );
 		        cmsContentImage.setFileContentType(FileContentType.PRODUCT);
-		        
 
-		        
-	
-				addProductImage(product,productImage,cmsContentImage);			
+
+
+
+				addProductImage(product,productImage,cmsContentImage);
 			}
-		
+
 		} catch (Exception e) {
 			throw new ServiceException(e);
 		}
 
 	}
-	
-	
+
+
 	@Override
 	public void addProductImage(Product product, ProductImage productImage, ImageContentFile inputImage) throws ServiceException {
-		
-		
-		
-		
+
 		productImage.setProduct(product);
 
 		try {
-			
-			Assert.notNull(inputImage.getFile(),"ImageContentFile.file cannot be null");
+			if (productImage.getImageType() == 0 ) {
+				Assert.notNull(inputImage.getFile(), "ImageContentFile.file cannot be null");
+				productFileManager.addProductImage(productImage, inputImage);
+			}
 
-			productFileManager.addProductImage(productImage, inputImage);
-	
 			//insert ProductImage
 			this.saveOrUpdate(productImage);
-			
 
-		
+
+
 		} catch (Exception e) {
 			throw new ServiceException(e);
 		} finally {
@@ -106,71 +103,71 @@ public class ProductImageServiceImpl extends SalesManagerEntityServiceImpl<Long,
 				}
 
 			} catch(Exception ignore) {
-				
+
 			}
 		}
-		
-		
+
+
 	}
-	
+
 	@Override
 	public void saveOrUpdate(ProductImage productImage) throws ServiceException {
-		
-				
+
+
 		super.save(productImage);
-		
+
 	}
-	
+
 	public void addProductImageDescription(ProductImage productImage, ProductImageDescription description)
 	throws ServiceException {
 
-		
+
 			if(productImage.getDescriptions()==null) {
 				productImage.setDescriptions(new ArrayList<ProductImageDescription>());
 			}
-			
+
 			productImage.getDescriptions().add(description);
 			description.setProductImage(productImage);
 			update(productImage);
 
 
 	}
-	
+
 	//TODO get default product image
 
-	
+
 	@Override
 	public OutputContentFile getProductImage(ProductImage productImage, ProductImageSize size) throws ServiceException {
 
-		
+
 		ProductImage pi = new ProductImage();
 		String imageName = productImage.getProductImage();
 		if(size == ProductImageSize.LARGE) {
 			imageName = "L-" + imageName;
 		}
-		
+
 		if(size == ProductImageSize.SMALL) {
 			imageName = "S-" + imageName;
 		}
-		
+
 		pi.setProductImage(imageName);
 		pi.setProduct(productImage.getProduct());
 
 		return productFileManager.getProductImage(pi);
-		
+
 	}
-	
+
 	@Override
 	public OutputContentFile getProductImage(final String storeCode, final String productCode, final String fileName, final ProductImageSize size) throws ServiceException {
 		return productFileManager.getProductImage(storeCode, productCode, fileName, size);
-		
+
 	}
-	
+
 	@Override
 	public List<OutputContentFile> getProductImages(Product product) throws ServiceException {
 		return productFileManager.getImages(product);
 	}
-	
+
 	@Override
 	public void removeProductImage(ProductImage productImage) throws ServiceException {
 
@@ -179,21 +176,21 @@ public class ProductImageServiceImpl extends SalesManagerEntityServiceImpl<Long,
 		}
 		ProductImage p = this.getById(productImage.getId());
 		this.delete(p);
-		
+
 	}
 
 
 	@Override
 	public Optional<ProductImage> getProductImage(Long imageId, Long productId, MerchantStore store) {
-		
-		
+
+
 		Optional<ProductImage> image = Optional.empty();
-		
+
 		ProductImage img = productImageRepository.finById(imageId, productId, store.getCode());
 		if(img!=null) {
 			image = Optional.of(img);
 		}
-		
+
 		return image;
 	}
 }
