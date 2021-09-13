@@ -71,6 +71,10 @@ public class ReferenceController {
 		System.out.println("CodeLabel");
 		System.out.println("CodeLabel");
 		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
+		
 		String countryCode = request.getParameter("countryCode");
 		String lang = request.getParameter("lang");
 		LOGGER.debug("Province Country Code " + countryCode);
@@ -223,7 +227,10 @@ public class ReferenceController {
 	@RequestMapping(value={"/shop/reference/monthsOfYear.html"}, method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<String> getMonthsOfYear(HttpServletRequest request, HttpServletResponse response) {
 		
-
+		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
+		
 		List<String> days = null;
 		String serialized = null;
 		
