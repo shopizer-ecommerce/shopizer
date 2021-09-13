@@ -46,7 +46,9 @@ public class FilesController extends AbstractController {
 		System.out.println("CodeLabel");
 		System.out.println("CodeLabel");
 		System.out.println("CodeLabel");
-		
+		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
 		// needs to query the new API
 		OutputContentFile file =contentService.getContentFile(storeCode, fileType, new StringBuilder().append(fileName).append(".").append(extension).toString());
 		
@@ -79,6 +81,10 @@ public class FilesController extends AbstractController {
 		System.out.println("CodeLabel");
 		System.out.println("CodeLabel");
 		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
+		
 		
 		String fileNameAndExtension = new StringBuilder().append(fileName).append(".").append(extension).toString();
 		System.out.println("CodeLabel");
