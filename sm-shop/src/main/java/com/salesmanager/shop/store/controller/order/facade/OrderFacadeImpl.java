@@ -1611,4 +1611,28 @@ public class OrderFacadeImpl implements OrderFacade {
 
 	}
 
+	@Override
+	public void updateOrderStatus(Order order, OrderStatus newStatus, MerchantStore store) {
+
+		// make sure we are changing to different that current status
+		if (order.getStatus().equals(newStatus)) {
+			return; // we have the same status, lets just return
+		}
+		OrderStatus oldStatus = order.getStatus();
+		order.setStatus(newStatus);
+		OrderStatusHistory history = new OrderStatusHistory();
+
+		history.setComments( messages.getMessage("email.order.status.changed", new String[] {oldStatus.name(),
+				newStatus.name()}, LocaleUtils.getLocale(store)));
+		history.setCustomerNotified(0);
+		history.setStatus(newStatus);
+		history.setDateAdded(new Date() );
+
+		try {
+			orderService.addOrderStatusHistory(order, history);
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
+
+	}
 }

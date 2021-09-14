@@ -108,8 +108,8 @@ public class ProductFileManagerImpl extends ProductFileManager {
        * largeContentImage.setDefaultImage(productImage.isDefaultImage());
        * largeContentImage.setImageName(new
        * StringBuilder().append("L-").append(productImage.getProductImage()).toString());
-       * 
-       * 
+       *
+       *
        * uploadImage.uploadProductImage(configuration, productImage, largeContentImage);
        */
 
@@ -120,7 +120,7 @@ public class ProductFileManagerImpl extends ProductFileManager {
        * smallContentImage.setDefaultImage(productImage.isDefaultImage());
        * smallContentImage.setImageName(new
        * StringBuilder().append("S-").append(productImage.getProductImage()).toString());
-       * 
+       *
        * uploadImage.uploadProductImage(configuration, productImage, smallContentImage);
        */
 
@@ -179,8 +179,12 @@ public class ProductFileManagerImpl extends ProductFileManager {
 
         // resize large
         // ByteArrayOutputStream output = new ByteArrayOutputStream();
-        BufferedImage largeResizedImage =
-            ProductImageSizeUtils.resizeWithRatio(bufferedImage, largeImageWidth, largeImageHeight);
+        BufferedImage largeResizedImage;
+        if(bufferedImage.getWidth() > largeImageWidth ||bufferedImage.getHeight() > largeImageHeight) {
+            largeResizedImage = ProductImageSizeUtils.resizeWithRatio(bufferedImage, largeImageWidth, largeImageHeight);
+        } else {
+            largeResizedImage = bufferedImage;
+        }
 
 
         File tempLarge =
@@ -294,12 +298,12 @@ public class ProductFileManagerImpl extends ProductFileManager {
     /*
      * ProductImage large = new ProductImage(); large.setProduct(productImage.getProduct());
      * large.setProductImage("L" + productImage.getProductImage());
-     * 
+     *
      * this.removeImage.removeProductImage(large);
-     * 
+     *
      * ProductImage small = new ProductImage(); small.setProduct(productImage.getProduct());
      * small.setProductImage("S" + productImage.getProductImage());
-     * 
+     *
      * this.removeImage.removeProductImage(small);
      */
 

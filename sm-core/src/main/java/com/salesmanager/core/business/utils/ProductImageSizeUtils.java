@@ -12,12 +12,12 @@ import java.awt.image.BufferedImage;
  *
  */
 public class ProductImageSizeUtils {
-	
+
 
 	private ProductImageSizeUtils() {
 
 	}
-	
+
 
 	/**
 	 * Simple resize, does not maintain aspect ratio
@@ -26,7 +26,7 @@ public class ProductImageSizeUtils {
 	 * @param height
 	 * @return
 	 */
-	
+
 	public static BufferedImage resize(BufferedImage image, int width, int height) {
 		int type = image.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : image
 				.getType();
@@ -43,9 +43,9 @@ public class ProductImageSizeUtils {
 		g.dispose();
 		return resizedImage;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param img
 	 * @param targetWidth
 	 * @param targetHeight
@@ -102,8 +102,8 @@ public class ProductImageSizeUtils {
 
 		return ret;
 	}
-	
-	
+
+
 	public static BufferedImage resizeWithRatio(BufferedImage image, int destinationWidth, int destinationHeight) {
 
             int type = image.getType() == 0? BufferedImage.TYPE_INT_ARGB : image.getType();
@@ -121,17 +121,17 @@ public class ProductImageSizeUtils {
 
             //Work out the resized width/height
             if (image.getHeight() > destinationHeight || image.getWidth() > destinationWidth) {
-                fHeight = destinationHeight;
-                int wid = destinationWidth;
-                float sum = (float)image.getWidth() / (float)image.getHeight();
-                fWidth = Math.round(fHeight * sum);
-
-                if (fWidth > wid) {
-                    //rezise again for the width this time
-                    fHeight = Math.round(wid/sum);
-                    fWidth = wid;
-                }
-            }
+				if (image.getHeight() > image.getWidth()) {
+					fHeight = destinationHeight;
+					float sum = (float) image.getWidth() / (float) image.getHeight();
+					fWidth = Math.round(destinationWidth * sum);
+				} else if (image.getWidth() > image.getHeight()) {
+					fWidth = destinationWidth;
+					float sum = (float) image.getHeight() / (float) image.getWidth();
+					fHeight = Math.round(destinationHeight * sum);
+				}
+				// else sides are equal and is set to destination size at initialization of
+			}
 
             BufferedImage resizedImage = new BufferedImage(fWidth, fHeight, type);
             Graphics2D g = resizedImage.createGraphics();
@@ -146,6 +146,6 @@ public class ProductImageSizeUtils {
 
             return resizedImage;
 	}
-	
+
 
 }
