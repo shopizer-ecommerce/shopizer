@@ -648,6 +648,7 @@ public class UserFacadeImpl implements UserFacade {
 
 		Validate.notNull(store, "MerchantStore cannot be null");
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		Validate.notNull(authentication, "Don't call ths method if a user is not authenticated");
 
 		if (!StringUtils.isBlank(path) && path.contains(PRIVATE_PATH)) {
 

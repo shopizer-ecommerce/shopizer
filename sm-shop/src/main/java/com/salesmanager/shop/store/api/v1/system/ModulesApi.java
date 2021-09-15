@@ -15,9 +15,7 @@ public class ModulesApi {
   
   private static final Logger LOGGER = LoggerFactory.getLogger(ModulesApi.class);
   
-  @Inject
-  private ModuleConfigurationService moduleConfigurationService;
-  
+
   /**
    * Creates or updates a configuration module. A JSON has to be created on the client side which represents
    * an object that will create a new module (payment, shipping ...) which can be used and configured from

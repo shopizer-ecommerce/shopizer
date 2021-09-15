@@ -12,7 +12,9 @@ public class SchemaConstant {
 	 * 
 	 */
 	//public static final String[] LANGUAGE_ISO_CODE = {"en", "fr", "ru", "es", "ar"};
-	public static final String[] LANGUAGE_ISO_CODE = {"en", "fr", "es"};
+
+	@Deprecated
+	public static final String[] LANGUAGE_ISO_CODE = {"en", "fr", "es"}; //which descriptions will ve used for reference data
 	
 	public final static int DESCRIPTION_ID_ALLOCATION_SIZE = 1;
 	public final static int DESCRIPTION_ID_START_VALUE = 2000;
