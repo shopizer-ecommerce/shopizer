@@ -128,10 +128,6 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		return productRepository.getProductsListByIds(idSet);
 	}
 
-	public Product getById(Long productId) {
-		return productRepository.getById(productId);
-	}
-
 	@Override
 	public Product getProductWithOnlyMerchantStoreById(Long productId) {
 		return productRepository.getProductWithOnlyMerchantStoreById(productId);
