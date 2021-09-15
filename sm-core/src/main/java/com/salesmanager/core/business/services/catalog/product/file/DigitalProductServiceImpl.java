@@ -52,7 +52,7 @@ public class DigitalProductServiceImpl extends SalesManagerEntityServiceImpl<Lon
 		    String path = null;
 		    
 			
-			productDownloadsFileManager.addFile(product.getMerchantStore().getCode(), Optional.of(path), inputFile);
+			productDownloadsFileManager.addFile(product.getMerchantStore().getCode(), Optional.ofNullable(path), inputFile);
 			
 			product.setProductVirtual(true);
 			productService.update(product);
