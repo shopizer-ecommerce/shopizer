@@ -62,6 +62,10 @@ public class ProductImage extends SalesManagerEntity<Long, ProductImage> {
 	@JoinColumn(name = "PRODUCT_ID", nullable = false)
 	private Product product;
 	
+	@Column(name = "SORT_ORDER")
+	private Integer sortOrder = new Integer(0);
+	
+
 	@Transient
 	private InputStream image = null;
 	
@@ -84,6 +88,14 @@ public class ProductImage extends SalesManagerEntity<Long, ProductImage> {
 
 	public void setDefaultImage(boolean defaultImage) {
 		this.defaultImage = defaultImage;
+	}
+	
+	public Integer getSortOrder() {
+		return sortOrder;
+	}
+
+	public void setSortOrder(Integer sortOrder) {
+		this.sortOrder = sortOrder;
 	}
 
 	public int getImageType() {
