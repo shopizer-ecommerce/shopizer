@@ -68,7 +68,9 @@ public class CategoryApi {
 			@ApiResponse(code = 200, message = "List of category found", response = ReadableCategory.class) })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
-	public ReadableCategory get(@PathVariable(name = "id") Long categoryId, @ApiIgnore MerchantStore merchantStore,
+	public ReadableCategory get(
+			@PathVariable(name = "id") Long categoryId, 
+			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
 		ReadableCategory category = categoryFacade.getById(merchantStore, categoryId, language);
 		return category;

@@ -10,11 +10,12 @@ import java.io.Serializable;
 public class LightPersistableProduct implements Serializable {
 
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = 1L;
   private String price;
   private boolean available;
+  private boolean productShipeable;
   private int quantity;
   public String getPrice() {
     return price;
@@ -35,5 +36,7 @@ public class LightPersistableProduct implements Serializable {
   public void setAvailable(boolean available) {
     this.available = available;
   }
+  public boolean isProductShipeable() { return productShipeable; }
+  public void setProductShipeable(Boolean productShipeable) { this.productShipeable = productShipeable; }
 
 }

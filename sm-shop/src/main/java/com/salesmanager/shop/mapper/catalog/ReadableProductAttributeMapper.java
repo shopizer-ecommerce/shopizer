@@ -48,6 +48,7 @@ public class ReadableProductAttributeMapper implements Mapper<ProductAttribute, 
 				String formatedPrice;
 				formatedPrice = pricingService.getDisplayAmount(source.getProductAttributePrice(), store);
 				attr.setProductAttributePrice(formatedPrice);
+				attr.setProductAttributeUnformattedPrice(pricingService.getStringAmount(source.getProductAttributePrice(), store));
 			}
 			
 			attr.setProductAttributeWeight(source.getAttributeAdditionalWeight());

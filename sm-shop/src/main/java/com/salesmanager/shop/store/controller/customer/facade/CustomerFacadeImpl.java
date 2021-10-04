@@ -15,6 +15,7 @@ import javax.inject.Inject;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
+import org.jgroups.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +59,6 @@ import com.salesmanager.core.model.system.optin.OptinType;
 import com.salesmanager.core.model.user.Group;
 import com.salesmanager.core.model.user.GroupType;
 import com.salesmanager.core.model.user.Permission;
-import com.salesmanager.shop.admin.model.userpassword.UserReset;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.constants.EmailConstants;
 import com.salesmanager.shop.model.customer.CustomerEntity;
@@ -393,11 +393,11 @@ public class CustomerFacadeImpl implements CustomerFacade {
     Validate.notNull(customer, "Customer object cannot be null");
     if (customer.getId() == null || customer.getId() == 0) {
       if (StringUtils.isBlank(customer.getNick())) {
-        String userName = UserReset.generateRandomString(USERNAME_LENGTH);
+        String userName = "test@shopizer.com";
         customer.setNick(userName);
       }
       if (StringUtils.isBlank(customer.getPassword())) {
-        String password = UserReset.generateRandomString();
+        String password = new String(UUID.generateRandomBytes());
         String encodedPassword = passwordEncoder.encode(password);
         customer.setPassword(encodedPassword);
       }
@@ -639,7 +639,7 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
     String password = customer.getPassword();
     if (StringUtils.isBlank(password)) {
-      password = UserReset.generateRandomString();
+      password = new String(UUID.generateRandomBytes());
       customer.setPassword(password);
     }
 
@@ -699,7 +699,7 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
     String password = customer.getPassword();
     if (StringUtils.isBlank(password)) {
-      password = UserReset.generateRandomString();
+      password = new String(UUID.generateRandomBytes());
       customer.setPassword(password);
     }
 
@@ -855,7 +855,7 @@ public class CustomerFacadeImpl implements CustomerFacade {
       throws Exception {
 
 
-    String password = UserReset.generateRandomString();
+    String password = new String(UUID.generateRandomBytes());
     String encodedPassword = passwordEncoder.encode(password);
 
     customer.setPassword(encodedPassword);

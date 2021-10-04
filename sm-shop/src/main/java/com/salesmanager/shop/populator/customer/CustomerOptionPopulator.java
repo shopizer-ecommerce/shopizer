@@ -1,27 +1,16 @@
 package com.salesmanager.shop.populator.customer;
 
-
-import com.salesmanager.core.business.exception.ConversionException;
-import com.salesmanager.core.business.utils.AbstractDataPopulator;
-import com.salesmanager.core.model.customer.attribute.CustomerOptionSet;
-import com.salesmanager.core.model.merchant.MerchantStore;
-import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.shop.admin.model.customer.attribute.CustomerOption;
-import com.salesmanager.shop.admin.model.customer.attribute.CustomerOptionValue;
-
-
-import java.util.ArrayList;
-import java.util.List;
-
-
-
 /**
  * Used in the admin section
  * @author c.samson
  *
  */
 
-public class CustomerOptionPopulator extends
+public class CustomerOptionPopulator {
+	
+	/**
+	extends
+}
 		AbstractDataPopulator<com.salesmanager.core.model.customer.attribute.CustomerOption, com.salesmanager.shop.admin.model.customer.attribute.CustomerOption> {
 
 	
@@ -73,6 +62,14 @@ public class CustomerOptionPopulator extends
         // TODO Auto-generated method stub
         return null;
     }
+
+	@Override
+	public CustomerOption populate(com.salesmanager.core.model.customer.attribute.CustomerOption source,
+			CustomerOption target, MerchantStore store, Language language) throws ConversionException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	**/
 
 
 }

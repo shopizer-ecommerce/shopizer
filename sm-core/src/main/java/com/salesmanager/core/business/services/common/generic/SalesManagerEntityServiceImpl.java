@@ -44,6 +44,10 @@ public abstract class SalesManagerEntityServiceImpl<K extends Serializable & Com
 		repository.saveAndFlush(entity);
 	}
 	
+	public void saveAll(Iterable<E> entities) throws ServiceException {
+		repository.saveAll(entities);
+	}
+	
 	
 	public void create(E entity) throws ServiceException {
 		save(entity);

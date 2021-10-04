@@ -22,6 +22,11 @@ public interface SalesManagerEntityService<K extends Serializable & Comparable<K
 	void save(E entity) throws ServiceException;
 	
 	/**
+	 * Save all
+	 */
+	void saveAll(Iterable<E> entities) throws ServiceException;
+	
+	/**
 	 * Met à jour l'entité dans la base de données.
 	 * 
 	 * @param entity entité

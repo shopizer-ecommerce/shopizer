@@ -29,7 +29,6 @@ import org.hibernate.annotations.Cascade;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
-import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.ProductDimensions;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
@@ -93,7 +92,7 @@ public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailab
 	private String owner;
 
 	@Column(name = "STATUS")
-	private boolean productStatus = true;
+	private boolean productStatus = true; //can be used as flag for instance can be purchase or not
 
 	@Column(name = "FREE_SHIPPING")
 	private boolean productIsAlwaysFreeShipping;

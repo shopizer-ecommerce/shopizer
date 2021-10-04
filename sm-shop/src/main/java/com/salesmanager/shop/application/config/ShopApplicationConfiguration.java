@@ -32,7 +32,6 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import com.salesmanager.core.business.configuration.CoreApplicationConfiguration;
-import com.salesmanager.shop.filter.AdminFilter;
 import com.salesmanager.shop.filter.CorsFilter;
 import com.salesmanager.shop.filter.StoreFilter;
 import com.salesmanager.shop.filter.XssFilter;
@@ -95,8 +94,6 @@ public class ShopApplicationConfiguration implements WebMvcConfigurer {
         // REST api
         .addPathPatterns("/api/**");
 
-    // admin panel filter
-    registry.addInterceptor(adminFilter()).addPathPatterns("/admin/**");
   }
 
   @Bean
@@ -124,10 +121,6 @@ public class ShopApplicationConfiguration implements WebMvcConfigurer {
     return new CorsFilter();
   }
 
-  @Bean
-  public AdminFilter adminFilter() {
-    return new AdminFilter();
-  }
 
   @Bean
   public SessionLocaleResolver localeResolver() {

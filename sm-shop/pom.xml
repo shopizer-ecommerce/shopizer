@@ -23,25 +23,21 @@
 
 	<dependencies>
 
-		<!-- sm-core -->
 		<dependency>
 			<groupId>com.shopizer</groupId>
 			<artifactId>sm-core</artifactId>
 		</dependency>
 
-		<!-- sm-core-model -->
 		<dependency>
 			<groupId>com.shopizer</groupId>
 			<artifactId>sm-core-model</artifactId>
 		</dependency>
 
-		<!-- sm-shop-model -->
 		<dependency>
 			<groupId>com.shopizer</groupId>
 			<artifactId>sm-shop-model</artifactId>
 		</dependency>
 
-		<!-- sm-search -->
 		<dependency>
 			<groupId>com.shopizer</groupId>
 			<artifactId>sm-search</artifactId>
@@ -86,13 +82,6 @@
 			<artifactId>tomcat-embed-jasper</artifactId>
 			<scope>provided</scope>
 		</dependency>
-
-		<!--
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-taglibs</artifactId>
-		</dependency>
-		-->
 
 		<!-- https://mvnrepository.com/artifact/commons-collections/commons-collections -->
 		<!-- For Tiles -->

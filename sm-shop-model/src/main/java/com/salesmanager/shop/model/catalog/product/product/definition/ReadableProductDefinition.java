@@ -22,6 +22,7 @@ public class ReadableProductDefinition extends ProductDefinition {
 	private ProductDescription description = null;
 	private List<PersistableProductAttribute> properties = new ArrayList<PersistableProductAttribute>();
 	private List<ReadableImage> images = new ArrayList<ReadableImage>();
+	private String price;
 	
 	
 	public ReadableProductType getType() {
@@ -59,6 +60,12 @@ public class ReadableProductDefinition extends ProductDefinition {
 	}
 	public void setImages(List<ReadableImage> images) {
 		this.images = images;
+	}
+	public String getPrice() {
+		return price;
+	}
+	public void setPrice(String price) {
+		this.price = price;
 	}
 
 

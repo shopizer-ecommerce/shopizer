@@ -9,16 +9,8 @@ public class ReadableProductOptionValue extends ProductOptionValue {
 	
 	private String price;
 	private String image;
-	private String name;
+	private String description;
 
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 
 	public String getPrice() {
 		return price;
@@ -34,6 +26,14 @@ public class ReadableProductOptionValue extends ProductOptionValue {
 
 	public void setImage(String image) {
 		this.image = image;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }

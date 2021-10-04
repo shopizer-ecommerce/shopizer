@@ -163,6 +163,8 @@ public class ProductPriceUtils {
 				finalPrice.setOriginalPrice(op);
 			}
 		}
+		
+		finalPrice.setStringPrice(this.getStringAmount(finalPrice.getFinalPrice()));
 
 		return finalPrice;
 
@@ -185,6 +187,22 @@ public class ProductPriceUtils {
 	 */
 	public String getAdminFormatedAmount(MerchantStore store, BigDecimal amount) throws Exception {
 			
+		if(amount==null) {
+			return "";
+		}
+
+		NumberFormat nf = NumberFormat.getInstance(Constants.DEFAULT_LOCALE);
+
+		nf.setMaximumFractionDigits(Integer.parseInt(Character
+					.toString(DECIMALCOUNT)));
+		nf.setMinimumFractionDigits(Integer.parseInt(Character
+					.toString(DECIMALCOUNT)));
+
+		return nf.format(amount);
+	}
+	
+	public String getStringAmount(BigDecimal amount) {
+		
 		if(amount==null) {
 			return "";
 		}
