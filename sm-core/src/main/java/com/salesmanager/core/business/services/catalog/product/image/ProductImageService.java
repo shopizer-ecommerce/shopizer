@@ -74,4 +74,6 @@ public interface ProductImageService extends SalesManagerEntityService<Long, Pro
 	void addProductImages(Product product, List<ProductImage> productImages)
 			throws ServiceException;
 	
+	void updateProductImage(Product product, ProductImage productImage);
+	
 }

@@ -4,14 +4,13 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jsoup.helper.Validate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import org.springframework.util.CollectionUtils;
 
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.modules.cms.product.ProductFileManager;
@@ -192,5 +191,15 @@ public class ProductImageServiceImpl extends SalesManagerEntityServiceImpl<Long,
 		}
 
 		return image;
+	}
+
+
+	@Override
+	public void updateProductImage(Product product, ProductImage productImage) {
+		Validate.notNull(product,"Product cannot be null");
+		Validate.notNull(productImage,"ProductImage cannot be null");
+		productImage.setProduct(product);
+		productImageRepository.save(productImage);
+		
 	}
 }
