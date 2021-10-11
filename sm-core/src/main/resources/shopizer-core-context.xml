@@ -32,9 +32,9 @@
   <!-- modules -->
   <beans:import resource="classpath:/spring/shopizer-core-modules.xml" />
   <!-- shipping pre processors -->
-  <beans:import resource="classpath:/spring/processors/shopizer-core-shipping-processors.xml" />
+  <beans:import resource="classpath:/spring/shopizer-core-shipping-processors.xml" />
   <!-- order total pre processors -->
-  <beans:import resource="classpath:/spring/processors/shopizer-core-ordertotal-processors.xml" />
+  <beans:import resource="classpath:/spring/shopizer-core-ordertotal-processors.xml" />
   <!-- search -->
   <beans:import resource="classpath:/spring/shopizer-search.xml" />
   

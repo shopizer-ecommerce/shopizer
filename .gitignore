@@ -2,7 +2,6 @@
 *.class
 *.jar
 *.lst
-*.dat
 */target/
 *.idea/
 *.iml
