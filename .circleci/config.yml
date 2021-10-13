@@ -56,7 +56,7 @@ jobs:
            working_directory: ./sm-shop/target
        - run: |
            docker login -u shopizerecomm -p $DOCKERHUB_PASSWORD
-      - run: |
+       - run: |
            ./mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=shopizerecomm/shopizer:3.0.0
        #- run:
        #    name: build image
