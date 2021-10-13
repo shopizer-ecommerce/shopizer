@@ -32,12 +32,19 @@ import com.salesmanager.shop.model.entity.NameEntity;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.api.exception.UnauthorizedException;
+
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.SwaggerDefinition;
+import io.swagger.annotations.Tag;
 import springfox.documentation.annotations.ApiIgnore;
 
 @Controller
 @RequestMapping("/api/v1")
+@Api(tags = { "Manage product images. Add, remove and set the order of product images." })
+@SwaggerDefinition(tags = {
+		@Tag(name = "Product images management", description = "Add and remove products images. Change images sort order.") })
 public class ProductImageApi {
 
 	@Inject
@@ -198,7 +205,8 @@ public class ProductImageApi {
 			}
 			
 			if(p.getMerchantStore().getId() != merchantStore.getId()) {
-				
+				throw new ResourceNotFoundException("Product image [" + imageId + "] not found for product id [" + id
+						+ "] and merchant [" + merchantStore.getCode() + "]");
 			}
 			
 			Optional<ProductImage> productImage = productImageService.getProductImage(imageId, id, merchantStore);

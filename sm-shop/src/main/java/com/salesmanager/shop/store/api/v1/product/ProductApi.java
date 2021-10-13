@@ -2,8 +2,10 @@ package com.salesmanager.shop.store.api.v1.product;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -37,6 +39,7 @@ import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.ProductCriteria;
+import com.salesmanager.core.model.catalog.product.image.ProductImage;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.LightPersistableProduct;
@@ -50,6 +53,7 @@ import com.salesmanager.shop.model.catalog.product.product.definition.ReadablePr
 import com.salesmanager.shop.model.entity.Entity;
 import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
+import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.api.exception.UnauthorizedException;
 import com.salesmanager.shop.store.controller.product.facade.ProductDefinitionFacade;
 import com.salesmanager.shop.store.controller.product.facade.ProductFacade;
@@ -447,6 +451,48 @@ public class ProductApi {
 			}
 
 			return null;
+		}
+	}
+	
+	/**
+	 * Change product sort order
+	 * @param id
+	 * @param position
+	 * @param merchantStore
+	 * @param language
+	 * @throws IOException
+	 */
+
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = { "/private/product/{id}",
+			"/auth/product/{id}" }, method = RequestMethod.PATCH)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	public void imageDetails(@PathVariable Long id, @PathVariable Long imageId,
+			@RequestParam(value = "order", required = false, defaultValue = "0") Integer position,
+			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) throws IOException {
+
+		try {
+			
+			Product p = productService.getById(id);
+			
+			if(p==null) {
+				throw new ResourceNotFoundException("Product [" + id + "] not found for merchant [" + merchantStore.getCode() + "]");
+			}
+			
+			if(p.getMerchantStore().getId() != merchantStore.getId()) {
+				throw new ResourceNotFoundException("Product [" + id + "] not found for merchant [" + merchantStore.getCode() + "]");
+			}
+			
+			/**
+			 * Change order
+			 */
+			
+			
+
+		} catch (Exception e) {
+			LOGGER.error("Error while deleting ProductImage", e);
+			throw new ServiceRuntimeException("ProductImage [" + imageId + "] cannot be edited");
 		}
 	}
 
