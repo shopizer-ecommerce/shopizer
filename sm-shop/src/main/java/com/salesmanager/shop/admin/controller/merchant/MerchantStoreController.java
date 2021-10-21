@@ -28,6 +28,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -175,7 +176,7 @@ public class MerchantStoreController {
 
 	@PreAuthorize("hasRole('STORE')")
 	@RequestMapping(value = "/admin/store/editStore.html", method = RequestMethod.GET)
-	public String displayMerchantStore(@ModelAttribute("id") Integer id, Model model, HttpServletRequest request,
+	public String displayMerchantStore(@RequestParam("id") Integer id, Model model, HttpServletRequest request,
 			HttpServletResponse response, Locale locale) throws Exception {
 
 		setMenu(model, request);
@@ -226,7 +227,7 @@ public class MerchantStoreController {
 		model.addAttribute("sizes", sizes);
 		model.addAttribute("store", store);
 
-		return "admin-store";
+		return ControllerConstants.Tiles.Store.store;
 
 	}
 

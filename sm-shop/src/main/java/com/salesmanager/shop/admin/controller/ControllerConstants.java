@@ -65,6 +65,7 @@ public interface ControllerConstants
         
         interface Store{
             final String stores="admin-stores";
+            final String store="admin-store";
         }
 
 
