@@ -489,9 +489,9 @@ public class UserController {
 		
 		//edit mode, need to get original user important information
 		if(user.getId()!=null) {
-			dbUser = userService.getByUserName(user.getAdminName());
+			dbUser = userService.getById(user.getId());
 			if(dbUser==null) {
-				return "redirect:///admin/users/displayUser.html";
+				return "redirect:/admin/users/displayUser.html";
 			}
 		}
 
