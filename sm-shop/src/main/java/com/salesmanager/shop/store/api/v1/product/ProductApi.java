@@ -5,7 +5,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -39,7 +38,6 @@ import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.ProductCriteria;
-import com.salesmanager.core.model.catalog.product.image.ProductImage;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.LightPersistableProduct;
@@ -102,11 +100,7 @@ public class ProductApi {
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value = { "/v1/private/product", "/auth/products" }, // private
 																			// for
-																			// api
-																			// auth
-																			// for
-																			// user
-																			// adding
+																	// adding
 																			// products
 			method = RequestMethod.POST)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
@@ -468,8 +462,7 @@ public class ProductApi {
 			"/auth/product/{id}" }, method = RequestMethod.PATCH)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public void imageDetails(@PathVariable Long id, @PathVariable Long imageId,
-			@RequestParam(value = "order", required = false, defaultValue = "0") Integer position,
+	public void changeProductOrder(@PathVariable Long id, @RequestParam(value = "order", required = false, defaultValue = "0") Integer position,
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) throws IOException {
 
 		try {
@@ -487,12 +480,13 @@ public class ProductApi {
 			/**
 			 * Change order
 			 */
+			p.setSortOrder(position);
 			
 			
 
 		} catch (Exception e) {
-			LOGGER.error("Error while deleting ProductImage", e);
-			throw new ServiceRuntimeException("ProductImage [" + imageId + "] cannot be edited");
+			LOGGER.error("Error while updating Product position", e);
+			throw new ServiceRuntimeException("Product [" + id + "] cannot be edited");
 		}
 	}
 

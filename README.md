@@ -1,7 +1,7 @@
 ------------------------------------------------------------------------
 English
 ------------------------------------------------------------------------
-Shopizer (for java 1.8 +)
+Shopizer (for java 1.8 +) (tested with Java 11)
 -------------------
 
 [![last_version](https://img.shields.io/badge/last_version-v2.17.0-blue.svg?style=flat)](https://github.com/shopizer-ecommerce/shopizer/tree/2.17.0)
@@ -21,11 +21,8 @@ Java open source e-commerce software
 - Administration
 - REST API
 
-See the demo (jsp):
--------------------
-http://aws-demo.shopizer.com:8080/
 
-See the demo (React):
+See the demo (React - Angular):
 -------------------
 Available soon
 
@@ -50,7 +47,7 @@ From the command line:
 
 Run the application from Tomcat 
 -------------------
-copy sm-shop/target/ROOT.war to tomcat or any other application server deployment dir
+copy sm-shop/target/sm-shop.jar to tomcat or any other application server deployment dir
 
 Increase heap space to 1024 m
 
@@ -88,19 +85,14 @@ run ShopApplication
 Run Docker image with working demo
 -------------------
 
-	docker run -p 80:8080 shopizerecomm/shopizer:latest
+	docker run -p 80:8080 shopizerecomm/shopizer:3.0.alpha
 
 
 ### Access the application:
 -------------------
 
-Access the deployed web application at: http://localhost:8080/
+Access the headless web application at: http://localhost:8080/swagger-ui.html
 
-Access the admin section at: http://localhost:8080/admin
-
-username : admin@shopizer.com
-
-password : password
 
 The instructions above will let you run the application with default settings and configurations.
 Please read the instructions on how to connect to MySQL, configure an email server and configure other subsystems
@@ -162,10 +154,10 @@ Push changes to GitHub
 FRENCH
 ------------------------------------------------------------------------
 
-Shopizer (pour java 1.8 +)
+Shopizer (pour java 1.8 +) (testé avec Java 11)
 -------------------
 
-[![last_version](https://img.shields.io/badge/last_version-v2.12.0-blue.svg?style=flat)](https://github.com/shopizer-ecommerce/shopizer/tree/2.12.0)
+[![last_version](https://img.shields.io/badge/last_version-v2.17.0-blue.svg?style=flat)](https://github.com/shopizer-ecommerce/shopizer/tree/2.17.0)
 [![Official site](https://img.shields.io/website-up-down-green-red/https/shields.io.svg?label=official%20site)](http://www.shopizer.com/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/shopizerecomm/shopizer.svg)](https://hub.docker.com/r/shopizerecomm/shopizer)
 [![stackoverflow](https://img.shields.io/badge/shopizer-stackoverflow-orange.svg?style=flat)](http://stackoverflow.com/questions/tagged/shopizer)
@@ -209,7 +201,7 @@ Depuis la ligne de commande:
 
 Exécutez l'application depuis Tomcat
 -------------------
-copier sm-shop / target / ROOT.war vers tomcat ou tout autre répertoire de déploiement du serveur d'applications
+copier sm-shop / target / sm-shop.jar vers tomcat ou tout autre répertoire de déploiement du serveur d'applications
 
 Augmenter l'espace du tas à 1024 m （Heap space)
 
@@ -242,12 +234,6 @@ exécuter en tant qu'application Java
 
 Accédez à l'application Web déployée à l'adresse: http: //localhost:8080/
 
-Accédez à la section d'administration à l'adresse: http://localhost: 8080/admin
-
-nom d'utilisateur: admin@shopizer.com
-
-mot de passe: password
-
 Les instructions ci-dessus vous permettront d'exécuter l'application avec les paramètres et configurations par défaut.
 Veuillez lire les instructions pour vous connecter à MySQL, configurer un serveur de messagerie et configurer d'autres sous-systèmes
 
@@ -273,10 +259,10 @@ afin que nous puissions envoyer une invitation sur notre chaîne Slack
 ------------------------------------------------------------------------
 中文版本
 ------------------------------------------------------------------------
-Shopizer（适用于 java 1.8 +）
+Shopizer（适用于 java 1.8 +） (11)
 -------------------
 
-[![最新版本](https://img.shields.io/badge/last_version-v2.12.0-blue.svg?style=flat)](https://github.com/shopizer-ecommerce/shopizer/tree/2.12.0)
+[![最新版本](https://img.shields.io/badge/last_version-v2.17.0-blue.svg?style=flat)](https://github.com/shopizer-ecommerce/shopizer/tree/2.17.0)
 [![官方网站](https://img.shields.io/website-up-down-green-red/https/shields.io.svg?label=official%20site)](http://www.shopizer.com/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/shopizerecomm/shopizer.svg)](https://hub.docker.com/r/shopizerecomm/shopizer)
 [![stackoverflow](https://img.shields.io/badge/shopizer-stackoverflow-orange.svg?style=flat)](http://stackoverflow.com/questions/tagged/shopizer)
@@ -352,11 +338,6 @@ $ git clone git://github.com/shopizer-ecommerce/shopizer.git
 
 访问已部署的 Web 应用程序：http://localhost:8080/
 
-访问管理部分：http://localhost:8080/admin
-
-用户名：admin@shopizer.com
-
-密码：password
 
 上述说明将让您使用默认设置和配置运行应用程序。
 请阅读有关如何连接到 MySQL、配置电子邮件服务器和配置其他子系统的说明
