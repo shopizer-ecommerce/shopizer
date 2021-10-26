@@ -36,6 +36,7 @@ public class AdminErrorController {
 	 * @return an error model
 	 */
 	// list of "BAD REQUEST"-related exceptions are taken over from Springs DefaultHandlerExceptionResolver
+	//Generally any error due to inputs should be a 400
 	@ExceptionHandler({
 			MissingServletRequestParameterException.class,
 			ServletRequestBindingException.class,
@@ -43,7 +44,8 @@ public class AdminErrorController {
 			HttpMessageNotReadableException.class,
 			MethodArgumentNotValidException.class,
 			MissingServletRequestPartException.class,
-			BindException.class
+			BindException.class,
+			IllegalArgumentException.class
 	})
 	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
 	@Produces({MediaType.APPLICATION_JSON})
@@ -75,7 +77,7 @@ public class AdminErrorController {
 		return model;
  
 	}
-
+	//500 is reserved for a logic error
 	@ExceptionHandler(RuntimeException.class)
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
 	@Produces({MediaType.APPLICATION_JSON})
