@@ -44,8 +44,7 @@ public class AdminErrorController {
 			HttpMessageNotReadableException.class,
 			MethodArgumentNotValidException.class,
 			MissingServletRequestPartException.class,
-			BindException.class,
-			IllegalArgumentException.class
+			BindException.class
 	})
 	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
 	@Produces({MediaType.APPLICATION_JSON})
