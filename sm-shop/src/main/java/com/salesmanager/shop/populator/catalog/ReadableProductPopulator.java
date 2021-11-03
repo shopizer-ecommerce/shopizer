@@ -1,11 +1,13 @@
 package com.salesmanager.shop.populator.catalog;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -210,6 +212,7 @@ public class ReadableProductPopulator extends
 					ReadableImage prdImage = new ReadableImage();
 					prdImage.setImageName(img.getProductImage());
 					prdImage.setDefaultImage(img.isDefaultImage());
+					prdImage.setOrder(img.getSortOrder());
 
 					if (img.getImageType() == 1 && img.getProductImageUrl()!=null) {
 						prdImage.setImageUrl(img.getProductImageUrl());
@@ -234,6 +237,10 @@ public class ReadableProductPopulator extends
 
 					imageList.add(prdImage);
 				}
+				imageList = imageList.stream()
+				.sorted(Comparator.comparingInt(ReadableImage::getOrder))
+				.collect(Collectors.toList());
+				
 				target
 				.setImages(imageList);
 			}

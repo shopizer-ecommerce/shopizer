@@ -298,7 +298,7 @@ public class ProductApi {
 	}
 
 	@RequestMapping(value = "/v1/product/{id}/price", method = RequestMethod.POST)
-	@ApiOperation(httpMethod = "POST", value = "Calculate product price with variants", notes = "Product price calculation from variamts")
+	@ApiOperation(httpMethod = "POST", value = "Calculate product price with variants", notes = "Product price calculation from variants")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Price calculated", response = ReadableProductPrice.class) })
 	@ResponseBody
@@ -462,6 +462,7 @@ public class ProductApi {
 			"/auth/product/{id}" }, method = RequestMethod.PATCH)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	@ApiOperation(httpMethod = "POST", value = "Patch product sort order", notes = "Change product sortOrder")
 	public void changeProductOrder(@PathVariable Long id, @RequestParam(value = "order", required = false, defaultValue = "0") Integer position,
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) throws IOException {
 
