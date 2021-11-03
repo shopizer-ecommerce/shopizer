@@ -19,7 +19,7 @@
 	<properties>
 		<coverage.lines>.00</coverage.lines>
 		<coverage.branches>.00</coverage.branches>
-		<google-client-maps-services-version>0.1.6</google-client-maps-services-version>
+		<google-client-maps-services-version>0.10.0</google-client-maps-services-version>
 	</properties>
 
 	<dependencies>
