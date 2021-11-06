@@ -114,9 +114,7 @@ public class UserServicesImpl implements WebUserServices{
 	
 	
 	public void createDefaultAdmin() throws Exception {
-		
-		  //TODO create all groups and permissions
-		
+
 		  MerchantStore store = merchantStoreService.getByCode(MerchantStore.DEFAULT_STORE);
 
 		  String password = passwordEncoder.encode(DEFAULT_INITIAL_PASSWORD);
