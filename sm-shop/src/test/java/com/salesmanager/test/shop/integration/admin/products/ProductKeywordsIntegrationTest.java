@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Contains tests targeting {@link com.salesmanager.shop.admin.controller.products.ProductKeywordsController}
  */
-@SpringBootTest(classes = ShopApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = ShopApplication.class)
 @RunWith(SpringRunner.class)
 public class ProductKeywordsIntegrationTest {
 

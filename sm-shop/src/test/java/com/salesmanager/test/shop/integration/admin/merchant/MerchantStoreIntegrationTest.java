@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Contains tests targeting {@link com.salesmanager.shop.admin.controller.merchant.MerchantStoreController}
  */
-@SpringBootTest(classes = ShopApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = ShopApplication.class)
 @RunWith(SpringRunner.class)
 public class MerchantStoreIntegrationTest {
     private static final String QUERY_PARAM_ID = "id";
