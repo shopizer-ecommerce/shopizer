@@ -38,7 +38,7 @@ public interface UserFacade {
   /**
    * Find user by id
    * @param id
-   * @param merchant
+   * @param store
    * @param lang
    * @return
    */
@@ -81,7 +81,7 @@ public interface UserFacade {
   /**
    * Determines if a user is in a specific group
    * @param userName
-   * @param groupName
+   * @param groupNames
    */
   void authorizedGroup(String userName, List<String> groupNames);
   
@@ -142,7 +142,6 @@ public interface UserFacade {
    * Change password request
    * @param userId
    * @param authenticatedUser
-   * @param storeCode
    * @param changePassword
    */
   void changePassword(Long userId, String authenticatedUser, UserPassword changePassword);
