@@ -206,7 +206,7 @@ Clonez le référentiel:
      
 	 $ git clone git://github.com/shopizer-ecommerce/shopizer.git
 
-Si c'est la première fois que vous utilisez Github, consultez  http://help.github.com to learn the basics.
+Si c'est la première fois que vous utilisez Github, consultez  http://help.github.com pour apprendre les bases.
 
  Vous pouvez également télécharger le fichier zip contenant le code depuis https://github.com/shopizer-ecommerce/shopizer 
 
