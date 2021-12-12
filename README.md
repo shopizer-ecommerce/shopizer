@@ -1,8 +1,8 @@
-------------------------------------------------------------------------
-English
-------------------------------------------------------------------------
-Shopizer 3 (for java 1.8 +) (tested with Java 11)
--------------------
+# Shopizer 3 (for java 1.8 +) (tested with Java 11)
+
+
+## Shopizer 2.X (for java 1.8 +) is still available
+
 
 [![last_version](https://img.shields.io/badge/last_version-v3.0.0-blue.svg?style=flat)](https://github.com/shopizer-ecommerce/shopizer/tree/3.0.0)
 [![Official site](https://img.shields.io/website-up-down-green-red/https/shields.io.svg?label=official%20site)](http://www.shopizer.com/)
