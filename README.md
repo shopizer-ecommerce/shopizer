@@ -43,7 +43,7 @@ Run from Docker images:
 1. Run java backend
 
 ```
-       docker run -p 8080:8080 shopizerecomm/shopizer:3.0.0
+docker run -p 8080:8080 shopizerecomm/shopizer:3.0.0
 ```
        
 2. Run the administration tool
@@ -51,9 +51,9 @@ Run from Docker images:
 ⋅⋅⋅ Requires the java backend to be running
 
 ```
-       docker run \
-			-e "APP_BASE_URL=http://localhost:8080/api" \
-			-p 82:80 shopizerecomm/shopizer-admin
+docker run \
+ -e "APP_BASE_URL=http://localhost:8080/api" \
+ -p 82:80 shopizerecomm/shopizer-admin
 ```
 
 
@@ -62,10 +62,10 @@ Run from Docker images:
 ⋅⋅⋅ Requires the java backend to be running
 
 ```
-	   docker run
-			-e "APP_MERCHANT=DEFAULT"
-             -e "APP_BASE_URL=http://localhost:8080"
-             -p 80:80 shopizerecomm/shopizer-shop-reactjs
+docker run \
+ -e "APP_MERCHANT=DEFAULT"
+ -e "APP_BASE_URL=http://localhost:8080"
+ -p 80:80 shopizerecomm/shopizer-shop-reactjs
 ```
 
 Get the source code:
@@ -73,62 +73,35 @@ Get the source code:
 Clone the repository:
      
 	 $ git clone git://github.com/shopizer-ecommerce/shopizer.git
+	 
+	 $ git clone git://github.com/shopizer-ecommerce/shopizer-admin.git
+	 
+	 $ git clone git://github.com/shopizer-ecommerce/shopizer-shop-reactjs.git
 
 If this is your first time using Github, review http://help.github.com to learn the basics.
 
-You can also download the zip file containing the code from https://github.com/shopizer-ecommerce/shopizer 
+You can also download the zip file containing the code from https://github.com/shopizer-ecommerce for each of the the projects above
 
 To build the application:
--------------------	
+-------------------
+
+1. Shopizer backend
+
+
 From the command line:
 
 	$ cd shopizer
 	$ mvnw clean install
 	$ cd sm-shop
 	$ mvnw spring-boot:run
-	
 
-Run the application from Tomcat 
--------------------
-copy sm-shop/target/sm-shop.jar to tomcat or any other application server deployment dir
+2. Shopizer admin
 
-Increase heap space to 1024 m
+Form compiling and running Shopizer admin consult the repo README file
 
-### Heap space configuration in Tomcat:
+3. Shop sample site
 
-
-If you are using Tomcat, edit catalina.bat for windows users or catalina.sh for linux / Mac users
-
-	in Windows
-	set JAVA_OPTS="-Xms1024m -Xmx1024m -XX:MaxPermSize=256m" 
-	
-	in Linux / Mac
-	export JAVA_OPTS="-Xms1024m -Xmx1024m -XX:MaxPermSize=256m" 
-
-Run the application from Spring boot 
--------------------
-
-       $ cd sm-shop
-       $ mvnw spring-boot:run
-
-Run the application from Spring boot in eclipse
--------------------
-
-Right click on com.salesmanager.shop.application.ShopApplication
-
-run as Java Application
-
-Run the application from Spring boot in IntelliJ
--------------------
-
-In Run/Debug Configurations, set to the option Working directory the path of the sm-shop project
-
-run ShopApplication
-
-Run Docker image with working demo
--------------------
-
-	docker run -p 80:8080 shopizerecomm/shopizer:3.0.alpha
+Form compiling and running Shopizer admin consult the repo README file
 
 
 ### Access the application:
@@ -180,13 +153,7 @@ Create new branch in your repository
 	   $ git checkout -b branch-name
 
 
-Check your branch status before commit to the branch
+Push your changes to Shopizer
 -------------------
 
-	   $ git status 
-	   $ git commit 
-
-Push changes to GitHub
--------------------
-
-	   $ git push -u origin HEAD
+Please open a PR (pull request) in order to have your changes merged to the upstream
