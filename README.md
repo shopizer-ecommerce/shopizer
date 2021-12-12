@@ -15,13 +15,13 @@ Java open source e-commerce software
 
 Headless commerce and Rest api for ecommerce
 
-Catalogue
-Shopping cart
-Checkout
-Merchant
-Order
-Customer
-User
+- Catalogue
+- Shopping cart
+- Checkout
+- Merchant
+- Order
+- Customer
+- User
 
 Shopizer Headless commerce consists of the following components:
 
@@ -37,10 +37,9 @@ Available soon
 
 Demo site for Shopizer 2.X is still available [Legacy Shopizer demo](http://demo.shopizer.com)
 
-Run from Docker images:
--------------------
+1.  Run from Docker images:
 
-1. Run java backend
+From the command line:
 
 ```
 docker run -p 8080:8080 shopizerecomm/shopizer:3.0.0
