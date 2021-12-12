@@ -1,7 +1,5 @@
-------------------------------------------------------------------------
-English
-------------------------------------------------------------------------
-Shopizer (for java 1.8 +)
+
+# Shopizer 2.X (for java 1.8 +)
 -------------------
 
 [![last_version](https://img.shields.io/badge/last_version-v2.17.0-blue.svg?style=flat)](https://github.com/shopizer-ecommerce/shopizer/tree/2.17.0)
