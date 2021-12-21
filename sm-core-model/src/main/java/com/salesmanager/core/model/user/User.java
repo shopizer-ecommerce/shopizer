@@ -22,12 +22,11 @@ import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
-
-import org.hibernate.annotations.Cascade;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
-import com.salesmanager.core.constants.SchemaConstant;
+import org.hibernate.annotations.Cascade;
+
 import com.salesmanager.core.model.common.CredentialsReset;
 import com.salesmanager.core.model.common.audit.AuditListener;
 import com.salesmanager.core.model.common.audit.AuditSection;

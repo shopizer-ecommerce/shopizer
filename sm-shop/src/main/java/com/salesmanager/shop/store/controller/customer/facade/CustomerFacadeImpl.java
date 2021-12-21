@@ -393,7 +393,7 @@ public class CustomerFacadeImpl implements CustomerFacade {
     Validate.notNull(customer, "Customer object cannot be null");
     if (customer.getId() == null || customer.getId() == 0) {
       if (StringUtils.isBlank(customer.getNick())) {
-        String userName = "test@shopizer.com";
+        String userName = customer.getEmailAddress();
         customer.setNick(userName);
       }
       if (StringUtils.isBlank(customer.getPassword())) {

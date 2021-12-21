@@ -63,6 +63,7 @@ public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailab
 	@JoinColumn(name = "PRODUCT_ID", nullable = false)
 	private Product product;
 
+	/** TODO Questioned **/
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "MERCHANT_ID", nullable = true)
 	private MerchantStore merchantStore;
