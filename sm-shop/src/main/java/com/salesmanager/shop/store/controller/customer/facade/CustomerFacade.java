@@ -77,7 +77,7 @@ public interface CustomerFacade
      */
     public ShoppingCart mergeCart(final Customer customer,final String sessionShoppingCartId,final MerchantStore store,final Language language) throws Exception;
     
-    public Customer getCustomerByUserName(final String userName, final MerchantStore store) throws Exception;
+    public Customer getCustomerByUserName(final String userName, final MerchantStore store);
     
     public boolean checkIfUserExists(final String userName,final MerchantStore store) throws Exception;
     
@@ -111,7 +111,7 @@ public interface CustomerFacade
 	 * @param language
 	 * @throws Exception
 	 */
-	void resetPassword(Customer customer, MerchantStore store, Language language) throws Exception;
+	void resetPassword(Customer customer, MerchantStore store, Language language);
 	
 	/**
 	 * Updates a Customer
