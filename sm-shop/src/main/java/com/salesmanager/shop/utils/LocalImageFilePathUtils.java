@@ -1,6 +1,7 @@
 package com.salesmanager.shop.utils;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.salesmanager.core.model.catalog.product.Product;
@@ -16,11 +17,16 @@ import com.salesmanager.shop.model.catalog.manufacturer.Manufacturer;
 public class LocalImageFilePathUtils extends AbstractimageFilePath{
 	
 	private String basePath = Constants.STATIC_URI;
+	
+	private static final String SCHEME = "http://";
+	
+	@Autowired
+	private ServerConfig serverConfig;
 
 	@Override
 	public String getBasePath(MerchantStore store) {
-		
-		return new StringBuilder().append(this.getScheme(store)).append(basePath).toString();
+		String host = new StringBuilder().append(SCHEME).append(serverConfig.getApplicationHost()).toString();
+		return new StringBuilder().append(this.getScheme(store, host)).append(basePath).toString();
 	}
 
 	@Override
@@ -141,8 +147,8 @@ public class LocalImageFilePathUtils extends AbstractimageFilePath{
 		return super.getProperties().getProperty(CONTEXT_PATH);
 	}
 	
-	private String getScheme(MerchantStore store) {
-		return store.getDomainName();
+	private String getScheme(MerchantStore store, String derivedHost) {
+		return store.getDomainName() != null ? store.getDomainName():derivedHost;
 	}
 	
 

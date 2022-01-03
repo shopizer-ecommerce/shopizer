@@ -1,6 +1,7 @@
 package com.salesmanager.shop.application.config;
 
 import org.drools.core.util.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import com.salesmanager.shop.utils.CloudFilePathUtils;
 import com.salesmanager.shop.utils.ImageFilePath;
 import com.salesmanager.shop.utils.LocalImageFilePathUtils;
+import com.salesmanager.shop.utils.ServerConfig;
 
 @Configuration
 public class LocationImageConfig {
@@ -21,6 +23,7 @@ public class LocationImageConfig {
   @Value("${config.cms.static.path}")
   private String staticPath;
 
+
   @Bean
   public ImageFilePath img() {
 	  
@@ -30,6 +33,8 @@ public class LocationImageConfig {
 	    return cloudFilePathUtils;
 
 	} else {
+
+		
 	    LocalImageFilePathUtils localImageFilePathUtils = new LocalImageFilePathUtils();
 	    localImageFilePathUtils.setBasePath(staticPath);
 	    return localImageFilePathUtils;
