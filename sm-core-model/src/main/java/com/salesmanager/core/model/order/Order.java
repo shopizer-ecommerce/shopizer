@@ -124,6 +124,7 @@ public class Order extends SalesManagerEntity<Long, Order> {
 	private Billing billing = null;
 	
 	@Embedded
+	@Deprecated
 	private CreditCard creditCard = null;
 
 	
