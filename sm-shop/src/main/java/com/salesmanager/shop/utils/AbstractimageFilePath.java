@@ -23,6 +23,8 @@ public abstract class AbstractimageFilePath implements ImageFilePath {
 
 	public abstract void setBasePath(String basePath);
 	
+	public abstract void setContentUrlPath(String contentUrl);
+	
 	protected static final String CONTEXT_PATH = "CONTEXT_PATH";
 	
 	public @Resource(name="shopizer-properties") Properties properties = new Properties();//shopizer-properties

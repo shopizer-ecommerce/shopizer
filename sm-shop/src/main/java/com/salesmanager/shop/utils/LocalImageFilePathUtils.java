@@ -19,14 +19,20 @@ public class LocalImageFilePathUtils extends AbstractimageFilePath{
 	private String basePath = Constants.STATIC_URI;
 	
 	private static final String SCHEME = "http://";
+	private String contentUrl = null;
+
 	
 	@Autowired
 	private ServerConfig serverConfig;
 
 	@Override
 	public String getBasePath(MerchantStore store) {
-		String host = new StringBuilder().append(SCHEME).append(serverConfig.getApplicationHost()).toString();
-		return new StringBuilder().append(this.getScheme(store, host)).append(basePath).toString();
+		if(StringUtils.isBlank(contentUrl)) {
+			String host = new StringBuilder().append(SCHEME).append(serverConfig.getApplicationHost()).toString();
+			return new StringBuilder().append(this.getScheme(store, host)).append(basePath).toString();
+		} else {
+			return new StringBuilder().append(contentUrl).append(basePath).toString();
+		}
 	}
 
 	@Override
@@ -150,6 +156,12 @@ public class LocalImageFilePathUtils extends AbstractimageFilePath{
 	private String getScheme(MerchantStore store, String derivedHost) {
 		return store.getDomainName() != null ? store.getDomainName():derivedHost;
 	}
+
+	@Override
+	public void setContentUrlPath(String contentUrl) {
+		this.contentUrl = contentUrl;
+	}
+
 	
 
 
