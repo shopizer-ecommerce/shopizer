@@ -14,6 +14,7 @@
 	<artifactId>sm-core-model</artifactId>
 	<description>sm-core-modules is used for create new external modules implementation deployed in
     	maven.</description>
+    <version>3.0.1-SNAPSHOT</version>
 	<name>sm-core-model</name>
 	<url>http://www.shopizer.com</url>
 
@@ -123,7 +124,7 @@
 				</executions>
 			</plugin>
 
-<!-- 			<plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<executions>
@@ -148,7 +149,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin> -->
+			</plugin>
 		</plugins>
 	</build>
 </project>
