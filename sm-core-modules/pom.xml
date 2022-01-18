@@ -17,7 +17,6 @@
   <description>sm-core-modules is used for create new external modules implementation deployed in
     maven.
   </description>
-  <version>3.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
   <url>http://www.shopizer.com</url>
 

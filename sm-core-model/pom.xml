@@ -16,7 +16,6 @@
     	maven.</description>
 	<name>sm-core-model</name>
 	<url>http://www.shopizer.com</url>
-	<version>3.0.1-SNAPSHOT</version>
 
 	<properties>
 		<java.version>11</java.version>
