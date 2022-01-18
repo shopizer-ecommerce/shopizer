@@ -16,6 +16,7 @@
     	maven.</description>
 	<name>sm-core-model</name>
 	<url>http://www.shopizer.com</url>
+	<version>3.0.1-SNAPSHOT</version>
 
 	<properties>
 		<java.version>11</java.version>
@@ -30,7 +31,7 @@
 		<developerConnection>scm:git:ssh://github.com:shopizer-ecommerce/shopizer-sm-core-model.git
     </developerConnection>
 		<url>https://github.com/shopizer-ecommerce/shopizer-sm-core-model</url>
-		<tag>sm-core-model-3.0.1</tag>
+		<tag>sm-core-model-3.0.0</tag>
 	</scm>
 
 	<distributionManagement>
@@ -131,7 +132,7 @@
 
 	<build>
 		<plugins>
-			<!--OSSRH -->
+			<!--
 			<plugin>
 				<groupId>org.sonatype.plugins</groupId>
 				<artifactId>nexus-staging-maven-plugin</artifactId>
@@ -143,7 +144,7 @@
 					<autoReleaseAfterClose>true</autoReleaseAfterClose>
 				</configuration>
 			</plugin>
-			<!--OSSRH -->
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
@@ -155,7 +156,7 @@
 					<goals>deploy</goals>
 				</configuration>
 			</plugin>
-			<!--OSSRH -->
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
@@ -168,7 +169,7 @@
 					</execution>
 				</executions>
 			</plugin>
-
+			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
@@ -195,6 +196,7 @@
 					</execution>
 				</executions>
 			</plugin>
+			-->
 		</plugins>
 	</build>
 </project>
