@@ -1,7 +1,6 @@
 package com.salesmanager.core.business.services.system;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -60,7 +59,6 @@ public class ModuleConfigurationServiceImpl extends
 		List<IntegrationModule> modules = null;
 		try {
 			
-			//CacheUtils cacheUtils = CacheUtils.getInstance();
 			modules = (List<IntegrationModule>) cache.getFromCache("INTEGRATION_M)" + module);
 			if(modules==null) {
 				modules = moduleConfigurationRepository.findByModule(module);
@@ -79,8 +77,6 @@ public class ModuleConfigurationServiceImpl extends
 					
 					String details = mod.getConfigDetails();
 					if(details!=null) {
-						
-						//Map objects = mapper.readValue(config, Map.class);
 
 						Map<String,String> objDetails= (Map<String, String>) JSONValue.parse(details); 
 						mod.setDetails(objDetails);
@@ -91,8 +87,7 @@ public class ModuleConfigurationServiceImpl extends
 					
 					String configs = mod.getConfiguration();
 					if(configs!=null) {
-						
-						//Map objects = mapper.readValue(config, Map.class);
+
 
 						Object objConfigs=JSONValue.parse(configs); 
 						JSONArray arrayConfigs=(JSONArray)objConfigs;
