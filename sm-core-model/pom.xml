@@ -2,15 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<!--
 	<parent>
 		<groupId>com.shopizer</groupId>
 		<artifactId>shopizer</artifactId>
 		<version>3.0.0</version>
 	</parent>
-	-->
 	
 	<!-- https://mvnrepository.com/artifact/com.shopizer/shopizer-parent -->
+	<!--
 	<parent>
 	    <groupId>com.shopizer</groupId>
 	    <artifactId>shopizer-parent</artifactId>
@@ -18,6 +17,7 @@
 	    <relativePath />
 	</parent>
 	<version>3.0.3</version>
+	-->
 	
 
 
@@ -102,7 +102,6 @@
 		<dependency>
 			<groupId>com.googlecode.json-simple</groupId>
 			<artifactId>json-simple</artifactId>
-			<version>1.1</version>
 		</dependency>
 
 
@@ -124,14 +123,12 @@
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.11.0</version>
 		</dependency>
 
 		<!-- http://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
-			<version>1.4</version>
 		</dependency>
 
 	</dependencies>
