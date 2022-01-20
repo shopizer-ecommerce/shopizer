@@ -4,16 +4,27 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
+	<!--
 	<parent>
 		<groupId>com.shopizer</groupId>
 		<artifactId>shopizer</artifactId>
 		<version>3.0.0</version>
 	</parent>
+	-->
+	
+	<!-- https://mvnrepository.com/artifact/com.shopizer/shopizer-parent -->
+	<parent>
+	    <groupId>com.shopizer</groupId>
+	    <artifactId>shopizer-parent</artifactId>
+	    <version>3.0.3</version>
+	    <relativePath></relativePath>
+	</parent>
+	<version>3.0.3-SNAPSHOT</version>
+	
 
 
 	<artifactId>sm-core-model</artifactId>
-	<description>sm-core-modules is used for create new external modules implementation deployed in
-    	maven.</description>
+	<description>sm-core-modules is used for create new external modules implementation deployed in maven.</description>
 	<name>sm-core-model</name>
 	<url>http://www.shopizer.com</url>
 
@@ -27,8 +38,7 @@
 
 	<scm>
 		<connection>scm:git:git://github.com:shopizer-ecommerce/shopizer-sm-core-model.git</connection>
-		<developerConnection>scm:git:ssh://github.com:shopizer-ecommerce/shopizer-sm-core-model.git
-    </developerConnection>
+		<developerConnection>scm:git:ssh://github.com:shopizer-ecommerce/shopizer-sm-core-model.git</developerConnection>
 		<url>https://github.com/shopizer-ecommerce/shopizer-sm-core-model</url>
 		<tag>sm-core-model-3.0.0</tag>
 	</scm>
@@ -54,7 +64,7 @@
 	<developers>
 		<developer>
 			<name>Shopizer Team</name>
-			<email>team@shopizer.com</email>
+			<email>contact@shopizer.com</email>
 			<organization>Shopizer</organization>
 			<organizationUrl>http://www.shopizer.com</organizationUrl>
 		</developer>
@@ -102,7 +112,6 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.12.0</version>
 		</dependency>
 
 
