@@ -187,7 +187,7 @@
 			<dependency>
 				<groupId>mysql</groupId>
 				<artifactId>mysql-connector-java</artifactId>
-				<version>${mysql-jdbc-version}</version>
+				<version>8.0.28</version>
 			</dependency>
 
 			<!-- For connecting to oracle -->
