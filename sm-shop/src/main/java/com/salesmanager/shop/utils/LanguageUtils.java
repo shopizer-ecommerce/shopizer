@@ -1,6 +1,10 @@
 package com.salesmanager.shop.utils;
 
+import static com.salesmanager.core.business.constants.Constants.DEFAULT_STORE;
+
 import java.util.Locale;
+import java.util.Optional;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -8,8 +12,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.support.RequestContextUtils;
 import com.salesmanager.core.business.exception.ServiceException;
@@ -18,16 +24,21 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
+import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 
 @Component
 public class LanguageUtils {
 
   protected final Log logger = LogFactory.getLog(getClass());
+  public static final String REQUEST_PARAMATER_STORE = "store";
 
   private static final String ALL_LANGUALES = "_all";
 
   @Inject
   LanguageService languageService;
+  
+  @Autowired
+  private StoreFacade storeFacade;
 
   public Language getServiceLanguage(String lang) {
     Language l = null;
@@ -129,7 +140,7 @@ public class LanguageUtils {
    * @return
    * @throws Exception
    */
-  public Language getRESTLanguage(HttpServletRequest request) {
+  public Language getRESTLanguage(HttpServletRequest request, NativeWebRequest webRequest) {
 
     Validate.notNull(request, "HttpServletRequest must not be null");
 
@@ -140,7 +151,20 @@ public class LanguageUtils {
 
       if (StringUtils.isBlank(lang)) {
         if (language == null) {
-          language = languageService.defaultLanguage();
+    	    String storeValue = Optional.ofNullable(webRequest.getParameter(REQUEST_PARAMATER_STORE))
+    				.filter(StringUtils::isNotBlank).orElse(DEFAULT_STORE);
+    	    if(!StringUtils.isBlank(storeValue)) {
+    	      try {
+    	    	  MerchantStore storeModel = storeFacade.get(storeValue);
+    	    	  language = storeModel.getDefaultLanguage();
+    	      } catch (Exception e) {
+    	    	  logger.warn("Cannot get store with code [" + storeValue + "]");
+    	      }
+    	    	
+    	    } else {
+    	    	language = languageService.defaultLanguage();
+    	    }
+
         }
       } else {
         if(!ALL_LANGUALES.equals(lang)) {

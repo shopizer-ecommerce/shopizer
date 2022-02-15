@@ -12,10 +12,12 @@ import java.util.Set;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
+import com.salesmanager.shop.utils.ServerConfig;
+
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -41,7 +43,12 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class DocumentationConfiguration {
 
-	public static final Contact DEFAULT_CONTACT = new Contact("Shopizer", "http://www.shopizer.com", "");
+	public static final Contact DEFAULT_CONTACT = new Contact("Shopizer", "https://www.shopizer.com", "");
+	
+	private static final String SCHEME = "http://";
+	
+	@Autowired
+	private ServerConfig serverConfig;
 
 	/**
 	 * http://localhost:8080/swagger-ui.html#/ http://localhost:8080/v2/api-docs
@@ -49,6 +56,8 @@ public class DocumentationConfiguration {
 
 	@Bean
 	public Docket api() {
+		
+		String host = new StringBuilder().append(SCHEME).append(serverConfig.getApplicationHost()).toString();
 
 		final List<ResponseMessage> getMessages = new ArrayList<ResponseMessage>();
 		getMessages.add(new ResponseMessageBuilder().code(500).message("500 message")
@@ -62,7 +71,9 @@ public class DocumentationConfiguration {
 		Set<String> consumes = new HashSet<>();
 		consumes.add("application/json");
 
-		return new Docket(DocumentationType.SWAGGER_2).select()
+		return new Docket(DocumentationType.SWAGGER_2)
+				.host(host)
+				.select()
 				.apis(requestHandlers()).build()
 				.securitySchemes(Collections.singletonList(new ApiKey("JWT", AUTHORIZATION, HEADER.name())))
 		        .securityContexts(singletonList(
