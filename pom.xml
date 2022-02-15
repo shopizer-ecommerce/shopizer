@@ -7,7 +7,7 @@
 	<groupId>com.shopizer</groupId>
 	<artifactId>shopizer</artifactId>
 	<packaging>pom</packaging>
-	<version>3.0.0</version>
+	<version>${shopizer.version}</version>
 
 	<name>shopizer</name>
 	<url>http://ww.shopizer.com</url>

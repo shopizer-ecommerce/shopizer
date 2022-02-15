@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>com.shopizer</groupId>
 		<artifactId>shopizer</artifactId>
-		<version>3.0.0</version>
+		<version>${shopizer.version}</version>
 	</parent>
 
 	<artifactId>sm-shop</artifactId>
