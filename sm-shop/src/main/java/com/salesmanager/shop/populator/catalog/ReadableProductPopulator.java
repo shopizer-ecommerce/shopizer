@@ -212,7 +212,7 @@ public class ReadableProductPopulator extends
 					ReadableImage prdImage = new ReadableImage();
 					prdImage.setImageName(img.getProductImage());
 					prdImage.setDefaultImage(img.isDefaultImage());
-					prdImage.setOrder(img.getSortOrder());
+					prdImage.setOrder(img.getSortOrder() != null ? img.getSortOrder().intValue() : 0);
 
 					if (img.getImageType() == 1 && img.getProductImageUrl()!=null) {
 						prdImage.setImageUrl(img.getProductImageUrl());
