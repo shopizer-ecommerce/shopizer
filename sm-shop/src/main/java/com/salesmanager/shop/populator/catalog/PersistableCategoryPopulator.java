@@ -96,7 +96,7 @@ public class PersistableCategoryPopulator extends
 				int depth = parent.getDepth();
 
 				target.setDepth(depth+1);
-				target.setLineage(new StringBuilder().append(lineage).append(parent.getId()).append("/").toString());
+				target.setLineage(new StringBuilder().append(lineage).append(target.getId()).append("/").toString());
 			}
 
 		}
