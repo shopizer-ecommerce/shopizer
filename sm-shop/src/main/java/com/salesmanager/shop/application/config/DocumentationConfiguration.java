@@ -45,10 +45,7 @@ public class DocumentationConfiguration {
 
 	public static final Contact DEFAULT_CONTACT = new Contact("Shopizer", "https://www.shopizer.com", "");
 	
-	private static final String SCHEME = "http://";
-	
-	@Autowired
-	private ServerConfig serverConfig;
+	private static final String HOST = "https://api.shopizer.com";
 
 	/**
 	 * http://localhost:8080/swagger-ui.html#/ http://localhost:8080/v2/api-docs
@@ -56,8 +53,6 @@ public class DocumentationConfiguration {
 
 	@Bean
 	public Docket api() {
-		
-		String host = new StringBuilder().append(SCHEME).append(serverConfig.getApplicationHost()).toString();
 
 		final List<ResponseMessage> getMessages = new ArrayList<ResponseMessage>();
 		getMessages.add(new ResponseMessageBuilder().code(500).message("500 message")
@@ -72,7 +67,7 @@ public class DocumentationConfiguration {
 		consumes.add("application/json");
 
 		return new Docket(DocumentationType.SWAGGER_2)
-				.host(host)
+				.host(HOST)
 				.select()
 				.apis(requestHandlers()).build()
 				.securitySchemes(Collections.singletonList(new ApiKey("JWT", AUTHORIZATION, HEADER.name())))
