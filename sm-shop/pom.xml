@@ -203,7 +203,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-        			<jvmArguments>-javaagent:D:\Sealights\FileStorage\sl-cache\maven-plugin\sl-test-listener-3.1.1910.jar -Dsl.token=${SL_TOKEN} -Dsl.buildSessionId=${SL_BUILD_SESSION_ID}</jvmArguments>
+        			<jvmArguments>-javaagent:D:\Sealights\FileStorage\sl-cache\maven-plugin\sl-test-listener-3.1.1956.jar -Dsl.token=${SL_TOKEN} -Dsl.buildSessionId=${SL_BUILD_SESSION_ID} -Dsl.labId=integ_master_d7b9_ShopizerIntegrationBuild</jvmArguments>
    				 </configuration>
 			</plugin>
 		</plugins>
