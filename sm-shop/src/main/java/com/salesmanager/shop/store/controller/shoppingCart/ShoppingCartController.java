@@ -245,7 +245,7 @@ public class ShoppingCartController extends AbstractController {
         if(StringUtils.isBlank(cartCode)) {
         	//display empty cart
             StringBuilder template =
-                    new StringBuilder().append( ControllerConstants.Tiles.ShoppingCart.shoppingCart ).append( "." ).append( store.getStoreTemplate() );
+                    new StringBuilder().append( ControllerConstants.Tiles.ShoppingCart.MAINSHOPPINGCART_STRING ).append( "." ).append( store.getStoreTemplate() );
                 return template.toString();
         }
                 
@@ -254,7 +254,7 @@ public class ShoppingCartController extends AbstractController {
         if(shoppingCart == null) {
         	//display empty cart
             StringBuilder template =
-                    new StringBuilder().append( ControllerConstants.Tiles.ShoppingCart.shoppingCart ).append( "." ).append( store.getStoreTemplate() );
+                    new StringBuilder().append( ControllerConstants.Tiles.ShoppingCart.MAINSHOPPINGCART_STRING ).append( "." ).append( store.getStoreTemplate() );
                 return template.toString();
         }
         
@@ -281,7 +281,7 @@ public class ShoppingCartController extends AbstractController {
 
         /** template **/
         StringBuilder template =
-            new StringBuilder().append( ControllerConstants.Tiles.ShoppingCart.shoppingCart ).append( "." ).append( store.getStoreTemplate() );
+            new StringBuilder().append( ControllerConstants.Tiles.ShoppingCart.MAINSHOPPINGCART_STRING ).append( "." ).append( store.getStoreTemplate() );
         return template.toString();
     }
     
@@ -333,7 +333,7 @@ public class ShoppingCartController extends AbstractController {
 
 	        /** template **/
 	        StringBuilder template =
-	            new StringBuilder().append( ControllerConstants.Tiles.ShoppingCart.shoppingCart ).append( "." ).append( merchantStore.getStoreTemplate() );
+	            new StringBuilder().append( ControllerConstants.Tiles.ShoppingCart.MAINSHOPPINGCART_STRING ).append( "." ).append( merchantStore.getStoreTemplate() );
 	        return template.toString();
 			
 

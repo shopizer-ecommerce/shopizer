@@ -431,7 +431,7 @@ public class ShoppingOrderController extends AbstractController {
 		model.addAttribute("paymentMethods", paymentMethods);
 		
 		/** template **/
-		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Checkout.checkout).append(".").append(store.getStoreTemplate());
+		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Checkout.CHECKOUT_STRING).append(".").append(store.getStoreTemplate());
 		return template.toString();
 
 		
@@ -445,7 +445,7 @@ public class ShoppingOrderController extends AbstractController {
 		Language language = (Language)request.getAttribute("LANGUAGE");
 		ShopOrder order = super.getSessionAttribute(Constants.ORDER, request);
 		if(order==null) {
-			StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Pages.timeout).append(".").append(store.getStoreTemplate());
+			StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Pages.TIMEOUT_STRING).append(".").append(store.getStoreTemplate());
 			return template.toString();	
 		}
 		model.addAttribute("googleMapsKey",googleMapsKey);
@@ -714,13 +714,13 @@ public class ShoppingOrderController extends AbstractController {
 				if(shoppingCartCode==null) {
 					
 					if(cookie==null) {//session expired and cookie null, nothing to do
-						StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Pages.timeout).append(".").append(store.getStoreTemplate());
+						StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Pages.TIMEOUT_STRING).append(".").append(store.getStoreTemplate());
 						return template.toString();
 					}
 					String merchantCookie[] = cookie.split("_");
 					String merchantStoreCode = merchantCookie[0];
 					if(!merchantStoreCode.equals(store.getCode())) {
-						StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Pages.timeout).append(".").append(store.getStoreTemplate());
+						StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Pages.TIMEOUT_STRING).append(".").append(store.getStoreTemplate());
 						return template.toString();
 					}
 					shoppingCartCode = merchantCookie[1];
@@ -728,7 +728,7 @@ public class ShoppingOrderController extends AbstractController {
 				com.salesmanager.core.model.shoppingcart.ShoppingCart cart = null;
 			
 			    if(StringUtils.isBlank(shoppingCartCode)) {
-					StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Pages.timeout).append(".").append(store.getStoreTemplate());
+					StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Pages.TIMEOUT_STRING).append(".").append(store.getStoreTemplate());
 					return template.toString();	
 			    }
 			    cart = shoppingCartFacade.getShoppingCartModel(shoppingCartCode, store);
@@ -929,7 +929,7 @@ public class ShoppingOrderController extends AbstractController {
 		            	}
 		            }
         			model.addAttribute("errorMessages", message);
-		            StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Checkout.checkout).append(".").append(store.getStoreTemplate());
+		            StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Checkout.CHECKOUT_STRING).append(".").append(store.getStoreTemplate());
 		    		return template.toString();
 	
 		        }
@@ -963,7 +963,7 @@ public class ShoppingOrderController extends AbstractController {
             	
             	
             	
-            	StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Checkout.checkout).append(".").append(store.getStoreTemplate());
+            	StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Checkout.CHECKOUT_STRING).append(".").append(store.getStoreTemplate());
 	    		return template.toString();
 				
 			} catch(Exception e) {

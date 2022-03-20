@@ -345,7 +345,7 @@ public class ShopProductController {
 
 		
 		/** template **/
-		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Product.product).append(".").append(store.getStoreTemplate());
+		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Product.PRODUCT_STRING).append(".").append(store.getStoreTemplate());
 
 		return template.toString();
 	}

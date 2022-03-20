@@ -183,7 +183,7 @@ public class ShoppingOrderConfirmationController extends AbstractController {
 		
 		
 		/** template **/
-		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Checkout.confirmation).append(".").append(store.getStoreTemplate());
+		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Checkout.CONFIRMATION_STRING).append(".").append(store.getStoreTemplate());
 		return template.toString();
 
 		

@@ -254,7 +254,7 @@ public class ShoppingCategoryController {
 		
 		
 		/** template **/
-		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Category.category).append(".").append(store.getStoreTemplate());
+		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Category.CATEGORY_STRING).append(".").append(store.getStoreTemplate());
 
 		return template.toString();
 	}
@@ -327,7 +327,7 @@ public class ShoppingCategoryController {
 	/**
 	 * Returns category id with number of products
 	 * @param store
-	 * @param category
+	 * @param CATEGORY_STRING
 	 * @param lineage
 	 * @param subIds
 	 * @return

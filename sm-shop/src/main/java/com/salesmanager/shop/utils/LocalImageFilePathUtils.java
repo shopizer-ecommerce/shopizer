@@ -47,7 +47,7 @@ public class LocalImageFilePathUtils extends AbstractimageFilePath{
 	 * @param imageName
 	 * @return
 	 */
-	public String buildStaticimageUtils(MerchantStore store, String imageName) {
+	public String buildStaticImageUtils(MerchantStore store, String imageName) {
 		StringBuilder imgName = new StringBuilder().append(getBasePath(store)).append(Constants.FILES_URI).append(Constants.SLASH).append(store.getCode()).append("/").append(FileContentType.IMAGE.name()).append("/");
 				if(!StringUtils.isBlank(imageName)) {
 					imgName.append(imageName);

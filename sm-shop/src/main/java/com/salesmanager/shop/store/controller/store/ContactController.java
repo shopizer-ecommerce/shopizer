@@ -102,7 +102,7 @@ public class ContactController extends AbstractController {
 		
 		
 		/** template **/
-		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Content.contactus).append(".").append(store.getStoreTemplate());
+		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Content.CONTACTUS_STRING).append(".").append(store.getStoreTemplate());
 		return template.toString();
 		
 		

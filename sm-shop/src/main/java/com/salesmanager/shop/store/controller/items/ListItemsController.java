@@ -68,7 +68,7 @@ public class ListItemsController {
 		model.addAttribute("manufacturer", readableManufacturer);
 		
 		/** template **/
-		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Items.items_manufacturer).append(".").append(store.getStoreTemplate());
+		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Items.ITEMS_MANUFACTURE_STRING).append(".").append(store.getStoreTemplate());
 
 		return template.toString();
 	}
