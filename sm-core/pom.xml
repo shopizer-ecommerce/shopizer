@@ -55,6 +55,21 @@
             <version>2.17.0</version>
         </dependency>
 
+
+		<dependency>
+            <groupId>com.shopizer</groupId>
+            <artifactId>modules-commons</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
+        </dependency>
+        
+        
+        <dependency>
+            <groupId>com.shopizer</groupId>
+            <artifactId>shopizer-payment-square-spring-boot-starter</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+		
+
 		<!-- Google Map API -->
 		<dependency>
 			<groupId>com.google.maps</groupId>

@@ -20,13 +20,9 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
-
-
-import javax.validation.constraints.NotEmpty;
-
-import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 import com.salesmanager.core.model.merchant.MerchantStore;
 
@@ -36,6 +32,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 	 
 	indexes = { @Index(name="PRD_OPTION_CODE_IDX", columnList = "PRODUCT_OPTION_CODE")}, 
 	uniqueConstraints=@UniqueConstraint(columnNames = {"MERCHANT_ID", "PRODUCT_OPTION_CODE"}))
+
 public class ProductOption extends SalesManagerEntity<Long, ProductOption> {
 	private static final long serialVersionUID = 1L;
 	

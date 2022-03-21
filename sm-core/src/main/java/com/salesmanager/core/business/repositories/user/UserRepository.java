@@ -9,7 +9,7 @@ import com.salesmanager.core.model.user.User;
 
 public interface UserRepository extends JpaRepository<User, Long>, UserRepositoryCustom {
 
-	@Query("select distinct u from User as u left join fetch u.groups ug join fetch u.merchantStore um left join fetch u.defaultLanguage ul where u.adminName = ?1")
+	@Query("select distinct u from User as u left join fetch u.groups ug left join fetch ug.permissions ugp join fetch u.merchantStore um left join fetch u.defaultLanguage ul where u.adminName = ?1")
 	User findByUserName(String userName);
 	
 	@Query("select distinct u from User as u left join fetch u.groups ug join fetch u.merchantStore um left join fetch u.defaultLanguage ul where u.id = ?1 and um.code = ?2")

@@ -13,6 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -42,7 +43,9 @@ import com.salesmanager.core.model.reference.language.Language;
  */
 @Entity
 @EntityListeners(value = AuditListener.class)
-@Table(name = "USERS", uniqueConstraints=
+@Table(name = "USERS", 
+    indexes = { @Index(name="USR_NAME_IDX", columnList = "ADMIN_NAME")},
+	uniqueConstraints=
 	@UniqueConstraint(columnNames = {"MERCHANT_ID", "ADMIN_NAME"}))
 public class User extends SalesManagerEntity<Long, User> implements Auditable {
 	
@@ -146,13 +149,7 @@ public class User extends SalesManagerEntity<Long, User> implements Auditable {
 	
 	@Embedded
 	private CredentialsReset credentialsResetRequest = null;
-	
-/*	@Column(name="PASSWORD_TOKEN")
-	private String resetPasswordToken;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "EXPIRED_P_TOKEN")
-	private Date tokenPasswordExpiration;*/
+
 
 	public CredentialsReset getCredentialsResetRequest() {
 		return credentialsResetRequest;
