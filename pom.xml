@@ -43,7 +43,7 @@
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 
 		<!--shopizer version -->
-		<shopizer.version>3.0.0</shopizer.version>
+		<shopizer.version>3.0.1</shopizer.version>
 		<shopizer.search.version>2.11.1</shopizer.search.version>
 		<shopizer-canadapost.version>2.15.0</shopizer-canadapost.version>
 
