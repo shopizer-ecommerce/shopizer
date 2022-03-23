@@ -22,6 +22,7 @@ import com.salesmanager.shop.model.order.v0.PersistableOrder;
 import com.salesmanager.shop.model.order.v0.ReadableOrderList;
 import com.salesmanager.shop.populator.customer.CustomerPopulator;
 import com.salesmanager.shop.populator.order.PersistableOrderPopulator;
+import com.salesmanager.shop.store.api.v0.base.BaseClass;
 import com.salesmanager.shop.store.controller.order.facade.OrderFacade;
 
 import org.apache.commons.lang3.StringUtils;
@@ -39,7 +40,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/services/private")
-public class OrderRESTController {
+public class OrderRESTController extends BaseClass{
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(OrderRESTController.class);
 	
@@ -103,15 +104,7 @@ public class OrderRESTController {
 	@Deprecated
 	public PersistableOrder createOrder(@PathVariable final String store, @Valid @RequestBody PersistableOrder order, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
-		if(merchantStore!=null) {
-			if(!merchantStore.getCode().equals(store)) {
-				merchantStore = null;
-			}
-		}
-		
-		if(merchantStore== null) {
-			merchantStore = merchantStoreService.getByCode(store);
-		}
+		merchantStore = getMerchantStore(store, response, merchantStore);
 		
 		if(merchantStore==null) {
 			LOGGER.error("Merchant store is null for code " + store);
@@ -169,15 +162,7 @@ public class OrderRESTController {
 	@ResponseBody
 	public ReadableOrderList listOrders(@PathVariable final String store, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
-		if(merchantStore!=null) {
-			if(!merchantStore.getCode().equals(store)) {
-				merchantStore = null;
-			}
-		}
-		
-		if(merchantStore== null) {
-			merchantStore = merchantStoreService.getByCode(store);
-		}
+		merchantStore = getMerchantStore(store, response, merchantStore);
 		
 		if(merchantStore==null) {
 			LOGGER.error("Merchant store is null for code " + store);
@@ -242,15 +227,7 @@ public class OrderRESTController {
 	@ResponseBody
 	public ReadableOrderList listOrders(@PathVariable final String store, @PathVariable final Long id, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
-		if(merchantStore!=null) {
-			if(!merchantStore.getCode().equals(store)) {
-				merchantStore = null;
-			}
-		}
-		
-		if(merchantStore== null) {
-			merchantStore = merchantStoreService.getByCode(store);
-		}
+		merchantStore = getMerchantStore(store, response, merchantStore);
 		
 		if(merchantStore==null) {
 			LOGGER.error("Merchant store is null for code " + store);

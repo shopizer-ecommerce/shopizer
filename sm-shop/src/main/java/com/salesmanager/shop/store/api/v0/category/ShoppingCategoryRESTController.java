@@ -29,6 +29,7 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.catalog.category.PersistableCategory;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
+import com.salesmanager.shop.store.api.v0.base.BaseClass;
 import com.salesmanager.shop.store.controller.category.facade.CategoryFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
 
@@ -39,7 +40,7 @@ import com.salesmanager.shop.utils.LanguageUtils;
  */
 @Controller
 @RequestMapping("/services")
-public class ShoppingCategoryRESTController {
+public class ShoppingCategoryRESTController extends BaseClass{
 
 	
 	@Inject
@@ -67,15 +68,7 @@ public class ShoppingCategoryRESTController {
 			/** default routine **/
 			
 			MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
-			if(merchantStore!=null) {
-				if(!merchantStore.getCode().equals(store)) {
-					merchantStore = null;
-				}
-			}
-			
-			if(merchantStore== null) {
-				merchantStore = merchantStoreService.getByCode(store);
-			}
+			merchantStore = getMerchantStore(store, response, merchantStore);
 			
 			if(merchantStore==null) {
 				LOGGER.error("Merchant store is null for code " + store);

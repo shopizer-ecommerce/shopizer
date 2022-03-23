@@ -62,7 +62,7 @@ public class CustomerDashboardController extends AbstractController {
 		
 		
 		/** template **/
-		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Customer.customer).append(".").append(store.getStoreTemplate());
+		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Customer.CUSTOMER_STRING).append(".").append(store.getStoreTemplate());
 
 		return template.toString();
 		

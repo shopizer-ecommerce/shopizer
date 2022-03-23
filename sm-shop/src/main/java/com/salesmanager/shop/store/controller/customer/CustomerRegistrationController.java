@@ -129,7 +129,7 @@ public class CustomerRegistrationController extends AbstractController {
 		model.addAttribute("customer", customer);
 
 		/** template **/
-		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Customer.register).append(".").append(store.getStoreTemplate());
+		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Customer.REGISTER_STRING).append(".").append(store.getStoreTemplate());
 
 		return template.toString();
 
@@ -190,7 +190,7 @@ public class CustomerRegistrationController extends AbstractController {
             LOGGER.debug( "found {} validation error while validating in customer registration ",
                          bindingResult.getErrorCount() );
             StringBuilder template =
-                new StringBuilder().append( ControllerConstants.Tiles.Customer.register ).append( "." ).append( merchantStore.getStoreTemplate() );
+                new StringBuilder().append( ControllerConstants.Tiles.Customer.REGISTER_STRING ).append( "." ).append( merchantStore.getStoreTemplate() );
             return template.toString();
 
         }
@@ -210,7 +210,7 @@ public class CustomerRegistrationController extends AbstractController {
         	ObjectError error = new ObjectError("registration",messages.getMessage("registration.failed", locale));
         	bindingResult.addError(error);
             StringBuilder template =
-                            new StringBuilder().append( ControllerConstants.Tiles.Customer.register ).append( "." ).append( merchantStore.getStoreTemplate() );
+                            new StringBuilder().append( ControllerConstants.Tiles.Customer.REGISTER_STRING ).append( "." ).append( merchantStore.getStoreTemplate() );
             return template.toString();
         }
         
@@ -277,7 +277,7 @@ public class CustomerRegistrationController extends AbstractController {
         
         
         StringBuilder template =
-                new StringBuilder().append( ControllerConstants.Tiles.Customer.register ).append( "." ).append( merchantStore.getStoreTemplate() );
+                new StringBuilder().append( ControllerConstants.Tiles.Customer.REGISTER_STRING ).append( "." ).append( merchantStore.getStoreTemplate() );
         return template.toString();
 
     }

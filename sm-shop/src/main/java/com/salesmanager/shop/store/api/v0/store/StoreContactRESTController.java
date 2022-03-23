@@ -30,6 +30,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.shop.ContactForm;
+import com.salesmanager.shop.store.api.v0.base.BaseClass;
 import com.salesmanager.shop.utils.EmailTemplatesUtils;
 import com.salesmanager.shop.utils.LocaleUtils;
 
@@ -41,7 +42,7 @@ import com.salesmanager.shop.utils.LocaleUtils;
  */
 @Controller
 @RequestMapping("/services")
-public class StoreContactRESTController {
+public class StoreContactRESTController extends BaseClass{
 	
 	@Inject
 	private LanguageService languageService;
@@ -69,15 +70,7 @@ public class StoreContactRESTController {
 			/** default routine **/
 			
 			MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
-			if(merchantStore!=null) {
-				if(!merchantStore.getCode().equals(store)) {
-					merchantStore = null;
-				}
-			}
-			
-			if(merchantStore== null) {
-				merchantStore = merchantStoreService.getByCode(store);
-			}
+			merchantStore = getMerchantStore(store, response, merchantStore);
 			
 			if(merchantStore==null) {
 				LOGGER.error("Merchant store is null for code " + store);
@@ -115,15 +108,7 @@ public class StoreContactRESTController {
 			/** default routine **/
 			
 			MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
-			if(merchantStore!=null) {
-				if(!merchantStore.getCode().equals(store)) {
-					merchantStore = null;
-				}
-			}
-			
-			if(merchantStore== null) {
-				merchantStore = merchantStoreService.getByCode(store);
-			}
+			merchantStore = getMerchantStore(store, response, merchantStore);
 			
 			if(merchantStore==null) {
 				LOGGER.error("Merchant store is null for code " + store);

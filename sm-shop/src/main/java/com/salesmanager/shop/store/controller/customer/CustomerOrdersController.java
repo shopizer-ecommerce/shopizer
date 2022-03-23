@@ -87,7 +87,7 @@ public class CustomerOrdersController extends AbstractController {
         
         
         
-        StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Customer.customerOrders).append(".").append(store.getStoreTemplate());
+        StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Customer.CUSTOMERORDERS_STRING).append(".").append(store.getStoreTemplate());
         return template.toString();
 	}
 	
@@ -145,7 +145,7 @@ public class CustomerOrdersController extends AbstractController {
 			model.addAttribute("downloads", downloads);
 		}
 
-        StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Customer.customerOrder).append(".").append(store.getStoreTemplate());
+        StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Customer.CUSTOMERORDER_STRING).append(".").append(store.getStoreTemplate());
         return template.toString();
         
     }
