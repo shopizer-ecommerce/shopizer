@@ -257,13 +257,12 @@ public class ProductItemsFacadeImpl implements ProductItemsFacade {
 		
 		for(ProductRelationship relationship : relationships) {
 			
-			if(!"FEATURED_ITEM".equals(relationship.getCode())) {//do not add featured items
 				ProductGroup g = new ProductGroup();
 				g.setActive(relationship.isActive());
 				g.setCode(relationship.getCode());
+				g.setId(relationship.getId());
 				groups.add(g);
-			
-			}
+
 			
 		}
 		

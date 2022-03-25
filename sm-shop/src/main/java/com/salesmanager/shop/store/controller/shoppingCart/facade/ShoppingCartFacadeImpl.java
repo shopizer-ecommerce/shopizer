@@ -24,13 +24,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
@@ -44,19 +44,17 @@ import com.salesmanager.core.model.catalog.product.availability.ProductAvailabil
 import com.salesmanager.core.model.catalog.product.price.FinalPrice;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
-import com.salesmanager.core.model.order.OrderTotalSummary;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.shoppingcart.ShoppingCart;
 import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.mapper.cart.ReadableShoppingCartMapper;
 import com.salesmanager.shop.model.shoppingcart.CartModificationException;
 import com.salesmanager.shop.model.shoppingcart.PersistableShoppingCartItem;
 import com.salesmanager.shop.model.shoppingcart.ReadableShoppingCart;
 import com.salesmanager.shop.model.shoppingcart.ShoppingCartAttribute;
 import com.salesmanager.shop.model.shoppingcart.ShoppingCartData;
 import com.salesmanager.shop.model.shoppingcart.ShoppingCartItem;
-import com.salesmanager.shop.populator.shoppingCart.ReadableShoppingCartPopulator;
 import com.salesmanager.shop.populator.shoppingCart.ShoppingCartDataPopulator;
-import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.utils.DateUtil;
@@ -80,7 +78,7 @@ public class ShoppingCartFacadeImpl
     private ShoppingCartService shoppingCartService;
 
     @Inject
-    ShoppingCartCalculationService shoppingCartCalculationService;
+    private ShoppingCartCalculationService shoppingCartCalculationService;
 
     @Inject
     private ProductPriceUtils productPriceUtils;
@@ -97,6 +95,9 @@ public class ShoppingCartFacadeImpl
 	@Inject
 	@Qualifier("img")
 	private ImageFilePath imageUtils;
+	
+	@Autowired
+	private ReadableShoppingCartMapper readableShoppingCartMapper;
 
     public void deleteShoppingCart(final Long id, final MerchantStore store) throws Exception {
     	ShoppingCart cart = shoppingCartService.getById(id, store);
@@ -799,17 +800,9 @@ public class ShoppingCartFacadeImpl
 		}
 
         shoppingCartCalculationService.calculate( cartModel, store, language );
-
-        ReadableShoppingCartPopulator readableShoppingCart = new ReadableShoppingCartPopulator();
-
-        readableShoppingCart.setImageUtils(imageUtils);
-        readableShoppingCart.setPricingService(pricingService);
-        readableShoppingCart.setProductAttributeService(productAttributeService);
-        readableShoppingCart.setShoppingCartCalculationService(shoppingCartCalculationService);
-
+        
         ReadableShoppingCart readableCart = new  ReadableShoppingCart();
-
-        readableShoppingCart.populate(cartModel, readableCart,  store, language);
+        readableCart = readableShoppingCartMapper.convert(cartModel, store, language);
 
 
 		return readableCart;
@@ -934,41 +927,14 @@ public class ShoppingCartFacadeImpl
         cartModel = shoppingCartService.getById(cartModel.getId(), store);
 
         shoppingCartCalculationService.calculate( cartModel, store, language );
-
-        ReadableShoppingCartPopulator readableShoppingCart = new ReadableShoppingCartPopulator();
-
-        readableShoppingCart.setImageUtils(imageUtils);
-        readableShoppingCart.setPricingService(pricingService);
-        readableShoppingCart.setProductAttributeService(productAttributeService);
-        readableShoppingCart.setShoppingCartCalculationService(shoppingCartCalculationService);
-
-        ReadableShoppingCart readableCart = new  ReadableShoppingCart();
-
-        readableShoppingCart.populate(cartModel, readableCart,  store, language);
-
-
-		return readableCart;
+        return readableShoppingCartMapper.convert(cartModel, store, language);
 
 	}
 	
 	@Override
 	public ReadableShoppingCart readableCart(ShoppingCart cart, MerchantStore store, Language language) {
-        ReadableShoppingCartPopulator readableShoppingCart = new ReadableShoppingCartPopulator();
+        return readableShoppingCartMapper.convert(cart, store, language);
 
-        readableShoppingCart.setImageUtils(imageUtils);
-        readableShoppingCart.setPricingService(pricingService);
-        readableShoppingCart.setProductAttributeService(productAttributeService);
-        readableShoppingCart.setShoppingCartCalculationService(shoppingCartCalculationService);
-
-        ReadableShoppingCart readableCart = new  ReadableShoppingCart();
-        try {
-			readableShoppingCart.populate(cart, readableCart,  store, language);
-		} catch (ConversionException e) {
-			throw new ConversionRuntimeException(e);
-		}
-
-
-		return readableCart;
 
 	}
 
@@ -1044,17 +1010,9 @@ public class ShoppingCartFacadeImpl
 
         shoppingCartCalculationService.calculate( cartModel, store, language );
 
-        ReadableShoppingCartPopulator readableShoppingCart = new ReadableShoppingCartPopulator();
-
-        readableShoppingCart.setImageUtils(imageUtils);
-        readableShoppingCart.setPricingService(pricingService);
-        readableShoppingCart.setProductAttributeService(productAttributeService);
-        readableShoppingCart.setShoppingCartCalculationService(shoppingCartCalculationService);
 
         ReadableShoppingCart readableCart = new  ReadableShoppingCart();
-
-        readableShoppingCart.populate(cartModel, readableCart,  store, language);
-
+        readableCart = readableShoppingCartMapper.convert(cartModel, store, language);
 
 		return readableCart;
 
@@ -1124,19 +1082,9 @@ public class ShoppingCartFacadeImpl
         
 
         shoppingCartCalculationService.calculate(cartModel, store, language);
-        ReadableShoppingCartPopulator readableShoppingCart = new ReadableShoppingCartPopulator();
 
-        readableShoppingCart.setImageUtils(imageUtils);
-        readableShoppingCart.setPricingService(pricingService);
-        readableShoppingCart.setProductAttributeService(productAttributeService);
-        readableShoppingCart.setShoppingCartCalculationService(shoppingCartCalculationService);
+        return readableShoppingCartMapper.convert(cartModel, store, language);
 
-        ReadableShoppingCart readableCart = new ReadableShoppingCart();
-
-        readableShoppingCart.populate(cartModel, readableCart, store, language);
-
-
-        return readableCart;
 
     }
 
@@ -1205,15 +1153,7 @@ public class ShoppingCartFacadeImpl
 
 		if(cart != null) {
 
-	        ReadableShoppingCartPopulator readableShoppingCart = new ReadableShoppingCartPopulator();
-
-	        readableShoppingCart.setImageUtils(imageUtils);
-	        readableShoppingCart.setPricingService(pricingService);
-	        readableShoppingCart.setProductAttributeService(productAttributeService);
-	        readableShoppingCart.setShoppingCartCalculationService(shoppingCartCalculationService);
-
-	        readableShoppingCart.populate(cart, readableCart,  store, language);
-
+	        readableCart = readableShoppingCartMapper.convert(cart, store, language);
 
 		}
 
@@ -1229,20 +1169,15 @@ public class ShoppingCartFacadeImpl
 	public ReadableShoppingCart getByCode(String code, MerchantStore store, Language language) throws Exception {
 
 		ShoppingCart cart = shoppingCartService.getByCode(code, store);
-
 		ReadableShoppingCart readableCart = null;
 
 		if(cart != null) {
+			
 
-	        ReadableShoppingCartPopulator readableShoppingCart = new ReadableShoppingCartPopulator();
-
-	        readableShoppingCart.setImageUtils(imageUtils);
- 
-	        readableShoppingCart.setPricingService(pricingService);
-	        readableShoppingCart.setProductAttributeService(productAttributeService);
-	        readableShoppingCart.setShoppingCartCalculationService(shoppingCartCalculationService);
-
-	        readableCart = readableShoppingCart.populate(cart, null,  store, language);
+	        readableCart = readableShoppingCartMapper.convert(cart, store, language);
+	        
+	        
+	        
 	    	if(!StringUtils.isBlank(cart.getPromoCode())) {
 	    		Date promoDateAdded = cart.getPromoAdded();//promo valid 1 day
 	    		if(promoDateAdded == null) {
@@ -1257,8 +1192,6 @@ public class ShoppingCartFacadeImpl
 	    			readableCart.setPromoCode(cart.getPromoCode());
 	    		} 
 	    	}
-
-
 		}
 
 		return readableCart;
@@ -1288,16 +1221,7 @@ public class ShoppingCartFacadeImpl
 		
 		shoppingCartService.save(cart);
 
-
-        ReadableShoppingCartPopulator readableShoppingCart = new ReadableShoppingCartPopulator();
-
-        readableShoppingCart.setImageUtils(imageUtils);
-        readableShoppingCart.setPricingService(pricingService);
-        readableShoppingCart.setProductAttributeService(productAttributeService);
-        readableShoppingCart.setShoppingCartCalculationService(shoppingCartCalculationService);
-
-        //will calculate everything
-        return readableShoppingCart.populate(cart, null, store, language);
+        return readableShoppingCartMapper.convert(cart, store, language);
 
 	}
 

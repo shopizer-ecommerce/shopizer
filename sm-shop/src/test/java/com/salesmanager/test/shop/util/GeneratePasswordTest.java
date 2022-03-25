@@ -1,9 +1,9 @@
 package com.salesmanager.test.shop.util;
 
-import com.salesmanager.shop.admin.model.userpassword.UserReset;
-import org.junit.Assert;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -12,11 +12,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
+
 import com.salesmanager.shop.application.ShopApplication;
 import com.salesmanager.test.shop.common.ServicesTestSupport;
-
-
-import static com.salesmanager.shop.store.controller.customer.facade.CustomerFacadeImpl.USERNAME_LENGTH;
 
 
 /**
@@ -46,15 +44,6 @@ public class GeneratePasswordTest extends ServicesTestSupport {
       Assert.assertNotNull(encoded);
   }
 
-    @Test
-    public void generateNick() {
-        long start = System.currentTimeMillis();
-        LOGGER.info("Starting random generation: {}", start);
-        String userName = UserReset.generateRandomString(USERNAME_LENGTH);
-        LOGGER.info(userName);
-        LOGGER.info("End random generation, elapsed milliseconds: {}", System.currentTimeMillis() - start);
-        Assert.assertNotNull(userName);
-    }
 
 
 }

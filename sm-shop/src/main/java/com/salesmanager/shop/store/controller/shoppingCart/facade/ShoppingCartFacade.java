@@ -38,7 +38,6 @@ public interface ShoppingCartFacade {
      * either session or from underlying DB.
      */
     /**
-     * jsp cart methods
      * @param supportPromoCode
      * @param customer
      * @param store

@@ -15,6 +15,7 @@ import com.salesmanager.shop.utils.LanguageUtils;
 
 @Component
 public class LanguageArgumentResolver implements HandlerMethodArgumentResolver {
+		
 
   @Autowired
   private LanguageUtils languageUtils;
@@ -30,7 +31,7 @@ public class LanguageArgumentResolver implements HandlerMethodArgumentResolver {
 
     HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
 
-    return languageUtils.getRESTLanguage(request);
+    return languageUtils.getRESTLanguage(request, webRequest);
   }
 
 }

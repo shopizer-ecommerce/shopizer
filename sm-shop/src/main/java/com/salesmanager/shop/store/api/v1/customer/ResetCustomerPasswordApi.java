@@ -77,7 +77,8 @@ public class ResetCustomerPasswordApi {
 	@ApiOperation(httpMethod = "GET", value = "Validate customer password reset token", notes = "", response = Void.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public void passwordResetVerify(@PathVariable String store, @PathVariable String token,
+	public void passwordResetVerify(
+			@PathVariable String store, @PathVariable String token,
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
 
 		/**

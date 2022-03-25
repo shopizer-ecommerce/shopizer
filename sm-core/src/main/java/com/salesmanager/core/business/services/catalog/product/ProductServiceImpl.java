@@ -350,8 +350,7 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 	@Override
 	public Page<Product> listByStore(MerchantStore store, Language language, ProductCriteria criteria, int page,
 			int count) {
-		
-		//Pageable pageRequest = PageRequest.of(page, count);
+
 		criteria.setPageSize(page);
 		criteria.setPageSize(count);
 		criteria.setLegacyPagination(false);

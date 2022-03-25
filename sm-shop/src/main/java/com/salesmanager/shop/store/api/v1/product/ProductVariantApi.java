@@ -67,7 +67,16 @@ public class ProductVariantApi {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ProductVariantApi.class);
 
-
+  /**
+   * Calculates the price based on selected options if any
+   * @param id
+   * @param options
+   * @param merchantStore
+   * @param language
+   * @param response
+   * @return
+   * @throws Exception
+   */
   @RequestMapping(value = "/products/{id}/variant", method = RequestMethod.POST)
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(

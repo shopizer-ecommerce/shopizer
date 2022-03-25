@@ -15,6 +15,7 @@ public class ReadableImage extends Entity implements Serializable {
 	private String externalUrl;
 	private String videoUrl;
 	private int imageType;
+	private int order;
 	private boolean defaultImage;
 	public void setImageName(String imageName) {
 		this.imageName = imageName;
@@ -51,6 +52,12 @@ public class ReadableImage extends Entity implements Serializable {
 	}
 	public void setDefaultImage(boolean defaultImage) {
 		this.defaultImage = defaultImage;
+	}
+	public int getOrder() {
+		return order;
+	}
+	public void setOrder(int order) {
+		this.order = order;
 	}
 
 }

@@ -1,10 +1,10 @@
-------------------------------------------------------------------------
-English
-------------------------------------------------------------------------
-Shopizer (for java 1.8 +)
--------------------
+# Shopizer 3 (for java 1.8 +) (tested with Java 11)
 
-[![last_version](https://img.shields.io/badge/last_version-v2.17.0-blue.svg?style=flat)](https://github.com/shopizer-ecommerce/shopizer/tree/2.17.0)
+
+## Shopizer 2.X (for java 1.8 +) is still available
+
+
+[![last_version](https://img.shields.io/badge/last_version-v3.0.0-blue.svg?style=flat)](https://github.com/shopizer-ecommerce/shopizer/tree/3.0.0)
 [![Official site](https://img.shields.io/website-up-down-green-red/https/shields.io.svg?label=official%20site)](http://www.shopizer.com/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/shopizerecomm/shopizer.svg)](https://hub.docker.com/r/shopizerecomm/shopizer)
 [![stackoverflow](https://img.shields.io/badge/shopizer-stackoverflow-orange.svg?style=flat)](http://stackoverflow.com/questions/tagged/shopizer)
@@ -13,105 +13,101 @@ Shopizer (for java 1.8 +)
 
 Java open source e-commerce software
 
-- Headless commerce
-- Shopping cart
+Headless commerce and Rest api for ecommerce
+
 - Catalogue
-- Search
+- Shopping cart
 - Checkout
-- Administration
-- REST API
+- Merchant
+- Order
+- Customer
+- User
 
-See the demo (jsp):
--------------------
-http://aws-demo.shopizer.com:8080/
+Shopizer Headless commerce consists of the following components:
 
-See the demo (React):
+- Spring boot Java / Spring boot backend
+- Angular administration web application
+- React JS front end application
+
+
+
+See the demo:
 -------------------
 Available soon
 
+Demo site for Shopizer 2.X is still available [Legacy Shopizer demo](http://demo.shopizer.com)
 
-Get the code:
+1.  Run from Docker images:
+
+From the command line:
+
+```
+docker run -p 8080:8080 shopizerecomm/shopizer:3.0.0
+```
+       
+2. Run the administration tool
+
+⋅⋅⋅ Requires the java backend to be running
+
+```
+docker run \
+ -e "APP_BASE_URL=http://localhost:8080/api" \
+ -p 82:80 shopizerecomm/shopizer-admin
+```
+
+
+3. Run react shop sample site
+
+⋅⋅⋅ Requires the java backend to be running
+
+```
+docker run \
+ -e "APP_MERCHANT=DEFAULT"
+ -e "APP_BASE_URL=http://localhost:8080"
+ -p 80:80 shopizerecomm/shopizer-shop-reactjs
+```
+
+Get the source code:
 -------------------
 Clone the repository:
      
 	 $ git clone git://github.com/shopizer-ecommerce/shopizer.git
+	 
+	 $ git clone git://github.com/shopizer-ecommerce/shopizer-admin.git
+	 
+	 $ git clone git://github.com/shopizer-ecommerce/shopizer-shop-reactjs.git
 
 If this is your first time using Github, review http://help.github.com to learn the basics.
 
-You can also download the zip file containing the code from https://github.com/shopizer-ecommerce/shopizer 
-
-## Contributing
-
-Contributions are always welcome😁!
-
-- Fork the Project🍴
-- Make Changes
-- Push your commits to the forked repo
-- Make a Pull Request
-- Kindly wait for it to be merged
-- Buy yourself a ☕ if it's merged🎉
+You can also download the zip file containing the code from https://github.com/shopizer-ecommerce for each of the the projects above
 
 To build the application:
--------------------	
+-------------------
+
+1. Shopizer backend
+
+
 From the command line:
 
 	$ cd shopizer
 	$ mvnw clean install
-	
+	$ cd sm-shop
+	$ mvnw spring-boot:run
 
-Run the application from Tomcat 
--------------------
-copy sm-shop/target/ROOT.war to tomcat or any other application server deployment dir
+2. Shopizer admin
 
-Increase heap space to 1024 m
+Form compiling and running Shopizer admin consult the repo README file
 
-### Heap space configuration in Tomcat:
+3. Shop sample site
 
-
-If you are using Tomcat, edit catalina.bat for windows users or catalina.sh for linux / Mac users
-
-	in Windows
-	set JAVA_OPTS="-Xms1024m -Xmx1024m -XX:MaxPermSize=256m" 
-	
-	in Linux / Mac
-	export JAVA_OPTS="-Xms1024m -Xmx1024m -XX:MaxPermSize=256m" 
-
-Run the application from Spring boot 
--------------------
-
-       $ cd sm-shop
-       $ mvnw spring-boot:run
-
-Run the application from Spring boot in eclipse
--------------------
-
-Right click on com.salesmanager.shop.application.ShopApplication
-
-run as Java Application
-
-Run the application from Spring boot in IntelliJ
--------------------
-
-In Run/Debug Configurations, set to the option Working directory the path of the sm-shop project
-
-run ShopApplication
-
-Run Docker image with working demo
--------------------
-
-	docker run -p 80:8080 shopizerecomm/shopizer:latest
+Form compiling and running Shopizer admin consult the repo README file
 
 
 ### Access the application:
 -------------------
 
-Access the deployed web application at: http://localhost:8080/
+Access the headless web application at: http://localhost:8080/swagger-ui.html
 
-Access the admin section at: http://localhost:8080/admin
-
-username : admin@shopizer.com
-
-password : password
 
 The instructions above will let you run the application with default settings and configurations.
 Please read the instructions on how to connect to MySQL, configure an email server and configure other subsystems
@@ -148,7 +144,7 @@ Synchronize lastest version with the upstream
 -------------------
 
        $ git remote add upstream https://github.com/yourusername/shopizer.git
-	   $ git pull upstream 2.17.0
+	   $ git pull upstream 3.0.0
 
 Create new branch in your repository
 -------------------
@@ -156,236 +152,7 @@ Create new branch in your repository
 	   $ git checkout -b branch-name
 
 
-Check your branch status before commit to the branch
+Push your changes to Shopizer
 -------------------
 
-	   $ git status 
-	   $ git commit 
-
-Push changes to GitHub
--------------------
-
-	   $ git push -u origin HEAD
-
-
-
-------------------------------------------------------------------------
-FRENCH
-------------------------------------------------------------------------
-
-Shopizer (pour java 1.8 +)
--------------------
-
-[![last_version](https://img.shields.io/badge/last_version-v2.12.0-blue.svg?style=flat)](https://github.com/shopizer-ecommerce/shopizer/tree/2.12.0)
-[![Official site](https://img.shields.io/website-up-down-green-red/https/shields.io.svg?label=official%20site)](http://www.shopizer.com/)
-[![Docker Pulls](https://img.shields.io/docker/pulls/shopizerecomm/shopizer.svg)](https://hub.docker.com/r/shopizerecomm/shopizer)
-[![stackoverflow](https://img.shields.io/badge/shopizer-stackoverflow-orange.svg?style=flat)](http://stackoverflow.com/questions/tagged/shopizer)
-
-
-Logiciel de commerce électronique open source Java
-
-- Panier
-- Catalogue
-- Chercher
-- Check-out
-- Administration
-- API REST
-
-Voir la démo (jsp):
--------------------
-http://aws-demo.shopizer.com:8080/
-
-Voir la démo (angular):
--------------------
-Bientôt disponible
-
-
-Obtenez le code:
--------------------
-Clonez le référentiel:
-     
-	 $ git clone git://github.com/shopizer-ecommerce/shopizer.git
-
-Si c'est la première fois que vous utilisez Github, consultez  http://help.github.com to learn the basics.
-
- Vous pouvez également télécharger le fichier zip contenant le code depuis https://github.com/shopizer-ecommerce/shopizer 
-
-Pour créer l'application:
--------------------	
-Depuis la ligne de commande:
-
-	$ cd shopizer
-	$ mvnw clean install
-	
-
-Exécutez l'application depuis Tomcat
--------------------
-copier sm-shop / target / ROOT.war vers tomcat ou tout autre répertoire de déploiement du serveur d'applications
-
-Augmenter l'espace du tas à 1024 m （Heap space)
-
-### Configuration de l'espace de tas dans Tomcat (Heap space):
-
-
-Si vous utilisez Tomcat, modifiez catalina.bat pour les utilisateurs Windows ou catalina.sh pour les utilisateurs Linux / Mac
-
-	sous Windows
-	set JAVA_OPTS="-Xms1024m -Xmx1024m -XX:MaxPermSize=256m" 
-	
-	sous Linux / Mac
-	export JAVA_OPTS="-Xms1024m -Xmx1024m -XX:MaxPermSize=256m" 
-
-Exécutez l'application à partir de Spring Boot
--------------------
-
-       $ cd sm-shop
-       $ mvnw spring-boot:run
-
-Exécutez l'application à partir de Spring Boot dans eclipse
--------------------
-
-Faites un clic droit sur com.salesmanager.shop.application.ShopApplication
-
-exécuter en tant qu'application Java
-
-### Accédez à l'application:
--------------------
-
-Accédez à l'application Web déployée à l'adresse: http: //localhost:8080/
-
-Accédez à la section d'administration à l'adresse: http://localhost: 8080/admin
-
-nom d'utilisateur: admin@shopizer.com
-
-mot de passe: password
-
-Les instructions ci-dessus vous permettront d'exécuter l'application avec les paramètres et configurations par défaut.
-Veuillez lire les instructions pour vous connecter à MySQL, configurer un serveur de messagerie et configurer d'autres sous-systèmes
-
-
-### Documentation:
--------------------
-
-Documentation disponible sur le wiki <http://shopizer-ecommerce.github.io/shopizer/#>
-
-ChatOps <https://shopizer.slack.com> - Rejoignez notre chaîne Slack https://shopizer-slackin.herokuapp.com/
-
-Plus d'informations sont disponibles sur le site Web de Shopizer ici <http://www.shopizer.com>
-
-### Participation:
--------------------
-
-Si vous souhaitez donner votre avis ou participer de quelque manière que ce soit au projet Shopizer
-N'hésitez pas à utiliser le formulaire de contact <http://www.shopizer.com/contact.html> et à partager votre adresse email
-afin que nous puissions envoyer une invitation sur notre chaîne Slack
-
-
-
-------------------------------------------------------------------------
-中文版本
-------------------------------------------------------------------------
-Shopizer（适用于 java 1.8 +）
--------------------
-
-[![最新版本](https://img.shields.io/badge/last_version-v2.12.0-blue.svg?style=flat)](https://github.com/shopizer-ecommerce/shopizer/tree/2.12.0)
-[![官方网站](https://img.shields.io/website-up-down-green-red/https/shields.io.svg?label=official%20site)](http://www.shopizer.com/)
-[![Docker Pulls](https://img.shields.io/docker/pulls/shopizerecomm/shopizer.svg)](https://hub.docker.com/r/shopizerecomm/shopizer)
-[![stackoverflow](https://img.shields.io/badge/shopizer-stackoverflow-orange.svg?style=flat)](http://stackoverflow.com/questions/tagged/shopizer)
-
-Java开源电子商务软件 
-
-- 购物车
-- 目录
-- 搜索
-- 查看
-- 行政
-- REST API 
-
-参阅演示（jsp）：
--------------------
-http://aws-demo.shopizer.com:8080/
-
-请参阅演示（角度）：
--------------------
-即将推出
-
-
-获取代码：
--------------------
-克隆存储库：
-     
-$ git clone git://github.com/shopizer-ecommerce/shopizer.git
-
-如果这是您第一次使用 Github，请查看 http://help.github.com 以了解基础知识。
-
-您还可以从 https://github.com/shopizer-ecommerce/shopizer 下载包含代码的 zip 文件
-
-将要构建应用程序： 
-
--------------------
-从命令行： 
-
-	$ cd shopizer
-	$ mvnw clean install
-
-从 Tomcat 运行应用程序
--------------------
-将 sm-shop/target/ROOT.war 复制到 tomcat 或任何其他应用服务器部署目录
-
-将堆空间增加到 1024 m 
-
-###Tomcat中的堆空间配置：
-
-
-如果您使用 Tomcat，请为 windows 用户编辑 catalina.bat 或为 linux / Mac 用户编辑 catalina.sh
-
-在 Windows 中
-设置 JAVA_OPTS="-Xms1024m -Xmx1024m -XX:MaxPermSize=256m"
-
-在 Linux / Mac 中
-导出 JAVA_OPTS="-Xms1024m -Xmx1024m -XX:MaxPermSize=256m"
-
-从 Spring Boot 运行应用程序
--------------------
-
-        $ cd sm-shop
-        $ mvnw spring-boot:run
-
-在 Eclipse 中从 Spring Boot 运行应用程序
--------------------
-
-右键单击 com.salesmanager.shop.application.ShopApplication
-
-作为 Java 应用程序运行 
-
-### 访问应用程序：
--------------------
-
-访问已部署的 Web 应用程序：http://localhost:8080/
-
-访问管理部分：http://localhost:8080/admin
-
-用户名：admin@shopizer.com
-
-密码：password
-
-上述说明将让您使用默认设置和配置运行应用程序。
-请阅读有关如何连接到 MySQL、配置电子邮件服务器和配置其他子系统的说明
-
-
-### 文档：
--------------------
-
-可从 wiki <http://shopizer-ecommerce.github.io/shopizer/#> 获得的文档
-
-ChatOps <https://shopizer.slack.com> - 加入我们的 Slack 频道 https://shopizer-slackin.herokuapp.com/
-
-更多信息可在此处的购物者网站上获得 <http://www.shopizer.com>
-
-### 参与：
--------------------
-
-如果您有兴趣提供反馈或以任何方式参与 Shopizer 项目
-请使用联系表 <http://www.shopizer.com/contact.html> 并分享您的电子邮件地址
-这样我们就可以邀请您进入我们的 Slack 频道
-
+Please open a PR (pull request) in order to have your changes merged to the upstream

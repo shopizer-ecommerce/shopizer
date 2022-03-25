@@ -662,7 +662,7 @@ public class UserFacadeImpl implements UserFacade {
 				LOGGER.info("Principal " + currentPrincipalName);
 
 				ReadableUser readableUser = findByUserName(currentPrincipalName, languageService.defaultLanguage());
-
+				//ReadableUser readableUser =	  findByUserName(currentPrincipalName, store.getCode(), store.getDefaultLanguage());
 				if (readableUser == null) {
 					return false;
 				}
@@ -675,8 +675,8 @@ public class UserFacadeImpl implements UserFacade {
 					return true;
 				}
 
-				Set<String> roles = authentication.getAuthorities().stream().map(r -> r.getAuthority())
-						.collect(Collectors.toSet());
+				//Set<String> roles = authentication.getAuthorities().stream().map(r -> r.getAuthority())
+				//		.collect(Collectors.toSet());
 
 				// is superadmin
 				for (ReadableGroup group : readableUser.getGroups()) {
@@ -690,7 +690,11 @@ public class UserFacadeImpl implements UserFacade {
 				// user store can be parent and requested store is child
 				// get parent
 				// TODO CACHE
-				MerchantStore parent = merchantStoreService.getParent(merchant);
+				MerchantStore parent = null;
+						
+				if(store.getParent()!=null) {
+					parent=merchantStoreService.getParent(merchant);
+				}
 
 				// user can be in parent
 				if (parent != null && parent.getCode().equals(store.getCode())) {

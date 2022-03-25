@@ -8,12 +8,15 @@ import com.salesmanager.core.business.utils.AbstractDataPopulator;
 import com.salesmanager.core.model.customer.attribute.CustomerOptionSet;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.shop.admin.model.customer.attribute.CustomerOption;
-import com.salesmanager.shop.admin.model.customer.attribute.CustomerOptionValue;
+import com.salesmanager.shop.model.customer.attribute.CustomerOption;
+import com.salesmanager.shop.model.customer.attribute.CustomerOptionValue;
 
 
 
-public class ReadableCustomerOptionPopulator extends
+public class ReadableCustomerOptionPopulator {
+
+	/**
+extends
 		AbstractDataPopulator<com.salesmanager.core.model.customer.attribute.CustomerOption, com.salesmanager.shop.admin.model.customer.attribute.CustomerOption> {
 
 	
@@ -66,5 +69,13 @@ public class ReadableCustomerOptionPopulator extends
         // TODO Auto-generated method stub
         return null;
     }
+
+	@Override
+	public CustomerOption populate(com.salesmanager.core.model.customer.attribute.CustomerOption source,
+			CustomerOption target, MerchantStore store, Language language) throws ConversionException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	**/
 
 }

@@ -24,7 +24,7 @@ import com.salesmanager.core.model.order.Order;
 @Entity
 @Table (name="ORDER_PRODUCT" )
 public class OrderProduct extends SalesManagerEntity<Long, OrderProduct> {
-	private static final long serialVersionUID = 176131742783954627L;
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@Column (name="ORDER_PRODUCT_ID")

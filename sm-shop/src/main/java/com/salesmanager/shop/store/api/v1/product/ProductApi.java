@@ -2,6 +2,7 @@ package com.salesmanager.shop.store.api.v1.product;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +51,7 @@ import com.salesmanager.shop.model.catalog.product.product.definition.ReadablePr
 import com.salesmanager.shop.model.entity.Entity;
 import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
+import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.api.exception.UnauthorizedException;
 import com.salesmanager.shop.store.controller.product.facade.ProductDefinitionFacade;
 import com.salesmanager.shop.store.controller.product.facade.ProductFacade;
@@ -72,9 +74,10 @@ import springfox.documentation.annotations.ApiIgnore;
  */
 @Controller
 @RequestMapping("/api")
-@Api(tags = { "Product display and management resource (Product display and Management Api. Serves api v1 and v2 with backward compatibility)" })
+@Api(tags = {
+		"Product display and management resource (Product display and Management Api such as adding a product to category. Serves api v1 and v2 with backward compatibility)" })
 @SwaggerDefinition(tags = {
-		@Tag(name = "Product management resource", description = "View product, Add product, edit product and delete product") })
+		@Tag(name = "Product management resource, add product to category", description = "View product, Add product, edit product and delete product") })
 public class ProductApi {
 
 	@Inject
@@ -98,12 +101,8 @@ public class ProductApi {
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value = { "/v1/private/product", "/auth/products" }, // private
 																			// for
-																			// api
-																			// auth
-																			// for
-																			// user
-																			// adding
-																			// products
+			// adding
+			// products
 			method = RequestMethod.POST)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
@@ -170,9 +169,9 @@ public class ProductApi {
 
 	/**
 	 * Filtering product lists based on product attributes ?category=1
-	 * &manufacturer=2 &type=... &lang=en|fr NOT REQUIRED, will use request
-	 * language &start=0 NOT REQUIRED, can be used for pagination &count=10 NOT
-	 * REQUIRED, can be used to limit item count
+	 * &manufacturer=2 &type=... &lang=en|fr NOT REQUIRED, will use request language
+	 * &start=0 NOT REQUIRED, can be used for pagination &count=10 NOT REQUIRED, can
+	 * be used to limit item count
 	 *
 	 * @param request
 	 * @param response
@@ -192,15 +191,15 @@ public class ProductApi {
 			@RequestParam(value = "status", required = false) String status,
 			@RequestParam(value = "owner", required = false) Long owner,
 			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page, // current
-																			// page
-																			// 0
-																			// ..
-																			// n
-																			// allowing
-																			// navigation
+			// page
+			// 0
+			// ..
+			// n
+			// allowing
+			// navigation
 			@RequestParam(value = "count", required = false, defaultValue = "100") Integer count, // count
-																			// per
-																			// page
+			// per
+			// page
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
@@ -271,13 +270,12 @@ public class ProductApi {
 	 * API for getting a product
 	 *
 	 * @param id
-	 * @param lang
-	 *            ?lang=fr|en|...
+	 * @param lang     ?lang=fr|en|...
 	 * @param response
 	 * @return ReadableProduct
 	 * @throws Exception
-	 *             <p>
-	 *             /api/v1/products/123
+	 *                   <p>
+	 *                   /api/v1/products/123
 	 */
 	@RequestMapping(value = "/v1/products/{id}", method = RequestMethod.GET)
 	@ApiOperation(httpMethod = "GET", value = "Get a product by id", notes = "For administration and shop purpose. Specifying ?merchant is required otherwise it falls back to DEFAULT")
@@ -300,7 +298,7 @@ public class ProductApi {
 	}
 
 	@RequestMapping(value = "/v1/product/{id}/price", method = RequestMethod.POST)
-	@ApiOperation(httpMethod = "POST", value = "Calculate product price with variants", notes = "Product price calculation from variamts")
+	@ApiOperation(httpMethod = "POST", value = "Calculate product price with variants", notes = "Product price calculation from variants")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Price calculated", response = ReadableProductPrice.class) })
 	@ResponseBody
@@ -317,13 +315,12 @@ public class ProductApi {
 	 * API for getting a product
 	 *
 	 * @param friendlyUrl
-	 * @param lang
-	 *            ?lang=fr|en
+	 * @param lang        ?lang=fr|en
 	 * @param response
 	 * @return ReadableProduct
 	 * @throws Exception
-	 *             <p>
-	 *             /api/v1/products/123
+	 *                   <p>
+	 *                   /api/v1/products/123
 	 */
 	@RequestMapping(value = { "/v1/products/slug/{friendlyUrl}",
 			"/products/friendly/{friendlyUrl}" }, method = RequestMethod.GET)
@@ -451,6 +448,50 @@ public class ProductApi {
 	}
 
 	/**
+	 * Change product sort order
+	 * 
+	 * @param id
+	 * @param position
+	 * @param merchantStore
+	 * @param language
+	 * @throws IOException
+	 */
+
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = { "/private/product/{id}", "/auth/product/{id}" }, method = RequestMethod.PATCH)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	@ApiOperation(httpMethod = "POST", value = "Patch product sort order", notes = "Change product sortOrder")
+	public void changeProductOrder(@PathVariable Long id,
+			@RequestParam(value = "order", required = false, defaultValue = "0") Integer position,
+			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) throws IOException {
+
+		try {
+
+			Product p = productService.getById(id);
+
+			if (p == null) {
+				throw new ResourceNotFoundException(
+						"Product [" + id + "] not found for merchant [" + merchantStore.getCode() + "]");
+			}
+
+			if (p.getMerchantStore().getId() != merchantStore.getId()) {
+				throw new ResourceNotFoundException(
+						"Product [" + id + "] not found for merchant [" + merchantStore.getCode() + "]");
+			}
+
+			/**
+			 * Change order
+			 */
+			p.setSortOrder(position);
+
+		} catch (Exception e) {
+			LOGGER.error("Error while updating Product position", e);
+			throw new ServiceRuntimeException("Product [" + id + "] cannot be edited");
+		}
+	}
+
+	/**
 	 * ------------ V2
 	 * 
 	 * --- product definition
@@ -487,9 +528,7 @@ public class ProductApi {
 	@GetMapping(value = { "/v2/private/product/definition/{id}" })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public @ResponseBody ReadableProductDefinition getV2(
-			@PathVariable Long id, 
-			@ApiIgnore MerchantStore merchantStore,
+	public @ResponseBody ReadableProductDefinition getV2(@PathVariable Long id, @ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
 
 		ReadableProductDefinition def = productDefinitionFacade.getProduct(merchantStore, id, language);

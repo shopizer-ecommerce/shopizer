@@ -5,14 +5,14 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.salesmanager.shop.model.catalog.product.ReadableProduct;
+import com.salesmanager.shop.model.catalog.product.ReadableMinimalProduct;
 
 /**
  * compatible with v1 version
  * @author c.samson
  *
  */
-public class ReadableShoppingCartItem extends ReadableProduct implements Serializable {
+public class ReadableShoppingCartItem extends ReadableMinimalProduct implements Serializable {
 
 	/**
 	 * 

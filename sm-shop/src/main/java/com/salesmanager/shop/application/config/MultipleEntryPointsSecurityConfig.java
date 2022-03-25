@@ -100,12 +100,9 @@ public class MultipleEntryPointsSecurityConfig {
 		@Override
 		public void configure(WebSecurity web) {
 			web.ignoring().antMatchers("/");
-			web.ignoring().antMatchers("/shop");
-			web.ignoring().antMatchers("/admin");
 			web.ignoring().antMatchers("/error");
 			web.ignoring().antMatchers("/resources/**");
 			web.ignoring().antMatchers("/static/**");
-			web.ignoring().antMatchers("/WEB-INF/**");
 			web.ignoring().antMatchers("/services/public/**");
 		}
 
@@ -211,6 +208,7 @@ public class MultipleEntryPointsSecurityConfig {
 	 * @author dur9213
 	 *
 	 */
+	/**
 	@Configuration
 	@Order(3)
 	public static class AdminConfigurationAdapter extends WebSecurityConfigurerAdapter {
@@ -276,6 +274,7 @@ public class MultipleEntryPointsSecurityConfig {
 		}
 
 	}
+	**/
 
 	/**
 	 * api - private

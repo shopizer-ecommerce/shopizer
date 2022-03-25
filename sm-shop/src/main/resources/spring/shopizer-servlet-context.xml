@@ -14,17 +14,6 @@
         http://www.springframework.org/schema/social http://www.springframework.org/schema/social/spring-social.xsd
         http://www.springframework.org/schema/social/facebook http://www.springframework.org/schema/social/spring-social-facebook.xsd">
 
-
-
-	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
- 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<beans:property name="prefix" value="/WEB-INF/views/" />
-		<beans:property name="suffix" value=".jsp" />
-	</beans:bean>
-	
-
-	
-	
 	<beans:bean id="localeResolver"
         class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
         <beans:property name="defaultLocale" value="en"></beans:property>
@@ -42,7 +31,6 @@
   		<beans:property name="defaultEncoding" value="UTF-8"/>
   	</beans:bean>
 
-	
 	<beans:bean id="messages" class="com.salesmanager.shop.utils.LabelUtils"/>
 
 	<!-- 
@@ -51,8 +39,5 @@
 	<beans:bean id="img" class="com.salesmanager.shop.utils.LocalImageFilePathUtils">
 		<beans:property name="basePath" value="/static" />
 	</beans:bean>
-
-	
-
 
 </beans:beans>

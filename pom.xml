@@ -6,8 +6,8 @@
 
 	<groupId>com.shopizer</groupId>
 	<artifactId>shopizer</artifactId>
-	<version>2.17.0</version>
 	<packaging>pom</packaging>
+	<version>${shopizer.version}</version>
 
 	<name>shopizer</name>
 	<url>http://ww.shopizer.com</url>
@@ -22,10 +22,10 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.5.4</version>
+		<version>2.5.5</version>
 	</parent>
 
-	<modules>
+ 	<modules>
 		<module>sm-core-model</module>
 		<module>sm-core-modules</module>
 		<module>sm-core</module>
@@ -37,14 +37,13 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<!--java version -->
-		<java.version>1.8</java.version>
+		<java.version>11</java.version>
+		
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
-		<!-- eclipse stuff -->
-		<m2eclipse.wtp.contextRoot>/</m2eclipse.wtp.contextRoot>
 
 		<!--shopizer version -->
-		<shopizer.version>2.17.0</shopizer.version>
+		<shopizer.version>3.0.1</shopizer.version>
 		<shopizer.search.version>2.11.1</shopizer.search.version>
 		<shopizer-canadapost.version>2.15.0</shopizer-canadapost.version>
 
@@ -92,12 +91,6 @@
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-web</artifactId>
-				<exclusions>
-					<exclusion>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>spring-boot-starter-logging</artifactId>
-					</exclusion>
-				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
@@ -124,8 +117,6 @@
 				<version>${shopizer.version}</version>
 			</dependency>
 
-
-
 			<!-- https://mvnrepository.com/artifact/javax.inject/javax.inject -->
 			<dependency>
 				<groupId>javax.inject</groupId>
@@ -141,38 +132,9 @@
 			</dependency>
 
 			<dependency>
-				<groupId>org.apache.tiles</groupId>
-				<artifactId>tiles-jsp</artifactId>
-				<version>3.0.4</version>
-				<exclusions>
-					<exclusion>
-						<groupId>javax.servlet</groupId>
-						<artifactId>servlet-api</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-
-
-			<dependency>
 				<groupId>org.mapstruct</groupId>
 				<artifactId>mapstruct</artifactId>
 				<version>${org.mapstruct.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.glassfish.web</groupId>
-				<artifactId>jstl-impl</artifactId>
-				<version>1.2</version>
-				<exclusions>
-					<exclusion>
-						<groupId>javax.servlet</groupId>
-						<artifactId>servlet-api</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>javax.servlet.jsp</groupId>
-						<artifactId>jsp-api</artifactId>
-					</exclusion>
-				</exclusions>
 			</dependency>
 
 			<dependency>
@@ -236,9 +198,6 @@
 			<!-- For connecting to postgresql -->
 			<!-- <dependency> <groupId>org.postgresql</groupId> <artifactId>postgresql</artifactId> 
 				<version>${postgresql.version}</version> <scope>runtime</scope> </dependency> -->
-
-
-
 
 			<!-- Google Map API -->
 			<dependency>
@@ -425,13 +384,13 @@
 
 	<!--general dependencies -->
 	<dependencies>
-
+	
 		<!-- sm-search -->
 		<dependency>
 			<groupId>com.shopizer</groupId>
 			<artifactId>sm-search</artifactId>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>javax.inject</groupId>
 			<artifactId>javax.inject</artifactId>
@@ -524,7 +483,7 @@
 		<repository>
 			<id>oss-sonatype</id>
 			<name>oss-sonatype</name>
-			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+			<url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
 			<snapshots>
 				<enabled>true</enabled>
 			</snapshots>
@@ -618,14 +577,38 @@
 				</executions>
 			</plugin>
 			<!--OSSRH -->
-
-			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-javadoc-plugin</artifactId> 
-				<executions> <execution> <id>attach-javadocs</id> <goals> <goal>jar</goal> 
-				</goals> </execution> </executions> </plugin> <plugin> <groupId>org.apache.maven.plugins</groupId> 
-				<artifactId>maven-gpg-plugin</artifactId> <version>1.5</version> <executions> 
-				<execution> <id>sign-artifacts</id> <phase>verify</phase> <goals> <goal>sign</goal> 
-				</goals> </execution> </executions> </plugin> -->
+			
+			<!-- 			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.5</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin> 
+			-->
 
 		</plugins>
 	</build>
+	
 </project>

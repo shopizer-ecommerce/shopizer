@@ -63,7 +63,7 @@ public class ProductImage extends SalesManagerEntity<Long, ProductImage> {
 	private Product product;
 	
 	@Column(name = "SORT_ORDER")
-	private Integer sortOrder = new Integer(0);
+	private Integer sortOrder = 0;
 	
 
 	@Transient

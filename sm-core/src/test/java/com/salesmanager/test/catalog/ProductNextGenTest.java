@@ -1,8 +1,9 @@
 package com.salesmanager.test.catalog;
 
-import static org.junit.Assert.assertNotNull;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertNotNull;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -28,7 +29,6 @@ import com.salesmanager.core.model.catalog.product.attribute.ProductOptionSet;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionType;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValue;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueDescription;
-import com.salesmanager.core.model.catalog.product.attribute.ProductVariant;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
 import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
