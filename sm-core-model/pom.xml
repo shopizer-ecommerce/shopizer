@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.shopizer</groupId>
 		<artifactId>shopizer</artifactId>
-		<version>${shopizer.version}</version>
+		<version>3.0.2</version>
 	</parent>
 	
 	<!-- https://mvnrepository.com/artifact/com.shopizer/shopizer-parent -->
@@ -38,7 +38,6 @@
 		<connection>scm:git:git://github.com:shopizer-ecommerce/shopizer-sm-core-model.git</connection>
 		<developerConnection>scm:git:ssh://github.com:shopizer-ecommerce/shopizer-sm-core-model.git</developerConnection>
 		<url>https://github.com/shopizer-ecommerce/shopizer-sm-core-model</url>
-		<tag>v3.0.0</tag>
 	</scm>
 
 	<distributionManagement>
