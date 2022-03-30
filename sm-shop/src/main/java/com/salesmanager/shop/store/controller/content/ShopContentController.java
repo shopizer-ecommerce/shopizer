@@ -65,7 +65,7 @@ public class ShopContentController {
 		}
 		
 		/** template **/
-		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Content.content).append(".").append(store.getStoreTemplate());
+		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Content.CONTENT_STRING).append(".").append(store.getStoreTemplate());
 
 		return template.toString();
 		

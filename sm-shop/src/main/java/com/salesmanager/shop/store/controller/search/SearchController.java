@@ -146,7 +146,7 @@ public class SearchController {
 		model.addAttribute("q",q);
 		
 		/** template **/
-		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Search.search).append(".").append(store.getStoreTemplate());
+		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Search.SEARCH_STRING).append(".").append(store.getStoreTemplate());
 		return template.toString();
 	}
 	

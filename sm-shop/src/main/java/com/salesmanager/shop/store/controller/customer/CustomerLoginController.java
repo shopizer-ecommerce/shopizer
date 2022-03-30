@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,6 +32,7 @@ import com.salesmanager.shop.model.customer.SecuredCustomer;
 import com.salesmanager.shop.model.shoppingcart.ShoppingCartData;
 import com.salesmanager.shop.populator.shoppingCart.ShoppingCartDataPopulator;
 import com.salesmanager.shop.store.controller.AbstractController;
+import com.salesmanager.shop.store.controller.ControllerConstants;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
 import com.salesmanager.shop.utils.ImageFilePath;
 
@@ -61,9 +63,31 @@ public class CustomerLoginController extends AbstractController {
 	 @Qualifier("img")
 	 private ImageFilePath imageUtils;
 	
-	
 	private static final Logger LOG = LoggerFactory.getLogger(CustomerLoginController.class);
 	
+	/**
+	 * Dedicated customer logon page
+	 * @param model
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/customLogon.html", method=RequestMethod.GET)
+	public String displayLogon(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+
+	    MerchantStore store = getSessionAttribute(Constants.MERCHANT_STORE, request);
+
+
+		//dispatch to dedicated customer logon
+		
+		/** template **/
+		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Customer.CUSTOMERLOGON_STRING).append(".").append(store.getStoreTemplate());
+
+		return template.toString();
+		
+	}
 	
 	private AjaxResponse logon(String userName, String password, String storeCode, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		

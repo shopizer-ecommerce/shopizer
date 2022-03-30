@@ -7,7 +7,7 @@ import com.salesmanager.shop.store.controller.ControllerConstants;
 public class PageBuilderUtils {
 	
 	public static String build404(MerchantStore store) {
-		return new StringBuilder().append(ControllerConstants.Tiles.Pages.notFound).append(".").append(store.getStoreTemplate()).toString();
+		return new StringBuilder().append(ControllerConstants.Tiles.Pages.NOTFOUND_STRING).append(".").append(store.getStoreTemplate()).toString();
 	}
 	
 	public static String buildHomePage(MerchantStore store) {

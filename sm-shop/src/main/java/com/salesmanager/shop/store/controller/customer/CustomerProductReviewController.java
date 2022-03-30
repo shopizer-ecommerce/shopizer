@@ -133,7 +133,7 @@ public class CustomerProductReviewController extends AbstractController {
 		model.addAttribute("reviews", reviews);
 
 		/** template **/
-		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Customer.review).append(".")
+		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Customer.REVIEW_STRING).append(".")
 				.append(store.getStoreTemplate());
 
 		return template.toString();
@@ -182,7 +182,7 @@ public class CustomerProductReviewController extends AbstractController {
 		model.addAttribute("product", readableProduct);
 
 		/** template **/
-		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Customer.review).append(".")
+		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Customer.REVIEW_STRING).append(".")
 				.append(store.getStoreTemplate());
 
 		if (bindingResult.hasErrors()) {

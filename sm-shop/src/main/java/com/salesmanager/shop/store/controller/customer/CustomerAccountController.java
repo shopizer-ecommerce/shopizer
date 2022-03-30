@@ -126,32 +126,6 @@ public class CustomerAccountController extends AbstractController {
     
 	@Inject
 	private LabelUtils messages;
-
-
-	
-	/**
-	 * Dedicated customer logon page
-	 * @param model
-	 * @param request
-	 * @param response
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/customLogon.html", method=RequestMethod.GET)
-	public String displayLogon(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-
-	    MerchantStore store = getSessionAttribute(Constants.MERCHANT_STORE, request);
-
-
-		//dispatch to dedicated customer logon
-		
-		/** template **/
-		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Customer.customerLogon).append(".").append(store.getStoreTemplate());
-
-		return template.toString();
-		
-	}
 	
 	
 	@RequestMapping(value="/accountSummary.json", method=RequestMethod.GET)
@@ -209,7 +183,7 @@ public class CustomerAccountController extends AbstractController {
 		
 		
 		/** template **/
-		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Customer.customer).append(".").append(store.getStoreTemplate());
+		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Customer.CUSTOMER_STRING).append(".").append(store.getStoreTemplate());
 
 		return template.toString();
 		
@@ -226,7 +200,7 @@ public class CustomerAccountController extends AbstractController {
 		model.addAttribute("password", customerPassword);
 		
 		/** template **/
-		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Customer.changePassword).append(".").append(store.getStoreTemplate());
+		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Customer.CHANGEPASSWORD_STRING).append(".").append(store.getStoreTemplate());
 
 		return template.toString();
 		
@@ -240,7 +214,7 @@ public class CustomerAccountController extends AbstractController {
 	    MerchantStore store = getSessionAttribute(Constants.MERCHANT_STORE, request);
 	    
 		/** template **/
-		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Customer.changePassword).append(".").append(store.getStoreTemplate());
+		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Customer.CHANGEPASSWORD_STRING).append(".").append(store.getStoreTemplate());
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Customer customer = null;
@@ -466,7 +440,7 @@ public class CustomerAccountController extends AbstractController {
         
         
         /** template **/
-        StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Customer.Billing).append(".").append(store.getStoreTemplate());
+        StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Customer.BILLING_STRING).append(".").append(store.getStoreTemplate());
 
         return template.toString();
         
@@ -495,7 +469,7 @@ public class CustomerAccountController extends AbstractController {
         Address address=customerFacade.getAddress( customer.getId(), store, billingAddress );
         model.addAttribute( "address", address);
         model.addAttribute( "customerId", customer.getId() );
-        StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Customer.EditAddress).append(".").append(store.getStoreTemplate());
+        StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Customer.EDITADDRESS_STRING).append(".").append(store.getStoreTemplate());
         return template.toString();
     }
     
@@ -516,7 +490,7 @@ public class CustomerAccountController extends AbstractController {
 
         }
     	
-    	StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Customer.EditAddress).append(".").append(store.getStoreTemplate());
+    	StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Customer.EDITADDRESS_STRING).append(".").append(store.getStoreTemplate());
     	
     	if(customer==null) {
     		return "redirect:/"+Constants.SHOP_URI;

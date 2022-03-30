@@ -17,41 +17,41 @@ public interface ControllerConstants
     
     interface Tiles{
         interface ShoppingCart{
-            final static String shoppingCart="maincart";
+            final static String MAINSHOPPINGCART_STRING="maincart";
         }
         
         interface Category{
-            final static String category="category";
+            final static String CATEGORY_STRING="category";
         }
         
         interface Product{
-            final static String product="product";
+            final static String PRODUCT_STRING="product";
         }
         
         interface Items{
-            final static String items_manufacturer="items.manufacturer";
+            final static String ITEMS_MANUFACTURE_STRING="items.manufacturer";
         }
         
         interface Customer{
-            final static String customer="customer";
-            final static String customerLogon="customerLogon";
-            final static String review="review";
-            final static String register="register";
-            final static String changePassword="customerPassword";
-            final static String customerOrders="customerOrders";
-            final static String customerOrder="customerOrder";
-            final static String Billing="customerAddress";
-            final static String EditAddress="editCustomerAddress";
+            final static String CUSTOMER_STRING="customer";
+            final static String CUSTOMERLOGON_STRING="customerLogon";
+            final static String REVIEW_STRING="review";
+            final static String REGISTER_STRING="register";
+            final static String CHANGEPASSWORD_STRING="customerPassword";
+            final static String CUSTOMERORDERS_STRING="customerOrders";
+            final static String CUSTOMERORDER_STRING="customerOrder";
+            final static String BILLING_STRING="customerAddress";
+            final static String EDITADDRESS_STRING="editCustomerAddress";
         }
         
         interface Content{
-            final static String content="content";
-            final static String contactus="contactus";
+            final static String CONTENT_STRING="content";
+            final static String CONTACTUS_STRING="contactus";
         }
         
         interface Pages{
-            final static String notFound="404";
-            final static String timeout="timeout";
+            final static String NOTFOUND_STRING="404";
+            final static String TIMEOUT_STRING="timeout";
         }
         
         interface Merchant{
@@ -59,17 +59,17 @@ public interface ControllerConstants
         }
         
         interface Checkout{
-            final static String checkout="checkout";
-            final static String confirmation="confirmation";
+            final static String CHECKOUT_STRING="checkout";
+            final static String CONFIRMATION_STRING="confirmation";
         }
         
         interface Search{
-            final static String search="search";
+            final static String SEARCH_STRING="search";
         }
         
         interface Error {
-        	final static String accessDenied = "accessDenied";
-        	final static String error = "error";
+        	final static String ACCESSDENIED_STRING = "accessDenied";
+        	final static String ERROR_STRING = "error";
         }
         
 
@@ -82,7 +82,7 @@ public interface ControllerConstants
         {
             interface Registration
             {
-                String RegistrationPage = "shop/customer/registration.html";
+                String registrationPageString = "shop/customer/registration.html";
             }
         }
     }

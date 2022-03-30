@@ -144,7 +144,7 @@ public interface CustomerFacade
 	
 	/**
 	 * List all customer reviews by reviewed
-	 * @param customer
+	 * @param CUSTOMER_STRING
 	 * @param store
 	 * @param language
 	 * @return

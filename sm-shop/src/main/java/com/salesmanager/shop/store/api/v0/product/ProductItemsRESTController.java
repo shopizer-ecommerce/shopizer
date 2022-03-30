@@ -27,6 +27,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.catalog.product.ReadableProductList;
+import com.salesmanager.shop.store.api.v0.base.BaseClass;
 import com.salesmanager.shop.store.controller.items.facade.ProductItemsFacade;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.ImageFilePath;
@@ -40,7 +41,7 @@ import com.salesmanager.shop.utils.LanguageUtils;
  */
 @Controller
 @RequestMapping("/services")
-public class ProductItemsRESTController {
+public class ProductItemsRESTController extends BaseClass{
 	
 	@Inject
 	private MerchantStoreService merchantStoreService;
@@ -103,15 +104,7 @@ public class ProductItemsRESTController {
 			
 			Map<String,Language> langs = languageService.getLanguagesMap();
 			
-			if(merchantStore!=null) {
-				if(!merchantStore.getCode().equals(store)) {
-					merchantStore = null; //reset for the current request
-				}
-			}
-			
-			if(merchantStore== null) {
-				merchantStore = merchantStoreService.getByCode(store);
-			}
+			merchantStore = getMerchantStore(store, response, merchantStore);
 			
 			if(merchantStore==null) {
 				LOGGER.error("Merchant store is null for code " + store);
@@ -162,16 +155,7 @@ public class ProductItemsRESTController {
 
 			MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
 
-			
-			if(merchantStore!=null) {
-				if(!merchantStore.getCode().equals(store)) {
-					merchantStore = null; //reset for the current request
-				}
-			}
-			
-			if(merchantStore== null) {
-				merchantStore = merchantStoreService.getByCode(store);
-			}
+			merchantStore = getMerchantStore(store, response, merchantStore);
 			
 			if(merchantStore==null) {
 				LOGGER.error("Merchant store is null for code " + store);
