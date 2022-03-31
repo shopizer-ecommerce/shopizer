@@ -11,5 +11,7 @@ public interface CategoryRepositoryCustom {
 			List<Long> categoryIds);
 
 	List<Category> listByStoreAndParent(MerchantStore store, Category category);
+	
+	List<Category> listByProduct(MerchantStore store, Long product);
 
 }

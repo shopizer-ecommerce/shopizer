@@ -202,6 +202,9 @@ public class ReadableProductPopulator extends
 			  target.setType(type);
 			}*/
 
+			/**
+			 * TODO use ProductImageMapper
+			 */
 			Set<ProductImage> images = source.getImages();
 			if(images!=null && images.size()>0) {
 				List<ReadableImage> imageList = new ArrayList<ReadableImage>();

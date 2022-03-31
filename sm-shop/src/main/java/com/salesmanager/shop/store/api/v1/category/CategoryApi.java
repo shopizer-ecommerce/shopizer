@@ -127,6 +127,21 @@ public class CategoryApi {
 		return categoryFacade.getCategoryHierarchy(merchantStore, criteria, DEFAULT_CATEGORY_DEPTH, language, filter,
 				page, count);
 	}
+	
+	
+	@GetMapping(value = "/category/product/{ProductId}", produces = { APPLICATION_JSON_VALUE })
+	@ApiOperation(httpMethod = "GET", value = "Get category by product", notes = "")
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
+	public ReadableCategoryList list(
+			@PathVariable(name = "ProductId") Long id,
+			@ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language lang) {
+
+
+		return categoryFacade.listByProduct(merchantStore, id, lang);
+
+	}
 
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping(value = "/private/category", produces = { APPLICATION_JSON_VALUE })

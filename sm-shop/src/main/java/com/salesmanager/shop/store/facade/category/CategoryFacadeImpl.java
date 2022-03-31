@@ -237,12 +237,6 @@ public class CategoryFacadeImpl implements CategoryFacade {
 			}
 		}
 
-/*		if (!CollectionUtils.isEmpty(children)) {
-			parent = category;
-			for (Category sub : children) {
-				saveCategory(store, sub, parent);
-			}
-		}*/
 	}
 
 	@Override
@@ -539,5 +533,28 @@ public class CategoryFacadeImpl implements CategoryFacade {
 		} catch (Exception e) {
 			throw new ServiceRuntimeException("Error while getting category [" + category.getId() + "]",e);
 		}
+	}
+
+	@Override
+	public ReadableCategoryList listByProduct(MerchantStore store, Long product, Language language) {
+		Validate.notNull(product, "Product id must not be null");
+		Validate.notNull(store, "Store must not be null");
+		
+		List<ReadableCategory> readableCategories = new ArrayList<ReadableCategory>();
+
+			List<Category> categories = categoryService.getByProductId(product, store);
+
+			readableCategories = categories.stream()
+						.map(cat -> categoryReadableCategoryConverter.convert(cat, store, language))
+						.collect(Collectors.toList());
+			
+			ReadableCategoryList readableList = new ReadableCategoryList();
+			readableList.setCategories(readableCategories);
+			readableList.setTotalPages(1);
+			readableList.setNumber(readableCategories.size());
+			readableList.setRecordsTotal(readableCategories.size());
+
+		
+		return readableList;
 	}
 }
