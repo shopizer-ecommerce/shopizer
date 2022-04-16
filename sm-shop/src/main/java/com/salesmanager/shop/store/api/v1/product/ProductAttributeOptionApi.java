@@ -47,9 +47,9 @@ import springfox.documentation.annotations.ApiIgnore;
 
 @Controller
 @RequestMapping("/api/v1")
-@Api(tags = { "Product attributes and (options / options) values management resource (Product Option Management Api)" })
+@Api(tags = { "Product attributes and options / options values management resource (Product Option Management Api)" })
 @SwaggerDefinition(tags = {
-		@Tag(name = "Product attributes and (options / options) values management resource", description = "Edit product attributes / options and product option values") })
+		@Tag(name = "Product attributes and options / options values management resource", description = "Edit product attributes / options and product option values") })
 public class ProductAttributeOptionApi {
 
 	@Autowired
@@ -118,7 +118,8 @@ public class ProductAttributeOptionApi {
 			@RequestParam(name = "file", required = true) MultipartFile file, 
 			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language, 
-			HttpServletRequest request, HttpServletResponse response) {
+			HttpServletRequest request, 
+			HttpServletResponse response) {
 
 		productOptionFacade.addOptionValueImage(file, id, merchantStore, language);
 
@@ -196,7 +197,8 @@ public class ProductAttributeOptionApi {
 			@PathVariable Long id,
 			@Valid @RequestBody PersistableProductOptionValue optionValue,
 			@ApiIgnore MerchantStore merchantStore,
-			@ApiIgnore Language language, HttpServletRequest request, HttpServletResponse response) {
+			@ApiIgnore Language language, HttpServletRequest request, 
+			HttpServletResponse response) {
 
 		optionValue.setId(id);
 		productOptionFacade.saveOptionValue(optionValue, merchantStore, language);
@@ -211,7 +213,8 @@ public class ProductAttributeOptionApi {
 	public void deleteOptionValue(
 			@PathVariable Long id,
 			@ApiIgnore MerchantStore merchantStore,
-			@ApiIgnore Language language, HttpServletRequest request, HttpServletResponse response) {
+			@ApiIgnore Language language, HttpServletRequest request, 
+			HttpServletResponse response) {
 
 		productOptionFacade.deleteOptionValue(id, merchantStore);
 		return;
@@ -248,6 +251,15 @@ public class ProductAttributeOptionApi {
 
 	}
 	
+	/**
+	 * Product attributes
+	 * @param id
+	 * @param merchantStore
+	 * @param language
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = { "/private/product/{id}/attributes" }, method = RequestMethod.GET)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
@@ -257,9 +269,11 @@ public class ProductAttributeOptionApi {
 	public @ResponseBody ReadableProductAttributeList attributes(
 			@PathVariable Long id,
 			@ApiIgnore MerchantStore merchantStore,
-			@ApiIgnore Language language, HttpServletRequest request, HttpServletResponse response) {
+			@ApiIgnore Language language, 
+			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+			@RequestParam(value = "count", required = false, defaultValue = "10") Integer count) {
 
-		return productOptionFacade.getAttributesList(id, merchantStore, language);
+		return productOptionFacade.getAttributesList(id, merchantStore, language, page, count);
 
 	}
 	

@@ -54,7 +54,7 @@ public interface ProductOptionFacade {
  
   ReadableProductAttributeEntity getAttribute(Long productId, Long attributeId, MerchantStore store, Language language);
   
-  ReadableProductAttributeList getAttributesList(Long productId, MerchantStore store, Language language);
+  ReadableProductAttributeList getAttributesList(Long productId, MerchantStore store, Language language, int page, int count);
   
   void deleteAttribute(Long productId, Long attributeId, MerchantStore store);
   

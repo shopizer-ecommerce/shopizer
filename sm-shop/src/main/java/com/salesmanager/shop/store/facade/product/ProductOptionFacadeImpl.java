@@ -344,23 +344,31 @@ public class ProductOptionFacadeImpl implements ProductOptionFacade {
 	}
 
 	@Override
-	public ReadableProductAttributeList getAttributesList(Long productId, MerchantStore store, Language language) {
+	public ReadableProductAttributeList getAttributesList(Long productId, MerchantStore store, Language language, int page, int count) {
 
 		try {
 
 			Product product = this.product(productId, store);
 
-			List<ProductAttribute> attributes = null;
-			if(language != null) {
-				attributes = productAttributeService.getByProductId(store, product, language);
-			} else {
-				attributes = productAttributeService.getByProductId(store, product);
-			}
 			ReadableProductAttributeList attrList = new ReadableProductAttributeList();
-			attrList.setRecordsTotal(attributes.size());
-			attrList.setNumber(attributes.size());
+			Page<ProductAttribute> attr = null;
+			
+			
+			if(language != null) { //all entry
+				//attributes = productAttributeService.getByProductId(store, product, language);
+				attr = productAttributeService.getByProductId(store, product, language, page, count);
+				attrList.setRecordsTotal(attr.getTotalElements());
+				attrList.setNumber(attr.getSize());
+				attrList.setTotalPages(attr.getTotalPages());
+			} else {
+				attr = productAttributeService.getByProductId(store, product, page, count);
+				attrList.setRecordsTotal(attr.getTotalElements());
+				attrList.setNumber(attr.getSize());
+				attrList.setTotalPages(attr.getTotalPages());
+			}
 
-			List<ReadableProductAttributeEntity> values = attributes.stream()
+
+			List<ReadableProductAttributeEntity> values = attr.getContent().stream()
 					.map(attribute -> readableProductAttributeMapper.convert(attribute, store, language))
 					.collect(Collectors.toList());
 

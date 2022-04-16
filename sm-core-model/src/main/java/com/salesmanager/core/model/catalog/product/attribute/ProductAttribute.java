@@ -29,6 +29,13 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
 			})
 	}
 )
+
+/**
+ * Attribute Size - Small and product
+ * @author carlsamson
+ *
+ */
+
 public class ProductAttribute extends SalesManagerEntity<Long, ProductAttribute> {
 	private static final long serialVersionUID = 1L;
 	

@@ -182,7 +182,8 @@ public class ProductApi {
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public ReadableProductList list(@RequestParam(value = "lang", required = false) String lang,
+	public ReadableProductList list(
+			@RequestParam(value = "lang", required = false) String lang,
 			@RequestParam(value = "category", required = false) Long category,
 			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "sku", required = false) String sku,
@@ -191,6 +192,7 @@ public class ProductApi {
 			@RequestParam(value = "status", required = false) String status,
 			@RequestParam(value = "owner", required = false) Long owner,
 			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page, // current
+			@RequestParam(value = "origin", required = false, defaultValue = ProductCriteria.ORIGIN_SHOP) String origin,
 			// page
 			// 0
 			// ..
@@ -204,6 +206,8 @@ public class ProductApi {
 			HttpServletResponse response) throws Exception {
 
 		ProductCriteria criteria = new ProductCriteria();
+		
+		criteria.setOrigin(origin);
 
 		// do not use legacy pagination anymore
 		if (lang != null) {

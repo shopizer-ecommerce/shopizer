@@ -597,6 +597,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
 	/**
 	 * This query is used for filtering products based on criterias
+	 * Main query for getting product list based on input criteria
+	 * ze method
 	 *
 	 * @param store
 	 * @param first
@@ -642,19 +644,24 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		}
 
 		// RENTAL
+		/**
 		if (!StringUtils.isBlank(criteria.getStatus())) {
 			countBuilderWhere.append(" and p.rentalStatus = :status");
 		}
+		**/
 
 		/**
 		if (criteria.getOwnerId() != null) {
 			countBuilderSelect.append(" INNER JOIN p.owner owner");
-			countBuilderWhere.append(" and owner.id = :ownerid");
+			countBuilderWhere.append(" and owner.id = :ownerid");666
 		}
 		**/
+		
+		
 
+		/**/
 		//attribute or option values
-		if (CollectionUtils.isNotEmpty(criteria.getAttributeCriteria()) || CollectionUtils.isNotEmpty(criteria.getOptionValueIds())) {
+		if (criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP) && CollectionUtils.isNotEmpty(criteria.getAttributeCriteria()) || CollectionUtils.isNotEmpty(criteria.getOptionValueIds())) {
 
 			countBuilderSelect.append(" INNER JOIN p.attributes pattr");
 			countBuilderSelect.append(" INNER JOIN pattr.productOption po");
@@ -694,11 +701,13 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
 		countQ.setParameter("mId", store.getId());
 
-		if (!CollectionUtils.isEmpty(criteria.getCategoryIds())) {
+		/**/
+		if (criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP) && !CollectionUtils.isEmpty(criteria.getCategoryIds())) {
 			countQ.setParameter("cid", criteria.getCategoryIds());
 		}
 		
-		if(CollectionUtils.isNotEmpty(criteria.getOptionValueIds())) {
+		/**/
+		if(criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP) && CollectionUtils.isNotEmpty(criteria.getOptionValueIds())) {
 			countQ.setParameter("povid", criteria.getOptionValueIds());
 		}
 
@@ -714,8 +723,10 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		if (criteria.getManufacturerId() != null) {
 			countQ.setParameter("manufid", criteria.getManufacturerId());
 		}
+		
 
-		if (!CollectionUtils.isEmpty(criteria.getAttributeCriteria())) {
+		/**/
+		if (criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP) && !CollectionUtils.isEmpty(criteria.getAttributeCriteria())) {
 			int count = 0;
 			for (AttributeCriteria attributeCriteria : criteria.getAttributeCriteria()) {
 				countQ.setParameter(attributeCriteria.getAttributeCode(), attributeCriteria.getAttributeCode());
@@ -739,16 +750,17 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		}
 
 		// RENTAL
+		/**
 		if (!StringUtils.isBlank(criteria.getStatus())) {
 			countQ.setParameter("status", criteria.getStatus());
 		}
+		**/
 
 		if (criteria.getOwnerId() != null) {
 			countQ.setParameter("ownerid", criteria.getOwnerId());
 		}
 
 		Number count = (Number) countQ.getSingleResult();
-
 		productList.setTotalCount(count.intValue());
 
 		if (count.intValue() == 0)
@@ -778,18 +790,19 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		// RENTAL
 		//qs.append("left join fetch p.owner owner ");
 
+		/**/
 		// attributes
-		if (!CollectionUtils.isEmpty(criteria.getAttributeCriteria())) {
+		if (criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP) && !CollectionUtils.isEmpty(criteria.getAttributeCriteria())) {
 			qs.append(" inner join p.attributes pattr");
 			qs.append(" inner join pattr.productOption po");
 			qs.append(" inner join po.descriptions pod");
 			qs.append(" inner join pattr.productOptionValue pov ");
 			qs.append(" inner join pov.descriptions povd");
-		} else {
+		} else if(criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP)) {
 			qs.append(" left join fetch p.attributes pattr");
 			qs.append(" left join fetch pattr.productOption po");
 			/** prevent full table scan **/
-			qs.append(" left join po.descriptions pod");
+			qs.append(" left join fetch po.descriptions pod");
 			qs.append(" left join fetch pattr.productOptionValue pov");
 			qs.append(" left join fetch pov.descriptions povd");
 		}
@@ -832,9 +845,11 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		}
 
 		// RENTAL
+		/**
 		if (!StringUtils.isBlank(criteria.getStatus())) {
 			qs.append(" and p.rentalStatus = :status");
 		}
+		**/
 
 		/**
 		if (criteria.getOwnerId() != null) {
@@ -842,7 +857,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		}
 		**/
 
-		if (!CollectionUtils.isEmpty(criteria.getAttributeCriteria())) {
+		/**/
+		if (criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP) && !CollectionUtils.isEmpty(criteria.getAttributeCriteria())) {
 			int cnt = 0;
 			for (AttributeCriteria attributeCriteria : criteria.getAttributeCriteria()) {
 				qs.append(" and po.code =:").append(attributeCriteria.getAttributeCode());
@@ -856,8 +872,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
 		}
 		
-		
-		if(CollectionUtils.isNotEmpty(criteria.getOptionValueIds())) {
+		/**/
+		if(criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP) && CollectionUtils.isNotEmpty(criteria.getOptionValueIds())) {
 			qs.append(" and pov.id in (:povid)");
 		}
 		
@@ -875,7 +891,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			q.setParameter("cid", criteria.getCategoryIds());
 		}
 		
-		if (CollectionUtils.isNotEmpty(criteria.getOptionValueIds())) {
+		/**/
+		if (criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP) && CollectionUtils.isNotEmpty(criteria.getOptionValueIds())) {
 			q.setParameter("povid", criteria.getOptionValueIds());
 		}
 
@@ -896,7 +913,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 					new StringBuilder().append("%").append(criteria.getCode().toLowerCase()).append("%").toString());
 		}
 
-		if (!CollectionUtils.isEmpty(criteria.getAttributeCriteria())) {
+		/**/
+		if (criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP) && !CollectionUtils.isEmpty(criteria.getAttributeCriteria())) {
 			int cnt = 0;
 			for (AttributeCriteria attributeCriteria : criteria.getAttributeCriteria()) {
 				q.setParameter(attributeCriteria.getAttributeCode(), attributeCriteria.getAttributeCode());
@@ -907,9 +925,11 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		}
 
 		// RENTAL
+		/**
 		if (!StringUtils.isBlank(criteria.getStatus())) {
 			q.setParameter("status", criteria.getStatus());
 		}
+		**/
 
 		/**
 		if (criteria.getOwnerId() != null) {

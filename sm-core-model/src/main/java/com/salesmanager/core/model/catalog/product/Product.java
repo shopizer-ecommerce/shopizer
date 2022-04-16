@@ -293,7 +293,6 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 	}
 
 
-
 	public Integer getProductOrdered() {
 		return productOrdered;
 	}

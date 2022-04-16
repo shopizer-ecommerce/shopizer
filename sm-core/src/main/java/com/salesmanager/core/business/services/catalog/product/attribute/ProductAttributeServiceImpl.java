@@ -4,9 +4,14 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.repositories.catalog.product.attribute.PageableProductAttributeRepository;
 import com.salesmanager.core.business.repositories.catalog.product.attribute.ProductAttributeRepository;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
 import com.salesmanager.core.model.catalog.product.Product;
@@ -19,6 +24,8 @@ public class ProductAttributeServiceImpl extends
 		SalesManagerEntityServiceImpl<Long, ProductAttribute> implements ProductAttributeService {
 	
 	private ProductAttributeRepository productAttributeRepository;
+	@Autowired
+	private PageableProductAttributeRepository pageableProductAttributeRepository;
 
 	@Inject
 	public ProductAttributeServiceImpl(ProductAttributeRepository productAttributeRepository) {
@@ -62,12 +69,23 @@ public class ProductAttributeServiceImpl extends
 	 * Returns all product attributes
 	 */
 	@Override
-	public List<ProductAttribute> getByProductId(MerchantStore store,
-			Product product, Language language) throws ServiceException {
-		return productAttributeRepository.findByProductId(store.getId(), product.getId(), language.getId());
+	public Page<ProductAttribute> getByProductId(MerchantStore store,
+			Product product, Language language, int page, int count) throws ServiceException {
+		
+		
+		Pageable pageRequest = PageRequest.of(page, count);
+		return pageableProductAttributeRepository.findByProductId(store.getId(), product.getId(), language.getId(), pageRequest);
+		
+
+	}
+	
+	@Override
+	public Page<ProductAttribute> getByProductId(MerchantStore store, Product product, int page, int count) throws ServiceException {
+		Pageable pageRequest = PageRequest.of(page, count);
+		return pageableProductAttributeRepository.findByProductId(store.getId(), product.getId(), pageRequest);
+		
 		
 	}
-
 
 	@Override
 	public void saveOrUpdate(ProductAttribute productAttribute)
@@ -91,9 +109,6 @@ public class ProductAttributeServiceImpl extends
 	  return productAttributeRepository.findOptionsByCategoryLineage(store.getId(), lineage, language.getId());
   }
 
-@Override
-public List<ProductAttribute> getByProductId(MerchantStore store, Product product) throws ServiceException {
-	return productAttributeRepository.findByProductId(store.getId(), product.getId());
-}
+
 
 }

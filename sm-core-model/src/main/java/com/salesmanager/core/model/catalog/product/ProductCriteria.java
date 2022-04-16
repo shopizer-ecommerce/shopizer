@@ -7,9 +7,12 @@ import com.salesmanager.core.model.common.Criteria;
 
 public class ProductCriteria extends Criteria {
 	
+	public static final String ORIGIN_SHOP = "shop";
+	public static final String ORIGIN_ADMIN = "admin";
 	
 	private String productName;
 	private List<AttributeCriteria> attributeCriteria;
+	private String origin = ORIGIN_SHOP;
 
 	
 	private Boolean available = null;
@@ -104,6 +107,14 @@ public class ProductCriteria extends Criteria {
 
 	public void setOptionValueIds(List<Long> optionValueIds) {
 		this.optionValueIds = optionValueIds;
+	}
+
+	public String getOrigin() {
+		return origin;
+	}
+
+	public void setOrigin(String origin) {
+		this.origin = origin;
 	}
 
 

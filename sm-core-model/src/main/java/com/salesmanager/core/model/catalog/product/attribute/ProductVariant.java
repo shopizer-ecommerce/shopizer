@@ -13,8 +13,6 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.UniqueConstraint;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.common.audit.Auditable;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
@@ -42,6 +40,10 @@ public class ProductVariant extends SalesManagerEntity<Long, ProductVariant> imp
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="PRODUCT_ATTRIBUTE_ID", nullable=false)
 	private ProductAttribute attribute;
+	
+	//OptionSet
+	//images
+	//sku
 	
 	@Column(name="PRODUCT_AQUANTITY")
 	private Integer productQuantity = 0;
