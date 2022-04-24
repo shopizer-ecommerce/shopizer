@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 import static com.salesmanager.shop.util.ReadableEntityUtil.createReadableList;
 
 @Service("productInventoryFacade")
-@Profile({"default", "cloud", "gcp", "aws", "mysql"})
+@Profile({"default", "cloud", "gcp", "aws", "mysql", "local"})
 public class ProductInventoryFacadeImpl implements ProductInventoryFacade {
 
   @Autowired

@@ -82,7 +82,6 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "product")
 	private Set<ProductRelationship> relationships = new HashSet<ProductRelationship>();
 
-	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="MERCHANT_ID", nullable=false)
 	private MerchantStore merchantStore;

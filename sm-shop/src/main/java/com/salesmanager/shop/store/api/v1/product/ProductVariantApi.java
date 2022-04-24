@@ -110,6 +110,7 @@ public class ProductVariantApi {
     if (CollectionUtils.isEmpty(ids)) {
       return null;
     }
+    
     List<ReadableProductVariantValue> variants = options.getOptions();
     
     
