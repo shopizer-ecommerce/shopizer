@@ -1,5 +1,10 @@
 package com.salesmanager.shop.model.catalog.product.variation;
 
+/**
+ * A Variant 
+ * @author carlsamson
+ *
+ */
 public class PersistableProductVariation extends ProductVariationEntity {
 
 	/**

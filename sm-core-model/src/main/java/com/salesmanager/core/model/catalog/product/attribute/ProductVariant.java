@@ -1,5 +1,7 @@
 package com.salesmanager.core.model.catalog.product.attribute;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -13,6 +15,7 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.UniqueConstraint;
 
+import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.common.audit.Auditable;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
@@ -36,23 +39,26 @@ public class ProductVariant extends SalesManagerEntity<Long, ProductVariant> imp
 	@TableGenerator(name = "TABLE_GEN", table = "SM_SEQUENCER", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "PRODUCT_VARI_SEQ_NEXT_VAL")
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
 	private Long id;
+
+	
+	@ManyToOne(targetEntity = Product.class)
+	@JoinColumn(name = "PRODUCT_ID", nullable = false)
+	private Product product;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="PRODUCT_ATTRIBUTE_ID", nullable=false)
-	private ProductAttribute attribute;
+	@JoinColumn(name="OPTION_ID", nullable=false)
+	private ProductOption productOption;
 	
-	//OptionSet
-	//images
-	//sku
-	
-	@Column(name="PRODUCT_AQUANTITY")
-	private Integer productQuantity = 0;
-	
-/*	@JsonIgnore
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="PRODUCT_AVAIL_ID", nullable=false)
-	private ProductAvailability productAvailability;*/
+	@JoinColumn(name="OPTION_VALUE_ID", nullable=false)
+	private ProductOptionValue productOptionValue;
 	
+	@Column(name="SORT_ORDER")
+	private Integer sortOrder;	
+	
+	@Column(name="VARIANT_DEFAULT")
+	private boolean variantDefault=false;
 	
 	@Override
 	public AuditSection getAuditSection() {
@@ -72,18 +78,7 @@ public class ProductVariant extends SalesManagerEntity<Long, ProductVariant> imp
 		this.id = id;
 		
 	}
-	public ProductAttribute getAttribute() {
-		return attribute;
-	}
-	public void setAttribute(ProductAttribute attribute) {
-		this.attribute = attribute;
-	}
-	public Integer getProductQuantity() {
-		return productQuantity;
-	}
-	public void setProductQuantity(Integer productQuantity) {
-		this.productQuantity = productQuantity;
-	}
+
 
 
 }
