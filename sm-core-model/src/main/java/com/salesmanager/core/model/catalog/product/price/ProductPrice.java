@@ -50,7 +50,7 @@ public class ProductPrice extends SalesManagerEntity<Long, ProductPrice> {
 	@Column(name = "PRODUCT_PRICE_CODE", nullable=false)
 	private String code = DEFAULT_PRICE_CODE;
 
-	@Column(name = "PRODUCT_PRICE_AMOUNT", nullable=false)
+	@Column(name = "PRODUCT_PRICE_AMOUNT", nullable=true)
 	private BigDecimal productPriceAmount = new BigDecimal(0);
 
 	@Column(name = "PRODUCT_PRICE_TYPE", length=20)

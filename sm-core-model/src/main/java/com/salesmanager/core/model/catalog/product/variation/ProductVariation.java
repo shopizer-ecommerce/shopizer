@@ -69,6 +69,12 @@ public class ProductVariation extends SalesManagerEntity<Long, ProductVariation>
     @NotEmpty
     @Column(name="CODE", length=100, nullable=false)
     private String code;
+    
+	@Column(name="SORT_ORDER")
+	private Integer sortOrder;	
+	
+	@Column(name="VARIANT_DEFAULT")
+	private boolean variantDefault=false;
 
 	
 	@Override
@@ -125,5 +131,19 @@ public class ProductVariation extends SalesManagerEntity<Long, ProductVariation>
 		this.code = code;
 	}
 
+	public Integer getSortOrder() {
+		return sortOrder;
+	}
 
+	public void setSortOrder(Integer sortOrder) {
+		this.sortOrder = sortOrder;
+	}
+
+	public boolean isVariantDefault() {
+		return variantDefault;
+	}
+
+	public void setVariantDefault(boolean variantDefault) {
+		this.variantDefault = variantDefault;
+	}
 }

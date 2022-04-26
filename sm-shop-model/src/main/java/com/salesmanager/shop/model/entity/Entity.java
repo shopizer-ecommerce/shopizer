@@ -5,6 +5,9 @@ import java.io.Serializable;
 public class Entity implements Serializable {
   
     public Entity() {}
+    public Entity(Long id) {
+    	this.id = id;
+    }
 	
 	/**
 	 * 

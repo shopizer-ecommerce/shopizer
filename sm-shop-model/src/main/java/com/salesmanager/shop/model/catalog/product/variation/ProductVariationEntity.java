@@ -15,5 +15,21 @@ public class ProductVariationEntity extends Entity {
 	public void setCode(String code) {
 		this.code = code;
 	}
+	
+	private int sortOrder;
+	
+	private boolean defaultValue = false;
+	public int getSortOrder() {
+		return sortOrder;
+	}
+	public void setSortOrder(int sortOrder) {
+		this.sortOrder = sortOrder;
+	}
+	public boolean isDefaultValue() {
+		return defaultValue;
+	}
+	public void setDefaultValue(boolean defaultValue) {
+		this.defaultValue = defaultValue;
+	}
 
 }

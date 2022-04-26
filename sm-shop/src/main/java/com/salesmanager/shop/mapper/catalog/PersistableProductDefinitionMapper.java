@@ -192,10 +192,15 @@ public class PersistableProductDefinitionMapper implements Mapper<PersistablePro
 
 
 			if(defaultPrice == null) {
+				
+				BigDecimal defaultPriceAmount = new BigDecimal(0);
+				if(source.getPrice() != null) {
+					defaultPriceAmount = source.getPrice();
+				}
 
 			    defaultPrice = new ProductPrice();
 			    defaultPrice.setDefaultPrice(true);
-			    defaultPrice.setProductPriceAmount(source.getPrice());
+			    defaultPrice.setProductPriceAmount(defaultPriceAmount);
 			    defaultPrice.setCode(ProductPriceEntity.DEFAULT_PRICE_CODE);
 			    defaultPrice.setProductAvailability(productAvailability);
                 productAvailability.getPrices().add(defaultPrice);

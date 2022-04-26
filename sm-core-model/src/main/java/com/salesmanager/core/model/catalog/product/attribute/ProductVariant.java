@@ -1,7 +1,5 @@
 package com.salesmanager.core.model.catalog.product.attribute;
 
-import java.math.BigDecimal;
-
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -15,11 +13,12 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.UniqueConstraint;
 
-import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.common.audit.Auditable;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 
+@Deprecated
+/** use ProductVariation **/
 @Entity
 @Table(name="PRODUCT_VARIANT", uniqueConstraints=
 	@UniqueConstraint(columnNames = {"PRODUCT_VARIANT_ID"}))
@@ -39,11 +38,6 @@ public class ProductVariant extends SalesManagerEntity<Long, ProductVariant> imp
 	@TableGenerator(name = "TABLE_GEN", table = "SM_SEQUENCER", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "PRODUCT_VARI_SEQ_NEXT_VAL")
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
 	private Long id;
-
-	
-	@ManyToOne(targetEntity = Product.class)
-	@JoinColumn(name = "PRODUCT_ID", nullable = false)
-	private Product product;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="OPTION_ID", nullable=false)

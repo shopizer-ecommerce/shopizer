@@ -25,5 +25,7 @@ public class PersistableProductVariation extends ProductVariationEntity {
 	public void setOptionValue(Long optionValue) {
 		this.optionValue = optionValue;
 	}
+	
+
 
 }

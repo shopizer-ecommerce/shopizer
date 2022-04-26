@@ -9,12 +9,12 @@ import com.salesmanager.shop.model.entity.ReadableEntityList;
 public interface ProductVariationFacade {
 	
 	
-	ReadableProductVariation get(Long productId, Long variationId, MerchantStore store, Language language);
-	boolean exists(Long productId, String code, MerchantStore store);
-	void create(Long productId, PersistableProductVariation optionSet, MerchantStore store, Language language);
-	void update(Long productId, Long variationId, PersistableProductVariation variation, MerchantStore store, Language language);
-	void delete(Long productId, Long variation, MerchantStore store);
-	ReadableEntityList<ReadableProductVariation> list(Long productId, MerchantStore store, Language language, int page, int count);
+	ReadableProductVariation get(Long variationId, MerchantStore store, Language language);
+	boolean exists(String code, MerchantStore store);
+	Long create(PersistableProductVariation optionSet, MerchantStore store, Language language);
+	void update(Long variationId, PersistableProductVariation variation, MerchantStore store, Language language);
+	void delete(Long variation, MerchantStore store);
+	ReadableEntityList<ReadableProductVariation> list(MerchantStore store, Language language, int page, int count);
 	
 	
 	

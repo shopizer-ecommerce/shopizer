@@ -36,8 +36,9 @@ public class ProductVariationFacadeImpl implements ProductVariationFacade {
 	private ProductVariationService productVariationService;
 
 
+
 	@Override
-	public ReadableProductVariation get(Long productId, Long variationId, MerchantStore store, Language language) {
+	public ReadableProductVariation get(Long variationId, MerchantStore store, Language language) {
 		Validate.notNull(store, "MerchantStore cannot be null");
 		Validate.notNull(language, "Language cannot be null");
 		ProductVariation variation =  productVariationService.getById(store, variationId, language);
@@ -49,7 +50,7 @@ public class ProductVariationFacadeImpl implements ProductVariationFacade {
 	}
 
 	@Override
-	public ReadableEntityList<ReadableProductVariation> list(Long productId, MerchantStore store, Language language, int page, int count) {
+	public ReadableEntityList<ReadableProductVariation> list(MerchantStore store, Language language, int page, int count) {
 		Validate.notNull(store, "MerchantStore cannot be null");
 		Validate.notNull(language, "Language cannot be null");
 		
@@ -71,27 +72,30 @@ public class ProductVariationFacadeImpl implements ProductVariationFacade {
 	}
 
 	@Override
-	public void create(Long productId, PersistableProductVariation var, MerchantStore store, Language language) {
+	public Long create(PersistableProductVariation var, MerchantStore store, Language language) {
 		Validate.notNull(store, "MerchantStore cannot be null");
 		Validate.notNull(language, "Language cannot be null");
 		Validate.notNull(var, "PersistableProductVariation cannot be null");
 		
-		if(this.exists(productId, var.getCode(), store)) {
+		if(this.exists(var.getCode(), store)) {
 			throw new OperationNotAllowedException("Option set with code [" + var.getCode() + "] already exist");
 		}
 		
 		ProductVariation p = persistableProductVariationMapper.convert(var, store, language);
+		p.setMerchantStore(store);
 		try {
-			p.setMerchantStore(store);
-			productVariationService.create(p);
+			productVariationService.saveOrUpdate(p);
 		} catch (ServiceException e) {
 			throw new ServiceRuntimeException("Exception while creating ProductOptionSet", e);
 		}
+		
+		return p.getId();
 
 	}
+	
 
 	@Override
-	public void update(Long productId, Long variationId, PersistableProductVariation var, MerchantStore store, Language language) {
+	public void update(Long variationId, PersistableProductVariation var, MerchantStore store, Language language) {
 		Validate.notNull(store, "MerchantStore cannot be null");
 		Validate.notNull(language, "Language cannot be null");
 		Validate.notNull(var, "PersistableProductVariation cannot be null");
@@ -114,7 +118,7 @@ public class ProductVariationFacadeImpl implements ProductVariationFacade {
 	}
 
 	@Override
-	public void delete(Long productId, Long variationId, MerchantStore store) {
+	public void delete(Long variationId, MerchantStore store) {
 		Validate.notNull(store, "MerchantStore cannot be null");
 		Validate.notNull(variationId, "variationId cannot be null");
 		ProductVariation opt =  productVariationService.getById(variationId);
@@ -133,7 +137,7 @@ public class ProductVariationFacadeImpl implements ProductVariationFacade {
 	}
 
 	@Override
-	public boolean exists(Long productId, String code, MerchantStore store) {
+	public boolean exists(String code, MerchantStore store) {
 		Validate.notNull(store, "MerchantStore cannot be null");
 		Validate.notNull(code, "code cannot be null");
 		ProductVariation var =  productVariationService.getByCode(store, code);
