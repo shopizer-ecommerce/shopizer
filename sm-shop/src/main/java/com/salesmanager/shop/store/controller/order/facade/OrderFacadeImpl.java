@@ -1259,28 +1259,28 @@ public class OrderFacadeImpl implements OrderFacade {
 			// of process order request. If totals does not match, an error
 			// should be thrown.
 
-			OrderTotalSummary orderTotalSummary = null;
+
 
 			OrderSummary orderSummary = new OrderSummary();
 			orderSummary.setShippingSummary(shippingSummary);
 			List<ShoppingCartItem> itemsSet = new ArrayList<ShoppingCartItem>(cart.getLineItems());
 			orderSummary.setProducts(itemsSet);
 
-			orderTotalSummary = orderService.caculateOrderTotal(orderSummary, customer, store, language);
+			OrderTotalSummary orderTotalSummary = orderService.caculateOrderTotal(orderSummary, customer, store, language);
 
 			if (order.getPayment().getAmount() == null) {
 				throw new ConversionException("Requires Payment.amount");
 			}
 
-			String submitedAmount = order.getPayment().getAmount();
+			BigDecimal submittedAmount = new BigDecimal(order.getPayment().getAmount());
 
 			BigDecimal calculatedAmount = orderTotalSummary.getTotal();
-			String strCalculatedTotal = calculatedAmount.toPlainString();
+			
 
 			// compare both prices
-			if (!submitedAmount.equals(strCalculatedTotal)) {
+			if (submittedAmount.doubleValue() != calculatedAmount.doubleValue()) {
 				throw new ConversionException("Payment.amount does not match what the system has calculated "
-						+ strCalculatedTotal + " (received " + submitedAmount + ") please recalculate the order and submit again");
+						+ calculatedAmount.toPlainString() + " (received " + submittedAmount + ") please recalculate the order and submit again");
 			}
 
 			modelOrder.setTotal(calculatedAmount);
