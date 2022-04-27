@@ -10,7 +10,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
-import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
+import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 
 @Entity
@@ -30,9 +31,9 @@ public class ProductVariationImage extends SalesManagerEntity<Long, ProductVaria
 	@Column(name = "DEFAULT_IMAGE")
 	private boolean defaultImage = true;
 	
-	@ManyToOne(targetEntity = ProductAvailability.class)
-	@JoinColumn(name = "PRODUCT_AVAIL_ID", nullable = false)
-	private ProductAvailability productAvailability;
+	@ManyToOne(targetEntity = Product.class)
+	@JoinColumn(name = "PRODUCT_INSTANCE_ID", nullable = false)
+	private ProductInstance productInstance;
 
 	
 	//private MultiPartFile image
@@ -66,12 +67,12 @@ public class ProductVariationImage extends SalesManagerEntity<Long, ProductVaria
 		this.id = id;
 	}
 
-	public ProductAvailability getProductAvailability() {
-		return productAvailability;
+	public ProductInstance getProductInstance() {
+		return productInstance;
 	}
 
-	public void setProductAvailability(ProductAvailability productAvailability) {
-		this.productAvailability = productAvailability;
+	public void setProductInstance(ProductInstance productInstance) {
+		this.productInstance = productInstance;
 	}
 
 }

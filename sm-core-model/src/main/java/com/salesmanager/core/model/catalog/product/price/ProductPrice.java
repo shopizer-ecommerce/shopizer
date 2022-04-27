@@ -33,8 +33,8 @@ import com.salesmanager.core.utils.CloneUtils;
 @Table(name = "PRODUCT_PRICE")
 public class ProductPrice extends SalesManagerEntity<Long, ProductPrice> {
 	private static final long serialVersionUID = 1L;
-	
-	public final static String DEFAULT_PRICE_CODE="base";
+
+	public final static String DEFAULT_PRICE_CODE = "base";
 
 	@Id
 	@Column(name = "PRODUCT_PRICE_ID")
@@ -46,14 +46,14 @@ public class ProductPrice extends SalesManagerEntity<Long, ProductPrice> {
 	private Set<ProductPriceDescription> descriptions = new HashSet<ProductPriceDescription>();
 
 	@NotEmpty
-	@Pattern(regexp="^[a-zA-Z0-9_]*$")
-	@Column(name = "PRODUCT_PRICE_CODE", nullable=false)
+	@Pattern(regexp = "^[a-zA-Z0-9_]*$")
+	@Column(name = "PRODUCT_PRICE_CODE", nullable = false)
 	private String code = DEFAULT_PRICE_CODE;
 
-	@Column(name = "PRODUCT_PRICE_AMOUNT", nullable=true)
+	@Column(name = "PRODUCT_PRICE_AMOUNT", nullable = true)
 	private BigDecimal productPriceAmount = new BigDecimal(0);
 
-	@Column(name = "PRODUCT_PRICE_TYPE", length=20)
+	@Column(name = "PRODUCT_PRICE_TYPE", length = 20)
 	@Enumerated(value = EnumType.STRING)
 	private ProductPriceType productPriceType = ProductPriceType.ONE_TIME;
 
@@ -70,16 +70,18 @@ public class ProductPrice extends SalesManagerEntity<Long, ProductPrice> {
 
 	@Column(name = "PRODUCT_PRICE_SPECIAL_AMOUNT")
 	private BigDecimal productPriceSpecialAmount;
-	
+
 	@JsonIgnore
 	@ManyToOne(targetEntity = ProductAvailability.class)
 	@JoinColumn(name = "PRODUCT_AVAIL_ID", nullable = false)
 	private ProductAvailability productAvailability;
-	
+
+	@Column(name = "PRODUCT_IDENTIFIER_ID", nullable = true)
+	private Long productIdentifierId;
 
 	public ProductPrice() {
 	}
-	
+
 	@Override
 	public Long getId() {
 		return this.id;
@@ -90,9 +92,6 @@ public class ProductPrice extends SalesManagerEntity<Long, ProductPrice> {
 		this.id = id;
 	}
 
-
-
-
 	public BigDecimal getProductPriceAmount() {
 		return productPriceAmount;
 	}
@@ -101,14 +100,11 @@ public class ProductPrice extends SalesManagerEntity<Long, ProductPrice> {
 		this.productPriceAmount = productPriceAmount;
 	}
 
-
-	
 	public Date getProductPriceSpecialStartDate() {
 		return CloneUtils.clone(productPriceSpecialStartDate);
 	}
 
-	public void setProductPriceSpecialStartDate(
-			Date productPriceSpecialStartDate) {
+	public void setProductPriceSpecialStartDate(Date productPriceSpecialStartDate) {
 		this.productPriceSpecialStartDate = CloneUtils.clone(productPriceSpecialStartDate);
 	}
 
@@ -120,30 +116,21 @@ public class ProductPrice extends SalesManagerEntity<Long, ProductPrice> {
 		this.productPriceSpecialEndDate = CloneUtils.clone(productPriceSpecialEndDate);
 	}
 
-
-
 	public BigDecimal getProductPriceSpecialAmount() {
 		return productPriceSpecialAmount;
 	}
 
-	public void setProductPriceSpecialAmount(
-			BigDecimal productPriceSpecialAmount) {
+	public void setProductPriceSpecialAmount(BigDecimal productPriceSpecialAmount) {
 		this.productPriceSpecialAmount = productPriceSpecialAmount;
 	}
-
-
 
 	public Set<ProductPriceDescription> getDescriptions() {
 		return descriptions;
 	}
 
-
-
 	public void setDescriptions(Set<ProductPriceDescription> descriptions) {
 		this.descriptions = descriptions;
 	}
-
-
 
 	public boolean isDefaultPrice() {
 		return defaultPrice;

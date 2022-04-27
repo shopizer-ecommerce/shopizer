@@ -101,13 +101,9 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
 
 		// save or update (persist and attach entities
 		if (category.getId() != null && category.getId() > 0) {
-
 			super.update(category);
-
 		} else {
-
 			this.create(category);
-
 		}
 
 	}
@@ -180,9 +176,7 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
 		}
 
 		List<CategoryDescription> descriptions = categoryDescriptionRepository.listByCategoryId(id);
-
 		Set<CategoryDescription> desc = new HashSet<CategoryDescription>(descriptions);
-
 		category.setDescriptions(desc);
 
 		return category;

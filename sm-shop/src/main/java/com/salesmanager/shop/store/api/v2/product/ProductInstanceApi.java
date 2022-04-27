@@ -1,4 +1,4 @@
-package com.salesmanager.shop.store.api.v1.product;
+package com.salesmanager.shop.store.api.v2.product;
 
 import javax.validation.Valid;
 
@@ -16,10 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.salesmanager.core.model.catalog.product.ProductInstance;
+import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.shop.model.catalog.product.variation.PersistableProductVariation;
 import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.store.controller.product.facade.ProductInventoryFacade;
 
@@ -42,7 +41,7 @@ import springfox.documentation.annotations.ApiIgnore;
  *
  */
 @Controller
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v2")
 @Api(tags = {"Product instances api"})
 @SwaggerDefinition(tags = {
     @Tag(name = "Product instances resource", description = "Manage inventory for a given product")

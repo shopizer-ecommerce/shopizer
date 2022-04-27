@@ -1,7 +1,10 @@
-package com.salesmanager.core.model.catalog.product;
+package com.salesmanager.core.model.catalog.product.instance;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -12,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
@@ -20,65 +24,62 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
+import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.variation.ProductVariation;
+import com.salesmanager.core.model.catalog.product.variation.ProductVariationImage;
 import com.salesmanager.core.model.common.audit.AuditListener;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.common.audit.Auditable;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 import com.salesmanager.core.model.merchant.MerchantStore;
 
-
 @Entity
 @EntityListeners(value = AuditListener.class)
-@Table(name = "PRODUCT_INSTANCE", uniqueConstraints=
-@UniqueConstraint(columnNames = {"PRODUCT_ID", "MERCHANT_ID", "SKU"}))
+@Table(name = "PRODUCT_INSTANCE", uniqueConstraints = @UniqueConstraint(columnNames = { "PRODUCT_ID", "MERCHANT_ID",
+		"SKU" }))
 public class ProductInstance extends SalesManagerEntity<Long, ProductInstance> implements Auditable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "PRODUCT_INSTANCE_ID", unique=true, nullable=false)
-	@TableGenerator(
-		 name = "TABLE_GEN", 
-		 table = "SM_SEQUENCER", 
-		 pkColumnName = "SEQ_NAME", 
-		 valueColumnName = "SEQ_COUNT", 
-		 pkColumnValue = "PRODUCT_SEQ_NEXT_VAL")
+	@Column(name = "PRODUCT_INSTANCE_ID", unique = true, nullable = false)
+	@TableGenerator(name = "TABLE_GEN", table = "SM_SEQUENCER", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "PRODUCT_SEQ_NEXT_VAL")
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
 	private Long id;
 
 	@Embedded
 	private AuditSection auditSection = new AuditSection();
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="MERCHANT_ID", nullable=false)
+	@JoinColumn(name = "MERCHANT_ID", nullable = false)
 	private MerchantStore merchantStore;
-	
-	@Column(name="DATE_AVAILABLE")
+
+	@Column(name = "DATE_AVAILABLE")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateAvailable = new Date();
-	
+
 	@Column(name = "AVAILABLE")
 	private boolean available = true;
 
 	@NotEmpty
-	@Pattern(regexp="^[a-zA-Z0-9_]*$")
+	@Pattern(regexp = "^[a-zA-Z0-9_]*$")
 	@Column(name = "SKU")
 	private String sku;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="PRODUCT_VARIANTION_ID", nullable=false)
+	@JoinColumn(name = "PRODUCT_VARIANTION_ID", nullable = false)
 	private ProductVariation variant;
-	
+
 	@ManyToOne(targetEntity = Product.class)
 	@JoinColumn(name = "PRODUCT_ID", nullable = false)
 	private Product product;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="PRODUCT_VARIANTION_VALUE_ID", nullable=true)
+	@JoinColumn(name = "PRODUCT_VARIANTION_VALUE_ID", nullable = true)
 	private ProductVariation variantValue;
-	
-	@Column(name = "QUANTITY")
-	private int quantity = 0;
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "productInstance")
+	private List<ProductVariationImage> images = new ArrayList<ProductVariationImage>();
+
 
 	@Override
 	public AuditSection getAuditSection() {
@@ -87,8 +88,8 @@ public class ProductInstance extends SalesManagerEntity<Long, ProductInstance> i
 
 	@Override
 	public void setAuditSection(AuditSection audit) {
-		this.auditSection=audit;
-		
+		this.auditSection = audit;
+
 	}
 
 	@Override
@@ -99,7 +100,7 @@ public class ProductInstance extends SalesManagerEntity<Long, ProductInstance> i
 	@Override
 	public void setId(Long id) {
 		this.id = id;
-		
+
 	}
 
 	public MerchantStore getMerchantStore() {
@@ -158,15 +159,13 @@ public class ProductInstance extends SalesManagerEntity<Long, ProductInstance> i
 		this.variantValue = variantValue;
 	}
 
-	public int getQuantity() {
-		return quantity;
+	public List<ProductVariationImage> getImages() {
+		return images;
 	}
 
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
+	public void setImages(List<ProductVariationImage> images) {
+		this.images = images;
 	}
-
-
 
 
 }

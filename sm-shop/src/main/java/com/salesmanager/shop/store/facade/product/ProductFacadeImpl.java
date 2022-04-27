@@ -138,26 +138,6 @@ public class ProductFacadeImpl implements ProductFacade {
 		// get original product
 		Product productModel = productService.getById(product.getId());
 
-		// merge original product with persistable product
-
-		/*
-		 * String manufacturer = Manufacturer.DEFAULT_MANUFACTURER; if
-		 * (product.getProductSpecifications() != null) { manufacturer =
-		 * product.getProductSpecifications().getManufacturer(); } else {
-		 * ProductSpecification specifications = new ProductSpecification();
-		 * specifications.setManufacturer(manufacturer); }
-		 *
-		 * Product target = null; if (product.getId() != null &&
-		 * product.getId().longValue() > 0) { target =
-		 * productService.getById(product.getId()); } else { target = new
-		 * Product(); }
-		 *
-		 *
-		 * try { persistableProductPopulator.populate(product, target, store,
-		 * language); productService.create(target);
-		 * product.setId(target.getId()); return product; } catch (Exception e)
-		 * { throw new ServiceRuntimeException(e); }
-		 */
 
 	}
 

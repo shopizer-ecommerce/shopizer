@@ -13,8 +13,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -25,15 +23,11 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-import org.hibernate.annotations.Cascade;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.ProductDimensions;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
-import com.salesmanager.core.model.catalog.product.variation.ProductVariation;
-import com.salesmanager.core.model.catalog.product.variation.ProductVariationImage;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.common.audit.Auditable;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
@@ -109,7 +103,9 @@ public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailab
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "productAvailability", cascade = CascadeType.ALL)
 	private Set<ProductPrice> prices = new HashSet<ProductPrice>();
-
+	
+	
+/**
 	@ManyToMany(fetch=FetchType.LAZY, cascade = {CascadeType.REFRESH})
 	@JoinTable(name = "AVAILABILITY_VARIATION", joinColumns = { 
 			@JoinColumn(name = "PRODUCT_AVAIL_ID", nullable = false, updatable = false) }
@@ -125,9 +121,7 @@ public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailab
 		
 	})
 	private Set<ProductVariation> variations = new HashSet<ProductVariation>();
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "productAvailability", cascade = CascadeType.ALL)
-	private Set<ProductVariationImage> images = new HashSet<ProductVariationImage>();
+**/
 
 	@Transient
 	public ProductPrice defaultPrice() {
@@ -288,19 +282,4 @@ public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailab
 		this.dimensions = dimensions;
 	}
 
-	public Set<ProductVariationImage> getImages() {
-		return images;
-	}
-
-	public void setImages(Set<ProductVariationImage> images) {
-		this.images = images;
-	}
-
-	public Set<ProductVariation> getVariations() {
-		return variations;
-	}
-
-	public void setVariations(Set<ProductVariation> variations) {
-		this.variations = variations;
-	}
 }

@@ -1,4 +1,4 @@
-package com.salesmanager.shop.store.api.v1.product;
+package com.salesmanager.shop.store.api.v2.product;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +65,7 @@ import springfox.documentation.annotations.ApiIgnore;
  * @author Carl Samson
  */
 @Controller
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v2")
 @Api(tags = {"Product variant resource (Product variant Api)"})
 @SwaggerDefinition(tags = {
     @Tag(name = "Product variant resource", description = "List variation of products by different grouping")
