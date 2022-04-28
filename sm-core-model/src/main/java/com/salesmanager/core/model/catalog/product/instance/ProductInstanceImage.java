@@ -1,4 +1,4 @@
-package com.salesmanager.core.model.catalog.product.variation;
+package com.salesmanager.core.model.catalog.product.instance;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,16 +11,15 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
 import com.salesmanager.core.model.catalog.product.Product;
-import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 
 @Entity
-@Table(name = "PRODUCT_VAR_IMAGE")
-public class ProductVariationImage extends SalesManagerEntity<Long, ProductVariationImage> {
+@Table(name = "PRODUCT_INST_IMAGE")
+public class ProductInstanceImage extends SalesManagerEntity<Long, ProductInstanceImage> {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@Column(name = "PRODUCT_VAR_IMAGE_ID")
+	@Column(name = "PRODUCT_INST_IMAGE_ID")
 	@TableGenerator(name = "TABLE_GEN", table = "SM_SEQUENCER", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "PRD_VAR_IMG_SEQ_NEXT_VAL")
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
 	private Long id;
@@ -38,7 +37,7 @@ public class ProductVariationImage extends SalesManagerEntity<Long, ProductVaria
 	
 	//private MultiPartFile image
 
-	public ProductVariationImage(){
+	public ProductInstanceImage(){
 	}
 
 	public String getProductImage() {

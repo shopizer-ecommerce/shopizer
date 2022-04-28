@@ -104,24 +104,6 @@ public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailab
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "productAvailability", cascade = CascadeType.ALL)
 	private Set<ProductPrice> prices = new HashSet<ProductPrice>();
 	
-	
-/**
-	@ManyToMany(fetch=FetchType.LAZY, cascade = {CascadeType.REFRESH})
-	@JoinTable(name = "AVAILABILITY_VARIATION", joinColumns = { 
-			@JoinColumn(name = "PRODUCT_AVAIL_ID", nullable = false, updatable = false) }
-			, 
-			inverseJoinColumns = { @JoinColumn(name = "PRODUCT_VARIANTION_ID", 
-					nullable = false, updatable = false) }
-	)
-	@Cascade({
-		org.hibernate.annotations.CascadeType.DETACH,
-		org.hibernate.annotations.CascadeType.LOCK,
-		org.hibernate.annotations.CascadeType.REFRESH,
-		org.hibernate.annotations.CascadeType.REPLICATE
-		
-	})
-	private Set<ProductVariation> variations = new HashSet<ProductVariation>();
-**/
 
 	@Transient
 	public ProductPrice defaultPrice() {

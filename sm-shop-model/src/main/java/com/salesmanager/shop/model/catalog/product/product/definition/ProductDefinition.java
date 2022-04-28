@@ -18,8 +18,6 @@ public class ProductDefinition extends Entity {
 	private boolean shipeable = true;
 	private boolean virtual = true;
 	private boolean canBePurchased = true;
-	//private Double rating = 0D;
-	//private int ratingCount;
 	private String dateAvailable;
 	private String identifier;
 	private ProductSpecification productSpecifications;
@@ -32,18 +30,6 @@ public class ProductDefinition extends Entity {
 	public void setVisible(boolean visible) {
 		this.visible = visible;
 	}
-/*	public Double getRating() {
-		return rating;
-	}
-	public void setRating(Double rating) {
-		this.rating = rating;
-	}
-	public int getRatingCount() {
-		return ratingCount;
-	}
-	public void setRatingCount(int ratingCount) {
-		this.ratingCount = ratingCount;
-	}*/
 	public String getDateAvailable() {
 		return dateAvailable;
 	}

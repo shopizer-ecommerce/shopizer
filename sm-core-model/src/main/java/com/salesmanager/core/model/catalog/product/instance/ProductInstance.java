@@ -2,7 +2,9 @@ package com.salesmanager.core.model.catalog.product.instance;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -26,7 +28,6 @@ import javax.validation.constraints.Pattern;
 
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.variation.ProductVariation;
-import com.salesmanager.core.model.catalog.product.variation.ProductVariationImage;
 import com.salesmanager.core.model.common.audit.AuditListener;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.common.audit.Auditable;
@@ -58,12 +59,10 @@ public class ProductInstance extends SalesManagerEntity<Long, ProductInstance> i
 	private Date dateAvailable = new Date();
 
 	@Column(name = "AVAILABLE")
+	private boolean defaultSelection = true;
+	
+	@Column(name = "DEFAULT_SELECTION")
 	private boolean available = true;
-
-	@NotEmpty
-	@Pattern(regexp = "^[a-zA-Z0-9_]*$")
-	@Column(name = "SKU")
-	private String sku;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "PRODUCT_VARIANTION_ID", nullable = false)
@@ -78,7 +77,15 @@ public class ProductInstance extends SalesManagerEntity<Long, ProductInstance> i
 	private ProductVariation variantValue;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "productInstance")
-	private List<ProductVariationImage> images = new ArrayList<ProductVariationImage>();
+	private List<ProductInstanceImage> images = new ArrayList<ProductInstanceImage>();
+	
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="productInstance")
+	private Set<ProductInstanceAvailability> availabilities = new HashSet<ProductInstanceAvailability>();
+	
+	@NotEmpty
+	@Pattern(regexp="^[a-zA-Z0-9_]*$")
+	@Column(name = "SKU")
+	private String sku;
 
 
 	@Override
@@ -127,14 +134,6 @@ public class ProductInstance extends SalesManagerEntity<Long, ProductInstance> i
 		this.available = available;
 	}
 
-	public String getSku() {
-		return sku;
-	}
-
-	public void setSku(String sku) {
-		this.sku = sku;
-	}
-
 	public ProductVariation getVariant() {
 		return variant;
 	}
@@ -159,12 +158,36 @@ public class ProductInstance extends SalesManagerEntity<Long, ProductInstance> i
 		this.variantValue = variantValue;
 	}
 
-	public List<ProductVariationImage> getImages() {
+	public List<ProductInstanceImage> getImages() {
 		return images;
 	}
 
-	public void setImages(List<ProductVariationImage> images) {
+	public void setImages(List<ProductInstanceImage> images) {
 		this.images = images;
+	}
+
+	public boolean isDefaultSelection() {
+		return defaultSelection;
+	}
+
+	public void setDefaultSelection(boolean defaultSelection) {
+		this.defaultSelection = defaultSelection;
+	}
+
+	public String getSku() {
+		return sku;
+	}
+
+	public void setSku(String sku) {
+		this.sku = sku;
+	}
+
+	public Set<ProductInstanceAvailability> getAvailabilities() {
+		return availabilities;
+	}
+
+	public void setAvailabilities(Set<ProductInstanceAvailability> availabilities) {
+		this.availabilities = availabilities;
 	}
 
 

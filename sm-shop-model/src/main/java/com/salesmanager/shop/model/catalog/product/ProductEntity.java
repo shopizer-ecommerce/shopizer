@@ -19,14 +19,12 @@ public class ProductEntity extends Product implements Serializable {
 	private BigDecimal price;
 	private int quantity = 0;
 	private String sku;
-	private boolean productShipeable = false;
 	private boolean preOrder = false;
 	private boolean productVirtual = false;
 	private int quantityOrderMaximum = -1;// default unlimited
 	private int quantityOrderMinimum = 1;// default 1
 	private boolean productIsFree;
-	private boolean available;
-	private boolean visible = true;
+
 
 	/*
 	 * private BigDecimal productLength; private BigDecimal productWidth;
@@ -36,9 +34,8 @@ public class ProductEntity extends Product implements Serializable {
 	private Double rating = 0D;
 	private int ratingCount;
 	private int sortOrder;
-	private String dateAvailable;
 	private String refSku;
-	private String creationDate;
+
 
 	/**
 	 * RENTAL additional fields
@@ -79,13 +76,6 @@ public class ProductEntity extends Product implements Serializable {
 		this.sku = sku;
 	}
 
-	public boolean isProductShipeable() {
-		return productShipeable;
-	}
-
-	public void setProductShipeable(boolean productShipeable) {
-		this.productShipeable = productShipeable;
-	}
 
 	public boolean isProductIsFree() {
 		return productIsFree;
@@ -117,22 +107,6 @@ public class ProductEntity extends Product implements Serializable {
 
 	public boolean isProductVirtual() {
 		return productVirtual;
-	}
-
-	public void setAvailable(boolean available) {
-		this.available = available;
-	}
-
-	public boolean isAvailable() {
-		return available;
-	}
-
-	public void setDateAvailable(String dateAvailable) {
-		this.dateAvailable = dateAvailable;
-	}
-
-	public String getDateAvailable() {
-		return dateAvailable;
 	}
 
 	public int getQuantityOrderMinimum() {
@@ -175,14 +149,6 @@ public class ProductEntity extends Product implements Serializable {
 		this.refSku = refSku;
 	}
 
-	public boolean isVisible() {
-		return visible;
-	}
-
-	public void setVisible(boolean visible) {
-		this.visible = visible;
-	}
-
 	public int getRentalDuration() {
 		return rentalDuration;
 	}
@@ -207,13 +173,6 @@ public class ProductEntity extends Product implements Serializable {
 		this.productSpecifications = productSpecifications;
 	}
 
-	public String getCreationDate() {
-		return creationDate;
-	}
-
-	public void setCreationDate(String creationDate) {
-		this.creationDate = creationDate;
-	}
 
 
 }

@@ -36,7 +36,6 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.catalog.ReadableProductImageMapper;
 import com.salesmanager.shop.model.catalog.product.ReadableImage;
-import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.entity.NameEntity;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
@@ -127,9 +126,7 @@ public class ProductImageApi {
 						hasDefaultImage = true;
 					}
 					productImage.setSortOrder(sortOrder);
-
 					position++;
-
 					contentImagesList.add(productImage);
 				}
 			}
