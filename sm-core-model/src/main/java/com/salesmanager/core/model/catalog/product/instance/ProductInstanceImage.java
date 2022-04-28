@@ -30,7 +30,7 @@ public class ProductInstanceImage extends SalesManagerEntity<Long, ProductInstan
 	@Column(name = "DEFAULT_IMAGE")
 	private boolean defaultImage = true;
 	
-	@ManyToOne(targetEntity = Product.class)
+	@ManyToOne(targetEntity = ProductInstance.class)
 	@JoinColumn(name = "PRODUCT_INSTANCE_ID", nullable = false)
 	private ProductInstance productInstance;
 
