@@ -1,8 +1,10 @@
 package com.salesmanager.core.business.services.system;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -130,14 +132,18 @@ public class ModuleConfigurationServiceImpl extends SalesManagerEntityServiceImp
 						m.setCode(mod.getUniqueCode());
 						m.setModule(Constants.PAYMENT_MODULES);
 						
+						if(CollectionUtils.isNotEmpty(mod.getConfigurable())) {
+							m.setConfigurables(mod.getConfigurable());
+						}
+						
 						if(CollectionUtils.isNotEmpty(mod.getSupportedCountry())) {
 							m.setRegions(mod.getSupportedCountry().toString());
+							m.setRegionsSet(new HashSet<String>(mod.getSupportedCountry()));
 						}
 						
 						if(!StringUtils.isBlank(mod.getLogo())) {
-							m.setImage(mod.getLogo());
+							m.setBinaryImage(mod.getLogo());//base 64
 						}
-						
 						
 						
 						if(CollectionUtils.isNotEmpty(mod.getConfigurable())) {
@@ -148,7 +154,6 @@ public class ModuleConfigurationServiceImpl extends SalesManagerEntityServiceImp
 							}
 							m.setDetails(details);
 						}
-
 
 						modules.add(m);
 					}
@@ -164,18 +169,16 @@ public class ModuleConfigurationServiceImpl extends SalesManagerEntityServiceImp
 
 	}
 
+
 	@Override
 	public void createOrUpdateModule(String json) throws ServiceException {
 
 		ObjectMapper mapper = new ObjectMapper();
 
 		try {
-
 			@SuppressWarnings("rawtypes")
 			Map object = mapper.readValue(json, Map.class);
-
 			IntegrationModule module = integrationModulesLoader.loadModule(object);
-
 			if (module != null) {
 				IntegrationModule m = this.getByCode(module.getCode());
 				if (m != null) {
@@ -183,7 +186,6 @@ public class ModuleConfigurationServiceImpl extends SalesManagerEntityServiceImp
 				}
 				this.create(module);
 			}
-
 		} catch (Exception e) {
 			throw new ServiceException(e);
 		}

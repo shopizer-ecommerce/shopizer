@@ -1,8 +1,10 @@
 package com.salesmanager.core.model.system;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -70,6 +72,9 @@ public class IntegrationModule extends SalesManagerEntity<Long, IntegrationModul
 
 	@Transient
 	private Set<String> regionsSet = new HashSet<String>();
+	
+	@Transient
+	private String binaryImage = null;
 
 	/**
 	 * Contains a map of module config by environment (DEV,PROD)
@@ -79,6 +84,20 @@ public class IntegrationModule extends SalesManagerEntity<Long, IntegrationModul
 
 	@Transient
 	private Map<String, String> details = new HashMap<String, String>();
+	
+	/**
+	 * Configurables from starter module
+	 */
+	@Transient
+	private List<String> configurables = new ArrayList<String>();
+
+	public List<String> getConfigurables() {
+		return configurables;
+	}
+
+	public void setConfigurables(List<String> configurables) {
+		this.configurables = configurables;
+	}
 
 	public Map<String, String> getDetails() {
 		return details;
@@ -190,6 +209,14 @@ public class IntegrationModule extends SalesManagerEntity<Long, IntegrationModul
 
 	public String getType() {
 		return type;
+	}
+	
+	public String getBinaryImage() {
+		return binaryImage;
+	}
+
+	public void setBinaryImage(String binaryImage) {
+		this.binaryImage = binaryImage;
 	}
 
 }

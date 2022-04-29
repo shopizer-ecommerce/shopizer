@@ -1,5 +1,6 @@
 package com.salesmanager.shop.model.system;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,10 @@ public class IntegrationModuleConfiguration extends IntegrationModuleEntity {
 	private boolean defaultSelected;
 	private Map<String, String> integrationKeys = new HashMap<String,String>();
 	private Map<String, List<String>> integrationOptions = new HashMap<String, List<String>>();
+	private List<String> requiredKeys = new ArrayList<String>();
+	private List<String> configurable = new ArrayList<String>();
+	
+	
 	public boolean isDefaultSelected() {
 		return defaultSelected;
 	}
@@ -30,5 +35,17 @@ public class IntegrationModuleConfiguration extends IntegrationModuleEntity {
 	}
 	public void setIntegrationOptions(Map<String, List<String>> integrationOptions) {
 		this.integrationOptions = integrationOptions;
+	}
+	public List<String> getRequiredKeys() {
+		return requiredKeys;
+	}
+	public void setRequiredKeys(List<String> requiredKeys) {
+		this.requiredKeys = requiredKeys;
+	}
+	public List<String> getConfigurable() {
+		return configurable;
+	}
+	public void setConfigurable(List<String> configurable) {
+		this.configurable = configurable;
 	}
 }

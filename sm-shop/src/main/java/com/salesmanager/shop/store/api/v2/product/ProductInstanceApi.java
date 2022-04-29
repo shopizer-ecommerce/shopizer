@@ -23,7 +23,6 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.product.instance.PersistableProductInstance;
 import com.salesmanager.shop.model.catalog.product.product.instance.ReadableProductInstance;
-import com.salesmanager.shop.model.catalog.product.variation.ReadableProductVariation;
 import com.salesmanager.shop.model.entity.Entity;
 import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.model.entity.ReadableEntityList;
