@@ -1,6 +1,7 @@
 package com.salesmanager.shop.store.facade.product;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.Validate;
@@ -41,12 +42,12 @@ public class ProductVariationFacadeImpl implements ProductVariationFacade {
 	public ReadableProductVariation get(Long variationId, MerchantStore store, Language language) {
 		Validate.notNull(store, "MerchantStore cannot be null");
 		Validate.notNull(language, "Language cannot be null");
-		ProductVariation variation =  productVariationService.getById(store, variationId, language);
-		if(variation == null) {
+		Optional<ProductVariation> variation =  productVariationService.getById(store, variationId, language);
+		if(variation.isEmpty()) {
 			throw new ResourceNotFoundException("ProductVariation not found for id [" + variationId +"] and store [" + store.getCode() + "]");
 		}
 		
-		return readableProductVariationMapper.convert(variation, store, language);
+		return readableProductVariationMapper.convert(variation.get(), store, language);
 	}
 
 	@Override
@@ -100,14 +101,16 @@ public class ProductVariationFacadeImpl implements ProductVariationFacade {
 		Validate.notNull(language, "Language cannot be null");
 		Validate.notNull(var, "PersistableProductVariation cannot be null");
 		
-		ProductVariation p =  productVariationService.getById(store, variationId, language);
-		if(p == null) {
+		Optional<ProductVariation> p =  productVariationService.getById(store, variationId, language);
+		if(p.isEmpty()) {
 			throw new ResourceNotFoundException("ProductVariation not found for id [" + variationId +"] and store [" + store.getCode() + "]");
 		}
 		
-		p.setId(variationId);
-		p.setCode(var.getCode());
-		ProductVariation model = persistableProductVariationMapper.merge(var, p, store, language);
+		ProductVariation productVariant = p.get();
+		
+		productVariant.setId(variationId);
+		productVariant.setCode(var.getCode());
+		ProductVariation model = persistableProductVariationMapper.merge(var, productVariant, store, language);
 		try {
 			model.setMerchantStore(store);
 			productVariationService.save(model);

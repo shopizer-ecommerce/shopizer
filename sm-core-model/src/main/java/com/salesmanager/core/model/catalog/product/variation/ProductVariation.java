@@ -60,7 +60,7 @@ public class ProductVariation extends SalesManagerEntity<Long, ProductVariation>
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="PRODUCT_OPTION_ID", nullable=false)
-	private ProductOption option;
+	private ProductOption productOption;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="OPTION_VALUE_ID", nullable=false)
@@ -107,12 +107,12 @@ public class ProductVariation extends SalesManagerEntity<Long, ProductVariation>
 		this.merchantStore = merchantStore;
 	}
 
-	public ProductOption getOption() {
-		return option;
+	public ProductOption getProductOption() {
+		return productOption;
 	}
 
-	public void setOption(ProductOption option) {
-		this.option = option;
+	public void setProductOption(ProductOption productOption) {
+		this.productOption = productOption;
 	}
 
 	public ProductOptionValue getProductOptionValue() {

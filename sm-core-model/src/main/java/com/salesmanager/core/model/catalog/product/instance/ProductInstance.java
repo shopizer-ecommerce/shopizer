@@ -2,9 +2,7 @@ package com.salesmanager.core.model.catalog.product.instance;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -36,7 +34,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 
 @Entity
 @EntityListeners(value = AuditListener.class)
-@Table(name = "PRODUCT_INSTANCE", uniqueConstraints = @UniqueConstraint(columnNames = { "PRODUCT_ID", "MERCHANT_ID",
+@Table(name = "PRODUCT_INSTANCE", uniqueConstraints = @UniqueConstraint(columnNames = { "PRODUCT_ID",
 		"SKU" }))
 public class ProductInstance extends SalesManagerEntity<Long, ProductInstance> implements Auditable {
 	private static final long serialVersionUID = 1L;
@@ -50,14 +48,10 @@ public class ProductInstance extends SalesManagerEntity<Long, ProductInstance> i
 	@Embedded
 	private AuditSection auditSection = new AuditSection();
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "MERCHANT_ID", nullable = false)
-	private MerchantStore merchantStore;
-
 	@Column(name = "DATE_AVAILABLE")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateAvailable = new Date();
-
+	
 	@Column(name = "AVAILABLE")
 	private boolean defaultSelection = true;
 	
@@ -78,10 +72,7 @@ public class ProductInstance extends SalesManagerEntity<Long, ProductInstance> i
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "productInstance")
 	private List<ProductInstanceImage> images = new ArrayList<ProductInstanceImage>();
-	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="productInstance")
-	private Set<ProductInstanceAvailability> availabilities = new HashSet<ProductInstanceAvailability>();
-	
+
 	@NotEmpty
 	@Pattern(regexp="^[a-zA-Z0-9_]*$")
 	@Column(name = "SKU")
@@ -108,14 +99,6 @@ public class ProductInstance extends SalesManagerEntity<Long, ProductInstance> i
 	public void setId(Long id) {
 		this.id = id;
 
-	}
-
-	public MerchantStore getMerchantStore() {
-		return merchantStore;
-	}
-
-	public void setMerchantStore(MerchantStore merchantStore) {
-		this.merchantStore = merchantStore;
 	}
 
 	public Date getDateAvailable() {
@@ -182,13 +165,6 @@ public class ProductInstance extends SalesManagerEntity<Long, ProductInstance> i
 		this.sku = sku;
 	}
 
-	public Set<ProductInstanceAvailability> getAvailabilities() {
-		return availabilities;
-	}
-
-	public void setAvailabilities(Set<ProductInstanceAvailability> availabilities) {
-		this.availabilities = availabilities;
-	}
 
 
 }

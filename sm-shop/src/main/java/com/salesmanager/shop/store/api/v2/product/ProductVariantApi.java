@@ -186,7 +186,7 @@ public class ProductVariantApi {
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value = { "/private/product/variant" }, method = RequestMethod.POST)
 	@ApiOperation(
-		      httpMethod = "Post",
+		      httpMethod = "POST",
 		      value = "Creates a new product variant",
 		      notes = "",
 		      produces = "application/json",

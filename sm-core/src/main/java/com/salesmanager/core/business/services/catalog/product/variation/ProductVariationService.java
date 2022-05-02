@@ -1,5 +1,7 @@
 package com.salesmanager.core.business.services.catalog.product.variation;
 
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 
 import com.salesmanager.core.business.exception.ServiceException;
@@ -12,7 +14,9 @@ public interface ProductVariationService extends SalesManagerEntityService<Long,
 
 	void saveOrUpdate(ProductVariation entity) throws ServiceException;
 
-	ProductVariation getById(MerchantStore store, Long id, Language lang);
+	Optional<ProductVariation> getById(MerchantStore store, Long id, Language lang);
+	
+	Optional<ProductVariation> getById(MerchantStore store, Long id);
 	
 	ProductVariation getByCode(MerchantStore store, String code);
 	

@@ -34,6 +34,7 @@ import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
 import com.salesmanager.core.model.catalog.product.image.ProductImage;
+import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
 import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
 import com.salesmanager.core.model.catalog.product.relationship.ProductRelationship;
 import com.salesmanager.core.model.catalog.product.type.ProductType;
@@ -70,15 +71,28 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "product")
 	private Set<ProductDescription> descriptions = new HashSet<ProductDescription>();
 	
+	/**
+	 * Inventory
+	 */
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="product")
 	private Set<ProductAvailability> availabilities = new HashSet<ProductAvailability>();
 
+	/**
+	 * Attributes of a product
+	 * Decorates the product with additional properties
+	 */
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "product")
 	private Set<ProductAttribute> attributes = new HashSet<ProductAttribute>();
 	
+	/**
+	 * Default product images
+	 */
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "product")//cascade is set to remove because product save requires logic to create physical image first and then save the image id in the database, cannot be done in cascade
 	private Set<ProductImage> images = new HashSet<ProductImage>();
 
+	/**
+	 * Related items / product groups
+	 */
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "product")
 	private Set<ProductRelationship> relationships = new HashSet<ProductRelationship>();
 
@@ -86,6 +100,9 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 	@JoinColumn(name="MERCHANT_ID", nullable=false)
 	private MerchantStore merchantStore;
 	
+	/**
+	 * Product to category
+	 */
 	@ManyToMany(fetch=FetchType.LAZY, cascade = {CascadeType.REFRESH})
 	@JoinTable(name = "PRODUCT_CATEGORY", joinColumns = { 
 			@JoinColumn(name = "PRODUCT_ID", nullable = false, updatable = false) }
@@ -101,6 +118,14 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 		
 	})
 	private Set<Category> categories = new HashSet<Category>();
+	
+	/**
+	 * Product variants
+	 * Decorates the product with variants
+	 * 
+	 */
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "product")
+	private Set<ProductInstance> instances = new HashSet<ProductInstance>();
 	
 	@Column(name="DATE_AVAILABLE")
 	@Temporal(TemporalType.TIMESTAMP)

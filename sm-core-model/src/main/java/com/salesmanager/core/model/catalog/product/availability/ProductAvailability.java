@@ -27,6 +27,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.ProductDimensions;
+import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.common.audit.Auditable;
@@ -61,6 +62,13 @@ public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailab
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "MERCHANT_ID", nullable = true)
 	private MerchantStore merchantStore;
+	
+	/**
+	 * This describes the availability of a product instance
+	 */
+	@ManyToOne(targetEntity = ProductInstance.class)
+	@JoinColumn(name = "PRODUCT_INSTANCE", nullable = true)
+	private ProductInstance productInstance;
 	
 	@Pattern(regexp="^[a-zA-Z0-9_]*$")
 	@Column(name = "SKU", nullable = true)
@@ -262,6 +270,14 @@ public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailab
 
 	public void setDimensions(ProductDimensions dimensions) {
 		this.dimensions = dimensions;
+	}
+
+	public ProductInstance getProductInstance() {
+		return productInstance;
+	}
+
+	public void setProductInstance(ProductInstance productInstance) {
+		this.productInstance = productInstance;
 	}
 
 }

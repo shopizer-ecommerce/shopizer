@@ -146,7 +146,7 @@ public class PaymentApi {
 			}
 			
 			IntegrationModuleConfiguration returnConfig = new IntegrationModuleConfiguration();
-			returnConfig.setConfigurable(integrationModule.getConfigurables());
+			returnConfig.setConfigurable(integrationModule.getConfigurable());
 			returnConfig.setActive(false);
 			returnConfig.setDefaultSelected(false);
 			returnConfig.setCode(code);
@@ -190,7 +190,8 @@ public class PaymentApi {
 		readable.setCode(module.getCode());
 		readable.setImage(module.getImage());
 		readable.setBinaryImage(module.getBinaryImage());
-		readable.setRequiredKeys(module.getConfigurables());
+		//readable.setRequiredKeys(module.getConfigurables());
+		readable.setConfigurable(module.getConfigurable());
 		if (configuredModules.containsKey(module.getCode())) {
 			readable.setConfigured(true);
 			if(configuredModules.get(module.getCode()).isActive()) {

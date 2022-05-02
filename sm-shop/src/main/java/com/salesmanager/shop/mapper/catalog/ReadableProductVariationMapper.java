@@ -39,7 +39,7 @@ public class ReadableProductVariationMapper implements Mapper<ProductVariation, 
 		destination.setCode(source.getCode());
 
 		
-		destination.setOption(this.option(source.getOption(), language));
+		destination.setOption(this.option(source.getProductOption(), language));
 		destination.setOptionValue(this.optionValue(source.getProductOptionValue(), store, language));
 
 		return destination;

@@ -132,9 +132,6 @@ public class ModuleConfigurationServiceImpl extends SalesManagerEntityServiceImp
 						m.setCode(mod.getUniqueCode());
 						m.setModule(Constants.PAYMENT_MODULES);
 						
-						if(CollectionUtils.isNotEmpty(mod.getConfigurable())) {
-							m.setConfigurables(mod.getConfigurable());
-						}
 						
 						if(CollectionUtils.isNotEmpty(mod.getSupportedCountry())) {
 							m.setRegions(mod.getSupportedCountry().toString());
@@ -146,13 +143,8 @@ public class ModuleConfigurationServiceImpl extends SalesManagerEntityServiceImp
 						}
 						
 						
-						if(CollectionUtils.isNotEmpty(mod.getConfigurable())) {
-							
-							Map<String, String> details = new HashMap<String, String>();
-							for(String c : mod.getConfigurable()) {
-								details.put(c, c);
-							}
-							m.setDetails(details);
+						if(StringUtils.isNotBlank(mod.getConfigurable())) {
+							m.setConfigurable(mod.getConfigurable());
 						}
 
 						modules.add(m);

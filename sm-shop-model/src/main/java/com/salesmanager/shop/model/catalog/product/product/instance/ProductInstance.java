@@ -7,6 +7,7 @@ public class ProductInstance extends Product {
 	private static final long serialVersionUID = 1L;
 	private String store;
 	private Long productId;
+	private String sku;
 	
 	private boolean defaultSelection;
 	
@@ -27,6 +28,12 @@ public class ProductInstance extends Product {
 	}
 	public void setProductId(Long productId) {
 		this.productId = productId;
+	}
+	public String getSku() {
+		return sku;
+	}
+	public void setSku(String sku) {
+		this.sku = sku;
 	}
 	
 	

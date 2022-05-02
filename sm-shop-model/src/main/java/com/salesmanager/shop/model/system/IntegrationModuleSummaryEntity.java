@@ -14,6 +14,7 @@ public class IntegrationModuleSummaryEntity extends IntegrationModuleEntity {
 	private String image;
 	private String binaryImage;
 	private List<String> requiredKeys = new ArrayList<String>();
+	private String configurable = null;
 
 	public List<String> getRequiredKeys() {
 		return requiredKeys;
@@ -38,6 +39,12 @@ public class IntegrationModuleSummaryEntity extends IntegrationModuleEntity {
 	}
 	public void setBinaryImage(String binaryImage) {
 		this.binaryImage = binaryImage;
+	}
+	public String getConfigurable() {
+		return configurable;
+	}
+	public void setConfigurable(String configurable) {
+		this.configurable = configurable;
 	}
 
 }

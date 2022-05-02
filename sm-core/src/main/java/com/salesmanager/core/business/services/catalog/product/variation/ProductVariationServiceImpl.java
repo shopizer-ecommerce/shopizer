@@ -1,5 +1,7 @@
 package com.salesmanager.core.business.services.catalog.product.variation;
 
+import java.util.Optional;
+
 import javax.inject.Inject;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +39,7 @@ public class ProductVariationServiceImpl extends
 
 
 	@Override
-	public ProductVariation getById(MerchantStore store, Long id, Language lang) {
+	public Optional<ProductVariation> getById(MerchantStore store, Long id, Language lang) {
 		return productVariationRepository.findOne(store.getId(), id, lang.getId());
 	}
 	
@@ -60,6 +62,11 @@ public class ProductVariationServiceImpl extends
 			int count) {
 		Pageable p = PageRequest.of(page, count);
 		return pageableProductVariationSetRepository.list(store.getId(), code, p);
+	}
+
+	@Override
+	public Optional<ProductVariation> getById(MerchantStore store, Long id) {
+		return productVariationRepository.findOne(store.getId(), id);
 	}
 
 
