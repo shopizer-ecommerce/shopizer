@@ -52,6 +52,13 @@ public class ProductInstanceServiceImpl extends SalesManagerEntityServiceImpl<Lo
 		return productInstanceRepository.findBySku(sku, store.getId(), language.getId());
 	}
 
+	@Override
+	public boolean exist(String sku, Long productId) {
+		
+		return productInstanceRepository.existsBySkuAndProduct(sku, productId);
+
+	}
+
 
 
 

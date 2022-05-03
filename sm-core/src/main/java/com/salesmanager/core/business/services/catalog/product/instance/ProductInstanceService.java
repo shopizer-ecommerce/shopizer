@@ -18,6 +18,8 @@ public interface ProductInstanceService extends SalesManagerEntityService<Long, 
 	
 	Page<ProductInstance> getByProductId(MerchantStore store, Product product, Language language, int page, int count);
 	
+	boolean exist(String sku, Long productId);
+	
 
 
 }

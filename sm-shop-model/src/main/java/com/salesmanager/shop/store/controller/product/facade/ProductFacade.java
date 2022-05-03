@@ -48,6 +48,7 @@ public interface ProductFacade {
    * @throws Exception
    */
   ReadableProduct getProduct(MerchantStore store, Long id, Language language) throws Exception;
+  
 
   /**
    *

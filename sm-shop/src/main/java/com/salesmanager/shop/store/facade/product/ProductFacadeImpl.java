@@ -586,4 +586,6 @@ public class ProductFacadeImpl implements ProductFacade {
 
 	}
 
+
+
 }

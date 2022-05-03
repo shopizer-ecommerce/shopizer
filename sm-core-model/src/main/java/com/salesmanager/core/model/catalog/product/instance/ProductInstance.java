@@ -30,7 +30,6 @@ import com.salesmanager.core.model.common.audit.AuditListener;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.common.audit.Auditable;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
-import com.salesmanager.core.model.merchant.MerchantStore;
 
 @Entity
 @EntityListeners(value = AuditListener.class)
@@ -65,6 +64,9 @@ public class ProductInstance extends SalesManagerEntity<Long, ProductInstance> i
 	@ManyToOne(targetEntity = Product.class)
 	@JoinColumn(name = "PRODUCT_ID", nullable = false)
 	private Product product;
+	
+	@Column(name="SORT_ORDER")
+	private Integer sortOrder = 0;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "PRODUCT_VARIANTION_VALUE_ID", nullable = true)
@@ -163,6 +165,14 @@ public class ProductInstance extends SalesManagerEntity<Long, ProductInstance> i
 
 	public void setSku(String sku) {
 		this.sku = sku;
+	}
+
+	public Integer getSortOrder() {
+		return sortOrder;
+	}
+
+	public void setSortOrder(Integer sortOrder) {
+		this.sortOrder = sortOrder;
 	}
 
 

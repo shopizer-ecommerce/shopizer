@@ -60,6 +60,9 @@ public interface ProductInstanceRepository extends JpaRepository<ProductInstance
 			+ "and pv.id = ?1 and pvm.id = ?2")
 	Optional<ProductInstance> findBySku(String code, Integer storeId, Integer languageId);
 	
+	@Query("select p from ProductInstance p join fetch p.product pr where p.sku = ?1 and pr.id = ?2")
+	boolean existsBySkuAndProduct(String sku, Long productId);
+	
 	
 	/*
 	 * @Query("select p from ProductAttribute p join fetch p.product pr left join fetch p.productOption po left join fetch p.productOptionValue pov left join fetch po.descriptions pod left join fetch pov.descriptions povd left join fetch po.merchantStore pom where pom.id = ?1 and po.id = ?2"

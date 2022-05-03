@@ -9,7 +9,7 @@ import com.salesmanager.shop.model.entity.ReadableEntityList;
 public interface ProductInstanceFacade {
 	
 	ReadableProductInstance get(Long instanceId, Long productId, MerchantStore store, Language language);
-	boolean exists(String sku, MerchantStore store);
+	boolean exists(String sku, MerchantStore store, Long productId, Language language);
 	Long create(PersistableProductInstance productInstance, Long productId, MerchantStore store, Language language);
 	void update(Long variationId, PersistableProductInstance instance, MerchantStore store, Language language);
 	void delete(Long productInstance, MerchantStore store);

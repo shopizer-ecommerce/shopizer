@@ -109,7 +109,7 @@ public class DataConfiguration {
         hibernateProperties.setProperty("hibernate.connection.CharSet", "utf8");
         hibernateProperties.setProperty("hibernate.connection.characterEncoding", "utf8");
         hibernateProperties.setProperty("hibernate.connection.useUnicode", "true");
-        hibernateProperties.setProperty("hibernate.id.new_generator_mappings", "false");
+        hibernateProperties.setProperty("hibernate.id.new_generator_mappings", "false"); //unless you run on a new schema
         hibernateProperties.setProperty("hibernate.generate_statistics", "false");
         // hibernateProperties.setProperty("hibernate.globally_quoted_identifiers", "true");
         return hibernateProperties;
