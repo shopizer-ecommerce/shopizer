@@ -143,7 +143,7 @@
 		<dependency>
 			<groupId>org.owasp.antisamy</groupId>
 			<artifactId>antisamy</artifactId>
-			<version>1.5.11</version>
+			<version>1.6.4</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.passay/passay -->
