@@ -586,6 +586,11 @@ public class ProductFacadeImpl implements ProductFacade {
 
 	}
 
+	@Override
+	public Product getProduct(Long id, MerchantStore store) {
+		return productService.findOne(id, store);
+	}
+
 
 
 }

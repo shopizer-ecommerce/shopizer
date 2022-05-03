@@ -1,10 +1,19 @@
 package com.salesmanager.shop.store.facade.product;
 
+import static com.salesmanager.shop.util.ReadableEntityUtil.createReadableList;
+
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.jsoup.helper.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Component;
 
+import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.product.instance.ProductInstanceService;
+import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
@@ -19,6 +28,13 @@ import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.controller.product.facade.ProductFacade;
 import com.salesmanager.shop.store.controller.product.facade.ProductInstanceFacade;
 
+
+/**
+ * Product instance management facade
+ * @author carlsamson
+ *
+ */
+@Component
 public class ProductInstanceFacadeImpl implements ProductInstanceFacade {
 	
 	
@@ -28,7 +44,6 @@ public class ProductInstanceFacadeImpl implements ProductInstanceFacade {
 	@Autowired
 	private PersistableProductInstanceMapper persistableProductInstanceMapper; 
 	
-	
 	@Autowired
 	private ProductInstanceService productInstanceService;
 	
@@ -37,7 +52,7 @@ public class ProductInstanceFacadeImpl implements ProductInstanceFacade {
 
 	@Override
 	public ReadableProductInstance get(Long instanceId, Long productId, MerchantStore store, Language language) {
-		Optional<ProductInstance> productInstance = productInstanceService.getById(instanceId, store);
+		Optional<ProductInstance> productInstance =  this.getProductInstance(instanceId, productId, store);
 		
 		if(productInstance.isEmpty()) {
 			throw new ResourceNotFoundException("Product instance + [" + instanceId + "] not found for store + [" + store.getCode() + "]");
@@ -65,31 +80,90 @@ public class ProductInstanceFacadeImpl implements ProductInstanceFacade {
 	@Override
 	public Long create(PersistableProductInstance productInstance, Long productId, MerchantStore store,
 			Language language) {
-		// TODO Auto-generated method stub
-		return null;
+		Validate.notNull(store, "MerchantStore cannot be null");
+		Validate.notNull(productInstance, "ProductInstance cannot be null");
+		Validate.notNull(productId, "Product id cannot be null");
+		productInstance.setProductId(productId);
+		productInstance.setId(null);
+		ProductInstance instance = persistableProductInstanceMapper.convert(productInstance, store, language);
+		
+		try {
+			productInstanceService.save(instance);
+		} catch (ServiceException e) {
+			throw new ServiceRuntimeException("Cannot save product instance for store [" + store.getCode() + "] and productId [" + productId + "]", e);
+		}
+		
+		return instance.getId();
 	}
 
 	@Override
-	public void update(Long variationId, PersistableProductInstance instance, MerchantStore store, Language language) {
-		// TODO Auto-generated method stub
+	public void update(Long instanceId, PersistableProductInstance productInstance, Long productId, MerchantStore store, Language language) {
+		Validate.notNull(store, "MerchantStore cannot be null");
+		Validate.notNull(productInstance, "ProductInstance cannot be null");
+		Validate.notNull(productId, "Product id cannot be null");
+		Validate.notNull(instanceId, "Product instance id cannot be null");
+		
+		Optional<ProductInstance> instanceModel = this.getProductInstance(instanceId, productId, store);
+		if(instanceModel.isEmpty()) {
+			throw new ResourceNotFoundException("ProductInstance with id [" + instanceId + "] not found for store [" + store.getCode() + "] and productId [" + productId + "]");
+		}
+		
+		ProductInstance mergedModel = persistableProductInstanceMapper.merge(productInstance, instanceModel.get(), store, language);
+		try {
+			productInstanceService.save(mergedModel);
+		} catch (ServiceException e) {
+			throw new ServiceRuntimeException("Cannot save product instance for store [" + store.getCode() + "] and productId [" + productId + "]", e);
+		}
+		
+	}
+	
+	private Optional<ProductInstance> getProductInstance(Long id, Long productId, MerchantStore store) {
+		return productInstanceService.getById(id, productId, store);
+	}
+
+
+	@Override
+	public void delete(Long productInstance, Long productId, MerchantStore store) {
+		Validate.notNull(store, "MerchantStore cannot be null");
+		Validate.notNull(productInstance, "ProductInstance id cannot be null");
+		Validate.notNull(productId, "Product id cannot be null");
+
+		
+		Optional<ProductInstance> instanceModel = this.getProductInstance(productInstance, productId, store);
+		if(instanceModel.isEmpty()) {
+			throw new ResourceNotFoundException("ProductInstance with id [" + productInstance + "] not found for store [" + store.getCode() + "] and productId [" + productId + "]");
+		}
+		
+		try {
+			productInstanceService.delete(instanceModel.get());
+		} catch (ServiceException e) {
+			throw new ServiceRuntimeException("Cannot delete product instance [" + productInstance + "]  for store [" + store.getCode() + "] and productId [" + productId + "]", e);
+		}
+
+	}
+
+	@Override
+	public ReadableEntityList<ReadableProductInstance> list(Long productId, MerchantStore store, Language language,
+			int page, int count) {
+		Validate.notNull(store, "MerchantStore cannot be null");
+		Validate.notNull(productId, "Product id cannot be null");
+		
+		Product product = productFacade.getProduct(productId, store);
+		
+		if(product == null) {
+			throw new ResourceNotFoundException("Product with id [" + productId + "] not found for store [" + store.getCode() + "]");
+		}
+		
+		Page<ProductInstance> instances = productInstanceService.getByProductId(store, product, language, page, count);
+		
+		
+		List<ReadableProductInstance> readableInstances = instances.stream()
+				.map(rp -> this.readableProductInstanceMapper.convert(rp, store, language)).collect(Collectors.toList());
+
+	    
+	    return createReadableList(instances, readableInstances);
 
 	}
 	
-	private Optional<ProductInstance> getProductInstance(Long id, MerchantStore store) {
-		return productInstanceService.getById(id, store);
-	}
-
-	@Override
-	public void delete(Long productInstance, MerchantStore store) {
-		//productInstanceService.delete(null);
-
-	}
-
-	@Override
-	public ReadableEntityList<ReadableProductInstance> list(Long ptoductId, MerchantStore store, Language language,
-			int page, int count) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

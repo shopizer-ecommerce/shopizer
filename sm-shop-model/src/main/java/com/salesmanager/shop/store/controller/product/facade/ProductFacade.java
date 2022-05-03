@@ -57,6 +57,15 @@ public interface ProductFacade {
    * @return
    */
   Product getProduct(String sku, MerchantStore store);
+  
+  
+  /**
+   * 
+   * @param id
+   * @param store
+   * @return
+   */
+  Product getProduct(Long id, MerchantStore store);
 
   /**
    * Reads a product by code

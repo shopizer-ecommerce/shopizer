@@ -84,8 +84,6 @@ public class ProductApi {
 	@Inject
 	private ProductFacade productFacade;
 
-	@Autowired
-	private ProductDefinitionFacade productDefinitionFacade;
 
 	@Inject
 	@Qualifier("img")

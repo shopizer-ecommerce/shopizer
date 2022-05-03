@@ -12,9 +12,9 @@ import com.salesmanager.core.model.reference.language.Language;
 
 public interface ProductInstanceService extends SalesManagerEntityService<Long, ProductInstance> {
 	
-	Optional<ProductInstance> getById(Long id, MerchantStore store);
+	Optional<ProductInstance> getById(Long id, Long productId, MerchantStore store);
 	
-	Optional<ProductInstance> getBySku(String sku, MerchantStore store, Language language);
+	Optional<ProductInstance> getBySku(String sku, Long productId, MerchantStore store, Language language);
 	
 	Page<ProductInstance> getByProductId(MerchantStore store, Product product, Language language, int page, int count);
 	

@@ -7,14 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
-import com.salesmanager.core.business.services.catalog.category.CategoryService;
-import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
-import com.salesmanager.core.business.services.catalog.product.attribute.ProductAttributeService;
-import com.salesmanager.core.business.services.catalog.product.relationship.ProductRelationshipService;
-import com.salesmanager.core.business.services.catalog.product.review.ProductReviewService;
-import com.salesmanager.core.business.services.customer.CustomerService;
-import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
@@ -30,30 +23,11 @@ import com.salesmanager.shop.utils.ImageFilePath;
 @Profile({ "default", "cloud", "gcp", "aws", "mysql", "local" })
 public class ProductDefinitionFacadeImpl implements ProductDefinitionFacade {
 	
-	
-	@Inject
-	private CategoryService categoryService;
 
-	@Inject
-	private LanguageService languageService;
-	
-	@Inject
-	private ProductAttributeService productAttributeService;
 
 	@Inject
 	private ProductService productService;
 
-	@Inject
-	private PricingService pricingService;
-
-	@Inject
-	private CustomerService customerService;
-
-	@Inject
-	private ProductReviewService productReviewService;
-
-	@Inject
-	private ProductRelationshipService productRelationshipService;
 
 	@Autowired
 	private PersistableProductDefinitionMapper persistableProductDefinitionMapper;

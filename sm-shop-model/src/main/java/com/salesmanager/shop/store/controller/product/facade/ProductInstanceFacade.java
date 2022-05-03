@@ -11,9 +11,9 @@ public interface ProductInstanceFacade {
 	ReadableProductInstance get(Long instanceId, Long productId, MerchantStore store, Language language);
 	boolean exists(String sku, MerchantStore store, Long productId, Language language);
 	Long create(PersistableProductInstance productInstance, Long productId, MerchantStore store, Language language);
-	void update(Long variationId, PersistableProductInstance instance, MerchantStore store, Language language);
-	void delete(Long productInstance, MerchantStore store);
-	ReadableEntityList<ReadableProductInstance> list(Long ptoductId, MerchantStore store, Language language, int page, int count);
+	void update(Long instanceId, PersistableProductInstance instance, Long productId, MerchantStore store, Language language);
+	void delete(Long productInstance, Long productId, MerchantStore store);
+	ReadableEntityList<ReadableProductInstance> list(Long productId, MerchantStore store, Language language, int page, int count);
 	
 
 }
