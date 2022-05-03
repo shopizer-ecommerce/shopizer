@@ -8,6 +8,7 @@ public class ProductInstance extends Product {
 	private String store;
 	private Long productId;
 	private String sku;
+	private boolean available;
 	
 	private boolean defaultSelection;
 	
@@ -34,6 +35,12 @@ public class ProductInstance extends Product {
 	}
 	public void setSku(String sku) {
 		this.sku = sku;
+	}
+	public boolean isAvailable() {
+		return available;
+	}
+	public void setAvailable(boolean available) {
+		this.available = available;
 	}
 	
 	

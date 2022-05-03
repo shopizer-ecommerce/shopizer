@@ -9,6 +9,7 @@ public class ProductVariationEntity extends Entity {
 	 */
 	private static final long serialVersionUID = 1L;
 	private String code;
+	private String date;
 	public String getCode() {
 		return code;
 	}
@@ -30,6 +31,12 @@ public class ProductVariationEntity extends Entity {
 	}
 	public void setDefaultValue(boolean defaultValue) {
 		this.defaultValue = defaultValue;
+	}
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
 	}
 
 }
