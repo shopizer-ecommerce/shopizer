@@ -9,6 +9,8 @@ public class ProductInstance extends Product {
 	private Long productId;
 	private String sku;
 	private boolean available;
+	private String dateAvailable;
+	private int sortOrder;
 	
 	private boolean defaultSelection;
 	
@@ -41,6 +43,18 @@ public class ProductInstance extends Product {
 	}
 	public void setAvailable(boolean available) {
 		this.available = available;
+	}
+	public String getDateAvailable() {
+		return dateAvailable;
+	}
+	public void setDateAvailable(String dateAvailable) {
+		this.dateAvailable = dateAvailable;
+	}
+	public int getSortOrder() {
+		return sortOrder;
+	}
+	public void setSortOrder(int sortOrder) {
+		this.sortOrder = sortOrder;
 	}
 	
 	

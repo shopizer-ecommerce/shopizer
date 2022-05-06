@@ -1,5 +1,7 @@
 package com.salesmanager.shop.store.api.exception;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class ServiceRuntimeException extends GenericRuntimeException {
 
     /**
@@ -24,7 +26,8 @@ public class ServiceRuntimeException extends GenericRuntimeException {
     }
 
     public ServiceRuntimeException(String errorCode, String message, Throwable exception) {
-        super(errorCode, message, exception);
+        super(StringUtils.isBlank(errorCode)? "500": errorCode, message, exception);
     }
+
 
 }

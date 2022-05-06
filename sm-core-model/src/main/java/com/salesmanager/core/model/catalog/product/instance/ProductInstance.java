@@ -65,6 +65,10 @@ public class ProductInstance extends SalesManagerEntity<Long, ProductInstance> i
 	@JoinColumn(name = "PRODUCT_ID", nullable = false)
 	private Product product;
 	
+
+	@Column(name = "CODE", nullable = true)
+	private String code;
+	
 	@Column(name="SORT_ORDER")
 	private Integer sortOrder = 0;
 
@@ -174,6 +178,12 @@ public class ProductInstance extends SalesManagerEntity<Long, ProductInstance> i
 	public void setSortOrder(Integer sortOrder) {
 		this.sortOrder = sortOrder;
 	}
+
+
+	public String getCode() { return code; }
+	 
+	public void setCode(String code) { this.code = code; }
+	
 
 
 

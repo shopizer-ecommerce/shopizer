@@ -12,6 +12,7 @@ public class ReadableProductInstance extends ProductInstance {
 	
 	private ReadableProductVariation variant;
 	private ReadableProductVariation variantValue;
+	private String code;
 	private List<ReadableImage> images = new ArrayList<ReadableImage>();
 	
 	public ReadableProductVariation getVariant() {
@@ -31,6 +32,12 @@ public class ReadableProductInstance extends ProductInstance {
 	}
 	public void setImages(List<ReadableImage> images) {
 		this.images = images;
+	}
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 }

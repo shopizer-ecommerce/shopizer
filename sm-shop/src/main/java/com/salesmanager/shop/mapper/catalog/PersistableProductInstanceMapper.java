@@ -1,7 +1,10 @@
 package com.salesmanager.shop.mapper.catalog;
 
+import java.util.Date;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
+import org.drools.core.util.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +19,7 @@ import com.salesmanager.shop.mapper.Mapper;
 import com.salesmanager.shop.model.catalog.product.product.instance.PersistableProductInstance;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
-import com.shopizer.search.utils.DateUtil;
+import com.salesmanager.shop.utils.DateUtil;
 
 @Component
 public class PersistableProductInstanceMapper implements Mapper<PersistableProductInstance, ProductInstance> {
@@ -48,22 +51,36 @@ public class PersistableProductInstanceMapper implements Mapper<PersistableProdu
 			throw new ResourceNotFoundException("ProductVariant [" + productVariant + "] + not found for store [" + store.getCode() + "]");
 		}
 		
-		if(variant.isEmpty()) {
-			throw new ResourceNotFoundException("ProductVariant [" + variantValue + "] + not found for store [" + store.getCode() + "]");
+		destination.setVariant(variant.get());
+		
+		if(variantValue.isEmpty()) {
+			throw new ResourceNotFoundException("ProductVariant [" + productVariantValue + "] + not found for store [" + store.getCode() + "]");
 		}
+		
+		destination.setVariantValue(variantValue.get());
+		
+		destination.setCode(variant.get().getCode() + ":" + variantValue.get().getCode());
 		
 		destination.setAvailable(source.isAvailable());
 		destination.setDefaultSelection(source.isDefaultSelection());
 		destination.setSku(source.getSku());
+		
+		if(StringUtils.isBlank(source.getDateAvailable())) {
+			source.setDateAvailable(DateUtil.formatDate(new Date()));
+		}
+		
 		if(source.getDateAvailable()!=null) {
 			try {
-				destination.setDateAvailable(DateUtil.formatDate(source.getDateAvailable()));
+				destination.setDateAvailable(DateUtil.getDate(source.getDateAvailable()));
 			} catch (Exception e) {
 				throw new ServiceRuntimeException("Cant format date [" + source.getDateAvailable() + "]");
 			}
 		}
 		
-		Product product = productService.getById(source.getId());
+		destination.setSortOrder(source.getSortOrder());
+		
+		
+		Product product = productService.getById(source.getProductId());
 		if(product == null) {
 			throw new ResourceNotFoundException("Product [" + source.getId() + "] + not found for store [" + store.getCode() + "]");
 		}

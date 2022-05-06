@@ -36,6 +36,7 @@ public class ReadableProductInstanceMapper implements Mapper<ProductInstance, Re
 			destination = new ReadableProductInstance();
 		}
 		
+		destination.setSortOrder(source.getSortOrder() != null ? source.getSortOrder().intValue():0);
 		destination.setAvailable(source.isAvailable());
 		destination.setDateAvailable(DateUtil.formatDate(source.getDateAvailable()));
 		destination.setId(source.getId());
@@ -43,6 +44,7 @@ public class ReadableProductInstanceMapper implements Mapper<ProductInstance, Re
 		destination.setProductId(source.getProduct().getId());
 		destination.setSku(source.getSku());
 		destination.setSortOrder(source.getSortOrder());
+		destination.setCode(source.getCode());
 		//destination.setStore(null);
 		destination.setStore(store.getCode());
 		destination.setVariant(readableProductVariationMapper.convert(source.getVariant(), store, language));

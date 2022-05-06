@@ -1,5 +1,6 @@
 package com.salesmanager.shop.store.api.exception;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -24,8 +25,13 @@ public class RestErrorHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public @ResponseBody ErrorEntity handleServiceException(Exception exception) {
         log.error(exception.getMessage(), exception);
-        ErrorEntity errorEntity = createErrorEntity(null, exception.getMessage(),
-                exception.getLocalizedMessage());
+        Objects.requireNonNull(exception.getCause());
+        Throwable rootCause = exception.getCause();
+        while (rootCause.getCause() != null && rootCause.getCause() != rootCause) {
+            rootCause = rootCause.getCause();
+        }
+        ErrorEntity errorEntity = createErrorEntity("500", exception.getMessage(),
+        		rootCause.getMessage());
         return errorEntity;
     }
 

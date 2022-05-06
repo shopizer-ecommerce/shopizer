@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -68,13 +70,15 @@ public class ProductInstanceApi {
 	@Inject
 	private UserFacade userFacade;
 
-	@ResponseStatus(HttpStatus.CREATED)
-	@RequestMapping(value = { "/private/product/{id}/instance" }, method = RequestMethod.POST)
-	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	@ApiOperation(httpMethod = "POST", value = "Creates a product instance", notes = "", produces = "application/json", response = Entity.class)
-	public Entity create(@Valid @RequestBody PersistableProductInstance instance, @PathVariable Long productId,
-			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
+	@ResponseStatus(HttpStatus.OK)
+	@PostMapping(value = { "/private/tb/{productId}/instance" })
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+		@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
+	public Entity create(
+			@Valid @RequestBody PersistableProductInstance instance, 
+			@PathVariable Long productId,
+			@ApiIgnore MerchantStore merchantStore, 
+			@ApiIgnore Language language) {
 
 		String authenticatedUser = userFacade.authenticatedUser();
 		if (authenticatedUser == null) {
@@ -86,13 +90,13 @@ public class ProductInstanceApi {
 
 		Long id = productInstanceFacade.create(instance, productId, merchantStore, language);
 		return new Entity(id);
-
+		
 	}
 
+
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = { "/private/product/{id}/instance/{instanceId}" }, method = RequestMethod.PUT)
-	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	@PutMapping(value = { "/private/product/{id}/instance/{instanceId}" })
+
 	@ApiOperation(httpMethod = "PUT", value = "Update product instance", notes = "", produces = "application/json", response = Void.class)
 	public @ResponseBody void update(@PathVariable Long id, @PathVariable Long instanceId,
 			@Valid @RequestBody PersistableProductInstance instance, @ApiIgnore MerchantStore merchantStore,
@@ -130,7 +134,7 @@ public class ProductInstanceApi {
 
 	}
 
-	@RequestMapping(value = "/private/product/{id}/instance/{instanceId}", method = RequestMethod.GET)
+	@GetMapping(value = "/private/product/{id}/instance/{instanceId}")
 	@ApiOperation(httpMethod = "GET", value = "Get a productinstance by id", notes = "For administration and shop purpose. Specifying ?merchant is required otherwise it falls back to DEFAULT")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Single product found", response = ReadableProductInstance.class) })
