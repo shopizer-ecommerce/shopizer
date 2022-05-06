@@ -71,10 +71,10 @@ public class ProductInstanceApi {
 	private UserFacade userFacade;
 
 	@ResponseStatus(HttpStatus.OK)
-	@PostMapping(value = { "/private/tb/{productId}/instance" })
+	@PostMapping(value = { "/private/product/{productId}/instance" })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
 		@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
-	public Entity create(
+	public @ResponseBody Entity create(
 			@Valid @RequestBody PersistableProductInstance instance, 
 			@PathVariable Long productId,
 			@ApiIgnore MerchantStore merchantStore, 
@@ -96,7 +96,6 @@ public class ProductInstanceApi {
 
 	@ResponseStatus(HttpStatus.OK)
 	@PutMapping(value = { "/private/product/{id}/instance/{instanceId}" })
-
 	@ApiOperation(httpMethod = "PUT", value = "Update product instance", notes = "", produces = "application/json", response = Void.class)
 	public @ResponseBody void update(@PathVariable Long id, @PathVariable Long instanceId,
 			@Valid @RequestBody PersistableProductInstance instance, @ApiIgnore MerchantStore merchantStore,
@@ -118,7 +117,7 @@ public class ProductInstanceApi {
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
 	@ApiOperation(httpMethod = "GET", value = "Check if option set code already exists", notes = "", response = EntityExists.class)
-	public ResponseEntity<EntityExists> exists(@PathVariable Long id, @RequestParam(value = "code") String sku,
+	public @ResponseBody ResponseEntity<EntityExists> exists(@PathVariable Long id, @RequestParam(value = "code") String sku,
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
 
 		String authenticatedUser = userFacade.authenticatedUser();
@@ -138,10 +137,9 @@ public class ProductInstanceApi {
 	@ApiOperation(httpMethod = "GET", value = "Get a productinstance by id", notes = "For administration and shop purpose. Specifying ?merchant is required otherwise it falls back to DEFAULT")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Single product found", response = ReadableProductInstance.class) })
-	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public ReadableProductInstance get(@PathVariable final Long id, @PathVariable Long instanceId,
+	public @ResponseBody ReadableProductInstance get(@PathVariable final Long id, @PathVariable Long instanceId,
 			@RequestParam(value = "lang", required = false) String lang, @ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) throws Exception {
 
