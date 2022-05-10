@@ -1,7 +1,5 @@
 package com.salesmanager.shop.store.api.v1.product;
 
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -29,20 +27,17 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.catalog.product.PersistableProductReview;
 import com.salesmanager.shop.model.catalog.product.ReadableProductReview;
-import com.salesmanager.shop.store.controller.product.facade.ProductFacade;
-import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
-import com.salesmanager.shop.utils.LanguageUtils;
+import com.salesmanager.shop.store.controller.product.facade.ProductCommonFacade;
+
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import springfox.documentation.annotations.ApiIgnore;
 
 @Controller
 @RequestMapping("/api/v1")
 public class ProductReviewApi {
 
-  @Inject private ProductFacade productFacade;
-
-  @Inject private StoreFacade storeFacade;
-
-  @Inject private LanguageUtils languageUtils;
+  @Inject private ProductCommonFacade productCommonFacade;
 
   @Inject private ProductService productService;
 
@@ -90,7 +85,7 @@ public class ProductReviewApi {
 
       review.setProductId(id);
 
-      productFacade.saveOrUpdateReview(review, merchantStore, language);
+      productCommonFacade.saveOrUpdateReview(review, merchantStore, language);
 
       return review;
 
@@ -128,7 +123,7 @@ public class ProductReviewApi {
       }
 
       List<ReadableProductReview> reviews =
-          productFacade.getProductReviews(product, merchantStore, language);
+    		  productCommonFacade.getProductReviews(product, merchantStore, language);
 
       return reviews;
 
@@ -184,7 +179,7 @@ public class ProductReviewApi {
 
       review.setProductId(id);
 
-      productFacade.saveOrUpdateReview(review, merchantStore, language);
+      productCommonFacade.saveOrUpdateReview(review, merchantStore, language);
 
       return review;
 
@@ -230,7 +225,7 @@ public class ProductReviewApi {
         return;
       }
 
-      productFacade.deleteReview(prodReview, merchantStore, language);
+      productCommonFacade.deleteReview(prodReview, merchantStore, language);
 
     } catch (Exception e) {
       LOGGER.error("Error while deleting product review", e);

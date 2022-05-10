@@ -124,7 +124,7 @@ public class ProductManagementAPIIntegrationTest extends ServicesTestSupport {
 		review.setRating(2D);// rating is on 5
 		review.setDescription(
 				"Not as good as expected. From what i understood that was supposed to be premium quality but unfortunately i had to return the item after one week... Verry disapointed !");
-		review.setDate("2013-06-06");
+		review.setDate("2021-06-06");
 		final HttpEntity<PersistableProductReview> entity = new HttpEntity<>(review, getHeader());
 
 		final ResponseEntity<PersistableProductReview> response = testRestTemplate.postForEntity(

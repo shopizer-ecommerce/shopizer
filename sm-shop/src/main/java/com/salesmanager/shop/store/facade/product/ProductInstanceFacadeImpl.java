@@ -25,6 +25,7 @@ import com.salesmanager.shop.model.catalog.product.product.instance.ReadableProd
 import com.salesmanager.shop.model.entity.ReadableEntityList;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
+import com.salesmanager.shop.store.controller.product.facade.ProductCommonFacade;
 import com.salesmanager.shop.store.controller.product.facade.ProductFacade;
 import com.salesmanager.shop.store.controller.product.facade.ProductInstanceFacade;
 
@@ -49,6 +50,9 @@ public class ProductInstanceFacadeImpl implements ProductInstanceFacade {
 	
 	@Autowired
 	private ProductFacade productFacade;
+	
+	@Autowired
+	private ProductCommonFacade productCommonFacade;
 
 	@Override
 	public ReadableProductInstance get(Long instanceId, Long productId, MerchantStore store, Language language) {
@@ -69,7 +73,7 @@ public class ProductInstanceFacadeImpl implements ProductInstanceFacade {
 	public boolean exists(String sku, MerchantStore store, Long productId, Language language) {
 		ReadableProduct product = null;
 		try {
-			product = productFacade.getProduct(store, productId, language);
+			product = productCommonFacade.getProduct(store, productId, language);
 		} catch (Exception e) {
 			throw new ServiceRuntimeException("Error while getting product [" + productId + "]",e);
 		}

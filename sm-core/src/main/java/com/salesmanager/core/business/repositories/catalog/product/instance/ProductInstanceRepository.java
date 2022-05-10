@@ -1,7 +1,10 @@
 package com.salesmanager.core.business.repositories.catalog.product.instance;
 
+import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -50,9 +53,53 @@ public interface ProductInstanceRepository extends JpaRepository<ProductInstance
 			+ "and pr.id = ?2 and pv.id = ?1 and pvm.id = ?3")
 	Optional<ProductInstance> findBySku(String code, Long productId, Integer storeId, Integer languageId);
 	
+	
+
+	@Query(value = "select p from ProductInstance as p " 
+			+ "join fetch p.product pr " 
+			+ "left join fetch p.variant pv "
+			+ "left join fetch pv.productOption pvpo " 
+			+ "left join fetch pv.productOptionValue pvpov "
+			+ "left join fetch pvpo.descriptions pvpod " 
+			+ "left join fetch pvpov.descriptions pvpovd "
+
+			+ "left join fetch p.variantValue pvv " 
+			+ "left join fetch pvv.productOption pvvpo "
+			+ "left join fetch pvv.productOptionValue pvvpov " 
+			+ "left join fetch pvvpo.descriptions povvpod "
+			+ "left join fetch pvpov.descriptions pvpovd "
+
+			+ "left join fetch pv.merchantStore pvm " 
+			+ "where pr.id = ?2 and pvm.id = ?1")
+	List<ProductInstance> findByProductId(Integer storeId, Long productId);
+
+	
+	
 	@Query("select p from ProductInstance p join fetch p.product pr where p.sku = ?1 and pr.id = ?2")
 	boolean existsBySkuAndProduct(String sku, Long productId);
 	
+	/**
+	@Query("select p from ProductInstance p join fetch p.product pr "
+			+ "left join fetch p.variant pv "
+			+ "left join fetch pv.productOption pvpo "
+			+ "left join fetch pv.productOptionValue pvpov "
+			+ "left join fetch pvpo.descriptions pvpod "
+			+ "left join fetch pvpov.descriptions pvpovd "
+			
+			+ "left join fetch p.variantValue pvv "
+			+ "left join fetch pvv.productOption pvvpo "
+			+ "left join fetch pvv.productOptionValue pvvpov "
+			+ "left join fetch pvvpo.descriptions povvpod "
+			+ "left join fetch pvpov.descriptions povvpovd "			
+			
+			+ "left join fetch pv.merchantStore pvm "
+			+ "where pvpod.language.id = ?4 "
+			+ "and pvpovd.language.id = ?4 "
+			+ "and povvpod.language.id = ?4 "
+			+ "and povvpovd.language.id = ?4 "
+			+ "and pr.id = ?2 and pv.id = ?1 and pvm.id = ?3 group by pvpo.code")	
+	List<ProductInstance> findByProduct(Long productId, Integer storeId, Integer languageId);
+	**/
 	
 	/*
 	 * @Query("select p from ProductAttribute p join fetch p.product pr left join fetch p.productOption po left join fetch p.productOptionValue pov left join fetch po.descriptions pod left join fetch pov.descriptions povd left join fetch po.merchantStore pom where pom.id = ?1 and po.id = ?2"

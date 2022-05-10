@@ -9,9 +9,13 @@ import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
 
 public interface PageableProductInstanceRepositoty extends PagingAndSortingRepository<ProductInstance, Long> {
 
-	@Query(value = "select p from ProductInstance p " + "join fetch p.product pr " + "left join fetch p.variant pv "
-			+ "left join fetch pv.productOption pvpo " + "left join fetch pv.productOptionValue pvpov "
-			+ "left join fetch pvpo.descriptions pvpod " + "left join fetch pvpov.descriptions pvpovd "
+	@Query(value = "select p from ProductInstance p " 
+			+ "join fetch p.product pr " 
+			+ "left join fetch p.variant pv "
+			+ "left join fetch pv.productOption pvpo " 
+			+ "left join fetch pv.productOptionValue pvpov "
+			+ "left join fetch pvpo.descriptions pvpod " 
+			+ "left join fetch pvpov.descriptions pvpovd "
 
 			+ "left join fetch p.variantValue pvv " 
 			+ "left join fetch pvv.productOption pvvpo "

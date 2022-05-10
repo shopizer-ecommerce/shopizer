@@ -9,7 +9,9 @@ import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductAttribute;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOption;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductProperty;
+import com.salesmanager.shop.model.catalog.product.product.instance.ReadableProductInstance;
 import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
+import com.salesmanager.shop.model.catalog.product.variation.ReadableProductVariation;
 
 public class ReadableProduct extends ProductEntity implements Serializable {
 
@@ -17,6 +19,7 @@ public class ReadableProduct extends ProductEntity implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	private ProductDescription description;
 	private ReadableProductPrice productPrice;
 	private String finalPrice = "0";
@@ -27,6 +30,7 @@ public class ReadableProduct extends ProductEntity implements Serializable {
 	private ReadableManufacturer manufacturer;
 	private List<ReadableProductAttribute> attributes = new ArrayList<ReadableProductAttribute>();
 	private List<ReadableProductOption> options = new ArrayList<ReadableProductOption>();
+	private List<ReadableProductInstance> variants = new ArrayList<ReadableProductInstance>();
 	private List<ReadableProductProperty> properties = new ArrayList<ReadableProductProperty>();
 	private List<ReadableCategory> categories = new ArrayList<ReadableCategory>();
 	private ReadableProductType type;
@@ -154,6 +158,15 @@ public class ReadableProduct extends ProductEntity implements Serializable {
 	public void setProperties(List<ReadableProductProperty> properties) {
 		this.properties = properties;
 	}
+
+	public List<ReadableProductInstance> getVariants() {
+		return variants;
+	}
+
+	public void setVariants(List<ReadableProductInstance> variants) {
+		this.variants = variants;
+	}
+
 
 
 }

@@ -8,7 +8,7 @@ public class ProductVariationEntity extends Entity {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String code;
+	private String code;//sku
 	private String date;
 	public String getCode() {
 		return code;

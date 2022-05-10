@@ -68,11 +68,14 @@ public class PersistableProductDefinitionMapper implements Mapper<PersistablePro
 
 		try {
 
+			//core properties
 			destination.setSku(source.getIdentifier());
 			destination.setAvailable(source.isVisible());
 			destination.setDateAvailable(new Date());
 
 			destination.setRefSku(source.getIdentifier());
+			
+			
 			if(source.getId() != null && source.getId().longValue()==0) {
 				destination.setId(null);
 			} else {

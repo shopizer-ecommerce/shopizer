@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -43,9 +42,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.catalog.manufacturer.PersistableManufacturer;
-import com.salesmanager.shop.model.catalog.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.PersistableProductReview;
-import com.salesmanager.shop.model.catalog.product.ProductPriceEntity;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProductList;
 import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductOption;
@@ -119,6 +116,7 @@ public class ShopProductRESTController {
 	/**
 	 * Create new product for a given MerchantStore
 	 */
+	/**
 	@RequestMapping( value="/private/{store}/product", method=RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
@@ -159,6 +157,7 @@ public class ShopProductRESTController {
 		}
 		
 	}
+	**/
 	
 
 	@RequestMapping( value="/private/{store}/product/{id}", method=RequestMethod.DELETE)
@@ -675,13 +674,11 @@ public class ShopProductRESTController {
 
 	}
 	
-	
+	/**
 	@RequestMapping(value = "/public/{store}/product/{id}", method=RequestMethod.GET)
 	@ResponseBody
 	public ReadableProduct getProduct(@PathVariable String store, @PathVariable final Long id, @RequestParam String lang, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		
-		/** bcz of the filter **/
 		MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
 		if(merchantStore!=null) {
 			if(!merchantStore.getCode().equals(store)) {
@@ -719,12 +716,14 @@ public class ShopProductRESTController {
 		return product;
 		
 	}
+	**/
 
 	
 	/**
 	 * Update the price of an item
 	 * ?lang=en|fr otherwise default store language
 	 */
+	/**
 	@RequestMapping( value="/private/{store}/product/price/{sku}", method=RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
@@ -787,11 +786,13 @@ public class ShopProductRESTController {
 		}
 		
 	}
+	**/
 
 	/**
 	 * Update the quantity of an item
 	 * ?lang=en|fr otherwise default store language
 	 */
+	/**
 	@RequestMapping( value="/private/{store}/product/quantity/{sku}/{qty}", method=RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
@@ -853,6 +854,7 @@ public class ShopProductRESTController {
 			return null;
 		}
 		
-	}	
+	}
+	**/	
 
 }

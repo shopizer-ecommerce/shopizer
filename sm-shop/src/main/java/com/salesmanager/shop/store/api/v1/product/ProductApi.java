@@ -15,6 +15,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -47,6 +48,7 @@ import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.api.exception.UnauthorizedException;
+import com.salesmanager.shop.store.controller.product.facade.ProductCommonFacade;
 import com.salesmanager.shop.store.controller.product.facade.ProductFacade;
 import com.salesmanager.shop.utils.ImageFilePath;
 
@@ -79,8 +81,11 @@ public class ProductApi {
 	@Inject
 	private ProductService productService;
 
-	@Inject
+	@Autowired
 	private ProductFacade productFacade;
+	
+	@Inject
+	private ProductCommonFacade productCommonFacade;
 
 
 	@Inject
@@ -101,7 +106,7 @@ public class ProductApi {
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language, HttpServletRequest request,
 			HttpServletResponse response) {
 
-		productFacade.saveProduct(merchantStore, product, language);
+		productCommonFacade.saveProduct(merchantStore, product, language);
 		return product;
 
 	}
@@ -122,7 +127,7 @@ public class ProductApi {
 				return null;
 			}
 
-			PersistableProduct saved = productFacade.saveProduct(merchantStore, product,
+			PersistableProduct saved = productCommonFacade.saveProduct(merchantStore, product,
 					merchantStore.getDefaultLanguage());
 			return saved;
 		} catch (Exception e) {
@@ -148,7 +153,7 @@ public class ProductApi {
 			LightPersistableProduct product,
 			@ApiIgnore MerchantStore merchantStore, 
 			@ApiIgnore Language language) {
-		productFacade.update(id, product, merchantStore, language);
+		productCommonFacade.update(id, product, merchantStore, language);
 		return;
 
 	}
@@ -159,7 +164,7 @@ public class ProductApi {
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
 	public void delete(@PathVariable Long id, @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
 
-		productFacade.deleteProduct(id, merchantStore);
+		productCommonFacade.deleteProduct(id, merchantStore);
 	}
 
 	/**
@@ -286,7 +291,7 @@ public class ProductApi {
 	public ReadableProduct get(@PathVariable final Long id, @RequestParam(value = "lang", required = false) String lang,
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language, HttpServletResponse response)
 			throws Exception {
-		ReadableProduct product = productFacade.getProduct(merchantStore, id, language);
+		ReadableProduct product = productCommonFacade.getProduct(merchantStore, id, language);
 
 		if (product == null) {
 			response.sendError(404, "Product not fount for id " + id);
@@ -359,7 +364,7 @@ public class ProductApi {
 	public ResponseEntity<EntityExists> exists(@RequestParam(value = "code") String code,
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
 
-		boolean exists = productFacade.exists(code, merchantStore);
+		boolean exists = productCommonFacade.exists(code, merchantStore);
 		return new ResponseEntity<EntityExists>(new EntityExists(exists), HttpStatus.OK);
 
 	}
@@ -397,7 +402,7 @@ public class ProductApi {
 						"Category id [" + categoryId + "] does not belong to store [" + merchantStore.getCode() + "]");
 			}
 
-			return productFacade.addProductToCategory(category, product, language);
+			return productCommonFacade.addProductToCategory(category, product, language);
 
 		} catch (Exception e) {
 			LOGGER.error("Error while adding product to category", e);
@@ -442,7 +447,7 @@ public class ProductApi {
 						"Category id [" + categoryId + "] does not belong to store [" + merchantStore.getCode() + "]");
 			}
 
-			return productFacade.removeProductFromCategory(category, product, language);
+			return productCommonFacade.removeProductFromCategory(category, product, language);
 
 		} catch (Exception e) {
 			LOGGER.error("Error while removing product from category", e);

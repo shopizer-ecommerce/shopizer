@@ -70,7 +70,7 @@ public class ProductInstanceApi {
 	@Inject
 	private UserFacade userFacade;
 
-	@ResponseStatus(HttpStatus.OK)
+	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping(value = { "/private/product/{productId}/instance" })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
 		@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })

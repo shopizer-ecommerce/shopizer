@@ -1,5 +1,6 @@
 package com.salesmanager.core.business.services.catalog.product.instance;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.inject.Inject;
@@ -19,19 +20,18 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 
 @Service("productInstanceService")
-public class ProductInstanceServiceImpl extends SalesManagerEntityServiceImpl<Long, ProductInstance> implements ProductInstanceService {
-	
-	
+public class ProductInstanceServiceImpl extends SalesManagerEntityServiceImpl<Long, ProductInstance>
+		implements ProductInstanceService {
 
 	private ProductInstanceRepository productInstanceRepository;
-	
+
 	@Autowired
 	private PageableProductInstanceRepositoty pageableProductInstanceRepositoty;
-	
+
 	@Inject
 	public ProductInstanceServiceImpl(ProductInstanceRepository productInstanceRepository) {
-	    super(productInstanceRepository);
-	    this.productInstanceRepository = productInstanceRepository;
+		super(productInstanceRepository);
+		this.productInstanceRepository = productInstanceRepository;
 	}
 
 	@Override
@@ -39,12 +39,17 @@ public class ProductInstanceServiceImpl extends SalesManagerEntityServiceImpl<Lo
 		return productInstanceRepository.findById(id, productId, store.getId());
 	}
 
-
-	@Override
 	public Page<ProductInstance> getByProductId(MerchantStore store, Product product, Language language, int page,
 			int count) {
 		Pageable pageRequest = PageRequest.of(page, count);
 		return pageableProductInstanceRepositoty.findByProductId(store.getId(), product.getId(), pageRequest);
+	}
+
+	@Override
+	public List<ProductInstance> getByProductId(MerchantStore store, Product product, Language language) {
+
+		return productInstanceRepository.findByProductId(store.getId(), product.getId());
+
 	}
 
 	@Override
@@ -54,17 +59,9 @@ public class ProductInstanceServiceImpl extends SalesManagerEntityServiceImpl<Lo
 
 	@Override
 	public boolean exist(String sku, Long productId) {
-		
+
 		return productInstanceRepository.existsBySkuAndProduct(sku, productId);
 
 	}
-
-
-
-
-	
-	
-
-
 
 }

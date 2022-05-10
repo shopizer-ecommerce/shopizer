@@ -65,7 +65,6 @@ public class ProductInstance extends SalesManagerEntity<Long, ProductInstance> i
 	@JoinColumn(name = "PRODUCT_ID", nullable = false)
 	private Product product;
 	
-
 	@Column(name = "CODE", nullable = true)
 	private String code;
 	

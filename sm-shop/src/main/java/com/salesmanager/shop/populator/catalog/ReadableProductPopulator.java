@@ -116,7 +116,7 @@ public class ReadableProductPopulator extends
 			          language = store.getDefaultLanguage();
 			    }
 
-		   final Language lang = language;
+		    final Language lang = language;
 
 			target.setId(source.getId());
 			target.setAvailable(source.isAvailable());

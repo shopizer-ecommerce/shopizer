@@ -1,5 +1,6 @@
 package com.salesmanager.core.business.services.catalog.product.instance;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -16,7 +17,11 @@ public interface ProductInstanceService extends SalesManagerEntityService<Long, 
 	
 	Optional<ProductInstance> getBySku(String sku, Long productId, MerchantStore store, Language language);
 	
+	List<ProductInstance> getByProductId(MerchantStore store, Product product, Language language);
+	
+	
 	Page<ProductInstance> getByProductId(MerchantStore store, Product product, Language language, int page, int count);
+	
 	
 	boolean exist(String sku, Long productId);
 	

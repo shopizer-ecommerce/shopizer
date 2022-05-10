@@ -17,7 +17,6 @@ import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.PersistableProductPrice;
-import com.salesmanager.shop.store.controller.product.facade.ProductFacade;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -33,9 +32,6 @@ import springfox.documentation.annotations.ApiIgnore;
 public class ProductPriceApi {
 
 
-	@Inject
-	private ProductFacade productFacade;
-	
 	@Inject
 	private ProductService productService;
 

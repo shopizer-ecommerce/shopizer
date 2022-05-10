@@ -9,18 +9,15 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
-import com.salesmanager.shop.utils.ServerConfig;
-
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 
 import springfox.documentation.RequestHandler;
 import springfox.documentation.builders.RequestHandlerSelectors;
