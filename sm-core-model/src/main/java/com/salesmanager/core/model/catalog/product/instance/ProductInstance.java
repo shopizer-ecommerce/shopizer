@@ -1,10 +1,7 @@
 package com.salesmanager.core.model.catalog.product.instance;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -15,7 +12,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
@@ -75,13 +71,14 @@ public class ProductInstance extends SalesManagerEntity<Long, ProductInstance> i
 	@JoinColumn(name = "PRODUCT_VARIANTION_VALUE_ID", nullable = true)
 	private ProductVariation variantValue;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "productInstance")
-	private List<ProductInstanceImage> images = new ArrayList<ProductInstanceImage>();
-
 	@NotEmpty
 	@Pattern(regexp="^[a-zA-Z0-9_]*$")
 	@Column(name = "SKU")
 	private String sku;
+	
+	@ManyToOne(targetEntity = ProductInstanceGroup.class)
+	@JoinColumn(name = "PRODUCT_INSTANCE_GROUP_ID", nullable = false)
+	private ProductInstanceGroup productInstanceGroup;
 
 
 	@Override
@@ -144,14 +141,6 @@ public class ProductInstance extends SalesManagerEntity<Long, ProductInstance> i
 
 	public void setVariantValue(ProductVariation variantValue) {
 		this.variantValue = variantValue;
-	}
-
-	public List<ProductInstanceImage> getImages() {
-		return images;
-	}
-
-	public void setImages(List<ProductInstanceImage> images) {
-		this.images = images;
 	}
 
 	public boolean isDefaultSelection() {

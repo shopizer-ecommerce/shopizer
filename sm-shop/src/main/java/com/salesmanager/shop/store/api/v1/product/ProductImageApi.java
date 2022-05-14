@@ -83,7 +83,9 @@ public class ProductImageApi {
 			MediaType.MULTIPART_FORM_DATA_VALUE }, method = RequestMethod.POST)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public void uploadImage(@PathVariable Long id, @RequestParam(value = "file", required = true) MultipartFile[] files,
+	public void uploadImage(
+			@PathVariable Long id, 
+			@RequestParam(value = "file", required = true) MultipartFile[] files,
 			@RequestParam(value = "order", required = false, defaultValue = "0") Integer position,
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) throws IOException {
 

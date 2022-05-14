@@ -4,6 +4,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
@@ -159,5 +162,25 @@ public class ProductInstanceApi {
 		return productInstanceFacade.list(id, merchantStore, language, page, count);
 
 	}
+	
+	
+	@ResponseStatus(HttpStatus.CREATED)
+	@RequestMapping(value = { "/private/product/{id}/{instanceId}/image" }, method = RequestMethod.POST)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	public void addInstanceImage(
+			@PathVariable Long id,
+			@RequestParam(name = "file", required = true) MultipartFile file, 
+			@ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language, 
+			HttpServletRequest request, 
+			HttpServletResponse response) {
+
+		//productOptionFacade.addOptionValueImage(file, id, merchantStore, language);
+
+
+	}
+	
+	
 
 }
