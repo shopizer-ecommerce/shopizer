@@ -1,4 +1,4 @@
-package com.salesmanager.shop.mapper.catalog;
+package com.salesmanager.shop.mapper.catalog.product;
 
 
 import org.jsoup.helper.Validate;
@@ -9,6 +9,7 @@ import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
+import com.salesmanager.shop.mapper.catalog.ReadableProductVariationMapper;
 import com.salesmanager.shop.model.catalog.product.product.instance.ReadableProductInstance;
 import com.salesmanager.shop.utils.DateUtil;
 

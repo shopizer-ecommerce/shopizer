@@ -8,18 +8,24 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
+import com.salesmanager.core.model.common.audit.AuditListener;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
+import com.salesmanager.core.model.merchant.MerchantStore;
 
 
 @Entity
+@EntityListeners(value = AuditListener.class)
 @Table(name="PRODUCT_INSTANCE_GROUP")
 /**
  * Extra properties on a group of instances
@@ -46,7 +52,9 @@ public class ProductInstanceGroup extends SalesManagerEntity<Long, ProductInstan
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "productInstanceGroup")
 	private Set<ProductInstance> productInstances = new HashSet<ProductInstance>();
 	
-	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="MERCHANT_ID", nullable=false)
+	private MerchantStore merchantStore;
 	
 	@Override
 	public Long getId() {

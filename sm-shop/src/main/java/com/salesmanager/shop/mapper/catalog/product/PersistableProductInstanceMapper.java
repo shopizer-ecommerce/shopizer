@@ -1,4 +1,4 @@
-package com.salesmanager.shop.mapper.catalog;
+package com.salesmanager.shop.mapper.catalog.product;
 
 import java.util.Date;
 import java.util.Optional;

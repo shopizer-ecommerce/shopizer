@@ -11,6 +11,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 
 public interface ProductVariationService extends SalesManagerEntityService<Long, ProductVariation> {
+	
 
 	void saveOrUpdate(ProductVariation entity) throws ServiceException;
 

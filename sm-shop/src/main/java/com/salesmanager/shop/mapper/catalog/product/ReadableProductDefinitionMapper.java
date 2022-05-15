@@ -1,4 +1,4 @@
-package com.salesmanager.shop.mapper.catalog;
+package com.salesmanager.shop.mapper.catalog.product;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +23,9 @@ import com.salesmanager.core.model.catalog.product.price.FinalPrice;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
+import com.salesmanager.shop.mapper.catalog.ReadableCategoryMapper;
+import com.salesmanager.shop.mapper.catalog.ReadableManufacturerMapper;
+import com.salesmanager.shop.mapper.catalog.ReadableProductTypeMapper;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
 import com.salesmanager.shop.model.catalog.product.ProductSpecification;

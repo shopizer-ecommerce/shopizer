@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.jsoup.helper.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -505,6 +506,7 @@ public class ProductOptionFacadeImpl implements ProductOptionFacade {
 	@Override
 	public void updateAttributes(List<PersistableProductAttribute> attributes, Long productId, MerchantStore store) {
 		// TODO Auto-generated method stub
+		throw new NotImplementedException("Method not implemented");
 		
 	}
 

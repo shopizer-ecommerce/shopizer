@@ -1,4 +1,4 @@
-package com.salesmanager.shop.mapper.catalog;
+package com.salesmanager.shop.mapper.catalog.product;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -31,6 +31,7 @@ import com.salesmanager.core.model.catalog.product.type.ProductType;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
+import com.salesmanager.shop.mapper.catalog.PersistableProductAttributeMapper;
 import com.salesmanager.shop.model.catalog.product.ProductPriceEntity;
 import com.salesmanager.shop.model.catalog.product.product.definition.PersistableProductDefinition;
 import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;

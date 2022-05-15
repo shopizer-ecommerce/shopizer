@@ -161,12 +161,9 @@ public class ProductApiV2 {
 		return product;
 	}
 
-	/**
-	 * List product definitions
-	 */
 	
 	/**
-	 * API for getting a product
+	 * API for getting a product using v2
 	 *
 	 * @param id
 	 * @param lang     ?lang=fr|en|...

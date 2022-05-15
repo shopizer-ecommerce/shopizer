@@ -25,7 +25,7 @@ public interface ProductInstanceImageRepository extends JpaRepository<ProductIns
 			+ "where ppp.id = ?1 and pppm.code = ?2")
 	List<ProductInstanceImage> finByProduct(Long productId, String storeCode);
 	
-	/**
+    /**
 	@Query("select p from ProductInstanceImage p "
 			+ "left join fetch p.descriptions pd "
 			+ "join fetch p.productInstanceGroup pg "
@@ -34,6 +34,7 @@ public interface ProductInstanceImageRepository extends JpaRepository<ProductIns
 			+ "join fetch ppp.merchantStore pppm "
 			+ "where ppp.id = ?1 and pppm.code = ?2 and pd.language.code = ?3")
 	List<ProductInstanceImage> finByProduct(Long productId, String storeCode, String lang);
+	**/
 	
 	@Query("select p from ProductInstanceImage p "
 			+ "left join fetch p.descriptions pd "
@@ -43,5 +44,5 @@ public interface ProductInstanceImageRepository extends JpaRepository<ProductIns
 			+ "join fetch ppp.merchantStore pppm "
 			+ "where pi.id = ?1 and pppm.code = ?2 and pd.language.code = ?3")
 	List<ProductInstanceImage> finByProductInstance(Long productInstanceId, String storeCode);
-	**/
+
 }

@@ -29,7 +29,8 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
 
 @Entity
 @EntityListeners(value = AuditListener.class)
-@Table(name = "PRODUCT_INSTANCE", uniqueConstraints = @UniqueConstraint(columnNames = { "PRODUCT_ID",
+@Table(name = "PRODUCT_INSTANCE", 
+uniqueConstraints = @UniqueConstraint(columnNames = { "PRODUCT_ID",
 		"SKU" }))
 public class ProductInstance extends SalesManagerEntity<Long, ProductInstance> implements Auditable {
 	private static final long serialVersionUID = 1L;
@@ -77,7 +78,7 @@ public class ProductInstance extends SalesManagerEntity<Long, ProductInstance> i
 	private String sku;
 	
 	@ManyToOne(targetEntity = ProductInstanceGroup.class)
-	@JoinColumn(name = "PRODUCT_INSTANCE_GROUP_ID", nullable = false)
+	@JoinColumn(name = "PRODUCT_INSTANCE_GROUP_ID", nullable = true)
 	private ProductInstanceGroup productInstanceGroup;
 
 
