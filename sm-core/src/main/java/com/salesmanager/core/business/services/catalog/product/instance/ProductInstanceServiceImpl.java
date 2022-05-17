@@ -22,6 +22,7 @@ import com.salesmanager.core.model.reference.language.Language;
 @Service("productInstanceService")
 public class ProductInstanceServiceImpl extends SalesManagerEntityServiceImpl<Long, ProductInstance>
 		implements ProductInstanceService {
+	
 
 	private ProductInstanceRepository productInstanceRepository;
 
@@ -62,6 +63,12 @@ public class ProductInstanceServiceImpl extends SalesManagerEntityServiceImpl<Lo
 
 		return productInstanceRepository.existsBySkuAndProduct(sku, productId);
 
+	}
+
+	@Override
+	public Optional<ProductInstance> getById(Long id, MerchantStore store) {
+
+		return productInstanceRepository.findOne(id,store.getId());
 	}
 
 }

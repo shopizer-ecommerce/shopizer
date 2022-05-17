@@ -25,6 +25,15 @@ public interface ProductInstanceImageRepository extends JpaRepository<ProductIns
 			+ "where ppp.id = ?1 and pppm.code = ?2")
 	List<ProductInstanceImage> finByProduct(Long productId, String storeCode);
 	
+	@Query("select p from ProductInstanceImage p "
+			+ "left join fetch p.descriptions pd "
+			+ "join fetch p.productInstanceGroup pg "
+			+ "join fetch pg.productInstances pi "
+			+ "join fetch pi.product ppp "
+			+ "join fetch ppp.merchantStore pppm "
+			+ "where pg.id = ?1 and pppm.code = ?2")
+	List<ProductInstanceImage> finByProductInstanceGroup(Long productInstanceGroupId, String storeCode);
+	
     /**
 	@Query("select p from ProductInstanceImage p "
 			+ "left join fetch p.descriptions pd "

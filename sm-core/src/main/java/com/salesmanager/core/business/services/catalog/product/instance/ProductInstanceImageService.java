@@ -11,5 +11,6 @@ public interface ProductInstanceImageService extends SalesManagerEntityService<L
 	
 	List<ProductInstanceImage> list(Long productInstanceId, MerchantStore store);
 	List<ProductInstanceImage> listByProduct(Long productId, MerchantStore store);
+	List<ProductInstanceImage> listByProductInstanceGroup(Long productInstanceGroupId, MerchantStore store);
 	
 }

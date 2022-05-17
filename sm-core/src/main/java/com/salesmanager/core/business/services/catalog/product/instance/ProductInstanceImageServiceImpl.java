@@ -2,6 +2,7 @@ package com.salesmanager.core.business.services.catalog.product.instance;
 
 import java.util.List;
 
+import org.jsoup.helper.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,12 +25,20 @@ public class ProductInstanceImageServiceImpl extends SalesManagerEntityServiceIm
 
 	@Override
 	public List<ProductInstanceImage> list(Long productInstanceId, MerchantStore store) {
+		Validate.notNull(store, "MerchantStore cannot be null");
 		return productInstanceImageRepository.finByProductInstance(productInstanceId, store.getCode());
 	}
 
 	@Override
 	public List<ProductInstanceImage> listByProduct(Long productId, MerchantStore store) {
+		Validate.notNull(store, "MerchantStore cannot be null");
 		return productInstanceImageRepository.finByProduct(productId, store.getCode());
+	}
+
+	@Override
+	public List<ProductInstanceImage> listByProductInstanceGroup(Long productInstanceGroupId, MerchantStore store) {
+		Validate.notNull(store, "MerchantStore cannot be null");
+		return productInstanceImageRepository.finByProductInstanceGroup(productInstanceGroupId, store.getCode());
 	}
 
 }

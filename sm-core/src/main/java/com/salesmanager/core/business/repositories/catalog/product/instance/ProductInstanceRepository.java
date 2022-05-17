@@ -11,6 +11,26 @@ import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
 public interface ProductInstanceRepository extends JpaRepository<ProductInstance, Long> {
 	
 
+	
+	
+	@Query("select p from ProductInstance p join fetch p.product pr "
+			+ "left join fetch p.variant pv "
+			+ "left join fetch pv.productOption pvpo "
+			+ "left join fetch pv.productOptionValue pvpov "
+			+ "left join fetch pvpo.descriptions pvpod "
+			+ "left join fetch pvpov.descriptions pvpovd "
+			
+			+ "left join fetch p.variantValue pvv "
+			+ "left join fetch pvv.productOption pvvpo "
+			+ "left join fetch pvv.productOptionValue pvvpov "
+			+ "left join fetch pvvpo.descriptions povvpod "
+			+ "left join fetch pvpov.descriptions povvpovd "			
+			
+			+ "left join fetch pv.merchantStore pvm "
+			+ "where p.id = ?1 and pvm.id = ?2")
+	Optional<ProductInstance> findOne(Long id, Integer storeId);
+	
+	
 	@Query("select p from ProductInstance p join fetch p.product pr "
 			+ "left join fetch p.variant pv "
 			+ "left join fetch pv.productOption pvpo "

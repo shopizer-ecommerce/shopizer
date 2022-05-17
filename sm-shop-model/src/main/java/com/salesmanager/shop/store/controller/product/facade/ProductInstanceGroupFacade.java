@@ -1,5 +1,7 @@
 package com.salesmanager.shop.store.controller.product.facade;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.product.instanceGroup.PersistableProductInstanceGroup;
@@ -14,5 +16,9 @@ public interface ProductInstanceGroupFacade {
 	void delete(Long productInstance, Long productId, MerchantStore store);
 	ReadableEntityList<ReadableProductInstanceGroup> list(Long productId, MerchantStore store, Language language, int page, int count);
 	
+	void addImage(MultipartFile image, Long productOptionGroupId,
+			MerchantStore store, Language language);
+	
+	void removeImage(Long imageId, Long productOptionGroupId, MerchantStore store);
 
 }
