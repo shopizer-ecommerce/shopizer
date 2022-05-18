@@ -94,6 +94,9 @@ public class ProductFacadeV2Impl implements ProductFacade {
 		//limit to 15 searches
 		List<ProductInstance> instances = productInstanceService.getByProductId(store, product, language);
 		
+		
+		//the above get all possible images
+		
 		List<ReadableProductInstance> readableInstances = instances.stream().map(p -> this.productInstance(p, store, language)).collect(Collectors.toList());
 		
 		readableProduct.setVariants(readableInstances);

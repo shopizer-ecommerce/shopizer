@@ -24,6 +24,10 @@ import com.salesmanager.core.modules.order.total.OrderTotalPostProcessorModule;
  * - calculation processors
  * 		Triggered during shopping cart and order total calculation
  * 
+ * - Payment events (payment, refund)
+ * 
+ * - Change Order status
+ * 
  * @author carlsamson
  *
  */

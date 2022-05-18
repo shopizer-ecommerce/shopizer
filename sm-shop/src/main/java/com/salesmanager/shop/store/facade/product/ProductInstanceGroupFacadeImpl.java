@@ -18,6 +18,8 @@ import com.salesmanager.core.model.content.FileContentType;
 import com.salesmanager.core.model.content.InputContentFile;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.mapper.catalog.product.PersistableProductIntanceGroupMapper;
+import com.salesmanager.shop.mapper.catalog.product.ReadableProductInstanceGroupMapper;
 import com.salesmanager.shop.model.catalog.product.product.instanceGroup.PersistableProductInstanceGroup;
 import com.salesmanager.shop.model.catalog.product.product.instanceGroup.ReadableProductInstanceGroup;
 import com.salesmanager.shop.model.entity.ReadableEntityList;
@@ -36,30 +38,60 @@ public class ProductInstanceGroupFacadeImpl implements ProductInstanceGroupFacad
 	private ProductInstanceImageService productInstanceImageService;
 	
 	@Autowired
+	private PersistableProductIntanceGroupMapper persistableProductIntanceGroupMapper;
+	
+	@Autowired
+	private ReadableProductInstanceGroupMapper readableProductInstanceGroupMapper;
+	
+	@Autowired
 	private ContentService contentService; //file management
 
 	@Override
 	public ReadableProductInstanceGroup get(Long instanceGroupId, MerchantStore store, Language language) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		ProductInstanceGroup group = this.group(instanceGroupId, store);
+		return readableProductInstanceGroupMapper.convert(group, store, language);
 	}
 
 	@Override
 	public Long create(PersistableProductInstanceGroup productInstanceGroup, MerchantStore store, Language language) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		ProductInstanceGroup group = persistableProductIntanceGroupMapper.convert(productInstanceGroup, store, language);
+		
+		try {
+			productInstanceGroupService.saveOrUpdate(group);
+		} catch (ServiceException e) {
+			throw new ServiceRuntimeException("Cannot save product instance group [" + productInstanceGroup + "] for store [" + store.getCode() + "]"); 
+		}
+		
+		return group.getId();
 	}
 
 	@Override
 	public void update(Long productInstanceGroup, PersistableProductInstanceGroup instance, MerchantStore store,
 			Language language) {
-		// TODO Auto-generated method stub
-
+		ProductInstanceGroup group = this.group(productInstanceGroup, store);
+		instance.setId(productInstanceGroup);
+		
+		group = persistableProductIntanceGroupMapper.merge(instance, group, store, language);
+		
+		try {
+			productInstanceGroupService.saveOrUpdate(group);
+		} catch (ServiceException e) {
+			throw new ServiceRuntimeException("Cannot save product instance group [" + productInstanceGroup + "] for store [" + store.getCode() + "]"); 
+		}
+		
 	}
 
 	@Override
-	public void delete(Long productInstance, Long productId, MerchantStore store) {
-		// TODO Auto-generated method stub
+	public void delete(Long productInstanceGroup, Long productId, MerchantStore store) {
+		
+		ProductInstanceGroup group = this.group(productInstanceGroup, store);
+		try {
+			productInstanceGroupService.delete(group);
+		} catch (ServiceException e) {
+			throw new ServiceRuntimeException("Cannot remove product instance group [" + productInstanceGroup + "] for store [" + store.getCode() + "]");
+		}
 
 	}
 
@@ -68,6 +100,16 @@ public class ProductInstanceGroupFacadeImpl implements ProductInstanceGroupFacad
 			int page, int count) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	
+	private ProductInstanceGroup group(Long productOptionGroupId,MerchantStore store) {
+		Optional<ProductInstanceGroup> group = productInstanceGroupService.getById(productOptionGroupId, store);
+		if(group.isEmpty()) {
+			throw new ResourceNotFoundException("Product instance group [" + productOptionGroupId + "] not found");
+		}
+		
+		return group.get();
 	}
 	
 	@Override
@@ -79,17 +121,15 @@ public class ProductInstanceGroupFacadeImpl implements ProductInstanceGroupFacad
 		Validate.notNull(image,"Image must not be null");
 		Validate.notNull(store,"MerchantStore must not be null");
 		//get option group
-		Optional<ProductInstanceGroup> group = productInstanceGroupService.getById(productOptionGroupId, store);
-		if(group.isEmpty()) {
-			throw new ResourceNotFoundException("Product instance group [" + productOptionGroupId + "] not found");
-		}
+		
+		ProductInstanceGroup group = this.group(productOptionGroupId, store);
 		
 		try {
 			
 			
 			ProductInstanceImage instanceImage = new ProductInstanceImage();
 			instanceImage.setProductImage(image.getOriginalFilename());
-			instanceImage.setProductInstanceGroup(group.get());
+			instanceImage.setProductInstanceGroup(group);
 			String imageName = image.getOriginalFilename();
 			InputStream inputStream = image.getInputStream();
 			InputContentFile cmsContentImage = new InputContentFile();
@@ -99,10 +139,10 @@ public class ProductInstanceGroupFacadeImpl implements ProductInstanceGroupFacad
 			cmsContentImage.setFileContentType(FileContentType.INSTANCE);
 
 			contentService.addContentFile(store.getCode(), cmsContentImage);
-			group.get().getImages().add(instanceImage);
+			group.getImages().add(instanceImage);
 			
 
-			this.productInstanceGroupService.save(group.get());
+			productInstanceGroupService.save(group);
 		} catch (Exception e) {
 			throw new ServiceRuntimeException("Exception while adding instance group image", e);
 		}
@@ -123,14 +163,14 @@ public class ProductInstanceGroupFacadeImpl implements ProductInstanceGroupFacad
 			throw new ResourceNotFoundException("ProductInstanceImage [" + imageId + "] was not found");
 		}
 		
-		Optional<ProductInstanceGroup> group = productInstanceGroupService.getById(productOptionGroupId, store);
-		if(group.isEmpty()) {
-			throw new ResourceNotFoundException("Product instance group [" + productOptionGroupId + "] not found");
-		}
-		
+		ProductInstanceGroup group = this.group(productOptionGroupId, store);
+
 		
 		try {
 			contentService.removeFile(store.getCode(), FileContentType.INSTANCE, image.getProductImage());
+			group.getImages().removeIf(i -> (i.getId() == image.getId()));
+			//update productinstancebroup
+			productInstanceGroupService.update(group);
 		} catch (ServiceException e) {
 			throw new ServiceRuntimeException("An exception occured while removing instance image [" + imageId + "]",e);
 		}

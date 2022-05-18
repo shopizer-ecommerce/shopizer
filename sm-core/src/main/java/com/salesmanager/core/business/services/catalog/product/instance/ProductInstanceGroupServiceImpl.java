@@ -5,9 +5,11 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.repositories.catalog.product.instance.ProductInstanceGroupRepository;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
 import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.attribute.ProductOption;
 import com.salesmanager.core.model.catalog.product.instance.ProductInstanceGroup;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
@@ -38,6 +40,19 @@ public class ProductInstanceGroupServiceImpl extends SalesManagerEntityServiceIm
 	@Override
 	public List<ProductInstanceGroup> getByProductId(Product product, MerchantStore store) {
 		return productInstanceGroupRepository.finByProduct(product.getId(), store.getCode());
+	}
+	
+	@Override
+	public void saveOrUpdate(ProductInstanceGroup entity) throws ServiceException {
+		
+		
+		//save or update (persist and attach entities
+		if(entity.getId()!=null && entity.getId()>0) {
+			super.update(entity);
+		} else {
+			super.save(entity);
+		}
+		
 	}
 
 

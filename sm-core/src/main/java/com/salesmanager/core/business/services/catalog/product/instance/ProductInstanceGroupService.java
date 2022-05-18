@@ -3,6 +3,7 @@ package com.salesmanager.core.business.services.catalog.product.instance;
 import java.util.List;
 import java.util.Optional;
 
+import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityService;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.instance.ProductInstanceGroup;
@@ -17,6 +18,8 @@ public interface ProductInstanceGroupService extends SalesManagerEntityService<L
 	Optional<ProductInstanceGroup> getByProductInstance(Long productInstanceId, MerchantStore store, Language language);
 	
 	List<ProductInstanceGroup> getByProductId(Product product, MerchantStore store);
+	
+	void saveOrUpdate(ProductInstanceGroup entity) throws ServiceException;
 	
 	
 }
