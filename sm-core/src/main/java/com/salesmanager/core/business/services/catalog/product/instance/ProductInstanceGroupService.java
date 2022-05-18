@@ -1,7 +1,8 @@
 package com.salesmanager.core.business.services.catalog.product.instance;
 
-import java.util.List;
 import java.util.Optional;
+
+import org.springframework.data.domain.Page;
 
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityService;
@@ -16,8 +17,11 @@ public interface ProductInstanceGroupService extends SalesManagerEntityService<L
 	Optional<ProductInstanceGroup> getById(Long id, MerchantStore store);
 	
 	Optional<ProductInstanceGroup> getByProductInstance(Long productInstanceId, MerchantStore store, Language language);
+
+	Page<ProductInstanceGroup> getByProductId(MerchantStore store, Product product, Language language, int page, int count);
 	
-	List<ProductInstanceGroup> getByProductId(Product product, MerchantStore store);
+	//List<ProductInstanceGroup> getByProductId(MerchantStore store, Product product, Language language, int page, int count);
+	
 	
 	void saveOrUpdate(ProductInstanceGroup entity) throws ServiceException;
 	

@@ -1,15 +1,18 @@
 package com.salesmanager.core.business.services.catalog.product.instance;
 
-import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.repositories.catalog.product.instance.PageableProductInstanceGroupRepository;
 import com.salesmanager.core.business.repositories.catalog.product.instance.ProductInstanceGroupRepository;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
 import com.salesmanager.core.model.catalog.product.Product;
-import com.salesmanager.core.model.catalog.product.attribute.ProductOption;
 import com.salesmanager.core.model.catalog.product.instance.ProductInstanceGroup;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
@@ -18,6 +21,9 @@ import com.salesmanager.core.model.reference.language.Language;
 @Service("productInstanceGroupService")
 public class ProductInstanceGroupServiceImpl extends SalesManagerEntityServiceImpl<Long, ProductInstanceGroup> implements ProductInstanceGroupService {
 
+	
+	@Autowired
+	private PageableProductInstanceGroupRepository pageableProductInstanceGroupRepository;
 	
 	private ProductInstanceGroupRepository productInstanceGroupRepository;
 	
@@ -37,10 +43,12 @@ public class ProductInstanceGroupServiceImpl extends SalesManagerEntityServiceIm
 		return productInstanceGroupRepository.finByProductInstance(productInstanceId, store.getCode());
 	}
 
-	@Override
-	public List<ProductInstanceGroup> getByProductId(Product product, MerchantStore store) {
-		return productInstanceGroupRepository.finByProduct(product.getId(), store.getCode());
-	}
+	/*
+	 * @Override public List<ProductInstanceGroup> getByProductId(Product product,
+	 * MerchantStore store) { return
+	 * productInstanceGroupRepository.finByProduct(product.getId(),
+	 * store.getCode()); }
+	 */
 	
 	@Override
 	public void saveOrUpdate(ProductInstanceGroup entity) throws ServiceException {
@@ -53,6 +61,14 @@ public class ProductInstanceGroupServiceImpl extends SalesManagerEntityServiceIm
 			super.save(entity);
 		}
 		
+	}
+
+	@Override
+	public Page<ProductInstanceGroup> getByProductId(MerchantStore store, Product product, Language language, int page,
+			int count) {
+		
+		Pageable pageRequest = PageRequest.of(page, count);
+		return pageableProductInstanceGroupRepository.findByProductId(store.getId(), product.getId(), pageRequest);
 	}
 
 

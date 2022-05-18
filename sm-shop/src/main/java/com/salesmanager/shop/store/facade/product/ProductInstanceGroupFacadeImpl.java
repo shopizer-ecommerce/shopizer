@@ -1,10 +1,15 @@
 package com.salesmanager.shop.store.facade.product;
 
+import static com.salesmanager.shop.util.ReadableEntityUtil.createReadableList;
+
 import java.io.InputStream;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.jsoup.helper.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -98,8 +103,18 @@ public class ProductInstanceGroupFacadeImpl implements ProductInstanceGroupFacad
 	@Override
 	public ReadableEntityList<ReadableProductInstanceGroup> list(Long productId, MerchantStore store, Language language,
 			int page, int count) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		
+		Page<ProductInstanceGroup> groups = productInstanceGroupService.getByProductId(store, null, language, page, count);
+		
+		
+		
+		List<ReadableProductInstanceGroup> readableInstances = groups.stream()
+				.map(rp -> this.readableProductInstanceGroupMapper.convert(rp, store, language)).collect(Collectors.toList());
+
+	    
+	    return createReadableList(groups, readableInstances);
+
 	}
 	
 	
@@ -169,7 +184,7 @@ public class ProductInstanceGroupFacadeImpl implements ProductInstanceGroupFacad
 		try {
 			contentService.removeFile(store.getCode(), FileContentType.INSTANCE, image.getProductImage());
 			group.getImages().removeIf(i -> (i.getId() == image.getId()));
-			//update productinstancebroup
+			//update productinstanceroup
 			productInstanceGroupService.update(group);
 		} catch (ServiceException e) {
 			throw new ServiceRuntimeException("An exception occured while removing instance image [" + imageId + "]",e);

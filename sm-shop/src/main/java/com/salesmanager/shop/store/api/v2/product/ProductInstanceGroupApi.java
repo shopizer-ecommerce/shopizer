@@ -26,7 +26,9 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.catalog.product.product.instanceGroup.PersistableProductInstanceGroup;
+import com.salesmanager.shop.model.catalog.product.product.instanceGroup.ReadableProductInstanceGroup;
 import com.salesmanager.shop.model.entity.Entity;
+import com.salesmanager.shop.model.entity.ReadableEntityList;
 import com.salesmanager.shop.store.api.exception.UnauthorizedException;
 import com.salesmanager.shop.store.controller.product.facade.ProductInstanceGroupFacade;
 import com.salesmanager.shop.store.controller.user.facade.UserFacade;
@@ -94,7 +96,7 @@ public class ProductInstanceGroupApi {
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping(value = { "/private/product/productInstanceGroup/{id}" })
 	@ApiOperation(httpMethod = "GET", value = "Get product instance group", notes = "", produces = "application/json", response = Void.class)
-	public @ResponseBody void get(@PathVariable Long id, @ApiIgnore MerchantStore merchantStore,
+	public @ResponseBody ReadableProductInstanceGroup get(@PathVariable Long id, @ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
 
 		String authenticatedUser = userFacade.authenticatedUser();
@@ -105,7 +107,7 @@ public class ProductInstanceGroupApi {
 		userFacade.authorizedGroup(authenticatedUser, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN,
 				Constants.GROUP_ADMIN_CATALOGUE, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()));
 
-		productInstanceGroupFacade.get(id, merchantStore, language);
+		return productInstanceGroupFacade.get(id, merchantStore, language);
 	}
 
 	// delete
@@ -129,11 +131,14 @@ public class ProductInstanceGroupApi {
 
 	// list
 	@ResponseStatus(HttpStatus.OK)
-	@GetMapping(value = { "/private/product/productInstanceGroup" })
+	@GetMapping(value = { "/private/product/{id}/productInstanceGroup" })
 	@ApiOperation(httpMethod = "GET", value = "Delete product instance group", notes = "", produces = "application/json", response = Void.class)
-	public @ResponseBody void list(
+	public @ResponseBody ReadableEntityList<ReadableProductInstanceGroup> list(
+			@PathVariable final Long id,
 			@ApiIgnore MerchantStore merchantStore,
-			@ApiIgnore Language language) {
+			@ApiIgnore Language language,
+			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+	@RequestParam(value = "count", required = false, defaultValue = "10") Integer count) {
 
 		String authenticatedUser = userFacade.authenticatedUser();
 		if (authenticatedUser == null) {
@@ -143,7 +148,7 @@ public class ProductInstanceGroupApi {
 		userFacade.authorizedGroup(authenticatedUser, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN,
 				Constants.GROUP_ADMIN_CATALOGUE, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()));
 
-		//productInstanceGroupFacade.l
+		return productInstanceGroupFacade.list(id, merchantStore, language, page, count);
 	}
 
 	// add image

@@ -9,6 +9,8 @@ import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
 
 public interface PageableProductInstanceRepositoty extends PagingAndSortingRepository<ProductInstance, Long> {
 
+
+	
 	@Query(value = "select p from ProductInstance p " 
 			+ "join fetch p.product pr " 
 			+ "left join fetch p.variant pv "
@@ -23,9 +25,12 @@ public interface PageableProductInstanceRepositoty extends PagingAndSortingRepos
 			+ "left join fetch pvvpo.descriptions povvpod "
 			+ "left join fetch pvpov.descriptions pvpovd "
 
-			+ "left join fetch pv.merchantStore pvm " + "where pr.id = ?2 and pvm.id = ?1",
-			countQuery = "select p from ProductInstance p " + "join fetch p.product pr " + "left join fetch p.variant pv "
-					+ "left join fetch pv.merchantStore pvm " + "where pr.id = ?2 and pvm.id = ?1")
+			+ "left join fetch pr.merchantStore prm " + "where pr.id = ?2 and prm.id = ?1",
+			countQuery = "select p from ProductInstance p "
+			+ "join fetch p.product pr "
+					+ "left join fetch pr.merchantStore prm "
+					+ "where pr.id = ?2 and prm.id = ?1")
 	Page<ProductInstance> findByProductId(Integer storeId, Long productId, Pageable pageable);
+
 
 }
