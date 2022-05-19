@@ -48,9 +48,7 @@ public class ProductInstanceServiceImpl extends SalesManagerEntityServiceImpl<Lo
 
 	@Override
 	public List<ProductInstance> getByProductId(MerchantStore store, Product product, Language language) {
-
 		return productInstanceRepository.findByProductId(store.getId(), product.getId());
-
 	}
 
 	@Override
@@ -69,6 +67,12 @@ public class ProductInstanceServiceImpl extends SalesManagerEntityServiceImpl<Lo
 	public Optional<ProductInstance> getById(Long id, MerchantStore store) {
 
 		return productInstanceRepository.findOne(id,store.getId());
+	}
+
+	@Override
+	public List<ProductInstance> getByIds(List<Long> ids, MerchantStore store) {
+
+		return productInstanceRepository.findByIds(ids, store.getId());
 	}
 
 }

@@ -83,5 +83,13 @@ public class ProductInstanceGroup extends SalesManagerEntity<Long, ProductInstan
 		this.productInstances = productInstances;
 	}
 
+	public MerchantStore getMerchantStore() {
+		return merchantStore;
+	}
+
+	public void setMerchantStore(MerchantStore merchantStore) {
+		this.merchantStore = merchantStore;
+	}
+
 
 }

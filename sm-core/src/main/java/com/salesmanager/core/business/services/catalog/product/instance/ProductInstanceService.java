@@ -15,6 +15,8 @@ public interface ProductInstanceService extends SalesManagerEntityService<Long, 
 	
 	Optional<ProductInstance> getById(Long id, Long productId, MerchantStore store);
 	
+	List<ProductInstance> getByIds(List<Long> ids, MerchantStore store);
+	
 	Optional<ProductInstance> getById(Long id, MerchantStore store);
 	
 	Optional<ProductInstance> getBySku(String sku, Long productId, MerchantStore store, Language language);

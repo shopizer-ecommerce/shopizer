@@ -44,7 +44,8 @@ public class PersistableProductIntanceGroupMapper implements Mapper<PersistableP
 		
 		Validate.notNull(source, "PersistableProductInstanceGroup cannot be null");
 		Validate.notNull(store, "MerchantStore cannot be null");
-		Validate.notNull(language, "Language cannot be null");	
+		Validate.notNull(language, "Language cannot be null");
+		Validate.notNull(source.getProductInstances(), "Product instances cannot be null");	
 		
 		if(destination == null) {
 			destination = new ProductInstanceGroup();
@@ -53,25 +54,27 @@ public class PersistableProductIntanceGroupMapper implements Mapper<PersistableP
 		destination.setId(source.getId());
 		
 		
-		List<ProductInstance> productInstances = source.getProductInstances().stream().map(i -> this.instance(i, store)).collect(Collectors.toList());
+		List<ProductInstance> productInstances = productInstanceService.getByIds(source.getProductInstances(), store);
 		
+		for(ProductInstance p : productInstances) {
+			p.setProductInstanceGroup(destination);
+		}
+
 		//images are not managed from this object
 		if(source.getId() != null) {
 			List<ProductInstanceImage> images = productInstanceImageService.listByProductInstanceGroup(source.getId(), store);
 			destination.setImages(images);
 		}
-		destination.setProductInstances(new HashSet(productInstances));
+		destination.setMerchantStore(store);
+		destination.setProductInstances(new HashSet<ProductInstance>(productInstances));
 		return destination;
 	}
 	
-	private ProductInstance instance(Long id, MerchantStore store) {
+	private ProductInstance instance(ProductInstance instance, ProductInstanceGroup group, MerchantStore store) {
 		
-		Optional<ProductInstance> inst = productInstanceService.getById(id, store);
-		if(inst.isPresent()) {
-			return inst.get();
-		}
-		
-		return null;
+		instance.setProductInstanceGroup(group);
+		return instance;
+
 	}
 
 }

@@ -173,7 +173,13 @@ public class ProductInstance extends SalesManagerEntity<Long, ProductInstance> i
 	 
 	public void setCode(String code) { this.code = code; }
 	
+	public ProductInstanceGroup getProductInstanceGroup() {
+		return productInstanceGroup;
+	}
 
+	public void setProductInstanceGroup(ProductInstanceGroup productInstanceGroup) {
+		this.productInstanceGroup = productInstanceGroup;
+	}
 
 
 }

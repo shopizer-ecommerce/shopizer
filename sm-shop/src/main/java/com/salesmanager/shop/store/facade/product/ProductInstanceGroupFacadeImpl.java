@@ -62,7 +62,6 @@ public class ProductInstanceGroupFacadeImpl implements ProductInstanceGroupFacad
 	public Long create(PersistableProductInstanceGroup productInstanceGroup, MerchantStore store, Language language) {
 		
 		ProductInstanceGroup group = persistableProductIntanceGroupMapper.convert(productInstanceGroup, store, language);
-		
 		try {
 			productInstanceGroupService.saveOrUpdate(group);
 		} catch (ServiceException e) {

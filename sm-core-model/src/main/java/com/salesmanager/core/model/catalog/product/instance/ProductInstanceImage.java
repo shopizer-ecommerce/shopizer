@@ -1,8 +1,6 @@
 package com.salesmanager.core.model.catalog.product.instance;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -51,9 +49,6 @@ public class ProductInstanceImage extends SalesManagerEntity<Long, ProductInstan
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "productInstanceImage", cascade = CascadeType.ALL)
 	private Set<ProductInstanceImageDescription> descriptions = new HashSet<ProductInstanceImageDescription>();
-
-	
-	//private MultiPartFile image
 
 	public ProductInstanceImage(){
 	}
