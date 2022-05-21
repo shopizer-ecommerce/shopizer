@@ -2,6 +2,7 @@ package com.salesmanager.shop.utils;
 
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
+import com.salesmanager.core.model.content.FileContentType;
 import com.salesmanager.core.model.merchant.MerchantStore;
 
 public interface ImageFilePath {
@@ -88,6 +89,15 @@ public interface ImageFilePath {
 	 * @return
 	 */
 	public String buildProductPropertyImageUtils(MerchantStore store, String imageName);
+	
+	/**
+	 * A custom file type image handler
+	 * @param store
+	 * @param imageName
+	 * @param type
+	 * @return
+	 */
+	String buildCustomTypeImageUtils(MerchantStore store, String imageName, FileContentType type);
 	
 	
 	/**

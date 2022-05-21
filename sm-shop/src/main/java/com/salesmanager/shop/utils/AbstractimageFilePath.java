@@ -151,6 +151,11 @@ public abstract class AbstractimageFilePath implements ImageFilePath {
 				.append(imageName).toString();
 	}
 	
+	public String buildCustomTypeImageUtils(MerchantStore store, String imageName, FileContentType type) {
+		return new StringBuilder().append(getBasePath(store)).append(Constants.FILES_URI).append(Constants.SLASH).append(store.getCode()).append("/").append(type).append("/")
+				.append(imageName).toString();
+	}
+	
 	/**
 	 * Builds static file url path
 	 * @param store

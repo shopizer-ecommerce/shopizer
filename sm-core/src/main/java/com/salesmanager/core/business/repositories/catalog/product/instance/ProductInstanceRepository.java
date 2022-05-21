@@ -61,8 +61,8 @@ public interface ProductInstanceRepository extends JpaRepository<ProductInstance
 			+ "left join fetch pvvpo.descriptions povvpod "
 			+ "left join fetch pvpov.descriptions povvpovd "			
 			
-			+ "left join fetch pv.merchantStore pvm "
-			+ "where pv.id = ?1 and pr.id = ?2 and pvm.id = ?3")
+			+ "left join fetch pr.merchantStore prm "
+			+ "where p.id = ?1 and pr.id = ?2 and prm.id = ?3")
 	Optional<ProductInstance> findById(Long id, Long productId, Integer storeId);
 	
 	
@@ -80,12 +80,12 @@ public interface ProductInstanceRepository extends JpaRepository<ProductInstance
 			+ "left join fetch pvvpo.descriptions povvpod "
 			+ "left join fetch pvpov.descriptions povvpovd "			
 			
-			+ "left join fetch pv.merchantStore pvm "
+			+ "left join fetch pr.merchantStore prm "
 			+ "where pvpod.language.id = ?4 "
 			+ "and pvpovd.language.id = ?4 "
 			+ "and povvpod.language.id = ?4 "
 			+ "and povvpovd.language.id = ?4 "
-			+ "and pr.id = ?2 and pv.id = ?1 and pvm.id = ?3")
+			+ "and pr.id = ?2 and p.code = ?1 and prm.id = ?3")
 	Optional<ProductInstance> findBySku(String code, Long productId, Integer storeId, Integer languageId);
 	
 	

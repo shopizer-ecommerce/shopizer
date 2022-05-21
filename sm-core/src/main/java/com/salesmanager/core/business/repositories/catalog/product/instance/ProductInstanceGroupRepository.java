@@ -11,15 +11,15 @@ import com.salesmanager.core.model.catalog.product.instance.ProductInstanceGroup
 public interface ProductInstanceGroupRepository extends JpaRepository<ProductInstanceGroup, Long> {
 
 	
-	@Query("select p from ProductInstanceGroup p"
-			+ " join fetch p.productInstances pp"
+	@Query("select distinct p from ProductInstanceGroup p"
+			+ " left join fetch p.productInstances pp"
 			+ " left join fetch p.images ppi"
 			+ " left join fetch ppi.descriptions ppid "
 			+ " where p.id = ?1 and p.merchantStore.code = ?2")
 	Optional<ProductInstanceGroup> findOne(Long id, String storeCode);
-
 	
-	@Query("select p from ProductInstanceGroup p "
+	
+	@Query("select distinct p from ProductInstanceGroup p "
 			+ "join fetch p.productInstances pp "
 			+ "left join fetch p.images ppi "
 			+ "left join fetch ppi.descriptions ppid "
@@ -28,7 +28,7 @@ public interface ProductInstanceGroupRepository extends JpaRepository<ProductIns
 			+ "where pp.id = ?1 and p.merchantStore.code = ?2")
 	Optional<ProductInstanceGroup> finByProductInstance(Long productInstanceId, String storeCode);
 	
-	@Query("select p from ProductInstanceGroup p "
+	@Query("select distinct p from ProductInstanceGroup p "
 			+ "join fetch p.productInstances pp "
 			+ "left join fetch p.images ppi "
 			+ "left join fetch ppi.descriptions ppid "

@@ -87,7 +87,6 @@ public class ProductApi {
 	@Inject
 	private ProductCommonFacade productCommonFacade;
 
-
 	@Inject
 	@Qualifier("img")
 	private ImageFilePath imageUtils;

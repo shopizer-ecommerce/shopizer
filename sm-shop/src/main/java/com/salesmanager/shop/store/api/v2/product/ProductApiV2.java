@@ -1,13 +1,11 @@
 package com.salesmanager.shop.store.api.v2.product;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,7 +28,6 @@ import com.salesmanager.shop.model.entity.Entity;
 import com.salesmanager.shop.store.controller.product.facade.ProductCommonFacade;
 import com.salesmanager.shop.store.controller.product.facade.ProductDefinitionFacade;
 import com.salesmanager.shop.store.controller.product.facade.ProductFacade;
-import com.salesmanager.shop.utils.ImageFilePath;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -64,10 +61,6 @@ public class ProductApiV2 {
 	
 	@Autowired
 	private ProductCommonFacade productCommonFacade;
-
-	@Inject
-	@Qualifier("img")
-	private ImageFilePath imageUtils;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProductApiV2.class);
 

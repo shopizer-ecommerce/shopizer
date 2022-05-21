@@ -49,7 +49,7 @@ public class ProductInstanceGroup extends SalesManagerEntity<Long, ProductInstan
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="productInstanceGroup")
 	private List<ProductInstanceImage> images = new ArrayList<ProductInstanceImage>();
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "productInstanceGroup")
+	@OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH }, mappedBy = "productInstanceGroup")
 	private Set<ProductInstance> productInstances = new HashSet<ProductInstance>();
 	
 	@ManyToOne(fetch = FetchType.LAZY)

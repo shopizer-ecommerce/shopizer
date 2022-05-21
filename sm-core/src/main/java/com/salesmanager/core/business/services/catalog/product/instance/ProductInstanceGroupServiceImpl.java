@@ -1,5 +1,6 @@
 package com.salesmanager.core.business.services.catalog.product.instance;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,8 @@ public class ProductInstanceGroupServiceImpl extends SalesManagerEntityServiceIm
 
 	@Override
 	public Optional<ProductInstanceGroup> getById(Long id, MerchantStore store) {
-		return productInstanceGroupRepository.findOne(id, store.getCode());
+		return  productInstanceGroupRepository.findOne(id, store.getCode());
+
 	}
 
 	@Override

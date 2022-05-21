@@ -3,19 +3,24 @@ package com.salesmanager.shop.mapper.catalog.product;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.inject.Inject;
+
 import org.jsoup.helper.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
 import com.salesmanager.core.model.catalog.product.instance.ProductInstanceGroup;
 import com.salesmanager.core.model.catalog.product.instance.ProductInstanceImage;
+import com.salesmanager.core.model.content.FileContentType;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
 import com.salesmanager.shop.model.catalog.product.ReadableImage;
 import com.salesmanager.shop.model.catalog.product.product.instance.ReadableProductInstance;
 import com.salesmanager.shop.model.catalog.product.product.instanceGroup.ReadableProductInstanceGroup;
+import com.salesmanager.shop.utils.ImageFilePath;
 
 @Component
 public class ReadableProductInstanceGroupMapper implements Mapper<ProductInstanceGroup, ReadableProductInstanceGroup> {
@@ -23,6 +28,10 @@ public class ReadableProductInstanceGroupMapper implements Mapper<ProductInstanc
 	
 	@Autowired
 	private ReadableProductInstanceMapper readableProductInstanceMapper;
+	
+	@Inject
+	@Qualifier("img")
+	private ImageFilePath imageUtils;
 	
 	@Override
 	public ReadableProductInstanceGroup convert(ProductInstanceGroup source, MerchantStore store, Language language) {
@@ -42,14 +51,16 @@ public class ReadableProductInstanceGroupMapper implements Mapper<ProductInstanc
 			destination = new ReadableProductInstanceGroup();
 		}
 		
+		destination.setId(source.getId());
+		
 		Set<ProductInstance> instances = source.getProductInstances();
 		destination.setProductInstances(instances.stream().map(i -> this.instance(i, store, language)).collect(Collectors.toList()));
-
 		
-		//transform images
+		//image id should be unique in the list
 		
+		destination.setImages(source.getImages().stream().map(i -> this.image(i, store, language)).collect(Collectors.toList()));
 		
-		return null;
+		return destination;
 	}
 	
 	private ReadableProductInstance instance(ProductInstance instance, MerchantStore store, Language language) {
@@ -62,7 +73,8 @@ public class ReadableProductInstanceGroupMapper implements Mapper<ProductInstanc
 		ReadableImage readable = new ReadableImage();
 		readable.setId(img.getId());
 		readable.setImageName(img.getProductImage());
-		
+		readable.setImageUrl(imageUtils.buildCustomTypeImageUtils(store, img.getProductImage(), FileContentType.INSTANCE));
+		//readable.setDefaultImage(false);
 		
 		return readable;
 	}

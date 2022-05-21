@@ -147,6 +147,7 @@ public class LocalImageFilePathUtils extends AbstractimageFilePath{
 		return new StringBuilder().append(getBasePath(store)).append(Constants.FILES_URI).append(Constants.SLASH).append(store.getCode()).append("/").append(FileContentType.PROPERTY).append("/")
 				.append(imageName).toString();
 	}
+
 	
 	@Override
 	public String getContextPath() {

@@ -2,19 +2,23 @@ package com.salesmanager.shop.store.facade.product;
 
 import static com.salesmanager.shop.util.ReadableEntityUtil.createReadableList;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.jsoup.helper.Validate;
+import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.product.instance.ProductInstanceService;
+import com.salesmanager.core.business.services.catalog.product.variation.ProductVariationService;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
+import com.salesmanager.core.model.catalog.product.variation.ProductVariation;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.catalog.product.PersistableProductInstanceMapper;
@@ -23,6 +27,7 @@ import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.catalog.product.product.instance.PersistableProductInstance;
 import com.salesmanager.shop.model.catalog.product.product.instance.ReadableProductInstance;
 import com.salesmanager.shop.model.entity.ReadableEntityList;
+import com.salesmanager.shop.store.api.exception.ConstraintException;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.controller.product.facade.ProductCommonFacade;
@@ -48,6 +53,10 @@ public class ProductInstanceFacadeImpl implements ProductInstanceFacade {
 	@Autowired
 	private ProductInstanceService productInstanceService;
 	
+	
+	@Autowired
+	private ProductVariationService productVariationService;
+	
 	@Autowired
 	private ProductFacade productFacade;
 	
@@ -59,7 +68,7 @@ public class ProductInstanceFacadeImpl implements ProductInstanceFacade {
 		Optional<ProductInstance> productInstance =  this.getProductInstance(instanceId, productId, store);
 		
 		if(productInstance.isEmpty()) {
-			throw new ResourceNotFoundException("Product instance + [" + instanceId + "] not found for store + [" + store.getCode() + "]");
+			throw new ResourceNotFoundException("Product instance + [" + instanceId + "] not found for store [" + store.getCode() + "]");
 		}
 		
 		
@@ -87,6 +96,25 @@ public class ProductInstanceFacadeImpl implements ProductInstanceFacade {
 		Validate.notNull(store, "MerchantStore cannot be null");
 		Validate.notNull(productInstance, "ProductInstance cannot be null");
 		Validate.notNull(productId, "Product id cannot be null");
+	
+		
+		//variation and variation value should not be of same product option code
+		if(
+			productInstance.getVariant() != null && productInstance.getVariant().longValue() > 0 &&
+			productInstance.getVariantValue() != null &&  productInstance.getVariantValue().longValue() > 0) 
+		{
+
+			List<ProductVariation> variations = productVariationService.getByIds(Arrays.asList(productInstance.getVariant(),productInstance.getVariantValue()), store);
+			
+			boolean differentOption = variations.stream().map(i -> i.getProductOption().getCode()).distinct().count() > 1;
+
+			if(!differentOption) {
+				throw new ConstraintException("Product option of instance.variant and instance.variantValue must be different");
+			}
+
+		}
+		
+		
 		productInstance.setProductId(productId);
 		productInstance.setId(null);
 		ProductInstance instance = persistableProductInstanceMapper.convert(productInstance, store, language);

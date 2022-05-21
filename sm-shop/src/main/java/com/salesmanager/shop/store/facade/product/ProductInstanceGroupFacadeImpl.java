@@ -16,7 +16,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.product.instance.ProductInstanceGroupService;
 import com.salesmanager.core.business.services.catalog.product.instance.ProductInstanceImageService;
+import com.salesmanager.core.business.services.catalog.product.instance.ProductInstanceService;
 import com.salesmanager.core.business.services.content.ContentService;
+import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
 import com.salesmanager.core.model.catalog.product.instance.ProductInstanceGroup;
 import com.salesmanager.core.model.catalog.product.instance.ProductInstanceImage;
 import com.salesmanager.core.model.content.FileContentType;
@@ -38,6 +40,9 @@ public class ProductInstanceGroupFacadeImpl implements ProductInstanceGroupFacad
 	
 	@Autowired
 	private ProductInstanceGroupService productInstanceGroupService;
+	
+	@Autowired
+	private ProductInstanceService productInstanceService;
 	
 	@Autowired
 	private ProductInstanceImageService productInstanceImageService;
@@ -90,8 +95,29 @@ public class ProductInstanceGroupFacadeImpl implements ProductInstanceGroupFacad
 	@Override
 	public void delete(Long productInstanceGroup, Long productId, MerchantStore store) {
 		
+
+		
 		ProductInstanceGroup group = this.group(productInstanceGroup, store);
+		
+		if(group == null) {
+			throw new ResourceNotFoundException("Product instance group [" + group.getId() + " not found for store [" + store.getCode() + "]");
+		}
+		
 		try {
+		
+			//null all group from instances
+			for(ProductInstance instance : group.getProductInstances()) {
+				Optional<ProductInstance> p = productInstanceService.getById(instance.getId(), store);
+				if(p.isEmpty()) {
+					throw new ResourceNotFoundException("Product instance [" + instance.getId() + " not found for store [" + store.getCode() + "]");
+				}
+				instance.setProductInstanceGroup(null);
+				productInstanceService.save(instance);
+			}
+			
+
+
+			//now delete
 			productInstanceGroupService.delete(group);
 		} catch (ServiceException e) {
 			throw new ServiceRuntimeException("Cannot remove product instance group [" + productInstanceGroup + "] for store [" + store.getCode() + "]");

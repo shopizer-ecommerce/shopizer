@@ -1,5 +1,6 @@
 package com.salesmanager.core.business.services.catalog.product.variation;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.inject.Inject;
@@ -14,7 +15,6 @@ import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.repositories.catalog.product.variation.PageableProductVariationRepository;
 import com.salesmanager.core.business.repositories.catalog.product.variation.ProductVariationRepository;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
-import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValue;
 import com.salesmanager.core.model.catalog.product.variation.ProductVariation;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
@@ -51,9 +51,6 @@ public class ProductVariationServiceImpl extends
 
 
 
-
-
-
 	@Override
 	public Page<ProductVariation> getByMerchant(MerchantStore store, Language language, String code, int page,
 			int count) {
@@ -68,8 +65,7 @@ public class ProductVariationServiceImpl extends
 	
 	@Override
 	public void saveOrUpdate(ProductVariation entity) throws ServiceException {
-		
-		
+
 		//save or update (persist and attach entities
 		if(entity.getId()!=null && entity.getId()>0) {
 
@@ -81,6 +77,11 @@ public class ProductVariationServiceImpl extends
 			
 		}
 		
+	}
+
+	@Override
+	public List<ProductVariation> getByIds(List<Long> ids, MerchantStore store) {
+		return productVariationRepository.findByIds(store.getId(), ids);
 	}
 
 
