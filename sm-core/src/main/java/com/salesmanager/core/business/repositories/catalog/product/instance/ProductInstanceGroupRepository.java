@@ -20,7 +20,7 @@ public interface ProductInstanceGroupRepository extends JpaRepository<ProductIns
 	
 	
 	@Query("select distinct p from ProductInstanceGroup p "
-			+ "join fetch p.productInstances pp "
+			+ "left join fetch p.productInstances pp "
 			+ "left join fetch p.images ppi "
 			+ "left join fetch ppi.descriptions ppid "
 			+ "join fetch pp.product ppp "
@@ -29,7 +29,7 @@ public interface ProductInstanceGroupRepository extends JpaRepository<ProductIns
 	Optional<ProductInstanceGroup> finByProductInstance(Long productInstanceId, String storeCode);
 	
 	@Query("select distinct p from ProductInstanceGroup p "
-			+ "join fetch p.productInstances pp "
+			+ "left join fetch p.productInstances pp "
 			+ "left join fetch p.images ppi "
 			+ "left join fetch ppi.descriptions ppid "
 			+ "join fetch pp.product ppp "

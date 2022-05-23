@@ -1,17 +1,31 @@
 package com.salesmanager.shop.mapper.catalog.product;
 
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import javax.inject.Inject;
+
 import org.jsoup.helper.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
+import com.salesmanager.core.model.catalog.product.instance.ProductInstanceImage;
+import com.salesmanager.core.model.content.FileContentType;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
 import com.salesmanager.shop.mapper.catalog.ReadableProductVariationMapper;
+import com.salesmanager.shop.model.catalog.product.ReadableImage;
 import com.salesmanager.shop.model.catalog.product.product.instance.ReadableProductInstance;
+import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.utils.DateUtil;
+import com.salesmanager.shop.utils.ImageFilePath;
 
 @Component
 public class ReadableProductInstanceMapper implements Mapper<ProductInstance, ReadableProductInstance> {
@@ -19,6 +33,10 @@ public class ReadableProductInstanceMapper implements Mapper<ProductInstance, Re
 	
 	@Autowired
 	private ReadableProductVariationMapper readableProductVariationMapper;
+	
+	@Inject
+	@Qualifier("img")
+	private ImageFilePath imagUtils;
 
 	@Override
 	public ReadableProductInstance convert(ProductInstance source, MerchantStore store, Language language) {
@@ -46,13 +64,38 @@ public class ReadableProductInstanceMapper implements Mapper<ProductInstance, Re
 		destination.setSku(source.getSku());
 		destination.setSortOrder(source.getSortOrder());
 		destination.setCode(source.getCode());
+		
+		//get product
+		Product baseProduct = source.getProduct();
+		if(baseProduct == null) {
+			throw new ResourceNotFoundException("Product instances do not include the parent product [" + destination.getSku() + "]");
+		}
+		
+		destination.setProductShipeable(baseProduct.isProductShipeable());
+		
 		//destination.setStore(null);
 		destination.setStore(store.getCode());
 		destination.setVariant(readableProductVariationMapper.convert(source.getVariant(), store, language));
 		destination.setVariantValue(readableProductVariationMapper.convert(source.getVariantValue(), store, language));
-		
 
+		if(source.getProductInstanceGroup() != null) {
+			Set<String> nameSet = new HashSet<>();
+			List<ReadableImage> instanceImages = source.getProductInstanceGroup().getImages().stream().map(i -> this.image(i, store, language))
+					.filter(e -> nameSet.add(e.getImageUrl()))
+					.collect(Collectors.toList());
+			destination.setImages(instanceImages);
+		}
+		
 		return destination;
+	}
+	
+	private ReadableImage image(ProductInstanceImage instanceImage, MerchantStore store, Language language) {
+		ReadableImage img = new ReadableImage();
+		img.setDefaultImage(instanceImage.isDefaultImage());
+		img.setId(instanceImage.getId());
+		img.setImageName(instanceImage.getProductImage());
+		img.setImageUrl(imagUtils.buildCustomTypeImageUtils(store, img.getImageName(), FileContentType.INSTANCE));
+		return img;
 	}
 
 }

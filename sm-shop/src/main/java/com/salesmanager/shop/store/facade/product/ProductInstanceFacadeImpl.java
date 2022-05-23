@@ -2,7 +2,6 @@ package com.salesmanager.shop.store.facade.product;
 
 import static com.salesmanager.shop.util.ReadableEntityUtil.createReadableList;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;

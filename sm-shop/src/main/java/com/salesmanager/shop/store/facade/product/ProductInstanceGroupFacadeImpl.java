@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.product.instance.ProductInstanceGroupService;
 import com.salesmanager.core.business.services.catalog.product.instance.ProductInstanceImageService;
@@ -130,7 +131,7 @@ public class ProductInstanceGroupFacadeImpl implements ProductInstanceGroupFacad
 			int page, int count) {
 		
 		
-		Page<ProductInstanceGroup> groups = productInstanceGroupService.getByProductId(store, null, language, page, count);
+		Page<ProductInstanceGroup> groups = productInstanceGroupService.getByProductId(store, productId, language, page, count);
 		
 		
 		
@@ -176,6 +177,7 @@ public class ProductInstanceGroupFacadeImpl implements ProductInstanceGroupFacad
 			cmsContentImage.setFileName(imageName);
 			cmsContentImage.setMimeType(image.getContentType());
 			cmsContentImage.setFile(inputStream);
+			cmsContentImage.setPath(Constants.SLASH + store.getCode() + Constants.SLASH + productOptionGroupId);
 			cmsContentImage.setFileContentType(FileContentType.INSTANCE);
 
 			contentService.addContentFile(store.getCode(), cmsContentImage);
@@ -192,9 +194,9 @@ public class ProductInstanceGroupFacadeImpl implements ProductInstanceGroupFacad
 	}
 
 	@Override
-	public void removeImage(Long imageId, Long productOptionGroupId, MerchantStore store) {
+	public void removeImage(Long imageId, Long productInstanceGroupId, MerchantStore store) {
 		
-		Validate.notNull(productOptionGroupId,"productOptionGroupId must not be null");
+		Validate.notNull(productInstanceGroupId,"productInstanceGroupId must not be null");
 		Validate.notNull(store,"MerchantStore must not be null");
 		
 		ProductInstanceImage image = productInstanceImageService.getById(imageId);
@@ -203,11 +205,11 @@ public class ProductInstanceGroupFacadeImpl implements ProductInstanceGroupFacad
 			throw new ResourceNotFoundException("ProductInstanceImage [" + imageId + "] was not found");
 		}
 		
-		ProductInstanceGroup group = this.group(productOptionGroupId, store);
+		ProductInstanceGroup group = this.group(productInstanceGroupId, store);
 
 		
 		try {
-			contentService.removeFile(store.getCode(), FileContentType.INSTANCE, image.getProductImage());
+			contentService.removeFile(Constants.SLASH + store.getCode() + Constants.SLASH + productInstanceGroupId, FileContentType.INSTANCE, image.getProductImage());
 			group.getImages().removeIf(i -> (i.getId() == image.getId()));
 			//update productinstanceroup
 			productInstanceGroupService.update(group);

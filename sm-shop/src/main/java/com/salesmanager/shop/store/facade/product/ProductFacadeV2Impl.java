@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
@@ -96,7 +95,6 @@ public class ProductFacadeV2Impl implements ProductFacade {
 		
 		
 		//the above get all possible images
-		
 		List<ReadableProductInstance> readableInstances = instances.stream().map(p -> this.productInstance(p, store, language)).collect(Collectors.toList());
 		
 		readableProduct.setVariants(readableInstances);

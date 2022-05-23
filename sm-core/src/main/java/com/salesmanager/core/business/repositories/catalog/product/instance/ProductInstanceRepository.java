@@ -89,7 +89,12 @@ public interface ProductInstanceRepository extends JpaRepository<ProductInstance
 	Optional<ProductInstance> findBySku(String code, Long productId, Integer storeId, Integer languageId);
 	
 	
-
+	/**
+	 * Gets the whole graph
+	 * @param storeId
+	 * @param productId
+	 * @return
+	 */
 	@Query(value = "select p from ProductInstance as p " 
 			+ "join fetch p.product pr " 
 			+ "left join fetch p.variant pv "
@@ -103,6 +108,9 @@ public interface ProductInstanceRepository extends JpaRepository<ProductInstance
 			+ "left join fetch pvv.productOptionValue pvvpov " 
 			+ "left join fetch pvvpo.descriptions povvpod "
 			+ "left join fetch pvpov.descriptions pvpovd "
+			+ "left join fetch p.productInstanceGroup pig "
+			+ "left join fetch pig.images pigi "
+			+ "left join fetch pigi.descriptions pigid "
 
 			+ "left join fetch pv.merchantStore pvm " 
 			+ "where pr.id = ?2 and pvm.id = ?1")
@@ -136,23 +144,5 @@ public interface ProductInstanceRepository extends JpaRepository<ProductInstance
 	List<ProductInstance> findByProduct(Long productId, Integer storeId, Integer languageId);
 	**/
 	
-	/*
-	 * @Query("select p from ProductAttribute p join fetch p.product pr left join fetch p.productOption po left join fetch p.productOptionValue pov left join fetch po.descriptions pod left join fetch pov.descriptions povd left join fetch po.merchantStore pom where pom.id = ?1 and po.id = ?2"
-	 * ) List<ProductAttribute> findByOptionId(Integer storeId, Long id);
-	 * 
-	 * @Query("select distinct p from ProductAttribute p join fetch p.product pr left join fetch p.productOption po left join fetch p.productOptionValue pov left join fetch po.descriptions pod left join fetch pov.descriptions povd left join fetch po.merchantStore pom where pom.id = ?1 and po.id = ?2"
-	 * ) List<ProductAttribute> findByOptionValueId(Integer storeId, Long id);
-	 * 
-	 * @Query("select distinct p from ProductAttribute p join fetch p.product pr left join fetch p.productOption po left join fetch p.productOptionValue pov left join fetch po.descriptions pod left join fetch pov.descriptions povd left join fetch pov.merchantStore povm where povm.id = ?1 and pr.id = ?2 and p.id in ?3"
-	 * ) List<ProductAttribute> findByAttributeIds(Integer storeId, Long productId,
-	 * List<Long> ids);
-	 * 
-	 * @Query("select distinct p from ProductAttribute p join fetch p.product pr left join fetch p.productOption po left join fetch p.productOptionValue pov left join fetch po.descriptions pod left join fetch pov.descriptions povd left join fetch po.merchantStore pom where pom.id = ?1"
-	 * ) List<ProductAttribute> findByProductId(Integer storeId, Long productId);
-	 * 
-	 * @Query(
-	 * value="select distinct p from ProductAttribute p join fetch p.product pr left join fetch pr.categories prc left join fetch p.productOption po left join fetch p.productOptionValue pov left join fetch po.descriptions pod left join fetch pov.descriptions povd left join fetch po.merchantStore pom where pom.id = ?1 and prc.id IN (select c.id from Category c where c.lineage like ?2% and povd.language.id = ?3)"
-	 * ) List<ProductAttribute> findOptionsByCategoryLineage(Integer storeId, String
-	 * lineage, Integer languageId);
-	 */
+
 }

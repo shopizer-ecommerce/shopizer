@@ -24,6 +24,9 @@ public interface PageableProductInstanceRepositoty extends PagingAndSortingRepos
 			+ "left join fetch pvv.productOptionValue pvvpov " 
 			+ "left join fetch pvvpo.descriptions povvpod "
 			+ "left join fetch pvpov.descriptions pvpovd "
+			+ "left join fetch p.productInstanceGroup pig "
+			+ "left join fetch pig.images pigi "
+			+ "left join fetch pigi.descriptions pigid "
 
 			+ "left join fetch pr.merchantStore prm " + "where pr.id = ?2 and prm.id = ?1",
 			countQuery = "select p from ProductInstance p "
