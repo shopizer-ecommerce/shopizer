@@ -12,6 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -36,7 +37,13 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.utils.CloneUtils;
 
 @Entity
-@Table(name = "PRODUCT_AVAILABILITY")
+@Table(name = "PRODUCT_AVAILABILITY",
+indexes = 
+	{ 
+		@Index(name="PRD_AVAIL_STORE_PRD_IDX", columnList = "PRODUCT_ID,MERCHANT_ID"),
+		@Index(name="PRD_AVAIL_PRD_IDX", columnList = "PRODUCT_ID")
+	}
+)
 public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailability> implements Auditable {
 
 	/**

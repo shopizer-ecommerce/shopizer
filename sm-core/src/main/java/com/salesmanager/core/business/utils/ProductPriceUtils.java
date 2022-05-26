@@ -54,6 +54,7 @@ public class ProductPriceUtils {
 	 * @param locale
 	 * @return
 	 */
+	//Pricer
 	public BigDecimal getPrice(MerchantStore store, Product product, Locale locale) {
 		
 		BigDecimal defaultPrice = new BigDecimal(0);
@@ -83,6 +84,7 @@ public class ProductPriceUtils {
 	 * @param List<ProductAttribute>
 	 * @return FinalPrice
 	 */
+	//Pricer
 	public FinalPrice getFinalProductPrice(Product product, List<ProductAttribute> attributes) {
 
 
@@ -118,9 +120,7 @@ public class ProductPriceUtils {
 			}
 		}
 		
-
 		return finalPrice;
-
 	}
 
 	
@@ -133,9 +133,8 @@ public class ProductPriceUtils {
 	 * @param locale
 	 * @return
 	 */
+	//Pricer
 	public FinalPrice getFinalPrice(Product product) {
-
-
 
 		FinalPrice finalPrice = calculateFinalPrice(product);
 		
@@ -165,7 +164,6 @@ public class ProductPriceUtils {
 		}
 		
 		finalPrice.setStringPrice(this.getStringAmount(finalPrice.getFinalPrice()));
-
 		return finalPrice;
 
 	}
@@ -185,6 +183,7 @@ public class ProductPriceUtils {
 	 * @return
 	 * @throws Exception
 	 */
+	@Deprecated
 	public String getAdminFormatedAmount(MerchantStore store, BigDecimal amount) throws Exception {
 			
 		if(amount==null) {
@@ -201,6 +200,7 @@ public class ProductPriceUtils {
 		return nf.format(amount);
 	}
 	
+	//Utility
 	public String getStringAmount(BigDecimal amount) {
 		
 		if(amount==null) {
@@ -231,6 +231,7 @@ public class ProductPriceUtils {
 	 * @return String
 	 * @throws Exception
 	 */
+	//Utility
 	public String getStoreFormatedAmountWithCurrency(MerchantStore store, BigDecimal amount) throws Exception {
 		if(amount==null) {
 			return "";
@@ -242,7 +243,6 @@ public class ProductPriceUtils {
 		Locale locale = Constants.DEFAULT_LOCALE; 
 		
 		try {
-
 			currency = store.getCurrency().getCurrency();
 			locale = new Locale(store.getDefaultLanguage().getCode(),store.getCountry().getIsoCode());
 		} catch (Exception e) {
@@ -266,7 +266,7 @@ public class ProductPriceUtils {
 
     }
 	
-	
+	//Utility
 	public String getFormatedAmountWithCurrency(Locale locale, com.salesmanager.core.model.reference.currency.Currency currency, BigDecimal amount) throws Exception {
 		if(amount==null) {
 			return "";
@@ -290,17 +290,14 @@ public class ProductPriceUtils {
 	 * @return
 	 * @throws Exception
 	 */
+	@Deprecated
 	public String getAdminFormatedAmountWithCurrency(MerchantStore store, BigDecimal amount) throws Exception {
 		if(amount==null) {
 			return "";
 		}
-		
-		
-		
-		
+				
 		NumberFormat nf = null;
 
-		
 		Currency currency = store.getCurrency().getCurrency();
 		nf = NumberFormat.getInstance(Constants.DEFAULT_LOCALE);
 		nf.setMaximumFractionDigits(Integer.parseInt(Character
@@ -321,13 +318,13 @@ public class ProductPriceUtils {
 	 * @return
 	 * @throws Exception
 	 */
+	//Utility
 	public String getFormatedAmountWithCurrency(com.salesmanager.core.model.reference.currency.Currency currency, BigDecimal amount) throws Exception {
 		if(amount==null) {
 			return "";
 		}
 		
 		Validate.notNull(currency.getCurrency(),"Currency must be populated with java.util.Currency");
-		
 		NumberFormat nf = null;
 
 		
@@ -351,6 +348,7 @@ public class ProductPriceUtils {
 	 * @return
 	 * @throws Exception
 	 */
+	//Utility
 	public String getFormatedAmountWithCurrency(MerchantStore store, BigDecimal amount, Locale locale)
 				throws Exception {
 		
@@ -379,6 +377,7 @@ public class ProductPriceUtils {
 	 * @return
 	 * @throws Exception
 	 */
+	//Utility
 	public BigDecimal getAmount(String amount) throws Exception {
 
 		// validations
@@ -452,6 +451,7 @@ public class ProductPriceUtils {
 
 	}
 	
+	//Move to OrderTotalService
 	public BigDecimal getOrderProductTotalPrice(MerchantStore store, OrderProduct orderProduct) {
 		
 		BigDecimal finalPrice = orderProduct.getOneTimeCharge();
@@ -464,6 +464,7 @@ public class ProductPriceUtils {
 	 * @param productPrice
 	 * @return
 	 */
+	//discounter
 	public boolean hasDiscount(ProductPrice productPrice) {
 		
 		
@@ -487,9 +488,6 @@ public class ProductPriceUtils {
 		}
 		
 		return hasDiscount;
-		
-		
-		
 	}
 	
 	private boolean matchPositiveInteger(String amount) {

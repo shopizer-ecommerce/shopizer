@@ -30,5 +30,33 @@ public interface PageableProductAvailabilityRepository extends PagingAndSortingR
       + "and (?3 is null or pm.code like %?3%)")
   Page<ProductAvailability> listByStore(Long productId, Integer storeId, String child, Pageable pageable);
 
+ 
+  @Query(value = "select distinct p from ProductAvailability p "
+	      + "left join fetch p.merchantStore pm "
+	      + "left join fetch p.prices pp "
+	      + "left join fetch pp.descriptions ppd "
+	      + "left join fetch p.merchantStore pm "
+	      + "join fetch p.product ppr "
+	      + "left join fetch ppr.merchantStore pprm "
+	      + "where pm.id=?1 ",
+	      countQuery = "select  count(p) from ProductAvailability p "
+	      + "join p.merchantStore pm "
+	      + "where pm.id=?1 ")
+  Page<ProductAvailability> listByStore(Integer storeId, Pageable pageable);
+  
+  
+  @Query(value = "select distinct p from ProductAvailability p "
+	      + "left join fetch p.merchantStore pm "
+	      + "left join fetch p.prices pp "
+	      + "left join fetch pp.descriptions ppd "
+	      + "left join fetch p.merchantStore pm "
+	      + "join fetch p.product ppr "
+	      + "join fetch ppr.merchantStore pprm "
+	      + "where ppr.id=?1 ",
+	  countQuery = "select  count(p) from ProductAvailability p "
+	  + "join p.merchantStore pm "
+	  + "join p.product ppr "
+	  + "where ppr.id=?1 ")
+  Page<ProductAvailability> getByProductId(Long productId, Pageable pageable);
   
 }

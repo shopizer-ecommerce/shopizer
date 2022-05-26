@@ -7,6 +7,7 @@ import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.merchant.MerchantStore;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ProductAvailabilityService extends
@@ -16,7 +17,31 @@ public interface ProductAvailabilityService extends
 	
 	Page<ProductAvailability> listByProduct(Product product, MerchantStore store, String child, int page, int count);
 
+	/**
+	 * Get by product definition
+	 * Check the inventory of a product for a specific store
+	 * @param product
+	 * @param store
+	 * @return
+	 */
 	Optional<ProductAvailability> getByStore(Product product, MerchantStore store);
+	
+	
+	/**
+	 * Get by product sku and store
+	 * @param sku
+	 * @param store
+	 * @return
+	 */
+	List<ProductAvailability> getBySku(String sku, MerchantStore store);
+	
+	
+	/**
+	 * Get by sku
+	 * @param sku
+	 * @return
+	 */
+	List<ProductAvailability> getBySku(String sku);
 
 	Optional<ProductAvailability> getById(Long availabilityId, MerchantStore store);
 
