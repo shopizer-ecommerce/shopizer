@@ -231,8 +231,7 @@ public class ProductCommonFacadeImpl implements ProductCommonFacade {
 
 
 	@Override
-	public ReadableProduct addProductToCategory(Category category, Product product, Language language)
-			throws Exception {
+	public ReadableProduct addProductToCategory(Category category, Product product, Language language) {
 
 		Validate.notNull(category, "Category cannot be null");
 		Validate.notNull(product, "Product cannot be null");
@@ -247,16 +246,21 @@ public class ProductCommonFacadeImpl implements ProductCommonFacade {
 		}
 
 		product.getCategories().add(category);
-
-		productService.update(product);
-
 		ReadableProduct readableProduct = new ReadableProduct();
+		
+		try {
 
-		ReadableProductPopulator populator = new ReadableProductPopulator();
-
-		populator.setPricingService(pricingService);
-		populator.setimageUtils(imageUtils);
-		populator.populate(product, readableProduct, product.getMerchantStore(), language);
+			productService.update(product);
+	
+			ReadableProductPopulator populator = new ReadableProductPopulator();
+	
+			populator.setPricingService(pricingService);
+			populator.setimageUtils(imageUtils);
+			populator.populate(product, readableProduct, product.getMerchantStore(), language);
+		
+		} catch(Exception e) {
+			throw new RuntimeException("Exception when adding product [" + product.getId() + "] to category [" + category.getId() + "]",e);
+		}
 
 		return readableProduct;
 

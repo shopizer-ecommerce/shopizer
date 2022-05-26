@@ -1,5 +1,7 @@
 package com.salesmanager.shop.store.api.v1.product;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -9,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -144,6 +147,7 @@ public class ProductInventoryApi {
 
   }
   
+  //TODO remove store path
   @ResponseStatus(HttpStatus.OK)
   @RequestMapping(
       value = {"/private/product/{id}/inventory/store/{code}"},
@@ -162,6 +166,43 @@ public class ProductInventoryApi {
     
     
       return productInventoryFacade.get(id, code, language);
+
+  }
+  
+  @ResponseStatus(HttpStatus.OK)
+  @GetMapping(
+      value = {"/private/product/{sku}/inventory"})
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
+  public @ResponseBody List<ReadableInventory> getBySku(
+            @PathVariable String sku,
+            @ApiIgnore MerchantStore merchantStore,
+            @ApiIgnore Language language) {
+    
+    
+      return productInventoryFacade.get(sku, merchantStore, language);
+
+
+  }
+  
+  @ResponseStatus(HttpStatus.OK)
+  @GetMapping(
+      value = {"/private/product/{sku}/inventory/{code}"})
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+  })
+  public @ResponseBody List<ReadableInventory> getBySku(
+            @PathVariable String sku,
+            @PathVariable String code,
+            @ApiIgnore MerchantStore merchantStore,
+            @ApiIgnore Language language) {
+    
+    
+      return productInventoryFacade.get(sku, code, merchantStore, language);
+    		  
 
   }
 

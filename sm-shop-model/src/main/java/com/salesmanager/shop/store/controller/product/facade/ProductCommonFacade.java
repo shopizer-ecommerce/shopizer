@@ -127,10 +127,8 @@ public interface ProductCommonFacade {
 	   * @param category
 	   * @param product
 	   * @return
-	   * @throws Exception
 	   */
-	  ReadableProduct addProductToCategory(Category category, Product product, Language language)
-	      throws Exception;
+	  ReadableProduct addProductToCategory(Category category, Product product, Language language);
 
 	  /**
 	   * Removes item from a category

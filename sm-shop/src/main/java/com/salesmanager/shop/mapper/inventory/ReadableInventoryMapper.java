@@ -15,6 +15,7 @@ import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
+import com.salesmanager.shop.mapper.catalog.product.ReadableProductInstanceMapper;
 import com.salesmanager.shop.model.catalog.product.ReadableProductPrice;
 import com.salesmanager.shop.model.catalog.product.inventory.ReadableInventory;
 import com.salesmanager.shop.model.store.ReadableMerchantStore;
@@ -31,6 +32,10 @@ public class ReadableInventoryMapper implements Mapper<ProductAvailability, Read
   
   @Autowired
   private ReadableMerchantStorePopulator readableMerchantStorePopulator;
+  
+  
+  @Autowired
+  private ReadableProductInstanceMapper readableProductInstanceMapper;
 
   @Override
   public ReadableInventory convert(ProductAvailability source, MerchantStore store,
@@ -78,6 +83,10 @@ public class ReadableInventoryMapper implements Mapper<ProductAvailability, Read
       
       List<ReadableProductPrice> prices = prices(source, store, language);
       destination.setPrices(prices);
+      
+      if(source.getProductInstance() != null) {
+    	  destination.setInstance(readableProductInstanceMapper.convert(source.getProductInstance(), store, language));
+      }
 
 
       
