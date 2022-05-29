@@ -16,7 +16,7 @@ public class ProductDefinition extends Entity {
 	private static final long serialVersionUID = 1L;
 	private boolean visible = true;
 	private boolean shipeable = true;
-	private boolean virtual = true;
+	private boolean virtual = false;
 	private boolean canBePurchased = true;
 	private String dateAvailable;
 	private String identifier;

@@ -15,6 +15,7 @@ public class Product extends Entity implements Serializable {
 	private boolean productShipeable = false;
 
 	private boolean available;
+	private boolean visible = true;
 
 	private int sortOrder;
 	private String dateAvailable;
@@ -48,6 +49,12 @@ public class Product extends Entity implements Serializable {
 	}
 	public void setCreationDate(String creationDate) {
 		this.creationDate = creationDate;
+	}
+	public boolean isVisible() {
+		return visible;
+	}
+	public void setVisible(boolean visible) {
+		this.visible = visible;
 	}
 
 
