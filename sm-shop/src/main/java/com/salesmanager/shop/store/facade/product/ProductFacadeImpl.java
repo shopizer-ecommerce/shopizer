@@ -58,7 +58,6 @@ public class ProductFacadeImpl implements ProductFacade {
 	@Inject
 	private PricingService pricingService;
 
-
 	@Inject
 	private ProductRelationshipService productRelationshipService;
 
@@ -239,6 +238,7 @@ public class ProductFacadeImpl implements ProductFacade {
 		try {
 			Product model = productService.findOne(id, store);
 			
+			//TODO check if null
 			List<Long> attrinutesIds = priceRequest.getOptions().stream().map(p -> p.getId()).collect(Collectors.toList());
 			
 			List<ProductAttribute> attributes = productAttributeService.getByAttributeIds(store, model, attrinutesIds);      

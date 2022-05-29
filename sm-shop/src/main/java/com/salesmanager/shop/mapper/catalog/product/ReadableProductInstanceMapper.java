@@ -8,12 +8,14 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.jsoup.helper.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
 import com.salesmanager.core.model.catalog.product.instance.ProductInstanceImage;
 import com.salesmanager.core.model.content.FileContentType;
@@ -21,7 +23,9 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
 import com.salesmanager.shop.mapper.catalog.ReadableProductVariationMapper;
+import com.salesmanager.shop.mapper.inventory.ReadableInventoryMapper;
 import com.salesmanager.shop.model.catalog.product.ReadableImage;
+import com.salesmanager.shop.model.catalog.product.inventory.ReadableInventory;
 import com.salesmanager.shop.model.catalog.product.product.instance.ReadableProductInstance;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.utils.DateUtil;
@@ -33,6 +37,9 @@ public class ReadableProductInstanceMapper implements Mapper<ProductInstance, Re
 	
 	@Autowired
 	private ReadableProductVariationMapper readableProductVariationMapper;
+	
+	@Autowired
+	private ReadableInventoryMapper readableInventoryMapper;
 	
 	@Inject
 	@Qualifier("img")
@@ -86,6 +93,11 @@ public class ReadableProductInstanceMapper implements Mapper<ProductInstance, Re
 			destination.setImages(instanceImages);
 		}
 		
+		if(!CollectionUtils.isEmpty(source.getAvailabilities())) {
+			List<ReadableInventory> inventories = source.getAvailabilities().stream().map(i -> readableInventoryMapper.convert(i, store, language)).collect(Collectors.toList());
+			destination.setInventory(inventories);
+		}
+		
 		return destination;
 	}
 	
@@ -97,5 +109,6 @@ public class ReadableProductInstanceMapper implements Mapper<ProductInstance, Re
 		img.setImageUrl(imagUtils.buildCustomTypeImageUtils(store, img.getImageName(), FileContentType.INSTANCE));
 		return img;
 	}
+
 
 }

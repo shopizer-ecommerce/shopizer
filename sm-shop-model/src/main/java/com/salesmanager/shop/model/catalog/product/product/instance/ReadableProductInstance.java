@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.salesmanager.shop.model.catalog.product.ReadableImage;
+import com.salesmanager.shop.model.catalog.product.inventory.ReadableInventory;
 import com.salesmanager.shop.model.catalog.product.variation.ReadableProductVariation;
 
 public class ReadableProductInstance extends ProductInstance {
@@ -14,6 +15,7 @@ public class ReadableProductInstance extends ProductInstance {
 	private ReadableProductVariation variantValue;
 	private String code;
 	private List<ReadableImage> images = new ArrayList<ReadableImage>();
+	private List<ReadableInventory> inventory = new ArrayList<ReadableInventory>();
 	
 	public ReadableProductVariation getVariant() {
 		return variant;
@@ -38,6 +40,12 @@ public class ReadableProductInstance extends ProductInstance {
 	}
 	public void setCode(String code) {
 		this.code = code;
+	}
+	public List<ReadableInventory> getInventory() {
+		return inventory;
+	}
+	public void setInventory(List<ReadableInventory> inventory) {
+		this.inventory = inventory;
 	}
 
 }

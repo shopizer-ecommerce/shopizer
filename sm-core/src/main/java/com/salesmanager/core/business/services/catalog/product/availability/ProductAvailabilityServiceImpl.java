@@ -1,5 +1,17 @@
 package com.salesmanager.core.business.services.catalog.product.availability;
 
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
+import javax.inject.Inject;
+
+import org.apache.commons.lang3.Validate;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.repositories.catalog.product.availability.PageableProductAvailabilityRepository;
 import com.salesmanager.core.business.repositories.catalog.product.availability.ProductAvailabilityRepository;
@@ -7,17 +19,6 @@ import com.salesmanager.core.business.services.common.generic.SalesManagerEntity
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.merchant.MerchantStore;
-import org.apache.commons.lang3.Validate;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-
-import javax.inject.Inject;
-
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 /**
  * Availability -> Inventory
@@ -96,14 +97,22 @@ public class ProductAvailabilityServiceImpl extends SalesManagerEntityServiceImp
 	}
 
 	@Override
-	public List<ProductAvailability> getBySku(String sku, MerchantStore store) {
+	public Page<ProductAvailability> getBySku(String sku, MerchantStore store, int page, int count) {
 		Validate.notNull(store, "MerchantStore cannot be null");
-		return productAvailabilityRepository.getBySku(sku, store.getCode());
+		Pageable pageRequest = PageRequest.of(page, count);
+		return pageableProductAvailabilityRepository.getBySku(sku, store.getCode(), pageRequest);
 	}
 
 	@Override
-	public List<ProductAvailability> getBySku(String sku) {
-		return productAvailabilityRepository.getBySku(sku);
+	public Page<ProductAvailability> getBySku(String sku, int page, int count) {
+		Pageable pageRequest = PageRequest.of(page, count);
+		return pageableProductAvailabilityRepository.getBySku(sku, pageRequest);
+	}
+
+	@Override
+	public List<ProductAvailability> getBySku(String sku, MerchantStore store) {
+		Validate.notNull(store, "MerchantStore cannot be null");
+		return productAvailabilityRepository.getBySku(sku, store.getCode());
 	}
 
 }

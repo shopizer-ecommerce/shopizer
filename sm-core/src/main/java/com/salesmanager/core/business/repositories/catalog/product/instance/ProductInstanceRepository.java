@@ -95,7 +95,7 @@ public interface ProductInstanceRepository extends JpaRepository<ProductInstance
 	 * @param productId
 	 * @return
 	 */
-	@Query(value = "select p from ProductInstance as p " 
+	@Query(value = "select distinct p from ProductInstance as p " 
 			+ "join fetch p.product pr " 
 			+ "left join fetch p.variant pv "
 			+ "left join fetch pv.productOption pvpo " 
@@ -111,6 +111,8 @@ public interface ProductInstanceRepository extends JpaRepository<ProductInstance
 			+ "left join fetch p.productInstanceGroup pig "
 			+ "left join fetch pig.images pigi "
 			+ "left join fetch pigi.descriptions pigid "
+			
+			+ "left join fetch p.availabilities pa "
 
 			+ "left join fetch pv.merchantStore pvm " 
 			+ "where pr.id = ?2 and pvm.id = ?1")

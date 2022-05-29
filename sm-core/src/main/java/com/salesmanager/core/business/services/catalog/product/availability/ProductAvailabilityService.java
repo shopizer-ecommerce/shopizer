@@ -33,7 +33,7 @@ public interface ProductAvailabilityService extends
 	 * @param store
 	 * @return
 	 */
-	List<ProductAvailability> getBySku(String sku, MerchantStore store);
+	Page<ProductAvailability> getBySku(String sku, MerchantStore store, int page, int count);
 	
 	
 	/**
@@ -41,7 +41,15 @@ public interface ProductAvailabilityService extends
 	 * @param sku
 	 * @return
 	 */
-	List<ProductAvailability> getBySku(String sku);
+	Page<ProductAvailability> getBySku(String sku, int page, int count);
+	
+	/**
+	 * All availability by product / product instance sku and store
+	 * @param sku
+	 * @param store
+	 * @return
+	 */
+	List<ProductAvailability> getBySku(String sku, MerchantStore store);
 
 	Optional<ProductAvailability> getById(Long availabilityId, MerchantStore store);
 

@@ -1,7 +1,10 @@
 package com.salesmanager.core.model.catalog.product.instance;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -12,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
@@ -21,6 +25,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
 import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.variation.ProductVariation;
 import com.salesmanager.core.model.common.audit.AuditListener;
 import com.salesmanager.core.model.common.audit.AuditSection;
@@ -80,6 +85,9 @@ public class ProductInstance extends SalesManagerEntity<Long, ProductInstance> i
 	@ManyToOne(targetEntity = ProductInstanceGroup.class)
 	@JoinColumn(name = "PRODUCT_INSTANCE_GROUP_ID", nullable = true)
 	private ProductInstanceGroup productInstanceGroup;
+	
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="productInstance")
+	private Set<ProductAvailability> availabilities = new HashSet<ProductAvailability>();
 
 
 	@Override
@@ -179,6 +187,14 @@ public class ProductInstance extends SalesManagerEntity<Long, ProductInstance> i
 
 	public void setProductInstanceGroup(ProductInstanceGroup productInstanceGroup) {
 		this.productInstanceGroup = productInstanceGroup;
+	}
+
+	public Set<ProductAvailability> getAvailabilities() {
+		return availabilities;
+	}
+
+	public void setAvailabilities(Set<ProductAvailability> availabilities) {
+		this.availabilities = availabilities;
 	}
 
 

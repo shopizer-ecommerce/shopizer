@@ -1,7 +1,5 @@
 package com.salesmanager.shop.store.controller.product.facade;
 
-import java.util.List;
-
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.inventory.PersistableInventory;
@@ -16,11 +14,12 @@ public interface ProductInventoryFacade {
   
   ReadableInventory get(Long productId, Long inventoryId, MerchantStore store, Language language);
   
+  @Deprecated
   ReadableInventory get(Long productId, String child, Language language);
   
-  List<ReadableInventory> get(String sku, String merchantStore, MerchantStore store,Language language);
+  ReadableEntityList<ReadableInventory> get(String sku, String merchantStore, MerchantStore store,Language language, int page, int count);
   
-  List<ReadableInventory> get(String sku, MerchantStore store,Language language);
+  ReadableEntityList<ReadableInventory> get(String sku, MerchantStore store,Language language, int page, int count);
   
   ReadableInventory add(Long productId, PersistableInventory inventory, MerchantStore store, Language language);
   

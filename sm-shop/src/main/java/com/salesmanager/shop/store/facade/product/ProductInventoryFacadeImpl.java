@@ -100,7 +100,7 @@ public class ProductInventoryFacadeImpl implements ProductInventoryFacade {
 		ProductAvailability availability = productAvailabilityService.getByStore(product, store)
 				.orElseThrow(() -> new ResourceNotFoundException("Inventory with not found"));
 
-		return this.readableInventort(availability, store, language);
+		return this.readableInventory(availability, store, language);
 	}
 
 	private boolean isStoreParentNotExist(MerchantStore store) {
@@ -116,7 +116,7 @@ public class ProductInventoryFacadeImpl implements ProductInventoryFacade {
 		}
 	}
 	
-	private ReadableInventory readableInventort(ProductAvailability availability, MerchantStore store, Language language) {
+	private ReadableInventory readableInventory(ProductAvailability availability, MerchantStore store, Language language) {
 		return readableInventoryMapper.convert(availability, store, language);
 	}
 
@@ -195,28 +195,29 @@ public class ProductInventoryFacadeImpl implements ProductInventoryFacade {
 	}
 
 	@Override
-	public List<ReadableInventory> get(String sku, String merchantStore, MerchantStore store, Language language) {
+	public ReadableEntityList<ReadableInventory> get(String sku, String merchantStore, MerchantStore store, Language language, int page, int count) {
 		Validate.notNull(sku, "Product sku cannot be null");
 		Validate.notNull(merchantStore, "Merchant store code cannot be null");
 		Validate.notNull(store, "MerchantStore code cannot be null");
 		Validate.notNull(language, "Language cannot be null");
 		
-		List<ProductAvailability> availability = productAvailabilityService.getBySku(sku, store);
+		Page<ProductAvailability> availabilities = productAvailabilityService.getBySku(sku, store, page, count);
 		
-		return availability.stream().map(i -> this.readableInventort(i, store, language)).collect(Collectors.toList());
-
+		List<ReadableInventory> returnList = availabilities.getContent().stream().map(i -> this.readableInventory(i, store, language)).collect(Collectors.toList());
+		return createReadableList(availabilities, returnList);
 	}
 
 	@Override
-	public List<ReadableInventory> get(String sku, MerchantStore store, Language language) {
+	public ReadableEntityList<ReadableInventory> get(String sku, MerchantStore store, Language language, int page, int count) {
 		Validate.notNull(sku, "Product sku cannot be null");
 		Validate.notNull(store, "MerchantStore code cannot be null");
 		Validate.notNull(language, "Language cannot be null");
 		
-		List<ProductAvailability> availability = productAvailabilityService.getBySku(sku);
+		Page<ProductAvailability> availabilities = productAvailabilityService.getBySku(sku, page, count);
 		
-		return availability.stream().map(i -> this.readableInventort(i, store, language)).collect(Collectors.toList());
+		List<ReadableInventory> returnList = availabilities.getContent().stream().map(i -> this.readableInventory(i, store, language)).collect(Collectors.toList());
 
+		return createReadableList(availabilities, returnList);
 	}
 
 }

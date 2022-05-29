@@ -104,27 +104,40 @@ public class ProductInventoryApi {
 
   }
   
-  @ResponseStatus(HttpStatus.OK)
-  @RequestMapping(
-      value = {"/private/product/{id}/inventory"},
-      method = RequestMethod.GET)
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
-  })
-  public @ResponseBody
-  ReadableEntityList<ReadableInventory> get(
-            @PathVariable Long id,
-            @ApiIgnore MerchantStore merchantStore,
-            @ApiIgnore Language language,
-            @RequestParam(value = "child", required = false) String child,
-            @RequestParam(value = "page", required = false, defaultValue="0") Integer page,
-            @RequestParam(value = "count", required = false, defaultValue="10") Integer count) {
-    
-    
-      return productInventoryFacade.getInventory(id, merchantStore, child, language, page, count);
-
-  }
+	/*
+	 * @ResponseStatus(HttpStatus.OK)
+	 * 
+	 * @RequestMapping( value = {"/private/product/{id}/inventory"}, method =
+	 * RequestMethod.GET)
+	 * 
+	 * @ApiImplicitParams({
+	 * 
+	 * @ApiImplicitParam(name = "store", dataType = "String", defaultValue =
+	 * "DEFAULT"),
+	 * 
+	 * @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	 * public @ResponseBody ReadableEntityList<ReadableInventory> get(
+	 * 
+	 * @PathVariable Long id,
+	 * 
+	 * @ApiIgnore MerchantStore merchantStore,
+	 * 
+	 * @ApiIgnore Language language,
+	 * 
+	 * @RequestParam(value = "child", required = false) String child,
+	 * 
+	 * @RequestParam(value = "page", required = false, defaultValue="0") Integer
+	 * page,
+	 * 
+	 * @RequestParam(value = "count", required = false, defaultValue="10") Integer
+	 * count) {
+	 * 
+	 * 
+	 * return productInventoryFacade.getInventory(id, merchantStore, child,
+	 * language, page, count);
+	 * 
+	 * }
+	 */
   
   @ResponseStatus(HttpStatus.OK)
   @RequestMapping(
@@ -176,32 +189,36 @@ public class ProductInventoryApi {
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
   })
-  public @ResponseBody List<ReadableInventory> getBySku(
+  public @ResponseBody ReadableEntityList<ReadableInventory> getBySku(
             @PathVariable String sku,
             @ApiIgnore MerchantStore merchantStore,
-            @ApiIgnore Language language) {
+            @ApiIgnore Language language,
+			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+			@RequestParam(value = "count", required = false, defaultValue = "10") Integer count)  {
     
     
-      return productInventoryFacade.get(sku, merchantStore, language);
+      return productInventoryFacade.get(sku, merchantStore, language, page, count);
 
 
   }
   
   @ResponseStatus(HttpStatus.OK)
   @GetMapping(
-      value = {"/private/product/{sku}/inventory/{code}"})
+      value = {"/private/product/{sku}/inventory/store/{code}"})
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
   })
-  public @ResponseBody List<ReadableInventory> getBySku(
+  public @ResponseBody ReadableEntityList<ReadableInventory> getBySku(
             @PathVariable String sku,
             @PathVariable String code,
             @ApiIgnore MerchantStore merchantStore,
-            @ApiIgnore Language language) {
+            @ApiIgnore Language language,
+            @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+			@RequestParam(value = "count", required = false, defaultValue = "10") Integer count){
     
     
-      return productInventoryFacade.get(sku, code, merchantStore, language);
+      return productInventoryFacade.get(sku, code, merchantStore, language, page, count);
     		  
 
   }
