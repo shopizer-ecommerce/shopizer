@@ -57,10 +57,10 @@ jobs:
        - run: |
            docker login -u shopizerecomm -p $DOCKERHUB_PASSWORD
        - run: |
-           (cd sm-shop && docker build . -t shopizerecomm/shopizer:${CIRCLE_BRANCH})
+           (cd sm-shop && docker build . -t shopizerecomm/shopizer:latest)
        - run:
            name: push image
-           command: docker push shopizerecomm/shopizer:${CIRCLE_BRANCH}
+           command: docker push shopizerecomm/shopizer:latest
 
 # Orchestrate our job run sequence
 workflows:
