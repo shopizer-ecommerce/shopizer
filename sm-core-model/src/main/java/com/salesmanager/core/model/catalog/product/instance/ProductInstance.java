@@ -35,7 +35,9 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
 @Entity
 @EntityListeners(value = AuditListener.class)
 @Table(name = "PRODUCT_INSTANCE", 
-uniqueConstraints = @UniqueConstraint(columnNames = { "PRODUCT_ID",
+uniqueConstraints = 
+        @UniqueConstraint(columnNames = { 
+        "PRODUCT_ID",
 		"SKU" }))
 public class ProductInstance extends SalesManagerEntity<Long, ProductInstance> implements Auditable {
 	private static final long serialVersionUID = 1L;

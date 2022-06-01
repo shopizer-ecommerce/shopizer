@@ -17,6 +17,7 @@ public class PersistableShoppingCartItem implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private Long product;//product id
+	private String sku;
 	private int quantity;
 	private String promoCode;
 	public String getPromoCode() {
@@ -43,6 +44,12 @@ public class PersistableShoppingCartItem implements Serializable {
 	}
 	public void setAttributes(List<ProductAttribute> attributes) {
 		this.attributes = attributes;
+	}
+	public String getSku() {
+		return sku;
+	}
+	public void setSku(String sku) {
+		this.sku = sku;
 	}
 
 }

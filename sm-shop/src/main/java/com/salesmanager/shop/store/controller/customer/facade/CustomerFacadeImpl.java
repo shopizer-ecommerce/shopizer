@@ -283,6 +283,7 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
 
   @Override
+  //KEEP
   public Customer getCustomerByUserName(String userName, MerchantStore store){
 	 
 	  try {

@@ -17,6 +17,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
 import com.salesmanager.shop.model.catalog.product.product.instance.PersistableProductInstance;
+import com.salesmanager.shop.store.api.exception.OperationNotAllowedException;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.utils.DateUtil;
@@ -87,6 +88,10 @@ public class PersistableProductInstanceMapper implements Mapper<PersistableProdu
 
 		if(product.getMerchantStore().getId() != store.getId()) {
 			throw new ResourceNotFoundException("Product [" + source.getId() + "] + not found for store [" + store.getCode() + "]");
+		}
+		
+		if(product.getSku() != null && product.getSku().equals(source.getSku())) {
+			throw new OperationNotAllowedException("Product instance sku [" + source.getSku() + "] + must be different than product instance sku [" + product.getSku() + "]");
 		}
 		
 		destination.setProduct(product);

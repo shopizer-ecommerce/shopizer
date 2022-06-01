@@ -188,12 +188,13 @@ public class ShoppingCartModelPopulator
     }
 
    
-    private com.salesmanager.core.model.shoppingcart.ShoppingCartItem createCartItem( com.salesmanager.core.model.shoppingcart.ShoppingCart cart,
-                                                                                               ShoppingCartItem shoppingCartItem,
-                                                                                               MerchantStore store )
-        throws Exception
+    private com.salesmanager.core.model.shoppingcart.ShoppingCartItem createCartItem( 
+    		com.salesmanager.core.model.shoppingcart.ShoppingCart cart,                                                                                            
+    		ShoppingCartItem shoppingCartItem,                                                                                  
+    		MerchantStore store ) throws Exception
     {
 
+    	//TODO
         Product product = productService.getById( shoppingCartItem.getProductId() );
 
         if ( product == null )

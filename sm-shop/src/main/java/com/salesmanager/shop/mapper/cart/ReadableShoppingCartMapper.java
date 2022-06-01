@@ -111,13 +111,6 @@ public class ReadableShoppingCartMapper implements Mapper<ShoppingCart, Readable
 
 					readableMinimalProductMapper.merge(item.getProduct(), shoppingCartItem, store, language);
 
-					// ReadableProductPopulator readableProductPopulator = new
-					// ReadableProductPopulator();
-					// readableProductPopulator.setPricingService(pricingService);
-					// readableProductPopulator.setimageUtils(imageUtils);
-					// readableProductPopulator.populate(item.getProduct(), shoppingCartItem, store,
-					// language);
-
 					shoppingCartItem.setPrice(item.getItemPrice());
 					shoppingCartItem.setFinalPrice(pricingService.getDisplayAmount(item.getItemPrice(), store));
 

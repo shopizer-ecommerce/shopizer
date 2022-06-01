@@ -40,7 +40,7 @@ import com.salesmanager.shop.utils.ImageFilePath;
  *
  */
 
-
+@Deprecated
 public class ShoppingCartDataPopulator extends AbstractDataPopulator<ShoppingCart,ShoppingCartData>
 {
 

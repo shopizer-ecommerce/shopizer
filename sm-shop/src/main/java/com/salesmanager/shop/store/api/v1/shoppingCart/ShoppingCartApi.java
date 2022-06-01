@@ -120,7 +120,7 @@ public class ShoppingCartApi {
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
 	public ResponseEntity<ReadableShoppingCart> modifyCart(
-			@PathVariable String code,
+			@PathVariable String code,//shopping cart code
 			@PathVariable String promo,
 			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language, 
@@ -150,8 +150,10 @@ public class ShoppingCartApi {
 	@ApiOperation(httpMethod = "POST", value = "Add to an existing shopping cart or modify an item quantity", notes = "No customer ID in scope. Modify cart for non authenticated users, as simple as {\"product\":1232,\"quantity\":0} for instance will remove item 1234 from cart", produces = "application/json", response = ReadableShoppingCart.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public ResponseEntity<ReadableShoppingCart> modifyCart(@PathVariable String code,
-			@Valid @RequestBody PersistableShoppingCartItem[] shoppingCartItems, @ApiIgnore MerchantStore merchantStore,
+	public ResponseEntity<ReadableShoppingCart> modifyCart(
+			@PathVariable String code,
+			@Valid @RequestBody PersistableShoppingCartItem[] shoppingCartItems, 
+			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
 
 		try {

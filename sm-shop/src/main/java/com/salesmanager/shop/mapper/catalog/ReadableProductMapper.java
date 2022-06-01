@@ -30,6 +30,7 @@ import com.salesmanager.core.model.catalog.product.price.ProductPriceDescription
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
+import com.salesmanager.shop.mapper.catalog.product.ReadableProductInstanceMapper;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
 import com.salesmanager.shop.model.catalog.product.ProductSpecification;
@@ -42,6 +43,7 @@ import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOpti
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductProperty;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductPropertyValue;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValueEntity;
+import com.salesmanager.shop.model.catalog.product.product.instance.ReadableProductInstance;
 import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
 import com.salesmanager.shop.model.references.DimensionUnitOfMeasure;
 import com.salesmanager.shop.model.references.WeightUnitOfMeasure;
@@ -68,6 +70,9 @@ public class ReadableProductMapper implements Mapper<Product, ReadableProduct> {
 
 	@Autowired
 	private ReadableProductTypeMapper readableProductTypeMapper;
+	
+	@Autowired
+	private ReadableProductInstanceMapper readableProductInstanceMapper;
 
 	@Autowired
 	private ReadableManufacturerMapper readableManufacturerMapper;
@@ -223,12 +228,18 @@ public class ReadableProductMapper implements Mapper<Product, ReadableProduct> {
 				}
 			}
 		}
+		
+		//variants
+		if(!CollectionUtils.isEmpty(source.getInstances())) {
+			List<ReadableProductInstance> instances = source.getInstances().stream().map(i -> readableProductInstanceMapper.convert(i, store, language)).collect(Collectors.toList());
+			destination.setVariants(instances);
+		}
 
 		// availability
 		ProductAvailability availability = null;
 		for (ProductAvailability a : source.getAvailabilities()) {
 			// TODO validate region
-			// if(availability.getRegion().equals(Constants.ALL_REGIONS)) {//TODO REL 2.1
+			// if(availability.getRegion().equals(Constants.ALL_REGIONS)) {//TODO REL 3.X
 			// accept a region
 			availability = a;
 			destination.setQuantity(availability.getProductQuantity() == null ? 1 : availability.getProductQuantity());

@@ -63,7 +63,7 @@ import com.salesmanager.shop.utils.ImageFilePath;
 /**
  * @author Umesh Awasthi
  * @author Carl Samson
- * @version 2.0
+ * @version 3.2.0
  * @since 1.0
  */
 @Service( value = "shoppingCartFacade" )
@@ -114,9 +114,13 @@ public class ShoppingCartFacadeImpl
     	}
     }
 
-    @Override
+    //@Override
+    //REMOVE
     public ShoppingCartData addItemsToShoppingCart( final ShoppingCartData shoppingCartData,
-                                                    final ShoppingCartItem item, final MerchantStore store, final Language language,final Customer customer )
+                                                    final ShoppingCartItem item, 
+                                                    final MerchantStore store, 
+                                                    final Language language,
+                                                    final Customer customer )
         throws Exception
     {
 
@@ -175,7 +179,6 @@ public class ShoppingCartFacadeImpl
         }
 
         if(!duplicateFound) {
-        	//shoppingCartItem.getAttributes().stream().forEach(a -> {a.setProductAttributeId(productAttributeId);});
         	cartModel.getLineItems().add( shoppingCartItem );
         }
 
@@ -272,10 +275,11 @@ public class ShoppingCartFacadeImpl
     }
 
 
-    //used for api
+    //KEEP
 	private com.salesmanager.core.model.shoppingcart.ShoppingCartItem createCartItem(ShoppingCart cartModel,
 			 PersistableShoppingCartItem shoppingCartItem, MerchantStore store) throws Exception {
 
+		//USE Product or ProductAvailability from SKU
 		Product product = productService.getById(shoppingCartItem.getProduct());
 
 		if (product == null) {
@@ -479,7 +483,8 @@ public class ShoppingCartFacadeImpl
         return reqAttr.getRequest().getAttribute( key );
     }
 
-    @Override
+    //@Override
+    //DELETE
     public ShoppingCartData getShoppingCartData(final Customer customer, final MerchantStore store,
                                                  final String shoppingCartId, Language language)
         throws Exception
@@ -535,27 +540,10 @@ public class ShoppingCartFacadeImpl
         shoppingCartDataPopulator.setPricingService( pricingService );
         shoppingCartDataPopulator.setimageUtils(imageUtils);
 
-        //Language language = (Language) getKeyValue( Constants.LANGUAGE );
         MerchantStore merchantStore = (MerchantStore) getKeyValue( Constants.MERCHANT_STORE );
 
         ShoppingCartData shoppingCartData = shoppingCartDataPopulator.populate( cart, merchantStore, language );
 
-/*        List<ShoppingCartItem> unavailables = new ArrayList<ShoppingCartItem>();
-        List<ShoppingCartItem> availables = new ArrayList<ShoppingCartItem>();
-        //Take out items no more available
-        List<ShoppingCartItem> items = shoppingCartData.getShoppingCartItems();
-        for(ShoppingCartItem item : items) {
-        	String code = item.getProductCode();
-        	Product p =productService.getByCode(code, language);
-        	if(!p.isAvailable()) {
-        		unavailables.add(item);
-        	} else {
-        		availables.add(item);
-        	}
-
-        }
-        shoppingCartData.setShoppingCartItems(availables);
-        shoppingCartData.setUnavailables(unavailables);*/
 
         return shoppingCartData;
 
@@ -578,7 +566,8 @@ public class ShoppingCartFacadeImpl
         return shoppingCartDataPopulator.populate( shoppingCartModel, merchantStore, language );
     }
 
-	@Override
+	//@Override
+    //DELETE
     public ShoppingCartData removeCartItem( final Long itemID, final String cartId ,final MerchantStore store,final Language language )
         throws Exception
     {
@@ -618,7 +607,8 @@ public class ShoppingCartFacadeImpl
         return null;
     }
 
-    @Override
+    //@Override
+    //DELETE
     public ShoppingCartData updateCartItem( final Long itemID, final String cartId, final long newQuantity,final MerchantStore store, final Language language )
         throws Exception
     {
@@ -664,7 +654,8 @@ public class ShoppingCartFacadeImpl
 
 
     //TODO promoCode request parameter
-	@Override
+	//@Override
+    //DELETE
     public ShoppingCartData updateCartItems( Optional<String> promoCode, final List<ShoppingCartItem> shoppingCartItems, final MerchantStore store, final Language language )
             throws Exception
         {
@@ -748,7 +739,8 @@ public class ShoppingCartFacadeImpl
         return null;
     }
 
-	@Override
+	//@Override
+    //DELETE
 	public ShoppingCartData getShoppingCartData(String code, MerchantStore store, Language language) {
 		try {
 			ShoppingCart cartModel = shoppingCartService.getByCode( code, store );
@@ -809,6 +801,7 @@ public class ShoppingCartFacadeImpl
 	}
 
 	@Override
+	//KEEP ** ENTRY POINT **
 	public ReadableShoppingCart addToCart(PersistableShoppingCartItem item, MerchantStore store,
 			Language language) {
 
@@ -840,6 +833,7 @@ public class ShoppingCartFacadeImpl
 
 
 	@Override
+	//KEEP
 	public @Nullable ReadableShoppingCart removeShoppingCartItem(String cartCode, Long productId,
                                                 MerchantStore merchant, Language language, boolean returnCart) throws Exception {
 	    Validate.notNull(cartCode, "Shopping cart code must not be null");
@@ -932,6 +926,7 @@ public class ShoppingCartFacadeImpl
 	}
 	
 	@Override
+	//KEEP
 	public ReadableShoppingCart readableCart(ShoppingCart cart, MerchantStore store, Language language) {
         return readableShoppingCartMapper.convert(cart, store, language);
 
@@ -1031,6 +1026,7 @@ public class ShoppingCartFacadeImpl
      * @return
      * @throws Exception
      */
+	//KEEP
     private ReadableShoppingCart modifyCartMulti(ShoppingCart cartModel, List<PersistableShoppingCartItem> cartItems, MerchantStore store,
                                                  Language language) throws Exception {
 
@@ -1089,6 +1085,7 @@ public class ShoppingCartFacadeImpl
     }
 
 	@Override
+	//KEEP
 	public ReadableShoppingCart addToCart(Customer customer, PersistableShoppingCartItem item, MerchantStore store,
 			Language language) throws Exception {
 
@@ -1109,6 +1106,7 @@ public class ShoppingCartFacadeImpl
 	}
 
     @Override
+    //KEEP
     public ReadableShoppingCart modifyCart(String cartCode, PersistableShoppingCartItem item, MerchantStore store,
                                                 Language language) throws Exception {
 
@@ -1124,6 +1122,7 @@ public class ShoppingCartFacadeImpl
     }
 
     @Override
+    //KEEP
     public ReadableShoppingCart modifyCartMulti(String cartCode, List<PersistableShoppingCartItem> items, MerchantStore store, Language language) throws Exception {
         Validate.notNull(cartCode, "String cart code cannot be null");
         Validate.notNull(items, "PersistableShoppingCartItem cannot be null");
@@ -1166,6 +1165,7 @@ public class ShoppingCartFacadeImpl
 	}
 
 	@Override
+	//KEEP
 	public ReadableShoppingCart getByCode(String code, MerchantStore store, Language language) throws Exception {
 
 		ShoppingCart cart = shoppingCartService.getByCode(code, store);

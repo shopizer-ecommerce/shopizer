@@ -19,7 +19,7 @@ public class ShoppingCartItem extends ShopEntity implements Serializable {
 	private BigDecimal productPrice;
 	private int quantity;
 	private long productId;
-	private String productCode;
+	private String productCode;//sku
 	private String code;//shopping cart code
 	private boolean productVirtual;
 	

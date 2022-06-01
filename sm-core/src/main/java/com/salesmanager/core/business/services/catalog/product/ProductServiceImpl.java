@@ -263,8 +263,10 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		saveOrUpdate(product);
 		searchService.index(product.getMerchantStore(), product);
 	}
+	
+	
 
-	private void saveOrUpdate(Product product) throws ServiceException {
+	private Product saveOrUpdate(Product product) throws ServiceException {
 		LOGGER.debug("Save or update product ");
 		Validate.notNull(product, "product cannot be null");
 		Validate.notNull(product.getAvailabilities(), "product must have at least one availability");
@@ -333,10 +335,14 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 					}
 				}
 			}
+			
+
 
 		} catch (Exception e) {
 			LOGGER.error("Cannot save images " + e.getMessage());
 		}
+		
+		return product;
 
 	}
 
@@ -368,6 +374,21 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 	@Override
 	public Product getByCode(String productCode, MerchantStore merchant) {
 		return productRepository.getByCode(productCode, merchant);
+	}
+
+	@Override
+	public Product createProduct(Product product) throws ServiceException{
+		try {
+			return this.saveOrUpdate(product);
+		} catch (ServiceException e) {
+			throw new ServiceException("Cannot create product [" + product.getId() + "]", e);
+		}
+		
+	}
+
+	@Override
+	public Product getBySku(String productCode, MerchantStore merchant, Language language) {
+		return productRepository.getBySku(productCode, merchant, language);
 	}
 
 
