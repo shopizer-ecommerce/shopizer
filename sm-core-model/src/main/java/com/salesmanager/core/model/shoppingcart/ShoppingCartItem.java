@@ -56,8 +56,9 @@ public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem>
 	@Embedded
 	private AuditSection auditSection = new AuditSection();
 
+	@Deprecated //Use sku
 	@Column(name="PRODUCT_ID", nullable=false) 
-	private Long productId;
+    private Long productId;
 	
 	//SKU
 	@Column(name="SKU", nullable=true) 
@@ -69,6 +70,9 @@ public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem>
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "shoppingCartItem")
 	private Set<ShoppingCartAttributeItem> attributes = new HashSet<ShoppingCartAttributeItem>();
+	
+	@Column(name="PRODUCT_INSTANCE", nullable=true)
+	private Long productInstance;
 
 	@JsonIgnore
 	@Transient
@@ -132,8 +136,6 @@ public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem>
 
 	}
 
-
-
 	public void setAttributes(Set<ShoppingCartAttributeItem> attributes) {
 		this.attributes = attributes;
 	}
@@ -157,8 +159,6 @@ public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem>
 	public Integer getQuantity() {
 		return quantity;
 	}
-
-
 
 	public ShoppingCart getShoppingCart() {
 		return shoppingCart;
@@ -237,6 +237,14 @@ public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem>
 
 	public void setSku(String sku) {
 		this.sku = sku;
+	}
+
+	public Long getProductInstance() {
+		return productInstance;
+	}
+
+	public void setProductInstance(Long productInstance) {
+		this.productInstance = productInstance;
 	}
 
 }

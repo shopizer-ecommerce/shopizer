@@ -16,10 +16,12 @@ public class PersistableShoppingCartItem implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long product;//product id
-	private String sku;
+	private String product;// or product sku (instance or product)
 	private int quantity;
 	private String promoCode;
+	private List<ProductAttribute> attributes;
+	
+	
 	public String getPromoCode() {
 		return promoCode;
 	}
@@ -32,24 +34,19 @@ public class PersistableShoppingCartItem implements Serializable {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-	private List<ProductAttribute> attributes;
-	public Long getProduct() {
-		return product;
-	}
-	public void setProduct(Long product) {
-		this.product = product;
-	}
+
 	public List<ProductAttribute> getAttributes() {
 		return attributes;
 	}
 	public void setAttributes(List<ProductAttribute> attributes) {
 		this.attributes = attributes;
 	}
-	public String getSku() {
-		return sku;
+	public String getProduct() {
+		return product;
 	}
-	public void setSku(String sku) {
-		this.sku = sku;
+	public void setProduct(String product) {
+		this.product = product;
 	}
+
 
 }

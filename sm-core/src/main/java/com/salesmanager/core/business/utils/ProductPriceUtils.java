@@ -18,11 +18,13 @@ import org.apache.commons.validator.routines.CurrencyValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
+import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
 import com.salesmanager.core.model.catalog.product.price.FinalPrice;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -501,8 +503,25 @@ public class ProductPriceUtils {
 		FinalPrice finalPrice = null;
 		List<FinalPrice> otherPrices = null;
 		
-
-		Set<ProductAvailability> availabilities = product.getAvailabilities();
+		/**
+		 * Since 3.2.0
+		 * The rule is
+		 * 
+		 * If product.instances contains exactly one instance
+		 * If instance has availability we use availability from instance
+		 * Otherwise we use price
+		 */
+		
+		Set<ProductAvailability> availabilities = null;
+		if(!CollectionUtils.isEmpty(product.getInstances())) {
+			ProductInstance instance = product.getInstances().iterator().next();
+			availabilities = instance.getAvailabilities();
+		}
+		
+		if(CollectionUtils.isEmpty(availabilities)) {
+			availabilities = product.getAvailabilities();
+		}
+		
 		for(ProductAvailability availability : availabilities) {
 			if(!StringUtils.isEmpty(availability.getRegion()) && availability.getRegion().equals(Constants.ALL_REGIONS)) {//TODO REL 2.1 accept a region
 				Set<ProductPrice> prices = availability.getPrices();

@@ -283,16 +283,17 @@ public class ShoppingCartApi {
 
 	}
 
-	@DeleteMapping(value = "/cart/{code}/product/{id}", produces = { APPLICATION_JSON_VALUE })
+	@DeleteMapping(value = "/cart/{code}/product/{sku}", produces = { APPLICATION_JSON_VALUE })
 	@ApiOperation(httpMethod = "DELETE", value = "Remove a product from a specific cart", notes = "If body set to true returns remaining cart in body, empty cart gives empty body. If body set to false no body ", produces = "application/json", response = ReadableShoppingCart.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en"),
 			@ApiImplicitParam(name = "body", dataType = "boolean", defaultValue = "false"), })
 	public ResponseEntity<ReadableShoppingCart> deleteCartItem(@PathVariable("code") String cartCode,
-			@PathVariable("id") Long itemId, @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language,
+			@PathVariable("sku") String sku, 
+			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language,
 			@RequestParam(defaultValue = "false") boolean body) throws Exception {
 
-		ReadableShoppingCart updatedCart = shoppingCartFacade.removeShoppingCartItem(cartCode, itemId, merchantStore,
+		ReadableShoppingCart updatedCart = shoppingCartFacade.removeShoppingCartItem(cartCode, sku, merchantStore,
 				language, body);
 		if (body) {
 			return new ResponseEntity<>(updatedCart, HttpStatus.OK);

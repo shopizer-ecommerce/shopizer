@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import com.salesmanager.shop.model.entity.Entity;
 
+@Deprecated
 public class Order extends Entity implements Serializable {
 
 	/**

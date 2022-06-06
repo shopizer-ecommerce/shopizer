@@ -392,7 +392,7 @@ public class OrderFacadeImpl implements OrderFacade {
 				 * Before processing order quantity of item must be > 0
 				 */
 
-				Product product = productService.getById(item.getProductId());
+				Product product = productService.getBySku(item.getSku(), store, language);
 				if (product == null) {
 					throw new ServiceException(ServiceException.EXCEPTION_INVENTORY_MISMATCH);
 				}

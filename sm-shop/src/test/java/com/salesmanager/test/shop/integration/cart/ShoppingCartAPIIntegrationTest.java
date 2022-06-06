@@ -42,7 +42,7 @@ public class ShoppingCartAPIIntegrationTest extends ServicesTestSupport {
 
 
     /**
-     * Add an Item & Create cart, whould give HTTP 201 & 1 qty
+     * Add an Item & Create cart, would give HTTP 201 & 1 qty
      *
      * @throws Exception
      */
@@ -55,7 +55,7 @@ public class ShoppingCartAPIIntegrationTest extends ServicesTestSupport {
     	data.getProducts().add(product);
 
         PersistableShoppingCartItem cartItem = new PersistableShoppingCartItem();
-        cartItem.setProduct(product.getId());
+        cartItem.setProduct(product.getSku());
         cartItem.setQuantity(1);
 
         final HttpEntity<PersistableShoppingCartItem> cartEntity = new HttpEntity<>(cartItem, getHeader());
@@ -83,7 +83,7 @@ public class ShoppingCartAPIIntegrationTest extends ServicesTestSupport {
         data.getProducts().add(product);
 
         PersistableShoppingCartItem cartItem = new PersistableShoppingCartItem();
-        cartItem.setProduct(product.getId());
+        cartItem.setProduct(product.getSku());
         cartItem.setQuantity(1);
 
         final HttpEntity<PersistableShoppingCartItem> cartEntity = new HttpEntity<>(cartItem, getHeader());
@@ -111,7 +111,7 @@ public class ShoppingCartAPIIntegrationTest extends ServicesTestSupport {
         data.getProducts().add(product);
 
         PersistableShoppingCartItem cartItem = new PersistableShoppingCartItem();
-        cartItem.setProduct(product.getId());
+        cartItem.setProduct(product.getSku());
         cartItem.setQuantity(1);
 
         final HttpEntity<PersistableShoppingCartItem> cartEntity = new HttpEntity<>(cartItem, getHeader());
@@ -122,7 +122,9 @@ public class ShoppingCartAPIIntegrationTest extends ServicesTestSupport {
 
         assertNotNull(response);
         assertThat(response.getStatusCode(), is(NOT_FOUND));
+        data.getProducts().remove(product);
     }
+
 
     /**
      * Update cart items with qty 2 (1) on existing items & adding new item with qty 1 which gives result 2x2+1 = 5
@@ -134,18 +136,15 @@ public class ShoppingCartAPIIntegrationTest extends ServicesTestSupport {
     public void updateMultiWCartId() throws Exception {
 
         PersistableShoppingCartItem cartItem1 = new PersistableShoppingCartItem();
-        cartItem1.setProduct(data.getProducts().get(0).getId());
+        cartItem1.setProduct(data.getProducts().get(0).getSku());
         cartItem1.setQuantity(2);
 
         PersistableShoppingCartItem cartItem2 = new PersistableShoppingCartItem();
-        cartItem2.setProduct(data.getProducts().get(1).getId());
+        cartItem2.setProduct(data.getProducts().get(1).getSku());
         cartItem2.setQuantity(2);
 
-        PersistableShoppingCartItem cartItem3 = new PersistableShoppingCartItem();
-        cartItem3.setProduct(data.getProducts().get(2).getId());
-        cartItem3.setQuantity(1);
 
-        PersistableShoppingCartItem[] productsQtyUpdates = {cartItem1, cartItem2, cartItem3};
+        PersistableShoppingCartItem[] productsQtyUpdates = {cartItem1, cartItem2};
 
 
         final HttpEntity<PersistableShoppingCartItem[]> cartEntity = new HttpEntity<>(productsQtyUpdates, getHeader());
@@ -157,7 +156,7 @@ public class ShoppingCartAPIIntegrationTest extends ServicesTestSupport {
 
         assertNotNull(response);
         assertThat(response.getStatusCode(), is(CREATED));
-        assertEquals(5, response.getBody().getQuantity());
+        assertEquals(4, response.getBody().getQuantity());
     }
 
     /**
@@ -170,7 +169,7 @@ public class ShoppingCartAPIIntegrationTest extends ServicesTestSupport {
     public void updateMultiWZeroOnOneProd() throws Exception {
 
         PersistableShoppingCartItem cartItem1 = new PersistableShoppingCartItem();
-        cartItem1.setProduct(data.getProducts().get(0).getId());
+        cartItem1.setProduct(data.getProducts().get(0).getSku());
         cartItem1.setQuantity(0);
 
         PersistableShoppingCartItem[] productsQtyUpdates = {cartItem1};
@@ -185,7 +184,7 @@ public class ShoppingCartAPIIntegrationTest extends ServicesTestSupport {
 
         assertNotNull(response);
         assertThat(response.getStatusCode(), is(CREATED));
-        assertEquals(3, response.getBody().getQuantity());
+        assertEquals(2, response.getBody().getQuantity());
     }
 
     /**
@@ -218,14 +217,13 @@ public class ShoppingCartAPIIntegrationTest extends ServicesTestSupport {
     public void deleteCartItemWithBody() throws Exception {
 
         final ResponseEntity<ReadableShoppingCart> response =
-                testRestTemplate.exchange(String.format("/api/v1/cart/" + data.getCartId() + "/product/" + String.valueOf(data.getProducts().get(1).getId()) + "?body=true"),
+                testRestTemplate.exchange(String.format("/api/v1/cart/" + data.getCartId() + "/product/" + String.valueOf(data.getProducts().get(1).getSku()) + "?body=true"),
                         HttpMethod.DELETE,
                         null,
                         ReadableShoppingCart.class);
 
         assertNotNull(response);
         assertThat(response.getStatusCode(), is(OK));
-        assertEquals(1, response.getBody().getQuantity());
     }
 
 }

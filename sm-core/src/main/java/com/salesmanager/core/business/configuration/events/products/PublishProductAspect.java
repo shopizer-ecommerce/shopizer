@@ -37,7 +37,7 @@ public class PublishProductAspect {
 		  
 		  @AfterReturning(value = "entityCreationMethods()", returning = "entity")
 		   public void createEvent(JoinPoint jp, Object entity) throws Throwable {
-			  System.out.println("*********** INTO THE METHOD ******************");
+			  //System.out.println("*********** INTO THE METHOD ******************");
 		       //eventPublisher.publishEvent(
 		    	//	   new FooCreationEvent(entity));
 		  }

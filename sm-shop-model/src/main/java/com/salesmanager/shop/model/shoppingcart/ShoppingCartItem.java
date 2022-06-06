@@ -9,6 +9,12 @@ import com.salesmanager.shop.model.entity.ShopEntity;
 
 public class ShoppingCartItem extends ShopEntity implements Serializable {
 	
+	public String getSku() {
+		return sku;
+	}
+	public void setSku(String sku) {
+		this.sku = sku;
+	}
 	/**
 	 * 
 	 */
@@ -18,8 +24,7 @@ public class ShoppingCartItem extends ShopEntity implements Serializable {
 	private String image;
 	private BigDecimal productPrice;
 	private int quantity;
-	private long productId;
-	private String productCode;//sku
+	private String sku;//sku
 	private String code;//shopping cart code
 	private boolean productVirtual;
 	
@@ -67,18 +72,6 @@ public class ShoppingCartItem extends ShopEntity implements Serializable {
 	}
 	public BigDecimal getProductPrice() {
 		return productPrice;
-	}
-	public void setProductId(long productId) {
-		this.productId = productId;
-	}
-	public long getProductId() {
-		return productId;
-	}
-	public void setProductCode(String productCode) {
-		this.productCode = productCode;
-	}
-	public String getProductCode() {
-		return productCode;
 	}
 	public void setImage(String image) {
 		this.image = image;

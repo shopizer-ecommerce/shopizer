@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.salesmanager.shop.model.entity.ReadableList;
 
-
+@Deprecated
 public class ReadableOrderList extends ReadableList implements Serializable {
 
 	/**

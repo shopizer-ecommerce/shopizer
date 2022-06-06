@@ -194,25 +194,30 @@ public class ShoppingCartModelPopulator
     		MerchantStore store ) throws Exception
     {
 
-    	//TODO
-        Product product = productService.getById( shoppingCartItem.getProductId() );
 
-        if ( product == null )
-        {
-            throw new Exception( "Item with id " + shoppingCartItem.getProductId() + " does not exist" );
-        }
 
-        if ( product.getMerchantStore().getId().intValue() != store.getId().intValue() )
-        {
-            throw new Exception( "Item with id " + shoppingCartItem.getProductId() + " does not belong to merchant "
-                + store.getId() );
-        }
+        Product product = productService.getBySku(shoppingCartItem.getSku(), store, store.getDefaultLanguage());
+            if ( product == null )
+            {
+                throw new Exception( "Item with sku " + shoppingCartItem.getSku() + " does not exist" );
+            }
+
+            if ( product.getMerchantStore().getId().intValue() != store.getId().intValue() )
+            {
+                throw new Exception( "Item with sku " + shoppingCartItem.getSku() + " does not belong to merchant "
+                    + store.getId() );
+            }
+
+
+
+
 
         com.salesmanager.core.model.shoppingcart.ShoppingCartItem item =
             new com.salesmanager.core.model.shoppingcart.ShoppingCartItem( cart, product );
         item.setQuantity( shoppingCartItem.getQuantity() );
         item.setItemPrice( shoppingCartItem.getProductPrice() );
         item.setShoppingCart( cart );
+        item.setSku(shoppingCartItem.getSku());
 
         // attributes
         List<ShoppingCartAttribute> cartAttributes = shoppingCartItem.getShoppingCartAttributes();
