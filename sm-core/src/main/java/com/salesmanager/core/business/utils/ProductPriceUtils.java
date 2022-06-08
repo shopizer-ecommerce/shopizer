@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
@@ -87,7 +88,7 @@ public class ProductPriceUtils {
 	 * @return FinalPrice
 	 */
 	//Pricer
-	public FinalPrice getFinalProductPrice(Product product, List<ProductAttribute> attributes) {
+	public FinalPrice getFinalProductPrice(Product product, List<ProductAttribute> attributes) throws ServiceException {
 
 
 		FinalPrice finalPrice = calculateFinalPrice(product);
@@ -136,7 +137,7 @@ public class ProductPriceUtils {
 	 * @return
 	 */
 	//Pricer
-	public FinalPrice getFinalPrice(Product product) {
+	public FinalPrice getFinalPrice(Product product) throws ServiceException {
 
 		FinalPrice finalPrice = calculateFinalPrice(product);
 		
@@ -165,7 +166,7 @@ public class ProductPriceUtils {
 			}
 		}
 		
-		finalPrice.setStringPrice(this.getStringAmount(finalPrice.getFinalPrice()));
+		finalPrice.setStringPrice(getStringAmount(finalPrice.getFinalPrice()));
 		return finalPrice;
 
 	}
@@ -498,7 +499,7 @@ public class ProductPriceUtils {
 		return matcher.matches();
 	}
 	
-	private FinalPrice calculateFinalPrice(Product product) {
+	private FinalPrice calculateFinalPrice(Product product) throws ServiceException {
 
 		FinalPrice finalPrice = null;
 		List<FinalPrice> otherPrices = null;
@@ -539,6 +540,7 @@ public class ProductPriceUtils {
 				}
 			}
 		}
+		
 
 		
 		if(finalPrice!=null) {
@@ -547,6 +549,10 @@ public class ProductPriceUtils {
 			if(otherPrices!=null) {
 				finalPrice = otherPrices.get(0);
 			}
+		}
+		
+		if(finalPrice == null) {
+			throw new ServiceException(ServiceException.EXCEPTION_ERROR, "No inventory available to calculate the price. Availability should contain at least a region set to *");
 		}
 		
 		return finalPrice;

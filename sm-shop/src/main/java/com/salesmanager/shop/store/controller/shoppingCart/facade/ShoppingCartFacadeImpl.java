@@ -263,7 +263,6 @@ public class ShoppingCartFacadeImpl implements ShoppingCartFacade {
 																											// language
 																											// from api
 																											// request
-
 		if (product == null) {
 			throw new ResourceNotFoundException(
 					"Product with sku " + shoppingCartItem.getProduct() + " does not exist");
@@ -295,6 +294,7 @@ public class ShoppingCartFacadeImpl implements ShoppingCartFacade {
 					"Item with id " + product.getId() + " is not properly configured. It contains no availability");
 		}
 
+		//todo filter sku and store
 		for (ProductAvailability availability : availabilities) {
 			if (availability.getProductQuantity() == null || availability.getProductQuantity().intValue() == 0) {
 				throw new Exception("Product with id " + product.getId() + " is not available");
@@ -768,7 +768,7 @@ public class ShoppingCartFacadeImpl implements ShoppingCartFacade {
 			if (e instanceof ResourceNotFoundException) {
 				throw (ResourceNotFoundException) e;
 			} else {
-				throw new ServiceRuntimeException(e);
+				throw new ServiceRuntimeException(e.getMessage(),e);
 			}
 		}
 	}
