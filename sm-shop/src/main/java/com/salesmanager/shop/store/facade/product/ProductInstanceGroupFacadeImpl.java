@@ -161,11 +161,11 @@ public class ProductInstanceGroupFacadeImpl implements ProductInstanceGroupFacad
 		
 		try {
 			
-			String path = new StringBuilder().append(Constants.SLASH).append(store.getCode()).append(Constants.SLASH).append("group").append(Constants.SLASH).append(instanceGroupId).toString();
+			String path = new StringBuilder().append("group").append(Constants.SLASH).append(instanceGroupId).toString();
 			
 			
 			
-			instanceImage.setProductImage(path + Constants.SLASH + image.getOriginalFilename());
+			instanceImage.setProductImage(image.getOriginalFilename());
 			instanceImage.setProductInstanceGroup(group);
 			String imageName = image.getOriginalFilename();
 			InputStream inputStream = image.getInputStream();
@@ -173,16 +173,13 @@ public class ProductInstanceGroupFacadeImpl implements ProductInstanceGroupFacad
 			cmsContentImage.setFileName(imageName);
 			cmsContentImage.setMimeType(image.getContentType());
 			cmsContentImage.setFile(inputStream);
-			cmsContentImage.setPath(Constants.SLASH + store.getCode() + Constants.SLASH + instanceGroupId);
+			cmsContentImage.setPath(path);
 			cmsContentImage.setFileContentType(FileContentType.INSTANCE);
 
 			contentService.addContentFile(store.getCode(), cmsContentImage);
-			
-			productInstanceGroupService.saveOrUpdate(group);
-			
+
 			group.getImages().add(instanceImage);
 			
-
 			productInstanceGroupService.saveOrUpdate(group);
 		} catch (Exception e) {
 			throw new ServiceRuntimeException("Exception while adding instance group image", e);

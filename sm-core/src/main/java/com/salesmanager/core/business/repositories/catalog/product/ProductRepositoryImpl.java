@@ -60,7 +60,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		} catch (NoResultException ignored) {
 			return null;
 		}
-  }
+   }
 
 
 
