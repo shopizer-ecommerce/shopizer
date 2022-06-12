@@ -12,7 +12,6 @@ public class ReadableProductInstanceGroup extends ProductInstanceGroup {
 	
 	List<ReadableImage> images = new ArrayList<ReadableImage>();
 	
-	
 	private List<ReadableProductInstance> productInstances = new ArrayList<ReadableProductInstance>();
 	public List<ReadableProductInstance> getProductInstances() {
 		return productInstances;

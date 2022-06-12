@@ -23,17 +23,14 @@ import com.salesmanager.core.model.common.audit.AuditListener;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 import com.salesmanager.core.model.merchant.MerchantStore;
 
-
-@Entity
-@EntityListeners(value = AuditListener.class)
-@Table(name="PRODUCT_INSTANCE_GROUP")
 /**
  * Extra properties on a group of instances
  * @author carlsamson
  *
  */
-
-
+@Entity
+@EntityListeners(value = AuditListener.class)
+@Table(name="PRODUCT_INSTANCE_GROUP")
 public class ProductInstanceGroup extends SalesManagerEntity<Long, ProductInstanceGroup> {
 
 	private static final long serialVersionUID = 1L;
@@ -41,7 +38,10 @@ public class ProductInstanceGroup extends SalesManagerEntity<Long, ProductInstan
 
 	@Id
 	@Column(name = "PRODUCT_INSTANCE_GROUP_ID", unique=true, nullable=false)
-	@TableGenerator(name = "TABLE_GEN", table = "SM_SEQUENCER", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "PRODUCT_INST_GROUP_SEQ_NEXT_VAL")
+	@TableGenerator(name = "TABLE_GEN", 
+	table = "SM_SEQUENCER", 
+	pkColumnName = "SEQ_NAME", 
+	valueColumnName = "SEQ_COUNT", pkColumnValue = "PRODUCT_INST_GROUP_SEQ_NEXT_VAL")
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
 	private Long id;
 
@@ -50,6 +50,7 @@ public class ProductInstanceGroup extends SalesManagerEntity<Long, ProductInstan
 	private List<ProductInstanceImage> images = new ArrayList<ProductInstanceImage>();
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH }, mappedBy = "productInstanceGroup")
+	//@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="productInstanceGroup")
 	private Set<ProductInstance> productInstances = new HashSet<ProductInstance>();
 	
 	@ManyToOne(fetch = FetchType.LAZY)

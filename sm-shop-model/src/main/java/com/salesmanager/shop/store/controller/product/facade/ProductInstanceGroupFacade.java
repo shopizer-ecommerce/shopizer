@@ -16,9 +16,9 @@ public interface ProductInstanceGroupFacade {
 	void delete(Long productInstance, Long productId, MerchantStore store);
 	ReadableEntityList<ReadableProductInstanceGroup> list(Long productId, MerchantStore store, Language language, int page, int count);
 	
-	void addImage(MultipartFile image, Long productOptionGroupId,
+	void addImage(MultipartFile image, Long instanceGroupId,
 			MerchantStore store, Language language);
 	
-	void removeImage(Long imageId, Long productOptionGroupId, MerchantStore store);
+	void removeImage(Long imageId, Long instanceGroupId, MerchantStore store);
 
 }
