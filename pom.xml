@@ -7,7 +7,7 @@
 	<groupId>com.shopizer</groupId>
 	<artifactId>shopizer</artifactId>
 	<packaging>pom</packaging>
-	<version>3.0.2</version>
+	<version>3.2.0</version>
 
 	<name>shopizer</name>
 	<url>http://ww.shopizer.com</url>
@@ -97,22 +97,22 @@
 			<dependency>
 				<groupId>com.shopizer</groupId>
 				<artifactId>sm-core</artifactId>
-				<version>3.0.2</version>
+				<version>3.2.0</version>
 			</dependency>
 			<dependency>
 				<groupId>com.shopizer</groupId>
 				<artifactId>sm-core-model</artifactId>
-				<version>3.0.2</version>
+				<version>3.2.0</version>
 			</dependency>
 			<dependency>
 				<groupId>com.shopizer</groupId>
 				<artifactId>sm-core-modules</artifactId>
-				<version>3.0.2</version>
+				<version>3.2.0</version>
 			</dependency>
 			<dependency>
 				<groupId>com.shopizer</groupId>
 				<artifactId>sm-shop-model</artifactId>
-				<version>3.0.2</version>
+				<version>3.2.0</version>
 			</dependency>
 
 			<!-- https://mvnrepository.com/artifact/javax.inject/javax.inject -->
@@ -180,7 +180,6 @@
 				<artifactId>sm-search</artifactId>
 				<version>${shopizer.search.version}</version>
 			</dependency>
-
 
 			<dependency>
 				<groupId>mysql</groupId>
