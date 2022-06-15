@@ -9,7 +9,6 @@ public class PersistableProductInstance extends ProductInstance {
 	@NotNull
 	private Long variant;
 	
-	@NotNull
 	private Long variantValue;
 
 	public Long getVariant() {

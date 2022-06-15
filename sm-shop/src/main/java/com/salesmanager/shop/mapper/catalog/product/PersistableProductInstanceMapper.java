@@ -46,21 +46,34 @@ public class PersistableProductInstanceMapper implements Mapper<PersistableProdu
 		Long productVariantValue = source.getVariantValue();
 		
 		Optional<ProductVariation> variant = productVariationService.getById(store, productVariant);
-		Optional<ProductVariation> variantValue = productVariationService.getById(store, productVariantValue);
+		Optional<ProductVariation> variantValue = null;
+		if(productVariantValue != null) {
+			variantValue = productVariationService.getById(store, productVariantValue);
+			if(variantValue.isEmpty()) {
+				throw new ResourceNotFoundException("ProductVariant [" + productVariantValue + "] + not found for store [" + store.getCode() + "]");
+			}
+			
+		}
+				
 		
 		if(variant.isEmpty()) {
 			throw new ResourceNotFoundException("ProductVariant [" + productVariant + "] + not found for store [" + store.getCode() + "]");
 		}
 		
 		destination.setVariant(variant.get());
+
 		
-		if(variantValue.isEmpty()) {
-			throw new ResourceNotFoundException("ProductVariant [" + productVariantValue + "] + not found for store [" + store.getCode() + "]");
+		if(productVariantValue != null) {
+			destination.setVariantValue(variantValue.get());
 		}
 		
-		destination.setVariantValue(variantValue.get());
+		StringBuilder instanceCode = new StringBuilder();
+		instanceCode.append(variant.get().getCode());
+		if(productVariantValue != null && variantValue.get()!=null) {
+			instanceCode.append(":").append(variantValue.get().getCode());
+		}
 		
-		destination.setCode(variant.get().getCode() + ":" + variantValue.get().getCode());
+		destination.setCode(instanceCode.toString());
 		
 		destination.setAvailable(source.isAvailable());
 		destination.setDefaultSelection(source.isDefaultSelection());

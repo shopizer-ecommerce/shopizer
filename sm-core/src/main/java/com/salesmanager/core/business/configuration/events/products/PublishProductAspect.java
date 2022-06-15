@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 public class PublishProductAspect {
 	
 	   private ApplicationEventPublisher eventPublisher;
+	   
 	   @Autowired
 	   public void setEventPublisher(ApplicationEventPublisher eventPublisher) {
 	       this.eventPublisher = eventPublisher;
