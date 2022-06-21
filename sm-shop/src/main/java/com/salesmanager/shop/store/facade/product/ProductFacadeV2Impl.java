@@ -275,7 +275,7 @@ public class ProductFacadeV2Impl implements ProductFacade {
 				 //change default availability with sku (instance availability)
 				List<ProductAvailability> availabilityList = productAvailabilityService.getBySku(priceRequest.getSku(), store);
 				if(CollectionUtils.isNotEmpty(availabilityList)) {
-					model.setAvailabilities(new HashSet(availabilityList));
+					model.setAvailabilities(new HashSet<ProductAvailability>(availabilityList));
 				}
 			}
 			

@@ -2,9 +2,9 @@ package com.salesmanager.shop.mapper.catalog;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -14,16 +14,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.attribute.Optionable;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
+import com.salesmanager.core.model.catalog.product.attribute.ProductOption;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionDescription;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValue;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueDescription;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
 import com.salesmanager.core.model.catalog.product.image.ProductImage;
+import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
 import com.salesmanager.core.model.catalog.product.price.FinalPrice;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.catalog.product.price.ProductPriceDescription;
@@ -42,7 +46,7 @@ import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductAttr
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOption;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductProperty;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductPropertyValue;
-import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValueEntity;
+import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValue;
 import com.salesmanager.shop.model.catalog.product.product.instance.ReadableProductInstance;
 import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
 import com.salesmanager.shop.model.references.DimensionUnitOfMeasure;
@@ -70,7 +74,7 @@ public class ReadableProductMapper implements Mapper<Product, ReadableProduct> {
 
 	@Autowired
 	private ReadableProductTypeMapper readableProductTypeMapper;
-	
+
 	@Autowired
 	private ReadableProductInstanceMapper readableProductInstanceMapper;
 
@@ -92,6 +96,10 @@ public class ReadableProductMapper implements Mapper<Product, ReadableProduct> {
 		Validate.notNull(source, "Product cannot be null");
 		Validate.notNull(destination, "Product destination cannot be null");
 
+		// read only product values
+		// will contain options
+		TreeMap<Long, ReadableProductOption> selectableOptions = new TreeMap<Long, ReadableProductOption>();
+
 		destination.setSku(source.getSku());
 		destination.setRefSku(source.getRefSku());
 		destination.setId(source.getId());
@@ -106,133 +114,212 @@ public class ReadableProductMapper implements Mapper<Product, ReadableProduct> {
 					break;
 				}
 			}
+		}
+		destination.setId(source.getId());
+		destination.setAvailable(source.isAvailable());
+		destination.setProductShipeable(source.isProductShipeable());
 
-			destination.setId(source.getId());
-			destination.setAvailable(source.isAvailable());
-			destination.setProductShipeable(source.isProductShipeable());
+		destination.setPreOrder(source.isPreOrder());
+		destination.setRefSku(source.getRefSku());
+		destination.setSortOrder(source.getSortOrder());
 
-			ProductSpecification specifications = new ProductSpecification();
-			specifications.setHeight(source.getProductHeight());
-			specifications.setLength(source.getProductLength());
-			specifications.setWeight(source.getProductWeight());
-			specifications.setWidth(source.getProductWidth());
-			destination.setProductSpecifications(specifications);
+		if (source.getType() != null) {
+			ReadableProductType readableType = readableProductTypeMapper.convert(source.getType(), store, language);
+			destination.setType(readableType);
+		}
 
-			destination.setPreOrder(source.isPreOrder());
-			destination.setRefSku(source.getRefSku());
-			destination.setSortOrder(source.getSortOrder());
+		if (source.getDateAvailable() != null) {
+			destination.setDateAvailable(DateUtil.formatDate(source.getDateAvailable()));
+		}
 
-			if (source.getType() != null) {
-				ReadableProductType readableType = readableProductTypeMapper.convert(source.getType(), store, language);
-				destination.setType(readableType);
-			}
+		if (source.getAuditSection() != null) {
+			destination.setCreationDate(DateUtil.formatDate(source.getAuditSection().getDateCreated()));
+		}
 
-			if (source.getDateAvailable() != null) {
-				destination.setDateAvailable(DateUtil.formatDate(source.getDateAvailable()));
-			}
+		destination.setProductVirtual(source.getProductVirtual());
 
-			if (source.getAuditSection() != null) {
-				destination.setCreationDate(DateUtil.formatDate(source.getAuditSection().getDateCreated()));
-			}
+		if (source.getProductReviewCount() != null) {
+			destination.setRatingCount(source.getProductReviewCount().intValue());
+		}
 
-			destination.setProductVirtual(source.getProductVirtual());
+		if (source.getManufacturer() != null) {
+			ReadableManufacturer manufacturer = readableManufacturerMapper.convert(source.getManufacturer(), store,
+					language);
+			destination.setManufacturer(manufacturer);
+		}
 
-			if (source.getProductReviewCount() != null) {
-				destination.setRatingCount(source.getProductReviewCount().intValue());
-			}
+		// images
+		Set<ProductImage> images = source.getImages();
+		if (CollectionUtils.isNotEmpty(images)) {
 
-			if (source.getManufacturer() != null) {
-				ReadableManufacturer manufacturer = readableManufacturerMapper.convert(source.getManufacturer(), store,
-						language);
-				destination.setManufacturer(manufacturer);
-			}
+			List<ReadableImage> imageList = images.stream().map(i -> this.convertImage(source, i, store))
+					.collect(Collectors.toList());
+			destination.setImages(imageList);
+		}
 
-			// images
-			Set<ProductImage> images = source.getImages();
-			if (CollectionUtils.isNotEmpty(images)) {
+		if (!CollectionUtils.isEmpty(source.getAttributes())) {
 
-				List<ReadableImage> imageList = images.stream().map(i -> this.convertImage(source, i, store))
-						.collect(Collectors.toList());
-				destination.setImages(imageList);
-			}
+			Set<ProductAttribute> attributes = source.getAttributes();
 
-			// read only product values
-			if (!CollectionUtils.isEmpty(source.getAttributes())) {
+			if (!CollectionUtils.isEmpty(attributes)) {
 
-				Set<ProductAttribute> attributes = source.getAttributes();
+				for (ProductAttribute attribute : attributes) {
+					ReadableProductOption opt = null;
+					ReadableProductAttribute attr = null;
+					ReadableProductProperty property = null;
+					ReadableProductPropertyValue propertyValue = null;
+					ReadableProductAttributeValue attrValue = new ReadableProductAttributeValue();
 
-				// split read only and options
-				// Map<Long,ReadableProductAttribute> readOnlyAttributes = null;
-				Map<Long, ReadableProductProperty> properties = null;
-				Map<Long, ReadableProductOption> selectableOptions = null;
+					ProductOptionValue optionValue = attribute.getProductOptionValue();
 
-				if (!CollectionUtils.isEmpty(attributes)) {
+					// we need to set readonly attributes only
+					if (attribute.getAttributeDisplayOnly()) {// read only attribute = property
 
-					for (ProductAttribute attribute : attributes) {
-						ReadableProductOption opt = null;
-						ReadableProductAttribute attr = null;
-						ReadableProductProperty property = null;
-						ReadableProductPropertyValue propertyValue = null;
-						ReadableProductOptionValueEntity optValue = new ReadableProductOptionValueEntity();
-						ReadableProductAttributeValue attrValue = new ReadableProductAttributeValue();
+						property = createProperty(attribute, language);
 
-						ProductOptionValue optionValue = attribute.getProductOptionValue();
+						ReadableProductOption readableOption = new ReadableProductOption(); // that is the property
+						ReadableProductPropertyValue readableOptionValue = new ReadableProductPropertyValue();
 
-						// we need to set readonly attributes only
-						if (attribute.getAttributeDisplayOnly()) {// read only attribute = property
+						readableOption.setCode(attribute.getProductOption().getCode());
+						readableOption.setId(attribute.getProductOption().getId());
 
-							property = createProperty(attribute, language);
+						Set<ProductOptionDescription> podescriptions = attribute.getProductOption().getDescriptions();
+						if (podescriptions != null && podescriptions.size() > 0) {
+							for (ProductOptionDescription optionDescription : podescriptions) {
+								if (optionDescription.getLanguage().getCode().equals(language.getCode())) {
+									readableOption.setName(optionDescription.getName());
+								}
+							}
+						}
 
-							ReadableProductOption readableOption = new ReadableProductOption(); // that is the property
-							ReadableProductPropertyValue readableOptionValue = new ReadableProductPropertyValue();
+						property.setProperty(readableOption);
 
-							readableOption.setCode(attribute.getProductOption().getCode());
-							readableOption.setId(attribute.getProductOption().getId());
+						Set<ProductOptionValueDescription> povdescriptions = attribute.getProductOptionValue()
+								.getDescriptions();
+						readableOptionValue.setId(attribute.getProductOptionValue().getId());
+						if (povdescriptions != null && povdescriptions.size() > 0) {
+							for (ProductOptionValueDescription optionValueDescription : povdescriptions) {
+								if (optionValueDescription.getLanguage().getCode().equals(language.getCode())) {
+									readableOptionValue.setName(optionValueDescription.getName());
+								}
+							}
+						}
 
-							Set<ProductOptionDescription> podescriptions = attribute.getProductOption()
-									.getDescriptions();
-							if (podescriptions != null && podescriptions.size() > 0) {
-								for (ProductOptionDescription optionDescription : podescriptions) {
-									if (optionDescription.getLanguage().getCode().equals(language.getCode())) {
-										readableOption.setName(optionDescription.getName());
+						property.setPropertyValue(readableOptionValue);
+						destination.getProperties().add(property);
+
+					} else {// selectable option
+
+						/**
+						 * Returns a list of ReadableProductOptions
+						 * 
+						 * name lang type code List ReadableProductOptionValueEntity name description
+						 * image order default
+						 */
+
+						if (selectableOptions == null) {
+							selectableOptions = new TreeMap<Long, ReadableProductOption>();
+						}
+						opt = selectableOptions.get(attribute.getProductOption().getId());
+						if (opt == null) {
+							opt = createOption(attribute.getProductOption(), language);
+						}
+						if (opt != null) {
+							selectableOptions.put(attribute.getProductOption().getId(), opt);
+						}
+
+						ReadableProductOptionValue optValue = new ReadableProductOptionValue();
+
+						optValue.setDefaultValue(attribute.getAttributeDefault());
+						// optValue.setId(attribute.getProductOptionValue().getId());
+						optValue.setId(attribute.getId());
+						optValue.setCode(attribute.getProductOptionValue().getCode());
+
+						com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription valueDescription = new com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription();
+						valueDescription.setLanguage(language.getCode());
+						// optValue.setLang(language.getCode());
+						if (attribute.getProductAttributePrice() != null
+								&& attribute.getProductAttributePrice().doubleValue() > 0) {
+							String formatedPrice = null;
+							try {
+								formatedPrice = pricingService.getDisplayAmount(attribute.getProductAttributePrice(),
+										store);
+								optValue.setPrice(formatedPrice);
+							} catch (ServiceException e) {
+								throw new ConversionRuntimeException(
+										"Error converting product option, an exception occured with pricingService", e);
+							}
+						}
+
+						if (!StringUtils.isBlank(attribute.getProductOptionValue().getProductOptionValueImage())) {
+							optValue.setImage(imageUtils.buildProductPropertyImageUtils(store,
+									attribute.getProductOptionValue().getProductOptionValueImage()));
+						}
+						optValue.setSortOrder(0);
+						if (attribute.getProductOptionSortOrder() != null) {
+							optValue.setSortOrder(attribute.getProductOptionSortOrder().intValue());
+						}
+
+						List<ProductOptionValueDescription> podescriptions = optionValue.getDescriptionsSettoList();
+						ProductOptionValueDescription podescription = null;
+						if (podescriptions != null && podescriptions.size() > 0) {
+							podescription = podescriptions.get(0);
+							if (podescriptions.size() > 1) {
+								for (ProductOptionValueDescription optionValueDescription : podescriptions) {
+									if (optionValueDescription.getLanguage().getId().intValue() == language.getId()
+											.intValue()) {
+										podescription = optionValueDescription;
+										break;
 									}
 								}
 							}
-
-							property.setProperty(readableOption);
-
-							Set<ProductOptionValueDescription> povdescriptions = attribute.getProductOptionValue()
-									.getDescriptions();
-							readableOptionValue.setId(attribute.getProductOptionValue().getId());
-							if (povdescriptions != null && povdescriptions.size() > 0) {
-								for (ProductOptionValueDescription optionValueDescription : povdescriptions) {
-									if (optionValueDescription.getLanguage().getCode().equals(language.getCode())) {
-										readableOptionValue.setName(optionValueDescription.getName());
-									}
-								}
-							}
-
-							property.setPropertyValue(readableOptionValue);
-
-							destination.getProperties().add(property);
-
 						}
+						valueDescription.setName(podescription.getName());
+						valueDescription.setDescription(podescription.getDescription());
+						optValue.setDescription(valueDescription);
 
-						if (selectableOptions != null) {
-							List<ReadableProductOption> options = new ArrayList<ReadableProductOption>(
-									selectableOptions.values());
-							destination.setOptions(options);
+						if (opt != null) {
+							opt.getOptionValues().add(optValue);
 						}
-
 					}
+
 				}
 			}
+
 		}
-		
-		//variants
-		if(!CollectionUtils.isEmpty(source.getInstances())) {
-			List<ReadableProductInstance> instances = source.getInstances().stream().map(i -> readableProductInstanceMapper.convert(i, store, language)).collect(Collectors.toList());
+
+		// variants
+		if (!CollectionUtils.isEmpty(source.getInstances()))
+
+		{
+			List<ReadableProductInstance> instances = source.getInstances().stream()
+					.map(i -> readableProductInstanceMapper.convert(i, store, language)).collect(Collectors.toList());
 			destination.setVariants(instances);
+
+			/**
+			 * variants options list variation color
+			 */
+
+			/**
+			 * Returns a list of ReadableProductOptions
+			 * 
+			 * name lang type code List ReadableProductOptionValueEntity name description
+			 * image order default
+			 */
+
+			/**
+			 * Create options from instance Create a list of option values
+			 */
+
+			for (ProductInstance instance : source.getInstances()) {
+				this.instanceToOption(selectableOptions, instance, store, language);
+			}
+
+		}
+
+		if (selectableOptions != null) {
+			List<ReadableProductOption> options = new ArrayList<ReadableProductOption>(selectableOptions.values());
+			destination.setOptions(options);
 		}
 
 		// availability
@@ -429,6 +516,145 @@ public class ReadableProductMapper implements Mapper<Product, ReadableProduct> {
 
 		attr.setCode(productAttribute.getProductOption().getCode());
 		return attr;
+
+	}
+
+	private Optional<ReadableProductOptionValue> optionValue(ProductOptionValue optionValue, MerchantStore store,
+			Language language) {
+
+		if (optionValue == null) {
+			return Optional.empty();
+		}
+
+		ReadableProductOptionValue optValue = new ReadableProductOptionValue();
+
+		com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription valueDescription = new com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription();
+		valueDescription.setLanguage(language.getCode());
+
+		if (!StringUtils.isBlank(optionValue.getProductOptionValueImage())) {
+			optValue.setImage(
+					imageUtils.buildProductPropertyImageUtils(store, optionValue.getProductOptionValueImage()));
+		}
+		optValue.setSortOrder(0);
+
+		if (optionValue.getProductOptionValueSortOrder() != null) {
+			optValue.setSortOrder(optionValue.getProductOptionValueSortOrder().intValue());
+		}
+
+		optValue.setCode(optionValue.getCode());
+
+		List<ProductOptionValueDescription> podescriptions = optionValue.getDescriptionsSettoList();
+		ProductOptionValueDescription podescription = null;
+		if (podescriptions != null && podescriptions.size() > 0) {
+			podescription = podescriptions.get(0);
+			if (podescriptions.size() > 1) {
+				for (ProductOptionValueDescription optionValueDescription : podescriptions) {
+					if (optionValueDescription.getLanguage().getId().intValue() == language.getId().intValue()) {
+						podescription = optionValueDescription;
+						break;
+					}
+				}
+			}
+		}
+		valueDescription.setName(podescription.getName());
+		valueDescription.setDescription(podescription.getDescription());
+		optValue.setDescription(valueDescription);
+
+		return Optional.of(optValue);
+
+	}
+
+	private void instanceToOption(TreeMap<Long, ReadableProductOption> selectableOptions, ProductInstance instance,
+			MerchantStore store, Language language) {
+
+
+		ReadableProductOption option = this.option(selectableOptions, instance.getVariant().getProductOption(), language);
+
+
+		// take care of option value
+		Optional<ReadableProductOptionValue> optionOptionValue = this
+				.optionValue(instance.getVariant().getProductOptionValue(), store, language);
+
+		if (optionOptionValue.isPresent()) {
+			optionOptionValue.get().setId(instance.getId());
+			if (instance.isDefaultSelection()) {
+				optionOptionValue.get().setDefaultValue(true);
+			}
+			addOptionValue(option, optionOptionValue.get());
+
+		}
+
+		if (instance.getVariantValue() != null) {
+			ReadableProductOption optionValue = this.option(selectableOptions, instance.getVariantValue().getProductOption(), language);
+
+			// take care of option value
+			Optional<ReadableProductOptionValue> optionValueOptionValue = this
+					.optionValue(instance.getVariantValue().getProductOptionValue(), store, language);
+
+
+			if (optionValueOptionValue.isPresent()) {
+				optionValueOptionValue.get().setId(instance.getId());
+				if (instance.isDefaultSelection()) {
+					optionValueOptionValue.get().setDefaultValue(true);
+				}
+				addOptionValue(optionValue, optionValueOptionValue.get());
+			}
+
+		}
+
+	}
+	
+	private void addOptionValue(ReadableProductOption option, ReadableProductOptionValue optionValue) {
+		
+		ReadableProductOptionValue find = option.getOptionValues().stream()
+				  .filter(optValue -> optValue.getCode()==optionValue.getCode())
+				  .findAny()
+				  .orElse(null);
+		
+		if(find == null) {
+			option.getOptionValues().add(optionValue);
+		}
+	}
+	
+	private ReadableProductOption option(TreeMap<Long, ReadableProductOption> selectableOptions, ProductOption option, Language language) {
+		if(selectableOptions.containsKey(option.getId())) {
+			return selectableOptions.get(option.getId());
+		}
+
+		ReadableProductOption readable = this.createOption(option, language);
+		selectableOptions.put(readable.getId(), readable);
+		return readable;
+	}
+
+	private ReadableProductOption createOption(ProductOption opt, Language language) {
+
+		ReadableProductOption option = new ReadableProductOption();
+		option.setId(opt.getId());// attribute of the option
+		option.setType(opt.getProductOptionType());
+		option.setCode(opt.getCode());
+		List<ProductOptionDescription> descriptions = opt.getDescriptionsSettoList();
+		ProductOptionDescription description = null;
+		if (descriptions != null && descriptions.size() > 0) {
+			description = descriptions.get(0);
+			if (descriptions.size() > 1) {
+				for (ProductOptionDescription optionDescription : descriptions) {
+					if (optionDescription.getLanguage().getCode().equals(language.getCode())) {
+						description = optionDescription;
+						break;
+					}
+				}
+			}
+		}
+
+		if (description == null) {
+			return null;
+		}
+
+		option.setLang(language.getCode());
+		option.setName(description.getName());
+		option.setCode(opt.getCode());
+
+		return option;
 
 	}
 

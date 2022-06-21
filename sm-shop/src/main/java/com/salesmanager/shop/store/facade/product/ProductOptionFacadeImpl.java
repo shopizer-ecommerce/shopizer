@@ -38,7 +38,7 @@ import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProduct
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductAttributeList;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionEntity;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionList;
-import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValueEntity;
+import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValue;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValueList;
 import com.salesmanager.shop.model.entity.CodeEntity;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
@@ -151,7 +151,7 @@ public class ProductOptionFacadeImpl implements ProductOptionFacade {
 		valueList.setRecordsTotal(options.getTotalElements());
 		valueList.setNumber(options.getNumber());
 
-		List<ReadableProductOptionValueEntity> values = options.getContent().stream()
+		List<ReadableProductOptionValue> values = options.getContent().stream()
 				.map(option -> readableOptionValueMapper.convert(option, store, null)).collect(Collectors.toList());
 
 		valueList.setOptionValues(values);
@@ -217,7 +217,7 @@ public class ProductOptionFacadeImpl implements ProductOptionFacade {
 	}
 
 	@Override
-	public ReadableProductOptionValueEntity saveOptionValue(PersistableProductOptionValue optionValue,
+	public ReadableProductOptionValue saveOptionValue(PersistableProductOptionValue optionValue,
 			MerchantStore store, Language language) {
 		Validate.notNull(optionValue, "Option value code must not be null");
 		Validate.notNull(store, "Store code must not be null");
@@ -243,7 +243,7 @@ public class ProductOptionFacadeImpl implements ProductOptionFacade {
 		ProductOptionValue optValue = productOptionValueService.getById(store, value.getId());
 
 		// convert to readable
-		ReadableProductOptionValueEntity readableProductOptionValue = new ReadableProductOptionValueEntity();
+		ReadableProductOptionValue readableProductOptionValue = new ReadableProductOptionValue();
 		readableProductOptionValue = readableOptionValueMapper.merge(optValue, readableProductOptionValue, store,
 				language);
 
@@ -251,7 +251,7 @@ public class ProductOptionFacadeImpl implements ProductOptionFacade {
 	}
 
 	@Override
-	public ReadableProductOptionValueEntity getOptionValue(Long optionValueId, MerchantStore store, Language language) {
+	public ReadableProductOptionValue getOptionValue(Long optionValueId, MerchantStore store, Language language) {
 
 		Validate.notNull(optionValueId, "OptionValue id cannot be null");
 		Validate.notNull(store, "Store cannot be null");
