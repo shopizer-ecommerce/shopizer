@@ -60,7 +60,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		} catch (NoResultException ignored) {
 			return null;
 		}
-  }
+   }
 
 
 
@@ -73,35 +73,6 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			List<Integer> ids = new ArrayList<Integer>();
 
 			StringBuilder qs = new StringBuilder();
-			/*qs.append("select distinct p from Product as p ");
-			qs.append("join fetch p.availabilities pa ");
-			qs.append("join fetch p.merchantStore merch ");
-			qs.append("join fetch p.descriptions pd ");
-
-			qs.append("left join fetch p.categories categs ");
-			qs.append("left join fetch categs.descriptions categsd ");
-
-			qs.append("left join fetch pa.prices pap ");
-			qs.append("left join fetch pap.descriptions papd ");
-
-			// images
-			qs.append("left join fetch p.images images ");
-			// options
-			qs.append("left join fetch p.attributes pattr ");
-			qs.append("left join fetch pattr.productOption po ");
-			qs.append("left join fetch po.descriptions pod ");
-			qs.append("left join fetch pattr.productOptionValue pov ");
-			qs.append("left join fetch pov.descriptions povd ");
-			qs.append("left join fetch p.relationships pr ");
-			// other lefts
-			qs.append("left join fetch p.manufacturer manuf ");
-			qs.append("left join fetch manuf.descriptions manufd ");
-			qs.append("left join fetch p.type type ");
-			qs.append("left join fetch p.taxClass tx ");
-
-			// RENTAL
-			qs.append("left join fetch p.owner owner ");*/
-
 			qs.append(productQuery());
 
 			qs.append("where p.id=:pid");
@@ -1063,6 +1034,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
 	}
 
+
 	private String productQuery() {
 		StringBuilder qs = new StringBuilder();
 		qs.append("select distinct p from Product as p ");
@@ -1101,6 +1073,73 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		// RENTAL REMOVED
 		//qs.append("left join fetch p.owner owner ");
 		return qs.toString();
+	}
+
+	@Override
+	public Product getBySku(String sku, MerchantStore store, Language language) {
+
+		try {
+
+			StringBuilder qs = new StringBuilder();
+			qs.append("select distinct p from Product as p ");
+			qs.append("join fetch p.descriptions pd ");
+			qs.append("join fetch p.merchantStore pm ");
+			qs.append("left join fetch p.availabilities pavail ");
+			qs.append("left join fetch p.type type ");
+			qs.append("left join fetch pavail.prices pavailpr ");
+			qs.append("left join fetch pavailpr.descriptions pavailprdesc ");
+
+			qs.append("left join fetch p.categories categs ");
+			qs.append("left join fetch categs.descriptions categsd ");
+
+			// options
+			qs.append("left join fetch p.attributes pattr ");
+			qs.append("left join fetch pattr.productOption po ");
+			qs.append("left join fetch po.descriptions pod ");
+			qs.append("left join fetch pattr.productOptionValue pov ");
+			qs.append("left join fetch pov.descriptions povd ");
+			qs.append("left join fetch p.relationships pr ");
+			// other lefts
+			qs.append("left join fetch p.manufacturer manuf ");
+			qs.append("left join fetch manuf.descriptions manufd ");
+			qs.append("left join fetch p.type type ");
+			
+			//variants
+			qs.append("left join fetch p.instances pinst ");
+			qs.append("left join fetch pinst.variant pv ");
+			qs.append("left join fetch pv.productOption pvpo ");
+			qs.append("left join fetch pv.productOptionValue pvpov ");
+			qs.append("left join fetch pvpo.descriptions pvpod ");
+			qs.append("left join fetch pvpov.descriptions pvpovd ");
+			
+			qs.append("left join fetch pinst.variantValue pvv ");
+			qs.append("left join fetch pvv.productOption pvvpo ");
+			qs.append("left join fetch pvv.productOptionValue pvvpov ");
+			qs.append("left join fetch pvvpo.descriptions povvpod ");
+			qs.append("left join fetch pvpov.descriptions povvpovd ");	
+			
+			//instance availability and price
+			qs.append("left join fetch pinst.availabilities pinsta ");
+			qs.append("left join fetch pinsta.prices pinstap ");
+			qs.append("left join fetch pinstap.descriptions pinstapdesc ");
+			qs.append("left join fetch pinst.productInstanceGroup pinstg ");
+			qs.append("left join fetch pinstg.images pinstgimg ");
+			qs.append("left join fetch pinstgimg.descriptions ");
+
+			qs.append("where pinst.sku=:code or p.sku=:code and pm.id=:id");
+
+			String hql = qs.toString();
+			Query q = this.em.createQuery(hql);
+
+			q.setParameter("code", sku);
+			q.setParameter("id", store.getId());
+
+			return (Product) q.getSingleResult();
+
+		} catch (javax.persistence.NoResultException ers) {
+			return null;
+		}
+		
 	}
 
 }

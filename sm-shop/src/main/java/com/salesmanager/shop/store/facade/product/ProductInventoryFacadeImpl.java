@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.availability.ProductAvailabilityService;
+import com.salesmanager.core.business.services.catalog.product.instance.ProductInstanceService;
 import com.salesmanager.core.business.services.merchant.MerchantStoreService;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
+import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.inventory.PersistableInventoryMapper;
@@ -38,6 +40,9 @@ public class ProductInventoryFacadeImpl implements ProductInventoryFacade {
 
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	private ProductInstanceService productInstanceService;
 
 	@Autowired
 	private MerchantStoreService merchantStoreService;
@@ -148,6 +153,12 @@ public class ProductInventoryFacadeImpl implements ProductInventoryFacade {
 		ProductAvailability availability = productInventoryMapper.convert(inventory, store, store.getDefaultLanguage());
 		availability.setProduct(product);
 		availability.setMerchantStore(store);
+		if(inventory.getInstance() != null) {
+			Optional<ProductInstance> instance = productInstanceService.getById(productId, store);
+			if(instance.isPresent()) {
+				availability.setProductInstance(instance.get());
+			}
+		}
 		return availability;
 	}
 

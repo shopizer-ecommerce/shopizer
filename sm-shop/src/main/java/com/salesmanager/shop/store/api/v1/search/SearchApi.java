@@ -51,8 +51,7 @@ public class SearchApi {
   public @ResponseBody SearchProductList search(
       @RequestBody SearchProductRequest searchRequest,
       @ApiIgnore MerchantStore merchantStore,
-      @ApiIgnore Language language,
-      HttpServletRequest request) {
+      @ApiIgnore Language language) {
     return searchFacade.search(merchantStore, language, searchRequest);
   }
 
@@ -64,8 +63,7 @@ public class SearchApi {
   public @ResponseBody ValueList autocomplete(
       @RequestBody SearchProductRequest searchRequest,
       @ApiIgnore MerchantStore merchantStore,
-      @ApiIgnore Language language,
-      HttpServletRequest request) {
+      @ApiIgnore Language language) {
     return searchFacade.autocompleteRequest(searchRequest.getQuery(), merchantStore, language);
   }
 }

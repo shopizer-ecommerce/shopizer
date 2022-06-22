@@ -36,7 +36,7 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
  *
  */
 
-public class ProductAttribute extends SalesManagerEntity<Long, ProductAttribute> {
+public class ProductAttribute extends SalesManagerEntity<Long, ProductAttribute> implements Optionable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id

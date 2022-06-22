@@ -18,11 +18,14 @@ import org.apache.commons.validator.routines.CurrencyValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
+import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
 import com.salesmanager.core.model.catalog.product.price.FinalPrice;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -85,7 +88,7 @@ public class ProductPriceUtils {
 	 * @return FinalPrice
 	 */
 	//Pricer
-	public FinalPrice getFinalProductPrice(Product product, List<ProductAttribute> attributes) {
+	public FinalPrice getFinalProductPrice(Product product, List<ProductAttribute> attributes) throws ServiceException {
 
 
 		FinalPrice finalPrice = calculateFinalPrice(product);
@@ -134,7 +137,7 @@ public class ProductPriceUtils {
 	 * @return
 	 */
 	//Pricer
-	public FinalPrice getFinalPrice(Product product) {
+	public FinalPrice getFinalPrice(Product product) throws ServiceException {
 
 		FinalPrice finalPrice = calculateFinalPrice(product);
 		
@@ -163,7 +166,7 @@ public class ProductPriceUtils {
 			}
 		}
 		
-		finalPrice.setStringPrice(this.getStringAmount(finalPrice.getFinalPrice()));
+		finalPrice.setStringPrice(getStringAmount(finalPrice.getFinalPrice()));
 		return finalPrice;
 
 	}
@@ -496,13 +499,30 @@ public class ProductPriceUtils {
 		return matcher.matches();
 	}
 	
-	private FinalPrice calculateFinalPrice(Product product) {
+	private FinalPrice calculateFinalPrice(Product product) throws ServiceException {
 
 		FinalPrice finalPrice = null;
 		List<FinalPrice> otherPrices = null;
 		
-
-		Set<ProductAvailability> availabilities = product.getAvailabilities();
+		/**
+		 * Since 3.2.0
+		 * The rule is
+		 * 
+		 * If product.instances contains exactly one instance
+		 * If instance has availability we use availability from instance
+		 * Otherwise we use price
+		 */
+		
+		Set<ProductAvailability> availabilities = null;
+		if(!CollectionUtils.isEmpty(product.getInstances())) {
+			ProductInstance instance = product.getInstances().iterator().next();
+			availabilities = instance.getAvailabilities();
+		}
+		
+		if(CollectionUtils.isEmpty(availabilities)) {
+			availabilities = product.getAvailabilities();
+		}
+		
 		for(ProductAvailability availability : availabilities) {
 			if(!StringUtils.isEmpty(availability.getRegion()) && availability.getRegion().equals(Constants.ALL_REGIONS)) {//TODO REL 2.1 accept a region
 				Set<ProductPrice> prices = availability.getPrices();
@@ -520,6 +540,7 @@ public class ProductPriceUtils {
 				}
 			}
 		}
+		
 
 		
 		if(finalPrice!=null) {
@@ -528,6 +549,10 @@ public class ProductPriceUtils {
 			if(otherPrices!=null) {
 				finalPrice = otherPrices.get(0);
 			}
+		}
+		
+		if(finalPrice == null) {
+			throw new ServiceException(ServiceException.EXCEPTION_ERROR, "No inventory available to calculate the price. Availability should contain at least a region set to *");
 		}
 		
 		return finalPrice;

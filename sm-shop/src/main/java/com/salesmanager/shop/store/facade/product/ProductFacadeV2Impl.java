@@ -101,9 +101,9 @@ public class ProductFacadeV2Impl implements ProductFacade {
 
 	@Override
 	public ReadableProduct getProductByCode(MerchantStore store, String uniqueCode, Language language) {
+
 		
-		
-		Product product = productService.getByCode(uniqueCode, language);
+		Product product = productService.getBySku(uniqueCode, store, language);
 
 		if (product == null) {
 			throw new ResourceNotFoundException("Product [" + uniqueCode + "] not found for merchant [" + store.getCode() + "]");
@@ -113,17 +113,8 @@ public class ProductFacadeV2Impl implements ProductFacade {
 			throw new ResourceNotFoundException("Product [" + uniqueCode + "] not found for merchant [" + store.getCode() + "]");
 		}
 		
-		ReadableProduct readableProduct = readableProductMapper.convert(product, store, language);
 
-		//get all instances for this product group by option
-		//limit to 15 searches
-		List<ProductInstance> instances = productInstanceService.getByProductId(store, product, language);
-		
-		
-		//the above get all possible images
-		List<ReadableProductInstance> readableInstances = instances.stream().map(p -> this.productInstance(p, store, language)).collect(Collectors.toList());
-		readableProduct.setVariants(readableInstances);
-		
+		ReadableProduct readableProduct = readableProductMapper.convert(product, store, language);
 
 		return readableProduct;
 		
@@ -284,7 +275,7 @@ public class ProductFacadeV2Impl implements ProductFacade {
 				 //change default availability with sku (instance availability)
 				List<ProductAvailability> availabilityList = productAvailabilityService.getBySku(priceRequest.getSku(), store);
 				if(CollectionUtils.isNotEmpty(availabilityList)) {
-					model.setAvailabilities(new HashSet(availabilityList));
+					model.setAvailabilities(new HashSet<ProductAvailability>(availabilityList));
 				}
 			}
 			

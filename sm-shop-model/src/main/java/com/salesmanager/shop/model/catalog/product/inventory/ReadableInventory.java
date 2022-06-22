@@ -15,7 +15,7 @@ public class ReadableInventory extends InventoryEntity {
 	private String creationDate;
 
 	private ReadableMerchantStore store;
-	private ReadableProductInstance instance;
+	private String sku;
 	private List<ReadableProductPrice> prices = new ArrayList<ReadableProductPrice>();
 
 	public ReadableMerchantStore getStore() {
@@ -42,12 +42,13 @@ public class ReadableInventory extends InventoryEntity {
 		this.creationDate = creationDate;
 	}
 
-	public ReadableProductInstance getInstance() {
-		return instance;
+	public String getSku() {
+		return sku;
 	}
 
-	public void setInstance(ReadableProductInstance instance) {
-		this.instance = instance;
+	public void setSku(String sku) {
+		this.sku = sku;
 	}
+
 
 }

@@ -45,7 +45,7 @@ import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductAttr
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOption;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductProperty;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductPropertyValue;
-import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValueEntity;
+import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValue;
 import com.salesmanager.shop.model.catalog.product.type.ProductTypeDescription;
 import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
 import com.salesmanager.shop.utils.DateUtil;
@@ -282,7 +282,7 @@ public class ReadableProductPopulator extends
 							ReadableProductAttribute attr = null;
 							ReadableProductProperty property = null;
 							ReadableProductPropertyValue propertyValue = null;
-							ReadableProductOptionValueEntity optValue = new ReadableProductOptionValueEntity();
+							ReadableProductOptionValue optValue = new ReadableProductOptionValue();
 							ReadableProductAttributeValue attrValue = new ReadableProductAttributeValue();
 
 							ProductOptionValue optionValue = attribute.getProductOptionValue();

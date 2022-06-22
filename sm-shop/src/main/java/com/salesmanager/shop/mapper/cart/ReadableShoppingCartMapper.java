@@ -7,8 +7,11 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -22,12 +25,16 @@ import org.springframework.stereotype.Component;
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductAttributeService;
+import com.salesmanager.core.business.services.catalog.product.instance.ProductInstanceService;
 import com.salesmanager.core.business.services.shoppingcart.ShoppingCartCalculationService;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOption;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionDescription;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValue;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueDescription;
+import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
+import com.salesmanager.core.model.catalog.product.instance.ProductInstanceImage;
+import com.salesmanager.core.model.content.FileContentType;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.OrderSummary;
 import com.salesmanager.core.model.order.OrderTotalSummary;
@@ -35,6 +42,8 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.shoppingcart.ShoppingCart;
 import com.salesmanager.shop.mapper.Mapper;
 import com.salesmanager.shop.mapper.catalog.ReadableMinimalProductMapper;
+import com.salesmanager.shop.mapper.catalog.ReadableProductVariationMapper;
+import com.salesmanager.shop.model.catalog.product.ReadableImage;
 import com.salesmanager.shop.model.order.total.ReadableOrderTotal;
 import com.salesmanager.shop.model.shoppingcart.ReadableShoppingCart;
 import com.salesmanager.shop.model.shoppingcart.ReadableShoppingCartAttribute;
@@ -42,6 +51,7 @@ import com.salesmanager.shop.model.shoppingcart.ReadableShoppingCartAttributeOpt
 import com.salesmanager.shop.model.shoppingcart.ReadableShoppingCartAttributeOptionValue;
 import com.salesmanager.shop.model.shoppingcart.ReadableShoppingCartItem;
 import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;
+import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.utils.ImageFilePath;
 
 @Component
@@ -57,9 +67,15 @@ public class ReadableShoppingCartMapper implements Mapper<ShoppingCart, Readable
 
 	@Autowired
 	private ProductAttributeService productAttributeService;
+	
+	@Autowired
+	private ProductInstanceService productInstanceService;
 
 	@Autowired
 	private ReadableMinimalProductMapper readableMinimalProductMapper;
+	
+	@Autowired
+	private ReadableProductVariationMapper readableProductVariationMapper;
 
 	@Autowired
 	@Qualifier("img")
@@ -69,6 +85,15 @@ public class ReadableShoppingCartMapper implements Mapper<ShoppingCart, Readable
 	public ReadableShoppingCart convert(ShoppingCart source, MerchantStore store, Language language) {
 		ReadableShoppingCart destination = new ReadableShoppingCart();
 		return this.merge(source, destination, store, language);
+	}
+	
+	private ReadableImage image(ProductInstanceImage instanceImage, MerchantStore store, Language language) {
+		ReadableImage img = new ReadableImage();
+		img.setDefaultImage(instanceImage.isDefaultImage());
+		img.setId(instanceImage.getId());
+		img.setImageName(instanceImage.getProductImage());
+		img.setImageUrl(imageUtils.buildCustomTypeImageUtils(store, img.getImageName(), FileContentType.INSTANCE));
+		return img;
 	}
 
 	@Override
@@ -106,17 +131,32 @@ public class ReadableShoppingCartMapper implements Mapper<ShoppingCart, Readable
 			if (items != null) {
 
 				for (com.salesmanager.core.model.shoppingcart.ShoppingCartItem item : items) {
-
 					ReadableShoppingCartItem shoppingCartItem = new ReadableShoppingCartItem();
-
 					readableMinimalProductMapper.merge(item.getProduct(), shoppingCartItem, store, language);
-
-					// ReadableProductPopulator readableProductPopulator = new
-					// ReadableProductPopulator();
-					// readableProductPopulator.setPricingService(pricingService);
-					// readableProductPopulator.setimageUtils(imageUtils);
-					// readableProductPopulator.populate(item.getProduct(), shoppingCartItem, store,
-					// language);
+					
+					//variation
+					if(item.getProductInstance() != null) {
+						Optional<ProductInstance> productInstance = productInstanceService.getById(item.getProductInstance(), store);
+						if(productInstance.isEmpty()) {
+							throw new ConversionRuntimeException("An error occured during shopping cart [" + source.getShoppingCartCode() + "] conversion, productInstance [" + item.getProductInstance() + "] not found");
+						}
+						shoppingCartItem.setVariant(readableProductVariationMapper.convert(productInstance.get().getVariant(), store, language));
+						if(productInstance.get().getVariantValue() != null) {
+							shoppingCartItem.setVariantValue(readableProductVariationMapper.convert(productInstance.get().getVariantValue(), store, language));
+						}
+						
+						if(productInstance.get().getProductInstanceGroup() != null) {
+							Set<String> nameSet = new HashSet<>();
+							List<ReadableImage> instanceImages = productInstance.get().getProductInstanceGroup().getImages()
+									.stream().map(i -> this.image(i, store, language))
+									.filter(e -> nameSet.add(e.getImageUrl()))
+									.collect(Collectors.toList());
+							shoppingCartItem.setImages(instanceImages);
+						}
+					}
+					
+					
+					
 
 					shoppingCartItem.setPrice(item.getItemPrice());
 					shoppingCartItem.setFinalPrice(pricingService.getDisplayAmount(item.getItemPrice(), store));
@@ -258,5 +298,7 @@ public class ReadableShoppingCartMapper implements Mapper<ShoppingCart, Readable
 
 		return destination;
 	}
+	
+
 
 }

@@ -221,7 +221,7 @@ public class ProductNextGenTest extends com.salesmanager.test.common.AbstractSal
 	    /**
 	     * Create product
 	     */
-	    productService.create(summerShoes);
+	    productService.createProduct(summerShoes);
 
 	    //ObjectMapper mapper = new ObjectMapper();
 	    //Converting the Object to JSONString

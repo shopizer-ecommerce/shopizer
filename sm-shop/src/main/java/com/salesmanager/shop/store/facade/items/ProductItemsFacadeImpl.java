@@ -188,13 +188,12 @@ public class ProductItemsFacadeImpl implements ProductItemsFacade {
 	public ReadableProductList removeItemFromGroup(Product product, String group, MerchantStore store,
 			Language language) throws Exception {
 		
-		ProductRelationship relationship = null;
-		List<ProductRelationship> relationships = productRelationshipService.getByType(store, product, group);
+		List<ProductRelationship> relationships = productRelationshipService
+				.getByType(store, product, group);
+		
 
 		for(ProductRelationship r : relationships) {
-			if(r.getRelatedProduct().getId().longValue()==product.getId().longValue()) {
-				productRelationshipService.delete(relationship);
-			}
+			productRelationshipService.delete(r);
 		}
 
 		return listItemsByGroup(group,store,language);

@@ -204,7 +204,7 @@ public class ServicesTestSupport {
     	assertNotNull(product);
 
         PersistableShoppingCartItem cartItem = new PersistableShoppingCartItem();
-        cartItem.setProduct(product.getId());
+        cartItem.setProduct(product.getSku());
         cartItem.setQuantity(1);
 
         final HttpEntity<PersistableShoppingCartItem> cartEntity = new HttpEntity<>(cartItem, getHeader());

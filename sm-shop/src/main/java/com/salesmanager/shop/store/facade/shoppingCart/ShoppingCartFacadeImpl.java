@@ -48,7 +48,7 @@ public class ShoppingCartFacadeImpl implements ShoppingCartFacade {
 				throw new ResourceNotFoundException("No Customer found for id [" + customerId + "]");
 			}
 			
-			ShoppingCart cartModel = shoppingCartService.getShoppingCart(customer);
+			ShoppingCart cartModel = shoppingCartService.getShoppingCart(customer, store);
 			
 			if(cart.isPresent()) {
 				cartModel = customerFacade.mergeCart(customer, cart.get(), store, language);

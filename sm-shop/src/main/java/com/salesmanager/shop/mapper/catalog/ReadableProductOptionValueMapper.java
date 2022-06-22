@@ -14,21 +14,21 @@ import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueD
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
-import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValueEntity;
+import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValue;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValueFull;
 import com.salesmanager.shop.utils.ImageFilePath;
 
 @Component
-public class ReadableProductOptionValueMapper implements Mapper<ProductOptionValue, ReadableProductOptionValueEntity> {
+public class ReadableProductOptionValueMapper implements Mapper<ProductOptionValue, ReadableProductOptionValue> {
 
   @Autowired
   @Qualifier("img")
   private ImageFilePath imageUtils;
 
   @Override
-  public ReadableProductOptionValueEntity merge(ProductOptionValue source, ReadableProductOptionValueEntity destination,
+  public ReadableProductOptionValue merge(ProductOptionValue source, ReadableProductOptionValue destination,
                                                 MerchantStore store, Language language) {
-    ReadableProductOptionValueEntity readableProductOptionValue = new ReadableProductOptionValueEntity();
+    ReadableProductOptionValue readableProductOptionValue = new ReadableProductOptionValue();
     if(language == null) {
     	readableProductOptionValue = new ReadableProductOptionValueFull();
       List<com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription> descriptions = new ArrayList<com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription>();
@@ -38,7 +38,7 @@ public class ReadableProductOptionValueMapper implements Mapper<ProductOptionVal
       }
       ((ReadableProductOptionValueFull)readableProductOptionValue).setDescriptions(descriptions);
     } else {
-    	readableProductOptionValue = new ReadableProductOptionValueEntity();
+    	readableProductOptionValue = new ReadableProductOptionValue();
       if(!CollectionUtils.isEmpty(source.getDescriptions())) {
         for(ProductOptionValueDescription desc : source.getDescriptions()) {
           if(desc != null && desc.getLanguage()!= null && desc.getLanguage().getId() == language.getId()) {
@@ -76,8 +76,8 @@ public class ReadableProductOptionValueMapper implements Mapper<ProductOptionVal
 
 
 @Override
-public ReadableProductOptionValueEntity convert(ProductOptionValue source, MerchantStore store, Language language) {
-    ReadableProductOptionValueEntity destination = new ReadableProductOptionValueEntity();
+public ReadableProductOptionValue convert(ProductOptionValue source, MerchantStore store, Language language) {
+    ReadableProductOptionValue destination = new ReadableProductOptionValue();
     return merge(source, destination, store, language);
 }
 

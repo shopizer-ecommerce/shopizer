@@ -154,7 +154,7 @@ public class ProductRelationshipServiceImpl extends
 	@Override
 	public List<ProductRelationship> getByType(MerchantStore store, Product product, String name)
 			throws ServiceException {
-		return productRelationshipRepository.getByType(store, name, product);
+		return productRelationshipRepository.getByTypeAndRelatedProduct(store, name, product);
 	}
 
 

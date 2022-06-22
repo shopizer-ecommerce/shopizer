@@ -40,6 +40,7 @@ public interface SalesManagerEntityService<K extends Serializable & Comparable<K
 	 */
 	void create(E entity) throws ServiceException;
 
+
 	/**
 	 * Supprime l'entité de la base de données
 	 * 

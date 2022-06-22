@@ -7,7 +7,7 @@ import com.salesmanager.shop.model.customer.PersistableCustomer;
 import com.salesmanager.shop.model.order.OrderEntity;
 import com.salesmanager.shop.model.order.PersistableOrderProduct;
 
-
+@Deprecated
 public class PersistableOrder extends OrderEntity implements Serializable {
 
 	/**
