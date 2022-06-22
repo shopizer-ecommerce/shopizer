@@ -569,6 +569,7 @@ public class ReadableProductMapper implements Mapper<Product, ReadableProduct> {
 
 
 		ReadableProductOption option = this.option(selectableOptions, instance.getVariant().getProductOption(), language);
+		option.setVariant(true);
 
 
 		// take care of option value

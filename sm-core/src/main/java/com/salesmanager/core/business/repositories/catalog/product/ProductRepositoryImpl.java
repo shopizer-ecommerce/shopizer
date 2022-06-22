@@ -1084,6 +1084,10 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			qs.append("select distinct p from Product as p ");
 			qs.append("join fetch p.descriptions pd ");
 			qs.append("join fetch p.merchantStore pm ");
+			qs.append("left join fetch p.availabilities pavail ");
+			qs.append("left join fetch p.type type ");
+			qs.append("left join fetch pavail.prices pavailpr ");
+			qs.append("left join fetch pavailpr.descriptions pavailprdesc ");
 
 			qs.append("left join fetch p.categories categs ");
 			qs.append("left join fetch categs.descriptions categsd ");
@@ -1117,7 +1121,10 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			//instance availability and price
 			qs.append("left join fetch pinst.availabilities pinsta ");
 			qs.append("left join fetch pinsta.prices pinstap ");
-			qs.append("left join fetch pinst.productInstanceGroup ");
+			qs.append("left join fetch pinstap.descriptions pinstapdesc ");
+			qs.append("left join fetch pinst.productInstanceGroup pinstg ");
+			qs.append("left join fetch pinstg.images pinstgimg ");
+			qs.append("left join fetch pinstgimg.descriptions ");
 
 			qs.append("where pinst.sku=:code or p.sku=:code and pm.id=:id");
 
