@@ -143,8 +143,7 @@ public class OrderFacadeImpl implements OrderFacade {
 	private CountryService countryService;
 	@Inject
 	private ZoneService zoneService;
-	@Autowired
-	private ProductPriceUtils productPriceUtils;
+
 
 	@Autowired
 	private PersistableOrderApiPopulator persistableOrderApiPopulator;
