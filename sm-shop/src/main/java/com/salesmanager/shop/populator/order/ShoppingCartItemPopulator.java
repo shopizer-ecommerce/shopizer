@@ -14,6 +14,7 @@ import com.salesmanager.core.model.shoppingcart.ShoppingCartItem;
 import com.salesmanager.core.business.services.shoppingcart.ShoppingCartService;
 import com.salesmanager.core.business.utils.AbstractDataPopulator;
 import com.salesmanager.shop.model.order.PersistableOrderProduct;
+import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 
 public class ShoppingCartItemPopulator extends
 		AbstractDataPopulator<PersistableOrderProduct, ShoppingCartItem> {
@@ -31,7 +32,11 @@ public class ShoppingCartItemPopulator extends
 		Validate.notNull(productAttributeService, "Requires to set productAttributeService");
 		Validate.notNull(shoppingCartService, "Requires to set shoppingCartService");
 
-		Product product = productService.getById(source.getProduct().getId());
+		Product product = productService.getBySku(source.getSku(), store, language);
+		if(product==null ) {
+			throw new ResourceNotFoundException("No product found for sku [" + source.getSku() +"]");
+		}
+
 		if(source.getAttributes()!=null) {
 
 			for(com.salesmanager.shop.model.catalog.product.attribute.ProductAttribute attr : source.getAttributes()) {
@@ -47,7 +52,7 @@ public class ShoppingCartItemPopulator extends
 		}
 
 		try {
-			return shoppingCartService.populateShoppingCartItem(product);
+			return shoppingCartService.populateShoppingCartItem(product, store);
 		} catch (ServiceException e) {
 			throw new ConversionException(e);
 		}

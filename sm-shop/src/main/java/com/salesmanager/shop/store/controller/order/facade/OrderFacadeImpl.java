@@ -143,6 +143,8 @@ public class OrderFacadeImpl implements OrderFacade {
 	private CountryService countryService;
 	@Inject
 	private ZoneService zoneService;
+	@Autowired
+	private ProductPriceUtils productPriceUtils;
 
 	@Autowired
 	private PersistableOrderApiPopulator persistableOrderApiPopulator;
@@ -395,7 +397,7 @@ public class OrderFacadeImpl implements OrderFacade {
 				 * Before processing order quantity of item must be > 0
 				 */
 
-				Product product = productService.getById(item.getProductId());
+				Product product = productService.getBySku(item.getSku(), store, language);
 				if (product == null) {
 					throw new ServiceException(ServiceException.EXCEPTION_INVENTORY_MISMATCH);
 				}
@@ -1276,14 +1278,17 @@ public class OrderFacadeImpl implements OrderFacade {
 			}
 
 			String submitedAmount = order.getPayment().getAmount();
+
 			BigDecimal formattedSubmittedAmount = productPriceUtils.getAmount(submitedAmount);
 
+			BigDecimal submitedAmountFormat = productPriceUtils.getAmount(submitedAmount);
 
 			BigDecimal calculatedAmount = orderTotalSummary.getTotal();
 			String strCalculatedTotal = calculatedAmount.toPlainString();
 
 			// compare both prices
 			if (calculatedAmount.compareTo(formattedSubmittedAmount) != 0) {
+
 
 				throw new ConversionException("Payment.amount does not match what the system has calculated "
 						+ strCalculatedTotal + " (received " + submitedAmount + ") please recalculate the order and submit again");

@@ -9,7 +9,7 @@ public class ServiceException extends Exception {
 	private int exceptionType = 0;//regular error
 	
 
-
+	public final static int EXCEPTION_ERROR = 500;
 
 	public final static int EXCEPTION_VALIDATION = 99;
 	public final static int EXCEPTION_PAYMENT_DECLINED = 100;

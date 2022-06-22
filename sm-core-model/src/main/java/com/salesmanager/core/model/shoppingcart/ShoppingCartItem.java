@@ -23,7 +23,6 @@ import javax.persistence.TableGenerator;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.price.FinalPrice;
 import com.salesmanager.core.model.common.audit.AuditListener;
@@ -52,14 +51,18 @@ public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem>
 	private ShoppingCart shoppingCart;
 
 	@Column(name="QUANTITY")
-	private Integer quantity = new Integer(1);
-
+	private Integer quantity = 1;
 
 	@Embedded
 	private AuditSection auditSection = new AuditSection();
 
-	@Column(name="PRODUCT_ID", nullable=false) //TODO CODE
-	private Long productId;
+	@Deprecated //Use sku
+	@Column(name="PRODUCT_ID", nullable=false) 
+    private Long productId;
+	
+	//SKU
+	@Column(name="SKU", nullable=true) 
+	private String sku;
 
 	@JsonIgnore
 	@Transient
@@ -67,6 +70,9 @@ public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem>
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "shoppingCartItem")
 	private Set<ShoppingCartAttributeItem> attributes = new HashSet<ShoppingCartAttributeItem>();
+	
+	@Column(name="PRODUCT_INSTANCE", nullable=true)
+	private Long productInstance;
 
 	@JsonIgnore
 	@Transient
@@ -130,8 +136,6 @@ public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem>
 
 	}
 
-
-
 	public void setAttributes(Set<ShoppingCartAttributeItem> attributes) {
 		this.attributes = attributes;
 	}
@@ -155,8 +159,6 @@ public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem>
 	public Integer getQuantity() {
 		return quantity;
 	}
-
-
 
 	public ShoppingCart getShoppingCart() {
 		return shoppingCart;
@@ -227,6 +229,22 @@ public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem>
 
 	public void setProductVirtual(boolean productVirtual) {
 		this.productVirtual = productVirtual;
+	}
+
+	public String getSku() {
+		return sku;
+	}
+
+	public void setSku(String sku) {
+		this.sku = sku;
+	}
+
+	public Long getProductInstance() {
+		return productInstance;
+	}
+
+	public void setProductInstance(Long productInstance) {
+		this.productInstance = productInstance;
 	}
 
 }

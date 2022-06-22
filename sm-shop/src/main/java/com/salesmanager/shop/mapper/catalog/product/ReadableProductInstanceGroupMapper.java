@@ -1,5 +1,10 @@
 package com.salesmanager.shop.mapper.catalog.product;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -58,7 +63,14 @@ public class ReadableProductInstanceGroupMapper implements Mapper<ProductInstanc
 		
 		//image id should be unique in the list
 		
-		destination.setImages(source.getImages().stream().map(i -> this.image(i, store, language)).collect(Collectors.toList()));
+		Map<Long,ReadableImage> finalList = new HashMap<Long, ReadableImage>();
+		
+		List<ReadableImage> originalList = source.getImages().stream()
+				.map(i -> this.image(finalList, i, store, language))
+				.collect(Collectors.toList());
+		
+
+		destination.setImages(new ArrayList<ReadableImage>(finalList.values()));
 		
 		return destination;
 	}
@@ -68,15 +80,21 @@ public class ReadableProductInstanceGroupMapper implements Mapper<ProductInstanc
 		return readableProductInstanceMapper.convert(instance, store, language);
 	}
 	
-	private ReadableImage image(ProductInstanceImage img, MerchantStore store, Language language) {
-		
-		ReadableImage readable = new ReadableImage();
-		readable.setId(img.getId());
-		readable.setImageName(img.getProductImage());
-		readable.setImageUrl(imageUtils.buildCustomTypeImageUtils(store, img.getProductImage(), FileContentType.INSTANCE));
-		//readable.setDefaultImage(false);
-		
+	private ReadableImage image(Map<Long,ReadableImage> finalList , ProductInstanceImage img, MerchantStore store, Language language) {
+		ReadableImage readable = null;
+		if(!finalList.containsKey(img.getId())) {
+			readable = new ReadableImage();
+			readable.setId(img.getId());
+			readable.setImageName(img.getProductImage());
+			readable.setImageUrl(imageUtils.buildCustomTypeImageUtils(store, img.getProductImage(), FileContentType.INSTANCE));
+			readable.setDefaultImage(img.isDefaultImage());
+			finalList.put(img.getId(), readable);
+			
+		}
 		return readable;
+
 	}
 
 }
+
+

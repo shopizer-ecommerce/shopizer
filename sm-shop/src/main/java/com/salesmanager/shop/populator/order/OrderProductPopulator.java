@@ -66,13 +66,13 @@ public class OrderProductPopulator extends
 
 		
 		try {
-			Product modelProduct = productService.getById(source.getProductId());
+			Product modelProduct = productService.getBySku(source.getSku(), store, language);
 			if(modelProduct==null) {
-				throw new ConversionException("Cannot get product with id (productId) " + source.getProductId());
+				throw new ConversionException("Cannot get product with sku " + source.getSku());
 			}
 			
 			if(modelProduct.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
-				throw new ConversionException("Invalid product id " + source.getProductId());
+				throw new ConversionException("Invalid product with sku " + source.getSku());
 			}
 
 			DigitalProduct digitalProduct = digitalProductService.getByProduct(store, modelProduct);

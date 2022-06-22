@@ -30,7 +30,7 @@ import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProduct
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductAttributeList;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionEntity;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionList;
-import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValueEntity;
+import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValue;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValueList;
 import com.salesmanager.shop.model.entity.CodeEntity;
 import com.salesmanager.shop.model.entity.Entity;
@@ -95,7 +95,7 @@ public class ProductAttributeOptionApi {
 	@RequestMapping(value = { "/private/product/option/value" }, method = RequestMethod.POST)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public @ResponseBody ReadableProductOptionValueEntity createOptionValue(
+	public @ResponseBody ReadableProductOptionValue createOptionValue(
 			@Valid @RequestBody PersistableProductOptionValue optionValue,
 			//@RequestParam(name = "file", required = false) MultipartFile file, 
 			@ApiIgnore MerchantStore merchantStore,
@@ -103,7 +103,7 @@ public class ProductAttributeOptionApi {
 			HttpServletRequest request, 
 			HttpServletResponse response) {
 
-		ReadableProductOptionValueEntity entity = productOptionFacade.saveOptionValue( optionValue,
+		ReadableProductOptionValue entity = productOptionFacade.saveOptionValue( optionValue,
 				merchantStore, language);
 		return entity;
 
@@ -157,7 +157,7 @@ public class ProductAttributeOptionApi {
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
 	@ResponseBody
-	public ReadableProductOptionValueEntity getOptionValue(@PathVariable Long id, @ApiIgnore MerchantStore merchantStore,
+	public ReadableProductOptionValue getOptionValue(@PathVariable Long id, @ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language, HttpServletRequest request, HttpServletResponse response) {
 
 		return productOptionFacade.getOptionValue(id, merchantStore, language);

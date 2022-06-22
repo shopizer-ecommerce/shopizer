@@ -95,8 +95,7 @@ public class ProductInstanceFacadeImpl implements ProductInstanceFacade {
 		Validate.notNull(store, "MerchantStore cannot be null");
 		Validate.notNull(productInstance, "ProductInstance cannot be null");
 		Validate.notNull(productId, "Product id cannot be null");
-	
-		
+
 		//variation and variation value should not be of same product option code
 		if(
 			productInstance.getVariant() != null && productInstance.getVariant().longValue() > 0 &&

@@ -33,7 +33,11 @@ public class ProductInstanceImage extends SalesManagerEntity<Long, ProductInstan
 	
 	@Id
 	@Column(name = "PRODUCT_INST_IMAGE_ID")
-	@TableGenerator(name = "TABLE_GEN", table = "SM_SEQUENCER", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "PRD_VAR_IMG_SEQ_NEXT_VAL")
+	@TableGenerator(name = "TABLE_GEN", 
+	table = "SM_SEQUENCER", 
+	pkColumnName = "SEQ_NAME", 
+	valueColumnName = "SEQ_COUNT", 
+	pkColumnValue = "PRD_INST_IMG_SEQ_NEXT_VAL")
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
 	private Long id;
 

@@ -534,6 +534,22 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 		this.owner = owner;
 	}
 
+	public Set<ProductInstance> getInstances() {
+		return instances;
+	}
+
+	public void setInstances(Set<ProductInstance> instances) {
+		this.instances = instances;
+	}
+
+	public void setAvailable(boolean available) {
+		this.available = available;
+	}
+
+	public void setProductShipeable(boolean productShipeable) {
+		this.productShipeable = productShipeable;
+	}
+
 
 
 

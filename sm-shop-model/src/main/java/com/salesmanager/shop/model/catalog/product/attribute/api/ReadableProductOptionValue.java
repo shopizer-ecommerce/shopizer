@@ -4,7 +4,7 @@ package com.salesmanager.shop.model.catalog.product.attribute.api;
 
 import com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription;
 
-public class ReadableProductOptionValueEntity extends ProductOptionValueEntity {
+public class ReadableProductOptionValue extends ProductOptionValueEntity {
 
   /**
    * 

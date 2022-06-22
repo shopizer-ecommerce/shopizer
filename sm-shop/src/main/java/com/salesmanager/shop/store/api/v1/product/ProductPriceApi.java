@@ -27,7 +27,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 @Controller
 @RequestMapping("/api/v1")
-@Api(tags = { "Product Product price api" })
+@Api(tags = { "Product price api" })
 @SwaggerDefinition(tags = { @Tag(name = "Product price management", description = "Edit price and discount") })
 public class ProductPriceApi {
 

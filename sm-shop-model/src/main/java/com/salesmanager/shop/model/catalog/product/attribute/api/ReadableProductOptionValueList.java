@@ -11,11 +11,11 @@ public class ReadableProductOptionValueList extends ReadableList {
    * 
    */
   private static final long serialVersionUID = 1L;
-  List<ReadableProductOptionValueEntity> optionValues = new ArrayList<ReadableProductOptionValueEntity>();
-  public List<ReadableProductOptionValueEntity> getOptionValues() {
+  List<ReadableProductOptionValue> optionValues = new ArrayList<ReadableProductOptionValue>();
+  public List<ReadableProductOptionValue> getOptionValues() {
     return optionValues;
   }
-  public void setOptionValues(List<ReadableProductOptionValueEntity> optionValues) {
+  public void setOptionValues(List<ReadableProductOptionValue> optionValues) {
     this.optionValues = optionValues;
   }
 

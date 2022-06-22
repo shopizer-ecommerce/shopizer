@@ -58,7 +58,7 @@ public class ProductInstanceGroupServiceImpl extends SalesManagerEntityServiceIm
 		if(entity.getId()!=null && entity.getId()>0) {
 			super.update(entity);
 		} else {
-			super.save(entity);
+			super.saveAndFlush(entity);
 		}
 		
 	}

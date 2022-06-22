@@ -210,33 +210,6 @@ public class AuthenticateCustomerApi {
         }
     }
     
-    @RequestMapping(value = "/private/customer/password", method = RequestMethod.PUT, produces ={ "application/json" })
-    @ApiOperation(httpMethod = "PUT", value = "Change customer password", notes = "Change password request object is {\"username\":\"test@email.com\"}",response = ResponseEntity.class)
-    public ResponseEntity<?> setPassword(
-    		@RequestBody @Valid AuthenticationRequest authenticationRequest,
-    		@ApiIgnore MerchantStore merchantStore, 
-    		@ApiIgnore Language language) {
-
-    	
-			String authenticatedUser = userFacade.authenticatedUser();
-			if (authenticatedUser == null) {
-				throw new UnauthorizedException();
-			}
-	
-			userFacade.authorizedGroup(authenticatedUser, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()));
-	    	
-	            
-            Customer customer = customerFacade.getCustomerByUserName(authenticationRequest.getUsername(), merchantStore);
-            
-            if(customer == null){
-                return ResponseEntity.notFound().build();
-            }
-            
-            
-            customerFacade.changePassword(customer, authenticationRequest.getPassword());            
-            return ResponseEntity.ok(Void.class);
-
-    }
     
 
     @RequestMapping(value = "/auth/customer/password", method = RequestMethod.POST, produces ={ "application/json" })

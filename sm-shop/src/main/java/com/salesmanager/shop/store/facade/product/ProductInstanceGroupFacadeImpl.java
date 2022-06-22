@@ -95,9 +95,7 @@ public class ProductInstanceGroupFacadeImpl implements ProductInstanceGroupFacad
 
 	@Override
 	public void delete(Long productInstanceGroup, Long productId, MerchantStore store) {
-		
 
-		
 		ProductInstanceGroup group = this.group(productInstanceGroup, store);
 		
 		if(group == null) {
@@ -115,8 +113,6 @@ public class ProductInstanceGroupFacadeImpl implements ProductInstanceGroupFacad
 				instance.setProductInstanceGroup(null);
 				productInstanceService.save(instance);
 			}
-			
-
 
 			//now delete
 			productInstanceGroupService.delete(group);
@@ -133,12 +129,9 @@ public class ProductInstanceGroupFacadeImpl implements ProductInstanceGroupFacad
 		
 		Page<ProductInstanceGroup> groups = productInstanceGroupService.getByProductId(store, productId, language, page, count);
 		
-		
-		
 		List<ReadableProductInstanceGroup> readableInstances = groups.stream()
 				.map(rp -> this.readableProductInstanceGroupMapper.convert(rp, store, language)).collect(Collectors.toList());
 
-	    
 	    return createReadableList(groups, readableInstances);
 
 	}
@@ -154,21 +147,24 @@ public class ProductInstanceGroupFacadeImpl implements ProductInstanceGroupFacad
 	}
 	
 	@Override
-	public void addImage(MultipartFile image, Long productOptionGroupId,
+	public void addImage(MultipartFile image, Long instanceGroupId,
 			MerchantStore store, Language language) {
 		
 		
-		Validate.notNull(productOptionGroupId,"productOptionGroupId must not be null");
+		Validate.notNull(instanceGroupId,"productInstanceGroupId must not be null");
 		Validate.notNull(image,"Image must not be null");
 		Validate.notNull(store,"MerchantStore must not be null");
 		//get option group
 		
-		ProductInstanceGroup group = this.group(productOptionGroupId, store);
+		ProductInstanceGroup group = this.group(instanceGroupId, store);
+		ProductInstanceImage instanceImage = new ProductInstanceImage();
 		
 		try {
 			
+			String path = new StringBuilder().append("group").append(Constants.SLASH).append(instanceGroupId).toString();
 			
-			ProductInstanceImage instanceImage = new ProductInstanceImage();
+			
+			
 			instanceImage.setProductImage(image.getOriginalFilename());
 			instanceImage.setProductInstanceGroup(group);
 			String imageName = image.getOriginalFilename();
@@ -177,14 +173,14 @@ public class ProductInstanceGroupFacadeImpl implements ProductInstanceGroupFacad
 			cmsContentImage.setFileName(imageName);
 			cmsContentImage.setMimeType(image.getContentType());
 			cmsContentImage.setFile(inputStream);
-			cmsContentImage.setPath(Constants.SLASH + store.getCode() + Constants.SLASH + productOptionGroupId);
+			cmsContentImage.setPath(path);
 			cmsContentImage.setFileContentType(FileContentType.INSTANCE);
 
 			contentService.addContentFile(store.getCode(), cmsContentImage);
+
 			group.getImages().add(instanceImage);
 			
-
-			productInstanceGroupService.save(group);
+			productInstanceGroupService.saveOrUpdate(group);
 		} catch (Exception e) {
 			throw new ServiceRuntimeException("Exception while adding instance group image", e);
 		}

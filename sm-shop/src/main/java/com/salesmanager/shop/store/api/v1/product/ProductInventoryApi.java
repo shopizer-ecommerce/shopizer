@@ -104,41 +104,7 @@ public class ProductInventoryApi {
 
   }
   
-	/*
-	 * @ResponseStatus(HttpStatus.OK)
-	 * 
-	 * @RequestMapping( value = {"/private/product/{id}/inventory"}, method =
-	 * RequestMethod.GET)
-	 * 
-	 * @ApiImplicitParams({
-	 * 
-	 * @ApiImplicitParam(name = "store", dataType = "String", defaultValue =
-	 * "DEFAULT"),
-	 * 
-	 * @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	 * public @ResponseBody ReadableEntityList<ReadableInventory> get(
-	 * 
-	 * @PathVariable Long id,
-	 * 
-	 * @ApiIgnore MerchantStore merchantStore,
-	 * 
-	 * @ApiIgnore Language language,
-	 * 
-	 * @RequestParam(value = "child", required = false) String child,
-	 * 
-	 * @RequestParam(value = "page", required = false, defaultValue="0") Integer
-	 * page,
-	 * 
-	 * @RequestParam(value = "count", required = false, defaultValue="10") Integer
-	 * count) {
-	 * 
-	 * 
-	 * return productInventoryFacade.getInventory(id, merchantStore, child,
-	 * language, page, count);
-	 * 
-	 * }
-	 */
-  
+
   @ResponseStatus(HttpStatus.OK)
   @RequestMapping(
       value = {"/private/product/{id}/inventory/{inventoryId}"},

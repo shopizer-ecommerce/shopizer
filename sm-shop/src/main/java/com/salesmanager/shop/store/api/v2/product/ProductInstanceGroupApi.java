@@ -58,7 +58,8 @@ public class ProductInstanceGroupApi {
 	@PostMapping(value = { "/private/product/productInstanceGroup" })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
-	public @ResponseBody Entity create(@Valid @RequestBody PersistableProductInstanceGroup instanceGroup,
+	public @ResponseBody Entity create(
+			@Valid @RequestBody PersistableProductInstanceGroup instanceGroup,
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
 
 		String authenticatedUser = userFacade.authenticatedUser();
@@ -79,7 +80,8 @@ public class ProductInstanceGroupApi {
 	@PutMapping(value = { "/private/product/productInstanceGroup/{id}" })
 	@ApiOperation(httpMethod = "PUT", value = "Update product instance group", notes = "", produces = "application/json", response = Void.class)
 	public @ResponseBody void update(@PathVariable Long id,
-			@Valid @RequestBody PersistableProductInstanceGroup instance, @ApiIgnore MerchantStore merchantStore,
+			@Valid @RequestBody PersistableProductInstanceGroup instance, 
+			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
 
 		String authenticatedUser = userFacade.authenticatedUser();
@@ -96,7 +98,8 @@ public class ProductInstanceGroupApi {
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping(value = { "/private/product/productInstanceGroup/{id}" })
 	@ApiOperation(httpMethod = "GET", value = "Get product instance group", notes = "", produces = "application/json", response = Void.class)
-	public @ResponseBody ReadableProductInstanceGroup get(@PathVariable Long id, @ApiIgnore MerchantStore merchantStore,
+	public @ResponseBody ReadableProductInstanceGroup get(
+			@PathVariable Long id, @ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
 
 		String authenticatedUser = userFacade.authenticatedUser();
@@ -157,7 +160,7 @@ public class ProductInstanceGroupApi {
 			MediaType.MULTIPART_FORM_DATA_VALUE }, method = RequestMethod.POST)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public void uploadImage(@PathVariable Long id, @RequestParam(value = "file", required = true) MultipartFile file,
+	public void addImage(@PathVariable Long id, @RequestParam(value = "file", required = true) MultipartFile file,
 			@RequestParam(value = "order", required = false, defaultValue = "0") Integer position,
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
 
@@ -177,7 +180,7 @@ public class ProductInstanceGroupApi {
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = {
 			"/private/product/productInstanceGroup/{id}/image/{imageId}" }, method = RequestMethod.DELETE)
-	public void deleteImage(@PathVariable Long id, @PathVariable Long imageId, @ApiIgnore MerchantStore merchantStore,
+	public void removeImage(@PathVariable Long id, @PathVariable Long imageId, @ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
 
 		String authenticatedUser = userFacade.authenticatedUser();

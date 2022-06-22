@@ -35,16 +35,23 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
 @Entity
 @EntityListeners(value = AuditListener.class)
 @Table(name = "PRODUCT_INSTANCE", 
-uniqueConstraints = @UniqueConstraint(columnNames = { "PRODUCT_ID",
+uniqueConstraints = 
+        @UniqueConstraint(columnNames = { 
+        "PRODUCT_ID",
 		"SKU" }))
 public class ProductInstance extends SalesManagerEntity<Long, ProductInstance> implements Auditable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name = "PRODUCT_INSTANCE_ID", unique = true, nullable = false)
-	@TableGenerator(name = "TABLE_GEN", table = "SM_SEQUENCER", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "PRODUCT_SEQ_NEXT_VAL")
+	@TableGenerator(name = "TABLE_GEN", 
+	table = "SM_SEQUENCER", 
+	pkColumnName = "SEQ_NAME", 
+	valueColumnName = "SEQ_COUNT", 
+	pkColumnValue = "PRODUCT_INST_SEQ_NEXT_VAL")
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
 	private Long id;
+
 
 	@Embedded
 	private AuditSection auditSection = new AuditSection();

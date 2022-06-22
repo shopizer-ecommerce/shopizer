@@ -1,5 +1,6 @@
 package com.salesmanager.shop.store.controller.search.facade;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -217,11 +218,22 @@ public class SearchFacadeImpl implements SearchFacade {
 	}
 
 	private SearchKeywords getSearchKeywords(AutoCompleteRequest req, String word) {
-		try {
+		//try {
 			LOGGER.debug("Search auto comlete " + word);
-			return searchService.searchForKeywords(req.getCollectionName(), word, AUTOCOMPLETE_ENTRIES_COUNT);
-		} catch (ServiceException e) {
-			throw new ServiceRuntimeException(e);
-		}
+			SearchKeywords kw = new SearchKeywords();
+			List<String> list = new ArrayList<String>();
+			list.add("Product name 1");
+			list.add("An item of name 2");
+			list.add("Gizmo of name 3");
+			list.add("What happened to name 4");
+			list.add("Cool product");
+			list.add("Product easy to sell");
+			list.add("Why no results ?");
+			kw.setKeywords(list);
+			return kw;
+			//return searchService.searchForKeywords(req.getCollectionName(), word, AUTOCOMPLETE_ENTRIES_COUNT);
+		//} catch (ServiceException e) {
+		//	throw new ServiceRuntimeException(e);
+		//}
 	}
 }

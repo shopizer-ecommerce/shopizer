@@ -17,6 +17,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
 import com.salesmanager.shop.model.catalog.product.product.instance.PersistableProductInstance;
+import com.salesmanager.shop.store.api.exception.OperationNotAllowedException;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.utils.DateUtil;
@@ -45,21 +46,34 @@ public class PersistableProductInstanceMapper implements Mapper<PersistableProdu
 		Long productVariantValue = source.getVariantValue();
 		
 		Optional<ProductVariation> variant = productVariationService.getById(store, productVariant);
-		Optional<ProductVariation> variantValue = productVariationService.getById(store, productVariantValue);
+		Optional<ProductVariation> variantValue = null;
+		if(productVariantValue != null) {
+			variantValue = productVariationService.getById(store, productVariantValue);
+			if(variantValue.isEmpty()) {
+				throw new ResourceNotFoundException("ProductVariant [" + productVariantValue + "] + not found for store [" + store.getCode() + "]");
+			}
+			
+		}
+				
 		
 		if(variant.isEmpty()) {
 			throw new ResourceNotFoundException("ProductVariant [" + productVariant + "] + not found for store [" + store.getCode() + "]");
 		}
 		
 		destination.setVariant(variant.get());
+
 		
-		if(variantValue.isEmpty()) {
-			throw new ResourceNotFoundException("ProductVariant [" + productVariantValue + "] + not found for store [" + store.getCode() + "]");
+		if(productVariantValue != null) {
+			destination.setVariantValue(variantValue.get());
 		}
 		
-		destination.setVariantValue(variantValue.get());
+		StringBuilder instanceCode = new StringBuilder();
+		instanceCode.append(variant.get().getCode());
+		if(productVariantValue != null && variantValue.get()!=null) {
+			instanceCode.append(":").append(variantValue.get().getCode());
+		}
 		
-		destination.setCode(variant.get().getCode() + ":" + variantValue.get().getCode());
+		destination.setCode(instanceCode.toString());
 		
 		destination.setAvailable(source.isAvailable());
 		destination.setDefaultSelection(source.isDefaultSelection());
@@ -87,6 +101,10 @@ public class PersistableProductInstanceMapper implements Mapper<PersistableProdu
 
 		if(product.getMerchantStore().getId() != store.getId()) {
 			throw new ResourceNotFoundException("Product [" + source.getId() + "] + not found for store [" + store.getCode() + "]");
+		}
+		
+		if(product.getSku() != null && product.getSku().equals(source.getSku())) {
+			throw new OperationNotAllowedException("Product instance sku [" + source.getSku() + "] + must be different than product instance sku [" + product.getSku() + "]");
 		}
 		
 		destination.setProduct(product);

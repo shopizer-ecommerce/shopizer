@@ -11,13 +11,9 @@ Upgrade
 Spring boot 2.5.5
 
 
-
 Fixes
 
 CVE-2022-23063
 #727
-
-
-
 
 

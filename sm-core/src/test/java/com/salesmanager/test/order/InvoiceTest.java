@@ -123,7 +123,7 @@ public class InvoiceTest extends com.salesmanager.test.common.AbstractSalesManag
 
 	    product.getAttributes().add(colorAttribute);
 	    
-	    productService.create(product);
+	    productService.createProduct(product);
 	    
 
 	    //1.2 create a Customer

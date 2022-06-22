@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.salesmanager.core.model.catalog.product.Product;
-import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
 import com.salesmanager.core.model.catalog.product.instance.ProductInstanceImage;
 import com.salesmanager.core.model.content.FileContentType;
@@ -83,7 +82,9 @@ public class ReadableProductInstanceMapper implements Mapper<ProductInstance, Re
 		//destination.setStore(null);
 		destination.setStore(store.getCode());
 		destination.setVariant(readableProductVariationMapper.convert(source.getVariant(), store, language));
-		destination.setVariantValue(readableProductVariationMapper.convert(source.getVariantValue(), store, language));
+		if(source.getVariantValue() != null) {
+			destination.setVariantValue(readableProductVariationMapper.convert(source.getVariantValue(), store, language));
+		}
 
 		if(source.getProductInstanceGroup() != null) {
 			Set<String> nameSet = new HashSet<>();
