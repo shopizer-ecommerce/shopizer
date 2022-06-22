@@ -23,6 +23,13 @@ public class ProductRelationshipRepositoryImpl implements ProductRelationshipRep
           + "and pr.store.id=:storeId "
           + "and p.id=:id "
           + "and rpd.language.id=:langId";
+  private static final String HQL_GET_BY_CODE_AND_STORE_ID_AND_RP_PRODUCT_ID =
+	      "select distinct pr from ProductRelationship as pr "
+	          + "left join fetch pr.relatedProduct rp "
+	          + "where pr.code=:code "
+	          + "and pr.store.id=:storeId "
+	          + "and rp.available=:available "
+	          + "and rp.id=:rpid";
   private static final String HQL_GET_BY_PRODUCT_ID_AND_CODE_AVAILABLE =
       "select distinct pr from ProductRelationship as pr "
           + "left join fetch pr.product p "
@@ -199,4 +206,15 @@ public class ProductRelationshipRepositoryImpl implements ProductRelationshipRep
         .setParameter("pId", product.getId())
         .getResultList();
   }
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ProductRelationship> getByTypeAndRelatedProduct(MerchantStore store, String type, Product product) {
+	    return entityManager.createQuery(HQL_GET_BY_CODE_AND_STORE_ID_AND_RP_PRODUCT_ID)
+	            .setParameter("code", type)
+	            .setParameter("available", true)
+	            .setParameter("rpid", product.getId())
+	            .setParameter("storeId", store.getId())
+	            .getResultList();
+	}
 }
