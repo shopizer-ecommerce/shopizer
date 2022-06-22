@@ -1,5 +1,23 @@
-Tag changes in version 2.16.0
+Changes in version 3.2.0
 
-Spring boot 2.3.6
+
+Functionality
+
+Product variants in complement or replacement of product options
+
+
+Upgrade
+
+Spring boot 2.5.5
+
+
+
+Fixes
+
+CVE-2022-23063
+#727
+
+
+
 
 

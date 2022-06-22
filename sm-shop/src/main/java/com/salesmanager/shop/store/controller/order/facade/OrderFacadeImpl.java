@@ -21,8 +21,8 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +50,7 @@ import com.salesmanager.core.business.services.shipping.ShippingService;
 import com.salesmanager.core.business.services.shoppingcart.ShoppingCartService;
 import com.salesmanager.core.business.utils.CoreConfiguration;
 import com.salesmanager.core.business.utils.CreditCardUtils;
+import com.salesmanager.core.business.utils.ProductPriceUtils;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.common.Billing;
@@ -102,7 +103,6 @@ import com.salesmanager.shop.populator.order.transaction.ReadableTransactionPopu
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
-import com.salesmanager.shop.store.controller.order.facade.OrderFacade;
 import com.salesmanager.shop.store.controller.shoppingCart.facade.ShoppingCartFacade;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.EmailTemplatesUtils;
@@ -161,6 +161,9 @@ public class OrderFacadeImpl implements OrderFacade {
 
 	@Inject
 	private LabelUtils messages;
+	
+	@Autowired
+	private ProductPriceUtils productPriceUtils;
 
 	@Inject
 	@Qualifier("img")
@@ -1273,12 +1276,15 @@ public class OrderFacadeImpl implements OrderFacade {
 			}
 
 			String submitedAmount = order.getPayment().getAmount();
+			BigDecimal formattedSubmittedAmount = productPriceUtils.getAmount(submitedAmount);
+
 
 			BigDecimal calculatedAmount = orderTotalSummary.getTotal();
 			String strCalculatedTotal = calculatedAmount.toPlainString();
 
 			// compare both prices
-			if (!submitedAmount.equals(strCalculatedTotal)) {
+			if (calculatedAmount.compareTo(formattedSubmittedAmount) != 0) {
+
 				throw new ConversionException("Payment.amount does not match what the system has calculated "
 						+ strCalculatedTotal + " (received " + submitedAmount + ") please recalculate the order and submit again");
 			}
