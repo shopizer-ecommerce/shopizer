@@ -83,7 +83,7 @@ public class ProductApi {
 
 	@Autowired
 	private ProductFacade productFacade;
-	
+
 	@Inject
 	private ProductCommonFacade productCommonFacade;
 
@@ -147,10 +147,10 @@ public class ProductApi {
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
 	public void update(
-			@PathVariable Long id, 
-			@Valid @RequestBody 
+			@PathVariable Long id,
+			@Valid @RequestBody
 			LightPersistableProduct product,
-			@ApiIgnore MerchantStore merchantStore, 
+			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
 		productCommonFacade.update(id, product, merchantStore, language);
 		return;
@@ -199,13 +199,14 @@ public class ProductApi {
 			// allowing
 			// navigation
 			@RequestParam(value = "count", required = false, defaultValue = "100") Integer count, // count
+			@RequestParam(value = "slug", required = false) String slug,
 			// per
 			// page
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
 		ProductCriteria criteria = new ProductCriteria();
-		
+
 		criteria.setOrigin(origin);
 
 		// do not use legacy pagination anymore
@@ -217,11 +218,19 @@ public class ProductApi {
 		if (!StringUtils.isBlank(status)) {
 			criteria.setStatus(status);
 		}
+		// Start Category handling
+		List<Long> categoryIds = new ArrayList<Long>();
+		if (slug != null) {
+			Category categoryBySlug = categoryService.getBySeUrl(merchantStore, slug);
+			categoryIds.add(categoryBySlug.getId());
+		}
 		if (category != null) {
-			List<Long> categoryIds = new ArrayList<Long>();
 			categoryIds.add(category);
+		}
+		if (categoryIds.size() > 0) {
 			criteria.setCategoryIds(categoryIds);
 		}
+		// End Category handling
 		if (manufacturer != null) {
 			criteria.setManufacturerId(manufacturer);
 		}
@@ -315,7 +324,7 @@ public class ProductApi {
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public ReadableProductPrice price(@PathVariable final Long id, 
+	public ReadableProductPrice price(@PathVariable final Long id,
 			@RequestBody ProductPriceRequest variants,
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
 
@@ -461,7 +470,7 @@ public class ProductApi {
 
 	/**
 	 * Change product sort order
-	 * 
+	 *
 	 * @param id
 	 * @param position
 	 * @param merchantStore
