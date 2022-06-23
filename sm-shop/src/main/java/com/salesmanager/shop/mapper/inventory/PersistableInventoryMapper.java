@@ -75,16 +75,16 @@ public class PersistableInventoryMapper implements Mapper<PersistableInventory, 
 			if (StringUtils.isNotBlank(source.getDateAvailable())) {
 				destination.setProductDateAvailable(DateUtil.getDate(source.getDateAvailable()));
 			}
-
-			if(source.getProductId()!= null && (source.getInstance() == null || source.getInstance() == 0)) {
-				Product product =productService.findOne(source.getId(), store);
+			
+			if(source.getProductId()!= null && source.getProductId().longValue() > 0) {
+				Product product = productService.findOne(source.getId(), store);
 				if(product == null) {
 					throw new ResourceNotFoundException("Product with id [" + source.getId() + "] not found for store [" + store.getCode() + "]");
 				}
 				destination.setSku(product.getSku());
 			}
 
-			if (source.getInstance() != null && source.getInstance() > 0) {
+			if (source.getInstance() != null && source.getInstance() .longValue()> 0) {
 				Optional<ProductInstance> instance = productInstanceService.getById(source.getInstance(), store);
 				if(instance.isEmpty()) {
 					throw new ResourceNotFoundException("ProductInstance with id [" + source.getInstance() + "] not found for store [" + store.getCode() + "]");
@@ -102,9 +102,6 @@ public class PersistableInventoryMapper implements Mapper<PersistableInventory, 
 					price.setId(priceEntity.getId());
 				}
 
-//      Set<ProductPrice> productPrices = Optional.ofNullable(destination.getPrices()).orElse(Collections.emptySet());
-//      productPrices.stream()
-//              .filter()
 				if (destination.getPrices() != null) {
 					for (ProductPrice pp : destination.getPrices()) {
 						if (isPositive(priceEntity.getId()) && priceEntity.getId().equals(pp.getId())) {
