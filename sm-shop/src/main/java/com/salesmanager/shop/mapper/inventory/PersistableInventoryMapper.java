@@ -41,10 +41,10 @@ public class PersistableInventoryMapper implements Mapper<PersistableInventory, 
 
 	@Autowired
 	private LanguageService languageService;
-	
+
 	@Autowired
 	private ProductInstanceService productInstanceService;
-	
+
 	@Autowired
 	private ProductService productService;
 
@@ -75,8 +75,8 @@ public class PersistableInventoryMapper implements Mapper<PersistableInventory, 
 			if (StringUtils.isNotBlank(source.getDateAvailable())) {
 				destination.setProductDateAvailable(DateUtil.getDate(source.getDateAvailable()));
 			}
-			
-			if(source.getProductId()!= null && source.getInstance() > 0) {
+
+			if(source.getProductId()!= null && (source.getInstance() == null || source.getInstance() == 0)) {
 				Product product =productService.findOne(source.getId(), store);
 				if(product == null) {
 					throw new ResourceNotFoundException("Product with id [" + source.getId() + "] not found for store [" + store.getCode() + "]");
@@ -86,7 +86,7 @@ public class PersistableInventoryMapper implements Mapper<PersistableInventory, 
 
 			if (source.getInstance() != null && source.getInstance() > 0) {
 				Optional<ProductInstance> instance = productInstanceService.getById(source.getInstance(), store);
-				if(instance.get() == null) {
+				if(instance.isEmpty()) {
 					throw new ResourceNotFoundException("ProductInstance with id [" + source.getInstance() + "] not found for store [" + store.getCode() + "]");
 				}
 				destination.setSku(instance.get().getSku());
