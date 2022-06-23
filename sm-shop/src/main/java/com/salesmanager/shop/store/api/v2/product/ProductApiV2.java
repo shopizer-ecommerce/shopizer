@@ -1,8 +1,14 @@
 package com.salesmanager.shop.store.api.v2.product;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +25,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.salesmanager.core.model.catalog.product.ProductCriteria;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
+import com.salesmanager.shop.model.catalog.product.ReadableProductList;
 import com.salesmanager.shop.model.catalog.product.product.definition.PersistableProductDefinition;
 import com.salesmanager.shop.model.catalog.product.product.definition.ReadableProductDefinition;
 import com.salesmanager.shop.model.entity.Entity;
@@ -152,6 +160,112 @@ public class ProductApiV2 {
 		}
 
 		return product;
+	}
+	
+
+	/**
+	 * List products
+	 * Filtering product lists based on product option and option value ?category=1
+	 * &manufacturer=2 &type=... &lang=en|fr NOT REQUIRED, will use request language
+	 * &start=0 NOT REQUIRED, can be used for pagination &count=10 NOT REQUIRED, can
+	 * be used to limit item count
+	 *
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/products", method = RequestMethod.GET)
+	@ResponseBody
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	public ReadableProductList list(
+			@RequestParam(value = "lang", required = false) String lang,
+			@RequestParam(value = "category", required = false) Long category,
+			@RequestParam(value = "name", required = false) String name,
+			@RequestParam(value = "sku", required = false) String sku,
+			@RequestParam(value = "manufacturer", required = false) Long manufacturer,
+			@RequestParam(value = "option", required = false) String option,
+			@RequestParam(value = "optionValues", required = false) List<String> optionValues,
+			@RequestParam(value = "status", required = false) String status,
+			@RequestParam(value = "owner", required = false) Long owner,
+			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page, // current
+			@RequestParam(value = "origin", required = false, defaultValue = ProductCriteria.ORIGIN_SHOP) String origin,
+			// page
+			// 0
+			// ..
+			// n
+			// allowing
+			// navigation
+			@RequestParam(value = "count", required = false, defaultValue = "100") Integer count, // count
+			// per
+			// page
+			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		ProductCriteria criteria = new ProductCriteria();
+		
+		criteria.setOrigin(origin);
+
+		// do not use legacy pagination anymore
+		if (lang != null) {
+			criteria.setLanguage(lang);
+		} else {
+			criteria.setLanguage(language.getCode());
+		}
+		if (!StringUtils.isBlank(status)) {
+			criteria.setStatus(status);
+		}
+		if (category != null) {
+			List<Long> categoryIds = new ArrayList<Long>();
+			categoryIds.add(category);
+			criteria.setCategoryIds(categoryIds);
+		}
+		if (manufacturer != null) {
+			criteria.setManufacturerId(manufacturer);
+		}
+
+		if (CollectionUtils.isNotEmpty(optionValueIds)) {
+			criteria.setOptionValueIds(optionValueIds);
+		}
+
+		if (owner != null) {
+			criteria.setOwnerId(owner);
+		}
+
+		if (page != null) {
+			criteria.setStartPage(page);
+		}
+
+		if (count != null) {
+			criteria.setMaxCount(count);
+		}
+
+		if (!StringUtils.isBlank(name)) {
+			criteria.setProductName(name);
+		}
+
+		if (!StringUtils.isBlank(sku)) {
+			criteria.setCode(sku);
+		}
+
+		// TODO
+		// RENTAL add filter by owner
+		// REPOSITORY to use the new filters
+
+		try {
+			return productFacade.getProductListsByCriterias(merchantStore, language, criteria);
+
+		} catch (Exception e) {
+
+			LOGGER.error("Error while filtering products product", e);
+			try {
+				response.sendError(503, "Error while filtering products " + e.getMessage());
+			} catch (Exception ignore) {
+			}
+
+			return null;
+		}
 	}
 
 	

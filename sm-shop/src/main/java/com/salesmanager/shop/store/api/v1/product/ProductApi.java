@@ -167,7 +167,8 @@ public class ProductApi {
 	}
 
 	/**
-	 * Filtering product lists based on product attributes ?category=1
+	 * List products
+	 * Filtering product lists based on product option and option value ?category=1
 	 * &manufacturer=2 &type=... &lang=en|fr NOT REQUIRED, will use request language
 	 * &start=0 NOT REQUIRED, can be used for pagination &count=10 NOT REQUIRED, can
 	 * be used to limit item count
