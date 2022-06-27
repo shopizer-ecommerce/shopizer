@@ -609,7 +609,10 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			countBuilderSelect.append(" INNER JOIN p.manufacturer manuf");
 			countBuilderWhere.append(" and manuf.id = :manufid");
 		}
+		
+		// todo type
 
+		// sku
 		if (!StringUtils.isBlank(criteria.getCode())) {
 			countBuilderWhere.append(" and lower(p.sku) like :sku");
 		}
@@ -630,9 +633,14 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		
 		
 
-		/**/
+		/**
+		 * attributes / options values
+		 * origin allows skipping attributes join in admin
+		 */
 		//attribute or option values
-		if (criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP) && CollectionUtils.isNotEmpty(criteria.getAttributeCriteria()) || CollectionUtils.isNotEmpty(criteria.getOptionValueIds())) {
+		if (criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP) 
+				&& CollectionUtils.isNotEmpty(criteria.getAttributeCriteria()) 
+				|| CollectionUtils.isNotEmpty(criteria.getOptionValueIds())) {
 
 			countBuilderSelect.append(" INNER JOIN p.attributes pattr");
 			countBuilderSelect.append(" INNER JOIN pattr.productOption po");
@@ -657,7 +665,6 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			if(CollectionUtils.isNotEmpty(criteria.getOptionValueIds())) {
 				countBuilderWhere.append(" and pov.id in (:povid)");
 			}
-
 		}
 
 		if (criteria.getAvailable() != null) {
@@ -667,18 +674,22 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 				countBuilderWhere.append(" and p.available=false or p.dateAvailable>:dt");
 			}
 		}
+		
+		
 
 		Query countQ = this.em.createQuery(countBuilderSelect.toString() + countBuilderWhere.toString());
 
 		countQ.setParameter("mId", store.getId());
 
 		/**/
-		if (criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP) && !CollectionUtils.isEmpty(criteria.getCategoryIds())) {
+		if (criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP) 
+				&& !CollectionUtils.isEmpty(criteria.getCategoryIds())) {
 			countQ.setParameter("cid", criteria.getCategoryIds());
 		}
 		
 		/**/
-		if(criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP) && CollectionUtils.isNotEmpty(criteria.getOptionValueIds())) {
+		if(criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP) 
+				&& CollectionUtils.isNotEmpty(criteria.getOptionValueIds())) {
 			countQ.setParameter("povid", criteria.getOptionValueIds());
 		}
 
@@ -697,7 +708,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		
 
 		/**/
-		if (criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP) && !CollectionUtils.isEmpty(criteria.getAttributeCriteria())) {
+		if (criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP) 
+				&& !CollectionUtils.isEmpty(criteria.getAttributeCriteria())) {
 			int count = 0;
 			for (AttributeCriteria attributeCriteria : criteria.getAttributeCriteria()) {
 				countQ.setParameter(attributeCriteria.getAttributeCode(), attributeCriteria.getAttributeCode());
@@ -763,7 +775,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
 		/**/
 		// attributes
-		if (criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP) && !CollectionUtils.isEmpty(criteria.getAttributeCriteria())) {
+		if (criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP) 
+				&& !CollectionUtils.isEmpty(criteria.getAttributeCriteria())) {
 			qs.append(" inner join p.attributes pattr");
 			qs.append(" inner join pattr.productOption po");
 			qs.append(" inner join po.descriptions pod");
@@ -829,7 +842,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		**/
 
 		/**/
-		if (criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP) && !CollectionUtils.isEmpty(criteria.getAttributeCriteria())) {
+		if (criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP) 
+				&& !CollectionUtils.isEmpty(criteria.getAttributeCriteria())) {
 			int cnt = 0;
 			for (AttributeCriteria attributeCriteria : criteria.getAttributeCriteria()) {
 				qs.append(" and po.code =:").append(attributeCriteria.getAttributeCode());
@@ -844,7 +858,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		}
 		
 		/**/
-		if(criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP) && CollectionUtils.isNotEmpty(criteria.getOptionValueIds())) {
+		if(criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP) 
+				&& CollectionUtils.isNotEmpty(criteria.getOptionValueIds())) {
 			qs.append(" and pov.id in (:povid)");
 		}
 		
@@ -863,7 +878,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		}
 		
 		/**/
-		if (criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP) && CollectionUtils.isNotEmpty(criteria.getOptionValueIds())) {
+		if (criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP) 
+				&& CollectionUtils.isNotEmpty(criteria.getOptionValueIds())) {
 			q.setParameter("povid", criteria.getOptionValueIds());
 		}
 
@@ -885,7 +901,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		}
 
 		/**/
-		if (criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP) && !CollectionUtils.isEmpty(criteria.getAttributeCriteria())) {
+		if (criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP) 
+				&& !CollectionUtils.isEmpty(criteria.getAttributeCriteria())) {
 			int cnt = 0;
 			for (AttributeCriteria attributeCriteria : criteria.getAttributeCriteria()) {
 				q.setParameter(attributeCriteria.getAttributeCode(), attributeCriteria.getAttributeCode());

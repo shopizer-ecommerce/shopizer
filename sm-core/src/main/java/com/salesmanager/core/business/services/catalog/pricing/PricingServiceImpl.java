@@ -1,4 +1,4 @@
-package com.salesmanager.core.business.services.catalog.product;
+package com.salesmanager.core.business.services.catalog.pricing;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -46,13 +46,13 @@ public class PricingServiceImpl implements PricingService {
 	
 	@Override
 	public FinalPrice calculateProductPrice(Product product, List<ProductAttribute> attributes) throws ServiceException {
-		return priceUtil.getFinalProductPrice(product, attributes);
+		return priceUtil.getFinalPrice(product, attributes);
 	}
 	
 	@Override
 	public FinalPrice calculateProductPrice(Product product, List<ProductAttribute> attributes, Customer customer) throws ServiceException {
 		/** TODO add rules for price calculation **/
-		return priceUtil.getFinalProductPrice(product, attributes);
+		return priceUtil.getFinalPrice(product, attributes);
 	}
 	
 	@Override

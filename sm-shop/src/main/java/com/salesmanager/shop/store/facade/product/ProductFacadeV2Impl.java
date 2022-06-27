@@ -18,7 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
-import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.services.catalog.pricing.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductAttributeService;
 import com.salesmanager.core.business.services.catalog.product.availability.ProductAvailabilityService;
@@ -155,11 +155,13 @@ public class ProductFacadeV2Impl implements ProductFacade {
 		
 	}
 
+	/**
+	 * Filters on otion, optionValues and other criterias
+	 */
 
 	@Override
 	public ReadableProductList getProductListsByCriterias(MerchantStore store, Language language,
 			ProductCriteria criterias) throws Exception {
-		// same as v1
 		Validate.notNull(criterias, "ProductCriteria must be set for this product");
 
 		/** This is for category **/
@@ -193,10 +195,17 @@ public class ProductFacadeV2Impl implements ProductFacade {
 		Page<Product> modelProductList = productService.listByStore(store, language, criterias, criterias.getStartPage(), criterias.getMaxCount());
 		
 		List<Product> products = modelProductList.getContent();
+		ReadableProductList productList = new ReadableProductList();
+
 		
-		List<Product> prds = products.stream().sorted(Comparator.comparing(Product::getSortOrder)).collect(Collectors.toList());
-		products = prds;
+		/**
+		 * ReadableProductMapper
+		 */
 		
+		List<ReadableProduct> readableProducts = products.stream().map(p -> readableProductMapper.convert(p, store, language))
+				.sorted(Comparator.comparing(ReadableProduct::getSortOrder)).collect(Collectors.toList());
+		
+/**
 		ReadableProductPopulator populator = new ReadableProductPopulator();
 		populator.setPricingService(pricingService);
 		populator.setimageUtils(imageUtils);
@@ -209,11 +218,11 @@ public class ProductFacadeV2Impl implements ProductFacade {
 			productList.getProducts().add(readProduct);
 
 		}
+**/
 
-		// productList.setTotalPages(products.getTotalCount());
 		productList.setRecordsTotal(modelProductList.getTotalElements());
 		productList.setNumber(productList.getProducts().size());
-
+		productList.setProducts(readableProducts);
 		productList.setTotalPages(modelProductList.getTotalPages());
 
 		return productList;

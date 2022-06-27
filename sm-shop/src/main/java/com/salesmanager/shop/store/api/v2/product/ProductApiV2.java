@@ -181,6 +181,8 @@ public class ProductApiV2 {
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
 	public ReadableProductList list(
 			@RequestParam(value = "lang", required = false) String lang,
+			ProductCriteria searchCriterias,
+			/**
 			@RequestParam(value = "category", required = false) Long category,
 			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "sku", required = false) String sku,
@@ -191,6 +193,7 @@ public class ProductApiV2 {
 			@RequestParam(value = "owner", required = false) Long owner,
 			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page, // current
 			@RequestParam(value = "origin", required = false, defaultValue = ProductCriteria.ORIGIN_SHOP) String origin,
+			**/
 			// page
 			// 0
 			// ..
@@ -202,7 +205,9 @@ public class ProductApiV2 {
 			// page
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-
+		
+		
+        /**
 		ProductCriteria criteria = new ProductCriteria();
 		
 		criteria.setOrigin(origin);
@@ -225,10 +230,10 @@ public class ProductApiV2 {
 			criteria.setManufacturerId(manufacturer);
 		}
 
-		if (CollectionUtils.isNotEmpty(optionValueIds)) {
-			criteria.setOptionValueIds(optionValueIds);
+		if (CollectionUtils.isNotEmpty(optionValues)) {
+			criteria.setOptionValueCodes(optionValues);
 		}
-
+		
 		if (owner != null) {
 			criteria.setOwnerId(owner);
 		}
@@ -249,12 +254,10 @@ public class ProductApiV2 {
 			criteria.setCode(sku);
 		}
 
-		// TODO
-		// RENTAL add filter by owner
-		// REPOSITORY to use the new filters
+		**/
 
 		try {
-			return productFacade.getProductListsByCriterias(merchantStore, language, criteria);
+			return productFacadeV2.getProductListsByCriterias(merchantStore, language, searchCriterias);
 
 		} catch (Exception e) {
 
