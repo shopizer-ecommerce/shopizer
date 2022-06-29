@@ -96,8 +96,8 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 	}
 
 	@Override
-	public Optional<Product> retrieveById(Long id) {
-		return Optional.ofNullable(getById(id));
+	public Optional<Product> retrieveById(Long id, MerchantStore store) {
+		return Optional.ofNullable(findOne(id,store));
 	}
 
 	@Override
@@ -213,10 +213,12 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		return productRepository.listByTaxClass(taxClass);
 	}
 
+	/**
 	@Override
 	public Product getByCode(String productCode, Language language) {
 		return productRepository.getByCode(productCode, language);
 	}
+	**/
 
 	@Override
 	public void delete(Product product) throws ServiceException {
@@ -371,10 +373,12 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		return p;
 	}
 
+	/**
 	@Override
 	public Product getByCode(String productCode, MerchantStore merchant) {
 		return productRepository.getByCode(productCode, merchant);
 	}
+	**/
 
 	@Override
 	public Product createProduct(Product product) throws ServiceException{
@@ -389,6 +393,11 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 	@Override
 	public Product getBySku(String productCode, MerchantStore merchant, Language language) {
 		return productRepository.getBySku(productCode, merchant, language);
+	}
+
+	@Override
+	public boolean exists(String sku, MerchantStore store) {
+		return productRepository.existsBySku(sku, store.getId());
 	}
 
 

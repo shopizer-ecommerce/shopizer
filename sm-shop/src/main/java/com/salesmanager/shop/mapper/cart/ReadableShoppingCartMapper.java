@@ -51,7 +51,6 @@ import com.salesmanager.shop.model.shoppingcart.ReadableShoppingCartAttributeOpt
 import com.salesmanager.shop.model.shoppingcart.ReadableShoppingCartAttributeOptionValue;
 import com.salesmanager.shop.model.shoppingcart.ReadableShoppingCartItem;
 import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;
-import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.utils.ImageFilePath;
 
 @Component

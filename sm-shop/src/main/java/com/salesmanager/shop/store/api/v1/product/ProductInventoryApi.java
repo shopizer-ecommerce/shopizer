@@ -1,7 +1,5 @@
 package com.salesmanager.shop.store.api.v1.product;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -59,19 +57,18 @@ public class ProductInventoryApi {
       @Valid @RequestBody PersistableInventory inventory,
             @ApiIgnore MerchantStore merchantStore,
             @ApiIgnore Language language) {
-    return productInventoryFacade.add(inventory.getProductId(), inventory, merchantStore, language);
+    return productInventoryFacade.add(inventory, merchantStore, language);
   }
   
   @ResponseStatus(HttpStatus.OK)
   @RequestMapping(
-      value = {"/private/product/{productId}/inventory/{id}"},
+      value = {"/private/product/inventory/{id}"},
       method = RequestMethod.PUT)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
   })
   public void update(
-      @PathVariable Long productId,
       @PathVariable Long id,
       @Valid @RequestBody PersistableInventory inventory,
             @ApiIgnore MerchantStore merchantStore,
@@ -79,8 +76,9 @@ public class ProductInventoryApi {
       HttpServletRequest request,
       HttpServletResponse response) {
       inventory.setId(id);
-      inventory.setProductId(productId);
-      productInventoryFacade.update(productId, inventory, merchantStore, language);
+      inventory.setProductId(inventory.getProductId());
+      inventory.setInstance(inventory.getInstance());
+      productInventoryFacade.update(inventory, merchantStore, language);
 
   }
   
@@ -105,48 +103,6 @@ public class ProductInventoryApi {
   }
   
 
-  @ResponseStatus(HttpStatus.OK)
-  @RequestMapping(
-      value = {"/private/product/{id}/inventory/{inventoryId}"},
-      method = RequestMethod.GET)
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
-  })
-  public @ResponseBody ReadableInventory get(
-            @PathVariable Long id,
-            @PathVariable Long inventoryId,
-            @ApiIgnore MerchantStore merchantStore,
-            @ApiIgnore Language language,
-      HttpServletRequest request,
-      HttpServletResponse response) {
-    
-    
-      return productInventoryFacade.get(id, inventoryId, merchantStore, language);
-
-  }
-  
-  //TODO remove store path
-  @ResponseStatus(HttpStatus.OK)
-  @RequestMapping(
-      value = {"/private/product/{id}/inventory/store/{code}"},
-      method = RequestMethod.GET)
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
-  })
-  public @ResponseBody ReadableInventory get(
-            @PathVariable Long id,
-            @PathVariable String code,
-            @ApiIgnore MerchantStore merchantStore,
-            @ApiIgnore Language language,
-      HttpServletRequest request,
-      HttpServletResponse response) {
-    
-    
-      return productInventoryFacade.get(id, code, language);
-
-  }
   
   @ResponseStatus(HttpStatus.OK)
   @GetMapping(
@@ -168,26 +124,6 @@ public class ProductInventoryApi {
 
   }
   
-  @ResponseStatus(HttpStatus.OK)
-  @GetMapping(
-      value = {"/private/product/{sku}/inventory/store/{code}"})
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
-  })
-  public @ResponseBody ReadableEntityList<ReadableInventory> getBySku(
-            @PathVariable String sku,
-            @PathVariable String code,
-            @ApiIgnore MerchantStore merchantStore,
-            @ApiIgnore Language language,
-            @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-			@RequestParam(value = "count", required = false, defaultValue = "10") Integer count){
-    
-    
-      return productInventoryFacade.get(sku, code, merchantStore, language, page, count);
-    		  
-
-  }
 
 
 }

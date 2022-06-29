@@ -15,7 +15,7 @@ public interface ProductAvailabilityService extends
 
 	void saveOrUpdate(ProductAvailability availability) throws ServiceException;
 	
-	Page<ProductAvailability> listByProduct(Product product, MerchantStore store, String child, int page, int count);
+	//Page<ProductAvailability> listByProduct(Product product, MerchantStore store, String child, int page, int count);
 
 	/**
 	 * Get by product definition
@@ -24,7 +24,7 @@ public interface ProductAvailabilityService extends
 	 * @param store
 	 * @return
 	 */
-	Optional<ProductAvailability> getByStore(Product product, MerchantStore store);
+	//Optional<ProductAvailability> getByStore(Product product, MerchantStore store);
 	
 	
 	/**
@@ -53,10 +53,10 @@ public interface ProductAvailabilityService extends
 
 	Optional<ProductAvailability> getById(Long availabilityId, MerchantStore store);
 
-	Optional<ProductAvailability> getByInventoryId(Long productId, Long availabilityId, MerchantStore store);
+	//Optional<ProductAvailability> getByInventoryId(Long productId, Long availabilityId, MerchantStore store);
 
-	ProductAvailability getByOwner(Product product, String owner) throws ServiceException;
+	//ProductAvailability getByOwner(Product product, String owner) throws ServiceException;
 	
-	int count(Product product);
+	//int count(Product product);
 
 }

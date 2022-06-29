@@ -87,11 +87,6 @@ public class ProductFacadeV2Impl implements ProductFacade {
 	@Qualifier("img")
 	private ImageFilePath imageUtils;
 
-	@Override
-	public Product getProduct(String sku, MerchantStore store) {
-		// same as v1
-		return productService.getByCode(sku, store.getDefaultLanguage());
-	}
 
 	@Override
 	public Product getProduct(Long id, MerchantStore store) {
@@ -100,17 +95,17 @@ public class ProductFacadeV2Impl implements ProductFacade {
 	}
 
 	@Override
-	public ReadableProduct getProductByCode(MerchantStore store, String uniqueCode, Language language) {
+	public ReadableProduct getProductByCode(MerchantStore store, String sku, Language language) {
 
 		
-		Product product = productService.getBySku(uniqueCode, store, language);
+		Product product = productService.getBySku(sku, store, language);
 
 		if (product == null) {
-			throw new ResourceNotFoundException("Product [" + uniqueCode + "] not found for merchant [" + store.getCode() + "]");
+			throw new ResourceNotFoundException("Product [" + sku + "] not found for merchant [" + store.getCode() + "]");
 		}
 		
 		if (product.getMerchantStore().getId() != store.getId()) {
-			throw new ResourceNotFoundException("Product [" + uniqueCode + "] not found for merchant [" + store.getCode() + "]");
+			throw new ResourceNotFoundException("Product [" + sku + "] not found for merchant [" + store.getCode() + "]");
 		}
 		
 
@@ -204,21 +199,7 @@ public class ProductFacadeV2Impl implements ProductFacade {
 		
 		List<ReadableProduct> readableProducts = products.stream().map(p -> readableProductMapper.convert(p, store, language))
 				.sorted(Comparator.comparing(ReadableProduct::getSortOrder)).collect(Collectors.toList());
-		
-/**
-		ReadableProductPopulator populator = new ReadableProductPopulator();
-		populator.setPricingService(pricingService);
-		populator.setimageUtils(imageUtils);
 
-		ReadableProductList productList = new ReadableProductList();
-		for (Product product : products) {
-
-			// create new proxy product
-			ReadableProduct readProduct = populator.populate(product, new ReadableProduct(), store, language);
-			productList.getProducts().add(readProduct);
-
-		}
-**/
 
 		productList.setRecordsTotal(modelProductList.getTotalElements());
 		productList.setNumber(productList.getProducts().size());

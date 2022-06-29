@@ -80,9 +80,9 @@ public class ProductDefinitionFacadeImpl implements ProductDefinitionFacade {
 	}
 
 	@Override
-	public ReadableProductDefinition getProductByCode(MerchantStore store, String uniqueCode, Language language) {
+	public ReadableProductDefinition getProductBySku(MerchantStore store, String uniqueCode, Language language) {
 		
-		Product product = productService.getByCode(uniqueCode, store);
+		Product product = productService.getBySku(uniqueCode, store, language);
 		return readableProductDefinitionMapper.convert(product, store, language);
 
 	}

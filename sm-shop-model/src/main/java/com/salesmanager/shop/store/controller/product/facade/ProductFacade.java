@@ -14,13 +14,6 @@ import com.salesmanager.shop.model.catalog.product.ReadableProductPrice;
 public interface ProductFacade {
 
 
-  /**
-   *
-   * @param sku
-   * @param store
-   * @return
-   */
-  Product getProduct(String sku, MerchantStore store);
   
   
   /**

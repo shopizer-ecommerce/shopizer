@@ -24,6 +24,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Use mappers
+ * @author carlsamson
+ *
+ */
+@Deprecated
 public class ReadableOrderProductPopulator extends
 		AbstractDataPopulator<OrderProduct, ReadableOrderProduct> {
 	
@@ -91,7 +97,7 @@ public class ReadableOrderProductPopulator extends
 
 			String productSku = source.getSku();
 			if(!StringUtils.isBlank(productSku)) {
-				Product product = productService.getByCode(productSku, language);
+				Product product = productService.getBySku(productSku, store, language);
 				if(product!=null) {
 					
 					

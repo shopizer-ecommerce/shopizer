@@ -1,20 +1,18 @@
 package com.salesmanager.shop.store.api.v2.product;
 
-import java.util.ArrayList;
-import java.util.List;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -28,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import com.salesmanager.core.model.catalog.product.ProductCriteria;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.model.catalog.product.LightPersistableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProductList;
 import com.salesmanager.shop.model.catalog.product.product.definition.PersistableProductDefinition;
@@ -80,7 +79,7 @@ public class ProductApiV2 {
 	 */
 
 	@ResponseStatus(HttpStatus.CREATED)
-	@PostMapping(value = { "/private/product/definition" })
+	@PostMapping(value = { "/private/product" })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
 	public @ResponseBody Entity createV2(@Valid @RequestBody PersistableProductDefinition product,
@@ -96,7 +95,7 @@ public class ProductApiV2 {
 	}
 
 	@ResponseStatus(HttpStatus.OK)
-	@PutMapping(value = { "/private/product/definition/{id}" })
+	@PutMapping(value = { "/private/product/{id}" })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
 	public void updateV2(@PathVariable Long id, @Valid @RequestBody PersistableProductDefinition product,
@@ -107,7 +106,7 @@ public class ProductApiV2 {
 	}
 
 	@ResponseStatus(HttpStatus.OK)
-	@GetMapping(value = { "/private/product/definition/{id}" })
+	@GetMapping(value = { "/private/product/{id}" })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
 	public @ResponseBody ReadableProductDefinition getV2(@PathVariable Long id, @ApiIgnore MerchantStore merchantStore,
@@ -119,7 +118,7 @@ public class ProductApiV2 {
 	}
 	
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = { "/private/product/definition/{id}" }, method = RequestMethod.DELETE)
+	@RequestMapping(value = { "/private/product/{id}" }, method = RequestMethod.DELETE)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
 	public void deleteV2(@PathVariable Long id, @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
@@ -270,6 +269,23 @@ public class ProductApiV2 {
 			return null;
 		}
 	}
+	
+	/** updates price quantity **/
+	@ResponseStatus(HttpStatus.OK)
+	@PatchMapping(value = "/private/product/{sku}", produces = { APPLICATION_JSON_VALUE })
+	@ApiOperation(httpMethod = "PATCH", value = "Update product inventory", notes = "Updates product inventory", produces = "application/json", response = Void.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
+	public void update(
+			@PathVariable String sku, 
+			@Valid @RequestBody 
+			LightPersistableProduct product,
+			@ApiIgnore MerchantStore merchantStore, 
+			@ApiIgnore Language language) {
+		productCommonFacade.update(sku, product, merchantStore, language);
+		return;
+
+	}
 
 	
 	/**
@@ -283,18 +299,18 @@ public class ProductApiV2 {
 	 *                   <p>
 	 *                   /api/products/123
 	 */
-	@RequestMapping(value = "/product/{uniqueCode}", method = RequestMethod.GET)
-	@ApiOperation(httpMethod = "GET", value = "Get a product by id", notes = "For Shop purpose. Specifying ?merchant is required otherwise it falls back to DEFAULT")
+	@RequestMapping(value = "/product/{sku}", method = RequestMethod.GET)
+	@ApiOperation(httpMethod = "GET", value = "Get a product by sku", notes = "For Shop purpose. Specifying ?merchant is required otherwise it falls back to DEFAULT")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Single product found", response = ReadableProduct.class) })
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public ReadableProduct get(@PathVariable final String uniqueCode, 
+	public ReadableProduct get(@PathVariable final String sku, 
 			@RequestParam(value = "lang", required = false) String lang,
 			@ApiIgnore MerchantStore merchantStore, 
 			@ApiIgnore Language language) {
-		ReadableProduct product = productFacadeV2.getProductByCode(merchantStore, uniqueCode, language);
+		ReadableProduct product = productFacadeV2.getProductByCode(merchantStore, sku, language);
 
 
 

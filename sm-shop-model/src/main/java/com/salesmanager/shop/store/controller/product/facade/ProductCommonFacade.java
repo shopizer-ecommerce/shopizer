@@ -36,6 +36,15 @@ public interface ProductCommonFacade {
 	   * @param language
 	   */
 	  void update(Long productId, LightPersistableProduct product, MerchantStore merchant, Language language);
+	  
+	  /**
+	   * Patch inventory by sku
+	   * @param sku
+	   * @param product
+	   * @param merchant
+	   * @param language
+	   */
+	  void update(String sku, LightPersistableProduct product, MerchantStore merchant, Language language);
 
 	  /**
 	   * Get a Product by id and store
@@ -47,16 +56,6 @@ public interface ProductCommonFacade {
 	   * @throws Exception
 	   */
 	  ReadableProduct getProduct(MerchantStore store, Long id, Language language) throws Exception;
-	  
-
-	  /**
-	   *
-	   * @param sku
-	   * @param store
-	   * @return
-	   */
-	  Product getProduct(String sku, MerchantStore store);
-	  
 	  
 	  /**
 	   * 

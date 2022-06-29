@@ -9,8 +9,8 @@ import com.salesmanager.core.model.catalog.product.availability.ProductAvailabil
 
 public interface ProductAvailabilityRepository extends JpaRepository<ProductAvailability, Long> {
   
-  @Query("select count(distinct p) from ProductAvailability as p where p.product.id=?1")
-  int count(Long productId);
+  //@Query("select count(distinct p) from ProductAvailability as p where p.product.id=?1")
+  //int count(Long productId);
   
   @Query(value = "select distinct p from ProductAvailability p "
       + "left join fetch p.merchantStore pm "
@@ -33,6 +33,8 @@ public interface ProductAvailabilityRepository extends JpaRepository<ProductAvai
       + "and pprm.id=?2")
   ProductAvailability getById(Long availabilityId, int merchantId);
   
+  
+  /**
   @Query(value = "select distinct p from ProductAvailability p "
 	      + "left join fetch p.merchantStore pm "
 	      + "left join fetch p.prices pp "
@@ -43,8 +45,10 @@ public interface ProductAvailabilityRepository extends JpaRepository<ProductAvai
 	      + "where ppr.id=?1 "
 	      + "and pm.code=?2")
   ProductAvailability getByStore(Long productId, String store);
+  **/
   
 
+  /**
   @Query(value = "select distinct p from ProductAvailability p "
       + "left join fetch p.merchantStore pm "
       + "left join fetch p.prices pp "
@@ -55,6 +59,7 @@ public interface ProductAvailabilityRepository extends JpaRepository<ProductAvai
       + "where ppr.id=?1 "
       + "and p.id=?2")
   ProductAvailability getByStore(Long productId, Long inventory);
+  **/
   
   
   @Query(value = "select distinct p from ProductAvailability p "
@@ -76,6 +81,6 @@ public interface ProductAvailabilityRepository extends JpaRepository<ProductAvai
 	      + "left join fetch ppr.descriptions pprd "
 	      + "left join fetch p.productInstance ppi "
 	      + "where ppr.sku=?1 or ppi.sku=?1")
-  List<ProductAvailability> getBySku(String productCode);
+  List<ProductAvailability> getBySku(String sku);
 
 }

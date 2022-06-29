@@ -70,9 +70,9 @@ import springfox.documentation.annotations.ApiIgnore;
 @Controller
 @RequestMapping("/api/v1")
 @Api(tags = {
-		"Product display and management resource (Product display and Management Api such as adding a product to category. Serves api v1 and v2 with backward compatibility)" })
+		"Product definition resource (Create udtate and delete product definition. Serves api v1 and v2 with backward compatibility)" })
 @SwaggerDefinition(tags = {
-		@Tag(name = "Product management resource, add product to category", description = "View product, Add product, edit product and delete product") })
+		@Tag(name = "Product definition  resource, add product to category", description = "View product, Add product, edit product and delete product") })
 public class ProductApi {
 
 	@Inject
@@ -93,6 +93,15 @@ public class ProductApi {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProductApi.class);
 
+	/**
+	 * Create product definition
+	 * @param product
+	 * @param merchantStore
+	 * @param language
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value = { "/private/product", "/auth/products" }, // private
 																			// for

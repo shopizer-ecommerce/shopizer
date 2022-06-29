@@ -79,7 +79,7 @@ public class ProductFacadeImpl implements ProductFacade {
 	@Override
 	public ReadableProduct getProduct(MerchantStore store, String sku, Language language) throws Exception {
 
-		Product product = productService.getByCode(sku, language);
+		Product product = productService.getBySku(sku, store, language);
 
 		if (product == null) {
 			return null;
@@ -162,7 +162,7 @@ public class ProductFacadeImpl implements ProductFacade {
 	@Override
 	public ReadableProduct getProductByCode(MerchantStore store, String uniqueCode, Language language) {
 
-		Product product = productService.getByCode(uniqueCode, language);
+		Product product = productService.getBySku(uniqueCode, store, language);
 
 		ReadableProduct readableProduct = new ReadableProduct();
 
@@ -201,11 +201,6 @@ public class ProductFacadeImpl implements ProductFacade {
 		return null;
 	}
 
-
-	@Override
-	public Product getProduct(String sku, MerchantStore store) {
-		return productService.getByCode(sku, store.getDefaultLanguage());
-	}
 
 
 	@Override
