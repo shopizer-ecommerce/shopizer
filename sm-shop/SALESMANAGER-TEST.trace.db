@@ -1,0 +1,9 @@
+2022-07-06 17:16:56 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCT" not found; SQL statement:
+select * from PRODUCT [42102-199]
+2022-07-06 17:56:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCT" not found; SQL statement:
+select p.PRODUCT_ID from PRODUCT p join MERCHANT_STORE m ON p.MERCHANT_ID = m.MERCHANT_ID left join PRODUCT_INSTANCE i ON i.PRODUCT_ID = p.PRODUCT_ID where p.SKU=? or i.SKU=? and m.MERCHANT_ID=? [42102-200]
+2022-07-06 19:29:35 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCT" not found; SQL statement:
+select p.PRODUCT_ID from PRODUCT p join MERCHANT_STORE m ON p.MERCHANT_ID = m.MERCHANT_ID left join PRODUCT_INSTANCE i ON i.PRODUCT_ID = p.PRODUCT_ID where p.SKU=? or i.SKU=? and m.MERCHANT_ID=? [42102-200]

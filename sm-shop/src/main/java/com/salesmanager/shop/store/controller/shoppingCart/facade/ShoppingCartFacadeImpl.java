@@ -426,7 +426,11 @@ public class ShoppingCartFacadeImpl implements ShoppingCartFacade {
 	}
 
 	private Product fetchProduct(String sku, MerchantStore store, Language language) {
-		return productService.getBySku(sku, store, language);
+		try {
+			return productService.getBySku(sku, store, language);
+		} catch (ServiceException e) {
+			throw new ServiceRuntimeException(e);
+		}
 	}
 
 	@Override

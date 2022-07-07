@@ -94,9 +94,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			Query q = this.em.createQuery(hql);
 
 			q.setParameter("pid", productId);
-			//if (merchant != null) {
-				//q.setParameter("mid", merchant.getId());
-			//}
+
 
 			if(merchantId != null) {
 				//q.setParameter("mid", merchant.getId());
@@ -1091,9 +1089,11 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		//qs.append("left join fetch p.owner owner ");
 		return qs.toString();
 	}
+	
+
 
 	@Override
-	public Product getBySku(String sku, MerchantStore store, Language language) {
+	public Product getById(Long id, MerchantStore store, Language language) {
 
 		try {
 
@@ -1143,12 +1143,12 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			qs.append("left join fetch pinstg.images pinstgimg ");
 			qs.append("left join fetch pinstgimg.descriptions ");
 
-			qs.append("where pinst.sku=:code or p.sku=:code and pm.id=:id");
+			qs.append("where p.id=:productId and pm.id=:id");
 
 			String hql = qs.toString();
 			Query q = this.em.createQuery(hql);
 
-			q.setParameter("code", sku);
+			q.setParameter("productId", id);
 			q.setParameter("id", store.getId());
 
 			return (Product) q.getSingleResult();

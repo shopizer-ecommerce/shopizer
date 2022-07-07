@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.exception.ConversionException;
+import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.pricing.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
@@ -162,7 +163,12 @@ public class ProductFacadeImpl implements ProductFacade {
 	@Override
 	public ReadableProduct getProductByCode(MerchantStore store, String uniqueCode, Language language) {
 
-		Product product = productService.getBySku(uniqueCode, store, language);
+		Product product = null;
+		try {
+			product = productService.getBySku(uniqueCode, store, language);
+		} catch (ServiceException e) {
+			throw new ServiceRuntimeException(e);
+		}
 
 		ReadableProduct readableProduct = new ReadableProduct();
 

@@ -152,11 +152,6 @@ public class PersistableProductDefinitionMapper implements Mapper<PersistablePro
 				destination.setDescriptions(descriptions);
 			}
 
-			//if(source.getRating() != null) {
-			//	destination.setProductReviewAvg(new BigDecimal(source.getRating()));
-			//}
-			//destination.setProductReviewCount(source.getRatingCount());
-			
 			/**
 			 * Product definition
 			 */

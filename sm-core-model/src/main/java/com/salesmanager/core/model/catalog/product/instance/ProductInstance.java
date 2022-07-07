@@ -67,7 +67,7 @@ public class ProductInstance extends SalesManagerEntity<Long, ProductInstance> i
 	private boolean available = true;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "PRODUCT_VARIANTION_ID", nullable = false)
+	@JoinColumn(name = "PRODUCT_VARIATION_ID", nullable = true)
 	private ProductVariation variant;
 
 	@ManyToOne(targetEntity = Product.class)
@@ -81,7 +81,7 @@ public class ProductInstance extends SalesManagerEntity<Long, ProductInstance> i
 	private Integer sortOrder = 0;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "PRODUCT_VARIANTION_VALUE_ID", nullable = true)
+	@JoinColumn(name = "PRODUCT_VARIATION_VALUE_ID", nullable = true)
 	private ProductVariation variantValue;
 
 	@NotEmpty

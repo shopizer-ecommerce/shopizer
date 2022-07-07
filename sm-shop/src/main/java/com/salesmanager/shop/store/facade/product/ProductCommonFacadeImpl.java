@@ -48,6 +48,12 @@ import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.ImageFilePath;
 
 
+/**
+ * Version 1 Product management
+ * Version 2 Recommends using ProductInstance
+ * @author carlsamson
+ *
+ */
 @Service("productCommonFacade")
 public class ProductCommonFacadeImpl implements ProductCommonFacade {
 
@@ -415,7 +421,12 @@ public class ProductCommonFacadeImpl implements ProductCommonFacade {
 	@Override
 	public void update(String sku, LightPersistableProduct product, MerchantStore merchant, Language language) {
 		// Get product
-		Product modified = productService.getBySku(sku, merchant, language);
+		Product modified = null;
+		try {
+			modified = productService.getBySku(sku, merchant, language);
+		} catch (ServiceException e) {
+			throw new ServiceRuntimeException(e);
+		}
 		
 		ProductInstance instance = modified.getInstances().stream()
 				  .filter(inst -> sku.equals(inst.getSku()))

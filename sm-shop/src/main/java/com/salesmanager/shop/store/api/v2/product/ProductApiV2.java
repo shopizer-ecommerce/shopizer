@@ -254,6 +254,8 @@ public class ProductApiV2 {
 		}
 
 		**/
+		
+		searchCriterias.setMaxCount(count);
 
 		try {
 			return productFacadeV2.getProductListsByCriterias(merchantStore, language, searchCriterias);

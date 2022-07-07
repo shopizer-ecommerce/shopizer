@@ -49,7 +49,7 @@ public class ProductVariation extends SalesManagerEntity<Long, ProductVariation>
 	private AuditSection auditSection = new AuditSection();
 	
 	@Id
-	@Column(name = "PRODUCT_VARIANTION_ID", unique=true, nullable=false)
+	@Column(name = "PRODUCT_VARIATION_ID", unique=true, nullable=false)
 	@TableGenerator(name = "TABLE_GEN", table = "SM_SEQUENCER", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "PRODUCT_VARIN_SEQ_NEXT_VAL")
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
 	private Long id;

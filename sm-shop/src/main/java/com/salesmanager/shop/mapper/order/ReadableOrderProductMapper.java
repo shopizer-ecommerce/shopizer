@@ -26,6 +26,7 @@ import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.order.ReadableOrderProduct;
 import com.salesmanager.shop.model.order.ReadableOrderProductAttribute;
 import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;
+import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.utils.ImageFilePath;
 
 @Component
@@ -100,7 +101,12 @@ public class ReadableOrderProductMapper implements Mapper<OrderProduct, Readable
 
 		String productSku = source.getSku();
 		if (!StringUtils.isBlank(productSku)) {
-			Product product = productService.getBySku(productSku, store, language);
+			Product product = null;
+			try {
+				product = productService.getBySku(productSku, store, language);
+			} catch (ServiceException e) {
+				throw new ServiceRuntimeException(e);
+			}
 			if (product != null) {
 				
 				

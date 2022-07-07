@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.pricing.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
@@ -98,7 +99,12 @@ public class ProductFacadeV2Impl implements ProductFacade {
 	public ReadableProduct getProductByCode(MerchantStore store, String sku, Language language) {
 
 		
-		Product product = productService.getBySku(sku, store, language);
+		Product product = null;
+		try {
+			product = productService.getBySku(sku, store, language);
+		} catch (ServiceException e) {
+			throw new ServiceRuntimeException(e);
+		}
 
 		if (product == null) {
 			throw new ResourceNotFoundException("Product [" + sku + "] not found for merchant [" + store.getCode() + "]");

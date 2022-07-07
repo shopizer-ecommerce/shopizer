@@ -2,6 +2,7 @@ package com.salesmanager.core.business.services.catalog.product;
 
 
 import java.io.InputStream;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -213,12 +214,6 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		return productRepository.listByTaxClass(taxClass);
 	}
 
-	/**
-	@Override
-	public Product getByCode(String productCode, Language language) {
-		return productRepository.getByCode(productCode, language);
-	}
-	**/
 
 	@Override
 	public void delete(Product product) throws ServiceException {
@@ -391,8 +386,21 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 	}
 
 	@Override
-	public Product getBySku(String productCode, MerchantStore merchant, Language language) {
-		return productRepository.getBySku(productCode, merchant, language);
+	public Product getBySku(String productCode, MerchantStore merchant, Language language) throws ServiceException {
+
+		try {
+			List<Object> products = productRepository.findBySku(productCode, merchant.getId());
+			if(products.isEmpty()) {
+				throw new ServiceException("Cannot get product with sku [" + productCode + "]");
+			}
+			BigInteger id = (BigInteger) products.get(0);
+			return productRepository.getById(id.longValue(), merchant, language);
+		} catch (Exception e) {
+			throw new ServiceException("Cannot get product with sku [" + productCode + "]", e);
+		}
+		
+
+
 	}
 
 	@Override
