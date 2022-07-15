@@ -208,7 +208,7 @@ public class ProductFacadeV2Impl implements ProductFacade {
 
 
 		productList.setRecordsTotal(modelProductList.getTotalElements());
-		productList.setNumber(productList.getProducts().size());
+		productList.setNumber(modelProductList.getNumberOfElements());
 		productList.setProducts(readableProducts);
 		productList.setTotalPages(modelProductList.getTotalPages());
 

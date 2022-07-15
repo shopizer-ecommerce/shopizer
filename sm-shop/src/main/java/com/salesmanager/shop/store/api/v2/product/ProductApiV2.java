@@ -256,6 +256,7 @@ public class ProductApiV2 {
 		**/
 		
 		searchCriterias.setMaxCount(count);
+		searchCriterias.setOrigin(ProductCriteria.ORIGIN_SHOP);
 
 		try {
 			return productFacadeV2.getProductListsByCriterias(merchantStore, language, searchCriterias);
@@ -291,7 +292,7 @@ public class ProductApiV2 {
 
 	
 	/**
-	 * API for getting a product using v2
+	 * API for getting a product using sku in v2
 	 *
 	 * @param id
 	 * @param lang     ?lang=fr|en|...

@@ -13,6 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -34,7 +35,8 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
 
 @Entity
 @EntityListeners(value = AuditListener.class)
-@Table(name = "PRODUCT_INSTANCE", 
+@Table(name = "PRODUCT_INSTANCE",
+indexes = @Index(columnList = "PRODUCT_ID"),
 uniqueConstraints = 
         @UniqueConstraint(columnNames = { 
         "PRODUCT_ID",

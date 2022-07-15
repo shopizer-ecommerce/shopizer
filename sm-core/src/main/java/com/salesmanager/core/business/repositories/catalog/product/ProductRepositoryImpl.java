@@ -754,7 +754,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		qs.append("left join fetch pa.prices pap ");
 		qs.append("left join fetch pap.descriptions papd ");
 
-		qs.append("join fetch p.descriptions pd ");
+		qs.append("left join fetch p.descriptions pd ");
 		qs.append("left join fetch p.categories categs ");
 		qs.append("left join fetch categs.descriptions cd ");
 		
@@ -788,6 +788,31 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			qs.append(" left join fetch pattr.productOptionValue pov");
 			qs.append(" left join fetch pov.descriptions povd");
 		}
+		
+		/**
+		 * variants
+		 */
+		qs.append(" left join fetch p.instances pinst ");
+		qs.append(" left join fetch pinst.variant pv ");
+		qs.append( "left join fetch pv.productOption pvpo ");
+		qs.append(" left join fetch pv.productOptionValue pvpov ");
+		qs.append(" left join fetch pvpo.descriptions pvpod ");
+		qs.append(" left join fetch pvpov.descriptions pvpovd ");
+		
+		qs.append(" left join fetch pinst.variantValue pvv ");
+		qs.append(" left join fetch pvv.productOption pvvpo ");
+		qs.append(" left join fetch pvv.productOptionValue pvvpov ");
+		qs.append(" left join fetch pvvpo.descriptions povvpod ");
+		qs.append(" left join fetch pvpov.descriptions povvpovd ");	
+		
+		//instance availability and price
+		qs.append(" left join fetch pinst.availabilities pinsta ");
+		qs.append(" left join fetch pinsta.prices pinstap ");
+		qs.append(" left join fetch pinstap.descriptions pinstapdesc ");
+		qs.append(" left join fetch pinst.productInstanceGroup pinstg ");
+		qs.append(" left join fetch pinstg.images pinstgimg ");
+		qs.append(" left join fetch pinstgimg.descriptions ");
+		//end variants
 
 		/** not required at list level **/
 		//qs.append(" left join fetch p.relationships pr");
@@ -1142,6 +1167,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			qs.append("left join fetch pinst.productInstanceGroup pinstg ");
 			qs.append("left join fetch pinstg.images pinstgimg ");
 			qs.append("left join fetch pinstgimg.descriptions ");
+			//end variants
 
 			qs.append("where p.id=:productId and pm.id=:id");
 

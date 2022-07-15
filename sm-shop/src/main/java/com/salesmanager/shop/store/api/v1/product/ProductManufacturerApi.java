@@ -90,7 +90,7 @@ public class ProductManufacturerApi {
 		}
 	}
 
-	@RequestMapping(value = "/manufacturers/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/manufacturer/{id}", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
@@ -119,7 +119,7 @@ public class ProductManufacturerApi {
 	}
 
 	
-	@RequestMapping(value = "/private/manufacturers/", method = RequestMethod.GET)
+	@RequestMapping(value = "/private/manufacturers", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
@@ -138,7 +138,7 @@ public class ProductManufacturerApi {
 	}
 	
 	
-	@RequestMapping(value = "/manufacturers/", method = RequestMethod.GET)
+	@RequestMapping(value = "/manufacturers", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
@@ -187,7 +187,7 @@ public class ProductManufacturerApi {
 		}
 	}
 
-	@RequestMapping(value = "/manufacturer/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/private/manufacturer/{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
@@ -213,7 +213,7 @@ public class ProductManufacturerApi {
 		}
 	}
 
-	@RequestMapping(value = "/category/{id}/manufacturers", method = RequestMethod.GET)
+	@RequestMapping(value = "/category/{id}/manufacturer", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(httpMethod = "GET", value = "Get all manufacturers for all items in a given category", notes = "", produces = "application/json", response = List.class)
 	@ResponseBody
