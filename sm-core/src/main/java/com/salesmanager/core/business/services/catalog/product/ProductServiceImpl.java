@@ -376,7 +376,7 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 	**/
 
 	@Override
-	public Product createProduct(Product product) throws ServiceException{
+	public Product saveProduct(Product product) throws ServiceException{
 		try {
 			return this.saveOrUpdate(product);
 		} catch (ServiceException e) {

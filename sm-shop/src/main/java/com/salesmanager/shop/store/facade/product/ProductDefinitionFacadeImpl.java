@@ -69,7 +69,7 @@ public class ProductDefinitionFacadeImpl implements ProductDefinitionFacade {
 			} else {
 
 				
-				productService.createProduct(target);
+				productService.saveProduct(target);
 				product.setId(target.getId());
 			}
 

@@ -59,14 +59,15 @@
 		<dependency>
             <groupId>com.shopizer</groupId>
             <artifactId>modules-commons</artifactId>
-            <version>1.0.2</version>
+            <version>3.2.1-SNAPSHOT</version>
         </dependency>
         
 		<!--
+		Want to use Square Payment Module ?
         <dependency>
             <groupId>com.shopizer</groupId>
             <artifactId>shopizer-payment-square-spring-boot-starter</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>1.0.0</version>
         </dependency>
         -->
 

@@ -263,7 +263,7 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 	    /**
 	     * Create product
 	     */
-	    productService.createProduct(product);
+	    productService.saveProduct(product);
 	    
 	    
 	    /**

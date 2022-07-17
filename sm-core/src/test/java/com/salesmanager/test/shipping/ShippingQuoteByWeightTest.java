@@ -86,7 +86,7 @@ public class ShippingQuoteByWeightTest extends com.salesmanager.test.common.Abst
 
 	    product.getDescriptions().add(description);
 	    
-	    productService.createProduct(product);
+	    productService.saveProduct(product);
 	    //productService.saveOrUpdate(product);
 	    
 

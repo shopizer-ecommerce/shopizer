@@ -7,12 +7,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.google.gson.JsonNull;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import com.salesmanager.core.business.constants.Constants;
@@ -32,6 +36,9 @@ import com.shopizer.search.services.Facet;
 import com.shopizer.search.services.SearchHit;
 import com.shopizer.search.services.SearchRequest;
 import com.shopizer.search.services.SearchResponse;
+
+import modules.commons.search.SearchConfiguration;
+import modules.commons.search.SearchModule;
 
 
 
@@ -53,6 +60,47 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 	
 	@Inject
 	private CoreConfiguration configuration;
+
+	@Autowired(required = false)
+    private SearchModule searchModule;
+    
+    @PostConstruct
+    public void init() {
+       
+    	/**
+    	 * Configure search module
+    	 */
+    	
+    	/**
+    	 * search module code allows getting appropriate configurations
+    	 */
+    	
+    	if(searchModule != null) {
+    		
+    		//searchModule.get code
+    		
+    		SearchConfiguration searchConfiguration = new SearchConfiguration();
+    		searchConfiguration.setLanguages(null);
+    		searchConfiguration.setMerchants(null);
+    		
+    		//set hosts
+    		
+    		//set useSSL
+    		
+    		//set credentials
+    		
+    		try {
+				searchModule.configure(searchConfiguration);
+			} catch (Exception e) {
+				LOGGER.error("SearchModule cannot be configured [" + e.getMessage() +"]",e);
+			}
+    		
+    		
+    	}
+    	
+    	
+    }
+
 	
 
 	public void initService() {

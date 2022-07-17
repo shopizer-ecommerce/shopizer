@@ -103,7 +103,7 @@ public class ProductCommonFacadeImpl implements ProductCommonFacade {
 			if (target.getId() != null && target.getId() > 0) {
 				productService.update(target);
 			} else {
-				productService.createProduct(target);
+				productService.saveProduct(target);
 				product.setId(target.getId());
 			}
 

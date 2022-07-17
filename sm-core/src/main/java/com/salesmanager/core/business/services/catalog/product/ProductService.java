@@ -35,7 +35,7 @@ public interface ProductService extends SalesManagerEntityService<Long, Product>
 
 	List<Product> getProductsByIds(List<Long> productIds) throws ServiceException;
 	
-	Product createProduct(Product product) throws ServiceException;
+	Product saveProduct(Product product) throws ServiceException;
 
 	/**
 	 * Get a product with only MerchantStore object
