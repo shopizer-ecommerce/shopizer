@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import com.google.gson.JsonNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import com.salesmanager.core.business.constants.Constants;
@@ -60,6 +61,9 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 	
 	@Inject
 	private CoreConfiguration configuration;
+	
+	@Autowired
+	private Environment env;
 
 	@Autowired(required = false)
     private SearchModule searchModule;
@@ -82,6 +86,8 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
     		SearchConfiguration searchConfiguration = new SearchConfiguration();
     		searchConfiguration.setLanguages(null);
     		searchConfiguration.setMerchants(null);
+    		
+    		//searchModule.
     		
     		//set hosts
     		
