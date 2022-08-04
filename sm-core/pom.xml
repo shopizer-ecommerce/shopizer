@@ -58,8 +58,8 @@
 
 		<dependency>
             <groupId>com.shopizer</groupId>
-            <artifactId>modules-commons</artifactId>
-            <version>3.2.1-SNAPSHOT</version>
+            <artifactId>shopizer-commons</artifactId>
+            <version>1.0.4-SNAPSHOT</version>
         </dependency>
         
 		<!--

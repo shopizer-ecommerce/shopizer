@@ -263,6 +263,7 @@ public class ProductVariantApi {
 		productVariationFacade.delete(variationId, merchantStore);
 
 	}
+	
 
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = { "/private/product/variant" }, method = RequestMethod.GET)

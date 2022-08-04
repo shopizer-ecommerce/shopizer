@@ -197,6 +197,7 @@ public class ReadableProductMapper implements Mapper<Product, ReadableProduct> {
 						Set<ProductOptionValueDescription> povdescriptions = attribute.getProductOptionValue()
 								.getDescriptions();
 						readableOptionValue.setId(attribute.getProductOptionValue().getId());
+						readableOptionValue.setCode(optionValue.getCode());
 						if (povdescriptions != null && povdescriptions.size() > 0) {
 							for (ProductOptionValueDescription optionValueDescription : povdescriptions) {
 								if (optionValueDescription.getLanguage().getCode().equals(language.getCode())) {
