@@ -44,7 +44,8 @@
 
 		<shopizer.search.version>2.11.1</shopizer.search.version>
 		<shopizer-canadapost.version>2.15.0</shopizer-canadapost.version>
-
+		
+		<!-- TODO replace with starter -->
 		<elasticsearch.version>7.5.2</elasticsearch.version>
 		<guava.version>27.1-jre</guava.version>
 		<commons-lang.version>3.5</commons-lang.version>
@@ -452,7 +453,7 @@
 			</exclusions>
 		</dependency>
 
-		<!-- Elastic search -->
+		<!-- Elastic search TODO replace with starter-->
 		<dependency>
 			<groupId>org.elasticsearch</groupId>
 			<artifactId>elasticsearch</artifactId>

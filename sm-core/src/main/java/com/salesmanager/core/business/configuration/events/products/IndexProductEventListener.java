@@ -1,7 +1,10 @@
 package com.salesmanager.core.business.configuration.events.products;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
+
+import com.shopizer.search.services.SearchService;
 
 
 
@@ -15,11 +18,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class IndexProductEventListener implements ApplicationListener<ProductEvent> {
 	
+	@Autowired
+	private SearchService searchService;
+	
 	
 
 	@Override
 	public void onApplicationEvent(ProductEvent event) {
 		//search service
+		
+		//check if SaveProduct or DeleteProduct
 		
 	}
 
