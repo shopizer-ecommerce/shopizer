@@ -36,7 +36,9 @@
   <!-- order total pre processors -->
   <beans:import resource="classpath:/spring/processors/shopizer-core-ordertotal-processors.xml" />
   <!-- search -->
+  <!--
   <beans:import resource="classpath:/spring/shopizer-search.xml" />
+  -->
   
   
 

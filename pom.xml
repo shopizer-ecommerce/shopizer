@@ -176,11 +176,13 @@
 			</dependency>
 
 			<!-- sm-search -->
+			<!--
 			<dependency>
 				<groupId>com.shopizer</groupId>
 				<artifactId>sm-search</artifactId>
 				<version>${shopizer.search.version}</version>
 			</dependency>
+			-->
 
 			<dependency>
 				<groupId>mysql</groupId>
@@ -384,10 +386,12 @@
 	<dependencies>
 	
 		<!-- sm-search -->
+		<!--
 		<dependency>
 			<groupId>com.shopizer</groupId>
 			<artifactId>sm-search</artifactId>
 		</dependency>
+		-->
 		
 		<dependency>
 			<groupId>javax.inject</groupId>
@@ -454,11 +458,6 @@
 		</dependency>
 
 		<!-- Elastic search TODO replace with starter-->
-		<dependency>
-			<groupId>org.elasticsearch</groupId>
-			<artifactId>elasticsearch</artifactId>
-			<version>${elasticsearch.version}</version><!--$NO-MVN-MAN-VER$ -->
-		</dependency>
 
 		<dependency>
 			<groupId>mysql</groupId>

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
-import com.shopizer.search.services.SearchService;
+import com.salesmanager.core.business.services.search.SearchService;
 
 
 
@@ -26,6 +26,8 @@ public class IndexProductEventListener implements ApplicationListener<ProductEve
 	@Override
 	public void onApplicationEvent(ProductEvent event) {
 		//search service
+		
+		System.out.println("Event");
 		
 		//check if SaveProduct or DeleteProduct
 		

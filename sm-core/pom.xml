@@ -241,11 +241,13 @@
 		</dependency>
 
 		<!-- Elastic search -->
+		<!--
 		<dependency>
 			<groupId>org.elasticsearch</groupId>
 			<artifactId>elasticsearch</artifactId>
 		</dependency>
 
+		
 		<dependency>
 			<groupId>com.shopizer</groupId>
 			<artifactId>sm-search</artifactId>
@@ -260,6 +262,8 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		-->
 	</dependencies>
+	
 
 </project>

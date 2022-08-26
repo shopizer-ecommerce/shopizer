@@ -449,7 +449,7 @@ public class ProductCommonFacadeImpl implements ProductCommonFacade {
 		}
 
 		try {
-			productService.save(modified);
+			productService.update(modified);
 		} catch (ServiceException e) {
 			throw new ServiceRuntimeException("Cannot update product ", e);
 		}

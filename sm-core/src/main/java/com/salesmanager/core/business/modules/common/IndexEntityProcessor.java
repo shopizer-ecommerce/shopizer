@@ -1,24 +1,22 @@
 package com.salesmanager.core.business.modules.common;
 
+import static org.apache.commons.lang3.BooleanUtils.isTrue;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
-import org.elasticsearch.client.RestClient;
-import org.elasticsearch.client.RestClientBuilder;
-import org.elasticsearch.client.RestHighLevelClient;
+import org.opensearch.client.RestClient;
+import org.opensearch.client.RestClientBuilder;
+import org.opensearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
-
-import static org.apache.commons.lang3.BooleanUtils.isTrue;
 
 public class IndexEntityProcessor {
 	

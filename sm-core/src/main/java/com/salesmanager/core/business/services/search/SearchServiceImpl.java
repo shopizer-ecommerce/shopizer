@@ -2,10 +2,7 @@ package com.salesmanager.core.business.services.search;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
@@ -20,12 +17,10 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import com.google.gson.JsonNull;
 import com.salesmanager.core.business.configuration.ApplicationSearchConfiguration;
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.pricing.PricingService;
-import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.business.utils.CoreConfiguration;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.Product;
@@ -33,19 +28,13 @@ import com.salesmanager.core.model.catalog.product.description.ProductDescriptio
 import com.salesmanager.core.model.catalog.product.price.FinalPrice;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.search.IndexProduct;
-import com.salesmanager.core.model.search.SearchEntry;
-import com.salesmanager.core.model.search.SearchFacet;
 import com.salesmanager.core.model.search.SearchKeywords;
-import com.shopizer.search.services.Facet;
-import com.shopizer.search.services.SearchHit;
-import com.shopizer.search.services.SearchRequest;
-import com.shopizer.search.services.SearchResponse;
 
 import modules.commons.search.SearchModule;
 import modules.commons.search.configuration.SearchConfiguration;
 
 @Service("productSearchService")
-@EnableConfigurationProperties(ApplicationSearchConfiguration.class)
+@EnableConfigurationProperties(value = ApplicationSearchConfiguration.class)
 public class SearchServiceImpl implements com.salesmanager.core.business.services.search.SearchService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SearchServiceImpl.class);
@@ -54,8 +43,8 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 	private final static String UNDERSCORE = "_";
 	private final static String INDEX_PRODUCTS = "INDEX_PRODUCTS";
 
-	@Inject
-	private com.shopizer.search.services.SearchService searchService;
+	// @Inject
+	// private com.shopizer.search.services.SearchService searchService;
 
 	@Inject
 	private PricingService pricingService;
@@ -63,10 +52,11 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 	@Inject
 	private CoreConfiguration configuration;
 
+	// @Autowired
+	// private ApplicationSearchConfiguration applicationSearchConfiguration;
+
 	@Autowired
 	private ApplicationSearchConfiguration applicationSearchConfiguration;
-
-
 
 	@Autowired(required = false)
 	private SearchModule searchModule;
@@ -90,7 +80,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 	}
 
 	public void initService() {
-		searchService.initService();
+		// searchService.initService();
 	}
 
 	@Async
@@ -172,7 +162,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 
 			String jsonString = index.toJSONString();
 			try {
-				searchService.index(jsonString, collectionName.toString());
+				// searchService.index(jsonString, collectionName.toString());
 			} catch (Exception e) {
 				throw new ServiceException("Cannot index product id [" + product.getId() + "], " + e.getMessage(), e);
 			}
@@ -194,7 +184,8 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 					.append(UNDERSCORE).append(store.getCode().toLowerCase());
 
 			try {
-				searchService.deleteObject(collectionName.toString(), String.valueOf(product.getId()));
+				// searchService.deleteObject(collectionName.toString(),
+				// String.valueOf(product.getId()));
 			} catch (Exception e) {
 				LOGGER.error("Cannot delete index for product id [" + product.getId() + "], ", e);
 			}
@@ -207,12 +198,13 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 
 		try {
 
-			SearchResponse response = searchService.searchAutoComplete(collectionName, word, entriesCount);
+			// SearchResponse response = null;
+			// searchService.searchAutoComplete(collectionName, word, entriesCount);
 
 			SearchKeywords keywords = new SearchKeywords();
-			if (response != null && response.getInlineSearchList() != null) {
-				keywords.setKeywords(Arrays.asList(response.getInlineSearchList()));
-			}
+			// if (response != null && response.getInlineSearchList() != null) {
+			// keywords.setKeywords(Arrays.asList(response.getInlineSearchList()));
+			// }
 
 			return keywords;
 
@@ -232,99 +224,93 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 			collectionName.append(PRODUCT_INDEX_NAME).append(UNDERSCORE).append(languageCode).append(UNDERSCORE)
 					.append(store.getCode().toLowerCase());
 
-			SearchRequest request = new SearchRequest();
-			request.addCollection(collectionName.toString());
-			request.setSize(entriesCount);
-			request.setStart(startIndex);
-			request.setMatch(term);
-
-			SearchResponse response = searchService.search(request);
+			/**
+			 * 
+			 * SearchRequest request = new SearchRequest();
+			 * request.addCollection(collectionName.toString());
+			 * request.setSize(entriesCount); request.setStart(startIndex);
+			 * request.setMatch(term);
+			 * 
+			 * SearchResponse response = searchService.search(request);
+			 **/
 
 			com.salesmanager.core.model.search.SearchResponse resp = new com.salesmanager.core.model.search.SearchResponse();
 			resp.setTotalCount(0);
 
-			if (response != null) {
-				resp.setTotalCount(response.getCount());
-
-				List<SearchEntry> entries = new ArrayList<SearchEntry>();
-
-				Collection<SearchHit> hits = response.getSearchHits();
-
-				if (!CollectionUtils.isEmpty(hits)) {
-					for (SearchHit hit : hits) {
-
-						SearchEntry entry = new SearchEntry();
-
-						// Map<String,Object> metaEntries = hit.getMetaEntries();
-						Map<String, Object> metaEntries = hit.getItem();
-						IndexProduct indexProduct = new IndexProduct();
-
-						Object desc = metaEntries.get("description");
-						if (desc instanceof JsonNull == false) {
-							indexProduct.setDescription((String) metaEntries.get("description"));
-						}
-
-						Object hl = metaEntries.get("highlight");
-						if (hl instanceof JsonNull == false) {
-							indexProduct.setHighlight((String) metaEntries.get("highlight"));
-						}
-						indexProduct.setId((String) metaEntries.get("id"));
-						indexProduct.setLang((String) metaEntries.get("lang"));
-
-						Object nm = metaEntries.get("name");
-						if (nm instanceof JsonNull == false) {
-							indexProduct.setName(((String) metaEntries.get("name")));
-						}
-
-						Object mf = metaEntries.get("manufacturer");
-						if (mf instanceof JsonNull == false) {
-							indexProduct.setManufacturer(((String) metaEntries.get("manufacturer")));
-						}
-						indexProduct.setPrice(Double.valueOf(((String) metaEntries.get("price"))));
-						indexProduct.setStore(((String) metaEntries.get("store")));
-						entry.setIndexProduct(indexProduct);
-						entries.add(entry);
-
-						/**
-						 * no more support for highlighted
-						 */
-
-					}
-
-					resp.setEntries(entries);
-
-					// Map<String,List<FacetEntry>> facets = response.getFacets();
-					Map<String, Facet> facets = response.getFacets();
-					if (facets != null && facets.size() > 0) {
-						Map<String, List<SearchFacet>> searchFacets = new HashMap<String, List<SearchFacet>>();
-						for (String key : facets.keySet()) {
-
-							Facet f = facets.get(key);
-							List<com.shopizer.search.services.Entry> ent = f.getEntries();
-
-							// List<FacetEntry> f = facets.get(key);
-
-							List<SearchFacet> fs = searchFacets.computeIfAbsent(key, k -> new ArrayList<>());
-
-							for (com.shopizer.search.services.Entry facetEntry : ent) {
-
-								SearchFacet searchFacet = new SearchFacet();
-								searchFacet.setKey(facetEntry.getName());
-								searchFacet.setName(facetEntry.getName());
-								searchFacet.setCount(facetEntry.getCount());
-
-								fs.add(searchFacet);
-
-							}
-
-						}
-
-						resp.setFacets(searchFacets);
-
-					}
-
-				}
-			}
+			/*
+			 * 
+			 * if (response != null) { resp.setTotalCount(response.getCount());
+			 * 
+			 * List<SearchEntry> entries = new ArrayList<SearchEntry>();
+			 * 
+			 * Collection<SearchHit> hits = response.getSearchHits();
+			 * 
+			 * if (!CollectionUtils.isEmpty(hits)) { for (SearchHit hit : hits) {
+			 * 
+			 * SearchEntry entry = new SearchEntry();
+			 * 
+			 * Map<String, Object> metaEntries = hit.getItem(); IndexProduct indexProduct =
+			 * new IndexProduct();
+			 * 
+			 * Object desc = metaEntries.get("description"); if (desc instanceof JsonNull ==
+			 * false) { indexProduct.setDescription((String)
+			 * metaEntries.get("description")); }
+			 * 
+			 * Object hl = metaEntries.get("highlight"); if (hl instanceof JsonNull ==
+			 * false) { indexProduct.setHighlight((String) metaEntries.get("highlight")); }
+			 * indexProduct.setId((String) metaEntries.get("id"));
+			 * indexProduct.setLang((String) metaEntries.get("lang"));
+			 * 
+			 * Object nm = metaEntries.get("name"); if (nm instanceof JsonNull == false) {
+			 * indexProduct.setName(((String) metaEntries.get("name"))); }
+			 * 
+			 * Object mf = metaEntries.get("manufacturer"); if (mf instanceof JsonNull ==
+			 * false) { indexProduct.setManufacturer(((String)
+			 * metaEntries.get("manufacturer"))); }
+			 * indexProduct.setPrice(Double.valueOf(((String) metaEntries.get("price"))));
+			 * indexProduct.setStore(((String) metaEntries.get("store")));
+			 * entry.setIndexProduct(indexProduct); entries.add(entry);
+			 * 
+			 *//**
+				 * no more support for highlighted
+				 *//*
+					 * 
+					 * }
+					 * 
+					 * resp.setEntries(entries);
+					 * 
+					 * // Map<String,List<FacetEntry>> facets = response.getFacets(); Map<String,
+					 * Facet> facets = response.getFacets(); if (facets != null && facets.size() >
+					 * 0) { Map<String, List<SearchFacet>> searchFacets = new HashMap<String,
+					 * List<SearchFacet>>(); for (String key : facets.keySet()) {
+					 * 
+					 * Facet f = facets.get(key); List<com.shopizer.search.services.Entry> ent =
+					 * f.getEntries();
+					 * 
+					 * // List<FacetEntry> f = facets.get(key);
+					 * 
+					 * List<SearchFacet> fs = searchFacets.computeIfAbsent(key, k -> new
+					 * ArrayList<>());
+					 * 
+					 * for (com.shopizer.search.services.Entry facetEntry : ent) {
+					 * 
+					 * SearchFacet searchFacet = new SearchFacet();
+					 * searchFacet.setKey(facetEntry.getName());
+					 * searchFacet.setName(facetEntry.getName());
+					 * searchFacet.setCount(facetEntry.getCount());
+					 * 
+					 * fs.add(searchFacet);
+					 * 
+					 * }
+					 * 
+					 * }
+					 * 
+					 * resp.setFacets(searchFacets);
+					 * 
+					 * }
+					 * 
+					 * } }
+					 */
 
 			return resp;
 
@@ -342,7 +328,6 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 		config.setHosts(applicationSearchConfiguration.getHost());
 		config.setCredentials(applicationSearchConfiguration.getCredentials());
 
-
 		config.setLanguages(applicationSearchConfiguration.getSearchLanguages());
 
 		/**
@@ -358,7 +343,6 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 		config.getProductMappings().put("id", "long");
 
 		config.getKeywordsMappings().put("store", "keyword");
-
 
 		return config;
 

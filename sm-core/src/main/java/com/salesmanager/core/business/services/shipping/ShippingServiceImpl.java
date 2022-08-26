@@ -59,7 +59,6 @@ import com.salesmanager.core.modules.integration.shipping.model.Packaging;
 import com.salesmanager.core.modules.integration.shipping.model.ShippingQuoteModule;
 import com.salesmanager.core.modules.integration.shipping.model.ShippingQuotePrePostProcessModule;
 import com.salesmanager.core.modules.utils.Encryption;
-import com.shopizer.search.utils.DateUtil;
 
 
 @Service("shippingService")
@@ -721,7 +720,7 @@ public class ShippingServiceImpl implements ShippingService {
 						q.setOptionCode(option.getOptionCode());
 						if(!StringUtils.isBlank(option.getOptionDeliveryDate())) {
 							try {
-							q.setOptionDeliveryDate(DateUtil.formatDate(option.getOptionDeliveryDate()));
+							//q.setOptionDeliveryDate(DateUtil.formatDate(option.getOptionDeliveryDate()));
 							} catch(Exception e) {
 								LOGGER.error("Cannot transform to date " + option.getOptionDeliveryDate());
 							}

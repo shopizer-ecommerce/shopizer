@@ -78,8 +78,8 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 	@Inject
 	ProductRelationshipService productRelationshipService;
 
-	@Inject
-	SearchService searchService;
+	//@Inject
+	//SearchService searchService;
 
 	@Inject
 	ProductImageService productImageService;
@@ -111,7 +111,7 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		product.getDescriptions().add(description);
 		description.setProduct(product);
 		update(product);
-		searchService.index(product.getMerchantStore(), product);
+		//searchService.index(product.getMerchantStore(), product);
 	}
 
 	@Override
@@ -245,20 +245,20 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		}
 
 		super.delete(product);
-		searchService.deleteIndex(product.getMerchantStore(), product);
+		//searchService.deleteIndex(product.getMerchantStore(), product);
 
 	}
 
 	@Override
 	public void create(Product product) throws ServiceException {
 		saveOrUpdate(product);
-		searchService.index(product.getMerchantStore(), product);
+		//searchService.index(product.getMerchantStore(), product);
 	}
 
 	@Override
 	public void update(Product product) throws ServiceException {
 		saveOrUpdate(product);
-		searchService.index(product.getMerchantStore(), product);
+		//searchService.index(product.getMerchantStore(), product);
 	}
 	
 	

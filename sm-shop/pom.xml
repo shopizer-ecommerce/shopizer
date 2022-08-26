@@ -38,10 +38,12 @@
 			<artifactId>sm-shop-model</artifactId>
 		</dependency>
 
+		<!--
 		<dependency>
 			<groupId>com.shopizer</groupId>
 			<artifactId>sm-search</artifactId>
 		</dependency>
+		-->
 
 
 		<!-- Spring boot starters -->
@@ -72,10 +74,12 @@
 		</dependency>
 
 		<!-- Elastic search -->
+		<!--
 		<dependency>
 			<groupId>org.elasticsearch</groupId>
 			<artifactId>elasticsearch</artifactId>
 		</dependency>
+		-->
 
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
