@@ -64,14 +64,10 @@ public class ProductDefinitionFacadeImpl implements ProductDefinitionFacade {
 
 		try {
 			target = persistableProductDefinitionMapper.merge(product, target, store, language);
-			if (target.getId() != null && target.getId() > 0) {
-				productService.update(target);
-			} else {
-
 				
-				productService.saveProduct(target);
-				product.setId(target.getId());
-			}
+			productService.saveProduct(target);
+			product.setId(target.getId());
+
 
 			return target.getId();
 		} catch (Exception e) {

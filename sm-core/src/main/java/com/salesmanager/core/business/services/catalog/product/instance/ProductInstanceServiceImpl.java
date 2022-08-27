@@ -59,7 +59,8 @@ public class ProductInstanceServiceImpl extends SalesManagerEntityServiceImpl<Lo
 	@Override
 	public boolean exist(String sku, Long productId) {
 
-		return productInstanceRepository.existsBySkuAndProduct(sku, productId);
+		ProductInstance instance = productInstanceRepository.existsBySkuAndProduct(sku, productId);
+		return instance != null? true:false;
 
 	}
 

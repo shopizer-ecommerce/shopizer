@@ -138,6 +138,8 @@ public class ProductInstanceFacadeImpl implements ProductInstanceFacade {
 			throw new ResourceNotFoundException("ProductInstance with id [" + instanceId + "] not found for store [" + store.getCode() + "] and productId [" + productId + "]");
 		}
 		
+		productInstance.setProductId(productId);
+		
 		ProductInstance mergedModel = persistableProductInstanceMapper.merge(productInstance, instanceModel.get(), store, language);
 		try {
 			productInstanceService.save(mergedModel);

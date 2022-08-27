@@ -120,7 +120,7 @@ public interface ProductInstanceRepository extends JpaRepository<ProductInstance
 	
 	
 	@Query("select p from ProductInstance p join fetch p.product pr where p.sku = ?1 and pr.id = ?2")
-	boolean existsBySkuAndProduct(String sku, Long productId);
+	ProductInstance existsBySkuAndProduct(String sku, Long productId);
 	
 
 	
