@@ -57,10 +57,6 @@
 	<beans:bean id="userService"
 		class="com.salesmanager.core.business.services.user.UserServiceImpl" />
 
-	<!-- After app context init -->
-	<beans:bean id="applicationContextListenerUtils"
-		class="com.salesmanager.core.business.utils.ApplicationContextListenerUtils" />
-
 
 	<!-- properties files -->
 	<beans:beans profile="firebase">

@@ -33,7 +33,6 @@ import com.salesmanager.core.business.services.catalog.product.price.ProductPric
 import com.salesmanager.core.business.services.catalog.product.relationship.ProductRelationshipService;
 import com.salesmanager.core.business.services.catalog.product.review.ProductReviewService;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
-import com.salesmanager.core.business.services.search.SearchService;
 import com.salesmanager.core.business.utils.CatalogServiceHelper;
 import com.salesmanager.core.business.utils.CoreConfiguration;
 import com.salesmanager.core.model.catalog.category.Category;
@@ -252,13 +251,11 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 	@Override
 	public void create(Product product) throws ServiceException {
 		saveOrUpdate(product);
-		//searchService.index(product.getMerchantStore(), product);
 	}
 
 	@Override
 	public void update(Product product) throws ServiceException {
 		saveOrUpdate(product);
-		//searchService.index(product.getMerchantStore(), product);
 	}
 	
 	
@@ -367,13 +364,6 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		
 		return p;
 	}
-
-	/**
-	@Override
-	public Product getByCode(String productCode, MerchantStore merchant) {
-		return productRepository.getByCode(productCode, merchant);
-	}
-	**/
 
 	@Override
 	public Product saveProduct(Product product) throws ServiceException{

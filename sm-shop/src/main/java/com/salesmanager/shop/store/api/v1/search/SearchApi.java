@@ -52,7 +52,9 @@ public class SearchApi {
       @RequestBody SearchProductRequest searchRequest,
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language) {
-    return searchFacade.search(merchantStore, language, searchRequest);
+	  
+	  return null;
+    //return searchFacade.search(merchantStore, language, searchRequest);
   }
 
   @PostMapping("/search/autocomplete")

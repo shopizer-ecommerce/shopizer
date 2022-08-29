@@ -1,11 +1,15 @@
 package com.salesmanager.shop.store.controller.search.facade;
 
+import java.util.List;
+
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.core.model.search.SearchResponse;
 import com.salesmanager.shop.model.catalog.SearchProductList;
 import com.salesmanager.shop.model.catalog.SearchProductRequest;
 import com.salesmanager.shop.model.entity.ValueList;
+
+import modules.commons.search.request.SearchItem;
+import modules.commons.search.request.SearchResponse;
 
 /**
  * Different services for searching and indexing data
@@ -28,14 +32,14 @@ public interface SearchFacade {
 	 * @return
 	 * @throws Exception
 	 */
-	SearchProductList search(MerchantStore store, Language language, SearchProductRequest searchRequest);
+	List<SearchItem> search(MerchantStore store, Language language, SearchProductRequest searchRequest);
 
 	/**
 	 * Copy sm-core search response to a simple readable format populated with corresponding products
 	 * @param searchResponse
 	 * @return
 	 */
-	public SearchProductList convertToSearchProductList(SearchResponse searchResponse, MerchantStore store, int start, int count, Language language) throws Exception;
+	//public SearchProductList convertToSearchProductList(SearchResponse searchResponse, MerchantStore store, int start, int count, Language language) throws Exception;
 
 	/**
 	 * List of keywords / autocompletes for a given word being typed

@@ -35,6 +35,12 @@ public interface ProductService extends SalesManagerEntityService<Long, Product>
 
 	List<Product> getProductsByIds(List<Long> productIds) throws ServiceException;
 	
+	/**
+	 * The method to be used
+	 * @param product
+	 * @return
+	 * @throws ServiceException
+	 */
 	Product saveProduct(Product product) throws ServiceException;
 
 	/**
@@ -71,16 +77,6 @@ public interface ProductService extends SalesManagerEntityService<Long, Product>
 
 	Product getBySeUrl(MerchantStore store, String seUrl, Locale locale);
 
-	/**
-	 * Get a product by sku (code) field  and the language
-	 * @param productCode
-	 * @param language
-	 * @return
-	 */
-	//Product getByCode(String productCode, Language language);
-	
-	//Product getByCode(String productCode, MerchantStore merchant);
-	
 	/**
 	 * Product and or product instance
 	 * @param productCode
