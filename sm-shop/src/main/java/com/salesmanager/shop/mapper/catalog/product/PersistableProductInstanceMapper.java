@@ -94,7 +94,8 @@ public class PersistableProductInstanceMapper implements Mapper<PersistableProdu
 		destination.setSortOrder(source.getSortOrder());
 		
 		
-		Product product = productService.getById(source.getProductId());
+		Product product = productService.findOne(source.getProductId(), store);
+
 		if(product == null) {
 			throw new ResourceNotFoundException("Product [" + source.getId() + "] + not found for store [" + store.getCode() + "]");
 		}

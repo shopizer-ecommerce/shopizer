@@ -73,7 +73,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			List<Integer> ids = new ArrayList<Integer>();
 
 			StringBuilder qs = new StringBuilder();
-			qs.append(productQuery());
+			qs.append(productQueryV2());
 
 			qs.append("where p.id=:pid");
 			if (merchant != null) {
@@ -458,7 +458,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 	@Override
 	public List<Product> getProductsListByIds(Set<Long> productds) {
 		StringBuilder qs = new StringBuilder();
-		qs.append(productQuery());
+		qs.append(productQueryV2());
 		qs.append("where p.id in (:pid) ");
 		qs.append("and p.available=true and p.dateAvailable<=:dt ");
 
@@ -1074,8 +1074,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
 	}
 
+	@Deprecated
+	private String productQueryV1() {
 
-	private String productQuery() {
 		StringBuilder qs = new StringBuilder();
 		qs.append("select distinct p from Product as p ");
 		qs.append("join fetch p.availabilities pa ");
@@ -1112,6 +1113,60 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
 		// RENTAL REMOVED
 		//qs.append("left join fetch p.owner owner ");
+		return qs.toString();
+
+	}
+	
+	private String productQueryV2() {
+		StringBuilder qs = new StringBuilder();
+		qs.append("select distinct p from Product as p ");
+		qs.append("join fetch p.descriptions pd ");
+		qs.append("join fetch p.merchantStore merch ");
+		qs.append("left join fetch p.availabilities pavail ");
+		qs.append("left join fetch p.type type ");
+		// images
+		qs.append("left join fetch p.images images ");
+		qs.append("left join fetch pavail.prices pavailpr ");
+		qs.append("left join fetch pavailpr.descriptions pavailprdesc ");
+
+		qs.append("left join fetch p.categories categs ");
+		qs.append("left join fetch categs.descriptions categsd ");
+
+		// options
+		qs.append("left join fetch p.attributes pattr ");
+		qs.append("left join fetch pattr.productOption po ");
+		qs.append("left join fetch po.descriptions pod ");
+		qs.append("left join fetch pattr.productOptionValue pov ");
+		qs.append("left join fetch pov.descriptions povd ");
+		qs.append("left join fetch p.relationships pr ");
+		// other lefts
+		qs.append("left join fetch p.manufacturer manuf ");
+		qs.append("left join fetch manuf.descriptions manufd ");
+		qs.append("left join fetch p.type type ");
+		
+		//variants
+		qs.append("left join fetch p.instances pinst ");
+		qs.append("left join fetch pinst.variant pv ");
+		qs.append("left join fetch pv.productOption pvpo ");
+		qs.append("left join fetch pv.productOptionValue pvpov ");
+		qs.append("left join fetch pvpo.descriptions pvpod ");
+		qs.append("left join fetch pvpov.descriptions pvpovd ");
+		
+		qs.append("left join fetch pinst.variantValue pvv ");
+		qs.append("left join fetch pvv.productOption pvvpo ");
+		qs.append("left join fetch pvv.productOptionValue pvvpov ");
+		qs.append("left join fetch pvvpo.descriptions povvpod ");
+		qs.append("left join fetch pvpov.descriptions povvpovd ");	
+		
+		//instance availability and price
+		qs.append("left join fetch pinst.availabilities pinsta ");
+		qs.append("left join fetch pinsta.prices pinstap ");
+		qs.append("left join fetch pinstap.descriptions pinstapdesc ");
+		qs.append("left join fetch pinst.productInstanceGroup pinstg ");
+		qs.append("left join fetch pinstg.images pinstgimg ");
+		qs.append("left join fetch pinstgimg.descriptions ");
+		//end variants
+		
 		return qs.toString();
 	}
 	

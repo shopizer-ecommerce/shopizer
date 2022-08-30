@@ -12,6 +12,7 @@ import com.salesmanager.core.business.configuration.events.products.SaveProductI
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.search.SearchService;
 import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
 import com.salesmanager.core.model.merchant.MerchantStore;
 
 
@@ -76,6 +77,15 @@ public class IndexProductEventListener implements ApplicationListener<ProductEve
 	}
 	
 	void saveProductInstance(SaveProductInstanceEvent event) {
+		
+		Product product = event.getProduct();
+		ProductInstance instance = event.getInstance();
+		MerchantStore store = product.getMerchantStore();
+		try {
+			searchService.index(store, product, instance);
+		} catch (ServiceException e) {
+			throw new RuntimeException(e);
+		}
 		
 	}
 	

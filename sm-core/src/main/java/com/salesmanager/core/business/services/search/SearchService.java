@@ -1,5 +1,7 @@
 package com.salesmanager.core.business.services.search;
 
+import java.util.Optional;
+
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
@@ -30,6 +32,8 @@ public interface SearchService {
 	 */
 	void deleteDocument(MerchantStore store, Product product)
 			throws ServiceException;
+	
+	void deleteProductInstance(MerchantStore store, Product product, ProductInstance productInstance) throws ServiceException;
 
 	/**
 	 * Similar keywords based on a a series of characters. Used in the auto-complete
@@ -44,6 +48,6 @@ public interface SearchService {
 					int entriesCount, int startIndex) throws ServiceException;
 
 	
-	Document getDocument(String language, MerchantStore store, Long id) throws ServiceException;
+	Optional<Document> getDocument(String language, MerchantStore store, Long id) throws ServiceException;
 
 }
