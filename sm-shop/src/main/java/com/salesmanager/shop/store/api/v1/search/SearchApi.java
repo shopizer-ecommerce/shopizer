@@ -1,7 +1,8 @@
 package com.salesmanager.shop.store.api.v1.search;
 
+import java.util.List;
+
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.shop.model.catalog.SearchProductList;
 import com.salesmanager.shop.model.catalog.SearchProductRequest;
 import com.salesmanager.shop.model.entity.ValueList;
 import com.salesmanager.shop.store.controller.search.facade.SearchFacade;
@@ -21,6 +21,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.SwaggerDefinition;
 import io.swagger.annotations.Tag;
+import modules.commons.search.request.SearchItem;
 import springfox.documentation.annotations.ApiIgnore;
 
 /**
@@ -48,13 +49,14 @@ public class SearchApi {
     @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
     @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
   })
-  public @ResponseBody SearchProductList search(
+  
+  //TODO use total, count and page
+  public @ResponseBody List<SearchItem> search(
       @RequestBody SearchProductRequest searchRequest,
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language) {
-	  
-	  return null;
-    //return searchFacade.search(merchantStore, language, searchRequest);
+
+    return searchFacade.search(merchantStore, language, searchRequest);
   }
 
   @PostMapping("/search/autocomplete")

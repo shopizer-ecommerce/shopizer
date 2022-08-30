@@ -21,8 +21,6 @@ public interface SearchService {
 	 * @throws ServiceException
 	 */
 	void index(MerchantStore store, Product product) throws ServiceException;
-	
-	void index(MerchantStore store, Product product, ProductInstance instance) throws ServiceException;
 
 	/**
 	 * Deletes a document in the appropriate language. Must be invoked when a product is deleted
@@ -32,8 +30,6 @@ public interface SearchService {
 	 */
 	void deleteDocument(MerchantStore store, Product product)
 			throws ServiceException;
-	
-	void deleteProductInstance(MerchantStore store, Product product, ProductInstance productInstance) throws ServiceException;
 
 	/**
 	 * Similar keywords based on a a series of characters. Used in the auto-complete

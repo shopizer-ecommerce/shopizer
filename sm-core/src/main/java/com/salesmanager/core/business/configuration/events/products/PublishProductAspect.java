@@ -1,6 +1,7 @@
 package com.salesmanager.core.business.configuration.events.products;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -54,7 +55,7 @@ public class PublishProductAspect {
 
 	// delete product
 	
-	@Before("execution(* com.salesmanager.core.business.services.catalog.product.ProductService.delete(com.salesmanager.core.model.catalog.product.Product))")
+	@After("execution(* com.salesmanager.core.business.services.catalog.product.ProductService.delete(com.salesmanager.core.model.catalog.product.Product))")
 	public void logBeforeDeleteProduct(JoinPoint joinPoint) {
 	   Object[] signatureArgs = joinPoint.getArgs();
 	   eventPublisher.publishEvent(new DeleteProductEvent(eventPublisher, (Product)signatureArgs[0]));
@@ -77,7 +78,7 @@ public class PublishProductAspect {
 	
 	// delete product instance
 	
-	@Before("execution(* com.salesmanager.core.business.services.catalog.product.instance.ProductInstanceService.delete(com.salesmanager.core.model.catalog.product.instance.ProductInstance))")
+	@After("execution(* com.salesmanager.core.business.services.catalog.product.instance.ProductInstanceService.delete(com.salesmanager.core.model.catalog.product.instance.ProductInstance))")
 	public void logBeforeDeleteProductInstance(JoinPoint joinPoint) {
 	   Object[] signatureArgs = joinPoint.getArgs();
 	   eventPublisher.publishEvent(new DeleteProductInstanceEvent(eventPublisher, (ProductInstance)signatureArgs[0], ((ProductInstance)signatureArgs[0]).getProduct()));

@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
+import org.jsoup.helper.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -71,9 +72,13 @@ public class SearchFacadeImpl implements SearchFacade {
 	public void indexAllData(MerchantStore store) throws Exception {
 		List<Product> products = productService.listByStore(store);
 
-		for (Product product : products) {
-			searchService.index(store, product);
-		}
+		products.stream().forEach(p -> {
+			try {
+				searchService.index(store, p);
+			} catch (ServiceException e) {
+				throw new RuntimeException("Exception while indexing products", e);
+			}
+		});
 
 	}
 
@@ -158,10 +163,15 @@ public class SearchFacadeImpl implements SearchFacade {
 
 	@Override
 	public ValueList autocompleteRequest(String word, MerchantStore store, Language language) {
+		Validate.notNull(word,"Search Keyword must not be null");
+		Validate.notNull(language, "Language cannot be null");
+		Validate.notNull(store,"MerchantStore cannot be null");
+		
 		SearchRequest req = new SearchRequest();
 		req.setLanguage(language.getCode());
 		req.setStore(store.getCode());
 		req.setSearchString(word);
+		req.setLanguage(language.getCode());
 		
 		SearchResponse response;
 		try {

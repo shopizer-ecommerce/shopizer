@@ -17,7 +17,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.configuration.ApplicationSearchConfiguration;
@@ -36,7 +35,6 @@ import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
 import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
 import com.salesmanager.core.model.catalog.product.manufacturer.ManufacturerDescription;
 import com.salesmanager.core.model.catalog.product.price.FinalPrice;
-import com.salesmanager.core.model.catalog.product.variation.ProductVariation;
 import com.salesmanager.core.model.merchant.MerchantStore;
 
 import modules.commons.search.SearchModule;
@@ -90,7 +88,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 		Validate.notNull(product.getId(), "Product.id cannot be null");
 
 		if (configuration.getProperty(INDEX_PRODUCTS) == null
-				|| configuration.getProperty(INDEX_PRODUCTS).equals(Constants.FALSE)) {
+				|| configuration.getProperty(INDEX_PRODUCTS).equals(Constants.FALSE) || searchModule == null) {
 			return;
 		}
 
@@ -98,11 +96,20 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 
 		// existing documents
 		List<Document> documents;
+		List<Map<String, String>> variants = null;
 		try {
 			documents = this.document(product.getId(), languages, RequestOptions.DEFAULT);
 
+			if (!CollectionUtils.isEmpty(product.getInstances())) {
+
+				variants = new ArrayList<Map<String, String>>();
+
+				variants = product.getInstances().stream().map(i -> this.variation(i)).collect(Collectors.toList());
+
+			}
+
 			if (!CollectionUtils.isEmpty(documents)) {
-				if(documents.iterator().next() != null) {
+				if (documents.iterator().next() != null) {
 					searchModule.delete(languages, product.getId());
 				}
 			}
@@ -114,41 +121,34 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 		Set<ProductDescription> descriptions = product.getDescriptions();
 
 		for (ProductDescription description : descriptions) {
-			
-			if(!CollectionUtils.isEmpty(product.getInstances())) {
-				//List<>product.getInstances().stream().collect(Collectors.toList())
-			}
 
-			this.indexProduct(store, description, product, null);
+			this.indexProduct(store, description, product, variants);
 
 		}
 
 	}
-	
+
 	private List<Document> document(Long id, List<String> languages, RequestOptions options) throws Exception {
 		List<Optional<Document>> documents;
 
-			documents = searchModule.getDocument(id, languages, options);
-			
-			List<Document> filteredList = documents.stream()
-					  .filter(Optional::isPresent)
-					  .map(Optional::get)
-					  .collect(Collectors.toList());
-			
-			return filteredList;
-			
+		documents = searchModule.getDocument(id, languages, options);
+
+		List<Document> filteredList = documents.stream().filter(Optional::isPresent).map(Optional::get)
+				.collect(Collectors.toList());
+
+		return filteredList;
 
 	}
 
 	private void indexProduct(MerchantStore store, ProductDescription description, Product product,
-			List<Map<String,String>> variants) throws ServiceException {
+			List<Map<String, String>> variants) throws ServiceException {
 
 		try {
 			ProductImage image = null;
-			if(!CollectionUtils.isEmpty(product.getImages())) {
-				 image = product.getImages().stream().filter(i -> i.isDefaultImage()).findFirst().get();
+			if (!CollectionUtils.isEmpty(product.getImages())) {
+				image = product.getImages().stream().filter(i -> i.isDefaultImage()).findFirst().get();
 			}
-			
+
 			FinalPrice price = pricingService.calculateProductPrice(product);
 
 			IndexItem item = new IndexItem();
@@ -179,8 +179,8 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 			if (product.getProductReviewAvg() != null) {
 				item.setReviews(product.getProductReviewAvg().toString());
 			}
-			
-			if(!CollectionUtils.isEmpty(variants)) {
+
+			if (!CollectionUtils.isEmpty(variants)) {
 				item.setVariants(variants);
 			}
 
@@ -192,7 +192,6 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 		}
 
 	}
-
 
 	private SearchConfiguration config() {
 
@@ -224,93 +223,37 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 
 	}
 
-	@Override
-	public void index(MerchantStore store, Product product, ProductInstance instance) throws ServiceException {
-		Validate.notNull(product, "Product cannot be null");
-		Validate.notNull(instance, "Product instance cannot be null");
-		Validate.notNull(product.getId(), "Product.id cannot be null");
-
-		if (configuration.getProperty(INDEX_PRODUCTS) == null
-				|| configuration.getProperty(INDEX_PRODUCTS).equals(Constants.FALSE)) {
-			return;
-		}
-
-		List<String> languages = this.languages(product);
-		
-		List<Map<String,String>> variants = null;
-
-		// existing documents
-		List<Document> documents;
-		try {
-			
-			
-			documents = this.document(product.getId(), languages, RequestOptions.DEFAULT);
-
-			
-			if(!CollectionUtils.isEmpty(documents)) {
-				Document document = documents.iterator().next();
-				//actual document variants
-				if(document != null) {
-					variants = document.getVariants();
-				}
-			}
-
-			
-			if(variants == null) {
-				variants = new ArrayList<Map<String,String>>();
-			}
-			
-			if(instance.getVariant()!=null) {
-				variants.add(this.variation(instance.getVariant()));
-			}
-			
-			if(instance.getVariantValue()!=null) {
-				variants.add(this.variation(instance.getVariantValue()));
-			}
-			
-			variants = variants.stream().distinct().collect(Collectors.toList());
-			
-			//delete existing
-			if (!CollectionUtils.isEmpty(documents)) {
-				searchModule.delete(languages, product.getId());
-			}
-			
-			
-
-		} catch (Exception e) {
-			throw new ServiceException(e);
-		}
-
-		Set<ProductDescription> descriptions = product.getDescriptions();
-
-		for (ProductDescription description : descriptions) {
-
-			this.indexProduct(store, description, product, variants);
-
-		}
-
-	}
-	
-	private Map<String,String> variation(ProductVariation variant) {
-		//get added modified variants
-		if(variant == null)
+	private Map<String, String> variation(ProductInstance instance) {
+		if (instance == null)
 			return null;
-		
-		
-		Map<String, String> variantMap = new HashMap<String,String>();
-		
-		String variantCode = variant.getProductOption().getCode();
-		String variantValueCode = variant.getProductOptionValue().getCode();
-		
-		variantMap.put(variantCode, variantValueCode);
-		
+
+		Map<String, String> variantMap = new HashMap<String, String>();
+		if (instance.getVariant() != null) {
+			String variantCode = instance.getVariant().getProductOption().getCode();
+			String variantValueCode = instance.getVariant().getProductOptionValue().getCode();
+
+			variantMap.put(variantCode, variantValueCode);
+
+		}
+
+		if (instance.getVariantValue() != null) {
+			String variantCode = instance.getVariantValue().getProductOption().getCode();
+			String variantValueCode = instance.getVariantValue().getProductOptionValue().getCode();
+
+			variantMap.put(variantCode, variantValueCode);
+		}
+
 		return variantMap;
-		
-		
+
 	}
 
 	@Override
 	public void deleteDocument(MerchantStore store, Product product) throws ServiceException {
+
+		if (configuration.getProperty(INDEX_PRODUCTS) == null
+				|| configuration.getProperty(INDEX_PRODUCTS).equals(Constants.FALSE) || searchModule == null) {
+			return;
+		}
 
 		List<String> languages = this.languages(product);
 
@@ -325,6 +268,12 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 	@Override
 	public SearchResponse searchKeywords(MerchantStore store, String language, SearchRequest search, int entriesCount)
 			throws ServiceException {
+
+		if (configuration.getProperty(INDEX_PRODUCTS) == null
+				|| configuration.getProperty(INDEX_PRODUCTS).equals(Constants.FALSE) || searchModule == null) {
+			return null;
+		}
+
 		try {
 			return searchModule.searchKeywords(search);
 		} catch (Exception e) {
@@ -336,6 +285,11 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 	public SearchResponse search(MerchantStore store, String language, SearchRequest search, int entriesCount,
 			int startIndex) throws ServiceException {
 
+		if (configuration.getProperty(INDEX_PRODUCTS) == null
+				|| configuration.getProperty(INDEX_PRODUCTS).equals(Constants.FALSE) || searchModule == null) {
+			return null;
+		}
+
 		try {
 			return searchModule.searchProducts(search);
 		} catch (Exception e) {
@@ -345,7 +299,13 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 	}
 
 	@Override
-	public Optional<Document> getDocument(String language, MerchantStore store, Long productId) throws ServiceException {
+	public Optional<Document> getDocument(String language, MerchantStore store, Long productId)
+			throws ServiceException {
+		if (configuration.getProperty(INDEX_PRODUCTS) == null
+				|| configuration.getProperty(INDEX_PRODUCTS).equals(Constants.FALSE) || searchModule == null) {
+			return null;
+		}
+
 		try {
 			return searchModule.getDocument(productId, language, RequestOptions.DEFAULT);
 		} catch (Exception e) {
@@ -396,82 +356,6 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 		attributeValue.put(attributeCode, value.getName());
 
 		return attributeValue;
-	}
-
-	@Override
-	public void deleteProductInstance(MerchantStore store, Product product, ProductInstance instance)
-			throws ServiceException {
-		Validate.notNull(product, "Product cannot be null");
-		Validate.notNull(instance, "Product instance cannot be null");
-		Validate.notNull(product.getId(), "Product.id cannot be null");
-
-		if (configuration.getProperty(INDEX_PRODUCTS) == null
-				|| configuration.getProperty(INDEX_PRODUCTS).equals(Constants.FALSE)) {
-			return;
-		}
-
-		List<String> languages = this.languages(product);
-		
-		List<Map<String,String>> variants = null;
-
-		// existing documents
-		List<Document> documents;
-		try {
-			
-			
-			documents = this.document(product.getId(), languages, RequestOptions.DEFAULT);
-
-
-			if(!CollectionUtils.isEmpty(documents)) {
-				
-				Document document = documents.iterator().next();
-				
-				variants = document.getVariants();
-			}
-
-
-			List<Map<String,String>> newList = new ArrayList<Map<String,String>>();
-			
-			
-			/**
-			Map<String,String> variation = this.variation(null)
-			
-			if(variants != null) {
-
-				for(Map<String,String> keyValue : variants) {
-					
-				}
-				
-				
-			}
-			**/
-			
-
-			
-			variants = variants.stream().distinct().collect(Collectors.toList());
-			
-			//delete existing
-			
-			/**
-			if (!CollectionUtils.isEmpty(documents)) {
-				searchModule.delete(languages, product.getId());
-			}
-			**/
-			
-			
-
-		} catch (Exception e) {
-			throw new ServiceException(e);
-		}
-
-		Set<ProductDescription> descriptions = product.getDescriptions();
-
-		for (ProductDescription description : descriptions) {
-
-			this.indexProduct(store, description, product, variants);
-
-		}
-		
 	}
 
 }
