@@ -45,7 +45,7 @@
 		<shopizer.search.version>2.11.1</shopizer.search.version>
 		<shopizer-canadapost.version>2.15.0</shopizer-canadapost.version>
 
-		<elasticsearch.version>7.5.2</elasticsearch.version>
+		<elasticsearch.version>7.11.2</elasticsearch.version>
 		<guava.version>27.1-jre</guava.version>
 		<commons-lang.version>3.5</commons-lang.version>
 		<commons-io.version>2.7</commons-io.version>
@@ -282,14 +282,14 @@
 			<dependency>
 				<groupId>com.amazonaws</groupId>
 				<artifactId>aws-java-sdk-s3</artifactId>
-				<version>1.11.640</version>
+				<version>1.11.983</version>
 			</dependency>
 
 			<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-ses -->
 			<dependency>
 				<groupId>com.amazonaws</groupId>
 				<artifactId>aws-java-sdk-ses</artifactId>
-				<version>1.11.640</version>
+				<version>1.11.983</version>
 			</dependency>
 
 			<!-- google cloud storage -->
