@@ -43,10 +43,16 @@ public class FilesController extends AbstractController {
 
 		// example -> /files/<store code>/myfile.css
 		FileContentType fileType = FileContentType.STATIC_FILE;
-		
+		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
 		// needs to query the new API
 		OutputContentFile file =contentService.getContentFile(storeCode, fileType, new StringBuilder().append(fileName).append(".").append(extension).toString());
 		
+		System.out.println("CodeLabel");
 		
 		if(file!=null) {
 			return file.getFile().toByteArray();
@@ -72,9 +78,16 @@ public class FilesController extends AbstractController {
 	public @ResponseBody byte[] downloadProduct(@PathVariable final String storeCode, @PathVariable final String fileName, @PathVariable final String extension, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		FileContentType fileType = FileContentType.PRODUCT_DIGITAL;
+		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
+		
 		
 		String fileNameAndExtension = new StringBuilder().append(fileName).append(".").append(extension).toString();
-		
+		System.out.println("CodeLabel");
 		// needs to query the new API
 		OutputContentFile file = contentService.getContentFile(storeCode, fileType, fileNameAndExtension);
 		

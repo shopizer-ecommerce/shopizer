@@ -66,6 +66,14 @@ public class ReferenceController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value={"/admin/reference/provinces.html","/shop/reference/provinces.html"}, method=RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> getProvinces(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("changes");
+		System.out.println("Code label");
+		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
 		
 		String countryCode = request.getParameter("countryCode");
 		String lang = request.getParameter("lang");
@@ -167,13 +175,14 @@ public class ReferenceController {
 			LOGGER.error("Error while looking up zone " + zoneCode);
 		}
 		return SanitizeUtils.getSafeString(zoneCode);
+		
 	}
 	
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value={"/shop/reference/creditCardDates.html"}, method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<String> getCreditCardDates(HttpServletRequest request, HttpServletResponse response) {
 		
-
+		System.out.println("Code label");
 		List<String> years = null;
 		String serialized = null;
 		try {
@@ -218,7 +227,10 @@ public class ReferenceController {
 	@RequestMapping(value={"/shop/reference/monthsOfYear.html"}, method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<String> getMonthsOfYear(HttpServletRequest request, HttpServletResponse response) {
 		
-
+		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
+		System.out.println("CodeLabel");
+		
 		List<String> days = null;
 		String serialized = null;
 		

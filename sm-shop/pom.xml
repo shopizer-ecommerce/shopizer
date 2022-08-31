@@ -161,6 +161,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+        			<jvmArguments>-javaagent:D:\Sealights\FileStorage\sl-cache\maven-plugin\sl-test-listener-3.1.2024.jar -Dsl.token=${SL_TOKEN} -Dsl.buildSessionId=${SL_BUILD_SESSION_ID} -Dsl.labId=integ_306d4144-602f-41f8-ac7d-8d9dc47f3c15</jvmArguments>
+   				 </configuration>
 			</plugin>
 		</plugins>
 		<finalName>shopizer</finalName>
