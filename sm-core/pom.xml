@@ -60,13 +60,11 @@
 		</dependency>
 
 		<!-- open search client -->
-		<!--
 		<dependency>
 			<groupId>com.shopizer</groupId>
 			<artifactId>shopizer-search-opensearch-spring-boot-starter</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
-		-->
 		
 		
 
@@ -241,29 +239,6 @@
 			<artifactId>h2</artifactId>
 		</dependency>
 
-		<!-- Elastic search -->
-		<!--
-		<dependency>
-			<groupId>org.elasticsearch</groupId>
-			<artifactId>elasticsearch</artifactId>
-		</dependency>
-
-		
-		<dependency>
-			<groupId>com.shopizer</groupId>
-			<artifactId>sm-search</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.elasticsearch</groupId>
-					<artifactId>elasticsearch</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.google.guava</groupId>
-					<artifactId>guava</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		-->
 	</dependencies>
 	
 

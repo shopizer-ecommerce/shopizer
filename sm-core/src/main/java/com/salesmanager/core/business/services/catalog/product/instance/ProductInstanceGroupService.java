@@ -19,7 +19,7 @@ public interface ProductInstanceGroupService extends SalesManagerEntityService<L
 
 	Page<ProductInstanceGroup> getByProductId(MerchantStore store, Long productId, Language language, int page, int count);
 
-	void saveOrUpdate(ProductInstanceGroup entity) throws ServiceException;
+	ProductInstanceGroup saveOrUpdate(ProductInstanceGroup entity) throws ServiceException;
 	
 	
 }

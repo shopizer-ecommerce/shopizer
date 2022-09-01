@@ -160,9 +160,12 @@ public class ProductInstanceGroupApi {
 			MediaType.MULTIPART_FORM_DATA_VALUE }, method = RequestMethod.POST)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public void addImage(@PathVariable Long id, @RequestParam(value = "file", required = true) MultipartFile file,
+	public void addImage(
+			@PathVariable Long id, 
+			@RequestParam(value = "file", required = true) MultipartFile file,
 			@RequestParam(value = "order", required = false, defaultValue = "0") Integer position,
-			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
+			@ApiIgnore MerchantStore merchantStore, 
+			@ApiIgnore Language language) {
 
 		String authenticatedUser = userFacade.authenticatedUser();
 		if (authenticatedUser == null) {
@@ -191,7 +194,7 @@ public class ProductInstanceGroupApi {
 		userFacade.authorizedGroup(authenticatedUser, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN,
 				Constants.GROUP_ADMIN_CATALOGUE, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()));
 
-		productInstanceGroupFacade.delete(imageId, id, merchantStore);
+		productInstanceGroupFacade.removeImage(imageId, id, merchantStore);
 
 	}
 

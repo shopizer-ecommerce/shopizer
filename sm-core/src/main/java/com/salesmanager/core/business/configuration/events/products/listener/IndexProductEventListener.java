@@ -107,7 +107,7 @@ public class IndexProductEventListener implements ApplicationListener<ProductEve
 		List<ProductInstance> filteredInstances = product.getInstances()
 				.stream()
 				.filter(
-						i -> instance.getId() != i.getId()
+						i -> instance.getId().longValue() != i.getId().longValue()
 						)
 				.collect(Collectors.toList());
 		
@@ -147,7 +147,7 @@ public class IndexProductEventListener implements ApplicationListener<ProductEve
 		List<ProductInstance> filteredInstances = product.getInstances()
 				.stream()
 				.filter(
-						i -> instance.getId() != i.getId()
+						i -> instance.getId().longValue() != i.getId().longValue()
 						)
 				.collect(Collectors.toList());
 
