@@ -28,6 +28,7 @@ import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.category.CategoryDescription;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
+import com.salesmanager.core.model.catalog.product.attribute.ProductOptionDescription;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueDescription;
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
 import com.salesmanager.core.model.catalog.product.image.ProductImage;
@@ -349,11 +350,13 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 	private Map<String, String> attribute(ProductAttribute attribute, String language) {
 		Map<String, String> attributeValue = new HashMap<String, String>();
 
-		String attributeCode = attribute.getProductOption().getCode();
+		ProductOptionDescription optionDescription = attribute.getProductOption().getDescriptions().stream()
+				.filter(a -> a.getLanguage().getCode().equals(language)).findFirst().get();		
+				
 		ProductOptionValueDescription value = attribute.getProductOptionValue().getDescriptions().stream()
 				.filter(a -> a.getLanguage().getCode().equals(language)).findFirst().get();
 
-		attributeValue.put(attributeCode, value.getName());
+		attributeValue.put(optionDescription.getName(), value.getName());
 
 		return attributeValue;
 	}

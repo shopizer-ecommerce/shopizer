@@ -100,12 +100,9 @@ public class ProductCommonFacadeImpl implements ProductCommonFacade {
 
 		try {
 			persistableProductPopulator.populate(product, target, store, language);
-			if (target.getId() != null && target.getId() > 0) {
-				productService.update(target);
-			} else {
-				productService.saveProduct(target);
-				product.setId(target.getId());
-			}
+			target = productService.saveProduct(target);
+			product.setId(target.getId());
+
 
 			return product;
 		} catch (Exception e) {
@@ -206,7 +203,7 @@ public class ProductCommonFacadeImpl implements ProductCommonFacade {
 			availability.setProductQuantity(quantity);
 		}
 
-		productService.update(persistable);
+		productService.saveProduct(persistable);
 
 		ReadableProduct readableProduct = new ReadableProduct();
 
@@ -246,7 +243,7 @@ public class ProductCommonFacadeImpl implements ProductCommonFacade {
 		
 		try {
 
-			productService.update(product);
+			productService.saveProduct(product);
 	
 			ReadableProductPopulator populator = new ReadableProductPopulator();
 	
@@ -270,7 +267,7 @@ public class ProductCommonFacadeImpl implements ProductCommonFacade {
 		Validate.notNull(product, "Product cannot be null");
 
 		product.getCategories().remove(category);
-		productService.update(product);
+		productService.saveProduct(product);
 
 		ReadableProduct readableProduct = new ReadableProduct();
 
@@ -449,7 +446,7 @@ public class ProductCommonFacadeImpl implements ProductCommonFacade {
 		}
 
 		try {
-			productService.update(modified);
+			productService.saveProduct(modified);
 		} catch (ServiceException e) {
 			throw new ServiceRuntimeException("Cannot update product ", e);
 		}

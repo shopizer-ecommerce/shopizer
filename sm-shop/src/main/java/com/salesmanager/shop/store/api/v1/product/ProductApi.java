@@ -379,11 +379,10 @@ public class ProductApi {
 	}
 
 	@ResponseStatus(HttpStatus.CREATED)
-	@RequestMapping(value = { "/private/product/{productId}/category/{categoryId}",
-			"/auth/product/{productId}/category/{categoryId}" }, method = RequestMethod.POST)
+	@RequestMapping(value = { "/private/product/{productId}/category/{categoryId}"}, method = RequestMethod.POST)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public @ResponseBody ReadableProduct addProductToCategory(@PathVariable Long productId,
+	public void addProductToCategory(@PathVariable Long productId,
 			@PathVariable Long categoryId, @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language,
 			HttpServletResponse response) throws Exception {
 
@@ -411,27 +410,19 @@ public class ProductApi {
 						"Category id [" + categoryId + "] does not belong to store [" + merchantStore.getCode() + "]");
 			}
 
-			return productCommonFacade.addProductToCategory(category, product, language);
+			productCommonFacade.addProductToCategory(category, product, language);
 
 		} catch (Exception e) {
-			LOGGER.error("Error while adding product to category", e);
-			try {
-				response.sendError(503, "Error while adding product to category " + e.getMessage());
-			} catch (Exception ignore) {
-			}
-
-			return null;
+			throw new ServiceRuntimeException(e);
 		}
 	}
 
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = { "/private/product/{productId}/category/{categoryId}",
-			"/auth/product/{productId}/category/{categoryId}" }, method = RequestMethod.DELETE)
+	@RequestMapping(value = { "/private/product/{productId}/category/{categoryId}" }, method = RequestMethod.DELETE)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public @ResponseBody ReadableProduct removeProductFromCategory(@PathVariable Long productId,
-			@PathVariable Long categoryId, @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language,
-			HttpServletResponse response) {
+	public void removeProductFromCategory(@PathVariable Long productId,
+			@PathVariable Long categoryId, @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
 
 		try {
 			Product product = productService.getById(productId);
@@ -456,16 +447,10 @@ public class ProductApi {
 						"Category id [" + categoryId + "] does not belong to store [" + merchantStore.getCode() + "]");
 			}
 
-			return productCommonFacade.removeProductFromCategory(category, product, language);
+			productCommonFacade.removeProductFromCategory(category, product, language);
 
 		} catch (Exception e) {
-			LOGGER.error("Error while removing product from category", e);
-			try {
-				response.sendError(503, "Error while removing product from category " + e.getMessage());
-			} catch (Exception ignore) {
-			}
-
-			return null;
+			throw new ServiceRuntimeException(e);
 		}
 	}
 

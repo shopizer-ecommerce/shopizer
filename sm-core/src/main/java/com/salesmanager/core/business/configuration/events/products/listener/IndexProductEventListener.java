@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
@@ -37,27 +38,35 @@ public class IndexProductEventListener implements ApplicationListener<ProductEve
 
 	@Autowired
 	private ProductService productService;
+	
+    @Value("${search.noindex:false}")
+    private boolean noIndex;
 
 	/**
 	 * Listens to ProductEvent and ProductInstanceEvent
 	 */
 	@Override
 	public void onApplicationEvent(ProductEvent event) {
+		
+		
+		if(!noIndex) {
 
-		if (event instanceof SaveProductEvent) {
-			saveProduct((SaveProductEvent) event);
-		}
-
-		if (event instanceof DeleteProductEvent) {
-			deleteProduct((DeleteProductEvent) event);
-		}
-
-		if (event instanceof SaveProductInstanceEvent) {
-			saveProductInstance((SaveProductInstanceEvent) event);
-		}
-
-		if (event instanceof DeleteProductInstanceEvent) {
-			deleteProductInstance((DeleteProductInstanceEvent) event);
+			if (event instanceof SaveProductEvent) {
+				saveProduct((SaveProductEvent) event);
+			}
+	
+			if (event instanceof DeleteProductEvent) {
+				deleteProduct((DeleteProductEvent) event);
+			}
+	
+			if (event instanceof SaveProductInstanceEvent) {
+				saveProductInstance((SaveProductInstanceEvent) event);
+			}
+	
+			if (event instanceof DeleteProductInstanceEvent) {
+				deleteProductInstance((DeleteProductInstanceEvent) event);
+			}
+		
 		}
 
 	}
@@ -66,6 +75,13 @@ public class IndexProductEventListener implements ApplicationListener<ProductEve
 		Product product = event.getProduct();
 		MerchantStore store = product.getMerchantStore();
 		try {
+
+			/**
+			 * Refresh product
+			 */
+
+			product = productService.findOne(product.getId(), store);
+
 			searchService.index(store, product);
 		} catch (ServiceException e) {
 			throw new RuntimeException(e);
@@ -96,21 +112,16 @@ public class IndexProductEventListener implements ApplicationListener<ProductEve
 		 */
 
 		product = productService.findOne(id, store);
-		
+
 		ProductInstance instance = event.getInstance();// to be removed
 
 		/**
 		 * add new instance to be saved
 		 **/
 
+		List<ProductInstance> filteredInstances = product.getInstances().stream()
+				.filter(i -> instance.getId().longValue() != i.getId().longValue()).collect(Collectors.toList());
 
-		List<ProductInstance> filteredInstances = product.getInstances()
-				.stream()
-				.filter(
-						i -> instance.getId().longValue() != i.getId().longValue()
-						)
-				.collect(Collectors.toList());
-		
 		filteredInstances.add(instance);
 
 		Set<ProductInstance> allInstances = new HashSet<ProductInstance>(filteredInstances);
@@ -141,17 +152,10 @@ public class IndexProductEventListener implements ApplicationListener<ProductEve
 		/**
 		 * remove instance to be saved
 		 **/
-		
 
+		List<ProductInstance> filteredInstances = product.getInstances().stream()
+				.filter(i -> instance.getId().longValue() != i.getId().longValue()).collect(Collectors.toList());
 
-		List<ProductInstance> filteredInstances = product.getInstances()
-				.stream()
-				.filter(
-						i -> instance.getId().longValue() != i.getId().longValue()
-						)
-				.collect(Collectors.toList());
-
-		
 		Set<ProductInstance> allInstances = new HashSet<ProductInstance>(filteredInstances);
 		product.setInstances(allInstances);
 
