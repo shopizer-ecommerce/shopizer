@@ -100,9 +100,9 @@ public class ProductImageServiceImpl extends SalesManagerEntityServiceImpl<Long,
 	}
 
 	@Override
-	public void saveOrUpdate(ProductImage productImage) throws ServiceException {
+	public ProductImage saveOrUpdate(ProductImage productImage) throws ServiceException {
 
-		super.save(productImage);
+		return productImageRepository.save(productImage);
 
 	}
 

@@ -1,4 +1,4 @@
-package com.salesmanager.core.business.configuration.events.products.listener;
+package com.salesmanager.core.business.configuration.events.products.listeners;
 
 import java.util.HashSet;
 import java.util.List;
@@ -10,15 +10,21 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
+import com.salesmanager.core.business.configuration.events.products.DeleteProductAttributeEvent;
 import com.salesmanager.core.business.configuration.events.products.DeleteProductEvent;
+import com.salesmanager.core.business.configuration.events.products.DeleteProductImageEvent;
 import com.salesmanager.core.business.configuration.events.products.DeleteProductInstanceEvent;
 import com.salesmanager.core.business.configuration.events.products.ProductEvent;
+import com.salesmanager.core.business.configuration.events.products.SaveProductAttributeEvent;
 import com.salesmanager.core.business.configuration.events.products.SaveProductEvent;
+import com.salesmanager.core.business.configuration.events.products.SaveProductImageEvent;
 import com.salesmanager.core.business.configuration.events.products.SaveProductInstanceEvent;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.search.SearchService;
 import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
+import com.salesmanager.core.model.catalog.product.image.ProductImage;
 import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
 import com.salesmanager.core.model.merchant.MerchantStore;
 
@@ -39,7 +45,7 @@ public class IndexProductEventListener implements ApplicationListener<ProductEve
 	@Autowired
 	private ProductService productService;
 	
-    @Value("${search.noindex:false}")
+    @Value("${search.noindex:false}")//skip indexing process
     private boolean noIndex;
 
 	/**
@@ -66,6 +72,24 @@ public class IndexProductEventListener implements ApplicationListener<ProductEve
 			if (event instanceof DeleteProductInstanceEvent) {
 				deleteProductInstance((DeleteProductInstanceEvent) event);
 			}
+			
+			if (event instanceof SaveProductImageEvent) {
+				saveProductImage((SaveProductImageEvent) event);
+			}
+	
+			if (event instanceof DeleteProductImageEvent) {
+				deleteProductImage((DeleteProductImageEvent) event);
+			}
+			
+			if (event instanceof SaveProductAttributeEvent) {
+				saveProductAttribute((SaveProductAttributeEvent) event);
+			}
+	
+			if (event instanceof DeleteProductAttributeEvent) {
+				deleteProductAttribute((DeleteProductAttributeEvent) event);
+			}
+			
+			
 		
 		}
 
@@ -158,6 +182,143 @@ public class IndexProductEventListener implements ApplicationListener<ProductEve
 
 		Set<ProductInstance> allInstances = new HashSet<ProductInstance>(filteredInstances);
 		product.setInstances(allInstances);
+
+		try {
+			searchService.index(store, product);
+		} catch (ServiceException e) {
+			throw new RuntimeException(e);
+		}
+
+	}
+	
+
+	void saveProductImage(SaveProductImageEvent event) {
+
+		Product product = event.getProduct();
+
+		Long id = product.getId();
+		MerchantStore store = product.getMerchantStore();
+
+		/**
+		 * Refresh product
+		 */
+
+		product = productService.findOne(id, store);
+
+		ProductImage image = event.getProductImage();// to be removed
+
+		/**
+		 * add new image to be saved
+		 **/
+
+		List<ProductImage> filteredImages = product.getImages().stream()
+				.filter(i -> i.getId().longValue() != i.getId().longValue()).collect(Collectors.toList());
+
+		filteredImages.add(image);
+
+		Set<ProductImage> allInmages = new HashSet<ProductImage>(filteredImages);
+		product.setImages(allInmages);
+
+		try {
+			searchService.index(store, product);
+		} catch (ServiceException e) {
+			throw new RuntimeException(e);
+		}
+
+	}
+	
+	void deleteProductImage(DeleteProductImageEvent event) {
+
+		Product product = event.getProduct();
+
+		Long id = product.getId();
+		MerchantStore store = product.getMerchantStore();
+
+		/**
+		 * Refresh product
+		 */
+
+		product = productService.findOne(id, store);
+		ProductImage image = event.getProductImage();// to be removed
+
+		/**
+		 * remove instance to be saved
+		 **/
+
+		List<ProductImage> filteredImages = product.getImages().stream()
+				.filter(i -> i.getId().longValue() != i.getId().longValue()).collect(Collectors.toList());
+
+
+		Set<ProductImage> allImages = new HashSet<ProductImage>(filteredImages);
+		product.setImages(allImages);
+
+		try {
+			searchService.index(store, product);
+		} catch (ServiceException e) {
+			throw new RuntimeException(e);
+		}
+
+	}
+	
+	void saveProductAttribute(SaveProductAttributeEvent event) {
+
+		Product product = event.getProduct();
+
+		Long id = product.getId();
+		MerchantStore store = product.getMerchantStore();
+
+		/**
+		 * Refresh product
+		 */
+
+		product = productService.findOne(id, store);
+
+		ProductAttribute attribute = event.getProductAttribute();// to be removed
+
+		/**
+		 * add new attribute to be saved
+		 **/
+
+		List<ProductAttribute> filteredAttributes = product.getAttributes().stream()
+				.filter(i -> i.getId().longValue() != i.getId().longValue()).collect(Collectors.toList());
+
+		filteredAttributes.add(attribute);
+
+		Set<ProductAttribute> allAttributes = new HashSet<ProductAttribute>(filteredAttributes);
+		product.setAttributes(allAttributes);
+
+		try {
+			searchService.index(store, product);
+		} catch (ServiceException e) {
+			throw new RuntimeException(e);
+		}
+
+	}
+	
+	void deleteProductAttribute(DeleteProductAttributeEvent event) {
+
+		Product product = event.getProduct();
+
+		Long id = product.getId();
+		MerchantStore store = product.getMerchantStore();
+
+		/**
+		 * Refresh product
+		 */
+
+		product = productService.findOne(id, store);
+
+		ProductAttribute attribute = event.getProductAttribute();// to be removed
+
+		/**
+		 * add new attribute to be saved
+		 **/
+
+		List<ProductAttribute> filteredAttributes = product.getAttributes().stream()
+				.filter(i -> i.getId().longValue() != i.getId().longValue()).collect(Collectors.toList());
+
+		Set<ProductAttribute> allAttributes = new HashSet<ProductAttribute>(filteredAttributes);
+		product.setAttributes(allAttributes);
 
 		try {
 			searchService.index(store, product);

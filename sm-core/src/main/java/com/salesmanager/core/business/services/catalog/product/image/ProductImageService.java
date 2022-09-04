@@ -56,7 +56,7 @@ public interface ProductImageService extends SalesManagerEntityService<Long, Pro
 
 	void removeProductImage(ProductImage productImage) throws ServiceException;
 
-	void saveOrUpdate(ProductImage productImage) throws ServiceException;
+	ProductImage saveOrUpdate(ProductImage productImage) throws ServiceException;
 
 	/**
 	 * Returns an image file from required identifier. This method is

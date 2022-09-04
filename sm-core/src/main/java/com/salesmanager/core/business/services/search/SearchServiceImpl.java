@@ -75,7 +75,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 
 		if (searchModule != null) {
 
-			SearchConfiguration searchConfiguration = this.config();
+			SearchConfiguration searchConfiguration = config();
 			try {
 				searchModule.configure(searchConfiguration);
 			} catch (Exception e) {
@@ -93,20 +93,17 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 			return;
 		}
 
-		List<String> languages = this.languages(product);
+		List<String> languages = languages(product);
 
 		// existing documents
 		List<Document> documents;
 		List<Map<String, String>> variants = null;
 		try {
-			documents = this.document(product.getId(), languages, RequestOptions.DEFAULT);
+			documents = document(product.getId(), languages, RequestOptions.DEFAULT);
 
 			if (!CollectionUtils.isEmpty(product.getInstances())) {
-
 				variants = new ArrayList<Map<String, String>>();
-
-				variants = product.getInstances().stream().map(i -> this.variation(i)).collect(Collectors.toList());
-
+				variants = product.getInstances().stream().map(i -> variation(i)).collect(Collectors.toList());
 			}
 
 			if (!CollectionUtils.isEmpty(documents)) {
@@ -122,9 +119,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 		Set<ProductDescription> descriptions = product.getDescriptions();
 
 		for (ProductDescription description : descriptions) {
-
-			this.indexProduct(store, description, product, variants);
-
+			indexProduct(store, description, product, variants);
 		}
 
 	}
@@ -187,7 +182,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 
 			item.setLanguage(description.getLanguage().getCode());
 
-			this.searchModule.index(item);
+			searchModule.index(item);
 		} catch (Exception e) {
 			throw new ServiceException(e);
 		}
@@ -256,7 +251,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 			return;
 		}
 
-		List<String> languages = this.languages(product);
+		List<String> languages = languages(product);
 
 		try {
 			searchModule.delete(languages, product.getId());
@@ -339,7 +334,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 		Map<String, String> allAttributes = new HashMap<String, String>();
 
 		for (ProductAttribute attribute : product.getAttributes()) {
-			Map<String, String> attr = this.attribute(attribute, language);
+			Map<String, String> attr = attribute(attribute, language);
 			allAttributes.putAll(attr);
 		}
 
