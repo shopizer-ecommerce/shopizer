@@ -99,7 +99,7 @@ public class PublishProductAspect {
 	@Pointcut("serviceMethods() && saveProductImageMethod()")
 	public void entityProductImageCreationMethods() {
 	}
-	
+
 	@AfterReturning(value = "entityProductImageCreationMethods()", returning = "entity")
 	public void createProductImageEvent(JoinPoint jp, Object entity) throws Throwable {
 		eventPublisher.publishEvent(new SaveProductImageEvent(eventPublisher, (ProductImage)entity, ((ProductImage)entity).getProduct()));

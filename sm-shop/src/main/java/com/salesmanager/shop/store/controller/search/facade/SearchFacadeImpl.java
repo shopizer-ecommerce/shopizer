@@ -91,12 +91,23 @@ public class SearchFacadeImpl implements SearchFacade {
 
 	private SearchResponse search(MerchantStore store, String languageCode, String query, Integer count,
 			Integer start) {
+		
+		Validate.notNull(query,"Search Keyword must not be null");
+		Validate.notNull(languageCode, "Language cannot be null");
+		Validate.notNull(store,"MerchantStore cannot be null");
+		
+		
 		try {
 			LOGGER.debug("Search " + query);
 			SearchRequest searchRequest = new SearchRequest();
 			searchRequest.setLanguage(languageCode);
 			searchRequest.setSearchString(query);
 			searchRequest.setStore(store.getCode());
+			
+			
+			//aggregations
+			
+			//TODO add scroll
 			return searchService.search(store, languageCode, searchRequest, count, start);
 
 		} catch (ServiceException e) {
@@ -169,7 +180,7 @@ public class SearchFacadeImpl implements SearchFacade {
 		
 		SearchRequest req = new SearchRequest();
 		req.setLanguage(language.getCode());
-		req.setStore(store.getCode());
+		req.setStore(store.getCode().toLowerCase());
 		req.setSearchString(word);
 		req.setLanguage(language.getCode());
 		

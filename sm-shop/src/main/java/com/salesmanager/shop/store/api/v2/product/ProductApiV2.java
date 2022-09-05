@@ -256,7 +256,7 @@ public class ProductApiV2 {
 		**/
 		
 		searchCriterias.setMaxCount(count);
-		searchCriterias.setOrigin(ProductCriteria.ORIGIN_SHOP);
+		searchCriterias.setLanguage(language.getCode());
 
 		try {
 			return productFacadeV2.getProductListsByCriterias(merchantStore, language, searchCriterias);
