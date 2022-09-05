@@ -135,10 +135,10 @@ public class ProductApiV2 {
 	 * @return ReadableProduct
 	 * @throws Exception
 	 *                   <p>
-	 *                   /api/products/123
+	 *                   /api/product/123
 	 */
-	@RequestMapping(value = { "/products/slug/{friendlyUrl}",
-			"/products/friendly/{friendlyUrl}" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/product/slug/{friendlyUrl}",
+			"/product/friendly/{friendlyUrl}" }, method = RequestMethod.GET)
 	@ApiOperation(httpMethod = "GET", value = "Get a product by friendlyUrl (slug) version 2", notes = "For shop purpose. Specifying ?merchant is "
 			+ "required otherwise it falls back to DEFAULT")
 	@ApiResponses(value = {

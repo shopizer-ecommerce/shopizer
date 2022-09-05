@@ -100,7 +100,7 @@ public class ProductReviewApi {
     }
   }
 
-  @RequestMapping(value = "/products/{id}/reviews", method = RequestMethod.GET)
+  @RequestMapping(value = "/product/{id}/reviews", method = RequestMethod.GET)
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   @ApiImplicitParams({

@@ -190,7 +190,7 @@ public class ServicesTestSupport {
 
         final HttpEntity<String> httpEntity = new HttpEntity<>(getHeader());
 
-        String apiUrl = "/api/v1/products/" + response.getBody().getId();
+        String apiUrl = "/api/v1/product/" + response.getBody().getId();
 
         ResponseEntity<ReadableProduct> readableProduct = testRestTemplate.exchange(apiUrl, HttpMethod.GET, httpEntity, ReadableProduct.class);
         assertThat(readableProduct.getStatusCode(), is(OK));

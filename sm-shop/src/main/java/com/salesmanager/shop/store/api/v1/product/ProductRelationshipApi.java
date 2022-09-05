@@ -89,7 +89,7 @@ public class ProductRelationshipApi {
   	}
   }*/
 
-  @RequestMapping(value = "/products/{id}/related", method = RequestMethod.GET)
+  @RequestMapping(value = "/product/{id}/related", method = RequestMethod.GET)
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(
       httpMethod = "GET",

@@ -91,7 +91,7 @@ public class ProductGroupApi {
 
   }
   
-  @GetMapping("/private/products/groups")
+  @GetMapping("/private/product/groups")
   @ApiOperation(httpMethod = "GET", value = "Get products groups for a given merchant", notes = "", response = List.class)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
@@ -109,7 +109,7 @@ public class ProductGroupApi {
   
   
   /**
-   * Query for a product group public/products/group/{code}?lang=fr|en no lang it will take session
+   * Query for a product group public/product/group/{code}?lang=fr|en no lang it will take session
    * lang or default store lang code can be any code used while creating product group, defeult
    * being FEATURED
    *

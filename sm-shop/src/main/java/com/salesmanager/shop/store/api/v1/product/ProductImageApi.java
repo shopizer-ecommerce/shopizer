@@ -145,7 +145,7 @@ public class ProductImageApi {
 
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = { "/private/product/image/{id}",
-			"/auth/products/images/{id}" }, method = RequestMethod.DELETE)
+			"/auth/product/images/{id}" }, method = RequestMethod.DELETE)
 	public void deleteImage(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 

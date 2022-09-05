@@ -96,6 +96,7 @@ public class ReadableProductMapper implements Mapper<Product, ReadableProduct> {
 		Validate.notNull(source, "Product cannot be null");
 		Validate.notNull(destination, "Product destination cannot be null");
 
+
 		// read only product values
 		// will contain options
 		TreeMap<Long, ReadableProductOption> selectableOptions = new TreeMap<Long, ReadableProductOption>();
@@ -371,7 +372,7 @@ public class ReadableProductMapper implements Mapper<Product, ReadableProduct> {
 
 						destination.setProductPrice(readableProductPrice);
 
-						if (pr.isPresent()) {
+						if (pr.isPresent() && language !=null) {
 							readableProductPrice.setId(pr.get().getId());
 							Optional<ProductPriceDescription> d = pr.get().getDescriptions().stream()
 									.filter(desc -> desc.getLanguage().getCode().equals(language.getCode()))

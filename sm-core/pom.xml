@@ -56,7 +56,7 @@
 		<dependency>
 			<groupId>com.shopizer</groupId>
 			<artifactId>shopizer-commons</artifactId>
-			<version>1.0.5-SNAPSHOT</version>
+			<version>1.0.5</version>
 		</dependency>
 
 		<!-- open search client -->

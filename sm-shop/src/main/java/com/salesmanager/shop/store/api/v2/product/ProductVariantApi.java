@@ -100,7 +100,7 @@ public class ProductVariantApi {
    * @return
    * @throws Exception
    */
-  @RequestMapping(value = "/products/{id}/variant", method = RequestMethod.POST)
+  @RequestMapping(value = "/product/{id}/variant", method = RequestMethod.POST)
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(
       httpMethod = "POST",

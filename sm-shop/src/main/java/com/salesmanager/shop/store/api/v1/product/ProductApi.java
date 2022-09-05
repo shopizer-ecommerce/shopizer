@@ -288,9 +288,9 @@ public class ProductApi {
 	 * @return ReadableProduct
 	 * @throws Exception
 	 *                   <p>
-	 *                   /api/products/123
+	 *                   /api/product/123
 	 */
-	@RequestMapping(value = "/products/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/product/{id}", method = RequestMethod.GET)
 	@ApiOperation(httpMethod = "GET", value = "Get a product by id", notes = "For administration and shop purpose. Specifying ?merchant is required otherwise it falls back to DEFAULT")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Single product found", response = ReadableProduct.class) })
@@ -342,10 +342,10 @@ public class ProductApi {
 	 * @return ReadableProduct
 	 * @throws Exception
 	 *                   <p>
-	 *                   /api/products/123
+	 *                   /api/product/123
 	 */
-	@RequestMapping(value = { "/products/slug/{friendlyUrl}",
-			"/products/friendly/{friendlyUrl}" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/product/slug/{friendlyUrl}",
+			"/product/friendly/{friendlyUrl}" }, method = RequestMethod.GET)
 	@ApiOperation(httpMethod = "GET", value = "Get a product by friendlyUrl (slug)", notes = "For administration and shop purpose. Specifying ?merchant is "
 			+ "required otherwise it falls back to DEFAULT")
 	@ApiResponses(value = {
