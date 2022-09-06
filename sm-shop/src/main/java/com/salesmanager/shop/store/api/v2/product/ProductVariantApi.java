@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.services.catalog.pricing.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
@@ -100,7 +100,7 @@ public class ProductVariantApi {
    * @return
    * @throws Exception
    */
-  @RequestMapping(value = "/products/{id}/variant", method = RequestMethod.POST)
+  @RequestMapping(value = "/product/{id}/variant", method = RequestMethod.POST)
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(
       httpMethod = "POST",
@@ -263,6 +263,7 @@ public class ProductVariantApi {
 		productVariationFacade.delete(variationId, merchantStore);
 
 	}
+	
 
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = { "/private/product/variant" }, method = RequestMethod.GET)

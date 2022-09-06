@@ -88,7 +88,7 @@ public class ProductPriceUtils {
 	 * @return FinalPrice
 	 */
 	//Pricer
-	public FinalPrice getFinalProductPrice(Product product, List<ProductAttribute> attributes) throws ServiceException {
+	public FinalPrice getFinalPrice(Product product, List<ProductAttribute> attributes) throws ServiceException {
 
 
 		FinalPrice finalPrice = calculateFinalPrice(product);

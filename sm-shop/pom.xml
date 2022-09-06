@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>com.shopizer</groupId>
 		<artifactId>shopizer</artifactId>
-		<version>3.2.0</version>
+		<version>3.2.2</version>
 	</parent>
 
 	<artifactId>sm-shop</artifactId>
@@ -38,12 +38,6 @@
 			<artifactId>sm-shop-model</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>com.shopizer</groupId>
-			<artifactId>sm-search</artifactId>
-		</dependency>
-
-
 		<!-- Spring boot starters -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -69,12 +63,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
-		</dependency>
-
-		<!-- Elastic search -->
-		<dependency>
-			<groupId>org.elasticsearch</groupId>
-			<artifactId>elasticsearch</artifactId>
 		</dependency>
 
 		<dependency>

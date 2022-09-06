@@ -7,7 +7,7 @@
 	<groupId>com.shopizer</groupId>
 	<artifactId>shopizer</artifactId>
 	<packaging>pom</packaging>
-	<version>3.2.0</version>
+	<version>3.2.2</version>
 
 	<name>shopizer</name>
 	<url>http://ww.shopizer.com</url>
@@ -44,7 +44,8 @@
 
 		<shopizer.search.version>2.11.1</shopizer.search.version>
 		<shopizer-canadapost.version>2.15.0</shopizer-canadapost.version>
-
+		
+		<!-- TODO replace with starter -->
 		<elasticsearch.version>7.5.2</elasticsearch.version>
 		<guava.version>27.1-jre</guava.version>
 		<commons-lang.version>3.5</commons-lang.version>
@@ -97,22 +98,22 @@
 			<dependency>
 				<groupId>com.shopizer</groupId>
 				<artifactId>sm-core</artifactId>
-				<version>3.2.0</version>
+				<version>3.2.2</version>
 			</dependency>
 			<dependency>
 				<groupId>com.shopizer</groupId>
 				<artifactId>sm-core-model</artifactId>
-				<version>3.2.0</version>
+				<version>3.2.2</version>
 			</dependency>
 			<dependency>
 				<groupId>com.shopizer</groupId>
 				<artifactId>sm-core-modules</artifactId>
-				<version>3.2.0</version>
+				<version>3.2.2</version>
 			</dependency>
 			<dependency>
 				<groupId>com.shopizer</groupId>
 				<artifactId>sm-shop-model</artifactId>
-				<version>3.2.0</version>
+				<version>3.2.2</version>
 			</dependency>
 
 			<!-- https://mvnrepository.com/artifact/javax.inject/javax.inject -->
@@ -172,13 +173,6 @@
 				<groupId>com.googlecode.json-simple</groupId>
 				<artifactId>json-simple</artifactId>
 				<version>${simple-json-version}</version>
-			</dependency>
-
-			<!-- sm-search -->
-			<dependency>
-				<groupId>com.shopizer</groupId>
-				<artifactId>sm-search</artifactId>
-				<version>${shopizer.search.version}</version>
 			</dependency>
 
 			<dependency>
@@ -381,13 +375,7 @@
 
 	<!--general dependencies -->
 	<dependencies>
-	
-		<!-- sm-search -->
-		<dependency>
-			<groupId>com.shopizer</groupId>
-			<artifactId>sm-search</artifactId>
-		</dependency>
-		
+
 		<dependency>
 			<groupId>javax.inject</groupId>
 			<artifactId>javax.inject</artifactId>
@@ -452,12 +440,7 @@
 			</exclusions>
 		</dependency>
 
-		<!-- Elastic search -->
-		<dependency>
-			<groupId>org.elasticsearch</groupId>
-			<artifactId>elasticsearch</artifactId>
-			<version>${elasticsearch.version}</version><!--$NO-MVN-MAN-VER$ -->
-		</dependency>
+		<!-- Elastic search TODO replace with starter-->
 
 		<dependency>
 			<groupId>mysql</groupId>

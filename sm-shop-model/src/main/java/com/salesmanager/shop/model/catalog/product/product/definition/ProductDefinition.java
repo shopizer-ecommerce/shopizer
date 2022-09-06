@@ -20,6 +20,7 @@ public class ProductDefinition extends Entity {
 	private boolean canBePurchased = true;
 	private String dateAvailable;
 	private String identifier;
+	private String sku; //to match v1 api
 	private ProductSpecification productSpecifications;
 	private int sortOrder;
 	private int quantity;
@@ -77,6 +78,12 @@ public class ProductDefinition extends Entity {
 	}
 	public void setCanBePurchased(boolean canBePurchased) {
 		this.canBePurchased = canBePurchased;
+	}
+	public String getSku() {
+		return sku;
+	}
+	public void setSku(String sku) {
+		this.sku = sku;
 	}
 
 

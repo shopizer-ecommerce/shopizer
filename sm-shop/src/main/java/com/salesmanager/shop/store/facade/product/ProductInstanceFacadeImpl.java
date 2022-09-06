@@ -118,7 +118,7 @@ public class ProductInstanceFacadeImpl implements ProductInstanceFacade {
 		ProductInstance instance = persistableProductInstanceMapper.convert(productInstance, store, language);
 		
 		try {
-			productInstanceService.save(instance);
+			productInstanceService.saveProductInstance(instance);
 		} catch (ServiceException e) {
 			throw new ServiceRuntimeException("Cannot save product instance for store [" + store.getCode() + "] and productId [" + productId + "]", e);
 		}
@@ -138,9 +138,11 @@ public class ProductInstanceFacadeImpl implements ProductInstanceFacade {
 			throw new ResourceNotFoundException("ProductInstance with id [" + instanceId + "] not found for store [" + store.getCode() + "] and productId [" + productId + "]");
 		}
 		
+		productInstance.setProductId(productId);
+		
 		ProductInstance mergedModel = persistableProductInstanceMapper.merge(productInstance, instanceModel.get(), store, language);
 		try {
-			productInstanceService.save(mergedModel);
+			productInstanceService.saveProductInstance(mergedModel);
 		} catch (ServiceException e) {
 			throw new ServiceRuntimeException("Cannot save product instance for store [" + store.getCode() + "] and productId [" + productId + "]", e);
 		}

@@ -51,15 +51,10 @@ public class ProductInstanceGroupServiceImpl extends SalesManagerEntityServiceIm
 	 */
 	
 	@Override
-	public void saveOrUpdate(ProductInstanceGroup entity) throws ServiceException {
+	public ProductInstanceGroup saveOrUpdate(ProductInstanceGroup entity) throws ServiceException {
 		
-		
-		//save or update (persist and attach entities
-		if(entity.getId()!=null && entity.getId()>0) {
-			super.update(entity);
-		} else {
-			super.saveAndFlush(entity);
-		}
+		entity = productInstanceGroupRepository.save(entity);
+		return entity;
 		
 	}
 

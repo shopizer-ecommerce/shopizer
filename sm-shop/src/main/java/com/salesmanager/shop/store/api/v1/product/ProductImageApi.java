@@ -79,7 +79,7 @@ public class ProductImageApi {
 	 * @throws Exception
 	 */
 	@ResponseStatus(HttpStatus.CREATED)
-	@RequestMapping(value = { "/private/products/{id}/images", "/auth/products/{id}/images" }, consumes = {
+	@RequestMapping(value = { "/private/product/{id}/image", "/auth/product/{id}/image" }, consumes = {
 			MediaType.MULTIPART_FORM_DATA_VALUE }, method = RequestMethod.POST)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
@@ -144,8 +144,8 @@ public class ProductImageApi {
 	}
 
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = { "/private/products/images/{id}",
-			"/auth/products/images/{id}" }, method = RequestMethod.DELETE)
+	@RequestMapping(value = { "/private/product/image/{id}",
+			"/auth/product/images/{id}" }, method = RequestMethod.DELETE)
 	public void deleteImage(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 
@@ -168,7 +168,7 @@ public class ProductImageApi {
 	}
 
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = { "/private/products/{id}/image/{imageId}" }, method = RequestMethod.DELETE)
+	@RequestMapping(value = { "/private/product/{id}/image/{imageId}" }, method = RequestMethod.DELETE)
 	public void deleteImage(@PathVariable Long id, @PathVariable Long imageId, @Valid NameEntity imageName,
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
 
@@ -199,7 +199,7 @@ public class ProductImageApi {
 	 */
 	
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = { "/products/{productId}/images" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/product/{productId}/images" }, method = RequestMethod.GET)
 	@ApiOperation(httpMethod = "GET", value = "Get images for a given product")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "List of ProductImage found", response = List.class) })
@@ -259,8 +259,8 @@ public class ProductImageApi {
 	 */
 
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = { "/private/products/{id}/image/{imageId}",
-			"/auth/products/{id}/image/{id}" }, method = RequestMethod.PATCH)
+	@RequestMapping(value = { "/private/product/{id}/image/{imageId}",
+			"/auth/product/{id}/image/{id}" }, method = RequestMethod.PATCH)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
 	public void imageDetails(@PathVariable Long id, @PathVariable Long imageId,

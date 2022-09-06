@@ -1,16 +1,12 @@
 package com.salesmanager.shop.store.controller.search.facade;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import org.apache.commons.collections4.CollectionUtils;
+import org.jsoup.helper.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,22 +16,13 @@ import org.springframework.stereotype.Service;
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
-import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.services.catalog.pricing.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.search.SearchService;
-import com.salesmanager.core.business.utils.CoreConfiguration;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.Product;
-import com.salesmanager.core.model.catalog.product.ProductCriteria;
-import com.salesmanager.core.model.catalog.product.ProductList;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.core.model.search.IndexProduct;
-import com.salesmanager.core.model.search.SearchEntry;
-import com.salesmanager.core.model.search.SearchFacet;
-import com.salesmanager.core.model.search.SearchKeywords;
-import com.salesmanager.core.model.search.SearchResponse;
-import com.salesmanager.shop.model.catalog.SearchProductList;
 import com.salesmanager.shop.model.catalog.SearchProductRequest;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
@@ -44,8 +31,12 @@ import com.salesmanager.shop.populator.catalog.ReadableCategoryPopulator;
 import com.salesmanager.shop.populator.catalog.ReadableProductPopulator;
 import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
-import com.salesmanager.shop.store.model.search.AutoCompleteRequest;
 import com.salesmanager.shop.utils.ImageFilePath;
+
+import modules.commons.search.request.Aggregation;
+import modules.commons.search.request.SearchItem;
+import modules.commons.search.request.SearchRequest;
+import modules.commons.search.request.SearchResponse;
 
 @Service("searchFacade")
 public class SearchFacadeImpl implements SearchFacade {
@@ -81,76 +72,53 @@ public class SearchFacadeImpl implements SearchFacade {
 	public void indexAllData(MerchantStore store) throws Exception {
 		List<Product> products = productService.listByStore(store);
 
-		for (Product product : products) {
-			searchService.index(store, product);
-		}
+		products.stream().forEach(p -> {
+			try {
+				searchService.index(store, p);
+			} catch (ServiceException e) {
+				throw new RuntimeException("Exception while indexing products", e);
+			}
+		});
 
 	}
 
 	@Override
-	public SearchProductList search(MerchantStore store, Language language, SearchProductRequest searchRequest) {
+	public List<SearchItem> search(MerchantStore store, Language language, SearchProductRequest searchRequest) {
 		SearchResponse response = search(store, language.getCode(), searchRequest.getQuery(), searchRequest.getCount(),
 				searchRequest.getStart());
-		return convertToSearchProductList(response, store, searchRequest.getStart(), searchRequest.getCount(),
-				language);
+		return response.getItems();
 	}
 
 	private SearchResponse search(MerchantStore store, String languageCode, String query, Integer count,
 			Integer start) {
+		
+		Validate.notNull(query,"Search Keyword must not be null");
+		Validate.notNull(languageCode, "Language cannot be null");
+		Validate.notNull(store,"MerchantStore cannot be null");
+		
+		
 		try {
 			LOGGER.debug("Search " + query);
-			return searchService.search(store, languageCode, query, count, start);
+			SearchRequest searchRequest = new SearchRequest();
+			searchRequest.setLanguage(languageCode);
+			searchRequest.setSearchString(query);
+			searchRequest.setStore(store.getCode());
+			
+			
+			//aggregations
+			
+			//TODO add scroll
+			return searchService.search(store, languageCode, searchRequest, count, start);
+
 		} catch (ServiceException e) {
 			throw new ServiceRuntimeException(e);
 		}
 	}
 
-	@Override
-	public SearchProductList convertToSearchProductList(SearchResponse searchResponse, MerchantStore merchantStore,
-			int start, int count, Language language) {
-
-		SearchProductList returnList = new SearchProductList();
-		List<SearchEntry> entries = searchResponse.getEntries();
-
-		if (CollectionUtils.isNotEmpty(entries)) {
-			List<Long> ids = entries.stream().map(SearchEntry::getIndexProduct).map(IndexProduct::getId)
-					.map(Long::parseLong).collect(Collectors.toList());
-
-			ProductCriteria searchCriteria = new ProductCriteria();
-			searchCriteria.setMaxCount(count);
-			searchCriteria.setStartIndex(start);
-			searchCriteria.setProductIds(ids);
-			searchCriteria.setAvailable(true);
-
-			ProductList productList = productService.listByStore(merchantStore, language, searchCriteria);
-
-			List<ReadableProduct> readableProducts = productList.getProducts().stream()
-					.map(product -> convertProductToReadableProduct(product, merchantStore, language))
-					.collect(Collectors.toList());
-
-			returnList.getProducts().addAll(readableProducts);
-			returnList.setProductCount(productList.getProducts().size());
-		}
-
-		// Facets
-		Map<String, List<SearchFacet>> facets = Optional.ofNullable(searchResponse.getFacets())
-				.orElse(Collections.emptyMap());
-
-		List<ReadableCategory> categoryProxies = getCategoryFacets(merchantStore, language, facets);
-		returnList.setCategoryFacets(categoryProxies);
-
-		List<SearchFacet> manufacturersFacets = facets.entrySet().stream()
-				.filter(e -> MANUFACTURER_FACET_NAME.equals(e.getKey())).findFirst().map(Entry::getValue)
-				.orElse(Collections.emptyList());
-
-		if (CollectionUtils.isNotEmpty(manufacturersFacets)) {
-			// TODO add manufacturer facets
-		}
-		return returnList;
-	}
-
-	private List<ReadableCategory> getCategoryFacets(MerchantStore merchantStore, Language language,
-			Map<String, List<SearchFacet>> facets) {
+	private List<ReadableCategory> getCategoryFacets(MerchantStore merchantStore, Language language, List<Aggregation> facets) {
+		
+		
+		/**
 		List<SearchFacet> categoriesFacets = facets.entrySet().stream()
 				.filter(e -> CATEGORY_FACET_NAME.equals(e.getKey())).findFirst().map(Entry::getValue)
 				.orElse(Collections.emptyList());
@@ -169,6 +137,9 @@ public class SearchFacadeImpl implements SearchFacade {
 		} else {
 			return Collections.emptyList();
 		}
+		**/
+		
+		return null;
 	}
 
 	private ReadableCategory convertCategoryToReadableCategory(MerchantStore merchantStore, Language language,
@@ -203,37 +174,33 @@ public class SearchFacadeImpl implements SearchFacade {
 
 	@Override
 	public ValueList autocompleteRequest(String word, MerchantStore store, Language language) {
-		AutoCompleteRequest req = new AutoCompleteRequest(store.getCode(), language.getCode());
-		//String formattedQuery = String.format(coreConfiguration.getProperty("AUTOCOMPLETE_QUERY"), query);
+		Validate.notNull(word,"Search Keyword must not be null");
+		Validate.notNull(language, "Language cannot be null");
+		Validate.notNull(store,"MerchantStore cannot be null");
+		
+		SearchRequest req = new SearchRequest();
+		req.setLanguage(language.getCode());
+		req.setStore(store.getCode().toLowerCase());
+		req.setSearchString(word);
+		req.setLanguage(language.getCode());
+		
+		SearchResponse response;
+		try {
+			response = searchService.searchKeywords(store, language.getCode(), req, AUTOCOMPLETE_ENTRIES_COUNT);
+		} catch (ServiceException e) {
+			throw new RuntimeException(e);
+		}
+	
+		
+		List<String> keywords = response.getItems().stream().map(i -> i.getSuggestions()).collect(Collectors.toList());
+		
+		ValueList valueList = new ValueList();
+		valueList.setValues(keywords);
+		
+		return valueList;
+		
 
-		/**
-		 * formatted toJSONString because of te specific field names required in
-		 * the UI
-		 **/
-
-		SearchKeywords keywords = getSearchKeywords(req, word);
-		ValueList returnList = new ValueList();
-		returnList.setValues(keywords.getKeywords());
-		return returnList;
 	}
 
-	private SearchKeywords getSearchKeywords(AutoCompleteRequest req, String word) {
-		//try {
-			LOGGER.debug("Search auto comlete " + word);
-			SearchKeywords kw = new SearchKeywords();
-			List<String> list = new ArrayList<String>();
-			list.add("Product name 1");
-			list.add("An item of name 2");
-			list.add("Gizmo of name 3");
-			list.add("What happened to name 4");
-			list.add("Cool product");
-			list.add("Product easy to sell");
-			list.add("Why no results ?");
-			kw.setKeywords(list);
-			return kw;
-			//return searchService.searchForKeywords(req.getCollectionName(), word, AUTOCOMPLETE_ENTRIES_COUNT);
-		//} catch (ServiceException e) {
-		//	throw new ServiceRuntimeException(e);
-		//}
-	}
+
 }

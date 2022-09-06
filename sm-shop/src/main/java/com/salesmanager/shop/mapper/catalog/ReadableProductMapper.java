@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.salesmanager.core.business.exception.ServiceException;
-import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.services.catalog.pricing.PricingService;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.attribute.Optionable;
@@ -95,6 +95,7 @@ public class ReadableProductMapper implements Mapper<Product, ReadableProduct> {
 
 		Validate.notNull(source, "Product cannot be null");
 		Validate.notNull(destination, "Product destination cannot be null");
+
 
 		// read only product values
 		// will contain options
@@ -197,6 +198,7 @@ public class ReadableProductMapper implements Mapper<Product, ReadableProduct> {
 						Set<ProductOptionValueDescription> povdescriptions = attribute.getProductOptionValue()
 								.getDescriptions();
 						readableOptionValue.setId(attribute.getProductOptionValue().getId());
+						readableOptionValue.setCode(optionValue.getCode());
 						if (povdescriptions != null && povdescriptions.size() > 0) {
 							for (ProductOptionValueDescription optionValueDescription : povdescriptions) {
 								if (optionValueDescription.getLanguage().getCode().equals(language.getCode())) {
@@ -370,7 +372,7 @@ public class ReadableProductMapper implements Mapper<Product, ReadableProduct> {
 
 						destination.setProductPrice(readableProductPrice);
 
-						if (pr.isPresent()) {
+						if (pr.isPresent() && language !=null) {
 							readableProductPrice.setId(pr.get().getId());
 							Optional<ProductPriceDescription> d = pr.get().getDescriptions().stream()
 									.filter(desc -> desc.getLanguage().getCode().equals(language.getCode()))

@@ -70,9 +70,9 @@ import springfox.documentation.annotations.ApiIgnore;
 @Controller
 @RequestMapping("/api/v1")
 @Api(tags = {
-		"Product display and management resource (Product display and Management Api such as adding a product to category. Serves api v1 and v2 with backward compatibility)" })
+		"Product definition resource (Create udtate and delete product definition. Serves api v1 and v2 with backward compatibility)" })
 @SwaggerDefinition(tags = {
-		@Tag(name = "Product management resource, add product to category", description = "View product, Add product, edit product and delete product") })
+		@Tag(name = "Product definition  resource, add product to category", description = "View product, Add product, edit product and delete product") })
 public class ProductApi {
 
 	@Inject
@@ -93,6 +93,15 @@ public class ProductApi {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProductApi.class);
 
+	/**
+	 * Create product definition
+	 * @param product
+	 * @param merchantStore
+	 * @param language
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value = { "/private/product", "/auth/products" }, // private
 																			// for
@@ -167,7 +176,8 @@ public class ProductApi {
 	}
 
 	/**
-	 * Filtering product lists based on product attributes ?category=1
+	 * List products
+	 * Filtering product lists based on product option and option value ?category=1
 	 * &manufacturer=2 &type=... &lang=en|fr NOT REQUIRED, will use request language
 	 * &start=0 NOT REQUIRED, can be used for pagination &count=10 NOT REQUIRED, can
 	 * be used to limit item count
@@ -293,9 +303,9 @@ public class ProductApi {
 	 * @return ReadableProduct
 	 * @throws Exception
 	 *                   <p>
-	 *                   /api/products/123
+	 *                   /api/product/123
 	 */
-	@RequestMapping(value = "/products/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/product/{id}", method = RequestMethod.GET)
 	@ApiOperation(httpMethod = "GET", value = "Get a product by id", notes = "For administration and shop purpose. Specifying ?merchant is required otherwise it falls back to DEFAULT")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Single product found", response = ReadableProduct.class) })
@@ -347,10 +357,10 @@ public class ProductApi {
 	 * @return ReadableProduct
 	 * @throws Exception
 	 *                   <p>
-	 *                   /api/products/123
+	 *                   /api/product/123
 	 */
-	@RequestMapping(value = { "/products/slug/{friendlyUrl}",
-			"/products/friendly/{friendlyUrl}" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/product/slug/{friendlyUrl}",
+			"/product/friendly/{friendlyUrl}" }, method = RequestMethod.GET)
 	@ApiOperation(httpMethod = "GET", value = "Get a product by friendlyUrl (slug)", notes = "For administration and shop purpose. Specifying ?merchant is "
 			+ "required otherwise it falls back to DEFAULT")
 	@ApiResponses(value = {
@@ -384,11 +394,10 @@ public class ProductApi {
 	}
 
 	@ResponseStatus(HttpStatus.CREATED)
-	@RequestMapping(value = { "/private/product/{productId}/category/{categoryId}",
-			"/auth/product/{productId}/category/{categoryId}" }, method = RequestMethod.POST)
+	@RequestMapping(value = { "/private/product/{productId}/category/{categoryId}"}, method = RequestMethod.POST)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public @ResponseBody ReadableProduct addProductToCategory(@PathVariable Long productId,
+	public void addProductToCategory(@PathVariable Long productId,
 			@PathVariable Long categoryId, @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language,
 			HttpServletResponse response) throws Exception {
 
@@ -416,27 +425,19 @@ public class ProductApi {
 						"Category id [" + categoryId + "] does not belong to store [" + merchantStore.getCode() + "]");
 			}
 
-			return productCommonFacade.addProductToCategory(category, product, language);
+			productCommonFacade.addProductToCategory(category, product, language);
 
 		} catch (Exception e) {
-			LOGGER.error("Error while adding product to category", e);
-			try {
-				response.sendError(503, "Error while adding product to category " + e.getMessage());
-			} catch (Exception ignore) {
-			}
-
-			return null;
+			throw new ServiceRuntimeException(e);
 		}
 	}
 
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = { "/private/product/{productId}/category/{categoryId}",
-			"/auth/product/{productId}/category/{categoryId}" }, method = RequestMethod.DELETE)
+	@RequestMapping(value = { "/private/product/{productId}/category/{categoryId}" }, method = RequestMethod.DELETE)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public @ResponseBody ReadableProduct removeProductFromCategory(@PathVariable Long productId,
-			@PathVariable Long categoryId, @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language,
-			HttpServletResponse response) {
+	public void removeProductFromCategory(@PathVariable Long productId,
+			@PathVariable Long categoryId, @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
 
 		try {
 			Product product = productService.getById(productId);
@@ -461,16 +462,10 @@ public class ProductApi {
 						"Category id [" + categoryId + "] does not belong to store [" + merchantStore.getCode() + "]");
 			}
 
-			return productCommonFacade.removeProductFromCategory(category, product, language);
+			productCommonFacade.removeProductFromCategory(category, product, language);
 
 		} catch (Exception e) {
-			LOGGER.error("Error while removing product from category", e);
-			try {
-				response.sendError(503, "Error while removing product from category " + e.getMessage());
-			} catch (Exception ignore) {
-			}
-
-			return null;
+			throw new ServiceRuntimeException(e);
 		}
 	}
 

@@ -1,4 +1,4 @@
-package com.salesmanager.core.business.services.catalog.product;
+package com.salesmanager.core.business.services.catalog.pricing;
 
 import java.math.BigDecimal;
 import java.util.List;

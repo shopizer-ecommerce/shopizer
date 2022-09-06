@@ -2,6 +2,8 @@ package com.salesmanager.core.business.configuration;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,6 +19,8 @@ import com.salesmanager.core.modules.integration.shipping.model.ShippingQuoteMod
 @Configuration
 public class ModulesConfiguration {
 	
+	private static final Logger LOGGER = LoggerFactory.getLogger(ModulesConfiguration.class);
+	
 	
 	/**
 	 * Goes along with
@@ -31,6 +35,10 @@ public class ModulesConfiguration {
      */
     @Autowired
     private List<PaymentModule> liveModules;
+
+    
+    
+    
 
 
 }

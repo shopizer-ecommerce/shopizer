@@ -70,7 +70,12 @@ public class PersistableProductDefinitionMapper implements Mapper<PersistablePro
 		try {
 
 			//core properties
-			destination.setSku(source.getIdentifier());
+			
+			if(StringUtils.isBlank(source.getIdentifier())) {
+				destination.setSku(source.getSku());
+			} else {
+				destination.setSku(source.getIdentifier());
+			}
 			destination.setAvailable(source.isVisible());
 			destination.setDateAvailable(new Date());
 
@@ -152,11 +157,6 @@ public class PersistableProductDefinitionMapper implements Mapper<PersistablePro
 				destination.setDescriptions(descriptions);
 			}
 
-			//if(source.getRating() != null) {
-			//	destination.setProductReviewAvg(new BigDecimal(source.getRating()));
-			//}
-			//destination.setProductReviewCount(source.getRatingCount());
-			
 			/**
 			 * Product definition
 			 */

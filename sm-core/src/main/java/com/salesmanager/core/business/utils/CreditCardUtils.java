@@ -1,6 +1,6 @@
 package com.salesmanager.core.business.utils;
 
-
+@Deprecated
 public class CreditCardUtils {
 	
 	

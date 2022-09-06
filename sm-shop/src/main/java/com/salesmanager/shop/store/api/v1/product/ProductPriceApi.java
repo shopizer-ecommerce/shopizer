@@ -25,6 +25,12 @@ import io.swagger.annotations.SwaggerDefinition;
 import io.swagger.annotations.Tag;
 import springfox.documentation.annotations.ApiIgnore;
 
+/**
+ * Use inventory
+ * @author carlsamson
+ *
+ */
+
 @Controller
 @RequestMapping("/api/v1")
 @Api(tags = { "Product price api" })

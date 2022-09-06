@@ -359,12 +359,12 @@ public class ProductOptionFacadeImpl implements ProductOptionFacade {
 				//attributes = productAttributeService.getByProductId(store, product, language);
 				attr = productAttributeService.getByProductId(store, product, language, page, count);
 				attrList.setRecordsTotal(attr.getTotalElements());
-				attrList.setNumber(attr.getSize());
+				attrList.setNumber(attr.getNumberOfElements());
 				attrList.setTotalPages(attr.getTotalPages());
 			} else {
 				attr = productAttributeService.getByProductId(store, product, page, count);
 				attrList.setRecordsTotal(attr.getTotalElements());
-				attrList.setNumber(attr.getSize());
+				attrList.setNumber(attr.getNumberOfElements());
 				attrList.setTotalPages(attr.getTotalPages());
 			}
 

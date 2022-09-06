@@ -8,8 +8,6 @@ import javax.inject.Inject;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.salesmanager.core.business.modules.cart.ShoppingCartProcessor;
-import com.salesmanager.core.business.modules.order.OrderProcessor;
 import com.salesmanager.core.business.modules.order.total.PromoCodeCalculatorModule;
 import com.salesmanager.core.modules.order.total.OrderTotalPostProcessorModule;
 
@@ -24,6 +22,8 @@ import com.salesmanager.core.modules.order.total.OrderTotalPostProcessorModule;
  * - calculation processors
  * 		Triggered during shopping cart and order total calculation
  * 
+ * For events see configuratio/events
+ * 
  * - Payment events (payment, refund)
  * 
  * - Change Order status
@@ -33,43 +33,11 @@ import com.salesmanager.core.modules.order.total.OrderTotalPostProcessorModule;
  */
 @Configuration
 public class ProcessorsConfiguration {
-	
-	@Inject
-	private OrderProcessor indexOrderProcessor;
-	
-	@Inject
-	private ShoppingCartProcessor shippingCartProcessor;
-	
+
 	@Inject
 	private PromoCodeCalculatorModule promoCodeCalculatorModule;
 
-	
-	/**
-	 * Order function processors
-	 * @return
-	 */
-	@Bean
-	public List<OrderProcessor> orderPreProcessors() {
-		return new ArrayList<OrderProcessor>();
-	}
-	
-	@Bean
-	public List<OrderProcessor> orderPostProcessors() {
-		//processors.add(indexOrderProcessor);
-		return new ArrayList<OrderProcessor>();
-	}
-	
-	/**
-	 * ShoppingCart function processor
-	 * @return
-	 */
-	@Bean
-	public List<ShoppingCartProcessor> shoppingCartPostProcessors() {
-		//processors.add(shippingCartProcessor);
-		return new ArrayList<ShoppingCartProcessor>();
-	}
-	
-	
+
 	/**
 	 * Calculate processors
 	 * @return

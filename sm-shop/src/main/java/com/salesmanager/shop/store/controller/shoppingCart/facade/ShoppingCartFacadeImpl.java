@@ -32,12 +32,12 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.salesmanager.core.business.exception.ServiceException;
-import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.services.catalog.pricing.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductAttributeService;
 import com.salesmanager.core.business.services.shoppingcart.ShoppingCartCalculationService;
 import com.salesmanager.core.business.services.shoppingcart.ShoppingCartService;
-import com.salesmanager.core.business.utils.ProductPriceUtils;
+//import com.salesmanager.core.business.utils.ProductPriceUtils;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
@@ -78,8 +78,6 @@ public class ShoppingCartFacadeImpl implements ShoppingCartFacade {
 	@Inject
 	private ShoppingCartCalculationService shoppingCartCalculationService;
 
-	@Inject
-	private ProductPriceUtils productPriceUtils;
 
 	@Inject
 	private ProductService productService;
@@ -428,7 +426,11 @@ public class ShoppingCartFacadeImpl implements ShoppingCartFacade {
 	}
 
 	private Product fetchProduct(String sku, MerchantStore store, Language language) {
-		return productService.getBySku(sku, store, language);
+		try {
+			return productService.getBySku(sku, store, language);
+		} catch (ServiceException e) {
+			throw new ServiceRuntimeException(e);
+		}
 	}
 
 	@Override
@@ -595,7 +597,7 @@ public class ShoppingCartFacadeImpl implements ShoppingCartFacade {
 				entryToUpdate.setQuantity((int) newQuantity);
 				List<ProductAttribute> productAttributes = new ArrayList<ProductAttribute>();
 				productAttributes.addAll(entryToUpdate.getProduct().getAttributes());
-				final FinalPrice finalPrice = productPriceUtils.getFinalProductPrice(entryToUpdate.getProduct(),
+				final FinalPrice finalPrice = pricingService.calculateProductPrice(entryToUpdate.getProduct(),
 						productAttributes);
 				entryToUpdate.setItemPrice(finalPrice.getFinalPrice());
 				shoppingCartService.saveOrUpdate(cartModel);
@@ -646,7 +648,7 @@ public class ShoppingCartFacadeImpl implements ShoppingCartFacade {
 			List<ProductAttribute> productAttributes = new ArrayList<ProductAttribute>();
 			productAttributes.addAll(entryToUpdate.getProduct().getAttributes());
 
-			final FinalPrice finalPrice = productPriceUtils.getFinalProductPrice(entryToUpdate.getProduct(),
+			final FinalPrice finalPrice = pricingService.calculateProductPrice(entryToUpdate.getProduct(),
 					productAttributes);
 			entryToUpdate.setItemPrice(finalPrice.getFinalPrice());
 

@@ -4,7 +4,7 @@
 ### Shopizer 2.X (for java 1.8 +) is still available
 
 
-[![last_version](https://img.shields.io/badge/last_version-v3.0.0-blue.svg?style=flat)](https://github.com/shopizer-ecommerce/shopizer/tree/3.2.0)
+[![last_version](https://img.shields.io/badge/last_version-v3.2.2-blue.svg?style=flat)](https://github.com/shopizer-ecommerce/shopizer/tree/3.2.0)
 [![Official site](https://img.shields.io/website-up-down-green-red/https/shields.io.svg?label=official%20site)](http://www.shopizer.com/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/shopizerecomm/shopizer.svg)](https://hub.docker.com/r/shopizerecomm/shopizer)
 [![stackoverflow](https://img.shields.io/badge/shopizer-stackoverflow-orange.svg?style=flat)](http://stackoverflow.com/questions/tagged/shopizer)
@@ -151,7 +151,7 @@ Synchronize lastest version with the upstream
 -------------------
 
        $ git remote add upstream https://github.com/yourusername/shopizer.git
-	   $ git pull upstream 3.0.0
+	  $ git pull upstream 3.2.2
 
 Create new branch in your repository
 -------------------

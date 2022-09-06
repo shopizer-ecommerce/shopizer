@@ -17,8 +17,9 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
-import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.services.catalog.pricing.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductAttributeService;
 import com.salesmanager.core.business.services.catalog.product.availability.ProductAvailabilityService;
@@ -87,11 +88,6 @@ public class ProductFacadeV2Impl implements ProductFacade {
 	@Qualifier("img")
 	private ImageFilePath imageUtils;
 
-	@Override
-	public Product getProduct(String sku, MerchantStore store) {
-		// same as v1
-		return productService.getByCode(sku, store.getDefaultLanguage());
-	}
 
 	@Override
 	public Product getProduct(Long id, MerchantStore store) {
@@ -100,17 +96,22 @@ public class ProductFacadeV2Impl implements ProductFacade {
 	}
 
 	@Override
-	public ReadableProduct getProductByCode(MerchantStore store, String uniqueCode, Language language) {
+	public ReadableProduct getProductByCode(MerchantStore store, String sku, Language language) {
 
 		
-		Product product = productService.getBySku(uniqueCode, store, language);
+		Product product = null;
+		try {
+			product = productService.getBySku(sku, store, language);
+		} catch (ServiceException e) {
+			throw new ServiceRuntimeException(e);
+		}
 
 		if (product == null) {
-			throw new ResourceNotFoundException("Product [" + uniqueCode + "] not found for merchant [" + store.getCode() + "]");
+			throw new ResourceNotFoundException("Product [" + sku + "] not found for merchant [" + store.getCode() + "]");
 		}
 		
 		if (product.getMerchantStore().getId() != store.getId()) {
-			throw new ResourceNotFoundException("Product [" + uniqueCode + "] not found for merchant [" + store.getCode() + "]");
+			throw new ResourceNotFoundException("Product [" + sku + "] not found for merchant [" + store.getCode() + "]");
 		}
 		
 
@@ -155,11 +156,13 @@ public class ProductFacadeV2Impl implements ProductFacade {
 		
 	}
 
+	/**
+	 * Filters on otion, optionValues and other criterias
+	 */
 
 	@Override
 	public ReadableProductList getProductListsByCriterias(MerchantStore store, Language language,
 			ProductCriteria criterias) throws Exception {
-		// same as v1
 		Validate.notNull(criterias, "ProductCriteria must be set for this product");
 
 		/** This is for category **/
@@ -193,27 +196,20 @@ public class ProductFacadeV2Impl implements ProductFacade {
 		Page<Product> modelProductList = productService.listByStore(store, language, criterias, criterias.getStartPage(), criterias.getMaxCount());
 		
 		List<Product> products = modelProductList.getContent();
-		
-		List<Product> prds = products.stream().sorted(Comparator.comparing(Product::getSortOrder)).collect(Collectors.toList());
-		products = prds;
-		
-		ReadableProductPopulator populator = new ReadableProductPopulator();
-		populator.setPricingService(pricingService);
-		populator.setimageUtils(imageUtils);
-
 		ReadableProductList productList = new ReadableProductList();
-		for (Product product : products) {
 
-			// create new proxy product
-			ReadableProduct readProduct = populator.populate(product, new ReadableProduct(), store, language);
-			productList.getProducts().add(readProduct);
+		
+		/**
+		 * ReadableProductMapper
+		 */
+		
+		List<ReadableProduct> readableProducts = products.stream().map(p -> readableProductMapper.convert(p, store, language))
+				.sorted(Comparator.comparing(ReadableProduct::getSortOrder)).collect(Collectors.toList());
 
-		}
 
-		// productList.setTotalPages(products.getTotalCount());
 		productList.setRecordsTotal(modelProductList.getTotalElements());
-		productList.setNumber(productList.getProducts().size());
-
+		productList.setNumber(modelProductList.getNumberOfElements());
+		productList.setProducts(readableProducts);
 		productList.setTotalPages(modelProductList.getTotalPages());
 
 		return productList;

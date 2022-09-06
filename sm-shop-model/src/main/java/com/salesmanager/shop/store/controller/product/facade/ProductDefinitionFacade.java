@@ -41,6 +41,6 @@ public interface ProductDefinitionFacade {
 	 * @param language
 	 * @return
 	 */
-	ReadableProductDefinition getProductByCode(MerchantStore store, String uniqueCode, Language language);
+	ReadableProductDefinition getProductBySku(MerchantStore store, String uniqueCode, Language language);
 
 }

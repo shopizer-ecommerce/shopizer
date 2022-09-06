@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 
+import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityService;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
@@ -28,6 +29,8 @@ public interface ProductInstanceService extends SalesManagerEntityService<Long, 
 	
 	
 	boolean exist(String sku, Long productId);
+	
+	ProductInstance saveProductInstance(ProductInstance instance) throws ServiceException;
 	
 
 

@@ -69,7 +69,7 @@ public class ProductInstanceGroupFacadeImpl implements ProductInstanceGroupFacad
 		
 		ProductInstanceGroup group = persistableProductIntanceGroupMapper.convert(productInstanceGroup, store, language);
 		try {
-			productInstanceGroupService.saveOrUpdate(group);
+			group = productInstanceGroupService.saveOrUpdate(group);
 		} catch (ServiceException e) {
 			throw new ServiceRuntimeException("Cannot save product instance group [" + productInstanceGroup + "] for store [" + store.getCode() + "]"); 
 		}

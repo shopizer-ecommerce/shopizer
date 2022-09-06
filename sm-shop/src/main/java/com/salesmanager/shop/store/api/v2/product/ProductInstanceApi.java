@@ -113,12 +113,15 @@ public class ProductInstanceApi {
 	}
 
 	@ResponseStatus(HttpStatus.OK)
-	@GetMapping(value = { "/private/product/{id}/instance/{sku}/unique" }, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = { "/private/product/{id}/instance/{sku}/unique" }, produces = "application/json")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
 	@ApiOperation(httpMethod = "GET", value = "Check if option set code already exists", notes = "", response = EntityExists.class)
-	public @ResponseBody ResponseEntity<EntityExists> exists(@PathVariable Long id, @RequestParam(value = "code") String sku,
-			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
+	public @ResponseBody ResponseEntity<EntityExists> exists(
+			@PathVariable Long id, 
+			@PathVariable String sku,
+			@ApiIgnore MerchantStore merchantStore, 
+			@ApiIgnore Language language) {
 
 		String authenticatedUser = userFacade.authenticatedUser();
 		if (authenticatedUser == null) {
@@ -133,14 +136,17 @@ public class ProductInstanceApi {
 
 	}
 
-	@GetMapping(value = "/private/product/{id}/instance/{instanceId}")
+	@GetMapping(value = "/private/product/{id}/instance/{instanceId}", produces = "application/json")
 	@ApiOperation(httpMethod = "GET", value = "Get a productinstance by id", notes = "For administration and shop purpose. Specifying ?merchant is required otherwise it falls back to DEFAULT")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Single product found", response = ReadableProductInstance.class) })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public @ResponseBody ReadableProductInstance get(@PathVariable final Long id, @PathVariable Long instanceId,
-			@RequestParam(value = "lang", required = false) String lang, @ApiIgnore MerchantStore merchantStore,
+	public @ResponseBody ReadableProductInstance get(
+			@PathVariable final Long id, 
+			@PathVariable Long instanceId,
+			@RequestParam(value = "lang", required = false) String lang, 
+			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) throws Exception {
 
 		return productInstanceFacade.get(instanceId, id, merchantStore, language);

@@ -3,7 +3,7 @@ package com.salesmanager.shop.populator.order.transaction;
 import org.apache.commons.lang3.Validate;
 
 import com.salesmanager.core.business.exception.ConversionException;
-import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.services.catalog.pricing.PricingService;
 import com.salesmanager.core.business.services.order.OrderService;
 import com.salesmanager.core.business.utils.AbstractDataPopulator;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -13,7 +13,7 @@ import com.salesmanager.core.model.payments.Transaction;
 import com.salesmanager.core.model.payments.TransactionType;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.order.transaction.PersistableTransaction;
-import com.shopizer.search.utils.DateUtil;
+import com.salesmanager.shop.utils.DateUtil;
 
 public class PersistableTransactionPopulator extends AbstractDataPopulator<PersistableTransaction, Transaction> {
 
@@ -40,7 +40,7 @@ public class PersistableTransactionPopulator extends AbstractDataPopulator<Persi
 			target.setDetails(source.getDetails());
 			target.setPaymentType(PaymentType.valueOf(source.getPaymentType()));
 			target.setTransactionType(TransactionType.valueOf(source.getTransactionType()));
-			target.setTransactionDate(DateUtil.formatDate(source.getTransactionDate()));
+			target.setTransactionDate(DateUtil.getDate(source.getTransactionDate()));
 			
 			if(source.getOrderId()!=null && source.getOrderId().longValue() > 0) {
 				Order order = orderService.getById(source.getOrderId());

@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.repositories.catalog.product.instance.PageableProductInstanceRepositoty;
 import com.salesmanager.core.business.repositories.catalog.product.instance.ProductInstanceRepository;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
@@ -59,7 +60,8 @@ public class ProductInstanceServiceImpl extends SalesManagerEntityServiceImpl<Lo
 	@Override
 	public boolean exist(String sku, Long productId) {
 
-		return productInstanceRepository.existsBySkuAndProduct(sku, productId);
+		ProductInstance instance = productInstanceRepository.existsBySkuAndProduct(sku, productId);
+		return instance != null? true:false;
 
 	}
 
@@ -73,6 +75,18 @@ public class ProductInstanceServiceImpl extends SalesManagerEntityServiceImpl<Lo
 	public List<ProductInstance> getByIds(List<Long> ids, MerchantStore store) {
 
 		return productInstanceRepository.findByIds(ids, store.getId());
+	}
+
+	@Override
+	public ProductInstance saveProductInstance(ProductInstance instance) throws ServiceException {
+
+		instance = productInstanceRepository.save(instance);
+		return instance;
+	}
+	
+	@Override
+	public void delete(ProductInstance instance) throws ServiceException{
+		super.delete(instance);
 	}
 
 }

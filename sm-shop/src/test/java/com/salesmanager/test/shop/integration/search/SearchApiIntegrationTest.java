@@ -38,7 +38,8 @@ public class SearchApiIntegrationTest extends ServicesTestSupport {
      *
      * @throws Exception
      */
-    @Test
+    //@Test
+    @Ignore
     public void searchItem() throws Exception {
     	
     	PersistableProduct product = super.product("TESTPRODUCT");

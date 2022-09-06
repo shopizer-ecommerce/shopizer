@@ -4,13 +4,11 @@ import org.springframework.context.ApplicationEvent;
 
 import com.salesmanager.core.model.catalog.product.Product;
 
-public class ProductEvent extends ApplicationEvent {
+public abstract class ProductEvent extends ApplicationEvent {
 	
 	private static final long serialVersionUID = 1L;
-	
 	private Product product;
-
-
+	
 	public ProductEvent(Object source, Product product) {
 		super(source);
 		this.product = product;
@@ -20,12 +18,5 @@ public class ProductEvent extends ApplicationEvent {
 	public Product getProduct() {
 		return product;
 	}
-
-	public void setProduct(Product product) {
-		this.product = product;
-	}
-
-	
-	
 
 }

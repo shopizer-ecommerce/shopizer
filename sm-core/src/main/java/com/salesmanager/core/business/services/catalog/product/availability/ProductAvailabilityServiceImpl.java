@@ -16,7 +16,6 @@ import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.repositories.catalog.product.availability.PageableProductAvailabilityRepository;
 import com.salesmanager.core.business.repositories.catalog.product.availability.ProductAvailabilityRepository;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
-import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.merchant.MerchantStore;
 
@@ -58,6 +57,7 @@ public class ProductAvailabilityServiceImpl extends SalesManagerEntityServiceImp
 	/**
 	 * Returns inventory of a child store
 	 */
+	/**
 	@Override
 	public Optional<ProductAvailability> getByStore(Product product, MerchantStore store) {
 		Validate.notNull(product, "Product cannot be null");
@@ -78,11 +78,14 @@ public class ProductAvailabilityServiceImpl extends SalesManagerEntityServiceImp
 		Pageable pageRequest = PageRequest.of(page, count);
 		return pageableProductAvailabilityRepository.listByStore(product.getId(), store.getId(), child, pageRequest);
 	}
+	**/
 
+	/**
 	@Override
 	public int count(Product product) {
 		return productAvailabilityRepository.count(product.getId());
 	}
+	**/
 
 	@Override
 	public Optional<ProductAvailability> getById(Long availabilityId, MerchantStore store) {
@@ -90,11 +93,13 @@ public class ProductAvailabilityServiceImpl extends SalesManagerEntityServiceImp
 		return Optional.ofNullable(productAvailabilityRepository.getById(availabilityId));
 	}
 
+	/**
 	@Override
 	public Optional<ProductAvailability> getByInventoryId(Long productId, Long availabilityId, MerchantStore store) {
 		Validate.notNull(store, "Merchant must not be null");
 		return Optional.ofNullable(productAvailabilityRepository.getByStore(productId, availabilityId));
 	}
+	**/
 
 	@Override
 	public Page<ProductAvailability> getBySku(String sku, MerchantStore store, int page, int count) {

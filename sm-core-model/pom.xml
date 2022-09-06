@@ -5,20 +5,8 @@
 	<parent>
 		<groupId>com.shopizer</groupId>
 		<artifactId>shopizer</artifactId>
-		<version>3.2.0</version>
+		<version>3.2.2</version>
 	</parent>
-	
-	<!-- https://mvnrepository.com/artifact/com.shopizer/shopizer-parent -->
-	<!--
-	<parent>
-	    <groupId>com.shopizer</groupId>
-	    <artifactId>shopizer-parent</artifactId>
-	    <version>3.0.3</version>
-	    <relativePath />
-	</parent>
-	<version>3.0.3</version>
-	-->
-	
 
 
 	<artifactId>sm-core-model</artifactId>
