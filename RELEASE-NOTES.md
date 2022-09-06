@@ -1,19 +1,11 @@
-Changes in version 3.2.0
+Changes in version 3.2.2
 
 
 Functionality
 
-Product variants in complement or replacement of product options
+Api refactoring for products as documented https://shopizer-ecommerce.github.io/documentation/api/products/index.html
+Open Search in replacement of elastic search. This is a starter that can be added to sm-core/pom.xml
 
 
-Upgrade
-
-Spring boot 2.5.5
-
-
-Fixes
-
-CVE-2022-23063
-#727
 
 

@@ -7,7 +7,7 @@
 	<groupId>com.shopizer</groupId>
 	<artifactId>shopizer</artifactId>
 	<packaging>pom</packaging>
-	<version>3.2.0</version>
+	<version>3.2.2</version>
 
 	<name>shopizer</name>
 	<url>http://ww.shopizer.com</url>
@@ -98,22 +98,22 @@
 			<dependency>
 				<groupId>com.shopizer</groupId>
 				<artifactId>sm-core</artifactId>
-				<version>3.2.0</version>
+				<version>3.2.2</version>
 			</dependency>
 			<dependency>
 				<groupId>com.shopizer</groupId>
 				<artifactId>sm-core-model</artifactId>
-				<version>3.2.0</version>
+				<version>3.2.2</version>
 			</dependency>
 			<dependency>
 				<groupId>com.shopizer</groupId>
 				<artifactId>sm-core-modules</artifactId>
-				<version>3.2.0</version>
+				<version>3.2.2</version>
 			</dependency>
 			<dependency>
 				<groupId>com.shopizer</groupId>
 				<artifactId>sm-shop-model</artifactId>
-				<version>3.2.0</version>
+				<version>3.2.2</version>
 			</dependency>
 
 			<!-- https://mvnrepository.com/artifact/javax.inject/javax.inject -->
@@ -174,15 +174,6 @@
 				<artifactId>json-simple</artifactId>
 				<version>${simple-json-version}</version>
 			</dependency>
-
-			<!-- sm-search -->
-			<!--
-			<dependency>
-				<groupId>com.shopizer</groupId>
-				<artifactId>sm-search</artifactId>
-				<version>${shopizer.search.version}</version>
-			</dependency>
-			-->
 
 			<dependency>
 				<groupId>mysql</groupId>
@@ -384,15 +375,7 @@
 
 	<!--general dependencies -->
 	<dependencies>
-	
-		<!-- sm-search -->
-		<!--
-		<dependency>
-			<groupId>com.shopizer</groupId>
-			<artifactId>sm-search</artifactId>
-		</dependency>
-		-->
-		
+
 		<dependency>
 			<groupId>javax.inject</groupId>
 			<artifactId>javax.inject</artifactId>

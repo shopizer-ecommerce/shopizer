@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -254,6 +255,14 @@ public class ProductApiV2 {
 		}
 
 		**/
+		
+		if (!StringUtils.isBlank(searchCriterias.getSku())) {
+			searchCriterias.setCode(searchCriterias.getSku());
+		}
+		
+		if (!StringUtils.isBlank(searchCriterias.getName())) {
+			searchCriterias.setProductName(searchCriterias.getName());
+		}
 		
 		searchCriterias.setMaxCount(count);
 		searchCriterias.setLanguage(language.getCode());
