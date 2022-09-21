@@ -214,7 +214,7 @@ public class PersistableProductPopulator extends
 					ProductPrice price = new ProductPrice();
 					price.setProductAvailability(productAvailability);
 					price.setDefaultPrice(priceEntity.isDefaultPrice());
-					price.setProductPriceAmount(priceEntity.getOriginalPrice());
+					price.setProductPriceAmount(priceEntity.getPrice());
 					price.setCode(priceEntity.getCode());
 					price.setProductPriceSpecialAmount(priceEntity.getDiscountedPrice());
 					if(priceEntity.getDiscountStartDate()!=null) {

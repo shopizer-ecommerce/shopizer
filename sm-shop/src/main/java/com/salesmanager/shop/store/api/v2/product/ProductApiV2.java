@@ -99,7 +99,8 @@ public class ProductApiV2 {
 	@PutMapping(value = { "/private/product/{id}" })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public void updateV2(@PathVariable Long id, @Valid @RequestBody PersistableProductDefinition product,
+	public void updateV2(@PathVariable Long id, 
+			@Valid @RequestBody PersistableProductDefinition product,
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
 
 		productDefinitionFacade.update(id, product, merchantStore, language);
@@ -110,7 +111,9 @@ public class ProductApiV2 {
 	@GetMapping(value = { "/private/product/{id}" })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public @ResponseBody ReadableProductDefinition getV2(@PathVariable Long id, @ApiIgnore MerchantStore merchantStore,
+	public @ResponseBody ReadableProductDefinition getV2(
+			@PathVariable Long id, 
+			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
 
 		ReadableProductDefinition def = productDefinitionFacade.getProduct(merchantStore, id, language);

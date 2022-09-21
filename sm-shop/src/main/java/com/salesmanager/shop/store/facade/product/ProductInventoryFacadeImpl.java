@@ -18,7 +18,6 @@ import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.availability.ProductAvailabilityService;
 import com.salesmanager.core.business.services.catalog.product.instance.ProductInstanceService;
-import com.salesmanager.core.business.services.merchant.MerchantStoreService;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
@@ -45,9 +44,6 @@ public class ProductInventoryFacadeImpl implements ProductInventoryFacade {
 	
 	@Autowired
 	private ProductInstanceService productInstanceService;
-
-	@Autowired
-	private MerchantStoreService merchantStoreService;
 
 	@Autowired
 	private ReadableInventoryMapper readableInventoryMapper;
@@ -153,6 +149,9 @@ public class ProductInventoryFacadeImpl implements ProductInventoryFacade {
 			Language language) {
 		Validate.notNull(store, "MerchantStore cannot be null");
 		ProductAvailability availability = getProductAvailabilityToSave(inventory, store);
+		
+		//add inventory to the product
+		
 		saveOrUpdate(availability);
 		return get(availability.getId(), store, language);
 	}

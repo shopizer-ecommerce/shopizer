@@ -284,7 +284,11 @@ public class ShoppingCartFacadeImpl implements ShoppingCartFacade {
 		ProductInstance instance = null;
 		if (CollectionUtils.isNotEmpty(product.getInstances())) {
 			instance = product.getInstances().iterator().next();
-			availabilities = instance.getAvailabilities();
+			Set<ProductAvailability> instanceAvailabilities = instance.getAvailabilities();
+			if(!CollectionUtils.isEmpty(instanceAvailabilities)) {
+				availabilities = instanceAvailabilities;
+			}
+			
 		}
 
 		if (CollectionUtils.isEmpty(availabilities)) {

@@ -60,13 +60,13 @@
 		</dependency>
 
 		<!-- open search client -->
-		<!--
+		
 		<dependency>
 			<groupId>com.shopizer</groupId>
 			<artifactId>shopizer-search-opensearch-spring-boot-starter</artifactId>
-			<version>1.0.0-ALPHA</version>
+			<version>1.0.1-ALPHA</version>
 		</dependency>
-		-->
+		
 
 		<!--
 		Want to use Square Payment Module ?

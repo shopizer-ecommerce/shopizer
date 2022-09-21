@@ -26,10 +26,12 @@ import com.salesmanager.shop.mapper.Mapper;
 import com.salesmanager.shop.mapper.catalog.ReadableCategoryMapper;
 import com.salesmanager.shop.mapper.catalog.ReadableManufacturerMapper;
 import com.salesmanager.shop.mapper.catalog.ReadableProductTypeMapper;
+import com.salesmanager.shop.mapper.inventory.ReadableInventoryMapper;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
 import com.salesmanager.shop.model.catalog.product.ProductSpecification;
 import com.salesmanager.shop.model.catalog.product.ReadableImage;
+import com.salesmanager.shop.model.catalog.product.inventory.ReadableInventory;
 import com.salesmanager.shop.model.catalog.product.product.definition.ReadableProductDefinition;
 import com.salesmanager.shop.model.catalog.product.product.definition.ReadableProductDefinitionFull;
 import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
@@ -52,7 +54,7 @@ public class ReadableProductDefinitionMapper implements Mapper<Product, Readable
 	private ReadableManufacturerMapper readableManufacturerMapper;
 	
 	@Autowired
-	private PricingService pricingService;
+	private ReadableInventoryMapper readableInventoryMapper;
 	
 	@Autowired
 	@Qualifier("img")
@@ -161,21 +163,17 @@ public class ReadableProductDefinitionMapper implements Mapper<Product, Readable
 		ProductAvailability availability = null;
 		for(ProductAvailability a : source.getAvailabilities()) {
 				availability = a;
-				returnDestination.setCanBePurchased(availability.getProductStatus());
-				returnDestination.setQuantity(availability.getProductQuantity() == null ? 1:availability.getProductQuantity());
+				if(a.getProductInstance() != null) {
+					continue;
+				}	
 		}
 		
-		FinalPrice price = null;
-		try {
-			price = pricingService.calculateProductPrice(source);
-		} catch (ServiceException e) {
-			throw new ConversionRuntimeException("Unable to get product price", e);
+		if(availability != null) {
+			returnDestination.setCanBePurchased(availability.getProductStatus());
+			ReadableInventory inventory = readableInventoryMapper.convert(availability, store, language);
+			returnDestination.setInventory(inventory);
 		}
 		
-		if(price != null) {
-
-			returnDestination.setPrice(price.getStringPrice());
-		}
 
 		if (returnDestination instanceof ReadableProductDefinitionFull) {
 			((ReadableProductDefinitionFull) returnDestination).setDescriptions(fulldescriptions);
