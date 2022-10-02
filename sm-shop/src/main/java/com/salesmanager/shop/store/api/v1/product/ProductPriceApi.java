@@ -17,6 +17,7 @@ import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.PersistableProductPrice;
+import com.salesmanager.shop.model.entity.Entity;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -45,12 +46,13 @@ public class ProductPriceApi {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProductApi.class);
 
 	@ResponseStatus(HttpStatus.CREATED)
-	@RequestMapping(value = { "/private/product{id}/price", "/auth/product/{id}/price" },
+	@RequestMapping(value = { "/private/product/{id}/inventory/{inventoryId}/price"},
 			method = RequestMethod.POST)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public void set(
+	public Entity create(
 			@PathVariable Long id,
+			@PathVariable Long inventoryId,
 			@Valid @RequestBody PersistableProductPrice price,
 			@ApiIgnore MerchantStore merchantStore, 
 			@ApiIgnore Language language) {
@@ -88,8 +90,39 @@ public class ProductPriceApi {
 		 */
 
 		//productFacade.updateProductPrice(product, price, language);
+		
+		return null;
 
 
+	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = { "/private/product/{id}/inventory/{inventoryId}/price/{priceId}"},
+			method = RequestMethod.PUT)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	public void edit(
+			@PathVariable Long id,
+			@PathVariable Long inventoryId,
+			@PathVariable Long priceId,
+			@Valid @RequestBody PersistableProductPrice price,
+			@ApiIgnore MerchantStore merchantStore, 
+			@ApiIgnore Language language) {
+		
+	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = { "/private/product/{id}/inventory/{inventoryId}/price/{priceId}"},
+			method = RequestMethod.DELETE)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	public void delete(
+			@PathVariable Long id,
+			@PathVariable Long inventoryId,
+			@PathVariable Long priceId,
+			@ApiIgnore MerchantStore merchantStore, 
+			@ApiIgnore Language language) {
+		
 	}
 
 }

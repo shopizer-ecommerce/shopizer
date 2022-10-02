@@ -7,7 +7,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -51,21 +50,7 @@ public class ProductInventoryFacadeImpl implements ProductInventoryFacade {
 	@Autowired
 	private PersistableInventoryMapper productInventoryMapper;
 
-	/**
-	@Override
-	public ReadableEntityList<ReadableInventory> getInventory(Long productId, MerchantStore store, String child,
-			Language language, int page, int count) {
-		Product product = getProductById(productId);
-		validateProductHasSameStore(store, product);
 
-		Page<ProductAvailability> availabilities = productAvailabilityService.listByProduct(product, store, child, page,
-				count);
-
-		List<ReadableInventory> inventories = availabilities.stream()
-				.map(pa -> readableInventoryMapper.convert(pa, store, language)).collect(Collectors.toList());
-		return createReadableList(availabilities, inventories);
-	}
-	**/
 
 	private void validateProductHasSameStore(MerchantStore store, Product product) {
 		if (!product.getMerchantStore().getId().equals(store.getId())) {
@@ -75,11 +60,17 @@ public class ProductInventoryFacadeImpl implements ProductInventoryFacade {
 	}
 
 	@Override
-	public void delete(Long inventoryId, MerchantStore store) {
+	public void delete(Long productId, Long inventoryId, MerchantStore store) {
 		Optional<ProductAvailability> availability = productAvailabilityService.getById(inventoryId, store);
 		try {
 			if (availability.isPresent()) {
-				productAvailabilityService.delete(availability.get());
+				if(availability.get().getProduct().getId() == productId) {
+					productAvailabilityService.delete(availability.get());
+				} else {
+					throw new ResourceNotFoundException("Product with id [" + productId + "] and inventory id [" +  inventoryId + "] not found for store id [" + store.getId() + "]");
+				}
+			} else {
+				throw new ResourceNotFoundException("Product with id [" + productId + "] and inventory id [" +  inventoryId + "] not found for store id [" + store.getId() + "]");
 			}
 		} catch (ServiceException e) {
 			throw new ServiceRuntimeException("Error while deleting inventory", e);
@@ -199,20 +190,6 @@ public class ProductInventoryFacadeImpl implements ProductInventoryFacade {
 			}
 		}
 
-
-		ProductAvailability availability = getAvailabilityById(store, inventory.getId());
-		
-		if (availability == null) {
-			throw new ResourceNotFoundException(
-					"Availability with id [" + inventory.getId() + "] not found");
-		}
-		
-		if(CollectionUtils.isEmpty(originAvailability)) {
-			throw new ResourceNotFoundException(
-					"No availability with id [" + inventory.getId() + "] found");
-		}
-
-		
 		ProductAvailability avail = originAvailability.stream()
 		  .filter(a -> a.getId().longValue() == inventory.getId())
 		  .findAny()
@@ -220,22 +197,18 @@ public class ProductInventoryFacadeImpl implements ProductInventoryFacade {
 		
 		if (avail == null) {
 			throw new ResourceNotFoundException(
-					"Availability with id [" + inventory.getId() + "] not found");
+					"Inventory with id [" + inventory.getId() + "] not found");
 		}
 
 
 		inventory.setProductId(product.getId());
 
-		availability = productInventoryMapper.merge(inventory, availability, store, language);
-		availability.setProduct(product);
-		availability.setMerchantStore(store);
-		saveOrUpdate(availability);
+		avail = productInventoryMapper.merge(inventory, avail, store, language);
+		avail.setProduct(product);
+		avail.setMerchantStore(store);
+		saveOrUpdate(avail);
 	}
 
-	private ProductAvailability getAvailabilityById(MerchantStore store, Long id) {
-		return productAvailabilityService.getById(id, store)
-				.orElseThrow(() -> new ResourceNotFoundException("Inventory with id [" + id + "] not found"));
-	}
 
 
 	@Override
@@ -250,6 +223,21 @@ public class ProductInventoryFacadeImpl implements ProductInventoryFacade {
 				.collect(Collectors.toList());
 
 		return createReadableList(availabilities, returnList);
+	}
+	
+	@Override
+	public ReadableEntityList<ReadableInventory> get(Long productId, MerchantStore store, Language language, int page, int count) {
+		
+		Validate.notNull(productId, "Product id cannot be null");
+		Validate.notNull(store, "MerchantStore code cannot be null");
+		
+		Page<ProductAvailability> availabilities = productAvailabilityService.listByProduct(productId, store, page, count);
+		
+		List<ReadableInventory> returnList = availabilities.getContent().stream().map(i -> this.readableInventoryMapper.convert(i, store, language))
+				.collect(Collectors.toList());
+
+		return createReadableList(availabilities, returnList);
+
 	}
 
 

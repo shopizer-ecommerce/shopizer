@@ -16,6 +16,7 @@ import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.repositories.catalog.product.availability.PageableProductAvailabilityRepository;
 import com.salesmanager.core.business.repositories.catalog.product.availability.ProductAvailabilityRepository;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
+import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.merchant.MerchantStore;
 
@@ -54,52 +55,24 @@ public class ProductAvailabilityServiceImpl extends SalesManagerEntityServiceImp
 		return Objects.nonNull(id) && id > 0;
 	}
 
-	/**
-	 * Returns inventory of a child store
-	 */
-	/**
-	@Override
-	public Optional<ProductAvailability> getByStore(Product product, MerchantStore store) {
-		Validate.notNull(product, "Product cannot be null");
-		Validate.notNull(store, "MerchantStore cannot be null");
-		return Optional.ofNullable(productAvailabilityRepository.getByStore(product.getId(), store.getCode()));
-	}
+
 
 	@Override
-	public ProductAvailability getByOwner(Product product, String owner) throws ServiceException {
-		throw new ServiceException("Not implemented");
-	}
-
-	@Override
-	public Page<ProductAvailability> listByProduct(Product product, MerchantStore store, String child, int page,
+	public Page<ProductAvailability> listByProduct(Long productId, MerchantStore store, int page,
 			int count) {
-		Validate.notNull(product, "Product cannot be null");
+		Validate.notNull(productId, "Product cannot be null");
 		Validate.notNull(store, "MercantStore cannot be null");
 		Pageable pageRequest = PageRequest.of(page, count);
-		return pageableProductAvailabilityRepository.listByStore(product.getId(), store.getId(), child, pageRequest);
+		return pageableProductAvailabilityRepository.getByProductId(productId, store.getCode(), pageRequest);
 	}
-	**/
 
-	/**
-	@Override
-	public int count(Product product) {
-		return productAvailabilityRepository.count(product.getId());
-	}
-	**/
+
 
 	@Override
 	public Optional<ProductAvailability> getById(Long availabilityId, MerchantStore store) {
 		Validate.notNull(store, "Merchant must not be null");
 		return Optional.ofNullable(productAvailabilityRepository.getById(availabilityId));
 	}
-
-	/**
-	@Override
-	public Optional<ProductAvailability> getByInventoryId(Long productId, Long availabilityId, MerchantStore store) {
-		Validate.notNull(store, "Merchant must not be null");
-		return Optional.ofNullable(productAvailabilityRepository.getByStore(productId, availabilityId));
-	}
-	**/
 
 	@Override
 	public Page<ProductAvailability> getBySku(String sku, MerchantStore store, int page, int count) {

@@ -2,6 +2,7 @@ package com.salesmanager.shop.mapper.inventory;
 
 import static com.salesmanager.core.business.utils.NumberUtils.isPositive;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
@@ -80,19 +81,27 @@ public class PersistableInventoryMapper implements Mapper<PersistableInventory, 
 			 * 
 			 */
 			Set<ProductAvailability> existingAvailability = product.getAvailabilities();
-			ProductAvailability existing = existingAvailability.stream()
-					.filter(a -> 
-					(
-							source.getProductId() != null && (a.getProduct().getId().longValue() == source.getProductId().longValue())
-							&&
-							a.getMerchantStore().getId() == store.getId()
-							&&
-							(source.getInstance() == null && a.getProductInstance() == null) || (a.getProductInstance() != null && source.getInstance()!= null && a.getProductInstance().getId().longValue() == source.getInstance().longValue())
-							&&
-							(source.getRegionVariant() == null && a.getRegionVariant() == null) || (a.getRegionVariant() != null && source.getRegionVariant() != null &&  a.getRegionVariant().equals(source.getRegionVariant()))
-					)).findAny().orElse(null);
-
+			ProductAvailability existing = null;
+			//determine product availability to be used
+			if(source.getId() != null && source.getId() >0) {
+				existing = destination;
+			} else {
+				existing = existingAvailability.stream()
+						.filter(a -> 
+						(
+								source.getProductId() != null && (a.getProduct().getId().longValue() == source.getProductId().longValue())
+								&&
+								a.getMerchantStore().getId() == store.getId()
+								&&
+								(source.getInstance() == null && a.getProductInstance() == null) || (a.getProductInstance() != null && source.getInstance()!= null && a.getProductInstance().getId().longValue() == source.getInstance().longValue())
+								&&
+								(source.getRegionVariant() == null && a.getRegionVariant() == null) || (a.getRegionVariant() != null && source.getRegionVariant() != null &&  a.getRegionVariant().equals(source.getRegionVariant()))
+						)).findAny().orElse(null);
+			}
 			if(existing != null) {
+				if(existing.getMerchantStore().getId() != store.getId()) {
+					throw new ResourceNotFoundException("Product Inventory with id [" + source.getId() + "] not found for store [" + store.getCode() + "]");
+				}
 				destination = existing;
 			}
 
@@ -127,12 +136,22 @@ public class PersistableInventoryMapper implements Mapper<PersistableInventory, 
 				if (isPositive(priceEntity.getId())) {
 					price.setId(priceEntity.getId());
 				}
+				
+				List<ProductPrice> prices = new ArrayList<ProductPrice>();
 
 				if (destination.getPrices() != null) {
 					for (ProductPrice pp : destination.getPrices()) {
 						if (isPositive(priceEntity.getId()) && priceEntity.getId().equals(pp.getId())) {
 							price = pp;
 							price.setId(pp.getId());
+						} 
+						
+						if (!pp.isDefaultPrice()) {
+							prices.add(pp);
+						}
+						
+						if (pp.isDefaultPrice() && priceEntity.isDefaultPrice()) {
+							price = pp;
 						}
 					}
 				}
@@ -155,9 +174,10 @@ public class PersistableInventoryMapper implements Mapper<PersistableInventory, 
 
 				Set<ProductPriceDescription> descs = getProductPriceDescriptions(price, priceEntity.getDescriptions());
 				price.setDescriptions(descs);
-				Set<ProductPrice> prices = new HashSet<ProductPrice>();
 				prices.add(price);
-				destination.setPrices(prices);
+	
+				
+				destination.setPrices(new HashSet<ProductPrice>(prices));
 			}
 
 			return destination;

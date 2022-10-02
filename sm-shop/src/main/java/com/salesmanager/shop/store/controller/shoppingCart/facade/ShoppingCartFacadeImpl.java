@@ -293,7 +293,7 @@ public class ShoppingCartFacadeImpl implements ShoppingCartFacade {
 
 		if (CollectionUtils.isEmpty(availabilities)) {
 			throw new Exception(
-					"Item with id " + product.getId() + " is not properly configured. It contains no availability");
+					"Item with id " + product.getId() + " is not properly configured. It contains no inventory");
 		}
 
 		//todo filter sku and store

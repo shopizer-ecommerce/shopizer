@@ -47,6 +47,18 @@ indexes =
 	}
 )
 
+/**
+ * Default availability
+ * 
+ * store
+ * product id
+ * 
+ * instance null
+ * regionVariant null
+ * 
+ * @author carlsamson
+ *
+ */
 public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailability> implements Auditable {
 
 	/**
