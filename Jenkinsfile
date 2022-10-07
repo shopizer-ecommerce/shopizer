@@ -13,12 +13,12 @@ pipeline {
         }
         stage('archive artifacts') {
             steps {
-                archiveArtifacts artifacts: 'target/*.jar', followSymlinks: false
+                archiveArtifacts artifacts: 'sm-shop/target/*.jar', followSymlinks: false
             }
         }
         stage('test results') {
             steps {
-                junit '**/surefire-reports/*.xml'
+                junit 'sm-shop/target/surefire-reports/*.xml'
             }
         }
     }
