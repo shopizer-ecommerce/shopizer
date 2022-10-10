@@ -290,7 +290,7 @@
 			<dependency>
 				<groupId>com.google.cloud</groupId>
 				<artifactId>google-cloud-storage</artifactId>
-				<version>1.74.0</version>
+				<version>1.85.0</version>
 				<exclusions>
 					<exclusion>
 						<groupId>com.google.guava</groupId>
