@@ -1,5 +1,5 @@
 pipeline{
-  agent { lable 'java_11'}
+  agent { label 'java_11'}
   stages{
     stage('shopizer'){
        steps{
