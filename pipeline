@@ -1,2 +1,15 @@
-asdffghf
-sjdhjd
+pipeline {
+    agent {label'GRADLE && JDK11 && NVM && PY3'}
+    stages {
+        stage('clone') {
+           steps {
+            git url:'https://github.com/QtBhavani/shopizer.git' , branch :'newone'
+            }
+        }
+        stage('install') {
+            steps {
+            sh 'mvn package'
+            }
+        }
+    }
+}
