@@ -1,5 +1,5 @@
 pipeline {
-    agent {label ('shopizer')}
+    agent { label 'shopizer' }
     parameters {
           choice(name: 'branch', choices: ['master', 'developbranch'], description: 'forselectingbranch')
           choice(name: 'maven', choices: ['package', 'install', 'clean package', 'clean install'], description: 'formavenbuildpackage') 
