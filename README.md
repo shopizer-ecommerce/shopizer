@@ -163,7 +163,3 @@ Push your changes to Shopizer
 -------------------
 
 Please open a PR (pull request) in order to have your changes merged to the upstream
-
-
-
-
