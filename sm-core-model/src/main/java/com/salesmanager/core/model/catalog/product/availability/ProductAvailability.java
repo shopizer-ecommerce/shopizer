@@ -21,6 +21,7 @@ import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -38,12 +39,26 @@ import com.salesmanager.core.utils.CloneUtils;
 
 @Entity
 @Table(name = "PRODUCT_AVAILABILITY",
+uniqueConstraints= @UniqueConstraint(columnNames = {"MERCHANT_ID", "PRODUCT_ID", "PRODUCT_INSTANCE", "REGION_VARIANT"}),
 indexes = 
 	{ 
 		@Index(name="PRD_AVAIL_STORE_PRD_IDX", columnList = "PRODUCT_ID,MERCHANT_ID"),
 		@Index(name="PRD_AVAIL_PRD_IDX", columnList = "PRODUCT_ID")
 	}
 )
+
+/**
+ * Default availability
+ * 
+ * store
+ * product id
+ * 
+ * instance null
+ * regionVariant null
+ * 
+ * @author carlsamson
+ *
+ */
 public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailability> implements Auditable {
 
 	/**

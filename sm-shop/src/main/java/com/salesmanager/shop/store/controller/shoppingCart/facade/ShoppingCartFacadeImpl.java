@@ -284,12 +284,16 @@ public class ShoppingCartFacadeImpl implements ShoppingCartFacade {
 		ProductInstance instance = null;
 		if (CollectionUtils.isNotEmpty(product.getInstances())) {
 			instance = product.getInstances().iterator().next();
-			availabilities = instance.getAvailabilities();
+			Set<ProductAvailability> instanceAvailabilities = instance.getAvailabilities();
+			if(!CollectionUtils.isEmpty(instanceAvailabilities)) {
+				availabilities = instanceAvailabilities;
+			}
+			
 		}
 
 		if (CollectionUtils.isEmpty(availabilities)) {
 			throw new Exception(
-					"Item with id " + product.getId() + " is not properly configured. It contains no availability");
+					"Item with id " + product.getId() + " is not properly configured. It contains no inventory");
 		}
 
 		//todo filter sku and store

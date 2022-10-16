@@ -63,10 +63,10 @@ public class ProductInstance extends SalesManagerEntity<Long, ProductInstance> i
 	private Date dateAvailable = new Date();
 	
 	@Column(name = "AVAILABLE")
-	private boolean defaultSelection = true;
+	private boolean available = true;
 	
 	@Column(name = "DEFAULT_SELECTION")
-	private boolean available = true;
+	private boolean defaultSelection = true;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "PRODUCT_VARIATION_ID", nullable = true)

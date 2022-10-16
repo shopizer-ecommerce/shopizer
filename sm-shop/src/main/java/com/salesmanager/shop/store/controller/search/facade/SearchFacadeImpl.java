@@ -102,7 +102,7 @@ public class SearchFacadeImpl implements SearchFacade {
 			SearchRequest searchRequest = new SearchRequest();
 			searchRequest.setLanguage(languageCode);
 			searchRequest.setSearchString(query);
-			searchRequest.setStore(store.getCode());
+			searchRequest.setStore(store.getCode().toLowerCase());
 			
 			
 			//aggregations

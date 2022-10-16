@@ -2,6 +2,7 @@ package com.salesmanager.shop.mapper.inventory;
 
 import static com.salesmanager.core.business.utils.NumberUtils.isPositive;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
@@ -62,6 +63,48 @@ public class PersistableInventoryMapper implements Mapper<PersistableInventory, 
 		Validate.notNull(destination, "Product availability cannot be null");
 
 		try {
+			Product product = null;
+			if(source.getProductId()!= null && source.getProductId().longValue() > 0) {
+				product = productService.findOne(source.getProductId().longValue(), store);
+				if(product == null) {
+					throw new ResourceNotFoundException("Product with id [" + source.getProductId() + "] not found for store [" + store.getCode() + "]");
+				}
+				destination.setProduct(product);
+			}
+			
+			/**
+			 * Merging rules
+			 * 
+			 * Create vs update
+			 * - existing product availability 
+			 *   match product id, instance id, merchant id and region then set exiting id
+			 * 
+			 */
+			Set<ProductAvailability> existingAvailability = product.getAvailabilities();
+			ProductAvailability existing = null;
+			//determine product availability to be used
+			if(source.getId() != null && source.getId() >0) {
+				existing = destination;
+			} else {
+				existing = existingAvailability.stream()
+						.filter(a -> 
+						(
+								source.getProductId() != null && (a.getProduct().getId().longValue() == source.getProductId().longValue())
+								&&
+								a.getMerchantStore().getId() == store.getId()
+								&&
+								(source.getInstance() == null && a.getProductInstance() == null) || (a.getProductInstance() != null && source.getInstance()!= null && a.getProductInstance().getId().longValue() == source.getInstance().longValue())
+								&&
+								(source.getRegionVariant() == null && a.getRegionVariant() == null) || (a.getRegionVariant() != null && source.getRegionVariant() != null &&  a.getRegionVariant().equals(source.getRegionVariant()))
+						)).findAny().orElse(null);
+			}
+			if(existing != null) {
+				if(existing.getMerchantStore().getId() != store.getId()) {
+					throw new ResourceNotFoundException("Product Inventory with id [" + source.getId() + "] not found for store [" + store.getCode() + "]");
+				}
+				destination = existing;
+			}
+
 			destination.setProductQuantity(source.getQuantity());
 			destination.setProductQuantityOrderMin(source.getProductQuantityOrderMax());
 			destination.setProductQuantityOrderMax(source.getProductQuantityOrderMin());
@@ -76,14 +119,6 @@ public class PersistableInventoryMapper implements Mapper<PersistableInventory, 
 				destination.setProductDateAvailable(DateUtil.getDate(source.getDateAvailable()));
 			}
 
-			if(source.getProductId()!= null && source.getProductId().longValue() > 0) {
-				Product product = productService.findOne(source.getProductId().longValue(), store);
-				if(product == null) {
-					throw new ResourceNotFoundException("Product with id [" + source.getId() + "] not found for store [" + store.getCode() + "]");
-				}
-				destination.setSku(product.getSku());
-			}
-
 			if (source.getInstance() != null && source.getInstance() .longValue()> 0) {
 				Optional<ProductInstance> instance = productInstanceService.getById(source.getInstance(), store);
 				if(instance.get() == null) {
@@ -92,28 +127,38 @@ public class PersistableInventoryMapper implements Mapper<PersistableInventory, 
 				destination.setSku(instance.get().getSku());
 				destination.setProductInstance(instance.get());
 			}
-
+			
+			//merge with existing or replace
 			for (PersistableProductPrice priceEntity : source.getPrices()) {
 
 				ProductPrice price = new ProductPrice();
-				price.setId(null);
 
 				if (isPositive(priceEntity.getId())) {
 					price.setId(priceEntity.getId());
 				}
+				
+				List<ProductPrice> prices = new ArrayList<ProductPrice>();
 
 				if (destination.getPrices() != null) {
 					for (ProductPrice pp : destination.getPrices()) {
 						if (isPositive(priceEntity.getId()) && priceEntity.getId().equals(pp.getId())) {
 							price = pp;
 							price.setId(pp.getId());
+						} 
+						
+						if (!pp.isDefaultPrice()) {
+							prices.add(pp);
+						}
+						
+						if (pp.isDefaultPrice() && priceEntity.isDefaultPrice()) {
+							price = pp;
 						}
 					}
 				}
 
 				price.setProductAvailability(destination);
 				price.setDefaultPrice(priceEntity.isDefaultPrice());
-				price.setProductPriceAmount(priceEntity.getOriginalPrice());
+				price.setProductPriceAmount(priceEntity.getPrice());
 				price.setDefaultPrice(priceEntity.isDefaultPrice());
 				price.setCode(priceEntity.getCode());
 				price.setProductPriceSpecialAmount(priceEntity.getDiscountedPrice());
@@ -129,13 +174,16 @@ public class PersistableInventoryMapper implements Mapper<PersistableInventory, 
 
 				Set<ProductPriceDescription> descs = getProductPriceDescriptions(price, priceEntity.getDescriptions());
 				price.setDescriptions(descs);
-				Set<ProductPrice> prices = new HashSet<ProductPrice>();
 				prices.add(price);
-				destination.setPrices(prices);
+	
+				
+				destination.setPrices(new HashSet<ProductPrice>(prices));
 			}
 
 			return destination;
-
+			
+		} catch (ResourceNotFoundException rne) {
+			throw new ConversionRuntimeException(rne.getErrorCode(), rne.getErrorMessage(), rne);
 		} catch (Exception e) {
 			throw new ConversionRuntimeException(e);
 		}

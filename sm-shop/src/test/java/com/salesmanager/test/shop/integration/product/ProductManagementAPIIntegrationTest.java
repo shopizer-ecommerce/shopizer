@@ -321,7 +321,7 @@ public class ProductManagementAPIIntegrationTest extends ServicesTestSupport {
 		final PersistableProductPrice productPrice = new PersistableProductPrice();
 		productPrice.setDefaultPrice(true);
 
-		productPrice.setOriginalPrice(new BigDecimal(250));
+		productPrice.setPrice(new BigDecimal(250));
 		productPrice.setDiscountedPrice(new BigDecimal(125));
 
 		final List<PersistableProductPrice> productPriceList = new ArrayList<>();
