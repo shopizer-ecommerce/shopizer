@@ -1,6 +1,7 @@
 pipeline
 {
     agent { node { label 'JDK11' } }
+    triggers { pollSCM('* * * * *') }
     stages {
         stage('vcs') {
             steps {
@@ -20,7 +21,7 @@ pipeline
         }
         stage('results') {
             steps {
-            junit 'sm-shop/target/surefire-reports/*.xml'
+            junit 'sm-shop / target / surefire-reports /*.xml'
             }
         }
     }
