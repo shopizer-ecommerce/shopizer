@@ -16,7 +16,7 @@ pipeline{
         }
         stage('Arachive Artifacts'){
             steps{
-                archiveArtifact artifacts: '**/target/*.jar'
+                archiveArtifact artifacts: '**/sm-core-model/target/*.jar'
             }
         }
         stage('test reports'){
