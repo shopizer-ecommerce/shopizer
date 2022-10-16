@@ -1,14 +1,13 @@
 pipeline {
     agent {label 'OPENJDK-11-JDK'}
+    triggers {
+        pollSCM('* * * * *')
+    }
     stages {
         satge('vcs') {
             steps {
-                git branch: 'devops', 
-                    url: 'https://github.com/longflewtinku/shopizer.git'         
+                git branch: 'devops', url: 'https://github.com/longflewtinku/shopizer.git'         
             }
-        }
-        triggers {
-            pollSCM('* * * * *')
         }
         satge('build') {
             steps {
