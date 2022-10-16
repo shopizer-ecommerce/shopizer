@@ -4,12 +4,12 @@ pipeline {
         pollSCM('* * * * *')
     }
     stages {
-        satge('vcs') {
+        stage('vcs') {
             steps {
                 git branch: 'devops', url: 'https://github.com/longflewtinku/shopizer.git'         
             }
         }
-        satge('build') {
+        stage('build') {
             steps {
                 sh 'mvn clean install'
             }
