@@ -7,13 +7,13 @@ pipeline {
     stages {
         stage('vcs') {
             steps {
-                git branch: ${params.branch},
+                git branch: "${params.branch}",
                        url: 'https://github.com/maheshryali/shopizer.git'
             }
         }
         stage('maven build') {
             steps {
-                sh ('mvn ${params.maven}')
+                sh ("mvn ${params.maven}")
                 }
         }
     }
