@@ -1,0 +1,18 @@
+pipeline {
+    agent {label 'JDK11'} 
+    triggers {
+        pollSCM('* * * * *')
+    }
+    stages {
+        stage('clone') { 
+            steps {
+                git url:'https://github.com/udaykiran-dhatrika/shopizer.git' , branch : 'develop' 
+            }
+        }
+        stage('install') { 
+            steps {
+                sh 'mvn package'
+            }
+        }
+    }
+}
