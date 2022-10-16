@@ -1,10 +1,9 @@
 pipeline {
     agent {label ('shopizer')}
     parameters {
-         parameters { choice(name: 'branch', choices: ['master', 'developbranch'], description: 'forselectingbranch')
-                      choice(name: 'maven', choices: ['package', 'install', 'clean package', 'clean install'], description: 'formavenbuildpackage') 
-                      }
-    }                  
+          choice(name: 'branch', choices: ['master', 'developbranch'], description: 'forselectingbranch')
+          choice(name: 'maven', choices: ['package', 'install', 'clean package', 'clean install'], description: 'formavenbuildpackage') 
+                      }                  
     stages {
         stage('vcs') {
             steps {
