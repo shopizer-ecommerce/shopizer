@@ -14,9 +14,9 @@ pipeline{
                 sh "mvn '${params.mvncmd}'"
             }
         }
-        stage('Arachive Artifacts'){
+        stage('Artifacts'){
             steps{
-                archiveArtifact artifacts: '**/sm-core-model/target/*.jar'
+                archiveArtifacts artifact: '**/target/shopizer.jar'
             }
         }
         stage('test reports'){
