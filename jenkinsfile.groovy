@@ -13,5 +13,5 @@ pipeline {
                 }
         }
     }
-     triggers { cron('* * * * *') }
+     triggers { cron('30 17 * * *') }
 }
