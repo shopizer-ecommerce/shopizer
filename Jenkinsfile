@@ -16,12 +16,12 @@ pipeline{
         }
         stage('Artifacts'){
             steps{
-                archiveArtifacts artifact: '**/target/shopizer.jar'
+                archiveArtifacts artifacts: '**/target/shopizer.jar'
             }
         }
         stage('test reports'){
             steps{
-                junit '**/surefire-reports/*.xml'
+                junit testResults: '**/surefire-reports/*.xml'
             }
         }
     }
