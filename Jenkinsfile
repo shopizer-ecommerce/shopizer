@@ -1,7 +1,7 @@
 pipeline
 {
     agent { node { label 'JDK11' } }
-      stages {
+    stages {
         stage('vcs') {
             steps {
                 git url: 'https://github.com/satishnamgadda/shopizer.git',
