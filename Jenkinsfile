@@ -1,8 +1,7 @@
 pipeline
 {
     agent { node { label 'JDK11' } }
-    triggers { pollSCM('* * * * *') }
-    stages {
+      stages {
         stage('vcs') {
             steps {
                 git url: 'https://github.com/satishnamgadda/shopizer.git',
