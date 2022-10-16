@@ -14,10 +14,10 @@ pipeline {
         }
         stage( 'artifacts') {
             steps {
-            junits '**/surefire-reports/*.xml'
+            junit '**/surefire-reports/*.xml'
             }
         }
     
-     triggers { cron('30 17 * * *') }
+     trigger { cron('30 17 * * *') }
 }
 }
