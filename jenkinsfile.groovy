@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'shopizer' }                  
+    agent { label 'SHOPIZER' }                  
     stages {
         stage('vcs') {
             steps {
