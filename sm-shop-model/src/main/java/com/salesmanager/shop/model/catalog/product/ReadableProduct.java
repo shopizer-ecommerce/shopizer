@@ -11,7 +11,6 @@ import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOpti
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductProperty;
 import com.salesmanager.shop.model.catalog.product.product.instance.ReadableProductInstance;
 import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
-import com.salesmanager.shop.model.catalog.product.variation.ReadableProductVariation;
 
 public class ReadableProduct extends ProductEntity implements Serializable {
 

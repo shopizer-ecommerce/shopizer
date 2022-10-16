@@ -18,7 +18,6 @@ import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.pricing.PricingService;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.Product;
-import com.salesmanager.core.model.catalog.product.attribute.Optionable;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOption;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionDescription;
@@ -284,11 +283,11 @@ public class ReadableProductMapper implements Mapper<Product, ReadableProduct> {
 							opt.getOptionValues().add(optValue);
 						}
 					}
-
 				}
 			}
-
 		}
+		
+		ReadableProductInstance defaultInstance = null;
 
 		// variants
 		if (!CollectionUtils.isEmpty(source.getInstances()))
@@ -297,6 +296,18 @@ public class ReadableProductMapper implements Mapper<Product, ReadableProduct> {
 			List<ReadableProductInstance> instances = source.getInstances().stream()
 					.map(i -> readableProductInstanceMapper.convert(i, store, language)).collect(Collectors.toList());
 			destination.setVariants(instances);
+			
+			/**
+			 * When an item has instances
+			 * Take default instance
+			 * 
+			 * - Set item price as default instance price
+			 * - Set default image as default instance image
+			 */
+			
+			//get default instance
+			defaultInstance = instances.stream().filter(i -> i.isDefaultSelection()).findAny().orElse(null);
+			
 
 			/**
 			 * variants options list variation color
@@ -314,7 +325,7 @@ public class ReadableProductMapper implements Mapper<Product, ReadableProduct> {
 			 */
 
 			for (ProductInstance instance : source.getInstances()) {
-				this.instanceToOption(selectableOptions, instance, store, language);
+				instanceToOption(selectableOptions, instance, store, language);
 			}
 
 		}
@@ -323,13 +334,23 @@ public class ReadableProductMapper implements Mapper<Product, ReadableProduct> {
 			List<ReadableProductOption> options = new ArrayList<ReadableProductOption>(selectableOptions.values());
 			destination.setOptions(options);
 		}
-
+		
 		// availability
 		ProductAvailability availability = null;
 		for (ProductAvailability a : source.getAvailabilities()) {
 			// TODO validate region
 			// if(availability.getRegion().equals(Constants.ALL_REGIONS)) {//TODO REL 3.X
 			// accept a region
+			
+			/**
+			 * Default availability
+			 * store
+			 * product
+			 * instance null
+			 * region variant null
+			 */
+			
+			
 			availability = a;
 			destination.setQuantity(availability.getProductQuantity() == null ? 1 : availability.getProductQuantity());
 			destination.setQuantityOrderMaximum(
@@ -339,15 +360,18 @@ public class ReadableProductMapper implements Mapper<Product, ReadableProduct> {
 			if (availability.getProductQuantity().intValue() > 0 && destination.isAvailable()) {
 				destination.setCanBePurchased(true);
 			}
-			// }
+			
+			if(a.getProductInstance()==null && StringUtils.isEmpty(a.getRegionVariant())) {
+				break;
+			}
 		}
+		
+		//if default instance
 
 		destination.setSku(source.getSku());
 
 		try {
-
 			FinalPrice price = pricingService.calculateProductPrice(source);
-
 			if (price != null) {
 
 				destination.setFinalPrice(pricingService.getDisplayAmount(price.getFinalPrice(), store));

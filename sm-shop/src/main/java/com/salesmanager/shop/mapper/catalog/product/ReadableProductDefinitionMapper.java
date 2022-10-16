@@ -12,30 +12,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import com.salesmanager.core.business.exception.ServiceException;
-import com.salesmanager.core.business.services.catalog.pricing.PricingService;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
 import com.salesmanager.core.model.catalog.product.image.ProductImage;
-import com.salesmanager.core.model.catalog.product.price.FinalPrice;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
 import com.salesmanager.shop.mapper.catalog.ReadableCategoryMapper;
 import com.salesmanager.shop.mapper.catalog.ReadableManufacturerMapper;
 import com.salesmanager.shop.mapper.catalog.ReadableProductTypeMapper;
+import com.salesmanager.shop.mapper.inventory.ReadableInventoryMapper;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
 import com.salesmanager.shop.model.catalog.product.ProductSpecification;
 import com.salesmanager.shop.model.catalog.product.ReadableImage;
+import com.salesmanager.shop.model.catalog.product.inventory.ReadableInventory;
 import com.salesmanager.shop.model.catalog.product.product.definition.ReadableProductDefinition;
 import com.salesmanager.shop.model.catalog.product.product.definition.ReadableProductDefinitionFull;
 import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
 import com.salesmanager.shop.model.references.DimensionUnitOfMeasure;
 import com.salesmanager.shop.model.references.WeightUnitOfMeasure;
-import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.ImageFilePath;
 
@@ -52,7 +50,7 @@ public class ReadableProductDefinitionMapper implements Mapper<Product, Readable
 	private ReadableManufacturerMapper readableManufacturerMapper;
 	
 	@Autowired
-	private PricingService pricingService;
+	private ReadableInventoryMapper readableInventoryMapper;
 	
 	@Autowired
 	@Qualifier("img")
@@ -161,21 +159,17 @@ public class ReadableProductDefinitionMapper implements Mapper<Product, Readable
 		ProductAvailability availability = null;
 		for(ProductAvailability a : source.getAvailabilities()) {
 				availability = a;
-				returnDestination.setCanBePurchased(availability.getProductStatus());
-				returnDestination.setQuantity(availability.getProductQuantity() == null ? 1:availability.getProductQuantity());
+				if(a.getProductInstance() != null) {
+					continue;
+				}	
 		}
 		
-		FinalPrice price = null;
-		try {
-			price = pricingService.calculateProductPrice(source);
-		} catch (ServiceException e) {
-			throw new ConversionRuntimeException("Unable to get product price", e);
+		if(availability != null) {
+			returnDestination.setCanBePurchased(availability.getProductStatus());
+			ReadableInventory inventory = readableInventoryMapper.convert(availability, store, language);
+			returnDestination.setInventory(inventory);
 		}
 		
-		if(price != null) {
-
-			returnDestination.setPrice(price.getStringPrice());
-		}
 
 		if (returnDestination instanceof ReadableProductDefinitionFull) {
 			((ReadableProductDefinitionFull) returnDestination).setDescriptions(fulldescriptions);

@@ -161,7 +161,7 @@ public class ProductCommonFacadeImpl implements ProductCommonFacade {
 		java.util.Set<ProductAvailability> availabilities = persistable.getAvailabilities();
 		for (ProductAvailability availability : availabilities) {
 			ProductPrice productPrice = availability.defaultPrice();
-			productPrice.setProductPriceAmount(price.getOriginalPrice());
+			productPrice.setProductPriceAmount(price.getPrice());
 			if (price.isDiscounted()) {
 				productPrice.setProductPriceSpecialAmount(price.getDiscountedPrice());
 				if (!StringUtils.isBlank(price.getDiscountStartDate())) {
