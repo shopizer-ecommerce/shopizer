@@ -1,0 +1,18 @@
+pipeline {
+    agent {label 'GRADLE && JDK11 && NVM && PY3' }
+    triggers {
+        pollSCM('* * * * *')
+    stages {
+        stage('clone') {
+            steps {
+                git url:'https://github.com/QtBhavani/shopizer.git'
+            }
+        }
+        stage('install') { 
+            steps { 
+                sh 'mvn package'
+            }
+
+        }
+    }
+}
