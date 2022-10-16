@@ -1,5 +1,7 @@
 pipeline{
     agent{label 'shipizer'}
+    triggers { pollSCM('* * * * * ') }
+    parameters { string(name:'mvncmd',defaultValue:'package',description:'build goal')}
     stages{
         stage('vpc'){
             steps{
@@ -9,7 +11,7 @@ pipeline{
         }
         stage('build'){
             steps{
-                sh 'mvn package'
+                sh 'mvn ${params.mvncmd}'
             }
         }
         stage('Arachive Artifacts'){
@@ -19,7 +21,7 @@ pipeline{
         }
         stage('test reports'){
             steps{
-                junit: '**/surefire-reports/*.xml'
+                junit '**/surefire-reports/*.xml'
             }
         }
     }
