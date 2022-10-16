@@ -13,7 +13,7 @@ pipeline{
             steps {
                 rtMavenDeployer (
                     id: "Maven_1",
-                    serverId: "https://tarun17.jfrog.io/",
+                    serverId: "shopizer",
                     releaseRepo: 'tarun-libs-release-local',
                     snapshotRepo: 'tarun-snapshot-release-local'
                 )
