@@ -16,7 +16,7 @@ pipeline{
         }
         stage('Artifacts'){
             steps{
-                archiveArtifacts artifacts: '**/target/shopizer.jar'
+                archiveArtifacts artifacts: '**/target/*.jar'
             }
         }
         stage('test reports'){
