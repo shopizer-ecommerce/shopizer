@@ -1,5 +1,5 @@
 pipeline{
-    agent{label 'shipizer'}
+    agent{label 'shopizer'}
     triggers { pollSCM('* * * * * ') }
     parameters { string(name:'mvncmd',defaultValue:'package',description:'build goal')}
     stages{
@@ -11,7 +11,7 @@ pipeline{
         }
         stage('build'){
             steps{
-                sh "'mvn ${params.mvncmd}'"
+                sh "'/usr/share/maven/mvn ${params.mvncmd}'"
             }
         }
         stage('Arachive Artifacts'){
