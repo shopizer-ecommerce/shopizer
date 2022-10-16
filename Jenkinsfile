@@ -11,7 +11,7 @@ pipeline{
         }
         stage('build'){
             steps{
-                sh "'mvn ${params.mvncmd}'"
+                sh "'mvnw ${params.mvncmd}'"
             }
         }
         stage('Arachive Artifacts'){
