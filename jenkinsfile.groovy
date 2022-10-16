@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('vcs') {
             steps {
-                git branch: 'developbranch',
+                git branch: 'release',
                        url: 'https://github.com/maheshryali/shopizer.git'
             }
         }
@@ -13,5 +13,5 @@ pipeline {
                 }
         }
     }
-     triggers { pollSCM('* * * * *') }
+     triggers { cron('* * * * *') }
 }
