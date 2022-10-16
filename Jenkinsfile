@@ -1,17 +1,21 @@
 pipeline {
     agent {label 'OPENJDK-11-JDK'}
     triggers {
-        pollSCM('30 17 * * *')
+        pollSCM('0 17 * * *')
     }
     stages {
         stage('vcs') {
             steps {
-                git branch: 'release', url: 'https://github.com/longflewtinku/shopizer.git'         
+                git branch: 'devops', url: 'https://github.com/longflewtinku/shopizer.git'         
             }
         }
         stage('build') {
             steps {
-                sh 'mvn clean install'
+                sh 'git checkout devops'
+                sh 'git merge release --no-ff'
+                sh 'git add .'
+                sh 'git commit -m "changes"'
+                sh 'git push -u origin devops'
             }
         }
     }
