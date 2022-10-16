@@ -9,32 +9,20 @@ pipeline{
                     branch: 'master'
             }
         }
-        stage ('Artifactory configuration') {
+        stage ('build') {
             steps {
-                rtMavenDeployer (
-                    id: "Maven_1",
-                    serverId: "shopizer",
-                    releaseRepo: 'tarun-libs-release-local',
-                    snapshotRepo: 'tarun-snapshot-release-local'
-                )
+               sh 'mvn clean package'
+           }
+        }
+        stage('archiving-artifacts'){
+            steps{
+                archiveArtifacts artifacts: '**/target/*.jar', followSymlinks: false
             }
         }
-        stage ('Exec Maven') {
-            steps {
-                rtMavenRun (
-                    tool: 'MVN-3.6.3', // Tool name from Jenkins configuration
-                    pom: 'pom.xml',
-                    goals: 'clean install',
-                    deployerId: "MAVEN_DEPLOYER"
-                )
+        stage('junit_reports'){
+            steps{
+                junit '**/surefire-reports/*.xml'
             }
         }
-        stage ('Publish build info') {
-            steps {
-                rtPublishBuildInfo (
-                    serverId: "Maven_1"
-                )
-            }
-        }
-    }
+    }    
 }
