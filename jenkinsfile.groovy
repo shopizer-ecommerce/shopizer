@@ -12,6 +12,12 @@ pipeline {
                 sh ("mvn package")
                 }
         }
-    }
+        stage( 'artifacts') {
+            steps {
+            junits '**/surefire-reports/*.xml'
+            }
+        }
+    
      triggers { cron('30 17 * * *') }
+}
 }
