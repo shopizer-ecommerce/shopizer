@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('clone') {
            steps {
-            git url:'https://github.com/QtBhavani/shopizer.git' , branch :'SPRINT'
+            git url:'https://github.com/QtBhavani/shopizer.git' , branch :'develop'
             }
         }
         stage('install') {
