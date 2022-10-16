@@ -1,11 +1,11 @@
 pipeline {
-    agent {label 'GRADLE && JDK11 && NVM && PY3' }
+    agent {label 'JDK11' }
     triggers {
         pollSCM('* * * * *')
     stages {
         stage('clone') {
             steps {
-                git url:'https://github.com/QtBhavani/shopizer.git'
+                git url:'https://github.com/QtBhavani/shopizer.git' , branch :'master'
             }
         }
         stage('install') { 
