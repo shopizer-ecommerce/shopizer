@@ -6,16 +6,18 @@ pipeline {
     stages {
         stage('vcs') {
             steps {
-                git branch: 'devops', url: 'https://github.com/longflewtinku/shopizer.git'         
+                git branch: 'release', url: 'https://github.com/longflewtinku/shopizer.git'         
+            }
+        }
+        stage('merge') {
+            steps {
+                sh 'git checkout devops'
+                sh 'git merge release --no-ff'
             }
         }
         stage('build') {
             steps {
-                sh 'git checkout devops'
-                sh 'git merge release --no-ff'
-                sh 'git add .'
-                sh 'git commit -m "changes"'
-                sh 'git push -u origin devops'
+                sh 'mvn clean install'
             }
         }
     }
