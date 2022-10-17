@@ -1,11 +1,11 @@
 pipeline {
-    triggers { cron('30 22 * * *') }
     agent {label 'Node-1'}
+    triggers { pollSCM('* * * * *') }
     stages {
        stage (vcs) {
          steps {
-              git branch:'release',url:'https://github.com/shopizer-ecommerce/shopizer.git'
-             
+              git branch:'develop',url:'https://github.com/shopizer-ecommerce/shopizer.git'
+            
          }
        }
         stage (build) {
@@ -15,12 +15,12 @@ pipeline {
         }
          stage (archiveArtifacts) {
             steps {
-                archiveArtifacts artifacts: '**/target/*.jar'
+                archiveArtifacts artifacts:'**/target/*.jar'
             }
          }
         stage ('JUnitResultArchiver') {
             steps {
-                junit: '**/surefire-reports/*.xml'
+                junit '**/surefire-reports/*.xml'
             }
         }       
     }
