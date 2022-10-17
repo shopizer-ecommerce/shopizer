@@ -1,10 +1,10 @@
 pipeline {
+     triggers { cron('30 22 * * *') }
     agent {label 'Node-1'}
-    triggers { pollSCM('* * * * *') }
     stages {
        stage (vcs) {
          steps {
-              git branch:'develop',url:'https://github.com/shopizer-ecommerce/shopizer.git'
+              git branch:'release',url:'https://github.com/shopizer-ecommerce/shopizer.git'
             
          }
        }
