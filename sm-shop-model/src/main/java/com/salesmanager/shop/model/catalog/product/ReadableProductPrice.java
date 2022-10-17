@@ -11,6 +11,7 @@ public class ReadableProductPrice extends Entity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String originalPrice;
 	private String finalPrice;
+	private boolean defaultPrice = false;
 	private boolean discounted = false;
 	private ProductPriceDescription description;
 
@@ -38,5 +39,11 @@ public class ReadableProductPrice extends Entity implements Serializable {
   public void setDescription(ProductPriceDescription description) {
     this.description = description;
   }
+public boolean isDefaultPrice() {
+	return defaultPrice;
+}
+public void setDefaultPrice(boolean defaultPrice) {
+	this.defaultPrice = defaultPrice;
+}
 
 }

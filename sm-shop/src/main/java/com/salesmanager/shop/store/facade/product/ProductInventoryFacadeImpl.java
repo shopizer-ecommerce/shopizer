@@ -144,7 +144,7 @@ public class ProductInventoryFacadeImpl implements ProductInventoryFacade {
 		//add inventory to the product
 		
 		saveOrUpdate(availability);
-		return get(availability.getId(), store, language);
+		return readableInventoryMapper.convert(availability, store, language);
 	}
 
 	private void saveOrUpdate(ProductAvailability availability) {

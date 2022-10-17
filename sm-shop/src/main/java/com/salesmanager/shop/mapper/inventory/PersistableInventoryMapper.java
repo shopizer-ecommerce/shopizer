@@ -129,32 +129,44 @@ public class PersistableInventoryMapper implements Mapper<PersistableInventory, 
 			}
 			
 			//merge with existing or replace
+			List<ProductPrice> prices = new ArrayList<ProductPrice>();
 			for (PersistableProductPrice priceEntity : source.getPrices()) {
 
-				ProductPrice price = new ProductPrice();
+				ProductPrice price = null;
 
+				/**
 				if (isPositive(priceEntity.getId())) {
+					price = new ProductPrice();
 					price.setId(priceEntity.getId());
 				}
+				**/
 				
-				List<ProductPrice> prices = new ArrayList<ProductPrice>();
+				
 
 				if (destination.getPrices() != null) {
 					for (ProductPrice pp : destination.getPrices()) {
-						if (isPositive(priceEntity.getId()) && priceEntity.getId().equals(pp.getId())) {
+						if (isPositive(priceEntity.getId()) && priceEntity.getId().longValue() == pp.getId().longValue()) {
 							price = pp;
-							price.setId(pp.getId());
-						} 
-						
-						if (!pp.isDefaultPrice()) {
+							prices.add(pp);
+						} else if (pp.isDefaultPrice() && priceEntity.isDefaultPrice()) {
+							if(price == null) {
+								price = pp;
+							}
+							else {
+								prices.add(pp);
+							}
+						} else {
 							prices.add(pp);
 						}
 						
-						if (pp.isDefaultPrice() && priceEntity.isDefaultPrice()) {
-							price = pp;
-						}
 					}
 				}
+				
+				if(price == null) {
+					price = new ProductPrice();
+				}
+				
+				prices.add(price);
 
 				price.setProductAvailability(destination);
 				price.setDefaultPrice(priceEntity.isDefaultPrice());
@@ -174,9 +186,7 @@ public class PersistableInventoryMapper implements Mapper<PersistableInventory, 
 
 				Set<ProductPriceDescription> descs = getProductPriceDescriptions(price, priceEntity.getDescriptions());
 				price.setDescriptions(descs);
-				prices.add(price);
-	
-				
+
 				destination.setPrices(new HashSet<ProductPrice>(prices));
 			}
 

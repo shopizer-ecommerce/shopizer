@@ -5,11 +5,14 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
@@ -165,6 +168,21 @@ public class ProductPriceUtils {
 				finalPrice.setOriginalPrice(op);
 			}
 		}
+		
+		finalPrice.setStringPrice(getStringAmount(finalPrice.getFinalPrice()));
+		return finalPrice;
+
+	}
+	
+	
+	public FinalPrice getFinalPrice(ProductAvailability availability) throws ServiceException {
+		
+		FinalPrice finalPrice =  calculateFinalPrice(availability);
+		
+		if(finalPrice == null) {
+			throw new ServiceException(ServiceException.EXCEPTION_ERROR, "No inventory available to calculate the price. Availability should contain at least a region set to *");
+		}
+
 		
 		finalPrice.setStringPrice(getStringAmount(finalPrice.getFinalPrice()));
 		return finalPrice;
@@ -499,6 +517,14 @@ public class ProductPriceUtils {
 		return matcher.matches();
 	}
 	
+	private Set<ProductAvailability> applicableAvailabilities (Set<ProductAvailability> availabilities) throws ServiceException {
+		if(CollectionUtils.isEmpty(availabilities)) {
+			throw new ServiceException(ServiceException.EXCEPTION_ERROR, "No applicable inventory to calculate the price.");
+		}
+		
+		return new HashSet<ProductAvailability>(availabilities.stream().filter(a -> !CollectionUtils.isEmpty(a.getPrices())).collect(Collectors.toList()));
+	}
+	
 	private FinalPrice calculateFinalPrice(Product product) throws ServiceException {
 
 		FinalPrice finalPrice = null;
@@ -515,12 +541,17 @@ public class ProductPriceUtils {
 		
 		Set<ProductAvailability> availabilities = null;
 		if(!CollectionUtils.isEmpty(product.getInstances())) {
-			ProductInstance instance = product.getInstances().iterator().next();
-			availabilities = instance.getAvailabilities();
+			Optional<ProductInstance> instance = product.getInstances().stream().filter(i -> i.isDefaultSelection()).findFirst();
+			if(instance.isPresent()) {
+				availabilities = instance.get().getAvailabilities();
+				availabilities = this.applicableAvailabilities(availabilities);
+
+			}	
 		}
 		
 		if(CollectionUtils.isEmpty(availabilities)) {
 			availabilities = product.getAvailabilities();
+			availabilities = this.applicableAvailabilities(availabilities);
 		}
 		
 		for(ProductAvailability availability : availabilities) {
@@ -556,8 +587,48 @@ public class ProductPriceUtils {
 		}
 		
 		return finalPrice;
+			
+	}
+	
+	private FinalPrice calculateFinalPrice(ProductAvailability availability) throws ServiceException {
+
+		FinalPrice finalPrice = null;
+		List<FinalPrice> otherPrices = null;
 		
+
 		
+		Set<ProductPrice> prices = availability.getPrices();
+			for(ProductPrice price : prices) {
+					
+					FinalPrice p = finalPrice(price);
+					if(price.isDefaultPrice()) {
+						finalPrice = p;
+					} else {
+						if(otherPrices==null) {
+							otherPrices = new ArrayList<FinalPrice>();
+						}
+						otherPrices.add(p);
+					}
+
+			}
+
+		
+
+		
+		if(finalPrice!=null) {
+			finalPrice.setAdditionalPrices(otherPrices);
+		} else {
+			if(otherPrices!=null) {
+				finalPrice = otherPrices.get(0);
+			}
+		}
+		
+		if(finalPrice == null) {
+			throw new ServiceException(ServiceException.EXCEPTION_ERROR, "No inventory available to calculate the price. Availability should contain at least a region set to *");
+		}
+		
+		return finalPrice;
+			
 	}
 	
 	private FinalPrice finalPrice(ProductPrice price) {

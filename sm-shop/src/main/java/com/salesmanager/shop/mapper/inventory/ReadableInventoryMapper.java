@@ -37,7 +37,7 @@ public class ReadableInventoryMapper implements Mapper<ProductAvailability, Read
 	@Override
 	public ReadableInventory convert(ProductAvailability source, MerchantStore store, Language language) {
 		ReadableInventory availability = new ReadableInventory();
-		return this.merge(source, availability, store, language);
+		return merge(source, availability, store, language);
 	}
 
 	@Override
@@ -82,12 +82,12 @@ public class ReadableInventoryMapper implements Mapper<ProductAvailability, Read
 			destination.setSku(source.getSku());
 
 			FinalPrice price = null;
-			try {
-				price = pricingService.calculateProductPrice(source.getProduct());
+			//try {
+				price = pricingService.calculateProductPrice(source);
 				destination.setPrice(price.getStringPrice());
-			} catch (ServiceException e) {
-				throw new ConversionRuntimeException("Unable to get product price", e);
-			}
+			//} catch (ServiceException e) {
+			//	throw new ConversionRuntimeException("Unable to get product price", e);
+			//}
 
 		} catch (Exception e) {
 			throw new ConversionRuntimeException("Error while converting Inventory", e);

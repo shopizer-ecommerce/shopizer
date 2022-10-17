@@ -7,6 +7,7 @@ import java.util.Locale;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
+import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.price.FinalPrice;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -28,6 +29,14 @@ public interface PricingService {
 	 * @throws ServiceException
 	 */
 	FinalPrice calculateProductPrice(Product product) throws ServiceException;
+	
+	/**
+	 * Calculates the price on a specific inventory
+	 * @param product
+	 * @return
+	 * @throws ServiceException
+	 */
+	FinalPrice calculateProductPrice(ProductAvailability product) throws ServiceException;
 
 	/**
 	 * Calculates the FinalPrice of a Product taking into account

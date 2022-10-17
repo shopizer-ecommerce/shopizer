@@ -14,6 +14,7 @@ import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.utils.ProductPriceUtils;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
+import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.price.FinalPrice;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -102,6 +103,12 @@ public class PricingServiceImpl implements PricingService {
 			throw new ServiceException(e);
 		}
 
+	}
+
+	@Override
+	public FinalPrice calculateProductPrice(ProductAvailability availability) throws ServiceException {
+
+		return priceUtil.getFinalPrice(availability);
 	}
 
 
