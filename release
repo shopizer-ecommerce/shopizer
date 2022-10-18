@@ -6,9 +6,16 @@ pipeline {
     stages {
         stage('clone') { 
             steps {
-                git url:'https://github.com/udaykiran-dhatrika/shopizer.git' , branch : 'release' 
+                git url:'https://github.com/udaykiran-dhatrika/shopizer.git' 
             }
         }
+        stage('merge') {
+            steps {
+                sh "git checkout release"
+                sh "git merge origin/develop --no-ff"
+                sh "git push -u origin release"
+        }
+    }
         stage('install') { 
             steps {
                 sh 'mvn package'
