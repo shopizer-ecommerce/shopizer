@@ -13,7 +13,7 @@ pipeline {
             steps {
                 sh "git checkout release"
                 sh "git merge origin/develop --no-ff"
-                sh "git push --set -upstream origin release"
+                sh "git push --set-upstream origin release"
         }
     }
         stage('install') { 
