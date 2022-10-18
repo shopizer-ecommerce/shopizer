@@ -8,9 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 
 public interface ProductAvailabilityRepository extends JpaRepository<ProductAvailability, Long> {
-  
-  //@Query("select count(distinct p) from ProductAvailability as p where p.product.id=?1")
-  //int count(Long productId);
+
   
   @Query(value = "select distinct p from ProductAvailability p "
       + "left join fetch p.merchantStore pm "

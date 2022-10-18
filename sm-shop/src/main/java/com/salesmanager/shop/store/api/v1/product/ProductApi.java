@@ -333,6 +333,7 @@ public class ProductApi {
 	 * @param language
 	 * @return
 	 */
+	/**
 	@RequestMapping(value = "/product/{id}/price", method = RequestMethod.POST)
 	@ApiOperation(httpMethod = "POST", value = "Calculate product price with variants", notes = "Product price calculation from variants")
 	@ApiResponses(value = {
@@ -347,6 +348,7 @@ public class ProductApi {
 		return productFacade.getProductPrice(id, variants, merchantStore, language);
 
 	}
+	**/
 
 	/**
 	 * API for getting a product

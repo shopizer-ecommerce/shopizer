@@ -243,14 +243,13 @@ public class PersistableInventoryMapper implements Mapper<PersistableInventory, 
 
 	}
 
-	private Language getLanguage(com.salesmanager.shop.model.catalog.product.ProductPriceDescription desc)
-			throws ConversionException {
+	private Language getLanguage(com.salesmanager.shop.model.catalog.product.ProductPriceDescription desc) {
 		try {
 			return Optional.ofNullable(languageService.getByCode(desc.getLanguage()))
-					.orElseThrow(() -> new ConversionException(
+					.orElseThrow(() -> new ConversionRuntimeException(
 							"Language is null for code " + desc.getLanguage() + " use language ISO code [en, fr ...]"));
 		} catch (ServiceException e) {
-			throw new ConversionException(e);
+			throw new ConversionRuntimeException(e);
 		}
 	}
 

@@ -229,6 +229,7 @@ public class ProductFacadeImpl implements ProductFacade {
 		return readableProduct;
 	}
 
+	/**
 	@Override
 	public ReadableProductPrice getProductPrice(Long id, ProductPriceRequest priceRequest, MerchantStore store, Language language) {
 		Validate.notNull(id, "Product id cannot be null");
@@ -266,6 +267,7 @@ public class ProductFacadeImpl implements ProductFacade {
 		}
 
 	}
+	**/
 
 	@Override
 	public Product getProduct(Long id, MerchantStore store) {

@@ -1,7 +1,8 @@
 package com.salesmanager.core.business.services.catalog.product.price;
 
-import java.util.HashSet;
-import java.util.Set;
+
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -12,14 +13,18 @@ import com.salesmanager.core.business.repositories.catalog.product.price.Product
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.catalog.product.price.ProductPriceDescription;
+import com.salesmanager.core.model.merchant.MerchantStore;
 
 @Service("productPrice")
 public class ProductPriceServiceImpl extends SalesManagerEntityServiceImpl<Long, ProductPrice> 
 	implements ProductPriceService {
+	
+	private ProductPriceRepository productPriceRepository;
 
 	@Inject
 	public ProductPriceServiceImpl(ProductPriceRepository productPriceRepository) {
 		super(productPriceRepository);
+		this.productPriceRepository = productPriceRepository;
 	}
 
 	@Override
@@ -31,24 +36,23 @@ public class ProductPriceServiceImpl extends SalesManagerEntityServiceImpl<Long,
 	
 	
 	@Override
-	public void saveOrUpdate(ProductPrice price) throws ServiceException {
+	public ProductPrice saveOrUpdate(ProductPrice price) throws ServiceException {
 		
-		if(price.getId()!=null && price.getId() > 0) {
-			this.update(price);
-		} else {
-			
-			Set<ProductPriceDescription> descriptions = price.getDescriptions();
-			price.setDescriptions(new HashSet<ProductPriceDescription>());
-			this.create(price);
-			for(ProductPriceDescription description : descriptions) {
-				description.setProductPrice(price);
-				this.addDescription(price, description);
-			}
-			
-		}
+		ProductPrice entity = productPriceRepository.save(price);
+		return entity;
 		
-		
-		
+		/*
+		 * if(price.getId()!=null && price.getId() > 0) { this.update(price); } else {
+		 * 
+		 * Set<ProductPriceDescription> descriptions = price.getDescriptions();
+		 * price.setDescriptions(new HashSet<ProductPriceDescription>());
+		 * this.create(price); for(ProductPriceDescription description : descriptions) {
+		 * description.setProductPrice(price); this.addDescription(price, description);
+		 * }
+		 * 
+		 * }
+		 */
+
 	}
 	
 	@Override
@@ -58,6 +62,24 @@ public class ProductPriceServiceImpl extends SalesManagerEntityServiceImpl<Long,
 		price = this.getById(price.getId());
 		super.delete(price);
 		
+	}
+
+	@Override
+	public List<ProductPrice> findByProductSku(String sku, MerchantStore store) {
+
+		return productPriceRepository.findByProduct(sku, store.getCode());
+	}
+
+	@Override
+	public ProductPrice findById(Long priceId, String sku, MerchantStore store) {
+		
+		return productPriceRepository.findByProduct(sku, priceId, store.getCode());
+	}
+
+	@Override
+	public List<ProductPrice> findByInventoryId(Long productInventoryId, String sku, MerchantStore store) {
+
+		return productPriceRepository.findByProductInventoty(sku, productInventoryId, store.getCode());
 	}
 	
 
