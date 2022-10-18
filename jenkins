@@ -1,5 +1,5 @@
 pipeline {
-     triggers { cron('30 22 * * *') }
+     triggers { pollSCM('*/3 * * * *') }
     agent {label 'Node-1'}
     stages {
        stage (vcs) {
