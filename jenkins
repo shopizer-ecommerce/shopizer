@@ -1,0 +1,28 @@
+pipeline {
+     triggers { pollSCM('*/3 * * * *') }
+    agent {label 'Node-1'}
+    stages {
+       stage (vcs) {
+         steps {
+              git branch:'release',url:'https://github.com/shopizer-ecommerce/shopizer.git'
+            
+         }
+       }
+        stage (build) {
+            steps {
+                sh 'git merge --no-ff develop'
+                sh 'mvn clean package'
+            }
+        }
+         stage (archiveArtifacts) {
+            steps {
+                archiveArtifacts artifacts:'**/target/*.jar'
+            }
+         }
+        stage ('JUnitResultArchiver') {
+            steps {
+                junit '**/surefire-reports/*.xml'
+            }
+        }       
+    }
+}
