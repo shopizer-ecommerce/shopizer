@@ -11,9 +11,9 @@ pipeline {
         }
         stage('merge') {
             steps {
-                sh "git checkout release"
-                sh "git merge origin/develop --no-ff"
-                sh "git push https://github.com/udaykiran-dhatrika/shopizer.git --force"
+                sh "git checkout release",
+                   "git merge origin/develop --no-ff",
+                   "git push git@github.com:udaykiran-dhatrika/shopizer.git --force"
         }
     }
         stage('install') { 
