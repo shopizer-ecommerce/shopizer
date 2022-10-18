@@ -1,6 +1,6 @@
 pipeline{
     agent{label 'shopizer'}
-    triggers { pollSCM('* * * * * ') }
+     triggers { pollSCM('* * * * * ') }
     parameters { string(name:'mvncmd',defaultValue:'package',description:'build goal')}
     stages{
         stage('vpc'){
@@ -17,11 +17,6 @@ pipeline{
         stage('Artifacts'){
             steps{
                 archiveArtifacts artifacts: '**/target/*.jar'
-            }
-        }
-        stage('test reports'){
-            steps{
-                junit testResults: '**/surefire-reports/*.xml'
             }
         }
     }
