@@ -11,7 +11,7 @@ pipeline {
         stage (build) {
             steps {
                 sh 'mvn clean package'
-                sh 'git merge release'
+                sh 'git merge --no-ff release'
                 sh 'git checkout release'
             }
         }
