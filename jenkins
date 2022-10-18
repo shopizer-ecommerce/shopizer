@@ -11,8 +11,6 @@ pipeline {
         stage (build) {
             steps {
                 sh 'mvn clean package'
-                sh 'git merge --no-ff release'
-                sh 'git checkout release'
             }
         }
          stage (archiveArtifacts) {
