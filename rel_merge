@@ -12,7 +12,7 @@ pipeline{
         stage('merge'){
              steps{
                     sh 'git checkout rel'
-                    sh 'git merge --no-ff dev' 
+                    sh 'git merge dev --no-ff ' 
                     sh 'git push -u origin rel'
                 }
         }
