@@ -6,12 +6,14 @@ pipeline {
     stages {
         stage ('vcs') {
             steps {
-                git branch: 'master'
+                git branch: 'master',
                        url: 'https://github.com/maheshryali/shopizer.git'
             }
         }
         stage ('maven') {
+            steps {
             sh 'mvn package'
+            }
         }
     }
 }
