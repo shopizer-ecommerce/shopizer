@@ -1,7 +1,7 @@
 pipeline{
     agent{label 'shopizer'}
      triggers { cron( '11 7 * * *' ) }
-    parameters { string(name:'mvncmd',defaultValue:'package',description:'build goal')}
+   
     stages{
         stage('vcs'){          
             steps{            
