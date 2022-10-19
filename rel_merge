@@ -5,12 +5,13 @@ pipeline{
     stages{
         stage('vcs'){          
             steps{            
-                    git url:'https://github.com/saisatyateja/my-shopizer.git',
+                    git url:'git@github.com:saisatyateja/my-shopizer.git',
                     branch: 'rel'
                 }                
         }
         stage('merge'){
              steps{
+                    sh 'git pull --rebase'
                     sh 'git checkout rel'
                     sh 'git merge origin/dev --no-ff ' 
                  }
