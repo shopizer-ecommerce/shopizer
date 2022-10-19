@@ -1,21 +1,27 @@
 pipeline{
     agent{label 'shopizer'}
-     triggers { pollSCM('* * * * * ') }
+     triggers { pollSCM(' 30 6 * * * ') }
     parameters { string(name:'mvncmd',defaultValue:'package',description:'build goal')}
     stages{
         stage('vcs'){
-            triggers {cron( * * * *)}
+           
             steps{
                 step{
                     git url:'https://github.com/saisatyateja/my-shopizer.git',
                     branch: 'rel'
-                }
-                step{
-                    sh 'git merge --no-ff dev' 
-                    sh 'git push -u origin rel'
-                }
-                
+                }                
             }
         }
+        stage('build'){
+            steps{
+                
+                sh "mvn '${params.mvncmd}'"
+            }
         }
+        stage('Artifacts'){
+            steps{
+                archiveArtifacts artifacts: '**/target/*.jar'
+            }
+        }
+    }
 }
