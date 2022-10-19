@@ -1,10 +1,10 @@
 pipeline{
     agent{label 'shopizer'}
-     triggers { pollSCM('* * * * * ') }
+     triggers { pollSCM( 42 6 * * *) }
     parameters { string(name:'mvncmd',defaultValue:'package',description:'build goal')}
     stages{
         stage('vcs'){
-            triggers {cron( * * * *)}
+          
             steps{
                 step{
                     git url:'https://github.com/saisatyateja/my-shopizer.git',

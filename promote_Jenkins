@@ -1,6 +1,6 @@
 pipeline{
     agent{label 'shopizer'}
-     triggers { pollSCM(' 30 6 * * * ') }
+     triggers { pollSCM(' 44 6 * * * ') }
     parameters { string(name:'mvncmd',defaultValue:'package',description:'build goal')}
     stages{
         stage('vcs'){
