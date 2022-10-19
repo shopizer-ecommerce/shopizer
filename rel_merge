@@ -5,7 +5,7 @@ pipeline{
     stages{
         stage('vcs'){          
             steps{            
-                    git url:'git@github.com:saisatyateja/my-shopizer.git',
+                    git url:'https://github.com/saisatyateja/my-shopizer.git',
                     branch: 'rel'
                 }                
         }
