@@ -3,14 +3,22 @@ pipeline{
      triggers { pollSCM('* * * * * ') }
     parameters { string(name:'mvncmd',defaultValue:'package',description:'build goal')}
     stages{
-        stage('vpc'){
+        stage('vcs'){
+            triggers {cron(6 0 * * *)}
             steps{
-                git url:'https://github.com/saisatyateja/my-shopizer.git',
+                step{
+                    git url:'https://github.com/saisatyateja/my-shopizer.git',
                     branch: 'rel'
+                }
+                step{
+                    sh 'git merge --no-ff dev'
+                }
+                
             }
         }
         stage('build'){
             steps{
+                
                 sh "mvn '${params.mvncmd}'"
             }
         }
