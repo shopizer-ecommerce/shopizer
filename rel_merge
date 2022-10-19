@@ -1,21 +1,19 @@
 pipeline{
     agent{label 'shopizer'}
-     triggers { cron( '2 7 * * *') }
+     triggers { cron( '11 7 * * *' ) }
     parameters { string(name:'mvncmd',defaultValue:'package',description:'build goal')}
     stages{
-        stage('vcs'){
-          
-            steps{
-                step{
+        stage('vcs'){          
+            steps{            
                     git url:'https://github.com/saisatyateja/my-shopizer.git',
                     branch: 'rel'
-                }
-                step{
+                }                
+        }
+        stage('merge'){
+             steps{
                     sh 'git merge --no-ff dev' 
                     sh 'git push -u origin rel'
                 }
-                
-            }
         }
-        }
+    }
 }
