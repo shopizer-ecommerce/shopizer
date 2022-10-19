@@ -13,6 +13,10 @@ pipeline{
              steps{
                     sh 'git checkout rel'
                     sh 'git merge origin/dev --no-ff ' 
+                 }
+        }
+         stage('push'){
+             steps{                   
                     sh 'git push -u origin rel'
                 }
         }
