@@ -1,0 +1,25 @@
+pipeline {
+    agent any 
+    triggers {
+        cron('30 17 * * *')
+    }
+    stages {
+        stage('clone') { 
+            steps {
+                git url:'git@github.com:udaykiran-dhatrika/shopizer.git' 
+            }
+        }
+        stage('merge') {
+            steps {
+                sh "git checkout release"
+                sh "git merge origin/develop --no-ff"
+                sh "git push -u origin release"
+        }
+    }
+        stage('install') { 
+            steps {
+                sh 'mvn package'
+            }
+        }
+    }
+}
