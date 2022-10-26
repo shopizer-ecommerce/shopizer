@@ -145,7 +145,7 @@ Clone from fork repository
 
        $ git clone https://github.com/yourusername/shopizer.git
 
-Build application according to steps provided above
+Build applicatiaAaAon according to steps provided above
 
 Synchronize lastest version with the upstream
 -------------------
