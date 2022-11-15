@@ -38,20 +38,11 @@ public class ProductPriceServiceImpl extends SalesManagerEntityServiceImpl<Long,
 	@Override
 	public ProductPrice saveOrUpdate(ProductPrice price) throws ServiceException {
 		
-		ProductPrice entity = productPriceRepository.save(price);
-		return entity;
 		
-		/*
-		 * if(price.getId()!=null && price.getId() > 0) { this.update(price); } else {
-		 * 
-		 * Set<ProductPriceDescription> descriptions = price.getDescriptions();
-		 * price.setDescriptions(new HashSet<ProductPriceDescription>());
-		 * this.create(price); for(ProductPriceDescription description : descriptions) {
-		 * description.setProductPrice(price); this.addDescription(price, description);
-		 * }
-		 * 
-		 * }
-		 */
+		ProductPrice returnEntity = productPriceRepository.save(price);
+
+		return returnEntity;
+
 
 	}
 	

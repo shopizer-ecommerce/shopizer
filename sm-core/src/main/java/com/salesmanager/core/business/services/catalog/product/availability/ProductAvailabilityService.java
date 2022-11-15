@@ -7,14 +7,13 @@ import org.springframework.data.domain.Page;
 
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityService;
-import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.merchant.MerchantStore;
 
 public interface ProductAvailabilityService extends
 		SalesManagerEntityService<Long, ProductAvailability> {
 
-	void saveOrUpdate(ProductAvailability availability) throws ServiceException;
+	ProductAvailability saveOrUpdate(ProductAvailability availability) throws ServiceException;
 	
 	Page<ProductAvailability> listByProduct(Long productId, MerchantStore store, int page, int count);
 	

@@ -43,12 +43,14 @@ public class ProductAvailabilityServiceImpl extends SalesManagerEntityServiceImp
 	}
 
 	@Override
-	public void saveOrUpdate(ProductAvailability availability) throws ServiceException {
+	public ProductAvailability saveOrUpdate(ProductAvailability availability) throws ServiceException {
 		if (isPositive(availability.getId())) {
 			update(availability);
 		} else {
 			create(availability);
 		}
+		
+		return availability;
 	}
 
 	private boolean isPositive(Long id) {

@@ -77,9 +77,6 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 	@Inject
 	ProductRelationshipService productRelationshipService;
 
-	//@Inject
-	//SearchService searchService;
-
 	@Inject
 	ProductImageService productImageService;
 
@@ -110,7 +107,7 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		product.getDescriptions().add(description);
 		description.setProduct(product);
 		update(product);
-		//searchService.index(product.getMerchantStore(), product);
+
 	}
 
 	@Override

@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
-import com.salesmanager.core.model.merchant.MerchantStore;
 
 public interface ProductPriceRepository extends JpaRepository<ProductPrice, Long> {
 

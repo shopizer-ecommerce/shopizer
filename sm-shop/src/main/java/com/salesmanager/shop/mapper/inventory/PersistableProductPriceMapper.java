@@ -57,6 +57,8 @@ public class PersistableProductPriceMapper implements Mapper<PersistableProductP
 			if (destination == null) {
 				destination = new ProductPrice();
 			}
+			
+			destination.setId(source.getId());
 
 			/**
 			 * Get product availability and verify the existing br-pa-1.0.0
@@ -94,8 +96,9 @@ public class PersistableProductPriceMapper implements Mapper<PersistableProductP
 							Optional<ProductPrice> defaultPrice = availability.getPrices().stream()
 									.filter(p -> p.isDefaultPrice()).findAny();
 							if (defaultPrice.isPresent()) {
-								throw new ConversionRuntimeException(
-										"Default Price already exist for product with sku [" + source.getSku() + "]");
+								//throw new ConversionRuntimeException(
+								//		"Default Price already exist for product with sku [" + source.getSku() + "]");
+								destination = defaultPrice.get();
 							}
 						}
 					}
@@ -136,7 +139,7 @@ public class PersistableProductPriceMapper implements Mapper<PersistableProductP
 			destination.setProductAvailability(availability);
 			destination.setDescriptions(this.getProductPriceDescriptions(destination, source.getDescriptions(), store));
 
-			destination.setId(source.getId());
+			
 			destination.setDefaultPrice(source.isDefaultPrice());
 
 		} catch (Exception e) {

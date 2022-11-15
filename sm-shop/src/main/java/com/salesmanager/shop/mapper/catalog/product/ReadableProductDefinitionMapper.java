@@ -79,7 +79,7 @@ public class ReadableProductDefinitionMapper implements Mapper<Product, Readable
 		returnDestination.setId(source.getId());
 		returnDestination.setVisible(source.isAvailable());
 		returnDestination.setDateAvailable(DateUtil.formatDate(source.getDateAvailable()));
-
+		returnDestination.setSku(source.getSku());
 		ProductDescription description = null;
 		if (source.getDescriptions() != null && source.getDescriptions().size() > 0) {
 			for (ProductDescription desc : source.getDescriptions()) {

@@ -1,5 +1,6 @@
 package com.salesmanager.shop.store.facade.product;
 
+import static com.salesmanager.core.business.utils.NumberUtils.isPositive;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,7 +11,9 @@ import org.springframework.stereotype.Service;
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.pricing.PricingService;
+import com.salesmanager.core.business.services.catalog.product.availability.ProductAvailabilityService;
 import com.salesmanager.core.business.services.catalog.product.price.ProductPriceService;
+import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
@@ -32,6 +35,9 @@ public class ProductPriceFacadeImpl implements ProductPriceFacade {
 	@Autowired
 	private PricingService pricingService;
 	
+	@Autowired
+	private ProductAvailabilityService productAvailabilityService;
+	
 	
 	@Autowired
 	private PersistableProductPriceMapper persistableProductPriceMapper;
@@ -42,7 +48,16 @@ public class ProductPriceFacadeImpl implements ProductPriceFacade {
 		
 		ProductPrice productPrice = persistableProductPriceMapper.convert(price, store, store.getDefaultLanguage());
 		try {
-			productPrice = productPriceService.saveOrUpdate(productPrice);
+			if(!isPositive(productPrice.getId())) {
+				//avoid detached entity failed to persist
+				productPrice.getProductAvailability().setPrices(null);
+				productPrice = productPriceService
+						.saveOrUpdate(productPrice);
+			} else {
+				productPrice = productPriceService
+						.saveOrUpdate(productPrice);
+			}
+
 		} catch (ServiceException e) {
 			throw new ServiceRuntimeException("An exception occured while creating a ProductPrice");
 		}

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -48,12 +49,12 @@ public class ProductPriceApi {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProductApi.class);
 
-	@ResponseStatus(HttpStatus.CREATED)
+	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = { "/private/product/{sku}/inventory/{inventoryId}/price"},
 			method = RequestMethod.POST)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public Entity create(
+	public @ResponseBody Entity save(
 			@PathVariable String sku,
 			@PathVariable Long inventoryId,
 			@Valid @RequestBody PersistableProductPrice price,
@@ -62,6 +63,25 @@ public class ProductPriceApi {
 		
 		price.setSku(sku);
 		price.setProductAvailabilityId(inventoryId);
+		
+		Long id = productPriceFacade.save(price, merchantStore);
+		return new Entity(id);
+
+		
+	}
+	
+	@ResponseStatus(HttpStatus.CREATED)
+	@RequestMapping(value = { "/private/product/{sku}/price"},
+			method = RequestMethod.POST)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	public @ResponseBody Entity save(
+			@PathVariable String sku,
+			@Valid @RequestBody PersistableProductPrice price,
+			@ApiIgnore MerchantStore merchantStore, 
+			@ApiIgnore Language language) {
+		
+		price.setSku(sku);
 		
 		Long id = productPriceFacade.save(price, merchantStore);
 		return new Entity(id);

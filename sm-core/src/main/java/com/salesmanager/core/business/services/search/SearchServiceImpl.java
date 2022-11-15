@@ -1,6 +1,8 @@
 package com.salesmanager.core.business.services.search;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +55,67 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 	private static final Logger LOGGER = LoggerFactory.getLogger(SearchServiceImpl.class);
 
 	private final static String INDEX_PRODUCTS = "INDEX_PRODUCTS";
+	
+	
+	/**
+	 * TODO properties file
+	 */
+	
+	private final static String KEYWORDS_MAPPING_DEFAULT = "{\"properties\":"
+			+ "      {\n\"id\": {\n"
+			+ "        \"type\": \"long\"\n"
+			+ "      }\n"
+			+ "     }\n"
+			+ "    }";	
+	
+	private final static String PRODUCT_MAPPING_DEFAULT = "{\"properties\":"
+			+ "      {\n\"id\": {\n"
+			+ "        \"type\": \"long\"\n"
+			+ "      },\n\"price\": {\n"
+			+ "        \"type\": \"float\"\n"
+			+ "      },\n\"description\": {\n"
+			+ "        \"type\": \"text\"\n"
+			+ "      },\n\"name\": {\n"
+			+ "        \"type\": \"text\"\n"
+			+ "      },\n\"category\": {\n"
+			+ "        \"type\": \"keyword\", \n"
+			+ "        \"normalizer\": \"custom_normalizer\"\n"
+			+ "      },\n\"brand\": {\n"
+			+ "        \"type\": \"keyword\" ,\n"
+			+ "        \"normalizer\": \"custom_normalizer\"\n"
+			+ "      },\n\"attributes\": {\n"
+			+ "        \"type\": \"nested\"\n"
+			+ "      },\n\"variants\": {\n"
+			+ "        \"type\": \"nested\" \n"
+			+ "      },\n\"store\": {\n"
+			+ "        \"type\": \"keyword\" \n"
+			+ "      },\n\"reviews\": {\n"
+			+ "        \"type\": \"keyword\" \n"
+			+ "      },\n\"image\": {\n"
+			+ "        \"type\": \"keyword\"\n"
+			+ "      }\n"
+			+ "    }\n"
+			+ "  }";	
+	private final static String SETTING_DEFAULT = "{\"analysis\": {\n"
+			+ "      \"normalizer\": {\n"
+			+ "        \"custom_normalizer\": {\n"
+			+ "          \"type\": \"custom\",\n"
+			+ "          \"char_filter\": [],\n"
+			+ "          \"filter\": [\"lowercase\", \"asciifolding\"]\n"
+			+ "        }\n"
+			+ "      }\n"
+			+ "    }\n"
+			+ "  }";
+	private final static String SETTING_en = "{\"analysis\": {\n"
+			+ "      \"normalizer\": {\n"
+			+ "        \"custom_normalizer\": {\n"
+			+ "          \"type\": \"custom\",\n"
+			+ "          \"char_filter\": [],\n"
+			+ "          \"filter\": [\"lowercase\", \"asciifolding\"]\n"
+			+ "        }\n"
+			+ "      }\n"
+			+ "    }\n"
+			+ "  }";
 
 	@Inject
 	private PricingService pricingService;
@@ -99,18 +162,19 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 		List<Document> documents;
 		List<Map<String, String>> variants = null;
 		try {
-			documents = document(product.getId(), languages, RequestOptions.DEFAULT);
+			documents = document(product.getId(), languages, RequestOptions.DO_NOT_FAIL_ON_NOT_FOUND);
 
-			if (!CollectionUtils.isEmpty(product.getInstances())) {
-				variants = new ArrayList<Map<String, String>>();
-				variants = product.getInstances().stream().map(i -> variation(i)).collect(Collectors.toList());
-			}
-
-			if (!CollectionUtils.isEmpty(documents)) {
-				if (documents.iterator().next() != null) {
-					searchModule.delete(languages, product.getId());
+				if (!CollectionUtils.isEmpty(product.getInstances())) {
+					variants = new ArrayList<Map<String, String>>();
+					variants = product.getInstances().stream().map(i -> variation(i)).collect(Collectors.toList());
 				}
-			}
+	
+				if (!CollectionUtils.isEmpty(documents)) {
+					if (documents.iterator().next() != null) {
+						searchModule.delete(languages, product.getId());
+					}
+				}
+
 
 		} catch (Exception e) {
 			throw new ServiceException(e);
@@ -125,10 +189,19 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 	}
 
 	private List<Document> document(Long id, List<String> languages, RequestOptions options) throws Exception {
-		List<Optional<Document>> documents;
-
-		documents = searchModule.getDocument(id, languages, options);
-
+		List<Optional<Document>> documents = null;
+		try {
+			documents = searchModule.getDocument(id, languages, options);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		for(Optional<Document> d : documents) {
+			if(d == null) {//not allowed
+				return Collections.emptyList();
+			}
+		}
+		
 		List<Document> filteredList = documents.stream().filter(Optional::isPresent).map(Optional::get)
 				.collect(Collectors.toList());
 
@@ -197,23 +270,30 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 		config.setCredentials(applicationSearchConfiguration.getCredentials());
 
 		config.setLanguages(applicationSearchConfiguration.getSearchLanguages());
+		
+		config.getLanguages().stream().forEach(l -> this.mappings(config,l));
+		config.getLanguages().stream().forEach(l -> this.settings(config,l));
+		
+
 
 		/**
 		 * The mapping
 		 */
-		config.getProductMappings().put("variants", "nested");
-		config.getProductMappings().put("attributes", "nested");
-		config.getProductMappings().put("brand", "keyword");
-		config.getProductMappings().put("store", "keyword");
-		config.getProductMappings().put("reviews", "keyword");
-		config.getProductMappings().put("image", "keyword");
-		config.getProductMappings().put("category", "text");
-		config.getProductMappings().put("name", "text");
-		config.getProductMappings().put("description", "text");
-		config.getProductMappings().put("price", "float");
-		config.getProductMappings().put("id", "long");
-
+		/*
+		 * config.getProductMappings().put("variants", "nested");
+		 * config.getProductMappings().put("attributes", "nested");
+		 * config.getProductMappings().put("brand", "keyword");
+		 * config.getProductMappings().put("store", "keyword");
+		 * config.getProductMappings().put("reviews", "keyword");
+		 * config.getProductMappings().put("image", "keyword");
+		 * config.getProductMappings().put("category", "text");
+		 * config.getProductMappings().put("name", "text");
+		 * config.getProductMappings().put("description", "text");
+		 * config.getProductMappings().put("price", "float");
+		 * config.getProductMappings().put("id", "long");
+		 
 		config.getKeywordsMappings().put("store", "keyword");
+		*/
 
 		return config;
 
@@ -354,6 +434,27 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 		attributeValue.put(optionDescription.getName(), value.getName());
 
 		return attributeValue;
+	}
+	
+	private void settings(SearchConfiguration config, String language) {
+		Validate.notEmpty(language, "Configuration requires language");
+		String settings = this.SETTING_DEFAULT;
+		//specific settings
+		if(language.equals("en")) {
+			settings = this.SETTING_en;
+		}
+		
+		config.getSettings().put(language, settings);
+
+	}
+	
+	private void mappings(SearchConfiguration config, String language) {
+		Validate.notEmpty(language, "Configuration requires language");
+
+
+		config.getProductMappings().put(language, PRODUCT_MAPPING_DEFAULT);
+		config.getKeywordsMappings().put(language, KEYWORDS_MAPPING_DEFAULT);
+			
 	}
 
 }
