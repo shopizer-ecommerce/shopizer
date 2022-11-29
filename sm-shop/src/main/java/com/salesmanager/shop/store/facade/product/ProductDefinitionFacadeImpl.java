@@ -21,7 +21,7 @@ import com.salesmanager.shop.model.catalog.product.product.definition.ReadablePr
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.controller.product.facade.ProductDefinitionFacade;
-import com.salesmanager.shop.store.controller.product.facade.ProductInstanceFacade;
+import com.salesmanager.shop.store.controller.product.facade.ProductVariantFacade;
 import com.salesmanager.shop.utils.ImageFilePath;
 
 @Service("productDefinitionFacade")
@@ -41,7 +41,7 @@ public class ProductDefinitionFacadeImpl implements ProductDefinitionFacade {
 	private ReadableProductDefinitionMapper readableProductDefinitionMapper;
 	
 	@Autowired
-	private ProductInstanceFacade productInstanceFacade;
+	private ProductVariantFacade productVariantFacade;
 
 	@Inject
 	@Qualifier("img")

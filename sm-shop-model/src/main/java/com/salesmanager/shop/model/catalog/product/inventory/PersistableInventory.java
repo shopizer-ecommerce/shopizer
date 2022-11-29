@@ -14,7 +14,7 @@ public class PersistableInventory extends InventoryEntity {
 	private String store;
 	@NotNull
 	private Long productId;
-	private Long instance;
+	private Long variant;
 	private List<PersistableProductPrice> prices;
 
 	public String getStore() {
@@ -41,12 +41,12 @@ public class PersistableInventory extends InventoryEntity {
 		this.productId = productId;
 	}
 
-	public Long getInstance() {
-		return instance;
+	public Long getVariant() {
+		return variant;
 	}
 
-	public void setInstance(Long instance) {
-		this.instance = instance;
+	public void setVariant(Long instance) {
+		this.variant = instance;
 	}
 
 }

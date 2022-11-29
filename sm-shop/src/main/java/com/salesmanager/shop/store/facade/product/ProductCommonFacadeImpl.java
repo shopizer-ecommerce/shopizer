@@ -22,10 +22,10 @@ import com.salesmanager.core.business.services.reference.language.LanguageServic
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
-import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
 import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.catalog.product.review.ProductReview;
+import com.salesmanager.core.model.catalog.product.variant.ProductVariant;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.LightPersistableProduct;
@@ -50,7 +50,7 @@ import com.salesmanager.shop.utils.ImageFilePath;
 
 /**
  * Version 1 Product management
- * Version 2 Recommends using ProductInstance
+ * Version 2 Recommends using productVariant
  * @author carlsamson
  *
  */
@@ -425,7 +425,7 @@ public class ProductCommonFacadeImpl implements ProductCommonFacade {
 			throw new ServiceRuntimeException(e);
 		}
 		
-		ProductInstance instance = modified.getInstances().stream()
+		ProductVariant instance = modified.getVariants().stream()
 				  .filter(inst -> sku.equals(inst.getSku()))
 				  .findAny()
 				  .orElse(null);

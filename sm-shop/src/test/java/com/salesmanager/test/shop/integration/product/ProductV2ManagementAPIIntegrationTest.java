@@ -142,7 +142,7 @@ public class ProductV2ManagementAPIIntegrationTest extends ServicesTestSupport {
 		//- todo
 		PersistableProductVariation mediumVariant = new PersistableProductVariation();
 		// toto
-		//create instances
+		//create variants
 	}
 
 }

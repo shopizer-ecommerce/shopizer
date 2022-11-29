@@ -28,9 +28,9 @@ import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
-import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
 import com.salesmanager.core.model.catalog.product.price.FinalPrice;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
+import com.salesmanager.core.model.catalog.product.variant.ProductVariant;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.orderproduct.OrderProduct;
 
@@ -534,16 +534,16 @@ public class ProductPriceUtils {
 		 * Since 3.2.0
 		 * The rule is
 		 * 
-		 * If product.instances contains exactly one instance
-		 * If instance has availability we use availability from instance
+		 * If product.variants contains exactly one variant
+		 * If Variant has availability we use availability from variant
 		 * Otherwise we use price
 		 */
 		
 		Set<ProductAvailability> availabilities = null;
-		if(!CollectionUtils.isEmpty(product.getInstances())) {
-			Optional<ProductInstance> instance = product.getInstances().stream().filter(i -> i.isDefaultSelection()).findFirst();
-			if(instance.isPresent()) {
-				availabilities = instance.get().getAvailabilities();
+		if(!CollectionUtils.isEmpty(product.getVariants())) {
+			Optional<ProductVariant> variants = product.getVariants().stream().filter(i -> i.isDefaultSelection()).findFirst();
+			if(variants.isPresent()) {
+				availabilities = variants.get().getAvailabilities();
 				availabilities = this.applicableAvailabilities(availabilities);
 
 			}	

@@ -25,15 +25,15 @@ import org.springframework.stereotype.Component;
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.services.catalog.pricing.PricingService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductAttributeService;
-import com.salesmanager.core.business.services.catalog.product.instance.ProductInstanceService;
+import com.salesmanager.core.business.services.catalog.product.variant.ProductVariantService;
 import com.salesmanager.core.business.services.shoppingcart.ShoppingCartCalculationService;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOption;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionDescription;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValue;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueDescription;
-import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
-import com.salesmanager.core.model.catalog.product.instance.ProductInstanceImage;
+import com.salesmanager.core.model.catalog.product.variant.ProductVariantImage;
+import com.salesmanager.core.model.catalog.product.variant.ProductVariant;
 import com.salesmanager.core.model.content.FileContentType;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.OrderSummary;
@@ -68,7 +68,7 @@ public class ReadableShoppingCartMapper implements Mapper<ShoppingCart, Readable
 	private ProductAttributeService productAttributeService;
 	
 	@Autowired
-	private ProductInstanceService productInstanceService;
+	private ProductVariantService productVariantService;
 
 	@Autowired
 	private ReadableMinimalProductMapper readableMinimalProductMapper;
@@ -86,12 +86,12 @@ public class ReadableShoppingCartMapper implements Mapper<ShoppingCart, Readable
 		return this.merge(source, destination, store, language);
 	}
 	
-	private ReadableImage image(ProductInstanceImage instanceImage, MerchantStore store, Language language) {
+	private ReadableImage image(ProductVariantImage instanceImage, MerchantStore store, Language language) {
 		ReadableImage img = new ReadableImage();
 		img.setDefaultImage(instanceImage.isDefaultImage());
 		img.setId(instanceImage.getId());
 		img.setImageName(instanceImage.getProductImage());
-		img.setImageUrl(imageUtils.buildCustomTypeImageUtils(store, img.getImageName(), FileContentType.INSTANCE));
+		img.setImageUrl(imageUtils.buildCustomTypeImageUtils(store, img.getImageName(), FileContentType.VARIANT));
 		return img;
 	}
 
@@ -134,19 +134,19 @@ public class ReadableShoppingCartMapper implements Mapper<ShoppingCart, Readable
 					readableMinimalProductMapper.merge(item.getProduct(), shoppingCartItem, store, language);
 					
 					//variation
-					if(item.getProductInstance() != null) {
-						Optional<ProductInstance> productInstance = productInstanceService.getById(item.getProductInstance(), store);
-						if(productInstance.isEmpty()) {
-							throw new ConversionRuntimeException("An error occured during shopping cart [" + source.getShoppingCartCode() + "] conversion, productInstance [" + item.getProductInstance() + "] not found");
+					if(item.getVariant() != null) {
+						Optional<ProductVariant> productVariant = productVariantService.getById(item.getVariant(), store);
+						if(productVariant.isEmpty()) {
+							throw new ConversionRuntimeException("An error occured during shopping cart [" + source.getShoppingCartCode() + "] conversion, productVariant [" + item.getVariant() + "] not found");
 						}
-						shoppingCartItem.setVariant(readableProductVariationMapper.convert(productInstance.get().getVariant(), store, language));
-						if(productInstance.get().getVariantValue() != null) {
-							shoppingCartItem.setVariantValue(readableProductVariationMapper.convert(productInstance.get().getVariantValue(), store, language));
+						shoppingCartItem.setVariant(readableProductVariationMapper.convert(productVariant.get().getVariant(), store, language));
+						if(productVariant.get().getVariantValue() != null) {
+							shoppingCartItem.setVariantValue(readableProductVariationMapper.convert(productVariant.get().getVariantValue(), store, language));
 						}
 						
-						if(productInstance.get().getProductInstanceGroup() != null) {
+						if(productVariant.get().getProductVariantGroup() != null) {
 							Set<String> nameSet = new HashSet<>();
-							List<ReadableImage> instanceImages = productInstance.get().getProductInstanceGroup().getImages()
+							List<ReadableImage> instanceImages = productVariant.get().getProductVariantGroup().getImages()
 									.stream().map(i -> this.image(i, store, language))
 									.filter(e -> nameSet.add(e.getImageUrl()))
 									.collect(Collectors.toList());

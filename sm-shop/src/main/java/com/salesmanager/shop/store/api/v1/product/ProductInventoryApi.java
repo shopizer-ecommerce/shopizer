@@ -65,7 +65,7 @@ public class ProductInventoryApi {
 			@ApiIgnore Language language) {
 		inventory.setId(id);
 		inventory.setProductId(inventory.getProductId());
-		inventory.setInstance(inventory.getInstance());
+		inventory.setVariant(inventory.getVariant());
 		inventory.setProductId(productId);
 		productInventoryFacade.update(inventory, merchantStore, language);
 

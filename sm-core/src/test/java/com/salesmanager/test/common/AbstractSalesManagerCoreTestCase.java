@@ -9,7 +9,6 @@ import javax.inject.Inject;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -53,8 +52,10 @@ import com.salesmanager.test.configuration.ConfigurationTest;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes=ConfigurationTest.class)
-@Ignore
+//@Ignore
 public class AbstractSalesManagerCoreTestCase {
+	
+	private static final String CONTEXT_LOAD_NAME = "TEST";
 
 	
 	
@@ -162,7 +163,7 @@ public class AbstractSalesManagerCoreTestCase {
 	}
 	
 	private void populate() throws ServiceException {
-		initializationDatabase.populate("TEST");
+		initializationDatabase.populate(CONTEXT_LOAD_NAME);
 	}
 
 }

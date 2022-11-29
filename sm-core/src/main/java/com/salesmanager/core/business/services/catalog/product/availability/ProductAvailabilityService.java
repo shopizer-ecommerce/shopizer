@@ -34,7 +34,7 @@ public interface ProductAvailabilityService extends
 	Page<ProductAvailability> getBySku(String sku, int page, int count);
 	
 	/**
-	 * All availability by product / product instance sku and store
+	 * All availability by product / product variant sku and store
 	 * @param sku
 	 * @param store
 	 * @return

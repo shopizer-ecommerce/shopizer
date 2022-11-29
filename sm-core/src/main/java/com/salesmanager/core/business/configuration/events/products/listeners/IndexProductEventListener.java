@@ -13,19 +13,19 @@ import org.springframework.stereotype.Component;
 import com.salesmanager.core.business.configuration.events.products.DeleteProductAttributeEvent;
 import com.salesmanager.core.business.configuration.events.products.DeleteProductEvent;
 import com.salesmanager.core.business.configuration.events.products.DeleteProductImageEvent;
-import com.salesmanager.core.business.configuration.events.products.DeleteProductInstanceEvent;
+import com.salesmanager.core.business.configuration.events.products.DeleteProductVariantEvent;
 import com.salesmanager.core.business.configuration.events.products.ProductEvent;
 import com.salesmanager.core.business.configuration.events.products.SaveProductAttributeEvent;
 import com.salesmanager.core.business.configuration.events.products.SaveProductEvent;
 import com.salesmanager.core.business.configuration.events.products.SaveProductImageEvent;
-import com.salesmanager.core.business.configuration.events.products.SaveProductInstanceEvent;
+import com.salesmanager.core.business.configuration.events.products.SaveProductVariantEvent;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.search.SearchService;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.image.ProductImage;
-import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
+import com.salesmanager.core.model.catalog.product.variant.ProductVariant;
 import com.salesmanager.core.model.merchant.MerchantStore;
 
 /**
@@ -49,7 +49,7 @@ public class IndexProductEventListener implements ApplicationListener<ProductEve
     private boolean noIndex;
 
 	/**
-	 * Listens to ProductEvent and ProductInstanceEvent
+	 * Listens to ProductEvent and ProductVariantEvent
 	 */
 	@Override
 	public void onApplicationEvent(ProductEvent event) {
@@ -65,12 +65,12 @@ public class IndexProductEventListener implements ApplicationListener<ProductEve
 				deleteProduct((DeleteProductEvent) event);
 			}
 	
-			if (event instanceof SaveProductInstanceEvent) {
-				saveProductInstance((SaveProductInstanceEvent) event);
+			if (event instanceof SaveProductVariantEvent) {
+				saveProductVariant((SaveProductVariantEvent) event);
 			}
 	
-			if (event instanceof DeleteProductInstanceEvent) {
-				deleteProductInstance((DeleteProductInstanceEvent) event);
+			if (event instanceof DeleteProductVariantEvent) {
+				deleteProductVariant((DeleteProductVariantEvent) event);
 			}
 			
 			if (event instanceof SaveProductImageEvent) {
@@ -124,7 +124,7 @@ public class IndexProductEventListener implements ApplicationListener<ProductEve
 		}
 	}
 
-	void saveProductInstance(SaveProductInstanceEvent event) {
+	void saveProductVariant(SaveProductVariantEvent event) {
 
 		Product product = event.getProduct();
 
@@ -137,19 +137,19 @@ public class IndexProductEventListener implements ApplicationListener<ProductEve
 
 		product = productService.findOne(id, store);
 
-		ProductInstance instance = event.getInstance();// to be removed
+		ProductVariant variant = event.getVariant();// to be removed
 
 		/**
-		 * add new instance to be saved
+		 * add new variant to be saved
 		 **/
 
-		List<ProductInstance> filteredInstances = product.getInstances().stream()
-				.filter(i -> instance.getId().longValue() != i.getId().longValue()).collect(Collectors.toList());
+		List<ProductVariant> filteredVariants = product.getVariants().stream()
+				.filter(i -> variant.getId().longValue() != i.getId().longValue()).collect(Collectors.toList());
 
-		filteredInstances.add(instance);
+		filteredVariants.add(variant);
 
-		Set<ProductInstance> allInstances = new HashSet<ProductInstance>(filteredInstances);
-		product.setInstances(allInstances);
+		Set<ProductVariant> allVariants = new HashSet<ProductVariant>(filteredVariants);
+		product.setVariants(allVariants);
 
 		try {
 			searchService.index(store, product);
@@ -159,7 +159,7 @@ public class IndexProductEventListener implements ApplicationListener<ProductEve
 
 	}
 
-	void deleteProductInstance(DeleteProductInstanceEvent event) {
+	void deleteProductVariant(DeleteProductVariantEvent event) {
 
 		Product product = event.getProduct();
 
@@ -171,17 +171,17 @@ public class IndexProductEventListener implements ApplicationListener<ProductEve
 		 */
 
 		product = productService.findOne(id, store);
-		ProductInstance instance = event.getInstance();// to be removed
+		ProductVariant variant = event.getVariant();// to be removed
 
 		/**
-		 * remove instance to be saved
+		 * remove variant to be saved
 		 **/
 
-		List<ProductInstance> filteredInstances = product.getInstances().stream()
-				.filter(i -> instance.getId().longValue() != i.getId().longValue()).collect(Collectors.toList());
+		List<ProductVariant> filteredVariants = product.getVariants().stream()
+				.filter(i -> variant.getId().longValue() != i.getId().longValue()).collect(Collectors.toList());
 
-		Set<ProductInstance> allInstances = new HashSet<ProductInstance>(filteredInstances);
-		product.setInstances(allInstances);
+		Set<ProductVariant> allVariants = new HashSet<ProductVariant>(filteredVariants);
+		product.setVariants(allVariants);
 
 		try {
 			searchService.index(store, product);
@@ -242,7 +242,7 @@ public class IndexProductEventListener implements ApplicationListener<ProductEve
 		ProductImage image = event.getProductImage();// to be removed
 
 		/**
-		 * remove instance to be saved
+		 * remove variant to be saved
 		 **/
 
 		List<ProductImage> filteredImages = product.getImages().stream()
@@ -330,7 +330,7 @@ public class IndexProductEventListener implements ApplicationListener<ProductEve
 
 	/**
 	 * Get document by product id and document exist if event is Product delete
-	 * document create document if event is Instance get document get variants
+	 * document create document if event is Variant get document get variants
 	 * replace variant
 	 */
 

@@ -1,23 +1,21 @@
 package com.salesmanager.shop.store.api.v2.product;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,260 +23,186 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.salesmanager.core.business.services.catalog.pricing.PricingService;
-import com.salesmanager.core.business.services.catalog.product.ProductService;
-import com.salesmanager.core.model.catalog.product.Product;
-import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
-import com.salesmanager.core.model.catalog.product.price.FinalPrice;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.shop.model.catalog.product.ReadableProductPrice;
-import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductVariant;
-import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductVariantValue;
-import com.salesmanager.shop.model.catalog.product.attribute.ReadableSelectedProductVariant;
-import com.salesmanager.shop.model.catalog.product.variation.PersistableProductVariation;
-import com.salesmanager.shop.model.catalog.product.variation.ReadableProductVariation;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.model.catalog.product.product.variant.PersistableProductVariant;
+import com.salesmanager.shop.model.catalog.product.product.variant.ReadableProductVariant;
 import com.salesmanager.shop.model.entity.Entity;
 import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.model.entity.ReadableEntityList;
-import com.salesmanager.shop.populator.catalog.ReadableFinalPricePopulator;
-import com.salesmanager.shop.store.controller.category.facade.CategoryFacade;
-import com.salesmanager.shop.store.controller.product.facade.ProductVariationFacade;
-import com.salesmanager.shop.utils.ImageFilePath;
+import com.salesmanager.shop.store.api.exception.UnauthorizedException;
+import com.salesmanager.shop.store.controller.product.facade.ProductVariantFacade;
+import com.salesmanager.shop.store.controller.user.facade.UserFacade;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.SwaggerDefinition;
 import io.swagger.annotations.Tag;
 import springfox.documentation.annotations.ApiIgnore;
 
 /**
- * API to manage product variant
+ * Api to manage productVariant
  * 
- * The flow is the following
+ * Product variant allows to specify product
+ * size, sku and options related to this product variant
  * 
- * - create a product definition
- * - create a product variant
+ * @author carlsamson
  *
- * @author Carl Samson
  */
 @Controller
 @RequestMapping("/api/v2")
-@Api(tags = {"Product variant resource (Product variant Api)"})
+@Api(tags = { "Product variants api" })
 @SwaggerDefinition(tags = {
-    @Tag(name = "Product variant resource", description = "List variation of products by different grouping")
-})
+		@Tag(name = "Product variants resource", description = "Manage inventory for a given product") })
 public class ProductVariantApi {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(ProductVariantApi.class);
 
-  @Inject private PricingService pricingService;
+	@Autowired
+	private ProductVariantFacade productVariantFacade;
 
-  @Inject private ProductService productService;
-  
-  @Inject private CategoryFacade categoryFacade;
-  
-  @Inject private ProductVariationFacade productVariationFacade;
-	
-
-
-  @Inject
-  @Qualifier("img")
-  private ImageFilePath imageUtils;
-
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(ProductVariantApi.class);
-
-  /**
-   * Calculates the price based on selected options if any
-   * @param id
-   * @param options
-   * @param merchantStore
-   * @param language
-   * @param response
-   * @return
-   * @throws Exception
-   */
-  @RequestMapping(value = "/product/{id}/variant", method = RequestMethod.POST)
-  @ResponseStatus(HttpStatus.OK)
-  @ApiOperation(
-      httpMethod = "POST",
-      value = "Get product price variation based on selected product",
-      notes = "",
-      produces = "application/json",
-      response = ReadableProductPrice.class)
-  @ResponseBody
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
-  })
-  public ReadableProductPrice calculateVariant(
-      @PathVariable final Long id,
-      @RequestBody ReadableSelectedProductVariant options,
-      @ApiIgnore MerchantStore merchantStore,
-      @ApiIgnore Language language,
-      HttpServletResponse response)
-      throws Exception {
-
-    Product product = productService.getById(id);
-
-    if (product == null) {
-      response.sendError(404, "Product not fount for id " + id);
-      return null;
-    }
-
-    List<ReadableProductVariantValue> ids = options.getOptions();
-
-    if (CollectionUtils.isEmpty(ids)) {
-      return null;
-    }
-    
-    List<ReadableProductVariantValue> variants = options.getOptions();
-    List<ProductAttribute> attributes = new ArrayList<ProductAttribute>();
-    
-    Set<ProductAttribute> productAttributes = product.getAttributes();
-    for(ProductAttribute attribute : productAttributes) {
-      Long option = attribute.getProductOption().getId();
-      Long optionValue = attribute.getProductOptionValue().getId();
-      for(ReadableProductVariantValue v : variants) {
-        if(v.getOption().longValue() == option.longValue()
-            && v.getValue().longValue() == optionValue.longValue()) {
-          attributes.add(attribute);
-        }
-      }
-      
-    }
-
-    FinalPrice price = pricingService.calculateProductPrice(product, attributes);
-    ReadableProductPrice readablePrice = new ReadableProductPrice();
-    ReadableFinalPricePopulator populator = new ReadableFinalPricePopulator();
-    populator.setPricingService(pricingService);
-    populator.populate(price, readablePrice, merchantStore, language);
-    return readablePrice;
-  }
-
-  
-  @RequestMapping(value = "/category/{id}/variants", method = RequestMethod.GET)
-  @ResponseStatus(HttpStatus.OK)
-  @ApiOperation(
-      httpMethod = "GET",
-      value = "Get all variation for all items in a given category",
-      notes = "",
-      produces = "application/json",
-      response = List.class)
-  @ResponseBody
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
-  })
-  public List<ReadableProductVariant> categoryVariantList(
-      @PathVariable final Long id, //category id
-      @ApiIgnore MerchantStore merchantStore,
-      @ApiIgnore Language language,
-      HttpServletResponse response)
-      throws Exception {
-    
-    return categoryFacade.categoryProductVariants(id, merchantStore, language);
-    
-  }
+	@Inject
+	private UserFacade userFacade;
 
 	@ResponseStatus(HttpStatus.CREATED)
-	@RequestMapping(value = { "/private/product/variant" }, method = RequestMethod.POST)
-	@ApiOperation(
-		      httpMethod = "POST",
-		      value = "Creates a new product variant",
-		      notes = "",
-		      produces = "application/json",
-		      response = Void.class)
-	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	@PostMapping(value = { "/private/product/{productId}/variant" })
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+		@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
 	public @ResponseBody Entity create(
-			@Valid @RequestBody PersistableProductVariation variation, 
-			@ApiIgnore MerchantStore merchantStore,
+			@Valid @RequestBody PersistableProductVariant variant, 
+			@PathVariable Long productId,
+			@ApiIgnore MerchantStore merchantStore, 
 			@ApiIgnore Language language) {
 
-		Long variantId = productVariationFacade.create(variation, merchantStore, language);
-		return new Entity(variantId);
+		String authenticatedUser = userFacade.authenticatedUser();
+		if (authenticatedUser == null) {
+			throw new UnauthorizedException();
+		}
 
+		userFacade.authorizedGroup(authenticatedUser, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN,
+				Constants.GROUP_ADMIN_CATALOGUE, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()));
+
+		Long id = productVariantFacade.create(variant, productId, merchantStore, language);
+		return new Entity(id);
+		
+	}
+
+
+	@ResponseStatus(HttpStatus.OK)
+	@PutMapping(value = { "/private/product/{id}/variant/{variantId}" })
+	@ApiOperation(httpMethod = "PUT", value = "Update product variant", notes = "", produces = "application/json", response = Void.class)
+	public @ResponseBody void update(@PathVariable Long id, @PathVariable Long variantId,
+			@Valid @RequestBody PersistableProductVariant variant, @ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language) {
+
+		String authenticatedUser = userFacade.authenticatedUser();
+		if (authenticatedUser == null) {
+			throw new UnauthorizedException();
+		}
+
+		userFacade.authorizedGroup(authenticatedUser, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN,
+				Constants.GROUP_ADMIN_CATALOGUE, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()));
+
+		productVariantFacade.update(variantId, variant, id, merchantStore, language);
 	}
 
 	@ResponseStatus(HttpStatus.OK)
-	@GetMapping(value = { "/private/product/variant/unique" }, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ApiImplicitParams({ 
-		@ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+	@GetMapping(value = { "/private/product/{id}/variant/{sku}/unique" }, produces = "application/json")
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
 	@ApiOperation(httpMethod = "GET", value = "Check if option set code already exists", notes = "", response = EntityExists.class)
-	public ResponseEntity<EntityExists> exists(
-			@RequestParam(value = "code") String code,
+	public @ResponseBody ResponseEntity<EntityExists> exists(
+			@PathVariable Long id, 
+			@PathVariable String sku,
 			@ApiIgnore MerchantStore merchantStore, 
 			@ApiIgnore Language language) {
 
-		boolean isOptionExist = productVariationFacade.exists(code, merchantStore);
-		return new ResponseEntity<EntityExists>(new EntityExists(isOptionExist), HttpStatus.OK);
+		String authenticatedUser = userFacade.authenticatedUser();
+		if (authenticatedUser == null) {
+			throw new UnauthorizedException();
+		}
+
+		userFacade.authorizedGroup(authenticatedUser, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN,
+				Constants.GROUP_ADMIN_CATALOGUE, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()));
+
+		boolean exist = productVariantFacade.exists(sku, merchantStore, id, language);
+		return new ResponseEntity<EntityExists>(new EntityExists(exist), HttpStatus.OK);
+
 	}
 
-
-	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = { "/private/product/variant/{variationId}" }, method = RequestMethod.GET)
+	@GetMapping(value = "/private/product/{id}/variant/{variantId}", produces = "application/json")
+	@ApiOperation(httpMethod = "GET", value = "Get a productVariant by id", notes = "For administration and shop purpose. Specifying ?merchant is required otherwise it falls back to DEFAULT")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Single product found", response = ReadableProductVariant.class) })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	@ResponseBody
-	public ReadableProductVariation get(
-			@PathVariable Long variationId, 
+	public @ResponseBody ReadableProductVariant get(
+			@PathVariable final Long id, 
+			@PathVariable Long variantId,
+			@RequestParam(value = "lang", required = false) String lang, 
 			@ApiIgnore MerchantStore merchantStore,
-			@ApiIgnore Language language) {
+			@ApiIgnore Language language) throws Exception {
 
-		return productVariationFacade.get(variationId, merchantStore, language);
+		return productVariantFacade.get(variantId, id, merchantStore, language);
 
 	}
 
-
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = { "/private/product/variant/{variationId}" }, method = RequestMethod.PUT)
+	@RequestMapping(value = { "/private/product/{id}/variants" }, method = RequestMethod.GET)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public void update(
-			@Valid @RequestBody PersistableProductVariation variation, 
-			@PathVariable Long variationId,
-			@ApiIgnore MerchantStore merchantStore, 
-			@ApiIgnore Language language) {
-		
-		variation.setId(variationId);
-		productVariationFacade.update(variationId, variation, merchantStore, language);
+	public @ResponseBody ReadableEntityList<ReadableProductVariant> list(@PathVariable final Long id,
+			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language,
+			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+			@RequestParam(value = "count", required = false, defaultValue = "10") Integer count) {
+
+		return productVariantFacade.list(id, merchantStore, language, page, count);
 
 	}
-
-
+	
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = { "/private/product/variant/{variationId}" }, method = RequestMethod.DELETE)
+	@RequestMapping(value = { "/private/product/{id}/variant/{variantId}" }, method = RequestMethod.DELETE)
 	@ApiImplicitParams({ 
 		@ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
 	public void delete(
-			@PathVariable Long variationId,
+			@PathVariable Long id,
+			@PathVariable Long variantId,
 			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
 
-		productVariationFacade.delete(variationId, merchantStore);
+		productVariantFacade.delete(variantId, id, merchantStore);
+
 
 	}
 	
-
-	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = { "/private/product/variant" }, method = RequestMethod.GET)
-	@ApiImplicitParams({ 
-		@ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+	
+	/**
+	
+	@ResponseStatus(HttpStatus.CREATED)
+	@RequestMapping(value = { "/private/product/{id}/{variantId}/image" }, method = RequestMethod.POST)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public @ResponseBody ReadableEntityList<ReadableProductVariation> list(
+	public void addvariantImage(
+			@PathVariable Long id,
+			@RequestParam(name = "file", required = true) MultipartFile file, 
 			@ApiIgnore MerchantStore merchantStore,
-			@ApiIgnore Language language,
-			@RequestParam(value = "page", required = false, defaultValue="0") Integer page,
-		    @RequestParam(value = "count", required = false, defaultValue="10") Integer count) {
+			@ApiIgnore Language language, 
+			HttpServletRequest request, 
+			HttpServletResponse response) {
 
-		return productVariationFacade.list(merchantStore, language, page, count);
+		//productOptionFacade.addOptionValueImage(file, id, merchantStore, language);
 
-		
+
 	}
-  
+	
+	**/
+	
+	
+
 }

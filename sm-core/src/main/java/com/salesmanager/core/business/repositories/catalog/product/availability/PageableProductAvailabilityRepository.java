@@ -30,28 +30,28 @@ public interface PageableProductAvailabilityRepository extends PagingAndSortingR
 			+ "left join fetch pp.descriptions ppd " 
 			+ "join fetch p.product ppr "
 			+ "join fetch ppr.merchantStore pprm "
-			+ "left join fetch ppr.instances ppri "
+			+ "left join fetch ppr.variants ppri "
 			+ "left join fetch ppri.availabilities ppria "
 			+ "left join fetch ppria.prices ppriap "
 			+ "left join fetch ppriap.descriptions ppriapd "
 			+ "where ppr.id=?1 and pm.code=?2", countQuery = "select  count(p) from ProductAvailability p "
-					+ "join p.merchantStore pm " + "join p.product ppr left join ppr.instances ppri left join ppri.availabilities ppria " + "where ppr.id=?1 "
+					+ "join p.merchantStore pm " + "join p.product ppr left join ppr.variants ppri left join ppri.availabilities ppria " + "where ppr.id=?1 "
 							+ "and pm.code=?2")
 	Page<ProductAvailability> getByProductId(Long productId, String store, Pageable pageable);
 
 	@Query(value = "select distinct p from ProductAvailability p " + "left join fetch p.merchantStore pm "
 			+ "left join fetch p.prices pp " + "left join fetch pp.descriptions ppd " + "join fetch p.product ppr "
-			+ "left join fetch p.productInstance ppi " + "where ppr.sku=?1 or ppi.sku=?1 "
+			+ "left join fetch p.productVariant ppi " + "where ppr.sku=?1 or ppi.sku=?1 "
 			+ "and pm.code=?2", countQuery = "select  count(p) from ProductAvailability p " + "join p.merchantStore pm "
-					+ "join p.product ppr " + "left join p.productInstance ppi " + "where ppr.sku=?1 or ppi.sku=?1 "
+					+ "join p.product ppr " + "left join p.productVariant ppi " + "where ppr.sku=?1 or ppi.sku=?1 "
 					+ "and pm.code=?2")
 	Page<ProductAvailability> getBySku(String productCode, String store, Pageable pageable);
 
 	@Query(value = "select distinct p from ProductAvailability p " + "left join fetch p.merchantStore pm "
 			+ "left join fetch p.prices pp " + "left join fetch pp.descriptions ppd " + "join fetch p.product ppr "
-			+ "left join fetch p.productInstance ppi "
+			+ "left join fetch p.productVariant ppi "
 			+ "where ppr.sku=?1 or ppi.sku=?1", countQuery = "select  count(p) from ProductAvailability p "
-					+ "join p.merchantStore pm " + "join p.product ppr " + "left join p.productInstance ppi "
+					+ "join p.merchantStore pm " + "join p.product ppr " + "left join p.productVariant ppi "
 					+ "where ppr.sku=?1 or ppi.sku=?1 ")
 	Page<ProductAvailability> getBySku(String productCode, Pageable pageable);
 

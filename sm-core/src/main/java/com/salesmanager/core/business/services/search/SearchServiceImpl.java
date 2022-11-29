@@ -1,7 +1,6 @@
 package com.salesmanager.core.business.services.search;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +17,7 @@ import org.jsoup.helper.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
 
@@ -34,10 +34,10 @@ import com.salesmanager.core.model.catalog.product.attribute.ProductOptionDescri
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueDescription;
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
 import com.salesmanager.core.model.catalog.product.image.ProductImage;
-import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
 import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
 import com.salesmanager.core.model.catalog.product.manufacturer.ManufacturerDescription;
 import com.salesmanager.core.model.catalog.product.price.FinalPrice;
+import com.salesmanager.core.model.catalog.product.variant.ProductVariant;
 import com.salesmanager.core.model.merchant.MerchantStore;
 
 import modules.commons.search.SearchModule;
@@ -51,6 +51,10 @@ import modules.commons.search.request.SearchResponse;
 @Service("productSearchService")
 @EnableConfigurationProperties(value = ApplicationSearchConfiguration.class)
 public class SearchServiceImpl implements com.salesmanager.core.business.services.search.SearchService {
+	
+	
+    @Value("${search.noindex:false}")//skip indexing process
+    private boolean noIndex;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SearchServiceImpl.class);
 
@@ -136,7 +140,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 		 * Configure search module
 		 */
 
-		if (searchModule != null) {
+		if (searchModule != null && !noIndex) {
 
 			SearchConfiguration searchConfiguration = config();
 			try {
@@ -164,9 +168,9 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 		try {
 			documents = document(product.getId(), languages, RequestOptions.DO_NOT_FAIL_ON_NOT_FOUND);
 
-				if (!CollectionUtils.isEmpty(product.getInstances())) {
+				if (!CollectionUtils.isEmpty(product.getVariants())) {
 					variants = new ArrayList<Map<String, String>>();
-					variants = product.getInstances().stream().map(i -> variation(i)).collect(Collectors.toList());
+					variants = product.getVariants().stream().map(i -> variation(i)).collect(Collectors.toList());
 				}
 	
 				if (!CollectionUtils.isEmpty(documents)) {
@@ -299,7 +303,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 
 	}
 
-	private Map<String, String> variation(ProductInstance instance) {
+	private Map<String, String> variation(ProductVariant instance) {
 		if (instance == null)
 			return null;
 

@@ -34,10 +34,10 @@ import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
 import com.salesmanager.core.model.catalog.product.image.ProductImage;
-import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
 import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
 import com.salesmanager.core.model.catalog.product.relationship.ProductRelationship;
 import com.salesmanager.core.model.catalog.product.type.ProductType;
+import com.salesmanager.core.model.catalog.product.variant.ProductVariant;
 import com.salesmanager.core.model.common.audit.AuditListener;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.common.audit.Auditable;
@@ -125,7 +125,7 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 	 * 
 	 */
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "product")
-	private Set<ProductInstance> instances = new HashSet<ProductInstance>();
+	private Set<ProductVariant> variants = new HashSet<ProductVariant>();
 	
 	@Column(name="DATE_AVAILABLE")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -534,12 +534,12 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 		this.owner = owner;
 	}
 
-	public Set<ProductInstance> getInstances() {
-		return instances;
+	public Set<ProductVariant> getVariants() {
+		return variants;
 	}
 
-	public void setInstances(Set<ProductInstance> instances) {
-		this.instances = instances;
+	public void setVariants(Set<ProductVariant> variants) {
+		this.variants = variants;
 	}
 
 	public void setAvailable(boolean available) {

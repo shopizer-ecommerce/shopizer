@@ -16,10 +16,10 @@ import org.springframework.stereotype.Service;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.availability.ProductAvailabilityService;
-import com.salesmanager.core.business.services.catalog.product.instance.ProductInstanceService;
+import com.salesmanager.core.business.services.catalog.product.variant.ProductVariantService;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
-import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
+import com.salesmanager.core.model.catalog.product.variant.ProductVariant;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.inventory.PersistableInventoryMapper;
@@ -42,7 +42,7 @@ public class ProductInventoryFacadeImpl implements ProductInventoryFacade {
 	private ProductService productService;
 	
 	@Autowired
-	private ProductInstanceService productInstanceService;
+	private ProductVariantService productVariantService;
 
 	@Autowired
 	private ReadableInventoryMapper readableInventoryMapper;
@@ -130,8 +130,8 @@ public class ProductInventoryFacadeImpl implements ProductInventoryFacade {
 				.orElseThrow(() -> new ResourceNotFoundException("Product with id [" + productId + "] not found"));
 	}
 	
-	private ProductInstance getProductByInstance(Long instanceId, MerchantStore store) {
-		return productInstanceService.getById(instanceId, store).orElseThrow(() -> new ResourceNotFoundException("Product with instance [" + instanceId + "] not found"));
+	private ProductVariant getProductByInstance(Long instanceId, MerchantStore store) {
+		return productVariantService.getById(instanceId, store).orElseThrow(() -> new ResourceNotFoundException("Product with instance [" + instanceId + "] not found"));
 
 	}
 
@@ -183,8 +183,8 @@ public class ProductInventoryFacadeImpl implements ProductInventoryFacade {
 			product = this.getProductById(inventory.getProductId(), store);
 			originAvailability = product.getAvailabilities();
 		} else {
-			if(inventory.getInstance() != null && inventory.getId().longValue() > 0) {
-				ProductInstance instance = this.getProductByInstance(inventory.getInstance(), store);
+			if(inventory.getVariant() != null && inventory.getId().longValue() > 0) {
+				ProductVariant instance = this.getProductByInstance(inventory.getVariant(), store);
 				originAvailability = instance.getAvailabilities();
 				product = instance.getProduct();
 			}

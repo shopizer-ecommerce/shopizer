@@ -26,14 +26,14 @@ import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueD
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
 import com.salesmanager.core.model.catalog.product.image.ProductImage;
-import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
 import com.salesmanager.core.model.catalog.product.price.FinalPrice;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.catalog.product.price.ProductPriceDescription;
+import com.salesmanager.core.model.catalog.product.variant.ProductVariant;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
-import com.salesmanager.shop.mapper.catalog.product.ReadableProductInstanceMapper;
+import com.salesmanager.shop.mapper.catalog.product.ReadableProductVariantMapper;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
 import com.salesmanager.shop.model.catalog.product.ProductSpecification;
@@ -46,7 +46,7 @@ import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOpti
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductProperty;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductPropertyValue;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValue;
-import com.salesmanager.shop.model.catalog.product.product.instance.ReadableProductInstance;
+import com.salesmanager.shop.model.catalog.product.product.variant.ReadableProductVariant;
 import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
 import com.salesmanager.shop.model.references.DimensionUnitOfMeasure;
 import com.salesmanager.shop.model.references.WeightUnitOfMeasure;
@@ -75,7 +75,7 @@ public class ReadableProductMapper implements Mapper<Product, ReadableProduct> {
 	private ReadableProductTypeMapper readableProductTypeMapper;
 
 	@Autowired
-	private ReadableProductInstanceMapper readableProductInstanceMapper;
+	private ReadableProductVariantMapper readableProductVariantMapper;
 
 	@Autowired
 	private ReadableManufacturerMapper readableManufacturerMapper;
@@ -287,14 +287,15 @@ public class ReadableProductMapper implements Mapper<Product, ReadableProduct> {
 			}
 		}
 		
-		ReadableProductInstance defaultInstance = null;
+		ReadableProductVariant defaultInstance = null;
 
 		// variants
-		if (!CollectionUtils.isEmpty(source.getInstances()))
+		if (!CollectionUtils.isEmpty(source.getVariants()))
 
 		{
-			List<ReadableProductInstance> instances = source.getInstances().stream()
-					.map(i -> readableProductInstanceMapper.convert(i, store, language)).collect(Collectors.toList());
+			List<ReadableProductVariant> instances = source
+					.getVariants().stream()
+					.map(i -> readableProductVariantMapper.convert(i, store, language)).collect(Collectors.toList());
 			destination.setVariants(instances);
 			
 			/**
@@ -324,7 +325,7 @@ public class ReadableProductMapper implements Mapper<Product, ReadableProduct> {
 			 * Create options from instance Create a list of option values
 			 */
 
-			for (ProductInstance instance : source.getInstances()) {
+			for (ProductVariant instance : source.getVariants()) {
 				instanceToOption(selectableOptions, instance, store, language);
 			}
 
@@ -361,7 +362,7 @@ public class ReadableProductMapper implements Mapper<Product, ReadableProduct> {
 				destination.setCanBePurchased(true);
 			}
 			
-			if(a.getProductInstance()==null && StringUtils.isEmpty(a.getRegionVariant())) {
+			if(a.getProductVariant()==null && StringUtils.isEmpty(a.getRegionVariant())) {
 				break;
 			}
 		}
@@ -590,7 +591,7 @@ public class ReadableProductMapper implements Mapper<Product, ReadableProduct> {
 
 	}
 
-	private void instanceToOption(TreeMap<Long, ReadableProductOption> selectableOptions, ProductInstance instance,
+	private void instanceToOption(TreeMap<Long, ReadableProductOption> selectableOptions, ProductVariant instance,
 			MerchantStore store, Language language) {
 
 

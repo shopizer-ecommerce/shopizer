@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.image.ProductImage;
-import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
+import com.salesmanager.core.model.catalog.product.variant.ProductVariant;
 
 /**
  * Aspect class that will trigger an event once a product is created Code
@@ -23,7 +23,7 @@ import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
  * delete product
  * 
  * decorate
- * 	product instance
+ * 	product variant
  * 	product attribute
  *  product image
  * 
@@ -67,27 +67,27 @@ public class PublishProductAspect {
 	   eventPublisher.publishEvent(new DeleteProductEvent(eventPublisher, (Product)signatureArgs[0]));
 	}
 	
-	// save instance
+	// save variant
 	
-	@Pointcut("execution(* com.salesmanager.core.business.services.catalog.product.instance.ProductInstanceService.saveProductInstance(com.salesmanager.core.model.catalog.product.instance.ProductInstance))")
-	public void saveProductInstanceMethod() {
+	@Pointcut("execution(* com.salesmanager.core.business.services.catalog.product.variant.ProductVariantService.saveProductVariant(com.salesmanager.core.model.catalog.product.variant.ProductVariant))")
+	public void saveProductVariantMethod() {
 	}
 
-	@Pointcut("serviceMethods() && saveProductInstanceMethod()")
-	public void entityProductInstanceCreationMethods() {
+	@Pointcut("serviceMethods() && saveProductVariantMethod()")
+	public void entityProductVariantCreationMethods() {
 	}
 
-	@AfterReturning(value = "entityProductInstanceCreationMethods()", returning = "entity")
-	public void createProductInstanceEvent(JoinPoint jp, Object entity) throws Throwable {
-		eventPublisher.publishEvent(new SaveProductInstanceEvent(eventPublisher, (ProductInstance)entity, ((ProductInstance)entity).getProduct()));
+	@AfterReturning(value = "entityProductVariantCreationMethods()", returning = "entity")
+	public void createProductVariantEvent(JoinPoint jp, Object entity) throws Throwable {
+		eventPublisher.publishEvent(new SaveProductVariantEvent(eventPublisher, (ProductVariant)entity, ((ProductVariant)entity).getProduct()));
 	}
 	
-	// delete product instance
+	// delete product variant
 	
-	@After("execution(* com.salesmanager.core.business.services.catalog.product.instance.ProductInstanceService.delete(com.salesmanager.core.model.catalog.product.instance.ProductInstance))")
-	public void logBeforeDeleteProductInstance(JoinPoint joinPoint) {
+	@After("execution(* com.salesmanager.core.business.services.catalog.product.variant.ProductVariantService.delete(com.salesmanager.core.model.catalog.product.variant.ProductVariant))")
+	public void logBeforeDeleteProductVariant(JoinPoint joinPoint) {
 	   Object[] signatureArgs = joinPoint.getArgs();
-	   eventPublisher.publishEvent(new DeleteProductInstanceEvent(eventPublisher, (ProductInstance)signatureArgs[0], ((ProductInstance)signatureArgs[0]).getProduct()));
+	   eventPublisher.publishEvent(new DeleteProductVariantEvent(eventPublisher, (ProductVariant)signatureArgs[0], ((ProductVariant)signatureArgs[0]).getProduct()));
 	}
 	
 	//product image

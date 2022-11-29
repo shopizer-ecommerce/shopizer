@@ -21,20 +21,20 @@ import com.salesmanager.core.business.services.catalog.pricing.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductAttributeService;
 import com.salesmanager.core.business.services.catalog.product.availability.ProductAvailabilityService;
-import com.salesmanager.core.business.services.catalog.product.instance.ProductInstanceService;
 import com.salesmanager.core.business.services.catalog.product.relationship.ProductRelationshipService;
+import com.salesmanager.core.business.services.catalog.product.variant.ProductVariantService;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.ProductCriteria;
-import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
 import com.salesmanager.core.model.catalog.product.relationship.ProductRelationship;
 import com.salesmanager.core.model.catalog.product.relationship.ProductRelationshipType;
+import com.salesmanager.core.model.catalog.product.variant.ProductVariant;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.catalog.ReadableProductMapper;
-import com.salesmanager.shop.mapper.catalog.product.ReadableProductInstanceMapper;
+import com.salesmanager.shop.mapper.catalog.product.ReadableProductVariantMapper;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProductList;
-import com.salesmanager.shop.model.catalog.product.product.instance.ReadableProductInstance;
+import com.salesmanager.shop.model.catalog.product.product.variant.ReadableProductVariant;
 import com.salesmanager.shop.populator.catalog.ReadableProductPopulator;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
@@ -61,10 +61,10 @@ public class ProductFacadeV2Impl implements ProductFacade {
 	private ReadableProductMapper readableProductMapper;
 	
 	@Autowired
-	private ProductInstanceService productInstanceService;
+	private ProductVariantService productVariantService;
 	
 	@Autowired
-	private ReadableProductInstanceMapper readableProductInstanceMapper;
+	private ReadableProductVariantMapper readableProductVariantMapper;
 	
 	@Autowired
 	private ProductAvailabilityService productAvailabilityService;
@@ -112,9 +112,9 @@ public class ProductFacadeV2Impl implements ProductFacade {
 		
 	}
 	
-	private ReadableProductInstance productInstance(ProductInstance instance, MerchantStore store, Language language) {
+	private ReadableProductVariant productVariant(ProductVariant instance, MerchantStore store, Language language) {
 		
-		return readableProductInstanceMapper.convert(instance, store, language);
+		return readableProductVariantMapper.convert(instance, store, language);
 		
 	}
 
@@ -137,10 +137,10 @@ public class ProductFacadeV2Impl implements ProductFacade {
 
 		//get all instances for this product group by option
 		//limit to 15 searches
-		List<ProductInstance> instances = productInstanceService.getByProductId(store, product, language);
+		List<ProductVariant> instances = productVariantService.getByProductId(store, product, language);
 		
 		//the above get all possible images
-		List<ReadableProductInstance> readableInstances = instances.stream().map(p -> this.productInstance(p, store, language)).collect(Collectors.toList());
+		List<ReadableProductVariant> readableInstances = instances.stream().map(p -> this.productVariant(p, store, language)).collect(Collectors.toList());
 		readableProduct.setVariants(readableInstances);
 		
 		return readableProduct;

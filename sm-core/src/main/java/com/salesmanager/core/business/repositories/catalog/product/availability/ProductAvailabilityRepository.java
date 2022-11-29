@@ -38,7 +38,7 @@ public interface ProductAvailabilityRepository extends JpaRepository<ProductAvai
 	      + "left join fetch pp.descriptions ppd "
 	      + "join fetch p.product ppr "
 	      + "left join fetch ppr.descriptions pprd "
-	      + "left join fetch p.productInstance ppi "
+	      + "left join fetch p.productVariant ppi "
 	      + "where ppr.sku=?1 or ppi.sku=?1 "
 	      + "and pm.code=?2")
   List<ProductAvailability> getBySku(String productCode, String store);
@@ -49,7 +49,7 @@ public interface ProductAvailabilityRepository extends JpaRepository<ProductAvai
 	      + "left join fetch pp.descriptions ppd "
 	      + "join fetch p.product ppr "
 	      + "left join fetch ppr.descriptions pprd "
-	      + "left join fetch p.productInstance ppi "
+	      + "left join fetch p.productVariant ppi "
 	      + "where ppr.sku=?1 or ppi.sku=?1")
   List<ProductAvailability> getBySku(String sku);
 

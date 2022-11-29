@@ -159,7 +159,7 @@ public class ReadableProductDefinitionMapper implements Mapper<Product, Readable
 		ProductAvailability availability = null;
 		for(ProductAvailability a : source.getAvailabilities()) {
 				availability = a;
-				if(a.getProductInstance() != null) {
+				if(a.getProductVariant() != null) {
 					continue;
 				}	
 		}

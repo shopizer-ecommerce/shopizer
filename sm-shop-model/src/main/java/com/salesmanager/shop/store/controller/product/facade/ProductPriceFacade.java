@@ -49,7 +49,7 @@ public interface ProductPriceFacade {
 	void delete(Long priceId, String sku, MerchantStore store);
 	
 	/**
-	 * List product prices by product and inventory (product and instances)
+	 * List product prices by product and inventory (product and variants)
 	 * @param productId
 	 * @param inventoryId
 	 * @param store

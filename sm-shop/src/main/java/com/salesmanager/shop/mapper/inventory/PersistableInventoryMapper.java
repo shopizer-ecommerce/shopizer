@@ -21,13 +21,13 @@ import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
-import com.salesmanager.core.business.services.catalog.product.instance.ProductInstanceService;
+import com.salesmanager.core.business.services.catalog.product.variant.ProductVariantService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
-import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.catalog.product.price.ProductPriceDescription;
+import com.salesmanager.core.model.catalog.product.variant.ProductVariant;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
@@ -44,7 +44,7 @@ public class PersistableInventoryMapper implements Mapper<PersistableInventory, 
 	private LanguageService languageService;
 
 	@Autowired
-	private ProductInstanceService productInstanceService;
+	private ProductVariantService productVariantService;
 
 	@Autowired
 	private ProductService productService;
@@ -93,7 +93,7 @@ public class PersistableInventoryMapper implements Mapper<PersistableInventory, 
 								&&
 								a.getMerchantStore().getId() == store.getId()
 								&&
-								(source.getInstance() == null && a.getProductInstance() == null) || (a.getProductInstance() != null && source.getInstance()!= null && a.getProductInstance().getId().longValue() == source.getInstance().longValue())
+								(source.getVariant() == null && a.getProductVariant() == null) || (a.getProductVariant() != null && source.getVariant()!= null && a.getProductVariant().getId().longValue() == source.getVariant().longValue())
 								&&
 								(source.getRegionVariant() == null && a.getRegionVariant() == null) || (a.getRegionVariant() != null && source.getRegionVariant() != null &&  a.getRegionVariant().equals(source.getRegionVariant()))
 						)).findAny().orElse(null);
@@ -119,13 +119,13 @@ public class PersistableInventoryMapper implements Mapper<PersistableInventory, 
 				destination.setProductDateAvailable(DateUtil.getDate(source.getDateAvailable()));
 			}
 
-			if (source.getInstance() != null && source.getInstance() .longValue()> 0) {
-				Optional<ProductInstance> instance = productInstanceService.getById(source.getInstance(), store);
+			if (source.getVariant() != null && source.getVariant() .longValue()> 0) {
+				Optional<ProductVariant> instance = productVariantService.getById(source.getVariant(), store);
 				if(instance.get() == null) {
-					throw new ResourceNotFoundException("ProductInstance with id [" + source.getInstance() + "] not found for store [" + store.getCode() + "]");
+					throw new ResourceNotFoundException("productVariant with id [" + source.getVariant() + "] not found for store [" + store.getCode() + "]");
 				}
 				destination.setSku(instance.get().getSku());
-				destination.setProductInstance(instance.get());
+				destination.setProductVariant(instance.get());
 			}
 			
 			//merge with existing or replace

@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.salesmanager.shop.model.catalog.product.product.instance.ReadableProductInstance;
+import com.salesmanager.shop.model.catalog.product.product.variant.ReadableProductVariant;
 import com.salesmanager.shop.model.order.total.ReadableOrderTotal;
 
 /**
@@ -30,7 +30,7 @@ public class ReadableShoppingCart extends ShoppingCartEntity {
 	private Long order;
 	private String promoCode;
 	
-	private ReadableProductInstance variant;
+	private ReadableProductVariant variant;
 	
 	List<ReadableShoppingCartItem> products = new ArrayList<ReadableShoppingCartItem>();
 	List<ReadableOrderTotal> totals;
@@ -169,13 +169,13 @@ public class ReadableShoppingCart extends ShoppingCartEntity {
 
 
 
-	public ReadableProductInstance getVariant() {
+	public ReadableProductVariant getVariant() {
 		return variant;
 	}
 
 
 
-	public void setVariant(ReadableProductInstance variant) {
+	public void setVariant(ReadableProductVariant variant) {
 		this.variant = variant;
 	}
 

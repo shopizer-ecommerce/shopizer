@@ -71,8 +71,8 @@ public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem>
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "shoppingCartItem")
 	private Set<ShoppingCartAttributeItem> attributes = new HashSet<ShoppingCartAttributeItem>();
 	
-	@Column(name="PRODUCT_INSTANCE", nullable=true)
-	private Long productInstance;
+	@Column(name="PRODUCT_VARIANT", nullable=true)
+	private Long variant;
 
 	@JsonIgnore
 	@Transient
@@ -105,6 +105,7 @@ public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem>
 	public ShoppingCartItem(Product product) {
 		this.product = product;
 		this.productId = product.getId();
+		this.setSku(product.getSku());
 		this.quantity = 1;
 		this.productVirtual = product.isProductVirtual();
 	}
@@ -239,12 +240,12 @@ public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem>
 		this.sku = sku;
 	}
 
-	public Long getProductInstance() {
-		return productInstance;
+	public Long getVariant() {
+		return variant;
 	}
 
-	public void setProductInstance(Long productInstance) {
-		this.productInstance = productInstance;
+	public void setVariant(Long variant) {
+		this.variant = variant;
 	}
 
 }
