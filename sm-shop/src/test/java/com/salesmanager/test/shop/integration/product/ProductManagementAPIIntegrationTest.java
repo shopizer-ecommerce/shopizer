@@ -98,7 +98,7 @@ public class ProductManagementAPIIntegrationTest extends ServicesTestSupport {
 				com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer.DEFAULT_MANUFACTURER);
 		product.setProductSpecifications(specifications);
 		product.setPrice(BigDecimal.TEN);
-		product.setSku("123");
+		product.setSku("123ABC");
 		final HttpEntity<PersistableProduct> entity = new HttpEntity<>(product, getHeader());
 
 		final ResponseEntity<PersistableProduct> response = testRestTemplate.postForEntity(

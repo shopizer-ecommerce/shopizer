@@ -409,7 +409,7 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
             
       //get manufacturers in category
       @SuppressWarnings("rawtypes")
-      ResponseEntity<List> manufacturers = testRestTemplate.exchange(String.format("/api/v1/category/" + id + "/manufacturers"), HttpMethod.GET, entity, List.class);  
+      ResponseEntity<List> manufacturers = testRestTemplate.exchange(String.format("/api/v1/category/" + id + "/manufacturer"), HttpMethod.GET, entity, List.class);  
       assertThat(manufacturers.getStatusCode(), is(OK));
       
       @SuppressWarnings("unchecked")

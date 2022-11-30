@@ -82,10 +82,10 @@ public class ProductV2ManagementAPIIntegrationTest extends ServicesTestSupport {
 		product.setProductSpecifications(specifications);
 		product.setPrice(BigDecimal.TEN);
 		product.setSku("123");
-		final HttpEntity<PersistableProduct> entity = new HttpEntity<>(product, getHeader());
-
+		
+		final HttpEntity<PersistableProduct> productEntity = new HttpEntity<>(product, getHeader());
 		final ResponseEntity<PersistableProduct> response = testRestTemplate.postForEntity(
-				"/api/v2/private/product/definition?store=" + Constants.DEFAULT_STORE, entity, PersistableProduct.class);
+				"/api/v2/private/product?store=" + Constants.DEFAULT_STORE, productEntity, PersistableProduct.class);
 		assertTrue(response.getStatusCode()== CREATED);
 		
 		//create options
@@ -137,10 +137,9 @@ public class ProductV2ManagementAPIIntegrationTest extends ServicesTestSupport {
 		mediumEn.setLanguage("en");
 		white.getDescriptions().add(mediumEn);
 		
-		//create variants - todo
-		PersistableProductVariation whiteVariant = new PersistableProductVariation();
-		//- todo
-		PersistableProductVariation mediumVariant = new PersistableProductVariation();
+		//create variantions
+		PersistableProductVariation whiteVariation = new PersistableProductVariation();
+		PersistableProductVariation mediumVariation = new PersistableProductVariation();
 		// toto
 		//create variants
 	}
