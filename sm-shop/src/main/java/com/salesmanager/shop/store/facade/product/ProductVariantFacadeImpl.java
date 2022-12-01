@@ -115,15 +115,15 @@ public class ProductVariantFacadeImpl implements ProductVariantFacade {
 		
 		productVariant.setProductId(productId);
 		productVariant.setId(null);
-		ProductVariant instance = persistableProductVariantMapper.convert(productVariant, store, language);
+		ProductVariant variant = persistableProductVariantMapper.convert(productVariant, store, language);
 		
 		try {
-			productVariantService.saveProductVariant(instance);
+			productVariantService.saveProductVariant(variant);
 		} catch (ServiceException e) {
 			throw new ServiceRuntimeException("Cannot save product instance for store [" + store.getCode() + "] and productId [" + productId + "]", e);
 		}
 		
-		return instance.getId();
+		return variant.getId();
 	}
 
 	@Override
