@@ -11,23 +11,23 @@ public class ReadableProductVariant extends ProductVariant {
 
 	private static final long serialVersionUID = 1L;
 	
-	private ReadableProductVariation variant;
-	private ReadableProductVariation variantValue;
+	private ReadableProductVariation variation;
+	private ReadableProductVariation variationValue;
 	private String code;
 	private List<ReadableImage> images = new ArrayList<ReadableImage>();
 	private List<ReadableInventory> inventory = new ArrayList<ReadableInventory>();
 	
-	public ReadableProductVariation getVariant() {
-		return variant;
+	public ReadableProductVariation getVariation() {
+		return variation;
 	}
-	public void setVariant(ReadableProductVariation variant) {
-		this.variant = variant;
+	public void setVariation(ReadableProductVariation variation) {
+		this.variation = variation;
 	}
-	public ReadableProductVariation getVariantValue() {
-		return variantValue;
+	public ReadableProductVariation getVariationValue() {
+		return variationValue;
 	}
-	public void setVariantValue(ReadableProductVariation variantValue) {
-		this.variantValue = variantValue;
+	public void setVariationValue(ReadableProductVariation variationValue) {
+		this.variationValue = variationValue;
 	}
 	public List<ReadableImage> getImages() {
 		return images;

@@ -595,13 +595,13 @@ public class ReadableProductMapper implements Mapper<Product, ReadableProduct> {
 			MerchantStore store, Language language) {
 
 
-		ReadableProductOption option = this.option(selectableOptions, instance.getVariant().getProductOption(), language);
+		ReadableProductOption option = this.option(selectableOptions, instance.getVariation().getProductOption(), language);
 		option.setVariant(true);
 
 
 		// take care of option value
 		Optional<ReadableProductOptionValue> optionOptionValue = this
-				.optionValue(instance.getVariant().getProductOptionValue(), store, language);
+				.optionValue(instance.getVariation().getProductOptionValue(), store, language);
 
 		if (optionOptionValue.isPresent()) {
 			optionOptionValue.get().setId(instance.getId());
@@ -612,12 +612,12 @@ public class ReadableProductMapper implements Mapper<Product, ReadableProduct> {
 
 		}
 
-		if (instance.getVariantValue() != null) {
-			ReadableProductOption optionValue = this.option(selectableOptions, instance.getVariantValue().getProductOption(), language);
+		if (instance.getVariationValue() != null) {
+			ReadableProductOption optionValue = this.option(selectableOptions, instance.getVariationValue().getProductOption(), language);
 
 			// take care of option value
 			Optional<ReadableProductOptionValue> optionValueOptionValue = this
-					.optionValue(instance.getVariantValue().getProductOptionValue(), store, language);
+					.optionValue(instance.getVariationValue().getProductOptionValue(), store, language);
 
 
 			if (optionValueOptionValue.isPresent()) {

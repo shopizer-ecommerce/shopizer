@@ -81,9 +81,9 @@ public class ReadableProductVariantMapper implements Mapper<ProductVariant, Read
 		
 		//destination.setStore(null);
 		destination.setStore(store.getCode());
-		destination.setVariant(readableProductVariationMapper.convert(source.getVariant(), store, language));
-		if(source.getVariantValue() != null) {
-			destination.setVariantValue(readableProductVariationMapper.convert(source.getVariantValue(), store, language));
+		destination.setVariation(readableProductVariationMapper.convert(source.getVariation(), store, language));
+		if(source.getVariationValue() != null) {
+			destination.setVariationValue(readableProductVariationMapper.convert(source.getVariationValue(), store, language));
 		}
 
 		if(source.getProductVariantGroup() != null) {

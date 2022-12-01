@@ -41,35 +41,35 @@ public class PersistableProductVariantMapper implements Mapper<PersistableProduc
 			Language language) {
 		
 		//
-		Long productVariant = source.getVariant();
-		Long productVariantValue = source.getVariantValue();
+		Long productVariation = source.getVariation();
+		Long productVariationValue = source.getVariationValue();
 		
-		Optional<ProductVariation> variant = productVariationService.getById(store, productVariant);
-		Optional<ProductVariation> variantValue = null;
-		if(productVariantValue != null) {
-			variantValue = productVariationService.getById(store, productVariantValue);
-			if(variantValue.isEmpty()) {
-				throw new ResourceNotFoundException("ProductVariant [" + productVariantValue + "] + not found for store [" + store.getCode() + "]");
+		Optional<ProductVariation> variation = productVariationService.getById(store, productVariation);
+		Optional<ProductVariation> variationValue = null;
+		if(productVariationValue != null) {
+			variationValue = productVariationService.getById(store, productVariationValue);
+			if(variationValue.isEmpty()) {
+				throw new ResourceNotFoundException("ProductVaritionValue [" + productVariationValue + "] + not found for store [" + store.getCode() + "]");
 			}
 			
 		}
 				
 		
-		if(variant.isEmpty()) {
-			throw new ResourceNotFoundException("ProductVariant [" + productVariant + "] + not found for store [" + store.getCode() + "]");
+		if(variation.isEmpty()) {
+			throw new ResourceNotFoundException("ProductVarition [" + productVariation + "] + not found for store [" + store.getCode() + "]");
 		}
 		
-		destination.setVariant(variant.get());
+		destination.setVariation(variation.get());
 
 		
-		if(productVariantValue != null) {
-			destination.setVariantValue(variantValue.get());
+		if(productVariationValue != null) {
+			destination.setVariationValue(variationValue.get());
 		}
 		
 		StringBuilder instanceCode = new StringBuilder();
-		instanceCode.append(variant.get().getCode());
-		if(productVariantValue != null && variantValue.get()!=null) {
-			instanceCode.append(":").append(variantValue.get().getCode());
+		instanceCode.append(variation.get().getCode());
+		if(productVariationValue != null && variationValue.get()!=null) {
+			instanceCode.append(":").append(variationValue.get().getCode());
 		}
 		
 		destination.setCode(instanceCode.toString());

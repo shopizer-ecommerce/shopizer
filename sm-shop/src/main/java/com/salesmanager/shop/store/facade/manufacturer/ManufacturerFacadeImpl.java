@@ -227,10 +227,11 @@ public ReadableManufacturerList listByStore(MerchantStore store, Language langua
         } else {
             m = manufacturerService.listByStore(store, criteria.getName(), page, count);
         }
+        
         manufacturers = m.getContent();
         readableList.setTotalPages(m.getTotalPages());
         readableList.setRecordsTotal(m.getTotalElements());
-        readableList.setNumber(m.getNumber());
+        readableList.setNumber(m.getContent().size());
 
 
         

@@ -308,17 +308,17 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 			return null;
 
 		Map<String, String> variantMap = new HashMap<String, String>();
-		if (instance.getVariant() != null) {
-			String variantCode = instance.getVariant().getProductOption().getCode();
-			String variantValueCode = instance.getVariant().getProductOptionValue().getCode();
+		if (instance.getVariation() != null) {
+			String variantCode = instance.getVariation().getProductOption().getCode();
+			String variantValueCode = instance.getVariation().getProductOptionValue().getCode();
 
 			variantMap.put(variantCode, variantValueCode);
 
 		}
 
-		if (instance.getVariantValue() != null) {
-			String variantCode = instance.getVariantValue().getProductOption().getCode();
-			String variantValueCode = instance.getVariantValue().getProductOptionValue().getCode();
+		if (instance.getVariationValue() != null) {
+			String variantCode = instance.getVariationValue().getProductOption().getCode();
+			String variantValueCode = instance.getVariationValue().getProductOptionValue().getCode();
 
 			variantMap.put(variantCode, variantValueCode);
 		}

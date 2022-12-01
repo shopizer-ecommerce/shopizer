@@ -71,7 +71,7 @@ public class ProductVariant extends SalesManagerEntity<Long, ProductVariant> imp
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "PRODUCT_VARIATION_ID", nullable = true)
-	private ProductVariation variant;
+	private ProductVariation variation;
 
 	@ManyToOne(targetEntity = Product.class)
 	@JoinColumn(name = "PRODUCT_ID", nullable = false)
@@ -85,7 +85,7 @@ public class ProductVariant extends SalesManagerEntity<Long, ProductVariant> imp
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "PRODUCT_VARIATION_VALUE_ID", nullable = true)
-	private ProductVariation variantValue;
+	private ProductVariation variationValue;
 
 	@NotEmpty
 	@Pattern(regexp="^[a-zA-Z0-9_]*$")
@@ -138,12 +138,12 @@ public class ProductVariant extends SalesManagerEntity<Long, ProductVariant> imp
 		this.available = available;
 	}
 
-	public ProductVariation getVariant() {
-		return variant;
+	public ProductVariation getVariation() {
+		return variation;
 	}
 
-	public void setVariant(ProductVariation variant) {
-		this.variant = variant;
+	public void setVariation(ProductVariation variation) {
+		this.variation = variation;
 	}
 
 	public Product getProduct() {
@@ -154,12 +154,12 @@ public class ProductVariant extends SalesManagerEntity<Long, ProductVariant> imp
 		this.product = product;
 	}
 
-	public ProductVariation getVariantValue() {
-		return variantValue;
+	public ProductVariation getVariationValue() {
+		return variationValue;
 	}
 
-	public void setVariantValue(ProductVariation variantValue) {
-		this.variantValue = variantValue;
+	public void setVariationValue(ProductVariation variationValue) {
+		this.variationValue = variationValue;
 	}
 
 	public boolean isDefaultSelection() {

@@ -4,23 +4,23 @@ public class PersistableProductVariant extends ProductVariant {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Long variant;
-	private Long variantValue;
+	private Long variation;
+	private Long variationValue;
 
-	public Long getVariant() {
-		return variant;
+	public Long getVariation() {
+		return variation;
 	}
 
-	public void setVariant(Long variant) {
-		this.variant = variant;
+	public void setVariation(Long variation) {
+		this.variation = variation;
 	}
 
-	public Long getVariantValue() {
-		return variantValue;
+	public Long getVariationValue() {
+		return variationValue;
 	}
 
-	public void setVariantValue(Long variantValue) {
-		this.variantValue = variantValue;
+	public void setVariationValue(Long variationValue) {
+		this.variationValue = variationValue;
 	}
 	
 
