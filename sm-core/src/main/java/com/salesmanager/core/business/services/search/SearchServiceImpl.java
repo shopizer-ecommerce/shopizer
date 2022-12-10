@@ -1,5 +1,7 @@
 package com.salesmanager.core.business.services.search;
 
+import java.io.File;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -19,6 +21,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.configuration.ApplicationSearchConfiguration;
@@ -60,6 +64,12 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 
 	private final static String INDEX_PRODUCTS = "INDEX_PRODUCTS";
 	
+	private final static String SETTINGS_DEFAULT = "search/SETTING_DEFAULT.json";
+	
+	private final static String SETTINGS = "search/SETTINGS.json";
+	
+	private final static String PRODUCT_MAPPING_DEFAULT = "search/MAPPINGS";
+	
 	
 	/**
 	 * TODO properties file
@@ -72,54 +82,6 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 			+ "     }\n"
 			+ "    }";	
 	
-	private final static String PRODUCT_MAPPING_DEFAULT = "{\"properties\":"
-			+ "      {\n\"id\": {\n"
-			+ "        \"type\": \"long\"\n"
-			+ "      },\n\"price\": {\n"
-			+ "        \"type\": \"float\"\n"
-			+ "      },\n\"description\": {\n"
-			+ "        \"type\": \"text\"\n"
-			+ "      },\n\"name\": {\n"
-			+ "        \"type\": \"text\"\n"
-			+ "      },\n\"category\": {\n"
-			+ "        \"type\": \"keyword\", \n"
-			+ "        \"normalizer\": \"custom_normalizer\"\n"
-			+ "      },\n\"brand\": {\n"
-			+ "        \"type\": \"keyword\" ,\n"
-			+ "        \"normalizer\": \"custom_normalizer\"\n"
-			+ "      },\n\"attributes\": {\n"
-			+ "        \"type\": \"nested\"\n"
-			+ "      },\n\"variants\": {\n"
-			+ "        \"type\": \"nested\" \n"
-			+ "      },\n\"store\": {\n"
-			+ "        \"type\": \"keyword\" \n"
-			+ "      },\n\"reviews\": {\n"
-			+ "        \"type\": \"keyword\" \n"
-			+ "      },\n\"image\": {\n"
-			+ "        \"type\": \"keyword\"\n"
-			+ "      }\n"
-			+ "    }\n"
-			+ "  }";	
-	private final static String SETTING_DEFAULT = "{\"analysis\": {\n"
-			+ "      \"normalizer\": {\n"
-			+ "        \"custom_normalizer\": {\n"
-			+ "          \"type\": \"custom\",\n"
-			+ "          \"char_filter\": [],\n"
-			+ "          \"filter\": [\"lowercase\", \"asciifolding\"]\n"
-			+ "        }\n"
-			+ "      }\n"
-			+ "    }\n"
-			+ "  }";
-	private final static String SETTING_en = "{\"analysis\": {\n"
-			+ "      \"normalizer\": {\n"
-			+ "        \"custom_normalizer\": {\n"
-			+ "          \"type\": \"custom\",\n"
-			+ "          \"char_filter\": [],\n"
-			+ "          \"filter\": [\"lowercase\", \"asciifolding\"]\n"
-			+ "        }\n"
-			+ "      }\n"
-			+ "    }\n"
-			+ "  }";
 
 	@Inject
 	private PricingService pricingService;
@@ -134,7 +96,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 	private SearchModule searchModule;
 
 	@PostConstruct
-	public void init() {
+	public void init() throws Exception {
 
 		/**
 		 * Configure search module
@@ -266,7 +228,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 
 	}
 
-	private SearchConfiguration config() {
+	private SearchConfiguration config() throws Exception {
 
 		SearchConfiguration config = new SearchConfiguration();
 		config.setClusterName(applicationSearchConfiguration.getClusterName());
@@ -275,8 +237,20 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 
 		config.setLanguages(applicationSearchConfiguration.getSearchLanguages());
 		
-		config.getLanguages().stream().forEach(l -> this.mappings(config,l));
-		config.getLanguages().stream().forEach(l -> this.settings(config,l));
+		config.getLanguages().stream().forEach(l -> {
+			try {
+				this.mappings(config,l);
+			} catch (Exception e) {
+				throw new IllegalStateException(e);
+			}
+		});
+		config.getLanguages().stream().forEach(l -> {
+			try {
+				this.settings(config,l);
+			} catch (Exception e) {
+				throw new IllegalStateException(e);
+			}
+		});
 		
 
 
@@ -440,25 +414,33 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 		return attributeValue;
 	}
 	
-	private void settings(SearchConfiguration config, String language) {
+	private void settings(SearchConfiguration config, String language) throws Exception{
 		Validate.notEmpty(language, "Configuration requires language");
-		String settings = this.SETTING_DEFAULT;
+		String settings = loadClassPathResource(SETTINGS_DEFAULT);
 		//specific settings
 		if(language.equals("en")) {
-			settings = this.SETTING_en;
+			settings = loadClassPathResource(SETTINGS+ "_language.json");
 		}
 		
 		config.getSettings().put(language, settings);
 
 	}
 	
-	private void mappings(SearchConfiguration config, String language) {
+	private void mappings(SearchConfiguration config, String language) throws Exception {
 		Validate.notEmpty(language, "Configuration requires language");
 
 
-		config.getProductMappings().put(language, PRODUCT_MAPPING_DEFAULT);
+		config.getProductMappings().put(language, loadClassPathResource(PRODUCT_MAPPING_DEFAULT));
 		config.getKeywordsMappings().put(language, KEYWORDS_MAPPING_DEFAULT);
 			
+	}
+	
+	public String loadClassPathResource(String file) throws Exception {
+		Resource res = new ClassPathResource(file);
+		File f = res.getFile();
+		
+		return new String(
+			      Files.readAllBytes(f.toPath()));
 	}
 
 }

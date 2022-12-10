@@ -1,0 +1,56 @@
+{
+	"properties": {
+		"id": {
+			"type": "long"
+		},
+		"price": {
+			"type": "float"
+		},
+		"discoutPrice": {
+			"type": "float"
+		},
+		"description": {
+			"type": "text"
+		},
+		"name": {
+			"type": "text",
+			"analyzer": "name_analyzer"
+		},
+		"category": {
+			"type": "keyword",
+			"normalizer": "custom_normalizer",
+			"fields": {
+        		"raw": {
+            		"type": "text" 
+        		}
+    		}
+		},
+		"brand": {
+			"type": "keyword",
+			"normalizer": "custom_normalizer",
+			"fields": {
+        		"raw": {
+            		"type": "text"      
+        		}
+    		}
+		},
+		"attributes": {
+			"type": "nested"
+		},
+		"variants": {
+			"type": "nested"
+		},
+		"store": {
+			"type": "keyword"
+		},
+		"link": {
+			"type": "keyword"
+		},
+		"reviews": {
+			"type": "keyword"
+		},
+		"image": {
+			"type": "keyword"
+		}
+	}
+}
