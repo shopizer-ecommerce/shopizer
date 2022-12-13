@@ -64,11 +64,9 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 
 	private final static String INDEX_PRODUCTS = "INDEX_PRODUCTS";
 	
-	private final static String SETTINGS_DEFAULT = "search/SETTING_DEFAULT.json";
+	private final static String SETTINGS = "search/SETTINGS";
 	
-	private final static String SETTINGS = "search/SETTINGS.json";
-	
-	private final static String PRODUCT_MAPPING_DEFAULT = "search/MAPPINGS";
+	private final static String PRODUCT_MAPPING_DEFAULT = "search/MAPPINGS.json";
 	
 	
 	/**
@@ -192,6 +190,10 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 			item.setDescription(description.getDescription());
 			item.setName(description.getName());
 			item.setPrice(price.getStringPrice());
+			
+			if(price.isDiscounted()) {
+				item.setDiscountedPrice(price.getStringDiscountedPrice());
+			}
 
 			if (product.getManufacturer() != null) {
 				item.setBrand(manufacturer(product.getManufacturer(), description.getLanguage().getCode()));
@@ -220,6 +222,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 			}
 
 			item.setLanguage(description.getLanguage().getCode());
+			item.setLink(description.getSeUrl());
 
 			searchModule.index(item);
 		} catch (Exception e) {
@@ -416,10 +419,10 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 	
 	private void settings(SearchConfiguration config, String language) throws Exception{
 		Validate.notEmpty(language, "Configuration requires language");
-		String settings = loadClassPathResource(SETTINGS_DEFAULT);
+		String settings = loadClassPathResource(SETTINGS + "_DEFAULT.json");
 		//specific settings
 		if(language.equals("en")) {
-			settings = loadClassPathResource(SETTINGS+ "_language.json");
+			settings = loadClassPathResource(SETTINGS+ "_" + language +".json");
 		}
 		
 		config.getSettings().put(language, settings);

@@ -45,6 +45,10 @@ public class PublishProductAspect {
 	@Pointcut("@target(org.springframework.stereotype.Service)")
 	public void serviceMethods() {
 	}
+	
+	/**
+	 * Product
+	 */
 
 	@Pointcut("execution(* com.salesmanager.core.business.services.catalog.product.ProductService.saveProduct(com.salesmanager.core.model.catalog.product.Product))")
 	public void saveProductMethod() {

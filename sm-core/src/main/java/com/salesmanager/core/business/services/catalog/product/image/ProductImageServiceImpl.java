@@ -9,9 +9,13 @@ import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.helper.Validate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import com.salesmanager.core.business.configuration.events.products.DeleteProductImageEvent;
+import com.salesmanager.core.business.configuration.events.products.SaveProductImageEvent;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.modules.cms.product.ProductFileManager;
 import com.salesmanager.core.business.repositories.catalog.product.image.ProductImageRepository;
@@ -39,6 +43,9 @@ public class ProductImageServiceImpl extends SalesManagerEntityServiceImpl<Long,
 
 	@Inject
 	private ProductFileManager productFileManager;
+	
+	@Autowired
+	private ApplicationEventPublisher eventPublisher;
 
 	public ProductImage getById(Long id) {
 
@@ -81,7 +88,9 @@ public class ProductImageServiceImpl extends SalesManagerEntityServiceImpl<Long,
 			}
 
 			// insert ProductImage
-			this.saveOrUpdate(productImage);
+			ProductImage img = saveOrUpdate(productImage);
+			//manual workaround since aspect is not working
+			eventPublisher.publishEvent(new SaveProductImageEvent(eventPublisher, img, product));
 
 		} catch (Exception e) {
 			throw new ServiceException(e);
@@ -159,8 +168,17 @@ public class ProductImageServiceImpl extends SalesManagerEntityServiceImpl<Long,
 		if (!StringUtils.isBlank(productImage.getProductImage())) {
 			productFileManager.removeProductImage(productImage);// managed internally
 		}
-		ProductImage p = this.getById(productImage.getId());
-		this.delete(p);
+		ProductImage p = getById(productImage.getId());
+		
+		Product product = p.getProduct();
+		
+		
+		delete(p);
+		/**
+		 * workaround for aspect
+		 */
+		eventPublisher.publishEvent(new DeleteProductImageEvent(eventPublisher, p, product));
+
 
 	}
 

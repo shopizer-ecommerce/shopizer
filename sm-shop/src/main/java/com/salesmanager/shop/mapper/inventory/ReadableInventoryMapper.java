@@ -79,7 +79,7 @@ public class ReadableInventoryMapper implements Mapper<ProductAvailability, Read
 			List<ReadableProductPrice> prices = prices(source, store, language);
 			destination.setPrices(prices);
 
-			destination.setSku(source.getSku());
+			destination.setSku(source.getProduct().getSku());
 
 			FinalPrice price = null;
 			//try {
