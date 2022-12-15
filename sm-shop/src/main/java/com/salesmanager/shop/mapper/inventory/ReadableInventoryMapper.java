@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.drools.core.util.StringUtils;
 import org.jsoup.helper.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -79,7 +80,11 @@ public class ReadableInventoryMapper implements Mapper<ProductAvailability, Read
 			List<ReadableProductPrice> prices = prices(source, store, language);
 			destination.setPrices(prices);
 
-			destination.setSku(source.getProduct().getSku());
+			if(!StringUtils.isEmpty(source.getSku())) {
+				destination.setSku(source.getSku());
+			} else {
+				destination.setSku(source.getProduct().getSku());
+			}
 
 			FinalPrice price = null;
 			//try {

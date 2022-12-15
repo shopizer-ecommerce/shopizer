@@ -176,7 +176,7 @@ public class ProductPriceApi {
 			@ApiIgnore Language language) {
 		
 		
-		productPriceFacade.delete(priceId, null, merchantStore);
+		productPriceFacade.delete(priceId, sku, merchantStore);
 		
 	}
 

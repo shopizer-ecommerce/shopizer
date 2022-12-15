@@ -2,6 +2,7 @@ package com.salesmanager.shop.store.facade.product;
 
 import static com.salesmanager.shop.util.ReadableEntityUtil.createReadableList;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -11,6 +12,7 @@ import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.exception.ServiceException;
@@ -218,6 +220,24 @@ public class ProductInventoryFacadeImpl implements ProductInventoryFacade {
 		Validate.notNull(language, "Language cannot be null");
 		
 		Page<ProductAvailability> availabilities = productAvailabilityService.getBySku(sku, page, count);
+		
+		/**
+		 * br -> if availabilities is null, it may be bcz a variant is a decorated product with no specific inventory.
+		 * in this case it should display the parent product inventory
+		 * 
+		 */
+		
+		if(availabilities.isEmpty()) {
+			//get parent product
+			try {
+				Product singleProduct = productService.getBySku(sku, store);
+				if(singleProduct!=null) {
+					availabilities = new PageImpl<ProductAvailability>(new ArrayList<ProductAvailability>(singleProduct.getAvailabilities()));
+				}
+			} catch (ServiceException e) {
+				throw new ServiceRuntimeException("An error occured while getting product with sku " + sku,e);
+			}
+		}
 		
 		List<ReadableInventory> returnList = availabilities.getContent().stream().map(i -> this.readableInventoryMapper.convert(i, store, language))
 				.collect(Collectors.toList());

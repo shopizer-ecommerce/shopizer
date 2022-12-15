@@ -213,7 +213,6 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 
 	@Override
 	public void delete(Product product) throws ServiceException {
-		LOGGER.debug("Deleting product");
 		Validate.notNull(product, "Product cannot be null");
 		Validate.notNull(product.getMerchantStore(), "MerchantStore cannot be null in product");
 		product = this.getById(product.getId());// Prevents detached entity
@@ -258,7 +257,6 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 	
 
 	private Product saveOrUpdate(Product product) throws ServiceException {
-		LOGGER.debug("Save or update product ");
 		Validate.notNull(product, "product cannot be null");
 		Validate.notNull(product.getAvailabilities(), "product must have at least one availability");
 		Validate.notEmpty(product.getAvailabilities(), "product must have at least one availability");
@@ -382,6 +380,23 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 			}
 			BigInteger id = (BigInteger) products.get(0);
 			return productRepository.getById(id.longValue(), merchant, language);
+		} catch (Exception e) {
+			throw new ServiceException("Cannot get product with sku [" + productCode + "]", e);
+		}
+		
+
+
+	}
+	
+	public Product getBySku(String productCode, MerchantStore merchant) throws ServiceException {
+
+		try {
+			List<Object> products = productRepository.findBySku(productCode, merchant.getId());
+			if(products.isEmpty()) {
+				throw new ServiceException("Cannot get product with sku [" + productCode + "]");
+			}
+			BigInteger id = (BigInteger) products.get(0);
+			return this.findOne(id.longValue(), merchant);
 		} catch (Exception e) {
 			throw new ServiceException("Cannot get product with sku [" + productCode + "]", e);
 		}
