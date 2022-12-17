@@ -3,11 +3,8 @@
 		"id": {
 			"type": "long"
 		},
-		"price": {
-			"type": "float"
-		},
-		"discoutPrice": {
-			"type": "float"
+		"inventory": {
+			"type": "nested"
 		},
 		"description": {
 			"type": "text"

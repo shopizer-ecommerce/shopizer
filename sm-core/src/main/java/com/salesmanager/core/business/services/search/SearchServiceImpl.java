@@ -15,6 +15,7 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.helper.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +29,7 @@ import org.springframework.stereotype.Service;
 import com.salesmanager.core.business.configuration.ApplicationSearchConfiguration;
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.services.catalog.inventory.ProductInventoryService;
 import com.salesmanager.core.business.services.catalog.pricing.PricingService;
 import com.salesmanager.core.business.utils.CoreConfiguration;
 import com.salesmanager.core.model.catalog.category.Category;
@@ -38,9 +40,9 @@ import com.salesmanager.core.model.catalog.product.attribute.ProductOptionDescri
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueDescription;
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
 import com.salesmanager.core.model.catalog.product.image.ProductImage;
+import com.salesmanager.core.model.catalog.product.inventory.ProductInventory;
 import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
 import com.salesmanager.core.model.catalog.product.manufacturer.ManufacturerDescription;
-import com.salesmanager.core.model.catalog.product.price.FinalPrice;
 import com.salesmanager.core.model.catalog.product.variant.ProductVariant;
 import com.salesmanager.core.model.merchant.MerchantStore;
 
@@ -68,6 +70,12 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 	
 	private final static String PRODUCT_MAPPING_DEFAULT = "search/MAPPINGS.json";
 	
+	private final static String QTY = "QTY";
+	private final static String PRICE = "PRICE";
+	private final static String DISCOUNT_PRICE = "DISCOUNT";
+	private final static String SKU = "SKU";
+	private final static String VSKU = "VSKU";
+	
 	
 	/**
 	 * TODO properties file
@@ -81,14 +89,15 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 			+ "    }";	
 	
 
-	@Inject
-	private PricingService pricingService;
 
 	@Inject
 	private CoreConfiguration configuration;
 
 	@Autowired
 	private ApplicationSearchConfiguration applicationSearchConfiguration;
+	
+	@Autowired
+	private ProductInventoryService productInventoryService;
 
 	@Autowired(required = false)
 	private SearchModule searchModule;
@@ -130,7 +139,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 
 				if (!CollectionUtils.isEmpty(product.getVariants())) {
 					variants = new ArrayList<Map<String, String>>();
-					variants = product.getVariants().stream().map(i -> variation(i)).collect(Collectors.toList());
+					variants = product.getVariants().stream().map(i -> variants(i)).collect(Collectors.toList());
 				}
 	
 				if (!CollectionUtils.isEmpty(documents)) {
@@ -181,19 +190,32 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 			if (!CollectionUtils.isEmpty(product.getImages())) {
 				image = product.getImages().stream().filter(i -> i.isDefaultImage()).findFirst().get();
 			}
-
-			FinalPrice price = pricingService.calculateProductPrice(product);
+			
+			/**
+			 * Inventory
+			 */
+			
+			/**
+			 * SKU, QTY, PRICE, DISCOUNT
+			 */
+			
+			List<Map<String, String>> itemInventory = new ArrayList<Map<String, String>>();
+			
+			itemInventory.add(inventory(product));
+			
+			if (!CollectionUtils.isEmpty(product.getVariants())) {
+				for(ProductVariant variant : product.getVariants()) {
+					itemInventory.add(inventory(variant));
+				}
+			}
 
 			IndexItem item = new IndexItem();
 			item.setId(product.getId());
 			item.setStore(store.getCode().toLowerCase());
 			item.setDescription(description.getDescription());
 			item.setName(description.getName());
-			item.setPrice(price.getStringPrice());
-			
-			if(price.isDiscounted()) {
-				item.setDiscountedPrice(price.getStringDiscountedPrice());
-			}
+			item.setInventory(itemInventory);
+
 
 			if (product.getManufacturer() != null) {
 				item.setBrand(manufacturer(product.getManufacturer(), description.getLanguage().getCode()));
@@ -279,26 +301,74 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 		return config;
 
 	}
+	
+	private Map<String, String> inventory(Product product) throws Exception {
+		
+		
+		/**
+		 * Default inventory
+		 */
+		
+		ProductInventory inventory = productInventoryService.inventory(product);
+		
+		Map<String, String> inventoryMap = new HashMap<String, String>();
+		inventoryMap.put(SKU, product.getSku());
+		inventoryMap.put(QTY, String.valueOf(inventory.getQuantity()));
+		inventoryMap.put(PRICE, String.valueOf(inventory.getPrice().getStringPrice()));
+		if(inventory.getPrice().isDiscounted()) {
+			inventoryMap.put(DISCOUNT_PRICE, String.valueOf(inventory.getPrice().getStringDiscountedPrice()));
+		}
+		
+		
+		return inventoryMap;
+	}
+	
+	private Map<String, String> inventory(ProductVariant product) throws Exception {
+		
+		
+		/**
+		 * Default inventory
+		 */
+		
+		ProductInventory inventory = productInventoryService.inventory(product);
+		
+		Map<String, String> inventoryMap = new HashMap<String, String>();
+		inventoryMap.put(SKU, product.getSku());
+		inventoryMap.put(QTY, String.valueOf(inventory.getQuantity()));
+		inventoryMap.put(PRICE, String.valueOf(inventory.getPrice().getStringPrice()));
+		if(inventory.getPrice().isDiscounted()) {
+			inventoryMap.put(DISCOUNT_PRICE, String.valueOf(inventory.getPrice().getStringDiscountedPrice()));
+		}
+		
+		
+		return inventoryMap;
+	}
 
-	private Map<String, String> variation(ProductVariant instance) {
-		if (instance == null)
+	private Map<String, String> variants(ProductVariant variant) {
+		if (variant == null)
 			return null;
 
 		Map<String, String> variantMap = new HashMap<String, String>();
-		if (instance.getVariation() != null) {
-			String variantCode = instance.getVariation().getProductOption().getCode();
-			String variantValueCode = instance.getVariation().getProductOptionValue().getCode();
+		if (variant.getVariation() != null) {
+			String variantCode = variant.getVariation().getProductOption().getCode();
+			String variantValueCode = variant.getVariation().getProductOptionValue().getCode();
 
 			variantMap.put(variantCode, variantValueCode);
 
 		}
+		
 
-		if (instance.getVariationValue() != null) {
-			String variantCode = instance.getVariationValue().getProductOption().getCode();
-			String variantValueCode = instance.getVariationValue().getProductOptionValue().getCode();
-
+		if (variant.getVariationValue() != null) {
+			String variantCode = variant.getVariationValue().getProductOption().getCode();
+			String variantValueCode = variant.getVariationValue().getProductOptionValue().getCode();
 			variantMap.put(variantCode, variantValueCode);
 		}
+		
+		if(!StringUtils.isBlank(variant.getSku())) {
+			variantMap.put(VSKU, variant.getSku());
+		}
+		
+
 
 		return variantMap;
 

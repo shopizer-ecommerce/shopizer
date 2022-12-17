@@ -9,6 +9,7 @@ import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.price.FinalPrice;
+import com.salesmanager.core.model.catalog.product.variant.ProductVariant;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.currency.Currency;
@@ -29,6 +30,14 @@ public interface PricingService {
 	 * @throws ServiceException
 	 */
 	FinalPrice calculateProductPrice(Product product) throws ServiceException;
+	
+	/**
+	 * Calculates variant price specific to variant inventory or parent inventory
+	 * @param variant
+	 * @return
+	 * @throws ServiceException
+	 */
+	FinalPrice calculateProductPrice(ProductVariant variant) throws ServiceException;
 	
 	/**
 	 * Calculates the price on a specific inventory

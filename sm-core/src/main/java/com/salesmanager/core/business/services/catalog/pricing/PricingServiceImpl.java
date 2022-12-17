@@ -16,6 +16,7 @@ import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.price.FinalPrice;
+import com.salesmanager.core.model.catalog.product.variant.ProductVariant;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.currency.Currency;
@@ -109,6 +110,12 @@ public class PricingServiceImpl implements PricingService {
 	public FinalPrice calculateProductPrice(ProductAvailability availability) throws ServiceException {
 
 		return priceUtil.getFinalPrice(availability);
+	}
+
+	@Override
+	public FinalPrice calculateProductPrice(ProductVariant variant) throws ServiceException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 
