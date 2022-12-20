@@ -1,6 +1,6 @@
 package com.salesmanager.shop.model.catalog.product.product.definition;
 
-import com.salesmanager.shop.model.catalog.product.ProductSpecification;
+import com.salesmanager.shop.model.catalog.product.product.ProductSpecification;
 import com.salesmanager.shop.model.entity.Entity;
 
 /**

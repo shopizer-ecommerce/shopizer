@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.variation.ProductVariationService;
 import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.variant.ProductVariant;
 import com.salesmanager.core.model.catalog.product.variation.ProductVariation;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -26,6 +27,9 @@ public class PersistableProductVariantMapper implements Mapper<PersistableProduc
 	
 	@Autowired
 	private ProductVariationService productVariationService;
+	
+	@Autowired
+	private PersistableProductAvailabilityMapper persistableProductAvailabilityMapper;
 	
 	@Autowired
 	private ProductService productService;
@@ -91,6 +95,15 @@ public class PersistableProductVariantMapper implements Mapper<PersistableProduc
 		}
 		
 		destination.setSortOrder(source.getSortOrder());
+		
+		
+		/**
+		 * Inventory
+		 */
+		if(source.getInventory() != null) {
+			ProductAvailability availability = persistableProductAvailabilityMapper.convert(source.getInventory(), store, language);
+			destination.getAvailabilities().add(availability);
+		}
 		
 		
 		Product product = productService.findOne(source.getProductId(), store);

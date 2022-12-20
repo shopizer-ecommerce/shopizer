@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 public class PersistableInventory extends InventoryEntity {
 
 	/**
-	 * 
+	 * An inventory for a given product and possibly a given variant
 	 */
 	private static final long serialVersionUID = 1L;
 	private String store;

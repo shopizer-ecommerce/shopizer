@@ -1,7 +1,9 @@
-package com.salesmanager.shop.model.catalog.product;
+package com.salesmanager.shop.model.catalog.product.product;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+
+import com.salesmanager.shop.model.catalog.product.Product;
 
 /**
  * A product entity is used by services API to populate or retrieve a Product
@@ -16,6 +18,7 @@ public class ProductEntity extends Product implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	private BigDecimal price;
 	private int quantity = 0;
 	private String sku;
@@ -25,11 +28,6 @@ public class ProductEntity extends Product implements Serializable {
 	private int quantityOrderMinimum = 1;// default 1
 	private boolean productIsFree;
 
-
-	/*
-	 * private BigDecimal productLength; private BigDecimal productWidth;
-	 * private BigDecimal productHeight; private BigDecimal productWeight;
-	 */
 	private ProductSpecification productSpecifications;
 	private Double rating = 0D;
 	private int ratingCount;

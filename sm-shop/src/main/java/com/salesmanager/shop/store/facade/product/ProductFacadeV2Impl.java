@@ -30,7 +30,7 @@ import com.salesmanager.core.model.catalog.product.relationship.ProductRelations
 import com.salesmanager.core.model.catalog.product.variant.ProductVariant;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.shop.mapper.catalog.ReadableProductMapper;
+import com.salesmanager.shop.mapper.catalog.product.ReadableProductMapper;
 import com.salesmanager.shop.mapper.catalog.product.ReadableProductVariantMapper;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProductList;

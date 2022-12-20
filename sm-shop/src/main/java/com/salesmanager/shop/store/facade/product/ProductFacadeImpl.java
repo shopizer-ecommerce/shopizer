@@ -29,11 +29,11 @@ import com.salesmanager.core.model.catalog.product.relationship.ProductRelations
 import com.salesmanager.core.model.catalog.product.relationship.ProductRelationshipType;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.shop.model.catalog.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.ProductPriceRequest;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProductList;
 import com.salesmanager.shop.model.catalog.product.ReadableProductPrice;
+import com.salesmanager.shop.model.catalog.product.product.PersistableProduct;
 import com.salesmanager.shop.populator.catalog.ReadableFinalPricePopulator;
 import com.salesmanager.shop.populator.catalog.ReadableProductPopulator;
 import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;

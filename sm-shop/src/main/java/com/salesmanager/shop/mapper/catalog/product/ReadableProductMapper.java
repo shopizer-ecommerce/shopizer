@@ -1,4 +1,4 @@
-package com.salesmanager.shop.mapper.catalog;
+package com.salesmanager.shop.mapper.catalog.product;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,10 +33,11 @@ import com.salesmanager.core.model.catalog.product.variant.ProductVariant;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
-import com.salesmanager.shop.mapper.catalog.product.ReadableProductVariantMapper;
+import com.salesmanager.shop.mapper.catalog.ReadableCategoryMapper;
+import com.salesmanager.shop.mapper.catalog.ReadableManufacturerMapper;
+import com.salesmanager.shop.mapper.catalog.ReadableProductTypeMapper;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
-import com.salesmanager.shop.model.catalog.product.ProductSpecification;
 import com.salesmanager.shop.model.catalog.product.ReadableImage;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProductPrice;
@@ -46,6 +47,7 @@ import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOpti
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductProperty;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductPropertyValue;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValue;
+import com.salesmanager.shop.model.catalog.product.product.ProductSpecification;
 import com.salesmanager.shop.model.catalog.product.product.variant.ReadableProductVariant;
 import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
 import com.salesmanager.shop.model.references.DimensionUnitOfMeasure;

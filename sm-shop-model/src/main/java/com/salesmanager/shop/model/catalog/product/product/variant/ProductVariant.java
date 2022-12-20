@@ -6,8 +6,10 @@ public class ProductVariant extends Product {
 
 	private static final long serialVersionUID = 1L;
 	private String store;
+	/** use product id or sku **/
 	private Long productId;
 	private String sku;
+	/** **/
 	private boolean available;
 	private String dateAvailable;
 	private int sortOrder;

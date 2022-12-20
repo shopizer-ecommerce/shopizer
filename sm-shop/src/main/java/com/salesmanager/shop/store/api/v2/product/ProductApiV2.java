@@ -29,6 +29,7 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.LightPersistableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProductList;
+import com.salesmanager.shop.model.catalog.product.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.product.definition.PersistableProductDefinition;
 import com.salesmanager.shop.model.catalog.product.product.definition.ReadableProductDefinition;
 import com.salesmanager.shop.model.entity.Entity;
@@ -71,6 +72,30 @@ public class ProductApiV2 {
 	private ProductCommonFacade productCommonFacade;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProductApiV2.class);
+	
+	
+	/**
+	 * Create product inventory with variants, quantity and prices
+	 * @param product
+	 * @param merchantStore
+	 * @param language
+	 * @return
+	 */
+	@ResponseStatus(HttpStatus.CREATED)
+	@RequestMapping(value = { "/private/product/inventory" }, 
+			method = RequestMethod.POST)
+	@ApiImplicitParams({ 
+			@ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	public @ResponseBody PersistableProduct create(
+			@Valid @RequestBody PersistableProduct product,
+			@ApiIgnore MerchantStore merchantStore, 
+			@ApiIgnore Language language) {
+
+		productCommonFacade.saveProduct(merchantStore, product, language);
+		return product;
+
+	}
 
 
 	/**

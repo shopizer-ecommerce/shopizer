@@ -21,12 +21,12 @@ import com.salesmanager.shop.application.ShopApplication;
 import com.salesmanager.shop.model.catalog.category.Category;
 import com.salesmanager.shop.model.catalog.category.CategoryDescription;
 import com.salesmanager.shop.model.catalog.category.PersistableCategory;
-import com.salesmanager.shop.model.catalog.product.PersistableProduct;
-import com.salesmanager.shop.model.catalog.product.ProductSpecification;
 import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductOption;
 import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductOptionValue;
 import com.salesmanager.shop.model.catalog.product.attribute.ProductOptionDescription;
 import com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription;
+import com.salesmanager.shop.model.catalog.product.product.PersistableProduct;
+import com.salesmanager.shop.model.catalog.product.product.ProductSpecification;
 import com.salesmanager.shop.model.catalog.product.variation.PersistableProductVariation;
 import com.salesmanager.test.shop.common.ServicesTestSupport;
 
@@ -72,7 +72,7 @@ public class ProductV2ManagementAPIIntegrationTest extends ServicesTestSupport {
 		assertTrue(categoryResponse.getStatusCode()== CREATED);
 		assertNotNull(cat.getId());
 
-		final PersistableProduct product = new PersistableProduct();
+		final PersistableProduct product = super.product("123");
 		final ArrayList<Category> categories = new ArrayList<>();
 		categories.add(cat);
 		product.setCategories(categories);
@@ -81,7 +81,6 @@ public class ProductV2ManagementAPIIntegrationTest extends ServicesTestSupport {
 				com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer.DEFAULT_MANUFACTURER);
 		product.setProductSpecifications(specifications);
 		product.setPrice(BigDecimal.TEN);
-		product.setSku("123");
 		
 		final HttpEntity<PersistableProduct> productEntity = new HttpEntity<>(product, getHeader());
 		final ResponseEntity<PersistableProduct> response = testRestTemplate.postForEntity(

@@ -78,7 +78,7 @@ public class ShoppingCartAPIIntegrationTest extends ServicesTestSupport {
     @Order(2)
     public void addSecondToCart() throws Exception {
 
-        ReadableProduct product = sampleProduct("add2Cart");
+        ReadableProduct product = sampleProduct("add2Cart2");
         assertNotNull(product);
         data.getProducts().add(product);
 

@@ -9,6 +9,7 @@ import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductAttribute;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOption;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductProperty;
+import com.salesmanager.shop.model.catalog.product.product.ProductEntity;
 import com.salesmanager.shop.model.catalog.product.product.variant.ReadableProductVariant;
 import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
 

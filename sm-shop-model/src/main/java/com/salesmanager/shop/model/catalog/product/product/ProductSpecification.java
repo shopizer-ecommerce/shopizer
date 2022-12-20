@@ -1,4 +1,4 @@
-package com.salesmanager.shop.model.catalog.product;
+package com.salesmanager.shop.model.catalog.product.product;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

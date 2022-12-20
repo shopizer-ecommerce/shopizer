@@ -9,6 +9,7 @@ import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -28,14 +29,14 @@ import com.salesmanager.core.model.catalog.product.review.ProductReview;
 import com.salesmanager.core.model.catalog.product.variant.ProductVariant;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.mapper.catalog.product.PersistableProductMapper;
 import com.salesmanager.shop.model.catalog.product.LightPersistableProduct;
-import com.salesmanager.shop.model.catalog.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.PersistableProductReview;
 import com.salesmanager.shop.model.catalog.product.ProductPriceEntity;
-import com.salesmanager.shop.model.catalog.product.ProductSpecification;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProductReview;
-import com.salesmanager.shop.populator.catalog.PersistableProductPopulator;
+import com.salesmanager.shop.model.catalog.product.product.PersistableProduct;
+import com.salesmanager.shop.model.catalog.product.product.ProductSpecification;
 import com.salesmanager.shop.populator.catalog.PersistableProductReviewPopulator;
 import com.salesmanager.shop.populator.catalog.ReadableProductPopulator;
 import com.salesmanager.shop.populator.catalog.ReadableProductReviewPopulator;
@@ -72,9 +73,9 @@ public class ProductCommonFacadeImpl implements ProductCommonFacade {
 
 	@Inject
 	private ProductReviewService productReviewService;
-
-	@Inject
-	private PersistableProductPopulator persistableProductPopulator;
+	
+	@Autowired
+	private PersistableProductMapper persistableProductMapper;
 
 	@Inject
 	@Qualifier("img")
@@ -99,7 +100,8 @@ public class ProductCommonFacadeImpl implements ProductCommonFacade {
 		}
 
 		try {
-			persistableProductPopulator.populate(product, target, store, language);
+			
+			target = persistableProductMapper.merge(product, target, store, language);
 			target = productService.saveProduct(target);
 			product.setId(target.getId());
 
