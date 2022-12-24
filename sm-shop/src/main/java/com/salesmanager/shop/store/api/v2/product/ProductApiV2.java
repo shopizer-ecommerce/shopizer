@@ -87,13 +87,15 @@ public class ProductApiV2 {
 	@ApiImplicitParams({ 
 			@ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public @ResponseBody PersistableProduct create(
+	public @ResponseBody Entity create(
 			@Valid @RequestBody PersistableProduct product,
 			@ApiIgnore MerchantStore merchantStore, 
 			@ApiIgnore Language language) {
 
-		productCommonFacade.saveProduct(merchantStore, product, language);
-		return product;
+		Long id = productCommonFacade.saveProduct(merchantStore, product, language);
+		Entity returnEntity = new Entity();
+		returnEntity.setId(id);
+		return returnEntity;
 
 	}
 

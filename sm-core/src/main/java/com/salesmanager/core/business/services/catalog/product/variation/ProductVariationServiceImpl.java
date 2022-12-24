@@ -45,7 +45,7 @@ public class ProductVariationServiceImpl extends
 	}
 	
 	@Override
-	public ProductVariation getByCode(MerchantStore store, String code) {
+	public Optional<ProductVariation> getByCode(MerchantStore store, String code) {
 		return productVariationRepository.findByCode(code, store.getId());
 	}
 

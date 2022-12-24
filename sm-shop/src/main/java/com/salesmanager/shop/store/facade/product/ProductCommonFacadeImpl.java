@@ -82,7 +82,7 @@ public class ProductCommonFacadeImpl implements ProductCommonFacade {
 	private ImageFilePath imageUtils;
 
 	@Override
-	public PersistableProduct saveProduct(MerchantStore store, PersistableProduct product, Language language) {
+	public Long saveProduct(MerchantStore store, PersistableProduct product, Language language) {
 
 		String manufacturer = Manufacturer.DEFAULT_MANUFACTURER;
 		if (product.getProductSpecifications() != null) {
@@ -103,10 +103,9 @@ public class ProductCommonFacadeImpl implements ProductCommonFacade {
 			
 			target = persistableProductMapper.merge(product, target, store, language);
 			target = productService.saveProduct(target);
-			product.setId(target.getId());
 
 
-			return product;
+			return target.getId();
 		} catch (Exception e) {
 			throw new ServiceRuntimeException(e);
 		}

@@ -39,6 +39,7 @@ import com.salesmanager.shop.mapper.catalog.PersistableProductAttributeMapper;
 import com.salesmanager.shop.model.catalog.product.ProductPriceEntity;
 import com.salesmanager.shop.model.catalog.product.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.product.PersistableProductInventory;
+import com.salesmanager.shop.model.catalog.product.product.variant.PersistableProductVariant;
 import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;
 import com.salesmanager.shop.utils.DateUtil;
 
@@ -197,15 +198,7 @@ public class PersistableProductMapper implements Mapper<PersistableProduct, Prod
 			}
 			destination.setProductReviewCount(source.getRatingCount());
 			
-			/**
-			 * Default inventory
-			 */
-			
-			if(source.getInventory() != null) {
-				ProductAvailability productAvailability = persistableProductAvailabilityMapper.convert(source.getInventory(), store, language);
-				productAvailability.setProduct(destination);
-				destination.getAvailabilities().add(productAvailability);
-			}
+
 			
 			/**
 			 * Category
@@ -240,8 +233,34 @@ public class PersistableProductMapper implements Mapper<PersistableProduct, Prod
 			 * Variants
 			 */
 			if(!CollectionUtils.isEmpty(source.getVariants())) {
-				Set<ProductVariant> variants = source.getVariants().stream().map(v -> persistableProductVariantMapper.convert(v, store, language)).collect(Collectors.toSet());
+				Set<ProductVariant> variants = source.getVariants().stream().map(v -> this.variant(destination, v, store, language)).collect(Collectors.toSet());
+
 				destination.setVariants(variants);
+			}
+			
+			/**
+			 * Default inventory
+			 */
+			
+			if(source.getInventory() != null) {
+				ProductAvailability productAvailability = persistableProductAvailabilityMapper.convert(source.getInventory(), store, language);
+				productAvailability.setProduct(destination);
+				destination.getAvailabilities().add(productAvailability);
+			} else {
+				//need an inventory to create a Product
+				if(!CollectionUtils.isEmpty(destination.getVariants())) {
+					ProductAvailability defaultAvailability = null;	
+					for(ProductVariant variant : destination.getVariants()) {
+						defaultAvailability = this.defaultAvailability(variant.getAvailabilities().stream().collect(Collectors.toList()));
+						if(defaultAvailability != null) {
+							break;
+						}
+					}
+					
+					defaultAvailability.setProduct(destination);
+					destination.getAvailabilities().add(defaultAvailability);
+					
+				}
 			}
 
 
@@ -252,6 +271,16 @@ public class PersistableProductMapper implements Mapper<PersistableProduct, Prod
 		}
 		
 		
+	}
+	
+	private ProductVariant variant(Product product, PersistableProductVariant variant, MerchantStore store, Language language) {
+		ProductVariant var = persistableProductVariantMapper.convert(variant, store, language);
+		var.setProduct(product);
+		return var;
+	}
+	
+	private ProductAvailability defaultAvailability(List <ProductAvailability> availabilityList) {
+		return availabilityList.stream().filter(a -> a.getRegion() != null && a.getRegion().equals(Constants.ALL_REGIONS)).findFirst().get();
 	}
 	
 

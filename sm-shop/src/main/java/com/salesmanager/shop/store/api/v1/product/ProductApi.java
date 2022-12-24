@@ -42,6 +42,7 @@ import com.salesmanager.shop.model.catalog.product.LightPersistableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProductList;
 import com.salesmanager.shop.model.catalog.product.product.PersistableProduct;
+import com.salesmanager.shop.model.entity.Entity;
 import com.salesmanager.shop.model.entity.EntityExists;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
@@ -92,13 +93,11 @@ public class ProductApi {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProductApi.class);
 
 	/**
-	 * Create product definition
+	 * Create product
 	 * @param product
 	 * @param merchantStore
 	 * @param language
-	 * @param request
-	 * @param response
-	 * @return
+	 * @return Entity
 	 */
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value = { "/private/product", "/auth/products" }, // private
@@ -108,12 +107,13 @@ public class ProductApi {
 			method = RequestMethod.POST)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public @ResponseBody PersistableProduct create(@Valid @RequestBody PersistableProduct product,
-			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language, HttpServletRequest request,
-			HttpServletResponse response) {
-
-		productCommonFacade.saveProduct(merchantStore, product, language);
-		return product;
+	public @ResponseBody Entity create(@Valid @RequestBody PersistableProduct product,
+			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
+	
+		Long id = productCommonFacade.saveProduct(merchantStore, product, language);
+		Entity returnEntity = new Entity();
+		returnEntity.setId(id);
+		return returnEntity;
 
 	}
 
@@ -122,7 +122,7 @@ public class ProductApi {
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
 	@ApiOperation(httpMethod = "PUT", value = "Update product", notes = "", produces = "application/json", response = PersistableProduct.class)
-	public @ResponseBody PersistableProduct update(@PathVariable Long id,
+	public void update(@PathVariable Long id,
 			@Valid @RequestBody PersistableProduct product, @ApiIgnore MerchantStore merchantStore,
 			HttpServletRequest request, HttpServletResponse response) {
 
@@ -130,12 +130,10 @@ public class ProductApi {
 			// Make sure we have consistency in this request
 			if (!id.equals(product.getId())) {
 				response.sendError(400, "Error url id does not match object id");
-				return null;
 			}
 
-			PersistableProduct saved = productCommonFacade.saveProduct(merchantStore, product,
+			productCommonFacade.saveProduct(merchantStore, product,
 					merchantStore.getDefaultLanguage());
-			return saved;
 		} catch (Exception e) {
 			LOGGER.error("Error while updating product", e);
 			try {
@@ -143,7 +141,6 @@ public class ProductApi {
 			} catch (Exception ignore) {
 			}
 
-			return null;
 		}
 	}
 
