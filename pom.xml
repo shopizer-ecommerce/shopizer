@@ -103,7 +103,7 @@
 			<dependency>
 				<groupId>com.shopizer</groupId>
 				<artifactId>sm-core-model</artifactId>
-				<version>3.2.2</version>
+				<version>3.2.3</version>
 			</dependency>
 			<dependency>
 				<groupId>com.shopizer</groupId>
