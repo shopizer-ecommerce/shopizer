@@ -1,0 +1,213 @@
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://www.springframework.org/schema/data/jpa"
+  xmlns:util="http://www.springframework.org/schema/util"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xmlns:tx="http://www.springframework.org/schema/tx"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/tx 
+    http://www.springframework.org/schema/tx/spring-tx.xsd
+    http://www.springframework.org/schema/aop 
+    http://www.springframework.org/schema/aop/spring-aop.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/data/jpa
+    http://www.springframework.org/schema/data/jpa/spring-jpa.xsd"> 
+    
+      
+	<!-- 
+	********************
+	Content management
+	config.cms.method=default | http | aws
+	********************
+	 -->  
+	
+	<!-- Product images manager -->
+	<beans:bean id="productFileManager"
+		class="com.salesmanager.core.business.modules.cms.product.ProductFileManagerImpl">
+		<beans:property name="uploadImage">
+				<beans:ref bean="${config.cms.method}ProductAssetsManager" />
+		</beans:property>
+		<beans:property name="getImage">
+				<beans:ref bean="${config.cms.method}ProductAssetsManager" />
+		</beans:property>
+		<beans:property name="removeImage">
+				<beans:ref bean="${config.cms.method}ProductAssetsManager" />
+		</beans:property>
+		<!-- *** Don't remove, required for this bean only *** -->
+		<beans:property name="configuration">
+				<beans:ref bean="coreConfiguration" />
+		</beans:property>
+	</beans:bean>
+	
+
+	<!-- Content images manager -->
+	<beans:bean id="contentFileManager"
+		class="com.salesmanager.core.business.modules.cms.content.StaticContentFileManagerImpl">
+		<beans:property name="uploadFile">
+				<beans:ref bean="${config.cms.method}ContentAssetsManager" />
+		</beans:property>
+		<beans:property name="getFile">
+				<beans:ref bean="${config.cms.method}ContentAssetsManager" />
+		</beans:property>
+		<beans:property name="removeFile">
+				<beans:ref bean="${config.cms.method}ContentAssetsManager" />
+		</beans:property>
+		<beans:property name="addFolder">
+				<beans:ref bean="${config.cms.method}ContentAssetsManager" />
+		</beans:property>
+		<beans:property name="removeFolder">
+				<beans:ref bean="${config.cms.method}ContentAssetsManager" />
+		</beans:property>
+		<beans:property name="listFolder">
+				<beans:ref bean="${config.cms.method}ContentAssetsManager" />
+		</beans:property>
+	</beans:bean>
+
+	<!-- Product downloads -->
+	<beans:bean id="productDownloadsFileManager" class="com.salesmanager.core.business.modules.cms.content.StaticContentFileManagerImpl">
+		<beans:property name="uploadFile">
+				<beans:ref bean="${config.cms.method}DownloadsManager" />
+		</beans:property>
+		<beans:property name="getFile">
+			<beans:ref bean="${config.cms.method}DownloadsManager" />
+		</beans:property>
+		<beans:property name="removeFile">
+			<beans:ref bean="${config.cms.method}DownloadsManager" />
+		</beans:property>
+	</beans:bean>
+	
+	
+	<!-- ************** -->
+	<!-- Assets manager -->
+	<!-- ************** -->
+	
+	<!-- Infinispan -->
+	
+	<!-- default CMS implementation for [[product images]] -->
+	<beans:bean id="defaultProductAssetsManager"
+				class="com.salesmanager.core.business.modules.cms.product.infinispan.CmsImageFileManagerImpl" factory-method="getInstance" >
+				<!-- internal implementation -->
+				<beans:property name="cacheManager">
+						<beans:ref bean="infinispanProductAssetsManager" />
+				</beans:property>
+	</beans:bean>
+	
+	<!-- store images, js, css [[static images]] -->
+ 	<beans:bean id="defaultContentAssetsManager"
+				class="com.salesmanager.core.business.modules.cms.content.infinispan.CmsStaticContentFileManagerImpl" factory-method="getInstance" >
+				<beans:property name="cacheManager">
+						<beans:ref bean="infinispanStaticAssetsManager" />
+				</beans:property>
+	</beans:bean>
+	
+	
+	<!-- Product download files -->
+	<beans:bean id="defaultDownloadsManager" class="com.salesmanager.core.business.modules.cms.content.infinispan.CmsStaticContentFileManagerImpl" factory-method="getInstance">
+		<beans:property name="cacheManager">
+			<beans:ref bean="downloadsManager" />
+		</beans:property>
+	</beans:bean>
+	
+	<!-- Httpd -->
+	
+	<beans:bean id="httpdProductAssetsManager"
+				class="com.salesmanager.core.business.modules.cms.product.local.CmsImageFileManagerImpl" factory-method="getInstance" >
+				<!-- internal implementation -->
+				<beans:property name="cacheManager">
+						<beans:ref bean="httpdAssetsManager" />
+				</beans:property>
+	</beans:bean>
+	
+	 <beans:bean id="httpdContentAssetsManager"
+				class="com.salesmanager.core.business.modules.cms.content.local.CmsStaticContentFileManagerImpl" factory-method="getInstance" >
+				<beans:property name="cacheManager">
+						<beans:ref bean="httpdAssetsManager" />
+				</beans:property>
+	</beans:bean>
+
+	<beans:bean id="httpdDownloadsManager"
+				class="com.salesmanager.core.business.modules.cms.content.local.CmsStaticContentFileManagerImpl" factory-method="getInstance" >
+				<beans:property name="cacheManager">
+						<beans:ref bean="httpdAssetsManager" />
+				</beans:property>
+	</beans:bean>
+
+	<!-- AWS-->
+	<beans:bean id="awsProductAssetsManager"
+				class="com.salesmanager.core.business.modules.cms.product.aws.S3ProductContentFileManager" factory-method="getInstance" >
+				<!-- internal implementation -->
+ 				<beans:property name="cmsManager">
+						<beans:ref bean="awsAssetsManager" />
+				</beans:property>
+	</beans:bean>
+	
+	 <beans:bean id="awsContentAssetsManager"
+				class="com.salesmanager.core.business.modules.cms.content.aws.S3StaticContentAssetsManagerImpl" factory-method="getInstance" >
+ 				<beans:property name="cmsManager">
+						<beans:ref bean="awsAssetsManager" />
+				</beans:property>
+	</beans:bean>
+	
+	<beans:bean id="awsDownloadsManager"
+				class="com.salesmanager.core.business.modules.cms.content.aws.S3StaticContentAssetsManagerImpl" factory-method="getInstance" >
+ 				<beans:property name="cmsManager">
+						<beans:ref bean="awsAssetsManager" />
+				</beans:property>
+	</beans:bean>
+
+	<!--  end of CMS implementation for static content data -->
+
+	<!--  end of CMS implementation for static content data -->
+
+	<!-- ++++++++++++ -->
+	<!-- CMS managers -->
+	<!-- ************ -->
+	
+	<!-- infinispan product STARTUP-->
+	<beans:bean id="infinispanProductAssetsManager" 
+		class="com.salesmanager.core.business.modules.cms.impl.StoreCacheManagerImpl">
+		<beans:constructor-arg value="${config.cms.store.location}"/><!-- location -->
+		<beans:constructor-arg value="product-merchant"/><!-- root -->
+	</beans:bean>	
+	
+	<!-- infinispan static STARTUP-->
+	<beans:bean id="infinispanStaticAssetsManager" 
+		class="com.salesmanager.core.business.modules.cms.impl.StaticContentCacheManagerImpl" >
+		<beans:constructor-arg value="${config.cms.files.location}"/><!-- location -->
+		<beans:constructor-arg value="store-merchant"/><!-- root -->
+	</beans:bean>
+	
+	<!-- downloads-->
+	<beans:bean id="downloadsManager"
+				class="com.salesmanager.core.business.modules.cms.impl.DownloadCacheManagerImpl">
+				<beans:constructor-arg value="${config.cms.store.location}"/><!-- location -->
+				<beans:constructor-arg value="product-file"/><!-- root -->
+	</beans:bean>
+	
+	<!-- httpd -->
+	<beans:bean id="httpdAssetsManager" 
+		class="com.salesmanager.core.business.modules.cms.impl.LocalCacheManagerImpl">
+		<beans:constructor-arg value="${config.cms.http.path.location}"/><!-- where files are copied on disk -->
+	</beans:bean>
+
+    <!-- aws -->
+	<beans:bean id="awsAssetsManager" 
+		class="com.salesmanager.core.business.modules.cms.impl.S3CacheManagerImpl">
+		<beans:constructor-arg value="${config.cms.aws.bucket}"/>
+		<beans:constructor-arg value="${config.cms.aws.region}"/>
+	</beans:bean>
+
+	
+	<!--  -->
+	
+	<!-- 
+		*** End CMS configuration ***
+	 -->
+    
+    
+    </beans:beans>

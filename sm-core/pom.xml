@@ -1,0 +1,245 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.shopizer</groupId>
+		<artifactId>shopizer</artifactId>
+		<version>3.2.5</version>
+	</parent>
+
+	<artifactId>sm-core</artifactId>
+	<packaging>jar</packaging>
+
+	<name>sm-core</name>
+	<url>http://www.shopizer.com</url>
+
+	<properties>
+		<coverage.lines>.00</coverage.lines>
+		<coverage.branches>.00</coverage.branches>
+		<google-client-maps-services-version>0.1.6</google-client-maps-services-version>
+	</properties>
+
+	<dependencies>
+
+		<!-- jpa, crud repository -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-ehcache -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-ehcache</artifactId>
+		</dependency>
+
+		<!-- sm-core-model -->
+		<dependency>
+			<groupId>com.shopizer</groupId>
+			<artifactId>sm-core-model</artifactId>
+		</dependency>
+
+		<!-- sm-core-modules -->
+		<dependency>
+			<groupId>com.shopizer</groupId>
+			<artifactId>sm-core-modules</artifactId>
+		</dependency>
+
+		<!-- canadapost -->
+		<dependency>
+			<groupId>com.shopizer</groupId>
+			<artifactId>shipping-canadapost-spring-boot-starter</artifactId>
+			<version>2.17.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.shopizer</groupId>
+			<artifactId>shopizer-commons</artifactId>
+			<version>1.0.6</version>
+		</dependency>
+
+		<!-- open search client -->
+		
+		<dependency>
+			<groupId>com.shopizer</groupId>
+			<artifactId>shopizer-search-opensearch-spring-boot-starter</artifactId>
+			<version>1.0.3</version>
+		</dependency>
+		
+
+		<!--
+		Want to use Square Payment Module ?
+        <dependency>
+            <groupId>com.shopizer</groupId>
+            <artifactId>shopizer-payment-square-spring-boot-starter</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        -->
+
+
+		<!-- Google Map API -->
+		<dependency>
+			<groupId>com.google.maps</groupId>
+			<artifactId>google-maps-services</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.kie</groupId>
+			<artifactId>kie-ci</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.annotation</groupId>
+					<artifactId>jsr250-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-decisiontables</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-compiler</artifactId>
+		</dependency>
+
+		<!--spring integration -->
+		<dependency>
+			<groupId>org.kie</groupId>
+			<artifactId>kie-spring</artifactId>
+		</dependency>
+		<!-- end rules engine -->
+
+		<!-- Infinispan -->
+		<dependency>
+			<groupId>org.infinispan</groupId>
+			<artifactId>infinispan-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.infinispan</groupId>
+			<artifactId>infinispan-tree</artifactId>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-collections4 -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-collections4</artifactId>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/commons-validator/commons-validator -->
+		<dependency>
+			<groupId>commons-validator</groupId>
+			<artifactId>commons-validator</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-collections</groupId>
+					<artifactId>commons-collections</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.freemarker/freemarker -->
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context-support -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-s3 -->
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-s3</artifactId>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-ses -->
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-ses</artifactId>
+		</dependency>
+
+		<!-- google cloud storage -->
+		<dependency>
+			<groupId>com.google.cloud</groupId>
+			<artifactId>google-cloud-storage</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- Payment dependencies -->
+
+		<!-- Paypal -->
+		<dependency>
+			<groupId>com.paypal.sdk</groupId>
+			<artifactId>merchantsdk</artifactId>
+		</dependency>
+
+		<!-- Stripe -->
+		<dependency>
+			<groupId>com.stripe</groupId>
+			<artifactId>stripe-java</artifactId>
+		</dependency>
+
+		<!-- Braintree -->
+		<dependency>
+			<groupId>com.braintreepayments.gateway</groupId>
+			<artifactId>braintree-java</artifactId>
+		</dependency>
+
+
+		<!-- https://mvnrepository.com/artifact/com.maxmind.geoip2/geoip2 -->
+		<dependency>
+			<groupId>com.maxmind.geoip2</groupId>
+			<artifactId>geoip2</artifactId>
+		</dependency>
+
+		<!-- google cloud storage -->
+		<!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+		<!-- Up to date for GCP storage issue -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+		</dependency>
+
+		<!-- tests dependencies -->
+		<!-- http://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+		</dependency>
+		<!-- H2 DB -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+		</dependency>
+
+	</dependencies>
+	
+
+</project>

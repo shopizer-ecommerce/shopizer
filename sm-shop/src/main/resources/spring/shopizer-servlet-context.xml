@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:social="http://www.springframework.org/schema/social"
+    xmlns:facebook="http://www.springframework.org/schema/social/facebook"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/social http://www.springframework.org/schema/social/spring-social.xsd
+        http://www.springframework.org/schema/social/facebook http://www.springframework.org/schema/social/spring-social-facebook.xsd">
+
+	<beans:bean id="localeResolver"
+        class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+        <beans:property name="defaultLocale" value="en"></beans:property>
+    </beans:bean>
+	
+	<beans:bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<beans:property name="basenames">
+			<beans:list>
+  				<beans:value>classpath:bundles/shopizer</beans:value>
+  				<beans:value>classpath:bundles/messages</beans:value>
+  				<beans:value>classpath:bundles/shipping</beans:value>
+  				<beans:value>classpath:bundles/payment</beans:value>    
+  			</beans:list>
+  		</beans:property>
+  		<beans:property name="defaultEncoding" value="UTF-8"/>
+  	</beans:bean>
+
+	<beans:bean id="messages" class="com.salesmanager.shop.utils.LabelUtils"/>
+
+	<!-- 
+	local image handler
+	-->
+	<beans:bean id="img" class="com.salesmanager.shop.utils.LocalImageFilePathUtils">
+		<beans:property name="basePath" value="/static" />
+	</beans:bean>
+
+</beans:beans>

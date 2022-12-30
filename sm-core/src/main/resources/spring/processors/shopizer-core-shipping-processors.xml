@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+		<!-- Shipping pre-processors -->
+		<!-- Uncomment beans that can be part of pre process when calculating shipping quotes -->
+		<util:list id="shippingModulePreProcessors" value-type="com.salesmanager.core.business.modules.integration.shipping.model.ShippingQuotePrePostProcessModule">
+			<!-- Not configured by default, should know what is your intention before enabling -->
+			
+			<!-- 
+				Shipping distance preprocessor as indicated in its name is a module that calculates
+				the distance between shipping origin and customer shipping address. It uses google 
+				distance calculation and requires google api keys to be configured below. 
+			 -->
+			 
+			<ref bean="shippingDistancePreProcessor"/>
+
+			<!-- 
+				Used drules decision tables to decide at runtime which module the system will use
+				for instance you can specify rules such as if dimension (volume) of each item lte
+				a given volume then use this method, otherwise use another one. Decision tables
+				need to be configured in resources/rules/shipping-decision-rules.xls
+			
+			 -->
+			<ref bean="shippingMethodDecisionProcess"/>
+		</util:list>
+
+		
+		
+		<!-- Decides dynamicaly which method is used based on a decision table-->
+		<bean id="shippingMethodDecisionProcess"
+			class="com.salesmanager.core.business.modules.integration.shipping.impl.ShippingDecisionPreProcessorImpl">
+		</bean>
+		
+		<!-- Any post process required after getting a quote -->
+		<!-- Shipping post-processors -->
+		<util:list id="shippingModulePostProcessors" value-type="com.salesmanager.core.business.modules.integration.shipping.model.ShippingQuotePrePostProcessModule">
+			<!-- Not configured by default, should be configured to be used -->
+			<ref bean="storePickUp"/><!-- defined in core-modules -->
+		</util:list>
+
+	
+</beans>

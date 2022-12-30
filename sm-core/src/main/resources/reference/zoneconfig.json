@@ -1,0 +1,2860 @@
+{
+  "en":[
+	{
+		"zoneCode": "AL",
+		"zoneName": "Alabama",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "AK",
+		"zoneName": "Alaska",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "AS",
+		"zoneName": "American Samoa",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "AZ",
+		"zoneName": "Arizona",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "AR",
+		"zoneName": "Arkansas",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "AF",
+		"zoneName": "Armed Forces Africa",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "AA",
+		"zoneName": "Armed Forces Americas",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "AC",
+		"zoneName": "Armed Forces Canada",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "AE",
+		"zoneName": "Armed Forces Europe",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "AM",
+		"zoneName": "Armed Forces Middle East",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "AP",
+		"zoneName": "Armed Forces Pacific",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "CA",
+		"zoneName": "California",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "CO",
+		"zoneName": "Colorado",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "CT",
+		"zoneName": "Connecticut",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "DE",
+		"zoneName": "Delaware",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "DC",
+		"zoneName": "District of Columbia",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "FM",
+		"zoneName": "Federated States Of Micronesia",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "FL",
+		"zoneName": "Florida",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "GA",
+		"zoneName": "Georgia",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "GU",
+		"zoneName": "Guam",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "HI",
+		"zoneName": "Hawaii",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "ID",
+		"zoneName": "Idaho",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "IL",
+		"zoneName": "Illinois",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "IN",
+		"zoneName": "Indiana",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "IA",
+		"zoneName": "Iowa",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "KS",
+		"zoneName": "Kansas",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "KY",
+		"zoneName": "Kentucky",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "LA",
+		"zoneName": "Louisiana",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "ME",
+		"zoneName": "Maine",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "MH",
+		"zoneName": "Marshall Islands",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "MD",
+		"zoneName": "Maryland",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "MA",
+		"zoneName": "Massachusetts",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "MI",
+		"zoneName": "Michigan",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "MN",
+		"zoneName": "Minnesota",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "MS",
+		"zoneName": "Mississippi",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "MO",
+		"zoneName": "Missouri",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "MT",
+		"zoneName": "Montana",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "NE",
+		"zoneName": "Nebraska",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "NV",
+		"zoneName": "Nevada",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "NH",
+		"zoneName": "New Hampshire",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "NJ",
+		"zoneName": "New Jersey",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "NM",
+		"zoneName": "New Mexico",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "NY",
+		"zoneName": "New York",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "NC",
+		"zoneName": "North Carolina",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "ND",
+		"zoneName": "North Dakota",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "MP",
+		"zoneName": "Northern Mariana Islands",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "OH",
+		"zoneName": "Ohio",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "OK",
+		"zoneName": "Oklahoma",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "OR",
+		"zoneName": "Oregon",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "PA",
+		"zoneName": "Pennsylvania",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "PR",
+		"zoneName": "Puerto Rico",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "RI",
+		"zoneName": "Rhode Island",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "SC",
+		"zoneName": "South Carolina",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "SD",
+		"zoneName": "South Dakota",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "TN",
+		"zoneName": "Tennessee",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "TX",
+		"zoneName": "Texas",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "UT",
+		"zoneName": "Utah",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "VT",
+		"zoneName": "Vermont",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "VI",
+		"zoneName": "Virgin Islands",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "VA",
+		"zoneName": "Virginia",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "WA",
+		"zoneName": "Washington",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "WV",
+		"zoneName": "West Virginia",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "WI",
+		"zoneName": "Wisconsin",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "WY",
+		"zoneName": "Wyoming",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "AB",
+		"zoneName": "Alberta",
+		"countryCode": "CA"
+	},
+	{
+		"zoneCode": "BC",
+		"zoneName": "British Columbia",
+		"countryCode": "CA"
+	},
+	{
+		"zoneCode": "MB",
+		"zoneName": "Manitoba",
+		"countryCode": "CA"
+	},
+	{
+		"zoneCode": "NF",
+		"zoneName": "Newfoundland - Labrador",
+		"countryCode": "CA"
+	},
+	{
+		"zoneCode": "NB",
+		"zoneName": "New Brunswick",
+		"countryCode": "CA"
+	},
+	{
+		"zoneCode": "NS",
+		"zoneName": "Nova Scotia",
+		"countryCode": "CA"
+	},
+	{
+		"zoneCode": "NT",
+		"zoneName": "Northwest Territories",
+		"countryCode": "CA"
+	},
+	{
+		"zoneCode": "NU",
+		"zoneName": "Nunavut",
+		"countryCode": "CA"
+	},
+	{
+		"zoneCode": "ON",
+		"zoneName": "Ontario",
+		"countryCode": "CA"
+	},
+	{
+		"zoneCode": "PE",
+		"zoneName": "Prince Edward Island",
+		"countryCode": "CA"
+	},
+	{
+		"zoneCode": "QC",
+		"zoneName": "Quebec",
+		"countryCode": "CA"
+	},
+	{
+		"zoneCode": "SK",
+		"zoneName": "Saskatchewan",
+		"countryCode": "CA"
+	},
+	{
+		"zoneCode": "YT",
+		"zoneName": "Yukon Territory",
+		"countryCode": "CA"
+	},
+	{
+		"zoneCode": "NDS",
+		"zoneName": "Niedersachsen",
+		"countryCode": "DE"
+	},
+	{
+		"zoneCode": "BAW",
+		"zoneName": "Baden-Wrttemberg",
+		"countryCode": "DE"
+	},
+	{
+		"zoneCode": "BAY",
+		"zoneName": "Bayern",
+		"countryCode": "DE"
+	},
+	{
+		"zoneCode": "BER",
+		"zoneName": "Berlin",
+		"countryCode": "DE"
+	},
+	{
+		"zoneCode": "BRG",
+		"zoneName": "Brandenburg",
+		"countryCode": "DE"
+	},
+	{
+		"zoneCode": "BRE",
+		"zoneName": "Bremen",
+		"countryCode": "DE"
+	},
+	{
+		"zoneCode": "HAM",
+		"zoneName": "Hamburg",
+		"countryCode": "DE"
+	},
+	{
+		"zoneCode": "HES",
+		"zoneName": "Hessen",
+		"countryCode": "DE"
+	},
+	{
+		"zoneCode": "MEC",
+		"zoneName": "Mecklenburg-Vorpommern",
+		"countryCode": "DE"
+	},
+	{
+		"zoneCode": "NRW",
+		"zoneName": "Nordrhein-Westfalen",
+		"countryCode": "DE"
+	},
+	{
+		"zoneCode": "RHE",
+		"zoneName": "Rheinland-Pfalz",
+		"countryCode": "DE"
+	},
+	{
+		"zoneCode": "SAR",
+		"zoneName": "Saarland",
+		"countryCode": "DE"
+	},
+	{
+		"zoneCode": "SAS",
+		"zoneName": "Sachsen",
+		"countryCode": "DE"
+	},
+	{
+		"zoneCode": "SAC",
+		"zoneName": "Sachsen-Anhalt",
+		"countryCode": "DE"
+	},
+	{
+		"zoneCode": "SCN",
+		"zoneName": "Schleswig-Holstein",
+		"countryCode": "DE"
+	},
+	{
+		"zoneCode": "THE",
+		"zoneName": "Thringen",
+		"countryCode": "DE"
+	},
+	{
+		"zoneCode": "WIAT",
+		"zoneName": "Wien",
+		"countryCode": "AT"
+	},
+	{
+		"zoneCode": "NO",
+		"zoneName": "Niederosterreich",
+		"countryCode": "AT"
+	},
+	{
+		"zoneCode": "OO",
+		"zoneName": "Oberosterreich",
+		"countryCode": "AT"
+	},
+	{
+		"zoneCode": "SB",
+		"zoneName": "Salzburg",
+		"countryCode": "AT"
+	},
+	{
+		"zoneCode": "KN",
+		"zoneName": "Katen",
+		"countryCode": "AT"
+	},
+	{
+		"zoneCode": "ST",
+		"zoneName": "Steiermark",
+		"countryCode": "AT"
+	},
+	{
+		"zoneCode": "TIAT",
+		"zoneName": "Tirol",
+		"countryCode": "AT"
+	},
+	{
+		"zoneCode": "BLAT",
+		"zoneName": "Burgenland",
+		"countryCode": "AT"
+	},
+	{
+		"zoneCode": "VB",
+		"zoneName": "Voralberg",
+		"countryCode": "AT"
+	},
+	{
+		"zoneCode": "AG",
+		"zoneName": "Aargau",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "AI",
+		"zoneName": "Appenzell Innerrhoden",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "ARCH",
+		"zoneName": "Appenzell Ausserrhoden",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "BE",
+		"zoneName": "Bern",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "BL",
+		"zoneName": "Basel-Landschaft",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "BS",
+		"zoneName": "Basel-Stadt",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "FR",
+		"zoneName": "Freiburg",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "GE",
+		"zoneName": "Genf",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "GL",
+		"zoneName": "Glarus",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "GR",
+		"zoneName": "Graubnden",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "JU",
+		"zoneName": "Jura",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "LU",
+		"zoneName": "Luzern",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "NECH",
+		"zoneName": "Neuenburg",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "NW",
+		"zoneName": "Nidwalden",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "OW",
+		"zoneName": "Obwalden",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "SG",
+		"zoneName": "St. Gallen",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "SH",
+		"zoneName": "Schaffhausen",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "SO",
+		"zoneName": "Solothurn",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "SZ",
+		"zoneName": "Schwyz",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "TG",
+		"zoneName": "Thurgau",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "TI",
+		"zoneName": "Tessin",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "UR",
+		"zoneName": "Uri",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "VD",
+		"zoneName": "Waadt",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "VS",
+		"zoneName": "Wallis",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "ZG",
+		"zoneName": "Zug",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "ZH",
+		"zoneName": "Zrich",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "ACorua",
+		"zoneName": "A Corua",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Alava",
+		"zoneName": "Alava",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Albacete",
+		"zoneName": "Albacete",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Alicante",
+		"zoneName": "Alicante",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Almeria",
+		"zoneName": "Almeria",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Asturias",
+		"zoneName": "Asturias",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Avila",
+		"zoneName": "Avila",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Badajoz",
+		"zoneName": "Badajoz",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Baleares",
+		"zoneName": "Baleares",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Barcelona",
+		"zoneName": "Barcelona",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Burgos",
+		"zoneName": "Burgos",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Caceres",
+		"zoneName": "Caceres",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Cadiz",
+		"zoneName": "Cadiz",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Cantabria",
+		"zoneName": "Cantabria",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Castellon",
+		"zoneName": "Castellon",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Ceuta",
+		"zoneName": "Ceuta",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "CiudadReal",
+		"zoneName": "Ciudad Real",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Cordoba",
+		"zoneName": "Cordoba",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Cuenca",
+		"zoneName": "Cuenca",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Girona",
+		"zoneName": "Girona",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Granada",
+		"zoneName": "Granada",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Guadalajara",
+		"zoneName": "Guadalajara",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Guipuzcoa",
+		"zoneName": "Guipuzcoa",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Huelva",
+		"zoneName": "Huelva",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Huesca",
+		"zoneName": "Huesca",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Jaen",
+		"zoneName": "Jaen",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "LaRioja",
+		"zoneName": "La Rioja",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "LasPalmas",
+		"zoneName": "Las Palmas",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Leon",
+		"zoneName": "Leon",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Lleida",
+		"zoneName": "Lleida",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Lugo",
+		"zoneName": "Lugo",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Madrid",
+		"zoneName": "Madrid",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Malaga",
+		"zoneName": "Malaga",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Melilla",
+		"zoneName": "Melilla",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Murcia",
+		"zoneName": "Murcia",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Navarra",
+		"zoneName": "Navarra",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Ourense",
+		"zoneName": "Ourense",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Palencia",
+		"zoneName": "Palencia",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Pontevedra",
+		"zoneName": "Pontevedra",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Salamanca",
+		"zoneName": "Salamanca",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "SantaCruzdeTenerife",
+		"zoneName": "Santa Cruz de Tenerife",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Segovia",
+		"zoneName": "Segovia",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Sevilla",
+		"zoneName": "Sevilla",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Soria",
+		"zoneName": "Soria",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Tarragona",
+		"zoneName": "Tarragona",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Teruel",
+		"zoneName": "Teruel",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Toledo",
+		"zoneName": "Toledo",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Valencia",
+		"zoneName": "Valencia",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Valladolid",
+		"zoneName": "Valladolid",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Vizcaya",
+		"zoneName": "Vizcaya",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Zamora",
+		"zoneName": "Zamora",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Zaragoza",
+		"zoneName": "Zaragoza",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "ACT",
+		"zoneName": "Australian Capital Territory",
+		"countryCode": "AU"
+	},
+	{
+		"zoneCode": "NSW",
+		"zoneName": "New South Wales",
+		"countryCode": "AU"
+	},
+	{
+		"zoneCode": "NTAU",
+		"zoneName": "Northern Territory",
+		"countryCode": "AU"
+	},
+	{
+		"zoneCode": "QLD",
+		"zoneName": "Queensland",
+		"countryCode": "AU"
+	},
+	{
+		"zoneCode": "SA",
+		"zoneName": "South Australia",
+		"countryCode": "AU"
+	},
+	{
+		"zoneCode": "TAS",
+		"zoneName": "Tasmania",
+		"countryCode": "AU"
+	},
+	{
+		"zoneCode": "VIC",
+		"zoneName": "Victoria",
+		"countryCode": "AU"
+	},
+	{
+		"zoneCode": "WAAU",
+		"zoneName": "Western Australia",
+		"countryCode": "AU"
+	} ,
+	  {
+		  "zoneCode": "ASU",
+		  "zoneName": "Asuncion",
+		  "countryCode": "PY"
+	  },
+	  {
+		  "zoneCode": "CEN",
+		  "zoneName": "Central",
+		  "countryCode": "PY"
+	  },
+	  {
+		  "zoneCode": "OTR",
+		  "zoneName": "Other",
+		  "countryCode": "PY"
+	} 
+]  ,
+
+  "fr":[
+	{
+		"zoneCode": "AL",
+		"zoneName": "Alabama",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "AK",
+		"zoneName": "Alaska",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "AS",
+		"zoneName": "American Samoa",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "AZ",
+		"zoneName": "Arizona",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "AR",
+		"zoneName": "Arkansas",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "AF",
+		"zoneName": "Armed Forces Africa",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "AA",
+		"zoneName": "Armed Forces Americas",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "AC",
+		"zoneName": "Armed Forces Canada",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "AE",
+		"zoneName": "Armed Forces Europe",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "AM",
+		"zoneName": "Armed Forces Middle East",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "AP",
+		"zoneName": "Armed Forces Pacific",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "CA",
+		"zoneName": "Californie",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "CO",
+		"zoneName": "Colorado",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "CT",
+		"zoneName": "Connecticut",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "DE",
+		"zoneName": "Delaware",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "DC",
+		"zoneName": "District de Columbia",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "FM",
+		"zoneName": "Federated States Of Micronesia",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "FL",
+		"zoneName": "Floride",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "GA",
+		"zoneName": "Georgie",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "GU",
+		"zoneName": "Guam",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "HI",
+		"zoneName": "Hawaii",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "ID",
+		"zoneName": "Idaho",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "IL",
+		"zoneName": "Illinois",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "IN",
+		"zoneName": "Indiana",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "IA",
+		"zoneName": "Iowa",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "KS",
+		"zoneName": "Kansas",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "KY",
+		"zoneName": "Kentucky",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "LA",
+		"zoneName": "Louisiane",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "ME",
+		"zoneName": "Maine",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "MH",
+		"zoneName": "Marshall Islands",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "MD",
+		"zoneName": "Maryland",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "MA",
+		"zoneName": "Massachusetts",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "MI",
+		"zoneName": "Michigan",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "MN",
+		"zoneName": "Minnesota",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "MS",
+		"zoneName": "Mississippi",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "MO",
+		"zoneName": "Missouri",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "MT",
+		"zoneName": "Montana",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "NE",
+		"zoneName": "Nebraska",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "NV",
+		"zoneName": "Nevada",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "NH",
+		"zoneName": "Nouveau Hampshire",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "NJ",
+		"zoneName": "New Jersey",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "NM",
+		"zoneName": "Nouveau Mexique",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "NY",
+		"zoneName": "New York",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "NC",
+		"zoneName": "Caroline du Nord",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "ND",
+		"zoneName": "Dakota du Nord",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "MP",
+		"zoneName": "Northern Mariana Islands",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "OH",
+		"zoneName": "Ohio",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "OK",
+		"zoneName": "Oklahoma",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "OR",
+		"zoneName": "Oregon",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "PA",
+		"zoneName": "Pennsylvanie",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "PR",
+		"zoneName": "Puerto Rico",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "RI",
+		"zoneName": "Rhode Island",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "SC",
+		"zoneName": "Caroline du Sud",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "SD",
+		"zoneName": "Dakota du Sud",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "TN",
+		"zoneName": "Tennessee",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "TX",
+		"zoneName": "Texas",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "UT",
+		"zoneName": "Utah",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "VT",
+		"zoneName": "Vermont",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "VI",
+		"zoneName": "Virgin Islands",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "VA",
+		"zoneName": "Virginie",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "WA",
+		"zoneName": "Washington",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "WV",
+		"zoneName": "West Virginia",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "WI",
+		"zoneName": "Wisconsin",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "WY",
+		"zoneName": "Wyoming",
+		"countryCode": "US"
+	},
+	{
+		"zoneCode": "AB",
+		"zoneName": "Alberta",
+		"countryCode": "CA"
+	},
+	{
+		"zoneCode": "BC",
+		"zoneName": "Colombie Britanique",
+		"countryCode": "CA"
+	},
+	{
+		"zoneCode": "MB",
+		"zoneName": "Manitoba",
+		"countryCode": "CA"
+	},
+	{
+		"zoneCode": "NF",
+		"zoneName": "Terre-Neuve - Labrador",
+		"countryCode": "CA"
+	},
+	{
+		"zoneCode": "NB",
+		"zoneName": "Nouveau Brunswick",
+		"countryCode": "CA"
+	},
+	{
+		"zoneCode": "NS",
+		"zoneName": "Nouvelle Écosse",
+		"countryCode": "CA"
+	},
+	{
+		"zoneCode": "NT",
+		"zoneName": "Territores du Nord-Ouest",
+		"countryCode": "CA"
+	},
+	{
+		"zoneCode": "NU",
+		"zoneName": "Nunavut",
+		"countryCode": "CA"
+	},
+	{
+		"zoneCode": "ON",
+		"zoneName": "Ontario",
+		"countryCode": "CA"
+	},
+	{
+		"zoneCode": "PE",
+		"zoneName": "Île-du-Prince-Édouard",
+		"countryCode": "CA"
+	},
+	{
+		"zoneCode": "QC",
+		"zoneName": "Québec",
+		"countryCode": "CA"
+	},
+	{
+		"zoneCode": "SK",
+		"zoneName": "Saskatchewan",
+		"countryCode": "CA"
+	},
+	{
+		"zoneCode": "YT",
+		"zoneName": "Yukon",
+		"countryCode": "CA"
+	},
+	{
+		"zoneCode": "NDS",
+		"zoneName": "Niedersachsen",
+		"countryCode": "DE"
+	},
+	{
+		"zoneCode": "BAW",
+		"zoneName": "Baden-Wrttemberg",
+		"countryCode": "DE"
+	},
+	{
+		"zoneCode": "BAY",
+		"zoneName": "Bayern",
+		"countryCode": "DE"
+	},
+	{
+		"zoneCode": "BER",
+		"zoneName": "Berlin",
+		"countryCode": "DE"
+	},
+	{
+		"zoneCode": "BRG",
+		"zoneName": "Brandenburg",
+		"countryCode": "DE"
+	},
+	{
+		"zoneCode": "BRE",
+		"zoneName": "Bremen",
+		"countryCode": "DE"
+	},
+	{
+		"zoneCode": "HAM",
+		"zoneName": "Hamburg",
+		"countryCode": "DE"
+	},
+	{
+		"zoneCode": "HES",
+		"zoneName": "Hessen",
+		"countryCode": "DE"
+	},
+	{
+		"zoneCode": "MEC",
+		"zoneName": "Mecklenburg-Vorpommern",
+		"countryCode": "DE"
+	},
+	{
+		"zoneCode": "NRW",
+		"zoneName": "Nordrhein-Westfalen",
+		"countryCode": "DE"
+	},
+	{
+		"zoneCode": "RHE",
+		"zoneName": "Rheinland-Pfalz",
+		"countryCode": "DE"
+	},
+	{
+		"zoneCode": "SAR",
+		"zoneName": "Saarland",
+		"countryCode": "DE"
+	},
+	{
+		"zoneCode": "SAS",
+		"zoneName": "Sachsen",
+		"countryCode": "DE"
+	},
+	{
+		"zoneCode": "SAC",
+		"zoneName": "Sachsen-Anhalt",
+		"countryCode": "DE"
+	},
+	{
+		"zoneCode": "SCN",
+		"zoneName": "Schleswig-Holstein",
+		"countryCode": "DE"
+	},
+	{
+		"zoneCode": "THE",
+		"zoneName": "Thringen",
+		"countryCode": "DE"
+	},
+	{
+		"zoneCode": "WIAT",
+		"zoneName": "Wien",
+		"countryCode": "AT"
+	},
+	{
+		"zoneCode": "NO",
+		"zoneName": "Niederosterreich",
+		"countryCode": "AT"
+	},
+	{
+		"zoneCode": "OO",
+		"zoneName": "Oberosterreich",
+		"countryCode": "AT"
+	},
+	{
+		"zoneCode": "SB",
+		"zoneName": "Salzburg",
+		"countryCode": "AT"
+	},
+	{
+		"zoneCode": "KN",
+		"zoneName": "Karten",
+		"countryCode": "AT"
+	},
+	{
+		"zoneCode": "ST",
+		"zoneName": "Steiermark",
+		"countryCode": "AT"
+	},
+	{
+		"zoneCode": "TIAT",
+		"zoneName": "Tirol",
+		"countryCode": "AT"
+	},
+	{
+		"zoneCode": "BLAT",
+		"zoneName": "Burgenland",
+		"countryCode": "AT"
+	},
+	{
+		"zoneCode": "VB",
+		"zoneName": "Voralberg",
+		"countryCode": "AT"
+	},
+	{
+		"zoneCode": "AG",
+		"zoneName": "Aargau",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "AI",
+		"zoneName": "Appenzell Innerrhoden",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "ARCH",
+		"zoneName": "Appenzell Ausserrhoden",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "BE",
+		"zoneName": "Bern",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "BL",
+		"zoneName": "Basel-Landschaft",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "BS",
+		"zoneName": "Basel-Stadt",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "FR",
+		"zoneName": "Freiburg",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "GE",
+		"zoneName": "Genf",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "GL",
+		"zoneName": "Glarus",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "GR",
+		"zoneName": "Graubnden",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "JU",
+		"zoneName": "Jura",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "LU",
+		"zoneName": "Luzern",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "NECH",
+		"zoneName": "Neuenburg",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "NW",
+		"zoneName": "Nidwalden",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "OW",
+		"zoneName": "Obwalden",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "SG",
+		"zoneName": "St. Gallen",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "SH",
+		"zoneName": "Schaffhausen",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "SO",
+		"zoneName": "Solothurn",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "SZ",
+		"zoneName": "Schwyz",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "TG",
+		"zoneName": "Thurgau",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "TI",
+		"zoneName": "Tessin",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "UR",
+		"zoneName": "Uri",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "VD",
+		"zoneName": "Waadt",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "VS",
+		"zoneName": "Wallis",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "ZG",
+		"zoneName": "Zug",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "ZH",
+		"zoneName": "Zrich",
+		"countryCode": "CH"
+	},
+	{
+		"zoneCode": "A Corua",
+		"zoneName": "A Corua",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Alava",
+		"zoneName": "Alava",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Albacete",
+		"zoneName": "Albacete",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Alicante",
+		"zoneName": "Alicante",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Almeria",
+		"zoneName": "Almeria",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Asturias",
+		"zoneName": "Asturias",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Avila",
+		"zoneName": "Avila",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Badajoz",
+		"zoneName": "Badajoz",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Baleares",
+		"zoneName": "Baleares",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Barcelona",
+		"zoneName": "Barcelona",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Burgos",
+		"zoneName": "Burgos",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Caceres",
+		"zoneName": "Caceres",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Cadiz",
+		"zoneName": "Cadiz",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Cantabria",
+		"zoneName": "Cantabria",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Castellon",
+		"zoneName": "Castellon",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Ceuta",
+		"zoneName": "Ceuta",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "CiudadReal",
+		"zoneName": "Ciudad Real",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Cordoba",
+		"zoneName": "Cordoba",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Cuenca",
+		"zoneName": "Cuenca",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Girona",
+		"zoneName": "Girona",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Granada",
+		"zoneName": "Granada",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Guadalajara",
+		"zoneName": "Guadalajara",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Guipuzcoa",
+		"zoneName": "Guipuzcoa",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Huelva",
+		"zoneName": "Huelva",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Huesca",
+		"zoneName": "Huesca",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Jaen",
+		"zoneName": "Jaen",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "LaRioja",
+		"zoneName": "La Rioja",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "LasPalmas",
+		"zoneName": "Las Palmas",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Leon",
+		"zoneName": "Leon",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Lleida",
+		"zoneName": "Lleida",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Lugo",
+		"zoneName": "Lugo",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Madrid",
+		"zoneName": "Madrid",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Malaga",
+		"zoneName": "Malaga",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Melilla",
+		"zoneName": "Melilla",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Murcia",
+		"zoneName": "Murcia",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Navarra",
+		"zoneName": "Navarra",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Ourense",
+		"zoneName": "Ourense",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Palencia",
+		"zoneName": "Palencia",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Pontevedra",
+		"zoneName": "Pontevedra",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Salamanca",
+		"zoneName": "Salamanca",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "SantaCruzdeTenerife",
+		"zoneName": "Santa Cruz de Tenerife",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Segovia",
+		"zoneName": "Segovia",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Sevilla",
+		"zoneName": "Sevilla",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Soria",
+		"zoneName": "Soria",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Tarragona",
+		"zoneName": "Tarragona",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Teruel",
+		"zoneName": "Teruel",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Toledo",
+		"zoneName": "Toledo",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Valencia",
+		"zoneName": "Valencia",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Valladolid",
+		"zoneName": "Valladolid",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Vizcaya",
+		"zoneName": "Vizcaya",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Zamora",
+		"zoneName": "Zamora",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode": "Zaragoza",
+		"zoneName": "Zaragoza",
+		"countryCode": "ES"
+	},
+	{
+		"zoneCode":"ACT",
+		"zoneName":"Territoire de la capitale australienne",
+		"countryCode":"AU"
+	},
+	{
+		"zoneCode":"WAAU",
+		"zoneName":"Australie-Occidentale",
+		"countryCode":"AU"
+	},
+	{
+		"zoneCode":"SA",
+		"zoneName":"Australie-Mridionale",
+		"countryCode":"AU"
+	},
+	{
+		"zoneCode":"NTAU",
+		"zoneName":"Territoire du Nord",
+		"countryCode":"AU"
+	},
+	{
+		"zoneCode":"VIC",
+		"zoneName":"Victoria",
+		"countryCode":"AU"
+	},
+	{
+		"zoneCode":"TAS",
+		"zoneName":"Tasmanie",
+		"countryCode":"AU"
+	},
+	{
+		"zoneCode":"QLD",
+		"zoneName":"Queensland",
+		"countryCode":"AU"
+	},
+	{
+		"zoneCode":"NSW",
+		"zoneName":"Nouvelle-Galles du Sud",
+		"countryCode":"AU"
+	}
+
+],
+	"es":[
+		{
+			"zoneCode": "AL",
+			"zoneName": "Alabama",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "AK",
+			"zoneName": "Alaska",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "AS",
+			"zoneName": "American Samoa",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "AZ",
+			"zoneName": "Arizona",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "AR",
+			"zoneName": "Arkansas",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "AF",
+			"zoneName": "Armed Forces Africa",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "AA",
+			"zoneName": "Armed Forces Americas",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "AC",
+			"zoneName": "Armed Forces Canada",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "AE",
+			"zoneName": "Armed Forces Europe",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "AM",
+			"zoneName": "Armed Forces Middle East",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "AP",
+			"zoneName": "Armed Forces Pacific",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "CA",
+			"zoneName": "California",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "CO",
+			"zoneName": "Colorado",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "CT",
+			"zoneName": "Connecticut",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "DE",
+			"zoneName": "Delaware",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "DC",
+			"zoneName": "District of Columbia",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "FM",
+			"zoneName": "Federated States Of Micronesia",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "FL",
+			"zoneName": "Florida",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "GA",
+			"zoneName": "Georgia",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "GU",
+			"zoneName": "Guam",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "HI",
+			"zoneName": "Hawaii",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "ID",
+			"zoneName": "Idaho",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "IL",
+			"zoneName": "Illinois",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "IN",
+			"zoneName": "Indiana",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "IA",
+			"zoneName": "Iowa",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "KS",
+			"zoneName": "Kansas",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "KY",
+			"zoneName": "Kentucky",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "LA",
+			"zoneName": "Louisiana",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "ME",
+			"zoneName": "Maine",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "MH",
+			"zoneName": "Marshall Islands",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "MD",
+			"zoneName": "Maryland",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "MA",
+			"zoneName": "Massachusetts",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "MI",
+			"zoneName": "Michigan",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "MN",
+			"zoneName": "Minnesota",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "MS",
+			"zoneName": "Mississippi",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "MO",
+			"zoneName": "Missouri",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "MT",
+			"zoneName": "Montana",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "NE",
+			"zoneName": "Nebraska",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "NV",
+			"zoneName": "Nevada",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "NH",
+			"zoneName": "New Hampshire",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "NJ",
+			"zoneName": "New Jersey",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "NM",
+			"zoneName": "New Mexico",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "NY",
+			"zoneName": "New York",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "NC",
+			"zoneName": "North Carolina",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "ND",
+			"zoneName": "North Dakota",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "MP",
+			"zoneName": "Northern Mariana Islands",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "OH",
+			"zoneName": "Ohio",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "OK",
+			"zoneName": "Oklahoma",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "OR",
+			"zoneName": "Oregon",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "PA",
+			"zoneName": "Pennsylvania",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "PR",
+			"zoneName": "Puerto Rico",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "RI",
+			"zoneName": "Rhode Island",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "SC",
+			"zoneName": "South Carolina",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "SD",
+			"zoneName": "South Dakota",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "TN",
+			"zoneName": "Tennessee",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "TX",
+			"zoneName": "Texas",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "UT",
+			"zoneName": "Utah",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "VT",
+			"zoneName": "Vermont",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "VI",
+			"zoneName": "Virgin Islands",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "VA",
+			"zoneName": "Virginia",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "WA",
+			"zoneName": "Washington",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "WV",
+			"zoneName": "West Virginia",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "WI",
+			"zoneName": "Wisconsin",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "WY",
+			"zoneName": "Wyoming",
+			"countryCode": "US"
+		},
+		{
+			"zoneCode": "AB",
+			"zoneName": "Alberta",
+			"countryCode": "CA"
+		},
+		{
+			"zoneCode": "BC",
+			"zoneName": "British Columbia",
+			"countryCode": "CA"
+		},
+		{
+			"zoneCode": "MB",
+			"zoneName": "Manitoba",
+			"countryCode": "CA"
+		},
+		{
+			"zoneCode": "NF",
+			"zoneName": "Newfoundland - Labrador",
+			"countryCode": "CA"
+		},
+		{
+			"zoneCode": "NB",
+			"zoneName": "New Brunswick",
+			"countryCode": "CA"
+		},
+		{
+			"zoneCode": "NS",
+			"zoneName": "Nova Scotia",
+			"countryCode": "CA"
+		},
+		{
+			"zoneCode": "NT",
+			"zoneName": "Northwest Territories",
+			"countryCode": "CA"
+		},
+		{
+			"zoneCode": "NU",
+			"zoneName": "Nunavut",
+			"countryCode": "CA"
+		},
+		{
+			"zoneCode": "ON",
+			"zoneName": "Ontario",
+			"countryCode": "CA"
+		},
+		{
+			"zoneCode": "PE",
+			"zoneName": "Prince Edward Island",
+			"countryCode": "CA"
+		},
+		{
+			"zoneCode": "QC",
+			"zoneName": "Quebec",
+			"countryCode": "CA"
+		},
+		{
+			"zoneCode": "SK",
+			"zoneName": "Saskatchewan",
+			"countryCode": "CA"
+		},
+		{
+			"zoneCode": "YT",
+			"zoneName": "Yukon Territory",
+			"countryCode": "CA"
+		},
+		{
+			"zoneCode": "NDS",
+			"zoneName": "Niedersachsen",
+			"countryCode": "DE"
+		},
+		{
+			"zoneCode": "BAW",
+			"zoneName": "Baden-Wrttemberg",
+			"countryCode": "DE"
+		},
+		{
+			"zoneCode": "BAY",
+			"zoneName": "Bayern",
+			"countryCode": "DE"
+		},
+		{
+			"zoneCode": "BER",
+			"zoneName": "Berlin",
+			"countryCode": "DE"
+		},
+		{
+			"zoneCode": "BRG",
+			"zoneName": "Brandenburg",
+			"countryCode": "DE"
+		},
+		{
+			"zoneCode": "BRE",
+			"zoneName": "Bremen",
+			"countryCode": "DE"
+		},
+		{
+			"zoneCode": "HAM",
+			"zoneName": "Hamburg",
+			"countryCode": "DE"
+		},
+		{
+			"zoneCode": "HES",
+			"zoneName": "Hessen",
+			"countryCode": "DE"
+		},
+		{
+			"zoneCode": "MEC",
+			"zoneName": "Mecklenburg-Vorpommern",
+			"countryCode": "DE"
+		},
+		{
+			"zoneCode": "NRW",
+			"zoneName": "Nordrhein-Westfalen",
+			"countryCode": "DE"
+		},
+		{
+			"zoneCode": "RHE",
+			"zoneName": "Rheinland-Pfalz",
+			"countryCode": "DE"
+		},
+		{
+			"zoneCode": "SAR",
+			"zoneName": "Saarland",
+			"countryCode": "DE"
+		},
+		{
+			"zoneCode": "SAS",
+			"zoneName": "Sachsen",
+			"countryCode": "DE"
+		},
+		{
+			"zoneCode": "SAC",
+			"zoneName": "Sachsen-Anhalt",
+			"countryCode": "DE"
+		},
+		{
+			"zoneCode": "SCN",
+			"zoneName": "Schleswig-Holstein",
+			"countryCode": "DE"
+		},
+		{
+			"zoneCode": "THE",
+			"zoneName": "Thringen",
+			"countryCode": "DE"
+		},
+		{
+			"zoneCode": "WIAT",
+			"zoneName": "Wien",
+			"countryCode": "AT"
+		},
+		{
+			"zoneCode": "NO",
+			"zoneName": "Niederosterreich",
+			"countryCode": "AT"
+		},
+		{
+			"zoneCode": "OO",
+			"zoneName": "Oberosterreich",
+			"countryCode": "AT"
+		},
+		{
+			"zoneCode": "SB",
+			"zoneName": "Salzburg",
+			"countryCode": "AT"
+		},
+		{
+			"zoneCode": "KN",
+			"zoneName": "Katen",
+			"countryCode": "AT"
+		},
+		{
+			"zoneCode": "ST",
+			"zoneName": "Steiermark",
+			"countryCode": "AT"
+		},
+		{
+			"zoneCode": "TIAT",
+			"zoneName": "Tirol",
+			"countryCode": "AT"
+		},
+		{
+			"zoneCode": "BLAT",
+			"zoneName": "Burgenland",
+			"countryCode": "AT"
+		},
+		{
+			"zoneCode": "VB",
+			"zoneName": "Voralberg",
+			"countryCode": "AT"
+		},
+		{
+			"zoneCode": "AG",
+			"zoneName": "Aargau",
+			"countryCode": "CH"
+		},
+		{
+			"zoneCode": "AI",
+			"zoneName": "Appenzell Innerrhoden",
+			"countryCode": "CH"
+		},
+		{
+			"zoneCode": "ARCH",
+			"zoneName": "Appenzell Ausserrhoden",
+			"countryCode": "CH"
+		},
+		{
+			"zoneCode": "BE",
+			"zoneName": "Bern",
+			"countryCode": "CH"
+		},
+		{
+			"zoneCode": "BL",
+			"zoneName": "Basel-Landschaft",
+			"countryCode": "CH"
+		},
+		{
+			"zoneCode": "BS",
+			"zoneName": "Basel-Stadt",
+			"countryCode": "CH"
+		},
+		{
+			"zoneCode": "FR",
+			"zoneName": "Freiburg",
+			"countryCode": "CH"
+		},
+		{
+			"zoneCode": "GE",
+			"zoneName": "Genf",
+			"countryCode": "CH"
+		},
+		{
+			"zoneCode": "GL",
+			"zoneName": "Glarus",
+			"countryCode": "CH"
+		},
+		{
+			"zoneCode": "GR",
+			"zoneName": "Graubnden",
+			"countryCode": "CH"
+		},
+		{
+			"zoneCode": "JU",
+			"zoneName": "Jura",
+			"countryCode": "CH"
+		},
+		{
+			"zoneCode": "LU",
+			"zoneName": "Luzern",
+			"countryCode": "CH"
+		},
+		{
+			"zoneCode": "NECH",
+			"zoneName": "Neuenburg",
+			"countryCode": "CH"
+		},
+		{
+			"zoneCode": "NW",
+			"zoneName": "Nidwalden",
+			"countryCode": "CH"
+		},
+		{
+			"zoneCode": "OW",
+			"zoneName": "Obwalden",
+			"countryCode": "CH"
+		},
+		{
+			"zoneCode": "SG",
+			"zoneName": "St. Gallen",
+			"countryCode": "CH"
+		},
+		{
+			"zoneCode": "SH",
+			"zoneName": "Schaffhausen",
+			"countryCode": "CH"
+		},
+		{
+			"zoneCode": "SO",
+			"zoneName": "Solothurn",
+			"countryCode": "CH"
+		},
+		{
+			"zoneCode": "SZ",
+			"zoneName": "Schwyz",
+			"countryCode": "CH"
+		},
+		{
+			"zoneCode": "TG",
+			"zoneName": "Thurgau",
+			"countryCode": "CH"
+		},
+		{
+			"zoneCode": "TI",
+			"zoneName": "Tessin",
+			"countryCode": "CH"
+		},
+		{
+			"zoneCode": "UR",
+			"zoneName": "Uri",
+			"countryCode": "CH"
+		},
+		{
+			"zoneCode": "VD",
+			"zoneName": "Waadt",
+			"countryCode": "CH"
+		},
+		{
+			"zoneCode": "VS",
+			"zoneName": "Wallis",
+			"countryCode": "CH"
+		},
+		{
+			"zoneCode": "ZG",
+			"zoneName": "Zug",
+			"countryCode": "CH"
+		},
+		{
+			"zoneCode": "ZH",
+			"zoneName": "Zrich",
+			"countryCode": "CH"
+		},
+		{
+			"zoneCode": "ACorua",
+			"zoneName": "A Corua",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Alava",
+			"zoneName": "Alava",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Albacete",
+			"zoneName": "Albacete",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Alicante",
+			"zoneName": "Alicante",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Almeria",
+			"zoneName": "Almeria",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Asturias",
+			"zoneName": "Asturias",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Avila",
+			"zoneName": "Avila",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Badajoz",
+			"zoneName": "Badajoz",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Baleares",
+			"zoneName": "Baleares",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Barcelona",
+			"zoneName": "Barcelona",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Burgos",
+			"zoneName": "Burgos",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Caceres",
+			"zoneName": "Caceres",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Cadiz",
+			"zoneName": "Cadiz",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Cantabria",
+			"zoneName": "Cantabria",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Castellon",
+			"zoneName": "Castellon",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Ceuta",
+			"zoneName": "Ceuta",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "CiudadReal",
+			"zoneName": "Ciudad Real",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Cordoba",
+			"zoneName": "Cordoba",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Cuenca",
+			"zoneName": "Cuenca",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Girona",
+			"zoneName": "Girona",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Granada",
+			"zoneName": "Granada",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Guadalajara",
+			"zoneName": "Guadalajara",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Guipuzcoa",
+			"zoneName": "Guipuzcoa",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Huelva",
+			"zoneName": "Huelva",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Huesca",
+			"zoneName": "Huesca",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Jaen",
+			"zoneName": "Jaen",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "LaRioja",
+			"zoneName": "La Rioja",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "LasPalmas",
+			"zoneName": "Las Palmas",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Leon",
+			"zoneName": "Leon",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Lleida",
+			"zoneName": "Lleida",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Lugo",
+			"zoneName": "Lugo",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Madrid",
+			"zoneName": "Madrid",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Malaga",
+			"zoneName": "Malaga",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Melilla",
+			"zoneName": "Melilla",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Murcia",
+			"zoneName": "Murcia",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Navarra",
+			"zoneName": "Navarra",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Ourense",
+			"zoneName": "Ourense",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Palencia",
+			"zoneName": "Palencia",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Pontevedra",
+			"zoneName": "Pontevedra",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Salamanca",
+			"zoneName": "Salamanca",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "SantaCruzdeTenerife",
+			"zoneName": "Santa Cruz de Tenerife",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Segovia",
+			"zoneName": "Segovia",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Sevilla",
+			"zoneName": "Sevilla",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Soria",
+			"zoneName": "Soria",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Tarragona",
+			"zoneName": "Tarragona",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Teruel",
+			"zoneName": "Teruel",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Toledo",
+			"zoneName": "Toledo",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Valencia",
+			"zoneName": "Valencia",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Valladolid",
+			"zoneName": "Valladolid",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Vizcaya",
+			"zoneName": "Vizcaya",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Zamora",
+			"zoneName": "Zamora",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "Zaragoza",
+			"zoneName": "Zaragoza",
+			"countryCode": "ES"
+		},
+		{
+			"zoneCode": "ACT",
+			"zoneName": "Australian Capital Territory",
+			"countryCode": "AU"
+		},
+		{
+			"zoneCode": "NSW",
+			"zoneName": "New South Wales",
+			"countryCode": "AU"
+		},
+		{
+			"zoneCode": "NTAU",
+			"zoneName": "Northern Territory",
+			"countryCode": "AU"
+		},
+		{
+			"zoneCode": "QLD",
+			"zoneName": "Queensland",
+			"countryCode": "AU"
+		},
+		{
+			"zoneCode": "SA",
+			"zoneName": "South Australia",
+			"countryCode": "AU"
+		},
+		{
+			"zoneCode": "TAS",
+			"zoneName": "Tasmania",
+			"countryCode": "AU"
+		},
+		{
+			"zoneCode": "VIC",
+			"zoneName": "Victoria",
+			"countryCode": "AU"
+		},
+		{
+			"zoneCode": "WAAU",
+			"zoneName": "Western Australia",
+			"countryCode": "AU"
+		},
+		{
+			"zoneCode": "ASU",
+			"zoneName": "Asunción",
+			"countryCode": "PY"
+		},
+		{
+			"zoneCode": "CEN",
+			"zoneName": "Central",
+			"countryCode": "PY"
+		},
+		{
+			"zoneCode": "OTR",
+			"zoneName": "Otro",
+			"countryCode": "PY"
+		}
+] 
+}

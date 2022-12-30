@@ -1,0 +1,121 @@
+[
+	{
+		"module": "SHIPPING",
+		"code": "usps",
+		"version":"",
+		"regions": ["US"],
+		"image":"usps.jpg",
+		"configuration":[{"env":"TEST","scheme":"http","host":"testing.shippingapis.com","port":"80","uri":"/ShippingAPI.dll"},{"env":"PROD","scheme":"http","host":"production.shippingapis.com","port":"80","uri":"/ShippingAPI.dll"}]
+
+	},
+	{
+		"module": "SHIPPING",
+		"code": "canadapost",
+		"version":"",
+		"regions": ["CA"],
+		"image":"canadapost.jpg",
+		"configuration":[{"env":"TEST","scheme":"https","host":"ct.soa-gw.canadapost.ca","port":"443","uri":"/rs/ship/price"},{"env":"PROD","scheme":"https","host":"soa-gw.canadapost.ca","port":"443","uri":"/rs/ship/price"}]
+
+	},
+	{
+		"module": "SHIPPING",
+		"code": "ups",
+		"version":"",
+		"regions": ["US","CA","FR","GB"],
+		"image":"ups.jpg",
+		"configuration":[{"env":"TEST","scheme":"https","host":"wwwcie.ups.com","port":"443","uri":"/ups.app/xml/Rate"},{"env":"PROD","scheme":"https","host":"onlinetools.ups.com","port":"443","uri":"/xml/Rate"}],
+		"details":{"01":"UPS Next Day Air","02":"UPS Second Day Air","03":"UPS Ground","07":"UPS Worldwide Express","08":"UPS Worldwide Expedited","11":"UPS Standard","12":"UPS Three-Day Select","13":"UPS Next Day Air Saver","14":"UPS Next Day Air Early A.M.","54":"UPS Worldwide Express Plus","59":"UPS Second Day Air A.M.","69":"UPS Saver"}
+
+	},
+	{
+		"module": "SHIPPING",
+		"code": "weightBased",
+		"customModule":"true",
+		"version":"1.0",
+		"regions": ["*"]
+	},
+	{
+		"module": "SHIPPING",
+		"code": "customQuotesRules",
+		"version":"1.0",
+		"regions": ["*"]
+	},
+	{
+		"module": "SHIPPING",
+		"code": "priceByDistance",
+		"version":"1.0",
+		"regions": ["*"]
+	},
+	{
+		"module": "SHIPPING",
+		"code": "storePickUp",
+		"version":"1.0",
+		"regions": ["*"]
+	},
+	{
+		"module": "PAYMENT",
+		"code": "moneyorder",
+		"type":"moneyorder",
+		"version":"",
+		"regions": ["*"],
+		"image":"moneyorder.gif"
+	},
+	{
+		"module": "PAYMENT",
+		"code": "paypal-express-checkout",
+		"type":"paypal",
+		"version":"104.0",
+		"regions": ["*"],
+		"image":"icon-paypal.png",
+		"configuration":[{"env":"TEST","scheme":"","host":"","port":"","uri":"","config1":"https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token="},{"env":"PROD","scheme":"","host":"","port":"","uri":"","config1":"https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token="}]
+
+	},
+
+
+	{
+		"module": "PAYMENT",
+		"code": "beanstream",
+		"type":"creditcard",
+		"version":"",
+		"regions": ["US","CA","GB"],
+		"image":"beanstream.gif",
+		"configuration":[{"env":"TEST","scheme":"https","host":"www.beanstream.com","port":"443","uri":"/scripts/process_transaction.asp"},{"env":"PROD","scheme":"https","host":"www.beanstream.com","port":"443","uri":"/scripts/process_transaction.asp"}]
+
+	},
+
+
+	{
+		"module": "PAYMENT",
+		"code": "stripe",
+		"type":"creditcard",
+		"version":"",
+		"regions": ["US","CA","GB","AU","FI","DK","IE","NO","SE","ES","PT"],
+		"image":"stripe.png",
+		"configuration":[{"env":"TEST","scheme":"https","host":"www.stripe.com","port":"443","uri":"/"},{"env":"PROD","scheme":"https","host":"www.stripe.com","port":"443","uri":"/"}]
+
+	},
+
+	{
+		"module": "PAYMENT",
+		"code": "stripe3",
+		"type":"creditcard",
+		"version":"",
+		"regions": ["US","CA","GB","AU","FI","DK","IE","NO","SE","ES","PT"],
+		"image":"stripe.png",
+		"configuration":[{"env":"TEST","scheme":"https","host":"www.stripe.com","port":"443","uri":"/"},{"env":"PROD","scheme":"https","host":"www.stripe.com","port":"443","uri":"/"}]
+
+	},
+
+	{
+		"module": "PAYMENT",
+		"code": "braintree",
+		"type":"creditcard",
+		"version":"",
+		"regions": ["US","CA","GB","AU","FI","DK","IE","NO","SE","AL","AD","AT","BY","BE","BG","HY","CY","CZ","FR","GR","IS","IE","IM","IT","PL","LU","CH","RS","SG","MY","HK","NZ"],
+		"image":"braintree.jpg",
+		"configuration":[{"env":"TEST","scheme":"https","host":"NOTREQUIRED","port":"NOTREQUIRED","uri":"NOTREQUIRED"},{"env":"PROD","scheme":"https","host":"NOTREQUIRED","port":"NOTREQUIRED","uri":"NOTREQUIRED"}]
+
+	}
+
+]
+

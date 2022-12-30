@@ -1,0 +1,598 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.shopizer</groupId>
+	<artifactId>shopizer</artifactId>
+	<packaging>pom</packaging>
+	<version>3.2.5</version>
+
+	<name>shopizer</name>
+	<url>http://ww.shopizer.com</url>
+
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.5.12</version>
+	</parent>
+
+	<modules>
+		<module>sm-core-model</module>
+		<module>sm-core-modules</module>
+		<module>sm-core</module>
+		<module>sm-shop-model</module>
+		<module>sm-shop</module>
+	</modules>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<!--java version -->
+		<java.version>11</java.version>
+
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+
+		<shopizer.search.version>2.11.1</shopizer.search.version>
+		<shopizer-canadapost.version>2.15.0</shopizer-canadapost.version>
+
+		<!-- TODO replace with starter -->
+		<elasticsearch.version>7.5.2</elasticsearch.version>
+		<guava.version>27.1-jre</guava.version>
+		<commons-lang.version>3.5</commons-lang.version>
+		<commons-io.version>2.7</commons-io.version>
+		<commons-collections4.version>4.1</commons-collections4.version>
+		<commons-validator.version>1.5.1</commons-validator.version>
+		<commons-fileupload>1.3.3</commons-fileupload>
+		<org.mapstruct.version>1.3.0.Final</org.mapstruct.version>
+
+		<org.apache.httpcomponent.version>4.5.2</org.apache.httpcomponent.version>
+		<javax.inject.version>1</javax.inject.version>
+		<javax.el.version>2.2.4</javax.el.version>
+		<javax.servlet-api-version>3.0.1</javax.servlet-api-version>
+		<javax.annotation>1.3.2</javax.annotation>
+		<infinispan.version>9.4.18.Final</infinispan.version>
+		<infinispan.tree.version>9.4.18.Final</infinispan.tree.version>
+		<mysql-jdbc-version>8.0.21</mysql-jdbc-version>
+		<oracle.version>18.3.0.0</oracle.version>
+		<postgresql.version>42.2.18</postgresql.version>
+		<simple-json-version>1.1.1</simple-json-version>
+		<jackson-version-databind>2.10.2</jackson-version-databind>
+		<jackson-version>2.10.2</jackson-version>
+		<geoip2.version>2.7.0</geoip2.version>
+		<drools.version>7.32.0.Final</drools.version>
+		<google-client-maps-services-version>0.1.6</google-client-maps-services-version>
+		<jwt.version>0.8.0</jwt.version>
+
+
+		<!-- api documentation -->
+		<swagger.version>2.9.2</swagger.version>
+
+		<!-- jacoco coverage -->
+		<coverage.lines>.30</coverage.lines>
+		<coverage.branches>.37</coverage.branches>
+
+	</properties>
+
+	<!--BOM -->
+	<dependencyManagement>
+		<dependencies>
+
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-web</artifactId>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-cache</artifactId>
+			</dependency>
+			<dependency>
+				<groupId>com.shopizer</groupId>
+				<artifactId>sm-core</artifactId>
+				<version>3.2.5</version>
+			</dependency>
+			<dependency>
+				<groupId>com.shopizer</groupId>
+				<artifactId>sm-core-model</artifactId>
+				<version>3.2.5</version>
+			</dependency>
+			<dependency>
+				<groupId>com.shopizer</groupId>
+				<artifactId>sm-core-modules</artifactId>
+				<version>3.2.5</version>
+			</dependency>
+			<dependency>
+				<groupId>com.shopizer</groupId>
+				<artifactId>sm-shop-model</artifactId>
+				<version>3.2.5</version>
+			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/javax.inject/javax.inject -->
+			<dependency>
+				<groupId>javax.inject</groupId>
+				<artifactId>javax.inject</artifactId>
+				<version>${javax.inject.version}</version>
+			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${commons-lang.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.mapstruct</groupId>
+				<artifactId>mapstruct</artifactId>
+				<version>${org.mapstruct.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>io.jsonwebtoken</groupId>
+				<artifactId>jjwt</artifactId>
+				<version>${jwt.version}</version>
+			</dependency>
+
+			<!-- Jackson JSON Processor -->
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${jackson-version-databind}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-core</artifactId>
+				<version>${jackson-version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-annotations</artifactId>
+				<version>${jackson-version}</version>
+			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+			<dependency>
+				<groupId>javax.mail</groupId>
+				<artifactId>mail</artifactId>
+				<version>1.4.7</version>
+			</dependency>
+
+			<!-- http://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
+			<dependency>
+				<groupId>com.googlecode.json-simple</groupId>
+				<artifactId>json-simple</artifactId>
+				<version>${simple-json-version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>${mysql-jdbc-version}</version>
+			</dependency>
+
+			<!-- For connecting to oracle -->
+			<!-- <dependency> <groupId>com.oracle.database.jdbc</groupId> <artifactId>ojdbc8</artifactId> 
+				<version>${oracle.version}</version> </dependency> -->
+
+
+			<!-- For connecting to postgresql -->
+			<!-- <dependency> <groupId>org.postgresql</groupId> <artifactId>postgresql</artifactId> 
+				<version>${postgresql.version}</version> <scope>runtime</scope> </dependency> -->
+
+			<!-- Google Map API -->
+			<dependency>
+				<groupId>com.google.maps</groupId>
+				<artifactId>google-maps-services</artifactId>
+				<version>${google-client-maps-services-version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.kie</groupId>
+				<artifactId>kie-ci</artifactId>
+				<version>${drools.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>com.google.guava</groupId>
+						<artifactId>guava</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.drools</groupId>
+				<artifactId>drools-decisiontables</artifactId>
+				<version>${drools.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.drools</groupId>
+				<artifactId>drools-core</artifactId>
+				<version>${drools.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.drools</groupId>
+				<artifactId>drools-compiler</artifactId>
+				<version>${drools.version}</version>
+			</dependency>
+			<!--spring integration -->
+			<dependency>
+				<groupId>org.kie</groupId>
+				<artifactId>kie-spring</artifactId>
+				<version>${drools.version}</version>
+			</dependency>
+			<!-- end rules engine -->
+
+			<!-- Infinispan -->
+			<dependency>
+				<groupId>org.infinispan</groupId>
+				<artifactId>infinispan-core</artifactId>
+				<version>${infinispan.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.infinispan</groupId>
+				<artifactId>infinispan-cachestore-jdbc</artifactId>
+				<version>${infinispan.tree.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.infinispan</groupId>
+				<artifactId>infinispan-tree</artifactId>
+				<version>${infinispan.version}</version>
+			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-collections4 -->
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-collections4</artifactId>
+				<version>${commons-collections4.version}</version>
+			</dependency>
+
+
+			<!-- https://mvnrepository.com/artifact/commons-validator/commons-validator -->
+			<dependency>
+				<groupId>commons-validator</groupId>
+				<artifactId>commons-validator</artifactId>
+				<version>${commons-validator.version}</version>
+
+				<exclusions>
+					<exclusion>
+						<groupId>commons-collections</groupId>
+						<artifactId>commons-collections</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-s3 -->
+			<dependency>
+				<groupId>com.amazonaws</groupId>
+				<artifactId>aws-java-sdk-s3</artifactId>
+				<version>1.11.640</version>
+			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-ses -->
+			<dependency>
+				<groupId>com.amazonaws</groupId>
+				<artifactId>aws-java-sdk-ses</artifactId>
+				<version>1.11.640</version>
+			</dependency>
+
+			<!-- google cloud storage -->
+			<dependency>
+				<groupId>com.google.cloud</groupId>
+				<artifactId>google-cloud-storage</artifactId>
+				<version>1.74.0</version>
+				<exclusions>
+					<exclusion>
+						<groupId>com.google.guava</groupId>
+						<artifactId>guava</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+
+			<!-- Payment dependencies -->
+
+			<!-- Paypal -->
+			<dependency>
+				<groupId>com.paypal.sdk</groupId>
+				<artifactId>merchantsdk</artifactId>
+				<version>2.6.109</version>
+			</dependency>
+
+			<!-- Stripe -->
+			<dependency>
+				<groupId>com.stripe</groupId>
+				<artifactId>stripe-java</artifactId>
+				<version>19.5.0</version>
+			</dependency>
+
+			<!-- Braintree -->
+			<dependency>
+				<groupId>com.braintreepayments.gateway</groupId>
+				<artifactId>braintree-java</artifactId>
+				<version>2.73.0</version>
+			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/com.maxmind.geoip2/geoip2 -->
+			<dependency>
+				<groupId>com.maxmind.geoip2</groupId>
+				<artifactId>geoip2</artifactId>
+				<version>${geoip2.version}</version>
+			</dependency>
+
+			<!-- google cloud storage -->
+			<!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+			<!-- Up to date for GCP storage issue -->
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>${guava.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>${commons-io.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-fileupload</groupId>
+				<artifactId>commons-fileupload</artifactId>
+				<version>${commons-fileupload}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger2</artifactId>
+				<version>${swagger.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger-ui</artifactId>
+				<version>${swagger.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>javax.annotation</groupId>
+				<artifactId>javax.annotation-api</artifactId>
+				<version>${javax.annotation}</version>
+			</dependency>
+
+		</dependencies>
+
+	</dependencyManagement>
+
+	<!--general dependencies -->
+	<dependencies>
+
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+
+		<!-- Jackson JSON Processor -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/net.sf.ehcache/ehcache -->
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>javax.mail-api</artifactId>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+		</dependency>
+
+		<!-- http://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
+		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>junit</groupId>
+					<artifactId>junit</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- Elastic search TODO replace with starter-->
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+
+		<!-- oracle -->
+		<!-- <dependency> <groupId>com.oracle</groupId> <artifactId>ojdbc8</artifactId> 
+			<version>${oracle.version}</version> </dependency> -->
+
+
+		<!-- postgres <dependency> <groupId>org.postgresql</groupId> <artifactId>postgresql</artifactId> 
+			</dependency> -->
+
+		<dependency>
+			<groupId>org.junit.vintage</groupId>
+			<artifactId>junit-vintage-engine</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+
+	</dependencies>
+
+	<repositories>
+		<!-- Sonatype snapshot repo -->
+		<repository>
+			<id>oss-sonatype</id>
+			<name>oss-sonatype</name>
+			<url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>spring-releases</id>
+			<name>Spring Releases</name>
+			<url>https://repo.spring.io/libs-release</url>
+		</repository>
+		<!-- Milestone repo -->
+		<repository>
+			<id>spring-milestone</id>
+			<name>Spring Milestone</name>
+			<url>https://repo.spring.io/milestone/</url>
+		</repository>
+		<repository>
+			<id>org.jboss.repository.releases</id>
+			<name>JBoss Maven Release Repository</name>
+			<url>https://repository.jboss.org/nexus/content/repositories/releases</url>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>spring-releases</id>
+			<name>Spring Releases</name>
+			<url>https://repo.spring.io/libs-release</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<build>
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>${maven.compiler.source}</source>
+					<target>${maven.compiler.target}</target>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.mapstruct</groupId>
+							<artifactId>mapstruct-processor</artifactId>
+							<version>${org.mapstruct.version}</version>
+						</path>
+						<!-- other annotation processors -->
+					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>com.github.spotbugs</groupId>
+				<artifactId>spotbugs-maven-plugin</artifactId>
+				<version>3.1.8</version>
+			</plugin>
+			<!--OSSRH -->
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.7</version>
+				<extensions>true</extensions>
+				<configuration>
+					<serverId>ossrh</serverId>
+					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+					<autoReleaseAfterClose>true</autoReleaseAfterClose>
+				</configuration>
+			</plugin>
+			<!--OSSRH -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5.3</version>
+				<configuration>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+					<useReleaseProfile>false</useReleaseProfile>
+					<releaseProfiles>release</releaseProfiles>
+					<goals>deploy</goals>
+				</configuration>
+			</plugin>
+			<!--OSSRH -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!--OSSRH -->
+
+			<!-- 			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.5</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin> 
+			-->
+
+		</plugins>
+	</build>
+
+</project>

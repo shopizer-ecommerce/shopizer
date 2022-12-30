@@ -1,0 +1,25 @@
+package com.salesmanager.drools.rules;
+
+import com.salesmanager.core.business.modules.integration.shipping.impl.ShippingInputParameters;
+
+global com.salesmanager.core.business.modules.integration.shipping.impl.DecisionResponse decision;
+
+dialect  "mvel"
+
+rule "Shipping decision Canada Post"
+    when
+        ShippingInputParameters(weight < 62)
+        ShippingInputParameters(size < 66)
+        ShippingInputParameters(country == "CA")
+    then
+        decision.setModuleName("canadapost");
+end
+
+rule "Shipping decision Home Delivery"
+    when
+        ShippingInputParameters(weight > 62 || size > 66)
+        ShippingInputParameters(country == "CA")
+        ShippingInputParameters(province == "QC")
+    then
+        decision.setModuleName("priceByDistance");
+end
