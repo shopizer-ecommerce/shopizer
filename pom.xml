@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.shopizer</groupId>
 	<artifactId>shopizer</artifactId>
 	<packaging>pom</packaging>
-	<version>3.2.2</version>
+	<version>3.2.3</version>
 
 	<name>shopizer</name>
 	<url>http://ww.shopizer.com</url>
@@ -25,7 +23,7 @@
 		<version>2.5.12</version>
 	</parent>
 
- 	<modules>
+	<modules>
 		<module>sm-core-model</module>
 		<module>sm-core-modules</module>
 		<module>sm-core</module>
@@ -38,13 +36,13 @@
 
 		<!--java version -->
 		<java.version>11</java.version>
-		
+
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 
 		<shopizer.search.version>2.11.1</shopizer.search.version>
 		<shopizer-canadapost.version>2.15.0</shopizer-canadapost.version>
-		
+
 		<!-- TODO replace with starter -->
 		<elasticsearch.version>7.5.2</elasticsearch.version>
 		<guava.version>27.1-jre</guava.version>
@@ -98,22 +96,22 @@
 			<dependency>
 				<groupId>com.shopizer</groupId>
 				<artifactId>sm-core</artifactId>
-				<version>3.2.2</version>
+				<version>3.2.3</version>
 			</dependency>
 			<dependency>
 				<groupId>com.shopizer</groupId>
 				<artifactId>sm-core-model</artifactId>
-				<version>3.2.2</version>
+				<version>3.2.3</version>
 			</dependency>
 			<dependency>
 				<groupId>com.shopizer</groupId>
 				<artifactId>sm-core-modules</artifactId>
-				<version>3.2.2</version>
+				<version>3.2.3</version>
 			</dependency>
 			<dependency>
 				<groupId>com.shopizer</groupId>
 				<artifactId>sm-shop-model</artifactId>
-				<version>3.2.2</version>
+				<version>3.2.3</version>
 			</dependency>
 
 			<!-- https://mvnrepository.com/artifact/javax.inject/javax.inject -->
@@ -455,6 +453,12 @@
 		<!-- postgres <dependency> <groupId>org.postgresql</groupId> <artifactId>postgresql</artifactId> 
 			</dependency> -->
 
+		<dependency>
+			<groupId>org.junit.vintage</groupId>
+			<artifactId>junit-vintage-engine</artifactId>
+			<scope>test</scope>
+		</dependency>
+
 
 	</dependencies>
 
@@ -557,7 +561,7 @@
 				</executions>
 			</plugin>
 			<!--OSSRH -->
-			
+
 			<!-- 			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -590,5 +594,5 @@
 
 		</plugins>
 	</build>
-	
+
 </project>

@@ -3,6 +3,7 @@ package com.salesmanager.shop.model.catalog.product;
 import java.io.Serializable;
 import java.util.List;
 
+import com.salesmanager.shop.model.catalog.product.product.ProductEntity;
 import com.salesmanager.shop.model.entity.ReadableDescription;
 
 public class ReadableMinimalProduct extends ProductEntity implements Serializable {

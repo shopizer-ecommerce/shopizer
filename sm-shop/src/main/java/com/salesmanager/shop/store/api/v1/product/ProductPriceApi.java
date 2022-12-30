@@ -1,22 +1,27 @@
 package com.salesmanager.shop.store.api.v1.product;
 
-import javax.inject.Inject;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.PersistableProductPrice;
+import com.salesmanager.shop.model.catalog.product.ReadableProductPrice;
+import com.salesmanager.shop.model.entity.Entity;
+import com.salesmanager.shop.store.controller.product.facade.ProductPriceFacade;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -38,58 +43,141 @@ import springfox.documentation.annotations.ApiIgnore;
 public class ProductPriceApi {
 
 
-	@Inject
-	private ProductService productService;
+	@Autowired
+	private ProductPriceFacade productPriceFacade;;
 
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProductApi.class);
 
-	@ResponseStatus(HttpStatus.CREATED)
-	@RequestMapping(value = { "/private/product{id}/price", "/auth/product/{id}/price" },
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = { "/private/product/{sku}/inventory/{inventoryId}/price"},
 			method = RequestMethod.POST)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public void set(
-			@PathVariable Long id,
+	public @ResponseBody Entity save(
+			@PathVariable String sku,
+			@PathVariable Long inventoryId,
 			@Valid @RequestBody PersistableProductPrice price,
 			@ApiIgnore MerchantStore merchantStore, 
 			@ApiIgnore Language language) {
+		
+		price.setSku(sku);
+		price.setProductAvailabilityId(inventoryId);
+		
+		Long id = productPriceFacade.save(price, merchantStore);
+		return new Entity(id);
 
 		
-		/*
-		 * try { // get the product Product product = productService.getById(id);
-		 * 
-		 * if (product == null) { throw new ResourceNotFoundException("Product id [" +
-		 * productId + "] is not found"); }
-		 * 
-		 * if (product.getMerchantStore().getId().intValue() !=
-		 * merchantStore.getId().intValue()) { throw new UnauthorizedException(
-		 * "Product id [" + productId + "] does not belong to store [" +
-		 * merchantStore.getCode() + "]"); }
-		 * 
-		 * Category category = categoryService.getById(categoryId);
-		 * 
-		 * if (category == null) { throw new ResourceNotFoundException("Category id [" +
-		 * categoryId + "] is not found"); }
-		 * 
-		 * if (category.getMerchantStore().getId().intValue() !=
-		 * merchantStore.getId().intValue()) { throw new UnauthorizedException(
-		 * "Category id [" + categoryId + "] does not belong to store [" +
-		 * merchantStore.getCode() + "]"); }
-		 * 
-		 * return productFacade.addProductToCategory(category, product, language);
-		 * 
-		 * } catch (Exception e) {
-		 * LOGGER.error("Error while adding product to category", e); try {
-		 * response.sendError(503, "Error while adding product to category " +
-		 * e.getMessage()); } catch (Exception ignore) { }
-		 * 
-		 * return null; }
-		 */
+	}
+	
+	@ResponseStatus(HttpStatus.CREATED)
+	@RequestMapping(value = { "/private/product/{sku}/price"},
+			method = RequestMethod.POST)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	public @ResponseBody Entity save(
+			@PathVariable String sku,
+			@Valid @RequestBody PersistableProductPrice price,
+			@ApiIgnore MerchantStore merchantStore, 
+			@ApiIgnore Language language) {
+		
+		price.setSku(sku);
+		
+		Long id = productPriceFacade.save(price, merchantStore);
+		return new Entity(id);
 
-		//productFacade.updateProductPrice(product, price, language);
+		
+	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = { "/private/product/{sku}/inventory/{inventoryId}/price/{priceId}"},
+			method = RequestMethod.PUT)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	public void edit(
+			@PathVariable String sku,
+			@PathVariable Long inventoryId,
+			@PathVariable Long priceId,
+			@Valid @RequestBody PersistableProductPrice price,
+			@ApiIgnore MerchantStore merchantStore, 
+			@ApiIgnore Language language) {
+		
+		
+		price.setSku(sku);
+		price.setProductAvailabilityId(inventoryId);
+		price.setId(priceId);
+		productPriceFacade.save(price, merchantStore);
 
 
+		
+	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = { "/private/product/{sku}/price/{priceId}"},
+			method = RequestMethod.GET)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	public ReadableProductPrice get(
+			@PathVariable String sku,
+			@PathVariable Long priceId,
+			@Valid @RequestBody PersistableProductPrice price,
+			@ApiIgnore MerchantStore merchantStore, 
+			@ApiIgnore Language language) {
+		
+		
+		price.setSku(sku);
+		price.setId(priceId);
+
+		return productPriceFacade.get(sku, priceId, merchantStore, language);
+	
+	}
+	
+	@RequestMapping(value = { "/private/product/{sku}/inventory/{inventoryId}/price"},
+			method = RequestMethod.GET)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	public List<ReadableProductPrice> list(
+			@PathVariable String sku,
+			@PathVariable Long inventoryId,
+			@ApiIgnore MerchantStore merchantStore, 
+			@ApiIgnore Language language) {
+		
+		
+		return productPriceFacade.list(sku, inventoryId, merchantStore, language);
+
+		
+	}
+	
+	
+	@RequestMapping(value = { "/private/product/{sku}/prices"},
+			method = RequestMethod.GET)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	public List<ReadableProductPrice> list(
+			@PathVariable String sku,
+			@ApiIgnore MerchantStore merchantStore, 
+			@ApiIgnore Language language) {
+		
+		
+		return productPriceFacade.list(sku, merchantStore, language);
+
+		
+	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = { "/private/product/{sku}/price/{priceId}"},
+			method = RequestMethod.DELETE)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	public void delete(
+			@PathVariable String sku,
+			@PathVariable Long priceId,
+			@ApiIgnore MerchantStore merchantStore, 
+			@ApiIgnore Language language) {
+		
+		
+		productPriceFacade.delete(priceId, sku, merchantStore);
+		
 	}
 
 }

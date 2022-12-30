@@ -20,8 +20,8 @@ public class ProductPriceEntity extends ProductPrice implements Serializable {
 	private boolean discounted = false;
 	private String discountStartDate;
 	private String discountEndDate;
-	private boolean defaultPrice = false;
-	private BigDecimal originalPrice;
+	private boolean defaultPrice = true;
+	private BigDecimal price;
 	private BigDecimal discountedPrice;
 	
 	public boolean isDiscounted() {
@@ -48,12 +48,7 @@ public class ProductPriceEntity extends ProductPrice implements Serializable {
 	public void setDefaultPrice(boolean defaultPrice) {
 		this.defaultPrice = defaultPrice;
 	}
-	public BigDecimal getOriginalPrice() {
-		return originalPrice;
-	}
-	public void setOriginalPrice(BigDecimal originalPrice) {
-		this.originalPrice = originalPrice;
-	}
+
 	public BigDecimal getDiscountedPrice() {
 		return discountedPrice;
 	}
@@ -68,6 +63,12 @@ public class ProductPriceEntity extends ProductPrice implements Serializable {
 	}
 	public void setCode(String code) {
 		this.code = code;
+	}
+	public BigDecimal getPrice() {
+		return price;
+	}
+	public void setPrice(BigDecimal price) {
+		this.price = price;
 	}
 
 	

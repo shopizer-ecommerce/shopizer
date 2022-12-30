@@ -94,7 +94,7 @@ public class ProductAttributeServiceImpl extends SalesManagerEntityServiceImpl<L
 	public void delete(ProductAttribute attribute) throws ServiceException {
 
 		// override method, this allows the error that we try to remove a detached
-		// instance
+		// variant
 		attribute = this.getById(attribute.getId());
 		super.delete(attribute);
 

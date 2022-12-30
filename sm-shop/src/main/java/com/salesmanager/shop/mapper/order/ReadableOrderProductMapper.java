@@ -21,7 +21,7 @@ import com.salesmanager.core.model.order.orderproduct.OrderProduct;
 import com.salesmanager.core.model.order.orderproduct.OrderProductAttribute;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
-import com.salesmanager.shop.mapper.catalog.ReadableProductMapper;
+import com.salesmanager.shop.mapper.catalog.product.ReadableProductMapper;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.order.ReadableOrderProduct;
 import com.salesmanager.shop.model.order.ReadableOrderProductAttribute;

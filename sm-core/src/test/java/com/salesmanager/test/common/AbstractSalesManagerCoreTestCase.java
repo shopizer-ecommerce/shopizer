@@ -55,6 +55,8 @@ import com.salesmanager.test.configuration.ConfigurationTest;
 @SpringBootTest(classes=ConfigurationTest.class)
 @Ignore
 public class AbstractSalesManagerCoreTestCase {
+	
+	private static final String CONTEXT_LOAD_NAME = "TEST";
 
 	
 	
@@ -162,7 +164,7 @@ public class AbstractSalesManagerCoreTestCase {
 	}
 	
 	private void populate() throws ServiceException {
-		initializationDatabase.populate("TEST");
+		initializationDatabase.populate(CONTEXT_LOAD_NAME);
 	}
 
 }

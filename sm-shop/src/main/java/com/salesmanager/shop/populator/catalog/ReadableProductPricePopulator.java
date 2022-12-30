@@ -50,6 +50,8 @@ public class ReadableProductPricePopulator extends
 		    if(source.getId() != null && source.getId() > 0) {
 		      target.setId(source.getId());
 		    }
+		    
+		    target.setDefaultPrice(source.isDefaultPrice());
 			
 			FinalPrice finalPrice = pricingService.calculateProductPrice(source.getProductAvailability().getProduct());
 			

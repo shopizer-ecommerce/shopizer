@@ -34,7 +34,6 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
-import com.salesmanager.shop.model.catalog.product.ProductSpecification;
 import com.salesmanager.shop.model.catalog.product.ReadableImage;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProductFull;
@@ -46,6 +45,7 @@ import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOpti
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductProperty;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductPropertyValue;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValue;
+import com.salesmanager.shop.model.catalog.product.product.ProductSpecification;
 import com.salesmanager.shop.model.catalog.product.type.ProductTypeDescription;
 import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
 import com.salesmanager.shop.utils.DateUtil;

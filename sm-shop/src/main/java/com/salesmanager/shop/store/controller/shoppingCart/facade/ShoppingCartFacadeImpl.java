@@ -41,8 +41,8 @@ import com.salesmanager.core.business.services.shoppingcart.ShoppingCartService;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
-import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
 import com.salesmanager.core.model.catalog.product.price.FinalPrice;
+import com.salesmanager.core.model.catalog.product.variant.ProductVariant;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
@@ -281,15 +281,19 @@ public class ShoppingCartFacadeImpl implements ShoppingCartFacade {
 
 		Set<ProductAvailability> availabilities = product.getAvailabilities();
 
-		ProductInstance instance = null;
-		if (CollectionUtils.isNotEmpty(product.getInstances())) {
-			instance = product.getInstances().iterator().next();
-			availabilities = instance.getAvailabilities();
+		ProductVariant instance = null;
+		if (CollectionUtils.isNotEmpty(product.getVariants())) {
+			instance = product.getVariants().iterator().next();
+			Set<ProductAvailability> instanceAvailabilities = instance.getAvailabilities();
+			if(!CollectionUtils.isEmpty(instanceAvailabilities)) {
+				availabilities = instanceAvailabilities;
+			}
+			
 		}
 
 		if (CollectionUtils.isEmpty(availabilities)) {
 			throw new Exception(
-					"Item with id " + product.getId() + " is not properly configured. It contains no availability");
+					"Item with id " + product.getId() + " is not properly configured. It contains no inventory");
 		}
 
 		//todo filter sku and store
@@ -313,7 +317,7 @@ public class ShoppingCartFacadeImpl implements ShoppingCartFacade {
 		item.setSku(product.getSku());
 
 		if (instance != null) {
-			item.setProductInstance(instance.getId());
+			item.setVariant(instance.getId());
 		}
 
 		// set attributes

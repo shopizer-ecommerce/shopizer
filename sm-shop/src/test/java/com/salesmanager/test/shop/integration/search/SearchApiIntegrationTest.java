@@ -19,7 +19,7 @@ import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.shop.application.ShopApplication;
 import com.salesmanager.shop.model.catalog.SearchProductList;
 import com.salesmanager.shop.model.catalog.SearchProductRequest;
-import com.salesmanager.shop.model.catalog.product.PersistableProduct;
+import com.salesmanager.shop.model.catalog.product.product.PersistableProduct;
 import com.salesmanager.test.shop.common.ServicesTestSupport;
 
 @SpringBootTest(classes = ShopApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)

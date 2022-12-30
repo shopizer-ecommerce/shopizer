@@ -1,6 +1,6 @@
 package com.salesmanager.shop.model.catalog.product.product.definition;
 
-import com.salesmanager.shop.model.catalog.product.ProductSpecification;
+import com.salesmanager.shop.model.catalog.product.product.ProductSpecification;
 import com.salesmanager.shop.model.entity.Entity;
 
 /**
@@ -23,7 +23,7 @@ public class ProductDefinition extends Entity {
 	private String sku; //to match v1 api
 	private ProductSpecification productSpecifications;
 	private int sortOrder;
-	private int quantity;
+	
 	
 	public boolean isVisible() {
 		return visible;
@@ -66,12 +66,6 @@ public class ProductDefinition extends Entity {
 	}
 	public void setVirtual(boolean virtual) {
 		this.virtual = virtual;
-	}
-	public int getQuantity() {
-		return quantity;
-	}
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
 	}
 	public boolean isCanBePurchased() {
 		return canBePurchased;

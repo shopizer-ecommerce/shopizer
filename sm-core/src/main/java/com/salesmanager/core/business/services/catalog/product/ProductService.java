@@ -78,12 +78,15 @@ public interface ProductService extends SalesManagerEntityService<Long, Product>
 	Product getBySeUrl(MerchantStore store, String seUrl, Locale locale);
 
 	/**
-	 * Product and or product instance
+	 * Product and or product variant
 	 * @param productCode
 	 * @param merchant
 	 * @return
 	 */
 	Product getBySku(String productCode, MerchantStore merchant, Language language) throws ServiceException;
+	
+	
+	Product getBySku(String productCode, MerchantStore merchant) throws ServiceException;
 
 	/**
 	 * Find a product for a specific merchant

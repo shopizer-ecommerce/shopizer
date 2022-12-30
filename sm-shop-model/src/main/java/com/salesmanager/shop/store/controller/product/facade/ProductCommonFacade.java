@@ -4,17 +4,15 @@ import java.util.List;
 
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.Product;
-import com.salesmanager.core.model.catalog.product.ProductCriteria;
 import com.salesmanager.core.model.catalog.product.review.ProductReview;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.LightPersistableProduct;
-import com.salesmanager.shop.model.catalog.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.PersistableProductReview;
 import com.salesmanager.shop.model.catalog.product.ProductPriceEntity;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
-import com.salesmanager.shop.model.catalog.product.ReadableProductList;
 import com.salesmanager.shop.model.catalog.product.ReadableProductReview;
+import com.salesmanager.shop.model.catalog.product.product.PersistableProduct;
 
 public interface ProductCommonFacade {
 	
@@ -26,7 +24,7 @@ public interface ProductCommonFacade {
 	   * @param language
 	   * @return
 	   */
-	  PersistableProduct saveProduct(MerchantStore store, PersistableProduct product,
+	  Long saveProduct(MerchantStore store, PersistableProduct product,
 	      Language language);
 
 	  /**

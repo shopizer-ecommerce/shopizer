@@ -280,7 +280,7 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 		Validate.notNull(store, "MerchantStore should not be null");
 
 		ShoppingCartItem item = new ShoppingCartItem(product);
-		item.setSku(product.getSku());
+		item.setSku(product.getSku());//already in the constructor
 
 		// set item price
 		FinalPrice price = pricingService.calculateProductPrice(product);

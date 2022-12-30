@@ -33,17 +33,17 @@ import com.salesmanager.shop.model.catalog.category.Category;
 import com.salesmanager.shop.model.catalog.category.CategoryDescription;
 import com.salesmanager.shop.model.catalog.category.PersistableCategory;
 import com.salesmanager.shop.model.catalog.manufacturer.Manufacturer;
-import com.salesmanager.shop.model.catalog.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.PersistableProductPrice;
 import com.salesmanager.shop.model.catalog.product.PersistableProductReview;
 import com.salesmanager.shop.model.catalog.product.ProductDescription;
-import com.salesmanager.shop.model.catalog.product.ProductSpecification;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
-import com.salesmanager.shop.model.catalog.product.RentalOwner;
 import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductOption;
 import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductOptionValue;
 import com.salesmanager.shop.model.catalog.product.attribute.ProductOptionDescription;
 import com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription;
+import com.salesmanager.shop.model.catalog.product.product.PersistableProduct;
+import com.salesmanager.shop.model.catalog.product.product.PersistableProductInventory;
+import com.salesmanager.shop.model.catalog.product.product.ProductSpecification;
 import com.salesmanager.test.shop.common.ServicesTestSupport;
 
 @SpringBootTest(classes = ShopApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -89,7 +89,7 @@ public class ProductManagementAPIIntegrationTest extends ServicesTestSupport {
 		assertThat(categoryResponse.getStatusCode(), is(CREATED));
 		assertNotNull(cat.getId());
 
-		final PersistableProduct product = new PersistableProduct();
+		final PersistableProduct product = super.product("PRODUCT12");
 		final ArrayList<Category> categories = new ArrayList<>();
 		categories.add(cat);
 		product.setCategories(categories);
@@ -98,7 +98,7 @@ public class ProductManagementAPIIntegrationTest extends ServicesTestSupport {
 				com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer.DEFAULT_MANUFACTURER);
 		product.setProductSpecifications(specifications);
 		product.setPrice(BigDecimal.TEN);
-		product.setSku("123");
+		product.setSku("123ABC");
 		final HttpEntity<PersistableProduct> entity = new HttpEntity<>(product, getHeader());
 
 		final ResponseEntity<PersistableProduct> response = testRestTemplate.postForEntity(
@@ -262,10 +262,12 @@ public class ProductManagementAPIIntegrationTest extends ServicesTestSupport {
 	@Ignore
 	public void postProduct() throws Exception {
 		restTemplate = new RestTemplate();
-
-		final PersistableProduct product = new PersistableProduct();
-
+		
 		final String code = "abcdef";
+
+		final PersistableProduct product = super.product(code);
+
+		
 
 		final String categoryCode = "ROOT";// root category
 
@@ -280,7 +282,6 @@ public class ProductManagementAPIIntegrationTest extends ServicesTestSupport {
 
 		// core properties
 
-		product.setSku(code);
 
 		// product.setManufacturer(collection); //no manufacturer assigned for
 		// now
@@ -315,52 +316,50 @@ public class ProductManagementAPIIntegrationTest extends ServicesTestSupport {
 		specifications.setWidth(new BigDecimal(23));
 
 		product.setProductSpecifications(specifications);
-		product.setQuantity(5);
-		product.setQuantityOrderMaximum(2);
+		
+		
+		PersistableProductInventory inventory = new PersistableProductInventory();
+		inventory.setQuantity(5);
+		inventory.setSku(code);
+		
+
 
 		final PersistableProductPrice productPrice = new PersistableProductPrice();
 		productPrice.setDefaultPrice(true);
 
-		productPrice.setOriginalPrice(new BigDecimal(250));
+		productPrice.setPrice(new BigDecimal(250));
 		productPrice.setDiscountedPrice(new BigDecimal(125));
 
 		final List<PersistableProductPrice> productPriceList = new ArrayList<>();
 		productPriceList.add(productPrice);
-
-		product.setProductPrices(productPriceList);
+		
+		inventory.setPrice(productPrice);
+		product.setInventory(inventory);
 
 		final List<ProductDescription> descriptions = new ArrayList<>();
 
 		// add english description
 		ProductDescription description = new ProductDescription();
 		description.setLanguage("en");
-		description.setTitle("Buddha Head");
-		description.setName("Buddha Head");
-		description.setDescription("Buddha Head");
-		description.setFriendlyUrl("buddha-head");
-
-		// description.setHighlights(record.get("highlights_en"));
+		description.setTitle("Statue Head");
+		description.setName("Statue Head");
+		description.setDescription("Statue Head");
+		description.setFriendlyUrl("Statue-head");
 
 		descriptions.add(description);
 
 		// add french description
 		description = new ProductDescription();
 		description.setLanguage("fr");
-		description.setTitle("Tête de Buddha");
-		description.setName("Tête de Buddha");
+		description.setTitle("Tête de Statue");
+		description.setName("Tête de Statue");
 		description.setDescription(description.getName());
-		description.setFriendlyUrl("tete-de-buddha");
+		description.setFriendlyUrl("tete-de-Statue");
 		//
 
 		descriptions.add(description);
 
 		product.setDescriptions(descriptions);
-
-		// RENTAL
-		final RentalOwner owner = new RentalOwner();
-		// need to create a customer first
-		owner.setId(1L);
-		product.setOwner(owner);
 
 		final ObjectWriter writer = new ObjectMapper().writer().withDefaultPrettyPrinter();
 		final String json = writer.writeValueAsString(product);

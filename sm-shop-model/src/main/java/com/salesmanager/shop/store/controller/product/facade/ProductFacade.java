@@ -81,15 +81,5 @@ public interface ProductFacade {
   List<ReadableProduct> relatedItems(MerchantStore store, Product product, Language language)
       throws Exception;
   
-  
-  /**
-   * Calculate product price based on specific product options
-   * @param id
-   * @param priceRequest
-   * @param store
-   * @param language
-   * @return
-   */
-  ReadableProductPrice getProductPrice(Long id, ProductPriceRequest priceRequest, MerchantStore store, Language language);
-
+ 
 }

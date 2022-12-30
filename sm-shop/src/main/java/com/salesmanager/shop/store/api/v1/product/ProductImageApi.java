@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.image.ProductImageService;
 import com.salesmanager.core.model.catalog.product.Product;
@@ -87,6 +88,7 @@ public class ProductImageApi {
 			@PathVariable Long id, 
 			@RequestParam(value = "file", required = true) MultipartFile[] files,
 			@RequestParam(value = "order", required = false, defaultValue = "0") Integer position,
+			@RequestParam(value = "defaultImage", required = false, defaultValue = "false") boolean defaultImage,
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) throws IOException {
 
 		try {
@@ -105,7 +107,8 @@ public class ProductImageApi {
 
 			boolean hasDefaultImage = false;
 			Set<ProductImage> images = product.getImages();
-			if (!CollectionUtils.isEmpty(images)) {
+			
+			if (!defaultImage && !CollectionUtils.isEmpty(images)) {
 				for (ProductImage image : images) {
 					if (image.isDefaultImage()) {
 						hasDefaultImage = true;
@@ -172,20 +175,22 @@ public class ProductImageApi {
 	public void deleteImage(@PathVariable Long id, @PathVariable Long imageId, @Valid NameEntity imageName,
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
 
-		try {
+
 			Optional<ProductImage> productImage = productImageService.getProductImage(imageId, id, merchantStore);
 
 			if (productImage.isPresent()) {
-				productImageService.delete(productImage.get());
+				try {
+					productImageService.delete(productImage.get());
+				} catch (ServiceException e) {
+					LOGGER.error("Error while deleting ProductImage", e);
+					throw new ServiceRuntimeException("ProductImage [" + imageId + "] cannot be deleted",e);
+					
+				}
 			} else {
-				throw new ResourceNotFoundException("Product image [" + imageName.getName()
+				throw new ResourceNotFoundException("Product image [" + imageId
 						+ "] not found for product id [" + id + "] and merchant [" + merchantStore.getCode() + "]");
 			}
 
-		} catch (Exception e) {
-			LOGGER.error("Error while deleting ProductImage", e);
-			throw new ServiceRuntimeException("ProductImage [" + imageName.getName() + "] cannot be deleted");
-		}
 	}
 	
 	

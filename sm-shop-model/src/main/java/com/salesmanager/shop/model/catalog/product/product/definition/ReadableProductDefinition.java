@@ -8,6 +8,7 @@ import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
 import com.salesmanager.shop.model.catalog.product.ProductDescription;
 import com.salesmanager.shop.model.catalog.product.ReadableImage;
 import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductAttribute;
+import com.salesmanager.shop.model.catalog.product.inventory.ReadableInventory;
 import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
 
 public class ReadableProductDefinition extends ProductDefinition {
@@ -22,7 +23,7 @@ public class ReadableProductDefinition extends ProductDefinition {
 	private ProductDescription description = null;
 	private List<PersistableProductAttribute> properties = new ArrayList<PersistableProductAttribute>();
 	private List<ReadableImage> images = new ArrayList<ReadableImage>();
-	private String price;
+	private ReadableInventory inventory;
 	
 	
 	public ReadableProductType getType() {
@@ -61,11 +62,11 @@ public class ReadableProductDefinition extends ProductDefinition {
 	public void setImages(List<ReadableImage> images) {
 		this.images = images;
 	}
-	public String getPrice() {
-		return price;
+	public ReadableInventory getInventory() {
+		return inventory;
 	}
-	public void setPrice(String price) {
-		this.price = price;
+	public void setInventory(ReadableInventory inventory) {
+		this.inventory = inventory;
 	}
 
 

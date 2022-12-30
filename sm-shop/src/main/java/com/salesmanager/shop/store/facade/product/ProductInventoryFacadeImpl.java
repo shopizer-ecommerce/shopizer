@@ -2,26 +2,26 @@ package com.salesmanager.shop.store.facade.product;
 
 import static com.salesmanager.shop.util.ReadableEntityUtil.createReadableList;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.availability.ProductAvailabilityService;
-import com.salesmanager.core.business.services.catalog.product.instance.ProductInstanceService;
-import com.salesmanager.core.business.services.merchant.MerchantStoreService;
+import com.salesmanager.core.business.services.catalog.product.variant.ProductVariantService;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
-import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
+import com.salesmanager.core.model.catalog.product.variant.ProductVariant;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.inventory.PersistableInventoryMapper;
@@ -44,10 +44,7 @@ public class ProductInventoryFacadeImpl implements ProductInventoryFacade {
 	private ProductService productService;
 	
 	@Autowired
-	private ProductInstanceService productInstanceService;
-
-	@Autowired
-	private MerchantStoreService merchantStoreService;
+	private ProductVariantService productVariantService;
 
 	@Autowired
 	private ReadableInventoryMapper readableInventoryMapper;
@@ -55,21 +52,7 @@ public class ProductInventoryFacadeImpl implements ProductInventoryFacade {
 	@Autowired
 	private PersistableInventoryMapper productInventoryMapper;
 
-	/**
-	@Override
-	public ReadableEntityList<ReadableInventory> getInventory(Long productId, MerchantStore store, String child,
-			Language language, int page, int count) {
-		Product product = getProductById(productId);
-		validateProductHasSameStore(store, product);
 
-		Page<ProductAvailability> availabilities = productAvailabilityService.listByProduct(product, store, child, page,
-				count);
-
-		List<ReadableInventory> inventories = availabilities.stream()
-				.map(pa -> readableInventoryMapper.convert(pa, store, language)).collect(Collectors.toList());
-		return createReadableList(availabilities, inventories);
-	}
-	**/
 
 	private void validateProductHasSameStore(MerchantStore store, Product product) {
 		if (!product.getMerchantStore().getId().equals(store.getId())) {
@@ -79,11 +62,17 @@ public class ProductInventoryFacadeImpl implements ProductInventoryFacade {
 	}
 
 	@Override
-	public void delete(Long inventoryId, MerchantStore store) {
+	public void delete(Long productId, Long inventoryId, MerchantStore store) {
 		Optional<ProductAvailability> availability = productAvailabilityService.getById(inventoryId, store);
 		try {
 			if (availability.isPresent()) {
-				productAvailabilityService.delete(availability.get());
+				if(availability.get().getProduct().getId() == productId) {
+					productAvailabilityService.delete(availability.get());
+				} else {
+					throw new ResourceNotFoundException("Product with id [" + productId + "] and inventory id [" +  inventoryId + "] not found for store id [" + store.getId() + "]");
+				}
+			} else {
+				throw new ResourceNotFoundException("Product with id [" + productId + "] and inventory id [" +  inventoryId + "] not found for store id [" + store.getId() + "]");
 			}
 		} catch (ServiceException e) {
 			throw new ServiceRuntimeException("Error while deleting inventory", e);
@@ -143,8 +132,8 @@ public class ProductInventoryFacadeImpl implements ProductInventoryFacade {
 				.orElseThrow(() -> new ResourceNotFoundException("Product with id [" + productId + "] not found"));
 	}
 	
-	private ProductInstance getProductByInstance(Long instanceId, MerchantStore store) {
-		return productInstanceService.getById(instanceId, store).orElseThrow(() -> new ResourceNotFoundException("Product with instance [" + instanceId + "] not found"));
+	private ProductVariant getProductByInstance(Long instanceId, MerchantStore store) {
+		return productVariantService.getById(instanceId, store).orElseThrow(() -> new ResourceNotFoundException("Product with instance [" + instanceId + "] not found"));
 
 	}
 
@@ -153,8 +142,11 @@ public class ProductInventoryFacadeImpl implements ProductInventoryFacade {
 			Language language) {
 		Validate.notNull(store, "MerchantStore cannot be null");
 		ProductAvailability availability = getProductAvailabilityToSave(inventory, store);
+		
+		//add inventory to the product
+		
 		saveOrUpdate(availability);
-		return get(availability.getId(), store, language);
+		return readableInventoryMapper.convert(availability, store, language);
 	}
 
 	private void saveOrUpdate(ProductAvailability availability) {
@@ -193,27 +185,13 @@ public class ProductInventoryFacadeImpl implements ProductInventoryFacade {
 			product = this.getProductById(inventory.getProductId(), store);
 			originAvailability = product.getAvailabilities();
 		} else {
-			if(inventory.getInstance() != null && inventory.getId().longValue() > 0) {
-				ProductInstance instance = this.getProductByInstance(inventory.getInstance(), store);
+			if(inventory.getVariant() != null && inventory.getId().longValue() > 0) {
+				ProductVariant instance = this.getProductByInstance(inventory.getVariant(), store);
 				originAvailability = instance.getAvailabilities();
 				product = instance.getProduct();
 			}
 		}
 
-
-		ProductAvailability availability = getAvailabilityById(store, inventory.getId());
-		
-		if (availability == null) {
-			throw new ResourceNotFoundException(
-					"Availability with id [" + inventory.getId() + "] not found");
-		}
-		
-		if(CollectionUtils.isEmpty(originAvailability)) {
-			throw new ResourceNotFoundException(
-					"No availability with id [" + inventory.getId() + "] found");
-		}
-
-		
 		ProductAvailability avail = originAvailability.stream()
 		  .filter(a -> a.getId().longValue() == inventory.getId())
 		  .findAny()
@@ -221,22 +199,18 @@ public class ProductInventoryFacadeImpl implements ProductInventoryFacade {
 		
 		if (avail == null) {
 			throw new ResourceNotFoundException(
-					"Availability with id [" + inventory.getId() + "] not found");
+					"Inventory with id [" + inventory.getId() + "] not found");
 		}
 
 
 		inventory.setProductId(product.getId());
 
-		availability = productInventoryMapper.merge(inventory, availability, store, language);
-		availability.setProduct(product);
-		availability.setMerchantStore(store);
-		saveOrUpdate(availability);
+		avail = productInventoryMapper.merge(inventory, avail, store, language);
+		avail.setProduct(product);
+		avail.setMerchantStore(store);
+		saveOrUpdate(avail);
 	}
 
-	private ProductAvailability getAvailabilityById(MerchantStore store, Long id) {
-		return productAvailabilityService.getById(id, store)
-				.orElseThrow(() -> new ResourceNotFoundException("Inventory with id [" + id + "] not found"));
-	}
 
 
 	@Override
@@ -247,10 +221,43 @@ public class ProductInventoryFacadeImpl implements ProductInventoryFacade {
 		
 		Page<ProductAvailability> availabilities = productAvailabilityService.getBySku(sku, page, count);
 		
+		/**
+		 * br -> if availabilities is null, it may be bcz a variant is a decorated product with no specific inventory.
+		 * in this case it should display the parent product inventory
+		 * 
+		 */
+		
+		if(availabilities.isEmpty()) {
+			//get parent product
+			try {
+				Product singleProduct = productService.getBySku(sku, store);
+				if(singleProduct!=null) {
+					availabilities = new PageImpl<ProductAvailability>(new ArrayList<ProductAvailability>(singleProduct.getAvailabilities()));
+				}
+			} catch (ServiceException e) {
+				throw new ServiceRuntimeException("An error occured while getting product with sku " + sku,e);
+			}
+		}
+		
 		List<ReadableInventory> returnList = availabilities.getContent().stream().map(i -> this.readableInventoryMapper.convert(i, store, language))
 				.collect(Collectors.toList());
 
 		return createReadableList(availabilities, returnList);
+	}
+	
+	@Override
+	public ReadableEntityList<ReadableInventory> get(Long productId, MerchantStore store, Language language, int page, int count) {
+		
+		Validate.notNull(productId, "Product id cannot be null");
+		Validate.notNull(store, "MerchantStore code cannot be null");
+		
+		Page<ProductAvailability> availabilities = productAvailabilityService.listByProduct(productId, store, page, count);
+		
+		List<ReadableInventory> returnList = availabilities.getContent().stream().map(i -> this.readableInventoryMapper.convert(i, store, language))
+				.collect(Collectors.toList());
+
+		return createReadableList(availabilities, returnList);
+
 	}
 
 

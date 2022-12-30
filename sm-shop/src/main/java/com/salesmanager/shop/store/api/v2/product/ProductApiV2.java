@@ -2,7 +2,6 @@ package com.salesmanager.shop.store.api.v2.product;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -30,9 +29,11 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.LightPersistableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProductList;
+import com.salesmanager.shop.model.catalog.product.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.product.definition.PersistableProductDefinition;
 import com.salesmanager.shop.model.catalog.product.product.definition.ReadableProductDefinition;
 import com.salesmanager.shop.model.entity.Entity;
+import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.controller.product.facade.ProductCommonFacade;
 import com.salesmanager.shop.store.controller.product.facade.ProductDefinitionFacade;
 import com.salesmanager.shop.store.controller.product.facade.ProductFacade;
@@ -71,6 +72,32 @@ public class ProductApiV2 {
 	private ProductCommonFacade productCommonFacade;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProductApiV2.class);
+	
+	
+	/**
+	 * Create product inventory with variants, quantity and prices
+	 * @param product
+	 * @param merchantStore
+	 * @param language
+	 * @return
+	 */
+	@ResponseStatus(HttpStatus.CREATED)
+	@RequestMapping(value = { "/private/product/inventory" }, 
+			method = RequestMethod.POST)
+	@ApiImplicitParams({ 
+			@ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	public @ResponseBody Entity create(
+			@Valid @RequestBody PersistableProduct product,
+			@ApiIgnore MerchantStore merchantStore, 
+			@ApiIgnore Language language) {
+
+		Long id = productCommonFacade.saveProduct(merchantStore, product, language);
+		Entity returnEntity = new Entity();
+		returnEntity.setId(id);
+		return returnEntity;
+
+	}
 
 
 	/**
@@ -99,7 +126,8 @@ public class ProductApiV2 {
 	@PutMapping(value = { "/private/product/{id}" })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public void updateV2(@PathVariable Long id, @Valid @RequestBody PersistableProductDefinition product,
+	public void updateV2(@PathVariable Long id, 
+			@Valid @RequestBody PersistableProductDefinition product,
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
 
 		productDefinitionFacade.update(id, product, merchantStore, language);
@@ -110,7 +138,9 @@ public class ProductApiV2 {
 	@GetMapping(value = { "/private/product/{id}" })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public @ResponseBody ReadableProductDefinition getV2(@PathVariable Long id, @ApiIgnore MerchantStore merchantStore,
+	public @ResponseBody ReadableProductDefinition getV2(
+			@PathVariable Long id, 
+			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
 
 		ReadableProductDefinition def = productDefinitionFacade.getProduct(merchantStore, id, language);
@@ -182,18 +212,7 @@ public class ProductApiV2 {
 	public ReadableProductList list(
 			@RequestParam(value = "lang", required = false) String lang,
 			ProductCriteria searchCriterias,
-			/**
-			@RequestParam(value = "category", required = false) Long category,
-			@RequestParam(value = "name", required = false) String name,
-			@RequestParam(value = "sku", required = false) String sku,
-			@RequestParam(value = "manufacturer", required = false) Long manufacturer,
-			@RequestParam(value = "option", required = false) String option,
-			@RequestParam(value = "optionValues", required = false) List<String> optionValues,
-			@RequestParam(value = "status", required = false) String status,
-			@RequestParam(value = "owner", required = false) Long owner,
-			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page, // current
-			@RequestParam(value = "origin", required = false, defaultValue = ProductCriteria.ORIGIN_SHOP) String origin,
-			**/
+
 			// page
 			// 0
 			// ..
@@ -203,58 +222,8 @@ public class ProductApiV2 {
 			@RequestParam(value = "count", required = false, defaultValue = "100") Integer count, // count
 			// per
 			// page
-			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		
-		
-        /**
-		ProductCriteria criteria = new ProductCriteria();
-		
-		criteria.setOrigin(origin);
+			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
 
-		// do not use legacy pagination anymore
-		if (lang != null) {
-			criteria.setLanguage(lang);
-		} else {
-			criteria.setLanguage(language.getCode());
-		}
-		if (!StringUtils.isBlank(status)) {
-			criteria.setStatus(status);
-		}
-		if (category != null) {
-			List<Long> categoryIds = new ArrayList<Long>();
-			categoryIds.add(category);
-			criteria.setCategoryIds(categoryIds);
-		}
-		if (manufacturer != null) {
-			criteria.setManufacturerId(manufacturer);
-		}
-
-		if (CollectionUtils.isNotEmpty(optionValues)) {
-			criteria.setOptionValueCodes(optionValues);
-		}
-		
-		if (owner != null) {
-			criteria.setOwnerId(owner);
-		}
-
-		if (page != null) {
-			criteria.setStartPage(page);
-		}
-
-		if (count != null) {
-			criteria.setMaxCount(count);
-		}
-
-		if (!StringUtils.isBlank(name)) {
-			criteria.setProductName(name);
-		}
-
-		if (!StringUtils.isBlank(sku)) {
-			criteria.setCode(sku);
-		}
-
-		**/
 		
 		if (!StringUtils.isBlank(searchCriterias.getSku())) {
 			searchCriterias.setCode(searchCriterias.getSku());
@@ -271,14 +240,9 @@ public class ProductApiV2 {
 			return productFacadeV2.getProductListsByCriterias(merchantStore, language, searchCriterias);
 
 		} catch (Exception e) {
-
 			LOGGER.error("Error while filtering products product", e);
-			try {
-				response.sendError(503, "Error while filtering products " + e.getMessage());
-			} catch (Exception ignore) {
-			}
+			throw new ServiceRuntimeException(e);
 
-			return null;
 		}
 	}
 	

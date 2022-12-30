@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.model.catalog.product.Product;
-import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
+import com.salesmanager.core.model.catalog.product.variant.ProductVariant;
 import com.salesmanager.core.model.merchant.MerchantStore;
 
 import modules.commons.search.request.Document;

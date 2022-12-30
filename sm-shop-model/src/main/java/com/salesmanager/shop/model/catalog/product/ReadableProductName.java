@@ -1,5 +1,7 @@
 package com.salesmanager.shop.model.catalog.product;
 
+import com.salesmanager.shop.model.catalog.product.product.ProductEntity;
+
 public class ReadableProductName extends ProductEntity {
 
 	/**

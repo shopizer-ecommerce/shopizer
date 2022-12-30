@@ -274,7 +274,12 @@ public class PersistableProductDefinitionMapper implements Mapper<PersistablePro
 					}
 					
 					if(c==null) {
-						throw new ConversionException("Category id " + categ.getId() + " does not exist");
+						if(!StringUtils.isBlank(categ.getCode())) {
+							throw new ConversionException("Category code " + categ.getCode() + " does not exist");
+						} else {
+							throw new ConversionException("Category id " + categ.getId() + " does not exist");
+
+						}
 					}
 					if(c.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
 						throw new ConversionException("Invalid category id");

@@ -21,6 +21,7 @@ import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -28,8 +29,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.ProductDimensions;
-import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
+import com.salesmanager.core.model.catalog.product.variant.ProductVariant;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.common.audit.Auditable;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
@@ -38,12 +39,26 @@ import com.salesmanager.core.utils.CloneUtils;
 
 @Entity
 @Table(name = "PRODUCT_AVAILABILITY",
+uniqueConstraints= @UniqueConstraint(columnNames = {"MERCHANT_ID", "PRODUCT_ID", "PRODUCT_VARIANT", "REGION_VARIANT"}),
 indexes = 
 	{ 
 		@Index(name="PRD_AVAIL_STORE_PRD_IDX", columnList = "PRODUCT_ID,MERCHANT_ID"),
 		@Index(name="PRD_AVAIL_PRD_IDX", columnList = "PRODUCT_ID")
 	}
 )
+
+/**
+ * Default availability
+ * 
+ * store
+ * product id
+ * 
+ * variant null
+ * regionVariant null
+ * 
+ * @author carlsamson
+ *
+ */
 public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailability> implements Auditable {
 
 	/**
@@ -71,11 +86,11 @@ public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailab
 	private MerchantStore merchantStore;
 	
 	/**
-	 * This describes the availability of a product instance
+	 * This describes the availability of a product variant
 	 */
-	@ManyToOne(targetEntity = ProductInstance.class)
-	@JoinColumn(name = "PRODUCT_INSTANCE", nullable = true)
-	private ProductInstance productInstance;
+	@ManyToOne(targetEntity = ProductVariant.class)
+	@JoinColumn(name = "PRODUCT_VARIANT", nullable = true)
+	private ProductVariant productVariant;
 	
 	@Pattern(regexp="^[a-zA-Z0-9_]*$")
 	@Column(name = "SKU", nullable = true)
@@ -102,7 +117,7 @@ public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailab
 	private String owner;
 
 	@Column(name = "STATUS")
-	private boolean productStatus = true; //can be used as flag for instance can be purchase or not
+	private boolean productStatus = true; //can be used as flag for variant can be purchase or not
 
 	@Column(name = "FREE_SHIPPING")
 	private boolean productIsAlwaysFreeShipping;
@@ -279,12 +294,13 @@ public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailab
 		this.dimensions = dimensions;
 	}
 
-	public ProductInstance getProductInstance() {
-		return productInstance;
+	public ProductVariant getProductVariant() {
+		return productVariant;
 	}
 
-	public void setProductInstance(ProductInstance productInstance) {
-		this.productInstance = productInstance;
+	public void setProductVariant(ProductVariant productVariant) {
+		this.productVariant = productVariant;
 	}
+
 
 }

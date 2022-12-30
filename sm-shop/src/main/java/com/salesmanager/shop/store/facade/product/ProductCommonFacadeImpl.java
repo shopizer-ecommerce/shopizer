@@ -9,6 +9,7 @@ import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -22,20 +23,20 @@ import com.salesmanager.core.business.services.reference.language.LanguageServic
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
-import com.salesmanager.core.model.catalog.product.instance.ProductInstance;
 import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.catalog.product.review.ProductReview;
+import com.salesmanager.core.model.catalog.product.variant.ProductVariant;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.mapper.catalog.product.PersistableProductMapper;
 import com.salesmanager.shop.model.catalog.product.LightPersistableProduct;
-import com.salesmanager.shop.model.catalog.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.PersistableProductReview;
 import com.salesmanager.shop.model.catalog.product.ProductPriceEntity;
-import com.salesmanager.shop.model.catalog.product.ProductSpecification;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProductReview;
-import com.salesmanager.shop.populator.catalog.PersistableProductPopulator;
+import com.salesmanager.shop.model.catalog.product.product.PersistableProduct;
+import com.salesmanager.shop.model.catalog.product.product.ProductSpecification;
 import com.salesmanager.shop.populator.catalog.PersistableProductReviewPopulator;
 import com.salesmanager.shop.populator.catalog.ReadableProductPopulator;
 import com.salesmanager.shop.populator.catalog.ReadableProductReviewPopulator;
@@ -50,7 +51,7 @@ import com.salesmanager.shop.utils.ImageFilePath;
 
 /**
  * Version 1 Product management
- * Version 2 Recommends using ProductInstance
+ * Version 2 Recommends using productVariant
  * @author carlsamson
  *
  */
@@ -72,16 +73,16 @@ public class ProductCommonFacadeImpl implements ProductCommonFacade {
 
 	@Inject
 	private ProductReviewService productReviewService;
-
-	@Inject
-	private PersistableProductPopulator persistableProductPopulator;
+	
+	@Autowired
+	private PersistableProductMapper persistableProductMapper;
 
 	@Inject
 	@Qualifier("img")
 	private ImageFilePath imageUtils;
 
 	@Override
-	public PersistableProduct saveProduct(MerchantStore store, PersistableProduct product, Language language) {
+	public Long saveProduct(MerchantStore store, PersistableProduct product, Language language) {
 
 		String manufacturer = Manufacturer.DEFAULT_MANUFACTURER;
 		if (product.getProductSpecifications() != null) {
@@ -99,12 +100,12 @@ public class ProductCommonFacadeImpl implements ProductCommonFacade {
 		}
 
 		try {
-			persistableProductPopulator.populate(product, target, store, language);
+			
+			target = persistableProductMapper.merge(product, target, store, language);
 			target = productService.saveProduct(target);
-			product.setId(target.getId());
 
 
-			return product;
+			return target.getId();
 		} catch (Exception e) {
 			throw new ServiceRuntimeException(e);
 		}
@@ -161,7 +162,7 @@ public class ProductCommonFacadeImpl implements ProductCommonFacade {
 		java.util.Set<ProductAvailability> availabilities = persistable.getAvailabilities();
 		for (ProductAvailability availability : availabilities) {
 			ProductPrice productPrice = availability.defaultPrice();
-			productPrice.setProductPriceAmount(price.getOriginalPrice());
+			productPrice.setProductPriceAmount(price.getPrice());
 			if (price.isDiscounted()) {
 				productPrice.setProductPriceSpecialAmount(price.getDiscountedPrice());
 				if (!StringUtils.isBlank(price.getDiscountStartDate())) {
@@ -425,7 +426,7 @@ public class ProductCommonFacadeImpl implements ProductCommonFacade {
 			throw new ServiceRuntimeException(e);
 		}
 		
-		ProductInstance instance = modified.getInstances().stream()
+		ProductVariant instance = modified.getVariants().stream()
 				  .filter(inst -> sku.equals(inst.getSku()))
 				  .findAny()
 				  .orElse(null);

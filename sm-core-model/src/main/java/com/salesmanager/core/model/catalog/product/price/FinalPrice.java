@@ -23,6 +23,7 @@ public class FinalPrice implements Serializable {
 	private boolean discounted = false;
 	private int discountPercent = 0;
 	private String stringPrice;
+	private String stringDiscountedPrice;
 	
 	private Date discountEndDate = null;
 	
@@ -111,6 +112,14 @@ public class FinalPrice implements Serializable {
 
 	public void setStringPrice(String stringPrice) {
 		this.stringPrice = stringPrice;
+	}
+
+	public String getStringDiscountedPrice() {
+		return stringDiscountedPrice;
+	}
+
+	public void setStringDiscountedPrice(String stringDiscountedPrice) {
+		this.stringDiscountedPrice = stringDiscountedPrice;
 	}
 
 }

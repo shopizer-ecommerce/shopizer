@@ -29,8 +29,8 @@ import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 import com.salesmanager.shop.model.catalog.category.ReadableCategoryList;
 import com.salesmanager.shop.model.catalog.manufacturer.PersistableManufacturer;
 import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
-import com.salesmanager.shop.model.catalog.product.PersistableProduct;
-import com.salesmanager.shop.model.catalog.product.ProductSpecification;
+import com.salesmanager.shop.model.catalog.product.product.PersistableProduct;
+import com.salesmanager.shop.model.catalog.product.product.ProductSpecification;
 import com.salesmanager.test.shop.common.ServicesTestSupport;
 
 @SpringBootTest(classes = ShopApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -409,7 +409,7 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
             
       //get manufacturers in category
       @SuppressWarnings("rawtypes")
-      ResponseEntity<List> manufacturers = testRestTemplate.exchange(String.format("/api/v1/category/" + id + "/manufacturers"), HttpMethod.GET, entity, List.class);  
+      ResponseEntity<List> manufacturers = testRestTemplate.exchange(String.format("/api/v1/category/" + id + "/manufacturer"), HttpMethod.GET, entity, List.class);  
       assertThat(manufacturers.getStatusCode(), is(OK));
       
       @SuppressWarnings("unchecked")

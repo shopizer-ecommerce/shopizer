@@ -20,6 +20,7 @@ public class Product extends Entity implements Serializable {
 	private int sortOrder;
 	private String dateAvailable;
 	private String creationDate;
+	
 	public boolean isProductShipeable() {
 		return productShipeable;
 	}

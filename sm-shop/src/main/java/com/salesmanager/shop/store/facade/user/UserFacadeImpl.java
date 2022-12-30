@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
-import org.jsoup.helper.Validate;
+import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -645,8 +645,12 @@ public class UserFacadeImpl implements UserFacade {
 
 	@Override
 	public boolean authorizeStore(MerchantStore store, String path) {
+		
+		if(store == null) {
+			throw new ResourceNotFoundException("MerchantStore is not found");
+		}
 
-		Validate.notNull(store, "MerchantStore cannot be null");
+
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		
 

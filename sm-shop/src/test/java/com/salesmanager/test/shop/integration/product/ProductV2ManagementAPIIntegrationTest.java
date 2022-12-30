@@ -21,12 +21,12 @@ import com.salesmanager.shop.application.ShopApplication;
 import com.salesmanager.shop.model.catalog.category.Category;
 import com.salesmanager.shop.model.catalog.category.CategoryDescription;
 import com.salesmanager.shop.model.catalog.category.PersistableCategory;
-import com.salesmanager.shop.model.catalog.product.PersistableProduct;
-import com.salesmanager.shop.model.catalog.product.ProductSpecification;
 import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductOption;
 import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductOptionValue;
 import com.salesmanager.shop.model.catalog.product.attribute.ProductOptionDescription;
 import com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription;
+import com.salesmanager.shop.model.catalog.product.product.PersistableProduct;
+import com.salesmanager.shop.model.catalog.product.product.ProductSpecification;
 import com.salesmanager.shop.model.catalog.product.variation.PersistableProductVariation;
 import com.salesmanager.test.shop.common.ServicesTestSupport;
 
@@ -72,7 +72,7 @@ public class ProductV2ManagementAPIIntegrationTest extends ServicesTestSupport {
 		assertTrue(categoryResponse.getStatusCode()== CREATED);
 		assertNotNull(cat.getId());
 
-		final PersistableProduct product = new PersistableProduct();
+		final PersistableProduct product = super.product("123");
 		final ArrayList<Category> categories = new ArrayList<>();
 		categories.add(cat);
 		product.setCategories(categories);
@@ -81,11 +81,10 @@ public class ProductV2ManagementAPIIntegrationTest extends ServicesTestSupport {
 				com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer.DEFAULT_MANUFACTURER);
 		product.setProductSpecifications(specifications);
 		product.setPrice(BigDecimal.TEN);
-		product.setSku("123");
-		final HttpEntity<PersistableProduct> entity = new HttpEntity<>(product, getHeader());
-
+		
+		final HttpEntity<PersistableProduct> productEntity = new HttpEntity<>(product, getHeader());
 		final ResponseEntity<PersistableProduct> response = testRestTemplate.postForEntity(
-				"/api/v2/private/product/definition?store=" + Constants.DEFAULT_STORE, entity, PersistableProduct.class);
+				"/api/v2/private/product?store=" + Constants.DEFAULT_STORE, productEntity, PersistableProduct.class);
 		assertTrue(response.getStatusCode()== CREATED);
 		
 		//create options
@@ -137,12 +136,11 @@ public class ProductV2ManagementAPIIntegrationTest extends ServicesTestSupport {
 		mediumEn.setLanguage("en");
 		white.getDescriptions().add(mediumEn);
 		
-		//create variants - todo
-		PersistableProductVariation whiteVariant = new PersistableProductVariation();
-		//- todo
-		PersistableProductVariation mediumVariant = new PersistableProductVariation();
+		//create variantions
+		PersistableProductVariation whiteVariation = new PersistableProductVariation();
+		PersistableProductVariation mediumVariation = new PersistableProductVariation();
 		// toto
-		//create instances
+		//create variants
 	}
 
 }
