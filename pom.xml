@@ -60,14 +60,14 @@
 		<javax.annotation>1.3.2</javax.annotation>
 		<infinispan.version>9.4.18.Final</infinispan.version>
 		<infinispan.tree.version>9.4.18.Final</infinispan.tree.version>
-		<mysql-jdbc-version>8.0.21</mysql-jdbc-version>
+		<mysql-jdbc-version>8.0.31</mysql-jdbc-version>
 		<oracle.version>18.3.0.0</oracle.version>
 		<postgresql.version>42.2.18</postgresql.version>
 		<simple-json-version>1.1.1</simple-json-version>
 		<jackson-version-databind>2.12.6.1</jackson-version-databind>
 		<jackson-version>2.10.2</jackson-version>
 		<geoip2.version>2.7.0</geoip2.version>
-		<drools.version>7.32.0.Final</drools.version>
+		<drools.version>7.45.0.Final</drools.version>
 		<google-client-maps-services-version>0.1.6</google-client-maps-services-version>
 		<jwt.version>0.8.0</jwt.version>
 
@@ -274,7 +274,7 @@
 			<dependency>
 				<groupId>com.amazonaws</groupId>
 				<artifactId>aws-java-sdk-s3</artifactId>
-				<version>1.11.640</version>
+				<version>1.12.364</version>
 			</dependency>
 
 			<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-ses -->
@@ -288,7 +288,7 @@
 			<dependency>
 				<groupId>com.google.cloud</groupId>
 				<artifactId>google-cloud-storage</artifactId>
-				<version>1.74.0</version>
+				<version>1.85.0</version>
 				<exclusions>
 					<exclusion>
 						<groupId>com.google.guava</groupId>
