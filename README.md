@@ -125,7 +125,7 @@ Documentation available <http://documentation.shopizer.com>
 
 Api documentation <https://app.swaggerhub.com/apis-docs/shopizer/shopizer-rest-api/3.0.1#/>
 
-ChatOps <https://shopizer.slack.com>  - Join our Slack channel https://shopizer-slackin.herokuapp.com/
+ChatOps <https://shopizer.slack.com>  - Join our Slack channel <https://join.slack.com/t/shopizer/signup>
 
 More information is available on shopizer web site here <http://www.shopizer.com>
 

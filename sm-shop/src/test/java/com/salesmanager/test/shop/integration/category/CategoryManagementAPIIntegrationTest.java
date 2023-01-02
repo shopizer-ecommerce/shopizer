@@ -137,7 +137,12 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
         
         HttpEntity<String> httpEntity = new HttpEntity<>(getHeader());
         
-        final ResponseEntity<ReadableCategory> readableQuery = testRestTemplate.exchange(String.format("/api/v1/category/" +  cat.getId()), HttpMethod.GET,
+        /**
+         * Get by id moving to administration access
+         * For public access use friendly url
+         */
+        
+        final ResponseEntity<ReadableCategory> readableQuery = testRestTemplate.exchange(String.format("/api/v1//category/name/" +  description.getFriendlyUrl()), HttpMethod.GET,
             httpEntity, ReadableCategory.class);
         
         assertThat(readableQuery.getStatusCode(), is(OK));
