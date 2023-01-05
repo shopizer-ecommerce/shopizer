@@ -4,6 +4,7 @@ public class ProductGroup {
 	
 	private String code;
 	private boolean active;
+	private Long id;
 	public String getCode() {
 		return code;
 	}
@@ -15,6 +16,12 @@ public class ProductGroup {
 	}
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 }

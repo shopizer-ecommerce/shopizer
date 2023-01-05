@@ -9,16 +9,15 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 
 import springfox.documentation.RequestHandler;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -41,7 +40,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class DocumentationConfiguration {
 
-	public static final Contact DEFAULT_CONTACT = new Contact("Shopizer", "http://www.shopizer.com", "");
+	public static final Contact DEFAULT_CONTACT = new Contact("Shopizer", "https://www.shopizer.com", "");
+	
+	private static final String HOST = "localhost:8080";
 
 	/**
 	 * http://localhost:8080/swagger-ui.html#/ http://localhost:8080/v2/api-docs
@@ -62,7 +63,9 @@ public class DocumentationConfiguration {
 		Set<String> consumes = new HashSet<>();
 		consumes.add("application/json");
 
-		return new Docket(DocumentationType.SWAGGER_2).select()
+		return new Docket(DocumentationType.SWAGGER_2)
+				.host(HOST)
+				.select()
 				.apis(requestHandlers()).build()
 				.securitySchemes(Collections.singletonList(new ApiKey("JWT", AUTHORIZATION, HEADER.name())))
 		        .securityContexts(singletonList(

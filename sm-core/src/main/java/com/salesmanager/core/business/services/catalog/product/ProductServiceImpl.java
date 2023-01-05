@@ -2,6 +2,7 @@ package com.salesmanager.core.business.services.catalog.product;
 
 
 import java.io.InputStream;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -32,7 +33,6 @@ import com.salesmanager.core.business.services.catalog.product.price.ProductPric
 import com.salesmanager.core.business.services.catalog.product.relationship.ProductRelationshipService;
 import com.salesmanager.core.business.services.catalog.product.review.ProductReviewService;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
-import com.salesmanager.core.business.services.search.SearchService;
 import com.salesmanager.core.business.utils.CatalogServiceHelper;
 import com.salesmanager.core.business.utils.CoreConfiguration;
 import com.salesmanager.core.model.catalog.category.Category;
@@ -78,9 +78,6 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 	ProductRelationshipService productRelationshipService;
 
 	@Inject
-	SearchService searchService;
-
-	@Inject
 	ProductImageService productImageService;
 
 	@Inject
@@ -96,8 +93,8 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 	}
 
 	@Override
-	public Optional<Product> retrieveById(Long id) {
-		return Optional.ofNullable(getById(id));
+	public Optional<Product> retrieveById(Long id, MerchantStore store) {
+		return Optional.ofNullable(findOne(id,store));
 	}
 
 	@Override
@@ -110,7 +107,7 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		product.getDescriptions().add(description);
 		description.setProduct(product);
 		update(product);
-		searchService.index(product.getMerchantStore(), product);
+
 	}
 
 	@Override
@@ -213,14 +210,9 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		return productRepository.listByTaxClass(taxClass);
 	}
 
-	@Override
-	public Product getByCode(String productCode, Language language) {
-		return productRepository.getByCode(productCode, language);
-	}
 
 	@Override
 	public void delete(Product product) throws ServiceException {
-		LOGGER.debug("Deleting product");
 		Validate.notNull(product, "Product cannot be null");
 		Validate.notNull(product.getMerchantStore(), "MerchantStore cannot be null in product");
 		product = this.getById(product.getId());// Prevents detached entity
@@ -248,24 +240,23 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		}
 
 		super.delete(product);
-		searchService.deleteIndex(product.getMerchantStore(), product);
+		//searchService.deleteIndex(product.getMerchantStore(), product);
 
 	}
 
 	@Override
 	public void create(Product product) throws ServiceException {
 		saveOrUpdate(product);
-		searchService.index(product.getMerchantStore(), product);
 	}
 
 	@Override
 	public void update(Product product) throws ServiceException {
 		saveOrUpdate(product);
-		searchService.index(product.getMerchantStore(), product);
 	}
+	
+	
 
-	private void saveOrUpdate(Product product) throws ServiceException {
-		LOGGER.debug("Save or update product ");
+	private Product saveOrUpdate(Product product) throws ServiceException {
 		Validate.notNull(product, "product cannot be null");
 		Validate.notNull(product.getAvailabilities(), "product must have at least one availability");
 		Validate.notEmpty(product.getAvailabilities(), "product must have at least one availability");
@@ -333,10 +324,14 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 					}
 				}
 			}
+			
+
 
 		} catch (Exception e) {
 			LOGGER.error("Cannot save images " + e.getMessage());
 		}
+		
+		return product;
 
 	}
 
@@ -366,8 +361,53 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 	}
 
 	@Override
-	public Product getByCode(String productCode, MerchantStore merchant) {
-		return productRepository.getByCode(productCode, merchant);
+	public Product saveProduct(Product product) throws ServiceException{
+		try {
+			return this.saveOrUpdate(product);
+		} catch (ServiceException e) {
+			throw new ServiceException("Cannot create product [" + product.getId() + "]", e);
+		}
+		
+	}
+
+	@Override
+	public Product getBySku(String productCode, MerchantStore merchant, Language language) throws ServiceException {
+
+		try {
+			List<Object> products = productRepository.findBySku(productCode, merchant.getId());
+			if(products.isEmpty()) {
+				throw new ServiceException("Cannot get product with sku [" + productCode + "]");
+			}
+			BigInteger id = (BigInteger) products.get(0);
+			return productRepository.getById(id.longValue(), merchant, language);
+		} catch (Exception e) {
+			throw new ServiceException("Cannot get product with sku [" + productCode + "]", e);
+		}
+		
+
+
+	}
+	
+	public Product getBySku(String productCode, MerchantStore merchant) throws ServiceException {
+
+		try {
+			List<Object> products = productRepository.findBySku(productCode, merchant.getId());
+			if(products.isEmpty()) {
+				throw new ServiceException("Cannot get product with sku [" + productCode + "]");
+			}
+			BigInteger id = (BigInteger) products.get(0);
+			return this.findOne(id.longValue(), merchant);
+		} catch (Exception e) {
+			throw new ServiceException("Cannot get product with sku [" + productCode + "]", e);
+		}
+		
+
+
+	}
+
+	@Override
+	public boolean exists(String sku, MerchantStore store) {
+		return productRepository.existsBySku(sku, store.getId());
 	}
 
 

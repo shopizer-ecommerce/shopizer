@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ServiceException;
-import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.services.catalog.pricing.PricingService;
 import com.salesmanager.core.business.utils.CoreConfiguration;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;

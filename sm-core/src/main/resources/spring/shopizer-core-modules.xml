@@ -41,6 +41,7 @@
 		End discount processors -->
 
 	<!-- Payment integration modules -->
+	<!-- This will be removed in favor of modules autodetection See https://github.com/shopizer-ecommerce/shopizer-payment-square-starter as an example -->
 	<util:map id="paymentModules" map-class="java.util.HashMap"
 		key-type="java.lang.String"
 		value-type="com.salesmanager.core.business.modules.integration.payment.model.PaymentModule">

@@ -5,6 +5,7 @@ import java.util.List;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityService;
 import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.variant.ProductVariant;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.shipping.ShippingProduct;
@@ -13,7 +14,7 @@ import com.salesmanager.core.model.shoppingcart.ShoppingCartItem;
 
 public interface ShoppingCartService extends SalesManagerEntityService<Long, ShoppingCart> {
 
-	ShoppingCart getShoppingCart(Customer customer) throws ServiceException;
+	ShoppingCart getShoppingCart(Customer customer, MerchantStore store) throws ServiceException;
 
 	void saveOrUpdate(ShoppingCart shoppingCart) throws ServiceException;
 
@@ -21,7 +22,6 @@ public interface ShoppingCartService extends SalesManagerEntityService<Long, Sho
 
 	ShoppingCart getByCode(String code, MerchantStore store) throws ServiceException;
 
-	//ShoppingCart getByCustomer(Customer customer) throws ServiceException;
 
 	/**
 	 * Creates a list of ShippingProduct based on the ShoppingCart if items are
@@ -34,24 +34,13 @@ public interface ShoppingCartService extends SalesManagerEntityService<Long, Sho
 	List<ShippingProduct> createShippingProduct(ShoppingCart cart) throws ServiceException;
 
 	/**
-	 * Looks if the items in the ShoppingCart are free of charges
-	 * 
-	 * @param cart
-	 * @return
-	 * @throws ServiceException
-	 */
-	//boolean isFreeShoppingCart(ShoppingCart cart) throws ServiceException;
-
-	//boolean isFreeShoppingCart(List<ShoppingCartItem> items) throws ServiceException;
-
-	/**
-	 * Populates a ShoppingCartItem from a Product and attributes if any
+	 * Populates a ShoppingCartItem from a Product and attributes if any. Calculate price based on availability
 	 * 
 	 * @param product
 	 * @return
 	 * @throws ServiceException
 	 */
-	ShoppingCartItem populateShoppingCartItem(Product product) throws ServiceException;
+	ShoppingCartItem populateShoppingCartItem(Product product, MerchantStore store) throws ServiceException;
 
 	void deleteCart(ShoppingCart cart) throws ServiceException;
 
@@ -68,15 +57,7 @@ public interface ShoppingCartService extends SalesManagerEntityService<Long, Sho
 	ShoppingCart mergeShoppingCarts(final ShoppingCart userShoppingCart, final ShoppingCart sessionCart,
 			final MerchantStore store) throws Exception;
 
-	/**
-	 * Determines if the shopping cart requires shipping
-	 * 
-	 * @param cart
-	 * @return
-	 * @throws ServiceException
-	 */
-	//boolean requiresShipping(ShoppingCart cart) throws ServiceException;
-	
+
 	/**
 	 * Removes a shopping cart item
 	 * @param item

@@ -12,9 +12,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -22,18 +21,16 @@ import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-
-import org.hibernate.annotations.Cascade;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.ProductDimensions;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
-import com.salesmanager.core.model.catalog.product.variation.ProductVariation;
-import com.salesmanager.core.model.catalog.product.variation.ProductVariationImage;
+import com.salesmanager.core.model.catalog.product.variant.ProductVariant;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.common.audit.Auditable;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
@@ -41,7 +38,27 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.utils.CloneUtils;
 
 @Entity
-@Table(name = "PRODUCT_AVAILABILITY")
+@Table(name = "PRODUCT_AVAILABILITY",
+uniqueConstraints= @UniqueConstraint(columnNames = {"MERCHANT_ID", "PRODUCT_ID", "PRODUCT_VARIANT", "REGION_VARIANT"}),
+indexes = 
+	{ 
+		@Index(name="PRD_AVAIL_STORE_PRD_IDX", columnList = "PRODUCT_ID,MERCHANT_ID"),
+		@Index(name="PRD_AVAIL_PRD_IDX", columnList = "PRODUCT_ID")
+	}
+)
+
+/**
+ * Default availability
+ * 
+ * store
+ * product id
+ * 
+ * variant null
+ * regionVariant null
+ * 
+ * @author carlsamson
+ *
+ */
 public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailability> implements Auditable {
 
 	/**
@@ -63,10 +80,17 @@ public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailab
 	@JoinColumn(name = "PRODUCT_ID", nullable = false)
 	private Product product;
 
-	/** TODO Questioned **/
+	/** Specific retailer store **/
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "MERCHANT_ID", nullable = true)
 	private MerchantStore merchantStore;
+	
+	/**
+	 * This describes the availability of a product variant
+	 */
+	@ManyToOne(targetEntity = ProductVariant.class)
+	@JoinColumn(name = "PRODUCT_VARIANT", nullable = true)
+	private ProductVariant productVariant;
 	
 	@Pattern(regexp="^[a-zA-Z0-9_]*$")
 	@Column(name = "SKU", nullable = true)
@@ -93,7 +117,7 @@ public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailab
 	private String owner;
 
 	@Column(name = "STATUS")
-	private boolean productStatus = true; //can be used as flag for instance can be purchase or not
+	private boolean productStatus = true; //can be used as flag for variant can be purchase or not
 
 	@Column(name = "FREE_SHIPPING")
 	private boolean productIsAlwaysFreeShipping;
@@ -109,25 +133,7 @@ public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailab
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "productAvailability", cascade = CascadeType.ALL)
 	private Set<ProductPrice> prices = new HashSet<ProductPrice>();
-
-	@ManyToMany(fetch=FetchType.LAZY, cascade = {CascadeType.REFRESH})
-	@JoinTable(name = "AVAILABILITY_VARIATION", joinColumns = { 
-			@JoinColumn(name = "PRODUCT_AVAIL_ID", nullable = false, updatable = false) }
-			, 
-			inverseJoinColumns = { @JoinColumn(name = "PRODUCT_VARIANTION_ID", 
-					nullable = false, updatable = false) }
-	)
-	@Cascade({
-		org.hibernate.annotations.CascadeType.DETACH,
-		org.hibernate.annotations.CascadeType.LOCK,
-		org.hibernate.annotations.CascadeType.REFRESH,
-		org.hibernate.annotations.CascadeType.REPLICATE
-		
-	})
-	private Set<ProductVariation> variations = new HashSet<ProductVariation>();
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "productAvailability", cascade = CascadeType.ALL)
-	private Set<ProductVariationImage> images = new HashSet<ProductVariationImage>();
 
 	@Transient
 	public ProductPrice defaultPrice() {
@@ -288,19 +294,13 @@ public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailab
 		this.dimensions = dimensions;
 	}
 
-	public Set<ProductVariationImage> getImages() {
-		return images;
+	public ProductVariant getProductVariant() {
+		return productVariant;
 	}
 
-	public void setImages(Set<ProductVariationImage> images) {
-		this.images = images;
+	public void setProductVariant(ProductVariant productVariant) {
+		this.productVariant = productVariant;
 	}
 
-	public Set<ProductVariation> getVariations() {
-		return variations;
-	}
 
-	public void setVariations(Set<ProductVariation> variations) {
-		this.variations = variations;
-	}
 }

@@ -1,7 +1,9 @@
 package com.salesmanager.shop.store.api.exception;
 
+import java.util.Objects;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
@@ -24,8 +26,13 @@ public class RestErrorHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public @ResponseBody ErrorEntity handleServiceException(Exception exception) {
         log.error(exception.getMessage(), exception);
-        ErrorEntity errorEntity = createErrorEntity(null, exception.getMessage(),
-                exception.getLocalizedMessage());
+        Objects.requireNonNull(exception.getCause());
+        Throwable rootCause = exception.getCause();
+        while (rootCause.getCause() != null && rootCause.getCause() != rootCause) {
+            rootCause = rootCause.getCause();
+        }
+        ErrorEntity errorEntity = createErrorEntity("500", exception.getMessage(),
+        		rootCause.getMessage());
         return errorEntity;
     }
 
@@ -38,8 +45,12 @@ public class RestErrorHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public @ResponseBody ErrorEntity handleServiceException(ServiceRuntimeException exception) {
         log.error(exception.getErrorMessage(), exception);
-        ErrorEntity errorEntity = createErrorEntity(exception.getErrorCode(), exception.getErrorMessage(),
-                exception.getLocalizedMessage());
+        Throwable rootCause = exception.getCause();
+        while (rootCause.getCause() != null && rootCause.getCause() != rootCause) {
+            rootCause = rootCause.getCause();
+        }
+        ErrorEntity errorEntity = createErrorEntity(exception.getErrorCode()!=null?exception.getErrorCode():"500", exception.getErrorMessage(),
+        		rootCause.getMessage());
         return errorEntity;
     }
 
@@ -91,7 +102,10 @@ public class RestErrorHandler {
         Optional.ofNullable(errorCode)
                 .ifPresent(errorEntity::setErrorCode);
 
-        String resultMessage = message != null ? message : detailMessage;
+        String resultMessage = (message != null && detailMessage !=null)  ? new StringBuilder().append(message).append(", ").append(detailMessage).toString() : detailMessage;
+        if(StringUtils.isBlank(resultMessage)) {
+        	resultMessage = message;
+        }
         Optional.ofNullable(resultMessage)
                 .ifPresent(errorEntity::setMessage);
         return errorEntity;

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.salesmanager.shop.model.catalog.product.ReadableMinimalProduct;
+import com.salesmanager.shop.model.catalog.product.variation.ReadableProductVariation;
 
 /**
  * compatible with v1 version
@@ -21,6 +22,10 @@ public class ReadableShoppingCartItem extends ReadableMinimalProduct implements 
 	private BigDecimal subTotal;
 	private String displaySubTotal;
 	private List<ReadableShoppingCartAttribute> cartItemattributes = new ArrayList<ReadableShoppingCartAttribute>();
+	
+	private ReadableProductVariation variant = null;
+	private ReadableProductVariation variantValue = null;
+
 	
 
 	public BigDecimal getSubTotal() {
@@ -41,6 +46,19 @@ public class ReadableShoppingCartItem extends ReadableMinimalProduct implements 
 	public void setCartItemattributes(List<ReadableShoppingCartAttribute> cartItemattributes) {
 		this.cartItemattributes = cartItemattributes;
 	}
+	public ReadableProductVariation getVariant() {
+		return variant;
+	}
+	public void setVariant(ReadableProductVariation variant) {
+		this.variant = variant;
+	}
+	public ReadableProductVariation getVariantValue() {
+		return variantValue;
+	}
+	public void setVariantValue(ReadableProductVariation variantValue) {
+		this.variantValue = variantValue;
+	}
+
 	
 	
 

@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.salesmanager.core.business.constants.Constants;
-import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.services.catalog.pricing.PricingService;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.price.FinalPrice;
 import com.salesmanager.core.model.customer.Customer;

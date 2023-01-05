@@ -57,11 +57,6 @@ public class LanguageServiceImpl extends SalesManagerEntityServiceImpl<Integer, 
 		
 			String countryCode = store.getCountry().getIsoCode();
 			
-			//try to build valid language
-			if("CA".equals(countryCode) && language.getCode().equals("en")) {
-				countryCode = "US";
-			}
-			
 			return new Locale(language.getCode(), countryCode);
 		
 		} else {
@@ -103,13 +98,15 @@ public class LanguageServiceImpl extends SalesManagerEntityServiceImpl<Integer, 
 	@SuppressWarnings("unchecked")
 	public List<Language> getLanguages() throws ServiceException {
 		
-		
+
 		List<Language> langs = null;
 		try {
 
 			langs = (List<Language>) cache.getFromCache("LANGUAGES");
 			if(langs==null) {
 				langs = this.list();
+
+				
 				cache.putInCache(langs, "LANGUAGES");
 			}
 

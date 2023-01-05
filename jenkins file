@@ -1,0 +1,11 @@
+node("MAVEN3 && NVM && PYTHON3"){
+stage('VCS') {
+    git branch: 'SPRINT_1_REL', url: 'https://github.com/Sharmila-qt1/shopizer.git'
+}
+stage("build"){
+   sh '/home/ubuntu/workspace/shopizer/mnv package' 
+}
+stage("archieve results"){
+ junit '**/surefire-reports/*.xml'   
+   }
+}

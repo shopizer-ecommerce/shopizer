@@ -28,6 +28,8 @@ import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.store.controller.zone.facade.ZoneFacade;
 import com.salesmanager.shop.utils.LanguageUtils;
 
+import springfox.documentation.annotations.ApiIgnore;
+
 /**
  * Get system Language, Country and Currency objects
  *
@@ -70,18 +72,16 @@ public class ReferencesApi {
    * @return
    */
   @GetMapping("/country")
-  public List<ReadableCountry> getCountry(HttpServletRequest request) {
+  public List<ReadableCountry> getCountry(@ApiIgnore Language language, HttpServletRequest request) {
     MerchantStore merchantStore = storeFacade.getByCode(request);
-    Language lang = languageUtils.getRESTLanguage(request);
-    return countryFacade.getListCountryZones(lang, merchantStore);
+    return countryFacade.getListCountryZones(language, merchantStore);
   }
 
   @GetMapping("/zones")
   public List<ReadableZone> getZones(
-      @RequestParam("code") String code, HttpServletRequest request) {
+      @RequestParam("code") String code, @ApiIgnore Language language, HttpServletRequest request) {
     MerchantStore merchantStore = storeFacade.getByCode(request);
-    Language lang = languageUtils.getRESTLanguage(request);
-    return zoneFacade.getZones(code, lang, merchantStore);
+    return zoneFacade.getZones(code, language, merchantStore);
   }
 
   /**

@@ -1,316 +1,519 @@
 package com.salesmanager.core.business.services.search;
 
+import java.io.File;
+import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
+
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.jsoup.helper.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.google.gson.JsonNull;
-import org.springframework.scheduling.annotation.Async;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+
+import com.salesmanager.core.business.configuration.ApplicationSearchConfiguration;
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ServiceException;
-import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.services.catalog.inventory.ProductInventoryService;
+import com.salesmanager.core.business.services.catalog.pricing.PricingService;
 import com.salesmanager.core.business.utils.CoreConfiguration;
 import com.salesmanager.core.model.catalog.category.Category;
+import com.salesmanager.core.model.catalog.category.CategoryDescription;
 import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
+import com.salesmanager.core.model.catalog.product.attribute.ProductOptionDescription;
+import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueDescription;
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
-import com.salesmanager.core.model.catalog.product.price.FinalPrice;
+import com.salesmanager.core.model.catalog.product.image.ProductImage;
+import com.salesmanager.core.model.catalog.product.inventory.ProductInventory;
+import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
+import com.salesmanager.core.model.catalog.product.manufacturer.ManufacturerDescription;
+import com.salesmanager.core.model.catalog.product.variant.ProductVariant;
 import com.salesmanager.core.model.merchant.MerchantStore;
-import com.salesmanager.core.model.search.IndexProduct;
-import com.salesmanager.core.model.search.SearchEntry;
-import com.salesmanager.core.model.search.SearchFacet;
-import com.salesmanager.core.model.search.SearchKeywords;
-import com.shopizer.search.services.Facet;
-import com.shopizer.search.services.SearchHit;
-import com.shopizer.search.services.SearchRequest;
-import com.shopizer.search.services.SearchResponse;
 
-
+import modules.commons.search.SearchModule;
+import modules.commons.search.configuration.SearchConfiguration;
+import modules.commons.search.request.Document;
+import modules.commons.search.request.IndexItem;
+import modules.commons.search.request.RequestOptions;
+import modules.commons.search.request.SearchRequest;
+import modules.commons.search.request.SearchResponse;
 
 @Service("productSearchService")
+@EnableConfigurationProperties(value = ApplicationSearchConfiguration.class)
 public class SearchServiceImpl implements com.salesmanager.core.business.services.search.SearchService {
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(SearchServiceImpl.class);
 	
-	
-	private final static String PRODUCT_INDEX_NAME = "product";
-	private final static String UNDERSCORE = "_";
-	private final static String INDEX_PRODUCTS = "INDEX_PRODUCTS";
+    @Value("${search.noindex:false}")//skip indexing process
+    private boolean noIndex;
 
-	@Inject
-	private com.shopizer.search.services.SearchService searchService;
+	private static final Logger LOGGER = LoggerFactory.getLogger(SearchServiceImpl.class);
+
+	private final static String INDEX_PRODUCTS = "INDEX_PRODUCTS";
 	
-	@Inject
-	private PricingService pricingService;
+	private final static String SETTINGS = "search/SETTINGS";
 	
+	private final static String PRODUCT_MAPPING_DEFAULT = "search/MAPPINGS.json";
+	
+	private final static String QTY = "QTY";
+	private final static String PRICE = "PRICE";
+	private final static String DISCOUNT_PRICE = "DISCOUNT";
+	private final static String SKU = "SKU";
+	private final static String VSKU = "VSKU";
+	
+	
+	/**
+	 * TODO properties file
+	 */
+	
+	private final static String KEYWORDS_MAPPING_DEFAULT = "{\"properties\":"
+			+ "      {\n\"id\": {\n"
+			+ "        \"type\": \"long\"\n"
+			+ "      }\n"
+			+ "     }\n"
+			+ "    }";	
+	
+
+
 	@Inject
 	private CoreConfiguration configuration;
-	
 
-	public void initService() {
-		searchService.initService();
+	@Autowired
+	private ApplicationSearchConfiguration applicationSearchConfiguration;
+	
+	@Autowired
+	private ProductInventoryService productInventoryService;
+
+	@Autowired(required = false)
+	private SearchModule searchModule;
+
+	@PostConstruct
+	public void init() throws Exception {
+
+		/**
+		 * Configure search module
+		 */
+
+		if (searchModule != null && !noIndex) {
+
+			SearchConfiguration searchConfiguration = config();
+			try {
+				searchModule.configure(searchConfiguration);
+			} catch (Exception e) {
+				LOGGER.error("SearchModule cannot be configured [" + e.getMessage() + "]", e);
+			}
+		}
 	}
 
-	@Async
-	@SuppressWarnings("rawtypes")
-	public void index(MerchantStore store, Product product)
-			throws ServiceException {
+	public void index(MerchantStore store, Product product) throws ServiceException {
+
+		Validate.notNull(product.getId(), "Product.id cannot be null");
+
+		if (configuration.getProperty(INDEX_PRODUCTS) == null
+				|| configuration.getProperty(INDEX_PRODUCTS).equals(Constants.FALSE) || searchModule == null) {
+			return;
+		}
+
+		List<String> languages = languages(product);
+
+		// existing documents
+		List<Document> documents;
+		List<Map<String, String>> variants = null;
+		try {
+			documents = document(product.getId(), languages, RequestOptions.DO_NOT_FAIL_ON_NOT_FOUND);
+
+				if (!CollectionUtils.isEmpty(product.getVariants())) {
+					variants = new ArrayList<Map<String, String>>();
+					variants = product.getVariants().stream().map(i -> variants(i)).collect(Collectors.toList());
+				}
+	
+				if (!CollectionUtils.isEmpty(documents)) {
+					if (documents.iterator().next() != null) {
+						searchModule.delete(languages, product.getId());
+					}
+				}
+
+
+		} catch (Exception e) {
+			throw new ServiceException(e);
+		}
+
+		Set<ProductDescription> descriptions = product.getDescriptions();
+
+		for (ProductDescription description : descriptions) {
+			indexProduct(store, description, product, variants);
+		}
+
+	}
+
+	private List<Document> document(Long id, List<String> languages, RequestOptions options) throws Exception {
+		List<Optional<Document>> documents = null;
+		try {
+			documents = searchModule.getDocument(id, languages, options);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		for(Optional<Document> d : documents) {
+			if(d == null) {//not allowed
+				return Collections.emptyList();
+			}
+		}
+		
+		List<Document> filteredList = documents.stream().filter(Optional::isPresent).map(Optional::get)
+				.collect(Collectors.toList());
+
+		return filteredList;
+
+	}
+
+	private void indexProduct(MerchantStore store, ProductDescription description, Product product,
+			List<Map<String, String>> variants) throws ServiceException {
+
+		try {
+			ProductImage image = null;
+			if (!CollectionUtils.isEmpty(product.getImages())) {
+				image = product.getImages().stream().filter(i -> i.isDefaultImage()).findFirst().get();
+			}
+			
+			/**
+			 * Inventory
+			 */
+			
+			/**
+			 * SKU, QTY, PRICE, DISCOUNT
+			 */
+			
+			List<Map<String, String>> itemInventory = new ArrayList<Map<String, String>>();
+			
+			itemInventory.add(inventory(product));
+			
+			if (!CollectionUtils.isEmpty(product.getVariants())) {
+				for(ProductVariant variant : product.getVariants()) {
+					itemInventory.add(inventory(variant));
+				}
+			}
+
+			IndexItem item = new IndexItem();
+			item.setId(product.getId());
+			item.setStore(store.getCode().toLowerCase());
+			item.setDescription(description.getDescription());
+			item.setName(description.getName());
+			item.setInventory(itemInventory);
+
+
+			if (product.getManufacturer() != null) {
+				item.setBrand(manufacturer(product.getManufacturer(), description.getLanguage().getCode()));
+			}
+
+			if (!CollectionUtils.isEmpty(product.getCategories())) {
+				item.setCategory(
+						category(product.getCategories().iterator().next(), description.getLanguage().getCode()));
+			}
+
+			if (!CollectionUtils.isEmpty(product.getAttributes())) {
+				Map<String, String> attributes = attributes(product, description.getLanguage().getCode());
+				item.setAttributes(attributes);
+			}
+
+			if (image != null) {
+				item.setImage(image.getProductImage());
+			}
+
+			if (product.getProductReviewAvg() != null) {
+				item.setReviews(product.getProductReviewAvg().toString());
+			}
+
+			if (!CollectionUtils.isEmpty(variants)) {
+				item.setVariants(variants);
+			}
+
+			item.setLanguage(description.getLanguage().getCode());
+			item.setLink(description.getSeUrl());
+
+			searchModule.index(item);
+		} catch (Exception e) {
+			throw new ServiceException(e);
+		}
+
+	}
+
+	private SearchConfiguration config() throws Exception {
+
+		SearchConfiguration config = new SearchConfiguration();
+		config.setClusterName(applicationSearchConfiguration.getClusterName());
+		config.setHosts(applicationSearchConfiguration.getHost());
+		config.setCredentials(applicationSearchConfiguration.getCredentials());
+
+		config.setLanguages(applicationSearchConfiguration.getSearchLanguages());
+		
+		config.getLanguages().stream().forEach(l -> {
+			try {
+				this.mappings(config,l);
+			} catch (Exception e) {
+				throw new IllegalStateException(e);
+			}
+		});
+		config.getLanguages().stream().forEach(l -> {
+			try {
+				this.settings(config,l);
+			} catch (Exception e) {
+				throw new IllegalStateException(e);
+			}
+		});
+		
+
+
+		/**
+		 * The mapping
+		 */
+		/*
+		 * config.getProductMappings().put("variants", "nested");
+		 * config.getProductMappings().put("attributes", "nested");
+		 * config.getProductMappings().put("brand", "keyword");
+		 * config.getProductMappings().put("store", "keyword");
+		 * config.getProductMappings().put("reviews", "keyword");
+		 * config.getProductMappings().put("image", "keyword");
+		 * config.getProductMappings().put("category", "text");
+		 * config.getProductMappings().put("name", "text");
+		 * config.getProductMappings().put("description", "text");
+		 * config.getProductMappings().put("price", "float");
+		 * config.getProductMappings().put("id", "long");
+		 
+		config.getKeywordsMappings().put("store", "keyword");
+		*/
+
+		return config;
+
+	}
+	
+	private Map<String, String> inventory(Product product) throws Exception {
+		
 		
 		/**
-		 * When a product is saved or updated the indexing process occurs
-		 * 
-		 * A product entity will have to be transformed to a bean ProductIndex
-		 * which contains the indices as described in product.json
-		 * 
-		 * {"product": {
-						"properties" :  {
-							"name" : {"type":"string","index":"analyzed"},
-							"price" : {"type":"string","index":"not_analyzed"},
-							"category" : {"type":"string","index":"not_analyzed"},
-							"lang" : {"type":"string","index":"not_analyzed"},
-							"available" : {"type":"string","index":"not_analyzed"},
-							"description" : {"type":"string","index":"analyzed","index_analyzer":"english"}, 
-							"tags" : {"type":"string","index":"not_analyzed"} 
-						 } 
-			            }
-			}
-		 *
-		 * productService saveOrUpdate as well as create and update will invoke
-		 * productSearchService.index	
-		 * 
-		 * A copy of properies between Product to IndexProduct
-		 * Then IndexProduct will be transformed to a json representation by the invocation
-		 * of .toJSONString on IndexProduct
-		 * 
-		 * Then index product
-		 * searchService.index(json, "product_<LANGUAGE_CODE>_<MERCHANT_CODE>", "product");
-		 * 
-		 * example ...index(json,"product_en_default",product)
-		 * 
+		 * Default inventory
 		 */
 		
-		if(configuration.getProperty(INDEX_PRODUCTS)==null || configuration.getProperty(INDEX_PRODUCTS).equals(Constants.FALSE)) {
-			return;
+		ProductInventory inventory = productInventoryService.inventory(product);
+		
+		Map<String, String> inventoryMap = new HashMap<String, String>();
+		inventoryMap.put(SKU, product.getSku());
+		inventoryMap.put(QTY, String.valueOf(inventory.getQuantity()));
+		inventoryMap.put(PRICE, String.valueOf(inventory.getPrice().getStringPrice()));
+		if(inventory.getPrice().isDiscounted()) {
+			inventoryMap.put(DISCOUNT_PRICE, String.valueOf(inventory.getPrice().getStringDiscountedPrice()));
 		}
 		
-		FinalPrice price = pricingService.calculateProductPrice(product);
-
 		
-		Set<ProductDescription> descriptions = product.getDescriptions();
-		for(ProductDescription description : descriptions) {
-			
-			StringBuilder collectionName = new StringBuilder();
-			collectionName.append(PRODUCT_INDEX_NAME).append(UNDERSCORE).append(description.getLanguage().getCode()).append(UNDERSCORE).append(store.getCode().toLowerCase());
-			
-			IndexProduct index = new IndexProduct();
-
-			index.setId(String.valueOf(product.getId()));
-			index.setStore(store.getCode().toLowerCase());
-			index.setLang(description.getLanguage().getCode());
-			index.setAvailable(product.isAvailable());
-			index.setDescription(description.getDescription());
-			index.setName(description.getName());
-			if(product.getManufacturer()!=null) {
-				index.setManufacturer(String.valueOf(product.getManufacturer().getId()));
-			}
-			if(price!=null) {
-				index.setPrice(price.getFinalPrice().doubleValue());
-			}
-			index.setHighlight(description.getProductHighlight());
-			if(!StringUtils.isBlank(description.getMetatagKeywords())){
-				String[] tags = description.getMetatagKeywords().split(",");
-				@SuppressWarnings("unchecked")
-				List<String> tagsList = new ArrayList(Arrays.asList(tags));
-				index.setTags(tagsList);
-			}
-
-			
-			Set<Category> categories = product.getCategories();
-			if(!CollectionUtils.isEmpty(categories)) {
-				List<String> categoryList = new ArrayList<String>();
-				for(Category category : categories) {
-					categoryList.add(category.getCode());
-				}
-				index.setCategories(categoryList);
-			}
-			
-			String jsonString = index.toJSONString();
-			try {
-				searchService.index(jsonString, collectionName.toString());
-			} catch (Exception e) {
-				throw new ServiceException("Cannot index product id [" + product.getId() + "], " + e.getMessage() ,e);
-			}
-		}
-	}
-
-
-	public void deleteIndex(MerchantStore store, Product product) throws ServiceException {
-		
-		if(configuration.getProperty(INDEX_PRODUCTS)==null || configuration.getProperty(INDEX_PRODUCTS).equals(Constants.FALSE)) {
-			return;
-		}
-		
-		Set<ProductDescription> descriptions = product.getDescriptions();
-		for(ProductDescription description : descriptions) {
-			
-			StringBuilder collectionName = new StringBuilder();
-			collectionName.append(PRODUCT_INDEX_NAME).append(UNDERSCORE).append(description.getLanguage().getCode()).append(UNDERSCORE).append(store.getCode().toLowerCase());
-
-			try {
-				searchService.deleteObject(collectionName.toString(), String.valueOf(product.getId()));
-			} catch (Exception e) {
-				LOGGER.error("Cannot delete index for product id [" + product.getId() + "], ",e);
-			}
-		}
-	
+		return inventoryMap;
 	}
 	
-
-	public SearchKeywords searchForKeywords(String collectionName, String word, int entriesCount) throws ServiceException {
+	private Map<String, String> inventory(ProductVariant product) throws Exception {
 		
-     		
+		
+		/**
+		 * Default inventory
+		 */
+		
+		ProductInventory inventory = productInventoryService.inventory(product);
+		
+		Map<String, String> inventoryMap = new HashMap<String, String>();
+		inventoryMap.put(SKU, product.getSku());
+		inventoryMap.put(QTY, String.valueOf(inventory.getQuantity()));
+		inventoryMap.put(PRICE, String.valueOf(inventory.getPrice().getStringPrice()));
+		if(inventory.getPrice().isDiscounted()) {
+			inventoryMap.put(DISCOUNT_PRICE, String.valueOf(inventory.getPrice().getStringDiscountedPrice()));
+		}
+		
+		
+		return inventoryMap;
+	}
+
+	private Map<String, String> variants(ProductVariant variant) {
+		if (variant == null)
+			return null;
+
+		Map<String, String> variantMap = new HashMap<String, String>();
+		if (variant.getVariation() != null) {
+			String variantCode = variant.getVariation().getProductOption().getCode();
+			String variantValueCode = variant.getVariation().getProductOptionValue().getCode();
+
+			variantMap.put(variantCode, variantValueCode);
+
+		}
+		
+
+		if (variant.getVariationValue() != null) {
+			String variantCode = variant.getVariationValue().getProductOption().getCode();
+			String variantValueCode = variant.getVariationValue().getProductOptionValue().getCode();
+			variantMap.put(variantCode, variantValueCode);
+		}
+		
+		if(!StringUtils.isBlank(variant.getSku())) {
+			variantMap.put(VSKU, variant.getSku());
+		}
+		
+
+
+		return variantMap;
+
+	}
+
+	@Override
+	public void deleteDocument(MerchantStore store, Product product) throws ServiceException {
+
+		if (configuration.getProperty(INDEX_PRODUCTS) == null
+				|| configuration.getProperty(INDEX_PRODUCTS).equals(Constants.FALSE) || searchModule == null) {
+			return;
+		}
+
+		List<String> languages = languages(product);
+
 		try {
-
-			SearchResponse response = searchService.searchAutoComplete(collectionName, word, entriesCount);
-			
-			SearchKeywords keywords = new SearchKeywords();
-			if(response!=null && response.getInlineSearchList() != null) {
-			  keywords.setKeywords(Arrays.asList(response.getInlineSearchList()));
-			}
-			
-			return keywords;
-			
+			searchModule.delete(languages, product.getId());
 		} catch (Exception e) {
-			LOGGER.error("Error while searching keywords " + word,e);
 			throw new ServiceException(e);
 		}
 
-		
 	}
-	
 
-	public com.salesmanager.core.model.search.SearchResponse search(MerchantStore store, String languageCode, String term, int entriesCount, int startIndex) throws ServiceException {
-		
+	@Override
+	public SearchResponse searchKeywords(MerchantStore store, String language, SearchRequest search, int entriesCount)
+			throws ServiceException {
+
+		if (configuration.getProperty(INDEX_PRODUCTS) == null
+				|| configuration.getProperty(INDEX_PRODUCTS).equals(Constants.FALSE) || searchModule == null) {
+			return null;
+		}
 
 		try {
-			
-			StringBuilder collectionName = new StringBuilder();
-			collectionName.append(PRODUCT_INDEX_NAME).append(UNDERSCORE).append(languageCode).append(UNDERSCORE).append(store.getCode().toLowerCase());
-			
-			
-			SearchRequest request = new SearchRequest();
-			request.addCollection(collectionName.toString());
-			request.setSize(entriesCount);
-			request.setStart(startIndex);
-			request.setMatch(term);
-			
-			SearchResponse response = searchService.search(request);
-			
-			com.salesmanager.core.model.search.SearchResponse resp = new com.salesmanager.core.model.search.SearchResponse();
-			resp.setTotalCount(0);
-			
-			if(response != null) {
-				resp.setTotalCount(response.getCount());
-				
-				List<SearchEntry> entries = new ArrayList<SearchEntry>();
-				
-				Collection<SearchHit> hits = response.getSearchHits();
-				
-				if(!CollectionUtils.isEmpty(hits)) {
-					for(SearchHit hit : hits) {
-						
-						SearchEntry entry = new SearchEntry();
-		
-						//Map<String,Object> metaEntries = hit.getMetaEntries();
-						Map<String,Object> metaEntries = hit.getItem();
-						IndexProduct indexProduct = new IndexProduct();
-
-						Object desc = metaEntries.get("description");
-						if(desc instanceof JsonNull == false) {
-							indexProduct.setDescription((String)metaEntries.get("description"));
-						}
-						
-						Object hl = metaEntries.get("highlight");
-						if(hl instanceof JsonNull == false) {
-							indexProduct.setHighlight((String)metaEntries.get("highlight"));
-						}
-						indexProduct.setId((String)metaEntries.get("id"));
-						indexProduct.setLang((String)metaEntries.get("lang"));
-						
-						Object nm = metaEntries.get("name");
-						if(nm instanceof JsonNull == false) {
-							indexProduct.setName(((String)metaEntries.get("name")));
-						}
-						
-						Object mf = metaEntries.get("manufacturer");
-						if(mf instanceof JsonNull == false) {
-							indexProduct.setManufacturer(((String)metaEntries.get("manufacturer")));
-						}
-						indexProduct.setPrice(Double.valueOf(((String)metaEntries.get("price"))));
-						indexProduct.setStore(((String)metaEntries.get("store")));
-						entry.setIndexProduct(indexProduct);
-						entries.add(entry);
-						
-						/**
-						 * no more support for highlighted
-						 */
-
-					}
-					
-					resp.setEntries(entries);
-					
-					//Map<String,List<FacetEntry>> facets = response.getFacets();
-					Map<String,Facet> facets = response.getFacets();
-					if(facets!=null && facets.size() > 0) {
-						Map<String,List<SearchFacet>> searchFacets = new HashMap<String,List<SearchFacet>>();
-						for(String key : facets.keySet()) {
-							
-							Facet f = facets.get(key);
-							List<com.shopizer.search.services.Entry> ent = f.getEntries();
-							
-							//List<FacetEntry> f = facets.get(key);
-
-							List<SearchFacet> fs = searchFacets.computeIfAbsent(key, k -> new ArrayList<>());
-
-							for(com.shopizer.search.services.Entry facetEntry : ent) {
-							
-								SearchFacet searchFacet = new SearchFacet();
-								searchFacet.setKey(facetEntry.getName());
-								searchFacet.setName(facetEntry.getName());
-								searchFacet.setCount(facetEntry.getCount());
-								
-								fs.add(searchFacet);
-							
-							}
-							
-						}
-						
-						resp.setFacets(searchFacets);
-					
-					}
-				
-				}
-			}
-			
-			
-			
-			return resp;
-			
-			
+			return searchModule.searchKeywords(search);
 		} catch (Exception e) {
-			LOGGER.error("Error while searching keywords " + term,e);
 			throw new ServiceException(e);
 		}
-		
+	}
+
+	@Override
+	public SearchResponse search(MerchantStore store, String language, SearchRequest search, int entriesCount,
+			int startIndex) throws ServiceException {
+
+		if (configuration.getProperty(INDEX_PRODUCTS) == null
+				|| configuration.getProperty(INDEX_PRODUCTS).equals(Constants.FALSE) || searchModule == null) {
+			return null;
+		}
+
+		try {
+			return searchModule.searchProducts(search);
+		} catch (Exception e) {
+			throw new ServiceException(e);
+		}
+
+	}
+
+	@Override
+	public Optional<Document> getDocument(String language, MerchantStore store, Long productId)
+			throws ServiceException {
+		if (configuration.getProperty(INDEX_PRODUCTS) == null
+				|| configuration.getProperty(INDEX_PRODUCTS).equals(Constants.FALSE) || searchModule == null) {
+			return null;
+		}
+
+		try {
+			return searchModule.getDocument(productId, language, RequestOptions.DEFAULT);
+		} catch (Exception e) {
+			throw new ServiceException(e);
+		}
+	}
+
+	private List<String> languages(Product product) {
+		return product.getDescriptions().stream().map(d -> d.getLanguage().getCode()).collect(Collectors.toList());
+	}
+
+	private String manufacturer(Manufacturer manufacturer, String language) {
+		ManufacturerDescription description = manufacturer.getDescriptions().stream()
+				.filter(d -> d.getLanguage().getCode().equals(language)).findFirst().get();
+		return description.getName();
+	}
+
+	private String category(Category category, String language) {
+		CategoryDescription description = category.getDescriptions().stream()
+				.filter(d -> d.getLanguage().getCode().equals(language)).findFirst().get();
+		return description.getName();
+	}
+
+	private Map<String, String> attributes(Product product, String language) {
+
+		/**
+		 * ProductAttribute ProductOption ProductOptionValue
+		 */
+
+		Map<String, String> allAttributes = new HashMap<String, String>();
+
+		for (ProductAttribute attribute : product.getAttributes()) {
+			Map<String, String> attr = attribute(attribute, language);
+			allAttributes.putAll(attr);
+		}
+
+		return allAttributes;
+
+	}
+
+	private Map<String, String> attribute(ProductAttribute attribute, String language) {
+		Map<String, String> attributeValue = new HashMap<String, String>();
+
+		ProductOptionDescription optionDescription = attribute.getProductOption().getDescriptions().stream()
+				.filter(a -> a.getLanguage().getCode().equals(language)).findFirst().get();		
+				
+		ProductOptionValueDescription value = attribute.getProductOptionValue().getDescriptions().stream()
+				.filter(a -> a.getLanguage().getCode().equals(language)).findFirst().get();
+
+		attributeValue.put(optionDescription.getName(), value.getName());
+
+		return attributeValue;
 	}
 	
+	private void settings(SearchConfiguration config, String language) throws Exception{
+		Validate.notEmpty(language, "Configuration requires language");
+		String settings = loadClassPathResource(SETTINGS + "_DEFAULT.json");
+		//specific settings
+		if(language.equals("en")) {
+			settings = loadClassPathResource(SETTINGS+ "_" + language +".json");
+		}
+		
+		config.getSettings().put(language, settings);
+
+	}
+	
+	private void mappings(SearchConfiguration config, String language) throws Exception {
+		Validate.notEmpty(language, "Configuration requires language");
+
+
+		config.getProductMappings().put(language, loadClassPathResource(PRODUCT_MAPPING_DEFAULT));
+		config.getKeywordsMappings().put(language, KEYWORDS_MAPPING_DEFAULT);
+			
+	}
+	
+	public String loadClassPathResource(String file) throws Exception {
+		Resource res = new ClassPathResource(file);
+		File f = res.getFile();
+		
+		return new String(
+			      Files.readAllBytes(f.toPath()));
+	}
+
 }
-

@@ -212,7 +212,7 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
     LOG.debug("Starting merge cart process");
     if (customerModel != null) {
-      ShoppingCart customerCart = shoppingCartService.getShoppingCart(customerModel);
+      ShoppingCart customerCart = shoppingCartService.getShoppingCart(customerModel, store);
       if (StringUtils.isNotBlank(sessionShoppingCartId)) {
         ShoppingCart sessionShoppingCart =
             shoppingCartService.getByCode(sessionShoppingCartId, store);
@@ -283,8 +283,15 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
 
   @Override
-  public Customer getCustomerByUserName(String userName, MerchantStore store) throws Exception {
-    return customerService.getByNick(userName, store.getId());
+  //KEEP
+  public Customer getCustomerByUserName(String userName, MerchantStore store){
+	 
+	  try {
+		 return customerService.getByNick(userName, store.getId());
+	 } catch(Exception e) {
+		 throw new ServiceRuntimeException(e);
+	 }
+
   }
   
   @Override
@@ -851,15 +858,20 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
 
   @Override
-  public void resetPassword(Customer customer, MerchantStore store, Language language)
-      throws Exception {
+  public void resetPassword(Customer customer, MerchantStore store, Language language) {
 
 
     String password = new String(UUID.generateRandomBytes());
     String encodedPassword = passwordEncoder.encode(password);
 
     customer.setPassword(encodedPassword);
-    customerService.saveOrUpdate(customer);
+    
+    try {
+    	customerService.saveOrUpdate(customer);
+    } catch (Exception e) {
+        throw new ServiceRuntimeException(e);
+    }
+
 
     Locale locale = languageService.toLocale(language, store);
 

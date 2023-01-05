@@ -7,7 +7,7 @@ import java.util.Set;
 import org.apache.commons.lang3.Validate;
 
 import com.salesmanager.core.business.exception.ConversionException;
-import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.services.catalog.pricing.PricingService;
 import com.salesmanager.core.business.utils.AbstractDataPopulator;
 import com.salesmanager.core.model.catalog.product.price.FinalPrice;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
@@ -50,6 +50,8 @@ public class ReadableProductPricePopulator extends
 		    if(source.getId() != null && source.getId() > 0) {
 		      target.setId(source.getId());
 		    }
+		    
+		    target.setDefaultPrice(source.isDefaultPrice());
 			
 			FinalPrice finalPrice = pricingService.calculateProductPrice(source.getProductAvailability().getProduct());
 			

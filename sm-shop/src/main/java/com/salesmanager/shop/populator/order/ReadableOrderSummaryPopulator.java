@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 
 import com.salesmanager.core.business.exception.ConversionException;
-import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.services.catalog.pricing.PricingService;
 import com.salesmanager.core.business.utils.AbstractDataPopulator;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.OrderTotal;

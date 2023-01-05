@@ -29,5 +29,7 @@ public interface ProductRelationshipRepositoryCustom {
 	List<ProductRelationship> getByType(MerchantStore store, String type,
 			Product product);
 	
+	List<ProductRelationship> getByTypeAndRelatedProduct(MerchantStore store, String type,
+			Product product);
 
 }

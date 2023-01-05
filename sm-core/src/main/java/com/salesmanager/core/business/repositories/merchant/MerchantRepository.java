@@ -44,7 +44,7 @@ public interface MerchantRepository extends JpaRepository<MerchantStore, Integer
 	List<MerchantStore> findAllStoreCodeNameEmail();
 	
 	@Query(
-	  value = "select * from MERCHANT_STORE m "
+	  value = "select * from {h-schema}MERCHANT_STORE m "
 	  		+ "where m.STORE_CODE = ?1 or ?2 is null or m.PARENT_ID = ?2", 
 	  nativeQuery = true)
 	  List<MerchantStore> listByGroup(String storeCode, Integer id);

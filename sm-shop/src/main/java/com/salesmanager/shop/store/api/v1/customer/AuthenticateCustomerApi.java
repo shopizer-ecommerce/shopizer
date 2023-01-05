@@ -1,5 +1,8 @@
 package com.salesmanager.shop.store.api.v1.customer;
 
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -8,6 +11,7 @@ import org.apache.commons.lang3.Validate;
 import org.apache.http.auth.AuthenticationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,17 +31,20 @@ import org.springframework.web.bind.annotation.RestController;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
 import com.salesmanager.shop.store.api.exception.GenericRuntimeException;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
+import com.salesmanager.shop.store.api.exception.UnauthorizedException;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
+import com.salesmanager.shop.store.controller.user.facade.UserFacade;
 import com.salesmanager.shop.store.security.AuthenticationRequest;
 import com.salesmanager.shop.store.security.AuthenticationResponse;
 import com.salesmanager.shop.store.security.JWTTokenUtil;
 import com.salesmanager.shop.store.security.PasswordRequest;
 import com.salesmanager.shop.store.security.user.JWTUser;
-import com.salesmanager.shop.utils.LanguageUtils;
+import com.salesmanager.shop.utils.AuthorizationUtils;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -74,9 +81,12 @@ public class AuthenticateCustomerApi {
     
     @Inject
     private StoreFacade storeFacade;
+
+    @Autowired
+    AuthorizationUtils authorizationUtils;
     
-    @Inject
-    private LanguageUtils languageUtils;
+    @Autowired
+    private UserFacade userFacade;
 
     /**
      * Create new customer for a given MerchantStore, then authenticate that customer
@@ -200,34 +210,10 @@ public class AuthenticateCustomerApi {
         }
     }
     
-    @Deprecated //see ResetCustomerPasswordApi
-    @RequestMapping(value = "/customer/password/reset", method = RequestMethod.PUT, produces ={ "application/json" })
-    @ApiOperation(httpMethod = "POST", value = "Change customer password", notes = "Change password request object is {\"username\":\"test@email.com\"}",response = ResponseEntity.class)
-    public ResponseEntity<?> resetPassword(@RequestBody @Valid AuthenticationRequest authenticationRequest, HttpServletRequest request) {
-
-
-        try {
-            
-            MerchantStore merchantStore = storeFacade.getByCode(request);
-            Language language = languageUtils.getRESTLanguage(request);
-            
-            Customer customer = customerFacade.getCustomerByUserName(authenticationRequest.getUsername(), merchantStore);
-            
-            if(customer == null){
-                return ResponseEntity.notFound().build();
-            }
-            
-            customerFacade.resetPassword(customer, merchantStore, language);            
-            return ResponseEntity.ok(Void.class);
-            
-        } catch(Exception e) {
-            return ResponseEntity.badRequest().body("Exception when reseting password "+e.getMessage());
-        }
-    }
     
 
     @RequestMapping(value = "/auth/customer/password", method = RequestMethod.POST, produces ={ "application/json" })
-    @ApiOperation(httpMethod = "PUT", value = "Sends a request to reset password", notes = "Password reset request is {\"username\":\"test@email.com\"}",response = ResponseEntity.class)
+    @ApiOperation(httpMethod = "POST", value = "Sends a request to reset password", notes = "Password reset request is {\"username\":\"test@email.com\"}",response = ResponseEntity.class)
     public ResponseEntity<?> changePassword(@RequestBody @Valid PasswordRequest passwordRequest, HttpServletRequest request) {
 
 

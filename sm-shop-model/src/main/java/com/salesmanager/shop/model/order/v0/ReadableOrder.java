@@ -13,7 +13,7 @@ import com.salesmanager.shop.model.store.ReadableMerchantStore;
 import java.io.Serializable;
 import java.util.List;
 
-
+@Deprecated
 public class ReadableOrder extends OrderEntity implements Serializable {
 
 	/**

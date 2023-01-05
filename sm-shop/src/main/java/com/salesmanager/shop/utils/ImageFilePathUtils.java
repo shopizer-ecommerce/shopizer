@@ -17,6 +17,7 @@ import com.salesmanager.shop.constants.Constants;
 public class ImageFilePathUtils extends AbstractimageFilePath{
 	
 	private String basePath = Constants.STATIC_URI;
+	private String contentUrl = null;
 
 	@Override
 	public String getBasePath(MerchantStore store) {
@@ -30,6 +31,12 @@ public class ImageFilePathUtils extends AbstractimageFilePath{
 	@Override
 	public String getContextPath() {
 		return super.getProperties().getProperty(CONTEXT_PATH);
+	}
+
+	@Override
+	public void setContentUrlPath(String contentUrl) {
+		this.contentUrl = contentUrl;
+		
 	}
 
 

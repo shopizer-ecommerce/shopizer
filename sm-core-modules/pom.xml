@@ -4,11 +4,13 @@
   xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
 
+
   <parent>
     <groupId>com.shopizer</groupId>
     <artifactId>shopizer</artifactId>
-    <version>3.0.0</version>
+    <version>3.2.3</version>
   </parent>
+
 
   <name>sm-core-modules</name>
   <artifactId>sm-core-modules</artifactId>
@@ -62,7 +64,7 @@
 
   <build>
     <plugins>
-      <!--OSSRH -->
+      <!--
       <plugin>
         <groupId>org.sonatype.plugins</groupId>
         <artifactId>nexus-staging-maven-plugin</artifactId>
@@ -74,7 +76,7 @@
           <autoReleaseAfterClose>true</autoReleaseAfterClose>
         </configuration>
       </plugin>
-      <!--OSSRH -->
+      
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
@@ -86,7 +88,7 @@
           <goals>deploy</goals>
         </configuration>
       </plugin>
-      <!--OSSRH -->
+      
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
@@ -99,8 +101,9 @@
           </execution>
         </executions>
       </plugin>
-      <!--OSSRH -->
-      <!--		
+      
+      
+	
       		<plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-javadoc-plugin</artifactId>
@@ -127,7 +130,8 @@
                 </execution>
               </executions>
             </plugin>
-           --> 
+            -->
+           
     </plugins>
   </build>
 </project>

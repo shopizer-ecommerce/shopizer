@@ -15,6 +15,7 @@ import javax.persistence.TableGenerator;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotEmpty;
 
+import com.salesmanager.core.model.catalog.product.attribute.Optionable;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOption;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValue;
 import com.salesmanager.core.model.common.audit.AuditListener;
@@ -29,7 +30,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
  * Contains possible product variations
  * 
  * color - red
- * size small
+ * size - small
  * @author carlsamson
  *
  */
@@ -37,7 +38,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 @EntityListeners(value = AuditListener.class)
 @Table(name = "PRODUCT_VARIATION", uniqueConstraints=
 @UniqueConstraint(columnNames = {"MERCHANT_ID", "PRODUCT_OPTION_ID", "OPTION_VALUE_ID"}))
-public class ProductVariation extends SalesManagerEntity<Long, ProductVariation> implements Auditable {
+public class ProductVariation extends SalesManagerEntity<Long, ProductVariation> implements Optionable, Auditable {
 
 	/**
 	 * 
@@ -48,18 +49,19 @@ public class ProductVariation extends SalesManagerEntity<Long, ProductVariation>
 	private AuditSection auditSection = new AuditSection();
 	
 	@Id
-	@Column(name = "PRODUCT_VARIANTION_ID", unique=true, nullable=false)
+	@Column(name = "PRODUCT_VARIATION_ID", unique=true, nullable=false)
 	@TableGenerator(name = "TABLE_GEN", table = "SM_SEQUENCER", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "PRODUCT_VARIN_SEQ_NEXT_VAL")
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
 	private Long id;
 	
+	/** can exist detached **/
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="MERCHANT_ID", nullable=false)
 	private MerchantStore merchantStore;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="PRODUCT_OPTION_ID", nullable=false)
-	private ProductOption option;
+	private ProductOption productOption;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="OPTION_VALUE_ID", nullable=false)
@@ -68,11 +70,13 @@ public class ProductVariation extends SalesManagerEntity<Long, ProductVariation>
     @NotEmpty
     @Column(name="CODE", length=100, nullable=false)
     private String code;
-
+    
+	@Column(name="SORT_ORDER")
+	private Integer sortOrder;	
 	
-/*	@ManyToOne(targetEntity = ProductAvailability.class)
-	@JoinColumn(name = "PRODUCT_AVAIL_ID", nullable = false)
-	private ProductAvailability productAvailability;*/
+	@Column(name="VARIANT_DEFAULT")
+	private boolean variantDefault=false;
+
 	
 	@Override
 	public AuditSection getAuditSection() {
@@ -81,7 +85,7 @@ public class ProductVariation extends SalesManagerEntity<Long, ProductVariation>
 
 	@Override
 	public void setAuditSection(AuditSection audit) {
-		this.auditSection = auditSection;
+		this.auditSection = audit;
 		
 	}
 
@@ -104,12 +108,12 @@ public class ProductVariation extends SalesManagerEntity<Long, ProductVariation>
 		this.merchantStore = merchantStore;
 	}
 
-	public ProductOption getOption() {
-		return option;
+	public ProductOption getProductOption() {
+		return productOption;
 	}
 
-	public void setOption(ProductOption option) {
-		this.option = option;
+	public void setProductOption(ProductOption productOption) {
+		this.productOption = productOption;
 	}
 
 	public ProductOptionValue getProductOptionValue() {
@@ -128,5 +132,19 @@ public class ProductVariation extends SalesManagerEntity<Long, ProductVariation>
 		this.code = code;
 	}
 
+	public Integer getSortOrder() {
+		return sortOrder;
+	}
 
+	public void setSortOrder(Integer sortOrder) {
+		this.sortOrder = sortOrder;
+	}
+
+	public boolean isVariantDefault() {
+		return variantDefault;
+	}
+
+	public void setVariantDefault(boolean variantDefault) {
+		this.variantDefault = variantDefault;
+	}
 }

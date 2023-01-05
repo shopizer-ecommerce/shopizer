@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.salesmanager.core.business.constants.Constants;
-import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.services.catalog.pricing.PricingService;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.OrderTotal;
 import com.salesmanager.core.model.reference.language.Language;

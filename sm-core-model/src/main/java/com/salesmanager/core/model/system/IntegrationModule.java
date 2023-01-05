@@ -20,7 +20,6 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 
-import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.common.audit.AuditListener;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.common.audit.Auditable;
@@ -71,6 +70,9 @@ public class IntegrationModule extends SalesManagerEntity<Long, IntegrationModul
 
 	@Transient
 	private Set<String> regionsSet = new HashSet<String>();
+	
+	@Transient
+	private String binaryImage = null;
 
 	/**
 	 * Contains a map of module config by environment (DEV,PROD)
@@ -80,14 +82,13 @@ public class IntegrationModule extends SalesManagerEntity<Long, IntegrationModul
 
 	@Transient
 	private Map<String, String> details = new HashMap<String, String>();
+	
+	/**
+	 * A json tructure decribing how the module must be built
+	 */
+	@Transient
+	private String configurable = null;
 
-	public Map<String, String> getDetails() {
-		return details;
-	}
-
-	public void setDetails(Map<String, String> details) {
-		this.details = details;
-	}
 
 	@Embedded
 	private AuditSection auditSection = new AuditSection();
@@ -191,6 +192,30 @@ public class IntegrationModule extends SalesManagerEntity<Long, IntegrationModul
 
 	public String getType() {
 		return type;
+	}
+	
+	public String getBinaryImage() {
+		return binaryImage;
+	}
+
+	public void setBinaryImage(String binaryImage) {
+		this.binaryImage = binaryImage;
+	}
+	
+	public String getConfigurable() {
+		return configurable;
+	}
+
+	public void setConfigurable(String configurable) {
+		this.configurable = configurable;
+	}
+
+	public Map<String, String> getDetails() {
+		return details;
+	}
+
+	public void setDetails(Map<String, String> details) {
+		this.details = details;
 	}
 
 }

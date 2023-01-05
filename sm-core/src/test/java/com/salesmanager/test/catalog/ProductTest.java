@@ -263,7 +263,7 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 	    /**
 	     * Create product
 	     */
-	    productService.create(product);
+	    productService.saveProduct(product);
 	    
 	    
 	    /**
@@ -342,7 +342,7 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 		testInsertImage(updatableProduct);
 		testViewImage(updatableProduct);
 		
-		Product refreshed = productService.getByCode("CT12345", en);
+		Product refreshed = productService.getBySku("CT12345", store, en);
 		productService.delete(refreshed);
 
 		

@@ -138,20 +138,34 @@ public class PaymentApi {
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
 
 		try {
-
-			// configured modules
-			Map<String, IntegrationConfiguration> configuredModules = paymentService
-					.getPaymentModulesConfigured(merchantStore);
-			IntegrationConfiguration config = configuredModules.get(code);
-			if (config == null) {
+			
+			// get module
+			IntegrationModule integrationModule = paymentService.getPaymentMethodByCode(merchantStore, code);
+			if (integrationModule == null) {
 				throw new ResourceNotFoundException("Payment module [" + code + "] not found");
 			}
+			
+			IntegrationModuleConfiguration returnConfig = new IntegrationModuleConfiguration();
+			returnConfig.setConfigurable(integrationModule.getConfigurable());
+			returnConfig.setActive(false);
+			returnConfig.setDefaultSelected(false);
+			returnConfig.setCode(code);
+			
+			
+
+			// configured modules
+			IntegrationConfiguration config = paymentService.getPaymentConfiguration(code, merchantStore);
+			
+			if(config == null) {
+				return returnConfig;
+			}
+
 
 			/**
 			 * Build return object for now this is a read copy
 			 */
 
-			IntegrationModuleConfiguration returnConfig = new IntegrationModuleConfiguration();
+			
 			returnConfig.setActive(config.isActive());
 			returnConfig.setDefaultSelected(config.isDefaultSelected());
 			returnConfig.setCode(code);
@@ -175,6 +189,9 @@ public class PaymentApi {
 
 		readable.setCode(module.getCode());
 		readable.setImage(module.getImage());
+		readable.setBinaryImage(module.getBinaryImage());
+		//readable.setRequiredKeys(module.getConfigurables());
+		readable.setConfigurable(module.getConfigurable());
 		if (configuredModules.containsKey(module.getCode())) {
 			readable.setConfigured(true);
 			if(configuredModules.get(module.getCode()).isActive()) {

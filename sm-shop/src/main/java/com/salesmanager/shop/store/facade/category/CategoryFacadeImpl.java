@@ -237,17 +237,11 @@ public class CategoryFacadeImpl implements CategoryFacade {
 			}
 		}
 
-/*		if (!CollectionUtils.isEmpty(children)) {
-			parent = category;
-			for (Category sub : children) {
-				saveCategory(store, sub, parent);
-			}
-		}*/
 	}
 
 	@Override
 	public ReadableCategory getById(MerchantStore store, Long id, Language language) {
-		try {
+
 			Category categoryModel = null;
 			if (language != null) {
 				categoryModel = getCategoryById(id, language);
@@ -272,9 +266,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 
 			addChildToParent(readableCategory, childrenCats);
 			return readableCategory;
-		} catch (Exception e) {
-			throw new ServiceRuntimeException(e);
-		}
+
 	}
 
 	private void addChildToParent(ReadableCategory readableCategory, List<ReadableCategory> childrenCats) {
@@ -305,7 +297,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 
 	private Category getCategoryById(Long id, Language language) {
 		return Optional.ofNullable(categoryService.getOneByLanguage(id, language))
-				.orElseThrow(() -> new ResourceNotFoundException("Category id not found"));
+				.orElseThrow(() -> new ResourceNotFoundException("Category id [" + id + "] not found"));
 	}
 
 	@Override
@@ -342,7 +334,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 		return readableCategory;
 	}
 
-	private Category getById(MerchantStore store, Long id) throws Exception {
+	private Category getById(MerchantStore store, Long id) {
 		Validate.notNull(id, "category id must not be null");
 		Validate.notNull(store, "MerchantStore must not be null");
 		Category category = categoryService.getById(id, store.getId());
@@ -539,5 +531,28 @@ public class CategoryFacadeImpl implements CategoryFacade {
 		} catch (Exception e) {
 			throw new ServiceRuntimeException("Error while getting category [" + category.getId() + "]",e);
 		}
+	}
+
+	@Override
+	public ReadableCategoryList listByProduct(MerchantStore store, Long product, Language language) {
+		Validate.notNull(product, "Product id must not be null");
+		Validate.notNull(store, "Store must not be null");
+		
+		List<ReadableCategory> readableCategories = new ArrayList<ReadableCategory>();
+
+			List<Category> categories = categoryService.getByProductId(product, store);
+
+			readableCategories = categories.stream()
+						.map(cat -> categoryReadableCategoryConverter.convert(cat, store, language))
+						.collect(Collectors.toList());
+			
+			ReadableCategoryList readableList = new ReadableCategoryList();
+			readableList.setCategories(readableCategories);
+			readableList.setTotalPages(1);
+			readableList.setNumber(readableCategories.size());
+			readableList.setRecordsTotal(readableCategories.size());
+
+		
+		return readableList;
 	}
 }

@@ -1,5 +1,9 @@
-Tag changes in version 2.16.0
+Changes in version 3.2.3
 
-Spring boot 2.3.6
+
+Functionality
+
+Enabling ProductPriceApi
+
 
 

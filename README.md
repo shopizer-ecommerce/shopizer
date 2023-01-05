@@ -1,10 +1,10 @@
 # Shopizer 3 (for java 1.8 +) (tested with Java 11)
 
 
-## Shopizer 2.X (for java 1.8 +) is still available
+### Shopizer 2.X (for java 1.8 +) is still available
 
 
-[![last_version](https://img.shields.io/badge/last_version-v3.0.0-blue.svg?style=flat)](https://github.com/shopizer-ecommerce/shopizer/tree/3.0.0)
+[![last_version](https://img.shields.io/badge/last_version-v3.2.3-blue.svg?style=flat)](https://github.com/shopizer-ecommerce/shopizer/tree/3.2.3)
 [![Official site](https://img.shields.io/website-up-down-green-red/https/shields.io.svg?label=official%20site)](http://www.shopizer.com/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/shopizerecomm/shopizer.svg)](https://hub.docker.com/r/shopizerecomm/shopizer)
 [![stackoverflow](https://img.shields.io/badge/shopizer-stackoverflow-orange.svg?style=flat)](http://stackoverflow.com/questions/tagged/shopizer)
@@ -15,7 +15,7 @@ Java open source e-commerce software
 
 Headless commerce and Rest api for ecommerce
 
-- Catalogue
+- Catalog
 - Shopping cart
 - Checkout
 - Merchant
@@ -33,7 +33,7 @@ Shopizer Headless commerce consists of the following components:
 
 See the demo:
 -------------------
-Available soon
+Headless demo Available soon
 
 Demo site for Shopizer 2.X is still available [Legacy Shopizer demo](http://demo.shopizer.com)
 
@@ -42,7 +42,7 @@ Demo site for Shopizer 2.X is still available [Legacy Shopizer demo](http://demo
 From the command line:
 
 ```
-docker run -p 8080:8080 shopizerecomm/shopizer:3.0.0
+docker run -p 8080:8080 shopizerecomm/shopizer:latest
 ```
        
 2. Run the administration tool
@@ -66,6 +66,11 @@ docker run \
  -e "APP_BASE_URL=http://localhost:8080"
  -p 80:80 shopizerecomm/shopizer-shop-reactjs
 ```
+
+API documentation:
+-------------------
+
+https://app.swaggerhub.com/apis-docs/shopizer/shopizer-rest-api/3.0.1#/
 
 Get the source code:
 -------------------
@@ -118,6 +123,8 @@ Please read the instructions on how to connect to MySQL, configure an email serv
 
 Documentation available <http://documentation.shopizer.com>
 
+Api documentation <https://app.swaggerhub.com/apis-docs/shopizer/shopizer-rest-api/3.0.1#/>
+
 ChatOps <https://shopizer.slack.com>  - Join our Slack channel https://shopizer-slackin.herokuapp.com/
 
 More information is available on shopizer web site here <http://www.shopizer.com>
@@ -144,7 +151,7 @@ Synchronize lastest version with the upstream
 -------------------
 
        $ git remote add upstream https://github.com/yourusername/shopizer.git
-	   $ git pull upstream 3.0.0
+	  $ git pull upstream 3.2.3
 
 Create new branch in your repository
 -------------------
@@ -156,3 +163,5 @@ Push your changes to Shopizer
 -------------------
 
 Please open a PR (pull request) in order to have your changes merged to the upstream
+
+

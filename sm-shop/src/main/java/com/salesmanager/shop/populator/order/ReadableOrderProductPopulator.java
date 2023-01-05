@@ -2,7 +2,7 @@ package com.salesmanager.shop.populator.order;
 
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.exception.ServiceException;
-import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.services.catalog.pricing.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.utils.AbstractDataPopulator;
 import com.salesmanager.core.model.catalog.product.Product;
@@ -15,6 +15,7 @@ import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.order.ReadableOrderProduct;
 import com.salesmanager.shop.model.order.ReadableOrderProductAttribute;
 import com.salesmanager.shop.populator.catalog.ReadableProductPopulator;
+import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.utils.ImageFilePath;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
@@ -24,6 +25,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Use mappers
+ * @author carlsamson
+ *
+ */
+@Deprecated
 public class ReadableOrderProductPopulator extends
 		AbstractDataPopulator<OrderProduct, ReadableOrderProduct> {
 	
@@ -91,7 +98,12 @@ public class ReadableOrderProductPopulator extends
 
 			String productSku = source.getSku();
 			if(!StringUtils.isBlank(productSku)) {
-				Product product = productService.getByCode(productSku, language);
+				Product product = null;
+				try {
+					product = productService.getBySku(productSku, store, language);
+				} catch (ServiceException e) {
+					throw new ServiceRuntimeException(e);
+				}
 				if(product!=null) {
 					
 					

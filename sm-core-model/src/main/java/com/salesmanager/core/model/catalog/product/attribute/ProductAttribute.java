@@ -14,14 +14,14 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
+import javax.persistence.Index;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 
 @Entity
 @Table(name="PRODUCT_ATTRIBUTE",
+    indexes = @Index(columnList = "PRODUCT_ID"),
 	uniqueConstraints={
 		@UniqueConstraint(columnNames={
 				"OPTION_ID",
@@ -30,7 +30,14 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
 			})
 	}
 )
-public class ProductAttribute extends SalesManagerEntity<Long, ProductAttribute> {
+
+/**
+ * Attribute Size - Small and product
+ * @author carlsamson
+ *
+ */
+
+public class ProductAttribute extends SalesManagerEntity<Long, ProductAttribute> implements Optionable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -113,7 +120,7 @@ public class ProductAttribute extends SalesManagerEntity<Long, ProductAttribute>
 		this.attributePrice = attributePrice;
 	}
 
-	@JsonIgnore
+
 	@ManyToOne(targetEntity = Product.class)
 	@JoinColumn(name = "PRODUCT_ID", nullable = false)
 	private Product product;

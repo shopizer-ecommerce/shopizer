@@ -49,7 +49,7 @@ public class MerchantStoreArgumentResolver implements HandlerMethodArgumentResol
 
 		HttpServletRequest httpServletRequest = webRequest.getNativeRequest(HttpServletRequest.class);
 
-		// TODO filter ??
+		// TODO Move to an api filter
 		// authorize request
 		boolean authorized = userFacade.authorizeStore(storeModel, httpServletRequest.getRequestURI());
 		LOGGER.debug("is request authorized {} for {} and store {}", authorized, httpServletRequest.getRequestURI(),

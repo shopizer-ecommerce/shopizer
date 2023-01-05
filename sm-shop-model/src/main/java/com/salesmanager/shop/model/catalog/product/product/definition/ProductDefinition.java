@@ -1,6 +1,6 @@
 package com.salesmanager.shop.model.catalog.product.product.definition;
 
-import com.salesmanager.shop.model.catalog.product.ProductSpecification;
+import com.salesmanager.shop.model.catalog.product.product.ProductSpecification;
 import com.salesmanager.shop.model.entity.Entity;
 
 /**
@@ -16,15 +16,14 @@ public class ProductDefinition extends Entity {
 	private static final long serialVersionUID = 1L;
 	private boolean visible = true;
 	private boolean shipeable = true;
-	private boolean virtual = true;
+	private boolean virtual = false;
 	private boolean canBePurchased = true;
-	//private Double rating = 0D;
-	//private int ratingCount;
 	private String dateAvailable;
 	private String identifier;
+	private String sku; //to match v1 api
 	private ProductSpecification productSpecifications;
 	private int sortOrder;
-	private int quantity;
+	
 	
 	public boolean isVisible() {
 		return visible;
@@ -32,18 +31,6 @@ public class ProductDefinition extends Entity {
 	public void setVisible(boolean visible) {
 		this.visible = visible;
 	}
-/*	public Double getRating() {
-		return rating;
-	}
-	public void setRating(Double rating) {
-		this.rating = rating;
-	}
-	public int getRatingCount() {
-		return ratingCount;
-	}
-	public void setRatingCount(int ratingCount) {
-		this.ratingCount = ratingCount;
-	}*/
 	public String getDateAvailable() {
 		return dateAvailable;
 	}
@@ -80,17 +67,17 @@ public class ProductDefinition extends Entity {
 	public void setVirtual(boolean virtual) {
 		this.virtual = virtual;
 	}
-	public int getQuantity() {
-		return quantity;
-	}
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
 	public boolean isCanBePurchased() {
 		return canBePurchased;
 	}
 	public void setCanBePurchased(boolean canBePurchased) {
 		this.canBePurchased = canBePurchased;
+	}
+	public String getSku() {
+		return sku;
+	}
+	public void setSku(String sku) {
+		this.sku = sku;
 	}
 
 

@@ -33,7 +33,6 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import com.salesmanager.core.business.configuration.CoreApplicationConfiguration;
 import com.salesmanager.shop.filter.CorsFilter;
-import com.salesmanager.shop.filter.StoreFilter;
 import com.salesmanager.shop.filter.XssFilter;
 import com.salesmanager.shop.utils.LabelUtils;
 
@@ -80,12 +79,14 @@ public class ShopApplicationConfiguration implements WebMvcConfigurer {
     // Changes the locale when a 'locale' request parameter is sent; e.g. /?locale=de
     registry.addInterceptor(localeChangeInterceptor());
 
+    /**
     registry
         .addInterceptor(storeFilter())
         // store web front filter
         .addPathPatterns("/shop/**")
         // customer section filter
         .addPathPatterns("/customer/**");
+     **/
 
     registry
         .addInterceptor(corsFilter())
@@ -111,10 +112,9 @@ public class ShopApplicationConfiguration implements WebMvcConfigurer {
     return new LocaleChangeInterceptor();
   }
 
-  @Bean
-  public StoreFilter storeFilter() {
-    return new StoreFilter();
-  }
+	/*
+	 * @Bean public StoreFilter storeFilter() { return new StoreFilter(); }
+	 */
 
   @Bean
   public CorsFilter corsFilter() {

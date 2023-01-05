@@ -1,0 +1,28 @@
+{
+	"analysis": {
+		"analyzer": {
+			"name_analyzer": {
+				"tokenizer": "name_tokenizer",
+				"filter": [ "lowercase" ]
+			}
+		},
+		"tokenizer": {
+			"name_tokenizer": {
+				"type": "edge_ngram",
+				"min_gram": 3,
+				"max_gram": 10,
+				"token_chars": [
+					"letter",
+					"digit"
+				]
+			}
+		},
+		"normalizer": {
+			"custom_normalizer": {
+				"type": "custom",
+				"char_filter": [],
+				"filter": ["lowercase", "asciifolding"]
+			}
+		}
+	}
+}

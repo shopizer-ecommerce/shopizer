@@ -21,6 +21,7 @@ public class PersistableProductDefinition extends ProductDefinition {
 	private String type;
 	private String manufacturer;
 	private BigDecimal price;
+	private int quantity;
 	public List<ProductDescription> getDescriptions() {
 		return descriptions;
 	}
@@ -56,6 +57,12 @@ public class PersistableProductDefinition extends ProductDefinition {
 	}
 	public void setPrice(BigDecimal price) {
 		this.price = price;
+	}
+	public int getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 
 }

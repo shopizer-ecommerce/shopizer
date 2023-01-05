@@ -91,6 +91,8 @@ public interface CategoryService extends SalesManagerEntityService<Long, Categor
 	 */
 	List<Object[]> countProductsByCategories(MerchantStore store,
 			List<Long> categoryIds) throws ServiceException;
+	
+	List<Category> getByProductId(Long productId, MerchantStore store);
 
 	/**
 	 * Returns a list of Category by category code for a given language

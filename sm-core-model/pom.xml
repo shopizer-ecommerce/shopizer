@@ -1,28 +1,30 @@
 <?xml version="1.0"?>
-<project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>com.shopizer</groupId>
 		<artifactId>shopizer</artifactId>
-		<version>3.0.0</version>
+		<version>3.2.3</version>
 	</parent>
 
 
 	<artifactId>sm-core-model</artifactId>
-	<description>sm-core-modules is used for create new external modules implementation deployed in
-    	maven.</description>
+	<description>sm-core-modules is used for create new external modules implementation deployed in maven.</description>
 	<name>sm-core-model</name>
 	<url>http://www.shopizer.com</url>
+
+	<properties>
+		<java.version>11</java.version>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+	</properties>
 
 
 
 	<scm>
 		<connection>scm:git:git://github.com:shopizer-ecommerce/shopizer-sm-core-model.git</connection>
-		<developerConnection>scm:git:ssh://github.com:shopizer-ecommerce/shopizer-sm-core-model.git
-    </developerConnection>
+		<developerConnection>scm:git:ssh://github.com:shopizer-ecommerce/shopizer-sm-core-model.git</developerConnection>
 		<url>https://github.com/shopizer-ecommerce/shopizer-sm-core-model</url>
 	</scm>
 
@@ -47,7 +49,7 @@
 	<developers>
 		<developer>
 			<name>Shopizer Team</name>
-			<email>team@shopizer.com</email>
+			<email>contact@shopizer.com</email>
 			<organization>Shopizer</organization>
 			<organizationUrl>http://www.shopizer.com</organizationUrl>
 		</developer>
@@ -59,6 +61,41 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.json/json -->
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20211205</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
+		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+		</dependency>
+
+
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
 		</dependency>
 
 
@@ -85,7 +122,7 @@
 
 	<build>
 		<plugins>
-			<!--OSSRH -->
+			<!--
 			<plugin>
 				<groupId>org.sonatype.plugins</groupId>
 				<artifactId>nexus-staging-maven-plugin</artifactId>
@@ -97,7 +134,7 @@
 					<autoReleaseAfterClose>true</autoReleaseAfterClose>
 				</configuration>
 			</plugin>
-			<!--OSSRH -->
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
@@ -109,7 +146,7 @@
 					<goals>deploy</goals>
 				</configuration>
 			</plugin>
-			<!--OSSRH -->
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
@@ -122,8 +159,8 @@
 					</execution>
 				</executions>
 			</plugin>
-
-<!-- 			<plugin>
+			
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<executions>
@@ -148,7 +185,8 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin> -->
+			</plugin>
+			-->
 		</plugins>
 	</build>
 </project>

@@ -60,7 +60,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		} catch (NoResultException ignored) {
 			return null;
 		}
-  }
+   }
 
 
 
@@ -73,36 +73,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			List<Integer> ids = new ArrayList<Integer>();
 
 			StringBuilder qs = new StringBuilder();
-			/*qs.append("select distinct p from Product as p ");
-			qs.append("join fetch p.availabilities pa ");
-			qs.append("join fetch p.merchantStore merch ");
-			qs.append("join fetch p.descriptions pd ");
-
-			qs.append("left join fetch p.categories categs ");
-			qs.append("left join fetch categs.descriptions categsd ");
-
-			qs.append("left join fetch pa.prices pap ");
-			qs.append("left join fetch pap.descriptions papd ");
-
-			// images
-			qs.append("left join fetch p.images images ");
-			// options
-			qs.append("left join fetch p.attributes pattr ");
-			qs.append("left join fetch pattr.productOption po ");
-			qs.append("left join fetch po.descriptions pod ");
-			qs.append("left join fetch pattr.productOptionValue pov ");
-			qs.append("left join fetch pov.descriptions povd ");
-			qs.append("left join fetch p.relationships pr ");
-			// other lefts
-			qs.append("left join fetch p.manufacturer manuf ");
-			qs.append("left join fetch manuf.descriptions manufd ");
-			qs.append("left join fetch p.type type ");
-			qs.append("left join fetch p.taxClass tx ");
-
-			// RENTAL
-			qs.append("left join fetch p.owner owner ");*/
-
-			qs.append(productQuery());
+			qs.append(productQueryV2());
 
 			qs.append("where p.id=:pid");
 			if (merchant != null) {
@@ -123,9 +94,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			Query q = this.em.createQuery(hql);
 
 			q.setParameter("pid", productId);
-			//if (merchant != null) {
-				//q.setParameter("mid", merchant.getId());
-			//}
+
 
 			if(merchantId != null) {
 				//q.setParameter("mid", merchant.getId());
@@ -172,7 +141,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			qs.append("left join fetch p.taxClass tx ");
 
 			// RENTAL
-			qs.append("left join fetch p.owner owner ");
+			//qs.append("left join fetch p.owner owner ");
 
 			qs.append("where p.sku=:code ");
 			qs.append("and pd.language.id=:lang and papd.language.id=:lang");
@@ -268,7 +237,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		qs.append("left join fetch p.taxClass tx ");
 
 		// RENTAL
-		qs.append("left join fetch p.owner owner ");
+		//qs.append("left join fetch p.owner owner ");
 
 		qs.append("where pa.region in (:lid) ");
 		qs.append("and pd.seUrl=:seUrl ");
@@ -339,7 +308,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		qs.append("left join fetch p.taxClass tx ");
 
 		// RENTAL
-		qs.append("left join fetch p.owner owner ");
+		//qs.append("left join fetch p.owner owner ");
 
 		qs.append("where p.id=:pid and pa.region in (:lid) ");
 		qs.append("and pd.language.id=:lang and papd.language.id=:lang ");
@@ -406,7 +375,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		qs.append("left join fetch p.taxClass tx ");
 
 		// RENTAL
-		qs.append("left join fetch p.owner owner ");
+		//qs.append("left join fetch p.owner owner ");
 
 		// qs.append("where pa.region in (:lid) ");
 		qs.append("where categs.id in (:cid)");
@@ -463,7 +432,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		qs.append("left join fetch p.taxClass tx ");
 
 		// RENTAL
-		qs.append("left join fetch p.owner owner ");
+		//qs.append("left join fetch p.owner owner ");
 
 		// qs.append("where pa.region in (:lid) ");
 		qs.append("where categs.id in (:cid) ");
@@ -489,7 +458,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 	@Override
 	public List<Product> getProductsListByIds(Set<Long> productds) {
 		StringBuilder qs = new StringBuilder();
-		qs.append(productQuery());
+		qs.append(productQueryV2());
 		qs.append("where p.id in (:pid) ");
 		qs.append("and p.available=true and p.dateAvailable<=:dt ");
 
@@ -563,7 +532,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		qs.append("left join fetch p.taxClass tx ");
 
 		// RENTAL
-		qs.append("left join fetch p.owner owner ");
+		//qs.append("left join fetch p.owner owner ");
 
 		// qs.append("where pa.region in (:lid) ");
 		qs.append("where p.merchantStore.id=mId and categs.id in (:cid) and pa.region in (:lid) ");
@@ -597,6 +566,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
 	/**
 	 * This query is used for filtering products based on criterias
+	 * Main query for getting product list based on input criteria
+	 * ze method
 	 *
 	 * @param store
 	 * @param first
@@ -636,23 +607,38 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			countBuilderSelect.append(" INNER JOIN p.manufacturer manuf");
 			countBuilderWhere.append(" and manuf.id = :manufid");
 		}
+		
+		// todo type
 
+		// sku
 		if (!StringUtils.isBlank(criteria.getCode())) {
 			countBuilderWhere.append(" and lower(p.sku) like :sku");
 		}
 
 		// RENTAL
+		/**
 		if (!StringUtils.isBlank(criteria.getStatus())) {
 			countBuilderWhere.append(" and p.rentalStatus = :status");
 		}
+		**/
 
+		/**
 		if (criteria.getOwnerId() != null) {
 			countBuilderSelect.append(" INNER JOIN p.owner owner");
-			countBuilderWhere.append(" and owner.id = :ownerid");
+			countBuilderWhere.append(" and owner.id = :ownerid");666
 		}
+		**/
+		
+		
 
+		/**
+		 * attributes / options values
+		 * origin allows skipping attributes join in admin
+		 */
 		//attribute or option values
-		if (CollectionUtils.isNotEmpty(criteria.getAttributeCriteria()) || CollectionUtils.isNotEmpty(criteria.getOptionValueIds())) {
+		if (criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP) 
+				&& CollectionUtils.isNotEmpty(criteria.getAttributeCriteria()) 
+				|| CollectionUtils.isNotEmpty(criteria.getOptionValueIds())) {
 
 			countBuilderSelect.append(" INNER JOIN p.attributes pattr");
 			countBuilderSelect.append(" INNER JOIN pattr.productOption po");
@@ -677,7 +663,6 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			if(CollectionUtils.isNotEmpty(criteria.getOptionValueIds())) {
 				countBuilderWhere.append(" and pov.id in (:povid)");
 			}
-
 		}
 
 		if (criteria.getAvailable() != null) {
@@ -687,16 +672,22 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 				countBuilderWhere.append(" and p.available=false or p.dateAvailable>:dt");
 			}
 		}
+		
+		
 
 		Query countQ = this.em.createQuery(countBuilderSelect.toString() + countBuilderWhere.toString());
 
 		countQ.setParameter("mId", store.getId());
 
-		if (!CollectionUtils.isEmpty(criteria.getCategoryIds())) {
+		/**/
+		if (criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP) 
+				&& !CollectionUtils.isEmpty(criteria.getCategoryIds())) {
 			countQ.setParameter("cid", criteria.getCategoryIds());
 		}
 		
-		if(CollectionUtils.isNotEmpty(criteria.getOptionValueIds())) {
+		/**/
+		if(criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP) 
+				&& CollectionUtils.isNotEmpty(criteria.getOptionValueIds())) {
 			countQ.setParameter("povid", criteria.getOptionValueIds());
 		}
 
@@ -712,8 +703,11 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		if (criteria.getManufacturerId() != null) {
 			countQ.setParameter("manufid", criteria.getManufacturerId());
 		}
+		
 
-		if (!CollectionUtils.isEmpty(criteria.getAttributeCriteria())) {
+		/**/
+		if (criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP) 
+				&& !CollectionUtils.isEmpty(criteria.getAttributeCriteria())) {
 			int count = 0;
 			for (AttributeCriteria attributeCriteria : criteria.getAttributeCriteria()) {
 				countQ.setParameter(attributeCriteria.getAttributeCode(), attributeCriteria.getAttributeCode());
@@ -737,16 +731,17 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		}
 
 		// RENTAL
+		/**
 		if (!StringUtils.isBlank(criteria.getStatus())) {
 			countQ.setParameter("status", criteria.getStatus());
 		}
+		**/
 
 		if (criteria.getOwnerId() != null) {
 			countQ.setParameter("ownerid", criteria.getOwnerId());
 		}
 
 		Number count = (Number) countQ.getSingleResult();
-
 		productList.setTotalCount(count.intValue());
 
 		if (count.intValue() == 0)
@@ -757,10 +752,12 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		qs.append("join fetch p.merchantStore merch ");
 		qs.append("join fetch p.availabilities pa ");
 		qs.append("left join fetch pa.prices pap ");
+		qs.append("left join fetch pap.descriptions papd ");
 
-		qs.append("join fetch p.descriptions pd ");
+		qs.append("left join fetch p.descriptions pd ");
 		qs.append("left join fetch p.categories categs ");
 		qs.append("left join fetch categs.descriptions cd ");
+		
 
 		// images
 		qs.append("left join fetch p.images images ");
@@ -772,24 +769,55 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		qs.append("left join fetch p.taxClass tx ");
 
 		// RENTAL
-		qs.append("left join fetch p.owner owner ");
+		//qs.append("left join fetch p.owner owner ");
 
+		/**/
 		// attributes
-		if (!CollectionUtils.isEmpty(criteria.getAttributeCriteria())) {
+		if (criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP) 
+				&& !CollectionUtils.isEmpty(criteria.getAttributeCriteria())) {
 			qs.append(" inner join p.attributes pattr");
 			qs.append(" inner join pattr.productOption po");
 			qs.append(" inner join po.descriptions pod");
 			qs.append(" inner join pattr.productOptionValue pov ");
 			qs.append(" inner join pov.descriptions povd");
-		} else {
+		} else if(criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP)) {
 			qs.append(" left join fetch p.attributes pattr");
 			qs.append(" left join fetch pattr.productOption po");
+			/** prevent full table scan **/
 			qs.append(" left join fetch po.descriptions pod");
 			qs.append(" left join fetch pattr.productOptionValue pov");
 			qs.append(" left join fetch pov.descriptions povd");
 		}
+		
+		/**
+		 * variants
+		 */
+		if(criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP)) {
+			qs.append(" left join fetch p.variants pinst ");
+			qs.append(" left join fetch pinst.variation pv ");
+			qs.append( "left join fetch pv.productOption pvpo ");
+			qs.append(" left join fetch pv.productOptionValue pvpov ");
+			qs.append(" left join fetch pvpo.descriptions pvpod ");
+			qs.append(" left join fetch pvpov.descriptions pvpovd ");
+			
+			qs.append(" left join fetch pinst.variationValue pvv ");
+			qs.append(" left join fetch pvv.productOption pvvpo ");
+			qs.append(" left join fetch pvv.productOptionValue pvvpov ");
+			qs.append(" left join fetch pvvpo.descriptions povvpod ");
+			qs.append(" left join fetch pvpov.descriptions povvpovd ");	
+			
+			//variant availability and price
+			qs.append(" left join fetch pinst.availabilities pinsta ");
+			qs.append(" left join fetch pinsta.prices pinstap ");
+			qs.append(" left join fetch pinstap.descriptions pinstapdesc ");
+			qs.append(" left join fetch pinst.productVariantGroup pinstg ");
+			qs.append(" left join fetch pinstg.images pinstgimg ");
+			qs.append(" left join fetch pinstgimg.descriptions ");
+		//end variants
+		}
 
-		qs.append(" left join fetch p.relationships pr");
+		/** not required at list level **/
+		//qs.append(" left join fetch p.relationships pr");
 
 		qs.append(" where merch.id=:mId");
 		if (criteria.getLanguage() != null && !criteria.getLanguage().equals("_all")) {
@@ -826,15 +854,21 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		}
 
 		// RENTAL
+		/**
 		if (!StringUtils.isBlank(criteria.getStatus())) {
 			qs.append(" and p.rentalStatus = :status");
 		}
+		**/
 
+		/**
 		if (criteria.getOwnerId() != null) {
 			qs.append(" and owner.id = :ownerid");
 		}
+		**/
 
-		if (!CollectionUtils.isEmpty(criteria.getAttributeCriteria())) {
+		/**/
+		if (criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP) 
+				&& !CollectionUtils.isEmpty(criteria.getAttributeCriteria())) {
 			int cnt = 0;
 			for (AttributeCriteria attributeCriteria : criteria.getAttributeCriteria()) {
 				qs.append(" and po.code =:").append(attributeCriteria.getAttributeCode());
@@ -848,8 +882,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
 		}
 		
-		
-		if(CollectionUtils.isNotEmpty(criteria.getOptionValueIds())) {
+		/**/
+		if(criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP) 
+				&& CollectionUtils.isNotEmpty(criteria.getOptionValueIds())) {
 			qs.append(" and pov.id in (:povid)");
 		}
 		
@@ -867,7 +902,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			q.setParameter("cid", criteria.getCategoryIds());
 		}
 		
-		if (CollectionUtils.isNotEmpty(criteria.getOptionValueIds())) {
+		/**/
+		if (criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP) 
+				&& CollectionUtils.isNotEmpty(criteria.getOptionValueIds())) {
 			q.setParameter("povid", criteria.getOptionValueIds());
 		}
 
@@ -888,7 +925,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 					new StringBuilder().append("%").append(criteria.getCode().toLowerCase()).append("%").toString());
 		}
 
-		if (!CollectionUtils.isEmpty(criteria.getAttributeCriteria())) {
+		/**/
+		if (criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP) 
+				&& !CollectionUtils.isEmpty(criteria.getAttributeCriteria())) {
 			int cnt = 0;
 			for (AttributeCriteria attributeCriteria : criteria.getAttributeCriteria()) {
 				q.setParameter(attributeCriteria.getAttributeCode(), attributeCriteria.getAttributeCode());
@@ -899,13 +938,17 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		}
 
 		// RENTAL
+		/**
 		if (!StringUtils.isBlank(criteria.getStatus())) {
 			q.setParameter("status", criteria.getStatus());
 		}
+		**/
 
+		/**
 		if (criteria.getOwnerId() != null) {
 			q.setParameter("ownerid", criteria.getOwnerId());
 		}
+	    **/
 
 		if (!StringUtils.isBlank(criteria.getProductName())) {
 			q.setParameter("nm", new StringBuilder().append("%").append(criteria.getProductName().toLowerCase())
@@ -963,7 +1006,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		qs.append("left join fetch p.taxClass tx ");
 
 		// RENTAL
-		qs.append("left join fetch p.owner owner ");
+		//qs.append("left join fetch p.owner owner ");
 
 		// qs.append("where pa.region in (:lid) ");
 		qs.append("where merch.id=:mid");
@@ -1016,7 +1059,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		qs.append("left join fetch p.taxClass tx ");
 
 		// RENTAL
-		qs.append("left join fetch p.owner owner ");
+		//qs.append("left join fetch p.owner owner ");
 
 		// qs.append("where pa.region in (:lid) ");
 		qs.append("where tx.id=:tid");
@@ -1033,7 +1076,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
 	}
 
-	private String productQuery() {
+	@Deprecated
+	private String productQueryV1() {
+
 		StringBuilder qs = new StringBuilder();
 		qs.append("select distinct p from Product as p ");
 		qs.append("join fetch p.availabilities pa ");
@@ -1068,9 +1113,133 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		qs.append("left join fetch p.type type ");
 		qs.append("left join fetch p.taxClass tx ");
 
-		// RENTAL
-		qs.append("left join fetch p.owner owner ");
+		// RENTAL REMOVED
+		//qs.append("left join fetch p.owner owner ");
 		return qs.toString();
+
+	}
+	
+	private String productQueryV2() {
+		StringBuilder qs = new StringBuilder();
+		qs.append("select distinct p from Product as p ");
+		qs.append("join fetch p.descriptions pd ");
+		qs.append("join fetch p.merchantStore merch ");
+		qs.append("left join fetch p.availabilities pavail ");
+		qs.append("left join fetch p.type type ");
+		// images
+		qs.append("left join fetch p.images images ");
+		qs.append("left join fetch pavail.prices pavailpr ");
+		qs.append("left join fetch pavailpr.descriptions pavailprdesc ");
+
+		qs.append("left join fetch p.categories categs ");
+		qs.append("left join fetch categs.descriptions categsd ");
+
+		// options
+		qs.append("left join fetch p.attributes pattr ");
+		qs.append("left join fetch pattr.productOption po ");
+		qs.append("left join fetch po.descriptions pod ");
+		qs.append("left join fetch pattr.productOptionValue pov ");
+		qs.append("left join fetch pov.descriptions povd ");
+		qs.append("left join fetch p.relationships pr ");
+		// other lefts
+		qs.append("left join fetch p.manufacturer manuf ");
+		qs.append("left join fetch manuf.descriptions manufd ");
+		qs.append("left join fetch p.type type ");
+		
+		//variants
+		qs.append("left join fetch p.variants pinst ");
+		qs.append("left join fetch pinst.variation pv ");
+		qs.append("left join fetch pv.productOption pvpo ");
+		qs.append("left join fetch pv.productOptionValue pvpov ");
+		qs.append("left join fetch pvpo.descriptions pvpod ");
+		qs.append("left join fetch pvpov.descriptions pvpovd ");
+		
+		qs.append("left join fetch pinst.variationValue pvv ");
+		qs.append("left join fetch pvv.productOption pvvpo ");
+		qs.append("left join fetch pvv.productOptionValue pvvpov ");
+		qs.append("left join fetch pvvpo.descriptions povvpod ");
+		qs.append("left join fetch pvpov.descriptions povvpovd ");	
+		
+		//variant availability and price
+		qs.append("left join fetch pinst.availabilities pinsta ");
+		qs.append("left join fetch pinsta.prices pinstap ");
+		qs.append("left join fetch pinstap.descriptions pinstapdesc ");
+		qs.append("left join fetch pinst.productVariantGroup pinstg ");
+		qs.append("left join fetch pinstg.images pinstgimg ");
+		qs.append("left join fetch pinstgimg.descriptions ");
+		//end variants
+		
+		return qs.toString();
+	}
+	
+
+
+	@Override
+	public Product getById(Long id, MerchantStore store, Language language) {
+
+		try {
+
+			StringBuilder qs = new StringBuilder();
+			qs.append("select distinct p from Product as p ");
+			qs.append("join fetch p.descriptions pd ");
+			qs.append("join fetch p.merchantStore pm ");
+			qs.append("left join fetch p.availabilities pavail ");
+			qs.append("left join fetch p.type type ");
+			qs.append("left join fetch pavail.prices pavailpr ");
+			qs.append("left join fetch pavailpr.descriptions pavailprdesc ");
+
+			qs.append("left join fetch p.categories categs ");
+			qs.append("left join fetch categs.descriptions categsd ");
+
+			// options
+			qs.append("left join fetch p.attributes pattr ");
+			qs.append("left join fetch pattr.productOption po ");
+			qs.append("left join fetch po.descriptions pod ");
+			qs.append("left join fetch pattr.productOptionValue pov ");
+			qs.append("left join fetch pov.descriptions povd ");
+			qs.append("left join fetch p.relationships pr ");
+			// other lefts
+			qs.append("left join fetch p.manufacturer manuf ");
+			qs.append("left join fetch manuf.descriptions manufd ");
+			qs.append("left join fetch p.type type ");
+			
+			//variants
+			qs.append("left join fetch p.variants pinst ");
+			qs.append("left join fetch pinst.variation pv ");
+			qs.append("left join fetch pv.productOption pvpo ");
+			qs.append("left join fetch pv.productOptionValue pvpov ");
+			qs.append("left join fetch pvpo.descriptions pvpod ");
+			qs.append("left join fetch pvpov.descriptions pvpovd ");
+			
+			qs.append("left join fetch pinst.variationValue pvv ");
+			qs.append("left join fetch pvv.productOption pvvpo ");
+			qs.append("left join fetch pvv.productOptionValue pvvpov ");
+			qs.append("left join fetch pvvpo.descriptions povvpod ");
+			qs.append("left join fetch pvpov.descriptions povvpovd ");	
+			
+			//variant availability and price
+			qs.append("left join fetch pinst.availabilities pinsta ");
+			qs.append("left join fetch pinsta.prices pinstap ");
+			qs.append("left join fetch pinstap.descriptions pinstapdesc ");
+			qs.append("left join fetch pinst.productVariantGroup pinstg ");
+			qs.append("left join fetch pinstg.images pinstgimg ");
+			qs.append("left join fetch pinstgimg.descriptions ");
+			//end variants
+
+			qs.append("where p.id=:productId and pm.id=:id");
+
+			String hql = qs.toString();
+			Query q = this.em.createQuery(hql);
+
+			q.setParameter("productId", id);
+			q.setParameter("id", store.getId());
+
+			return (Product) q.getSingleResult();
+
+		} catch (javax.persistence.NoResultException ers) {
+			return null;
+		}
+		
 	}
 
 }

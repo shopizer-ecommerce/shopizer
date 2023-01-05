@@ -11,6 +11,7 @@ import com.salesmanager.shop.constants.Constants;
 public class CloudFilePathUtils extends AbstractimageFilePath {
 
 	private String basePath = Constants.STATIC_URI;
+	private String contentUrl = null;
 
 	@Override
 	public String getBasePath(MerchantStore store) {
@@ -62,6 +63,12 @@ public class CloudFilePathUtils extends AbstractimageFilePath {
 		}
 		return imgName.toString();
 
+	}
+
+	@Override
+	public void setContentUrlPath(String contentUrl) {
+		this.contentUrl = contentUrl;
+		
 	}
 
 }

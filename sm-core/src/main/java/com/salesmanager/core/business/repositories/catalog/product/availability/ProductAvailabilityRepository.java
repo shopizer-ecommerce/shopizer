@@ -1,13 +1,14 @@
 package com.salesmanager.core.business.repositories.catalog.product.availability;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 
 public interface ProductAvailabilityRepository extends JpaRepository<ProductAvailability, Long> {
-  
-  @Query("select count(distinct p) from ProductAvailability as p where p.product.id=?1")
-  int count(Long productId);
+
   
   @Query(value = "select distinct p from ProductAvailability p "
       + "left join fetch p.merchantStore pm "
@@ -30,26 +31,26 @@ public interface ProductAvailabilityRepository extends JpaRepository<ProductAvai
       + "and pprm.id=?2")
   ProductAvailability getById(Long availabilityId, int merchantId);
   
+
   @Query(value = "select distinct p from ProductAvailability p "
-      + "left join fetch p.merchantStore pm "
-      + "left join fetch p.prices pp "
-      + "left join fetch pp.descriptions ppd "
-      + "left join fetch p.merchantStore pm "
-      + "join fetch p.product ppr "
-      + "join fetch ppr.merchantStore pprm "
-      + "where ppr.id=?1 "
-      + "and pm.code=?2")
-  ProductAvailability getByStore(Long productId, String store);
+	      + "left join fetch p.merchantStore pm "
+	      + "left join fetch p.prices pp "
+	      + "left join fetch pp.descriptions ppd "
+	      + "join fetch p.product ppr "
+	      + "left join fetch ppr.descriptions pprd "
+	      + "left join fetch p.productVariant ppi "
+	      + "where ppr.sku=?1 or ppi.sku=?1 "
+	      + "and pm.code=?2")
+  List<ProductAvailability> getBySku(String productCode, String store);
   
   @Query(value = "select distinct p from ProductAvailability p "
-      + "left join fetch p.merchantStore pm "
-      + "left join fetch p.prices pp "
-      + "left join fetch pp.descriptions ppd "
-      + "left join fetch p.merchantStore pm "
-      + "join fetch p.product ppr "
-      + "join fetch ppr.merchantStore pprm "
-      + "where ppr.id=?1 "
-      + "and p.id=?2")
-  ProductAvailability getByStore(Long productId, Long inventory);
+	      + "left join fetch p.merchantStore pm "
+	      + "left join fetch p.prices pp "
+	      + "left join fetch pp.descriptions ppd "
+	      + "join fetch p.product ppr "
+	      + "left join fetch ppr.descriptions pprd "
+	      + "left join fetch p.productVariant ppi "
+	      + "where ppr.sku=?1 or ppi.sku=?1")
+  List<ProductAvailability> getBySku(String sku);
 
 }

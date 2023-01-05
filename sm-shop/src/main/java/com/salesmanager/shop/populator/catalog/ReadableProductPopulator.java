@@ -14,7 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 
 import com.salesmanager.core.business.exception.ConversionException;
-import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.services.catalog.pricing.PricingService;
 import com.salesmanager.core.business.utils.AbstractDataPopulator;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.Product;
@@ -34,7 +34,6 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
-import com.salesmanager.shop.model.catalog.product.ProductSpecification;
 import com.salesmanager.shop.model.catalog.product.ReadableImage;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProductFull;
@@ -45,7 +44,8 @@ import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductAttr
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOption;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductProperty;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductPropertyValue;
-import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValueEntity;
+import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValue;
+import com.salesmanager.shop.model.catalog.product.product.ProductSpecification;
 import com.salesmanager.shop.model.catalog.product.type.ProductTypeDescription;
 import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
 import com.salesmanager.shop.utils.DateUtil;
@@ -116,7 +116,7 @@ public class ReadableProductPopulator extends
 			          language = store.getDefaultLanguage();
 			    }
 
-		   final Language lang = language;
+		    final Language lang = language;
 
 			target.setId(source.getId());
 			target.setAvailable(source.isAvailable());
@@ -202,6 +202,9 @@ public class ReadableProductPopulator extends
 			  target.setType(type);
 			}*/
 
+			/**
+			 * TODO use ProductImageMapper
+			 */
 			Set<ProductImage> images = source.getImages();
 			if(images!=null && images.size()>0) {
 				List<ReadableImage> imageList = new ArrayList<ReadableImage>();
@@ -212,7 +215,7 @@ public class ReadableProductPopulator extends
 					ReadableImage prdImage = new ReadableImage();
 					prdImage.setImageName(img.getProductImage());
 					prdImage.setDefaultImage(img.isDefaultImage());
-					prdImage.setOrder(img.getSortOrder());
+					prdImage.setOrder(img.getSortOrder() != null ? img.getSortOrder().intValue() : 0);
 
 					if (img.getImageType() == 1 && img.getProductImageUrl()!=null) {
 						prdImage.setImageUrl(img.getProductImageUrl());
@@ -279,7 +282,7 @@ public class ReadableProductPopulator extends
 							ReadableProductAttribute attr = null;
 							ReadableProductProperty property = null;
 							ReadableProductPropertyValue propertyValue = null;
-							ReadableProductOptionValueEntity optValue = new ReadableProductOptionValueEntity();
+							ReadableProductOptionValue optValue = new ReadableProductOptionValue();
 							ReadableProductAttributeValue attrValue = new ReadableProductAttributeValue();
 
 							ProductOptionValue optionValue = attribute.getProductOptionValue();

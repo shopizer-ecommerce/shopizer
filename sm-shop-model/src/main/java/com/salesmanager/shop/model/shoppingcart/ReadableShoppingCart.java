@@ -4,10 +4,11 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.salesmanager.shop.model.catalog.product.product.variant.ReadableProductVariant;
 import com.salesmanager.shop.model.order.total.ReadableOrderTotal;
 
 /**
- * Compatible with v1
+ * Compatible with v1 + v2
  * @author c.samson
  *
  */
@@ -28,6 +29,8 @@ public class ReadableShoppingCart extends ShoppingCartEntity {
 	private int quantity;
 	private Long order;
 	private String promoCode;
+	
+	private ReadableProductVariant variant;
 	
 	List<ReadableShoppingCartItem> products = new ArrayList<ReadableShoppingCartItem>();
 	List<ReadableOrderTotal> totals;
@@ -162,6 +165,18 @@ public class ReadableShoppingCart extends ShoppingCartEntity {
 
 	public void setPromoCode(String promoCode) {
 		this.promoCode = promoCode;
+	}
+
+
+
+	public ReadableProductVariant getVariant() {
+		return variant;
+	}
+
+
+
+	public void setVariant(ReadableProductVariant variant) {
+		this.variant = variant;
 	}
 
 

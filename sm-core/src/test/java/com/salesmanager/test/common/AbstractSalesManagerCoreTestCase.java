@@ -16,7 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
-import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.services.catalog.pricing.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductAttributeService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductOptionService;
@@ -55,6 +55,8 @@ import com.salesmanager.test.configuration.ConfigurationTest;
 @SpringBootTest(classes=ConfigurationTest.class)
 @Ignore
 public class AbstractSalesManagerCoreTestCase {
+	
+	private static final String CONTEXT_LOAD_NAME = "TEST";
 
 	
 	
@@ -162,7 +164,7 @@ public class AbstractSalesManagerCoreTestCase {
 	}
 	
 	private void populate() throws ServiceException {
-		initializationDatabase.populate("TEST");
+		initializationDatabase.populate(CONTEXT_LOAD_NAME);
 	}
 
 }

@@ -14,6 +14,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -40,7 +41,8 @@ import com.salesmanager.core.model.reference.zone.Zone;
 import com.salesmanager.core.utils.CloneUtils;
 
 @Entity
-@Table(name = "MERCHANT_STORE")
+@Table(name = "MERCHANT_STORE",
+	indexes = @Index(columnList = "LINEAGE"))
 public class MerchantStore extends SalesManagerEntity<Integer, MerchantStore> implements Auditable {
 
   private static final long serialVersionUID = 1L;
@@ -92,6 +94,9 @@ public class MerchantStore extends SalesManagerEntity<Integer, MerchantStore> im
 	@Pattern(regexp = "^[a-zA-Z0-9_]*$")
 	@Column(name = "STORE_CODE", nullable = false, unique = true, length = 100)
 	private String code;
+	
+    @Column(name = "LINEAGE")
+    private String lineage;
 
 	@NotEmpty
 	@Column(name = "STORE_PHONE", length = 50)

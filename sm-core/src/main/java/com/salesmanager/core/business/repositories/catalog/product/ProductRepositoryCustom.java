@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.ProductCriteria;
 import com.salesmanager.core.model.catalog.product.ProductList;
@@ -38,9 +39,25 @@ public interface ProductRepositoryCustom {
 		Product getById(Long productId);
 		Product getById(Long productId, MerchantStore merchant);
 
+	    /**
+	     * Get product by code
+	     * @deprecated
+	     * This method is no longer acceptable to get product by code.
+	     * <p> Use {@link ProductService#getBySku(sku, store)} instead.
+	     */
+		@Deprecated
 		Product getByCode(String productCode, Language language);
 		
+	    /**
+	     * Get product by code
+	     * @deprecated
+	     * This method is no longer acceptable to get product by code.
+	     * <p> Use {@link ProductService#getBySku(sku, store)} instead.
+	     */
+		@Deprecated
 		Product getByCode(String productCode, MerchantStore store);
+		
+		Product getById(Long productId, MerchantStore store, Language language);
 
 		List<Product> getProductsForLocale(MerchantStore store,
 				Set<Long> categoryIds, Language language, Locale locale);

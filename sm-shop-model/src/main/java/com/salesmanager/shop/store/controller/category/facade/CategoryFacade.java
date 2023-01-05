@@ -101,4 +101,13 @@ public interface CategoryFacade {
 	 * @param store
 	 */
 	void setVisible(PersistableCategory category, MerchantStore store);
+	
+	
+	/**
+	 * List category by product
+	 * @param store
+	 * @param product
+	 * @return
+	 */
+	ReadableCategoryList listByProduct(MerchantStore store, Long product, Language language);
 }

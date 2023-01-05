@@ -18,7 +18,7 @@ public class DefaultController {
 	@GetMapping(value = "/")
 	public @ResponseBody String version(Model model) {
 
-		return "{\"version\":\""+  env.getProperty("application-version")  +"\"}";
+		return "{\"version\":\""+  env.getProperty("application-version")  +"\", \"build\":\"" + env.getProperty("build.timestamp") + "\"}";
 	}
 
 }

@@ -216,7 +216,7 @@ public class ShoppingCartTest extends com.salesmanager.test.common.AbstractSales
 	    
 	    product.getAttributes().add(blackAttribute);
 
-	    productService.create(product);
+	    productService.saveProduct(product);
 	    
 	    /** Create Shopping cart **/
 	    
@@ -227,6 +227,7 @@ public class ShoppingCartTest extends com.salesmanager.test.common.AbstractSales
 	    shoppingCart.setShoppingCartCode(cartCode.toString());
 
 	    ShoppingCartItem item = new ShoppingCartItem(shoppingCart,product);
+	    item.setSku(product.getSku());
 	    item.setShoppingCart(shoppingCart);
 	    
 	    FinalPrice price = pricingService.calculateProductPrice(product);

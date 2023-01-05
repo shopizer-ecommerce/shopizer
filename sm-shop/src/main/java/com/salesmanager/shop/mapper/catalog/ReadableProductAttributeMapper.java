@@ -4,14 +4,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.services.catalog.pricing.PricingService;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductAttributeEntity;
 import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionEntity;
-import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValueEntity;
+import com.salesmanager.shop.model.catalog.product.attribute.api.ReadableProductOptionValue;
 import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;
 
 @Component
@@ -64,7 +64,7 @@ public class ReadableProductAttributeMapper implements Mapper<ProductAttribute, 
 			}
 			
 			if(source.getProductOptionValue()!=null) {
-				ReadableProductOptionValueEntity optionValue = readableProductOptionValueMapper.convert(source.getProductOptionValue(), store, language);
+				ReadableProductOptionValue optionValue = readableProductOptionValueMapper.convert(source.getProductOptionValue(), store, language);
 				attr.setOptionValue(optionValue);
 			}
 		

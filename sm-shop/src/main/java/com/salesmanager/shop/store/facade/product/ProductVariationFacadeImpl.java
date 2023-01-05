@@ -1,6 +1,7 @@
 package com.salesmanager.shop.store.facade.product;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.Validate;
@@ -36,16 +37,17 @@ public class ProductVariationFacadeImpl implements ProductVariationFacade {
 	private ProductVariationService productVariationService;
 
 
+
 	@Override
-	public ReadableProductVariation get(Long id, MerchantStore store, Language language) {
+	public ReadableProductVariation get(Long variationId, MerchantStore store, Language language) {
 		Validate.notNull(store, "MerchantStore cannot be null");
 		Validate.notNull(language, "Language cannot be null");
-		ProductVariation variation =  productVariationService.getById(store, id, language);
-		if(variation == null) {
-			throw new ResourceNotFoundException("ProductVariation not found for id [" + id +"] and store [" + store.getCode() + "]");
+		Optional<ProductVariation> variation =  productVariationService.getById(store, variationId, language);
+		if(variation.isEmpty()) {
+			throw new ResourceNotFoundException("ProductVariation not found for id [" + variationId +"] and store [" + store.getCode() + "]");
 		}
 		
-		return readableProductVariationMapper.convert(variation, store, language);
+		return readableProductVariationMapper.convert(variation.get(), store, language);
 	}
 
 	@Override
@@ -71,7 +73,7 @@ public class ProductVariationFacadeImpl implements ProductVariationFacade {
 	}
 
 	@Override
-	public void create(PersistableProductVariation var, MerchantStore store, Language language) {
+	public Long create(PersistableProductVariation var, MerchantStore store, Language language) {
 		Validate.notNull(store, "MerchantStore cannot be null");
 		Validate.notNull(language, "Language cannot be null");
 		Validate.notNull(var, "PersistableProductVariation cannot be null");
@@ -81,29 +83,34 @@ public class ProductVariationFacadeImpl implements ProductVariationFacade {
 		}
 		
 		ProductVariation p = persistableProductVariationMapper.convert(var, store, language);
+		p.setMerchantStore(store);
 		try {
-			p.setMerchantStore(store);
-			productVariationService.create(p);
+			productVariationService.saveOrUpdate(p);
 		} catch (ServiceException e) {
 			throw new ServiceRuntimeException("Exception while creating ProductOptionSet", e);
 		}
+		
+		return p.getId();
 
 	}
+	
 
 	@Override
-	public void update(Long id, PersistableProductVariation var, MerchantStore store, Language language) {
+	public void update(Long variationId, PersistableProductVariation var, MerchantStore store, Language language) {
 		Validate.notNull(store, "MerchantStore cannot be null");
 		Validate.notNull(language, "Language cannot be null");
 		Validate.notNull(var, "PersistableProductVariation cannot be null");
 		
-		ProductVariation p =  productVariationService.getById(store, id, language);
-		if(p == null) {
-			throw new ResourceNotFoundException("ProductVariation not found for id [" + id +"] and store [" + store.getCode() + "]");
+		Optional<ProductVariation> p =  productVariationService.getById(store, variationId, language);
+		if(p.isEmpty()) {
+			throw new ResourceNotFoundException("ProductVariation not found for id [" + variationId +"] and store [" + store.getCode() + "]");
 		}
 		
-		p.setId(id);
-		p.setCode(var.getCode());
-		ProductVariation model = persistableProductVariationMapper.merge(var, p, store, language);
+		ProductVariation productVariant = p.get();
+		
+		productVariant.setId(variationId);
+		productVariant.setCode(var.getCode());
+		ProductVariation model = persistableProductVariationMapper.merge(var, productVariant, store, language);
 		try {
 			model.setMerchantStore(store);
 			productVariationService.save(model);
@@ -114,15 +121,15 @@ public class ProductVariationFacadeImpl implements ProductVariationFacade {
 	}
 
 	@Override
-	public void delete(Long id, MerchantStore store) {
+	public void delete(Long variationId, MerchantStore store) {
 		Validate.notNull(store, "MerchantStore cannot be null");
-		Validate.notNull(id, "id cannot be null");
-		ProductVariation opt =  productVariationService.getById(id);
+		Validate.notNull(variationId, "variationId cannot be null");
+		ProductVariation opt =  productVariationService.getById(variationId);
 		if(opt == null) {
-			throw new ResourceNotFoundException("ProductVariation not found for id [" + id +"] and store [" + store.getCode() + "]");
+			throw new ResourceNotFoundException("ProductVariation not found for id [" + variationId +"] and store [" + store.getCode() + "]");
 		}
 		if(!opt.getMerchantStore().getCode().equals(store.getCode())) {
-			throw new ResourceNotFoundException("ProductVariation not found for id [" + id +"] and store [" + store.getCode() + "]");
+			throw new ResourceNotFoundException("ProductVariation not found for id [" + variationId +"] and store [" + store.getCode() + "]");
 		}
 		try {
 			productVariationService.delete(opt);
@@ -136,8 +143,8 @@ public class ProductVariationFacadeImpl implements ProductVariationFacade {
 	public boolean exists(String code, MerchantStore store) {
 		Validate.notNull(store, "MerchantStore cannot be null");
 		Validate.notNull(code, "code cannot be null");
-		ProductVariation var =  productVariationService.getByCode(store, code);
-		if(var != null) {
+		Optional<ProductVariation> var =  productVariationService.getByCode(store, code);
+		if(var.isPresent()) {
 			return true;
 		}
 		

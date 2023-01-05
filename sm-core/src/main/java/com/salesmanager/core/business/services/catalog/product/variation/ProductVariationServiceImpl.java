@@ -1,5 +1,8 @@
 package com.salesmanager.core.business.services.catalog.product.variation;
 
+import java.util.List;
+import java.util.Optional;
+
 import javax.inject.Inject;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,20 +40,13 @@ public class ProductVariationServiceImpl extends
 
 
 	@Override
-	public ProductVariation getById(MerchantStore store, Long id, Language lang) {
+	public Optional<ProductVariation> getById(MerchantStore store, Long id, Language lang) {
 		return productVariationRepository.findOne(store.getId(), id, lang.getId());
 	}
 	
 	@Override
-	public ProductVariation getByCode(MerchantStore store, String code) {
+	public Optional<ProductVariation> getByCode(MerchantStore store, String code) {
 		return productVariationRepository.findByCode(code, store.getId());
-	}
-
-
-	@Override
-	public void saveOrUpdate(ProductVariation entity) throws ServiceException {
-		productVariationRepository.save(entity);
-		
 	}
 
 
@@ -60,6 +56,32 @@ public class ProductVariationServiceImpl extends
 			int count) {
 		Pageable p = PageRequest.of(page, count);
 		return pageableProductVariationSetRepository.list(store.getId(), code, p);
+	}
+
+	@Override
+	public Optional<ProductVariation> getById(MerchantStore store, Long id) {
+		return productVariationRepository.findOne(store.getId(), id);
+	}
+	
+	@Override
+	public void saveOrUpdate(ProductVariation entity) throws ServiceException {
+
+		//save or update (persist and attach entities
+		if(entity.getId()!=null && entity.getId()>0) {
+
+			super.update(entity);
+			
+		} else {
+			
+			super.save(entity);
+			
+		}
+		
+	}
+
+	@Override
+	public List<ProductVariation> getByIds(List<Long> ids, MerchantStore store) {
+		return productVariationRepository.findByIds(store.getId(), ids);
 	}
 
 

@@ -194,7 +194,7 @@ public class ContentServiceImpl extends SalesManagerEntityServiceImpl<Long, Cont
 		try {
 			LOG.info("Adding content image for merchant id {}", merchantStoreCode);
 
-			String p = null;
+			String p = contentImage.getPath();
 			Optional<String> path = Optional.ofNullable(p);
 			contentFileManager.addFile(merchantStoreCode, path, contentImage);
 

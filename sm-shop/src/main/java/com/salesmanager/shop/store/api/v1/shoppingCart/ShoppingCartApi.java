@@ -120,7 +120,7 @@ public class ShoppingCartApi {
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
 	public ResponseEntity<ReadableShoppingCart> modifyCart(
-			@PathVariable String code,
+			@PathVariable String code,//shopping cart code
 			@PathVariable String promo,
 			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language, 
@@ -150,8 +150,10 @@ public class ShoppingCartApi {
 	@ApiOperation(httpMethod = "POST", value = "Add to an existing shopping cart or modify an item quantity", notes = "No customer ID in scope. Modify cart for non authenticated users, as simple as {\"product\":1232,\"quantity\":0} for instance will remove item 1234 from cart", produces = "application/json", response = ReadableShoppingCart.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
-	public ResponseEntity<ReadableShoppingCart> modifyCart(@PathVariable String code,
-			@Valid @RequestBody PersistableShoppingCartItem[] shoppingCartItems, @ApiIgnore MerchantStore merchantStore,
+	public ResponseEntity<ReadableShoppingCart> modifyCart(
+			@PathVariable String code,
+			@Valid @RequestBody PersistableShoppingCartItem[] shoppingCartItems, 
+			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
 
 		try {
@@ -281,16 +283,17 @@ public class ShoppingCartApi {
 
 	}
 
-	@DeleteMapping(value = "/cart/{code}/product/{id}", produces = { APPLICATION_JSON_VALUE })
+	@DeleteMapping(value = "/cart/{code}/product/{sku}", produces = { APPLICATION_JSON_VALUE })
 	@ApiOperation(httpMethod = "DELETE", value = "Remove a product from a specific cart", notes = "If body set to true returns remaining cart in body, empty cart gives empty body. If body set to false no body ", produces = "application/json", response = ReadableShoppingCart.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en"),
 			@ApiImplicitParam(name = "body", dataType = "boolean", defaultValue = "false"), })
 	public ResponseEntity<ReadableShoppingCart> deleteCartItem(@PathVariable("code") String cartCode,
-			@PathVariable("id") Long itemId, @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language,
+			@PathVariable("sku") String sku, 
+			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language,
 			@RequestParam(defaultValue = "false") boolean body) throws Exception {
 
-		ReadableShoppingCart updatedCart = shoppingCartFacade.removeShoppingCartItem(cartCode, itemId, merchantStore,
+		ReadableShoppingCart updatedCart = shoppingCartFacade.removeShoppingCartItem(cartCode, sku, merchantStore,
 				language, body);
 		if (body) {
 			return new ResponseEntity<>(updatedCart, HttpStatus.OK);

@@ -17,14 +17,13 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 import com.salesmanager.core.model.order.Order;
 
 @Entity
 @Table (name="ORDER_PRODUCT" )
 public class OrderProduct extends SalesManagerEntity<Long, OrderProduct> {
-	private static final long serialVersionUID = 176131742783954627L;
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@Column (name="ORDER_PRODUCT_ID")
@@ -32,7 +31,7 @@ public class OrderProduct extends SalesManagerEntity<Long, OrderProduct> {
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
 	private Long id;
 
-	@Column (name="PRODUCT_SKU") //yess !!! rename to code
+	@Column (name="PRODUCT_SKU")
 	private String sku;
 
 	@Column (name="PRODUCT_NAME" , length=64 , nullable=false)

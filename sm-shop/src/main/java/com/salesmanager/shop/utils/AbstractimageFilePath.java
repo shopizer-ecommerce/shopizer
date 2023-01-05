@@ -23,6 +23,8 @@ public abstract class AbstractimageFilePath implements ImageFilePath {
 
 	public abstract void setBasePath(String basePath);
 	
+	public abstract void setContentUrlPath(String contentUrl);
+	
 	protected static final String CONTEXT_PATH = "CONTEXT_PATH";
 	
 	public @Resource(name="shopizer-properties") Properties properties = new Properties();//shopizer-properties
@@ -146,6 +148,11 @@ public abstract class AbstractimageFilePath implements ImageFilePath {
 	
 	public String buildProductPropertyImageUtils(MerchantStore store, String imageName) {
 		return new StringBuilder().append(getBasePath(store)).append(Constants.FILES_URI).append(Constants.SLASH).append(store.getCode()).append("/").append(FileContentType.PROPERTY).append("/")
+				.append(imageName).toString();
+	}
+	
+	public String buildCustomTypeImageUtils(MerchantStore store, String imageName, FileContentType type) {
+		return new StringBuilder().append(getBasePath(store)).append(Constants.FILES_URI).append(Constants.SLASH).append(store.getCode()).append("/").append(type).append("/")
 				.append(imageName).toString();
 	}
 	
