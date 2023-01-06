@@ -109,7 +109,15 @@ public class ShopApplicationConfiguration implements WebMvcConfigurer {
 
   @Bean
   public LocaleChangeInterceptor localeChangeInterceptor() {
-    return new LocaleChangeInterceptor();
+    LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
+    /*
+    This ensures, that all requests with unknown locale parameter value result in
+    the same HTTP status code.
+    Otherwise, some unknown locales like "--" would result in HTTP status 200,
+    while others like "-." would result in HTTP status 500
+     */
+    localeChangeInterceptor.setIgnoreInvalidLocale(true);
+    return localeChangeInterceptor;
   }
 
 	/*
