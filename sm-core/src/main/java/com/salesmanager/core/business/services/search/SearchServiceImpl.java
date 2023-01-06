@@ -1,6 +1,10 @@
 package com.salesmanager.core.business.services.search;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,6 +28,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.configuration.ApplicationSearchConfiguration;
@@ -100,6 +105,9 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 
 	@Autowired(required = false)
 	private SearchModule searchModule;
+	
+	@Autowired
+	private ResourceLoader resourceLoader;
 
 	@PostConstruct
 	public void init() throws Exception {
@@ -264,7 +272,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 		
 		config.getLanguages().stream().forEach(l -> {
 			try {
-				this.mappings(config,l);
+				mappings(config,l);
 			} catch (Exception e) {
 				throw new IllegalStateException(e);
 			}
@@ -489,10 +497,10 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 	
 	private void settings(SearchConfiguration config, String language) throws Exception{
 		Validate.notEmpty(language, "Configuration requires language");
-		String settings = loadClassPathResource(SETTINGS + "_DEFAULT.json");
+		String settings = resourceAsText(loadSearchConfig(SETTINGS + "_DEFAULT.json"));
 		//specific settings
 		if(language.equals("en")) {
-			settings = loadClassPathResource(SETTINGS+ "_" + language +".json");
+			settings = resourceAsText(loadSearchConfig(SETTINGS+ "_" + language +".json"));
 		}
 		
 		config.getSettings().put(language, settings);
@@ -502,18 +510,24 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 	private void mappings(SearchConfiguration config, String language) throws Exception {
 		Validate.notEmpty(language, "Configuration requires language");
 
-
-		config.getProductMappings().put(language, loadClassPathResource(PRODUCT_MAPPING_DEFAULT));
-		config.getKeywordsMappings().put(language, KEYWORDS_MAPPING_DEFAULT);
+		config.getProductMappings().put(language, resourceAsText(loadSearchConfig(PRODUCT_MAPPING_DEFAULT)));
+		config.getKeywordsMappings().put(language,resourceAsText(loadSearchConfig(KEYWORDS_MAPPING_DEFAULT)));
 			
 	}
+
 	
-	public String loadClassPathResource(String file) throws Exception {
-		Resource res = new ClassPathResource(file);
-		File f = res.getFile();
+	private String resourceAsText(Resource resource) throws Exception {
+		InputStream mappingstream = resource.getInputStream();
 		
-		return new String(
-			      Files.readAllBytes(f.toPath()));
+	    return new BufferedReader(
+	    	      new InputStreamReader(mappingstream, StandardCharsets.UTF_8))
+	    	        .lines()
+	    	        .collect(Collectors.joining("\n"));
+	}
+	
+	private Resource loadSearchConfig(String file) {
+	    return resourceLoader.getResource(
+	      "classpath:" + file);
 	}
 
 }
