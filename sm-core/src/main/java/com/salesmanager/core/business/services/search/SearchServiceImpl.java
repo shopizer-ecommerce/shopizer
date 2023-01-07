@@ -1,11 +1,9 @@
 package com.salesmanager.core.business.services.search;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -26,7 +24,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
@@ -511,7 +508,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 		Validate.notEmpty(language, "Configuration requires language");
 
 		config.getProductMappings().put(language, resourceAsText(loadSearchConfig(PRODUCT_MAPPING_DEFAULT)));
-		config.getKeywordsMappings().put(language,resourceAsText(loadSearchConfig(KEYWORDS_MAPPING_DEFAULT)));
+		config.getKeywordsMappings().put(language,KEYWORDS_MAPPING_DEFAULT);
 			
 	}
 
