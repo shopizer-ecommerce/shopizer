@@ -16,80 +16,111 @@ import com.salesmanager.shop.model.catalog.category.ReadableCategoryFull;
 
 @Component
 public class ReadableCategoryMapper implements Mapper<Category, ReadableCategory> {
-  
-  private static final Logger LOGGER = LoggerFactory.getLogger(ReadableCategoryMapper.class);
 
-  @Override
-  public ReadableCategory convert(Category source, MerchantStore store, Language language) {
+	private static final Logger LOGGER = LoggerFactory.getLogger(ReadableCategoryMapper.class);
 
-    if (Objects.isNull(language)) {
-      ReadableCategoryFull target = new ReadableCategoryFull();
-      List<com.salesmanager.shop.model.catalog.category.CategoryDescription> descriptions = source.getDescriptions().stream()
-              .map(this::convertDescription)
-              .collect(Collectors.toList());
-      target.setDescriptions(descriptions);
-      fillReadableCategory(target, source);
-      return target;
-    } else {
-      ReadableCategory target = new ReadableCategory();
-      Optional<com.salesmanager.shop.model.catalog.category.CategoryDescription> description = source.getDescriptions().stream()
-              .filter(d -> language.getId().equals(d.getLanguage().getId()))
-              .map(this::convertDescription)
-              .findAny();
-      description.ifPresent(target::setDescription);
-      fillReadableCategory(target, source);
-      return target;
-    }
-  }
+	@Override
+	public ReadableCategory convert(Category source, MerchantStore store, Language language) {
 
-  private void fillReadableCategory(ReadableCategory target, Category source) {
-    Optional<com.salesmanager.shop.model.catalog.category.Category> parentCategory =
-        createParentCategory(source);
-    parentCategory.ifPresent(target::setParent);
+		if (Objects.isNull(language)) {
+			ReadableCategoryFull target = new ReadableCategoryFull();
+			List<com.salesmanager.shop.model.catalog.category.CategoryDescription> descriptions = source
+					.getDescriptions().stream().map(this::convertDescription).collect(Collectors.toList());
+			target.setDescriptions(descriptions);
+			fillReadableCategory(target, source, language);
+			return target;
+		} else {
+			/**
+			ReadableCategory target = new ReadableCategory();
+			Optional<com.salesmanager.shop.model.catalog.category.CategoryDescription> description = source
+					.getDescriptions().stream().filter(d -> language.getId().equals(d.getLanguage().getId()))
+					.map(this::convertDescription).findAny();
+			description.ifPresent(target::setDescript;ion);
+			**/
+			ReadableCategory target =createReadable(source, language);
+			//fillReadableCategory(target, source, language);
+			return target;
+		}
+	}
 
-    Optional.ofNullable(source.getDepth()).ifPresent(target::setDepth);
+	private void fillReadableCategory(ReadableCategory target, Category source, Language language) {
+		Optional<com.salesmanager.shop.model.catalog.category.Category> parentCategory = createParentCategory(source,
+				language);
+		parentCategory.ifPresent(target::setParent);
 
-    target.setLineage(source.getLineage());
-    target.setStore(source.getMerchantStore().getCode());
-    target.setCode(source.getCode());
-    target.setId(source.getId());
-    target.setSortOrder(source.getSortOrder());
-    target.setVisible(source.isVisible());
-    target.setFeatured(source.isFeatured());
-  }
+		Optional.ofNullable(source.getDepth()).ifPresent(target::setDepth);
 
-  private com.salesmanager.shop.model.catalog.category.CategoryDescription convertDescription(
-      CategoryDescription description) {
-    final com.salesmanager.shop.model.catalog.category.CategoryDescription desc =
-        new com.salesmanager.shop.model.catalog.category.CategoryDescription();
+		target.setLineage(source.getLineage());
+		target.setStore(source.getMerchantStore().getCode());
+		target.setCode(source.getCode());
+		target.setId(source.getId());
+		target.setSortOrder(source.getSortOrder());
+		target.setVisible(source.isVisible());
+		target.setFeatured(source.isFeatured());
+	}
 
-    desc.setFriendlyUrl(description.getSeUrl());
-    desc.setName(description.getName());
-    desc.setId(description.getId());
-    desc.setDescription(description.getDescription());
-    desc.setKeyWords(description.getMetatagKeywords());
-    desc.setHighlights(description.getCategoryHighlight());
-    desc.setLanguage(description.getLanguage().getCode());
-    desc.setTitle(description.getMetatagTitle());
-    desc.setMetaDescription(description.getMetatagDescription());
-    return desc;
-  }
+	private com.salesmanager.shop.model.catalog.category.CategoryDescription convertDescription(
+			CategoryDescription description) {
+		final com.salesmanager.shop.model.catalog.category.CategoryDescription desc = new com.salesmanager.shop.model.catalog.category.CategoryDescription();
 
+		desc.setFriendlyUrl(description.getSeUrl());
+		desc.setName(description.getName());
+		desc.setId(description.getId());
+		desc.setDescription(description.getDescription());
+		desc.setKeyWords(description.getMetatagKeywords());
+		desc.setHighlights(description.getCategoryHighlight());
+		desc.setLanguage(description.getLanguage().getCode());
+		desc.setTitle(description.getMetatagTitle());
+		desc.setMetaDescription(description.getMetatagDescription());
+		return desc;
+	}
 
-  private Optional<com.salesmanager.shop.model.catalog.category.Category> createParentCategory(
-      Category source) {
-    return Optional.ofNullable(source.getParent()).map(parentValue -> {
-      final com.salesmanager.shop.model.catalog.category.Category parent =
-          new com.salesmanager.shop.model.catalog.category.Category();
-      parent.setCode(source.getParent().getCode());
-      parent.setId(source.getParent().getId());
-      return parent;
-    });
-  }
+	private Optional<com.salesmanager.shop.model.catalog.category.Category> createParentCategory(Category source,
+			Language language) {
 
-  @Override
-  public ReadableCategory merge(Category source, ReadableCategory destination,
-                                MerchantStore store, Language language) {
-    return destination;
-  }
+		return Optional.ofNullable(source.getParent()).map(parentValue -> {
+			final com.salesmanager.shop.model.catalog.category.Category parent = new com.salesmanager.shop.model.catalog.category.Category();
+
+			if (source.getParent() != null) {
+
+			}
+			Optional<com.salesmanager.shop.model.catalog.category.CategoryDescription> description = source
+					.getDescriptions().stream().filter(d -> language.getId().equals(d.getLanguage().getId()))
+					.map(this::convertDescription).findAny();
+
+			parent.setCode(source.getParent().getCode());
+			parent.setId(source.getParent().getId());
+			if (description.isPresent()) {
+				parent.setDescription(description.get());
+			}
+			return parent;
+		});
+	}
+
+	@Override
+	public ReadableCategory merge(Category source, ReadableCategory destination, MerchantStore store,
+			Language language) {
+		return destination;
+	}
+
+	private ReadableCategory createReadable(Category category, Language language) {
+
+		ReadableCategory current = new ReadableCategory();
+		this.fillReadableCategory(current, category, language);
+		Optional<com.salesmanager.shop.model.catalog.category.CategoryDescription> description = category
+				.getDescriptions().stream().filter(d -> language.getId().equals(d.getLanguage().getId()))
+				.map(this::convertDescription).findAny();
+
+		if (description.isPresent()) {
+			current.setDescription(description.get());
+		}
+
+		if (category.getParent() != null) {
+			current.setParent(this.createReadable(category.getParent(), language));
+		}
+
+		return current;
+
+	}
+
 }
