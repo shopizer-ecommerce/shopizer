@@ -330,6 +330,12 @@ public class CategoryFacadeImpl implements CategoryFacade {
 		ReadableCategory readableCategory = new ReadableCategory();
 
 		Category category = categoryService.getBySeUrl(store, friendlyUrl);
+		
+		if(category == null) {
+			throw new ResourceNotFoundException("Category with friendlyUrl [" + friendlyUrl + "] was not found");
+		}
+		
+		
 		categoryPopulator.populate(category, readableCategory, store, language);
 
 		return readableCategory;
