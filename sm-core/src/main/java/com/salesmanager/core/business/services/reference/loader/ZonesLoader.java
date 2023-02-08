@@ -177,6 +177,7 @@ public class ZonesLoader {
 						Map<String, String> e = (Map<String, String>) z;
 						this.mapZone(l, zonesDescriptionsMap, countriesMap, zonesMap, zonesMark, e);
 
+<<<<<<< HEAD
 						/**
 						 * String zoneCode = e.get("zoneCode"); ZoneDescription
 						 * zoneDescription = new ZoneDescription();
@@ -211,6 +212,8 @@ public class ZonesLoader {
 						 * descriptions.add(zoneDescription);
 						 **/
 
+=======
+>>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 					}
 				} 
 

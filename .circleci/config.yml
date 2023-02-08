@@ -57,10 +57,17 @@ jobs:
        - run: |
            docker login -u shopizerecomm -p $DOCKERHUB_PASSWORD
        - run: |
+<<<<<<< HEAD
            (cd sm-shop && docker build . -t shopizerecomm/shopizer:3.2.1)
        - run:
            name: push image
            command: docker push shopizerecomm/shopizer:3.2.1
+=======
+           (cd sm-shop && docker build . -t shopizerecomm/shopizer:3.2.5)
+       - run:
+           name: push image
+           command: docker push shopizerecomm/shopizer:3.2.5
+>>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 
 # Orchestrate our job run sequence
 workflows:

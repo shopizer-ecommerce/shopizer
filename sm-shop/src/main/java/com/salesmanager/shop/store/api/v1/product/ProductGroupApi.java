@@ -169,7 +169,11 @@ public class ProductGroupApi {
 	Product product = null;
     try {
       // get the product
+<<<<<<< HEAD
     	product = productService.getById(productId);
+=======
+    	product = productService.findOne(productId, merchantStore);
+>>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 
       if (product == null) {
         response.sendError(404, "Product not fount for id " + productId);

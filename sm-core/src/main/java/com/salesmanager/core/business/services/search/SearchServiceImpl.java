@@ -1,7 +1,14 @@
 package com.salesmanager.core.business.services.search;
 
+<<<<<<< HEAD
 import java.io.File;
 import java.nio.file.Files;
+=======
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+>>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -22,15 +29,23 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+<<<<<<< HEAD
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+=======
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+>>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.configuration.ApplicationSearchConfiguration;
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.inventory.ProductInventoryService;
+<<<<<<< HEAD
 import com.salesmanager.core.business.services.catalog.pricing.PricingService;
+=======
+>>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 import com.salesmanager.core.business.utils.CoreConfiguration;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.category.CategoryDescription;
@@ -101,6 +116,12 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 
 	@Autowired(required = false)
 	private SearchModule searchModule;
+<<<<<<< HEAD
+=======
+	
+	@Autowired
+	private ResourceLoader resourceLoader;
+>>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 
 	@PostConstruct
 	public void init() throws Exception {
@@ -188,7 +209,12 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 		try {
 			ProductImage image = null;
 			if (!CollectionUtils.isEmpty(product.getImages())) {
+<<<<<<< HEAD
 				image = product.getImages().stream().filter(i -> i.isDefaultImage()).findFirst().get();
+=======
+				image = product.getImages().stream().filter(i -> i.isDefaultImage()).findFirst()
+						.orElse(product.getImages().iterator().next());
+>>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 			}
 			
 			/**
@@ -264,7 +290,11 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 		
 		config.getLanguages().stream().forEach(l -> {
 			try {
+<<<<<<< HEAD
 				this.mappings(config,l);
+=======
+				mappings(config,l);
+>>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 			} catch (Exception e) {
 				throw new IllegalStateException(e);
 			}
@@ -489,10 +519,17 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 	
 	private void settings(SearchConfiguration config, String language) throws Exception{
 		Validate.notEmpty(language, "Configuration requires language");
+<<<<<<< HEAD
 		String settings = loadClassPathResource(SETTINGS + "_DEFAULT.json");
 		//specific settings
 		if(language.equals("en")) {
 			settings = loadClassPathResource(SETTINGS+ "_" + language +".json");
+=======
+		String settings = resourceAsText(loadSearchConfig(SETTINGS + "_DEFAULT.json"));
+		//specific settings
+		if(language.equals("en")) {
+			settings = resourceAsText(loadSearchConfig(SETTINGS+ "_" + language +".json"));
+>>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 		}
 		
 		config.getSettings().put(language, settings);
@@ -502,6 +539,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 	private void mappings(SearchConfiguration config, String language) throws Exception {
 		Validate.notEmpty(language, "Configuration requires language");
 
+<<<<<<< HEAD
 
 		config.getProductMappings().put(language, loadClassPathResource(PRODUCT_MAPPING_DEFAULT));
 		config.getKeywordsMappings().put(language, KEYWORDS_MAPPING_DEFAULT);
@@ -514,6 +552,26 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 		
 		return new String(
 			      Files.readAllBytes(f.toPath()));
+=======
+		config.getProductMappings().put(language, resourceAsText(loadSearchConfig(PRODUCT_MAPPING_DEFAULT)));
+		config.getKeywordsMappings().put(language,KEYWORDS_MAPPING_DEFAULT);
+			
+	}
+
+	
+	private String resourceAsText(Resource resource) throws Exception {
+		InputStream mappingstream = resource.getInputStream();
+		
+	    return new BufferedReader(
+	    	      new InputStreamReader(mappingstream, StandardCharsets.UTF_8))
+	    	        .lines()
+	    	        .collect(Collectors.joining("\n"));
+	}
+	
+	private Resource loadSearchConfig(String file) {
+	    return resourceLoader.getResource(
+	      "classpath:" + file);
+>>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 	}
 
 }

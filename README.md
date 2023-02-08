@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Shopizer 3 (for java 1.8 +) (tested with Java 11)
 
 
@@ -5,6 +6,13 @@
 
 
 [![last_version](https://img.shields.io/badge/last_version-v3.2.3-blue.svg?style=flat)](https://github.com/shopizer-ecommerce/shopizer/tree/3.2.3)
+=======
+# Shopizer 3.X (for java 1.8 +) (tested with Java 11)
+
+
+
+[![last_version](https://img.shields.io/badge/last_version-v3.2.5-blue.svg?style=flat)](https://github.com/shopizer-ecommerce/shopizer/tree/3.2.5)
+>>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 [![Official site](https://img.shields.io/website-up-down-green-red/https/shields.io.svg?label=official%20site)](http://www.shopizer.com/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/shopizerecomm/shopizer.svg)](https://hub.docker.com/r/shopizerecomm/shopizer)
 [![stackoverflow](https://img.shields.io/badge/shopizer-stackoverflow-orange.svg?style=flat)](http://stackoverflow.com/questions/tagged/shopizer)
@@ -31,12 +39,19 @@ Shopizer Headless commerce consists of the following components:
 
 
 
+<<<<<<< HEAD
 See the demo:
 -------------------
 Headless demo Available soon
 
 Demo site for Shopizer 2.X is still available [Legacy Shopizer demo](http://demo.shopizer.com)
 
+=======
+See the demo: [**New demo on the way 2023]
+-------------------
+Headless demo Available soon
+
+>>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 1.  Run from Docker images:
 
 From the command line:
@@ -121,11 +136,19 @@ Please read the instructions on how to connect to MySQL, configure an email serv
 ### Documentation:
 -------------------
 
+<<<<<<< HEAD
 Documentation available <http://documentation.shopizer.com>
 
 Api documentation <https://app.swaggerhub.com/apis-docs/shopizer/shopizer-rest-api/3.0.1#/>
 
 ChatOps <https://shopizer.slack.com>  - Join our Slack channel https://shopizer-slackin.herokuapp.com/
+=======
+Documentation available <https://shopizer-ecommerce.github.io/documentation/>
+
+Api documentation <https://app.swaggerhub.com/apis-docs/shopizer/shopizer-rest-api/3.0.1#/>
+
+ChatOps <https://shopizer.slack.com>  - Join our Slack channel <https://join.slack.com/t/shopizer/signup>
+>>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 
 More information is available on shopizer web site here <http://www.shopizer.com>
 
@@ -151,7 +174,11 @@ Synchronize lastest version with the upstream
 -------------------
 
        $ git remote add upstream https://github.com/yourusername/shopizer.git
+<<<<<<< HEAD
 	  $ git pull upstream 3.2.3
+=======
+	  $ git pull upstream 3.2.5
+>>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 
 Create new branch in your repository
 -------------------

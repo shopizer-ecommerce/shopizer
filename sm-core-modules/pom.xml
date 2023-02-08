@@ -8,7 +8,11 @@
   <parent>
     <groupId>com.shopizer</groupId>
     <artifactId>shopizer</artifactId>
+<<<<<<< HEAD
     <version>3.2.3</version>
+=======
+    <version>3.2.5</version>
+>>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
   </parent>
 
 

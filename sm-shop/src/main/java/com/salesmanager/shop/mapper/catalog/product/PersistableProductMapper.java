@@ -1,5 +1,9 @@
 package com.salesmanager.shop.mapper.catalog.product;
 
+<<<<<<< HEAD
+=======
+import java.io.ByteArrayInputStream;
+>>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,6 +31,10 @@ import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
+<<<<<<< HEAD
+=======
+import com.salesmanager.core.model.catalog.product.image.ProductImage;
+>>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.catalog.product.price.ProductPriceDescription;
@@ -36,6 +44,10 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
 import com.salesmanager.shop.mapper.catalog.PersistableProductAttributeMapper;
+<<<<<<< HEAD
+=======
+import com.salesmanager.shop.model.catalog.product.PersistableImage;
+>>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 import com.salesmanager.shop.model.catalog.product.ProductPriceEntity;
 import com.salesmanager.shop.model.catalog.product.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.product.PersistableProductInventory;
@@ -262,6 +274,29 @@ public class PersistableProductMapper implements Mapper<PersistableProduct, Prod
 					
 				}
 			}
+<<<<<<< HEAD
+=======
+			
+			//images
+			if(!CollectionUtils.isEmpty(source.getImages())) {
+				for(PersistableImage img : source.getImages()) {
+					ProductImage productImage = new ProductImage();
+					productImage.setImageType(img.getImageType());
+					productImage.setDefaultImage(img.isDefaultImage());
+					if (img.getImageType() == 1) {//external url
+						productImage.setProductImageUrl(img.getImageUrl());
+						productImage.setImage(new ByteArrayInputStream(new byte[0]));
+					} else {
+						ByteArrayInputStream in = new ByteArrayInputStream(img.getBytes());
+						productImage.setImage(in);
+					}
+					productImage.setProduct(destination);
+					productImage.setProductImage(img.getName());
+
+					destination.getImages().add(productImage);
+				}
+			}
+>>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 
 
 			return destination;

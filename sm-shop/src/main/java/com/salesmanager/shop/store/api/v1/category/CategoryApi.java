@@ -62,7 +62,11 @@ public class CategoryApi {
 	@Inject
 	private UserFacade userFacade;
 
+<<<<<<< HEAD
 	@GetMapping(value = "/category/{id}", produces = { APPLICATION_JSON_VALUE })
+=======
+	@GetMapping(value = "/private/category/{id}", produces = { APPLICATION_JSON_VALUE })
+>>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 	@ApiOperation(httpMethod = "GET", value = "Get category list for an given Category id", notes = "List current Category and child category")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "List of category found", response = ReadableCategory.class) })

@@ -2,6 +2,12 @@ package com.salesmanager.shop.store.api.v2.product;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+<<<<<<< HEAD
+=======
+import java.util.ArrayList;
+import java.util.List;
+
+>>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -26,6 +32,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import com.salesmanager.core.model.catalog.product.ProductCriteria;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
+<<<<<<< HEAD
+=======
+import com.salesmanager.shop.model.catalog.category.ReadableCategory;
+>>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 import com.salesmanager.shop.model.catalog.product.LightPersistableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.catalog.product.ReadableProductList;
@@ -33,7 +43,13 @@ import com.salesmanager.shop.model.catalog.product.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.product.definition.PersistableProductDefinition;
 import com.salesmanager.shop.model.catalog.product.product.definition.ReadableProductDefinition;
 import com.salesmanager.shop.model.entity.Entity;
+<<<<<<< HEAD
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
+=======
+import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
+import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
+import com.salesmanager.shop.store.controller.category.facade.CategoryFacade;
+>>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 import com.salesmanager.shop.store.controller.product.facade.ProductCommonFacade;
 import com.salesmanager.shop.store.controller.product.facade.ProductDefinitionFacade;
 import com.salesmanager.shop.store.controller.product.facade.ProductFacade;
@@ -70,6 +86,12 @@ public class ProductApiV2 {
 	
 	@Autowired
 	private ProductCommonFacade productCommonFacade;
+<<<<<<< HEAD
+=======
+	
+	@Autowired
+	private CategoryFacade categoryFacade;
+>>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProductApiV2.class);
 	
@@ -194,6 +216,60 @@ public class ProductApiV2 {
 	
 
 	/**
+<<<<<<< HEAD
+=======
+	 * List products by category
+	 * count and page are supported. Default values are set when not specified
+	 *
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/products/category/slug/{friendlyUrl}", method = RequestMethod.GET)
+	@ResponseBody
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+	public ReadableProductList list(
+			@RequestParam(value = "lang", required = false) String lang,
+			@PathVariable String friendlyUrl, 
+			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page, // count
+			@RequestParam(value = "count", required = false, defaultValue = "25") Integer count, // count
+			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
+		
+		
+		
+		try {
+			ReadableCategory category = categoryFacade.getCategoryByFriendlyUrl(merchantStore, friendlyUrl, language);
+			ProductCriteria  criterias = new ProductCriteria();
+			
+			List<Long> listOfIds = new ArrayList<Long>();
+			listOfIds.add(category.getId());
+			
+			
+			criterias.setCategoryIds(listOfIds);
+			
+			criterias.setMaxCount(count);
+			criterias.setLanguage(language.getCode());
+			criterias.setStartPage(page);
+			
+			return productFacadeV2.getProductListsByCriterias(merchantStore, language, criterias);
+			
+			
+		} catch (ResourceNotFoundException rnf) {
+			throw rnf;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			LOGGER.error("Error while getting category by friendlyUrl", e);
+			throw new ServiceRuntimeException(e);
+		}
+
+	}
+
+	
+
+	/**
+>>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 	 * List products
 	 * Filtering product lists based on product option and option value ?category=1
 	 * &manufacturer=2 &type=... &lang=en|fr NOT REQUIRED, will use request language
