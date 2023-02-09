@@ -5,17 +5,10 @@
 	<groupId>com.shopizer</groupId>
 	<artifactId>shopizer</artifactId>
 	<packaging>pom</packaging>
-<<<<<<< HEAD
-	<version>3.2.3</version>
-
-	<name>shopizer</name>
-	<url>http://ww.shopizer.com</url>
-=======
 	<version>3.2.5</version>
 
 	<name>shopizer</name>
 	<url>http://www.shopizer.com</url>
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 
 	<licenses>
 		<license>
@@ -71,13 +64,8 @@
 		<oracle.version>18.3.0.0</oracle.version>
 		<postgresql.version>42.2.18</postgresql.version>
 		<simple-json-version>1.1.1</simple-json-version>
-<<<<<<< HEAD
-		<jackson-version-databind>2.12.6.1</jackson-version-databind>
-		<jackson-version>2.10.2</jackson-version>
-=======
 		<jackson-version-databind>2.13.4.1</jackson-version-databind>
 		<jackson-version>2.13.4</jackson-version>
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 		<geoip2.version>2.7.0</geoip2.version>
 		<drools.version>7.32.0.Final</drools.version>
 		<google-client-maps-services-version>0.1.6</google-client-maps-services-version>
@@ -108,38 +96,22 @@
 			<dependency>
 				<groupId>com.shopizer</groupId>
 				<artifactId>sm-core</artifactId>
-<<<<<<< HEAD
-				<version>3.2.3</version>
-=======
 				<version>3.2.5</version>
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 			</dependency>
 			<dependency>
 				<groupId>com.shopizer</groupId>
 				<artifactId>sm-core-model</artifactId>
-<<<<<<< HEAD
-				<version>3.2.3</version>
-=======
 				<version>3.2.5</version>
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 			</dependency>
 			<dependency>
 				<groupId>com.shopizer</groupId>
 				<artifactId>sm-core-modules</artifactId>
-<<<<<<< HEAD
-				<version>3.2.3</version>
-=======
 				<version>3.2.5</version>
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 			</dependency>
 			<dependency>
 				<groupId>com.shopizer</groupId>
 				<artifactId>sm-shop-model</artifactId>
-<<<<<<< HEAD
-				<version>3.2.3</version>
-=======
 				<version>3.2.5</version>
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 			</dependency>
 
 			<!-- https://mvnrepository.com/artifact/javax.inject/javax.inject -->
@@ -208,12 +180,12 @@
 			</dependency>
 
 			<!-- For connecting to oracle -->
-			<!-- <dependency> <groupId>com.oracle.database.jdbc</groupId> <artifactId>ojdbc8</artifactId> 
+			<!-- <dependency> <groupId>com.oracle.database.jdbc</groupId> <artifactId>ojdbc8</artifactId>
 				<version>${oracle.version}</version> </dependency> -->
 
 
 			<!-- For connecting to postgresql -->
-			<!-- <dependency> <groupId>org.postgresql</groupId> <artifactId>postgresql</artifactId> 
+			<!-- <dependency> <groupId>org.postgresql</groupId> <artifactId>postgresql</artifactId>
 				<version>${postgresql.version}</version> <scope>runtime</scope> </dependency> -->
 
 			<!-- Google Map API -->
@@ -474,11 +446,11 @@
 		</dependency>
 
 		<!-- oracle -->
-		<!-- <dependency> <groupId>com.oracle</groupId> <artifactId>ojdbc8</artifactId> 
+		<!-- <dependency> <groupId>com.oracle</groupId> <artifactId>ojdbc8</artifactId>
 			<version>${oracle.version}</version> </dependency> -->
 
 
-		<!-- postgres <dependency> <groupId>org.postgresql</groupId> <artifactId>postgresql</artifactId> 
+		<!-- postgres <dependency> <groupId>org.postgresql</groupId> <artifactId>postgresql</artifactId>
 			</dependency> -->
 
 		<dependency>
@@ -590,7 +562,7 @@
 			</plugin>
 			<!--OSSRH -->
 
-			<!-- 			
+			<!--
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
@@ -603,7 +575,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-gpg-plugin</artifactId>
@@ -617,14 +589,10 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin> 
+			</plugin>
 			-->
 
 		</plugins>
 	</build>
 
-<<<<<<< HEAD
 </project>
-=======
-</project>
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743

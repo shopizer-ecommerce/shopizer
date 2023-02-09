@@ -1,9 +1,6 @@
 package com.salesmanager.shop.mapper.catalog.product;
 
-<<<<<<< HEAD
-=======
 import java.io.ByteArrayInputStream;
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,10 +28,7 @@ import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
-<<<<<<< HEAD
-=======
 import com.salesmanager.core.model.catalog.product.image.ProductImage;
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.catalog.product.price.ProductPriceDescription;
@@ -44,10 +38,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
 import com.salesmanager.shop.mapper.catalog.PersistableProductAttributeMapper;
-<<<<<<< HEAD
-=======
 import com.salesmanager.shop.model.catalog.product.PersistableImage;
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 import com.salesmanager.shop.model.catalog.product.ProductPriceEntity;
 import com.salesmanager.shop.model.catalog.product.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.product.PersistableProductInventory;
@@ -66,26 +57,26 @@ import com.salesmanager.shop.utils.DateUtil;
 
 @Component
 public class PersistableProductMapper implements Mapper<PersistableProduct, Product> {
-	
-	
+
+
 	@Autowired
 	private PersistableProductAvailabilityMapper persistableProductAvailabilityMapper;
-	
+
 	@Autowired
 	private PersistableProductVariantMapper persistableProductVariantMapper;
-	
 
-	
+
+
 	@Autowired
 	private CategoryService categoryService;
 	@Autowired
 	private LanguageService languageService;
 
-	
-	
+
+
 	@Autowired
 	private ManufacturerService manufacturerService;
-	
+
 	@Autowired
 	private ProductTypeService productTypeService;
 
@@ -98,8 +89,8 @@ public class PersistableProductMapper implements Mapper<PersistableProduct, Prod
 	@Override
 	public Product merge(PersistableProduct source, Product destination, MerchantStore store, Language language) {
 
-		  
-	    Validate.notNull(destination,"Product must not be null");
+
+		Validate.notNull(destination,"Product must not be null");
 
 		try {
 
@@ -110,15 +101,15 @@ public class PersistableProductMapper implements Mapper<PersistableProduct, Prod
 			destination.setDateAvailable(new Date());
 
 			destination.setRefSku(source.getRefSku());
-			
-			
+
+
 			if(source.getId() != null && source.getId().longValue()==0) {
 				destination.setId(null);
 			} else {
 				destination.setId(source.getId());
 			}
-			
-			
+
+
 			/**
 			 * SPEIFICATIONS
 			 */
@@ -128,21 +119,21 @@ public class PersistableProductMapper implements Mapper<PersistableProduct, Prod
 				destination.setProductWeight(source.getProductSpecifications().getWeight());
 				destination.setProductWidth(source.getProductSpecifications().getWidth());
 
-				 /**
-				  * BRANDING
-				  */
+				/**
+				 * BRANDING
+				 */
 
-    	         if(source.getProductSpecifications().getManufacturer()!=null) {
-    	        	 
-    					Manufacturer manufacturer = manufacturerService.getByCode(store, source.getProductSpecifications().getManufacturer());
-    					if(manufacturer == null) {
-    						throw new ConversionException("Manufacturer [" + source.getProductSpecifications().getManufacturer() + "] does not exist");
-    					}
-    					destination.setManufacturer(manufacturer);
-               }
+				if(source.getProductSpecifications().getManufacturer()!=null) {
+
+					Manufacturer manufacturer = manufacturerService.getByCode(store, source.getProductSpecifications().getManufacturer());
+					if(manufacturer == null) {
+						throw new ConversionException("Manufacturer [" + source.getProductSpecifications().getManufacturer() + "] does not exist");
+					}
+					destination.setManufacturer(manufacturer);
+				}
 			}
-			
-			
+
+
 			//PRODUCT TYPE
 			if(!StringUtils.isBlank(source.getType())) {
 				ProductType type = productTypeService.getByCode(source.getType(), store, language);
@@ -152,13 +143,13 @@ public class PersistableProductMapper implements Mapper<PersistableProduct, Prod
 				destination.setType(type);
 			}
 
-			
+
 			if(!StringUtils.isBlank(source.getDateAvailable())) {
 				destination.setDateAvailable(DateUtil.getDate(source.getDateAvailable()));
 			}
-			
+
 			destination.setMerchantStore(store);
-			
+
 			/**
 			 * descriptions
 			 */
@@ -166,20 +157,20 @@ public class PersistableProductMapper implements Mapper<PersistableProduct, Prod
 			Set<ProductDescription> descriptions = new HashSet<ProductDescription>();
 			if(!CollectionUtils.isEmpty(source.getDescriptions())) {
 				for(com.salesmanager.shop.model.catalog.product.ProductDescription description : source.getDescriptions()) {
-					
-				  ProductDescription productDescription = new ProductDescription();
-				  Language lang = languageService.getByCode(description.getLanguage());
-	              if(lang==null) {
-	                    throw new ConversionException("Language code " + description.getLanguage() + " is invalid, use ISO code (en, fr ...)");
-	               }
-				   if(!CollectionUtils.isEmpty(destination.getDescriptions())) {
-				      for(ProductDescription desc : destination.getDescriptions()) {
-				        if(desc.getLanguage().getCode().equals(description.getLanguage())) {
-				          productDescription = desc;
-				          break;
-				        }
-				      }
-				    }
+
+					ProductDescription productDescription = new ProductDescription();
+					Language lang = languageService.getByCode(description.getLanguage());
+					if(lang==null) {
+						throw new ConversionException("Language code " + description.getLanguage() + " is invalid, use ISO code (en, fr ...)");
+					}
+					if(!CollectionUtils.isEmpty(destination.getDescriptions())) {
+						for(ProductDescription desc : destination.getDescriptions()) {
+							if(desc.getLanguage().getCode().equals(description.getLanguage())) {
+								productDescription = desc;
+								break;
+							}
+						}
+					}
 
 					productDescription.setProduct(destination);
 					productDescription.setDescription(description.getDescription());
@@ -191,17 +182,17 @@ public class PersistableProductMapper implements Mapper<PersistableProduct, Prod
 					productDescription.setMetatagKeywords(description.getKeyWords());
 					productDescription.setMetatagDescription(description.getMetaDescription());
 					productDescription.setTitle(description.getTitle());
-					
+
 					languages.add(lang);
 					productDescription.setLanguage(lang);
 					descriptions.add(productDescription);
 				}
 			}
-			
+
 			if(descriptions.size()>0) {
 				destination.setDescriptions(descriptions);
 			}
-			
+
 			destination.setSortOrder(source.getSortOrder());
 			destination.setProductVirtual(source.isProductVirtual());
 			destination.setProductShipeable(source.isProductShipeable());
@@ -209,16 +200,16 @@ public class PersistableProductMapper implements Mapper<PersistableProduct, Prod
 				destination.setProductReviewAvg(new BigDecimal(source.getRating()));
 			}
 			destination.setProductReviewCount(source.getRatingCount());
-			
 
-			
+
+
 			/**
 			 * Category
 			 */
 
 			if(!CollectionUtils.isEmpty(source.getCategories())) {
 				for(com.salesmanager.shop.model.catalog.category.Category categ : source.getCategories()) {
-					
+
 					Category c = null;
 					if(!StringUtils.isBlank(categ.getCode())) {
 						c = categoryService.getByCode(store, categ.getCode());
@@ -226,7 +217,7 @@ public class PersistableProductMapper implements Mapper<PersistableProduct, Prod
 						Validate.notNull(categ.getId(), "Category id nust not be null");
 						c = categoryService.getById(categ.getId(), store.getId());
 					}
-					
+
 					if(c==null) {
 						if(!StringUtils.isBlank(categ.getCode())) {
 							throw new ConversionException("Category code " + categ.getCode() + " does not exist");
@@ -240,7 +231,7 @@ public class PersistableProductMapper implements Mapper<PersistableProduct, Prod
 					destination.getCategories().add(c);
 				}
 			}
-			
+
 			/**
 			 * Variants
 			 */
@@ -249,11 +240,11 @@ public class PersistableProductMapper implements Mapper<PersistableProduct, Prod
 
 				destination.setVariants(variants);
 			}
-			
+
 			/**
 			 * Default inventory
 			 */
-			
+
 			if(source.getInventory() != null) {
 				ProductAvailability productAvailability = persistableProductAvailabilityMapper.convert(source.getInventory(), store, language);
 				productAvailability.setProduct(destination);
@@ -261,22 +252,20 @@ public class PersistableProductMapper implements Mapper<PersistableProduct, Prod
 			} else {
 				//need an inventory to create a Product
 				if(!CollectionUtils.isEmpty(destination.getVariants())) {
-					ProductAvailability defaultAvailability = null;	
+					ProductAvailability defaultAvailability = null;
 					for(ProductVariant variant : destination.getVariants()) {
 						defaultAvailability = this.defaultAvailability(variant.getAvailabilities().stream().collect(Collectors.toList()));
 						if(defaultAvailability != null) {
 							break;
 						}
 					}
-					
+
 					defaultAvailability.setProduct(destination);
 					destination.getAvailabilities().add(defaultAvailability);
-					
+
 				}
 			}
-<<<<<<< HEAD
-=======
-			
+
 			//images
 			if(!CollectionUtils.isEmpty(source.getImages())) {
 				for(PersistableImage img : source.getImages()) {
@@ -296,28 +285,27 @@ public class PersistableProductMapper implements Mapper<PersistableProduct, Prod
 					destination.getImages().add(productImage);
 				}
 			}
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 
 
 			return destination;
-		
+
 		} catch (Exception e) {
 			throw new ConversionRuntimeException("Error converting product mapper",e);
 		}
-		
-		
+
+
 	}
-	
+
 	private ProductVariant variant(Product product, PersistableProductVariant variant, MerchantStore store, Language language) {
 		ProductVariant var = persistableProductVariantMapper.convert(variant, store, language);
 		var.setProduct(product);
 		return var;
 	}
-	
+
 	private ProductAvailability defaultAvailability(List <ProductAvailability> availabilityList) {
 		return availabilityList.stream().filter(a -> a.getRegion() != null && a.getRegion().equals(Constants.ALL_REGIONS)).findFirst().get();
 	}
-	
+
 
 
 }

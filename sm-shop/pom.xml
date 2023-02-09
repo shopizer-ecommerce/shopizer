@@ -1,18 +1,14 @@
 <?xml version="1.0"?>
 
 <project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+		xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>com.shopizer</groupId>
 		<artifactId>shopizer</artifactId>
-<<<<<<< HEAD
-		<version>3.2.3</version>
-=======
 		<version>3.2.5</version>
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 	</parent>
 
 	<artifactId>sm-shop</artifactId>

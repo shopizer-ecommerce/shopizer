@@ -1,14 +1,9 @@
 package com.salesmanager.core.business.services.search;
 
-<<<<<<< HEAD
-import java.io.File;
-import java.nio.file.Files;
-=======
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -29,23 +24,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-<<<<<<< HEAD
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-=======
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.configuration.ApplicationSearchConfiguration;
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.inventory.ProductInventoryService;
-<<<<<<< HEAD
-import com.salesmanager.core.business.services.catalog.pricing.PricingService;
-=======
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 import com.salesmanager.core.business.utils.CoreConfiguration;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.category.CategoryDescription;
@@ -72,37 +58,37 @@ import modules.commons.search.request.SearchResponse;
 @Service("productSearchService")
 @EnableConfigurationProperties(value = ApplicationSearchConfiguration.class)
 public class SearchServiceImpl implements com.salesmanager.core.business.services.search.SearchService {
-	
-	
-    @Value("${search.noindex:false}")//skip indexing process
-    private boolean noIndex;
+
+
+	@Value("${search.noindex:false}")//skip indexing process
+	private boolean noIndex;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SearchServiceImpl.class);
 
 	private final static String INDEX_PRODUCTS = "INDEX_PRODUCTS";
-	
+
 	private final static String SETTINGS = "search/SETTINGS";
-	
+
 	private final static String PRODUCT_MAPPING_DEFAULT = "search/MAPPINGS.json";
-	
+
 	private final static String QTY = "QTY";
 	private final static String PRICE = "PRICE";
 	private final static String DISCOUNT_PRICE = "DISCOUNT";
 	private final static String SKU = "SKU";
 	private final static String VSKU = "VSKU";
-	
-	
+
+
 	/**
 	 * TODO properties file
 	 */
-	
+
 	private final static String KEYWORDS_MAPPING_DEFAULT = "{\"properties\":"
 			+ "      {\n\"id\": {\n"
 			+ "        \"type\": \"long\"\n"
 			+ "      }\n"
 			+ "     }\n"
-			+ "    }";	
-	
+			+ "    }";
+
 
 
 	@Inject
@@ -110,18 +96,15 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 
 	@Autowired
 	private ApplicationSearchConfiguration applicationSearchConfiguration;
-	
+
 	@Autowired
 	private ProductInventoryService productInventoryService;
 
 	@Autowired(required = false)
 	private SearchModule searchModule;
-<<<<<<< HEAD
-=======
-	
+
 	@Autowired
 	private ResourceLoader resourceLoader;
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 
 	@PostConstruct
 	public void init() throws Exception {
@@ -158,16 +141,16 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 		try {
 			documents = document(product.getId(), languages, RequestOptions.DO_NOT_FAIL_ON_NOT_FOUND);
 
-				if (!CollectionUtils.isEmpty(product.getVariants())) {
-					variants = new ArrayList<Map<String, String>>();
-					variants = product.getVariants().stream().map(i -> variants(i)).collect(Collectors.toList());
+			if (!CollectionUtils.isEmpty(product.getVariants())) {
+				variants = new ArrayList<Map<String, String>>();
+				variants = product.getVariants().stream().map(i -> variants(i)).collect(Collectors.toList());
+			}
+
+			if (!CollectionUtils.isEmpty(documents)) {
+				if (documents.iterator().next() != null) {
+					searchModule.delete(languages, product.getId());
 				}
-	
-				if (!CollectionUtils.isEmpty(documents)) {
-					if (documents.iterator().next() != null) {
-						searchModule.delete(languages, product.getId());
-					}
-				}
+			}
 
 
 		} catch (Exception e) {
@@ -189,13 +172,13 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		for(Optional<Document> d : documents) {
 			if(d == null) {//not allowed
 				return Collections.emptyList();
 			}
 		}
-		
+
 		List<Document> filteredList = documents.stream().filter(Optional::isPresent).map(Optional::get)
 				.collect(Collectors.toList());
 
@@ -204,31 +187,27 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 	}
 
 	private void indexProduct(MerchantStore store, ProductDescription description, Product product,
-			List<Map<String, String>> variants) throws ServiceException {
+							  List<Map<String, String>> variants) throws ServiceException {
 
 		try {
 			ProductImage image = null;
 			if (!CollectionUtils.isEmpty(product.getImages())) {
-<<<<<<< HEAD
-				image = product.getImages().stream().filter(i -> i.isDefaultImage()).findFirst().get();
-=======
 				image = product.getImages().stream().filter(i -> i.isDefaultImage()).findFirst()
 						.orElse(product.getImages().iterator().next());
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 			}
-			
+
 			/**
 			 * Inventory
 			 */
-			
+
 			/**
 			 * SKU, QTY, PRICE, DISCOUNT
 			 */
-			
+
 			List<Map<String, String>> itemInventory = new ArrayList<Map<String, String>>();
-			
+
 			itemInventory.add(inventory(product));
-			
+
 			if (!CollectionUtils.isEmpty(product.getVariants())) {
 				for(ProductVariant variant : product.getVariants()) {
 					itemInventory.add(inventory(variant));
@@ -287,14 +266,10 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 		config.setCredentials(applicationSearchConfiguration.getCredentials());
 
 		config.setLanguages(applicationSearchConfiguration.getSearchLanguages());
-		
+
 		config.getLanguages().stream().forEach(l -> {
 			try {
-<<<<<<< HEAD
-				this.mappings(config,l);
-=======
 				mappings(config,l);
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 			} catch (Exception e) {
 				throw new IllegalStateException(e);
 			}
@@ -306,7 +281,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 				throw new IllegalStateException(e);
 			}
 		});
-		
+
 
 
 		/**
@@ -324,23 +299,23 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 		 * config.getProductMappings().put("description", "text");
 		 * config.getProductMappings().put("price", "float");
 		 * config.getProductMappings().put("id", "long");
-		 
+
 		config.getKeywordsMappings().put("store", "keyword");
 		*/
 
 		return config;
 
 	}
-	
+
 	private Map<String, String> inventory(Product product) throws Exception {
-		
-		
+
+
 		/**
 		 * Default inventory
 		 */
-		
+
 		ProductInventory inventory = productInventoryService.inventory(product);
-		
+
 		Map<String, String> inventoryMap = new HashMap<String, String>();
 		inventoryMap.put(SKU, product.getSku());
 		inventoryMap.put(QTY, String.valueOf(inventory.getQuantity()));
@@ -348,20 +323,20 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 		if(inventory.getPrice().isDiscounted()) {
 			inventoryMap.put(DISCOUNT_PRICE, String.valueOf(inventory.getPrice().getStringDiscountedPrice()));
 		}
-		
-		
+
+
 		return inventoryMap;
 	}
-	
+
 	private Map<String, String> inventory(ProductVariant product) throws Exception {
-		
-		
+
+
 		/**
 		 * Default inventory
 		 */
-		
+
 		ProductInventory inventory = productInventoryService.inventory(product);
-		
+
 		Map<String, String> inventoryMap = new HashMap<String, String>();
 		inventoryMap.put(SKU, product.getSku());
 		inventoryMap.put(QTY, String.valueOf(inventory.getQuantity()));
@@ -369,8 +344,8 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 		if(inventory.getPrice().isDiscounted()) {
 			inventoryMap.put(DISCOUNT_PRICE, String.valueOf(inventory.getPrice().getStringDiscountedPrice()));
 		}
-		
-		
+
+
 		return inventoryMap;
 	}
 
@@ -386,18 +361,18 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 			variantMap.put(variantCode, variantValueCode);
 
 		}
-		
+
 
 		if (variant.getVariationValue() != null) {
 			String variantCode = variant.getVariationValue().getProductOption().getCode();
 			String variantValueCode = variant.getVariationValue().getProductOptionValue().getCode();
 			variantMap.put(variantCode, variantValueCode);
 		}
-		
+
 		if(!StringUtils.isBlank(variant.getSku())) {
 			variantMap.put(VSKU, variant.getSku());
 		}
-		
+
 
 
 		return variantMap;
@@ -440,7 +415,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 
 	@Override
 	public SearchResponse search(MerchantStore store, String language, SearchRequest search, int entriesCount,
-			int startIndex) throws ServiceException {
+								 int startIndex) throws ServiceException {
 
 		if (configuration.getProperty(INDEX_PRODUCTS) == null
 				|| configuration.getProperty(INDEX_PRODUCTS).equals(Constants.FALSE) || searchModule == null) {
@@ -507,8 +482,8 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 		Map<String, String> attributeValue = new HashMap<String, String>();
 
 		ProductOptionDescription optionDescription = attribute.getProductOption().getDescriptions().stream()
-				.filter(a -> a.getLanguage().getCode().equals(language)).findFirst().get();		
-				
+				.filter(a -> a.getLanguage().getCode().equals(language)).findFirst().get();
+
 		ProductOptionValueDescription value = attribute.getProductOptionValue().getDescriptions().stream()
 				.filter(a -> a.getLanguage().getCode().equals(language)).findFirst().get();
 
@@ -516,62 +491,40 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 
 		return attributeValue;
 	}
-	
+
 	private void settings(SearchConfiguration config, String language) throws Exception{
 		Validate.notEmpty(language, "Configuration requires language");
-<<<<<<< HEAD
-		String settings = loadClassPathResource(SETTINGS + "_DEFAULT.json");
-		//specific settings
-		if(language.equals("en")) {
-			settings = loadClassPathResource(SETTINGS+ "_" + language +".json");
-=======
 		String settings = resourceAsText(loadSearchConfig(SETTINGS + "_DEFAULT.json"));
 		//specific settings
 		if(language.equals("en")) {
 			settings = resourceAsText(loadSearchConfig(SETTINGS+ "_" + language +".json"));
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 		}
-		
+
 		config.getSettings().put(language, settings);
 
 	}
-	
+
 	private void mappings(SearchConfiguration config, String language) throws Exception {
 		Validate.notEmpty(language, "Configuration requires language");
 
-<<<<<<< HEAD
-
-		config.getProductMappings().put(language, loadClassPathResource(PRODUCT_MAPPING_DEFAULT));
-		config.getKeywordsMappings().put(language, KEYWORDS_MAPPING_DEFAULT);
-			
-	}
-	
-	public String loadClassPathResource(String file) throws Exception {
-		Resource res = new ClassPathResource(file);
-		File f = res.getFile();
-		
-		return new String(
-			      Files.readAllBytes(f.toPath()));
-=======
 		config.getProductMappings().put(language, resourceAsText(loadSearchConfig(PRODUCT_MAPPING_DEFAULT)));
 		config.getKeywordsMappings().put(language,KEYWORDS_MAPPING_DEFAULT);
-			
+
 	}
 
-	
+
 	private String resourceAsText(Resource resource) throws Exception {
 		InputStream mappingstream = resource.getInputStream();
-		
-	    return new BufferedReader(
-	    	      new InputStreamReader(mappingstream, StandardCharsets.UTF_8))
-	    	        .lines()
-	    	        .collect(Collectors.joining("\n"));
+
+		return new BufferedReader(
+				new InputStreamReader(mappingstream, StandardCharsets.UTF_8))
+				.lines()
+				.collect(Collectors.joining("\n"));
 	}
-	
+
 	private Resource loadSearchConfig(String file) {
-	    return resourceLoader.getResource(
-	      "classpath:" + file);
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
+		return resourceLoader.getResource(
+				"classpath:" + file);
 	}
 
 }

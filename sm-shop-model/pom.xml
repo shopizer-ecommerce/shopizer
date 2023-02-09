@@ -1,15 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.shopizer</groupId>
     <artifactId>shopizer</artifactId>
-<<<<<<< HEAD
-    <version>3.2.3</version>
-=======
     <version>3.2.5</version>
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
   </parent>
 
   <artifactId>sm-shop-model</artifactId>
@@ -52,22 +48,22 @@
   </developers>
 
   <dependencies>
-  
+
     <!-- sm-core-model -->
     <dependency>
       <groupId>com.shopizer</groupId>
       <artifactId>sm-core-model</artifactId>
     </dependency>
-    
+
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-core</artifactId>
     </dependency>
-    
-	<dependency>
-		<groupId>org.springframework</groupId>
-		<artifactId>spring-webmvc</artifactId>
-	</dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+    </dependency>
 
     <dependency>
       <groupId>javax.annotation</groupId>
@@ -97,7 +93,6 @@
           <autoReleaseAfterClose>true</autoReleaseAfterClose>
         </configuration>
       </plugin>
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
@@ -109,7 +104,6 @@
           <goals>deploy</goals>
         </configuration>
       </plugin>
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
@@ -122,7 +116,6 @@
           </execution>
         </executions>
       </plugin>
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
@@ -157,8 +150,8 @@
         </executions>
       </plugin>
       -->
-      
-      
+
+
     </plugins>
   </build>
 

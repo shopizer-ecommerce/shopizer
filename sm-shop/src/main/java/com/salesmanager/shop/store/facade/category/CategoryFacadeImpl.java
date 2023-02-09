@@ -31,10 +31,7 @@ import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueD
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
-<<<<<<< HEAD
-=======
 import com.salesmanager.shop.mapper.catalog.ReadableCategoryMapper;
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 import com.salesmanager.shop.model.catalog.category.PersistableCategory;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 import com.salesmanager.shop.model.catalog.category.ReadableCategoryList;
@@ -62,11 +59,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 	private PersistableCategoryPopulator persistableCatagoryPopulator;
 
 	@Inject
-<<<<<<< HEAD
-	private Mapper<Category, ReadableCategory> categoryReadableCategoryConverter;
-=======
 	private ReadableCategoryMapper readableCategoryMapper;
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 
 	@Inject
 	private ProductAttributeService productAttributeService;
@@ -77,7 +70,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 
 	@Override
 	public ReadableCategoryList getCategoryHierarchy(MerchantStore store, ListCriteria criteria, int depth,
-			Language language, List<String> filter, int page, int count) {
+													 Language language, List<String> filter, int page, int count) {
 
 		Validate.notNull(store,"MerchantStore can not be null");
 
@@ -109,19 +102,11 @@ public class CategoryFacadeImpl implements CategoryFacade {
 			List<ReadableCategory> readableCategories = null;
 			if (filter != null && filter.contains(VISIBLE_CATEGORY)) {
 				readableCategories = categories.stream().filter(Category::isVisible)
-<<<<<<< HEAD
-						.map(cat -> categoryReadableCategoryConverter.convert(cat, store, language))
-						.collect(Collectors.toList());
-			} else {
-				readableCategories = categories.stream()
-						.map(cat -> categoryReadableCategoryConverter.convert(cat, store, language))
-=======
 						.map(cat -> readableCategoryMapper.convert(cat, store, language))
 						.collect(Collectors.toList());
 			} else {
 				readableCategories = categories.stream()
 						.map(cat -> readableCategoryMapper.convert(cat, store, language))
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 						.collect(Collectors.toList());
 			}
 
@@ -137,22 +122,22 @@ public class CategoryFacadeImpl implements CategoryFacade {
 							parentCategory.getChildren().add(readableCategory);
 						}
 					});
-			
+
 			List<ReadableCategory> filteredList = readableCategoryMap.values().stream().collect(Collectors.toList());
 
 			//execute only if not admin filtered
 			if(filter == null || (filter!=null && !filter.contains(ADMIN_CATEGORY))) {
-					filteredList = readableCategoryMap.values().stream().filter(cat -> cat.getDepth() == 0)
+				filteredList = readableCategoryMap.values().stream().filter(cat -> cat.getDepth() == 0)
 						.sorted(Comparator.comparing(ReadableCategory::getSortOrder)).collect(Collectors.toList());
-				
-					returnList.setNumber(filteredList.size());
+
+				returnList.setNumber(filteredList.size());
 
 			}
-			
+
 			returnList.setCategories(filteredList);
 
-			
-			
+
+
 			return returnList;
 
 		} catch (ServiceException e) {
@@ -222,9 +207,9 @@ public class CategoryFacadeImpl implements CategoryFacade {
 
 			category.setDepth(depth + 1);
 			category.setLineage(new StringBuilder().append(lineage).toString());// service
-																										// will
-																										// adjust
-																										// lineage
+			// will
+			// adjust
+			// lineage
 		}
 
 		category.setMerchantStore(store);
@@ -258,38 +243,30 @@ public class CategoryFacadeImpl implements CategoryFacade {
 	@Override
 	public ReadableCategory getById(MerchantStore store, Long id, Language language) {
 
-			Category categoryModel = null;
-			if (language != null) {
-				categoryModel = getCategoryById(id, language);
-			} else {// all langs
-				categoryModel = getById(store, id);
-			}
+		Category categoryModel = null;
+		if (language != null) {
+			categoryModel = getCategoryById(id, language);
+		} else {// all langs
+			categoryModel = getById(store, id);
+		}
 
-			if (categoryModel == null)
-				throw new ResourceNotFoundException("Categori id [" + id + "] not found");
+		if (categoryModel == null)
+			throw new ResourceNotFoundException("Categori id [" + id + "] not found");
 
-			StringBuilder lineage = new StringBuilder().append(categoryModel.getLineage());
+		StringBuilder lineage = new StringBuilder().append(categoryModel.getLineage());
 
-<<<<<<< HEAD
-			ReadableCategory readableCategory = categoryReadableCategoryConverter.convert(categoryModel, store,
-=======
-			ReadableCategory readableCategory = readableCategoryMapper.convert(categoryModel, store,
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
-					language);
+		ReadableCategory readableCategory = readableCategoryMapper.convert(categoryModel, store,
+				language);
 
-			// get children
-			List<Category> children = getListByLineage(store, lineage.toString());
+		// get children
+		List<Category> children = getListByLineage(store, lineage.toString());
 
-			List<ReadableCategory> childrenCats = children.stream()
-<<<<<<< HEAD
-					.map(cat -> categoryReadableCategoryConverter.convert(cat, store, language))
-=======
-					.map(cat -> readableCategoryMapper.convert(cat, store, language))
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
-					.collect(Collectors.toList());
+		List<ReadableCategory> childrenCats = children.stream()
+				.map(cat -> readableCategoryMapper.convert(cat, store, language))
+				.collect(Collectors.toList());
 
-			addChildToParent(readableCategory, childrenCats);
-			return readableCategory;
+		addChildToParent(readableCategory, childrenCats);
+		return readableCategory;
 
 	}
 
@@ -353,15 +330,12 @@ public class CategoryFacadeImpl implements CategoryFacade {
 		ReadableCategory readableCategory = new ReadableCategory();
 
 		Category category = categoryService.getBySeUrl(store, friendlyUrl);
-<<<<<<< HEAD
-=======
-		
+
 		if(category == null) {
 			throw new ResourceNotFoundException("Category with friendlyUrl [" + friendlyUrl + "] was not found");
 		}
-		
-		
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
+
+
 		categoryPopulator.populate(category, readableCategory, store, language);
 
 		return readableCategory;
@@ -393,7 +367,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 
 	@Override
 	public List<ReadableProductVariant> categoryProductVariants(Long categoryId, MerchantStore store,
-			Language language) {
+																Language language) {
 		Category category = categoryService.getById(categoryId, store.getId());
 
 		List<ReadableProductVariant> variants = new ArrayList<ReadableProductVariant>();
@@ -418,11 +392,11 @@ public class CategoryFacadeImpl implements CategoryFacade {
 					values = new ArrayList<com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValue>();
 					rawFacet.put(attr.getProductOption().getCode(), values);
 				}
-				
+
 				if(attr.getProductOptionValue() != null) {
 					Optional<ProductOptionValueDescription> desc = attr.getProductOptionValue().getDescriptions()
-					.stream().filter(o -> o.getLanguage().getId() == language.getId()).findFirst();
-					
+							.stream().filter(o -> o.getLanguage().getId() == language.getId()).findFirst();
+
 					com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValue val = new com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValue();
 					val.setCode(attr.getProductOption().getCode());
 					String order = attr.getAttributeSortOrder();
@@ -461,23 +435,23 @@ public class CategoryFacadeImpl implements CategoryFacade {
 						v.setOrder(option.getProductOptionSortOrder());
 						optionValues.add(v);
 					}
-					
-				    Comparator<ReadableProductVariantValue> orderComparator
-				      = Comparator.comparingInt(ReadableProductVariantValue::getOrder);
-				    
-				    //Arrays.sort(employees, employeeSalaryComparator);
-					
-				    List<ReadableProductVariantValue> readableValues = optionValues.stream()
-				    			.sorted(orderComparator)
-				    	    	.collect(Collectors.toList());
-				    	        
 
-					
+					Comparator<ReadableProductVariantValue> orderComparator
+							= Comparator.comparingInt(ReadableProductVariantValue::getOrder);
+
+					//Arrays.sort(employees, employeeSalaryComparator);
+
+					List<ReadableProductVariantValue> readableValues = optionValues.stream()
+							.sorted(orderComparator)
+							.collect(Collectors.toList());
+
+
+
 					//sort by name
 					// remove duplicates
 					readableValues = optionValues.stream().distinct().collect(Collectors.toList());
 					readableValues.sort(Comparator.comparing(ReadableProductVariantValue::getName));
-					
+
 					productVariant.setOptions(readableValues);
 					variants.add(productVariant);
 				}
@@ -570,26 +544,22 @@ public class CategoryFacadeImpl implements CategoryFacade {
 	public ReadableCategoryList listByProduct(MerchantStore store, Long product, Language language) {
 		Validate.notNull(product, "Product id must not be null");
 		Validate.notNull(store, "Store must not be null");
-		
+
 		List<ReadableCategory> readableCategories = new ArrayList<ReadableCategory>();
 
-			List<Category> categories = categoryService.getByProductId(product, store);
+		List<Category> categories = categoryService.getByProductId(product, store);
 
-			readableCategories = categories.stream()
-<<<<<<< HEAD
-						.map(cat -> categoryReadableCategoryConverter.convert(cat, store, language))
-=======
-						.map(cat -> readableCategoryMapper.convert(cat, store, language))
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
-						.collect(Collectors.toList());
-			
-			ReadableCategoryList readableList = new ReadableCategoryList();
-			readableList.setCategories(readableCategories);
-			readableList.setTotalPages(1);
-			readableList.setNumber(readableCategories.size());
-			readableList.setRecordsTotal(readableCategories.size());
+		readableCategories = categories.stream()
+				.map(cat -> readableCategoryMapper.convert(cat, store, language))
+				.collect(Collectors.toList());
 
-		
+		ReadableCategoryList readableList = new ReadableCategoryList();
+		readableList.setCategories(readableCategories);
+		readableList.setTotalPages(1);
+		readableList.setNumber(readableCategories.size());
+		readableList.setRecordsTotal(readableCategories.size());
+
+
 		return readableList;
 	}
 }

@@ -30,9 +30,9 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 
 /**
  * Index product in search module if it is configured to do so !
- * 
+ *
  * Should receive events that a product was created or updated or deleted
- * 
+ *
  * @author carlsamson
  *
  */
@@ -44,64 +44,59 @@ public class IndexProductEventListener implements ApplicationListener<ProductEve
 
 	@Autowired
 	private ProductService productService;
-	
-    @Value("${search.noindex:false}")//skip indexing process
-    private boolean noIndex;
+
+	@Value("${search.noindex:false}")//skip indexing process
+	private boolean noIndex;
 
 	/**
 	 * Listens to ProductEvent and ProductVariantEvent
 	 */
 	@Override
 	public void onApplicationEvent(ProductEvent event) {
-		
-		
+
+
 		if(!noIndex) {
 
 			if (event instanceof SaveProductEvent) {
 				saveProduct((SaveProductEvent) event);
 			}
-	
+
 			if (event instanceof DeleteProductEvent) {
 				deleteProduct((DeleteProductEvent) event);
 			}
-	
+
 			if (event instanceof SaveProductVariantEvent) {
 				saveProductVariant((SaveProductVariantEvent) event);
 			}
-	
+
 			if (event instanceof DeleteProductVariantEvent) {
 				deleteProductVariant((DeleteProductVariantEvent) event);
 			}
-			
+
 			if (event instanceof SaveProductImageEvent) {
 				saveProductImage((SaveProductImageEvent) event);
 			}
-	
+
 			if (event instanceof DeleteProductImageEvent) {
 				deleteProductImage((DeleteProductImageEvent) event);
 			}
-			
+
 			if (event instanceof SaveProductAttributeEvent) {
 				saveProductAttribute((SaveProductAttributeEvent) event);
 			}
-	
+
 			if (event instanceof DeleteProductAttributeEvent) {
 				deleteProductAttribute((DeleteProductAttributeEvent) event);
 			}
-			
-			
-		
+
+
+
 		}
 
 	}
-<<<<<<< HEAD
 
-	void saveProduct(SaveProductEvent event) {
-=======
-	
 	private Product productOfEvent(ProductEvent event) {
-		
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
+
 		Product product = event.getProduct();
 		MerchantStore store = product.getMerchantStore();
 		try {
@@ -110,37 +105,30 @@ public class IndexProductEventListener implements ApplicationListener<ProductEve
 			 * Refresh product
 			 */
 
-<<<<<<< HEAD
-			product = productService.findOne(product.getId(), store);
-
-			searchService.index(store, product);
-		} catch (ServiceException e) {
-=======
 			Product fullProduct = productService.findOne(product.getId(), store);
-			
+
 			if(fullProduct != null) {
 				product = fullProduct;
 			} else {
 				System.out.println("Product not loaded");
 			}
-			
-		return product;
-			
+
+			return product;
+
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-		
+
 	}
 
 	void saveProduct(SaveProductEvent event) {
-		
+
 		try {
 			Product product = productOfEvent(event);
 			MerchantStore store = product.getMerchantStore();
-	
+
 			searchService.index(store, product);
 		} catch (Exception e) {
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 			throw new RuntimeException(e);
 		}
 	}
@@ -159,24 +147,10 @@ public class IndexProductEventListener implements ApplicationListener<ProductEve
 
 	void saveProductVariant(SaveProductVariantEvent event) {
 
-<<<<<<< HEAD
-		Product product = event.getProduct();
-
-		Long id = product.getId();
-		MerchantStore store = product.getMerchantStore();
-
-		/**
-		 * Refresh product
-		 */
-
-		product = productService.findOne(id, store);
-
-=======
 		Product product = productOfEvent(event);
 
 		MerchantStore store = product.getMerchantStore();
 
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 		ProductVariant variant = event.getVariant();// to be removed
 
 		/**
@@ -201,23 +175,10 @@ public class IndexProductEventListener implements ApplicationListener<ProductEve
 
 	void deleteProductVariant(DeleteProductVariantEvent event) {
 
-<<<<<<< HEAD
-		Product product = event.getProduct();
-
-		Long id = product.getId();
-		MerchantStore store = product.getMerchantStore();
-
-		/**
-		 * Refresh product
-		 */
-
-		product = productService.findOne(id, store);
-=======
 		Product product = productOfEvent(event);
 
 		MerchantStore store = product.getMerchantStore();
 
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 		ProductVariant variant = event.getVariant();// to be removed
 
 		/**
@@ -237,27 +198,14 @@ public class IndexProductEventListener implements ApplicationListener<ProductEve
 		}
 
 	}
-	
+
 
 	void saveProductImage(SaveProductImageEvent event) {
 
-<<<<<<< HEAD
-		Product product = event.getProduct();
-
-		Long id = product.getId();
-		MerchantStore store = product.getMerchantStore();
-
-		/**
-		 * Refresh product
-		 */
-
-		product = productService.findOne(id, store);
-=======
 		Product product = productOfEvent(event);
 
 		MerchantStore store = product.getMerchantStore();
 
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 
 		ProductImage image = event.getProductImage();// to be removed
 
@@ -280,83 +228,35 @@ public class IndexProductEventListener implements ApplicationListener<ProductEve
 		}
 
 	}
-	
+
 	void deleteProductImage(DeleteProductImageEvent event) {
-<<<<<<< HEAD
 
-		Product product = event.getProduct();
-
-		Long id = product.getId();
-		MerchantStore store = product.getMerchantStore();
-
-		/**
-		 * Refresh product
-		 */
-
-		product = productService.findOne(id, store);
-		ProductImage image = event.getProductImage();// to be removed
-
-		/**
-		 * remove variant to be saved
-		 **/
-
-=======
-		
 		//Product will be updated anyway so there is no need to reindex following an image removal
 		return;
-		
+
 		/**
+		 Product product = productOfEvent(event);
+		 MerchantStore store = product.getMerchantStore();
+		 List<ProductImage> filteredImages = product.getImages().stream()
+		 .filter(i -> i.getId().longValue() != i.getId().longValue()).collect(Collectors.toList());
+		 Set<ProductImage> allImages = new HashSet<ProductImage>(filteredImages);
+		 product.setImages(allImages);
+		 try {
 
-		Product product = productOfEvent(event);
-
-		MerchantStore store = product.getMerchantStore();
-
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
-		List<ProductImage> filteredImages = product.getImages().stream()
-				.filter(i -> i.getId().longValue() != i.getId().longValue()).collect(Collectors.toList());
-
-
-		Set<ProductImage> allImages = new HashSet<ProductImage>(filteredImages);
-		product.setImages(allImages);
-
-		try {
-<<<<<<< HEAD
-			searchService.index(store, product);
-		} catch (ServiceException e) {
-			throw new RuntimeException(e);
-		}
-=======
-			
-
-			//searchService.index(store, product);
-		} catch (ServiceException e) {
-			throw new RuntimeException(e);
-		}
-		**/
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
+		 //searchService.index(store, product);
+		 } catch (ServiceException e) {
+		 throw new RuntimeException(e);
+		 }
+		 **/
 
 	}
-	
+
 	void saveProductAttribute(SaveProductAttributeEvent event) {
 
-<<<<<<< HEAD
-		Product product = event.getProduct();
-
-		Long id = product.getId();
-		MerchantStore store = product.getMerchantStore();
-
-		/**
-		 * Refresh product
-		 */
-
-		product = productService.findOne(id, store);
-
-=======
 		Product product = productOfEvent(event);
 
 		MerchantStore store = product.getMerchantStore();
 
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 		ProductAttribute attribute = event.getProductAttribute();// to be removed
 
 		/**
@@ -378,31 +278,14 @@ public class IndexProductEventListener implements ApplicationListener<ProductEve
 		}
 
 	}
-	
+
 	void deleteProductAttribute(DeleteProductAttributeEvent event) {
 
-<<<<<<< HEAD
-		Product product = event.getProduct();
-
-		Long id = product.getId();
-		MerchantStore store = product.getMerchantStore();
-
-		/**
-		 * Refresh product
-		 */
-
-		product = productService.findOne(id, store);
-
-		ProductAttribute attribute = event.getProductAttribute();// to be removed
-
-		/**
-=======
 		Product product = productOfEvent(event);
 
 		MerchantStore store = product.getMerchantStore();
 
 		/**
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 		 * add new attribute to be saved
 		 **/
 

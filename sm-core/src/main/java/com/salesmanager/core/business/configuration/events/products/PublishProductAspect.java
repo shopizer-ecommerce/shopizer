@@ -50,11 +50,7 @@ public class PublishProductAspect {
 	 * Product
 	 */
 
-<<<<<<< HEAD
-=======
 	// save product
-	
->>>>>>> a2316b73a7dd32791c9a9786e4f5dc6ae89a4743
 	@Pointcut("execution(* com.salesmanager.core.business.services.catalog.product.ProductService.saveProduct(com.salesmanager.core.model.catalog.product.Product))")
 	public void saveProductMethod() {
 	}
