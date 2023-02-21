@@ -227,7 +227,7 @@ public class ProductApi {
 		// Start Category handling
 		List<Long> categoryIds = new ArrayList<Long>();
 		if (slug != null) {
-			Category categoryBySlug = categoryService.getBySeUrl(merchantStore, slug);
+			Category categoryBySlug = categoryService.getBySeUrl(merchantStore, slug, language);
 			categoryIds.add(categoryBySlug.getId());
 		}
 		if (category != null) {

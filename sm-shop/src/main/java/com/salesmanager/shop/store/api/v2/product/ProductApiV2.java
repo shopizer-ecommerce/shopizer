@@ -177,7 +177,7 @@ public class ProductApiV2 {
 	 *                   <p>
 	 *                   /api/product/123
 	 */
-	@RequestMapping(value = { "/product/slug/{friendlyUrl}",
+	@RequestMapping(value = { "/product/name/{friendlyUrl}",
 			"/product/friendly/{friendlyUrl}" }, method = RequestMethod.GET)
 	@ApiOperation(httpMethod = "GET", value = "Get a product by friendlyUrl (slug) version 2", notes = "For shop purpose. Specifying ?merchant is "
 			+ "required otherwise it falls back to DEFAULT")

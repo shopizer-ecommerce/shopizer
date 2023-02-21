@@ -140,8 +140,8 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
 	}
 
 	@Override
-	public Category getBySeUrl(MerchantStore store, String seUrl) {
-		return categoryRepository.findByFriendlyUrl(store.getId(), seUrl);
+	public Category getBySeUrl(MerchantStore store, String seUrl, Language language) {
+		return categoryRepository.findByFriendlyUrl(store.getId(), seUrl, language.getId());
 	}
 
 	@Override
