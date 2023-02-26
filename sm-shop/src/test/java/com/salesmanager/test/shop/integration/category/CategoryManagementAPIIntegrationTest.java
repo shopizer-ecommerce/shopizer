@@ -2,6 +2,7 @@ package com.salesmanager.test.shop.integration.category;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertThat;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
@@ -142,7 +143,7 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
          * For public access use friendly url
          */
         
-        final ResponseEntity<ReadableCategory> readableQuery = testRestTemplate.exchange(String.format("/api/v1//category/name/" +  description.getFriendlyUrl()), HttpMethod.GET,
+        final ResponseEntity<ReadableCategory> readableQuery = testRestTemplate.exchange(String.format("/api/v1//category/" +  description.getFriendlyUrl()), HttpMethod.GET,
             httpEntity, ReadableCategory.class);
         
         assertThat(readableQuery.getStatusCode(), is(OK));
@@ -426,6 +427,40 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
 
       
       
+    }
+    
+    
+    /**
+     * Test category by name
+     * @throws Exception
+     */
+    
+    @Test
+    public void getByCategoryFriendlyUrl() throws Exception {
+    	
+    	ObjectWriter writer = new ObjectMapper().writer().withDefaultPrettyPrinter();
+    	
+    	String categoryName = "running-shoes";
+    	String categoryCode = "runningshoes";
+    	PersistableCategory category = category(categoryCode,categoryName);
+        final String json = writer.writeValueAsString(category);
+
+        HttpEntity<String> entity = new HttpEntity<>(json, getHeader());
+
+        ResponseEntity response = testRestTemplate.postForEntity("/api/v1/private/category", entity, PersistableCategory.class);
+        PersistableCategory cat = (PersistableCategory) response.getBody();
+        assertThat(response.getStatusCode(), is(CREATED));
+        assertNotNull(cat.getId());
+
+        final ResponseEntity<ReadableCategory> readResponse = testRestTemplate.exchange(String.format("/api/v1/category/" + categoryName), HttpMethod.GET,
+        		entity, ReadableCategory.class);
+        if (readResponse.getStatusCode() != HttpStatus.OK) {
+            throw new Exception(response.toString());
+        } else {
+            final ReadableCategory categ = readResponse.getBody();
+            assertNotNull(readResponse);
+            assertTrue(categoryCode.equals(categ.getCode()));
+        }
     }
 
 }

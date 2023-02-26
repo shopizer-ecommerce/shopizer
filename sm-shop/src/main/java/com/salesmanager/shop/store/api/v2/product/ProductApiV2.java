@@ -177,7 +177,7 @@ public class ProductApiV2 {
 	 *                   <p>
 	 *                   /api/product/123
 	 */
-	@RequestMapping(value = { "/product/slug/{friendlyUrl}",
+	@RequestMapping(value = { "/product/name/{friendlyUrl}",
 			"/product/friendly/{friendlyUrl}" }, method = RequestMethod.GET)
 	@ApiOperation(httpMethod = "GET", value = "Get a product by friendlyUrl (slug) version 2", notes = "For shop purpose. Specifying ?merchant is "
 			+ "required otherwise it falls back to DEFAULT")
@@ -211,7 +211,7 @@ public class ProductApiV2 {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/products/category/slug/{friendlyUrl}", method = RequestMethod.GET)
+	@RequestMapping(value = "/products/category/{friendlyUrl}", method = RequestMethod.GET)
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })

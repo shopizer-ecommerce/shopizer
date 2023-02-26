@@ -378,17 +378,6 @@ public class ProductManagementAPIIntegrationTest extends ServicesTestSupport {
 
 	}
 
-	@Test
-	@Ignore
-	public void deleteProduct() throws Exception {
-		restTemplate = new RestTemplate();
-
-		final HttpEntity<String> httpEntity = new HttpEntity<>(getHeader());
-
-		restTemplate.exchange("http://localhost:8080/sm-shop/services/rest/product/DEFAULT/en/" + testCategoryID + "/"
-				+ testProductID, HttpMethod.DELETE, httpEntity, ReadableProduct.class);
-		System.out.println("Product " + testProductID + " Deleted.");
-	}
 
 	/** private helper methods **/
 	public byte[] extractBytes(final File imgPath) throws Exception {

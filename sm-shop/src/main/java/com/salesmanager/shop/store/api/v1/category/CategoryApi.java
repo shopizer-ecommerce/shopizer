@@ -76,7 +76,7 @@ public class CategoryApi {
 		return category;
 	}
 
-	@GetMapping(value = "/category/name/{friendlyUrl}", produces = { APPLICATION_JSON_VALUE })
+	@GetMapping(value = "/category/{friendlyUrl}", produces = { APPLICATION_JSON_VALUE })
 	@ApiOperation(httpMethod = "GET", value = "Get category list for an given Category code", notes = "List current Category and child category")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "List of category found", response = ReadableCategory.class) })
