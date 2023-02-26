@@ -291,6 +291,7 @@ public class ProductApi {
 
 	/**
 	 * API for getting a product
+	 * Removed in 3.2.5 in favor of /product/sku
 	 *
 	 * @param id
 	 * @param lang     ?lang=fr|en|...
@@ -300,6 +301,17 @@ public class ProductApi {
 	 *                   <p>
 	 *                   /api/product/123
 	 */
+	/**
+	 * use v2 api with product sku
+	 * @param id
+	 * @param lang
+	 * @param merchantStore
+	 * @param language
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	/**
 	@RequestMapping(value = "/product/{id}", method = RequestMethod.GET)
 	@ApiOperation(httpMethod = "GET", value = "Get a product by id", notes = "For administration and shop purpose. Specifying ?merchant is required otherwise it falls back to DEFAULT")
 	@ApiResponses(value = {
@@ -319,6 +331,7 @@ public class ProductApi {
 
 		return product;
 	}
+	**/
 
 	/**
 	 * Price calculation
@@ -356,7 +369,7 @@ public class ProductApi {
 	 *                   <p>
 	 *                   /api/product/123
 	 */
-	@RequestMapping(value = { "/product/slug/{friendlyUrl}",
+	@RequestMapping(value = { "/product/{friendlyUrl}",
 			"/product/friendly/{friendlyUrl}" }, method = RequestMethod.GET)
 	@ApiOperation(httpMethod = "GET", value = "Get a product by friendlyUrl (slug)", notes = "For administration and shop purpose. Specifying ?merchant is "
 			+ "required otherwise it falls back to DEFAULT")

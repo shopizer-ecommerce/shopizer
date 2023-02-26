@@ -143,7 +143,7 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
          * For public access use friendly url
          */
         
-        final ResponseEntity<ReadableCategory> readableQuery = testRestTemplate.exchange(String.format("/api/v1//category/name/" +  description.getFriendlyUrl()), HttpMethod.GET,
+        final ResponseEntity<ReadableCategory> readableQuery = testRestTemplate.exchange(String.format("/api/v1//category/" +  description.getFriendlyUrl()), HttpMethod.GET,
             httpEntity, ReadableCategory.class);
         
         assertThat(readableQuery.getStatusCode(), is(OK));
@@ -452,7 +452,7 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
         assertThat(response.getStatusCode(), is(CREATED));
         assertNotNull(cat.getId());
 
-        final ResponseEntity<ReadableCategory> readResponse = testRestTemplate.exchange(String.format("/api/v1/category/name/" + categoryName), HttpMethod.GET,
+        final ResponseEntity<ReadableCategory> readResponse = testRestTemplate.exchange(String.format("/api/v1/category/" + categoryName), HttpMethod.GET,
         		entity, ReadableCategory.class);
         if (readResponse.getStatusCode() != HttpStatus.OK) {
             throw new Exception(response.toString());
