@@ -15,8 +15,10 @@ public interface CategoryRepository extends JpaRepository<Category, Long>, Categ
 	@Query("select c from Category c left join fetch c.descriptions cd join fetch cd.language cdl join fetch c.merchantStore cm where cd.seUrl like ?2 and cm.id = ?1 order by c.sortOrder asc")
 	List<Category> listByFriendlyUrl(Integer storeId, String friendlyUrl);
 	
-	@Query("select c from Category c left join fetch c.descriptions cd join fetch cd.language cdl join fetch c.merchantStore cm where cd.seUrl=?2 and cm.id = ?1")
-	Category findByFriendlyUrl(Integer storeId, String friendlyUrl);
+	@Query("select c from Category c left join fetch c.descriptions cd "
+			+ "join fetch cd.language cdl join fetch c.merchantStore cm "
+			+ "where cd.seUrl=?2 and cdl.id=?3 and cm.id = ?1")
+	Category findByFriendlyUrl(Integer storeId, String friendlyUrl, Integer languageId);
 	
 	@Query("select c from Category c left join fetch c.descriptions cd join fetch cd.language cdl join fetch c.merchantStore cm where cd.name like %?2% and cdl.id=?3 and cm.id = ?1 order by c.sortOrder asc")
 	List<Category> findByName(Integer storeId, String name, Integer languageId);
