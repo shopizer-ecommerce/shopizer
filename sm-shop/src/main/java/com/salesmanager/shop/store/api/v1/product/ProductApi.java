@@ -301,18 +301,8 @@ public class ProductApi {
 	 *                   <p>
 	 *                   /api/product/123
 	 */
-	/**
-	 * use v2 api with product sku
-	 * @param id
-	 * @param lang
-	 * @param merchantStore
-	 * @param language
-	 * @param response
-	 * @return
-	 * @throws Exception
-	 */
-	/**
-	@RequestMapping(value = "/product/{id}", method = RequestMethod.GET)
+   
+	@RequestMapping(value = {"/product/{id}","/products/{id}"}, method = RequestMethod.GET)
 	@ApiOperation(httpMethod = "GET", value = "Get a product by id", notes = "For administration and shop purpose. Specifying ?merchant is required otherwise it falls back to DEFAULT")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Single product found", response = ReadableProduct.class) })
