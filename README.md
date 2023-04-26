@@ -121,7 +121,7 @@ Documentation available <https://shopizer-ecommerce.github.io/documentation/>
 
 Api documentation <https://app.swaggerhub.com/apis-docs/shopizer/shopizer-rest-api/3.0.1#/>
 
-ChatOps <https://shopizer.slack.com>  - Join our Slack channel <https://join.slack.com/t/shopizer/signup>
+ChatOps <https://shopizer.slack.com>  - Join our Slack channel <https://communityinviter.com/apps/shopizer/shopizer>
 
 More information is available on shopizer web site here <http://www.shopizer.com>
 
@@ -146,7 +146,7 @@ Build application according to steps provided above
 Synchronize lastest version with the upstream
 -------------------
 
-       $ git remote add upstream https://github.com/yourusername/shopizer.git
+      $ git remote add upstream https://github.com/yourusername/shopizer.git
 	  $ git pull upstream 3.2.5
 
 Create new branch in your repository
