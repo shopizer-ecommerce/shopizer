@@ -28,8 +28,26 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      run: mvnw -B package --file pom.xml
 
-    # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
-    - name: Update dependency graph
-      uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: {%- raw -%} ${{ secrets.SSH_KEY }}
+          known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 11
+      with: 
+        java-version: '11'
+        distribution: 'temurin'
+        cache: maven
+- name: Deploy on Ubuntu-ARM
+  run: git clone https://github.com/mnogueiraops/shopizer-devopstraining.git
+  run: cd shopizer-devopstraining
+  run: mvnw clean install
+  run: cd sm-shop
+  run: mvnw spring-boot:run
