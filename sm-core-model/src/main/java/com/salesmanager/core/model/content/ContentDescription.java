@@ -61,12 +61,6 @@ public class ContentDescription extends Description implements Serializable {
 	
 	public ContentDescription() {
 	}
-	
-	public ContentDescription(String name, Language language) {
-		this.setName(name);
-		this.setLanguage(language);
-		super.setId(0L);
-	}
 
 	public Content getContent() {
 		return content;

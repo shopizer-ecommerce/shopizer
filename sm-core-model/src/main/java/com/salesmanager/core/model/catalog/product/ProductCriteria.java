@@ -146,6 +146,8 @@ public class ProductCriteria extends Criteria {
 		this.sku = sku;
 	}
 
-
+	public void setLegacyPagination(boolean legacyPagination) {
+		this.legacyPagination = legacyPagination;
+	}
 
 }

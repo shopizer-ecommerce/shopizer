@@ -60,6 +60,12 @@ public class Description implements Auditable, Serializable {
 		this.setLanguage(language);
 		this.setName(name);
 	}
+
+	public Description(String name, Language language) {
+		this.setName(name);
+		this.setLanguage(language);
+		setId(0L);
+	}
 	
 	@Override
 	public AuditSection getAuditSection() {

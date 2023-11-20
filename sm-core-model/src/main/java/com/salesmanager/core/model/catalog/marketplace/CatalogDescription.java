@@ -29,12 +29,6 @@ public class CatalogDescription extends Description {
 	
 	public CatalogDescription() {
 	}
-	
-	public CatalogDescription(String name, Language language) {
-		this.setName(name);
-		this.setLanguage(language);
-		super.setId(0L);
-	}
 
 	public Catalog getCatalog() {
 		return catalog;

@@ -395,7 +395,7 @@ public class ShoppingCartFacadeImpl implements ShoppingCartFacade {
 			}
 
 			for (ProductAvailability availability : availabilities) {
-				if (shoppingCartItem.getQuantity() > 0 && availability.getProductQuantity() == null || availability.getProductQuantity().intValue() == 0) {
+				if (!this.isProductAvailable(shoppingCartItem, availability)) {
 					throw new Exception("Item with id " + p.getId() + " is not available");
 				}
 			}
@@ -427,6 +427,12 @@ public class ShoppingCartFacadeImpl implements ShoppingCartFacade {
 		}
 
 		return items;
+	}
+
+	private boolean isProductAvailable(PersistableShoppingCartItem shoppingCart, ProductAvailability availability) {
+		int cartQuantity = shoppingCart.getQuantity();
+		Integer productQuantity = availability.getProductQuantity();
+		return cartQuantity > 0 && (productQuantity == null || productQuantity.intValue() == 0);
 	}
 
 	private Product fetchProduct(String sku, MerchantStore store, Language language) {
