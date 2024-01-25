@@ -14,6 +14,7 @@ import org.kie.api.runtime.KieSession;
 import org.kie.internal.io.ResourceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Primary;
 
 import com.salesmanager.core.business.configuration.DroolsBeanFactory;
 import com.salesmanager.core.model.common.Delivery;
@@ -30,7 +31,7 @@ import com.salesmanager.core.modules.constants.Constants;
 import com.salesmanager.core.modules.integration.IntegrationException;
 import com.salesmanager.core.modules.integration.shipping.model.ShippingQuoteModule;
 
-
+@Primary
 public class CustomShippingQuoteRules implements ShippingQuoteModule {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(CustomShippingQuoteRules.class);
