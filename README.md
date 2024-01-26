@@ -1,6 +1,6 @@
 # Shopizer 3.X (for java 1.8 +) (tested with Java 11)
 
-#test1
+#test3
 #test2
 
 [![last_version](https://img.shields.io/badge/last_version-v3.2.5-blue.svg?style=flat)](https://github.com/shopizer-ecommerce/shopizer/tree/3.2.5)
