@@ -8,6 +8,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import com.salesmanager.core.model.common.CriteriaHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -270,6 +271,7 @@ public class ProductApiV2 {
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
 	public ReadableProductList list(
+
 			@RequestParam(value = "lang", required = false) String lang,
 			ProductCriteria searchCriterias,
 
@@ -284,13 +286,13 @@ public class ProductApiV2 {
 			// page
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
 
-		
+		CriteriaHelper criteriaHelper = new CriteriaHelper();
 		if (!StringUtils.isBlank(searchCriterias.getSku())) {
 			searchCriterias.setCode(searchCriterias.getSku());
 		}
 		
-		if (!StringUtils.isBlank(searchCriterias.getName())) {
-			searchCriterias.setProductName(searchCriterias.getName());
+		if (!StringUtils.isBlank(criteriaHelper.getName())) {
+			searchCriterias.setProductName(criteriaHelper.getName());
 		}
 		
 		searchCriterias.setMaxCount(count);

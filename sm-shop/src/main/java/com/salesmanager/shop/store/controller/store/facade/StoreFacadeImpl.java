@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
+import com.salesmanager.core.model.common.CriteriaHelper;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.Validate;
 import org.drools.core.util.StringUtils;
@@ -481,12 +482,13 @@ public class StoreFacadeImpl implements StoreFacade {
 	public ReadableMerchantStoreList findAll(MerchantStoreCriteria criteria, Language language, int page, int count) {
 		
 		try {
+			CriteriaHelper criteriaHelper = new CriteriaHelper();
 			Page<MerchantStore> stores = null;
 			List<ReadableMerchantStore> readableStores = new ArrayList<ReadableMerchantStore>();
 			ReadableMerchantStoreList readableList = new ReadableMerchantStoreList();
 			
 			Optional<String> code = Optional.ofNullable(criteria.getStoreCode());
-			Optional<String> name = Optional.ofNullable(criteria.getName());
+			Optional<String> name = Optional.ofNullable(criteriaHelper.getName());
 			if(code.isPresent()) {
 				
 				stores = merchantStoreService.listByGroup(name, code.get(), page, count);

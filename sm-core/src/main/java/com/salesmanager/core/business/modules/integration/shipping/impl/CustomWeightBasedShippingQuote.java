@@ -34,9 +34,6 @@ import com.salesmanager.core.modules.integration.shipping.model.ShippingQuoteMod
 
 public class CustomWeightBasedShippingQuote implements ShippingQuoteModule {
 	
-	public final static String MODULE_CODE = "weightBased";
-	private final static String CUSTOM_WEIGHT = "CUSTOM_WEIGHT";
-	
 	@Inject
 	private MerchantConfigurationService merchantConfigurationService;
 	

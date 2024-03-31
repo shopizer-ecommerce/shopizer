@@ -17,6 +17,8 @@ import com.salesmanager.core.model.system.IntegrationModule;
 import com.salesmanager.core.modules.integration.IntegrationException;
 
 public interface ShippingQuoteModule {
+	final static String MODULE_CODE = "weightBased";
+	final static String CUSTOM_WEIGHT = "CUSTOM_WEIGHT";
 	
 	public void validateModuleConfiguration(IntegrationConfiguration integrationConfiguration, MerchantStore store) throws IntegrationException;
 	public CustomIntegrationConfiguration getCustomModuleConfiguration(MerchantStore store) throws IntegrationException;

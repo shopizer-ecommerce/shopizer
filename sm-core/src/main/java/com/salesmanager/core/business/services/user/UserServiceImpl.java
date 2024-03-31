@@ -3,6 +3,7 @@ package com.salesmanager.core.business.services.user;
 import java.util.List;
 import javax.inject.Inject;
 
+import com.salesmanager.core.model.common.CriteriaHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.helper.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,10 +103,11 @@ public class UserServiceImpl extends SalesManagerEntityServiceImpl<Long, User> i
 	public Page<User> listByCriteria(UserCriteria criteria, int page, int count) throws ServiceException {
 
 		Pageable pageRequest = PageRequest.of(page, count);
+		CriteriaHelper criteriaHelper = new CriteriaHelper();
 		Page<User> users = null;
-		if (criteria.getStoreIds() != null) {// search within a predefined list
+		if (criteriaHelper.getStoreIds() != null) {// search within a predefined list
 												// of stores
-			users = pageableUserRepository.listByStoreIds(criteria.getStoreIds(), criteria.getAdminEmail(),
+			users = pageableUserRepository.listByStoreIds(criteriaHelper.getStoreIds(), criteria.getAdminEmail(),
 					pageRequest);
 		} else if (StringUtils.isBlank(criteria.getStoreCode())) {// search for
 																	// a

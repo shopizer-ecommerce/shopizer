@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
+import com.salesmanager.core.model.common.CriteriaHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
@@ -527,6 +528,7 @@ public class UserFacadeImpl implements UserFacade {
 	@Override
 	public ReadableUserList listByCriteria(UserCriteria criteria, int page, int count, Language language) {
 		try {
+			CriteriaHelper criteriaHelper = new CriteriaHelper();
 			ReadableUserList readableUserList = new ReadableUserList();
 			// filtering by userName is not in this implementation
 
@@ -541,7 +543,7 @@ public class UserFacadeImpl implements UserFacade {
 						// get group stores
 						List<MerchantStore> stores = merchantStoreService.findAllStoreNames(store.getCode());
 						List<Integer> intList = stores.stream().map(s -> s.getId()).collect(Collectors.toList());
-						criteria.setStoreIds(intList);
+						criteriaHelper.setStoreIds(intList);
 						// search over store list
 						criteria.setStoreCode(null);
 					}
