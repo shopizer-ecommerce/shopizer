@@ -12,8 +12,7 @@ public class Criteria {
 	// new pagination
 	private int startPage = 0;
 	private int pageSize = 10;
-//	private boolean legacyPagination = true;
-	protected boolean legacyPagination = true;
+	private boolean legacyPagination = true;
 	private String code;
 	private String name;
 	private String language;
@@ -99,5 +98,7 @@ public class Criteria {
 		return legacyPagination;
 	}
 
-
+	public void setLegacyPagination(boolean legacyPagination) {
+		this.legacyPagination = legacyPagination;
+	}
 }
