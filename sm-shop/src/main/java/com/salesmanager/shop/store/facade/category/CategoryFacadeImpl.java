@@ -31,7 +31,6 @@ import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueD
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
-import com.salesmanager.shop.mapper.catalog.ReadableCategoryMapper;
 import com.salesmanager.shop.model.catalog.category.PersistableCategory;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 import com.salesmanager.shop.model.catalog.category.ReadableCategoryList;
@@ -59,7 +58,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 	private PersistableCategoryPopulator persistableCatagoryPopulator;
 
 	@Inject
-	private ReadableCategoryMapper readableCategoryMapper;
+	private Mapper<Category, ReadableCategory> categoryReadableCategoryConverter;
 
 	@Inject
 	private ProductAttributeService productAttributeService;
@@ -102,11 +101,11 @@ public class CategoryFacadeImpl implements CategoryFacade {
 			List<ReadableCategory> readableCategories = null;
 			if (filter != null && filter.contains(VISIBLE_CATEGORY)) {
 				readableCategories = categories.stream().filter(Category::isVisible)
-						.map(cat -> readableCategoryMapper.convert(cat, store, language))
+						.map(cat -> categoryReadableCategoryConverter.convert(cat, store, language))
 						.collect(Collectors.toList());
 			} else {
 				readableCategories = categories.stream()
-						.map(cat -> readableCategoryMapper.convert(cat, store, language))
+						.map(cat -> categoryReadableCategoryConverter.convert(cat, store, language))
 						.collect(Collectors.toList());
 			}
 
@@ -255,14 +254,14 @@ public class CategoryFacadeImpl implements CategoryFacade {
 
 			StringBuilder lineage = new StringBuilder().append(categoryModel.getLineage());
 
-			ReadableCategory readableCategory = readableCategoryMapper.convert(categoryModel, store,
+			ReadableCategory readableCategory = categoryReadableCategoryConverter.convert(categoryModel, store,
 					language);
 
 			// get children
 			List<Category> children = getListByLineage(store, lineage.toString());
 
 			List<ReadableCategory> childrenCats = children.stream()
-					.map(cat -> readableCategoryMapper.convert(cat, store, language))
+					.map(cat -> categoryReadableCategoryConverter.convert(cat, store, language))
 					.collect(Collectors.toList());
 
 			addChildToParent(readableCategory, childrenCats);
@@ -326,18 +325,10 @@ public class CategoryFacadeImpl implements CategoryFacade {
 	@Override
 	public ReadableCategory getCategoryByFriendlyUrl(MerchantStore store, String friendlyUrl, Language language) throws Exception {
 		Validate.notNull(friendlyUrl, "Category search friendly URL must not be null");
-
-
-		Category category = categoryService.getBySeUrl(store, friendlyUrl, language);
-		
-		if(category == null) {
-			throw new ResourceNotFoundException("Category with friendlyUrl [" + friendlyUrl + "] was not found");
-		}
-		
 		ReadableCategoryPopulator categoryPopulator = new ReadableCategoryPopulator();
 		ReadableCategory readableCategory = new ReadableCategory();
-		
-		
+
+		Category category = categoryService.getBySeUrl(store, friendlyUrl);
 		categoryPopulator.populate(category, readableCategory, store, language);
 
 		return readableCategory;
@@ -552,7 +543,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 			List<Category> categories = categoryService.getByProductId(product, store);
 
 			readableCategories = categories.stream()
-						.map(cat -> readableCategoryMapper.convert(cat, store, language))
+						.map(cat -> categoryReadableCategoryConverter.convert(cat, store, language))
 						.collect(Collectors.toList());
 			
 			ReadableCategoryList readableList = new ReadableCategoryList();

@@ -5,10 +5,10 @@
 	<groupId>com.shopizer</groupId>
 	<artifactId>shopizer</artifactId>
 	<packaging>pom</packaging>
-	<version>3.2.5</version>
+	<version>3.2.6</version>
 
 	<name>shopizer</name>
-	<url>http://www.shopizer.com</url>
+	<url>http://ww.shopizer.com</url>
 
 	<licenses>
 		<license>

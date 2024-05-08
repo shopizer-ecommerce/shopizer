@@ -1,8 +1,10 @@
-# Shopizer 3.X (for java 1.8 +) (tested with Java 11)
+# Shopizer 3 (for java 1.8 +) (tested with Java 11)
 
 
+### Shopizer 2.X (for java 1.8 +) is still available
 
-[![last_version](https://img.shields.io/badge/last_version-v3.2.5-blue.svg?style=flat)](https://github.com/shopizer-ecommerce/shopizer/tree/3.2.5)
+
+[![last_version](https://img.shields.io/badge/last_version-v3.2.3-blue.svg?style=flat)](https://github.com/shopizer-ecommerce/shopizer/tree/3.2.3)
 [![Official site](https://img.shields.io/website-up-down-green-red/https/shields.io.svg?label=official%20site)](http://www.shopizer.com/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/shopizerecomm/shopizer.svg)](https://hub.docker.com/r/shopizerecomm/shopizer)
 [![stackoverflow](https://img.shields.io/badge/shopizer-stackoverflow-orange.svg?style=flat)](http://stackoverflow.com/questions/tagged/shopizer)
@@ -29,9 +31,11 @@ Shopizer Headless commerce consists of the following components:
 
 
 
-See the demo: [**New demo on the way 2023]
+See the demo:
 -------------------
 Headless demo Available soon
+
+Demo site for Shopizer 2.X is still available [Legacy Shopizer demo](http://demo.shopizer.com)
 
 1.  Run from Docker images:
 
@@ -117,11 +121,11 @@ Please read the instructions on how to connect to MySQL, configure an email serv
 ### Documentation:
 -------------------
 
-Documentation available <https://shopizer-ecommerce.github.io/documentation/>
+Documentation available <http://documentation.shopizer.com>
 
 Api documentation <https://app.swaggerhub.com/apis-docs/shopizer/shopizer-rest-api/3.0.1#/>
 
-ChatOps <https://shopizer.slack.com>  - Join our Slack channel <https://communityinviter.com/apps/shopizer/shopizer>
+ChatOps <https://shopizer.slack.com>  - Join our Slack channel https://shopizer-slackin.herokuapp.com/
 
 More information is available on shopizer web site here <http://www.shopizer.com>
 
@@ -146,8 +150,8 @@ Build application according to steps provided above
 Synchronize lastest version with the upstream
 -------------------
 
-      $ git remote add upstream https://github.com/yourusername/shopizer.git
-	  $ git pull upstream 3.2.5
+       $ git remote add upstream https://github.com/yourusername/shopizer.git
+	  $ git pull upstream 3.2.3
 
 Create new branch in your repository
 -------------------

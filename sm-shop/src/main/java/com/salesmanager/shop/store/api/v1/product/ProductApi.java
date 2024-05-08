@@ -227,7 +227,7 @@ public class ProductApi {
 		// Start Category handling
 		List<Long> categoryIds = new ArrayList<Long>();
 		if (slug != null) {
-			Category categoryBySlug = categoryService.getBySeUrl(merchantStore, slug, language);
+			Category categoryBySlug = categoryService.getBySeUrl(merchantStore, slug);
 			categoryIds.add(categoryBySlug.getId());
 		}
 		if (category != null) {
@@ -291,7 +291,6 @@ public class ProductApi {
 
 	/**
 	 * API for getting a product
-	 * Removed in 3.2.5 in favor of /product/sku
 	 *
 	 * @param id
 	 * @param lang     ?lang=fr|en|...
@@ -301,8 +300,7 @@ public class ProductApi {
 	 *                   <p>
 	 *                   /api/product/123
 	 */
-    /**
-	@RequestMapping(value = {"/product/{id}","/products/{id}"}, method = RequestMethod.GET)
+	@RequestMapping(value = "/product/{id}", method = RequestMethod.GET)
 	@ApiOperation(httpMethod = "GET", value = "Get a product by id", notes = "For administration and shop purpose. Specifying ?merchant is required otherwise it falls back to DEFAULT")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Single product found", response = ReadableProduct.class) })
@@ -321,7 +319,6 @@ public class ProductApi {
 
 		return product;
 	}
-	**/
 
 	/**
 	 * Price calculation
@@ -359,7 +356,7 @@ public class ProductApi {
 	 *                   <p>
 	 *                   /api/product/123
 	 */
-	@RequestMapping(value = { "/product/{friendlyUrl}",
+	@RequestMapping(value = { "/product/slug/{friendlyUrl}",
 			"/product/friendly/{friendlyUrl}" }, method = RequestMethod.GET)
 	@ApiOperation(httpMethod = "GET", value = "Get a product by friendlyUrl (slug)", notes = "For administration and shop purpose. Specifying ?merchant is "
 			+ "required otherwise it falls back to DEFAULT")
