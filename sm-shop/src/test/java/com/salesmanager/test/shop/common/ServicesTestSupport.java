@@ -115,6 +115,25 @@ public class ServicesTestSupport {
 		return newCategory;
 
 	}
+	
+	protected PersistableCategory category(String code, String name) {
+
+		PersistableCategory newCategory = category(code);
+
+
+		CategoryDescription description = new CategoryDescription();
+		description.setLanguage("en");
+		description.setName(name);
+		description.setFriendlyUrl(name);
+
+		List<CategoryDescription> descriptions = new ArrayList<>();
+		descriptions.add(description);
+
+		newCategory.setDescriptions(descriptions);
+
+		return newCategory;
+
+	}
 
 	protected PersistableProduct product(String code) {
 
@@ -206,7 +225,7 @@ public class ServicesTestSupport {
 
 		final HttpEntity<String> httpEntity = new HttpEntity<>(getHeader());
 
-		String apiUrl = "/api/v1/product/" + response.getBody().getId();
+		String apiUrl = "/api/v2/product/" + code;
 
 		ResponseEntity<ReadableProduct> readableProduct = testRestTemplate.exchange(apiUrl, HttpMethod.GET, httpEntity,
 				ReadableProduct.class);

@@ -33,11 +33,9 @@ Shopizer Headless commerce consists of the following components:
 
 
 
-See the demo:
+See the demo: [**New demo on the way 2023]
 -------------------
 Headless demo Available soon
-
-Demo site for Shopizer 2.X is still available [Legacy Shopizer demo](http://demo.shopizer.com)
 
 1.  Run from Docker images:
 
@@ -123,11 +121,15 @@ Please read the instructions on how to connect to MySQL, configure an email serv
 ### Documentation:
 -------------------
 
-Documentation available <http://documentation.shopizer.com>
+Documentation available <https://shopizer-ecommerce.github.io/documentation/>
 
 Api documentation <https://app.swaggerhub.com/apis-docs/shopizer/shopizer-rest-api/3.0.1#/>
 
+<<<<<<< HEAD
 ChatOps <https://shopizer.slack.com>  - Join our Slack channel https://shopizer-slackin.herokuapp.com/
+=======
+ChatOps <https://shopizer.slack.com>  - Join our Slack channel <https://communityinviter.com/apps/shopizer/shopizer>
+>>>>>>> refs/remotes/origin/3.2.7
 
 More information is available on shopizer web site here <http://www.shopizer.com>
 
@@ -152,8 +154,13 @@ Build application according to steps provided above
 Synchronize lastest version with the upstream
 -------------------
 
+<<<<<<< HEAD
        $ git remote add upstream https://github.com/yourusername/shopizer.git
 	  $ git pull upstream 3.2.3
+=======
+      $ git remote add upstream https://github.com/yourusername/shopizer.git
+	  $ git pull upstream 3.2.5
+>>>>>>> refs/remotes/origin/3.2.7
 
 Create new branch in your repository
 -------------------
