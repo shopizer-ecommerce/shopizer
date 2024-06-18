@@ -163,8 +163,9 @@ public class ProductPriceUtils {
 				finalPrice.setOriginalPrice(op);
 			}
 		}
-		
-		finalPrice.setStringPrice(this.getStringAmount(finalPrice.getFinalPrice()));
+		if(finalPrice != null) {
+			finalPrice.setStringPrice(this.getStringAmount(finalPrice.getFinalPrice()));
+		}
 
 		return finalPrice;
 
