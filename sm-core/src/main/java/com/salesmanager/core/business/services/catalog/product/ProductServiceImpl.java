@@ -110,7 +110,8 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		product.getDescriptions().add(description);
 		description.setProduct(product);
 		update(product);
-		searchService.index(product.getMerchantStore(), product);
+		//TODO enable from configuration
+		//searchService.index(product.getMerchantStore(), product);
 	}
 
 	@Override
@@ -248,20 +249,23 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		}
 
 		super.delete(product);
-		searchService.deleteIndex(product.getMerchantStore(), product);
+		//TODO enable from configuration
+		//searchService.deleteIndex(product.getMerchantStore(), product);
 
 	}
 
 	@Override
 	public void create(Product product) throws ServiceException {
 		saveOrUpdate(product);
+		//TODO enable from configuration
 		searchService.index(product.getMerchantStore(), product);
 	}
 
 	@Override
 	public void update(Product product) throws ServiceException {
 		saveOrUpdate(product);
-		searchService.index(product.getMerchantStore(), product);
+		//TODO enable from configuration
+		//searchService.index(product.getMerchantStore(), product);
 	}
 
 	private void saveOrUpdate(Product product) throws ServiceException {
