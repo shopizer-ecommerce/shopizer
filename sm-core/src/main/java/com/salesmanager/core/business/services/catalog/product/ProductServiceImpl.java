@@ -258,7 +258,7 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 	public void create(Product product) throws ServiceException {
 		saveOrUpdate(product);
 		//TODO enable from configuration
-		searchService.index(product.getMerchantStore(), product);
+		//searchService.index(product.getMerchantStore(), product);
 	}
 
 	@Override
