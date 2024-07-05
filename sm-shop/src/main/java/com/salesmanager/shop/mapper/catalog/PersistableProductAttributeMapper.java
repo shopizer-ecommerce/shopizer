@@ -1,8 +1,6 @@
 package com.salesmanager.shop.mapper.catalog;
 
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -23,8 +21,6 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
 import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductAttribute;
-import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductOptionValue;
-import com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription;
 import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;
 
 @Component
