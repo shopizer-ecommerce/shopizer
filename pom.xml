@@ -188,6 +188,12 @@
 			<!-- <dependency> <groupId>org.postgresql</groupId> <artifactId>postgresql</artifactId> 
 				<version>${postgresql.version}</version> <scope>runtime</scope> </dependency> -->
 
+			<dependency>
+				<groupId>org.postgresql</groupId>
+				<artifactId>postgresql</artifactId>
+				<version>${postgresql.version}</version>
+				<scope>runtime</scope>
+			</dependency>
 			<!-- Google Map API -->
 			<dependency>
 				<groupId>com.google.maps</groupId>
@@ -452,6 +458,11 @@
 
 		<!-- postgres <dependency> <groupId>org.postgresql</groupId> <artifactId>postgresql</artifactId> 
 			</dependency> -->
+
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>org.junit.vintage</groupId>
