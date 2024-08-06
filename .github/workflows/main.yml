@@ -1,0 +1,27 @@
+name: shopizer CI
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: 
+      image: shopizerecomm/ci:java11
+      volumes: 
+        - /root/.m2:/root/.m2
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install Tar
+        run: apk add --no-cache tar
+      - name: Cache local Maven repository
+        uses: actions/cache@v4
+        with:
+         path: /root/.m2/repository
+         key: ${{ runner.os }}-maven-${{ hashFiles('/__w/shopizer/shopizer/pom.xml') }}
+      - name: Build
+        run: /home/shopizer/tools/shopizer.sh tests
+
