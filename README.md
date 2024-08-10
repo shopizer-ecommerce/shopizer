@@ -1,4 +1,4 @@
-# Shopizer 3.X (for java 1.11 +) (tested with Java 11, 16 nd 17)
+# Shopizer 3.X (for java 1.11 +) (tested with Java 11, 16 and 17)
 
 > [!NOTE]
 > The team is working on an upcoming efficient microservices version. Stay tuned !
