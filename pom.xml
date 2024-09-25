@@ -45,7 +45,7 @@
 
 		<!-- TODO replace with starter -->
 		<elasticsearch.version>7.5.2</elasticsearch.version>
-		<guava.version>27.1-jre</guava.version>
+		<guava.version>29.0-jre</guava.version>
 		<commons-lang.version>3.5</commons-lang.version>
 		<commons-io.version>2.7</commons-io.version>
 		<commons-collections4.version>4.1</commons-collections4.version>
