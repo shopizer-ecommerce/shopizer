@@ -5,7 +5,7 @@ stage('VCS') {
 stage("build"){
    sh '/home/ubuntu/workspace/shopizer/mnv package' 
 }
-stage("archieve results"){
+stage("archieve     results"){
  junit '**/surefire-reports/*.xml'   
    }
 }
