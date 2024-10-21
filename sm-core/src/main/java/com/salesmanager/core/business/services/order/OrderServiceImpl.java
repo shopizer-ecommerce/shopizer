@@ -66,6 +66,8 @@ import com.salesmanager.core.model.shoppingcart.ShoppingCart;
 import com.salesmanager.core.model.shoppingcart.ShoppingCartItem;
 import com.salesmanager.core.model.tax.TaxItem;
 
+/**There are typos in the methods in this class: caculate instead of calculate. These could be changed in the future, but would need to ensure that all uses in other classes are changed to prevent bugs. */
+
 @Service("orderService")
 public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order> implements OrderService {
 
@@ -115,7 +117,6 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
 
     @Override
     public Order processOrder(Order order, Customer customer, List<ShoppingCartItem> items, OrderTotalSummary summary, Payment payment, MerchantStore store) throws ServiceException {
-
     	return process(order, customer, items, summary, payment, null, store);
     }
 
@@ -124,6 +125,21 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     	return process(order, customer, items, summary, payment, transaction, store);
     }
 
+    /**
+     * Processes an order by validating input data, handling payments, creating necessary 
+     * entities, updating order history, and managing inventory.
+     * 
+     * @param order The Order object containing order details.
+     * @param customer The Customer placing the order. Can be an anonymous customer.
+     * @param items A list of ShoppingCartItem objects representing the products being purchased.
+     * @param summary An OrderTotalSummary containing the total cost and tax details of the order.
+     * @param payment A Payment object representing the payment method and details.
+     * @param transaction The initial Transaction details, if available. This can be null.
+     * @param store The MerchantStore associated with the order.
+     * @return The processed Order with updated status, customer ID, and transaction details.
+     * @throws ServiceException If an issue occurs during payment processing, inventory update, or data consistency.
+     */
+    
 	private Order process(Order order, Customer customer, List<ShoppingCartItem> items, OrderTotalSummary summary, Payment payment, Transaction transaction, MerchantStore store) throws ServiceException {
 
 
@@ -213,6 +229,19 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
 
     	return order;
     }
+
+    /**
+     * Calculates the total cost of an order, including item prices, shipping, handling, and taxes.
+     * This method aggregates and processes all components that contribute to the final order total 
+     * and prepares an OrderTotalSummary.
+     *
+     * @param summary The OrderSummary containing products and shipping details.
+     * @param customer The Customer placing the order.
+     * @param store The MerchantStore handling the order.
+     * @param language The Language used for localization of labels.
+     * @return An OrderTotalSummary object containing the breakdown of order totals.
+     * @throws Exception If an error occurs during the calculation process.
+     */
 
     private OrderTotalSummary caculateOrder(OrderSummary summary, Customer customer, final MerchantStore store, final Language language) throws Exception {
 
@@ -427,6 +456,22 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
 
     }
 
+    /**
+     * Calculates the total cost of a shopping cart, taking into account product availability,
+     * promotions, and applying the same logic used for processing an order.
+     * 
+     * This method validates if a promo code is still valid, filters out unavailable products, 
+     * and prepares an {@code OrderSummary} that is then passed to the {@code caculateOrder} method 
+     * to calculate the total summary.
+     *
+     * @param shoppingCart The ShoppingCart containing the items to be purchased.
+     * @param customer The Customer making the purchase.
+     * @param store The MerchantStore where the transaction occurs.
+     * @param language The Language used for localization of labels and messages.
+     * @return An OrderTotalSummary object containing the total breakdown of the cart.
+     * @throws Exception If there are issues during calculation or validation processes.
+     */
+    
     private OrderTotalSummary caculateShoppingCart( ShoppingCart shoppingCart, final Customer customer, final MerchantStore store, final Language language) throws Exception {
 
 
