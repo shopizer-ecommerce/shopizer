@@ -17,6 +17,8 @@ public abstract class SalesManagerEntityServiceImpl<K extends Serializable & Com
 	
 	/**
 	 * Classe de l'entité, déterminé à partir des paramètres generics.
+	 * 
+	 * Entity class, determined by generic parameters.
 	 */
 	private Class<E> objectClass;
 

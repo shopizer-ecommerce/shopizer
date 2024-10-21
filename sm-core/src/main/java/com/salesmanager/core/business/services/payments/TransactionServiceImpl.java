@@ -205,4 +205,18 @@ public class TransactionServiceImpl  extends SalesManagerEntityServiceImpl<Long,
 		return transactionRepository.findByDates(startDate, endDate);
 	}
 
+
+	public class TransactionDomainService {
+		public Optional<Transaction> findCapturableTransaction(List<Transaction> transactions) {
+			return transactions.stream()
+				.filter(Transaction::canBeCaptured)
+				.findFirst();
+		}
+	}
+
+	TransactionDomainService domainService = new TransactionDomainService();
+return domainService.findCapturableTransaction(transactions).orElse(null);
+
+	
+
 }
