@@ -5,7 +5,6 @@ import java.util.List;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityService;
 import com.salesmanager.core.model.catalog.product.Product;
-import com.salesmanager.core.model.catalog.product.variant.ProductVariant;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.shipping.ShippingProduct;
@@ -64,4 +63,6 @@ public interface ShoppingCartService extends SalesManagerEntityService<Long, Sho
 	 */
 	void deleteShoppingCartItem(Long id);
 
+	boolean checkObsolete(ShoppingCart shoppingCart);
+	void markObsolete(ShoppingCart shoppingCart);
 }

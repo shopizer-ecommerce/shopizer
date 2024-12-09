@@ -83,7 +83,7 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 			if (!CollectionUtils.isEmpty(validCart)) {
 				shoppingCart = validCart.get(0);
 				getPopulatedShoppingCart(shoppingCart, store);
-				if (shoppingCart != null && shoppingCart.isObsolete()) {
+				if (shoppingCart != null && checkObsolete(shoppingCart)) {
 					delete(shoppingCart);
 					shoppingCart = null;
 				}
@@ -139,7 +139,7 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 			}
 			getPopulatedShoppingCart(shoppingCart, store);
 
-			if (shoppingCart.isObsolete()) {
+			if (checkObsolete(shoppingCart)) {
 				delete(shoppingCart);
 				return null;
 			} else {
@@ -190,7 +190,7 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 			}
 			getPopulatedShoppingCart(shoppingCart, store);
 
-			if (shoppingCart.isObsolete()) {
+			if (checkObsolete(shoppingCart)) {
 				delete(shoppingCart);
 				return null;
 			} else {
@@ -237,7 +237,7 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 
 				Set<ShoppingCartItem> items = shoppingCart.getLineItems();
 				if (items == null || items.size() == 0) {
-					shoppingCart.setObsolete(true);
+					markObsolete(shoppingCart);
 					return shoppingCart;
 
 				}
@@ -259,7 +259,7 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 				update(shoppingCart);
 
 				if (cartIsObsolete) {
-					shoppingCart.setObsolete(true);
+					markObsolete(shoppingCart);
 				}
 				return shoppingCart;
 			}
@@ -336,17 +336,7 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 			}
 		}
 
-		// cleanup orphean item
-		if (CollectionUtils.isNotEmpty(removeAttributesList)) {
-			for (ShoppingCartAttributeItem attr : removeAttributesList) {
-				shoppingCartAttributeItemRepository.delete(attr);
-			}
-		}
-
-		// cleanup detached attributes
-		if (CollectionUtils.isEmpty(attributesList)) {
-			item.setAttributes(null);
-		}
+		cleanupAttributes(item, removeAttributesList, attributesList);
 
 		// set item price
 		FinalPrice price = pricingService.calculateProductPrice(product, attributesList);
@@ -354,8 +344,23 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 		item.setFinalPrice(price);
 
 		BigDecimal subTotal = item.getItemPrice().multiply(new BigDecimal(item.getQuantity()));
-		item.setSubTotal(subTotal);
+		item.setSubTotal(subTotal);	
+	}
 
+	private void cleanupAttributes(ShoppingCartItem item, 
+                               List<ShoppingCartAttributeItem> removeAttributesList, 
+                               List<ProductAttribute> attributesList) {
+    	// Cleanup orphaned items
+    	if (CollectionUtils.isNotEmpty(removeAttributesList)) {
+        	for (ShoppingCartAttributeItem attr : removeAttributesList) {
+        	    shoppingCartAttributeItemRepository.delete(attr);
+        	}
+    	}
+
+    	// Cleanup detached attributes
+    	if (CollectionUtils.isEmpty(attributesList)) {
+    	    item.setAttributes(null);
+    	}
 	}
 
 	@Override
@@ -493,21 +498,20 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 	public void deleteShoppingCartItem(Long id) {
 
 		ShoppingCartItem item = shoppingCartItemRepository.findOne(id);
-		if (item != null) {
-
-			if (item.getAttributes() != null) {
+		
+		if (item != null && CollectionUtils.isNotEmpty(item.getAttributes())) {
 				item.getAttributes().forEach(a -> shoppingCartAttributeItemRepository.deleteById(a.getId()));
-				item.getAttributes().clear();
 			}
-
-			// refresh
-			item = shoppingCartItemRepository.findOne(id);
-
-			// delete
 			shoppingCartItemRepository.deleteById(id);
-
 		}
 
+		@Override
+	public void markObsolete(ShoppingCart shoppingCart){
+		shoppingCart.setObsolete(true);
 	}
 
+		@Override
+	public boolean checkObsolete(ShoppingCart shoppingCart){
+		return shoppingCart.isObsolete();
+	}
 }

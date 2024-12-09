@@ -21,7 +21,9 @@ import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ServiceException;
-import com.salesmanager.core.business.services.order.OrderService;
+import com.salesmanager.core.business.services.order.OrderCalculationService;
+import com.salesmanager.core.business.services.order.OrderManagementService;
+import com.salesmanager.core.business.services.order.OrderProcessingService;
 import com.salesmanager.core.business.services.reference.loader.ConfigurationModulesLoader;
 import com.salesmanager.core.business.services.system.MerchantConfigurationService;
 import com.salesmanager.core.business.services.system.ModuleConfigurationService;
@@ -66,7 +68,13 @@ public class PaymentServiceImpl implements PaymentService {
 	private TransactionService transactionService;
 	
 	@Inject
-	private OrderService orderService;
+	private OrderCalculationService orderCalculationService;
+
+	@Inject
+	private OrderManagementService orderManagementService;
+	
+	@Inject
+	private OrderProcessingService orderProcessingService;
 	
 	@Inject
 	private CoreConfiguration coreConfiguration;
@@ -252,49 +260,67 @@ public class PaymentServiceImpl implements PaymentService {
    }
 	
 	@Override
-	public void removePaymentModuleConfiguration(String moduleCode, MerchantStore store) throws ServiceException {
-		
-		
+public void removePaymentModuleConfiguration(String moduleCode, MerchantStore store) throws ServiceException { 
+   try { 
+      MerchantConfiguration merchantConfiguration = merchantConfigurationService.getMerchantConfiguration(Constants.PAYMENT_MODULES, store); 
 
-		try {
-			Map<String,IntegrationConfiguration> modules = new HashMap<String,IntegrationConfiguration>();
-			MerchantConfiguration merchantConfiguration = merchantConfigurationService.getMerchantConfiguration(Constants.PAYMENT_MODULES, store);
-			if(merchantConfiguration!=null) {
+      if (merchantConfiguration != null) { 
+         updateMerchantConfiguration(merchantConfiguration, moduleCode); 
+      } 
 
-				if(!StringUtils.isBlank(merchantConfiguration.getValue())) {
-					
-					String decrypted = encryption.decrypt(merchantConfiguration.getValue());
-					modules = ConfigurationModulesLoader.loadIntegrationConfigurations(decrypted);
-				}
-				
-				modules.remove(moduleCode);
-				String configs =  ConfigurationModulesLoader.toJSONString(modules);
-				
-				String encrypted = encryption.encrypt(configs);
-				merchantConfiguration.setValue(encrypted);
-				
-				merchantConfigurationService.saveOrUpdate(merchantConfiguration);
-				
-				
-			} 
-			
-			MerchantConfiguration configuration = merchantConfigurationService.getMerchantConfiguration(moduleCode, store);
-			
-			if(configuration!=null) {//custom module
+      removeCustomModuleConfiguration(moduleCode, store); 
+   } catch (Exception e) { 
+      throw new ServiceException(e); 
+   } 
+} 
 
-				merchantConfigurationService.delete(configuration);
-			}
+// Helper to update merchant configuration 
+private void updateMerchantConfiguration(MerchantConfiguration merchantConfiguration, String moduleCode) throws Exception { 
+   Map<String, IntegrationConfiguration> modules = new HashMap<>(); 
+   if (!StringUtils.isBlank(merchantConfiguration.getValue())) { 
+      String decrypted = encryption.decrypt(merchantConfiguration.getValue()); 
+      modules = ConfigurationModulesLoader.loadIntegrationConfigurations(decrypted); 
+   } 
+   modules.remove(moduleCode); 
 
-			
-		} catch (Exception e) {
-			throw new ServiceException(e);
-		}
-	
-	}
-	
+   String updatedValue = encryption.encrypt(ConfigurationModulesLoader.toJSONString(modules)); 
+   merchantConfiguration.setValue(updatedValue); 
+   merchantConfigurationService.saveOrUpdate(merchantConfiguration); 
+} 
 
-	
+// Helper to remove custom configurations 
+private void removeCustomModuleConfiguration(String moduleCode, MerchantStore store) throws ServiceException { 
+   MerchantConfiguration configuration = merchantConfigurationService.getMerchantConfiguration(moduleCode, store); 
+   if (configuration != null) { 
+      merchantConfigurationService.delete(configuration); 
+   } 
+}
 
+
+	public interface TransactionStrategy { 
+   Transaction process(PaymentModule module, MerchantStore store, Customer customer, List<ShoppingCartItem> items, BigDecimal amount, Payment payment, IntegrationConfiguration configuration, IntegrationModule integrationModule) throws ServiceException; 
+}
+
+public class AuthorizeTransaction implements TransactionStrategy { 
+   @Override 
+   public Transaction process(PaymentModule module, MerchantStore store, Customer customer, List<ShoppingCartItem> items, BigDecimal amount, Payment payment, IntegrationConfiguration configuration, IntegrationModule integrationModule) throws ServiceException { 
+      return module.authorize(store, customer, items, amount, payment, configuration, integrationModule); 
+   } 
+}
+
+public class AuthorizeAndCaptureTransaction implements TransactionStrategy { 
+   @Override 
+   public Transaction process(PaymentModule module, MerchantStore store, Customer customer, List<ShoppingCartItem> items, BigDecimal amount, Payment payment, IntegrationConfiguration configuration, IntegrationModule integrationModule) throws ServiceException { 
+      return module.authorizeAndCapture(store, customer, items, amount, payment, configuration, integrationModule); 
+   } 
+}
+
+public class InitTransaction implements TransactionStrategy { 
+   @Override 
+   public Transaction process(PaymentModule module, MerchantStore store, Customer customer, List<ShoppingCartItem> items, BigDecimal amount, Payment payment, IntegrationConfiguration configuration, IntegrationModule integrationModule) throws ServiceException { 
+      return module.initTransaction(store, customer, amount, payment, configuration, integrationModule); 
+   } 
+}
 
 	@Override
 	public Transaction processPayment(Customer customer,
@@ -459,10 +485,10 @@ public class PaymentServiceImpl implements PaymentService {
 		orderHistory.setStatus(OrderStatus.PROCESSED);
 		orderHistory.setDateAdded(new Date());
 		
-		orderService.addOrderStatusHistory(order, orderHistory);
+		orderManagementService.addOrderStatusHistory(order, orderHistory);
 		
 		order.setStatus(OrderStatus.PROCESSED);
-		orderService.saveOrUpdate(order);
+		orderManagementService.saveOrUpdate(order);
 
 		return transaction;
 
@@ -562,7 +588,7 @@ public class PaymentServiceImpl implements PaymentService {
 		orderHistory.setDateAdded(new Date());
         order.getOrderHistory().add(orderHistory);
         
-        orderService.saveOrUpdate(order);
+        orderManagementService.saveOrUpdate(order);
 
 		return transaction;
 	}
