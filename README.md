@@ -22,13 +22,22 @@ Headless commerce and Rest api for ecommerce
 - Customer
 - User
 
+
 Shopizer Headless commerce consists of the following components:
 
 - Spring boot Java / Spring boot backend
 - Angular administration web application
 - React JS front end application
 
+Prerequisites
 
+Before you begin, ensure you have the following installed on your system:
+
+Java 11+ (tested with Java 11, 16, and 17)
+
+Maven (for building the project)
+
+Docker (optional, for containerized deployment)
 
 See the demo: [**New demo on the way 2023]
 -------------------
@@ -53,16 +62,28 @@ docker run \
 ```
 
 
-3. Run react shop sample site
+3. Run React Shop Sample Site
 
-⋅⋅⋅ Requires the java backend to be running
+⋅⋅⋅ Requires the Java backend to be running.
 
-```
-docker run \
- -e "APP_MERCHANT=DEFAULT"
- -e "APP_BASE_URL=http://localhost:8080"
- -p 80:80 shopizerecomm/shopizer-shop-reactjs
-```
+- **Reason**: The React Shop sample site interacts with the backend API to retrieve and display products, handle customer authentication, and process orders. Without the backend running, the frontend will not be able to fetch necessary data or execute actions.
+
+- **Steps**:
+   1. Ensure the backend is running using the steps outlined in the previous section.
+   2. Run the following Docker command to start the React Shop sample site:
+      ```bash
+      docker run \
+      -e "APP_MERCHANT=DEFAULT" \
+      -e "APP_BASE_URL=http://localhost:8080" \
+      -p 80:80 shopizerecomm/shopizer-shop-reactjs
+      ```
+
+- **Access**: Once the site is running, you can access it at [http://localhost:80](http://localhost:80).
+
+- **Troubleshooting**: If the site does not load properly, check:
+  1. That the backend service is running without errors.
+  2. That there are no network conflicts on port `80` or `8080`.
+
 
 API documentation:
 -------------------
@@ -118,13 +139,28 @@ Please read the instructions on how to connect to MySQL, configure an email serv
 ### Documentation:
 -------------------
 
-Documentation available <https://shopizer-ecommerce.github.io/documentation/>
+### Documentation and Resources
 
-Api documentation <https://app.swaggerhub.com/apis-docs/shopizer/shopizer-rest-api/3.0.1#/>
+1. **Official Documentation**:
+   - **Description**: Comprehensive guide covering setup, configuration, and advanced usage of Shopizer.
+   - **Link**: [Shopizer Documentation](https://shopizer-ecommerce.github.io/documentation/)
 
-ChatOps <https://shopizer.slack.com>  - Join our Slack channel <https://communityinviter.com/apps/shopizer/shopizer>
+2. **API Documentation**:
+   - **Description**: Explore all available API endpoints with examples and detailed descriptions. Ideal for developers integrating Shopizer into their applications.
+   - **Link**: [Shopizer API Documentation](https://app.swaggerhub.com/apis-docs/shopizer/shopizer-rest-api/3.0.1#/)
 
-More information is available on shopizer web site here <http://www.shopizer.com>
+3. **Community and Support**:
+   - **Slack Channel**:
+     - **Description**: Join the Shopizer community on Slack to ask questions, share feedback, and get support from other users and developers.
+     - **Link**: [Join Slack Channel](https://communityinviter.com/apps/shopizer/shopizer)
+   - **ChatOps**:
+     - **Description**: Direct link to the Shopizer workspace on Slack for real-time discussions.
+     - **Link**: [Shopizer Slack Workspace](https://shopizer.slack.com)
+
+4. **Official Website**:
+   - **Description**: Learn more about Shopizer, including news, updates, and additional resources.
+   - **Link**: [Shopizer Website](http://www.shopizer.com)
+
 
 ### Participation:
 -------------------
@@ -135,30 +171,68 @@ so we can send an invite to our Slack channel
 
 ### How to Contribute:
 -------------------
-Fork the repository to your GitHub account
+Contributing to Shopizer is simple and rewarding. Follow the steps below to get started:
 
-Clone from fork repository
--------------------
+1. **Fork the Repository**:
+   - **Description**: Create your own copy of the repository on your GitHub account by clicking the **Fork** button at the top-right of the repository page.
+   - **Why**: This ensures your changes don’t directly affect the original repository.
 
-       $ git clone https://github.com/yourusername/shopizer.git
+2. **Clone from Forked Repository**:
+   - **Description**: Download the forked repository to your local machine to start making changes.
+   - **Command**:
+     ```bash
+     git clone https://github.com/yourusername/shopizer.git
+     cd shopizer
+     ```
 
-Build application according to steps provided above
+3. **Build the Application**:
+   - **Description**: Ensure that the application builds successfully and is ready for development or testing.
+   - **Steps**:
+     - Follow the [Build Steps](#installation-guide) provided earlier in this README.
 
-Synchronize lastest version with the upstream
--------------------
+4. **Synchronize with the Upstream Repository**:
+   - **Description**: Keep your fork updated with the latest changes from the main repository.
+   - **Commands**:
+     ```bash
+     git remote add upstream https://github.com/shopizer-ecommerce/shopizer.git
+     git pull upstream 3.2.5
+     ```
+   - **Why**: Synchronizing ensures your changes are compatible with the latest version of the project.
 
-      $ git remote add upstream https://github.com/yourusername/shopizer.git
-	  $ git pull upstream 3.2.5
+5. **Create a New Branch**:
+   - **Description**: Always create a new branch for your feature or fix to keep your work organized.
+   - **Command**:
+     ```bash
+     git checkout -b branch-name
+     ```
+   - **Tip**: Use descriptive branch names like `feature-add-product-filter` or `fix-cart-bug`.
 
-Create new branch in your repository
--------------------
+6. **Make Your Changes**:
+   - **Description**: Implement the feature, fix the bug, or update the documentation.
 
-	   $ git checkout -b branch-name
+7. **Test Your Changes**:
+   - **Description**: Run the application locally and ensure your changes work as intended without breaking existing functionality.
+   - **Tip**: Use tools like Swagger UI to test API changes.
 
+8. **Push Changes to Your Fork**:
+   - **Description**: Push your changes to your forked repository on GitHub.
+   - **Command**:
+     ```bash
+     git push origin branch-name
+     ```
 
-Push your changes to Shopizer
--------------------
+9. **Submit a Pull Request (PR)**:
+   - **Description**: Request to merge your changes into the main repository.
+   - **Steps**:
+     - Navigate to your forked repository on GitHub.
+     - Click the **Compare & Pull Request** button.
+     - Add a clear title and description explaining your changes.
+   - **Tip**: Mention any related issues (e.g., \"Fixes #123\") in the description.
 
-Please open a PR (pull request) in order to have your changes merged to the upstream
+10. **Respond to Feedback**:
+    - **Description**: Be prepared to make updates or revisions based on feedback from maintainers.
+    - **Why**: Collaboration ensures your contribution meets project standards.
+
+---
 
 
