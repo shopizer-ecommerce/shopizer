@@ -17,6 +17,14 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.tax.taxclass.TaxClass;
 
+@Service
+public class ProductService {
+
+    @Cacheable("products")
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
+    }
+}
 
 
 public interface ProductService extends SalesManagerEntityService<Long, Product> {
