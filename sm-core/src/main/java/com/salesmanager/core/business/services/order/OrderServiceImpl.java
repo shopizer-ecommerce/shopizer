@@ -186,32 +186,34 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     			transactionService.update(processTransaction);
     		}
     	}
+        // decrement inventory
+        updateInventory(order);
 
-        /**
-         * decrement inventory
-         */
-    	LOGGER.debug( "Update inventory" );
+    	return order;
+    }
+
+    /**
+    * Update inventory based on the order's products and their quantities.
+    */
+    private void updateInventory(Order order) throws ServiceException {
+        LOGGER.debug("Update inventory");
         Set<OrderProduct> products = order.getOrderProducts();
-        for(OrderProduct orderProduct : products) {
+        for (OrderProduct orderProduct : products) {
             orderProduct.getProductQuantity();
-            Product p = productService.getById(orderProduct.getId());
-            if(p == null)
+            Product product = productService.getById(orderProduct.getId());
+            if (product == null) {
                 throw new ServiceException(ServiceException.EXCEPTION_INVENTORY_MISMATCH);
-            for(ProductAvailability availability : p.getAvailabilities()) {
+            }
+            for (ProductAvailability availability : product.getAvailabilities()) {
                 int qty = availability.getProductQuantity();
-                if(qty < orderProduct.getProductQuantity()) {
-                    //throw new ServiceException(ServiceException.EXCEPTION_INVENTORY_MISMATCH);
-                	LOGGER.error("APP-BACKEND [" + ServiceException.EXCEPTION_INVENTORY_MISMATCH + "]");
+                if (qty < orderProduct.getProductQuantity()) {
+                    LOGGER.error("APP-BACKEND [" + ServiceException.EXCEPTION_INVENTORY_MISMATCH + "]");
                 }
                 qty = qty - orderProduct.getProductQuantity();
                 availability.setProductQuantity(qty);
             }
-            productService.update(p);
+            productService.update(product);
         }
-
-
-
-    	return order;
     }
 
     private OrderTotalSummary caculateOrder(OrderSummary summary, Customer customer, final MerchantStore store, final Language language) throws Exception {
@@ -674,7 +676,4 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
 
 		return returnOrders;
 	}
-
-
-
 }
