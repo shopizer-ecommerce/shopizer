@@ -15,7 +15,7 @@
 	<url>http://www.shopizer.com</url>
 
 	<properties>
-		<java.version>11</java.version>
+		<java.version>21</java.version>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 	</properties>
