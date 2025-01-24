@@ -18,6 +18,9 @@
 		<coverage.lines>.00</coverage.lines>
 		<coverage.branches>.00</coverage.branches>
 		<google-client-maps-services-version>0.1.6</google-client-maps-services-version>
+		<java.version>21</java.version>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
 	</properties>
 
 	<dependencies>
@@ -140,7 +143,7 @@
 
 		<!-- https://mvnrepository.com/artifact/commons-validator/commons-validator -->
 		<dependency>
-			<groupId>commons-validator</groupId>
+			<groupId>commons.validator</groupId>
 			<artifactId>commons-validator</artifactId>
 			<exclusions>
 				<exclusion>
