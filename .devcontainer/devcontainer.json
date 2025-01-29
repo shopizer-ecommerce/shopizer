@@ -1,5 +1,6 @@
 {
   "image": "autodev.azurecr.io/autodev:latest",
   "features": {},
-  "remoteUser": "vscode"
+  "remoteUser": "vscode",
+  "postCreateCommand": "echo $ACR_CONTAINER_REGISTRY_PASSWORD | docker login $ACR_CONTAINER_REGISTRY_SERVER -u $ACR_CONTAINER_REGISTRY_USER --password-stdin"
 }
