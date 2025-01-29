@@ -1,3 +1,5 @@
 {
-  "image": "autodev.azurecr.io/autodev:latest"
+  "image": "autodev.azurecr.io/autodev:latest",
+  "features": {},
+  "remoteUser": "vscode"
 }
