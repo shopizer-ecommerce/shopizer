@@ -37,18 +37,18 @@ public class DataUtils {
 				return new BigDecimal(String.valueOf(weight))
 				.setScale(2, RoundingMode.HALF_UP).doubleValue();
 			} else {// pound = kilogram
-				double answer = weight * weightConstant;
-				BigDecimal w = new BigDecimal(answer);
-				return w.setScale(2, RoundingMode.HALF_UP).doubleValue();
+				double convertedWeight = weight * weightConstant;
+				BigDecimal roundedConvertedWeight = new BigDecimal(convertedWeight);
+				return roundedConvertedWeight.setScale(2, RoundingMode.HALF_UP).doubleValue();
 			}
 		} else {// need KG
 			if (store.getWeightunitcode().equals(MeasureUnit.KG.name())) {
 				return new BigDecimal(String.valueOf(weight)).setScale(2,
 				RoundingMode.HALF_UP).doubleValue();
 			} else {
-				double answer = weight / weightConstant;
-				BigDecimal w = new BigDecimal(answer);
-				return w.setScale(2, RoundingMode.HALF_UP).doubleValue();
+				double convertedWeight = weight / weightConstant;
+				BigDecimal roundedConvertedWeight = new BigDecimal(convertedWeight);
+				return roundedConvertedWeight.setScale(2, RoundingMode.HALF_UP).doubleValue();
 			}
 		}
 	}

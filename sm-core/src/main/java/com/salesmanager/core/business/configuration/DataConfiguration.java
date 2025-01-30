@@ -35,26 +35,13 @@ public class DataConfiguration {
     
     @Value("${db.password}")
     private String password;
-
     
     /**
      * Other connection properties
      */
     
-    @Value("${hibernate.hbm2ddl.auto}")
-    private String hbm2ddl;
-    
-    @Value("${hibernate.dialect}")
-    private String dialect;
-    
-    @Value("${db.show.sql}")
-    private String showSql;
-    
     @Value("${db.preferredTestQuery}")
     private String preferredTestQuery;
-    
-    @Value("${db.schema}")
-    private String schema;
     
     @Value("${db.preferredTestQuery}")
     private String testQuery;
@@ -64,6 +51,8 @@ public class DataConfiguration {
     
     @Value("${db.maxPoolSize}")
     private int maxPoolSize;
+
+    private HibernateConfigurations hibernate;
 
     @Bean
     public HikariDataSource dataSource() {
@@ -91,29 +80,10 @@ public class DataConfiguration {
 		LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
 		factory.setJpaVendorAdapter(vendorAdapter);
 		factory.setPackagesToScan("com.salesmanager.core.model");
-		factory.setJpaProperties(additionalProperties());
+		factory.setJpaProperties(hibernate.getProperties());
 		factory.setDataSource(dataSource());
 		return factory;
 	}
-	
-    final Properties additionalProperties() {
-        final Properties hibernateProperties = new Properties();
-        
-        hibernateProperties.setProperty("hibernate.hbm2ddl.auto", hbm2ddl);
-        hibernateProperties.setProperty("hibernate.default_schema", schema);
-        hibernateProperties.setProperty("hibernate.dialect", dialect);
-        hibernateProperties.setProperty("hibernate.show_sql", showSql);
-        hibernateProperties.setProperty("hibernate.cache.use_second_level_cache", "true");
-        hibernateProperties.setProperty("hibernate.cache.use_query_cache", "true");
-        hibernateProperties.setProperty("hibernate.cache.region.factory_class", "org.hibernate.cache.ehcache.EhCacheRegionFactory");
-        hibernateProperties.setProperty("hibernate.connection.CharSet", "utf8");
-        hibernateProperties.setProperty("hibernate.connection.characterEncoding", "utf8");
-        hibernateProperties.setProperty("hibernate.connection.useUnicode", "true");
-        hibernateProperties.setProperty("hibernate.id.new_generator_mappings", "false"); //unless you run on a new schema
-        hibernateProperties.setProperty("hibernate.generate_statistics", "false");
-        // hibernateProperties.setProperty("hibernate.globally_quoted_identifiers", "true");
-        return hibernateProperties;
-    }
 
 	@Bean
 	public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {

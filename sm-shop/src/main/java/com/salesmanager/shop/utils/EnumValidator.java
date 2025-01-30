@@ -10,36 +10,42 @@ import javax.validation.ConstraintValidatorContext;
  * @author c.samson
  *
  */
-public class EnumValidator implements ConstraintValidator<Enum, String>
-{
+public class EnumValidator implements ConstraintValidator<Enum, String> {
     private Enum annotation;
- 
+
     @Override
-    public void initialize(Enum annotation)
-    {
+    public void initialize(Enum annotation) {
         this.annotation = annotation;
     }
- 
+
     @Override
-    public boolean isValid(String valueForValidation, ConstraintValidatorContext constraintValidatorContext)
-    {
-        boolean result = false;
-         
+    public boolean isValid(String valueForValidation, ConstraintValidatorContext constraintValidatorContext) {
         Object[] enumValues = this.annotation.enumClass().getEnumConstants();
-         
-        if(enumValues != null)
-        {
-            for(Object enumValue:enumValues)
-            {
-                if(valueForValidation.equals(enumValue.toString()) 
-                   || (this.annotation.ignoreCase() && valueForValidation.equalsIgnoreCase(enumValue.toString())))
-                {
-                    result = true; 
-                    break;
-                }
+        if (enumValues == null) {
+            return false;
+        }
+        for (Object enumValue : enumValues) {
+            if (isEnumValueValid(valueForValidation, enumValue)) {
+                return true;
             }
         }
-         
-        return result;
+        return false;
+    }
+
+    private boolean isEnumValueValid(String valueForValidation, Object enumValue) {
+        return isEnumValueEqual(valueForValidation, enumValue)
+                || (isIgnoreCase() && isEnumValueEqualIgnoreCase(valueForValidation, enumValue));
+    }
+
+    private boolean isEnumValueEqual(String valueForValidation, Object enumValue) {
+        return valueForValidation.equals(enumValue.toString());
+    }
+
+    private boolean isEnumValueEqualIgnoreCase(String valueForValidation, Object enumValue) {
+        return isIgnoreCase() && valueForValidation.equalsIgnoreCase(enumValue.toString());
+    }
+
+    private boolean isIgnoreCase() {
+        return this.annotation.ignoreCase();
     }
 }

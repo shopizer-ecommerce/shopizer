@@ -56,7 +56,9 @@ public class OrderCriteria extends Criteria {
 		this.email = email;
 	}
    
-	
+	public void setLegacyPagination(boolean legacyPagination) {
+		this.legacyPagination = legacyPagination;
+	}
 	
 	
 
