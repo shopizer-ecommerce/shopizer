@@ -5,23 +5,37 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
+import static springfox.documentation.builders.PathSelectors.any;
 
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
+import com.salesmanager.shop.store.api.v1.shoppingCart.ShoppingCartApi;
+import com.salesmanager.shop.store.controller.shoppingCart.facade.v1.ShoppingCartFacade;
+import org.junit.Before;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.salesmanager.shop.application.ShopApplication;
@@ -29,6 +43,8 @@ import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.shoppingcart.PersistableShoppingCartItem;
 import com.salesmanager.shop.model.shoppingcart.ReadableShoppingCart;
 import com.salesmanager.test.shop.common.ServicesTestSupport;
+
+import javax.servlet.http.HttpServletResponse;
 
 @SpringBootTest(classes = ShopApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension.class)
@@ -39,6 +55,22 @@ public class ShoppingCartAPIIntegrationTest extends ServicesTestSupport {
     private TestRestTemplate testRestTemplate;
 
     private static CartTestBean data = new CartTestBean();
+
+
+    @Mock
+    private ShoppingCartFacade shoppingCartFacade;
+
+    @Mock
+    private MerchantStore merchantStore;
+
+    @Mock
+    private Language language;
+
+    @Mock
+    private HttpServletResponse response;
+
+    @InjectMocks
+    private ShoppingCartApi shoppingCartController;
 
 
     /**

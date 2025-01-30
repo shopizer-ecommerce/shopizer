@@ -83,12 +83,11 @@ public class ProductPriceUtils {
 	 * included having a specified default attribute with an attribute price gt 0 in
 	 * the product object. The calculation is based on the default price. Attributes
 	 * may be null
-	 * 
-	 * @param Product
-	 * @param List<ProductAttribute>
+	 *
+	 * @param product The actual product
+	 * @param attributes
 	 * @return FinalPrice
 	 */
-	// Pricer
 	public FinalPrice getFinalPrice(Product product, List<ProductAttribute> attributes) throws ServiceException {
 
 		FinalPrice finalPrice = calculateFinalPrice(product);
@@ -107,18 +106,18 @@ public class ProductPriceUtils {
 			}
 
 			if (attributePrice != null && attributePrice.doubleValue() > 0) {
-				BigDecimal fp = finalPrice.getFinalPrice();
-				fp = fp.add(attributePrice);
-				finalPrice.setFinalPrice(fp);
+				BigDecimal finalProductPrice = finalPrice.getFinalPrice();
+				finalProductPrice = finalProductPrice.add(attributePrice);
+				finalPrice.setFinalPrice(finalProductPrice);
 
-				BigDecimal op = finalPrice.getOriginalPrice();
-				op = op.add(attributePrice);
-				finalPrice.setOriginalPrice(op);
+				BigDecimal originalPrice = finalPrice.getOriginalPrice();
+				originalPrice = originalPrice.add(attributePrice);
+				finalPrice.setOriginalPrice(originalPrice);
 
-				BigDecimal dp = finalPrice.getDiscountedPrice();
-				if (dp != null) {
-					dp = dp.add(attributePrice);
-					finalPrice.setDiscountedPrice(dp);
+				BigDecimal discountedPrice = finalPrice.getDiscountedPrice();
+				if (discountedPrice != null) {
+					discountedPrice = discountedPrice.add(attributePrice);
+					finalPrice.setDiscountedPrice(discountedPrice);
 				}
 
 			}
@@ -158,13 +157,13 @@ public class ProductPriceUtils {
 			}
 
 			if (attributePrice != null && attributePrice.doubleValue() > 0) {
-				BigDecimal fp = finalPrice.getFinalPrice();
-				fp = fp.add(attributePrice);
-				finalPrice.setFinalPrice(fp);
+				BigDecimal finalProductPrice = finalPrice.getFinalPrice();
+				finalProductPrice = finalProductPrice.add(attributePrice);
+				finalPrice.setFinalPrice(finalProductPrice);
 
-				BigDecimal op = finalPrice.getOriginalPrice();
-				op = op.add(attributePrice);
-				finalPrice.setOriginalPrice(op);
+				BigDecimal originalPrice = finalPrice.getOriginalPrice();
+				originalPrice = originalPrice.add(attributePrice);
+				finalPrice.setOriginalPrice(originalPrice);
 			}
 		}
 
@@ -257,12 +256,12 @@ public class ProductPriceUtils {
 			return "";
 		}
 
-		NumberFormat nf = NumberFormat.getInstance(Constants.DEFAULT_LOCALE);
+		NumberFormat numberFormat = NumberFormat.getInstance(Constants.DEFAULT_LOCALE);
 
-		nf.setMaximumFractionDigits(Integer.parseInt(Character.toString(DECIMALCOUNT)));
-		nf.setMinimumFractionDigits(Integer.parseInt(Character.toString(DECIMALCOUNT)));
+		numberFormat.setMaximumFractionDigits(Integer.parseInt(Character.toString(DECIMALCOUNT)));
+		numberFormat.setMinimumFractionDigits(Integer.parseInt(Character.toString(DECIMALCOUNT)));
 
-		return nf.format(amount);
+		return numberFormat.format(amount);
 	}
 
 	// Utility
@@ -272,12 +271,12 @@ public class ProductPriceUtils {
 			return "";
 		}
 
-		NumberFormat nf = NumberFormat.getInstance(Constants.DEFAULT_LOCALE);
+		NumberFormat numberFormat = NumberFormat.getInstance(Constants.DEFAULT_LOCALE);
 
-		nf.setMaximumFractionDigits(Integer.parseInt(Character.toString(DECIMALCOUNT)));
-		nf.setMinimumFractionDigits(Integer.parseInt(Character.toString(DECIMALCOUNT)));
+		numberFormat.setMaximumFractionDigits(Integer.parseInt(Character.toString(DECIMALCOUNT)));
+		numberFormat.setMinimumFractionDigits(Integer.parseInt(Character.toString(DECIMALCOUNT)));
 
-		return nf.format(amount);
+		return numberFormat.format(amount);
 	}
 
 	/**
@@ -348,15 +347,15 @@ public class ProductPriceUtils {
 			return "";
 		}
 
-		NumberFormat nf = null;
+		NumberFormat numberFormat = null;
 
 		Currency currency = store.getCurrency().getCurrency();
-		nf = NumberFormat.getInstance(Constants.DEFAULT_LOCALE);
-		nf.setMaximumFractionDigits(Integer.parseInt(Character.toString(DECIMALCOUNT)));
-		nf.setMinimumFractionDigits(Integer.parseInt(Character.toString(DECIMALCOUNT)));
-		nf.setCurrency(currency);
+		numberFormat = NumberFormat.getInstance(Constants.DEFAULT_LOCALE);
+		numberFormat.setMaximumFractionDigits(Integer.parseInt(Character.toString(DECIMALCOUNT)));
+		numberFormat.setMinimumFractionDigits(Integer.parseInt(Character.toString(DECIMALCOUNT)));
+		numberFormat.setCurrency(currency);
 
-		return nf.format(amount);
+		return numberFormat.format(amount);
 	}
 
 	/**
@@ -376,15 +375,15 @@ public class ProductPriceUtils {
 		}
 
 		Validate.notNull(currency.getCurrency(), "Currency must be populated with java.util.Currency");
-		NumberFormat nf = null;
+		NumberFormat numberFormat = null;
 
 		Currency curr = currency.getCurrency();
-		nf = NumberFormat.getInstance(Constants.DEFAULT_LOCALE);
-		nf.setMaximumFractionDigits(Integer.parseInt(Character.toString(DECIMALCOUNT)));
-		nf.setMinimumFractionDigits(Integer.parseInt(Character.toString(DECIMALCOUNT)));
-		nf.setCurrency(curr);
+		numberFormat = NumberFormat.getInstance(Constants.DEFAULT_LOCALE);
+		numberFormat.setMaximumFractionDigits(Integer.parseInt(Character.toString(DECIMALCOUNT)));
+		numberFormat.setMinimumFractionDigits(Integer.parseInt(Character.toString(DECIMALCOUNT)));
+		numberFormat.setCurrency(curr);
 
-		return nf.format(amount);
+		return numberFormat.format(amount);
 	}
 
 	/**
@@ -400,16 +399,16 @@ public class ProductPriceUtils {
 	public String getFormatedAmountWithCurrency(MerchantStore store, BigDecimal amount, Locale locale)
 			throws Exception {
 
-		NumberFormat nf = null;
+		NumberFormat numberFormat = null;
 
 		Currency currency = store.getCurrency().getCurrency();
 
-		nf = NumberFormat.getInstance(locale);
-		nf.setCurrency(currency);
-		nf.setMaximumFractionDigits(Integer.parseInt(Character.toString(DECIMALCOUNT)));
-		nf.setMinimumFractionDigits(Integer.parseInt(Character.toString(DECIMALCOUNT)));
+		numberFormat = NumberFormat.getInstance(locale);
+		numberFormat.setCurrency(currency);
+		numberFormat.setMaximumFractionDigits(Integer.parseInt(Character.toString(DECIMALCOUNT)));
+		numberFormat.setMinimumFractionDigits(Integer.parseInt(Character.toString(DECIMALCOUNT)));
 
-		return nf.format(amount);
+		return numberFormat.format(amount);
 
 	}
 
@@ -581,14 +580,14 @@ public class ProductPriceUtils {
 				Set<ProductPrice> prices = availability.getPrices();
 				for (ProductPrice price : prices) {
 
-					FinalPrice p = finalPrice(price);
+					FinalPrice fPrice = finalPrice(price);
 					if (price.isDefaultPrice()) {
-						finalPrice = p;
+						finalPrice = fPrice;
 					} else {
 						if (otherPrices == null) {
 							otherPrices = new ArrayList<FinalPrice>();
 						}
-						otherPrices.add(p);
+						otherPrices.add(fPrice);
 					}
 				}
 			}

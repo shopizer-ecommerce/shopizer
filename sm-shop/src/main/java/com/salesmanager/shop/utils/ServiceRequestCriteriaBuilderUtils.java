@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.salesmanager.core.model.common.CriteriaHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,6 +76,7 @@ public class ServiceRequestCriteriaBuilderUtils {
      * Works assuming datatable sends query data
      */
     MerchantStoreCriteria criteria = new MerchantStoreCriteria();
+	  CriteriaHelper criteriaHelper = new CriteriaHelper();
 
     String searchParam = request.getParameter("search[value]");
     String orderColums = request.getParameter("order[0][column]");
@@ -106,7 +108,7 @@ public class ServiceRequestCriteriaBuilderUtils {
     	LOGGER.error("Error parsing boolean values",e);
     }
     
-    criteria.setSearch(searchParam);
+    criteriaHelper.setSearch(searchParam);
 
     return criteria;
     

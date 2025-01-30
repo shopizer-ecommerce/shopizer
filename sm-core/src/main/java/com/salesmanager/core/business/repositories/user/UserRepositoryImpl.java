@@ -4,6 +4,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+
+import com.salesmanager.core.model.common.CriteriaHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +35,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 	 
     try {
       StringBuilder req = new StringBuilder();
+      CriteriaHelper criteriaHelper = new CriteriaHelper();
       req.append(
           "select distinct u from User as u left join fetch u.groups ug left join fetch u.defaultLanguage ud join fetch u.merchantStore um");
       StringBuilder countBuilder = new StringBuilder();
@@ -52,7 +55,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
       String hql = req.toString();
       Query q = this.em.createQuery(hql);
 
-      if(!StringUtils.isBlank(criteria.getSearch())) {
+      if(!StringUtils.isBlank(criteriaHelper.getSearch())) {
         //TODO
       } else {
         if (criteria.getStoreCode() != null) {

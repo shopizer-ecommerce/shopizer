@@ -12,6 +12,7 @@ import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import com.salesmanager.core.model.common.CriteriaHelper;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -578,6 +579,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 	public ProductList listByStore(MerchantStore store, Language language, ProductCriteria criteria) {
 
 		ProductList productList = new ProductList();
+		CriteriaHelper criteriaHelper = new CriteriaHelper();
 
 		StringBuilder countBuilderSelect = new StringBuilder();
 		countBuilderSelect.append("select count(distinct p) from Product as p");
@@ -611,7 +613,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		// todo type
 
 		// sku
-		if (!StringUtils.isBlank(criteria.getCode())) {
+		if (!StringUtils.isBlank(criteriaHelper.getCode())) {
 			countBuilderWhere.append(" and lower(p.sku) like :sku");
 		}
 
@@ -636,9 +638,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		 * origin allows skipping attributes join in admin
 		 */
 		//attribute or option values
-		if (criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP) 
-				&& CollectionUtils.isNotEmpty(criteria.getAttributeCriteria()) 
-				|| CollectionUtils.isNotEmpty(criteria.getOptionValueIds())) {
+		if(satisfyCriteria(criteria)){
 
 			countBuilderSelect.append(" INNER JOIN p.attributes pattr");
 			countBuilderSelect.append(" INNER JOIN pattr.productOption po");
@@ -695,9 +695,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			countQ.setParameter("dt", new Date());
 		}
 
-		if (!StringUtils.isBlank(criteria.getCode())) {
+		if (!StringUtils.isBlank(criteriaHelper.getCode())) {
 			countQ.setParameter("sku",
-					new StringBuilder().append("%").append(criteria.getCode().toLowerCase()).append("%").toString());
+					new StringBuilder().append("%").append(criteriaHelper.getCode().toLowerCase()).append("%").toString());
 		}
 
 		if (criteria.getManufacturerId() != null) {
@@ -849,7 +849,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			qs.append(" and lower(pd.name) like :nm");
 		}
 
-		if (!StringUtils.isBlank(criteria.getCode())) {
+		if (!StringUtils.isBlank(criteriaHelper.getCode())) {
 			qs.append(" and lower(p.sku) like :sku");
 		}
 
@@ -920,9 +920,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			q.setParameter("manufid", criteria.getManufacturerId());
 		}
 
-		if (!StringUtils.isBlank(criteria.getCode())) {
+		if (!StringUtils.isBlank(criteriaHelper.getCode())) {
 			q.setParameter("sku",
-					new StringBuilder().append("%").append(criteria.getCode().toLowerCase()).append("%").toString());
+					new StringBuilder().append("%").append(criteriaHelper.getCode().toLowerCase()).append("%").toString());
 		}
 
 		/**/
@@ -968,6 +968,13 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
 		return productList;
 
+	}
+	private boolean satisfyCriteria(ProductCriteria criteria){
+		boolean isOrigin = criteria.getOrigin().equals(ProductCriteria.ORIGIN_SHOP);
+		boolean AttributesCriteria = CollectionUtils.isNotEmpty(criteria.getAttributeCriteria());
+		boolean OptionalValueIds = CollectionUtils.isNotEmpty(criteria.getOptionValueIds());
+
+		return (isOrigin && AttributesCriteria) || OptionalValueIds;
 	}
 
 	@Override

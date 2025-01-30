@@ -67,10 +67,6 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 
 	private final static String INDEX_PRODUCTS = "INDEX_PRODUCTS";
 	
-	private final static String SETTINGS = "search/SETTINGS";
-	
-	private final static String PRODUCT_MAPPING_DEFAULT = "search/MAPPINGS.json";
-	
 	private final static String QTY = "QTY";
 	private final static String PRICE = "PRICE";
 	private final static String DISCOUNT_PRICE = "DISCOUNT";
@@ -81,20 +77,10 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 	/**
 	 * TODO properties file
 	 */
-	
-	private final static String KEYWORDS_MAPPING_DEFAULT = "{\"properties\":"
-			+ "      {\n\"id\": {\n"
-			+ "        \"type\": \"long\"\n"
-			+ "      }\n"
-			+ "     }\n"
-			+ "    }";	
-	
 
-
-	@Inject
 	private CoreConfiguration configuration;
 
-	@Autowired
+	@Inject
 	private ApplicationSearchConfiguration applicationSearchConfiguration;
 	
 	@Autowired
@@ -106,6 +92,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 	@Autowired
 	private ResourceLoader resourceLoader;
 
+
 	@PostConstruct
 	public void init() throws Exception {
 
@@ -115,7 +102,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 
 		if (searchModule != null && !noIndex) {
 
-			SearchConfiguration searchConfiguration = config();
+			SearchConfiguration searchConfiguration = applicationSearchConfiguration.config();
 			try {
 				searchModule.configure(searchConfiguration);
 			} catch (Exception e) {
@@ -255,55 +242,6 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 		} catch (Exception e) {
 			throw new ServiceException(e);
 		}
-
-	}
-
-	private SearchConfiguration config() throws Exception {
-
-		SearchConfiguration config = new SearchConfiguration();
-		config.setClusterName(applicationSearchConfiguration.getClusterName());
-		config.setHosts(applicationSearchConfiguration.getHost());
-		config.setCredentials(applicationSearchConfiguration.getCredentials());
-
-		config.setLanguages(applicationSearchConfiguration.getSearchLanguages());
-		
-		config.getLanguages().stream().forEach(l -> {
-			try {
-				mappings(config,l);
-			} catch (Exception e) {
-				throw new IllegalStateException(e);
-			}
-		});
-		config.getLanguages().stream().forEach(l -> {
-			try {
-				this.settings(config,l);
-			} catch (Exception e) {
-				throw new IllegalStateException(e);
-			}
-		});
-		
-
-
-		/**
-		 * The mapping
-		 */
-		/*
-		 * config.getProductMappings().put("variants", "nested");
-		 * config.getProductMappings().put("attributes", "nested");
-		 * config.getProductMappings().put("brand", "keyword");
-		 * config.getProductMappings().put("store", "keyword");
-		 * config.getProductMappings().put("reviews", "keyword");
-		 * config.getProductMappings().put("image", "keyword");
-		 * config.getProductMappings().put("category", "text");
-		 * config.getProductMappings().put("name", "text");
-		 * config.getProductMappings().put("description", "text");
-		 * config.getProductMappings().put("price", "float");
-		 * config.getProductMappings().put("id", "long");
-		 
-		config.getKeywordsMappings().put("store", "keyword");
-		*/
-
-		return config;
 
 	}
 	
@@ -490,41 +428,6 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 		attributeValue.put(optionDescription.getName(), value.getName());
 
 		return attributeValue;
-	}
-	
-	private void settings(SearchConfiguration config, String language) throws Exception{
-		Validate.notEmpty(language, "Configuration requires language");
-		String settings = resourceAsText(loadSearchConfig(SETTINGS + "_DEFAULT.json"));
-		//specific settings
-		if(language.equals("en")) {
-			settings = resourceAsText(loadSearchConfig(SETTINGS+ "_" + language +".json"));
-		}
-		
-		config.getSettings().put(language, settings);
-
-	}
-	
-	private void mappings(SearchConfiguration config, String language) throws Exception {
-		Validate.notEmpty(language, "Configuration requires language");
-
-		config.getProductMappings().put(language, resourceAsText(loadSearchConfig(PRODUCT_MAPPING_DEFAULT)));
-		config.getKeywordsMappings().put(language,KEYWORDS_MAPPING_DEFAULT);
-			
-	}
-
-	
-	private String resourceAsText(Resource resource) throws Exception {
-		InputStream mappingstream = resource.getInputStream();
-		
-	    return new BufferedReader(
-	    	      new InputStreamReader(mappingstream, StandardCharsets.UTF_8))
-	    	        .lines()
-	    	        .collect(Collectors.joining("\n"));
-	}
-	
-	private Resource loadSearchConfig(String file) {
-	    return resourceLoader.getResource(
-	      "classpath:" + file);
 	}
 
 }

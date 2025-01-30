@@ -16,9 +16,7 @@ public class Criteria {
 	private String code;
 	private String name;
 	private String language;
-	private String user;
 	private String storeCode;
-	private List<Integer> storeIds;
 
 	private CriteriaOrderBy orderBy = CriteriaOrderBy.DESC;
 	private String criteriaOrderByField;
@@ -38,10 +36,6 @@ public class Criteria {
 
 	public void setStartIndex(int startIndex) {
 		this.startIndex = startIndex;
-	}
-
-	public String getCode() {
-		return code;
 	}
 
 	public void setCode(String code) {
@@ -64,18 +58,6 @@ public class Criteria {
 		this.language = language;
 	}
 
-	public String getUser() {
-		return user;
-	}
-
-	public void setUser(String user) {
-		this.user = user;
-	}
-
-	public String getName() {
-		return name;
-	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -86,14 +68,6 @@ public class Criteria {
 
 	public void setCriteriaOrderByField(String criteriaOrderByField) {
 		this.criteriaOrderByField = criteriaOrderByField;
-	}
-
-	public String getSearch() {
-		return search;
-	}
-
-	public void setSearch(String search) {
-		this.search = search;
 	}
 
 	public String getStoreCode() {
@@ -127,14 +101,4 @@ public class Criteria {
 	public void setLegacyPagination(boolean legacyPagination) {
 		this.legacyPagination = legacyPagination;
 	}
-
-	public List<Integer> getStoreIds() {
-		return storeIds;
-	}
-
-	public void setStoreIds(List<Integer> storeIds) {
-		this.storeIds = storeIds;
-	}
-
-
 }

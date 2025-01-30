@@ -1103,34 +1103,37 @@ public class ShoppingCartFacadeImpl implements ShoppingCartFacade {
 	}
 
 	@Override
-	// KEEP
 	public ReadableShoppingCart getByCode(String code, MerchantStore store, Language language) throws Exception {
-
 		ShoppingCart cart = shoppingCartService.getByCode(code, store);
 		ReadableShoppingCart readableCart = null;
-
 		if (cart != null) {
+			readableCart = readableShoppingCartMapper.convert(cart,store,language);
+			applyPromoCode(readableCart,cart);
 
-			readableCart = readableShoppingCartMapper.convert(cart, store, language);
+		}
+		return readableCart;
+	}
 
-			if (!StringUtils.isBlank(cart.getPromoCode())) {
-				Date promoDateAdded = cart.getPromoAdded();// promo valid 1 day
-				if (promoDateAdded == null) {
-					promoDateAdded = new Date();
-				}
-				Instant instant = promoDateAdded.toInstant();
-				ZonedDateTime zdt = instant.atZone(ZoneId.systemDefault());
-				LocalDate date = zdt.toLocalDate();
-				// date added < date + 1 day
-				LocalDate tomorrow = LocalDate.now().plusDays(1);
-				if (date.isBefore(tomorrow)) {
-					readableCart.setPromoCode(cart.getPromoCode());
-				}
+	private void applyPromoCode(ReadableShoppingCart readableCart, ShoppingCart cart) {
+		if (!StringUtils.isBlank(cart.getPromoCode())) {
+			Date promoDateAdded = cart.getPromoAdded();
+			if (promoDateAdded == null) {
+				promoDateAdded = new Date();
+			}
+
+			if (isPromoCodeValid(promoDateAdded)) {
+				readableCart.setPromoCode(cart.getPromoCode());
 			}
 		}
+	}
 
-		return readableCart;
+	private boolean isPromoCodeValid(Date promoDateAdded) {
+		Instant instant = promoDateAdded.toInstant();
+		ZonedDateTime zdt = instant.atZone(ZoneId.systemDefault());
+		LocalDate date = zdt.toLocalDate();
 
+		LocalDate tomorrow = LocalDate.now().plusDays(1);
+		return date.isBefore(tomorrow);
 	}
 
 	@Override
