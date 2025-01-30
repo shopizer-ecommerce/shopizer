@@ -1,3 +1,7 @@
 {
-  "image": "autodev.azurecr.io/autodev4:latest"
+  "image": "autodev.azurecr.io/autodev4:latest",
+  "postStartCommand": ".devcontainer/postStart.sh",
+  "forwardPorts": [
+		8080
+	]
 }
