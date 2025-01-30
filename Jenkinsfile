@@ -1,59 +1,21 @@
+node {
+ stage('clone git repo'){
+ git 'https://github.com/tickytec/shopizer.git'
+ }
+ 
+ stage("configure") {
+        sh "mkdir $WORKSPACE/$BUILD_NUMBER/"
+    }
+ 
+ stage('run test'){
+ sh "mkdir /tmp/reports"
+ sh "cd /opt/homebrew/Cellar/jmeter/5.5/bin"
+      sh "jmeter -Jjmeter.save.saveservice.output_format=xml -n -t Shopizer2.0.jmx -l /tmp/reports/JMeter.jtl -e -o /tmp/reports/HtmlReport"
+ }
+ 
+ stage('publish results'){
+ sh "mv /tmp/reports/* $WORKSPACE/$BUILD_NUMBER/"
+ archiveArtifacts artifacts: '$WORKSPACE/$BUILD_NUMBER/JMeter.jtl, $WORKSPACE/$BUILD_NUMBER/HtmlReport/index.html'
+    } 
+  }
 
-pipeline{
-    agent {
-        label 'MVN3'
-    }
-    stages{
-        stage('clone'){
-            steps{
-                git url: 'https://github.com/tarunkumarpendem/shopizer.git',
-                    branch: 'master'
-            }
-        }
-        stage ('build') {
-            steps {
-               sh 'mvn clean package'
-           }
-        }
-        stage('Build the Code') {
-            steps {
-                withSonarQubeEnv('sonarcloud') {
-                    sh script: 'mvn clean package sonar:sonar'
-                }
-            }
-        stage('archiving-artifacts'){
-            steps{
-                archiveArtifacts artifacts: '**/target/*.jar', followSymlinks: false
-            }
-        }
-        stage('junit_reports'){
-            steps{
-                junit '**/surefire-reports/*.xml'
-            }
-        }
-    }    
-
-pipeline {
-    agent {label 'OPENJDK-11-JDK'}
-    triggers {
-        pollSCM('0 17 * * *')
-    }
-    stages {
-        stage('vcs') {
-            steps {
-                git branch: 'release', url: 'https://github.com/longflewtinku/shopizer.git'         
-            }
-        }
-        stage('merge') {
-            steps {
-                sh 'git checkout devops'
-                sh 'git merge release --no-ff'
-            }
-        }
-        stage('build') {
-            steps {
-                sh 'mvn clean install'
-            }
-        }
-    }
-}
