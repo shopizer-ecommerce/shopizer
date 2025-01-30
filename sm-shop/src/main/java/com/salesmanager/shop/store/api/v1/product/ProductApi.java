@@ -321,7 +321,6 @@ public class ProductApi {
 
 		return product;
 	}
-	**/
 
 	/**
 	 * Price calculation
