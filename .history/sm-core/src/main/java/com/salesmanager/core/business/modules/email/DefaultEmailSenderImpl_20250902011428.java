@@ -181,6 +181,8 @@ public class DefaultEmailSenderImpl implements EmailModule {
     return emailConfig;
   }
 
- 
+  public void setEmailConfig(EmailConfig emailConfig) {
+    this.emailConfig = emailConfig;
+  }
 
 }
