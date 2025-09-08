@@ -19,6 +19,5 @@ import lombok.Setter;
 public class Entity implements Serializable {
 
 	private static final long serialVersionUID = SmShopModelLiterals.SERIAL_VERSION_UID;
-
-    private Long id = 0L;
+    private Long id = SmShopModelLiterals.ZERO_LONG;
 }
