@@ -49,5 +49,7 @@ public class Constants {
   public final static Currency DEFAULT_CURRENCY = Currency.getInstance(Locale.US);
   
   public final static String PAYMENT_MODULES = "PAYMENT";
+  public final static String TEMPLATE_PATH = "templates/email";
+  public static final String CHARSET = "UTF-8";
 
 }
