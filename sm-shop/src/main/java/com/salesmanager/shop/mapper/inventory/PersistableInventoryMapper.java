@@ -17,7 +17,7 @@ import org.jsoup.helper.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
@@ -224,7 +224,7 @@ public class PersistableInventoryMapper implements Mapper<PersistableInventory, 
 	}
 
 	private String getRegion(PersistableInventory source) {
-		return Optional.ofNullable(source.getRegion()).filter(StringUtils::isNotBlank).orElse(Constants.ALL_REGIONS);
+		return Optional.ofNullable(source.getRegion()).filter(StringUtils::isNotBlank).orElse(CoreBusinessConstants.ALL_REGIONS);
 	}
 
 	private ProductPriceDescription getDescription(

@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.salesmanager.core.business.configuration.DroolsBeanFactory;
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.business.services.catalog.pricing.PricingService;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.price.FinalPrice;
@@ -87,9 +87,9 @@ public class PromoCodeCalculatorModule implements OrderTotalPostProcessorModule 
 			OrderTotal orderTotal = null;
 			if(resp.getDiscount() != null) {
 					orderTotal = new OrderTotal();
-					orderTotal.setOrderTotalCode(Constants.OT_DISCOUNT_TITLE);
+					orderTotal.setOrderTotalCode(CoreBusinessConstants.OT_DISCOUNT_TITLE);
 					orderTotal.setOrderTotalType(OrderTotalType.SUBTOTAL);
-					orderTotal.setTitle(Constants.OT_SUBTOTAL_MODULE_CODE);
+					orderTotal.setTitle(CoreBusinessConstants.OT_SUBTOTAL_MODULE_CODE);
 					orderTotal.setText(summary.getPromoCode());
 					
 					//calculate discount that will be added as a negative value

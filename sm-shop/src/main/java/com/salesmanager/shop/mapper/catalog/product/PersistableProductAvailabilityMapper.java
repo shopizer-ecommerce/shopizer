@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.catalog.product.price.ProductPriceDescription;
@@ -30,7 +30,7 @@ public class PersistableProductAvailabilityMapper implements Mapper<PersistableP
 
 		try {
 
-			destination.setRegion(Constants.ALL_REGIONS);
+			destination.setRegion(CoreBusinessConstants.ALL_REGIONS);
 
 			destination.setProductQuantity(source.getQuantity());
 			destination.setProductQuantityOrderMin(1);

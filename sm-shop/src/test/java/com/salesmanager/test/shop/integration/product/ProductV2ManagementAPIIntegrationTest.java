@@ -16,7 +16,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.shop.application.ShopApplication;
 import com.salesmanager.shop.model.catalog.category.Category;
 import com.salesmanager.shop.model.catalog.category.CategoryDescription;
@@ -67,7 +67,7 @@ public class ProductV2ManagementAPIIntegrationTest extends ServicesTestSupport {
 		final HttpEntity<PersistableCategory> categoryEntity = new HttpEntity<>(newCategory, getHeader());
 
 		final ResponseEntity<PersistableCategory> categoryResponse = testRestTemplate.postForEntity(
-				"/api/v1/private/category?store=" + Constants.DEFAULT_STORE, categoryEntity, PersistableCategory.class);
+				"/api/v1/private/category?store=" + CoreBusinessConstants.DEFAULT_STORE, categoryEntity, PersistableCategory.class);
 		final PersistableCategory cat = categoryResponse.getBody();
 		assertTrue(categoryResponse.getStatusCode()== CREATED);
 		assertNotNull(cat.getId());
@@ -84,7 +84,7 @@ public class ProductV2ManagementAPIIntegrationTest extends ServicesTestSupport {
 		
 		final HttpEntity<PersistableProduct> productEntity = new HttpEntity<>(product, getHeader());
 		final ResponseEntity<PersistableProduct> response = testRestTemplate.postForEntity(
-				"/api/v2/private/product?store=" + Constants.DEFAULT_STORE, productEntity, PersistableProduct.class);
+				"/api/v2/private/product?store=" + CoreBusinessConstants.DEFAULT_STORE, productEntity, PersistableProduct.class);
 		assertTrue(response.getStatusCode()== CREATED);
 		
 		//create options
@@ -97,7 +97,7 @@ public class ProductV2ManagementAPIIntegrationTest extends ServicesTestSupport {
 		
 		final HttpEntity<PersistableProductOption> colorEntity = new HttpEntity<>(color, getHeader());
 		final ResponseEntity<PersistableProductOption> colorResponse = testRestTemplate.postForEntity(
-				"/api/v1/private/product/option?store=" + Constants.DEFAULT_STORE, colorEntity, PersistableProductOption.class);
+				"/api/v1/private/product/option?store=" + CoreBusinessConstants.DEFAULT_STORE, colorEntity, PersistableProductOption.class);
 		assertTrue(colorResponse.getStatusCode()== CREATED);
 		System.out.println(colorResponse.getBody().getId());
 		
@@ -111,7 +111,7 @@ public class ProductV2ManagementAPIIntegrationTest extends ServicesTestSupport {
 		
 		final HttpEntity<PersistableProductOption> sizeEntity = new HttpEntity<>(size, getHeader());
 		final ResponseEntity<PersistableProductOption> sizeResponse = testRestTemplate.postForEntity(
-				"/api/v1/private/product/option?store=" + Constants.DEFAULT_STORE, sizeEntity, PersistableProductOption.class);
+				"/api/v1/private/product/option?store=" + CoreBusinessConstants.DEFAULT_STORE, sizeEntity, PersistableProductOption.class);
 		assertTrue(sizeResponse.getStatusCode()== CREATED);
 		System.out.println(colorResponse.getBody().getId());
 		
@@ -125,7 +125,7 @@ public class ProductV2ManagementAPIIntegrationTest extends ServicesTestSupport {
 		
 		final HttpEntity<PersistableProductOptionValue> whiteEntity = new HttpEntity<>(white, getHeader());
 		final ResponseEntity<PersistableProductOptionValue> whiteResponse = testRestTemplate.postForEntity(
-				"/api/v1/private/product/option?store=" + Constants.DEFAULT_STORE, whiteEntity, PersistableProductOptionValue.class);
+				"/api/v1/private/product/option?store=" + CoreBusinessConstants.DEFAULT_STORE, whiteEntity, PersistableProductOptionValue.class);
 		assertTrue(whiteResponse.getStatusCode()== CREATED);
 		System.out.println(whiteResponse.getBody().getId());
 		

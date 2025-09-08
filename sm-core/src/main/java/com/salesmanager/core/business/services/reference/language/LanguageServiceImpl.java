@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.repositories.reference.language.LanguageRepository;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
@@ -74,7 +74,7 @@ public class LanguageServiceImpl extends SalesManagerEntityServiceImpl<Integer, 
 			LOGGER.error("Cannot convert locale " + locale.getLanguage() + " to language");
 		}
 		if(language == null) {
-			language = new Language(Constants.DEFAULT_LANGUAGE);
+			language = new Language(CoreBusinessConstants.DEFAULT_LANGUAGE);
 		}
 		return language;
 

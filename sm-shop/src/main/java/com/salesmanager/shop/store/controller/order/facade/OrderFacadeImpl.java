@@ -33,7 +33,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.pricing.PricingService;
@@ -403,7 +403,7 @@ public class OrderFacadeImpl implements OrderFacade {
 
 				LOGGER.debug("Validate inventory");
 				for (ProductAvailability availability : product.getAvailabilities()) {
-					if (availability.getRegion().equals(Constants.ALL_REGIONS)) {
+					if (availability.getRegion().equals(CoreBusinessConstants.ALL_REGIONS)) {
 						int qty = availability.getProductQuantity();
 						if (qty < item.getQuantity()) {
 							throw new ServiceException(ServiceException.EXCEPTION_INVENTORY_MISMATCH);

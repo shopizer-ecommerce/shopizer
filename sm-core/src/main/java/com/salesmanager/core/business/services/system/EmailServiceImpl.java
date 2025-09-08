@@ -5,7 +5,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.modules.email.Email;
 import com.salesmanager.core.business.modules.email.EmailConfig;
@@ -34,7 +34,7 @@ public class EmailServiceImpl implements EmailService {
 	@Override
 	public EmailConfig getEmailConfiguration(MerchantStore store) throws ServiceException {
 		
-		MerchantConfiguration configuration = merchantConfigurationService.getMerchantConfiguration(Constants.EMAIL_CONFIG, store);
+		MerchantConfiguration configuration = merchantConfigurationService.getMerchantConfiguration(CoreBusinessConstants.EMAIL_CONFIG, store);
 		EmailConfig emailConfig = null;
 		if(configuration!=null) {
 			String value = configuration.getValue();
@@ -52,11 +52,11 @@ public class EmailServiceImpl implements EmailService {
 	
 	@Override
 	public void saveEmailConfiguration(EmailConfig emailConfig, MerchantStore store) throws ServiceException {
-		MerchantConfiguration configuration = merchantConfigurationService.getMerchantConfiguration(Constants.EMAIL_CONFIG, store);
+		MerchantConfiguration configuration = merchantConfigurationService.getMerchantConfiguration(CoreBusinessConstants.EMAIL_CONFIG, store);
 		if(configuration==null) {
 			configuration = new MerchantConfiguration();
 			configuration.setMerchantStore(store);
-			configuration.setKey(Constants.EMAIL_CONFIG);
+			configuration.setKey(CoreBusinessConstants.EMAIL_CONFIG);
 		}
 		
 		String value = emailConfig.toJSONString();

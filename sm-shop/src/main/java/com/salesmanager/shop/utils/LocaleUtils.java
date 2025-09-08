@@ -5,7 +5,7 @@ import java.util.Locale;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 
@@ -28,7 +28,7 @@ public class LocaleUtils {
 	 */
 	public static Locale getLocale(MerchantStore store) {
 
-		Locale defaultLocale = Constants.DEFAULT_LOCALE;
+		Locale defaultLocale = CoreBusinessConstants.DEFAULT_LOCALE;
 		Locale[] locales = Locale.getAvailableLocales();
 		for(int i = 0; i< locales.length; i++) {
 			Locale l = locales[i];

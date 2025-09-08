@@ -23,7 +23,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.shop.application.ShopApplication;
 import com.salesmanager.shop.model.catalog.category.Category;
 import com.salesmanager.shop.model.catalog.category.CategoryDescription;
@@ -66,7 +66,7 @@ public class ServicesTestSupport {
 
 	public ReadableMerchantStore fetchStore() {
 		final HttpEntity<String> httpEntity = new HttpEntity<>(getHeader());
-		return testRestTemplate.exchange(String.format("/api/v1/store/%s", Constants.DEFAULT_STORE), HttpMethod.GET,
+		return testRestTemplate.exchange(String.format("/api/v1/store/%s", CoreBusinessConstants.DEFAULT_STORE), HttpMethod.GET,
 				httpEntity, ReadableMerchantStore.class).getBody();
 
 	}
@@ -192,7 +192,7 @@ public class ServicesTestSupport {
 		final HttpEntity<PersistableCategory> categoryEntity = new HttpEntity<>(newCategory, getHeader());
 
 		final ResponseEntity<PersistableCategory> categoryResponse = testRestTemplate.postForEntity(
-				"/api/v1/private/category?store=" + Constants.DEFAULT_STORE, categoryEntity, PersistableCategory.class);
+				"/api/v1/private/category?store=" + CoreBusinessConstants.DEFAULT_STORE, categoryEntity, PersistableCategory.class);
 		final PersistableCategory cat = categoryResponse.getBody();
 		assertThat(categoryResponse.getStatusCode(), is(CREATED));
 		assertNotNull(cat.getId());
@@ -220,7 +220,7 @@ public class ServicesTestSupport {
 		final HttpEntity<PersistableProduct> entity = new HttpEntity<>(product, getHeader());
 
 		final ResponseEntity<Entity> response = testRestTemplate.postForEntity(
-				"/api/v1/private/product?store=" + Constants.DEFAULT_STORE, entity, Entity.class);
+				"/api/v1/private/product?store=" + CoreBusinessConstants.DEFAULT_STORE, entity, Entity.class);
 		assertThat(response.getStatusCode(), is(CREATED));
 
 		final HttpEntity<String> httpEntity = new HttpEntity<>(getHeader());

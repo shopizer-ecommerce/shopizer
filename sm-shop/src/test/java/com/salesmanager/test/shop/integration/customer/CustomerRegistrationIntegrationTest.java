@@ -12,7 +12,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.model.customer.CustomerGender;
 import com.salesmanager.shop.application.ShopApplication;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
@@ -39,7 +39,7 @@ public class CustomerRegistrationIntegrationTest extends ServicesTestSupport {
         billing.setLastName("ccstomer1");
         billing.setCountry("BE");
         testCustomer.setBilling(billing);
-        testCustomer.setStoreCode(Constants.DEFAULT_STORE);
+        testCustomer.setStoreCode(CoreBusinessConstants.DEFAULT_STORE);
         final HttpEntity<PersistableCustomer> entity = new HttpEntity<>(testCustomer, getHeader());
 
         final ResponseEntity<PersistableCustomer> response = testRestTemplate.postForEntity("/api/v1/customer/register", entity, PersistableCustomer.class);

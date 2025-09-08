@@ -13,7 +13,7 @@ import javax.imageio.ImageIO;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.utils.CoreConfiguration;
 import com.salesmanager.core.business.utils.ProductImageCropUtils;
@@ -166,7 +166,7 @@ public class ProductFileManagerImpl extends ProductFileManager {
         }
 
         if (!StringUtils.isBlank(configuration.getProperty(CROP_UPLOADED_IMAGES))
-            && configuration.getProperty(CROP_UPLOADED_IMAGES).equals(Constants.TRUE)) {
+            && configuration.getProperty(CROP_UPLOADED_IMAGES).equals(CoreBusinessConstants.TRUE)) {
           // crop image
           ProductImageCropUtils utils =
               new ProductImageCropUtils(bufferedImage, largeImageWidth, largeImageHeight);

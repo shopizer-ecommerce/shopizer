@@ -18,7 +18,7 @@ import javax.annotation.PostConstruct;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.modules.cms.content.ContentAssetsManager;
 import com.salesmanager.core.business.modules.cms.impl.CMSManager;
@@ -117,8 +117,8 @@ public class CmsStaticContentFileManagerImpl implements ContentAssetsManager {
 			this.createDirectoryIfNorExist(merchantPath);
 
 			// file path
-			nodePath.append(Constants.SLASH).append(inputStaticContentData.getFileContentType())
-					.append(Constants.SLASH);
+			nodePath.append(CoreBusinessConstants.SLASH).append(inputStaticContentData.getFileContentType())
+					.append(CoreBusinessConstants.SLASH);
 			Path dirPath = Paths.get(nodePath.toString());
 			this.createDirectoryIfNorExist(dirPath);
 
@@ -202,13 +202,13 @@ public class CmsStaticContentFileManagerImpl implements ContentAssetsManager {
 			for (final InputContentFile inputStaticContentData : inputStaticContentDataList) {
 
 				// file path
-				nodePath.append(Constants.SLASH).append(inputStaticContentData.getFileContentType())
-						.append(Constants.SLASH);
+				nodePath.append(CoreBusinessConstants.SLASH).append(inputStaticContentData.getFileContentType())
+						.append(CoreBusinessConstants.SLASH);
 				Path dirPath = Paths.get(nodePath.toString());
 				this.createDirectoryIfNorExist(dirPath);
 
 				// file creation
-				nodePath.append(Constants.SLASH).append(inputStaticContentData.getFileName());
+				nodePath.append(CoreBusinessConstants.SLASH).append(inputStaticContentData.getFileName());
 
 				Path path = Paths.get(nodePath.toString());
 
@@ -270,8 +270,8 @@ public class CmsStaticContentFileManagerImpl implements ContentAssetsManager {
 		try {
 
 			StringBuilder merchantPath = new StringBuilder();
-			merchantPath.append(buildRootPath()).append(Constants.SLASH).append(merchantStoreCode)
-					.append(Constants.SLASH).append(staticContentType).append(Constants.SLASH).append(fileName);
+			merchantPath.append(buildRootPath()).append(CoreBusinessConstants.SLASH).append(merchantStoreCode)
+					.append(CoreBusinessConstants.SLASH).append(staticContentType).append(CoreBusinessConstants.SLASH).append(fileName);
 
 			Path path = Paths.get(merchantPath.toString());
 
@@ -295,7 +295,7 @@ public class CmsStaticContentFileManagerImpl implements ContentAssetsManager {
 		try {
 
 			StringBuilder merchantPath = new StringBuilder();
-			merchantPath.append(buildRootPath()).append(Constants.SLASH).append(merchantStoreCode);
+			merchantPath.append(buildRootPath()).append(CoreBusinessConstants.SLASH).append(merchantStoreCode);
 
 			Path path = Paths.get(merchantPath.toString());
 
@@ -323,7 +323,7 @@ public class CmsStaticContentFileManagerImpl implements ContentAssetsManager {
 		try {
 
 			StringBuilder merchantPath = new StringBuilder();
-			merchantPath.append(buildRootPath()).append(merchantStoreCode).append(Constants.SLASH)
+			merchantPath.append(buildRootPath()).append(merchantStoreCode).append(CoreBusinessConstants.SLASH)
 					.append(staticContentType);
 
 			Path path = Paths.get(merchantPath.toString());
@@ -376,8 +376,8 @@ public class CmsStaticContentFileManagerImpl implements ContentAssetsManager {
 	}
 
 	private String buildRootPath() {
-		return new StringBuilder().append(getRootName()).append(Constants.SLASH).append(ROOT_CONTAINER)
-				.append(Constants.SLASH).toString();
+		return new StringBuilder().append(getRootName()).append(CoreBusinessConstants.SLASH).append(ROOT_CONTAINER)
+				.append(CoreBusinessConstants.SLASH).toString();
 
 	}
 
@@ -409,7 +409,7 @@ public class CmsStaticContentFileManagerImpl implements ContentAssetsManager {
 			if(folderPath.isPresent()) {
 				nodePath
 				.append(merchantPath.toString())
-				.append(Constants.SLASH).append(folderPath.get()).append(Constants.SLASH);
+				.append(CoreBusinessConstants.SLASH).append(folderPath.get()).append(CoreBusinessConstants.SLASH);
 			}
 			// add folder
 			nodePath.append(folderName);
@@ -450,9 +450,9 @@ public class CmsStaticContentFileManagerImpl implements ContentAssetsManager {
 			
 			Path merchantPath = this.buildMerchantPath(merchantStoreCode);
 			StringBuilder nodePath = new StringBuilder();
-			nodePath.append(merchantPath.toString()).append(Constants.SLASH);
+			nodePath.append(merchantPath.toString()).append(CoreBusinessConstants.SLASH);
 			if(folderPath.isPresent()) {
-				nodePath.append(folderPath.get()).append(Constants.SLASH);
+				nodePath.append(folderPath.get()).append(CoreBusinessConstants.SLASH);
 			}
 			
 			nodePath.append(folderName);

@@ -22,7 +22,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Component;
 
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -83,7 +83,7 @@ public class DefaultEmailSenderImpl implements EmailModule {
         BodyPart textPart = new MimeBodyPart();
         freemarkerMailConfiguration.setClassForTemplateLoading(DefaultEmailSenderImpl.class, "/");
         Template textTemplate = freemarkerMailConfiguration.getTemplate(
-            new StringBuilder(Constants.TEMPLATE_PATH).append("/").append(tmpl).toString());
+            new StringBuilder(CoreBusinessConstants.TEMPLATE_PATH).append("/").append(tmpl).toString());
         final StringWriter textWriter = new StringWriter();
         try {
           textTemplate.process(templateTokens, textWriter);
@@ -94,7 +94,7 @@ public class DefaultEmailSenderImpl implements EmailModule {
           public InputStream getInputStream() throws IOException {
             // return new StringBufferInputStream(textWriter
             // .toString());
-            return new ByteArrayInputStream(textWriter.toString().getBytes(Constants.CHARSET));
+            return new ByteArrayInputStream(textWriter.toString().getBytes(CoreBusinessConstants.CHARSET));
           }
 
           public OutputStream getOutputStream() throws IOException {
@@ -116,7 +116,7 @@ public class DefaultEmailSenderImpl implements EmailModule {
         BodyPart htmlPage = new MimeBodyPart();
         freemarkerMailConfiguration.setClassForTemplateLoading(DefaultEmailSenderImpl.class, "/");
         Template htmlTemplate = freemarkerMailConfiguration.getTemplate(
-            new StringBuilder(Constants.TEMPLATE_PATH).append("/").append(tmpl).toString());
+            new StringBuilder(CoreBusinessConstants.TEMPLATE_PATH).append("/").append(tmpl).toString());
         final StringWriter htmlWriter = new StringWriter();
         try {
           htmlTemplate.process(templateTokens, htmlWriter);
@@ -127,7 +127,7 @@ public class DefaultEmailSenderImpl implements EmailModule {
           public InputStream getInputStream() throws IOException {
             // return new StringBufferInputStream(htmlWriter
             // .toString());
-            return new ByteArrayInputStream(textWriter.toString().getBytes(Constants.CHARSET));
+            return new ByteArrayInputStream(textWriter.toString().getBytes(CoreBusinessConstants.CHARSET));
           }
 
           public OutputStream getOutputStream() throws IOException {

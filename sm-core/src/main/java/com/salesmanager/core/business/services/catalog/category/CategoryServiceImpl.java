@@ -15,7 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.repositories.catalog.category.CategoryDescriptionRepository;
 import com.salesmanager.core.business.repositories.catalog.category.CategoryRepository;
@@ -232,7 +232,7 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
 
 		// get category with lineage (subcategories)
 		StringBuilder lineage = new StringBuilder();
-		lineage.append(category.getLineage()).append(category.getId()).append(Constants.SLASH);
+		lineage.append(category.getLineage()).append(category.getId()).append(CoreBusinessConstants.SLASH);
 		List<Category> categories = this.getListByLineage(category.getMerchantStore(), lineage.toString());
 
 		Category dbCategory = getById(category.getId(), category.getMerchantStore().getId());
@@ -322,8 +322,8 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
 
 				child.setParent(p);
 				child.setDepth(depth + 1);
-				child.setLineage(new StringBuilder().append(lineage).append(Constants.SLASH).append(child.getId())
-						.append(Constants.SLASH).toString());
+				child.setLineage(new StringBuilder().append(lineage).append(CoreBusinessConstants.SLASH).append(child.getId())
+						.append(CoreBusinessConstants.SLASH).toString());
 
 			}
 

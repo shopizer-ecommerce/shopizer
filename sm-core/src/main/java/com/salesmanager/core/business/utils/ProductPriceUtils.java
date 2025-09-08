@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
@@ -188,7 +188,7 @@ public class ProductPriceUtils {
 
 		for (ProductAvailability availability : variant.getAvailabilities()) {
 			if (!StringUtils.isEmpty(availability.getRegion())
-					&& availability.getRegion().equals(Constants.ALL_REGIONS)) {// TODO REL 2.1 accept a region
+					&& availability.getRegion().equals(CoreBusinessConstants.ALL_REGIONS)) {// TODO REL 2.1 accept a region
 				Set<ProductPrice> prices = availability.getPrices();
 				for (ProductPrice price : prices) {
 
@@ -257,7 +257,7 @@ public class ProductPriceUtils {
 			return "";
 		}
 
-		NumberFormat nf = NumberFormat.getInstance(Constants.DEFAULT_LOCALE);
+		NumberFormat nf = NumberFormat.getInstance(CoreBusinessConstants.DEFAULT_LOCALE);
 
 		nf.setMaximumFractionDigits(Integer.parseInt(Character.toString(DECIMALCOUNT)));
 		nf.setMinimumFractionDigits(Integer.parseInt(Character.toString(DECIMALCOUNT)));
@@ -272,7 +272,7 @@ public class ProductPriceUtils {
 			return "";
 		}
 
-		NumberFormat nf = NumberFormat.getInstance(Constants.DEFAULT_LOCALE);
+		NumberFormat nf = NumberFormat.getInstance(CoreBusinessConstants.DEFAULT_LOCALE);
 
 		nf.setMaximumFractionDigits(Integer.parseInt(Character.toString(DECIMALCOUNT)));
 		nf.setMinimumFractionDigits(Integer.parseInt(Character.toString(DECIMALCOUNT)));
@@ -296,8 +296,8 @@ public class ProductPriceUtils {
 			return "";
 		}
 
-		Currency currency = Constants.DEFAULT_CURRENCY;
-		Locale locale = Constants.DEFAULT_LOCALE;
+		Currency currency = CoreBusinessConstants.DEFAULT_CURRENCY;
+		Locale locale = CoreBusinessConstants.DEFAULT_LOCALE;
 
 		try {
 			currency = store.getCurrency().getCurrency();
@@ -351,7 +351,7 @@ public class ProductPriceUtils {
 		NumberFormat nf = null;
 
 		Currency currency = store.getCurrency().getCurrency();
-		nf = NumberFormat.getInstance(Constants.DEFAULT_LOCALE);
+		nf = NumberFormat.getInstance(CoreBusinessConstants.DEFAULT_LOCALE);
 		nf.setMaximumFractionDigits(Integer.parseInt(Character.toString(DECIMALCOUNT)));
 		nf.setMinimumFractionDigits(Integer.parseInt(Character.toString(DECIMALCOUNT)));
 		nf.setCurrency(currency);
@@ -379,7 +379,7 @@ public class ProductPriceUtils {
 		NumberFormat nf = null;
 
 		Currency curr = currency.getCurrency();
-		nf = NumberFormat.getInstance(Constants.DEFAULT_LOCALE);
+		nf = NumberFormat.getInstance(CoreBusinessConstants.DEFAULT_LOCALE);
 		nf.setMaximumFractionDigits(Integer.parseInt(Character.toString(DECIMALCOUNT)));
 		nf.setMinimumFractionDigits(Integer.parseInt(Character.toString(DECIMALCOUNT)));
 		nf.setCurrency(curr);
@@ -476,7 +476,7 @@ public class ProductPriceUtils {
 
 			if (matcher.matches()) {
 
-				Locale locale = Constants.DEFAULT_LOCALE;
+				Locale locale = CoreBusinessConstants.DEFAULT_LOCALE;
 				// TODO validate amount using old test case
 				if (DECIMALPOINT == ',') {
 					locale = Locale.GERMAN;
@@ -577,7 +577,7 @@ public class ProductPriceUtils {
 
 		for (ProductAvailability availability : availabilities) {
 			if (!StringUtils.isEmpty(availability.getRegion())
-					&& availability.getRegion().equals(Constants.ALL_REGIONS)) {// TODO REL 2.1 accept a region
+					&& availability.getRegion().equals(CoreBusinessConstants.ALL_REGIONS)) {// TODO REL 2.1 accept a region
 				Set<ProductPrice> prices = availability.getPrices();
 				for (ProductPrice price : prices) {
 

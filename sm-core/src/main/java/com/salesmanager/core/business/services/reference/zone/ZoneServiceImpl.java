@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.repositories.reference.zone.ZoneRepository;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
@@ -73,12 +73,12 @@ public class ZoneServiceImpl extends SalesManagerEntityServiceImpl<Long, Zone> i
 		List<Zone> zones = null;
 		try {
 			
-			String countryCode = Constants.DEFAULT_COUNTRY;
+			String countryCode = CoreBusinessConstants.DEFAULT_COUNTRY;
 			if(country!=null) {
 				countryCode = country.getIsoCode();
 			}
 
-			String cacheKey = ZONE_CACHE_PREFIX + countryCode + Constants.UNDERSCORE + language.getCode();
+			String cacheKey = ZONE_CACHE_PREFIX + countryCode + CoreBusinessConstants.UNDERSCORE + language.getCode();
 			
 			zones = (List<Zone>) cache.getFromCache(cacheKey);
 
@@ -116,7 +116,7 @@ public class ZoneServiceImpl extends SalesManagerEntityServiceImpl<Long, Zone> i
 		try {
 			
 
-			String cacheKey = ZONE_CACHE_PREFIX + countryCode + Constants.UNDERSCORE + language.getCode();
+			String cacheKey = ZONE_CACHE_PREFIX + countryCode + CoreBusinessConstants.UNDERSCORE + language.getCode();
 			
 			zones = (List<Zone>) cache.getFromCache(cacheKey);
 

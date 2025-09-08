@@ -17,7 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.business.utils.RepositoryHelper;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.ProductCriteria;
@@ -481,7 +481,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			int first, int max) {
 
 		List regionList = new ArrayList();
-		regionList.add(Constants.ALL_REGIONS);
+		regionList.add(CoreBusinessConstants.ALL_REGIONS);
 		if (locale != null) {
 			regionList.add(locale.getCountry());
 		}

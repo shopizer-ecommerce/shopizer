@@ -1,6 +1,6 @@
 package com.salesmanager.test.order;
 
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.category.CategoryDescription;
@@ -346,7 +346,7 @@ public class OrderTest extends com.salesmanager.test.common.AbstractSalesManager
 		
 		OrderTotal subTotal = new OrderTotal();
 		subTotal.setOrder(order);
-		subTotal.setOrderTotalCode(Constants.OT_SUBTOTAL_MODULE_CODE);
+		subTotal.setOrderTotalCode(CoreBusinessConstants.OT_SUBTOTAL_MODULE_CODE);
 		subTotal.setSortOrder(0);
 		subTotal.setTitle("Sub Total");
 		subTotal.setValue(dprice.getProductPriceAmount());
@@ -356,7 +356,7 @@ public class OrderTest extends com.salesmanager.test.common.AbstractSalesManager
 		
 		OrderTotal total = new OrderTotal();
 		total.setOrder(order);
-		total.setOrderTotalCode(Constants.OT_TOTAL_MODULE_CODE);
+		total.setOrderTotalCode(CoreBusinessConstants.OT_TOTAL_MODULE_CODE);
 		total.setSortOrder(1);
 		total.setTitle("Total");
 		total.setValue(dprice.getProductPriceAmount());

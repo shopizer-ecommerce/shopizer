@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.business.services.catalog.pricing.PricingService;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.price.FinalPrice;
@@ -88,9 +88,9 @@ public class ManufacturerShippingCodeOrderTotalModuleImpl implements OrderTotalP
 		OrderTotal orderTotal = null;
 		if(inputParameters.getDiscount() != null) {
 				orderTotal = new OrderTotal();
-				orderTotal.setOrderTotalCode(Constants.OT_DISCOUNT_TITLE);
+				orderTotal.setOrderTotalCode(CoreBusinessConstants.OT_DISCOUNT_TITLE);
 				orderTotal.setOrderTotalType(OrderTotalType.SUBTOTAL);
-				orderTotal.setTitle(Constants.OT_SUBTOTAL_MODULE_CODE);
+				orderTotal.setTitle(CoreBusinessConstants.OT_SUBTOTAL_MODULE_CODE);
 				
 				//calculate discount that will be added as a negative value
 				FinalPrice productPrice = pricingService.calculateProductPrice(product);

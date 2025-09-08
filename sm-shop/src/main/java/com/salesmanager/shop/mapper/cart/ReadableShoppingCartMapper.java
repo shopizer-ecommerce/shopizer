@@ -22,7 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.business.services.catalog.pricing.PricingService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductAttributeService;
 import com.salesmanager.core.business.services.catalog.product.variant.ProductVariantService;
@@ -261,7 +261,7 @@ public class ReadableShoppingCartMapper implements Mapper<ShoppingCart, Readable
 			if (CollectionUtils.isNotEmpty(orderSummary.getTotals())) {
 
 				if (orderSummary.getTotals().stream()
-						.filter(t -> Constants.OT_DISCOUNT_TITLE.equals(t.getOrderTotalCode())).count() == 0) {
+						.filter(t -> CoreBusinessConstants.OT_DISCOUNT_TITLE.equals(t.getOrderTotalCode())).count() == 0) {
 					// no promo coupon applied
 					destination.setPromoCode(null);
 

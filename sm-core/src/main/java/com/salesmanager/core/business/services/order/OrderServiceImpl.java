@@ -25,7 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.modules.order.InvoiceModule;
 import com.salesmanager.core.business.repositories.order.OrderRepository;
@@ -248,8 +248,8 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
 
                             if(itemSubTotal==null) {
                                 itemSubTotal = new OrderTotal();
-                                itemSubTotal.setModule(Constants.OT_ITEM_PRICE_MODULE_CODE);
-                                itemSubTotal.setTitle(Constants.OT_ITEM_PRICE_MODULE_CODE);
+                                itemSubTotal.setModule(CoreBusinessConstants.OT_ITEM_PRICE_MODULE_CODE);
+                                itemSubTotal.setTitle(CoreBusinessConstants.OT_ITEM_PRICE_MODULE_CODE);
                                 itemSubTotal.setOrderTotalCode(price.getProductPrice().getCode());
                                 itemSubTotal.setOrderTotalType(OrderTotalType.PRODUCT);
                                 itemSubTotal.setSortOrder(0);
@@ -301,10 +301,10 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
         grandTotal=grandTotal.add(subTotal);
 
         OrderTotal orderTotalSubTotal = new OrderTotal();
-        orderTotalSubTotal.setModule(Constants.OT_SUBTOTAL_MODULE_CODE);
+        orderTotalSubTotal.setModule(CoreBusinessConstants.OT_SUBTOTAL_MODULE_CODE);
         orderTotalSubTotal.setOrderTotalType(OrderTotalType.SUBTOTAL);
         orderTotalSubTotal.setOrderTotalCode("order.total.subtotal");
-        orderTotalSubTotal.setTitle(Constants.OT_SUBTOTAL_MODULE_CODE);
+        orderTotalSubTotal.setTitle(CoreBusinessConstants.OT_SUBTOTAL_MODULE_CODE);
         orderTotalSubTotal.setSortOrder(5);
         orderTotalSubTotal.setValue(subTotal);
 
@@ -316,10 +316,10 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
 
 
 	            OrderTotal shippingSubTotal = new OrderTotal();
-	            shippingSubTotal.setModule(Constants.OT_SHIPPING_MODULE_CODE);
+	            shippingSubTotal.setModule(CoreBusinessConstants.OT_SHIPPING_MODULE_CODE);
 	            shippingSubTotal.setOrderTotalType(OrderTotalType.SHIPPING);
 	            shippingSubTotal.setOrderTotalCode("order.total.shipping");
-	            shippingSubTotal.setTitle(Constants.OT_SHIPPING_MODULE_CODE);
+	            shippingSubTotal.setTitle(CoreBusinessConstants.OT_SHIPPING_MODULE_CODE);
 	            shippingSubTotal.setSortOrder(100);
 
 	            orderTotals.add(shippingSubTotal);
@@ -337,10 +337,10 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
             if(summary.getShippingSummary().getHandling()!=null && summary.getShippingSummary().getHandling().doubleValue()>0) {
                 if(shippingConfiguration.getHandlingFees()!=null && shippingConfiguration.getHandlingFees().doubleValue()>0) {
                     OrderTotal handlingubTotal = new OrderTotal();
-                    handlingubTotal.setModule(Constants.OT_HANDLING_MODULE_CODE);
+                    handlingubTotal.setModule(CoreBusinessConstants.OT_HANDLING_MODULE_CODE);
                     handlingubTotal.setOrderTotalType(OrderTotalType.HANDLING);
                     handlingubTotal.setOrderTotalCode("order.total.handling");
-                    handlingubTotal.setTitle(Constants.OT_HANDLING_MODULE_CODE);
+                    handlingubTotal.setTitle(CoreBusinessConstants.OT_HANDLING_MODULE_CODE);
                     //handlingubTotal.setText("order.total.handling");
                     handlingubTotal.setSortOrder(120);
                     handlingubTotal.setValue(summary.getShippingSummary().getHandling());
@@ -359,11 +359,11 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
             for(TaxItem tax : taxes) {
 
                 OrderTotal taxLine = new OrderTotal();
-                taxLine.setModule(Constants.OT_TAX_MODULE_CODE);
+                taxLine.setModule(CoreBusinessConstants.OT_TAX_MODULE_CODE);
                 taxLine.setOrderTotalType(OrderTotalType.TAX);
                 taxLine.setOrderTotalCode(tax.getLabel());
                 taxLine.setSortOrder(taxCount);
-                taxLine.setTitle(Constants.OT_TAX_MODULE_CODE);
+                taxLine.setTitle(CoreBusinessConstants.OT_TAX_MODULE_CODE);
                 taxLine.setText(tax.getLabel());
                 taxLine.setValue(tax.getItemPrice());
 
@@ -380,10 +380,10 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
 
         // grand total
         OrderTotal orderTotal = new OrderTotal();
-        orderTotal.setModule(Constants.OT_TOTAL_MODULE_CODE);
+        orderTotal.setModule(CoreBusinessConstants.OT_TOTAL_MODULE_CODE);
         orderTotal.setOrderTotalType(OrderTotalType.TOTAL);
         orderTotal.setOrderTotalCode("order.total.total");
-        orderTotal.setTitle(Constants.OT_TOTAL_MODULE_CODE);
+        orderTotal.setTitle(CoreBusinessConstants.OT_TOTAL_MODULE_CODE);
         //orderTotal.setText("order.total.total");
         orderTotal.setSortOrder(500);
         orderTotal.setValue(grandTotal);

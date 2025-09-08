@@ -20,7 +20,7 @@ import org.infinispan.tree.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.modules.cms.content.ContentAssetsManager;
 import com.salesmanager.core.business.modules.cms.impl.CMSManager;
@@ -432,7 +432,7 @@ public class CmsStaticContentFileManagerImpl
 		String nodePath = this.getNodePath(merchantStoreCode, FileContentType.IMAGE);
 		
 		StringBuilder appender = new StringBuilder();
-		appender.append(nodePath).append(Constants.SLASH);
+		appender.append(nodePath).append(CoreBusinessConstants.SLASH);
 
 		path.ifPresent(appender::append);
 		
@@ -450,7 +450,7 @@ public class CmsStaticContentFileManagerImpl
 
 		}
 		
-		appender.append(Constants.SLASH).append(folderName);
+		appender.append(CoreBusinessConstants.SLASH).append(folderName);
 		
 		Fqn newFolderFqn = Fqn.fromString(appender.toString());
 		cacheManager.getTreeCache().getRoot().addChild(newFolderFqn);

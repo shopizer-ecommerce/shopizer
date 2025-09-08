@@ -11,7 +11,7 @@ import java.util.Locale;
  * @author carlsamson
  *
  */
-public class Constants {
+public class CoreBusinessConstants {
 
   public static final Charset ISO_8859_1 = StandardCharsets.ISO_8859_1;
   public static final Charset UTF_8 = StandardCharsets.UTF_8;
@@ -51,5 +51,13 @@ public class Constants {
   public final static String PAYMENT_MODULES = "PAYMENT";
   public final static String TEMPLATE_PATH = "templates/email";
   public static final String CHARSET = "UTF-8";
+  public static final String HOST = "host"; 
+  public static final String PORT = "port";
+  public static final String PROTOCOL = "protocol";
+  public static final String USERNAME = "username";
+  public static final String PASSWORD = "password";
+  public static final String SMTP_AUTH = "smtpAuth";
+  public static final String STARTTLS = "starttls";
+  public static final String EMAIL_TEMPLATES_PATH = "emailTemplatesPath";
 
 }

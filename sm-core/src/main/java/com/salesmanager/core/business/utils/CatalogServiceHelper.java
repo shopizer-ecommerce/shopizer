@@ -1,6 +1,6 @@
 package com.salesmanager.core.business.utils;
 
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.attribute.*;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
@@ -55,7 +55,7 @@ public class CatalogServiceHelper {
 		Set<ProductAvailability> availabilities = product.getAvailabilities();
 		Set<ProductAvailability> productAvailabilities = new HashSet<ProductAvailability>();
 
-		Optional<ProductAvailability> defaultAvailability = availabilities.stream().filter(productAvailability -> productAvailability.getRegion().equals(Constants.ALL_REGIONS)).findFirst();
+		Optional<ProductAvailability> defaultAvailability = availabilities.stream().filter(productAvailability -> productAvailability.getRegion().equals(CoreBusinessConstants.ALL_REGIONS)).findFirst();
 		Optional<ProductAvailability> localeAvailability = availabilities.stream().filter(productAvailability -> productAvailability.getRegion().equals(locale.getCountry())).findFirst();
 		if (defaultAvailability.isPresent()) {
 			productAvailabilities.add(defaultAvailability.get());

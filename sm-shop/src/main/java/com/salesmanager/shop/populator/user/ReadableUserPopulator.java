@@ -2,7 +2,7 @@ package com.salesmanager.shop.populator.user;
 
 import org.apache.commons.lang3.Validate;
 
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.utils.AbstractDataPopulator;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -41,7 +41,7 @@ public class ReadableUserPopulator extends AbstractDataPopulator<User, ReadableU
     }
 
     // set default language
-    target.setDefaultLanguage(Constants.DEFAULT_LANGUAGE);
+    target.setDefaultLanguage(CoreBusinessConstants.DEFAULT_LANGUAGE);
 
     if (source.getDefaultLanguage() != null)
       target.setDefaultLanguage(source.getDefaultLanguage().getCode());

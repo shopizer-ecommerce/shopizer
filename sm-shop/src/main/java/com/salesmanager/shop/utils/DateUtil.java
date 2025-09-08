@@ -14,7 +14,7 @@
  */
 package com.salesmanager.shop.utils;
 
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,7 +55,7 @@ public class DateUtil {
 
 		if (dt == null)
 			dt = new Date();
-		SimpleDateFormat format = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT);
+		SimpleDateFormat format = new SimpleDateFormat(CoreBusinessConstants.DEFAULT_DATE_FORMAT);
 		return format.format(dt);
 
 	}
@@ -64,7 +64,7 @@ public class DateUtil {
 
 		if (dt == null)
 			return null;
-		SimpleDateFormat format = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT_YEAR);
+		SimpleDateFormat format = new SimpleDateFormat(CoreBusinessConstants.DEFAULT_DATE_FORMAT_YEAR);
 		return format.format(dt);
 
 	}
@@ -88,13 +88,13 @@ public class DateUtil {
 
 		if (dt == null)
 			return null;
-		SimpleDateFormat format = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT);
+		SimpleDateFormat format = new SimpleDateFormat(CoreBusinessConstants.DEFAULT_DATE_FORMAT);
 		return format.format(dt);
 
 	}
 
 	public static Date getDate(String date) throws Exception {
-		DateFormat myDateFormat = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT);
+		DateFormat myDateFormat = new SimpleDateFormat(CoreBusinessConstants.DEFAULT_DATE_FORMAT);
 		return myDateFormat.parse(date);
 	}
 
@@ -116,7 +116,7 @@ public class DateUtil {
 
 		Date dt = new Date();
 
-		SimpleDateFormat format = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT);
+		SimpleDateFormat format = new SimpleDateFormat(CoreBusinessConstants.DEFAULT_DATE_FORMAT);
 		return format.format(new Date(dt.getTime()));
 	}
 
@@ -149,7 +149,7 @@ public class DateUtil {
 
 	public void processPostedDates(HttpServletRequest request) {
 		Date dt = new Date();
-		DateFormat myDateFormat = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT);
+		DateFormat myDateFormat = new SimpleDateFormat(CoreBusinessConstants.DEFAULT_DATE_FORMAT);
 		Date sDate = null;
 		Date eDate = null;
 		try {

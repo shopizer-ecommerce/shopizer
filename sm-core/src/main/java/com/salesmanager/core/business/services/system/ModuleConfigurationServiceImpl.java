@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.repositories.system.ModuleConfigurationRepository;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
@@ -130,7 +130,7 @@ public class ModuleConfigurationServiceImpl extends SalesManagerEntityServiceImp
 					for (ModuleStarter mod : this.payments) {
 						IntegrationModule m = new IntegrationModule();
 						m.setCode(mod.getUniqueCode());
-						m.setModule(Constants.PAYMENT_MODULES);
+						m.setModule(CoreBusinessConstants.PAYMENT_MODULES);
 						
 						
 						if(CollectionUtils.isNotEmpty(mod.getSupportedCountry())) {
