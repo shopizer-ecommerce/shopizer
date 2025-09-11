@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.jsoup.helper.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import com.salesmanager.core.business.constants.CoreBusinessConstants;
@@ -19,6 +20,7 @@ import com.salesmanager.core.model.catalog.product.variant.ProductVariant;
 
 
 @Service("inventoryService")
+@Transactional
 public class ProductInventoryServiceImpl implements ProductInventoryService {
 	
 	

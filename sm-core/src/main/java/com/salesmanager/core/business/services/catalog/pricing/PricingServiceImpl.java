@@ -68,7 +68,8 @@ public class PricingServiceImpl implements PricingService {
 			return priceUtil.getStoreFormatedAmountWithCurrency(store,amount);
 		} catch (Exception e) {
 			LOGGER.error("An error occured when trying to format an amount " + amount.toString());
-			throw new ServiceException(e);
+			LOGGER.error("An error occured when trying to format an amount " +e.getMessage());
+			throw new ServiceException(e.getMessage());
 		}
 	}
 	
